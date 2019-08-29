@@ -1,4 +1,4 @@
-cscope 15 $HOME/Nextcloud/Repositories/nheko/src               0013313519
+cscope 15 $HOME/Nextcloud/Repositories/nheko/src               0013315008
 	@AvatarProvider.cpp
 
 18 
@@ -43350,6 +43350,10 @@ brush
 );
 
 290 
+rounded_
+ ?
+
+291 
 p
 .
 	`d¿wEÎ£
@@ -43361,15 +43365,31 @@ av©¬RegiÚ
 wm
 .
 icÚSize
- / 2, wm.iconSize / 2);
+ / 2, wm.iconSize / 2) :
 
 292 
+p
+.
+	`d¿wRoundedReù
+Ğ
+av©¬RegiÚ
+,
+
+293 
+AVATAR_RECT_ROUND
+,
+
+294 
+AVATAR_RECT_ROUND
+);
+
+296 
 QFÚt
  
 bubbËFÚt
 ;
 
-293 
+297 
 bubbËFÚt
 .
 	`£tPoštSizeF
@@ -43377,7 +43397,7 @@ bubbËFÚt
 	`poštSizeF
 () * 1.4);
 
-294 
+298 
 p
 .
 	`£tFÚt
@@ -43385,7 +43405,7 @@ p
 bubbËFÚt
 );
 
-295 
+299 
 p
 .
 	`£tP’
@@ -43393,7 +43413,7 @@ p
 	`av©¬FgCŞÜ
 ());
 
-296 
+300 
 p
 .
 	`£tBrush
@@ -43403,13 +43423,13 @@ Qt
 NoBrush
 );
 
-297 
+301 
 p
 .
 	`d¿wText
 (
 
-298 
+302 
 av©¬RegiÚ
 .
 	`Œª¦©ed
@@ -43425,19 +43445,23 @@ uts
 	`roomName
 ()));
 
-300 
+304 
 p
 .
 	`§ve
 ();
 
-302 
+306 
 QPaš‹rP©h
  
 ·th
 ;
 
-303 
+307 
+rounded_
+ ?
+
+308 
 ·th
 .
 	`addEÎ£
@@ -43447,9 +43471,25 @@ wm
 ·ddšg
 , wm.·ddšg, wm.
 icÚSize
-, wm.iconSize);
+, wm.iconSize) :
 
-304 
+309 
+·th
+.
+	`addRoundedReù
+Ğ
+av©¬RegiÚ
+,
+
+310 
+AVATAR_RECT_ROUND
+,
+
+311 
+AVATAR_RECT_ROUND
+);
+
+313 
 p
 .
 	`£tClP©h
@@ -43457,7 +43497,7 @@ p
 ·th
 );
 
-306 
+315 
 p
 .
 	`d¿wPixm­
@@ -43467,23 +43507,23 @@ av©¬RegiÚ
 roomAv©¬_
 );
 
-307 
+316 
 p
 .
 	`»¡Üe
 ();
 
-310 ià(
+319 ià(
 uÄ—dMsgCouÁ_
  > 0) {
 
-311 
+320 
 QBrush
  
 brush
 ;
 
-312 
+321 
 brush
 .
 	`£tStyË
@@ -43493,11 +43533,11 @@ Qt
 SŞidP©‹º
 );
 
-313 ià(
+322 ià(
 uÄ—dHighligh‹dMsgCouÁ_
  > 0) {
 
-314 
+323 
 brush
 .
 	`£tCŞÜ
@@ -43505,7 +43545,7 @@ brush
 	`m’tiÚedCŞÜ
 ());
 
-316 
+325 
 brush
 .
 	`£tCŞÜ
@@ -43513,11 +43553,11 @@ brush
 	`bubbËBgCŞÜ
 ());
 
-319 ià(
+328 ià(
 isP»s£d_
 )
 
-320 
+329 
 brush
 .
 	`£tCŞÜ
@@ -43525,7 +43565,7 @@ brush
 	`bubbËFgCŞÜ
 ());
 
-322 
+331 
 p
 .
 	`£tBrush
@@ -43533,7 +43573,7 @@ p
 brush
 );
 
-323 
+332 
 p
 .
 	`£tP’
@@ -43543,7 +43583,7 @@ Qt
 NoP’
 );
 
-324 
+333 
 p
 .
 	`£tFÚt
@@ -43551,7 +43591,7 @@ p
 uÄ—dCouÁFÚt_
 );
 
-328 cÚ¡ 
+337 cÚ¡ 
 x_width
  = 
 uÄ—dMsgCouÁ_
@@ -43559,7 +43599,7 @@ uÄ—dMsgCouÁ_
 MaxUÄ—dCouÁDi¥Ïyed
 
 
-329 ? 
+338 ? 
 	`QFÚtM‘rics
 (
 p
@@ -43569,7 +43609,7 @@ p
 	`av”ageCh¬Width
 ()
 
-332 
+341 
 QReùF
  
 	`r
@@ -43585,23 +43625,23 @@ wm
 x_width
 ,
 
-333 
+342 
 bÙtom_y
  - 
 bubbËDŸm‘”_
  / 2 - 5,
 
-334 
+343 
 bubbËDŸm‘”_
  + 
 x_width
 ,
 
-335 
+344 
 bubbËDŸm‘”_
 );
 
-337 ià(
+346 ià(
 	`width
 (è=ğ
 sideb¬Sizes
@@ -43609,7 +43649,7 @@ sideb¬Sizes
 sm®l
 )
 
-338 
+347 
 r
  = 
 	`QReùF
@@ -43619,23 +43659,23 @@ r
 bubbËDŸm‘”_
  - 5,
 
-339 
+348 
 	`height
 (è- 
 bubbËDŸm‘”_
  - 5,
 
-340 
+349 
 bubbËDŸm‘”_
  + 
 x_width
 ,
 
-341 
+350 
 bubbËDŸm‘”_
 );
 
-343 
+352 
 p
 .
 	`£tP’
@@ -43645,7 +43685,7 @@ Qt
 NoP’
 );
 
-344 
+353 
 p
 .
 	`d¿wEÎ£
@@ -43653,7 +43693,7 @@ p
 r
 );
 
-346 
+355 
 p
 .
 	`£tP’
@@ -43663,11 +43703,11 @@ p
 	`bubbËFgCŞÜ
 ()));
 
-348 ià(
+357 ià(
 isP»s£d_
 )
 
-349 
+358 
 p
 .
 	`£tP’
@@ -43677,7 +43717,7 @@ p
 	`bubbËBgCŞÜ
 ()));
 
-351 autØ
+360 autØ
 couÁTxt
  = 
 uÄ—dMsgCouÁ_
@@ -43685,11 +43725,11 @@ uÄ—dMsgCouÁ_
 MaxUÄ—dCouÁDi¥Ïyed
 
 
-352 ? 
+361 ? 
 	`QSŒšg
 ("99+")
 
-353 : 
+362 : 
 QSŒšg
 ::
 	`numb”
@@ -43697,7 +43737,7 @@ QSŒšg
 uÄ—dMsgCouÁ_
 );
 
-355 
+364 
 p
 .
 	`£tBrush
@@ -43707,7 +43747,7 @@ Qt
 NoBrush
 );
 
-356 
+365 
 p
 .
 	`d¿wText
@@ -43723,19 +43763,19 @@ AlignC’‹r
 couÁTxt
 );
 
-359 ià(!
+368 ià(!
 isP»s£d_
  && 
 hasUÄ—dMes§ges_
 ) {
 
-360 
+369 
 QP’
  
 ³n
 ;
 
-361 
+370 
 ³n
 .
 	`£tWidth
@@ -43745,7 +43785,7 @@ wm
 uÄ—dLšeWidth
 );
 
-362 
+371 
 ³n
 .
 	`£tCŞÜ
@@ -43753,7 +43793,7 @@ uÄ—dLšeWidth
 highligh‹dBackgroundCŞÜ_
 );
 
-364 
+373 
 p
 .
 	`£tP’
@@ -43761,7 +43801,7 @@ p
 ³n
 );
 
-365 
+374 
 p
 .
 	`d¿wLše
@@ -43773,11 +43813,11 @@ uÄ—dLšeOff£t
 	`height
 () - wm.unreadLineOffset);
 
-367 
+376 
 	}
 }
 
-370 
+379 
 	gRoomInfoLi¡I‹m
 ::
 	$upd©eUÄ—dMes§geCouÁ
@@ -43787,49 +43827,19 @@ couÁ
 highligh‹dCouÁ
 )
 
-372 
+381 
 uÄ—dMsgCouÁ_
  = 
 couÁ
 ;
 
-373 
+382 
 uÄ—dHighligh‹dMsgCouÁ_
  = 
 highligh‹dCouÁ
 ;
 
-374 
-	`upd©e
-();
-
-375 
-	}
-}
-
-378 
-	gRoomInfoLi¡I‹m
-::
-	$£tP»s£dS‹
-(
-boŞ
- 
-¡©e
-)
-
-380 ià(
-isP»s£d_
- !ğ
-¡©e
-) {
-
-381 
-isP»s£d_
- = 
-¡©e
-;
-
-382 
+383 
 	`upd©e
 ();
 
@@ -43840,6 +43850,36 @@ isP»s£d_
 387 
 	gRoomInfoLi¡I‹m
 ::
+	$£tP»s£dS‹
+(
+boŞ
+ 
+¡©e
+)
+
+389 ià(
+isP»s£d_
+ !ğ
+¡©e
+) {
+
+390 
+isP»s£d_
+ = 
+¡©e
+;
+
+391 
+	`upd©e
+();
+
+393 
+	}
+}
+
+396 
+	gRoomInfoLi¡I‹m
+::
 	$cÚ‹xtM’uEv’t
 (
 QCÚ‹xtM’uEv’t
@@ -43847,13 +43887,13 @@ QCÚ‹xtM’uEv’t
 ev’t
 )
 
-389 
+398 
 	`Q_UNUSED
 (
 ev’t
 );
 
-391 ià(
+400 ià(
 roomTy³_
  =ğ
 RoomTy³
@@ -43861,7 +43901,7 @@ RoomTy³
 Inv™ed
 )
 
-394 
+403 
 m’u_
 ->
 	`pİup
@@ -43871,11 +43911,11 @@ ev’t
 	`glob®Pos
 ());
 
-395 
+404 
 	}
 }
 
-398 
+407 
 	gRoomInfoLi¡I‹m
 ::
 	$mou£P»ssEv’t
@@ -43885,7 +43925,7 @@ QMou£Ev’t
 ev’t
 )
 
-400 ià(
+409 ià(
 ev’t
 ->
 	`bu‰Ús
@@ -43895,7 +43935,7 @@ Qt
 RightBu‰Ú
 ) {
 
-401 
+410 
 QWidg‘
 ::
 	`mou£P»ssEv’t
@@ -43903,7 +43943,7 @@ QWidg‘
 ev’t
 );
 
-405 ià(
+414 ià(
 roomTy³_
  =ğ
 RoomTy³
@@ -43911,7 +43951,7 @@ RoomTy³
 Inv™ed
 ) {
 
-406 cÚ¡‡utØ
+415 cÚ¡‡utØ
 pošt
  = 
 ev’t
@@ -43919,7 +43959,7 @@ ev’t
 	`pos
 ();
 
-408 ià(
+417 ià(
 acû±BŠRegiÚ_
 .
 	`cÚšs
@@ -43927,7 +43967,7 @@ acû±BŠRegiÚ_
 pošt
 ))
 
-409 
+418 
 em™
  
 	`acû±Inv™e
@@ -43935,7 +43975,7 @@ em™
 roomId_
 );
 
-411 ià(
+420 ià(
 deşšeBŠRegiÚ_
 .
 	`cÚšs
@@ -43943,7 +43983,7 @@ deşšeBŠRegiÚ_
 pošt
 ))
 
-412 
+421 
 em™
  
 	`deşšeInv™e
@@ -43951,7 +43991,7 @@ em™
 roomId_
 );
 
-417 
+426 
 em™
  
 	`şicked
@@ -43959,13 +43999,13 @@ em™
 roomId_
 );
 
-419 
+428 
 	`£tP»s£dS‹
 (
 Œue
 );
 
-422 
+431 
 QPošt
  
 pos
@@ -43975,7 +44015,7 @@ ev’t
 	`pos
 ();
 
-423 
+432 
 q»®
  
 ¿diusEndV®ue
@@ -43985,7 +44025,7 @@ q»®
 	`width
 ()) / 3;
 
-425 
+434 
 R¶e
  *
 r¶e
@@ -43997,7 +44037,7 @@ r¶e
 pos
 );
 
-427 
+436 
 r¶e
 ->
 	`£tRadiusEndV®ue
@@ -44005,13 +44045,13 @@ r¶e
 ¿diusEndV®ue
 );
 
-428 
+437 
 r¶e
 ->
 	`£tO·c™yS¹V®ue
 (0.15);
 
-429 
+438 
 r¶e
 ->
 	`£tCŞÜ
@@ -44019,7 +44059,7 @@ r¶e
 	`QCŞÜ
 ("white"));
 
-430 
+439 
 r¶e
 ->
 	`¿diusAnim©iÚ
@@ -44027,7 +44067,7 @@ r¶e
 	`£tDu¿tiÚ
 (200);
 
-431 
+440 
 r¶e
 ->
 	`İac™yAnim©iÚ
@@ -44035,7 +44075,7 @@ r¶e
 	`£tDu¿tiÚ
 (400);
 
-433 
+442 
 r¶e_ov”Ïy_
 ->
 	`addR¶e
@@ -44043,11 +44083,11 @@ r¶e_ov”Ïy_
 r¶e
 );
 
-434 
+443 
 	}
 }
 
-437 
+446 
 	gRoomInfoLi¡I‹m
 ::
 	$£tAv©¬
@@ -44057,7 +44097,7 @@ QImage
 img
 )
 
-439 
+448 
 roomAv©¬_
  = 
 uts
@@ -44069,15 +44109,15 @@ img
 IcÚSize
 );
 
-440 
+449 
 	`upd©e
 ();
 
-441 
+450 
 	}
 }
 
-444 
+453 
 	gRoomInfoLi¡I‹m
 ::
 	$£tDesütiÚMes§ge
@@ -44087,17 +44127,37 @@ DescInfo
 šfo
 )
 
-446 
+455 
 Ï¡MsgInfo_
  = 
 šfo
 ;
 
-447 
+456 
 	`upd©e
 ();
 
-448 
+457 
+	}
+}
+
+460 
+	gRoomInfoLi¡I‹m
+::
+	$£tRounded
+(
+boŞ
+ 
+£‰šg
+)
+
+462 
+rounded_
+ = 
+£‰šg
+;
+
+463 
 	}
 }
 
@@ -44817,7 +44877,19 @@ av©¬BgCŞÜ_
 	}
 }
 
-113 
+112 
+	$£tAv©¬Rounded
+(
+boŞ
+ 
+£‰šg
+è{ 
+rounded_
+ = s‘tšg; 
+	}
+}
+
+114 
 	$£tHighligh‹dT™ËCŞÜ
 (
 QCŞÜ
@@ -44829,7 +44901,7 @@ highligh‹dT™ËCŞÜ_
 	}
 }
 
-114 
+115 
 	$£tHighligh‹dSubt™ËCŞÜ
 (
 QCŞÜ
@@ -44841,7 +44913,7 @@ highligh‹dSubt™ËCŞÜ_
 	}
 }
 
-115 
+116 
 	$£tHighligh‹dTime¡ampCŞÜ
 (
 QCŞÜ
@@ -44853,7 +44925,7 @@ highligh‹dTime¡ampCŞÜ_
 	}
 }
 
-117 
+118 
 	$£tT™ËCŞÜ
 (
 QCŞÜ
@@ -44865,7 +44937,7 @@ t™ËCŞÜ_
 	}
 }
 
-118 
+119 
 	$£tSubt™ËCŞÜ
 (
 QCŞÜ
@@ -44877,7 +44949,7 @@ subt™ËCŞÜ_
 	}
 }
 
-120 
+121 
 	$£tBŠCŞÜ
 (
 QCŞÜ
@@ -44889,7 +44961,7 @@ bŠCŞÜ_
 	}
 }
 
-121 
+122 
 	$£tBŠTextCŞÜ
 (
 QCŞÜ
@@ -44901,7 +44973,7 @@ bŠTextCŞÜ_
 	}
 }
 
-123 
+124 
 	$£tBubbËFgCŞÜ
 (
 QCŞÜ
@@ -44913,7 +44985,7 @@ bubbËFgCŞÜ_
 	}
 }
 
-124 
+125 
 	$£tBubbËBgCŞÜ
 (
 QCŞÜ
@@ -44925,7 +44997,7 @@ bubbËBgCŞÜ_
 	}
 }
 
-125 
+126 
 	$£tM’tiÚedCŞÜ
 (
 QCŞÜ
@@ -44937,7 +45009,7 @@ m’tiÚedFÚtCŞÜ_
 	}
 }
 
-127 
+128 
 	$£tRoomName
 (cÚ¡ 
 QSŒšg
@@ -44949,7 +45021,7 @@ roomName_
 	}
 }
 
-128 
+129 
 	$£tRoomTy³
 (
 boŞ
@@ -44957,11 +45029,11 @@ boŞ
 isInv™e
 )
 
-130 ià(
+131 ià(
 isInv™e
 )
 
-131 
+132 
 roomTy³_
  = 
 RoomTy³
@@ -44969,7 +45041,7 @@ RoomTy³
 Inv™ed
 ;
 
-133 
+134 
 roomTy³_
  = 
 RoomTy³
@@ -44977,11 +45049,11 @@ RoomTy³
 Jošed
 ;
 
-134 
+135 
 	}
 }
 
-136 
+137 
 boŞ
  
 	$isInv™e
@@ -44995,7 +45067,7 @@ Inv™ed
 	}
 }
 
-137 
+138 
 	$£tR—dS‹
 (
 boŞ
@@ -45003,31 +45075,31 @@ boŞ
 hasUÄ—dMes§ges
 )
 
-139 ià(
+140 ià(
 hasUÄ—dMes§ges_
  !ğ
 hasUÄ—dMes§ges
 ) {
 
-140 
+141 
 hasUÄ—dMes§ges_
  = 
 hasUÄ—dMes§ges
 ;
 
-141 
+142 
 	`upd©e
 ();
 
-143 
+144 
 	}
 }
 
-145 
+146 
 	gsigÇls
 :
 
-146 
+147 
 şicked
 (cÚ¡ 
 QSŒšg
@@ -45035,7 +45107,7 @@ QSŒšg
 room_id
 );
 
-147 
+148 
 ËaveRoom
 (cÚ¡ 
 QSŒšg
@@ -45043,7 +45115,7 @@ QSŒšg
 room_id
 );
 
-148 
+149 
 acû±Inv™e
 (cÚ¡ 
 QSŒšg
@@ -45051,7 +45123,7 @@ QSŒšg
 room_id
 );
 
-149 
+150 
 deşšeInv™e
 (cÚ¡ 
 QSŒšg
@@ -45059,13 +45131,13 @@ QSŒšg
 room_id
 );
 
-151 
+152 
 public
  
 	g¦Ùs
 :
 
-152 
+153 
 £tP»s£dS‹
 (
 boŞ
@@ -45073,11 +45145,11 @@ boŞ
 ¡©e
 );
 
-154 
+155 
 	g´Ùeùed
 :
 
-155 
+156 
 	$mou£P»ssEv’t
 (
 QMou£Ev’t
@@ -45087,7 +45159,7 @@ ev’t
 ov”ride
 ;
 
-156 
+157 
 	$·štEv’t
 (
 QPaštEv’t
@@ -45097,7 +45169,7 @@ ev’t
 ov”ride
 ;
 
-157 
+158 
 	$»sizeEv’t
 (
 QResizeEv’t
@@ -45107,7 +45179,7 @@ ev’t
 ov”ride
 ;
 
-158 
+159 
 	$cÚ‹xtM’uEv’t
 (
 QCÚ‹xtM’uEv’t
@@ -45117,11 +45189,11 @@ ev’t
 ov”ride
 ;
 
-160 
+161 
 ´iv©e
 :
 
-161 
+162 
 	`š™
 (
 QWidg‘
@@ -45129,7 +45201,7 @@ QWidg‘
 ·»Á
 );
 
-162 
+163 
 QSŒšg
  
 	$roomName
@@ -45139,25 +45211,25 @@ roomName_
 	}
 }
 
-164 
+165 
 R¶eOv”Ïy
  *
 	gr¶e_ov”Ïy_
 ;
 
-166 şas 
+167 şas 
 	cRoomTy³
 
 
-168 
+169 
 	gJošed
 ,
 
-169 
+170 
 	gInv™ed
 ,
 
-172 
+173 
 RoomTy³
  
 	groomTy³_
@@ -45165,7 +45237,7 @@ RoomTy³
 Jošed
 ;
 
-175 
+176 
 	gmtx
 ::
 »¥Ú£s
@@ -45175,43 +45247,43 @@ Inv™edRoom
 šv™edRoom_
 ;
 
-177 
+178 
 QSŒšg
  
 	groomId_
 ;
 
-178 
+179 
 QSŒšg
  
 	groomName_
 ;
 
-180 
+181 
 DescInfo
  
 	gÏ¡MsgInfo_
 ;
 
-182 
+183 
 QPixm­
  
 	groomAv©¬_
 ;
 
-184 
+185 
 M’u
  *
 	gm’u_
 ;
 
-185 
+186 
 QAùiÚ
  *
 	gËaveRoom_
 ;
 
-187 
+188 
 boŞ
  
 	gisP»s£d_
@@ -45219,7 +45291,7 @@ boŞ
 çl£
 ;
 
-188 
+189 
 boŞ
  
 	ghasUÄ—dMes§ges_
@@ -45227,145 +45299,153 @@ boŞ
 Œue
 ;
 
-190 
+190 
+boŞ
+ 
+	grounded_
+ = 
+Œue
+;
+
+192 
 	guÄ—dMsgCouÁ_
  = 0;
 
-191 
+193 
 	guÄ—dHighligh‹dMsgCouÁ_
  = 0;
 
-193 
+195 
 QCŞÜ
  
 	ghighligh‹dBackgroundCŞÜ_
 ;
 
-194 
+196 
 QCŞÜ
  
 	ghov”BackgroundCŞÜ_
 ;
 
-195 
+197 
 QCŞÜ
  
 	gbackgroundCŞÜ_
 ;
 
-197 
+199 
 QCŞÜ
  
 	ghighligh‹dT™ËCŞÜ_
 ;
 
-198 
+200 
 QCŞÜ
  
 	ghighligh‹dSubt™ËCŞÜ_
 ;
 
-200 
+202 
 QCŞÜ
  
 	gt™ËCŞÜ_
 ;
 
-201 
+203 
 QCŞÜ
  
 	gsubt™ËCŞÜ_
 ;
 
-203 
+205 
 QCŞÜ
  
 	ghov”T™ËCŞÜ_
 ;
 
-204 
+206 
 QCŞÜ
  
 	ghov”Subt™ËCŞÜ_
 ;
 
-206 
+208 
 QCŞÜ
  
 	gbŠCŞÜ_
 ;
 
-207 
+209 
 QCŞÜ
  
 	gbŠTextCŞÜ_
 ;
 
-209 
+211 
 QReùF
  
 	gacû±BŠRegiÚ_
 ;
 
-210 
+212 
 QReùF
  
 	gdeşšeBŠRegiÚ_
 ;
 
-213 
+215 
 QCŞÜ
  
 	gm’tiÚedFÚtCŞÜ_
 ;
 
-214 
+216 
 QFÚt
  
 	guÄ—dCouÁFÚt_
 ;
 
-215 
+217 
 	gbubbËDŸm‘”_
-;
-
-217 
-QCŞÜ
- 
-	gtime¡ampCŞÜ_
-;
-
-218 
-QCŞÜ
- 
-	ghighligh‹dTime¡ampCŞÜ_
 ;
 
 219 
 QCŞÜ
  
-	ghov”Time¡ampCŞÜ_
+	gtime¡ampCŞÜ_
+;
+
+220 
+QCŞÜ
+ 
+	ghighligh‹dTime¡ampCŞÜ_
 ;
 
 221 
 QCŞÜ
  
-	gav©¬BgCŞÜ_
+	ghov”Time¡ampCŞÜ_
 ;
 
-222 
+223 
 QCŞÜ
  
-	gav©¬FgCŞÜ_
+	gav©¬BgCŞÜ_
 ;
 
 224 
 QCŞÜ
  
+	gav©¬FgCŞÜ_
+;
+
+226 
+QCŞÜ
+ 
 	gbubbËBgCŞÜ_
 ;
 
-225 
+227 
 QCŞÜ
  
 	gbubbËFgCŞÜ_
@@ -57819,6 +57899,10 @@ u£rAv©¬_
 QImage
  &
 img
+, 
+boŞ
+ 
+rounded
 )
 
 140 
@@ -57836,14 +57920,22 @@ img
 );
 
 142 
+u£rAv©¬_
+->
+	`£tRounded
+(
+rounded
+);
+
+143 
 	`upd©e
 ();
 
-143 
+144 
 	}
 }
 
-146 
+147 
 	gU£rInfoWidg‘
 ::
 	$£tDi¥ÏyName
@@ -57853,13 +57945,13 @@ QSŒšg
 Çme
 )
 
-148 ià(
+149 ià(
 Çme
 .
 	`isEm±y
 ())
 
-149 
+150 
 di¥Ïy_Çme_
  = 
 u£r_id_
@@ -57867,13 +57959,13 @@ u£r_id_
 	`¥l™
 (':')[0].split('@')[1];
 
-151 
+152 
 di¥Ïy_Çme_
  = 
 Çme
 ;
 
-153 
+154 
 di¥ÏyNameLab–_
 ->
 	`£tText
@@ -57881,7 +57973,7 @@ di¥ÏyNameLab–_
 di¥Ïy_Çme_
 );
 
-154 
+155 
 u£rAv©¬_
 ->
 	`£tL‘‹r
@@ -57891,15 +57983,15 @@ u£rAv©¬_
 di¥Ïy_Çme_
 [0]));
 
-155 
+156 
 	`upd©e
 ();
 
-156 
+157 
 	}
 }
 
-159 
+160 
 	gU£rInfoWidg‘
 ::
 	$£tU£rId
@@ -57909,13 +58001,13 @@ QSŒšg
 u£rid
 )
 
-161 
+162 
 u£r_id_
  = 
 u£rid
 ;
 
-162 
+163 
 u£rIdLab–_
 ->
 	`£tText
@@ -57923,11 +58015,11 @@ u£rIdLab–_
 u£rid
 );
 
-163 
+164 
 	}
 }
 
-166 
+167 
 	gU£rInfoWidg‘
 ::
 	$·štEv’t
@@ -57937,19 +58029,19 @@ QPaštEv’t
 ev’t
 )
 
-168 
+169 
 	`Q_UNUSED
 (
 ev’t
 );
 
-170 
+171 
 QStyËO±iÚ
  
 İt
 ;
 
-171 
+172 
 İt
 .
 	`š™
@@ -57957,7 +58049,7 @@ QStyËO±iÚ
 this
 );
 
-172 
+173 
 QPaš‹r
  
 	`p
@@ -57965,7 +58057,7 @@ QPaš‹r
 this
 );
 
-173 
+174 
 	`¡yË
 ()->
 	`d¿wPrim™ive
@@ -57981,7 +58073,7 @@ p
 this
 );
 
-174 
+175 
 	}
 }
 
@@ -58414,6 +58506,18 @@ fÚt_
 ();
 
 56 
+av©¬Cœşes_
+ = 
+£‰šgs
+.
+	`v®ue
+("u£r/av©¬/cœşes", 
+Œue
+).
+	`toSŒšg
+();
+
+57 
 emojiFÚt_
  = 
 £‰šgs
@@ -58423,7 +58527,7 @@ emojiFÚt_
 	`toSŒšg
 ();
 
-57 
+58 
 ba£FÚtSize_
  = 
 £‰šgs
@@ -58437,15 +58541,15 @@ ba£FÚtSize_
 	`toDoubË
 ();
 
-59 
+60 
 	`­¶yTheme
 ();
 
-60 
+61 
 	}
 }
 
-63 
+64 
 	gU£rS‘tšgs
 ::
 	$£tFÚtSize
@@ -58453,21 +58557,21 @@ ba£FÚtSize_
 size
 )
 
-65 
+66 
 ba£FÚtSize_
  = 
 size
 ;
 
-66 
+67 
 	`§ve
 ();
 
-67 
+68 
 	}
 }
 
-70 
+71 
 	gU£rS‘tšgs
 ::
 	$£tFÚtFamy
@@ -58477,21 +58581,21 @@ QSŒšg
 çmy
 )
 
-72 
+73 
 fÚt_
  = 
 çmy
 ;
 
-73 
+74 
 	`§ve
 ();
 
-74 
+75 
 	}
 }
 
-77 
+78 
 	gU£rS‘tšgs
 ::
 	$£tEmojiFÚtFamy
@@ -58501,21 +58605,21 @@ QSŒšg
 çmy
 )
 
-79 
+80 
 emojiFÚt_
  = 
 çmy
 ;
 
-80 
+81 
 	`§ve
 ();
 
-81 
+82 
 	}
 }
 
-84 
+85 
 	gU£rS‘tšgs
 ::
 	$£tTheme
@@ -58525,63 +58629,63 @@ QSŒšg
 theme
 )
 
-86 
+87 
 theme_
  = 
 theme
 ;
 
-87 
+88 
 	`§ve
 ();
 
-88 
+89 
 	`­¶yTheme
 ();
 
-89 
+90 
 	}
 }
 
-92 
+93 
 	gU£rS‘tšgs
 ::
 	$­¶yTheme
 ()
 
-94 
+95 
 QFe
  
 ¡yËfe
 ;
 
-96 ià(
+97 ià(
 	`theme
 () == "light") {
 
-97 
+98 
 ¡yËfe
 .
 	`£tFeName
 (":/styles/styles/nheko.qss");
 
-98 } ià(
+99 } ià(
 	`theme
 () == "dark") {
 
-99 
+100 
 ¡yËfe
 .
 	`£tFeName
 (":/styles/styles/nheko-dark.qss");
 
-101 
+102 
 ¡yËfe
 .
 	`£tFeName
 (":/styles/styles/system.qss");
 
-104 
+105 
 ¡yËfe
 .
 	`İ’
@@ -58591,7 +58695,7 @@ QFe
 R—dOÆy
 );
 
-105 
+106 
 QSŒšg
  
 ¡yËsh“t
@@ -58603,7 +58707,7 @@ QSŒšg
 	`»adAÎ
 ());
 
-107 
+108 
 qobjeù_ÿ¡
 <
 QAµliÿtiÚ
@@ -58615,35 +58719,35 @@ QAµliÿtiÚ
 ¡yËsh“t
 );
 
-108 
+109 
 	}
 }
 
-111 
+112 
 	gU£rS‘tšgs
 ::
 	$§ve
 ()
 
-113 
+114 
 QS‘tšgs
  
 £‰šgs
 ;
 
-114 
+115 
 £‰šgs
 .
 	`begšGroup
 ("user");
 
-116 
+117 
 £‰šgs
 .
 	`begšGroup
 ("window");
 
-117 
+118 
 £‰šgs
 .
 	`£tV®ue
@@ -58651,7 +58755,7 @@ QS‘tšgs
 isT¿yEÇbËd_
 );
 
-118 
+119 
 £‰šgs
 .
 	`£tV®ue
@@ -58659,13 +58763,33 @@ isT¿yEÇbËd_
 isS¹InT¿yEÇbËd_
 );
 
-119 
+120 
 £‰šgs
 .
 	`’dGroup
 ();
 
-121 
+122 
+£‰šgs
+.
+	`¡¬tGroup
+("avatar");
+
+123 
+£‰šgs
+.
+	`£tV®ue
+("cœşes", 
+av©¬Cœşes_
+);
+
+124 
+£‰šgs
+.
+	`’dGroup
+();
+
+126 
 £‰šgs
 .
 	`£tV®ue
@@ -58673,7 +58797,7 @@ isS¹InT¿yEÇbËd_
 ba£FÚtSize_
 );
 
-122 
+127 
 £‰šgs
 .
 	`£tV®ue
@@ -58681,7 +58805,7 @@ ba£FÚtSize_
 isTypšgNÙifiÿtiÚsEÇbËd_
 );
 
-123 
+128 
 £‰šgs
 .
 	`£tV®ue
@@ -58689,7 +58813,7 @@ isTypšgNÙifiÿtiÚsEÇbËd_
 isR—dReûtsEÇbËd_
 );
 
-124 
+129 
 £‰šgs
 .
 	`£tV®ue
@@ -58697,7 +58821,7 @@ isR—dReûtsEÇbËd_
 isGroupV›wEÇbËd_
 );
 
-125 
+130 
 £‰šgs
 .
 	`£tV®ue
@@ -58705,7 +58829,7 @@ isGroupV›wEÇbËd_
 hasDesktİNÙifiÿtiÚs_
 );
 
-126 
+131 
 £‰šgs
 .
 	`£tV®ue
@@ -58713,7 +58837,7 @@ hasDesktİNÙifiÿtiÚs_
 	`theme
 ());
 
-127 
+132 
 £‰šgs
 .
 	`£tV®ue
@@ -58721,7 +58845,7 @@ hasDesktİNÙifiÿtiÚs_
 fÚt_
 );
 
-128 
+133 
 £‰šgs
 .
 	`£tV®ue
@@ -58729,17 +58853,17 @@ fÚt_
 emojiFÚt_
 );
 
-130 
+135 
 £‰šgs
 .
 	`’dGroup
 ();
 
-131 
+136 
 	}
 }
 
-133 
+138 
 	gHÜizÚlLše
 ::
 	$HÜizÚlLše
@@ -58749,13 +58873,13 @@ QWidg‘
 ·»Á
 )
 
-134 : 
+139 : 
 QF¿me
 {
 ·»Á
 }
 
-136 
+141 
 £tF¿meSh­e
 (
 QF¿me
@@ -58763,7 +58887,7 @@ QF¿me
 HLše
 );
 
-137 
+142 
 £tF¿meShadow
 (
 QF¿me
@@ -58771,7 +58895,7 @@ QF¿me
 Sunk’
 );
 
-140 
+145 
 	gU£rS‘tšgsPage
 ::
 U£rS‘tšgsPage
@@ -58787,19 +58911,19 @@ QWidg‘
 ·»Á
 )
 
-141 : 
+146 : 
 QWidg‘
 {
 ·»Á
 }
 
-142 , 
+147 , 
 	g£‰šgs_
 {
 	g£‰šgs
 }
 
-144 
+149 
 	gtİLayout_
  = 
 Ãw
@@ -58809,19 +58933,19 @@ QVBoxLayout
 this
 );
 
-146 
+151 
 QIcÚ
  
 	gicÚ
 ;
 
-147 
+152 
 	gicÚ
 .
 addFe
 (":/icons/icons/ui/angle-pointing-to-left.png");
 
-149 autØ
+154 autØ
 	gbackBŠ_
  = 
 Ãw
@@ -58831,7 +58955,7 @@ FÏtBu‰Ú
 this
 );
 
-150 
+155 
 	gbackBŠ_
 ->
 £tMšimumSize
@@ -58839,7 +58963,7 @@ this
 QSize
 (24, 24));
 
-151 
+156 
 	gbackBŠ_
 ->
 £tIcÚ
@@ -58847,7 +58971,7 @@ QSize
 icÚ
 );
 
-152 
+157 
 	gbackBŠ_
 ->
 £tIcÚSize
@@ -58855,13 +58979,13 @@ icÚ
 QSize
 (24, 24));
 
-154 
+159 
 QFÚt
  
 	gfÚt
 ;
 
-155 
+160 
 	gfÚt
 .
 £tPoštSizeF
@@ -58871,7 +58995,7 @@ fÚt
 poštSizeF
 () * 1.1);
 
-157 autØ
+162 autØ
 	gv”siÚInfo
  = 
 Ãw
@@ -58889,7 +59013,7 @@ v”siÚ
 bud_os
 ));
 
-158 
+163 
 	gv”siÚInfo
 ->
 £tTextIÁ”aùiÚFÏgs
@@ -58899,7 +59023,7 @@ Qt
 TextBrow£rIÁ”aùiÚ
 );
 
-160 
+165 
 	gtİB¬Layout_
  = 
 Ãw
@@ -58907,19 +59031,19 @@ TextBrow£rIÁ”aùiÚ
 QHBoxLayout
 ;
 
-161 
+166 
 	gtİB¬Layout_
 ->
 £tS·cšg
 (0);
 
-162 
+167 
 	gtİB¬Layout_
 ->
 £tM¬gš
 (0);
 
-163 
+168 
 	gtİB¬Layout_
 ->
 addWidg‘
@@ -58933,13 +59057,13 @@ AlignLeá
 AlignVC’‹r
 );
 
-164 
+169 
 	gtİB¬Layout_
 ->
 addSŒ‘ch
 (1);
 
-166 autØ
+171 autØ
 	gŒayO±iÚLayout_
  = 
 Ãw
@@ -58947,7 +59071,7 @@ addSŒ‘ch
 QHBoxLayout
 ;
 
-167 
+172 
 	gŒayO±iÚLayout_
 ->
 £tCÚ‹ÁsM¬gšs
@@ -58955,7 +59079,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-168 autØ
+173 autØ
 	gŒayLab–
  = 
 Ãw
@@ -58967,7 +59091,7 @@ QLab–
 this
 );
 
-169 
+174 
 	gŒayLab–
 ->
 £tFÚt
@@ -58975,7 +59099,7 @@ this
 fÚt
 );
 
-170 
+175 
 	gŒayToggË_
  = 
 Ãw
@@ -58985,7 +59109,7 @@ ToggË
 this
 );
 
-172 
+177 
 	gŒayO±iÚLayout_
 ->
 addWidg‘
@@ -58993,7 +59117,7 @@ addWidg‘
 ŒayLab–
 );
 
-173 
+178 
 	gŒayO±iÚLayout_
 ->
 addWidg‘
@@ -59005,7 +59129,7 @@ Qt
 AlignRight
 );
 
-175 autØ
+180 autØ
 	g¡¬tInT¿yO±iÚLayout_
  = 
 Ãw
@@ -59013,7 +59137,7 @@ AlignRight
 QHBoxLayout
 ;
 
-176 
+181 
 	g¡¬tInT¿yO±iÚLayout_
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59021,7 +59145,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-177 autØ
+182 autØ
 	g¡¬tInT¿yLab–
  = 
 Ãw
@@ -59033,7 +59157,7 @@ QLab–
 this
 );
 
-178 
+183 
 	g¡¬tInT¿yLab–
 ->
 £tFÚt
@@ -59041,7 +59165,7 @@ this
 fÚt
 );
 
-179 
+184 
 	g¡¬tInT¿yToggË_
  = 
 Ãw
@@ -59051,13 +59175,13 @@ ToggË
 this
 );
 
-180 ià(!
+185 ià(!
 	g£‰šgs_
 ->
 isT¿yEÇbËd
 ())
 
-181 
+186 
 	g¡¬tInT¿yToggË_
 ->
 £tDi§bËd
@@ -59065,7 +59189,7 @@ isT¿yEÇbËd
 Œue
 );
 
-183 
+188 
 	g¡¬tInT¿yO±iÚLayout_
 ->
 addWidg‘
@@ -59073,7 +59197,7 @@ addWidg‘
 ¡¬tInT¿yLab–
 );
 
-184 
+189 
 	g¡¬tInT¿yO±iÚLayout_
 ->
 addWidg‘
@@ -59085,7 +59209,7 @@ Qt
 AlignRight
 );
 
-186 autØ
+191 autØ
 	ggroupV›wLayout
  = 
 Ãw
@@ -59093,7 +59217,7 @@ AlignRight
 QHBoxLayout
 ;
 
-187 
+192 
 	ggroupV›wLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59101,7 +59225,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-188 autØ
+193 autØ
 	ggroupV›wLab–
  = 
 Ãw
@@ -59113,7 +59237,7 @@ QLab–
 this
 );
 
-189 
+194 
 	ggroupV›wLab–
 ->
 £tFÚt
@@ -59121,7 +59245,7 @@ this
 fÚt
 );
 
-190 
+195 
 	ggroupV›wToggË_
  = 
 Ãw
@@ -59131,7 +59255,7 @@ ToggË
 this
 );
 
-192 
+197 
 	ggroupV›wLayout
 ->
 addWidg‘
@@ -59139,7 +59263,7 @@ addWidg‘
 groupV›wLab–
 );
 
-193 
+198 
 	ggroupV›wLayout
 ->
 addWidg‘
@@ -59151,7 +59275,69 @@ Qt
 AlignRight
 );
 
-195 autØ
+200 autØ
+	gav©¬V›wLayout
+ = 
+Ãw
+ 
+QHBoxLayout
+;
+
+201 
+	gav©¬V›wLayout
+->
+£tCÚ‹ÁsM¬gšs
+(0, 
+O±iÚM¬gš
+, 0, OptionMargin);
+
+202 autØ
+	gav©¬V›wLab–
+ = 
+Ãw
+ 
+QLab–
+(
+Œ
+("CœcuÏ¸Av©¬s"), 
+this
+);
+
+203 
+	gav©¬V›wLab–
+->
+£tFÚt
+(
+fÚt
+);
+
+204 
+	gav©¬Cœşes_
+ = 
+Ãw
+ 
+ToggË
+(
+this
+);
+
+206 
+	gav©¬V›wLayout
+->
+addWidg‘
+(
+av©¬V›wLab–
+);
+
+207 
+	gav©¬V›wLayout
+->
+addWidg‘
+(
+av©¬Cœşes_
+);
+
+209 autØ
 	gtypšgLayout
  = 
 Ãw
@@ -59159,7 +59345,7 @@ AlignRight
 QHBoxLayout
 ;
 
-196 
+210 
 	gtypšgLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59167,7 +59353,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-197 autØ
+211 autØ
 	gtypšgLab–
  = 
 Ãw
@@ -59179,7 +59365,7 @@ QLab–
 this
 );
 
-198 
+212 
 	gtypšgLab–
 ->
 £tFÚt
@@ -59187,7 +59373,7 @@ this
 fÚt
 );
 
-199 
+213 
 	gtypšgNÙifiÿtiÚs_
  = 
 Ãw
@@ -59197,7 +59383,7 @@ ToggË
 this
 );
 
-201 
+215 
 	gtypšgLayout
 ->
 addWidg‘
@@ -59205,7 +59391,7 @@ addWidg‘
 typšgLab–
 );
 
-202 
+216 
 	gtypšgLayout
 ->
 addWidg‘
@@ -59217,7 +59403,7 @@ Qt
 AlignRight
 );
 
-204 autØ
+218 autØ
 	g»ûtsLayout
  = 
 Ãw
@@ -59225,7 +59411,7 @@ AlignRight
 QHBoxLayout
 ;
 
-205 
+219 
 	g»ûtsLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59233,7 +59419,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-206 autØ
+220 autØ
 	g»ûtsLab–
  = 
 Ãw
@@ -59245,7 +59431,7 @@ QLab–
 this
 );
 
-207 
+221 
 	g»ûtsLab–
 ->
 £tFÚt
@@ -59253,7 +59439,7 @@ this
 fÚt
 );
 
-208 
+222 
 	g»adReûts_
  = 
 Ãw
@@ -59263,7 +59449,7 @@ ToggË
 this
 );
 
-210 
+224 
 	g»ûtsLayout
 ->
 addWidg‘
@@ -59271,7 +59457,7 @@ addWidg‘
 »ûtsLab–
 );
 
-211 
+225 
 	g»ûtsLayout
 ->
 addWidg‘
@@ -59283,7 +59469,7 @@ Qt
 AlignRight
 );
 
-213 autØ
+227 autØ
 	gdesktİLayout
  = 
 Ãw
@@ -59291,7 +59477,7 @@ AlignRight
 QHBoxLayout
 ;
 
-214 
+228 
 	gdesktİLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59299,7 +59485,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-215 autØ
+229 autØ
 	gdesktİLab–
  = 
 Ãw
@@ -59311,7 +59497,7 @@ QLab–
 this
 );
 
-216 
+230 
 	gdesktİLab–
 ->
 £tFÚt
@@ -59319,7 +59505,7 @@ this
 fÚt
 );
 
-217 
+231 
 	gdesktİNÙifiÿtiÚs_
  = 
 Ãw
@@ -59329,7 +59515,7 @@ ToggË
 this
 );
 
-219 
+233 
 	gdesktİLayout
 ->
 addWidg‘
@@ -59337,7 +59523,7 @@ addWidg‘
 desktİLab–
 );
 
-220 
+234 
 	gdesktİLayout
 ->
 addWidg‘
@@ -59349,7 +59535,7 @@ Qt
 AlignRight
 );
 
-222 autØ
+236 autØ
 	gsÿËFaùÜO±iÚLayout
  = 
 Ãw
@@ -59357,7 +59543,7 @@ AlignRight
 QHBoxLayout
 ;
 
-223 
+237 
 	gsÿËFaùÜO±iÚLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59365,7 +59551,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-224 autØ
+238 autØ
 	gsÿËFaùÜLab–
  = 
 Ãw
@@ -59377,7 +59563,7 @@ QLab–
 this
 );
 
-225 
+239 
 	gsÿËFaùÜLab–
 ->
 £tFÚt
@@ -59385,7 +59571,7 @@ this
 fÚt
 );
 
-226 
+240 
 	gsÿËFaùÜCombo_
  = 
 Ãw
@@ -59395,11 +59581,11 @@ QComboBox
 this
 );
 
-227 
+241 
 	gİtiÚ
  = 1; option <= 3; option += 0.25)
 
-228 
+242 
 sÿËFaùÜCombo_
 ->
 addI‹m
@@ -59411,7 +59597,7 @@ numb”
 İtiÚ
 ));
 
-230 
+244 
 	gsÿËFaùÜO±iÚLayout
 ->
 addWidg‘
@@ -59419,7 +59605,7 @@ addWidg‘
 sÿËFaùÜLab–
 );
 
-231 
+245 
 	gsÿËFaùÜO±iÚLayout
 ->
 addWidg‘
@@ -59431,7 +59617,7 @@ Qt
 AlignRight
 );
 
-233 autØ
+247 autØ
 	gfÚtSizeO±iÚLayout
  = 
 Ãw
@@ -59439,7 +59625,7 @@ AlignRight
 QHBoxLayout
 ;
 
-234 
+248 
 	gfÚtSizeO±iÚLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59447,7 +59633,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-235 autØ
+249 autØ
 	gfÚtSizeLab–
  = 
 Ãw
@@ -59459,7 +59645,7 @@ QLab–
 this
 );
 
-236 
+250 
 	gfÚtSizeLab–
 ->
 £tFÚt
@@ -59467,7 +59653,7 @@ this
 fÚt
 );
 
-237 
+251 
 	gfÚtSizeCombo_
  = 
 Ãw
@@ -59477,11 +59663,11 @@ QComboBox
 this
 );
 
-238 
+252 
 	gİtiÚ
  = 10; option < 17; option += 0.5)
 
-239 
+253 
 fÚtSizeCombo_
 ->
 addI‹m
@@ -59495,7 +59681,7 @@ numb”
 İtiÚ
 )));
 
-241 
+255 
 	gfÚtSizeO±iÚLayout
 ->
 addWidg‘
@@ -59503,7 +59689,7 @@ addWidg‘
 fÚtSizeLab–
 );
 
-242 
+256 
 	gfÚtSizeO±iÚLayout
 ->
 addWidg‘
@@ -59515,7 +59701,7 @@ Qt
 AlignRight
 );
 
-244 autØ
+258 autØ
 	gfÚtFamyO±iÚLayout
  = 
 Ãw
@@ -59523,7 +59709,7 @@ AlignRight
 QHBoxLayout
 ;
 
-245 autØ
+259 autØ
 	gemojiFÚtFamyO±iÚLayout
  = 
 Ãw
@@ -59531,7 +59717,7 @@ QHBoxLayout
 QHBoxLayout
 ;
 
-246 
+260 
 	gfÚtFamyO±iÚLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59539,7 +59725,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-247 
+261 
 	gemojiFÚtFamyO±iÚLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59547,7 +59733,7 @@ O±iÚM¬gš
 O±iÚM¬gš
 , 0, OptionMargin);
 
-248 autØ
+262 autØ
 	gfÚtFamyLab–
  = 
 Ãw
@@ -59559,7 +59745,7 @@ QLab–
 this
 );
 
-249 autØ
+263 autØ
 	gemojiFamyLab–
  = 
 Ãw
@@ -59571,7 +59757,7 @@ QLab–
 this
 );
 
-250 
+264 
 	gfÚtFamyLab–
 ->
 £tFÚt
@@ -59579,7 +59765,7 @@ this
 fÚt
 );
 
-251 
+265 
 	gemojiFamyLab–
 ->
 £tFÚt
@@ -59587,7 +59773,7 @@ fÚt
 fÚt
 );
 
-252 
+266 
 	gfÚtS–eùiÚCombo_
  = 
 Ãw
@@ -59597,7 +59783,7 @@ QComboBox
 this
 );
 
-253 
+267 
 	gemojiFÚtS–eùiÚCombo_
  = 
 Ãw
@@ -59607,13 +59793,13 @@ QComboBox
 this
 );
 
-254 
+268 
 QFÚtD©aba£
  
 	gfÚtDb
 ;
 
-255 autØ
+269 autØ
 	gfÚtFam›s
  = 
 fÚtDb
@@ -59621,7 +59807,7 @@ fÚtDb
 çm›s
 ();
 
-258 autØ
+272 autØ
 	gemojiFam›s
  = 
 fÚtDb
@@ -59633,13 +59819,13 @@ QFÚtD©aba£
 SymbŞ
 );
 
-260 cÚ¡‡utØ&
+274 cÚ¡‡utØ&
 	gçmy
  : 
 fÚtFam›s
 ) {
 
-261 
+275 
 fÚtS–eùiÚCombo_
 ->
 addI‹m
@@ -59647,13 +59833,13 @@ addI‹m
 çmy
 );
 
-264 cÚ¡‡utØ&
+278 cÚ¡‡utØ&
 	gçmy
  : 
 emojiFam›s
 ) {
 
-265 
+279 
 emojiFÚtS–eùiÚCombo_
 ->
 addI‹m
@@ -59661,7 +59847,7 @@ addI‹m
 çmy
 );
 
-268 
+282 
 	gfÚtIndex
  = 
 fÚtS–eùiÚCombo_
@@ -59673,7 +59859,7 @@ fšdText
 fÚt
 ());
 
-269 
+283 
 	gfÚtS–eùiÚCombo_
 ->
 £tCu¼’tIndex
@@ -59681,7 +59867,7 @@ fÚt
 fÚtIndex
 );
 
-271 
+285 
 	gfÚtIndex
  = 
 emojiFÚtS–eùiÚCombo_
@@ -59693,7 +59879,7 @@ fšdText
 emojiFÚt
 ());
 
-272 
+286 
 	gemojiFÚtS–eùiÚCombo_
 ->
 £tCu¼’tIndex
@@ -59701,7 +59887,7 @@ emojiFÚt
 fÚtIndex
 );
 
-274 
+288 
 	gfÚtFamyO±iÚLayout
 ->
 addWidg‘
@@ -59709,7 +59895,7 @@ addWidg‘
 fÚtFamyLab–
 );
 
-275 
+289 
 	gfÚtFamyO±iÚLayout
 ->
 addWidg‘
@@ -59721,7 +59907,7 @@ Qt
 AlignRight
 );
 
-277 
+291 
 	gemojiFÚtFamyO±iÚLayout
 ->
 addWidg‘
@@ -59729,7 +59915,7 @@ addWidg‘
 emojiFamyLab–
 );
 
-278 
+292 
 	gemojiFÚtFamyO±iÚLayout
 ->
 addWidg‘
@@ -59741,7 +59927,7 @@ Qt
 AlignRight
 );
 
-280 autØ
+294 autØ
 	gthemeO±iÚLayout_
  = 
 Ãw
@@ -59749,7 +59935,7 @@ AlignRight
 QHBoxLayout
 ;
 
-281 
+295 
 	gthemeO±iÚLayout_
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59757,7 +59943,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-282 autØ
+296 autØ
 	gthemeLab–_
  = 
 Ãw
@@ -59769,7 +59955,7 @@ QLab–
 this
 );
 
-283 
+297 
 	gthemeLab–_
 ->
 £tFÚt
@@ -59777,7 +59963,7 @@ this
 fÚt
 );
 
-284 
+298 
 	gthemeCombo_
  = 
 Ãw
@@ -59787,25 +59973,25 @@ QComboBox
 this
 );
 
-285 
+299 
 	gthemeCombo_
 ->
 addI‹m
 ("Light");
 
-286 
+300 
 	gthemeCombo_
 ->
 addI‹m
 ("Dark");
 
-287 
+301 
 	gthemeCombo_
 ->
 addI‹m
 ("System");
 
-289 
+303 
 QSŒšg
  
 	gthemeSŒ
@@ -59815,7 +60001,7 @@ QSŒšg
 theme
 ();
 
-290 
+304 
 	gthemeSŒ
 .
 »¶aû
@@ -59825,7 +60011,7 @@ themeSŒ
 toUµ”
 ());
 
-291 
+305 
 	gthemeIndex
  = 
 themeCombo_
@@ -59835,7 +60021,7 @@ fšdText
 themeSŒ
 );
 
-292 
+306 
 	gthemeCombo_
 ->
 £tCu¼’tIndex
@@ -59843,7 +60029,7 @@ themeSŒ
 themeIndex
 );
 
-294 
+308 
 	gthemeO±iÚLayout_
 ->
 addWidg‘
@@ -59851,7 +60037,7 @@ addWidg‘
 themeLab–_
 );
 
-295 
+309 
 	gthemeO±iÚLayout_
 ->
 addWidg‘
@@ -59863,7 +60049,7 @@ Qt
 AlignRight
 );
 
-297 autØ
+311 autØ
 	g’üy±iÚLayout_
  = 
 Ãw
@@ -59871,7 +60057,7 @@ AlignRight
 QVBoxLayout
 ;
 
-298 
+312 
 	g’üy±iÚLayout_
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59879,7 +60065,7 @@ QVBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-299 
+313 
 	g’üy±iÚLayout_
 ->
 £tAlignm’t
@@ -59889,19 +60075,19 @@ Qt
 AlignVC’‹r
 );
 
-301 
+315 
 QFÚt
  
 	gmÚo¥aûFÚt
 ;
 
-302 
+316 
 	gmÚo¥aûFÚt
 .
 £tFamy
 ("Monospace");
 
-303 
+317 
 	gmÚo¥aûFÚt
 .
 £tStyËHšt
@@ -59911,7 +60097,7 @@ QFÚt
 MÚo¥aû
 );
 
-304 
+318 
 	gmÚo¥aûFÚt
 .
 £tPoštSizeF
@@ -59921,7 +60107,7 @@ mÚo¥aûFÚt
 poštSizeF
 () * 0.9);
 
-306 autØ
+320 autØ
 	gdeviûIdLayout
  = 
 Ãw
@@ -59929,7 +60115,7 @@ poštSizeF
 QHBoxLayout
 ;
 
-307 
+321 
 	gdeviûIdLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -59937,7 +60123,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-309 autØ
+323 autØ
 	gdeviûIdLab–
  = 
 Ãw
@@ -59949,7 +60135,7 @@ QLab–
 this
 );
 
-310 
+324 
 	gdeviûIdLab–
 ->
 £tFÚt
@@ -59957,13 +60143,13 @@ this
 fÚt
 );
 
-311 
+325 
 	gdeviûIdLab–
 ->
 £tM¬gš
 (0);
 
-312 
+326 
 	gdeviûIdV®ue_
  = 
 Ãw
@@ -59973,7 +60159,7 @@ QLab–
 this
 };
 
-313 
+327 
 	gdeviûIdV®ue_
 ->
 £tTextIÁ”aùiÚFÏgs
@@ -59983,7 +60169,7 @@ Qt
 TextS–eùabËByMou£
 );
 
-314 
+328 
 	gdeviûIdV®ue_
 ->
 £tFÚt
@@ -59991,7 +60177,7 @@ TextS–eùabËByMou£
 mÚo¥aûFÚt
 );
 
-315 
+329 
 	gdeviûIdLayout
 ->
 addWidg‘
@@ -59999,7 +60185,7 @@ addWidg‘
 deviûIdLab–
 , 1);
 
-316 
+330 
 	gdeviûIdLayout
 ->
 addWidg‘
@@ -60007,7 +60193,7 @@ addWidg‘
 deviûIdV®ue_
 );
 
-318 autØ
+332 autØ
 	gdeviûFšg”´štLayout
  = 
 Ãw
@@ -60015,7 +60201,7 @@ deviûIdV®ue_
 QHBoxLayout
 ;
 
-319 
+333 
 	gdeviûFšg”´štLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -60023,7 +60209,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-321 autØ
+335 autØ
 	gdeviûFšg”´štLab–
  = 
 Ãw
@@ -60035,7 +60221,7 @@ QLab–
 this
 );
 
-322 
+336 
 	gdeviûFšg”´štLab–
 ->
 £tFÚt
@@ -60043,13 +60229,13 @@ this
 fÚt
 );
 
-323 
+337 
 	gdeviûFšg”´štLab–
 ->
 £tM¬gš
 (0);
 
-324 
+338 
 	gdeviûFšg”´štV®ue_
  = 
 Ãw
@@ -60059,7 +60245,7 @@ QLab–
 this
 };
 
-325 
+339 
 	gdeviûFšg”´štV®ue_
 ->
 £tTextIÁ”aùiÚFÏgs
@@ -60069,7 +60255,7 @@ Qt
 TextS–eùabËByMou£
 );
 
-326 
+340 
 	gdeviûFšg”´štV®ue_
 ->
 £tFÚt
@@ -60077,7 +60263,7 @@ TextS–eùabËByMou£
 mÚo¥aûFÚt
 );
 
-327 
+341 
 	gdeviûFšg”´štLayout
 ->
 addWidg‘
@@ -60085,7 +60271,7 @@ addWidg‘
 deviûFšg”´štLab–
 , 1);
 
-328 
+342 
 	gdeviûFšg”´štLayout
 ->
 addWidg‘
@@ -60093,7 +60279,7 @@ addWidg‘
 deviûFšg”´štV®ue_
 );
 
-330 autØ
+344 autØ
 	g£ssiÚKeysLayout
  = 
 Ãw
@@ -60101,7 +60287,7 @@ deviûFšg”´štV®ue_
 QHBoxLayout
 ;
 
-331 
+345 
 	g£ssiÚKeysLayout
 ->
 £tCÚ‹ÁsM¬gšs
@@ -60109,7 +60295,7 @@ QHBoxLayout
 O±iÚM¬gš
 , 0, OptionMargin);
 
-332 autØ
+346 autØ
 	g£ssiÚKeysLab–
  = 
 Ãw
@@ -60121,7 +60307,7 @@ QLab–
 this
 );
 
-333 
+347 
 	g£ssiÚKeysLab–
 ->
 £tFÚt
@@ -60129,7 +60315,7 @@ this
 fÚt
 );
 
-334 
+348 
 	g£ssiÚKeysLayout
 ->
 addWidg‘
@@ -60137,7 +60323,7 @@ addWidg‘
 £ssiÚKeysLab–
 , 1);
 
-336 autØ
+350 autØ
 	g£ssiÚKeysImpÜtBŠ
  = 
 Ãw
@@ -60149,11 +60335,11 @@ QPushBu‰Ú
 this
 };
 
-337 
+351 
 cÚÃù
 (
 
-338 
+352 
 £ssiÚKeysImpÜtBŠ
 , &
 QPushBu‰Ú
@@ -60167,7 +60353,7 @@ U£rS‘tšgsPage
 impÜtSessiÚKeys
 );
 
-339 autØ
+353 autØ
 	g£ssiÚKeysExpÜtBŠ
  = 
 Ãw
@@ -60179,11 +60365,11 @@ QPushBu‰Ú
 this
 };
 
-340 
+354 
 cÚÃù
 (
 
-341 
+355 
 £ssiÚKeysExpÜtBŠ
 , &
 QPushBu‰Ú
@@ -60197,7 +60383,7 @@ U£rS‘tšgsPage
 expÜtSessiÚKeys
 );
 
-342 
+356 
 	g£ssiÚKeysLayout
 ->
 addWidg‘
@@ -60209,7 +60395,7 @@ Qt
 AlignRight
 );
 
-343 
+357 
 	g£ssiÚKeysLayout
 ->
 addWidg‘
@@ -60221,7 +60407,7 @@ Qt
 AlignRight
 );
 
-345 
+359 
 	g’üy±iÚLayout_
 ->
 addLayout
@@ -60229,7 +60415,7 @@ addLayout
 deviûIdLayout
 );
 
-346 
+360 
 	g’üy±iÚLayout_
 ->
 addLayout
@@ -60237,7 +60423,7 @@ addLayout
 deviûFšg”´štLayout
 );
 
-347 
+361 
 	g’üy±iÚLayout_
 ->
 addWidg‘
@@ -60249,7 +60435,7 @@ HÜizÚlLše
 this
 });
 
-348 
+362 
 	g’üy±iÚLayout_
 ->
 addLayout
@@ -60257,7 +60443,7 @@ addLayout
 £ssiÚKeysLayout
 );
 
-350 
+364 
 	gfÚt
 .
 £tWeight
@@ -60267,7 +60453,7 @@ QFÚt
 Medium
 );
 
-352 autØ
+366 autØ
 	g’üy±iÚLab–_
  = 
 Ãw
@@ -60279,7 +60465,7 @@ QLab–
 this
 );
 
-353 
+367 
 	g’üy±iÚLab–_
 ->
 £tSizePŞicy
@@ -60291,7 +60477,7 @@ IgnÜed
 Fixed
 );
 
-354 
+368 
 	g’üy±iÚLab–_
 ->
 £tFÚt
@@ -60299,7 +60485,7 @@ Fixed
 fÚt
 );
 
-356 autØ
+370 autØ
 	gg’”®_
  = 
 Ãw
@@ -60311,7 +60497,7 @@ QLab–
 this
 );
 
-357 
+371 
 	gg’”®_
 ->
 £tSizePŞicy
@@ -60323,7 +60509,7 @@ IgnÜed
 Fixed
 );
 
-358 
+372 
 	gg’”®_
 ->
 £tFÚt
@@ -60331,7 +60517,7 @@ Fixed
 fÚt
 );
 
-360 
+374 
 	gmašLayout_
  = 
 Ãw
@@ -60339,7 +60525,7 @@ fÚt
 QVBoxLayout
 ;
 
-361 
+375 
 	gmašLayout_
 ->
 £tAlignm’t
@@ -60349,19 +60535,19 @@ Qt
 AlignTİ
 );
 
-362 
+376 
 	gmašLayout_
 ->
 £tS·cšg
 (7);
 
-363 
+377 
 	gmašLayout_
 ->
 £tCÚ‹ÁsM¬gšs
 (
 
-364 
+378 
 sideM¬gš_
 , 
 LayoutTİM¬gš
@@ -60369,7 +60555,7 @@ LayoutTİM¬gš
 LayoutBÙtomM¬gš
 );
 
-365 
+379 
 	gmašLayout_
 ->
 addWidg‘
@@ -60383,7 +60569,7 @@ AlignLeá
 AlignBÙtom
 );
 
-366 
+380 
 	gmašLayout_
 ->
 addWidg‘
@@ -60395,7 +60581,7 @@ HÜizÚlLše
 this
 ));
 
-367 
+381 
 	gmašLayout_
 ->
 addLayout
@@ -60403,7 +60589,7 @@ addLayout
 ŒayO±iÚLayout_
 );
 
-368 
+382 
 	gmašLayout_
 ->
 addLayout
@@ -60411,7 +60597,7 @@ addLayout
 ¡¬tInT¿yO±iÚLayout_
 );
 
-369 
+383 
 	gmašLayout_
 ->
 addWidg‘
@@ -60423,7 +60609,7 @@ HÜizÚlLše
 this
 ));
 
-370 
+384 
 	gmašLayout_
 ->
 addLayout
@@ -60431,7 +60617,7 @@ addLayout
 groupV›wLayout
 );
 
-371 
+385 
 	gmašLayout_
 ->
 addWidg‘
@@ -60443,7 +60629,27 @@ HÜizÚlLše
 this
 ));
 
-372 
+386 
+	gmašLayout_
+->
+addWidg‘
+(
+av©¬V›wLayout
+);
+
+387 
+	gmašLayout_
+->
+addWidg‘
+(
+Ãw
+ 
+HÜizÚlLše
+(
+this
+));
+
+388 
 	gmašLayout_
 ->
 addLayout
@@ -60451,7 +60657,7 @@ addLayout
 typšgLayout
 );
 
-373 
+389 
 	gmašLayout_
 ->
 addLayout
@@ -60459,7 +60665,7 @@ addLayout
 »ûtsLayout
 );
 
-374 
+390 
 	gmašLayout_
 ->
 addLayout
@@ -60467,7 +60673,7 @@ addLayout
 desktİLayout
 );
 
-375 
+391 
 	gmašLayout_
 ->
 addWidg‘
@@ -60479,37 +60685,37 @@ HÜizÚlLše
 this
 ));
 
-377 #ià
+393 #ià
 defšed
 (
 Q_OS_MAC
 )
 
-378 
+394 
 	gsÿËFaùÜLab–
 ->
 hide
 ();
 
-379 
+395 
 	gsÿËFaùÜCombo_
 ->
 hide
 ();
 
-380 
+396 
 	gemojiFamyLab–
 ->
 hide
 ();
 
-381 
+397 
 	gemojiFÚtS–eùiÚCombo_
 ->
 hide
 ();
 
-384 
+400 
 	gmašLayout_
 ->
 addLayout
@@ -60517,7 +60723,7 @@ addLayout
 sÿËFaùÜO±iÚLayout
 );
 
-385 
+401 
 	gmašLayout_
 ->
 addLayout
@@ -60525,7 +60731,7 @@ addLayout
 fÚtSizeO±iÚLayout
 );
 
-386 
+402 
 	gmašLayout_
 ->
 addLayout
@@ -60533,7 +60739,7 @@ addLayout
 fÚtFamyO±iÚLayout
 );
 
-387 
+403 
 	gmašLayout_
 ->
 addLayout
@@ -60541,7 +60747,7 @@ addLayout
 emojiFÚtFamyO±iÚLayout
 );
 
-388 
+404 
 	gmašLayout_
 ->
 addWidg‘
@@ -60553,7 +60759,7 @@ HÜizÚlLše
 this
 ));
 
-389 
+405 
 	gmašLayout_
 ->
 addLayout
@@ -60561,7 +60767,7 @@ addLayout
 themeO±iÚLayout_
 );
 
-390 
+406 
 	gmašLayout_
 ->
 addWidg‘
@@ -60573,13 +60779,13 @@ HÜizÚlLše
 this
 ));
 
-392 
+408 
 	gmašLayout_
 ->
 addS·cšg
 (50);
 
-394 
+410 
 	gmašLayout_
 ->
 addWidg‘
@@ -60593,7 +60799,7 @@ AlignLeá
 AlignBÙtom
 );
 
-395 
+411 
 	gmašLayout_
 ->
 addWidg‘
@@ -60605,7 +60811,7 @@ HÜizÚlLše
 this
 ));
 
-396 
+412 
 	gmašLayout_
 ->
 addLayout
@@ -60613,7 +60819,7 @@ addLayout
 ’üy±iÚLayout_
 );
 
-398 autØ
+414 autØ
 	gsüŞlA»a_
  = 
 Ãw
@@ -60623,7 +60829,7 @@ QSüŞlA»a
 this
 );
 
-399 
+415 
 	gsüŞlA»a_
 ->
 £tF¿meSh­e
@@ -60633,7 +60839,7 @@ QF¿me
 NoF¿me
 );
 
-400 
+416 
 	gsüŞlA»a_
 ->
 £tHÜizÚlSüŞlB¬PŞicy
@@ -60643,7 +60849,7 @@ Qt
 SüŞlB¬AlwaysOff
 );
 
-401 
+417 
 	gsüŞlA»a_
 ->
 £tSizeAdju¡PŞicy
@@ -60653,7 +60859,7 @@ QAb¡¿ùSüŞlA»a
 Adju¡ToCÚ‹Ás
 );
 
-402 
+418 
 	gsüŞlA»a_
 ->
 £tWidg‘ResizabË
@@ -60661,7 +60867,7 @@ Adju¡ToCÚ‹Ás
 Œue
 );
 
-403 
+419 
 	gsüŞlA»a_
 ->
 £tAlignm’t
@@ -60673,7 +60879,7 @@ AlignTİ
 AlignVC’‹r
 );
 
-405 autØ
+421 autØ
 	gsüŞlA»aCÚ‹Ás_
  = 
 Ãw
@@ -60683,13 +60889,13 @@ QWidg‘
 this
 );
 
-406 
+422 
 	gsüŞlA»aCÚ‹Ás_
 ->
 £tObjeùName
 ("UserSettingScrollWidget");
 
-407 
+423 
 	gsüŞlA»aCÚ‹Ás_
 ->
 £tLayout
@@ -60697,7 +60903,7 @@ this
 mašLayout_
 );
 
-409 
+425 
 	gsüŞlA»a_
 ->
 £tWidg‘
@@ -60705,7 +60911,7 @@ mašLayout_
 süŞlA»aCÚ‹Ás_
 );
 
-410 
+426 
 	gtİLayout_
 ->
 addLayout
@@ -60713,7 +60919,7 @@ addLayout
 tİB¬Layout_
 );
 
-411 
+427 
 	gtİLayout_
 ->
 addWidg‘
@@ -60725,13 +60931,13 @@ Qt
 AlignTİ
 );
 
-412 
+428 
 	gtİLayout_
 ->
 addSŒ‘ch
 (1);
 
-413 
+429 
 	gtİLayout_
 ->
 addWidg‘
@@ -60739,13 +60945,13 @@ addWidg‘
 v”siÚInfo
 );
 
-415 
+431 
 cÚÃù
 (
 themeCombo_
 ,
 
-416 
+432 
 ¡©ic_ÿ¡
 <(
 QComboBox
@@ -60755,7 +60961,7 @@ QSŒšg
 aùiv©ed
 ),
 
-417 [
+433 [
 this
 ](cÚ¡ 
 QSŒšg
@@ -60763,7 +60969,7 @@ QSŒšg
 ‹xt
 ) {
 
-418 
+434 
 £‰šgs_
 ->
 £tTheme
@@ -60773,19 +60979,19 @@ QSŒšg
 toLow”
 ());
 
-419 
+435 
 em™
  
 themeChªged
 ();
 
-421 
+437 
 cÚÃù
 (
 sÿËFaùÜCombo_
 ,
 
-422 
+438 
 ¡©ic_ÿ¡
 <(
 QComboBox
@@ -60795,7 +61001,7 @@ QSŒšg
 aùiv©ed
 ),
 
-423 [](cÚ¡ 
+439 [](cÚ¡ 
 QSŒšg
  &
 çùÜ
@@ -60807,13 +61013,13 @@ uts
 toFlßt
 ()); });
 
-424 
+440 
 cÚÃù
 (
 fÚtSizeCombo_
 ,
 
-425 
+441 
 ¡©ic_ÿ¡
 <(
 QComboBox
@@ -60823,7 +61029,7 @@ QSŒšg
 aùiv©ed
 ),
 
-426 [
+442 [
 this
 ](cÚ¡ 
 QSŒšg
@@ -60839,13 +61045,13 @@ size
 toDoubË
 ()); });
 
-427 
+443 
 cÚÃù
 (
 fÚtS–eùiÚCombo_
 ,
 
-428 
+444 
 ¡©ic_ÿ¡
 <(
 QComboBox
@@ -60855,7 +61061,7 @@ QSŒšg
 aùiv©ed
 ),
 
-429 [
+445 [
 this
 ](cÚ¡ 
 QSŒšg
@@ -60869,13 +61075,13 @@ QSŒšg
 Œimmed
 ()); });
 
-430 
+446 
 cÚÃù
 (
 emojiFÚtS–eùiÚCombo_
 ,
 
-431 
+447 
 ¡©ic_ÿ¡
 <(
 QComboBox
@@ -60885,7 +61091,7 @@ QSŒšg
 aùiv©ed
 ),
 
-432 [
+448 [
 this
 ](cÚ¡ 
 QSŒšg
@@ -60899,7 +61105,7 @@ QSŒšg
 Œimmed
 ()); });
 
-433 
+449 
 cÚÃù
 (
 ŒayToggË_
@@ -60915,7 +61121,7 @@ boŞ
 isDi§bËd
 ) {
 
-434 
+450 
 £‰šgs_
 ->
 £tT¿y
@@ -60923,11 +61129,11 @@ isDi§bËd
 isDi§bËd
 );
 
-435 ià(
+451 ià(
 isDi§bËd
 ) {
 
-436 
+452 
 ¡¬tInT¿yToggË_
 ->
 £tDi§bËd
@@ -60935,7 +61141,7 @@ isDi§bËd
 Œue
 );
 
-438 
+454 
 ¡¬tInT¿yToggË_
 ->
 £tEÇbËd
@@ -60943,7 +61149,7 @@ isDi§bËd
 Œue
 );
 
-440 
+456 
 em™
  
 ŒayO±iÚChªged
@@ -60951,106 +61157,10 @@ em™
 isDi§bËd
 );
 
-443 
-cÚÃù
-(
-¡¬tInT¿yToggË_
-, &
-ToggË
-::
-toggËd
-, 
-this
-, [this](
-boŞ
- 
-isDi§bËd
-) {
-
-444 
-£‰šgs_
-->
-£tS¹InT¿y
-(!
-isDi§bËd
-);
-
-447 
-cÚÃù
-(
-groupV›wToggË_
-, &
-ToggË
-::
-toggËd
-, 
-this
-, [this](
-boŞ
- 
-isDi§bËd
-) {
-
-448 
-£‰šgs_
-->
-£tGroupV›w
-(!
-isDi§bËd
-);
-
-451 
-cÚÃù
-(
-typšgNÙifiÿtiÚs_
-, &
-ToggË
-::
-toggËd
-, 
-this
-, [this](
-boŞ
- 
-isDi§bËd
-) {
-
-452 
-£‰šgs_
-->
-£tTypšgNÙifiÿtiÚs
-(!
-isDi§bËd
-);
-
-455 
-cÚÃù
-(
-»adReûts_
-, &
-ToggË
-::
-toggËd
-, 
-this
-, [this](
-boŞ
- 
-isDi§bËd
-) {
-
-456 
-£‰šgs_
-->
-£tR—dReûts
-(!
-isDi§bËd
-);
-
 459 
 cÚÃù
 (
-desktİNÙifiÿtiÚs_
+¡¬tInT¿yToggË_
 , &
 ToggË
 ::
@@ -61066,12 +61176,132 @@ isDi§bËd
 460 
 £‰šgs_
 ->
-£tDesktİNÙifiÿtiÚs
+£tS¹InT¿y
 (!
 isDi§bËd
 );
 
 463 
+cÚÃù
+(
+groupV›wToggË_
+, &
+ToggË
+::
+toggËd
+, 
+this
+, [this](
+boŞ
+ 
+isDi§bËd
+) {
+
+464 
+£‰šgs_
+->
+£tGroupV›w
+(!
+isDi§bËd
+);
+
+467 
+cÚÃù
+(
+groupV›wToggË_
+, &
+ToggË
+::
+toggËd
+, 
+this
+, [this](
+boŞ
+ 
+isDi§bËd
+) {
+
+468 
+£‰šgs_
+->
+£tRounded
+(!
+isDi§bËd
+);
+
+471 
+cÚÃù
+(
+typšgNÙifiÿtiÚs_
+, &
+ToggË
+::
+toggËd
+, 
+this
+, [this](
+boŞ
+ 
+isDi§bËd
+) {
+
+472 
+£‰šgs_
+->
+£tTypšgNÙifiÿtiÚs
+(!
+isDi§bËd
+);
+
+475 
+cÚÃù
+(
+»adReûts_
+, &
+ToggË
+::
+toggËd
+, 
+this
+, [this](
+boŞ
+ 
+isDi§bËd
+) {
+
+476 
+£‰šgs_
+->
+£tR—dReûts
+(!
+isDi§bËd
+);
+
+479 
+cÚÃù
+(
+desktİNÙifiÿtiÚs_
+, &
+ToggË
+::
+toggËd
+, 
+this
+, [this](
+boŞ
+ 
+isDi§bËd
+) {
+
+480 
+£‰šgs_
+->
+£tDesktİNÙifiÿtiÚs
+(!
+isDi§bËd
+);
+
+483 
 cÚÃù
 (
 backBŠ_
@@ -61083,19 +61313,19 @@ QPushBu‰Ú
 this
 , [this]() {
 
-464 
+484 
 £‰šgs_
 ->
 §ve
 ();
 
-465 
+485 
 em™
  
 moveBack
 ();
 
-470 
+490 
 	gU£rS‘tšgsPage
 ::
 	$showEv’t
@@ -61103,7 +61333,7 @@ moveBack
 QShowEv’t
  *)
 
-473 
+493 
 uts
 ::
 	`»¡ÜeCombobox
@@ -61119,7 +61349,7 @@ QSŒšg
 	`fÚtSize
 ()) + " ");
 
-474 
+494 
 uts
 ::
 	`»¡ÜeCombobox
@@ -61133,7 +61363,7 @@ QSŒšg
 	`sÿËFaùÜ
 ()));
 
-475 
+495 
 uts
 ::
 	`»¡ÜeCombobox
@@ -61145,7 +61375,7 @@ themeCombo_
 	`theme
 ());
 
-478 
+498 
 ŒayToggË_
 ->
 	`£tS‹
@@ -61155,7 +61385,7 @@ themeCombo_
 	`isT¿yEÇbËd
 ());
 
-479 
+499 
 ¡¬tInT¿yToggË_
 ->
 	`£tS‹
@@ -61165,7 +61395,7 @@ themeCombo_
 	`isS¹InT¿yEÇbËd
 ());
 
-480 
+500 
 groupV›wToggË_
 ->
 	`£tS‹
@@ -61175,7 +61405,7 @@ groupV›wToggË_
 	`isGroupV›wEÇbËd
 ());
 
-481 
+501 
 typšgNÙifiÿtiÚs_
 ->
 	`£tS‹
@@ -61185,7 +61415,7 @@ typšgNÙifiÿtiÚs_
 	`isTypšgNÙifiÿtiÚsEÇbËd
 ());
 
-482 
+502 
 »adReûts_
 ->
 	`£tS‹
@@ -61195,7 +61425,7 @@ typšgNÙifiÿtiÚs_
 	`isR—dReûtsEÇbËd
 ());
 
-483 
+503 
 desktİNÙifiÿtiÚs_
 ->
 	`£tS‹
@@ -61205,7 +61435,7 @@ desktİNÙifiÿtiÚs_
 	`hasDesktİNÙifiÿtiÚs
 ());
 
-484 
+504 
 deviûIdV®ue_
 ->
 	`£tText
@@ -61221,13 +61451,13 @@ h‰p
 	`deviû_id
 ()));
 
-486 
+506 
 deviûFšg”´štV®ue_
 ->
 	`£tText
 (
 
-487 
+507 
 uts
 ::
 	`humªR—dabËFšg”´št
@@ -61241,11 +61471,11 @@ uts
 ed25519
 ));
 
-488 
+508 
 	}
 }
 
-491 
+511 
 	gU£rS‘tšgsPage
 ::
 	$»sizeEv’t
@@ -61255,19 +61485,19 @@ QResizeEv’t
 ev’t
 )
 
-493 
+513 
 sideM¬gš_
  = 
 	`width
 () * 0.2;
 
-494 
+514 
 mašLayout_
 ->
 	`£tCÚ‹ÁsM¬gšs
 (
 
-495 
+515 
 sideM¬gš_
 , 
 LayoutTİM¬gš
@@ -61275,7 +61505,7 @@ LayoutTİM¬gš
 LayoutBÙtomM¬gš
 );
 
-497 
+517 
 QWidg‘
 ::
 	`»sizeEv’t
@@ -61283,11 +61513,11 @@ QWidg‘
 ev’t
 );
 
-498 
+518 
 	}
 }
 
-501 
+521 
 	gU£rS‘tšgsPage
 ::
 	$·štEv’t
@@ -61295,13 +61525,13 @@ ev’t
 QPaštEv’t
  *)
 
-503 
+523 
 QStyËO±iÚ
  
 İt
 ;
 
-504 
+524 
 İt
 .
 	`š™
@@ -61309,7 +61539,7 @@ QStyËO±iÚ
 this
 );
 
-505 
+525 
 QPaš‹r
  
 	`p
@@ -61317,7 +61547,7 @@ QPaš‹r
 this
 );
 
-506 
+526 
 	`¡yË
 ()->
 	`d¿wPrim™ive
@@ -61333,17 +61563,17 @@ p
 this
 );
 
-507 
+527 
 	}
 }
 
-510 
+530 
 	gU£rS‘tšgsPage
 ::
 	$impÜtSessiÚKeys
 ()
 
-512 autØ
+532 autØ
 feName
  = 
 QFeDŸlog
@@ -61355,7 +61585,7 @@ this
 	`Œ
 ("Open Sessions File"), "", "");
 
-514 
+534 
 QFe
  
 	`fe
@@ -61363,7 +61593,7 @@ QFe
 feName
 );
 
-515 ià(!
+535 ià(!
 fe
 .
 	`İ’
@@ -61373,7 +61603,7 @@ QIODeviû
 R—dOÆy
 )) {
 
-516 
+536 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61387,7 +61617,7 @@ fe
 	`”rÜSŒšg
 ());
 
-520 autØ
+540 autØ
 bš
  = 
 fe
@@ -61397,7 +61627,7 @@ fe
 	`size
 ());
 
-521 autØ
+541 autØ
 ·ylßd
  = 
 ¡d
@@ -61411,13 +61641,13 @@ bš
 	`size
 ());
 
-523 
+543 
 boŞ
  
 ok
 ;
 
-524 autØ
+544 autØ
 ·sswÜd
  = 
 QIÅutDŸlog
@@ -61427,35 +61657,35 @@ QIÅutDŸlog
 this
 ,
 
-525 
+545 
 	`Œ
 ("File Password"),
 
-526 
+546 
 	`Œ
 ("Enterhe…assphraseo decrypthe file:"),
 
-527 
+547 
 QLšeEd™
 ::
 PasswÜd
 ,
 
-529 &
+549 &
 ok
 );
 
-530 ià(!
+550 ià(!
 ok
 )
 
-533 ià(
+553 ià(
 ·sswÜd
 .
 	`isEm±y
 ()) {
 
-534 
+554 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61465,15 +61695,15 @@ this
 	`Œ
 ("Error"),r("The…assword cannot beƒmpty"));
 
-538 
+558 
 Œy
  {
 
-539 autØ
+559 autØ
 £ssiÚs
  =
 
-540 
+560 
 mtx
 ::
 üy±o
@@ -61487,7 +61717,7 @@ mtx
 	`toStdSŒšg
 ());
 
-541 
+561 
 ÿche
 ::
 	`ş›Á
@@ -61501,7 +61731,7 @@ mtx
 £ssiÚs
 ));
 
-542 } 
+562 } 
 	`ÿtch
  (cÚ¡ 
 mtx
@@ -61513,7 +61743,7 @@ sodium_exû±iÚ
 e
 ) {
 
-543 
+563 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61527,7 +61757,7 @@ e
 	`wh©
 ());
 
-544 } 
+564 } 
 	`ÿtch
  (cÚ¡ 
 lmdb
@@ -61537,7 +61767,7 @@ lmdb
 e
 ) {
 
-545 
+565 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61551,7 +61781,7 @@ e
 	`wh©
 ());
 
-546 } 
+566 } 
 	`ÿtch
  (cÚ¡ 
 Æohmªn
@@ -61563,7 +61793,7 @@ exû±iÚ
 e
 ) {
 
-547 
+567 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61577,23 +61807,23 @@ e
 	`wh©
 ());
 
-549 
+569 
 	}
 }
 
-552 
+572 
 	gU£rS‘tšgsPage
 ::
 	$expÜtSessiÚKeys
 ()
 
-555 
+575 
 boŞ
  
 ok
 ;
 
-556 autØ
+576 autØ
 ·sswÜd
  = 
 QIÅutDŸlog
@@ -61603,35 +61833,35 @@ QIÅutDŸlog
 this
 ,
 
-557 
+577 
 	`Œ
 ("File Password"),
 
-558 
+578 
 	`Œ
 ("Enter…assphraseoƒncrypt your session keys:"),
 
-559 
+579 
 QLšeEd™
 ::
 PasswÜd
 ,
 
-561 &
+581 &
 ok
 );
 
-562 ià(!
+582 ià(!
 ok
 )
 
-565 ià(
+585 ià(
 ·sswÜd
 .
 	`isEm±y
 ()) {
 
-566 
+586 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61641,11 +61871,11 @@ this
 	`Œ
 ("Error"),r("The…assword cannot beƒmpty"));
 
-571 autØ
+591 autØ
 feName
  =
 
-572 
+592 
 QFeDŸlog
 ::
 	`g‘SaveFeName
@@ -61655,7 +61885,7 @@ this
 	`Œ
 ("Fileo saveheƒxported session keys"), "", "");
 
-574 
+594 
 QFe
  
 	`fe
@@ -61663,7 +61893,7 @@ QFe
 feName
 );
 
-575 ià(!
+595 ià(!
 fe
 .
 	`İ’
@@ -61675,7 +61905,7 @@ Wr™eOÆy
 Text
 )) {
 
-576 
+596 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61689,11 +61919,11 @@ fe
 	`”rÜSŒšg
 ());
 
-581 
+601 
 Œy
  {
 
-582 autØ
+602 autØ
 ’üy±ed_blob
  = 
 mtx
@@ -61703,7 +61933,7 @@ mtx
 	`’üy±_expÜ‹d_£ssiÚs
 (
 
-583 
+603 
 ÿche
 ::
 	`ş›Á
@@ -61715,7 +61945,7 @@ mtx
 	`toStdSŒšg
 ());
 
-585 
+605 
 QSŒšg
  
 b64
@@ -61731,25 +61961,25 @@ mtx
 ’üy±ed_blob
 ));
 
-587 
+607 
 QSŒšg
  
 	`´efix
 ("-----BEGIN MEGOLM SESSION DATA-----");
 
-588 
+608 
 QSŒšg
  
 	`suffix
 ("-----END MEGOLM SESSION DATA-----");
 
-589 
+609 
 QSŒšg
  
 	`Ãwlše
 ("\n");
 
-590 
+610 
 QTextSŒ—m
  
 	`out
@@ -61757,7 +61987,7 @@ QTextSŒ—m
 fe
 );
 
-591 
+611 
 out
  << 
 ´efix
@@ -61769,13 +61999,13 @@ b64
 suffix
 ;
 
-592 
+612 
 fe
 .
 	`şo£
 ();
 
-593 } 
+613 } 
 	`ÿtch
  (cÚ¡ 
 mtx
@@ -61787,7 +62017,7 @@ sodium_exû±iÚ
 e
 ) {
 
-594 
+614 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61801,7 +62031,7 @@ e
 	`wh©
 ());
 
-595 } 
+615 } 
 	`ÿtch
  (cÚ¡ 
 lmdb
@@ -61811,7 +62041,7 @@ lmdb
 e
 ) {
 
-596 
+616 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61825,7 +62055,7 @@ e
 	`wh©
 ());
 
-597 } 
+617 } 
 	`ÿtch
  (cÚ¡ 
 Æohmªn
@@ -61837,7 +62067,7 @@ exû±iÚ
 e
 ) {
 
-598 
+618 
 QMes§geBox
 ::
 	`w¬nšg
@@ -61851,7 +62081,7 @@ e
 	`wh©
 ());
 
-600 
+620 
 	}
 }
 
@@ -62123,7 +62353,29 @@ hasDesktİNÙifiÿtiÚs_
 	}
 }
 
-89 
+89 
+	$£tAv©¬Cœşes
+(
+boŞ
+ 
+¡©e
+)
+
+91 
+av©¬Cœşes_
+ = 
+¡©e
+;
+
+92 
+	`§ve
+();
+
+93 
+	}
+}
+
+95 
 QSŒšg
  
 	$theme
@@ -62137,7 +62389,7 @@ deçuÉTheme_
 	}
 }
 
-90 
+96 
 boŞ
  
 	$isT¿yEÇbËd
@@ -62147,7 +62399,7 @@ isT¿yEÇbËd_
 	}
 }
 
-91 
+97 
 boŞ
  
 	$isS¹InT¿yEÇbËd
@@ -62157,7 +62409,7 @@ isS¹InT¿yEÇbËd_
 	}
 }
 
-92 
+98 
 boŞ
  
 	$isGroupV›wEÇbËd
@@ -62167,7 +62419,7 @@ isGroupV›wEÇbËd_
 	}
 }
 
-93 
+99 
 boŞ
  
 	$isTypšgNÙifiÿtiÚsEÇbËd
@@ -62177,7 +62429,7 @@ isTypšgNÙifiÿtiÚsEÇbËd_
 	}
 }
 
-94 
+100 
 boŞ
  
 	$isR—dReûtsEÇbËd
@@ -62187,7 +62439,7 @@ isR—dReûtsEÇbËd_
 	}
 }
 
-95 
+101 
 boŞ
  
 	$hasDesktİNÙifiÿtiÚs
@@ -62197,7 +62449,17 @@ hasDesktİNÙifiÿtiÚs_
 	}
 }
 
-96 
+102 
+boŞ
+ 
+	$hasRoundedAv©¬s
+(ècÚ¡ {  
+av©¬Cœşes_
+; 
+	}
+}
+
+103 
 	$fÚtSize
 (ècÚ¡ {  
 ba£FÚtSize_
@@ -62205,7 +62467,7 @@ ba£FÚtSize_
 	}
 }
 
-97 
+104 
 QSŒšg
  
 	$fÚt
@@ -62215,7 +62477,7 @@ fÚt_
 	}
 }
 
-98 
+105 
 QSŒšg
  
 	$emojiFÚt
@@ -62225,11 +62487,11 @@ emojiFÚt_
 	}
 }
 
-100 
+107 
 	gsigÇls
 :
 
-101 
+108 
 groupV›wS‹Chªged
 (
 boŞ
@@ -62237,17 +62499,17 @@ boŞ
 ¡©e
 );
 
-103 
+110 
 	g´iv©e
 :
 
-105 
+112 
 QSŒšg
  
 deçuÉTheme_
  =
 
-106 
+113 
 QProûssEnvœÚm’t
 ::
 sy¡emEnvœÚm’t
@@ -62257,96 +62519,76 @@ v®ue
 isEm±y
 ()
 
-109 
+116 
 QSŒšg
  
 	gtheme_
 ;
 
-110 
+117 
 boŞ
  
 	gisT¿yEÇbËd_
 ;
 
-111 
+118 
 boŞ
  
 	gisS¹InT¿yEÇbËd_
 ;
 
-112 
+119 
 boŞ
  
 	gisGroupV›wEÇbËd_
 ;
 
-113 
+120 
 boŞ
  
 	gisTypšgNÙifiÿtiÚsEÇbËd_
 ;
 
-114 
+121 
 boŞ
  
 	gisR—dReûtsEÇbËd_
 ;
 
-115 
+122 
 boŞ
  
 	ghasDesktİNÙifiÿtiÚs_
 ;
 
-116 
+123 
+boŞ
+ 
+	gav©¬Cœşes_
+;
+
+124 
 	gba£FÚtSize_
 ;
 
-117 
+125 
 QSŒšg
  
 	gfÚt_
 ;
 
-118 
+126 
 QSŒšg
  
 	gemojiFÚt_
 ;
 
-121 şas 
+129 şas 
 	cHÜizÚlLše
  : 
 public
  
 QF¿me
-
-
-123 
-Q_OBJECT
-
-
-125 
-public
-:
-
-126 
-HÜizÚlLše
-(
-QWidg‘
- *
-·»Á
- = 
-nuÎ±r
-);
-
-129 şas 
-	cU£rS‘tšgsPage
- : 
-public
- 
-QWidg‘
 
 
 131 
@@ -62358,6 +62600,32 @@ public
 :
 
 134 
+HÜizÚlLše
+(
+QWidg‘
+ *
+·»Á
+ = 
+nuÎ±r
+);
+
+137 şas 
+	cU£rS‘tšgsPage
+ : 
+public
+ 
+QWidg‘
+
+
+139 
+Q_OBJECT
+
+
+141 
+public
+:
+
+142 
 U£rS‘tšgsPage
 (
 QSh¬edPoš‹r
@@ -62371,11 +62639,11 @@ QWidg‘
 ·»Á
  = 0);
 
-136 
+144 
 	m´Ùeùed
 :
 
-137 
+145 
 	$showEv’t
 (
 QShowEv’t
@@ -62385,7 +62653,7 @@ ev’t
 ov”ride
 ;
 
-138 
+146 
 	$»sizeEv’t
 (
 QResizeEv’t
@@ -62395,7 +62663,7 @@ ev’t
 ov”ride
 ;
 
-139 
+147 
 	$·štEv’t
 (
 QPaštEv’t
@@ -62405,15 +62673,15 @@ ev’t
 ov”ride
 ;
 
-141 
+149 
 sigÇls
 :
 
-142 
+150 
 	`moveBack
 ();
 
-143 
+151 
 	`ŒayO±iÚChªged
 (
 boŞ
@@ -62421,47 +62689,47 @@ boŞ
 v®ue
 );
 
-144 
+152 
 	`themeChªged
 ();
 
-146 
+154 
 ´iv©e
  
 ¦Ùs
 :
 
-147 
+155 
 	`impÜtSessiÚKeys
 ();
 
-148 
+156 
 	`expÜtSessiÚKeys
 ();
 
-150 
+158 
 ´iv©e
 :
 
-152 
+160 
 QVBoxLayout
  *
 tİLayout_
 ;
 
-153 
+161 
 QVBoxLayout
  *
 mašLayout_
 ;
 
-154 
+162 
 QHBoxLayout
  *
 tİB¬Layout_
 ;
 
-157 
+165 
 QSh¬edPoš‹r
 <
 U£rS‘tšgs
@@ -62469,85 +62737,91 @@ U£rS‘tšgs
 £‰šgs_
 ;
 
-159 
+167 
 ToggË
  *
 ŒayToggË_
 ;
 
-160 
+168 
 ToggË
  *
 ¡¬tInT¿yToggË_
 ;
 
-161 
+169 
 ToggË
  *
 groupV›wToggË_
 ;
 
-162 
+170 
 ToggË
  *
 typšgNÙifiÿtiÚs_
 ;
 
-163 
+171 
 ToggË
  *
 »adReûts_
 ;
 
-164 
+172 
 ToggË
  *
 desktİNÙifiÿtiÚs_
 ;
 
-165 
+173 
+ToggË
+ *
+av©¬Cœşes_
+;
+
+174 
 QLab–
  *
 deviûFšg”´štV®ue_
 ;
 
-166 
+175 
 QLab–
  *
 deviûIdV®ue_
 ;
 
-168 
+177 
 QComboBox
  *
 themeCombo_
 ;
 
-169 
+178 
 QComboBox
  *
 sÿËFaùÜCombo_
 ;
 
-170 
+179 
 QComboBox
  *
 fÚtSizeCombo_
 ;
 
-171 
+180 
 QComboBox
  *
 fÚtS–eùiÚCombo_
 ;
 
-172 
+181 
 QComboBox
  *
 emojiFÚtS–eùiÚCombo_
 ;
 
-174 
+183 
 sideM¬gš_
  = 0;
 
@@ -127298,7 +127572,7 @@ IcÚ
 107 
 	gAv©¬
 ::
-	$rounded
+	$£tRounded
 (
 boŞ
  
@@ -127730,7 +128004,7 @@ cŞÜ
 );
 
 26 
-	`rounded
+	`£tRounded
 (
 boŞ
  
@@ -127835,6 +128109,8 @@ size_
 boŞ
  
 rounded_
+ = 
+Œue
 ;
 
 	@ui/Badge.cpp

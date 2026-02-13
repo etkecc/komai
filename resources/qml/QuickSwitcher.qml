@@ -12,7 +12,11 @@ Popup {
     property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
     property int textMargin: Nheko.paddingSmall
 
-    background: null
+    background: Rectangle {
+        color: palette.alternateBase
+        radius: 8
+    }
+    padding: Nheko.paddingMedium
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     modal: true
 
@@ -33,13 +37,36 @@ Popup {
     }
 
     contentItem: Column {
-        spacing: 1
+        spacing: Nheko.paddingSmall
+
+        Row {
+            spacing: Nheko.paddingSmall
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+                height: headerLabel.font.pixelSize
+                width: height
+                source: "image://colorimage/:/icons/icons/ui/search.svg?" + palette.text
+                sourceSize.height: height * Screen.devicePixelRatio
+                sourceSize.width: width * Screen.devicePixelRatio
+            }
+
+            Label {
+                id: headerLabel
+
+                text: qsTr("Find & switch room")
+                color: palette.text
+                font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
+                font.bold: true
+            }
+        }
 
         MatrixTextField {
             id: roomTextInput
 
             color: palette.text
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
+            placeholderText: qsTr("Room name, address or id...")
             width: parent.width
 
             Keys.onPressed: event => {
@@ -61,6 +88,7 @@ Popup {
                 completerPopup.completer.searchString = text;
             }
         }
+
         Completer {
             id: completerPopup
 

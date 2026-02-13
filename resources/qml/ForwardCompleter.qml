@@ -90,15 +90,18 @@ Popup {
                 completerPopup.completer.searchString = text;
             }
         }
+
         Completer {
             id: completerPopup
 
-            avatarHeight: 24
-            avatarWidth: 24
+            avatarHeight: forwardMessagePopup.textHeight
+            avatarWidth: forwardMessagePopup.textHeight
             bottomToTop: false
             centerRowContent: false
             completerName: "room"
             fullWidth: true
+            rowMargin: Math.round(forwardMessagePopup.textMargin / 2)
+            rowSpacing: forwardMessagePopup.textMargin
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
         }
     }

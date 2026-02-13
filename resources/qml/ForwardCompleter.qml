@@ -11,6 +11,8 @@ Popup {
     id: forwardMessagePopup
 
     property string mid: ""
+    property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
+    property int textMargin: Nheko.paddingSmall
 
     function setMessageEventId(mid_in) {
         mid = mid_in;
@@ -47,6 +49,7 @@ Popup {
             id: titleLabel
 
             color: palette.text
+            font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
             font.bold: true
             text: qsTr("Forward Message")
         }
@@ -61,6 +64,8 @@ Popup {
             id: roomTextInput
 
             color: palette.text
+            font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
+            placeholderText: qsTr("Room name, address or id...")
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
 
             Keys.onPressed: (event) => {

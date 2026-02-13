@@ -16,13 +16,12 @@ Popup {
         mid = mid_in;
     }
 
-    leftPadding: 10
+    padding: Nheko.paddingMedium
     modal: true
 
     // Workaround palettes not inheriting for popups
     palette: timelineRoot.palette
     parent: Overlay.overlay
-    rightPadding: 10
     width: timelineRoot.width * 0.8
     x: Math.round(parent.width / 2 - width / 2)
     y: Math.round(parent.height / 4)
@@ -31,7 +30,8 @@ Popup {
         color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.7)
     }
     background: Rectangle {
-        color: palette.window
+        color: palette.alternateBase
+        radius: 8
     }
 
     onOpened: {
@@ -41,12 +41,11 @@ Popup {
     contentItem: Column {
         id: forwardColumn
 
-        spacing: 5
+        spacing: Nheko.paddingSmall
 
         Label {
             id: titleLabel
 
-            bottomPadding: 10
             color: palette.text
             font.bold: true
             text: qsTr("Forward Message")

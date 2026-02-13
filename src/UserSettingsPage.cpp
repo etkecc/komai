@@ -113,7 +113,7 @@ UserSettings::load(std::optional<QString> profile)
     expireEvents_ = settings.value("user/expired_events_background_maintenance", false).toBool();
 
     mobileMode_             = settings.value("user/mobile_mode", false).toBool();
-    disableSwipe_           = settings.value("user/disable_swipe", false).toBool();
+    disableSwipe_           = settings.value("user/disable_swipe", true).toBool();
     emojiFont_              = settings.value("user/emoji_font_family", "emoji").toString();
     baseFontSize_           = settings.value("user/font_size", QFont().pointSizeF()).toDouble();
     ringtone_               = settings.value("user/ringtone", "Default").toString();

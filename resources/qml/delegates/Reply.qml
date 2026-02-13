@@ -70,7 +70,12 @@ AbstractButton {
             AbstractButton {
                 id: usernameBtn
 
+                topPadding: 0
+                bottomPadding: 0
+                topInset: 0
+                bottomInset: 0
                 visible: r.eventId
+                height: (visible && timelineEvent.main && timelineEvent.main.y > 0) ? implicitHeight : 0
 
                 contentItem: Label {
                     visible: r.eventId

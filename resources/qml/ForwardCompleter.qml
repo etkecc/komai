@@ -53,13 +53,16 @@ Popup {
             font.bold: true
             text: qsTr("Forward Message")
         }
+
         Reply {
             id: replyPreview
 
             eventId: mid
             userColor: TimelineManager.userColor(replyPreview.userId, palette.window)
-            maxWidth: parent.width
+            width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
+            maxWidth: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
         }
+
         MatrixTextField {
             id: roomTextInput
 

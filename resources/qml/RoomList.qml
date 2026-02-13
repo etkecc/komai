@@ -669,6 +669,13 @@ Page {
                 }
             }
             Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                color: Nheko.theme.separator
+                height: 1
+            }
+            Rectangle {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 color: palette.highlight

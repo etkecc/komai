@@ -281,6 +281,14 @@ Control {
                     }
                 }
             }
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                color: Nheko.theme.separator
+                height: 1
+                visible: model.index < listView.count - 1
+            }
         }
 
         onContentYChanged: deadTimer.restart()

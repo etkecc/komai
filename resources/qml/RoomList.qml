@@ -484,6 +484,12 @@ Page {
 
             background: Rectangle {
                 color: backgroundColor
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
+                    visible: hasUnreadMessages && roomItem.state !== "selected"
+                }
             }
             states: [
                 State {
@@ -603,6 +609,7 @@ Page {
                             anchors.left: parent.left
                             color: roomItem.importantText
                             elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth : 0)
+                            font.bold: hasUnreadMessages
                             fullText: TimelineManager.htmlEscape(roomName)
                             textFormat: Text.RichText
                         }
@@ -666,7 +673,8 @@ Page {
                 color: palette.highlight
                 height: parent.height - Nheko.paddingSmall * 2
                 visible: hasUnreadMessages
-                width: 3
+                width: 6
+                radius: 3
             }
         }
 

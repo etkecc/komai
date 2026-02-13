@@ -45,12 +45,25 @@ Item {
 
         onActivated: Rooms.resetCurrentRoom()
     }
-    Label {
+    ColumnLayout {
         anchors.centerIn: parent
-        font.pointSize: 24
-        text: qsTr("No room open")
-        color: palette.text
+        spacing: 16
         visible: !room && !TimelineManager.isInitialSync && (!roomPreview || !roomPreview.roomid)
+
+        Image {
+            Layout.alignment: Qt.AlignHCenter
+            source: "qrc:/logos/komai.svg"
+            sourceSize.height: 128
+            sourceSize.width: 128
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Label {
+            Layout.alignment: Qt.AlignHCenter
+            font.pointSize: 24
+            text: qsTr("No room open")
+            color: palette.text
+        }
     }
     Spinner {
         anchors.centerIn: parent

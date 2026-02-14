@@ -50,7 +50,7 @@ TimelineEvent {
     property int oneHour: 60 * 60 * 1000
     property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour 
 
-    mainInset: (threadId ? (4 + Nheko.paddingSmall) : 0) + 4
+    mainInset: threadId ? (4 + Nheko.paddingSmall) : 0
     replyInset: mainInset + 4 + Nheko.paddingMedium + Nheko.paddingMedium
 
     property int bubbleMargin: metadataOuter.width + Nheko.paddingMedium

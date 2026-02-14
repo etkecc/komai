@@ -13,7 +13,7 @@ import "../"
 
 Item {
     id: registrationPage
-    property int maxExpansion: 400
+    property int maxExpansion: 600
 
     property string error: regis.error
 
@@ -49,6 +49,181 @@ Item {
                 Layout.preferredWidth: 128
             }
 
+            Label {
+                Layout.topMargin: Nheko.paddingMedium
+                Layout.leftMargin: Nheko.paddingLarge
+                Layout.rightMargin: Nheko.paddingLarge
+                Layout.bottomMargin: 0
+                Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth: true
+                text: qsTr("Register a Matrix account")
+                color: palette.text
+                font.pointSize: fontMetrics.font.pointSize * 1.5
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Label {
+                Layout.topMargin: Nheko.paddingSmall
+                Layout.leftMargin: Nheko.paddingLarge
+                Layout.rightMargin: Nheko.paddingLarge
+                Layout.bottomMargin: Nheko.paddingMedium
+                Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth: true
+                text: qsTr("But... where?")
+                color: palette.buttonText
+                font.pointSize: fontMetrics.font.pointSize
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            // Informational guide
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.leftMargin: Nheko.paddingMedium
+                Layout.rightMargin: Nheko.paddingMedium
+                Layout.topMargin: Nheko.paddingSmall
+                Layout.bottomMargin: Nheko.paddingMedium
+                color: palette.alternateBase
+                radius: 8
+                implicitHeight: guideColumn.implicitHeight + Nheko.paddingMedium * 2
+
+                ColumnLayout {
+                    id: guideColumn
+                    anchors.fill: parent
+                    anchors.margins: Nheko.paddingMedium
+                    spacing: Nheko.paddingSmall
+
+                    // Public servers
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Nheko.paddingMedium
+
+                        Image {
+                            Layout.preferredHeight: 20
+                            Layout.preferredWidth: 20
+                            Layout.alignment: Qt.AlignTop
+                            source: "image://colorimage/:/icons/icons/ui/world.svg?" + palette.buttonText
+                            sourceSize.height: 20
+                            sourceSize.width: 20
+                        }
+
+                        Text {
+                            Layout.fillWidth: true
+                            textFormat: Text.RichText
+                            wrapMode: Text.Wrap
+                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            text: "<style>a { color: " + palette.highlight + "; }</style>" +
+                                  qsTr("Public servers like <a href=\"https://matrix.org/\">matrix.org</a> exist (may be overloaded)")
+                            color: palette.text
+                            onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.NoButton
+                                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            }
+                        }
+                    }
+
+                    // Hosting providers
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Nheko.paddingMedium
+
+                        Image {
+                            Layout.preferredHeight: 20
+                            Layout.preferredWidth: 20
+                            Layout.alignment: Qt.AlignTop
+                            source: "image://colorimage/:/icons/icons/ui/building-shop.svg?" + palette.buttonText
+                            sourceSize.height: 20
+                            sourceSize.width: 20
+                        }
+
+                        Text {
+                            Layout.fillWidth: true
+                            textFormat: Text.RichText
+                            wrapMode: Text.Wrap
+                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            text: "<style>a { color: " + palette.highlight + "; }</style>" +
+                                  qsTr("<a href=\"https://matrix.org/ecosystem/hosting/\">Hosting providers</a> exist, including the makers of this app — <a href=\"https://etke.cc/\">etke.cc</a>")
+                            color: palette.text
+                            onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.NoButton
+                                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            }
+                        }
+                    }
+
+                    // Self-hosting
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Nheko.paddingMedium
+
+                        Image {
+                            Layout.preferredHeight: 20
+                            Layout.preferredWidth: 20
+                            Layout.alignment: Qt.AlignTop
+                            source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.buttonText
+                            sourceSize.height: 20
+                            sourceSize.width: 20
+                        }
+
+                        Text {
+                            Layout.fillWidth: true
+                            textFormat: Text.RichText
+                            wrapMode: Text.Wrap
+                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            text: "<style>a { color: " + palette.highlight + "; }</style>" +
+                                  qsTr("<a href=\"https://matrix.org/ecosystem/hosting/\">Self-hosting</a> is possible (hardware or cloud infra required)")
+                            color: palette.text
+                            onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.NoButton
+                                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            }
+                        }
+                    }
+
+                    // Warning about migration
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Nheko.paddingMedium
+
+                        Image {
+                            Layout.preferredHeight: 20
+                            Layout.preferredWidth: 20
+                            Layout.alignment: Qt.AlignTop
+                            source: "image://colorimage/:/icons/icons/ui/pin.svg?" + palette.buttonText
+                            sourceSize.height: 20
+                            sourceSize.width: 20
+                        }
+
+                        Text {
+                            Layout.fillWidth: true
+                            textFormat: Text.RichText
+                            wrapMode: Text.Wrap
+                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            text: "<style>a { color: " + palette.highlight + "; }</style>" +
+                                  qsTr("<a href=\"https://matrix.org/\">Matrix</a> does not support server migration yet — choose carefully")
+                            color: palette.text
+                            onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.NoButton
+                                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            }
+                        }
+                    }
+                }
+            }
+
             RowLayout {
                 spacing: Nheko.paddingLarge
 
@@ -59,7 +234,7 @@ Item {
                     placeholderText: qsTr("your.server")
                     onEditingFinished: regis.setServer(text)
 
-                    ToolTip.text: qsTr("A server that allows registration. Since matrix is decentralized, you need to first find a server you can register on or host your own.")
+                    ToolTip.text: qsTr("The server address where you want to create your account")
                 }
 
 

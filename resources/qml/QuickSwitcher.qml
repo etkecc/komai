@@ -61,6 +61,19 @@ Popup {
             }
         }
 
+        Label {
+            id: hintLabel
+
+            color: palette.buttonText
+            font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.4)
+            text: qsTr("Searches among rooms you participate in, not across all rooms on Matrix.")
+            leftPadding: Nheko.paddingSmall
+            topPadding: Nheko.paddingMedium
+            bottomPadding: Nheko.paddingMedium
+            width: parent.width
+            wrapMode: Text.Wrap
+        }
+
         MatrixTextField {
             id: roomTextInput
 

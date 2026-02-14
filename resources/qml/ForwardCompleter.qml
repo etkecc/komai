@@ -52,13 +52,40 @@ Popup {
 
         spacing: Nheko.paddingSmall
 
-        Label {
-            id: titleLabel
+        Row {
+            spacing: Nheko.paddingSmall
 
-            color: palette.text
-            font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
-            font.bold: true
-            text: qsTr("Forward Message")
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+                height: titleLabel.font.pixelSize
+                width: height
+                mirror: true
+                source: "image://colorimage/:/icons/icons/ui/reply.svg?" + palette.text
+                sourceSize.height: height * Screen.devicePixelRatio
+                sourceSize.width: width * Screen.devicePixelRatio
+            }
+
+            Label {
+                id: titleLabel
+
+                color: palette.text
+                font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
+                font.bold: true
+                text: qsTr("Forward Message")
+            }
+        }
+
+        Label {
+            id: hintLabel
+
+            color: palette.buttonText
+            font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.4)
+            text: qsTr("Forwarding sends this content (without revealing its sender) to another room.")
+            leftPadding: Nheko.paddingSmall
+            topPadding: Nheko.paddingMedium
+            bottomPadding: Nheko.paddingMedium
+            width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
+            wrapMode: Text.Wrap
         }
 
         Reply {

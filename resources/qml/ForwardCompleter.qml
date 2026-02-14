@@ -54,6 +54,7 @@ Popup {
 
         Row {
             spacing: Nheko.paddingSmall
+            width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
 
             Image {
                 anchors.verticalCenter: parent.verticalCenter
@@ -72,6 +73,26 @@ Popup {
                 font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
                 font.bold: true
                 text: qsTr("Forward Message")
+            }
+
+            Item {
+                height: 1
+                width: parent.width - titleLabel.implicitWidth - titleLabel.font.pixelSize - closeButton.width - parent.spacing * 3
+            }
+
+            ImageButton {
+                id: closeButton
+
+                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.text: qsTr("Close")
+                ToolTip.visible: hovered
+                anchors.verticalCenter: parent.verticalCenter
+                height: titleLabel.font.pixelSize
+                width: height
+                hoverEnabled: true
+                image: ":/icons/icons/ui/dismiss.svg"
+
+                onClicked: forwardMessagePopup.close()
             }
         }
 

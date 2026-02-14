@@ -270,7 +270,7 @@ TimelineEvent {
 
                 }
 
-                padding: wrapper.isStateEvent ? 0 : 4
+                padding: wrapper.isStateEvent ? 0 : Nheko.paddingMedium
                 background: Rectangle {
                     color: !wrapper.isStateEvent ? (wrapper.isSender ? Qt.tint(palette.base, Qt.hsla(palette.highlight.hslHue, wrapper.hovered ? 0.8 : 0.6, palette.highlight.hslLightness, 0.3)) : Qt.tint(palette.base, Qt.hsla(messageBubble.userColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.userColor.hslLightness, 0.2))) : "transparent"
                     radius: 4

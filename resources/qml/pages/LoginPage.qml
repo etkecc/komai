@@ -49,6 +49,20 @@ Item {
                 Layout.preferredWidth: 128
             }
 
+            Label {
+                Layout.topMargin: Nheko.paddingMedium
+                Layout.leftMargin: Nheko.paddingLarge
+                Layout.rightMargin: Nheko.paddingLarge
+                Layout.bottomMargin: Nheko.paddingLarge
+                Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth: true
+                text: qsTr("Login to your Matrix account")
+                color: palette.text
+                font.pointSize: fontMetrics.font.pointSize * 1.5
+                wrapMode: Text.Wrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
             RowLayout {
                 spacing: Nheko.paddingLarge
 

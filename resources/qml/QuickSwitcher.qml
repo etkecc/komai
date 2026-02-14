@@ -41,6 +41,7 @@ Popup {
 
         Row {
             spacing: Nheko.paddingSmall
+            width: parent.width
 
             Image {
                 anchors.verticalCenter: parent.verticalCenter
@@ -58,6 +59,26 @@ Popup {
                 color: palette.text
                 font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
                 font.bold: true
+            }
+
+            Item {
+                height: 1
+                width: parent.width - headerLabel.implicitWidth - headerLabel.font.pixelSize - closeButton.width - parent.spacing * 3
+            }
+
+            ImageButton {
+                id: closeButton
+
+                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.text: qsTr("Close")
+                ToolTip.visible: hovered
+                anchors.verticalCenter: parent.verticalCenter
+                height: headerLabel.font.pixelSize
+                width: height
+                hoverEnabled: true
+                image: ":/icons/icons/ui/dismiss.svg"
+
+                onClicked: quickSwitcher.close()
             }
         }
 

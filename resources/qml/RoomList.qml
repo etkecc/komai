@@ -116,7 +116,7 @@ Page {
                     Layout.fillWidth: true
                     Layout.margins: Nheko.paddingMedium
                     ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Search rooms (Ctrl+K)")
+                    ToolTip.text: qsTr("Find & switch room (Ctrl+K)")
                     ToolTip.visible: hovered
                     Layout.preferredHeight: 22
                     Layout.preferredWidth: 22

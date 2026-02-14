@@ -28,9 +28,11 @@ Item {
         ScrollBar.horizontal.visible: false
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: parent.top
+        anchors.topMargin: Nheko.paddingLarge * 3
         height: Math.min(loginPage.height, col.implicitHeight)
-        anchors.margins: Nheko.paddingLarge
+        anchors.leftMargin: Nheko.paddingLarge
+        anchors.rightMargin: Nheko.paddingLarge
 
         contentWidth: availableWidth
 

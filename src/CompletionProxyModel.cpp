@@ -60,6 +60,15 @@ CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,
             trie_.insert<ElementRank::first>(string2.toUcs4(), i);
             insertParts(string2, i);
         }
+
+        auto string3 = sourceModel()
+                         ->data(sourceModel()->index(i, 0), CompletionModel::SearchRole3)
+                         .toString()
+                         .toCaseFolded();
+        if (!string3.isEmpty()) {
+            trie_.insert<ElementRank::first>(string3.toUcs4(), i);
+            insertParts(string3, i);
+        }
     }
 
     const auto end_at     = std::chrono::steady_clock::now();

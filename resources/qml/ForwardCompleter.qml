@@ -112,6 +112,7 @@ Popup {
         Reply {
             id: replyPreview
 
+            enabled: false
             eventId: mid
             userColor: TimelineManager.userColor(replyPreview.userId, palette.window)
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2

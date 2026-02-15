@@ -570,6 +570,8 @@ class UserSettingsModel : public QAbstractListModel
         Profile,
         Version,
         Platform,
+        BasedOn,
+        ForkBy,
         COUNT,
         // hidden for now
         AccessToken,
@@ -596,6 +598,7 @@ public:
         XSignKeysRequestDownload,
         ConfigureHiddenEvents,
         ManageIgnoredUsers,
+        Link,
     };
     Q_ENUM(Types);
 

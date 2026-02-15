@@ -169,6 +169,21 @@ Rectangle {
                             }
                         }
                         DelegateChoice {
+                            roleValue: UserSettingsModel.Link
+                            Text {
+                                color: palette.text
+                                text: model.value
+                                textFormat: Text.RichText
+                                onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                    acceptedButtons: Qt.NoButton
+                                }
+                            }
+                        }
+                        DelegateChoice {
                             roleValue: UserSettingsModel.SectionTitle
                             Item {
                                 width: grid.width

@@ -1158,6 +1158,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Version");
         case Platform:
             return tr("Platform");
+        case BasedOn:
+            return tr("Based on");
+        case ForkBy:
+            return tr("Fork by");
         case GeneralSection:
             return tr("GENERAL");
         case AccessibilitySection:
@@ -1326,6 +1330,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return QString::fromStdString(nheko::version);
         case Platform:
             return QString::fromStdString(nheko::build_os);
+        case BasedOn:
+            return QStringLiteral("<a href=\"https://nheko.im\">nheko</a> ") + QString::fromStdString(nheko::upstream_version);
+        case ForkBy:
+            return QStringLiteral("<a href=\"https://etke.cc\">etke.cc</a>");
         case OnlineBackupKey:
             return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
         case SelfSigningKey:
@@ -1494,6 +1502,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case Homeserver:
         case Version:
         case Platform:
+        case BasedOn:
+        case ForkBy:
         case GeneralSection:
         case AccessibilitySection:
         case TimelineSection:
@@ -1609,6 +1619,9 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case Version:
         case Platform:
             return ReadOnlyText;
+        case BasedOn:
+        case ForkBy:
+            return Link;
         case GeneralSection:
         case AccessibilitySection:
         case TimelineSection:

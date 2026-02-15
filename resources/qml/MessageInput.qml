@@ -456,6 +456,8 @@ Rectangle {
             }
         }
         ImageButton {
+            id: sendButton
+
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
             Layout.margins: 8
             Layout.rightMargin: 8
@@ -463,8 +465,40 @@ Rectangle {
             ToolTip.visible: hovered
             Layout.preferredHeight: 32
             hoverEnabled: true
+            buttonTextColor: messageInput.length > 0 ? palette.highlight : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
             Layout.preferredWidth: 32
+
+            SequentialAnimation {
+                id: shakeAnimation
+
+                NumberAnimation { target: sendButton; property: "rotation"; to: -15; duration: 50 }
+                NumberAnimation { target: sendButton; property: "rotation"; to: 15; duration: 80 }
+                NumberAnimation { target: sendButton; property: "rotation"; to: -10; duration: 70 }
+                NumberAnimation { target: sendButton; property: "rotation"; to: 10; duration: 60 }
+                NumberAnimation { target: sendButton; property: "rotation"; to: 0; duration: 50 }
+            }
+
+            Timer {
+                id: shakeTimer
+
+                interval: 500
+                repeat: false
+                onTriggered: {
+                    if (messageInput.length > 0 && !Settings.reducedMotion)
+                        shakeAnimation.start();
+                }
+            }
+
+            Connections {
+                target: messageInput
+                function onTextChanged() {
+                    if (messageInput.length > 0 && !Settings.reducedMotion)
+                        shakeTimer.restart();
+                    else
+                        shakeTimer.stop();
+                }
+            }
 
             onClicked: {
                 room.input.send();

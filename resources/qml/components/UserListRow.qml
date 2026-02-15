@@ -13,6 +13,7 @@ ItemDelegate {
     property alias userid: avatar.userid
     property alias displayName: avatar.displayName
     property string avatarUrl
+    property string roomId: ""
     implicitHeight: layout.implicitHeight + Nheko.paddingSmall * 2
     background: Rectangle {id: background}
     GridLayout {
@@ -36,7 +37,7 @@ ItemDelegate {
         Label {
             Layout.fillWidth: true
             text: displayName
-            color: TimelineManager.userColor(userid, palette.window)
+            color: Qt.darker(roomId ? TimelineManager.roomUserColor(roomId, userid, palette.window, palette.highlight) : TimelineManager.userColor(userid, palette.window), 1.3)
             font.pointSize: fontMetrics.font.pointSize
         }
 

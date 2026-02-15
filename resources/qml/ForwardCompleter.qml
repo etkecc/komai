@@ -114,7 +114,8 @@ Popup {
 
             enabled: false
             eventId: mid
-            userColor: TimelineManager.userColor(replyPreview.userId, palette.window)
+            userColor: room ? TimelineManager.roomUserColor(room.roomId, replyPreview.userId, palette.window, palette.highlight) : TimelineManager.userColor(replyPreview.userId, palette.window)
+            roomColor: room ? TimelineManager.roomUserColor(room.roomId, replyPreview.userId, palette.base, palette.highlight) : TimelineManager.userColor(replyPreview.userId, palette.base)
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
             maxWidth: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
         }

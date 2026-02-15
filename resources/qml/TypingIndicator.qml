@@ -27,7 +27,7 @@ Item {
             anchors.right: parent.right
             anchors.rightMargin: 10
             color: palette.text
-            text: room ? room.formatTypingUsers(room.typingUsers, palette.base) : ""
+            text: room ? room.formatTypingUsers(room.typingUsers, palette.base, palette.highlight) : ""
             textFormat: Text.RichText
         }
     }

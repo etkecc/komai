@@ -92,7 +92,7 @@ ApplicationWindow {
 
                             ElidedLabel {
                                 fullText: model.displayName
-                                color: TimelineManager.userColor(model ? model.mxid : "", palette.window)
+                                color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, palette.highlight) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
                                 font.pointSize: fontMetrics.font.pointSize
                                 elideWidth: del.width - Nheko.paddingMedium - avatar.width
                                 Layout.fillWidth: true

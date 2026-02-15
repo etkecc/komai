@@ -45,7 +45,7 @@ EventDelegateChooser {
             Layout.fillWidth: true
             //Layout.maximumWidth: implicitWidth
 
-            color: TimelineManager.userColor(userId, palette.active.base)
+            color: Qt.darker(wrapper.room ? TimelineManager.roomUserColor(wrapper.room.roomId, userId, palette.active.base, palette.highlight) : TimelineManager.userColor(userId, palette.active.base), 1.3)
             font.italic: true
             formatted: TimelineManager.escapeEmoji(userName) + " " + formattedBody
             keepFullText: true

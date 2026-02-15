@@ -13,6 +13,7 @@ AbstractButton {
     id: r
 
     property color userColor: "red"
+    property color roomColor: userColor
     property bool keepFullText: false
 
     required property string eventId
@@ -81,7 +82,7 @@ AbstractButton {
                     visible: r.eventId
                     id: userName_
                     text: r.userName
-                    color: r.userColor
+                    color: Qt.darker(r.userColor, 1.3)
                     textFormat: Text.RichText
                     width: timelineEvent.main?.width
                 }
@@ -99,9 +100,8 @@ AbstractButton {
         id: backgroundItem
 
         z: -1
-        property color userColor: TimelineManager.userColor(r.userId, palette.base)
         property color bgColor: palette.base
-        color: Qt.tint(bgColor, Qt.hsla(userColor.hslHue, 0.5, userColor.hslLightness, 0.1))
+        color: Qt.tint(bgColor, Qt.hsla(r.roomColor.hslHue, 0.5, r.roomColor.hslLightness, 0.1))
         radius: Nheko.paddingMedium
         clip: true
 
@@ -111,7 +111,7 @@ AbstractButton {
             anchors.left: parent.left
 
             id: colorline
-            color: backgroundItem.userColor
+            color: r.roomColor
             width: 4
             radius: parent.radius
         }

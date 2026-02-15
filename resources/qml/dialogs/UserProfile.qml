@@ -129,7 +129,7 @@ ApplicationWindow {
                 readOnly: !isUsernameEditingAllowed
                 text: profile.displayName
                 font.pixelSize: 20
-                color: TimelineManager.userColor(profile.userid, palette.window)
+                color: Qt.darker(profile.room ? TimelineManager.roomUserColor(profile.room.roomId, profile.userid, palette.window, palette.highlight) : TimelineManager.userColor(profile.userid, palette.window), 1.3)
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter
                 Layout.maximumWidth: parent.width - (Nheko.paddingSmall * 2) - usernameChangeButton.anchors.leftMargin - (usernameChangeButton.width * 2)

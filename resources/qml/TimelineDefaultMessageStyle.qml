@@ -196,7 +196,7 @@ TimelineEvent {
 
                     leftPadding: Nheko.paddingSmall + 4
 
-                    property color userColor: TimelineManager.userColor(wrapper.reply?.userId ?? '', palette.base)
+                    property color userColor: TimelineManager.roomUserColor(wrapper.room ? wrapper.room.roomId : '', wrapper.reply?.userId ?? '', palette.base, palette.highlight)
 
                     clip: true
 
@@ -216,7 +216,7 @@ TimelineEvent {
                                 contentItem: Label {
                                     id: userName_
                                     text: wrapper.reply?.userName ?? 'missing name'
-                                    color: replyRow.userColor
+                                    color: Qt.darker(replyRow.userColor, 1.3)
                                     textFormat: Text.RichText
                                     width: wrapper.maxWidth
                                     //elideWidth: wrapper.maxWidth

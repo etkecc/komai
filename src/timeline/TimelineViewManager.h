@@ -7,7 +7,9 @@
 #include <QHash>
 #include <QQmlEngine>
 
+#include <algorithm>
 #include <unordered_map>
+#include <vector>
 
 class QQuickItem;
 class QQuickTextDocument;
@@ -84,6 +86,8 @@ public:
     Q_INVOKABLE void saveMedia(QString mxcUrl);
     Q_INVOKABLE void copyImage(const QString &mxcUrl) const;
     Q_INVOKABLE QColor userColor(QString id, QColor background);
+    Q_INVOKABLE QColor roomUserColor(QString roomId, QString userId, QColor background,
+                                     QColor accentColor);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
 
@@ -158,6 +162,15 @@ private:
     PresenceEmitter *presenceEmitter          = nullptr;
 
     QHash<std::pair<QString, quint64>, QColor> userColors;
+
+    // Per-room color cache: (roomId, userId) -> QColor
+    // Invalidated when theme changes or room membership changes.
+    QHash<std::pair<QString, QString>, QColor> roomUserColors_;
+    // Cached sorted member lists per room (excluding self) for palette slot assignment.
+    QHash<QString, std::vector<std::string>> roomMemberCache_;
+
+    // 16 maximally-spaced hues for small-room palette assignment.
+    static const std::vector<double> kPaletteHues;
 
     inline static TimelineViewManager *instance_ = nullptr;
 

@@ -306,7 +306,7 @@ public:
     Q_INVOKABLE QString avatarUrl(const QString &id) const;
     Q_INVOKABLE QString formatDateSeparator(QDate date) const;
     Q_INVOKABLE QString formatLaterSeparator(QDateTime prevDate, QDateTime date) const;
-    Q_INVOKABLE QString formatTypingUsers(const QStringList &users, const QColor &bg);
+    Q_INVOKABLE QString formatTypingUsers(const QStringList &users, const QColor &bg, const QColor &accent);
     Q_INVOKABLE bool showAcceptKnockButton(const QString &id);
     Q_INVOKABLE void acceptKnock(const QString &id);
     Q_INVOKABLE void joinReplacementRoom(const QString &id);

@@ -27,6 +27,7 @@ Column {
     property int oneHour: 60 * 60 * 1000
     property bool dayChanged: previousMessageDay !== day
     property bool showLabel: dayChanged || timestamp - previousMessageTimestamp > oneHour
+    property bool shouldShowSenderUsername: Settings.showSenderUsername === 0 ? true : Settings.showSenderUsername === 2 ? false : (room ? room.roomMemberCount > Settings.showSenderUsernameLargeRoomThreshold : true)
 
     bottomPadding: Settings.bubbles ? (isSender && !showLabel ? 0 : 2) : 3
     spacing: 8
@@ -54,32 +55,11 @@ Column {
     Row {
         id: userInfo
 
-        property int remainingWidth: chat.delegateMaxWidth - spacing - messageUserAvatar.width
+        property int remainingWidth: chat.delegateMaxWidth
 
         height: userName_.height
-        spacing: 8
-        visible: !isStateEvent && (!isSender || !Settings.bubbles)
-
-        Avatar {
-            id: messageUserAvatar
-
-            ToolTip.delay: Nheko.tooltipDelay
-            ToolTip.text: userid
-            ToolTip.visible: messageUserAvatar.hovered
-            displayName: userName
-            height: Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1)
-            url: !room ? "" : room.avatarUrl(userId).replace("mxc://", "image://MxcImage/")
-            userid: userId
-            width: Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1)
-
-            onClicked: room.openUserProfile(userId)
-        }
-        Connections {
-            function onRoomAvatarUrlChanged() {
-                messageUserAvatar.url = room.avatarUrl(userId).replace("mxc://", "image://MxcImage/");
-            }
-            target: room
-        }
+        spacing: 4
+        visible: !isStateEvent && shouldShowSenderUsername && (Settings.bubbles ? !isSender : true)
 
         AbstractButton {
             id: userNameButton

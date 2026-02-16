@@ -7,13 +7,15 @@ import QtQuick.Controls
 import QtQuick.Window
 import im.nheko
 
+import "./components"
+
 TimelineEvent {
     id: wrapper
     ListView.delayRemove: true
     width: chat.delegateMaxWidth
     // We return a larger size for any item but the most bottom one, if it isn't initialized yet, since otherwise Qt will create way too many items.
     // If we did that also for the first item, it would mess with the scroll location a bit, so we don't do it for that item.
-    height: Math.max((section.item?.height ?? 0) + ((gridContainer.implicitHeight < 1 && index != 0) ? 100 : gridContainer.implicitHeight) + reactionRow.implicitHeight + unreadRow.height, 10)
+    height: Math.max((section.item?.height ?? 0) + Math.max(((gridContainer.implicitHeight < 1 && index != 0) ? 100 : gridContainer.implicitHeight), (messageUserAvatar.visible ? messageUserAvatar.height : 0)) + reactionRow.implicitHeight + unreadRow.height, 10)
     anchors.horizontalCenter: ListView.view.contentItem.horizontalCenter
     //room: chatRoot.roommodel
 
@@ -43,7 +45,7 @@ TimelineEvent {
     required property QtObject replyContextMenu
     required property Item messageActions
 
-    property int avatarMargin: (wrapper.isStateEvent || Settings.smallAvatars ? 0 : (Nheko.avatarSize + 8)) // align bubble with section header
+    property int avatarMargin: (wrapper.isStateEvent ? 0 : (Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1) + 8)) // align with avatar
 
     property alias hovered: messageHover.hovered
 
@@ -136,6 +138,34 @@ TimelineEvent {
                         }
                     }
                 }
+            }
+        },
+        Avatar {
+            id: messageUserAvatar
+
+            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.text: wrapper.userId
+            ToolTip.visible: messageUserAvatar.hovered
+            displayName: wrapper.userName
+            height: Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1)
+            url: !wrapper.room ? "" : wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/")
+            userid: wrapper.userId
+            width: Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1)
+
+            visible: !wrapper.isStateEvent
+            opacity: (wrapper.previousMessageUserId !== wrapper.userId || wrapper.showSection || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent) ? 1.0 : 0.0
+
+            x: 0
+            y: section.visible && section.active ? section.y + section.height : 0
+            z: 5
+
+            onClicked: wrapper.room.openUserProfile(wrapper.userId)
+
+            Connections {
+                function onRoomAvatarUrlChanged() {
+                    messageUserAvatar.url = wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/");
+                }
+                target: wrapper.room
             }
         },
         Row {
@@ -295,6 +325,7 @@ TimelineEvent {
                 id: metadata
 
                 scaling: 1
+                buttonScale: 1.5
 
                 anchors.right: parent.right
                 y: section.visible && section.active ? section.y + section.height : 0

@@ -43,12 +43,13 @@ TimelineEvent {
     required property QtObject replyContextMenu
     required property Item messageActions
 
-    property int avatarMargin: (wrapper.isStateEvent || Settings.smallAvatars ? 0 : (Nheko.avatarSize + 8)) // align bubble with section header
+    property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.showOwnAvatarNextToOwnMessages)
+    property int avatarMargin: (shouldShowMessageAvatar ? (Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
 
     property alias hovered: messageHover.hovered
 
     property int oneHour: 60 * 60 * 1000
-    property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour 
+    property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour
 
     mainInset: threadId ? (4 + Nheko.paddingSmall) : 0
     replyInset: mainInset + 4 + Nheko.paddingMedium + Nheko.paddingMedium
@@ -79,7 +80,7 @@ TimelineEvent {
             }
             visible: status == Loader.Ready
             z: 4
-        }, 
+        },
         Rectangle {
             anchors.fill: gridContainer
             radius: 8
@@ -137,12 +138,40 @@ TimelineEvent {
                 }
             }
         },
+        Avatar {
+            id: messageUserAvatar
+
+            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.text: wrapper.userId
+            ToolTip.visible: messageUserAvatar.hovered
+            displayName: wrapper.userName
+            height: Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1)
+            url: !wrapper.room ? "" : wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/")
+            userid: wrapper.userId
+            width: Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1)
+
+            visible: wrapper.shouldShowMessageAvatar
+            opacity: (wrapper.previousMessageUserId !== wrapper.userId || wrapper.showSection || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent) ? 1.0 : 0.0
+
+            x: wrapper.isSender ? (wrapper.width - width) : 0
+            y: (section.visible && section.active ? section.y + section.height : 0)
+            z: 5
+
+            onClicked: wrapper.room.openUserProfile(wrapper.userId)
+
+            Connections {
+                function onRoomAvatarUrlChanged() {
+                    messageUserAvatar.url = wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/");
+                }
+                target: wrapper.room
+            }
+        },
         Item {
             id: gridContainer
 
             width: wrapper.width - wrapper.avatarMargin
             implicitHeight: messageBubble.implicitHeight
-            x: wrapper.avatarMargin
+            x: wrapper.isSender ? 0 : wrapper.avatarMargin
             y: section.visible && section.active ? section.y + section.height : 0
 
             HoverHandler {
@@ -330,14 +359,14 @@ TimelineEvent {
                 enabled: !Settings.disableSwipe
                 yAxis.enabled: false
                 xAxis.enabled: true
-                xAxis.minimum: wrapper.avatarMargin - 100
-                xAxis.maximum: wrapper.avatarMargin
+                xAxis.minimum: (wrapper.isSender ? 0 : wrapper.avatarMargin) - 100
+                xAxis.maximum: wrapper.isSender ? 0 : wrapper.avatarMargin
                 onActiveChanged: {
                     if (!replyDragHandler.active) {
                         if (replyDragHandler.xAxis.minimum <= replyDragHandler.xAxis.activeValue + 1) {
                             wrapper.room.reply = wrapper.eventId
                         }
-                        gridContainer.x = wrapper.avatarMargin;
+                        gridContainer.x = wrapper.isSender ? 0 : wrapper.avatarMargin;
                     }
                 }
             }
@@ -371,7 +400,7 @@ TimelineEvent {
             layoutDirection: (!wrapper.isStateEvent && wrapper.isSender) ? Qt.RightToLeft : Qt.LeftToRight
             reactions: wrapper.reactions
             width: wrapper.width - wrapper.avatarMargin
-            x: wrapper.avatarMargin
+            x: wrapper.isSender ? 0 : wrapper.avatarMargin
 
             anchors {
                 //left: row.bubbleOnRight ? undefined : row.left

@@ -80,20 +80,20 @@
             <file>icons/ui/toggles.svg</file>
     </qresource>
     <qresource prefix="/logos">
-        <file>nheko.png</file>
-        <file>nheko.svg</file>
+        <file>komai.png</file>
+        <file>komai.svg</file>
         <file>splash.png</file>
         <file>splash@2x.png</file>
         <file>register.png</file>
         <file>register@2x.png</file>
         <file>login.png</file>
         <file>login@2x.png</file>
-        <file>nheko-512.png</file>
-        <file>nheko-256.png</file>
-        <file>nheko-128.png</file>
-        <file>nheko-64.png</file>
-        <file>nheko-32.png</file>
-        <file>nheko-16.png</file>
+        <file>komai-512.png</file>
+        <file>komai-256.png</file>
+        <file>komai-128.png</file>
+        <file>komai-64.png</file>
+        <file>komai-32.png</file>
+        <file>komai-16.png</file>
     </qresource>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>

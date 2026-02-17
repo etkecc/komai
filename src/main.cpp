@@ -303,7 +303,7 @@ main(int argc, char *argv[])
     }
 
 #if !defined(Q_OS_MACOS)
-    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("komai"), QIcon{":/logos/nheko.png"}));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("komai"), QIcon{":/logos/komai.png"}));
 #endif
 #ifdef NHEKO_FLATPAK
     app.setDesktopFileName(QStringLiteral("im.nheko.Nheko"));

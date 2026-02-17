@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWindow *parent)
     setColor(Theme::paletteFromTheme(userSettings_->theme()).window().color());
     setSource(QUrl(QStringLiteral("qrc:///resources/qml/Root.qml")));
 
-    trayIcon_ = new TrayIcon(QStringLiteral(":/logos/nheko.svg"), this);
+    trayIcon_ = new TrayIcon(QStringLiteral(":/logos/komai.svg"), this);
 
     connect(chat_page_, &ChatPage::closing, this, [this] { switchToLoginPage(""); });
     connect(chat_page_, &ChatPage::unreadMessages, this, &MainWindow::setWindowTitle);

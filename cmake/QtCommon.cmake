@@ -14,7 +14,7 @@ if (NOT RESOURCE_FOLDER)
 endif()
 
 if (NOT ICON_NAME)
-    set(ICON_NAME nheko)
+    set(ICON_NAME komai)
 endif()
 
 if (APPLE)

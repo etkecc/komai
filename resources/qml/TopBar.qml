@@ -83,7 +83,6 @@ Pane {
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
-                Layout.rowSpan: 2
                 ToolTip.text: qsTr("Back to room list")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/angle-arrow-left.svg"
@@ -95,7 +94,6 @@ Pane {
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 1
                 Layout.row: 1
-                Layout.rowSpan: 2
                 displayName: room ? room.plainRoomName : roomName
                 enabled: false
                 implicitHeight: Nheko.avatarSize
@@ -139,7 +137,6 @@ Pane {
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
-                Layout.rowSpan: 2
                 ToolTip.text: qsTr("Show only notifications")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/alert.svg"
@@ -158,7 +155,6 @@ Pane {
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
-                Layout.rowSpan: 2
                 ToolTip.text: qsTr("Show or hide pinned messages")
                 ToolTip.visible: hovered
                 image: pinsShown ? ":/icons/icons/ui/pin.svg" : ":/icons/icons/ui/pin-off.svg"
@@ -183,7 +179,6 @@ Pane {
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
-                Layout.rowSpan: 2
                 background: null
 
                 contentItem: EncryptionIndicator {
@@ -223,7 +218,6 @@ Pane {
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
-                Layout.rowSpan: 2
                 ToolTip.text: qsTr("Search this room")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/search.svg"
@@ -247,7 +241,6 @@ Pane {
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
-                Layout.rowSpan: 2
                 ToolTip.text: qsTr("Room options")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/options.svg"

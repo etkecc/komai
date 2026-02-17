@@ -115,7 +115,7 @@ UserSettings::load(std::optional<QString> profile)
     mobileMode_             = settings.value("user/mobile_mode", false).toBool();
     disableSwipe_           = settings.value("user/disable_swipe", true).toBool();
     emojiFont_              = settings.value("user/emoji_font_family", "emoji").toString();
-    baseFontSize_           = settings.value("user/font_size", QFont().pointSizeF()).toDouble();
+    baseFontSize_           = settings.value("user/font_size", 13.0).toDouble();
     ringtone_               = settings.value("user/ringtone", "Default").toString();
     microphone_             = settings.value("user/microphone", QString()).toString();
     camera_                 = settings.value("user/camera", QString()).toString();

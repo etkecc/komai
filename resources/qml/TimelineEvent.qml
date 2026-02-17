@@ -62,7 +62,7 @@ EventDelegateChooser {
             body: ''
             color: palette.active.buttonText
             font.italic: true
-            font.pointSize: Settings.fontSize * 0.8
+            font.pointSize: Settings.fontSize * 0.95
             formatted: ''
             horizontalAlignment: Text.AlignHCenter
             isOnlyEmoji: false

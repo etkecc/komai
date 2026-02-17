@@ -185,7 +185,7 @@ TimelineEvent {
                     TimelineMetadata {
                         id: metadata
 
-                        scaling: 0.75
+                        scaling: 0.9
 
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom

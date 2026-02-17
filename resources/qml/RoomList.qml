@@ -619,7 +619,7 @@ Page {
                             anchors.baseline: titleText.baseline
                             anchors.right: parent.right
                             color: roomItem.unimportantText
-                            font.pixelSize: fontMetrics.font.pixelSize * 0.9
+                            font.pixelSize: fontMetrics.font.pixelSize * 0.95
                             text: time
                             visible: !isInvite && !isSpace
                         }
@@ -649,7 +649,7 @@ Page {
                             anchors.left: parent.left
                             color: roomItem.unimportantText
                             elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0)
-                            font.pixelSize: fontMetrics.font.pixelSize * 0.9
+                            font.pixelSize: fontMetrics.font.pixelSize * 0.95
                             fullText: TimelineManager.htmlEscape(lastMessage)
                             textFormat: Text.RichText
                         }

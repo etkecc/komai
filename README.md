@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="resources/icons/komai.svg" alt="Komai logo" width="128" />
+	<img src="resources/komai.svg" alt="Komai logo" width="128" />
 	<h1 align="center">Komai (細い)</h1>
 </p>
 

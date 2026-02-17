@@ -97,7 +97,7 @@ UserSettings::load(std::optional<QString> profile)
 
     font_ = settings.value("user/font_family", "").toString();
 
-    avatarCircles_        = settings.value("user/avatar_circles", true).toBool();
+    avatarCircles_        = settings.value("user/avatar_circles", false).toBool();
     useIdenticon_         = settings.value("user/use_identicon", true).toBool();
     openImageExternal_    = settings.value("user/open_image_external", false).toBool();
     openVideoExternal_    = settings.value("user/open_video_external", false).toBool();

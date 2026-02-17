@@ -51,7 +51,7 @@ Pane {
                 property string communityId: (Settings.groupView && room && room.parentSpace && room.parentSpace.roomid) || ""
                 property string communityName: (Settings.groupView && room && room.parentSpace && room.parentSpace.roomName) || ""
 
-                Layout.alignment: Qt.AlignRight
+                Layout.alignment: Qt.AlignHCenter
                 Layout.column: 1
                 Layout.row: 0
                 displayName: communityName

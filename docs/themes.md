@@ -1,18 +1,18 @@
 # 🎨 Themes
 
-Komai uses a data-driven theme system based on the [Base16](https://github.com/tinted-theming/home) specification. Themes are defined as YAML files in `assets/themes/` and compiled into the binary at build time.
+Komai uses a data-driven theme system based on the [Base16](https://github.com/tinted-theming/home) specification. Themes are defined as YAML files in `resources/themes/` and compiled into the binary at build time.
 
 
 ## Built-in themes
 
-Komai ships with several built-in themes (see `assets/themes/` for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Gruvbox, Nord, Solarized, and Tokyo Night.
+Komai ships with several built-in themes (see `resources/themes/` for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Gruvbox, Nord, Solarized, and Tokyo Night.
 
 A **System** option is also available, which uses your OS palette instead of a built-in theme.
 
 
 ## Adding a new theme
 
-Drop a `.yaml` file into `assets/themes/` and rebuild. The theme appears in Settings automatically.
+Drop a `.yaml` file into `resources/themes/` and rebuild. The theme appears in Settings automatically.
 
 ```sh
 # Import from the tinted-theming/schemes collection
@@ -72,6 +72,6 @@ Available override keys: `window`, `windowText`, `base`, `alternateBase`, `text`
 
 ## How it works
 
-At build time, CMake runs `bin/generate-themes.py` which reads all `assets/themes/*.yaml` files and generates `src/ui/ThemeDefinitions.h` — a C++ header containing a registry of all theme palettes with inline lookup functions. This header is gitignored as a build artifact.
+At build time, CMake runs `bin/generate-themes.py` which reads all `resources/themes/*.yaml` files and generates `src/ui/ThemeDefinitions.h` — a C++ header containing a registry of all theme palettes with inline lookup functions. This header is gitignored as a build artifact.
 
 The `just generate-themes` recipe can also be used to regenerate the header manually.

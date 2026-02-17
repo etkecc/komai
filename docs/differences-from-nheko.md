@@ -90,5 +90,5 @@ Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvem
 ## 🔧 Build System
 
 - **Upstream fixes backported**: Qt 6.9.2 reply rendering fix, Qt 6.10 private module build fix, room list scrollbar visibility fix
-- **Theme generation at build time**: CMake runs `bin/generate-themes.py` to produce `ThemeDefinitions.h` from `assets/themes/*.yaml`
+- **Theme generation at build time**: CMake runs `bin/generate-themes.py` to produce `ThemeDefinitions.h` from `resources/themes/*.yaml`
 - **`justfile`** replaces the Makefile as the build system front-end

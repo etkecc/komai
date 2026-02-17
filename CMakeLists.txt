@@ -674,14 +674,14 @@ endif()
 
 # Generate ThemeDefinitions.h from Base16 YAML theme files.
 # Re-runs automatically when any theme YAML changes.
-file(GLOB THEME_YAML_FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/themes/*.yaml")
+file(GLOB THEME_YAML_FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes/*.yaml")
 set(THEME_DEFINITIONS_H "${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ThemeDefinitions.h")
 add_custom_command(
     OUTPUT "${THEME_DEFINITIONS_H}"
     COMMAND Python3::Interpreter
         "${CMAKE_CURRENT_SOURCE_DIR}/bin/generate-themes.py"
         "${THEME_DEFINITIONS_H}"
-        "${CMAKE_CURRENT_SOURCE_DIR}/assets/themes"
+        "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes"
     DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/bin/generate-themes.py"
         ${THEME_YAML_FILES}

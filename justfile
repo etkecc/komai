@@ -39,11 +39,11 @@ run *args:
 	fi
 	exec "$binary" {{ args }}
 
-# Regenerates ThemeDefinitions.h from assets/themes/*.yaml
+# Regenerates ThemeDefinitions.h from resources/themes/*.yaml
 generate-themes:
 	python3 {{ justfile_directory() }}/bin/generate-themes.py \
 		{{ justfile_directory() }}/src/ui/ThemeDefinitions.h \
-		{{ justfile_directory() }}/assets/themes
+		{{ justfile_directory() }}/resources/themes
 
 # Imports a Base16 theme from tinted-theming/schemes. Use --list to see available themes.
 import-theme *args:

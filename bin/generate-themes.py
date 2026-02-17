@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Generate ThemeDefinitions.h from assets/themes/*.yaml.
+"""Generate ThemeDefinitions.h from resources/themes/*.yaml.
 
 Usage:
     python3 bin/generate-themes.py <output_header_path> [themes_dir]
 
-Reads all .yaml files from the themes directory (default: assets/themes/),
+Reads all .yaml files from the themes directory (default: resources/themes/),
 applies the Base16-to-QPalette mapping, and writes a C++ header containing
 a registry of all theme definitions.
 
@@ -279,7 +279,7 @@ def main():
         sys.exit(1)
 
     output_path = sys.argv[1]
-    themes_dir = sys.argv[2] if len(sys.argv) > 2 else "assets/themes"
+    themes_dir = sys.argv[2] if len(sys.argv) > 2 else "resources/themes"
 
     # Find all YAML theme files
     theme_files = sorted(Path(themes_dir).glob("*.yaml"))

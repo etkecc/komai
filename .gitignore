@@ -126,7 +126,7 @@ package.dir
 .third-party
 .deps
 
-# Generated at build time from assets/themes/*.yaml
+# Generated at build time from resources/themes/*.yaml
 src/ui/ThemeDefinitions.h
 
 # Archives

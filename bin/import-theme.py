@@ -17,7 +17,7 @@ import urllib.request
 import urllib.error
 
 SCHEMES_URL = "https://raw.githubusercontent.com/tinted-theming/schemes/refs/heads/spec-0.11/base16"
-THEMES_DIR = os.path.join(os.path.dirname(__file__), "..", "assets", "themes")
+THEMES_DIR = os.path.join(os.path.dirname(__file__), "..", "resources", "themes")
 
 
 def fetch(url: str) -> str:

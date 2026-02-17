@@ -293,6 +293,24 @@ Item {
                 }
                 ImageButton {
                     ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: qsTr("Forward")
+                    ToolTip.visible: hovered
+                    hoverEnabled: true
+                    image: ":/icons/icons/ui/reply.svg"
+                    visible: !!row.model && (row.model.type == MtxEvent.ImageMessage || row.model.type == MtxEvent.VideoMessage || row.model.type == MtxEvent.AudioMessage || row.model.type == MtxEvent.FileMessage || row.model.type == MtxEvent.Sticker || row.model.type == MtxEvent.TextMessage || row.model.type == MtxEvent.LocationMessage || row.model.type == MtxEvent.EmoteMessage || row.model.type == MtxEvent.NoticeMessage)
+                    Layout.preferredWidth: 32
+                    Layout.preferredHeight: 32
+                    transform: Scale { origin.x: 16; xScale: -1 }
+
+                    onClicked: {
+                        var forwardMess = forwardCompleterComponent.createObject(timelineRoot);
+                        forwardMess.setMessageEventId(row.model.eventId);
+                        forwardMess.open();
+                        timelineRoot.destroyOnClose(forwardMess);
+                    }
+                }
+                ImageButton {
+                    ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: qsTr("Go to message")
                     ToolTip.visible: hovered
                     buttonTextColor: palette.buttonText

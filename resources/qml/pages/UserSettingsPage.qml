@@ -230,6 +230,15 @@ Rectangle {
                             }
                         }
                         DelegateChoice {
+                            roleValue: UserSettingsModel.TextInput
+                            TextField {
+                                anchors.right: parent.right
+                                text: model.value
+                                onEditingFinished: model.value = text
+                                width: Math.min(implicitWidth, scroll.availableWidth - Nheko.paddingMedium)
+                            }
+                        }
+                        DelegateChoice {
                             roleValue: UserSettingsModel.SectionTitle
                             Item {
                                 width: grid.width

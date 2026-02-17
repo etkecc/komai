@@ -600,6 +600,7 @@ public:
         ManageIgnoredUsers,
         Link,
         ThemeSelector,
+        TextInput,
     };
     Q_ENUM(Types);
 

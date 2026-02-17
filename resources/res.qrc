@@ -76,6 +76,8 @@
         <file>icons/ui/shield-filled-exclamation-mark.svg</file>
         <file>icons/ui/shield-filled-checkmark.svg</file>
         <file>icons/ui/shield-filled-cross.svg</file>
+            <file>icons/ui/plus-circle.svg</file>
+            <file>icons/ui/toggles.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>nheko.png</file>

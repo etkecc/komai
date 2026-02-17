@@ -31,14 +31,20 @@ Popup {
         roomid = roomid_;
         stickerPopup.callback = callback;
         if (showAt) {
-            stickerPopup.parent = showAt;
             if (openAbove) {
-                var mapped = showAt.mapFromItem(openAbove, 0, 0);
-                stickerPopup.x = showAt.width - stickerPopup.width;
-                stickerPopup.y = mapped.y - stickerPopup.height;
+                // Position: right-aligned with showAt, bottom edge at top of openAbove
+                var aboveGlobal = openAbove.mapToGlobal(0, 0);
+                var aboveLocal = stickerPopup.parent.mapFromGlobal(aboveGlobal.x, aboveGlobal.y);
+                var btnGlobal = showAt.mapToGlobal(showAt.width, 0);
+                var btnLocal = stickerPopup.parent.mapFromGlobal(btnGlobal.x, btnGlobal.y);
+                stickerPopup.x = btnLocal.x - stickerPopup.width;
+                stickerPopup.y = aboveLocal.y - stickerPopup.height;
             } else {
-                stickerPopup.x = showAt.width - stickerPopup.width;
-                stickerPopup.y = showAt.height;
+                // Position: right-aligned with showAt, below it
+                var global = showAt.mapToGlobal(showAt.width, showAt.height);
+                var local = stickerPopup.parent.mapFromGlobal(global.x, global.y);
+                stickerPopup.x = local.x - stickerPopup.width;
+                stickerPopup.y = local.y;
             }
         }
         stickerPopup.open();
@@ -47,6 +53,11 @@ Popup {
     padding: Nheko.paddingMedium
     modal: true
     focus: true
+    parent: Overlay.overlay
+
+    Overlay.modal: Rectangle {
+        color: "#aa1E1E1E"
+    }
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     width: sidebarAvatarSize + Nheko.paddingSmall + stickersPerRow * stickerDimPad + 20 + padding * 2
     height: contentColumn.implicitHeight

@@ -8,7 +8,7 @@ cscope*
 /.exrc
 .gdb_history
 .hunter
-resources/complete-emoji.txt 
+resources/complete-emoji.txt
 
 # GTAGS
 GTAGS
@@ -131,6 +131,9 @@ src/ui/ThemeDefinitions.h
 
 # Python
 __pycache__/
+
+# mise (project-local tool installs)
+/var/
 
 # Archives
 *.bz2

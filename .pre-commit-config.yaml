@@ -1,0 +1,27 @@
+repos:
+  # Fast built-in hooks (Rust-native, no dependencies)
+  - repo: builtin
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        exclude: '\.clang-format$'
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+
+  # Local hooks that run project-specific tools
+  - repo: local
+    hooks:
+      - id: check-theme-yaml
+        name: Check Theme YAML Validity
+        entry: python3 bin/check-theme-yaml.py
+        language: system
+        files: '(resources/themes/.*\.yaml$|bin/check-theme-yaml\.py$)'
+        pass_filenames: false
+      - id: check-ts-normalized
+        name: Check Translation Files Normalized
+        entry: python3 bin/check-ts-normalized.py
+        language: system
+        files: 'resources/langs/.*\.ts$'
+        pass_filenames: false

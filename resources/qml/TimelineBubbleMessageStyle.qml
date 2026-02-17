@@ -51,7 +51,7 @@ TimelineEvent {
     property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour 
 
     mainInset: (threadId ? (4 + Nheko.paddingSmall) : 0) + 4
-    replyInset: mainInset + 4 + Nheko.paddingSmall
+    replyInset: mainInset + 4 + Nheko.paddingMedium + Nheko.paddingMedium
 
     property int bubbleMargin: 40
 
@@ -212,7 +212,10 @@ TimelineEvent {
                             id: replyRow
                             visible: wrapper.replyTo
 
-                            leftPadding: Nheko.paddingSmall + 4
+                            leftPadding: Nheko.paddingMedium + 4
+                            rightPadding: Nheko.paddingMedium
+                            topPadding: Nheko.paddingMedium
+                            bottomPadding: Nheko.paddingMedium
 
                             anchors.left: parent.left
                             anchors.right: parent.right
@@ -253,6 +256,8 @@ TimelineEvent {
                             background: Rectangle {
                                 //width: replyRow.implicitContentWidth
                                 color: Qt.tint(palette.base, Qt.hsla(replyRow.userColor.hslHue, 0.5, replyRow.userColor.hslLightness, 0.1))
+                                radius: Nheko.paddingMedium
+                                clip: true
                                 Rectangle {
                                     anchors.top: parent.top
                                     anchors.bottom: parent.bottom
@@ -261,6 +266,7 @@ TimelineEvent {
                                     id: replyLine
                                     color: replyRow.userColor
                                     width: 4
+                                    radius: parent.radius
                                 }
                             }
 

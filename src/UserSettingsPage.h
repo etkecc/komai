@@ -31,6 +31,7 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool markdown READ markdown WRITE setMarkdown NOTIFY markdownChanged)
     Q_PROPERTY(SendMessageKey sendMessageKey READ sendMessageKey WRITE setSendMessageKey NOTIFY
                  sendMessageKeyChanged)
+    Q_PROPERTY(AutoReplaceEmoji autoReplaceEmoji READ autoReplaceEmoji WRITE setAutoReplaceEmoji NOTIFY autoReplaceEmojiChanged)
     Q_PROPERTY(bool bubbles READ bubbles WRITE setBubbles NOTIFY bubblesChanged)
     Q_PROPERTY(bool smallAvatars READ smallAvatars WRITE setSmallAvatars NOTIFY smallAvatarsChanged)
     Q_PROPERTY(bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
@@ -170,6 +171,14 @@ public:
     };
     Q_ENUM(ShowImage)
 
+    enum class AutoReplaceEmoji
+    {
+        Always,
+        OnlyAtEnd,
+        Never,
+    };
+    Q_ENUM(AutoReplaceEmoji)
+
     enum class SendMessageKey
     {
         Enter,
@@ -195,6 +204,7 @@ public:
     void setScrollbarsInRoomlist(bool state);
     void setMarkdown(bool state);
     void setSendMessageKey(SendMessageKey key);
+    void setAutoReplaceEmoji(AutoReplaceEmoji state);
     void setBubbles(bool state);
     void setSmallAvatars(bool state);
     void setEnableStickers(bool state);
@@ -271,6 +281,7 @@ public:
     int privacyScreenTimeout() const { return privacyScreenTimeout_; }
     bool markdown() const { return markdown_; }
     SendMessageKey sendMessageKey() const { return sendMessageKey_; }
+    AutoReplaceEmoji autoReplaceEmoji() const { return autoReplaceEmoji_; }
     bool bubbles() const { return bubbles_; }
     bool smallAvatars() const { return smallAvatars_; }
     bool enableStickers() const { return enableStickers_; }
@@ -347,6 +358,7 @@ signals:
     void startInTrayChanged(bool state);
     void markdownChanged(bool state);
     void sendMessageKeyChanged(SendMessageKey key);
+    void autoReplaceEmojiChanged(AutoReplaceEmoji state);
     void bubblesChanged(bool state);
     void smallAvatarsChanged(bool state);
     void enableStickersChanged(bool state);
@@ -421,6 +433,7 @@ private:
     bool scrollbarsInRoomlist_;
     bool markdown_;
     SendMessageKey sendMessageKey_;
+    AutoReplaceEmoji autoReplaceEmoji_;
     bool bubbles_;
     bool smallAvatars_;
     bool enableStickers_;
@@ -535,6 +548,7 @@ class UserSettingsModel : public QAbstractListModel
         ReadReceipts,
         Markdown,
         SendMessageKey,
+        AutoReplaceEmoji,
         Bubbles,
         SmallAvatars,
         PinnedReactions,

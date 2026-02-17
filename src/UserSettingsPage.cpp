@@ -88,6 +88,14 @@ UserSettings::load(std::optional<QString> profile)
         sendMessageKey = static_cast<int>(SendMessageKey::Enter);
     sendMessageKey_ = static_cast<SendMessageKey>(sendMessageKey);
 
+    auto tempAutoReplaceEmoji =
+      settings.value("user/auto_replace_emoji", "").toString().toStdString();
+    auto autoReplaceEmojiValue =
+      QMetaEnum::fromType<AutoReplaceEmoji>().keyToValue(tempAutoReplaceEmoji.c_str());
+    if (autoReplaceEmojiValue < 0)
+        autoReplaceEmojiValue = 0;
+    autoReplaceEmoji_ = static_cast<AutoReplaceEmoji>(autoReplaceEmojiValue);
+
     bubbles_              = settings.value("user/bubbles_enabled", true).toBool();
     smallAvatars_         = settings.value("user/small_avatars_enabled", false).toBool();
     enableStickers_       = settings.value("user/enable_stickers", false).toBool();
@@ -364,6 +372,16 @@ UserSettings::setSendMessageKey(SendMessageKey key)
         return;
     sendMessageKey_ = key;
     emit sendMessageKeyChanged(key);
+    save();
+}
+
+void
+UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji state)
+{
+    if (state == autoReplaceEmoji_)
+        return;
+    autoReplaceEmoji_ = state;
+    emit autoReplaceEmojiChanged(state);
     save();
 }
 
@@ -984,6 +1002,10 @@ UserSettings::save()
     settings.setValue("scrollbars_in_roomlist", scrollbarsInRoomlist_);
     settings.setValue("markdown_enabled", markdown_);
     settings.setValue("send_message_key", static_cast<int>(sendMessageKey_));
+    settings.setValue(
+      "user/auto_replace_emoji",
+      QString::fromUtf8(QMetaEnum::fromType<AutoReplaceEmoji>().valueToKey(
+        static_cast<int>(autoReplaceEmoji_))));
     settings.setValue("bubbles_enabled", bubbles_);
     settings.setValue("small_avatars_enabled", smallAvatars_);
     settings.setValue("enable_stickers", enableStickers_);
@@ -1113,6 +1135,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Send messages as Markdown");
         case SendMessageKey:
             return tr("Send messages with a shortcut");
+        case AutoReplaceEmoji:
+            return tr("Auto-replace text emoticons with emoji");
         case Bubbles:
             return tr("Enable message bubbles");
         case SmallAvatars:
@@ -1282,6 +1306,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return i->markdown();
         case SendMessageKey:
             return static_cast<int>(i->sendMessageKey());
+        case AutoReplaceEmoji:
+            return static_cast<int>(i->autoReplaceEmoji());
         case Bubbles:
             return i->bubbles();
         case SmallAvatars:
@@ -1463,6 +1489,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
               "Select what Enter key combination sends the message. Shift+Enter adds a new line, "
               "unless it has been selected, in which case Enter adds a new line instead.\n\n"
               "If an emoji picker or a mention picker is open, it is always handled first.");
+        case AutoReplaceEmoji:
+            return tr(
+              "Automatically replace text emoticons like :) :D :P with their emoji equivalents "
+              "when sending a message. Choose whether to replace everywhere or only at the end.");
         case Bubbles:
             return tr(
               "Messages get a bubble background. This also triggers some layout changes (WIP).");
@@ -1639,6 +1669,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case ShowImage:
         case SendMessageKey:
             return Options;
+        case AutoReplaceEmoji:
+            return Options;
         case TimelineMaxWidth:
         case PrivacyScreenTimeout:
             return Integer;
@@ -1782,6 +1814,12 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
               tr("Shift+Enter"),
               tr("Ctrl+Enter"),
             };
+        case AutoReplaceEmoji:
+            return QStringList{
+              tr("Always"),
+              tr("Only at the end of messages"),
+              tr("Never"),
+            };
         case Microphone:
             return vecToList(CallDevices::instance().names(false, i->microphone().toStdString()));
         case Camera:
@@ -1866,6 +1904,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case PinnedReactions:
             return komaiSettingImage();
         case EnableLegacyCalls:
+            return komaiSettingImage();
+        case AutoReplaceEmoji:
             return komaiSettingImage();
         case EnableStickers:
             return komaiSettingImage();
@@ -1967,6 +2007,17 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
                 return false;
 
             i->setSendMessageKey(static_cast<UserSettings::SendMessageKey>(newKey));
+            return true;
+        }
+        case AutoReplaceEmoji: {
+            auto autoReplaceEmojiValue = value.toInt();
+            if (autoReplaceEmojiValue < 0 ||
+                QMetaEnum::fromType<UserSettings::AutoReplaceEmoji>().keyCount() <=
+                  autoReplaceEmojiValue)
+                return false;
+
+            i->setAutoReplaceEmoji(
+              static_cast<UserSettings::AutoReplaceEmoji>(autoReplaceEmojiValue));
             return true;
         }
         case Bubbles: {
@@ -2491,6 +2542,9 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     });
     connect(s.get(), &UserSettings::sendMessageKeyChanged, this, [this]() {
         emit dataChanged(index(SendMessageKey), index(SendMessageKey), {Value});
+    });
+    connect(s.get(), &UserSettings::autoReplaceEmojiChanged, this, [this]() {
+        emit dataChanged(index(AutoReplaceEmoji), index(AutoReplaceEmoji), {Value});
     });
     connect(s.get(), &UserSettings::bubblesChanged, this, [this]() {
         emit dataChanged(index(Bubbles), index(Bubbles), {Value});

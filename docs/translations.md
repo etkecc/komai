@@ -117,3 +117,5 @@ git add resources/langs/ && git commit -m "Update translations"
 - The script requires the `claude` CLI to be installed and authenticated.
 - Very large batches may hit context limits. The default batch size of 75 works well in practice.
 - AI translations should be reviewed, especially for languages with complex grammar or honorific systems. Per-language `GUIDE.md` files can help steer Claude toward the right register.
+
+For technical details on why the system works the way it does (XML normalization, ElementTree vs regex, plural form limitations), see [architecture/translations.md](architecture/translations.md).

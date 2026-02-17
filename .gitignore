@@ -129,5 +129,8 @@ package.dir
 # Generated at build time from resources/themes/*.yaml
 src/ui/ThemeDefinitions.h
 
+# Python
+__pycache__/
+
 # Archives
 *.bz2

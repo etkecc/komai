@@ -5522,7 +5522,7 @@ Note that when this option is ON, opened files are left unencrypted on disk and 
         <location line="+4"/>
         <source>Decrypt the messages shown in the sidebar.
 Only affects messages in encrypted chats.</source>
-        <translation>Расшифровывать сообщение отображающиеся в боковой панели. 
+        <translation>Расшифровывать сообщение отображающиеся в боковой панели.
 Влияет только на зашифрованные чаты.</translation>
     </message>
     <message>

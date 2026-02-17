@@ -5327,7 +5327,7 @@ Reason: %4</source>
         <source>Set timeout (in seconds) for how long after window loses
 focus before the screen will be blurred.
 Set to 0 to blur immediately after focus loss. Max value of 1 hour (3600 seconds)</source>
-        <translation type="unfinished">Definir tempo (em segundos) depois da janela perder a 
+        <translation type="unfinished">Definir tempo (em segundos) depois da janela perder a
 atenção até que o ecrã seja desfocado.
 Defina como 0 para desfocar imediatamente após perder a atenção. Valor máximo de 1 hora (3600 segundos)</translation>
     </message>
@@ -5523,7 +5523,7 @@ Apenas afeta mensagens em conversas encriptadas.</translation>
         <location line="+6"/>
         <source>When the window loses focus, the timeline will
 be blurred.</source>
-        <translation type="unfinished">Quando a janela perde a atenção, a cronologia 
+        <translation type="unfinished">Quando a janela perde a atenção, a cronologia
 será desfocada.</translation>
     </message>
     <message>

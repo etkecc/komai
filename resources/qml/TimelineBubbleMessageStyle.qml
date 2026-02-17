@@ -53,7 +53,7 @@ TimelineEvent {
     mainInset: (threadId ? (4 + Nheko.paddingSmall) : 0) + 4
     replyInset: mainInset + 4 + Nheko.paddingMedium + Nheko.paddingMedium
 
-    property int bubbleMargin: 40
+    property int bubbleMargin: metadataOuter.width + Nheko.paddingMedium
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - bubbleMargin
 
@@ -174,34 +174,8 @@ TimelineEvent {
                 contentItem: Item {
                     id: contentPlacementContainer
 
-                    property bool fitsMetadata: ((wrapper.main?.width ?? 0) + wrapper.mainInset + metadata.width) < wrapper.maxWidth
-
-                    // This doesnt work because of tables. They might have content in the top of the cell, while the background reaches to the bottom. Maybe using the textDocument we could do more?
-                    // property bool fitsMetadataInside: wrapper.main?.positionAt ? (wrapper.main.positionAt(wrapper.main.width, wrapper.main.height - 4) == wrapper.main.positionAt(wrapper.main.width - metadata.width, wrapper.main.height - 4)) : false
-                    property bool fitsMetadataInside: false
-
-                    implicitWidth: Math.max((wrapper.reply?.width ?? 0) + wrapper.replyInset, (wrapper.main?.width ?? 0) + wrapper.mainInset + ((fitsMetadata && !fitsMetadataInside) ? metadata.width : 0))
-                    implicitHeight: contentColumn.implicitHeight + ((fitsMetadata || fitsMetadataInside) ? 0 : metadata.height)
-
-                    TimelineMetadata {
-                        id: metadata
-
-                        scaling: 0.9
-
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
-
-                        visible: !wrapper.isStateEvent
-
-                        eventId: wrapper.eventId
-                        status: wrapper.status
-                        trustlevel: wrapper.trustlevel
-                        isEdited: wrapper.isEdited
-                        isEncrypted: wrapper.isEncrypted
-                        threadId: wrapper.threadId
-                        timestamp: wrapper.timestamp
-                        room: wrapper.room
-                    }
+                    implicitWidth: Math.max((wrapper.reply?.width ?? 0) + wrapper.replyInset, (wrapper.main?.width ?? 0) + wrapper.mainInset)
+                    implicitHeight: contentColumn.implicitHeight
 
                     Column {
                         id: contentColumn
@@ -303,6 +277,34 @@ TimelineEvent {
                     border.color: Nheko.theme.red
                     border.width: wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
                 }
+            }
+
+            TimelineMetadata {
+                id: metadataOuter
+
+                scaling: 0.9
+
+                visible: !wrapper.isStateEvent
+
+                // Bottom-align with the bubble content area
+                anchors.bottom: messageBubble.bottom
+                anchors.bottomMargin: messageBubble.padding - (metadataOuter.height - fontMetrics.height) / 2
+
+                // Sender: metadata to the left of the bubble
+                // Received: metadata to the right of the bubble
+                anchors.right: wrapper.isSender ? messageBubble.left : undefined // qmllint disable Quick.anchor-combinations
+                anchors.left: wrapper.isSender ? undefined : messageBubble.right
+                anchors.rightMargin: wrapper.isSender ? Nheko.paddingSmall : 0
+                anchors.leftMargin: wrapper.isSender ? 0 : Nheko.paddingSmall
+
+                eventId: wrapper.eventId
+                status: wrapper.status
+                trustlevel: wrapper.trustlevel
+                isEdited: wrapper.isEdited
+                isEncrypted: wrapper.isEncrypted
+                threadId: wrapper.threadId
+                timestamp: wrapper.timestamp
+                room: wrapper.room
             }
 
             DragHandler {

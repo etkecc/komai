@@ -7,6 +7,7 @@ import QtMultimedia
 import QtQuick
 import QtQuick.Controls
 import im.nheko
+import Qt5Compat.GraphicalEffects
 
 Item {
     id: content
@@ -50,6 +51,15 @@ Item {
         color: content.type == MtxEvent.VideoMessage ? palette.window : "transparent"
         width: parent.width
         height: parent.height - fileInfoLabel.height
+        radius: 8
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: Rectangle {
+                width: videoContainer.width
+                height: videoContainer.height
+                radius: 8
+            }
+        }
 
         TapHandler {
             onTapped: Settings.openVideoExternal ? room.openMedia(eventId) : mediaControls.showControls()

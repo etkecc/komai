@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import im.nheko
+import Qt5Compat.GraphicalEffects
 
 AbstractButton {
     required property int type
@@ -110,78 +111,92 @@ AbstractButton {
     property int metadataWidth
     property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth+4 : false
 
-    Image {
-        id: img
-
-        visible: !mxcimage.loaded
-        anchors.fill: parent
-        source: (url != "" && showImage) ? (url.replace("mxc://", "image://MxcImage/") + "?scale") : ""
-        asynchronous: true
-        fillMode: Image.PreserveAspectFit
-        horizontalAlignment: Image.AlignLeft
-        smooth: true
-        mipmap: true
-
-        sourceSize.width: Math.min(Screen.desktopAvailableWidth, originalWidth < 1 ? Screen.desktopAvailableWidth : originalWidth) * Screen.devicePixelRatio
-        sourceSize.height: Math.min(Screen.desktopAvailableHeight, (originalWidth < 1 ? Screen.desktopAvailableHeight : originalWidth*proportionalHeight)) * Screen.devicePixelRatio
-    }
-
-    MxcAnimatedImage {
-        id: mxcimage
-
-        visible: loaded
-        roomm: room
-        play: !Settings.animateImagesOnHover || parent.hovered
-        eventId: showImage ? parent.eventId : ""
-
-        anchors.fill: parent
-    }
-
-    Image {
-        id: blurhash_
-
-        source: blurhash ? ("image://blurhash/" + blurhash) : ("image://colorimage/:/icons/icons/ui/image-failed.svg?" + palette.buttonText)
-        asynchronous: true
-        fillMode: Image.PreserveAspectFit
-        sourceSize.width: blurhash ? parent.width * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
-        sourceSize.height: blurhash ? parent.height * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
-
-        anchors.fill: parent
-    }
-
     onClicked: {
         Settings.openImageExternal ? room.openMedia(eventId) : TimelineManager.openImageOverlay(room, url, eventId, originalWidth, proportionalHeight);
     }
 
     Item {
-        id: overlay
+        id: imageClipper
 
         anchors.fill: parent
-
-        visible: parent.hovered
-
-        Rectangle {
-            id: container
-
-            width: parent.width
-            implicitHeight: imgcaption.implicitHeight
-            anchors.bottom: overlay.bottom
-            color: palette.window
-            opacity: 0.75
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: Rectangle {
+                width: imageClipper.width
+                height: imageClipper.height
+                radius: 8
+            }
         }
 
-        Text {
-            id: imgcaption
+        Image {
+            id: img
 
-            anchors.fill: container
-            elide: Text.ElideMiddle
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            // See this MSC: https://github.com/matrix-org/matrix-doc/pull/2530
-            text: filename ? filename : body
-            color: palette.text
+            visible: !mxcimage.loaded
+            anchors.fill: parent
+            source: (url != "" && showImage) ? (url.replace("mxc://", "image://MxcImage/") + "?scale") : ""
+            asynchronous: true
+            fillMode: Image.PreserveAspectFit
+            horizontalAlignment: Image.AlignLeft
+            smooth: true
+            mipmap: true
+
+            sourceSize.width: Math.min(Screen.desktopAvailableWidth, originalWidth < 1 ? Screen.desktopAvailableWidth : originalWidth) * Screen.devicePixelRatio
+            sourceSize.height: Math.min(Screen.desktopAvailableHeight, (originalWidth < 1 ? Screen.desktopAvailableHeight : originalWidth*proportionalHeight)) * Screen.devicePixelRatio
         }
 
+        MxcAnimatedImage {
+            id: mxcimage
+
+            visible: loaded
+            roomm: room
+            play: !Settings.animateImagesOnHover || imageClipper.parent.hovered
+            eventId: showImage ? imageClipper.parent.eventId : ""
+
+            anchors.fill: parent
+        }
+
+        Image {
+            id: blurhash_
+
+            source: blurhash ? ("image://blurhash/" + blurhash) : ("image://colorimage/:/icons/icons/ui/image-failed.svg?" + palette.buttonText)
+            asynchronous: true
+            fillMode: Image.PreserveAspectFit
+            sourceSize.width: blurhash ? parent.width * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
+            sourceSize.height: blurhash ? parent.height * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
+
+            anchors.fill: parent
+        }
+
+        Item {
+            id: overlay
+
+            anchors.fill: parent
+
+            visible: imageClipper.parent.hovered
+
+            Rectangle {
+                id: container
+
+                width: parent.width
+                implicitHeight: imgcaption.implicitHeight
+                anchors.bottom: overlay.bottom
+                color: palette.window
+                opacity: 0.75
+            }
+
+            Text {
+                id: imgcaption
+
+                anchors.fill: container
+                elide: Text.ElideMiddle
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                // See this MSC: https://github.com/matrix-org/matrix-doc/pull/2530
+                text: filename ? filename : body
+                color: palette.text
+            }
+
+        }
     }
 
     Button {

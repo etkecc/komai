@@ -1,4 +1,4 @@
-# group: Symbols 
+# group: Symbols
 200C 1F1E6 200C ; fully-qualified # ‌🇦‌ E6.0 regional indicator a
 200C 1F1E7 200C ; fully-qualified # ‌🇧‌ E6.0 regional indicator b
 200C 1F1E8 200C ; fully-qualified # ‌🇨‌ E6.0 regional indicator c

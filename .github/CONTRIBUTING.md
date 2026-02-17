@@ -14,10 +14,10 @@ Otherwise you can also submit patches, but that is more effort for both sides.
 
 ### Working on new features
 
-Everything on the issue tracker is up for grabs unless someone else is 
-currently working on it. 
+Everything on the issue tracker is up for grabs unless someone else is
+currently working on it.
 
-If you're planning to work on a new feature leave a message on the Matrix room 
+If you're planning to work on a new feature leave a message on the Matrix room
 (or in the corresponding issue), so we won't end up having duplicate work.
 
 ### Submitting a translation
@@ -44,7 +44,7 @@ Example for a Japanese translation.
 ### Code style
 
 We use clang-format to enforce a certain style as defined by the `.clang-format`
-file in the root of the repo. Travis-CI will run the linter (macOS job) on each 
+file in the root of the repo. Travis-CI will run the linter (macOS job) on each
 commit and the build will fail if the style guide isn't followed. You can run the
 linter locally with `make lint`.
 

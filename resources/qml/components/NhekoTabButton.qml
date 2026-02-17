@@ -26,4 +26,3 @@ TabButton {
         radius: 2
     }
 }
-

@@ -20,4 +20,3 @@ BUILD_URL=${BUILD_URL/http:/https:}
 
 ./flat-manager-client push --commit --wait --wait-update $BUILD_URL $1
 ./flat-manager-client publish --wait --wait-update $BUILD_URL
-

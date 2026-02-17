@@ -194,4 +194,3 @@ if __name__ == "__main__":
         log("No changes needed")
 
     sys.exit(-1 if dirty else 0)
-

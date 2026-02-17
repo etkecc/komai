@@ -23,8 +23,8 @@ if [ extension = "svg" ]; then
     rsvg-convert -h 256  "${INPUT}" > ${OUTPUT}.iconset/icon_128x128@2x.png
     rsvg-convert -h 256  "${INPUT}" > ${OUTPUT}.iconset/icon_256x256.png
     rsvg-convert -h 512  "${INPUT}" > ${OUTPUT}.iconset/icon_256x256@2x.png
-    rsvg-convert -h 512  "${INPUT}" > ${OUTPUT}.iconset/icon_512x512.png 
-    rsvg-convert -h 1024 "${INPUT}" > ${OUTPUT}.iconset/icon_512x512@2x.png 
+    rsvg-convert -h 512  "${INPUT}" > ${OUTPUT}.iconset/icon_512x512.png
+    rsvg-convert -h 1024 "${INPUT}" > ${OUTPUT}.iconset/icon_512x512@2x.png
 else
     sips -z 16 16     "${INPUT}" --out ${OUTPUT}.iconset/icon_16x16.png
     sips -z 32 32     "${INPUT}" --out ${OUTPUT}.iconset/icon_16x16@2x.png

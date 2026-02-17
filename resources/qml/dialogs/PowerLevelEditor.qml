@@ -110,7 +110,7 @@ ApplicationWindow {
                             ImageButton {
                                 Layout.alignment: Qt.AlignRight
                                 Layout.rightMargin: 2
-                                image: model.isType ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/add-square-button.svg" 
+                                image: model.isType ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/add-square-button.svg"
                                 visible: !model.isType || model.removeable
                                 hoverEnabled: true
                                 ToolTip.visible: hovered
@@ -348,7 +348,7 @@ ApplicationWindow {
                             ImageButton {
                                 Layout.alignment: Qt.AlignRight
                                 Layout.rightMargin: 2
-                                image: model.isUser ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/add-square-button.svg" 
+                                image: model.isUser ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/add-square-button.svg"
                                 visible: !model.isUser || model.removeable
                                 hoverEnabled: true
                                 ToolTip.visible: hovered

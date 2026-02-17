@@ -164,4 +164,3 @@ ApplicationWindow {
     }
 
 }
-

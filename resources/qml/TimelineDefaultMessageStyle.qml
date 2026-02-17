@@ -50,7 +50,7 @@ TimelineEvent {
     property alias hovered: messageHover.hovered
 
     property int oneHour: 60 * 60 * 1000
-    property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour 
+    property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour
 
     mainInset: (threadId ? (4 + Nheko.paddingSmall) : 0)
     replyInset: mainInset + 4 + Nheko.paddingSmall
@@ -79,7 +79,7 @@ TimelineEvent {
             }
             visible: status == Loader.Ready
             z: 4
-        }, 
+        },
         Rectangle {
             // this looks better without margins
             anchors.fill: gridContainer
@@ -311,7 +311,7 @@ TimelineEvent {
         },
         Rectangle {
             anchors.top: gridContainer.top
-            anchors.left: gridContainer.left 
+            anchors.left: gridContainer.left
             anchors.topMargin: -2
             anchors.leftMargin: -2 + (stateEventSpacing.visible ? (stateEventSpacing.width + gridContainer.spacing) : 0)
             color: "transparent"
@@ -372,7 +372,7 @@ TimelineEvent {
         Item {
             // We need this item to grab events, that otherwise would go to the TextArea in the main item. If we don't have this, it would trigger a right click menu on KDE...
             // https://invent.kde.org/frameworks/qqc2-desktop-style/-/blob/9d71fe874186009f76d392e203d9fa25a49f8be7/org.kde.desktop/TextArea.qml#L55
-            
+
             anchors.fill: gridContainer
             anchors.topMargin: replyRow.height
             TapHandler {

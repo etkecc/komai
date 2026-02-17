@@ -174,7 +174,7 @@ Window {
             //ToolTip.visible: hovered
             //ToolTip.delay: Nheko.tooltipDelay
             //ToolTip.text: qsTr("Close")
-            
+
             onClicked: imageOverlay.close()
         }
     }

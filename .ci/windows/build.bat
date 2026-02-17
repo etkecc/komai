@@ -60,4 +60,3 @@ cd ..
 
 :: Build the msix
 makeappx pack -d msix -p nheko.msix
-

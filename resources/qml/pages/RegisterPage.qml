@@ -394,4 +394,3 @@ Item {
         onClicked: mainWindow.pop()
     }
 }
-

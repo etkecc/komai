@@ -344,4 +344,3 @@ Rectangle {
         onClicked: mainWindow.pop()
     }
 }
-

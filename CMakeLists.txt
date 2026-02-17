@@ -163,7 +163,7 @@ if(USE_BUNDLED_LIBEVENT)
     hunter_add_package_safe(Libevent)
     find_package(Libevent CONFIG REQUIRED)
 else()
-    find_package(PkgConfig REQUIRED) 
+    find_package(PkgConfig REQUIRED)
     pkg_check_modules(libevent_core REQUIRED IMPORTED_TARGET libevent_core)
     if(WIN32)
         pkg_check_modules(libevent_windows REQUIRED IMPORTED_TARGET libevent_windows)
@@ -177,7 +177,7 @@ if(USE_BUNDLED_LIBCURL)
     hunter_add_package_safe(CURL)
     find_package(CURL CONFIG REQUIRED)
 else()
-    find_package(PkgConfig REQUIRED) 
+    find_package(PkgConfig REQUIRED)
     pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
 endif()
 
@@ -936,7 +936,7 @@ target_link_libraries(nheko PRIVATE
     nlohmann_json::nlohmann_json
     lmdbxx::lmdbxx
     liblmdb::lmdb)
-    
+
 if(UNIX)
     # for wayland activation tokens
     target_link_libraries(nheko PRIVATE Qt::GuiPrivate)

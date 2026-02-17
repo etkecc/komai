@@ -5122,4 +5122,3 @@ namespace detail {
 } // namespace httplib
 
 #endif // CPPHTTPLIB_HTTPLIB_H
-

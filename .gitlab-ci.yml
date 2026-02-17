@@ -48,7 +48,7 @@ codesign-windows:
   rules:
     - if : '$CI_PIPELINE_TRIGGERED == null && $CI_COMMIT_REF_PROTECTED == "true"'
   resource_group: windows_signing
-  environment: 
+  environment:
     name: windows_signing
   #variables:
   #  GIT_STRATEGY: none
@@ -333,7 +333,7 @@ build-flatpak:
     #docker:
     #  platform: ${ARCH}
   #image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:master'
-  tags: 
+  tags:
     - docker-amd64
   parallel:
     matrix:
@@ -386,9 +386,9 @@ build-flatpak:
     - apt-get update && apt-get install -y software-properties-common git wget curl python3 python3-pip python3-setuptools
 
     # Installing the packages needed to compile komai and third-party tools
-    - apt-get -y install --no-install-suggests --no-install-recommends ca-certificates build-essential ninja-build cmake gcc make automake ccache liblmdb-dev 
-        libssl-dev libqt5multimedia5-plugins libqt5multimediagsttools5 libqt5multimediaquick5 libqt5svg5-dev 
-        qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev 
+    - apt-get -y install --no-install-suggests --no-install-recommends ca-certificates build-essential ninja-build cmake gcc make automake ccache liblmdb-dev
+        libssl-dev libqt5multimedia5-plugins libqt5multimediagsttools5 libqt5multimediaquick5 libqt5svg5-dev
+        qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev
         qml-module-qtmultimedia qml-module-qtquick-controls2 qml-module-qtquick-layouts
         qt5keychain-dev ccache libcurl4-openssl-dev libevent-dev libspdlog-dev nlohmann-json3-dev libcmark-dev asciidoc libre2-dev libgtest-dev libgl1-mesa-dev qml-module-qtquick-particles2
 
@@ -412,7 +412,7 @@ build-flatpak:
     - /usr/sbin/update-ccache-symlinks
     - rm -rf ../.hunter &&  mv .hunter ../.hunter || true
 
-    
+
   script:
     - export PATH="/usr/local/bin/:/usr/lib/ccache:${PATH}"
     - cmake -GNinja -H. -Bbuild

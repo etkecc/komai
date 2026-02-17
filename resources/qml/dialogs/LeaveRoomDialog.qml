@@ -28,5 +28,5 @@ P.MessageDialog {
         }
         Rooms.leave(roomId, reason)
     }
-        
+
 }

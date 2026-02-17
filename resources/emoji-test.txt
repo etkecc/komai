@@ -23,7 +23,7 @@
 #   • This includes the emoji components that need emoji presentation (skin tone and hair)
 #     when isolated, but omits the components that need not have an emoji
 #     presentation when isolated.
-#   • The RGI set is covered by the listed fully-qualified emoji. 
+#   • The RGI set is covered by the listed fully-qualified emoji.
 #   • The listed minimally-qualified and unqualified cover all cases where an
 #     element of the RGI set is missing one or more emoji presentation selectors.
 #   • The file is in CLDR order, not codepoint order. This is recommended (but not required!) for keyboard palettes.

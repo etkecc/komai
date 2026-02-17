@@ -112,7 +112,7 @@ if __name__ == '__main__':
         shortname = name
         # until skin tone is handled, keep them around
         ## discard skin tone variants for sanity
-        # if "skin tone" in name and qualification != 'component': 
+        # if "skin tone" in name and qualification != 'component':
         #    continue
         # if qualification == 'component' and not "skin tone" in name:
         #    continue
@@ -157,7 +157,7 @@ if __name__ == '__main__':
             shortname, = re.match(r'^_*(.+)_*$', shortname).groups()
             shortname = re.sub(r'_{2,}', '_', shortname)
             shortname = unidecode(shortname)
-        # if basicallyTheSame: 
+        # if basicallyTheSame:
         #    shortname = ""
         categories[current_category].append(Emoji(code, shortname, name))
 

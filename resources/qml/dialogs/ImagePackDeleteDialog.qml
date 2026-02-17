@@ -15,7 +15,7 @@ P.MessageDialog {
     modality: Qt.ApplicationModal
     flags: Qt.Tool | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
     buttons: P.MessageDialog.Yes | P.MessageDialog.No
-        
+
     // Broken on macos, see https://bugreports.qt.io/browse/QTBUG-102078
     //onAccepted: {
     onOkClicked: {

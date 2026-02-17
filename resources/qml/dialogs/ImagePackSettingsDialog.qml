@@ -59,7 +59,7 @@ ApplicationWindow {
                 model: packlist
                 clip: true
 
-                
+
 
                 footer: ColumnLayout {
                     Button {

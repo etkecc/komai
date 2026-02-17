@@ -46,4 +46,3 @@ body:
       options:
         - label: Yes, this feature is still missing.
           required: true
-

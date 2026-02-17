@@ -17,7 +17,7 @@ Menu {
 
     onAboutToShow: loadChildren = true
     //onAboutToHide: loadChildren = false
-    
+
     Component {
         id: level
 
@@ -26,7 +26,7 @@ Menu {
             roomid: spacesMenu.roomid
         }
     }
-    
+
     Instantiator {
         id: inst
         model: spacesMenu.loadChildren ? Communities.spaceChildrenListFromIndex(spacesMenu.roomid, -1) : undefined

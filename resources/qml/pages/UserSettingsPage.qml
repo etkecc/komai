@@ -33,10 +33,8 @@ Rectangle {
 
             spacing: Nheko.paddingMedium
 
-            width: scroll.availableWidth
-            anchors.fill: parent
-            anchors.leftMargin: userSettingsDialog.collapsed ? 0 : (userSettingsDialog.width-userSettingsDialog.collapsePoint) * 0.4 + Nheko.paddingLarge
-            anchors.rightMargin: anchors.leftMargin
+            width: Math.min(scroll.availableWidth, 1000)
+            anchors.horizontalCenter: parent.horizontalCenter
 
 
             Repeater {

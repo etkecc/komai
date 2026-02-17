@@ -19,141 +19,6 @@ Page {
     background: Rectangle {
         color: Nheko.theme.sidebarBackground
     }
-    footer: ColumnLayout {
-        spacing: 0
-
-        Rectangle {
-            Layout.fillWidth: true
-            color: Nheko.theme.separator
-            Layout.preferredHeight: 1
-        }
-        Pane {
-            Layout.alignment: Qt.AlignBottom
-            Layout.fillWidth: true
-            Layout.minimumHeight: 40
-            horizontalPadding: Nheko.paddingMedium
-            verticalPadding: 0
-
-            background: Rectangle {
-                color: palette.window
-            }
-            contentItem: RowLayout {
-                id: buttonRow
-
-                ImageButton {
-                    id: startChatButton
-
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Start a new chat")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: 22
-                    Layout.preferredWidth: 22
-                    hoverEnabled: true
-                    image: ":/icons/icons/ui/add-square-button.svg"
-
-                    onClicked: roomJoinCreateMenu.popup(startChatButton)
-
-                    Menu {
-                        id: roomJoinCreateMenu
-
-                        MenuItem {
-                            text: qsTr("Join a room")
-
-                            onTriggered: Nheko.openJoinRoomDialog()
-                        }
-                        MenuItem {
-                            text: qsTr("Create a new room")
-
-                            onTriggered: {
-                                var createRoom = createRoomComponent.createObject(timelineRoot);
-                                createRoom.show();
-                                timelineRoot.destroyOnClose(createRoom);
-                            }
-                        }
-                        MenuItem {
-                            text: qsTr("Start a direct chat")
-
-                            onTriggered: {
-                                var createDirect = createDirectComponent.createObject(timelineRoot);
-                                createDirect.show();
-                                timelineRoot.destroyOnClose(createDirect);
-                            }
-                        }
-                        MenuItem {
-                            text: qsTr("Create a new community")
-
-                            onTriggered: {
-                                var createRoom = createRoomComponent.createObject(timelineRoot, {
-                                        "space": true
-                                    });
-                                createRoom.show();
-                                timelineRoot.destroyOnClose(createRoom);
-                            }
-                        }
-                    }
-                }
-                ImageButton {
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Room directory")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: 22
-                    Layout.preferredWidth: 22
-                    hoverEnabled: true
-                    image: ":/icons/icons/ui/room-directory.svg"
-                    visible: !collapsed
-
-                    onClicked: {
-                        var win = roomDirectoryComponent.createObject(timelineRoot);
-                        win.show();
-                        timelineRoot.destroyOnClose(win);
-                    }
-                }
-                ImageButton {
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Find & switch room (Ctrl+K)")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: 22
-                    Layout.preferredWidth: 22
-                    hoverEnabled: true
-                    image: ":/icons/icons/ui/search.svg"
-                    ripple: false
-                    visible: !collapsed
-
-                    onClicked: {
-                        var component = Qt.createComponent("qrc:/resources/qml/QuickSwitcher.qml");
-                        if (component.status == Component.Ready) {
-                            var quickSwitch = component.createObject(timelineRoot);
-                            quickSwitch.open();
-                            destroyOnClosed(quickSwitch);
-                        } else {
-                            console.error("Failed to create component: " + component.errorString());
-                        }
-                    }
-                }
-                ImageButton {
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("User settings")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: 22
-                    Layout.preferredWidth: 22
-                    hoverEnabled: true
-                    image: ":/icons/icons/ui/settings.svg"
-                    ripple: false
-                    visible: !collapsed
-
-                    onClicked: mainWindow.push(userSettingsPage)
-                }
-            }
-        }
-    }
     header: ColumnLayout {
         spacing: 0
 
@@ -323,6 +188,140 @@ Page {
             Layout.fillWidth: true
             color: Nheko.theme.separator
             Layout.preferredHeight: 2
+        }
+        Pane {
+            id: roomActionsBar
+
+            Layout.fillWidth: true
+            Layout.minimumHeight: avatarSize + 2 * Nheko.paddingMedium
+            horizontalPadding: Nheko.paddingMedium
+            verticalPadding: 0
+
+            background: Rectangle {
+                color: palette.alternateBase
+            }
+            contentItem: RowLayout {
+                id: buttonRow
+
+                ImageButton {
+                    id: startChatButton
+
+                    Layout.fillWidth: true
+                    Layout.margins: Nheko.paddingMedium
+                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: qsTr("Start a new chat")
+                    ToolTip.visible: hovered
+                    Layout.preferredHeight: 30
+                    Layout.preferredWidth: 30
+                    hoverEnabled: true
+                    image: ":/icons/icons/ui/add-square-button.svg"
+
+                    onClicked: roomJoinCreateMenu.popup(startChatButton)
+
+                    Menu {
+                        id: roomJoinCreateMenu
+
+                        MenuItem {
+                            text: qsTr("Join a room")
+
+                            onTriggered: Nheko.openJoinRoomDialog()
+                        }
+                        MenuItem {
+                            text: qsTr("Create a new room")
+
+                            onTriggered: {
+                                var createRoom = createRoomComponent.createObject(timelineRoot);
+                                createRoom.show();
+                                timelineRoot.destroyOnClose(createRoom);
+                            }
+                        }
+                        MenuItem {
+                            text: qsTr("Start a direct chat")
+
+                            onTriggered: {
+                                var createDirect = createDirectComponent.createObject(timelineRoot);
+                                createDirect.show();
+                                timelineRoot.destroyOnClose(createDirect);
+                            }
+                        }
+                        MenuItem {
+                            text: qsTr("Create a new community")
+
+                            onTriggered: {
+                                var createRoom = createRoomComponent.createObject(timelineRoot, {
+                                        "space": true
+                                    });
+                                createRoom.show();
+                                timelineRoot.destroyOnClose(createRoom);
+                            }
+                        }
+                    }
+                }
+                ImageButton {
+                    Layout.fillWidth: true
+                    Layout.margins: Nheko.paddingMedium
+                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: qsTr("Room directory")
+                    ToolTip.visible: hovered
+                    Layout.preferredHeight: 30
+                    Layout.preferredWidth: 30
+                    hoverEnabled: true
+                    image: ":/icons/icons/ui/room-directory.svg"
+                    visible: !collapsed
+
+                    onClicked: {
+                        var win = roomDirectoryComponent.createObject(timelineRoot);
+                        win.show();
+                        timelineRoot.destroyOnClose(win);
+                    }
+                }
+                ImageButton {
+                    Layout.fillWidth: true
+                    Layout.margins: Nheko.paddingMedium
+                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: qsTr("Find & switch room (Ctrl+K)")
+                    ToolTip.visible: hovered
+                    Layout.preferredHeight: 30
+                    Layout.preferredWidth: 30
+                    hoverEnabled: true
+                    image: ":/icons/icons/ui/search.svg"
+                    ripple: false
+                    visible: !collapsed
+
+                    onClicked: {
+                        var component = Qt.createComponent("qrc:/resources/qml/QuickSwitcher.qml");
+                        if (component.status == Component.Ready) {
+                            var quickSwitch = component.createObject(timelineRoot);
+                            quickSwitch.open();
+                            destroyOnClosed(quickSwitch);
+                        } else {
+                            console.error("Failed to create component: " + component.errorString());
+                        }
+                    }
+                }
+                ImageButton {
+                    id: userSettingsButton
+
+                    Layout.fillWidth: true
+                    Layout.margins: Nheko.paddingMedium
+                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: qsTr("User settings")
+                    ToolTip.visible: hovered
+                    Layout.preferredHeight: 30
+                    Layout.preferredWidth: 30
+                    hoverEnabled: true
+                    image: ":/icons/icons/ui/settings.svg"
+                    ripple: false
+                    visible: !collapsed
+
+                    onClicked: mainWindow.push(userSettingsPage)
+                }
+            }
+        }
+        Rectangle {
+            Layout.fillWidth: true
+            color: Nheko.theme.separator
+            Layout.preferredHeight: 1
         }
         Rectangle {
             id: unverifiedStuffBubble

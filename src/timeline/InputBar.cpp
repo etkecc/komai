@@ -528,18 +528,114 @@ InputBar::generateMentions() const
     return mention;
 }
 
+
+// --------------------------------------------------------------------
+// Emoticon -> Emoji replacement (Komai)
+// --------------------------------------------------------------------
+
+QString
+InputBar::replaceTextEmoticons(const QString &input) const
+{
+    auto setting = ChatPage::instance()->userSettings()->autoReplaceEmoji();
+
+    if (setting == UserSettings::AutoReplaceEmoji::Never)
+        return input;
+
+    // Emoticon table: longest patterns first to avoid partial matches.
+    // Order matters: </3 must be checked before <3.
+    struct Emoticon {
+        const char *pattern;
+        const char *emoji;
+    };
+    static const Emoticon table[] = {
+        // Longer (with-nose) variants first to prevent partial matches
+        {":-)",  "\xF0\x9F\x99\x82"}, // U+1F642 slightly smiling face
+        {":-(",  "\xF0\x9F\x99\x81"}, // U+1F641 slightly frowning face
+        {":-D",  "\xF0\x9F\x98\x80"}, // U+1F600 grinning face
+        {";-)",  "\xF0\x9F\x98\x89"}, // U+1F609 winking face
+        {":-P",  "\xF0\x9F\x98\x9B"}, // U+1F61B tongue face
+        {":-O",  "\xF0\x9F\x98\xAE"}, // U+1F62E open mouth
+        {":-/",  "\xF0\x9F\x98\x95"}, // U+1F615 confused face
+        {":'(",  "\xF0\x9F\x98\xA2"}, // U+1F622 crying face
+        {"</3",  "\xF0\x9F\x92\x94"}, // U+1F494 broken heart (before <3!)
+        // Short variants
+        {":)",   "\xF0\x9F\x99\x82"}, // U+1F642 slightly smiling face
+        {":(",   "\xF0\x9F\x99\x81"}, // U+1F641 slightly frowning face
+        {":D",   "\xF0\x9F\x98\x80"}, // U+1F600 grinning face
+        {";)",   "\xF0\x9F\x98\x89"}, // U+1F609 winking face
+        {":P",   "\xF0\x9F\x98\x9B"}, // U+1F61B tongue face
+        {":O",   "\xF0\x9F\x98\xAE"}, // U+1F62E open mouth
+        {"<3",   "\xE2\x9D\xA4"},      // U+2764 red heart
+        {":/",   "\xF0\x9F\x98\x95"}, // U+1F615 confused face
+    };
+
+    QString result = input;
+
+    if (setting == UserSettings::AutoReplaceEmoji::OnlyAtEnd) {
+        // Only replace a single emoticon at the very end of the message.
+        QString trimmed = result.trimmed();
+        if (trimmed.isEmpty())
+            return result;
+
+        for (const auto &e : table) {
+            QString pat = QString::fromUtf8(e.pattern);
+            if (trimmed.endsWith(pat, Qt::CaseInsensitive)) {
+                int patLen = pat.length();
+                int endPos = trimmed.length();
+                int startPos = endPos - patLen;
+                // Check boundary: must be at start or preceded by whitespace
+                if (startPos == 0 || trimmed.at(startPos - 1).isSpace()) {
+                    // Find this suffix in the original (untrimmed) string
+                    // by locating the trimmed content within result.
+                    int trimStart = 0;
+                    while (trimStart < result.length() && result.at(trimStart).isSpace())
+                        trimStart++;
+                    int originalPos = trimStart + startPos;
+                    result.replace(originalPos, patLen, QString::fromUtf8(e.emoji));
+                    break; // only one replacement at the end
+                }
+            }
+        }
+    } else {
+        // "Always" mode: replace all emoticons, but only when preceded by
+        // whitespace or at the start of the string (boundary-safe).
+        for (const auto &e : table) {
+            QString pat = QString::fromUtf8(e.pattern);
+            QString emoji = QString::fromUtf8(e.emoji);
+            int patLen = pat.length();
+            int pos = 0;
+
+            while (pos <= result.length() - patLen) {
+                int found = result.indexOf(pat, pos, Qt::CaseInsensitive);
+                if (found < 0)
+                    break;
+                // Boundary check: must be at start or preceded by whitespace
+                if (found == 0 || result.at(found - 1).isSpace()) {
+                    result.replace(found, patLen, emoji);
+                    pos = found + emoji.length();
+                } else {
+                    pos = found + 1;
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
 void
 InputBar::message(const QString &msg, MarkdownOverride useMarkdown, bool rainbowify)
 {
+    const QString body = replaceTextEmoticons(msg);
     mtx::events::msg::Text text = {};
-    text.body                   = msg.trimmed().toStdString();
+    text.body                   = body.trimmed().toStdString();
 
     if ((ChatPage::instance()->userSettings()->markdown() &&
          useMarkdown == MarkdownOverride::NOT_SPECIFIED) ||
         useMarkdown == MarkdownOverride::ON) {
-        text.formatted_body = utils::markdownToHtml(msg, rainbowify).toStdString();
+        text.formatted_body = utils::markdownToHtml(body, rainbowify).toStdString();
         // Remove markdown links by completer
-        text.body = replaceMatrixToMarkdownLink(msg.trimmed()).toStdString();
+        text.body = replaceMatrixToMarkdownLink(body.trimmed()).toStdString();
 
         // Don't send formatted_body, when we don't need to
         // Specifically, if it includes no html tag and no newlines or
@@ -552,9 +648,9 @@ InputBar::message(const QString &msg, MarkdownOverride useMarkdown, bool rainbow
             text.format = "org.matrix.custom.html";
     } else if (useMarkdown == MarkdownOverride::CMARK) {
         // disable all markdown extensions
-        text.formatted_body = utils::markdownToHtml(msg, rainbowify, true).toStdString();
+        text.formatted_body = utils::markdownToHtml(body, rainbowify, true).toStdString();
         // keep everything as it was
-        text.body = msg.trimmed().toStdString();
+        text.body = body.trimmed().toStdString();
 
         // always send formatted
         text.format = "org.matrix.custom.html";
@@ -569,16 +665,17 @@ InputBar::message(const QString &msg, MarkdownOverride useMarkdown, bool rainbow
 void
 InputBar::emote(const QString &msg, bool rainbowify)
 {
-    auto html = utils::markdownToHtml(msg, rainbowify);
+    const QString body = replaceTextEmoticons(msg);
+    auto html = utils::markdownToHtml(body, rainbowify);
 
     mtx::events::msg::Emote emote;
-    emote.body = msg.trimmed().toStdString();
+    emote.body = body.trimmed().toStdString();
 
-    if (html != msg.trimmed().toHtmlEscaped() && ChatPage::instance()->userSettings()->markdown()) {
+    if (html != body.trimmed().toHtmlEscaped() && ChatPage::instance()->userSettings()->markdown()) {
         emote.formatted_body = html.toStdString();
         emote.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
-        emote.body = replaceMatrixToMarkdownLink(msg.trimmed()).toStdString();
+        emote.body = replaceMatrixToMarkdownLink(body.trimmed()).toStdString();
     }
 
     emote.mentions  = generateMentions();
@@ -590,16 +687,17 @@ InputBar::emote(const QString &msg, bool rainbowify)
 void
 InputBar::notice(const QString &msg, bool rainbowify)
 {
-    auto html = utils::markdownToHtml(msg, rainbowify);
+    const QString body = replaceTextEmoticons(msg);
+    auto html = utils::markdownToHtml(body, rainbowify);
 
     mtx::events::msg::Notice notice;
-    notice.body = msg.trimmed().toStdString();
+    notice.body = body.trimmed().toStdString();
 
-    if (html != msg.trimmed().toHtmlEscaped() && ChatPage::instance()->userSettings()->markdown()) {
+    if (html != body.trimmed().toHtmlEscaped() && ChatPage::instance()->userSettings()->markdown()) {
         notice.formatted_body = html.toStdString();
         notice.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
-        notice.body = replaceMatrixToMarkdownLink(msg.trimmed()).toStdString();
+        notice.body = replaceMatrixToMarkdownLink(body.trimmed()).toStdString();
     }
 
     notice.mentions  = generateMentions();
@@ -611,18 +709,19 @@ InputBar::notice(const QString &msg, bool rainbowify)
 void
 InputBar::confetti(const QString &body, bool rainbowify)
 {
-    auto html = utils::markdownToHtml(body, rainbowify);
+    const QString emoBody = replaceTextEmoticons(body);
+    auto html = utils::markdownToHtml(emoBody, rainbowify);
 
     mtx::events::msg::ElementEffect confetti;
     confetti.msgtype = "nic.custom.confetti";
-    confetti.body    = body.trimmed().toStdString();
+    confetti.body    = emoBody.trimmed().toStdString();
 
-    if (html != body.trimmed().toHtmlEscaped() &&
+    if (html != emoBody.trimmed().toHtmlEscaped() &&
         ChatPage::instance()->userSettings()->markdown()) {
         confetti.formatted_body = html.toStdString();
         confetti.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
-        confetti.body = replaceMatrixToMarkdownLink(body.trimmed()).toStdString();
+        confetti.body = replaceMatrixToMarkdownLink(emoBody.trimmed()).toStdString();
     }
 
     confetti.mentions  = generateMentions();
@@ -634,20 +733,21 @@ InputBar::confetti(const QString &body, bool rainbowify)
 void
 InputBar::rainfall(const QString &body)
 {
-    auto html = utils::markdownToHtml(body);
+    const QString emoBody = replaceTextEmoticons(body);
+    auto html = utils::markdownToHtml(emoBody);
 
     mtx::events::msg::Unknown rain;
     rain.msgtype = "io.element.effect.rainfall";
-    rain.body    = body.trimmed().toStdString();
+    rain.body    = emoBody.trimmed().toStdString();
 
-    if (html != body.trimmed().toHtmlEscaped() &&
+    if (html != emoBody.trimmed().toHtmlEscaped() &&
         ChatPage::instance()->userSettings()->markdown()) {
         nlohmann::json j;
         j["formatted_body"] = html.toStdString();
         j["format"]         = "org.matrix.custom.html";
         rain.content        = j.dump();
         // Remove markdown links by completer
-        rain.body = replaceMatrixToMarkdownLink(body.trimmed()).toStdString();
+        rain.body = replaceMatrixToMarkdownLink(emoBody.trimmed()).toStdString();
     }
 
     rain.mentions  = generateMentions();
@@ -659,20 +759,21 @@ InputBar::rainfall(const QString &body)
 void
 InputBar::customMsgtype(const QString &msgtype, const QString &body)
 {
-    auto html = utils::markdownToHtml(body);
+    const QString emoBody = replaceTextEmoticons(body);
+    auto html = utils::markdownToHtml(emoBody);
 
     mtx::events::msg::Unknown msg;
     msg.msgtype = msgtype.toStdString();
-    msg.body    = body.trimmed().toStdString();
+    msg.body    = emoBody.trimmed().toStdString();
 
-    if (html != body.trimmed().toHtmlEscaped() &&
+    if (html != emoBody.trimmed().toHtmlEscaped() &&
         ChatPage::instance()->userSettings()->markdown()) {
         nlohmann::json j;
         j["formatted_body"] = html.toStdString();
         j["format"]         = "org.matrix.custom.html";
         msg.content         = j.dump();
         // Remove markdown links by completer
-        msg.body = replaceMatrixToMarkdownLink(body.trimmed()).toStdString();
+        msg.body = replaceMatrixToMarkdownLink(emoBody.trimmed()).toStdString();
     }
 
     msg.mentions  = generateMentions();

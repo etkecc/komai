@@ -305,6 +305,7 @@ private:
     QPair<QString, QString> getCommandAndArgs(const QString &currentText) const;
     mtx::common::Relations generateRelations() const;
     mtx::common::Mentions generateMentions() const;
+    QString replaceTextEmoticons(const QString &text) const;
 
     void startUploadFromPath(const QString &path);
     void startUploadFromMimeData(const QMimeData &source, const QString &format);

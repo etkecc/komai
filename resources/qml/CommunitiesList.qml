@@ -41,7 +41,8 @@ Page {
         ScrollBar.vertical: ScrollBar {
             id: scrollbar
 
-            parent: !collapsed && Settings.scrollbarsInRoomlist ? communitiesList : null
+            parent: communitiesList
+            visible: !collapsed && Settings.scrollbarsInRoomlist
         }
         delegate: ItemDelegate {
             id: communityItem

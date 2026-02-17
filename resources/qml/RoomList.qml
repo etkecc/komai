@@ -446,7 +446,8 @@ Page {
         ScrollBar.vertical: ScrollBar {
             id: scrollbar
 
-            parent: !collapsed && Settings.scrollbarsInRoomlist ? roomlist : null
+            parent: roomlist
+            visible: !collapsed && Settings.scrollbarsInRoomlist
         }
         delegate: ItemDelegate {
             id: roomItem

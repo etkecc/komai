@@ -72,7 +72,7 @@ UserSettings::load(std::optional<QString> profile)
     hasDesktopNotifications_ = settings.value("user/desktop_notifications", true).toBool();
     hasAlertOnNotification_  = settings.value("user/alert_on_notification", false).toBool();
     groupView_               = settings.value("user/group_view", true).toBool();
-    scrollbarsInRoomlist_    = settings.value("user/scrollbars_in_roomlist", false).toBool();
+    scrollbarsInRoomlist_    = settings.value("user/scrollbars_in_roomlist", true).toBool();
     buttonsInTimeline_       = settings.value("user/timeline/buttons", true).toBool();
     timelineMaxWidth_        = settings.value("user/timeline/max_width", 0).toInt();
     messageHoverHighlight_ =

@@ -24,6 +24,8 @@ Page {
 
         Pane {
             id: userInfoPanel
+            Layout.maximumHeight: Settings.groupView ? 0 : -1
+            clip: true
 
             function openUserProfile() {
                 Nheko.updateUserProfile();
@@ -187,7 +189,7 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             color: Nheko.theme.separator
-            Layout.preferredHeight: 2
+            Layout.preferredHeight: Settings.groupView ? 0 : 2
         }
         Pane {
             id: roomActionsBar

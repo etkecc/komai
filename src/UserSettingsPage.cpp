@@ -1029,6 +1029,8 @@ UserSettingsModel::roleNames() const
       {Values, "values"},
       {Good, "good"},
       {Enabled, "enabled"},
+      {ThemeVariantValue, "themeVariantValue"},
+      {ThemeVariantValues, "themeVariantValues"},
     };
 
     return roles;
@@ -1205,8 +1207,12 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         }
     } else if (role == Value) {
         switch (index.row()) {
-        case Theme:
-            return themes.indexOf(i->theme());
+        case Theme: {
+            auto variant = themeVariant(i->theme());
+            if (variant == u"system") return -1;
+            auto slugs = themeSlugs(variant);
+            return slugs.indexOf(i->theme());
+        }
         case ScaleFactor:
             return utils::scaleFactor();
         case MessageHoverHighlight:
@@ -1559,6 +1565,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
     } else if (role == Type) {
         switch (index.row()) {
         case Theme:
+            return ThemeSelector;
         case Font:
         case EmojiFont:
         case Microphone:
@@ -1692,9 +1699,9 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         };
         switch (index.row()) {
         case Theme: {
-            auto names = themeNames();
-            names.append(QStringLiteral("System"));
-            return names;
+            auto variant = themeVariant(i->theme());
+            if (variant == u"system") return QStringList{};
+            return themeNames(variant);
         }
         case ShowImage:
             return QStringList{
@@ -1763,6 +1770,28 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         default:
             return true;
         }
+    } else if (role == ThemeVariantValue) {
+        switch (index.row()) {
+        case Theme: {
+            auto variant = themeVariant(i->theme());
+            if (variant == u"light") return 0;
+            if (variant == u"dark") return 1;
+            return 2; // system
+        }
+        default:
+            return -1;
+        }
+    } else if (role == ThemeVariantValues) {
+        switch (index.row()) {
+        case Theme:
+            return QStringList{
+              QStringLiteral("Light"),
+              QStringLiteral("Dark"),
+              QStringLiteral("System"),
+            };
+        default:
+            return QStringList{};
+        }
     }
 
     return {};
@@ -1775,13 +1804,15 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
     if (role == Value) {
         switch (index.row()) {
         case Theme: {
-            auto idx = value.toInt();
-
-            if (idx >= 0 && idx < themes.size()) {
-                i->setTheme(themes[idx]);
+            auto variant = themeVariant(i->theme());
+            if (variant == u"system") return false;
+            auto slugs = themeSlugs(variant);
+            int idx = value.toInt();
+            if (idx >= 0 && idx < slugs.size()) {
+                i->setTheme(slugs.at(idx));
                 return true;
-            } else
-                return false;
+            }
+            return false;
         }
         case ShowImage: {
             auto showImageValue = value.toInt();
@@ -2157,6 +2188,22 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
                 return false;
         }
         }
+    } else if (role == ThemeVariantValue) {
+        switch (index.row()) {
+        case Theme: {
+            int variantIdx = value.toInt();
+            QString newVariant;
+            if (variantIdx == 0) newVariant = QStringLiteral("light");
+            else if (variantIdx == 1) newVariant = QStringLiteral("dark");
+            else newVariant = QStringLiteral("system");
+            auto currentVariant = themeVariant(i->theme());
+            if (newVariant == currentVariant) return false;
+            i->setTheme(defaultThemeSlug(newVariant));
+            return true;
+        }
+        default:
+            return false;
+        }
     }
     return false;
 }
@@ -2276,7 +2323,7 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 {
     auto s = UserSettings::instance();
     connect(s.get(), &UserSettings::themeChanged, this, [this]() {
-        emit dataChanged(index(Theme), index(Theme), {Value});
+        emit dataChanged(index(Theme), index(Theme), {Value, Values, ThemeVariantValue});
     });
     connect(s.get(), &UserSettings::mobileModeChanged, this, [this]() {
         emit dataChanged(index(MobileMode), index(MobileMode), {Value});

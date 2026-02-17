@@ -599,6 +599,7 @@ public:
         ConfigureHiddenEvents,
         ManageIgnoredUsers,
         Link,
+        ThemeSelector,
     };
     Q_ENUM(Types);
 
@@ -614,6 +615,8 @@ public:
         Values,
         Good,
         Enabled,
+        ThemeVariantValue,
+        ThemeVariantValues,
     };
 
     UserSettingsModel(QObject *parent = nullptr);

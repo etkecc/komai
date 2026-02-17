@@ -110,6 +110,38 @@ Rectangle {
                             }
                         }
                         DelegateChoice {
+                            roleValue: UserSettingsModel.ThemeSelector
+                            RowLayout {
+                                anchors.right: parent.right
+                                spacing: Nheko.paddingSmall
+
+                                ComboBox {
+                                    id: variantCombo
+                                    model: r.model.themeVariantValues
+                                    currentIndex: r.model.themeVariantValue
+                                    onActivated: {
+                                        if (currentIndex !== r.model.themeVariantValue)
+                                            r.model.themeVariantValue = currentIndex
+                                    }
+                                    implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
+                                    wheelEnabled: activeFocus
+                                }
+
+                                ComboBox {
+                                    id: themeCombo
+                                    visible: variantCombo.currentIndex !== 2
+                                    model: r.model.values
+                                    currentIndex: r.model.value
+                                    onActivated: {
+                                        if (currentIndex >= 0 && currentIndex !== r.model.value)
+                                            r.model.value = currentIndex
+                                    }
+                                    implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
+                                    wheelEnabled: activeFocus
+                                }
+                            }
+                        }
+                        DelegateChoice {
                             roleValue: UserSettingsModel.Integer
 
                             SpinBox {

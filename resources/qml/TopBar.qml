@@ -74,6 +74,16 @@ Pane {
                 text: qsTr("In %1").arg(communityAvatar.displayName)
                 textFormat: Text.RichText
                 visible: communityAvatar.visible
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        if (!Communities.trySwitchToSpace(room.parentSpace.roomid))
+                            room.parentSpace.promptJoin();
+                    }
+                }
             }
             ImageButton {
                 id: backToRoomsButton
@@ -101,6 +111,16 @@ Pane {
                 roomid: roomId
                 url: avatarUrl.replace("mxc://", "image://MxcImage/")
                 userid: isDirect ? directChatOtherUserId : ""
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+
+                    onClicked: {
+                        if (room)
+                            TimelineManager.openRoomSettings(room.roomId);
+                    }
+                }
             }
             Label {
                 Layout.column: 2
@@ -122,11 +142,9 @@ Pane {
                 Layout.maximumHeight: fontMetrics.lineSpacing * 2 // show 2 lines
                 Layout.row: 2
                 clip: true
-                enabled: false
                 visible: roomTopic.length > 0
-                // don't use the disabled color
                 color: topBar.palette.text
-                selectByMouse: false
+                selectByMouse: true
                 text: roomTopic
             }
             ImageButton {
@@ -207,6 +225,11 @@ Pane {
                 }
 
                 onClicked: TimelineManager.openRoomMembers(room)
+
+                NhekoCursorShape {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                }
             }
             ImageButton {
                 id: searchButton
@@ -380,11 +403,6 @@ Pane {
                 onAccepted: topBar.searchString = text
             }
         }
-        NhekoCursorShape {
-            anchors.bottomMargin: (pinnedMessages.visible ? pinnedMessages.height : 0) + (widgets.visible ? widgets.height : 0)
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-        }
     }
 
     onRoomIdChanged: {
@@ -406,42 +424,5 @@ Pane {
         sequence: StandardKey.Find
 
         onActivated: searchButton.searchActive = !searchButton.searchActive
-    }
-    TapHandler {
-        gesturePolicy: TapHandler.ReleaseWithinBounds
-
-        onSingleTapped: {
-            if (eventPoint.position.y > topBar.height - (pinnedMessages.visible ? pinnedMessages.height : 0) - (widgets.visible ? widgets.height : 0)) {
-                eventPoint.accepted = true;
-                return;
-            }
-            if (showBackButton && eventPoint.position.x < Nheko.paddingMedium + backToRoomsButton.width) {
-                eventPoint.accepted = true;
-                return;
-            }
-            if (eventPoint.position.x > topBar.width - Nheko.paddingMedium - roomOptionsButton.width) {
-                eventPoint.accepted = true;
-                return;
-            }
-            if (communityLabel.visible && eventPoint.position.y < communityAvatar.height + Nheko.paddingMedium + Nheko.paddingSmall / 2) {
-                if (!Communities.trySwitchToSpace(room.parentSpace.roomid))
-                    room.parentSpace.promptJoin();
-                eventPoint.accepted = true;
-                return;
-            }
-            if (room) {
-                let p = topBar.mapToItem(roomTopicC, eventPoint.position.x, eventPoint.position.y);
-                let link = roomTopicC.linkAt(p.x, p.y);
-                if (link) {
-                    Nheko.openLink(link);
-                } else {
-                    TimelineManager.openRoomSettings(room.roomId);
-                }
-            }
-            eventPoint.accepted = true;
-        }
-    }
-    HoverHandler {
-        grabPermissions: PointerHandler.TakeOverForbidden | PointerHandler.CanTakeOverFromAnything
     }
 }

@@ -24,14 +24,20 @@ Popup {
     readonly property int stickersPerRow: emoji ? 7 : 3
     readonly property int sidebarAvatarSize: 32
 
-    function show(showAt, roomid_, callback) {
+    function show(showAt, roomid_, callback, openAbove) {
         console.debug("Showing sticker picker");
         roomid = roomid_;
         stickerPopup.callback = callback;
         if (showAt) {
             stickerPopup.parent = showAt;
-            stickerPopup.x = showAt.width - stickerPopup.width;
-            stickerPopup.y = showAt.height;
+            if (openAbove) {
+                var mapped = showAt.mapFromItem(openAbove, 0, 0);
+                stickerPopup.x = showAt.width - stickerPopup.width;
+                stickerPopup.y = mapped.y - stickerPopup.height;
+            } else {
+                stickerPopup.x = showAt.width - stickerPopup.width;
+                stickerPopup.y = showAt.height;
+            }
         }
         stickerPopup.open();
     }

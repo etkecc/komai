@@ -424,7 +424,7 @@ Rectangle {
             onClicked: stickerPopup.visible ? stickerPopup.close() : stickerPopup.show(stickerButton, room.roomId, function (row) {
                     room.input.sticker(row);
                     TimelineManager.focusMessageInput();
-                })
+                }, inputBar)
 
             StickerPicker {
                 id: stickerPopup
@@ -447,7 +447,7 @@ Rectangle {
             onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(emojiButton, room.roomId, function (plaintext, markdown) {
                     messageInput.insert(messageInput.cursorPosition, markdown);
                     TimelineManager.focusMessageInput();
-                })
+                }, inputBar)
 
             StickerPicker {
                 id: emojiPopup

@@ -13,7 +13,7 @@ import im.nheko
 Page {
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
-    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 2.3)
+    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 2.0)
     property bool collapsed: false
 
     background: Rectangle {

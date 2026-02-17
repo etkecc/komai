@@ -59,8 +59,8 @@ Item {
         //onModelChanged: if (room) room.sendReset()
         //reuseItems: true
         boundsBehavior: Flickable.StopAtBounds
-        displayMarginBeginning: height / 4
-        displayMarginEnd: height / 4
+        displayMarginBeginning: height / 8
+        displayMarginEnd: height / 8
         model: (filteredTimeline.filterByThread || filteredTimeline.filterByContent || filteredTimeline.filterByNotifications) ? filteredTimeline : room
         //pixelAligned: true
         spacing: 2

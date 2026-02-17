@@ -63,11 +63,17 @@ configure-debug *args:
 
 # Extracts translatable strings from source code into .ts files
 translations-update:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	ts_files=()
+	for f in {{ justfile_directory() }}/resources/langs/*/komai_*.ts; do
+		ts_files+=("$f")
+	done
 	/usr/lib/qt6/bin/lupdate \
 		-locations relative \
 		{{ justfile_directory() }}/src/ \
 		{{ justfile_directory() }}/resources/qml/ \
-		-ts {{ justfile_directory() }}/resources/langs/komai_*.ts \
+		-ts "${ts_files[@]}" \
 		-no-obsolete
 
 # Runs the linter/formatter

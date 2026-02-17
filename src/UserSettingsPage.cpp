@@ -172,6 +172,14 @@ UserSettings::load(std::optional<QString> profile)
         showImageValue = 0;
     showImage_ = static_cast<ShowImage>(showImageValue);
 
+    auto tempShowSenderUsername =
+      settings.value("user/show_sender_username", "").toString().toStdString();
+    auto showSenderUsernameValue =
+      QMetaEnum::fromType<ShowSenderUsername>().keyToValue(tempShowSenderUsername.c_str());
+    if (showSenderUsernameValue < 0)
+        showSenderUsernameValue = 1;
+    showSenderUsername_ = static_cast<ShowSenderUsername>(showSenderUsernameValue);
+
     collapsedSpaces_.clear();
     auto tempSpaces = settings.value(prefix + "user/collapsed_spaces", QList<QVariant>{}).toList();
     for (const auto &e : std::as_const(tempSpaces))
@@ -433,6 +441,16 @@ UserSettings::setPinnedReactions(const QString &value)
         return;
     pinnedReactions_ = value;
     emit pinnedReactionsChanged(value);
+    save();
+}
+
+void
+UserSettings::setShowSenderUsername(ShowSenderUsername state)
+{
+    if (state == showSenderUsername_)
+        return;
+    showSenderUsername_ = state;
+    emit showSenderUsernameChanged(state);
     save();
 }
 
@@ -1073,6 +1091,10 @@ UserSettings::save()
     settings.setValue(
       prefix + "user/show_images",
       QString::fromUtf8(QMetaEnum::fromType<ShowImage>().valueToKey(static_cast<int>(showImage_))));
+    settings.setValue(
+      "user/show_sender_username",
+      QString::fromUtf8(QMetaEnum::fromType<ShowSenderUsername>().valueToKey(
+        static_cast<int>(showSenderUsername_))));
 
     QVariantList v;
     v.reserve(collapsedSpaces_.size());
@@ -1157,6 +1179,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Enable stickers");
         case ShowOwnAvatarNextToOwnMessages:
             return tr("Show own avatar next to own message bubbles");
+        case ShowSenderUsername:
+            return tr("Show sender username above messages");
         case PinnedReactions:
             return tr("Pinned reactions");
         case AnimateImagesOnHover:
@@ -1330,6 +1354,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return i->enableStickers();
         case ShowOwnAvatarNextToOwnMessages:
             return i->showOwnAvatarNextToOwnMessages();
+        case ShowSenderUsername:
+            return static_cast<int>(i->showSenderUsername());
         case PinnedReactions:
             return i->pinnedReactions();
         case AnimateImagesOnHover:
@@ -1518,6 +1544,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.");
         case ShowOwnAvatarNextToOwnMessages:
             return tr("When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.");
+        case ShowSenderUsername:
+            return tr("Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.");
         case PinnedReactions:
             return tr("Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.");
         case AnimateImagesOnHover:
@@ -1688,6 +1716,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case SendMessageKey:
             return Options;
         case AutoReplaceEmoji:
+        case ShowSenderUsername:
             return Options;
         case TimelineMaxWidth:
         case PrivacyScreenTimeout:
@@ -1827,6 +1856,12 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
               tr("Only in private rooms"),
               tr("Never"),
             };
+        case ShowSenderUsername:
+            return QStringList{
+              tr("Always"),
+              tr("Only in large rooms (> 16 members)"),
+              tr("Never"),
+            };
         case SendMessageKey:
             return QStringList{
               tr("Enter"),
@@ -1930,6 +1965,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return komaiSettingImage();
         case ShowOwnAvatarNextToOwnMessages:
             return komaiSettingImage();
+        case ShowSenderUsername:
+            return komaiSettingImage();
         default:
             return QString();
         }
@@ -1963,6 +2000,17 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
                 return false;
 
             i->setShowImage(static_cast<UserSettings::ShowImage>(showImageValue));
+            return true;
+        }
+        case ShowSenderUsername: {
+            auto showSenderUsernameValue = value.toInt();
+            if (showSenderUsernameValue < 0 ||
+                QMetaEnum::fromType<UserSettings::ShowSenderUsername>().keyCount() <=
+                  showSenderUsernameValue)
+                return false;
+
+            i->setShowSenderUsername(
+              static_cast<UserSettings::ShowSenderUsername>(showSenderUsernameValue));
             return true;
         }
         case MessageHoverHighlight: {
@@ -2555,6 +2603,9 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     });
     connect(s.get(), &UserSettings::showImageChanged, this, [this]() {
         emit dataChanged(index(ShowImage), index(ShowImage), {Value});
+    });
+    connect(s.get(), &UserSettings::showSenderUsernameChanged, this, [this]() {
+        emit dataChanged(index(ShowSenderUsername), index(ShowSenderUsername), {Value});
     });
     connect(s.get(), &UserSettings::typingNotificationsChanged, this, [this]() {
         emit dataChanged(index(TypingNotifications), index(TypingNotifications), {Value});

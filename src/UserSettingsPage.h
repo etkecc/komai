@@ -37,6 +37,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
     Q_PROPERTY(bool showOwnAvatarNextToOwnMessages READ showOwnAvatarNextToOwnMessages WRITE setShowOwnAvatarNextToOwnMessages NOTIFY showOwnAvatarNextToOwnMessagesChanged)
     Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY pinnedReactionsChanged)
+    Q_PROPERTY(ShowSenderUsername showSenderUsername READ showSenderUsername WRITE setShowSenderUsername NOTIFY showSenderUsernameChanged)
+    Q_PROPERTY(int showSenderUsernameLargeRoomThreshold READ showSenderUsernameLargeRoomThreshold CONSTANT)
     Q_PROPERTY(bool animateImagesOnHover READ animateImagesOnHover WRITE setAnimateImagesOnHover
                  NOTIFY animateImagesOnHoverChanged)
     Q_PROPERTY(bool typingNotifications READ typingNotifications WRITE setTypingNotifications NOTIFY
@@ -172,6 +174,14 @@ public:
     };
     Q_ENUM(ShowImage)
 
+    enum class ShowSenderUsername
+    {
+        Always,
+        OnlyInLargeRooms,
+        Never,
+    };
+    Q_ENUM(ShowSenderUsername)
+
     enum class AutoReplaceEmoji
     {
         Always,
@@ -211,6 +221,7 @@ public:
     void setEnableStickers(bool state);
     void setShowOwnAvatarNextToOwnMessages(bool state);
     void setPinnedReactions(const QString &value);
+    void setShowSenderUsername(ShowSenderUsername state);
     void setAnimateImagesOnHover(bool state);
     void setReadReceipts(bool state);
     void setTypingNotifications(bool state);
@@ -289,6 +300,8 @@ public:
     bool enableStickers() const { return enableStickers_; }
     bool showOwnAvatarNextToOwnMessages() const { return showOwnAvatarNextToOwnMessages_; }
     QString pinnedReactions() const { return pinnedReactions_; }
+    ShowSenderUsername showSenderUsername() const { return showSenderUsername_; }
+    int showSenderUsernameLargeRoomThreshold() const { return 16; }
     bool animateImagesOnHover() const { return animateImagesOnHover_; }
     bool typingNotifications() const { return typingNotifications_; }
     bool sortByImportance() const { return sortByImportance_; }
@@ -367,6 +380,7 @@ signals:
     void enableStickersChanged(bool state);
     void showOwnAvatarNextToOwnMessagesChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
+    void showSenderUsernameChanged(ShowSenderUsername state);
     void animateImagesOnHoverChanged(bool state);
     void typingNotificationsChanged(bool state);
     void buttonInTimelineChanged(bool state);
@@ -443,6 +457,7 @@ private:
     bool enableStickers_;
     bool showOwnAvatarNextToOwnMessages_;
     QString pinnedReactions_;
+    ShowSenderUsername showSenderUsername_;
     bool animateImagesOnHover_;
     bool typingNotifications_;
     bool sortByImportance_;
@@ -559,6 +574,7 @@ class UserSettingsModel : public QAbstractListModel
         SmallAvatars,
         PinnedReactions,
         EnableStickers,
+        ShowSenderUsername,
 
         SidebarSection,
         GroupView,

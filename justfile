@@ -61,6 +61,15 @@ configure-debug *args:
 		-DMAN=OFF \
 		{{ args }}
 
+# Extracts translatable strings from source code into .ts files
+translations-update:
+	/usr/lib/qt6/bin/lupdate \
+		-locations relative \
+		{{ justfile_directory() }}/src/ \
+		{{ justfile_directory() }}/resources/qml/ \
+		-ts {{ justfile_directory() }}/resources/langs/komai_*.ts \
+		-no-obsolete
+
 # Runs the linter/formatter
 lint:
 	{{ justfile_directory() }}/.ci/format.sh

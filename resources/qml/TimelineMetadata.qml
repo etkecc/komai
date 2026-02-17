@@ -16,6 +16,10 @@ RowLayout {
     required property double scaling
     property double buttonScale: 2
     required property bool isSender
+    property bool actionBarActive: false
+    readonly property alias actionToggleButton: actionToggleBtn
+
+    signal actionToggled()
 
     layoutDirection: metadata.isSender ? Qt.RightToLeft : Qt.LeftToRight
 
@@ -80,6 +84,23 @@ RowLayout {
         sourceSize.width: parent.iconSize
         trust: metadata.trustlevel
         visible: metadata.room.isEncrypted
+    }
+    ImageButton {
+        id: actionToggleBtn
+
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
+        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.text: qsTr("Message actions")
+        ToolTip.visible: hovered && !metadata.actionBarActive
+        buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
+        highlightColor: palette.highlight
+        changeColorOnHover: true
+        image: ":/icons/icons/ui/plus-circle.svg"
+        visible: Settings.buttonsInTimeline
+
+        onClicked: metadata.actionToggled()
     }
     ImageButton {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter

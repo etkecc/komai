@@ -5,7 +5,7 @@
 
 🧑‍💻 **Komai** is a usability-focused fork of [nheko](https://nheko.im/nheko-reborn/nheko), a desktop [Matrix](https://matrix.org/) client built with Qt/C++/QML, by [etke.cc](https://etke.cc/).
 
-The name *Komai* (細い, "fine/slender" in Japanese) carries several layers: "ko" evokes small/fine (小), "m" nods to **M**atrix, and "ai" (愛) means love — a small, loving Matrix client.
+The name *Komai* ([細い](https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84), "fine/slender" in Japanese) carries several layers: "ko" evokes small/fine (小), "m" nods to **M**atrix, and "ai" (愛) means love — but also a nod to **AI**, since this client is largely vibe-coded. A small Matrix client you can possibly get to love.
 
 
 ## 🎯 Design Philosophy

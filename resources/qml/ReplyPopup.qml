@@ -16,7 +16,7 @@ Rectangle {
     Layout.fillWidth: true
     color: palette.alternateBase
     radius: 8
-    implicitHeight: room && (room.reply || room.thread) ? popupColumn.implicitHeight + Nheko.paddingMedium * 2 : (room && room.edit ? closeEditButton.height + Nheko.paddingSmall : 0)
+    implicitHeight: room && (room.reply || room.thread || room.edit) ? popupColumn.implicitHeight + Nheko.paddingMedium * 2 : 0
     visible: room && (room.reply || room.edit || room.thread)
     z: 3
 
@@ -33,7 +33,7 @@ Rectangle {
     Column {
         id: popupColumn
 
-        visible: room && (room.reply || room.thread)
+        visible: room && (room.reply || room.thread || room.edit)
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
@@ -122,6 +122,47 @@ Rectangle {
             }
         }
 
+        // ── Edit header (visible when editing a message) ──
+        RowLayout {
+            visible: room && room.edit
+            spacing: Nheko.paddingSmall
+            width: parent.width
+
+            Image {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredHeight: editHeaderLabel.font.pixelSize
+                Layout.preferredWidth: editHeaderLabel.font.pixelSize
+                source: "image://colorimage/:/icons/icons/ui/edit.svg?" + palette.text
+            }
+
+            Label {
+                id: editHeaderLabel
+
+                color: palette.text
+                font.bold: true
+                text: qsTr("Editing a message")
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            ImageButton {
+                id: closeEditHeaderButton
+
+                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.text: qsTr("Close")
+                ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredHeight: editHeaderLabel.font.pixelSize
+                Layout.preferredWidth: editHeaderLabel.font.pixelSize
+                hoverEnabled: true
+                image: ":/icons/icons/ui/dismiss.svg"
+
+                onClicked: room.edit = undefined
+            }
+        }
+
         // ── Reply preview (visible when replying to a specific message) ──
         Reply {
             id: replyPreview
@@ -137,20 +178,5 @@ Rectangle {
             limitHeight: true
         }
     }
-    ImageButton {
-        id: closeEditButton
 
-        ToolTip.text: qsTr("Cancel Edit")
-        ToolTip.visible: closeEditButton.hovered
-        anchors.margins: 8
-        anchors.right: parent.right
-        anchors.top: parent.top
-        height: 22
-        hoverEnabled: true
-        image: ":/icons/icons/ui/dismiss_edit.svg"
-        visible: room && room.edit
-        width: 22
-
-        onClicked: room.edit = undefined
-    }
 }

@@ -22,7 +22,7 @@ Popup {
     readonly property int stickerDim: emoji ? 48 : 128
     readonly property int stickerDimPad: stickerDim + Nheko.paddingSmall
     readonly property int stickersPerRow: emoji ? 7 : 3
-    readonly property int sidebarAvatarSize: 24
+    readonly property int sidebarAvatarSize: 32
 
     function show(showAt, roomid_, callback) {
         console.debug("Showing sticker picker");

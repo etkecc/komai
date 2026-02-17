@@ -578,7 +578,7 @@ ChatPage::bootstrap(QString userid, QString homeserver, QString token)
             getProfileInfo();
             getBackupVersion();
             tryInitialSync();
-            callManager_->refreshTurnServer();
+            if (UserSettings::instance()->enableLegacyCalls()) callManager_->refreshTurnServer();
             emit MainWindow::instance()->reload();
         });
 
@@ -638,7 +638,7 @@ ChatPage::loadStateFromCache()
     getProfileInfo();
     getBackupVersion();
     verifyOneTimeKeyCountAfterStartup();
-    callManager_->refreshTurnServer();
+    if (UserSettings::instance()->enableLegacyCalls()) callManager_->refreshTurnServer();
 
     emit contentLoaded();
 

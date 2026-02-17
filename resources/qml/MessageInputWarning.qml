@@ -30,7 +30,7 @@ Rectangle {
         border.width: 1
         // TODO: Qt.alpha() would make more sense but it wasn't working...
         color: Qt.rgba(bubbleColor.r, bubbleColor.g, bubbleColor.b, 0.3)
-        radius: 3
+        radius: 6
         visible: warningRoot.visible
         z: 3
 

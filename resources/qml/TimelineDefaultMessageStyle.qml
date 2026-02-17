@@ -231,6 +231,8 @@ TimelineEvent {
 
                     background: Rectangle {
                         color: Qt.tint(palette.base, Qt.hsla(replyRow.userColor.hslHue, 0.5, replyRow.userColor.hslLightness, 0.1))
+                        radius: Nheko.paddingMedium
+                        clip: true
 
                         Rectangle {
                             anchors.top: parent.top
@@ -240,6 +242,7 @@ TimelineEvent {
                             id: replyLine
                             color: replyRow.userColor
                             width: 4
+                            radius: parent.radius
                         }
                     }
 
@@ -295,7 +298,7 @@ TimelineEvent {
             color: "transparent"
             border.color: Nheko.theme.red
             border.width: wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
-            radius: 4
+            radius: 8
             height: contentColumn.implicitHeight + 4
             width: contentColumn.implicitWidth + 4 + (wrapper.threadId ? (4 + gridContainer.spacing) : 0)
         },

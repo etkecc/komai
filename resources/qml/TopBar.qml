@@ -125,6 +125,7 @@ Pane {
                 Layout.row: 2
                 clip: true
                 enabled: false
+                visible: roomTopic.length > 0
                 // don't use the disabled color
                 color: topBar.palette.text
                 selectByMouse: false

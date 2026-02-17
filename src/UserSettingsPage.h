@@ -94,6 +94,8 @@ class UserSettings final : public QObject
                  NOTIFY screenShareHideCursorChanged)
     Q_PROPERTY(
       bool useStunServer READ useStunServer WRITE setUseStunServer NOTIFY useStunServerChanged)
+    Q_PROPERTY(
+      bool enableLegacyCalls READ enableLegacyCalls WRITE setEnableLegacyCalls NOTIFY enableLegacyCallsChanged)
     Q_PROPERTY(bool onlyShareKeysWithVerifiedUsers READ onlyShareKeysWithVerifiedUsers WRITE
                  setOnlyShareKeysWithVerifiedUsers NOTIFY onlyShareKeysWithVerifiedUsersChanged)
     Q_PROPERTY(bool shareKeysWithTrustedUsers READ shareKeysWithTrustedUsers WRITE
@@ -226,6 +228,7 @@ public:
     void setScreenShareRemoteVideo(bool state);
     void setScreenShareHideCursor(bool state);
     void setUseStunServer(bool state);
+    void setEnableLegacyCalls(bool state);
     void setOnlyShareKeysWithVerifiedUsers(bool state);
     void setShareKeysWithTrustedUsers(bool state);
     void setUseOnlineKeyBackup(bool state);
@@ -305,6 +308,7 @@ public:
     bool screenShareRemoteVideo() const { return screenShareRemoteVideo_; }
     bool screenShareHideCursor() const { return screenShareHideCursor_; }
     bool useStunServer() const { return useStunServer_; }
+    bool enableLegacyCalls() const { return enableLegacyCalls_; }
     bool shareKeysWithTrustedUsers() const { return shareKeysWithTrustedUsers_; }
     bool onlyShareKeysWithVerifiedUsers() const { return onlyShareKeysWithVerifiedUsers_; }
     bool useOnlineKeyBackup() const { return useOnlineKeyBackup_; }
@@ -377,6 +381,7 @@ signals:
     void screenShareRemoteVideoChanged(bool state);
     void screenShareHideCursorChanged(bool state);
     void useStunServerChanged(bool state);
+    void enableLegacyCallsChanged(bool state);
     void onlyShareKeysWithVerifiedUsersChanged(bool state);
     void shareKeysWithTrustedUsersChanged(bool state);
     void useOnlineKeyBackupChanged(bool state);
@@ -454,6 +459,7 @@ private:
     bool screenShareRemoteVideo_;
     bool screenShareHideCursor_;
     bool useStunServer_;
+    bool enableLegacyCalls_;
     bool disableCertificateValidation_ = false;
     QString profile_;
     QString userId_;
@@ -551,6 +557,7 @@ class UserSettingsModel : public QAbstractListModel
 
         VoipSection,
         UseStunServer,
+        EnableLegacyCalls,
         Microphone,
         Camera,
         CameraResolution,

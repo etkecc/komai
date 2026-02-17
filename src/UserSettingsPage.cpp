@@ -129,6 +129,7 @@ UserSettings::load(std::optional<QString> profile)
     screenShareRemoteVideo_ = settings.value("user/screen_share_remote_video", false).toBool();
     screenShareHideCursor_  = settings.value("user/screen_share_hide_cursor", false).toBool();
     useStunServer_          = settings.value("user/use_stun_server", false).toBool();
+    enableLegacyCalls_      = settings.value("user/enable_legacy_calls", false).toBool();
 
     if (profile) // set to "" if it's the default to maintain compatibility
         profile_ = (*profile == QLatin1String("default")) ? QLatin1String("") : *profile;
@@ -690,6 +691,16 @@ UserSettings::setUseStunServer(bool useStunServer)
 }
 
 void
+UserSettings::setEnableLegacyCalls(bool enableLegacyCalls)
+{
+    if (enableLegacyCalls == enableLegacyCalls_)
+        return;
+    enableLegacyCalls_ = enableLegacyCalls;
+    emit enableLegacyCallsChanged(enableLegacyCalls);
+    save();
+}
+
+void
 UserSettings::setOnlyShareKeysWithVerifiedUsers(bool shareKeys)
 {
     if (shareKeys == onlyShareKeysWithVerifiedUsers_)
@@ -981,6 +992,7 @@ UserSettings::save()
     settings.setValue("screen_share_remote_video", screenShareRemoteVideo_);
     settings.setValue("screen_share_hide_cursor", screenShareHideCursor_);
     settings.setValue("use_stun_server", useStunServer_);
+    settings.setValue("enable_legacy_calls", enableLegacyCalls_);
     settings.setValue("currentProfile", profile_);
     settings.setValue("use_identicon", useIdenticon_);
     settings.setValue("open_image_external", openImageExternal_);
@@ -1163,6 +1175,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Camera frame rate");
         case UseStunServer:
             return tr("Allow fallback call assist server");
+        case EnableLegacyCalls:
+            return tr("Enable legacy calls");
         case OnlyShareKeysWithVerifiedUsers:
             return tr("Send encrypted messages to verified users only");
         case ShareKeysWithTrustedUsers:
@@ -1341,6 +1355,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return data(index, Values).toStringList().indexOf(i->cameraFrameRate());
         case UseStunServer:
             return i->useStunServer();
+        case EnableLegacyCalls:
+            return i->enableLegacyCalls();
         case OnlyShareKeysWithVerifiedUsers:
             return i->onlyShareKeysWithVerifiedUsers();
         case ShareKeysWithTrustedUsers:
@@ -1392,6 +1408,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return {};
         case Microphone:
             return tr("Set the notification sound to play when a call invite arrives");
+        case EnableLegacyCalls:
+            return tr("Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release.");
         case Camera:
         case CameraResolution:
         case CameraFrameRate:
@@ -1636,6 +1654,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case MobileMode:
         case DisableSwipe:
         case UseStunServer:
+        case EnableLegacyCalls:
         case OnlyShareKeysWithVerifiedUsers:
         case ShareKeysWithTrustedUsers:
         case UseOnlineKeyBackup:
@@ -1826,6 +1845,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         // (or any other qrc:/ path) for their settings.
         switch (index.row()) {
         case PinnedReactions:
+            return komaiSettingImage();
+        case EnableLegacyCalls:
             return komaiSettingImage();
         default:
             return QString();
@@ -2190,6 +2211,13 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
             } else
                 return false;
         }
+        case EnableLegacyCalls: {
+            if (value.userType() == QMetaType::Bool) {
+                i->setEnableLegacyCalls(value.toBool());
+                return true;
+            } else
+                return false;
+        }
         case OnlyShareKeysWithVerifiedUsers: {
             if (value.userType() == QMetaType::Bool) {
                 i->setOnlyShareKeysWithVerifiedUsers(value.toBool());
@@ -2489,6 +2517,9 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 
     connect(s.get(), &UserSettings::useStunServerChanged, this, [this]() {
         emit dataChanged(index(UseStunServer), index(UseStunServer), {Value});
+    });
+    connect(s.get(), &UserSettings::enableLegacyCallsChanged, this, [this]() {
+        emit dataChanged(index(EnableLegacyCalls), index(EnableLegacyCalls), {Value});
     });
     connect(s.get(), &UserSettings::microphoneChanged, this, [this]() {
         emit dataChanged(index(Microphone), index(Microphone), {Value, Values});

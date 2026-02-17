@@ -31,7 +31,7 @@ Pane {
     z: 3
 
     background: Rectangle {
-        color: palette.window
+        color: palette.alternateBase
     }
     contentItem: Item {
         GridLayout {

@@ -110,6 +110,11 @@ Flow {
                 console.debug("Picked " + modelData.key + "in response to " + reactionFlow.eventId + ". selfReactedEvent: " + modelData.selfReactedEvent);
                 room.input.reaction(reactionFlow.eventId, modelData.key);
             }
+
+            NhekoCursorShape {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
         }
     }
 }

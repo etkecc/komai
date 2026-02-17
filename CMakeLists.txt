@@ -252,6 +252,7 @@ if (Qt6Qml_VERSION VERSION_GREATER_EQUAL "6.10.0")
     find_package(Qt6 REQUIRED COMPONENTS GuiPrivate QmlPrivate)
 endif()
 find_package(Qt6DBus)
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 if(USE_BUNDLED_QTKEYCHAIN)
     include(FetchContent)
@@ -671,10 +672,28 @@ else()
     )
 endif()
 
+# Generate ThemeDefinitions.h from Base16 YAML theme files.
+# Re-runs automatically when any theme YAML changes.
+file(GLOB THEME_YAML_FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/themes/*.yaml")
+set(THEME_DEFINITIONS_H "${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ThemeDefinitions.h")
+add_custom_command(
+    OUTPUT "${THEME_DEFINITIONS_H}"
+    COMMAND Python3::Interpreter
+        "${CMAKE_CURRENT_SOURCE_DIR}/bin/generate-themes.py"
+        "${THEME_DEFINITIONS_H}"
+        "${CMAKE_CURRENT_SOURCE_DIR}/assets/themes"
+    DEPENDS
+        "${CMAKE_CURRENT_SOURCE_DIR}/bin/generate-themes.py"
+        ${THEME_YAML_FILES}
+    COMMENT "Generating ThemeDefinitions.h from theme YAML files"
+    VERBATIM
+)
+
 set(NHEKO_DEPS
     ${SRC_FILES}
     ${QRC}
-    ${META_FILES_TO_INCLUDE})
+    ${META_FILES_TO_INCLUDE}
+    ${THEME_DEFINITIONS_H})
 
 if(ASAN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,undefined")

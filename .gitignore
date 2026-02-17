@@ -126,5 +126,8 @@ package.dir
 .third-party
 .deps
 
+# Generated at build time from assets/themes/*.yaml
+src/ui/ThemeDefinitions.h
+
 # Archives
 *.bz2

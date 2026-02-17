@@ -26,7 +26,7 @@ Pane {
     property int trustlevel: room ? room.trustlevel : Crypto.Unverified
 
     Layout.fillWidth: true
-    implicitHeight: topLayout.height + Nheko.paddingMedium * 2
+    implicitHeight: Math.max(topLayout.height + Nheko.paddingMedium * 2, Math.ceil(fontMetrics.lineSpacing * 2.0) + Nheko.paddingMedium * 2)
     padding: 0
     z: 3
 
@@ -40,7 +40,7 @@ Pane {
             anchors.left: parent.left
             anchors.margins: Nheko.paddingMedium
             anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.top: parent.top
             columnSpacing: Nheko.paddingSmall
             rowSpacing: Nheko.paddingSmall
 
@@ -137,7 +137,8 @@ Pane {
             MatrixText {
                 id: roomTopicC
 
-                Layout.column: 2
+                Layout.column: 1
+                Layout.columnSpan: 8
                 Layout.fillWidth: true
                 Layout.maximumHeight: fontMetrics.lineSpacing * 2 // show 2 lines
                 Layout.row: 2
@@ -307,8 +308,8 @@ Pane {
             ScrollView {
                 id: pinnedMessages
 
-                Layout.column: 2
-                Layout.columnSpan: 6
+                Layout.column: 1
+                Layout.columnSpan: 8
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 4)
                 Layout.row: 3
@@ -365,8 +366,8 @@ Pane {
             ScrollView {
                 id: widgets
 
-                Layout.column: 2
-                Layout.columnSpan: 6
+                Layout.column: 1
+                Layout.columnSpan: 8
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 1.5)
                 Layout.row: 4
@@ -391,8 +392,8 @@ Pane {
             MatrixTextField {
                 id: searchField
 
-                Layout.column: 2
-                Layout.columnSpan: 6
+                Layout.column: 1
+                Layout.columnSpan: 8
                 Layout.fillWidth: true
                 Layout.row: 5
                 enabled: visible

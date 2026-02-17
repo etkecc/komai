@@ -78,7 +78,7 @@ UserSettings::load(std::optional<QString> profile)
     messageHoverHighlight_ =
       settings.value("user/timeline/message_hover_highlight", false).toBool();
     enlargeEmojiOnlyMessages_ =
-      settings.value("user/timeline/enlarge_emoji_only_msg", false).toBool();
+      settings.value("user/timeline/enlarge_emoji_only_msg", true).toBool();
     markdown_ = settings.value("user/markdown_enabled", true).toBool();
 
     auto sendMessageKey = settings.value("user/send_message_key", 0).toInt();

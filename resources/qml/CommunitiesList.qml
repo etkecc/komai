@@ -43,6 +43,15 @@ Page {
 
             parent: communitiesList
             visible: !collapsed && Settings.scrollbarsInRoomlist
+            policy: ScrollBar.AlwaysOn
+            palette.dark: Qt.darker(palette.alternateBase, 1.5)
+            palette.mid: Qt.darker(palette.alternateBase, 1.3)
+
+            Rectangle {
+                anchors.fill: parent
+                color: palette.window
+                z: -1
+            }
         }
         delegate: ItemDelegate {
             id: communityItem

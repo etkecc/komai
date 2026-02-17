@@ -18,6 +18,7 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "UserSettingsPage.h"
+#include "ui/ThemeDefinitions.h"
 #include "Utils.h"
 #include "encryption/Olm.h"
 #include "ui/Theme.h"
@@ -25,11 +26,12 @@
 
 #include "config/nheko.h"
 
-QStringList themes{
-  QStringLiteral("light"),
-  QStringLiteral("dark"),
-  QStringLiteral("system"),
-};
+// Dynamic theme list: all data-driven themes + "system"
+static QStringList themes = [] {
+    auto slugs = themeSlugs();
+    slugs.append(QStringLiteral("system"));
+    return slugs;
+}();
 
 QSharedPointer<UserSettings> UserSettings::instance_;
 
@@ -1689,12 +1691,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return l;
         };
         switch (index.row()) {
-        case Theme:
-            return QStringList{
-              QStringLiteral("Light"),
-              QStringLiteral("Dark"),
-              QStringLiteral("System"),
-            };
+        case Theme: {
+            auto names = themeNames();
+            names.append(QStringLiteral("System"));
+            return names;
+        }
         case ShowImage:
             return QStringList{
               tr("Always"),

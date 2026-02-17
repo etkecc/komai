@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Komai Contributors
+// SPDX-FileCopyrightText: Nheko Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -8,13 +8,14 @@
 #include <QPalette>
 #include <QQmlEngine>
 
+#include "ThemeDefinitions.h"
+
 class Theme final : public QPalette
 {
     Q_GADGET
     QML_ANONYMOUS
 
     Q_PROPERTY(QColor sidebarBackground READ sidebarBackground CONSTANT)
-    Q_PROPERTY(QColor alternateButton READ alternateButton CONSTANT)
     Q_PROPERTY(QColor separator READ separator CONSTANT)
     Q_PROPERTY(QColor red READ red CONSTANT)
     Q_PROPERTY(QColor green READ green CONSTANT)
@@ -28,7 +29,6 @@ public:
     static QPalette paletteFromTheme(QStringView theme);
 
     QColor sidebarBackground() const { return sidebarBackground_; }
-    QColor alternateButton() const { return alternateButton_; }
     QColor separator() const { return separator_; }
     QColor red() const { return red_; }
     QColor green() const { return green_; }
@@ -38,5 +38,5 @@ public:
     QColor unavailable() const { return QColor(0xff, 0x99, 0x33); }
 
 private:
-    QColor sidebarBackground_, separator_, red_, green_, error_, orange_, alternateButton_;
+    QColor sidebarBackground_, separator_, red_, green_, error_, orange_;
 };

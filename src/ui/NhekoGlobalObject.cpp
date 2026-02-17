@@ -52,29 +52,9 @@ Nheko::colors() const
 QPalette
 Nheko::inactiveColors() const
 {
-    auto theme = UserSettings::instance()->theme();
-    if (theme == QLatin1String("light")) {
-        static QPalette lightInactive = [] {
-            auto lightInactive = Theme::paletteFromTheme(u"light");
-            lightInactive.setCurrentColorGroup(QPalette::ColorGroup::Inactive);
-            return lightInactive;
-        }();
-        return lightInactive;
-    } else if (theme == QLatin1String("dark")) {
-        static QPalette darkInactive = [] {
-            auto darkInactive = Theme::paletteFromTheme(u"dark");
-            darkInactive.setCurrentColorGroup(QPalette::ColorGroup::Inactive);
-            return darkInactive;
-        }();
-        return darkInactive;
-    } else {
-        static QPalette originalInactive = [] {
-            auto originalInactive = Theme::paletteFromTheme(u"system");
-            originalInactive.setCurrentColorGroup(QPalette::ColorGroup::Inactive);
-            return originalInactive;
-        }();
-        return originalInactive;
-    }
+    auto p = Theme::paletteFromTheme(UserSettings::instance()->theme());
+    p.setCurrentColorGroup(QPalette::ColorGroup::Inactive);
+    return p;
 }
 
 Theme

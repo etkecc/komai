@@ -397,8 +397,8 @@ private:
     QString defaultTheme_ = QProcessEnvironment::systemEnvironment()
                                 .value(QStringLiteral("QT_QPA_PLATFORMTHEME"), QLatin1String(""))
                                 .isEmpty()
-                              ? "light"
-                              : "system";
+                              ? "komai"
+                              : "komai";
     QString theme_;
     bool messageHoverHighlight_;
     bool enlargeEmojiOnlyMessages_;

@@ -257,10 +257,25 @@ Pane {
                 }
             }
             ImageButton {
-                id: roomOptionsButton
+                id: roomSettingsButton
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 7
+                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.row: 1
+                ToolTip.text: qsTr("Room settings")
+                ToolTip.visible: hovered
+                image: ":/icons/icons/ui/toggles.svg"
+                visible: !!room
+
+                onClicked: TimelineManager.openRoomSettings(roomId)
+            }
+            ImageButton {
+                id: roomOptionsButton
+
+                Layout.alignment: Qt.AlignVCenter
+                Layout.column: 8
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
@@ -293,7 +308,7 @@ Pane {
                 id: pinnedMessages
 
                 Layout.column: 2
-                Layout.columnSpan: 5
+                Layout.columnSpan: 6
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 4)
                 Layout.row: 3
@@ -351,7 +366,7 @@ Pane {
                 id: widgets
 
                 Layout.column: 2
-                Layout.columnSpan: 5
+                Layout.columnSpan: 6
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 1.5)
                 Layout.row: 4
@@ -377,7 +392,7 @@ Pane {
                 id: searchField
 
                 Layout.column: 2
-                Layout.columnSpan: 5
+                Layout.columnSpan: 6
                 Layout.fillWidth: true
                 Layout.row: 5
                 enabled: visible

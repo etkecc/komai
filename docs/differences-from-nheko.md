@@ -87,6 +87,13 @@ Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvem
 - **Unified logo positioning** on Login and Register pages (top-aligned)
 
 
+## 🌐 Translations
+
+- **AI-assisted translation** fills in gaps left by nheko's incomplete human translations, ensuring coverage across 30+ languages
+- **Per-language directory structure**: translation files reorganized into `resources/langs/{LANGUAGE}/komai_{LANGUAGE}.ts`
+- **Translation tooling**: batch pipeline with incremental saves and per-language instruction guides. See [Translations](translations.md) for details.
+
+
 ## 🔧 Build System
 
 - **Upstream fixes backported**: Qt 6.9.2 reply rendering fix, Qt 6.10 private module build fix, room list scrollbar visibility fix

@@ -81,6 +81,11 @@ just run
 Komai ships with many built-in themes and makes it easy to add more. See 📄 [Themes](docs/themes.md) for details.
 
 
+## 🌐 Translations
+
+Komai inherits human-made translations from nheko and fills in the gaps with AI-assisted translation (Claude CLI) to ensure complete coverage across 30+ languages. See 📄 [Translations](docs/translations.md) for details.
+
+
 ## 🔧 Build Requirements
 
 - **Qt6** (6.5 or greater)

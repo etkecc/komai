@@ -14,7 +14,7 @@ Flow {
     property string eventId
 
     // lower-contrast colors to avoid distracting from text & to enhance hover effect
-    property color gentleHighlight: Qt.hsla(palette.highlight.hslHue, palette.highlight.hslSaturation, palette.highlight.hslLightness, 0.8)
+    property color gentleHighlight: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.35)
     property color gentleText: Qt.hsla(palette.text.hslHue, palette.text.hslSaturation, palette.text.hslLightness, 0.6)
     property alias reactions: repeater.model
 
@@ -34,7 +34,7 @@ Flow {
 
             background: Rectangle {
                 anchors.centerIn: parent
-                border.color: reaction.hovered ? palette.text : gentleText
+                border.color: reaction.hovered ? palette.text : (modelData.selfReactedEvent !== '' ? palette.highlight : gentleText)
                 border.width: 1
                 color: reaction.hovered ? palette.highlight : (modelData.selfReactedEvent !== '' ? gentleHighlight : palette.window)
                 implicitHeight: reaction.implicitHeight
@@ -56,8 +56,9 @@ Flow {
                     id: reactionText
 
                     anchors.baseline: reactionCounter.baseline
-                    color: (reaction.hovered || modelData.selfReactedEvent !== '') ? palette.highlightedText : palette.text
+                    color: reaction.hovered ? palette.highlightedText : palette.text
                     font.family: Settings.emojiFont != "" ? Settings.emojiFont : undefined
+                    font.pixelSize: 20
                     textFormat: TextEdit.RichText
                     maximumLineCount: 1
                     text: {
@@ -91,7 +92,7 @@ Flow {
                     id: reactionCounter
 
                     anchors.verticalCenter: divider.verticalCenter
-                    color: (reaction.hovered || modelData.selfReactedEvent !== '') ? palette.highlightedText : palette.windowText
+                    color: reaction.hovered ? palette.highlightedText : palette.windowText
                     font: reaction.font
                     text: modelData.count
                 }

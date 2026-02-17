@@ -12,7 +12,12 @@ RowLayout {
     id: metadata
 
     property int iconSize: Math.floor(fontMetrics.ascent * scaling)
+    property int buttonSize: Math.round(iconSize * buttonScale)
     required property double scaling
+    property double buttonScale: 2
+    required property bool isSender
+
+    layoutDirection: metadata.isSender ? Qt.RightToLeft : Qt.LeftToRight
 
     required property string eventId
     required property int status
@@ -25,6 +30,23 @@ RowLayout {
 
     spacing: 2
 
+    Label {
+        id: ts
+
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredWidth: implicitWidth
+        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
+        ToolTip.visible: ma.hovered
+        color: palette.inactive.text
+        font.pointSize: fontMetrics.font.pointSize * parent.scaling
+        text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
+
+        HoverHandler {
+            id: ma
+
+        }
+    }
     StatusIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
@@ -49,19 +71,6 @@ RowLayout {
 
         }
     }
-    ImageButton {
-        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.iconSize
-        Layout.preferredWidth: parent.iconSize
-        ToolTip.delay: Nheko.tooltipDelay
-        ToolTip.text: qsTr("Part of a thread")
-        ToolTip.visible: hovered
-        buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
-        image: ":/icons/icons/ui/thread.svg"
-        visible: metadata.threadId
-
-        onClicked: metadata.room.thread = threadId
-    }
     EncryptionIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
@@ -72,21 +81,17 @@ RowLayout {
         trust: metadata.trustlevel
         visible: metadata.room.isEncrypted
     }
-    Label {
-        id: ts
-
-        Layout.alignment: Qt.AlignRight | Qt.AlignTop
-        Layout.preferredWidth: implicitWidth
+    ImageButton {
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
         ToolTip.delay: Nheko.tooltipDelay
-        ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
-        ToolTip.visible: ma.hovered
-        color: palette.inactive.text
-        font.pointSize: fontMetrics.font.pointSize * parent.scaling
-        text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
+        ToolTip.text: qsTr("Part of a thread")
+        ToolTip.visible: hovered
+        buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
+        image: ":/icons/icons/ui/thread.svg"
+        visible: metadata.threadId
 
-        HoverHandler {
-            id: ma
-
-        }
+        onClicked: metadata.room.thread = threadId
     }
 }

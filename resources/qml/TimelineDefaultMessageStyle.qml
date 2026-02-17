@@ -317,6 +317,7 @@ TimelineEvent {
                 threadId: wrapper.threadId
                 timestamp: wrapper.timestamp
                 room: wrapper.room
+                isSender: wrapper.isSender
             },
         Item {
             // We need this item to grab events, that otherwise would go to the TextArea in the main item. If we don't have this, it would trigger a right click menu on KDE...

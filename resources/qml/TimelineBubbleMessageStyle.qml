@@ -305,6 +305,7 @@ TimelineEvent {
                 threadId: wrapper.threadId
                 timestamp: wrapper.timestamp
                 room: wrapper.room
+                isSender: wrapper.isSender
             }
 
             DragHandler {

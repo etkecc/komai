@@ -8,7 +8,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import im.nheko
 
-Menu {
+Popup {
     id: stickerPopup
 
     property var callback
@@ -28,10 +28,14 @@ Menu {
         console.debug("Showing sticker picker");
         roomid = roomid_;
         stickerPopup.callback = callback;
-        popup(showAt ? showAt : null);
+        if (showAt) {
+            stickerPopup.parent = showAt;
+            stickerPopup.x = showAt.width - stickerPopup.width;
+            stickerPopup.y = showAt.height;
+        }
+        stickerPopup.open();
     }
 
-    margins: 2
     bottomPadding: 0
     leftPadding: 0
     rightPadding: 0
@@ -40,20 +44,16 @@ Menu {
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     width: sidebarAvatarSize + Nheko.paddingSmall + stickersPerRow * stickerDimPad + 20
+    height: columnView.implicitHeight + Nheko.paddingSmall * 2
 
-    Rectangle {
+    background: Rectangle {
         color: palette.window
-        height: columnView.implicitHeight + Nheko.paddingSmall*2
-        width: sidebarAvatarSize + Nheko.paddingSmall + stickersPerRow * stickerDimPad + 20
+    }
 
-        GridLayout {
-            id: columnView
+    contentItem: GridLayout {
+        id: columnView
 
-            anchors.leftMargin: Nheko.paddingSmall
-            anchors.rightMargin: Nheko.paddingSmall
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
+        anchors.margins: Nheko.paddingSmall
             columns: 2
             rows: 2
 
@@ -259,7 +259,5 @@ Menu {
                 onClicked: TimelineManager.openImagePackSettings(stickerPopup.roomid)
             }
         }
-
-    }
 
 }

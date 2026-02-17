@@ -215,7 +215,7 @@
 <context>
     <name>CallManager</name>
     <message>
-        <location filename="../../src/voip/CallManager.cpp" line="+895"/>
+        <location filename="../../src/voip/CallManager.cpp" line="+899"/>
         <source>X11</source>
         <translation>X11</translation>
     </message>
@@ -789,7 +789,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../qml/CommunitiesList.qml" line="+130"/>
+        <location filename="../qml/CommunitiesList.qml" line="+140"/>
         <source>Expand</source>
         <translation>Развернуть</translation>
     </message>
@@ -1197,12 +1197,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+18"/>
-        <source>You can configure when your messages will be deleted in %1. This only happens when Nheko is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
+        <source>You can configure when your messages will be deleted in %1. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Nheko is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
+        <source>You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1334,9 +1334,39 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../qml/ForwardCompleter.qml" line="+52"/>
+        <location filename="../qml/ForwardCompleter.qml" line="+75"/>
         <source>Forward Message</source>
         <translation>Переслать Сообщение</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Close</source>
+        <translation type="unfinished">Закрыть</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Room name, address or id...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+45"/>
+        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Отмена</translation>
     </message>
 </context>
 <context>
@@ -1403,6 +1433,11 @@ You may optionally provide a reason for others to accept your knock:</source>
         <source>Stickers</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location line="+11"/>
+        <source>Allowed server changes</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IgnoredUsers</name>
@@ -1425,7 +1460,7 @@ You may optionally provide a reason for others to accept your knock:</source>
 <context>
     <name>ImageMessage</name>
     <message>
-        <location filename="../qml/delegates/ImageMessage.qml" line="+191"/>
+        <location filename="../qml/delegates/ImageMessage.qml" line="+206"/>
         <source>Show</source>
         <translation type="unfinished">Показать</translation>
     </message>
@@ -1604,7 +1639,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+623"/>
+        <location line="+724"/>
         <source>You need to pass a valid mxid when ignoring a user. &apos;%1&apos; is not a valid userid.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1765,7 +1800,7 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation>Не удалось войти при помощи SSO</translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoginPage.qml" line="+58"/>
+        <location filename="../qml/pages/LoginPage.qml" line="+74"/>
         <source>Matrix ID</source>
         <translation>Идентификатор Matrix</translation>
     </message>
@@ -1775,11 +1810,16 @@ You may optionally provide a reason for others to accept your knock:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-14"/>
+        <source>Login to your Matrix account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.
 You can also put your homeserver address there if your server doesn&apos;t support .well-known lookup.
 Example: @user:yourserver.example.com
-If Nheko fails to discover your homeserver, it will show you a field to enter the server manually.</source>
+If Komai fails to discover your homeserver, it will show you a field to enter the server manually.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1889,7 +1929,7 @@ Example: https://yourserver.example.com:8787</source>
         <translation>Написать сообщение…</translation>
     </message>
     <message>
-        <location line="+263"/>
+        <location line="+273"/>
         <source>Stickers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1899,12 +1939,12 @@ Example: https://yourserver.example.com:8787</source>
         <translation>Эмодзи</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>Send</source>
         <translation>Отправить</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+47"/>
         <source>You don&apos;t have permission to send messages in this room</source>
         <translation>У вас нет прав для отправления сообщений в этой комнате</translation>
     </message>
@@ -1920,17 +1960,17 @@ Example: https://yourserver.example.com:8787</source>
 <context>
     <name>MessageView</name>
     <message>
-        <location filename="../qml/MessageView.qml" line="+235"/>
+        <location filename="../qml/MessageView.qml" line="+316"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+19"/>
         <source>React</source>
         <translation>Реакция</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Reply in thread</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1940,22 +1980,27 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+15"/>
         <source>Reply</source>
         <translation>Ответить</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+15"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Go to message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+19"/>
         <source>Options</source>
         <translation>Опции</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+134"/>
         <source>Enter reason for removal or hit enter for no reason:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1971,18 +2016,18 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+11"/>
-        <location line="+185"/>
+        <location line="+187"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-177"/>
-        <location line="+185"/>
+        <location line="-179"/>
+        <location line="+187"/>
         <source>Copy &amp;link location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-175"/>
+        <location line="-177"/>
         <source>Re&amp;act</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2027,7 +2072,7 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>View raw message</source>
         <translation type="unfinished">Просмотреть сырое сообщение</translation>
     </message>
@@ -2564,7 +2609,7 @@ Example: https://yourserver.example.com:8787</source>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../src/main.cpp" line="+221"/>
+        <location filename="../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of nheko.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2624,6 +2669,29 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+4"/>
         <source>Recompacts the database which might improve performance.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QuickSwitcher</name>
+    <message>
+        <location filename="../qml/QuickSwitcher.qml" line="+58"/>
+        <source>Find &amp; switch room</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Close</source>
+        <translation type="unfinished">Закрыть</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Searches among rooms you participate in, not across all rooms on Matrix.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room name, address or id...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2724,7 +2792,7 @@ Example: https://yourserver.example.com:8787</source>
         <translation>Зарезервировано под служебные нужды.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/RegisterPage.qml" line="+58"/>
+        <location filename="../qml/pages/RegisterPage.qml" line="+235"/>
         <source>Homeserver</source>
         <translation>Домашний сервер</translation>
     </message>
@@ -2734,9 +2802,39 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>A server that allows registration. Since matrix is decentralized, you need to first find a server you can register on or host your own.</source>
-        <translation>Сервер разрешающий регистрацию. Поскольку matrix децентрализованный, нужно выбрать сервер где вы можете зарегистрироваться или настроить свой сервер.</translation>
+        <location line="-175"/>
+        <source>Register a Matrix account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>But... where?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Public servers like &lt;a href=&quot;https://matrix.org/&quot;&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href=&quot;https://etke.cc/&quot;&gt;etke.cc&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>&lt;a href=&quot;https://matrix.org/&quot;&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>The server address where you want to create your account</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2793,18 +2891,25 @@ Example: https://yourserver.example.com:8787</source>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../qml/ReplyPopup.qml" line="+41"/>
+        <location filename="../qml/ReplyPopup.qml" line="+61"/>
+        <source>Replying in a thread</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <location line="+41"/>
+        <location line="+41"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Cancel Edit</source>
+        <location line="-52"/>
+        <source>Replying to this message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Cancel Thread</source>
+        <location line="+41"/>
+        <source>Editing a message</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2900,7 +3005,7 @@ Example: https://yourserver.example.com:8787</source>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../qml/RoomList.qml" line="+49"/>
+        <location filename="../qml/RoomList.qml" line="+214"/>
         <source>Start a new chat</source>
         <translation type="unfinished">Начать новый чат</translation>
     </message>
@@ -2930,32 +3035,25 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished">Каталог комнат</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Search rooms (Ctrl+K)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>User settings</source>
-        <translation type="unfinished">Пользовательские настройки</translation>
-    </message>
-    <message>
-        <location line="+94"/>
+        <location line="-162"/>
+        <location line="+393"/>
         <source>Logout</source>
         <translation type="unfinished">Выйти</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-381"/>
+        <location line="+392"/>
         <source>Enter your status message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-391"/>
+        <location line="+392"/>
         <source>Status Message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-380"/>
         <source>Profile settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2985,7 +3083,12 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+118"/>
+        <source>Find &amp; switch room (Ctrl+K)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Encryption not set up</source>
         <extracomment>Cross-signing setup has not run yet.</extracomment>
         <translation type="unfinished"></translation>
@@ -3008,7 +3111,22 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished">Закрыть</translation>
     </message>
     <message>
-        <location line="+379"/>
+        <location line="+69"/>
+        <source>Profile Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Set Status Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Application Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+385"/>
         <source>Enter the tag you want to use:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3086,8 +3204,8 @@ Example: https://yourserver.example.com:8787</source>
         </translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Invite more people</source>
+        <location line="+8"/>
+        <source>Invite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3232,7 +3350,7 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished">Уведомления</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+8"/>
         <source>Muted</source>
         <translation type="unfinished">Заглушен</translation>
     </message>
@@ -3247,7 +3365,7 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished">Все сообщения</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>ENTRY PERMISSIONS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3442,12 +3560,12 @@ Example: https://yourserver.example.com:8787</source>
         <translation type="unfinished">Внутренний ID</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Copied to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Room Version</source>
         <translation type="unfinished">Версия Комнаты</translation>
     </message>
@@ -3762,7 +3880,22 @@ If you choose verify, you need to have the other device available. If you choose
 <context>
     <name>StickerPicker</name>
     <message>
-        <location filename="../qml/emoji/StickerPicker.qml" line="+69"/>
+        <location filename="../qml/emoji/StickerPicker.qml" line="+91"/>
+        <source>Pick an Emoji</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Pick a Sticker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Close</source>
+        <translation type="unfinished">Закрыть</translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>Search</source>
         <translation type="unfinished">Поиск</translation>
     </message>
@@ -3793,7 +3926,7 @@ If you choose verify, you need to have the other device available. If you choose
 <context>
     <name>TimelineDefaultMessageStyle</name>
     <message>
-        <location filename="../qml/TimelineDefaultMessageStyle.qml" line="+167"/>
+        <location filename="../qml/TimelineDefaultMessageStyle.qml" line="+186"/>
         <source>Part of a thread</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3860,12 +3993,17 @@ If you choose verify, you need to have the other device available. If you choose
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../qml/TimelineMetadata.qml" line="+40"/>
+        <location filename="../qml/TimelineMetadata.qml" line="+67"/>
         <source>Edited</source>
         <translation type="unfinished">Изменено</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+28"/>
+        <source>Message actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Part of a thread</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3873,7 +4011,7 @@ If you choose verify, you need to have the other device available. If you choose
 <context>
     <name>TimelineModel</name>
     <message>
-        <location filename="../../src/timeline/TimelineModel.cpp" line="+1605"/>
+        <location filename="../../src/timeline/TimelineModel.cpp" line="+1622"/>
         <location line="+17"/>
         <source>Message redaction failed: %1</source>
         <translation>Ошибка редактирования сообщения: %1</translation>
@@ -3905,7 +4043,7 @@ If you choose verify, you need to have the other device available. If you choose
         <translation>Сохранить файл</translation>
     </message>
     <message numerus="yes">
-        <location line="+347"/>
+        <location line="+348"/>
         <source>%1 and %2 are typing.</source>
         <comment>Multiple users are typing. First argument is a comma separated list of potentially multiple users. Second argument is the last user of that list. (If only one user is typing, %1 is empty. You should still use it in your string though to silence Qt warnings.)</comment>
         <translation>
@@ -4244,12 +4382,12 @@ Reason: %4</source>
         <translation>%1 отредактировал его &quot;стук&quot;.</translation>
     </message>
     <message>
-        <location line="-1692"/>
+        <location line="-1693"/>
         <source>You joined this room.</source>
         <translation>Вы присоединились к комнате.</translation>
     </message>
     <message>
-        <location line="-618"/>
+        <location line="-635"/>
         <source>%1 changed which servers are allowed in this room.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4309,7 +4447,7 @@ Reason: %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+671"/>
+        <location line="+688"/>
         <source>%n hour(s) later</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -4318,7 +4456,7 @@ Reason: %4</source>
         </translation>
     </message>
     <message>
-        <location line="+1572"/>
+        <location line="+1573"/>
         <source>%2 revoked the invite to %1.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4352,7 +4490,7 @@ Reason: %4</source>
 <context>
     <name>TimelineSectionHeader</name>
     <message>
-        <location filename="../qml/TimelineSectionHeader.qml" line="+139"/>
+        <location filename="../qml/TimelineSectionHeader.qml" line="+119"/>
         <source>%1&apos;s status message</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4360,12 +4498,12 @@ Reason: %4</source>
 <context>
     <name>TimelineView</name>
     <message>
-        <location filename="../qml/TimelineView.qml" line="+51"/>
+        <location filename="../qml/TimelineView.qml" line="+64"/>
         <source>No room open</source>
         <translation>Комната не выбрана</translation>
     </message>
     <message>
-        <location line="+108"/>
+        <location line="+103"/>
         <source>You are about to notify the whole room</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4385,7 +4523,7 @@ Reason: %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+47"/>
         <source>No preview available</source>
         <translation type="unfinished">Предварительный просмотр недоступен</translation>
     </message>
@@ -4467,22 +4605,27 @@ Reason: %4</source>
         <translation>Комнаты не выбраны</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+54"/>
         <source>In %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+22"/>
         <source>Back to room list</source>
         <translation>Вернуться к списку комнат</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+63"/>
+        <source>Show only notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Show or hide pinned messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+30"/>
         <source>Show room members.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4502,37 +4645,27 @@ Reason: %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+31"/>
         <source>Search this room</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+23"/>
+        <source>Room settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Room options</source>
         <translation>Настройки комнаты</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Invite users</source>
-        <translation>Пригласить пользователей</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Members</source>
-        <translation>Участники</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Leave room</source>
         <translation>Покинуть комнату</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Settings</source>
-        <translation>Настройки</translation>
-    </message>
-    <message>
-        <location line="+52"/>
+        <location line="+54"/>
         <source>Unpin</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4555,7 +4688,7 @@ Reason: %4</source>
         <translation>Выйти</translation>
     </message>
     <message numerus="yes">
-        <location line="+27"/>
+        <location line="+32"/>
         <source>
 %n unread message(s)</source>
         <translation type="unfinished">
@@ -4759,7 +4892,7 @@ Reason: %4</source>
 <context>
     <name>UserSettings</name>
     <message>
-        <location filename="../../src/UserSettingsPage.h" line="+280"/>
+        <location filename="../../src/UserSettingsPage.h" line="+324"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
@@ -4767,7 +4900,7 @@ Reason: %4</source>
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../src/UserSettingsPage.cpp" line="+1030"/>
+        <location filename="../../src/UserSettingsPage.cpp" line="+1153"/>
         <source>Theme</source>
         <translation type="unfinished">Тема</translation>
     </message>
@@ -4813,7 +4946,12 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Use shift+enter to send and enter to start a new line</source>
+        <source>Send messages with a shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Auto-replace text emoticons with emoji</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4824,6 +4962,26 @@ Reason: %4</source>
     <message>
         <location line="+2"/>
         <source>Enable small Avatars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Enable stickers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show own avatar next to own message bubbles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show sender username above messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pinned reactions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4998,6 +5156,11 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
+        <source>Enable legacy calls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Send encrypted messages to verified users only</source>
         <translation>Отправлять зашифрованные сообщения только верифицированным пользователям</translation>
     </message>
@@ -5049,6 +5212,16 @@ Reason: %4</source>
     <message>
         <location line="+2"/>
         <source>Platform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Based on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Fork by</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5147,14 +5320,19 @@ Reason: %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+132"/>
         <source>Default</source>
         <translation type="unfinished">По умолчанию</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+43"/>
         <source>Set the notification sound to play when a call invite arrives</source>
         <translation>Выбрать звук уведомления входящего вызова</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
@@ -5209,11 +5387,23 @@ When disabled, all messages are sent as a plain text.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Invert the behavior of the enter key in the text input, making it send the message when shift+enter is pressed and starting a new line when enter is pressed.</source>
+        <source>Select what Enter key combination sends the message. Shift+Enter adds a new line, unless it has been selected, in which case Enter adds a new line instead.
+
+If an emoji picker or a mention picker is open, it is always handled first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+82"/>
+        <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-78"/>
         <source>Messages get a bubble background. This also triggers some layout changes (WIP).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5221,6 +5411,26 @@ When disabled, all messages are sent as a plain text.</source>
         <location line="+3"/>
         <source>Avatars are resized to fit above the message.</source>
         <translation>Поместить аватар над текстом сообщения и уменьшить его размер, чтобы он соответствовал размеру имени отправителя.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5331,12 +5541,7 @@ Only affects messages in encrypted chats.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Nheko uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+6"/>
         <source>When the window loses focus, the timeline will
 be blurred.</source>
         <translation>Размывать список сообщений при потере фокуса
@@ -5378,7 +5583,7 @@ be blurred.</source>
         <translation>Включить загрузку и отправку ключей шифрования в онлайн-хранилище резервных копий.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+27"/>
         <source>The key to decrypt online key backups. If it is cached, you can enable online key backup to store encryption keys securely encrypted on the server.</source>
         <translation>Ключ, используемый для шифрования резервных копий ключей в онлайн-хранилище. Если он закэширован, Вы можете включить резервирование ключей на удалённом сервере в зашифрованном виде.</translation>
     </message>
@@ -5420,22 +5625,51 @@ This setting will take effect upon restart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+142"/>
+        <location line="+153"/>
+        <location line="+6"/>
+        <location line="+12"/>
         <source>Always</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-17"/>
         <source>Only in private rooms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+6"/>
+        <location line="+12"/>
         <source>Never</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-13"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Only at the end of messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>System font</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5445,7 +5679,7 @@ This setting will take effect upon restart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+424"/>
         <source>Select a file</source>
         <translation>Выберите файл</translation>
     </message>
@@ -5455,7 +5689,7 @@ This setting will take effect upon restart.</source>
         <translation>Все файлы (*)</translation>
     </message>
     <message>
-        <location line="+103"/>
+        <location line="+126"/>
         <source>Open Sessions File</source>
         <translation type="unfinished">Открыть файл сеансов</translation>
     </message>
@@ -5516,7 +5750,7 @@ This setting will take effect upon restart.</source>
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../qml/pages/UserSettingsPage.qml" line="+187"/>
+        <location filename="../qml/pages/UserSettingsPage.qml" line="+258"/>
         <source>CACHED</source>
         <translation>Закешировано</translation>
     </message>
@@ -5600,14 +5834,14 @@ This setting will take effect upon restart.</source>
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../qml/pages/WelcomePage.qml" line="+30"/>
-        <source>Welcome to nheko! The desktop client for the Matrix protocol.</source>
-        <translation>Добро пожаловать в Nheko, клиент для протокола Matrix.</translation>
+        <location filename="../qml/pages/WelcomePage.qml" line="+32"/>
+        <source>Welcome to Komai!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Enjoy your stay!</source>
-        <translation>Приятного времяпрепровождения!</translation>
+        <location line="+14"/>
+        <source>A quick desktop client for the Matrix chat protocol</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5620,20 +5854,20 @@ This setting will take effect upon restart.</source>
         <translation>ВХОД</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+30"/>
         <source>Reduce animations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Nheko uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
+        <location line="+13"/>
+        <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../src/Utils.cpp" line="+383"/>
+        <location filename="../../src/Utils.cpp" line="+384"/>
         <source>Yesterday</source>
         <translation>Вчера</translation>
     </message>

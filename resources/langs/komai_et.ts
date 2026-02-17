@@ -214,7 +214,7 @@
 <context>
     <name>CallManager</name>
     <message>
-        <location filename="../../src/voip/CallManager.cpp" line="+895"/>
+        <location filename="../../src/voip/CallManager.cpp" line="+899"/>
         <source>X11</source>
         <translation>X11</translation>
     </message>
@@ -786,7 +786,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>CommunitiesList</name>
     <message>
-        <location filename="../qml/CommunitiesList.qml" line="+130"/>
+        <location filename="../qml/CommunitiesList.qml" line="+140"/>
         <source>Expand</source>
         <translation>Laienda</translation>
     </message>
@@ -1193,13 +1193,13 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+18"/>
-        <source>You can configure when your messages will be deleted in %1. This only happens when Nheko is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation>Sa võid seadistada aja, mille möödumisel sõnumid kustutatakse %1 jututoast. Selle jaoks peab Nheko olema töös ja sul peavad olema õigused sõnumite kustutamiseks. Tegemist on ajutise lahendusega seniks, kuni Matrixi servetesse kirjeldatud võimalus lisandub. Väärtus 0 üldjuhul tähendab, et kustutamine on välja lülitatud.</translation>
+        <source>You can configure when your messages will be deleted in %1. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Nheko is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation>Sa võid seadistada aja, mille möödumisel sõnumid kustutatakse kõikidest jututubadest (kui just seadistused muud ei määra). Selle jaoks peab Nheko olema töös ja sul peavad olema õigused sõnumite kustutamiseks. Tegemist on ajutise lahendusega seniks, kuni Matrixi servetesse kirjeldatud võimalus lisandub. Väärtus 0 üldjuhul tähendab, et kustutamine on välja lülitatud.</translation>
+        <source>You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1330,9 +1330,39 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>ForwardCompleter</name>
     <message>
-        <location filename="../qml/ForwardCompleter.qml" line="+52"/>
+        <location filename="../qml/ForwardCompleter.qml" line="+75"/>
         <source>Forward Message</source>
         <translation>Suuna sõnum edasi</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Close</source>
+        <translation type="unfinished">Sulge</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Forwarding sends this content (without revealing its sender) to another room.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Room name, address or id...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+45"/>
+        <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Katkesta</translation>
     </message>
 </context>
 <context>
@@ -1399,6 +1429,11 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <source>Stickers</source>
         <translation>Kleepsud</translation>
     </message>
+    <message>
+        <location line="+11"/>
+        <source>Allowed server changes</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IgnoredUsers</name>
@@ -1421,7 +1456,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
 <context>
     <name>ImageMessage</name>
     <message>
-        <location filename="../qml/delegates/ImageMessage.qml" line="+191"/>
+        <location filename="../qml/delegates/ImageMessage.qml" line="+206"/>
         <source>Show</source>
         <translation>Näita</translation>
     </message>
@@ -1595,7 +1630,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Kõik failid (*)</translation>
     </message>
     <message>
-        <location line="+623"/>
+        <location line="+724"/>
         <source>You need to pass a valid mxid when ignoring a user. &apos;%1&apos; is not a valid userid.</source>
         <translation>Kasutaja eitamisel peab päringus olema korrektne Matrixi kasutajatunnus. „%1“ aga pole kehtiv ega korrektne.</translation>
     </message>
@@ -1610,7 +1645,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>„%1“ üleslaadimine ei õnnestunud</translation>
     </message>
     <message>
-        <location line="-1042"/>
+        <location line="-1143"/>
         <source>Select file(s)</source>
         <translation>Vali fail(id)</translation>
     </message>
@@ -1761,7 +1796,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>Ühekordne sisselogimine ei õnnestunud</translation>
     </message>
     <message>
-        <location filename="../qml/pages/LoginPage.qml" line="+58"/>
+        <location filename="../qml/pages/LoginPage.qml" line="+74"/>
         <source>Matrix ID</source>
         <translation>Matrixi kasutajatunnus</translation>
     </message>
@@ -1771,15 +1806,17 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
         <translation>näiteks @kasutaja:sinuserver.domeen.com</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-14"/>
+        <source>Login to your Matrix account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.
 You can also put your homeserver address there if your server doesn&apos;t support .well-known lookup.
 Example: @user:yourserver.example.com
-If Nheko fails to discover your homeserver, it will show you a field to enter the server manually.</source>
-        <translation>Sinu kasutajanimi Õige mxid alguses peaks olema @, millele järgneb kasutajanimi ning peale sellele järgnevat : on kirjas serveri nimi.
-Kui sinu koduserver ei toeta .well-known tuvastust, siis võid siia kirjutada ka serveri aadressi.
-Mxid näide - @kasutaja:sinuserver.domeen.com
-Kui Nheko ei suuda tuvastada sinu koduserverit, siis kuvab ta välja, kuhu saad selle sisestada.</translation>
+If Komai fails to discover your homeserver, it will show you a field to enter the server manually.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+28"/>
@@ -1855,7 +1892,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
 <context>
     <name>MediaUpload</name>
     <message>
-        <location filename="../../src/timeline/InputBar.cpp" line="+888"/>
+        <location filename="../../src/timeline/InputBar.cpp" line="+989"/>
         <location line="+35"/>
         <source>Failed to upload media. Please try again.</source>
         <translation>Meediafailide üleslaadimine ei õnnestunud. Palun proovi uuesti.</translation>
@@ -1889,7 +1926,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Kirjuta sõnum…</translation>
     </message>
     <message>
-        <location line="+263"/>
+        <location line="+273"/>
         <source>Stickers</source>
         <translation>Kleepsud</translation>
     </message>
@@ -1899,12 +1936,12 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Emoji</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>Send</source>
         <translation>Saada</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+47"/>
         <source>You don&apos;t have permission to send messages in this room</source>
         <translation>Sul puuduvad selles jututoas õigused sõnumite saatmiseks</translation>
     </message>
@@ -1920,17 +1957,17 @@ Näide: https://sinuserver.domeen.com:8787</translation>
 <context>
     <name>MessageView</name>
     <message>
-        <location filename="../qml/MessageView.qml" line="+235"/>
+        <location filename="../qml/MessageView.qml" line="+316"/>
         <source>Edit</source>
         <translation>Muuda</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+19"/>
         <source>React</source>
         <translation>Reageeri</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+16"/>
         <source>Reply in thread</source>
         <translation>Vasta jutulõngana</translation>
     </message>
@@ -1940,22 +1977,27 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Uus jutulõng</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+15"/>
         <source>Reply</source>
         <translation>Vasta</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+15"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Go to message</source>
         <translation>Ava sõnum</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+19"/>
         <source>Options</source>
         <translation>Valikud</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+134"/>
         <source>Enter reason for removal or hit enter for no reason:</source>
         <translation>Lisa eemaldamise põhjus või põhjust lisada ei taha, siis vajuta Enter-klahvi:</translation>
     </message>
@@ -1971,18 +2013,18 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location line="+185"/>
+        <location line="+187"/>
         <source>&amp;Copy</source>
         <translation>&amp;Kopeeri</translation>
     </message>
     <message>
-        <location line="-177"/>
-        <location line="+185"/>
+        <location line="-179"/>
+        <location line="+187"/>
         <source>Copy &amp;link location</source>
         <translation>Kopeeri &amp;lingi asukoht</translation>
     </message>
     <message>
-        <location line="-175"/>
+        <location line="-177"/>
         <source>Re&amp;act</source>
         <translation>Re&amp;ageeri</translation>
     </message>
@@ -2027,7 +2069,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>&amp;Märgi loetuks</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>View raw message</source>
         <translation>Näita sõnumi lähtekoodi</translation>
     </message>
@@ -2564,7 +2606,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../../src/main.cpp" line="+221"/>
+        <location filename="../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of nheko.</source>
         <translation>Loo unikaalne kasutajaprofiil, mis võimaldab samaaegselt sisse logide mitmele Matrixi kontole ja avada vastavalt mitu nheko rakenduse akent.</translation>
     </message>
@@ -2625,6 +2667,29 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <location line="+1"/>
         <source>Write a message...</source>
         <translation>Kirjuta sõnum…</translation>
+    </message>
+</context>
+<context>
+    <name>QuickSwitcher</name>
+    <message>
+        <location filename="../qml/QuickSwitcher.qml" line="+58"/>
+        <source>Find &amp; switch room</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Close</source>
+        <translation type="unfinished">Sulge</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Searches among rooms you participate in, not across all rooms on Matrix.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Room name, address or id...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2724,7 +2789,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Tegemist on osaga reserveeritud nimeruumist.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/RegisterPage.qml" line="+58"/>
+        <location filename="../qml/pages/RegisterPage.qml" line="+235"/>
         <source>Homeserver</source>
         <translation>Koduserver</translation>
     </message>
@@ -2734,9 +2799,39 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>sinu.server</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>A server that allows registration. Since matrix is decentralized, you need to first find a server you can register on or host your own.</source>
-        <translation>See on server, kus sa oma kasutajakonto registreerid. Kuna Matrix on hajutatud suhtlusvõrk, siis esmalt pead leidma sulle sobiliku koduserveri või panema püsti täitsa oma enda koduserveri.</translation>
+        <location line="-175"/>
+        <source>Register a Matrix account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>But... where?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Public servers like &lt;a href=&quot;https://matrix.org/&quot;&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href=&quot;https://etke.cc/&quot;&gt;etke.cc&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>&lt;a href=&quot;https://matrix.org/&quot;&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>The server address where you want to create your account</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+32"/>
@@ -2793,19 +2888,26 @@ Näide: https://sinuserver.domeen.com:8787</translation>
 <context>
     <name>ReplyPopup</name>
     <message>
-        <location filename="../qml/ReplyPopup.qml" line="+41"/>
+        <location filename="../qml/ReplyPopup.qml" line="+61"/>
+        <source>Replying in a thread</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <location line="+41"/>
+        <location line="+41"/>
         <source>Close</source>
         <translation>Sulge</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Cancel Edit</source>
-        <translation>Tühista muudatused</translation>
+        <location line="-52"/>
+        <source>Replying to this message</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Cancel Thread</source>
-        <translation>Tühista jutulõng</translation>
+        <location line="+41"/>
+        <source>Editing a message</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2900,7 +3002,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
 <context>
     <name>RoomList</name>
     <message>
-        <location filename="../qml/RoomList.qml" line="+49"/>
+        <location filename="../qml/RoomList.qml" line="+214"/>
         <source>Start a new chat</source>
         <translation>Alusta uut vestlust</translation>
     </message>
@@ -2930,32 +3032,25 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Jututubade loend</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Search rooms (Ctrl+K)</source>
-        <translation>Otsi jututubasid (Ctrl+K)</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>User settings</source>
-        <translation>Kasutaja seadistused</translation>
-    </message>
-    <message>
-        <location line="+94"/>
+        <location line="-162"/>
+        <location line="+393"/>
         <source>Logout</source>
         <translation>Logi välja</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-381"/>
+        <location line="+392"/>
         <source>Enter your status message:</source>
         <translation>Sisesta oma olekuteade:</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-391"/>
+        <location line="+392"/>
         <source>Status Message</source>
         <translation>Olekuteade</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-380"/>
         <source>Profile settings</source>
         <translation>Profiili seadistused</translation>
     </message>
@@ -2985,7 +3080,12 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Võrgust väljas</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+118"/>
+        <source>Find &amp; switch room (Ctrl+K)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>Encryption not set up</source>
         <extracomment>Cross-signing setup has not run yet.</extracomment>
         <translation>Krüptimine pole veel kasutusel</translation>
@@ -3008,7 +3108,22 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Sulge</translation>
     </message>
     <message>
-        <location line="+379"/>
+        <location line="+69"/>
+        <source>Profile Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Set Status Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Application Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+385"/>
         <source>Enter the tag you want to use:</source>
         <translation>Kirjuta silt, mida soovid kasutada:</translation>
     </message>
@@ -3085,9 +3200,9 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         </translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Invite more people</source>
-        <translation>Kutsu veel liikmeid</translation>
+        <location line="+8"/>
+        <source>Invite</source>
+        <translation type="unfinished">Saada kutse</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -3230,7 +3345,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Teavitused</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+8"/>
         <source>Muted</source>
         <translation>Summutatud</translation>
     </message>
@@ -3245,7 +3360,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Kõik sõnumid</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>ENTRY PERMISSIONS</source>
         <translation>LIGIPÄÄSUÕIGUSED</translation>
     </message>
@@ -3441,12 +3556,12 @@ Näide: https://sinuserver.domeen.com:8787</translation>
         <translation>Sisemine tunnus</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Copied to clipboard</source>
         <translation>Kopeeritud lõikelauale</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+20"/>
         <source>Room Version</source>
         <translation>Jututoa versioon</translation>
     </message>
@@ -3763,7 +3878,22 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
 <context>
     <name>StickerPicker</name>
     <message>
-        <location filename="../qml/emoji/StickerPicker.qml" line="+69"/>
+        <location filename="../qml/emoji/StickerPicker.qml" line="+91"/>
+        <source>Pick an Emoji</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Pick a Sticker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Close</source>
+        <translation type="unfinished">Sulge</translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>Search</source>
         <translation>Otsi</translation>
     </message>
@@ -3794,7 +3924,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
 <context>
     <name>TimelineDefaultMessageStyle</name>
     <message>
-        <location filename="../qml/TimelineDefaultMessageStyle.qml" line="+167"/>
+        <location filename="../qml/TimelineDefaultMessageStyle.qml" line="+186"/>
         <source>Part of a thread</source>
         <translation>Osa jutulõngast</translation>
     </message>
@@ -3861,12 +3991,17 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
 <context>
     <name>TimelineMetadata</name>
     <message>
-        <location filename="../qml/TimelineMetadata.qml" line="+40"/>
+        <location filename="../qml/TimelineMetadata.qml" line="+67"/>
         <source>Edited</source>
         <translation>Muudetud</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+28"/>
+        <source>Message actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Part of a thread</source>
         <translation>Osa jutulõngast</translation>
     </message>
@@ -3874,7 +4009,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
 <context>
     <name>TimelineModel</name>
     <message>
-        <location filename="../../src/timeline/TimelineModel.cpp" line="+1605"/>
+        <location filename="../../src/timeline/TimelineModel.cpp" line="+1622"/>
         <location line="+17"/>
         <source>Message redaction failed: %1</source>
         <translation>Sõnumi ümbersõnastamine ebaõnnestus: %1</translation>
@@ -3906,7 +4041,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
         <translation>Salvesta fail</translation>
     </message>
     <message numerus="yes">
-        <location line="+347"/>
+        <location line="+348"/>
         <source>%1 and %2 are typing.</source>
         <comment>Multiple users are typing. First argument is a comma separated list of potentially multiple users. Second argument is the last user of that list. (If only one user is typing, %1 is empty. You should still use it in your string though to silence Qt warnings.)</comment>
         <translation>
@@ -4235,7 +4370,7 @@ Põhjus: %4</translation>
         <translation>%1 muutis oma koputust jututoa uksele.</translation>
     </message>
     <message>
-        <location line="-2310"/>
+        <location line="-2328"/>
         <source>%1 changed which servers are allowed in this room.</source>
         <translation>%1 muutis serverid, mis on selles jututoas lubatud.</translation>
     </message>
@@ -4295,7 +4430,7 @@ Põhjus: %4</translation>
         <translation>%1 muutus teadmata olekusündmust: %2.</translation>
     </message>
     <message>
-        <location line="+556"/>
+        <location line="+573"/>
         <source>You joined this room.</source>
         <translation>Sa liitusid jututoaga.</translation>
     </message>
@@ -4308,7 +4443,7 @@ Põhjus: %4</translation>
         </translation>
     </message>
     <message>
-        <location line="+912"/>
+        <location line="+913"/>
         <source>%1 made this room require an invitation to join.</source>
         <translation>%1 seadistas, et see jututuba vajab liitumiseks kutset.</translation>
     </message>
@@ -4347,7 +4482,7 @@ Põhjus: %4</translation>
 <context>
     <name>TimelineSectionHeader</name>
     <message>
-        <location filename="../qml/TimelineSectionHeader.qml" line="+139"/>
+        <location filename="../qml/TimelineSectionHeader.qml" line="+119"/>
         <source>%1&apos;s status message</source>
         <translation>Kasutaja %1 olekusõnum</translation>
     </message>
@@ -4355,12 +4490,12 @@ Põhjus: %4</translation>
 <context>
     <name>TimelineView</name>
     <message>
-        <location filename="../qml/TimelineView.qml" line="+51"/>
+        <location filename="../qml/TimelineView.qml" line="+64"/>
         <source>No room open</source>
         <translation>Ühtegi jututuba pole avatud</translation>
     </message>
     <message>
-        <location line="+108"/>
+        <location line="+103"/>
         <source>You are about to notify the whole room</source>
         <translation>Sa oled saatmas teavitust kogu jututoale</translation>
     </message>
@@ -4380,7 +4515,7 @@ Põhjus: %4</translation>
         <translation>/%1 tundub olema poolik käsk. Kui tahad seda ikkagi saata, siis lisa oma sõnumi lõppu tühik.</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+47"/>
         <source>No preview available</source>
         <translation>Eelvaade pole saadaval</translation>
     </message>
@@ -4461,22 +4596,27 @@ Põhjus: %4</translation>
         <translation>Jututuba on valimata</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+54"/>
         <source>In %1</source>
         <translation>%1 kogukonnas</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+22"/>
         <source>Back to room list</source>
         <translation>Tagasi jututubade loendisse</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+63"/>
+        <source>Show only notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Show or hide pinned messages</source>
         <translation>Näita klammerdatud sõnumeid või peida nad</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+30"/>
         <source>Show room members.</source>
         <translation>Näita jututoas osalejaid.</translation>
     </message>
@@ -4496,37 +4636,27 @@ Põhjus: %4</translation>
         <translation>Selles jututoas leidub verifitseerimata seadmeid!</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+31"/>
         <source>Search this room</source>
         <translation>Otsi siit jututoast</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+23"/>
+        <source>Room settings</source>
+        <translation type="unfinished">Jututoa seadistused</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Room options</source>
         <translation>Jututoa valikud</translation>
     </message>
     <message>
         <location line="+18"/>
-        <source>Invite users</source>
-        <translation>Kutsu kasutajaid</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Members</source>
-        <translation>Liikmed</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Leave room</source>
         <translation>Lahku jututoast</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Settings</source>
-        <translation>Seadistused</translation>
-    </message>
-    <message>
-        <location line="+52"/>
+        <location line="+54"/>
         <source>Unpin</source>
         <translation>Võta lahti</translation>
     </message>
@@ -4549,7 +4679,7 @@ Põhjus: %4</translation>
         <translation>Lõpeta töö</translation>
     </message>
     <message numerus="yes">
-        <location line="+27"/>
+        <location line="+32"/>
         <source>
 %n unread message(s)</source>
         <translation>
@@ -4753,7 +4883,7 @@ Põhjus: %4</translation>
 <context>
     <name>UserSettings</name>
     <message>
-        <location filename="../../src/UserSettingsPage.h" line="+280"/>
+        <location filename="../../src/UserSettingsPage.h" line="+324"/>
         <source>Default</source>
         <translation>Vaikimisi</translation>
     </message>
@@ -4761,7 +4891,7 @@ Põhjus: %4</translation>
 <context>
     <name>UserSettingsModel</name>
     <message>
-        <location filename="../../src/UserSettingsPage.cpp" line="+1030"/>
+        <location filename="../../src/UserSettingsPage.cpp" line="+1153"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
@@ -4801,12 +4931,7 @@ Põhjus: %4</translation>
         <translation>Saada sõnumid kasutades Markdown vormindust</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Use shift+enter to send and enter to start a new line</source>
-        <translation>Sõnumi saatmiseks kasuta „Shift+Enter“ klahve ning uue rea jaoks kasuta „Enter“ klahvi</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+6"/>
         <source>Enable message bubbles</source>
         <translation>Kasuta jutumulle</translation>
     </message>
@@ -4814,6 +4939,26 @@ Põhjus: %4</translation>
         <location line="+2"/>
         <source>Enable small Avatars</source>
         <translation>Kasuta väikeseid tunnuspilte</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Enable stickers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show own avatar next to own message bubbles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show sender username above messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pinned reactions</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4977,6 +5122,11 @@ Põhjus: %4</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Enable legacy calls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Send encrypted messages to verified users only</source>
         <translation>Saada krüptitud sõnumeid vaid verifitseeritud kasutajatele</translation>
     </message>
@@ -5029,6 +5179,16 @@ Põhjus: %4</translation>
         <location line="+2"/>
         <source>Platform</source>
         <translation>Platvorm</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Based on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Fork by</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5126,14 +5286,19 @@ Põhjus: %4</translation>
         <translation>Aeg-ajalt kustuta vanad sündmused</translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+132"/>
         <source>Default</source>
         <translation>Vaikimisi</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+43"/>
         <source>Set the notification sound to play when a call invite arrives</source>
         <translation>Seadista helin, mis annab märku uuest kõnest</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+10"/>
@@ -5177,12 +5342,7 @@ When disabled, all messages are sent as a plain text.</source>
 Kui Markdown ei ole kasutusel, siis saadetakse kõik sõnumid vormindamata tekstina.</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Invert the behavior of the enter key in the text input, making it send the message when shift+enter is pressed and starting a new line when enter is pressed.</source>
-        <translation>Vaheta sisestusklahvi käitumist teksti kirjutamisel - „Shift+Enter“ saadab sõnumi ja „Enter“ alustab uut rida.</translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="+13"/>
         <source>Messages get a bubble background. This also triggers some layout changes (WIP).</source>
         <translation>Sõnumeid kuvatakse jutumullides. Sellega kaasnevad ka mõned muudatused rakenduse välimuses (osaliselt veel arenduses).</translation>
     </message>
@@ -5192,7 +5352,7 @@ Kui Markdown ei ole kasutusel, siis saadetakse kõik sõnumid vormindamata tekst
         <translation>Tunnuspiltide suurus kohendub nii, et ta mahuks sõnumi kohale.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+10"/>
         <source>Plays media like GIFs or WEBPs only when explicitly hovering over them.</source>
         <translation>Esita liikuvaid GIF ja WEBP pilte vaid siis, kui kursor on pildi kohal.</translation>
     </message>
@@ -5246,12 +5406,7 @@ Väljalülitatuna - ruut, sisselülitatuna - ümmargune.</translation>
         <translation>Sõnumitele võid lisada edevaid efekte. Näiteks „/confetti“ käsk lisab sõnumile serpentiine.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Nheko uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation>Et kasutajaliides oleks toredam, kasutab Nheko mitmel puhul animatsioone. Kui see sulle ei sobi, siis saad nad välja lülitada.</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+11"/>
         <source>Will prevent swipe motions like swiping left/right between Rooms and Timeline, or swiping a message to reply.</source>
         <translation>Sellega mitmed rakenduses kasutatavad viiped ei ole kasutusel, nagu näiteks vasakule/paremale viipamine jututubade ja ajajoone vahel liikumisel või viipamisega sõnumile vastamine.</translation>
     </message>
@@ -5266,29 +5421,39 @@ Väljalülitatuna - ruut, sisselülitatuna - ümmargune.</translation>
         <translation>Kui teised kasutajad on verifitseeritud, siis luba automaatselt vastata nende krüptovõtmete päringutele isegi siis, kui too seade ei peaks tohtima neid võtmeid kasutada.</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+35"/>
         <source>The key to verify your own devices. If it is cached, verifying one of your devices will mark it verified for all your other devices and for users that have verified you.</source>
         <translation>Selle võtmega verifitseerid oma seadmeid. Kui ta on puhverdatud, siis sinu seadme verifitseerimine märgib selle seadme usaldusväärseks nii sinu muude seadmete kui selliste kasutajate jaoks, kes on sinu verifitseerinud.</translation>
     </message>
     <message>
-        <location line="-81"/>
+        <location line="-83"/>
         <source>Show an alert when a message is received.
 This usually causes the application icon in the task bar to animate in some fashion.</source>
         <translation>Sõnumi saabumisel näita teavitust.
 See tavaliselt tähendab, et rakenduse ikoon tegumiribal annab mingit sorti animatsiooniga sulle märku.</translation>
     </message>
     <message>
-        <location line="-378"/>
+        <location line="-424"/>
         <source>Communities sidebar</source>
         <translation>Kogukondade külgpaan</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+6"/>
+        <source>Send messages with a shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Auto-replace text emoticons with emoji</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+50"/>
         <source>Show message counts for communities and tags</source>
         <translation>Näita kogukonna või sildi sõnumite arvu</translation>
     </message>
     <message>
-        <location line="+257"/>
+        <location line="+280"/>
         <source>Set the max width of messages in the timeline (in pixels). This can help readability on wide screen when Nheko is maximized</source>
         <translation>Seadista sõnumite suurim laius pikslites ajajoonel. See parandab loetavust suurel ekraanil, kui Nheko on avatud täisvaates</translation>
     </message>
@@ -5298,7 +5463,39 @@ See tavaliselt tähendab, et rakenduse ikoon tegumiribal annab mingit sorti anim
         <translation>Näita jututubade loendi kõrval veergu kogukondade ja siltidega.</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+8"/>
+        <source>Select what Enter key combination sends the message. Shift+Enter adds a new line, unless it has been selected, in which case Enter adds a new line instead.
+
+If an emoji picker or a mention picker is open, it is always handled first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Display rooms with new messages first.
 If this is off, the list of rooms will only be sorted by the preferred sorting order.
 If this is on, rooms which have active notifications (the small circle with a number in it) will be sorted on top. Rooms that you have muted will still be sorted by the preferred sorting order, since you don&apos;t seem to consider them as important as the other rooms.</source>
@@ -5351,7 +5548,12 @@ Only affects messages in encrypted chats.</source>
 Kehtib vaid läbivalt krüptitud vestluste puhul.</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+11"/>
+        <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>When the window loses focus, the timeline will
 be blurred.</source>
         <translation>Kui aken kaotab fookuse,
@@ -5378,7 +5580,7 @@ siis ajajoone vaade hägustub.</translation>
         <translation>Luba krüptitud võtmete varunduseks laadida sõnumite krüptovõtmeid sinu serverisse või sinu serverist.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+27"/>
         <source>The key to decrypt online key backups. If it is cached, you can enable online key backup to store encryption keys securely encrypted on the server.</source>
         <translation>Selle võtmega dekrüptitakse võrku varundatud muud võtmed. Kui see võti on puhverdatud, siis saad kasutusele võtta oma krüptovõtmete turvalise varundamise sinu koduserveris.</translation>
     </message>
@@ -5417,22 +5619,51 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
         <translation>Halda eiratud kasutajaid.</translation>
     </message>
     <message>
-        <location line="+142"/>
+        <location line="+153"/>
+        <location line="+6"/>
+        <location line="+12"/>
         <source>Always</source>
         <translation>Alati</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-17"/>
         <source>Only in private rooms</source>
         <translation>Vaid privaatsetes jututubades</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+6"/>
+        <location line="+12"/>
         <source>Never</source>
         <translation>Mitte kunagi</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-13"/>
+        <source>Only in large rooms (&gt; 16 members)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Shift+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Ctrl+Enter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Only at the end of messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>System font</source>
         <translation>Süsteemi kirjatüüp</translation>
     </message>
@@ -5442,7 +5673,7 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
         <translation>Süsteemi emotikonide kirjatüüp</translation>
     </message>
     <message>
-        <location line="+340"/>
+        <location line="+424"/>
         <source>Select a file</source>
         <translation>Vali fail</translation>
     </message>
@@ -5452,7 +5683,7 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
         <translation>Kõik failid (*)</translation>
     </message>
     <message>
-        <location line="+103"/>
+        <location line="+126"/>
         <source>Open Sessions File</source>
         <translation>Ava sessioonide fail</translation>
     </message>
@@ -5510,7 +5741,7 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
         <translation>Fail, kuhu salvestad eksporditavad sessiooni krüptovõtmed</translation>
     </message>
     <message>
-        <location line="-1104"/>
+        <location line="-1278"/>
         <source>Disable swipe motions</source>
         <translation>Ära kasuta viipeid</translation>
     </message>
@@ -5518,7 +5749,7 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
 <context>
     <name>UserSettingsPage</name>
     <message>
-        <location filename="../qml/pages/UserSettingsPage.qml" line="+187"/>
+        <location filename="../qml/pages/UserSettingsPage.qml" line="+258"/>
         <source>CACHED</source>
         <translation>PUHVERDATUD</translation>
     </message>
@@ -5602,14 +5833,14 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
 <context>
     <name>WelcomePage</name>
     <message>
-        <location filename="../qml/pages/WelcomePage.qml" line="+30"/>
-        <source>Welcome to nheko! The desktop client for the Matrix protocol.</source>
-        <translation>Tere tulemast Nheko kasutajaks! Töölauarakendus Matrix&apos;i protokolli jaoks.</translation>
+        <location filename="../qml/pages/WelcomePage.qml" line="+32"/>
+        <source>Welcome to Komai!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Enjoy your stay!</source>
-        <translation>Head suhtlemist!</translation>
+        <location line="+14"/>
+        <source>A quick desktop client for the Matrix chat protocol</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
@@ -5622,20 +5853,20 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
         <translation>LOGI SISSE</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+30"/>
         <source>Reduce animations</source>
         <translation>Vähenda animatsioone</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Nheko uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation>Et kasutajaliides oleks toredam, kasutab Nheko mitmel puhul animatsioone. Kui see sulle ei sobi, siis saad nad välja lülitada.</translation>
+        <location line="+13"/>
+        <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>descriptiveTime</name>
     <message>
-        <location filename="../../src/Utils.cpp" line="+383"/>
+        <location filename="../../src/Utils.cpp" line="+384"/>
         <source>Yesterday</source>
         <translation>Eile</translation>
     </message>

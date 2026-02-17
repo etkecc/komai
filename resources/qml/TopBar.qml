@@ -282,25 +282,10 @@ Pane {
 
 
                     MenuItem {
-                        text: qsTr("Invite users")
-                        enabled: room ? room.permissions.canInvite() : false
-
-                        onTriggered: TimelineManager.openInviteUsers(roomId)
-                    }
-                    MenuItem {
-                        text: qsTr("Members")
-
-                        onTriggered: TimelineManager.openRoomMembers(room)
-                    }
-                    MenuItem {
                         text: qsTr("Leave room")
+                        icon.source: "qrc:/icons/icons/ui/power-off.svg"
 
                         onTriggered: TimelineManager.openLeaveRoomDialog(roomId)
-                    }
-                    MenuItem {
-                        text: qsTr("Settings")
-
-                        onTriggered: TimelineManager.openRoomSettings(roomId)
                     }
                 }
             }

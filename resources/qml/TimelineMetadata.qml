@@ -29,6 +29,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
         Layout.preferredWidth: parent.iconSize
+        visible: metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
     }

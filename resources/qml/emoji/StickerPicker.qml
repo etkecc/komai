@@ -6,6 +6,7 @@ import "../"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import im.nheko
 
 Popup {
@@ -23,6 +24,7 @@ Popup {
     readonly property int stickerDimPad: stickerDim + Nheko.paddingSmall
     readonly property int stickersPerRow: emoji ? 7 : 3
     readonly property int sidebarAvatarSize: 32
+    property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
 
     function show(showAt, roomid_, callback, openAbove) {
         console.debug("Showing sticker picker");
@@ -42,24 +44,76 @@ Popup {
         stickerPopup.open();
     }
 
-    bottomPadding: 0
-    leftPadding: 0
-    rightPadding: 0
-    topPadding: 0
+    padding: Nheko.paddingMedium
     modal: true
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    width: sidebarAvatarSize + Nheko.paddingSmall + stickersPerRow * stickerDimPad + 20
-    height: columnView.implicitHeight + Nheko.paddingSmall * 2
+    width: sidebarAvatarSize + Nheko.paddingSmall + stickersPerRow * stickerDimPad + 20 + padding * 2
+    height: contentColumn.implicitHeight
 
     background: Rectangle {
-        color: palette.window
+        color: palette.alternateBase
+        radius: 8
     }
 
-    contentItem: GridLayout {
-        id: columnView
+    contentItem: Column {
+        id: contentColumn
 
-        anchors.margins: Nheko.paddingSmall
+        spacing: Nheko.paddingSmall
+
+        Row {
+            spacing: Nheko.paddingSmall
+            width: parent.width
+
+            Image {
+                anchors.verticalCenter: parent.verticalCenter
+                height: headerLabel.font.pixelSize
+                width: height
+                source: "image://colorimage/:/icons/icons/ui/" + (stickerPopup.emoji ? "smile.svg" : "sticky-note-solid.svg") + "?" + palette.text
+                sourceSize.height: height * Screen.devicePixelRatio
+                sourceSize.width: width * Screen.devicePixelRatio
+            }
+
+            Label {
+                id: headerLabel
+
+                text: stickerPopup.emoji ? qsTr("Pick an Emoji") : qsTr("Pick a Sticker")
+                color: palette.text
+                font.pixelSize: Math.ceil(stickerPopup.textHeight * 0.6)
+                font.bold: true
+            }
+
+            Item {
+                height: 1
+                width: parent.width - headerLabel.implicitWidth - headerLabel.font.pixelSize - closeButton.width - parent.spacing * 3
+            }
+
+            ImageButton {
+                id: closeButton
+
+                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.text: qsTr("Close")
+                ToolTip.visible: hovered
+                anchors.verticalCenter: parent.verticalCenter
+                height: headerLabel.font.pixelSize
+                width: height
+                hoverEnabled: true
+                image: ":/icons/icons/ui/dismiss.svg"
+                onClicked: stickerPopup.close()
+            }
+        }
+
+        Rectangle {
+            color: palette.window
+            radius: 4
+            width: parent.width
+            height: columnView.implicitHeight + Nheko.paddingSmall * 2
+
+            GridLayout {
+                id: columnView
+
+                anchors.fill: parent
+                anchors.margins: Nheko.paddingSmall
             columns: 2
             rows: 2
 
@@ -264,6 +318,10 @@ Popup {
                 ToolTip.text: qsTr("Change what packs are enabled, remove packs, or create new ones")
                 onClicked: TimelineManager.openImagePackSettings(stickerPopup.roomid)
             }
+            }
+
         }
+
+    }
 
 }

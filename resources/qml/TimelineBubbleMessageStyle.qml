@@ -82,6 +82,7 @@ TimelineEvent {
         }, 
         Rectangle {
             anchors.fill: gridContainer
+            radius: 8
             property color threadColor: TimelineManager.userColor(wrapper.threadId, palette.base)
             property color threadBackgroundColor: wrapper.threadId ? Qt.tint(palette.base, Qt.hsla(threadColor.hslHue, 0.7, threadColor.hslLightness, 0.1)) : "transparent"
             color: (Settings.messageHoverHighlight && messageHover.hovered) ? palette.alternateBase : threadBackgroundColor

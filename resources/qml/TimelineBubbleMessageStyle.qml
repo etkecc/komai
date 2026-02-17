@@ -204,6 +204,7 @@ TimelineEvent {
 
                     Column {
                         id: contentColumn
+                        spacing: Nheko.paddingMedium
 
                         anchors.left: parent.left
                         anchors.right: parent.right

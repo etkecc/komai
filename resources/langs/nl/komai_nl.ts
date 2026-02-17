@@ -625,32 +625,32 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+2"/>
         <source>Kick a user from the current room. Reason is optional. If user is left out, will try to kick the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Ban a user from the current room. Reason is optional. If user is left out, will try to ban the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Unban a user in the current room. Reason is optional. If user is left out, will try to unban the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Redact an event by event id or that you are replying to or all locally cached messages of a user.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+56"/>
         <source>Block all invites from a user, a server, to a specific room or set the default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Allow all invites from a user, a server, to a specific room or set the default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-56"/>
@@ -901,7 +901,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>This room can&apos;t be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
+        <source>This room can't be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
         <translation>Deze kamer is niet direct begaanbaar. Je kan echter aankloppen en deelnemers aan de kamer kunnen je verzoek dan inwilligen of afwijzen. Je kan optioneel hieronder nog een reden opgeven:</translation>
     </message>
     <message>
@@ -1053,8 +1053,8 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Please verify the following digits. You should see the same numbers on both sides. If they differ, please press &apos;They do not match!&apos; to abort verification!</source>
-        <translation>Controleer de volgende getallen.  Je zou dezelfde getallen moeten zien aan beide kanten.  Druk als ze verschillen op &apos;Ze komen niet overeen!&apos; om de verificatie te annuleren!</translation>
+        <source>Please verify the following digits. You should see the same numbers on both sides. If they differ, please press 'They do not match!' to abort verification!</source>
+        <translation>Controleer de volgende getallen.  Je zou dezelfde getallen moeten zien aan beide kanten.  Druk als ze verschillen op 'Ze komen niet overeen!' om de verificatie te annuleren!</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -1076,8 +1076,8 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>Please verify the following emoji. You should see the same emoji on both sides. If they differ, please press &apos;They do not match!&apos; to abort verification!</source>
-        <translation>Vergelijk de volgende emoji. Je zou dezelfde moeten zien aan beide kanten. Als ze verschillen, druk dan op &apos;Ze komen niet overeen!&apos; om de verificatie te annuleren!</translation>
+        <source>Please verify the following emoji. You should see the same emoji on both sides. If they differ, please press 'They do not match!' to abort verification!</source>
+        <translation>Vergelijk de volgende emoji. Je zou dezelfde moeten zien aan beide kanten. Als ze verschillen, druk dan op 'Ze komen niet overeen!' om de verificatie te annuleren!</translation>
     </message>
     <message>
         <location line="+379"/>
@@ -1104,7 +1104,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>This message couldn&apos;t be decrypted, because we only have a key for newer messages. You can try requesting access to this message.</source>
+        <source>This message couldn't be decrypted, because we only have a key for newer messages. You can try requesting access to this message.</source>
         <translation>Het bericht kon niet worden ontsleuteld, omdat we alleen een sleutel hebben voor nieuwere berichten. Je kan proberen toegang tot dit bericht aan te vragen.</translation>
     </message>
     <message>
@@ -1119,7 +1119,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>The message couldn&apos;t be parsed.</source>
+        <source>The message couldn't be parsed.</source>
         <translation>Het bericht kon niet worden verwerkt.</translation>
     </message>
     <message>
@@ -1170,8 +1170,8 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can&apos;t verify who sent the message.</source>
-        <translation type="unfinished"></translation>
+        <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can't verify who sent the message.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -1194,12 +1194,12 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+18"/>
         <source>You can configure when your messages will be deleted in %1. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -1342,22 +1342,22 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+17"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+45"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
@@ -1432,7 +1432,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+11"/>
         <source>Allowed server changes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1465,8 +1465,8 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <name>ImagePackDeleteDialog</name>
     <message>
         <location filename="../qml/dialogs/ImagePackDeleteDialog.qml" line="+14"/>
-        <source>Are you sure you wish to delete the sticker pack &apos;%1&apos;?</source>
-        <translation>Weet je zeker dat je het afbeeldingspakket &apos;%1&apos; wil verwijderen?</translation>
+        <source>Are you sure you wish to delete the sticker pack '%1'?</source>
+        <translation>Weet je zeker dat je het afbeeldingspakket '%1' wil verwijderen?</translation>
     </message>
 </context>
 <context>
@@ -1636,8 +1636,8 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+724"/>
-        <source>You need to pass a valid mxid when ignoring a user. &apos;%1&apos; is not a valid userid.</source>
-        <translation type="unfinished"></translation>
+        <source>You need to pass a valid mxid when ignoring a user. '%1' is not a valid userid.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
@@ -1646,8 +1646,8 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+412"/>
-        <source>Upload of &apos;%1&apos; failed</source>
-        <translation>Versturen van &apos;%1&apos; misluk</translation>
+        <source>Upload of '%1' failed</source>
+        <translation>Versturen van '%1' misluk</translation>
     </message>
 </context>
 <context>
@@ -1665,7 +1665,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="+13"/>
         <source>@user:yourserver.example.com</source>
-        <comment>Example user id. The name &apos;user&apos; can be localized however you want.</comment>
+        <comment>Example user id. The name 'user' can be localized however you want.</comment>
         <translation>@gebruiker:jouwserver.example.com</translation>
     </message>
     <message>
@@ -1752,7 +1752,7 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>The selected server does not support a version of the Matrix protocol, that this client understands (%1 to %2). You can&apos;t sign in.</source>
+        <source>The selected server does not support a version of the Matrix protocol, that this client understands (%1 to %2). You can't sign in.</source>
         <translation>De gekozen server ondersteund geen versies van het Matrix protocol die deze applicatie begrijpt (tussen %1 en %2). Je kan daarom niet inloggen.</translation>
     </message>
     <message>
@@ -1808,15 +1808,15 @@ Je kan optioneel hier een reden invoeren dat je aanklopt:</translation>
     <message>
         <location line="-14"/>
         <source>Login to your Matrix account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.
-You can also put your homeserver address there if your server doesn&apos;t support .well-known lookup.
+You can also put your homeserver address there if your server doesn't support .well-known lookup.
 Example: @user:yourserver.example.com
 If Komai fails to discover your homeserver, it will show you a field to enter the server manually.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+28"/>
@@ -1855,7 +1855,7 @@ If Komai fails to discover your homeserver, it will show you a field to enter th
     </message>
     <message>
         <location line="+3"/>
-        <source>The address that can be used to contact your homeserver&apos;s client API.
+        <source>The address that can be used to contact your homeserver's client API.
 Example: https://yourserver.example.com:8787</source>
         <translation>Het adres waarmee je de API van je thuisserver kan bereiken.
 Voorbeeld: https://jouwserver.example.com:8787</translation>
@@ -1942,7 +1942,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+47"/>
-        <source>You don&apos;t have permission to send messages in this room</source>
+        <source>You don't have permission to send messages in this room</source>
         <translation>Je hebt geen toestemming om berichten te versturen in deze kamer</translation>
     </message>
 </context>
@@ -1950,7 +1950,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <name>MessageInputWarning</name>
     <message>
         <location filename="../qml/MessageInputWarning.qml" line="+61"/>
-        <source>Don&apos;t mention them in this message</source>
+        <source>Don't mention them in this message</source>
         <translation>Geen melding versturen in dit bericht</translation>
     </message>
 </context>
@@ -1984,7 +1984,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="+15"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+19"/>
@@ -2184,7 +2184,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
         <location line="+12"/>
         <source>%1 replied with a spoiler.</source>
         <comment>Format a reply in a notification. %1 is the sender.</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -2258,7 +2258,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Be careful when editing permissions. You can&apos;t lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
+        <source>Be careful when editing permissions. You can't lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
         <translation>Kijk uit bij het aanpassen van machtniveaus. Je kan het niveau van mensen met een gelijk of hoger niveau als jijzelf niet aanpassen. Let dus op bij het verhogen van het niveau van anderen.</translation>
     </message>
     <message>
@@ -2625,13 +2625,13 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <name>QObject</name>
     <message>
         <location line="-30"/>
-        <source>Alias for &apos;--log-level trace&apos;.</source>
-        <translation>Alias voor &apos;--log-level trace&apos;.</translation>
+        <source>Alias for '--log-level trace'.</source>
+        <translation>Alias voor '--log-level trace'.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Set the global log level, or a comma-separated list of &lt;component&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to &apos;warn&apos; but disable logging for the &apos;ui&apos; component, pass &apos;warn,ui=off&apos;. levels:{trace,debug,info,warning,error,critical,off} components:{crypto,db,mtx,net,qml,ui}</source>
-        <translation>Stelt het globale logniveau in, of een komma-gescheiden lijst van &lt;component&gt;=&lt;niveau&gt; paren, of beide. Om bijvoorbeeld het huidige logniveau op &apos;warn&apos; te zetten maar logs uit te schakelen voor het &apos;ui&apos; component, voer je &apos;warn,ui=off&apos; in. Niveaus zijn: {trace,debug,info,warning,error,critical,off} en componenten zijn: {crypto,db,mtx,net,qml,ui}</translation>
+        <source>Set the global log level, or a comma-separated list of &lt;component&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to 'warn' but disable logging for the 'ui' component, pass 'warn,ui=off'. levels:{trace,debug,info,warning,error,critical,off} components:{crypto,db,mtx,net,qml,ui}</source>
+        <translation>Stelt het globale logniveau in, of een komma-gescheiden lijst van &lt;component&gt;=&lt;niveau&gt; paren, of beide. Om bijvoorbeeld het huidige logniveau op 'warn' te zetten maar logs uit te schakelen voor het 'ui' component, voer je 'warn,ui=off' in. Niveaus zijn: {trace,debug,info,warning,error,critical,off} en componenten zijn: {crypto,db,mtx,net,qml,ui}</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2640,8 +2640,8 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Set the log output type. A comma-separated list is allowed. The default is &apos;file,stderr&apos;. types:{file,stderr,none}</source>
-        <translation>Stel het uitvoertype voor logs in. Een spatie-gescheiden lijst is toegestaan. De standaardwaarde is &apos;file,stderr&apos;. Mogelijke types zijn: {file,stderr,none}</translation>
+        <source>Set the log output type. A comma-separated list is allowed. The default is 'file,stderr'. types:{file,stderr,none}</source>
+        <translation>Stel het uitvoertype voor logs in. Een spatie-gescheiden lijst is toegestaan. De standaardwaarde is 'file,stderr'. Mogelijke types zijn: {file,stderr,none}</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2674,7 +2674,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location filename="../qml/QuickSwitcher.qml" line="+58"/>
         <source>Find &amp; switch room</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -2684,12 +2684,12 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="+17"/>
         <source>Searches among rooms you participate in, not across all rooms on Matrix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2697,7 +2697,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location filename="../qml/dialogs/ReCaptchaDialog.qml" line="+40"/>
         <source>Solve the reCAPTCHA and press the confirm button</source>
-        <translation>Los de reCAPTCHA op en klik op &apos;Bevestigen&apos;</translation>
+        <translation>Los de reCAPTCHA op en klik op 'Bevestigen'</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2760,7 +2760,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>The selected server does not support a version of the Matrix protocol that this client understands (%1 to %2). You can&apos;t register.</source>
+        <source>The selected server does not support a version of the Matrix protocol that this client understands (%1 to %2). You can't register.</source>
         <translation>De gekozen server ondersteund geen versies van het Matrix protocol die deze applicatie begrijpt (tussen %1 en %2). Je kan daarom niet registreren.</translation>
     </message>
     <message>
@@ -2801,37 +2801,37 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="-175"/>
         <source>Register a Matrix account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>But... where?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+44"/>
-        <source>Public servers like &lt;a href=&quot;https://matrix.org/&quot;&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
-        <translation type="unfinished"></translation>
+        <source>Public servers like &lt;a href="https://matrix.org/"&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href=&quot;https://etke.cc/&quot;&gt;etke.cc&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/ecosystem/hosting/"&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href="https://etke.cc/"&gt;etke.cc&lt;/a&gt;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/ecosystem/hosting/"&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/&quot;&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/"&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
         <source>The server address where you want to create your account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
@@ -2890,7 +2890,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location filename="../qml/ReplyPopup.qml" line="+61"/>
         <source>Replying in a thread</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
@@ -2902,12 +2902,12 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="-52"/>
         <source>Replying to this message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+41"/>
         <source>Editing a message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3082,7 +3082,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="+118"/>
         <source>Find &amp; switch room (Ctrl+K)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+105"/>
@@ -3093,7 +3093,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="+3"/>
         <source>Unverified login</source>
-        <extracomment>The user just signed in with this device and hasn&apos;t verified their master key.</extracomment>
+        <extracomment>The user just signed in with this device and hasn't verified their master key.</extracomment>
         <translation>Ongeverifiëerde login</translation>
     </message>
     <message>
@@ -3110,17 +3110,17 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="+69"/>
         <source>Profile Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Set Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Application Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+385"/>
@@ -3241,7 +3241,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>This user isn&apos;t verified, but is still using the same master key from the first time you met.</source>
+        <source>This user isn't verified, but is still using the same master key from the first time you met.</source>
         <translation>Deze gebruiker is niet geverifieerd, maar gebruikt nog dezelfde hoofdsleutel als de eerste keer.</translation>
     </message>
     <message>
@@ -3303,8 +3303,8 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Since room state can&apos;t be encrypted, make sure no confidential information is stored in the room name!</source>
-        <translation type="unfinished"></translation>
+        <source>Since room state can't be encrypted, make sure no confidential information is stored in the room name!</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location line="+11"/>
@@ -3331,8 +3331,8 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Since room state can&apos;t be encrypted, make sure no confidential information is stored in the room topic!</source>
-        <translation type="unfinished"></translation>
+        <source>Since room state can't be encrypted, make sure no confidential information is stored in the room topic!</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+19"/>
@@ -3427,7 +3427,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>How much of the history is visible to joined members. Changing this won&apos;t affect the visibility of already sent messages. It only applies to new messages.</source>
+        <source>How much of the history is visible to joined members. Changing this won't affect the visibility of already sent messages. It only applies to new messages.</source>
         <translation>Hoeveel van de geschiedenis zichtbaar is voor deelnemers. Dit veranderen heeft geen effect op reeds verstuurde berichten en is alleen van toepassing op nieuwe berichten.</translation>
     </message>
     <message>
@@ -3511,8 +3511,8 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="+1"/>
         <source>Encryption is currently experimental and things might break unexpectedly. &lt;br&gt;
-                                Please take note that it can&apos;t be disabled afterwards.</source>
-        <translation type="unfinished"></translation>
+                                Please take note that it can't be disabled afterwards.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
@@ -3666,7 +3666,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location line="+1"/>
         <location line="+9"/>
-        <source>View your callee&apos;s camera like a regular video call</source>
+        <source>View your callee's camera like a regular video call</source>
         <translation>Bekijk de camera van degene die belt zoals bij een regulier videogesprek</translation>
     </message>
     <message>
@@ -3707,7 +3707,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <name>SelfVerificationCheck</name>
     <message>
         <location filename="../qml/SelfVerificationCheck.qml" line="+50"/>
-        <source>This is your recovery key. You will need it to restore access to your encrypted messages and verification keys. Keep this safe. Don&apos;t share it with anyone and don&apos;t lose it! Do not pass go! Do not collect $200!</source>
+        <source>This is your recovery key. You will need it to restore access to your encrypted messages and verification keys. Keep this safe. Don't share it with anyone and don't lose it! Do not pass go! Do not collect $200!</source>
         <translation>Dit is je herstelsleutel. Je hebt deze nodig om toegang tot je versleutelde berichten en sleutels te herstellen. Hou deze veilig. Deel hem met niemand, en raak hem niet kwijt! Ga niet langs start, ontvang geen €200!</translation>
     </message>
     <message>
@@ -3740,9 +3740,9 @@ Zo te zien ben je nieuw. Voordat je je berichten veilig kan versleutelen, moeten
     <message>
         <location line="+9"/>
         <source>It seems like you have encryption already configured for this account. To be able to access your encrypted messages and make this device appear as trusted, you can either verify an existing device or (if you have one) enter your recovery passphrase. Please select one of the options below.
-If you choose verify, you need to have the other device available. If you choose &quot;enter passphrase&quot;, you will need your recovery key or passphrase. If you click cancel, you can choose to verify yourself at a later point.</source>
+If you choose verify, you need to have the other device available. If you choose "enter passphrase", you will need your recovery key or passphrase. If you click cancel, you can choose to verify yourself at a later point.</source>
         <translation>Het lijkt erop dat je versleuteling al hebt ingesteld voor dit account. Om bij je versleutelde berichten te kunnen en om dit apparaat als vertrouwd te laten verschijnen, kan je ofwel een bestaand apparaat verifiëren ofwel je herstelsleutel invoeren (als je er één hebt). Kies a.u.b een van de opties hieronder.
-Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebben. Als je &quot;Voer herstelsleutel in&quot; kiest moet je je herstelsleutel of wachtwoordzin hebben. Als je op annuleren klikt kan je later altijd alsnog jezelf verifiëren.</translation>
+Als je "verifieer" kiest, moet je het andere apparaat bij de hand hebben. Als je "Voer herstelsleutel in" kiest moet je je herstelsleutel of wachtwoordzin hebben. Als je op annuleren klikt kan je later altijd alsnog jezelf verifiëren.</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3879,12 +3879,12 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     <message>
         <location filename="../qml/emoji/StickerPicker.qml" line="+91"/>
         <source>Pick an Emoji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Pick a Sticker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -3997,7 +3997,7 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     <message>
         <location line="+28"/>
         <source>Message actions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -4096,12 +4096,12 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     <message>
         <location line="+28"/>
         <location line="+244"/>
-        <source>%1 has changed the room&apos;s permissions.</source>
+        <source>%1 has changed the room's permissions.</source>
         <translation>%1 heeft de rechten van de kamer aangepast.</translation>
     </message>
     <message>
         <location line="-221"/>
-        <source>%1 has changed the room&apos;s kick powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's kick powerlevel from %2 to %3.</source>
         <translation>%1 paste het verwijderen-van-deelnemers machtsniveau aan van %2 naar %3.</translation>
     </message>
     <message numerus="yes">
@@ -4119,7 +4119,7 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+12"/>
-        <source>%1 has changed the room&apos;s redact powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's redact powerlevel from %2 to %3.</source>
         <translation>%1 heeft het machtsniveau nodig om berichten in te trekken veranderd van %2 naar %3.</translation>
     </message>
     <message numerus="yes">
@@ -4137,7 +4137,7 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+12"/>
-        <source>%1 has changed the room&apos;s ban powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's ban powerlevel from %2 to %3.</source>
         <translation>%1 heeft het machtsniveau om deelnemers uit te kamer te verbannen veranderd van %2 naar %3.</translation>
     </message>
     <message numerus="yes">
@@ -4155,7 +4155,7 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+13"/>
-        <source>%1 has changed the room&apos;s state_default powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's state_default powerlevel from %2 to %3.</source>
         <translation>%1 heeft het standaardmachtsniveau voor instellen van kamereigenschappen veranderd van %2 naar %3.</translation>
     </message>
     <message numerus="yes">
@@ -4173,22 +4173,22 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+14"/>
-        <source>%1 has changed the room&apos;s invite powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's invite powerlevel from %2 to %3.</source>
         <translation>%1 heeft het machtsniveau om uitnodigingen te versturen veranderd van %2 naar %3.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3. New users can now not send any events.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3. New users can now not send any events.</source>
         <translation>%1 heeft het standaardmachtsniveau voor gebeurtenissen veranderd van %2 naar %3. Nieuwe deelnemers kunnen nu geen gebeurtenissen meer versturen.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3. New users can now send events that are not otherwise restricted.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3. New users can now send events that are not otherwise restricted.</source>
         <translation>%1 heeft het standaardmachtsniveau voor gebeurtenissen veranderd van %2 naar %3. Nieuwe deelnemers kunnen nu gebeurtenissen versturen die verder niet beperkt zijn.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3.</source>
         <translation>%1 heeft het standaardmachtsniveau voor gebeurtenissen veranderd van %2 naar %3.</translation>
     </message>
     <message>
@@ -4213,28 +4213,28 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+16"/>
-        <source>%1 allowed only administrators to send &quot;%2&quot;.</source>
-        <translation>%1 staat alleen eigenaars toe om &quot;%2&quot; te versturen.</translation>
+        <source>%1 allowed only administrators to send "%2".</source>
+        <translation>%1 staat alleen eigenaars toe om "%2" te versturen.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 allowed only moderators to send &quot;%2&quot;.</source>
-        <translation>%1 staat alleen beheerders toe om &quot;%2&quot; te versturen.</translation>
+        <source>%1 allowed only moderators to send "%2".</source>
+        <translation>%1 staat alleen beheerders toe om "%2" te versturen.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 allowed everyone to send &quot;%2&quot;.</source>
-        <translation>%1 staat iedereen toe om &quot;%2&quot; te versturen.</translation>
+        <source>%1 allowed everyone to send "%2".</source>
+        <translation>%1 staat iedereen toe om "%2" te versturen.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>%1 has changed the powerlevel of event type &quot;%2&quot; from the default to %3.</source>
-        <translation>%1 veranderde het machtsniveau van gebeurtenistype &quot;%2&quot; van de standaard naar %3.</translation>
+        <source>%1 has changed the powerlevel of event type "%2" from the default to %3.</source>
+        <translation>%1 veranderde het machtsniveau van gebeurtenistype "%2" van de standaard naar %3.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>%1 has changed the powerlevel of event type &quot;%2&quot; from %3 to %4.</source>
-        <translation>%1 veranderde het machtsniveau van gebeurtenistype &quot;%2&quot; van %3 naar %4.</translation>
+        <source>%1 has changed the powerlevel of event type "%2" from %3 to %4.</source>
+        <translation>%1 veranderde het machtsniveau van gebeurtenistype "%2" van %3 naar %4.</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4263,8 +4263,8 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban users matching %2 for &apos;%3&apos;.</source>
-        <translation>%1 voegde een regel toe aan &apos;%3&apos; om deelnemers te verbannen die voldoen aan %2.</translation>
+        <source>%1 added a rule to ban users matching %2 for '%3'.</source>
+        <translation>%1 voegde een regel toe aan '%3' om deelnemers te verbannen die voldoen aan %2.</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -4273,8 +4273,8 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban rooms matching %2 for &apos;%3&apos;.</source>
-        <translation>%1 voegde een regel toe aan &apos;%3&apos; om kamers te verbannen die voldoen aan %2.</translation>
+        <source>%1 added a rule to ban rooms matching %2 for '%3'.</source>
+        <translation>%1 voegde een regel toe aan '%3' om kamers te verbannen die voldoen aan %2.</translation>
     </message>
     <message>
         <location line="+22"/>
@@ -4283,8 +4283,8 @@ Als je &quot;verifieer&quot; kiest, moet je het andere apparaat bij de hand hebb
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban servers matching %2 for &apos;%3&apos;.</source>
-        <translation>%1 voegde een regel toe aan &apos;%3&apos; om servers te verbannen die voldoen aan %2.</translation>
+        <source>%1 added a rule to ban servers matching %2 for '%3'.</source>
+        <translation>%1 voegde een regel toe aan '%3' om servers te verbannen die voldoen aan %2.</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -4345,8 +4345,8 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 joined via authorisation from %2&apos;s server.</source>
-        <translation>%1 neemt deel via autorisatie van %2&apos;s server.</translation>
+        <source>%1 joined via authorisation from %2's server.</source>
+        <translation>%1 neemt deel via autorisatie van %2's server.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -4437,8 +4437,8 @@ Reden: %4</translation>
         <location line="+115"/>
         <source>%n hour(s) later</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
@@ -4464,7 +4464,7 @@ Reden: %4</translation>
     <message>
         <location line="+36"/>
         <source>%1 left after having already left!</source>
-        <comment>This is a leave event after the user already left and shouldn&apos;t happen apart from state resets</comment>
+        <comment>This is a leave event after the user already left and shouldn't happen apart from state resets</comment>
         <translation>%1 is vertrokken na reeds vertrokken te zijn!</translation>
     </message>
     <message>
@@ -4482,8 +4482,8 @@ Reden: %4</translation>
     <name>TimelineSectionHeader</name>
     <message>
         <location filename="../qml/TimelineSectionHeader.qml" line="+119"/>
-        <source>%1&apos;s status message</source>
-        <translation>%1&apos;s statusbericht</translation>
+        <source>%1's status message</source>
+        <translation>%1's statusbericht</translation>
     </message>
 </context>
 <context>
@@ -4607,7 +4607,7 @@ Reden: %4</translation>
     <message>
         <location line="+63"/>
         <source>Show only notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
@@ -4682,8 +4682,8 @@ Reden: %4</translation>
         <source>
 %n unread message(s)</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
 </context>
@@ -4737,8 +4737,8 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+50"/>
-        <source>Failed to ignore &quot;%1&quot;: %2</source>
-        <translation>Kon &quot;%1&quot; niet negeren: %2</translation>
+        <source>Failed to ignore "%1": %2</source>
+        <translation>Kon "%1" niet negeren: %2</translation>
     </message>
     <message>
         <location line="+222"/>
@@ -4802,7 +4802,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>This is a room-specific profile. The user&apos;s name and avatar may be different from their global versions.</source>
+        <source>This is a room-specific profile. The user's name and avatar may be different from their global versions.</source>
         <translation>Dit is een kamer-specifiek profiel. De weergavenaam en avatar kunnen verschillen van de globale versie.</translation>
     </message>
     <message>
@@ -4940,22 +4940,22 @@ Reden: %4</translation>
     <message>
         <location line="+2"/>
         <source>Enable stickers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Show own avatar next to own message bubbles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Show sender username above messages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Pinned reactions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -4965,7 +4965,7 @@ Reden: %4</translation>
     <message>
         <location line="+2"/>
         <source>Show images automatically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5125,7 +5125,7 @@ Reden: %4</translation>
     <message>
         <location line="+2"/>
         <source>Enable legacy calls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5185,12 +5185,12 @@ Reden: %4</translation>
     <message>
         <location line="+2"/>
         <source>Based on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Fork by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5300,7 +5300,7 @@ Reden: %4</translation>
     <message>
         <location line="+2"/>
         <source>Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -5361,7 +5361,7 @@ Indien uitgeschakeld worden alle berichten als platte tekst verstuurd.</translat
     <message>
         <location line="+2"/>
         <source>If images should be automatically displayed. You can select between always showing images by default, only show them by default in private rooms or always require interaction to show images.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+4"/>
@@ -5404,8 +5404,8 @@ UIT - vierkant, AAN - cirkel.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Some messages can be sent with fancy effects. For example, messages sent with &apos;/confetti&apos; will show confetti on screen.</source>
-        <translation>Sommige berichten kunnen worden verstuurd met een effect. Bijvoorbeeld berichten met &apos;/confetti&apos; zullen confetti op het scherm tonen.</translation>
+        <source>Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen.</source>
+        <translation>Sommige berichten kunnen worden verstuurd met een effect. Bijvoorbeeld berichten met '/confetti' zullen confetti op het scherm tonen.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -5415,11 +5415,11 @@ UIT - vierkant, AAN - cirkel.</translation>
     <message>
         <location line="+3"/>
         <source>Change the scale factor of the whole user interface. Requires a restart to take effect.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn&apos;t have access to those keys otherwise.</source>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
         <translation>Automatisch antwoorden op sleutelverzoeken van andere gebruikers als ze bevestigd zijn, zelfs als dat apparaat anders geen toegang tot die sleutel zou hebben gehad.</translation>
     </message>
     <message>
@@ -5442,12 +5442,12 @@ Meestal zorgt dit dat het icoon in de taakbalk op een manier animeert of iets de
     <message>
         <location line="+6"/>
         <source>Send messages with a shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Auto-replace text emoticons with emoji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+50"/>
@@ -5469,38 +5469,38 @@ Meestal zorgt dit dat het icoon in de taakbalk op een manier animeert of iets de
         <source>Select what Enter key combination sends the message. Shift+Enter adds a new line, unless it has been selected, in which case Enter adds a new line instead.
 
 If an emoji picker or a mention picker is open, it is always handled first.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>Display rooms with new messages first.
 If this is off, the list of rooms will only be sorted by the preferred sorting order.
-If this is on, rooms which have active notifications (the small circle with a number in it) will be sorted on top. Rooms that you have muted will still be sorted by the preferred sorting order, since you don&apos;t seem to consider them as important as the other rooms.</source>
+If this is on, rooms which have active notifications (the small circle with a number in it) will be sorted on top. Rooms that you have muted will still be sorted by the preferred sorting order, since you don't seem to consider them as important as the other rooms.</source>
         <translation>Laat kamers met nieuwe berichten eerst zien.
 Als dit uit staat, zullen kamers alleen gesorteerd worden op de voorkeurssortering.
 Als dit aan staat, worden kamers met notificaties (het kleine rondje met getal erin) bovenaan gesorteerd. Kamers die je hebt gedempt zullen nog steeds normaal worden gesorteerd, want die vond je blijkbaar minder belangrijk dan andere kamers.</translation>
@@ -5552,7 +5552,7 @@ Heeft alleen effect op versleutelde chats.</translation>
     <message>
         <location line="+11"/>
         <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -5593,7 +5593,7 @@ worden geblurt.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Your most important key. You don&apos;t need to have it cached, since not caching it makes it less likely it can be stolen and it is only needed to rotate your other signing keys.</source>
+        <source>Your most important key. You don't need to have it cached, since not caching it makes it less likely it can be stolen and it is only needed to rotate your other signing keys.</source>
         <translation>Je belangrijkste sleutel. Deze hoeft niet gecached te zijn, en dat maakt het minder waarschijnlijk dat hij ooit gestolen wordt. Hij is alleen nodig om je andere sleutels te roteren.</translation>
     </message>
     <message>
@@ -5601,7 +5601,7 @@ worden geblurt.</translation>
         <source>Allow third-party plugins and applications to load information about rooms you are in via D-Bus. This can have useful applications, but it also could be used for nefarious purposes. Enable at your own risk.
 
 This setting will take effect upon restart.</source>
-        <translation>Sta andere applicaties en plugins toe om informatie over de kamers waar je in zit uit te lezen via D-Bus. Dit kan nuttig zijn, maar brengt ook risico&apos;s met zich mee. Schakel in op eigen risico.
+        <translation>Sta andere applicaties en plugins toe om informatie over de kamers waar je in zit uit te lezen via D-Bus. Dit kan nuttig zijn, maar brengt ook risico's met zich mee. Schakel in op eigen risico.
 
 Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translation>
     </message>
@@ -5625,44 +5625,44 @@ Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translati
         <location line="+6"/>
         <location line="+12"/>
         <source>Always</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-17"/>
         <source>Only in private rooms</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <location line="+6"/>
         <location line="+12"/>
         <source>Never</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-13"/>
         <source>Only in large rooms (&gt; 16 members)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Shift+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Ctrl+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Only at the end of messages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -5725,17 +5725,17 @@ Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translati
     <message>
         <location line="+13"/>
         <source>Repeat File Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Repeat the passphrase:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>
-        <source>Passwords don&apos;t match</source>
-        <translation type="unfinished"></translation>
+        <source>Passwords don't match</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
@@ -5832,12 +5832,12 @@ Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translati
     <message>
         <location filename="../qml/pages/WelcomePage.qml" line="+32"/>
         <source>Welcome to Komai!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>A quick desktop client for the Matrix chat protocol</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
@@ -5857,7 +5857,7 @@ Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translati
     <message>
         <location line="+13"/>
         <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5916,7 +5916,7 @@ Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translati
     <message>
         <location filename="../../src/notifications/ManagerMac.cpp" line="-12"/>
         <source>Message contains spoiler.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5985,13 +5985,13 @@ Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translati
         <location line="+6"/>
         <location line="+26"/>
         <source>You sent a spoiler.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-23"/>
         <location line="+26"/>
         <source>%1 sent a spoiler.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="-20"/>
@@ -6018,7 +6018,7 @@ Deze instelling wordt toegepast na opnieuw starten van de applicatie.</translati
     <message>
         <location line="+23"/>
         <source>* %1 spoils something.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+8"/>

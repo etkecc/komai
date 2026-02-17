@@ -622,22 +622,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Kick a user from the current room. Reason is optional. If user is left out, will try to kick the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Ban a user from the current room. Reason is optional. If user is left out, will try to ban the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Unban a user in the current room. Reason is optional. If user is left out, will try to unban the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Redact an event by event id or that you are replying to or all locally cached messages of a user.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -772,12 +772,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+2"/>
         <source>Block all invites from a user, a server, to a specific room or set the default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Allow all invites from a user, a server, to a specific room or set the default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -897,7 +897,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+25"/>
-        <source>This room can&apos;t be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
+        <source>This room can't be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
         <translation>此聊天室无法直接加入。但是，你可以请求加入此聊天室，聊天室成员可以接受或拒绝此加入请求。另外你可以在下面提供一个理由，让他们允许你加入：</translation>
     </message>
     <message>
@@ -1049,7 +1049,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+8"/>
-        <source>Please verify the following digits. You should see the same numbers on both sides. If they differ, please press &apos;They do not match!&apos; to abort verification!</source>
+        <source>Please verify the following digits. You should see the same numbers on both sides. If they differ, please press 'They do not match!' to abort verification!</source>
         <translation>请验证一下数字。你应该会在另一边看到相同的数字。如果它们不同，请按“它们不一致”来终止验证！</translation>
     </message>
     <message>
@@ -1072,7 +1072,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+8"/>
-        <source>Please verify the following emoji. You should see the same emoji on both sides. If they differ, please press &apos;They do not match!&apos; to abort verification!</source>
+        <source>Please verify the following emoji. You should see the same emoji on both sides. If they differ, please press 'They do not match!' to abort verification!</source>
         <translation>请验证以下表情符号。你应该会在两边看到相同的表情符号，如果它们不一致，请按“它们不一致”来终止验证！</translation>
     </message>
     <message>
@@ -1100,7 +1100,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>This message couldn&apos;t be decrypted, because we only have a key for newer messages. You can try requesting access to this message.</source>
+        <source>This message couldn't be decrypted, because we only have a key for newer messages. You can try requesting access to this message.</source>
         <translation>这条消息无法被解密，因为我们只持有较之更新的消息的密钥。你可以继续尝试请求访问这条消息。</translation>
     </message>
     <message>
@@ -1115,7 +1115,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>The message couldn&apos;t be parsed.</source>
+        <source>The message couldn't be parsed.</source>
         <translation>无法解析这条消息。</translation>
     </message>
     <message>
@@ -1166,7 +1166,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can&apos;t verify who sent the message.</source>
+        <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can't verify who sent the message.</source>
         <translation>密钥来自不可信的来源，可能是从其他用户或在线密钥备份转发的。因此，我们无法验证是谁发送了该消息。</translation>
     </message>
     <message>
@@ -1190,12 +1190,12 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+18"/>
         <source>You can configure when your messages will be deleted in %1. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -1338,22 +1338,22 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+17"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+45"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
@@ -1428,7 +1428,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+11"/>
         <source>Allowed server changes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1461,8 +1461,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     <name>ImagePackDeleteDialog</name>
     <message>
         <location filename="../qml/dialogs/ImagePackDeleteDialog.qml" line="+14"/>
-        <source>Are you sure you wish to delete the sticker pack &apos;%1&apos;?</source>
-        <translation>你确定要删除贴纸包 &apos;%1&apos; 吗？</translation>
+        <source>Are you sure you wish to delete the sticker pack '%1'?</source>
+        <translation>你确定要删除贴纸包 '%1' 吗？</translation>
     </message>
 </context>
 <context>
@@ -1627,8 +1627,8 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+724"/>
-        <source>You need to pass a valid mxid when ignoring a user. &apos;%1&apos; is not a valid userid.</source>
-        <translation>您需要传递一个有效的 mxid 才能忽略用户。&apos;%1&apos; 不是有效的用户 ID。</translation>
+        <source>You need to pass a valid mxid when ignoring a user. '%1' is not a valid userid.</source>
+        <translation>您需要传递一个有效的 mxid 才能忽略用户。'%1' 不是有效的用户 ID。</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1637,7 +1637,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+412"/>
-        <source>Upload of &apos;%1&apos; failed</source>
+        <source>Upload of '%1' failed</source>
         <translation>上传 “%1” 失败</translation>
     </message>
     <message>
@@ -1661,7 +1661,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="+13"/>
         <source>@user:yourserver.example.com</source>
-        <comment>Example user id. The name &apos;user&apos; can be localized however you want.</comment>
+        <comment>Example user id. The name 'user' can be localized however you want.</comment>
         <translation>@user:yourserver.example.com</translation>
     </message>
     <message>
@@ -1748,7 +1748,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+21"/>
-        <source>The selected server does not support a version of the Matrix protocol, that this client understands (%1 to %2). You can&apos;t sign in.</source>
+        <source>The selected server does not support a version of the Matrix protocol, that this client understands (%1 to %2). You can't sign in.</source>
         <translation>所选服务器不支持此客户端可理解的 Matrix 协议版本（%1 至 %2）。你无法登录。</translation>
     </message>
     <message>
@@ -1804,15 +1804,15 @@ You may optionally provide a reason for others to accept your knock:</source>
     <message>
         <location line="-14"/>
         <source>Login to your Matrix account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.
-You can also put your homeserver address there if your server doesn&apos;t support .well-known lookup.
+You can also put your homeserver address there if your server doesn't support .well-known lookup.
 Example: @user:yourserver.example.com
 If Komai fails to discover your homeserver, it will show you a field to enter the server manually.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+28"/>
@@ -1851,7 +1851,7 @@ If Komai fails to discover your homeserver, it will show you a field to enter th
     </message>
     <message>
         <location line="+3"/>
-        <source>The address that can be used to contact your homeserver&apos;s client API.
+        <source>The address that can be used to contact your homeserver's client API.
 Example: https://yourserver.example.com:8787</source>
         <translation>用于联系主服务器客户端 API 的地址。
 例如：https://yourserver.example.com:8787</translation>
@@ -1938,7 +1938,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+47"/>
-        <source>You don&apos;t have permission to send messages in this room</source>
+        <source>You don't have permission to send messages in this room</source>
         <translation>你没有在此聊天室发送消息的权限</translation>
     </message>
 </context>
@@ -1946,7 +1946,7 @@ Example: https://yourserver.example.com:8787</source>
     <name>MessageInputWarning</name>
     <message>
         <location filename="../qml/MessageInputWarning.qml" line="+61"/>
-        <source>Don&apos;t mention them in this message</source>
+        <source>Don't mention them in this message</source>
         <translation>请勿在此消息中提及它们</translation>
     </message>
 </context>
@@ -1980,7 +1980,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+15"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+19"/>
@@ -2254,7 +2254,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+14"/>
-        <source>Be careful when editing permissions. You can&apos;t lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
+        <source>Be careful when editing permissions. You can't lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
         <translation>编辑权限时要小心。你不能降低与你有相同或更高等级的人的权限。提升他人权限时也要小心。</translation>
     </message>
     <message>
@@ -2621,12 +2621,12 @@ Example: https://yourserver.example.com:8787</source>
     <name>QObject</name>
     <message>
         <location line="-30"/>
-        <source>Alias for &apos;--log-level trace&apos;.</source>
-        <translation>&apos;--log-level trace&apos; 的别名。</translation>
+        <source>Alias for '--log-level trace'.</source>
+        <translation>'--log-level trace' 的别名。</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Set the global log level, or a comma-separated list of &lt;component&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to &apos;warn&apos; but disable logging for the &apos;ui&apos; component, pass &apos;warn,ui=off&apos;. levels:{trace,debug,info,warning,error,critical,off} components:{crypto,db,mtx,net,qml,ui}</source>
+        <source>Set the global log level, or a comma-separated list of &lt;component&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to 'warn' but disable logging for the 'ui' component, pass 'warn,ui=off'. levels:{trace,debug,info,warning,error,critical,off} components:{crypto,db,mtx,net,qml,ui}</source>
         <translation>设置全局日志级别，或以逗号分隔的 &lt;component&gt;=&lt;level&gt; 列表，或两者。例如，要将默认日志级别设置为 “warn” 但禁用 “ui” 组件的日志记录，请传递 “warn,ui=off” 。级别：{trace,debug,info,warning,error,critical,off} 组件：{crypto,db,mtx,net,qml,ui}</translation>
     </message>
     <message>
@@ -2636,7 +2636,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Set the log output type. A comma-separated list is allowed. The default is &apos;file,stderr&apos;. types:{file,stderr,none}</source>
+        <source>Set the log output type. A comma-separated list is allowed. The default is 'file,stderr'. types:{file,stderr,none}</source>
         <translation>设置日志输出类型。允许使用逗号分隔的列表。默认值为 “file,stderr” 。类型：{file,stderr,none}</translation>
     </message>
     <message>
@@ -2670,7 +2670,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location filename="../qml/QuickSwitcher.qml" line="+58"/>
         <source>Find &amp; switch room</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -2680,12 +2680,12 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+17"/>
         <source>Searches among rooms you participate in, not across all rooms on Matrix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2756,7 +2756,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+22"/>
-        <source>The selected server does not support a version of the Matrix protocol that this client understands (%1 to %2). You can&apos;t register.</source>
+        <source>The selected server does not support a version of the Matrix protocol that this client understands (%1 to %2). You can't register.</source>
         <translation>所选服务器不支持此客户端可理解的 Matrix 协议版本（%1 至 %2）。你无法注册。</translation>
     </message>
     <message>
@@ -2797,37 +2797,37 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="-175"/>
         <source>Register a Matrix account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>But... where?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+44"/>
-        <source>Public servers like &lt;a href=&quot;https://matrix.org/&quot;&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
-        <translation type="unfinished"></translation>
+        <source>Public servers like &lt;a href="https://matrix.org/"&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href=&quot;https://etke.cc/&quot;&gt;etke.cc&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/ecosystem/hosting/"&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href="https://etke.cc/"&gt;etke.cc&lt;/a&gt;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/ecosystem/hosting/"&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/&quot;&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/"&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
         <source>The server address where you want to create your account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
@@ -2886,7 +2886,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location filename="../qml/ReplyPopup.qml" line="+61"/>
         <source>Replying in a thread</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
@@ -2898,12 +2898,12 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="-52"/>
         <source>Replying to this message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+41"/>
         <source>Editing a message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3078,7 +3078,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+118"/>
         <source>Find &amp; switch room (Ctrl+K)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+105"/>
@@ -3089,7 +3089,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+3"/>
         <source>Unverified login</source>
-        <extracomment>The user just signed in with this device and hasn&apos;t verified their master key.</extracomment>
+        <extracomment>The user just signed in with this device and hasn't verified their master key.</extracomment>
         <translation>未经验证的登录</translation>
     </message>
     <message>
@@ -3106,17 +3106,17 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+69"/>
         <source>Profile Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Set Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Application Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+385"/>
@@ -3236,7 +3236,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>This user isn&apos;t verified, but is still using the same master key from the first time you met.</source>
+        <source>This user isn't verified, but is still using the same master key from the first time you met.</source>
         <translation>此用户未经验证，但仍在使用与你第一次见面时相同的主密钥。</translation>
     </message>
     <message>
@@ -3298,7 +3298,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+23"/>
-        <source>Since room state can&apos;t be encrypted, make sure no confidential information is stored in the room name!</source>
+        <source>Since room state can't be encrypted, make sure no confidential information is stored in the room name!</source>
         <translation>由于房间状态无法加密，请确保房间名称中没有存储机密信息！</translation>
     </message>
     <message numerus="yes">
@@ -3325,7 +3325,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+24"/>
-        <source>Since room state can&apos;t be encrypted, make sure no confidential information is stored in the room topic!</source>
+        <source>Since room state can't be encrypted, make sure no confidential information is stored in the room topic!</source>
         <translation>由于房间状态无法加密，请确保房间主题中没有存储机密信息！</translation>
     </message>
     <message>
@@ -3421,7 +3421,7 @@ Example: https://yourserver.example.com:8787</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>How much of the history is visible to joined members. Changing this won&apos;t affect the visibility of already sent messages. It only applies to new messages.</source>
+        <source>How much of the history is visible to joined members. Changing this won't affect the visibility of already sent messages. It only applies to new messages.</source>
         <translation>已加入的成员可以看到多少历史消息。更改此选项不会影响已发送消息的可见性。它只适用于新消息。</translation>
     </message>
     <message>
@@ -3505,7 +3505,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+1"/>
         <source>Encryption is currently experimental and things might break unexpectedly. &lt;br&gt;
-                                Please take note that it can&apos;t be disabled afterwards.</source>
+                                Please take note that it can't be disabled afterwards.</source>
         <translation>加密当前处于实验阶段，可能会出现意外故障。&lt;br&gt;
                                 请注意，之后无法禁用它。</translation>
     </message>
@@ -3661,7 +3661,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location line="+1"/>
         <location line="+9"/>
-        <source>View your callee&apos;s camera like a regular video call</source>
+        <source>View your callee's camera like a regular video call</source>
         <translation>像普通视频通话一样查看对方的摄像头</translation>
     </message>
     <message>
@@ -3702,7 +3702,7 @@ Example: https://yourserver.example.com:8787</source>
     <name>SelfVerificationCheck</name>
     <message>
         <location filename="../qml/SelfVerificationCheck.qml" line="+50"/>
-        <source>This is your recovery key. You will need it to restore access to your encrypted messages and verification keys. Keep this safe. Don&apos;t share it with anyone and don&apos;t lose it! Do not pass go! Do not collect $200!</source>
+        <source>This is your recovery key. You will need it to restore access to your encrypted messages and verification keys. Keep this safe. Don't share it with anyone and don't lose it! Do not pass go! Do not collect $200!</source>
         <translation>这是你的恢复密钥。你将需要它来恢复对加密消息和验证密钥的访问。请保管好它。不要与任何人分享，也不要丢失！切记！</translation>
     </message>
     <message>
@@ -3735,7 +3735,7 @@ It seems like you are new. Before you can securely encrypt your messages, we nee
     <message>
         <location line="+9"/>
         <source>It seems like you have encryption already configured for this account. To be able to access your encrypted messages and make this device appear as trusted, you can either verify an existing device or (if you have one) enter your recovery passphrase. Please select one of the options below.
-If you choose verify, you need to have the other device available. If you choose &quot;enter passphrase&quot;, you will need your recovery key or passphrase. If you click cancel, you can choose to verify yourself at a later point.</source>
+If you choose verify, you need to have the other device available. If you choose "enter passphrase", you will need your recovery key or passphrase. If you click cancel, you can choose to verify yourself at a later point.</source>
         <translation>你似乎已为此帐户配置了加密。为了能够访问你的加密消息并使此设备显示为受信任，你可以验证现有设备或输入你的恢复口令（如果有的话）。请选择以下选项之一。
 如果选择验证，则需要另一台设备可用。如果你选择“输入密码”，你将需要你的恢复密钥或口令。如果点击取消，你可以选择稍后验证自己。</translation>
     </message>
@@ -3874,12 +3874,12 @@ If you choose verify, you need to have the other device available. If you choose
     <message>
         <location filename="../qml/emoji/StickerPicker.qml" line="+91"/>
         <source>Pick an Emoji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Pick a Sticker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -3992,7 +3992,7 @@ If you choose verify, you need to have the other device available. If you choose
     <message>
         <location line="+28"/>
         <source>Message actions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -4090,12 +4090,12 @@ If you choose verify, you need to have the other device available. If you choose
     <message>
         <location line="+28"/>
         <location line="+244"/>
-        <source>%1 has changed the room&apos;s permissions.</source>
+        <source>%1 has changed the room's permissions.</source>
         <translation>%1 已更改聊天室的权限。</translation>
     </message>
     <message>
         <location line="-221"/>
-        <source>%1 has changed the room&apos;s kick powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's kick powerlevel from %2 to %3.</source>
         <translation>%1 已将聊天室的踢人权限等级从 %2 更改为 %3。</translation>
     </message>
     <message numerus="yes">
@@ -4112,7 +4112,7 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+12"/>
-        <source>%1 has changed the room&apos;s redact powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's redact powerlevel from %2 to %3.</source>
         <translation>%1 已将聊天室的删除权限等级从 %2 更改为 %3。</translation>
     </message>
     <message numerus="yes">
@@ -4129,7 +4129,7 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+12"/>
-        <source>%1 has changed the room&apos;s ban powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's ban powerlevel from %2 to %3.</source>
         <translation>%1 已将聊天室的封禁权限等级从 %2 更改为 %3。</translation>
     </message>
     <message numerus="yes">
@@ -4146,7 +4146,7 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+13"/>
-        <source>%1 has changed the room&apos;s state_default powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's state_default powerlevel from %2 to %3.</source>
         <translation>%1 已将聊天室的 state_default 权限等级从 %2 更改为 %3。</translation>
     </message>
     <message numerus="yes">
@@ -4163,22 +4163,22 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+14"/>
-        <source>%1 has changed the room&apos;s invite powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's invite powerlevel from %2 to %3.</source>
         <translation>%1 已将聊天室的邀请权限等级从 %2 更改为 %3。</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3. New users can now not send any events.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3. New users can now not send any events.</source>
         <translation>%1 已将聊天室的 events_default 权限等级从 %2 更改为 %3。新用户现在不能发送任何事件。</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3. New users can now send events that are not otherwise restricted.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3. New users can now send events that are not otherwise restricted.</source>
         <translation>%1 已将聊天室的 events_default 权限等级从 %2 更改为 %3。新用户现在可以发送没有其他限制的事件。</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3.</source>
         <translation>%1 已将聊天室的 events_default 权限等级从 %2 更改为 %3。</translation>
     </message>
     <message>
@@ -4203,28 +4203,28 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+16"/>
-        <source>%1 allowed only administrators to send &quot;%2&quot;.</source>
-        <translation>%1 仅允许管理员发送 &quot;%2&quot;。</translation>
+        <source>%1 allowed only administrators to send "%2".</source>
+        <translation>%1 仅允许管理员发送 "%2"。</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 allowed only moderators to send &quot;%2&quot;.</source>
-        <translation>%1 仅允许协管员发送 &quot;%2&quot;。</translation>
+        <source>%1 allowed only moderators to send "%2".</source>
+        <translation>%1 仅允许协管员发送 "%2"。</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 allowed everyone to send &quot;%2&quot;.</source>
-        <translation>%1 允许所有人发送 &quot;%2&quot;。</translation>
+        <source>%1 allowed everyone to send "%2".</source>
+        <translation>%1 允许所有人发送 "%2"。</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>%1 has changed the powerlevel of event type &quot;%2&quot; from the default to %3.</source>
-        <translation>%1 已将事件类型 &quot;%2&quot; 的权限等级从默认值更改为 %3。</translation>
+        <source>%1 has changed the powerlevel of event type "%2" from the default to %3.</source>
+        <translation>%1 已将事件类型 "%2" 的权限等级从默认值更改为 %3。</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>%1 has changed the powerlevel of event type &quot;%2&quot; from %3 to %4.</source>
-        <translation>%1 已将事件类型 &quot;%2&quot; 的权限等级从 %3 更改为 %4。</translation>
+        <source>%1 has changed the powerlevel of event type "%2" from %3 to %4.</source>
+        <translation>%1 已将事件类型 "%2" 的权限等级从 %3 更改为 %4。</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -4253,7 +4253,7 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban users matching %2 for &apos;%3&apos;.</source>
+        <source>%1 added a rule to ban users matching %2 for '%3'.</source>
         <translation>%1 为 “%3” 添加了封禁与 %2 匹配的用户的规则。</translation>
     </message>
     <message>
@@ -4263,7 +4263,7 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban rooms matching %2 for &apos;%3&apos;.</source>
+        <source>%1 added a rule to ban rooms matching %2 for '%3'.</source>
         <translation>%1 为 “%3” 添加了封禁与 %2 匹配的聊天室的规则。</translation>
     </message>
     <message>
@@ -4273,7 +4273,7 @@ If you choose verify, you need to have the other device available. If you choose
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban servers matching %2 for &apos;%3&apos;.</source>
+        <source>%1 added a rule to ban servers matching %2 for '%3'.</source>
         <translation>%1 为 “%3” 添加了封禁与 %2 匹配的服务器的规则。</translation>
     </message>
     <message>
@@ -4335,7 +4335,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 joined via authorisation from %2&apos;s server.</source>
+        <source>%1 joined via authorisation from %2's server.</source>
         <translation>%1 已通过来自 %2 的服务器的授权加入。</translation>
     </message>
     <message>
@@ -4427,7 +4427,7 @@ Reason: %4</source>
         <location line="+115"/>
         <source>%n hour(s) later</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
+            <numerusform/>
         </translation>
     </message>
     <message>
@@ -4453,7 +4453,7 @@ Reason: %4</source>
     <message>
         <location line="+36"/>
         <source>%1 left after having already left!</source>
-        <comment>This is a leave event after the user already left and shouldn&apos;t happen apart from state resets</comment>
+        <comment>This is a leave event after the user already left and shouldn't happen apart from state resets</comment>
         <translation>%1 在已经离开后又离开了！</translation>
     </message>
     <message>
@@ -4471,7 +4471,7 @@ Reason: %4</source>
     <name>TimelineSectionHeader</name>
     <message>
         <location filename="../qml/TimelineSectionHeader.qml" line="+119"/>
-        <source>%1&apos;s status message</source>
+        <source>%1's status message</source>
         <translation>%1 的状态消息</translation>
     </message>
 </context>
@@ -4595,7 +4595,7 @@ Reason: %4</source>
     <message>
         <location line="+63"/>
         <source>Show only notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
@@ -4724,8 +4724,8 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+50"/>
-        <source>Failed to ignore &quot;%1&quot;: %2</source>
-        <translation>未能忽略 &quot;%1&quot;：%2</translation>
+        <source>Failed to ignore "%1": %2</source>
+        <translation>未能忽略 "%1"：%2</translation>
     </message>
     <message>
         <location line="+222"/>
@@ -4789,7 +4789,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>This is a room-specific profile. The user&apos;s name and avatar may be different from their global versions.</source>
+        <source>This is a room-specific profile. The user's name and avatar may be different from their global versions.</source>
         <translation>这是特定于聊天室的个人资料。用户的姓名和头像可能与其全局版本不同。</translation>
     </message>
     <message>
@@ -4927,22 +4927,22 @@ Reason: %4</source>
     <message>
         <location line="+2"/>
         <source>Enable stickers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Show own avatar next to own message bubbles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Show sender username above messages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Pinned reactions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5107,7 +5107,7 @@ Reason: %4</source>
     <message>
         <location line="+2"/>
         <source>Enable legacy calls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5167,12 +5167,12 @@ Reason: %4</source>
     <message>
         <location line="+2"/>
         <source>Based on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Fork by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5282,7 +5282,7 @@ Reason: %4</source>
     <message>
         <location line="+2"/>
         <source>Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -5386,7 +5386,7 @@ OFF - 方形，ON - 圆形。</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Some messages can be sent with fancy effects. For example, messages sent with &apos;/confetti&apos; will show confetti on screen.</source>
+        <source>Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen.</source>
         <translation>有些消息可以用花哨的效果发送。例如，使用“/confetti”发送的消息将在屏幕上显示彩色纸屑。</translation>
     </message>
     <message>
@@ -5401,7 +5401,7 @@ OFF - 方形，ON - 圆形。</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn&apos;t have access to those keys otherwise.</source>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
         <translation>如果其他用户已通过验证，则自动回复他们的密钥请求，即使该设备不应该以其他方式访问这些密钥。</translation>
     </message>
     <message>
@@ -5424,12 +5424,12 @@ This usually causes the application icon in the task bar to animate in some fash
     <message>
         <location line="+6"/>
         <source>Send messages with a shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Auto-replace text emoticons with emoji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+50"/>
@@ -5451,38 +5451,38 @@ This usually causes the application icon in the task bar to animate in some fash
         <source>Select what Enter key combination sends the message. Shift+Enter adds a new line, unless it has been selected, in which case Enter adds a new line instead.
 
 If an emoji picker or a mention picker is open, it is always handled first.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>Display rooms with new messages first.
 If this is off, the list of rooms will only be sorted by the preferred sorting order.
-If this is on, rooms which have active notifications (the small circle with a number in it) will be sorted on top. Rooms that you have muted will still be sorted by the preferred sorting order, since you don&apos;t seem to consider them as important as the other rooms.</source>
+If this is on, rooms which have active notifications (the small circle with a number in it) will be sorted on top. Rooms that you have muted will still be sorted by the preferred sorting order, since you don't seem to consider them as important as the other rooms.</source>
         <translation>首先显示有新消息的聊天室。
 如果关闭，聊天室列表将仅按首选排序顺序排序。
 如果打开，有活跃通知的聊天室（带数字的小圆圈）将排序在前。你已经静音的聊天室仍将按照首选排序顺序排序，因为你似乎并不认为它们与其它聊天室一样重要。</translation>
@@ -5534,7 +5534,7 @@ Only affects messages in encrypted chats.</source>
     <message>
         <location line="+11"/>
         <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -5575,7 +5575,7 @@ be blurred.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Your most important key. You don&apos;t need to have it cached, since not caching it makes it less likely it can be stolen and it is only needed to rotate your other signing keys.</source>
+        <source>Your most important key. You don't need to have it cached, since not caching it makes it less likely it can be stolen and it is only needed to rotate your other signing keys.</source>
         <translation>你最重要的密钥。你不需要缓存它，因为不缓存它可以降低它被盗的可能性，并且只需要轮换你的其他签名密钥。</translation>
     </message>
     <message>
@@ -5624,27 +5624,27 @@ This setting will take effect upon restart.</source>
     <message>
         <location line="-13"/>
         <source>Only in large rooms (&gt; 16 members)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Shift+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Ctrl+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Only at the end of messages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -5716,7 +5716,7 @@ This setting will take effect upon restart.</source>
     </message>
     <message>
         <location line="+8"/>
-        <source>Passwords don&apos;t match</source>
+        <source>Passwords don't match</source>
         <translation>密码不匹配</translation>
     </message>
     <message>
@@ -5819,12 +5819,12 @@ This setting will take effect upon restart.</source>
     <message>
         <location filename="../qml/pages/WelcomePage.qml" line="+32"/>
         <source>Welcome to Komai!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>A quick desktop client for the Matrix chat protocol</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
@@ -5844,7 +5844,7 @@ This setting will take effect upon restart.</source>
     <message>
         <location line="+13"/>
         <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

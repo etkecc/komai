@@ -625,22 +625,22 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+2"/>
         <source>Kick a user from the current room. Reason is optional. If user is left out, will try to kick the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Ban a user from the current room. Reason is optional. If user is left out, will try to ban the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Unban a user in the current room. Reason is optional. If user is left out, will try to unban the sender you are replying to.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Redact an event by event id or that you are replying to or all locally cached messages of a user.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -775,12 +775,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+2"/>
         <source>Block all invites from a user, a server, to a specific room or set the default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>Allow all invites from a user, a server, to a specific room or set the default.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -901,7 +901,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+25"/>
-        <source>This room can&apos;t be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
+        <source>This room can't be joined directly. You can, however, knock on the room and room members can accept or decline this join request. You can additionally provide a reason for them to let you in below:</source>
         <translation>Selle jututoaga ei saa otse liituda. Küll aga saad sa jututoa uksele koputada ning liikmed saavad sinu liitumise lubada või sellest keelduda. Kui soovid, siis lisa alljärgnevas ka liitumise selgitus:</translation>
     </message>
     <message>
@@ -1053,7 +1053,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+8"/>
-        <source>Please verify the following digits. You should see the same numbers on both sides. If they differ, please press &apos;They do not match!&apos; to abort verification!</source>
+        <source>Please verify the following digits. You should see the same numbers on both sides. If they differ, please press 'They do not match!' to abort verification!</source>
         <translation>Palun võrdle järgmiseid numbreid. Sa peaks nägema samu numbreid mõlema osapoole seadmes. Kui nad omavahel ei klapi, siis palun vajuta verifitseerimise katkestamiseks „Nad ei klapi“ nuppu!</translation>
     </message>
     <message>
@@ -1076,13 +1076,13 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+8"/>
-        <source>Please verify the following emoji. You should see the same emoji on both sides. If they differ, please press &apos;They do not match!&apos; to abort verification!</source>
+        <source>Please verify the following emoji. You should see the same emoji on both sides. If they differ, please press 'They do not match!' to abort verification!</source>
         <translation>Palun võrdle järgmiseid emojisid. Sa peaks nägema samu emojisid mõlema osapoole seadmes. Kui nad on erinevad, siis palun vajuta verifitseerimise katkestamiseks „Nad ei klapi“ nuppu!</translation>
     </message>
     <message>
         <location line="+379"/>
         <source>The displayed emoji might look different in different clients if a different font is used. Similarly they might be translated into different languages. Nonetheless they should depict one of 64 different objects or animals. For example a lion and a cat are different, but a cat is the same even if one client just shows a cat face, while another client shows a full cat body.</source>
-        <translation>Kuvatav emoji võib erinevate fondifailide tõttu eri klientides olla natuke erinev. Samuti võib nimi olla eri keeltes erinev. Sellele vaatamata kujutavad nad ühte 64&apos;st loomast või esemest. Näiteks lõvi või kass on ilmselgelt erinevad, kuid kass on siiski kass vaatamata sellele, et ühes fondis võib olla kuvatud vaid kassi nägu ja teises kogu kassi keha.</translation>
+        <translation>Kuvatav emoji võib erinevate fondifailide tõttu eri klientides olla natuke erinev. Samuti võib nimi olla eri keeltes erinev. Sellele vaatamata kujutavad nad ühte 64'st loomast või esemest. Näiteks lõvi või kass on ilmselgelt erinevad, kuid kass on siiski kass vaatamata sellele, et ühes fondis võib olla kuvatud vaid kassi nägu ja teises kogu kassi keha.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1104,7 +1104,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+2"/>
-        <source>This message couldn&apos;t be decrypted, because we only have a key for newer messages. You can try requesting access to this message.</source>
+        <source>This message couldn't be decrypted, because we only have a key for newer messages. You can try requesting access to this message.</source>
         <translation>Meil on krüptovõtmed vaid uuemate sõnumite jaoks ja seda sõnumit ei saa dekrüptida. Sa võid proovida vajalikke võtmeid eraldi laadida.</translation>
     </message>
     <message>
@@ -1119,7 +1119,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+2"/>
-        <source>The message couldn&apos;t be parsed.</source>
+        <source>The message couldn't be parsed.</source>
         <translation>Sõnumi töötlemisel tekkis viga.</translation>
     </message>
     <message>
@@ -1170,7 +1170,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+2"/>
-        <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can&apos;t verify who sent the message.</source>
+        <source>Key is from an untrusted source, possibly forwarded from another user or the online key backup. For this reason we can't verify who sent the message.</source>
         <translation>Krüptovõti on pärit mitteusaldusväärsest allikast, näiteks võib olla edasi saadetud mõnelt kasutajalt või pärit mingist võtmete võrguvarundusest. Sel põhjusel me ei saa kinnitada sõnumi tegelikku saatjat.</translation>
     </message>
     <message>
@@ -1194,12 +1194,12 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+18"/>
         <source>You can configure when your messages will be deleted in %1. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
         <source>You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -1342,22 +1342,22 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+17"/>
         <source>Forwarding sends this content (without revealing its sender) to another room.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+25"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+45"/>
         <source>Forward to &lt;b&gt;%1&lt;/b&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+16"/>
@@ -1432,7 +1432,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+11"/>
         <source>Allowed server changes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1465,7 +1465,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <name>ImagePackDeleteDialog</name>
     <message>
         <location filename="../qml/dialogs/ImagePackDeleteDialog.qml" line="+14"/>
-        <source>Are you sure you wish to delete the sticker pack &apos;%1&apos;?</source>
+        <source>Are you sure you wish to delete the sticker pack '%1'?</source>
         <translation>Kas sa oled kindel, et soovid eemaldada „%1“ kleepsupaki?</translation>
     </message>
 </context>
@@ -1631,7 +1631,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+724"/>
-        <source>You need to pass a valid mxid when ignoring a user. &apos;%1&apos; is not a valid userid.</source>
+        <source>You need to pass a valid mxid when ignoring a user. '%1' is not a valid userid.</source>
         <translation>Kasutaja eitamisel peab päringus olema korrektne Matrixi kasutajatunnus. „%1“ aga pole kehtiv ega korrektne.</translation>
     </message>
     <message>
@@ -1641,7 +1641,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+412"/>
-        <source>Upload of &apos;%1&apos; failed</source>
+        <source>Upload of '%1' failed</source>
         <translation>„%1“ üleslaadimine ei õnnestunud</translation>
     </message>
     <message>
@@ -1665,7 +1665,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+13"/>
         <source>@user:yourserver.example.com</source>
-        <comment>Example user id. The name &apos;user&apos; can be localized however you want.</comment>
+        <comment>Example user id. The name 'user' can be localized however you want.</comment>
         <translation>@kasutaja:sinuserver.domeen.com</translation>
     </message>
     <message>
@@ -1738,7 +1738,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="+33"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation>Protokolli järgi nõutavaid lõpppunkte ei leidunud. Ilmselt pole tegemist Matrix&apos;i serveriga.</translation>
+        <translation>Protokolli järgi nõutavaid lõpppunkte ei leidunud. Ilmselt pole tegemist Matrix'i serveriga.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1752,28 +1752,28 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+21"/>
-        <source>The selected server does not support a version of the Matrix protocol, that this client understands (%1 to %2). You can&apos;t sign in.</source>
-        <translation>Valitud server ei toeta Matrix&apos;i protokolli seda versiooni, mida see klient rääkida oskab (%1 vs %2). Sa ei saa sisse logida.</translation>
+        <source>The selected server does not support a version of the Matrix protocol, that this client understands (%1 to %2). You can't sign in.</source>
+        <translation>Valitud server ei toeta Matrix'i protokolli seda versiooni, mida see klient rääkida oskab (%1 vs %2). Sa ei saa sisse logida.</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>Sign in with Apple</source>
-        <translation>Logi sisse Apple&apos;i kontoga</translation>
+        <translation>Logi sisse Apple'i kontoga</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Continue with Facebook</source>
-        <translation>Logi sisse Facebook&apos;i kontoga</translation>
+        <translation>Logi sisse Facebook'i kontoga</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Google</source>
-        <translation>Logi sisse Google&apos;i kontoga</translation>
+        <translation>Logi sisse Google'i kontoga</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sign in with Twitter</source>
-        <translation>Logi sisse Twitter&apos;i kontoga</translation>
+        <translation>Logi sisse Twitter'i kontoga</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1808,15 +1808,15 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     <message>
         <location line="-14"/>
         <source>Login to your Matrix account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+17"/>
         <source>Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.
-You can also put your homeserver address there if your server doesn&apos;t support .well-known lookup.
+You can also put your homeserver address there if your server doesn't support .well-known lookup.
 Example: @user:yourserver.example.com
 If Komai fails to discover your homeserver, it will show you a field to enter the server manually.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+28"/>
@@ -1855,7 +1855,7 @@ If Komai fails to discover your homeserver, it will show you a field to enter th
     </message>
     <message>
         <location line="+3"/>
-        <source>The address that can be used to contact your homeserver&apos;s client API.
+        <source>The address that can be used to contact your homeserver's client API.
 Example: https://yourserver.example.com:8787</source>
         <translation>Aadress, kuhu saab sinu koduserveri API pihta päringuid teha.
 Näide: https://sinuserver.domeen.com:8787</translation>
@@ -1942,7 +1942,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+47"/>
-        <source>You don&apos;t have permission to send messages in this room</source>
+        <source>You don't have permission to send messages in this room</source>
         <translation>Sul puuduvad selles jututoas õigused sõnumite saatmiseks</translation>
     </message>
 </context>
@@ -1950,7 +1950,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <name>MessageInputWarning</name>
     <message>
         <location filename="../qml/MessageInputWarning.qml" line="+61"/>
-        <source>Don&apos;t mention them in this message</source>
+        <source>Don't mention them in this message</source>
         <translation>Ära maini neid selles sõnumis</translation>
     </message>
 </context>
@@ -1984,7 +1984,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+15"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+19"/>
@@ -2258,7 +2258,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+14"/>
-        <source>Be careful when editing permissions. You can&apos;t lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
+        <source>Be careful when editing permissions. You can't lower the permissions of people with a same or higher level than you. Be careful when promoting others.</source>
         <translation>Õiguste muutmisel palun ole ettevaatlik. Sinuga samade või sinust kõrgemate õigustega kasutajate õigusi sa madalamaks muuta ei saa. Mõtle hoolega läbi, kui jagad teistele suuremaid õigusi.</translation>
     </message>
     <message>
@@ -2625,13 +2625,13 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <name>QObject</name>
     <message>
         <location line="-30"/>
-        <source>Alias for &apos;--log-level trace&apos;.</source>
+        <source>Alias for '--log-level trace'.</source>
         <translation>Alias võtmele „--log-level trace“.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Set the global log level, or a comma-separated list of &lt;component&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to &apos;warn&apos; but disable logging for the &apos;ui&apos; component, pass &apos;warn,ui=off&apos;. levels:{trace,debug,info,warning,error,critical,off} components:{crypto,db,mtx,net,qml,ui}</source>
-        <translation>Seadista üldine logimise korraldus või komadega eraldatud &lt;komponent&gt;=&lt;logimistase&gt; paarid või sootuks mõlemad. Näiteks, kui tahad, et üldine logimine oleks &apos;warn&apos;, aga graafiline liides ehk &apos;ui&apos; ei logiks midagi, siis sisesta &apos;warn,ui=off&apos;. Logimistasemed on: {trace,debug,info,warning,error,critical,off} ning komponendid: {crypto,db,mtx,net,qml,ui}</translation>
+        <source>Set the global log level, or a comma-separated list of &lt;component&gt;=&lt;level&gt; pairs, or both. For example, to set the default log level to 'warn' but disable logging for the 'ui' component, pass 'warn,ui=off'. levels:{trace,debug,info,warning,error,critical,off} components:{crypto,db,mtx,net,qml,ui}</source>
+        <translation>Seadista üldine logimise korraldus või komadega eraldatud &lt;komponent&gt;=&lt;logimistase&gt; paarid või sootuks mõlemad. Näiteks, kui tahad, et üldine logimine oleks 'warn', aga graafiline liides ehk 'ui' ei logiks midagi, siis sisesta 'warn,ui=off'. Logimistasemed on: {trace,debug,info,warning,error,critical,off} ning komponendid: {crypto,db,mtx,net,qml,ui}</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2640,7 +2640,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Set the log output type. A comma-separated list is allowed. The default is &apos;file,stderr&apos;. types:{file,stderr,none}</source>
+        <source>Set the log output type. A comma-separated list is allowed. The default is 'file,stderr'. types:{file,stderr,none}</source>
         <translation>Vali logiväljundi tüüp. Mitme tüübi puhul eralda väärtused komadega. Vaikimisi väärtus on „file,stderr“. types:{file,stderr,none}</translation>
     </message>
     <message>
@@ -2674,7 +2674,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location filename="../qml/QuickSwitcher.qml" line="+58"/>
         <source>Find &amp; switch room</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -2684,12 +2684,12 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+17"/>
         <source>Searches among rooms you participate in, not across all rooms on Matrix.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+13"/>
         <source>Room name, address or id...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2746,7 +2746,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+25"/>
         <source>The required endpoints were not found. Possibly not a Matrix server.</source>
-        <translation>Protokolli järgi nõutavaid lõpppunkte ei leidunud. Ilmselt pole tegemist Matrix&apos;i serveriga.</translation>
+        <translation>Protokolli järgi nõutavaid lõpppunkte ei leidunud. Ilmselt pole tegemist Matrix'i serveriga.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2760,8 +2760,8 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+22"/>
-        <source>The selected server does not support a version of the Matrix protocol that this client understands (%1 to %2). You can&apos;t register.</source>
-        <translation>Valitud server ei toeta Matrix&apos;i protokolli seda versiooni, mida see klient rääkida oskab (%1 vs %2). Sa ei saa registreeruda.</translation>
+        <source>The selected server does not support a version of the Matrix protocol that this client understands (%1 to %2). You can't register.</source>
+        <translation>Valitud server ei toeta Matrix'i protokolli seda versiooni, mida see klient rääkida oskab (%1 vs %2). Sa ei saa registreeruda.</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -2801,37 +2801,37 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="-175"/>
         <source>Register a Matrix account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>But... where?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+44"/>
-        <source>Public servers like &lt;a href=&quot;https://matrix.org/&quot;&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
-        <translation type="unfinished"></translation>
+        <source>Public servers like &lt;a href="https://matrix.org/"&gt;matrix.org&lt;/a&gt; exist (may be overloaded)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href=&quot;https://etke.cc/&quot;&gt;etke.cc&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/ecosystem/hosting/"&gt;Hosting providers&lt;/a&gt; exist, including the makers of this app — &lt;a href="https://etke.cc/"&gt;etke.cc&lt;/a&gt;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/ecosystem/hosting/&quot;&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/ecosystem/hosting/"&gt;Self-hosting&lt;/a&gt; is possible (hardware or cloud infra required)</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
-        <source>&lt;a href=&quot;https://matrix.org/&quot;&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;a href="https://matrix.org/"&gt;Matrix&lt;/a&gt; does not support server migration yet — choose carefully</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+24"/>
         <source>The server address where you want to create your account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+32"/>
@@ -2890,7 +2890,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location filename="../qml/ReplyPopup.qml" line="+61"/>
         <source>Replying in a thread</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+11"/>
@@ -2902,12 +2902,12 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="-52"/>
         <source>Replying to this message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+41"/>
         <source>Editing a message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3082,7 +3082,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+118"/>
         <source>Find &amp; switch room (Ctrl+K)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+105"/>
@@ -3093,7 +3093,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+3"/>
         <source>Unverified login</source>
-        <extracomment>The user just signed in with this device and hasn&apos;t verified their master key.</extracomment>
+        <extracomment>The user just signed in with this device and hasn't verified their master key.</extracomment>
         <translation>Verifitseerimata sisselogimissessioon</translation>
     </message>
     <message>
@@ -3110,17 +3110,17 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+69"/>
         <source>Profile Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Set Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+7"/>
         <source>Application Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+385"/>
@@ -3241,7 +3241,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>This user isn&apos;t verified, but is still using the same master key from the first time you met.</source>
+        <source>This user isn't verified, but is still using the same master key from the first time you met.</source>
         <translation>See kasutaja ei ole verifitseeritud, kuid ta kasutab jätkuvalt krüpto jaoks juurvõtmeid sellest ajast, kui te kohtusite.</translation>
     </message>
     <message>
@@ -3303,7 +3303,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+23"/>
-        <source>Since room state can&apos;t be encrypted, make sure no confidential information is stored in the room name!</source>
+        <source>Since room state can't be encrypted, make sure no confidential information is stored in the room name!</source>
         <translation>Kuna jututoa olekut ei saa krüptida, siis palun alati kontrolli, et jututoa nimes ei leiduks konfidentsiaalset teavet!</translation>
     </message>
     <message numerus="yes">
@@ -3331,7 +3331,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+24"/>
-        <source>Since room state can&apos;t be encrypted, make sure no confidential information is stored in the room topic!</source>
+        <source>Since room state can't be encrypted, make sure no confidential information is stored in the room topic!</source>
         <translation>Kuna jututoa olekut ei saa krüptida, siis palun alati kontrolli, et jututoa teemas ei leiduks konfidentsiaalset teavet!</translation>
     </message>
     <message>
@@ -3427,7 +3427,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>How much of the history is visible to joined members. Changing this won&apos;t affect the visibility of already sent messages. It only applies to new messages.</source>
+        <source>How much of the history is visible to joined members. Changing this won't affect the visibility of already sent messages. It only applies to new messages.</source>
         <translation>Jututoa ajaloo nähtavus liitunud kasutajatele. Seadistuse muutmine ei mõjuta juba saadetud sõnumeid ning kehtib vaid uutele sõnumitele.</translation>
     </message>
     <message>
@@ -3511,7 +3511,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+1"/>
         <source>Encryption is currently experimental and things might break unexpectedly. &lt;br&gt;
-                                Please take note that it can&apos;t be disabled afterwards.</source>
+                                Please take note that it can't be disabled afterwards.</source>
         <translation>Krüptimine on hetkel katseline ja nii mõnigi asi võib viltu minna.&lt;br&gt;
                                 Palun arvesta, et seda ei saa hiljem välja lülitada.</translation>
     </message>
@@ -3667,7 +3667,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+1"/>
         <location line="+9"/>
-        <source>View your callee&apos;s camera like a regular video call</source>
+        <source>View your callee's camera like a regular video call</source>
         <translation>Vaata teise osapoole kaamerat nii nagu tavalise videokõne puhul</translation>
     </message>
     <message>
@@ -3701,14 +3701,14 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location line="+1"/>
         <source>Nheko could not connect to the secure storage to save encryption secrets to. This can have multiple reasons. Check if your D-Bus service is running and you have configured a service like KWallet, Gnome Keyring, KeePassXC or the equivalent for your platform. If you are having trouble, feel free to open an issue here: https://github.com/Nheko-Reborn/nheko/issues</source>
-        <translation>Krüptovõtmete salvestamiseks Nhekol ei õnnestunud luua ühendust võtmehoidlaga. Sellel võib olla mitu põhjust. Kontrolli, kas D-Bus&apos;i alusteenus toimib ning sa oled seadistanud KWallet&apos;i, Gnome Keyring&apos;i, KeePassXC&apos;i või mõne muu sinu platvormil kasutatava turvalise andmehoidla teenuse. Probleemide korral palun ava siin https://github.com/Nheko-Reborn/nheko/issues veateade</translation>
+        <translation>Krüptovõtmete salvestamiseks Nhekol ei õnnestunud luua ühendust võtmehoidlaga. Sellel võib olla mitu põhjust. Kontrolli, kas D-Bus'i alusteenus toimib ning sa oled seadistanud KWallet'i, Gnome Keyring'i, KeePassXC'i või mõne muu sinu platvormil kasutatava turvalise andmehoidla teenuse. Probleemide korral palun ava siin https://github.com/Nheko-Reborn/nheko/issues veateade</translation>
     </message>
 </context>
 <context>
     <name>SelfVerificationCheck</name>
     <message>
         <location filename="../qml/SelfVerificationCheck.qml" line="+50"/>
-        <source>This is your recovery key. You will need it to restore access to your encrypted messages and verification keys. Keep this safe. Don&apos;t share it with anyone and don&apos;t lose it! Do not pass go! Do not collect $200!</source>
+        <source>This is your recovery key. You will need it to restore access to your encrypted messages and verification keys. Keep this safe. Don't share it with anyone and don't lose it! Do not pass go! Do not collect $200!</source>
         <translation>See on sinu taastevõti. Kui peaks olema vaja taastada ligipääsu sinu krüptitud sõnumitele või muudele võtmetele, siis sul läheb seda vaja. Hoia taastevõtit turvalises kohas. Ära jaga seda teistega ega ära kaota teda ära! Ega ära võta vastu sulle selle eest pakutavat 200 eurot!</translation>
     </message>
     <message>
@@ -3741,7 +3741,7 @@ Tundub, et see on uus teema sinu jaoks. Enne, kui sa saad sõnumeid turvaliselt 
     <message>
         <location line="+9"/>
         <source>It seems like you have encryption already configured for this account. To be able to access your encrypted messages and make this device appear as trusted, you can either verify an existing device or (if you have one) enter your recovery passphrase. Please select one of the options below.
-If you choose verify, you need to have the other device available. If you choose &quot;enter passphrase&quot;, you will need your recovery key or passphrase. If you click cancel, you can choose to verify yourself at a later point.</source>
+If you choose verify, you need to have the other device available. If you choose "enter passphrase", you will need your recovery key or passphrase. If you click cancel, you can choose to verify yourself at a later point.</source>
         <translation>Tundud, et sellel kontol juba on krüptimine kasutusel. Saamaks ligipääsu sinu krüptitud sõnumitele ja märkimaks seda seadet usaldusväärseks sa kas tee läbi verifitseerimine või sisesta oma taastamiseks mõeldud salafraas. Palun vali järgnevalt oma eelistus.
 Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui eelistad salafraasi sisestamist, siis peab sul olema käepärast oma konto taastevõti või salafraas. Kui praegu katkestad, siis verifitseerimist saad alati ka hiljem teha.</translation>
     </message>
@@ -3880,12 +3880,12 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     <message>
         <location filename="../qml/emoji/StickerPicker.qml" line="+91"/>
         <source>Pick an Emoji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+0"/>
         <source>Pick a Sticker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -3998,7 +3998,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     <message>
         <location line="+28"/>
         <source>Message actions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -4097,12 +4097,12 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     <message>
         <location line="+28"/>
         <location line="+244"/>
-        <source>%1 has changed the room&apos;s permissions.</source>
+        <source>%1 has changed the room's permissions.</source>
         <translation>%1 muutis selle jututoa õigusi.</translation>
     </message>
     <message>
         <location line="-221"/>
-        <source>%1 has changed the room&apos;s kick powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's kick powerlevel from %2 to %3.</source>
         <translation>%1 muutis selle jututoa õigusi: jututoast välja müksamine %2 -&gt; %3.</translation>
     </message>
     <message numerus="yes">
@@ -4120,7 +4120,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+12"/>
-        <source>%1 has changed the room&apos;s redact powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's redact powerlevel from %2 to %3.</source>
         <translation>%1 muutis selle jututoa õigusi: jututoa sisu muutmine %2 -&gt; %3.</translation>
     </message>
     <message numerus="yes">
@@ -4138,7 +4138,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+12"/>
-        <source>%1 has changed the room&apos;s ban powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's ban powerlevel from %2 to %3.</source>
         <translation>%1 muutis selle jututoa õigusi: suhtluskeelu seadmine jututoas %2 -&gt; %3.</translation>
     </message>
     <message numerus="yes">
@@ -4156,7 +4156,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+13"/>
-        <source>%1 has changed the room&apos;s state_default powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's state_default powerlevel from %2 to %3.</source>
         <translation>%1 muutis selle jututoa õigusi: olekusündmuste vaikimisi kasutajaroll %2 -&gt; %3.</translation>
     </message>
     <message numerus="yes">
@@ -4174,22 +4174,22 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+14"/>
-        <source>%1 has changed the room&apos;s invite powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's invite powerlevel from %2 to %3.</source>
         <translation>%1 muutis selle jututoa õigusi: kutse saatmine jututuppa %2 -&gt; %3.</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3. New users can now not send any events.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3. New users can now not send any events.</source>
         <translation>%1 muutis selle jututoa õigusi: jututoa sündmuste vaikimisi õigused %2 -&gt; %3. Uued kasutajad ei saa nüüd olulisi tegevusi teha.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3. New users can now send events that are not otherwise restricted.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3. New users can now send events that are not otherwise restricted.</source>
         <translation>%1 muutis selle jututoa õigusi: jututoa sündmuste vaikimisi õigused %2 -&gt; %3. Uued kasutajad nüüd saavad teha tegevusi, mis pole otseselt keelatud.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>%1 has changed the room&apos;s events_default powerlevel from %2 to %3.</source>
+        <source>%1 has changed the room's events_default powerlevel from %2 to %3.</source>
         <translation>%1 muutis selle jututoa õigusi: sündmuste vaikimisi kasutajaroll %2 -&gt; %3.</translation>
     </message>
     <message>
@@ -4214,27 +4214,27 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+16"/>
-        <source>%1 allowed only administrators to send &quot;%2&quot;.</source>
+        <source>%1 allowed only administrators to send "%2".</source>
         <translation>%1 lubas vaid peakasutajatel teha järgnevat toimingut: „%2“.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 allowed only moderators to send &quot;%2&quot;.</source>
+        <source>%1 allowed only moderators to send "%2".</source>
         <translation>%1 lubas vaid moderaatoritel teha järgnevat toimingut: „%2“.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 allowed everyone to send &quot;%2&quot;.</source>
+        <source>%1 allowed everyone to send "%2".</source>
         <translation>%1 lubas kõigil teha järgnevat toimingut: „%2“.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>%1 has changed the powerlevel of event type &quot;%2&quot; from the default to %3.</source>
+        <source>%1 has changed the powerlevel of event type "%2" from the default to %3.</source>
         <translation>%1 muutis toimingu „%2“ jaoks vajalikke õigusi: vaikimisi seadistuste asemel on nüüd %3.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>%1 has changed the powerlevel of event type &quot;%2&quot; from %3 to %4.</source>
+        <source>%1 has changed the powerlevel of event type "%2" from %3 to %4.</source>
         <translation>%1 muutis toimingu „%2“ jaoks vajalikke õigusi: %3 -&gt; %4.</translation>
     </message>
     <message>
@@ -4264,7 +4264,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban users matching %2 for &apos;%3&apos;.</source>
+        <source>%1 added a rule to ban users matching %2 for '%3'.</source>
         <translation>%1 lisas reegli, mis keelab „%3“ ligipääsu kasutajatele %2 mustri alusel.</translation>
     </message>
     <message>
@@ -4274,7 +4274,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban rooms matching %2 for &apos;%3&apos;.</source>
+        <source>%1 added a rule to ban rooms matching %2 for '%3'.</source>
         <translation>%1 lisas reegli, mis keelab „%3“ ligipääsu jututubadele %2 mustri alusel.</translation>
     </message>
     <message>
@@ -4284,7 +4284,7 @@ Kui eelistad verifitseerimist, siis peab sul teine seade olema käepärast. Kui 
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 added a rule to ban servers matching %2 for &apos;%3&apos;.</source>
+        <source>%1 added a rule to ban servers matching %2 for '%3'.</source>
         <translation>%1 lisas reegli, mis keelab „%3“ ligipääsu serveritele %2 mustri alusel.</translation>
     </message>
     <message>
@@ -4346,7 +4346,7 @@ Põhjus: %4</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>%1 joined via authorisation from %2&apos;s server.</source>
+        <source>%1 joined via authorisation from %2's server.</source>
         <translation>%1 liitus peale autentimist serverist %2.</translation>
     </message>
     <message>
@@ -4438,8 +4438,8 @@ Põhjus: %4</translation>
         <location line="+115"/>
         <source>%n hour(s) later</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
@@ -4465,7 +4465,7 @@ Põhjus: %4</translation>
     <message>
         <location line="+36"/>
         <source>%1 left after having already left!</source>
-        <comment>This is a leave event after the user already left and shouldn&apos;t happen apart from state resets</comment>
+        <comment>This is a leave event after the user already left and shouldn't happen apart from state resets</comment>
         <translation>%1 lahkus jututoast peale seda, kui ta juba oli lahkunud!</translation>
     </message>
     <message>
@@ -4483,7 +4483,7 @@ Põhjus: %4</translation>
     <name>TimelineSectionHeader</name>
     <message>
         <location filename="../qml/TimelineSectionHeader.qml" line="+119"/>
-        <source>%1&apos;s status message</source>
+        <source>%1's status message</source>
         <translation>Kasutaja %1 olekusõnum</translation>
     </message>
 </context>
@@ -4608,7 +4608,7 @@ Põhjus: %4</translation>
     <message>
         <location line="+63"/>
         <source>Show only notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+18"/>
@@ -4740,7 +4740,7 @@ Põhjus: %4</translation>
     </message>
     <message>
         <location line="+50"/>
-        <source>Failed to ignore &quot;%1&quot;: %2</source>
+        <source>Failed to ignore "%1": %2</source>
         <translation>„%1“ eiramine ei õnnestunud: %2</translation>
     </message>
     <message>
@@ -4805,7 +4805,7 @@ Põhjus: %4</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>This is a room-specific profile. The user&apos;s name and avatar may be different from their global versions.</source>
+        <source>This is a room-specific profile. The user's name and avatar may be different from their global versions.</source>
         <translation>See kasutajaprofiil on vaid selle jututoa kohane. Kasutaja kuvatav nimi ja tunnuspilt võivad muudes jutubades olla teistsugused.</translation>
     </message>
     <message>
@@ -4943,22 +4943,22 @@ Põhjus: %4</translation>
     <message>
         <location line="+2"/>
         <source>Enable stickers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Show own avatar next to own message bubbles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Show sender username above messages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Pinned reactions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5123,7 +5123,7 @@ Põhjus: %4</translation>
     <message>
         <location line="+2"/>
         <source>Enable legacy calls</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5183,12 +5183,12 @@ Põhjus: %4</translation>
     <message>
         <location line="+2"/>
         <source>Based on</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Fork by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
@@ -5273,7 +5273,7 @@ Põhjus: %4</translation>
     <message>
         <location line="+2"/>
         <source>Expose room information via D-Bus</source>
-        <translation>Jaga jututoa teavet D-Bus&apos;i vahendusel</translation>
+        <translation>Jaga jututoa teavet D-Bus'i vahendusel</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5298,7 +5298,7 @@ Põhjus: %4</translation>
     <message>
         <location line="+2"/>
         <source>Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+10"/>
@@ -5402,7 +5402,7 @@ Väljalülitatuna - ruut, sisselülitatuna - ümmargune.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Some messages can be sent with fancy effects. For example, messages sent with &apos;/confetti&apos; will show confetti on screen.</source>
+        <source>Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen.</source>
         <translation>Sõnumitele võid lisada edevaid efekte. Näiteks „/confetti“ käsk lisab sõnumile serpentiine.</translation>
     </message>
     <message>
@@ -5417,7 +5417,7 @@ Väljalülitatuna - ruut, sisselülitatuna - ümmargune.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn&apos;t have access to those keys otherwise.</source>
+        <source>Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise.</source>
         <translation>Kui teised kasutajad on verifitseeritud, siis luba automaatselt vastata nende krüptovõtmete päringutele isegi siis, kui too seade ei peaks tohtima neid võtmeid kasutada.</translation>
     </message>
     <message>
@@ -5440,12 +5440,12 @@ See tavaliselt tähendab, et rakenduse ikoon tegumiribal annab mingit sorti anim
     <message>
         <location line="+6"/>
         <source>Send messages with a shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Auto-replace text emoticons with emoji</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+50"/>
@@ -5467,38 +5467,38 @@ See tavaliselt tähendab, et rakenduse ikoon tegumiribal annab mingit sorti anim
         <source>Select what Enter key combination sends the message. Shift+Enter adds a new line, unless it has been selected, in which case Enter adds a new line instead.
 
 If an emoji picker or a mention picker is open, it is always handled first.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+9"/>
         <source>Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
         <source>Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+12"/>
         <source>Display rooms with new messages first.
 If this is off, the list of rooms will only be sorted by the preferred sorting order.
-If this is on, rooms which have active notifications (the small circle with a number in it) will be sorted on top. Rooms that you have muted will still be sorted by the preferred sorting order, since you don&apos;t seem to consider them as important as the other rooms.</source>
+If this is on, rooms which have active notifications (the small circle with a number in it) will be sorted on top. Rooms that you have muted will still be sorted by the preferred sorting order, since you don't seem to consider them as important as the other rooms.</source>
         <translation>Esmalt näita jututube, kus on uusi sõnumeid.
 Kui see eelistus pole kasutusel, siis sorteeritakse jututoad eelistatud sorteerimisviisi alusel.
 Kui see eelistus on kasutusel, siis sõnumitega jututoad (märgitud mummuga, kus sees on number) asuvad üleval ääres. Ning jututoad, mille oled summutanud, sorteeritakse jututoad eelistatud sorteerimisviisi alusel (sa ju oled need teiste jututubadega võrreldes märkinud vähetähtsateks).</translation>
@@ -5550,7 +5550,7 @@ Kehtib vaid läbivalt krüptitud vestluste puhul.</translation>
     <message>
         <location line="+11"/>
         <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+3"/>
@@ -5591,7 +5591,7 @@ siis ajajoone vaade hägustub.</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Your most important key. You don&apos;t need to have it cached, since not caching it makes it less likely it can be stolen and it is only needed to rotate your other signing keys.</source>
+        <source>Your most important key. You don't need to have it cached, since not caching it makes it less likely it can be stolen and it is only needed to rotate your other signing keys.</source>
         <translation>Sinu kõige olulisem krüptovõti. See ei pea olema puhverdatud (mis hoiab ära ka võimaliku varastamise) ning teda on vaja vaid sinu muude allkirjavõtmete ringluse jaoks.</translation>
     </message>
     <message>
@@ -5599,7 +5599,7 @@ siis ajajoone vaade hägustub.</translation>
         <source>Allow third-party plugins and applications to load information about rooms you are in via D-Bus. This can have useful applications, but it also could be used for nefarious purposes. Enable at your own risk.
 
 This setting will take effect upon restart.</source>
-        <translation>Luba teistel rakendustel laadida D-Bus&apos;i vahendusel teavet jututubade kohta, mille liige sa oled. Ühtepidi saab selle abil luua kasulikke rakendusi, kuid teisalt saab ka korralikke pahandusi tekitada. Kui lülitad selle võimaluse sisse, siis teed seda omal vastutusel.
+        <translation>Luba teistel rakendustel laadida D-Bus'i vahendusel teavet jututubade kohta, mille liige sa oled. Ühtepidi saab selle abil luua kasulikke rakendusi, kuid teisalt saab ka korralikke pahandusi tekitada. Kui lülitad selle võimaluse sisse, siis teed seda omal vastutusel.
 
 Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</translation>
     </message>
@@ -5640,27 +5640,27 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
     <message>
         <location line="-13"/>
         <source>Only in large rooms (&gt; 16 members)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Shift+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
         <source>Ctrl+Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+5"/>
         <source>Only at the end of messages</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+15"/>
@@ -5732,7 +5732,7 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
     </message>
     <message>
         <location line="+8"/>
-        <source>Passwords don&apos;t match</source>
+        <source>Passwords don't match</source>
         <translation>Salasõnad ei klapi omavahel</translation>
     </message>
     <message>
@@ -5835,12 +5835,12 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
     <message>
         <location filename="../qml/pages/WelcomePage.qml" line="+32"/>
         <source>Welcome to Komai!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
         <source>A quick desktop client for the Matrix chat protocol</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location line="+14"/>
@@ -5860,7 +5860,7 @@ Selle funktsionaalsuse jõustumine eeldab rakenduse uuesti käivitamist.</transl
     <message>
         <location line="+13"/>
         <source>Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>

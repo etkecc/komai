@@ -11,45 +11,131 @@ import im.nheko 1.0
 Rectangle {
     id: replyPopup
 
+    property color threadColor: room ? TimelineManager.userColor(room.thread, palette.base) : palette.buttonText
+
     Layout.fillWidth: true
-    color: palette.window
-    // Height of child, plus margins, plus border
-    implicitHeight: (room && room.reply ? replyPreview.height : Math.max(closeEditButton.height, closeThreadButton.height)) + Nheko.paddingSmall
+    color: palette.alternateBase
+    radius: 8
+    implicitHeight: room && (room.reply || room.thread) ? popupColumn.implicitHeight + Nheko.paddingMedium * 2 : (room && room.edit ? closeEditButton.height + Nheko.paddingSmall : 0)
     visible: room && (room.reply || room.edit || room.thread)
     z: 3
 
-    Reply {
-        id: replyPreview
-
-        property var modelData: room ? room.getDump(room.reply, room.id) : {}
-
+    // Mask the bottom rounded corners so the popup sits flush against
+    // the message input below. Only the top corners are rounded.
+    Rectangle {
         anchors.left: parent.left
-        anchors.leftMargin: replyPopup.width < 450 ? Nheko.paddingSmall : (CallManager.callsSupported ? 2 * (22 + 16) : 1 * (22 + 16))
         anchors.right: parent.right
-        anchors.rightMargin: replyPopup.width < 450 ? 2 * (22 + 16) : 3 * (22 + 16)
-        anchors.top: parent.top
-        anchors.topMargin: Nheko.paddingSmall
-        eventId: room?.reply ?? ""
-        userColor: TimelineManager.userColor(modelData.userId, palette.window)
-        visible: room && room.reply
-        maxWidth: parent.width - anchors.leftMargin - anchors.rightMargin
-        limitHeight: true
+        anchors.bottom: parent.bottom
+        height: parent.radius
+        color: parent.color
     }
-    ImageButton {
-        id: closeReplyButton
 
-        ToolTip.text: qsTr("Close")
-        ToolTip.visible: closeReplyButton.hovered
-        anchors.margins: Nheko.paddingSmall
-        anchors.right: replyPreview.right
-        anchors.top: replyPreview.top
-        height: 16
-        hoverEnabled: true
-        image: ":/icons/icons/ui/dismiss.svg"
-        visible: room && room.reply
-        width: 16
+    Column {
+        id: popupColumn
 
-        onClicked: room.reply = undefined
+        visible: room && (room.reply || room.thread)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: Nheko.paddingMedium
+        spacing: Nheko.paddingSmall
+
+        // ── Thread header (visible when in a thread) ──
+        RowLayout {
+            visible: room && room.thread
+            spacing: Nheko.paddingSmall
+            width: parent.width
+
+            Image {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredHeight: threadHeaderLabel.font.pixelSize
+                Layout.preferredWidth: threadHeaderLabel.font.pixelSize
+                source: "image://colorimage/:/icons/icons/ui/thread.svg?" + replyPopup.threadColor
+            }
+
+            Label {
+                id: threadHeaderLabel
+
+                color: palette.text
+                font.bold: true
+                text: qsTr("Replying in a thread")
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            ImageButton {
+                id: closeThreadButton
+
+                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.text: qsTr("Close")
+                ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredHeight: threadHeaderLabel.font.pixelSize
+                Layout.preferredWidth: threadHeaderLabel.font.pixelSize
+                hoverEnabled: true
+                image: ":/icons/icons/ui/dismiss.svg"
+
+                onClicked: room.thread = undefined
+            }
+        }
+
+        // ── Reply header (visible when replying to a specific message) ──
+        RowLayout {
+            visible: room && room.reply
+            spacing: Nheko.paddingSmall
+            width: parent.width
+
+            Image {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredHeight: replyHeaderLabel.font.pixelSize
+                Layout.preferredWidth: replyHeaderLabel.font.pixelSize
+                source: "image://colorimage/:/icons/icons/ui/reply.svg?" + palette.text
+            }
+
+            Label {
+                id: replyHeaderLabel
+
+                color: palette.text
+                font.bold: true
+                text: qsTr("Replying to this message")
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            ImageButton {
+                id: closeReplyButton
+
+                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.text: qsTr("Close")
+                ToolTip.visible: hovered
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredHeight: replyHeaderLabel.font.pixelSize
+                Layout.preferredWidth: replyHeaderLabel.font.pixelSize
+                hoverEnabled: true
+                image: ":/icons/icons/ui/dismiss.svg"
+
+                onClicked: room.reply = undefined
+            }
+        }
+
+        // ── Reply preview (visible when replying to a specific message) ──
+        Reply {
+            id: replyPreview
+
+            visible: room && room.reply
+
+            property var modelData: room ? room.getDump(room.reply, room.id) : {}
+
+            width: parent.width
+            eventId: room?.reply ?? ""
+            userColor: TimelineManager.userColor(modelData.userId, palette.window)
+            maxWidth: parent.width
+            limitHeight: true
+        }
     }
     ImageButton {
         id: closeEditButton
@@ -57,7 +143,7 @@ Rectangle {
         ToolTip.text: qsTr("Cancel Edit")
         ToolTip.visible: closeEditButton.hovered
         anchors.margins: 8
-        anchors.right: closeThreadButton.left
+        anchors.right: parent.right
         anchors.top: parent.top
         height: 22
         hoverEnabled: true
@@ -66,22 +152,5 @@ Rectangle {
         width: 22
 
         onClicked: room.edit = undefined
-    }
-    ImageButton {
-        id: closeThreadButton
-
-        ToolTip.text: qsTr("Cancel Thread")
-        ToolTip.visible: closeThreadButton.hovered
-        anchors.margins: 8
-        anchors.right: parent.right
-        anchors.top: parent.top
-        buttonTextColor: room ? TimelineManager.userColor(room.thread, palette.base) : palette.buttonText
-        height: 22
-        hoverEnabled: true
-        image: ":/icons/icons/ui/dismiss_thread.svg"
-        visible: room && room.thread
-        width: 22
-
-        onClicked: room.thread = undefined
     }
 }

@@ -21,11 +21,13 @@ AbstractButton {
 
     property string userId: eventId ? room.dataById(eventId, Room.UserId, "") : ""
     property string userName: eventId ? room.dataById(eventId, Room.UserName, "") : ""
-    implicitHeight: replyContainer.height
+    implicitHeight: replyContainer.height + topPadding + bottomPadding
     implicitWidth: replyContainer.implicitWidth + leftPadding + rightPadding
 
-    leftPadding: 4 + Nheko.paddingSmall
-    rightPadding: Nheko.paddingSmall
+    leftPadding: 4 + Nheko.paddingMedium
+    rightPadding: Nheko.paddingMedium
+    topPadding: Nheko.paddingMedium
+    bottomPadding: Nheko.paddingMedium
 
     required property int maxWidth
     property bool limitHeight: false
@@ -62,7 +64,7 @@ AbstractButton {
 
             clip: r.limitHeight
 
-            height: r.limitHeight ? Math.min( timelineEvent.main?.height, timelineView.height / 10) + Nheko.paddingSmall + usernameBtn.height : undefined
+            height: r.limitHeight ? Math.min( timelineEvent.main?.height, timelineView.height / 10) + usernameBtn.height : undefined
 
             // FIXME: I have no idea, why this name doesn't render in the reply popup on Qt 6.9.2
             AbstractButton {
@@ -95,6 +97,8 @@ AbstractButton {
         property color userColor: TimelineManager.userColor(r.userId, palette.base)
         property color bgColor: palette.base
         color: Qt.tint(bgColor, Qt.hsla(userColor.hslHue, 0.5, userColor.hslLightness, 0.1))
+        radius: Nheko.paddingMedium
+        clip: true
 
         Rectangle {
             anchors.top: parent.top
@@ -104,6 +108,7 @@ AbstractButton {
             id: colorline
             color: backgroundItem.userColor
             width: 4
+            radius: parent.radius
         }
     }
 

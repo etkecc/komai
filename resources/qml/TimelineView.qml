@@ -143,12 +143,6 @@ Item {
             Layout.fillWidth: true
             z: 3
         }
-        Rectangle {
-            Layout.fillWidth: true
-            color: Nheko.theme.separator
-            implicitHeight: 1
-            z: 3
-        }
         UploadBox {
         }
         Repeater {
@@ -172,6 +166,12 @@ Item {
             visible: room ? room.input.containsIncompleteCommand : false
         }
         ReplyPopup {
+        }
+        Rectangle {
+            Layout.fillWidth: true
+            color: Nheko.theme.separator
+            implicitHeight: 1
+            z: 3
         }
         MessageInput {
         }

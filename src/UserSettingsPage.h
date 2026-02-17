@@ -617,6 +617,7 @@ public:
         Enabled,
         ThemeVariantValue,
         ThemeVariantValues,
+        SettingImage,
     };
 
     UserSettingsModel(QObject *parent = nullptr);

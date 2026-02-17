@@ -49,27 +49,41 @@ Rectangle {
                     required property var model
                     id: r
 
-                    Label {
+                    RowLayout {
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true
-                        color: palette.text
-                        text: model.name
-                        //Layout.column: 0
                         Layout.columnSpan: (model.type == UserSettingsModel.SectionTitle && !userSettingsDialog.collapsed) ? 2 : 1
-                        //Layout.row: model.index
-                        //Layout.minimumWidth: implicitWidth
                         Layout.leftMargin: model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
                         Layout.topMargin: model.type == UserSettingsModel.SectionTitle ? Nheko.paddingLarge : 0
-                        font.pointSize: 1.1 * fontMetrics.font.pointSize
+                        spacing: Nheko.paddingSmall
 
-                        HoverHandler {
-                            id: hovered
-                            enabled: model.description ?? false
+                        Image {
+                            Layout.preferredWidth: 24
+                            Layout.preferredHeight: 24
+                            Layout.alignment: Qt.AlignVCenter
+                            sourceSize.width: 24
+                            sourceSize.height: 24
+                            source: model.settingImage ?? ""
+                            visible: model.type != UserSettingsModel.SectionTitle
+                            opacity: source != "" ? 1 : 0
                         }
-                        ToolTip.visible: hovered.hovered && model.description
-                        ToolTip.text: model.description ?? ""
-                        ToolTip.delay: Nheko.tooltipDelay
-                        wrapMode: Text.Wrap
+
+                        Label {
+                            Layout.alignment: Qt.AlignLeft
+                            Layout.fillWidth: true
+                            color: palette.text
+                            text: model.name
+                            font.pointSize: 1.1 * fontMetrics.font.pointSize
+
+                            HoverHandler {
+                                id: hovered
+                                enabled: model.description ?? false
+                            }
+                            ToolTip.visible: hovered.hovered && model.description
+                            ToolTip.text: model.description ?? ""
+                            ToolTip.delay: Nheko.tooltipDelay
+                            wrapMode: Text.Wrap
+                        }
                     }
 
                     DelegateChooser {

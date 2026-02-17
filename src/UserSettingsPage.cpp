@@ -1031,9 +1031,18 @@ UserSettingsModel::roleNames() const
       {Enabled, "enabled"},
       {ThemeVariantValue, "themeVariantValue"},
       {ThemeVariantValues, "themeVariantValues"},
+      {SettingImage, "settingImage"},
     };
 
     return roles;
+}
+
+
+static QString
+komaiSettingImage()
+{
+    static const QString path = QStringLiteral("qrc:/logos/komai.svg");
+    return path;
 }
 
 QVariant
@@ -1791,6 +1800,13 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             };
         default:
             return QStringList{};
+        }
+    } else if (role == SettingImage) {
+        // Downstream patches add cases here returning komaiSettingImage()
+        // (or any other qrc:/ path) for their settings.
+        switch (index.row()) {
+        default:
+            return QString();
         }
     }
 

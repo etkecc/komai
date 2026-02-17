@@ -54,12 +54,10 @@ ApplicationWindow {
             elideWidth: parent.width - Nheko.paddingMedium
         }
 
-        ImageButton {
+        Button {
             Layout.alignment: Qt.AlignHCenter
-            image: ":/icons/icons/ui/add-square-button.svg"
-            hoverEnabled: true
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Invite more people")
+            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+            text: qsTr("Invite")
             onClicked: TimelineManager.openInviteUsers(members.roomId)
         }
 

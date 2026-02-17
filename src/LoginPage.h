@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -88,17 +88,17 @@ public:
     static std::string initialDeviceName_()
     {
 #if defined(Q_OS_MAC)
-        return "Nheko on macOS";
+        return "Komai on macOS";
 #elif defined(Q_OS_LINUX)
-        return "Nheko on Linux";
+        return "Komai on Linux";
 #elif defined(Q_OS_WIN)
-        return "Nheko on Windows";
+        return "Komai on Windows";
 #elif defined(Q_OS_FREEBSD)
-        return "Nheko on FreeBSD";
+        return "Komai on FreeBSD";
 #elif defined(Q_OS_OPENBSD)
-        return "Nheko on OpenBSD";
+        return "Komai on OpenBSD";
 #else
-        return "Nheko";
+        return "Komai";
 #endif
     }
 

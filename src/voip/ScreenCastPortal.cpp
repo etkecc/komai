@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -20,7 +20,7 @@
 static QString
 make_token()
 {
-    return QString::fromStdString("nheko" + mtx::client::utils::random_token(64, false));
+    return QString::fromStdString("komai" + mtx::client::utils::random_token(64, false));
 }
 
 static QString

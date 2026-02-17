@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -653,7 +653,7 @@ static QString
 secretName(std::string_view name, bool internal)
 {
     auto settings = UserSettings::instance();
-    return (internal ? "nheko." : "matrix.") +
+    return (internal ? "komai." : "matrix.") +
            QString(
              QCryptographicHash::hash(settings->profile().toUtf8(), QCryptographicHash::Sha256)
                .toBase64()) +

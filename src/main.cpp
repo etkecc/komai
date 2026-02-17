@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -76,7 +76,7 @@ stacktraceHandler(int signum)
     fprintf(stderr, "Error: signal %d:\n", signum);
     backtrace_symbols_fd(array, size, STDERR_FILENO);
 
-    int file = ::open("/tmp/nheko-crash.dump",
+    int file = ::open("/tmp/komai-crash.dump",
                       O_CREAT | O_WRONLY | O_TRUNC
 #if defined(S_IWUSR) && defined(S_IRUSR)
                       ,
@@ -155,9 +155,9 @@ createStandardDirectory(QStandardPaths::StandardLocation path)
 int
 main(int argc, char *argv[])
 {
-    QCoreApplication::setApplicationName(QStringLiteral("nheko"));
+    QCoreApplication::setApplicationName(QStringLiteral("komai"));
     QCoreApplication::setApplicationVersion(nheko::version);
-    QCoreApplication::setOrganizationName(QStringLiteral("nheko"));
+    QCoreApplication::setOrganizationName(QStringLiteral("komai"));
 
     // Disable the qml disk cache by default to prevent crashes on updates. See
     // https://github.com/Nheko-Reborn/nheko/issues/1383
@@ -238,7 +238,7 @@ main(int argc, char *argv[])
     auto profileName = settings.lock()->profile();
 
     KDSingleApplication singleapp(
-      QStringLiteral("im.nheko.nheko-%1")
+      QStringLiteral("im.komai.komai-%1")
         .arg(profileName == QLatin1String("default") ? QLatin1String("") : profileName));
 
     // This check needs to happen _after_ process(), so that we actually print help for --help when
@@ -303,12 +303,12 @@ main(int argc, char *argv[])
     }
 
 #if !defined(Q_OS_MACOS)
-    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("nheko"), QIcon{":/logos/nheko.png"}));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("komai"), QIcon{":/logos/nheko.png"}));
 #endif
 #ifdef NHEKO_FLATPAK
     app.setDesktopFileName(QStringLiteral("im.nheko.Nheko"));
 #else
-    app.setDesktopFileName(QStringLiteral("nheko"));
+    app.setDesktopFileName(QStringLiteral("komai"));
 #endif
 
     http::init();
@@ -346,7 +346,7 @@ main(int argc, char *argv[])
         bool to_stderr = bool(targets.removeAll("stderr"));
         QString path   = targets.removeAll("file")
                            ? QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))
-                             .filePath("nheko.log")
+                             .filePath("komai.log")
                            : QLatin1String("");
         if (!targets.isEmpty()) {
             std::cerr << "Invalid log type '" << targets.first().toStdString().c_str() << "'"
@@ -404,7 +404,7 @@ main(int argc, char *argv[])
 
     QTranslator appTranslator;
     if (appTranslator.load(QLocale(),
-                           QStringLiteral("nheko"),
+                           QStringLiteral("komai"),
                            QStringLiteral("_"),
                            QStringLiteral(":/translations")))
         app.installTranslator(&appTranslator);
@@ -476,7 +476,7 @@ main(int argc, char *argv[])
     NotificationsManager::attachToMacNotifCenter();
 #endif
 
-    nhlog::ui()->info("starting nheko {}", nheko::version);
+    nhlog::ui()->info("starting komai {}", nheko::version);
 
     auto returnvalue = app.exec();
 

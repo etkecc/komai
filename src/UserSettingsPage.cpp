@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -1459,7 +1459,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Some messages can be sent with fancy effects. For example, messages sent "
                       "with '/confetti' will show confetti on screen.");
         case ReducedMotion:
-            return tr("Nheko uses animations in several places to make stuff pretty. This allows "
+            return tr("Komai uses animations in several places to make stuff pretty. This allows "
                       "you to turn those off if they make you feel unwell.");
         case PrivacyScreen:
             return tr("When the window loses focus, the timeline will\nbe blurred.");

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -128,7 +128,7 @@ MainWindow::registerQmlTypes()
 void
 MainWindow::setWindowTitle(int notificationCount)
 {
-    QString name = QStringLiteral("nheko");
+    QString name = QStringLiteral("Komai");
 
     if (!userSettings_.data()->profile().isEmpty())
         name += " | " + userSettings_.data()->profile();
@@ -219,7 +219,7 @@ MainWindow::closeEvent(QCloseEvent *event)
 {
     if (WebRTCSession::instance().state() != webrtc::State::DISCONNECTED) {
         if (QMessageBox::question(
-              nullptr, QStringLiteral("nheko"), QStringLiteral("A call is in progress. Quit?")) !=
+              nullptr, QStringLiteral("Komai"), QStringLiteral("A call is in progress. Quit?")) !=
             QMessageBox::Yes) {
             event->ignore();
             return;

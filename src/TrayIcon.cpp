@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -121,7 +121,7 @@ TrayIcon::TrayIcon(const QString &filename, QWindow *parent)
     menu->addAction(toggleAction_);
     menu->addAction(quitAction_);
 
-    QString toolTip = QLatin1String("nheko");
+    QString toolTip = QLatin1String("Komai");
     QString profile = UserSettings::instance()->profile();
     if (!profile.isEmpty())
         toolTip.append(QStringLiteral(" | %1").arg(profile));
@@ -134,7 +134,7 @@ TrayIcon::setUnreadCount(int count)
 {
     qGuiApp->setBadgeNumber(count);
     if (count != previousCount) {
-        QString toolTip = QLatin1String("nheko");
+        QString toolTip = QLatin1String("Komai");
         QString profile = UserSettings::instance()->profile();
         if (!profile.isEmpty())
             toolTip.append(QStringLiteral(" | %1").arg(profile));

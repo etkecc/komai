@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -167,7 +167,7 @@ NotificationsManager::systemPostNotification(const QString &room_id,
     QVariantMap hints;
     hints[QStringLiteral("image-data")]    = icon;
     hints[QStringLiteral("sound-name")]    = "message-new-instant";
-    hints[QStringLiteral("desktop-entry")] = "nheko";
+    hints[QStringLiteral("desktop-entry")] = "komai";
     hints[QStringLiteral("category")]      = "im.received";
 
     if (auto profile = UserSettings::instance()->profile(); !profile.isEmpty())
@@ -187,7 +187,7 @@ NotificationsManager::systemPostNotification(const QString &room_id,
     }
 
     QList<QVariant> argumentList;
-    argumentList << "nheko";          // app_name
+    argumentList << "Komai";          // app_name
     argumentList << (uint)replace_id; // replace_id
     argumentList << "";               // app_icon
     argumentList << roomName;         // summary

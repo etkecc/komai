@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2020-2022 mujx, komai developers -->
+<!-- Copyright 2020-2022 mujx, Komai developers -->
 <component type="desktop">
-  <id>im.komai.Komai</id>
+  <id>cc.etke.komai</id>
   <launchable type="desktop-id">@APPID@.desktop</launchable>
   <replaces>
-    <id>io.github.KomaiReborn.Komai</id>
+    <id>im.nheko.Nheko</id>
+    <id>io.github.NhekoReborn.Nheko</id>
   </replaces>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <developer id="im.komai">
+  <developer id="cc.etke">
     <name>Komai</name>
   </developer>
   <name>Komai</name>
@@ -44,37 +45,37 @@
   </content_rating>
   <screenshots>
     <screenshot type="default">
-      <image>https://komai-reborn.github.io/images/screenshots/chat.png</image>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/chat.png</image>
     </screenshot>
     <screenshot>
-      <image>https://komai-reborn.github.io/images/screenshots/Start.png</image>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/start.png</image>
     </screenshot>
     <screenshot>
-      <image>https://komai-reborn.github.io/images/screenshots/settings.png</image>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/settings.png</image>
     </screenshot>
     <screenshot>
-      <image>https://komai-reborn.github.io/images/screenshots/login.png</image>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/login.png</image>
     </screenshot>
     <screenshot>
-      <image>https://komai-reborn.github.io/images/screenshots/mobile.png</image>
+      <image>https://raw.githubusercontent.com/etkecc/komai/main/assets/screenshots/mobile.png</image>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://github.com/Komai-Reborn/komai</url>
-  <update_contact>https://github.com/Komai-Reborn</update_contact>
+  <url type="homepage">https://github.com/etkecc/komai</url>
+  <update_contact>https://github.com/etkecc</update_contact>
   <releases>
     <release date="2025-08-10" version="0.12.1">
       <description>
         <p>This release fixes a few security issues around rendering rich text messages. Otherwise it also includes a lot of minor improvements.</p>
       </description>
 
-      <url>https://github.com/Komai-Reborn/komai/releases/tag/v0.12.1</url>
+      <url>https://github.com/Nheko-Reborn/nheko/releases/tag/v0.12.1</url>
     </release>
     <release date="2024-06-12" version="0.12.0">
       <description>
         <p>This release features a complete port to Qt6, intentional mentions, expiring messages, ignoring users, better sticker and emoji handling and much, much more!</p>
       </description>
 
-      <url>https://github.com/Komai-Reborn/komai/releases/tag/v0.12.0</url>
+      <url>https://github.com/Nheko-Reborn/nheko/releases/tag/v0.12.0</url>
     </release>
     <release date="2023-02-23" version="0.11.3"/>
     <release date="2023-02-20" version="0.11.2"/>
@@ -104,9 +105,9 @@
     <release date="2018-07-28" version="0.5.2"/>
   </releases>
   <developer_name>Komai</developer_name>
-  <url type="bugtracker">https://github.com/Komai-Reborn/komai/issues</url>
-  <url type="help">https://github.com/Komai-Reborn/komai/</url>
-  <url type="translate">https://weblate.komai.im/projects/komai/</url>
+  <url type="bugtracker">https://github.com/etkecc/komai/issues</url>
+  <url type="help">https://github.com/etkecc/komai</url>
+  <url type="translate">https://github.com/etkecc/komai</url>
 
   <!--FIXME: where to donate to the application-->
 </component>

@@ -31,7 +31,16 @@ After modifying UI strings in source code (C++ or QML), run:
 just translations-update
 ```
 
-This calls Qt's `lupdate` to scan `src/` and `resources/qml/` and update all `.ts` files with new, changed, or removed strings. Newly added strings appear as `type="unfinished"` in each language file.
+This calls Qt's `lupdate` to scan `src/` and `resources/qml/` and update all `.ts` files with new, changed, or removed strings, then normalizes the XML format. Newly added strings appear as `type="unfinished"` in each language file.
+
+### XML normalization
+
+The `.ts` files are kept in a canonical XML format produced by ElementTree. This ensures that the translation script and `lupdate` don't fight over formatting. Normalization is run automatically as part of `just translations-update`, but can also be run standalone:
+
+```sh
+just translations-normalize            # all languages
+just translations-normalize --lang de  # single language
+```
 
 
 ## 🤖 AI-powered translation
@@ -103,6 +112,7 @@ git add resources/langs/ && git commit -m "Update translations"
 
 ### ⚠️ Caveats
 
+- **Plural forms** (numerus messages like `%n file(s)`) are not yet supported by the AI translation pipeline. They require language-specific plural rules and multiple translation variants per string. The script skips them and reports the count.
 - Short or ambiguous strings (single words like "Call", "State") may occasionally be skipped by Claude. Re-running picks them up since only unfinished strings are processed.
 - The script requires the `claude` CLI to be installed and authenticated.
 - Very large batches may hit context limits. The default batch size of 75 works well in practice.

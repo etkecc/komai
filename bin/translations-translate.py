@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""Translate unfinished Qt .ts strings using the Claude CLI.
+"""Manage Komai translations: normalize .ts files and auto-translate via Claude CLI.
 
-Usage:
-    python3 bin/translations-translate.py <lang> [--batch-size N] [--model MODEL] [--dry-run]
+Subcommands:
+    normalize   Normalize .ts files to a canonical XML format (idempotent).
+    translate   Translate unfinished strings for a language using Claude CLI.
 
 Examples:
-    python3 bin/translations-translate.py de
-    python3 bin/translations-translate.py ja --batch-size 50
-    python3 bin/translations-translate.py fr --dry-run
+    python3 bin/translations-translate.py normalize
+    python3 bin/translations-translate.py normalize --lang de
+    python3 bin/translations-translate.py translate de
+    python3 bin/translations-translate.py translate ja --batch-size 50
+    python3 bin/translations-translate.py translate fr --dry-run
 
-The script:
+The translate subcommand:
 1. Parses resources/langs/<lang>/komai_<lang>.ts for unfinished translations
 2. Sends batches of source strings to the Claude CLI for translation
 3. Injects each batch back into the .ts file immediately (incremental save)
@@ -19,6 +22,7 @@ Requires the `claude` CLI to be installed and authenticated.
 """
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -88,17 +92,27 @@ def read_guide_instructions(lang: str) -> str:
     return "\n\n".join(parts)
 
 
-def extract_unfinished(ts_path: str) -> list[dict]:
-    """Extract all unfinished translation entries from a .ts file."""
+def extract_unfinished(ts_path: str) -> tuple[list[dict], int]:
+    """Extract all unfinished translation entries from a .ts file.
+
+    Returns (unfinished_list, skipped_numerus_count).
+    Numerus (plural) messages are skipped because they require special
+    handling with multiple plural forms that varies by language.
+    """
     tree = ET.parse(ts_path)
     root = tree.getroot()
     unfinished = []
+    skipped_numerus = 0
 
     for context_elem in root.findall("context"):
         context_name = context_elem.findtext("name", "")
         for message in context_elem.findall("message"):
             translation = message.find("translation")
             if translation is not None and translation.get("type") == "unfinished":
+                # Skip numerus (plural) messages — they need special handling
+                if message.get("numerus") == "yes":
+                    skipped_numerus += 1
+                    continue
                 source = message.findtext("source", "")
                 if source:
                     unfinished.append(
@@ -108,101 +122,83 @@ def extract_unfinished(ts_path: str) -> list[dict]:
                         }
                     )
 
-    return unfinished
+    return unfinished, skipped_numerus
+
+
+def write_ts(ts_path: str, root: ET.Element):
+    """Write an ElementTree root back to a .ts file in canonical format.
+
+    Preserves the XML declaration and DOCTYPE from the original file,
+    then writes the ElementTree body with consistent formatting:
+    - No space before /> in self-closing tags
+    - Trailing newline
+    """
+    # Read original to extract the header
+    with open(ts_path, "r", encoding="utf-8") as f:
+        original = f.read()
+
+    header_lines = []
+    for line in original.split("\n"):
+        stripped = line.strip()
+        if stripped.startswith("<?xml") or stripped.startswith("<!DOCTYPE"):
+            header_lines.append(line)
+        else:
+            break
+
+    body = ET.tostring(root, encoding="unicode", xml_declaration=False)
+    # Normalize self-closing tags (no space before />)
+    body = re.sub(r" />", "/>", body)
+
+    with open(ts_path, "w", encoding="utf-8") as f:
+        if header_lines:
+            f.write("\n".join(header_lines) + "\n")
+        f.write(body)
+        f.write("\n")
+
+
+def normalize_ts(ts_path: str) -> bool:
+    """Normalize a .ts file to canonical XML format (idempotent).
+
+    Returns True if the file was changed.
+    """
+    with open(ts_path, "r", encoding="utf-8") as f:
+        before = f.read()
+
+    tree = ET.parse(ts_path)
+    write_ts(ts_path, tree.getroot())
+
+    with open(ts_path, "r", encoding="utf-8") as f:
+        after = f.read()
+
+    return before != after
 
 
 def inject_translations(ts_path: str, translations: dict[tuple[str, str], str]):
     """Write translations back into the .ts file.
 
     translations is a dict keyed by (context, source) -> translation string.
-    Modifies the file in place, preserving the original XML structure.
-
-    We use regex-based replacement instead of ElementTree to preserve
-    the original formatting, comments, and whitespace of the .ts file.
+    Modifies the file in place using proper XML parsing via ElementTree.
     """
-    with open(ts_path, "r", encoding="utf-8") as f:
-        content = f.read()
+    tree = ET.parse(ts_path)
+    root = tree.getroot()
 
     injected = 0
+    for context_elem in root.findall("context"):
+        context_name = context_elem.findtext("name", "")
+        for message in context_elem.findall("message"):
+            translation_elem = message.find("translation")
+            if (
+                translation_elem is not None
+                and translation_elem.get("type") == "unfinished"
+            ):
+                source = message.findtext("source", "")
+                key = (context_name, source)
+                if key in translations:
+                    translation_elem.text = translations[key]
+                    del translation_elem.attrib["type"]
+                    injected += 1
 
-    # Process each context/message block
-    # We need to track which context we're in
-    current_context = None
-
-    def replace_in_context(match):
-        nonlocal current_context
-        current_context = match.group(1)
-        return match.group(0)
-
-    # First pass: find context names
-    # Second pass: replace unfinished translations within each context
-
-    # Strategy: iterate through the file, tracking context, and replace
-    # unfinished translations where we have a match.
-
-    lines = content.split("\n")
-    output_lines = []
-    current_context = None
-    current_source = None
-    current_source_unescaped = None
-    i = 0
-
-    while i < len(lines):
-        line = lines[i]
-
-        # Track context
-        context_match = re.match(r"\s*<name>(.*?)</name>", line)
-        if context_match:
-            current_context = context_match.group(1)
-
-        # Track source (may span multiple lines, but typically single)
-        source_match = re.match(r"\s*<source>(.*?)</source>", line)
-        if source_match:
-            current_source = source_match.group(1)
-            # Unescape XML entities for lookup
-            current_source_unescaped = (
-                current_source.replace("&amp;", "&")
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .replace("&quot;", '"')
-                .replace("&apos;", "'")
-            )
-
-        # Check for unfinished translation line
-        unfinished_match = re.match(
-            r'(\s*)<translation type="unfinished">(.*?)</translation>', line
-        )
-        if (
-            unfinished_match
-            and current_context
-            and current_source
-            and current_source_unescaped
-        ):
-            key = (current_context, current_source_unescaped)
-            if key in translations:
-                indent = unfinished_match.group(1)
-                new_text = translations[key]
-                # Escape for XML
-                new_text_escaped = (
-                    new_text.replace("&", "&amp;")
-                    .replace("<", "&lt;")
-                    .replace(">", "&gt;")
-                    .replace('"', "&quot;")
-                    .replace("'", "&apos;")
-                )
-                output_lines.append(
-                    f"{indent}<translation>{new_text_escaped}</translation>"
-                )
-                injected += 1
-                i += 1
-                continue
-
-        output_lines.append(line)
-        i += 1
-
-    with open(ts_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(output_lines))
-
+    write_ts(ts_path, root)
     return injected
 
 
@@ -288,60 +284,68 @@ Return ONLY a JSON array. Each element must have "source" (unchanged) and "trans
     response = call_claude(prompt, model)
     results = extract_json_from_response(response)
 
-    # Build lookup: find the context for each source from the batch
-    source_to_context = {}
+    # Build lookup: find all contexts for each source from the batch.
+    # The same source string can appear in multiple contexts.
+    source_to_contexts: dict[str, list[str]] = {}
     for item in batch:
-        source_to_context[item["source"]] = item["context"]
+        source_to_contexts.setdefault(item["source"], []).append(item["context"])
 
     translations = {}
     for item in results:
         source = item.get("source", "")
         translation = item.get("translation", "")
         if source and translation:
-            context = source_to_context.get(source, "")
-            translations[(context, source)] = translation
+            for context in source_to_contexts.get(source, [""]):
+                translations[(context, source)] = translation
 
     return translations
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Translate unfinished Qt .ts strings using Claude CLI"
-    )
-    parser.add_argument("lang", help="Language code (e.g., de, fr, ja)")
-    parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=75,
-        help="Number of strings per Claude call (default: 75)",
-    )
-    parser.add_argument(
-        "--model",
-        default=None,
-        help="Claude model to use (default: CLI default)",
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Extract and show unfinished strings without translating",
-    )
-    args = parser.parse_args()
+def cmd_normalize(args):
+    """Normalize .ts files to canonical XML format."""
+    if args.lang:
+        ts_path = os.path.join(LANGS_DIR, args.lang, f"komai_{args.lang}.ts")
+        if not os.path.isfile(ts_path):
+            print(f"ERROR: {ts_path} not found", file=sys.stderr)
+            sys.exit(1)
+        ts_files = [ts_path]
+    else:
+        ts_files = sorted(glob.glob(os.path.join(LANGS_DIR, "*", "komai_*.ts")))
 
+    changed = 0
+    for ts_path in ts_files:
+        lang = os.path.basename(os.path.dirname(ts_path))
+        if normalize_ts(ts_path):
+            print(f"  Normalized: {lang}")
+            changed += 1
+
+    if changed:
+        print(f"Normalized {changed} file(s)")
+    else:
+        print("All files already normalized")
+
+
+def cmd_translate(args):
+    """Translate unfinished strings for a language using Claude CLI."""
     ts_path = os.path.join(LANGS_DIR, args.lang, f"komai_{args.lang}.ts")
     if not os.path.isfile(ts_path):
         print(f"ERROR: {ts_path} not found", file=sys.stderr)
         sys.exit(1)
 
     # Extract unfinished strings
-    unfinished = extract_unfinished(ts_path)
+    unfinished, skipped_numerus = extract_unfinished(ts_path)
 
     if not unfinished:
         print(f"No unfinished translations in komai_{args.lang}.ts")
+        if skipped_numerus:
+            print(f"  ({skipped_numerus} plural forms skipped — not yet supported)")
         return
 
     lang_name = LANGUAGE_NAMES.get(args.lang, args.lang)
     print(f"Language: {lang_name} ({args.lang})")
     print(f"Unfinished: {len(unfinished)} strings")
+    if skipped_numerus:
+        print(f"Skipped: {skipped_numerus} plural forms (not yet supported)")
     print(f"Batch size: {args.batch_size}")
 
     if args.dry_run:
@@ -394,11 +398,59 @@ def main():
     print(f"\nDone. {total_injected} translations written to komai_{args.lang}.ts")
 
     # Report remaining
-    remaining = extract_unfinished(ts_path)
+    remaining, remaining_numerus = extract_unfinished(ts_path)
     if remaining:
-        print(f"Remaining unfinished: {remaining}")
+        print(f"Remaining unfinished: {len(remaining)} strings")
     else:
         print("All strings are now translated!")
+    if remaining_numerus:
+        print(f"Remaining plural forms: {remaining_numerus} (not yet supported)")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Manage Komai translations: normalize and auto-translate"
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # normalize subcommand
+    norm_parser = subparsers.add_parser(
+        "normalize", help="Normalize .ts files to canonical XML format"
+    )
+    norm_parser.add_argument(
+        "--lang",
+        default=None,
+        help="Language code to normalize (default: all languages)",
+    )
+
+    # translate subcommand
+    trans_parser = subparsers.add_parser(
+        "translate", help="Translate unfinished strings using Claude CLI"
+    )
+    trans_parser.add_argument("lang", help="Language code (e.g., de, fr, ja)")
+    trans_parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=75,
+        help="Number of strings per Claude call (default: 75)",
+    )
+    trans_parser.add_argument(
+        "--model",
+        default=None,
+        help="Claude model to use (default: CLI default)",
+    )
+    trans_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Extract and show unfinished strings without translating",
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "normalize":
+        cmd_normalize(args)
+    elif args.command == "translate":
+        cmd_translate(args)
 
 
 if __name__ == "__main__":

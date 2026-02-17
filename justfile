@@ -61,7 +61,7 @@ configure-debug *args:
 		-DMAN=OFF \
 		{{ args }}
 
-# Extracts translatable strings from source code into .ts files
+# Extracts translatable strings from source code into .ts files, then normalizes
 translations-update:
 	#!/usr/bin/env bash
 	set -euo pipefail
@@ -75,10 +75,15 @@ translations-update:
 		{{ justfile_directory() }}/resources/qml/ \
 		-ts "${ts_files[@]}" \
 		-no-obsolete
+	just --justfile {{ justfile() }} translations-normalize
+
+# Normalizes .ts files to a canonical XML format (idempotent)
+translations-normalize *args:
+	python3 {{ justfile_directory() }}/bin/translations-translate.py normalize {{ args }}
 
 # Auto-translates unfinished strings for a language using Claude CLI
 translations-claude-translate-lang lang *args:
-	python3 {{ justfile_directory() }}/bin/translations-translate.py {{ lang }} {{ args }}
+	python3 {{ justfile_directory() }}/bin/translations-translate.py translate {{ lang }} {{ args }}
 
 # Auto-translates unfinished strings for all languages using Claude CLI
 translations-claude-translate-all *args:

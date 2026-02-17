@@ -90,6 +90,7 @@ UserSettings::load(std::optional<QString> profile)
 
     bubbles_              = settings.value("user/bubbles_enabled", true).toBool();
     smallAvatars_         = settings.value("user/small_avatars_enabled", false).toBool();
+    pinnedReactions_      = settings.value("user/pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️")).toString();
     animateImagesOnHover_ = settings.value("user/animate_images_on_hover", false).toBool();
     typingNotifications_  = settings.value("user/typing_notifications", true).toBool();
     sortByImportance_     = settings.value("user/sort_by_unread", true).toBool();
@@ -381,6 +382,16 @@ UserSettings::setSmallAvatars(bool state)
         return;
     smallAvatars_ = state;
     emit smallAvatarsChanged(state);
+    save();
+}
+
+void
+UserSettings::setPinnedReactions(const QString &value)
+{
+    if (value == pinnedReactions_)
+        return;
+    pinnedReactions_ = value;
+    emit pinnedReactionsChanged(value);
     save();
 }
 
@@ -953,6 +964,7 @@ UserSettings::save()
     settings.setValue("send_message_key", static_cast<int>(sendMessageKey_));
     settings.setValue("bubbles_enabled", bubbles_);
     settings.setValue("small_avatars_enabled", smallAvatars_);
+    settings.setValue("pinned_reactions", pinnedReactions_);
     settings.setValue("animate_images_on_hover", animateImagesOnHover_);
     settings.setValue("desktop_notifications", hasDesktopNotifications_);
     settings.setValue("alert_on_notification", hasAlertOnNotification_);
@@ -1081,6 +1093,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Enable message bubbles");
         case SmallAvatars:
             return tr("Enable small Avatars");
+        case PinnedReactions:
+            return tr("Pinned reactions");
         case AnimateImagesOnHover:
             return tr("Play animated images only on hover");
         case ShowImage:
@@ -1244,6 +1258,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return i->bubbles();
         case SmallAvatars:
             return i->smallAvatars();
+        case PinnedReactions:
+            return i->pinnedReactions();
         case AnimateImagesOnHover:
             return i->animateImagesOnHover();
         case ShowImage:
@@ -1418,6 +1434,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
               "Messages get a bubble background. This also triggers some layout changes (WIP).");
         case SmallAvatars:
             return tr("Avatars are resized to fit above the message.");
+        case PinnedReactions:
+            return tr("Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.");
         case AnimateImagesOnHover:
             return tr("Plays media like GIFs or WEBPs only when explicitly hovering over them.");
         case ShowImage:
@@ -1628,6 +1646,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case FancyEffects:
         case ReducedMotion:
             return Toggle;
+        case PinnedReactions:
+            return TextInput;
         case Profile:
         case UserId:
         case AccessToken:
@@ -1805,6 +1825,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         // Downstream patches add cases here returning komaiSettingImage()
         // (or any other qrc:/ path) for their settings.
         switch (index.row()) {
+        case PinnedReactions:
+            return komaiSettingImage();
         default:
             return QString();
         }
@@ -1915,6 +1937,13 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         case SmallAvatars: {
             if (value.userType() == QMetaType::Bool) {
                 i->setSmallAvatars(value.toBool());
+                return true;
+            } else
+                return false;
+        }
+        case PinnedReactions: {
+            if (value.canConvert(QMetaType::fromType<QString>())) {
+                i->setPinnedReactions(value.toString());
                 return true;
             } else
                 return false;
@@ -2412,6 +2441,9 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     });
     connect(s.get(), &UserSettings::smallAvatarsChanged, this, [this]() {
         emit dataChanged(index(SmallAvatars), index(SmallAvatars), {Value});
+    });
+    connect(s.get(), &UserSettings::pinnedReactionsChanged, this, [this]() {
+        emit dataChanged(index(PinnedReactions), index(PinnedReactions), {Value});
     });
     connect(s.get(), &UserSettings::groupViewStateChanged, this, [this]() {
         emit dataChanged(index(GroupView), index(GroupView), {Value});

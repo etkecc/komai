@@ -1573,7 +1573,7 @@ InputBar::reaction(const QString &reactedEvent, const QString &reactionKey)
         auto recents = UserSettings::instance()->recentReactions();
         if (recents.contains(reactionKey))
             recents.removeOne(reactionKey);
-        else if (recents.size() >= 6)
+        else if (recents.size() >= 10)
             recents.removeLast();
         recents.push_front(reactionKey);
         UserSettings::instance()->setRecentReactions(recents);

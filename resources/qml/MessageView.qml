@@ -178,25 +178,25 @@ Item {
 
                 spacing: messageActionsC.padding
 
+                // --- Pinned reactions (from user setting, comma-separated, max 10) ---
                 Repeater {
-                    model: Settings.recentReactions
+                    model: Settings.pinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
                     visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
 
                     delegate: AbstractButton {
-                        id: button
+                        id: btnPinned
 
                         property color buttonTextColor: palette.buttonText
                         property color highlightColor: palette.highlight
                         required property string modelData
                         property bool showImage: modelData.startsWith("mxc://")
 
-                        //Layout.preferredHeight: fontMetrics.height
                         Layout.alignment: Qt.AlignBottom
                         focusPolicy: Qt.NoFocus
-                        height: showImage ? 32 : buttonText.implicitHeight
-                        implicitHeight: showImage ? 32 : buttonText.implicitHeight
-                        implicitWidth: showImage ? 32 : buttonText.implicitWidth
-                        width: showImage ? 32 : buttonText.implicitWidth
+                        height: showImage ? 32 : btnTextPinned.implicitHeight
+                        implicitHeight: showImage ? 32 : btnTextPinned.implicitHeight
+                        implicitWidth: showImage ? 32 : btnTextPinned.implicitWidth
+                        width: showImage ? 32 : btnTextPinned.implicitWidth
 
                         onClicked: {
                             room.input.reaction(row.model.eventId, modelData);
@@ -204,32 +204,86 @@ Item {
                         }
 
                         Label {
-                            id: buttonText
+                            id: btnTextPinned
 
                             anchors.centerIn: parent
-                            color: button.hovered ? button.highlightColor : button.buttonTextColor
+                            color: btnPinned.hovered ? btnPinned.highlightColor : btnPinned.buttonTextColor
                             font.pixelSize: 32
                             font.family: Settings.emojiFont != "" ? Settings.emojiFont : undefined
                             horizontalAlignment: Text.AlignHCenter
                             padding: 0
-                            text: TimelineManager.htmlEscape(button.modelData)
+                            text: TimelineManager.htmlEscape(btnPinned.modelData)
                             verticalAlignment: Text.AlignVCenter
-                            visible: !button.showImage
+                            visible: !btnPinned.showImage
                         }
                         Image {
-                            // Workaround, can't get icon.source working for now...
                             anchors.fill: parent
                             fillMode: Image.PreserveAspectFit
-                            source: button.showImage ? (button.modelData.replace("mxc://", "image://MxcImage/") + "?scale") : ""
-                            sourceSize.height: button.height
-                            sourceSize.width: button.width
+                            source: btnPinned.showImage ? (btnPinned.modelData.replace("mxc://", "image://MxcImage/") + "?scale") : ""
+                            sourceSize.height: btnPinned.height
+                            sourceSize.width: btnPinned.width
                         }
                         NhekoCursorShape {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                         }
                         Ripple {
-                            color: Qt.rgba(buttonTextColor.r, buttonTextColor.g, buttonTextColor.b, 0.5)
+                            color: Qt.rgba(btnPinned.buttonTextColor.r, btnPinned.buttonTextColor.g, btnPinned.buttonTextColor.b, 0.5)
+                        }
+                    }
+                }
+                // --- Recent reactions (from user history, excluding pinned; total pinned+recent capped at 10) ---
+                Repeater {
+                    property var pinnedSet: Settings.pinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
+                    model: Settings.recentReactions.filter(function(r) { return pinnedSet.indexOf(r) < 0; }).slice(0, Math.max(0, 10 - pinnedSet.length))
+                    visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
+
+                    delegate: AbstractButton {
+                        id: btnRecent
+
+                        property color buttonTextColor: palette.buttonText
+                        property color highlightColor: palette.highlight
+                        required property string modelData
+                        property bool showImage: modelData.startsWith("mxc://")
+
+                        Layout.alignment: Qt.AlignBottom
+                        focusPolicy: Qt.NoFocus
+                        height: showImage ? 32 : btnTextRecent.implicitHeight
+                        implicitHeight: showImage ? 32 : btnTextRecent.implicitHeight
+                        implicitWidth: showImage ? 32 : btnTextRecent.implicitWidth
+                        width: showImage ? 32 : btnTextRecent.implicitWidth
+
+                        onClicked: {
+                            room.input.reaction(row.model.eventId, modelData);
+                            TimelineManager.focusMessageInput();
+                        }
+
+                        Label {
+                            id: btnTextRecent
+
+                            anchors.centerIn: parent
+                            color: btnRecent.hovered ? btnRecent.highlightColor : btnRecent.buttonTextColor
+                            font.pixelSize: 32
+                            font.family: Settings.emojiFont != "" ? Settings.emojiFont : undefined
+                            horizontalAlignment: Text.AlignHCenter
+                            padding: 0
+                            text: TimelineManager.htmlEscape(btnRecent.modelData)
+                            verticalAlignment: Text.AlignVCenter
+                            visible: !btnRecent.showImage
+                        }
+                        Image {
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectFit
+                            source: btnRecent.showImage ? (btnRecent.modelData.replace("mxc://", "image://MxcImage/") + "?scale") : ""
+                            sourceSize.height: btnRecent.height
+                            sourceSize.width: btnRecent.width
+                        }
+                        NhekoCursorShape {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                        }
+                        Ripple {
+                            color: Qt.rgba(btnRecent.buttonTextColor.r, btnRecent.buttonTextColor.g, btnRecent.buttonTextColor.b, 0.5)
                         }
                     }
                 }

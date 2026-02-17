@@ -33,6 +33,7 @@ class UserSettings final : public QObject
                  sendMessageKeyChanged)
     Q_PROPERTY(bool bubbles READ bubbles WRITE setBubbles NOTIFY bubblesChanged)
     Q_PROPERTY(bool smallAvatars READ smallAvatars WRITE setSmallAvatars NOTIFY smallAvatarsChanged)
+    Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY pinnedReactionsChanged)
     Q_PROPERTY(bool animateImagesOnHover READ animateImagesOnHover WRITE setAnimateImagesOnHover
                  NOTIFY animateImagesOnHoverChanged)
     Q_PROPERTY(bool typingNotifications READ typingNotifications WRITE setTypingNotifications NOTIFY
@@ -193,6 +194,7 @@ public:
     void setSendMessageKey(SendMessageKey key);
     void setBubbles(bool state);
     void setSmallAvatars(bool state);
+    void setPinnedReactions(const QString &value);
     void setAnimateImagesOnHover(bool state);
     void setReadReceipts(bool state);
     void setTypingNotifications(bool state);
@@ -266,6 +268,7 @@ public:
     SendMessageKey sendMessageKey() const { return sendMessageKey_; }
     bool bubbles() const { return bubbles_; }
     bool smallAvatars() const { return smallAvatars_; }
+    QString pinnedReactions() const { return pinnedReactions_; }
     bool animateImagesOnHover() const { return animateImagesOnHover_; }
     bool typingNotifications() const { return typingNotifications_; }
     bool sortByImportance() const { return sortByImportance_; }
@@ -339,6 +342,7 @@ signals:
     void sendMessageKeyChanged(SendMessageKey key);
     void bubblesChanged(bool state);
     void smallAvatarsChanged(bool state);
+    void pinnedReactionsChanged(const QString &value);
     void animateImagesOnHoverChanged(bool state);
     void typingNotificationsChanged(bool state);
     void buttonInTimelineChanged(bool state);
@@ -410,6 +414,7 @@ private:
     SendMessageKey sendMessageKey_;
     bool bubbles_;
     bool smallAvatars_;
+    QString pinnedReactions_;
     bool animateImagesOnHover_;
     bool typingNotifications_;
     bool sortByImportance_;
@@ -521,6 +526,7 @@ class UserSettingsModel : public QAbstractListModel
         SendMessageKey,
         Bubbles,
         SmallAvatars,
+        PinnedReactions,
 
         SidebarSection,
         GroupView,

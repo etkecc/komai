@@ -125,8 +125,8 @@ set(PROJECT_VERSION_PATCH ${CPACK_PACKAGE_VERSION_PATCH})
 fix_project_version()
 
 # Set additional project information
-set(COMPANY "Nheko")
-set(COPYRIGHT "Copyright (c) 2024 Nheko Contributors")
+set(COMPANY "Komai")
+set(COPYRIGHT "Copyright (c) 2024 Komai Contributors")
 set(IDENTIFIER "im.nheko.Nheko")
 
 add_project_meta(META_FILES_TO_INCLUDE)
@@ -993,10 +993,11 @@ endif()
 
 if(UNIX AND NOT APPLE)
     if(FLATPAK)
-        set(APPID "im.nheko.Nheko")
+        set(APPID "cc.etke.komai")
         set_target_properties(nheko PROPERTIES OUTPUT_NAME "${APPID}")
     else()
-        set(APPID "nheko")
+        set(APPID "komai")
+        set_target_properties(nheko PROPERTIES OUTPUT_NAME "komai")
     endif()
 
     install(TARGETS nheko RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
@@ -1008,7 +1009,7 @@ if(UNIX AND NOT APPLE)
     install(FILES "resources/nheko-256.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/256x256/apps" RENAME "${APPID}.png")
     install(FILES "resources/nheko-512.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/512x512/apps" RENAME "${APPID}.png")
     install(FILES "resources/nheko.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" RENAME "${APPID}.svg")
-    install(FILES "resources/_nheko" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/zsh/site-functions")
+    install(FILES "resources/_komai" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/zsh/site-functions")
 
     configure_file("resources/nheko.desktop.in" "resources/nheko.desktop" @ONLY)
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/resources/nheko.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" RENAME "${APPID}.desktop")

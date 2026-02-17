@@ -148,17 +148,6 @@ TimelineEvent {
             HoverHandler {
                 id: messageHover
                 blocking: false
-                onHoveredChanged: () => {
-                    if (!Settings.mobileMode && hovered) {
-                        if (!messageActions.hovered) {
-                            messageActions.model = wrapper;
-                            messageActions.attached = wrapper;
-                            messageActions.anchors.bottomMargin = -gridContainer.y
-                            //messageActions.anchors.rightMargin = metadata.width
-                        }
-                    }
-                }
-
             }
 
 
@@ -306,6 +295,34 @@ TimelineEvent {
                 timestamp: wrapper.timestamp
                 room: wrapper.room
                 isSender: wrapper.isSender
+                actionBarActive: messageActions.pinned && messageActions.attached === wrapper
+            }
+
+            Connections {
+                target: metadataOuter
+                function onActionToggled() {
+                    if (messageActions.pinned && messageActions.attached === wrapper) {
+                        messageActions.dismiss();
+                    } else {
+                        messageActions.model = wrapper;
+                        messageActions.attached = wrapper;
+                        messageActions.pinned = true;
+
+                        // Map toggle button position to chat.contentItem coords
+                        var btn = metadataOuter.actionToggleButton;
+                        var pos = btn.mapToItem(chat.contentItem, 0, 0);
+                        var barW = messageActions.implicitWidth;
+
+                        // Y: bar opens upward — bottom edge at toggle top
+                        messageActions.y = pos.y - messageActions.implicitHeight;
+
+                        // X: center on toggle button, clamped to delegate bounds
+                        var centerX = pos.x + btn.width / 2 - barW / 2;
+                        var leftBound = wrapper.x;
+                        var rightBound = wrapper.x + wrapper.width;
+                        messageActions.x = Math.max(leftBound, Math.min(centerX, rightBound - barW));
+                    }
+                }
             }
 
             DragHandler {

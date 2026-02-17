@@ -149,17 +149,6 @@ TimelineEvent {
             HoverHandler {
                 id: messageHover
                 blocking: false
-                onHoveredChanged: () => {
-                    if (!Settings.mobileMode && hovered) {
-                        if (!messageActions.hovered) {
-                            messageActions.model = wrapper;
-                            messageActions.attached = wrapper;
-                            messageActions.anchors.bottomMargin = -gridContainer.y
-                            messageActions.anchors.rightMargin = metadata.width
-                        }
-                    }
-                }
-
             }
 
             AbstractButton {
@@ -321,7 +310,34 @@ TimelineEvent {
                 timestamp: wrapper.timestamp
                 room: wrapper.room
                 isSender: wrapper.isSender
+                actionBarActive: messageActions.pinned && messageActions.attached === wrapper
             },
+        Connections {
+            target: metadata
+            function onActionToggled() {
+                if (messageActions.pinned && messageActions.attached === wrapper) {
+                    messageActions.dismiss();
+                } else {
+                    messageActions.model = wrapper;
+                    messageActions.attached = wrapper;
+                    messageActions.pinned = true;
+
+                    // Map toggle button position to chat.contentItem coords
+                    var btn = metadata.actionToggleButton;
+                    var pos = btn.mapToItem(chat.contentItem, 0, 0);
+                    var barW = messageActions.implicitWidth;
+
+                    // Y: bar opens upward — bottom edge at toggle top
+                    messageActions.y = pos.y - messageActions.implicitHeight;
+
+                    // X: center on toggle button, clamped to delegate bounds
+                    var centerX = pos.x + btn.width / 2 - barW / 2;
+                    var leftBound = wrapper.x;
+                    var rightBound = wrapper.x + wrapper.width;
+                    messageActions.x = Math.max(leftBound, Math.min(centerX, rightBound - barW));
+                }
+            }
+        },
         Item {
             // We need this item to grab events, that otherwise would go to the TextArea in the main item. If we don't have this, it would trigger a right click menu on KDE...
             // https://invent.kde.org/frameworks/qqc2-desktop-style/-/blob/9d71fe874186009f76d392e203d9fa25a49f8be7/org.kde.desktop/TextArea.qml#L55

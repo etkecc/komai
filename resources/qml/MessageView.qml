@@ -150,20 +150,42 @@ Item {
             filterByThread: room ? room.thread : ""
             source: room
         }
+        // Click-outside overlay: dismisses the action bar when clicking
+        // anywhere outside it.  Parented to chat.contentItem (same as
+        // the action bar) so z-ordering works: the bar at z:10 renders
+        // above the overlay at z:9, allowing button clicks and hovers
+        // to reach the bar normally.  The overlay tracks the visible
+        // viewport via chat.contentY / chat.width / chat.height.
+        MouseArea {
+            id: actionBarDismissOverlay
+            parent: chat.contentItem
+            x: 0
+            y: chat.contentY
+            width: chat.width
+            height: chat.height
+            visible: messageActionsC.pinned
+            z: 9
+            onClicked: messageActionsC.dismiss()
+        }
         Control {
             id: messageActionsC
 
             property Item attached: null
             // use comma to update on scroll
             property alias model: row.model
+            property bool pinned: false
+
+            function dismiss() {
+                pinned = false;
+                attached = null;
+            }
 
             hoverEnabled: true
             padding: Nheko.paddingMedium
-            visible: Settings.buttonsInTimeline && !!attached && (attached.hovered || hovered)
+            visible: Settings.buttonsInTimeline && pinned && !!attached
             z: 10
             parent: chat.contentItem
-            anchors.bottom: attached?.top
-            anchors.right: attached?.right
+            // No anchors — x/y set imperatively by the message styles
 
             background: Rectangle {
                 border.color: palette.buttonText
@@ -201,6 +223,7 @@ Item {
                         onClicked: {
                             room.input.reaction(row.model.eventId, modelData);
                             TimelineManager.focusMessageInput();
+                            messageActionsC.dismiss();
                         }
 
                         Label {
@@ -256,6 +279,7 @@ Item {
                         onClicked: {
                             room.input.reaction(row.model.eventId, modelData);
                             TimelineManager.focusMessageInput();
+                            messageActionsC.dismiss();
                         }
 
                         Label {
@@ -301,6 +325,7 @@ Item {
                     onClicked: {
                         if (row.model.isEditable)
                             room.edit = row.model.eventId;
+                        messageActionsC.dismiss();
                     }
                 }
                 ImageButton {
@@ -331,7 +356,10 @@ Item {
                     Layout.preferredWidth: 32
                     Layout.preferredHeight: 32
 
-                    onClicked: room.thread = (row.model.threadId || row.model.eventId)
+                    onClicked: {
+                        room.thread = (row.model.threadId || row.model.eventId);
+                        messageActionsC.dismiss();
+                    }
                 }
                 ImageButton {
                     ToolTip.delay: Nheko.tooltipDelay
@@ -343,7 +371,10 @@ Item {
                     Layout.preferredWidth: 32
                     Layout.preferredHeight: 32
 
-                    onClicked: room.reply = row.model.eventId
+                    onClicked: {
+                        room.reply = row.model.eventId;
+                        messageActionsC.dismiss();
+                    }
                 }
                 ImageButton {
                     ToolTip.delay: Nheko.tooltipDelay
@@ -361,6 +392,7 @@ Item {
                         forwardMess.setMessageEventId(row.model.eventId);
                         forwardMess.open();
                         timelineRoot.destroyOnClose(forwardMess);
+                        messageActionsC.dismiss();
                     }
                 }
                 ImageButton {
@@ -377,6 +409,7 @@ Item {
                     onClicked: {
                         topBar.searchString = "";
                         room.showEvent(row.model.eventId);
+                        messageActionsC.dismiss();
                     }
                 }
                 ImageButton {

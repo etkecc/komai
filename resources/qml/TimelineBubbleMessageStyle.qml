@@ -53,7 +53,7 @@ TimelineEvent {
     mainInset: threadId ? (4 + Nheko.paddingSmall) : 0
     replyInset: mainInset + 4 + Nheko.paddingMedium + Nheko.paddingMedium
 
-    property int bubbleMargin: metadataOuter.width + Nheko.paddingMedium
+    property int bubbleMargin: Math.max(metadataOuter.width + Nheko.paddingMedium, Math.round((chat.delegateMaxWidth - avatarMargin) * 0.15))
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - bubbleMargin
 

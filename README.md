@@ -78,31 +78,7 @@ just run
 
 ## 🎨 Themes
 
-Komai ships with 14 built-in themes defined as [Base16](https://github.com/tinted-theming/home) YAML files in `assets/themes/`.
-
-**Adding a new theme** is as simple as dropping a `.yaml` file and rebuilding:
-
-```sh
-# Import from the tinted-theming/schemes collection
-just import-theme rose-pine
-
-# Rebuild — the theme appears in Settings automatically
-just build
-```
-
-| Theme | Variant | | Theme | Variant |
-|-------|---------|---|-------|---------|
-| Komai | ☀️ light | | Komai Dark | 🌙 dark |
-| Catppuccin Latte | ☀️ light | | Catppuccin Mocha | 🌙 dark |
-| Gruvbox Light | ☀️ light | | Gruvbox Dark | 🌙 dark |
-| Solarized Light | ☀️ light | | Solarized Dark | 🌙 dark |
-| nheko Light | ☀️ light | | nheko Dark | 🌙 dark |
-| | | | Breeze Dark | 🌙 dark |
-| | | | Dracula | 🌙 dark |
-| | | | Nord | 🌙 dark |
-| | | | Tokyo Night | 🌙 dark |
-
-Plus the **System** option (uses your OS palette).
+Komai ships with many built-in themes and makes it easy to add more. See 📄 [Themes](docs/themes.md) for details.
 
 
 ## 🔧 Build Requirements

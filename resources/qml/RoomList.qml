@@ -301,22 +301,57 @@ Page {
                         }
                     }
                 }
-                ImageButton {
+                MouseArea {
                     id: userSettingsButton
+
+                    property var profile: Nheko.currentUser
 
                     Layout.fillWidth: true
                     Layout.margins: Nheko.paddingMedium
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("User settings")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: 30
-                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 36
+                    Layout.preferredWidth: 36
+                    cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
-                    image: ":/icons/icons/ui/settings.svg"
-                    ripple: false
                     visible: !collapsed
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                    onClicked: mainWindow.push(userSettingsPage)
+                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: (profile ? profile.displayName : "") + "\n" + (profile ? profile.userid : "")
+                    ToolTip.visible: containsMouse
+
+                    onClicked: function(mouse) { profileContextMenu.popup(roomActionsAvatar) }
+
+                    Avatar {
+                        id: roomActionsAvatar
+
+                        anchors.centerIn: parent
+                        width: 36
+                        height: 36
+                        displayName: userSettingsButton.profile ? userSettingsButton.profile.displayName : ""
+                        url: (userSettingsButton.profile ? userSettingsButton.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")
+                        userid: userSettingsButton.profile ? userSettingsButton.profile.userid : ""
+                        enabled: false
+                    }
+
+                    Rectangle {
+                        anchors.bottom: roomActionsAvatar.bottom
+                        anchors.right: roomActionsAvatar.right
+                        anchors.bottomMargin: -2
+                        anchors.rightMargin: -2
+                        width: 16
+                        height: 16
+                        radius: 4
+                        color: palette.window
+
+                        Image {
+                            anchors.centerIn: parent
+                            source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
+                            sourceSize.width: 11
+                            sourceSize.height: 11
+                            width: 11
+                            height: 11
+                        }
+                    }
                 }
             }
         }
@@ -416,6 +451,68 @@ Page {
 
         target: MainWindow
     }
+    Menu {
+        id: profileContextMenu
+
+        function openUserProfile() {
+            Nheko.updateUserProfile();
+            var component = Qt.createComponent("qrc:/resources/qml/dialogs/UserProfile.qml");
+            if (component.status == Component.Ready) {
+                var userProfile = component.createObject(timelineRoot, {
+                        "profile": Nheko.currentUser
+                    });
+                userProfile.show();
+                timelineRoot.destroyOnClose(userProfile);
+            } else {
+                console.error("Failed to create component: " + component.errorString());
+            }
+        }
+
+        Component.onCompleted: {
+            if (profileContextMenu.popupType != undefined) {
+                profileContextMenu.popupType = 2;
+            }
+        }
+
+        MenuItem {
+            text: qsTr("Profile Settings")
+            icon.source: "qrc:/icons/icons/ui/person.svg"
+            onTriggered: profileContextMenu.openUserProfile()
+        }
+        MenuItem {
+            text: qsTr("Set Status Message")
+            icon.source: "qrc:/icons/icons/ui/tag.svg"
+            onTriggered: profileStatusDialog.show()
+        }
+        MenuSeparator {
+        }
+        MenuItem {
+            text: qsTr("Application Settings")
+            icon.source: "qrc:/icons/icons/ui/toggles.svg"
+            onTriggered: mainWindow.push(userSettingsPage)
+        }
+        MenuSeparator {
+        }
+        MenuItem {
+            text: qsTr("Logout")
+            icon.source: "qrc:/icons/icons/ui/power-off.svg"
+            onTriggered: Nheko.openLogoutDialog()
+        }
+    }
+
+    InputDialog {
+        id: profileStatusDialog
+
+        property var profile: Nheko.currentUser
+
+        prompt: qsTr("Enter your status message:")
+        title: qsTr("Status Message")
+        text: profile ? Presence.userStatus(profile.userid) : ""
+        onAccepted: function (text) {
+            Nheko.setStatusMessage(text);
+        }
+    }
+
     Component {
         id: roomDirectoryComponent
 

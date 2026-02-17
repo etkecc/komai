@@ -418,7 +418,7 @@ Rectangle {
             Layout.preferredHeight: 22
             hoverEnabled: true
             image: ":/icons/icons/ui/sticky-note-solid.svg"
-            visible: showAllButtons
+            visible: showAllButtons && Settings.enableStickers
             Layout.preferredWidth: 22
 
             onClicked: stickerPopup.visible ? stickerPopup.close() : stickerPopup.show(stickerButton, room.roomId, function (row) {

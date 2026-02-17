@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -27,7 +27,7 @@ ColumnLayout {
         Layout.bottomMargin: 0
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        text: qsTr("Welcome to nheko! The desktop client for the Matrix protocol.")
+        text: qsTr("Welcome to Komai! The desktop client for the Matrix protocol.")
         color: palette.text
         font.pointSize: fontMetrics.font.pointSize*2
         wrapMode: Text.Wrap
@@ -92,7 +92,7 @@ ColumnLayout {
                 id: hovered
             }
             ToolTip.visible: hovered.hovered
-            ToolTip.text: qsTr("Nheko uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.")
+            ToolTip.text: qsTr("Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.")
             ToolTip.delay: Nheko.tooltipDelay
         }
     }

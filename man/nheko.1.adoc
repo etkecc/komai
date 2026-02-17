@@ -1,17 +1,17 @@
-= nheko(1)
+= komai(1)
 :doctype:       manpage
 :Date:          2022-01-27
 :Revision:      @PROJECT_VERSION@
-:man source:    nheko
+:man source:    komai
 :man manual:    General Commands Manual
 
 == NAME
 
-nheko - Desktop client for Matrix using Qt and C++20
+komai - Desktop client for Matrix using Qt and C++20
 
 == SYNOPSIS
 
-*nheko* [_OPTIONS_]
+*komai* [_OPTIONS_]
 
 == DESCRIPTION
 
@@ -42,7 +42,7 @@ levels: _trace_ _debug_ _info_ _warning_ _error_ _critical_ _off_
 +
 components: _crypto_ _db_ _mtx_ _net_ _qml_ _ui_
 +
-Log levels can also be set in the NHEKO_LOG_LEVEL environment variable, using
+Log levels can also be set in the KOMAI_LOG_LEVEL environment variable, using
 the same syntax. It will be overridden by this command line option.
 
 *-L*, *--log-type* _<type>_::
@@ -50,12 +50,12 @@ Set the log output type. A comma-separated list is allowed. The default is _file
 +
 types: _file_ _stderr_ _none_
 +
-The log type can also be set in the NHEKO_LOG_TYPE environment variable,
+The log type can also be set in the KOMAI_LOG_TYPE environment variable,
 which will be overridden by this command line option.
 
 *-p* _<profile>_, *--profile* _<profile>_::
 Creates a unique profile, which allows you to log into several accounts at the
-same time and start multiple instances of nheko. Use _default_ to start with the
+same time and start multiple instances of komai. Use _default_ to start with the
 default profile.
 
 *-C*, *--compact*::
@@ -71,7 +71,7 @@ pack that only your account has access to and there are room image packs that
 are accessible by everyone in the room they are defined in. You can activate a
 room image pack globally to use it in any room.
 
-To manage image packs in nheko, go to the room settings and enter the Sticker &
+To manage image packs in komai, go to the room settings and enter the Sticker &
 Emote Settings. You will see the Private pack (your user image pack) and can
 edit it there. The Shortcode is a unique identifier you use to select the image
 with and the Body is the alternate text that is displayed on clients that don't
@@ -292,32 +292,32 @@ A single newline will be turned into `<br>` instead of a space.
 Make text strikethrough. HTML putput: `<del>text</del>`
 
 *`||spoiler warning|text||`*::
-Hide text and set an optional spoiler warning. Note that Nheko does not display
+Hide text and set an optional spoiler warning. Note that Komai does not display
 the spoiler warning currently. HTML output:
 `<span data-mx-spoiler="spoiler">text</span>`
 
 == ENVIRONMENT
 
-*NHEKO_ALLOW_QML_DISK_CACHE*::
-Nheko by default disables the qml disk cache to prevent crashes. This allows
+*KOMAI_ALLOW_QML_DISK_CACHE*::
+Komai by default disables the qml disk cache to prevent crashes. This allows
 you to reenable it at your own risk.
 
 == FILES
 
 *Configuration file*::
-`${XDG_CONFIG_HOME:-~/.config}/nheko/nheko.conf`
+`${XDG_CONFIG_HOME:-~/.config}/komai/komai.conf`
 
 *Log file*::
-`${XDG_CACHE_HOME:-~/.cache}/nheko/nheko/nheko.log`
+`${XDG_CACHE_HOME:-~/.cache}/komai/komai/komai.log`
 
 *Database*::
-`${XDG_DATA_HOME:-~/.local/share}/nheko/nheko/*/data.mdb`
+`${XDG_DATA_HOME:-~/.local/share}/komai/komai/*/data.mdb`
 
 *Media cache*::
-`${XDG_CACHE_HOME:-~/.cache}/nheko/nheko/media_cache`
+`${XDG_CACHE_HOME:-~/.cache}/komai/komai/media_cache`
 
 
 == REPORTING BUGS
 
 Please report issues on our bug tracker at
-<https://github.com/Nheko-Reborn/nheko/issues>.
+<https://github.com/Komai-Reborn/komai/issues>.

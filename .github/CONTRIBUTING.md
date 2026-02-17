@@ -1,4 +1,4 @@
-## Contributing to nheko
+## Contributing to komai
 
 Any kind of contribution to the project is greatly appreciated.
 
@@ -8,7 +8,7 @@ Any kind of contribution to the project is greatly appreciated.
 - Code refactoring
 - Translations
 
-Usually we accept contributions on GitHub as Pull-Requests: https://github.com/Nheko-Reborn/nheko/pulls
+Usually we accept contributions on GitHub as Pull-Requests: https://github.com/Komai-Reborn/komai/pulls
 
 Otherwise you can also submit patches, but that is more effort for both sides.
 
@@ -22,7 +22,7 @@ If you're planning to work on a new feature leave a message on the Matrix room
 
 ### Submitting a translation
 
-Usually translations are done on weblate: https://weblate.nheko.im/
+Usually translations are done on weblate: https://weblate.komai.im/
 
 Anyone can submit suggestions and once they have 2 upvotes, they will
 automatically be applied. If you want to directly apply your or other changes
@@ -33,7 +33,7 @@ Alternatively translations can also be added manually like so:
 
 Example for a Japanese translation.
 - Create a new translation file using the prototype in English
-  - e.g `cp resources/langs/nheko_en.ts resources/langs/nheko_ja.ts`
+  - e.g `cp resources/langs/komai_en.ts resources/langs/komai_ja.ts`
 - Open the new translation file and change the line regarding the locale to reflect the current language.
   - e.g `<TS version="2.1" language="en">` => `<TS version="2.1" language="ja">`
 - Run `make update-translations` to update the translation files with any missing text.
@@ -49,4 +49,4 @@ commit and the build will fail if the style guide isn't followed. You can run th
 linter locally with `make lint`.
 
 
-If you have any questions don't hesitate to reach out to us on #nheko:matrix.org.
+If you have any questions don't hesitate to reach out to us on #komai:matrix.org.

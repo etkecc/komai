@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>Nheko</Name>
+    <Name>Komai</Name>
     <Version>__VERSION__</Version>
-    <Title>Nheko Installer</Title>
+    <Title>Komai Installer</Title>
     <Publisher>Mujx</Publisher>
-    <ProductUrl>https://github.com/Nheko-Reborn/nheko</ProductUrl>
-    <InstallerWindowIcon>nheko</InstallerWindowIcon>
-    <InstallerApplicationIcon>nheko</InstallerApplicationIcon>
-    <Logo>nheko.png</Logo>
-    <StartMenuDir>Nheko</StartMenuDir>
-    <TargetDir>@ApplicationsDir@/nheko</TargetDir>
-    <RunProgram>@TargetDir@/nheko.exe</RunProgram>
+    <ProductUrl>https://github.com/Komai-Reborn/komai</ProductUrl>
+    <InstallerWindowIcon>komai</InstallerWindowIcon>
+    <InstallerApplicationIcon>komai</InstallerApplicationIcon>
+    <Logo>komai.png</Logo>
+    <StartMenuDir>Komai</StartMenuDir>
+    <TargetDir>@ApplicationsDir@/komai</TargetDir>
+    <RunProgram>@TargetDir@/komai.exe</RunProgram>
     <ControlScript>controlscript.qs</ControlScript>
 </Installer>

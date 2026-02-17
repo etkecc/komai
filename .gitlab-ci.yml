@@ -36,9 +36,9 @@ build-windows:
       - build/_deps
   artifacts:
     paths:
-      - nheko.msix
-      - nheko_win_64.zip
-    name: nheko-${CI_COMMIT_SHORT_SHA}-windows-unsigned
+      - komai.msix
+      - komai_win_64.zip
+    name: komai-${CI_COMMIT_SHORT_SHA}-windows-unsigned
     expose_as: 'windows-app-unsigned'
 
 codesign-windows:
@@ -56,13 +56,13 @@ codesign-windows:
     - Get-ChildItem -Path Cert:CurrentUser\My
     - ./.ci/windows/sign.bat
     - mkdir -p artifacts
-    - mv nheko.msix artifacts/nheko.msix
+    - mv komai.msix artifacts/komai.msix
   needs:
     - job: build-windows
   artifacts:
     paths:
-      - artifacts/nheko.msix
-    name: nheko-${CI_COMMIT_SHORT_SHA}-windows
+      - artifacts/komai.msix
+    name: komai-${CI_COMMIT_SHORT_SHA}-windows
     expose_as: 'windows-app'
 
 upload-windows:
@@ -80,8 +80,8 @@ upload-windows:
   before_script:
     - apk add curl unzip
   script:
-    - export VERSION=$(unzip -p artifacts/nheko.msix AppxManifest.xml | sed -n 's/.* Version="\([0-9.]*\)".*/\1/p')
-    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file artifacts/nheko.msix "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${PACKAGE_NAME}/${VERSION}/nheko.msix"'
+    - export VERSION=$(unzip -p artifacts/komai.msix AppxManifest.xml | sed -n 's/.* Version="\([0-9.]*\)".*/\1/p')
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file artifacts/komai.msix "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${PACKAGE_NAME}/${VERSION}/komai.msix"'
   needs:
     - job: codesign-windows
 
@@ -95,15 +95,15 @@ pages:
   before_script:
     - apk add curl jq
   script:
-    - export LATEST_WINDOWS_NIGHTLY=$(curl "https://nheko.im/api/v4/projects/2/packages?package_name=windows-nightly&order_by=version&sort=desc" | jq -r '.[0].version')
-    #- export LATEST_WINDOWS=$(curl "https://nheko.im/api/v4/projects/2/packages?package_name=windows&order_by=version&sort=desc" | jq -r '.[0].version')
+    - export LATEST_WINDOWS_NIGHTLY=$(curl "https://komai.im/api/v4/projects/2/packages?package_name=windows-nightly&order_by=version&sort=desc" | jq -r '.[0].version')
+    #- export LATEST_WINDOWS=$(curl "https://komai.im/api/v4/projects/2/packages?package_name=windows&order_by=version&sort=desc" | jq -r '.[0].version')
     # hardcoded to avoid fuzzy matching
     - export LATEST_WINDOWS='0.12.0.38759'
-    - sed "s/0.12.1.0/${LATEST_WINDOWS_NIGHTLY}/g" -i resources/NhekoNightly.appinstaller
-    - sed "s/0.12.1.0/${LATEST_WINDOWS}/g" -i resources/Nheko.appinstaller
+    - sed "s/0.12.1.0/${LATEST_WINDOWS_NIGHTLY}/g" -i resources/KomaiNightly.appinstaller
+    - sed "s/0.12.1.0/${LATEST_WINDOWS}/g" -i resources/Komai.appinstaller
     - mkdir public
-    - mv resources/NhekoNightly.appinstaller public
-    - mv resources/Nheko.appinstaller public
+    - mv resources/KomaiNightly.appinstaller public
+    - mv resources/Komai.appinstaller public
   needs:
     - job: upload-windows
       optional: true
@@ -253,8 +253,8 @@ build-macos:
     - if : '$CI_PIPELINE_TRIGGERED == null'
   artifacts:
     paths:
-      - nheko.app # not putting this in 'artifacts' subdir because we don't want to put it on releases
-    name: nheko-${CI_COMMIT_SHORT_SHA}-macos-app
+      - komai.app # not putting this in 'artifacts' subdir because we don't want to put it on releases
+    name: komai-${CI_COMMIT_SHORT_SHA}-macos-app
     expose_as: 'macos-app'
     public: false
   cache:
@@ -265,7 +265,7 @@ build-macos:
 
 build-macos-as:
   extends: build-macos
-  image: registry.nheko.im/nheko-reborn/nheko/cirruslabs/macos-sequoia-xcode:16.2
+  image: registry.komai.im/komai-reborn/komai/cirruslabs/macos-sequoia-xcode:16.2
   variables:
     TART_REGISTRY_HOSTNAME: $CI_REGISTRY
     TART_REGISTRY_USERNAME: $CI_REGISTRY_USER
@@ -294,11 +294,11 @@ build-macos-as:
     - export PATH=${QTPATH}:${PATH}
     - ./.ci/macos/notarize.sh
   after_script:
-    - ./.ci/upload-nightly-gitlab.sh artifacts/nheko-${CI_COMMIT_SHORT_SHA}-${PLAT}.dmg
+    - ./.ci/upload-nightly-gitlab.sh artifacts/komai-${CI_COMMIT_SHORT_SHA}-${PLAT}.dmg
   artifacts:
     paths:
-      - artifacts/nheko-${CI_COMMIT_SHORT_SHA}-${PLAT}.dmg
-    name: nheko-${CI_COMMIT_SHORT_SHA}-macos
+      - artifacts/komai-${CI_COMMIT_SHORT_SHA}-${PLAT}.dmg
+    name: komai-${CI_COMMIT_SHORT_SHA}-macos
 
 codesign-macos-intel:
   <<: *codesign_macos
@@ -354,12 +354,12 @@ build-flatpak:
     - dbus-send --system /org/freedesktop/DBus org.freedesktop.DBus || (mkdir -p /run/dbus/ && dbus-daemon --system --fork)
     - mkdir -p build-flatpak
     - cd build-flatpak
-    - flatpak-builder --arch=${AARCH} --install-deps-from=flathub --user --disable-rofiles-fuse --ccache --repo=repo --default-branch=${CI_COMMIT_REF_NAME//\//_} --subject="Build of Nheko ${VERSION} `date` for ${ARCH}" app ../im.nheko.Nheko.yaml --jobs=$JOBS
+    - flatpak-builder --arch=${AARCH} --install-deps-from=flathub --user --disable-rofiles-fuse --ccache --repo=repo --default-branch=${CI_COMMIT_REF_NAME//\//_} --subject="Build of Komai ${VERSION} `date` for ${ARCH}" app ../im.komai.Komai.yaml --jobs=$JOBS
     - flatpak install --user -y flathub org.flatpak.Builder
-    - flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream app/files/share/app-info/xmls/im.nheko.Nheko.xml.gz
-    - flatpak --arch=${AARCH} build-bundle repo nheko-${ARCH}.flatpak im.nheko.Nheko ${CI_COMMIT_REF_NAME//\//_}
+    - flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream app/files/share/app-info/xmls/im.komai.Komai.xml.gz
+    - flatpak --arch=${AARCH} build-bundle repo komai-${ARCH}.flatpak im.komai.Komai ${CI_COMMIT_REF_NAME//\//_}
   after_script:
-    - bash ./.ci/upload-nightly-gitlab.sh build-flatpak/nheko-${ARCH}.flatpak
+    - bash ./.ci/upload-nightly-gitlab.sh build-flatpak/komai-${ARCH}.flatpak
     - (cd ./scripts && ./upload-to-flatpak-repo.sh ../build-flatpak/repo) || exit_code=$?
   rules:
     - if : '$CI_PIPELINE_TRIGGERED == null'
@@ -370,7 +370,7 @@ build-flatpak:
     when: always # because the arm runner is slow and ooms often otherwise!
   artifacts:
     expose_as: 'flatpak'
-    paths: ['build-flatpak/nheko-${ARCH}.flatpak']
+    paths: ['build-flatpak/komai-${ARCH}.flatpak']
     name: flatpak-${CI_COMMIT_REF_NAME}-${VERSION}-${ARCH}
 
 
@@ -385,7 +385,7 @@ build-flatpak:
     # Installing the packages needed to download and install third-party tools
     - apt-get update && apt-get install -y software-properties-common git wget curl python3 python3-pip python3-setuptools
 
-    # Installing the packages needed to compile nheko and third-party tools
+    # Installing the packages needed to compile komai and third-party tools
     - apt-get -y install --no-install-suggests --no-install-recommends ca-certificates build-essential ninja-build cmake gcc make automake ccache liblmdb-dev 
         libssl-dev libqt5multimedia5-plugins libqt5multimediagsttools5 libqt5multimediaquick5 libqt5svg5-dev 
         qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev 
@@ -428,13 +428,13 @@ build-flatpak:
     - mkdir -p AppDir/usr/lib/x86_64-linux-gnu AppDir/lib/x86_64-linux-gnu
     - appimage-builder --skip-test
   after_script:
-    - mkdir -p artifacts && cp nheko-latest-x86_64.AppImage artifacts/
-    - bash ./.ci/upload-nightly-gitlab.sh nheko-latest-x86_64.AppImage
+    - mkdir -p artifacts && cp komai-latest-x86_64.AppImage artifacts/
+    - bash ./.ci/upload-nightly-gitlab.sh komai-latest-x86_64.AppImage
   rules:
     - if : '$CI_PIPELINE_TRIGGERED == null'
   artifacts:
     paths:
-      - 'artifacts/nheko-latest-x86_64.AppImage'
+      - 'artifacts/komai-latest-x86_64.AppImage'
     expire_in: 1 week
     expose_as: 'appimage-amd64'
   cache:

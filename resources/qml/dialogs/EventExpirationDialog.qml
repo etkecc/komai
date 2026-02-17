@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -51,10 +51,10 @@ ApplicationWindow {
             id: promptLabel
             text: {
                 if (roomid) {
-                    return qsTr("You can configure when your messages will be deleted in %1. This only happens when Nheko is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.").arg(roomName);
+                    return qsTr("You can configure when your messages will be deleted in %1. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.").arg(roomName);
                 }
                 else {
-                    return qsTr("You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Nheko is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.");
+                    return qsTr("You can configure when your messages will be deleted in all rooms unless configured otherwise. This only happens when Komai is open and has permissions to delete messages until Matrix servers support this feature natively. In general 0 means disable.");
                 }
             }
             font.pixelSize: Math.floor(fontMetrics.font.pixelSize * 1.2)

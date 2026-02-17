@@ -1,10 +1,10 @@
-#compdef nheko
+#compdef komai
 
-function _nheko_select_profile() {
+function _komai_select_profile() {
     local -a profiles=(default)
     while read -r line; do
         [[ ${line} =~ '\\auth\\device_id' ]] && profiles+=(${line%%\\*})
-    done < ${XDG_CONFIG_HOME:-~/.config}/nheko/nheko.conf
+    done < ${XDG_CONFIG_HOME:-~/.config}/komai/komai.conf
     _values "profile" ${profiles}
 }
 
@@ -15,4 +15,4 @@ _arguments \
     --debug'[Enables debug output.]' \
     {'(--log-level)-l','(-l)--log-level'}'[Set the global log level, or a comma-separated list of <component>=<level> pairs, or both.]' \
     {'(--log-type)-L','(-L)--log-type'}"[Set the log output type. A comma-separated list is allowed. The default is 'file,stderr'.]" \
-    {'(--profile)-p','(-p)--profile'}'[Create or select profile.]':'profile':'_nheko_select_profile'
+    {'(--profile)-p','(-p)--profile'}'[Create or select profile.]':'profile':'_komai_select_profile'

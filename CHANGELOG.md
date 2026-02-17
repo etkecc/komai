@@ -23,7 +23,7 @@
     Scvorțov)
 - Use native emoji font support on Qt6.9.
 - Ban, unban, kick or redact by replying.
-- Update GPG key in flatpak refs (you need to readd the Nheko repo, if you are
+- Update GPG key in flatpak refs (you need to readd the Komai repo, if you are
     using it).
 - More framerates for screen sharing. (Integral)
 - Chunk key requests.
@@ -34,7 +34,7 @@
 - Allow setting a scale factor on Windows.
 - Show current status message in the status message editor.
 - Use roomids in event links.
-- Stable Nheko app installer.
+- Stable Komai app installer.
 
 ### Translations
 
@@ -87,13 +87,13 @@ appimage is currently disabled until someone ports it to Qt6. The flatpak appid
 changed and you will need to migrate manually.
 
 For packagers most of our dependencies have been changed or updated. Most
-significantly Nheko now depends on KDSingleApplication and Qt6.
+significantly Komai now depends on KDSingleApplication and Qt6.
 
 ### Highlights
 
 - Qt6 6️⃣
   - This release migrates to version 6 of the Qt toolkit.
-  - This brings various changes to Nheko. Scrolling might feel slower on some
+  - This brings various changes to Komai. Scrolling might feel slower on some
       platforms. Theming will look different. You have been warned!
   - We left out all the fixes we had to do for this from the changelog.
       Otherwise it might have been twice as long...
@@ -101,14 +101,14 @@ significantly Nheko now depends on KDSingleApplication and Qt6.
   - You can now decide if a message should mention someone or not.
   - Replies now also include an explicit mention (MSC4142).
 - Event expiration ⏲️
-  - You can now make Nheko delete messages regularly.
+  - You can now make Komai delete messages regularly.
   - Configure either a time or a maximum number of messages.
   - Can be configured per room or globally.
 - Ignoring users (NepNep) 🔕
   - You can now ignore other users.
   - This will hide their messages from the timeline.
   - You can either user the `/ignore` command, the button in their profile or
-      the button in the Nheko settings.
+      the button in the Komai settings.
 
 ### Features
 
@@ -160,7 +160,7 @@ significantly Nheko now depends on KDSingleApplication and Qt6.
 - Highlight spaces in bold in the quick switcher.
 - Throttle sync processing when the window is unfocused.
 - Allow hiding unsupported events via the hidden events dialog.
-- Change appid to im.nheko.Nheko. (Miika Tuominen)
+- Change appid to im.komai.Komai. (Miika Tuominen)
 - .editorconfig and .gitattributes. (Aminda Suomalainen)
 - Remove fetched messages only on startup.
 - Focus message input after drag and dropping a file. (Sateallia)
@@ -224,8 +224,8 @@ significantly Nheko now depends on KDSingleApplication and Qt6.
 
 - Prevent shortcuts from inserting unprintable characters.
 - Display emojis in avatars properly.
-- Prevent opening empty Nheko profiles by accident.
-- DMs created in Nheko were not marked as DMs properly.
+- Prevent opening empty Komai profiles by accident.
+- DMs created in Komai were not marked as DMs properly.
 - Prevent opening user profiles for empty mxids.
 - Fix crash during video calls on Linux. (checkraisefold)
 - Fix validation errors in Linux appdata.xml. (Echo J)
@@ -299,8 +299,8 @@ significantly Nheko now depends on KDSingleApplication and Qt6.
 
 ### Improvements
 
-- The Nheko binary should now be slightly smaller.
-- You can now build Nheko against a system install of the blurhash and
+- The Komai binary should now be slightly smaller.
+- You can now build Komai against a system install of the blurhash and
     cpp-httplib libraries. (vitaly)
 - You can now enable scrollbars for the room and community lists in the
     settings. (balsof)
@@ -359,7 +359,7 @@ against system versions.
 
 ### Hotfix Release
 
-- Fixes issue where CPU usage could be excessive even when nheko was idle or minimized. (See #1284)
+- Fixes issue where CPU usage could be excessive even when komai was idle or minimized. (See #1284)
 - Add failed state for queued (pending) messages
 
 ## [0.11.0] -- 2023-01-12
@@ -398,7 +398,7 @@ against system versions.
 - Completer for /commands.
 - Allow opening room settings from room list. (LorenDB)
 - Allow setting the status message via the dbus API. (LorenDB)
-  - Check out this for one possible usecase: https://schlomp.space/tastytea/dotfiles/src/commit/485aa7103c4f414ce0731804acf34a65a772fd28/.local/bin/mpd2nheko (Setting your currently playing song as your status)
+  - Check out this for one possible usecase: https://schlomp.space/tastytea/dotfiles/src/commit/485aa7103c4f414ce0731804acf34a65a772fd28/.local/bin/mpd2komai (Setting your currently playing song as your status)
 - Allow swapping Enter and Shift-Enter. (LordMZTE)
 - Preliminary support for VoIP v1. (Rohit)
 - Allow applying permission changes in spaces recursively.
@@ -555,7 +555,7 @@ users.
       encodings and when verifying users and devices.
   - Fetch the whole online key backup at the klick of a button.
 - Integration with external apps 🗺️ (LorenDB)
-  - Nheko now has a D-Bus API, which you can enable in the settings menu.
+  - Komai now has a D-Bus API, which you can enable in the settings menu.
   - This allows applications like KRunner or Rofi to list and switch between
       rooms.
 
@@ -568,7 +568,7 @@ users.
 - Keep notification counts across restarts.
 - Support the new call events (but not the signaling yet). (r0hit)
 - Add a dbus API, which allows external applications to list and switch rooms in
-    Nheko. (LorenDB)
+    Komai. (LorenDB)
 - Support editing room aliases.
 - Support editing room permissions.
 - Allow redacting all locally cached messages of a user using `/redact
@@ -661,7 +661,7 @@ This release limits the maximum connections per host to 8. For best performance
 we recommend your server supports http/2 so that slow requests don't slow down
 other parts of the app (like sending messages).
 
-Nheko now has KRunner and Rofi plugins (developed by LorenDB and LordMZTE
+Komai now has KRunner and Rofi plugins (developed by LorenDB and LordMZTE
 respectively).
 
 ## [0.9.3] -- 2022-03-25
@@ -723,7 +723,7 @@ respectively).
 ### Features
 
 - Autocompleter for custom emotes using `~`. Note that this currently inserts raw html into the message input.
-- Support running Nheko without a secrets service using a hidden setting.
+- Support running Komai without a secrets service using a hidden setting.
 - Add zooming and panning to the image overlay.
 - Add a manpage. (tastytea)
 - Offline indicator. (LorenDB)
@@ -821,7 +821,7 @@ package instead.
 
 - Set the app_id on Wayland. Useful for custom WM rules.
 - Set notification category on Linux.
-- Make Nheko show up in system notification settings on Linux.
+- Make Komai show up in system notification settings on Linux.
 - Make notification count bubbles expand some more. (LorenDB)
 - Strip space chars from recovery passphrase. Should make them easier to enter.
 - Make it obvious that undecryptable messages are a notification and not the actual message. (LorenDB)
@@ -867,14 +867,14 @@ package instead.
 
 - Somewhat stable end to end encryption
   - Show the room verification status
-  - Configure Nheko to only send to verified users
+  - Configure Komai to only send to verified users
   - Store the encryption keys securely in the OS-provided secrets service.
   - Support online keybackup as well as sharing historical session keys.
 - Crosssigning bootstrapping
   - Crosssigning is used to simplify the verification process. In this release
-     Nheko can setup crosssigning on a new account without having to use a
+     Komai can setup crosssigning on a new account without having to use a
      different client.
-  - Nheko now also prompts you, if there are any unverified devices and asks you to verify them.
+  - Komai now also prompts you, if there are any unverified devices and asks you to verify them.
 - Room directory (Manu)
   - Search for rooms on your server and other servers. (Prezu)
   - If their topic interests you and it has the right amount of members, join
@@ -899,7 +899,7 @@ package instead.
 - Move to the next room with unread messages by pressing `Alt-A`. (Symphorien)
 - Support jdenticons as a placeholder for rooms or users without avatars.
     (LorenDB)
-  - You will need to install https://github.com/Nheko-Reborn/qt-jdenticon
+  - You will need to install https://github.com/Komai-Reborn/qt-jdenticon
 - Properly sign macOS builds.
 - Support animated images like GIF and WebP.
   - Optionally just play them on hover.
@@ -948,7 +948,7 @@ package instead.
 - Port various dialogs to Qml. (LorenDB)
 - Improve paste support on Windows, when mimetype detection fails and pasting
     SVGs (Thulinma)
-- --help and --version now work, even if Nheko is already running somewhere.
+- --help and --version now work, even if Komai is already running somewhere.
 - Update emoji support to version 14.
 - Properly navigate to linked to events. (Thulinma)
 - Lots of smaller bugfixes and refactorings. (LorenDB)
@@ -987,7 +987,7 @@ package instead.
     automatically and securely.
 - Show confirmation prompt when leaving a room.
 - Add trailing newline to session export for gomuks compatibility.
-- Use a fancy Nheko logo as the loading indicator.
+- Use a fancy Komai logo as the loading indicator.
 - Improve how the invite dialog handles users. (LorenDB)
 - Store more data about megolm sessions.
 - Speed up database queries by caching transactions.
@@ -1012,7 +1012,7 @@ package instead.
 - Removed edgecases where identity keys could get uploaded twice.
 - Fix the event loop when fetching secrets breaking random things like scrolling.
 - Don't crash when clearing an empty timeline.
-- Opening an invite in your browser or a matrix: URI should not crash Nheko anymore or do nothing.
+- Opening an invite in your browser or a matrix: URI should not crash Komai anymore or do nothing.
 - When clicking on an item in the roomlist, you don't have to move your mouse anymore, before being able to click again.
 - Don't hide space childs when viewing that specific space and its children are hidden.
 - Only allow specific URI schemes to be followed automatically.
@@ -1042,7 +1042,7 @@ package instead.
 
 - Removed the AppImage
 - Removed dependency on boost
-- Now depends on [coeurl](https://nheko.im/nheko-reborn/coeurl), which depends on libevent and libcurl.
+- Now depends on [coeurl](https://komai.im/komai-reborn/coeurl), which depends on libevent and libcurl.
 - VOIP support now needs to be explicitly controlled using the VOIP and SCREENSHARE_X11 cmake options.
 
 ## [0.8.2] -- 2021-04-23
@@ -1054,7 +1054,7 @@ package instead.
   - Messages other users edited will get updated automatically and have a small
       pen symbol next to them.
 - Privacy Screen
-  - Blur your messages, when Nheko looses focus, which prevents others from
+  - Blur your messages, when Komai looses focus, which prevents others from
     peeking at your messages.
   - You can configure the timeout of when this happens.
 - Improved notifications (contributed by lorendb)
@@ -1073,20 +1073,20 @@ package instead.
 
 ### Features
 
-- Set your displayname and avatar from Nheko either globally or per room.
+- Set your displayname and avatar from Komai either globally or per room.
     (contributed by jedi18)
 - Show room topic in the room settings.
 - Double tap a message to reply to it.
 - Leave a room using `/part` or `/leave`. (contributed by lorendb)
 - Show mxid when hovering a username or avatar.
 - Allow opening matrix: uris on Windows.
-- Disable room pings caused by replies sent via Nheko (unless you are using
+- Disable room pings caused by replies sent via Komai (unless you are using
     Element Web/Desktop).
 
 ### Improvements
 - Userprofile can be closed via the Escape key. No more hotel california!
     (contributed by lorendb)
-- Most dialogs are now centered on the Nheko window.  (contributed by lorendb)
+- Most dialogs are now centered on the Komai window.  (contributed by lorendb)
 - Update Hungarian translations. (contributed by maxigaz)
 - Update Estonian translations. (contributed by Priit)
 - Update Russian translations. (contributed by Alexey Murz and Artem)
@@ -1142,7 +1142,7 @@ package instead.
 - Remove unused qml plugins in the windows package.
 - Fix broken olm channels automatically when noticed.
 - Fix pasting not overwriting the selection.
-- Fix Nheko sometimes overwriting received keys with keys it requested, even if
+- Fix Komai sometimes overwriting received keys with keys it requested, even if
     they have a higher minimum index.
 
 ### Packaging changes
@@ -1196,7 +1196,7 @@ package instead.
 ### Highlights
 
 - Voice and Video Calls (contributed by trilene)
-  - Call your friends right from within Nheko.
+  - Call your friends right from within Komai.
   - Use your camera if you want them to see your face!
   - This requires a somewhat new gstreamer, so our builds don't support it on all platforms yet.
 - Cross-Signing and Device/User Verification (contributed by Chethan)
@@ -1205,7 +1205,7 @@ package instead.
   - Enable your connected devices to access key backup and your friends to see, which of your devices you trust!
   - Show devices in a users profile.
 - Separate profiles (contributed by lorendb)
-  - Run multiple Nheko instances with separate profiles side by side.
+  - Run multiple Komai instances with separate profiles side by side.
   - Use multiple accounts at the same time in separate windows.
 
 ### Features
@@ -1222,7 +1222,7 @@ package instead.
 - Allow selecting a ringtone. (contributed by trilene)
 - View avatars fullscreen. (contributed by kamathmanu)
 - Request or download cross signing secrets in the settings.
-- Support 'matrix:' URIs. This works in app on all platforms and on Linux Nheko may be opened by clicking a 'matrix:' link.
+- Support 'matrix:' URIs. This works in app on all platforms and on Linux Komai may be opened by clicking a 'matrix:' link.
 - Support inline replies on notifications on Linux.
 
 ### Improvements
@@ -1248,7 +1248,7 @@ package instead.
 - Riot -> Element in README. (Contributed by Kim)
 - Improve login and registration page error reporting. (contributed by kirillpt)
 - Move CI to Gitlab.
-- Use system Nheko icon on login page. (contributed by lorendb)
+- Use system Komai icon on login page. (contributed by lorendb)
 - Add Fedora build requirements. (contributed by trilene)
 - Add ripple effect to various buttons.
 - Allow more font sizes to be selected.
@@ -1280,9 +1280,9 @@ package instead.
 
 ### For packagers
 
-- Nheko now depends on QtKeychain.
-- Nheko optionally depends on GStreamer for VOIP.
-- Nheko does not depend on Sodium anymore.
+- Komai now depends on QtKeychain.
+- Komai optionally depends on GStreamer for VOIP.
+- Komai does not depend on Sodium anymore.
 - Minimum OpenSSL version is now 1.1.
 
 ## [0.7.2] -- 2020-06-12
@@ -1293,7 +1293,7 @@ package instead.
   - React to a message with an emoji! 🎉
   - Reactions are shown below a message in a small bubble with a counter.
   - By clicking on that, others can add to the reaction count.
-  - It may help you celebrating a new Nheko Release or react with a 👎 to a failed build to express your frustration.
+  - It may help you celebrating a new Komai Release or react with a 👎 to a failed build to express your frustration.
   - This uses a new emoji picker. The picker will be improved in the near future (better scrolling, sections, favorites, recently used or similar) and then probably replace the current picker.
 - Support for tagging rooms `[tag]`
   - Assign custom tags to rooms from the context menu in the room list.
@@ -1301,8 +1301,8 @@ package instead.
   - You can assign multiple tags to group rooms however you like.
 - SSO Login
   - With this you can now login on servers, that only provide SSO.
-  - Just enter any mxid on the server. Nheko will figure out that you need to use SSO and redirect your browser to the login page.
-  - Complete the login in your browser and Nheko should automatically log you in.
+  - Just enter any mxid on the server. Komai will figure out that you need to use SSO and redirect your browser to the login page.
+  - Complete the login in your browser and Komai should automatically log you in.
 - Presence
   - Shows online status of the people you are talking to.
   - You can define a custom status message to tell others what you are currently up to.
@@ -1327,7 +1327,7 @@ package instead.
 - perf: Only clean out old messages from the database every 500 syncs. (There is usually more than one sync every second)
 - Improve the login and register masks a bit with hints and validation.
 - Descriptions for settings (contributed by lkito)
-- A visual indicator, that nheko is fetching messages and improved scrolling (contributed by Lasath Fernando)
+- A visual indicator, that komai is fetching messages and improved scrolling (contributed by Lasath Fernando)
 
 ### Bugfixes
 
@@ -1362,10 +1362,10 @@ package instead.
 ## [0.7.0] -- 2020-04-19
 
 0.7.0 *requires* mtxclient 0.3.0.  Make sure you compile against 0.3.0
-if you do not use the mtxclient bundled with nheko.
+if you do not use the mtxclient bundled with komai.
 
 ### Features
-- Make nheko session import / export format match riot.  Fixes #48
+- Make komai session import / export format match riot.  Fixes #48
 - Implement proper replies
 - Add .well-known support for auto-completing homeserver information
 - Add mentions viewer so you can see all the messages you have been mentioned in
@@ -1405,12 +1405,12 @@ if you do not use the mtxclient bundled with nheko.
 - Fix various race conditions and crashes
 - Fix some compatibility issues with the construct homeserver
 
-Be aware, that Nheko now requires Qt 5.10 and boost 1.70 or higher.
+Be aware, that Komai now requires Qt 5.10 and boost 1.70 or higher.
 
 ## [0.6.4] - 2019-05-22
 
 *Most* of the below fixes are due to updates in mtxclient.  Make sure you compile against 0.2.1
-if you do not use the mtxclient bundled with nheko to get these fixes.
+if you do not use the mtxclient bundled with komai to get these fixes.
 
 ### Features
 - Support V3 Rooms
@@ -1504,7 +1504,7 @@ if you do not use the mtxclient bundled with nheko to get these fixes.
 - Auto remove old messages from cache.
 
 ### Bug fixes
-- Fixed issue where nheko will stop retrying initial sync. (#422)
+- Fixed issue where komai will stop retrying initial sync. (#422)
 - Fixed the incomplete version string on Info.plist (macOS) (#423)
 - Fixed a use-after-free error during logout.
 - Temporary fix to work with servers that don't support e2ee. i.e Construct, Dendrite (#371)

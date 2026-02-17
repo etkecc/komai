@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -59,7 +59,7 @@ Item {
                     placeholderText: qsTr("e.g @user:yourserver.example.com")
                     onEditingFinished: login.mxid = text
 
-                    ToolTip.text: qsTr("Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.\nYou can also put your homeserver address there if your server doesn't support .well-known lookup.\nExample: @user:yourserver.example.com\nIf Nheko fails to discover your homeserver, it will show you a field to enter the server manually.")
+                    ToolTip.text: qsTr("Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.\nYou can also put your homeserver address there if your server doesn't support .well-known lookup.\nExample: @user:yourserver.example.com\nIf Komai fails to discover your homeserver, it will show you a field to enter the server manually.")
                     Keys.forwardTo: [pwBtn, ssoRepeater]
                 }
 

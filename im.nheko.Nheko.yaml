@@ -1,10 +1,10 @@
-id: im.nheko.Nheko
-command: im.nheko.Nheko
+id: im.komai.Komai
+command: im.komai.Komai
 runtime: org.kde.Platform
 runtime-version: '6.8'
 sdk: org.kde.Sdk
 finish-args:
-  # needed for webcams, see https://github.com/Nheko-Reborn/nheko/issues/517
+  # needed for webcams, see https://github.com/Komai-Reborn/komai/issues/517
   - --device=all
   - --share=ipc
   - --share=network
@@ -195,7 +195,7 @@ modules:
       - commit: 39cde33d4b23b57aa5b94e94071d6ff18d2bd92a
         tag: v0.3.1
         type: git
-        url: https://github.com/Nheko-Reborn/qt-jdenticon.git
+        url: https://github.com/Komai-Reborn/qt-jdenticon.git
   - name: coeurl
     buildsystem: meson
     config-opts:
@@ -204,7 +204,7 @@ modules:
       - commit: f49993e6ad3b2f4fa6503f46d547351fa276ac84
         tag: v0.3.1
         type: git
-        url: https://nheko.im/nheko-reborn/coeurl.git
+        url: https://komai.im/komai-reborn/coeurl.git
   - name: mtxclient
     config-opts:
       - -DBUILD_LIB_TESTS=OFF
@@ -216,8 +216,8 @@ modules:
       - commit: 15b43844f4ec27faa5f2ec92c4ded313206763aa
         tag: v0.10.1
         type: git
-        url: https://github.com/Nheko-Reborn/mtxclient.git
-  - name: nheko
+        url: https://github.com/Komai-Reborn/mtxclient.git
+  - name: komai
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DLMDBXX_INCLUDE_DIR=.deps/lmdbxx

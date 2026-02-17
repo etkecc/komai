@@ -3,11 +3,11 @@ version: 1
 AppDir:
   path: ./AppDir
   app_info:
-    id: nheko
-    name: nheko
-    icon: nheko
+    id: komai
+    name: komai
+    icon: komai
     version: latest
-    exec: usr/bin/nheko
+    exec: usr/bin/komai
     exec_args: $@
   runtime:
     env:

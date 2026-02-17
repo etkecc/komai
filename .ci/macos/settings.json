@@ -3,7 +3,7 @@
   "compression-level": 9,
   "contents": [
     {
-      "path": "./nheko.app",
+      "path": "./komai.app",
       "type": "file",
       "x": 140,
       "y": 120
@@ -16,7 +16,7 @@
     }
   ],
   "format": "UDZO",
-  "title": "Nheko",
+  "title": "Komai",
   "window": {
     "position": {
       "x": 100,

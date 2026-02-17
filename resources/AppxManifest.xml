@@ -4,12 +4,12 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
-  <Identity Name="im.nheko.Nheko" Version="0.12.1.0" Publisher="CN=Nicolas Werner, O=Nicolas Werner, L=Munich, S=Bavaria, C=DE" ProcessorArchitecture="x64"/>
+  <Identity Name="im.komai.Komai" Version="0.12.1.0" Publisher="CN=Nicolas Werner, O=Nicolas Werner, L=Munich, S=Bavaria, C=DE" ProcessorArchitecture="x64"/>
   <Properties>
-    <DisplayName>Nheko</DisplayName>
-    <PublisherDisplayName>Nheko-Reborn</PublisherDisplayName>
+    <DisplayName>Komai</DisplayName>
+    <PublisherDisplayName>Komai-Reborn</PublisherDisplayName>
     <Description>Matrix client written in Qt</Description>
-    <Logo>nheko.png</Logo>
+    <Logo>komai.png</Logo>
   </Properties>
   <Resources>
     <Resource Language="en-us" />
@@ -22,11 +22,11 @@
     <rescap:Capability Name="runFullTrust"/>
   </Capabilities>
   <Applications>
-    <Application Id="im.nheko.nheko" Executable="nheko.exe" EntryPoint="Windows.FullTrustApplication"
+    <Application Id="im.komai.komai" Executable="komai.exe" EntryPoint="Windows.FullTrustApplication"
       uap10:RuntimeBehavior="packagedClassicApp"
       uap10:TrustLevel="mediumIL">
-				<uap:VisualElements DisplayName="Nheko" Description="Matrix client written in Qt"	Square150x150Logo="nheko-150.png"
-					Square44x44Logo="nheko-44.png" BackgroundColor="transparent" />
+				<uap:VisualElements DisplayName="Komai" Description="Matrix client written in Qt"	Square150x150Logo="komai-150.png"
+					Square44x44Logo="komai-44.png" BackgroundColor="transparent" />
 				<Extensions>
 					<uap:Extension Category="windows.protocol">
 						<uap:Protocol Name="matrix">

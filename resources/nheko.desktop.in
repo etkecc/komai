@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=nheko
+Name=Komai
 Version=1.0
 Comment=Desktop client for Matrix
 Exec=@APPID@ %u
@@ -10,7 +10,7 @@ StartupWMClass=@APPID@
 Terminal=false
 MimeType=x-scheme-handler/matrix;
 X-GNOME-UsesNotifications=true
-# Allows finding Nheko using application launchers and software shops more easily
+# Allows finding Komai using application launchers and software shops more easily
 Keywords=Matrix;matrix.org;chat;irc;communications;talk;riot;element;fractal;voip;
 X-KDE-Keywords=Matrix,matrix.org,chat,irc,communications,talk,riot,element,fractal,voip,
 # to be listed properly in some stores

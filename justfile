@@ -76,6 +76,28 @@ translations-update:
 		-ts "${ts_files[@]}" \
 		-no-obsolete
 
+# Auto-translates unfinished strings for a language using Claude CLI
+translations-claude-translate-lang lang *args:
+	python3 {{ justfile_directory() }}/bin/translations-translate.py {{ lang }} {{ args }}
+
+# Auto-translates unfinished strings for all languages using Claude CLI
+translations-claude-translate-all *args:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	for d in {{ justfile_directory() }}/resources/langs/*/; do
+		lang=$(basename "$d")
+		if [[ "$lang" == "en" ]]; then
+			continue
+		fi
+		if [[ ! -f "$d/komai_${lang}.ts" ]]; then
+			continue
+		fi
+		echo "=== Translating: $lang ==="
+		just --justfile {{ justfile() }} translations-claude-translate-lang "$lang" {{ args }} || {
+			echo "ERROR: Translation failed for $lang, continuing..."
+		}
+	done
+
 # Runs the linter/formatter
 lint:
 	{{ justfile_directory() }}/.ci/format.sh

@@ -35,6 +35,7 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool bubbles READ bubbles WRITE setBubbles NOTIFY bubblesChanged)
     Q_PROPERTY(bool smallAvatars READ smallAvatars WRITE setSmallAvatars NOTIFY smallAvatarsChanged)
     Q_PROPERTY(bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
+    Q_PROPERTY(bool showOwnAvatarNextToOwnMessages READ showOwnAvatarNextToOwnMessages WRITE setShowOwnAvatarNextToOwnMessages NOTIFY showOwnAvatarNextToOwnMessagesChanged)
     Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY pinnedReactionsChanged)
     Q_PROPERTY(bool animateImagesOnHover READ animateImagesOnHover WRITE setAnimateImagesOnHover
                  NOTIFY animateImagesOnHoverChanged)
@@ -208,6 +209,7 @@ public:
     void setBubbles(bool state);
     void setSmallAvatars(bool state);
     void setEnableStickers(bool state);
+    void setShowOwnAvatarNextToOwnMessages(bool state);
     void setPinnedReactions(const QString &value);
     void setAnimateImagesOnHover(bool state);
     void setReadReceipts(bool state);
@@ -285,6 +287,7 @@ public:
     bool bubbles() const { return bubbles_; }
     bool smallAvatars() const { return smallAvatars_; }
     bool enableStickers() const { return enableStickers_; }
+    bool showOwnAvatarNextToOwnMessages() const { return showOwnAvatarNextToOwnMessages_; }
     QString pinnedReactions() const { return pinnedReactions_; }
     bool animateImagesOnHover() const { return animateImagesOnHover_; }
     bool typingNotifications() const { return typingNotifications_; }
@@ -362,6 +365,7 @@ signals:
     void bubblesChanged(bool state);
     void smallAvatarsChanged(bool state);
     void enableStickersChanged(bool state);
+    void showOwnAvatarNextToOwnMessagesChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
     void animateImagesOnHoverChanged(bool state);
     void typingNotificationsChanged(bool state);
@@ -437,6 +441,7 @@ private:
     bool bubbles_;
     bool smallAvatars_;
     bool enableStickers_;
+    bool showOwnAvatarNextToOwnMessages_;
     QString pinnedReactions_;
     bool animateImagesOnHover_;
     bool typingNotifications_;
@@ -550,6 +555,7 @@ class UserSettingsModel : public QAbstractListModel
         SendMessageKey,
         AutoReplaceEmoji,
         Bubbles,
+        ShowOwnAvatarNextToOwnMessages,
         SmallAvatars,
         PinnedReactions,
         EnableStickers,

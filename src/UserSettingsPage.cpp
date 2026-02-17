@@ -99,6 +99,7 @@ UserSettings::load(std::optional<QString> profile)
     bubbles_              = settings.value("user/bubbles_enabled", true).toBool();
     smallAvatars_         = settings.value("user/small_avatars_enabled", false).toBool();
     enableStickers_       = settings.value("user/enable_stickers", false).toBool();
+    showOwnAvatarNextToOwnMessages_ = settings.value("user/show_own_avatar_next_to_own_messages", true).toBool();
     pinnedReactions_      = settings.value("user/pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️")).toString();
     animateImagesOnHover_ = settings.value("user/animate_images_on_hover", false).toBool();
     typingNotifications_  = settings.value("user/typing_notifications", true).toBool();
@@ -412,6 +413,16 @@ UserSettings::setEnableStickers(bool state)
         return;
     enableStickers_ = state;
     emit enableStickersChanged(state);
+    save();
+}
+
+void
+UserSettings::setShowOwnAvatarNextToOwnMessages(bool state)
+{
+    if (state == showOwnAvatarNextToOwnMessages_)
+        return;
+    showOwnAvatarNextToOwnMessages_ = state;
+    emit showOwnAvatarNextToOwnMessagesChanged(state);
     save();
 }
 
@@ -1009,6 +1020,7 @@ UserSettings::save()
     settings.setValue("bubbles_enabled", bubbles_);
     settings.setValue("small_avatars_enabled", smallAvatars_);
     settings.setValue("enable_stickers", enableStickers_);
+    settings.setValue("show_own_avatar_next_to_own_messages", showOwnAvatarNextToOwnMessages_);
     settings.setValue("pinned_reactions", pinnedReactions_);
     settings.setValue("animate_images_on_hover", animateImagesOnHover_);
     settings.setValue("desktop_notifications", hasDesktopNotifications_);
@@ -1143,6 +1155,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Enable small Avatars");
         case EnableStickers:
             return tr("Enable stickers");
+        case ShowOwnAvatarNextToOwnMessages:
+            return tr("Show own avatar next to own message bubbles");
         case PinnedReactions:
             return tr("Pinned reactions");
         case AnimateImagesOnHover:
@@ -1314,6 +1328,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return i->smallAvatars();
         case EnableStickers:
             return i->enableStickers();
+        case ShowOwnAvatarNextToOwnMessages:
+            return i->showOwnAvatarNextToOwnMessages();
         case PinnedReactions:
             return i->pinnedReactions();
         case AnimateImagesOnHover:
@@ -1500,6 +1516,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Avatars are resized to fit above the message.");
         case EnableStickers:
             return tr("Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.");
+        case ShowOwnAvatarNextToOwnMessages:
+            return tr("When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.");
         case PinnedReactions:
             return tr("Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.");
         case AnimateImagesOnHover:
@@ -1687,6 +1705,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case Bubbles:
         case SmallAvatars:
         case EnableStickers:
+        case ShowOwnAvatarNextToOwnMessages:
         case AnimateImagesOnHover:
         case TypingNotifications:
         case SortByImportance:
@@ -1909,6 +1928,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return komaiSettingImage();
         case EnableStickers:
             return komaiSettingImage();
+        case ShowOwnAvatarNextToOwnMessages:
+            return komaiSettingImage();
         default:
             return QString();
         }
@@ -2037,6 +2058,13 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         case EnableStickers: {
             if (value.userType() == QMetaType::Bool) {
                 i->setEnableStickers(value.toBool());
+                return true;
+            } else
+                return false;
+        }
+        case ShowOwnAvatarNextToOwnMessages: {
+            if (value.userType() == QMetaType::Bool) {
+                i->setShowOwnAvatarNextToOwnMessages(value.toBool());
                 return true;
             } else
                 return false;
@@ -2554,6 +2582,9 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     });
     connect(s.get(), &UserSettings::enableStickersChanged, this, [this]() {
         emit dataChanged(index(EnableStickers), index(EnableStickers), {Value});
+    });
+    connect(s.get(), &UserSettings::showOwnAvatarNextToOwnMessagesChanged, this, [this]() {
+        emit dataChanged(index(ShowOwnAvatarNextToOwnMessages), index(ShowOwnAvatarNextToOwnMessages), {Value});
     });
     connect(s.get(), &UserSettings::pinnedReactionsChanged, this, [this]() {
         emit dataChanged(index(PinnedReactions), index(PinnedReactions), {Value});

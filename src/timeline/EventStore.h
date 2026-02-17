@@ -67,6 +67,8 @@ public:
     };
 
     void fetchMore();
+    void expandWindow();
+    bool canExpandWindow() const;
     void handleSync(const mtx::responses::Timeline &events);
 
     // optionally returns the event or nullptr and fetches it, after which it emits a
@@ -132,6 +134,11 @@ private:
 
     uint64_t first = std::numeric_limits<uint64_t>::max(),
              last  = std::numeric_limits<uint64_t>::max();
+
+    // Virtual window: dbFirst is the true lower bound in the database.
+    // first is the windowed lower bound exposed to QML.
+    uint64_t dbFirst = std::numeric_limits<uint64_t>::max();
+    static constexpr int windowSize = 200;
 
     static QCache<IdIndex, olm::DecryptionResult> decryptedEvents_;
     static QCache<Index, mtx::events::collections::TimelineEvents> events_;

@@ -1062,6 +1062,11 @@ TimelineModel::canFetchMore(const QModelIndex &) const
 {
     if (!events.size())
         return true;
+    // When the virtual window can still expand from cached DB entries,
+    // return false to prevent Qt from auto-triggering fetchMore on model
+    // assignment. The data() hack handles expansion on user scroll instead.
+    if (events.canExpandWindow())
+        return false;
     if (auto first = events.get(0);
         first &&
         !std::holds_alternative<mtx::events::StateEvent<mtx::events::state::Create>>(*first))
@@ -1081,8 +1086,21 @@ TimelineModel::setPaginationInProgress(const bool paginationInProgress)
     m_paginationInProgress = paginationInProgress;
     emit paginationInProgressChanged(m_paginationInProgress);
 
-    if (m_paginationInProgress)
+    if (m_paginationInProgress) {
+        // Try expanding the virtual window from cached DB entries first
+        // (instant, no HTTP request needed).
+        // We defer the pagination reset to the next event loop iteration
+        // to avoid a feedback loop: expandWindow inserts rows -> data()
+        // hack fires for the new oldest row -> fetchMore -> expandWindow...
+        if (events.canExpandWindow()) {
+            events.expandWindow();
+            QTimer::singleShot(0, this, [this]() {
+                setPaginationInProgress(false);
+            });
+            return;
+        }
         events.fetchMore();
+    }
 }
 
 void

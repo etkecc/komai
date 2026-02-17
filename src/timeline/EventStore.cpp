@@ -32,8 +32,15 @@ EventStore::EventStore(std::string room_id, QObject *)
     auto range = cache::client()->getTimelineRange(room_id_);
 
     if (range) {
-        this->first = range->first;
-        this->last  = range->last;
+        this->dbFirst = range->first;
+        this->last    = range->last;
+        // Apply virtual window: only expose newest windowSize messages
+        auto fullSize = static_cast<int>(range->last - range->first) + 1;
+        if (fullSize > windowSize) {
+            this->first = range->last - static_cast<uint64_t>(windowSize) + 1;
+        } else {
+            this->first = range->first;
+        }
     }
 
     connect(
@@ -76,6 +83,7 @@ EventStore::EventStore(std::string room_id, QObject *)
                   auto oldFirst = this->first;
                   emit beginInsertRows(toExternalIdx(newFirst), toExternalIdx(this->first - 1));
                   this->first = newFirst;
+                  this->dbFirst = newFirst;
                   emit endInsertRows();
                   emit dataChanged(toExternalIdx(oldFirst), toExternalIdx(oldFirst));
                   emit fetchedMore();
@@ -85,6 +93,7 @@ EventStore::EventStore(std::string room_id, QObject *)
                   if (range && range->last - range->first != 0) {
                       emit beginInsertRows(0, int(range->last - range->first));
                       this->first = range->first;
+                      this->dbFirst = range->first;
                       this->last  = range->last;
                       emit endInsertRows();
                       emit fetchedMore();
@@ -313,11 +322,19 @@ EventStore::clearTimeline()
     auto range = cache::client()->getTimelineRange(room_id_);
     if (range) {
         nhlog::db()->info("Range {} {}", range->last, range->first);
-        this->last  = range->last;
-        this->first = range->first;
+        this->last    = range->last;
+        this->dbFirst = range->first;
+        // Apply virtual window after clear
+        auto fullSize = static_cast<int>(range->last - range->first) + 1;
+        if (fullSize > windowSize) {
+            this->first = range->last - static_cast<uint64_t>(windowSize) + 1;
+        } else {
+            this->first = range->first;
+        }
     } else {
-        this->first = std::numeric_limits<uint64_t>::max();
-        this->last  = std::numeric_limits<uint64_t>::max();
+        this->first   = std::numeric_limits<uint64_t>::max();
+        this->dbFirst = std::numeric_limits<uint64_t>::max();
+        this->last    = std::numeric_limits<uint64_t>::max();
     }
     nhlog::ui()->info("Range {} {}", this->last, this->first);
 
@@ -424,8 +441,9 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
     auto range = cache::client()->getTimelineRange(room_id_);
     if (!range) {
         emit beginResetModel();
-        this->first = std::numeric_limits<uint64_t>::max();
-        this->last  = std::numeric_limits<uint64_t>::max();
+        this->first   = std::numeric_limits<uint64_t>::max();
+        this->dbFirst = std::numeric_limits<uint64_t>::max();
+        this->last    = std::numeric_limits<uint64_t>::max();
 
         decryptedEvents_.clear();
         events_.clear();
@@ -436,8 +454,15 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
 
     if (events.limited) {
         emit beginResetModel();
-        this->last  = range->last;
-        this->first = range->first;
+        this->last    = range->last;
+        this->dbFirst = range->first;
+        // Apply virtual window on limited sync reset
+        auto fullSize = static_cast<int>(range->last - range->first) + 1;
+        if (fullSize > windowSize) {
+            this->first = range->last - static_cast<uint64_t>(windowSize) + 1;
+        } else {
+            this->first = range->first;
+        }
 
         decryptedEvents_.clear();
         events_.clear();
@@ -911,6 +936,42 @@ EventStore::decryptionError(std::string id)
     }
 
     return olm::DecryptionErrorCode::NoError;
+}
+
+bool
+EventStore::canExpandWindow() const
+{
+    return first > dbFirst && last != std::numeric_limits<uint64_t>::max();
+}
+
+void
+EventStore::expandWindow()
+{
+    // Expand the virtual window to reveal more cached messages from LMDB.
+    // Called when the user scrolls up and there are still unrevealed
+    // messages in the database (first > dbFirst). Instant, no HTTP.
+    if (first <= dbFirst || last == std::numeric_limits<uint64_t>::max()) {
+        return;
+    }
+
+    auto expandBy = static_cast<uint64_t>(windowSize);
+    uint64_t newFirst;
+    if (first - dbFirst > expandBy) {
+        newFirst = first - expandBy;
+    } else {
+        newFirst = dbFirst;
+    }
+
+    nhlog::ui()->info("EventStore[{}]: expanding window {} -> {} (+{} msgs, {} left in cache)",
+        room_id_, this->size(), static_cast<int>(last - newFirst) + 1,
+        static_cast<int>(first - newFirst),
+        static_cast<int>(newFirst - dbFirst));
+
+    auto oldFirst = this->first;
+    emit beginInsertRows(toExternalIdx(newFirst), toExternalIdx(this->first - 1));
+    this->first = newFirst;
+    emit endInsertRows();
+    emit dataChanged(toExternalIdx(oldFirst), toExternalIdx(oldFirst));
 }
 
 void

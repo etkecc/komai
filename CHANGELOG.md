@@ -899,7 +899,7 @@ package instead.
 - Move to the next room with unread messages by pressing `Alt-A`. (Symphorien)
 - Support jdenticons as a placeholder for rooms or users without avatars.
     (LorenDB)
-  - You will need to install https://github.com/Komai-Reborn/qt-jdenticon
+  - You will need to install https://github.com/Nheko-Reborn/qt-jdenticon
 - Properly sign macOS builds.
 - Support animated images like GIF and WebP.
   - Optionally just play them on hover.
@@ -1042,7 +1042,7 @@ package instead.
 
 - Removed the AppImage
 - Removed dependency on boost
-- Now depends on [coeurl](https://komai.im/komai-reborn/coeurl), which depends on libevent and libcurl.
+- Now depends on [coeurl](https://nheko.im/Nheko-Reborn/coeurl), which depends on libevent and libcurl.
 - VOIP support now needs to be explicitly controlled using the VOIP and SCREENSHARE_X11 cmake options.
 
 ## [0.8.2] -- 2021-04-23

@@ -1,8 +1,7 @@
 komai
 ----
 
-[![#komai-reborn:matrix.org](https://img.shields.io/matrix/komai-reborn:matrix.org.svg?label=%23komai-reborn:matrix.org)](https://matrix.to/#/#komai-reborn:matrix.org)
-[![Build Status](https://komai.im/komai-reborn/komai/badges/master/pipeline.svg)](https://komai.im/komai-reborn/komai/-/pipelines/latest)
+[![#komai:etke.cc](https://img.shields.io/matrix/komai:etke.cc.svg?label=%23komai:etke.cc)](https://matrix.to/#/#komai:etke.cc)
 
 The motivation behind the project is to provide a native desktop app for [Matrix] that
 feels more like a mainstream chat app ([Element], Telegram etc) and less like an IRC client.
@@ -11,7 +10,7 @@ feels more like a mainstream chat app ([Element], Telegram etc) and less like an
 
 ### Stable
 
-[![Stable Version](https://img.shields.io/badge/download-stable-green.svg)](https://github.com/Komai-Reborn/komai/releases/latest)
+[![Stable Version](https://img.shields.io/badge/download-stable-green.svg)](https://github.com/etkecc/komai/releases/latest)
 <a href='https://flathub.org/apps/details/im.komai.Komai'><img height='32' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>
 [![Packaging status](https://repology.org/badge/tiny-repos/komai.svg)](https://repology.org/project/komai/versions)
 
@@ -19,12 +18,10 @@ For other options and details see the [Installation](#installation) section.
 
 ### Unstable
 
-[![Nightlies](https://img.shields.io/badge/download-nightly-green.svg)](https://komai.im/komai-reborn/komai/-/pipelines?page=1&scope=all&ref=master)
-<a href='https://flatpak.neko.dev/repo/nightly/appstream/im.komai.Komai.flatpakref' download='komai-nightly.flatpakref'><img alt='Download Nightly Flatpak' src='https://img.shields.io/badge/download-flatpak--nightly-green'/></a>
-<a href='https://komai-reborn.pages.komai.im/komai/KomaiNightly.appinstaller' download='KomaiNightly.appinstaller'><img alt='Windows Nightly Automatic Updates' src='https://img.shields.io/badge/download-windows--nightly-green'/></a>
+<!-- TODO: nightly builds not yet set up -->
 
 ### Translations ###
-[![Translation status](http://weblate.komai.im/widgets/komai/-/komai-master/svg-badge.svg)](http://weblate.komai.im/engage/komai/?utm_source=widget)
+<!-- TODO: translation infrastructure not yet set up -->
 
 Help us with translations so as many people as possible will be able to use komai!
 
@@ -63,7 +60,7 @@ Specifically there is support for:
 ### Releases
 
 Releases for Linux (Flatpak), macOS (disk image) & Windows (x64 msix or appinstaller)
-can be found in the [GitHub releases](https://github.com/Komai-Reborn/komai/releases).
+can be found in the [GitHub releases](https://github.com/etkecc/komai/releases).
 The appinstaller on Windows will regularly check our servers for updates. The msix won't.
 
 ### Repositories
@@ -202,11 +199,7 @@ brew install --cask komai
 
 #### Windows
 
-with [Chocolatey](https://chocolatey.org/):
-
-```posh
-choco install komai-reborn
-```
+<!-- TODO: chocolatey package not yet available -->
 
 #### D-Bus plugins
 
@@ -227,7 +220,7 @@ komai does not provide binaries for any D-Bus plugins. However, we do provide th
 
 **Q:** What commands are supported by komai?
 
-**A:** See <https://github.com/Komai-Reborn/komai/wiki/Commands>
+**A:** See <https://github.com/etkecc/komai/wiki/Commands>
 
 ---
 
@@ -277,8 +270,8 @@ KDE has similar plugins, that can extend the supported image types even more.
 
 - Qt6 (6.5 or greater). Required for overlapping hover handlers in Qml.
 - CMake 3.15 or greater.
-- [mtxclient](https://github.com/Komai-Reborn/mtxclient)
-- [coeurl](https://komai.im/komai-reborn/coeurl)
+- [mtxclient](https://github.com/Nheko-Reborn/mtxclient)
+- [coeurl](https://nheko.im/Nheko-Reborn/coeurl)
 - [LMDB](https://www.symas.com/lmdb)
 - [lmdb++](https://github.com/hoytech/lmdbxx) (0.9.14 too old)
 - [cmark](https://github.com/commonmark/cmark) 0.29 or greater.
@@ -356,7 +349,7 @@ sudo apt install -y cmake asciidoc-base libevent-dev libspdlog-dev libre2-dev li
 sudo apt install -y qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev qt6-declarative-dev qtkeychain-qt6-dev qt6-base-private-dev qt6-declarative-private-dev
 # Clone komai repository from github
 sudo apt install -y git
-git clone https://github.com/Komai-Reborn/komai && cd komai
+git clone https://github.com/etkecc/komai && cd komai
 # Build
 cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -DUSE_BUNDLED_COEURL=1 -DUSE_BUNDLED_MTXCLIENT=1 -DUSE_BUNDLED_LMDBXX=1
 cmake --build build
@@ -486,17 +479,13 @@ See [CONTRIBUTING](.github/CONTRIBUTING.md).
 ### Using the D-Bus API
 
 Currently, there is no documentation for the D-Bus API, so if you'd like to make use of it, come ask
-for support in [#komai:komai.im](https://matrix.to/#/#komai:komai.im).
+for support in [#komai:etke.cc](https://matrix.to/#/#komai:etke.cc).
 
 ### Screens
 
 Here are some screen shots to get a feel for the UI, but things will probably change.
 
-![komai start](https://komai-reborn.github.io/images/screenshots/Start.png)
-![komai login](https://komai-reborn.github.io/images/screenshots/login.png)
-![komai chat](https://komai-reborn.github.io/images/screenshots/chat.png)
-![komai settings](https://komai-reborn.github.io/images/screenshots/settings.png)
-![komai mobile](https://komai-reborn.github.io/images/screenshots/mobile.png)
+<!-- TODO: add komai screenshots -->
 
 ### Third party
 

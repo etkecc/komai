@@ -4,7 +4,7 @@
     <Version>__VERSION__</Version>
     <Title>Komai Installer</Title>
     <Publisher>Mujx</Publisher>
-    <ProductUrl>https://github.com/Komai-Reborn/komai</ProductUrl>
+    <ProductUrl>https://github.com/etkecc/komai</ProductUrl>
     <InstallerWindowIcon>komai</InstallerWindowIcon>
     <InstallerApplicationIcon>komai</InstallerApplicationIcon>
     <Logo>komai.png</Logo>

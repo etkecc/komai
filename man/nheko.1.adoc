@@ -320,4 +320,4 @@ you to reenable it at your own risk.
 == REPORTING BUGS
 
 Please report issues on our bug tracker at
-<https://github.com/Komai-Reborn/komai/issues>.
+<https://github.com/etkecc/komai/issues>.

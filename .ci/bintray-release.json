@@ -17,7 +17,7 @@
   ],
   "package": {
     "desc": "Desktop client for the Matrix protocol",
-    "issue_tracker_url": "https://github.com/Komai-Reborn/komai/issues",
+    "issue_tracker_url": "https://github.com/etkecc/komai/issues",
     "licenses": [
       "GPL-3.0"
     ],
@@ -25,9 +25,9 @@
     "public_download_numbers": true,
     "public_stats": true,
     "repo": "komai",
-    "subject": "komai-reborn",
-    "vcs_url": "https://github.com/Komai-Reborn/komai",
-    "website_url": "https://github.com/Komai-Reborn/komai"
+    "subject": "etkecc",
+    "vcs_url": "https://github.com/etkecc/komai",
+    "website_url": "https://github.com/etkecc/komai"
   },
   "publish": true,
   "version": {

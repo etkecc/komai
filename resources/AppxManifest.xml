@@ -7,7 +7,7 @@
   <Identity Name="im.komai.Komai" Version="0.12.1.0" Publisher="CN=Nicolas Werner, O=Nicolas Werner, L=Munich, S=Bavaria, C=DE" ProcessorArchitecture="x64"/>
   <Properties>
     <DisplayName>Komai</DisplayName>
-    <PublisherDisplayName>Komai-Reborn</PublisherDisplayName>
+    <PublisherDisplayName>etke.cc</PublisherDisplayName>
     <Description>Matrix client written in Qt</Description>
     <Logo>komai.png</Logo>
   </Properties>

@@ -265,7 +265,7 @@ build-macos:
 
 build-macos-as:
   extends: build-macos
-  image: registry.komai.im/komai-reborn/komai/cirruslabs/macos-sequoia-xcode:16.2
+  image: registry.nheko.im/nheko-reborn/nheko/cirruslabs/macos-sequoia-xcode:16.2
   variables:
     TART_REGISTRY_HOSTNAME: $CI_REGISTRY
     TART_REGISTRY_USERNAME: $CI_REGISTRY_USER

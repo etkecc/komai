@@ -8,7 +8,7 @@ Any kind of contribution to the project is greatly appreciated.
 - Code refactoring
 - Translations
 
-Usually we accept contributions on GitHub as Pull-Requests: https://github.com/Komai-Reborn/komai/pulls
+Usually we accept contributions on GitHub as Pull-Requests: https://github.com/etkecc/komai/pulls
 
 Otherwise you can also submit patches, but that is more effort for both sides.
 
@@ -22,7 +22,7 @@ If you're planning to work on a new feature leave a message on the Matrix room
 
 ### Submitting a translation
 
-Usually translations are done on weblate: https://weblate.komai.im/
+<!-- TODO: translation infrastructure not yet set up -->
 
 Anyone can submit suggestions and once they have 2 upvotes, they will
 automatically be applied. If you want to directly apply your or other changes

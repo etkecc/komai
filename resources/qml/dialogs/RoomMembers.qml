@@ -18,8 +18,8 @@ ApplicationWindow {
     property Room room
 
     title: qsTr("Members of %1").arg(members.roomName)
-    height: 650
-    width: 420
+    height: 750
+    width: 600
     minimumHeight: 420
     color: palette.window
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint

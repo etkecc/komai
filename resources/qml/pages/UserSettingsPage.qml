@@ -221,17 +221,6 @@ Rectangle {
                                 Layout.topMargin: r.model.type == UserSettingsModel.SectionTitle ? Nheko.paddingLarge : 0
                                 spacing: Nheko.paddingSmall
 
-                                Image {
-                                    Layout.preferredWidth: 24
-                                    Layout.preferredHeight: 24
-                                    Layout.alignment: Qt.AlignVCenter
-                                    sourceSize.width: 24
-                                    sourceSize.height: 24
-                                    source: r.model.settingImage ?? ""
-                                    visible: r.model.type != UserSettingsModel.SectionTitle
-                                    opacity: source != "" ? 1 : 0
-                                }
-
                                 Label {
                                     Layout.alignment: Qt.AlignLeft
                                     Layout.fillWidth: true

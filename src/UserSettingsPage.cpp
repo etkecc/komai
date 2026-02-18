@@ -1519,13 +1519,6 @@ UserSettingsModel::roleNames() const
     return roles;
 }
 
-static QString
-komaiSettingImage()
-{
-    static const QString path = QStringLiteral("qrc:/logos/komai.svg");
-    return path;
-}
-
 QVariant
 UserSettingsModel::data(const QModelIndex &index, int role) const
 {
@@ -2428,24 +2421,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return QStringList{};
         }
     } else if (role == SettingImage) {
-        // Downstream patches add cases here returning komaiSettingImage()
-        // (or any other qrc:/ path) for their settings.
-        switch (index.row()) {
-        case PinnedReactions:
-            return komaiSettingImage();
-        case EnableLegacyCalls:
-            return komaiSettingImage();
-        case AutoReplaceEmoji:
-            return komaiSettingImage();
-        case EnableStickers:
-            return komaiSettingImage();
-        case ShowOwnAvatarNextToOwnMessages:
-            return komaiSettingImage();
-        case ShowSenderUsername:
-            return komaiSettingImage();
-        default:
-            return QString();
-        }
+        // No longer used - all settings rendered the same way
+        return QString();
     } else if (role == Tab) {
         switch (index.row()) {
         // Look & Feel tab

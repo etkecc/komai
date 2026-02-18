@@ -1533,7 +1533,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case MessageHoverHighlight:
             return tr("Highlight message on hover");
         case EnlargeEmojiOnlyMessages:
-            return tr("Large Emoji in timeline");
+            return tr("Enlarge emoji-only messages");
         case Tray:
             return tr("Minimize to tray");
         case StartInTray:
@@ -1541,7 +1541,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case GroupView:
             return tr("Communities sidebar");
         case ScrollbarsInRoomlist:
-            return tr("Scrollbars in room list");
+            return tr("Show scrollbars");
         case Markdown:
             return tr("Send messages as Markdown");
         case SendMessageKey:
@@ -1569,7 +1569,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case RoomSortOrderSetting:
             return tr("Sorting");
         case ButtonsInTimeline:
-            return tr("Show buttons in timeline");
+            return tr("Show message action buttons");
         case TimelineMaxWidth:
             return tr("Limit width of timeline");
         case ReadReceipts:
@@ -1591,11 +1591,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case OpenVideoExternal:
             return tr("Open videos with external program");
         case DecryptSidebar:
-            return tr("Decrypt messages in sidebar");
+            return tr("Decrypt messages");
         case DecryptNotifications:
             return tr("Decrypt notifications");
         case SpaceNotifications:
-            return tr("Show message counts for communities and tags");
+            return tr("Show message counts");
         case FancyEffects:
             return tr("Display fancy effects such as confetti");
         case ReducedMotion:
@@ -1942,9 +1942,9 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case StartInTray:
             return tr("Start the application in the background without showing the client window.");
         case GroupView:
-            return tr("Show a column containing communities and tags next to the room list.");
+            return tr("Show a column containing communities and tags.");
         case ScrollbarsInRoomlist:
-            return tr("Shows scrollbars in the room list and communities list.");
+            return tr("Show scrollbars in the room list and communities sidebar.");
         case Markdown:
             return tr(
               "Allow using markdown in messages.\nWhen disabled, all messages are sent as a plain "
@@ -1988,7 +1988,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
               "Show who is typing in a room.\nThis will also enable or disable sending typing "
               "notifications to others.");
         case RoomSortOrderSetting:
-            return tr("How to order rooms in the room list.");
+            return tr("How to order rooms.");
         case ButtonsInTimeline:
             return tr(
               "Show buttons to quickly reply, react or access additional options next to each "
@@ -2019,13 +2019,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
                       "when this option is ON, opened files are left unencrypted on disk and must "
                       "be manually deleted.");
         case DecryptSidebar:
-            return tr("Decrypt the messages shown in the sidebar.\nOnly affects messages in "
-                      "encrypted chats.");
+            return tr("Decrypt messages shown in the room list.\nOnly affects encrypted chats.");
         case DecryptNotifications:
             return tr("Decrypt messages shown in notifications for encrypted chats.");
         case SpaceNotifications:
-            return tr("Choose where to show the total number of notifications contained within a "
-                      "community or tag.");
+            return tr("Show total notification counts for communities and tags.");
         case FancyEffects:
             return tr("Some messages can be sent with fancy effects. For example, messages sent "
                       "with '/confetti' will show confetti on screen.");

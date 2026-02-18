@@ -92,6 +92,9 @@ AppDir:
     # Proxy support (Qt6 network loads libpxbackend at runtime)
     - libproxy1v5
 
+    # Fonts
+    - fonts-noto-color-emoji
+
     # System libraries
     - libbz2-1.0
     - libelf1t64

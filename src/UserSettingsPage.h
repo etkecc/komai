@@ -31,14 +31,20 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool markdown READ markdown WRITE setMarkdown NOTIFY markdownChanged)
     Q_PROPERTY(SendMessageKey sendMessageKey READ sendMessageKey WRITE setSendMessageKey NOTIFY
                  sendMessageKeyChanged)
-    Q_PROPERTY(AutoReplaceEmoji autoReplaceEmoji READ autoReplaceEmoji WRITE setAutoReplaceEmoji NOTIFY autoReplaceEmojiChanged)
+    Q_PROPERTY(AutoReplaceEmoji autoReplaceEmoji READ autoReplaceEmoji WRITE setAutoReplaceEmoji
+                 NOTIFY autoReplaceEmojiChanged)
     Q_PROPERTY(bool bubbles READ bubbles WRITE setBubbles NOTIFY bubblesChanged)
     Q_PROPERTY(bool smallAvatars READ smallAvatars WRITE setSmallAvatars NOTIFY smallAvatarsChanged)
-    Q_PROPERTY(bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
-    Q_PROPERTY(bool showOwnAvatarNextToOwnMessages READ showOwnAvatarNextToOwnMessages WRITE setShowOwnAvatarNextToOwnMessages NOTIFY showOwnAvatarNextToOwnMessagesChanged)
-    Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY pinnedReactionsChanged)
-    Q_PROPERTY(ShowSenderUsername showSenderUsername READ showSenderUsername WRITE setShowSenderUsername NOTIFY showSenderUsernameChanged)
-    Q_PROPERTY(int showSenderUsernameLargeRoomThreshold READ showSenderUsernameLargeRoomThreshold CONSTANT)
+    Q_PROPERTY(
+      bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
+    Q_PROPERTY(bool showOwnAvatarNextToOwnMessages READ showOwnAvatarNextToOwnMessages WRITE
+                 setShowOwnAvatarNextToOwnMessages NOTIFY showOwnAvatarNextToOwnMessagesChanged)
+    Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY
+                 pinnedReactionsChanged)
+    Q_PROPERTY(ShowSenderUsername showSenderUsername READ showSenderUsername WRITE
+                 setShowSenderUsername NOTIFY showSenderUsernameChanged)
+    Q_PROPERTY(
+      int showSenderUsernameLargeRoomThreshold READ showSenderUsernameLargeRoomThreshold CONSTANT)
     Q_PROPERTY(bool animateImagesOnHover READ animateImagesOnHover WRITE setAnimateImagesOnHover
                  NOTIFY animateImagesOnHoverChanged)
     Q_PROPERTY(bool typingNotifications READ typingNotifications WRITE setTypingNotifications NOTIFY
@@ -99,8 +105,8 @@ class UserSettings final : public QObject
                  NOTIFY screenShareHideCursorChanged)
     Q_PROPERTY(
       bool useStunServer READ useStunServer WRITE setUseStunServer NOTIFY useStunServerChanged)
-    Q_PROPERTY(
-      bool enableLegacyCalls READ enableLegacyCalls WRITE setEnableLegacyCalls NOTIFY enableLegacyCallsChanged)
+    Q_PROPERTY(bool enableLegacyCalls READ enableLegacyCalls WRITE setEnableLegacyCalls NOTIFY
+                 enableLegacyCallsChanged)
     Q_PROPERTY(bool onlyShareKeysWithVerifiedUsers READ onlyShareKeysWithVerifiedUsers WRITE
                  setOnlyShareKeysWithVerifiedUsers NOTIFY onlyShareKeysWithVerifiedUsersChanged)
     Q_PROPERTY(bool shareKeysWithTrustedUsers READ shareKeysWithTrustedUsers WRITE
@@ -318,14 +324,8 @@ public:
     int roomListWidth() const { return roomListWidth_; }
     double fontSize() const { return baseFontSize_; }
     QString font() const { return font_; }
-    QString emojiFont() const
-    {
-        if (emojiFont_ == QLatin1String("Default")) {
-            return tr("Default");
-        }
-
-        return emojiFont_;
-    }
+    QString emojiFont() const;
+    QString emojiFontFamily() const { return emojiFont_; }
     Presence presence() const { return presence_; }
     ShowImage showImage() const { return showImage_; }
     QString ringtone() const { return ringtone_; }

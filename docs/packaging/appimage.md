@@ -55,3 +55,4 @@ The manifest pulls Qt6 libraries and QML modules, GStreamer plugins (for VoIP/me
 - ⏳ The first Docker run downloads the Ubuntu 25.04 image (~80 MB) and installs build dependencies (~1.5 GB). Subsequent runs reuse the Docker layer cache if the image hasn't changed.
 - ⏭️ The `--skip-test` flag is used because `appimage-builder`'s test step requires Docker-in-Docker and a running X server.
 - 💻 The AppImage is built for **x86_64** only. ARM builds are not currently supported.
+- 😀 **Emoji fonts**: The AppImage does not bundle an emoji font — it relies on the host system having one installed (e.g. `noto-fonts-emoji` on Arch, `fonts-noto-color-emoji` on Debian/Ubuntu). Most modern distros ship one by default. The app auto-detects the best available emoji font at startup.

@@ -15,13 +15,14 @@
 
 #include "Cache.h"
 #include "JdenticonProvider.h"
+#include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "UserSettingsPage.h"
-#include "ui/ThemeDefinitions.h"
 #include "Utils.h"
 #include "encryption/Olm.h"
 #include "ui/Theme.h"
+#include "ui/ThemeDefinitions.h"
 #include "voip/CallDevices.h"
 
 #include "config/nheko.h"
@@ -32,6 +33,38 @@ static QStringList themes = [] {
     slugs.append(QStringLiteral("system"));
     return slugs;
 }();
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
+// Resolve the fontconfig generic "emoji" alias to an actual font family name.
+// Qt < 6.9 can't resolve fontconfig generic aliases in <font face=""> or QML font.family,
+// so we pick the best available emoji font from QFontDatabase.
+static QString
+resolveEmojiFontFamily()
+{
+    // Well-known emoji fonts in preference order (matching fontconfig's 60-generic.conf).
+    static const QStringList preferredEmojiFonts = {
+      QStringLiteral("Noto Color Emoji"),
+      QStringLiteral("Apple Color Emoji"),
+      QStringLiteral("Segoe UI Emoji"),
+      QStringLiteral("Twitter Color Emoji"),
+      QStringLiteral("JoyPixels"),
+      QStringLiteral("Emoji One"),
+    };
+
+    const auto available = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
+
+    for (const auto &preferred : preferredEmojiFonts) {
+        if (available.contains(preferred)) {
+            nhlog::ui()->info("Emoji font: using \"{}\"", preferred.toStdString());
+            return preferred;
+        }
+    }
+
+    nhlog::ui()->warn(
+      "Emoji font: no suitable font found (install e.g. Noto Color Emoji for emoji support)");
+    return {};
+}
+#endif
 
 QSharedPointer<UserSettings> UserSettings::instance_;
 
@@ -96,11 +129,13 @@ UserSettings::load(std::optional<QString> profile)
         autoReplaceEmojiValue = 0;
     autoReplaceEmoji_ = static_cast<AutoReplaceEmoji>(autoReplaceEmojiValue);
 
-    bubbles_              = settings.value("user/bubbles_enabled", true).toBool();
-    smallAvatars_         = settings.value("user/small_avatars_enabled", false).toBool();
-    enableStickers_       = settings.value("user/enable_stickers", false).toBool();
-    showOwnAvatarNextToOwnMessages_ = settings.value("user/show_own_avatar_next_to_own_messages", true).toBool();
-    pinnedReactions_      = settings.value("user/pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️")).toString();
+    bubbles_        = settings.value("user/bubbles_enabled", true).toBool();
+    smallAvatars_   = settings.value("user/small_avatars_enabled", false).toBool();
+    enableStickers_ = settings.value("user/enable_stickers", false).toBool();
+    showOwnAvatarNextToOwnMessages_ =
+      settings.value("user/show_own_avatar_next_to_own_messages", true).toBool();
+    pinnedReactions_ =
+      settings.value("user/pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️")).toString();
     animateImagesOnHover_ = settings.value("user/animate_images_on_hover", false).toBool();
     typingNotifications_  = settings.value("user/typing_notifications", true).toBool();
     sortByImportance_     = settings.value("user/sort_by_unread", true).toBool();
@@ -125,9 +160,12 @@ UserSettings::load(std::optional<QString> profile)
     updateSpaceVias_      = settings.value("user/space_background_maintenance", true).toBool();
     expireEvents_ = settings.value("user/expired_events_background_maintenance", false).toBool();
 
-    mobileMode_             = settings.value("user/mobile_mode", false).toBool();
-    disableSwipe_           = settings.value("user/disable_swipe", true).toBool();
-    emojiFont_              = settings.value("user/emoji_font_family", "emoji").toString();
+    mobileMode_   = settings.value("user/mobile_mode", false).toBool();
+    disableSwipe_ = settings.value("user/disable_swipe", true).toBool();
+    emojiFont_    = settings.value("user/emoji_font_family", "").toString();
+
+    if (!emojiFont_.isEmpty())
+        nhlog::ui()->info("Emoji font: \"{}\" (from settings)", emojiFont_.toStdString());
     baseFontSize_           = settings.value("user/font_size", 13.0).toDouble();
     ringtone_               = settings.value("user/ringtone", "Default").toString();
     microphone_             = settings.value("user/microphone", QString()).toString();
@@ -198,6 +236,20 @@ UserSettings::load(std::optional<QString> profile)
 
     if (profile)
         setProfile(profile_);
+}
+
+QString
+UserSettings::emojiFont() const
+{
+#if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
+    // Qt < 6.9 needs a real font family name for <font face=""> and QML font.family.
+    // Cache the resolved value so we don't scan QFontDatabase on every call.
+    if (emojiFont_.isEmpty()) {
+        static const QString resolved = resolveEmojiFontFamily();
+        return resolved;
+    }
+#endif
+    return emojiFont_;
 }
 
 bool
@@ -694,7 +746,7 @@ UserSettings::setEmojiFontFamily(QString family)
     }
 #endif
 
-    if (family.isEmpty() || family == QStringLiteral("emoji")) {
+    if (family.isEmpty()) {
         emojiFont_.clear();
     } else {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
@@ -702,6 +754,9 @@ UserSettings::setEmojiFontFamily(QString family)
 #endif
         emojiFont_ = family;
     }
+
+    nhlog::ui()->info("Emoji font: changed to \"{}\"",
+                      emojiFont_.isEmpty() ? "system default" : emojiFont_.toStdString());
 
     emit emojiFontChanged(family);
     save();
@@ -1031,10 +1086,9 @@ UserSettings::save()
     settings.setValue("scrollbars_in_roomlist", scrollbarsInRoomlist_);
     settings.setValue("markdown_enabled", markdown_);
     settings.setValue("send_message_key", static_cast<int>(sendMessageKey_));
-    settings.setValue(
-      "user/auto_replace_emoji",
-      QString::fromUtf8(QMetaEnum::fromType<AutoReplaceEmoji>().valueToKey(
-        static_cast<int>(autoReplaceEmoji_))));
+    settings.setValue("user/auto_replace_emoji",
+                      QString::fromUtf8(QMetaEnum::fromType<AutoReplaceEmoji>().valueToKey(
+                        static_cast<int>(autoReplaceEmoji_))));
     settings.setValue("bubbles_enabled", bubbles_);
     settings.setValue("small_avatars_enabled", smallAvatars_);
     settings.setValue("enable_stickers", enableStickers_);
@@ -1091,10 +1145,9 @@ UserSettings::save()
     settings.setValue(
       prefix + "user/show_images",
       QString::fromUtf8(QMetaEnum::fromType<ShowImage>().valueToKey(static_cast<int>(showImage_))));
-    settings.setValue(
-      "user/show_sender_username",
-      QString::fromUtf8(QMetaEnum::fromType<ShowSenderUsername>().valueToKey(
-        static_cast<int>(showSenderUsername_))));
+    settings.setValue("user/show_sender_username",
+                      QString::fromUtf8(QMetaEnum::fromType<ShowSenderUsername>().valueToKey(
+                        static_cast<int>(showSenderUsername_))));
 
     QVariantList v;
     v.reserve(collapsedSpaces_.size());
@@ -1128,7 +1181,6 @@ UserSettingsModel::roleNames() const
 
     return roles;
 }
-
 
 static QString
 komaiSettingImage()
@@ -1322,7 +1374,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         switch (index.row()) {
         case Theme: {
             auto variant = themeVariant(i->theme());
-            if (variant == u"system") return -1;
+            if (variant == u"system")
+                return -1;
             auto slugs = themeSlugs(variant);
             return slugs.indexOf(i->theme());
         }
@@ -1413,10 +1466,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
                 return data(index, Values).toStringList().indexOf(i->font());
         }
         case EmojiFont: {
-            if (i->emojiFont().isEmpty() || i->emojiFont() == QLatin1String("emoji"))
+            if (i->emojiFontFamily().isEmpty())
                 return 0;
             else
-                return data(index, Values).toStringList().indexOf(i->emojiFont());
+                return data(index, Values).toStringList().indexOf(i->emojiFontFamily());
         }
         case Ringtone: {
             auto v = i->ringtone();
@@ -1464,7 +1517,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case Platform:
             return QString::fromStdString(nheko::build_os);
         case BasedOn:
-            return QStringLiteral("<a href=\"https://nheko.im\">nheko</a> ") + QString::fromStdString(nheko::upstream_version);
+            return QStringLiteral("<a href=\"https://nheko.im\">nheko</a> ") +
+                   QString::fromStdString(nheko::upstream_version);
         case ForkBy:
             return QStringLiteral("<a href=\"https://etke.cc\">etke.cc</a>");
         case OnlineBackupKey:
@@ -1493,7 +1547,9 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case Microphone:
             return tr("Set the notification sound to play when a call invite arrives");
         case EnableLegacyCalls:
-            return tr("Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release.");
+            return tr("Show the call button in the message composer. This uses the old VoIP "
+                      "calling feature which may not work reliably. Element Call support is "
+                      "expected in a future release.");
         case Camera:
         case CameraResolution:
         case CameraFrameRate:
@@ -1541,13 +1597,19 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case SmallAvatars:
             return tr("Avatars are resized to fit above the message.");
         case EnableStickers:
-            return tr("Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs.");
+            return tr("Show the sticker button in the message composer, allowing you to send "
+                      "stickers from custom sticker packs.");
         case ShowOwnAvatarNextToOwnMessages:
-            return tr("When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.");
+            return tr(
+              "When message bubbles are enabled, show your avatar next to your own message "
+              "bubbles. This improves left/right symmetry and makes authorship easier to scan.");
         case ShowSenderUsername:
-            return tr("Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context.");
+            return tr("Control when sender usernames are displayed above messages. In bubble mode, "
+                      "your own username is always hidden. In smaller rooms, avatars and bubble "
+                      "colors are often enough context.");
         case PinnedReactions:
-            return tr("Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total.");
+            return tr("Comma-separated list of reactions always shown in the timeline hover bar "
+                      "(max 10). Your recent reactions fill the remaining slots up to 10 total.");
         case AnimateImagesOnHover:
             return tr("Plays media like GIFs or WEBPs only when explicitly hovering over them.");
         case ShowImage:
@@ -1847,7 +1909,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         switch (index.row()) {
         case Theme: {
             auto variant = themeVariant(i->theme());
-            if (variant == u"system") return QStringList{};
+            if (variant == u"system")
+                return QStringList{};
             return themeNames(variant);
         }
         case ShowImage:
@@ -1933,8 +1996,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         switch (index.row()) {
         case Theme: {
             auto variant = themeVariant(i->theme());
-            if (variant == u"light") return 0;
-            if (variant == u"dark") return 1;
+            if (variant == u"light")
+                return 0;
+            if (variant == u"dark")
+                return 1;
             return 2; // system
         }
         default:
@@ -1983,9 +2048,10 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         switch (index.row()) {
         case Theme: {
             auto variant = themeVariant(i->theme());
-            if (variant == u"system") return false;
+            if (variant == u"system")
+                return false;
             auto slugs = themeSlugs(variant);
-            int idx = value.toInt();
+            int idx    = value.toInt();
             if (idx >= 0 && idx < slugs.size()) {
                 i->setTheme(slugs.at(idx));
                 return true;
@@ -2421,11 +2487,15 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         case Theme: {
             int variantIdx = value.toInt();
             QString newVariant;
-            if (variantIdx == 0) newVariant = QStringLiteral("light");
-            else if (variantIdx == 1) newVariant = QStringLiteral("dark");
-            else newVariant = QStringLiteral("system");
+            if (variantIdx == 0)
+                newVariant = QStringLiteral("light");
+            else if (variantIdx == 1)
+                newVariant = QStringLiteral("dark");
+            else
+                newVariant = QStringLiteral("system");
             auto currentVariant = themeVariant(i->theme());
-            if (newVariant == currentVariant) return false;
+            if (newVariant == currentVariant)
+                return false;
             i->setTheme(defaultThemeSlug(newVariant));
             return true;
         }
@@ -2635,7 +2705,8 @@ UserSettingsModel::UserSettingsModel(QObject *p)
         emit dataChanged(index(EnableStickers), index(EnableStickers), {Value});
     });
     connect(s.get(), &UserSettings::showOwnAvatarNextToOwnMessagesChanged, this, [this]() {
-        emit dataChanged(index(ShowOwnAvatarNextToOwnMessages), index(ShowOwnAvatarNextToOwnMessages), {Value});
+        emit dataChanged(
+          index(ShowOwnAvatarNextToOwnMessages), index(ShowOwnAvatarNextToOwnMessages), {Value});
     });
     connect(s.get(), &UserSettings::pinnedReactionsChanged, this, [this]() {
         emit dataChanged(index(PinnedReactions), index(PinnedReactions), {Value});

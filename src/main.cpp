@@ -228,6 +228,42 @@ main(int argc, char *argv[])
     if (parser.isSet(compactDb))
         cache::setNeedsCompactFlag();
 
+    // Initialize logging early so that UserSettings can log during init (e.g. emoji font
+    // resolution on Qt < 6.9). The cache directory must exist before the file logger opens.
+    createStandardDirectory(QStandardPaths::CacheLocation);
+    try {
+        QString level;
+        if (parser.isSet(logLevel)) {
+            level = parser.value(logLevel);
+        } else if (parser.isSet(debugOption)) {
+            level = "trace";
+        } else {
+            level = qEnvironmentVariable("NHEKO_LOG_LEVEL");
+        }
+
+        QStringList targets =
+          (parser.isSet(logType) ? parser.value(logType)
+                                 : qEnvironmentVariable("NHEKO_LOG_TYPE", "file,stderr"))
+            .split(',', Qt::SkipEmptyParts);
+        targets.removeAll("none");
+        bool to_stderr = bool(targets.removeAll("stderr"));
+        QString path   = targets.removeAll("file")
+                           ? QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))
+                             .filePath("komai.log")
+                           : QLatin1String("");
+        if (!targets.isEmpty()) {
+            std::cerr << "Invalid log type '" << targets.first().toStdString().c_str() << "'"
+                      << std::endl;
+            std::exit(1);
+        }
+
+        nhlog::init(level, path, to_stderr);
+
+    } catch (const spdlog::spdlog_ex &ex) {
+        std::cerr << "Log initialization failed: " << ex.what() << std::endl;
+        std::exit(1);
+    }
+
     if (parser.isSet(configName))
         UserSettings::initialize(parser.value(configName));
     else
@@ -313,7 +349,6 @@ main(int argc, char *argv[])
 
     http::init();
 
-    createStandardDirectory(QStandardPaths::CacheLocation);
     createStandardDirectory(QStandardPaths::AppDataLocation);
 
     registerSignalHandlers();
@@ -327,39 +362,6 @@ main(int argc, char *argv[])
         gthread = g_thread_new(0, glibMainLoopThreadFunc, 0);
     }
 #endif
-
-    try {
-        QString level;
-        if (parser.isSet(logLevel)) {
-            level = parser.value(logLevel);
-        } else if (parser.isSet(debugOption)) {
-            level = "trace";
-        } else {
-            level = qEnvironmentVariable("NHEKO_LOG_LEVEL");
-        }
-
-        QStringList targets =
-          (parser.isSet(logType) ? parser.value(logType)
-                                 : qEnvironmentVariable("NHEKO_LOG_TYPE", "file,stderr"))
-            .split(',', Qt::SkipEmptyParts);
-        targets.removeAll("none");
-        bool to_stderr = bool(targets.removeAll("stderr"));
-        QString path   = targets.removeAll("file")
-                           ? QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))
-                             .filePath("komai.log")
-                           : QLatin1String("");
-        if (!targets.isEmpty()) {
-            std::cerr << "Invalid log type '" << targets.first().toStdString().c_str() << "'"
-                      << std::endl;
-            std::exit(1);
-        }
-
-        nhlog::init(level, path, to_stderr);
-
-    } catch (const spdlog::spdlog_ex &ex) {
-        std::cerr << "Log initialization failed: " << ex.what() << std::endl;
-        std::exit(1);
-    }
 
     auto filter = new NhekoFixupPaletteEventFilter(&app);
     app.installEventFilter(filter);

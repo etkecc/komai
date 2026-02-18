@@ -42,8 +42,7 @@ Page {
             id: scrollbar
 
             parent: communitiesList
-            visible: !collapsed && Settings.scrollbarsInRoomlist
-            policy: ScrollBar.AlwaysOn
+            policy: !collapsed && Settings.scrollbarsInRoomlist ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
             palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
 

@@ -547,8 +547,8 @@ Page {
             parent: roomlist
             visible: !collapsed && Settings.scrollbarsInRoomlist
             policy: ScrollBar.AlwaysOn
-            palette.dark: Qt.darker(palette.alternateBase, 1.5)
-            palette.mid: Qt.darker(palette.alternateBase, 1.3)
+            palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
+            palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
 
             Rectangle {
                 anchors.fill: parent

@@ -30,7 +30,7 @@ Build output goes to `var/build/<method>/` (gitignored):
 
 ```
 var/build/
-  native/       CMake native host build
   appimage/     AppImage builder output + bundles
   flatpak/      Flatpak builder output + bundles
+  native/       CMake native host build
 ```

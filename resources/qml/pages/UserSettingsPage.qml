@@ -567,12 +567,6 @@ Rectangle {
                                         text: qsTr("Logout")
                                         icon.source: "qrc:/icons/icons/ui/power-off.svg"
 
-                                        palette.button: Nheko.theme.red
-                                        palette.buttonText: "white"
-                                        palette.highlight: Qt.darker(Nheko.theme.red, 1.2)
-
-                                        font.bold: true
-
                                         onClicked: {
                                             var dialog = logoutDialog.createObject();
                                             dialog.open();

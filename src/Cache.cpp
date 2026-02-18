@@ -638,11 +638,11 @@ fatalSecretError()
       QCoreApplication::translate("SecretStorage", "Failed to connect to secret storage"),
       QCoreApplication::translate(
         "SecretStorage",
-        "Nheko could not connect to the secure storage to save encryption secrets to. This can "
+        "Komai could not connect to the secure storage to save encryption secrets to. This can "
         "have multiple reasons. Check if your D-Bus service is running and you have configured a "
         "service like KWallet, Gnome Keyring, KeePassXC or the equivalent for your platform. If "
         "you are having trouble, feel free to open an issue here: "
-        "https://github.com/Nheko-Reborn/nheko/issues"),
+        "https://github.com/etkecc/komai/issues"),
       QMessageBox::StandardButton::Close);
 
     QCoreApplication::exit(1);
@@ -865,11 +865,14 @@ Cache::deleteSecretFromStore(const std::string name, bool internal)
 std::string
 Cache::pickleSecret()
 {
-    if (pickle_secret_.empty()) {
-        this->pickle_secret_ = mtx::client::utils::random_token(64, true);
-        storeSecretInStore("pickle_secret", pickle_secret_);
-    }
+    return pickle_secret_;
+}
 
+std::string
+Cache::createPickleSecret()
+{
+    this->pickle_secret_ = mtx::client::utils::random_token(64, true);
+    storeSecretInStore("pickle_secret", pickle_secret_);
     return pickle_secret_;
 }
 
@@ -2676,7 +2679,7 @@ try {
           tr("Database limit reached"),
           tr("Your account is larger than our default database limit. We have "
              "increased the capacity automatically, however you will need to "
-             "restart to apply this change. Nheko will now close automatically."),
+             "restart to apply this change. Komai will now close automatically."),
           QMessageBox::StandardButton::Close);
         QCoreApplication::exit(1);
         exit(1);

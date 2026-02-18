@@ -457,7 +457,11 @@ handle_pre_key_olm_message(const std::string &sender,
 
         // We also remove the one time key used to establish that
         // session so we'll have to update our copy of the account object.
-        cache::saveOlmAccount(olm::client()->save(cache::client()->pickleSecret()));
+        auto secret = cache::client()->pickleSecret();
+        if (!secret.empty())
+            cache::saveOlmAccount(olm::client()->save(secret));
+        else
+            nhlog::crypto()->warn("skipping OLM account save: pickle secret unavailable");
     } catch (const mtx::crypto::olm_exception &e) {
         nhlog::crypto()->critical("failed to create inbound session with {}: {}", sender, e.what());
         return {};
@@ -890,7 +894,11 @@ void
 mark_keys_as_published()
 {
     olm::client()->mark_keys_as_published();
-    cache::saveOlmAccount(olm::client()->save(cache::client()->pickleSecret()));
+    auto secret = cache::client()->pickleSecret();
+    if (!secret.empty())
+        cache::saveOlmAccount(olm::client()->save(secret));
+    else
+        nhlog::crypto()->warn("skipping OLM account save: pickle secret unavailable");
 }
 
 void

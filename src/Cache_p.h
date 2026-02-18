@@ -291,6 +291,7 @@ public:
     std::optional<std::string> secret(std::string_view name, bool internal = false);
 
     std::string pickleSecret();
+    std::string createPickleSecret();
 
     template<class T>
     constexpr static bool isStateEvent_ =

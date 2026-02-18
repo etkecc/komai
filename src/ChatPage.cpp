@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QPushButton>
 
 #include <algorithm>
 #include <unordered_set>
@@ -449,25 +450,31 @@ ChatPage::dropToLoginPage(const QString &msg)
     http::client()->shutdown();
     connectivityTimer_.stop();
 
-    auto btn = QMessageBox::warning(
-      nullptr,
-      tr("Confirm logout"),
-      tr("Because of the following reason Nheko wants to drop you to the login page:\n%1\nIf you "
-         "think this is a mistake, you can close Nheko instead to possibly recover your encryption "
-         "keys. After you have been dropped to the login page, you can sign in again using your "
-         "usual methods.")
-        .arg(msg),
-      QMessageBox::StandardButton::Close | QMessageBox::StandardButton::Ok,
-      QMessageBox::StandardButton::Ok);
-    if (btn == QMessageBox::StandardButton::Close) {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setWindowTitle(tr("Something went wrong"));
+    msgBox.setText(
+      tr("Komai ran into a problem:\n\n%1\n\n"
+         "This may be a temporary issue (e.g. your system's secret storage failed to unlock). "
+         "If so, you can close Komai, fix the problem, and relaunch — your data will still be "
+         "there.\n\n"
+         "If the problem persists, you can log out and sign in again, but this will delete your "
+         "local message cache and encryption session.")
+        .arg(msg));
+    auto *closeBtn  = msgBox.addButton(tr("Close && preserve data"), QMessageBox::RejectRole);
+    auto *logoutBtn = msgBox.addButton(tr("Log out && start over"), QMessageBox::DestructiveRole);
+    msgBox.setDefaultButton(closeBtn);
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == static_cast<QAbstractButton *>(logoutBtn)) {
+        resetUI();
+        deleteConfigs();
+        emit showLoginPage(msg);
+    } else {
         QCoreApplication::exit(1);
         exit(1);
     }
-
-    resetUI();
-    deleteConfigs();
-
-    emit showLoginPage(msg);
 }
 
 void
@@ -542,7 +549,7 @@ ChatPage::bootstrap(QString userid, QString homeserver, QString token)
                               tr("Cache migration failed!"),
                               tr("Migrating the cache to the current version failed. "
                                  "This can have different reasons. Please open an "
-                                 "issue at https://github.com/Nheko-Reborn/nheko and try to use an "
+                                 "issue at https://github.com/etkecc/komai and try to use an "
                                  "older version in the meantime. Alternatively you can try "
                                  "deleting the cache manually."));
                             QCoreApplication::quit();
@@ -553,8 +560,8 @@ ChatPage::bootstrap(QString userid, QString homeserver, QString token)
                         QMessageBox::critical(
                           nullptr,
                           tr("Incompatible cache version"),
-                          tr("The cache on your disk is newer than this version of Nheko "
-                             "supports. Please update Nheko or clear your cache."));
+                          tr("The cache on your disk is newer than this version of Komai "
+                             "supports. Please update Komai or clear your cache."));
                         QCoreApplication::quit();
                         return;
                     }
@@ -564,7 +571,8 @@ ChatPage::bootstrap(QString userid, QString homeserver, QString token)
                 // There isn't a saved olm account to restore.
                 nhlog::crypto()->info("creating new olm account");
                 olm::client()->create_new_account();
-                cache::saveOlmAccount(olm::client()->save(cache::client()->pickleSecret()));
+                auto secret = cache::client()->createPickleSecret();
+                cache::saveOlmAccount(olm::client()->save(secret));
             } catch (const lmdb::error &e) {
                 nhlog::crypto()->critical("failed to save olm account {}", e.what());
                 emit dropToLoginPageCb(QString::fromStdString(e.what()));
@@ -578,7 +586,8 @@ ChatPage::bootstrap(QString userid, QString homeserver, QString token)
             getProfileInfo();
             getBackupVersion();
             tryInitialSync();
-            if (UserSettings::instance()->enableLegacyCalls()) callManager_->refreshTurnServer();
+            if (UserSettings::instance()->enableLegacyCalls())
+                callManager_->refreshTurnServer();
             emit MainWindow::instance()->reload();
         });
 
@@ -603,8 +612,19 @@ ChatPage::loadStateFromCache()
 {
     nhlog::db()->info("restoring state from cache");
 
+    auto secret = cache::client()->pickleSecret();
+    if (secret.empty()) {
+        nhlog::crypto()->critical("pickle secret is empty — secret storage may be unavailable");
+        emit dropToLoginPageCb(
+          tr("Could not retrieve the encryption secret from your system's secret "
+             "storage (e.g. KWallet, GNOME Keyring). This is usually a temporary problem.\n\n"
+             "You can close Komai, make sure your secret storage is unlocked, and relaunch. "
+             "Your data has not been deleted."));
+        return;
+    }
+
     try {
-        olm::client()->load(cache::restoreOlmAccount(), cache::client()->pickleSecret());
+        olm::client()->load(cache::restoreOlmAccount(), secret);
 
         nhlog::db()->info("Removing old cached messages");
         cache::deleteOldData();
@@ -616,19 +636,19 @@ ChatPage::loadStateFromCache()
 
     } catch (const mtx::crypto::olm_exception &e) {
         nhlog::crypto()->critical("failed to restore olm account: {}", e.what());
-        emit dropToLoginPageCb(tr("Failed to restore OLM account. Please login again."));
+        emit dropToLoginPageCb(tr("Failed to restore OLM account."));
         return;
     } catch (const lmdb::error &e) {
         nhlog::db()->critical("failed to restore cache: {}", e.what());
-        emit dropToLoginPageCb(tr("Failed to restore save data. Please login again."));
+        emit dropToLoginPageCb(tr("Failed to restore save data."));
         return;
     } catch (const nlohmann::json::exception &e) {
         nhlog::db()->critical("failed to parse cache data: {}", e.what());
-        emit dropToLoginPageCb(tr("Failed to restore save data. Please login again."));
+        emit dropToLoginPageCb(tr("Failed to restore save data."));
         return;
     } catch (const std::exception &e) {
         nhlog::db()->critical("failed to load cache data: {}", e.what());
-        emit dropToLoginPageCb(tr("Failed to restore save data. Please login again."));
+        emit dropToLoginPageCb(tr("Failed to restore save data."));
         return;
     }
 
@@ -638,7 +658,8 @@ ChatPage::loadStateFromCache()
     getProfileInfo();
     getBackupVersion();
     verifyOneTimeKeyCountAfterStartup();
-    if (UserSettings::instance()->enableLegacyCalls()) callManager_->refreshTurnServer();
+    if (UserSettings::instance()->enableLegacyCalls())
+        callManager_->refreshTurnServer();
 
     emit contentLoaded();
 

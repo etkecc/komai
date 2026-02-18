@@ -1616,7 +1616,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return {};
         case TimelineMaxWidth:
             return tr("Set the max width of messages in the timeline (in pixels). This can help "
-                      "readability on wide screen when Nheko is maximized");
+                      "readability on wide screen when Komai is maximized");
         case PrivacyScreenTimeout:
             return tr(
               "Set timeout (in seconds) for how long after window loses\nfocus before the screen"

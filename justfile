@@ -1,8 +1,14 @@
+# Paths
+build_dir := justfile_directory() / "build"
+flatpak_build_dir := justfile_directory() / "build-flatpak"
+
+# mise (dev tool version manager)
+mise_data_dir := env("MISE_DATA_DIR", justfile_directory() / "var/mise")
+mise_trusted_config_paths := justfile_directory() / "mise.toml"
+
 # Shows help
 default:
 	@just --list --justfile {{ justfile() }}
-
-build_dir := justfile_directory() / "build"
 
 # Configures the build (CMake configure step)
 configure *args:
@@ -103,8 +109,6 @@ translations-claude-translate-all *args:
 		}
 	done
 
-flatpak_build_dir := justfile_directory() / "build-flatpak"
-
 # Builds a Flatpak bundle from the local source tree
 flatpak-build:
 	#!/usr/bin/env bash
@@ -147,12 +151,6 @@ flatpak-clean:
 # Runs the linter/formatter
 lint:
 	{{ justfile_directory() }}/.ci/format.sh
-
-# mise data directory - can be overridden via environment variable for CI
-mise_data_dir := env("MISE_DATA_DIR", justfile_directory() / "var/mise")
-
-# Auto-trust the project's mise.toml via MISE_TRUSTED_CONFIG_PATHS env var
-mise_trusted_config_paths := justfile_directory() / "mise.toml"
 
 # Invokes mise with the project-local data directory
 mise *args: _ensure_mise_data_directory

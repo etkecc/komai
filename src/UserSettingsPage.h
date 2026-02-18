@@ -283,6 +283,13 @@ public:
     void setUpdateSpaceVias(bool state);
     void setExpireEvents(bool state);
 
+    // Theme helpers for QML (used on the Welcome page)
+    Q_INVOKABLE int themeVariantIndex() const;
+    Q_INVOKABLE void setThemeVariantByIndex(int index);
+    Q_INVOKABLE QStringList themeNamesForCurrentVariant() const;
+    Q_INVOKABLE int themeIndexInCurrentVariant() const;
+    Q_INVOKABLE void setThemeByVariantIndex(int index);
+
     QString theme() const { return !theme_.isEmpty() ? theme_ : defaultTheme_; }
     bool messageHoverHighlight() const { return messageHoverHighlight_; }
     bool enlargeEmojiOnlyMessages() const { return enlargeEmojiOnlyMessages_; }

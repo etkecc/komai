@@ -793,6 +793,65 @@ UserSettings::setTheme(QString theme)
     emit themeChanged(theme);
 }
 
+int
+UserSettings::themeVariantIndex() const
+{
+    auto variant = themeVariant(theme());
+    if (variant == u"light")
+        return 0;
+    else if (variant == u"dark")
+        return 1;
+    else
+        return 2; // system
+}
+
+void
+UserSettings::setThemeVariantByIndex(int index)
+{
+    QString newVariant;
+    if (index == 0)
+        newVariant = QStringLiteral("light");
+    else if (index == 1)
+        newVariant = QStringLiteral("dark");
+    else
+        newVariant = QStringLiteral("system");
+
+    auto currentVariant = themeVariant(theme());
+    if (newVariant == currentVariant)
+        return;
+    setTheme(defaultThemeSlug(newVariant));
+}
+
+QStringList
+UserSettings::themeNamesForCurrentVariant() const
+{
+    auto variant = themeVariant(theme());
+    if (variant == u"system")
+        return {};
+    return themeNames(variant);
+}
+
+int
+UserSettings::themeIndexInCurrentVariant() const
+{
+    auto variant = themeVariant(theme());
+    if (variant == u"system")
+        return -1;
+    auto slugs = themeSlugs(variant);
+    return slugs.indexOf(theme());
+}
+
+void
+UserSettings::setThemeByVariantIndex(int index)
+{
+    auto variant = themeVariant(theme());
+    if (variant == u"system")
+        return;
+    auto slugs = themeSlugs(variant);
+    if (index >= 0 && index < slugs.size())
+        setTheme(slugs.at(index));
+}
+
 void
 UserSettings::setUseStunServer(bool useStunServer)
 {

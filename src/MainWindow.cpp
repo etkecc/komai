@@ -64,6 +64,9 @@ MainWindow::MainWindow(QWindow *parent)
     connect(chat_page_, &ChatPage::showLoginPage, this, &MainWindow::switchToLoginPage);
     connect(chat_page_, &ChatPage::showNotification, this, &MainWindow::showNotification);
 
+    connect(userSettings_.get(), &UserSettings::themeChanged, this, [this](const QString &theme) {
+        setColor(Theme::paletteFromTheme(theme).window().color());
+    });
     connect(userSettings_.get(), &UserSettings::trayChanged, trayIcon_, &TrayIcon::setVisible);
     connect(trayIcon_,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),

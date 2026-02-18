@@ -43,7 +43,7 @@ ColumnLayout {
         Layout.bottomMargin: Nheko.paddingLarge
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        text: qsTr("A quick desktop client for the Matrix chat protocol")
+        text: qsTr("A fine desktop Matrix client you can get to love")
         color: palette.buttonText
         font.pointSize: fontMetrics.font.pointSize * 1.5
         wrapMode: Text.Wrap
@@ -77,23 +77,72 @@ ColumnLayout {
 
     }
 
+    Label {
+        Layout.topMargin: Nheko.paddingLarge
+        Layout.bottomMargin: Nheko.paddingSmall
+        Layout.alignment: Qt.AlignHCenter
+        text: qsTr("An early touch of personality")
+        color: palette.buttonText
+        font.pointSize: fontMetrics.font.pointSize * 1.1
+    }
+
     RowLayout {
         Layout.alignment: Qt.AlignHCenter
-        Layout.topMargin: 0
-        Layout.bottomMargin: 0
         Layout.leftMargin: Nheko.paddingLarge
         Layout.rightMargin: Nheko.paddingLarge
 
+        Label {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.margins: Nheko.paddingSmall
+            text: qsTr("Theme")
+            color: palette.text
+        }
+
+        ComboBox {
+            id: variantCombo
+            model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
+            currentIndex: Settings.themeVariantIndex()
+            onActivated: function(index) {
+                Settings.setThemeVariantByIndex(index)
+            }
+            implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
+            wheelEnabled: activeFocus
+        }
+
+        ComboBox {
+            id: themeCombo
+            visible: variantCombo.currentIndex !== 2
+            model: Settings.themeNamesForCurrentVariant()
+            currentIndex: Settings.themeIndexInCurrentVariant()
+            onActivated: function(index) {
+                Settings.setThemeByVariantIndex(index)
+            }
+            implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
+            wheelEnabled: activeFocus
+        }
+
+        Connections {
+            target: Settings
+            function onThemeChanged() {
+                variantCombo.currentIndex = Settings.themeVariantIndex()
+                themeCombo.model = Settings.themeNamesForCurrentVariant()
+                themeCombo.currentIndex = Settings.themeIndexInCurrentVariant()
+            }
+        }
+
+        Item {
+            Layout.preferredWidth: Nheko.paddingLarge
+        }
+
         ToggleButton {
             id: reducedMotionToggle
-            Layout.margins: Nheko.paddingSmall
-            Layout.alignment: Qt.AlignRight
+            Layout.alignment: Qt.AlignVCenter
             checked: Settings.reducedMotion
             onCheckedChanged: Settings.reducedMotion = checked
         }
 
         Label {
-            Layout.alignment: Qt.AlignLeft
+            Layout.alignment: Qt.AlignVCenter
             Layout.margins: Nheko.paddingSmall
             text: qsTr("Reduce animations")
             color: palette.text

@@ -57,6 +57,7 @@ Komai ships 14 built-in color themes (light and dark variants): Komai, Nord, Cat
 - **Virtual timeline window** -- only the most recent messages are exposed to the UI at a time, enabling instant scroll-up from local cache
 - **Faster room switching** by reducing off-screen pre-rendered messages
 - **Predictable profile selection** -- launching without `-p` always uses the default profile instead of remembering the last-used one
+- **Per-profile settings** -- all configuration (theme, notifications, sidebar widths, etc.) is stored per-profile, so each account can have its own look and feel
 
 
 ## 🌐 Translations

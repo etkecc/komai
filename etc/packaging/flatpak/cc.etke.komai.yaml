@@ -141,6 +141,17 @@ modules:
       - sha256: 4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187
         type: archive
         url: https://github.com/nlohmann/json/archive/v3.12.0.tar.gz
+  - name: yaml-cpp
+    config-opts:
+      - -DYAML_CPP_BUILD_TESTS=OFF
+      - -DYAML_CPP_BUILD_TOOLS=OFF
+      - -DYAML_CPP_BUILD_CONTRIB=OFF
+      - -DYAML_BUILD_SHARED_LIBS=OFF
+    buildsystem: cmake-ninja
+    sources:
+      - sha256: 43e6a9fcb146ad871515f0d0873947e5d497a1c9c60c58cb102a97b47208b7c3
+        type: archive
+        url: https://github.com/jbeder/yaml-cpp/archive/refs/tags/0.8.0.tar.gz
   - name: kdsingleapplication
     config-opts:
       - -DKDSingleApplication_EXAMPLES=OFF

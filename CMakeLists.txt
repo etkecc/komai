@@ -68,6 +68,7 @@ option(USE_BUNDLED_RE2 "Use the bundled version of re2." ${HUNTER_ENABLED})
 option(USE_BUNDLED_KDSINGLEAPPLICATION "Use the bundled version of KDSingleApplication." ${HUNTER_ENABLED})
 option(USE_BUNDLED_CPPHTTPLIB "Use the bundled version of cpp-httplib." ON)
 option(USE_BUNDLED_BLURHASH "Use the bundled version of blurhash." ON)
+option(USE_BUNDLED_YAMLCPP "Use the bundled version of yaml-cpp." ${HUNTER_ENABLED})
 
 include(CMakeDependentOption)
 set(VOIP_DEFAULT ON)
@@ -579,6 +580,23 @@ set_package_properties(nlohmann_json PROPERTIES
     TYPE REQUIRED
 )
 
+# yaml-cpp for YAML config files
+if(USE_BUNDLED_YAMLCPP)
+    include(FetchContent)
+    FetchContent_Declare(
+        yaml-cpp
+        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+        GIT_TAG        0.8.0
+    )
+    set(YAML_CPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "" FORCE)
+    set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(yaml-cpp)
+else()
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(yaml-cpp REQUIRED IMPORTED_TARGET yaml-cpp>=0.6.0)
+endif()
+
 if(USE_BUNDLED_LMDBXX)
     include(FetchContent)
     FetchContent_Declare(
@@ -918,6 +936,12 @@ if(NOT JSON_ImplicitConversions)
     target_compile_definitions(nheko PUBLIC JSON_USE_IMPLICIT_CONVERSIONS=0)
 endif()
 
+if(USE_BUNDLED_YAMLCPP)
+    set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
+else()
+    set(YAMLCPP_TARGET_NAME PkgConfig::yaml-cpp)
+endif()
+
 target_link_libraries(nheko PRIVATE
     ${COEURL_TARGET_NAME}
     MatrixClient::MatrixClient
@@ -934,6 +958,7 @@ target_link_libraries(nheko PRIVATE
     qt6keychain
     KDAB::kdsingleapplication
     nlohmann_json::nlohmann_json
+    ${YAMLCPP_TARGET_NAME}
     lmdbxx::lmdbxx
     liblmdb::lmdb)
 

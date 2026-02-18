@@ -4,7 +4,9 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QDir>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QFontDatabase>
 #include <QInputDialog>
 #include <QMessageBox>
@@ -12,6 +14,10 @@
 #include <QString>
 #include <QTextStream>
 #include <mtx/secret_storage.hpp>
+
+#include <yaml-cpp/yaml.h>
+
+#include <fstream>
 
 #include "Cache.h"
 #include "JdenticonProvider.h"
@@ -26,6 +32,26 @@
 #include "voip/CallDevices.h"
 
 #include "config/nheko.h"
+
+// Helper: get config directory path
+static QString
+configDir()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) +
+           QStringLiteral("/komai");
+}
+
+// Helper: get per-profile config file path
+static QString
+configFilePath(const QString &profile)
+{
+    QString dir = configDir() + QStringLiteral("/profiles");
+    QDir().mkpath(dir);
+    QString name = (profile.isEmpty() || profile == QLatin1String("default"))
+                     ? QStringLiteral("default")
+                     : profile;
+    return dir + QStringLiteral("/") + name + QStringLiteral(".yml");
+}
 
 // Dynamic theme list: all data-driven themes + "system"
 static QStringList themes = [] {
@@ -70,14 +96,6 @@ QSharedPointer<UserSettings> UserSettings::instance_;
 
 UserSettings::UserSettings()
 {
-    if (settings.contains("user/invert_enter_key")) {
-        auto oldValue =
-          (settings.value("user/invert_enter_key", false).toBool() ? SendMessageKey::ShiftEnter
-                                                                   : SendMessageKey::Enter);
-        settings.setValue("user/send_message_key", static_cast<int>(oldValue));
-        settings.remove("user/invert_enter_key");
-    }
-
     connect(
       QCoreApplication::instance(), &QCoreApplication::aboutToQuit, []() { instance_.clear(); });
 }
@@ -98,144 +116,233 @@ UserSettings::initialize(std::optional<QString> profile)
 void
 UserSettings::load(std::optional<QString> profile)
 {
-    // Determine profile and prefix first, so all settings are profile-specific
+    // Determine profile first
     if (profile)
         profile_ = (*profile == QLatin1String("default")) ? QLatin1String("") : *profile;
     else
         profile_ = QLatin1String(""); // always use default profile when not specified
 
-    QString prefix = (profile_ != QLatin1String("") && profile_ != QLatin1String("default"))
-                       ? "profile/" + profile_ + "/"
-                       : QLatin1String("");
+    // Set the config file path
+    configFilePath_ = configFilePath(profile_);
 
-    tray_        = settings.value(prefix + "user/window/tray", false).toBool();
-    startInTray_ = settings.value(prefix + "user/window/start_in_tray", false).toBool();
+    // Load YAML config
+    YAML::Node config;
+    QFileInfo fileInfo(configFilePath_);
+    if (fileInfo.exists()) {
+        try {
+            config = YAML::LoadFile(configFilePath_.toStdString());
+            nhlog::ui()->info("Loaded config from: {}", configFilePath_.toStdString());
+        } catch (const YAML::Exception &e) {
+            nhlog::ui()->error(
+              "Failed to parse config file {}: {}", configFilePath_.toStdString(), e.what());
+            config = YAML::Node();
+        }
+    } else {
+        nhlog::ui()->info("Config file does not exist, using defaults: {}",
+                          configFilePath_.toStdString());
+    }
 
-    roomListWidth_      = settings.value(prefix + "user/sidebar/room_list_width", -1).toInt();
-    communityListWidth_ = settings.value(prefix + "user/sidebar/community_list_width", -1).toInt();
+    // Helper lambdas to read values with defaults
+    auto getString = [&config](const char *key, const QString &defaultVal) -> QString {
+        if (config[key] && config[key].IsScalar())
+            return QString::fromStdString(config[key].as<std::string>());
+        return defaultVal;
+    };
+    auto getBool = [&config](const char *key, bool defaultVal) -> bool {
+        if (config[key] && config[key].IsScalar())
+            return config[key].as<bool>();
+        return defaultVal;
+    };
+    auto getInt = [&config](const char *key, int defaultVal) -> int {
+        if (config[key] && config[key].IsScalar())
+            return config[key].as<int>();
+        return defaultVal;
+    };
+    auto getUInt = [&config](const char *key, uint defaultVal) -> uint {
+        if (config[key] && config[key].IsScalar())
+            return config[key].as<uint>();
+        return defaultVal;
+    };
+    auto getULongLong = [&config](const char *key, qulonglong defaultVal) -> qulonglong {
+        if (config[key] && config[key].IsScalar())
+            return config[key].as<qulonglong>();
+        return defaultVal;
+    };
+    auto getDouble = [&config](const char *key, double defaultVal) -> double {
+        if (config[key] && config[key].IsScalar())
+            return config[key].as<double>();
+        return defaultVal;
+    };
+    auto getStringList = [&config](const char *key,
+                                   const QStringList &defaultVal = {}) -> QStringList {
+        if (config[key] && config[key].IsSequence()) {
+            QStringList list;
+            for (const auto &item : config[key]) {
+                if (item.IsScalar())
+                    list.append(QString::fromStdString(item.as<std::string>()));
+            }
+            return list;
+        }
+        return defaultVal;
+    };
 
-    hasDesktopNotifications_ = settings.value(prefix + "user/desktop_notifications", true).toBool();
-    hasAlertOnNotification_ = settings.value(prefix + "user/alert_on_notification", false).toBool();
-    groupView_              = settings.value(prefix + "user/group_view", true).toBool();
-    scrollbarsInRoomlist_   = settings.value(prefix + "user/scrollbars_in_roomlist", true).toBool();
-    buttonsInTimeline_      = settings.value(prefix + "user/timeline/buttons", true).toBool();
-    timelineMaxWidth_       = settings.value(prefix + "user/timeline/max_width", 0).toInt();
-    messageHoverHighlight_ =
-      settings.value(prefix + "user/timeline/message_hover_highlight", false).toBool();
-    enlargeEmojiOnlyMessages_ =
-      settings.value(prefix + "user/timeline/enlarge_emoji_only_msg", true).toBool();
-    markdown_ = settings.value(prefix + "user/markdown_enabled", true).toBool();
+    // Window settings
+    tray_         = getBool("tray", false);
+    startInTray_  = getBool("start_in_tray", false);
+    windowWidth_  = getInt("window_width", 0);
+    windowHeight_ = getInt("window_height", 0);
 
-    auto sendMessageKey = settings.value(prefix + "user/send_message_key", 0).toInt();
+    // Sidebar settings
+    roomListWidth_      = getInt("room_list_width", -1);
+    communityListWidth_ = getInt("community_list_width", -1);
+
+    // Notifications
+    hasDesktopNotifications_ = getBool("desktop_notifications", true);
+    hasAlertOnNotification_  = getBool("alert_on_notification", false);
+
+    // View settings
+    groupView_            = getBool("group_view", true);
+    scrollbarsInRoomlist_ = getBool("scrollbars_in_roomlist", true);
+
+    // Timeline settings
+    buttonsInTimeline_        = getBool("buttons_in_timeline", true);
+    timelineMaxWidth_         = getInt("timeline_max_width", 0);
+    messageHoverHighlight_    = getBool("message_hover_highlight", false);
+    enlargeEmojiOnlyMessages_ = getBool("enlarge_emoji_only_messages", true);
+    markdown_                 = getBool("markdown", true);
+
+    auto sendMessageKey = getInt("send_message_key", 0);
     if (sendMessageKey < 0 || sendMessageKey > 2)
         sendMessageKey = static_cast<int>(SendMessageKey::Enter);
     sendMessageKey_ = static_cast<SendMessageKey>(sendMessageKey);
 
-    auto tempAutoReplaceEmoji =
-      settings.value(prefix + "user/auto_replace_emoji", "").toString().toStdString();
+    auto tempAutoReplaceEmoji = getString("auto_replace_emoji", QString()).toStdString();
     auto autoReplaceEmojiValue =
       QMetaEnum::fromType<AutoReplaceEmoji>().keyToValue(tempAutoReplaceEmoji.c_str());
     if (autoReplaceEmojiValue < 0)
         autoReplaceEmojiValue = 0;
     autoReplaceEmoji_ = static_cast<AutoReplaceEmoji>(autoReplaceEmojiValue);
 
-    bubbles_        = settings.value(prefix + "user/bubbles_enabled", true).toBool();
-    smallAvatars_   = settings.value(prefix + "user/small_avatars_enabled", false).toBool();
-    enableStickers_ = settings.value(prefix + "user/enable_stickers", false).toBool();
-    showOwnAvatarNextToOwnMessages_ =
-      settings.value(prefix + "user/show_own_avatar_next_to_own_messages", true).toBool();
-    pinnedReactions_ =
-      settings.value(prefix + "user/pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️")).toString();
-    animateImagesOnHover_ = settings.value(prefix + "user/animate_images_on_hover", false).toBool();
-    typingNotifications_  = settings.value(prefix + "user/typing_notifications", true).toBool();
-    sortByImportance_     = settings.value(prefix + "user/sort_by_unread", true).toBool();
-    sortByAlphabet_       = settings.value(prefix + "user/sort_by_alphabet", false).toBool();
-    readReceipts_         = settings.value(prefix + "user/read_receipts", true).toBool();
-    theme_                = settings.value(prefix + "user/theme", defaultTheme_).toString();
+    bubbles_                        = getBool("bubbles", true);
+    smallAvatars_                   = getBool("small_avatars", false);
+    enableStickers_                 = getBool("enable_stickers", false);
+    showOwnAvatarNextToOwnMessages_ = getBool("show_own_avatar_next_to_own_messages", true);
+    pinnedReactions_      = getString("pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️"));
+    animateImagesOnHover_ = getBool("animate_images_on_hover", false);
+    typingNotifications_  = getBool("typing_notifications", true);
+    sortByImportance_     = getBool("sort_by_importance", true);
+    sortByAlphabet_       = getBool("sort_by_alphabet", false);
+    readReceipts_         = getBool("read_receipts", true);
+    theme_                = getString("theme", defaultTheme_);
 
-    font_ = settings.value(prefix + "user/font_family", "").toString();
+    font_ = getString("font_family", QString());
 
-    avatarCircles_        = settings.value(prefix + "user/avatar_circles", false).toBool();
-    useIdenticon_         = settings.value(prefix + "user/use_identicon", true).toBool();
-    openImageExternal_    = settings.value(prefix + "user/open_image_external", false).toBool();
-    openVideoExternal_    = settings.value(prefix + "user/open_video_external", false).toBool();
-    decryptSidebar_       = settings.value(prefix + "user/decrypt_sidebar", true).toBool();
-    decryptNotifications_ = settings.value(prefix + "user/decrypt_notifications", true).toBool();
-    spaceNotifications_   = settings.value(prefix + "user/space_notifications", true).toBool();
-    fancyEffects_         = settings.value(prefix + "user/fancy_effects", true).toBool();
-    reducedMotion_        = settings.value(prefix + "user/reduced_motion", false).toBool();
-    privacyScreen_        = settings.value(prefix + "user/privacy_screen", false).toBool();
-    privacyScreenTimeout_ = settings.value(prefix + "user/privacy_screen_timeout", 0).toInt();
-    exposeDBusApi_        = settings.value(prefix + "user/expose_dbus_api", false).toBool();
-    updateSpaceVias_ = settings.value(prefix + "user/space_background_maintenance", true).toBool();
-    expireEvents_ =
-      settings.value(prefix + "user/expired_events_background_maintenance", false).toBool();
+    avatarCircles_        = getBool("avatar_circles", false);
+    useIdenticon_         = getBool("use_identicon", true);
+    openImageExternal_    = getBool("open_image_external", false);
+    openVideoExternal_    = getBool("open_video_external", false);
+    decryptSidebar_       = getBool("decrypt_sidebar", true);
+    decryptNotifications_ = getBool("decrypt_notifications", true);
+    spaceNotifications_   = getBool("space_notifications", true);
+    fancyEffects_         = getBool("fancy_effects", true);
+    reducedMotion_        = getBool("reduced_motion", false);
+    privacyScreen_        = getBool("privacy_screen", false);
+    privacyScreenTimeout_ = getInt("privacy_screen_timeout", 0);
+    exposeDBusApi_        = getBool("expose_dbus_api", false);
+    updateSpaceVias_      = getBool("update_space_vias", true);
+    expireEvents_         = getBool("expire_events", false);
 
-    mobileMode_   = settings.value(prefix + "user/mobile_mode", false).toBool();
-    disableSwipe_ = settings.value(prefix + "user/disable_swipe", true).toBool();
-    emojiFont_    = settings.value(prefix + "user/emoji_font_family", "").toString();
+    mobileMode_   = getBool("mobile_mode", false);
+    disableSwipe_ = getBool("disable_swipe", true);
+    emojiFont_    = getString("emoji_font_family", QString());
 
     if (!emojiFont_.isEmpty())
         nhlog::ui()->info("Emoji font: \"{}\" (from settings)", emojiFont_.toStdString());
-    baseFontSize_         = settings.value(prefix + "user/font_size", 13.0).toDouble();
-    ringtone_             = settings.value(prefix + "user/ringtone", "Default").toString();
-    microphone_           = settings.value(prefix + "user/microphone", QString()).toString();
-    camera_               = settings.value(prefix + "user/camera", QString()).toString();
-    cameraResolution_     = settings.value(prefix + "user/camera_resolution", QString()).toString();
-    cameraFrameRate_      = settings.value(prefix + "user/camera_frame_rate", QString()).toString();
-    screenShareFrameRate_ = settings.value(prefix + "user/screen_share_frame_rate", 5).toInt();
-    screenSharePiP_       = settings.value(prefix + "user/screen_share_pip", true).toBool();
-    screenShareRemoteVideo_ =
-      settings.value(prefix + "user/screen_share_remote_video", false).toBool();
-    screenShareHideCursor_ =
-      settings.value(prefix + "user/screen_share_hide_cursor", false).toBool();
-    useStunServer_     = settings.value(prefix + "user/use_stun_server", false).toBool();
-    enableLegacyCalls_ = settings.value(prefix + "user/enable_legacy_calls", false).toBool();
 
-    accessToken_  = settings.value(prefix + "auth/access_token", "").toString();
-    homeserver_   = settings.value(prefix + "auth/home_server", "").toString();
-    userId_       = settings.value(prefix + "auth/user_id", "").toString();
-    deviceId_     = settings.value(prefix + "auth/device_id", "").toString();
-    currentTagId_ = settings.value(prefix + "user/current_tag_id", "").toString();
-    hiddenTags_   = settings.value(prefix + "user/hidden_tags", QStringList{}).toStringList();
-    mutedTags_  = settings.value(prefix + "user/muted_tags", QStringList{"global"}).toStringList();
-    hiddenPins_ = settings.value(prefix + "user/hidden_pins", QStringList{}).toStringList();
-    hiddenWidgets_ = settings.value(prefix + "user/hidden_widgets", QStringList{}).toStringList();
-    recentReactions_ =
-      settings.value(prefix + "user/recent_reactions", QStringList{}).toStringList();
-    auto tempPresence  = settings.value(prefix + "user/presence", "").toString().toStdString();
+    baseFontSize_           = getDouble("font_size", 13.0);
+    ringtone_               = getString("ringtone", QStringLiteral("Default"));
+    microphone_             = getString("microphone", QString());
+    camera_                 = getString("camera", QString());
+    cameraResolution_       = getString("camera_resolution", QString());
+    cameraFrameRate_        = getString("camera_frame_rate", QString());
+    screenShareFrameRate_   = getInt("screen_share_frame_rate", 5);
+    screenSharePiP_         = getBool("screen_share_pip", true);
+    screenShareRemoteVideo_ = getBool("screen_share_remote_video", false);
+    screenShareHideCursor_  = getBool("screen_share_hide_cursor", false);
+    useStunServer_          = getBool("use_stun_server", false);
+    enableLegacyCalls_      = getBool("enable_legacy_calls", false);
+
+    // Auth settings
+    accessToken_     = getString("access_token", QString());
+    homeserver_      = getString("homeserver", QString());
+    userId_          = getString("user_id", QString());
+    deviceId_        = getString("device_id", QString());
+    currentTagId_    = getString("current_tag_id", QString());
+    hiddenTags_      = getStringList("hidden_tags");
+    mutedTags_       = getStringList("muted_tags", QStringList{QStringLiteral("global")});
+    hiddenPins_      = getStringList("hidden_pins");
+    hiddenWidgets_   = getStringList("hidden_widgets");
+    recentReactions_ = getStringList("recent_reactions");
+
+    auto tempPresence  = getString("presence", QString()).toStdString();
     auto presenceValue = QMetaEnum::fromType<Presence>().keyToValue(tempPresence.c_str());
     if (presenceValue < 0)
         presenceValue = 0;
     presence_ = static_cast<Presence>(presenceValue);
 
-    auto tempShowImage  = settings.value(prefix + "user/show_images", "").toString().toStdString();
+    auto tempShowImage  = getString("show_image", QString()).toStdString();
     auto showImageValue = QMetaEnum::fromType<ShowImage>().keyToValue(tempShowImage.c_str());
     if (showImageValue < 0)
         showImageValue = 0;
     showImage_ = static_cast<ShowImage>(showImageValue);
 
-    auto tempShowSenderUsername =
-      settings.value(prefix + "user/show_sender_username", "").toString().toStdString();
+    auto tempShowSenderUsername = getString("show_sender_username", QString()).toStdString();
     auto showSenderUsernameValue =
       QMetaEnum::fromType<ShowSenderUsername>().keyToValue(tempShowSenderUsername.c_str());
     if (showSenderUsernameValue < 0)
         showSenderUsernameValue = 1;
     showSenderUsername_ = static_cast<ShowSenderUsername>(showSenderUsernameValue);
 
+    // Collapsed spaces (list of string lists)
     collapsedSpaces_.clear();
-    auto tempSpaces = settings.value(prefix + "user/collapsed_spaces", QList<QVariant>{}).toList();
-    for (const auto &e : std::as_const(tempSpaces))
-        collapsedSpaces_.push_back(e.toStringList());
+    if (config["collapsed_spaces"] && config["collapsed_spaces"].IsSequence()) {
+        for (const auto &space : config["collapsed_spaces"]) {
+            if (space.IsSequence()) {
+                QStringList spaceList;
+                for (const auto &item : space) {
+                    if (item.IsScalar())
+                        spaceList.append(QString::fromStdString(item.as<std::string>()));
+                }
+                collapsedSpaces_.push_back(spaceList);
+            }
+        }
+    }
 
-    shareKeysWithTrustedUsers_ =
-      settings.value(prefix + "user/automatically_share_keys_with_trusted_users", false).toBool();
-    onlyShareKeysWithVerifiedUsers_ =
-      settings.value(prefix + "user/only_share_keys_with_verified_users", false).toBool();
-    useOnlineKeyBackup_ = settings.value(prefix + "user/online_key_backup", true).toBool();
+    // Encryption settings
+    shareKeysWithTrustedUsers_      = getBool("share_keys_with_trusted_users", false);
+    onlyShareKeysWithVerifiedUsers_ = getBool("only_share_keys_with_verified_users", false);
+    useOnlineKeyBackup_             = getBool("use_online_key_backup", true);
 
-    disableCertificateValidation_ =
-      settings.value(prefix + "user/disable_certificate_validation", false).toBool();
+    disableCertificateValidation_ = getBool("disable_certificate_validation", false);
+
+    // Database settings
+    maxDbSize_ = getULongLong("max_db_size", 0);
+    maxDbs_    = getUInt("max_dbs", 0);
+
+    // Secrets and experimental settings
+    runWithoutSecureSecretsService_ = getBool("run_without_secure_secrets_service", false);
+    enableHttp3_                    = getBool("enable_http3", false);
+
+    // Load secrets map
+    secrets_.clear();
+    if (config["secrets"] && config["secrets"].IsMap()) {
+        for (const auto &kv : config["secrets"]) {
+            if (kv.second.IsScalar()) {
+                secrets_[QString::fromStdString(kv.first.as<std::string>())] =
+                  QString::fromStdString(kv.second.as<std::string>());
+            }
+        }
+    }
 
     applyTheme();
 
@@ -418,6 +525,102 @@ UserSettings::setExpireEvents(bool state)
 
     expireEvents_ = state;
     emit expireEventsChanged(state);
+    save();
+}
+
+void
+UserSettings::setWindowWidth(int width)
+{
+    if (windowWidth_ == width)
+        return;
+
+    windowWidth_ = width;
+    emit windowWidthChanged(width);
+    save();
+}
+
+void
+UserSettings::setWindowHeight(int height)
+{
+    if (windowHeight_ == height)
+        return;
+
+    windowHeight_ = height;
+    emit windowHeightChanged(height);
+    save();
+}
+
+void
+UserSettings::clearAuth()
+{
+    accessToken_ = QString();
+    homeserver_  = QString();
+    userId_      = QString();
+    deviceId_    = QString();
+    save();
+}
+
+void
+UserSettings::setMaxDbSize(qulonglong size)
+{
+    if (maxDbSize_ == size)
+        return;
+
+    maxDbSize_ = size;
+    emit maxDbSizeChanged(size);
+    save();
+}
+
+void
+UserSettings::setMaxDbs(uint count)
+{
+    if (maxDbs_ == count)
+        return;
+
+    maxDbs_ = count;
+    emit maxDbsChanged(count);
+    save();
+}
+
+void
+UserSettings::setRunWithoutSecureSecretsService(bool state)
+{
+    if (runWithoutSecureSecretsService_ == state)
+        return;
+
+    runWithoutSecureSecretsService_ = state;
+    emit runWithoutSecureSecretsServiceChanged(state);
+    save();
+}
+
+void
+UserSettings::setEnableHttp3(bool state)
+{
+    if (enableHttp3_ == state)
+        return;
+
+    enableHttp3_ = state;
+    emit enableHttp3Changed(state);
+    save();
+}
+
+QString
+UserSettings::secret(const QString &name) const
+{
+    return secrets_.value(name, QString());
+}
+
+void
+UserSettings::setSecret(const QString &name, const QString &value)
+{
+    secrets_[name] = value;
+    save();
+}
+
+void
+UserSettings::removeSecret(const QString &name)
+{
+    secrets_.remove(name);
     save();
 }
 
@@ -1111,116 +1314,186 @@ UserSettings::applyTheme()
 void
 UserSettings::save()
 {
-    QString prefix = (profile_ != QLatin1String("") && profile_ != QLatin1String("default"))
-                       ? "profile/" + profile_ + "/"
-                       : QLatin1String("");
+    YAML::Emitter out;
+    out.SetIndent(2);
+    out << YAML::BeginMap;
+
+    // Helper lambdas for emitting values (skip empty strings)
+    auto emitString = [&out](const char *key, const QString &value) {
+        if (!value.isEmpty()) {
+            out << YAML::Key << key << YAML::Value << value.toStdString();
+        }
+    };
+    auto emitBool = [&out](const char *key, bool value) {
+        out << YAML::Key << key << YAML::Value << value;
+    };
+    auto emitInt = [&out](const char *key, int value) {
+        out << YAML::Key << key << YAML::Value << value;
+    };
+    auto emitUInt = [&out](const char *key, uint value) {
+        out << YAML::Key << key << YAML::Value << value;
+    };
+    auto emitULongLong = [&out](const char *key, qulonglong value) {
+        out << YAML::Key << key << YAML::Value << value;
+    };
+    auto emitDouble = [&out](const char *key, double value) {
+        out << YAML::Key << key << YAML::Value << value;
+    };
+    auto emitStringList = [&out](const char *key, const QStringList &value) {
+        if (!value.isEmpty()) {
+            out << YAML::Key << key << YAML::Value << YAML::BeginSeq;
+            for (const auto &item : value) {
+                out << item.toStdString();
+            }
+            out << YAML::EndSeq;
+        }
+    };
 
     // Window settings
-    settings.setValue(prefix + "user/window/tray", tray_);
-    settings.setValue(prefix + "user/window/start_in_tray", startInTray_);
+    emitBool("tray", tray_);
+    emitBool("start_in_tray", startInTray_);
+    emitInt("window_width", windowWidth_);
+    emitInt("window_height", windowHeight_);
 
     // Sidebar settings
-    settings.setValue(prefix + "user/sidebar/community_list_width", communityListWidth_);
-    settings.setValue(prefix + "user/sidebar/room_list_width", roomListWidth_);
+    emitInt("room_list_width", roomListWidth_);
+    emitInt("community_list_width", communityListWidth_);
+
+    // Notifications
+    emitBool("desktop_notifications", hasDesktopNotifications_);
+    emitBool("alert_on_notification", hasAlertOnNotification_);
+
+    // View settings
+    emitBool("group_view", groupView_);
+    emitBool("scrollbars_in_roomlist", scrollbarsInRoomlist_);
 
     // Timeline settings
-    settings.setValue(prefix + "user/timeline/buttons", buttonsInTimeline_);
-    settings.setValue(prefix + "user/timeline/message_hover_highlight", messageHoverHighlight_);
-    settings.setValue(prefix + "user/timeline/enlarge_emoji_only_msg", enlargeEmojiOnlyMessages_);
-    settings.setValue(prefix + "user/timeline/max_width", timelineMaxWidth_);
+    emitBool("buttons_in_timeline", buttonsInTimeline_);
+    emitInt("timeline_max_width", timelineMaxWidth_);
+    emitBool("message_hover_highlight", messageHoverHighlight_);
+    emitBool("enlarge_emoji_only_messages", enlargeEmojiOnlyMessages_);
+    emitBool("markdown", markdown_);
+    emitInt("send_message_key", static_cast<int>(sendMessageKey_));
+    emitString("auto_replace_emoji",
+               QString::fromUtf8(QMetaEnum::fromType<AutoReplaceEmoji>().valueToKey(
+                 static_cast<int>(autoReplaceEmoji_))));
 
-    // User settings
-    settings.setValue(prefix + "user/avatar_circles", avatarCircles_);
-    settings.setValue(prefix + "user/decrypt_sidebar", decryptSidebar_);
-    settings.setValue(prefix + "user/decrypt_notifications", decryptNotifications_);
-    settings.setValue(prefix + "user/space_notifications", spaceNotifications_);
-    settings.setValue(prefix + "user/fancy_effects", fancyEffects_);
-    settings.setValue(prefix + "user/reduced_motion", reducedMotion_);
-    settings.setValue(prefix + "user/privacy_screen", privacyScreen_);
-    settings.setValue(prefix + "user/privacy_screen_timeout", privacyScreenTimeout_);
-    settings.setValue(prefix + "user/mobile_mode", mobileMode_);
-    settings.setValue(prefix + "user/disable_swipe", disableSwipe_);
-    settings.setValue(prefix + "user/font_size", baseFontSize_);
-    settings.setValue(prefix + "user/typing_notifications", typingNotifications_);
-    settings.setValue(prefix + "user/sort_by_unread", sortByImportance_);
-    settings.setValue(prefix + "user/sort_by_alphabet", sortByAlphabet_);
-    settings.setValue(prefix + "user/minor_events", sortByImportance_);
-    settings.setValue(prefix + "user/read_receipts", readReceipts_);
-    settings.setValue(prefix + "user/group_view", groupView_);
-    settings.setValue(prefix + "user/scrollbars_in_roomlist", scrollbarsInRoomlist_);
-    settings.setValue(prefix + "user/markdown_enabled", markdown_);
-    settings.setValue(prefix + "user/send_message_key", static_cast<int>(sendMessageKey_));
-    settings.setValue(prefix + "user/auto_replace_emoji",
-                      QString::fromUtf8(QMetaEnum::fromType<AutoReplaceEmoji>().valueToKey(
-                        static_cast<int>(autoReplaceEmoji_))));
-    settings.setValue(prefix + "user/bubbles_enabled", bubbles_);
-    settings.setValue(prefix + "user/small_avatars_enabled", smallAvatars_);
-    settings.setValue(prefix + "user/enable_stickers", enableStickers_);
-    settings.setValue(prefix + "user/show_own_avatar_next_to_own_messages",
-                      showOwnAvatarNextToOwnMessages_);
-    settings.setValue(prefix + "user/pinned_reactions", pinnedReactions_);
-    settings.setValue(prefix + "user/animate_images_on_hover", animateImagesOnHover_);
-    settings.setValue(prefix + "user/desktop_notifications", hasDesktopNotifications_);
-    settings.setValue(prefix + "user/alert_on_notification", hasAlertOnNotification_);
-    settings.setValue(prefix + "user/theme", theme());
-    settings.setValue(prefix + "user/font_family", font_);
-    settings.setValue(prefix + "user/emoji_font_family", emojiFont_);
-    settings.setValue(prefix + "user/ringtone", ringtone_);
-    settings.setValue(prefix + "user/microphone", microphone_);
-    settings.setValue(prefix + "user/camera", camera_);
-    settings.setValue(prefix + "user/camera_resolution", cameraResolution_);
-    settings.setValue(prefix + "user/camera_frame_rate", cameraFrameRate_);
-    settings.setValue(prefix + "user/screen_share_frame_rate", screenShareFrameRate_);
-    settings.setValue(prefix + "user/screen_share_pip", screenSharePiP_);
-    settings.setValue(prefix + "user/screen_share_remote_video", screenShareRemoteVideo_);
-    settings.setValue(prefix + "user/screen_share_hide_cursor", screenShareHideCursor_);
-    settings.setValue(prefix + "user/use_stun_server", useStunServer_);
-    settings.setValue(prefix + "user/enable_legacy_calls", enableLegacyCalls_);
-    settings.setValue(prefix + "user/use_identicon", useIdenticon_);
-    settings.setValue(prefix + "user/open_image_external", openImageExternal_);
-    settings.setValue(prefix + "user/open_video_external", openVideoExternal_);
-    settings.setValue(prefix + "user/expose_dbus_api", exposeDBusApi_);
-    settings.setValue(prefix + "user/space_background_maintenance", updateSpaceVias_);
-    settings.setValue(prefix + "user/expired_events_background_maintenance", expireEvents_);
+    emitBool("bubbles", bubbles_);
+    emitBool("small_avatars", smallAvatars_);
+    emitBool("enable_stickers", enableStickers_);
+    emitBool("show_own_avatar_next_to_own_messages", showOwnAvatarNextToOwnMessages_);
+    emitString("pinned_reactions", pinnedReactions_);
+    emitBool("animate_images_on_hover", animateImagesOnHover_);
+    emitBool("typing_notifications", typingNotifications_);
+    emitBool("sort_by_importance", sortByImportance_);
+    emitBool("sort_by_alphabet", sortByAlphabet_);
+    emitBool("read_receipts", readReceipts_);
+    emitString("theme", theme());
+
+    emitString("font_family", font_);
+    emitString("emoji_font_family", emojiFont_);
+    emitDouble("font_size", baseFontSize_);
+
+    emitBool("avatar_circles", avatarCircles_);
+    emitBool("use_identicon", useIdenticon_);
+    emitBool("open_image_external", openImageExternal_);
+    emitBool("open_video_external", openVideoExternal_);
+    emitBool("decrypt_sidebar", decryptSidebar_);
+    emitBool("decrypt_notifications", decryptNotifications_);
+    emitBool("space_notifications", spaceNotifications_);
+    emitBool("fancy_effects", fancyEffects_);
+    emitBool("reduced_motion", reducedMotion_);
+    emitBool("privacy_screen", privacyScreen_);
+    emitInt("privacy_screen_timeout", privacyScreenTimeout_);
+    emitBool("expose_dbus_api", exposeDBusApi_);
+    emitBool("update_space_vias", updateSpaceVias_);
+    emitBool("expire_events", expireEvents_);
+
+    emitBool("mobile_mode", mobileMode_);
+    emitBool("disable_swipe", disableSwipe_);
+
+    emitString("ringtone", ringtone_);
+    emitString("microphone", microphone_);
+    emitString("camera", camera_);
+    emitString("camera_resolution", cameraResolution_);
+    emitString("camera_frame_rate", cameraFrameRate_);
+    emitInt("screen_share_frame_rate", screenShareFrameRate_);
+    emitBool("screen_share_pip", screenSharePiP_);
+    emitBool("screen_share_remote_video", screenShareRemoteVideo_);
+    emitBool("screen_share_hide_cursor", screenShareHideCursor_);
+    emitBool("use_stun_server", useStunServer_);
+    emitBool("enable_legacy_calls", enableLegacyCalls_);
 
     // Auth settings
-    settings.setValue(prefix + "auth/access_token", accessToken_);
-    settings.setValue(prefix + "auth/home_server", homeserver_);
-    settings.setValue(prefix + "auth/user_id", userId_);
-    settings.setValue(prefix + "auth/device_id", deviceId_);
+    emitString("access_token", accessToken_);
+    emitString("homeserver", homeserver_);
+    emitString("user_id", userId_);
+    emitString("device_id", deviceId_);
+    emitString("current_tag_id", currentTagId_);
+    emitStringList("hidden_tags", hiddenTags_);
+    emitStringList("muted_tags", mutedTags_);
+    emitStringList("hidden_pins", hiddenPins_);
+    emitStringList("hidden_widgets", hiddenWidgets_);
+    emitStringList("recent_reactions", recentReactions_);
 
-    // More user settings
-    settings.setValue(prefix + "user/current_tag_id", currentTagId_);
-    settings.setValue(prefix + "user/automatically_share_keys_with_trusted_users",
-                      shareKeysWithTrustedUsers_);
-    settings.setValue(prefix + "user/only_share_keys_with_verified_users",
-                      onlyShareKeysWithVerifiedUsers_);
-    settings.setValue(prefix + "user/online_key_backup", useOnlineKeyBackup_);
-    settings.setValue(prefix + "user/hidden_tags", hiddenTags_);
-    settings.setValue(prefix + "user/muted_tags", mutedTags_);
-    settings.setValue(prefix + "user/hidden_pins", hiddenPins_);
-    settings.setValue(prefix + "user/hidden_widgets", hiddenWidgets_);
-    settings.setValue(prefix + "user/recent_reactions", recentReactions_);
-    settings.setValue(
-      prefix + "user/presence",
+    emitString(
+      "presence",
       QString::fromUtf8(QMetaEnum::fromType<Presence>().valueToKey(static_cast<int>(presence_))));
-    settings.setValue(
-      prefix + "user/show_images",
+    emitString(
+      "show_image",
       QString::fromUtf8(QMetaEnum::fromType<ShowImage>().valueToKey(static_cast<int>(showImage_))));
-    settings.setValue(prefix + "user/show_sender_username",
-                      QString::fromUtf8(QMetaEnum::fromType<ShowSenderUsername>().valueToKey(
-                        static_cast<int>(showSenderUsername_))));
+    emitString("show_sender_username",
+               QString::fromUtf8(QMetaEnum::fromType<ShowSenderUsername>().valueToKey(
+                 static_cast<int>(showSenderUsername_))));
 
-    QVariantList v;
-    v.reserve(collapsedSpaces_.size());
-    for (const auto &e : std::as_const(collapsedSpaces_))
-        v.push_back(e);
-    settings.setValue(prefix + "user/collapsed_spaces", v);
+    // Collapsed spaces (list of string lists)
+    if (!collapsedSpaces_.isEmpty()) {
+        out << YAML::Key << "collapsed_spaces" << YAML::Value << YAML::BeginSeq;
+        for (const auto &space : collapsedSpaces_) {
+            out << YAML::BeginSeq;
+            for (const auto &item : space) {
+                out << item.toStdString();
+            }
+            out << YAML::EndSeq;
+        }
+        out << YAML::EndSeq;
+    }
 
-    settings.setValue(prefix + "user/disable_certificate_validation",
-                      disableCertificateValidation_);
+    // Encryption settings
+    emitBool("share_keys_with_trusted_users", shareKeysWithTrustedUsers_);
+    emitBool("only_share_keys_with_verified_users", onlyShareKeysWithVerifiedUsers_);
+    emitBool("use_online_key_backup", useOnlineKeyBackup_);
 
-    settings.sync();
+    emitBool("disable_certificate_validation", disableCertificateValidation_);
+
+    // Database settings
+    emitULongLong("max_db_size", maxDbSize_);
+    emitUInt("max_dbs", maxDbs_);
+
+    // Secrets and experimental settings
+    emitBool("run_without_secure_secrets_service", runWithoutSecureSecretsService_);
+    emitBool("enable_http3", enableHttp3_);
+
+    // Secrets map
+    if (!secrets_.isEmpty()) {
+        out << YAML::Key << "secrets" << YAML::Value << YAML::BeginMap;
+        for (auto it = secrets_.constBegin(); it != secrets_.constEnd(); ++it) {
+            out << YAML::Key << it.key().toStdString() << YAML::Value << it.value().toStdString();
+        }
+        out << YAML::EndMap;
+    }
+
+    out << YAML::EndMap;
+
+    // Write to file
+    std::ofstream fout(configFilePath_.toStdString());
+    if (fout.is_open()) {
+        fout << out.c_str();
+        fout.close();
+        nhlog::ui()->debug("Saved config to: {}", configFilePath_.toStdString());
+    } else {
+        nhlog::ui()->error("Failed to write config file: {}", configFilePath_.toStdString());
+    }
 }
 
 QHash<int, QByteArray>

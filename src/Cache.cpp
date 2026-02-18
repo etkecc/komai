@@ -498,12 +498,12 @@ Cache::setup()
 
     auto openEnv = [](const QString &name) {
         auto settings      = UserSettings::instance();
-        std::size_t dbSize = std::max(
-          settings->qsettings()->value(MAX_DB_SIZE_SETTINGS_KEY, DB_SIZE_DEFAULT).toULongLong(),
-          DB_SIZE_DEFAULT);
-        unsigned dbCount =
-          std::max(settings->qsettings()->value(MAX_DBS_SETTINGS_KEY, MAX_DBS_DEFAULT).toUInt(),
-                   MAX_DBS_DEFAULT);
+        std::size_t dbSize = settings->maxDbSize();
+        if (dbSize == 0 || dbSize < DB_SIZE_DEFAULT)
+            dbSize = DB_SIZE_DEFAULT;
+        unsigned dbCount = settings->maxDbs();
+        if (dbCount == 0 || dbCount < MAX_DBS_DEFAULT)
+            dbCount = MAX_DBS_DEFAULT;
 
         // ignore unreasonably high values of more than a quarter of the addressable memory
         if (dbSize > (1ull << (Q_PROCESSOR_WORDSIZE * 8 - 2))) {
@@ -666,7 +666,7 @@ Cache::loadSecretsFromStore(
   std::function<void(const std::string &name, bool internal, const std::string &value)> callback,
   bool databaseReadyOnFinished)
 {
-    auto settings = UserSettings::instance()->qsettings();
+    auto userSettings = UserSettings::instance();
 
     if (toLoad.empty()) {
         this->databaseReady_ = true;
@@ -681,10 +681,10 @@ Cache::loadSecretsFromStore(
         return;
     }
 
-    if (settings->value(QStringLiteral("run_without_secure_secrets_service"), false).toBool()) {
+    if (userSettings->runWithoutSecureSecretsService()) {
         for (auto &[name_, internal] : toLoad) {
             auto name  = secretName(name_, internal);
-            auto value = settings->value("secrets/" + name).toString();
+            auto value = userSettings->secret(name);
             if (value.isEmpty()) {
                 nhlog::db()->info("Restored empty secret '{}'.", name.toStdString());
             } else {
@@ -702,8 +702,7 @@ Cache::loadSecretsFromStore(
 
     auto job = new QKeychain::ReadPasswordJob(QCoreApplication::applicationName());
     job->setAutoDelete(true);
-    job->setInsecureFallback(true);
-    job->setSettings(settings);
+    job->setInsecureFallback(false);
     auto name = secretName(name_, internal);
     job->setKey(name);
 
@@ -797,11 +796,11 @@ Cache::deleteSecret(std::string_view name_, bool internal)
 void
 Cache::storeSecretInStore(const std::string name_, const std::string secret)
 {
-    auto name = secretName(name_, true);
+    auto name         = secretName(name_, true);
+    auto userSettings = UserSettings::instance();
 
-    auto settings = UserSettings::instance()->qsettings();
-    if (settings->value(QStringLiteral("run_without_secure_secrets_service"), false).toBool()) {
-        settings->setValue("secrets/" + name, QString::fromStdString(secret));
+    if (userSettings->runWithoutSecureSecretsService()) {
+        userSettings->setSecret(name, QString::fromStdString(secret));
         // if we emit the signal directly it won't be received
         QTimer::singleShot(0, this, [this, name_] { emit secretChanged(name_); });
         nhlog::db()->info("Storing secret '{}' successful", name_);
@@ -810,8 +809,7 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
 
     auto job = new QKeychain::WritePasswordJob(QCoreApplication::applicationName());
     job->setAutoDelete(true);
-    job->setInsecureFallback(true);
-    job->setSettings(settings);
+    job->setInsecureFallback(false);
 
     job->setKey(name);
 
@@ -840,11 +838,11 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
 void
 Cache::deleteSecretFromStore(const std::string name, bool internal)
 {
-    auto name_ = secretName(name, internal);
+    auto name_        = secretName(name, internal);
+    auto userSettings = UserSettings::instance();
 
-    auto settings = UserSettings::instance()->qsettings();
-    if (settings->value(QStringLiteral("run_without_secure_secrets_service"), false).toBool()) {
-        settings->remove("secrets/" + name_);
+    if (userSettings->runWithoutSecureSecretsService()) {
+        userSettings->removeSecret(name_);
         // if we emit the signal directly it won't be received
         QTimer::singleShot(0, this, [this, name] { emit secretChanged(name); });
         return;
@@ -852,8 +850,7 @@ Cache::deleteSecretFromStore(const std::string name, bool internal)
 
     auto job = new QKeychain::DeletePasswordJob(QCoreApplication::applicationName());
     job->setAutoDelete(true);
-    job->setInsecureFallback(true);
-    job->setSettings(settings);
+    job->setInsecureFallback(false);
 
     job->setKey(name_);
 
@@ -2660,18 +2657,13 @@ try {
                                      res.rooms.knock.size() + res.rooms.leave.size()) *
                                     20);
 
-            settings->qsettings()->setValue(
-              MAX_DBS_SETTINGS_KEY,
-              std::max(
-                settings->qsettings()->value(MAX_DBS_SETTINGS_KEY, MAX_DBS_DEFAULT).toUInt() * 2,
-                roomDbCount));
+            settings->setMaxDbs(std::max(settings->maxDbs() * 2, roomDbCount));
         } else if (lmdbException.code() == MDB_MAP_FULL) {
             auto settings = UserSettings::instance();
 
             MDB_envinfo envinfo = {};
             lmdb::env_info(db->env_, &envinfo);
-            settings->qsettings()->setValue(MAX_DB_SIZE_SETTINGS_KEY,
-                                            static_cast<qulonglong>(envinfo.me_mapsize * 2));
+            settings->setMaxDbSize(static_cast<qulonglong>(envinfo.me_mapsize * 2));
         }
 
         QMessageBox::warning(

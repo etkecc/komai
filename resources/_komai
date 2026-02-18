@@ -1,10 +1,15 @@
 #compdef komai
 
 function _komai_select_profile() {
-    local -a profiles=(default)
-    while read -r line; do
-        [[ ${line} =~ '\\auth\\device_id' ]] && profiles+=(${line%%\\*})
-    done < ${XDG_CONFIG_HOME:-~/.config}/komai/komai.conf
+    local -a profiles
+    local profile_dir=${XDG_CONFIG_HOME:-~/.config}/komai/profiles
+    if [[ -d ${profile_dir} ]]; then
+        for f in ${profile_dir}/*.yml(N); do
+            profiles+=(${${f:t}%.yml})
+        done
+    fi
+    # Add 'default' if not already in the list
+    (( ${profiles[(I)default]} )) || profiles=(default ${profiles})
     _values "profile" ${profiles}
 }
 

@@ -156,25 +156,23 @@ MainWindow::mousePressEvent(QMouseEvent *event)
 void
 MainWindow::restoreWindowSize()
 {
-    int savedWidth  = userSettings_->qsettings()->value(QStringLiteral("window/width")).toInt();
-    int savedheight = userSettings_->qsettings()->value(QStringLiteral("window/height")).toInt();
+    int savedWidth  = userSettings_->windowWidth();
+    int savedHeight = userSettings_->windowHeight();
 
-    nhlog::ui()->info("Restoring window size {}x{}", savedWidth, savedheight);
+    nhlog::ui()->info("Restoring window size {}x{}", savedWidth, savedHeight);
 
-    if (savedWidth == 0 || savedheight == 0)
+    if (savedWidth == 0 || savedHeight == 0)
         resize(conf::window::width, conf::window::height);
     else
-        resize(savedWidth, savedheight);
+        resize(savedWidth, savedHeight);
 }
 
 void
 MainWindow::saveCurrentWindowSize()
 {
-    auto settings = userSettings_->qsettings();
     QSize current = size();
-
-    settings->setValue(QStringLiteral("window/width"), current.width());
-    settings->setValue(QStringLiteral("window/height"), current.height());
+    userSettings_->setWindowWidth(current.width());
+    userSettings_->setWindowHeight(current.height());
 }
 
 void
@@ -255,14 +253,8 @@ MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 bool
 MainWindow::hasActiveUser()
 {
-    auto settings = userSettings_->qsettings();
-    QString prefix;
-    if (userSettings_->profile() != QLatin1String(""))
-        prefix = "profile/" + userSettings_->profile() + "/";
-
-    return !settings->value(prefix + "auth/access_token").toString().isEmpty() &&
-           !settings->value(prefix + "auth/home_server").toString().isEmpty() &&
-           !settings->value(prefix + "auth/user_id").toString().isEmpty();
+    return !userSettings_->accessToken().isEmpty() && !userSettings_->homeserver().isEmpty() &&
+           !userSettings_->userId().isEmpty();
 }
 
 bool

@@ -5,9 +5,9 @@
 #pragma once
 
 #include <QAbstractListModel>
+#include <QMap>
 #include <QProcessEnvironment>
 #include <QQmlEngine>
-#include <QSettings>
 #include <QSharedPointer>
 
 #include <optional>
@@ -137,6 +137,21 @@ class UserSettings final : public QObject
                  updateSpaceViasChanged)
     Q_PROPERTY(bool expireEvents READ expireEvents WRITE setExpireEvents NOTIFY expireEventsChanged)
 
+    // Window geometry (not exposed to QML, used internally)
+    Q_PROPERTY(int windowWidth READ windowWidth WRITE setWindowWidth NOTIFY windowWidthChanged)
+    Q_PROPERTY(int windowHeight READ windowHeight WRITE setWindowHeight NOTIFY windowHeightChanged)
+
+    // Database settings (internal, auto-adjusted)
+    Q_PROPERTY(qulonglong maxDbSize READ maxDbSize WRITE setMaxDbSize NOTIFY maxDbSizeChanged)
+    Q_PROPERTY(uint maxDbs READ maxDbs WRITE setMaxDbs NOTIFY maxDbsChanged)
+
+    // Secrets storage fallback
+    Q_PROPERTY(bool runWithoutSecureSecretsService READ runWithoutSecureSecretsService WRITE
+                 setRunWithoutSecureSecretsService NOTIFY runWithoutSecureSecretsServiceChanged)
+
+    // Experimental features
+    Q_PROPERTY(bool enableHttp3 READ enableHttp3 WRITE setEnableHttp3 NOTIFY enableHttp3Changed)
+
     UserSettings();
 
 public:
@@ -160,8 +175,6 @@ public:
         QJSEngine::setObjectOwnership(instance().get(), QJSEngine::CppOwnership);
         return instance().get();
     }
-
-    QSettings *qsettings() { return &settings; }
 
     enum class Presence
     {
@@ -282,6 +295,18 @@ public:
     void setExposeDBusApi(bool state);
     void setUpdateSpaceVias(bool state);
     void setExpireEvents(bool state);
+    void setWindowWidth(int width);
+    void setWindowHeight(int height);
+    void setMaxDbSize(qulonglong size);
+    void setMaxDbs(uint count);
+    void setRunWithoutSecureSecretsService(bool state);
+    void setEnableHttp3(bool state);
+    void clearAuth();
+
+    // Secrets storage helpers (for fallback mode)
+    QString secret(const QString &name) const;
+    void setSecret(const QString &name, const QString &value);
+    void removeSecret(const QString &name);
 
     // Theme helpers for QML (used on the Welcome page)
     Q_INVOKABLE int themeVariantIndex() const;
@@ -368,6 +393,12 @@ public:
     bool exposeDBusApi() const { return exposeDBusApi_; }
     bool updateSpaceVias() const { return updateSpaceVias_; }
     bool expireEvents() const { return expireEvents_; }
+    int windowWidth() const { return windowWidth_; }
+    int windowHeight() const { return windowHeight_; }
+    qulonglong maxDbSize() const { return maxDbSize_; }
+    uint maxDbs() const { return maxDbs_; }
+    bool runWithoutSecureSecretsService() const { return runWithoutSecureSecretsService_; }
+    bool enableHttp3() const { return enableHttp3_; }
 
 signals:
     void groupViewStateChanged(bool state);
@@ -441,6 +472,12 @@ signals:
     void exposeDBusApiChanged(bool state);
     void updateSpaceViasChanged(bool state);
     void expireEventsChanged(bool state);
+    void windowWidthChanged(int width);
+    void windowHeightChanged(int height);
+    void maxDbSizeChanged(qulonglong size);
+    void maxDbsChanged(uint count);
+    void runWithoutSecureSecretsServiceChanged(bool state);
+    void enableHttp3Changed(bool state);
 
 private:
     // Default to system theme if QT_QPA_PLATFORMTHEME var is set.
@@ -524,8 +561,16 @@ private:
     bool exposeDBusApi_;
     bool updateSpaceVias_;
     bool expireEvents_;
+    int windowWidth_                     = 0;
+    int windowHeight_                    = 0;
+    qulonglong maxDbSize_                = 0;
+    uint maxDbs_                         = 0;
+    bool runWithoutSecureSecretsService_ = false;
+    bool enableHttp3_                    = false;
+    QMap<QString, QString> secrets_;
 
-    QSettings settings;
+    // Path to the per-profile YAML config file
+    QString configFilePath_;
 
     static QSharedPointer<UserSettings> instance_;
 };

@@ -84,8 +84,8 @@ inline const QRegularExpression
 
 // Window geometry.
 namespace window {
-inline constexpr int height = 600;
-inline constexpr int width  = 1066;
+inline constexpr int height = 700;
+inline constexpr int width  = 1050; // 3:2 aspect ratio
 
 inline constexpr int minHeight = 340;
 inline constexpr int minWidth  = 340;

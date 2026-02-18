@@ -488,20 +488,7 @@ ChatPage::resetUI()
 void
 ChatPage::deleteConfigs()
 {
-    auto settings = UserSettings::instance()->qsettings();
-
-    if (UserSettings::instance()->profile() != QLatin1String("")) {
-        settings->beginGroup(QStringLiteral("profile"));
-        settings->beginGroup(UserSettings::instance()->profile());
-    }
-    settings->beginGroup(QStringLiteral("auth"));
-    settings->remove(QLatin1String(""));
-    settings->endGroup(); // auth
-    if (UserSettings::instance()->profile() != QLatin1String("")) {
-        settings->endGroup(); // profilename
-        settings->endGroup(); // profile
-    }
-
+    UserSettings::instance()->clearAuth();
     http::client()->shutdown();
     cache::deleteData();
 }

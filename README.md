@@ -79,6 +79,11 @@ Pre-built packaging formats (alphabetical):
 See 📄 [Packaging](docs/packaging/README.md) for an overview of all methods.
 
 
+## 📚 Documentation
+
+See 📄 [Documentation](docs/README.md) for the full list of guides, including configuration, theming, translations, and packaging.
+
+
 ## 🤝 Contributing
 
 See [CONTRIBUTING](.github/CONTRIBUTING.md).

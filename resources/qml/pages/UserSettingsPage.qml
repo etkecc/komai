@@ -21,6 +21,10 @@ Rectangle {
     property int sidebarWidth: 200
     color: palette.window
 
+    // Handle Escape key to go back
+    focus: true
+    Keys.onEscapePressed: mainWindow.pop()
+
     // Sidebar + Content layout
     RowLayout {
         anchors.fill: parent
@@ -37,36 +41,46 @@ Rectangle {
                 anchors.fill: parent
                 spacing: 0
 
-                // Header with back button and title
-                RowLayout {
+                // Header with back button and title - full width clickable
+                ItemDelegate {
+                    id: headerBack
                     Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
-                    spacing: Nheko.paddingSmall
+                    Layout.preferredHeight: 48
+                    padding: Nheko.paddingSmall
+                    leftPadding: Nheko.paddingSmall
+                    rightPadding: Nheko.paddingSmall
 
-                    ImageButton {
-                        id: backButton
-                        Layout.preferredWidth: 32
-                        Layout.preferredHeight: 32
-                        image: ":/icons/icons/ui/angle-arrow-left.svg"
-                        ToolTip.visible: hovered
-                        ToolTip.text: qsTr("Back")
-                        onClicked: mainWindow.pop()
+                    background: Rectangle {
+                        color: headerBack.hovered ? palette.dark : "transparent"
                     }
 
-                    Label {
-                        Layout.fillWidth: true
-                        text: qsTr("Settings")
-                        font.pointSize: fontMetrics.font.pointSize * 1.2
-                        font.bold: true
-                        color: palette.text
-                    }
-                }
+                    onClicked: mainWindow.pop()
 
-                // Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                    color: Nheko.theme.separator
+                    contentItem: RowLayout {
+                        spacing: Nheko.paddingMedium
+
+                        Image {
+                            Layout.preferredWidth: 24
+                            Layout.preferredHeight: 24
+                            Layout.alignment: Qt.AlignVCenter
+                            source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerBack.hovered ? palette.brightText : palette.text)
+                            sourceSize.width: 24
+                            sourceSize.height: 24
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignVCenter
+                            text: qsTr("Settings")
+                            font.pointSize: fontMetrics.font.pointSize * 1.2
+                            font.bold: true
+                            color: headerBack.hovered ? palette.brightText : palette.text
+                        }
+                    }
+
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Back")
+                    ToolTip.delay: Nheko.tooltipDelay
                 }
 
                 // Navigation items

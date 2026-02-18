@@ -128,7 +128,7 @@ sudo apt install -y cmake libevent-dev libspdlog-dev libre2-dev \
     qt6-declarative-private-dev
 
 git clone https://github.com/etkecc/komai && cd komai
-just build  # or: cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -DUSE_BUNDLED_COEURL=1 -DUSE_BUNDLED_MTXCLIENT=1 -DUSE_BUNDLED_LMDBXX=1 && cmake --build build
+just build  # or: cmake -S. -Bvar/build/native -DCMAKE_BUILD_TYPE=Release -DUSE_BUNDLED_COEURL=1 -DUSE_BUNDLED_MTXCLIENT=1 -DUSE_BUNDLED_LMDBXX=1 && cmake --build var/build/native
 ```
 </details>
 

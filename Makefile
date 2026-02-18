@@ -3,11 +3,11 @@ DEPS_SOURCE_DIR=deps
 
 debug:
 	@cmake -H. -GNinja \
-		-Bbuild \
+		-Bvar/build/native \
 		-DCMAKE_BUILD_TYPE=Debug \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
 		-DCMAKE_INSTALL_PREFIX=${DEPS_BUILD_DIR}/usr
-	@cmake --build build
+	@cmake --build var/build/native
 
 third-party:
 	@cmake -GNinja -H${DEPS_SOURCE_DIR} -B${DEPS_BUILD_DIR} \
@@ -22,21 +22,21 @@ docker-third-party:
 ci:
 	cmake -H${DEPS_SOURCE_DIR} -B${DEPS_BUILD_DIR} -DCMAKE_BUILD_TYPE=Release
 	cmake --build ${DEPS_BUILD_DIR}
-	cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=RelWithDebInfo
-	cmake --build build
+	cmake -H. -Bvar/build/native -DCMAKE_BUILD_TYPE=RelWithDebInfo
+	cmake --build var/build/native
 
 release:
 	@cmake -H. -GNinja \
-		-Bbuild \
+		-Bvar/build/native \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=${DEPS_BUILD_DIR}/usr
-	@cmake --build build
+	@cmake --build var/build/native
 
 linux-install:
 	cp -f nheko*.AppImage ~/.local/bin
 
 macos-app-install:
-	cp -Rf build/nheko.app /Applications
+	cp -Rf var/build/native/nheko.app /Applications
 
 lint:
 	./.ci/format.sh
@@ -74,4 +74,4 @@ update-translations:
 		src/ resources/qml/ -ts resources/langs/nheko_*.ts -no-obsolete
 
 clean:
-	rm -rf build
+	rm -rf var/build/native

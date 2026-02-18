@@ -3,8 +3,8 @@
 set -ex
 
 if [ "$FLATPAK" ]; then
-	mkdir -p build-flatpak
-	cd build-flatpak
+	mkdir -p var/build/flatpak
+	cd var/build/flatpak
 
 	jobsarg=""
 	if [ "$ARCH" = "arm64" ]; then
@@ -56,7 +56,7 @@ mkdir -p .deps/usr .hunter
 # Build nheko
 
 if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-cmake -GNinja -H. -Bbuild \
+cmake -GNinja -H. -Bvar/build/native \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DCMAKE_INSTALL_PREFIX=.deps/usr \
     -DHUNTER_ROOT=".hunter" \
@@ -65,7 +65,7 @@ cmake -GNinja -H. -Bbuild \
     -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5 \
     -DCI_BUILD=ON
 else
-cmake -GNinja -H. -Bbuild \
+cmake -GNinja -H. -Bvar/build/native \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DCMAKE_INSTALL_PREFIX=.deps/usr \
     -DHUNTER_ROOT=".hunter" \
@@ -74,7 +74,7 @@ cmake -GNinja -H. -Bbuild \
     -DUSE_BUNDLED_OPENSSL=OFF \
     -DCI_BUILD=ON
 fi
-cmake --build build
+cmake --build var/build/native
 
 if [ "$TRAVIS_OS_NAME" = "osx" ]; then
     make lint;

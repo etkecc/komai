@@ -1,4 +1,3 @@
-/build*
 tags
 cscope*
 .clang_complete
@@ -95,7 +94,6 @@ Icon
 
 # Visual Studio
 .vs
-build-vc
 vcpkg
 
 # Directories potentially created on remote AFP share
@@ -132,7 +130,7 @@ src/ui/ThemeDefinitions.h
 # Python
 __pycache__/
 
-# mise (project-local tool installs)
+# Project-local data (build output, tool installs, etc.)
 /var/
 
 # Archives

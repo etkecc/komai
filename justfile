@@ -1,6 +1,6 @@
 # Paths
-build_dir := justfile_directory() / "build"
-flatpak_build_dir := justfile_directory() / "build-flatpak"
+build_dir := justfile_directory() / "var/build/native"
+flatpak_build_dir := justfile_directory() / "var/build/flatpak"
 
 # mise (dev tool version manager)
 mise_data_dir := env("MISE_DATA_DIR", justfile_directory() / "var/mise")
@@ -126,6 +126,7 @@ flatpak-build:
 		--user \
 		--disable-rofiles-fuse \
 		--ccache \
+		--state-dir="{{ flatpak_build_dir }}/.flatpak-builder" \
 		--repo="{{ flatpak_build_dir }}/repo" \
 		--force-clean \
 		"{{ flatpak_build_dir }}/app" \

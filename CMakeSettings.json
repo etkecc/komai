@@ -4,7 +4,7 @@
       "name": "Debug",
       "generator": "Visual Studio 16 2019 Win64",
       "configurationType": "Debug",
-      "buildRoot": "${workspaceRoot}\\build-vc\\${name}",
+      "buildRoot": "${workspaceRoot}\\var\\build\\native\\${name}",
       "cmakeCommandArgs": "",
       "variables": [
         {
@@ -35,7 +35,7 @@
       "name": "Release",
       "generator": "Visual Studio 16 2019 Win64",
       "configurationType": "Release",
-      "buildRoot": "${workspaceRoot}\\build-vc\\${name}",
+      "buildRoot": "${workspaceRoot}\\var\\build\\native\\${name}",
       "cmakeCommandArgs": "",
       "variables": [
         {

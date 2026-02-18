@@ -139,7 +139,7 @@ body:
       placeholder: |
         You can retrieve a backtrace by building komai with -DCMAKE_BUILD_TYPE=Debug and running it through gdb or lldb.
 
-        gdb ./build/komai
+        gdb ./var/build/native/komai
 
         >> run
 

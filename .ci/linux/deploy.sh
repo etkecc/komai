@@ -14,7 +14,7 @@ do
 done
 
 # Copy resources.
-cp build/nheko ${DIR}/usr/bin
+cp var/build/native/nheko ${DIR}/usr/bin
 cp resources/nheko.desktop ${DIR}/usr/share/applications/nheko.desktop
 cp resources/nheko.png ${DIR}/usr/share/pixmaps/nheko.png
 

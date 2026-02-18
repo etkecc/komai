@@ -19,7 +19,7 @@ export CMAKE_BUILD_PARALLEL_LEVEL="$(sysctl -n hw.ncpu)"
 
 export CMAKE_POLICY_VERSION_MINIMUM="3.5"
 
-cmake -GNinja -S. -Bbuild \
+cmake -GNinja -S. -Bvar/build/native \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo \
       -DCMAKE_INSTALL_PREFIX="nheko.temp" \
       -DHUNTER_ROOT="../.hunter" \
@@ -28,9 +28,9 @@ cmake -GNinja -S. -Bbuild \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo -DHUNTER_CONFIGURATION_TYPES=RelWithDebInfo \
       -DQt6_DIR=${QT_BASEPATH}/lib/cmake \
       -DCI_BUILD=ON
-cmake --build build
-cmake --install build
-( cd build
+cmake --build var/build/native
+cmake --install var/build/native
+( cd var/build/native
   git clone https://github.com/Nheko-Reborn/qt-jdenticon.git
   ( cd qt-jdenticon
     qmake

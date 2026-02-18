@@ -33,7 +33,7 @@ build-windows:
     key: "$CI_JOB_NAME"
     paths:
       - hunter/
-      - build/_deps
+      - var/build/native/_deps
   artifacts:
     paths:
       - komai.msix
@@ -124,13 +124,13 @@ build-clazy:
   script:
     - export PATH="/usr/lib/ccache:${PATH}"
     - export CMAKE_BUILD_PARALLEL_LEVEL=$(cat /proc/cpuinfo | awk '/^processor/{print $3}' | wc -l)
-    - cmake -GNinja -H. -Bbuild
+    - cmake -GNinja -H. -Bvar/build/native
         -DCMAKE_INSTALL_PREFIX=.deps/usr
         -DHUNTER_ENABLED=OFF -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=ON -DUSE_BUNDLED_MTXCLIENT=ON -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_OLM=ON -DUSE_BUNDLED_QTKEYCHAIN=ON -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON
         -DVOIP=OFF
         -DCMAKE_BUILD_TYPE=Release
         -DCI_BUILD=ON -DFETCHCONTENT_QUIET=OFF -DCMAKE_CXX_COMPILER=clazy
-    - cmake --build build
+    - cmake --build var/build/native
   rules:
     - if : '$CI_PIPELINE_TRIGGERED == null'
   cache:
@@ -158,7 +158,7 @@ build-clazy:
     - rm -rf ../.hunter &&  mv .hunter ../.hunter || true
   script:
     - export PATH="/usr/lib/ccache:${PATH}"
-    - cmake -GNinja -H. -Bbuild
+    - cmake -GNinja -H. -Bvar/build/native
         -DCMAKE_INSTALL_PREFIX=.deps/usr
         -DHUNTER_ROOT="../.hunter"
         -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=ON -DUSE_BUNDLED_LMDB=OFF -DUSE_BUNDLED_QTKEYCHAIN=OFF -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON
@@ -166,7 +166,7 @@ build-clazy:
         -DCMAKE_BUILD_TYPE=Release -DHUNTER_CONFIGURATION_TYPES=Release
         -DCI_BUILD=ON -DFETCHCONTENT_QUIET=OFF
         -DJSON_ImplicitConversions=OFF
-    - /usr/bin/time cmake --build build
+    - /usr/bin/time cmake --build var/build/native
   after_script:
     - mv ../.hunter .hunter
   rules:
@@ -224,7 +224,7 @@ build-tw:
         "time"
   script:
     - export PATH="/usr/lib64/ccache:${PATH}"
-    - cmake -GNinja -H. -Bbuild
+    - cmake -GNinja -H. -Bvar/build/native
         -DCMAKE_INSTALL_PREFIX=.deps/usr
         -DUSE_BUNDLED_MTXCLIENT=ON -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_LMDBXX=ON -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON
         -DCMAKE_BUILD_TYPE=Release
@@ -232,7 +232,7 @@ build-tw:
         -DCI_BUILD=ON -DFETCHCONTENT_QUIET=OFF
         # temporarily disabled because of mtxclient failures
         #-DJSON_ImplicitConversions=OFF
-    - /usr/bin/time cmake --build build
+    - /usr/bin/time cmake --build var/build/native
   rules:
     - if : '$CI_PIPELINE_TRIGGERED == null'
   cache:
@@ -352,25 +352,25 @@ build-flatpak:
     - export VERSION=$(git describe)
     # workaround for https://github.com/flatpak/flatpak/issues/5076
     - dbus-send --system /org/freedesktop/DBus org.freedesktop.DBus || (mkdir -p /run/dbus/ && dbus-daemon --system --fork)
-    - mkdir -p build-flatpak
-    - cd build-flatpak
-    - flatpak-builder --arch=${AARCH} --install-deps-from=flathub --user --disable-rofiles-fuse --ccache --repo=repo --default-branch=${CI_COMMIT_REF_NAME//\//_} --subject="Build of Komai ${VERSION} `date` for ${ARCH}" app ../etc/packaging/flatpak/cc.etke.komai.yaml --jobs=$JOBS
+    - mkdir -p var/build/flatpak
+    - cd var/build/flatpak
+    - flatpak-builder --arch=${AARCH} --install-deps-from=flathub --user --disable-rofiles-fuse --ccache --repo=repo --default-branch=${CI_COMMIT_REF_NAME//\//_} --subject="Build of Komai ${VERSION} `date` for ${ARCH}" app ../../../etc/packaging/flatpak/cc.etke.komai.yaml --jobs=$JOBS
     - flatpak install --user -y flathub org.flatpak.Builder
     - flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream app/files/share/app-info/xmls/cc.etke.komai.xml.gz
     - flatpak --arch=${AARCH} build-bundle repo komai-${ARCH}.flatpak cc.etke.komai ${CI_COMMIT_REF_NAME//\//_}
   after_script:
-    - bash ./.ci/upload-nightly-gitlab.sh build-flatpak/komai-${ARCH}.flatpak
-    - (cd ./scripts && ./upload-to-flatpak-repo.sh ../build-flatpak/repo) || exit_code=$?
+    - bash ./.ci/upload-nightly-gitlab.sh var/build/flatpak/komai-${ARCH}.flatpak
+    - (cd ./scripts && ./upload-to-flatpak-repo.sh ../var/build/flatpak/repo) || exit_code=$?
   rules:
     - if : '$CI_PIPELINE_TRIGGERED == null'
   cache:
     key: "$CI_JOB_NAME"
     paths:
-      - build-flatpak/.flatpak-builder/
+      - var/build/flatpak/.flatpak-builder/
     when: always # because the arm runner is slow and ooms often otherwise!
   artifacts:
     expose_as: 'flatpak'
-    paths: ['build-flatpak/komai-${ARCH}.flatpak']
+    paths: ['var/build/flatpak/komai-${ARCH}.flatpak']
     name: flatpak-${CI_COMMIT_REF_NAME}-${VERSION}-${ARCH}
 
 
@@ -415,7 +415,7 @@ build-flatpak:
 
   script:
     - export PATH="/usr/local/bin/:/usr/lib/ccache:${PATH}"
-    - cmake -GNinja -H. -Bbuild
+    - cmake -GNinja -H. -Bvar/build/native
         -DCMAKE_INSTALL_PREFIX=/usr
         -DHUNTER_ROOT=".hunter"
         -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=ON -DUSE_BUNDLED_LMDB=OFF -DUSE_BUNDLED_QTKEYCHAIN=OFF -DUSE_BUNDLED_LIBEVENT=OFF -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON
@@ -423,8 +423,8 @@ build-flatpak:
         -DCMAKE_BUILD_TYPE=Release -DHUNTER_CONFIGURATION_TYPES=Release
         -DCI_BUILD=ON -DFETCHCONTENT_QUIET=OFF
         -DJSON_ImplicitConversions=OFF
-    - DESTDIR=`pwd`/AppDir ninja -C build install/local
-    - DESTDIR=`pwd`/AppDir ninja -C build _deps/cmark-build/src/install
+    - DESTDIR=`pwd`/AppDir ninja -C var/build/native install/local
+    - DESTDIR=`pwd`/AppDir ninja -C var/build/native _deps/cmark-build/src/install
     - mkdir -p AppDir/usr/lib/x86_64-linux-gnu AppDir/lib/x86_64-linux-gnu
     - appimage-builder --skip-test
   after_script:

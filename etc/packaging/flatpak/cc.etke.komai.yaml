@@ -230,8 +230,6 @@ modules:
       - path: ../../..
         type: dir
         skip:
-          - build
-          - build-flatpak
           - .git
           - var
           - etc

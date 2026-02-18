@@ -16,8 +16,8 @@ echo %DATE%
 
 call "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Auxiliary/Build/vcvarsall.bat" x64
 set CMAKE_POLICY_VERSION_MINIMUM=3.5
-cmake -G "Visual Studio 17 2022" -A x64 -S. -Bbuild -DHUNTER_ROOT="C:\hunter" -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=ON -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON -DKDSingleApplication_STATIC=ON -DCMAKE_BUILD_TYPE=Release -DHUNTER_CONFIGURATION_TYPES=Release
-cmake --build build --config Release -j %NUMBER_OF_PROCESSORS%
+cmake -G "Visual Studio 17 2022" -A x64 -S. -Bvar/build/native -DHUNTER_ROOT="C:\hunter" -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=ON -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON -DKDSingleApplication_STATIC=ON -DCMAKE_BUILD_TYPE=Release -DHUNTER_CONFIGURATION_TYPES=Release
+cmake --build var/build/native --config Release -j %NUMBER_OF_PROCESSORS%
 
 
 git clone https://github.com/Nheko-Reborn/qt-jdenticon.git
@@ -28,9 +28,9 @@ cd ..
 
 :: create zip bundle
 mkdir NhekoRelease
-copy build\Release\nheko.exe NhekoRelease\nheko.exe
+copy var\build\native\Release\nheko.exe NhekoRelease\nheko.exe
 copy qt-jdenticon\release\qtjdenticon0.dll NhekoRelease\qtjdenticon.dll
-copy build\_deps\cmark-build\src\Release\cmark.dll NhekoRelease\cmark.dll
+copy var\build\native\_deps\cmark-build\src\Release\cmark.dll NhekoRelease\cmark.dll
 windeployqt --qmldir resources\qml\ NhekoRelease\nheko.exe
 
 7z a nheko_win_64.zip .\NhekoRelease\*

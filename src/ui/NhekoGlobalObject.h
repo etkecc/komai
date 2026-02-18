@@ -31,6 +31,7 @@ class Nheko : public QObject
     Q_PROPERTY(int paddingMedium READ paddingMedium CONSTANT)
     Q_PROPERTY(int paddingLarge READ paddingLarge CONSTANT)
     Q_PROPERTY(int tooltipDelay READ tooltipDelay CONSTANT)
+    Q_PROPERTY(QString tagline READ tagline CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
 
@@ -48,6 +49,8 @@ public:
     int paddingLarge() const { return 20; }
 
     int tooltipDelay() const;
+
+    QString tagline() const { return tr("A fine desktop Matrix client you can get to love"); }
 
     UserProfile *currentUser() const;
 

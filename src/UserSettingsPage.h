@@ -739,10 +739,10 @@ private:
         // == About Tab ==
         // Application section
         AboutApplicationSection,
-        Version,
+        AppName,
         Platform,
         BasedOn,
-        ForkBy,
+        MaintainedBy,
 
         COUNT,
 

@@ -345,6 +345,19 @@ set(PROJECT_VERSION ${CPACK_PACKAGE_VERSION})
 
 message(STATUS "Version: ${PROJECT_VERSION}")
 
+# Get git commit hash for version info
+execute_process(
+    COMMAND git rev-parse --short=8 HEAD
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+)
+if(NOT GIT_COMMIT_HASH)
+    set(GIT_COMMIT_HASH "unknown")
+endif()
+message(STATUS "Git commit: ${GIT_COMMIT_HASH}")
+
 cmake_host_system_information(RESULT BUILD_HOST QUERY HOSTNAME)
 
 include(CheckSymbolExists)

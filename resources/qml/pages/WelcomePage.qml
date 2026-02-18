@@ -43,7 +43,7 @@ ColumnLayout {
         Layout.bottomMargin: Nheko.paddingLarge
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        text: qsTr("A fine desktop Matrix client you can get to love")
+        text: Nheko.tagline
         color: palette.buttonText
         font.pointSize: fontMetrics.font.pointSize * 1.5
         wrapMode: Text.Wrap

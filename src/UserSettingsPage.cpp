@@ -1653,14 +1653,14 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Device Fingerprint");
         case Homeserver:
             return tr("Homeserver");
-        case Version:
-            return tr("Version");
+        case AppName:
+            return tr("Name");
         case Platform:
             return tr("Platform");
         case BasedOn:
             return tr("Based on");
-        case ForkBy:
-            return tr("Fork by");
+        case MaintainedBy:
+            return tr("Maintained by");
         // Look & Feel sections
         case LookFeelThemeSection:
             return tr("THEME");
@@ -1882,14 +1882,20 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return utils::humanReadableFingerprint(olm::client()->identity_keys().ed25519);
         case Homeserver:
             return i->homeserver();
-        case Version:
-            return QString::fromStdString(nheko::version);
+        case AppName:
+            return QStringLiteral("<a href=\"https://github.com/etkecc/komai\">Komai</a> @ ") +
+                   QString::fromStdString(nheko::version) +
+                   QStringLiteral(" (<a href=\"https://github.com/etkecc/komai/commit/") +
+                   QString::fromStdString(nheko::commit_hash) + QStringLiteral("\">") +
+                   QString::fromStdString(nheko::commit_hash) + QStringLiteral("</a>)");
         case Platform:
             return QString::fromStdString(nheko::build_os);
         case BasedOn:
-            return QStringLiteral("<a href=\"https://nheko.im\">nheko</a> ") +
-                   QString::fromStdString(nheko::upstream_version);
-        case ForkBy:
+            return QStringLiteral(
+              "<a href=\"https://nheko.im/nheko-reborn/nheko\">nheko</a> @ ~v0.12.1 "
+              "(<a href=\"https://nheko.im/nheko-reborn/nheko/-/commit/"
+              "abb2325a995f936081219f402339fc8e0a661ac1\">abb2325a</a>)");
+        case MaintainedBy:
             return QStringLiteral("<a href=\"https://etke.cc\">etke.cc</a>");
         case OnlineBackupKey:
             return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
@@ -2081,10 +2087,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case DeviceId:
         case DeviceFingerprint:
         case Homeserver:
-        case Version:
+        case AppName:
         case Platform:
         case BasedOn:
-        case ForkBy:
+        case MaintainedBy:
         // Section titles return empty description
         case LookFeelThemeSection:
         case LookFeelFontsSection:
@@ -2224,11 +2230,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case DeviceId:
         case DeviceFingerprint:
         case Homeserver:
-        case Version:
         case Platform:
             return ReadOnlyText;
+        case AppName:
         case BasedOn:
-        case ForkBy:
+        case MaintainedBy:
             return Link;
         // Section titles
         case LookFeelThemeSection:
@@ -2548,10 +2554,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
 
         // About tab
         case AboutApplicationSection:
-        case Version:
+        case AppName:
         case Platform:
         case BasedOn:
-        case ForkBy:
+        case MaintainedBy:
             return TabAbout;
 
         default:

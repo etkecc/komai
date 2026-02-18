@@ -404,16 +404,48 @@ Rectangle {
                                 }
                                 DelegateChoice {
                                     roleValue: UserSettingsModel.SectionTitle
-                                    Item {
+                                    ColumnLayout {
                                         width: grid.width
-                                        height: fontMetrics.lineSpacing
-                                        Rectangle {
-                                            anchors.topMargin: Nheko.paddingSmall
-                                            anchors.top: parent.top
-                                            anchors.left: parent.left
-                                            anchors.right: parent.right
-                                            color: palette.buttonText
-                                            height: 1
+                                        spacing: 0
+
+                                        // Horizontal line (always shown)
+                                        Item {
+                                            Layout.fillWidth: true
+                                            height: fontMetrics.lineSpacing
+                                            Rectangle {
+                                                anchors.topMargin: Nheko.paddingSmall
+                                                anchors.top: parent.top
+                                                anchors.left: parent.left
+                                                anchors.right: parent.right
+                                                color: palette.buttonText
+                                                height: 1
+                                            }
+                                        }
+
+                                        // Logo and tagline for About > APPLICATION section
+                                        ColumnLayout {
+                                            visible: userSettingsDialog.currentTab === UserSettingsModel.TabAbout
+                                            Layout.fillWidth: true
+                                            Layout.topMargin: Nheko.paddingLarge
+                                            Layout.bottomMargin: Nheko.paddingMedium
+                                            spacing: Nheko.paddingSmall
+
+                                            Image {
+                                                Layout.alignment: Qt.AlignHCenter
+                                                source: "qrc:/logos/splash.png"
+                                                Layout.preferredHeight: 128
+                                                Layout.preferredWidth: 128
+                                            }
+
+                                            Label {
+                                                Layout.alignment: Qt.AlignHCenter
+                                                Layout.fillWidth: true
+                                                text: Nheko.tagline
+                                                color: palette.buttonText
+                                                font.pointSize: fontMetrics.font.pointSize * 1.2
+                                                wrapMode: Text.Wrap
+                                                horizontalAlignment: Text.AlignHCenter
+                                            }
                                         }
                                     }
                                 }

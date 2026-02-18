@@ -1,101 +1,62 @@
 # Differences from nheko
 
-Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvements focused on desktop usability. This page lists all changes made on top of upstream nheko.
+Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvements focused on desktop usability. This page lists the notable user-facing changes.
 
 
-## 🎨 Branding and Themes
+## 🎨 Theming
 
-- **Rebranded** from nheko to Komai (strings, icons, spinner, binary name)
-- **"Based on nheko" and "Fork by etke.cc"** attribution in the settings page
-- **Data-driven theme system**: themes are defined as [Base16](https://github.com/tinted-theming/home) YAML files and compiled into the binary at build time. Adding a theme is just dropping a `.yaml` file.
-- **14 built-in themes**: Komai light/dark, nheko light/dark, Breeze Dark, Catppuccin Latte/Mocha, Dracula, Gruvbox light/dark, Nord, Solarized light/dark, Tokyo Night
-- **Two-ComboBox theme selector** in settings: pick a variant (light/dark), then choose from the filtered theme list
-- **Komai logo marker** next to Komai-specific settings so they're easy to identify
+Komai ships 14 built-in color themes (light and dark variants): Komai, Nord, Catppuccin, Dracula, Solarized, and more. New themes are easy to add -- see [🎨 Themes](themes.md) for details.
 
 
-## ⚙️ Defaults and Guards
+## ✨ Visual Polish
 
-- **Swipe-to-reply disabled** by default (accidental replies on desktop)
-- **Font size adjustments**: 13pt default, larger room list text, state text, and timestamps
-- **"Large emoji in timeline"** enabled by default
-- **Circular avatars off** by default (rounded-rectangle style)
-- **Bubble message style** enabled by default
-- **Scrollbars in room list** enabled by default
-- Fix: bubble style now properly respects the `disableSwipe` guard
+- **Rounded corners throughout** -- bubbles, dialogs, media, avatars, reply popups, search, and more. No sharp edges
+- **Rounded-rectangle avatars** by default instead of circles
+- **Bubble chat by default** with distinct sender-colored bubbles, more padding, metadata outside the bubble, and a max-width cap for readability
+- **Larger, more readable text** -- bigger default font, room list text, and timestamps
+- **Separator lines** between room list entries and autocomplete items
+- **Larger emoji** in the timeline by default
+- **Per-room user colors** -- unique color assignment in small rooms, accent-complementary color in large rooms
 
 
-## 🫧 Timeline and Bubbles
+## 🧭 Navigation and Layout
 
-- **Distinct sender bubble color** using the highlight/accent hue
-- **Polished inline reply** in bubbles (padding, rounded corners)
-- **Larger hover action buttons** (16px → 32px)
-- **Forward button** added to the message action bar
-- **Pinned + recent emoji reactions** in the action bar
-- **Subtler reaction pill styling** with larger emoji and pointer cursor
-- **Timestamp/metadata moved outside the bubble**
-- **Increased bubble padding** (4px → 8px)
-- **Increased border radius** to 8px across timeline elements
-- **Bubble max width capped** at ~85% of the timeline for readability
-- **Distinct per-room user colors**: palette-based unique assignment in small rooms, accent-complementary uniform color in large rooms
+- **Room actions bar** (create, join, search) moved above the room list for a natural top-to-bottom flow
+- **User avatar button** replaces the settings gear; context menu provides profile, status, settings, and logout in one place
+- **Compact room list** with denser entry layout
+- **Polished top bar** -- selectable topic text, hidden empty topic, dedicated settings button
+- **Avatars on the bubble side** -- received messages show the avatar on the left, yours on the right
+
+
+## 💬 Timeline Interaction
+
+- **Click-to-toggle message actions** replace the hover-only action bar, eliminating mis-targeting on wide windows
+- **Forward button** in the message action bar
+- **Pinned and recent emoji reactions** directly in the action bar
+- **Swipe-to-reply disabled** by default to prevent accidental replies on desktop
+
+
+## ✏️ Composer and Replies
+
+- Text emoticons auto-replaced with emoji
+- Polished reply popup with proper background, headers, and spacing
+- Polished forward dialog with a confirmation step
+- Legacy VoIP call UI and sticker button hidden for a cleaner look
+
+
+## 📋 Dialogs
+
+- **Room search** -- rounded, with room-ID search support and keyboard hints
+- **Room members** -- wider dialog with a full "Invite" button
+- **Welcome, Login, and Registration pages** prettified with consistent layout and branding
 
 
 ## ⚡ Performance
 
-- **Virtual timeline window**: cap exposed event range to 200, enabling instant scroll-up from cache
-- **Faster room switching**: reduced ListView `displayMargin` to cut pre-created delegates
-
-
-## ✏️ Composer
-
-- **Polished message composer**: fully gate legacy VoIP calls (UI + events + ringtone + TURN), hide stickers, larger buttons, offset emoji picker, auto-replace text emoticons with emoji
-
-
-## 💬 Reply and Forward
-
-- **Polished reply popup**: background, headers, separator, Reply.qml fixes
-- **Fixed phantom 22px gap** from broken username layout in replies
-
-
-## 📋 Dialogs and Panels
-
-- **Polished room search dialog**: rounded corners, header, placeholder text, keyboard hint
-- **Room ID as a searchable field** in the room search
-- **Separator lines between completer items** for better readability
-- **Polished forward dialog**: rounded, better sizing, confirmation step
-- **Komai logo on empty timeline screen** instead of a blank area
-- **Separator lines between room list entries**
-- **Polished room members dialog**: full "Invite" button with text+icon, wider/taller default size (600×750)
-
-
-## 📐 Sidebar and Layout
-
-- **Click-to-toggle message actions**: replaces the hover-only action bar with a toggle button anchored in the metadata row. The popup opens upward, centered on the button, and clamped to the delegate bounds. Eliminates mis-targeting on wide windows.
-- **Avatars on bubble side**: received messages show avatar on the left, sent messages on the right. Configurable "Show own avatar" setting. Sender username display is configurable (Always / Only in large rooms / Never).
-- **Room-actions bar moved above rooms**: natural top-to-bottom navigation, larger icons, distinct background
-- **Polished communities sidebar**: row heights aligned with room list entries, redundant user info panel hidden when sidebar is active
-- **User avatar button**: replaces the settings gear with the user's avatar + cog badge. Context menu provides profile, status, settings, and logout in one place.
-- **Compact room list entries**: denser layout (avatarSize multiplier 2.3 → 2.0)
-- **Polished room bar (TopBar)**: grey background, centered space icon, hidden empty topic, fixed row layout, reworked clickability (topic text is now selectable), simplified context menu, dedicated settings button, full-width topic/widgets
-- **Styled room list scrollbars**: always-on thumb with neutral grey palette colors, matching groove background
-
-
-## 🚪 Onboarding
-
-- **Prettified Welcome dialog**: heading, subtitle, attribution footer
-- **Reworked Registration page**: server choice guide and wider layout
-- **Login page heading** for visual consistency with Register
-- **Unified logo positioning** on Login and Register pages (top-aligned)
+- **Virtual timeline window** -- only the most recent messages are exposed to the UI at a time, enabling instant scroll-up from local cache
+- **Faster room switching** by reducing off-screen pre-rendered messages
 
 
 ## 🌐 Translations
 
-- **AI-assisted translation** fills in gaps left by nheko's incomplete human translations, ensuring coverage across 30+ languages
-- **Per-language directory structure**: translation files reorganized into `resources/langs/{LANGUAGE}/komai_{LANGUAGE}.ts`
-- **Translation tooling**: batch pipeline with incremental saves and per-language instruction guides. See [Translations](translations.md) for details.
-
-
-## 🔧 Build System
-
-- **Upstream fixes backported**: Qt 6.9.2 reply rendering fix, Qt 6.10 private module build fix, room list scrollbar visibility fix
-- **Theme generation at build time**: CMake runs `bin/generate-themes.py` to produce `ThemeDefinitions.h` from `resources/themes/*.yaml`
-- **`justfile`** replaces the Makefile as the build system front-end
+AI-assisted translation fills in gaps left by nheko's incomplete human translations, covering 30+ languages. See [Translations](translations.md) for details.

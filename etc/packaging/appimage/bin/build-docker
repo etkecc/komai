@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+#
+# Build Komai AppImage inside a Docker container.
+# Works on any Linux distro -- only requires Docker.
+#
+# Usage:
+#   etc/packaging/appimage/bin/build-docker <source_dir> <output_dir>
+#
+# The container image is read from etc/packaging/appimage/builder-image.
+
+set -euo pipefail
+
+src_dir="${1:?Usage: build-docker <source_dir> <output_dir>}"
+out_dir="${2:?Usage: build-docker <source_dir> <output_dir>}"
+
+appimage_dir="$src_dir/etc/packaging/appimage"
+image="$(tr -d '[:space:]' < "$appimage_dir/builder-image")"
+
+mkdir -p "$out_dir"
+
+docker run --rm \
+    -v "$src_dir:/src:ro" \
+    -v "$out_dir:/out" \
+    -e HOST_UID="$(id -u)" \
+    -e HOST_GID="$(id -g)" \
+    "$image" \
+    bash -c '
+        set -euo pipefail
+        export DEBIAN_FRONTEND=noninteractive
+
+        echo "=== Installing build dependencies ==="
+        apt-get update -qq
+        apt-get install -y -qq --no-install-recommends \
+            build-essential ninja-build cmake git ca-certificates \
+            python3 python3-pip \
+            qt6-base-dev qt6-base-private-dev qt6-multimedia-dev qt6-svg-dev qt6-tools-dev \
+            qt6-declarative-dev qt6-declarative-private-dev \
+            qt6-l10n-tools qt6-tools-dev-tools \
+            qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-layouts \
+            qml6-module-qtquick-window qml6-module-qtquick-templates \
+            qml6-module-qtmultimedia qml6-module-qtqml qml6-module-qtqml-models \
+            qml6-module-qtcore qml6-module-qt-labs-platform qml6-module-qt-labs-settings \
+            qml6-module-qt5compat-graphicaleffects \
+            qtkeychain-qt6-dev \
+            libcurl4-openssl-dev libevent-dev libspdlog-dev libfmt-dev libolm-dev \
+            liblmdb-dev libcmark-dev nlohmann-json3-dev libgtest-dev libre2-dev \
+            libgl1-mesa-dev libxkbcommon-dev \
+            libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
+            desktop-file-utils elfutils fakeroot file squashfs-tools zsync \
+            gtk-update-icon-cache \
+            >/dev/null 2>&1
+
+        # Workaround: appimage-builder checks for apt-key on $PATH but never
+        # actually calls it (keys are handled via trusted.gpg.d).  Ubuntu 25.04
+        # removed apt-key entirely, so we create a no-op stub.
+        # See https://github.com/AppImageCrafters/appimage-builder/issues/372
+        printf "#!/bin/sh\nexit 0" > /usr/bin/apt-key && chmod +x /usr/bin/apt-key
+
+        pip3 install --break-system-packages appimage-builder >/dev/null 2>&1
+
+        # Workaround: appimage-builder 1.1.0 (PyPI) uses packaging.version.parse()
+        # which rejects Debian version strings like "1.22.18ubuntu2" on packaging>=22.
+        # Upstream fixed this on main (commit 728998d) but never released it.
+        # We apply the same fix: use pydpkg for Debian version comparison.
+        # See https://github.com/AppImageCrafters/appimage-builder/issues/311
+        pip3 install --break-system-packages pydpkg >/dev/null 2>&1
+        pkg_py=$(python3 -c "import appimagebuilder.modules.deploy.apt.package as m; print(m.__file__)")
+        sed -i "s/from packaging import version/from pydpkg import Dpkg/" "$pkg_py"
+        sed -i "s/return version.parse(self.version) > version.parse(other.version)/return Dpkg.compare_versions(self.version, other.version) > 0/" "$pkg_py"
+
+        echo "=== Copying source tree ==="
+        cp -a /src /tmp/src
+
+        /tmp/src/etc/packaging/appimage/bin/build-native /tmp/src /out
+
+        chown "$HOST_UID:$HOST_GID" /out/komai-latest-x86_64.AppImage
+    '
+
+echo ""
+echo "AppImage: $out_dir/komai-latest-x86_64.AppImage"

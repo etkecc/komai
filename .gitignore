@@ -114,6 +114,7 @@ compile_commands.json
 # AppImage
 *.AppImage
 *.AppDir
+AppDir/
 
 # Artifacts
 *.rpm

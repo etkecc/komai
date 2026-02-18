@@ -1,6 +1,7 @@
 # Paths
 build_dir := justfile_directory() / "var/build/native"
 flatpak_build_dir := justfile_directory() / "var/build/flatpak"
+appimage_build_dir := justfile_directory() / "var/build/appimage"
 
 # mise (dev tool version manager)
 mise_data_dir := env("MISE_DATA_DIR", justfile_directory() / "var/mise")
@@ -148,6 +149,25 @@ flatpak-run *args:
 # Removes the Flatpak build directory
 flatpak-clean:
 	rm -rf "{{ flatpak_build_dir }}"
+
+# Builds an AppImage bundle inside a Docker container (works on any distro)
+appimage-build-docker:
+	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-docker "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
+
+# Builds an AppImage bundle natively (requires Ubuntu 25.04+ with appimage-builder installed)
+appimage-build-native:
+	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-native "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
+
+# Removes the AppImage build directory (uses Docker if needed for root-owned files)
+appimage-clean:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	if [[ ! -e "{{ appimage_build_dir }}" ]]; then
+		exit 0
+	fi
+	image="$(tr -d '[:space:]' < "{{ justfile_directory() }}/etc/packaging/appimage/builder-image")"
+	rm -rf "{{ appimage_build_dir }}" 2>/dev/null || \
+		docker run --rm -v "{{ justfile_directory() }}/var/build:/cleanup" "$image" rm -rf /cleanup/appimage
 
 # Runs the linter/formatter
 lint:

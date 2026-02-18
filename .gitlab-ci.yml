@@ -374,64 +374,38 @@ build-flatpak:
     name: flatpak-${CI_COMMIT_REF_NAME}-${VERSION}-${ARCH}
 
 
-# disabled until I find a qt6.5 ppa for Ubuntu
+# disabled -- needs a CI runner with Docker-in-Docker for appimage-builder
 .appimage-amd64:
   stage: build
-  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/ubuntu:22.04
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/ubuntu:25.04
   tags: [docker]
   allow_failure: true
   before_script:
-
-    # Installing the packages needed to download and install third-party tools
-    - apt-get update && apt-get install -y software-properties-common git wget curl python3 python3-pip python3-setuptools
-
-    # Installing the packages needed to compile komai and third-party tools
-    - apt-get -y install --no-install-suggests --no-install-recommends ca-certificates build-essential ninja-build cmake gcc make automake ccache liblmdb-dev
-        libssl-dev libqt5multimedia5-plugins libqt5multimediagsttools5 libqt5multimediaquick5 libqt5svg5-dev
-        qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev qttools5-dev-tools qtdeclarative5-dev
-        qml-module-qtmultimedia qml-module-qtquick-controls2 qml-module-qtquick-layouts
-        qt5keychain-dev ccache libcurl4-openssl-dev libevent-dev libspdlog-dev nlohmann-json3-dev libcmark-dev asciidoc libre2-dev libgtest-dev libgl1-mesa-dev qml-module-qtquick-particles2
-
-    # Installing the packages needed to build AppImage
-    - apt-get -yq install breeze-icon-theme desktop-file-utils elfutils fakeroot file gnupg2 gtk-update-icon-cache libgdk-pixbuf2.0-dev libgdk-pixbuf2.0-0 libglib2.0-bin librsvg2-dev libyaml-dev strace zsync squashfs-tools
-
-    - wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool && \
-    - chmod +x /usr/local/bin/appimagetool
-
-    - export HOME_DIR=$(pwd)
-
-    # Workaround for https://github.com/AppImageCrafters/appimage-builder/issues/280
-    - cd /tmp
-    - git clone https://github.com/AppImageCrafters/appimage-builder
-    - cd appimage-builder
-    - git checkout 9733877eed75aea0fa8e9a1cd26c22d77a10aa4a
-    - pip3 install .
-    - pip3 install cffi
-    - cd $HOME_DIR
-
+    - apt-get update && apt-get install -y --no-install-recommends
+        build-essential ninja-build cmake ccache git ca-certificates
+        python3 python3-pip
+        qt6-base-dev qt6-base-private-dev qt6-multimedia-dev qt6-svg-dev qt6-tools-dev
+        qt6-declarative-dev qt6-declarative-private-dev
+        qt6-l10n-tools qt6-tools-dev-tools
+        qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-layouts
+        qml6-module-qtquick-window qml6-module-qtquick-templates
+        qml6-module-qtmultimedia qml6-module-qtqml qml6-module-qtqml-models
+        qml6-module-qtcore qml6-module-qt-labs-platform qml6-module-qt-labs-settings
+        qml6-module-qt5compat-graphicaleffects
+        qtkeychain-qt6-dev
+        libcurl4-openssl-dev libevent-dev libspdlog-dev libfmt-dev libolm-dev
+        liblmdb-dev libcmark-dev nlohmann-json3-dev libgtest-dev libre2-dev
+        libgl1-mesa-dev libxkbcommon-dev
+        libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev
+        desktop-file-utils elfutils fakeroot file squashfs-tools zsync
+    - pip3 install --break-system-packages appimage-builder
     - /usr/sbin/update-ccache-symlinks
-    - rm -rf ../.hunter &&  mv .hunter ../.hunter || true
-
-
   script:
-    - export PATH="/usr/local/bin/:/usr/lib/ccache:${PATH}"
-    - cmake -GNinja -H. -Bvar/build/native
-        -DCMAKE_INSTALL_PREFIX=/usr
-        -DHUNTER_ROOT=".hunter"
-        -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=ON -DUSE_BUNDLED_LMDB=OFF -DUSE_BUNDLED_QTKEYCHAIN=OFF -DUSE_BUNDLED_LIBEVENT=OFF -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON
-        -DVOIP=OFF -DMAN=OFF
-        -DCMAKE_BUILD_TYPE=Release -DHUNTER_CONFIGURATION_TYPES=Release
-        -DCI_BUILD=ON -DFETCHCONTENT_QUIET=OFF
-        -DJSON_ImplicitConversions=OFF
-    - DESTDIR=`pwd`/AppDir ninja -C var/build/native install/local
-    - DESTDIR=`pwd`/AppDir ninja -C var/build/native _deps/cmark-build/src/install
-    - mkdir -p AppDir/usr/lib/x86_64-linux-gnu AppDir/lib/x86_64-linux-gnu
-    - appimage-builder --skip-test
+    - etc/packaging/appimage/bin/build-native . var/build/appimage
   after_script:
-    - mkdir -p artifacts && cp komai-latest-x86_64.AppImage artifacts/
-    - bash ./.ci/upload-nightly-gitlab.sh komai-latest-x86_64.AppImage
+    - mkdir -p artifacts && cp var/build/appimage/komai-latest-x86_64.AppImage artifacts/
   rules:
-    - if : '$CI_PIPELINE_TRIGGERED == null'
+    - if: '$CI_PIPELINE_TRIGGERED == null'
   artifacts:
     paths:
       - 'artifacts/komai-latest-x86_64.AppImage'
@@ -440,7 +414,6 @@ build-flatpak:
   cache:
     key: "$CI_JOB_NAME"
     paths:
-      - .hunter/
       - .ccache
 
 linting:

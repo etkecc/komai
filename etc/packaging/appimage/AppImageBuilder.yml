@@ -1,0 +1,152 @@
+# appimage-builder recipe -- see https://appimage-builder.readthedocs.io for details
+#
+# Usage (via justfile):
+#   just appimage-build    # builds komai + produces .AppImage
+#   just appimage-clean    # removes var/build/appimage/
+#
+# The recipe expects the komai binary already installed into AppDir/usr/bin/
+# before appimage-builder runs. The justfile recipe handles this automatically.
+version: 1
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: cc.etke.komai
+    name: komai
+    icon: komai
+    version: latest
+    exec: usr/bin/komai
+    exec_args: $@
+  runtime:
+    env:
+      APPDIR_LIBRARY_PATH: $APPDIR/usr/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer-1.0:$APPDIR/usr/lib/x86_64-linux-gnu/gconv:$APPDIR/usr/lib/x86_64-linux-gnu/libproxy:$APPDIR/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu/pulseaudio
+  apt:
+    arch: amd64
+    allow_unauthenticated: true
+    sources:
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ plucky main restricted universe multiverse
+      key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ plucky-updates main restricted universe multiverse
+      key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
+    - sourceline: deb http://archive.ubuntu.com/ubuntu/ plucky-security main restricted universe multiverse
+      key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C
+    include:
+    - ca-certificates
+
+    # Qt6 runtime libraries
+    - libqt6core6t64
+    - libqt6dbus6
+    - libqt6gui6
+    - libqt6network6
+    - libqt6opengl6
+    - libqt6qml6
+    - libqt6qmlmodels6
+    - libqt6quick6
+    - libqt6quickcontrols2-6
+    - libqt6quicktemplates2-6
+    - libqt6svg6
+    - qt6-svg-plugins
+    - libqt6widgets6
+    - libqt6multimedia6
+
+    # Qt6 QML modules
+    - qml6-module-qtquick
+    - qml6-module-qtquick-controls
+    - qml6-module-qtquick-effects
+    - qml6-module-qtquick-layouts
+    - qml6-module-qtquick-window
+    - qml6-module-qtquick-templates
+    - qml6-module-qtquick-dialogs
+    - qml6-module-qtquick-particles
+    - qml6-module-qtquick-shapes
+    - qml6-module-qtmultimedia
+    - qml6-module-qtqml
+    - qml6-module-qtqml-models
+    - qml6-module-qtqml-workerscript
+    - qml6-module-qtcore
+    - qml6-module-qt-labs-platform
+    - qml6-module-qt-labs-settings
+    - qml6-module-qt5compat-graphicaleffects
+
+    # Application runtime dependencies
+    - libcmark0.30.2
+    - libfmt10
+    - libolm3
+    - libspdlog1.15
+    - liblmdb0
+    - libqt6keychain1
+    - libcurl4t64
+    - libevent-core-2.1-7t64
+    - libevent-pthreads-2.1-7t64
+
+    # GStreamer (for VoIP/media)
+    - gstreamer1.0-plugins-good
+    - gstreamer1.0-plugins-bad
+    - gstreamer1.0-gl
+    - gstreamer1.0-nice
+    - gstreamer1.0-qt6
+    - gstreamer1.0-x
+
+    # Qt6 Wayland platform plugin
+    - qt6-wayland
+
+    # Proxy support (Qt6 network loads libpxbackend at runtime)
+    - libproxy1v5
+
+    # System libraries
+    - libbz2-1.0
+    - libelf1t64
+    - libexpat1
+    - libjpeg-turbo8
+    - liblz4-1
+    - libpcre2-16-0
+    - libsnappy1v5
+    - libzstd1
+
+    # X11 libraries
+    - libxcb1
+    - libxcb-ewmh2
+    - libxcb-render-util0
+    - libxcb-sync1
+    - libxcb-xinerama0
+    - libxcb-xkb1
+    - libxau6
+    - libxcursor1
+    - libxdmcp6
+    - libxext6
+    - libxfixes3
+    - libxrender1
+    - libxshmfence1
+    - libxv1
+    - libxxf86vm1
+    - libsm6
+
+    exclude: []
+  files:
+    exclude:
+    - usr/share/man
+    - usr/share/doc
+    - usr/bin/cmark
+    - usr/bin/dbus*
+    - usr/bin/openssl
+    - usr/bin/c_rehash
+    - usr/bin/session-migration
+    - usr/include
+    - usr/sbin
+    - lib/systemd
+  test:
+    debian:
+      image: appimagecrafters/tests-env:debian-stable
+      command: ./AppRun
+      use_host_x: true
+    arch:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: ./AppRun
+      use_host_x: true
+    ubuntu:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: ./AppRun
+      use_host_x: true
+AppImage:
+  arch: x86_64
+  update-information: None
+  sign-key: None

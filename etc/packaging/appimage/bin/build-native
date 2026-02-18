@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+#
+# Build Komai and produce an AppImage bundle.
+# Runs directly on the host -- requires Ubuntu 25.04+ with build deps installed.
+#
+# Usage:
+#   etc/packaging/appimage/bin/build-native <source_dir> <output_dir>
+#
+# The output .AppImage will be written to <output_dir>/komai-latest-x86_64.AppImage
+
+set -euo pipefail
+
+# appimage-builder checks for apt-key on $PATH but never actually calls it
+# (keys are handled via trusted.gpg.d).  Ubuntu 25.04 removed apt-key, so
+# a no-op stub is needed.  The Docker recipe handles this automatically;
+# for native builds, the user must create the stub themselves.
+# See https://github.com/AppImageCrafters/appimage-builder/issues/372
+if ! command -v apt-key &>/dev/null; then
+    echo "ERROR: appimage-builder requires 'apt-key' on \$PATH, but it is not installed."
+    echo ""
+    echo "  Ubuntu 25.04+ removed apt-key, but appimage-builder still checks for it"
+    echo "  (even though it never actually calls it).  Create a no-op stub:"
+    echo ""
+    echo "    printf '#!/bin/sh\\\nexit 0' | sudo tee /usr/bin/apt-key && sudo chmod +x /usr/bin/apt-key"
+    echo ""
+    echo "  Or use the Docker-based build instead:  just appimage-build-docker"
+    echo ""
+    echo "  Upstream issue: https://github.com/AppImageCrafters/appimage-builder/issues/372"
+    exit 1
+fi
+
+# appimage-builder 1.1.0 uses packaging.version.parse() which rejects Debian
+# version strings (e.g. "1.22.18ubuntu2") on packaging>=22.  Upstream fixed
+# this on main (commit 728998d) but never released it.  The fix replaces the
+# import and comparison with pydpkg.  The Docker recipe patches this
+# automatically; for native builds the user must apply it themselves.
+# See https://github.com/AppImageCrafters/appimage-builder/issues/311
+if python3 -c "from packaging import version; version.parse('1.0ubuntu1')" 2>/dev/null; then
+    : # packaging is old enough to handle Debian versions (or patched)
+elif ! python3 -c "from pydpkg import Dpkg" 2>/dev/null; then
+    echo "WARNING: appimage-builder will likely crash on Debian version strings."
+    echo ""
+    echo "  The bundled appimage-builder 1.1.0 uses packaging.version.parse(),"
+    echo "  which rejects versions like '1.22.18ubuntu2' on packaging>=22."
+    echo "  Upstream fixed this (commit 728998d) but never released it."
+    echo ""
+    echo "  To fix, install pydpkg and patch package.py:"
+    echo ""
+    echo "    pip3 install pydpkg"
+    echo "    pkg_py=\$(python3 -c \"import appimagebuilder.modules.deploy.apt.package as m; print(m.__file__)\")"
+    echo "    sed -i 's/from packaging import version/from pydpkg import Dpkg/' \"\$pkg_py\""
+    echo "    sed -i 's/return version.parse(self.version) > version.parse(other.version)/return Dpkg.compare_versions(self.version, other.version) > 0/' \"\$pkg_py\""
+    echo ""
+    echo "  Or use the Docker-based build instead:  just appimage-build-docker"
+    echo ""
+    echo "  Upstream issue: https://github.com/AppImageCrafters/appimage-builder/issues/311"
+    exit 1
+fi
+
+src_dir="${1:?Usage: build-native <source_dir> <output_dir>}"
+out_dir="${2:?Usage: build-native <source_dir> <output_dir>}"
+build_dir="${APPIMAGE_BUILD_DIR:-/tmp/komai-appimage-build}"
+appimage_dir="${APPIMAGE_WORK_DIR:-/tmp/komai-appimage}"
+
+echo "=== Building komai ==="
+cmake -GNinja -H"$src_dir" -B"$build_dir" \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DMAN=OFF \
+    -DFETCHCONTENT_QUIET=OFF \
+    -DUSE_BUNDLED_MTXCLIENT=ON \
+    -DUSE_BUNDLED_LMDBXX=ON \
+    -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON \
+    -DUSE_BUNDLED_COEURL=ON \
+    -DUSE_BUNDLED_CPPHTTPLIB=ON \
+    -DUSE_BUNDLED_BLURHASH=ON
+cmake --build "$build_dir" --parallel "$(nproc)"
+
+echo "=== Creating AppImage ==="
+mkdir -p "$appimage_dir"
+DESTDIR="$appimage_dir/AppDir" cmake --install "$build_dir"
+cp "$src_dir/etc/packaging/appimage/AppImageBuilder.yml" "$appimage_dir/"
+cd "$appimage_dir"
+appimage-builder --skip-test --recipe AppImageBuilder.yml
+
+echo "=== Copying result ==="
+mkdir -p "$out_dir"
+cp "$appimage_dir/komai-latest-x86_64.AppImage" "$out_dir/"
+echo "AppImage: $out_dir/komai-latest-x86_64.AppImage"

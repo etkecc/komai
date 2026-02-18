@@ -33,10 +33,10 @@ release:
 	@cmake --build var/build/native
 
 linux-install:
-	cp -f nheko*.AppImage ~/.local/bin
+	cp -f var/build/appimage/komai-latest-x86_64.AppImage ~/.local/bin/komai.AppImage
 
 macos-app-install:
-	cp -Rf var/build/native/nheko.app /Applications
+	cp -Rf var/build/native/komai.app /Applications
 
 lint:
 	./.ci/format.sh
@@ -44,27 +44,11 @@ lint:
 license:
 	./.ci/licenses.sh
 
-image:
-	docker build -t nheko-app-image .
-
 linux-deploy:
 	./.ci/linux/deploy.sh
 
 macos-deploy:
 	./.ci/macos/deploy.sh
-
-docker-app-image: image
-	docker run \
-		-e CXX=g++-5 \
-		-e CC=gcc-5 \
-		-v `pwd`:/build nheko-app-image make docker-third-party
-	docker run \
-		-e CXX=g++-5 \
-		-e CC=gcc-5 \
-		-v `pwd`:/build nheko-app-image make release
-	docker run \
-		--privileged \
-		-v `pwd`:/build nheko-app-image make linux-deploy
 
 update-translations:
 	lupdate \

@@ -72,6 +72,7 @@ Komai can be packaged and installed through several methods. See 📄 [Packaging
 
 - [Native build](docs/packaging/native.md) -- `just build && just run` (dependencies, distro packages, CMake flags)
 - [Flatpak](docs/packaging/flatpak.md) -- `just flatpak-build && just flatpak-install`
+- [AppImage](docs/packaging/appimage.md) -- `just appimage-build-docker` (portable single-file bundle)
 - [Arch Linux](docs/packaging/archlinux.md) -- PKGBUILD for `makepkg` / AUR
 
 

@@ -2,6 +2,8 @@
 
 PKGBUILD for building Komai from source on Arch Linux. Intended for submission to the [AUR](https://aur.archlinux.org/).
 
+For user-facing install instructions, see [docs/packaging/archlinux.md](../../../docs/packaging/archlinux.md).
+
 ## How it works
 
 The PKGBUILD clones the Komai git repository at a release tag (e.g., `v0.1.0`) and builds it with CMake — the same as the [official nheko PKGBUILD](https://gitlab.archlinux.org/archlinux/packaging/packages/nheko), just rebranded.

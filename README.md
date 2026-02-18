@@ -47,35 +47,13 @@ For the full list of changes, see 📄 [Differences from nheko](docs/differences
 
 ### Building from source
 
-You'll need the same dependencies as nheko (see [Build Requirements](#-build-requirements) below), plus:
-- [just](https://github.com/casey/just) command runner
-- Python 3 (for theme generation)
-
 ```sh
 git clone https://github.com/etkecc/komai && cd komai
-
-# See all available commands
-just
-
-# Build (configures CMake automatically on first run)
 just build
-
-# Run
 just run
 ```
 
-### Quick reference
-
-| Command | What it does |
-|---------|-------------|
-| `just build` | Configure (if needed) + build |
-| `just rebuild` | Clean configure + build |
-| `just run` | Build if needed, then run |
-| `just clean` | Remove build directory |
-| `just configure-debug` | Configure a debug build |
-| `just import-theme <slug>` | Import a [Base16 theme](https://github.com/tinted-theming/schemes) |
-| `just generate-themes` | Regenerate theme header from YAML files |
-| `just lint` | Run the code formatter |
+For dependencies, distro-specific package lists, CMake flags, and more, see 📄 [Native build](docs/packaging/native.md).
 
 
 ## 🎨 Themes
@@ -88,49 +66,13 @@ Komai ships with many built-in themes and makes it easy to add more. See 📄 [T
 Komai inherits human-made translations from nheko and fills in the gaps with AI-assisted translation (Claude CLI) to ensure complete coverage across 30+ languages. See 📄 [Translations](docs/translations.md) for details.
 
 
-## 🔧 Build Requirements
+## 📦 Packaging
 
-- **Qt6** (6.5 or greater)
-- **CMake** 3.15 or greater
-- **Python 3** (for theme generation at build time)
-- **C++20 compiler**: GCC 11.3+, Clang 16+, or MSVC 19.13+
-- [mtxclient](https://github.com/Nheko-Reborn/mtxclient)
-- [coeurl](https://nheko.im/Nheko-Reborn/coeurl)
-- [LMDB](https://www.symas.com/lmdb) + [lmdb++](https://github.com/hoytech/lmdbxx)
-- [cmark](https://github.com/commonmark/cmark) 0.29+
-- [libolm](https://gitlab.matrix.org/matrix-org/olm)
-- [spdlog](https://github.com/gabime/spdlog) + [fmt](https://github.com/fmtlib/fmt)
-- [qtkeychain](https://github.com/frankosterfeld/qtkeychain) 0.12+
-- [KDSingleApplication](https://github.com/KDAB/KDSingleApplication) 1.0+
-- [GStreamer](https://gitlab.freedesktop.org/gstreamer) 1.20+ (optional, for VoIP — pass `-DVOIP=OFF` to disable)
-- XCB, XCB-EWMH (optional, for X11 screensharing — pass `-DSCREENSHARE_X11=OFF` to disable)
+Komai can be packaged and installed through several methods. See 📄 [Packaging](docs/packaging/README.md) for an overview, or jump directly to a specific method:
 
-Most dependencies can be bundled automatically by passing `-DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF` or individual `-DUSE_BUNDLED_*` flags to CMake.
-
-<details>
-<summary>📦 Arch Linux packages</summary>
-
-```bash
-sudo pacman -S qt6-base qt6-tools qt6-multimedia qt6-svg cmake gcc \
-    fontconfig lmdb lmdbxx cmark qtkeychain-qt6
-```
-</details>
-
-<details>
-<summary>📦 Debian 13+ / Ubuntu 24.04+</summary>
-
-```bash
-sudo apt install -y cmake libevent-dev libspdlog-dev libre2-dev \
-    liblmdb++-dev libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
-    nlohmann-json3-dev libkdsingleapplication-qt6-dev \
-    qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \
-    qt6-declarative-dev qtkeychain-qt6-dev qt6-base-private-dev \
-    qt6-declarative-private-dev
-
-git clone https://github.com/etkecc/komai && cd komai
-just build  # or: cmake -S. -Bvar/build/native -DCMAKE_BUILD_TYPE=Release -DUSE_BUNDLED_COEURL=1 -DUSE_BUNDLED_MTXCLIENT=1 -DUSE_BUNDLED_LMDBXX=1 && cmake --build var/build/native
-```
-</details>
+- [Native build](docs/packaging/native.md) -- `just build && just run` (dependencies, distro packages, CMake flags)
+- [Flatpak](docs/packaging/flatpak.md) -- `just flatpak-build && just flatpak-install`
+- [Arch Linux](docs/packaging/archlinux.md) -- PKGBUILD for `makepkg` / AUR
 
 
 ## 🤝 Contributing

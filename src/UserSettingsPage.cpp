@@ -1145,7 +1145,7 @@ UserSettings::save()
     settings.setValue("scrollbars_in_roomlist", scrollbarsInRoomlist_);
     settings.setValue("markdown_enabled", markdown_);
     settings.setValue("send_message_key", static_cast<int>(sendMessageKey_));
-    settings.setValue("user/auto_replace_emoji",
+    settings.setValue("auto_replace_emoji",
                       QString::fromUtf8(QMetaEnum::fromType<AutoReplaceEmoji>().valueToKey(
                         static_cast<int>(autoReplaceEmoji_))));
     settings.setValue("bubbles_enabled", bubbles_);

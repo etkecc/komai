@@ -148,22 +148,28 @@ Pane {
                 selectByMouse: true
                 text: roomTopic
             }
-            ImageButton {
-                id: notificationsButton
-
-                Layout.alignment: Qt.AlignRight
-                Layout.column: 3
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.row: 1
-                ToolTip.text: qsTr("Show only notifications")
-                ToolTip.visible: hovered
-                image: ":/icons/icons/ui/alert.svg"
-
-                onClicked: {
-                    topBar.filterNotifications = !topBar.filterNotifications
-                }
-            }
+            // BROKEN: "Show only notifications" filter doesn't work properly.
+            // It only filters messages already loaded in QML, not the full timeline.
+            // The virtual timeline window (commit 5b47f5c6) makes this worse by capping
+            // exposed messages to 200, but the feature was broken even before that.
+            // Fixing would likely require scanning the database for highlighted messages.
+            // Hiding for now until we can revisit this feature.
+            // ImageButton {
+            //     id: notificationsButton
+            //
+            //     Layout.alignment: Qt.AlignRight
+            //     Layout.column: 3
+            //     Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
+            //     Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+            //     Layout.row: 1
+            //     ToolTip.text: qsTr("Show only notifications")
+            //     ToolTip.visible: hovered
+            //     image: ":/icons/icons/ui/alert.svg"
+            //
+            //     onClicked: {
+            //         topBar.filterNotifications = !topBar.filterNotifications
+            //     }
+            // }
             ImageButton {
                 id: pinButton
 

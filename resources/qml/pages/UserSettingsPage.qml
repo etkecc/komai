@@ -18,36 +18,65 @@ Rectangle {
     property int collapsePoint: 600
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
+    property int sidebarWidth: 200
     color: palette.window
 
-    ColumnLayout {
+    // Sidebar + Content layout
+    RowLayout {
         anchors.fill: parent
         spacing: 0
 
-        // Tab bar at the top - centered
-        Item {
-            Layout.fillWidth: true
-            Layout.preferredHeight: tabRow.height
-            Layout.topMargin: collapsed ? backButton.height + Nheko.paddingMedium : Nheko.paddingMedium
+        // Sidebar
+        Rectangle {
+            id: sidebar
+            Layout.preferredWidth: userSettingsDialog.sidebarWidth
+            Layout.fillHeight: true
+            color: palette.alternateBase
 
-            Row {
-                id: tabRow
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 2
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: 0
 
-                // Calculate the width of the widest tab for uniform sizing
-                property real maxTabWidth: {
-                    var maxW = 0;
-                    for (var i = 0; i < tabRepeater.count; i++) {
-                        var item = tabRepeater.itemAt(i);
-                        if (item && item.naturalWidth > maxW)
-                            maxW = item.naturalWidth;
+                // Header with back button and title
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.margins: Nheko.paddingMedium
+                    spacing: Nheko.paddingSmall
+
+                    ImageButton {
+                        id: backButton
+                        Layout.preferredWidth: 32
+                        Layout.preferredHeight: 32
+                        image: ":/icons/icons/ui/angle-arrow-left.svg"
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("Back")
+                        onClicked: mainWindow.pop()
                     }
-                    return maxW;
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: qsTr("Settings")
+                        font.pointSize: fontMetrics.font.pointSize * 1.2
+                        font.bold: true
+                        color: palette.text
+                    }
                 }
 
-                Repeater {
-                    id: tabRepeater
+                // Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 1
+                    color: Nheko.theme.separator
+                }
+
+                // Navigation items
+                ListView {
+                    id: navList
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    clip: true
+                    boundsBehavior: Flickable.StopAtBounds
+
                     model: [
                         { text: qsTr("Look & Feel"), icon: "qrc:/icons/icons/ui/toggles.svg", tab: UserSettingsModel.TabLookFeel },
                         { text: qsTr("Timeline"), icon: "qrc:/icons/icons/ui/speech-bubbles.svg", tab: UserSettingsModel.TabTimeline },
@@ -60,74 +89,88 @@ Rectangle {
                         { text: qsTr("About"), icon: "qrc:/logos/komai.svg", tab: UserSettingsModel.TabAbout }
                     ]
 
-                    delegate: AbstractButton {
-                        id: tabBtn
+                    delegate: ItemDelegate {
+                        id: navItem
                         required property var modelData
+                        required property int index
                         property bool isActive: userSettingsDialog.currentTab === modelData.tab
-                        property bool isHovered: hoverHandler.hovered
-                        // Natural width before equalization
-                        property real naturalWidth: tabContent.implicitWidth + Nheko.paddingSmall * 2
+                        property color backgroundColor: "transparent"
+                        property color textColor: palette.text
 
-                        width: tabRow.maxTabWidth
-                        implicitHeight: tabContent.implicitHeight + Nheko.paddingMedium * 2
+                        width: ListView.view.width
+                        height: 48
+                        padding: Nheko.paddingSmall
+                        leftPadding: Nheko.paddingSmall
+                        rightPadding: Nheko.paddingSmall
 
                         background: Rectangle {
-                            radius: 6
-                            color: tabBtn.isActive ? palette.highlight : (tabBtn.isHovered ? palette.mid : "transparent")
-
-                            // Bottom border/underline for active tab
-                            Rectangle {
-                                anchors.bottom: parent.bottom
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                height: 2
-                                color: palette.highlight
-                                visible: tabBtn.isActive
-                            }
+                            color: navItem.backgroundColor
                         }
 
-                        contentItem: Item {
-                            implicitWidth: tabContent.implicitWidth
-                            implicitHeight: tabContent.implicitHeight
+                        states: [
+                            State {
+                                name: "hover"
+                                when: navItem.hovered && !navItem.isActive
 
-                            Row {
-                                id: tabContent
-                                anchors.centerIn: parent
-                                spacing: Nheko.paddingSmall
-
-                                Image {
-                                    width: 18
-                                    height: 18
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    source: tabBtn.modelData.icon
-                                    sourceSize.width: 18
-                                    sourceSize.height: 18
+                                PropertyChanges {
+                                    navItem {
+                                        backgroundColor: palette.dark
+                                        textColor: palette.brightText
+                                    }
                                 }
+                            },
+                            State {
+                                name: "active"
+                                when: navItem.isActive
 
-                                Label {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: tabBtn.modelData.text
-                                    color: tabBtn.isActive ? palette.highlightedText : (tabBtn.isHovered ? palette.highlightedText : palette.text)
-                                    font.bold: tabBtn.isActive
+                                PropertyChanges {
+                                    navItem {
+                                        backgroundColor: palette.highlight
+                                        textColor: palette.highlightedText
+                                    }
                                 }
                             }
-                        }
+                        ]
 
                         onClicked: userSettingsDialog.currentTab = modelData.tab
 
-                        HoverHandler {
-                            id: hoverHandler
-                        }
+                        contentItem: RowLayout {
+                            spacing: Nheko.paddingMedium
 
-                        ToolTip.visible: hoverHandler.hovered
-                        ToolTip.text: tabBtn.modelData.text
-                        ToolTip.delay: Nheko.tooltipDelay
+                            Image {
+                                Layout.preferredWidth: 24
+                                Layout.preferredHeight: 24
+                                Layout.alignment: Qt.AlignVCenter
+                                // Don't colorize the Komai logo (About tab)
+                                source: navItem.modelData.icon.startsWith("qrc:/logos/")
+                                    ? navItem.modelData.icon
+                                    : "image://colorimage/" + navItem.modelData.icon.replace("qrc:/", ":/") + "?" + navItem.textColor
+                                sourceSize.width: 24
+                                sourceSize.height: 24
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignVCenter
+                                text: navItem.modelData.text
+                                color: navItem.textColor
+                                font.bold: navItem.isActive
+                                elide: Text.ElideRight
+                            }
+                        }
                     }
                 }
             }
         }
 
-        // Settings content - use Item + Flickable + ScrollBar for consistent layout
+        // Separator between sidebar and content
+        Rectangle {
+            Layout.preferredWidth: 1
+            Layout.fillHeight: true
+            color: Nheko.theme.separator
+        }
+
+        // Settings content
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -151,352 +194,352 @@ Rectangle {
 
                     spacing: Nheko.paddingMedium
                     // Fixed width content area, centered via equal margins
-                    property real contentMaxWidth: 1000
-                    property real sideMargin: Math.max(collapsed ? Nheko.paddingMedium : Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
+                    property real contentMaxWidth: 800
+                    property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
                     width: scroll.width - sideMargin * 2
                     x: sideMargin
 
                     Repeater {
-                    model: UserSettingsModel
+                        model: UserSettingsModel
 
-                    delegate: GridLayout {
-                        id: r
+                        delegate: GridLayout {
+                            id: r
 
-                        // Only show items for the current tab
-                        visible: model.tab === userSettingsDialog.currentTab
-                        Layout.preferredWidth: visible ? scroll.width : 0
-                        Layout.preferredHeight: visible ? implicitHeight : 0
-                        columns: userSettingsDialog.collapsed ? 1 : 2
-                        rows: userSettingsDialog.collapsed ? 2 : 1
-                        required property var model
+                            // Only show items for the current tab
+                            visible: model.tab === userSettingsDialog.currentTab
+                            Layout.preferredWidth: visible ? scroll.width : 0
+                            Layout.preferredHeight: visible ? implicitHeight : 0
+                            columns: userSettingsDialog.collapsed ? 1 : 2
+                            rows: userSettingsDialog.collapsed ? 2 : 1
+                            required property var model
 
-                        RowLayout {
-                            Layout.alignment: Qt.AlignLeft
-                            Layout.fillWidth: true
-                            Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !userSettingsDialog.collapsed) ? 2 : 1
-                            Layout.leftMargin: r.model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
-                            Layout.topMargin: r.model.type == UserSettingsModel.SectionTitle ? Nheko.paddingLarge : 0
-                            spacing: Nheko.paddingSmall
-
-                            Image {
-                                Layout.preferredWidth: 24
-                                Layout.preferredHeight: 24
-                                Layout.alignment: Qt.AlignVCenter
-                                sourceSize.width: 24
-                                sourceSize.height: 24
-                                source: r.model.settingImage ?? ""
-                                visible: r.model.type != UserSettingsModel.SectionTitle
-                                opacity: source != "" ? 1 : 0
-                            }
-
-                            Label {
+                            RowLayout {
                                 Layout.alignment: Qt.AlignLeft
                                 Layout.fillWidth: true
-                                color: palette.text
-                                text: r.model.name
-                                font.pointSize: 1.1 * fontMetrics.font.pointSize
+                                Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !userSettingsDialog.collapsed) ? 2 : 1
+                                Layout.leftMargin: r.model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
+                                Layout.topMargin: r.model.type == UserSettingsModel.SectionTitle ? Nheko.paddingLarge : 0
+                                spacing: Nheko.paddingSmall
 
-                                HoverHandler {
-                                    id: hovered
-                                    enabled: r.model.description ?? false
+                                Image {
+                                    Layout.preferredWidth: 24
+                                    Layout.preferredHeight: 24
+                                    Layout.alignment: Qt.AlignVCenter
+                                    sourceSize.width: 24
+                                    sourceSize.height: 24
+                                    source: r.model.settingImage ?? ""
+                                    visible: r.model.type != UserSettingsModel.SectionTitle
+                                    opacity: source != "" ? 1 : 0
                                 }
-                                ToolTip.visible: hovered.hovered && r.model.description
-                                ToolTip.text: r.model.description ?? ""
-                                ToolTip.delay: Nheko.tooltipDelay
-                                wrapMode: Text.Wrap
-                            }
-                        }
 
-                        DelegateChooser {
-                            id: chooser
+                                Label {
+                                    Layout.alignment: Qt.AlignLeft
+                                    Layout.fillWidth: true
+                                    color: palette.text
+                                    text: r.model.name
+                                    font.pointSize: 1.1 * fontMetrics.font.pointSize
 
-                            roleValue: r.model.type
-                            Layout.alignment: Qt.AlignRight
-
-                            Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !userSettingsDialog.collapsed) ? 2 : 1
-                            Layout.preferredHeight: child.height
-                            Layout.preferredWidth: child.implicitWidth
-                            Layout.maximumWidth: r.model.type == UserSettingsModel.SectionTitle ? Number.POSITIVE_INFINITY : 400
-                            Layout.fillWidth: r.model.type == UserSettingsModel.SectionTitle || r.model.type == UserSettingsModel.Options || r.model.type == UserSettingsModel.Number
-                            Layout.rightMargin: r.model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Toggle
-                                ToggleButton {
-                                    checked: r.model.value
-                                    onClicked: r.model.value = checked
-                                    enabled: r.model.enabled
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Options
-                                ComboBox {
-                                    anchors.right: parent.right
-                                    model: r.model.values
-                                    currentIndex: r.model.value
-                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
-                                    onActivated: {
-                                        r.model.value = currentIndex
+                                    HoverHandler {
+                                        id: hovered
+                                        enabled: r.model.description ?? false
                                     }
-                                    implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-                                    wheelEnabled: activeFocus
+                                    ToolTip.visible: hovered.hovered && r.model.description
+                                    ToolTip.text: r.model.description ?? ""
+                                    ToolTip.delay: Nheko.tooltipDelay
+                                    wrapMode: Text.Wrap
                                 }
                             }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ThemeSelector
-                                RowLayout {
-                                    anchors.right: parent.right
-                                    spacing: Nheko.paddingSmall
 
-                                    ComboBox {
-                                        id: variantCombo
-                                        model: r.model.themeVariantValues
-                                        currentIndex: r.model.themeVariantValue
-                                        onActivated: {
-                                            if (currentIndex !== r.model.themeVariantValue)
-                                                r.model.themeVariantValue = currentIndex
-                                        }
-                                        implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-                                        wheelEnabled: activeFocus
+                            DelegateChooser {
+                                id: chooser
+
+                                roleValue: r.model.type
+                                Layout.alignment: Qt.AlignRight
+
+                                Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !userSettingsDialog.collapsed) ? 2 : 1
+                                Layout.preferredHeight: child.height
+                                Layout.preferredWidth: child.implicitWidth
+                                Layout.maximumWidth: r.model.type == UserSettingsModel.SectionTitle ? Number.POSITIVE_INFINITY : 400
+                                Layout.fillWidth: r.model.type == UserSettingsModel.SectionTitle || r.model.type == UserSettingsModel.Options || r.model.type == UserSettingsModel.Number
+                                Layout.rightMargin: r.model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
+
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.Toggle
+                                    ToggleButton {
+                                        checked: r.model.value
+                                        onClicked: r.model.value = checked
+                                        enabled: r.model.enabled
                                     }
-
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.Options
                                     ComboBox {
-                                        id: themeCombo
-                                        visible: variantCombo.currentIndex !== 2
+                                        anchors.right: parent.right
                                         model: r.model.values
                                         currentIndex: r.model.value
+                                        width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
                                         onActivated: {
-                                            if (currentIndex >= 0 && currentIndex !== r.model.value)
-                                                r.model.value = currentIndex
+                                            r.model.value = currentIndex
                                         }
                                         implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
                                         wheelEnabled: activeFocus
                                     }
                                 }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Integer
-
-                                SpinBox {
-                                    anchors.right: parent.right
-                                    from: r.model.valueLowerBound
-                                    to: r.model.valueUpperBound
-                                    stepSize: r.model.valueStep
-                                    value: r.model.value
-                                    onValueChanged: r.model.value = value
-                                    editable: true
-                                    wheelEnabled: activeFocus
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Double
-
-                                SpinBox {
-                                    id: spinbox
-
-                                    readonly property double div: 100
-                                    readonly property int decimals: 2
-
-                                    anchors.right: parent.right
-                                    from: r.model.valueLowerBound * div
-                                    to: r.model.valueUpperBound * div
-                                    stepSize: r.model.valueStep * div
-                                    value: r.model.value * div
-                                    onValueModified: r.model.value = value/div
-                                    editable: true
-
-                                    property real realValue: value / div
-
-                                    validator: DoubleValidator {
-                                        bottom: Math.min(spinbox.from/spinbox.div, spinbox.to/spinbox.div)
-                                        top:  Math.max(spinbox.from/spinbox.div, spinbox.to/spinbox.div)
-                                    }
-
-                                    textFromValue: function(value, locale) {
-                                        return Number(value / spinbox.div).toLocaleString(locale, 'f', spinbox.decimals)
-                                    }
-
-                                    valueFromText: function(text, locale) {
-                                        return Number.fromLocaleString(locale, text) * spinbox.div
-                                    }
-
-                                    wheelEnabled: activeFocus
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ReadOnlyText
-                                TextEdit {
-                                    color: palette.text
-                                    text: r.model.value
-                                    readOnly: true
-                                    textFormat: Text.PlainText
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Link
-                                Text {
-                                    color: palette.text
-                                    text: r.model.value
-                                    textFormat: Text.RichText
-                                    onLinkActivated: function(link) { Qt.openUrlExternally(link); }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-                                        acceptedButtons: Qt.NoButton
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.TextInput
-                                TextField {
-                                    anchors.right: parent.right
-                                    text: r.model.value
-                                    onEditingFinished: r.model.value = text
-                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.SectionTitle
-                                Item {
-                                    width: grid.width
-                                    height: fontMetrics.lineSpacing
-                                    Rectangle {
-                                        anchors.topMargin: Nheko.paddingSmall
-                                        anchors.top: parent.top
-                                        anchors.left: parent.left
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.ThemeSelector
+                                    RowLayout {
                                         anchors.right: parent.right
-                                        color: palette.buttonText
-                                        height: 1
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.KeyStatus
-                                Text {
-                                    color: r.model.good ? "green" : Nheko.theme.error
-                                    text: r.model.value ? qsTr("CACHED") : qsTr("NOT CACHED")
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.SessionKeyImportExport
-                                RowLayout {
-                                    Button {
-                                        text: qsTr("IMPORT")
-                                        onClicked: UserSettingsModel.importSessionKeys()
-                                    }
-                                    Button {
-                                        text: qsTr("EXPORT")
-                                        onClicked: UserSettingsModel.exportSessionKeys()
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.XSignKeysRequestDownload
-                                RowLayout {
-                                    Button {
-                                        text: qsTr("DOWNLOAD")
-                                        onClicked: UserSettingsModel.downloadCrossSigningSecrets()
-                                    }
-                                    Button {
-                                        text: qsTr("REQUEST")
-                                        onClicked: UserSettingsModel.requestCrossSigningSecrets()
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ConfigureHiddenEvents
-                                Button {
-                                    text: qsTr("CONFIGURE")
-                                    onClicked: {
-                                        var dialog = hiddenEventsDialog.createObject();
-                                        dialog.show();
-                                        destroyOnClose(dialog);
-                                    }
+                                        spacing: Nheko.paddingSmall
 
-                                    Component {
-                                        id: hiddenEventsDialog
+                                        ComboBox {
+                                            id: variantCombo
+                                            model: r.model.themeVariantValues
+                                            currentIndex: r.model.themeVariantValue
+                                            onActivated: {
+                                                if (currentIndex !== r.model.themeVariantValue)
+                                                    r.model.themeVariantValue = currentIndex
+                                            }
+                                            implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
+                                            wheelEnabled: activeFocus
+                                        }
 
-                                        HiddenEventsDialog {}
-                                    }
-                                }
-                            }
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ManageIgnoredUsers
-                                Button {
-                                    text: qsTr("MANAGE")
-                                    onClicked: {
-                                        var dialog = ignoredUsersDialog.createObject();
-                                        dialog.show();
-                                        destroyOnClose(dialog);
-                                    }
-
-                                    Component {
-                                        id: ignoredUsersDialog
-
-                                        IgnoredUsers {}
-                                    }
-                                }
-                            }
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ProfileButton
-                                Button {
-                                    text: qsTr("Open Profile Settings")
-                                    icon.source: "qrc:/icons/icons/ui/person.svg"
-
-                                    onClicked: {
-                                        Nheko.updateUserProfile();
-                                        var component = Qt.createComponent("qrc:/resources/qml/dialogs/UserProfile.qml");
-                                        if (component.status == Component.Ready) {
-                                            var userProfile = component.createObject(timelineRoot, {
-                                                    "profile": Nheko.currentUser
-                                                });
-                                            userProfile.show();
-                                            timelineRoot.destroyOnClose(userProfile);
-                                        } else {
-                                            console.error("Failed to create component: " + component.errorString());
+                                        ComboBox {
+                                            id: themeCombo
+                                            visible: variantCombo.currentIndex !== 2
+                                            model: r.model.values
+                                            currentIndex: r.model.value
+                                            onActivated: {
+                                                if (currentIndex >= 0 && currentIndex !== r.model.value)
+                                                    r.model.value = currentIndex
+                                            }
+                                            implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
+                                            wheelEnabled: activeFocus
                                         }
                                     }
                                 }
-                            }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.Integer
 
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.LogoutButton
-                                Button {
-                                    id: logoutBtn
-                                    text: qsTr("Logout")
-                                    icon.source: "qrc:/icons/icons/ui/power-off.svg"
-
-                                    palette.button: Nheko.theme.red
-                                    palette.buttonText: "white"
-                                    palette.highlight: Qt.darker(Nheko.theme.red, 1.2)
-
-                                    font.bold: true
-
-                                    onClicked: {
-                                        var dialog = logoutDialog.createObject();
-                                        dialog.open();
-                                        destroyOnClose(dialog);
-                                    }
-
-                                    Component {
-                                        id: logoutDialog
-
-                                        LogoutDialog {}
+                                    SpinBox {
+                                        anchors.right: parent.right
+                                        from: r.model.valueLowerBound
+                                        to: r.model.valueUpperBound
+                                        stepSize: r.model.valueStep
+                                        value: r.model.value
+                                        onValueChanged: r.model.value = value
+                                        editable: true
+                                        wheelEnabled: activeFocus
                                     }
                                 }
-                            }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.Double
 
-                            DelegateChoice {
-                                Text {
-                                    text: r.model.value
+                                    SpinBox {
+                                        id: spinbox
+
+                                        readonly property double div: 100
+                                        readonly property int decimals: 2
+
+                                        anchors.right: parent.right
+                                        from: r.model.valueLowerBound * div
+                                        to: r.model.valueUpperBound * div
+                                        stepSize: r.model.valueStep * div
+                                        value: r.model.value * div
+                                        onValueModified: r.model.value = value/div
+                                        editable: true
+
+                                        property real realValue: value / div
+
+                                        validator: DoubleValidator {
+                                            bottom: Math.min(spinbox.from/spinbox.div, spinbox.to/spinbox.div)
+                                            top:  Math.max(spinbox.from/spinbox.div, spinbox.to/spinbox.div)
+                                        }
+
+                                        textFromValue: function(value, locale) {
+                                            return Number(value / spinbox.div).toLocaleString(locale, 'f', spinbox.decimals)
+                                        }
+
+                                        valueFromText: function(text, locale) {
+                                            return Number.fromLocaleString(locale, text) * spinbox.div
+                                        }
+
+                                        wheelEnabled: activeFocus
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.ReadOnlyText
+                                    TextEdit {
+                                        color: palette.text
+                                        text: r.model.value
+                                        readOnly: true
+                                        textFormat: Text.PlainText
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.Link
+                                    Text {
+                                        color: palette.text
+                                        text: r.model.value
+                                        textFormat: Text.RichText
+                                        onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                            acceptedButtons: Qt.NoButton
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.TextInput
+                                    TextField {
+                                        anchors.right: parent.right
+                                        text: r.model.value
+                                        onEditingFinished: r.model.value = text
+                                        width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.SectionTitle
+                                    Item {
+                                        width: grid.width
+                                        height: fontMetrics.lineSpacing
+                                        Rectangle {
+                                            anchors.topMargin: Nheko.paddingSmall
+                                            anchors.top: parent.top
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                            color: palette.buttonText
+                                            height: 1
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.KeyStatus
+                                    Text {
+                                        color: r.model.good ? "green" : Nheko.theme.error
+                                        text: r.model.value ? qsTr("CACHED") : qsTr("NOT CACHED")
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.SessionKeyImportExport
+                                    RowLayout {
+                                        Button {
+                                            text: qsTr("IMPORT")
+                                            onClicked: UserSettingsModel.importSessionKeys()
+                                        }
+                                        Button {
+                                            text: qsTr("EXPORT")
+                                            onClicked: UserSettingsModel.exportSessionKeys()
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.XSignKeysRequestDownload
+                                    RowLayout {
+                                        Button {
+                                            text: qsTr("DOWNLOAD")
+                                            onClicked: UserSettingsModel.downloadCrossSigningSecrets()
+                                        }
+                                        Button {
+                                            text: qsTr("REQUEST")
+                                            onClicked: UserSettingsModel.requestCrossSigningSecrets()
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.ConfigureHiddenEvents
+                                    Button {
+                                        text: qsTr("CONFIGURE")
+                                        onClicked: {
+                                            var dialog = hiddenEventsDialog.createObject();
+                                            dialog.show();
+                                            destroyOnClose(dialog);
+                                        }
+
+                                        Component {
+                                            id: hiddenEventsDialog
+
+                                            HiddenEventsDialog {}
+                                        }
+                                    }
+                                }
+
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.ManageIgnoredUsers
+                                    Button {
+                                        text: qsTr("MANAGE")
+                                        onClicked: {
+                                            var dialog = ignoredUsersDialog.createObject();
+                                            dialog.show();
+                                            destroyOnClose(dialog);
+                                        }
+
+                                        Component {
+                                            id: ignoredUsersDialog
+
+                                            IgnoredUsers {}
+                                        }
+                                    }
+                                }
+
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.ProfileButton
+                                    Button {
+                                        text: qsTr("Open Profile Settings")
+                                        icon.source: "qrc:/icons/icons/ui/person.svg"
+
+                                        onClicked: {
+                                            Nheko.updateUserProfile();
+                                            var component = Qt.createComponent("qrc:/resources/qml/dialogs/UserProfile.qml");
+                                            if (component.status == Component.Ready) {
+                                                var userProfile = component.createObject(timelineRoot, {
+                                                        "profile": Nheko.currentUser
+                                                    });
+                                                userProfile.show();
+                                                timelineRoot.destroyOnClose(userProfile);
+                                            } else {
+                                                console.error("Failed to create component: " + component.errorString());
+                                            }
+                                        }
+                                    }
+                                }
+
+                                DelegateChoice {
+                                    roleValue: UserSettingsModel.LogoutButton
+                                    Button {
+                                        id: logoutBtn
+                                        text: qsTr("Logout")
+                                        icon.source: "qrc:/icons/icons/ui/power-off.svg"
+
+                                        palette.button: Nheko.theme.red
+                                        palette.buttonText: "white"
+                                        palette.highlight: Qt.darker(Nheko.theme.red, 1.2)
+
+                                        font.bold: true
+
+                                        onClicked: {
+                                            var dialog = logoutDialog.createObject();
+                                            dialog.open();
+                                            destroyOnClose(dialog);
+                                        }
+
+                                        Component {
+                                            id: logoutDialog
+
+                                            LogoutDialog {}
+                                        }
+                                    }
+                                }
+
+                                DelegateChoice {
+                                    Text {
+                                        text: r.model.value
+                                    }
                                 }
                             }
                         }
                     }
-                }
                 }
             }
 
@@ -515,18 +558,5 @@ Rectangle {
                 }
             }
         }
-    }
-
-    ImageButton {
-        id: backButton
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.margins: Nheko.paddingMedium
-        width: Nheko.avatarSize
-        height: Nheko.avatarSize
-        image: ":/icons/icons/ui/angle-arrow-left.svg"
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Back")
-        onClicked: mainWindow.pop()
     }
 }

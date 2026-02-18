@@ -581,105 +581,170 @@ class UserSettingsModel : public QAbstractListModel
     QML_ELEMENT
     QML_SINGLETON
 
+public:
+    enum SettingsTab
+    {
+        TabLookFeel,
+        TabTimeline,
+        TabComposer,
+        TabNotifications,
+        TabCalls,
+        TabPrivacy,
+        TabEncryption,
+        TabSession,
+        TabAbout,
+    };
+    Q_ENUM(SettingsTab);
+
+private:
     enum Indices
     {
-        GeneralSection,
+        // == Look & Feel Tab ==
+        // Theme section
+        LookFeelThemeSection,
         Theme,
-        MobileMode,
-        DisableSwipe,
-#ifndef Q_OS_MACOS
-        ScaleFactor,
-#endif
+        // Fonts section
+        LookFeelFontsSection,
         Font,
         FontSize,
         EmojiFont,
+#ifndef Q_OS_MACOS
+        ScaleFactor,
+#endif
+        // Effects section
+        LookFeelEffectsSection,
+        ReducedMotion,
+        // Room List section
+        LookFeelRoomListSection,
         AvatarCircles,
         UseIdenticon,
-        PrivacyScreen,
-        PrivacyScreenTimeout,
         ScrollbarsInRoomlist,
-#ifdef NHEKO_DBUS_SYS
-        ExposeDBusApi,
-#endif
-        UpdateSpaceVias,
-
-        AccessibilitySection,
-        ReducedMotion,
-        FancyEffects,
-        AnimateImagesOnHover,
-        MessageHoverHighlight,
-
-        TimelineSection,
-        TimelineMaxWidth,
-        EnlargeEmojiOnlyMessages,
-        ShowImage,
-        OpenImageExternal,
-        OpenVideoExternal,
-        ButtonsInTimeline,
-        TypingNotifications,
-        ReadReceipts,
-        Markdown,
-        SendMessageKey,
-        AutoReplaceEmoji,
-        Bubbles,
-        ShowOwnAvatarNextToOwnMessages,
-        SmallAvatars,
-        PinnedReactions,
-        EnableStickers,
-        ShowSenderUsername,
-
-        SidebarSection,
         GroupView,
         SortByImportance,
         SortByAlphabet,
         DecryptSidebar,
         SpaceNotifications,
-
-        TraySection,
+        // System Tray section
+        LookFeelTraySection,
         Tray,
         StartInTray,
+#ifdef NHEKO_DBUS_SYS
+        ExposeDBusApi,
+#endif
+        // Mobile section
+        LookFeelMobileSection,
+        MobileMode,
+        DisableSwipe,
 
-        MessageVisibilitySection,
-        ExpireEvents,
-        HiddenTimelineEvents,
-        IgnoredUsers,
+        // == Timeline Tab ==
+        // Messages section
+        TimelineMessagesSection,
+        Bubbles,
+        SmallAvatars,
+        ShowOwnAvatarNextToOwnMessages,
+        ShowSenderUsername,
+        TimelineMaxWidth,
+        EnlargeEmojiOnlyMessages,
+        MessageHoverHighlight,
+        ButtonsInTimeline,
+        // Media section
+        TimelineMediaSection,
+        FancyEffects,
+        AnimateImagesOnHover,
+        ShowImage,
+        OpenImageExternal,
+        OpenVideoExternal,
 
-        NotificationsSection,
+        // == Composer Tab ==
+        // Input section
+        ComposerInputSection,
+        Markdown,
+        SendMessageKey,
+        AutoReplaceEmoji,
+        // Feedback section
+        ComposerFeedbackSection,
+        TypingNotifications,
+        ReadReceipts,
+        // Extras section
+        ComposerExtrasSection,
+        PinnedReactions,
+        EnableStickers,
+
+        // == Notifications Tab ==
+        // Desktop section
+        NotificationsDesktopSection,
         DesktopNotifications,
         AlertOnNotification,
         DecryptNotifications,
 
-        VoipSection,
-        UseStunServer,
+        // == Calls Tab ==
+        // General section
+        CallsGeneralSection,
         EnableLegacyCalls,
+        UseStunServer,
+        // Devices section
+        CallsDevicesSection,
         Microphone,
         Camera,
         CameraResolution,
         CameraFrameRate,
         Ringtone,
 
-        EncryptionSection,
+        // == Privacy Tab ==
+        // Screen Lock section
+        PrivacyScreenLockSection,
+        PrivacyScreen,
+        PrivacyScreenTimeout,
+        // Data & Maintenance section
+        PrivacyDataSection,
+        ExpireEvents,
+        HiddenTimelineEvents,
+        UpdateSpaceVias,
+        // Users section
+        PrivacyUsersSection,
+        IgnoredUsers,
+
+        // == Encryption Tab ==
+        // Key Sharing section
+        EncryptionKeySharingSection,
         OnlyShareKeysWithVerifiedUsers,
         ShareKeysWithTrustedUsers,
-        SessionKeys,
+        // Backup section
+        EncryptionBackupSection,
         UseOnlineKeyBackup,
+        SessionKeys,
+        // Cross-Signing section
+        EncryptionCrossSigningSection,
         OnlineBackupKey,
         SelfSigningKey,
         UserSigningKey,
         MasterKey,
         CrossSigningSecrets,
-        DeviceId,
-        DeviceFingerprint,
 
-        LoginInfoSection,
+        // == Session Tab ==
+        // Account section
+        SessionAccountSection,
         UserId,
         Homeserver,
         Profile,
+        // Device section
+        SessionDeviceSection,
+        DeviceId,
+        DeviceFingerprint,
+        // Actions section
+        SessionActionsSection,
+        Logout,
+
+        // == About Tab ==
+        // Application section
+        AboutApplicationSection,
         Version,
         Platform,
         BasedOn,
         ForkBy,
+
         COUNT,
+
         // hidden for now
         AccessToken,
 #ifdef Q_OS_MACOS
@@ -708,6 +773,8 @@ public:
         Link,
         ThemeSelector,
         TextInput,
+        LogoutButton,
+        ProfileButton,
     };
     Q_ENUM(Types);
 
@@ -726,6 +793,7 @@ public:
         ThemeVariantValue,
         ThemeVariantValues,
         SettingImage,
+        Tab,
     };
 
     UserSettingsModel(QObject *parent = nullptr);

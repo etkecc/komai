@@ -22,7 +22,7 @@ Komai ships 14 built-in color themes (light and dark variants): Komai, Nord, Cat
 ## 🧭 Navigation and Layout
 
 - **Room actions bar** (create, join, search) moved above the room list for a natural top-to-bottom flow
-- **User avatar button** replaces the settings gear; context menu provides profile, status, settings, and logout in one place
+- **User avatar button** with settings gear -- click opens Settings directly; right-click provides profile, status, and logout
 - **Compact room list** with denser entry layout
 - **Polished top bar** -- selectable topic text, hidden empty topic, dedicated settings button
 - **Avatars on the bubble side** -- received messages show the avatar on the left, yours on the right
@@ -49,6 +49,12 @@ Komai ships 14 built-in color themes (light and dark variants): Komai, Nord, Cat
 - **Room search** -- rounded, with room-ID search support and keyboard hints
 - **Room members** -- wider dialog with a full "Invite" button
 - **Welcome, Login, and Registration pages** prettified with consistent layout and branding
+
+
+## ⚙️ Reorganized Settings
+
+- **Tabbed Settings panel** -- settings grouped into logical tabs instead of one long scrollable list
+- **Profile and Logout buttons** easily accessible in the Session tab
 
 
 ## 🔧 Internal Improvements

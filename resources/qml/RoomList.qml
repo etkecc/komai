@@ -319,7 +319,12 @@ Page {
                     ToolTip.text: (profile ? profile.displayName : "") + "\n" + (profile ? profile.userid : "")
                     ToolTip.visible: containsMouse
 
-                    onClicked: function(mouse) { profileContextMenu.popup(roomActionsAvatar) }
+                    onClicked: function(mouse) {
+                        if (mouse.button === Qt.RightButton)
+                            profileContextMenu.popup(roomActionsAvatar)
+                        else
+                            mainWindow.push(userSettingsPage)
+                    }
 
                     Avatar {
                         id: roomActionsAvatar

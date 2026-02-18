@@ -1513,6 +1513,7 @@ UserSettingsModel::roleNames() const
       {ThemeVariantValue, "themeVariantValue"},
       {ThemeVariantValues, "themeVariantValues"},
       {SettingImage, "settingImage"},
+      {Tab, "tab"},
     };
 
     return roles;
@@ -1667,26 +1668,66 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Based on");
         case ForkBy:
             return tr("Fork by");
-        case GeneralSection:
+        // Look & Feel sections
+        case LookFeelThemeSection:
+            return tr("THEME");
+        case LookFeelFontsSection:
+            return tr("FONTS");
+        case LookFeelEffectsSection:
+            return tr("EFFECTS");
+        case LookFeelRoomListSection:
+            return tr("ROOM LIST");
+        case LookFeelTraySection:
+            return tr("SYSTEM TRAY");
+        case LookFeelMobileSection:
+            return tr("MOBILE");
+        // Timeline sections
+        case TimelineMessagesSection:
+            return tr("MESSAGES");
+        case TimelineMediaSection:
+            return tr("MEDIA");
+        // Composer sections
+        case ComposerInputSection:
+            return tr("INPUT");
+        case ComposerFeedbackSection:
+            return tr("FEEDBACK");
+        case ComposerExtrasSection:
+            return tr("EXTRAS");
+        // Notifications sections
+        case NotificationsDesktopSection:
+            return tr("DESKTOP");
+        // Calls sections
+        case CallsGeneralSection:
             return tr("GENERAL");
-        case AccessibilitySection:
-            return tr("ACCESSIBILITY");
-        case TimelineSection:
-            return tr("TIMELINE");
-        case SidebarSection:
-            return tr("SIDEBAR");
-        case TraySection:
-            return tr("TRAY");
-        case MessageVisibilitySection:
-            return tr("GLOBAL MESSAGE VISIBILITY");
-        case NotificationsSection:
-            return tr("NOTIFICATIONS");
-        case VoipSection:
-            return tr("CALLS");
-        case EncryptionSection:
-            return tr("ENCRYPTION");
-        case LoginInfoSection:
-            return tr("INFO");
+        case CallsDevicesSection:
+            return tr("DEVICES");
+        // Privacy sections
+        case PrivacyScreenLockSection:
+            return tr("SCREEN LOCK");
+        case PrivacyDataSection:
+            return tr("DATA & MAINTENANCE");
+        case PrivacyUsersSection:
+            return tr("USERS");
+        // Encryption sections
+        case EncryptionKeySharingSection:
+            return tr("KEY SHARING");
+        case EncryptionBackupSection:
+            return tr("BACKUP");
+        case EncryptionCrossSigningSection:
+            return tr("CROSS-SIGNING");
+        // Session sections
+        case SessionAccountSection:
+            return tr("ACCOUNT");
+        case SessionDeviceSection:
+            return tr("DEVICE");
+        case SessionActionsSection:
+            return tr("ACTIONS");
+        // About sections
+        case AboutApplicationSection:
+            return tr("APPLICATION");
+        // Logout button
+        case Logout:
+            return tr("Logout");
         case SessionKeys:
             return tr("Session Keys");
         case CrossSigningSecrets:
@@ -2049,18 +2090,34 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case Platform:
         case BasedOn:
         case ForkBy:
-        case GeneralSection:
-        case AccessibilitySection:
-        case TimelineSection:
-        case SidebarSection:
-        case TraySection:
-        case MessageVisibilitySection:
-        case NotificationsSection:
-        case VoipSection:
-        case EncryptionSection:
-        case LoginInfoSection:
+        // Section titles return empty description
+        case LookFeelThemeSection:
+        case LookFeelFontsSection:
+        case LookFeelEffectsSection:
+        case LookFeelRoomListSection:
+        case LookFeelTraySection:
+        case LookFeelMobileSection:
+        case TimelineMessagesSection:
+        case TimelineMediaSection:
+        case ComposerInputSection:
+        case ComposerFeedbackSection:
+        case ComposerExtrasSection:
+        case NotificationsDesktopSection:
+        case CallsGeneralSection:
+        case CallsDevicesSection:
+        case PrivacyScreenLockSection:
+        case PrivacyDataSection:
+        case PrivacyUsersSection:
+        case EncryptionKeySharingSection:
+        case EncryptionBackupSection:
+        case EncryptionCrossSigningSection:
+        case SessionAccountSection:
+        case SessionDeviceSection:
+        case SessionActionsSection:
+        case AboutApplicationSection:
         case SessionKeys:
         case CrossSigningSecrets:
+        case Logout:
             return {};
         case OnlineBackupKey:
             return tr(
@@ -2165,6 +2222,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case PinnedReactions:
             return TextInput;
         case Profile:
+            return ProfileButton;
         case UserId:
         case AccessToken:
         case DeviceId:
@@ -2176,16 +2234,31 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case BasedOn:
         case ForkBy:
             return Link;
-        case GeneralSection:
-        case AccessibilitySection:
-        case TimelineSection:
-        case SidebarSection:
-        case TraySection:
-        case MessageVisibilitySection:
-        case NotificationsSection:
-        case VoipSection:
-        case EncryptionSection:
-        case LoginInfoSection:
+        // Section titles
+        case LookFeelThemeSection:
+        case LookFeelFontsSection:
+        case LookFeelEffectsSection:
+        case LookFeelRoomListSection:
+        case LookFeelTraySection:
+        case LookFeelMobileSection:
+        case TimelineMessagesSection:
+        case TimelineMediaSection:
+        case ComposerInputSection:
+        case ComposerFeedbackSection:
+        case ComposerExtrasSection:
+        case NotificationsDesktopSection:
+        case CallsGeneralSection:
+        case CallsDevicesSection:
+        case PrivacyScreenLockSection:
+        case PrivacyDataSection:
+        case PrivacyUsersSection:
+        case EncryptionKeySharingSection:
+        case EncryptionBackupSection:
+        case EncryptionCrossSigningSection:
+        case SessionAccountSection:
+        case SessionDeviceSection:
+        case SessionActionsSection:
+        case AboutApplicationSection:
             return SectionTitle;
         case SessionKeys:
             return SessionKeyImportExport;
@@ -2200,6 +2273,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return ConfigureHiddenEvents;
         case IgnoredUsers:
             return ManageIgnoredUsers;
+        case Logout:
+            return LogoutButton;
         }
     } else if (role == ValueLowerBound) {
         switch (index.row()) {
@@ -2370,6 +2445,136 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return komaiSettingImage();
         default:
             return QString();
+        }
+    } else if (role == Tab) {
+        switch (index.row()) {
+        // Look & Feel tab
+        case LookFeelThemeSection:
+        case Theme:
+        case LookFeelFontsSection:
+        case Font:
+        case FontSize:
+        case EmojiFont:
+        case ScaleFactor:
+        case LookFeelEffectsSection:
+        case ReducedMotion:
+        case LookFeelRoomListSection:
+        case AvatarCircles:
+        case UseIdenticon:
+        case ScrollbarsInRoomlist:
+        case GroupView:
+        case SortByImportance:
+        case SortByAlphabet:
+        case DecryptSidebar:
+        case SpaceNotifications:
+        case LookFeelTraySection:
+        case Tray:
+        case StartInTray:
+        case ExposeDBusApi:
+        case LookFeelMobileSection:
+        case MobileMode:
+        case DisableSwipe:
+            return TabLookFeel;
+
+        // Timeline tab
+        case TimelineMessagesSection:
+        case Bubbles:
+        case SmallAvatars:
+        case ShowOwnAvatarNextToOwnMessages:
+        case ShowSenderUsername:
+        case TimelineMaxWidth:
+        case EnlargeEmojiOnlyMessages:
+        case MessageHoverHighlight:
+        case ButtonsInTimeline:
+        case TimelineMediaSection:
+        case FancyEffects:
+        case AnimateImagesOnHover:
+        case ShowImage:
+        case OpenImageExternal:
+        case OpenVideoExternal:
+            return TabTimeline;
+
+        // Composer tab
+        case ComposerInputSection:
+        case Markdown:
+        case SendMessageKey:
+        case AutoReplaceEmoji:
+        case ComposerFeedbackSection:
+        case TypingNotifications:
+        case ReadReceipts:
+        case ComposerExtrasSection:
+        case PinnedReactions:
+        case EnableStickers:
+            return TabComposer;
+
+        // Notifications tab
+        case NotificationsDesktopSection:
+        case DesktopNotifications:
+        case AlertOnNotification:
+        case DecryptNotifications:
+            return TabNotifications;
+
+        // Calls tab
+        case CallsGeneralSection:
+        case UseStunServer:
+        case EnableLegacyCalls:
+        case CallsDevicesSection:
+        case Microphone:
+        case Camera:
+        case CameraResolution:
+        case CameraFrameRate:
+        case Ringtone:
+            return TabCalls;
+
+        // Privacy tab
+        case PrivacyScreenLockSection:
+        case PrivacyScreen:
+        case PrivacyScreenTimeout:
+        case PrivacyDataSection:
+        case ExpireEvents:
+        case HiddenTimelineEvents:
+        case UpdateSpaceVias:
+        case PrivacyUsersSection:
+        case IgnoredUsers:
+            return TabPrivacy;
+
+        // Encryption tab
+        case EncryptionKeySharingSection:
+        case OnlyShareKeysWithVerifiedUsers:
+        case ShareKeysWithTrustedUsers:
+        case EncryptionBackupSection:
+        case UseOnlineKeyBackup:
+        case SessionKeys:
+        case EncryptionCrossSigningSection:
+        case OnlineBackupKey:
+        case SelfSigningKey:
+        case UserSigningKey:
+        case MasterKey:
+        case CrossSigningSecrets:
+            return TabEncryption;
+
+        // Session tab
+        case SessionAccountSection:
+        case UserId:
+        case Homeserver:
+        case Profile:
+        case SessionDeviceSection:
+        case DeviceId:
+        case DeviceFingerprint:
+        case SessionActionsSection:
+        case Logout:
+            return TabSession;
+
+        // About tab
+        case AboutApplicationSection:
+        case Version:
+        case Platform:
+        case BasedOn:
+        case ForkBy:
+            return TabAbout;
+
+        default:
+            return TabLookFeel;
         }
     }
 

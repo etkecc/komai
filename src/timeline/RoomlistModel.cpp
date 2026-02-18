@@ -862,7 +862,8 @@ FilteredRoomlistModel::calculateImportance(const QModelIndex &idx) const
             return NoPreview;
     } else if (sourceModel()->data(idx, RoomlistModel::IsInvite).toBool()) {
         return Invite;
-    } else if (!this->sortByImportance) {
+    } else if (this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::Recent) ||
+               this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::Alphabetical)) {
         return ImportanceDisabled;
     } else if (sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool()) {
         return NewMentions;
@@ -893,7 +894,11 @@ FilteredRoomlistModel::lessThan(const QModelIndex &left, const QModelIndex &righ
     // Now sort by recency or room name
     // Zero if empty, otherwise the time that the event occured
 
-    if (this->sortByAlphabet) {
+    bool sortAlphabetically =
+      (this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::UnreadFirst_Alpha) ||
+       this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::Alphabetical));
+
+    if (sortAlphabetically) {
         QString a_order = sourceModel()->data(left_idx, RoomlistModel::RoomName).toString();
         QString b_order = sourceModel()->data(right_idx, RoomlistModel::RoomName).toString();
 
@@ -917,24 +922,15 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
 {
     instance_ = this;
 
-    this->sortByImportance = UserSettings::instance()->sortByImportance();
-    this->sortByAlphabet   = UserSettings::instance()->sortByAlphabet();
+    this->roomSortOrder = static_cast<int>(UserSettings::instance()->roomSortOrder());
     setSourceModel(model);
     setDynamicSortFilter(true);
 
     QObject::connect(UserSettings::instance().get(),
-                     &UserSettings::roomSortingChangedImportance,
+                     &UserSettings::roomSortOrderChanged,
                      this,
-                     [this](bool sortByImportance_) {
-                         this->sortByImportance = sortByImportance_;
-                         invalidate();
-                     });
-
-    QObject::connect(UserSettings::instance().get(),
-                     &UserSettings::roomSortingChangedAlphabetical,
-                     this,
-                     [this](bool sortByAlphabet_) {
-                         this->sortByAlphabet = sortByAlphabet_;
+                     [this](UserSettings::RoomSortOrder order) {
+                         this->roomSortOrder = static_cast<int>(order);
                          invalidate();
                      });
 

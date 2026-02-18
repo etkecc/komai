@@ -227,13 +227,17 @@ UserSettings::load(std::optional<QString> profile)
     smallAvatars_                   = getBool("small_avatars", false);
     enableStickers_                 = getBool("enable_stickers", false);
     showOwnAvatarNextToOwnMessages_ = getBool("show_own_avatar_next_to_own_messages", true);
-    pinnedReactions_      = getString("pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️"));
-    animateImagesOnHover_ = getBool("animate_images_on_hover", false);
-    typingNotifications_  = getBool("typing_notifications", true);
-    sortByImportance_     = getBool("sort_by_importance", true);
-    sortByAlphabet_       = getBool("sort_by_alphabet", false);
-    readReceipts_         = getBool("read_receipts", true);
-    theme_                = getString("theme", defaultTheme_);
+    pinnedReactions_       = getString("pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️"));
+    animateImagesOnHover_  = getBool("animate_images_on_hover", false);
+    typingNotifications_   = getBool("typing_notifications", true);
+    auto tempRoomSortOrder = getString("room_sort_order", QString()).toStdString();
+    auto roomSortOrderValue =
+      QMetaEnum::fromType<RoomSortOrder>().keyToValue(tempRoomSortOrder.c_str());
+    if (roomSortOrderValue == -1)
+        roomSortOrderValue = static_cast<int>(RoomSortOrder::UnreadFirst_Recent);
+    roomSortOrder_ = static_cast<RoomSortOrder>(roomSortOrderValue);
+    readReceipts_  = getBool("read_receipts", true);
+    theme_         = getString("theme", defaultTheme_);
 
     font_ = getString("font_family", QString());
 
@@ -745,22 +749,12 @@ UserSettings::setTypingNotifications(bool state)
 }
 
 void
-UserSettings::setSortByImportance(bool state)
+UserSettings::setRoomSortOrder(RoomSortOrder order)
 {
-    if (state == sortByImportance_)
+    if (order == roomSortOrder_)
         return;
-    sortByImportance_ = state;
-    emit roomSortingChangedImportance(state);
-    save();
-}
-
-void
-UserSettings::setSortByAlphabet(bool state)
-{
-    if (state == sortByAlphabet_)
-        return;
-    sortByAlphabet_ = state;
-    emit roomSortingChangedAlphabetical(state);
+    roomSortOrder_ = order;
+    emit roomSortOrderChanged(order);
     save();
 }
 
@@ -1385,8 +1379,9 @@ UserSettings::save()
     emitString("pinned_reactions", pinnedReactions_);
     emitBool("animate_images_on_hover", animateImagesOnHover_);
     emitBool("typing_notifications", typingNotifications_);
-    emitBool("sort_by_importance", sortByImportance_);
-    emitBool("sort_by_alphabet", sortByAlphabet_);
+    emitString("room_sort_order",
+               QString::fromUtf8(QMetaEnum::fromType<RoomSortOrder>().valueToKey(
+                 static_cast<int>(roomSortOrder_))));
     emitBool("read_receipts", readReceipts_);
     emitString("theme", theme());
 
@@ -1571,10 +1566,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Show images automatically");
         case TypingNotifications:
             return tr("Typing notifications");
-        case SortByImportance:
-            return tr("Sort rooms by unreads");
-        case SortByAlphabet:
-            return tr("Sort rooms alphabetically");
+        case RoomSortOrderSetting:
+            return tr("Sorting");
         case ButtonsInTimeline:
             return tr("Show buttons in timeline");
         case TimelineMaxWidth:
@@ -1787,10 +1780,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return static_cast<int>(i->showImage());
         case TypingNotifications:
             return i->typingNotifications();
-        case SortByImportance:
-            return i->sortByImportance();
-        case SortByAlphabet:
-            return i->sortByAlphabet();
+        case RoomSortOrderSetting:
+            return static_cast<int>(i->roomSortOrder());
         case ButtonsInTimeline:
             return i->buttonsInTimeline();
         case TimelineMaxWidth:
@@ -1996,21 +1987,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr(
               "Show who is typing in a room.\nThis will also enable or disable sending typing "
               "notifications to others.");
-        case SortByImportance:
-            return tr(
-              "Display rooms with new messages first.\nIf this is off, the list of rooms will only "
-              "be sorted by the preferred sorting order.\nIf this is on, rooms "
-              "which "
-              "have active notifications (the small circle with a number in it) will be sorted on "
-              "top. Rooms that you have muted will still be sorted by the preferred sorting order, "
-              "since you don't "
-              "seem to consider them as important as the other rooms.");
-        case SortByAlphabet:
-            return tr(
-              "Sort rooms alphabetically.\nIf this is off, the list of rooms will be sorted by the "
-              "timestamp of the last message in a room.\nIf this is on, rooms that come first "
-              "alphabetically "
-              "will be sorted earlier than ones that come later.");
+        case RoomSortOrderSetting:
+            return tr("How to order rooms in the room list.");
         case ButtonsInTimeline:
             return tr(
               "Show buttons to quickly reply, react or access additional options next to each "
@@ -2173,6 +2151,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return Options;
         case AutoReplaceEmoji:
         case ShowSenderUsername:
+        case RoomSortOrderSetting:
             return Options;
         case TimelineMaxWidth:
         case PrivacyScreenTimeout:
@@ -2193,8 +2172,6 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case ShowOwnAvatarNextToOwnMessages:
         case AnimateImagesOnHover:
         case TypingNotifications:
-        case SortByImportance:
-        case SortByAlphabet:
         case ButtonsInTimeline:
         case ReadReceipts:
         case DesktopNotifications:
@@ -2350,6 +2327,13 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
               tr("Only at the end of messages"),
               tr("Never"),
             };
+        case RoomSortOrderSetting:
+            return QStringList{
+              tr("Unread first, then recent"),
+              tr("Unread first, then A-Z"),
+              tr("Recent activity"),
+              tr("Alphabetical"),
+            };
         case Microphone:
             return vecToList(CallDevices::instance().names(false, i->microphone().toStdString()));
         case Camera:
@@ -2449,8 +2433,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case UseIdenticon:
         case ScrollbarsInRoomlist:
         case GroupView:
-        case SortByImportance:
-        case SortByAlphabet:
+        case RoomSortOrderSetting:
         case DecryptSidebar:
         case SpaceNotifications:
         case LookFeelTraySection:
@@ -2732,16 +2715,9 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
             } else
                 return false;
         }
-        case SortByImportance: {
-            if (value.userType() == QMetaType::Bool) {
-                i->setSortByImportance(value.toBool());
-                return true;
-            } else
-                return false;
-        }
-        case SortByAlphabet: {
-            if (value.userType() == QMetaType::Bool) {
-                i->setSortByAlphabet(value.toBool());
+        case RoomSortOrderSetting: {
+            if (value.userType() == QMetaType::Int) {
+                i->setRoomSortOrder(static_cast<UserSettings::RoomSortOrder>(value.toInt()));
                 return true;
             } else
                 return false;
@@ -3245,11 +3221,8 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     connect(s.get(), &UserSettings::scrollbarsInRoomlistChanged, this, [this]() {
         emit dataChanged(index(ScrollbarsInRoomlist), index(ScrollbarsInRoomlist), {Value});
     });
-    connect(s.get(), &UserSettings::roomSortingChangedImportance, this, [this]() {
-        emit dataChanged(index(SortByImportance), index(SortByImportance), {Value});
-    });
-    connect(s.get(), &UserSettings::roomSortingChangedAlphabetical, this, [this]() {
-        emit dataChanged(index(SortByAlphabet), index(SortByAlphabet), {Value});
+    connect(s.get(), &UserSettings::roomSortOrderChanged, this, [this]() {
+        emit dataChanged(index(RoomSortOrderSetting), index(RoomSortOrderSetting), {Value});
     });
     connect(s.get(), &UserSettings::decryptSidebarChanged, this, [this]() {
         emit dataChanged(index(DecryptSidebar), index(DecryptSidebar), {Value});

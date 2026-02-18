@@ -49,10 +49,8 @@ class UserSettings final : public QObject
                  NOTIFY animateImagesOnHoverChanged)
     Q_PROPERTY(bool typingNotifications READ typingNotifications WRITE setTypingNotifications NOTIFY
                  typingNotificationsChanged)
-    Q_PROPERTY(bool sortByImportance READ sortByImportance WRITE setSortByImportance NOTIFY
-                 roomSortingChangedImportance)
-    Q_PROPERTY(bool sortByAlphabet READ sortByAlphabet WRITE setSortByAlphabet NOTIFY
-                 roomSortingChangedAlphabetical)
+    Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
+                 roomSortOrderChanged)
     Q_PROPERTY(bool buttonsInTimeline READ buttonsInTimeline WRITE setButtonsInTimeline NOTIFY
                  buttonInTimelineChanged)
     Q_PROPERTY(bool readReceipts READ readReceipts WRITE setReadReceipts NOTIFY readReceiptsChanged)
@@ -217,6 +215,15 @@ public:
     };
     Q_ENUM(SendMessageKey)
 
+    enum class RoomSortOrder
+    {
+        UnreadFirst_Recent, // Unread first, then by recent activity
+        UnreadFirst_Alpha,  // Unread first, then alphabetically
+        Recent,             // By recent activity only
+        Alphabetical,       // Alphabetically only
+    };
+    Q_ENUM(RoomSortOrder)
+
     void save();
     void load(std::optional<QString> profile);
     void applyTheme();
@@ -244,8 +251,7 @@ public:
     void setAnimateImagesOnHover(bool state);
     void setReadReceipts(bool state);
     void setTypingNotifications(bool state);
-    void setSortByImportance(bool state);
-    void setSortByAlphabet(bool state);
+    void setRoomSortOrder(RoomSortOrder order);
     void setButtonsInTimeline(bool state);
     void setTimelineMaxWidth(int state);
     void setCommunityListWidth(int state);
@@ -342,8 +348,7 @@ public:
     int showSenderUsernameLargeRoomThreshold() const { return 16; }
     bool animateImagesOnHover() const { return animateImagesOnHover_; }
     bool typingNotifications() const { return typingNotifications_; }
-    bool sortByImportance() const { return sortByImportance_; }
-    bool sortByAlphabet() const { return sortByAlphabet_; }
+    RoomSortOrder roomSortOrder() const { return roomSortOrder_; }
     bool buttonsInTimeline() const { return buttonsInTimeline_; }
     bool mobileMode() const { return mobileMode_; }
     bool disableSwipe() const { return disableSwipe_; }
@@ -403,8 +408,7 @@ public:
 signals:
     void groupViewStateChanged(bool state);
     void scrollbarsInRoomlistChanged(bool state);
-    void roomSortingChangedImportance(bool state);
-    void roomSortingChangedAlphabetical(bool state);
+    void roomSortOrderChanged(RoomSortOrder order);
     void themeChanged(QString state);
     void messageHoverHighlightChanged(bool state);
     void enlargeEmojiOnlyMessagesChanged(bool state);
@@ -504,8 +508,7 @@ private:
     ShowSenderUsername showSenderUsername_;
     bool animateImagesOnHover_;
     bool typingNotifications_;
-    bool sortByImportance_;
-    bool sortByAlphabet_;
+    RoomSortOrder roomSortOrder_;
     bool buttonsInTimeline_;
     bool readReceipts_;
     bool hasDesktopNotifications_;
@@ -620,8 +623,7 @@ private:
         UseIdenticon,
         ScrollbarsInRoomlist,
         GroupView,
-        SortByImportance,
-        SortByAlphabet,
+        RoomSortOrderSetting,
         DecryptSidebar,
         SpaceNotifications,
         // System Tray section

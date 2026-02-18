@@ -179,10 +179,11 @@ UserSettings::load(std::optional<QString> profile)
     useStunServer_          = settings.value("user/use_stun_server", false).toBool();
     enableLegacyCalls_      = settings.value("user/enable_legacy_calls", false).toBool();
 
-    if (profile) // set to "" if it's the default to maintain compatibility
+    // set to "" if it's the default to maintain compatibility
+    if (profile)
         profile_ = (*profile == QLatin1String("default")) ? QLatin1String("") : *profile;
     else
-        profile_ = settings.value("user/currentProfile", "").toString();
+        profile_ = QLatin1String(""); // always use default profile when not specified
 
     QString prefix = (profile_ != QLatin1String("") && profile_ != QLatin1String("default"))
                        ? "profile/" + profile_ + "/"
@@ -1170,7 +1171,6 @@ UserSettings::save()
     settings.setValue("screen_share_hide_cursor", screenShareHideCursor_);
     settings.setValue("use_stun_server", useStunServer_);
     settings.setValue("enable_legacy_calls", enableLegacyCalls_);
-    settings.setValue("currentProfile", profile_);
     settings.setValue("use_identicon", useIdenticon_);
     settings.setValue("open_image_external", openImageExternal_);
     settings.setValue("open_video_external", openVideoExternal_);

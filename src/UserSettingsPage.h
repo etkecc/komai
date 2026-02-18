@@ -731,6 +731,7 @@ private:
         SessionDeviceSection,
         DeviceId,
         DeviceFingerprint,
+        AccessToken,
         // Actions section
         SessionActionsSection,
         Logout,
@@ -745,8 +746,7 @@ private:
 
         COUNT,
 
-        // hidden for now
-        AccessToken,
+    // hidden
 #ifdef Q_OS_MACOS
         ScaleFactor,
 #endif
@@ -775,6 +775,7 @@ public:
         TextInput,
         LogoutButton,
         ProfileButton,
+        AccessTokenField,
     };
     Q_ENUM(Types);
 

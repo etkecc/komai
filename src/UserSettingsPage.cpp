@@ -1646,7 +1646,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case UserId:
             return tr("User ID");
         case AccessToken:
-            return tr("Accesstoken");
+            return tr("Access Token");
         case DeviceId:
             return tr("Device ID");
         case DeviceFingerprint:
@@ -2073,9 +2073,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr(
               "Download message encryption keys from and upload to the encrypted online key "
               "backup.");
+        case AccessToken:
+            return tr(
+              "Your access token gives full access to your account. Do not share it with anyone.");
         case Profile:
         case UserId:
-        case AccessToken:
         case DeviceId:
         case DeviceFingerprint:
         case Homeserver:
@@ -2216,8 +2218,9 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return TextInput;
         case Profile:
             return ProfileButton;
-        case UserId:
         case AccessToken:
+            return AccessTokenField;
+        case UserId:
         case DeviceId:
         case DeviceFingerprint:
         case Homeserver:
@@ -2536,6 +2539,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case Homeserver:
         case Profile:
         case SessionDeviceSection:
+        case AccessToken:
         case DeviceId:
         case DeviceFingerprint:
         case SessionActionsSection:

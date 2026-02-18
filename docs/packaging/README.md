@@ -5,9 +5,9 @@ Komai can be packaged and installed through several methods. This directory docu
 | Method | Status | Guide |
 |--------|--------|-------|
 | [Native build](native.md) | Working | `just build && just install` |
-| [Flatpak](flatpak.md) | Working | Build locally with `just flatpak-build` |
 | [AppImage](appimage.md) | Working | `just appimage-build-docker` |
 | [Arch Linux](archlinux.md) | Working | PKGBUILD for AUR / local `makepkg` |
+| [Flatpak](flatpak.md) | Working | Build locally with `just flatpak-build` |
 
 ## Directory layout
 

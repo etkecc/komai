@@ -68,12 +68,15 @@ Komai inherits human-made translations from nheko and fills in the gaps with AI-
 
 ## 📦 Packaging
 
-Komai can be packaged and installed through several methods. See 📄 [Packaging](docs/packaging/README.md) for an overview, or jump directly to a specific method:
+See 📄 [Native build](docs/packaging/native.md) for building from source (`just build && just run`), including dependencies, distro packages, and CMake flags.
 
-- [Native build](docs/packaging/native.md) -- `just build && just run` (dependencies, distro packages, CMake flags)
-- [Flatpak](docs/packaging/flatpak.md) -- `just flatpak-build && just flatpak-install`
+Pre-built packaging formats (alphabetical):
+
 - [AppImage](docs/packaging/appimage.md) -- `just appimage-build-docker` (portable single-file bundle)
 - [Arch Linux](docs/packaging/archlinux.md) -- PKGBUILD for `makepkg` / AUR
+- [Flatpak](docs/packaging/flatpak.md) -- `just flatpak-build && just flatpak-install`
+
+See 📄 [Packaging](docs/packaging/README.md) for an overview of all methods.
 
 
 ## 🤝 Contributing

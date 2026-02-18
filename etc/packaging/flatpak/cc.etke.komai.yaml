@@ -1,7 +1,7 @@
 id: cc.etke.komai
 command: cc.etke.komai
 runtime: org.kde.Platform
-runtime-version: '6.8'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 finish-args:
   # needed for webcams, see https://github.com/Nheko-Reborn/nheko/issues/517
@@ -44,9 +44,9 @@ cleanup:
 modules:
   - name: lmdb
     sources:
-      - sha256: 476801f5239c88c7de61c3390502a5d13965ecedef80105b5fb0fcb8373d1e53
+      - sha256: 0d090c6a7c85a4f31a2ab0d734554c21097f24752393a190b0e51996b08f48c4
         type: archive
-        url: https://git.openldap.org/openldap/openldap/-/archive/LMDB_0.9.33/openldap-LMDB_0.9.33.tar.gz
+        url: https://git.openldap.org/openldap/openldap/-/archive/LMDB_0.9.35/openldap-LMDB_0.9.35.tar.gz
     make-install-args:
       - prefix=/app
     no-autogen: true
@@ -73,9 +73,9 @@ modules:
       - -DBUILD_TESTING=OFF
       - -DBUILD_SHARED_LIBS=OFF
     sources:
-      - sha256: 3da93db5469c30588cfeb283d9d62edfc6ded9eb0edc10a4f5bbfb7d722ea802
+      - sha256: f9bc5ca38bcb0b727f0056100fac4d743e768872e3bacec7746de28f5700d697
         type: archive
-        url: https://github.com/commonmark/cmark/archive/0.31.1.tar.gz
+        url: https://github.com/commonmark/cmark/archive/0.31.2.tar.gz
   - name: fmt
     buildsystem: cmake-ninja
     config-opts:
@@ -83,9 +83,9 @@ modules:
       - -DFMT_DOC=OFF
       - -DFMT_TEST=OFF
     sources:
-      - sha256: 40fc58bebcf38c759e11a7bd8fdc163507d2423ef5058bba7f26280c5b9c5465
+      - sha256: 203eb4e8aa0d746c62d8f903df58e0419e3751591bb53ff971096eaa0ebd4ec3
         type: archive
-        url: https://github.com/fmtlib/fmt/releases/download/11.0.2/fmt-11.0.2.zip
+        url: https://github.com/fmtlib/fmt/releases/download/11.2.0/fmt-11.2.0.zip
   - name: spdlog
     buildsystem: cmake-ninja
     config-opts:
@@ -95,12 +95,13 @@ modules:
       - -DSPDLOG_BUILD_EXAMPLE=OFF
       - -DSPDLOG_FMT_EXTERNAL=ON
     sources:
-      - sha256: 1586508029a7d0670dfcb2d97575dcdc242d3868a259742b69f100801ab4e16b
+      - sha256: 15a04e69c222eb6c01094b5c7ff8a249b36bb22788d72519646fb85feb267e67
         type: archive
-        url: https://github.com/gabime/spdlog/archive/v1.14.1.tar.gz
+        url: https://github.com/gabime/spdlog/archive/v1.15.3.tar.gz
   - name: olm
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     buildsystem: cmake-ninja
     sources:
       - commit: 7e0c8277032e40308987257b711b38af8d77cc69
@@ -116,8 +117,8 @@ modules:
       - -Dgtk_doc=false
       - -Dintrospection=false
     sources:
-      - commit: 6b5a6c28afc6dd93c232a4907a87c881079ff91b
-        tag: 0.21.4
+      - commit: 0936f740c02b60f02657729cd99f581db4517a41
+        tag: 0.21.7
         type: git
         url: https://gitlab.gnome.org/GNOME/libsecret.git
   - name: QtKeychain
@@ -128,8 +129,8 @@ modules:
       - -DBUILD_SHARED_LIBS=OFF
     buildsystem: cmake-ninja
     sources:
-      - commit: 38ff50766c7e4ec490fecb2d9939b7cdc4b74b8e
-        tag: 0.14.3
+      - commit: ad7344c45a86a4f66cbafc4b081b5f7b876cb0b7
+        tag: 0.15.0
         type: git
         url: https://github.com/frankosterfeld/qtkeychain.git
   - name: nlohmann
@@ -137,38 +138,38 @@ modules:
       - -DJSON_BuildTests=OFF
     buildsystem: cmake-ninja
     sources:
-      - sha256: 0d8ef5af7f9794e3263480193c491549b2ba6cc74bb018906202ada498a79406
+      - sha256: 4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187
         type: archive
-        url: https://github.com/nlohmann/json/archive/v3.11.3.tar.gz
+        url: https://github.com/nlohmann/json/archive/v3.12.0.tar.gz
   - name: kdsingleapplication
     config-opts:
       - -DKDSingleApplication_EXAMPLES=OFF
       - -DKDSingleApplication_QT6=ON
     buildsystem: cmake-ninja
     sources:
-      - sha256: 31029fffa4873e2769c555668e8edaa6bd5721edbc445bff5e66cc6af3b9ed78
+      - sha256: ff4ae6a4620beed1cdb3e6a9b78a17d7d1dae7139c3d4746d4856b7547d42c38
         type: archive
-        url: https://github.com/KDAB/KDSingleApplication/releases/download/v1.1.0/kdsingleapplication-1.1.0.tar.gz
+        url: https://github.com/KDAB/KDSingleApplication/releases/download/v1.2.0/kdsingleapplication-1.2.0.tar.gz
   - name: abseil-cpp
     buildsystem: cmake-ninja
     sources:
       - type: archive
-        url: https://github.com/abseil/abseil-cpp/releases/download/20240116.2/abseil-cpp-20240116.2.tar.gz
-        sha256: 733726b8c3a6d39a4120d7e45ea8b41a434cdacde401cba500f14236c49b39dc
+        url: https://github.com/abseil/abseil-cpp/releases/download/20250127.1/abseil-cpp-20250127.1.tar.gz
+        sha256: b396401fd29e2e679cace77867481d388c807671dc2acc602a0259eeb79b7811
   - name: re2
     buildsystem: simple
     build-commands:
       - make static
       - make prefix=/app static-install
     sources:
-      - sha256: 7326c74cddaa90b12090fcfc915fe7b4655723893c960ee3c2c66e85c5504b6c
+      - sha256: 87f6029d2f6de8aa023654240a03ada90e876ce9a4676e258dd01ea4c26ffd67
         type: archive
-        url: https://github.com/google/re2/releases/download/2024-06-01/re2-2024-06-01.tar.gz
+        url: https://github.com/google/re2/releases/download/2025-11-05/re2-2025-11-05.tar.gz
   - name: gstreamer
     buildsystem: meson
     sources:
-      - commit: 9137f539a022ec3f5f7c5ee704198dbf35a41940
-        tag: 1.24.4
+      - commit: bfdc62185e243d3633aa916187a566d03a587792
+        tag: 1.26.10
         type: git
         url: https://gitlab.freedesktop.org/gstreamer/gstreamer.git
         disable-submodules: true

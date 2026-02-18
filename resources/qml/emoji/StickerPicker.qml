@@ -254,7 +254,7 @@ Popup {
                                         height: stickerDim
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
-                                        font.family: Settings.emojiFont != "" ? Settings.emojiFont : undefined
+                                        font.family: Settings.emojiFont
                                         font.pixelSize: 36
                                         text: del.modelData.unicode.replace('\ufe0f', '')
                                     }

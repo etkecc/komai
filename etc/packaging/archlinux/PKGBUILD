@@ -1,0 +1,70 @@
+# Maintainer: Slavi Pantaleev <slavi@devture.com>
+pkgname=komai
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="A usability-focused Matrix desktop client (fork of nheko)"
+arch=('x86_64')
+url="https://github.com/etkecc/komai"
+license=('GPL-3.0-or-later')
+depends=(
+	cmark
+	coeurl
+	gst-plugins-bad-libs
+	hicolor-icon-theme
+	kdsingleapplication
+	libolm
+	lmdb
+	mtxclient
+	'org.freedesktop.secrets'
+	qt6-base
+	qt6-declarative
+	qt6-imageformats
+	qt6-multimedia
+	qt6-svg
+	qtkeychain-qt6
+)
+makedepends=(
+	cmake
+	fontconfig
+	git
+	lmdbxx
+	nlohmann-json
+	python
+	qt6-tools
+	spdlog
+)
+optdepends=(
+	'qt6-jdenticon: Auto-generated profile pictures (identicons)'
+	'kimageformats: Extends the formats nheko supports for image attachments'
+	'gst-plugins-base-libs: VoIP/Video calls'
+	'gst-plugins-good: VoIP/Video calls'
+	'gst-plugins-bad: VoIP/Video calls'
+	'libnice: VoIP/Video calls'
+	'gst-libav: Video messages'
+	'gst-plugin-qml6: Video calls support'
+)
+provides=('nheko')
+conflicts=('nheko')
+source=("git+https://github.com/etkecc/komai.git#tag=v${pkgver}")
+sha256sums=('SKIP')
+
+build() {
+	cmake \
+		-B build \
+		-S "$pkgname" \
+		-DCMAKE_BUILD_TYPE='None' \
+		-DCMAKE_INSTALL_PREFIX='/usr' \
+		-DCMAKE_INSTALL_LIBDIR='lib' \
+		-DMAN=OFF \
+		-Wno-dev
+	cmake --build build
+}
+
+package() {
+	depends+=(
+		mtxclient libmatrix_client.so
+		spdlog libspdlog.so
+		libolm libolm.so
+	)
+	DESTDIR="$pkgdir" cmake --install build
+}

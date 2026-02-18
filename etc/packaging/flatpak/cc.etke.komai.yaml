@@ -1,5 +1,5 @@
-id: im.komai.Komai
-command: im.komai.Komai
+id: cc.etke.komai
+command: cc.etke.komai
 runtime: org.kde.Platform
 runtime-version: '6.8'
 sdk: org.kde.Sdk
@@ -226,10 +226,14 @@ modules:
       - -DFLATPAK=ON
     buildsystem: cmake-ninja
     sources:
-      - path: .
+      - path: ../../..
         type: dir
         skip:
+          - build
           - build-flatpak
+          - .git
+          - var
+          - etc
       - dest: .deps/lmdbxx
         sha256: 5e12eb3aefe9050068af7df2c663edabc977ef34c9e7ba7b9d2c43e0ad47d8df
         type: archive

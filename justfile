@@ -103,6 +103,47 @@ translations-claude-translate-all *args:
 		}
 	done
 
+flatpak_build_dir := justfile_directory() / "build-flatpak"
+
+# Builds a Flatpak bundle from the local source tree
+flatpak-build:
+	#!/usr/bin/env bash
+	set -euo pipefail
+
+	# Ensure flathub is available as a user remote (needed for --install-deps-from)
+	if ! flatpak remotes --user --columns=name | grep -qx flathub; then
+		echo "Adding flathub user remote..."
+		flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	fi
+
+	mkdir -p "{{ flatpak_build_dir }}"
+	flatpak-builder \
+		--install-deps-from=flathub \
+		--user \
+		--disable-rofiles-fuse \
+		--ccache \
+		--repo="{{ flatpak_build_dir }}/repo" \
+		--force-clean \
+		"{{ flatpak_build_dir }}/app" \
+		"{{ justfile_directory() }}/etc/packaging/flatpak/cc.etke.komai.yaml"
+	flatpak build-bundle \
+		"{{ flatpak_build_dir }}/repo" \
+		"{{ flatpak_build_dir }}/komai.flatpak" \
+		cc.etke.komai
+	echo "Flatpak bundle: {{ flatpak_build_dir }}/komai.flatpak"
+
+# Installs the locally-built Flatpak bundle
+flatpak-install:
+	flatpak --user install --or-update -y "{{ flatpak_build_dir }}/komai.flatpak"
+
+# Runs the Flatpak-installed Komai
+flatpak-run *args:
+	flatpak run cc.etke.komai {{ args }}
+
+# Removes the Flatpak build directory
+flatpak-clean:
+	rm -rf "{{ flatpak_build_dir }}"
+
 # Runs the linter/formatter
 lint:
 	{{ justfile_directory() }}/.ci/format.sh

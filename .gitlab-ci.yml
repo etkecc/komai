@@ -354,10 +354,10 @@ build-flatpak:
     - dbus-send --system /org/freedesktop/DBus org.freedesktop.DBus || (mkdir -p /run/dbus/ && dbus-daemon --system --fork)
     - mkdir -p build-flatpak
     - cd build-flatpak
-    - flatpak-builder --arch=${AARCH} --install-deps-from=flathub --user --disable-rofiles-fuse --ccache --repo=repo --default-branch=${CI_COMMIT_REF_NAME//\//_} --subject="Build of Komai ${VERSION} `date` for ${ARCH}" app ../im.komai.Komai.yaml --jobs=$JOBS
+    - flatpak-builder --arch=${AARCH} --install-deps-from=flathub --user --disable-rofiles-fuse --ccache --repo=repo --default-branch=${CI_COMMIT_REF_NAME//\//_} --subject="Build of Komai ${VERSION} `date` for ${ARCH}" app ../etc/packaging/flatpak/cc.etke.komai.yaml --jobs=$JOBS
     - flatpak install --user -y flathub org.flatpak.Builder
-    - flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream app/files/share/app-info/xmls/im.komai.Komai.xml.gz
-    - flatpak --arch=${AARCH} build-bundle repo komai-${ARCH}.flatpak im.komai.Komai ${CI_COMMIT_REF_NAME//\//_}
+    - flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream app/files/share/app-info/xmls/cc.etke.komai.xml.gz
+    - flatpak --arch=${AARCH} build-bundle repo komai-${ARCH}.flatpak cc.etke.komai ${CI_COMMIT_REF_NAME//\//_}
   after_script:
     - bash ./.ci/upload-nightly-gitlab.sh build-flatpak/komai-${ARCH}.flatpak
     - (cd ./scripts && ./upload-to-flatpak-repo.sh ../build-flatpak/repo) || exit_code=$?

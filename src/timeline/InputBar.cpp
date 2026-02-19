@@ -528,7 +528,6 @@ InputBar::generateMentions() const
     return mention;
 }
 
-
 // --------------------------------------------------------------------
 // Emoticon -> Emoji replacement (Komai)
 // --------------------------------------------------------------------
@@ -543,30 +542,31 @@ InputBar::replaceTextEmoticons(const QString &input) const
 
     // Emoticon table: longest patterns first to avoid partial matches.
     // Order matters: </3 must be checked before <3.
-    struct Emoticon {
+    struct Emoticon
+    {
         const char *pattern;
         const char *emoji;
     };
     static const Emoticon table[] = {
-        // Longer (with-nose) variants first to prevent partial matches
-        {":-)",  "\xF0\x9F\x99\x82"}, // U+1F642 slightly smiling face
-        {":-(",  "\xF0\x9F\x99\x81"}, // U+1F641 slightly frowning face
-        {":-D",  "\xF0\x9F\x98\x80"}, // U+1F600 grinning face
-        {";-)",  "\xF0\x9F\x98\x89"}, // U+1F609 winking face
-        {":-P",  "\xF0\x9F\x98\x9B"}, // U+1F61B tongue face
-        {":-O",  "\xF0\x9F\x98\xAE"}, // U+1F62E open mouth
-        {":-/",  "\xF0\x9F\x98\x95"}, // U+1F615 confused face
-        {":'(",  "\xF0\x9F\x98\xA2"}, // U+1F622 crying face
-        {"</3",  "\xF0\x9F\x92\x94"}, // U+1F494 broken heart (before <3!)
-        // Short variants
-        {":)",   "\xF0\x9F\x99\x82"}, // U+1F642 slightly smiling face
-        {":(",   "\xF0\x9F\x99\x81"}, // U+1F641 slightly frowning face
-        {":D",   "\xF0\x9F\x98\x80"}, // U+1F600 grinning face
-        {";)",   "\xF0\x9F\x98\x89"}, // U+1F609 winking face
-        {":P",   "\xF0\x9F\x98\x9B"}, // U+1F61B tongue face
-        {":O",   "\xF0\x9F\x98\xAE"}, // U+1F62E open mouth
-        {"<3",   "\xE2\x9D\xA4"},      // U+2764 red heart
-        {":/",   "\xF0\x9F\x98\x95"}, // U+1F615 confused face
+      // Longer (with-nose) variants first to prevent partial matches
+      {":-)", "\xF0\x9F\x99\x82"}, // U+1F642 slightly smiling face
+      {":-(", "\xF0\x9F\x99\x81"}, // U+1F641 slightly frowning face
+      {":-D", "\xF0\x9F\x98\x80"}, // U+1F600 grinning face
+      {";-)", "\xF0\x9F\x98\x89"}, // U+1F609 winking face
+      {":-P", "\xF0\x9F\x98\x9B"}, // U+1F61B tongue face
+      {":-O", "\xF0\x9F\x98\xAE"}, // U+1F62E open mouth
+      {":-/", "\xF0\x9F\x98\x95"}, // U+1F615 confused face
+      {":'(", "\xF0\x9F\x98\xA2"}, // U+1F622 crying face
+      {"</3", "\xF0\x9F\x92\x94"}, // U+1F494 broken heart (before <3!)
+      // Short variants
+      {":)", "\xF0\x9F\x99\x82"}, // U+1F642 slightly smiling face
+      {":(", "\xF0\x9F\x99\x81"}, // U+1F641 slightly frowning face
+      {":D", "\xF0\x9F\x98\x80"}, // U+1F600 grinning face
+      {";)", "\xF0\x9F\x98\x89"}, // U+1F609 winking face
+      {":P", "\xF0\x9F\x98\x9B"}, // U+1F61B tongue face
+      {":O", "\xF0\x9F\x98\xAE"}, // U+1F62E open mouth
+      {"<3", "\xE2\x9D\xA4"},     // U+2764 red heart
+      {":/", "\xF0\x9F\x98\x95"}, // U+1F615 confused face
     };
 
     QString result = input;
@@ -580,8 +580,8 @@ InputBar::replaceTextEmoticons(const QString &input) const
         for (const auto &e : table) {
             QString pat = QString::fromUtf8(e.pattern);
             if (trimmed.endsWith(pat, Qt::CaseInsensitive)) {
-                int patLen = pat.length();
-                int endPos = trimmed.length();
+                int patLen   = pat.length();
+                int endPos   = trimmed.length();
                 int startPos = endPos - patLen;
                 // Check boundary: must be at start or preceded by whitespace
                 if (startPos == 0 || trimmed.at(startPos - 1).isSpace()) {
@@ -600,10 +600,10 @@ InputBar::replaceTextEmoticons(const QString &input) const
         // "Always" mode: replace all emoticons, but only when preceded by
         // whitespace or at the start of the string (boundary-safe).
         for (const auto &e : table) {
-            QString pat = QString::fromUtf8(e.pattern);
+            QString pat   = QString::fromUtf8(e.pattern);
             QString emoji = QString::fromUtf8(e.emoji);
-            int patLen = pat.length();
-            int pos = 0;
+            int patLen    = pat.length();
+            int pos       = 0;
 
             while (pos <= result.length() - patLen) {
                 int found = result.indexOf(pat, pos, Qt::CaseInsensitive);
@@ -626,7 +626,7 @@ InputBar::replaceTextEmoticons(const QString &input) const
 void
 InputBar::message(const QString &msg, MarkdownOverride useMarkdown, bool rainbowify)
 {
-    const QString body = replaceTextEmoticons(msg);
+    const QString body          = replaceTextEmoticons(msg);
     mtx::events::msg::Text text = {};
     text.body                   = body.trimmed().toStdString();
 
@@ -666,12 +666,13 @@ void
 InputBar::emote(const QString &msg, bool rainbowify)
 {
     const QString body = replaceTextEmoticons(msg);
-    auto html = utils::markdownToHtml(body, rainbowify);
+    auto html          = utils::markdownToHtml(body, rainbowify);
 
     mtx::events::msg::Emote emote;
     emote.body = body.trimmed().toStdString();
 
-    if (html != body.trimmed().toHtmlEscaped() && ChatPage::instance()->userSettings()->markdown()) {
+    if (html != body.trimmed().toHtmlEscaped() &&
+        ChatPage::instance()->userSettings()->markdown()) {
         emote.formatted_body = html.toStdString();
         emote.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
@@ -688,12 +689,13 @@ void
 InputBar::notice(const QString &msg, bool rainbowify)
 {
     const QString body = replaceTextEmoticons(msg);
-    auto html = utils::markdownToHtml(body, rainbowify);
+    auto html          = utils::markdownToHtml(body, rainbowify);
 
     mtx::events::msg::Notice notice;
     notice.body = body.trimmed().toStdString();
 
-    if (html != body.trimmed().toHtmlEscaped() && ChatPage::instance()->userSettings()->markdown()) {
+    if (html != body.trimmed().toHtmlEscaped() &&
+        ChatPage::instance()->userSettings()->markdown()) {
         notice.formatted_body = html.toStdString();
         notice.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
@@ -710,7 +712,7 @@ void
 InputBar::confetti(const QString &body, bool rainbowify)
 {
     const QString emoBody = replaceTextEmoticons(body);
-    auto html = utils::markdownToHtml(emoBody, rainbowify);
+    auto html             = utils::markdownToHtml(emoBody, rainbowify);
 
     mtx::events::msg::ElementEffect confetti;
     confetti.msgtype = "nic.custom.confetti";
@@ -734,7 +736,7 @@ void
 InputBar::rainfall(const QString &body)
 {
     const QString emoBody = replaceTextEmoticons(body);
-    auto html = utils::markdownToHtml(emoBody);
+    auto html             = utils::markdownToHtml(emoBody);
 
     mtx::events::msg::Unknown rain;
     rain.msgtype = "io.element.effect.rainfall";
@@ -760,7 +762,7 @@ void
 InputBar::customMsgtype(const QString &msgtype, const QString &body)
 {
     const QString emoBody = replaceTextEmoticons(body);
-    auto html = utils::markdownToHtml(emoBody);
+    auto html             = utils::markdownToHtml(emoBody);
 
     mtx::events::msg::Unknown msg;
     msg.msgtype = msgtype.toStdString();

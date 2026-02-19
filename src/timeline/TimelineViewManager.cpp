@@ -151,7 +151,9 @@ const std::vector<double> TimelineViewManager::kPaletteHues = {
 };
 
 QColor
-TimelineViewManager::roomUserColor(QString roomId, QString userId, QColor background,
+TimelineViewManager::roomUserColor(QString roomId,
+                                   QString userId,
+                                   QColor background,
                                    QColor accentColor)
 {
     // Guard against empty strings (e.g. event data not yet loaded) to avoid
@@ -177,7 +179,7 @@ TimelineViewManager::roomUserColor(QString roomId, QString userId, QColor backgr
     // with the sender's own bubble color (e.g. orange accent -> teal, blue -> magenta).
     if (memberCount > 16) {
         double accentHue = accentColor.hslHue();
-        int neutralHue = (static_cast<int>(accentHue + 150)) % 360;
+        int neutralHue   = (static_cast<int>(accentHue + 150)) % 360;
         return QColor::fromHsl(neutralHue, 80, 130);
     }
 
@@ -204,9 +206,8 @@ TimelineViewManager::roomUserColor(QString roomId, QString userId, QColor backgr
         }
 
         auto members = cache::roomMembers(roomId.toStdString());
-        members.erase(
-          std::remove(members.begin(), members.end(), selfId.toStdString()),
-          members.end());
+        members.erase(std::remove(members.begin(), members.end(), selfId.toStdString()),
+                      members.end());
         std::sort(members.begin(), members.end());
         roomMemberCache_.insert(roomId, members);
     }
@@ -214,7 +215,7 @@ TimelineViewManager::roomUserColor(QString roomId, QString userId, QColor backgr
     const auto &members = roomMemberCache_.value(roomId);
 
     // Filter palette hues that are too close to the accent color (self bubble hue).
-    double accentHue = accentColor.hslHueF() * 360.0;
+    double accentHue                = accentColor.hslHueF() * 360.0;
     constexpr double kExclusionZone = 30.0; // degrees on each side
 
     std::vector<double> filteredHues;
@@ -231,12 +232,12 @@ TimelineViewManager::roomUserColor(QString roomId, QString userId, QColor backgr
         filteredHues = kPaletteHues;
 
     // Find this user's palette slot.
-    auto it = std::find(members.begin(), members.end(), userId.toStdString());
+    auto it  = std::find(members.begin(), members.end(), userId.toStdString());
     int slot = 0;
     if (it != members.end())
         slot = static_cast<int>(std::distance(members.begin(), it));
 
-    double hue = filteredHues[static_cast<size_t>(slot) % filteredHues.size()];
+    double hue   = filteredHues[static_cast<size_t>(slot) % filteredHues.size()];
     QColor color = QColor::fromHslF(hue / 360.0, 0.7, 0.5);
 
     roomUserColors_.insert(cacheKey, color);

@@ -86,7 +86,9 @@ public:
     Q_INVOKABLE void saveMedia(QString mxcUrl);
     Q_INVOKABLE void copyImage(const QString &mxcUrl) const;
     Q_INVOKABLE QColor userColor(QString id, QColor background);
-    Q_INVOKABLE QColor roomUserColor(QString roomId, QString userId, QColor background,
+    Q_INVOKABLE QColor roomUserColor(QString roomId,
+                                     QString userId,
+                                     QColor background,
                                      QColor accentColor);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }

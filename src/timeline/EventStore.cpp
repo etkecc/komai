@@ -82,7 +82,7 @@ EventStore::EventStore(std::string room_id, QObject *)
               if (this->last != std::numeric_limits<uint64_t>::max()) {
                   auto oldFirst = this->first;
                   emit beginInsertRows(toExternalIdx(newFirst), toExternalIdx(this->first - 1));
-                  this->first = newFirst;
+                  this->first   = newFirst;
                   this->dbFirst = newFirst;
                   emit endInsertRows();
                   emit dataChanged(toExternalIdx(oldFirst), toExternalIdx(oldFirst));
@@ -92,9 +92,9 @@ EventStore::EventStore(std::string room_id, QObject *)
 
                   if (range && range->last - range->first != 0) {
                       emit beginInsertRows(0, int(range->last - range->first));
-                      this->first = range->first;
+                      this->first   = range->first;
                       this->dbFirst = range->first;
-                      this->last  = range->last;
+                      this->last    = range->last;
                       emit endInsertRows();
                       emit fetchedMore();
                   } else {
@@ -963,9 +963,11 @@ EventStore::expandWindow()
     }
 
     nhlog::ui()->info("EventStore[{}]: expanding window {} -> {} (+{} msgs, {} left in cache)",
-        room_id_, this->size(), static_cast<int>(last - newFirst) + 1,
-        static_cast<int>(first - newFirst),
-        static_cast<int>(newFirst - dbFirst));
+                      room_id_,
+                      this->size(),
+                      static_cast<int>(last - newFirst) + 1,
+                      static_cast<int>(first - newFirst),
+                      static_cast<int>(newFirst - dbFirst));
 
     auto oldFirst = this->first;
     emit beginInsertRows(toExternalIdx(newFirst), toExternalIdx(this->first - 1));

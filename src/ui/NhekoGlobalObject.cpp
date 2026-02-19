@@ -8,10 +8,10 @@
 #include <QDesktopServices>
 #include <QFontMetricsF>
 #include <QGuiApplication>
-#include <QtMath>
 #include <QStyle>
 #include <QUrl>
 #include <QWindow>
+#include <QtMath>
 
 #include <mtx/requests.hpp>
 

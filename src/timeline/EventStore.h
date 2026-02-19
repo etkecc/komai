@@ -137,7 +137,7 @@ private:
 
     // Virtual window: dbFirst is the true lower bound in the database.
     // first is the windowed lower bound exposed to QML.
-    uint64_t dbFirst = std::numeric_limits<uint64_t>::max();
+    uint64_t dbFirst                = std::numeric_limits<uint64_t>::max();
     static constexpr int windowSize = 200;
 
     static QCache<IdIndex, olm::DecryptionResult> decryptedEvents_;

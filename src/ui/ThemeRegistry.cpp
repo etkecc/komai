@@ -20,26 +20,26 @@
 static ThemeRegistry *s_instance = nullptr;
 
 static const QStringList paletteKeys = {
-    QStringLiteral("window"),
-    QStringLiteral("windowText"),
-    QStringLiteral("base"),
-    QStringLiteral("alternateBase"),
-    QStringLiteral("text"),
-    QStringLiteral("brightText"),
-    QStringLiteral("button"),
-    QStringLiteral("buttonText"),
-    QStringLiteral("light"),
-    QStringLiteral("mid"),
-    QStringLiteral("dark"),
-    QStringLiteral("highlight"),
-    QStringLiteral("highlightedText"),
-    QStringLiteral("link"),
-    QStringLiteral("toolTipBase"),
-    QStringLiteral("toolTipText"),
-    QStringLiteral("red"),
-    QStringLiteral("green"),
-    QStringLiteral("orange"),
-    QStringLiteral("error"),
+  QStringLiteral("window"),
+  QStringLiteral("windowText"),
+  QStringLiteral("base"),
+  QStringLiteral("alternateBase"),
+  QStringLiteral("text"),
+  QStringLiteral("brightText"),
+  QStringLiteral("button"),
+  QStringLiteral("buttonText"),
+  QStringLiteral("light"),
+  QStringLiteral("mid"),
+  QStringLiteral("dark"),
+  QStringLiteral("highlight"),
+  QStringLiteral("highlightedText"),
+  QStringLiteral("link"),
+  QStringLiteral("toolTipBase"),
+  QStringLiteral("toolTipText"),
+  QStringLiteral("red"),
+  QStringLiteral("green"),
+  QStringLiteral("orange"),
+  QStringLiteral("error"),
 };
 
 void
@@ -85,7 +85,8 @@ ThemeRegistry::loadExternalThemes()
         if (!dir.exists())
             continue;
 
-        const auto entries = dir.entryList({QStringLiteral("*.yml"), QStringLiteral("*.yaml")}, QDir::Files);
+        const auto entries =
+          dir.entryList({QStringLiteral("*.yml"), QStringLiteral("*.yaml")}, QDir::Files);
         QMap<QString, QString> chosen;
         for (const auto &filename : entries) {
             const QFileInfo info(filename);
@@ -100,15 +101,17 @@ ThemeRegistry::loadExternalThemes()
             const QString &filename = it.value();
             const QString &slug     = it.key();
             if (seenSlugs.contains(slug)) {
-                nhlog::ui()->info(
-                    "Theme '{}' from {} skipped (already loaded)", slug.toStdString(), dir.path().toStdString());
+                nhlog::ui()->info("Theme '{}' from {} skipped (already loaded)",
+                                  slug.toStdString(),
+                                  dir.path().toStdString());
                 continue;
             }
 
             auto theme = parseThemeFile(dir.filePath(filename), slug);
             if (theme) {
-                nhlog::ui()->info(
-                    "Loaded external theme '{}' from {}", slug.toStdString(), dir.path().toStdString());
+                nhlog::ui()->info("Loaded external theme '{}' from {}",
+                                  slug.toStdString(),
+                                  dir.path().toStdString());
                 allThemes_.push_back(std::move(*theme));
                 seenSlugs.insert(slug);
             }
@@ -141,7 +144,8 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     auto variant = root["variant"].as<std::string>();
     if (variant != "light" && variant != "dark") {
         nhlog::ui()->warn("Theme file {} has invalid variant '{}' (expected 'light' or 'dark')",
-                          path.toStdString(), variant);
+                          path.toStdString(),
+                          variant);
         return std::nullopt;
     }
 
@@ -164,7 +168,9 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
         auto hexStr = QString::fromStdString(palette[keyStd].as<std::string>());
         if (!hexRe.match(hexStr).hasMatch()) {
             nhlog::ui()->warn("Theme file {} has invalid hex '{}' for key '{}'",
-                              path.toStdString(), hexStr.toStdString(), keyStd);
+                              path.toStdString(),
+                              hexStr.toStdString(),
+                              keyStd);
             return std::nullopt;
         }
         colors[key] = QColor(QStringLiteral("#") + hexStr);

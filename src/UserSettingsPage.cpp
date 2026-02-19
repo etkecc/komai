@@ -390,18 +390,50 @@ UserSettings::setSetting(T &member, const T &value, Signal signal)
     if (member == value)
         return;
     member = value;
-    emit (this->*signal)(value);
+    emit(this->*signal)(value);
     save();
 }
 
-void UserSettings::setMessageHoverHighlight(bool s) { setSetting(messageHoverHighlight_, s, &UserSettings::messageHoverHighlightChanged); }
-void UserSettings::setEnlargeEmojiOnlyMessages(bool s) { setSetting(enlargeEmojiOnlyMessages_, s, &UserSettings::enlargeEmojiOnlyMessagesChanged); }
-void UserSettings::setTray(bool s) { setSetting(tray_, s, &UserSettings::trayChanged); }
-void UserSettings::setStartInTray(bool s) { setSetting(startInTray_, s, &UserSettings::startInTrayChanged); }
-void UserSettings::setMobileMode(bool s) { setSetting(mobileMode_, s, &UserSettings::mobileModeChanged); }
-void UserSettings::setDisableSwipe(bool s) { setSetting(disableSwipe_, s, &UserSettings::disableSwipeChanged); }
-void UserSettings::setGroupView(bool s) { setSetting(groupView_, s, &UserSettings::groupViewStateChanged); }
-void UserSettings::setScrollbarsInRoomlist(bool s) { setSetting(scrollbarsInRoomlist_, s, &UserSettings::scrollbarsInRoomlistChanged); }
+void
+UserSettings::setMessageHoverHighlight(bool s)
+{
+    setSetting(messageHoverHighlight_, s, &UserSettings::messageHoverHighlightChanged);
+}
+void
+UserSettings::setEnlargeEmojiOnlyMessages(bool s)
+{
+    setSetting(enlargeEmojiOnlyMessages_, s, &UserSettings::enlargeEmojiOnlyMessagesChanged);
+}
+void
+UserSettings::setTray(bool s)
+{
+    setSetting(tray_, s, &UserSettings::trayChanged);
+}
+void
+UserSettings::setStartInTray(bool s)
+{
+    setSetting(startInTray_, s, &UserSettings::startInTrayChanged);
+}
+void
+UserSettings::setMobileMode(bool s)
+{
+    setSetting(mobileMode_, s, &UserSettings::mobileModeChanged);
+}
+void
+UserSettings::setDisableSwipe(bool s)
+{
+    setSetting(disableSwipe_, s, &UserSettings::disableSwipeChanged);
+}
+void
+UserSettings::setGroupView(bool s)
+{
+    setSetting(groupView_, s, &UserSettings::groupViewStateChanged);
+}
+void
+UserSettings::setScrollbarsInRoomlist(bool s)
+{
+    setSetting(scrollbarsInRoomlist_, s, &UserSettings::scrollbarsInRoomlistChanged);
+}
 
 void
 UserSettings::setHiddenTags(const QStringList &hiddenTags)
@@ -448,11 +480,31 @@ UserSettings::setCollapsedSpaces(QList<QStringList> spaces)
     save();
 }
 
-void UserSettings::setExposeDBusApi(bool s) { setSetting(exposeDBusApi_, s, &UserSettings::exposeDBusApiChanged); }
-void UserSettings::setUpdateSpaceVias(bool s) { setSetting(updateSpaceVias_, s, &UserSettings::updateSpaceViasChanged); }
-void UserSettings::setExpireEvents(bool s) { setSetting(expireEvents_, s, &UserSettings::expireEventsChanged); }
-void UserSettings::setWindowWidth(int s) { setSetting(windowWidth_, s, &UserSettings::windowWidthChanged); }
-void UserSettings::setWindowHeight(int s) { setSetting(windowHeight_, s, &UserSettings::windowHeightChanged); }
+void
+UserSettings::setExposeDBusApi(bool s)
+{
+    setSetting(exposeDBusApi_, s, &UserSettings::exposeDBusApiChanged);
+}
+void
+UserSettings::setUpdateSpaceVias(bool s)
+{
+    setSetting(updateSpaceVias_, s, &UserSettings::updateSpaceViasChanged);
+}
+void
+UserSettings::setExpireEvents(bool s)
+{
+    setSetting(expireEvents_, s, &UserSettings::expireEventsChanged);
+}
+void
+UserSettings::setWindowWidth(int s)
+{
+    setSetting(windowWidth_, s, &UserSettings::windowWidthChanged);
+}
+void
+UserSettings::setWindowHeight(int s)
+{
+    setSetting(windowHeight_, s, &UserSettings::windowHeightChanged);
+}
 
 void
 UserSettings::clearAuth()
@@ -464,10 +516,27 @@ UserSettings::clearAuth()
     save();
 }
 
-void UserSettings::setMaxDbSize(qulonglong s) { setSetting(maxDbSize_, s, &UserSettings::maxDbSizeChanged); }
-void UserSettings::setMaxDbs(uint s) { setSetting(maxDbs_, s, &UserSettings::maxDbsChanged); }
-void UserSettings::setRunWithoutSecureSecretsService(bool s) { setSetting(runWithoutSecureSecretsService_, s, &UserSettings::runWithoutSecureSecretsServiceChanged); }
-void UserSettings::setEnableHttp3(bool s) { setSetting(enableHttp3_, s, &UserSettings::enableHttp3Changed); }
+void
+UserSettings::setMaxDbSize(qulonglong s)
+{
+    setSetting(maxDbSize_, s, &UserSettings::maxDbSizeChanged);
+}
+void
+UserSettings::setMaxDbs(uint s)
+{
+    setSetting(maxDbs_, s, &UserSettings::maxDbsChanged);
+}
+void
+UserSettings::setRunWithoutSecureSecretsService(bool s)
+{
+    setSetting(
+      runWithoutSecureSecretsService_, s, &UserSettings::runWithoutSecureSecretsServiceChanged);
+}
+void
+UserSettings::setEnableHttp3(bool s)
+{
+    setSetting(enableHttp3_, s, &UserSettings::enableHttp3Changed);
+}
 
 QString
 UserSettings::secret(const QString &name) const
@@ -489,32 +558,137 @@ UserSettings::removeSecret(const QString &name)
     save();
 }
 
-void UserSettings::setMarkdown(bool s) { setSetting(markdown_, s, &UserSettings::markdownChanged); }
-void UserSettings::setSendMessageKey(SendMessageKey s) { setSetting(sendMessageKey_, s, &UserSettings::sendMessageKeyChanged); }
-void UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s) { setSetting(autoReplaceEmoji_, s, &UserSettings::autoReplaceEmojiChanged); }
-void UserSettings::setBubbles(bool s) { setSetting(bubbles_, s, &UserSettings::bubblesChanged); }
-void UserSettings::setSmallAvatars(bool s) { setSetting(smallAvatars_, s, &UserSettings::smallAvatarsChanged); }
-void UserSettings::setEnableStickers(bool s) { setSetting(enableStickers_, s, &UserSettings::enableStickersChanged); }
-void UserSettings::setShowOwnAvatarNextToOwnMessages(bool s) { setSetting(showOwnAvatarNextToOwnMessages_, s, &UserSettings::showOwnAvatarNextToOwnMessagesChanged); }
-void UserSettings::setPinnedReactions(const QString &s) { setSetting(pinnedReactions_, s, &UserSettings::pinnedReactionsChanged); }
-void UserSettings::setShowSenderUsername(ShowSenderUsername s) { setSetting(showSenderUsername_, s, &UserSettings::showSenderUsernameChanged); }
-void UserSettings::setAnimateImagesOnHover(bool s) { setSetting(animateImagesOnHover_, s, &UserSettings::animateImagesOnHoverChanged); }
-void UserSettings::setReadReceipts(bool s) { setSetting(readReceipts_, s, &UserSettings::readReceiptsChanged); }
-void UserSettings::setTypingNotifications(bool s) { setSetting(typingNotifications_, s, &UserSettings::typingNotificationsChanged); }
-void UserSettings::setRoomSortOrder(RoomSortOrder s) { setSetting(roomSortOrder_, s, &UserSettings::roomSortOrderChanged); }
-void UserSettings::setButtonsInTimeline(bool s) { setSetting(buttonsInTimeline_, s, &UserSettings::buttonInTimelineChanged); }
-void UserSettings::setTimelineMaxWidth(int s) { setSetting(timelineMaxWidth_, s, &UserSettings::timelineMaxWidthChanged); }
-void UserSettings::setCommunityListWidth(int s) { setSetting(communityListWidth_, s, &UserSettings::communityListWidthChanged); }
-void UserSettings::setRoomListWidth(int s) { setSetting(roomListWidth_, s, &UserSettings::roomListWidthChanged); }
-void UserSettings::setDesktopNotifications(bool s) { setSetting(hasDesktopNotifications_, s, &UserSettings::desktopNotificationsChanged); }
-void UserSettings::setAlertOnNotification(bool s) { setSetting(hasAlertOnNotification_, s, &UserSettings::alertOnNotificationChanged); }
-void UserSettings::setAvatarCircles(bool s) { setSetting(avatarCircles_, s, &UserSettings::avatarCirclesChanged); }
-void UserSettings::setDecryptNotifications(bool s) { setSetting(decryptNotifications_, s, &UserSettings::decryptNotificationsChanged); }
-void UserSettings::setSpaceNotifications(bool s) { setSetting(spaceNotifications_, s, &UserSettings::spaceNotificationsChanged); }
-void UserSettings::setCompactRoomList(bool s) { setSetting(compactRoomList_, s, &UserSettings::compactRoomListChanged); }
-void UserSettings::setShowRoomListTime(bool s) { setSetting(showRoomListTime_, s, &UserSettings::showRoomListTimeChanged); }
-void UserSettings::setLastMessagePreview(LastMessagePreview s) { setSetting(lastMessagePreview_, s, &UserSettings::lastMessagePreviewChanged); }
-void UserSettings::setFancyEffects(bool s) { setSetting(fancyEffects_, s, &UserSettings::fancyEffectsChanged); }
+void
+UserSettings::setMarkdown(bool s)
+{
+    setSetting(markdown_, s, &UserSettings::markdownChanged);
+}
+void
+UserSettings::setSendMessageKey(SendMessageKey s)
+{
+    setSetting(sendMessageKey_, s, &UserSettings::sendMessageKeyChanged);
+}
+void
+UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s)
+{
+    setSetting(autoReplaceEmoji_, s, &UserSettings::autoReplaceEmojiChanged);
+}
+void
+UserSettings::setBubbles(bool s)
+{
+    setSetting(bubbles_, s, &UserSettings::bubblesChanged);
+}
+void
+UserSettings::setSmallAvatars(bool s)
+{
+    setSetting(smallAvatars_, s, &UserSettings::smallAvatarsChanged);
+}
+void
+UserSettings::setEnableStickers(bool s)
+{
+    setSetting(enableStickers_, s, &UserSettings::enableStickersChanged);
+}
+void
+UserSettings::setShowOwnAvatarNextToOwnMessages(bool s)
+{
+    setSetting(
+      showOwnAvatarNextToOwnMessages_, s, &UserSettings::showOwnAvatarNextToOwnMessagesChanged);
+}
+void
+UserSettings::setPinnedReactions(const QString &s)
+{
+    setSetting(pinnedReactions_, s, &UserSettings::pinnedReactionsChanged);
+}
+void
+UserSettings::setShowSenderUsername(ShowSenderUsername s)
+{
+    setSetting(showSenderUsername_, s, &UserSettings::showSenderUsernameChanged);
+}
+void
+UserSettings::setAnimateImagesOnHover(bool s)
+{
+    setSetting(animateImagesOnHover_, s, &UserSettings::animateImagesOnHoverChanged);
+}
+void
+UserSettings::setReadReceipts(bool s)
+{
+    setSetting(readReceipts_, s, &UserSettings::readReceiptsChanged);
+}
+void
+UserSettings::setTypingNotifications(bool s)
+{
+    setSetting(typingNotifications_, s, &UserSettings::typingNotificationsChanged);
+}
+void
+UserSettings::setRoomSortOrder(RoomSortOrder s)
+{
+    setSetting(roomSortOrder_, s, &UserSettings::roomSortOrderChanged);
+}
+void
+UserSettings::setButtonsInTimeline(bool s)
+{
+    setSetting(buttonsInTimeline_, s, &UserSettings::buttonInTimelineChanged);
+}
+void
+UserSettings::setTimelineMaxWidth(int s)
+{
+    setSetting(timelineMaxWidth_, s, &UserSettings::timelineMaxWidthChanged);
+}
+void
+UserSettings::setCommunityListWidth(int s)
+{
+    setSetting(communityListWidth_, s, &UserSettings::communityListWidthChanged);
+}
+void
+UserSettings::setRoomListWidth(int s)
+{
+    setSetting(roomListWidth_, s, &UserSettings::roomListWidthChanged);
+}
+void
+UserSettings::setDesktopNotifications(bool s)
+{
+    setSetting(hasDesktopNotifications_, s, &UserSettings::desktopNotificationsChanged);
+}
+void
+UserSettings::setAlertOnNotification(bool s)
+{
+    setSetting(hasAlertOnNotification_, s, &UserSettings::alertOnNotificationChanged);
+}
+void
+UserSettings::setAvatarCircles(bool s)
+{
+    setSetting(avatarCircles_, s, &UserSettings::avatarCirclesChanged);
+}
+void
+UserSettings::setDecryptNotifications(bool s)
+{
+    setSetting(decryptNotifications_, s, &UserSettings::decryptNotificationsChanged);
+}
+void
+UserSettings::setSpaceNotifications(bool s)
+{
+    setSetting(spaceNotifications_, s, &UserSettings::spaceNotificationsChanged);
+}
+void
+UserSettings::setCompactRoomList(bool s)
+{
+    setSetting(compactRoomList_, s, &UserSettings::compactRoomListChanged);
+}
+void
+UserSettings::setShowRoomListTime(bool s)
+{
+    setSetting(showRoomListTime_, s, &UserSettings::showRoomListTimeChanged);
+}
+void
+UserSettings::setLastMessagePreview(LastMessagePreview s)
+{
+    setSetting(lastMessagePreview_, s, &UserSettings::lastMessagePreviewChanged);
+}
+void
+UserSettings::setFancyEffects(bool s)
+{
+    setSetting(fancyEffects_, s, &UserSettings::fancyEffectsChanged);
+}
 
 void
 UserSettings::setReducedMotion(bool state)
@@ -532,8 +706,16 @@ UserSettings::setReducedMotion(bool state)
     }
 }
 
-void UserSettings::setPrivacyScreen(bool s) { setSetting(privacyScreen_, s, &UserSettings::privacyScreenChanged); }
-void UserSettings::setPrivacyScreenTimeout(int s) { setSetting(privacyScreenTimeout_, s, &UserSettings::privacyScreenTimeoutChanged); }
+void
+UserSettings::setPrivacyScreen(bool s)
+{
+    setSetting(privacyScreen_, s, &UserSettings::privacyScreenChanged);
+}
+void
+UserSettings::setPrivacyScreenTimeout(int s)
+{
+    setSetting(privacyScreenTimeout_, s, &UserSettings::privacyScreenTimeoutChanged);
+}
 
 void
 UserSettings::setFontSize(double size)
@@ -595,8 +777,16 @@ UserSettings::setEmojiFontFamily(QString family)
     save();
 }
 
-void UserSettings::setPresence(Presence s) { setSetting(presence_, s, &UserSettings::presenceChanged); }
-void UserSettings::setShowImage(ShowImage s) { setSetting(showImage_, s, &UserSettings::showImageChanged); }
+void
+UserSettings::setPresence(Presence s)
+{
+    setSetting(presence_, s, &UserSettings::presenceChanged);
+}
+void
+UserSettings::setShowImage(ShowImage s)
+{
+    setSetting(showImage_, s, &UserSettings::showImageChanged);
+}
 
 void
 UserSettings::setTheme(QString theme)
@@ -668,10 +858,27 @@ UserSettings::setThemeByVariantIndex(int index)
         setTheme(slugs.at(index));
 }
 
-void UserSettings::setUseStunServer(bool s) { setSetting(useStunServer_, s, &UserSettings::useStunServerChanged); }
-void UserSettings::setEnableLegacyCalls(bool s) { setSetting(enableLegacyCalls_, s, &UserSettings::enableLegacyCallsChanged); }
-void UserSettings::setOnlyShareKeysWithVerifiedUsers(bool s) { setSetting(onlyShareKeysWithVerifiedUsers_, s, &UserSettings::onlyShareKeysWithVerifiedUsersChanged); }
-void UserSettings::setShareKeysWithTrustedUsers(bool s) { setSetting(shareKeysWithTrustedUsers_, s, &UserSettings::shareKeysWithTrustedUsersChanged); }
+void
+UserSettings::setUseStunServer(bool s)
+{
+    setSetting(useStunServer_, s, &UserSettings::useStunServerChanged);
+}
+void
+UserSettings::setEnableLegacyCalls(bool s)
+{
+    setSetting(enableLegacyCalls_, s, &UserSettings::enableLegacyCallsChanged);
+}
+void
+UserSettings::setOnlyShareKeysWithVerifiedUsers(bool s)
+{
+    setSetting(
+      onlyShareKeysWithVerifiedUsers_, s, &UserSettings::onlyShareKeysWithVerifiedUsersChanged);
+}
+void
+UserSettings::setShareKeysWithTrustedUsers(bool s)
+{
+    setSetting(shareKeysWithTrustedUsers_, s, &UserSettings::shareKeysWithTrustedUsersChanged);
+}
 
 void
 UserSettings::setUseOnlineKeyBackup(bool useBackup)
@@ -687,15 +894,51 @@ UserSettings::setUseOnlineKeyBackup(bool useBackup)
         olm::download_full_keybackup();
 }
 
-void UserSettings::setRingtone(QString s) { setSetting(ringtone_, s, &UserSettings::ringtoneChanged); }
-void UserSettings::setMicrophone(QString s) { setSetting(microphone_, s, &UserSettings::microphoneChanged); }
-void UserSettings::setCamera(QString s) { setSetting(camera_, s, &UserSettings::cameraChanged); }
-void UserSettings::setCameraResolution(QString s) { setSetting(cameraResolution_, s, &UserSettings::cameraResolutionChanged); }
-void UserSettings::setCameraFrameRate(QString s) { setSetting(cameraFrameRate_, s, &UserSettings::cameraFrameRateChanged); }
-void UserSettings::setScreenShareFrameRate(int s) { setSetting(screenShareFrameRate_, s, &UserSettings::screenShareFrameRateChanged); }
-void UserSettings::setScreenSharePiP(bool s) { setSetting(screenSharePiP_, s, &UserSettings::screenSharePiPChanged); }
-void UserSettings::setScreenShareRemoteVideo(bool s) { setSetting(screenShareRemoteVideo_, s, &UserSettings::screenShareRemoteVideoChanged); }
-void UserSettings::setScreenShareHideCursor(bool s) { setSetting(screenShareHideCursor_, s, &UserSettings::screenShareHideCursorChanged); }
+void
+UserSettings::setRingtone(QString s)
+{
+    setSetting(ringtone_, s, &UserSettings::ringtoneChanged);
+}
+void
+UserSettings::setMicrophone(QString s)
+{
+    setSetting(microphone_, s, &UserSettings::microphoneChanged);
+}
+void
+UserSettings::setCamera(QString s)
+{
+    setSetting(camera_, s, &UserSettings::cameraChanged);
+}
+void
+UserSettings::setCameraResolution(QString s)
+{
+    setSetting(cameraResolution_, s, &UserSettings::cameraResolutionChanged);
+}
+void
+UserSettings::setCameraFrameRate(QString s)
+{
+    setSetting(cameraFrameRate_, s, &UserSettings::cameraFrameRateChanged);
+}
+void
+UserSettings::setScreenShareFrameRate(int s)
+{
+    setSetting(screenShareFrameRate_, s, &UserSettings::screenShareFrameRateChanged);
+}
+void
+UserSettings::setScreenSharePiP(bool s)
+{
+    setSetting(screenSharePiP_, s, &UserSettings::screenSharePiPChanged);
+}
+void
+UserSettings::setScreenShareRemoteVideo(bool s)
+{
+    setSetting(screenShareRemoteVideo_, s, &UserSettings::screenShareRemoteVideoChanged);
+}
+void
+UserSettings::setScreenShareHideCursor(bool s)
+{
+    setSetting(screenShareHideCursor_, s, &UserSettings::screenShareHideCursorChanged);
+}
 
 void
 UserSettings::setProfile(QString profile)
@@ -706,9 +949,21 @@ UserSettings::setProfile(QString profile)
     save();
 }
 
-void UserSettings::setUserId(QString s) { setSetting(userId_, s, &UserSettings::userIdChanged); }
-void UserSettings::setAccessToken(QString s) { setSetting(accessToken_, s, &UserSettings::accessTokenChanged); }
-void UserSettings::setDeviceId(QString s) { setSetting(deviceId_, s, &UserSettings::deviceIdChanged); }
+void
+UserSettings::setUserId(QString s)
+{
+    setSetting(userId_, s, &UserSettings::userIdChanged);
+}
+void
+UserSettings::setAccessToken(QString s)
+{
+    setSetting(accessToken_, s, &UserSettings::accessTokenChanged);
+}
+void
+UserSettings::setDeviceId(QString s)
+{
+    setSetting(deviceId_, s, &UserSettings::deviceIdChanged);
+}
 
 void
 UserSettings::setCurrentTagId(const QString currentTagId)
@@ -719,7 +974,11 @@ UserSettings::setCurrentTagId(const QString currentTagId)
     save();
 }
 
-void UserSettings::setHomeserver(QString s) { setSetting(homeserver_, s, &UserSettings::homeserverChanged); }
+void
+UserSettings::setHomeserver(QString s)
+{
+    setSetting(homeserver_, s, &UserSettings::homeserverChanged);
+}
 
 void
 UserSettings::setDisableCertificateValidation(bool disabled)
@@ -731,9 +990,21 @@ UserSettings::setDisableCertificateValidation(bool disabled)
     emit disableCertificateValidationChanged(disabled);
 }
 
-void UserSettings::setUseIdenticon(bool s) { setSetting(useIdenticon_, s, &UserSettings::useIdenticonChanged); }
-void UserSettings::setOpenImageExternal(bool s) { setSetting(openImageExternal_, s, &UserSettings::openImageExternalChanged); }
-void UserSettings::setOpenVideoExternal(bool s) { setSetting(openVideoExternal_, s, &UserSettings::openVideoExternalChanged); }
+void
+UserSettings::setUseIdenticon(bool s)
+{
+    setSetting(useIdenticon_, s, &UserSettings::useIdenticonChanged);
+}
+void
+UserSettings::setOpenImageExternal(bool s)
+{
+    setSetting(openImageExternal_, s, &UserSettings::openImageExternalChanged);
+}
+void
+UserSettings::setOpenVideoExternal(bool s)
+{
+    setSetting(openVideoExternal_, s, &UserSettings::openVideoExternalChanged);
+}
 
 void
 UserSettings::applyTheme()
@@ -959,16 +1230,17 @@ UserSettingsModel::roleNames() const
 
 namespace {
 
-struct SettingMeta {
-    const char *name;        // tr() key (nullptr = skip)
-    const char *description; // tr() key (nullptr = no description)
-    int type;                // Types enum
-    int tab;                 // SettingsTab enum
-    QVariant (*getValue)();                 // getter (nullptr for sections)
-    bool (*setValue)(const QVariant &);      // setter (nullptr for read-only/sections)
+struct SettingMeta
+{
+    const char *name;                   // tr() key (nullptr = skip)
+    const char *description;            // tr() key (nullptr = no description)
+    int type;                           // Types enum
+    int tab;                            // SettingsTab enum
+    QVariant (*getValue)();             // getter (nullptr for sections)
+    bool (*setValue)(const QVariant &); // setter (nullptr for read-only/sections)
     QVariant lowerBound, upperBound, step;
-    QVariant (*getValues)();                // for Options type (nullptr if N/A)
-    bool (*isEnabled)();                    // nullptr = always enabled
+    QVariant (*getValues)(); // for Options type (nullptr if N/A)
+    bool (*isEnabled)();     // nullptr = always enabled
 };
 
 #define I UserSettings::instance()
@@ -1956,9 +2228,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case OnlineBackupKey:
             return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
         case SelfSigningKey:
-            return cache::secret(mtx::secret_storage::secrets::cross_signing_self_signing).has_value();
+            return cache::secret(mtx::secret_storage::secrets::cross_signing_self_signing)
+              .has_value();
         case UserSigningKey:
-            return cache::secret(mtx::secret_storage::secrets::cross_signing_user_signing).has_value();
+            return cache::secret(mtx::secret_storage::secrets::cross_signing_user_signing)
+              .has_value();
         case MasterKey:
             return true;
         }
@@ -1966,14 +2240,17 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
     case ThemeVariantValue:
         if (index.row() == Theme) {
             auto variant = ThemeRegistry::instance().themeVariant(i->theme());
-            if (variant == u"light") return 0;
-            if (variant == u"dark") return 1;
+            if (variant == u"light")
+                return 0;
+            if (variant == u"dark")
+                return 1;
             return 2;
         }
         return -1;
     case ThemeVariantValues:
         if (index.row() == Theme)
-            return QStringList{QStringLiteral("Light"), QStringLiteral("Dark"), QStringLiteral("System")};
+            return QStringList{
+              QStringLiteral("Light"), QStringLiteral("Dark"), QStringLiteral("System")};
         return QStringList{};
     case SettingImage:
         return QString();
@@ -2129,9 +2406,9 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 {
     auto s = UserSettings::instance();
 
-#define CONNECT_SETTING(idx, sig, ...) \
-    connect(s.get(), &UserSettings::sig, this, [this]() { \
-        emit dataChanged(index(idx), index(idx), {__VA_ARGS__}); \
+#define CONNECT_SETTING(idx, sig, ...)                                                             \
+    connect(s.get(), &UserSettings::sig, this, [this]() {                                          \
+        emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                                   \
     })
 
     // Look & Feel

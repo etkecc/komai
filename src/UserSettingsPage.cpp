@@ -241,13 +241,18 @@ UserSettings::load(std::optional<QString> profile)
 
     font_ = getString("font_family", QString());
 
-    avatarCircles_        = getBool("avatar_circles", false);
-    useIdenticon_         = getBool("use_identicon", true);
-    openImageExternal_    = getBool("open_image_external", false);
-    openVideoExternal_    = getBool("open_video_external", false);
-    decryptSidebar_       = getBool("decrypt_sidebar", true);
-    decryptNotifications_ = getBool("decrypt_notifications", true);
-    spaceNotifications_   = getBool("space_notifications", true);
+    avatarCircles_              = getBool("avatar_circles", false);
+    useIdenticon_               = getBool("use_identicon", true);
+    openImageExternal_          = getBool("open_image_external", false);
+    openVideoExternal_          = getBool("open_video_external", false);
+    decryptNotifications_       = getBool("decrypt_notifications", true);
+    spaceNotifications_         = getBool("space_notifications", true);
+    auto tempLastMessagePreview = getString("last_message_preview", QString()).toStdString();
+    auto lastMessagePreviewValue =
+      QMetaEnum::fromType<LastMessagePreview>().keyToValue(tempLastMessagePreview.c_str());
+    if (lastMessagePreviewValue == -1)
+        lastMessagePreviewValue = static_cast<int>(LastMessagePreview::Always);
+    lastMessagePreview_   = static_cast<LastMessagePreview>(lastMessagePreviewValue);
     fancyEffects_         = getBool("fancy_effects", true);
     reducedMotion_        = getBool("reduced_motion", false);
     privacyScreen_        = getBool("privacy_screen", false);
@@ -827,16 +832,6 @@ UserSettings::setAvatarCircles(bool state)
 }
 
 void
-UserSettings::setDecryptSidebar(bool state)
-{
-    if (state == decryptSidebar_)
-        return;
-    decryptSidebar_ = state;
-    emit decryptSidebarChanged(state);
-    save();
-}
-
-void
 UserSettings::setDecryptNotifications(bool state)
 {
     if (state == decryptNotifications_)
@@ -853,6 +848,16 @@ UserSettings::setSpaceNotifications(bool state)
         return;
     spaceNotifications_ = state;
     emit spaceNotificationsChanged(state);
+    save();
+}
+
+void
+UserSettings::setLastMessagePreview(LastMessagePreview style)
+{
+    if (style == lastMessagePreview_)
+        return;
+    lastMessagePreview_ = style;
+    emit lastMessagePreviewChanged(style);
     save();
 }
 
@@ -1393,9 +1398,11 @@ UserSettings::save()
     emitBool("use_identicon", useIdenticon_);
     emitBool("open_image_external", openImageExternal_);
     emitBool("open_video_external", openVideoExternal_);
-    emitBool("decrypt_sidebar", decryptSidebar_);
     emitBool("decrypt_notifications", decryptNotifications_);
     emitBool("space_notifications", spaceNotifications_);
+    emitString("last_message_preview",
+               QString::fromUtf8(QMetaEnum::fromType<LastMessagePreview>().valueToKey(
+                 static_cast<int>(lastMessagePreview_))));
     emitBool("fancy_effects", fancyEffects_);
     emitBool("reduced_motion", reducedMotion_);
     emitBool("privacy_screen", privacyScreen_);
@@ -1590,10 +1597,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Open images with external program");
         case OpenVideoExternal:
             return tr("Open videos with external program");
-        case DecryptSidebar:
-            return tr("Decrypt messages");
         case DecryptNotifications:
             return tr("Decrypt notifications");
+        case LastMessagePreviewSetting:
+            return tr("Show last message preview beneath room name");
         case SpaceNotifications:
             return tr("Show message counts");
         case FancyEffects:
@@ -1800,10 +1807,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return i->openImageExternal();
         case OpenVideoExternal:
             return i->openVideoExternal();
-        case DecryptSidebar:
-            return i->decryptSidebar();
         case DecryptNotifications:
             return i->decryptNotifications();
+        case LastMessagePreviewSetting:
+            return static_cast<int>(i->lastMessagePreview());
         case SpaceNotifications:
             return i->spaceNotifications();
         case FancyEffects:
@@ -2018,10 +2025,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("Opens videos with an external program when tapping the video.\nNote that "
                       "when this option is ON, opened files are left unencrypted on disk and must "
                       "be manually deleted.");
-        case DecryptSidebar:
-            return tr("Decrypt messages shown in the room list.\nOnly affects encrypted chats.");
         case DecryptNotifications:
             return tr("Decrypt messages shown in notifications for encrypted chats.");
+        case LastMessagePreviewSetting:
+            return tr("Show a preview of the last message in each room.");
         case SpaceNotifications:
             return tr("Show total notification counts for communities and tags.");
         case FancyEffects:
@@ -2150,6 +2157,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case AutoReplaceEmoji:
         case ShowSenderUsername:
         case RoomSortOrderSetting:
+        case LastMessagePreviewSetting:
             return Options;
         case TimelineMaxWidth:
         case PrivacyScreenTimeout:
@@ -2178,7 +2186,6 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case UseIdenticon:
         case OpenImageExternal:
         case OpenVideoExternal:
-        case DecryptSidebar:
         case DecryptNotifications:
         case PrivacyScreen:
         case MobileMode:
@@ -2332,6 +2339,12 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
               tr("Recent activity"),
               tr("Alphabetical"),
             };
+        case LastMessagePreviewSetting:
+            return QStringList{
+              tr("Always"),
+              tr("Only in unencrypted rooms"),
+              tr("Never"),
+            };
         case Microphone:
             return vecToList(CallDevices::instance().names(false, i->microphone().toStdString()));
         case Camera:
@@ -2432,7 +2445,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case ScrollbarsInRoomlist:
         case GroupView:
         case RoomSortOrderSetting:
-        case DecryptSidebar:
+        case LastMessagePreviewSetting:
         case SpaceNotifications:
         case LookFeelTraySection:
         case Tray:
@@ -2783,19 +2796,23 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
             } else
                 return false;
         }
-        case DecryptSidebar: {
-            if (value.userType() == QMetaType::Bool) {
-                i->setDecryptSidebar(value.toBool());
-                return true;
-            } else
-                return false;
-        }
         case DecryptNotifications: {
             if (value.userType() == QMetaType::Bool) {
                 i->setDecryptNotifications(value.toBool());
                 return true;
             } else
                 return false;
+        }
+        case LastMessagePreviewSetting: {
+            auto lastMessagePreviewValue = value.toInt();
+            if (lastMessagePreviewValue < 0 ||
+                QMetaEnum::fromType<UserSettings::LastMessagePreview>().keyCount() <=
+                  lastMessagePreviewValue)
+                return false;
+
+            i->setLastMessagePreview(
+              static_cast<UserSettings::LastMessagePreview>(lastMessagePreviewValue));
+            return true;
         }
         case SpaceNotifications: {
             if (value.userType() == QMetaType::Bool) {
@@ -3222,8 +3239,9 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     connect(s.get(), &UserSettings::roomSortOrderChanged, this, [this]() {
         emit dataChanged(index(RoomSortOrderSetting), index(RoomSortOrderSetting), {Value});
     });
-    connect(s.get(), &UserSettings::decryptSidebarChanged, this, [this]() {
-        emit dataChanged(index(DecryptSidebar), index(DecryptSidebar), {Value});
+    connect(s.get(), &UserSettings::lastMessagePreviewChanged, this, [this]() {
+        emit dataChanged(
+          index(LastMessagePreviewSetting), index(LastMessagePreviewSetting), {Value});
     });
     connect(s.get(), &UserSettings::decryptNotificationsChanged, this, [this]() {
         emit dataChanged(index(DecryptNotifications), index(DecryptNotifications), {Value});

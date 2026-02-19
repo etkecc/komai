@@ -27,6 +27,10 @@ Nheko::Nheko()
 {
     connect(
       UserSettings::instance().get(), &UserSettings::themeChanged, this, &Nheko::colorsChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::lastMessagePreviewChanged,
+            this,
+            &Nheko::compactRoomListChanged);
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Nheko::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Nheko::showRoomJoinPrompt);
     connect(this, &Nheko::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
@@ -67,6 +71,20 @@ int
 Nheko::tooltipDelay() const
 {
     return QApplication::style()->styleHint(QStyle::StyleHint::SH_ToolTip_WakeUpDelay);
+}
+
+bool
+Nheko::compactRoomList() const
+{
+    return UserSettings::instance()->lastMessagePreview() ==
+           UserSettings::LastMessagePreview::Never;
+}
+
+double
+Nheko::sidebarAvatarMultiplier() const
+{
+    // Normal mode: 2.0x line spacing, Compact mode: 1.25x line spacing
+    return compactRoomList() ? 1.25 : 2.0;
 }
 
 void

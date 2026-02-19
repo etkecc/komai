@@ -28,18 +28,20 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   : QAbstractListModel(parent)
   , manager(parent)
 {
-    connect(ChatPage::instance(), &ChatPage::decryptSidebarChanged, this, [this]() {
-        auto decrypt = ChatPage::instance()->userSettings()->decryptSidebar();
-        QHash<QString, QSharedPointer<TimelineModel>>::iterator i;
-        for (i = models.begin(); i != models.end(); ++i) {
-            auto ptr = i.value();
+    connect(
+      UserSettings::instance().get(), &UserSettings::lastMessagePreviewChanged, this, [this]() {
+          auto style   = UserSettings::instance()->lastMessagePreview();
+          bool decrypt = (style == UserSettings::LastMessagePreview::Always);
+          QHash<QString, QSharedPointer<TimelineModel>>::iterator i;
+          for (i = models.begin(); i != models.end(); ++i) {
+              auto ptr = i.value();
 
-            if (!ptr.isNull()) {
-                ptr->setDecryptDescription(decrypt);
-                ptr->updateLastMessage();
-            }
-        }
-    });
+              if (!ptr.isNull()) {
+                  ptr->setDecryptDescription(decrypt);
+                  ptr->updateLastMessage();
+              }
+          }
+      });
 
     connect(this,
             &RoomlistModel::totalUnreadMessageCountUpdated,
@@ -87,6 +89,7 @@ RoomlistModel::roleNames() const
       {ParentSpaces, "parentSpaces"},
       {IsDirect, "isDirect"},
       {DirectChatOtherUserId, "directChatOtherUserId"},
+      {IsEncrypted, "isEncrypted"},
     };
 }
 
@@ -145,6 +148,8 @@ RoomlistModel::data(const QModelIndex &index, int role) const
                     list.push_back(QString::fromStdString(t));
                 return list;
             }
+            case Roles::IsEncrypted:
+                return room->isEncrypted();
             default:
                 return {};
             }
@@ -174,6 +179,8 @@ RoomlistModel::data(const QModelIndex &index, int role) const
                 return false;
             case Roles::Tags:
                 return QStringList();
+            case Roles::IsEncrypted:
+                return false; // Invites - assume unencrypted
             default:
                 return {};
             }
@@ -205,6 +212,8 @@ RoomlistModel::data(const QModelIndex &index, int role) const
                 return true;
             case Roles::Tags:
                 return QStringList();
+            case Roles::IsEncrypted:
+                return false; // Previews - assume unencrypted
             default:
                 return {};
             }
@@ -236,6 +245,8 @@ RoomlistModel::data(const QModelIndex &index, int role) const
                 return false;
             case Roles::Tags:
                 return QStringList();
+            case Roles::IsEncrypted:
+                return false; // Unknown rooms - assume unencrypted
             default:
                 return {};
             }
@@ -280,7 +291,8 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
                 Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
 
         QSharedPointer<TimelineModel> newRoom(new TimelineModel(manager, room_id));
-        newRoom->setDecryptDescription(ChatPage::instance()->userSettings()->decryptSidebar());
+        auto style = UserSettings::instance()->lastMessagePreview();
+        newRoom->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
 
         connect(this,
                 &RoomlistModel::currentRoomChanged,

@@ -60,12 +60,12 @@ class UserSettings final : public QObject
                  NOTIFY alertOnNotificationChanged)
     Q_PROPERTY(
       bool avatarCircles READ avatarCircles WRITE setAvatarCircles NOTIFY avatarCirclesChanged)
-    Q_PROPERTY(
-      bool decryptSidebar READ decryptSidebar WRITE setDecryptSidebar NOTIFY decryptSidebarChanged)
     Q_PROPERTY(bool decryptNotifications READ decryptNotifications WRITE setDecryptNotifications
                  NOTIFY decryptNotificationsChanged)
     Q_PROPERTY(bool spaceNotifications READ spaceNotifications WRITE setSpaceNotifications NOTIFY
                  spaceNotificationsChanged)
+    Q_PROPERTY(LastMessagePreview lastMessagePreview READ lastMessagePreview WRITE
+                 setLastMessagePreview NOTIFY lastMessagePreviewChanged)
     Q_PROPERTY(bool fancyEffects READ fancyEffects WRITE setFancyEffects NOTIFY fancyEffectsChanged)
     Q_PROPERTY(
       bool reducedMotion READ reducedMotion WRITE setReducedMotion NOTIFY reducedMotionChanged)
@@ -224,6 +224,14 @@ public:
     };
     Q_ENUM(RoomSortOrder)
 
+    enum class LastMessagePreview
+    {
+        Always,          // Always show message previews
+        OnlyUnencrypted, // Only show in unencrypted rooms
+        Never,           // Never show (compact mode)
+    };
+    Q_ENUM(LastMessagePreview)
+
     void save();
     void load(std::optional<QString> profile);
     void applyTheme();
@@ -259,9 +267,9 @@ public:
     void setDesktopNotifications(bool state);
     void setAlertOnNotification(bool state);
     void setAvatarCircles(bool state);
-    void setDecryptSidebar(bool state);
     void setDecryptNotifications(bool state);
     void setSpaceNotifications(bool state);
+    void setLastMessagePreview(LastMessagePreview style);
     void setFancyEffects(bool state);
     void setReducedMotion(bool state);
     void setPrivacyScreen(bool state);
@@ -329,9 +337,9 @@ public:
     bool groupView() const { return groupView_; }
     bool scrollbarsInRoomlist() const { return scrollbarsInRoomlist_; }
     bool avatarCircles() const { return avatarCircles_; }
-    bool decryptSidebar() const { return decryptSidebar_; }
     bool decryptNotifications() const { return decryptNotifications_; }
     bool spaceNotifications() const { return spaceNotifications_; }
+    LastMessagePreview lastMessagePreview() const { return lastMessagePreview_; }
     bool fancyEffects() const { return fancyEffects_; }
     bool reducedMotion() const { return reducedMotion_; }
     bool privacyScreen() const { return privacyScreen_; }
@@ -430,9 +438,9 @@ signals:
     void desktopNotificationsChanged(bool state);
     void alertOnNotificationChanged(bool state);
     void avatarCirclesChanged(bool state);
-    void decryptSidebarChanged(bool state);
     void decryptNotificationsChanged(bool state);
     void spaceNotificationsChanged(bool state);
+    void lastMessagePreviewChanged(LastMessagePreview style);
     void fancyEffectsChanged(bool state);
     void reducedMotionChanged(bool state);
     void privacyScreenChanged(bool state);
@@ -514,9 +522,9 @@ private:
     bool hasDesktopNotifications_;
     bool hasAlertOnNotification_;
     bool avatarCircles_;
-    bool decryptSidebar_;
     bool decryptNotifications_;
     bool spaceNotifications_;
+    LastMessagePreview lastMessagePreview_;
     bool fancyEffects_;
     bool reducedMotion_;
     bool privacyScreen_;
@@ -624,7 +632,7 @@ private:
         ScrollbarsInRoomlist,
         GroupView,
         RoomSortOrderSetting,
-        DecryptSidebar,
+        LastMessagePreviewSetting,
         SpaceNotifications,
         // System Tray section
         LookFeelTraySection,

@@ -81,6 +81,7 @@ public:
         ParentSpaces,
         IsDirect,
         DirectChatOtherUserId,
+        IsEncrypted,
     };
 
     RoomlistModel(TimelineViewManager *parent = nullptr);

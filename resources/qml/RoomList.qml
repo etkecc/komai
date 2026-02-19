@@ -13,7 +13,8 @@ import im.nheko
 Page {
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
-    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 2.0)
+    property bool compactMode: Nheko.compactRoomList
+    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * Nheko.sidebarAvatarMultiplier)
     property bool collapsed: false
 
     background: Rectangle {
@@ -194,8 +195,10 @@ Page {
         Pane {
             id: roomActionsBar
 
+            property int buttonSize: Math.min(30, avatarSize)
+
             Layout.fillWidth: true
-            Layout.minimumHeight: avatarSize + 2 * Nheko.paddingMedium
+            Layout.preferredHeight: avatarSize + 2 * Nheko.paddingMedium
             horizontalPadding: Nheko.paddingMedium
             verticalPadding: 0
 
@@ -213,8 +216,8 @@ Page {
                     ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: qsTr("Start a new chat")
                     ToolTip.visible: hovered
-                    Layout.preferredHeight: 30
-                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: roomActionsBar.buttonSize
+                    Layout.preferredWidth: roomActionsBar.buttonSize
                     hoverEnabled: true
                     image: ":/icons/icons/ui/add-square-button.svg"
 
@@ -265,8 +268,8 @@ Page {
                     ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: qsTr("Room directory")
                     ToolTip.visible: hovered
-                    Layout.preferredHeight: 30
-                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: roomActionsBar.buttonSize
+                    Layout.preferredWidth: roomActionsBar.buttonSize
                     hoverEnabled: true
                     image: ":/icons/icons/ui/room-directory.svg"
                     visible: !collapsed
@@ -283,8 +286,8 @@ Page {
                     ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: qsTr("Find & switch room (Ctrl+K)")
                     ToolTip.visible: hovered
-                    Layout.preferredHeight: 30
-                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: roomActionsBar.buttonSize
+                    Layout.preferredWidth: roomActionsBar.buttonSize
                     hoverEnabled: true
                     image: ":/icons/icons/ui/search.svg"
                     ripple: false
@@ -305,11 +308,12 @@ Page {
                     id: userSettingsButton
 
                     property var profile: Nheko.currentUser
+                    property int avatarButtonSize: Math.min(36, avatarSize)
 
                     Layout.fillWidth: true
                     Layout.margins: Nheko.paddingMedium
-                    Layout.preferredHeight: 36
-                    Layout.preferredWidth: 36
+                    Layout.preferredHeight: avatarButtonSize
+                    Layout.preferredWidth: avatarButtonSize
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
                     visible: !collapsed
@@ -330,8 +334,8 @@ Page {
                         id: roomActionsAvatar
 
                         anchors.centerIn: parent
-                        width: 36
-                        height: 36
+                        width: userSettingsButton.avatarButtonSize
+                        height: userSettingsButton.avatarButtonSize
                         displayName: userSettingsButton.profile ? userSettingsButton.profile.displayName : ""
                         url: (userSettingsButton.profile ? userSettingsButton.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")
                         userid: userSettingsButton.profile ? userSettingsButton.profile.userid : ""
@@ -339,22 +343,25 @@ Page {
                     }
 
                     Rectangle {
+                        property int badgeSize: Math.round(userSettingsButton.avatarButtonSize * 0.44)
+                        property int iconSize: Math.round(badgeSize * 0.69)
+
                         anchors.bottom: roomActionsAvatar.bottom
                         anchors.right: roomActionsAvatar.right
                         anchors.bottomMargin: -2
                         anchors.rightMargin: -2
-                        width: 16
-                        height: 16
-                        radius: 4
+                        width: badgeSize
+                        height: badgeSize
+                        radius: Math.round(badgeSize * 0.25)
                         color: palette.window
 
                         Image {
                             anchors.centerIn: parent
                             source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
-                            sourceSize.width: 11
-                            sourceSize.height: 11
-                            width: 11
-                            height: 11
+                            sourceSize.width: parent.iconSize
+                            sourceSize.height: parent.iconSize
+                            width: parent.iconSize
+                            height: parent.iconSize
                         }
                     }
                 }
@@ -580,6 +587,7 @@ Page {
             required property string roomName
             required property var tags
             required property string time
+            required property bool isEncrypted
             property color unimportantText: palette.buttonText
 
             ToolTip.delay: Nheko.tooltipDelay
@@ -701,11 +709,11 @@ Page {
                 ColumnLayout {
                     id: textContent
 
-                    Layout.alignment: Qt.AlignLeft
+                    Layout.alignment: compactMode ? Qt.AlignVCenter : Qt.AlignLeft
                     Layout.minimumWidth: 100
                     Layout.preferredWidth: roomItem.width - avatar.width
-                    Layout.preferredHeight: avatar.height
-                    spacing: Nheko.paddingSmall
+                    Layout.preferredHeight: compactMode ? -1 : avatar.height
+                    spacing: compactMode ? 0 : Nheko.paddingSmall
                     visible: !collapsed
 
                     Item {
@@ -713,12 +721,13 @@ Page {
 
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
-                        Layout.preferredHeight: subtitleText.implicitHeight
+                        Layout.preferredHeight: compactMode ? titleText.implicitHeight : subtitleText.implicitHeight
 
                         ElidedLabel {
                             id: titleText
 
                             anchors.left: parent.left
+                            anchors.verticalCenter: compactMode ? parent.verticalCenter : undefined
                             color: roomItem.importantText
                             elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth : 0)
                             font.bold: hasUnreadMessages
@@ -742,9 +751,9 @@ Page {
                             bubbleBackgroundColor: roomItem.bubbleBackground
                             bubbleTextColor: roomItem.bubbleText
                             hasLoudNotification: roomItem.hasLoudNotification
-                            mayBeVisible: !collapsed && (isSpace ? Settings.spaceNotifications : false)
+                            mayBeVisible: !collapsed && (isSpace ? Settings.spaceNotifications : compactMode)
                             notificationCount: roomItem.notificationCount
-                            parent: isSpace ? titleRow : subtextRow
+                            parent: (isSpace || compactMode) ? titleRow : subtextRow
                         }
                     }
                     Item {
@@ -753,7 +762,7 @@ Page {
                         Layout.alignment: Qt.AlignBottom
                         Layout.fillWidth: true
                         Layout.preferredHeight: subtitleText.implicitHeight
-                        visible: !isSpace
+                        visible: !isSpace && (Settings.lastMessagePreview === Settings.Always || (Settings.lastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
 
                         ElidedLabel {
                             id: subtitleText

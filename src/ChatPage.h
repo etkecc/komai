@@ -139,7 +139,6 @@ signals:
 
     void retrievedPresence(const QString &statusMsg, mtx::presence::PresenceState state);
     void themeChanged();
-    void decryptSidebarChanged();
 
     //! Signals for device verificaiton
     void receivedDeviceVerificationAccept(const mtx::events::msg::KeyVerificationAccept &message);

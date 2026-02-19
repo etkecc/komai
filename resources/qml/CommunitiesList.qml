@@ -14,7 +14,7 @@ Page {
 
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
-    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 1.6)
+    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * Nheko.sidebarAvatarMultiplier)
     property bool collapsed: false
 
     background: Rectangle {
@@ -65,7 +65,7 @@ Page {
             ToolTip.delay: Nheko.tooltipDelay
             ToolTip.text: model.tooltip
             ToolTip.visible: hovered && collapsed
-            height: Math.ceil(fontMetrics.lineSpacing * 2.0) + 2 * Nheko.paddingMedium
+            height: avatarSize + 2 * Nheko.paddingMedium
             state: "normal"
             width: ListView.view.width - ((scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
 

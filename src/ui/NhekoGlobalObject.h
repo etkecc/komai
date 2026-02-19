@@ -31,6 +31,9 @@ class Nheko : public QObject
     Q_PROPERTY(int paddingMedium READ paddingMedium CONSTANT)
     Q_PROPERTY(int paddingLarge READ paddingLarge CONSTANT)
     Q_PROPERTY(int tooltipDelay READ tooltipDelay CONSTANT)
+    Q_PROPERTY(bool compactRoomList READ compactRoomList NOTIFY compactRoomListChanged)
+    Q_PROPERTY(
+      double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY compactRoomListChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
@@ -49,6 +52,9 @@ public:
     int paddingLarge() const { return 20; }
 
     int tooltipDelay() const;
+
+    bool compactRoomList() const;
+    double sidebarAvatarMultiplier() const;
 
     QString tagline() const { return tr("A fine desktop Matrix client you can get to love"); }
 
@@ -86,6 +92,7 @@ public slots:
 signals:
     void colorsChanged();
     void profileChanged();
+    void compactRoomListChanged();
 
     void openLogoutDialog();
     void openJoinRoomDialog();

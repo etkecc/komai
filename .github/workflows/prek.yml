@@ -17,10 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install just
+      - name: Install just and qmllint
         run: |
           sudo apt-get update
-          sudo apt-get install --yes just
+          sudo apt-get install --yes just qt6-declarative-dev-tools
 
       - name: Install mise
         uses: jdx/mise-action@v2

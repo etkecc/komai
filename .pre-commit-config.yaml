@@ -36,3 +36,8 @@ repos:
         language: system
         files: 'resources/langs/.*\.ts$'
         pass_filenames: false
+      - id: qmllint
+        name: Lint QML files
+        entry: sh -ec 'if [ -x /usr/lib64/qt6/bin/qmllint ]; then q=/usr/lib64/qt6/bin/qmllint; elif [ -x /usr/lib/qt6/bin/qmllint ]; then q=/usr/lib/qt6/bin/qmllint; elif command -v qmllint >/dev/null 2>&1; then q="$(command -v qmllint)"; else echo "No qmllint found, skipping check!"; exit 0; fi; "$q" "$@"' --
+        language: system
+        files: '^resources/qml/.*\.qml$'

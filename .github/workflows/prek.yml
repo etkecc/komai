@@ -1,0 +1,31 @@
+name: Prek
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  prek:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install just
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes just
+
+      - name: Install mise
+        uses: jdx/mise-action@v2
+        with:
+          cache: true
+
+      - name: Run prek on all files
+        run: just prek-run-on-all

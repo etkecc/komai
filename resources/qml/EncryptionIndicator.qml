@@ -47,6 +47,7 @@ Image {
         }
     }
     ToolTip.visible: stateImg.hovered
+    fillMode: Image.PreserveAspectFit
     height: 16
     source: {
         if (encrypted) {

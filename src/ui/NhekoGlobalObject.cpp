@@ -6,7 +6,9 @@
 
 #include <QApplication>
 #include <QDesktopServices>
+#include <QFontMetricsF>
 #include <QGuiApplication>
+#include <QtMath>
 #include <QStyle>
 #include <QUrl>
 #include <QWindow>
@@ -94,6 +96,23 @@ Nheko::sidebarAvatarMultiplier() const
 {
     // Normal mode: 2.0x line spacing, Compact mode: 1.25x line spacing
     return compactRoomList() ? 1.25 : 2.0;
+}
+
+// Font-scaled icon size for list entries (room list rows, community entries).
+int
+Nheko::listIconSize() const
+{
+    QFontMetricsF fm(QGuiApplication::font());
+    return qCeil(fm.lineSpacing() * sidebarAvatarMultiplier());
+}
+
+// Icon size for action bars (top bar, room list actions bar).
+// In compact mode, matches listIconSize so bars align with list entries.
+// In normal mode, uses the constant avatarSize (40px).
+int
+Nheko::barIconSize() const
+{
+    return compactRoomList() ? listIconSize() : avatarSize();
 }
 
 void

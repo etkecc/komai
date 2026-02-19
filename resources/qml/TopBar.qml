@@ -24,13 +24,14 @@ Pane {
     property bool showBackButton: false
     property bool filterNotifications: false
     property int trustlevel: room ? room.trustlevel : Crypto.Unverified
-    property int roomListAvatarSize: Math.ceil(fontMetrics.lineSpacing * Nheko.sidebarAvatarMultiplier)
-    property int roomListEntryHeight: roomListAvatarSize + 2 * Nheko.paddingMedium
-    property int topBarAvatarSize: Nheko.compactRoomList ? roomListAvatarSize : Nheko.avatarSize
+    property int topBarAvatarSize: Nheko.barIconSize
+    property int sidebarEntryHeight: Nheko.listIconSize + 2 * Nheko.paddingMedium
+    property int buttonPaddingH: Nheko.compactRoomList ? Nheko.paddingSmall : Nheko.paddingMedium
+    property int buttonPaddingV: 0
 
     Layout.fillWidth: true
-    Layout.minimumHeight: Nheko.compactRoomList ? roomListEntryHeight : 0
-    implicitHeight: Math.max(topLayout.height + Nheko.paddingMedium * 2, roomListEntryHeight)
+    Layout.minimumHeight: Nheko.compactRoomList ? sidebarEntryHeight : 0
+    implicitHeight: Math.max(topLayout.height + Nheko.paddingMedium * 2, sidebarEntryHeight)
     padding: 0
     z: 3
 
@@ -42,10 +43,11 @@ Pane {
             id: topLayout
 
             anchors.left: parent.left
-            anchors.margins: Nheko.paddingMedium
+            anchors.leftMargin: Nheko.paddingMedium
             anchors.right: parent.right
-            anchors.top: parent.top
-            columnSpacing: Nheko.paddingSmall
+            anchors.rightMargin: Nheko.paddingMedium
+            anchors.verticalCenter: parent.verticalCenter
+            columnSpacing: 0
             rowSpacing: Nheko.compactRoomList ? 0 : Nheko.paddingSmall
 
             Avatar {
@@ -94,9 +96,13 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 0
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize
+                Layout.preferredWidth: topBarAvatarSize
                 Layout.row: 1
+                leftPadding: buttonPaddingH
+                rightPadding: buttonPaddingH
+                topPadding: buttonPaddingV
+                bottomPadding: buttonPaddingV
                 ToolTip.text: qsTr("Back to room list")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/angle-arrow-left.svg"
@@ -107,6 +113,7 @@ Pane {
             Avatar {
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 1
+                Layout.rightMargin: buttonPaddingH
                 Layout.row: 1
                 displayName: room ? room.plainRoomName : roomName
                 enabled: false
@@ -181,9 +188,13 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 4
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize
+                Layout.preferredWidth: topBarAvatarSize
                 Layout.row: 1
+                leftPadding: buttonPaddingH
+                rightPadding: buttonPaddingH
+                topPadding: buttonPaddingV
+                bottomPadding: buttonPaddingV
                 ToolTip.text: qsTr("Show or hide pinned messages")
                 ToolTip.visible: hovered
                 image: pinsShown ? ":/icons/icons/ui/pin.svg" : ":/icons/icons/ui/pin-off.svg"
@@ -209,9 +220,13 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 5
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize
+                Layout.preferredWidth: topBarAvatarSize
                 Layout.row: 1
+                leftPadding: buttonPaddingH
+                rightPadding: buttonPaddingH
+                topPadding: buttonPaddingV
+                bottomPadding: buttonPaddingV
                 ToolTip.text: qsTr("Search this room")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/search.svg"
@@ -232,9 +247,13 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 6
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize
+                Layout.preferredWidth: topBarAvatarSize
                 Layout.row: 1
+                leftPadding: buttonPaddingH
+                rightPadding: buttonPaddingH
+                topPadding: buttonPaddingV
+                bottomPadding: buttonPaddingV
                 visible: !!room
 
                 ToolTip.text: qsTr("Show room members.")
@@ -248,9 +267,13 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 7
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize
+                Layout.preferredWidth: topBarAvatarSize
                 Layout.row: 1
+                leftPadding: buttonPaddingH
+                rightPadding: buttonPaddingH
+                topPadding: buttonPaddingV
+                bottomPadding: buttonPaddingV
                 background: null
                 visible: !!room
 
@@ -296,8 +319,8 @@ Pane {
                     trust: trustlevel
                     unencryptedColor: palette.buttonText
                     unencryptedHoverColor: palette.highlight
-                    sourceSize.height: encryptionButton.Layout.preferredHeight
-                    sourceSize.width: encryptionButton.Layout.preferredWidth
+                    sourceSize.height: topBarAvatarSize - 2 * buttonPaddingH
+                    sourceSize.width: topBarAvatarSize - 2 * buttonPaddingH
                 }
 
                 onClicked: encryptionDialog.open()
@@ -342,9 +365,13 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 8
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize
+                Layout.preferredWidth: topBarAvatarSize
                 Layout.row: 1
+                leftPadding: buttonPaddingH
+                rightPadding: buttonPaddingH
+                topPadding: buttonPaddingV
+                bottomPadding: buttonPaddingV
                 ToolTip.text: qsTr("Room settings")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/toggles.svg"
@@ -357,9 +384,13 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 9
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize
+                Layout.preferredWidth: topBarAvatarSize
                 Layout.row: 1
+                leftPadding: buttonPaddingH
+                rightPadding: buttonPaddingH
+                topPadding: buttonPaddingV
+                bottomPadding: buttonPaddingV
                 ToolTip.text: qsTr("Room options")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/options.svg"

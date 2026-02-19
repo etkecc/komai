@@ -34,6 +34,10 @@ class Nheko : public QObject
     Q_PROPERTY(bool compactRoomList READ compactRoomList NOTIFY compactRoomListChanged)
     Q_PROPERTY(
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY compactRoomListChanged)
+    // Font-scaled icon size for list entries (room list rows, community entries)
+    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY compactRoomListChanged)
+    // Icon size for action bars (top bar, room list actions bar)
+    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY compactRoomListChanged)
     Q_PROPERTY(bool showRoomListTime READ showRoomListTime NOTIFY showRoomListTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
 
@@ -56,6 +60,8 @@ public:
 
     bool compactRoomList() const;
     double sidebarAvatarMultiplier() const;
+    int listIconSize() const;
+    int barIconSize() const;
     bool showRoomListTime() const;
 
     QString tagline() const { return tr("A fine desktop Matrix client you can get to love"); }

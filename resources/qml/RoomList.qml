@@ -14,7 +14,7 @@ Page {
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
     property bool compactMode: Nheko.compactRoomList
-    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * Nheko.sidebarAvatarMultiplier)
+    property int avatarSize: Nheko.listIconSize
     property bool collapsed: false
 
     background: Rectangle {
@@ -215,7 +215,7 @@ Page {
                     id: userSettingsButton
 
                     property var profile: Nheko.currentUser
-                    property int avatarButtonSize: Math.min(36, avatarSize)
+                    property int avatarButtonSize: Nheko.barIconSize
 
                     Layout.preferredHeight: avatarButtonSize
                     Layout.preferredWidth: avatarButtonSize

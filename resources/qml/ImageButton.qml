@@ -27,10 +27,14 @@ AbstractButton {
 
         // Workaround, can't get icon.source working for now...
         anchors.fill: parent
+        anchors.leftMargin: button.leftPadding
+        anchors.rightMargin: button.rightPadding
+        anchors.topMargin: button.topPadding
+        anchors.bottomMargin: button.bottomPadding
         fillMode: Image.PreserveAspectFit
         source: button.image != "" ? ("image://colorimage/" + button.image + "?" + ((button.hovered && button.changeColorOnHover) ? button.highlightColor : button.buttonTextColor)) : ""
-        sourceSize.height: button.height
-        sourceSize.width: button.width
+        sourceSize.height: buttonImg.height
+        sourceSize.width: buttonImg.width
     }
     NhekoCursorShape {
         id: mouseArea

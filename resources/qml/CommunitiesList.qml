@@ -14,7 +14,7 @@ Page {
 
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
-    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * Nheko.sidebarAvatarMultiplier)
+    property int avatarSize: Nheko.listIconSize
     property bool collapsed: false
 
     background: Rectangle {

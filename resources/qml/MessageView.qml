@@ -268,6 +268,16 @@ Item {
                         Ripple {
                             color: Qt.rgba(btnPinned.buttonTextColor.r, btnPinned.buttonTextColor.g, btnPinned.buttonTextColor.b, 0.5)
                         }
+                        SequentialAnimation {
+                            id: pinnedPulseAnim
+
+                            NumberAnimation { target: btnPinned; property: "scale"; from: 1.0; to: 1.2; duration: 150; easing.type: Easing.OutQuad }
+                            NumberAnimation { target: btnPinned; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
+                        }
+                        onHoveredChanged: {
+                            if (hovered && !Settings.reducedMotion)
+                                pinnedPulseAnim.start();
+                        }
                     }
                 }
                 // --- Recent reactions (from user history, excluding pinned; total pinned+recent capped at 10) ---
@@ -324,6 +334,16 @@ Item {
                         Ripple {
                             color: Qt.rgba(btnRecent.buttonTextColor.r, btnRecent.buttonTextColor.g, btnRecent.buttonTextColor.b, 0.5)
                         }
+                        SequentialAnimation {
+                            id: recentPulseAnim
+
+                            NumberAnimation { target: btnRecent; property: "scale"; from: 1.0; to: 1.2; duration: 150; easing.type: Easing.OutQuad }
+                            NumberAnimation { target: btnRecent; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
+                        }
+                        onHoveredChanged: {
+                            if (hovered && !Settings.reducedMotion)
+                                recentPulseAnim.start();
+                        }
                     }
                 }
                 ImageButton {
@@ -332,6 +352,7 @@ Item {
                     ToolTip.visible: hovered
                     buttonTextColor: palette.buttonText
                     hoverEnabled: true
+                    hoverPulse: true
                     image: ":/icons/icons/ui/edit.svg"
                     visible: !!row.model && row.model.isEditable
                     Layout.preferredWidth: 32
@@ -350,6 +371,7 @@ Item {
                     ToolTip.text: qsTr("React")
                     ToolTip.visible: hovered
                     hoverEnabled: true
+                    hoverPulse: true
                     image: ":/icons/icons/ui/smile-add.svg"
                     visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
                     Layout.preferredWidth: 32
@@ -366,6 +388,7 @@ Item {
                     ToolTip.text: (row.model && row.model.threadId) ? qsTr("Reply in thread") : qsTr("New thread")
                     ToolTip.visible: hovered
                     hoverEnabled: true
+                    hoverPulse: true
                     image: (row.model && row.model.threadId) ? ":/icons/icons/ui/thread.svg" : ":/icons/icons/ui/new-thread.svg"
                     visible: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
                     Layout.preferredWidth: 32
@@ -381,6 +404,7 @@ Item {
                     ToolTip.text: qsTr("Reply")
                     ToolTip.visible: hovered
                     hoverEnabled: true
+                    hoverPulse: true
                     image: ":/icons/icons/ui/reply.svg"
                     visible: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
                     Layout.preferredWidth: 32
@@ -396,6 +420,7 @@ Item {
                     ToolTip.text: qsTr("Forward")
                     ToolTip.visible: hovered
                     hoverEnabled: true
+                    hoverPulse: true
                     image: ":/icons/icons/ui/reply.svg"
                     visible: !!row.model && (row.model.type == MtxEvent.ImageMessage || row.model.type == MtxEvent.VideoMessage || row.model.type == MtxEvent.AudioMessage || row.model.type == MtxEvent.FileMessage || row.model.type == MtxEvent.Sticker || row.model.type == MtxEvent.TextMessage || row.model.type == MtxEvent.LocationMessage || row.model.type == MtxEvent.EmoteMessage || row.model.type == MtxEvent.NoticeMessage)
                     Layout.preferredWidth: 32
@@ -416,6 +441,7 @@ Item {
                     ToolTip.visible: hovered
                     buttonTextColor: palette.buttonText
                     hoverEnabled: true
+                    hoverPulse: true
                     image: ":/icons/icons/ui/go-to.svg"
                     visible: !!row.model && filteredTimeline.filterByContent
                     Layout.preferredWidth: 32
@@ -434,6 +460,7 @@ Item {
                     ToolTip.text: qsTr("Options")
                     ToolTip.visible: hovered
                     hoverEnabled: true
+                    hoverPulse: true
                     image: ":/icons/icons/ui/options.svg"
                     Layout.preferredWidth: 32
                     Layout.preferredHeight: 32

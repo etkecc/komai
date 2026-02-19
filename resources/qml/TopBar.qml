@@ -24,9 +24,13 @@ Pane {
     property bool showBackButton: false
     property bool filterNotifications: false
     property int trustlevel: room ? room.trustlevel : Crypto.Unverified
+    property int roomListAvatarSize: Math.ceil(fontMetrics.lineSpacing * Nheko.sidebarAvatarMultiplier)
+    property int roomListEntryHeight: roomListAvatarSize + 2 * Nheko.paddingMedium
+    property int topBarAvatarSize: Nheko.compactRoomList ? roomListAvatarSize : Nheko.avatarSize
 
     Layout.fillWidth: true
-    implicitHeight: Math.max(topLayout.height + Nheko.paddingMedium * 2, Math.ceil(fontMetrics.lineSpacing * 2.0) + Nheko.paddingMedium * 2)
+    Layout.minimumHeight: Nheko.compactRoomList ? roomListEntryHeight : 0
+    implicitHeight: Math.max(topLayout.height + Nheko.paddingMedium * 2, roomListEntryHeight)
     padding: 0
     z: 3
 
@@ -42,7 +46,7 @@ Pane {
             anchors.right: parent.right
             anchors.top: parent.top
             columnSpacing: Nheko.paddingSmall
-            rowSpacing: Nheko.paddingSmall
+            rowSpacing: Nheko.compactRoomList ? 0 : Nheko.paddingSmall
 
             Avatar {
                 id: communityAvatar
@@ -60,7 +64,7 @@ Pane {
                 implicitWidth: fontMetrics.lineSpacing
                 roomid: communityId
                 url: avatarUrl.replace("mxc://", "image://MxcImage/")
-                visible: roomid && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentTagId)
+                visible: !Nheko.compactRoomList && roomid && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentTagId)
             }
             Label {
                 id: communityLabel
@@ -90,8 +94,8 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 0
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
                 ToolTip.text: qsTr("Back to room list")
                 ToolTip.visible: hovered
@@ -106,8 +110,8 @@ Pane {
                 Layout.row: 1
                 displayName: room ? room.plainRoomName : roomName
                 enabled: false
-                implicitHeight: Nheko.avatarSize
-                implicitWidth: Nheko.avatarSize
+                implicitHeight: topBarAvatarSize
+                implicitWidth: topBarAvatarSize
                 roomid: roomId
                 url: avatarUrl.replace("mxc://", "image://MxcImage/")
                 userid: isDirect ? directChatOtherUserId : ""
@@ -138,12 +142,12 @@ Pane {
                 id: roomTopicC
 
                 Layout.column: 1
-                Layout.columnSpan: 8
+                Layout.columnSpan: 9
                 Layout.fillWidth: true
                 Layout.maximumHeight: fontMetrics.lineSpacing * 2 // show 2 lines
                 Layout.row: 2
                 clip: true
-                visible: roomTopic.length > 0
+                visible: roomTopic.length > 0 && !Nheko.compactRoomList
                 color: topBar.palette.text
                 selectByMouse: true
                 text: roomTopic
@@ -177,8 +181,8 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 4
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
                 ToolTip.text: qsTr("Show or hide pinned messages")
                 ToolTip.visible: hovered
@@ -203,8 +207,8 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 5
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
                 visible: !!room
 
@@ -219,8 +223,8 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 6
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
                 background: null
                 visible: !!room
@@ -315,8 +319,8 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 7
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
                 ToolTip.text: qsTr("Search this room")
                 ToolTip.visible: hovered
@@ -338,8 +342,8 @@ Pane {
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 8
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
                 ToolTip.text: qsTr("Room settings")
                 ToolTip.visible: hovered
@@ -352,9 +356,9 @@ Pane {
                 id: roomOptionsButton
 
                 Layout.alignment: Qt.AlignVCenter
-                Layout.column: 8
-                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.column: 9
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
                 ToolTip.text: qsTr("Room options")
                 ToolTip.visible: hovered
@@ -385,7 +389,7 @@ Pane {
                 id: pinnedMessages
 
                 Layout.column: 1
-                Layout.columnSpan: 8
+                Layout.columnSpan: 9
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 4)
                 Layout.row: 3
@@ -443,7 +447,7 @@ Pane {
                 id: widgets
 
                 Layout.column: 1
-                Layout.columnSpan: 8
+                Layout.columnSpan: 9
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 1.5)
                 Layout.row: 4
@@ -469,7 +473,7 @@ Pane {
                 id: searchField
 
                 Layout.column: 1
-                Layout.columnSpan: 8
+                Layout.columnSpan: 9
                 Layout.fillWidth: true
                 Layout.row: 5
                 enabled: visible

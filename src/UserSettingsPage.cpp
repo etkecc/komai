@@ -267,8 +267,8 @@ UserSettings::load(std::optional<QString> profile)
     updateSpaceVias_      = getBool("update_space_vias", true);
     expireEvents_         = getBool("expire_events", false);
 
-    mobileMode_   = getBool("mobile_mode", false);
-    disableSwipe_ = getBool("disable_swipe", true);
+    mobileMode_          = getBool("mobile_mode", false);
+    enableSwipeGestures_ = getBool("enable_swipe_gestures", false);
     emojiFont_    = getString("emoji_font_family", QString());
 
     if (!emojiFont_.isEmpty())
@@ -422,9 +422,9 @@ UserSettings::setMobileMode(bool s)
     setSetting(mobileMode_, s, &UserSettings::mobileModeChanged);
 }
 void
-UserSettings::setDisableSwipe(bool s)
+UserSettings::setEnableSwipeGestures(bool s)
 {
-    setSetting(disableSwipe_, s, &UserSettings::disableSwipeChanged);
+    setSetting(enableSwipeGestures_, s, &UserSettings::enableSwipeGesturesChanged);
 }
 void
 UserSettings::setShowCommunitiesSidebar(bool s)
@@ -1119,7 +1119,7 @@ UserSettings::save()
     emitBool("expire_events", expireEvents_);
 
     emitBool("mobile_mode", mobileMode_);
-    emitBool("disable_swipe", disableSwipe_);
+    emitBool("enable_swipe_gestures", enableSwipeGestures_);
 
     emitString("ringtone", ringtone_);
     emitString("microphone", microphone_);
@@ -1291,7 +1291,7 @@ static const SettingMeta settingsTable[] = {
     { QT_TR_NOOP("FONTS"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Font
-    { QT_TR_NOOP("Font Family"), nullptr, SM::Options, SM::TabLookFeel,
+    { QT_TR_NOOP("Font family"), nullptr, SM::Options, SM::TabLookFeel,
       []() -> QVariant {
           if (I->font().isEmpty()) return 0;
           auto fonts = QFontDatabase::families();
@@ -1381,7 +1381,7 @@ static const SettingMeta settingsTable[] = {
       },
       {}, {}, {}, nullptr, nullptr },
     // ShowRoomListTime
-    { QT_TR_NOOP("Show timestamp"),
+    { QT_TR_NOOP("Show last message timestamp"),
       QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
       SM::Toggle, SM::TabLookFeel,
       []() -> QVariant { return I->showRoomListTime(); },
@@ -1531,14 +1531,14 @@ static const SettingMeta settingsTable[] = {
           I->setMobileMode(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // DisableSwipe
-    { QT_TR_NOOP("Disable swipe motions"),
-      QT_TR_NOOP("Will prevent swipe motions like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
+    // EnableSwipeGestures
+    { QT_TR_NOOP("Enable swipe gestures"),
+      QT_TR_NOOP("Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
       SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->disableSwipe(); },
+      []() -> QVariant { return I->enableSwipeGestures(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setDisableSwipe(v.toBool()); return true;
+          I->setEnableSwipeGestures(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
 
@@ -1640,7 +1640,7 @@ static const SettingMeta settingsTable[] = {
     { QT_TR_NOOP("MEDIA"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // FancyEffects
-    { QT_TR_NOOP("Display fancy effects such as confetti"),
+    { QT_TR_NOOP("Show message effects"),
       QT_TR_NOOP("Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen."),
       SM::Toggle, SM::TabTimeline,
       []() -> QVariant { return I->fancyEffects(); },
@@ -2069,7 +2069,7 @@ static const SettingMeta settingsTable[] = {
       },
       {}, {}, {}, nullptr, nullptr },
     // SessionKeys
-    { QT_TR_NOOP("Session Keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
+    { QT_TR_NOOP("Session keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EncryptionCrossSigningSection
     { QT_TR_NOOP("CROSS-SIGNING"), nullptr, SM::SectionTitle, SM::TabEncryption,
@@ -2131,11 +2131,11 @@ static const SettingMeta settingsTable[] = {
       []() -> QVariant { return I->deviceId(); },
       nullptr, {}, {}, {}, nullptr, nullptr },
     // DeviceFingerprint
-    { QT_TR_NOOP("Device Fingerprint"), nullptr, SM::ReadOnlyText, SM::TabSession,
+    { QT_TR_NOOP("Device fingerprint"), nullptr, SM::ReadOnlyText, SM::TabSession,
       []() -> QVariant { return utils::humanReadableFingerprint(olm::client()->identity_keys().ed25519); },
       nullptr, {}, {}, {}, nullptr, nullptr },
     // AccessToken
-    { QT_TR_NOOP("Access Token"),
+    { QT_TR_NOOP("Access token"),
       QT_TR_NOOP("Your access token gives full access to your account. Do not share it with anyone."),
       SM::AccessTokenField, SM::TabSession,
       []() -> QVariant { return I->accessToken(); },
@@ -2431,7 +2431,7 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     CONNECT_SETTING(StartInTray, startInTrayChanged, Value);
     CONNECT_SETTING(ExposeDBusApi, exposeDBusApiChanged, Value);
     CONNECT_SETTING(MobileMode, mobileModeChanged, Value);
-    CONNECT_SETTING(DisableSwipe, disableSwipeChanged, Value);
+    CONNECT_SETTING(EnableSwipeGestures, enableSwipeGesturesChanged, Value);
 
     // Tray has a side-effect on StartInTray's Enabled state
     connect(s.get(), &UserSettings::trayChanged, this, [this]() {

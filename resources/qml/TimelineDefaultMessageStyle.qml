@@ -290,7 +290,7 @@ TimelineEvent {
 
             DragHandler {
                 id: replyDragHandler
-                enabled: !Settings.disableSwipe
+                enabled: Settings.enableSwipeGestures
                 yAxis.enabled: false
                 xAxis.enabled: true
                 xAxis.minimum: wrapper.avatarMargin - 100

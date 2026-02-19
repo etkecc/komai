@@ -853,6 +853,16 @@ set(QML_SOURCES
     resources/qml/pages/RegisterPage.qml
     resources/qml/pages/UserSettingsPage.qml
     resources/qml/pages/WelcomePage.qml
+    resources/qml/pages/settings/SettingsContent.qml
+    resources/qml/pages/settings/LookFeelTab.qml
+    resources/qml/pages/settings/TimelineTab.qml
+    resources/qml/pages/settings/ComposerTab.qml
+    resources/qml/pages/settings/NotificationsTab.qml
+    resources/qml/pages/settings/CallsTab.qml
+    resources/qml/pages/settings/PrivacyTab.qml
+    resources/qml/pages/settings/EncryptionTab.qml
+    resources/qml/pages/settings/SessionTab.qml
+    resources/qml/pages/settings/AboutTab.qml
     resources/qml/ui/NhekoSlider.qml
     resources/qml/ui/Ripple.qml
     resources/qml/ui/Snackbar.qml

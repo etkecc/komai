@@ -502,6 +502,9 @@ signals:
     void enableHttp3Changed(bool state);
 
 private:
+    template<typename T, typename Signal>
+    void setSetting(T &member, const T &value, Signal signal);
+
     // Default to system theme if QT_QPA_PLATFORMTHEME var is set.
     QString defaultTheme_ = QProcessEnvironment::systemEnvironment()
                                 .value(QStringLiteral("QT_QPA_PLATFORMTHEME"), QLatin1String(""))

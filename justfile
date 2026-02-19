@@ -48,13 +48,13 @@ run *args:
 
 # Regenerates ThemeDefinitions.h from resources/themes/*.yaml
 generate-themes:
-	python3 {{ justfile_directory() }}/bin/generate-themes.py \
+	python3 {{ justfile_directory() }}/bin/theme/generate.py \
 		{{ justfile_directory() }}/src/ui/ThemeDefinitions.h \
 		{{ justfile_directory() }}/resources/themes
 
-# Imports a Base16 theme from tinted-theming/schemes. Use --list to see available themes.
+# Imports a theme from tinted-theming/schemes. Use --list to see available themes.
 import-theme *args:
-	python3 {{ justfile_directory() }}/bin/import-theme.py {{ args }}
+	python3 {{ justfile_directory() }}/bin/theme/import.py {{ args }}
 
 # Removes the build directory
 clean:

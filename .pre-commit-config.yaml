@@ -15,9 +15,9 @@ repos:
     hooks:
       - id: check-theme-yaml
         name: Check Theme YAML Validity
-        entry: python3 bin/check-theme-yaml.py
+        entry: python3 bin/theme/check.py
         language: system
-        files: '(resources/themes/.*\.yaml$|bin/check-theme-yaml\.py$)'
+        files: '(resources/themes/.*\.yaml$|bin/theme/)'
         pass_filenames: false
       - id: check-ts-normalized
         name: Check Translation Files Normalized

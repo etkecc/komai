@@ -2,139 +2,34 @@
 """Generate ThemeDefinitions.h from resources/themes/*.yaml.
 
 Usage:
-    python3 bin/generate-themes.py <output_header_path> [themes_dir]
+    python3 bin/theme/generate.py <output_header_path> [themes_dir]
 
-Reads all .yaml files from the themes directory (default: resources/themes/),
-applies the Base16-to-QPalette mapping, and writes a C++ header containing
-a registry of all theme definitions.
-
-Themes with an `overrides:` section use those exact color values for QPalette
-roles instead of the automatic Base16 mapping. This is how our custom themes
-(Komai, Nheko) preserve their exact colors.
+Reads all .yaml files from the themes directory (default: resources/themes/)
+and writes a C++ header containing a registry of all theme definitions.
+Each YAML file contains resolved QPalette-level colors directly.
 """
 
 import os
-import re
 import sys
 from pathlib import Path
 
-
-def parse_yaml(path: str) -> dict:
-    """Minimal YAML parser for Base16 theme files.
-
-    Handles the flat structure of Base16 YAML: top-level scalars and one
-    level of nested mapping (palette:, overrides:). No external dependency.
-    """
-    result = {}
-    current_section = None
-
-    with open(path) as f:
-        for line in f:
-            line = line.rstrip()
-            if not line or line.startswith("#"):
-                continue
-
-            # Nested key (2-space indent)
-            if line.startswith("  "):
-                if current_section is None:
-                    continue
-                m = re.match(r'  (\w+):\s*"?([^"#]*)"?\s*(?:#.*)?$', line)
-                if m:
-                    result[current_section][m.group(1)] = m.group(2).strip().strip('"')
-                continue
-
-            # Top-level key
-            m = re.match(r'(\w+):\s*"?([^"#]*)"?\s*(?:#.*)?$', line)
-            if m:
-                key = m.group(1)
-                value = m.group(2).strip().strip('"')
-                if value:
-                    result[key] = value
-                    current_section = None
-                else:
-                    # Section header (e.g., "palette:" or "overrides:")
-                    result[key] = {}
-                    current_section = key
-
-    return result
-
-
-def parse_color(hex_str: str) -> tuple:
-    """Parse a hex color string (with or without #) to (r, g, b) ints."""
-    h = hex_str.lstrip("#").strip()
-    if len(h) != 6:
-        raise ValueError(f"Invalid hex color: {hex_str!r}")
-    return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16))
-
-
-def hex_to_qcolor(hex_str: str) -> str:
-    """Convert hex string to QColor constructor."""
-    r, g, b = parse_color(hex_str)
-    return f"QColor(0x{r:02x}, 0x{g:02x}, 0x{b:02x})"
-
-
-def base16_to_palette(palette: dict, variant: str, overrides: dict | None) -> dict:
-    """Map Base16 slots to QPalette role colors.
-
-    If overrides dict is provided, those QPalette roles use the override
-    values instead of the automatic mapping.
-    """
-    # Automatic Base16 mapping
-    mapping = {
-        "window": palette["base00"],
-        "windowText": palette["base05"],
-        "base": palette.get("base01", palette["base00"]),
-        "alternateBase": palette.get(
-            "base02", palette.get("base01", palette["base00"])
-        ),
-        "text": palette["base05"],
-        "brightText": palette.get("base07", palette.get("base06", palette["base05"])),
-        "button": palette.get("base01", palette["base00"]),
-        "buttonText": palette.get("base04", palette.get("base03", palette["base05"])),
-        "light": palette.get("base06", palette.get("base05", "ffffff")),
-        "mid": palette.get("base03", palette.get("base02", palette["base01"])),
-        "dark": palette.get("base01", palette["base00"]),
-        "highlight": palette.get("base0D", "38a3d8"),
-        "highlightedText": palette.get("base07", "ffffff")
-        if variant == "dark"
-        else palette.get("base00", "ffffff"),
-        "link": palette.get("base0D", "38a3d8"),
-        "toolTipBase": palette.get("base01", palette["base00"]),
-        "toolTipText": palette["base05"],
-    }
-
-    # Apply overrides
-    if overrides:
-        for key, value in overrides.items():
-            if key in mapping:
-                mapping[key] = value
-
-    return mapping
-
-
-def base16_to_custom(palette: dict, overrides: dict | None) -> dict:
-    """Map Base16 slots to Theme custom color properties."""
-    custom = {
-        "red": palette.get("base08", "a82353"),
-        "green": palette.get("base0B", "008000"),
-        "orange": palette.get("base09", "fcbe05"),
-        "error": palette.get("base08", "dd3d3d"),
-    }
-
-    # Override custom properties if specified
-    if overrides:
-        for key in ("red", "green", "orange", "error"):
-            if key in overrides:
-                custom[key] = overrides[key]
-
-    return custom
+from colors import (
+    parse_yaml,
+    parse_color,
+    hex_to_qcolor,
+    contrast_ratio,
+    luminance,
+    ALL_PALETTE_KEYS,
+    PALETTE_KEYS,
+    CUSTOM_KEYS,
+)
 
 
 def generate_header(themes: list[dict]) -> str:
     """Generate the C++ header content."""
     lines = []
-    lines.append("// Auto-generated by bin/generate-themes.py — DO NOT EDIT")
-    lines.append("// Re-generate with: python3 bin/generate-themes.py <output>")
+    lines.append("// Auto-generated by bin/theme/generate.py — DO NOT EDIT")
+    lines.append("// Re-generate with: python3 bin/theme/generate.py <output>")
     lines.append("")
     lines.append("#pragma once")
     lines.append("")
@@ -158,7 +53,7 @@ def generate_header(themes: list[dict]) -> str:
     lines.append("    QColor highlight, highlightedText, link;")
     lines.append("    QColor toolTipBase, toolTipText;")
     lines.append("")
-    lines.append("    // Custom Theme properties")
+    lines.append("    // Semantic accent colors")
     lines.append("    QColor red, green, orange, error;")
     lines.append("")
     lines.append("    QPalette toPalette() const {")
@@ -217,7 +112,7 @@ def generate_header(themes: list[dict]) -> str:
         lines.append(
             f"            /*toolTipText*/ {hex_to_qcolor(pal['toolTipText'])},"
         )
-        lines.append(f"            // Custom properties")
+        lines.append(f"            // Semantic accent colors")
         lines.append(f"            /*red*/ {hex_to_qcolor(custom['red'])},")
         lines.append(f"            /*green*/ {hex_to_qcolor(custom['green'])},")
         lines.append(f"            /*orange*/ {hex_to_qcolor(custom['orange'])},")
@@ -317,15 +212,16 @@ def main():
             sys.exit(1)
 
         palette = data["palette"]
-        for slot in (f"base{i:02X}" for i in range(16)):
-            if slot not in palette:
-                print(f"ERROR: {tf} missing palette slot: {slot}", file=sys.stderr)
+
+        # Validate all 20 palette keys exist
+        for key in ALL_PALETTE_KEYS:
+            if key not in palette:
+                print(f"ERROR: {tf} missing palette key: {key}", file=sys.stderr)
                 sys.exit(1)
 
-        overrides = data.get("overrides")
-
-        palette_mapped = base16_to_palette(palette, data["variant"], overrides)
-        custom = base16_to_custom(palette, overrides)
+        # Read QPalette colors directly
+        palette_mapped = {key: palette[key] for key in PALETTE_KEYS}
+        custom = {key: palette[key] for key in CUSTOM_KEYS}
 
         themes.append(
             {
@@ -350,7 +246,14 @@ def main():
 
     print(f"Generated {output_path} with {len(themes)} themes:")
     for t in themes:
-        print(f"  {t['slug']:30s} {t['variant']:5s}  {t['name']}")
+        pal = t["palette_mapped"]
+        cr_ht = contrast_ratio(pal["highlightedText"], pal["highlight"])
+        cr_hw = contrast_ratio(pal["highlight"], pal["window"])
+        cr_bt = contrast_ratio(pal["brightText"], pal["dark"])
+        cr_dw = contrast_ratio(pal["dark"], pal["window"])
+        print(f"  {t['slug']:25s} {t['variant']:5s}  {t['name']}")
+        print(f"    hlText/hl={cr_ht:.1f}  hl/win={cr_hw:.1f}  "
+              f"brightText/dark={cr_bt:.1f}  dark/win={cr_dw:.1f}")
 
 
 if __name__ == "__main__":

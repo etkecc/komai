@@ -194,7 +194,7 @@ UserSettings::load(std::optional<QString> profile)
 
     // Sidebar settings
     roomListWidth_      = getInt("room_list_width", -1);
-    communityListWidth_ = getInt("community_list_width", -1);
+    communityListWidth_ = getInt("community_list_width", 200);
 
     // Notifications
     hasDesktopNotifications_ = getBool("desktop_notifications", true);

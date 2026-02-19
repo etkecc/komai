@@ -721,6 +721,9 @@ ChatPage::startInitialSync()
     opts.set_presence = currentPresence();
 
     http::client()->sync(opts, [this](const mtx::responses::Sync &res, mtx::http::RequestErr err) {
+        if (shuttingDown_)
+            return;
+
         // TODO: Initial Sync should include mentions as well...
 
         if (err) {
@@ -907,6 +910,9 @@ ChatPage::trySync()
 
     http::client()->sync(
       opts, [this, since = opts.since](const mtx::responses::Sync &res, mtx::http::RequestErr err) {
+          if (shuttingDown_)
+              return;
+
           if (err) {
               const auto error = QString::fromStdString(err->matrix_error.error);
               const auto msg   = tr("Please try to login again: %1").arg(error);
@@ -1431,6 +1437,14 @@ ChatPage::getBackupVersion()
               }
           });
       });
+}
+
+void
+ChatPage::prepareShutdown()
+{
+    shuttingDown_ = true;
+    connectivityTimer_.stop();
+    disconnect();
 }
 
 void

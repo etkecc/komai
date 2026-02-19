@@ -425,14 +425,15 @@ main(int argc, char *argv[])
     QObject::connect(&app, &QApplication::aboutToQuit, &w, [&w]() {
         ChatPage::instance()->removeAllNotifications();
         w.saveCurrentWindowSize();
+        ChatPage::instance()->prepareShutdown();
         if (http::client() != nullptr) {
             nhlog::net()->debug("shutting down all I/O threads & open connections");
             http::client()->close(true);
             nhlog::net()->debug("bye");
         }
-        // This is required in order to destroy CallManager's QMediaPlayer, in turn allowing it
-        // to destroy its GstPipeline so that gst_deinit() can return.
-        ChatPage::instance()->callManager()->deleteLater();
+        // Skip normal destruction to avoid SIGSEGV in coeurl/curl cleanup.
+        // All important state is already saved above.
+        _exit(0);
     });
 
     // It seems like handling the message in a blocking manner is a no-go. I have no idea how to

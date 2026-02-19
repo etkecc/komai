@@ -53,6 +53,7 @@ public:
     void deleteConfigs();
 
     void initiateLogout();
+    void prepareShutdown();
 
     QString status() const;
     void setStatus(const QString &status);
@@ -206,6 +207,7 @@ private:
 
     QTimer connectivityTimer_;
     std::atomic_bool isConnected_;
+    std::atomic_bool shuttingDown_{false};
 
     // Global user settings.
     QSharedPointer<UserSettings> userSettings_;

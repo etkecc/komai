@@ -13,7 +13,7 @@ tinted-theming/schemes (Base16 YAML)
 bin/theme/import.py          ← applies Base16→QPalette mapping + contrast heuristics
         │
         ▼
-resources/themes/*.yaml      ← resolved QPalette-level colors (20 keys)
+resources/themes/*.yml      ← resolved QPalette-level colors (20 keys)
         │
         ▼
 bin/theme/generate.py        ← reads colors as-is, generates C++ header
@@ -25,6 +25,47 @@ src/ui/ThemeDefinitions.h    ← compiled into the binary
 All color derivation happens at **import time** (in `import.py`).
 The build step (`generate.py`) is a straightforward YAML→C++ transcription
 with no color logic.
+
+
+## Runtime theme loading
+
+In addition to the build-time pipeline, Komai loads user-defined themes at
+runtime from XDG data directories via `ThemeRegistry` (`src/ui/ThemeRegistry.cpp`).
+
+```
+                                        XDG data dirs
+                                        ~/.local/share/komai/themes/*.yml
+                                        /usr/local/share/komai/themes/*.yml
+                                        /usr/share/komai/themes/*.yml
+                                                │
+                                                ▼
+                                        ThemeRegistry::loadExternalThemes()
+                                        ← parses YAML, validates 20 palette keys
+                                                │
+tinted-theming/schemes (Base16 YAML)            │
+        │                                       │
+        ▼                                       │
+bin/theme/import.py                             │
+        │                                       │
+        ▼                                       │
+resources/themes/*.yml                         │
+        │                                       │
+        ▼                                       │
+bin/theme/generate.py                           │
+        │                                       │
+        ▼                                       ▼
+src/ui/ThemeDefinitions.h ──► ThemeRegistry (merged list at startup)
+```
+
+`ThemeRegistry` is a singleton initialized once from `main()` before
+`UserSettings`. It copies all built-in themes from `themeDefinitions()`,
+then scans external directories using `QStandardPaths::standardLocations(GenericDataLocation)`.
+Built-in themes always take priority on slug collision. External themes
+get `sortOrder = 300` so they appear after built-in themes in the UI.
+
+All theme lookup functions (`findTheme`, `themeSlugs`, `themeNames`,
+`themeVariant`, `defaultThemeSlug`) are methods on `ThemeRegistry::instance()`
+rather than free functions.
 
 
 ## YAML format
@@ -92,9 +133,9 @@ If the mapping or contrast logic in `colors.py` changes:
 
 ```sh
 # Re-import all community themes (those with source_base16 sections)
-for f in resources/themes/*.yaml; do
+for f in resources/themes/*.yml; do
     if grep -q source_base16 "$f"; then
-        slug=$(basename "$f" .yaml)
+        slug=$(basename "$f" .yml)
         python3 bin/theme/import.py "$slug" --force
     fi
 done

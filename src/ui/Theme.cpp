@@ -12,7 +12,7 @@ Theme::paletteFromTheme(QStringView theme)
     if (theme == u"system")
         return original;
 
-    const auto *def = findTheme(theme);
+    const auto *def = ThemeRegistry::instance().findTheme(theme);
     if (def)
         return def->toPalette();
 
@@ -33,7 +33,7 @@ Theme::Theme(QStringView theme)
         return;
     }
 
-    const auto *def = findTheme(theme);
+    const auto *def = ThemeRegistry::instance().findTheme(theme);
     if (def) {
         sidebarBackground_ = p.color(QPalette::AlternateBase);
         red_               = def->red;

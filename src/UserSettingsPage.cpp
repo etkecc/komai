@@ -28,7 +28,7 @@
 #include "Utils.h"
 #include "encryption/Olm.h"
 #include "ui/Theme.h"
-#include "ui/ThemeDefinitions.h"
+#include "ui/ThemeRegistry.h"
 #include "voip/CallDevices.h"
 
 #include "config/nheko.h"
@@ -54,11 +54,13 @@ configFilePath(const QString &profile)
 }
 
 // Dynamic theme list: all data-driven themes + "system"
-static QStringList themes = [] {
-    auto slugs = themeSlugs();
+static QStringList
+validThemeSlugs()
+{
+    auto slugs = ThemeRegistry::instance().themeSlugs();
     slugs.append(QStringLiteral("system"));
     return slugs;
-}();
+}
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
 // Resolve the fontconfig generic "emoji" alias to an actual font family name.
@@ -599,7 +601,7 @@ void UserSettings::setShowImage(ShowImage s) { setSetting(showImage_, s, &UserSe
 void
 UserSettings::setTheme(QString theme)
 {
-    if (theme == theme_ || !themes.contains(theme))
+    if (theme == theme_ || !validThemeSlugs().contains(theme))
         return;
     theme_ = theme;
     save();
@@ -610,7 +612,7 @@ UserSettings::setTheme(QString theme)
 int
 UserSettings::themeVariantIndex() const
 {
-    auto variant = themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(theme());
     if (variant == u"light")
         return 0;
     else if (variant == u"dark")
@@ -630,38 +632,38 @@ UserSettings::setThemeVariantByIndex(int index)
     else
         newVariant = QStringLiteral("system");
 
-    auto currentVariant = themeVariant(theme());
+    auto currentVariant = ThemeRegistry::instance().themeVariant(theme());
     if (newVariant == currentVariant)
         return;
-    setTheme(defaultThemeSlug(newVariant));
+    setTheme(ThemeRegistry::instance().defaultThemeSlug(newVariant));
 }
 
 QStringList
 UserSettings::themeNamesForCurrentVariant() const
 {
-    auto variant = themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(theme());
     if (variant == u"system")
         return {};
-    return themeNames(variant);
+    return ThemeRegistry::instance().themeNames(variant);
 }
 
 int
 UserSettings::themeIndexInCurrentVariant() const
 {
-    auto variant = themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(theme());
     if (variant == u"system")
         return -1;
-    auto slugs = themeSlugs(variant);
+    auto slugs = ThemeRegistry::instance().themeSlugs(variant);
     return slugs.indexOf(theme());
 }
 
 void
 UserSettings::setThemeByVariantIndex(int index)
 {
-    auto variant = themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(theme());
     if (variant == u"system")
         return;
-    auto slugs = themeSlugs(variant);
+    auto slugs = ThemeRegistry::instance().themeSlugs(variant);
     if (index >= 0 && index < slugs.size())
         setTheme(slugs.at(index));
 }
@@ -992,23 +994,23 @@ static const SettingMeta settingsTable[] = {
     // Theme
     { QT_TR_NOOP("Theme"), nullptr, SM::ThemeSelector, SM::TabLookFeel,
       []() -> QVariant {
-          auto variant = themeVariant(I->theme());
+          auto variant = ThemeRegistry::instance().themeVariant(I->theme());
           if (variant == u"system") return -1;
-          return themeSlugs(variant).indexOf(I->theme());
+          return ThemeRegistry::instance().themeSlugs(variant).indexOf(I->theme());
       },
       [](const QVariant &v) -> bool {
-          auto variant = themeVariant(I->theme());
+          auto variant = ThemeRegistry::instance().themeVariant(I->theme());
           if (variant == u"system") return false;
-          auto slugs = themeSlugs(variant);
+          auto slugs = ThemeRegistry::instance().themeSlugs(variant);
           int idx = v.toInt();
           if (idx >= 0 && idx < slugs.size()) { I->setTheme(slugs.at(idx)); return true; }
           return false;
       },
       {}, {}, {},
       []() -> QVariant {
-          auto variant = themeVariant(I->theme());
+          auto variant = ThemeRegistry::instance().themeVariant(I->theme());
           if (variant == u"system") return QStringList{};
-          return themeNames(variant);
+          return ThemeRegistry::instance().themeNames(variant);
       },
       nullptr },
     // LookFeelFontsSection
@@ -1963,7 +1965,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         break;
     case ThemeVariantValue:
         if (index.row() == Theme) {
-            auto variant = themeVariant(i->theme());
+            auto variant = ThemeRegistry::instance().themeVariant(i->theme());
             if (variant == u"light") return 0;
             if (variant == u"dark") return 1;
             return 2;
@@ -2001,10 +2003,10 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
                 newVariant = QStringLiteral("dark");
             else
                 newVariant = QStringLiteral("system");
-            auto currentVariant = themeVariant(i->theme());
+            auto currentVariant = ThemeRegistry::instance().themeVariant(i->theme());
             if (newVariant == currentVariant)
                 return false;
-            i->setTheme(defaultThemeSlug(newVariant));
+            i->setTheme(ThemeRegistry::instance().defaultThemeSlug(newVariant));
             return true;
         }
         return false;

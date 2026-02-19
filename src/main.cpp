@@ -34,6 +34,7 @@
 #include "MatrixClient.h"
 #include "Utils.h"
 #include "config/nheko.h"
+#include "ui/ThemeRegistry.h"
 
 #if defined(Q_OS_MACOS)
 #include "notifications/Manager.h"
@@ -263,6 +264,8 @@ main(int argc, char *argv[])
         std::cerr << "Log initialization failed: " << ex.what() << std::endl;
         std::exit(1);
     }
+
+    ThemeRegistry::initialize();
 
     if (parser.isSet(configName))
         UserSettings::initialize(parser.value(configName));

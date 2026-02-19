@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate resources/themes/*.yaml files.
+"""Validate resources/themes/*.yml files.
 
 Checks:
   - Required fields: name, variant, palette
@@ -99,10 +99,10 @@ def main():
         print("No resources/themes/ directory found — nothing to validate.")
         sys.exit(0)
 
-    yaml_files = sorted(f for f in os.listdir(themes_dir) if f.endswith(".yaml"))
+    yaml_files = sorted(f for f in os.listdir(themes_dir) if f.endswith(".yml"))
 
     if not yaml_files:
-        print("No .yaml files found in resources/themes/ — nothing to validate.")
+        print("No .yml files found in resources/themes/ — nothing to validate.")
         sys.exit(0)
 
     all_errors = []

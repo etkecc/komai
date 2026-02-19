@@ -8,7 +8,7 @@
 #include <QPalette>
 #include <QQmlEngine>
 
-#include "ThemeDefinitions.h"
+#include "ThemeRegistry.h"
 
 class Theme final : public QPalette
 {

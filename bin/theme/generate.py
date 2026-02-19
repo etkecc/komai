@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Generate ThemeDefinitions.h from resources/themes/*.yaml.
+"""Generate ThemeDefinitions.h from resources/themes/*.yml.
 
 Usage:
     python3 bin/theme/generate.py <output_header_path> [themes_dir]
 
-Reads all .yaml files from the themes directory (default: resources/themes/)
+Reads all .yml files from the themes directory (default: resources/themes/)
 and writes a C++ header containing a registry of all theme definitions.
 Each YAML file contains resolved QPalette-level colors directly.
 """
@@ -177,9 +177,9 @@ def main():
     themes_dir = sys.argv[2] if len(sys.argv) > 2 else "resources/themes"
 
     # Find all YAML theme files
-    theme_files = sorted(Path(themes_dir).glob("*.yaml"))
+    theme_files = sorted(Path(themes_dir).glob("*.yml"))
     if not theme_files:
-        print(f"ERROR: No .yaml files found in {themes_dir}", file=sys.stderr)
+        print(f"ERROR: No .yml files found in {themes_dir}", file=sys.stderr)
         sys.exit(1)
 
     # Sort order: komai themes first (0-99), nheko themes (100-199), others alphabetically (200+)

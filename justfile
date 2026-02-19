@@ -46,7 +46,7 @@ run *args:
 	fi
 	exec "$binary" {{ args }}
 
-# Regenerates ThemeDefinitions.h from resources/themes/*.yaml
+# Regenerates ThemeDefinitions.h from resources/themes/*.yml
 generate-themes:
 	python3 {{ justfile_directory() }}/bin/theme/generate.py \
 		{{ justfile_directory() }}/src/ui/ThemeDefinitions.h \

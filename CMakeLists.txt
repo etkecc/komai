@@ -424,6 +424,8 @@ set(SRC_FILES
     src/ui/RoomSummary.h
     src/ui/Theme.cpp
     src/ui/Theme.h
+    src/ui/ThemeRegistry.cpp
+    src/ui/ThemeRegistry.h
     src/ui/UIA.cpp
     src/ui/UIA.h
     src/ui/UserProfile.cpp
@@ -705,7 +707,7 @@ endif()
 
 # Generate ThemeDefinitions.h from theme YAML files.
 # Re-runs automatically when any theme YAML changes.
-file(GLOB THEME_YAML_FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes/*.yaml")
+file(GLOB THEME_YAML_FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes/*.yml")
 set(THEME_DEFINITIONS_H "${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ThemeDefinitions.h")
 add_custom_command(
     OUTPUT "${THEME_DEFINITIONS_H}"

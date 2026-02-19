@@ -121,7 +121,7 @@ def main():
 
     slug = sys.argv[1]
     force = "--force" in sys.argv
-    output_path = os.path.join(THEMES_DIR, f"{slug}.yaml")
+    output_path = os.path.join(THEMES_DIR, f"{slug}.yml")
 
     if os.path.exists(output_path) and not force:
         print(f"Theme already exists: {output_path}")

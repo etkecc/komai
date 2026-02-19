@@ -775,7 +775,7 @@ Page {
                             anchors.left: parent.left
                             anchors.verticalCenter: compactMode ? parent.verticalCenter : undefined
                             color: roomItem.importantText
-                            elideWidth: parent.width - (inlinePreview.visible ? inlinePreview.implicitWidth + Nheko.paddingSmall : 0) - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0)
+                            elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0) - (inlinePreview.visible ? Nheko.paddingSmall : 0)
                             font.bold: hasUnreadMessages
                             fullText: TimelineManager.htmlEscape(roomName)
                             textFormat: Text.RichText
@@ -789,7 +789,7 @@ Page {
                             anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
                             anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Nheko.paddingSmall : 0
                             color: roomItem.unimportantText
-                            elideWidth: width
+                            elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Nheko.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0)))
                             font.pixelSize: fontMetrics.font.pixelSize * 0.95
                             fullText: TimelineManager.htmlEscape(lastMessage)
                             textFormat: Text.RichText

@@ -5,7 +5,9 @@ Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvem
 
 ## 🎨 Theming
 
-Komai ships 14 built-in color themes (light and dark variants): Komai, Nord, Catppuccin, Dracula, Solarized, and more. New themes are easy to add -- see [🎨 Themes](themes.md) for details.
+Komai ships 14 built-in color themes (light and dark variants): Komai, Nord, Catppuccin, Dracula, Solarized, and more.
+
+New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-in ones, but you don't have to -- Komai also supports [🗂️ User themes](themes.md#-user-themes).
 
 
 ## ✨ Visual Polish

@@ -198,44 +198,114 @@ Pane {
                     Settings.hiddenPins = ps;
                 }
             }
-            AbstractButton {
+            ImageButton {
                 id: memberButton
+
+                Layout.alignment: Qt.AlignVCenter
                 Layout.column: 5
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
+                visible: !!room
+
+                ToolTip.text: qsTr("Show room members.")
+                ToolTip.visible: hovered
+                image: ":/icons/icons/ui/people.svg"
+
+                onClicked: TimelineManager.openRoomMembers(room)
+            }
+            AbstractButton {
+                id: encryptionButton
+
+                Layout.alignment: Qt.AlignVCenter
+                Layout.column: 6
+                Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+                Layout.row: 1
                 background: null
+                visible: !!room
+
+                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.text: encryptionDialogTitle()
+                ToolTip.visible: hovered
+
+                function encryptionDialogTitle() {
+                    if (!isEncrypted)
+                        return qsTr("This room is not encrypted.");
+                    switch (trustlevel) {
+                    case Crypto.Verified:
+                        return qsTr("This room contains only verified devices.");
+                    case Crypto.TOFU:
+                        return qsTr("This room contains verified devices and devices which have never changed their master key.");
+                    default:
+                        return qsTr("This room contains unverified devices!");
+                    }
+                }
+
+                function encryptionDialogBody() {
+                    if (!isEncrypted)
+                        return qsTr("Messages in this room are not end-to-end encrypted. See the Members list for device details.");
+                    switch (trustlevel) {
+                    case Crypto.Verified:
+                        return qsTr("Messages are end-to-end encrypted and all devices are verified. See the Members list for device details.");
+                    case Crypto.TOFU:
+                        return qsTr("Messages are end-to-end encrypted. Some devices are verified, others are trusted by first use. See the Members list for device details.");
+                    case Crypto.MessageUnverified:
+                        return qsTr("Messages are end-to-end encrypted, but the key is from an untrusted source. See the Members list for device details.");
+                    default:
+                        return qsTr("Messages are end-to-end encrypted, but some devices are unverified. See the Members list for device details.");
+                    }
+                }
 
                 contentItem: EncryptionIndicator {
                     ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: {
-                        if (!isEncrypted)
-                            return qsTr("Show room members.");
-                        switch (trustlevel) {
-                        case Crypto.Verified:
-                            return qsTr("This room contains only verified devices.");
-                        case Crypto.TOFU:
-                            return qsTr("This room contains verified devices and devices which have never changed their master key.");
-                        default:
-                            return qsTr("This room contains unverified devices!");
-                        }
-                    }
+                    ToolTip.text: encryptionButton.encryptionDialogTitle()
+                    ToolTip.visible: encryptionButton.hovered
                     enabled: false
                     encrypted: isEncrypted
                     hovered: parent.hovered
                     trust: trustlevel
                     unencryptedColor: palette.buttonText
                     unencryptedHoverColor: palette.highlight
-                    unencryptedIcon: ":/icons/icons/ui/people.svg"
-                    sourceSize.height: memberButton.Layout.preferredHeight
-                    sourceSize.width: memberButton.Layout.preferredWidth
+                    sourceSize.height: encryptionButton.Layout.preferredHeight
+                    sourceSize.width: encryptionButton.Layout.preferredWidth
                 }
 
-                onClicked: TimelineManager.openRoomMembers(room)
+                onClicked: encryptionDialog.open()
 
                 NhekoCursorShape {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
+                }
+            }
+            Dialog {
+                id: encryptionDialog
+
+                parent: Overlay.overlay
+                anchors.centerIn: parent
+                modal: true
+                standardButtons: Dialog.Ok
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+                title: qsTr("Encryption status")
+                width: Math.min(520, parent.width - Nheko.paddingLarge * 2)
+                padding: Nheko.paddingLarge
+
+                contentItem: ColumnLayout {
+                    spacing: Nheko.paddingMedium
+
+                    Label {
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        text: encryptionButton.encryptionDialogTitle()
+                        color: palette.text
+                        font.bold: true
+                    }
+                    MatrixText {
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        text: encryptionButton.encryptionDialogBody()
+                        color: palette.buttonText
+                    }
                 }
             }
             ImageButton {
@@ -244,7 +314,7 @@ Pane {
                 property bool searchActive: false
 
                 Layout.alignment: Qt.AlignVCenter
-                Layout.column: 6
+                Layout.column: 7
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1
@@ -267,7 +337,7 @@ Pane {
                 id: roomSettingsButton
 
                 Layout.alignment: Qt.AlignVCenter
-                Layout.column: 7
+                Layout.column: 8
                 Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
                 Layout.row: 1

@@ -1096,11 +1096,18 @@ TimelineModel::setPaginationInProgress(const bool paginationInProgress)
             events.expandWindow();
             QTimer::singleShot(0, this, [this]() {
                 setPaginationInProgress(false);
+                emit fetchedMore();
             });
             return;
         }
         events.fetchMore();
     }
+}
+
+bool
+TimelineModel::canExpandWindow() const
+{
+    return events.canExpandWindow();
 }
 
 void

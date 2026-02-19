@@ -1,6 +1,5 @@
 [tools]
 prek = "0.3.2"
-clang-format = "20.1.8"
 
 [settings]
 # Disable automatic trust prompts - we trust this config

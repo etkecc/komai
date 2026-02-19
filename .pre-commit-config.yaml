@@ -13,6 +13,14 @@ repos:
       - id: check-added-large-files
         args: ['--maxkb=1024']
 
+  # Deterministic clang-format toolchain managed by pre-commit (fast, prebuilt).
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v21.1.8
+    hooks:
+      - id: clang-format
+        name: Format C/C++ sources
+        files: '^src/.*\.(cpp|h)$'
+
   # Local hooks that run project-specific tools
   - repo: local
     hooks:
@@ -28,9 +36,3 @@ repos:
         language: system
         files: 'resources/langs/.*\.ts$'
         pass_filenames: false
-      - id: clang-format
-        name: Format C/C++ sources
-        # Resolve clang-format through mise.toml (not the system PATH).
-        entry: env MISE_TRUSTED_CONFIG_PATHS=./mise.toml MISE_DATA_DIR=./var/mise mise exec -- clang-format -i
-        language: system
-        files: '^src/.*\.(cpp|h)$'

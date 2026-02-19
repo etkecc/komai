@@ -10,7 +10,7 @@ a registry of all theme definitions.
 
 Themes with an `overrides:` section use those exact color values for QPalette
 roles instead of the automatic Base16 mapping. This is how our custom themes
-(Komai, Nheko Light/Dark) preserve their exact colors.
+(Komai, Nheko) preserve their exact colors.
 """
 
 import os

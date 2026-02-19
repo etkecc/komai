@@ -203,10 +203,35 @@ Pane {
                 }
             }
             ImageButton {
-                id: memberButton
+                id: searchButton
+
+                property bool searchActive: false
 
                 Layout.alignment: Qt.AlignVCenter
                 Layout.column: 5
+                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
+                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
+                Layout.row: 1
+                ToolTip.text: qsTr("Search this room")
+                ToolTip.visible: hovered
+                image: ":/icons/icons/ui/search.svg"
+                visible: !!room
+
+                onClicked: searchActive = !searchActive
+                onSearchActiveChanged: {
+                    if (searchActive) {
+                        searchField.forceActiveFocus();
+                    } else {
+                        searchField.clear();
+                        topBar.searchString = "";
+                    }
+                }
+            }
+            ImageButton {
+                id: memberButton
+
+                Layout.alignment: Qt.AlignVCenter
+                Layout.column: 6
                 Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
@@ -222,7 +247,7 @@ Pane {
                 id: encryptionButton
 
                 Layout.alignment: Qt.AlignVCenter
-                Layout.column: 6
+                Layout.column: 7
                 Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
                 Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
                 Layout.row: 1
@@ -309,31 +334,6 @@ Pane {
                         wrapMode: Text.Wrap
                         text: encryptionButton.encryptionDialogBody()
                         color: palette.buttonText
-                    }
-                }
-            }
-            ImageButton {
-                id: searchButton
-
-                property bool searchActive: false
-
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 7
-                Layout.preferredHeight: topBarAvatarSize - Nheko.paddingMedium
-                Layout.preferredWidth: topBarAvatarSize - Nheko.paddingMedium
-                Layout.row: 1
-                ToolTip.text: qsTr("Search this room")
-                ToolTip.visible: hovered
-                image: ":/icons/icons/ui/search.svg"
-                visible: !!room
-
-                onClicked: searchActive = !searchActive
-                onSearchActiveChanged: {
-                    if (searchActive) {
-                        searchField.forceActiveFocus();
-                    } else {
-                        searchField.clear();
-                        topBar.searchString = "";
                     }
                 }
             }

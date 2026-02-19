@@ -31,6 +31,9 @@ class Nheko : public QObject
     Q_PROPERTY(int paddingMedium READ paddingMedium CONSTANT)
     Q_PROPERTY(int paddingLarge READ paddingLarge CONSTANT)
     Q_PROPERTY(int tooltipDelay READ tooltipDelay CONSTANT)
+    // Size of the Komai logo shown in the main timeline empty state
+    // and the initial sync spinner.
+    Q_PROPERTY(int timelineLogoSize READ timelineLogoSize CONSTANT)
     Q_PROPERTY(bool compactRoomList READ compactRoomList NOTIFY compactRoomListChanged)
     Q_PROPERTY(
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY compactRoomListChanged)
@@ -57,6 +60,7 @@ public:
     int paddingLarge() const { return 20; }
 
     int tooltipDelay() const;
+    int timelineLogoSize() const { return 128; }
 
     bool compactRoomList() const;
     double sidebarAvatarMultiplier() const;

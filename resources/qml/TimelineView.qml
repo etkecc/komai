@@ -52,9 +52,11 @@ Item {
 
         Image {
             Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: Nheko.timelineLogoSize
+            Layout.preferredHeight: Nheko.timelineLogoSize
             source: "qrc:/logos/komai.svg"
-            sourceSize.height: 128
-            sourceSize.width: 128
+            sourceSize.height: Nheko.timelineLogoSize * 2
+            sourceSize.width: Nheko.timelineLogoSize * 2
             fillMode: Image.PreserveAspectFit
         }
 
@@ -68,8 +70,7 @@ Item {
     Spinner {
         anchors.centerIn: parent
         foreground: palette.mid
-        // height is somewhat arbitrary here... don't set width because width scales w/ height
-        height: parent.height / 16
+        height: Nheko.timelineLogoSize
         opacity: hh.hovered ? 0.3 : 1
         running: TimelineManager.isInitialSync
         visible: TimelineManager.isInitialSync

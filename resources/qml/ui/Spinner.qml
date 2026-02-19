@@ -25,13 +25,31 @@ Item {
         fillMode: Image.PreserveAspectFit
         smooth: true
 
-        RotationAnimator {
-            target: logo
-            from: 0
-            to: 360
-            duration: 3000
+        SequentialAnimation {
             loops: Animation.Infinite
-            running: spinner.running
+            running: spinner.running && !Settings.reducedMotion
+
+            NumberAnimation {
+                target: logo
+                property: "scale"
+                from: 1.0
+                to: 1.2
+                duration: 400
+                easing.type: Easing.OutQuad
+            }
+            NumberAnimation {
+                target: logo
+                property: "scale"
+                from: 1.2
+                to: 1.0
+                duration: 400
+                easing.type: Easing.InQuad
+            }
+
+            onRunningChanged: {
+                if (!running)
+                    logo.scale = 1.0;
+            }
         }
     }
 }

@@ -127,6 +127,7 @@ Popup {
             color: palette.text
             font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
             placeholderText: qsTr("Room name, address or id...")
+            radius: Nheko.paddingSmall
             visible: !forwardMessagePopup.confirming
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
 

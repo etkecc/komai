@@ -101,6 +101,7 @@ Popup {
             color: palette.text
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
             placeholderText: qsTr("Room name, address or id...")
+            radius: Nheko.paddingSmall
             width: parent.width
 
             Keys.onPressed: event => {

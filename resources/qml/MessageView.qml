@@ -17,6 +17,7 @@ Item {
     property int padding: Nheko.paddingMedium
     property string searchString: ""
     property bool filterByNotifications: false
+    readonly property alias filteringInProgress: chat.filteringInProgress
     property Room roommodel: room
 
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
@@ -125,7 +126,7 @@ Item {
 
             // Hold spinner visible briefly after loading stops to prevent
             // flicker from rapid paginationInProgress toggles during search.
-            property bool isLoading: (room && room.paginationInProgress) || chat.filteringInProgress
+            property bool isLoading: ((room && room.paginationInProgress) || chat.filteringInProgress) && !chatRoot.searchString
             visible: isLoading || spinnerHoldTimer.running
             onIsLoadingChanged: {
                 if (isLoading)

@@ -20,6 +20,7 @@ ColumnLayout {
     property alias selectByMouse: input.selectByMouse
     property alias text: input.text
     property alias textPadding: input.padding
+    property real radius: 0
 
     signal accepted
     signal editingFinished
@@ -109,6 +110,9 @@ ColumnLayout {
             id: backgroundRect
 
             color: labelC.text ? "transparent" : backgroundColor
+            radius: c.radius
+            border.color: c.radius > 0 ? (input.activeFocus ? palette.text : palette.highlight) : "transparent"
+            border.width: c.radius > 0 ? 1 : 0
         }
 
         onAccepted: c.accepted()
@@ -142,6 +146,7 @@ ColumnLayout {
         Layout.fillWidth: true
         color: palette.highlight
         Layout.preferredHeight: 1
+        visible: c.radius === 0
 
         Rectangle {
             id: blackBar

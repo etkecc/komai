@@ -98,6 +98,7 @@ Item {
             id: topBar
 
             showBackButton: timelineView.showBackButton
+            filteringInProgress: messageView.filteringInProgress
         }
         Rectangle {
             Layout.fillWidth: true
@@ -129,6 +130,7 @@ Item {
                         target: timelineView
                     }
                     MessageView {
+                        id: messageView
                         Layout.fillWidth: true
                         implicitHeight: msgView.height - typingIndicator.height
                         searchString: topBar.searchString

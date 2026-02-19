@@ -34,6 +34,8 @@ Use `just` as the build entry point:
 - `just appimage-build-docker` -- Build AppImage in Docker
 - `just flatpak-build` -- Build Flatpak package
 
+When making changes to C++/QML files, always run `just build` to verify the build succeeds and to prepare it for the human operator to test.
+
 See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 
 

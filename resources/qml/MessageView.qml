@@ -122,7 +122,21 @@ Item {
             width: chat.delegateMaxWidth
             // hacky, but works
             height: loadingSpinner.height + 2 * Nheko.paddingLarge
-            visible: (room && room.paginationInProgress) || chat.filteringInProgress
+
+            // Hold spinner visible briefly after loading stops to prevent
+            // flicker from rapid paginationInProgress toggles during search.
+            property bool isLoading: (room && room.paginationInProgress) || chat.filteringInProgress
+            visible: isLoading || spinnerHoldTimer.running
+            onIsLoadingChanged: {
+                if (isLoading)
+                    spinnerHoldTimer.stop();
+                else
+                    spinnerHoldTimer.start();
+            }
+            Timer {
+                id: spinnerHoldTimer
+                interval: 200
+            }
 
             Spinner {
                 id: loadingSpinner
@@ -130,7 +144,7 @@ Item {
                 anchors.centerIn: parent
                 anchors.margins: Nheko.paddingLarge
                 foreground: palette.mid
-                running: (room && room.paginationInProgress) || chat.filteringInProgress
+                running: parent.isLoading || spinnerHoldTimer.running
                 z: 3
             }
         }

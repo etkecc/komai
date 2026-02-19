@@ -1088,19 +1088,28 @@ TimelineModel::setPaginationInProgress(const bool paginationInProgress)
 
     if (m_paginationInProgress) {
         // Try expanding the virtual window from cached DB entries first
-        // (instant, no HTTP request needed).
-        // We defer the pagination reset to the next event loop iteration
-        // to avoid a feedback loop: expandWindow inserts rows -> data()
-        // hack fires for the new oldest row -> fetchMore -> expandWindow...
+        // (instant, no HTTP request needed). continueExpansion loops
+        // via deferred calls until the cache is exhausted, keeping
+        // paginationInProgress true the whole time to avoid spinner flicker.
         if (events.canExpandWindow()) {
             events.expandWindow();
-            QTimer::singleShot(0, this, [this]() {
-                setPaginationInProgress(false);
-                emit fetchedMore();
-            });
+            QTimer::singleShot(0, this, &TimelineModel::continueExpansion);
             return;
         }
         events.fetchMore();
+    }
+}
+
+void
+TimelineModel::continueExpansion()
+{
+    if (events.canExpandWindow()) {
+        events.expandWindow();
+        QTimer::singleShot(0, this, &TimelineModel::continueExpansion);
+    } else {
+        // Window fully expanded — notify listeners and allow HTTP pagination.
+        setPaginationInProgress(false);
+        emit fetchedMore();
     }
 }
 

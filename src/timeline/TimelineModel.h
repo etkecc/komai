@@ -525,6 +525,7 @@ private:
     void readEvent(const std::string &id);
 
     void setPaginationInProgress(const bool paginationInProgress);
+    void continueExpansion();
 
     QString room_id_;
 

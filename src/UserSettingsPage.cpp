@@ -1368,12 +1368,12 @@ static const SettingMeta settingsTable[] = {
       },
       {}, {}, {}, nullptr, nullptr },
     // LookFeelRoomListSection
-    { QT_TR_NOOP("ROOM LIST"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { QT_TR_NOOP("ROOM LIST"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CompactRoomList
     { QT_TR_NOOP("Compact mode"),
       QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->compactRoomList(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
@@ -1383,7 +1383,7 @@ static const SettingMeta settingsTable[] = {
     // ShowRoomListTime
     { QT_TR_NOOP("Show last message timestamp"),
       QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->showRoomListTime(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
@@ -1393,7 +1393,7 @@ static const SettingMeta settingsTable[] = {
     // ShowLastMessagePreview
     { QT_TR_NOOP("Show last message preview"),
       QT_TR_NOOP("Show a preview of the most recent message in each room."),
-      SM::Options, SM::TabLookFeel,
+      SM::Options, SM::TabSidebars,
       []() -> QVariant { return static_cast<int>(I->showLastMessagePreview()); },
       [](const QVariant &v) -> bool {
           auto val = v.toInt();
@@ -1412,7 +1412,7 @@ static const SettingMeta settingsTable[] = {
     // ShowCommunityNotificationCounts
     { QT_TR_NOOP("Show notification counts"),
       QT_TR_NOOP("Show total notification counts for communities and tags."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->showCommunityNotificationCounts(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
@@ -1422,7 +1422,7 @@ static const SettingMeta settingsTable[] = {
     // UseCircularAvatars
     { QT_TR_NOOP("Use circular avatars"),
       QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->useCircularAvatars(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
@@ -1432,7 +1432,7 @@ static const SettingMeta settingsTable[] = {
     // UseIdenticon
     { QT_TR_NOOP("Use identicons"),
       QT_TR_NOOP("Display an identicon instead of a letter when no avatar is set."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->useIdenticon(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
@@ -1443,7 +1443,7 @@ static const SettingMeta settingsTable[] = {
     // ScrollbarsInRoomlist
     { QT_TR_NOOP("Show scrollbars"),
       QT_TR_NOOP("Show scrollbars in the room list and communities sidebar."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->scrollbarsInRoomlist(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
@@ -1453,7 +1453,7 @@ static const SettingMeta settingsTable[] = {
     // RoomSorting
     { QT_TR_NOOP("Sorting"),
       QT_TR_NOOP("How to order rooms."),
-      SM::Options, SM::TabLookFeel,
+      SM::Options, SM::TabSidebars,
       []() -> QVariant { return static_cast<int>(I->roomSortOrder()); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Int) return false;
@@ -1470,12 +1470,12 @@ static const SettingMeta settingsTable[] = {
       },
       nullptr },
     // LookFeelCommunitiesSidebarSection
-    { QT_TR_NOOP("COMMUNITIES SIDEBAR"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { QT_TR_NOOP("COMMUNITIES SIDEBAR"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ShowCommunitiesSidebar
     { QT_TR_NOOP("Show communities sidebar"),
       QT_TR_NOOP("Show a column containing communities and tags."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->showCommunitiesSidebar(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;

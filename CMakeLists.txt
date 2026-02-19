@@ -858,6 +858,7 @@ set(QML_SOURCES
     resources/qml/pages/WelcomePage.qml
     resources/qml/pages/settings/SettingsContent.qml
     resources/qml/pages/settings/LookFeelTab.qml
+    resources/qml/pages/settings/SidebarsTab.qml
     resources/qml/pages/settings/TimelineTab.qml
     resources/qml/pages/settings/ComposerTab.qml
     resources/qml/pages/settings/NotificationsTab.qml

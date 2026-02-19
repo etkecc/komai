@@ -612,6 +612,7 @@ public:
     enum SettingsTab
     {
         TabLookFeel,
+        TabSidebars,
         TabTimeline,
         TabComposer,
         TabNotifications,

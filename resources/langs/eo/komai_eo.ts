@@ -4945,7 +4945,7 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Enable small Avatars</source>
+        <source>Use small avatars</source>
         <translation>Ŝalti malgrandajn profilbildojn</translation>
     </message>
     <message>
@@ -4985,7 +4985,7 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Limit width of timeline</source>
+        <source>Limit timeline width</source>
         <translation>Limigi larĝecon de historio</translation>
     </message>
     <message>
@@ -5015,7 +5015,7 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Circular Avatars</source>
+        <source>Use circular avatars</source>
         <translation>Rondaj profilbildoj</translation>
     </message>
     <message>
@@ -5025,12 +5025,12 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open images with external program</source>
+        <source>Open images in an external app</source>
         <translation>Malfermi bildojn per alia programo</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open videos with external program</source>
+        <source>Open videos in an external app</source>
         <translation>Malfermi filmojn per alia programo</translation>
     </message>
     <message>
@@ -5050,12 +5050,12 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy Screen</source>
+        <source>Privacy screen</source>
         <translation>Privateca ŝirmilo</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy screen timeout (in seconds [0 - 3600])</source>
+        <source>Privacy screen timeout (seconds)</source>
         <translation>Atendo ĝis privateca ŝirmilo (0–3600 sekundoj)</translation>
     </message>
     <message>
@@ -5080,7 +5080,7 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Emoji Font Family</source>
+        <source>Emoji font family</source>
         <translation>Bildosignoformaro</translation>
     </message>
     <message>
@@ -5110,7 +5110,7 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Allow fallback call assist server</source>
+        <source>Use fallback call relay server</source>
         <translation>Permesi repaŝan asistan servilon por vokoj</translation>
     </message>
     <message>
@@ -5130,7 +5130,7 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Online Key Backup</source>
+        <source>Online key backup</source>
         <translation>Enreta savkopiado de ŝlosiloj</translation>
     </message>
     <message>
@@ -5180,7 +5180,7 @@ Kialo: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Cross Signing Secrets</source>
+        <source>Cross-signing secrets</source>
         <translation>Sekretoj por delegaj subskriboj</translation>
     </message>
     <message>
@@ -5401,7 +5401,7 @@ If an emoji picker or a mention picker is open, it is always handled first.</sou
     </message>
     <message>
         <location line="+3"/>
-        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5459,7 +5459,7 @@ Sciu, ke se ĉi tio estas ŝaltita, malfermitaj dosieroj restas sur disko malĉi
     </message>
     <message>
         <location line="+4"/>
-        <source>Show message counts</source>
+        <source>Show notification counts</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5647,7 +5647,7 @@ malklariĝos.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Will use turn.matrix.org as assist when your home server does not offer one.</source>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
         <translation>Uzos la servilon turn.matrix.org kiel asistanton, kiam via hejma servilo ne disponigos propran.</translation>
     </message>
     <message>

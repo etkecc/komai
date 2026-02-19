@@ -29,8 +29,8 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   , manager(parent)
 {
     connect(
-      UserSettings::instance().get(), &UserSettings::lastMessagePreviewChanged, this, [this]() {
-          auto style   = UserSettings::instance()->lastMessagePreview();
+      UserSettings::instance().get(), &UserSettings::showLastMessagePreviewChanged, this, [this]() {
+          auto style   = UserSettings::instance()->showLastMessagePreview();
           bool decrypt = (style == UserSettings::LastMessagePreview::Always);
           QHash<QString, QSharedPointer<TimelineModel>>::iterator i;
           for (i = models.begin(); i != models.end(); ++i) {
@@ -291,7 +291,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
                 Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
 
         QSharedPointer<TimelineModel> newRoom(new TimelineModel(manager, room_id));
-        auto style = UserSettings::instance()->lastMessagePreview();
+        auto style = UserSettings::instance()->showLastMessagePreview();
         newRoom->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
 
         connect(this,

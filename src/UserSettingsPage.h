@@ -25,7 +25,7 @@ class UserSettings final : public QObject
                  setEnlargeEmojiOnlyMessages NOTIFY enlargeEmojiOnlyMessagesChanged)
     Q_PROPERTY(bool tray READ tray WRITE setTray NOTIFY trayChanged)
     Q_PROPERTY(bool startInTray READ startInTray WRITE setStartInTray NOTIFY startInTrayChanged)
-    Q_PROPERTY(bool groupView READ groupView WRITE setGroupView NOTIFY groupViewStateChanged)
+    Q_PROPERTY(bool showCommunitiesSidebar READ showCommunitiesSidebar WRITE setShowCommunitiesSidebar NOTIFY showCommunitiesSidebarChanged)
     Q_PROPERTY(bool scrollbarsInRoomlist READ scrollbarsInRoomlist WRITE setScrollbarsInRoomlist
                  NOTIFY scrollbarsInRoomlistChanged)
     Q_PROPERTY(bool markdown READ markdown WRITE setMarkdown NOTIFY markdownChanged)
@@ -37,8 +37,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool smallAvatars READ smallAvatars WRITE setSmallAvatars NOTIFY smallAvatarsChanged)
     Q_PROPERTY(
       bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
-    Q_PROPERTY(bool showOwnAvatarNextToOwnMessages READ showOwnAvatarNextToOwnMessages WRITE
-                 setShowOwnAvatarNextToOwnMessages NOTIFY showOwnAvatarNextToOwnMessagesChanged)
+    Q_PROPERTY(bool showOwnAvatarInBubbleLayout READ showOwnAvatarInBubbleLayout WRITE
+                 setShowOwnAvatarInBubbleLayout NOTIFY showOwnAvatarInBubbleLayoutChanged)
     Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY
                  pinnedReactionsChanged)
     Q_PROPERTY(ShowSenderUsername showSenderUsername READ showSenderUsername WRITE
@@ -51,34 +51,34 @@ class UserSettings final : public QObject
                  typingNotificationsChanged)
     Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
                  roomSortOrderChanged)
-    Q_PROPERTY(bool buttonsInTimeline READ buttonsInTimeline WRITE setButtonsInTimeline NOTIFY
-                 buttonInTimelineChanged)
+    Q_PROPERTY(bool showActionButtons READ showActionButtons WRITE setShowActionButtons NOTIFY
+                 showActionButtonsChanged)
     Q_PROPERTY(bool readReceipts READ readReceipts WRITE setReadReceipts NOTIFY readReceiptsChanged)
     Q_PROPERTY(bool desktopNotifications READ hasDesktopNotifications WRITE setDesktopNotifications
                  NOTIFY desktopNotificationsChanged)
-    Q_PROPERTY(bool alertOnNotification READ hasAlertOnNotification WRITE setAlertOnNotification
-                 NOTIFY alertOnNotificationChanged)
+    Q_PROPERTY(bool alertOnIncomingMessages READ alertOnIncomingMessages WRITE setAlertOnIncomingMessages
+                 NOTIFY alertOnIncomingMessagesChanged)
     Q_PROPERTY(
-      bool avatarCircles READ avatarCircles WRITE setAvatarCircles NOTIFY avatarCirclesChanged)
+      bool useCircularAvatars READ useCircularAvatars WRITE setUseCircularAvatars NOTIFY useCircularAvatarsChanged)
     Q_PROPERTY(bool decryptNotifications READ decryptNotifications WRITE setDecryptNotifications
                  NOTIFY decryptNotificationsChanged)
-    Q_PROPERTY(bool spaceNotifications READ spaceNotifications WRITE setSpaceNotifications NOTIFY
-                 spaceNotificationsChanged)
+    Q_PROPERTY(bool showCommunityNotificationCounts READ showCommunityNotificationCounts WRITE setShowCommunityNotificationCounts NOTIFY
+                 showCommunityNotificationCountsChanged)
     Q_PROPERTY(bool compactRoomList READ compactRoomList WRITE setCompactRoomList NOTIFY
                  compactRoomListChanged)
     Q_PROPERTY(bool showRoomListTime READ showRoomListTime WRITE setShowRoomListTime NOTIFY
                  showRoomListTimeChanged)
-    Q_PROPERTY(LastMessagePreview lastMessagePreview READ lastMessagePreview WRITE
-                 setLastMessagePreview NOTIFY lastMessagePreviewChanged)
+    Q_PROPERTY(LastMessagePreview showLastMessagePreview READ showLastMessagePreview WRITE
+                 setShowLastMessagePreview NOTIFY showLastMessagePreviewChanged)
     Q_PROPERTY(bool fancyEffects READ fancyEffects WRITE setFancyEffects NOTIFY fancyEffectsChanged)
     Q_PROPERTY(
       bool reducedMotion READ reducedMotion WRITE setReducedMotion NOTIFY reducedMotionChanged)
     Q_PROPERTY(
       bool privacyScreen READ privacyScreen WRITE setPrivacyScreen NOTIFY privacyScreenChanged)
-    Q_PROPERTY(int privacyScreenTimeout READ privacyScreenTimeout WRITE setPrivacyScreenTimeout
-                 NOTIFY privacyScreenTimeoutChanged)
-    Q_PROPERTY(int timelineMaxWidth READ timelineMaxWidth WRITE setTimelineMaxWidth NOTIFY
-                 timelineMaxWidthChanged)
+    Q_PROPERTY(int privacyScreenTimeoutSeconds READ privacyScreenTimeoutSeconds WRITE setPrivacyScreenTimeoutSeconds
+                 NOTIFY privacyScreenTimeoutSecondsChanged)
+    Q_PROPERTY(int maxTimelineWidth READ maxTimelineWidth WRITE setMaxTimelineWidth NOTIFY
+                 maxTimelineWidthChanged)
     Q_PROPERTY(
       int roomListWidth READ roomListWidth WRITE setRoomListWidth NOTIFY roomListWidthChanged)
     Q_PROPERTY(int communityListWidth READ communityListWidth WRITE setCommunityListWidth NOTIFY
@@ -106,7 +106,7 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool screenShareHideCursor READ screenShareHideCursor WRITE setScreenShareHideCursor
                  NOTIFY screenShareHideCursorChanged)
     Q_PROPERTY(
-      bool useStunServer READ useStunServer WRITE setUseStunServer NOTIFY useStunServerChanged)
+      bool useFallbackCallRelayServer READ useFallbackCallRelayServer WRITE setUseFallbackCallRelayServer NOTIFY useFallbackCallRelayServerChanged)
     Q_PROPERTY(bool enableLegacyCalls READ enableLegacyCalls WRITE setEnableLegacyCalls NOTIFY
                  enableLegacyCallsChanged)
     Q_PROPERTY(bool onlyShareKeysWithVerifiedUsers READ onlyShareKeysWithVerifiedUsers WRITE
@@ -123,10 +123,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool disableCertificateValidation READ disableCertificateValidation WRITE
                  setDisableCertificateValidation NOTIFY disableCertificateValidationChanged)
     Q_PROPERTY(bool useIdenticon READ useIdenticon WRITE setUseIdenticon NOTIFY useIdenticonChanged)
-    Q_PROPERTY(bool openImageExternal READ openImageExternal WRITE setOpenImageExternal NOTIFY
-                 openImageExternalChanged)
-    Q_PROPERTY(bool openVideoExternal READ openVideoExternal WRITE setOpenVideoExternal NOTIFY
-                 openVideoExternalChanged)
+    Q_PROPERTY(bool openImagesInExternalApp READ openImagesInExternalApp WRITE setOpenImagesInExternalApp NOTIFY
+                 openImagesInExternalAppChanged)
+    Q_PROPERTY(bool openVideosInExternalApp READ openVideosInExternalApp WRITE setOpenVideosInExternalApp NOTIFY
+                 openVideosInExternalAppChanged)
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList recentReactions READ recentReactions WRITE setRecentReactions NOTIFY
@@ -249,7 +249,7 @@ public:
     void setFontSize(double size);
     void setFontFamily(QString family);
     void setEmojiFontFamily(QString family);
-    void setGroupView(bool state);
+    void setShowCommunitiesSidebar(bool state);
     void setScrollbarsInRoomlist(bool state);
     void setMarkdown(bool state);
     void setSendMessageKey(SendMessageKey key);
@@ -257,29 +257,29 @@ public:
     void setBubbles(bool state);
     void setSmallAvatars(bool state);
     void setEnableStickers(bool state);
-    void setShowOwnAvatarNextToOwnMessages(bool state);
+    void setShowOwnAvatarInBubbleLayout(bool state);
     void setPinnedReactions(const QString &value);
     void setShowSenderUsername(ShowSenderUsername state);
     void setAnimateImagesOnHover(bool state);
     void setReadReceipts(bool state);
     void setTypingNotifications(bool state);
     void setRoomSortOrder(RoomSortOrder order);
-    void setButtonsInTimeline(bool state);
-    void setTimelineMaxWidth(int state);
+    void setShowActionButtons(bool state);
+    void setMaxTimelineWidth(int state);
     void setCommunityListWidth(int state);
     void setRoomListWidth(int state);
     void setDesktopNotifications(bool state);
-    void setAlertOnNotification(bool state);
-    void setAvatarCircles(bool state);
+    void setAlertOnIncomingMessages(bool state);
+    void setUseCircularAvatars(bool state);
     void setDecryptNotifications(bool state);
-    void setSpaceNotifications(bool state);
+    void setShowCommunityNotificationCounts(bool state);
     void setCompactRoomList(bool state);
     void setShowRoomListTime(bool state);
-    void setLastMessagePreview(LastMessagePreview style);
+    void setShowLastMessagePreview(LastMessagePreview style);
     void setFancyEffects(bool state);
     void setReducedMotion(bool state);
     void setPrivacyScreen(bool state);
-    void setPrivacyScreenTimeout(int state);
+    void setPrivacyScreenTimeoutSeconds(int state);
     void setPresence(Presence state);
     void setShowImage(ShowImage state);
     void setRingtone(QString ringtone);
@@ -291,7 +291,7 @@ public:
     void setScreenSharePiP(bool state);
     void setScreenShareRemoteVideo(bool state);
     void setScreenShareHideCursor(bool state);
-    void setUseStunServer(bool state);
+    void setUseFallbackCallRelayServer(bool state);
     void setEnableLegacyCalls(bool state);
     void setOnlyShareKeysWithVerifiedUsers(bool state);
     void setShareKeysWithTrustedUsers(bool state);
@@ -309,8 +309,8 @@ public:
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setRecentReactions(QStringList recent);
     void setUseIdenticon(bool state);
-    void setOpenImageExternal(bool state);
-    void setOpenVideoExternal(bool state);
+    void setOpenImagesInExternalApp(bool state);
+    void setOpenVideosInExternalApp(bool state);
     void setCollapsedSpaces(QList<QStringList> spaces);
     void setExposeDBusApi(bool state);
     void setUpdateSpaceVias(bool state);
@@ -340,39 +340,39 @@ public:
     bool enlargeEmojiOnlyMessages() const { return enlargeEmojiOnlyMessages_; }
     bool tray() const { return tray_; }
     bool startInTray() const { return startInTray_; }
-    bool groupView() const { return groupView_; }
+    bool showCommunitiesSidebar() const { return showCommunitiesSidebar_; }
     bool scrollbarsInRoomlist() const { return scrollbarsInRoomlist_; }
-    bool avatarCircles() const { return avatarCircles_; }
+    bool useCircularAvatars() const { return useCircularAvatars_; }
     bool decryptNotifications() const { return decryptNotifications_; }
-    bool spaceNotifications() const { return spaceNotifications_; }
+    bool showCommunityNotificationCounts() const { return showCommunityNotificationCounts_; }
     bool compactRoomList() const { return compactRoomList_; }
     bool showRoomListTime() const { return showRoomListTime_; }
-    LastMessagePreview lastMessagePreview() const { return lastMessagePreview_; }
+    LastMessagePreview showLastMessagePreview() const { return showLastMessagePreview_; }
     bool fancyEffects() const { return fancyEffects_; }
     bool reducedMotion() const { return reducedMotion_; }
     bool privacyScreen() const { return privacyScreen_; }
-    int privacyScreenTimeout() const { return privacyScreenTimeout_; }
+    int privacyScreenTimeoutSeconds() const { return privacyScreenTimeoutSeconds_; }
     bool markdown() const { return markdown_; }
     SendMessageKey sendMessageKey() const { return sendMessageKey_; }
     AutoReplaceEmoji autoReplaceEmoji() const { return autoReplaceEmoji_; }
     bool bubbles() const { return bubbles_; }
     bool smallAvatars() const { return smallAvatars_; }
     bool enableStickers() const { return enableStickers_; }
-    bool showOwnAvatarNextToOwnMessages() const { return showOwnAvatarNextToOwnMessages_; }
+    bool showOwnAvatarInBubbleLayout() const { return showOwnAvatarInBubbleLayout_; }
     QString pinnedReactions() const { return pinnedReactions_; }
     ShowSenderUsername showSenderUsername() const { return showSenderUsername_; }
     int showSenderUsernameLargeRoomThreshold() const { return 16; }
     bool animateImagesOnHover() const { return animateImagesOnHover_; }
     bool typingNotifications() const { return typingNotifications_; }
     RoomSortOrder roomSortOrder() const { return roomSortOrder_; }
-    bool buttonsInTimeline() const { return buttonsInTimeline_; }
+    bool showActionButtons() const { return showActionButtons_; }
     bool mobileMode() const { return mobileMode_; }
     bool disableSwipe() const { return disableSwipe_; }
     bool readReceipts() const { return readReceipts_; }
     bool hasDesktopNotifications() const { return hasDesktopNotifications_; }
-    bool hasAlertOnNotification() const { return hasAlertOnNotification_; }
-    bool hasNotifications() const { return hasDesktopNotifications() || hasAlertOnNotification(); }
-    int timelineMaxWidth() const { return timelineMaxWidth_; }
+    bool alertOnIncomingMessages() const { return alertOnIncomingMessages_; }
+    bool hasNotifications() const { return hasDesktopNotifications() || alertOnIncomingMessages(); }
+    int maxTimelineWidth() const { return maxTimelineWidth_; }
     int communityListWidth() const { return communityListWidth_; }
     int roomListWidth() const { return roomListWidth_; }
     double fontSize() const { return baseFontSize_; }
@@ -390,7 +390,7 @@ public:
     bool screenSharePiP() const { return screenSharePiP_; }
     bool screenShareRemoteVideo() const { return screenShareRemoteVideo_; }
     bool screenShareHideCursor() const { return screenShareHideCursor_; }
-    bool useStunServer() const { return useStunServer_; }
+    bool useFallbackCallRelayServer() const { return useFallbackCallRelayServer_; }
     bool enableLegacyCalls() const { return enableLegacyCalls_; }
     bool shareKeysWithTrustedUsers() const { return shareKeysWithTrustedUsers_; }
     bool onlyShareKeysWithVerifiedUsers() const { return onlyShareKeysWithVerifiedUsers_; }
@@ -408,8 +408,8 @@ public:
     QStringList hiddenWidgets() const { return hiddenWidgets_; }
     QStringList recentReactions() const { return recentReactions_; }
     bool useIdenticon() const;
-    bool openImageExternal() const { return openImageExternal_; }
-    bool openVideoExternal() const { return openVideoExternal_; }
+    bool openImagesInExternalApp() const { return openImagesInExternalApp_; }
+    bool openVideosInExternalApp() const { return openVideosInExternalApp_; }
     QList<QStringList> collapsedSpaces() const { return collapsedSpaces_; }
     bool exposeDBusApi() const { return exposeDBusApi_; }
     bool updateSpaceVias() const { return updateSpaceVias_; }
@@ -422,7 +422,7 @@ public:
     bool enableHttp3() const { return enableHttp3_; }
 
 signals:
-    void groupViewStateChanged(bool state);
+    void showCommunitiesSidebarChanged(bool state);
     void scrollbarsInRoomlistChanged(bool state);
     void roomSortOrderChanged(RoomSortOrder order);
     void themeChanged(QString state);
@@ -436,26 +436,26 @@ signals:
     void bubblesChanged(bool state);
     void smallAvatarsChanged(bool state);
     void enableStickersChanged(bool state);
-    void showOwnAvatarNextToOwnMessagesChanged(bool state);
+    void showOwnAvatarInBubbleLayoutChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
     void showSenderUsernameChanged(ShowSenderUsername state);
     void animateImagesOnHoverChanged(bool state);
     void typingNotificationsChanged(bool state);
-    void buttonInTimelineChanged(bool state);
+    void showActionButtonsChanged(bool state);
     void readReceiptsChanged(bool state);
     void desktopNotificationsChanged(bool state);
-    void alertOnNotificationChanged(bool state);
-    void avatarCirclesChanged(bool state);
+    void alertOnIncomingMessagesChanged(bool state);
+    void useCircularAvatarsChanged(bool state);
     void decryptNotificationsChanged(bool state);
-    void spaceNotificationsChanged(bool state);
+    void showCommunityNotificationCountsChanged(bool state);
     void compactRoomListChanged(bool state);
     void showRoomListTimeChanged(bool state);
-    void lastMessagePreviewChanged(LastMessagePreview style);
+    void showLastMessagePreviewChanged(LastMessagePreview style);
     void fancyEffectsChanged(bool state);
     void reducedMotionChanged(bool state);
     void privacyScreenChanged(bool state);
-    void privacyScreenTimeoutChanged(int state);
-    void timelineMaxWidthChanged(int state);
+    void privacyScreenTimeoutSecondsChanged(int state);
+    void maxTimelineWidthChanged(int state);
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
     void mobileModeChanged(bool mode);
@@ -474,7 +474,7 @@ signals:
     void screenSharePiPChanged(bool state);
     void screenShareRemoteVideoChanged(bool state);
     void screenShareHideCursorChanged(bool state);
-    void useStunServerChanged(bool state);
+    void useFallbackCallRelayServerChanged(bool state);
     void enableLegacyCallsChanged(bool state);
     void onlyShareKeysWithVerifiedUsersChanged(bool state);
     void shareKeysWithTrustedUsersChanged(bool state);
@@ -486,8 +486,8 @@ signals:
     void homeserverChanged(QString homeserver);
     void disableCertificateValidationChanged(bool disabled);
     void useIdenticonChanged(bool state);
-    void openImageExternalChanged(bool state);
-    void openVideoExternalChanged(bool state);
+    void openImagesInExternalAppChanged(bool state);
+    void openVideosInExternalAppChanged(bool state);
     void hiddenPinsChanged();
     void hiddenWidgetsChanged();
     void recentReactionsChanged();
@@ -516,7 +516,7 @@ private:
     bool enlargeEmojiOnlyMessages_;
     bool tray_;
     bool startInTray_;
-    bool groupView_;
+    bool showCommunitiesSidebar_;
     bool scrollbarsInRoomlist_;
     bool markdown_;
     SendMessageKey sendMessageKey_;
@@ -524,32 +524,32 @@ private:
     bool bubbles_;
     bool smallAvatars_;
     bool enableStickers_;
-    bool showOwnAvatarNextToOwnMessages_;
+    bool showOwnAvatarInBubbleLayout_;
     QString pinnedReactions_;
     ShowSenderUsername showSenderUsername_;
     bool animateImagesOnHover_;
     bool typingNotifications_;
     RoomSortOrder roomSortOrder_;
-    bool buttonsInTimeline_;
+    bool showActionButtons_;
     bool readReceipts_;
     bool hasDesktopNotifications_;
-    bool hasAlertOnNotification_;
-    bool avatarCircles_;
+    bool alertOnIncomingMessages_;
+    bool useCircularAvatars_;
     bool decryptNotifications_;
-    bool spaceNotifications_;
+    bool showCommunityNotificationCounts_;
     bool compactRoomList_;
     bool showRoomListTime_;
-    LastMessagePreview lastMessagePreview_;
+    LastMessagePreview showLastMessagePreview_;
     bool fancyEffects_;
     bool reducedMotion_;
     bool privacyScreen_;
-    int privacyScreenTimeout_;
+    int privacyScreenTimeoutSeconds_;
     bool shareKeysWithTrustedUsers_;
     bool onlyShareKeysWithVerifiedUsers_;
     bool useOnlineKeyBackup_;
     bool mobileMode_;
     bool disableSwipe_;
-    int timelineMaxWidth_;
+    int maxTimelineWidth_;
     int roomListWidth_;
     int communityListWidth_;
     double baseFontSize_;
@@ -566,7 +566,7 @@ private:
     bool screenSharePiP_;
     bool screenShareRemoteVideo_;
     bool screenShareHideCursor_;
-    bool useStunServer_;
+    bool useFallbackCallRelayServer_;
     bool enableLegacyCalls_;
     bool disableCertificateValidation_ = false;
     QString profile_;
@@ -582,8 +582,8 @@ private:
     QStringList recentReactions_;
     QList<QStringList> collapsedSpaces_;
     bool useIdenticon_;
-    bool openImageExternal_;
-    bool openVideoExternal_;
+    bool openImagesInExternalApp_;
+    bool openVideosInExternalApp_;
     bool exposeDBusApi_;
     bool updateSpaceVias_;
     bool expireEvents_;
@@ -644,15 +644,15 @@ private:
         LookFeelRoomListSection,
         CompactRoomList,
         ShowRoomListTime,
-        LastMessagePreviewSetting,
-        SpaceNotifications,
-        AvatarCircles,
+        ShowLastMessagePreview,
+        ShowCommunityNotificationCounts,
+        UseCircularAvatars,
         UseIdenticon,
         ScrollbarsInRoomlist,
-        RoomSortOrderSetting,
+        RoomSorting,
         // Communities Sidebar section
         LookFeelCommunitiesSidebarSection,
-        GroupView,
+        ShowCommunitiesSidebar,
         // System Tray section
         LookFeelTraySection,
         Tray,
@@ -670,19 +670,19 @@ private:
         TimelineMessagesSection,
         Bubbles,
         SmallAvatars,
-        ShowOwnAvatarNextToOwnMessages,
+        ShowOwnAvatarInBubbleLayout,
         ShowSenderUsername,
-        TimelineMaxWidth,
+        MaxTimelineWidth,
         EnlargeEmojiOnlyMessages,
         MessageHoverHighlight,
-        ButtonsInTimeline,
+        ShowActionButtons,
         // Media section
         TimelineMediaSection,
         FancyEffects,
         AnimateImagesOnHover,
         ShowImage,
-        OpenImageExternal,
-        OpenVideoExternal,
+        OpenImagesInExternalApp,
+        OpenVideosInExternalApp,
 
         // == Composer Tab ==
         // Input section
@@ -703,14 +703,14 @@ private:
         // Desktop section
         NotificationsDesktopSection,
         DesktopNotifications,
-        AlertOnNotification,
+        AlertOnIncomingMessages,
         DecryptNotifications,
 
         // == Calls Tab ==
         // General section
         CallsGeneralSection,
         EnableLegacyCalls,
-        UseStunServer,
+        UseFallbackCallRelayServer,
         // Devices section
         CallsDevicesSection,
         Microphone,
@@ -723,7 +723,7 @@ private:
         // Screen Lock section
         PrivacyScreenLockSection,
         PrivacyScreen,
-        PrivacyScreenTimeout,
+        PrivacyScreenTimeoutSeconds,
         // Data & Maintenance section
         PrivacyDataSection,
         ExpireEvents,

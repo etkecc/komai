@@ -182,7 +182,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
         // in this edge case, that's probably a non-issue.
         // TODO: Replace this once we have proper pushrules support. This is a horrible hack
         if (prevNotificationCount < notificationCount) {
-            if (userSettings_->hasAlertOnNotification())
+            if (userSettings_->alertOnIncomingMessages())
                 MainWindow::instance()->alert(0);
         }
         prevNotificationCount = notificationCount;

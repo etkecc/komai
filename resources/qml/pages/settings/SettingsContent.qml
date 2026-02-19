@@ -74,7 +74,11 @@ Item {
                             Layout.fillWidth: true
                             color: palette.text
                             text: r.model.name
+                            textFormat: Text.AutoText
                             font.pointSize: 1.1 * fontMetrics.font.pointSize
+                            onLinkActivated: function(link) {
+                                Qt.openUrlExternally(link);
+                            }
 
                             HoverHandler {
                                 id: hovered
@@ -84,6 +88,12 @@ Item {
                             ToolTip.text: r.model.description ?? ""
                             ToolTip.delay: Nheko.tooltipDelay
                             wrapMode: Text.Wrap
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                acceptedButtons: Qt.NoButton
+                            }
                         }
                     }
 

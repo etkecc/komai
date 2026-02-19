@@ -50,7 +50,7 @@ Item {
     ListView {
         id: chat
 
-        property int delegateMaxWidth: ((Settings.timelineMaxWidth > 100 && Settings.timelineMaxWidth < chatRoot.availableWidth) ? Settings.timelineMaxWidth : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
+        property int delegateMaxWidth: ((Settings.maxTimelineWidth > 100 && Settings.maxTimelineWidth < chatRoot.availableWidth) ? Settings.maxTimelineWidth : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
         readonly property alias filteringInProgress: filteredTimeline.filteringInProgress
 
         ScrollBar.vertical: scrollbar
@@ -197,7 +197,7 @@ Item {
 
             hoverEnabled: true
             padding: Nheko.paddingMedium
-            visible: Settings.buttonsInTimeline && pinned && !!attached
+            visible: Settings.showActionButtons && pinned && !!attached
             z: 10
             parent: chat.contentItem
             // No anchors — x/y set imperatively by the message styles

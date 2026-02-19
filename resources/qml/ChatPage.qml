@@ -69,7 +69,7 @@ Rectangle {
                 collapsedWidth: communitiesList.avatarSize + 2 * Nheko.paddingMedium
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
                 preferredWidth: Settings.communityListWidth > collapsedWidth ? Settings.communityListWidth : collapsedWidth
-                visible: Settings.groupView
+                visible: Settings.showCommunitiesSidebar
 
                 CommunitiesList {
                     id: communitiesList
@@ -127,7 +127,7 @@ Rectangle {
         id: privacyScreen
 
         anchors.fill: parent
-        screenTimeout: Settings.privacyScreenTimeout
+        screenTimeout: Settings.privacyScreenTimeoutSeconds
         timelineRoot: adaptiveView
         visible: Settings.privacyScreen
         windowTarget: MainWindow

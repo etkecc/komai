@@ -4947,7 +4947,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Enable small Avatars</source>
+        <source>Use small avatars</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -4987,7 +4987,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+6"/>
-        <source>Limit width of timeline</source>
+        <source>Limit timeline width</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5017,7 +5017,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Circular Avatars</source>
+        <source>Use circular avatars</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5027,12 +5027,12 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open images with external program</source>
+        <source>Open images in an external app</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open videos with external program</source>
+        <source>Open videos in an external app</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5052,12 +5052,12 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy Screen</source>
+        <source>Privacy screen</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy screen timeout (in seconds [0 - 3600])</source>
+        <source>Privacy screen timeout (seconds)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5082,7 +5082,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Emoji Font Family</source>
+        <source>Emoji font family</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5112,7 +5112,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Allow fallback call assist server</source>
+        <source>Use fallback call relay server</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5132,7 +5132,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Online Key Backup</source>
+        <source>Online key backup</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5182,7 +5182,7 @@ Reason: %4</source>
     </message>
     <message>
         <location line="+2"/>
-        <source>Cross Signing Secrets</source>
+        <source>Cross-signing secrets</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5333,7 +5333,7 @@ Only affects encrypted chats.</source>
     </message>
     <message>
         <location line="+4"/>
-        <source>Show message counts</source>
+        <source>Show notification counts</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5498,7 +5498,7 @@ Only affects encrypted chats.</source>
     </message>
     <message>
         <location line="+3"/>
-        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5611,7 +5611,7 @@ be blurred.</source>
     </message>
     <message>
         <location line="+3"/>
-        <source>Will use turn.matrix.org as assist when your home server does not offer one.</source>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
         <translation type="unfinished"/>
     </message>
     <message>

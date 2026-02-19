@@ -82,9 +82,9 @@ Settings are organized into logical groups in the YAML file:
 |----------|----------|
 | Window | `tray`, `start_in_tray`, `window_width`, `window_height` |
 | Sidebar | `room_list_width`, `community_list_width` |
-| Timeline | `bubbles`, `markdown`, `buttons_in_timeline` |
-| Notifications | `desktop_notifications`, `alert_on_notification` |
-| Appearance | `theme`, `font_family`, `font_size`, `avatar_circles` |
+| Timeline | `bubbles`, `markdown`, `show_action_buttons` |
+| Notifications | `desktop_notifications`, `alert_on_incoming_messages` |
+| Appearance | `theme`, `font_family`, `font_size`, `use_circular_avatars` |
 | Auth | `access_token`, `homeserver`, `user_id`, `device_id` |
 | Encryption | `share_keys_with_trusted_users`, `use_online_key_backup` |
 | Secrets | `secrets` map for keychain fallback storage |

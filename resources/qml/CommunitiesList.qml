@@ -176,7 +176,7 @@ Page {
                         bubbleTextColor: communityItem.bubbleText
                         font.pixelSize: fontMetrics.font.pixelSize * 0.6
                         hasLoudNotification: model.hasLoudNotification
-                        mayBeVisible: communitySidebar.collapsed && !model.muted && Settings.spaceNotifications
+                        mayBeVisible: communitySidebar.collapsed && !model.muted && Settings.showCommunityNotificationCounts
                         notificationCount: model.unreadMessages
                     }
                 }
@@ -198,7 +198,7 @@ Page {
                     bubbleBackgroundColor: communityItem.bubbleBackground
                     bubbleTextColor: communityItem.bubbleText
                     hasLoudNotification: model.hasLoudNotification
-                    mayBeVisible: !communitySidebar.collapsed && !model.muted && Settings.spaceNotifications
+                    mayBeVisible: !communitySidebar.collapsed && !model.muted && Settings.showCommunityNotificationCounts
                     notificationCount: model.unreadMessages
                 }
             }

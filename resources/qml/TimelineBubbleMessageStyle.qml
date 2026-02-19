@@ -43,7 +43,7 @@ TimelineEvent {
     required property QtObject replyContextMenu
     required property Item messageActions
 
-    property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.showOwnAvatarNextToOwnMessages)
+    property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.showOwnAvatarInBubbleLayout)
     property int avatarMargin: (shouldShowMessageAvatar ? (Nheko.avatarSize * (Settings.smallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
 
     property alias hovered: messageHover.hovered

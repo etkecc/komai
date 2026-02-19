@@ -36,7 +36,7 @@ ApplicationWindow {
         AdaptiveLayoutElement {
             id: packlistC
 
-            visible: Settings.groupView
+            visible: Settings.showCommunitiesSidebar
             minimumWidth: 200
             collapsedWidth: 200
             preferredWidth: 300

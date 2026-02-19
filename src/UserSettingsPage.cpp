@@ -200,15 +200,15 @@ UserSettings::load(std::optional<QString> profile)
 
     // Notifications
     hasDesktopNotifications_ = getBool("desktop_notifications", true);
-    hasAlertOnNotification_  = getBool("alert_on_notification", false);
+    alertOnIncomingMessages_  = getBool("alert_on_incoming_messages", false);
 
     // View settings
-    groupView_            = getBool("group_view", true);
+    showCommunitiesSidebar_            = getBool("show_communities_sidebar", true);
     scrollbarsInRoomlist_ = getBool("scrollbars_in_roomlist", true);
 
     // Timeline settings
-    buttonsInTimeline_        = getBool("buttons_in_timeline", true);
-    timelineMaxWidth_         = getInt("timeline_max_width", 0);
+    showActionButtons_        = getBool("show_action_buttons", true);
+    maxTimelineWidth_         = getInt("max_timeline_width", 0);
     messageHoverHighlight_    = getBool("message_hover_highlight", false);
     enlargeEmojiOnlyMessages_ = getBool("enlarge_emoji_only_messages", true);
     markdown_                 = getBool("markdown", true);
@@ -228,7 +228,8 @@ UserSettings::load(std::optional<QString> profile)
     bubbles_                        = getBool("bubbles", true);
     smallAvatars_                   = getBool("small_avatars", false);
     enableStickers_                 = getBool("enable_stickers", false);
-    showOwnAvatarNextToOwnMessages_ = getBool("show_own_avatar_next_to_own_messages", true);
+    showOwnAvatarInBubbleLayout_ =
+      getBool("show_own_avatar_in_bubble_layout", true);
     pinnedReactions_       = getString("pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️"));
     animateImagesOnHover_  = getBool("animate_images_on_hover", false);
     typingNotifications_   = getBool("typing_notifications", true);
@@ -243,24 +244,25 @@ UserSettings::load(std::optional<QString> profile)
 
     font_ = getString("font_family", QString());
 
-    avatarCircles_              = getBool("avatar_circles", false);
+    useCircularAvatars_              = getBool("use_circular_avatars", false);
     useIdenticon_               = getBool("use_identicon", true);
-    openImageExternal_          = getBool("open_image_external", false);
-    openVideoExternal_          = getBool("open_video_external", false);
+    openImagesInExternalApp_          = getBool("open_images_in_external_app", false);
+    openVideosInExternalApp_          = getBool("open_videos_in_external_app", false);
     decryptNotifications_       = getBool("decrypt_notifications", true);
-    spaceNotifications_         = getBool("space_notifications", true);
+    showCommunityNotificationCounts_         = getBool("show_community_notification_counts", true);
     compactRoomList_            = getBool("compact_room_list", false);
     showRoomListTime_           = getBool("show_room_list_time", true);
-    auto tempLastMessagePreview = getString("last_message_preview", QString()).toStdString();
-    auto lastMessagePreviewValue =
-      QMetaEnum::fromType<LastMessagePreview>().keyToValue(tempLastMessagePreview.c_str());
-    if (lastMessagePreviewValue == -1)
-        lastMessagePreviewValue = static_cast<int>(LastMessagePreview::Always);
-    lastMessagePreview_   = static_cast<LastMessagePreview>(lastMessagePreviewValue);
+    auto tempShowLastMessagePreview =
+      getString("show_last_message_preview", QString()).toStdString();
+    auto showLastMessagePreviewValue =
+      QMetaEnum::fromType<LastMessagePreview>().keyToValue(tempShowLastMessagePreview.c_str());
+    if (showLastMessagePreviewValue == -1)
+        showLastMessagePreviewValue = static_cast<int>(LastMessagePreview::Always);
+    showLastMessagePreview_   = static_cast<LastMessagePreview>(showLastMessagePreviewValue);
     fancyEffects_         = getBool("fancy_effects", true);
     reducedMotion_        = getBool("reduced_motion", false);
     privacyScreen_        = getBool("privacy_screen", false);
-    privacyScreenTimeout_ = getInt("privacy_screen_timeout", 0);
+    privacyScreenTimeoutSeconds_ = getInt("privacy_screen_timeout_seconds", 0);
     exposeDBusApi_        = getBool("expose_dbus_api", false);
     updateSpaceVias_      = getBool("update_space_vias", true);
     expireEvents_         = getBool("expire_events", false);
@@ -282,7 +284,7 @@ UserSettings::load(std::optional<QString> profile)
     screenSharePiP_         = getBool("screen_share_pip", true);
     screenShareRemoteVideo_ = getBool("screen_share_remote_video", false);
     screenShareHideCursor_  = getBool("screen_share_hide_cursor", false);
-    useStunServer_          = getBool("use_stun_server", false);
+    useFallbackCallRelayServer_          = getBool("use_fallback_call_relay_server", false);
     enableLegacyCalls_      = getBool("enable_legacy_calls", false);
 
     // Auth settings
@@ -425,9 +427,9 @@ UserSettings::setDisableSwipe(bool s)
     setSetting(disableSwipe_, s, &UserSettings::disableSwipeChanged);
 }
 void
-UserSettings::setGroupView(bool s)
+UserSettings::setShowCommunitiesSidebar(bool s)
 {
-    setSetting(groupView_, s, &UserSettings::groupViewStateChanged);
+    setSetting(showCommunitiesSidebar_, s, &UserSettings::showCommunitiesSidebarChanged);
 }
 void
 UserSettings::setScrollbarsInRoomlist(bool s)
@@ -589,10 +591,10 @@ UserSettings::setEnableStickers(bool s)
     setSetting(enableStickers_, s, &UserSettings::enableStickersChanged);
 }
 void
-UserSettings::setShowOwnAvatarNextToOwnMessages(bool s)
+UserSettings::setShowOwnAvatarInBubbleLayout(bool s)
 {
     setSetting(
-      showOwnAvatarNextToOwnMessages_, s, &UserSettings::showOwnAvatarNextToOwnMessagesChanged);
+      showOwnAvatarInBubbleLayout_, s, &UserSettings::showOwnAvatarInBubbleLayoutChanged);
 }
 void
 UserSettings::setPinnedReactions(const QString &s)
@@ -625,14 +627,14 @@ UserSettings::setRoomSortOrder(RoomSortOrder s)
     setSetting(roomSortOrder_, s, &UserSettings::roomSortOrderChanged);
 }
 void
-UserSettings::setButtonsInTimeline(bool s)
+UserSettings::setShowActionButtons(bool s)
 {
-    setSetting(buttonsInTimeline_, s, &UserSettings::buttonInTimelineChanged);
+    setSetting(showActionButtons_, s, &UserSettings::showActionButtonsChanged);
 }
 void
-UserSettings::setTimelineMaxWidth(int s)
+UserSettings::setMaxTimelineWidth(int s)
 {
-    setSetting(timelineMaxWidth_, s, &UserSettings::timelineMaxWidthChanged);
+    setSetting(maxTimelineWidth_, s, &UserSettings::maxTimelineWidthChanged);
 }
 void
 UserSettings::setCommunityListWidth(int s)
@@ -650,14 +652,14 @@ UserSettings::setDesktopNotifications(bool s)
     setSetting(hasDesktopNotifications_, s, &UserSettings::desktopNotificationsChanged);
 }
 void
-UserSettings::setAlertOnNotification(bool s)
+UserSettings::setAlertOnIncomingMessages(bool s)
 {
-    setSetting(hasAlertOnNotification_, s, &UserSettings::alertOnNotificationChanged);
+    setSetting(alertOnIncomingMessages_, s, &UserSettings::alertOnIncomingMessagesChanged);
 }
 void
-UserSettings::setAvatarCircles(bool s)
+UserSettings::setUseCircularAvatars(bool s)
 {
-    setSetting(avatarCircles_, s, &UserSettings::avatarCirclesChanged);
+    setSetting(useCircularAvatars_, s, &UserSettings::useCircularAvatarsChanged);
 }
 void
 UserSettings::setDecryptNotifications(bool s)
@@ -665,9 +667,9 @@ UserSettings::setDecryptNotifications(bool s)
     setSetting(decryptNotifications_, s, &UserSettings::decryptNotificationsChanged);
 }
 void
-UserSettings::setSpaceNotifications(bool s)
+UserSettings::setShowCommunityNotificationCounts(bool s)
 {
-    setSetting(spaceNotifications_, s, &UserSettings::spaceNotificationsChanged);
+    setSetting(showCommunityNotificationCounts_, s, &UserSettings::showCommunityNotificationCountsChanged);
 }
 void
 UserSettings::setCompactRoomList(bool s)
@@ -680,9 +682,9 @@ UserSettings::setShowRoomListTime(bool s)
     setSetting(showRoomListTime_, s, &UserSettings::showRoomListTimeChanged);
 }
 void
-UserSettings::setLastMessagePreview(LastMessagePreview s)
+UserSettings::setShowLastMessagePreview(LastMessagePreview s)
 {
-    setSetting(lastMessagePreview_, s, &UserSettings::lastMessagePreviewChanged);
+    setSetting(showLastMessagePreview_, s, &UserSettings::showLastMessagePreviewChanged);
 }
 void
 UserSettings::setFancyEffects(bool s)
@@ -712,9 +714,9 @@ UserSettings::setPrivacyScreen(bool s)
     setSetting(privacyScreen_, s, &UserSettings::privacyScreenChanged);
 }
 void
-UserSettings::setPrivacyScreenTimeout(int s)
+UserSettings::setPrivacyScreenTimeoutSeconds(int s)
 {
-    setSetting(privacyScreenTimeout_, s, &UserSettings::privacyScreenTimeoutChanged);
+    setSetting(privacyScreenTimeoutSeconds_, s, &UserSettings::privacyScreenTimeoutSecondsChanged);
 }
 
 void
@@ -859,9 +861,9 @@ UserSettings::setThemeByVariantIndex(int index)
 }
 
 void
-UserSettings::setUseStunServer(bool s)
+UserSettings::setUseFallbackCallRelayServer(bool s)
 {
-    setSetting(useStunServer_, s, &UserSettings::useStunServerChanged);
+    setSetting(useFallbackCallRelayServer_, s, &UserSettings::useFallbackCallRelayServerChanged);
 }
 void
 UserSettings::setEnableLegacyCalls(bool s)
@@ -996,14 +998,14 @@ UserSettings::setUseIdenticon(bool s)
     setSetting(useIdenticon_, s, &UserSettings::useIdenticonChanged);
 }
 void
-UserSettings::setOpenImageExternal(bool s)
+UserSettings::setOpenImagesInExternalApp(bool s)
 {
-    setSetting(openImageExternal_, s, &UserSettings::openImageExternalChanged);
+    setSetting(openImagesInExternalApp_, s, &UserSettings::openImagesInExternalAppChanged);
 }
 void
-UserSettings::setOpenVideoExternal(bool s)
+UserSettings::setOpenVideosInExternalApp(bool s)
 {
-    setSetting(openVideoExternal_, s, &UserSettings::openVideoExternalChanged);
+    setSetting(openVideosInExternalApp_, s, &UserSettings::openVideosInExternalAppChanged);
 }
 
 void
@@ -1063,15 +1065,15 @@ UserSettings::save()
 
     // Notifications
     emitBool("desktop_notifications", hasDesktopNotifications_);
-    emitBool("alert_on_notification", hasAlertOnNotification_);
+    emitBool("alert_on_incoming_messages", alertOnIncomingMessages_);
 
     // View settings
-    emitBool("group_view", groupView_);
+    emitBool("show_communities_sidebar", showCommunitiesSidebar_);
     emitBool("scrollbars_in_roomlist", scrollbarsInRoomlist_);
 
     // Timeline settings
-    emitBool("buttons_in_timeline", buttonsInTimeline_);
-    emitInt("timeline_max_width", timelineMaxWidth_);
+    emitBool("show_action_buttons", showActionButtons_);
+    emitInt("max_timeline_width", maxTimelineWidth_);
     emitBool("message_hover_highlight", messageHoverHighlight_);
     emitBool("enlarge_emoji_only_messages", enlargeEmojiOnlyMessages_);
     emitBool("markdown", markdown_);
@@ -1083,7 +1085,7 @@ UserSettings::save()
     emitBool("bubbles", bubbles_);
     emitBool("small_avatars", smallAvatars_);
     emitBool("enable_stickers", enableStickers_);
-    emitBool("show_own_avatar_next_to_own_messages", showOwnAvatarNextToOwnMessages_);
+    emitBool("show_own_avatar_in_bubble_layout", showOwnAvatarInBubbleLayout_);
     emitString("pinned_reactions", pinnedReactions_);
     emitBool("animate_images_on_hover", animateImagesOnHover_);
     emitBool("typing_notifications", typingNotifications_);
@@ -1097,21 +1099,21 @@ UserSettings::save()
     emitString("emoji_font_family", emojiFont_);
     emitDouble("font_size", baseFontSize_);
 
-    emitBool("avatar_circles", avatarCircles_);
+    emitBool("use_circular_avatars", useCircularAvatars_);
     emitBool("use_identicon", useIdenticon_);
-    emitBool("open_image_external", openImageExternal_);
-    emitBool("open_video_external", openVideoExternal_);
+    emitBool("open_images_in_external_app", openImagesInExternalApp_);
+    emitBool("open_videos_in_external_app", openVideosInExternalApp_);
     emitBool("decrypt_notifications", decryptNotifications_);
-    emitBool("space_notifications", spaceNotifications_);
+    emitBool("show_community_notification_counts", showCommunityNotificationCounts_);
     emitBool("compact_room_list", compactRoomList_);
     emitBool("show_room_list_time", showRoomListTime_);
-    emitString("last_message_preview",
+    emitString("show_last_message_preview",
                QString::fromUtf8(QMetaEnum::fromType<LastMessagePreview>().valueToKey(
-                 static_cast<int>(lastMessagePreview_))));
+                 static_cast<int>(showLastMessagePreview_))));
     emitBool("fancy_effects", fancyEffects_);
     emitBool("reduced_motion", reducedMotion_);
     emitBool("privacy_screen", privacyScreen_);
-    emitInt("privacy_screen_timeout", privacyScreenTimeout_);
+    emitInt("privacy_screen_timeout_seconds", privacyScreenTimeoutSeconds_);
     emitBool("expose_dbus_api", exposeDBusApi_);
     emitBool("update_space_vias", updateSpaceVias_);
     emitBool("expire_events", expireEvents_);
@@ -1128,7 +1130,7 @@ UserSettings::save()
     emitBool("screen_share_pip", screenSharePiP_);
     emitBool("screen_share_remote_video", screenShareRemoteVideo_);
     emitBool("screen_share_hide_cursor", screenShareHideCursor_);
-    emitBool("use_stun_server", useStunServer_);
+    emitBool("use_fallback_call_relay_server", useFallbackCallRelayServer_);
     emitBool("enable_legacy_calls", enableLegacyCalls_);
 
     // Auth settings
@@ -1318,7 +1320,7 @@ static const SettingMeta settingsTable[] = {
       },
       8.0, 24.0, 0.5, nullptr, nullptr },
     // EmojiFont
-    { QT_TR_NOOP("Emoji Font Family"), nullptr, SM::Options, SM::TabLookFeel,
+    { QT_TR_NOOP("Emoji font family"), nullptr, SM::Options, SM::TabLookFeel,
       []() -> QVariant {
           if (I->emojiFontFamily().isEmpty()) return 0;
           auto fonts = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
@@ -1388,15 +1390,15 @@ static const SettingMeta settingsTable[] = {
           I->setShowRoomListTime(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // LastMessagePreviewSetting
-    { QT_TR_NOOP("Show preview of last message"),
-      QT_TR_NOOP("Show a preview of the last message in each room."),
+    // ShowLastMessagePreview
+    { QT_TR_NOOP("Show last message preview"),
+      QT_TR_NOOP("Show a preview of the most recent message in each room."),
       SM::Options, SM::TabLookFeel,
-      []() -> QVariant { return static_cast<int>(I->lastMessagePreview()); },
+      []() -> QVariant { return static_cast<int>(I->showLastMessagePreview()); },
       [](const QVariant &v) -> bool {
           auto val = v.toInt();
           if (val < 0 || QMetaEnum::fromType<UserSettings::LastMessagePreview>().keyCount() <= val) return false;
-          I->setLastMessagePreview(static_cast<UserSettings::LastMessagePreview>(val)); return true;
+          I->setShowLastMessagePreview(static_cast<UserSettings::LastMessagePreview>(val)); return true;
       },
       {}, {}, {},
       []() -> QVariant {
@@ -1407,24 +1409,24 @@ static const SettingMeta settingsTable[] = {
           };
       },
       nullptr },
-    // SpaceNotifications
-    { QT_TR_NOOP("Show message counts"),
+    // ShowCommunityNotificationCounts
+    { QT_TR_NOOP("Show notification counts"),
       QT_TR_NOOP("Show total notification counts for communities and tags."),
       SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->spaceNotifications(); },
+      []() -> QVariant { return I->showCommunityNotificationCounts(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setSpaceNotifications(v.toBool()); return true;
+          I->setShowCommunityNotificationCounts(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // AvatarCircles
-    { QT_TR_NOOP("Circular Avatars"),
+    // UseCircularAvatars
+    { QT_TR_NOOP("Use circular avatars"),
       QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
       SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->avatarCircles(); },
+      []() -> QVariant { return I->useCircularAvatars(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setAvatarCircles(v.toBool()); return true;
+          I->setUseCircularAvatars(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // UseIdenticon
@@ -1448,7 +1450,7 @@ static const SettingMeta settingsTable[] = {
           I->setScrollbarsInRoomlist(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // RoomSortOrderSetting
+    // RoomSorting
     { QT_TR_NOOP("Sorting"),
       QT_TR_NOOP("How to order rooms."),
       SM::Options, SM::TabLookFeel,
@@ -1470,14 +1472,14 @@ static const SettingMeta settingsTable[] = {
     // LookFeelCommunitiesSidebarSection
     { QT_TR_NOOP("COMMUNITIES SIDEBAR"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // GroupView
+    // ShowCommunitiesSidebar
     { QT_TR_NOOP("Show communities sidebar"),
       QT_TR_NOOP("Show a column containing communities and tags."),
       SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->groupView(); },
+      []() -> QVariant { return I->showCommunitiesSidebar(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setGroupView(v.toBool()); return true;
+          I->setShowCommunitiesSidebar(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // LookFeelTraySection
@@ -1556,7 +1558,7 @@ static const SettingMeta settingsTable[] = {
       },
       {}, {}, {}, nullptr, nullptr },
     // SmallAvatars
-    { QT_TR_NOOP("Enable small Avatars"),
+    { QT_TR_NOOP("Use small avatars"),
       QT_TR_NOOP("Avatars are resized to fit above the message."),
       SM::Toggle, SM::TabTimeline,
       []() -> QVariant { return I->smallAvatars(); },
@@ -1565,14 +1567,14 @@ static const SettingMeta settingsTable[] = {
           I->setSmallAvatars(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // ShowOwnAvatarNextToOwnMessages
-    { QT_TR_NOOP("Show own avatar next to own message bubbles"),
-      QT_TR_NOOP("When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan."),
+    // ShowOwnAvatarInBubbleLayout
+    { QT_TR_NOOP("Show your avatar next to your own messages (bubble layout)"),
+      QT_TR_NOOP("When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan."),
       SM::Toggle, SM::TabTimeline,
-      []() -> QVariant { return I->showOwnAvatarNextToOwnMessages(); },
+      []() -> QVariant { return I->showOwnAvatarInBubbleLayout(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setShowOwnAvatarNextToOwnMessages(v.toBool()); return true;
+          I->setShowOwnAvatarInBubbleLayout(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // ShowSenderUsername
@@ -1594,14 +1596,14 @@ static const SettingMeta settingsTable[] = {
           };
       },
       nullptr },
-    // TimelineMaxWidth
-    { QT_TR_NOOP("Limit width of timeline"),
+    // MaxTimelineWidth
+    { QT_TR_NOOP("Limit timeline width"),
       QT_TR_NOOP("Set the max width of messages in the timeline (in pixels). This can help readability on wide screen when Komai is maximized"),
       SM::Integer, SM::TabTimeline,
-      []() -> QVariant { return I->timelineMaxWidth(); },
+      []() -> QVariant { return I->maxTimelineWidth(); },
       [](const QVariant &v) -> bool {
           if (!v.canConvert(QMetaType::fromType<int>())) return false;
-          I->setTimelineMaxWidth(v.toInt()); return true;
+          I->setMaxTimelineWidth(v.toInt()); return true;
       },
       0, 20000, 20, nullptr, nullptr },
     // EnlargeEmojiOnlyMessages
@@ -1624,14 +1626,14 @@ static const SettingMeta settingsTable[] = {
           I->setMessageHoverHighlight(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // ButtonsInTimeline
-    { QT_TR_NOOP("Show message action buttons"),
-      QT_TR_NOOP("Show buttons to quickly reply, react or access additional options next to each message."),
+    // ShowActionButtons
+    { QT_TR_NOOP("Show action buttons"),
+      QT_TR_NOOP("Show quick actions next to each message (react, reply, forward, and more)."),
       SM::Toggle, SM::TabTimeline,
-      []() -> QVariant { return I->buttonsInTimeline(); },
+      []() -> QVariant { return I->showActionButtons(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setButtonsInTimeline(v.toBool()); return true;
+          I->setShowActionButtons(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // TimelineMediaSection
@@ -1676,24 +1678,24 @@ static const SettingMeta settingsTable[] = {
           };
       },
       nullptr },
-    // OpenImageExternal
-    { QT_TR_NOOP("Open images with external program"),
-      QT_TR_NOOP("Opens images with an external program when tapping the image.\nNote that when this option is ON, opened files are left unencrypted on disk and must be manually deleted."),
+    // OpenImagesInExternalApp
+    { QT_TR_NOOP("Open images in an external app"),
+      QT_TR_NOOP("Open images in an external app when clicking the image.\nNote that when this option is ON, opened files are left unencrypted on disk and must be manually deleted."),
       SM::Toggle, SM::TabTimeline,
-      []() -> QVariant { return I->openImageExternal(); },
+      []() -> QVariant { return I->openImagesInExternalApp(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setOpenImageExternal(v.toBool()); return true;
+          I->setOpenImagesInExternalApp(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // OpenVideoExternal
-    { QT_TR_NOOP("Open videos with external program"),
-      QT_TR_NOOP("Opens videos with an external program when tapping the video.\nNote that when this option is ON, opened files are left unencrypted on disk and must be manually deleted."),
+    // OpenVideosInExternalApp
+    { QT_TR_NOOP("Open videos in an external app"),
+      QT_TR_NOOP("Open videos in an external app when clicking the video.\nNote that when this option is ON, opened files are left unencrypted on disk and must be manually deleted."),
       SM::Toggle, SM::TabTimeline,
-      []() -> QVariant { return I->openVideoExternal(); },
+      []() -> QVariant { return I->openVideosInExternalApp(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setOpenVideoExternal(v.toBool()); return true;
+          I->setOpenVideosInExternalApp(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
 
@@ -1703,7 +1705,7 @@ static const SettingMeta settingsTable[] = {
     { QT_TR_NOOP("INPUT"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Markdown
-    { QT_TR_NOOP("Send messages as Markdown"),
+    { QT_TR_NOOP("Send messages as <a href=\"https://commonmark.org/help/\">Markdown</a>"),
       QT_TR_NOOP("Allow using markdown in messages.\nWhen disabled, all messages are sent as a plain text."),
       SM::Toggle, SM::TabComposer,
       []() -> QVariant { return I->markdown(); },
@@ -1812,14 +1814,14 @@ static const SettingMeta settingsTable[] = {
           I->setDesktopNotifications(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // AlertOnNotification
-    { QT_TR_NOOP("Alert on notification"),
+    // AlertOnIncomingMessages
+    { QT_TR_NOOP("Alert on incoming messages"),
       QT_TR_NOOP("Show an alert when a message is received.\nThis usually causes the application icon in the task bar to animate in some fashion."),
       SM::Toggle, SM::TabNotifications,
-      []() -> QVariant { return I->hasAlertOnNotification(); },
+      []() -> QVariant { return I->alertOnIncomingMessages(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setAlertOnNotification(v.toBool()); return true;
+          I->setAlertOnIncomingMessages(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // DecryptNotifications
@@ -1848,14 +1850,14 @@ static const SettingMeta settingsTable[] = {
           I->setEnableLegacyCalls(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // UseStunServer
-    { QT_TR_NOOP("Allow fallback call assist server"),
-      QT_TR_NOOP("Will use turn.matrix.org as assist when your home server does not offer one."),
+    // UseFallbackCallRelayServer
+    { QT_TR_NOOP("Use fallback call relay server"),
+      QT_TR_NOOP("Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one."),
       SM::Toggle, SM::TabCalls,
-      []() -> QVariant { return I->useStunServer(); },
+      []() -> QVariant { return I->useFallbackCallRelayServer(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setUseStunServer(v.toBool()); return true;
+          I->setUseFallbackCallRelayServer(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // CallsDevicesSection
@@ -1863,7 +1865,7 @@ static const SettingMeta settingsTable[] = {
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Microphone
     { QT_TR_NOOP("Microphone"),
-      QT_TR_NOOP("Set the notification sound to play when a call invite arrives"),
+      QT_TR_NOOP("Select the microphone used for voice and video calls."),
       SM::Options, SM::TabCalls,
       []() -> QVariant {
           return vecToList(CallDevices::instance().names(false, I->microphone().toStdString()))
@@ -1971,7 +1973,7 @@ static const SettingMeta settingsTable[] = {
     { QT_TR_NOOP("SCREEN LOCK"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PrivacyScreen
-    { QT_TR_NOOP("Privacy Screen"),
+    { QT_TR_NOOP("Privacy screen"),
       QT_TR_NOOP("When the window loses focus, the timeline will\nbe blurred."),
       SM::Toggle, SM::TabPrivacy,
       []() -> QVariant { return I->privacyScreen(); },
@@ -1980,14 +1982,14 @@ static const SettingMeta settingsTable[] = {
           I->setPrivacyScreen(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // PrivacyScreenTimeout
-    { QT_TR_NOOP("Privacy screen timeout (in seconds [0 - 3600])"),
-      QT_TR_NOOP("Set timeout (in seconds) for how long after window loses\nfocus before the screen will be blurred.\nSet to 0 to blur immediately after focus loss. Max value of 1 hour (3600 seconds)"),
+    // PrivacyScreenTimeoutSeconds
+    { QT_TR_NOOP("Privacy screen timeout (seconds)"),
+      QT_TR_NOOP("Set how long after focus loss before the screen is blurred.\nSet to 0 to blur immediately after focus loss.\nMaximum is 3600 seconds (1 hour)."),
       SM::Integer, SM::TabPrivacy,
-      []() -> QVariant { return I->privacyScreenTimeout(); },
+      []() -> QVariant { return I->privacyScreenTimeoutSeconds(); },
       [](const QVariant &v) -> bool {
           if (!v.canConvert(QMetaType::fromType<int>())) return false;
-          I->setPrivacyScreenTimeout(v.toInt()); return true;
+          I->setPrivacyScreenTimeoutSeconds(v.toInt()); return true;
       },
       0, 3600, 10, nullptr,
       []() -> bool { return I->privacyScreen(); } },
@@ -2057,7 +2059,7 @@ static const SettingMeta settingsTable[] = {
     { QT_TR_NOOP("BACKUP"), nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UseOnlineKeyBackup
-    { QT_TR_NOOP("Online Key Backup"),
+    { QT_TR_NOOP("Online key backup"),
       QT_TR_NOOP("Download message encryption keys from and upload to the encrypted online key backup."),
       SM::Toggle, SM::TabEncryption,
       []() -> QVariant { return I->useOnlineKeyBackup(); },
@@ -2097,7 +2099,7 @@ static const SettingMeta settingsTable[] = {
       []() -> QVariant { return cache::secret(mtx::secret_storage::secrets::cross_signing_master).has_value(); },
       nullptr, {}, {}, {}, nullptr, nullptr },
     // CrossSigningSecrets
-    { QT_TR_NOOP("Cross Signing Secrets"), nullptr, SM::XSignKeysRequestDownload, SM::TabEncryption,
+    { QT_TR_NOOP("Cross-signing secrets"), nullptr, SM::XSignKeysRequestDownload, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
 
     // ── Session Tab ─────────────────────────────────────────────────────────
@@ -2419,13 +2421,13 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     CONNECT_SETTING(ReducedMotion, reducedMotionChanged, Value);
     CONNECT_SETTING(CompactRoomList, compactRoomListChanged, Value);
     CONNECT_SETTING(ShowRoomListTime, showRoomListTimeChanged, Value);
-    CONNECT_SETTING(LastMessagePreviewSetting, lastMessagePreviewChanged, Value);
-    CONNECT_SETTING(SpaceNotifications, spaceNotificationsChanged, Value);
-    CONNECT_SETTING(AvatarCircles, avatarCirclesChanged, Value);
+    CONNECT_SETTING(ShowLastMessagePreview, showLastMessagePreviewChanged, Value);
+    CONNECT_SETTING(ShowCommunityNotificationCounts, showCommunityNotificationCountsChanged, Value);
+    CONNECT_SETTING(UseCircularAvatars, useCircularAvatarsChanged, Value);
     CONNECT_SETTING(UseIdenticon, useIdenticonChanged, Value);
     CONNECT_SETTING(ScrollbarsInRoomlist, scrollbarsInRoomlistChanged, Value);
-    CONNECT_SETTING(RoomSortOrderSetting, roomSortOrderChanged, Value);
-    CONNECT_SETTING(GroupView, groupViewStateChanged, Value);
+    CONNECT_SETTING(RoomSorting, roomSortOrderChanged, Value);
+    CONNECT_SETTING(ShowCommunitiesSidebar, showCommunitiesSidebarChanged, Value);
     CONNECT_SETTING(StartInTray, startInTrayChanged, Value);
     CONNECT_SETTING(ExposeDBusApi, exposeDBusApiChanged, Value);
     CONNECT_SETTING(MobileMode, mobileModeChanged, Value);
@@ -2440,17 +2442,17 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     // Timeline
     CONNECT_SETTING(Bubbles, bubblesChanged, Value);
     CONNECT_SETTING(SmallAvatars, smallAvatarsChanged, Value);
-    CONNECT_SETTING(ShowOwnAvatarNextToOwnMessages, showOwnAvatarNextToOwnMessagesChanged, Value);
+    CONNECT_SETTING(ShowOwnAvatarInBubbleLayout, showOwnAvatarInBubbleLayoutChanged, Value);
     CONNECT_SETTING(ShowSenderUsername, showSenderUsernameChanged, Value);
-    CONNECT_SETTING(TimelineMaxWidth, timelineMaxWidthChanged, Value);
+    CONNECT_SETTING(MaxTimelineWidth, maxTimelineWidthChanged, Value);
     CONNECT_SETTING(EnlargeEmojiOnlyMessages, enlargeEmojiOnlyMessagesChanged, Value);
     CONNECT_SETTING(MessageHoverHighlight, messageHoverHighlightChanged, Value);
-    CONNECT_SETTING(ButtonsInTimeline, buttonInTimelineChanged, Value);
+    CONNECT_SETTING(ShowActionButtons, showActionButtonsChanged, Value);
     CONNECT_SETTING(FancyEffects, fancyEffectsChanged, Value);
     CONNECT_SETTING(AnimateImagesOnHover, animateImagesOnHoverChanged, Value);
     CONNECT_SETTING(ShowImage, showImageChanged, Value);
-    CONNECT_SETTING(OpenImageExternal, openImageExternalChanged, Value);
-    CONNECT_SETTING(OpenVideoExternal, openVideoExternalChanged, Value);
+    CONNECT_SETTING(OpenImagesInExternalApp, openImagesInExternalAppChanged, Value);
+    CONNECT_SETTING(OpenVideosInExternalApp, openVideosInExternalAppChanged, Value);
 
     // Composer
     CONNECT_SETTING(Markdown, markdownChanged, Value);
@@ -2463,24 +2465,24 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 
     // Notifications
     CONNECT_SETTING(DesktopNotifications, desktopNotificationsChanged, Value);
-    CONNECT_SETTING(AlertOnNotification, alertOnNotificationChanged, Value);
+    CONNECT_SETTING(AlertOnIncomingMessages, alertOnIncomingMessagesChanged, Value);
     CONNECT_SETTING(DecryptNotifications, decryptNotificationsChanged, Value);
 
     // Calls
     CONNECT_SETTING(EnableLegacyCalls, enableLegacyCallsChanged, Value);
-    CONNECT_SETTING(UseStunServer, useStunServerChanged, Value);
+    CONNECT_SETTING(UseFallbackCallRelayServer, useFallbackCallRelayServerChanged, Value);
     CONNECT_SETTING(Microphone, microphoneChanged, Value, Values);
     CONNECT_SETTING(Camera, cameraChanged, Value, Values);
     CONNECT_SETTING(CameraResolution, cameraResolutionChanged, Value, Values);
     CONNECT_SETTING(CameraFrameRate, cameraFrameRateChanged, Value, Values);
     CONNECT_SETTING(Ringtone, ringtoneChanged, Values, Value);
 
-    // Privacy — PrivacyScreen has a side-effect on PrivacyScreenTimeout's Enabled state
+    // Privacy — PrivacyScreen has a side-effect on PrivacyScreenTimeoutSeconds's Enabled state
     connect(s.get(), &UserSettings::privacyScreenChanged, this, [this]() {
         emit dataChanged(index(PrivacyScreen), index(PrivacyScreen), {Value});
-        emit dataChanged(index(PrivacyScreenTimeout), index(PrivacyScreenTimeout), {Enabled});
+        emit dataChanged(index(PrivacyScreenTimeoutSeconds), index(PrivacyScreenTimeoutSeconds), {Enabled});
     });
-    CONNECT_SETTING(PrivacyScreenTimeout, privacyScreenTimeoutChanged, Value);
+    CONNECT_SETTING(PrivacyScreenTimeoutSeconds, privacyScreenTimeoutSecondsChanged, Value);
     CONNECT_SETTING(ExpireEvents, expireEventsChanged, Value);
     CONNECT_SETTING(UpdateSpaceVias, updateSpaceViasChanged, Value);
 

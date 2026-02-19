@@ -25,7 +25,7 @@ Page {
 
         Pane {
             id: userInfoPanel
-            Layout.maximumHeight: Settings.groupView ? 0 : -1
+            Layout.maximumHeight: Settings.showCommunitiesSidebar ? 0 : -1
             clip: true
 
             function openUserProfile() {
@@ -190,7 +190,7 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             color: Nheko.theme.separator
-            Layout.preferredHeight: Settings.groupView ? 0 : 2
+            Layout.preferredHeight: Settings.showCommunitiesSidebar ? 0 : 2
         }
         Pane {
             id: roomActionsBar
@@ -746,7 +746,7 @@ Page {
                         bubbleBackgroundColor: roomItem.bubbleBackground
                         bubbleTextColor: roomItem.bubbleText
                         hasLoudNotification: roomItem.hasLoudNotification
-                        mayBeVisible: collapsed && (isSpace ? Settings.spaceNotifications : true)
+                        mayBeVisible: collapsed && (isSpace ? Settings.showCommunityNotificationCounts : true)
                         notificationCount: roomItem.notificationCount
                     }
                 }
@@ -763,7 +763,7 @@ Page {
                     Item {
                         id: titleRow
 
-                        property bool previewsEnabled: !isSpace && (Settings.lastMessagePreview === Settings.Always || (Settings.lastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
+                        property bool previewsEnabled: !isSpace && (Settings.showLastMessagePreview === Settings.Always || (Settings.showLastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
 
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
@@ -812,7 +812,7 @@ Page {
                             bubbleBackgroundColor: roomItem.bubbleBackground
                             bubbleTextColor: roomItem.bubbleText
                             hasLoudNotification: roomItem.hasLoudNotification
-                            mayBeVisible: !collapsed && (isSpace ? Settings.spaceNotifications : compactMode)
+                            mayBeVisible: !collapsed && (isSpace ? Settings.showCommunityNotificationCounts : compactMode)
                             notificationCount: roomItem.notificationCount
                             parent: (isSpace || compactMode) ? titleRow : subtextRow
                         }
@@ -823,7 +823,7 @@ Page {
                         Layout.alignment: Qt.AlignBottom
                         Layout.fillWidth: true
                         Layout.preferredHeight: subtitleText.implicitHeight
-                        visible: !compactMode && !isSpace && (Settings.lastMessagePreview === Settings.Always || (Settings.lastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
+                        visible: !compactMode && !isSpace && (Settings.showLastMessagePreview === Settings.Always || (Settings.showLastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
 
                         ElidedLabel {
                             id: subtitleText
@@ -918,7 +918,7 @@ Page {
                     id: privacyScreen
 
                     anchors.fill: parent
-                    screenTimeout: Settings.privacyScreenTimeout
+                    screenTimeout: Settings.privacyScreenTimeoutSeconds
                     timelineRoot: timeline
                     visible: Settings.privacyScreen
                     windowTarget: roomWindowW

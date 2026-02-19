@@ -4953,7 +4953,7 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Enable small Avatars</source>
+        <source>Use small avatars</source>
         <translation>Włącz małe awatary</translation>
     </message>
     <message>
@@ -4993,7 +4993,7 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Limit width of timeline</source>
+        <source>Limit timeline width</source>
         <translation>Ogranicz szerokość osi czasu</translation>
     </message>
     <message>
@@ -5023,7 +5023,7 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Circular Avatars</source>
+        <source>Use circular avatars</source>
         <translation>Okrągłe awatary</translation>
     </message>
     <message>
@@ -5033,12 +5033,12 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open images with external program</source>
+        <source>Open images in an external app</source>
         <translation>Otwórz obrazy przy użyciu zewnętrznego programu</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open videos with external program</source>
+        <source>Open videos in an external app</source>
         <translation>Otwórz filmy przy użyciu zewnętrznego programu</translation>
     </message>
     <message>
@@ -5058,12 +5058,12 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy Screen</source>
+        <source>Privacy screen</source>
         <translation>Ochrona prywatności</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy screen timeout (in seconds [0 - 3600])</source>
+        <source>Privacy screen timeout (seconds)</source>
         <translation>Opóźnienie ochrony prywatności (w sekundach [0 - 3600])</translation>
     </message>
     <message>
@@ -5088,7 +5088,7 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Emoji Font Family</source>
+        <source>Emoji font family</source>
         <translation>Rodzina czcionki emotikon</translation>
     </message>
     <message>
@@ -5118,7 +5118,7 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Allow fallback call assist server</source>
+        <source>Use fallback call relay server</source>
         <translation>Pozwól na korzystanie z serwera pomocniczego do rozmów</translation>
     </message>
     <message>
@@ -5138,7 +5138,7 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Online Key Backup</source>
+        <source>Online key backup</source>
         <translation>Kopia zapasowa kluczy online</translation>
     </message>
     <message>
@@ -5188,7 +5188,7 @@ Powód: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Cross Signing Secrets</source>
+        <source>Cross-signing secrets</source>
         <translation>Sekrety podpisu krzyżowego</translation>
     </message>
     <message>
@@ -5406,7 +5406,7 @@ If an emoji picker or a mention picker is open, it is always handled first.</sou
     </message>
     <message>
         <location line="+3"/>
-        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5464,7 +5464,7 @@ Zwróć uwagę, że gdy to ustawienie jest włączone, otwarte pliki są pozosta
     </message>
     <message>
         <location line="+4"/>
-        <source>Show message counts</source>
+        <source>Show notification counts</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5651,7 +5651,7 @@ be blurred.</source>
     </message>
     <message>
         <location line="+9"/>
-        <source>Will use turn.matrix.org as assist when your home server does not offer one.</source>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
         <translation>Używaj serwera pomocniczego turn.matrix.org gdy twój serwer domowy nie udostępnia własnego serwera pomocniczego.</translation>
     </message>
     <message>

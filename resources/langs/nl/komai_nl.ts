@@ -4938,7 +4938,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Enable small Avatars</source>
+        <source>Use small avatars</source>
         <translation>Activeer kleine avatars</translation>
     </message>
     <message>
@@ -4978,7 +4978,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Limit width of timeline</source>
+        <source>Limit timeline width</source>
         <translation>Beperk breedte van tijdlijn</translation>
     </message>
     <message>
@@ -5008,7 +5008,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Circular Avatars</source>
+        <source>Use circular avatars</source>
         <translation>Ronde avatars</translation>
     </message>
     <message>
@@ -5018,12 +5018,12 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open images with external program</source>
+        <source>Open images in an external app</source>
         <translation>Open afbeeldingen met externe applicatie</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open videos with external program</source>
+        <source>Open videos in an external app</source>
         <translation>Open videos met externe applicatie</translation>
     </message>
     <message>
@@ -5043,12 +5043,12 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy Screen</source>
+        <source>Privacy screen</source>
         <translation>Privacy scherm</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy screen timeout (in seconds [0 - 3600])</source>
+        <source>Privacy screen timeout (seconds)</source>
         <translation>Privacy scherm wachttijd (in seconden [0 - 3600])</translation>
     </message>
     <message>
@@ -5073,7 +5073,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Emoji Font Family</source>
+        <source>Emoji font family</source>
         <translation>Emoji lettertype</translation>
     </message>
     <message>
@@ -5103,7 +5103,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Allow fallback call assist server</source>
+        <source>Use fallback call relay server</source>
         <translation>Sta terugval naar oproepassistentieserver toe</translation>
     </message>
     <message>
@@ -5123,7 +5123,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Online Key Backup</source>
+        <source>Online key backup</source>
         <translation>Online reservesleutel</translation>
     </message>
     <message>
@@ -5173,7 +5173,7 @@ Reden: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Cross Signing Secrets</source>
+        <source>Cross-signing secrets</source>
         <translation>Kruisversleutelingsgeheimen</translation>
     </message>
     <message>
@@ -5392,7 +5392,7 @@ If an emoji picker or a mention picker is open, it is always handled first.</sou
     </message>
     <message>
         <location line="+3"/>
-        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5450,7 +5450,7 @@ Let up dat als deze instelling AAN staat, geopende videos zonder versleuteling o
     </message>
     <message>
         <location line="+4"/>
-        <source>Show message counts</source>
+        <source>Show notification counts</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5638,7 +5638,7 @@ worden geblurt.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Will use turn.matrix.org as assist when your home server does not offer one.</source>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
         <translation>Zal turn.matrix.org gebruiken om te assisteren als je thuisserver geen TURN server heeft.</translation>
     </message>
     <message>

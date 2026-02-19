@@ -4945,7 +4945,7 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Enable small Avatars</source>
+        <source>Use small avatars</source>
         <translation>Activer les petites images de profil</translation>
     </message>
     <message>
@@ -4985,7 +4985,7 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Limit width of timeline</source>
+        <source>Limit timeline width</source>
         <translation>Limiter la largeur de la discussion</translation>
     </message>
     <message>
@@ -5015,7 +5015,7 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Circular Avatars</source>
+        <source>Use circular avatars</source>
         <translation>Avatars circulaires</translation>
     </message>
     <message>
@@ -5025,12 +5025,12 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open images with external program</source>
+        <source>Open images in an external app</source>
         <translation>Ouvrir les images avec un programme externe</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open videos with external program</source>
+        <source>Open videos in an external app</source>
         <translation>Ouvrir les vidéos avec un programme externe</translation>
     </message>
     <message>
@@ -5050,12 +5050,12 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy Screen</source>
+        <source>Privacy screen</source>
         <translation>Protection anti-indiscrétion</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy screen timeout (in seconds [0 - 3600])</source>
+        <source>Privacy screen timeout (seconds)</source>
         <translation>Délai d'activation de la protection anti-indiscrétion (en secondes, 0 à 3600)</translation>
     </message>
     <message>
@@ -5080,7 +5080,7 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Emoji Font Family</source>
+        <source>Emoji font family</source>
         <translation>Police de caractères pour émoji</translation>
     </message>
     <message>
@@ -5110,7 +5110,7 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Allow fallback call assist server</source>
+        <source>Use fallback call relay server</source>
         <translation>Autoriser le serveur de secours pour les appels</translation>
     </message>
     <message>
@@ -5130,7 +5130,7 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Online Key Backup</source>
+        <source>Online key backup</source>
         <translation>Sauvegarde des clefs en ligne</translation>
     </message>
     <message>
@@ -5180,7 +5180,7 @@ Raison : %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Cross Signing Secrets</source>
+        <source>Cross-signing secrets</source>
         <translation>Secrets de vérification croisée</translation>
     </message>
     <message>
@@ -5406,7 +5406,7 @@ Typiquement, l'icône de l'application est mise en évidence dans la barre des t
     </message>
     <message>
         <location line="+4"/>
-        <source>Show message counts</source>
+        <source>Show notification counts</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5578,7 +5578,7 @@ If an emoji picker or a mention picker is open, it is always handled first.</sou
     </message>
     <message>
         <location line="+3"/>
-        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5638,7 +5638,7 @@ be blurred.</source>
     </message>
     <message>
         <location line="+9"/>
-        <source>Will use turn.matrix.org as assist when your home server does not offer one.</source>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
         <translation>Utiliser le serveur turn.matrix.org pour vous aider à rejoindre les appels si votre serveur ne propose pas la fonctionnalité TURN.</translation>
     </message>
     <message>

@@ -55,9 +55,9 @@ Pane {
             Avatar {
                 id: communityAvatar
 
-                property string avatarUrl: (Settings.groupView && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
-                property string communityId: (Settings.groupView && room && room.parentSpace && room.parentSpace.roomid) || ""
-                property string communityName: (Settings.groupView && room && room.parentSpace && room.parentSpace.roomName) || ""
+                property string avatarUrl: (Settings.showCommunitiesSidebar && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
+                property string communityId: (Settings.showCommunitiesSidebar && room && room.parentSpace && room.parentSpace.roomid) || ""
+                property string communityName: (Settings.showCommunitiesSidebar && room && room.parentSpace && room.parentSpace.roomName) || ""
 
                 Layout.alignment: Qt.AlignHCenter
                 Layout.column: 1

@@ -4941,8 +4941,8 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Enable small Avatars</source>
-        <translation>Enable small Avatars</translation>
+        <source>Use small avatars</source>
+        <translation>Use small avatars</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -4981,8 +4981,8 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Limit width of timeline</source>
-        <translation>Limit width of timeline</translation>
+        <source>Limit timeline width</source>
+        <translation>Limit timeline width</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5011,8 +5011,8 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Circular Avatars</source>
-        <translation>Circular Avatars</translation>
+        <source>Use circular avatars</source>
+        <translation>Use circular avatars</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5021,13 +5021,13 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open images with external program</source>
-        <translation>Open images with external program</translation>
+        <source>Open images in an external app</source>
+        <translation>Open images in an external app</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Open videos with external program</source>
-        <translation>Open videos with external program</translation>
+        <source>Open videos in an external app</source>
+        <translation>Open videos in an external app</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -5046,13 +5046,13 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy Screen</source>
-        <translation>Privacy Screen</translation>
+        <source>Privacy screen</source>
+        <translation>Privacy screen</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Privacy screen timeout (in seconds [0 - 3600])</source>
-        <translation>Privacy screen timeout (in seconds [0 - 3600])</translation>
+        <source>Privacy screen timeout (seconds)</source>
+        <translation>Privacy screen timeout (seconds)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5076,8 +5076,8 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Emoji Font Family</source>
-        <translation>Emoji Font Family</translation>
+        <source>Emoji font family</source>
+        <translation>Emoji font family</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5106,8 +5106,8 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Allow fallback call assist server</source>
-        <translation>Allow fallback call assist server</translation>
+        <source>Use fallback call relay server</source>
+        <translation>Use fallback call relay server</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5126,8 +5126,8 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Online Key Backup</source>
-        <translation>Online Key Backup</translation>
+        <source>Online key backup</source>
+        <translation>Online key backup</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5176,8 +5176,8 @@ Reason: %4</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Cross Signing Secrets</source>
-        <translation>Cross Signing Secrets</translation>
+        <source>Cross-signing secrets</source>
+        <translation>Cross-signing secrets</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5395,7 +5395,7 @@ If an emoji picker or a mention picker is open, it is always handled first.</sou
     </message>
     <message>
         <location line="+3"/>
-        <source>When message bubbles are enabled, show your avatar next to your own message bubbles. This improves left/right symmetry and makes authorship easier to scan.</source>
+        <source>When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5453,7 +5453,7 @@ Note that when this option is ON, opened files are left unencrypted on disk and 
     </message>
     <message>
         <location line="+4"/>
-        <source>Show message counts</source>
+        <source>Show notification counts</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5641,8 +5641,8 @@ be blurred.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Will use turn.matrix.org as assist when your home server does not offer one.</source>
-        <translation>Will use turn.matrix.org as assist when your home server does not offer one.</translation>
+        <source>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</source>
+        <translation>Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one.</translation>
     </message>
     <message>
         <location line="+3"/>

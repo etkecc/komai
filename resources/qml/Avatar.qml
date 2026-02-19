@@ -26,7 +26,7 @@ AbstractButton {
         id: bg
 
         color: palette.alternateBase
-        radius: Settings.avatarCircles ? height / 2 : height / 8
+        radius: Settings.useCircularAvatars ? height / 2 : height / 8
     }
 
     Label {
@@ -46,7 +46,7 @@ AbstractButton {
         id: identicon
 
         anchors.fill: parent
-        source: Settings.useIdenticon ? ("image://jdenticon/" + (avatar.userid !== "" ? avatar.userid : avatar.roomid) + "?radius=" + (Settings.avatarCircles ? 100 : 25)) : ""
+        source: Settings.useIdenticon ? ("image://jdenticon/" + (avatar.userid !== "" ? avatar.userid : avatar.roomid) + "?radius=" + (Settings.useCircularAvatars ? 100 : 25)) : ""
         visible: Settings.useIdenticon && img.status != Image.Ready
     }
     Image {
@@ -56,9 +56,9 @@ AbstractButton {
         asynchronous: true
         fillMode: avatar.crop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
         source: if (avatar.url.startsWith('image://colorimage')) {
-            return avatar.url + "&radius=" + (Settings.avatarCircles ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
+            return avatar.url + "&radius=" + (Settings.useCircularAvatars ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
         } else if (avatar.url.startsWith('image://')) {
-            return avatar.url + "?radius=" + (Settings.avatarCircles ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
+            return avatar.url + "?radius=" + (Settings.useCircularAvatars ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
         } else if (avatar.url.startsWith(':/')) {
             return "image://colorimage/" + avatar.url + "?" + label.color;
         } else {
@@ -95,7 +95,7 @@ AbstractButton {
         anchors.right: avatar.right
         color: updatePresence()
         height: avatar.height / 6
-        radius: Settings.avatarCircles ? height / 2 : height / 8
+        radius: Settings.useCircularAvatars ? height / 2 : height / 8
         visible: !!avatar.userid
         width: height
 

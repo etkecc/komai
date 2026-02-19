@@ -1,5 +1,6 @@
 [tools]
 prek = "0.3.2"
+"vfox:clang" = "20.1.8"
 
 [settings]
 # Disable automatic trust prompts - we trust this config

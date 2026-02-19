@@ -6,6 +6,9 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
         exclude: '\.clang-format$'
+      - id: check-json
+        # Visual Studio CMakeSettings uses JSONC comments, which strict JSON parsers reject.
+        exclude: '^CMakeSettings\.json$'
       - id: check-merge-conflict
       - id: check-added-large-files
         args: ['--maxkb=1024']
@@ -25,3 +28,8 @@ repos:
         language: system
         files: 'resources/langs/.*\.ts$'
         pass_filenames: false
+      - id: clang-format
+        name: Format C/C++ sources
+        entry: env MISE_TRUSTED_CONFIG_PATHS=./mise.toml MISE_DATA_DIR=./var/mise mise exec -- clang-format -i
+        language: system
+        files: '^src/.*\.(cpp|h)$'

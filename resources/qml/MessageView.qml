@@ -212,8 +212,9 @@ Item {
                 id: row
 
                 property var model
+                property int itemPadding: Math.round(messageActionsC.padding / 2)
 
-                spacing: messageActionsC.padding
+                spacing: 0
 
                 // --- Pinned reactions (from user setting, comma-separated, max 10) ---
                 Repeater {
@@ -230,10 +231,12 @@ Item {
 
                         Layout.alignment: Qt.AlignBottom
                         focusPolicy: Qt.NoFocus
+                        leftPadding: row.itemPadding
+                        rightPadding: row.itemPadding
                         height: showImage ? 32 : btnTextPinned.implicitHeight
                         implicitHeight: showImage ? 32 : btnTextPinned.implicitHeight
-                        implicitWidth: showImage ? 32 : btnTextPinned.implicitWidth
-                        width: showImage ? 32 : btnTextPinned.implicitWidth
+                        implicitWidth: (showImage ? 32 : btnTextPinned.implicitWidth) + 2 * row.itemPadding
+                        width: (showImage ? 32 : btnTextPinned.implicitWidth) + 2 * row.itemPadding
 
                         onClicked: {
                             room.input.reaction(row.model.eventId, modelData);
@@ -296,10 +299,12 @@ Item {
 
                         Layout.alignment: Qt.AlignBottom
                         focusPolicy: Qt.NoFocus
+                        leftPadding: row.itemPadding
+                        rightPadding: row.itemPadding
                         height: showImage ? 32 : btnTextRecent.implicitHeight
                         implicitHeight: showImage ? 32 : btnTextRecent.implicitHeight
-                        implicitWidth: showImage ? 32 : btnTextRecent.implicitWidth
-                        width: showImage ? 32 : btnTextRecent.implicitWidth
+                        implicitWidth: (showImage ? 32 : btnTextRecent.implicitWidth) + 2 * row.itemPadding
+                        width: (showImage ? 32 : btnTextRecent.implicitWidth) + 2 * row.itemPadding
 
                         onClicked: {
                             room.input.reaction(row.model.eventId, modelData);
@@ -355,7 +360,9 @@ Item {
                     hoverPulse: true
                     image: ":/icons/icons/ui/edit.svg"
                     visible: !!row.model && row.model.isEditable
-                    Layout.preferredWidth: 32
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
                     Layout.preferredHeight: 32
 
                     onClicked: {
@@ -374,7 +381,9 @@ Item {
                     hoverPulse: true
                     image: ":/icons/icons/ui/smile-add.svg"
                     visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
-                    Layout.preferredWidth: 32
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
                     Layout.preferredHeight: 32
 
                     onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(reactButton, room.roomId, function (plaintext, markdown) {
@@ -391,7 +400,9 @@ Item {
                     hoverPulse: true
                     image: (row.model && row.model.threadId) ? ":/icons/icons/ui/thread.svg" : ":/icons/icons/ui/new-thread.svg"
                     visible: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
-                    Layout.preferredWidth: 32
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
                     Layout.preferredHeight: 32
 
                     onClicked: {
@@ -407,7 +418,9 @@ Item {
                     hoverPulse: true
                     image: ":/icons/icons/ui/reply.svg"
                     visible: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
-                    Layout.preferredWidth: 32
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
                     Layout.preferredHeight: 32
 
                     onClicked: {
@@ -423,9 +436,11 @@ Item {
                     hoverPulse: true
                     image: ":/icons/icons/ui/reply.svg"
                     visible: !!row.model && (row.model.type == MtxEvent.ImageMessage || row.model.type == MtxEvent.VideoMessage || row.model.type == MtxEvent.AudioMessage || row.model.type == MtxEvent.FileMessage || row.model.type == MtxEvent.Sticker || row.model.type == MtxEvent.TextMessage || row.model.type == MtxEvent.LocationMessage || row.model.type == MtxEvent.EmoteMessage || row.model.type == MtxEvent.NoticeMessage)
-                    Layout.preferredWidth: 32
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
                     Layout.preferredHeight: 32
-                    transform: Scale { origin.x: 16; xScale: -1 }
+                    transform: Scale { origin.x: 16 + row.itemPadding; xScale: -1 }
 
                     onClicked: {
                         var forwardMess = forwardCompleterComponent.createObject(timelineRoot);
@@ -444,7 +459,9 @@ Item {
                     hoverPulse: true
                     image: ":/icons/icons/ui/go-to.svg"
                     visible: !!row.model && filteredTimeline.filterByContent
-                    Layout.preferredWidth: 32
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
                     Layout.preferredHeight: 32
 
                     onClicked: {
@@ -462,7 +479,9 @@ Item {
                     hoverEnabled: true
                     hoverPulse: true
                     image: ":/icons/icons/ui/options.svg"
-                    Layout.preferredWidth: 32
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
                     Layout.preferredHeight: 32
 
                     onClicked: messageContextMenuC.show(row.model.eventId, row.model.threadId, row.model.type, row.model.isSender, row.model.isEncrypted, row.model.isEditable, "", row.model.body, optionsButton)

@@ -54,6 +54,7 @@ just run
 ```
 
 For dependencies, distro-specific package lists, CMake flags, and more, see 📄 [Native build](docs/packaging/native.md).
+For contributor workflow and local checks, see 📄 [Development](docs/development.md).
 
 
 ## 🎨 Themes

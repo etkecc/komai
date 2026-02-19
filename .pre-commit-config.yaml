@@ -30,7 +30,7 @@ repos:
         pass_filenames: false
       - id: clang-format
         name: Format C/C++ sources
-        # Use the exact version installed by mise instead of a system binary.
-        entry: env MISE_TRUSTED_CONFIG_PATHS=./mise.toml MISE_DATA_DIR=./var/mise sh -ec '"$(mise where clang-format@20.1.8)/bin/clang-format" -i "$@"' --
+        # Resolve clang-format through mise.toml (not the system PATH).
+        entry: env MISE_TRUSTED_CONFIG_PATHS=./mise.toml MISE_DATA_DIR=./var/mise mise exec -- clang-format -i
         language: system
         files: '^src/.*\.(cpp|h)$'

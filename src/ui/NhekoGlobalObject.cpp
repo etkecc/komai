@@ -28,9 +28,13 @@ Nheko::Nheko()
     connect(
       UserSettings::instance().get(), &UserSettings::themeChanged, this, &Nheko::colorsChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::lastMessagePreviewChanged,
+            &UserSettings::compactRoomListChanged,
             this,
             &Nheko::compactRoomListChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::showRoomListTimeChanged,
+            this,
+            &Nheko::showRoomListTimeChanged);
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Nheko::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Nheko::showRoomJoinPrompt);
     connect(this, &Nheko::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
@@ -76,8 +80,13 @@ Nheko::tooltipDelay() const
 bool
 Nheko::compactRoomList() const
 {
-    return UserSettings::instance()->lastMessagePreview() ==
-           UserSettings::LastMessagePreview::Never;
+    return UserSettings::instance()->compactRoomList();
+}
+
+bool
+Nheko::showRoomListTime() const
+{
+    return UserSettings::instance()->showRoomListTime();
 }
 
 double

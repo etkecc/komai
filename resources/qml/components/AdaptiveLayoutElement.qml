@@ -5,11 +5,13 @@
 import QtQuick
 
 Item {
+    clip: true
+
     property int minimumWidth: 100
     property int maximumWidth: 400
     property int collapsedWidth: 40
     property bool collapsible: true
-    property bool collapsed: width < minimumWidth
+    property bool collapsed: width <= collapsedWidth
     property int splitterWidth: 1
     property int preferredWidth: 100
 

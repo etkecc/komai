@@ -67,9 +67,8 @@ Rectangle {
                 id: communityListC
 
                 collapsedWidth: communitiesList.avatarSize + 2 * Nheko.paddingMedium
-                maximumWidth: communitiesList.avatarSize * 10 + 2 * Nheko.paddingMedium
-                minimumWidth: communitiesList.avatarSize * 4 + Nheko.paddingMedium * 2
-                preferredWidth: Settings.communityListWidth >= minimumWidth ? Settings.communityListWidth : collapsedWidth
+                maximumWidth: Math.min(500, adaptiveView.width * 0.5)
+                preferredWidth: Settings.communityListWidth > collapsedWidth ? Settings.communityListWidth : collapsedWidth
                 visible: Settings.groupView
 
                 CommunitiesList {
@@ -90,9 +89,8 @@ Rectangle {
                 id: roomListC
 
                 collapsedWidth: roomlist.avatarSize + 2 * Nheko.paddingMedium
-                maximumWidth: roomlist.avatarSize * 10 + Nheko.paddingSmall * 2
-                minimumWidth: roomlist.avatarSize * 4 + Nheko.paddingSmall * 2
-                preferredWidth: (Settings.roomListWidth == -1) ? (roomlist.avatarSize * 5 + Nheko.paddingSmall * 2) : (Settings.roomListWidth >= minimumWidth ? Settings.roomListWidth : collapsedWidth)
+                maximumWidth: Math.min(500, adaptiveView.width * 0.5)
+                preferredWidth: (Settings.roomListWidth == -1) ? 250 : (Settings.roomListWidth > collapsedWidth ? Settings.roomListWidth : collapsedWidth)
 
                 RoomList {
                     id: roomlist

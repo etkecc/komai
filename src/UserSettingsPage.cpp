@@ -247,6 +247,8 @@ UserSettings::load(std::optional<QString> profile)
     openVideoExternal_          = getBool("open_video_external", false);
     decryptNotifications_       = getBool("decrypt_notifications", true);
     spaceNotifications_         = getBool("space_notifications", true);
+    compactRoomList_            = getBool("compact_room_list", false);
+    showRoomListTime_           = getBool("show_room_list_time", true);
     auto tempLastMessagePreview = getString("last_message_preview", QString()).toStdString();
     auto lastMessagePreviewValue =
       QMetaEnum::fromType<LastMessagePreview>().keyToValue(tempLastMessagePreview.c_str());
@@ -852,6 +854,26 @@ UserSettings::setSpaceNotifications(bool state)
 }
 
 void
+UserSettings::setCompactRoomList(bool state)
+{
+    if (state == compactRoomList_)
+        return;
+    compactRoomList_ = state;
+    emit compactRoomListChanged(state);
+    save();
+}
+
+void
+UserSettings::setShowRoomListTime(bool state)
+{
+    if (state == showRoomListTime_)
+        return;
+    showRoomListTime_ = state;
+    emit showRoomListTimeChanged(state);
+    save();
+}
+
+void
 UserSettings::setLastMessagePreview(LastMessagePreview style)
 {
     if (style == lastMessagePreview_)
@@ -1400,6 +1422,8 @@ UserSettings::save()
     emitBool("open_video_external", openVideoExternal_);
     emitBool("decrypt_notifications", decryptNotifications_);
     emitBool("space_notifications", spaceNotifications_);
+    emitBool("compact_room_list", compactRoomList_);
+    emitBool("show_room_list_time", showRoomListTime_);
     emitString("last_message_preview",
                QString::fromUtf8(QMetaEnum::fromType<LastMessagePreview>().valueToKey(
                  static_cast<int>(lastMessagePreview_))));
@@ -1546,7 +1570,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case StartInTray:
             return tr("Start in tray");
         case GroupView:
-            return tr("Communities sidebar");
+            return tr("Show communities sidebar");
         case ScrollbarsInRoomlist:
             return tr("Show scrollbars");
         case Markdown:
@@ -1600,7 +1624,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case DecryptNotifications:
             return tr("Decrypt notifications");
         case LastMessagePreviewSetting:
-            return tr("Show last message preview beneath room name");
+            return tr("Show preview of last message");
+        case CompactRoomList:
+            return tr("Compact mode");
+        case ShowRoomListTime:
+            return tr("Show timestamp");
         case SpaceNotifications:
             return tr("Show message counts");
         case FancyEffects:
@@ -1670,6 +1698,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return tr("EFFECTS");
         case LookFeelRoomListSection:
             return tr("ROOM LIST");
+        case LookFeelCommunitiesSidebarSection:
+            return tr("COMMUNITIES SIDEBAR");
         case LookFeelTraySection:
             return tr("SYSTEM TRAY");
         case LookFeelMobileSection:
@@ -1811,6 +1841,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
             return i->decryptNotifications();
         case LastMessagePreviewSetting:
             return static_cast<int>(i->lastMessagePreview());
+        case CompactRoomList:
+            return i->compactRoomList();
+        case ShowRoomListTime:
+            return i->showRoomListTime();
         case SpaceNotifications:
             return i->spaceNotifications();
         case FancyEffects:
@@ -2027,6 +2061,11 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
                       "be manually deleted.");
         case DecryptNotifications:
             return tr("Decrypt messages shown in notifications for encrypted chats.");
+        case CompactRoomList:
+            return tr("Use smaller avatars and tighter spacing in the room list and communities "
+                      "sidebar.");
+        case ShowRoomListTime:
+            return tr("Show the timestamp of the last message next to the room name.");
         case LastMessagePreviewSetting:
             return tr("Show a preview of the last message in each room.");
         case SpaceNotifications:
@@ -2079,6 +2118,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case LookFeelFontsSection:
         case LookFeelEffectsSection:
         case LookFeelRoomListSection:
+        case LookFeelCommunitiesSidebarSection:
         case LookFeelTraySection:
         case LookFeelMobileSection:
         case TimelineMessagesSection:
@@ -2198,6 +2238,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case ExposeDBusApi:
         case UpdateSpaceVias:
         case ExpireEvents:
+        case CompactRoomList:
+        case ShowRoomListTime:
         case SpaceNotifications:
         case FancyEffects:
         case ReducedMotion:
@@ -2223,6 +2265,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case LookFeelFontsSection:
         case LookFeelEffectsSection:
         case LookFeelRoomListSection:
+        case LookFeelCommunitiesSidebarSection:
         case LookFeelTraySection:
         case LookFeelMobileSection:
         case TimelineMessagesSection:
@@ -2440,13 +2483,16 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         case LookFeelEffectsSection:
         case ReducedMotion:
         case LookFeelRoomListSection:
+        case CompactRoomList:
         case AvatarCircles:
         case UseIdenticon:
         case ScrollbarsInRoomlist:
-        case GroupView:
         case RoomSortOrderSetting:
         case LastMessagePreviewSetting:
+        case ShowRoomListTime:
         case SpaceNotifications:
+        case LookFeelCommunitiesSidebarSection:
+        case GroupView:
         case LookFeelTraySection:
         case Tray:
         case StartInTray:
@@ -2813,6 +2859,20 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
             i->setLastMessagePreview(
               static_cast<UserSettings::LastMessagePreview>(lastMessagePreviewValue));
             return true;
+        }
+        case CompactRoomList: {
+            if (value.userType() == QMetaType::Bool) {
+                i->setCompactRoomList(value.toBool());
+                return true;
+            } else
+                return false;
+        }
+        case ShowRoomListTime: {
+            if (value.userType() == QMetaType::Bool) {
+                i->setShowRoomListTime(value.toBool());
+                return true;
+            } else
+                return false;
         }
         case SpaceNotifications: {
             if (value.userType() == QMetaType::Bool) {
@@ -3248,6 +3308,12 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     });
     connect(s.get(), &UserSettings::spaceNotificationsChanged, this, [this]() {
         emit dataChanged(index(SpaceNotifications), index(SpaceNotifications), {Value});
+    });
+    connect(s.get(), &UserSettings::compactRoomListChanged, this, [this]() {
+        emit dataChanged(index(CompactRoomList), index(CompactRoomList), {Value});
+    });
+    connect(s.get(), &UserSettings::showRoomListTimeChanged, this, [this]() {
+        emit dataChanged(index(ShowRoomListTime), index(ShowRoomListTime), {Value});
     });
     connect(s.get(), &UserSettings::fancyEffectsChanged, this, [this]() {
         emit dataChanged(index(FancyEffects), index(FancyEffects), {Value});

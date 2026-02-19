@@ -67,17 +67,15 @@ Container {
     handleToucharea: Item {
         id: splitter
 
-        property int minimumWidth: parent.minimumWidth
         property int maximumWidth: parent.maximumWidth
         property int collapsedWidth: parent.collapsedWidth
-        property bool collapsible: parent.collapsible
         property int calculatedWidth: {
             if (!visible)
                 return 0;
             else if (container.singlePageMode)
                 return container.width;
             else
-                return (collapsible && x < minimumWidth) ? collapsedWidth : x;
+                return x;
         }
 
         enabled: !container.singlePageMode
@@ -99,7 +97,7 @@ Container {
             enabled: !container.singlePageMode
             xAxis.enabled: true
             yAxis.enabled: false
-            xAxis.minimum: splitter.minimumWidth - 1
+            xAxis.minimum: splitter.collapsedWidth
             xAxis.maximum: splitter.maximumWidth
             margin: container.splitterGrabMargin
             grabPermissions: PointerHandler.CanTakeOverFromAnything | PointerHandler.ApprovesTakeOverByHandlersOfSameType

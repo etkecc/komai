@@ -34,6 +34,7 @@ class Nheko : public QObject
     Q_PROPERTY(bool compactRoomList READ compactRoomList NOTIFY compactRoomListChanged)
     Q_PROPERTY(
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY compactRoomListChanged)
+    Q_PROPERTY(bool showRoomListTime READ showRoomListTime NOTIFY showRoomListTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
@@ -55,6 +56,7 @@ public:
 
     bool compactRoomList() const;
     double sidebarAvatarMultiplier() const;
+    bool showRoomListTime() const;
 
     QString tagline() const { return tr("A fine desktop Matrix client you can get to love"); }
 
@@ -93,6 +95,7 @@ signals:
     void colorsChanged();
     void profileChanged();
     void compactRoomListChanged();
+    void showRoomListTimeChanged();
 
     void openLogoutDialog();
     void openJoinRoomDialog();

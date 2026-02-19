@@ -64,6 +64,10 @@ class UserSettings final : public QObject
                  NOTIFY decryptNotificationsChanged)
     Q_PROPERTY(bool spaceNotifications READ spaceNotifications WRITE setSpaceNotifications NOTIFY
                  spaceNotificationsChanged)
+    Q_PROPERTY(bool compactRoomList READ compactRoomList WRITE setCompactRoomList NOTIFY
+                 compactRoomListChanged)
+    Q_PROPERTY(bool showRoomListTime READ showRoomListTime WRITE setShowRoomListTime NOTIFY
+                 showRoomListTimeChanged)
     Q_PROPERTY(LastMessagePreview lastMessagePreview READ lastMessagePreview WRITE
                  setLastMessagePreview NOTIFY lastMessagePreviewChanged)
     Q_PROPERTY(bool fancyEffects READ fancyEffects WRITE setFancyEffects NOTIFY fancyEffectsChanged)
@@ -228,7 +232,7 @@ public:
     {
         Always,          // Always show message previews
         OnlyUnencrypted, // Only show in unencrypted rooms
-        Never,           // Never show (compact mode)
+        Never,           // Never show message previews
     };
     Q_ENUM(LastMessagePreview)
 
@@ -269,6 +273,8 @@ public:
     void setAvatarCircles(bool state);
     void setDecryptNotifications(bool state);
     void setSpaceNotifications(bool state);
+    void setCompactRoomList(bool state);
+    void setShowRoomListTime(bool state);
     void setLastMessagePreview(LastMessagePreview style);
     void setFancyEffects(bool state);
     void setReducedMotion(bool state);
@@ -339,6 +345,8 @@ public:
     bool avatarCircles() const { return avatarCircles_; }
     bool decryptNotifications() const { return decryptNotifications_; }
     bool spaceNotifications() const { return spaceNotifications_; }
+    bool compactRoomList() const { return compactRoomList_; }
+    bool showRoomListTime() const { return showRoomListTime_; }
     LastMessagePreview lastMessagePreview() const { return lastMessagePreview_; }
     bool fancyEffects() const { return fancyEffects_; }
     bool reducedMotion() const { return reducedMotion_; }
@@ -440,6 +448,8 @@ signals:
     void avatarCirclesChanged(bool state);
     void decryptNotificationsChanged(bool state);
     void spaceNotificationsChanged(bool state);
+    void compactRoomListChanged(bool state);
+    void showRoomListTimeChanged(bool state);
     void lastMessagePreviewChanged(LastMessagePreview style);
     void fancyEffectsChanged(bool state);
     void reducedMotionChanged(bool state);
@@ -524,6 +534,8 @@ private:
     bool avatarCircles_;
     bool decryptNotifications_;
     bool spaceNotifications_;
+    bool compactRoomList_;
+    bool showRoomListTime_;
     LastMessagePreview lastMessagePreview_;
     bool fancyEffects_;
     bool reducedMotion_;
@@ -627,13 +639,17 @@ private:
         ReducedMotion,
         // Room List section
         LookFeelRoomListSection,
+        CompactRoomList,
+        ShowRoomListTime,
+        LastMessagePreviewSetting,
+        SpaceNotifications,
         AvatarCircles,
         UseIdenticon,
         ScrollbarsInRoomlist,
-        GroupView,
         RoomSortOrderSetting,
-        LastMessagePreviewSetting,
-        SpaceNotifications,
+        // Communities Sidebar section
+        LookFeelCommunitiesSidebarSection,
+        GroupView,
         // System Tray section
         LookFeelTraySection,
         Tray,

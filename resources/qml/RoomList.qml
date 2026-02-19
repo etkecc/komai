@@ -196,6 +196,7 @@ Page {
             id: roomActionsBar
 
             property int buttonSize: Math.min(30, avatarSize)
+            property bool showActionButtons: roomActionsBar.width > 160
 
             Layout.fillWidth: true
             Layout.preferredHeight: avatarSize + 2 * Nheko.paddingMedium
@@ -208,11 +209,73 @@ Page {
             contentItem: RowLayout {
                 id: buttonRow
 
+                spacing: Nheko.paddingMedium
+
+                MouseArea {
+                    id: userSettingsButton
+
+                    property var profile: Nheko.currentUser
+                    property int avatarButtonSize: Math.min(36, avatarSize)
+
+                    Layout.preferredHeight: avatarButtonSize
+                    Layout.preferredWidth: avatarButtonSize
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: (profile ? profile.displayName : "") + "\n" + (profile ? profile.userid : "")
+                    ToolTip.visible: containsMouse
+
+                    onClicked: function(mouse) {
+                        if (mouse.button === Qt.RightButton || !roomActionsBar.showActionButtons)
+                            profileContextMenu.popup(roomActionsAvatar)
+                        else
+                            mainWindow.push(userSettingsPage)
+                    }
+
+                    Avatar {
+                        id: roomActionsAvatar
+
+                        anchors.centerIn: parent
+                        width: userSettingsButton.avatarButtonSize
+                        height: userSettingsButton.avatarButtonSize
+                        displayName: userSettingsButton.profile ? userSettingsButton.profile.displayName : ""
+                        url: (userSettingsButton.profile ? userSettingsButton.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")
+                        userid: userSettingsButton.profile ? userSettingsButton.profile.userid : ""
+                        enabled: false
+                    }
+
+                    Rectangle {
+                        property int badgeSize: Math.round(userSettingsButton.avatarButtonSize * 0.44)
+                        property int iconSize: Math.round(badgeSize * 0.69)
+
+                        anchors.bottom: roomActionsAvatar.bottom
+                        anchors.right: roomActionsAvatar.right
+                        anchors.bottomMargin: -2
+                        anchors.rightMargin: -2
+                        width: badgeSize
+                        height: badgeSize
+                        radius: Math.round(badgeSize * 0.25)
+                        color: palette.window
+
+                        Image {
+                            anchors.centerIn: parent
+                            source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
+                            sourceSize.width: parent.iconSize
+                            sourceSize.height: parent.iconSize
+                            width: parent.iconSize
+                            height: parent.iconSize
+                        }
+                    }
+                }
+                Item {
+                    Layout.fillWidth: true
+                    visible: roomActionsBar.showActionButtons
+                }
                 ImageButton {
                     id: startChatButton
 
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
                     ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: qsTr("Start a new chat")
                     ToolTip.visible: hovered
@@ -220,6 +283,7 @@ Page {
                     Layout.preferredWidth: roomActionsBar.buttonSize
                     hoverEnabled: true
                     image: ":/icons/icons/ui/add-square-button.svg"
+                    visible: roomActionsBar.showActionButtons
 
                     onClicked: roomJoinCreateMenu.popup(startChatButton)
 
@@ -263,8 +327,6 @@ Page {
                     }
                 }
                 ImageButton {
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
                     ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: qsTr("Room directory")
                     ToolTip.visible: hovered
@@ -272,7 +334,7 @@ Page {
                     Layout.preferredWidth: roomActionsBar.buttonSize
                     hoverEnabled: true
                     image: ":/icons/icons/ui/room-directory.svg"
-                    visible: !collapsed
+                    visible: roomActionsBar.showActionButtons
 
                     onClicked: {
                         var win = roomDirectoryComponent.createObject(timelineRoot);
@@ -281,8 +343,6 @@ Page {
                     }
                 }
                 ImageButton {
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
                     ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: qsTr("Find & switch room (Ctrl+K)")
                     ToolTip.visible: hovered
@@ -291,7 +351,7 @@ Page {
                     hoverEnabled: true
                     image: ":/icons/icons/ui/search.svg"
                     ripple: false
-                    visible: !collapsed
+                    visible: roomActionsBar.showActionButtons
 
                     onClicked: {
                         var component = Qt.createComponent("qrc:/resources/qml/QuickSwitcher.qml");
@@ -301,67 +361,6 @@ Page {
                             destroyOnClosed(quickSwitch);
                         } else {
                             console.error("Failed to create component: " + component.errorString());
-                        }
-                    }
-                }
-                MouseArea {
-                    id: userSettingsButton
-
-                    property var profile: Nheko.currentUser
-                    property int avatarButtonSize: Math.min(36, avatarSize)
-
-                    Layout.fillWidth: true
-                    Layout.margins: Nheko.paddingMedium
-                    Layout.preferredHeight: avatarButtonSize
-                    Layout.preferredWidth: avatarButtonSize
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    visible: !collapsed
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: (profile ? profile.displayName : "") + "\n" + (profile ? profile.userid : "")
-                    ToolTip.visible: containsMouse
-
-                    onClicked: function(mouse) {
-                        if (mouse.button === Qt.RightButton)
-                            profileContextMenu.popup(roomActionsAvatar)
-                        else
-                            mainWindow.push(userSettingsPage)
-                    }
-
-                    Avatar {
-                        id: roomActionsAvatar
-
-                        anchors.centerIn: parent
-                        width: userSettingsButton.avatarButtonSize
-                        height: userSettingsButton.avatarButtonSize
-                        displayName: userSettingsButton.profile ? userSettingsButton.profile.displayName : ""
-                        url: (userSettingsButton.profile ? userSettingsButton.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")
-                        userid: userSettingsButton.profile ? userSettingsButton.profile.userid : ""
-                        enabled: false
-                    }
-
-                    Rectangle {
-                        property int badgeSize: Math.round(userSettingsButton.avatarButtonSize * 0.44)
-                        property int iconSize: Math.round(badgeSize * 0.69)
-
-                        anchors.bottom: roomActionsAvatar.bottom
-                        anchors.right: roomActionsAvatar.right
-                        anchors.bottomMargin: -2
-                        anchors.rightMargin: -2
-                        width: badgeSize
-                        height: badgeSize
-                        radius: Math.round(badgeSize * 0.25)
-                        color: palette.window
-
-                        Image {
-                            anchors.centerIn: parent
-                            source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
-                            sourceSize.width: parent.iconSize
-                            sourceSize.height: parent.iconSize
-                            width: parent.iconSize
-                            height: parent.iconSize
                         }
                     }
                 }
@@ -502,6 +501,51 @@ Page {
             text: qsTr("Application Settings")
             icon.source: "qrc:/icons/icons/ui/toggles.svg"
             onTriggered: mainWindow.push(userSettingsPage)
+        }
+        MenuSeparator {
+        }
+        MenuItem {
+            text: qsTr("Join a room")
+            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            onTriggered: Nheko.openJoinRoomDialog()
+        }
+        MenuItem {
+            text: qsTr("Create a new room")
+            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            onTriggered: {
+                var createRoom = createRoomComponent.createObject(timelineRoot);
+                createRoom.show();
+                timelineRoot.destroyOnClose(createRoom);
+            }
+        }
+        MenuItem {
+            text: qsTr("Start a direct chat")
+            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            onTriggered: {
+                var createDirect = createDirectComponent.createObject(timelineRoot);
+                createDirect.show();
+                timelineRoot.destroyOnClose(createDirect);
+            }
+        }
+        MenuItem {
+            text: qsTr("Create a new community")
+            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            onTriggered: {
+                var createRoom = createRoomComponent.createObject(timelineRoot, {
+                        "space": true
+                    });
+                createRoom.show();
+                timelineRoot.destroyOnClose(createRoom);
+            }
+        }
+        MenuItem {
+            text: qsTr("Room directory")
+            icon.source: "qrc:/icons/icons/ui/room-directory.svg"
+            onTriggered: {
+                var win = roomDirectoryComponent.createObject(timelineRoot);
+                win.show();
+                timelineRoot.destroyOnClose(win);
+            }
         }
         MenuSeparator {
         }
@@ -719,6 +763,8 @@ Page {
                     Item {
                         id: titleRow
 
+                        property bool previewsEnabled: !isSpace && (Settings.lastMessagePreview === Settings.Always || (Settings.lastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
+
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
                         Layout.preferredHeight: compactMode ? titleText.implicitHeight : subtitleText.implicitHeight
@@ -729,10 +775,25 @@ Page {
                             anchors.left: parent.left
                             anchors.verticalCenter: compactMode ? parent.verticalCenter : undefined
                             color: roomItem.importantText
-                            elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth : 0)
+                            elideWidth: parent.width - (inlinePreview.visible ? inlinePreview.implicitWidth + Nheko.paddingSmall : 0) - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0)
                             font.bold: hasUnreadMessages
                             fullText: TimelineManager.htmlEscape(roomName)
                             textFormat: Text.RichText
+                        }
+                        ElidedLabel {
+                            id: inlinePreview
+
+                            anchors.left: titleText.right
+                            anchors.leftMargin: Nheko.paddingSmall
+                            anchors.baseline: titleText.baseline
+                            anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
+                            anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Nheko.paddingSmall : 0
+                            color: roomItem.unimportantText
+                            elideWidth: width
+                            font.pixelSize: fontMetrics.font.pixelSize * 0.95
+                            fullText: TimelineManager.htmlEscape(lastMessage)
+                            textFormat: Text.RichText
+                            visible: compactMode && titleRow.previewsEnabled
                         }
                         Label {
                             id: timestamp
@@ -742,7 +803,7 @@ Page {
                             color: roomItem.unimportantText
                             font.pixelSize: fontMetrics.font.pixelSize * 0.95
                             text: time
-                            visible: !isInvite && !isSpace
+                            visible: !isInvite && !isSpace && Nheko.showRoomListTime
                         }
                         NotificationBubble {
                             id: spaceNotificationBubble
@@ -762,7 +823,7 @@ Page {
                         Layout.alignment: Qt.AlignBottom
                         Layout.fillWidth: true
                         Layout.preferredHeight: subtitleText.implicitHeight
-                        visible: !isSpace && (Settings.lastMessagePreview === Settings.Always || (Settings.lastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
+                        visible: !compactMode && !isSpace && (Settings.lastMessagePreview === Settings.Always || (Settings.lastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
 
                         ElidedLabel {
                             id: subtitleText

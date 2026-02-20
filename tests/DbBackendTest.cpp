@@ -15,6 +15,7 @@
 
 #include "db/Backend.h"
 #include "db/Catalog.h"
+#include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/NamePolicy.h"
 #include "db/Open.h"
@@ -101,6 +102,21 @@ bool
 testNamePolicy()
 {
     bool ok = true;
+
+    const auto roomEventOrder = db::openOptionsForRoom(db::catalog::RoomDb::EventOrder);
+    ok &= expect(db::hasFlag(roomEventOrder.flags, db::DbiFlags::IntegerKey),
+                 "typed name policy sets IntegerKey for RoomDb::EventOrder");
+
+    const auto roomStatesKey = db::openOptionsForRoom(db::catalog::RoomDb::StatesKey);
+    ok &= expect(db::hasFlag(roomStatesKey.flags, db::DbiFlags::DupSort),
+                 "typed name policy sets DupSort for RoomDb::StatesKey");
+    ok &= expect(roomStatesKey.dupsortComparator.has_value() &&
+                   *roomStatesKey.dupsortComparator == db::DupsortComparator::StateKey,
+                 "typed name policy sets StateKey comparator for RoomDb::StatesKey");
+
+    const auto globalSpaces = db::openOptionsForGlobal(db::catalog::GlobalDb::SpacesChildren);
+    ok &= expect(db::hasFlag(globalSpaces.flags, db::DbiFlags::DupSort),
+                 "typed name policy sets DupSort for GlobalDb::SpacesChildren");
 
     const auto roomOrder =
       db::openOptionsForName(db::catalog::roomName("!room:example", db::catalog::RoomDb::EventOrder));
@@ -265,7 +281,7 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 }
 
 bool
-testNamedOpenHelper()
+testOpenHelpers()
 {
     bool ok = true;
 
@@ -275,29 +291,93 @@ testNamedOpenHelper()
     options.maxDbs             = 32;
     backend->open(QString{}, options);
 
-    const auto dbName = db::catalog::roomName("!room:example", db::catalog::RoomDb::EventOrder);
-
     {
         auto txn = backend->beginTxn();
-        auto dbi = db::openNamedDbi(*backend, txn, dbName);
-        ok &= expect(dbi.put(txn, integerKey(7), "seven"), "named-open helper puts integer key #1");
-        ok &= expect(dbi.put(txn, integerKey(1), "one"), "named-open helper puts integer key #2");
-        ok &= expect(dbi.put(txn, integerKey(4), "four"), "named-open helper puts integer key #3");
+        auto dbi =
+          db::openRoomDbi(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder);
+        ok &= expect(dbi.put(txn, integerKey(7), "seven"), "openRoomDbi puts integer key #1");
+        ok &= expect(dbi.put(txn, integerKey(1), "one"), "openRoomDbi puts integer key #2");
+        ok &= expect(dbi.put(txn, integerKey(4), "four"), "openRoomDbi puts integer key #3");
+
+        auto spaces = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
+        ok &= expect(spaces.put(txn, "space", "child-z"), "openGlobalDbi dupsort put #1");
+        ok &= expect(spaces.put(txn, "space", "child-a"), "openGlobalDbi dupsort put #2");
         txn.commit();
     }
 
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = db::openNamedDbi(*backend, txn, dbName, false);
+        auto dbi =
+          db::openRoomDbi(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
         auto cursor = db::Cursor::open(txn, dbi);
 
         std::string_view key, value;
-        ok &= expect(cursor.get(key, value, db::CursorOp::First), "named-open helper cursor first");
+        ok &= expect(cursor.get(key, value, db::CursorOp::First), "openRoomDbi cursor first");
         ok &= expect(readIntegerKey(key) == 1,
-                     "named-open helper applies IntegerKey policy for /event_order");
+                     "openRoomDbi applies IntegerKey policy for /event_order");
+
+        auto spaces = db::openGlobalDbi(*backend,
+                                        txn,
+                                        db::catalog::GlobalDb::SpacesChildren,
+                                        false);
+        auto spacesCursor = db::Cursor::open(txn, spaces);
+        std::string_view spacesKey = "space", spacesValue;
+        ok &= expect(spacesCursor.get(spacesKey, spacesValue, db::CursorOp::Set),
+                     "openGlobalDbi cursor Set on DupSort db");
+        ok &= expect(spacesValue == "child-a", "openGlobalDbi applies DupSort policy");
     }
 
     backend->close();
+    return ok;
+}
+
+bool
+testCompactionHelper()
+{
+    bool ok = true;
+
+    auto from                  = db::createBackend("memory");
+    auto to                    = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    from->open(QString{}, options);
+    to->open(QString{}, options);
+
+    {
+        auto txn      = from->beginTxn();
+        auto intDb    = db::openRoomDbi(*from, txn, "!room:example", db::catalog::RoomDb::EventOrder);
+        auto dupsortDb = db::openGlobalDbi(*from, txn, db::catalog::GlobalDb::SpacesChildren);
+
+        ok &= expect(intDb.put(txn, integerKey(9), "nine"), "compaction source integer put #1");
+        ok &= expect(intDb.put(txn, integerKey(2), "two"), "compaction source integer put #2");
+        ok &= expect(dupsortDb.put(txn, "space", "child-z"), "compaction source dupsort put #1");
+        ok &= expect(dupsortDb.put(txn, "space", "child-a"), "compaction source dupsort put #2");
+        txn.commit();
+    }
+
+    db::compact(*from, *to);
+
+    {
+        auto txn      = to->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto intDb    = db::openRoomDbi(*to, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
+        auto dupsortDb = db::openGlobalDbi(*to, txn, db::catalog::GlobalDb::SpacesChildren, false);
+
+        auto intCursor = db::Cursor::open(txn, intDb);
+        std::string_view key, value;
+        ok &= expect(intCursor.get(key, value, db::CursorOp::First),
+                     "compaction destination integer cursor first");
+        ok &= expect(readIntegerKey(key) == 2, "compaction preserves IntegerKey policy");
+
+        auto dupCursor = db::Cursor::open(txn, dupsortDb);
+        std::string_view dupKey = "space", dupValue;
+        ok &= expect(dupCursor.get(dupKey, dupValue, db::CursorOp::Set),
+                     "compaction destination dupsort cursor set");
+        ok &= expect(dupValue == "child-a", "compaction preserves DupSort policy");
+    }
+
+    from->close();
+    to->close();
     return ok;
 }
 
@@ -315,8 +395,17 @@ testFactory()
     ok &= expect(!memoryBackend->supportsCompaction(),
                  "memory backend reports no compaction support");
 
+    auto configuredDefault = db::createConfiguredBackend("");
+    ok &= expect(configuredDefault->id() == "lmdb", "configured backend defaults to lmdb on empty id");
+
+    auto configuredMemory = db::createConfiguredBackend("memory");
+    ok &= expect(configuredMemory->id() == "memory",
+                 "configured backend accepts explicit memory id");
+
     ok &= expectDbError([] { db::createBackend("not-a-backend"); },
                         "unknown backend id fails with db::Error");
+    ok &= expectDbError([] { db::createConfiguredBackend("not-a-backend"); },
+                        "configured backend rejects unknown id");
     return ok;
 }
 
@@ -481,7 +570,8 @@ main()
     bool ok = true;
     ok &= testCatalog();
     ok &= testNamePolicy();
-    ok &= testNamedOpenHelper();
+    ok &= testOpenHelpers();
+    ok &= testCompactionHelper();
     ok &= testFactory();
     ok &= testInMemoryBackend();
     ok &= testLmdbBackend();

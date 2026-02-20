@@ -474,6 +474,7 @@ set(SRC_FILES
     src/db/LmdbBackend.h
     src/db/Backend.h
     src/db/Catalog.h
+    src/db/Compaction.h
     src/db/DbTypes.h
     src/db/Internal.h
     src/db/LmdbHeaders.h
@@ -986,6 +987,7 @@ endif()
 
 add_library(komai_db
     src/db/Catalog.cpp
+    src/db/Compaction.cpp
     src/db/DbTypes.cpp
     src/db/Factory.cpp
     src/db/InMemoryBackend.cpp

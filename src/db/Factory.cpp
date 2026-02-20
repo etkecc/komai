@@ -29,4 +29,13 @@ createBackend(std::string_view id)
     throw Error(std::string("Unknown database backend: ") + std::string(id), ErrorKind::Invalid);
 }
 
+std::unique_ptr<Backend>
+createConfiguredBackend(std::string_view requestedId)
+{
+    if (requestedId.empty())
+        return createDefaultBackend();
+
+    return createBackend(requestedId);
+}
+
 } // namespace db

@@ -27,6 +27,7 @@ struct StateEvents;
 
 namespace db {
 class Backend;
+enum class DupsortComparator;
 }
 
 struct CacheDb;
@@ -429,6 +430,8 @@ private:
     db::Backend &storage();
     const db::Backend &storage() const;
     db::Txn beginTxn(db::Txn *parent = nullptr, unsigned flags = 0);
+    db::Dbi openDbi(db::Txn &txn, const char *name = nullptr, unsigned flags = 0);
+    void setDbiDupsort(db::Txn &txn, db::Dbi dbi, db::DupsortComparator comparator);
 
     QString localUserId_;
     QString cacheDirectory_;

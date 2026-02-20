@@ -19,9 +19,11 @@ public:
     void open(const QString &directory, const BackendOptions &options) override;
     void close() noexcept override;
     bool isOpen() const noexcept override { return env_.handle() != nullptr; }
-    bool isMapFullError(const std::exception &e) const noexcept override;
+    ErrorKind classifyError(const std::exception &e) const noexcept override;
     Txn beginTxn(Txn *parent = nullptr, unsigned flags = 0) override;
-    const void *nativeHandle() const noexcept override { return env_.handle(); }
+    bool ownsTxn(const Txn &txn) const noexcept override { return txn.env() == env_.handle(); }
+    Dbi openDbi(Txn &txn, const char *name = nullptr, unsigned flags = 0) override;
+    void setDbiDupsort(Txn &txn, Dbi dbi, DupsortComparator comparator) override;
     void closeDbi(Dbi dbi) noexcept override;
     std::optional<std::size_t> mapSizeBytes() const noexcept override;
 

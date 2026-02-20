@@ -28,7 +28,6 @@
 #include <mtx/responses/media.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "EventAccessors.h"
 #include "Logging.h"
@@ -47,18 +46,18 @@ static constexpr size_t INPUT_HISTORY_SIZE = 10;
 std::string
 threadFallbackEventId(const std::string &room_id, const std::string &thread_id)
 {
-    auto event_ids = cache::client()->relatedEvents(room_id, thread_id);
+    auto event_ids = cache::relatedEvents(room_id, thread_id);
 
     std::map<uint64_t, std::string_view, std::greater<>> orderedEvents;
 
     for (const auto &e : event_ids) {
-        if (auto index = cache::client()->getTimelineIndex(room_id, e))
+        if (auto index = cache::getTimelineIndex(room_id, e))
             orderedEvents.emplace(*index, e);
     }
 
     for (const auto &[index, event_id] : orderedEvents) {
         (void)index;
-        if (auto event = cache::client()->getEvent(room_id, event_id)) {
+        if (auto event = cache::getEvent(room_id, event_id)) {
             if (mtx::accessors::relations(event.value()).thread() == thread_id)
                 return std::string(event_id);
         }
@@ -955,7 +954,7 @@ InputBar::sticker(QStringList descriptor)
     if (descriptor.size() != 3)
         return;
 
-    auto originalPacks = cache::client()->getImagePacks(room->roomId().toStdString(), true);
+    auto originalPacks = cache::getImagePacks(room->roomId().toStdString(), true);
 
     auto source_room = descriptor[0].toStdString();
     auto state_key   = descriptor[1].toStdString();
@@ -1169,7 +1168,7 @@ void
 InputBar::toggleInvitePermission(const QString &id, bool block)
 {
     mtx::events::account_data::nheko_extensions::InvitePermissions permissions;
-    if (auto ev = cache::client()->getAccountData(mtx::events::EventType::NhekoInvitePermissions)) {
+    if (auto ev = cache::getAccountData(mtx::events::EventType::NhekoInvitePermissions)) {
         permissions = std::get<mtx::events::AccountDataEvent<
           mtx::events::account_data::nheko_extensions::InvitePermissions>>(*ev)
                         .content;
@@ -1223,12 +1222,11 @@ InputBar::toggleInvitePermission(const QString &id, bool block)
         }
     });
 
-    auto invites = cache::client()->invites();
+    auto invites = cache::invites();
 
     for (const auto &[roomid, info] : invites.asKeyValueRange()) {
         auto roomid_ = roomid.toStdString();
-        auto self =
-          cache::client()->getInviteMember(roomid_, http::client()->user_id().to_string());
+        auto self    = cache::getInviteMember(roomid_, http::client()->user_id().to_string());
         if (!self->inviter.empty()) {
             if (!permissions.invite_allowed(roomid_, self->inviter)) {
                 ChatPage::instance()->leaveRoom(roomid, "");

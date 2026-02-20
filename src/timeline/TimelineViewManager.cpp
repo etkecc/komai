@@ -14,7 +14,6 @@
 #include <QString>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "CombinedImagePackModel.h"
 #include "CommandCompleter.h"
@@ -157,7 +156,7 @@ TimelineViewManager::roomUserColor(QString roomId,
                                    QColor accentColor)
 {
     // Guard against empty strings (e.g. event data not yet loaded) to avoid
-    // lmdb MDB_BAD_VALSIZE errors from cache lookups with zero-length keys.
+    // backend key-size errors from cache lookups with zero-length keys.
     if (roomId.isEmpty() || userId.isEmpty())
         return QColor();
 
@@ -172,7 +171,7 @@ TimelineViewManager::roomUserColor(QString roomId,
             return QColor::fromHsl(0, 0, 100); // dark theme: medium-dark gray
     }
 
-    auto memberCount = static_cast<int>(cache::client()->memberCount(roomId.toStdString()));
+    auto memberCount = static_cast<int>(cache::memberCount(roomId.toStdString()));
 
     // Large room (>16 members): return a uniform accent-complementary color.
     // Hue is offset 150 degrees from the theme accent so it always contrasts
@@ -765,7 +764,7 @@ convertIgnoredToQt(const IgnoredUsers &ev)
 QVector<QString>
 TimelineViewManager::getIgnoredUsers()
 {
-    const auto cache = cache::client()->getAccountData(mtx::events::EventType::IgnoredUsers);
+    const auto cache = cache::getAccountData(mtx::events::EventType::IgnoredUsers);
     if (!cache) {
         return {};
     }

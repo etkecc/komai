@@ -14,7 +14,6 @@
 #include <mtxclient/http/client.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Utils.h"
@@ -65,16 +64,15 @@ RoomSettings::RoomSettings(QString roomid, QObject *parent)
       });
 
     // access rules
-    this->accessRules_ = cache::client()
-                           ->getStateEvent<mtx::events::state::JoinRules>(roomid_.toStdString())
+    this->accessRules_ = cache::getStateEvent<mtx::events::state::JoinRules>(roomid_.toStdString())
                            .value_or(mtx::events::StateEvent<mtx::events::state::JoinRules>{})
                            .content;
     using mtx::events::state::AccessState;
     guestRules_ = info_.guest_access ? AccessState::CanJoin : AccessState::Forbidden;
     emit accessJoinRulesChanged();
 
-    if (auto ev = cache::client()->getStateEvent<mtx::events::state::HistoryVisibility>(
-          roomid_.toStdString())) {
+    if (auto ev =
+          cache::getStateEvent<mtx::events::state::HistoryVisibility>(roomid_.toStdString())) {
         this->historyVisibility_ = ev->content.history_visibility;
     }
 
@@ -84,8 +82,7 @@ RoomSettings::RoomSettings(QString roomid, QObject *parent)
 bool
 RoomSettings::isRoomNameSet() const
 {
-    return !cache::client()
-              ->getStateEvent<mtx::events::state::Name>(roomid_.toStdString())
+    return !cache::getStateEvent<mtx::events::state::Name>(roomid_.toStdString())
               .value_or(mtx::events::StateEvent<mtx::events::state::Name>{})
               .content.name.empty();
 }
@@ -153,7 +150,7 @@ RoomSettings::retrieveRoomInfo()
     try {
         usesEncryption_ = cache::isRoomEncrypted(roomid_.toStdString());
         info_           = cache::singleRoomInfo(roomid_.toStdString());
-    } catch (const lmdb::error &) {
+    } catch (const std::exception &) {
         nhlog::db()->warn("failed to retrieve room info from cache: {}", roomid_.toStdString());
     }
 }
@@ -261,7 +258,7 @@ RoomSettings::canChangeJoinRules() const
     try {
         return cache::hasEnoughPowerLevel(
           {EventType::RoomJoinRules}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->warn("lmdb error: {}", e.what());
     }
 
@@ -274,7 +271,7 @@ RoomSettings::canChangeName() const
     try {
         return cache::hasEnoughPowerLevel(
           {EventType::RoomName}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->warn("lmdb error: {}", e.what());
     }
 
@@ -287,7 +284,7 @@ RoomSettings::canChangeTopic() const
     try {
         return cache::hasEnoughPowerLevel(
           {EventType::RoomTopic}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->warn("lmdb error: {}", e.what());
     }
 
@@ -300,7 +297,7 @@ RoomSettings::canChangeAvatar() const
     try {
         return cache::hasEnoughPowerLevel(
           {EventType::RoomAvatar}, roomid_.toStdString(), utils::localUser().toStdString());
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->warn("lmdb error: {}", e.what());
     }
 
@@ -314,7 +311,7 @@ RoomSettings::canChangeHistoryVisibility() const
         return cache::hasEnoughPowerLevel({EventType::RoomHistoryVisibility},
                                           roomid_.toStdString(),
                                           utils::localUser().toStdString());
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->warn("lmdb error: {}", e.what());
     }
 
@@ -729,7 +726,7 @@ RoomSettingsAllowedRoomsModel::RoomSettingsAllowedRoomsModel(RoomSettings *paren
 {
     this->allowedRoomIds = settings->allowedRooms();
 
-    auto prIds = cache::client()->getParentRoomIds(settings->roomId().toStdString());
+    auto prIds = cache::getParentRoomIds(settings->roomId().toStdString());
     for (const auto &prId : prIds) {
         this->parentSpaces.insert(QString::fromStdString(prId));
     }
@@ -770,7 +767,7 @@ RoomSettingsAllowedRoomsModel::data(const QModelIndex &index, int role) const
         return parentSpaces.find(listedRoomIds.at(index.row())) != parentSpaces.cend();
     } else if (role == Roles::Name) {
         auto id   = listedRoomIds.at(index.row());
-        auto info = cache::client()->getRoomInfo({
+        auto info = cache::getRoomInfo({
           id.toStdString(),
         });
         if (!info.empty())

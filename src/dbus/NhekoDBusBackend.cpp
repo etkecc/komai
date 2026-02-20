@@ -6,7 +6,7 @@
 
 #include <mutex>
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
@@ -41,8 +41,8 @@ NhekoDBusBackend::rooms() const
     QVector<nheko::dbus::RoomInfoItem> model;
 
     for (const auto &room : roomListModel) {
-        const auto aliases = cache::client()->getStateEvent<mtx::events::state::CanonicalAlias>(
-          room->roomId().toStdString());
+        const auto aliases =
+          cache::getStateEvent<mtx::events::state::CanonicalAlias>(room->roomId().toStdString());
         QString alias;
         if (aliases.has_value()) {
             const auto &val = aliases.value().content;

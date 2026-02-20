@@ -18,7 +18,6 @@
 
 #include "AvatarProvider.h"
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "EventAccessors.h"
 #include "Logging.h"
@@ -198,7 +197,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                       std::make_unique<mtx::pushrules::PushRuleEvaluator>(newRules->content.global);
             }
         if (!pushrules) {
-            auto eventInDb = cache::client()->getAccountData(mtx::events::EventType::PushRules);
+            auto eventInDb = cache::getAccountData(mtx::events::EventType::PushRules);
             if (eventInDb) {
                 if (auto newRules =
                       std::get_if<mtx::events::AccountDataEvent<mtx::pushrules::GlobalRuleset>>(
@@ -268,7 +267,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                     }
 
                     auto currentReadMarker =
-                      cache::getEventIndex(room_id, cache::client()->getFullyReadEventId(room_id));
+                      cache::getEventIndex(room_id, cache::getFullyReadEventId(room_id));
 
                     auto ctx = roomModel->pushrulesRoomContext();
                     std::vector<
@@ -305,7 +304,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
 
                         relatedEvents.clear();
                         for (const auto &r : mtx::accessors::relations(te).relations) {
-                            auto related = cache::client()->getEvent(room_id, r.event_id);
+                            auto related = cache::getEvent(room_id, r.event_id);
                             if (related) {
                                 relatedEvents.emplace_back(r, *related);
                                 if (auto encryptedEvent = std::get_if<
@@ -477,8 +476,7 @@ ChatPage::resetUI()
 void
 ChatPage::deleteConfigs()
 {
-    if (auto *cacheClient = cache::client())
-        disconnect(cacheClient, nullptr, this, nullptr);
+    cache::disconnectFromCache(this);
     UserSettings::instance()->clearAuth();
     http::client()->shutdown();
     cache::deleteData();
@@ -512,11 +510,8 @@ ChatPage::bootstrap(QString userid,
     try {
         cache::init(userid);
 
-        connect(
-          cache::client(),
-          &Cache::databaseReady,
-          this,
-          [this, userid, deviceId, homeserver, token, hadSessionIdentity]() {
+        cache::onDatabaseReady(
+          this, [this, userid, deviceId, homeserver, token, hadSessionIdentity] {
               nhlog::db()->info("database ready");
 
               const bool isInitialized = cache::isInitialized();
@@ -525,8 +520,7 @@ ChatPage::bootstrap(QString userid,
               if (isInitialized && !hadSessionIdentity) {
                   nhlog::db()->warn("Cache exists, but no persisted session identity was loaded. "
                                     "Resetting cache to avoid identity/key mismatch.");
-                  if (auto *cacheClient = cache::client())
-                      disconnect(cacheClient, nullptr, this, nullptr);
+                  cache::disconnectFromCache(this);
                   cache::deleteData();
 
                   // Retry bootstrap once with a clean cache.
@@ -572,14 +566,14 @@ ChatPage::bootstrap(QString userid,
                   // There isn't a saved olm account to restore.
                   nhlog::crypto()->info("creating new olm account");
                   olm::client()->create_new_account();
-                  auto secret = cache::client()->createPickleSecret();
+                  auto secret = cache::createPickleSecret();
                   cache::saveOlmAccount(olm::client()->save(secret));
-              } catch (const lmdb::error &e) {
-                  nhlog::crypto()->critical("failed to save olm account {}", e.what());
-                  emit dropToLoginPageCb(QString::fromStdString(e.what()));
-                  return;
               } catch (const mtx::crypto::olm_exception &e) {
                   nhlog::crypto()->critical("failed to create new olm account {}", e.what());
+                  emit dropToLoginPageCb(QString::fromStdString(e.what()));
+                  return;
+              } catch (const std::exception &e) {
+                  nhlog::crypto()->critical("failed to save olm account {}", e.what());
                   emit dropToLoginPageCb(QString::fromStdString(e.what()));
                   return;
               }
@@ -592,17 +586,17 @@ ChatPage::bootstrap(QString userid,
               emit MainWindow::instance()->reload();
           });
 
-        connect(cache::client(),
-                &Cache::newReadReceipts,
-                view_manager_,
-                &TimelineViewManager::updateReadReceipts);
+        cache::onReadReceiptsChanged(
+          view_manager_, [this](const QString &room_id, const std::vector<QString> &event_ids) {
+              view_manager_->updateReadReceipts(room_id, event_ids);
+          });
 
-        connect(cache::client(), &Cache::secretChanged, this, [this](const std::string &secret) {
+        cache::onSecretChanged(this, [this](const std::string &secret) {
             if (secret == mtx::secret_storage::secrets::megolm_backup_v1) {
                 getBackupVersion();
             }
         });
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->critical("failure during boot: {}", e.what());
         emit dropToLoginPageCb(tr("Failed to open database, logging out!"));
     }
@@ -613,7 +607,7 @@ ChatPage::loadStateFromCache()
 {
     nhlog::db()->info("restoring state from cache");
 
-    auto secret = cache::client()->pickleSecret();
+    auto secret = cache::pickleSecret();
     if (secret.empty()) {
         nhlog::crypto()->critical("pickle secret is empty — secret storage may be unavailable");
         emit dropToLoginPageCb(
@@ -639,16 +633,12 @@ ChatPage::loadStateFromCache()
         nhlog::crypto()->critical("failed to restore olm account: {}", e.what());
         emit dropToLoginPageCb(tr("Failed to restore OLM account."));
         return;
-    } catch (const lmdb::error &e) {
-        nhlog::db()->critical("failed to restore cache: {}", e.what());
-        emit dropToLoginPageCb(tr("Failed to restore save data."));
-        return;
     } catch (const nlohmann::json::exception &e) {
         nhlog::db()->critical("failed to parse cache data: {}", e.what());
         emit dropToLoginPageCb(tr("Failed to restore save data."));
         return;
     } catch (const std::exception &e) {
-        nhlog::db()->critical("failed to load cache data: {}", e.what());
+        nhlog::db()->critical("failed to restore cache: {}", e.what());
         emit dropToLoginPageCb(tr("Failed to restore save data."));
         return;
     }
@@ -675,7 +665,7 @@ ChatPage::removeRoom(const QString &room_id)
     try {
         cache::removeRoom(room_id);
         cache::removeInvite(room_id.toStdString());
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->critical("failure while removing room: {}", e.what());
         // TODO: Notify the user.
     }
@@ -719,7 +709,7 @@ ChatPage::tryInitialSync()
           for (const auto &entry : res.one_time_key_counts)
               nhlog::net()->info("uploaded {} {} one-time keys", entry.second, entry.first);
 
-          cache::client()->markUserKeysOutOfDate({http::client()->user_id().to_string()});
+          cache::markUserKeysOutOfDate({http::client()->user_id().to_string()});
 
           startInitialSync();
       });
@@ -771,14 +761,14 @@ ChatPage::startInitialSync()
         QTimer::singleShot(0, this, [this, res] {
             nhlog::net()->info("initial sync completed");
             try {
-                cache::client()->saveState(res);
+                cache::saveState(res);
 
                 olm::handle_to_device_messages(res.to_device.events);
 
                 emit initializeViews(std::move(res));
 
                 cache::calculateRoomReadStatus();
-            } catch (const lmdb::error &e) {
+            } catch (const std::exception &e) {
                 nhlog::db()->error("failed to save state after initial sync: {}", e.what());
                 startInitialSync();
                 return;
@@ -798,7 +788,7 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
             nhlog::net()->warn("Duplicate sync, dropping");
             return;
         }
-    } catch (const lmdb::error &) {
+    } catch (const std::exception &) {
         nhlog::db()->warn("Logged out in the mean time, dropping sync");
         return;
     }
@@ -818,7 +808,7 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
                 mtx::events::AccountDataEvent<mtx::events::account_data::IgnoredUsers>>(e);
           });
         ignoreEv != res.account_data.events.end()) {
-        if (auto oldEv = cache::client()->getAccountData(mtx::events::EventType::IgnoredUsers))
+        if (auto oldEv = cache::getAccountData(mtx::events::EventType::IgnoredUsers))
             oldIgnoredUsers =
               std::get<mtx::events::AccountDataEvent<mtx::events::account_data::IgnoredUsers>>(
                 *oldEv)
@@ -829,13 +819,12 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
 
     // TODO: fine grained error handling
     try {
-        cache::client()->saveState(res);
+        cache::saveState(res);
         olm::handle_to_device_messages(res.to_device.events);
 
         // reject forbidden invites
         if (!res.rooms.invite.empty()) {
-            if (auto ev =
-                  cache::client()->getAccountData(mtx::events::EventType::NhekoInvitePermissions)) {
+            if (auto ev = cache::getAccountData(mtx::events::EventType::NhekoInvitePermissions)) {
                 const auto &invitePerms = std::get<mtx::events::AccountDataEvent<
                   mtx::events::account_data::nheko_extensions::InvitePermissions>>(*ev)
                                             .content;
@@ -866,8 +855,7 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
 
         // if the ignored users changed, clear timeline of all affected rooms.
         if (oldIgnoredUsers) {
-            if (auto newEv =
-                  cache::client()->getAccountData(mtx::events::EventType::IgnoredUsers)) {
+            if (auto newEv = cache::getAccountData(mtx::events::EventType::IgnoredUsers)) {
                 std::vector<mtx::events::account_data::IgnoredUser> changedUsers{};
                 std::ranges::set_symmetric_difference(
                   oldIgnoredUsers->users,
@@ -881,7 +869,7 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
 
                 std::unordered_set<std::string> roomsToReload;
                 for (const auto &user : changedUsers) {
-                    auto commonRooms = cache::client()->getCommonRooms(user.id);
+                    auto commonRooms = cache::getCommonRooms(user.id);
                     for (const auto &room : commonRooms)
                         roomsToReload.insert(room.first);
                 }
@@ -893,11 +881,13 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
                 }
             }
         }
-    } catch (const lmdb::map_full_error &e) {
-        nhlog::db()->error("lmdb is full: {}", e.what());
-        cache::deleteOldData();
-    } catch (const lmdb::error &e) {
-        nhlog::db()->error("saving sync response: {}", e.what());
+    } catch (const std::exception &e) {
+        if (cache::isMapFullError(e)) {
+            nhlog::db()->error("storage is full: {}", e.what());
+            cache::deleteOldData();
+        } else {
+            nhlog::db()->error("saving sync response: {}", e.what());
+        }
     }
 
     if (shouldThrottleSync())
@@ -917,7 +907,7 @@ ChatPage::trySync()
 
     try {
         opts.since = cache::nextBatchToken();
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->error("failed to retrieve next batch token: {}", e.what());
         return;
     }
@@ -1023,7 +1013,7 @@ ChatPage::joinRoomVia(const std::string &room_id,
           // We remove any invites with the same room_id.
           try {
               cache::removeInvite(room_id);
-          } catch (const lmdb::error &e) {
+          } catch (const std::exception &e) {
               emit showNotification(tr("Failed to remove invite: %1").arg(e.what()));
           }
 
@@ -1095,8 +1085,8 @@ ChatPage::leaveRoom(const QString &room_id, const QString &reason)
                   nhlog::db()->debug(
                     "Removing invite and room for {}, even though we couldn't leave.",
                     room_id.toStdString());
-                  cache::client()->removeInvite(room_id.toStdString());
-                  cache::client()->removeRoom(room_id.toStdString());
+                  cache::removeInvite(room_id.toStdString());
+                  cache::removeRoom(room_id.toStdString());
               }
               return;
           }
@@ -1406,7 +1396,7 @@ ChatPage::getBackupVersion()
           if (err) {
               nhlog::net()->warn("Failed to retrieve backup version");
               if (err->status_code == 404)
-                  cache::client()->deleteBackupVersion();
+                  cache::deleteBackupVersion();
               return;
           }
 
@@ -1418,7 +1408,7 @@ ChatPage::getBackupVersion()
                   auto key = cache::secret(mtx::secret_storage::secrets::megolm_backup_v1);
                   if (!key) {
                       nhlog::crypto()->info("No key for online key backup.");
-                      cache::client()->deleteBackupVersion();
+                      cache::deleteBackupVersion();
                       return;
                   }
 
@@ -1430,24 +1420,24 @@ ChatPage::getBackupVersion()
                                             "used in the online backup {}",
                                             pubkey,
                                             auth_data["public_key"].get<std::string>());
-                      cache::client()->deleteBackupVersion();
+                      cache::deleteBackupVersion();
                       return;
                   }
 
-                  auto oldBackupVersion = cache::client()->backupVersion();
+                  auto oldBackupVersion = cache::backupVersion();
 
                   nhlog::crypto()->info("Using online key backup.");
                   OnlineBackupVersion data{};
                   data.algorithm = res.algorithm;
                   data.version   = res.version;
-                  cache::client()->saveBackupVersion(data);
+                  cache::saveBackupVersion(data);
 
                   if (!oldBackupVersion || oldBackupVersion->version != data.version) {
                       view_manager_->rooms()->refetchOnlineKeyBackupKeys();
                   }
               } else {
                   nhlog::crypto()->info("Unsupported key backup algorithm: {}", res.algorithm);
-                  cache::client()->deleteBackupVersion();
+                  cache::deleteBackupVersion();
               }
           });
       });
@@ -1570,7 +1560,7 @@ ChatPage::decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescriptio
         return;
     }
 
-    auto deviceKeys = cache::client()->userKeys(http::client()->user_id().to_string());
+    auto deviceKeys = cache::userKeys(http::client()->user_id().to_string());
     mtx::requests::KeySignaturesUpload req;
 
     for (const auto &[secretName, encryptedSecret] : secrets) {
@@ -1670,7 +1660,7 @@ ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
     req.visibility = mtx::common::RoomVisibility::Private;
 
     if (!encryptionEnabled.has_value()) {
-        if (auto keys = cache::client()->userKeys(userid.toStdString()))
+        if (auto keys = cache::userKeys(userid.toStdString()))
             encryptionEnabled = !keys->device_keys.empty();
     }
 
@@ -1742,8 +1732,7 @@ ChatPage::handleMatrixUri(QString uri)
         auto targetRoomAlias = mxid1.toStdString();
 
         for (const auto &roomid : joined_rooms) {
-            auto aliases =
-              cache::client()->getStateEvent<mtx::events::state::CanonicalAlias>(roomid);
+            auto aliases = cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomid);
             if (aliases) {
                 if (aliases->content.alias == targetRoomAlias) {
                     view_manager_->rooms()->setCurrentRoom(QString::fromStdString(roomid));

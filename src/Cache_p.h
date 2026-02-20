@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <exception>
 #include <optional>
 
 #include <QDateTime>
@@ -17,15 +18,15 @@
 
 #include "CacheCryptoStructs.h"
 #include "CacheStructs.h"
+#include "db/DbTypes.h"
 
 namespace mtx::responses {
 struct Messages;
 struct StateEvents;
 }
 
-namespace lmdb {
-class txn;
-class dbi;
+namespace db {
+class Backend;
 }
 
 struct CacheDb;
@@ -50,8 +51,8 @@ public:
     getMembersWithKeys(const std::string &room_id, bool verified_only);
     void updateUserKeys(const std::string &sync_token, const mtx::responses::QueryKeys &keyQuery);
     void markUserKeysOutOfDate(const std::vector<std::string> &user_ids);
-    void markUserKeysOutOfDate(lmdb::txn &txn,
-                               lmdb::dbi &db,
+    void markUserKeysOutOfDate(db::Txn &txn,
+                               db::Dbi &db,
                                const std::vector<std::string> &user_ids,
                                const std::string &sync_token);
     void query_keys(
@@ -74,20 +75,20 @@ public:
     QMap<QString, std::optional<RoomInfo>> spaces();
 
     //! Calculate & return the name of the room.
-    QString getRoomName(lmdb::txn &txn, lmdb::dbi &statesdb, lmdb::dbi &membersdb);
+    QString getRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
     //! Get room join rules
-    mtx::events::state::JoinRule getRoomJoinRule(lmdb::txn &txn, lmdb::dbi &statesdb);
-    bool getRoomGuestAccess(lmdb::txn &txn, lmdb::dbi &statesdb);
+    mtx::events::state::JoinRule getRoomJoinRule(db::Txn &txn, db::Dbi &statesdb);
+    bool getRoomGuestAccess(db::Txn &txn, db::Dbi &statesdb);
     //! Retrieve the topic of the room if any.
-    QString getRoomTopic(lmdb::txn &txn, lmdb::dbi &statesdb);
+    QString getRoomTopic(db::Txn &txn, db::Dbi &statesdb);
     //! Retrieve the room avatar's url if any.
-    QString getRoomAvatarUrl(lmdb::txn &txn, lmdb::dbi &statesdb, lmdb::dbi &membersdb);
+    QString getRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
     //! Retrieve the version of the room if any.
-    QString getRoomVersion(lmdb::txn &txn, lmdb::dbi &statesdb);
+    QString getRoomVersion(db::Txn &txn, db::Dbi &statesdb);
     //! Retrieve if the room is a space
-    bool getRoomIsSpace(lmdb::txn &txn, lmdb::dbi &statesdb);
+    bool getRoomIsSpace(db::Txn &txn, db::Dbi &statesdb);
     //! Retrieve if the room is tombstoned (closed or replaced by a different room)
-    bool getRoomIsTombstoned(lmdb::txn &txn, lmdb::dbi &statesdb);
+    bool getRoomIsTombstoned(db::Txn &txn, db::Dbi &statesdb);
 
     // for the event expiry background job
     void storeEventExpirationProgress(const std::string &room,
@@ -125,14 +126,15 @@ public:
     void saveState(const mtx::responses::Sync &res);
     bool isInitialized();
     bool isDatabaseReady() { return databaseReady_ && isInitialized(); }
+    bool isMapFullError(const std::exception &e) const noexcept;
 
     std::string nextBatchToken();
 
     void deleteData();
 
-    void removeInvite(lmdb::txn &txn, const std::string &room_id);
+    void removeInvite(db::Txn &txn, const std::string &room_id);
     void removeInvite(const std::string &room_id);
-    void removeRoom(lmdb::txn &txn, const std::string &roomid);
+    void removeRoom(db::Txn &txn, const std::string &roomid);
     void removeRoom(const std::string &roomid);
     void setup();
 
@@ -156,7 +158,7 @@ public:
     //! There should be only one user id present in a receipt list per room.
     //! The user id should be removed from any other lists.
     using Receipts = std::map<std::string, std::map<std::string, uint64_t>>;
-    void updateReadReceipt(lmdb::txn &txn, const std::string &room_id, const Receipts &receipts);
+    void updateReadReceipt(db::Txn &txn, const std::string &room_id, const Receipts &receipts);
 
     //! Retrieve all the read receipts for the given event id and room.
     //!
@@ -222,7 +224,7 @@ public:
     void deleteOldMessages();
     void deleteOldData() noexcept;
     //! Retrieve all saved room ids.
-    std::vector<std::string> getRoomIds(lmdb::txn &txn);
+    std::vector<std::string> getRoomIds(db::Txn &txn);
     std::vector<std::string> getParentRoomIds(const std::string &room_id);
     std::vector<std::string> getChildRoomIds(const std::string &room_id);
 
@@ -230,7 +232,7 @@ public:
     getImagePacks(const std::string &room_id, std::optional<bool> stickers);
 
     //! Mark a room that uses e2e encryption.
-    void setEncryptedRoom(lmdb::txn &txn, const std::string &room_id);
+    void setEncryptedRoom(db::Txn &txn, const std::string &room_id);
     bool isRoomEncrypted(const std::string &room_id);
     std::optional<mtx::events::state::Encryption>
     roomEncryptionSettings(const std::string &room_id);
@@ -318,113 +320,115 @@ private:
     void deleteSecretFromStore(const std::string name, bool internal);
 
     //! Save an invited room.
-    void saveInvite(lmdb::txn &txn,
-                    lmdb::dbi &statesdb,
-                    lmdb::dbi &membersdb,
+    void saveInvite(db::Txn &txn,
+                    db::Dbi &statesdb,
+                    db::Dbi &membersdb,
                     const mtx::responses::InvitedRoom &room);
 
-    QString getInviteRoomName(lmdb::txn &txn, lmdb::dbi &statesdb, lmdb::dbi &membersdb);
-    QString getInviteRoomTopic(lmdb::txn &txn, lmdb::dbi &statesdb);
-    QString getInviteRoomAvatarUrl(lmdb::txn &txn, lmdb::dbi &statesdb, lmdb::dbi &membersdb);
-    bool getInviteRoomIsSpace(lmdb::txn &txn, lmdb::dbi &db);
+    QString getInviteRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
+    QString getInviteRoomTopic(db::Txn &txn, db::Dbi &statesdb);
+    QString getInviteRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
+    bool getInviteRoomIsSpace(db::Txn &txn, db::Dbi &db);
 
     std::optional<MemberInfo> getMember(const std::string &room_id, const std::string &user_id);
 
-    std::string getLastEventId(lmdb::txn &txn, const std::string &room_id);
-    void saveTimelineMessages(lmdb::txn &txn,
-                              lmdb::dbi &eventsDb,
+    std::string getLastEventId(db::Txn &txn, const std::string &room_id);
+    void saveTimelineMessages(db::Txn &txn,
+                              db::Dbi &eventsDb,
                               const std::string &room_id,
                               const mtx::responses::Timeline &res);
 
     //! retrieve a specific event from account data
     //! pass empty room_id for global account data
     std::optional<mtx::events::collections::RoomAccountDataEvents>
-    getAccountData(lmdb::txn &txn, mtx::events::EventType type, const std::string &room_id);
-    bool isHiddenEvent(lmdb::txn &txn,
+    getAccountData(db::Txn &txn, mtx::events::EventType type, const std::string &room_id);
+    bool isHiddenEvent(db::Txn &txn,
                        mtx::events::collections::TimelineEvents e,
                        const std::string &room_id);
 
     template<class T>
-    void saveStateEvents(lmdb::txn &txn,
-                         lmdb::dbi &statesdb,
-                         lmdb::dbi &stateskeydb,
-                         lmdb::dbi &membersdb,
-                         lmdb::dbi &eventsDb,
+    void saveStateEvents(db::Txn &txn,
+                         db::Dbi &statesdb,
+                         db::Dbi &stateskeydb,
+                         db::Dbi &membersdb,
+                         db::Dbi &eventsDb,
                          const std::string &room_id,
                          const std::vector<T> &events);
 
     template<class T>
-    void saveStateEvent(lmdb::txn &txn,
-                        lmdb::dbi &statesdb,
-                        lmdb::dbi &stateskeydb,
-                        lmdb::dbi &membersdb,
-                        lmdb::dbi &eventsDb,
+    void saveStateEvent(db::Txn &txn,
+                        db::Dbi &statesdb,
+                        db::Dbi &stateskeydb,
+                        db::Dbi &membersdb,
+                        db::Dbi &eventsDb,
                         const std::string &room_id,
                         const T &event);
 
     template<typename T>
     std::optional<mtx::events::StateEvent<T>>
-    getStateEvent(lmdb::txn &txn, const std::string &room_id, std::string_view state_key = "");
+    getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view state_key = "");
 
     template<typename T>
     std::vector<mtx::events::StateEvent<T>>
-    getStateEventsWithType(lmdb::txn &txn,
+    getStateEventsWithType(db::Txn &txn,
                            const std::string &room_id,
                            mtx::events::EventType type = mtx::events::state_content_to_type<T>);
 
-    void
-    saveInvites(lmdb::txn &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms);
+    void saveInvites(db::Txn &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms);
 
     void savePresence(
-      lmdb::txn &txn,
+      db::Txn &txn,
       const std::vector<mtx::events::Event<mtx::events::presence::Presence>> &presenceUpdates);
 
     //! Sends signals for the rooms that are removed.
     void
-    removeLeftRooms(lmdb::txn &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms);
+    removeLeftRooms(db::Txn &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms);
 
-    void updateSpaces(lmdb::txn &txn,
+    void updateSpaces(db::Txn &txn,
                       const std::set<std::string> &spaces_with_updates,
                       std::set<std::string> rooms_with_updates);
 
-    lmdb::dbi getEventsDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getEventsDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getEventOrderDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getEventOrderDb(db::Txn &txn, const std::string &room_id);
 
     // inverse of EventOrderDb
-    lmdb::dbi getEventToOrderDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getEventToOrderDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getMessageToOrderDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getMessageToOrderDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getOrderToMessageDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getOrderToMessageDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getPendingMessagesDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getPendingMessagesDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getRelationsDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getRelationsDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getInviteStatesDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getInviteStatesDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getInviteMembersDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getInviteMembersDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getStatesDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getStatesDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getStatesKeyDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getStatesKeyDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getAccountDataDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getAccountDataDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getMembersDb(lmdb::txn &txn, const std::string &room_id);
+    db::Dbi getMembersDb(db::Txn &txn, const std::string &room_id);
 
-    lmdb::dbi getUserKeysDb(lmdb::txn &txn);
+    db::Dbi getUserKeysDb(db::Txn &txn);
 
-    lmdb::dbi getVerificationDb(lmdb::txn &txn);
+    db::Dbi getVerificationDb(db::Txn &txn);
 
     QString getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> &event);
 
-    std::optional<VerificationCache> verificationCache(const std::string &user_id, lmdb::txn &txn);
-    VerificationStatus verificationStatus_(const std::string &user_id, lmdb::txn &txn);
-    std::optional<UserKeyCache> userKeys_(const std::string &user_id, lmdb::txn &txn);
+    std::optional<VerificationCache> verificationCache(const std::string &user_id, db::Txn &txn);
+    VerificationStatus verificationStatus_(const std::string &user_id, db::Txn &txn);
+    std::optional<UserKeyCache> userKeys_(const std::string &user_id, db::Txn &txn);
 
-    void setNextBatchToken(lmdb::txn &txn, const std::string &token);
+    void setNextBatchToken(db::Txn &txn, const std::string &token);
+    db::Backend &storage();
+    const db::Backend &storage() const;
+    db::Txn beginTxn(db::Txn *parent = nullptr, unsigned flags = 0);
 
     QString localUserId_;
     QString cacheDirectory_;
@@ -437,11 +441,6 @@ private:
 
     std::unique_ptr<CacheDb> db;
 };
-
-namespace cache {
-Cache *
-client();
-}
 
 #define NHEKO_CACHE_GET_STATE_EVENT_FORWARD(Content)                                               \
     extern template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>( \

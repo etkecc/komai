@@ -5,7 +5,6 @@
 #include "notifications/Manager.h"
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "EventAccessors.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
@@ -19,8 +18,7 @@ NotificationsManager::allowShowingImages(const mtx::responses::Notification &not
     case UserSettings::ShowImage::Always:
         return true;
     case UserSettings::ShowImage::OnlyPrivate: {
-        auto accessRules = cache::client()
-                             ->getStateEvent<mtx::events::state::JoinRules>(notification.room_id)
+        auto accessRules = cache::getStateEvent<mtx::events::state::JoinRules>(notification.room_id)
                              .value_or(mtx::events::StateEvent<mtx::events::state::JoinRules>{})
                              .content;
 

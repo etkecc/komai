@@ -15,7 +15,7 @@
 
 #include <mtx/requests.hpp>
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "UserSettingsPage.h"
@@ -45,7 +45,7 @@ Nheko::Nheko()
 void
 Nheko::updateUserProfile()
 {
-    if (cache::client() && cache::client()->isInitialized())
+    if (cache::isAvailable() && cache::isInitialized())
         currentUser_.reset(new UserProfile(
           QLatin1String(""), utils::localUser(), ChatPage::instance()->timelineManager()));
     else

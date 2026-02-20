@@ -34,7 +34,6 @@
 #include <mtx/responses/messages.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Config.h"
 #include "EventAccessors.h"
@@ -1433,9 +1432,9 @@ utils::roomVias(const std::string &roomid)
         auto members = cache::roomMembers(roomid);
         if (!members.empty()) {
             auto powerlevels =
-              cache::client()->getStateEvent<mtx::events::state::PowerLevels>(roomid).value_or(
+              cache::getStateEvent<mtx::events::state::PowerLevels>(roomid).value_or(
                 mtx::events::StateEvent<mtx::events::state::PowerLevels>{});
-            auto acls = cache::client()->getStateEvent<mtx::events::state::ServerAcl>(roomid);
+            auto acls = cache::getStateEvent<mtx::events::state::ServerAcl>(roomid);
 
             std::vector<QRegularExpression> allowedServers;
             std::vector<QRegularExpression> deniedServers;
@@ -1570,9 +1569,9 @@ utils::roomVias(const std::string &roomid)
     }
 
     // for space previews
-    auto parents = cache::client()->getParentRoomIds(roomid);
+    auto parents = cache::getParentRoomIds(roomid);
     for (const auto &p : parents) {
-        auto child = cache::client()->getStateEvent<mtx::events::state::space::Child>(p, roomid);
+        auto child = cache::getStateEvent<mtx::events::state::space::Child>(p, roomid);
         if (child && child->content.via)
             vias.insert(vias.end(), child->content.via->begin(), child->content.via->end());
     }
@@ -1687,22 +1686,20 @@ utils::updateSpaceVias()
 
         auto spaceid = roomid.toStdString();
 
-        if (auto pl = cache::client()
-                        ->getStateEvent<mtx::events::state::PowerLevels>(spaceid)
+        if (auto pl = cache::getStateEvent<mtx::events::state::PowerLevels>(spaceid)
                         .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                         .content;
             pl.user_level(us) < pl.state_level(to_string(mtx::events::EventType::SpaceChild)))
             continue;
 
-        auto children = cache::client()->getChildRoomIds(spaceid);
+        auto children = cache::getChildRoomIds(spaceid);
 
         for (const auto &childid : children) {
             // only update children we are joined to
             if (!rooms.contains(QString::fromStdString(childid)))
                 continue;
 
-            auto child =
-              cache::client()->getStateEvent<mtx::events::state::space::Child>(spaceid, childid);
+            auto child = cache::getStateEvent<mtx::events::state::space::Child>(spaceid, childid);
             if (child &&
                 // don't update too often
                 child->origin_server_ts < weekAgo &&
@@ -1723,16 +1720,14 @@ utils::updateSpaceVias()
                 }
             }
 
-            auto parent =
-              cache::client()->getStateEvent<mtx::events::state::space::Parent>(childid, spaceid);
+            auto parent = cache::getStateEvent<mtx::events::state::space::Parent>(childid, spaceid);
             if (parent &&
                 // don't update too often
                 parent->origin_server_ts < weekAgo &&
                 // ignore unset spaces
                 (parent->content.via && !parent->content.via->empty())) {
                 if (auto pl =
-                      cache::client()
-                        ->getStateEvent<mtx::events::state::PowerLevels>(childid)
+                      cache::getStateEvent<mtx::events::state::PowerLevels>(childid)
                         .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                         .content;
                     pl.user_level(us) <
@@ -1781,7 +1776,7 @@ utils::removeExpiredEvents()
       mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::EventExpiry>;
     static auto getExpEv = [](const std::string &room = "") -> std::optional<ExpType> {
         if (auto accountEvent =
-              cache::client()->getAccountData(mtx::events::EventType::NhekoEventExpiry, room))
+              cache::getAccountData(mtx::events::EventType::NhekoEventExpiry, room))
             if (auto ev = std::get_if<ExpType>(&*accountEvent);
                 ev && (ev->content.expire_after_ms || ev->content.keep_only_latest))
                 return std::optional{*ev};
@@ -1858,7 +1853,7 @@ utils::removeExpiredEvents()
                     nhlog::net()->info("Finished room {}", state->currentRoom);
 
                     if (!state->currentRoomFirstRedactedEvent.empty())
-                        cache::client()->storeEventExpirationProgress(
+                        cache::storeEventExpirationProgress(
                           state->currentRoom,
                           nlohmann::json(state->currentExpiry).dump(),
                           state->currentRoomFirstRedactedEvent);
@@ -1995,7 +1990,7 @@ utils::removeExpiredEvents()
                 state->currentRoomRedactionQueue.clear();
                 state->currentRoomStateEvents.clear();
 
-                state->currentRoomStopAt = cache::client()->loadEventExpirationProgress(
+                state->currentRoomStopAt = cache::loadEventExpirationProgress(
                   state->currentRoom, nlohmann::json(state->currentExpiry).dump());
 
                 state->roomsToUpdate.pop_back();
@@ -2023,8 +2018,7 @@ utils::removeExpiredEvents()
         if (!asus->globalExpiry && !getExpEv(roomid))
             continue;
 
-        if (auto pl = cache::client()
-                        ->getStateEvent<mtx::events::state::PowerLevels>(roomid)
+        if (auto pl = cache::getStateEvent<mtx::events::state::PowerLevels>(roomid)
                         .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                         .content;
             pl.user_level(us) < pl.event_level(to_string(mtx::events::EventType::RoomRedaction))) {

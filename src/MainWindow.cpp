@@ -10,7 +10,7 @@
 #include <mtx/responses/login.hpp>
 
 #include "BlurhashProvider.h"
-#include "Cache_p.h"
+#include "Cache.h"
 #include "ChatPage.h"
 #include "ColorImageProvider.h"
 #include "Config.h"
@@ -192,8 +192,8 @@ MainWindow::showChatPage(bool hadSessionIdentity)
                           snapshot.homeserver,
                           snapshot.accessToken,
                           hadSessionIdentity);
-    connect(cache::client(), &Cache::databaseReady, this, &MainWindow::secretsChanged);
-    connect(cache::client(), &Cache::secretChanged, this, &MainWindow::secretsChanged);
+    cache::onDatabaseReady(this, [this] { emit secretsChanged(); });
+    cache::onSecretChanged(this, [this](const std::string &) { emit secretsChanged(); });
 
     emit reload();
     nhlog::ui()->info("Switching to chat page");

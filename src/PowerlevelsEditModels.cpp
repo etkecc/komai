@@ -12,7 +12,6 @@
 #include <unordered_set>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
@@ -573,8 +572,7 @@ PowerlevelsUserListModel::moveRows(const QModelIndex &,
 
 PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *parent)
   : QObject(parent)
-  , powerLevels_(cache::client()
-                   ->getStateEvent<mtx::events::state::PowerLevels>(room_id.toStdString())
+  , powerLevels_(cache::getStateEvent<mtx::events::state::PowerLevels>(room_id.toStdString())
                    .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                    .content)
   , types_(room_id.toStdString(), powerLevels_, this)
@@ -698,12 +696,11 @@ PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(const std::string &room_i
         else
             visited.insert(space);
 
-        for (const auto &s : cache::client()->getChildRoomIds(space)) {
-            auto parent =
-              cache::client()->getStateEvent<mtx::events::state::space::Parent>(s, space);
+        for (const auto &s : cache::getChildRoomIds(space)) {
+            auto parent = cache::getStateEvent<mtx::events::state::space::Parent>(s, space);
             if (parent && parent->content.via && !parent->content.via->empty() &&
                 parent->content.canonical) {
-                auto parentPl = cache::client()->getStateEvent<mtx::events::state::PowerLevels>(s);
+                auto parentPl = cache::getStateEvent<mtx::events::state::PowerLevels>(s);
 
                 spaces.push_back(Entry{
                   s, parentPl ? parentPl->content : mtx::events::state::PowerLevels{}, false});

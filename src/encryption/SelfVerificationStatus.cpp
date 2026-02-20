@@ -11,7 +11,6 @@
 #include <mtx/responses/common.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
@@ -24,13 +23,11 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
   : QObject(o)
 {
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, [this] {
-        // We connect INSIDE a lambda, not A lambda...
-        connect(cache::client(),
-                &Cache::selfVerificationStatusChanged,
-                this,
-                &SelfVerificationStatus::invalidate,
-                Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
-        cache::client()->markUserKeysOutOfDate({http::client()->user_id().to_string()});
+        if (!this->property("selfVerificationStatusConnected").toBool()) {
+            cache::onSelfVerificationStatusChanged(this, [this] { invalidate(); });
+            this->setProperty("selfVerificationStatusConnected", true);
+        }
+        cache::markUserKeysOutOfDate({http::client()->user_id().to_string()});
     });
 
     connect(ChatPage::instance(),
@@ -54,12 +51,12 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
         return;
     }
 
-    cache::client()->storeSecret(mtx::secret_storage::secrets::cross_signing_master,
-                                 xsign_keys->private_master_key);
-    cache::client()->storeSecret(mtx::secret_storage::secrets::cross_signing_self_signing,
-                                 xsign_keys->private_self_signing_key);
-    cache::client()->storeSecret(mtx::secret_storage::secrets::cross_signing_user_signing,
-                                 xsign_keys->private_user_signing_key);
+    cache::storeSecret(mtx::secret_storage::secrets::cross_signing_master,
+                       xsign_keys->private_master_key);
+    cache::storeSecret(mtx::secret_storage::secrets::cross_signing_self_signing,
+                       xsign_keys->private_self_signing_key);
+    cache::storeSecret(mtx::secret_storage::secrets::cross_signing_user_signing,
+                       xsign_keys->private_user_signing_key);
 
     std::optional<mtx::crypto::OlmClient::OnlineKeyBackupSetup> okb;
     if (useOnlineKeyBackup) {
@@ -70,9 +67,8 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
             return;
         }
 
-        cache::client()->storeSecret(
-          mtx::secret_storage::secrets::megolm_backup_v1,
-          mtx::crypto::bin2base64(mtx::crypto::to_string(okb->privateKey)));
+        cache::storeSecret(mtx::secret_storage::secrets::megolm_backup_v1,
+                           mtx::crypto::bin2base64(mtx::crypto::to_string(okb->privateKey)));
 
         http::client()->post_backup_version(
           okb->backupVersion.algorithm,
@@ -151,7 +147,7 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
           }
           nhlog::crypto()->info("Crosssigning keys uploaded!");
 
-          auto deviceKeys = cache::client()->userKeys(http::client()->user_id().to_string());
+          auto deviceKeys = cache::userKeys(http::client()->user_id().to_string());
           if (deviceKeys) {
               auto myKey = deviceKeys->device_keys.at(http::client()->device_id());
               if (myKey.user_id == http::client()->user_id().to_string() &&
@@ -230,7 +226,7 @@ SelfVerificationStatus::verifyMasterKey()
 
     const auto this_user = http::client()->user_id().to_string();
 
-    auto keys        = cache::client()->userKeys(this_user);
+    auto keys        = cache::userKeys(this_user);
     const auto &sigs = keys->master_keys.signatures[this_user];
 
     std::vector<QString> devices;
@@ -266,16 +262,16 @@ SelfVerificationStatus::verifyUnverifiedDevices()
     nhlog::db()->info("Clicked verify unverified devices");
     const auto this_user = http::client()->user_id().to_string();
 
-    auto keys  = cache::client()->userKeys(this_user);
-    auto verif = cache::client()->verificationStatus(this_user);
+    auto keys  = cache::userKeys(this_user);
+    auto verif = cache::verificationStatus(this_user);
 
-    if (!keys)
+    if (!keys || !verif)
         return;
 
     std::vector<QString> devices;
     for (const auto &[device, keys_] : keys->device_keys) {
         (void)keys_;
-        if (!verif.verified_devices.count(device))
+        if (!verif->verified_devices.count(device))
             devices.push_back(QString::fromStdString(device));
     }
 
@@ -298,7 +294,7 @@ SelfVerificationStatus::invalidate()
     this->hasSSSS_ = false;
     emit hasSSSSChanged();
 
-    auto keys = cache::client()->userKeys(http::client()->user_id().to_string());
+    auto keys = cache::userKeys(http::client()->user_id().to_string());
     if (!keys || keys->device_keys.find(http::client()->device_id()) == keys->device_keys.end()) {
         if (keys && (keys->seen_device_ids.count(http::client()->device_id()) ||
                      keys->seen_device_keys.count(olm::client()->identity_keys().curve25519))) {
@@ -307,11 +303,11 @@ SelfVerificationStatus::invalidate()
             return;
         }
 
-        cache::client()->markUserKeysOutOfDate({http::client()->user_id().to_string()});
+        cache::markUserKeysOutOfDate({http::client()->user_id().to_string()});
 
         QTimer::singleShot(1'000, this, [] {
-            cache::client()->query_keys(http::client()->user_id().to_string(),
-                                        [](const UserKeyCache &, mtx::http::RequestErr) {});
+            cache::queryKeys(http::client()->user_id().to_string(),
+                             [](const UserKeyCache &, mtx::http::RequestErr) {});
         });
     }
 
@@ -331,9 +327,8 @@ SelfVerificationStatus::invalidate()
                                               }
                                           });
 
-    auto verifStatus = cache::client()->verificationStatus(http::client()->user_id().to_string());
-
-    if (!verifStatus.user_verified) {
+    auto verifStatus = cache::verificationStatus(http::client()->user_id().to_string());
+    if (!verifStatus || !verifStatus->user_verified) {
         if (status_ != SelfVerificationStatus::UnverifiedMasterKey) {
             this->status_ = SelfVerificationStatus::UnverifiedMasterKey;
             emit statusChanged();
@@ -341,7 +336,7 @@ SelfVerificationStatus::invalidate()
         return;
     }
 
-    if (verifStatus.unverified_device_count > 0) {
+    if (verifStatus->unverified_device_count > 0) {
         if (status_ != SelfVerificationStatus::UnverifiedDevices) {
             this->status_ = SelfVerificationStatus::UnverifiedDevices;
             emit statusChanged();

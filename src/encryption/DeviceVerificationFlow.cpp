@@ -13,7 +13,6 @@
 #include <nlohmann/json.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
@@ -46,7 +45,7 @@ DeviceVerificationFlow::DeviceVerificationFlow(QObject *,
 
     auto user_id_  = userID.toStdString();
     this->toClient = mtx::identifiers::parse<mtx::identifiers::User>(user_id_);
-    cache::client()->query_keys(
+    cache::queryKeys(
       user_id_, [user_id_, this](const UserKeyCache &res, mtx::http::RequestErr err) {
           if (err) {
               nhlog::net()->warn("failed to query device keys: {},{}",
@@ -64,23 +63,23 @@ DeviceVerificationFlow::DeviceVerificationFlow(QObject *,
           this->their_keys = res;
       });
 
-    cache::client()->query_keys(
-      http::client()->user_id().to_string(),
-      [this](const UserKeyCache &res, mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to query device keys: {},{}",
-                                 mtx::errors::to_string(err->matrix_error.errcode),
-                                 static_cast<int>(err->status_code));
-              return;
-          }
+    cache::queryKeys(http::client()->user_id().to_string(),
+                     [this](const UserKeyCache &res, mtx::http::RequestErr err) {
+                         if (err) {
+                             nhlog::net()->warn("failed to query device keys: {},{}",
+                                                mtx::errors::to_string(err->matrix_error.errcode),
+                                                static_cast<int>(err->status_code));
+                             return;
+                         }
 
-          if (res.master_keys.keys.empty())
-              return;
+                         if (res.master_keys.keys.empty())
+                             return;
 
-          if (auto status = cache::verificationStatus(http::client()->user_id().to_string());
-              status && status->user_verified == crypto::Trust::Verified)
-              this->our_trusted_master_key = res.master_keys.keys.begin()->second;
-      });
+                         if (auto status =
+                               cache::verificationStatus(http::client()->user_id().to_string());
+                             status && status->user_verified == crypto::Trust::Verified)
+                             this->our_trusted_master_key = res.master_keys.keys.begin()->second;
+                     });
 
     if (model) {
         connect(this->model_,

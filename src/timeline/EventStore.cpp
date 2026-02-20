@@ -12,7 +12,6 @@
 #include <mtx/responses/common.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "EventAccessors.h"
 #include "Logging.h"
@@ -29,7 +28,7 @@ QCache<EventStore::Index, mtx::events::collections::TimelineEvents> EventStore::
 EventStore::EventStore(std::string room_id, QObject *)
   : room_id_(std::move(room_id))
 {
-    auto range = cache::client()->getTimelineRange(room_id_);
+    auto range = cache::getTimelineRange(room_id_);
 
     if (range) {
         this->dbFirst = range->first;
@@ -50,7 +49,7 @@ EventStore::EventStore(std::string room_id, QObject *)
       [this](const std::string &id,
              const std::string &relatedTo,
              mtx::events::collections::TimelineEvents timeline) {
-          cache::client()->storeEvent(room_id_, id, {timeline});
+          cache::storeEvent(room_id_, id, {timeline});
 
           if (!relatedTo.empty()) {
               if (relatedTo == "pins") {
@@ -69,13 +68,13 @@ EventStore::EventStore(std::string room_id, QObject *)
       &EventStore::oldMessagesRetrieved,
       this,
       [this](const mtx::responses::Messages &res) {
-          if (res.end.empty() || cache::client()->previousBatchToken(room_id_) == res.end) {
+          if (res.end.empty() || cache::previousBatchToken(room_id_) == res.end) {
               noMoreMessages = true;
               emit fetchedMore();
               return;
           }
 
-          uint64_t newFirst = cache::client()->saveOldMessages(room_id_, res);
+          uint64_t newFirst = cache::saveOldMessages(room_id_, res);
           if (newFirst == first) {
               fetchMore();
           } else {
@@ -88,7 +87,7 @@ EventStore::EventStore(std::string room_id, QObject *)
                   emit dataChanged(toExternalIdx(oldFirst), toExternalIdx(oldFirst));
                   emit fetchedMore();
               } else {
-                  auto range = cache::client()->getTimelineRange(room_id_);
+                  auto range = cache::getTimelineRange(room_id_);
 
                   if (range && range->last - range->first != 0) {
                       emit beginInsertRows(0, int(range->last - range->first));
@@ -111,7 +110,7 @@ EventStore::EventStore(std::string room_id, QObject *)
             return;
         }
 
-        auto event = cache::client()->firstPendingMessage(room_id_);
+        auto event = cache::firstPendingMessage(room_id_);
 
         if (!event) {
             nhlog::ui()->debug("No event to send");
@@ -125,7 +124,7 @@ EventStore::EventStore(std::string room_id, QObject *)
 
               if (txn_id.empty() || txn_id[0] != 'm') {
                   nhlog::ui()->debug("Invalid txn id '{}'", txn_id);
-                  cache::client()->removePendingStatus(room_id_, txn_id);
+                  cache::removePendingStatus(room_id_, txn_id);
                   return;
               }
 
@@ -173,7 +172,7 @@ EventStore::EventStore(std::string room_id, QObject *)
               current_txn_error_count++;
               if (current_txn_error_count > 10) {
                   nhlog::ui()->debug("failing txn id '{}'", txn_id);
-                  cache::client()->removePendingStatus(room_id_, txn_id);
+                  cache::removePendingStatus(room_id_, txn_id);
                   current_txn_error_count = 0;
               }
           }
@@ -195,8 +194,8 @@ EventStore::EventStore(std::string room_id, QObject *)
           // Replace the event_id in pending edits/replies/redactions with the actual
           // event_id of this event. This allows one to edit and reply to events that are
           // currently pending.
-          for (const auto &pending_event_id : cache::client()->pendingEvents(room_id_)) {
-              if (auto pending_event = cache::client()->getEvent(room_id_, pending_event_id)) {
+          for (const auto &pending_event_id : cache::pendingEvents(room_id_)) {
+              if (auto pending_event = cache::getEvent(room_id_, pending_event_id)) {
                   bool was_encrypted = false;
                   mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> original_encrypted;
                   if (auto encrypted =
@@ -265,7 +264,7 @@ EventStore::EventStore(std::string room_id, QObject *)
                       *pending_event             = std::move(original_encrypted);
                   }
 
-                  cache::client()->replaceEvent(room_id_, pending_event_id, *pending_event);
+                  cache::replaceEvent(room_id_, pending_event_id, *pending_event);
 
                   auto idx = idToIndex(pending_event_id);
 
@@ -290,7 +289,7 @@ EventStore::EventStore(std::string room_id, QObject *)
           if (idx)
               emit dataChanged(*idx, *idx);
 
-          cache::client()->removePendingStatus(room_id_, txn_id);
+          cache::removePendingStatus(room_id_, txn_id);
           this->current_txn             = "";
           this->current_txn_error_count = 0;
           emit processPending();
@@ -304,7 +303,7 @@ EventStore::addPending(const mtx::events::collections::TimelineEvents &event)
     if (this->thread() != QThread::currentThread())
         nhlog::db()->warn("{} called from a different thread!", __func__);
 
-    cache::client()->savePendingMessage(this->room_id_, event);
+    cache::savePendingMessage(this->room_id_, event);
     mtx::responses::Timeline events;
     events.limited = false;
     events.events.emplace_back(event);
@@ -318,8 +317,8 @@ EventStore::clearTimeline()
 {
     emit beginResetModel();
 
-    cache::client()->clearTimeline(room_id_);
-    auto range = cache::client()->getTimelineRange(room_id_);
+    cache::clearTimeline(room_id_);
+    auto range = cache::getTimelineRange(room_id_);
     if (range) {
         nhlog::db()->info("Range {} {}", range->last, range->first);
         this->last    = range->last;
@@ -438,7 +437,7 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
     if (this->thread() != QThread::currentThread())
         nhlog::db()->warn("{} called from a different thread!", __func__);
 
-    auto range = cache::client()->getTimelineRange(room_id_);
+    auto range = cache::getTimelineRange(room_id_);
     if (!range) {
         emit beginResetModel();
         this->first   = std::numeric_limits<uint64_t>::max();
@@ -504,7 +503,7 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
         }
 
         for (const auto &relates_to_id : relates_to) {
-            auto idx = cache::client()->getTimelineIndex(room_id_, relates_to_id);
+            auto idx = cache::getTimelineIndex(room_id_, relates_to_id);
             if (idx) {
                 events_by_id_.remove({room_id_, relates_to_id});
                 decryptedEvents_.remove({room_id_, relates_to_id});
@@ -514,7 +513,7 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
         }
 
         if (auto txn_id = mtx::accessors::transaction_id(event); !txn_id.empty()) {
-            auto idx = cache::client()->getTimelineIndex(room_id_, mtx::accessors::event_id(event));
+            auto idx = cache::getTimelineIndex(room_id_, mtx::accessors::event_id(event));
             if (idx) {
                 Index index{room_id_, *idx};
                 events_.remove(index);
@@ -523,9 +522,8 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
         }
 
         if (!edited_event.empty()) {
-            for (const auto &downstream_event :
-                 cache::client()->relatedEvents(room_id_, edited_event)) {
-                auto idx = cache::client()->getTimelineIndex(room_id_, downstream_event);
+            for (const auto &downstream_event : cache::relatedEvents(room_id_, edited_event)) {
+                auto idx = cache::getTimelineIndex(room_id_, downstream_event);
                 if (idx) {
                     emit dataChanged(toExternalIdx(*idx), toExternalIdx(*idx));
                 }
@@ -552,7 +550,7 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
 std::vector<mtx::events::collections::TimelineEvents>
 EventStore::edits(const std::string &event_id)
 {
-    auto event_ids = cache::client()->relatedEvents(room_id_, event_id);
+    auto event_ids = cache::relatedEvents(room_id_, event_id);
 
     auto original_event = get(event_id, "", false, false);
     if (!original_event ||
@@ -586,13 +584,12 @@ EventStore::edits(const std::string &event_id)
         }
     }
 
-    auto c = cache::client();
     std::sort(edits.begin(),
               edits.end(),
-              [this, c](const mtx::events::collections::TimelineEvents &a,
-                        const mtx::events::collections::TimelineEvents &b) {
-                  return c->getEventIndex(this->room_id_, mtx::accessors::event_id(a)) <
-                         c->getEventIndex(this->room_id_, mtx::accessors::event_id(b));
+              [this](const mtx::events::collections::TimelineEvents &a,
+                     const mtx::events::collections::TimelineEvents &b) {
+                  return cache::getEventIndex(this->room_id_, mtx::accessors::event_id(a)) <
+                         cache::getEventIndex(this->room_id_, mtx::accessors::event_id(b));
               });
 
     return edits;
@@ -601,7 +598,7 @@ EventStore::edits(const std::string &event_id)
 QVariantList
 EventStore::reactions(const std::string &event_id)
 {
-    auto event_ids = cache::client()->relatedEvents(room_id_, event_id);
+    auto event_ids = cache::relatedEvents(room_id_, event_id);
 
     struct TempReaction
     {
@@ -671,14 +668,14 @@ EventStore::get(int idx, bool decrypt)
 
     auto event_ptr = events_.object(index);
     if (!event_ptr) {
-        auto event_id = cache::client()->getTimelineEventId(room_id_, index.idx);
+        auto event_id = cache::getTimelineEventId(room_id_, index.idx);
         if (!event_id)
             return nullptr;
 
         std::optional<mtx::events::collections::TimelineEvents> event;
         auto edits_ = edits(*event_id);
         if (edits_.empty())
-            event = cache::client()->getEvent(room_id_, *event_id);
+            event = cache::getEvent(room_id_, *event_id);
         else
             event = mtx::events::collections::TimelineEvents{edits_.back()};
 
@@ -707,7 +704,7 @@ EventStore::idToIndex(std::string_view id) const
     if (this->thread() != QThread::currentThread())
         nhlog::db()->warn("{} called from a different thread!", __func__);
 
-    auto idx = cache::client()->getTimelineIndex(room_id_, id);
+    auto idx = cache::getTimelineIndex(room_id_, id);
     if (idx)
         return toExternalIdx(*idx);
     else
@@ -719,7 +716,7 @@ EventStore::indexToId(int idx) const
     if (this->thread() != QThread::currentThread())
         nhlog::db()->warn("{} called from a different thread!", __func__);
 
-    return cache::client()->getTimelineEventId(room_id_, toInternalIdx(idx));
+    return cache::getTimelineEventId(room_id_, toInternalIdx(idx));
 }
 
 olm::DecryptionResult const *
@@ -867,7 +864,7 @@ EventStore::get(const std::string &id,
 
     auto event_ptr = events_by_id_.object(index);
     if (!event_ptr) {
-        auto event = cache::client()->getEvent(room_id_, index.id);
+        auto event = cache::getEvent(room_id_, index.id);
         if (!event) {
             http::client()->get_event(room_id_,
                                       index.id,
@@ -921,7 +918,7 @@ EventStore::decryptionError(std::string id)
 
     auto event_ptr = events_by_id_.object(index);
     if (!event_ptr) {
-        auto event = cache::client()->getEvent(room_id_, index.id);
+        auto event = cache::getEvent(room_id_, index.id);
         if (!event) {
             return olm::DecryptionErrorCode::NoError;
         }
@@ -986,14 +983,14 @@ EventStore::fetchMore()
 
     mtx::http::MessagesOpts opts;
     opts.room_id = room_id_;
-    opts.from    = cache::client()->previousBatchToken(room_id_);
+    opts.from    = cache::previousBatchToken(room_id_);
     opts.limit   = 80;
 
     nhlog::ui()->debug("Paginating room {}, token {}", opts.room_id, opts.from);
 
     http::client()->messages(
       opts, [this, opts](const mtx::responses::Messages &res, mtx::http::RequestErr err) {
-          if (cache::client()->previousBatchToken(room_id_) != opts.from) {
+          if (cache::previousBatchToken(room_id_) != opts.from) {
               nhlog::net()->warn("Cache cleared while fetching more messages, dropping "
                                  "/messages response");
               emit fetchedMore();

@@ -18,7 +18,6 @@
 #include <mtx/secret_storage.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "DeviceVerificationFlow.h"
 #include "EventAccessors.h"
@@ -96,7 +95,7 @@ handle_secret_request(const mtx::events::DeviceEvent<mtx::events::msg::SecretReq
     secretSend.type               = EventType::SecretSend;
     secretSend.content.request_id = e->content.request_id;
 
-    auto secret = cache::client()->secret(e->content.name);
+    auto secret = cache::secret(e->content.name);
     if (!secret)
         return;
     secretSend.content.secret = secret.value();
@@ -136,7 +135,7 @@ handle_to_device_messages(const std::vector<mtx::events::collections::DeviceEven
         if (msg_type == to_string(mtx::events::EventType::RoomEncrypted)) {
             try {
                 olm::OlmMessage olm_msg = j_msg.get<olm::OlmMessage>();
-                cache::client()->query_keys(
+                cache::queryKeys(
                   olm_msg.sender, [olm_msg](const UserKeyCache &userKeys, mtx::http::RequestErr e) {
                       if (e) {
                           nhlog::crypto()->error(
@@ -413,7 +412,7 @@ handle_olm_message(const OlmMessage &msg, const UserKeyCache &otherUserDeviceKey
                     }
 
                     nhlog::crypto()->info("Storing secret {}", secret_name);
-                    cache::client()->storeSecret(secret_name, e->content.secret);
+                    cache::storeSecret(secret_name, e->content.secret);
                 }
 
             } else if (auto sec_req = std::get_if<DeviceEvent<msg::SecretRequest>>(&device_event)) {
@@ -457,7 +456,7 @@ handle_pre_key_olm_message(const std::string &sender,
 
         // We also remove the one time key used to establish that
         // session so we'll have to update our copy of the account object.
-        auto secret = cache::client()->pickleSecret();
+        auto secret = cache::pickleSecret();
         if (!secret.empty())
             cache::saveOlmAccount(olm::client()->save(secret));
         else
@@ -489,7 +488,7 @@ handle_pre_key_olm_message(const std::string &sender,
                                mtx::crypto::session_id(inbound_session.get()));
         cache::saveOlmSession(
           sender_key, std::move(inbound_session), QDateTime::currentMSecsSinceEpoch());
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->warn("failed to save inbound olm session from {}: {}", sender, e.what());
     }
 
@@ -528,7 +527,7 @@ encrypt_group_message(const std::string &room_id, const std::string &device_id, 
 
     auto own_user_id = http::client()->user_id().to_string();
 
-    auto members = cache::client()->getMembersWithKeys(
+    auto members = cache::getMembersWithKeys(
       room_id, UserSettings::instance()->onlyShareKeysWithVerifiedUsers());
 
     std::map<std::string, std::vector<std::string>> sendSessionTo;
@@ -537,7 +536,7 @@ encrypt_group_message(const std::string &room_id, const std::string &device_id, 
 
     if (cache::outboundMegolmSessionExists(room_id)) {
         auto res                = cache::getOutboundMegolmSession(room_id);
-        auto encryptionSettings = cache::client()->roomEncryptionSettings(room_id);
+        auto encryptionSettings = cache::roomEncryptionSettings(room_id);
         mtx::events::state::Encryption defaultSettings;
 
         // rotate if we crossed the limits for this key
@@ -736,7 +735,7 @@ try_olm_decryption(const std::string &sender_key, const mtx::events::msg::OlmCip
                                    id,
                                    e.what());
             continue;
-        } catch (const lmdb::error &e) {
+        } catch (const std::exception &e) {
             nhlog::crypto()->critical("failed to save session: {}", e.what());
             return {};
         }
@@ -775,11 +774,11 @@ create_inbound_megolm_session(const mtx::events::DeviceEvent<mtx::events::msg::R
 
         backup_session_key(index, data, megolm_session);
         cache::saveInboundMegolmSession(index, std::move(megolm_session), data);
-    } catch (const lmdb::error &e) {
-        nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
-        return;
     } catch (const mtx::crypto::olm_exception &e) {
         nhlog::crypto()->critical("failed to create inbound megolm session: {}", e.what());
+        return;
+    } catch (const std::exception &e) {
+        nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
         return;
     }
 
@@ -811,11 +810,11 @@ import_inbound_megolm_session(
 
         backup_session_key(index, data, megolm_session);
         cache::saveInboundMegolmSession(index, std::move(megolm_session), data);
-    } catch (const lmdb::error &e) {
-        nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
-        return;
     } catch (const mtx::crypto::olm_exception &e) {
         nhlog::crypto()->critical("failed to import inbound megolm session: {}", e.what());
+        return;
+    } catch (const std::exception &e) {
+        nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
         return;
     }
 
@@ -836,7 +835,7 @@ backup_session_key(const MegolmSessionIndex &idx,
             return;
         }
 
-        auto backupVersion = cache::client()->backupVersion();
+        auto backupVersion = cache::backupVersion();
         if (!backupVersion) {
             // no trusted OKB
             return;
@@ -894,7 +893,7 @@ void
 mark_keys_as_published()
 {
     olm::client()->mark_keys_as_published();
-    auto secret = cache::client()->pickleSecret();
+    auto secret = cache::pickleSecret();
     if (!secret.empty())
         cache::saveOlmAccount(olm::client()->save(secret));
     else
@@ -910,7 +909,7 @@ download_full_keybackup()
         return;
     }
 
-    auto backupVersion = cache::client()->backupVersion();
+    auto backupVersion = cache::backupVersion();
     if (!backupVersion) {
         // no trusted OKB
         nhlog::crypto()->debug(
@@ -976,7 +975,7 @@ download_full_keybackup()
               try {
                   cache::importSessionKeys(keys);
                   nhlog::crypto()->debug("Storing full online key backup completed.");
-              } catch (const lmdb::error &e) {
+              } catch (const std::exception &e) {
                   nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
               }
           });
@@ -990,7 +989,7 @@ lookup_keybackup(const std::string &room, const std::string &session_id)
         return;
     }
 
-    auto backupVersion = cache::client()->backupVersion();
+    auto backupVersion = cache::backupVersion();
     if (!backupVersion) {
         // no trusted OKB
         return;
@@ -1058,11 +1057,11 @@ lookup_keybackup(const std::string &room, const std::string &session_id)
                       ChatPage::instance()->receivedSessionKey(index.room_id, index.session_id);
                   });
               }
-          } catch (const lmdb::error &e) {
-              nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
-              return;
           } catch (const mtx::crypto::olm_exception &e) {
               nhlog::crypto()->critical("failed to import inbound megolm session: {}", e.what());
+              return;
+          } catch (const std::exception &e) {
+              nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
               return;
           }
       });
@@ -1239,22 +1238,21 @@ decryptEvent(const MegolmSessionIndex &index,
              bool dont_write_db)
 {
     try {
-        if (!cache::client()->inboundMegolmSessionExists(index)) {
+        if (!cache::inboundMegolmSessionExists(index)) {
             return {DecryptionErrorCode::MissingSession, std::nullopt, std::nullopt};
         }
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         return {DecryptionErrorCode::DbError, e.what(), std::nullopt};
     }
 
     std::string msg_str;
     try {
-        auto session = cache::client()->getInboundMegolmSession(index);
+        auto session = cache::getInboundMegolmSession(index);
         if (!session) {
             return {DecryptionErrorCode::MissingSession, std::nullopt, std::nullopt};
         }
 
-        auto sessionData =
-          cache::client()->getMegolmSessionData(index).value_or(GroupSessionData{});
+        auto sessionData = cache::getMegolmSessionData(index).value_or(GroupSessionData{});
 
         auto res = olm::client()->decrypt_group_message(session.get(), event.content.ciphertext);
         msg_str  = std::string((char *)res.data.data(), res.data.size());
@@ -1266,15 +1264,15 @@ decryptEvent(const MegolmSessionIndex &index,
                     return {DecryptionErrorCode::ReplayAttack, std::nullopt, std::nullopt};
             } else if (!dont_write_db) {
                 sessionData.indices[res.message_index] = event.event_id;
-                cache::client()->saveInboundMegolmSession(index, std::move(session), sessionData);
+                cache::saveInboundMegolmSession(index, std::move(session), sessionData);
             }
         }
-    } catch (const lmdb::error &e) {
-        return {DecryptionErrorCode::DbError, e.what(), std::nullopt};
     } catch (const mtx::crypto::olm_exception &e) {
         if (e.error_code() == mtx::crypto::OlmErrorCode::OLM_UNKNOWN_MESSAGE_INDEX)
             return {DecryptionErrorCode::MissingSessionIndex, e.what(), std::nullopt};
         return {DecryptionErrorCode::DecryptionFailed, e.what(), std::nullopt};
+    } catch (const std::exception &e) {
+        return {DecryptionErrorCode::DbError, e.what(), std::nullopt};
     }
 
     try {
@@ -1303,27 +1301,27 @@ calculate_trust(const std::string &user_id,
                 const mtx::events::msg::Encrypted &event)
 {
     auto index               = MegolmSessionIndex(room_id, event);
-    auto megolmData          = cache::client()->getMegolmSessionData(index);
+    auto megolmData          = cache::getMegolmSessionData(index);
     crypto::Trust trustlevel = crypto::Trust::MessageUnverified;
 
     try {
-        auto session = cache::client()->getInboundMegolmSession(index);
+        auto session = cache::getInboundMegolmSession(index);
         if (!session) {
             return trustlevel;
         }
 
         olm::client()->decrypt_group_message(session.get(), event.ciphertext);
-    } catch (const lmdb::error &e) {
-        return trustlevel;
     } catch (const mtx::crypto::olm_exception &e) {
+        return trustlevel;
+    } catch (const std::exception &e) {
         return trustlevel;
     }
 
-    auto status = cache::client()->verificationStatus(user_id);
+    auto status = cache::verificationStatus(user_id);
 
-    if (megolmData && megolmData->trusted &&
-        status.verified_device_keys.count(megolmData->sender_key)) {
-        trustlevel = status.verified_device_keys.at(megolmData->sender_key);
+    if (megolmData && megolmData->trusted && status &&
+        status->verified_device_keys.count(megolmData->sender_key)) {
+        trustlevel = status->verified_device_keys.at(megolmData->sender_key);
     }
 
     return trustlevel;
@@ -1353,7 +1351,7 @@ send_encrypted_to_device_messages(const std::map<std::string, std::vector<std::s
         std::vector<std::pair<std::string, mtx::crypto::OlmSessionPtr>> sessionsToPersist;
 
         for (const auto &[user, devices] : targets) {
-            auto deviceKeys = cache::client()->userKeys(user);
+            auto deviceKeys = cache::userKeys(user);
 
             // no keys for user, query them
             if (!deviceKeys) {
@@ -1424,11 +1422,11 @@ send_encrypted_to_device_messages(const std::map<std::string, std::vector<std::s
         if (!sessionsToPersist.empty()) {
             try {
                 nhlog::crypto()->debug("Updated olm sessions: {}", sessionsToPersist.size());
-                cache::client()->saveOlmSessions(std::move(sessionsToPersist), currentTime);
-            } catch (const lmdb::error &e) {
-                nhlog::db()->critical("failed to save outbound olm session: {}", e.what());
+                cache::saveOlmSessions(std::move(sessionsToPersist), currentTime);
             } catch (const mtx::crypto::olm_exception &e) {
                 nhlog::crypto()->critical("failed to pickle outbound olm session: {}", e.what());
+            } catch (const std::exception &e) {
+                nhlog::db()->critical("failed to save outbound olm session: {}", e.what());
             }
         }
     }
@@ -1506,12 +1504,12 @@ send_encrypted_to_device_messages(const std::map<std::string, std::vector<std::s
                 try {
                     nhlog::crypto()->debug("Updated (new) olm sessions: {}",
                                            sessionsToPersist.size());
-                    cache::client()->saveOlmSessions(std::move(sessionsToPersist), currentTime);
-                } catch (const lmdb::error &e) {
-                    nhlog::db()->critical("failed to save outbound olm session: {}", e.what());
+                    cache::saveOlmSessions(std::move(sessionsToPersist), currentTime);
                 } catch (const mtx::crypto::olm_exception &e) {
                     nhlog::crypto()->critical("failed to pickle outbound olm session: {}",
                                               e.what());
+                } catch (const std::exception &e) {
+                    nhlog::db()->critical("failed to save outbound olm session: {}", e.what());
                 }
             }
 
@@ -1547,7 +1545,7 @@ send_encrypted_to_device_messages(const std::map<std::string, std::vector<std::s
 
               nhlog::net()->info("queried keys");
 
-              cache::client()->updateUserKeys(cache::nextBatchToken(), res);
+              cache::updateUserKeys(cache::nextBatchToken(), res);
 
               mtx::requests::ClaimKeys claim_keys;
 
@@ -1666,7 +1664,7 @@ request_cross_signing_keys()
               if (err) {
                   nhlog::net()->error("Failed to send request for secrect '{}'", secretName);
                   // Cancel request on UI thread
-                  QTimer::singleShot(1, cache::client(), [request_id]() {
+                  QTimer::singleShot(1, ChatPage::instance(), [request_id]() {
                       request_id_to_secret_name.erase(request_id);
                   });
                   return;

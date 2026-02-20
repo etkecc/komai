@@ -4,7 +4,7 @@
 
 #include "EventExpiry.h"
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
@@ -17,7 +17,7 @@ EventExpiry::load()
 
     this->event = {};
 
-    if (auto temp = cache::client()->getAccountData(mtx::events::EventType::NhekoEventExpiry, "")) {
+    if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoEventExpiry, "")) {
         auto h = std::get<
           mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::EventExpiry>>(
           *temp);
@@ -25,8 +25,8 @@ EventExpiry::load()
     }
 
     if (!roomid_.isEmpty()) {
-        if (auto temp = cache::client()->getAccountData(mtx::events::EventType::NhekoEventExpiry,
-                                                        roomid_.toStdString())) {
+        if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoEventExpiry,
+                                              roomid_.toStdString())) {
             auto h      = std::get<mtx::events::AccountDataEvent<
                    mtx::events::account_data::nheko_extensions::EventExpiry>>(*temp);
             this->event = std::move(h.content);

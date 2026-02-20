@@ -4,7 +4,7 @@
 
 #include "Permissions.h"
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "MatrixClient.h"
 #include "TimelineModel.h"
 
@@ -18,8 +18,7 @@ Permissions::Permissions(QString roomId, QObject *parent)
 void
 Permissions::invalidate()
 {
-    pl = cache::client()
-           ->getStateEvent<mtx::events::state::PowerLevels>(roomId_.toStdString())
+    pl = cache::getStateEvent<mtx::events::state::PowerLevels>(roomId_.toStdString())
            .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
            .content;
 }

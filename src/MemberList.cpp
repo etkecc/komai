@@ -5,7 +5,6 @@
 #include "MemberList.h"
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "timeline/RoomlistModel.h"
@@ -15,14 +14,13 @@
 MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
   : QAbstractListModel{parent}
   , room_id_{room_id}
-  , powerLevels_{cache::client()
-                   ->getStateEvent<mtx::events::state::PowerLevels>(room_id_.toStdString())
+  , powerLevels_{cache::getStateEvent<mtx::events::state::PowerLevels>(room_id_.toStdString())
                    .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                    .content}
 {
     try {
         info_ = cache::singleRoomInfo(room_id_.toStdString());
-    } catch (const lmdb::error &) {
+    } catch (const std::exception &) {
         nhlog::db()->warn("failed to retrieve room info from cache: {}", room_id_.toStdString());
     }
 
@@ -31,7 +29,7 @@ MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
         auto members = cache::getMembers(room_id_.toStdString(), 0, -1);
         addUsers(members);
         numUsersLoaded_ = (int)members.size();
-    } catch (const lmdb::error &e) {
+    } catch (const std::exception &e) {
         nhlog::db()->critical("Failed to retrieve members from cache: {}", e.what());
     }
 }

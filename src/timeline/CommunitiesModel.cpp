@@ -8,7 +8,6 @@
 #include <set>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
@@ -282,7 +281,7 @@ CommunitiesModel::initializeSidebar()
     dmUnreads.notification_count     = {};
 
     {
-        auto e = cache::client()->getAccountData(mtx::events::EventType::Direct);
+        auto e = cache::getAccountData(mtx::events::EventType::Direct);
         if (e) {
             if (auto event =
                   std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
@@ -341,7 +340,7 @@ CommunitiesModel::initializeSidebar()
     // TODO(Nico): Optimize this. We can do this with a lot fewer allocations and checks.
     for (const auto &space : isSpace) {
         spaceParents[space];
-        for (const auto &p : cache::client()->getParentRoomIds(space)) {
+        for (const auto &p : cache::getParentRoomIds(space)) {
             spaceParents[space].insert(p);
             spaceChilds[p].insert(space);
         }
@@ -368,7 +367,7 @@ CommunitiesModel::initializeSidebar()
     spaceOrder_.restoreCollapsed();
 
     for (auto &space : spaceOrder_.tree) {
-        for (const auto &c : cache::client()->getChildRoomIds(space.id.toStdString())) {
+        for (const auto &c : cache::getChildRoomIds(space.id.toStdString())) {
             const auto &counts = roomNotificationCache[QString::fromStdString(c)];
             space.notificationCounts.highlight_count += counts.highlight_count;
             space.notificationCounts.notification_count += counts.notification_count;
@@ -512,7 +511,7 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
                                  });
             }
 
-            auto spaces = cache::client()->getParentRoomIds(roomid);
+            auto spaces = cache::getParentRoomIds(roomid);
             auto tags   = cache::singleRoomInfo(roomid).tags;
 
             for (const auto &t : tags) {
@@ -799,10 +798,8 @@ CommunitiesModel::spaceChildrenListFromIndex(const QString &room, int idx) const
                 continue;
 
             auto spaceId = e.id.toStdString();
-            auto child =
-              cache::client()->getStateEvent<mtx::events::state::space::Child>(spaceId, room_);
-            auto parent =
-              cache::client()->getStateEvent<mtx::events::state::space::Parent>(room_, spaceId);
+            auto child   = cache::getStateEvent<mtx::events::state::space::Child>(spaceId, room_);
+            auto parent  = cache::getStateEvent<mtx::events::state::space::Parent>(room_, spaceId);
 
             bool childValid =
               child && !child->content.via.value_or(std::vector<std::string>{}).empty();
@@ -843,16 +840,14 @@ CommunitiesModel::updateSpaceStatus(QString space,
                           setParent,
                           setChild,
                           canonical);
-    auto child =
-      cache::client()
-        ->getStateEvent<mtx::events::state::space::Child>(space.toStdString(), room.toStdString())
-        .value_or(mtx::events::StateEvent<mtx::events::state::space::Child>{})
-        .content;
-    auto parent =
-      cache::client()
-        ->getStateEvent<mtx::events::state::space::Parent>(room.toStdString(), space.toStdString())
-        .value_or(mtx::events::StateEvent<mtx::events::state::space::Parent>{})
-        .content;
+    auto child = cache::getStateEvent<mtx::events::state::space::Child>(space.toStdString(),
+                                                                        room.toStdString())
+                   .value_or(mtx::events::StateEvent<mtx::events::state::space::Child>{})
+                   .content;
+    auto parent = cache::getStateEvent<mtx::events::state::space::Parent>(room.toStdString(),
+                                                                          space.toStdString())
+                    .value_or(mtx::events::StateEvent<mtx::events::state::space::Parent>{})
+                    .content;
 
     if (setChild) {
         if (!child.via || child.via->empty()) {

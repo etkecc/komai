@@ -4,25 +4,32 @@
 
 #pragma once
 
+#include <cstddef>
+#include <exception>
+#include <functional>
+#include <map>
+#include <optional>
+
 #include <QDateTime>
 #include <QString>
 
-#if __has_include(<lmdbxx/lmdb++.h>)
-#include <lmdbxx/lmdb++.h>
-#else
-#include <lmdb++.h>
-#endif
-
+#include <mtx/events/collections.hpp>
 #include <mtx/events/event_type.hpp>
 #include <mtx/events/presence.hpp>
 #include <mtx/responses/crypto.hpp>
+#include <mtx/responses/messages.hpp>
+#include <mtx/responses/sync.hpp>
 #include <mtxclient/crypto/types.hpp>
+#include <mtxclient/http/errors.hpp>
 
 #include "CacheCryptoStructs.h"
 #include "CacheStructs.h"
 
+class QObject;
+
 namespace mtx::responses {
 struct Notifications;
+struct StateEvents;
 }
 
 namespace cache {
@@ -31,6 +38,11 @@ setNeedsCompactFlag();
 
 void
 init(const QString &user_id);
+
+bool
+isAvailable() noexcept;
+bool
+isDatabaseReady();
 
 std::string
 displayName(const std::string &room_id, const std::string &user_id);
@@ -46,6 +58,14 @@ presence(const std::string &user_id);
 // user cache stores user keys
 std::optional<UserKeyCache>
 userKeys(const std::string &user_id);
+std::map<std::string, RoomInfo>
+getCommonRooms(const std::string &user_id);
+void
+markUserKeysOutOfDate(const std::vector<std::string> &user_ids);
+void
+queryKeys(const std::string &user_id,
+          std::function<void(const UserKeyCache &, const std::optional<mtx::http::ClientError> &)>
+            callback);
 void
 updateUserKeys(const std::string &sync_token, const mtx::responses::QueryKeys &keyQuery);
 
@@ -64,21 +84,38 @@ QMap<QString, RoomInfo>
 roomInfo(bool withInvites = true);
 QHash<QString, RoomInfo>
 invites();
-
-//! Calculate & return the name of the room.
-QString
-getRoomName(lmdb::txn &txn, lmdb::dbi &statesdb, lmdb::dbi &membersdb);
-//! Get room join rules
-mtx::events::state::JoinRule
-getRoomJoinRule(lmdb::txn &txn, lmdb::dbi &statesdb);
-bool
-getRoomGuestAccess(lmdb::txn &txn, lmdb::dbi &statesdb);
-//! Retrieve the topic of the room if any.
-QString
-getRoomTopic(lmdb::txn &txn, lmdb::dbi &statesdb);
-//! Retrieve the room avatar's url if any.
-QString
-getRoomAvatarUrl(lmdb::txn &txn, lmdb::dbi &statesdb, lmdb::dbi &membersdb);
+std::optional<mtx::events::collections::RoomAccountDataEvents>
+getAccountData(mtx::events::EventType type, const std::string &room_id = "");
+std::vector<RoomNameAlias>
+roomNamesAndAliases();
+std::vector<QString>
+roomIds();
+std::optional<RoomInfo>
+invite(std::string_view roomid);
+std::optional<MemberInfo>
+getInviteMember(const std::string &room_id, const std::string &user_id);
+std::vector<std::string>
+getParentRoomIds(const std::string &room_id);
+std::vector<std::string>
+getChildRoomIds(const std::string &room_id);
+void
+onReadReceiptsChanged(QObject *receiver, std::function<void()> callback);
+void
+onReadReceiptsChanged(QObject *receiver,
+                      std::function<void(const QString &, const std::vector<QString> &)> callback);
+void
+onRoomReadStatusChanged(QObject *receiver,
+                        std::function<void(const std::map<QString, bool> &)> callback);
+void
+disconnectFromCache(QObject *receiver);
+void
+onDatabaseReady(QObject *receiver, std::function<void()> callback);
+void
+onSecretChanged(QObject *receiver, std::function<void(const std::string &)> callback);
+void
+onVerificationStatusChanged(QObject *receiver, std::function<void(const std::string &)> callback);
+void
+onSelfVerificationStatusChanged(QObject *receiver, std::function<void()> callback);
 
 //! Retrieve member info from a room.
 std::vector<RoomMember>
@@ -86,28 +123,40 @@ getMembers(const std::string &room_id, std::size_t startIndex = 0, std::size_t l
 //! Retrive member info from an invite.
 std::vector<RoomMember>
 getMembersFromInvite(const std::string &room_id, std::size_t start_index = 0, std::size_t len = 30);
+size_t
+memberCount(const std::string &room_id);
+
+template<typename T>
+std::optional<mtx::events::StateEvent<T>>
+getStateEvent(const std::string &room_id, std::string_view state_key = "");
+template<typename T>
+std::vector<mtx::events::StateEvent<T>>
+getStateEventsWithType(const std::string &room_id,
+                       mtx::events::EventType type = mtx::events::state_content_to_type<T>);
 
 bool
 isInitialized();
 
 std::string
 nextBatchToken();
+std::string
+previousBatchToken(const std::string &room_id);
 
 void
 deleteData();
 
 void
-removeInvite(lmdb::txn &txn, const std::string &room_id);
-void
 removeInvite(const std::string &room_id);
-void
-removeRoom(lmdb::txn &txn, const std::string &roomid);
 void
 removeRoom(const std::string &roomid);
 void
 removeRoom(const QString &roomid);
 void
 setup();
+void
+saveState(const mtx::responses::Sync &res);
+void
+updateState(const std::string &room, const mtx::responses::StateEvents &state, bool wipe = false);
 
 //! returns if the format is current, older or newer
 cache::CacheVersion
@@ -134,16 +183,46 @@ hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
 //!
 //! There should be only one user id present in a receipt list per room.
 //! The user id should be removed from any other lists.
-using Receipts = std::map<std::string, std::map<std::string, uint64_t>>;
-void
-updateReadReceipt(lmdb::txn &txn, const std::string &room_id, const Receipts &receipts);
-
-//! Retrieve all the read receipts for the given event id and room.
-//!
-//! Returns a map of user ids and the time of the read receipt in milliseconds.
 using UserReceipts = std::multimap<uint64_t, std::string, std::greater<uint64_t>>;
 UserReceipts
 readReceipts(const QString &event_id, const QString &room_id);
+
+std::optional<mtx::events::collections::TimelineEvents>
+getEvent(const std::string &room_id, std::string_view event_id);
+void
+storeEvent(const std::string &room_id,
+           const std::string &event_id,
+           const mtx::events::collections::TimelineEvents &event);
+void
+replaceEvent(const std::string &room_id,
+             const std::string &event_id,
+             const mtx::events::collections::TimelineEvents &event);
+std::vector<std::string>
+relatedEvents(const std::string &room_id, const std::string &event_id);
+
+struct TimelineRange
+{
+    uint64_t first, last;
+};
+std::optional<TimelineRange>
+getTimelineRange(const std::string &room_id);
+std::optional<uint64_t>
+getTimelineIndex(const std::string &room_id, std::string_view event_id);
+std::optional<std::string>
+getTimelineEventId(const std::string &room_id, uint64_t index);
+uint64_t
+saveOldMessages(const std::string &room_id, const mtx::responses::Messages &res);
+void
+savePendingMessage(const std::string &room_id,
+                   const mtx::events::collections::TimelineEvents &message);
+std::vector<std::string>
+pendingEvents(const std::string &room_id);
+std::optional<mtx::events::collections::TimelineEvents>
+firstPendingMessage(const std::string &room_id);
+void
+removePendingStatus(const std::string &room_id, const std::string &txn_id);
+void
+clearTimeline(const std::string &room_id);
 
 //! get index of the event in the event db, not representing the visual index
 std::optional<uint64_t>
@@ -166,6 +245,10 @@ bool
 calculateRoomReadStatus(const std::string &room_id);
 void
 calculateRoomReadStatus();
+void
+updateLastMessageTimestamp(const std::string &room_id, uint64_t ts);
+crypto::Trust
+roomVerificationStatus(const std::string &room_id);
 
 void
 markSentNotification(const std::string &event_id);
@@ -176,20 +259,27 @@ removeReadNotification(const std::string &event_id);
 bool
 isNotificationSent(const std::string &event_id);
 
+bool
+isMapFullError(const std::exception &e) noexcept;
+
 //! Remove old unused data.
 void
 deleteOldMessages();
 void
 deleteOldData() noexcept;
-//! Retrieve all saved room ids.
-std::vector<std::string>
-getRoomIds(lmdb::txn &txn);
-
-//! Mark a room that uses e2e encryption.
 void
-setEncryptedRoom(lmdb::txn &txn, const std::string &room_id);
+storeEventExpirationProgress(const std::string &room,
+                             const std::string &expirationSettings,
+                             const std::string &event_id);
+std::string
+loadEventExpirationProgress(const std::string &room, const std::string &expirationSettings);
+
 bool
 isRoomEncrypted(const std::string &room_id);
+std::optional<mtx::events::state::Encryption>
+roomEncryptionSettings(const std::string &room_id);
+std::map<std::string, std::optional<UserKeyCache>>
+getMembersWithKeys(const std::string &room_id, bool verified_only);
 
 //! Check if a user is a member of the room.
 bool
@@ -239,6 +329,9 @@ void
 saveOlmSession(const std::string &curve25519,
                mtx::crypto::OlmSessionPtr session,
                uint64_t timestamp);
+void
+saveOlmSessions(std::vector<std::pair<std::string, mtx::crypto::OlmSessionPtr>> sessions,
+                uint64_t timestamp);
 std::vector<std::string>
 getOlmSessions(const std::string &curve25519);
 std::optional<mtx::crypto::OlmSessionPtr>
@@ -251,6 +344,16 @@ saveOlmAccount(const std::string &pickled);
 
 std::string
 restoreOlmAccount();
+std::string
+pickleSecret();
+std::string
+createPickleSecret();
+void
+saveBackupVersion(const OnlineBackupVersion &data);
+void
+deleteBackupVersion();
+std::optional<OnlineBackupVersion>
+backupVersion();
 
 void
 storeSecret(std::string_view name, const std::string &secret);
@@ -259,4 +362,37 @@ secret(std::string_view name);
 
 std::vector<ImagePackInfo>
 getImagePacks(const std::string &room_id, std::optional<bool> stickers);
+
+#define NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(Content)                                       \
+    extern template std::optional<mtx::events::StateEvent<Content>> cache::getStateEvent<Content>( \
+      const std::string &room_id, std::string_view state_key);                                     \
+                                                                                                   \
+    extern template std::vector<mtx::events::StateEvent<Content>>                                  \
+    cache::getStateEventsWithType<Content>(const std::string &room_id,                             \
+                                           mtx::events::EventType type);
+
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Aliases)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Avatar)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::CanonicalAlias)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Create)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Encryption)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::GuestAccess)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::HistoryVisibility)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::JoinRules)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Member)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Name)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::PinnedEvents)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::PowerLevels)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Tombstone)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::ServerAcl)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Topic)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::Widget)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::policy_rule::UserRule)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::policy_rule::RoomRule)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::policy_rule::ServerRule)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::space::Child)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::state::space::Parent)
+NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD(mtx::events::msc2545::ImagePack)
+
+#undef NHEKO_CACHE_GET_STATE_EVENT_WRAPPER_FORWARD
 }

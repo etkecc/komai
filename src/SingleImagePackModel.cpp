@@ -15,7 +15,7 @@
 
 #include <mtx/responses/media.hpp>
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
@@ -148,7 +148,7 @@ SingleImagePackModel::setData(const QModelIndex &index, const QVariant &value, i
 bool
 SingleImagePackModel::isGloballyEnabled() const
 {
-    if (auto roomPacks = cache::client()->getAccountData(mtx::events::EventType::ImagePackRooms)) {
+    if (auto roomPacks = cache::getAccountData(mtx::events::EventType::ImagePackRooms)) {
         if (auto tmp =
               std::get_if<mtx::events::EphemeralEvent<mtx::events::msc2545::ImagePackRooms>>(
                 &*roomPacks)) {
@@ -163,7 +163,7 @@ void
 SingleImagePackModel::setGloballyEnabled(bool enabled)
 {
     mtx::events::msc2545::ImagePackRooms content{};
-    if (auto roomPacks = cache::client()->getAccountData(mtx::events::EventType::ImagePackRooms)) {
+    if (auto roomPacks = cache::getAccountData(mtx::events::EventType::ImagePackRooms)) {
         if (auto tmp =
               std::get_if<mtx::events::EphemeralEvent<mtx::events::msc2545::ImagePackRooms>>(
                 &*roomPacks)) {
@@ -444,13 +444,12 @@ SingleImagePackModel::unconflictingStatekey(const std::string &roomid, const std
         return key;
 
     std::unordered_set<std::string> statekeys;
-    auto currentPacks =
-      cache::client()->getStateEventsWithType<mtx::events::msc2545::ImagePack>(roomid);
+    auto currentPacks = cache::getStateEventsWithType<mtx::events::msc2545::ImagePack>(roomid);
     for (const auto &pack : currentPacks) {
         if (!pack.content.images.empty())
             statekeys.insert(pack.state_key);
     }
-    auto defaultPack = cache::client()->getStateEvent<mtx::events::msc2545::ImagePack>(roomid);
+    auto defaultPack = cache::getStateEvent<mtx::events::msc2545::ImagePack>(roomid);
     if (defaultPack && defaultPack->content.images.size()) {
         statekeys.insert(defaultPack->state_key);
     }

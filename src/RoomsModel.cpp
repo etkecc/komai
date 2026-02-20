@@ -6,7 +6,7 @@
 
 #include <QUrl>
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "CompletionModelRoles.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
@@ -15,7 +15,7 @@ RoomsModel::RoomsModel(bool showOnlyRoomWithAliases, QObject *parent)
   : QAbstractListModel(parent)
   , showOnlyRoomWithAliases_(showOnlyRoomWithAliases)
 {
-    rooms = cache::client()->roomNamesAndAliases();
+    rooms = cache::roomNamesAndAliases();
 
     if (showOnlyRoomWithAliases_)
         utils::erase_if(rooms, [](auto &r) { return r.alias.empty(); });
@@ -67,8 +67,7 @@ RoomsModel::data(const QModelIndex &index, int role) const
         case CompletionModel::SearchRole3:
             return QString::fromStdString(rooms[index.row()].id);
         case Roles::AvatarUrl:
-            return QString::fromStdString(
-              cache::client()->singleRoomInfo(rooms[index.row()].id).avatar_url);
+            return QString::fromStdString(cache::singleRoomInfo(rooms[index.row()].id).avatar_url);
         case Roles::RoomID:
             return QString::fromStdString(rooms[index.row()].id).toHtmlEscaped();
         case Roles::RawRoomID:

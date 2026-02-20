@@ -10,7 +10,7 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
@@ -20,8 +20,7 @@
 AliasEditingModel::AliasEditingModel(const std::string &rid, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(rid)
-  , aliasEvent(cache::client()
-                 ->getStateEvent<mtx::events::state::CanonicalAlias>(room_id)
+  , aliasEvent(cache::getStateEvent<mtx::events::state::CanonicalAlias>(room_id)
                  .value_or(mtx::events::StateEvent<mtx::events::state::CanonicalAlias>{})
                  .content)
   , canSendStateEvent(

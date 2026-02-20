@@ -7,7 +7,6 @@
 #include <QLocale>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "Logging.h"
 #include "Utils.h"
 
@@ -18,7 +17,7 @@ ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject 
 {
     try {
         addUsers(cache::readReceipts(event_id_, room_id_));
-    } catch (const lmdb::error &) {
+    } catch (const std::exception &) {
         nhlog::db()->warn("failed to retrieve read receipts for {} {}",
                           event_id_.toStdString(),
                           room_id_.toStdString());
@@ -26,7 +25,7 @@ ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject 
         return;
     }
 
-    connect(cache::client(), &Cache::newReadReceipts, this, &ReadReceiptsModel::update);
+    cache::onReadReceiptsChanged(this, [this] { update(); });
 }
 
 void
@@ -34,7 +33,7 @@ ReadReceiptsModel::update()
 {
     try {
         addUsers(cache::readReceipts(event_id_, room_id_));
-    } catch (const lmdb::error &) {
+    } catch (const std::exception &) {
         nhlog::db()->warn("failed to retrieve read receipts for {} {}",
                           event_id_.toStdString(),
                           room_id_.toStdString());

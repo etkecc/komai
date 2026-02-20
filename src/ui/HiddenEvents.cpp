@@ -4,7 +4,7 @@
 
 #include "HiddenEvents.h"
 
-#include "Cache_p.h"
+#include "Cache.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
@@ -32,8 +32,7 @@ HiddenEvents::load()
     if (callLocalUser_)
         hiddenEvents.hidden_event_types->push_back(EventType::CallSelectAnswer);
 
-    if (auto temp =
-          cache::client()->getAccountData(mtx::events::EventType::NhekoHiddenEvents, "")) {
+    if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoHiddenEvents, "")) {
         auto h = std::get<
           mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::HiddenEvents>>(
           *temp);
@@ -42,8 +41,8 @@ HiddenEvents::load()
     }
 
     if (!roomid_.isEmpty()) {
-        if (auto temp = cache::client()->getAccountData(mtx::events::EventType::NhekoHiddenEvents,
-                                                        roomid_.toStdString())) {
+        if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoHiddenEvents,
+                                              roomid_.toStdString())) {
             auto h = std::get<mtx::events::AccountDataEvent<
               mtx::events::account_data::nheko_extensions::HiddenEvents>>(*temp);
             if (h.content.hidden_event_types)

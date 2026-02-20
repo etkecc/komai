@@ -8,7 +8,6 @@
 #include <QGuiApplication>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
@@ -28,6 +27,9 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   : QAbstractListModel(parent)
   , manager(parent)
 {
+    cache::onRoomReadStatusChanged(
+      this, [this](const std::map<QString, bool> &status) { updateReadStatus(status); });
+
     connect(
       UserSettings::instance().get(), &UserSettings::showLastMessagePreviewChanged, this, [this]() {
           auto style   = UserSettings::instance()->showLastMessagePreview();
@@ -100,7 +102,7 @@ RoomlistModel::data(const QModelIndex &index, int role) const
         auto roomid = roomids.at(index.row());
 
         if (role == Roles::ParentSpaces) {
-            auto parents = cache::client()->getParentRoomIds(roomid.toStdString());
+            auto parents = cache::getParentRoomIds(roomid.toStdString());
             QStringList list;
             list.reserve(static_cast<int>(parents.size()));
             for (const auto &t : parents)
@@ -281,15 +283,6 @@ void
 RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
 {
     if (!models.contains(room_id)) {
-        // ensure we get read status updates and are only connected once
-        // WORKAROUND(Nico): This is not a lambda, but clazy on alpine currently doesn't
-        // believe us...
-        connect(cache::client(),
-                &Cache::roomReadStatus,
-                this,
-                &RoomlistModel::updateReadStatus,
-                Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
-
         QSharedPointer<TimelineModel> newRoom(new TimelineModel(manager, room_id));
         auto style = UserSettings::instance()->showLastMessagePreview();
         newRoom->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
@@ -366,7 +359,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
 
         std::vector<QString> previewsToAdd;
         if (newRoom->isSpace()) {
-            auto childs = cache::client()->getChildRoomIds(room_id.toStdString());
+            auto childs = cache::getChildRoomIds(room_id.toStdString());
             for (const auto &c : childs) {
                 auto id = QString::fromStdString(c);
                 if (!(models.contains(id) || invites.contains(id) || previewedRooms.contains(id))) {
@@ -423,7 +416,7 @@ RoomlistModel::fetchPreviews(QString roomid_, const std::string &from)
     auto roomid = roomid_.toStdString();
     if (from.empty()) {
         // check if we need to fetch anything
-        auto children = cache::client()->getChildRoomIds(roomid);
+        auto children = cache::getChildRoomIds(roomid);
         bool fetch    = false;
         for (const auto &c : children) {
             auto id = QString::fromStdString(c);
@@ -601,7 +594,7 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
         (void)room;
         auto qroomid = QString::fromStdString(room_id);
 
-        auto invite = cache::client()->invite(room_id);
+        auto invite = cache::invite(room_id);
         if (!invite)
             continue;
 
@@ -627,7 +620,7 @@ RoomlistModel::initializeRooms()
     invites.clear();
     currentRoom_ = nullptr;
 
-    auto e = cache::client()->getAccountData(mtx::events::EventType::Direct);
+    auto e = cache::getAccountData(mtx::events::EventType::Direct);
     if (e) {
         if (auto event =
               std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
@@ -636,12 +629,12 @@ RoomlistModel::initializeRooms()
         }
     }
 
-    invites = cache::client()->invites();
+    invites = cache::invites();
     for (auto id = invites.keyBegin(); id != invites.keyEnd(); ++id) {
         roomids.push_back(*id);
     }
 
-    for (const auto &id : cache::client()->roomIds())
+    for (const auto &id : cache::roomIds())
         addRoom(id, true);
 
     nhlog::db()->info("Restored {} rooms from cache", rowCount());
@@ -739,8 +732,8 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
             i                 = invites.value(roomid);
             preview.isInvite_ = true;
 
-            auto member = cache::client()->getInviteMember(roomid.toStdString(),
-                                                           http::client()->user_id().to_string());
+            auto member =
+              cache::getInviteMember(roomid.toStdString(), http::client()->user_id().to_string());
 
             if (member) {
                 preview.reason_ = QString::fromStdString(member->reason);
@@ -796,8 +789,8 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
             i           = invites.value(roomid);
             p.isInvite_ = true;
 
-            auto member = cache::client()->getInviteMember(roomid.toStdString(),
-                                                           http::client()->user_id().to_string());
+            auto member =
+              cache::getInviteMember(roomid.toStdString(), http::client()->user_id().to_string());
 
             if (member) {
                 p.reason_ = QString::fromStdString(member->reason);
@@ -1292,10 +1285,10 @@ QString
 RoomPreview::inviterAvatarUrl() const
 {
     if (isInvite_) {
-        auto self = cache::client()->getInviteMember(roomid_.toStdString(),
-                                                     http::client()->user_id().to_string());
+        auto self =
+          cache::getInviteMember(roomid_.toStdString(), http::client()->user_id().to_string());
         if (self && !self->inviter.empty()) {
-            auto other = cache::client()->getInviteMember(roomid_.toStdString(), self->inviter);
+            auto other = cache::getInviteMember(roomid_.toStdString(), self->inviter);
             if (other && other->avatar_url.starts_with("mxc://")) {
                 return QString::fromStdString(other->avatar_url);
             }
@@ -1308,10 +1301,10 @@ QString
 RoomPreview::inviterDisplayName() const
 {
     if (isInvite_) {
-        auto self = cache::client()->getInviteMember(roomid_.toStdString(),
-                                                     http::client()->user_id().to_string());
+        auto self =
+          cache::getInviteMember(roomid_.toStdString(), http::client()->user_id().to_string());
         if (self && !self->inviter.empty()) {
-            auto other = cache::client()->getInviteMember(roomid_.toStdString(), self->inviter);
+            auto other = cache::getInviteMember(roomid_.toStdString(), self->inviter);
             if (other) {
                 return QString::fromStdString(other->name).toHtmlEscaped();
             }
@@ -1324,8 +1317,8 @@ QString
 RoomPreview::inviterUserId() const
 {
     if (isInvite_) {
-        auto self = cache::client()->getInviteMember(roomid_.toStdString(),
-                                                     http::client()->user_id().to_string());
+        auto self =
+          cache::getInviteMember(roomid_.toStdString(), http::client()->user_id().to_string());
         if (self && !self->inviter.empty()) {
             return QString::fromStdString(self->inviter);
         }

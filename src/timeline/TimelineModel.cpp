@@ -22,7 +22,6 @@
 #include <nlohmann/json.hpp>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Config.h"
 #include "EventAccessors.h"
@@ -518,13 +517,13 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
 
     connect(this, &TimelineModel::encryptionChanged, this, &TimelineModel::trustlevelChanged);
     connect(this, &TimelineModel::roomMemberCountChanged, this, &TimelineModel::trustlevelChanged);
-    connect(
-      cache::client(), &Cache::verificationStatusChanged, this, &TimelineModel::trustlevelChanged);
+    cache::onVerificationStatusChanged(this,
+                                       [this](const std::string &) { emit trustlevelChanged(); });
 
     showEventTimer.callOnTimeout(this, &TimelineModel::scrollTimerEvent);
 
     connect(this, &TimelineModel::newState, this, [this](mtx::responses::StateEvents events_) {
-        cache::client()->updateState(room_id_.toStdString(), events_, true);
+        cache::updateState(room_id_.toStdString(), events_, true);
         this->syncState({std::move(events_.events)});
     });
 }
@@ -831,7 +830,7 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         if (acc::sender(event) != http::client()->user_id().to_string())
             return qml_mtx_events::Empty;
         else if (!id.isEmpty() && id[0] == 'm') {
-            auto pending = cache::client()->pendingEvents(this->room_id_.toStdString());
+            auto pending = cache::pendingEvents(this->room_id_.toStdString());
             if (std::find(pending.begin(), pending.end(), idstr) != pending.end())
                 return qml_mtx_events::Sent;
             else
@@ -1371,8 +1370,8 @@ TimelineModel::updateLastMessage()
                        time};
             if (description != lastMessage_) {
                 if (lastMessage_.timestamp == 0) {
-                    cache::client()->updateLastMessageTimestamp(room_id_.toStdString(),
-                                                                description.timestamp);
+                    cache::updateLastMessageTimestamp(room_id_.toStdString(),
+                                                      description.timestamp);
                 }
                 lastMessage_ = description;
                 emit lastMessageChanged();
@@ -1388,8 +1387,7 @@ TimelineModel::updateLastMessage()
           cache::displayName(room_id_, QString::fromStdString(mtx::accessors::sender(*event))));
         if (description != lastMessage_) {
             if (lastMessage_.timestamp == 0) {
-                cache::client()->updateLastMessageTimestamp(room_id_.toStdString(),
-                                                            description.timestamp);
+                cache::updateLastMessageTimestamp(room_id_.toStdString(), description.timestamp);
             }
             lastMessage_ = description;
             emit lastMessageChanged();
@@ -1525,8 +1523,7 @@ TimelineModel::openUserProfile(QString userid)
 void
 TimelineModel::unpin(const QString &id)
 {
-    auto pinned =
-      cache::client()->getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
+    auto pinned = cache::getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
 
     mtx::events::state::PinnedEvents content{};
     if (pinned)
@@ -1555,8 +1552,7 @@ TimelineModel::unpin(const QString &id)
 void
 TimelineModel::pin(const QString &id)
 {
-    auto pinned =
-      cache::client()->getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
+    auto pinned = cache::getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
 
     mtx::events::state::PinnedEvents content{};
     if (pinned)
@@ -1773,13 +1769,13 @@ TimelineModel::sendEncryptedMessage(const mtx::events::RoomEvent<T> &msg,
         emit this->addPendingMessageToStore(event);
 
         // TODO: Let the user know about the errors.
-    } catch (const lmdb::error &e) {
-        nhlog::db()->critical("failed to open outbound megolm session ({}): {}", room_id, e.what());
-        emit ChatPage::instance()->showNotification(
-          tr("Failed to encrypt event, sending aborted!"));
     } catch (const mtx::crypto::olm_exception &e) {
         nhlog::crypto()->critical(
           "failed to open outbound megolm session ({}): {}", room_id, e.what());
+        emit ChatPage::instance()->showNotification(
+          tr("Failed to encrypt event, sending aborted!"));
+    } catch (const std::exception &e) {
+        nhlog::db()->critical("failed to open outbound megolm session ({}): {}", room_id, e.what());
         emit ChatPage::instance()->showNotification(
           tr("Failed to encrypt event, sending aborted!"));
     }
@@ -2250,8 +2246,7 @@ TimelineModel::requestKeyForEvent(const QString &id)
 QString
 TimelineModel::getBareRoomLink(const QString &roomId)
 {
-    auto alias =
-      cache::client()->getStateEvent<mtx::events::state::CanonicalAlias>(roomId.toStdString());
+    auto alias = cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomId.toStdString());
     QString room;
     if (alias) {
         room = QString::fromStdString(alias->content.alias);
@@ -3293,8 +3288,7 @@ TimelineModel::roomTopic() const
 QStringList
 TimelineModel::pinnedMessages() const
 {
-    auto pinned =
-      cache::client()->getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
+    auto pinned = cache::getStateEvent<mtx::events::state::PinnedEvents>(room_id_.toStdString());
 
     if (!pinned || pinned->content.pinned.empty())
         return {};
@@ -3310,9 +3304,8 @@ TimelineModel::pinnedMessages() const
 QStringList
 TimelineModel::widgetLinks() const
 {
-    auto evs =
-      cache::client()->getStateEventsWithType<mtx::events::state::Widget>(room_id_.toStdString());
-    auto evs2 = cache::client()->getStateEventsWithType<mtx::events::state::Widget>(
+    auto evs  = cache::getStateEventsWithType<mtx::events::state::Widget>(room_id_.toStdString());
+    auto evs2 = cache::getStateEventsWithType<mtx::events::state::Widget>(
       room_id_.toStdString(), mtx::events::EventType::Widget);
     evs.insert(
       evs.end(), std::make_move_iterator(evs2.begin()), std::make_move_iterator(evs2.end()));
@@ -3377,13 +3370,13 @@ TimelineModel::trustlevel() const
     if (!isEncrypted_)
         return crypto::Trust::Unverified;
 
-    return cache::client()->roomVerificationStatus(room_id_.toStdString());
+    return cache::roomVerificationStatus(room_id_.toStdString());
 }
 
 int
 TimelineModel::roomMemberCount() const
 {
-    return (int)cache::client()->memberCount(room_id_.toStdString());
+    return (int)cache::memberCount(room_id_.toStdString());
 }
 
 QString
@@ -3405,7 +3398,7 @@ TimelineModel::pushrulesRoomContext() const
     return mtx::pushrules::PushRuleEvaluator::RoomContext{
       .user_display_name =
         cache::displayName(room_id_.toStdString(), http::client()->user_id().to_string()),
-      .member_count = cache::client()->memberCount(room_id_.toStdString()),
+      .member_count = cache::memberCount(room_id_.toStdString()),
       .power_levels = permissions_.powerlevelEvent(),
     };
 }
@@ -3414,7 +3407,7 @@ RoomSummary *
 TimelineModel::parentSpace()
 {
     if (!parentChecked) {
-        auto parents = cache::client()->getStateEventsWithType<mtx::events::state::space::Parent>(
+        auto parents = cache::getStateEventsWithType<mtx::events::state::space::Parent>(
           this->room_id_.toStdString());
 
         for (const auto &p : parents) {
@@ -3439,10 +3432,10 @@ TimelineModel::showImage() const
     case UserSettings::ShowImage::Always:
         return true;
     case UserSettings::ShowImage::OnlyPrivate: {
-        auto accessRules = cache::client()
-                             ->getStateEvent<mtx::events::state::JoinRules>(room_id_.toStdString())
-                             .value_or(mtx::events::StateEvent<mtx::events::state::JoinRules>{})
-                             .content;
+        auto accessRules =
+          cache::getStateEvent<mtx::events::state::JoinRules>(room_id_.toStdString())
+            .value_or(mtx::events::StateEvent<mtx::events::state::JoinRules>{})
+            .content;
 
         return accessRules.join_rule != mtx::events::state::JoinRule::Public;
     }

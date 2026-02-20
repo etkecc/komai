@@ -7,7 +7,6 @@
 #include <QUrl>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "CompletionModelRoles.h"
 #include "Logging.h"
 #include "UserSettingsPage.h"
@@ -19,7 +18,7 @@ UsersModel::UsersModel(const std::string &roomId, QObject *parent)
 {
     // obviously, "friends" isn't a room, but I felt this was the least invasive way
     if (roomId == "friends") {
-        auto e = cache::client()->getAccountData(mtx::events::EventType::Direct);
+        auto e = cache::getAccountData(mtx::events::EventType::Direct);
         if (e) {
             if (auto event =
                   std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(

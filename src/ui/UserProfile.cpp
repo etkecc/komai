@@ -8,7 +8,6 @@
 #include <QStandardPaths>
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
@@ -47,22 +46,19 @@ UserProfile::UserProfile(const QString &roomid,
         getGlobalProfileData();
     }
 
-    if (!cache::client() || !cache::client()->isDatabaseReady() ||
-        !ChatPage::instance()->timelineManager())
+    if (!cache::isDatabaseReady() || !ChatPage::instance()->timelineManager())
         return;
 
-    connect(
-      cache::client(), &Cache::verificationStatusChanged, this, [this](const std::string &user_id) {
-          if (user_id != this->userid_.toStdString())
-              return;
+    cache::onVerificationStatusChanged(this, [this](const std::string &user_id) {
+        if (user_id != this->userid_.toStdString())
+            return;
 
-          emit verificationStatiChanged();
-      });
+        emit verificationStatiChanged();
+    });
     fetchDeviceList(this->userid_);
 
     if (userid != utils::localUser())
-        sharedRooms_ =
-          new RoomInfoModel(cache::client()->getCommonRooms(userid.toStdString()), this);
+        sharedRooms_ = new RoomInfoModel(cache::getCommonRooms(userid.toStdString()), this);
     else
         sharedRooms_ = new RoomInfoModel({}, this);
 
@@ -234,7 +230,7 @@ UserProfile::signOutDevice(const QString &deviceID)
 void
 UserProfile::refreshDevices()
 {
-    cache::client()->markUserKeysOutOfDate({this->userid_.toStdString()});
+    cache::markUserKeysOutOfDate({this->userid_.toStdString()});
     fetchDeviceList(this->userid_);
 }
 
@@ -295,40 +291,39 @@ UserProfile::setIgnored(bool ignore)
 void
 UserProfile::fetchDeviceList(const QString &userID)
 {
-    if (!cache::client() || !cache::client()->isDatabaseReady())
+    if (!cache::isDatabaseReady())
         return;
 
-    cache::client()->query_keys(
-      userID.toStdString(),
-      [other_user_id = userID.toStdString(), this](const UserKeyCache &,
-                                                   mtx::http::RequestErr err) {
-          if (err) {
-              nhlog::net()->warn("failed to query device keys: {}", *err);
-          }
+    cache::queryKeys(userID.toStdString(),
+                     [other_user_id = userID.toStdString(), this](const UserKeyCache &,
+                                                                  mtx::http::RequestErr err) {
+                         if (err) {
+                             nhlog::net()->warn("failed to query device keys: {}", *err);
+                         }
 
-          // Ensure local key cache is up to date
-          cache::client()->query_keys(
-            utils::localUser().toStdString(),
-            [this](const UserKeyCache &, mtx::http::RequestErr err) {
-                using namespace mtx;
-                std::string local_user_id = utils::localUser().toStdString();
+                         // Ensure local key cache is up to date
+                         cache::queryKeys(
+                           utils::localUser().toStdString(),
+                           [this](const UserKeyCache &, mtx::http::RequestErr err) {
+                               using namespace mtx;
+                               std::string local_user_id = utils::localUser().toStdString();
 
-                if (err) {
-                    nhlog::net()->warn("failed to query device keys: {}", *err);
-                }
+                               if (err) {
+                                   nhlog::net()->warn("failed to query device keys: {}", *err);
+                               }
 
-                emit verificationStatiChanged();
-            });
-      });
+                               emit verificationStatiChanged();
+                           });
+                     });
 }
 
 void
 UserProfile::updateVerificationStatus()
 {
-    if (!cache::client() || !cache::client()->isDatabaseReady())
+    if (!cache::isDatabaseReady())
         return;
 
-    auto user_keys = cache::client()->userKeys(userid_.toStdString());
+    auto user_keys = cache::userKeys(userid_.toStdString());
     if (!user_keys) {
         this->hasMasterKey   = false;
         this->isUserVerified = crypto::Trust::Unverified;
@@ -340,8 +335,9 @@ UserProfile::updateVerificationStatus()
     this->hasMasterKey = !user_keys->master_keys.keys.empty();
 
     std::vector<DeviceInfo> deviceInfo;
-    auto devices            = user_keys->device_keys;
-    auto verificationStatus = cache::client()->verificationStatus(userid_.toStdString());
+    auto devices = user_keys->device_keys;
+    auto verificationStatus =
+      cache::verificationStatus(userid_.toStdString()).value_or(VerificationStatus{});
 
     this->isUserVerified = verificationStatus.user_verified;
     emit userStatusChanged();

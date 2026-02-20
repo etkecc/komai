@@ -103,9 +103,22 @@ bool needsCompact = false;
 using CachedReceipts = std::multimap<uint64_t, std::string, std::greater<uint64_t>>;
 using Receipts       = std::map<std::string, std::map<std::string, uint64_t>>;
 
+namespace {
+std::unique_ptr<db::Backend>
+createConfiguredBackend()
+{
+    const auto requestedBackend = qgetenv("KOMAI_DB_BACKEND");
+    if (requestedBackend.isEmpty())
+        return db::createDefaultBackend();
+
+    return db::createBackend(std::string_view(requestedBackend.constData(),
+                                              static_cast<std::size_t>(requestedBackend.size())));
+}
+} // namespace
+
 struct CacheDb
 {
-    std::unique_ptr<db::Backend> storage = db::createDefaultBackend();
+    std::unique_ptr<db::Backend> storage = createConfiguredBackend();
     db::Dbi syncState;
     db::Dbi rooms;
     db::Dbi spacesChildren, spacesParents;

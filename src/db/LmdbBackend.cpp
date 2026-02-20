@@ -11,6 +11,7 @@
 #include <nlohmann/json.hpp>
 
 #include "db/DbTypes.h"
+#include "db/Internal.h"
 #include "db/LmdbError.h"
 #include "db/LmdbFlags.h"
 
@@ -356,12 +357,6 @@ LmdbBackend::mapSizeBytes() const noexcept
     MDB_envinfo envInfo = {};
     lmdb::env_info(const_cast<lmdb::env &>(impl_->env), &envInfo);
     return envInfo.me_mapsize;
-}
-
-std::unique_ptr<Backend>
-createDefaultBackend()
-{
-    return std::make_unique<LmdbBackend>();
 }
 
 } // namespace db

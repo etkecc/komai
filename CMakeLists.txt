@@ -470,10 +470,15 @@ set(SRC_FILES
     src/CacheCryptoStructs.h
     src/CacheStructs.h
     src/Cache_p.h
+    src/db/DbTypes.cpp
+    src/db/Factory.cpp
+    src/db/InMemoryBackend.cpp
+    src/db/InMemoryBackend.h
     src/db/LmdbBackend.cpp
     src/db/LmdbBackend.h
     src/db/Backend.h
     src/db/DbTypes.h
+    src/db/Internal.h
     src/db/LmdbHeaders.h
     src/ChatPage.cpp
     src/ChatPage.h

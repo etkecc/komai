@@ -60,5 +60,7 @@ public:
 
 std::unique_ptr<Backend>
 createDefaultBackend();
+std::unique_ptr<Backend>
+createBackend(std::string_view id);
 
 } // namespace db

@@ -9,6 +9,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "db/DbTypes.h"
 #include "db/LmdbError.h"
 #include "db/LmdbFlags.h"
 
@@ -63,6 +64,24 @@ dupsortComparator(db::DupsortComparator comparator)
 
 namespace db {
 
+struct LmdbBackend::Impl
+{
+    lmdb::env env = nullptr;
+};
+
+LmdbBackend::LmdbBackend()
+  : impl_(std::make_unique<Impl>())
+{
+}
+
+LmdbBackend::~LmdbBackend() = default;
+
+bool
+LmdbBackend::isOpen() const noexcept
+{
+    return impl_ && impl_->env.handle() != nullptr;
+}
+
 void
 LmdbBackend::open(const QString &directory, const BackendOptions &options)
 {
@@ -76,10 +95,10 @@ LmdbBackend::open(const QString &directory, const BackendOptions &options)
         flags |= MDB_NOSYNC;
 
     translateLmdbErrors([&] {
-        env_ = lmdb::env::create();
-        env_.set_mapsize(options.mapSizeBytes);
-        env_.set_max_dbs(options.maxDbs);
-        env_.open(directory.toStdString().c_str(), flags);
+        impl_->env = lmdb::env::create();
+        impl_->env.set_mapsize(options.mapSizeBytes);
+        impl_->env.set_max_dbs(options.maxDbs);
+        impl_->env.open(directory.toStdString().c_str(), flags);
     });
 }
 
@@ -87,33 +106,39 @@ void
 LmdbBackend::close() noexcept
 {
     if (isOpen())
-        env_.close();
+        impl_->env.close();
 }
 
-ErrorKind
-LmdbBackend::classifyError(const std::exception &e) const noexcept
+bool
+LmdbBackend::isMapFullError(const std::exception &e) const noexcept
 {
     if (auto *dbError = dynamic_cast<const db::Error *>(&e))
-        return dbError->kind();
+        return dbError->kind() == ErrorKind::MapFull;
 
     auto *lmdbError = dynamic_cast<const lmdb::error *>(&e);
     if (!lmdbError)
-        return ErrorKind::Unknown;
+        return false;
 
-    return errorKindFromLmdbCode(lmdbError->code());
+    return errorKindFromLmdbCode(lmdbError->code()) == ErrorKind::MapFull;
+}
+
+bool
+LmdbBackend::ownsTxn(const Txn &txn) const noexcept
+{
+    return isOpen() && txn.env() == impl_->env.handle();
 }
 
 Txn
-LmdbBackend::beginTxn(Txn *parent, unsigned flags)
+LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
 {
     return translateLmdbErrors([&] {
         return Txn::fromNative(
-          lmdb::txn::begin(env_, parent ? parent->handle() : nullptr, toLmdbTxnFlags(flags)));
+          lmdb::txn::begin(impl_->env, parent ? parent->handle() : nullptr, toLmdbTxnFlags(flags)));
     });
 }
 
 Dbi
-LmdbBackend::openDbi(Txn &txn, const char *name, unsigned flags)
+LmdbBackend::openDbi(Txn &txn, const char *name, DbiFlags flags)
 {
     return translateLmdbErrors([&] {
         if (name)
@@ -133,7 +158,7 @@ void
 LmdbBackend::closeDbi(Dbi dbi) noexcept
 {
     if (isOpen())
-        lmdb::dbi_close(env_, dbi.native());
+        lmdb::dbi_close(impl_->env, dbi.native());
 }
 
 std::optional<std::size_t>
@@ -143,7 +168,7 @@ LmdbBackend::mapSizeBytes() const noexcept
         return std::nullopt;
 
     MDB_envinfo envInfo = {};
-    lmdb::env_info(const_cast<lmdb::env &>(env_), &envInfo);
+    lmdb::env_info(const_cast<lmdb::env &>(impl_->env), &envInfo);
     return envInfo.me_mapsize;
 }
 

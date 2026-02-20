@@ -36,6 +36,7 @@
 #include "UserSettingsPage.h"
 #include "Utils.h"
 #include "db/Backend.h"
+#include "db/DbTypes.h"
 #include "db/Ops.h"
 #include "encryption/Olm.h"
 
@@ -142,13 +143,13 @@ Cache::storage() const
 }
 
 db::Txn
-Cache::beginTxn(db::Txn *parent, unsigned flags)
+Cache::beginTxn(db::Txn *parent, db::TxnFlags flags)
 {
     return storage().beginTxn(parent, flags);
 }
 
 db::Dbi
-Cache::openDbi(db::Txn &txn, const char *name, unsigned flags)
+Cache::openDbi(db::Txn &txn, const char *name, db::DbiFlags flags)
 {
     return storage().openDbi(txn, name, flags);
 }
@@ -558,7 +559,7 @@ Cache::setup()
             }
         }
     } catch (const db::Error &e) {
-        const auto errorKind = storage().classifyError(e);
+        const auto errorKind = e.kind();
         if (errorKind != db::ErrorKind::VersionMismatch && errorKind != db::ErrorKind::Invalid) {
             throw std::runtime_error("Storage initialization failed: " + std::string(e.what()));
         }
@@ -1473,7 +1474,7 @@ Cache::removeRoom(db::Txn &txn, const std::string &roomid)
 void
 Cache::removeRoom(const std::string &roomid)
 {
-    auto txn = beginTxn(nullptr, 0);
+    auto txn = beginTxn();
     db->rooms.del(txn, roomid);
     txn.commit();
 }
@@ -2610,7 +2611,7 @@ try {
 
     emit roomReadStatus(readStatus);
 } catch (const db::Error &storageException) {
-    const auto errorKind = storage().classifyError(storageException);
+    const auto errorKind = storageException.kind();
     if (errorKind == db::ErrorKind::DbsFull || errorKind == db::ErrorKind::MapFull) {
         if (errorKind == db::ErrorKind::DbsFull) {
             auto settings = UserSettings::instance();

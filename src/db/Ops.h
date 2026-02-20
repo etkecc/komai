@@ -9,11 +9,20 @@
 #include <string_view>
 #include <type_traits>
 
-#include "db/DbTypes.h"
+#include "db/CursorOp.h"
 #include "db/Error.h"
 #include "db/Flags.h"
 
 namespace db {
+
+inline constexpr TxnFlags kReadOnlyTxn = TxnFlags::ReadOnly;
+inline constexpr DbiFlags kCreate      = DbiFlags::Create;
+inline constexpr DbiFlags kIntegerKey  = DbiFlags::IntegerKey;
+inline constexpr DbiFlags kDupSort     = DbiFlags::DupSort;
+inline constexpr PutFlags kAppend      = PutFlags::Append;
+inline constexpr PutFlags kAppendDup   = PutFlags::AppendDup;
+inline constexpr EnvFlags kMapAsync    = EnvFlags::MapAsync;
+inline constexpr EnvFlags kWriteMap    = EnvFlags::WriteMap;
 
 inline constexpr CursorOp kCursorFirst     = CursorOp::First;
 inline constexpr CursorOp kCursorFirstDup  = CursorOp::FirstDup;

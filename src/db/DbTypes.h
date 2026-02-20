@@ -6,6 +6,7 @@
 
 #include <utility>
 
+#include "db/CursorOp.h"
 #include "db/LmdbError.h"
 #include "db/LmdbFlags.h"
 
@@ -78,7 +79,7 @@ public:
     }
 
     template<typename Key, typename Value>
-    decltype(auto) put(Txn &txn, Key &&key, Value &&value, unsigned flags = 0)
+    decltype(auto) put(Txn &txn, Key &&key, Value &&value, PutFlags flags = PutFlags::None)
     {
         return translateLmdbErrors([&] {
             return native_.put(txn.native(),
@@ -123,20 +124,6 @@ private:
     lmdb::dbi native_;
 };
 
-enum class CursorOp
-{
-    First,
-    FirstDup,
-    GetBoth,
-    Last,
-    Next,
-    NextDup,
-    NextNoDup,
-    Prev,
-    Set,
-    SetRange,
-};
-
 class Cursor
 {
 public:
@@ -174,7 +161,7 @@ public:
     }
 
     template<typename Key, typename Value>
-    decltype(auto) put(Key &&key, Value &&value, unsigned flags = 0)
+    decltype(auto) put(Key &&key, Value &&value, PutFlags flags = PutFlags::None)
     {
         return translateLmdbErrors([&] {
             return native_.put(

@@ -18,7 +18,7 @@
 
 #include "CacheCryptoStructs.h"
 #include "CacheStructs.h"
-#include "db/DbTypes.h"
+#include "db/Flags.h"
 
 namespace mtx::responses {
 struct Messages;
@@ -27,6 +27,8 @@ struct StateEvents;
 
 namespace db {
 class Backend;
+class Txn;
+class Dbi;
 enum class DupsortComparator;
 }
 
@@ -429,8 +431,9 @@ private:
     void setNextBatchToken(db::Txn &txn, const std::string &token);
     db::Backend &storage();
     const db::Backend &storage() const;
-    db::Txn beginTxn(db::Txn *parent = nullptr, unsigned flags = 0);
-    db::Dbi openDbi(db::Txn &txn, const char *name = nullptr, unsigned flags = 0);
+    db::Txn beginTxn(db::Txn *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
+    db::Dbi
+    openDbi(db::Txn &txn, const char *name = nullptr, db::DbiFlags flags = db::DbiFlags::None);
     void setDbiDupsort(db::Txn &txn, db::Dbi dbi, db::DupsortComparator comparator);
 
     QString localUserId_;

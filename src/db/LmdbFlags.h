@@ -10,39 +10,39 @@
 namespace db {
 
 inline unsigned
-toLmdbTxnFlags(unsigned flags) noexcept
+toLmdbTxnFlags(TxnFlags flags) noexcept
 {
     unsigned native = 0;
 
-    if (flags & kReadOnlyTxn)
+    if (hasFlag(flags, TxnFlags::ReadOnly))
         native |= MDB_RDONLY;
 
     return native;
 }
 
 inline unsigned
-toLmdbDbiFlags(unsigned flags) noexcept
+toLmdbDbiFlags(DbiFlags flags) noexcept
 {
     unsigned native = 0;
 
-    if (flags & kCreate)
+    if (hasFlag(flags, DbiFlags::Create))
         native |= MDB_CREATE;
-    if (flags & kIntegerKey)
+    if (hasFlag(flags, DbiFlags::IntegerKey))
         native |= MDB_INTEGERKEY;
-    if (flags & kDupSort)
+    if (hasFlag(flags, DbiFlags::DupSort))
         native |= MDB_DUPSORT;
 
     return native;
 }
 
 inline unsigned
-toLmdbPutFlags(unsigned flags) noexcept
+toLmdbPutFlags(PutFlags flags) noexcept
 {
     unsigned native = 0;
 
-    if (flags & kAppend)
+    if (hasFlag(flags, PutFlags::Append))
         native |= MDB_APPEND;
-    if (flags & kAppendDup)
+    if (hasFlag(flags, PutFlags::AppendDup))
         native |= MDB_APPENDDUP;
 
     return native;

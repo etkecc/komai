@@ -892,6 +892,92 @@ testScanHelper()
         ok &= expect(dupEntries.size() >= 3 && dupEntries[2].first == "z" &&
                        dupEntries[2].second == "v3",
                      "scan helper preserves dupsort entry order/value #3");
+
+        const auto pagedEntries = db::listEntries(txn, dup, 1, 1);
+        ok &= expect(pagedEntries.size() == 1, "scan helper supports paged entry iteration");
+        ok &= expect(pagedEntries.size() >= 1 && pagedEntries[0].first == "k" &&
+                       pagedEntries[0].second == "v2",
+                     "scan helper paged iteration preserves entry ordering");
+
+        const auto first = db::firstEntry(txn, dup);
+        ok &= expect(first.has_value(), "scan helper returns first entry");
+        ok &= expect(first.has_value() && first->first == "k" && first->second == "v1",
+                     "scan helper first entry matches expected order");
+
+        const auto last = db::lastEntry(txn, dup);
+        ok &= expect(last.has_value(), "scan helper returns last entry");
+        ok &= expect(last.has_value() && last->first == "z" && last->second == "v3",
+                     "scan helper last entry matches expected order");
+
+        std::vector<std::string> forEachValues;
+        db::forEachEntry(
+          txn, dup, [&forEachValues](std::string_view key, std::string_view value) {
+              forEachValues.emplace_back(std::string(key) + "=" + std::string(value));
+              return forEachValues.size() < 2;
+          });
+        ok &= expect(forEachValues.size() == 2, "scan helper forEachEntry supports early stop");
+        ok &= expect(forEachValues.size() >= 2 && forEachValues[0] == "k=v1",
+                     "scan helper forEachEntry preserves iteration order #1");
+        ok &= expect(forEachValues.size() >= 2 && forEachValues[1] == "k=v2",
+                     "scan helper forEachEntry preserves iteration order #2");
+
+        std::vector<std::string> pagedForEachValues;
+        db::forEachEntry(txn,
+                         dup,
+                         1,
+                         1,
+                         [&pagedForEachValues](std::string_view key, std::string_view value) {
+                             pagedForEachValues.emplace_back(std::string(key) + "=" +
+                                                             std::string(value));
+                             return true;
+                         });
+        ok &= expect(pagedForEachValues.size() == 1,
+                     "scan helper paged forEachEntry returns requested slice");
+        ok &= expect(pagedForEachValues.size() >= 1 && pagedForEachValues[0] == "k=v2",
+                     "scan helper paged forEachEntry preserves entry ordering");
+
+        std::vector<std::string> fromKeyForward;
+        db::forEachEntryFromKey(txn,
+                                dup,
+                                "k",
+                                db::ScanDirection::Forward,
+                                [&fromKeyForward](std::string_view key, std::string_view value) {
+                                    fromKeyForward.emplace_back(std::string(key) + "=" +
+                                                                std::string(value));
+                                    return true;
+                                });
+        ok &= expect(fromKeyForward.size() == 3,
+                     "scan helper forEachEntryFromKey iterates forward from key");
+        ok &= expect(fromKeyForward.size() >= 1 && fromKeyForward[0] == "k=v1",
+                     "scan helper forEachEntryFromKey forward order #1");
+
+        std::vector<std::string> fromKeyBackward;
+        db::forEachEntryFromKey(txn,
+                                dup,
+                                "z",
+                                db::ScanDirection::Backward,
+                                [&fromKeyBackward](std::string_view key, std::string_view value) {
+                                    fromKeyBackward.emplace_back(std::string(key) + "=" +
+                                                                 std::string(value));
+                                    return true;
+                                });
+        ok &= expect(fromKeyBackward.size() == 3,
+                     "scan helper forEachEntryFromKey iterates backward from key");
+        ok &= expect(fromKeyBackward.size() >= 1 && fromKeyBackward[0] == "z=v3",
+                     "scan helper forEachEntryFromKey backward order #1");
+
+        std::vector<std::string> prefixValues;
+        db::forEachEntryWithPrefix(
+          txn, dup, "k", [&prefixValues](std::string_view key, std::string_view value) {
+              prefixValues.emplace_back(std::string(key) + "=" + std::string(value));
+              return true;
+          });
+        ok &= expect(prefixValues.size() == 2,
+                     "scan helper forEachEntryWithPrefix iterates matching prefix");
+        ok &= expect(prefixValues.size() >= 2 && prefixValues[0] == "k=v1",
+                     "scan helper forEachEntryWithPrefix preserves order #1");
+        ok &= expect(prefixValues.size() >= 2 && prefixValues[1] == "k=v2",
+                     "scan helper forEachEntryWithPrefix preserves order #2");
     }
 
     backend->close();

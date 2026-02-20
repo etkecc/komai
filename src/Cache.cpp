@@ -42,6 +42,7 @@
 #include "db/Open.h"
 #include "db/Schema.h"
 #include "db/Serde.h"
+#include "db/StateIndex.h"
 #include "encryption/Olm.h"
 
 //! Should be changed when a breaking change occurs in the cache format.
@@ -1930,23 +1931,14 @@ Cache::getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view 
                 return std::nullopt;
             }
         } else {
-            auto db_ = getStatesKeyDb(txn, room_id);
-            // we can search using state key, since the compare functions defaults to the whole
-            // string, when there is no nullbyte
-            std::string_view data     = state_key;
-            std::string_view typeStrV = typeStr;
-
-            auto cursor = db::Cursor::open(txn, db_);
-            if (!cursor.get(typeStrV, data, db::CursorOp::GetBoth))
-                return std::nullopt;
-
             try {
-                auto eventsDb = getEventsDb(txn, room_id);
-                auto eventId  = db::catalog::splitStateEventIndexValue(data).second;
-                if (eventId.empty()) {
+                auto statesKeyDb = getStatesKeyDb(txn, room_id);
+                auto eventsDb    = getEventsDb(txn, room_id);
+                auto eventId     = db::findStateEventId(txn, statesKeyDb, typeStr, state_key);
+                if (!eventId) {
                     return std::nullopt;
                 }
-                if (!eventsDb.get(txn, eventId, value))
+                if (!eventsDb.get(txn, *eventId, value))
                     return std::nullopt;
 
             } catch (std::exception &) {
@@ -1971,28 +1963,18 @@ Cache::getStateEventsWithType(db::Txn &txn, const std::string &room_id, mtx::eve
     std::vector<mtx::events::StateEvent<T>> events;
 
     {
-        auto db_                  = getStatesKeyDb(txn, room_id);
-        auto eventsDb             = getEventsDb(txn, room_id);
-        const auto typeStr        = to_string(type);
-        std::string_view typeStrV = typeStr;
-        std::string_view data;
+        auto statesKeyDb   = getStatesKeyDb(txn, room_id);
+        auto eventsDb      = getEventsDb(txn, room_id);
+        const auto typeStr = to_string(type);
         std::string_view value;
 
-        auto cursor = db::Cursor::open(txn, db_);
-        bool first  = true;
-        if (cursor.get(typeStrV, data, db::CursorOp::Set)) {
-            while (
-              cursor.get(typeStrV, data, first ? db::CursorOp::FirstDup : db::CursorOp::NextDup)) {
-                first = false;
-
-                try {
-                    auto eventId = db::catalog::splitStateEventIndexValue(data).second;
-                    if (!eventId.empty() && eventsDb.get(txn, eventId, value))
-                        events.push_back(
-                          nlohmann::json::parse(value).get<mtx::events::StateEvent<T>>());
-                } catch (std::exception &e) {
-                    nhlog::db()->warn("Failed to parse state event: {}", e.what());
-                }
+        for (const auto &eventId : db::listStateEventIds(txn, statesKeyDb, typeStr)) {
+            try {
+                if (eventsDb.get(txn, eventId, value))
+                    events.push_back(
+                      nlohmann::json::parse(value).get<mtx::events::StateEvent<T>>());
+            } catch (std::exception &e) {
+                nhlog::db()->warn("Failed to parse state event: {}", e.what());
             }
         }
     }
@@ -2096,19 +2078,13 @@ Cache::saveStateEvent(db::Txn &txn,
                               e.type != EventType::RoomHistoryVisibility)
                               statesdb.del(txn, to_string(e.type));
                       } else
-                          stateskeydb.del(
-                            txn,
-                            to_string(e.type),
-                            db::catalog::stateEventIndexValue(e.state_key, e.event_id));
+                          db::removeStateEventId(
+                            txn, stateskeydb, to_string(e.type), e.state_key, e.event_id);
                   } else if (e.state_key.empty()) {
                       statesdb.put(txn, to_string(e.type), nlohmann::json(e).dump());
                   } else {
-                      auto data = db::catalog::stateEventIndexValue(e.state_key, e.event_id);
-                      auto key  = to_string(e.type);
-
-                      // Work around https://bugs.openldap.org/show_bug.cgi?id=8447
-                      stateskeydb.del(txn, key, data);
-                      stateskeydb.put(txn, key, data);
+                      db::putStateEventId(
+                        txn, stateskeydb, to_string(e.type), e.state_key, e.event_id);
                   }
               }
           }

@@ -72,6 +72,10 @@ Database hash:
   `db::tryDropNamedDbi(...)`, `db::migrateLegacyStateByKeyToStatesKey(...)`,
   `db::migrateLegacyMegolmSessionIndexes(...)`, `db::migrateLegacyOlmShardsV1ToV2(...)`,
   `db::migrateLegacyOlmShardsV2ToUnified(...)`).
+- Reusable state-index query helpers are centralized in `src/db/StateIndex.cpp`
+  (`db::findStateEventId(...)`, `db::listStateEventIds(...)`, `db::putStateEventId(...)`,
+  `db::removeStateEventId(...)`) so callers do not need
+  to encode backend cursor/dupsort iteration details.
 - Cache DB open options (integer-key / dupsort / comparator) are centralized in
   `src/db/NamePolicy.cpp` (`db::openOptionsForName(...)`,
   `db::openOptionsForGlobal(...)`, `db::openOptionsForRoom(...)`) and consumed via

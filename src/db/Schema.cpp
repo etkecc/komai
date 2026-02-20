@@ -17,6 +17,7 @@
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Open.h"
+#include "db/StateIndex.h"
 
 namespace {
 
@@ -87,10 +88,8 @@ migrateLegacyStateByKeyToStatesKey(Backend &backend,
                 start = false;
 
                 auto parsed = nlohmann::json::parse(std::string_view(data.data(), data.size()));
-                newStateskeyDb.put(
-                  txn,
-                  eventType,
-                  catalog::stateEventIndexValue(parsed.value("key", ""), parsed.value("id", "")));
+                putStateEventId(
+                  txn, newStateskeyDb, eventType, parsed.value("key", ""), parsed.value("id", ""));
             }
         }
 

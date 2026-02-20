@@ -23,6 +23,7 @@
 #include "db/NamePolicy.h"
 #include "db/Open.h"
 #include "db/Schema.h"
+#include "db/StateIndex.h"
 
 namespace {
 
@@ -681,6 +682,101 @@ testCompactionHelper()
 }
 
 bool
+testStateIndexHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn = backend->beginTxn();
+        auto statesKeyDb =
+          db::openRoomDbi(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey);
+        ok &= expect(statesKeyDb.put(
+                       txn, "m.room.member", db::catalog::stateEventIndexValue("zeta", "$event-z")),
+                     "state index helper setup writes member index entry #1");
+        ok &= expect(statesKeyDb.put(
+                       txn, "m.room.member", db::catalog::stateEventIndexValue("alpha", "$event-a")),
+                     "state index helper setup writes member index entry #2");
+        ok &= expect(statesKeyDb.put(txn, "m.room.member", "broken-value-without-separator"),
+                     "state index helper setup writes malformed member index entry");
+        ok &= expect(statesKeyDb.put(
+                       txn, "m.room.topic", db::catalog::stateEventIndexValue("", "$topic")),
+                     "state index helper setup writes topic index entry");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto statesKeyDb =
+          db::openRoomDbi(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
+
+        const auto memberEventId =
+          db::findStateEventId(txn, statesKeyDb, "m.room.member", "alpha");
+        ok &= expect(memberEventId.has_value(),
+                     "state index helper finds event id by event type + state key");
+        ok &= expect(memberEventId.value_or("") == "$event-a",
+                     "state index helper returns matching event id");
+
+        const auto missingState = db::findStateEventId(txn, statesKeyDb, "m.room.member", "missing");
+        ok &= expect(!missingState.has_value(),
+                     "state index helper returns no value for missing state key");
+
+        const auto malformedState =
+          db::findStateEventId(txn, statesKeyDb, "m.room.member", "broken-value-without-separator");
+        ok &= expect(!malformedState.has_value(),
+                     "state index helper ignores malformed entries with no event id");
+
+        const auto memberIds = db::listStateEventIds(txn, statesKeyDb, "m.room.member");
+        ok &= expect(memberIds.size() == 2,
+                     "state index helper lists only entries with valid event ids");
+        ok &= expect(memberIds.size() >= 2 && memberIds[0] == "$event-a",
+                     "state index helper listing preserves state-key ordering #1");
+        ok &= expect(memberIds.size() >= 2 && memberIds[1] == "$event-z",
+                     "state index helper listing preserves state-key ordering #2");
+
+        const auto topicIds = db::listStateEventIds(txn, statesKeyDb, "m.room.topic");
+        ok &= expect(topicIds.size() == 1 && topicIds.front() == "$topic",
+                     "state index helper lists event ids for different type");
+    }
+
+    {
+        auto txn = backend->beginTxn();
+        auto statesKeyDb =
+          db::openRoomDbi(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
+
+        ok &= expect(db::removeStateEventId(
+                       txn, statesKeyDb, "m.room.member", "alpha", "$event-a"),
+                     "state index helper removes exact state index entry");
+
+        db::putStateEventId(txn, statesKeyDb, "m.room.member", "beta", "$event-b");
+        db::putStateEventId(txn, statesKeyDb, "m.room.member", "beta", "$event-b");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto statesKeyDb =
+          db::openRoomDbi(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
+
+        const auto memberIds = db::listStateEventIds(txn, statesKeyDb, "m.room.member");
+        ok &= expect(memberIds.size() == 2,
+                     "state index helper write API keeps state index set deduplicated");
+        ok &= expect(memberIds.size() >= 2 && memberIds[0] == "$event-b",
+                     "state index helper write API keeps state-key ordering after replace #1");
+        ok &= expect(memberIds.size() >= 2 && memberIds[1] == "$event-z",
+                     "state index helper write API keeps state-key ordering after replace #2");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
 testFactory()
 {
     bool ok = true;
@@ -912,6 +1008,7 @@ main()
     ok &= testLegacyOlmMigrationHelpers();
     ok &= testNamePolicy();
     ok &= testOpenHelpers();
+    ok &= testStateIndexHelper();
     ok &= testCompactionHelper();
     ok &= testFactory();
     ok &= testInMemoryBackend();

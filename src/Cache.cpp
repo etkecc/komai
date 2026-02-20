@@ -40,6 +40,7 @@
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/Open.h"
+#include "db/Schema.h"
 #include "db/Serde.h"
 #include "encryption/Olm.h"
 
@@ -117,21 +118,6 @@ Cache::isMapFullError(const std::exception &e) const noexcept
 {
     const auto *storageError = dynamic_cast<const db::Error *>(&e);
     return storageError && storageError->kind() == db::ErrorKind::MapFull;
-}
-
-static std::string
-combineOlmSessionKeyFromCurveAndSessionId(std::string_view curve25519, std::string_view session_id)
-{
-    std::string combined(curve25519.size() + 1 + session_id.size(), '\0');
-    combined.replace(0, curve25519.size(), curve25519);
-    combined.replace(curve25519.size() + 1, session_id.size(), session_id);
-    return combined;
-}
-static std::pair<std::string_view, std::string_view>
-splitCurve25519AndOlmSessionId(std::string_view input)
-{
-    auto separator = input.find('\0');
-    return std::pair(input.substr(0, separator), input.substr(separator + 1));
 }
 
 namespace {
@@ -644,7 +630,7 @@ Cache::secret(std::string_view name_, bool internal)
 
     auto txn = ro_txn(storage());
     std::string_view value;
-    auto db_name = "secret." + name.toStdString();
+    auto db_name = db::catalog::syncStateSecretKey(name.toStdString());
     if (!db->syncState.get(txn, db_name, value))
         return std::nullopt;
 
@@ -667,7 +653,7 @@ Cache::storeSecret(std::string_view name_, const std::string &secret, bool inter
     auto encrypted =
       mtx::crypto::encrypt(secret, mtx::crypto::to_binary_buf(pickle_secret_), name_);
 
-    auto db_name = "secret." + name.toStdString();
+    auto db_name = db::catalog::syncStateSecretKey(name.toStdString());
     db->syncState.put(txn, db_name, nlohmann::json(encrypted).dump());
     txn.commit();
     emit secretChanged(std::string(name_));
@@ -680,7 +666,7 @@ Cache::deleteSecret(std::string_view name_, bool internal)
 
     auto txn = beginTxn();
     std::string_view value;
-    auto db_name = "secret." + name.toStdString();
+    auto db_name = db::catalog::syncStateSecretKey(name.toStdString());
     db->syncState.del(txn, db_name, value);
     txn.commit();
 }
@@ -1201,7 +1187,7 @@ Cache::saveOlmSessions(std::vector<std::pair<std::string, mtx::crypto::OlmSessio
         stored_session.last_message_ts = timestamp;
 
         db->olmSessions.put(txn,
-                            combineOlmSessionKeyFromCurveAndSessionId(curve25519, session_id),
+                            db::catalog::olmSessionKey(curve25519, session_id),
                             nlohmann::json(stored_session).dump());
     }
 
@@ -1225,7 +1211,7 @@ Cache::saveOlmSession(const std::string &curve25519,
     stored_session.last_message_ts = timestamp;
 
     db->olmSessions.put(txn,
-                        combineOlmSessionKeyFromCurveAndSessionId(curve25519, session_id),
+                        db::catalog::olmSessionKey(curve25519, session_id),
                         nlohmann::json(stored_session).dump());
 
     txn.commit();
@@ -1240,8 +1226,8 @@ Cache::getOlmSession(const std::string &curve25519, const std::string &session_i
         auto txn = ro_txn(storage());
 
         std::string_view pickled;
-        bool found = db->olmSessions.get(
-          txn, combineOlmSessionKeyFromCurveAndSessionId(curve25519, session_id), pickled);
+        bool found =
+          db->olmSessions.get(txn, db::catalog::olmSessionKey(curve25519, session_id), pickled);
 
         if (found) {
             auto data = nlohmann::json::parse(pickled).get<StoredOlmSession>();
@@ -1271,7 +1257,7 @@ Cache::getLatestOlmSession(const std::string &curve25519)
           cursor.get(key, pickled_session, first ? db::CursorOp::SetRange : db::CursorOp::Next)) {
             first = false;
 
-            auto storedCurve = splitCurve25519AndOlmSessionId(key).first;
+            auto storedCurve = db::catalog::splitOlmSessionKey(key).first;
             if (storedCurve != curve25519)
                 break;
 
@@ -1306,7 +1292,7 @@ Cache::getOlmSessions(const std::string &curve25519)
         while (cursor.get(key, value, first ? db::CursorOp::SetRange : db::CursorOp::Next)) {
             first = false;
 
-            auto [storedCurve, session_id] = splitCurve25519AndOlmSessionId(key);
+            auto [storedCurve, session_id] = db::catalog::splitOlmSessionKey(key);
             if (storedCurve != curve25519)
                 break;
             res.emplace_back(session_id);
@@ -1563,56 +1549,8 @@ Cache::runMigrations()
       {"2020.10.20",
        [this]() {
            try {
-               using namespace mtx::crypto;
-
-               auto txn     = beginTxn();
-               auto dbNames = storage().listDbiNames(txn);
-               for (const auto &dbName : dbNames) {
-                   // skip every db but olm session dbs
-                   nhlog::db()->debug("Db {}", dbName);
-                   if (!db::catalog::isLegacyOlmShardV1(dbName))
-                       continue;
-
-                   nhlog::db()->debug("Migrating {}", dbName);
-
-                   auto olmDb = db::openNamedDbi(storage(), txn, dbName, false);
-
-                   std::string_view session_id, session_value;
-
-                   std::vector<std::pair<std::string, StoredOlmSession>> sessions;
-
-                   auto cursor = db::Cursor::open(txn, olmDb);
-                   while (cursor.get(session_id, session_value, db::CursorOp::Next)) {
-                       nhlog::db()->debug(
-                         "session_id {}, session_value {}", session_id, session_value);
-                       StoredOlmSession session;
-                       bool invalid = false;
-                       for (auto c : session_value)
-                           if (!isprint(c)) {
-                               invalid = true;
-                               break;
-                           }
-                       if (invalid)
-                           continue;
-
-                       nhlog::db()->debug("Not skipped");
-
-                       session.pickled_session = session_value;
-                       sessions.emplace_back(session_id, session);
-                   }
-                   cursor.close();
-
-                   olmDb.drop(txn, true);
-
-                   auto newDbName = db::catalog::legacyOlmShardV2NameFromV1(dbName);
-
-                   auto newDb = db::openNamedDbi(storage(), txn, newDbName);
-
-                   for (const auto &[key, value] : sessions) {
-                       // nhlog::db()->debug("{}\n{}", key, nlohmann::json(value).dump());
-                       newDb.put(txn, key, nlohmann::json(value).dump());
-                   }
-               }
+               auto txn = beginTxn();
+               db::migrateLegacyOlmShardsV1ToV2(storage(), txn);
                txn.commit();
            } catch (const db::Error &) {
                nhlog::db()->critical("Failed to migrate olm sessions,");
@@ -1626,29 +1564,15 @@ Cache::runMigrations()
        [this]() {
            try {
                auto txn      = beginTxn(nullptr);
-               auto try_drop = [this, &txn](const std::string &dbName) {
-                   try {
-                       db::openNamedDbi(storage(), txn, dbName, false).drop(txn, true);
-                   } catch (std::exception &e) {
-                       nhlog::db()->warn("Failed to drop '{}': {}", dbName, e.what());
-                   }
-               };
-
                auto room_ids = getRoomIds(txn);
 
                for (const auto &room : room_ids) {
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::State));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::LegacyStateByKey));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::AccountData));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::Members));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::LegacyMentions));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::Events));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::EventOrder));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::EventToOrder));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::MessageToOrder));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::OrderToMessage));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::Pending));
-                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::Related));
+                   for (const auto roomDb : db::roomDbsForFullResync()) {
+                       const auto dbName = db::catalog::roomName(room, roomDb);
+                       std::string error;
+                       if (!db::tryDropNamedDbi(storage(), txn, dbName, &error) && !error.empty())
+                           nhlog::db()->warn("Failed to drop '{}': {}", dbName, error);
+                   }
                }
 
                // clear db, don't delete
@@ -1672,57 +1596,16 @@ Cache::runMigrations()
        }},
       {"2022.04.08",
        [this]() {
-           try {
-               auto txn = beginTxn(nullptr);
-               auto inboundMegolmSessionDb =
-                 db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::InboundMegolmSessions);
-               auto outboundMegolmSessionDb =
-                 db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::OutboundMegolmSessions);
-               auto megolmSessionDataDb =
-                 db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::MegolmSessionsData);
-               try {
-                   outboundMegolmSessionDb.drop(txn, false);
-               } catch (std::exception &e) {
-                   nhlog::db()->warn("Failed to drop outbound sessions: {}", e.what());
-               }
-
-               std::string_view key, value;
-               auto cursor = db::Cursor::open(txn, inboundMegolmSessionDb);
-               std::map<std::string, std::string> inboundSessions;
-               std::map<std::string, std::string> megolmSessionData;
-               while (cursor.get(key, value, db::CursorOp::Next)) {
-                   auto indexVal = nlohmann::json::parse(key);
-                   if (!indexVal.contains("sender_key") || !indexVal.at("sender_key").is_string())
-                       continue;
-                   auto sender_key = indexVal["sender_key"].get<std::string>();
-                   indexVal.erase("sender_key");
-
-                   std::string_view dataVal;
-                   bool res = megolmSessionDataDb.get(txn, key, dataVal);
-                   if (res) {
-                       auto data                          = nlohmann::json::parse(dataVal);
-                       data["sender_key"]                 = sender_key;
-                       inboundSessions[indexVal.dump()]   = std::string(value);
-                       megolmSessionData[indexVal.dump()] = data.dump();
-                   }
-               }
-               cursor.close();
-               inboundMegolmSessionDb.drop(txn, false);
-               megolmSessionDataDb.drop(txn, false);
-
-               for (const auto &[k, v] : inboundSessions) {
-                   inboundMegolmSessionDb.put(txn, k, v);
-               }
-               for (const auto &[k, v] : megolmSessionData) {
-                   megolmSessionDataDb.put(txn, k, v);
-               }
-               txn.commit();
-               return true;
-           } catch (std::exception &e) {
+           auto txn = beginTxn(nullptr);
+           std::string error;
+           if (!db::migrateLegacyMegolmSessionIndexes(storage(), txn, &error)) {
                nhlog::db()->warn(
-                 "Failed to migrate stored megolm session to have no sender key: {}", e.what());
+                 "Failed to migrate stored megolm session to have no sender key: {}", error);
                return false;
            }
+
+           txn.commit();
+           return true;
        }},
       {"2022.11.06",
        [this]() {
@@ -1762,34 +1645,10 @@ Cache::runMigrations()
                auto room_ids = getRoomIds(txn);
 
                for (const auto &room_id : room_ids) {
-                   try {
-                       auto oldStateskeyDb = db::openRoomDbi(
-                         storage(), txn, room_id, db::catalog::RoomDb::LegacyStateByKey);
-                       auto newStateskeyDb = getStatesKeyDb(txn, room_id);
-
-                       // convert the dupsort format
-                       {
-                           auto cursor = db::Cursor::open(txn, oldStateskeyDb);
-                           std::string_view ev_type, data;
-                           bool start = true;
-                           while (cursor.get(
-                             ev_type, data, start ? db::CursorOp::First : db::CursorOp::Next)) {
-                               start = false;
-
-                               auto j =
-                                 nlohmann::json::parse(std::string_view(data.data(), data.size()));
-
-                               newStateskeyDb.put(
-                                 txn, ev_type, j.value("key", "") + '\0' + j.value("id", ""));
-                           }
-                       }
-
-                       // delete old db
-                       oldStateskeyDb.drop(txn, true);
-                   } catch (std::exception &e) {
-                       nhlog::db()->error("While migrating state events from {}, ignoring error {}",
-                                          room_id,
-                                          e.what());
+                   std::string error;
+                   if (!db::migrateLegacyStateByKeyToStatesKey(storage(), txn, room_id, &error)) {
+                       nhlog::db()->error(
+                         "While migrating state events from {}, ignoring error {}", room_id, error);
                    }
                }
                txn.commit();
@@ -1805,33 +1664,8 @@ Cache::runMigrations()
        [this]() {
            // migrate olm sessions to a single db
            try {
-               auto txn      = beginTxn(nullptr);
-               auto dbNames  = storage().listDbiNames(txn);
-               bool doCommit = false;
-
-               for (const auto &dbName : dbNames) {
-                   if (!db::catalog::isLegacyOlmShardV2(dbName))
-                       continue;
-
-                   doCommit      = true;
-                   auto curveKey = *db::catalog::legacyOlmCurveFromV2Name(dbName);
-
-                   auto oldDb     = db::openNamedDbi(storage(), txn, dbName, false);
-                   auto olmCursor = db::Cursor::open(txn, oldDb);
-
-                   std::string_view session_id, json;
-                   while (olmCursor.get(session_id, json, db::CursorOp::Next)) {
-                       db->olmSessions.put(
-                         txn,
-                         combineOlmSessionKeyFromCurveAndSessionId(curveKey, session_id),
-                         json);
-                   }
-                   olmCursor.close();
-
-                   oldDb.drop(txn, true);
-               }
-
-               if (doCommit)
+               auto txn = beginTxn(nullptr);
+               if (db::migrateLegacyOlmShardsV2ToUnified(storage(), txn, db->olmSessions))
                    txn.commit();
            } catch (const db::Error &e) {
                nhlog::db()->critical("Failed to convert olm sessions database in migration! {}",
@@ -2108,13 +1942,12 @@ Cache::getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view 
 
             try {
                 auto eventsDb = getEventsDb(txn, room_id);
-                auto eventid  = data;
-                if (auto sep = data.rfind('\0'); sep != std::string_view::npos) {
-                    if (!eventsDb.get(txn, eventid.substr(sep + 1), value))
-                        return std::nullopt;
-                } else {
+                auto eventId  = db::catalog::splitStateEventIndexValue(data).second;
+                if (eventId.empty()) {
                     return std::nullopt;
                 }
+                if (!eventsDb.get(txn, eventId, value))
+                    return std::nullopt;
 
             } catch (std::exception &) {
                 return std::nullopt;
@@ -2153,12 +1986,10 @@ Cache::getStateEventsWithType(db::Txn &txn, const std::string &room_id, mtx::eve
                 first = false;
 
                 try {
-                    auto eventid = data;
-                    if (auto sep = data.rfind('\0'); sep != std::string_view::npos) {
-                        if (eventsDb.get(txn, eventid.substr(sep + 1), value))
-                            events.push_back(
-                              nlohmann::json::parse(value).get<mtx::events::StateEvent<T>>());
-                    }
+                    auto eventId = db::catalog::splitStateEventIndexValue(data).second;
+                    if (!eventId.empty() && eventsDb.get(txn, eventId, value))
+                        events.push_back(
+                          nlohmann::json::parse(value).get<mtx::events::StateEvent<T>>());
                 } catch (std::exception &e) {
                     nhlog::db()->warn("Failed to parse state event: {}", e.what());
                 }
@@ -2265,11 +2096,14 @@ Cache::saveStateEvent(db::Txn &txn,
                               e.type != EventType::RoomHistoryVisibility)
                               statesdb.del(txn, to_string(e.type));
                       } else
-                          stateskeydb.del(txn, to_string(e.type), e.state_key + '\0' + e.event_id);
+                          stateskeydb.del(
+                            txn,
+                            to_string(e.type),
+                            db::catalog::stateEventIndexValue(e.state_key, e.event_id));
                   } else if (e.state_key.empty()) {
                       statesdb.put(txn, to_string(e.type), nlohmann::json(e).dump());
                   } else {
-                      auto data = e.state_key + '\0' + e.event_id;
+                      auto data = db::catalog::stateEventIndexValue(e.state_key, e.event_id);
                       auto key  = to_string(e.type);
 
                       // Work around https://bugs.openldap.org/show_bug.cgi?id=8447

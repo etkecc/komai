@@ -17,6 +17,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Internal.h"
 
@@ -35,7 +36,7 @@ readIntegerKey(std::string_view key)
 std::string_view
 stateKeyFromCompositeValue(std::string_view value)
 {
-    return value.substr(0, value.rfind('\0'));
+    return db::catalog::splitStateEventIndexValue(value).first;
 }
 
 std::string
@@ -178,6 +179,8 @@ private:
     int index_        = -1;
     bool afterDelete_ = false;
     int deletedIndex_ = -1;
+    std::string keyBuffer_;
+    std::string valueBuffer_;
     std::string deletedKey_;
     Direction lastDirection_ = Direction::None;
 };
@@ -591,9 +594,12 @@ InMemoryCursorImpl::getImpl(std::string_view &key,
     index_     = found;
     hasCursor_ = true;
 
-    key = items[found].key;
-    if (withValue)
-        value = items[found].value;
+    keyBuffer_ = items[found].key;
+    key        = keyBuffer_;
+    if (withValue) {
+        valueBuffer_ = items[found].value;
+        value        = valueBuffer_;
+    }
 
     if (op == db::CursorOp::Next || op == db::CursorOp::NextDup || op == db::CursorOp::NextNoDup)
         lastDirection_ = Direction::Next;

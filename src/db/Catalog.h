@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
 
 namespace db::catalog {
 
@@ -74,6 +75,9 @@ roomName(std::string_view roomId, RoomDb db);
 std::string_view
 syncStateKey(SyncStateKey key) noexcept;
 
+std::string
+syncStateSecretKey(std::string_view secretName);
+
 std::string_view
 legacyOlmSessionsPrefixV1() noexcept;
 
@@ -91,5 +95,17 @@ legacyOlmShardV2NameFromV1(std::string_view dbNameV1);
 
 std::optional<std::string_view>
 legacyOlmCurveFromV2Name(std::string_view dbNameV2) noexcept;
+
+std::string
+olmSessionKey(std::string_view curve25519, std::string_view sessionId);
+
+std::pair<std::string_view, std::string_view>
+splitOlmSessionKey(std::string_view key) noexcept;
+
+std::string
+stateEventIndexValue(std::string_view stateKey, std::string_view eventId);
+
+std::pair<std::string_view, std::string_view>
+splitStateEventIndexValue(std::string_view value) noexcept;
 
 } // namespace db::catalog

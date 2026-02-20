@@ -11,6 +11,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Internal.h"
 #include "db/LmdbError.h"
@@ -22,8 +23,7 @@ std::string_view
 stateKeyFromCompositeValue(const MDB_val *value)
 {
     auto raw = std::string_view(static_cast<const char *>(value->mv_data), value->mv_size);
-    // Allow plain state keys and "state_key\0event_id" composite values.
-    return raw.substr(0, raw.rfind('\0'));
+    return db::catalog::splitStateEventIndexValue(raw).first;
 }
 
 int

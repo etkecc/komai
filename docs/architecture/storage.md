@@ -64,7 +64,14 @@ Database hash:
   `db::createConfiguredBackend(...)`), while backend implementations live under `src/db/`.
 - Logical DB names and sync-state keys are centralized in `src/db/Catalog.cpp`
   (`db::catalog::*`) so callers don't hardcode backend-facing names
-  (including legacy migration name patterns).
+  (including legacy migration name patterns, sync-state secret key names,
+  and composite value codecs such as OLM session and state-event index values).
+- Reusable schema/migration primitives (for example, full-resync room DB lists,
+  drop helpers, and legacy migration helpers) are centralized in
+  `src/db/Schema.cpp` (`db::roomDbsForFullResync(...)`,
+  `db::tryDropNamedDbi(...)`, `db::migrateLegacyStateByKeyToStatesKey(...)`,
+  `db::migrateLegacyMegolmSessionIndexes(...)`, `db::migrateLegacyOlmShardsV1ToV2(...)`,
+  `db::migrateLegacyOlmShardsV2ToUnified(...)`).
 - Cache DB open options (integer-key / dupsort / comparator) are centralized in
   `src/db/NamePolicy.cpp` (`db::openOptionsForName(...)`,
   `db::openOptionsForGlobal(...)`, `db::openOptionsForRoom(...)`) and consumed via

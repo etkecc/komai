@@ -125,6 +125,16 @@ syncStateKey(SyncStateKey key) noexcept
     return {};
 }
 
+std::string
+syncStateSecretKey(std::string_view secretName)
+{
+    std::string key;
+    key.reserve(7 + secretName.size());
+    key.append("secret.");
+    key.append(secretName);
+    return key;
+}
+
 std::string_view
 legacyOlmSessionsPrefixV1() noexcept
 {
@@ -169,6 +179,41 @@ legacyOlmCurveFromV2Name(std::string_view dbNameV2) noexcept
         return std::nullopt;
 
     return dbNameV2.substr(legacyOlmSessionsPrefixV2().size());
+}
+
+std::string
+olmSessionKey(std::string_view curve25519, std::string_view sessionId)
+{
+    std::string combined(curve25519.size() + 1 + sessionId.size(), '\0');
+    combined.replace(0, curve25519.size(), curve25519);
+    combined.replace(curve25519.size() + 1, sessionId.size(), sessionId);
+    return combined;
+}
+
+std::pair<std::string_view, std::string_view>
+splitOlmSessionKey(std::string_view key) noexcept
+{
+    const auto separator = key.find('\0');
+    return std::pair(key.substr(0, separator), key.substr(separator + 1));
+}
+
+std::string
+stateEventIndexValue(std::string_view stateKey, std::string_view eventId)
+{
+    std::string combined(stateKey.size() + 1 + eventId.size(), '\0');
+    combined.replace(0, stateKey.size(), stateKey);
+    combined.replace(stateKey.size() + 1, eventId.size(), eventId);
+    return combined;
+}
+
+std::pair<std::string_view, std::string_view>
+splitStateEventIndexValue(std::string_view value) noexcept
+{
+    const auto separator = value.rfind('\0');
+    if (separator == std::string_view::npos)
+        return std::pair(value, std::string_view{});
+
+    return std::pair(value.substr(0, separator), value.substr(separator + 1));
 }
 
 } // namespace db::catalog

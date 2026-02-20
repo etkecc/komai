@@ -30,8 +30,8 @@ normalizedProfileId(QStringView profileId)
 QString
 encodedIdComponent(QStringView value)
 {
-    return QString::fromUtf8(value.toString().toUtf8().toBase64(
-      QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals));
+    return QString::fromUtf8(value.toString().toUtf8().toBase64(QByteArray::Base64UrlEncoding |
+                                                                QByteArray::OmitTrailingEquals));
 }
 
 namespace config {

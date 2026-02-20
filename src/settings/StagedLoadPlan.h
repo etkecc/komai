@@ -28,7 +28,7 @@ enum class Stage
     State,
 };
 
-inline constexpr auto SecretsProviderKey = "secrets.provider";
+inline constexpr auto SecretsProviderKey         = "secrets.provider";
 inline constexpr auto ProviderSecretServiceValue = "secret_service";
 inline constexpr auto ProviderFileValue          = "file";
 
@@ -38,7 +38,7 @@ providerFromConfig(const YAML::Node &configRoot)
     const auto provider = yaml_settings::readString(
       configRoot, SecretsProviderKey, QString::fromLatin1(ProviderSecretServiceValue));
     return provider == QLatin1String(ProviderFileValue) ? SecretsProvider::File
-                                                         : SecretsProvider::SecretService;
+                                                        : SecretsProvider::SecretService;
 }
 
 inline QList<Stage>
@@ -53,4 +53,3 @@ stagesForProvider(SecretsProvider provider)
 }
 
 } // namespace staged_load_plan
-

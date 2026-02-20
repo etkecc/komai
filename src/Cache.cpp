@@ -2579,13 +2579,8 @@ Cache::roomIds()
     auto txn = ro_txn(storage());
 
     std::vector<QString> rooms;
-    std::string_view room_id, unused;
-
-    auto roomsCursor = db::Cursor::open(txn, db->rooms);
-    while (roomsCursor.get(room_id, unused, db::CursorOp::Next))
-        rooms.push_back(QString::fromStdString(std::string(room_id)));
-
-    roomsCursor.close();
+    for (const auto &room_id : db::listKeys(txn, db->rooms))
+        rooms.push_back(QString::fromStdString(room_id));
 
     return rooms;
 }

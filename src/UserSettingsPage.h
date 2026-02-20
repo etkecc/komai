@@ -717,6 +717,7 @@ private:
         EnlargeEmojiOnlyMessages,
         MessageHoverHighlight,
         ShowActionButtons,
+        PinnedReactions,
         // Media section
         TimelineMediaSection,
         FancyEffects,
@@ -737,7 +738,6 @@ private:
         ReadReceipts,
         // Extras section
         ComposerExtrasSection,
-        PinnedReactions,
         EnableStickers,
 
         // == Notifications Tab ==

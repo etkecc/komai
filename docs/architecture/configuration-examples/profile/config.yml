@@ -46,7 +46,9 @@ timeline:
     max_width_px: 0
     emoji_only_enlarge: true
     hover_highlight: false
-    actions_visible: true
+    actions:
+      visible: true
+      pinned_reactions: "👍️,👎️,😀,🤣,❤️"
   media:
     effects_enabled: true
     animate_on_hover: false
@@ -63,7 +65,6 @@ composer:
     typing_notifications: true
     read_receipts: true
   extras:
-    pinned_reactions: "👍️,👎️,😀,🤣,❤️"
     stickers_enabled: false
 
 notifications:

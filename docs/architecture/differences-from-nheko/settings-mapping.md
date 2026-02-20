@@ -50,7 +50,8 @@ Note:
 | Timeline | MESSAGES | Limit timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
 | Timeline | MESSAGES | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
 | Timeline | MESSAGES | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
-| Timeline | MESSAGES | Show action buttons | `UserSettingsModel::ShowActionButtons` | `show_action_buttons` | `timeline.messages.actions_visible` | config.yml | yes |
+| Timeline | MESSAGES | Show action buttons | `UserSettingsModel::ShowActionButtons` | `show_action_buttons` | `timeline.messages.actions.visible` | config.yml | yes |
+| Timeline | MESSAGES | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
 | Timeline | MEDIA | Show message effects | `UserSettingsModel::FancyEffects` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
 | Timeline | MEDIA | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
 | Timeline | MEDIA | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
@@ -61,7 +62,6 @@ Note:
 | Composer | INPUT | Auto-replace text emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
 | Composer | FEEDBACK | Typing notifications | `UserSettingsModel::TypingNotifications` | `typing_notifications` | `composer.feedback.typing_notifications` | config.yml | yes |
 | Composer | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceipts` | `read_receipts` | `composer.feedback.read_receipts` | config.yml | yes |
-| Composer | EXTRAS | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `composer.extras.pinned_reactions` | config.yml | yes |
 | Composer | EXTRAS | Enable stickers | `UserSettingsModel::EnableStickers` | `enable_stickers` | `composer.extras.stickers_enabled` | config.yml | yes |
 | Notifications | DESKTOP | Desktop notifications | `UserSettingsModel::DesktopNotifications` | `desktop_notifications` | `notifications.desktop.enabled` | config.yml | yes |
 | Notifications | DESKTOP | Alert on incoming messages | `UserSettingsModel::AlertOnIncomingMessages` | `alert_on_incoming_messages` | `notifications.desktop.alert_on_incoming` | config.yml | yes |

@@ -79,7 +79,8 @@ constexpr auto TimelineMessagesSenderUsername        = "timeline.messages.sender
 constexpr auto TimelineMessagesMaxWidthPx            = "timeline.messages.max_width_px";
 constexpr auto TimelineMessagesEmojiOnlyEnlarge      = "timeline.messages.emoji_only_enlarge";
 constexpr auto TimelineMessagesHoverHighlight        = "timeline.messages.hover_highlight";
-constexpr auto TimelineMessagesActionsVisible        = "timeline.messages.actions_visible";
+constexpr auto TimelineMessageActionsVisible         = "timeline.messages.actions.visible";
+constexpr auto TimelineMessageActionsPinnedReactions = "timeline.messages.actions.pinned_reactions";
 constexpr auto TimelineMediaEffectsEnabled           = "timeline.media.effects_enabled";
 constexpr auto TimelineMediaAnimateOnHover           = "timeline.media.animate_on_hover";
 constexpr auto TimelineMediaImageDisplay             = "timeline.media.image_display";
@@ -90,7 +91,6 @@ constexpr auto ComposerInputSendKey                  = "composer.input.send_key"
 constexpr auto ComposerInputAutoReplaceEmoji         = "composer.input.auto_replace_emoji";
 constexpr auto ComposerFeedbackTypingNotifications   = "composer.feedback.typing_notifications";
 constexpr auto ComposerFeedbackReadReceipts          = "composer.feedback.read_receipts";
-constexpr auto ComposerExtrasPinnedReactions         = "composer.extras.pinned_reactions";
 constexpr auto ComposerExtrasStickersEnabled         = "composer.extras.stickers_enabled";
 constexpr auto NotificationsDesktopEnabled           = "notifications.desktop.enabled";
 constexpr auto NotificationsDesktopAlertOnIncoming   = "notifications.desktop.alert_on_incoming";
@@ -684,7 +684,7 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     showCommunitiesSidebar_ = readScalar<bool>(root, SettingKey::SidebarsCommunitiesVisible, true);
     scrollbarsInRoomlist_ =
       readScalar<bool>(root, SettingKey::SidebarsRoomListScrollbarsVisible, true);
-    showActionButtons_ = readScalar<bool>(root, SettingKey::TimelineMessagesActionsVisible, true);
+    showActionButtons_ = readScalar<bool>(root, SettingKey::TimelineMessageActionsVisible, true);
     maxTimelineWidth_  = readScalar<int>(root, SettingKey::TimelineMessagesMaxWidthPx, 0);
     messageHoverHighlight_ =
       readScalar<bool>(root, SettingKey::TimelineMessagesHoverHighlight, false);
@@ -705,7 +705,7 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     const auto pinnedReactionsDefault       = QStringLiteral("👍️,👎️,😀,🤣,❤️");
     const auto legacyPinnedReactionsDefault = QStringLiteral(":thumbsup:,:thumbsdown:,:smile:");
     pinnedReactions_ =
-      readString(root, SettingKey::ComposerExtrasPinnedReactions, pinnedReactionsDefault);
+      readString(root, SettingKey::TimelineMessageActionsPinnedReactions, pinnedReactionsDefault);
     if (pinnedReactions_ == legacyPinnedReactionsDefault)
         pinnedReactions_ = pinnedReactionsDefault;
     animateImagesOnHover_ = readScalar<bool>(root, SettingKey::TimelineMediaAnimateOnHover, false);
@@ -1661,7 +1661,9 @@ UserSettings::saveConfigYaml() const
     setNode(root, SettingKey::TimelineMessagesMaxWidthPx, maxTimelineWidth_);
     setNode(root, SettingKey::TimelineMessagesEmojiOnlyEnlarge, enlargeEmojiOnlyMessages_);
     setNode(root, SettingKey::TimelineMessagesHoverHighlight, messageHoverHighlight_);
-    setNode(root, SettingKey::TimelineMessagesActionsVisible, showActionButtons_);
+    setNode(root, SettingKey::TimelineMessageActionsVisible, showActionButtons_);
+    setNode(
+      root, SettingKey::TimelineMessageActionsPinnedReactions, pinnedReactions_.toStdString());
     setNode(root, SettingKey::TimelineMediaEffectsEnabled, fancyEffects_);
     setNode(root, SettingKey::TimelineMediaAnimateOnHover, animateImagesOnHover_);
     setNode(root, SettingKey::TimelineMediaImageDisplay, toStorageValue(showImage_).toStdString());
@@ -1674,7 +1676,6 @@ UserSettings::saveConfigYaml() const
             toStorageValue(autoReplaceEmoji_).toStdString());
     setNode(root, SettingKey::ComposerFeedbackTypingNotifications, typingNotifications_);
     setNode(root, SettingKey::ComposerFeedbackReadReceipts, readReceipts_);
-    setNode(root, SettingKey::ComposerExtrasPinnedReactions, pinnedReactions_.toStdString());
     setNode(root, SettingKey::ComposerExtrasStickersEnabled, enableStickers_);
     setNode(root, SettingKey::NotificationsDesktopEnabled, hasDesktopNotifications_);
     setNode(root, SettingKey::NotificationsDesktopAlertOnIncoming, alertOnIncomingMessages_);
@@ -2227,6 +2228,16 @@ static const SettingMeta settingsTable[] = {
           I->setShowActionButtons(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
+    // PinnedReactions
+    { QT_TR_NOOP("Pinned reactions"),
+      QT_TR_NOOP("Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total."),
+      SM::TextInput, SM::TabTimeline,
+      []() -> QVariant { return I->pinnedReactions(); },
+      [](const QVariant &v) -> bool {
+          if (!v.canConvert(QMetaType::fromType<QString>())) return false;
+          I->setPinnedReactions(v.toString()); return true;
+      },
+      {}, {}, {}, nullptr, nullptr },
     // TimelineMediaSection
     { QT_TR_NOOP("MEDIA"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -2369,16 +2380,6 @@ static const SettingMeta settingsTable[] = {
     // ComposerExtrasSection
     { QT_TR_NOOP("EXTRAS"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // PinnedReactions
-    { QT_TR_NOOP("Pinned reactions"),
-      QT_TR_NOOP("Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total."),
-      SM::TextInput, SM::TabComposer,
-      []() -> QVariant { return I->pinnedReactions(); },
-      [](const QVariant &v) -> bool {
-          if (!v.canConvert(QMetaType::fromType<QString>())) return false;
-          I->setPinnedReactions(v.toString()); return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
     // EnableStickers
     { QT_TR_NOOP("Enable stickers"),
       QT_TR_NOOP("Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs."),
@@ -3039,6 +3040,7 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     CONNECT_SETTING(EnlargeEmojiOnlyMessages, enlargeEmojiOnlyMessagesChanged, Value);
     CONNECT_SETTING(MessageHoverHighlight, messageHoverHighlightChanged, Value);
     CONNECT_SETTING(ShowActionButtons, showActionButtonsChanged, Value);
+    CONNECT_SETTING(PinnedReactions, pinnedReactionsChanged, Value);
     CONNECT_SETTING(FancyEffects, fancyEffectsChanged, Value);
     CONNECT_SETTING(AnimateImagesOnHover, animateImagesOnHoverChanged, Value);
     CONNECT_SETTING(ShowImage, showImageChanged, Value);
@@ -3051,7 +3053,6 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     CONNECT_SETTING(AutoReplaceEmoji, autoReplaceEmojiChanged, Value);
     CONNECT_SETTING(TypingNotifications, typingNotificationsChanged, Value);
     CONNECT_SETTING(ReadReceipts, readReceiptsChanged, Value);
-    CONNECT_SETTING(PinnedReactions, pinnedReactionsChanged, Value);
     CONNECT_SETTING(EnableStickers, enableStickersChanged, Value);
 
     // Notifications

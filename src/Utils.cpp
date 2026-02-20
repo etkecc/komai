@@ -19,7 +19,6 @@
 #include <QProcessEnvironment>
 #include <QRandomGenerator64>
 #include <QScreen>
-#include <QSettings>
 #include <QStringBuilder>
 #include <QTextBoundaryFinder>
 #include <QTextDocument>
@@ -353,23 +352,6 @@ utils::replaceEmoji(const QString &body)
 
         return fmtBody;
     }
-}
-
-void
-utils::setScaleFactor(float factor)
-{
-    if (factor < 1 || factor > 3)
-        return;
-
-    QSettings settings;
-    settings.setValue(QStringLiteral("settings/scale_factor"), factor);
-}
-
-float
-utils::scaleFactor()
-{
-    QSettings settings;
-    return settings.value(QStringLiteral("settings/scale_factor"), -1).toFloat();
 }
 
 QString

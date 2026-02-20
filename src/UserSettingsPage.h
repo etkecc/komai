@@ -91,6 +91,7 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool mobileMode READ mobileMode WRITE setMobileMode NOTIFY mobileModeChanged)
     Q_PROPERTY(bool enableSwipeGestures READ enableSwipeGestures WRITE setEnableSwipeGestures NOTIFY
                  enableSwipeGesturesChanged)
+    Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
     Q_PROPERTY(double fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY(QString font READ font WRITE setFontFamily NOTIFY fontChanged)
     Q_PROPERTY(QString emojiFont READ emojiFont WRITE setEmojiFontFamily NOTIFY emojiFontChanged)
@@ -260,6 +261,7 @@ public:
     void setStartInTray(bool state);
     void setMobileMode(bool mode);
     void setEnableSwipeGestures(bool mode);
+    void setScaleFactor(double factor);
     void setFontSize(double size);
     void setFontFamily(QString family);
     void setEmojiFontFamily(QString family);
@@ -395,6 +397,7 @@ public:
     int maxTimelineWidth() const { return maxTimelineWidth_; }
     int communityListWidth() const { return communityListWidth_; }
     int roomListWidth() const { return roomListWidth_; }
+    double scaleFactor() const { return scaleFactor_ > 0.0 ? scaleFactor_ : 1.0; }
     double fontSize() const { return baseFontSize_; }
     QString font() const { return font_; }
     QString emojiFont() const;
@@ -480,6 +483,7 @@ signals:
     void communityListWidthChanged(int state);
     void mobileModeChanged(bool mode);
     void enableSwipeGesturesChanged(bool state);
+    void scaleFactorChanged(double factor);
     void fontSizeChanged(double state);
     void fontChanged(QString state);
     void emojiFontChanged(QString state);
@@ -583,6 +587,7 @@ private:
     int maxTimelineWidth_;
     int roomListWidth_;
     int communityListWidth_;
+    double scaleFactor_ = -1.0;
     double baseFontSize_;
     QString font_;
     QString emojiFont_;

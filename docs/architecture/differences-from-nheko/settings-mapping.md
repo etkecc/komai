@@ -15,10 +15,9 @@ Source of truth:
 - `src/UserSettingsPage.cpp` settings metadata table (`SettingMeta` rows).
 - `src/UserSettingsPage.h` (`UserSettingsModel` constants).
 
-Special case:
-- `UserSettingsModel::ScaleFactor` is intentionally not persisted in profile YAML.
-- It uses legacy Qt `QSettings` key `settings/scale_factor` in `utils::setScaleFactor`/`utils::scaleFactor`.
-- Reason: `main.cpp` needs this value before creating `QApplication` to set `QT_SCALE_FACTOR` early.
+Note:
+- `UserSettingsModel::ScaleFactor` uses `ui.scale.factor` in profile `config.yml`; startup applies it via
+  `QT_SCALE_FACTOR` only when the environment variable is not already set.
 
 ## UI Settings Mapping
 
@@ -28,7 +27,7 @@ Special case:
 | Look & Feel | FONTS | Font family | `UserSettingsModel::Font` | `font_family` | `ui.font.family` | config.yml | yes |
 | Look & Feel | FONTS | Font size | `UserSettingsModel::FontSize` | `font_size` | `ui.font.size_pt` | config.yml | yes |
 | Look & Feel | FONTS | Emoji font family | `UserSettingsModel::EmojiFont` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
-| Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `settings/scale_factor` | `-` | `QSettings` (`settings/scale_factor`) | yes |
+| Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
 | Look & Feel | EFFECTS | Reduce or disable animations | `UserSettingsModel::ReducedMotion` | `reduced_motion` | `ui.motion.reduced` | config.yml | yes |
 | Sidebars | ROOM LIST | Compact mode | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::ShowRoomListTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |

@@ -41,6 +41,12 @@ repos:
         entry: ./bin/prek/qmllint.sh
         language: system
         files: '^resources/qml/.*\.qml$'
+      - id: no-qsettings
+        name: Forbid QSettings usage
+        entry: ./bin/prek/no-qsettings.sh
+        language: system
+        files: '^src/.*\.(cpp|h)$'
+        pass_filenames: false
       - id: unit-tests
         name: Run unit tests
         entry: ./bin/prek/unit-tests.sh

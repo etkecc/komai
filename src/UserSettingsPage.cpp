@@ -57,6 +57,7 @@ constexpr auto UiThemeSlug                = "ui.theme.slug";
 constexpr auto UiFontFamily               = "ui.font.family";
 constexpr auto UiFontEmojiFamily          = "ui.font.emoji_family";
 constexpr auto UiFontSizePt               = "ui.font.size_pt";
+constexpr auto UiScaleFactor              = "ui.scale.factor";
 constexpr auto UiMotionReduced            = "ui.motion.reduced";
 constexpr auto UiInputTouchscreenMode     = "ui.input.touchscreen_mode";
 constexpr auto UiInputSwipeGestures       = "ui.input.swipe_gestures";
@@ -744,6 +745,7 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     if (!emojiFont_.isEmpty())
         nhlog::ui()->info("Emoji font: \"{}\" (from settings)", emojiFont_.toStdString());
 
+    scaleFactor_      = readScalar<double>(root, SettingKey::UiScaleFactor, -1.0);
     baseFontSize_     = readScalar<double>(root, SettingKey::UiFontSizePt, 13.0);
     ringtone_         = readString(root, SettingKey::CallsAudioRingtone, QStringLiteral("Default"));
     microphone_       = readString(root, SettingKey::CallsDevicesMicrophone, QString());
@@ -777,6 +779,9 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     maxDbSize_   = readScalar<qulonglong>(root, SettingKey::DbMaxSizeBytes, 0);
     maxDbs_      = readScalar<uint>(root, SettingKey::DbMaxFiles, 0);
     enableHttp3_ = readScalar<bool>(root, SettingKey::NetworkHttp3Enabled, false);
+
+    if (scaleFactor_ < 1.0 || scaleFactor_ > 3.0)
+        scaleFactor_ = -1.0;
 
     const auto provider             = staged_load_plan::providerFromConfig(root);
     runWithoutSecureSecretsService_ = (provider == staged_load_plan::SecretsProvider::File);
@@ -1306,6 +1311,14 @@ UserSettings::setFontSize(double size)
 }
 
 void
+UserSettings::setScaleFactor(double factor)
+{
+    if (factor < 1.0 || factor > 3.0)
+        return;
+    setSetting(scaleFactor_, factor, &UserSettings::scaleFactorChanged);
+}
+
+void
 UserSettings::setFontFamily(QString family)
 {
     if (family == font_)
@@ -1618,6 +1631,8 @@ UserSettings::saveConfigYaml() const
     setNode(root, SettingKey::UiThemeSlug, theme().toStdString());
     setNode(root, SettingKey::UiFontFamily, font_.toStdString());
     setNode(root, SettingKey::UiFontEmojiFamily, emojiFont_.toStdString());
+    if (scaleFactor_ >= 1.0 && scaleFactor_ <= 3.0)
+        setNode(root, SettingKey::UiScaleFactor, scaleFactor_);
     setNode(root, SettingKey::UiFontSizePt, baseFontSize_);
     setNode(root, SettingKey::UiMotionReduced, reducedMotion_);
     setNode(root, SettingKey::UiInputTouchscreenMode, mobileMode_);
@@ -1920,10 +1935,10 @@ static const SettingMeta settingsTable[] = {
     { QT_TR_NOOP("Scale factor"),
       QT_TR_NOOP("Change the scale factor of the whole user interface. Requires a restart to take effect."),
       SM::Double, SM::TabLookFeel,
-      []() -> QVariant { return utils::scaleFactor(); },
+      []() -> QVariant { return I->scaleFactor(); },
       [](const QVariant &v) -> bool {
           if (!v.canConvert(QMetaType::fromType<double>())) return false;
-          utils::setScaleFactor(static_cast<float>(v.toDouble())); return true;
+          I->setScaleFactor(v.toDouble()); return true;
       },
       1.0, 3.0, .25, nullptr, nullptr },
 #endif

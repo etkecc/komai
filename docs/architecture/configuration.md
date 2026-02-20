@@ -46,11 +46,6 @@ Persistence split:
 
 YAML key hierarchy is nested/dotted (for example `timeline.messages.layout.bubbles`).
 
-Exception:
-
-- `UserSettingsModel::ScaleFactor` uses Qt `QSettings` key `settings/scale_factor` (not profile YAML).
-- This is needed so `main.cpp` can set `QT_SCALE_FACTOR` before creating `QApplication`.
-
 ## Staged Load Order
 
 Load order is intentionally staged:
@@ -63,6 +58,11 @@ Load order is intentionally staged:
 4. `state.yml` (runtime/layout)
 
 This prevents secret-source ambiguity and allows provider selection before secret reads.
+
+Startup nuance:
+
+- Before `QApplication` is created, Komai reads `ui.scale.factor` from profile `config.yml` and sets
+  `QT_SCALE_FACTOR` only if the environment variable is not already set.
 
 ## Secret Providers
 

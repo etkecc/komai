@@ -59,12 +59,6 @@ replaceEmoji(const QString &body);
 QString
 localUser();
 
-float
-scaleFactor();
-
-void
-setScaleFactor(float factor);
-
 //! Human friendly timestamp representation.
 QString
 descriptiveTime(const QDateTime &then);

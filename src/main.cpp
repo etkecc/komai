@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <iostream>
+#include <optional>
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -17,6 +18,8 @@
 #include <QQuickView>
 #include <QScreen>
 #include <QTranslator>
+
+#include <yaml-cpp/yaml.h>
 
 // in theory we can enable this everywhere, but the header is missing on some of our CI systems and
 // it is too much effort to install.
@@ -35,6 +38,7 @@
 #include "Paths.h"
 #include "Utils.h"
 #include "config/nheko.h"
+#include "settings/YamlSettings.h"
 #include "ui/ThemeRegistry.h"
 
 #if defined(Q_OS_MACOS)
@@ -152,12 +156,52 @@ createDirectory(const QString &dir)
     }
 }
 
+QString
+selectedProfileFromArgs(int argc, char *argv[])
+{
+    for (int i = 1; i < argc; ++i) {
+        const QString arg{argv[i]};
+        if (arg == QLatin1String("-p") || arg == QLatin1String("--profile")) {
+            if (i + 1 < argc)
+                return QString{argv[i + 1]};
+            continue;
+        }
+
+        if (arg.startsWith(QLatin1String("--profile=")))
+            return arg.sliced(QStringLiteral("--profile=").size());
+
+        if (arg.size() > 2 && arg.startsWith(QLatin1String("-p")))
+            return arg.sliced(2);
+    }
+
+    return {};
+}
+
+std::optional<float>
+scaleFactorFromConfig(QStringView profile)
+{
+    const auto path = app_paths::config::profileConfigFile(profile);
+    if (!QFileInfo::exists(path))
+        return std::nullopt;
+
+    try {
+        const auto root   = YAML::LoadFile(path.toStdString());
+        const auto factor = yaml_settings::readScalar<float>(root, "ui.scale.factor", -1.0F);
+        if (factor < 1.0F || factor > 3.0F)
+            return std::nullopt;
+        return factor;
+    } catch (const YAML::Exception &) {
+        return std::nullopt;
+    }
+}
+
 int
 main(int argc, char *argv[])
 {
     QCoreApplication::setApplicationName(QStringLiteral("komai"));
     QCoreApplication::setApplicationVersion(nheko::version);
     QCoreApplication::setOrganizationName(QStringLiteral("komai"));
+    const QString selectedProfile = selectedProfileFromArgs(argc, argv);
 
     // Disable the qml disk cache by default to prevent crashes on updates. See
     // https://github.com/Nheko-Reborn/nheko/issues/1383
@@ -169,10 +213,8 @@ main(int argc, char *argv[])
     // file then?
 #if !defined(Q_OS_MACOS)
     if (qgetenv("QT_SCALE_FACTOR").size() == 0) {
-        float factor = utils::scaleFactor();
-
-        if (factor != -1)
-            qputenv("QT_SCALE_FACTOR", QString::number(factor).toUtf8());
+        if (const auto factor = scaleFactorFromConfig(selectedProfile))
+            qputenv("QT_SCALE_FACTOR", QString::number(*factor).toUtf8());
     }
 #endif
 
@@ -212,9 +254,8 @@ main(int argc, char *argv[])
       QObject::tr("Recompacts the database which might improve performance."));
     parser.addOption(compactDb);
 
-    // This option is not actually parsed via Qt due to the need to parse it before the app
-    // name is set. It only exists to keep Qt from complaining about the --profile/-p
-    // option and thereby crashing the app.
+    // Profile is parsed manually early for pre-QApplication scale-factor loading.
+    // Keep this option in the parser for help output and validation.
     QCommandLineOption configName(
       QStringList() << QStringLiteral("p") << QStringLiteral("profile"),
       QCoreApplication::tr("Create a unique profile which allows you to log into several "
@@ -224,7 +265,6 @@ main(int argc, char *argv[])
     parser.addOption(configName);
 
     parser.process(app);
-    const QString selectedProfile = parser.isSet(configName) ? parser.value(configName) : QString();
 
     if (parser.isSet(compactDb))
         cache::setNeedsCompactFlag();

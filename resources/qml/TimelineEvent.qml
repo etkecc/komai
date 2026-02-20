@@ -54,20 +54,18 @@ EventDelegateChooser {
     EventDelegateChoice {
         roleValues: [MtxEvent.CanonicalAlias, MtxEvent.ServerAcl, MtxEvent.Name, MtxEvent.Topic, MtxEvent.Avatar, MtxEvent.PinnedEvents, MtxEvent.ImagePackInRoom, MtxEvent.SpaceParent, MtxEvent.RoomCreate, MtxEvent.PowerLevels, MtxEvent.PolicyRuleUser, MtxEvent.PolicyRuleRoom, MtxEvent.PolicyRuleServer, MtxEvent.RoomJoinRules, MtxEvent.RoomHistoryVisibility, MtxEvent.RoomGuestAccess,]
 
-        TextMessage {
+        NoticeMessage {
             required property string formattedStateEvent
             required property string userId
             required property string userName
 
-            body: ''
-            color: palette.active.buttonText
-            font.italic: true
-            font.pointSize: Settings.fontSize * 0.95
-            formatted: ''
-            horizontalAlignment: Text.AlignHCenter
+            Layout.fillWidth: true
+            body: formatted
+            formatted: formattedStateEvent
             isOnlyEmoji: false
+            isReply: EventDelegateChooser.isReply
+            isStateEvent: true
             keepFullText: true
-            text: formattedStateEvent
         }
     }
     EventDelegateChoice {

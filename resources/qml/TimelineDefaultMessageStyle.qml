@@ -201,8 +201,8 @@ TimelineEvent {
 
             Item {
                 id: stateEventSpacing
-                visible: wrapper.isStateEvent
-                width: (wrapper.maxWidth - (wrapper.main?.width ?? 0)) / 2
+                visible: false
+                width: 0
                 height: 1
             }
 

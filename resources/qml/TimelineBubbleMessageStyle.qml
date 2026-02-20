@@ -183,9 +183,9 @@ TimelineEvent {
             AbstractButton {
                 id: messageBubble
 
-                anchors.left: (wrapper.isStateEvent || wrapper.isSender) ? undefined : parent.left // qmllint disable Quick.anchor-combinations
-                anchors.right: (wrapper.isStateEvent || !wrapper.isSender) ? undefined : parent.right
-                anchors.horizontalCenter: wrapper.isStateEvent ? parent.horizontalCenter : undefined
+                anchors.left: (wrapper.isStateEvent || !wrapper.isSender) ? parent.left : undefined // qmllint disable Quick.anchor-combinations
+                anchors.right: (!wrapper.isStateEvent && wrapper.isSender) ? parent.right : undefined
+                anchors.horizontalCenter: undefined
 
                 property color roomColor: TimelineManager.roomUserColor(wrapper.room ? wrapper.room.roomId : '', wrapper.main?.userId ?? '', palette.base, palette.highlight)
 

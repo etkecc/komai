@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "Backend.h"
+#include "db/DbTypes.h"
 #include "db/LmdbHeaders.h"
 
 namespace db {

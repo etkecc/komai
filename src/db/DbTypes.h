@@ -6,7 +6,8 @@
 
 #include <utility>
 
-#include "db/LmdbHeaders.h"
+#include "db/LmdbError.h"
+#include "db/LmdbFlags.h"
 
 namespace db {
 
@@ -26,18 +27,30 @@ public:
 
     static Txn fromNative(lmdb::txn native) { return Txn{std::move(native)}; }
 
-    lmdb::txn &native() noexcept { return native_; }
-    const lmdb::txn &native() const noexcept { return native_; }
-
-    auto handle() const noexcept { return native_.handle(); }
-    const void *env() const noexcept { return native_.env(); }
-
-    void commit() { native_.commit(); }
-    void abort() { native_.abort(); }
-    void renew() { native_.renew(); }
+    void commit()
+    {
+        translateLmdbErrors([&] { native_.commit(); });
+    }
+    void abort()
+    {
+        translateLmdbErrors([&] { native_.abort(); });
+    }
+    void renew()
+    {
+        translateLmdbErrors([&] { native_.renew(); });
+    }
     void reset() noexcept { native_.reset(); }
 
 private:
+    friend class Dbi;
+    friend class Cursor;
+    friend class LmdbBackend;
+
+    lmdb::txn &native() noexcept { return native_; }
+    const lmdb::txn &native() const noexcept { return native_; }
+    auto handle() const noexcept { return native_.handle(); }
+    const void *env() const noexcept { return native_.env(); }
+
     lmdb::txn native_;
 };
 
@@ -57,38 +70,56 @@ public:
 
     static Dbi fromNative(lmdb::dbi native) { return Dbi{std::move(native)}; }
 
-    lmdb::dbi &native() noexcept { return native_; }
-    const lmdb::dbi &native() const noexcept { return native_; }
-
     template<typename Key, typename Value>
     decltype(auto) get(Txn &txn, Key &&key, Value &value)
     {
-        return native_.get(txn.native(), std::forward<Key>(key), value);
+        return translateLmdbErrors(
+          [&] { return native_.get(txn.native(), std::forward<Key>(key), value); });
     }
 
     template<typename Key, typename Value>
     decltype(auto) put(Txn &txn, Key &&key, Value &&value, unsigned flags = 0)
     {
-        return native_.put(txn.native(), std::forward<Key>(key), std::forward<Value>(value), flags);
+        return translateLmdbErrors([&] {
+            return native_.put(txn.native(),
+                               std::forward<Key>(key),
+                               std::forward<Value>(value),
+                               toLmdbPutFlags(flags));
+        });
     }
 
     template<typename Key>
     decltype(auto) del(Txn &txn, Key &&key)
     {
-        return native_.del(txn.native(), std::forward<Key>(key));
+        return translateLmdbErrors(
+          [&] { return native_.del(txn.native(), std::forward<Key>(key)); });
     }
 
     template<typename Key, typename Value>
     decltype(auto) del(Txn &txn, Key &&key, Value &&value)
     {
-        return native_.del(txn.native(), std::forward<Key>(key), std::forward<Value>(value));
+        return translateLmdbErrors([&] {
+            return native_.del(txn.native(), std::forward<Key>(key), std::forward<Value>(value));
+        });
     }
 
-    decltype(auto) drop(Txn &txn, bool del = false) { return native_.drop(txn.native(), del); }
+    decltype(auto) drop(Txn &txn, bool del = false)
+    {
+        return translateLmdbErrors([&] { return native_.drop(txn.native(), del); });
+    }
 
-    decltype(auto) size(Txn &txn) { return native_.size(txn.native()); }
+    decltype(auto) size(Txn &txn)
+    {
+        return translateLmdbErrors([&] { return native_.size(txn.native()); });
+    }
 
 private:
+    friend class Cursor;
+    friend class LmdbBackend;
+
+    lmdb::dbi &native() noexcept { return native_; }
+    const lmdb::dbi &native() const noexcept { return native_; }
+
     lmdb::dbi native_;
 };
 
@@ -123,32 +154,42 @@ public:
     static Cursor fromNative(lmdb::cursor native) { return Cursor{std::move(native)}; }
     static Cursor open(Txn &txn, Dbi dbi)
     {
-        return fromNative(lmdb::cursor::open(txn.native(), dbi.native()));
+        return translateLmdbErrors(
+          [&] { return fromNative(lmdb::cursor::open(txn.native(), dbi.native())); });
     }
-
-    lmdb::cursor &native() noexcept { return native_; }
-    const lmdb::cursor &native() const noexcept { return native_; }
 
     template<typename Key, typename Value>
     decltype(auto) get(Key &&key, Value &&value, CursorOp op)
     {
-        return native_.get(std::forward<Key>(key), std::forward<Value>(value), toNative(op));
+        return translateLmdbErrors([&] {
+            return native_.get(std::forward<Key>(key), std::forward<Value>(value), toNative(op));
+        });
     }
 
     template<typename Key>
     decltype(auto) get(Key &&key, CursorOp op)
     {
-        return native_.get(std::forward<Key>(key), toNative(op));
+        return translateLmdbErrors(
+          [&] { return native_.get(std::forward<Key>(key), toNative(op)); });
     }
 
     template<typename Key, typename Value>
     decltype(auto) put(Key &&key, Value &&value, unsigned flags = 0)
     {
-        return native_.put(std::forward<Key>(key), std::forward<Value>(value), flags);
+        return translateLmdbErrors([&] {
+            return native_.put(
+              std::forward<Key>(key), std::forward<Value>(value), toLmdbPutFlags(flags));
+        });
     }
 
-    decltype(auto) del(unsigned flags = 0) { return native_.del(flags); }
-    void close() { native_.close(); }
+    decltype(auto) del(unsigned flags = 0)
+    {
+        return translateLmdbErrors([&] { return native_.del(flags); });
+    }
+    void close()
+    {
+        translateLmdbErrors([&] { native_.close(); });
+    }
 
 private:
     static constexpr MDB_cursor_op toNative(CursorOp op)

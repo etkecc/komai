@@ -9,6 +9,9 @@
 
 #include <nlohmann/json.hpp>
 
+#include "db/LmdbError.h"
+#include "db/LmdbFlags.h"
+
 namespace {
 
 std::string_view
@@ -72,10 +75,12 @@ LmdbBackend::open(const QString &directory, const BackendOptions &options)
     if (options.noSync)
         flags |= MDB_NOSYNC;
 
-    env_ = lmdb::env::create();
-    env_.set_mapsize(options.mapSizeBytes);
-    env_.set_max_dbs(options.maxDbs);
-    env_.open(directory.toStdString().c_str(), flags);
+    translateLmdbErrors([&] {
+        env_ = lmdb::env::create();
+        env_.set_mapsize(options.mapSizeBytes);
+        env_.set_max_dbs(options.maxDbs);
+        env_.open(directory.toStdString().c_str(), flags);
+    });
 }
 
 void
@@ -88,42 +93,40 @@ LmdbBackend::close() noexcept
 ErrorKind
 LmdbBackend::classifyError(const std::exception &e) const noexcept
 {
+    if (auto *dbError = dynamic_cast<const db::Error *>(&e))
+        return dbError->kind();
+
     auto *lmdbError = dynamic_cast<const lmdb::error *>(&e);
     if (!lmdbError)
         return ErrorKind::Unknown;
 
-    switch (lmdbError->code()) {
-    case MDB_VERSION_MISMATCH:
-        return ErrorKind::VersionMismatch;
-    case MDB_INVALID:
-        return ErrorKind::Invalid;
-    case MDB_MAP_FULL:
-        return ErrorKind::MapFull;
-    case MDB_DBS_FULL:
-        return ErrorKind::DbsFull;
-    default:
-        return ErrorKind::Unknown;
-    }
+    return errorKindFromLmdbCode(lmdbError->code());
 }
 
 Txn
 LmdbBackend::beginTxn(Txn *parent, unsigned flags)
 {
-    return Txn::fromNative(lmdb::txn::begin(env_, parent ? parent->handle() : nullptr, flags));
+    return translateLmdbErrors([&] {
+        return Txn::fromNative(
+          lmdb::txn::begin(env_, parent ? parent->handle() : nullptr, toLmdbTxnFlags(flags)));
+    });
 }
 
 Dbi
 LmdbBackend::openDbi(Txn &txn, const char *name, unsigned flags)
 {
-    if (name)
-        return Dbi::fromNative(lmdb::dbi::open(txn.native(), name, flags));
-    return Dbi::fromNative(lmdb::dbi::open(txn.native()));
+    return translateLmdbErrors([&] {
+        if (name)
+            return Dbi::fromNative(lmdb::dbi::open(txn.native(), name, toLmdbDbiFlags(flags)));
+        return Dbi::fromNative(lmdb::dbi::open(txn.native()));
+    });
 }
 
 void
 LmdbBackend::setDbiDupsort(Txn &txn, Dbi dbi, DupsortComparator comparator)
 {
-    lmdb::dbi_set_dupsort(txn.native(), dbi.native(), dupsortComparator(comparator));
+    translateLmdbErrors(
+      [&] { lmdb::dbi_set_dupsort(txn.native(), dbi.native(), dupsortComparator(comparator)); });
 }
 
 void

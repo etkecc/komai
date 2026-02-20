@@ -12,18 +12,12 @@
 
 #include <QString>
 
-#include "db/DbTypes.h"
+#include "db/Error.h"
 
 namespace db {
 
-enum class ErrorKind
-{
-    Unknown,
-    VersionMismatch,
-    Invalid,
-    MapFull,
-    DbsFull,
-};
+class Txn;
+class Dbi;
 
 enum class DupsortComparator
 {

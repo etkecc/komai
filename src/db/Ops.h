@@ -4,23 +4,17 @@
 
 #pragma once
 
+#include <cstring>
+#include <string>
 #include <string_view>
+#include <type_traits>
 
 #include "db/DbTypes.h"
-#include "db/LmdbHeaders.h"
+#include "db/Error.h"
+#include "db/Flags.h"
 
 namespace db {
 
-using Error = lmdb::error;
-
-inline constexpr unsigned kReadOnlyTxn     = MDB_RDONLY;
-inline constexpr unsigned kCreate          = MDB_CREATE;
-inline constexpr unsigned kIntegerKey      = MDB_INTEGERKEY;
-inline constexpr unsigned kDupSort         = MDB_DUPSORT;
-inline constexpr unsigned kAppend          = MDB_APPEND;
-inline constexpr unsigned kAppendDup       = MDB_APPENDDUP;
-inline constexpr unsigned kMapAsync        = MDB_MAPASYNC;
-inline constexpr unsigned kWriteMap        = MDB_WRITEMAP;
 inline constexpr CursorOp kCursorFirst     = CursorOp::First;
 inline constexpr CursorOp kCursorFirstDup  = CursorOp::FirstDup;
 inline constexpr CursorOp kCursorGetBoth   = CursorOp::GetBoth;
@@ -33,17 +27,42 @@ inline constexpr CursorOp kCursorSet       = CursorOp::Set;
 inline constexpr CursorOp kCursorSetRange  = CursorOp::SetRange;
 
 template<typename T>
-inline auto
+    requires(std::is_integral_v<T> || std::is_enum_v<T>)
+inline std::string_view
 toSv(const T &value)
 {
-    return lmdb::to_sv(value);
+    return std::string_view(reinterpret_cast<const char *>(&value), sizeof(T));
+}
+
+inline std::string_view
+toSv(std::string_view value)
+{
+    return value;
+}
+
+inline std::string_view
+toSv(const std::string &value)
+{
+    return value;
+}
+
+inline std::string_view
+toSv(const char *value)
+{
+    return value ? std::string_view(value) : std::string_view{};
 }
 
 template<typename T>
+    requires(std::is_integral_v<T> || std::is_enum_v<T>)
 inline T
 fromSv(std::string_view value)
 {
-    return lmdb::from_sv<T>(value);
+    if (value.size() != sizeof(T))
+        throw Error("Invalid scalar size in fromSv", ErrorKind::Invalid);
+
+    T out{};
+    std::memcpy(&out, value.data(), sizeof(T));
+    return out;
 }
 
 } // namespace db

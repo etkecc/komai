@@ -200,11 +200,11 @@ UserSettings::load(std::optional<QString> profile)
 
     // Notifications
     hasDesktopNotifications_ = getBool("desktop_notifications", true);
-    alertOnIncomingMessages_  = getBool("alert_on_incoming_messages", false);
+    alertOnIncomingMessages_ = getBool("alert_on_incoming_messages", false);
 
     // View settings
-    showCommunitiesSidebar_            = getBool("show_communities_sidebar", true);
-    scrollbarsInRoomlist_ = getBool("scrollbars_in_roomlist", true);
+    showCommunitiesSidebar_ = getBool("show_communities_sidebar", true);
+    scrollbarsInRoomlist_   = getBool("scrollbars_in_roomlist", true);
 
     // Timeline settings
     showActionButtons_        = getBool("show_action_buttons", true);
@@ -225,15 +225,14 @@ UserSettings::load(std::optional<QString> profile)
         autoReplaceEmojiValue = 0;
     autoReplaceEmoji_ = static_cast<AutoReplaceEmoji>(autoReplaceEmojiValue);
 
-    bubbles_                        = getBool("bubbles", true);
-    smallAvatars_                   = getBool("small_avatars", false);
-    enableStickers_                 = getBool("enable_stickers", false);
-    showOwnAvatarInBubbleLayout_ =
-      getBool("show_own_avatar_in_bubble_layout", true);
-    pinnedReactions_       = getString("pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️"));
-    animateImagesOnHover_  = getBool("animate_images_on_hover", false);
-    typingNotifications_   = getBool("typing_notifications", true);
-    auto tempRoomSortOrder = getString("room_sort_order", QString()).toStdString();
+    bubbles_                     = getBool("bubbles", true);
+    smallAvatars_                = getBool("small_avatars", false);
+    enableStickers_              = getBool("enable_stickers", false);
+    showOwnAvatarInBubbleLayout_ = getBool("show_own_avatar_in_bubble_layout", true);
+    pinnedReactions_             = getString("pinned_reactions", QStringLiteral("👍️,👎️,😀,🤣,❤️"));
+    animateImagesOnHover_        = getBool("animate_images_on_hover", false);
+    typingNotifications_         = getBool("typing_notifications", true);
+    auto tempRoomSortOrder       = getString("room_sort_order", QString()).toStdString();
     auto roomSortOrderValue =
       QMetaEnum::fromType<RoomSortOrder>().keyToValue(tempRoomSortOrder.c_str());
     if (roomSortOrderValue == -1)
@@ -245,47 +244,47 @@ UserSettings::load(std::optional<QString> profile)
     font_ = getString("font_family", QString());
 
     useCircularAvatars_              = getBool("use_circular_avatars", false);
-    useIdenticon_               = getBool("use_identicon", true);
-    openImagesInExternalApp_          = getBool("open_images_in_external_app", false);
-    openVideosInExternalApp_          = getBool("open_videos_in_external_app", false);
-    decryptNotifications_       = getBool("decrypt_notifications", true);
-    showCommunityNotificationCounts_         = getBool("show_community_notification_counts", true);
-    compactRoomList_            = getBool("compact_room_list", false);
-    showRoomListTime_           = getBool("show_room_list_time", true);
+    useIdenticon_                    = getBool("use_identicon", true);
+    openImagesInExternalApp_         = getBool("open_images_in_external_app", false);
+    openVideosInExternalApp_         = getBool("open_videos_in_external_app", false);
+    decryptNotifications_            = getBool("decrypt_notifications", true);
+    showCommunityNotificationCounts_ = getBool("show_community_notification_counts", true);
+    compactRoomList_                 = getBool("compact_room_list", false);
+    showRoomListTime_                = getBool("show_room_list_time", true);
     auto tempShowLastMessagePreview =
       getString("show_last_message_preview", QString()).toStdString();
     auto showLastMessagePreviewValue =
       QMetaEnum::fromType<LastMessagePreview>().keyToValue(tempShowLastMessagePreview.c_str());
     if (showLastMessagePreviewValue == -1)
         showLastMessagePreviewValue = static_cast<int>(LastMessagePreview::Always);
-    showLastMessagePreview_   = static_cast<LastMessagePreview>(showLastMessagePreviewValue);
-    fancyEffects_         = getBool("fancy_effects", true);
-    reducedMotion_        = getBool("reduced_motion", false);
-    privacyScreen_        = getBool("privacy_screen", false);
+    showLastMessagePreview_      = static_cast<LastMessagePreview>(showLastMessagePreviewValue);
+    fancyEffects_                = getBool("fancy_effects", true);
+    reducedMotion_               = getBool("reduced_motion", false);
+    privacyScreen_               = getBool("privacy_screen", false);
     privacyScreenTimeoutSeconds_ = getInt("privacy_screen_timeout_seconds", 0);
-    exposeDBusApi_        = getBool("expose_dbus_api", false);
-    updateSpaceVias_      = getBool("update_space_vias", true);
-    expireEvents_         = getBool("expire_events", false);
+    exposeDBusApi_               = getBool("expose_dbus_api", false);
+    updateSpaceVias_             = getBool("update_space_vias", true);
+    expireEvents_                = getBool("expire_events", false);
 
     mobileMode_          = getBool("mobile_mode", false);
     enableSwipeGestures_ = getBool("enable_swipe_gestures", false);
-    emojiFont_    = getString("emoji_font_family", QString());
+    emojiFont_           = getString("emoji_font_family", QString());
 
     if (!emojiFont_.isEmpty())
         nhlog::ui()->info("Emoji font: \"{}\" (from settings)", emojiFont_.toStdString());
 
-    baseFontSize_           = getDouble("font_size", 13.0);
-    ringtone_               = getString("ringtone", QStringLiteral("Default"));
-    microphone_             = getString("microphone", QString());
-    camera_                 = getString("camera", QString());
-    cameraResolution_       = getString("camera_resolution", QString());
-    cameraFrameRate_        = getString("camera_frame_rate", QString());
-    screenShareFrameRate_   = getInt("screen_share_frame_rate", 5);
-    screenSharePiP_         = getBool("screen_share_pip", true);
-    screenShareRemoteVideo_ = getBool("screen_share_remote_video", false);
-    screenShareHideCursor_  = getBool("screen_share_hide_cursor", false);
-    useFallbackCallRelayServer_          = getBool("use_fallback_call_relay_server", false);
-    enableLegacyCalls_      = getBool("enable_legacy_calls", false);
+    baseFontSize_               = getDouble("font_size", 13.0);
+    ringtone_                   = getString("ringtone", QStringLiteral("Default"));
+    microphone_                 = getString("microphone", QString());
+    camera_                     = getString("camera", QString());
+    cameraResolution_           = getString("camera_resolution", QString());
+    cameraFrameRate_            = getString("camera_frame_rate", QString());
+    screenShareFrameRate_       = getInt("screen_share_frame_rate", 5);
+    screenSharePiP_             = getBool("screen_share_pip", true);
+    screenShareRemoteVideo_     = getBool("screen_share_remote_video", false);
+    screenShareHideCursor_      = getBool("screen_share_hide_cursor", false);
+    useFallbackCallRelayServer_ = getBool("use_fallback_call_relay_server", false);
+    enableLegacyCalls_          = getBool("enable_legacy_calls", false);
 
     // Auth settings
     accessToken_     = getString("access_token", QString());
@@ -593,8 +592,7 @@ UserSettings::setEnableStickers(bool s)
 void
 UserSettings::setShowOwnAvatarInBubbleLayout(bool s)
 {
-    setSetting(
-      showOwnAvatarInBubbleLayout_, s, &UserSettings::showOwnAvatarInBubbleLayoutChanged);
+    setSetting(showOwnAvatarInBubbleLayout_, s, &UserSettings::showOwnAvatarInBubbleLayoutChanged);
 }
 void
 UserSettings::setPinnedReactions(const QString &s)
@@ -669,7 +667,8 @@ UserSettings::setDecryptNotifications(bool s)
 void
 UserSettings::setShowCommunityNotificationCounts(bool s)
 {
-    setSetting(showCommunityNotificationCounts_, s, &UserSettings::showCommunityNotificationCountsChanged);
+    setSetting(
+      showCommunityNotificationCounts_, s, &UserSettings::showCommunityNotificationCountsChanged);
 }
 void
 UserSettings::setCompactRoomList(bool s)
@@ -2480,7 +2479,8 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     // Privacy — PrivacyScreen has a side-effect on PrivacyScreenTimeoutSeconds's Enabled state
     connect(s.get(), &UserSettings::privacyScreenChanged, this, [this]() {
         emit dataChanged(index(PrivacyScreen), index(PrivacyScreen), {Value});
-        emit dataChanged(index(PrivacyScreenTimeoutSeconds), index(PrivacyScreenTimeoutSeconds), {Enabled});
+        emit dataChanged(
+          index(PrivacyScreenTimeoutSeconds), index(PrivacyScreenTimeoutSeconds), {Enabled});
     });
     CONNECT_SETTING(PrivacyScreenTimeoutSeconds, privacyScreenTimeoutSecondsChanged, Value);
     CONNECT_SETTING(ExpireEvents, expireEventsChanged, Value);

@@ -25,7 +25,8 @@ class UserSettings final : public QObject
                  setEnlargeEmojiOnlyMessages NOTIFY enlargeEmojiOnlyMessagesChanged)
     Q_PROPERTY(bool tray READ tray WRITE setTray NOTIFY trayChanged)
     Q_PROPERTY(bool startInTray READ startInTray WRITE setStartInTray NOTIFY startInTrayChanged)
-    Q_PROPERTY(bool showCommunitiesSidebar READ showCommunitiesSidebar WRITE setShowCommunitiesSidebar NOTIFY showCommunitiesSidebarChanged)
+    Q_PROPERTY(bool showCommunitiesSidebar READ showCommunitiesSidebar WRITE
+                 setShowCommunitiesSidebar NOTIFY showCommunitiesSidebarChanged)
     Q_PROPERTY(bool scrollbarsInRoomlist READ scrollbarsInRoomlist WRITE setScrollbarsInRoomlist
                  NOTIFY scrollbarsInRoomlistChanged)
     Q_PROPERTY(bool markdown READ markdown WRITE setMarkdown NOTIFY markdownChanged)
@@ -56,14 +57,14 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool readReceipts READ readReceipts WRITE setReadReceipts NOTIFY readReceiptsChanged)
     Q_PROPERTY(bool desktopNotifications READ hasDesktopNotifications WRITE setDesktopNotifications
                  NOTIFY desktopNotificationsChanged)
-    Q_PROPERTY(bool alertOnIncomingMessages READ alertOnIncomingMessages WRITE setAlertOnIncomingMessages
-                 NOTIFY alertOnIncomingMessagesChanged)
-    Q_PROPERTY(
-      bool useCircularAvatars READ useCircularAvatars WRITE setUseCircularAvatars NOTIFY useCircularAvatarsChanged)
+    Q_PROPERTY(bool alertOnIncomingMessages READ alertOnIncomingMessages WRITE
+                 setAlertOnIncomingMessages NOTIFY alertOnIncomingMessagesChanged)
+    Q_PROPERTY(bool useCircularAvatars READ useCircularAvatars WRITE setUseCircularAvatars NOTIFY
+                 useCircularAvatarsChanged)
     Q_PROPERTY(bool decryptNotifications READ decryptNotifications WRITE setDecryptNotifications
                  NOTIFY decryptNotificationsChanged)
-    Q_PROPERTY(bool showCommunityNotificationCounts READ showCommunityNotificationCounts WRITE setShowCommunityNotificationCounts NOTIFY
-                 showCommunityNotificationCountsChanged)
+    Q_PROPERTY(bool showCommunityNotificationCounts READ showCommunityNotificationCounts WRITE
+                 setShowCommunityNotificationCounts NOTIFY showCommunityNotificationCountsChanged)
     Q_PROPERTY(bool compactRoomList READ compactRoomList WRITE setCompactRoomList NOTIFY
                  compactRoomListChanged)
     Q_PROPERTY(bool showRoomListTime READ showRoomListTime WRITE setShowRoomListTime NOTIFY
@@ -75,8 +76,8 @@ class UserSettings final : public QObject
       bool reducedMotion READ reducedMotion WRITE setReducedMotion NOTIFY reducedMotionChanged)
     Q_PROPERTY(
       bool privacyScreen READ privacyScreen WRITE setPrivacyScreen NOTIFY privacyScreenChanged)
-    Q_PROPERTY(int privacyScreenTimeoutSeconds READ privacyScreenTimeoutSeconds WRITE setPrivacyScreenTimeoutSeconds
-                 NOTIFY privacyScreenTimeoutSecondsChanged)
+    Q_PROPERTY(int privacyScreenTimeoutSeconds READ privacyScreenTimeoutSeconds WRITE
+                 setPrivacyScreenTimeoutSeconds NOTIFY privacyScreenTimeoutSecondsChanged)
     Q_PROPERTY(int maxTimelineWidth READ maxTimelineWidth WRITE setMaxTimelineWidth NOTIFY
                  maxTimelineWidthChanged)
     Q_PROPERTY(
@@ -106,8 +107,8 @@ class UserSettings final : public QObject
                  setScreenShareRemoteVideo NOTIFY screenShareRemoteVideoChanged)
     Q_PROPERTY(bool screenShareHideCursor READ screenShareHideCursor WRITE setScreenShareHideCursor
                  NOTIFY screenShareHideCursorChanged)
-    Q_PROPERTY(
-      bool useFallbackCallRelayServer READ useFallbackCallRelayServer WRITE setUseFallbackCallRelayServer NOTIFY useFallbackCallRelayServerChanged)
+    Q_PROPERTY(bool useFallbackCallRelayServer READ useFallbackCallRelayServer WRITE
+                 setUseFallbackCallRelayServer NOTIFY useFallbackCallRelayServerChanged)
     Q_PROPERTY(bool enableLegacyCalls READ enableLegacyCalls WRITE setEnableLegacyCalls NOTIFY
                  enableLegacyCallsChanged)
     Q_PROPERTY(bool onlyShareKeysWithVerifiedUsers READ onlyShareKeysWithVerifiedUsers WRITE
@@ -124,10 +125,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool disableCertificateValidation READ disableCertificateValidation WRITE
                  setDisableCertificateValidation NOTIFY disableCertificateValidationChanged)
     Q_PROPERTY(bool useIdenticon READ useIdenticon WRITE setUseIdenticon NOTIFY useIdenticonChanged)
-    Q_PROPERTY(bool openImagesInExternalApp READ openImagesInExternalApp WRITE setOpenImagesInExternalApp NOTIFY
-                 openImagesInExternalAppChanged)
-    Q_PROPERTY(bool openVideosInExternalApp READ openVideosInExternalApp WRITE setOpenVideosInExternalApp NOTIFY
-                 openVideosInExternalAppChanged)
+    Q_PROPERTY(bool openImagesInExternalApp READ openImagesInExternalApp WRITE
+                 setOpenImagesInExternalApp NOTIFY openImagesInExternalAppChanged)
+    Q_PROPERTY(bool openVideosInExternalApp READ openVideosInExternalApp WRITE
+                 setOpenVideosInExternalApp NOTIFY openVideosInExternalAppChanged)
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList recentReactions READ recentReactions WRITE setRecentReactions NOTIFY

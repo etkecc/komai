@@ -63,7 +63,7 @@ composer:
     typing_notifications: true
     read_receipts: true
   extras:
-    pinned_reactions: ":thumbsup:,:thumbsdown:,:smile:"
+    pinned_reactions: "👍️,👎️,😀,🤣,❤️"
     stickers_enabled: false
 
 notifications:

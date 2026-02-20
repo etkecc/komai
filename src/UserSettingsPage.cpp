@@ -702,9 +702,12 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     enableStickers_ = readScalar<bool>(root, SettingKey::ComposerExtrasStickersEnabled, false);
     showOwnAvatarInBubbleLayout_ =
       readScalar<bool>(root, SettingKey::TimelineMessagesLayoutShowOwnAvatar, true);
-    pinnedReactions_      = readString(root,
-                                  SettingKey::ComposerExtrasPinnedReactions,
-                                  QStringLiteral(":thumbsup:,:thumbsdown:,:smile:"));
+    const auto pinnedReactionsDefault       = QStringLiteral("👍️,👎️,😀,🤣,❤️");
+    const auto legacyPinnedReactionsDefault = QStringLiteral(":thumbsup:,:thumbsdown:,:smile:");
+    pinnedReactions_ =
+      readString(root, SettingKey::ComposerExtrasPinnedReactions, pinnedReactionsDefault);
+    if (pinnedReactions_ == legacyPinnedReactionsDefault)
+        pinnedReactions_ = pinnedReactionsDefault;
     animateImagesOnHover_ = readScalar<bool>(root, SettingKey::TimelineMediaAnimateOnHover, false);
     typingNotifications_ =
       readScalar<bool>(root, SettingKey::ComposerFeedbackTypingNotifications, true);

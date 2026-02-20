@@ -46,6 +46,11 @@ Persistence split:
 
 YAML key hierarchy is nested/dotted (for example `timeline.messages.layout.bubbles`).
 
+Exception:
+
+- `UserSettingsModel::ScaleFactor` uses Qt `QSettings` key `settings/scale_factor` (not profile YAML).
+- This is needed so `main.cpp` can set `QT_SCALE_FACTOR` before creating `QApplication`.
+
 ## Staged Load Order
 
 Load order is intentionally staged:
@@ -125,10 +130,10 @@ This keeps fallback and secure-backend key identity consistent.
 
 ## Notes
 
-- The planning docs under `application-settings-*` are design/verification artifacts.
 - Canonical references are:
   - [User Configuration Guide](../configuration.md)
   - [Storage Guide](../storage.md)
   - [this architecture document](configuration.md)
   - [storage architecture](storage.md)
   - [configuration examples](configuration-examples/profile/)
+  - [nheko to Komai settings mapping](differences-from-nheko/settings-mapping.md)

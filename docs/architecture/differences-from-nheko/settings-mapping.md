@@ -1,60 +1,34 @@
-# Hierarchical YAML Key Proposal
+# Settings Name Mapping (nheko -> Komai)
 
-## File Layout
+This reference is for porting patches from upstream nheko into Komai.
 
-Profile directory (per profile): `~/.config/komai/profiles/<profile-id>/`
-- `config.yml`: durable preferences and advanced settings.
-- `state.yml`: volatile/runtime UI state (layout, recent values, expansion state).
-- `session.yml`: account/session metadata (user_id, homeserver, device_id).
-- `secrets.yml`: optional fallback secrets file (only when `secrets.provider=file`).
+Scope:
+- Map nheko-style setting names (C++ constants and flat serialization keys) to Komai names.
+- Document Komai's current nested YAML keys and target files.
+- Keep runtime/action-only rows where useful for patch translation context.
 
-## Secret Source
+Not in scope:
+- Backward-compatibility migration guarantees for old key names.
 
-- New config key: `secrets.provider` in `config.yml` with values `secret_service` (default) or `file`.
-- Access token and secret map are read from secure backend when `secrets.provider=secret_service`.
-- When `secrets.provider=file`, secrets are loaded from `secrets.yml` (`auth.access_token`, `secrets`).
-- `run_without_secure_secrets_service` maps to `secrets.provider` (`true` -> `file`, `false` -> `secret_service`).
-- In `secret_service` mode, `session.yml` stores account/session metadata only (no auth token and no secrets map).
-- In `file` mode, `secrets.yml` stores:
-  - `auth.access_token`
-  - `secrets` map containing all fallback secret-store entries (profile-scoped secret IDs as keys).
+Source of truth:
+- `src/UserSettingsPage.cpp` (`SettingKey::*` constants and load/save code).
+- `src/UserSettingsPage.cpp` settings metadata table (`SettingMeta` rows).
+- `src/UserSettingsPage.h` (`UserSettingsModel` constants).
 
-## Secure Backend Key IDs
-
-- All secure backend keys are profile-scoped and use the same profile hash:
-  - `profile_hash = hex(sha256(normalized_profile_id))`
-  - `normalized_profile_id`: empty/default -> `default`, otherwise profile id string.
-  - default profile hash convenience value: `37a8eec1ce19687d132fe29051dca629d164e2c4958ba141d5f4133a33f0688f`
-- Settings secrets namespace:
-  - `komai.<profile_hash>.settings.<key>`
-  - examples: `komai.<profile_hash>.settings.session.auth.access_token`, `komai.<profile_hash>.settings.session.secrets`
-- Local crypto namespace:
-  - `komai.<profile_hash>.local_crypto.<key>`
-  - example: `komai.<profile_hash>.local_crypto.pickle_secret`
-- Matrix secret namespace:
-  - `komai.<profile_hash>.matrix.<key>`
-  - used by cache-side Matrix secret store names.
-- File-provider fallback keeps these same IDs as keys in `secrets.yml` -> `secrets`.
-- Legacy base64-profile-hash secret IDs are intentionally not used.
-
-## Load/Save Order
-
-1. Load `config.yml` (defines provider and global prefs).
-2. Load `session.yml` (account metadata).
-3. Load secure backend secrets if provider is `secret_service`.
-   or load `secrets.yml` if provider is `file`.
-4. Load `state.yml` (window/sidebar/runtime state).
-5. Save files independently by concern (config/state/session/secrets).
+Special case:
+- `UserSettingsModel::ScaleFactor` is intentionally not persisted in profile YAML.
+- It uses legacy Qt `QSettings` key `settings/scale_factor` in `utils::setScaleFactor`/`utils::scaleFactor`.
+- Reason: `main.cpp` needs this value before creating `QApplication` to set `QT_SCALE_FACTOR` early.
 
 ## UI Settings Mapping
 
-| Tab | Section | Setting | C++ Constant | Current Key | Proposed Key | Target | Persist? |
+| Tab | Section | Setting | C++ Constant | nheko Flat Key | Komai YAML Key | Komai Target | Persisted? |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Look & Feel | THEME | Theme | `UserSettingsModel::Theme` | `theme` | `ui.theme.slug` | config.yml | yes |
 | Look & Feel | FONTS | Font family | `UserSettingsModel::Font` | `font_family` | `ui.font.family` | config.yml | yes |
 | Look & Feel | FONTS | Font size | `UserSettingsModel::FontSize` | `font_size` | `ui.font.size_pt` | config.yml | yes |
 | Look & Feel | FONTS | Emoji font family | `UserSettingsModel::EmojiFont` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
-| Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `-` | `ui.scale.factor` | config.yml | optional |
+| Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `settings/scale_factor` | `-` | `QSettings` (`settings/scale_factor`) | yes |
 | Look & Feel | EFFECTS | Reduce or disable animations | `UserSettingsModel::ReducedMotion` | `reduced_motion` | `ui.motion.reduced` | config.yml | yes |
 | Sidebars | ROOM LIST | Compact mode | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::ShowRoomListTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
@@ -129,7 +103,7 @@ Profile directory (per profile): `~/.config/komai/profiles/<profile-id>/`
 
 ## Additional Persisted Keys (Not in UI Settings Table)
 
-| Current Key | Proposed Key | Target | Value Type | Notes |
+| nheko Flat Key | Komai YAML Key | Komai Target | Value Type | Notes |
 | --- | --- | --- | --- | --- |
 | `window_width` | `app.window.size.width` | state.yml | int | runtime window geometry |
 | `window_height` | `app.window.size.height` | state.yml | int | runtime window geometry |

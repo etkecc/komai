@@ -37,6 +37,7 @@ See also:
 - [Storage Architecture](../storage.md)
 - [Storage Guide](../../storage.md)
 - [Secret Storage Differences](secret-services.md)
+- [Settings Name Mapping](settings-mapping.md)
 - [Configuration Example (config.yml)](../configuration-examples/profile/config.yml)
 - [Configuration Example (state.yml)](../configuration-examples/profile/state.yml)
 - [Configuration Example (session.yml)](../configuration-examples/profile/session.yml)

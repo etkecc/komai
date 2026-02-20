@@ -77,6 +77,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 
 - Configuration architecture differences: [architecture/differences-from-nheko/configuration.md](architecture/differences-from-nheko/configuration.md)
 - Secret service behavior differences: [architecture/differences-from-nheko/secret-services.md](architecture/differences-from-nheko/secret-services.md)
+- Settings name mapping for patch porting: [architecture/differences-from-nheko/settings-mapping.md](architecture/differences-from-nheko/settings-mapping.md)
 
 
 ## 🌐 Translations

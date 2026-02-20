@@ -57,6 +57,7 @@ Security invariants:
 - `state.yml`: window size, sidebar widths, hidden/collapsed UI state, recent reactions
 - `session.yml`: user id, homeserver, device id, presence default
 - `secrets.yml`: `auth.access_token` and `secrets` map (only when `secrets.provider=file`)
+- UI scale factor: Qt `QSettings` key `settings/scale_factor` (used at startup to set `QT_SCALE_FACTOR`)
 - Full example files: [architecture/configuration-examples/profile/](architecture/configuration-examples/profile/)
 
 ## Backup and Restore

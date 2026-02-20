@@ -2690,27 +2690,20 @@ Cache::roomInfo(bool withInvites)
 
     auto txn = ro_txn(storage());
 
-    std::string_view room_id;
-    std::string_view room_data;
-
     // Gather info about the joined rooms.
-    auto roomsCursor = db::Cursor::open(txn, db->rooms);
-    while (roomsCursor.get(room_id, room_data, db::CursorOp::Next)) {
-        RoomInfo tmp     = nlohmann::json::parse(std::move(room_data)).get<RoomInfo>();
-        tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
-        result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+    for (const auto &[room_id, room_data] : db::listEntries(txn, db->rooms)) {
+        RoomInfo tmp     = nlohmann::json::parse(room_data).get<RoomInfo>();
+        tmp.member_count = getMembersDb(txn, room_id).size(txn);
+        result.insert(QString::fromStdString(room_id), std::move(tmp));
     }
-    roomsCursor.close();
 
     if (withInvites) {
         // Gather info about the invites.
-        auto invitesCursor = db::Cursor::open(txn, db->invites);
-        while (invitesCursor.get(room_id, room_data, db::CursorOp::Next)) {
+        for (const auto &[room_id, room_data] : db::listEntries(txn, db->invites)) {
             RoomInfo tmp     = nlohmann::json::parse(room_data).get<RoomInfo>();
-            tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
-            result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+            tmp.member_count = getInviteMembersDb(txn, room_id).size(txn);
+            result.insert(QString::fromStdString(room_id), std::move(tmp));
         }
-        invitesCursor.close();
     }
 
     return result;
@@ -2724,22 +2717,18 @@ Cache::roomNamesAndAliases()
     std::vector<RoomNameAlias> result;
     result.reserve(db->rooms.size(txn));
 
-    std::string_view room_id;
-    std::string_view room_data;
-    auto roomsCursor = db::Cursor::open(txn, db->rooms);
-    while (roomsCursor.get(room_id, room_data, db::CursorOp::Next)) {
+    for (const auto &[room_id, room_data] : db::listEntries(txn, db->rooms)) {
         try {
-            std::string room_id_str = std::string(room_id);
-            RoomInfo info           = nlohmann::json::parse(std::move(room_data)).get<RoomInfo>();
+            RoomInfo info = nlohmann::json::parse(room_data).get<RoomInfo>();
 
-            auto aliases = getStateEvent<mtx::events::state::CanonicalAlias>(txn, room_id_str);
+            auto aliases = getStateEvent<mtx::events::state::CanonicalAlias>(txn, room_id);
             std::string alias;
             if (aliases) {
                 alias = aliases->content.alias;
             }
 
             result.push_back(RoomNameAlias{
-              .id              = std::move(room_id_str),
+              .id              = room_id,
               .name            = std::move(info.name),
               .alias           = std::move(alias),
               .recent_activity = info.approximate_last_modification_ts,
@@ -2984,16 +2973,12 @@ Cache::invites()
 {
     QHash<QString, RoomInfo> result;
 
-    auto txn    = ro_txn(storage());
-    auto cursor = db::Cursor::open(txn, db->invites);
-
-    std::string_view room_id, room_data;
-
-    while (cursor.get(room_id, room_data, db::CursorOp::Next)) {
+    auto txn = ro_txn(storage());
+    for (const auto &[room_id, room_data] : db::listEntries(txn, db->invites)) {
         try {
             RoomInfo tmp     = nlohmann::json::parse(room_data).get<RoomInfo>();
-            tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
-            result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+            tmp.member_count = getInviteMembersDb(txn, room_id).size(txn);
+            result.insert(QString::fromStdString(room_id), std::move(tmp));
         } catch (const nlohmann::json::exception &e) {
             nhlog::db()->warn("failed to parse room info for invite: "
                               "room_id ({}), {}: {}",
@@ -3002,8 +2987,6 @@ Cache::invites()
                               e.what());
         }
     }
-
-    cursor.close();
 
     return result;
 }
@@ -3440,19 +3423,8 @@ Cache::getInviteRoomIsSpace(db::Txn &txn, db::Dbi &db_)
 std::vector<std::string>
 Cache::joinedRooms()
 {
-    auto txn         = ro_txn(storage());
-    auto roomsCursor = db::Cursor::open(txn, db->rooms);
-
-    std::string_view id, data;
-    std::vector<std::string> room_ids;
-
-    // Gather the room ids for the joined rooms.
-    while (roomsCursor.get(id, data, db::CursorOp::Next))
-        room_ids.emplace_back(id);
-
-    roomsCursor.close();
-
-    return room_ids;
+    auto txn = ro_txn(storage());
+    return db::listKeys(txn, db->rooms);
 }
 
 std::map<std::string, RoomInfo>
@@ -3462,16 +3434,13 @@ Cache::getCommonRooms(const std::string &user_id)
 
     auto txn = ro_txn(storage());
 
-    std::string_view room_id;
-    std::string_view room_data;
     std::string_view member_info;
 
-    auto roomsCursor = db::Cursor::open(txn, db->rooms);
-    while (roomsCursor.get(room_id, room_data, db::CursorOp::Next)) {
+    for (const auto &[room_id, room_data] : db::listEntries(txn, db->rooms)) {
         try {
-            if (getMembersDb(txn, std::string(room_id)).get(txn, user_id, member_info)) {
-                RoomInfo tmp = nlohmann::json::parse(std::move(room_data)).get<RoomInfo>();
-                result.emplace(std::string(room_id), std::move(tmp));
+            if (getMembersDb(txn, room_id).get(txn, user_id, member_info)) {
+                RoomInfo tmp = nlohmann::json::parse(room_data).get<RoomInfo>();
+                result.emplace(room_id, std::move(tmp));
             }
         } catch (std::exception &e) {
             nhlog::db()->warn("Failed to read common room for member ({}) in room ({}): {}",
@@ -3480,7 +3449,6 @@ Cache::getCommonRooms(const std::string &user_id)
                               e.what());
         }
     }
-    roomsCursor.close();
 
     return result;
 }
@@ -4307,26 +4275,20 @@ Cache::spaces()
     auto txn = ro_txn(storage());
 
     QMap<QString, std::optional<RoomInfo>> ret;
-    {
-        auto cursor = db::Cursor::open(txn, db->spacesChildren);
-        bool first  = true;
-        std::string_view space_id, space_child;
-        while (
-          cursor.get(space_id, space_child, first ? db::CursorOp::First : db::CursorOp::Next)) {
-            first = false;
+    std::unordered_set<std::string> seen;
+    for (const auto &[space_id, space_child] : db::listEntries(txn, db->spacesChildren)) {
+        if (space_child.empty())
+            continue;
+        if (!seen.insert(space_id).second)
+            continue;
 
-            if (!space_child.empty()) {
-                std::string_view room_data;
-                if (db->rooms.get(txn, space_id, room_data)) {
-                    RoomInfo tmp = nlohmann::json::parse(std::move(room_data)).get<RoomInfo>();
-                    ret.insert(QString::fromUtf8(space_id.data(), (int)space_id.size()), tmp);
-                } else {
-                    ret.insert(QString::fromUtf8(space_id.data(), (int)space_id.size()),
-                               std::nullopt);
-                }
-            }
+        std::string_view room_data;
+        if (db->rooms.get(txn, space_id, room_data)) {
+            RoomInfo tmp = nlohmann::json::parse(room_data).get<RoomInfo>();
+            ret.insert(QString::fromStdString(space_id), tmp);
+        } else {
+            ret.insert(QString::fromStdString(space_id), std::nullopt);
         }
-        cursor.close();
     }
 
     return ret;

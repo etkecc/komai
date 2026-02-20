@@ -871,6 +871,27 @@ testScanHelper()
                      "scan helper includes duplicate key instances #2");
         ok &= expect(dupKeys.size() >= 3 && dupKeys[2] == "z",
                      "scan helper includes subsequent keys in dupsort db");
+
+        const auto mainEntries = db::listEntries(txn, main);
+        ok &= expect(mainEntries.size() == 2, "scan helper lists all key/value entries in simple db");
+        ok &= expect(mainEntries.size() >= 2 && mainEntries[0].first == "a" &&
+                       mainEntries[0].second == "a",
+                     "scan helper preserves simple entry order/value #1");
+        ok &= expect(mainEntries.size() >= 2 && mainEntries[1].first == "b" &&
+                       mainEntries[1].second == "b",
+                     "scan helper preserves simple entry order/value #2");
+
+        const auto dupEntries = db::listEntries(txn, dup);
+        ok &= expect(dupEntries.size() == 3, "scan helper lists key/value entries in dupsort db");
+        ok &= expect(dupEntries.size() >= 3 && dupEntries[0].first == "k" &&
+                       dupEntries[0].second == "v1",
+                     "scan helper preserves dupsort entry order/value #1");
+        ok &= expect(dupEntries.size() >= 3 && dupEntries[1].first == "k" &&
+                       dupEntries[1].second == "v2",
+                     "scan helper preserves dupsort entry order/value #2");
+        ok &= expect(dupEntries.size() >= 3 && dupEntries[2].first == "z" &&
+                       dupEntries[2].second == "v3",
+                     "scan helper preserves dupsort entry order/value #3");
     }
 
     backend->close();

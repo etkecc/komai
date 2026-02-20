@@ -760,6 +760,11 @@ Cache::pickleSecret()
 std::string
 Cache::createPickleSecret()
 {
+    if (!this->pickle_secret_.empty()) {
+        nhlog::crypto()->warn("pickle secret already loaded; reusing existing secret");
+        return this->pickle_secret_;
+    }
+
     this->pickle_secret_ = mtx::client::utils::random_token(64, true);
     storeSecretInStore("pickle_secret", pickle_secret_);
     return pickle_secret_;

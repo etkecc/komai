@@ -530,6 +530,17 @@ ChatPage::bootstrap(QString userid,
                   return;
               }
 
+              if (!isInitialized && hadSessionIdentity) {
+                  nhlog::crypto()->critical(
+                    "Persisted session identity exists, but cache is uninitialized. "
+                    "Refusing to create a new Olm account for an existing session.");
+                  emit dropToLoginPageCb(
+                    tr("Local encryption data is missing for this signed-in session.\n\n"
+                       "Close Komai and restore your old local data/secret-store backup if you "
+                       "have one. Otherwise, sign in again to create a new encryption state."));
+                  return;
+              }
+
               try {
                   if (!isInitialized) {
                       cache::setCurrentFormat();

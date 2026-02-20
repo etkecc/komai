@@ -49,6 +49,7 @@ public:
     virtual ~Backend() = default;
 
     virtual std::string_view id() const noexcept                                           = 0;
+    virtual bool supportsCompaction() const noexcept                                       = 0;
     virtual void open(const QString &directory, const BackendOptions &options)             = 0;
     virtual void close() noexcept                                                          = 0;
     virtual bool isOpen() const noexcept                                                   = 0;
@@ -59,7 +60,6 @@ public:
                         DbiFlags flags                                     = DbiFlags::None,
                         std::optional<DupsortComparator> dupsortComparator = std::nullopt) = 0;
     virtual std::vector<std::string> listDbiNames(Txn &txn)                                = 0;
-    virtual void closeDbi(Dbi dbi) noexcept                                                = 0;
     virtual std::optional<std::size_t> mapSizeBytes() const noexcept                       = 0;
 };
 

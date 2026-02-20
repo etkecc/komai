@@ -813,11 +813,6 @@ InMemoryBackend::listDbiNames(Txn &txn)
     return names;
 }
 
-void
-InMemoryBackend::closeDbi(Dbi /*dbi*/) noexcept
-{
-}
-
 std::optional<std::size_t>
 InMemoryBackend::mapSizeBytes() const noexcept
 {

@@ -227,12 +227,6 @@ requireLmdbDbi(db::detail::DbiImpl &dbi)
     return *impl;
 }
 
-LmdbDbiImpl *
-maybeLmdbDbi(db::detail::DbiImpl *dbi) noexcept
-{
-    return dynamic_cast<LmdbDbiImpl *>(dbi);
-}
-
 } // namespace
 
 namespace db {
@@ -358,17 +352,6 @@ LmdbBackend::listDbiNames(Txn &txn)
         names.emplace_back(dbName);
 
     return names;
-}
-
-void
-LmdbBackend::closeDbi(Dbi dbi) noexcept
-{
-    if (!isOpen())
-        return;
-
-    auto *lmdbDbi = maybeLmdbDbi(detail::dbiImpl(dbi));
-    if (lmdbDbi)
-        lmdb::dbi_close(impl_->env, lmdbDbi->native());
 }
 
 std::optional<std::size_t>

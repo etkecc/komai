@@ -170,6 +170,46 @@ Cache::openDbi(db::Txn &txn,
     return storage().openDbi(txn, name, flags, dupsortComparator);
 }
 
+struct DbiOpenOptions
+{
+    db::DbiFlags flags                                     = db::DbiFlags::None;
+    std::optional<db::DupsortComparator> dupsortComparator = std::nullopt;
+};
+
+static DbiOpenOptions
+dbOpenOptionsForName(std::string_view dbName)
+{
+    DbiOpenOptions options{};
+
+    if (dbName.ends_with("/event_order") || dbName.ends_with("/order2msg") ||
+        dbName.ends_with("/pending"))
+        options.flags |= db::DbiFlags::IntegerKey;
+
+    if (dbName.ends_with("/related") || dbName == SPACES_CHILDREN_DB || dbName == SPACES_PARENTS_DB)
+        options.flags |= db::DbiFlags::DupSort;
+
+    if (dbName.ends_with("/states_key")) {
+        options.flags |= db::DbiFlags::DupSort;
+        options.dupsortComparator = db::DupsortComparator::StateKey;
+    } else if (dbName.ends_with("/state_by_key")) {
+        options.flags |= db::DbiFlags::DupSort;
+        options.dupsortComparator = db::DupsortComparator::LegacyStateByKeyJson;
+    }
+
+    return options;
+}
+
+db::Dbi
+Cache::openNamedDbi(db::Txn &txn, std::string_view name, bool create)
+{
+    auto options = dbOpenOptionsForName(name);
+    if (create)
+        options.flags |= db::DbiFlags::Create;
+
+    const std::string dbName{name};
+    return openDbi(txn, dbName.c_str(), options.flags, options.dupsortComparator);
+}
+
 bool
 Cache::isMapFullError(const std::exception &e) const noexcept
 {
@@ -231,102 +271,92 @@ ro_txn(db::Backend &storage)
 db::Dbi
 Cache::getEventsDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/events").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/events");
 }
 
 db::Dbi
 Cache::getEventOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn,
-                   std::string(room_id + "/event_order").c_str(),
-                   db::DbiFlags::Create | db::DbiFlags::IntegerKey);
+    return openNamedDbi(txn, room_id + "/event_order");
 }
 
 // inverse of EventOrderDb
 db::Dbi
 Cache::getEventToOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/event2order").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/event2order");
 }
 
 db::Dbi
 Cache::getMessageToOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/msg2order").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/msg2order");
 }
 
 db::Dbi
 Cache::getOrderToMessageDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn,
-                   std::string(room_id + "/order2msg").c_str(),
-                   db::DbiFlags::Create | db::DbiFlags::IntegerKey);
+    return openNamedDbi(txn, room_id + "/order2msg");
 }
 
 db::Dbi
 Cache::getPendingMessagesDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn,
-                   std::string(room_id + "/pending").c_str(),
-                   db::DbiFlags::Create | db::DbiFlags::IntegerKey);
+    return openNamedDbi(txn, room_id + "/pending");
 }
 
 db::Dbi
 Cache::getRelationsDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(
-      txn, std::string(room_id + "/related").c_str(), db::DbiFlags::Create | db::DbiFlags::DupSort);
+    return openNamedDbi(txn, room_id + "/related");
 }
 
 db::Dbi
 Cache::getInviteStatesDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/invite_state").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/invite_state");
 }
 
 db::Dbi
 Cache::getInviteMembersDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/invite_members").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/invite_members");
 }
 
 db::Dbi
 Cache::getStatesDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/state").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/state");
 }
 
 db::Dbi
 Cache::getStatesKeyDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn,
-                   std::string(room_id + "/states_key").c_str(),
-                   db::DbiFlags::Create | db::DbiFlags::DupSort,
-                   db::DupsortComparator::StateKey);
+    return openNamedDbi(txn, room_id + "/states_key");
 }
 
 db::Dbi
 Cache::getAccountDataDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/account_data").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/account_data");
 }
 
 db::Dbi
 Cache::getMembersDb(db::Txn &txn, const std::string &room_id)
 {
-    return openDbi(txn, std::string(room_id + "/members").c_str(), db::DbiFlags::Create);
+    return openNamedDbi(txn, room_id + "/members");
 }
 
 db::Dbi
 Cache::getUserKeysDb(db::Txn &txn)
 {
-    return openDbi(txn, "user_key", db::DbiFlags::Create);
+    return openNamedDbi(txn, "user_key");
 }
 
 db::Dbi
 Cache::getVerificationDb(db::Txn &txn)
 {
-    return openDbi(txn, "verified", db::DbiFlags::Create);
+    return openNamedDbi(txn, "verified");
 }
 
 QString
@@ -359,21 +389,12 @@ compactDatabase(db::Backend &from, db::Backend &to)
     for (const auto &dbName : dbNames) {
         nhlog::db()->info("Compacting db: {}", dbName);
 
-        auto flags = db::DbiFlags::Create;
+        auto options = dbOpenOptionsForName(dbName);
+        options.flags |= db::DbiFlags::Create;
 
-        if (dbName.ends_with("/event_order") || dbName.ends_with("/order2msg") ||
-            dbName.ends_with("/pending"))
-            flags |= db::DbiFlags::IntegerKey;
-        if (dbName.ends_with("/related") || dbName.ends_with("/states_key") ||
-            dbName == SPACES_CHILDREN_DB || dbName == SPACES_PARENTS_DB)
-            flags |= db::DbiFlags::DupSort;
-
-        const auto comparator =
-          dbName.ends_with("/states_key")
-            ? std::optional<db::DupsortComparator>{db::DupsortComparator::StateKey}
-            : std::nullopt;
-        auto fromDb = from.openDbi(fromTxn, dbName.c_str(), flags, comparator);
-        auto toDb   = to.openDbi(toTxn, dbName.c_str(), flags, comparator);
+        auto fromDb =
+          from.openDbi(fromTxn, dbName.c_str(), options.flags, options.dupsortComparator);
+        auto toDb = to.openDbi(toTxn, dbName.c_str(), options.flags, options.dupsortComparator);
 
         auto fromCursor = db::Cursor::open(fromTxn, fromDb);
         auto toCursor   = db::Cursor::open(toTxn, toDb);
@@ -538,35 +559,40 @@ Cache::setup()
         db->storage->open(cacheDirectory_, storageOptions);
 
         if (needsCompact) {
-            auto compactDir  = cacheDirectory_ + "-compacting";
-            auto toDeleteDir = cacheDirectory_ + "-olddb";
-            if (QFile::exists(cacheDirectory_))
-                QDir(compactDir).removeRecursively();
-            if (QFile::exists(toDeleteDir))
-                QDir(toDeleteDir).removeRecursively();
-            if (!QDir().mkpath(compactDir)) {
-                nhlog::db()->warn(
-                  "Failed to create directory '{}' for database compaction, skipping compaction!",
-                  compactDir.toStdString());
+            if (!storage().supportsCompaction()) {
+                nhlog::db()->warn("Storage backend '{}' does not support compaction, skipping.",
+                                  storage().id());
             } else {
-                // create a temporary db
-                auto temp = db::createDefaultBackend();
-                temp->open(compactDir, storageOptions);
+                auto compactDir  = cacheDirectory_ + "-compacting";
+                auto toDeleteDir = cacheDirectory_ + "-olddb";
+                if (QFile::exists(cacheDirectory_))
+                    QDir(compactDir).removeRecursively();
+                if (QFile::exists(toDeleteDir))
+                    QDir(toDeleteDir).removeRecursively();
+                if (!QDir().mkpath(compactDir)) {
+                    nhlog::db()->warn("Failed to create directory '{}' for database compaction, "
+                                      "skipping compaction!",
+                                      compactDir.toStdString());
+                } else {
+                    // Create a temporary backend matching the current storage backend.
+                    auto temp = db::createBackend(storage().id());
+                    temp->open(compactDir, storageOptions);
 
-                // copy data
-                compactDatabase(storage(), *temp);
+                    // copy data
+                    compactDatabase(storage(), *temp);
 
-                // close envs
-                temp->close();
-                db->storage->close();
+                    // close envs
+                    temp->close();
+                    db->storage->close();
 
-                // swap the databases and delete old one
-                QDir().rename(cacheDirectory_, toDeleteDir);
-                QDir().rename(compactDir, cacheDirectory_);
-                QDir(toDeleteDir).removeRecursively();
+                    // swap the databases and delete old one
+                    QDir().rename(cacheDirectory_, toDeleteDir);
+                    QDir().rename(compactDir, cacheDirectory_);
+                    QDir(toDeleteDir).removeRecursively();
 
-                // reopen env
-                db->storage->open(cacheDirectory_, storageOptions);
+                    // reopen env
+                    db->storage->open(cacheDirectory_, storageOptions);
+                }
             }
         }
     } catch (const db::Error &e) {
@@ -587,28 +613,26 @@ Cache::setup()
         db->storage->open(cacheDirectory_, storageOptions);
     }
 
-    auto txn      = beginTxn();
-    db->syncState = openDbi(txn, SYNC_STATE_DB, db::DbiFlags::Create);
-    db->rooms     = openDbi(txn, ROOMS_DB, db::DbiFlags::Create);
-    db->spacesChildren =
-      openDbi(txn, SPACES_CHILDREN_DB, db::DbiFlags::Create | db::DbiFlags::DupSort);
-    db->spacesParents =
-      openDbi(txn, SPACES_PARENTS_DB, db::DbiFlags::Create | db::DbiFlags::DupSort);
-    db->invites       = openDbi(txn, INVITES_DB, db::DbiFlags::Create);
-    db->readReceipts  = openDbi(txn, READ_RECEIPTS_DB, db::DbiFlags::Create);
-    db->notifications = openDbi(txn, NOTIFICATIONS_DB, db::DbiFlags::Create);
-    db->presence      = openDbi(txn, PRESENCE_DB, db::DbiFlags::Create);
+    auto txn           = beginTxn();
+    db->syncState      = openNamedDbi(txn, SYNC_STATE_DB);
+    db->rooms          = openNamedDbi(txn, ROOMS_DB);
+    db->spacesChildren = openNamedDbi(txn, SPACES_CHILDREN_DB);
+    db->spacesParents  = openNamedDbi(txn, SPACES_PARENTS_DB);
+    db->invites        = openNamedDbi(txn, INVITES_DB);
+    db->readReceipts   = openNamedDbi(txn, READ_RECEIPTS_DB);
+    db->notifications  = openNamedDbi(txn, NOTIFICATIONS_DB);
+    db->presence       = openNamedDbi(txn, PRESENCE_DB);
 
     // Session management
-    db->inboundMegolmSessions  = openDbi(txn, INBOUND_MEGOLM_SESSIONS_DB, db::DbiFlags::Create);
-    db->outboundMegolmSessions = openDbi(txn, OUTBOUND_MEGOLM_SESSIONS_DB, db::DbiFlags::Create);
-    db->megolmSessionsData     = openDbi(txn, MEGOLM_SESSIONS_DATA_DB, db::DbiFlags::Create);
+    db->inboundMegolmSessions  = openNamedDbi(txn, INBOUND_MEGOLM_SESSIONS_DB);
+    db->outboundMegolmSessions = openNamedDbi(txn, OUTBOUND_MEGOLM_SESSIONS_DB);
+    db->megolmSessionsData     = openNamedDbi(txn, MEGOLM_SESSIONS_DATA_DB);
 
-    db->olmSessions = openDbi(txn, OLM_SESSIONS_DB, db::DbiFlags::Create);
+    db->olmSessions = openNamedDbi(txn, OLM_SESSIONS_DB);
 
     // What rooms are encrypted
-    db->encryptedRooms_   = openDbi(txn, ENCRYPTED_ROOMS_DB, db::DbiFlags::Create);
-    db->eventExpiryBgJob_ = openDbi(txn, EVENT_EXPIRATION_BG_JOB_DB, db::DbiFlags::Create);
+    db->encryptedRooms_   = openNamedDbi(txn, ENCRYPTED_ROOMS_DB);
+    db->eventExpiryBgJob_ = openNamedDbi(txn, EVENT_EXPIRATION_BG_JOB_DB);
 
     [[maybe_unused]] auto verificationDb = getVerificationDb(txn);
     [[maybe_unused]] auto userKeysDb     = getUserKeysDb(txn);
@@ -1535,16 +1559,6 @@ Cache::deleteData()
 {
     if (this->databaseReady_) {
         this->databaseReady_ = false;
-        // TODO: We need to close the storage backend while not accepting new requests.
-        storage().closeDbi(db->syncState);
-        storage().closeDbi(db->rooms);
-        storage().closeDbi(db->invites);
-        storage().closeDbi(db->readReceipts);
-        storage().closeDbi(db->notifications);
-
-        storage().closeDbi(db->inboundMegolmSessions);
-        storage().closeDbi(db->outboundMegolmSessions);
-        storage().closeDbi(db->megolmSessionsData);
 
         db->storage->close();
 
@@ -1581,7 +1595,7 @@ Cache::runMigrations()
        [this]() {
            try {
                auto txn              = beginTxn(nullptr);
-               auto pending_receipts = openDbi(txn, "pending_receipts", db::DbiFlags::Create);
+               auto pending_receipts = openNamedDbi(txn, "pending_receipts");
                pending_receipts.drop(txn, true);
                txn.commit();
            } catch (const db::Error &) {
@@ -1600,7 +1614,7 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto messagesDb = openDbi(txn, std::string(room_id + "/messages").c_str());
+                       auto messagesDb = openNamedDbi(txn, room_id + "/messages", false);
 
                        // keep some old messages and batch token
                        {
@@ -1664,7 +1678,7 @@ Cache::runMigrations()
 
                    nhlog::db()->debug("Migrating {}", dbName);
 
-                   auto olmDb = openDbi(txn, dbName.c_str());
+                   auto olmDb = openNamedDbi(txn, dbName, false);
 
                    std::string_view session_id, session_value;
 
@@ -1697,7 +1711,7 @@ Cache::runMigrations()
                    newDbName.erase(0, sizeof("olm_sessions") - 1);
                    newDbName = "olm_sessions.v2" + newDbName;
 
-                   auto newDb = openDbi(txn, newDbName.c_str(), db::DbiFlags::Create);
+                   auto newDb = openNamedDbi(txn, newDbName);
 
                    for (const auto &[key, value] : sessions) {
                        // nhlog::db()->debug("{}\n{}", key, nlohmann::json(value).dump());
@@ -1719,7 +1733,7 @@ Cache::runMigrations()
                auto txn      = beginTxn(nullptr);
                auto try_drop = [this, &txn](const std::string &dbName) {
                    try {
-                       openDbi(txn, dbName.c_str()).drop(txn, true);
+                       openNamedDbi(txn, dbName, false).drop(txn, true);
                    } catch (std::exception &e) {
                        nhlog::db()->warn("Failed to drop '{}': {}", dbName, e.what());
                    }
@@ -1764,13 +1778,10 @@ Cache::runMigrations()
       {"2022.04.08",
        [this]() {
            try {
-               auto txn = beginTxn(nullptr);
-               auto inboundMegolmSessionDb =
-                 openDbi(txn, INBOUND_MEGOLM_SESSIONS_DB, db::DbiFlags::Create);
-               auto outboundMegolmSessionDb =
-                 openDbi(txn, OUTBOUND_MEGOLM_SESSIONS_DB, db::DbiFlags::Create);
-               auto megolmSessionDataDb =
-                 openDbi(txn, MEGOLM_SESSIONS_DATA_DB, db::DbiFlags::Create);
+               auto txn                     = beginTxn(nullptr);
+               auto inboundMegolmSessionDb  = openNamedDbi(txn, INBOUND_MEGOLM_SESSIONS_DB);
+               auto outboundMegolmSessionDb = openNamedDbi(txn, OUTBOUND_MEGOLM_SESSIONS_DB);
+               auto megolmSessionDataDb     = openNamedDbi(txn, MEGOLM_SESSIONS_DATA_DB);
                try {
                    outboundMegolmSessionDb.drop(txn, false);
                } catch (std::exception &e) {
@@ -1854,10 +1865,7 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto oldStateskeyDb = openDbi(txn,
-                                                     std::string(room_id + "/state_by_key").c_str(),
-                                                     db::DbiFlags::Create | db::DbiFlags::DupSort,
-                                                     db::DupsortComparator::LegacyStateByKeyJson);
+                       auto oldStateskeyDb = openNamedDbi(txn, room_id + "/state_by_key");
                        auto newStateskeyDb = getStatesKeyDb(txn, room_id);
 
                        // convert the dupsort format
@@ -1909,7 +1917,7 @@ Cache::runMigrations()
                    doCommit      = true;
                    auto curveKey = dbName.substr(std::string_view("olm_sessions.v2/").size());
 
-                   auto oldDb     = openDbi(txn, dbName.c_str());
+                   auto oldDb     = openNamedDbi(txn, dbName, false);
                    auto olmCursor = db::Cursor::open(txn, oldDb);
 
                    std::string_view session_id, json;

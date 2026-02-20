@@ -50,6 +50,17 @@ Database hash:
 
 - `hash = hex(sha256(user_id))`
 
+## Storage Backends
+
+- Backend selection is currently runtime-configurable via `KOMAI_DB_BACKEND`.
+- Supported backend IDs:
+  - `lmdb` (default)
+  - `memory` (in-memory backend for abstraction/testing work)
+- Compaction is backend-capability-driven (`Backend::supportsCompaction()`): currently enabled for `lmdb`, skipped for `memory`.
+- Selection happens in `src/Cache.cpp` (`createConfiguredBackend`), while backend implementations live under `src/db/`.
+- Cache DB open options (integer-key / dupsort / comparator) are centralized in
+  `src/Cache.cpp` via `dbOpenOptionsForName(...)` and `Cache::openNamedDbi(...)` so call sites don't duplicate backend-shaping details.
+
 ## Prefixes
 
 Filesystem prefixes:

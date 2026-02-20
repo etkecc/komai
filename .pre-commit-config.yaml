@@ -47,9 +47,9 @@ repos:
         language: system
         files: '^src/.*\.(cpp|h)$'
         pass_filenames: false
-      - id: unit-tests
-        name: Run unit tests
-        entry: ./bin/prek/unit-tests.sh
+      - id: tests
+        name: Run C++ test suite
+        entry: ./bin/prek/tests.sh
         language: system
         files: '^(src/.*\.(cpp|h)|tests/.*\.(cpp|h)|resources/qml/.*\.qml|CMakeLists\.txt)$'
         pass_filenames: false

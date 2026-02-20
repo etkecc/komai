@@ -16,6 +16,7 @@ For build dependencies and distro package names, see [Packaging: Native build](p
 ```sh
 just build
 just test
+just test-integration
 just run
 ```
 
@@ -26,6 +27,12 @@ just run
 just build
 
 # Run unit tests
+just test-unit
+
+# Run integration tests
+just test-integration
+
+# Run all tests
 just test
 
 # Run the app
@@ -62,6 +69,15 @@ just prek-run-on-all
 The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), theme checks, translation normalization checks, QML linting, and C++ unit tests (run on C++/header/QML changes).
 
 Note: QML linting expects Qt6 `qmllint`. If unavailable, it is skipped with a message.
+
+Current C++ test executables:
+
+- `komai_yaml_settings_test`
+- `komai_db_backend_test`
+
+Notes:
+
+- `komai_db_backend_test` currently includes LMDB adapter checks backed by a temporary filesystem directory (integration-style coverage), in addition to in-memory backend contract checks.
 
 ## 📁 Useful Paths
 

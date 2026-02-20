@@ -470,11 +470,7 @@ set(SRC_FILES
     src/CacheCryptoStructs.h
     src/CacheStructs.h
     src/Cache_p.h
-    src/db/DbTypes.cpp
-    src/db/Factory.cpp
-    src/db/InMemoryBackend.cpp
     src/db/InMemoryBackend.h
-    src/db/LmdbBackend.cpp
     src/db/LmdbBackend.h
     src/db/Backend.h
     src/db/DbTypes.h
@@ -985,12 +981,37 @@ else()
     set(YAMLCPP_TARGET_NAME PkgConfig::yaml-cpp)
 endif()
 
+add_library(komai_db
+    src/db/DbTypes.cpp
+    src/db/Factory.cpp
+    src/db/InMemoryBackend.cpp
+    src/db/LmdbBackend.cpp
+)
+target_include_directories(komai_db PUBLIC src)
+target_link_libraries(komai_db PUBLIC
+    Qt::Core
+    nlohmann_json::nlohmann_json
+    lmdbxx::lmdbxx
+    liblmdb::lmdb
+)
+
 if(BUILD_TESTING)
     add_executable(komai_yaml_settings_test tests/YamlSettingsTest.cpp)
     target_include_directories(komai_yaml_settings_test PRIVATE src)
     target_link_libraries(komai_yaml_settings_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
     add_test(NAME komai_yaml_settings_test COMMAND komai_yaml_settings_test)
-    add_custom_target(komai_tests DEPENDS komai_yaml_settings_test)
+    set_tests_properties(komai_yaml_settings_test PROPERTIES LABELS "unit;settings")
+
+    add_executable(komai_db_backend_test
+        tests/DbBackendTest.cpp
+    )
+    target_include_directories(komai_db_backend_test PRIVATE src)
+    target_link_libraries(komai_db_backend_test PRIVATE
+        komai_db
+    )
+    add_test(NAME komai_db_backend_test COMMAND komai_db_backend_test)
+    set_tests_properties(komai_db_backend_test PROPERTIES LABELS "integration;db")
+    add_custom_target(komai_tests DEPENDS komai_yaml_settings_test komai_db_backend_test)
 endif()
 
 target_link_libraries(nheko PRIVATE
@@ -1010,8 +1031,7 @@ target_link_libraries(nheko PRIVATE
     KDAB::kdsingleapplication
     nlohmann_json::nlohmann_json
     ${YAMLCPP_TARGET_NAME}
-    lmdbxx::lmdbxx
-    liblmdb::lmdb)
+    komai_db)
 
 if(UNIX)
     # for wayland activation tokens

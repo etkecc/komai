@@ -18,6 +18,7 @@ public:
     ~LmdbBackend() override;
 
     std::string_view id() const noexcept override { return "lmdb"; }
+    bool supportsCompaction() const noexcept override { return true; }
 
     void open(const QString &directory, const BackendOptions &options) override;
     void close() noexcept override;
@@ -29,7 +30,6 @@ public:
                 DbiFlags flags                                     = DbiFlags::None,
                 std::optional<DupsortComparator> dupsortComparator = std::nullopt) override;
     std::vector<std::string> listDbiNames(Txn &txn) override;
-    void closeDbi(Dbi dbi) noexcept override;
     std::optional<std::size_t> mapSizeBytes() const noexcept override;
 
 private:

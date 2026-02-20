@@ -436,6 +436,7 @@ private:
                     const char *name,
                     db::DbiFlags flags                                     = db::DbiFlags::None,
                     std::optional<db::DupsortComparator> dupsortComparator = std::nullopt);
+    db::Dbi openNamedDbi(db::Txn &txn, std::string_view name, bool create = true);
 
     QString localUserId_;
     QString cacheDirectory_;

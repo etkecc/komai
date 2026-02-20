@@ -58,8 +58,12 @@ Database hash:
   - `memory` (in-memory backend for abstraction/testing work)
 - Compaction is backend-capability-driven (`Backend::supportsCompaction()`): currently enabled for `lmdb`, skipped for `memory`.
 - Selection happens in `src/Cache.cpp` (`createConfiguredBackend`), while backend implementations live under `src/db/`.
+- Logical DB names and sync-state keys are centralized in `src/db/Catalog.cpp`
+  (`db::catalog::*`) so callers don't hardcode backend-facing names.
 - Cache DB open options (integer-key / dupsort / comparator) are centralized in
-  `src/Cache.cpp` via `dbOpenOptionsForName(...)` and `Cache::openNamedDbi(...)` so call sites don't duplicate backend-shaping details.
+  `src/db/NamePolicy.cpp` (`db::openOptionsForName(...)`) and consumed via
+  `Cache::openNamedDbi(...)`; backend APIs consume a unified `db::DbiOpenOptions`
+  instead of separate flag/comparator arguments.
 
 ## Prefixes
 

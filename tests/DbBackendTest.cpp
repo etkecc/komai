@@ -14,7 +14,9 @@
 #include <QTemporaryDir>
 
 #include "db/Backend.h"
+#include "db/Catalog.h"
 #include "db/DbTypes.h"
+#include "db/NamePolicy.h"
 
 namespace {
 
@@ -84,6 +86,79 @@ containsName(const std::vector<std::string> &names, std::string_view needle)
     return std::find(names.begin(), names.end(), needle) != names.end();
 }
 
+db::DbiOpenOptions
+openOptions(db::DbiFlags flags = db::DbiFlags::None,
+            std::optional<db::DupsortComparator> comparator = std::nullopt)
+{
+    return db::DbiOpenOptions{
+      .flags             = flags,
+      .dupsortComparator = comparator,
+    };
+}
+
+bool
+testNamePolicy()
+{
+    bool ok = true;
+
+    const auto roomOrder =
+      db::openOptionsForName(db::catalog::roomName("!room:example", db::catalog::RoomDb::EventOrder));
+    ok &= expect(db::hasFlag(roomOrder.flags, db::DbiFlags::IntegerKey),
+                 "name policy sets IntegerKey for /event_order");
+
+    const auto relation =
+      db::openOptionsForName(db::catalog::roomName("!room:example", db::catalog::RoomDb::Related));
+    ok &= expect(db::hasFlag(relation.flags, db::DbiFlags::DupSort),
+                 "name policy sets DupSort for /related");
+
+    const auto stateKey =
+      db::openOptionsForName(db::catalog::roomName("!room:example", db::catalog::RoomDb::StatesKey));
+    ok &= expect(db::hasFlag(stateKey.flags, db::DbiFlags::DupSort),
+                 "name policy sets DupSort for /states_key");
+    ok &= expect(stateKey.dupsortComparator.has_value() &&
+                   *stateKey.dupsortComparator == db::DupsortComparator::StateKey,
+                 "name policy sets StateKey comparator for /states_key");
+
+    const auto legacyStateKey = db::openOptionsForName(
+      db::catalog::roomName("!room:example", db::catalog::RoomDb::LegacyStateByKey));
+    ok &= expect(legacyStateKey.dupsortComparator.has_value() &&
+                   *legacyStateKey.dupsortComparator ==
+                     db::DupsortComparator::LegacyStateByKeyJson,
+                 "name policy sets legacy comparator for /state_by_key");
+
+    const auto topLevelSpace =
+      db::openOptionsForName(db::catalog::globalName(db::catalog::GlobalDb::SpacesChildren));
+    ok &= expect(db::hasFlag(topLevelSpace.flags, db::DbiFlags::DupSort),
+                 "name policy sets DupSort for top-level space_children");
+
+    const auto simple = db::openOptionsForName(db::catalog::globalName(db::catalog::GlobalDb::Rooms));
+    ok &= expect(simple.flags == db::DbiFlags::None && !simple.dupsortComparator.has_value(),
+                 "name policy leaves simple db names unflagged");
+
+    return ok;
+}
+
+bool
+testCatalog()
+{
+    bool ok = true;
+
+    ok &= expect(db::catalog::globalName(db::catalog::GlobalDb::Rooms) == "rooms",
+                 "catalog returns rooms global name");
+
+    const auto eventsName = db::catalog::roomName("!room:example", db::catalog::RoomDb::Events);
+    ok &= expect(eventsName == "!room:example/events", "catalog builds room db names");
+    ok &= expect(db::catalog::hasRoomSuffix(eventsName, db::catalog::RoomDb::Events),
+                 "catalog detects matching room suffix");
+    ok &= expect(!db::catalog::hasRoomSuffix(eventsName, db::catalog::RoomDb::Members),
+                 "catalog detects non-matching room suffix");
+
+    ok &= expect(db::catalog::syncStateKey(db::catalog::SyncStateKey::NextBatch) == "next_batch",
+                 "catalog returns sync-state key names");
+
+    return ok;
+}
+
 bool
 testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 {
@@ -96,7 +171,8 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
     const auto dupDbName = std::string(backendId) + "_dupsort_contract";
     {
         auto txn = backend.beginTxn();
-        auto dbi = backend.openDbi(txn, dupDbName.c_str(), db::DbiFlags::Create | db::DbiFlags::DupSort);
+        auto dbi = backend.openDbi(
+          txn, dupDbName.c_str(), openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
         ok &= expect(dbi.put(txn, "k", "b"), testName("dupsort put #1"));
         ok &= expect(dbi.put(txn, "k", "a"), testName("dupsort put #2"));
         ok &= expect(dbi.put(txn, "k", "c"), testName("dupsort put #3"));
@@ -106,7 +182,7 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 
     {
         auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = backend.openDbi(txn, dupDbName.c_str(), db::DbiFlags::DupSort);
+        auto dbi = backend.openDbi(txn, dupDbName.c_str(), openOptions(db::DbiFlags::DupSort));
 
         auto cursor = db::Cursor::open(txn, dbi);
         std::string_view key = "k", value;
@@ -134,8 +210,8 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
     const auto intDbName = std::string(backendId) + "_integer_key_contract";
     {
         auto txn = backend.beginTxn();
-        auto dbi =
-          backend.openDbi(txn, intDbName.c_str(), db::DbiFlags::Create | db::DbiFlags::IntegerKey);
+        auto dbi = backend.openDbi(
+          txn, intDbName.c_str(), openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
         ok &= expect(dbi.put(txn, integerKey(5), "five"), testName("integer-key put #1"));
         ok &= expect(dbi.put(txn, integerKey(1), "one"), testName("integer-key put #2"));
         ok &= expect(dbi.put(txn, integerKey(3), "three"), testName("integer-key put #3"));
@@ -144,7 +220,8 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 
     {
         auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = backend.openDbi(txn, intDbName.c_str(), db::DbiFlags::IntegerKey);
+        auto dbi =
+          backend.openDbi(txn, intDbName.c_str(), openOptions(db::DbiFlags::IntegerKey));
 
         auto cursor = db::Cursor::open(txn, dbi);
         std::string_view key, value;
@@ -195,7 +272,7 @@ testInMemoryBackend()
 
     {
         auto rwTxn = backend->beginTxn();
-        auto main  = backend->openDbi(rwTxn, "main", db::DbiFlags::Create);
+        auto main  = backend->openDbi(rwTxn, "main", openOptions(db::DbiFlags::Create));
         ok &= expect(main.put(rwTxn, "k", "v"), "memory put into main");
         rwTxn.commit();
     }
@@ -216,10 +293,11 @@ testInMemoryBackend()
 
     {
         auto rwDupTxn = backend->beginTxn();
-        auto dupDb    = backend->openDbi(rwDupTxn,
-                                      "state_by_key",
-                                      db::DbiFlags::Create | db::DbiFlags::DupSort,
-                                      db::DupsortComparator::StateKey);
+        auto dupDb    = backend->openDbi(
+          rwDupTxn,
+          "state_by_key",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort,
+                      db::DupsortComparator::StateKey));
         ok &= expect(dupDb.put(rwDupTxn, "m.room.member", compositeStateValue("zeta", "$event2")),
                      "memory put dupsort value #1");
         ok &= expect(dupDb.put(rwDupTxn, "m.room.member", compositeStateValue("alpha", "$event1")),
@@ -229,10 +307,8 @@ testInMemoryBackend()
 
     {
         auto roDupTxn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dupDbRo  = backend->openDbi(roDupTxn,
-                                        "state_by_key",
-                                        db::DbiFlags::DupSort,
-                                        db::DupsortComparator::StateKey);
+        auto dupDbRo  = backend->openDbi(
+          roDupTxn, "state_by_key", openOptions(db::DbiFlags::DupSort, db::DupsortComparator::StateKey));
 
         auto cursor = db::Cursor::open(roDupTxn, dupDbRo);
         std::string_view key = "m.room.member", dupValue;
@@ -245,8 +321,8 @@ testInMemoryBackend()
           [&] {
               backend->openDbi(roDupTxn,
                                "state_by_key",
-                               db::DbiFlags::DupSort,
-                               db::DupsortComparator::LegacyStateByKeyJson);
+                               openOptions(db::DbiFlags::DupSort,
+                                           db::DupsortComparator::LegacyStateByKeyJson));
           },
           "memory openDbi rejects comparator mismatch");
     }
@@ -256,7 +332,9 @@ testInMemoryBackend()
         ok &= expectDbError(
           [&] {
               backend->openDbi(
-                rwPlainTxn, "plain", db::DbiFlags::Create, db::DupsortComparator::StateKey);
+                rwPlainTxn,
+                "plain",
+                openOptions(db::DbiFlags::Create, db::DupsortComparator::StateKey));
           },
           "memory openDbi rejects dupsort comparator on non-dupsort db");
     }
@@ -289,8 +367,9 @@ testLmdbBackend()
 
     {
         auto rwTxn = backend->beginTxn();
-        auto one   = backend->openDbi(rwTxn, "one", db::DbiFlags::Create);
-        auto two   = backend->openDbi(rwTxn, "two", db::DbiFlags::Create | db::DbiFlags::DupSort);
+        auto one   = backend->openDbi(rwTxn, "one", openOptions(db::DbiFlags::Create));
+        auto two = backend->openDbi(
+          rwTxn, "two", openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
         ok &= expect(one.put(rwTxn, "k1", "v1"), "lmdb put in one");
         ok &= expect(two.put(rwTxn, "k2", "v2"), "lmdb put in two");
         rwTxn.commit();
@@ -305,7 +384,10 @@ testLmdbBackend()
         ok &= expectDbError([&] { backend->openDbi(roTxn, nullptr); },
                             "lmdb openDbi rejects null database name");
         ok &= expectDbError(
-          [&] { backend->openDbi(roTxn, "plain", db::DbiFlags::None, db::DupsortComparator::StateKey); },
+          [&] {
+              backend->openDbi(
+                roTxn, "plain", openOptions(db::DbiFlags::None, db::DupsortComparator::StateKey));
+          },
           "lmdb openDbi rejects dupsort comparator on non-dupsort db");
     }
 
@@ -334,6 +416,8 @@ int
 main()
 {
     bool ok = true;
+    ok &= testCatalog();
+    ok &= testNamePolicy();
     ok &= testFactory();
     ok &= testInMemoryBackend();
     ok &= testLmdbBackend();

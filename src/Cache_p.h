@@ -432,10 +432,6 @@ private:
     db::Backend &storage();
     const db::Backend &storage() const;
     db::Txn beginTxn(db::Txn *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
-    db::Dbi openDbi(db::Txn &txn,
-                    const char *name,
-                    db::DbiFlags flags                                     = db::DbiFlags::None,
-                    std::optional<db::DupsortComparator> dupsortComparator = std::nullopt);
     db::Dbi openNamedDbi(db::Txn &txn, std::string_view name, bool create = true);
 
     QString localUserId_;

@@ -737,10 +737,7 @@ InMemoryBackend::ownsTxn(const Txn &txn) const noexcept
 }
 
 Dbi
-InMemoryBackend::openDbi(Txn &txn,
-                         const char *name,
-                         DbiFlags flags,
-                         std::optional<DupsortComparator> dupsortComparator)
+InMemoryBackend::openDbi(Txn &txn, const char *name, const DbiOpenOptions &options)
 {
     if (!isOpen())
         throw Error("In-memory backend is not open", ErrorKind::Invalid);
@@ -750,6 +747,7 @@ InMemoryBackend::openDbi(Txn &txn,
         throw Error("Database name must not be null", ErrorKind::Invalid);
 
     const std::string dbName = name;
+    const auto flags         = options.flags;
 
     auto &inTxn       = requireTxn(*detail::txnImpl(txn));
     const bool exists = inTxn.snapshot().dbs.find(dbName) != inTxn.snapshot().dbs.end();
@@ -763,7 +761,7 @@ InMemoryBackend::openDbi(Txn &txn,
         snapshot.dbs.emplace(dbName, InMemoryDatabase{flags});
     }
 
-    if (dupsortComparator.has_value()) {
+    if (options.dupsortComparator.has_value()) {
         const auto &snapshot = inTxn.snapshot();
         auto it              = snapshot.dbs.find(dbName);
         if (it == snapshot.dbs.end())
@@ -774,11 +772,11 @@ InMemoryBackend::openDbi(Txn &txn,
             throw Error("dupsort comparator requires DupSort database flag", ErrorKind::Invalid);
 
         if (db.hasDupsortComparator) {
-            if (db.dupsortComparator != *dupsortComparator)
+            if (db.dupsortComparator != *options.dupsortComparator)
                 throw Error("in-memory dupsort comparator mismatch", ErrorKind::Invalid);
         } else {
             auto &mutableDb                = inTxn.mutableSnapshot().dbs.at(dbName);
-            mutableDb.dupsortComparator    = *dupsortComparator;
+            mutableDb.dupsortComparator    = *options.dupsortComparator;
             mutableDb.hasDupsortComparator = true;
 
             for (auto &[_, values] : mutableDb.records)

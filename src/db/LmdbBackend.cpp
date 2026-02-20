@@ -303,31 +303,30 @@ LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
 }
 
 Dbi
-LmdbBackend::openDbi(Txn &txn,
-                     const char *name,
-                     DbiFlags flags,
-                     std::optional<DupsortComparator> dupsortComparator)
+LmdbBackend::openDbi(Txn &txn, const char *name, const DbiOpenOptions &options)
 {
     if (!detail::txnImpl(txn))
         throw Error("Invalid transaction", ErrorKind::Invalid);
     if (!name)
         throw Error("Database name must not be null", ErrorKind::Invalid);
 
-    auto &lmdbTxn = requireLmdbTxn(*detail::txnImpl(txn));
+    auto &lmdbTxn    = requireLmdbTxn(*detail::txnImpl(txn));
+    const auto flags = options.flags;
 
     auto dbi = translateLmdbErrors([&] {
         return Dbi{std::make_shared<LmdbDbiImpl>(
           lmdb::dbi::open(lmdbTxn.native(), name, toLmdbDbiFlags(flags)))};
     });
 
-    if (dupsortComparator.has_value()) {
+    if (options.dupsortComparator.has_value()) {
         if (!hasFlag(flags, DbiFlags::DupSort))
             throw Error("dupsort comparator requires DupSort database flag", ErrorKind::Invalid);
 
         auto &lmdbDbi = requireLmdbDbi(*detail::dbiImpl(dbi));
         translateLmdbErrors([&] {
-            lmdb::dbi_set_dupsort(
-              lmdbTxn.native(), lmdbDbi.native(), dupsortComparatorFunc(*dupsortComparator));
+            lmdb::dbi_set_dupsort(lmdbTxn.native(),
+                                  lmdbDbi.native(),
+                                  dupsortComparatorFunc(*options.dupsortComparator));
         });
     }
 

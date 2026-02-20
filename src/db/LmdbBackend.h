@@ -25,10 +25,7 @@ public:
     bool isOpen() const noexcept override;
     Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None) override;
     bool ownsTxn(const Txn &txn) const noexcept override;
-    Dbi openDbi(Txn &txn,
-                const char *name,
-                DbiFlags flags                                     = DbiFlags::None,
-                std::optional<DupsortComparator> dupsortComparator = std::nullopt) override;
+    Dbi openDbi(Txn &txn, const char *name, const DbiOpenOptions &options = {}) override;
     std::vector<std::string> listDbiNames(Txn &txn) override;
     std::optional<std::size_t> mapSizeBytes() const noexcept override;
 

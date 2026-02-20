@@ -473,9 +473,11 @@ set(SRC_FILES
     src/db/InMemoryBackend.h
     src/db/LmdbBackend.h
     src/db/Backend.h
+    src/db/Catalog.h
     src/db/DbTypes.h
     src/db/Internal.h
     src/db/LmdbHeaders.h
+    src/db/NamePolicy.h
     src/ChatPage.cpp
     src/ChatPage.h
     src/Clipboard.cpp
@@ -982,10 +984,12 @@ else()
 endif()
 
 add_library(komai_db
+    src/db/Catalog.cpp
     src/db/DbTypes.cpp
     src/db/Factory.cpp
     src/db/InMemoryBackend.cpp
     src/db/LmdbBackend.cpp
+    src/db/NamePolicy.cpp
 )
 target_include_directories(komai_db PUBLIC src)
 target_link_libraries(komai_db PUBLIC

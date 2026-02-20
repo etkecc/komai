@@ -17,6 +17,7 @@
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/NamePolicy.h"
+#include "db/Open.h"
 
 namespace {
 
@@ -156,6 +157,31 @@ testCatalog()
     ok &= expect(db::catalog::syncStateKey(db::catalog::SyncStateKey::NextBatch) == "next_batch",
                  "catalog returns sync-state key names");
 
+    const auto mentionsName =
+      db::catalog::roomName("!room:example", db::catalog::RoomDb::LegacyMentions);
+    ok &= expect(mentionsName == "!room:example/mentions",
+                 "catalog builds legacy mentions room db names");
+
+    ok &= expect(db::catalog::legacyOlmSessionsPrefixV1() == "olm_sessions/",
+                 "catalog exposes legacy olm v1 prefix");
+    ok &= expect(db::catalog::legacyOlmSessionsPrefixV2() == "olm_sessions.v2/",
+                 "catalog exposes legacy olm v2 prefix");
+
+    ok &= expect(db::catalog::isLegacyOlmShardV1("olm_sessions/curve"),
+                 "catalog detects legacy olm v1 shard");
+    ok &= expect(db::catalog::isLegacyOlmShardV2("olm_sessions.v2/curve"),
+                 "catalog detects legacy olm v2 shard");
+
+    ok &= expect(db::catalog::legacyOlmShardV2NameFromV1("olm_sessions/curve") ==
+                   "olm_sessions.v2/curve",
+                 "catalog converts legacy olm v1 shard names to v2");
+
+    const auto curve = db::catalog::legacyOlmCurveFromV2Name("olm_sessions.v2/curve");
+    ok &= expect(curve.has_value() && *curve == "curve",
+                 "catalog extracts curve id from legacy olm v2 shard names");
+    ok &= expect(!db::catalog::legacyOlmCurveFromV2Name("not-olm/curve").has_value(),
+                 "catalog rejects non-olm db names for v2 curve extraction");
+
     return ok;
 }
 
@@ -235,6 +261,43 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
         ok &= expect(readIntegerKey(key) == 5, testName("integer-key third key"));
     }
 
+    return ok;
+}
+
+bool
+testNamedOpenHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open(QString{}, options);
+
+    const auto dbName = db::catalog::roomName("!room:example", db::catalog::RoomDb::EventOrder);
+
+    {
+        auto txn = backend->beginTxn();
+        auto dbi = db::openNamedDbi(*backend, txn, dbName);
+        ok &= expect(dbi.put(txn, integerKey(7), "seven"), "named-open helper puts integer key #1");
+        ok &= expect(dbi.put(txn, integerKey(1), "one"), "named-open helper puts integer key #2");
+        ok &= expect(dbi.put(txn, integerKey(4), "four"), "named-open helper puts integer key #3");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto dbi = db::openNamedDbi(*backend, txn, dbName, false);
+        auto cursor = db::Cursor::open(txn, dbi);
+
+        std::string_view key, value;
+        ok &= expect(cursor.get(key, value, db::CursorOp::First), "named-open helper cursor first");
+        ok &= expect(readIntegerKey(key) == 1,
+                     "named-open helper applies IntegerKey policy for /event_order");
+    }
+
+    backend->close();
     return ok;
 }
 
@@ -418,6 +481,7 @@ main()
     bool ok = true;
     ok &= testCatalog();
     ok &= testNamePolicy();
+    ok &= testNamedOpenHelper();
     ok &= testFactory();
     ok &= testInMemoryBackend();
     ok &= testLmdbBackend();

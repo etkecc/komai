@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -46,6 +47,7 @@ enum class RoomDb
     AccountData,
     Members,
     LegacyMessages,
+    LegacyMentions,
     LegacyStateByKey,
 };
 
@@ -71,5 +73,23 @@ roomName(std::string_view roomId, RoomDb db);
 
 std::string_view
 syncStateKey(SyncStateKey key) noexcept;
+
+std::string_view
+legacyOlmSessionsPrefixV1() noexcept;
+
+std::string_view
+legacyOlmSessionsPrefixV2() noexcept;
+
+bool
+isLegacyOlmShardV1(std::string_view dbName) noexcept;
+
+bool
+isLegacyOlmShardV2(std::string_view dbName) noexcept;
+
+std::string
+legacyOlmShardV2NameFromV1(std::string_view dbNameV1);
+
+std::optional<std::string_view>
+legacyOlmCurveFromV2Name(std::string_view dbNameV2) noexcept;
 
 } // namespace db::catalog

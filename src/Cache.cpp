@@ -38,7 +38,7 @@
 #include "db/Backend.h"
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
-#include "db/NamePolicy.h"
+#include "db/Open.h"
 #include "db/Serde.h"
 #include "encryption/Olm.h"
 
@@ -124,17 +124,6 @@ Cache::beginTxn(db::Txn *parent, db::TxnFlags flags)
     return storage().beginTxn(parent, flags);
 }
 
-db::Dbi
-Cache::openNamedDbi(db::Txn &txn, std::string_view name, bool create)
-{
-    auto options = db::openOptionsForName(name);
-    if (create)
-        options.flags |= db::DbiFlags::Create;
-
-    const std::string dbName{name};
-    return storage().openDbi(txn, dbName.c_str(), options);
-}
-
 bool
 Cache::isMapFullError(const std::exception &e) const noexcept
 {
@@ -196,92 +185,107 @@ ro_txn(db::Backend &storage)
 db::Dbi
 Cache::getEventsDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Events));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Events));
 }
 
 db::Dbi
 Cache::getEventOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::EventOrder));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::EventOrder));
 }
 
 // inverse of EventOrderDb
 db::Dbi
 Cache::getEventToOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::EventToOrder));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::EventToOrder));
 }
 
 db::Dbi
 Cache::getMessageToOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::MessageToOrder));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::MessageToOrder));
 }
 
 db::Dbi
 Cache::getOrderToMessageDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::OrderToMessage));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::OrderToMessage));
 }
 
 db::Dbi
 Cache::getPendingMessagesDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Pending));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Pending));
 }
 
 db::Dbi
 Cache::getRelationsDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Related));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Related));
 }
 
 db::Dbi
 Cache::getInviteStatesDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::InviteState));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::InviteState));
 }
 
 db::Dbi
 Cache::getInviteMembersDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::InviteMembers));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::InviteMembers));
 }
 
 db::Dbi
 Cache::getStatesDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::State));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::State));
 }
 
 db::Dbi
 Cache::getStatesKeyDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::StatesKey));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::StatesKey));
 }
 
 db::Dbi
 Cache::getAccountDataDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::AccountData));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::AccountData));
 }
 
 db::Dbi
 Cache::getMembersDb(db::Txn &txn, const std::string &room_id)
 {
-    return openNamedDbi(txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Members));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::roomName(room_id, db::catalog::RoomDb::Members));
 }
 
 db::Dbi
 Cache::getUserKeysDb(db::Txn &txn)
 {
-    return openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::UserKeys));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::UserKeys));
 }
 
 db::Dbi
 Cache::getVerificationDb(db::Txn &txn)
 {
-    return openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::Verified));
+    return db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::Verified));
 }
 
 QString
@@ -314,11 +318,8 @@ compactDatabase(db::Backend &from, db::Backend &to)
     for (const auto &dbName : dbNames) {
         nhlog::db()->info("Compacting db: {}", dbName);
 
-        auto options = db::openOptionsForName(dbName);
-        options.flags |= db::DbiFlags::Create;
-
-        auto fromDb = from.openDbi(fromTxn, dbName.c_str(), options);
-        auto toDb   = to.openDbi(toTxn, dbName.c_str(), options);
+        auto fromDb = db::openNamedDbi(from, fromTxn, dbName, false);
+        auto toDb   = db::openNamedDbi(to, toTxn, dbName, true);
 
         auto fromCursor = db::Cursor::open(fromTxn, fromDb);
         auto toCursor   = db::Cursor::open(toTxn, toDb);
@@ -537,36 +538,40 @@ Cache::setup()
         db->storage->open(cacheDirectory_, storageOptions);
     }
 
-    auto txn      = beginTxn();
-    db->syncState = openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::SyncState));
-    db->rooms     = openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::Rooms));
-    db->spacesChildren =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::SpacesChildren));
-    db->spacesParents =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::SpacesParents));
-    db->invites = openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::Invites));
-    db->readReceipts =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::ReadReceipts));
-    db->notifications =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::Notifications));
-    db->presence = openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::Presence));
+    auto txn = beginTxn();
+    db->syncState =
+      db::openNamedDbi(storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::SyncState));
+    db->rooms =
+      db::openNamedDbi(storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::Rooms));
+    db->spacesChildren = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::SpacesChildren));
+    db->spacesParents = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::SpacesParents));
+    db->invites =
+      db::openNamedDbi(storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::Invites));
+    db->readReceipts = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::ReadReceipts));
+    db->notifications = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::Notifications));
+    db->presence =
+      db::openNamedDbi(storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::Presence));
 
     // Session management
-    db->inboundMegolmSessions =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::InboundMegolmSessions));
-    db->outboundMegolmSessions =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::OutboundMegolmSessions));
-    db->megolmSessionsData =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::MegolmSessionsData));
+    db->inboundMegolmSessions = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::InboundMegolmSessions));
+    db->outboundMegolmSessions = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::OutboundMegolmSessions));
+    db->megolmSessionsData = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::MegolmSessionsData));
 
     db->olmSessions =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::OlmSessions));
+      db::openNamedDbi(storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::OlmSessions));
 
     // What rooms are encrypted
-    db->encryptedRooms_ =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::EncryptedRooms));
-    db->eventExpiryBgJob_ =
-      openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::EventExpirationBgJob));
+    db->encryptedRooms_ = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::EncryptedRooms));
+    db->eventExpiryBgJob_ = db::openNamedDbi(
+      storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::EventExpirationBgJob));
 
     [[maybe_unused]] auto verificationDb = getVerificationDb(txn);
     [[maybe_unused]] auto userKeysDb     = getUserKeysDb(txn);
@@ -1539,9 +1544,9 @@ Cache::runMigrations()
       {"2020.05.01",
        [this]() {
            try {
-               auto txn = beginTxn(nullptr);
-               auto pending_receipts =
-                 openNamedDbi(txn, db::catalog::globalName(db::catalog::GlobalDb::PendingReceipts));
+               auto txn              = beginTxn(nullptr);
+               auto pending_receipts = db::openNamedDbi(
+                 storage(), txn, db::catalog::globalName(db::catalog::GlobalDb::PendingReceipts));
                pending_receipts.drop(txn, true);
                txn.commit();
            } catch (const db::Error &) {
@@ -1560,7 +1565,8 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto messagesDb = openNamedDbi(
+                       auto messagesDb = db::openNamedDbi(
+                         storage(),
                          txn,
                          db::catalog::roomName(room_id, db::catalog::RoomDb::LegacyMessages),
                          false);
@@ -1622,12 +1628,12 @@ Cache::runMigrations()
                for (const auto &dbName : dbNames) {
                    // skip every db but olm session dbs
                    nhlog::db()->debug("Db {}", dbName);
-                   if (dbName.find("olm_sessions/") != 0)
+                   if (!db::catalog::isLegacyOlmShardV1(dbName))
                        continue;
 
                    nhlog::db()->debug("Migrating {}", dbName);
 
-                   auto olmDb = openNamedDbi(txn, dbName, false);
+                   auto olmDb = db::openNamedDbi(storage(), txn, dbName, false);
 
                    std::string_view session_id, session_value;
 
@@ -1656,11 +1662,9 @@ Cache::runMigrations()
 
                    olmDb.drop(txn, true);
 
-                   auto newDbName = dbName;
-                   newDbName.erase(0, sizeof("olm_sessions") - 1);
-                   newDbName = "olm_sessions.v2" + newDbName;
+                   auto newDbName = db::catalog::legacyOlmShardV2NameFromV1(dbName);
 
-                   auto newDb = openNamedDbi(txn, newDbName);
+                   auto newDb = db::openNamedDbi(storage(), txn, newDbName);
 
                    for (const auto &[key, value] : sessions) {
                        // nhlog::db()->debug("{}\n{}", key, nlohmann::json(value).dump());
@@ -1682,7 +1686,7 @@ Cache::runMigrations()
                auto txn      = beginTxn(nullptr);
                auto try_drop = [this, &txn](const std::string &dbName) {
                    try {
-                       openNamedDbi(txn, dbName, false).drop(txn, true);
+                       db::openNamedDbi(storage(), txn, dbName, false).drop(txn, true);
                    } catch (std::exception &e) {
                        nhlog::db()->warn("Failed to drop '{}': {}", dbName, e.what());
                    }
@@ -1695,7 +1699,7 @@ Cache::runMigrations()
                    try_drop(db::catalog::roomName(room, db::catalog::RoomDb::LegacyStateByKey));
                    try_drop(db::catalog::roomName(room, db::catalog::RoomDb::AccountData));
                    try_drop(db::catalog::roomName(room, db::catalog::RoomDb::Members));
-                   try_drop(room + "/mentions");
+                   try_drop(db::catalog::roomName(room, db::catalog::RoomDb::LegacyMentions));
                    try_drop(db::catalog::roomName(room, db::catalog::RoomDb::Events));
                    try_drop(db::catalog::roomName(room, db::catalog::RoomDb::EventOrder));
                    try_drop(db::catalog::roomName(room, db::catalog::RoomDb::EventToOrder));
@@ -1728,12 +1732,18 @@ Cache::runMigrations()
        [this]() {
            try {
                auto txn                    = beginTxn(nullptr);
-               auto inboundMegolmSessionDb = openNamedDbi(
-                 txn, db::catalog::globalName(db::catalog::GlobalDb::InboundMegolmSessions));
-               auto outboundMegolmSessionDb = openNamedDbi(
-                 txn, db::catalog::globalName(db::catalog::GlobalDb::OutboundMegolmSessions));
-               auto megolmSessionDataDb = openNamedDbi(
-                 txn, db::catalog::globalName(db::catalog::GlobalDb::MegolmSessionsData));
+               auto inboundMegolmSessionDb = db::openNamedDbi(
+                 storage(),
+                 txn,
+                 db::catalog::globalName(db::catalog::GlobalDb::InboundMegolmSessions));
+               auto outboundMegolmSessionDb = db::openNamedDbi(
+                 storage(),
+                 txn,
+                 db::catalog::globalName(db::catalog::GlobalDb::OutboundMegolmSessions));
+               auto megolmSessionDataDb = db::openNamedDbi(
+                 storage(),
+                 txn,
+                 db::catalog::globalName(db::catalog::GlobalDb::MegolmSessionsData));
                try {
                    outboundMegolmSessionDb.drop(txn, false);
                } catch (std::exception &e) {
@@ -1817,7 +1827,8 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto oldStateskeyDb = openNamedDbi(
+                       auto oldStateskeyDb = db::openNamedDbi(
+                         storage(),
                          txn,
                          db::catalog::roomName(room_id, db::catalog::RoomDb::LegacyStateByKey));
                        auto newStateskeyDb = getStatesKeyDb(txn, room_id);
@@ -1865,13 +1876,13 @@ Cache::runMigrations()
                bool doCommit = false;
 
                for (const auto &dbName : dbNames) {
-                   if (!dbName.starts_with("olm_sessions.v2/"))
+                   if (!db::catalog::isLegacyOlmShardV2(dbName))
                        continue;
 
                    doCommit      = true;
-                   auto curveKey = dbName.substr(std::string_view("olm_sessions.v2/").size());
+                   auto curveKey = *db::catalog::legacyOlmCurveFromV2Name(dbName);
 
-                   auto oldDb     = openNamedDbi(txn, dbName, false);
+                   auto oldDb     = db::openNamedDbi(storage(), txn, dbName, false);
                    auto olmCursor = db::Cursor::open(txn, oldDb);
 
                    std::string_view session_id, json;

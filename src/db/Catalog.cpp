@@ -81,6 +81,8 @@ roomSuffix(RoomDb db) noexcept
         return "/members";
     case RoomDb::LegacyMessages:
         return "/messages";
+    case RoomDb::LegacyMentions:
+        return "/mentions";
     case RoomDb::LegacyStateByKey:
         return "/state_by_key";
     }
@@ -121,6 +123,52 @@ syncStateKey(SyncStateKey key) noexcept
     }
 
     return {};
+}
+
+std::string_view
+legacyOlmSessionsPrefixV1() noexcept
+{
+    return "olm_sessions/";
+}
+
+std::string_view
+legacyOlmSessionsPrefixV2() noexcept
+{
+    return "olm_sessions.v2/";
+}
+
+bool
+isLegacyOlmShardV1(std::string_view dbName) noexcept
+{
+    return dbName.starts_with(legacyOlmSessionsPrefixV1());
+}
+
+bool
+isLegacyOlmShardV2(std::string_view dbName) noexcept
+{
+    return dbName.starts_with(legacyOlmSessionsPrefixV2());
+}
+
+std::string
+legacyOlmShardV2NameFromV1(std::string_view dbNameV1)
+{
+    if (!isLegacyOlmShardV1(dbNameV1))
+        return std::string(dbNameV1);
+
+    std::string name;
+    name.reserve(dbNameV1.size() + 3);
+    name.append("olm_sessions.v2");
+    name.append(dbNameV1.substr(legacyOlmSessionsPrefixV1().size() - 1));
+    return name;
+}
+
+std::optional<std::string_view>
+legacyOlmCurveFromV2Name(std::string_view dbNameV2) noexcept
+{
+    if (!isLegacyOlmShardV2(dbNameV2))
+        return std::nullopt;
+
+    return dbNameV2.substr(legacyOlmSessionsPrefixV2().size());
 }
 
 } // namespace db::catalog

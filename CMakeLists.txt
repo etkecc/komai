@@ -478,6 +478,7 @@ set(SRC_FILES
     src/db/Internal.h
     src/db/LmdbHeaders.h
     src/db/NamePolicy.h
+    src/db/Open.h
     src/ChatPage.cpp
     src/ChatPage.h
     src/Clipboard.cpp
@@ -990,6 +991,7 @@ add_library(komai_db
     src/db/InMemoryBackend.cpp
     src/db/LmdbBackend.cpp
     src/db/NamePolicy.cpp
+    src/db/Open.cpp
 )
 target_include_directories(komai_db PUBLIC src)
 target_link_libraries(komai_db PUBLIC

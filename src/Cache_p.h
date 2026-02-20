@@ -432,7 +432,6 @@ private:
     db::Backend &storage();
     const db::Backend &storage() const;
     db::Txn beginTxn(db::Txn *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
-    db::Dbi openNamedDbi(db::Txn &txn, std::string_view name, bool create = true);
 
     QString localUserId_;
     QString cacheDirectory_;

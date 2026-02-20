@@ -488,6 +488,8 @@ ChatPage::resetUI()
 void
 ChatPage::deleteConfigs()
 {
+    if (auto *cacheClient = cache::client())
+        disconnect(cacheClient, nullptr, this, nullptr);
     UserSettings::instance()->clearAuth();
     http::client()->shutdown();
     cache::deleteData();

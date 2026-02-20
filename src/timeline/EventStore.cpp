@@ -944,7 +944,7 @@ EventStore::canExpandWindow() const
 void
 EventStore::expandWindow()
 {
-    // Expand the virtual window to reveal more cached messages from LMDB.
+    // Expand the virtual window to reveal more cached messages from local storage.
     // Called when the user scrolls up and there are still unrevealed
     // messages in the database (first > dbFirst). Instant, no HTTP.
     if (first <= dbFirst || last == std::numeric_limits<uint64_t>::max()) {

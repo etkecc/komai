@@ -185,11 +185,10 @@ private:
 class InMemoryDbiImpl final : public db::detail::DbiImpl
 {
 public:
-    InMemoryDbiImpl(BackendState *backend, std::string name, db::DbiFlags openFlags, bool root)
+    InMemoryDbiImpl(BackendState *backend, std::string name, db::DbiFlags openFlags)
       : backend_(backend)
       , name_(std::move(name))
       , openFlags_(openFlags)
-      , root_(root)
     {
     }
 
@@ -206,7 +205,6 @@ public:
 
     BackendState *backend() const noexcept { return backend_; }
     const std::string &name() const noexcept { return name_; }
-    bool isRoot() const noexcept { return root_; }
     db::DbiFlags openFlags() const noexcept { return openFlags_; }
 
     InMemoryDatabase *lookupMutable(InMemoryTxnImpl &txn, bool createIfMissing);
@@ -218,7 +216,6 @@ private:
     BackendState *backend_;
     std::string name_;
     db::DbiFlags openFlags_;
-    bool root_ = false;
 };
 
 InMemoryTxnImpl &
@@ -234,15 +231,6 @@ const InMemoryTxnImpl *
 maybeTxn(const db::detail::TxnImpl *txn) noexcept
 {
     return dynamic_cast<const InMemoryTxnImpl *>(txn);
-}
-
-InMemoryDbiImpl &
-requireDbi(db::detail::DbiImpl &dbi)
-{
-    auto *impl = dynamic_cast<InMemoryDbiImpl *>(&dbi);
-    if (!impl)
-        throw db::Error("Database backend mismatch for database handle", db::ErrorKind::Invalid);
-    return *impl;
 }
 
 void
@@ -322,9 +310,6 @@ InMemoryDbiImpl::sortDupValues(InMemoryDatabase &db, std::vector<std::string> &v
 InMemoryDatabase *
 InMemoryDbiImpl::lookupMutable(InMemoryTxnImpl &txn, bool createIfMissing)
 {
-    if (root_)
-        return nullptr;
-
     auto &snapshot = txn.mutableSnapshot();
     auto it        = snapshot.dbs.find(name_);
     if (it != snapshot.dbs.end())
@@ -343,9 +328,6 @@ InMemoryDbiImpl::lookupMutable(InMemoryTxnImpl &txn, bool createIfMissing)
 const InMemoryDatabase *
 InMemoryDbiImpl::lookup(const InMemoryTxnImpl &txn) const
 {
-    if (root_)
-        return nullptr;
-
     const auto &snapshot = txn.snapshot();
     auto it              = snapshot.dbs.find(name_);
     if (it == snapshot.dbs.end())
@@ -356,9 +338,6 @@ InMemoryDbiImpl::lookup(const InMemoryTxnImpl &txn) const
 bool
 InMemoryDbiImpl::get(db::detail::TxnImpl &txn, std::string_view key, std::string_view &value)
 {
-    if (root_)
-        return false;
-
     const auto *db = lookup(requireTxn(txn));
     if (!db)
         return false;
@@ -377,9 +356,6 @@ InMemoryDbiImpl::put(db::detail::TxnImpl &txn,
                      std::string_view value,
                      db::PutFlags /*flags*/)
 {
-    if (root_)
-        throw db::Error("Cannot write to root in-memory database view", db::ErrorKind::Invalid);
-
     auto &inTxn = requireTxn(txn);
     auto *db    = lookupMutable(inTxn, db::hasFlag(openFlags_, db::DbiFlags::Create));
     if (!db)
@@ -399,9 +375,6 @@ InMemoryDbiImpl::put(db::detail::TxnImpl &txn,
 bool
 InMemoryDbiImpl::del(db::detail::TxnImpl &txn, std::string_view key)
 {
-    if (root_)
-        throw db::Error("Cannot delete from root in-memory database view", db::ErrorKind::Invalid);
-
     auto *db = lookupMutable(requireTxn(txn), false);
     if (!db)
         return false;
@@ -412,9 +385,6 @@ InMemoryDbiImpl::del(db::detail::TxnImpl &txn, std::string_view key)
 bool
 InMemoryDbiImpl::del(db::detail::TxnImpl &txn, std::string_view key, std::string_view value)
 {
-    if (root_)
-        throw db::Error("Cannot delete from root in-memory database view", db::ErrorKind::Invalid);
-
     auto *db = lookupMutable(requireTxn(txn), false);
     if (!db)
         return false;
@@ -443,9 +413,6 @@ InMemoryDbiImpl::del(db::detail::TxnImpl &txn, std::string_view key, std::string
 bool
 InMemoryDbiImpl::drop(db::detail::TxnImpl &txn, bool del)
 {
-    if (root_)
-        throw db::Error("Cannot drop root in-memory database view", db::ErrorKind::Invalid);
-
     auto &snapshot = requireTxn(txn).mutableSnapshot();
     auto it        = snapshot.dbs.find(name_);
     if (it == snapshot.dbs.end())
@@ -462,10 +429,6 @@ InMemoryDbiImpl::drop(db::detail::TxnImpl &txn, bool del)
 std::size_t
 InMemoryDbiImpl::size(db::detail::TxnImpl &txn)
 {
-    if (root_) {
-        return requireTxn(txn).snapshot().dbs.size();
-    }
-
     const auto *db = lookup(requireTxn(txn));
     if (!db)
         return 0;
@@ -489,14 +452,6 @@ std::vector<InMemoryCursorImpl::Item>
 InMemoryCursorImpl::loadItems() const
 {
     std::vector<Item> items;
-    const auto &snapshot = txn_.snapshot();
-
-    if (dbi_.isRoot()) {
-        items.reserve(snapshot.dbs.size());
-        for (const auto &[dbName, _] : snapshot.dbs)
-            items.push_back(Item{dbName, ""});
-        return items;
-    }
 
     const auto *db = dbi_.lookup(txn_);
     if (!db)
@@ -518,9 +473,6 @@ InMemoryCursorImpl::loadItems() const
 int
 InMemoryCursorImpl::compareKey(std::string_view lhs, std::string_view rhs) const
 {
-    if (dbi_.isRoot())
-        return lhs.compare(rhs);
-
     const auto *db = dbi_.lookup(txn_);
     if (!db)
         return lhs.compare(rhs);
@@ -785,60 +737,80 @@ InMemoryBackend::ownsTxn(const Txn &txn) const noexcept
 }
 
 Dbi
-InMemoryBackend::openDbi(Txn &txn, const char *name, DbiFlags flags)
+InMemoryBackend::openDbi(Txn &txn,
+                         const char *name,
+                         DbiFlags flags,
+                         std::optional<DupsortComparator> dupsortComparator)
 {
     if (!isOpen())
         throw Error("In-memory backend is not open", ErrorKind::Invalid);
     if (!ownsTxn(txn))
         throw Error("Transaction does not belong to in-memory backend", ErrorKind::Invalid);
+    if (!name)
+        throw Error("Database name must not be null", ErrorKind::Invalid);
 
-    const bool root          = name == nullptr;
-    const std::string dbName = name ? name : "";
+    const std::string dbName = name;
 
-    auto &inTxn = requireTxn(*detail::txnImpl(txn));
-    if (!root) {
-        const bool exists = inTxn.snapshot().dbs.find(dbName) != inTxn.snapshot().dbs.end();
-        if (!exists) {
-            if (!hasFlag(flags, DbiFlags::Create) || inTxn.isReadOnly())
-                throw Error("In-memory database does not exist", ErrorKind::Invalid);
+    auto &inTxn       = requireTxn(*detail::txnImpl(txn));
+    const bool exists = inTxn.snapshot().dbs.find(dbName) != inTxn.snapshot().dbs.end();
+    if (!exists) {
+        if (!hasFlag(flags, DbiFlags::Create) || inTxn.isReadOnly())
+            throw Error("In-memory database does not exist", ErrorKind::Invalid);
 
-            auto &snapshot = inTxn.mutableSnapshot();
-            if (impl_->state.maxDbs > 0 && snapshot.dbs.size() >= impl_->state.maxDbs)
-                throw Error("Maximum number of in-memory databases reached", ErrorKind::DbsFull);
-            snapshot.dbs.emplace(dbName, InMemoryDatabase{flags});
+        auto &snapshot = inTxn.mutableSnapshot();
+        if (impl_->state.maxDbs > 0 && snapshot.dbs.size() >= impl_->state.maxDbs)
+            throw Error("Maximum number of in-memory databases reached", ErrorKind::DbsFull);
+        snapshot.dbs.emplace(dbName, InMemoryDatabase{flags});
+    }
+
+    if (dupsortComparator.has_value()) {
+        const auto &snapshot = inTxn.snapshot();
+        auto it              = snapshot.dbs.find(dbName);
+        if (it == snapshot.dbs.end())
+            throw Error("In-memory database does not exist", ErrorKind::Invalid);
+
+        const auto &db = it->second;
+        if (!hasFlag(db.flags, DbiFlags::DupSort))
+            throw Error("dupsort comparator requires DupSort database flag", ErrorKind::Invalid);
+
+        if (db.hasDupsortComparator) {
+            if (db.dupsortComparator != *dupsortComparator)
+                throw Error("in-memory dupsort comparator mismatch", ErrorKind::Invalid);
+        } else {
+            auto &mutableDb                = inTxn.mutableSnapshot().dbs.at(dbName);
+            mutableDb.dupsortComparator    = *dupsortComparator;
+            mutableDb.hasDupsortComparator = true;
+
+            for (auto &[_, values] : mutableDb.records)
+                std::sort(values.begin(),
+                          values.end(),
+                          [&mutableDb](const std::string &lhs, const std::string &rhs) {
+                              const auto cmp =
+                                compareDupValues(mutableDb.dupsortComparator, lhs, rhs);
+                              if (cmp != 0)
+                                  return cmp < 0;
+                              return lhs < rhs;
+                          });
         }
     }
 
-    return Dbi{std::make_shared<InMemoryDbiImpl>(&impl_->state, dbName, flags, root)};
+    return Dbi{std::make_shared<InMemoryDbiImpl>(&impl_->state, dbName, flags)};
 }
 
-void
-InMemoryBackend::setDbiDupsort(Txn &txn, Dbi dbi, DupsortComparator comparator)
+std::vector<std::string>
+InMemoryBackend::listDbiNames(Txn &txn)
 {
     if (!isOpen())
         throw Error("In-memory backend is not open", ErrorKind::Invalid);
     if (!ownsTxn(txn))
         throw Error("Transaction does not belong to in-memory backend", ErrorKind::Invalid);
 
-    auto &dbiImpl = requireDbi(*detail::dbiImpl(dbi));
-    auto &inTxn   = requireTxn(*detail::txnImpl(txn));
-    auto *db      = dbiImpl.lookupMutable(inTxn, false);
-    if (!db)
-        throw Error("In-memory database does not exist", ErrorKind::Invalid);
-    if (!hasFlag(db->flags, DbiFlags::DupSort))
-        throw Error("Cannot set dupsort comparator on non-dupsort database", ErrorKind::Invalid);
-
-    db->dupsortComparator    = comparator;
-    db->hasDupsortComparator = true;
-
-    for (auto &[_, values] : db->records)
-        std::sort(
-          values.begin(), values.end(), [&db](const std::string &lhs, const std::string &rhs) {
-              const auto cmp = compareDupValues(db->dupsortComparator, lhs, rhs);
-              if (cmp != 0)
-                  return cmp < 0;
-              return lhs < rhs;
-          });
+    const auto &snapshot = requireTxn(*detail::txnImpl(txn)).snapshot();
+    std::vector<std::string> names;
+    names.reserve(snapshot.dbs.size());
+    for (const auto &[name, _] : snapshot.dbs)
+        names.push_back(name);
+    return names;
 }
 
 void

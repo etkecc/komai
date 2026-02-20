@@ -162,15 +162,12 @@ Cache::beginTxn(db::Txn *parent, db::TxnFlags flags)
 }
 
 db::Dbi
-Cache::openDbi(db::Txn &txn, const char *name, db::DbiFlags flags)
+Cache::openDbi(db::Txn &txn,
+               const char *name,
+               db::DbiFlags flags,
+               std::optional<db::DupsortComparator> dupsortComparator)
 {
-    return storage().openDbi(txn, name, flags);
-}
-
-void
-Cache::setDbiDupsort(db::Txn &txn, db::Dbi dbi, db::DupsortComparator comparator)
-{
-    storage().setDbiDupsort(txn, dbi, comparator);
+    return storage().openDbi(txn, name, flags, dupsortComparator);
 }
 
 bool
@@ -302,11 +299,10 @@ Cache::getStatesDb(db::Txn &txn, const std::string &room_id)
 db::Dbi
 Cache::getStatesKeyDb(db::Txn &txn, const std::string &room_id)
 {
-    auto db_ = openDbi(txn,
-                       std::string(room_id + "/states_key").c_str(),
-                       db::DbiFlags::Create | db::DbiFlags::DupSort);
-    setDbiDupsort(txn, db_, db::DupsortComparator::StateKey);
-    return db_;
+    return openDbi(txn,
+                   std::string(room_id + "/states_key").c_str(),
+                   db::DbiFlags::Create | db::DbiFlags::DupSort,
+                   db::DupsortComparator::StateKey);
 }
 
 db::Dbi
@@ -359,11 +355,8 @@ compactDatabase(db::Backend &from, db::Backend &to)
     auto fromTxn = from.beginTxn(nullptr, db::TxnFlags::ReadOnly);
     auto toTxn   = to.beginTxn();
 
-    auto rootDb  = from.openDbi(fromTxn);
-    auto dbNames = db::Cursor::open(fromTxn, rootDb);
-
-    std::string_view dbName;
-    while (dbNames.get(dbName, db::CursorOp::NextNoDup)) {
+    const auto dbNames = from.listDbiNames(fromTxn);
+    for (const auto &dbName : dbNames) {
         nhlog::db()->info("Compacting db: {}", dbName);
 
         auto flags = db::DbiFlags::Create;
@@ -375,14 +368,12 @@ compactDatabase(db::Backend &from, db::Backend &to)
             dbName == SPACES_CHILDREN_DB || dbName == SPACES_PARENTS_DB)
             flags |= db::DbiFlags::DupSort;
 
-        auto dbNameStr = std::string(dbName);
-        auto fromDb    = from.openDbi(fromTxn, dbNameStr.c_str(), flags);
-        auto toDb      = to.openDbi(toTxn, dbNameStr.c_str(), flags);
-
-        if (dbName.ends_with("/states_key")) {
-            from.setDbiDupsort(fromTxn, fromDb, db::DupsortComparator::StateKey);
-            to.setDbiDupsort(toTxn, toDb, db::DupsortComparator::StateKey);
-        }
+        const auto comparator =
+          dbName.ends_with("/states_key")
+            ? std::optional<db::DupsortComparator>{db::DupsortComparator::StateKey}
+            : std::nullopt;
+        auto fromDb = from.openDbi(fromTxn, dbName.c_str(), flags, comparator);
+        auto toDb   = to.openDbi(toTxn, dbName.c_str(), flags, comparator);
 
         auto fromCursor = db::Cursor::open(fromTxn, fromDb);
         auto toCursor   = db::Cursor::open(toTxn, toDb);
@@ -541,7 +532,7 @@ Cache::setup()
         // corruption.
         // 2023-02-23: Reenable the nosync flags. There was no measureable benefit to resiliency,
         // but sync causes frequent lag sometimes even for the whole system. Possibly the data
-        // corruption is an lmdb or filesystem bug. See
+        // corruption is a database-backend or filesystem bug. See
         // https://github.com/Nheko-Reborn/nheko/issues/1355
         // https://github.com/Nheko-Reborn/nheko/issues/1303
         db->storage->open(cacheDirectory_, storageOptions);
@@ -1663,13 +1654,9 @@ Cache::runMigrations()
            try {
                using namespace mtx::crypto;
 
-               auto txn = beginTxn();
-
-               auto mainDb = openDbi(txn, nullptr);
-
-               std::string_view dbName, ignored;
-               auto olmDbCursor = db::Cursor::open(txn, mainDb);
-               while (olmDbCursor.get(dbName, ignored, db::CursorOp::Next)) {
+               auto txn     = beginTxn();
+               auto dbNames = storage().listDbiNames(txn);
+               for (const auto &dbName : dbNames) {
                    // skip every db but olm session dbs
                    nhlog::db()->debug("Db {}", dbName);
                    if (dbName.find("olm_sessions/") != 0)
@@ -1677,7 +1664,7 @@ Cache::runMigrations()
 
                    nhlog::db()->debug("Migrating {}", dbName);
 
-                   auto olmDb = openDbi(txn, std::string(dbName).c_str());
+                   auto olmDb = openDbi(txn, dbName.c_str());
 
                    std::string_view session_id, session_value;
 
@@ -1706,7 +1693,7 @@ Cache::runMigrations()
 
                    olmDb.drop(txn, true);
 
-                   auto newDbName = std::string(dbName);
+                   auto newDbName = dbName;
                    newDbName.erase(0, sizeof("olm_sessions") - 1);
                    newDbName = "olm_sessions.v2" + newDbName;
 
@@ -1717,8 +1704,6 @@ Cache::runMigrations()
                        newDb.put(txn, key, nlohmann::json(value).dump());
                    }
                }
-               olmDbCursor.close();
-
                txn.commit();
            } catch (const db::Error &) {
                nhlog::db()->critical("Failed to migrate olm sessions,");
@@ -1871,9 +1856,8 @@ Cache::runMigrations()
                    try {
                        auto oldStateskeyDb = openDbi(txn,
                                                      std::string(room_id + "/state_by_key").c_str(),
-                                                     db::DbiFlags::Create | db::DbiFlags::DupSort);
-                       setDbiDupsort(
-                         txn, oldStateskeyDb, db::DupsortComparator::LegacyStateByKeyJson);
+                                                     db::DbiFlags::Create | db::DbiFlags::DupSort,
+                                                     db::DupsortComparator::LegacyStateByKeyJson);
                        auto newStateskeyDb = getStatesKeyDb(txn, room_id);
 
                        // convert the dupsort format
@@ -1915,20 +1899,17 @@ Cache::runMigrations()
            // migrate olm sessions to a single db
            try {
                auto txn      = beginTxn(nullptr);
-               auto mainDb   = openDbi(txn);
-               auto dbNames  = db::Cursor::open(txn, mainDb);
+               auto dbNames  = storage().listDbiNames(txn);
                bool doCommit = false;
 
-               std::string_view dbName;
-               while (dbNames.get(dbName, db::CursorOp::Next)) {
+               for (const auto &dbName : dbNames) {
                    if (!dbName.starts_with("olm_sessions.v2/"))
                        continue;
 
                    doCommit      = true;
-                   auto curveKey = dbName;
-                   curveKey.remove_prefix(std::string_view("olm_sessions.v2/").size());
+                   auto curveKey = dbName.substr(std::string_view("olm_sessions.v2/").size());
 
-                   auto oldDb     = openDbi(txn, std::string(dbName).c_str());
+                   auto oldDb     = openDbi(txn, dbName.c_str());
                    auto olmCursor = db::Cursor::open(txn, oldDb);
 
                    std::string_view session_id, json;
@@ -1942,7 +1923,6 @@ Cache::runMigrations()
 
                    oldDb.drop(txn, true);
                }
-               dbNames.close();
 
                if (doCommit)
                    txn.commit();

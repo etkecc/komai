@@ -67,7 +67,7 @@ Secret-store key prefixes:
 ## Main Call Sites
 
 - `src/UserSettingsPage.cpp` (profile YAML files)
-- `src/Cache.cpp` (LMDB base directory)
+- `src/Cache.cpp` (database base directory)
 - `src/ui/ThemeRegistry.cpp` (external theme search directories)
 - `src/MatrixClient.cpp` (curl alt-svc cache file)
 - `src/MxcImageProvider.cpp` (media purge + media cache file paths)

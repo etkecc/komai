@@ -21,7 +21,7 @@ This document captures configuration-architecture differences between Komai and 
 - Default profile id is `default`
 - Dotted hierarchical keys in YAML (`a.b.c`)
 - Durable/runtime/session/secret concerns are written to separate files
-- LMDB and cache paths are profile-scoped (`data/profiles/<profile-id>/...`, `cache/profiles/<profile-id>/...`)
+- Database and cache paths are profile-scoped (`data/profiles/<profile-id>/...`, `cache/profiles/<profile-id>/...`)
 
 ## Why This Matters
 

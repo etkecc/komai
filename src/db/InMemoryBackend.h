@@ -26,8 +26,11 @@ public:
     bool isOpen() const noexcept override;
     Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None) override;
     bool ownsTxn(const Txn &txn) const noexcept override;
-    Dbi openDbi(Txn &txn, const char *name = nullptr, DbiFlags flags = DbiFlags::None) override;
-    void setDbiDupsort(Txn &txn, Dbi dbi, DupsortComparator comparator) override;
+    Dbi openDbi(Txn &txn,
+                const char *name,
+                DbiFlags flags                                     = DbiFlags::None,
+                std::optional<DupsortComparator> dupsortComparator = std::nullopt) override;
+    std::vector<std::string> listDbiNames(Txn &txn) override;
     void closeDbi(Dbi dbi) noexcept override;
     std::optional<std::size_t> mapSizeBytes() const noexcept override;
 

@@ -259,7 +259,7 @@ RoomSettings::canChangeJoinRules() const
         return cache::hasEnoughPowerLevel(
           {EventType::RoomJoinRules}, roomid_.toStdString(), utils::localUser().toStdString());
     } catch (const std::exception &e) {
-        nhlog::db()->warn("lmdb error: {}", e.what());
+        nhlog::db()->warn("database error: {}", e.what());
     }
 
     return false;
@@ -272,7 +272,7 @@ RoomSettings::canChangeName() const
         return cache::hasEnoughPowerLevel(
           {EventType::RoomName}, roomid_.toStdString(), utils::localUser().toStdString());
     } catch (const std::exception &e) {
-        nhlog::db()->warn("lmdb error: {}", e.what());
+        nhlog::db()->warn("database error: {}", e.what());
     }
 
     return false;
@@ -285,7 +285,7 @@ RoomSettings::canChangeTopic() const
         return cache::hasEnoughPowerLevel(
           {EventType::RoomTopic}, roomid_.toStdString(), utils::localUser().toStdString());
     } catch (const std::exception &e) {
-        nhlog::db()->warn("lmdb error: {}", e.what());
+        nhlog::db()->warn("database error: {}", e.what());
     }
 
     return false;
@@ -298,7 +298,7 @@ RoomSettings::canChangeAvatar() const
         return cache::hasEnoughPowerLevel(
           {EventType::RoomAvatar}, roomid_.toStdString(), utils::localUser().toStdString());
     } catch (const std::exception &e) {
-        nhlog::db()->warn("lmdb error: {}", e.what());
+        nhlog::db()->warn("database error: {}", e.what());
     }
 
     return false;
@@ -312,7 +312,7 @@ RoomSettings::canChangeHistoryVisibility() const
                                           roomid_.toStdString(),
                                           utils::localUser().toStdString());
     } catch (const std::exception &e) {
-        nhlog::db()->warn("lmdb error: {}", e.what());
+        nhlog::db()->warn("database error: {}", e.what());
     }
 
     return false;

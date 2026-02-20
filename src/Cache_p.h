@@ -432,9 +432,10 @@ private:
     db::Backend &storage();
     const db::Backend &storage() const;
     db::Txn beginTxn(db::Txn *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
-    db::Dbi
-    openDbi(db::Txn &txn, const char *name = nullptr, db::DbiFlags flags = db::DbiFlags::None);
-    void setDbiDupsort(db::Txn &txn, db::Dbi dbi, db::DupsortComparator comparator);
+    db::Dbi openDbi(db::Txn &txn,
+                    const char *name,
+                    db::DbiFlags flags                                     = db::DbiFlags::None,
+                    std::optional<db::DupsortComparator> dupsortComparator = std::nullopt);
 
     QString localUserId_;
     QString cacheDirectory_;

@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 
@@ -50,7 +51,7 @@ compareLegacyStateByKeyJson(const MDB_val *a, const MDB_val *b)
 }
 
 MDB_cmp_func *
-dupsortComparator(db::DupsortComparator comparator)
+dupsortComparatorFunc(db::DupsortComparator comparator)
 {
     switch (comparator) {
     case db::DupsortComparator::StateKey:
@@ -308,33 +309,55 @@ LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
 }
 
 Dbi
-LmdbBackend::openDbi(Txn &txn, const char *name, DbiFlags flags)
+LmdbBackend::openDbi(Txn &txn,
+                     const char *name,
+                     DbiFlags flags,
+                     std::optional<DupsortComparator> dupsortComparator)
 {
+    if (!detail::txnImpl(txn))
+        throw Error("Invalid transaction", ErrorKind::Invalid);
+    if (!name)
+        throw Error("Database name must not be null", ErrorKind::Invalid);
+
+    auto &lmdbTxn = requireLmdbTxn(*detail::txnImpl(txn));
+
+    auto dbi = translateLmdbErrors([&] {
+        return Dbi{std::make_shared<LmdbDbiImpl>(
+          lmdb::dbi::open(lmdbTxn.native(), name, toLmdbDbiFlags(flags)))};
+    });
+
+    if (dupsortComparator.has_value()) {
+        if (!hasFlag(flags, DbiFlags::DupSort))
+            throw Error("dupsort comparator requires DupSort database flag", ErrorKind::Invalid);
+
+        auto &lmdbDbi = requireLmdbDbi(*detail::dbiImpl(dbi));
+        translateLmdbErrors([&] {
+            lmdb::dbi_set_dupsort(
+              lmdbTxn.native(), lmdbDbi.native(), dupsortComparatorFunc(*dupsortComparator));
+        });
+    }
+
+    return dbi;
+}
+
+std::vector<std::string>
+LmdbBackend::listDbiNames(Txn &txn)
+{
+    std::vector<std::string> names;
+
     if (!detail::txnImpl(txn))
         throw Error("Invalid transaction", ErrorKind::Invalid);
 
     auto &lmdbTxn = requireLmdbTxn(*detail::txnImpl(txn));
+    auto rootDb   = Dbi{std::make_shared<LmdbDbiImpl>(
+      translateLmdbErrors([&] { return lmdb::dbi::open(lmdbTxn.native()); }))};
+    auto cursor   = Cursor::open(txn, rootDb);
 
-    return translateLmdbErrors([&] {
-        if (name)
-            return Dbi{std::make_shared<LmdbDbiImpl>(
-              lmdb::dbi::open(lmdbTxn.native(), name, toLmdbDbiFlags(flags)))};
-        return Dbi{std::make_shared<LmdbDbiImpl>(lmdb::dbi::open(lmdbTxn.native()))};
-    });
-}
+    std::string_view dbName;
+    while (cursor.get(dbName, CursorOp::NextNoDup))
+        names.emplace_back(dbName);
 
-void
-LmdbBackend::setDbiDupsort(Txn &txn, Dbi dbi, DupsortComparator comparator)
-{
-    if (!detail::txnImpl(txn) || !detail::dbiImpl(dbi))
-        throw Error("Invalid transaction or database handle", ErrorKind::Invalid);
-
-    auto &lmdbTxn = requireLmdbTxn(*detail::txnImpl(txn));
-    auto &lmdbDbi = requireLmdbDbi(*detail::dbiImpl(dbi));
-
-    translateLmdbErrors([&] {
-        lmdb::dbi_set_dupsort(lmdbTxn.native(), lmdbDbi.native(), dupsortComparator(comparator));
-    });
+    return names;
 }
 
 void

@@ -9,11 +9,12 @@
 #include <QMimeDatabase>
 #include <QQuickWindow>
 #include <QSGImageNode>
-#include <QStandardPaths>
 
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
+#include "Paths.h"
+#include "UserSettingsPage.h"
 #include "timeline/TimelineModel.h"
 
 void
@@ -53,11 +54,8 @@ MxcAnimatedImage::startDownload()
 
     const auto url  = mxcUrl.toStdString();
     const auto name = QString(mxcUrl).remove(QStringLiteral("mxc://"));
-    QFileInfo filename(QStringLiteral("%1/media_cache/media/%2.%3")
-                         .arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation),
-                              QString::fromUtf8(name.toUtf8().toBase64(
-                                QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals)),
-                              suffix));
+    QFileInfo filename(
+      app_paths::cache::mediaMediaFileForMxc(UserSettings::instance()->profile(), name, suffix));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
         nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", url);
         return;

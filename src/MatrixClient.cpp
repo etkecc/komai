@@ -8,12 +8,12 @@
 
 #include <QMetaType>
 #include <QObject>
-#include <QStandardPaths>
 #include <QString>
 
 #include <mtx/responses.hpp>
 
 #include "Logging.h"
+#include "Paths.h"
 #include "UserSettingsPage.h"
 
 namespace http {
@@ -28,9 +28,8 @@ client()
         if (UserSettings::instance()->enableHttp3()) {
             nhlog::net()->warn("Enabling http3 support. This is currently usually a worse "
                                "experience, so you are on your own.");
-            c->alt_svc_cache_path((QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
-                                   "/curl_alt_svc_cache.txt")
-                                    .toStdString());
+            c->alt_svc_cache_path(
+              app_paths::cache::altSvcCacheFile(UserSettings::instance()->profile()).toStdString());
         }
         return c;
     }();

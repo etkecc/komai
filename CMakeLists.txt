@@ -113,6 +113,7 @@ endif()
 include(QtCommon)
 
 include(GNUInstallDirs)
+include(CTest)
 
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "1")
@@ -507,8 +508,13 @@ set(SRC_FILES
     src/MemberList.h
     src/MxcImageProvider.cpp
     src/MxcImageProvider.h
+    src/Paths.cpp
+    src/Paths.h
+    src/settings/YamlSettings.h
     src/PowerlevelsEditModels.cpp
     src/PowerlevelsEditModels.h
+    src/ProfileSecrets.cpp
+    src/ProfileSecrets.h
     src/ReadReceiptsModel.cpp
     src/ReadReceiptsModel.h
     src/ReCaptcha.cpp
@@ -967,6 +973,14 @@ if(USE_BUNDLED_YAMLCPP)
     set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
 else()
     set(YAMLCPP_TARGET_NAME PkgConfig::yaml-cpp)
+endif()
+
+if(BUILD_TESTING)
+    add_executable(komai_yaml_settings_test tests/YamlSettingsTest.cpp)
+    target_include_directories(komai_yaml_settings_test PRIVATE src)
+    target_link_libraries(komai_yaml_settings_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
+    add_test(NAME komai_yaml_settings_test COMMAND komai_yaml_settings_test)
+    add_custom_target(komai_tests DEPENDS komai_yaml_settings_test)
 endif()
 
 target_link_libraries(nheko PRIVATE

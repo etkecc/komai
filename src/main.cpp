@@ -8,6 +8,7 @@
 #include <QCommandLineParser>
 #include <QDesktopServices>
 #include <QDir>
+#include <QFileInfo>
 #include <QFontDatabase>
 #include <QLabel>
 #include <QLibraryInfo>
@@ -15,7 +16,6 @@
 #include <QPoint>
 #include <QQuickView>
 #include <QScreen>
-#include <QStandardPaths>
 #include <QTranslator>
 
 // in theory we can enable this everywhere, but the header is missing on some of our CI systems and
@@ -32,6 +32,7 @@
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
+#include "Paths.h"
 #include "Utils.h"
 #include "config/nheko.h"
 #include "ui/ThemeRegistry.h"
@@ -144,10 +145,8 @@ screenCenter(int width, int height)
 }
 
 void
-createStandardDirectory(QStandardPaths::StandardLocation path)
+createDirectory(const QString &dir)
 {
-    auto dir = QStandardPaths::writableLocation(path);
-
     if (!QDir().mkpath(dir)) {
         throw std::runtime_error(("Unable to create state directory:" + dir).toStdString().c_str());
     }
@@ -225,13 +224,14 @@ main(int argc, char *argv[])
     parser.addOption(configName);
 
     parser.process(app);
+    const QString selectedProfile = parser.isSet(configName) ? parser.value(configName) : QString();
 
     if (parser.isSet(compactDb))
         cache::setNeedsCompactFlag();
 
     // Initialize logging early so that UserSettings can log during init (e.g. emoji font
     // resolution on Qt < 6.9). The cache directory must exist before the file logger opens.
-    createStandardDirectory(QStandardPaths::CacheLocation);
+    createDirectory(QFileInfo(app_paths::cache::logFile(selectedProfile)).absolutePath());
     try {
         QString level;
         if (parser.isSet(logLevel)) {
@@ -248,10 +248,8 @@ main(int argc, char *argv[])
             .split(',', Qt::SkipEmptyParts);
         targets.removeAll("none");
         bool to_stderr = bool(targets.removeAll("stderr"));
-        QString path   = targets.removeAll("file")
-                           ? QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))
-                             .filePath("komai.log")
-                           : QLatin1String("");
+        QString path   = targets.removeAll("file") ? app_paths::cache::logFile(selectedProfile)
+                                                   : QLatin1String("");
         if (!targets.isEmpty()) {
             std::cerr << "Invalid log type '" << targets.first().toStdString().c_str() << "'"
                       << std::endl;
@@ -352,7 +350,7 @@ main(int argc, char *argv[])
 
     http::init();
 
-    createStandardDirectory(QStandardPaths::AppDataLocation);
+    createDirectory(app_paths::data::dbRoot(selectedProfile));
 
     registerSignalHandlers();
 

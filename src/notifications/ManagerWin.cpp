@@ -5,8 +5,9 @@
 #include "notifications/Manager.h"
 #include "wintoastlib.h"
 
+#include <QDir>
+#include <QFileInfo>
 #include <QRegularExpression>
-#include <QStandardPaths>
 #include <QTextDocumentFragment>
 
 #include <variant>
@@ -14,6 +15,8 @@
 #include "Cache.h"
 #include "EventAccessors.h"
 #include "MxcImageProvider.h"
+#include "Paths.h"
+#include "UserSettingsPage.h"
 #include "Utils.h"
 
 using namespace WinToastLib;
@@ -78,8 +81,9 @@ NotificationsManager::postNotification(const mtx::responses::Notification &notif
         return template_.arg(utils::stripReplyFallbacks(notification.event, {}, {}).quoted_body);
     }();
 
-    auto iconPath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + room_name +
-                    "-room-avatar.png";
+    auto iconPath =
+      app_paths::cache::roomNotificationAvatarFile(UserSettings::instance()->profile(), roomid);
+    QDir().mkpath(QFileInfo(iconPath).absolutePath());
     if (!icon.save(iconPath))
         iconPath.clear();
 

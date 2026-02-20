@@ -79,26 +79,21 @@ MainWindow::MainWindow(QWindow *parent)
 
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
+        const auto snapshot = userSettings_->sessionSnapshot();
+        nhlog::ui()->info("Startup loaded session status (has_user_id={}, has_access_token={}, "
+                          "has_device_id={}, has_homeserver={}, user_id='{}', device_id='{}', "
+                          "homeserver='{}')",
+                          !snapshot.userId.trimmed().isEmpty(),
+                          !snapshot.accessToken.trimmed().isEmpty(),
+                          !snapshot.deviceId.trimmed().isEmpty(),
+                          !snapshot.homeserver.trimmed().isEmpty(),
+                          snapshot.userId.toStdString(),
+                          snapshot.deviceId.toStdString(),
+                          snapshot.homeserver.toStdString());
+
         if (hasActiveUser()) {
-            QString token       = userSettings_->accessToken();
-            QString home_server = userSettings_->homeserver();
-            QString user_id     = userSettings_->userId();
-            QString device_id   = userSettings_->deviceId();
-
-            http::client()->set_access_token(token.toStdString());
-            http::client()->set_server(home_server.toStdString());
-            http::client()->set_device_id(device_id.toStdString());
-
-            try {
-                using namespace mtx::identifiers;
-                http::client()->set_user(parse<User>(user_id.toStdString()));
-            } catch (const std::invalid_argument &) {
-                nhlog::ui()->critical("bootstrapped with invalid user_id: {}",
-                                      user_id.toStdString());
-            }
-
             nhlog::ui()->info("User already signed in, showing chat page");
-            showChatPage();
+            showChatPage(userSettings_->hasPersistedSessionIdentity());
         }
     });
 }
@@ -176,19 +171,27 @@ MainWindow::saveCurrentWindowSize()
 }
 
 void
-MainWindow::showChatPage()
+MainWindow::showChatPage(bool hadSessionIdentity)
 {
-    auto userid     = QString::fromStdString(http::client()->user_id().to_string());
-    auto device_id  = QString::fromStdString(http::client()->device_id());
-    auto homeserver = QString::fromStdString(http::client()->server_url());
-    auto token      = QString::fromStdString(http::client()->access_token());
+    if (!userSettings_->hasActiveSession()) {
+        const auto snapshot = userSettings_->sessionSnapshot();
+        nhlog::ui()->warn(
+          "Refusing to show chat page without a persisted active session "
+          "(has_user_id={}, has_access_token={}, has_device_id={}, has_homeserver={})",
+          !snapshot.userId.trimmed().isEmpty(),
+          !snapshot.accessToken.trimmed().isEmpty(),
+          !snapshot.deviceId.trimmed().isEmpty(),
+          !snapshot.homeserver.trimmed().isEmpty());
+        emit switchToLoginPage(QString());
+        return;
+    }
 
-    userSettings_.data()->setUserId(userid);
-    userSettings_.data()->setAccessToken(token);
-    userSettings_.data()->setDeviceId(device_id);
-    userSettings_.data()->setHomeserver(homeserver);
-
-    chat_page_->bootstrap(userid, homeserver, token);
+    const auto snapshot = userSettings_->sessionSnapshot();
+    chat_page_->bootstrap(snapshot.userId,
+                          snapshot.deviceId,
+                          snapshot.homeserver,
+                          snapshot.accessToken,
+                          hadSessionIdentity);
     connect(cache::client(), &Cache::databaseReady, this, &MainWindow::secretsChanged);
     connect(cache::client(), &Cache::secretChanged, this, &MainWindow::secretsChanged);
 
@@ -253,8 +256,7 @@ MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 bool
 MainWindow::hasActiveUser()
 {
-    return !userSettings_->accessToken().isEmpty() && !userSettings_->homeserver().isEmpty() &&
-           !userSettings_->userId().isEmpty();
+    return userSettings_->hasActiveSession();
 }
 
 bool

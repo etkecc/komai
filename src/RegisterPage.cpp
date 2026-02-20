@@ -17,12 +17,12 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "RegisterPage.h"
+#include "UserSettingsPage.h"
 #include "ui/UIA.h"
 
 RegisterPage::RegisterPage(QObject *parent)
   : QObject(parent)
 {
-    connect(this, &RegisterPage::registerOk, this, [] { MainWindow::instance()->showChatPage(); });
 }
 
 void
@@ -235,8 +235,29 @@ RegisterPage::startRegistration(const QString &username,
               emit registeringChanged();
 
               if (!err) {
-                  http::client()->set_user(res.user_id);
-                  http::client()->set_access_token(res.access_token);
+                  auto *settings                = UserSettings::instance().get();
+                  const bool hadSessionIdentity = settings->hasPersistedSessionIdentity();
+
+                  const auto homeserver = QString::fromStdString(http::client()->server_url());
+                  const bool persisted =
+                    settings->persistSessionSnapshot(UserSettings::SessionSnapshot{
+                      .userId      = QString::fromStdString(res.user_id.to_string()),
+                      .accessToken = QString::fromStdString(res.access_token),
+                      .deviceId    = QString::fromStdString(res.device_id),
+                      .homeserver  = homeserver});
+                  if (!persisted) {
+                      setError(tr("Registration failed: server returned incomplete session data."));
+                      disconnect(UIA::instance(), &UIA::error, this, nullptr);
+                      return;
+                  }
+
+                  nhlog::ui()->info("Persisted registration session snapshot (user_id='{}', "
+                                    "device_id='{}', homeserver='{}')",
+                                    QString::fromStdString(res.user_id.to_string()).toStdString(),
+                                    QString::fromStdString(res.device_id).toStdString(),
+                                    homeserver.toStdString());
+
+                  MainWindow::instance()->showChatPage(hadSessionIdentity);
                   emit registerOk();
                   disconnect(UIA::instance(), &UIA::error, this, nullptr);
                   return;

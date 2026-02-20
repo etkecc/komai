@@ -82,8 +82,8 @@ public:
 
     MxcImageProvider *imageProvider() { return imgProvider; }
 
-    //! Show the chat page and start communicating with the given access token.
-    void showChatPage();
+    //! Show the chat page using the currently persisted session snapshot.
+    void showChatPage(bool hadSessionIdentity);
 
 #ifdef NHEKO_DBUS_SYS
     bool dbusAvailable() const { return dbusAvailable_; }

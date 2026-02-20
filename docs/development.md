@@ -15,6 +15,7 @@ For build dependencies and distro package names, see [Packaging: Native build](p
 
 ```sh
 just build
+just test
 just run
 ```
 
@@ -23,6 +24,9 @@ just run
 ```sh
 # Build incrementally
 just build
+
+# Run unit tests
+just test
 
 # Run the app
 just run
@@ -55,7 +59,7 @@ just prek-run-on-staged
 just prek-run-on-all
 ```
 
-The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), theme checks, translation normalization checks, and QML linting.
+The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), theme checks, translation normalization checks, QML linting, and C++ unit tests (run on C++/header/QML changes).
 
 Note: QML linting expects Qt6 `qmllint`. If unavailable, it is skipped with a message.
 

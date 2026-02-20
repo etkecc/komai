@@ -12,6 +12,10 @@
 
 #include <optional>
 
+namespace YAML {
+class Node;
+}
+
 class UserSettings final : public QObject
 {
     Q_OBJECT
@@ -238,6 +242,14 @@ public:
     };
     Q_ENUM(LastMessagePreview)
 
+    struct SessionSnapshot
+    {
+        QString userId;
+        QString accessToken;
+        QString deviceId;
+        QString homeserver;
+    };
+
     void save();
     void load(std::optional<QString> profile);
     void applyTheme();
@@ -324,6 +336,12 @@ public:
     void setRunWithoutSecureSecretsService(bool state);
     void setEnableHttp3(bool state);
     void clearAuth();
+    bool hasPersistedSessionIdentity() const;
+    bool hasActiveSession() const;
+    SessionSnapshot sessionSnapshot() const;
+    // Persist full auth/session material even if fields are unchanged in memory.
+    // This keeps file/keychain storage repaired after partial deletion/corruption.
+    bool persistSessionSnapshot(const SessionSnapshot &snapshot);
 
     // Secrets storage helpers (for fallback mode)
     QString secret(const QString &name) const;
@@ -507,6 +525,17 @@ private:
     template<typename T, typename Signal>
     void setSetting(T &member, const T &value, Signal signal);
 
+    void loadConfigYaml(const YAML::Node &root);
+    void loadSessionYaml(const YAML::Node &root);
+    void loadSecretsYaml(const YAML::Node &root);
+    void loadStateYaml(const YAML::Node &root);
+    void loadSecretsForProvider();
+
+    void saveConfigYaml() const;
+    void saveSessionYaml() const;
+    void saveSecretsYaml() const;
+    void saveStateYaml() const;
+
     // Default to system theme if QT_QPA_PLATFORMTHEME var is set.
     QString defaultTheme_ = QProcessEnvironment::systemEnvironment()
                                 .value(QStringLiteral("QT_QPA_PLATFORMTHEME"), QLatin1String(""))
@@ -597,8 +626,12 @@ private:
     bool enableHttp3_                    = false;
     QMap<QString, QString> secrets_;
 
-    // Path to the per-profile YAML config file
+    // Paths to the per-profile settings directory and files.
+    QString profileDirPath_;
     QString configFilePath_;
+    QString stateFilePath_;
+    QString sessionFilePath_;
+    QString secretsFilePath_;
 
     static QSharedPointer<UserSettings> instance_;
 };

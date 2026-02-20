@@ -8,6 +8,8 @@
 #include <QPushButton>
 
 #include <algorithm>
+#include <chrono>
+#include <memory>
 #include <unordered_set>
 
 #include <nlohmann/json.hpp>
@@ -40,6 +42,7 @@ ChatPage *ChatPage::instance_                    = nullptr;
 static constexpr int CHECK_CONNECTIVITY_INTERVAL = 15'000;
 static constexpr int RETRY_TIMEOUT               = 5'000;
 static constexpr size_t MAX_ONETIME_KEYS         = 50;
+static constexpr auto LOGOUT_REQUEST_TIMEOUT     = std::chrono::seconds(10);
 
 ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
   : QObject(parent)
@@ -99,8 +102,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                   emit connectionRestored();
           });
     });
-
-    connect(this, &ChatPage::loggedOut, this, &ChatPage::logout);
 
     connect(
       view_manager_,
@@ -433,16 +434,6 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
 }
 
 void
-ChatPage::logout()
-{
-    resetUI();
-    deleteConfigs();
-
-    emit closing();
-    connectivityTimer_.stop();
-}
-
-void
 ChatPage::dropToLoginPage(const QString &msg)
 {
     nhlog::ui()->info("dropping to the login page: {}", msg.toStdString());
@@ -468,9 +459,7 @@ ChatPage::dropToLoginPage(const QString &msg)
     msgBox.exec();
 
     if (msgBox.clickedButton() == static_cast<QAbstractButton *>(logoutBtn)) {
-        resetUI();
-        deleteConfigs();
-        emit showLoginPage(msg);
+        performLogout(LogoutPolicy::LocalOnly, LogoutRoute::ViaShowLoginPageSignal, msg);
     } else {
         QCoreApplication::exit(1);
         exit(1);
@@ -496,7 +485,11 @@ ChatPage::deleteConfigs()
 }
 
 void
-ChatPage::bootstrap(QString userid, QString homeserver, QString token)
+ChatPage::bootstrap(QString userid,
+                    QString deviceId,
+                    QString homeserver,
+                    QString token,
+                    bool hadSessionIdentity)
 {
     using namespace mtx::identifiers;
 
@@ -507,6 +500,7 @@ ChatPage::bootstrap(QString userid, QString homeserver, QString token)
     }
 
     http::client()->set_server(homeserver.toStdString());
+    http::client()->set_device_id(deviceId.toStdString());
     http::client()->set_access_token(token.toStdString());
     http::client()->verify_certificates(!UserSettings::instance()->disableCertificateValidation());
 
@@ -518,67 +512,85 @@ ChatPage::bootstrap(QString userid, QString homeserver, QString token)
     try {
         cache::init(userid);
 
-        connect(cache::client(), &Cache::databaseReady, this, [this]() {
-            nhlog::db()->info("database ready");
+        connect(
+          cache::client(),
+          &Cache::databaseReady,
+          this,
+          [this, userid, deviceId, homeserver, token, hadSessionIdentity]() {
+              nhlog::db()->info("database ready");
 
-            const bool isInitialized = cache::isInitialized();
-            const auto cacheVersion  = cache::formatVersion();
+              const bool isInitialized = cache::isInitialized();
+              const auto cacheVersion  = cache::formatVersion();
 
-            try {
-                if (!isInitialized) {
-                    cache::setCurrentFormat();
-                } else {
-                    if (cacheVersion == cache::CacheVersion::Current) {
-                        loadStateFromCache();
-                        return;
-                    } else if (cacheVersion == cache::CacheVersion::Older) {
-                        if (!cache::runMigrations()) {
-                            QMessageBox::critical(
-                              nullptr,
-                              tr("Cache migration failed!"),
-                              tr("Migrating the cache to the current version failed. "
-                                 "This can have different reasons. Please open an "
-                                 "issue at https://github.com/etkecc/komai and try to use an "
-                                 "older version in the meantime. Alternatively you can try "
-                                 "deleting the cache manually."));
-                            QCoreApplication::quit();
-                        }
-                        loadStateFromCache();
-                        return;
-                    } else if (cacheVersion == cache::CacheVersion::Newer) {
-                        QMessageBox::critical(
-                          nullptr,
-                          tr("Incompatible cache version"),
-                          tr("The cache on your disk is newer than this version of Komai "
-                             "supports. Please update Komai or clear your cache."));
-                        QCoreApplication::quit();
-                        return;
-                    }
-                }
+              if (isInitialized && !hadSessionIdentity) {
+                  nhlog::db()->warn("Cache exists, but no persisted session identity was loaded. "
+                                    "Resetting cache to avoid identity/key mismatch.");
+                  if (auto *cacheClient = cache::client())
+                      disconnect(cacheClient, nullptr, this, nullptr);
+                  cache::deleteData();
 
-                // It's the first time syncing with this device
-                // There isn't a saved olm account to restore.
-                nhlog::crypto()->info("creating new olm account");
-                olm::client()->create_new_account();
-                auto secret = cache::client()->createPickleSecret();
-                cache::saveOlmAccount(olm::client()->save(secret));
-            } catch (const lmdb::error &e) {
-                nhlog::crypto()->critical("failed to save olm account {}", e.what());
-                emit dropToLoginPageCb(QString::fromStdString(e.what()));
-                return;
-            } catch (const mtx::crypto::olm_exception &e) {
-                nhlog::crypto()->critical("failed to create new olm account {}", e.what());
-                emit dropToLoginPageCb(QString::fromStdString(e.what()));
-                return;
-            }
+                  // Retry bootstrap once with a clean cache.
+                  QTimer::singleShot(0, this, [this, userid, deviceId, homeserver, token]() {
+                      bootstrap(userid, deviceId, homeserver, token, true);
+                  });
+                  return;
+              }
 
-            getProfileInfo();
-            getBackupVersion();
-            tryInitialSync();
-            if (UserSettings::instance()->enableLegacyCalls())
-                callManager_->refreshTurnServer();
-            emit MainWindow::instance()->reload();
-        });
+              try {
+                  if (!isInitialized) {
+                      cache::setCurrentFormat();
+                  } else {
+                      if (cacheVersion == cache::CacheVersion::Current) {
+                          loadStateFromCache();
+                          return;
+                      } else if (cacheVersion == cache::CacheVersion::Older) {
+                          if (!cache::runMigrations()) {
+                              QMessageBox::critical(
+                                nullptr,
+                                tr("Cache migration failed!"),
+                                tr("Migrating the cache to the current version failed. "
+                                   "This can have different reasons. Please open an "
+                                   "issue at https://github.com/etkecc/komai and try to use an "
+                                   "older version in the meantime. Alternatively you can try "
+                                   "deleting the cache manually."));
+                              QCoreApplication::quit();
+                          }
+                          loadStateFromCache();
+                          return;
+                      } else if (cacheVersion == cache::CacheVersion::Newer) {
+                          QMessageBox::critical(
+                            nullptr,
+                            tr("Incompatible cache version"),
+                            tr("The cache on your disk is newer than this version of Komai "
+                               "supports. Please update Komai or clear your cache."));
+                          QCoreApplication::quit();
+                          return;
+                      }
+                  }
+
+                  // It's the first time syncing with this device
+                  // There isn't a saved olm account to restore.
+                  nhlog::crypto()->info("creating new olm account");
+                  olm::client()->create_new_account();
+                  auto secret = cache::client()->createPickleSecret();
+                  cache::saveOlmAccount(olm::client()->save(secret));
+              } catch (const lmdb::error &e) {
+                  nhlog::crypto()->critical("failed to save olm account {}", e.what());
+                  emit dropToLoginPageCb(QString::fromStdString(e.what()));
+                  return;
+              } catch (const mtx::crypto::olm_exception &e) {
+                  nhlog::crypto()->critical("failed to create new olm account {}", e.what());
+                  emit dropToLoginPageCb(QString::fromStdString(e.what()));
+                  return;
+              }
+
+              getProfileInfo();
+              getBackupVersion();
+              tryInitialSync();
+              if (UserSettings::instance()->enableLegacyCalls())
+                  callManager_->refreshTurnServer();
+              emit MainWindow::instance()->reload();
+          });
 
         connect(cache::client(),
                 &Cache::newReadReceipts,
@@ -1452,16 +1464,55 @@ ChatPage::prepareShutdown()
 void
 ChatPage::initiateLogout()
 {
-    http::client()->logout([this](const mtx::responses::Logout &, mtx::http::RequestErr err) {
-        if (err) {
-            // TODO: handle special errors
-            emit contentLoaded();
-            nhlog::net()->warn("failed to logout: {}", err);
+    performLogout(LogoutPolicy::BestEffortServerFirst, LogoutRoute::ViaClosingSignal);
+}
+
+void
+ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &loginMessage)
+{
+    if (policy == LogoutPolicy::LocalOnly) {
+        finalizeLogout(route, loginMessage);
+        return;
+    }
+
+    auto completed = std::make_shared<std::atomic_bool>(false);
+
+    QTimer::singleShot(LOGOUT_REQUEST_TIMEOUT, this, [this, completed, route, loginMessage] {
+        if (completed->exchange(true))
             return;
+
+        nhlog::net()->warn(
+          "logout request timed out after {}ms; proceeding with local cleanup",
+          std::chrono::duration_cast<std::chrono::milliseconds>(LOGOUT_REQUEST_TIMEOUT).count());
+        finalizeLogout(route, loginMessage);
+    });
+
+    http::client()->logout([this, completed, route, loginMessage](const mtx::responses::Logout &,
+                                                                  mtx::http::RequestErr err) {
+        if (completed->exchange(true))
+            return;
+
+        if (err) {
+            nhlog::net()->warn("failed to logout on server; proceeding with local cleanup: {}",
+                               err);
         }
 
-        emit loggedOut();
+        finalizeLogout(route, loginMessage);
     });
+}
+
+void
+ChatPage::finalizeLogout(LogoutRoute route, const QString &loginMessage)
+{
+    resetUI();
+    deleteConfigs();
+    emit loggedOut();
+    connectivityTimer_.stop();
+
+    if (route == LogoutRoute::ViaClosingSignal)
+        emit closing();
+    else
+        emit showLoginPage(loginMessage);
 }
 
 template<typename T>

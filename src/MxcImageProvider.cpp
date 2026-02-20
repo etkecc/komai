@@ -15,15 +15,25 @@
 #include <QFileInfo>
 #include <QPainter>
 #include <QPainterPath>
-#include <QStandardPaths>
 #include <QThreadPool>
 #include <QTimer>
 
 #include "Logging.h"
 #include "MatrixClient.h"
+#include "Paths.h"
+#include "UserSettingsPage.h"
 #include "Utils.h"
 
 QHash<QString, mtx::crypto::EncryptedFile> infos;
+
+namespace {
+QString
+currentProfileId()
+{
+    auto settings = UserSettings::instance();
+    return settings ? settings->profile() : QStringLiteral("default");
+}
+}
 
 MxcImageProvider::MxcImageProvider()
   : QQuickAsyncImageProvider()
@@ -33,8 +43,7 @@ MxcImageProvider::MxcImageProvider()
     connect(timer, &QTimer::timeout, this, [] {
         QThreadPool::globalInstance()->start([] {
             nhlog::net()->debug("Running media purge");
-            QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
-                       "/media_cache",
+            QDir dir(app_paths::cache::mediaDirectory(currentProfileId()),
                      "",
                      QDir::SortFlags(QDir::Name | QDir::IgnoreCase),
                      QDir::Filter::Writable | QDir::Filter::NoDotAndDotDot | QDir::Filter::Files |
@@ -195,16 +204,8 @@ MxcImageProvider::download(const QString &id,
         // Protect against synapse not following the spec:
         // https://github.com/matrix-org/synapse/issues/5302
         && requestedSize.height() <= 600 && requestedSize.width() <= 800) {
-        QString fileName = QStringLiteral("%1_%2x%3_%4_radius%5")
-                             .arg(QString::fromUtf8(id.toUtf8().toBase64(
-                               QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals)))
-                             .arg(requestedSize.width())
-                             .arg(requestedSize.height())
-                             .arg(crop ? "crop" : "scale")
-                             .arg(radius);
-        QFileInfo fileInfo(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
-                             "/media_cache",
-                           fileName);
+        QFileInfo fileInfo(app_paths::cache::mediaThumbnailFileForMxc(
+          currentProfileId(), id, requestedSize, crop, radius));
         QDir().mkpath(fileInfo.absolutePath());
 
         if (fileInfo.exists()) {
@@ -290,14 +291,8 @@ MxcImageProvider::download(const QString &id,
           });
     } else {
         try {
-            QString fileName = QStringLiteral("%1_radius%2")
-                                 .arg(QString::fromUtf8(id.toUtf8().toBase64(
-                                   QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals)))
-                                 .arg(radius);
-
-            QFileInfo fileInfo(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
-                                 "/media_cache",
-                               fileName);
+            QFileInfo fileInfo(app_paths::cache::mediaThumbnailFileForMxc(
+              currentProfileId(), id, requestedSize, crop, radius));
             QDir().mkpath(fileInfo.absolutePath());
             QFile f(fileInfo.absoluteFilePath());
 

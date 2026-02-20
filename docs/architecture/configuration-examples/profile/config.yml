@@ -1,0 +1,125 @@
+# Sample profile config.yml (durable settings)
+
+app:
+  startup:
+    start_in_tray: false
+  window:
+    tray:
+      enabled: false
+
+ui:
+  theme:
+    slug: komai
+  font:
+    family: ""
+    emoji_family: ""
+    size_pt: 13.0
+  motion:
+    reduced: false
+  input:
+    touchscreen_mode: false
+    swipe_gestures: false
+  avatars:
+    circular: false
+    identicon_fallback: true
+  scale:
+    factor: 1.0
+
+sidebars:
+  room_list:
+    compact: false
+    show_last_message_timestamp: true
+    last_message_preview: always
+    show_community_notification_counts: true
+    scrollbars_visible: true
+    sort: unread_first_recent
+  communities:
+    visible: true
+
+timeline:
+  messages:
+    layout:
+      bubbles: true
+      small_avatars: false
+      show_own_avatar: true
+    sender_username: only_in_large_rooms
+    max_width_px: 0
+    emoji_only_enlarge: true
+    hover_highlight: false
+    actions_visible: true
+  media:
+    effects_enabled: true
+    animate_on_hover: false
+    image_display: always
+    open_images_external: false
+    open_videos_external: false
+
+composer:
+  input:
+    markdown_enabled: true
+    send_key: enter
+    auto_replace_emoji: always
+  feedback:
+    typing_notifications: true
+    read_receipts: true
+  extras:
+    pinned_reactions: ":thumbsup:,:thumbsdown:,:smile:"
+    stickers_enabled: false
+
+notifications:
+  desktop:
+    enabled: true
+    alert_on_incoming: false
+    decrypt_messages: true
+
+calls:
+  legacy_enabled: false
+  relay:
+    use_fallback_server: false
+  devices:
+    microphone: ""
+    camera: ""
+    camera_resolution: ""
+    camera_frame_rate: ""
+  audio:
+    ringtone: Default
+  screenshare:
+    frame_rate: 5
+    picture_in_picture: true
+    include_remote_video: false
+    hide_cursor: false
+
+privacy:
+  screen_lock:
+    enabled: false
+    timeout_seconds: 0
+  maintenance:
+    expire_events: false
+    update_space_vias: true
+
+encryption:
+  key_sharing:
+    only_verified_users: false
+    share_with_trusted: false
+  backup:
+    online:
+      enabled: true
+
+network:
+  http3:
+    enabled: false
+  tls:
+    disable_certificate_validation: false
+
+db:
+  max_size_bytes: 0
+  max_files: 0
+
+integrations:
+  dbus:
+    expose_room_info: false
+
+secrets:
+  # secret_service (default) uses QtKeychain/OS secret backend.
+  # file stores secrets in secrets.yml (fallback mode only).
+  provider: secret_service

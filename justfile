@@ -27,6 +27,19 @@ build *args:
 	fi
 	cmake --build {{ build_dir }} --parallel "$(nproc)" {{ args }}
 
+# Runs all tests
+test: test-unit
+
+# Runs unit tests
+test-unit *args:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]]; then
+		just --justfile {{ justfile() }} configure
+	fi
+	cmake --build {{ build_dir }} --parallel "$(nproc)" --target komai_tests
+	ctest --test-dir {{ build_dir }} --output-on-failure {{ args }}
+
 # Configures and builds from scratch
 rebuild *args:
 	just --justfile {{ justfile() }} configure {{ args }}

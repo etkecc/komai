@@ -1,0 +1,10 @@
+# Sample profile session.yml (account/session metadata)
+
+session:
+  account:
+    user_id: "@alice:example.org"
+    homeserver: "https://matrix.example.org"
+  device:
+    id: ABCDE12345
+  presence:
+    default: automatic_presence

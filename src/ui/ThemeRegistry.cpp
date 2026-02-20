@@ -11,11 +11,11 @@
 #include <QMap>
 #include <QRegularExpression>
 #include <QSet>
-#include <QStandardPaths>
 
 #include <yaml-cpp/yaml.h>
 
 #include "Logging.h"
+#include "Paths.h"
 
 static ThemeRegistry *s_instance = nullptr;
 
@@ -79,9 +79,9 @@ ThemeRegistry::loadExternalThemes()
     for (const auto &t : allThemes_)
         seenSlugs.insert(t.slug);
 
-    const auto locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    const auto locations = app_paths::data::themeSearchDirectories();
     for (const auto &location : locations) {
-        QDir dir(location + QStringLiteral("/komai/themes"));
+        QDir dir(location);
         if (!dir.exists())
             continue;
 

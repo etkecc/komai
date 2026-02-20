@@ -1,133 +1,134 @@
 # Configuration Architecture
 
-This document describes the internal architecture of Komai's configuration system.
-
+This document describes Komai's current configuration and secret persistence architecture.
 
 ## Overview
 
-Komai uses a per-profile YAML-based configuration system, replacing nheko's Qt QSettings approach. Each profile gets its own YAML file, enabling:
+Komai keeps a flat runtime `UserSettings` API (Qt properties/signals) but persists data by concern into separate per-profile files.
 
-- Human-readable configuration files
-- Easy backup and manual editing
-- Complete isolation between profiles
-- No reliance on Qt's platform-specific storage backends
+Profile directory:
 
-
-## File Structure
-
-```
-~/.config/komai/
-  profiles/
-    default.yml      # Default profile
-    work.yml         # Named profile "work"
-    personal.yml     # Named profile "personal"
+```text
+~/.config/komai/profiles/<profile-id>/
 ```
 
+`<profile-id>` is the profile name/identifier passed via `-p`.
 
-## Implementation
+Files:
 
-### Core Classes
+- `config.yml` - durable preferences and non-secret advanced settings
+- `state.yml` - runtime/layout/window state
+- `session.yml` - account/session metadata (non-secret)
+- `secrets.yml` - file-provider fallback secrets (only when `secrets.provider=file`)
 
-**`UserSettings`** (`src/UserSettingsPage.h`, `src/UserSettingsPage.cpp`)
+Default profile id: `default`.
 
-Singleton class managing all application settings:
+Reference examples:
 
-- `load(profile)` - Loads settings from the profile's YAML file
-- `save()` - Writes current settings to YAML
-- Property accessors for all settings (Qt property system for QML binding)
-- Signals for change notifications
+- [Profile config.yml](configuration-examples/profile/config.yml)
+- [Profile state.yml](configuration-examples/profile/state.yml)
+- [Profile session.yml](configuration-examples/profile/session.yml)
+- [Profile secrets.yml](configuration-examples/profile/secrets.yml)
 
-### YAML I/O
+## Persistence Model
 
-Uses [yaml-cpp](https://github.com/jbeder/yaml-cpp) library for parsing and emitting YAML.
+Primary implementation:
 
-**Loading** (`UserSettings::load`):
-```cpp
-YAML::Node config = YAML::LoadFile(configFilePath_.toStdString());
-// Read with defaults:
-tray_ = config["tray"] ? config["tray"].as<bool>() : false;
-```
+- `src/UserSettingsPage.cpp`
+- `src/UserSettingsPage.h`
 
-**Saving** (`UserSettings::save`):
-```cpp
-YAML::Emitter out;
-out << YAML::BeginMap;
-out << YAML::Key << "tray" << YAML::Value << tray_;
-// ... more settings
-out << YAML::EndMap;
+Persistence split:
 
-std::ofstream fout(configFilePath_.toStdString());
-fout << out.c_str();
-```
+- `UserSettings::loadConfigYaml(...)` / `saveConfigYaml()`
+- `UserSettings::loadSessionYaml(...)` / `saveSessionYaml()`
+- `UserSettings::loadSecretsYaml(...)` / `saveSecretsYaml()`
+- `UserSettings::loadStateYaml(...)` / `saveStateYaml()`
 
-### Profile Path Resolution
+YAML key hierarchy is nested/dotted (for example `timeline.messages.layout.bubbles`).
 
-```cpp
-// Helper in UserSettingsPage.cpp
-static QString configFilePath(const QString &profile) {
-    QString dir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation)
-                  + "/komai/profiles";
-    QDir().mkpath(dir);
-    QString name = profile.isEmpty() ? "default" : profile;
-    return dir + "/" + name + ".yml";
-}
-```
+## Staged Load Order
 
+Load order is intentionally staged:
 
-## Settings Categories
+1. `config.yml` (resolve `secrets.provider`)
+2. `session.yml` (account metadata)
+3. secrets source
+   - `secret_service`: read secrets from secure backend
+   - `file`: read secrets from `secrets.yml`
+4. `state.yml` (runtime/layout)
 
-Settings are organized into logical groups in the YAML file:
+This prevents secret-source ambiguity and allows provider selection before secret reads.
 
-| Category | Examples |
-|----------|----------|
-| Window | `tray`, `start_in_tray`, `window_width`, `window_height` |
-| Sidebar | `room_list_width`, `community_list_width` |
-| Timeline | `bubbles`, `markdown`, `show_action_buttons` |
-| Notifications | `desktop_notifications`, `alert_on_incoming_messages` |
-| Appearance | `theme`, `font_family`, `font_size`, `use_circular_avatars` |
-| Auth | `access_token`, `homeserver`, `user_id`, `device_id` |
-| Encryption | `share_keys_with_trusted_users`, `use_online_key_backup` |
-| Secrets | `secrets` map for keychain fallback storage |
+## Secret Providers
 
+`secrets.provider` values:
 
-## Secrets Storage
+- `secret_service` (default)
+- `file`
 
-Komai stores encryption keys and other secrets in the system keychain (GNOME Keyring, KWallet, etc.) when available.
+Behavior:
 
-For systems without a secure keychain, secrets can be stored in the YAML config file instead by setting `run_without_secure_secrets_service: true` **before first login**:
+- `secret_service`
+  - `session.auth.access_token` and `session.secrets` are stored in secure backend only
+  - `session.yml` stores non-secret session metadata
+  - `secrets.yml` is absent/unused
+- `file`
+  - `auth.access_token` and `secrets` are stored in `secrets.yml`
+  - cache-side secret storage also uses this fallback map via `UserSettings::secret/setSecret/removeSecret`
 
-```yaml
-run_without_secure_secrets_service: true
+`secrets.yml` write permissions are restricted to owner read/write.
 
-# Secrets will be stored here (managed automatically):
-secrets:
-  pickle_secret: "base64-encoded-secret"
-  # ... other secrets
-```
+## Secure Backend Key IDs
 
-This setting defaults to `false` and is not exposed in the Settings UI -- it must be set manually in the config file before logging in. Changing it after login has no effect on already-stored secrets.
+Key generation is centralized in:
 
+- `src/ProfileSecrets.h`
+- `src/ProfileSecrets.cpp`
 
-## Migration Notes
+Profile hash:
 
-### From nheko/QSettings
+- `profile_hash = hex(sha256(normalized_profile_id))`
+- normalized profile id: empty/default -> `default`, otherwise profile id string
+- default profile hash convenience value:
+  - `37a8eec1ce19687d132fe29051dca629d164e2c4958ba141d5f4133a33f0688f`
 
-Komai does not migrate from nheko's QSettings format. Users starting fresh will have settings initialized with sensible defaults.
+Namespaces:
 
-### Key Differences from nheko
+- settings secrets: `komai.<profile_hash>.settings.<key>`
+- local crypto secrets: `komai.<profile_hash>.local_crypto.<key>`
+- matrix secrets: `komai.<profile_hash>.matrix.<key>`
 
-| Aspect | nheko | Komai |
-|--------|-------|-------|
-| Format | Qt INI (QSettings) | YAML |
-| Location | `~/.config/nheko/nheko.conf` | `~/.config/komai/profiles/<name>.yml` |
-| Profile storage | Prefixed keys in single file | Separate file per profile |
-| Library | Qt QSettings | yaml-cpp |
+Examples:
 
+- `komai.<profile_hash>.settings.session.auth.access_token`
+- `komai.<profile_hash>.settings.session.secrets`
+- `komai.<profile_hash>.local_crypto.pickle_secret`
 
-## Adding New Settings
+Legacy Base64 profile-hash IDs are intentionally not used.
 
-1. Add member variable to `UserSettings` class
-2. Add Qt property with getter/setter/signal
-3. Load from YAML in `UserSettings::load()` with appropriate default
-4. Save to YAML in `UserSettings::save()`
-5. (Optional) Expose in settings UI via `UserSettingsModel`
+## File-Provider Secret Format
+
+When `secrets.provider=file`, `secrets.yml` includes:
+
+- `auth.access_token: <token>`
+- `secrets:` map where keys are full secret IDs (`komai.<profile_hash>.<scope>.<name>`)
+
+This keeps fallback and secure-backend key identity consistent.
+
+## Cache/Crypto Integration
+
+`src/Cache.cpp` uses the same key-id helper as `UserSettings`.
+
+- Local pickle secret is stored under `local_crypto` scope.
+- Matrix secret names are stored under `matrix` scope.
+- In file mode, these values are stored in `secrets.yml` under the `secrets` map.
+
+## Notes
+
+- The planning docs under `application-settings-*` are design/verification artifacts.
+- Canonical references are:
+  - [User Configuration Guide](../configuration.md)
+  - [Storage Guide](../storage.md)
+  - [this architecture document](configuration.md)
+  - [storage architecture](storage.md)
+  - [configuration examples](configuration-examples/profile/)

@@ -10,13 +10,11 @@
 #include <variant>
 
 #include <QCoreApplication>
-#include <QCryptographicHash>
 #include <QDir>
 #include <QFile>
 #include <QHash>
 #include <QMap>
 #include <QMessageBox>
-#include <QStandardPaths>
 
 #if __has_include(<lmdbxx/lmdb++.h>)
 #include <lmdbxx/lmdb++.h>
@@ -39,6 +37,8 @@
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
+#include "Paths.h"
+#include "ProfileSecrets.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
 #include "encryption/Olm.h"
@@ -439,12 +439,7 @@ Cache::Cache(const QString &userId, QObject *parent)
 static QString
 cacheDirectoryName(const QString &userid, const QString &profile)
 {
-    QCryptographicHash hash(QCryptographicHash::Algorithm::Sha256);
-    hash.addData(userid.toUtf8());
-    hash.addData(profile.toUtf8());
-    return QStringLiteral("%1/db-%2")
-      .arg(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation),
-           hash.result().toHex());
+    return app_paths::data::databaseDirectory(userid, profile);
 }
 
 void
@@ -454,47 +449,11 @@ Cache::setup()
 
     nhlog::db()->debug("setting up cache");
 
-    // Previous location of the cache directory
-    auto oldCache2 =
-      QStringLiteral("%1/%2%3").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation),
-                                    QString::fromUtf8(localUserId_.toUtf8().toHex()),
-                                    QString::fromUtf8(settings->profile().toUtf8().toHex()));
-
-    auto oldCache = QStringLiteral("%1/%2%3").arg(
-      QStandardPaths::writableLocation(QStandardPaths::AppDataLocation),
-      QString::fromUtf8(localUserId_.toUtf8().toHex()),
-      QString::fromUtf8(settings->profile().toUtf8().toHex()));
-
     cacheDirectory_ = cacheDirectoryName(localUserId_, settings->profile());
 
     nhlog::db()->debug("Database at: {}", cacheDirectory_.toStdString());
 
     bool isInitial = !QFile::exists(cacheDirectory_);
-
-    // NOTE: If both cache directories exist it's better to do nothing: it
-    // could mean a previous migration failed or was interrupted.
-    if (isInitial) {
-        if (QFile::exists(oldCache)) {
-            nhlog::db()->info("found old state directory, migrating");
-            if (!QDir().rename(oldCache, cacheDirectory_)) {
-                throw std::runtime_error(("Unable to migrate the old state directory (" + oldCache +
-                                          ") to the new location (" + cacheDirectory_ + ")")
-                                           .toStdString()
-                                           .c_str());
-            }
-            nhlog::db()->info("completed state migration");
-        } else if (QFile::exists(oldCache2)) {
-            nhlog::db()->info("found very old state directory, migrating");
-            if (!QDir().rename(oldCache2, cacheDirectory_)) {
-                throw std::runtime_error(("Unable to migrate the very old state directory (" +
-                                          oldCache2 + ") to the new location (" + cacheDirectory_ +
-                                          ")")
-                                           .toStdString()
-                                           .c_str());
-            }
-            nhlog::db()->info("completed state migration");
-        }
-    }
 
     auto openEnv = [](const QString &name) {
         auto settings      = UserSettings::instance();
@@ -652,12 +611,8 @@ fatalSecretError()
 static QString
 secretName(std::string_view name, bool internal)
 {
-    auto settings = UserSettings::instance();
-    return (internal ? "komai." : "matrix.") +
-           QString(
-             QCryptographicHash::hash(settings->profile().toUtf8(), QCryptographicHash::Sha256)
-               .toBase64()) +
-           "." + QString::fromUtf8(name);
+    return profile_secrets::cacheSecretStoreKey(
+      UserSettings::instance()->profile(), name, internal);
 }
 
 void

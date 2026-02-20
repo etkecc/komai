@@ -41,3 +41,9 @@ repos:
         entry: ./bin/prek/qmllint.sh
         language: system
         files: '^resources/qml/.*\.qml$'
+      - id: unit-tests
+        name: Run unit tests
+        entry: ./bin/prek/unit-tests.sh
+        language: system
+        files: '^(src/.*\.(cpp|h)|tests/.*\.(cpp|h)|resources/qml/.*\.qml|CMakeLists\.txt)$'
+        pass_filenames: false

@@ -28,13 +28,15 @@ komai/
 
 Use `just` as the build entry point:
 
-- `just build` -- CMake configure + build (output: `build/komai`)
+- `just build` -- CMake configure + build (output: `var/build/native/komai`)
+- `just test` -- Build and run unit tests (`ctest` in `var/build/native`)
 - `just run` -- Run the compiled binary
 - `just clean` -- Remove build directory
 - `just appimage-build-docker` -- Build AppImage in Docker
 - `just flatpak-build` -- Build Flatpak package
 
 When making changes to C++/QML files, always run `just build` to verify the build succeeds and to prepare it for the human operator to test.
+For C++/header/QML changes, `prek` also runs unit tests via `bin/prek/unit-tests.sh`.
 
 See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 
@@ -43,7 +45,8 @@ See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 
 ### Settings and Configuration
 - `src/UserSettingsPage.cpp` / `.h` -- All user settings with Qt properties
-- Settings stored as YAML in `~/.config/komai/profiles/<name>.yml`
+- Settings stored per profile in `~/.config/komai/profiles/<profile-id>/` (`<profile-id>` is the `-p` profile identifier)
+- Main files: `config.yml`, `state.yml`, `session.yml`, and `secrets.yml` (file-provider fallback only)
 - See [docs/architecture/configuration.md](docs/architecture/configuration.md) for details
 
 ### Room List (Sidebar)

@@ -29,9 +29,11 @@
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
+#include "Paths.h"
 #include "ReadReceiptsModel.h"
 #include "RoomlistModel.h"
 #include "TimelineViewManager.h"
+#include "UserSettingsPage.h"
 #include "Utils.h"
 #include "encryption/Olm.h"
 #include "ui/UserProfile.h"
@@ -2114,11 +2116,8 @@ TimelineModel::cacheMedia(const QString &eventId,
 
     const auto url  = mxcUrl.toStdString();
     const auto name = QString(mxcUrl).remove(QStringLiteral("mxc://"));
-    QFileInfo filename(QStringLiteral("%1/media_cache/%2.%3")
-                         .arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation),
-                              QString::fromUtf8(name.toUtf8().toBase64(
-                                QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals)),
-                              suffix));
+    QFileInfo filename(
+      app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(), name, suffix));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
         nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", url);
         return;

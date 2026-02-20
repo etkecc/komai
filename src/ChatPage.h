@@ -43,14 +43,17 @@ public:
     ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent = nullptr);
 
     // Initialize all the components of the UI.
-    void bootstrap(QString userid, QString homeserver, QString token);
+    void bootstrap(QString userid,
+                   QString deviceId,
+                   QString homeserver,
+                   QString token,
+                   bool hadSessionIdentity);
 
     static ChatPage *instance() { return instance_; }
 
     QSharedPointer<UserSettings> userSettings() { return userSettings_; }
     CallManager *callManager() { return callManager_; }
     TimelineViewManager *timelineManager() { return view_manager_; }
-    void deleteConfigs();
 
     void initiateLogout();
     void prepareShutdown();
@@ -170,7 +173,6 @@ signals:
     void callFunctionOnGuiThread(std::function<void()>);
 
 private slots:
-    void logout();
     void removeRoom(const QString &room_id);
     void changeRoom(const QString &room_id);
     void dropToLoginPage(const QString &msg);
@@ -178,6 +180,21 @@ private slots:
     void handleSyncResponse(const mtx::responses::Sync &res, const std::string &prev_batch_token);
 
 private:
+    enum class LogoutPolicy
+    {
+        BestEffortServerFirst,
+        LocalOnly,
+    };
+
+    enum class LogoutRoute
+    {
+        ViaClosingSignal,
+        ViaShowLoginPageSignal,
+    };
+
+    void
+    performLogout(LogoutPolicy policy, LogoutRoute route, const QString &loginMessage = QString());
+    void finalizeLogout(LogoutRoute route, const QString &loginMessage = QString());
     static ChatPage *instance_;
 
     void startInitialSync();
@@ -192,6 +209,7 @@ private:
 
     void loadStateFromCache();
     void resetUI();
+    void deleteConfigs();
 
     // returns if the user had no interaction with Nheko for quite a while, which means we set our
     // presence to unavailable if automatic presence is enabled

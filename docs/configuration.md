@@ -1,91 +1,93 @@
 # Configuration
 
-Komai stores all settings in human-readable YAML files, making it easy to back up, edit, or share your configuration.
+Komai stores settings and session data as YAML under a per-profile directory.
 
+## Profile Location
 
-## File Location
+Each profile lives at:
 
-Configuration files are stored per-profile at:
-
+```text
+~/.config/komai/profiles/<profile-id>/
 ```
-~/.config/komai/profiles/<profile-name>.yml
-```
 
-For example:
-- Default profile: `~/.config/komai/profiles/default.yml`
-- Work profile: `~/.config/komai/profiles/work.yml`
+`<profile-id>` is the profile name/identifier you pass with `-p`.
 
+Files in each profile directory:
+
+- `config.yml` - durable preferences and advanced non-secret options
+- `state.yml` - runtime/window/layout state
+- `session.yml` - account/session metadata (non-secret)
+- `secrets.yml` - file-mode fallback secrets (only when `secrets.provider=file`)
+
+Default profile id is `default`.
 
 ## Profiles
 
-Profiles let you run multiple Matrix accounts with completely separate settings. Each profile has its own:
-
-- Login credentials and session
-- Theme and appearance settings
-- Notification preferences
-- Sidebar widths and window size
-- All other preferences
-
-### Using Profiles
-
-Launch with a specific profile using the `-p` flag:
+Use `-p` to run a named profile:
 
 ```bash
-komai -p work      # Use the "work" profile
-komai -p personal  # Use the "personal" profile
-komai              # Use the default profile
+komai                # default profile
+komai -p work        # profile "work"
+komai -p personal    # profile "personal"
 ```
 
-If the profile doesn't exist, it will be created on first launch.
+If the profile does not exist, Komai creates it on first launch.
 
-### Switching Profiles
+## Secret Storage Modes
 
-To switch profiles, close Komai and relaunch with a different `-p` argument. Each profile runs independently, so you can also run multiple instances with different profiles simultaneously.
+Configure secret storage with `secrets.provider` in `config.yml`:
 
+- `secret_service` (default): uses [QtKeychain](https://github.com/frankosterfeld/qtkeychain) with the platform secret backend (for example [KWallet](https://api.kde.org/frameworks/kwallet/html/index.html) or [GNOME Keyring](https://gitlab.gnome.org/GNOME/gnome-keyring))
+- `file`: stores sensitive values in `secrets.yml`
 
-## Configuration Format
+Sensitive values:
 
-Settings are stored in YAML format. Here's an example showing some common settings:
+- `auth.access_token`
+- `secrets` map
 
-```yaml
-theme: komai-dark
-font_size: 14.0
-bubbles: true
-desktop_notifications: true
-typing_notifications: true
-markdown: true
+Security invariants:
 
-# Authentication (managed automatically)
-user_id: "@alice:example.com"
-homeserver: "https://example.com"
-device_id: "ABCD1234"
-```
+- Secrets are never written to `config.yml`.
+- Secrets are never written to `state.yml`.
+- `secrets.yml` is written with owner read/write permissions.
 
-Most settings are managed through the Settings page in the app. You can also edit the YAML file directly while Komai is closed.
+## What Goes Where
 
+- `config.yml`: theme, fonts, notifications, timeline behavior, network/db settings, `secrets.provider`
+- `state.yml`: window size, sidebar widths, hidden/collapsed UI state, recent reactions
+- `session.yml`: user id, homeserver, device id, presence default
+- `secrets.yml`: `auth.access_token` and `secrets` map (only when `secrets.provider=file`)
+- Full example files: [architecture/configuration-examples/profile/](architecture/configuration-examples/profile/)
 
 ## Backup and Restore
 
-To back up your configuration:
+Backup profile files:
 
 ```bash
-cp -r ~/.config/komai/profiles ~/komai-config-backup
+cp -r ~/.config/komai/profiles ~/komai-profiles-backup
 ```
 
-To restore:
+Restore:
 
 ```bash
-cp -r ~/komai-config-backup/* ~/.config/komai/profiles/
+cp -r ~/komai-profiles-backup/* ~/.config/komai/profiles/
 ```
 
-Note: The configuration files contain your access token. Keep backups secure.
+Important:
 
+- In `file` mode, this backup includes `secrets.yml` (plaintext fallback secrets).
+- In `secret_service` mode, secure-backend secrets are not in YAML files; backing up only `~/.config/komai/profiles` is not a full credential backup.
 
-## Data Locations
+## Data Locations (Linux)
 
 | Data | Location |
-|------|----------|
-| Configuration | `~/.config/komai/profiles/` |
-| Message database | `~/.local/share/komai/` |
-| Cache | `~/.cache/komai/` |
-| Logs | `~/.local/share/komai/komai.log` |
+| --- | --- |
+| Profile settings/session/state | `~/.config/komai/profiles/` |
+| Local LMDB data | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
+| Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
+| Log file (file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
+
+For complete storage details, see [storage.md](storage.md).
+
+For implementation details, see [architecture/configuration.md](architecture/configuration.md) and
+[architecture/storage.md](architecture/storage.md).

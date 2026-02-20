@@ -36,8 +36,28 @@ LoginPage::LoginPage(QObject *parent)
           loggingIn_ = false;
           emit loggingInChanged();
 
-          http::client()->set_user(res.user_id);
-          MainWindow::instance()->showChatPage();
+          auto *settings                = UserSettings::instance().get();
+          const bool hadSessionIdentity = settings->hasPersistedSessionIdentity();
+
+          const auto homeserver = QString::fromStdString(http::client()->server_url());
+          const bool persisted  = settings->persistSessionSnapshot(
+            UserSettings::SessionSnapshot{.userId = QString::fromStdString(res.user_id.to_string()),
+                                           .accessToken = QString::fromStdString(res.access_token),
+                                           .deviceId    = QString::fromStdString(res.device_id),
+                                           .homeserver  = homeserver});
+
+          if (!persisted) {
+              showError(tr("Login failed: server returned incomplete session data."));
+              return;
+          }
+
+          nhlog::ui()->info(
+            "Persisted login session snapshot (user_id='{}', device_id='{}', homeserver='{}')",
+            QString::fromStdString(res.user_id.to_string()).toStdString(),
+            QString::fromStdString(res.device_id).toStdString(),
+            homeserver.toStdString());
+
+          MainWindow::instance()->showChatPage(hadSessionIdentity);
       },
       Qt::QueuedConnection);
 }
@@ -287,11 +307,20 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
         if (password.isEmpty())
             return showError(tr("Empty password"));
 
+        mtx::requests::Login req{};
+        req.identifier = mtx::requests::login_identifier::User{user.localpart()};
+        req.password   = password.toStdString();
+        req.initial_device_display_name =
+          deviceName.trimmed().isEmpty() ? initialDeviceName_() : deviceName.toStdString();
+
+        const auto existingDeviceId = UserSettings::instance()->deviceId().trimmed();
+        if (!existingDeviceId.isEmpty()) {
+            req.device_id = existingDeviceId.toStdString();
+            nhlog::net()->info("Login reusing existing device ID: {}", req.device_id);
+        }
+
         http::client()->login(
-          user.localpart(),
-          password.toStdString(),
-          deviceName.trimmed().isEmpty() ? initialDeviceName_() : deviceName.toStdString(),
-          [this](const mtx::responses::Login &res, mtx::http::RequestErr err) {
+          req, [this](const mtx::responses::Login &res, mtx::http::RequestErr err) {
               if (err) {
                   auto error = err->matrix_error.error;
                   if (error.empty())
@@ -311,34 +340,41 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
           });
     } else {
         auto sso = new SSOHandler();
-        connect(sso,
-                &SSOHandler::ssoSuccess,
-                this,
-                [this, sso, userid, deviceName](const std::string &token) {
-                    mtx::requests::Login req{};
-                    req.token                       = token;
-                    req.type                        = mtx::user_interactive::auth_types::token;
-                    req.initial_device_display_name = deviceName.trimmed().isEmpty()
-                                                        ? initialDeviceName_()
-                                                        : deviceName.toStdString();
-                    http::client()->login(
-                      req, [this](const mtx::responses::Login &res, mtx::http::RequestErr err) {
-                          if (err) {
-                              showError(QString::fromStdString(err->matrix_error.error));
-                              emit errorOccurred();
-                              return;
-                          }
+        connect(
+          sso,
+          &SSOHandler::ssoSuccess,
+          this,
+          [this, sso, userid, deviceName](const std::string &token) {
+              mtx::requests::Login req{};
+              req.token = token;
+              req.type  = mtx::user_interactive::auth_types::token;
+              req.initial_device_display_name =
+                deviceName.trimmed().isEmpty() ? initialDeviceName_() : deviceName.toStdString();
 
-                          if (res.well_known) {
-                              http::client()->set_server(res.well_known->homeserver.base_url);
-                              nhlog::net()->info("Login requested to use server: " +
-                                                 res.well_known->homeserver.base_url);
-                          }
+              const auto existingDeviceId = UserSettings::instance()->deviceId().trimmed();
+              if (!existingDeviceId.isEmpty()) {
+                  req.device_id = existingDeviceId.toStdString();
+                  nhlog::net()->info("SSO login reusing existing device ID: {}", req.device_id);
+              }
 
-                          emit loginOk(res);
-                      });
-                    sso->deleteLater();
+              http::client()->login(
+                req, [this](const mtx::responses::Login &res, mtx::http::RequestErr err) {
+                    if (err) {
+                        showError(QString::fromStdString(err->matrix_error.error));
+                        emit errorOccurred();
+                        return;
+                    }
+
+                    if (res.well_known) {
+                        http::client()->set_server(res.well_known->homeserver.base_url);
+                        nhlog::net()->info("Login requested to use server: " +
+                                           res.well_known->homeserver.base_url);
+                    }
+
+                    emit loginOk(res);
                 });
+              sso->deleteLater();
+          });
         connect(sso, &SSOHandler::ssoFailed, this, [this, sso]() {
             showError(tr("SSO login failed"));
             emit errorOccurred();

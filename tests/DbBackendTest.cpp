@@ -20,8 +20,10 @@
 #include "db/Catalog.h"
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
+#include "db/DupIndex.h"
 #include "db/NamePolicy.h"
 #include "db/Open.h"
+#include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/StateIndex.h"
 
@@ -777,6 +779,105 @@ testStateIndexHelper()
 }
 
 bool
+testDupIndexHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn = backend->beginTxn();
+        auto spaces = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
+        ok &= expect(spaces.put(txn, "space", "child-z"),
+                     "dup index helper setup writes duplicate value #1");
+        ok &= expect(spaces.put(txn, "space", "child-a"),
+                     "dup index helper setup writes duplicate value #2");
+        ok &= expect(spaces.put(txn, "space", ""),
+                     "dup index helper setup writes empty duplicate value");
+        ok &= expect(spaces.put(txn, "other", "child-other"),
+                     "dup index helper setup writes non-matching key");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto spaces =
+          db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
+
+        const auto spaceValues = db::listDupValues(txn, spaces, "space");
+        ok &= expect(spaceValues.size() == 3,
+                     "dup index helper lists all duplicate values for key");
+        ok &= expect(spaceValues.size() >= 3 && spaceValues[0].empty(),
+                     "dup index helper keeps comparator order #1");
+        ok &= expect(spaceValues.size() >= 3 && spaceValues[1] == "child-a",
+                     "dup index helper keeps comparator order #2");
+        ok &= expect(spaceValues.size() >= 3 && spaceValues[2] == "child-z",
+                     "dup index helper keeps comparator order #3");
+
+        const auto missing = db::listDupValues(txn, spaces, "missing");
+        ok &= expect(missing.empty(), "dup index helper returns empty list for missing key");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testScanHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn  = backend->beginTxn();
+        auto main = backend->openDbi(txn, "main", openOptions(db::DbiFlags::Create));
+        auto dup  = backend->openDbi(
+          txn, "dup", openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
+
+        ok &= expect(main.put(txn, "b", "b"), "scan helper setup inserts main entry #1");
+        ok &= expect(main.put(txn, "a", "a"), "scan helper setup inserts main entry #2");
+        ok &= expect(dup.put(txn, "k", "v2"), "scan helper setup inserts dup entry #1");
+        ok &= expect(dup.put(txn, "k", "v1"), "scan helper setup inserts dup entry #2");
+        ok &= expect(dup.put(txn, "z", "v3"), "scan helper setup inserts dup entry #3");
+        txn.commit();
+    }
+
+    {
+        auto txn  = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto main = backend->openDbi(txn, "main");
+        auto dup  = backend->openDbi(txn, "dup");
+
+        const auto mainKeys = db::listKeys(txn, main);
+        ok &= expect(mainKeys.size() == 2, "scan helper lists all keys in simple db");
+        ok &= expect(mainKeys.size() >= 2 && mainKeys[0] == "a",
+                     "scan helper keeps key order in simple db #1");
+        ok &= expect(mainKeys.size() >= 2 && mainKeys[1] == "b",
+                     "scan helper keeps key order in simple db #2");
+
+        const auto dupKeys = db::listKeys(txn, dup);
+        ok &= expect(dupKeys.size() == 3, "scan helper lists key entries in dupsort db");
+        ok &= expect(dupKeys.size() >= 3 && dupKeys[0] == "k",
+                     "scan helper includes duplicate key instances #1");
+        ok &= expect(dupKeys.size() >= 3 && dupKeys[1] == "k",
+                     "scan helper includes duplicate key instances #2");
+        ok &= expect(dupKeys.size() >= 3 && dupKeys[2] == "z",
+                     "scan helper includes subsequent keys in dupsort db");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
 testFactory()
 {
     bool ok = true;
@@ -1009,6 +1110,8 @@ main()
     ok &= testNamePolicy();
     ok &= testOpenHelpers();
     ok &= testStateIndexHelper();
+    ok &= testDupIndexHelper();
+    ok &= testScanHelper();
     ok &= testCompactionHelper();
     ok &= testFactory();
     ok &= testInMemoryBackend();

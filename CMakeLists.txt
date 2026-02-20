@@ -479,10 +479,12 @@ set(SRC_FILES
     src/db/Catalog.h
     src/db/Compaction.h
     src/db/DbTypes.h
+    src/db/DupIndex.h
     src/db/Internal.h
     src/db/LmdbHeaders.h
     src/db/NamePolicy.h
     src/db/Open.h
+    src/db/Scan.h
     src/db/Schema.h
     src/db/StateIndex.h
     src/ChatPage.cpp
@@ -996,10 +998,12 @@ add_library(komai_db
     src/db/Catalog.cpp
     src/db/Compaction.cpp
     src/db/DbTypes.cpp
+    src/db/DupIndex.cpp
     src/db/Factory.cpp
     src/db/InMemoryBackend.cpp
     src/db/NamePolicy.cpp
     src/db/Open.cpp
+    src/db/Scan.cpp
     src/db/Schema.cpp
     src/db/StateIndex.cpp
 )

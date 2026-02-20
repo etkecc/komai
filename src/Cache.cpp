@@ -5,6 +5,7 @@
 #include "Cache.h"
 #include "Cache_p.h"
 
+#include <algorithm>
 #include <stdexcept>
 #include <unordered_set>
 #include <variant>
@@ -39,7 +40,9 @@
 #include "db/Catalog.h"
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
+#include "db/DupIndex.h"
 #include "db/Open.h"
+#include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/Serde.h"
 #include "db/StateIndex.h"
@@ -2665,29 +2668,12 @@ Cache::relatedEvents(const std::string &room_id, const std::string &event_id)
     auto txn         = ro_txn(storage());
     auto relationsDb = getRelationsDb(txn, room_id);
 
-    std::vector<std::string> related_ids;
-
-    auto related_cursor         = db::Cursor::open(txn, relationsDb);
-    std::string_view related_to = event_id, related_event;
-    bool first                  = true;
-
     try {
-        if (!related_cursor.get(related_to, related_event, db::CursorOp::Set))
-            return {};
-
-        while (related_cursor.get(
-          related_to, related_event, first ? db::CursorOp::FirstDup : db::CursorOp::NextDup)) {
-            first = false;
-            if (event_id != std::string_view(related_to.data(), related_to.size()))
-                break;
-
-            related_ids.emplace_back(related_event.data(), related_event.size());
-        }
+        return db::listDupValues(txn, relationsDb, event_id);
     } catch (const db::Error &e) {
         nhlog::db()->error("related events error: {}", e.what());
+        return {};
     }
-
-    return related_ids;
 }
 
 size_t
@@ -4178,17 +4164,7 @@ Cache::isNotificationSent(const std::string &event_id)
 std::vector<std::string>
 Cache::getRoomIds(db::Txn &txn)
 {
-    auto cursor = db::Cursor::open(txn, db->rooms);
-
-    std::vector<std::string> rooms;
-
-    std::string_view room_id, _unused;
-    while (cursor.get(room_id, _unused, db::CursorOp::Next))
-        rooms.emplace_back(room_id);
-
-    cursor.close();
-
-    return rooms;
+    return db::listKeys(txn, db->rooms);
 }
 
 void
@@ -4272,18 +4248,9 @@ Cache::updateSpaces(db::Txn &txn,
     for (const auto &space : spaces_with_updates) {
         // delete old entries
         {
-            auto cursor         = db::Cursor::open(txn, db->spacesChildren);
-            bool first          = true;
-            std::string_view sp = space, space_child = "";
-
-            if (cursor.get(sp, space_child, db::CursorOp::Set)) {
-                while (cursor.get(
-                  sp, space_child, first ? db::CursorOp::FirstDup : db::CursorOp::NextDup)) {
-                    first = false;
-                    db->spacesParents.del(txn, space_child, space);
-                }
+            for (const auto &space_child : db::listDupValues(txn, db->spacesChildren, space)) {
+                db->spacesParents.del(txn, space_child, space);
             }
-            cursor.close();
             db->spacesChildren.del(txn, space);
         }
 
@@ -4370,22 +4337,8 @@ Cache::getParentRoomIds(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
-    std::vector<std::string> roomids;
-    {
-        auto cursor         = db::Cursor::open(txn, db->spacesParents);
-        bool first          = true;
-        std::string_view sp = room_id, space_parent;
-        if (cursor.get(sp, space_parent, db::CursorOp::Set)) {
-            while (cursor.get(
-              sp, space_parent, first ? db::CursorOp::FirstDup : db::CursorOp::NextDup)) {
-                first = false;
-
-                if (!space_parent.empty())
-                    roomids.emplace_back(space_parent);
-            }
-        }
-        cursor.close();
-    }
+    std::vector<std::string> roomids = db::listDupValues(txn, db->spacesParents, room_id);
+    roomids.erase(std::remove(roomids.begin(), roomids.end(), ""), roomids.end());
 
     return roomids;
 }
@@ -4395,22 +4348,8 @@ Cache::getChildRoomIds(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
-    std::vector<std::string> roomids;
-    {
-        auto cursor         = db::Cursor::open(txn, db->spacesChildren);
-        bool first          = true;
-        std::string_view sp = room_id, space_child;
-        if (cursor.get(sp, space_child, db::CursorOp::Set)) {
-            while (
-              cursor.get(sp, space_child, first ? db::CursorOp::FirstDup : db::CursorOp::NextDup)) {
-                first = false;
-
-                if (!space_child.empty())
-                    roomids.emplace_back(space_child);
-            }
-        }
-        cursor.close();
-    }
+    std::vector<std::string> roomids = db::listDupValues(txn, db->spacesChildren, room_id);
+    roomids.erase(std::remove(roomids.begin(), roomids.end(), ""), roomids.end());
 
     return roomids;
 }
@@ -4591,17 +4530,8 @@ Cache::roomMembers(const std::string &room_id)
     auto txn = ro_txn(storage());
 
     try {
-        std::vector<std::string> members;
-        std::string_view user_id, unused;
-
         auto db_ = getMembersDb(txn, room_id);
-
-        auto cursor = db::Cursor::open(txn, db_);
-        while (cursor.get(user_id, unused, db::CursorOp::Next))
-            members.emplace_back(user_id);
-        cursor.close();
-
-        return members;
+        return db::listKeys(txn, db_);
     } catch (const db::Error &e) {
         nhlog::db()->error("Failed to retrieve members from db in room {}: {}", room_id, e.what());
         return {};
@@ -4620,15 +4550,13 @@ Cache::roomVerificationStatus(const std::string &room_id)
         auto keysDb = getUserKeysDb(txn);
         std::vector<std::string> keysToRequest;
 
-        std::string_view user_id, unused;
-        auto cursor = db::Cursor::open(txn, db_);
-        while (cursor.get(user_id, unused, db::CursorOp::Next)) {
-            auto verif = verificationStatus_(std::string(user_id), txn);
+        for (const auto &user_id : db::listKeys(txn, db_)) {
+            auto verif = verificationStatus_(user_id, txn);
             if (verif.unverified_device_count) {
                 trust = crypto::Unverified;
                 if (verif.verified_devices.empty() && verif.no_keys) {
                     // we probably don't have the keys yet, so query them
-                    keysToRequest.push_back(std::string(user_id));
+                    keysToRequest.push_back(user_id);
                 }
             } else if (verif.user_verified == crypto::TOFU && trust == crypto::Verified)
                 trust = crypto::TOFU;
@@ -4665,15 +4593,13 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
         auto db_    = getMembersDb(txn, room_id);
         auto keysDb = getUserKeysDb(txn);
 
-        std::string_view user_id, unused;
-        auto cursor = db::Cursor::open(txn, db_);
-        while (cursor.get(user_id, unused, db::CursorOp::Next)) {
+        for (const auto &user_id : db::listKeys(txn, db_)) {
             auto res = keysDb.get(txn, user_id, keys);
 
             if (res) {
                 auto k = nlohmann::json::parse(keys).get<UserKeyCache>();
                 if (verified_only) {
-                    auto verif = verificationStatus_(std::string(user_id), txn);
+                    auto verif = verificationStatus_(user_id, txn);
 
                     if (verif.user_verified == crypto::Trust::Verified ||
                         !verif.verified_devices.empty()) {
@@ -4700,17 +4626,16 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
                           });
 
                         if (!keyCopy.device_keys.empty())
-                            members[std::string(user_id)] = std::move(keyCopy);
+                            members[user_id] = std::move(keyCopy);
                     }
                 } else {
-                    members[std::string(user_id)] = std::move(k);
+                    members[user_id] = std::move(k);
                 }
             } else {
                 if (!verified_only)
-                    members[std::string(user_id)] = {};
+                    members[user_id] = {};
             }
         }
-        cursor.close();
 
         return members;
     } catch (std::exception &e) {

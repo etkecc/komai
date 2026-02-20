@@ -54,9 +54,10 @@ Database hash:
 
 - Backend selection is currently runtime-configurable via `KOMAI_DB_BACKEND`.
 - Supported backend IDs:
-  - `lmdb` (default)
-  - `memory` (in-memory backend for abstraction/testing work)
-- Compaction is backend-capability-driven (`Backend::supportsCompaction()`): currently enabled for `lmdb`, skipped for `memory`.
+  - `memory` (always available; fallback default when LMDB backend is not built)
+  - `lmdb` (default when `KOMAI_DB_ENABLE_LMDB_BACKEND=ON`)
+- Compaction is backend-capability-driven (`Backend::supportsCompaction()`):
+  enabled for `lmdb` when present, skipped for `memory`.
 - Cross-backend data copy used by compaction is implemented in `src/db/Compaction.cpp` (`db::compact(...)`).
 - Selection is delegated to `src/db/Factory.cpp` (`db::createConfiguredBackend(...)`), while backend implementations live under `src/db/`.
 - Logical DB names and sync-state keys are centralized in `src/db/Catalog.cpp`

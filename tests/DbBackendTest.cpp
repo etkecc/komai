@@ -387,8 +387,14 @@ testFactory()
     bool ok = true;
 
     auto defaultBackend = db::createDefaultBackend();
+#if KOMAI_DB_WITH_LMDB
     ok &= expect(defaultBackend->id() == "lmdb", "default backend is lmdb");
     ok &= expect(defaultBackend->supportsCompaction(), "lmdb backend reports compaction support");
+#else
+    ok &= expect(defaultBackend->id() == "memory", "default backend falls back to memory");
+    ok &= expect(!defaultBackend->supportsCompaction(),
+                 "memory default reports no compaction support");
+#endif
 
     auto memoryBackend = db::createBackend("memory");
     ok &= expect(memoryBackend->id() == "memory", "memory backend is creatable");
@@ -396,7 +402,12 @@ testFactory()
                  "memory backend reports no compaction support");
 
     auto configuredDefault = db::createConfiguredBackend("");
+#if KOMAI_DB_WITH_LMDB
     ok &= expect(configuredDefault->id() == "lmdb", "configured backend defaults to lmdb on empty id");
+#else
+    ok &= expect(configuredDefault->id() == "memory",
+                 "configured backend defaults to memory when lmdb is disabled");
+#endif
 
     auto configuredMemory = db::createConfiguredBackend("memory");
     ok &= expect(configuredMemory->id() == "memory",
@@ -406,6 +417,13 @@ testFactory()
                         "unknown backend id fails with db::Error");
     ok &= expectDbError([] { db::createConfiguredBackend("not-a-backend"); },
                         "configured backend rejects unknown id");
+#if KOMAI_DB_WITH_LMDB
+    auto lmdbBackend = db::createBackend("lmdb");
+    ok &= expect(lmdbBackend->id() == "lmdb", "lmdb backend is creatable when enabled");
+#else
+    ok &= expectDbError([] { db::createBackend("lmdb"); },
+                        "lmdb backend creation fails when lmdb support is disabled");
+#endif
     return ok;
 }
 
@@ -501,6 +519,9 @@ testInMemoryBackend()
 bool
 testLmdbBackend()
 {
+#if !KOMAI_DB_WITH_LMDB
+    return true;
+#else
     bool ok = true;
 
     QTemporaryDir tmp;
@@ -560,6 +581,7 @@ testLmdbBackend()
     backend->close();
     ok &= expect(!backend->isOpen(), "lmdb backend closes");
     return ok;
+#endif
 }
 
 } // namespace

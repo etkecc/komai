@@ -69,6 +69,7 @@ option(USE_BUNDLED_KDSINGLEAPPLICATION "Use the bundled version of KDSingleAppli
 option(USE_BUNDLED_CPPHTTPLIB "Use the bundled version of cpp-httplib." ON)
 option(USE_BUNDLED_BLURHASH "Use the bundled version of blurhash." ON)
 option(USE_BUNDLED_YAMLCPP "Use the bundled version of yaml-cpp." ${HUNTER_ENABLED})
+option(KOMAI_DB_ENABLE_LMDB_BACKEND "Build LMDB database backend support." ON)
 
 include(CMakeDependentOption)
 set(VOIP_DEFAULT ON)
@@ -235,14 +236,16 @@ endif()
 # LMDB
 #
 #include(LMDB)
-if(USE_BUNDLED_LMDB)
-    hunter_add_package_safe(lmdb)
-    find_package(liblmdb CONFIG REQUIRED)
+if(KOMAI_DB_ENABLE_LMDB_BACKEND)
+    if(USE_BUNDLED_LMDB)
+        hunter_add_package_safe(lmdb)
+        find_package(liblmdb CONFIG REQUIRED)
 
-    target_include_directories(liblmdb::lmdb INTERFACE
-        "${HUNTER_INSTALL_PREFIX}/include/lmdb")
-else()
-    find_package(LMDB REQUIRED)
+        target_include_directories(liblmdb::lmdb INTERFACE
+            "${HUNTER_INSTALL_PREFIX}/include/lmdb")
+    else()
+        find_package(LMDB REQUIRED)
+    endif()
 endif()
 
 #
@@ -628,31 +631,33 @@ else()
     pkg_check_modules(yaml-cpp REQUIRED IMPORTED_TARGET yaml-cpp>=0.6.0)
 endif()
 
-if(USE_BUNDLED_LMDBXX)
-    include(FetchContent)
-    FetchContent_Declare(
-        lmdbxx
-        URL "https://raw.githubusercontent.com/hoytech/lmdbxx/1.0.0/lmdb++.h"
-        DOWNLOAD_NO_EXTRACT TRUE
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND ""
-    )
-    FetchContent_Populate(lmdbxx)
-    add_library(lmdbxx INTERFACE)
-    target_include_directories(lmdbxx INTERFACE ${lmdbxx_SOURCE_DIR})
-    add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
-else()
-    if(NOT LMDBXX_INCLUDE_DIR)
-        find_path(LMDBXX_INCLUDE_DIR
-            NAMES lmdb++.h
-            PATHS /usr/include
-            /usr/local/include
-            $ENV{LIB_DIR}/include
-            $ENV{LIB_DIR}/include/lmdbxx)
+if(KOMAI_DB_ENABLE_LMDB_BACKEND)
+    if(USE_BUNDLED_LMDBXX)
+        include(FetchContent)
+        FetchContent_Declare(
+            lmdbxx
+            URL "https://raw.githubusercontent.com/hoytech/lmdbxx/1.0.0/lmdb++.h"
+            DOWNLOAD_NO_EXTRACT TRUE
+            CONFIGURE_COMMAND ""
+            BUILD_COMMAND ""
+        )
+        FetchContent_Populate(lmdbxx)
+        add_library(lmdbxx INTERFACE)
+        target_include_directories(lmdbxx INTERFACE ${lmdbxx_SOURCE_DIR})
+        add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
+    else()
+        if(NOT LMDBXX_INCLUDE_DIR)
+            find_path(LMDBXX_INCLUDE_DIR
+                NAMES lmdb++.h
+                PATHS /usr/include
+                /usr/local/include
+                $ENV{LIB_DIR}/include
+                $ENV{LIB_DIR}/include/lmdbxx)
+        endif()
+        add_library(lmdbxx INTERFACE)
+        target_include_directories(lmdbxx INTERFACE ${LMDBXX_INCLUDE_DIR})
+        add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
     endif()
-    add_library(lmdbxx INTERFACE)
-    target_include_directories(lmdbxx INTERFACE ${LMDBXX_INCLUDE_DIR})
-    add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
 endif()
 
 if(USE_BUNDLED_MTXCLIENT)
@@ -991,7 +996,6 @@ add_library(komai_db
     src/db/DbTypes.cpp
     src/db/Factory.cpp
     src/db/InMemoryBackend.cpp
-    src/db/LmdbBackend.cpp
     src/db/NamePolicy.cpp
     src/db/Open.cpp
 )
@@ -999,9 +1003,17 @@ target_include_directories(komai_db PUBLIC src)
 target_link_libraries(komai_db PUBLIC
     Qt::Core
     nlohmann_json::nlohmann_json
-    lmdbxx::lmdbxx
-    liblmdb::lmdb
 )
+if(KOMAI_DB_ENABLE_LMDB_BACKEND)
+    target_sources(komai_db PRIVATE src/db/LmdbBackend.cpp)
+    target_link_libraries(komai_db PUBLIC
+        lmdbxx::lmdbxx
+        liblmdb::lmdb
+    )
+    target_compile_definitions(komai_db PUBLIC KOMAI_DB_WITH_LMDB=1)
+else()
+    target_compile_definitions(komai_db PUBLIC KOMAI_DB_WITH_LMDB=0)
+endif()
 
 if(BUILD_TESTING)
     add_executable(komai_yaml_settings_test tests/YamlSettingsTest.cpp)

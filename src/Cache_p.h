@@ -29,7 +29,6 @@ namespace db {
 class Backend;
 class Txn;
 class Dbi;
-enum class DupsortComparator;
 }
 
 struct CacheDb;

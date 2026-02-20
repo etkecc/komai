@@ -77,7 +77,7 @@ Current C++ test executables:
 
 Notes:
 
-- `komai_db_backend_test` currently includes LMDB adapter checks backed by a temporary filesystem directory (integration-style coverage), in addition to in-memory backend contract checks.
+- `komai_db_backend_test` includes in-memory backend contract checks and, when LMDB backend support is enabled, LMDB adapter checks backed by a temporary filesystem directory (integration-style coverage).
 
 ## 📁 Useful Paths
 

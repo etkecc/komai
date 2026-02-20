@@ -8,21 +8,35 @@
 #include <string>
 
 #include "db/InMemoryBackend.h"
+#if KOMAI_DB_WITH_LMDB
 #include "db/LmdbBackend.h"
+#endif
 
 namespace db {
 
 std::unique_ptr<Backend>
 createDefaultBackend()
 {
+#if KOMAI_DB_WITH_LMDB
     return createBackend("lmdb");
+#else
+    return createBackend("memory");
+#endif
 }
 
 std::unique_ptr<Backend>
 createBackend(std::string_view id)
 {
-    if (id.empty() || id == "lmdb")
+    if (id.empty())
+        return createDefaultBackend();
+
+#if KOMAI_DB_WITH_LMDB
+    if (id == "lmdb")
         return std::make_unique<LmdbBackend>();
+#else
+    if (id == "lmdb")
+        throw Error("LMDB backend is not enabled in this build", ErrorKind::Invalid);
+#endif
     if (id == "memory" || id == "in-memory")
         return std::make_unique<InMemoryBackend>();
 

@@ -7,7 +7,7 @@ Komai stores data in several places depending on purpose.
 | Kind | Location |
 | --- | --- |
 | Profile configuration files | `~/.config/komai/profiles/<profile-id>/` |
-| Chat database (default backend: LMDB) | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
+| Chat database (default backend: LMDB in standard builds; memory if LMDB backend is disabled at build time) | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
 | User themes | `~/.local/share/komai/themes/` |
 | Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
 | Log file (if file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
@@ -21,7 +21,7 @@ Komai stores data in several places depending on purpose.
 
 Filesystem path patterns:
 
-- Database (default backend: LMDB): `~/.local/share/komai/profiles/<profile-id>/db/<hash>/`
+- Database (default backend: LMDB in standard builds; memory if LMDB backend is disabled at build time): `~/.local/share/komai/profiles/<profile-id>/db/<hash>/`
 - Media cache entry: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>.<ext>`
 - Media cache (media subdir): `~/.cache/komai/profiles/<profile-id>/media_cache/media/<base64url(mxc-id)>.<ext>`
 - Media thumbnails: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>_<w>x<h>_<crop|scale>_radius<r>`

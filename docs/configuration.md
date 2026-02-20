@@ -83,7 +83,7 @@ Important:
 | Data | Location |
 | --- | --- |
 | Profile settings/session/state | `~/.config/komai/profiles/` |
-| Local database data (default backend: LMDB) | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
+| Local database data (default backend: LMDB in standard builds; memory if LMDB backend is disabled at build time) | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
 | Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
 | Log file (file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
 

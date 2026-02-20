@@ -69,11 +69,7 @@ using Receipts       = std::map<std::string, std::map<std::string, uint64_t>>;
 
 struct CacheDb
 {
-    std::unique_ptr<db::Backend> storage = [] {
-        const auto requestedBackend = qgetenv("KOMAI_DB_BACKEND");
-        return db::createConfiguredBackend(std::string_view(
-          requestedBackend.constData(), static_cast<std::size_t>(requestedBackend.size())));
-    }();
+    std::unique_ptr<db::Backend> storage = db::createConfiguredBackendFromEnvironment();
     db::Dbi syncState;
     db::Dbi rooms;
     db::Dbi spacesChildren, spacesParents;
@@ -377,7 +373,8 @@ Cache::setup()
 
     nhlog::db()->debug("setting up cache");
 
-    cacheDirectory_ = cacheDirectoryName(localUserId_, settings->profile());
+    cacheDirectory_                      = cacheDirectoryName(localUserId_, settings->profile());
+    const std::string cacheDirectoryPath = cacheDirectory_.toStdString();
 
     nhlog::db()->debug("Database at: {}", cacheDirectory_.toStdString());
 
@@ -433,7 +430,7 @@ Cache::setup()
         // corruption is a database-backend or filesystem bug. See
         // https://github.com/Nheko-Reborn/nheko/issues/1355
         // https://github.com/Nheko-Reborn/nheko/issues/1303
-        db->storage->open(cacheDirectory_, storageOptions);
+        db->storage->open(cacheDirectoryPath, storageOptions);
 
         if (needsCompact) {
             if (!storage().supportsCompaction()) {
@@ -452,8 +449,9 @@ Cache::setup()
                                       compactDir.toStdString());
                 } else {
                     // Create a temporary backend matching the current storage backend.
-                    auto temp = db::createBackend(storage().id());
-                    temp->open(compactDir, storageOptions);
+                    auto temp                        = db::createBackend(storage().id());
+                    const std::string compactDirPath = compactDir.toStdString();
+                    temp->open(compactDirPath, storageOptions);
 
                     // copy data
                     db::compact(storage(), *temp);
@@ -468,7 +466,7 @@ Cache::setup()
                     QDir(toDeleteDir).removeRecursively();
 
                     // reopen env
-                    db->storage->open(cacheDirectory_, storageOptions);
+                    db->storage->open(cacheDirectoryPath, storageOptions);
                 }
             }
         }
@@ -487,7 +485,7 @@ Cache::setup()
             if (!stateDir.remove(file))
                 throw std::runtime_error(("Unable to delete file " + file).toStdString().c_str());
         }
-        db->storage->open(cacheDirectory_, storageOptions);
+        db->storage->open(cacheDirectoryPath, storageOptions);
     }
 
     auto txn           = beginTxn();

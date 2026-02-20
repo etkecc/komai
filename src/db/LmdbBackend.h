@@ -20,12 +20,12 @@ public:
     std::string_view id() const noexcept override { return "lmdb"; }
     bool supportsCompaction() const noexcept override { return true; }
 
-    void open(const QString &directory, const BackendOptions &options) override;
+    void open(std::string_view directory, const BackendOptions &options) override;
     void close() noexcept override;
     bool isOpen() const noexcept override;
     Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None) override;
     bool ownsTxn(const Txn &txn) const noexcept override;
-    Dbi openDbi(Txn &txn, const char *name, const DbiOpenOptions &options = {}) override;
+    Dbi openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &options = {}) override;
     std::vector<std::string> listDbiNames(Txn &txn) override;
     std::optional<std::size_t> mapSizeBytes() const noexcept override;
 

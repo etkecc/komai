@@ -12,6 +12,7 @@
 #include <vector>
 
 #include <QTemporaryDir>
+#include <QByteArray>
 
 #include "db/Backend.h"
 #include "db/Catalog.h"
@@ -87,6 +88,35 @@ containsName(const std::vector<std::string> &names, std::string_view needle)
 {
     return std::find(names.begin(), names.end(), needle) != names.end();
 }
+
+struct EnvVarGuard
+{
+    explicit EnvVarGuard(const char *name)
+      : name_(name)
+      , original_(qgetenv(name))
+      , hadOriginal_(qEnvironmentVariableIsSet(name))
+    {
+    }
+
+    ~EnvVarGuard()
+    {
+        if (hadOriginal_)
+            qputenv(name_, original_);
+        else
+            qunsetenv(name_);
+    }
+
+    void set(std::string_view value) const
+    {
+        qputenv(name_, QByteArray(value.data(), static_cast<int>(value.size())));
+    }
+
+    void unset() const { qunsetenv(name_); }
+
+    const char *name_;
+    QByteArray original_;
+    bool hadOriginal_;
+};
 
 db::DbiOpenOptions
 openOptions(db::DbiFlags flags = db::DbiFlags::None,
@@ -214,7 +244,7 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
     {
         auto txn = backend.beginTxn();
         auto dbi = backend.openDbi(
-          txn, dupDbName.c_str(), openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
+          txn, dupDbName, openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
         ok &= expect(dbi.put(txn, "k", "b"), testName("dupsort put #1"));
         ok &= expect(dbi.put(txn, "k", "a"), testName("dupsort put #2"));
         ok &= expect(dbi.put(txn, "k", "c"), testName("dupsort put #3"));
@@ -224,7 +254,7 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 
     {
         auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = backend.openDbi(txn, dupDbName.c_str(), openOptions(db::DbiFlags::DupSort));
+        auto dbi = backend.openDbi(txn, dupDbName, openOptions(db::DbiFlags::DupSort));
 
         auto cursor = db::Cursor::open(txn, dbi);
         std::string_view key = "k", value;
@@ -253,7 +283,7 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
     {
         auto txn = backend.beginTxn();
         auto dbi = backend.openDbi(
-          txn, intDbName.c_str(), openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+          txn, intDbName, openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
         ok &= expect(dbi.put(txn, integerKey(5), "five"), testName("integer-key put #1"));
         ok &= expect(dbi.put(txn, integerKey(1), "one"), testName("integer-key put #2"));
         ok &= expect(dbi.put(txn, integerKey(3), "three"), testName("integer-key put #3"));
@@ -262,8 +292,7 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 
     {
         auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi =
-          backend.openDbi(txn, intDbName.c_str(), openOptions(db::DbiFlags::IntegerKey));
+        auto dbi = backend.openDbi(txn, intDbName, openOptions(db::DbiFlags::IntegerKey));
 
         auto cursor = db::Cursor::open(txn, dbi);
         std::string_view key, value;
@@ -289,7 +318,7 @@ testOpenHelpers()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open(QString{}, options);
+    backend->open("", options);
 
     {
         auto txn = backend->beginTxn();
@@ -341,8 +370,8 @@ testCompactionHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    from->open(QString{}, options);
-    to->open(QString{}, options);
+    from->open("", options);
+    to->open("", options);
 
     {
         auto txn      = from->beginTxn();
@@ -413,6 +442,24 @@ testFactory()
     ok &= expect(configuredMemory->id() == "memory",
                  "configured backend accepts explicit memory id");
 
+    EnvVarGuard envGuard("KOMAI_DB_BACKEND_TEST_OVERRIDE");
+    envGuard.unset();
+    auto envDefault = db::createConfiguredBackendFromEnvironment(envGuard.name_);
+#if KOMAI_DB_WITH_LMDB
+    ok &= expect(envDefault->id() == "lmdb", "environment-based backend defaults to lmdb when unset");
+#else
+    ok &= expect(envDefault->id() == "memory",
+                 "environment-based backend defaults to memory when lmdb is disabled");
+#endif
+
+    envGuard.set("memory");
+    auto envMemory = db::createConfiguredBackendFromEnvironment(envGuard.name_);
+    ok &= expect(envMemory->id() == "memory", "environment-based backend accepts memory id");
+
+    envGuard.set("not-a-backend");
+    ok &= expectDbError([&] { db::createConfiguredBackendFromEnvironment(envGuard.name_); },
+                        "environment-based backend rejects unknown id");
+
     ok &= expectDbError([] { db::createBackend("not-a-backend"); },
                         "unknown backend id fails with db::Error");
     ok &= expectDbError([] { db::createConfiguredBackend("not-a-backend"); },
@@ -436,7 +483,7 @@ testInMemoryBackend()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open(QString{}, options);
+    backend->open("", options);
 
     ok &= expect(backend->isOpen(), "memory backend opens");
 
@@ -457,8 +504,8 @@ testInMemoryBackend()
         const auto names = backend->listDbiNames(roTxn);
         ok &= expect(containsName(names, "main"), "memory listDbiNames contains main");
 
-        ok &= expectDbError([&] { backend->openDbi(roTxn, nullptr); },
-                            "memory openDbi rejects null database name");
+        ok &= expectDbError([&] { backend->openDbi(roTxn, ""); },
+                            "memory openDbi rejects empty database name");
     }
 
     {
@@ -534,7 +581,7 @@ testLmdbBackend()
     options.mapSizeBytes       = 1U << 24;
     options.maxDbs             = 32;
     options.durability         = db::Durability::Durable;
-    backend->open(tmp.path(), options);
+    backend->open(tmp.path().toStdString(), options);
 
     ok &= expect(backend->isOpen(), "lmdb backend opens");
 
@@ -554,8 +601,8 @@ testLmdbBackend()
         ok &= expect(containsName(names, "one"), "lmdb listDbiNames contains one");
         ok &= expect(containsName(names, "two"), "lmdb listDbiNames contains two");
 
-        ok &= expectDbError([&] { backend->openDbi(roTxn, nullptr); },
-                            "lmdb openDbi rejects null database name");
+        ok &= expectDbError([&] { backend->openDbi(roTxn, ""); },
+                            "lmdb openDbi rejects empty database name");
         ok &= expectDbError(
           [&] {
               backend->openDbi(
@@ -569,7 +616,7 @@ testLmdbBackend()
     backend->close();
     ok &= expect(!backend->isOpen(), "lmdb backend closes");
 
-    backend->open(tmp.path(), options);
+    backend->open(tmp.path().toStdString(), options);
     {
         auto roTxn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto one   = backend->openDbi(roTxn, "one");

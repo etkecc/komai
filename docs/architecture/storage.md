@@ -59,7 +59,9 @@ Database hash:
 - Compaction is backend-capability-driven (`Backend::supportsCompaction()`):
   enabled for `lmdb` when present, skipped for `memory`.
 - Cross-backend data copy used by compaction is implemented in `src/db/Compaction.cpp` (`db::compact(...)`).
-- Selection is delegated to `src/db/Factory.cpp` (`db::createConfiguredBackend(...)`), while backend implementations live under `src/db/`.
+- Selection is delegated to `src/db/Factory.cpp`
+  (`db::createConfiguredBackendFromEnvironment(...)` and
+  `db::createConfiguredBackend(...)`), while backend implementations live under `src/db/`.
 - Logical DB names and sync-state keys are centralized in `src/db/Catalog.cpp`
   (`db::catalog::*`) so callers don't hardcode backend-facing names
   (including legacy migration name patterns).

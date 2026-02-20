@@ -12,8 +12,6 @@
 #include <string_view>
 #include <vector>
 
-#include <QString>
-
 #include "db/Error.h"
 #include "db/Flags.h"
 
@@ -54,16 +52,16 @@ class Backend
 public:
     virtual ~Backend() = default;
 
-    virtual std::string_view id() const noexcept                                        = 0;
-    virtual bool supportsCompaction() const noexcept                                    = 0;
-    virtual void open(const QString &directory, const BackendOptions &options)          = 0;
-    virtual void close() noexcept                                                       = 0;
-    virtual bool isOpen() const noexcept                                                = 0;
-    virtual Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None)        = 0;
-    virtual bool ownsTxn(const Txn &txn) const noexcept                                 = 0;
-    virtual Dbi openDbi(Txn &txn, const char *name, const DbiOpenOptions &options = {}) = 0;
-    virtual std::vector<std::string> listDbiNames(Txn &txn)                             = 0;
-    virtual std::optional<std::size_t> mapSizeBytes() const noexcept                    = 0;
+    virtual std::string_view id() const noexcept                                             = 0;
+    virtual bool supportsCompaction() const noexcept                                         = 0;
+    virtual void open(std::string_view directory, const BackendOptions &options)             = 0;
+    virtual void close() noexcept                                                            = 0;
+    virtual bool isOpen() const noexcept                                                     = 0;
+    virtual Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None)             = 0;
+    virtual bool ownsTxn(const Txn &txn) const noexcept                                      = 0;
+    virtual Dbi openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &options = {}) = 0;
+    virtual std::vector<std::string> listDbiNames(Txn &txn)                                  = 0;
+    virtual std::optional<std::size_t> mapSizeBytes() const noexcept                         = 0;
 };
 
 std::unique_ptr<Backend>
@@ -72,5 +70,7 @@ std::unique_ptr<Backend>
 createBackend(std::string_view id);
 std::unique_ptr<Backend>
 createConfiguredBackend(std::string_view requestedId);
+std::unique_ptr<Backend>
+createConfiguredBackendFromEnvironment(std::string_view variableName = "KOMAI_DB_BACKEND");
 
 } // namespace db

@@ -4,8 +4,6 @@
 
 #include "db/Open.h"
 
-#include <string>
-
 #include "db/DbTypes.h"
 #include "db/NamePolicy.h"
 
@@ -18,8 +16,7 @@ openNamedDbi(Backend &backend, Txn &txn, std::string_view name, bool create)
     if (create)
         options.flags |= DbiFlags::Create;
 
-    const std::string dbName{name};
-    return backend.openDbi(txn, dbName.c_str(), options);
+    return backend.openDbi(txn, name, options);
 }
 
 Dbi
@@ -29,8 +26,7 @@ openGlobalDbi(Backend &backend, Txn &txn, catalog::GlobalDb db, bool create)
     if (create)
         options.flags |= DbiFlags::Create;
 
-    const std::string dbName{catalog::globalName(db)};
-    return backend.openDbi(txn, dbName.c_str(), options);
+    return backend.openDbi(txn, catalog::globalName(db), options);
 }
 
 Dbi
@@ -40,8 +36,7 @@ openRoomDbi(Backend &backend, Txn &txn, std::string_view roomId, catalog::RoomDb
     if (create)
         options.flags |= DbiFlags::Create;
 
-    const std::string dbName = catalog::roomName(roomId, db);
-    return backend.openDbi(txn, dbName.c_str(), options);
+    return backend.openDbi(txn, catalog::roomName(roomId, db), options);
 }
 
 } // namespace db

@@ -4,6 +4,7 @@
 
 #include "db/Backend.h"
 
+#include <cstdlib>
 #include <memory>
 #include <string>
 
@@ -50,6 +51,20 @@ createConfiguredBackend(std::string_view requestedId)
         return createDefaultBackend();
 
     return createBackend(requestedId);
+}
+
+std::unique_ptr<Backend>
+createConfiguredBackendFromEnvironment(std::string_view variableName)
+{
+    if (variableName.empty())
+        return createDefaultBackend();
+
+    const std::string name{variableName};
+    const char *value = std::getenv(name.c_str());
+    if (!value || *value == '\0')
+        return createDefaultBackend();
+
+    return createConfiguredBackend(value);
 }
 
 } // namespace db

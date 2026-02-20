@@ -250,7 +250,7 @@ LmdbBackend::isOpen() const noexcept
 }
 
 void
-LmdbBackend::open(const QString &directory, const BackendOptions &options)
+LmdbBackend::open(std::string_view directory, const BackendOptions &options)
 {
     if (isOpen())
         close();
@@ -262,10 +262,11 @@ LmdbBackend::open(const QString &directory, const BackendOptions &options)
     }
 
     translateLmdbErrors([&] {
+        const std::string directoryPath{directory};
         impl_->env = lmdb::env::create();
         impl_->env.set_mapsize(options.mapSizeBytes);
         impl_->env.set_max_dbs(options.maxDbs);
-        impl_->env.open(directory.toStdString().c_str(), flags);
+        impl_->env.open(directoryPath.c_str(), flags);
     });
 }
 
@@ -303,19 +304,20 @@ LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
 }
 
 Dbi
-LmdbBackend::openDbi(Txn &txn, const char *name, const DbiOpenOptions &options)
+LmdbBackend::openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &options)
 {
     if (!detail::txnImpl(txn))
         throw Error("Invalid transaction", ErrorKind::Invalid);
-    if (!name)
-        throw Error("Database name must not be null", ErrorKind::Invalid);
+    if (name.empty())
+        throw Error("Database name must not be empty", ErrorKind::Invalid);
 
     auto &lmdbTxn    = requireLmdbTxn(*detail::txnImpl(txn));
     const auto flags = options.flags;
+    const std::string dbName{name};
 
     auto dbi = translateLmdbErrors([&] {
         return Dbi{std::make_shared<LmdbDbiImpl>(
-          lmdb::dbi::open(lmdbTxn.native(), name, toLmdbDbiFlags(flags)))};
+          lmdb::dbi::open(lmdbTxn.native(), dbName.c_str(), toLmdbDbiFlags(flags)))};
     });
 
     if (options.dupsortComparator.has_value()) {

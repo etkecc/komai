@@ -689,7 +689,7 @@ InMemoryBackend::InMemoryBackend()
 InMemoryBackend::~InMemoryBackend() = default;
 
 void
-InMemoryBackend::open(const QString & /*directory*/, const BackendOptions &options)
+InMemoryBackend::open(std::string_view /*directory*/, const BackendOptions &options)
 {
     std::scoped_lock lock(impl_->state.mutex);
 
@@ -737,17 +737,17 @@ InMemoryBackend::ownsTxn(const Txn &txn) const noexcept
 }
 
 Dbi
-InMemoryBackend::openDbi(Txn &txn, const char *name, const DbiOpenOptions &options)
+InMemoryBackend::openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &options)
 {
     if (!isOpen())
         throw Error("In-memory backend is not open", ErrorKind::Invalid);
     if (!ownsTxn(txn))
         throw Error("Transaction does not belong to in-memory backend", ErrorKind::Invalid);
-    if (!name)
-        throw Error("Database name must not be null", ErrorKind::Invalid);
+    if (name.empty())
+        throw Error("Database name must not be empty", ErrorKind::Invalid);
 
-    const std::string dbName = name;
-    const auto flags         = options.flags;
+    const std::string dbName{name};
+    const auto flags = options.flags;
 
     auto &inTxn       = requireTxn(*detail::txnImpl(txn));
     const bool exists = inTxn.snapshot().dbs.find(dbName) != inTxn.snapshot().dbs.end();

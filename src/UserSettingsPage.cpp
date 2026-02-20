@@ -1932,7 +1932,7 @@ static const SettingMeta settingsTable[] = {
       nullptr },
 #ifndef Q_OS_MACOS
     // ScaleFactor
-    { QT_TR_NOOP("Scale factor"),
+    { QT_TR_NOOP("Scale factor [restart required]"),
       QT_TR_NOOP("Change the scale factor of the whole user interface. Requires a restart to take effect."),
       SM::Double, SM::TabLookFeel,
       []() -> QVariant { return I->scaleFactor(); },

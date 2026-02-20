@@ -3631,21 +3631,16 @@ Cache::pendingEvents(const std::string &room_id)
     auto txn     = ro_txn(storage());
     auto pending = getPendingMessagesDb(txn, room_id);
 
-    std::vector<std::string> related_ids;
+    std::vector<std::string> pending_ids;
 
     try {
-        {
-            auto pendingCursor = db::Cursor::open(txn, pending);
-            std::string_view tsIgnored, pendingTxn;
-            while (pendingCursor.get(tsIgnored, pendingTxn, db::CursorOp::Next)) {
-                related_ids.emplace_back(pendingTxn.data(), pendingTxn.size());
-            }
-        }
+        for (const auto &[_, pendingTxn] : db::listEntries(txn, pending))
+            pending_ids.emplace_back(pendingTxn);
     } catch (const db::Error &e) {
         nhlog::db()->error("pending events error: {}", e.what());
     }
 
-    return related_ids;
+    return pending_ids;
 }
 
 std::optional<mtx::events::collections::TimelineEvents>

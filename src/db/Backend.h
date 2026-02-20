@@ -26,14 +26,19 @@ enum class DupsortComparator
     LegacyStateByKeyJson,
 };
 
+enum class Durability
+{
+    Durable,
+    Relaxed,
+};
+
 struct BackendOptions
 {
     std::size_t mapSizeBytes = 0;
     unsigned maxDbs          = 0;
 
     // Keep current cache behavior by default.
-    bool noMetaSync = true;
-    bool noSync     = true;
+    Durability durability = Durability::Relaxed;
 };
 
 class Backend
@@ -45,7 +50,6 @@ public:
     virtual void open(const QString &directory, const BackendOptions &options)                 = 0;
     virtual void close() noexcept                                                              = 0;
     virtual bool isOpen() const noexcept                                                       = 0;
-    virtual bool isMapFullError(const std::exception &e) const noexcept                        = 0;
     virtual Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None)               = 0;
     virtual bool ownsTxn(const Txn &txn) const noexcept                                        = 0;
     virtual Dbi openDbi(Txn &txn, const char *name = nullptr, DbiFlags flags = DbiFlags::None) = 0;

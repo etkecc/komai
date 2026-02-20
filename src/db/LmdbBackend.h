@@ -22,7 +22,6 @@ public:
     void open(const QString &directory, const BackendOptions &options) override;
     void close() noexcept override;
     bool isOpen() const noexcept override;
-    bool isMapFullError(const std::exception &e) const noexcept override;
     Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None) override;
     bool ownsTxn(const Txn &txn) const noexcept override;
     Dbi openDbi(Txn &txn, const char *name = nullptr, DbiFlags flags = DbiFlags::None) override;

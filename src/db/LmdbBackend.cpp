@@ -5,6 +5,7 @@
 #include "db/LmdbBackend.h"
 
 #include <memory>
+#include <string>
 #include <string_view>
 
 #include <nlohmann/json.hpp>
@@ -60,6 +61,176 @@ dupsortComparator(db::DupsortComparator comparator)
     return compareStateKey;
 }
 
+class LmdbTxnImpl final : public db::detail::TxnImpl
+{
+public:
+    explicit LmdbTxnImpl(lmdb::txn native)
+      : native_(std::move(native))
+    {
+    }
+
+    void commit() override
+    {
+        db::translateLmdbErrors([&] { native_.commit(); });
+    }
+    void abort() override
+    {
+        db::translateLmdbErrors([&] { native_.abort(); });
+    }
+    void renew() override
+    {
+        db::translateLmdbErrors([&] { native_.renew(); });
+    }
+    void reset() noexcept override { native_.reset(); }
+
+    lmdb::txn &native() noexcept { return native_; }
+    const lmdb::txn &native() const noexcept { return native_; }
+    auto handle() const noexcept { return native_.handle(); }
+    const void *env() const noexcept { return native_.env(); }
+
+private:
+    lmdb::txn native_;
+};
+
+class LmdbCursorImpl final : public db::detail::CursorImpl
+{
+public:
+    explicit LmdbCursorImpl(lmdb::cursor native)
+      : native_(std::move(native))
+    {
+    }
+
+    bool get(std::string_view &key, std::string_view &value, db::CursorOp op) override
+    {
+        return db::translateLmdbErrors(
+          [&] { return native_.get(key, value, db::toLmdbCursorOp(op)); });
+    }
+
+    bool get(std::string_view &key, db::CursorOp op) override
+    {
+        return db::translateLmdbErrors([&] { return native_.get(key, db::toLmdbCursorOp(op)); });
+    }
+
+    bool put(std::string_view key, std::string_view value, db::PutFlags flags) override
+    {
+        return db::translateLmdbErrors(
+          [&] { return native_.put(key, value, db::toLmdbPutFlags(flags)); });
+    }
+
+    bool del(unsigned flags) override
+    {
+        db::translateLmdbErrors([&] { native_.del(flags); });
+        return true;
+    }
+
+    void close() override
+    {
+        db::translateLmdbErrors([&] { native_.close(); });
+    }
+
+private:
+    lmdb::cursor native_;
+};
+
+db::Error
+backendMismatchError(const char *object)
+{
+    return db::Error(std::string("Database backend mismatch for ") + object,
+                     db::ErrorKind::Invalid);
+}
+
+LmdbTxnImpl &
+requireLmdbTxn(db::detail::TxnImpl &txn)
+{
+    auto *impl = dynamic_cast<LmdbTxnImpl *>(&txn);
+    if (!impl)
+        throw backendMismatchError("transaction");
+    return *impl;
+}
+
+const LmdbTxnImpl *
+maybeLmdbTxn(const db::detail::TxnImpl *txn) noexcept
+{
+    return dynamic_cast<const LmdbTxnImpl *>(txn);
+}
+
+class LmdbDbiImpl final : public db::detail::DbiImpl
+{
+public:
+    explicit LmdbDbiImpl(lmdb::dbi native)
+      : native_(std::move(native))
+    {
+    }
+
+    bool get(db::detail::TxnImpl &txn, std::string_view key, std::string_view &value) override
+    {
+        return db::translateLmdbErrors(
+          [&] { return native_.get(requireLmdbTxn(txn).native(), key, value); });
+    }
+
+    bool put(db::detail::TxnImpl &txn,
+             std::string_view key,
+             std::string_view value,
+             db::PutFlags flags) override
+    {
+        return db::translateLmdbErrors([&] {
+            return native_.put(requireLmdbTxn(txn).native(), key, value, db::toLmdbPutFlags(flags));
+        });
+    }
+
+    bool del(db::detail::TxnImpl &txn, std::string_view key) override
+    {
+        return db::translateLmdbErrors(
+          [&] { return native_.del(requireLmdbTxn(txn).native(), key); });
+    }
+
+    bool del(db::detail::TxnImpl &txn, std::string_view key, std::string_view value) override
+    {
+        return db::translateLmdbErrors(
+          [&] { return native_.del(requireLmdbTxn(txn).native(), key, value); });
+    }
+
+    bool drop(db::detail::TxnImpl &txn, bool del) override
+    {
+        db::translateLmdbErrors([&] { native_.drop(requireLmdbTxn(txn).native(), del); });
+        return true;
+    }
+
+    std::size_t size(db::detail::TxnImpl &txn) override
+    {
+        return db::translateLmdbErrors([&] { return native_.size(requireLmdbTxn(txn).native()); });
+    }
+
+    std::unique_ptr<db::detail::CursorImpl> openCursor(db::detail::TxnImpl &txn) override
+    {
+        return db::translateLmdbErrors([&] {
+            return std::make_unique<LmdbCursorImpl>(
+              lmdb::cursor::open(requireLmdbTxn(txn).native(), native_));
+        });
+    }
+
+    lmdb::dbi &native() noexcept { return native_; }
+    const lmdb::dbi &native() const noexcept { return native_; }
+
+private:
+    lmdb::dbi native_;
+};
+
+LmdbDbiImpl &
+requireLmdbDbi(db::detail::DbiImpl &dbi)
+{
+    auto *impl = dynamic_cast<LmdbDbiImpl *>(&dbi);
+    if (!impl)
+        throw backendMismatchError("database handle");
+    return *impl;
+}
+
+LmdbDbiImpl *
+maybeLmdbDbi(db::detail::DbiImpl *dbi) noexcept
+{
+    return dynamic_cast<LmdbDbiImpl *>(dbi);
+}
+
 } // namespace
 
 namespace db {
@@ -89,10 +260,10 @@ LmdbBackend::open(const QString &directory, const BackendOptions &options)
         close();
 
     auto flags = 0;
-    if (options.noMetaSync)
+    if (options.durability == Durability::Relaxed) {
         flags |= MDB_NOMETASYNC;
-    if (options.noSync)
         flags |= MDB_NOSYNC;
+    }
 
     translateLmdbErrors([&] {
         impl_->env = lmdb::env::create();
@@ -110,55 +281,70 @@ LmdbBackend::close() noexcept
 }
 
 bool
-LmdbBackend::isMapFullError(const std::exception &e) const noexcept
-{
-    if (auto *dbError = dynamic_cast<const db::Error *>(&e))
-        return dbError->kind() == ErrorKind::MapFull;
-
-    auto *lmdbError = dynamic_cast<const lmdb::error *>(&e);
-    if (!lmdbError)
-        return false;
-
-    return errorKindFromLmdbCode(lmdbError->code()) == ErrorKind::MapFull;
-}
-
-bool
 LmdbBackend::ownsTxn(const Txn &txn) const noexcept
 {
-    return isOpen() && txn.env() == impl_->env.handle();
+    if (!isOpen())
+        return false;
+
+    const auto *lmdbTxn = maybeLmdbTxn(detail::txnImpl(txn));
+    return lmdbTxn && lmdbTxn->env() == impl_->env.handle();
 }
 
 Txn
 LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
 {
+    auto parentHandle = static_cast<MDB_txn *>(nullptr);
+    if (parent) {
+        if (!detail::txnImpl(*parent))
+            throw Error("Invalid parent transaction", ErrorKind::Invalid);
+        parentHandle = requireLmdbTxn(*detail::txnImpl(*parent)).handle();
+    }
+
     return translateLmdbErrors([&] {
-        return Txn::fromNative(
-          lmdb::txn::begin(impl_->env, parent ? parent->handle() : nullptr, toLmdbTxnFlags(flags)));
+        return Txn{std::make_shared<LmdbTxnImpl>(
+          lmdb::txn::begin(impl_->env, parentHandle, toLmdbTxnFlags(flags)))};
     });
 }
 
 Dbi
 LmdbBackend::openDbi(Txn &txn, const char *name, DbiFlags flags)
 {
+    if (!detail::txnImpl(txn))
+        throw Error("Invalid transaction", ErrorKind::Invalid);
+
+    auto &lmdbTxn = requireLmdbTxn(*detail::txnImpl(txn));
+
     return translateLmdbErrors([&] {
         if (name)
-            return Dbi::fromNative(lmdb::dbi::open(txn.native(), name, toLmdbDbiFlags(flags)));
-        return Dbi::fromNative(lmdb::dbi::open(txn.native()));
+            return Dbi{std::make_shared<LmdbDbiImpl>(
+              lmdb::dbi::open(lmdbTxn.native(), name, toLmdbDbiFlags(flags)))};
+        return Dbi{std::make_shared<LmdbDbiImpl>(lmdb::dbi::open(lmdbTxn.native()))};
     });
 }
 
 void
 LmdbBackend::setDbiDupsort(Txn &txn, Dbi dbi, DupsortComparator comparator)
 {
-    translateLmdbErrors(
-      [&] { lmdb::dbi_set_dupsort(txn.native(), dbi.native(), dupsortComparator(comparator)); });
+    if (!detail::txnImpl(txn) || !detail::dbiImpl(dbi))
+        throw Error("Invalid transaction or database handle", ErrorKind::Invalid);
+
+    auto &lmdbTxn = requireLmdbTxn(*detail::txnImpl(txn));
+    auto &lmdbDbi = requireLmdbDbi(*detail::dbiImpl(dbi));
+
+    translateLmdbErrors([&] {
+        lmdb::dbi_set_dupsort(lmdbTxn.native(), lmdbDbi.native(), dupsortComparator(comparator));
+    });
 }
 
 void
 LmdbBackend::closeDbi(Dbi dbi) noexcept
 {
-    if (isOpen())
-        lmdb::dbi_close(impl_->env, dbi.native());
+    if (!isOpen())
+        return;
+
+    auto *lmdbDbi = maybeLmdbDbi(detail::dbiImpl(dbi));
+    if (lmdbDbi)
+        lmdb::dbi_close(impl_->env, lmdbDbi->native());
 }
 
 std::optional<std::size_t>

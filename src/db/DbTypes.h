@@ -4,20 +4,110 @@
 
 #pragma once
 
+#include <memory>
+#include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
 
 #include "db/CursorOp.h"
-#include "db/LmdbError.h"
-#include "db/LmdbFlags.h"
+#include "db/Error.h"
+#include "db/Flags.h"
+#include "db/Serde.h"
 
 namespace db {
+
+class Txn;
+class Dbi;
+
+namespace detail {
+
+class TxnImpl;
+class DbiImpl;
+class CursorImpl;
+
+TxnImpl *
+txnImpl(Txn &txn) noexcept;
+const TxnImpl *
+txnImpl(const Txn &txn) noexcept;
+DbiImpl *
+dbiImpl(Dbi &dbi) noexcept;
+const DbiImpl *
+dbiImpl(const Dbi &dbi) noexcept;
+
+class TxnImpl
+{
+public:
+    virtual ~TxnImpl() = default;
+
+    virtual void commit()         = 0;
+    virtual void abort()          = 0;
+    virtual void renew()          = 0;
+    virtual void reset() noexcept = 0;
+};
+class DbiImpl
+{
+public:
+    virtual ~DbiImpl() = default;
+
+    virtual bool get(TxnImpl &txn, std::string_view key, std::string_view &value) = 0;
+    virtual bool
+    put(TxnImpl &txn, std::string_view key, std::string_view value, PutFlags flags) = 0;
+    virtual bool del(TxnImpl &txn, std::string_view key)                            = 0;
+    virtual bool del(TxnImpl &txn, std::string_view key, std::string_view value)    = 0;
+    virtual bool drop(TxnImpl &txn, bool del)                                       = 0;
+    virtual std::size_t size(TxnImpl &txn)                                          = 0;
+
+    virtual std::unique_ptr<CursorImpl> openCursor(TxnImpl &txn) = 0;
+};
+
+class CursorImpl
+{
+public:
+    virtual ~CursorImpl() = default;
+
+    virtual bool get(std::string_view &key, std::string_view &value, CursorOp op)  = 0;
+    virtual bool get(std::string_view &key, CursorOp op)                           = 0;
+    virtual bool put(std::string_view key, std::string_view value, PutFlags flags) = 0;
+    virtual bool del(unsigned flags)                                               = 0;
+    virtual void close()                                                           = 0;
+};
+
+template<typename T>
+inline constexpr bool alwaysFalseV = false;
+
+template<typename T>
+std::string_view
+toBytes(const T &value)
+{
+    return toSv(value);
+}
+
+template<typename T>
+void
+assignBytes(T &out, std::string_view value)
+{
+    using U = std::remove_cvref_t<T>;
+
+    if constexpr (std::is_same_v<U, std::string>) {
+        out.assign(value.data(), value.size());
+    } else if constexpr (std::is_same_v<U, std::string_view>) {
+        out = value;
+    } else if constexpr (std::is_integral_v<U> || std::is_enum_v<U>) {
+        out = fromSv<U>(value);
+    } else {
+        static_assert(alwaysFalseV<U>, "Unsupported key/value type for db operation");
+    }
+}
+
+} // namespace detail
 
 class Txn
 {
 public:
     Txn() = default;
-    explicit Txn(lmdb::txn native)
-      : native_(std::move(native))
+    explicit Txn(std::shared_ptr<detail::TxnImpl> impl)
+      : impl_(std::move(impl))
     {
     }
 
@@ -26,41 +116,46 @@ public:
     Txn(Txn &&) noexcept            = default;
     Txn &operator=(Txn &&) noexcept = default;
 
-    static Txn fromNative(lmdb::txn native) { return Txn{std::move(native)}; }
-
     void commit()
     {
-        translateLmdbErrors([&] { native_.commit(); });
+        if (!impl_)
+            throw Error("Invalid database transaction", ErrorKind::Invalid);
+        impl_->commit();
     }
     void abort()
     {
-        translateLmdbErrors([&] { native_.abort(); });
+        if (!impl_)
+            throw Error("Invalid database transaction", ErrorKind::Invalid);
+        impl_->abort();
     }
     void renew()
     {
-        translateLmdbErrors([&] { native_.renew(); });
+        if (!impl_)
+            throw Error("Invalid database transaction", ErrorKind::Invalid);
+        impl_->renew();
     }
-    void reset() noexcept { native_.reset(); }
+    void reset() noexcept
+    {
+        if (impl_)
+            impl_->reset();
+    }
 
 private:
     friend class Dbi;
     friend class Cursor;
-    friend class LmdbBackend;
-
-    lmdb::txn &native() noexcept { return native_; }
-    const lmdb::txn &native() const noexcept { return native_; }
-    auto handle() const noexcept { return native_.handle(); }
-    const void *env() const noexcept { return native_.env(); }
-
-    lmdb::txn native_;
+    friend detail::TxnImpl *detail::txnImpl(Txn &txn) noexcept;
+    friend const detail::TxnImpl *detail::txnImpl(const Txn &txn) noexcept;
+    detail::TxnImpl &implRef() { return *impl_; }
+    const detail::TxnImpl &implRef() const { return *impl_; }
+    std::shared_ptr<detail::TxnImpl> impl_;
 };
 
 class Dbi
 {
 public:
     Dbi() = default;
-    explicit Dbi(lmdb::dbi native)
-      : native_(std::move(native))
+    explicit Dbi(std::shared_ptr<detail::DbiImpl> impl)
+      : impl_(std::move(impl))
     {
     }
 
@@ -69,67 +164,71 @@ public:
     Dbi(Dbi &&) noexcept            = default;
     Dbi &operator=(Dbi &&) noexcept = default;
 
-    static Dbi fromNative(lmdb::dbi native) { return Dbi{std::move(native)}; }
-
     template<typename Key, typename Value>
-    decltype(auto) get(Txn &txn, Key &&key, Value &value)
+    bool get(Txn &txn, const Key &key, Value &value)
     {
-        return translateLmdbErrors(
-          [&] { return native_.get(txn.native(), std::forward<Key>(key), value); });
+        if (!impl_)
+            throw Error("Invalid database handle", ErrorKind::Invalid);
+        std::string_view result;
+        const bool found = impl_->get(txn.implRef(), detail::toBytes(key), result);
+        if (found)
+            detail::assignBytes(value, result);
+        return found;
     }
 
     template<typename Key, typename Value>
-    decltype(auto) put(Txn &txn, Key &&key, Value &&value, PutFlags flags = PutFlags::None)
+    bool put(Txn &txn, const Key &key, const Value &value, PutFlags flags = PutFlags::None)
     {
-        return translateLmdbErrors([&] {
-            return native_.put(txn.native(),
-                               std::forward<Key>(key),
-                               std::forward<Value>(value),
-                               toLmdbPutFlags(flags));
-        });
+        if (!impl_)
+            throw Error("Invalid database handle", ErrorKind::Invalid);
+        return impl_->put(txn.implRef(), detail::toBytes(key), detail::toBytes(value), flags);
     }
 
     template<typename Key>
-    decltype(auto) del(Txn &txn, Key &&key)
+    bool del(Txn &txn, const Key &key)
     {
-        return translateLmdbErrors(
-          [&] { return native_.del(txn.native(), std::forward<Key>(key)); });
+        if (!impl_)
+            throw Error("Invalid database handle", ErrorKind::Invalid);
+        return impl_->del(txn.implRef(), detail::toBytes(key));
     }
 
     template<typename Key, typename Value>
-    decltype(auto) del(Txn &txn, Key &&key, Value &&value)
+    bool del(Txn &txn, const Key &key, const Value &value)
     {
-        return translateLmdbErrors([&] {
-            return native_.del(txn.native(), std::forward<Key>(key), std::forward<Value>(value));
-        });
+        if (!impl_)
+            throw Error("Invalid database handle", ErrorKind::Invalid);
+        return impl_->del(txn.implRef(), detail::toBytes(key), detail::toBytes(value));
     }
 
-    decltype(auto) drop(Txn &txn, bool del = false)
+    bool drop(Txn &txn, bool del = false)
     {
-        return translateLmdbErrors([&] { return native_.drop(txn.native(), del); });
+        if (!impl_)
+            throw Error("Invalid database handle", ErrorKind::Invalid);
+        return impl_->drop(txn.implRef(), del);
     }
 
-    decltype(auto) size(Txn &txn)
+    std::size_t size(Txn &txn)
     {
-        return translateLmdbErrors([&] { return native_.size(txn.native()); });
+        if (!impl_)
+            throw Error("Invalid database handle", ErrorKind::Invalid);
+        return impl_->size(txn.implRef());
     }
 
 private:
     friend class Cursor;
-    friend class LmdbBackend;
-
-    lmdb::dbi &native() noexcept { return native_; }
-    const lmdb::dbi &native() const noexcept { return native_; }
-
-    lmdb::dbi native_;
+    friend detail::DbiImpl *detail::dbiImpl(Dbi &dbi) noexcept;
+    friend const detail::DbiImpl *detail::dbiImpl(const Dbi &dbi) noexcept;
+    detail::DbiImpl &implRef() { return *impl_; }
+    const detail::DbiImpl &implRef() const { return *impl_; }
+    std::shared_ptr<detail::DbiImpl> impl_;
 };
 
 class Cursor
 {
 public:
     Cursor() = default;
-    explicit Cursor(lmdb::cursor native)
-      : native_(std::move(native))
+    explicit Cursor(std::unique_ptr<detail::CursorImpl> impl)
+      : impl_(std::move(impl))
     {
     }
 
@@ -138,75 +237,96 @@ public:
     Cursor(Cursor &&) noexcept            = default;
     Cursor &operator=(Cursor &&) noexcept = default;
 
-    static Cursor fromNative(lmdb::cursor native) { return Cursor{std::move(native)}; }
     static Cursor open(Txn &txn, Dbi dbi)
     {
-        return translateLmdbErrors(
-          [&] { return fromNative(lmdb::cursor::open(txn.native(), dbi.native())); });
+        if (!dbi.impl_)
+            throw Error("Invalid database handle", ErrorKind::Invalid);
+        return Cursor{dbi.impl_->openCursor(txn.implRef())};
     }
 
     template<typename Key, typename Value>
-    decltype(auto) get(Key &&key, Value &&value, CursorOp op)
+    bool get(Key &key, Value &value, CursorOp op)
     {
-        return translateLmdbErrors([&] {
-            return native_.get(std::forward<Key>(key), std::forward<Value>(value), toNative(op));
-        });
+        if (!impl_)
+            throw Error("Invalid database cursor", ErrorKind::Invalid);
+
+        std::string_view keyBytes = detail::toBytes(key);
+        std::string_view valueBytes;
+        const bool found = impl_->get(keyBytes, valueBytes, op);
+        if (found) {
+            detail::assignBytes(key, keyBytes);
+            detail::assignBytes(value, valueBytes);
+        }
+        return found;
     }
 
     template<typename Key>
-    decltype(auto) get(Key &&key, CursorOp op)
+    bool get(Key &key, CursorOp op)
     {
-        return translateLmdbErrors(
-          [&] { return native_.get(std::forward<Key>(key), toNative(op)); });
+        if (!impl_)
+            throw Error("Invalid database cursor", ErrorKind::Invalid);
+
+        std::string_view keyBytes = detail::toBytes(key);
+        const bool found          = impl_->get(keyBytes, op);
+        if (found)
+            detail::assignBytes(key, keyBytes);
+        return found;
     }
 
     template<typename Key, typename Value>
-    decltype(auto) put(Key &&key, Value &&value, PutFlags flags = PutFlags::None)
+    bool put(const Key &key, const Value &value, PutFlags flags = PutFlags::None)
     {
-        return translateLmdbErrors([&] {
-            return native_.put(
-              std::forward<Key>(key), std::forward<Value>(value), toLmdbPutFlags(flags));
-        });
+        if (!impl_)
+            throw Error("Invalid database cursor", ErrorKind::Invalid);
+
+        return impl_->put(detail::toBytes(key), detail::toBytes(value), flags);
     }
 
-    decltype(auto) del(unsigned flags = 0)
+    bool del(unsigned flags = 0)
     {
-        return translateLmdbErrors([&] { return native_.del(flags); });
+        if (!impl_)
+            throw Error("Invalid database cursor", ErrorKind::Invalid);
+
+        return impl_->del(flags);
     }
     void close()
     {
-        translateLmdbErrors([&] { native_.close(); });
+        if (!impl_)
+            throw Error("Invalid database cursor", ErrorKind::Invalid);
+
+        impl_->close();
     }
 
 private:
-    static constexpr MDB_cursor_op toNative(CursorOp op)
-    {
-        switch (op) {
-        case CursorOp::First:
-            return MDB_FIRST;
-        case CursorOp::FirstDup:
-            return MDB_FIRST_DUP;
-        case CursorOp::GetBoth:
-            return MDB_GET_BOTH;
-        case CursorOp::Last:
-            return MDB_LAST;
-        case CursorOp::Next:
-            return MDB_NEXT;
-        case CursorOp::NextDup:
-            return MDB_NEXT_DUP;
-        case CursorOp::NextNoDup:
-            return MDB_NEXT_NODUP;
-        case CursorOp::Prev:
-            return MDB_PREV;
-        case CursorOp::Set:
-            return MDB_SET;
-        case CursorOp::SetRange:
-            return MDB_SET_RANGE;
-        }
-        return MDB_NEXT;
-    }
-
-    lmdb::cursor native_;
+    std::unique_ptr<detail::CursorImpl> impl_;
 };
+
+namespace detail {
+
+inline TxnImpl *
+txnImpl(Txn &txn) noexcept
+{
+    return txn.impl_.get();
+}
+
+inline const TxnImpl *
+txnImpl(const Txn &txn) noexcept
+{
+    return txn.impl_.get();
+}
+
+inline DbiImpl *
+dbiImpl(Dbi &dbi) noexcept
+{
+    return dbi.impl_.get();
+}
+
+inline const DbiImpl *
+dbiImpl(const Dbi &dbi) noexcept
+{
+    return dbi.impl_.get();
+}
+
+} // namespace detail
 
 } // namespace db

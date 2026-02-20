@@ -29,13 +29,6 @@ enum class PutFlags : unsigned
     AppendDup = 1u << 1,
 };
 
-enum class EnvFlags : unsigned
-{
-    None     = 0,
-    MapAsync = 1u << 0,
-    WriteMap = 1u << 1,
-};
-
 template<typename Flag>
 constexpr auto
 toUnderlying(Flag flag) noexcept

@@ -4,7 +4,6 @@
 
 #include "db/Compaction.h"
 
-#include "db/Open.h"
 #include "db/Scan.h"
 #include "db/StorageApi.h"
 
@@ -18,8 +17,8 @@ compact(Database &from, Database &to)
 
     const auto dbNames = from.listStoreNames(fromTxn);
     for (const auto &dbName : dbNames) {
-        auto fromDb = openNamedStore(from, fromTxn, dbName, false);
-        auto toDb   = openNamedStore(to, toTxn, dbName, true);
+        auto fromDb = db::storage::openNamedStore(from, fromTxn, dbName, false);
+        auto toDb   = db::storage::openNamedStore(to, toTxn, dbName, true);
 
         forEachEntry(
           fromTxn, fromDb, [&toTxn, &toDb](std::string_view key, std::string_view value) {

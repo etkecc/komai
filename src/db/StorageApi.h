@@ -192,8 +192,8 @@ openNamedStore(Database &database,
                bool create = true,
                StoreFlags flags = StoreFlags::None)
 {
-    Options options;
-    options.flags = flags;
+    auto options      = openOptionsForName(name);
+    options.flags   |= flags;
     if (create)
         options.flags |= StoreFlags::Create;
 

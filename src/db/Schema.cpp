@@ -18,8 +18,8 @@
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/OlmSessionIndex.h"
-#include "db/Open.h"
 #include "db/Scan.h"
+#include "db/StorageApi.h"
 #include "db/StateIndex.h"
 #include "db/Json.h"
 
@@ -58,7 +58,7 @@ tryDropNamedStore(Backend &backend, Transaction &txn, std::string_view dbName, s
         error->clear();
 
     try {
-        openNamedStore(backend, txn, dbName, false).drop(txn, true);
+        db::storage::openNamedStore(backend, txn, dbName, false).drop(txn, true);
         return true;
     } catch (const std::exception &e) {
         if (error)
@@ -87,8 +87,10 @@ migrateLegacyStateByKeyToStatesKey(Backend &backend,
         error->clear();
 
     try {
-        auto oldStateskeyDb = openRoomStore(backend, txn, roomId, catalog::RoomDb::LegacyStateByKey);
-        auto newStateskeyDb = openRoomStore(backend, txn, roomId, catalog::RoomDb::StatesKey);
+        auto oldStateskeyDb =
+          db::storage::openRoomStore(backend, txn, roomId, catalog::RoomDb::LegacyStateByKey);
+        auto newStateskeyDb =
+          db::storage::openRoomStore(backend, txn, roomId, catalog::RoomDb::StatesKey);
 
         forEachEntry(
           txn,
@@ -123,11 +125,11 @@ migrateLegacyMegolmSessionIndexes(Backend &backend, Transaction &txn, std::strin
 
     try {
         auto inboundMegolmSessionDb =
-          openGlobalStore(backend, txn, catalog::GlobalDb::InboundMegolmSessions);
+          db::storage::openGlobalStore(backend, txn, catalog::GlobalDb::InboundMegolmSessions);
         auto outboundMegolmSessionDb =
-          openGlobalStore(backend, txn, catalog::GlobalDb::OutboundMegolmSessions);
+          db::storage::openGlobalStore(backend, txn, catalog::GlobalDb::OutboundMegolmSessions);
         auto megolmSessionDataDb =
-          openGlobalStore(backend, txn, catalog::GlobalDb::MegolmSessionsData);
+          db::storage::openGlobalStore(backend, txn, catalog::GlobalDb::MegolmSessionsData);
 
         try {
             outboundMegolmSessionDb.drop(txn, false);
@@ -192,7 +194,7 @@ migrateLegacyOlmShardsV1ToV2(Backend &backend, Transaction &txn)
         if (!catalog::isLegacyOlmShardV1(dbName))
             continue;
 
-        auto oldDb = openNamedStore(backend, txn, dbName, false);
+        auto oldDb = db::storage::openNamedStore(backend, txn, dbName, false);
         std::vector<std::pair<std::string, std::string>> sessions;
 
         forEachEntry(
@@ -208,7 +210,8 @@ migrateLegacyOlmShardsV1ToV2(Backend &backend, Transaction &txn)
 
         oldDb.drop(txn, true);
 
-        auto newDb = openNamedStore(backend, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
+        auto newDb =
+          db::storage::openNamedStore(backend, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
         for (const auto &[sessionKey, pickled] : sessions) {
             nlohmann::json value;
             value["ts"] = 0;
@@ -230,7 +233,7 @@ migrateLegacyOlmShardsV2ToUnified(Backend &backend, Transaction &txn, Store &olm
 
         migrated      = true;
         auto curveKey = *catalog::legacyOlmCurveFromV2Name(dbName);
-        auto oldDb    = openNamedStore(backend, txn, dbName, false);
+        auto oldDb = db::storage::openNamedStore(backend, txn, dbName, false);
         forEachEntry(
           txn,
           oldDb,

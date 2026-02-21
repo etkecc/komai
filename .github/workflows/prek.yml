@@ -13,47 +13,47 @@ jobs:
   prek:
     runs-on: ubuntu-24.04
     container:
-      image: docker.io/ubuntu:25.10
+      image: docker.io/alpine:3.23
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install native build dependencies
+      - name: Install dependencies
         run: |
-          apt-get update
-          apt-get install --yes --no-install-recommends \
+          apk add --no-cache \
+            build-base \
             cmake \
-            curl \
-            ca-certificates \
+            git \
+            python3 \
             just \
-            pkg-config \
+            bash \
+            mise \
+            qt6-qtbase-dev \
+            qt6-qtdeclarative-dev \
+            qt6-qtdeclarative-private-dev \
+            qt6-qtmultimedia-dev \
+            qt6-qtsvg-dev \
+            qt6-qttools-dev \
+            coeurl-dev \
+            mtxclient-dev \
+            olm-dev \
+            qtkeychain-dev \
+            kdsingleapplication-dev \
+            lmdb-dev \
+            lmdbxx \
+            nlohmann-json \
+            spdlog-dev \
+            cmark-dev \
+            re2-dev \
+            openssl-dev \
+            curl-dev \
             libevent-dev \
-            libspdlog-dev \
-            libre2-dev \
-            liblmdb++-dev \
-            libcurl4-openssl-dev \
-            libssl-dev \
-            libolm-dev \
-            libcmark-dev \
-            nlohmann-json3-dev \
-            libkdsingleapplication-qt6-dev \
-            qt6-base-dev \
-            qt6-tools-dev \
-            qt6-svg-dev \
-            qt6-multimedia-dev \
-            qt6-declarative-dev \
-            qt6-declarative-dev-tools \
-            qtkeychain-qt6-dev \
-            qt6-base-private-dev \
-            qt6-declarative-private-dev
-
-      - name: Install mise
-        uses: jdx/mise-action@v2
-        with:
-          cache: true
+            libsecret-dev \
+            yaml-cpp-dev \
+            zlib-dev
 
       - name: Run prek on all files
         run: |
-          just configure -DUSE_BUNDLED_COEURL=ON
+          just configure
           just prek-run-on-all

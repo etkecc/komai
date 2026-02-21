@@ -23,6 +23,7 @@
 #include "db/DupIndex.h"
 #include "db/NamePolicy.h"
 #include "db/Open.h"
+#include "db/OlmSessionIndex.h"
 #include "db/OrderEntry.h"
 #include "db/Scan.h"
 #include "db/Schema.h"
@@ -849,6 +850,62 @@ testSyncStateHelper()
           "sync state helper reports missing enum-keyed value");
         ok &= expect(!db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret").has_value(),
                      "sync state helper reports missing secret-keyed value");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testOlmSessionIndexHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn = backend->beginTxn();
+        auto olmSessionsDb = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::OlmSessions);
+
+        db::putOlmSessionValue(txn, olmSessionsDb, "curve-a", "sess-2", R"({"ts":2})");
+        db::putOlmSessionValue(txn, olmSessionsDb, "curve-a", "sess-1", R"({"ts":1})");
+        db::putOlmSessionValue(txn, olmSessionsDb, "curve-b", "sess-0", R"({"ts":0})");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto olmSessionsDb =
+          db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
+
+        std::string_view value;
+        ok &= expect(db::getOlmSessionValue(txn, olmSessionsDb, "curve-a", "sess-1", value),
+                     "olm session helper reads curve+session entry");
+        ok &= expect(value == R"({"ts":1})", "olm session helper returns expected value");
+
+        ok &= expect(!db::getOlmSessionValue(txn, olmSessionsDb, "curve-a", "missing", value),
+                     "olm session helper reports missing session id");
+
+        const auto ids = db::listOlmSessionIds(txn, olmSessionsDb, "curve-a");
+        ok &= expect(ids.size() == 2, "olm session helper lists session ids per curve");
+        ok &= expect(ids.size() >= 2 && ids[0] == "sess-1",
+                     "olm session helper list preserves key ordering #1");
+        ok &= expect(ids.size() >= 2 && ids[1] == "sess-2",
+                     "olm session helper list preserves key ordering #2");
+
+        std::vector<std::string> seen;
+        const auto iterated = db::forEachOlmSessionForCurve(
+          txn, olmSessionsDb, "curve-a", [&seen](std::string_view sessionId, std::string_view) {
+              seen.emplace_back(sessionId);
+              return seen.size() < 2;
+          });
+        ok &= expect(iterated == 2, "olm session helper counts iterated sessions");
+        ok &= expect(seen.size() == 2 && seen[0] == "sess-1" && seen[1] == "sess-2",
+                     "olm session helper callback exposes ordered session ids");
     }
 
     backend->close();
@@ -2374,6 +2431,7 @@ main()
     ok &= testOpenHelpers();
     ok &= testStateIndexHelper();
     ok &= testSyncStateHelper();
+    ok &= testOlmSessionIndexHelper();
     ok &= testDupIndexHelper();
     ok &= testScanHelper();
     ok &= testOrderEntryHelper();

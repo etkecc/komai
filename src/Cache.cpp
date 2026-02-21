@@ -41,6 +41,7 @@
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
+#include "db/OlmSessionIndex.h"
 #include "db/Open.h"
 #include "db/OrderEntry.h"
 #include "db/Scan.h"
@@ -1200,9 +1201,8 @@ Cache::saveOlmSessions(std::vector<std::pair<std::string, mtx::crypto::OlmSessio
         stored_session.pickled_session = pickled;
         stored_session.last_message_ts = timestamp;
 
-        db->olmSessions.put(txn,
-                            db::catalog::olmSessionKey(curve25519, session_id),
-                            nlohmann::json(stored_session).dump());
+        db::putOlmSessionValue(
+          txn, db->olmSessions, curve25519, session_id, nlohmann::json(stored_session).dump());
     }
 
     txn.commit();
@@ -1224,9 +1224,8 @@ Cache::saveOlmSession(const std::string &curve25519,
     stored_session.pickled_session = pickled;
     stored_session.last_message_ts = timestamp;
 
-    db->olmSessions.put(txn,
-                        db::catalog::olmSessionKey(curve25519, session_id),
-                        nlohmann::json(stored_session).dump());
+    db::putOlmSessionValue(
+      txn, db->olmSessions, curve25519, session_id, nlohmann::json(stored_session).dump());
 
     txn.commit();
 }
@@ -1240,8 +1239,7 @@ Cache::getOlmSession(const std::string &curve25519, const std::string &session_i
         auto txn = ro_txn(storage());
 
         std::string_view pickled;
-        bool found =
-          db->olmSessions.get(txn, db::catalog::olmSessionKey(curve25519, session_id), pickled);
+        bool found = db::getOlmSessionValue(txn, db->olmSessions, curve25519, session_id, pickled);
 
         if (found) {
             auto data = nlohmann::json::parse(pickled).get<StoredOlmSession>();
@@ -1262,13 +1260,11 @@ Cache::getLatestOlmSession(const std::string &curve25519)
         auto txn = ro_txn(storage());
 
         std::optional<StoredOlmSession> currentNewest;
-        const auto prefix = db::catalog::olmSessionKey(curve25519, "");
-
-        db::forEachEntryWithPrefix(
+        db::forEachOlmSessionForCurve(
           txn,
           db->olmSessions,
-          prefix,
-          [&currentNewest](std::string_view /*key*/, std::string_view pickled_session) {
+          curve25519,
+          [&currentNewest](std::string_view /*sessionId*/, std::string_view pickled_session) {
               auto data = nlohmann::json::parse(pickled_session).get<StoredOlmSession>();
               if (!currentNewest || currentNewest->last_message_ts < data.last_message_ts)
                   currentNewest = data;
@@ -1290,18 +1286,7 @@ Cache::getOlmSessions(const std::string &curve25519)
 
     try {
         auto txn = ro_txn(storage());
-
-        std::vector<std::string> res;
-        const auto prefix = db::catalog::olmSessionKey(curve25519, "");
-
-        db::forEachEntryWithPrefix(
-          txn, db->olmSessions, prefix, [&res](std::string_view key, std::string_view /*value*/) {
-              auto session_id = db::catalog::splitOlmSessionKey(key).second;
-              res.emplace_back(session_id);
-              return true;
-          });
-
-        return res;
+        return db::listOlmSessionIds(txn, db->olmSessions, curve25519);
     } catch (...) {
         return {};
     }

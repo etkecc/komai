@@ -118,6 +118,11 @@ Database hash:
   `db::removeSyncStateValue(...)`, `db::getSyncStateSecretValue(...)`,
   `db::putSyncStateSecretValue(...)`, `db::removeSyncStateSecretValue(...)`)
   so callers do not manually construct sync-state and sync-state secret key names.
+- Reusable OLM-session index helpers are centralized in
+  `src/db/OlmSessionIndex.cpp`
+  (`db::getOlmSessionValue(...)`, `db::putOlmSessionValue(...)`,
+  `db::forEachOlmSessionForCurve(...)`, `db::listOlmSessionIds(...)`) so callers
+  do not duplicate composite key/prefix handling for unified OLM session storage.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
   (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
   `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor

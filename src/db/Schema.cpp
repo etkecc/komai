@@ -16,6 +16,7 @@
 #include "db/Backend.h"
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
+#include "db/OlmSessionIndex.h"
 #include "db/Open.h"
 #include "db/Scan.h"
 #include "db/StateIndex.h"
@@ -220,7 +221,7 @@ migrateLegacyOlmShardsV2ToUnified(Backend &backend, Txn &txn, Dbi &olmSessions)
           txn,
           oldDb,
           [&txn, &olmSessions, &curveKey](std::string_view sessionId, std::string_view value) {
-              olmSessions.put(txn, catalog::olmSessionKey(curveKey, sessionId), value);
+              putOlmSessionValue(txn, olmSessions, curveKey, sessionId, value);
               return true;
           });
 

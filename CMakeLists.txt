@@ -1004,6 +1004,7 @@ add_library(komai_db
     src/db/InMemoryBackend.cpp
     src/db/NamePolicy.cpp
     src/db/Open.cpp
+    src/db/OlmSessionIndex.cpp
     src/db/OrderEntry.cpp
     src/db/Scan.cpp
     src/db/Schema.cpp

@@ -2784,8 +2784,12 @@ testFactory()
     ok &= expect(db::isDatabaseSupported(db::kLmdbDatabaseId) ==
                      db::isBackendSupported(db::kLmdbDatabaseId),
                  "database and backend support checks are consistent for lmdb");
+    ok &= expect(db::isDatabaseSupported(db::kRocksDbDatabaseId) ==
+                     db::isBackendSupported(db::kRocksDbDatabaseId),
+                 "database and backend support checks are consistent for rocksdb");
 
     const auto lmdbSupported = db::isDatabaseSupported(db::kLmdbDatabaseId);
+    const auto rocksDbSupported = db::isDatabaseSupported(db::kRocksDbDatabaseId);
     auto defaultBackend = db::createDefaultDatabase();
     ok &= expect(db::id(defaultBackend) == db::defaultDatabaseId(),
                  "default backend id matches defaultDatabaseId");
@@ -2841,12 +2845,20 @@ testFactory()
     ok &= expectDbError([] { db::createConfiguredDatabase("not-a-backend"); },
                         "configured database id rejects unknown id");
     if (lmdbSupported) {
-    auto lmdbBackend = db::createDatabase(db::kLmdbDatabaseId);
+        auto lmdbBackend = db::createDatabase(db::kLmdbDatabaseId);
         ok &= expect(db::id(lmdbBackend) == db::kLmdbDatabaseId,
                      "lmdb backend is creatable when available");
     } else {
         ok &= expectDbError([] { db::createDatabase(db::kLmdbDatabaseId); },
                             "lmdb backend creation fails when lmdb support is disabled");
+    }
+    if (rocksDbSupported) {
+        auto rocksDbBackend = db::createDatabase(db::kRocksDbDatabaseId);
+        ok &= expect(db::id(rocksDbBackend) == db::kRocksDbDatabaseId,
+                     "rocksdb backend is creatable when available");
+    } else {
+        ok &= expectDbError([] { db::createDatabase(db::kRocksDbDatabaseId); },
+                            "rocksdb backend creation fails when rocksdb support is disabled");
     }
 
     // Compatibility checks on legacy API names.
@@ -3016,6 +3028,111 @@ testLmdbBackend()
     return ok;
 }
 
+bool
+testRocksDbBackend()
+{
+    if (!db::isBackendSupported(db::kRocksDbDatabaseId))
+        return true;
+
+    bool ok = true;
+
+    QTemporaryDir tmp;
+    ok &= expect(tmp.isValid(), "temporary directory for rocksdb backend");
+    if (!tmp.isValid())
+        return false;
+
+    auto backend               = db::createDatabase(db::kRocksDbDatabaseId);
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 24;
+    options.maxDbs             = 32;
+    options.durability         = db::Durability::Durable;
+    db::open(backend, tmp.path().toStdString(), options);
+
+    ok &= expect(db::isOpen(backend), "rocksdb backend opens");
+
+    {
+        auto rwTxn = db::beginWriteTransaction(*backend);
+        auto one   = db::openStore(*backend, rwTxn, "one", openOptions(db::StoreFlags::Create));
+        auto two = db::openStore(*backend,
+          rwTxn, "two", openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
+        ok &= expect(one.put(rwTxn, "k1", "v1"), "rocksdb put in one");
+        ok &= expect(one.put(rwTxn, "k1-room", "room-json: {\"name\":\"Room\"}"),
+                     "rocksdb put room-json payload in one");
+        ok &= expect(one.put(rwTxn, "k2", "v2"), "rocksdb put extra key in one");
+        ok &= expect(two.put(rwTxn, "k2", "v2"), "rocksdb put in two");
+        rwTxn.commit();
+    }
+
+    {
+        auto roTxn = db::beginReadTransaction(*backend);
+        auto one   = db::openStore(*backend, roTxn, "one");
+        std::string_view roomValue;
+        std::string_view extraValue;
+        const bool gotRoom   = one.get(roTxn, "k1-room", roomValue);
+        const bool gotExtra  = one.get(roTxn, "k2", extraValue);
+        ok &= expect(gotRoom && gotExtra, "rocksdb can read two keys in one read transaction");
+        ok &= expect(roomValue == "room-json: {\"name\":\"Room\"}",
+                     "rocksdb preserves first value after reading second key");
+        ok &= expect(extraValue == "v2", "rocksdb preserves second read value");
+    }
+
+    {
+        auto roTxn      = db::beginReadTransaction(*backend);
+        const auto names = db::listStoreNames(*backend, roTxn);
+        ok &= expect(containsName(names, "one"), "rocksdb listStoreNames contains one");
+        ok &= expect(containsName(names, "two"), "rocksdb listStoreNames contains two");
+
+        ok &= expectDbError([&] { db::openStore(*backend, roTxn, ""); },
+                            "rocksdb openStore rejects empty database name");
+        ok &= expectDbError(
+          [&] {
+              db::openStore(*backend,
+                            roTxn,
+                            "plain",
+                            openOptions(db::StoreFlags::None, db::DupsortComparator::StateKey));
+          },
+          "rocksdb openStore rejects dupsort comparator on non-dupsort db");
+    }
+
+    {
+        auto staleReadTxn = db::beginReadTransaction(*backend);
+        auto oneRo        = db::openStore(*backend, staleReadTxn, "one");
+        ok &= expect(db::ownsTransaction(backend, staleReadTxn),
+                    "rocksdb stale read txn is initially owned");
+        std::string_view value;
+        ok &= expect(oneRo.get(staleReadTxn, "k1", value), "rocksdb stale read txn can read before reopen");
+        ok &= expect(!value.empty(), "rocksdb stale read txn read value exists");
+        db::close(backend);
+        ok &= expect(!db::isOpen(backend), "rocksdb backend closes before reopen");
+        ok &= expect(!db::ownsTransaction(backend, staleReadTxn),
+                    "rocksdb stale read txn not owned after close");
+        db::open(backend, tmp.path().toStdString(), options);
+        ok &= expect(db::isOpen(backend), "rocksdb backend reopens");
+        ok &= expect(!db::ownsTransaction(backend, staleReadTxn),
+                    "rocksdb stale read txn not owned after reopen");
+        ok &= expectDbError([&] { db::openStore(*backend, staleReadTxn, "one"); },
+                            "rocksdb stale read txn cannot be used after reopen");
+    }
+
+    ok &= testCursorAndOrderingContract(*backend, db::kRocksDbDatabaseId);
+
+    db::close(backend);
+    ok &= expect(!db::isOpen(backend), "rocksdb backend closes");
+
+    db::open(backend, tmp.path().toStdString(), options);
+    {
+        auto roTxn = db::beginReadTransaction(*backend);
+        auto one   = db::openStore(*backend, roTxn, "one");
+        std::string_view value;
+        ok &= expect(one.get(roTxn, "k1", value), "rocksdb data survives reopen");
+        ok &= expect(value == "v1", "rocksdb reopened value matches written value");
+    }
+
+    db::close(backend);
+    ok &= expect(!db::isOpen(backend), "rocksdb backend closes");
+    return ok;
+}
+
 } // namespace
 
 int
@@ -3045,5 +3162,6 @@ main()
     ok &= testFactory();
     ok &= testInMemoryBackend();
     ok &= testLmdbBackend();
+    ok &= testRocksDbBackend();
     return ok ? 0 : 1;
 }

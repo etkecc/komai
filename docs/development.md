@@ -46,6 +46,20 @@ just clean
 just build
 ```
 
+For a local build that enables both LMDB and RocksDB backends at once:
+
+```sh
+just configure-all-backends
+just build-all-backends
+just test-all-backends
+```
+
+To explicitly select RocksDB at runtime (when compiled in), set:
+
+```sh
+KOMAI_DB_BACKEND=rocksdb just run-all-backends
+```
+
 ## 🧹 Pre-commit Checks (prek)
 
 Komai uses [prek](https://prek.j178.dev/) (pre-commit compatible) for fast local checks.
@@ -77,7 +91,7 @@ Current C++ test executables:
 
 Notes:
 
-- `komai_db_backend_test` includes in-memory backend contract checks and, when LMDB backend support is enabled, LMDB adapter checks backed by a temporary filesystem directory (integration-style coverage).
+- `komai_db_backend_test` includes in-memory backend contract checks and, when LMDB or RocksDB backend support is enabled, adapter checks for those backends using temporary filesystem directories (integration-style coverage).
 
 ## 📁 Useful Paths
 

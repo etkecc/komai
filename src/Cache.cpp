@@ -1871,7 +1871,7 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
         try {
             if (auto previousRoomInfo = db::getRoomInfo(txn, db->rooms, room))
                 updatedInfo = std::move(*previousRoomInfo);
-        } catch (const nlohmann::json::exception &e) {
+        } catch (const std::exception &e) {
             nhlog::db()->warn("failed to parse room info for room '{}': {}", room, e.what());
         }
     }
@@ -2139,7 +2139,7 @@ try {
 
                     updatedInfo.approximate_last_modification_ts =
                       tmp.approximate_last_modification_ts;
-                } catch (const nlohmann::json::exception &e) {
+                } catch (const std::exception &e) {
                     nhlog::db()->warn("failed to parse room info: room_id ({}), {}: {}",
                                       room.first,
                                       originalRoomInfoDump,
@@ -2448,10 +2448,10 @@ Cache::singleRoomInfo(const std::string &room_id)
             tmp.guest_access = getRoomGuestAccess(txn, statesdb);
             return tmp;
         }
-    } catch (const nlohmann::json::exception &e) {
-        nhlog::db()->warn("failed to parse room info for room '{}': {}", room_id, e.what());
     } catch (const db::Error &e) {
         nhlog::db()->warn("failed to read room info from db: room_id ({}), {}", room_id, e.what());
+    } catch (const std::exception &e) {
+        nhlog::db()->warn("failed to parse room info for room '{}': {}", room_id, e.what());
     }
 
     return RoomInfo();
@@ -2469,10 +2469,10 @@ Cache::updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
             txn.commit();
             return;
         }
-    } catch (const nlohmann::json::exception &e) {
-        nhlog::db()->warn("failed to parse room info for room '{}': {}", room_id, e.what());
     } catch (const db::Error &e) {
         nhlog::db()->warn("failed to read room info from db: room_id ({}), {}", room_id, e.what());
+    } catch (const std::exception &e) {
+        nhlog::db()->warn("failed to parse room info for room '{}': {}", room_id, e.what());
     }
 }
 
@@ -2497,7 +2497,7 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
                 tmp.guest_access = getRoomGuestAccess(txn, statesdb);
 
                 room_info.emplace(QString::fromStdString(room), std::move(tmp));
-            } catch (const nlohmann::json::exception &e) {
+            } catch (const std::exception &e) {
                 nhlog::db()->warn("failed to parse room info: room_id ({}), {}: {}",
                                   room,
                                   std::string(data.data(), data.size()),
@@ -2511,7 +2511,7 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
                     tmp.member_count = getInviteMembersDb(txn, room).size(txn);
 
                     room_info.emplace(QString::fromStdString(room), std::move(tmp));
-                } catch (const nlohmann::json::exception &e) {
+                } catch (const std::exception &e) {
                     nhlog::db()->warn("failed to parse room info for invite: "
                                       "room_id ({}), {}: {}",
                                       room,
@@ -2631,9 +2631,14 @@ Cache::roomInfo(bool withInvites)
     // Gather info about the joined rooms.
     db::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-          RoomInfo tmp     = db::parseRoomInfo(room_data);
-          tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
-          result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+          try {
+              RoomInfo tmp     = db::parseRoomInfo(room_data);
+              tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
+              result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+          } catch (const std::exception &e) {
+              nhlog::db()->warn(
+                "failed to parse room info for joined room ({}): {}", room_id, e.what());
+          }
           return true;
       });
 
@@ -2643,9 +2648,14 @@ Cache::roomInfo(bool withInvites)
           txn,
           db->invites,
           [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-              RoomInfo tmp     = db::parseRoomInfo(room_data);
-              tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
-              result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+              try {
+                  RoomInfo tmp     = db::parseRoomInfo(room_data);
+                  tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
+                  result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+              } catch (const std::exception &e) {
+                  nhlog::db()->warn(
+                    "failed to parse room info for invite room ({}): {}", room_id, e.what());
+              }
               return true;
           });
     }
@@ -2845,7 +2855,7 @@ Cache::invites()
               RoomInfo tmp     = db::parseRoomInfo(room_data);
               tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
-          } catch (const nlohmann::json::exception &e) {
+          } catch (const std::exception &e) {
               nhlog::db()->warn("failed to parse room info for invite: "
                                 "room_id ({}), {}: {}",
                                 room_id,
@@ -2872,7 +2882,7 @@ Cache::invite(std::string_view roomid)
             RoomInfo tmp     = db::parseRoomInfo(room_data);
             tmp.member_count = getInviteMembersDb(txn, std::string(roomid)).size(txn);
             result           = std::move(tmp);
-        } catch (const nlohmann::json::exception &e) {
+        } catch (const std::exception &e) {
             nhlog::db()->warn("failed to parse room info for invite: "
                               "room_id ({}), {}: {}",
                               roomid,
@@ -3914,8 +3924,12 @@ Cache::spaces()
         const auto spaceId = std::string(space_id);
         std::string_view room_data;
         if (db->rooms.get(txn, spaceId, room_data)) {
-            RoomInfo tmp = db::parseRoomInfo(room_data);
-            ret.insert(QString::fromStdString(spaceId), tmp);
+            try {
+                RoomInfo tmp = db::parseRoomInfo(room_data);
+                ret.insert(QString::fromStdString(spaceId), tmp);
+            } catch (const std::exception &e) {
+                nhlog::db()->warn("failed to parse room info for space {}: {}", spaceId, e.what());
+            }
         } else {
             ret.insert(QString::fromStdString(spaceId), std::nullopt);
         }
@@ -4340,103 +4354,112 @@ Cache::updateUserKeys(const std::string &sync_token, const mtx::responses::Query
         auto updateToWrite = update;
 
         UserKeyCache oldEntry{};
-        if (db::getJsonValue(txn, db_, user, oldEntry)) {
-            updateToWrite     = oldEntry;
-            auto last_changed = updateToWrite.last_changed;
-            // skip if we are tracking this and expect it to be up to date with the last
-            // sync token
-            if (!last_changed.empty() && last_changed != sync_token) {
-                nhlog::db()->debug("Not storing update for user {}, because "
-                                   "last_changed {}, but we fetched update for {}",
-                                   user,
-                                   last_changed,
-                                   sync_token);
-                continue;
-            }
+        try {
+            if (db::getJsonValue(txn, db_, user, oldEntry)) {
+                updateToWrite     = oldEntry;
+                auto last_changed = updateToWrite.last_changed;
+                // skip if we are tracking this and expect it to be up to date with the last
+                // sync token
+                if (!last_changed.empty() && last_changed != sync_token) {
+                    nhlog::db()->debug("Not storing update for user {}, because "
+                                       "last_changed {}, but we fetched update for {}",
+                                       user,
+                                       last_changed,
+                                       sync_token);
+                    continue;
+                }
 
-            if (!updateToWrite.master_keys.keys.empty() &&
-                update.master_keys.keys != updateToWrite.master_keys.keys) {
-                nhlog::db()->debug("Master key of {} changed:\nold: {}\nnew: {}",
-                                   user,
-                                   updateToWrite.master_keys.keys.size(),
-                                   update.master_keys.keys.size());
-                updateToWrite.master_key_changed = true;
-            }
+                if (!updateToWrite.master_keys.keys.empty() &&
+                    update.master_keys.keys != updateToWrite.master_keys.keys) {
+                    nhlog::db()->debug("Master key of {} changed:\nold: {}\nnew: {}",
+                                       user,
+                                       updateToWrite.master_keys.keys.size(),
+                                       update.master_keys.keys.size());
+                    updateToWrite.master_key_changed = true;
+                }
 
-            updateToWrite.master_keys       = update.master_keys;
-            updateToWrite.self_signing_keys = update.self_signing_keys;
-            updateToWrite.user_signing_keys = update.user_signing_keys;
+                updateToWrite.master_keys       = update.master_keys;
+                updateToWrite.self_signing_keys = update.self_signing_keys;
+                updateToWrite.user_signing_keys = update.user_signing_keys;
 
-            auto oldDeviceKeys = std::move(updateToWrite.device_keys);
-            updateToWrite.device_keys.clear();
+                auto oldDeviceKeys = std::move(updateToWrite.device_keys);
+                updateToWrite.device_keys.clear();
 
-            // Don't insert keys, which we have seen once already
-            for (const auto &[device_id, device_keys] : update.device_keys) {
-                if (oldDeviceKeys.count(device_id) &&
-                    oldDeviceKeys.at(device_id).keys == device_keys.keys) {
-                    // this is safe, since the keys are the same
-                    updateToWrite.device_keys[device_id] = device_keys;
-                } else {
-                    bool keyReused = false;
+                // Don't insert keys, which we have seen once already
+                for (const auto &[device_id, device_keys] : update.device_keys) {
+                    if (oldDeviceKeys.count(device_id) &&
+                        oldDeviceKeys.at(device_id).keys == device_keys.keys) {
+                        // this is safe, since the keys are the same
+                        updateToWrite.device_keys[device_id] = device_keys;
+                    } else {
+                        bool keyReused = false;
+                        for (const auto &[key_id, key] : device_keys.keys) {
+                            (void)key_id;
+                            if (updateToWrite.seen_device_keys.count(key)) {
+                                nhlog::crypto()->warn(
+                                  "Key '{}' reused by ({}: {})", key, user, device_id);
+                                keyReused = true;
+                                break;
+                            }
+                            if (updateToWrite.seen_device_ids.count(device_id)) {
+                                nhlog::crypto()->warn(
+                                  "device_id '{}' reused by ({})", device_id, user);
+                                keyReused = true;
+                                break;
+                            }
+                        }
+
+                        if (!keyReused && !oldDeviceKeys.count(device_id)) {
+                            // ensure the key has a valid signature from itself
+                            std::string device_signing_key = "ed25519:" + device_keys.device_id;
+                            if (device_id != device_keys.device_id) {
+                                nhlog::crypto()->warn("device {}:{} has a different device id "
+                                                      "in the body: {}",
+                                                      user,
+                                                      device_id,
+                                                      device_keys.device_id);
+                                continue;
+                            }
+                            if (!device_keys.signatures.count(user) ||
+                                !device_keys.signatures.at(user).count(device_signing_key)) {
+                                nhlog::crypto()->warn(
+                                  "device {}:{} has no signature", user, device_id);
+                                continue;
+                            }
+                            if (!device_keys.keys.count(device_signing_key) ||
+                                !device_keys.keys.count("curve25519:" + device_id)) {
+                                nhlog::crypto()->warn(
+                                  "Device key has no curve25519 or ed25519 key  {}:{}",
+                                  user,
+                                  device_id);
+                                continue;
+                            }
+
+                            if (!mtx::crypto::ed25519_verify_signature(
+                                  device_keys.keys.at(device_signing_key),
+                                  nlohmann::json(device_keys),
+                                  device_keys.signatures.at(user).at(device_signing_key))) {
+                                nhlog::crypto()->warn(
+                                  "device {}:{} has an invalid signature", user, device_id);
+                                continue;
+                            }
+
+                            updateToWrite.device_keys[device_id] = device_keys;
+                        }
+                    }
+
                     for (const auto &[key_id, key] : device_keys.keys) {
                         (void)key_id;
-                        if (updateToWrite.seen_device_keys.count(key)) {
-                            nhlog::crypto()->warn(
-                              "Key '{}' reused by ({}: {})", key, user, device_id);
-                            keyReused = true;
-                            break;
-                        }
-                        if (updateToWrite.seen_device_ids.count(device_id)) {
-                            nhlog::crypto()->warn("device_id '{}' reused by ({})", device_id, user);
-                            keyReused = true;
-                            break;
-                        }
+                        updateToWrite.seen_device_keys.insert(key);
                     }
-
-                    if (!keyReused && !oldDeviceKeys.count(device_id)) {
-                        // ensure the key has a valid signature from itself
-                        std::string device_signing_key = "ed25519:" + device_keys.device_id;
-                        if (device_id != device_keys.device_id) {
-                            nhlog::crypto()->warn("device {}:{} has a different device id "
-                                                  "in the body: {}",
-                                                  user,
-                                                  device_id,
-                                                  device_keys.device_id);
-                            continue;
-                        }
-                        if (!device_keys.signatures.count(user) ||
-                            !device_keys.signatures.at(user).count(device_signing_key)) {
-                            nhlog::crypto()->warn("device {}:{} has no signature", user, device_id);
-                            continue;
-                        }
-                        if (!device_keys.keys.count(device_signing_key) ||
-                            !device_keys.keys.count("curve25519:" + device_id)) {
-                            nhlog::crypto()->warn(
-                              "Device key has no curve25519 or ed25519 key  {}:{}",
-                              user,
-                              device_id);
-                            continue;
-                        }
-
-                        if (!mtx::crypto::ed25519_verify_signature(
-                              device_keys.keys.at(device_signing_key),
-                              nlohmann::json(device_keys),
-                              device_keys.signatures.at(user).at(device_signing_key))) {
-                            nhlog::crypto()->warn(
-                              "device {}:{} has an invalid signature", user, device_id);
-                            continue;
-                        }
-
-                        updateToWrite.device_keys[device_id] = device_keys;
-                    }
+                    updateToWrite.seen_device_ids.insert(device_id);
                 }
-
-                for (const auto &[key_id, key] : device_keys.keys) {
-                    (void)key_id;
-                    updateToWrite.seen_device_keys.insert(key);
-                }
-                updateToWrite.seen_device_ids.insert(device_id);
             }
+        } catch (const std::exception &e) {
+            nhlog::db()->warn(
+              "Could not parse existing user key cache for {} ({}). Replacing entry.",
+              user,
+              e.what());
         }
         updateToWrite.updated_at = sync_token;
         db::putJsonValue(txn, db_, user, updateToWrite);

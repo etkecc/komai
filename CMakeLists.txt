@@ -70,6 +70,7 @@ option(USE_BUNDLED_CPPHTTPLIB "Use the bundled version of cpp-httplib." ON)
 option(USE_BUNDLED_BLURHASH "Use the bundled version of blurhash." ON)
 option(USE_BUNDLED_YAMLCPP "Use the bundled version of yaml-cpp." ${HUNTER_ENABLED})
 option(KOMAI_DB_ENABLE_LMDB_BACKEND "Build LMDB database backend support." ON)
+option(KOMAI_DB_ENABLE_ROCKSDB_BACKEND "Build RocksDB database backend support." OFF)
 
 include(CMakeDependentOption)
 set(VOIP_DEFAULT ON)
@@ -246,6 +247,14 @@ if(KOMAI_DB_ENABLE_LMDB_BACKEND)
     else()
         find_package(LMDB REQUIRED)
     endif()
+endif()
+
+#
+# RocksDB
+#
+if(KOMAI_DB_ENABLE_ROCKSDB_BACKEND)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(rocksdb REQUIRED IMPORTED_TARGET rocksdb)
 endif()
 
 #
@@ -1030,6 +1039,13 @@ if(KOMAI_DB_ENABLE_LMDB_BACKEND)
     target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_LMDB=1)
 else()
     target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_LMDB=0)
+endif()
+if(KOMAI_DB_ENABLE_ROCKSDB_BACKEND)
+    target_sources(komai_db PRIVATE src/db/RocksDbBackend.cpp)
+    target_link_libraries(komai_db PUBLIC PkgConfig::rocksdb)
+    target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_ROCKSDB=1)
+else()
+    target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_ROCKSDB=0)
 endif()
 
 if(BUILD_TESTING)

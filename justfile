@@ -1,5 +1,6 @@
 # Paths
 build_dir := justfile_directory() / "var/build/native"
+rocksdb_build_dir := justfile_directory() / "var/build/native-rocksdb"
 flatpak_build_dir := justfile_directory() / "var/build/flatpak"
 appimage_build_dir := justfile_directory() / "var/build/appimage"
 
@@ -18,6 +19,15 @@ configure *args:
 		-DMAN=OFF \
 		{{ args }}
 
+# Configures a build with both LMDB + RocksDB backends enabled
+configure-all-backends *args:
+	cmake -S {{ justfile_directory() }} -B {{ rocksdb_build_dir }} \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DMAN=OFF \
+		-DKOMAI_DB_ENABLE_LMDB_BACKEND=ON \
+		-DKOMAI_DB_ENABLE_ROCKSDB_BACKEND=ON \
+		{{ args }}
+
 # Builds the project (configures first if needed)
 build *args:
 	#!/usr/bin/env bash
@@ -26,6 +36,15 @@ build *args:
 		just --justfile {{ justfile() }} configure
 	fi
 	cmake --build {{ build_dir }} --parallel "$(nproc)" {{ args }}
+
+# Builds the project with LMDB + RocksDB support (configures first if needed)
+build-all-backends *args:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	if [[ ! -f "{{ rocksdb_build_dir }}/CMakeCache.txt" ]]; then
+		just --justfile {{ justfile() }} configure-all-backends
+	fi
+	cmake --build {{ rocksdb_build_dir }} --parallel "$(nproc)" {{ args }}
 
 # Runs all tests
 test: test-unit test-integration
@@ -39,6 +58,16 @@ test-unit *args:
 	fi
 	cmake --build {{ build_dir }} --parallel "$(nproc)" --target komai_tests
 	ctest --test-dir {{ build_dir }} --output-on-failure -L unit {{ args }}
+
+# Runs all tests against the LMDB + RocksDB build directory
+test-all-backends *args:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	if [[ ! -f "{{ rocksdb_build_dir }}/CMakeCache.txt" ]]; then
+		just --justfile {{ justfile() }} configure-all-backends
+	fi
+	cmake --build {{ rocksdb_build_dir }} --parallel "$(nproc)" --target komai_tests
+	ctest --test-dir {{ rocksdb_build_dir }} --output-on-failure {{ args }}
 
 # Runs integration tests
 test-integration *args:
@@ -90,6 +119,16 @@ configure-debug *args:
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
 		-DMAN=OFF \
 		{{ args }}
+
+# Runs the compiled binary from the all-backends build (builds first if needed)
+run-all-backends *args:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	binary="{{ rocksdb_build_dir }}/komai"
+	if [[ ! -x "$binary" ]]; then
+		just --justfile {{ justfile() }} build-all-backends
+	fi
+	exec "$binary" {{ args }}
 
 # Extracts translatable strings from source code into .ts files, then normalizes
 translations-update:

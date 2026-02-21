@@ -87,9 +87,11 @@ using db::toSv;
 inline constexpr std::string_view kMemoryDatabaseId   = db::kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryDatabaseId = db::kInMemoryDatabaseId;
 inline constexpr std::string_view kLmdbDatabaseId     = db::kLmdbDatabaseId;
+inline constexpr std::string_view kRocksDbDatabaseId  = db::kRocksDbDatabaseId;
 inline constexpr std::string_view kMemoryBackendId    = db::kMemoryBackendId;
 inline constexpr std::string_view kInMemoryBackendId  = db::kInMemoryBackendId;
 inline constexpr std::string_view kLmdbBackendId      = db::kLmdbBackendId;
+inline constexpr std::string_view kRocksDbBackendId   = db::kRocksDbBackendId;
 
 enum class AccessMode
 {

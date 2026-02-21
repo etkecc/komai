@@ -54,15 +54,16 @@ Database hash:
 
 - Backend selection is currently runtime-configurable via `KOMAI_DB_BACKEND`.
 - Supported backend IDs:
-  - `memory` (always available; fallback default when LMDB backend is not built; ephemeral)
-  - `lmdb` (default when `KOMAI_DB_ENABLE_LMDB_BACKEND=ON`)
+  - `memory` (always available; fallback default when no persistent backend is built; ephemeral)
+  - `lmdb` (default when available)
+  - `rocksdb` (optional when built with `KOMAI_DB_ENABLE_ROCKSDB_BACKEND=ON`)
 - Backends expose persistence behavior through `db::Backend::storageCategory()`:
   - `Persistent`: uses on-disk storage.
   - `Ephemeral`: keeps data in-memory only (currently `memory`; useful for testing or
     ephemeral runs, not suitable for normal user data).
 - Compaction is backend-capability-driven (`Backend::supportsCompaction()`):
-  enabled for `lmdb` when present, skipped for `memory`.
-- Cross-backend data copy used by compaction is implemented in `src/db/Compaction.cpp` (`db::compact(...)`).
+  enabled for `lmdb` when present, skipped for `memory` and current `rocksdb` backend wiring.
+- Cross-backend data copy used by compaction is implemented in `src/db/Maintenance.cpp` (`db::compact(...)`).
 - Selection is delegated to `src/db/Factory.cpp`
   (`db::createConfiguredBackendFromEnvironment(...)` and
   `db::createConfiguredBackend(...)`), while backend implementations live under `src/db/`.

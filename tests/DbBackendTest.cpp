@@ -20,7 +20,6 @@
 #include "CacheCryptoStructs.h"
 #include "db/Backend.h"
 #include "db/Catalog.h"
-#include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/Json.h"
 #include "db/DupIndex.h"
@@ -788,7 +787,7 @@ testCompactionHelper()
         txn.commit();
     }
 
-    db::compact(*from, *to);
+    db::maintenance::compact(*from, *to);
 
     {
         auto txn      = db::storage::beginReadTransaction(*to);

@@ -19,9 +19,9 @@ std::unique_ptr<Backend>
 createDefaultBackend()
 {
 #if KOMAI_DB_WITH_LMDB
-    return createBackend("lmdb");
+    return createBackend(kLmdbBackendId);
 #else
-    return createBackend("memory");
+    return createBackend(kMemoryBackendId);
 #endif
 }
 
@@ -32,13 +32,13 @@ createBackend(std::string_view id)
         return createDefaultBackend();
 
 #if KOMAI_DB_WITH_LMDB
-    if (id == "lmdb")
+    if (id == kLmdbBackendId)
         return std::make_unique<LmdbBackend>();
 #else
-    if (id == "lmdb")
+    if (id == kLmdbBackendId)
         throw Error("LMDB backend is not enabled in this build", ErrorKind::Invalid);
 #endif
-    if (id == "memory" || id == "in-memory")
+    if (id == kMemoryBackendId || id == kInMemoryBackendId)
         return std::make_unique<InMemoryBackend>();
 
     throw Error(std::string("Unknown database backend: ") + std::string(id), ErrorKind::Invalid);

@@ -17,7 +17,7 @@ public:
     LmdbBackend();
     ~LmdbBackend() override;
 
-    std::string_view id() const noexcept override { return "lmdb"; }
+    std::string_view id() const noexcept override { return kLmdbBackendId; }
     bool supportsCompaction() const noexcept override { return true; }
 
     void open(std::string_view directory, const BackendOptions &options) override;

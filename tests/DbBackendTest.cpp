@@ -285,7 +285,7 @@ testSchemaHelpers()
                    roomDbs.end(),
                  "schema helper list includes RoomDb::LegacyStateByKey");
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 128;
@@ -442,7 +442,7 @@ testLegacyOlmMigrationHelpers()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 64;
@@ -598,7 +598,7 @@ testOpenHelpers()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -649,8 +649,8 @@ testCompactionHelper()
 {
     bool ok = true;
 
-    auto from                  = db::createBackend("memory");
-    auto to                    = db::createBackend("memory");
+    auto from                  = db::createBackend(db::kMemoryBackendId);
+    auto to                    = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -699,7 +699,7 @@ testStateIndexHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -794,7 +794,7 @@ testSyncStateHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -868,7 +868,7 @@ testMegolmIndexHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -932,7 +932,7 @@ testReadReceiptIndexHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -978,7 +978,7 @@ testRoomInfoHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -1057,7 +1057,7 @@ testMemberInfoHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -1125,7 +1125,7 @@ testJsonHelpers()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 16;
@@ -1309,7 +1309,7 @@ testOlmSessionIndexHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -1365,7 +1365,7 @@ testDupIndexHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -1469,7 +1469,7 @@ testScanHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -1750,7 +1750,7 @@ testTimelineIndexHelper()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 128;
@@ -2652,44 +2652,44 @@ testFactory()
 
     auto defaultBackend = db::createDefaultBackend();
 #if KOMAI_DB_WITH_LMDB
-    ok &= expect(defaultBackend->id() == "lmdb", "default backend is lmdb");
+    ok &= expect(defaultBackend->id() == db::kLmdbBackendId, "default backend is lmdb");
     ok &= expect(defaultBackend->supportsCompaction(), "lmdb backend reports compaction support");
 #else
-    ok &= expect(defaultBackend->id() == "memory", "default backend falls back to memory");
+    ok &= expect(defaultBackend->id() == db::kMemoryBackendId, "default backend falls back to memory");
     ok &= expect(!defaultBackend->supportsCompaction(),
                  "memory default reports no compaction support");
 #endif
 
-    auto memoryBackend = db::createBackend("memory");
-    ok &= expect(memoryBackend->id() == "memory", "memory backend is creatable");
+    auto memoryBackend = db::createBackend(db::kMemoryBackendId);
+    ok &= expect(memoryBackend->id() == db::kMemoryBackendId, "memory backend is creatable");
     ok &= expect(!memoryBackend->supportsCompaction(),
                  "memory backend reports no compaction support");
 
     auto configuredDefault = db::createConfiguredBackend("");
 #if KOMAI_DB_WITH_LMDB
-    ok &= expect(configuredDefault->id() == "lmdb", "configured backend defaults to lmdb on empty id");
+    ok &= expect(configuredDefault->id() == db::kLmdbBackendId, "configured backend defaults to lmdb on empty id");
 #else
-    ok &= expect(configuredDefault->id() == "memory",
+    ok &= expect(configuredDefault->id() == db::kMemoryBackendId,
                  "configured backend defaults to memory when lmdb is disabled");
 #endif
 
-    auto configuredMemory = db::createConfiguredBackend("memory");
-    ok &= expect(configuredMemory->id() == "memory",
+    auto configuredMemory = db::createConfiguredBackend(db::kMemoryBackendId);
+    ok &= expect(configuredMemory->id() == db::kMemoryBackendId,
                  "configured backend accepts explicit memory id");
 
     EnvVarGuard envGuard("KOMAI_DB_BACKEND_TEST_OVERRIDE");
     envGuard.unset();
     auto envDefault = db::createConfiguredBackendFromEnvironment(envGuard.name_);
 #if KOMAI_DB_WITH_LMDB
-    ok &= expect(envDefault->id() == "lmdb", "environment-based backend defaults to lmdb when unset");
+    ok &= expect(envDefault->id() == db::kLmdbBackendId, "environment-based backend defaults to lmdb when unset");
 #else
-    ok &= expect(envDefault->id() == "memory",
+    ok &= expect(envDefault->id() == db::kMemoryBackendId,
                  "environment-based backend defaults to memory when lmdb is disabled");
 #endif
 
-    envGuard.set("memory");
+    envGuard.set(db::kMemoryBackendId);
     auto envMemory = db::createConfiguredBackendFromEnvironment(envGuard.name_);
-    ok &= expect(envMemory->id() == "memory", "environment-based backend accepts memory id");
+    ok &= expect(envMemory->id() == db::kMemoryBackendId, "environment-based backend accepts memory id");
 
     envGuard.set("not-a-backend");
     ok &= expectDbError([&] { db::createConfiguredBackendFromEnvironment(envGuard.name_); },
@@ -2700,10 +2700,10 @@ testFactory()
     ok &= expectDbError([] { db::createConfiguredBackend("not-a-backend"); },
                         "configured backend rejects unknown id");
 #if KOMAI_DB_WITH_LMDB
-    auto lmdbBackend = db::createBackend("lmdb");
-    ok &= expect(lmdbBackend->id() == "lmdb", "lmdb backend is creatable when enabled");
+    auto lmdbBackend = db::createBackend(db::kLmdbBackendId);
+    ok &= expect(lmdbBackend->id() == db::kLmdbBackendId, "lmdb backend is creatable when enabled");
 #else
-    ok &= expectDbError([] { db::createBackend("lmdb"); },
+    ok &= expectDbError([] { db::createBackend(db::kLmdbBackendId); },
                         "lmdb backend creation fails when lmdb support is disabled");
 #endif
     return ok;
@@ -2714,7 +2714,7 @@ testInMemoryBackend()
 {
     bool ok = true;
 
-    auto backend               = db::createBackend("memory");
+    auto backend               = db::createBackend(db::kMemoryBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
@@ -2791,7 +2791,7 @@ testInMemoryBackend()
           "memory openDbi rejects dupsort comparator on non-dupsort db");
     }
 
-    ok &= testCursorAndOrderingContract(*backend, "memory");
+    ok &= testCursorAndOrderingContract(*backend, db::kMemoryBackendId);
 
     backend->close();
     ok &= expect(!backend->isOpen(), "memory backend closes");
@@ -2811,7 +2811,7 @@ testLmdbBackend()
     if (!tmp.isValid())
         return false;
 
-    auto backend               = db::createBackend("lmdb");
+    auto backend               = db::createBackend(db::kLmdbBackendId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 24;
     options.maxDbs             = 32;
@@ -2846,7 +2846,7 @@ testLmdbBackend()
           "lmdb openDbi rejects dupsort comparator on non-dupsort db");
     }
 
-    ok &= testCursorAndOrderingContract(*backend, "lmdb");
+    ok &= testCursorAndOrderingContract(*backend, db::kLmdbBackendId);
 
     backend->close();
     ok &= expect(!backend->isOpen(), "lmdb backend closes");

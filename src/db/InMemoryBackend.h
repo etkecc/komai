@@ -18,7 +18,7 @@ public:
     InMemoryBackend();
     ~InMemoryBackend() override;
 
-    std::string_view id() const noexcept override { return "memory"; }
+    std::string_view id() const noexcept override { return kMemoryBackendId; }
     bool supportsCompaction() const noexcept override { return false; }
 
     void open(std::string_view directory, const BackendOptions &options) override;

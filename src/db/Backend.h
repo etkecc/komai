@@ -20,6 +20,10 @@ namespace db {
 class Txn;
 class Dbi;
 
+inline constexpr std::string_view kMemoryBackendId{"memory"};
+inline constexpr std::string_view kInMemoryBackendId{"in-memory"};
+inline constexpr std::string_view kLmdbBackendId{"lmdb"};
+
 enum class DupsortComparator
 {
     StateKey,

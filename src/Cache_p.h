@@ -29,6 +29,8 @@ namespace db {
 class Backend;
 class Txn;
 class Dbi;
+using Transaction = Txn;
+using Store = Dbi;
 }
 
 struct CacheDb;

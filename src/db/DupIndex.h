@@ -16,24 +16,27 @@ namespace db {
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store = Dbi;
+
 void
-forEachDupValue(Txn &txn,
-                Dbi &db,
+forEachDupValue(Transaction &txn,
+                Store &db,
                 std::string_view key,
                 const std::function<bool(std::string_view value)> &visitor);
 
 std::vector<std::string>
-listDupValues(Txn &txn, Dbi &db, std::string_view key);
+listDupValues(Transaction &txn, Store &db, std::string_view key);
 
 std::size_t
-putDupValueForKeys(Txn &txn,
-                   Dbi &db,
+putDupValueForKeys(Transaction &txn,
+                   Store &db,
                    std::span<const std::string_view> keys,
                    std::string_view value);
 
 std::size_t
-replaceDupValueForKeys(Txn &txn,
-                       Dbi &db,
+replaceDupValueForKeys(Transaction &txn,
+                       Store &db,
                        std::span<const std::string_view> keys,
                        std::string_view oldValue,
                        std::string_view newValue);

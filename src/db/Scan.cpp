@@ -11,7 +11,7 @@
 namespace db {
 
 std::vector<std::string>
-listKeys(Txn &txn, Dbi &db)
+listKeys(Transaction &txn, Store &db)
 {
     std::vector<std::string> keys;
     auto cursor = Cursor::open(txn, db);
@@ -24,7 +24,7 @@ listKeys(Txn &txn, Dbi &db)
 }
 
 std::vector<std::string>
-listUniqueKeys(Txn &txn, Dbi &db)
+listUniqueKeys(Transaction &txn, Store &db)
 {
     std::vector<std::string> keys;
     auto cursor = Cursor::open(txn, db);
@@ -37,7 +37,7 @@ listUniqueKeys(Txn &txn, Dbi &db)
 }
 
 std::vector<std::pair<std::string, std::string>>
-listEntries(Txn &txn, Dbi &db)
+listEntries(Transaction &txn, Store &db)
 {
     std::vector<std::pair<std::string, std::string>> entries;
     auto cursor = Cursor::open(txn, db);
@@ -51,7 +51,7 @@ listEntries(Txn &txn, Dbi &db)
 }
 
 std::vector<std::pair<std::string, std::string>>
-listEntries(Txn &txn, Dbi &db, std::size_t startIndex, std::size_t limit)
+listEntries(Transaction &txn, Store &db, std::size_t startIndex, std::size_t limit)
 {
     std::vector<std::pair<std::string, std::string>> entries;
     if (limit == 0)
@@ -82,8 +82,8 @@ listEntries(Txn &txn, Dbi &db, std::size_t startIndex, std::size_t limit)
 }
 
 void
-forEachEntry(Txn &txn,
-             Dbi &db,
+forEachEntry(Transaction &txn,
+             Store &db,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {
     auto cursor = Cursor::open(txn, db);
@@ -97,7 +97,7 @@ forEachEntry(Txn &txn,
 }
 
 void
-forEachUniqueKey(Txn &txn, Dbi &db, const std::function<bool(std::string_view key)> &visitor)
+forEachUniqueKey(Transaction &txn, Store &db, const std::function<bool(std::string_view key)> &visitor)
 {
     auto cursor = Cursor::open(txn, db);
 
@@ -109,8 +109,8 @@ forEachUniqueKey(Txn &txn, Dbi &db, const std::function<bool(std::string_view ke
 }
 
 void
-forEachEntry(Txn &txn,
-             Dbi &db,
+forEachEntry(Transaction &txn,
+             Store &db,
              std::size_t startIndex,
              std::size_t limit,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor)
@@ -143,7 +143,7 @@ forEachEntry(Txn &txn,
 }
 
 std::optional<std::pair<std::string, std::string>>
-firstEntry(Txn &txn, Dbi &db)
+firstEntry(Transaction &txn, Store &db)
 {
     auto cursor = Cursor::open(txn, db);
 
@@ -156,7 +156,7 @@ firstEntry(Txn &txn, Dbi &db)
 }
 
 std::optional<std::pair<std::string, std::string>>
-lastEntry(Txn &txn, Dbi &db)
+lastEntry(Transaction &txn, Store &db)
 {
     auto cursor = Cursor::open(txn, db);
 
@@ -169,16 +169,16 @@ lastEntry(Txn &txn, Dbi &db)
 }
 
 std::size_t
-eraseEntriesIf(Txn &txn,
-               Dbi &db,
+eraseEntriesIf(Transaction &txn,
+               Store &db,
                const std::function<bool(std::string_view key, std::string_view value)> &predicate)
 {
     return eraseEntriesIf(txn, db, 0, std::numeric_limits<std::size_t>::max(), predicate);
 }
 
 std::size_t
-eraseEntriesIf(Txn &txn,
-               Dbi &db,
+eraseEntriesIf(Transaction &txn,
+               Store &db,
                std::size_t startIndex,
                std::size_t limit,
                const std::function<bool(std::string_view key, std::string_view value)> &predicate)
@@ -205,8 +205,8 @@ eraseEntriesIf(Txn &txn,
 
 void
 forEachEntryFromKey(
-  Txn &txn,
-  Dbi &db,
+  Transaction &txn,
+  Store &db,
   std::string_view startKey,
   ScanDirection direction,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor)
@@ -227,8 +227,8 @@ forEachEntryFromKey(
 
 void
 forEachEntryWithPrefix(
-  Txn &txn,
-  Dbi &db,
+  Transaction &txn,
+  Store &db,
   std::string_view prefix,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {

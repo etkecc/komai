@@ -12,19 +12,22 @@ namespace db {
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store = Dbi;
+
 std::string
 readReceiptKey(std::string_view eventId, std::string_view roomId);
 
 bool
-getReadReceiptValue(Txn &txn,
-                    Dbi &readReceiptDb,
+getReadReceiptValue(Transaction &txn,
+                    Store &readReceiptDb,
                     std::string_view eventId,
                     std::string_view roomId,
                     std::string_view &value);
 
 void
-putReadReceiptValue(Txn &txn,
-                    Dbi &readReceiptDb,
+putReadReceiptValue(Transaction &txn,
+                    Store &readReceiptDb,
                     std::string_view eventId,
                     std::string_view roomId,
                     std::string_view value);

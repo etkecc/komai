@@ -12,6 +12,9 @@ namespace db {
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store = Dbi;
+
 std::string
 megolmSessionKey(std::string_view roomId, std::string_view sessionId);
 
@@ -19,29 +22,29 @@ bool
 parseMegolmSessionKey(std::string_view key, std::string &roomId, std::string &sessionId) noexcept;
 
 bool
-getMegolmSessionDataValue(Txn &txn,
-                          Dbi &megolmSessionDataDb,
+getMegolmSessionDataValue(Transaction &txn,
+                          Store &megolmSessionDataDb,
                           std::string_view roomId,
                           std::string_view sessionId,
                           std::string_view &value);
 
 void
-putMegolmSessionDataValue(Txn &txn,
-                          Dbi &megolmSessionDataDb,
+putMegolmSessionDataValue(Transaction &txn,
+                          Store &megolmSessionDataDb,
                           std::string_view roomId,
                           std::string_view sessionId,
                           std::string_view value);
 
 bool
-getInboundMegolmSessionValue(Txn &txn,
-                             Dbi &inboundMegolmSessionDb,
+getInboundMegolmSessionValue(Transaction &txn,
+                             Store &inboundMegolmSessionDb,
                              std::string_view roomId,
                              std::string_view sessionId,
                              std::string_view &value);
 
 void
-putInboundMegolmSessionValue(Txn &txn,
-                             Dbi &inboundMegolmSessionDb,
+putInboundMegolmSessionValue(Transaction &txn,
+                             Store &inboundMegolmSessionDb,
                              std::string_view roomId,
                              std::string_view sessionId,
                              std::string_view value);

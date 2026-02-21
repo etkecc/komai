@@ -52,13 +52,13 @@ roomDbsForFullResync() noexcept
 }
 
 bool
-tryDropNamedDbi(Backend &backend, Txn &txn, std::string_view dbName, std::string *error) noexcept
+tryDropNamedDbi(Backend &backend, Transaction &txn, std::string_view dbName, std::string *error) noexcept
 {
     if (error)
         error->clear();
 
     try {
-        openNamedDbi(backend, txn, dbName, false).drop(txn, true);
+        openNamedStore(backend, txn, dbName, false).drop(txn, true);
         return true;
     } catch (const std::exception &e) {
         if (error)
@@ -73,7 +73,7 @@ tryDropNamedDbi(Backend &backend, Txn &txn, std::string_view dbName, std::string
 
 bool
 migrateLegacyStateByKeyToStatesKey(Backend &backend,
-                                   Txn &txn,
+                                   Transaction &txn,
                                    std::string_view roomId,
                                    std::string *error) noexcept
 {
@@ -81,8 +81,8 @@ migrateLegacyStateByKeyToStatesKey(Backend &backend,
         error->clear();
 
     try {
-        auto oldStateskeyDb = openRoomDbi(backend, txn, roomId, catalog::RoomDb::LegacyStateByKey);
-        auto newStateskeyDb = openRoomDbi(backend, txn, roomId, catalog::RoomDb::StatesKey);
+        auto oldStateskeyDb = openRoomStore(backend, txn, roomId, catalog::RoomDb::LegacyStateByKey);
+        auto newStateskeyDb = openRoomStore(backend, txn, roomId, catalog::RoomDb::StatesKey);
 
         forEachEntry(
           txn,
@@ -110,18 +110,18 @@ migrateLegacyStateByKeyToStatesKey(Backend &backend,
 }
 
 bool
-migrateLegacyMegolmSessionIndexes(Backend &backend, Txn &txn, std::string *error) noexcept
+migrateLegacyMegolmSessionIndexes(Backend &backend, Transaction &txn, std::string *error) noexcept
 {
     if (error)
         error->clear();
 
     try {
         auto inboundMegolmSessionDb =
-          openGlobalDbi(backend, txn, catalog::GlobalDb::InboundMegolmSessions);
+          openGlobalStore(backend, txn, catalog::GlobalDb::InboundMegolmSessions);
         auto outboundMegolmSessionDb =
-          openGlobalDbi(backend, txn, catalog::GlobalDb::OutboundMegolmSessions);
+          openGlobalStore(backend, txn, catalog::GlobalDb::OutboundMegolmSessions);
         auto megolmSessionDataDb =
-          openGlobalDbi(backend, txn, catalog::GlobalDb::MegolmSessionsData);
+          openGlobalStore(backend, txn, catalog::GlobalDb::MegolmSessionsData);
 
         try {
             outboundMegolmSessionDb.drop(txn, false);
@@ -179,14 +179,14 @@ migrateLegacyMegolmSessionIndexes(Backend &backend, Txn &txn, std::string *error
 }
 
 void
-migrateLegacyOlmShardsV1ToV2(Backend &backend, Txn &txn)
+migrateLegacyOlmShardsV1ToV2(Backend &backend, Transaction &txn)
 {
     const auto dbNames = backend.listDbiNames(txn);
     for (const auto &dbName : dbNames) {
         if (!catalog::isLegacyOlmShardV1(dbName))
             continue;
 
-        auto oldDb = openNamedDbi(backend, txn, dbName, false);
+        auto oldDb = openNamedStore(backend, txn, dbName, false);
         std::vector<std::pair<std::string, std::string>> sessions;
 
         forEachEntry(
@@ -202,7 +202,7 @@ migrateLegacyOlmShardsV1ToV2(Backend &backend, Txn &txn)
 
         oldDb.drop(txn, true);
 
-        auto newDb = openNamedDbi(backend, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
+        auto newDb = openNamedStore(backend, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
         for (const auto &[sessionKey, pickled] : sessions) {
             nlohmann::json value;
             value["ts"] = 0;
@@ -213,7 +213,7 @@ migrateLegacyOlmShardsV1ToV2(Backend &backend, Txn &txn)
 }
 
 bool
-migrateLegacyOlmShardsV2ToUnified(Backend &backend, Txn &txn, Dbi &olmSessions)
+migrateLegacyOlmShardsV2ToUnified(Backend &backend, Transaction &txn, Store &olmSessions)
 {
     const auto dbNames = backend.listDbiNames(txn);
     bool migrated      = false;
@@ -224,7 +224,7 @@ migrateLegacyOlmShardsV2ToUnified(Backend &backend, Txn &txn, Dbi &olmSessions)
 
         migrated      = true;
         auto curveKey = *catalog::legacyOlmCurveFromV2Name(dbName);
-        auto oldDb    = openNamedDbi(backend, txn, dbName, false);
+        auto oldDb    = openNamedStore(backend, txn, dbName, false);
         forEachEntry(
           txn,
           oldDb,

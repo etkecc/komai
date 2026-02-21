@@ -15,12 +15,32 @@
 #include <vector>
 
 #include "db/Error.h"
+#include "db/DbTypes.h"
+#include "db/CursorOp.h"
 #include "db/Flags.h"
 
 namespace db {
 
 class Txn;
 class Dbi;
+class Cursor;
+class Backend;
+
+// Neutral-facing aliases. Prefer these names in new code while preserving
+// existing names for compatibility.
+using Database           = Backend;
+using Store              = Dbi;
+using Transaction        = Txn;
+using CursorHandle       = Cursor;
+using StoreHandle        = Store;
+using DatabaseTransaction = Transaction;
+using DatabaseStore      = Store;
+
+// Generic names for common flags/options.
+using AccessFlags = TxnFlags;
+using StoreFlags  = DbiFlags;
+using WriteFlags  = PutFlags;
+using MoveOp      = CursorOp;
 
 inline constexpr std::string_view kMemoryBackendId{"memory"};
 inline constexpr std::string_view kInMemoryBackendId{"in-memory"};
@@ -70,10 +90,12 @@ public:
     virtual void open(std::string_view directory, const BackendOptions &options)             = 0;
     virtual void close() noexcept                                                            = 0;
     virtual bool isOpen() const noexcept                                                     = 0;
-    virtual Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None)             = 0;
-    virtual bool ownsTxn(const Txn &txn) const noexcept                                      = 0;
-    virtual Dbi openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &options = {}) = 0;
-    virtual std::vector<std::string> listDbiNames(Txn &txn)                                  = 0;
+    virtual Transaction beginTxn(Transaction *parent = nullptr, AccessFlags flags = AccessFlags::None) = 0;
+    virtual bool ownsTxn(const Transaction &txn) const noexcept                                        = 0;
+    virtual Store openDbi(Transaction &txn,
+                          std::string_view name,
+                          const DbiOpenOptions &options = {})                                        = 0;
+    virtual std::vector<std::string> listDbiNames(Transaction &txn)                                    = 0;
     virtual std::optional<std::size_t> mapSizeBytes() const noexcept                         = 0;
 };
 

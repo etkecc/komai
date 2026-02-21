@@ -56,6 +56,7 @@
 #include "db/StateIndex.h"
 #include "db/SyncState.h"
 #include "db/TimelineIndex.h"
+#include "db/StorageApi.h"
 #include "encryption/Olm.h"
 
 //! Should be changed when a breaking change occurs in the cache format.
@@ -85,22 +86,22 @@ using Receipts       = std::map<std::string, std::map<std::string, uint64_t>>;
 struct CacheDb
 {
     std::unique_ptr<db::Backend> storage = db::createConfiguredBackendFromEnvironment();
-    db::Dbi syncState;
-    db::Dbi rooms;
-    db::Dbi spacesChildren, spacesParents;
-    db::Dbi invites;
-    db::Dbi readReceipts;
-    db::Dbi notifications;
-    db::Dbi presence;
+    db::Store syncState;
+    db::Store rooms;
+    db::Store spacesChildren, spacesParents;
+    db::Store invites;
+    db::Store readReceipts;
+    db::Store notifications;
+    db::Store presence;
 
-    db::Dbi inboundMegolmSessions;
-    db::Dbi outboundMegolmSessions;
-    db::Dbi megolmSessionsData;
-    db::Dbi olmSessions;
+    db::Store inboundMegolmSessions;
+    db::Store outboundMegolmSessions;
+    db::Store megolmSessionsData;
+    db::Store olmSessions;
 
-    db::Dbi encryptedRooms_;
+    db::Store encryptedRooms_;
 
-    db::Dbi eventExpiryBgJob_;
+    db::Store eventExpiryBgJob_;
 };
 
 Cache::~Cache() noexcept = default;
@@ -124,7 +125,9 @@ Cache::storage() const
 db::Txn
 Cache::beginTxn(db::Txn *parent, db::TxnFlags flags)
 {
-    return storage().beginTxn(parent, flags);
+    return db::storage::beginTransaction(
+      storage(), parent, flags == db::TxnFlags::ReadOnly ? db::storage::AccessMode::ReadOnly
+                                                      : db::storage::AccessMode::ReadWrite);
 }
 
 bool
@@ -149,19 +152,19 @@ struct RO_txn
 RO_txn
 ro_txn(db::Backend &storage)
 {
-    thread_local db::Txn txn       = storage.beginTxn(nullptr, db::TxnFlags::ReadOnly);
+    thread_local db::Txn txn       = db::storage::beginReadTransaction(storage);
     thread_local int reuse_counter = 0;
 
     if (reuse_counter >= 100 || !storage.ownsTxn(txn)) {
         txn.abort();
-        txn           = storage.beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        txn           = db::storage::beginReadTransaction(storage);
         reuse_counter = 0;
     } else if (reuse_counter > 0) {
         try {
             txn.renew();
         } catch (...) {
             txn.abort();
-            txn           = storage.beginTxn(nullptr, db::TxnFlags::ReadOnly);
+            txn           = db::storage::beginReadTransaction(storage);
             reuse_counter = 0;
         }
     }
@@ -173,92 +176,92 @@ ro_txn(db::Backend &storage)
 db::Dbi
 Cache::getEventsDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::Events);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Events);
 }
 
 db::Dbi
 Cache::getEventOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::EventOrder);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventOrder);
 }
 
 // inverse of EventOrderDb
 db::Dbi
 Cache::getEventToOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::EventToOrder);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventToOrder);
 }
 
 db::Dbi
 Cache::getMessageToOrderDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::MessageToOrder);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::MessageToOrder);
 }
 
 db::Dbi
 Cache::getOrderToMessageDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::OrderToMessage);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::OrderToMessage);
 }
 
 db::Dbi
 Cache::getPendingMessagesDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::Pending);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Pending);
 }
 
 db::Dbi
 Cache::getRelationsDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::Related);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Related);
 }
 
 db::Dbi
 Cache::getInviteStatesDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::InviteState);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteState);
 }
 
 db::Dbi
 Cache::getInviteMembersDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::InviteMembers);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteMembers);
 }
 
 db::Dbi
 Cache::getStatesDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::State);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::State);
 }
 
 db::Dbi
 Cache::getStatesKeyDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::StatesKey);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::StatesKey);
 }
 
 db::Dbi
 Cache::getAccountDataDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::AccountData);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::AccountData);
 }
 
 db::Dbi
 Cache::getMembersDb(db::Txn &txn, const std::string &room_id)
 {
-    return db::openRoomDbi(storage(), txn, room_id, db::catalog::RoomDb::Members);
+    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Members);
 }
 
 db::Dbi
 Cache::getUserKeysDb(db::Txn &txn)
 {
-    return db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::UserKeys);
+    return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::UserKeys);
 }
 
 db::Dbi
 Cache::getVerificationDb(db::Txn &txn)
 {
-    return db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::Verified);
+    return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Verified);
 }
 
 QString
@@ -510,29 +513,29 @@ Cache::setup()
     }
 
     auto txn           = beginTxn();
-    db->syncState      = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::SyncState);
-    db->rooms          = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::Rooms);
-    db->spacesChildren = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::SpacesChildren);
-    db->spacesParents  = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::SpacesParents);
-    db->invites        = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::Invites);
-    db->readReceipts   = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::ReadReceipts);
-    db->notifications  = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::Notifications);
-    db->presence       = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::Presence);
+    db->syncState      = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SyncState);
+    db->rooms          = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Rooms);
+    db->spacesChildren = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SpacesChildren);
+    db->spacesParents  = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SpacesParents);
+    db->invites        = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Invites);
+    db->readReceipts   = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::ReadReceipts);
+    db->notifications  = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Notifications);
+    db->presence       = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Presence);
 
     // Session management
     db->inboundMegolmSessions =
-      db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::InboundMegolmSessions);
+      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::InboundMegolmSessions);
     db->outboundMegolmSessions =
-      db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::OutboundMegolmSessions);
+      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::OutboundMegolmSessions);
     db->megolmSessionsData =
-      db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::MegolmSessionsData);
+      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::MegolmSessionsData);
 
-    db->olmSessions = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::OlmSessions);
+    db->olmSessions = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::OlmSessions);
 
     // What rooms are encrypted
-    db->encryptedRooms_ = db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::EncryptedRooms);
+    db->encryptedRooms_ = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EncryptedRooms);
     db->eventExpiryBgJob_ =
-      db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::EventExpirationBgJob);
+      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EventExpirationBgJob);
 
     [[maybe_unused]] auto verificationDb = getVerificationDb(txn);
     [[maybe_unused]] auto userKeysDb     = getUserKeysDb(txn);
@@ -1470,7 +1473,7 @@ Cache::runMigrations()
            try {
                auto txn = beginTxn(nullptr);
                auto pending_receipts =
-                 db::openGlobalDbi(storage(), txn, db::catalog::GlobalDb::PendingReceipts);
+                 db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::PendingReceipts);
                pending_receipts.drop(txn, true);
                txn.commit();
            } catch (const db::Error &) {
@@ -1489,7 +1492,7 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto messagesDb = db::openRoomDbi(
+                       auto messagesDb = db::openRoomStore(
                          storage(), txn, room_id, db::catalog::RoomDb::LegacyMessages, false);
 
                        // keep some old messages and batch token

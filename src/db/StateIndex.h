@@ -14,22 +14,25 @@ namespace db {
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store = Dbi;
+
 std::optional<std::string>
-findStateEventId(Txn &txn, Dbi &statesKeyDb, std::string_view eventType, std::string_view stateKey);
+findStateEventId(Transaction &txn, Store &statesKeyDb, std::string_view eventType, std::string_view stateKey);
 
 std::vector<std::string>
-listStateEventIds(Txn &txn, Dbi &statesKeyDb, std::string_view eventType);
+listStateEventIds(Transaction &txn, Store &statesKeyDb, std::string_view eventType);
 
 bool
-removeStateEventId(Txn &txn,
-                   Dbi &statesKeyDb,
+removeStateEventId(Transaction &txn,
+                   Store &statesKeyDb,
                    std::string_view eventType,
                    std::string_view stateKey,
                    std::string_view eventId);
 
 void
-putStateEventId(Txn &txn,
-                Dbi &statesKeyDb,
+putStateEventId(Transaction &txn,
+                Store &statesKeyDb,
                 std::string_view eventType,
                 std::string_view stateKey,
                 std::string_view eventId);

@@ -13,6 +13,12 @@
 
 namespace db {
 
+class Txn;
+class Dbi;
+
+using Transaction = Txn;
+using Store       = Dbi;
+
 template<typename T>
 std::optional<T>
 parseJsonValue(std::string_view raw)
@@ -38,7 +44,7 @@ parseJsonValue(std::string_view raw, T &value)
 
 template<typename T, typename K>
 std::optional<T>
-getJsonValue(Txn &txn, Dbi &db, const K &key)
+getJsonValue(Transaction &txn, Store &db, const K &key)
 {
     std::string_view raw;
     if (!db.get(txn, key, raw))
@@ -49,7 +55,7 @@ getJsonValue(Txn &txn, Dbi &db, const K &key)
 
 template<typename T, typename K>
 bool
-getJsonValue(Txn &txn, Dbi &db, const K &key, T &value)
+getJsonValue(Transaction &txn, Store &db, const K &key, T &value)
 {
     const auto parsed = getJsonValue<T>(txn, db, key);
     if (!parsed)
@@ -61,7 +67,7 @@ getJsonValue(Txn &txn, Dbi &db, const K &key, T &value)
 
 template<typename T, typename K>
 void
-putJsonValue(Txn &txn, Dbi &db, const K &key, const T &value, PutFlags flags = PutFlags::None)
+putJsonValue(Transaction &txn, Store &db, const K &key, const T &value, PutFlags flags = PutFlags::None)
 {
     db.put(txn, key, nlohmann::json(value).dump(), flags);
 }

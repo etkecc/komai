@@ -15,6 +15,9 @@ namespace db {
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store = Dbi;
+
 std::string
 serializeRoomInfo(const RoomInfo &info);
 
@@ -22,12 +25,12 @@ RoomInfo
 parseRoomInfo(std::string_view value);
 
 bool
-getRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId, RoomInfo &info);
+getRoomInfo(Transaction &txn, Store &roomInfoDb, std::string_view roomId, RoomInfo &info);
 
 std::optional<RoomInfo>
-getRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId);
+getRoomInfo(Transaction &txn, Store &roomInfoDb, std::string_view roomId);
 
 void
-putRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId, const RoomInfo &info);
+putRoomInfo(Transaction &txn, Store &roomInfoDb, std::string_view roomId, const RoomInfo &info);
 
 } // namespace db

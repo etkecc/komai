@@ -16,30 +16,33 @@ class Backend;
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store = Dbi;
+
 std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept;
 
 bool
 tryDropNamedDbi(Backend &backend,
-                Txn &txn,
+                                   Transaction &txn,
                 std::string_view dbName,
                 std::string *error = nullptr) noexcept;
 
 bool
 migrateLegacyStateByKeyToStatesKey(Backend &backend,
-                                   Txn &txn,
+                                   Transaction &txn,
                                    std::string_view roomId,
                                    std::string *error = nullptr) noexcept;
 
 bool
 migrateLegacyMegolmSessionIndexes(Backend &backend,
-                                  Txn &txn,
+                                  Transaction &txn,
                                   std::string *error = nullptr) noexcept;
 
 void
-migrateLegacyOlmShardsV1ToV2(Backend &backend, Txn &txn);
+migrateLegacyOlmShardsV1ToV2(Backend &backend, Transaction &txn);
 
 bool
-migrateLegacyOlmShardsV2ToUnified(Backend &backend, Txn &txn, Dbi &olmSessions);
+migrateLegacyOlmShardsV2ToUnified(Backend &backend, Transaction &txn, Store &olmSessions);
 
 } // namespace db

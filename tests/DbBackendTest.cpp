@@ -24,6 +24,7 @@
 #include "db/DbTypes.h"
 #include "db/Json.h"
 #include "db/DupIndex.h"
+#include "db/StorageApi.h"
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
 #include "db/NamePolicy.h"
@@ -638,6 +639,47 @@ testOpenHelpers()
         ok &= expect(spacesCursor.get(spacesKey, spacesValue, db::CursorOp::Set),
                      "openGlobalDbi cursor Set on DupSort db");
         ok &= expect(spacesValue == "child-a", "openGlobalDbi applies DupSort policy");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testStorageApiHelpers()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend(db::kMemoryBackendId);
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto events =
+          db::storage::openStore(*backend,
+                                 txn,
+                                 "room-events",
+                                 true,
+                                 db::StoreFlags::Create | db::DbiFlags::IntegerKey);
+
+        ok &= expect(events.put(txn, integerKey(11), "value-11"), "storage API put integer key #1");
+        ok &= expect(events.put(txn, integerKey(7), "value-7"), "storage API put integer key #2");
+        txn.commit();
+    }
+
+    {
+        auto roTxn = db::storage::beginReadTransaction(*backend);
+        auto events =
+          db::storage::openStore(*backend, roTxn, "room-events", false, db::DbiFlags::IntegerKey);
+        std::string_view key;
+        std::string_view value;
+        auto cursor = db::storage::openCursor(roTxn, events);
+        ok &= expect(cursor.get(key, value, db::CursorOp::First), "storage API cursor first");
+        ok &= expect(key == integerKey(7), "storage API cursor first key is lowest");
+        ok &= expect(value == "value-7", "storage API cursor first value");
     }
 
     backend->close();
@@ -2895,6 +2937,7 @@ main()
     ok &= testScanHelper();
     ok &= testOrderEntryHelper();
     ok &= testTimelineIndexHelper();
+    ok &= testStorageApiHelpers();
     ok &= testCompactionHelper();
     ok &= testFactory();
     ok &= testInMemoryBackend();

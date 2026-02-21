@@ -9,6 +9,6 @@
 namespace db {
 
 void
-compact(Backend &from, Backend &to);
+compact(Database &from, Database &to);
 
 } // namespace db

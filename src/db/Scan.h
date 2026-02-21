@@ -16,6 +16,9 @@ namespace db {
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store       = Dbi;
+
 enum class ScanDirection
 {
     Forward,
@@ -23,62 +26,62 @@ enum class ScanDirection
 };
 
 std::vector<std::string>
-listKeys(Txn &txn, Dbi &db);
+listKeys(Transaction &txn, Store &db);
 
 std::vector<std::string>
-listUniqueKeys(Txn &txn, Dbi &db);
+listUniqueKeys(Transaction &txn, Store &db);
 
 std::vector<std::pair<std::string, std::string>>
-listEntries(Txn &txn, Dbi &db);
+listEntries(Transaction &txn, Store &db);
 
 std::vector<std::pair<std::string, std::string>>
-listEntries(Txn &txn, Dbi &db, std::size_t startIndex, std::size_t limit);
+listEntries(Transaction &txn, Store &db, std::size_t startIndex, std::size_t limit);
 
 void
-forEachEntry(Txn &txn,
-             Dbi &db,
+forEachEntry(Transaction &txn,
+             Store &db,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor);
 
 void
-forEachUniqueKey(Txn &txn, Dbi &db, const std::function<bool(std::string_view key)> &visitor);
+forEachUniqueKey(Transaction &txn, Store &db, const std::function<bool(std::string_view key)> &visitor);
 
 void
-forEachEntry(Txn &txn,
-             Dbi &db,
+forEachEntry(Transaction &txn,
+             Store &db,
              std::size_t startIndex,
              std::size_t limit,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor);
 
 std::optional<std::pair<std::string, std::string>>
-firstEntry(Txn &txn, Dbi &db);
+firstEntry(Transaction &txn, Store &db);
 
 std::optional<std::pair<std::string, std::string>>
-lastEntry(Txn &txn, Dbi &db);
+lastEntry(Transaction &txn, Store &db);
 
 std::size_t
-eraseEntriesIf(Txn &txn,
-               Dbi &db,
+eraseEntriesIf(Transaction &txn,
+               Store &db,
                const std::function<bool(std::string_view key, std::string_view value)> &predicate);
 
 std::size_t
-eraseEntriesIf(Txn &txn,
-               Dbi &db,
+eraseEntriesIf(Transaction &txn,
+               Store &db,
                std::size_t startIndex,
                std::size_t limit,
                const std::function<bool(std::string_view key, std::string_view value)> &predicate);
 
 void
 forEachEntryFromKey(
-  Txn &txn,
-  Dbi &db,
+  Transaction &txn,
+  Store &db,
   std::string_view startKey,
   ScanDirection direction,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor);
 
 void
 forEachEntryWithPrefix(
-  Txn &txn,
-  Dbi &db,
+  Transaction &txn,
+  Store &db,
   std::string_view prefix,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor);
 

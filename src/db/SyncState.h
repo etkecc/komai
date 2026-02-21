@@ -15,34 +15,37 @@ namespace db {
 class Txn;
 class Dbi;
 
+using Transaction = Txn;
+using Store = Dbi;
+
 bool
-getSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key, std::string_view &value);
+getSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key, std::string_view &value);
 
 std::optional<std::string>
-getSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key);
+getSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key);
 
 void
-putSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key, std::string_view value);
+putSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key, std::string_view value);
 
 bool
-removeSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key);
+removeSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key);
 
 bool
-getSyncStateSecretValue(Txn &txn,
-                        Dbi &syncStateDb,
+getSyncStateSecretValue(Transaction &txn,
+                        Store &syncStateDb,
                         std::string_view secretName,
                         std::string_view &value);
 
 std::optional<std::string>
-getSyncStateSecretValue(Txn &txn, Dbi &syncStateDb, std::string_view secretName);
+getSyncStateSecretValue(Transaction &txn, Store &syncStateDb, std::string_view secretName);
 
 void
-putSyncStateSecretValue(Txn &txn,
-                        Dbi &syncStateDb,
+putSyncStateSecretValue(Transaction &txn,
+                        Store &syncStateDb,
                         std::string_view secretName,
                         std::string_view value);
 
 bool
-removeSyncStateSecretValue(Txn &txn, Dbi &syncStateDb, std::string_view secretName);
+removeSyncStateSecretValue(Transaction &txn, Store &syncStateDb, std::string_view secretName);
 
 } // namespace db

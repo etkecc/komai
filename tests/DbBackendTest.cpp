@@ -1362,6 +1362,38 @@ testTimelineIndexHelper()
         ok &= expect(value == "$message-helper",
                      "timeline index helper putMessageOrderMapping stores expected event id");
 
+        std::uint64_t appendEventCursor = 1000;
+        const auto appendedEventOrder   = db::appendEventOrderEntry(
+          txn, eventOrderDb, eventToOrderDb, appendEventCursor, "$event-appended", R"({"event_id":"$event-appended"})");
+        ok &= expect(appendedEventOrder == 1001 && appendEventCursor == 1001,
+                     "timeline index helper appendEventOrderEntry increments event-order cursor");
+        ok &= expect(eventToOrderDb.get(txn, "$event-appended", value) && value == integerKey(1001),
+                     "timeline index helper appendEventOrderEntry writes event_to_order mapping");
+
+        std::uint64_t prependEventCursor = 900;
+        const auto prependedEventOrder   = db::prependEventOrderEntry(
+          txn, eventOrderDb, eventToOrderDb, prependEventCursor, "$event-prepended", R"({"event_id":"$event-prepended"})");
+        ok &= expect(prependedEventOrder == 899 && prependEventCursor == 899,
+                     "timeline index helper prependEventOrderEntry decrements event-order cursor");
+        ok &= expect(eventToOrderDb.get(txn, "$event-prepended", value) && value == integerKey(899),
+                     "timeline index helper prependEventOrderEntry writes event_to_order mapping");
+
+        std::uint64_t appendMessageCursor = 1000;
+        const auto appendedMessageOrder =
+          db::appendMessageOrderEntry(txn, orderToMessageDb, messageToOrderDb, appendMessageCursor, "$msg-appended");
+        ok &= expect(appendedMessageOrder == 1001 && appendMessageCursor == 1001,
+                     "timeline index helper appendMessageOrderEntry increments message-order cursor");
+        ok &= expect(messageToOrderDb.get(txn, "$msg-appended", value) && value == integerKey(1001),
+                     "timeline index helper appendMessageOrderEntry writes message_to_order mapping");
+
+        std::uint64_t prependMessageCursor = 900;
+        const auto prependedMessageOrder =
+          db::prependMessageOrderEntry(txn, orderToMessageDb, messageToOrderDb, prependMessageCursor, "$msg-prepended");
+        ok &= expect(prependedMessageOrder == 899 && prependMessageCursor == 899,
+                     "timeline index helper prependMessageOrderEntry decrements message-order cursor");
+        ok &= expect(messageToOrderDb.get(txn, "$msg-prepended", value) && value == integerKey(899),
+                     "timeline index helper prependMessageOrderEntry writes message_to_order mapping");
+
         ok &= expect(!db::removeMessageOrderMapping(
                        txn, messageToOrderDb, orderToMessageDb, "$missing"),
                      "timeline index helper removeMessageOrderMapping is false for missing event");

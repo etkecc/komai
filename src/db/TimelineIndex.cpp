@@ -123,6 +123,64 @@ putMessageOrderMapping(Txn &txn,
     messageToOrderDb.put(txn, eventId, toSv(messageOrder));
 }
 
+std::uint64_t
+appendEventOrderEntry(Txn &txn,
+                      Dbi &eventOrderDb,
+                      Dbi &eventToOrderDb,
+                      std::uint64_t &lastEventOrder,
+                      std::string_view eventId,
+                      std::string_view orderEntryValue)
+{
+    lastEventOrder += 1;
+    putEventOrderMapping(txn,
+                         eventOrderDb,
+                         eventToOrderDb,
+                         lastEventOrder,
+                         eventId,
+                         orderEntryValue,
+                         PutFlags::Append);
+    return lastEventOrder;
+}
+
+std::uint64_t
+prependEventOrderEntry(Txn &txn,
+                       Dbi &eventOrderDb,
+                       Dbi &eventToOrderDb,
+                       std::uint64_t &firstEventOrder,
+                       std::string_view eventId,
+                       std::string_view orderEntryValue)
+{
+    firstEventOrder -= 1;
+    putEventOrderMapping(
+      txn, eventOrderDb, eventToOrderDb, firstEventOrder, eventId, orderEntryValue);
+    return firstEventOrder;
+}
+
+std::uint64_t
+appendMessageOrderEntry(Txn &txn,
+                        Dbi &orderToMessageDb,
+                        Dbi &messageToOrderDb,
+                        std::uint64_t &lastMessageOrder,
+                        std::string_view eventId)
+{
+    lastMessageOrder += 1;
+    putMessageOrderMapping(
+      txn, orderToMessageDb, messageToOrderDb, lastMessageOrder, eventId, PutFlags::Append);
+    return lastMessageOrder;
+}
+
+std::uint64_t
+prependMessageOrderEntry(Txn &txn,
+                         Dbi &orderToMessageDb,
+                         Dbi &messageToOrderDb,
+                         std::uint64_t &firstMessageOrder,
+                         std::string_view eventId)
+{
+    firstMessageOrder -= 1;
+    putMessageOrderMapping(txn, orderToMessageDb, messageToOrderDb, firstMessageOrder, eventId);
+    return firstMessageOrder;
+}
+
 std::optional<std::pair<std::uint64_t, std::string>>
 lastInvisibleEventAfter(Txn &txn,
                         Dbi &eventToOrderDb,

@@ -3681,12 +3681,10 @@ Cache::saveTimelineMessages(db::Txn &txn,
             // event to not break pagination.
             if (first && res.limited) {
                 first = false;
-                ++index;
 
                 nhlog::db()->debug("saving redaction '{}'", orderEntry);
 
-                db::putEventOrderMapping(
-                  txn, orderDb, evToOrderDb, index, event_id, orderEntry, db::PutFlags::Append);
+                db::appendEventOrderEntry(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
                 eventsDb.put(txn, event_id, event.dump());
             }
 
@@ -3744,18 +3742,13 @@ Cache::saveTimelineMessages(db::Txn &txn,
             if (!evToOrderDb.get(txn, event_id, unused_read)) {
                 first = false;
 
-                ++index;
-
                 nhlog::db()->debug("saving '{}'", orderEntry);
 
-                db::putEventOrderMapping(
-                  txn, orderDb, evToOrderDb, index, event_id, orderEntry, db::PutFlags::Append);
+                db::appendEventOrderEntry(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
 
                 // TODO(Nico): Allow blacklisting more event types in UI
                 if (!isHiddenEvent(txn, e, room_id)) {
-                    ++msgIndex;
-                    db::putMessageOrderMapping(
-                      txn, order2msgDb, msg2orderDb, msgIndex, event_id, db::PutFlags::Append);
+                    db::appendMessageOrderEntry(txn, order2msgDb, msg2orderDb, msgIndex, event_id);
                 }
             } else {
                 nhlog::db()->warn("duplicate event '{}'", orderEntry);
@@ -3810,14 +3803,12 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         // event itself and its relations.
         std::string_view unused_read;
         if (!evToOrderDb.get(txn, event_id, unused_read)) {
-            --index;
-
-            db::putEventOrderMappingForEvent(txn, orderDb, evToOrderDb, index, event_id);
+            db::prependEventOrderEntry(
+              txn, orderDb, evToOrderDb, index, event_id, db::serializeOrderEntry(event_id));
 
             // TODO(Nico): Allow blacklisting more event types in UI
             if (!isHiddenEvent(txn, e, room_id)) {
-                --msgIndex;
-                db::putMessageOrderMapping(txn, order2msgDb, msg2orderDb, msgIndex, event_id);
+                db::prependMessageOrderEntry(txn, order2msgDb, msg2orderDb, msgIndex, event_id);
             }
         }
         eventsDb.put(txn, event_id, event.dump());
@@ -3834,11 +3825,15 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         // the batch.
 
         event_id_val = mtx::accessors::event_id(res.chunk.back());
-        --index;
 
         auto event = mtx::accessors::serialize_event(res.chunk.back()).dump();
         eventsDb.put(txn, event_id_val, event);
-        db::putEventOrderMappingForEvent(txn, orderDb, evToOrderDb, index, event_id_val, res.end);
+        db::prependEventOrderEntry(txn,
+                                   orderDb,
+                                   evToOrderDb,
+                                   index,
+                                   event_id_val,
+                                   db::serializeOrderEntry(event_id_val, res.end));
     }
 
     txn.commit();

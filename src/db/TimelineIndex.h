@@ -72,6 +72,36 @@ putMessageOrderMapping(Txn &txn,
                        std::string_view eventId,
                        PutFlags orderToMessagePutFlags = PutFlags::None);
 
+std::uint64_t
+appendEventOrderEntry(Txn &txn,
+                      Dbi &eventOrderDb,
+                      Dbi &eventToOrderDb,
+                      std::uint64_t &lastEventOrder,
+                      std::string_view eventId,
+                      std::string_view orderEntryValue);
+
+std::uint64_t
+prependEventOrderEntry(Txn &txn,
+                       Dbi &eventOrderDb,
+                       Dbi &eventToOrderDb,
+                       std::uint64_t &firstEventOrder,
+                       std::string_view eventId,
+                       std::string_view orderEntryValue);
+
+std::uint64_t
+appendMessageOrderEntry(Txn &txn,
+                        Dbi &orderToMessageDb,
+                        Dbi &messageToOrderDb,
+                        std::uint64_t &lastMessageOrder,
+                        std::string_view eventId);
+
+std::uint64_t
+prependMessageOrderEntry(Txn &txn,
+                         Dbi &orderToMessageDb,
+                         Dbi &messageToOrderDb,
+                         std::uint64_t &firstMessageOrder,
+                         std::string_view eventId);
+
 std::optional<std::pair<std::uint64_t, std::string>>
 lastInvisibleEventAfter(Txn &txn,
                         Dbi &eventToOrderDb,

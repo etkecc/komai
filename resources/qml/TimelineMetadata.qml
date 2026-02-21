@@ -31,6 +31,8 @@ RowLayout {
     required property string threadId
     required property date timestamp
     required property Room room
+    readonly property string roomEditEventId: room ? room.edit : ""
+    readonly property bool roomIsEncrypted: room ? room.isEncrypted : false
 
     spacing: 2
 
@@ -66,10 +68,10 @@ RowLayout {
         ToolTip.delay: Nheko.tooltipDelay
         ToolTip.text: qsTr("Edited")
         ToolTip.visible: editHovered.hovered
-        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.room.edit) ? palette.highlight : palette.buttonText)
+        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? palette.highlight : palette.buttonText)
         sourceSize.height: parent.iconSize
         sourceSize.width: parent.iconSize
-        visible: metadata.isEdited || metadata.eventId == metadata.room.edit
+        visible: metadata.isEdited || metadata.eventId == metadata.roomEditEventId
         HoverHandler {
             id: editHovered
 
@@ -83,7 +85,7 @@ RowLayout {
         sourceSize.height: parent.iconSize
         sourceSize.width: parent.iconSize
         trust: metadata.trustlevel
-        visible: metadata.room.isEncrypted
+        visible: metadata.roomIsEncrypted
     }
     ImageButton {
         id: actionToggleBtn
@@ -113,6 +115,9 @@ RowLayout {
         image: ":/icons/icons/ui/thread.svg"
         visible: metadata.threadId
 
-        onClicked: metadata.room.thread = threadId
+        onClicked: {
+            if (metadata.room)
+                metadata.room.thread = threadId
+        }
     }
 }

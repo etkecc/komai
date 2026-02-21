@@ -51,6 +51,7 @@ TimelineEvent {
 
     property int oneHour: 60 * 60 * 1000
     property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour
+    readonly property bool hasRoom: wrapper.room !== null
 
     mainInset: (threadId ? (4 + Nheko.paddingSmall) : 0)
     replyInset: mainInset + 4 + Nheko.paddingSmall
@@ -134,7 +135,9 @@ TimelineEvent {
                     }
                     ScriptAction {
                         script: {
-                            wrapper.room.eventShown();
+                            if (wrapper.room) {
+                                wrapper.room.eventShown();
+                            }
                         }
                     }
                 }
@@ -159,11 +162,17 @@ TimelineEvent {
             y: section.visible && section.active ? section.y + section.height : 0
             z: 5
 
-            onClicked: wrapper.room.openUserProfile(wrapper.userId)
+            onClicked: {
+                if (wrapper.room)
+                    wrapper.room.openUserProfile(wrapper.userId)
+            }
 
             Connections {
                 function onRoomAvatarUrlChanged() {
-                    messageUserAvatar.url = wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/");
+                    if (wrapper.room) {
+                        messageUserAvatar.url =
+                          wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/");
+                    }
                 }
                 target: wrapper.room
             }
@@ -189,7 +198,10 @@ TimelineEvent {
                 visible: wrapper.threadId
                 width: 4
 
-                onClicked: wrapper.room.thread = wrapper.threadId
+                onClicked: {
+                    if (wrapper.room)
+                        wrapper.room.thread = wrapper.threadId
+                }
 
                 Rectangle {
                     id: threadLine
@@ -240,7 +252,10 @@ TimelineEvent {
                                     width: wrapper.maxWidth
                                     //elideWidth: wrapper.maxWidth
                                 }
-                                onClicked: wrapper.room.openUserProfile(wrapper.reply?.userId)
+                                onClicked: {
+                                    if (wrapper.room)
+                                        wrapper.room.openUserProfile(wrapper.reply?.userId)
+                                }
                             }
                             data: [
                                 replyUserButton,
@@ -271,7 +286,9 @@ TimelineEvent {
                             Nheko.openLink(link)
                         } else {
                             console.log("Scrolling to "+wrapper.replyTo);
-                            wrapper.room.showEvent(wrapper.replyTo)
+                            if (wrapper.room) {
+                                wrapper.room.showEvent(wrapper.replyTo)
+                            }
                         }
                     }
                     onPressAndHold: wrapper.replyContextMenu.show(wrapper.reply.copyText ?? "", wrapper.reply.linkAt ? wrapper.reply.linkAt(pressX-replyLine.width - Nheko.paddingSmall, pressY - replyUserButton.implicitHeight) : "", wrapper.replyTo)
@@ -298,7 +315,8 @@ TimelineEvent {
                 onActiveChanged: {
                     if (!replyDragHandler.active) {
                         if (replyDragHandler.xAxis.minimum <= replyDragHandler.xAxis.activeValue + 1) {
-                            wrapper.room.reply = wrapper.eventId
+                            if (wrapper.room)
+                                wrapper.room.reply = wrapper.eventId
                         }
                         gridContainer.x = wrapper.avatarMargin;
                     }
@@ -306,7 +324,10 @@ TimelineEvent {
             }
 
             TapHandler {
-                onDoubleTapped: wrapper.room.reply = wrapper.eventId
+                onDoubleTapped: {
+                    if (wrapper.room)
+                        wrapper.room.reply = wrapper.eventId
+                }
             }
         },
         Rectangle {
@@ -404,7 +425,7 @@ TimelineEvent {
 
             color: palette.highlight
             height: visible ? 3 : 0
-            visible: (wrapper.index > 0 && (wrapper.room.fullyReadEventId == wrapper.eventId))
+            visible: wrapper.hasRoom && (wrapper.index > 0 && (wrapper.room.fullyReadEventId == wrapper.eventId))
 
             anchors {
                 left: parent.left

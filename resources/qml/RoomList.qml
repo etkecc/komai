@@ -633,7 +633,6 @@ Page {
             required property string time
             required property bool isEncrypted
             property color unimportantText: palette.buttonText
-
             ToolTip.delay: Nheko.tooltipDelay
             ToolTip.text: roomName
             ToolTip.visible: hovered && collapsed

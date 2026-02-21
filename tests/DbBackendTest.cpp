@@ -892,6 +892,7 @@ testStateIndexHelper()
 
         db::putStateEventId(txn, statesKeyDb, "m.room.member", "beta", "$event-b");
         db::putStateEventId(txn, statesKeyDb, "m.room.member", "beta", "$event-b");
+        db::putStateEventId(txn, statesKeyDb, "m.room.member", "beta", "$event-c");
         txn.commit();
     }
 
@@ -903,7 +904,7 @@ testStateIndexHelper()
         const auto memberIds = db::listStateEventIds(txn, statesKeyDb, "m.room.member");
         ok &= expect(memberIds.size() == 2,
                      "state index helper write API keeps state index set deduplicated");
-        ok &= expect(memberIds.size() >= 2 && memberIds[0] == "$event-b",
+        ok &= expect(memberIds.size() >= 2 && memberIds[0] == "$event-c",
                      "state index helper write API keeps state-key ordering after replace #1");
         ok &= expect(memberIds.size() >= 2 && memberIds[1] == "$event-z",
                      "state index helper write API keeps state-key ordering after replace #2");

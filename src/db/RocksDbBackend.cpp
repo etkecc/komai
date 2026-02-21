@@ -373,6 +373,7 @@ public:
     void
     markDeleted(std::string_view key)
     {
+        readCache_.erase(std::string(key));
         batch().Delete(std::string(key));
         pendingWrites_[std::string(key)] = std::nullopt;
     }
@@ -380,6 +381,7 @@ public:
     void
     markWritten(std::string_view key, std::string_view value)
     {
+        readCache_.erase(std::string(key));
         pendingWrites_[std::string(key)] = std::string(value);
     }
 
@@ -403,6 +405,15 @@ public:
     bool
     getCachedRead(std::string_view key, std::string_view &value) const noexcept
     {
+        const auto pendingIt = pendingWrites_.find(std::string(key));
+        if (pendingIt != pendingWrites_.end()) {
+            if (!pendingIt->second)
+                return false;
+
+            value = *pendingIt->second;
+            return true;
+        }
+
         const auto it = readCache_.find(std::string(key));
         if (it == readCache_.end())
             return false;
@@ -415,7 +426,7 @@ public:
     cacheRead(std::string_view key, std::string_view value)
     {
         auto &entry = readCache_[std::string(key)];
-        entry        = value;
+        entry        = std::string(value);
         return entry;
     }
 

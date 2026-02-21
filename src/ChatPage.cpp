@@ -6,6 +6,8 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QMetaObject>
+#include <QThread>
 
 #include <algorithm>
 #include <chrono>
@@ -1477,19 +1479,30 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
     }
 
     auto completed = std::make_shared<std::atomic_bool>(false);
+    auto finalizeOnUiThread = [this, route, loginMessage]() {
+        if (QThread::currentThread() == thread()) {
+            finalizeLogout(route, loginMessage);
+            return;
+        }
 
-    QTimer::singleShot(LOGOUT_REQUEST_TIMEOUT, this, [this, completed, route, loginMessage] {
+        QMetaObject::invokeMethod(
+          this,
+          [this, route, loginMessage] { finalizeLogout(route, loginMessage); },
+          Qt::QueuedConnection);
+    };
+
+    QTimer::singleShot(LOGOUT_REQUEST_TIMEOUT, this, [this, completed, finalizeOnUiThread] {
         if (completed->exchange(true))
             return;
 
         nhlog::net()->warn(
           "logout request timed out after {}ms; proceeding with local cleanup",
           std::chrono::duration_cast<std::chrono::milliseconds>(LOGOUT_REQUEST_TIMEOUT).count());
-        finalizeLogout(route, loginMessage);
+        finalizeOnUiThread();
     });
 
-    http::client()->logout([this, completed, route, loginMessage](const mtx::responses::Logout &,
-                                                                  mtx::http::RequestErr err) {
+    http::client()->logout([this, completed, finalizeOnUiThread](const mtx::responses::Logout &,
+                                                                mtx::http::RequestErr err) {
         if (completed->exchange(true))
             return;
 
@@ -1498,7 +1511,7 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
                                err);
         }
 
-        finalizeLogout(route, loginMessage);
+        finalizeOnUiThread();
     });
 }
 

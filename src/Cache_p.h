@@ -69,6 +69,7 @@ public:
     QHash<QString, RoomInfo> invites();
     std::optional<RoomInfo> invite(std::string_view roomid);
     QMap<QString, std::optional<RoomInfo>> spaces();
+    QString roomAvatarUrl(const std::string &room_id);
 
     //! Calculate & return the name of the room.
     QString getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);

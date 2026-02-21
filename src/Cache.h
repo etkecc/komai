@@ -236,6 +236,8 @@ RoomInfo
 singleRoomInfo(const std::string &room_id);
 std::map<QString, RoomInfo>
 getRoomInfo(const std::vector<std::string> &rooms);
+QString
+roomAvatarUrl(const std::string &room_id);
 
 //! Calculates which the read status of a room.
 //! Whether all the events in the timeline have been read.

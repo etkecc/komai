@@ -2527,6 +2527,22 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
     return room_info;
 }
 
+QString
+Cache::roomAvatarUrl(const std::string &room_id)
+{
+    auto txn = ro_txn(storage());
+
+    try {
+        auto statesdb = getStatesDb(txn, room_id);
+        auto membersdb = getMembersDb(txn, room_id);
+        return getRoomAvatarUrl(txn, statesdb, membersdb);
+    } catch (const std::exception &e) {
+        nhlog::db()->warn("failed to get room avatar url for room '{}': {}", room_id, e.what());
+    }
+
+    return {};
+}
+
 std::vector<QString>
 Cache::roomIds()
 {
@@ -5344,6 +5360,15 @@ std::map<QString, RoomInfo>
 getRoomInfo(const std::vector<std::string> &rooms)
 {
     return instance_->getRoomInfo(rooms);
+}
+
+QString
+roomAvatarUrl(const std::string &room_id)
+{
+    if (!isDatabaseReady())
+        return {};
+
+    return instance_->roomAvatarUrl(room_id);
 }
 
 //! Calculates which the read status of a room.

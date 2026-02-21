@@ -198,6 +198,7 @@ EventDelegateChooser {
             required property Room room
             required property string userId
             required property string userName
+            readonly property bool hasKnockAction: room && room.showAcceptKnockButton(eventId)
 
             NoticeMessage {
                 Layout.fillWidth: true
@@ -211,9 +212,12 @@ EventDelegateChooser {
             Button {
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("Allow them in")
-                visible: member.room.showAcceptKnockButton(member.eventId)
+                visible: member.hasKnockAction
 
-                onClicked: member.room.acceptKnock(member.eventId)
+                onClicked: {
+                    if (member.room)
+                        member.room.acceptKnock(member.eventId)
+                }
             }
         }
     }

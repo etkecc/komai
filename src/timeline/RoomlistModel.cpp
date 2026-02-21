@@ -117,11 +117,21 @@ RoomlistModel::data(const QModelIndex &index, int role) const
                                                   : QLatin1String("");
         }
 
-        if (models.contains(roomid)) {
+            if (models.contains(roomid)) {
             auto room = models.value(roomid);
             switch (role) {
             case Roles::AvatarUrl:
-                return room->roomAvatarUrl();
+                {
+                    const auto roomModelAvatar = room->roomAvatarUrl();
+                    if (!roomModelAvatar.isEmpty())
+                        return roomModelAvatar;
+
+                    const auto avatarUrl = cache::roomAvatarUrl(roomid.toStdString());
+                    if (!avatarUrl.isEmpty())
+                        return avatarUrl;
+
+                    return roomModelAvatar;
+                }
             case Roles::RoomName:
                 return room->plainRoomName();
             case Roles::LastMessage:
@@ -545,6 +555,8 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
                 Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
 
         room_model->sync(room);
+        if (auto idx = roomidToIndex(qroomid); idx != -1)
+            emit dataChanged(index(idx), index(idx), {Roles::AvatarUrl});
 
         if (ChatPage::instance()->userSettings()->typingNotifications()) {
             for (const auto &ev : room.ephemeral.events) {

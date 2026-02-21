@@ -3267,10 +3267,15 @@ TimelineModel::roomAvatarUrl() const
 {
     auto info = cache::getRoomInfo({room_id_.toStdString()});
 
-    if (!info.count(room_id_))
-        return {};
-    else
+    if (info.count(room_id_) && !info[room_id_].avatar_url.empty())
         return QString::fromStdString(info[room_id_].avatar_url);
+    else {
+        auto roomAvatar = cache::roomAvatarUrl(room_id_.toStdString());
+        if (!roomAvatar.isEmpty())
+            return roomAvatar;
+
+        return {};
+    }
 }
 
 QString

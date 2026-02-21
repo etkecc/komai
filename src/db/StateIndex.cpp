@@ -4,11 +4,33 @@
 
 #include "db/StateIndex.h"
 
+#include <vector>
+
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
 
 namespace db {
+
+void
+removeStateEventIdsForStateKey(Txn &txn,
+                              Store &statesKeyDb,
+                              std::string_view eventType,
+                              std::string_view stateKey)
+{
+    std::vector<std::string> valuesToRemove;
+    forEachDupValue(txn, statesKeyDb, eventType, [&](std::string_view value) {
+        const auto [candidateStateKey, candidateEventId] =
+          catalog::splitStateEventIndexValue(value);
+        if (candidateStateKey == stateKey && !candidateEventId.empty())
+            valuesToRemove.push_back(std::string(value));
+
+        return true;
+    });
+
+    for (const auto &value : valuesToRemove)
+        statesKeyDb.del(txn, eventType, value);
+}
 
 std::optional<std::string>
 findStateEventId(Txn &txn,
@@ -61,10 +83,10 @@ putStateEventId(Txn &txn,
                 std::string_view stateKey,
                 std::string_view eventId)
 {
+    removeStateEventIdsForStateKey(txn, statesKeyDb, eventType, stateKey);
+
     auto compositeValue = catalog::stateEventIndexValue(stateKey, eventId);
 
-    // Work around https://bugs.openldap.org/show_bug.cgi?id=8447
-    statesKeyDb.del(txn, eventType, compositeValue);
     statesKeyDb.put(txn, eventType, compositeValue);
 }
 

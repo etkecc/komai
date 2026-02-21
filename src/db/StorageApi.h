@@ -8,6 +8,7 @@
 #include <string_view>
 #include <memory>
 #include <optional>
+#include <span>
 #include <vector>
 
 #include "db/Error.h"
@@ -22,12 +23,17 @@ using Transaction = db::Transaction;
 using Store       = db::Store;
 using CursorHandle = db::CursorHandle;
 using Options     = db::StoreOpenOptions;
-using DatabaseOptions = db::BackendOptions;
+using DatabaseOptions = db::DatabaseOptions;
+using DatabaseId  = db::DatabaseId;
 using StorageCategory = db::StorageCategory;
 using AccessFlags = db::AccessFlags;
 using TransactionFlags = db::TxnFlags;
 using StoreFlags = db::StoreFlags;
-using BackendId = std::string_view;
+using BackendId = DatabaseId;
+
+inline constexpr std::string_view kMemoryDatabaseId = db::kMemoryDatabaseId;
+inline constexpr std::string_view kInMemoryDatabaseId = db::kInMemoryDatabaseId;
+inline constexpr std::string_view kLmdbDatabaseId = db::kLmdbDatabaseId;
 
 enum class AccessMode
 {
@@ -74,10 +80,10 @@ inline void
 requireCapabilities(const Database &database, StoreFlags flags)
 {
     if (hasFlag(flags, StoreFlags::DupSort) && !supportsCapability(database, Capability::DuplicateKeys))
-        throw Error("Backend does not support duplicate-key stores", ErrorKind::Invalid);
+        throw Error("Database backend does not support duplicate-key stores", ErrorKind::Invalid);
     if (hasFlag(flags, StoreFlags::IntegerKey) &&
         !supportsCapability(database, Capability::IntegerKeys))
-        throw Error("Backend does not support integer-key stores", ErrorKind::Invalid);
+        throw Error("Database backend does not support integer-key stores", ErrorKind::Invalid);
 }
 
 inline std::unique_ptr<Database>
@@ -93,33 +99,45 @@ createDatabase(BackendId id)
 }
 
 inline std::unique_ptr<Database>
-createConfiguredDatabase(BackendId requestedId = {})
+createConfiguredDatabase(DatabaseId requestedId = {})
 {
     return db::createConfiguredBackend(requestedId);
 }
 
 inline std::unique_ptr<Database>
-createDatabaseFromEnvironment(BackendId variableName = "KOMAI_DB_BACKEND")
+createDatabaseFromEnvironment(DatabaseId variableName = "KOMAI_DB_BACKEND")
 {
     return db::createConfiguredBackendFromEnvironment(variableName);
 }
 
 inline bool
-isDatabaseSupported(BackendId id) noexcept
+isDatabaseSupported(DatabaseId id) noexcept
 {
-    return db::isBackendSupported(id);
+    return db::isDatabaseSupported(id);
 }
 
-inline std::string_view
+inline DatabaseId
 defaultDatabaseId() noexcept
 {
-    return db::defaultBackendId();
+    return db::defaultDatabaseId();
 }
 
-inline BackendId
-canonicalDatabaseId(BackendId id) noexcept
+inline DatabaseId
+defaultBackendId() noexcept
 {
-    return db::canonicalBackendId(id);
+    return defaultDatabaseId();
+}
+
+inline DatabaseId
+canonicalDatabaseId(DatabaseId id) noexcept
+{
+    return db::canonicalDatabaseId(id);
+}
+
+inline std::span<const DatabaseId>
+availableDatabaseIds()
+{
+    return db::availableDatabaseIds();
 }
 
 inline void

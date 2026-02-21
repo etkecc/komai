@@ -659,6 +659,17 @@ testStorageApiHelpers()
     options.maxDbs             = 32;
     db::storage::open(backend, "", options);
 
+    const auto ids = db::storage::availableDatabaseIds();
+    ok &= expect(std::find(ids.begin(), ids.end(), db::storage::kMemoryDatabaseId) != ids.end(),
+                 "storage API can list available database IDs");
+    ok &= expect(db::storage::isDatabaseSupported(db::storage::kMemoryDatabaseId),
+                 "memory database ID is supported by storage API");
+    ok &= expect(db::storage::canonicalDatabaseId(db::storage::kInMemoryDatabaseId) ==
+                   db::storage::kMemoryDatabaseId,
+                 "storage API canonicalizes legacy in-memory ID");
+    ok &= expect(db::storage::defaultBackendId() == db::storage::defaultDatabaseId(),
+                 "storage API exposes a consistent default backend/database ID");
+
     ok &= expect(db::storage::supportsCapability(*backend, db::storage::Capability::DuplicateKeys),
                  "storage API exposes duplicate-key capability");
     ok &= expect(db::storage::supportsCapability(*backend, db::storage::Capability::IntegerKeys),

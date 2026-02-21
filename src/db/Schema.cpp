@@ -72,12 +72,6 @@ tryDropNamedStore(Database &database, Transaction &txn, std::string_view dbName,
 }
 
 bool
-tryDropNamedDbi(Database &database, Transaction &txn, std::string_view dbName, std::string *error) noexcept
-{
-    return tryDropNamedStore(database, txn, dbName, error);
-}
-
-bool
 migrateLegacyStateByKeyToStatesKey(Database &database,
                                    Transaction &txn,
                                    std::string_view roomId,

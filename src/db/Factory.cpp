@@ -75,6 +75,31 @@ canonicalBackendId(std::string_view id) noexcept
     return id;
 }
 
+bool
+isDatabaseSupported(DatabaseId id) noexcept
+{
+    return isBackendSupported(id);
+}
+
+std::string_view
+defaultDatabaseId() noexcept
+{
+    return defaultBackendId();
+}
+
+DatabaseId
+canonicalDatabaseId(DatabaseId id) noexcept
+{
+    return canonicalBackendId(id);
+}
+
+DatabaseIdSet
+availableDatabaseIds() noexcept
+{
+    auto ids = availableBackendIds();
+    return {ids.begin(), ids.end()};
+}
+
 std::unique_ptr<Backend>
 createBackend(std::string_view id)
 {

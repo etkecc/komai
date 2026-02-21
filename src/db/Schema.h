@@ -23,9 +23,6 @@ tryDropNamedStore(Database &database,
                   std::string *error = nullptr) noexcept;
 
 bool
-tryDropNamedDbi(Database &database, Transaction &txn, std::string_view dbName, std::string *error = nullptr) noexcept;
-
-bool
 migrateLegacyStateByKeyToStatesKey(Database &database,
                                    Transaction &txn,
                                    std::string_view roomId,

@@ -14,13 +14,15 @@ enum class TxnFlags : unsigned
     ReadOnly = 1u << 0,
 };
 
-enum class DbiFlags : unsigned
+enum class StoreFlags : unsigned
 {
     None       = 0,
     Create     = 1u << 0,
     IntegerKey = 1u << 1,
     DupSort    = 1u << 2,
 };
+
+using DbiFlags = StoreFlags;
 
 enum class PutFlags : unsigned
 {

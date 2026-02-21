@@ -38,7 +38,6 @@ using DatabaseStore      = Store;
 
 // Generic names for common flags/options.
 using AccessFlags = TxnFlags;
-using StoreFlags  = DbiFlags;
 using WriteFlags  = PutFlags;
 using MoveOp      = CursorOp;
 

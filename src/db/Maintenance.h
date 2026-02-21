@@ -9,13 +9,13 @@
 #include <string_view>
 
 #include "db/Catalog.h"
-#include "db/StorageApi.h"
+#include "db/Backend.h"
 
 namespace db::maintenance {
 
-using Database    = db::storage::Database;
-using Transaction = db::storage::Transaction;
-using Store       = db::storage::Store;
+using Database    = db::Database;
+using Transaction = db::Transaction;
+using Store       = db::Store;
 
 std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept;

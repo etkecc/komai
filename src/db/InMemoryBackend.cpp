@@ -799,7 +799,7 @@ InMemoryBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptio
         }
     }
 
-    return Dbi{std::make_shared<InMemoryDbiImpl>(&impl_->state, dbName, flags)};
+    return Store{std::make_shared<InMemoryDbiImpl>(&impl_->state, dbName, flags)};
 }
 
 bool

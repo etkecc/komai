@@ -318,7 +318,7 @@ LmdbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptions &
     const std::string dbName{name};
 
     auto dbi = translateLmdbErrors([&] {
-        return Dbi{std::make_shared<LmdbDbiImpl>(
+        return Store{std::make_shared<LmdbDbiImpl>(
           lmdb::dbi::open(lmdbTxn.native(), dbName.c_str(), toLmdbStoreFlags(flags)))};
     });
 

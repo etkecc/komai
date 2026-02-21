@@ -41,6 +41,7 @@
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
+#include "db/MegolmIndex.h"
 #include "db/OlmSessionIndex.h"
 #include "db/Open.h"
 #include "db/OrderEntry.h"
@@ -871,9 +872,12 @@ Cache::exportSessionKeys()
           auto saved_session = unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
 
           try {
-              index = nlohmann::json::parse(key).get<MegolmSessionIndex>();
-          } catch (const nlohmann::json::exception &e) {
-              nhlog::db()->critical("failed to export megolm session: {}", e.what());
+              if (!db::parseMegolmSessionKey(key, index.room_id, index.session_id)) {
+                  nhlog::db()->critical("failed to export megolm session: invalid index key");
+                  return true;
+              }
+          } catch (...) {
+              nhlog::db()->critical("failed to export megolm session: invalid index key");
               return true;
           }
 
@@ -881,7 +885,8 @@ Cache::exportSessionKeys()
               using namespace mtx::crypto;
 
               std::string_view v;
-              if (db->megolmSessionsData.get(txn, nlohmann::json(index).dump(), v)) {
+              if (db::getMegolmSessionDataValue(
+                    txn, db->megolmSessionsData, index.room_id, index.session_id, v)) {
                   auto data           = nlohmann::json::parse(v).get<GroupSessionData>();
                   exported.sender_key = data.sender_key;
                   if (!data.sender_claimed_ed25519_key.empty())
@@ -930,12 +935,12 @@ Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
             auto exported_session = mtx::crypto::import_session(s.session_key);
 
             using namespace mtx::crypto;
-            const auto key = nlohmann::json(index).dump();
             const auto pickled =
               pickle<InboundSessionObject>(exported_session.get(), pickle_secret_);
 
             std::string_view value;
-            if (db->inboundMegolmSessions.get(txn, key, value)) {
+            if (db::getInboundMegolmSessionValue(
+                  txn, db->inboundMegolmSessions, index.room_id, index.session_id, value)) {
                 auto oldSession =
                   unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
                 if (olm_inbound_group_session_first_known_index(exported_session.get()) >=
@@ -946,8 +951,13 @@ Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
                 }
             }
 
-            db->inboundMegolmSessions.put(txn, key, pickled);
-            db->megolmSessionsData.put(txn, key, nlohmann::json(data).dump());
+            db::putInboundMegolmSessionValue(
+              txn, db->inboundMegolmSessions, index.room_id, index.session_id, pickled);
+            db::putMegolmSessionDataValue(txn,
+                                          db->megolmSessionsData,
+                                          index.room_id,
+                                          index.session_id,
+                                          nlohmann::json(data).dump());
 
             ChatPage::instance()->receivedSessionKey(index.room_id, index.session_id);
             importCount++;
@@ -976,13 +986,13 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
                                 const GroupSessionData &data)
 {
     using namespace mtx::crypto;
-    const auto key     = nlohmann::json(index).dump();
     const auto pickled = pickle<InboundSessionObject>(session.get(), pickle_secret_);
 
     auto txn = beginTxn();
 
     std::string_view value;
-    if (db->inboundMegolmSessions.get(txn, key, value)) {
+    if (db::getInboundMegolmSessionValue(
+          txn, db->inboundMegolmSessions, index.room_id, index.session_id, value)) {
         auto oldSession = unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
 
         auto newIndex = olm_inbound_group_session_first_known_index(session.get());
@@ -990,7 +1000,8 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
 
         // merge trusted > untrusted
         // first known index minimum
-        if (db->megolmSessionsData.get(txn, key, value)) {
+        if (db::getMegolmSessionDataValue(
+              txn, db->megolmSessionsData, index.room_id, index.session_id, value)) {
             auto oldData = nlohmann::json::parse(value).get<GroupSessionData>();
             if (oldData.trusted && newIndex >= oldIndex) {
                 nhlog::crypto()->warn(
@@ -1001,18 +1012,25 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
             oldData.trusted = data.trusted || oldData.trusted;
 
             if (newIndex < oldIndex) {
-                db->inboundMegolmSessions.put(txn, key, pickled);
+                db::putInboundMegolmSessionValue(
+                  txn, db->inboundMegolmSessions, index.room_id, index.session_id, pickled);
                 oldData.message_index = newIndex;
             }
 
-            db->megolmSessionsData.put(txn, key, nlohmann::json(oldData).dump());
+            db::putMegolmSessionDataValue(txn,
+                                          db->megolmSessionsData,
+                                          index.room_id,
+                                          index.session_id,
+                                          nlohmann::json(oldData).dump());
             txn.commit();
             return;
         }
     }
 
-    db->inboundMegolmSessions.put(txn, key, pickled);
-    db->megolmSessionsData.put(txn, key, nlohmann::json(data).dump());
+    db::putInboundMegolmSessionValue(
+      txn, db->inboundMegolmSessions, index.room_id, index.session_id, pickled);
+    db::putMegolmSessionDataValue(
+      txn, db->megolmSessionsData, index.room_id, index.session_id, nlohmann::json(data).dump());
     txn.commit();
 }
 
@@ -1022,11 +1040,11 @@ Cache::getInboundMegolmSession(const MegolmSessionIndex &index)
     using namespace mtx::crypto;
 
     try {
-        auto txn        = ro_txn(storage());
-        std::string key = nlohmann::json(index).dump();
+        auto txn = ro_txn(storage());
         std::string_view value;
 
-        if (db->inboundMegolmSessions.get(txn, key, value)) {
+        if (db::getInboundMegolmSessionValue(
+              txn, db->inboundMegolmSessions, index.room_id, index.session_id, value)) {
             auto session = unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
             return session;
         }
@@ -1043,11 +1061,11 @@ Cache::inboundMegolmSessionExists(const MegolmSessionIndex &index)
     using namespace mtx::crypto;
 
     try {
-        auto txn        = ro_txn(storage());
-        std::string key = nlohmann::json(index).dump();
+        auto txn = ro_txn(storage());
         std::string_view value;
 
-        return db->inboundMegolmSessions.get(txn, key, value);
+        return db::getInboundMegolmSessionValue(
+          txn, db->inboundMegolmSessions, index.room_id, index.session_id, value);
     } catch (std::exception &e) {
         nhlog::db()->error("Failed to get inbound megolm session {}", e.what());
     }
@@ -1077,7 +1095,8 @@ Cache::updateOutboundMegolmSession(const std::string &room_id,
 
     auto txn = beginTxn();
     db->outboundMegolmSessions.put(txn, room_id, j.dump());
-    db->megolmSessionsData.put(txn, nlohmann::json(index).dump(), nlohmann::json(data).dump());
+    db::putMegolmSessionDataValue(
+      txn, db->megolmSessionsData, index.room_id, index.session_id, nlohmann::json(data).dump());
     txn.commit();
 }
 
@@ -1116,7 +1135,8 @@ Cache::saveOutboundMegolmSession(const std::string &room_id,
 
     auto txn = beginTxn();
     db->outboundMegolmSessions.put(txn, room_id, j.dump());
-    db->megolmSessionsData.put(txn, nlohmann::json(index).dump(), nlohmann::json(data).dump());
+    db::putMegolmSessionDataValue(
+      txn, db->megolmSessionsData, index.room_id, index.session_id, nlohmann::json(data).dump());
     txn.commit();
 }
 
@@ -1152,7 +1172,8 @@ Cache::getOutboundMegolmSession(const std::string &room_id)
         index.room_id    = room_id;
         index.session_id = mtx::crypto::session_id(ref.session.get());
 
-        if (db->megolmSessionsData.get(txn, nlohmann::json(index).dump(), value)) {
+        if (db::getMegolmSessionDataValue(
+              txn, db->megolmSessionsData, index.room_id, index.session_id, value)) {
             ref.data = nlohmann::json::parse(value).get<GroupSessionData>();
         }
 
@@ -1172,7 +1193,8 @@ Cache::getMegolmSessionData(const MegolmSessionIndex &index)
         auto txn = ro_txn(storage());
 
         std::string_view value;
-        if (db->megolmSessionsData.get(txn, nlohmann::json(index).dump(), value)) {
+        if (db::getMegolmSessionDataValue(
+              txn, db->megolmSessionsData, index.room_id, index.session_id, value)) {
             return nlohmann::json::parse(value).get<GroupSessionData>();
         }
 
@@ -5187,20 +5209,6 @@ from_json(const nlohmann::json &obj, DevicePublicKeys &msg)
 {
     msg.ed25519    = obj.at("ed25519").get<std::string>();
     msg.curve25519 = obj.at("curve25519").get<std::string>();
-}
-
-void
-to_json(nlohmann::json &obj, const MegolmSessionIndex &msg)
-{
-    obj["room_id"]    = msg.room_id;
-    obj["session_id"] = msg.session_id;
-}
-
-void
-from_json(const nlohmann::json &obj, MegolmSessionIndex &msg)
-{
-    msg.room_id    = obj.at("room_id").get<std::string>();
-    msg.session_id = obj.at("session_id").get<std::string>();
 }
 
 void

@@ -107,11 +107,6 @@ struct MegolmSessionIndex
     std::string session_id;
 };
 
-void
-to_json(nlohmann::json &obj, const MegolmSessionIndex &msg);
-void
-from_json(const nlohmann::json &obj, MegolmSessionIndex &msg);
-
 struct StoredOlmSession
 {
     std::uint64_t last_message_ts = 0;

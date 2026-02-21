@@ -123,6 +123,12 @@ Database hash:
   (`db::getOlmSessionValue(...)`, `db::putOlmSessionValue(...)`,
   `db::forEachOlmSessionForCurve(...)`, `db::listOlmSessionIds(...)`) so callers
   do not duplicate composite key/prefix handling for unified OLM session storage.
+- Reusable Megolm index helpers are centralized in `src/db/MegolmIndex.cpp`
+  (`db::megolmSessionKey(...)`, `db::parseMegolmSessionKey(...)`,
+  `db::getInboundMegolmSessionValue(...)`, `db::putInboundMegolmSessionValue(...)`,
+  `db::getMegolmSessionDataValue(...)`, `db::putMegolmSessionDataValue(...)`) so
+  callers do not repeat JSON key encoding/parsing and twin-index access patterns
+  for inbound/session-data Megolm storage.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
   (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
   `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor

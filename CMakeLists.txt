@@ -1002,6 +1002,7 @@ add_library(komai_db
     src/db/DupIndex.cpp
     src/db/Factory.cpp
     src/db/InMemoryBackend.cpp
+    src/db/MegolmIndex.cpp
     src/db/NamePolicy.cpp
     src/db/Open.cpp
     src/db/OlmSessionIndex.cpp

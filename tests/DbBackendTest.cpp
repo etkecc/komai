@@ -21,6 +21,7 @@
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
+#include "db/MegolmIndex.h"
 #include "db/NamePolicy.h"
 #include "db/Open.h"
 #include "db/OlmSessionIndex.h"
@@ -850,6 +851,70 @@ testSyncStateHelper()
           "sync state helper reports missing enum-keyed value");
         ok &= expect(!db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret").has_value(),
                      "sync state helper reports missing secret-keyed value");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testMegolmIndexHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn      = backend->beginTxn();
+        auto inboundDb = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
+        auto dataDb    = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData);
+
+        db::putInboundMegolmSessionValue(
+          txn, inboundDb, "!room-a:example", "sess-1", "pickled-1");
+        db::putMegolmSessionDataValue(
+          txn, dataDb, "!room-a:example", "sess-1", R"({"message_index":1})");
+        txn.commit();
+    }
+
+    {
+        auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto inboundDb = db::openGlobalDbi(
+          *backend, txn, db::catalog::GlobalDb::InboundMegolmSessions, false);
+        auto dataDb =
+          db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData, false);
+
+        std::string_view value;
+        ok &= expect(db::getInboundMegolmSessionValue(
+                       txn, inboundDb, "!room-a:example", "sess-1", value),
+                     "megolm index helper reads inbound session payload");
+        ok &= expect(value == "pickled-1",
+                     "megolm index helper returns inbound session payload");
+
+        ok &= expect(
+          db::getMegolmSessionDataValue(txn, dataDb, "!room-a:example", "sess-1", value),
+          "megolm index helper reads megolm session data payload");
+        ok &= expect(value == R"({"message_index":1})",
+                     "megolm index helper returns megolm session data payload");
+
+        ok &= expect(!db::getInboundMegolmSessionValue(
+                       txn, inboundDb, "!room-a:example", "missing", value),
+                     "megolm index helper reports missing inbound payload");
+    }
+
+    {
+        const auto key = db::megolmSessionKey("!room-a:example", "sess-1");
+        std::string roomId;
+        std::string sessionId;
+        ok &= expect(db::parseMegolmSessionKey(key, roomId, sessionId),
+                     "megolm index helper parses serialized key");
+        ok &= expect(roomId == "!room-a:example" && sessionId == "sess-1",
+                     "megolm index helper preserves parsed room/session ids");
+        ok &= expect(!db::parseMegolmSessionKey("not-json", roomId, sessionId),
+                     "megolm index helper rejects malformed key");
     }
 
     backend->close();
@@ -2431,6 +2496,7 @@ main()
     ok &= testOpenHelpers();
     ok &= testStateIndexHelper();
     ok &= testSyncStateHelper();
+    ok &= testMegolmIndexHelper();
     ok &= testOlmSessionIndexHelper();
     ok &= testDupIndexHelper();
     ok &= testScanHelper();

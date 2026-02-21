@@ -5,9 +5,11 @@
 #include "db/Backend.h"
 
 #include <array>
+#include <algorithm>
 #include <cstdlib>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "db/InMemoryBackend.h"
 #if KOMAI_DB_WITH_LMDB
@@ -15,6 +17,48 @@
 #endif
 
 namespace db {
+
+namespace {
+
+using BackendFactory = std::unique_ptr<Backend> (*)();
+
+struct BackendEntry
+{
+    std::string_view id;
+    BackendFactory factory;
+};
+
+std::unique_ptr<Backend>
+makeInMemoryBackend()
+{
+    return std::make_unique<InMemoryBackend>();
+}
+
+#if KOMAI_DB_WITH_LMDB
+std::unique_ptr<Backend>
+makeLmdbBackend()
+{
+    return std::make_unique<LmdbBackend>();
+}
+#endif
+
+std::span<const BackendEntry>
+registeredBackends() noexcept
+{
+#if KOMAI_DB_WITH_LMDB
+    static constexpr std::array<BackendEntry, 2> backends{
+      BackendEntry{kLmdbBackendId, &makeLmdbBackend},
+      BackendEntry{kMemoryBackendId, &makeInMemoryBackend},
+    };
+#else
+    static constexpr std::array<BackendEntry, 1> backends{
+      BackendEntry{kMemoryBackendId, &makeInMemoryBackend},
+    };
+#endif
+    return backends;
+}
+
+} // namespace
 
 std::unique_ptr<Backend>
 createDefaultBackend()
@@ -39,56 +83,47 @@ createBackend(std::string_view id)
 
     const auto canonicalId = canonicalBackendId(id);
 
-    if (canonicalId == kMemoryBackendId)
-        return std::make_unique<InMemoryBackend>();
-    if (canonicalId == kLmdbBackendId) {
-#if KOMAI_DB_WITH_LMDB
-        return std::make_unique<LmdbBackend>();
-#else
-        throw Error("LMDB backend is not enabled in this build", ErrorKind::Invalid);
-#endif
+    for (const auto &entry : registeredBackends()) {
+        if (entry.id == canonicalId) {
+            return entry.factory();
+        }
     }
-
-    throw Error(std::string("Unknown database backend: ") + std::string(canonicalId), ErrorKind::Invalid);
+    throw Error(std::string("Unknown database backend: ") + std::string(canonicalId),
+                ErrorKind::Invalid);
 }
 
 bool
 isBackendSupported(std::string_view id) noexcept
 {
     const auto canonicalId = canonicalBackendId(id);
-
-    if (canonicalId == kMemoryBackendId)
-        return true;
-    if (canonicalId == kLmdbBackendId) {
-#if KOMAI_DB_WITH_LMDB
-        return true;
-#else
-        return false;
-#endif
-    }
-
-    return false;
+    return std::find_if(registeredBackends().begin(),
+                        registeredBackends().end(),
+                        [&](const auto &entry) { return entry.id == canonicalId; }) !=
+           registeredBackends().end();
 }
 
 std::string_view
 defaultBackendId() noexcept
 {
-#if KOMAI_DB_WITH_LMDB
-    return kLmdbBackendId;
-#else
+    const auto backends = registeredBackends();
+    for (const auto &entry : backends) {
+        if (entry.id == kLmdbBackendId)
+            return kLmdbBackendId;
+    }
     return kMemoryBackendId;
-#endif
 }
 
 std::span<const std::string_view>
 availableBackendIds() noexcept
 {
-#if KOMAI_DB_WITH_LMDB
-    static constexpr std::array<std::string_view, 2> ids{kLmdbBackendId, kMemoryBackendId};
-#else
-    static constexpr std::array<std::string_view, 1> ids{kMemoryBackendId};
-#endif
-
+    static const std::vector<std::string_view> ids = [] {
+        const auto backends = registeredBackends();
+        std::vector<std::string_view> result;
+        result.reserve(backends.size());
+        for (auto &entry : backends)
+            result.push_back(entry.id);
+        return result;
+    }();
     return ids;
 }
 

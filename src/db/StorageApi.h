@@ -29,12 +29,6 @@
 #include "db/TimelineIndex.h"
 #include "db/SyncState.h"
 
-namespace db {
-
-void compact(Database &from, Database &to);
-
-} // namespace db
-
 namespace db::storage {
 
 using Database    = db::Database;
@@ -199,12 +193,6 @@ using db::appendEventOrderEntry;
 using db::prependEventOrderEntry;
 using db::appendMessageOrderEntry;
 using db::prependMessageOrderEntry;
-
-inline void
-compact(Database &from, Database &to)
-{
-    db::compact(from, to);
-}
 
 inline void
 requireCapabilities(const Database &database, StoreFlags flags)
@@ -411,30 +399,6 @@ inline std::string_view
 id(const std::unique_ptr<Database> &database)
 {
     return id(database.get());
-}
-
-inline bool
-supportsCompaction(const Database &database)
-{
-    return database.supportsCompaction();
-}
-
-inline bool
-supportsCompaction(Database *database)
-{
-    return database ? supportsCompaction(*database) : false;
-}
-
-inline bool
-supportsCompaction(std::unique_ptr<Database> &database)
-{
-    return supportsCompaction(database.get());
-}
-
-inline bool
-supportsCompaction(const std::unique_ptr<Database> &database)
-{
-    return supportsCompaction(database.get());
 }
 
 inline StorageCategory

@@ -23,6 +23,8 @@ using Store       = db::Store;
 using CursorHandle = db::CursorHandle;
 using Options     = db::StoreOpenOptions;
 using DatabaseOptions = db::BackendOptions;
+using StorageCategory = db::StorageCategory;
+using AccessFlags = db::AccessFlags;
 using TransactionFlags = db::TxnFlags;
 using StoreFlags = db::StoreFlags;
 using BackendId = std::string_view;
@@ -471,13 +473,13 @@ beginWriteTransaction(const std::unique_ptr<Database> &database, Transaction *pa
 }
 
 inline Transaction
-beginTransaction(Database &database, Transaction *parent, TxnFlags flags)
+beginTransaction(Database &database, Transaction *parent, TransactionFlags flags)
 {
     return database.beginTxn(parent, flags);
 }
 
 inline Transaction
-beginTransaction(Database *database, Transaction *parent, TxnFlags flags)
+beginTransaction(Database *database, Transaction *parent, TransactionFlags flags)
 {
     if (!database)
         throw Error("Database pointer is null", ErrorKind::Invalid);
@@ -486,13 +488,13 @@ beginTransaction(Database *database, Transaction *parent, TxnFlags flags)
 }
 
 inline Transaction
-beginTransaction(std::unique_ptr<Database> &database, Transaction *parent, TxnFlags flags)
+beginTransaction(std::unique_ptr<Database> &database, Transaction *parent, TransactionFlags flags)
 {
     return beginTransaction(database.get(), parent, flags);
 }
 
 inline Transaction
-beginTransaction(const std::unique_ptr<Database> &database, Transaction *parent, TxnFlags flags)
+beginTransaction(const std::unique_ptr<Database> &database, Transaction *parent, TransactionFlags flags)
 {
     return beginTransaction(database.get(), parent, flags);
 }

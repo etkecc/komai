@@ -392,7 +392,8 @@ Cache::setup()
 
     nhlog::db()->debug("Database at: {}", cacheDirectory_.toStdString());
 
-    const bool isPersistentBackend = db::storage::storageCategory(storage()) == db::StorageCategory::Persistent;
+    const bool isPersistentBackend =
+      db::storage::storageCategory(storage()) == db::storage::StorageCategory::Persistent;
     const bool isInitial           = isPersistentBackend && !QFile::exists(cacheDirectory_);
 
     auto storageOptions = [] {
@@ -5599,14 +5600,14 @@ template<typename T>
 std::optional<mtx::events::StateEvent<T>>
 Cache::getStateEvent(const std::string &room_id, std::string_view state_key)
 {
-    auto txn = beginTxn(nullptr, db::TxnFlags::ReadOnly);
+    auto txn = beginTxn(nullptr, db::storage::TransactionFlags::ReadOnly);
     return getStateEvent<T>(txn, room_id, state_key);
 }
 template<typename T>
 std::vector<mtx::events::StateEvent<T>>
 Cache::getStateEventsWithType(const std::string &room_id, mtx::events::EventType type)
 {
-    auto txn = beginTxn(nullptr, db::TxnFlags::ReadOnly);
+    auto txn = beginTxn(nullptr, db::storage::TransactionFlags::ReadOnly);
     return getStateEventsWithType<T>(txn, room_id, type);
 }
 

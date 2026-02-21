@@ -58,7 +58,8 @@ Database hash:
   - `lmdb` (default when `KOMAI_DB_ENABLE_LMDB_BACKEND=ON`)
 - Backends expose persistence behavior through `db::Backend::storageCategory()`:
   - `Persistent`: uses on-disk storage.
-  - `Ephemeral`: keeps data in-memory only (currently `memory`).
+  - `Ephemeral`: keeps data in-memory only (currently `memory`; useful for testing or
+    ephemeral runs, not suitable for normal user data).
 - Compaction is backend-capability-driven (`Backend::supportsCompaction()`):
   enabled for `lmdb` when present, skipped for `memory`.
 - Cross-backend data copy used by compaction is implemented in `src/db/Compaction.cpp` (`db::compact(...)`).

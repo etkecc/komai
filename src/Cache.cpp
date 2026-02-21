@@ -422,6 +422,8 @@ Cache::setup()
     }();
 
     nhlog::db()->info("Using storage backend: {}", db->storage->id());
+    if (!isPersistentBackend)
+        nhlog::db()->warn("Using ephemeral storage backend; cache contents will be lost on restart");
 
     if (isInitial) {
         nhlog::db()->info("initializing {} backend", db->storage->id());

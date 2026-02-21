@@ -820,6 +820,25 @@ testDupIndexHelper()
 
         const auto missing = db::listDupValues(txn, spaces, "missing");
         ok &= expect(missing.empty(), "dup index helper returns empty list for missing key");
+
+        std::vector<std::string> iteratedValues;
+        db::forEachDupValue(txn, spaces, "space", [&iteratedValues](std::string_view value) {
+            iteratedValues.emplace_back(value);
+            return iteratedValues.size() < 2;
+        });
+        ok &= expect(iteratedValues.size() == 2,
+                     "dup index helper supports callback iteration with early stop");
+        ok &= expect(iteratedValues.size() >= 2 && iteratedValues[0].empty(),
+                     "dup index callback iteration preserves comparator order #1");
+        ok &= expect(iteratedValues.size() >= 2 && iteratedValues[1] == "child-a",
+                     "dup index callback iteration preserves comparator order #2");
+
+        bool missingVisited = false;
+        db::forEachDupValue(txn, spaces, "missing", [&missingVisited](std::string_view) {
+            missingVisited = true;
+            return true;
+        });
+        ok &= expect(!missingVisited, "dup index callback iteration skips missing key");
     }
 
     backend->close();

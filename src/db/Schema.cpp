@@ -17,6 +17,7 @@
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Open.h"
+#include "db/Scan.h"
 #include "db/StateIndex.h"
 
 namespace {
@@ -80,18 +81,15 @@ migrateLegacyStateByKeyToStatesKey(Backend &backend,
         auto oldStateskeyDb = openRoomDbi(backend, txn, roomId, catalog::RoomDb::LegacyStateByKey);
         auto newStateskeyDb = openRoomDbi(backend, txn, roomId, catalog::RoomDb::StatesKey);
 
-        {
-            auto cursor = Cursor::open(txn, oldStateskeyDb);
-            std::string_view eventType, data;
-            bool start = true;
-            while (cursor.get(eventType, data, start ? CursorOp::First : CursorOp::Next)) {
-                start = false;
-
-                auto parsed = nlohmann::json::parse(std::string_view(data.data(), data.size()));
-                putStateEventId(
-                  txn, newStateskeyDb, eventType, parsed.value("key", ""), parsed.value("id", ""));
-            }
-        }
+        forEachEntry(
+          txn,
+          oldStateskeyDb,
+          [&txn, &newStateskeyDb](std::string_view eventType, std::string_view data) {
+              auto parsed = nlohmann::json::parse(std::string_view(data.data(), data.size()));
+              putStateEventId(
+                txn, newStateskeyDb, eventType, parsed.value("key", ""), parsed.value("id", ""));
+              return true;
+          });
 
         oldStateskeyDb.drop(txn, true);
         return true;
@@ -125,28 +123,30 @@ migrateLegacyMegolmSessionIndexes(Backend &backend, Txn &txn, std::string *error
         } catch (...) {
         }
 
-        std::string_view key, value;
-        auto cursor = Cursor::open(txn, inboundMegolmSessionDb);
         std::map<std::string, std::string> inboundSessions;
         std::map<std::string, std::string> megolmSessionData;
-        while (cursor.get(key, value, CursorOp::Next)) {
-            auto indexVal = nlohmann::json::parse(key);
-            if (!indexVal.contains("sender_key") || !indexVal.at("sender_key").is_string())
-                continue;
-            auto senderKey = indexVal["sender_key"].get<std::string>();
-            indexVal.erase("sender_key");
+        forEachEntry(txn,
+                     inboundMegolmSessionDb,
+                     [&txn, &megolmSessionDataDb, &inboundSessions, &megolmSessionData](
+                       std::string_view key, std::string_view value) {
+                         auto indexVal = nlohmann::json::parse(key);
+                         if (!indexVal.contains("sender_key") ||
+                             !indexVal.at("sender_key").is_string())
+                             return true;
+                         auto senderKey = indexVal["sender_key"].get<std::string>();
+                         indexVal.erase("sender_key");
 
-            std::string_view dataVal;
-            if (megolmSessionDataDb.get(txn, key, dataVal)) {
-                auto data          = nlohmann::json::parse(dataVal);
-                data["sender_key"] = senderKey;
+                         std::string_view dataVal;
+                         if (megolmSessionDataDb.get(txn, key, dataVal)) {
+                             auto data          = nlohmann::json::parse(dataVal);
+                             data["sender_key"] = senderKey;
 
-                const auto newKey         = indexVal.dump();
-                inboundSessions[newKey]   = std::string(value);
-                megolmSessionData[newKey] = data.dump();
-            }
-        }
-        cursor.close();
+                             const auto newKey         = indexVal.dump();
+                             inboundSessions[newKey]   = std::string(value);
+                             megolmSessionData[newKey] = data.dump();
+                         }
+                         return true;
+                     });
 
         inboundMegolmSessionDb.drop(txn, false);
         megolmSessionDataDb.drop(txn, false);
@@ -177,21 +177,19 @@ migrateLegacyOlmShardsV1ToV2(Backend &backend, Txn &txn)
         if (!catalog::isLegacyOlmShardV1(dbName))
             continue;
 
-        auto oldDb  = openNamedDbi(backend, txn, dbName, false);
-        auto cursor = Cursor::open(txn, oldDb);
-        std::string_view sessionId, sessionValue;
+        auto oldDb = openNamedDbi(backend, txn, dbName, false);
         std::vector<std::pair<std::string, std::string>> sessions;
 
-        while (cursor.get(sessionId, sessionValue, CursorOp::Next)) {
-            const bool invalid = std::any_of(sessionValue.begin(), sessionValue.end(), [](char c) {
-                return !std::isprint(static_cast<unsigned char>(c));
-            });
-            if (invalid)
-                continue;
-
-            sessions.emplace_back(sessionId, sessionValue);
-        }
-        cursor.close();
+        forEachEntry(
+          txn, oldDb, [&sessions](std::string_view sessionId, std::string_view sessionValue) {
+              const bool invalid =
+                std::any_of(sessionValue.begin(), sessionValue.end(), [](char c) {
+                    return !std::isprint(static_cast<unsigned char>(c));
+                });
+              if (!invalid)
+                  sessions.emplace_back(sessionId, sessionValue);
+              return true;
+          });
 
         oldDb.drop(txn, true);
 
@@ -218,13 +216,13 @@ migrateLegacyOlmShardsV2ToUnified(Backend &backend, Txn &txn, Dbi &olmSessions)
         migrated      = true;
         auto curveKey = *catalog::legacyOlmCurveFromV2Name(dbName);
         auto oldDb    = openNamedDbi(backend, txn, dbName, false);
-        auto cursor   = Cursor::open(txn, oldDb);
-
-        std::string_view sessionId, value;
-        while (cursor.get(sessionId, value, CursorOp::Next)) {
-            olmSessions.put(txn, catalog::olmSessionKey(curveKey, sessionId), value);
-        }
-        cursor.close();
+        forEachEntry(
+          txn,
+          oldDb,
+          [&txn, &olmSessions, &curveKey](std::string_view sessionId, std::string_view value) {
+              olmSessions.put(txn, catalog::olmSessionKey(curveKey, sessionId), value);
+              return true;
+          });
 
         oldDb.drop(txn, true);
     }

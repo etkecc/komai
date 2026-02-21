@@ -4,30 +4,35 @@
 
 #include "db/DupIndex.h"
 
-#include "db/DbTypes.h"
+#include "db/Scan.h"
 
 namespace db {
+
+void
+forEachDupValue(Txn &txn,
+                Dbi &db,
+                std::string_view key,
+                const std::function<bool(std::string_view value)> &visitor)
+{
+    forEachEntryFromKey(txn,
+                        db,
+                        key,
+                        ScanDirection::Forward,
+                        [key, &visitor](std::string_view scannedKey, std::string_view value) {
+                            if (scannedKey != key)
+                                return false;
+                            return visitor(value);
+                        });
+}
 
 std::vector<std::string>
 listDupValues(Txn &txn, Dbi &db, std::string_view key)
 {
     std::vector<std::string> values;
-    auto cursor = Cursor::open(txn, db);
-
-    std::string_view cursorKey = key;
-    std::string_view value;
-    bool first = true;
-
-    if (!cursor.get(cursorKey, value, CursorOp::Set))
-        return values;
-
-    while (cursor.get(cursorKey, value, first ? CursorOp::FirstDup : CursorOp::NextDup)) {
-        first = false;
-        if (cursorKey != key)
-            break;
-
+    forEachDupValue(txn, db, key, [&values](std::string_view value) {
         values.emplace_back(value);
-    }
+        return true;
+    });
 
     return values;
 }

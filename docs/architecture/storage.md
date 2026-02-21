@@ -77,13 +77,16 @@ Database hash:
   `db::removeStateEventId(...)`) so callers do not need
   to encode backend cursor/dupsort iteration details.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
-  (`db::listDupValues(...)`) to avoid repeating cursor `Set`/`FirstDup`/`NextDup` loops.
+  (`db::listDupValues(...)`, `db::forEachDupValue(...)`) to avoid repeating cursor
+  `Set`/`FirstDup`/`NextDup` loops.
 - Reusable key scanning is centralized in `src/db/Scan.cpp`
   (`db::listKeys(...)`, `db::listEntries(...)` including paged iteration, and
   `db::forEachEntry(...)` including paged iteration, plus ordered-entry helpers
   such as `db::firstEntry(...)`, `db::lastEntry(...)`, and
   `db::forEachEntryFromKey(...)` / `db::forEachEntryWithPrefix(...)`) so callers can iterate DB keys/entries
   without cursor boilerplate.
+- Cursor-level APIs are intentionally mostly confined to backend internals and
+  helper modules (`Scan`, `DupIndex`) so higher-level code can stay backend-neutral.
 - Cache DB open options (integer-key / dupsort / comparator) are centralized in
   `src/db/NamePolicy.cpp` (`db::openOptionsForName(...)`,
   `db::openOptionsForGlobal(...)`, `db::openOptionsForRoom(...)`) and consumed via

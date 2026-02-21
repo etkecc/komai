@@ -6,53 +6,37 @@
 
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
+#include "db/DupIndex.h"
 
 namespace db {
 
 std::optional<std::string>
 findStateEventId(Txn &txn, Dbi &statesKeyDb, std::string_view eventType, std::string_view stateKey)
 {
-    auto cursor = Cursor::open(txn, statesKeyDb);
-
-    std::string_view cursorKey = eventType;
-    std::string_view value;
-    bool first = true;
-
-    if (!cursor.get(cursorKey, value, CursorOp::Set))
-        return std::nullopt;
-
-    while (cursor.get(cursorKey, value, first ? CursorOp::FirstDup : CursorOp::NextDup)) {
-        first = false;
-
+    std::optional<std::string> foundEventId;
+    forEachDupValue(txn, statesKeyDb, eventType, [&foundEventId, stateKey](std::string_view value) {
         const auto [candidateStateKey, candidateEventId] =
           catalog::splitStateEventIndexValue(value);
-        if (candidateStateKey == stateKey && !candidateEventId.empty())
-            return std::string(candidateEventId);
-    }
+        if (candidateStateKey == stateKey && !candidateEventId.empty()) {
+            foundEventId = std::string(candidateEventId);
+            return false;
+        }
+        return true;
+    });
 
-    return std::nullopt;
+    return foundEventId;
 }
 
 std::vector<std::string>
 listStateEventIds(Txn &txn, Dbi &statesKeyDb, std::string_view eventType)
 {
     std::vector<std::string> eventIds;
-    auto cursor = Cursor::open(txn, statesKeyDb);
-
-    std::string_view cursorKey = eventType;
-    std::string_view value;
-    bool first = true;
-
-    if (!cursor.get(cursorKey, value, CursorOp::Set))
-        return eventIds;
-
-    while (cursor.get(cursorKey, value, first ? CursorOp::FirstDup : CursorOp::NextDup)) {
-        first = false;
-
+    forEachDupValue(txn, statesKeyDb, eventType, [&eventIds](std::string_view value) {
         const auto eventId = catalog::splitStateEventIndexValue(value).second;
         if (!eventId.empty())
             eventIds.emplace_back(eventId);
-    }
+        return true;
+    });
 
     return eventIds;
 }

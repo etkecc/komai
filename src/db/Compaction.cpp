@@ -6,6 +6,7 @@
 
 #include "db/DbTypes.h"
 #include "db/Open.h"
+#include "db/Scan.h"
 
 namespace db {
 
@@ -20,13 +21,11 @@ compact(Backend &from, Backend &to)
         auto fromDb = openNamedDbi(from, fromTxn, dbName, false);
         auto toDb   = openNamedDbi(to, toTxn, dbName, true);
 
-        auto fromCursor = Cursor::open(fromTxn, fromDb);
-        auto toCursor   = Cursor::open(toTxn, toDb);
-
-        std::string_view key, val;
-        while (fromCursor.get(key, val, CursorOp::Next)) {
-            toCursor.put(key, val, PutFlags::AppendDup);
-        }
+        forEachEntry(
+          fromTxn, fromDb, [&toTxn, &toDb](std::string_view key, std::string_view value) {
+              toDb.put(toTxn, key, value, PutFlags::AppendDup);
+              return true;
+          });
     }
 
     toTxn.commit();

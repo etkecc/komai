@@ -98,4 +98,13 @@ compact(Database &from, Database &to)
     toTxn.commit();
 }
 
+void
+compact(Database *from, Database *to)
+{
+    if (!from || !to)
+        return;
+
+    compact(*from, *to);
+}
+
 } // namespace db::maintenance

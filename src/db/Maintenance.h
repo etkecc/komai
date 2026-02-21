@@ -55,4 +55,7 @@ supportsCompaction(const std::unique_ptr<Database> &database) noexcept;
 void
 compact(Database &from, Database &to);
 
+void
+compact(Database *from, Database *to);
+
 }

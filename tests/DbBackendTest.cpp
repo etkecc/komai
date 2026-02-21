@@ -788,6 +788,7 @@ testCompactionHelper()
     }
 
     db::maintenance::compact(*from, *to);
+    db::maintenance::compact(static_cast<db::Backend *>(nullptr), static_cast<db::Backend *>(nullptr));
 
     {
         auto txn      = db::storage::beginReadTransaction(*to);

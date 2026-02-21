@@ -22,6 +22,7 @@
 #include "db/Catalog.h"
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
+#include "db/Json.h"
 #include "db/DupIndex.h"
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
@@ -1093,6 +1094,74 @@ testMemberInfoHelper()
                        parsed.inviter == info.inviter && parsed.reason == info.reason &&
                        parsed.is_direct == info.is_direct,
                      "member info helper parse/serialize roundtrip preserves fields");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testJsonHelpers()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 16;
+    backend->open("", options);
+
+    std::vector<int> numbers{1, 2, 3, 5};
+
+    {
+        auto txn   = backend->beginTxn();
+        auto jsonDb = backend->openDbi(txn, "json", openOptions(db::DbiFlags::Create));
+        db::putJsonValue(txn, jsonDb, "numbers", numbers);
+        txn.commit();
+    }
+
+    {
+        auto txn   = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto jsonDb = backend->openDbi(txn, "json");
+
+        const auto parsed = db::getJsonValue<std::vector<int>>(txn, jsonDb, "numbers");
+        ok &= expect(parsed.has_value(), "json helper returns value for existing key");
+        ok &= expect(*parsed == numbers, "json helper decodes stored vector values");
+
+        std::vector<int> restored;
+        ok &= expect(db::getJsonValue(txn, jsonDb, "numbers", restored),
+                     "json helper output overload returns value");
+        ok &= expect(restored == numbers, "json helper output overload preserves vector values");
+
+        const auto missing = db::getJsonValue<std::vector<int>>(txn, jsonDb, "missing");
+        ok &= expect(!missing.has_value(), "json helper returns empty optional for missing key");
+
+        const auto missingOutResult = db::getJsonValue(txn, jsonDb, "missing", restored);
+        ok &= expect(!missingOutResult, "json helper out-parameter returns false for missing key");
+    }
+
+    {
+        auto txn    = backend->beginTxn();
+        auto jsonDb = backend->openDbi(txn, "json", openOptions(db::DbiFlags::Create));
+        jsonDb.put(txn, "bad", "{bad-json");
+        txn.commit();
+    }
+
+    {
+        auto txn   = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto jsonDb = backend->openDbi(txn, "json");
+
+        bool parseError = false;
+        try {
+            (void)db::getJsonValue<std::vector<int>>(txn, jsonDb, "bad");
+        } catch (const nlohmann::json::parse_error &) {
+            parseError = true;
+        } catch (const std::exception &e) {
+            std::cerr << "FAILED: json helper does not propagate parse_error as expected ("
+                      << e.what() << ")\n";
+        }
+
+        ok &= expect(parseError, "json helper propagates parse_error for malformed payloads");
     }
 
     backend->close();
@@ -2776,6 +2845,7 @@ main()
     ok &= testReadReceiptIndexHelper();
     ok &= testRoomInfoHelper();
     ok &= testMemberInfoHelper();
+    ok &= testJsonHelpers();
     ok &= testCacheCryptoHelpers();
     ok &= testOlmSessionIndexHelper();
     ok &= testDupIndexHelper();

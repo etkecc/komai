@@ -146,6 +146,9 @@ Database hash:
   `src/CacheCryptoStructs.cpp`, keeping crypto/key/cache value serialization in one
   place instead of inline in `Cache.cpp` so callers only parse/store values through
   typed helpers.
+- Reusable generic JSON helpers are centralized in `src/db/Json.h` (`db::getJsonValue`,
+  `db::putJsonValue`) so callers work with typed payloads without repeating
+  parse/dump boilerplate.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
   (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
   `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor

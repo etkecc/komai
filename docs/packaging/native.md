@@ -61,6 +61,10 @@ sudo cmake --install var/build/native
 | [libolm](https://gitlab.matrix.org/matrix-org/olm) | | E2EE |
 | [spdlog](https://github.com/gabime/spdlog) | | Logging |
 | [fmt](https://github.com/fmtlib/fmt) | | String formatting |
+| [yaml-cpp](https://github.com/jbeder/yaml-cpp) | 0.6 | Settings storage |
+| [re2](https://github.com/google/re2) | | Regular expressions |
+| [OpenSSL](https://www.openssl.org/) | 1.1.0 | TLS/cryptography |
+| [nlohmann-json](https://github.com/nlohmann/json) | 3.2.0 | JSON parsing |
 | [qtkeychain](https://github.com/frankosterfeld/qtkeychain) | 0.12 | Credential storage |
 | [KDSingleApplication](https://github.com/KDAB/KDSingleApplication) | 1.0 | Single-instance support |
 
@@ -88,16 +92,19 @@ just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_MTXCLIENT=ON -DUSE_BUNDLED_
 ### Arch Linux
 
 ```sh
-sudo pacman -S qt6-base qt6-tools qt6-multimedia qt6-svg cmake gcc \
-    fontconfig lmdb lmdbxx cmark qtkeychain-qt6
+sudo pacman -S qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
+    cmake gcc fontconfig \
+    mtxclient coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
+    nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication
 ```
 
 ### Debian 13+ / Ubuntu 24.04+
 
 ```sh
-sudo apt install -y cmake libevent-dev libspdlog-dev libre2-dev \
+sudo apt install -y build-essential cmake pkg-config python3 \
+    libevent-dev libspdlog-dev libfmt-dev libre2-dev \
     liblmdb++-dev libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
-    nlohmann-json3-dev libkdsingleapplication-qt6-dev \
+    nlohmann-json3-dev libyaml-cpp-dev libkdsingleapplication-qt6-dev \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \
     qt6-declarative-dev qtkeychain-qt6-dev qt6-base-private-dev \
     qt6-declarative-private-dev

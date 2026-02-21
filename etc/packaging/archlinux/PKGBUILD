@@ -9,6 +9,7 @@ license=('GPL-3.0-or-later')
 depends=(
 	cmark
 	coeurl
+	fmt
 	gst-plugins-bad-libs
 	hicolor-icon-theme
 	kdsingleapplication
@@ -22,6 +23,9 @@ depends=(
 	qt6-multimedia
 	qt6-svg
 	qtkeychain-qt6
+	re2
+	spdlog
+	yaml-cpp
 )
 makedepends=(
 	cmake
@@ -31,7 +35,6 @@ makedepends=(
 	nlohmann-json
 	python
 	qt6-tools
-	spdlog
 )
 optdepends=(
 	'qt6-jdenticon: Auto-generated profile pictures (identicons)'

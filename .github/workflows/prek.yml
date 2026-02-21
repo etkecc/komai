@@ -30,6 +30,9 @@ jobs:
 
       - name: Run prek on all files
         run: |
+          # The checkout action's safe.directory config targets the host
+          # git, not the container's git installed via pacman.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           # VoIP is disabled to avoid installing GStreamer dependencies.
           just configure -DVOIP=OFF
           just prek-run-on-all

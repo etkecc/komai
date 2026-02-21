@@ -4,6 +4,8 @@
 
 #include "db/Scan.h"
 
+#include <limits>
+
 #include "db/DbTypes.h"
 
 namespace db {
@@ -164,6 +166,41 @@ lastEntry(Txn &txn, Dbi &db)
         return std::nullopt;
 
     return std::pair(std::string(key), std::string(value));
+}
+
+std::size_t
+eraseEntriesIf(Txn &txn,
+               Dbi &db,
+               const std::function<bool(std::string_view key, std::string_view value)> &predicate)
+{
+    return eraseEntriesIf(txn, db, 0, std::numeric_limits<std::size_t>::max(), predicate);
+}
+
+std::size_t
+eraseEntriesIf(Txn &txn,
+               Dbi &db,
+               std::size_t startIndex,
+               std::size_t limit,
+               const std::function<bool(std::string_view key, std::string_view value)> &predicate)
+{
+    if (limit == 0)
+        return 0;
+
+    std::vector<std::pair<std::string, std::string>> entriesToDelete;
+    forEachEntry(txn,
+                 db,
+                 startIndex,
+                 limit,
+                 [&entriesToDelete, &predicate](std::string_view key, std::string_view value) {
+                     if (predicate(key, value))
+                         entriesToDelete.emplace_back(std::string(key), std::string(value));
+                     return true;
+                 });
+
+    for (const auto &[key, value] : entriesToDelete)
+        db.del(txn, key, value);
+
+    return entriesToDelete.size();
 }
 
 void

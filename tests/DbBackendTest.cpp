@@ -23,6 +23,7 @@
 #include "db/DupIndex.h"
 #include "db/NamePolicy.h"
 #include "db/Open.h"
+#include "db/OrderEntry.h"
 #include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/StateIndex.h"
@@ -1026,7 +1027,86 @@ testScanHelper()
                      "scan helper forEachEntryWithPrefix preserves order #2");
     }
 
+    {
+        auto txn = backend->beginTxn();
+        auto main = backend->openDbi(txn, "main");
+        auto dup = backend->openDbi(txn, "dup");
+
+        const auto removedNone = db::eraseEntriesIf(
+          txn,
+          main,
+          0,
+          0,
+          [](std::string_view /*key*/, std::string_view /*value*/) { return true; });
+        ok &= expect(removedNone == 0, "scan helper eraseEntriesIf supports empty paged erase");
+
+        const auto removedMain = db::eraseEntriesIf(
+          txn,
+          main,
+          0,
+          1,
+          [](std::string_view key, std::string_view /*value*/) { return key == "a"; });
+        ok &= expect(removedMain == 1, "scan helper eraseEntriesIf removes from simple db");
+
+        const auto removed = db::eraseEntriesIf(txn,
+                                                dup,
+                                                [](std::string_view key, std::string_view /*value*/) {
+                                                    return key == "k";
+                                                });
+        ok &= expect(removed == 2, "scan helper eraseEntriesIf removes matching entries");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto main = backend->openDbi(txn, "main");
+        auto dup = backend->openDbi(txn, "dup");
+
+        const auto remainingMain = db::listEntries(txn, main);
+        ok &= expect(remainingMain.size() == 1,
+                     "scan helper eraseEntriesIf leaves non-matching simple-db entries");
+        ok &= expect(remainingMain.size() >= 1 && remainingMain[0].first == "b" &&
+                       remainingMain[0].second == "b",
+                     "scan helper eraseEntriesIf preserves remaining simple-db value");
+
+        const auto remaining = db::listEntries(txn, dup);
+        ok &= expect(remaining.size() == 1, "scan helper eraseEntriesIf leaves non-matching entries");
+        ok &= expect(remaining.size() >= 1 && remaining[0].first == "z" && remaining[0].second == "v3",
+                     "scan helper eraseEntriesIf preserves non-matching entry values");
+    }
+
     backend->close();
+    return ok;
+}
+
+bool
+testOrderEntryHelper()
+{
+    bool ok = true;
+
+    const auto full = db::parseOrderEntry(R"({"event_id":"$event","prev_batch":"batch"})");
+    ok &= expect(full.eventId.has_value() && *full.eventId == "$event",
+                 "order-entry helper parses event_id");
+    ok &= expect(full.hasPrevBatch, "order-entry helper detects prev_batch");
+    ok &= expect(full.prevBatch.has_value() && *full.prevBatch == "batch",
+                 "order-entry helper parses prev_batch string value");
+
+    const auto emptyEventId = db::parseOrderEntry(R"({"event_id":"","prev_batch":"batch"})");
+    ok &= expect(!emptyEventId.eventId.has_value(),
+                 "order-entry helper ignores empty event_id");
+    ok &= expect(emptyEventId.hasPrevBatch,
+                 "order-entry helper preserves prev_batch detection with empty event_id");
+    ok &= expect(emptyEventId.prevBatch.has_value() && *emptyEventId.prevBatch == "batch",
+                 "order-entry helper preserves prev_batch string with empty event_id");
+
+    const auto legacy = db::parseOrderEntry("$legacy-event");
+    ok &= expect(legacy.eventId.has_value() && *legacy.eventId == "$legacy-event",
+                 "order-entry helper falls back to legacy raw event-id format");
+    ok &= expect(!legacy.hasPrevBatch,
+                 "order-entry helper legacy fallback has no prev_batch");
+    ok &= expect(!legacy.prevBatch.has_value(),
+                 "order-entry helper legacy fallback has no prev_batch value");
+
     return ok;
 }
 
@@ -1265,6 +1345,7 @@ main()
     ok &= testStateIndexHelper();
     ok &= testDupIndexHelper();
     ok &= testScanHelper();
+    ok &= testOrderEntryHelper();
     ok &= testCompactionHelper();
     ok &= testFactory();
     ok &= testInMemoryBackend();

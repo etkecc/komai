@@ -484,6 +484,7 @@ set(SRC_FILES
     src/db/LmdbHeaders.h
     src/db/NamePolicy.h
     src/db/Open.h
+    src/db/OrderEntry.h
     src/db/Scan.h
     src/db/Schema.h
     src/db/StateIndex.h
@@ -1003,6 +1004,7 @@ add_library(komai_db
     src/db/InMemoryBackend.cpp
     src/db/NamePolicy.cpp
     src/db/Open.cpp
+    src/db/OrderEntry.cpp
     src/db/Scan.cpp
     src/db/Schema.cpp
     src/db/StateIndex.cpp

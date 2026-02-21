@@ -42,6 +42,7 @@
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
 #include "db/Open.h"
+#include "db/OrderEntry.h"
 #include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/Serde.h"
@@ -356,32 +357,13 @@ cacheDirectoryName(const QString &userid, const QString &profile)
     return app_paths::data::databaseDirectory(userid, profile);
 }
 
-static nlohmann::json
-parseEventOrderEntry(std::string_view value)
-{
-    try {
-        return nlohmann::json::parse(value);
-    } catch (std::exception &) {
-        // Work around legacy cache entries that stored raw event ids instead of JSON.
-        return {{"event_id", std::string(value)}};
-    }
-}
-
 static void
 removePendingTxnEntries(db::Txn &txn, db::Dbi &pendingDb, std::string_view txnId)
 {
-    std::vector<std::pair<std::string, std::string>> entriesToDelete;
-    db::forEachEntry(
-      txn,
-      pendingDb,
-      [&entriesToDelete, txnId](std::string_view timestamp, std::string_view pendingTxn) {
-          if (pendingTxn == txnId)
-              entriesToDelete.emplace_back(std::string(timestamp), std::string(pendingTxn));
-          return true;
+    db::eraseEntriesIf(
+      txn, pendingDb, [txnId](std::string_view /*timestamp*/, std::string_view pendingTxn) {
+          return pendingTxn == txnId;
       });
-
-    for (const auto &[timestamp, pendingTxn] : entriesToDelete)
-        pendingDb.del(txn, timestamp, pendingTxn);
 }
 
 void
@@ -2610,9 +2592,7 @@ Cache::previousBatchToken(const std::string &room_id)
             return "";
         }
 
-        auto j = nlohmann::json::parse(first->second);
-
-        return j.value("prev_batch", "");
+        return db::parseOrderEntry(first->second).prevBatch.value_or("");
     } catch (...) {
         return "";
     }
@@ -2900,7 +2880,7 @@ Cache::lastInvisibleEventAfter(const std::string &room_id, std::string_view even
                                 db::ScanDirection::Forward,
                                 [&](std::string_view key, std::string_view value) {
                                     std::string evId =
-                                      nlohmann::json::parse(value)["event_id"].get<std::string>();
+                                      db::parseOrderEntry(value).eventId.value_or("");
                                     std::string_view temp;
                                     if (timelineDb.get(txn, evId, temp)) {
                                         result = std::pair{prevIdx, std::string(prevId)};
@@ -2952,8 +2932,7 @@ Cache::lastVisibleEvent(const std::string &room_id, std::string_view event_id)
                                 indexVal,
                                 db::ScanDirection::Backward,
                                 [&](std::string_view key, std::string_view value) {
-                                    evId =
-                                      nlohmann::json::parse(value)["event_id"].get<std::string>();
+                                    evId = db::parseOrderEntry(value).eventId.value_or("");
                                     std::string_view temp;
                                     idx = db::fromSv<uint64_t>(key);
                                     if (timelineDb.get(txn, evId, temp)) {
@@ -3666,39 +3645,45 @@ Cache::pendingEvents(const std::string &room_id)
 std::optional<mtx::events::collections::TimelineEvents>
 Cache::firstPendingMessage(const std::string &room_id)
 {
-    auto txn     = beginTxn();
-    auto pending = getPendingMessagesDb(txn, room_id);
-    bool cleaned = false;
+    auto txn      = beginTxn();
+    auto pending  = getPendingMessagesDb(txn, room_id);
+    auto eventsDb = getEventsDb(txn, room_id);
+
+    std::optional<mtx::events::collections::TimelineEvents> firstValid;
+    std::vector<std::pair<std::string, std::string>> staleEntries;
 
     try {
-        for (const auto &[tsIgnored, pendingTxn] : db::listEntries(txn, pending)) {
-            auto eventsDb = getEventsDb(txn, room_id);
-            std::string_view event;
-            if (!eventsDb.get(txn, pendingTxn, event)) {
-                pending.del(txn, tsIgnored, pendingTxn);
-                cleaned = true;
-                continue;
-            }
+        db::forEachEntry(
+          txn,
+          pending,
+          [&eventsDb, &txn, &firstValid, &staleEntries](std::string_view timestamp,
+                                                        std::string_view pendingTxn) {
+              std::string_view event;
+              if (!eventsDb.get(txn, pendingTxn, event)) {
+                  staleEntries.emplace_back(std::string(timestamp), std::string(pendingTxn));
+                  return true;
+              }
 
-            try {
-                mtx::events::collections::TimelineEvents te =
-                  nlohmann::json::parse(event).get<mtx::events::collections::TimelineEvents>();
-
-                if (cleaned)
-                    txn.commit();
-                return te;
-            } catch (std::exception &e) {
-                nhlog::db()->error("Failed to parse message from cache {}", e.what());
-                pending.del(txn, tsIgnored, pendingTxn);
-                cleaned = true;
-                continue;
-            }
-        }
+              try {
+                  firstValid =
+                    nlohmann::json::parse(event).get<mtx::events::collections::TimelineEvents>();
+                  return false;
+              } catch (std::exception &e) {
+                  nhlog::db()->error("Failed to parse message from cache {}", e.what());
+                  staleEntries.emplace_back(std::string(timestamp), std::string(pendingTxn));
+                  return true;
+              }
+          });
     } catch (const db::Error &e) {
     }
-    if (cleaned)
+
+    if (!staleEntries.empty()) {
+        for (const auto &[timestamp, pendingTxn] : staleEntries)
+            pending.del(txn, timestamp, pendingTxn);
         txn.commit();
-    return std::nullopt;
+    }
+
+    return firstValid;
 }
 
 void
@@ -4021,11 +4006,11 @@ Cache::clearTimeline(const std::string &room_id)
                                 db::ScanDirection::Backward,
                                 [&orderEntriesToDelete, &passedPaginationToken](
                                   std::string_view orderKey, std::string_view orderValue) {
-                                    auto obj = parseEventOrderEntry(orderValue);
+                                    const auto entry = db::parseOrderEntry(orderValue);
                                     if (passedPaginationToken) {
                                         orderEntriesToDelete.emplace_back(std::string(orderKey),
                                                                           std::string(orderValue));
-                                    } else if (obj.count("prev_batch") != 0) {
+                                    } else if (entry.hasPrevBatch) {
                                         passedPaginationToken = true;
                                     }
                                     return true;
@@ -4033,21 +4018,18 @@ Cache::clearTimeline(const std::string &room_id)
     }
 
     for (const auto &[orderKey, orderValue] : orderEntriesToDelete) {
-        auto obj = parseEventOrderEntry(orderValue);
-        if (obj.count("event_id") != 0) {
-            std::string event_id = obj["event_id"].get<std::string>();
+        const auto entry = db::parseOrderEntry(orderValue);
+        if (entry.eventId) {
+            const auto &event_id = *entry.eventId;
+            evToOrderDb.del(txn, event_id);
+            eventsDb.del(txn, event_id);
+            relationsDb.del(txn, event_id);
 
-            if (!event_id.empty()) {
-                evToOrderDb.del(txn, event_id);
-                eventsDb.del(txn, event_id);
-                relationsDb.del(txn, event_id);
-
-                std::string_view order{};
-                bool exists = msg2orderDb.get(txn, event_id, order);
-                if (exists) {
-                    order2msgDb.del(txn, order);
-                    msg2orderDb.del(txn, event_id);
-                }
+            std::string_view order{};
+            bool exists = msg2orderDb.get(txn, event_id, order);
+            if (exists) {
+                order2msgDb.del(txn, order);
+                msg2orderDb.del(txn, event_id);
             }
         }
         orderDb.del(txn, orderKey);
@@ -4058,29 +4040,24 @@ Cache::clearTimeline(const std::string &room_id)
       txn,
       orderDb,
       [&remainingEventIds](std::string_view /*orderKey*/, std::string_view orderValue) {
-          auto obj = parseEventOrderEntry(orderValue);
-          if (obj.count("event_id") != 0) {
-              auto eventId = obj["event_id"].get<std::string>();
-              if (!eventId.empty())
-                  remainingEventIds.insert(std::move(eventId));
-          }
+          const auto entry = db::parseOrderEntry(orderValue);
+          if (entry.eventId)
+              remainingEventIds.insert(*entry.eventId);
           return true;
       });
 
-    std::vector<std::pair<std::string, std::string>> staleMessageEntries;
-    db::forEachEntry(txn,
-                     order2msgDb,
-                     [&remainingEventIds, &staleMessageEntries](std::string_view messageOrder,
-                                                                std::string_view eventId) {
-                         if (!remainingEventIds.contains(std::string(eventId)))
-                             staleMessageEntries.emplace_back(std::string(messageOrder),
-                                                              std::string(eventId));
-                         return true;
-                     });
-    for (const auto &[messageOrder, eventId] : staleMessageEntries) {
-        order2msgDb.del(txn, messageOrder);
+    std::vector<std::string> staleEventIds;
+    db::eraseEntriesIf(txn,
+                       order2msgDb,
+                       [&remainingEventIds, &staleEventIds](std::string_view /*messageOrder*/,
+                                                            std::string_view eventId) {
+                           if (remainingEventIds.contains(std::string(eventId)))
+                               return false;
+                           staleEventIds.emplace_back(eventId);
+                           return true;
+                       });
+    for (const auto &eventId : staleEventIds)
         msg2orderDb.del(txn, eventId);
-    }
 
     txn.commit();
 }
@@ -4151,25 +4128,30 @@ Cache::deleteOldMessages()
             continue;
 
         const auto toDeleteCount = message_count - MAX_RESTORED_MESSAGES;
-        for (const auto &[orderKey, orderValue] : db::listEntries(txn, orderDb, 0, toDeleteCount)) {
-            auto obj = parseEventOrderEntry(orderValue);
+        db::eraseEntriesIf(txn,
+                           orderDb,
+                           0,
+                           toDeleteCount,
+                           [&txn, &evToOrderDb, &eventsDb, &relationsDb, &m2o, &o2m](
+                             std::string_view /*orderKey*/, std::string_view orderValue) {
+                               const auto entry = db::parseOrderEntry(orderValue);
 
-            if (obj.count("event_id") != 0) {
-                std::string event_id = obj["event_id"].get<std::string>();
-                evToOrderDb.del(txn, event_id);
-                eventsDb.del(txn, event_id);
+                               if (entry.eventId) {
+                                   const auto &event_id = *entry.eventId;
+                                   evToOrderDb.del(txn, event_id);
+                                   eventsDb.del(txn, event_id);
 
-                relationsDb.del(txn, event_id);
+                                   relationsDb.del(txn, event_id);
 
-                std::string_view order{};
-                bool exists = m2o.get(txn, event_id, order);
-                if (exists) {
-                    o2m.del(txn, order);
-                    m2o.del(txn, event_id);
-                }
-            }
-            orderDb.del(txn, orderKey);
-        }
+                                   std::string_view order{};
+                                   bool exists = m2o.get(txn, event_id, order);
+                                   if (exists) {
+                                       o2m.del(txn, order);
+                                       m2o.del(txn, event_id);
+                                   }
+                               }
+                               return true;
+                           });
     }
     txn.commit();
 }

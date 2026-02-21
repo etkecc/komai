@@ -55,6 +55,18 @@ firstEntry(Txn &txn, Dbi &db);
 std::optional<std::pair<std::string, std::string>>
 lastEntry(Txn &txn, Dbi &db);
 
+std::size_t
+eraseEntriesIf(Txn &txn,
+               Dbi &db,
+               const std::function<bool(std::string_view key, std::string_view value)> &predicate);
+
+std::size_t
+eraseEntriesIf(Txn &txn,
+               Dbi &db,
+               std::size_t startIndex,
+               std::size_t limit,
+               const std::function<bool(std::string_view key, std::string_view value)> &predicate);
+
 void
 forEachEntryFromKey(
   Txn &txn,

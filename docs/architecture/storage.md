@@ -72,6 +72,8 @@ Database hash:
   `db::tryDropNamedDbi(...)`, `db::migrateLegacyStateByKeyToStatesKey(...)`,
   `db::migrateLegacyMegolmSessionIndexes(...)`, `db::migrateLegacyOlmShardsV1ToV2(...)`,
   `db::migrateLegacyOlmShardsV2ToUnified(...)`).
+- Reusable event-order entry parsing (including legacy raw event-id fallback) is
+  centralized in `src/db/OrderEntry.cpp` (`db::parseOrderEntry(...)`).
 - Reusable state-index query helpers are centralized in `src/db/StateIndex.cpp`
   (`db::findStateEventId(...)`, `db::listStateEventIds(...)`, `db::putStateEventId(...)`,
   `db::removeStateEventId(...)`) so callers do not need
@@ -82,7 +84,8 @@ Database hash:
 - Reusable key scanning is centralized in `src/db/Scan.cpp`
   (`db::listKeys(...)`, `db::listUniqueKeys(...)`, `db::listEntries(...)`
   including paged iteration, and `db::forEachEntry(...)` / `db::forEachUniqueKey(...)`
-  including paged iteration where applicable, plus ordered-entry helpers
+  including paged iteration where applicable, mutation helper
+  `db::eraseEntriesIf(...)` (including paged erase), plus ordered-entry helpers
   such as `db::firstEntry(...)`, `db::lastEntry(...)`, and
   `db::forEachEntryFromKey(...)` / `db::forEachEntryWithPrefix(...)`) so callers can iterate DB keys/entries
   without cursor boilerplate.

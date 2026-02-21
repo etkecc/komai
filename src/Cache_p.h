@@ -154,7 +154,8 @@ public:
     //! There should be only one user id present in a receipt list per room.
     //! The user id should be removed from any other lists.
     using Receipts = std::map<std::string, std::map<std::string, uint64_t>>;
-    void updateReadReceipt(db::Transaction &txn, const std::string &room_id, const Receipts &receipts);
+    void
+    updateReadReceipt(db::Transaction &txn, const std::string &room_id, const Receipts &receipts);
 
     //! Retrieve all the read receipts for the given event id and room.
     //!
@@ -361,8 +362,9 @@ private:
                         const T &event);
 
     template<typename T>
-    std::optional<mtx::events::StateEvent<T>>
-    getStateEvent(db::Transaction &txn, const std::string &room_id, std::string_view state_key = "");
+    std::optional<mtx::events::StateEvent<T>> getStateEvent(db::Transaction &txn,
+                                                            const std::string &room_id,
+                                                            std::string_view state_key = "");
 
     template<typename T>
     std::vector<mtx::events::StateEvent<T>>
@@ -370,15 +372,16 @@ private:
                            const std::string &room_id,
                            mtx::events::EventType type = mtx::events::state_content_to_type<T>);
 
-    void saveInvites(db::Transaction &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms);
+    void saveInvites(db::Transaction &txn,
+                     const std::map<std::string, mtx::responses::InvitedRoom> &rooms);
 
     void savePresence(
       db::Transaction &txn,
       const std::vector<mtx::events::Event<mtx::events::presence::Presence>> &presenceUpdates);
 
     //! Sends signals for the rooms that are removed.
-    void
-    removeLeftRooms(db::Transaction &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms);
+    void removeLeftRooms(db::Transaction &txn,
+                         const std::map<std::string, mtx::responses::LeftRoom> &rooms);
 
     void updateSpaces(db::Transaction &txn,
                       const std::set<std::string> &spaces_with_updates,
@@ -417,14 +420,15 @@ private:
 
     QString getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> &event);
 
-    std::optional<VerificationCache> verificationCache(const std::string &user_id, db::Transaction &txn);
+    std::optional<VerificationCache>
+    verificationCache(const std::string &user_id, db::Transaction &txn);
     VerificationStatus verificationStatus_(const std::string &user_id, db::Transaction &txn);
     std::optional<UserKeyCache> userKeys_(const std::string &user_id, db::Transaction &txn);
 
     void setNextBatchToken(db::Transaction &txn, const std::string &token);
     db::Database &storage();
     const db::Database &storage() const;
-    db::Transaction beginTxn(db::Transaction *parent = nullptr,
+    db::Transaction beginTxn(db::Transaction *parent    = nullptr,
                              db::TransactionFlags flags = db::TransactionFlags::None);
 
     QString localUserId_;

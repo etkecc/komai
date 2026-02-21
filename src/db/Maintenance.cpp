@@ -7,9 +7,9 @@
 #include <string_view>
 
 #include "db/Error.h"
-#include "db/Schema.h"
-#include "db/Scan.h"
 #include "db/NamePolicy.h"
+#include "db/Scan.h"
+#include "db/Schema.h"
 
 namespace db::maintenance {
 
@@ -46,7 +46,10 @@ roomDbsForFullResync() noexcept
 }
 
 bool
-tryDropNamedStore(Database &database, Transaction &txn, std::string_view dbName, std::string *error) noexcept
+tryDropNamedStore(Database &database,
+                  Transaction &txn,
+                  std::string_view dbName,
+                  std::string *error) noexcept
 {
     return db::tryDropNamedStore(database, txn, dbName, error);
 }
@@ -58,18 +61,16 @@ migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
 }
 
 bool
-migrateLegacyMegolmSessionIndexes(Database &database,
-                                 Transaction &txn,
-                                 std::string *error) noexcept
+migrateLegacyMegolmSessionIndexes(Database &database, Transaction &txn, std::string *error) noexcept
 {
     return db::migrateLegacyMegolmSessionIndexes(database, txn, error);
 }
 
 bool
 migrateLegacyStateByKeyToStatesKey(Database &database,
-                                  Transaction &txn,
-                                  std::string_view roomId,
-                                  std::string *error) noexcept
+                                   Transaction &txn,
+                                   std::string_view roomId,
+                                   std::string *error) noexcept
 {
     return db::migrateLegacyStateByKeyToStatesKey(database, txn, roomId, error);
 }

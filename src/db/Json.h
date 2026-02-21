@@ -67,7 +67,11 @@ getJsonValue(Transaction &txn, Store &db, const K &key, T &value)
 
 template<typename T, typename K>
 void
-putJsonValue(Transaction &txn, Store &db, const K &key, const T &value, PutFlags flags = PutFlags::None)
+putJsonValue(Transaction &txn,
+             Store &db,
+             const K &key,
+             const T &value,
+             PutFlags flags = PutFlags::None)
 {
     db.put(txn, key, nlohmann::json(value).dump(), flags);
 }

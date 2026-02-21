@@ -9,14 +9,14 @@
 #include <exception>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
 #include <string_view>
-#include <span>
 #include <vector>
 
-#include "db/Error.h"
-#include "db/DbTypes.h"
 #include "db/CursorOp.h"
+#include "db/DbTypes.h"
+#include "db/Error.h"
 #include "db/Flags.h"
 
 namespace db {
@@ -28,16 +28,16 @@ class Backend;
 
 // Neutral-facing aliases. Prefer these names in new code while preserving
 // existing names for compatibility.
-using Database           = Backend;
-using Store              = Dbi;
-using Transaction        = Txn;
-using CursorHandle       = Cursor;
-using StoreHandle        = Store;
+using Database            = Backend;
+using Store               = Dbi;
+using Transaction         = Txn;
+using CursorHandle        = Cursor;
+using StoreHandle         = Store;
 using DatabaseTransaction = Transaction;
-using DatabaseStore      = Store;
-using DatabaseId         = std::string_view;
-using DatabaseIdSet      = std::span<const DatabaseId>;
-using TransactionFlags   = TxnFlags;
+using DatabaseStore       = Store;
+using DatabaseId          = std::string_view;
+using DatabaseIdSet       = std::span<const DatabaseId>;
+using TransactionFlags    = TxnFlags;
 
 // Generic names for common flags/options.
 using AccessFlags = TxnFlags;
@@ -50,9 +50,9 @@ inline constexpr std::string_view kInMemoryDatabaseId{"in-memory"};
 inline constexpr std::string_view kLmdbDatabaseId{"lmdb"};
 
 // Backward-compatible backend identifiers.
-inline constexpr std::string_view kMemoryBackendId = kMemoryDatabaseId;
+inline constexpr std::string_view kMemoryBackendId   = kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryBackendId = kInMemoryDatabaseId;
-inline constexpr std::string_view kLmdbBackendId = kLmdbDatabaseId;
+inline constexpr std::string_view kLmdbBackendId     = kLmdbDatabaseId;
 
 enum class DupsortComparator
 {
@@ -91,7 +91,7 @@ struct BackendOptions
 
 struct StoreOpenOptions
 {
-    StoreFlags flags                                  = StoreFlags::None;
+    StoreFlags flags                                   = StoreFlags::None;
     std::optional<DupsortComparator> dupsortComparator = std::nullopt;
 };
 
@@ -107,18 +107,18 @@ class Backend
 public:
     virtual ~Backend() = default;
 
-    virtual std::string_view id() const noexcept                                             = 0;
-    virtual StorageCategory storageCategory() const noexcept                                 = 0;
-    virtual bool supportsCompaction() const noexcept                                         = 0;
-    virtual void open(std::string_view directory, const BackendOptions &options)             = 0;
-    virtual void close() noexcept                                                            = 0;
-    virtual bool isOpen() const noexcept                                                     = 0;
-    virtual Transaction beginTxn(Transaction *parent = nullptr, AccessFlags flags = AccessFlags::None) = 0;
-    virtual bool ownsTxn(const Transaction &txn) const noexcept                                        = 0;
-    virtual Store openStore(Transaction &txn,
-                          std::string_view name,
-                          const StoreOpenOptions &options = {})                                       = 0;
-    virtual std::vector<std::string> listStoreNames(Transaction &txn)                                    = 0;
+    virtual std::string_view id() const noexcept                                 = 0;
+    virtual StorageCategory storageCategory() const noexcept                     = 0;
+    virtual bool supportsCompaction() const noexcept                             = 0;
+    virtual void open(std::string_view directory, const BackendOptions &options) = 0;
+    virtual void close() noexcept                                                = 0;
+    virtual bool isOpen() const noexcept                                         = 0;
+    virtual Transaction
+    beginTxn(Transaction *parent = nullptr, AccessFlags flags = AccessFlags::None) = 0;
+    virtual bool ownsTxn(const Transaction &txn) const noexcept                    = 0;
+    virtual Store
+    openStore(Transaction &txn, std::string_view name, const StoreOpenOptions &options = {}) = 0;
+    virtual std::vector<std::string> listStoreNames(Transaction &txn)                        = 0;
     virtual std::optional<std::size_t> mapSizeBytes() const noexcept                         = 0;
     virtual bool supports(StoreCapability capability) const noexcept
     {

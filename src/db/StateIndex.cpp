@@ -11,7 +11,10 @@
 namespace db {
 
 std::optional<std::string>
-findStateEventId(Txn &txn, Store &statesKeyDb, std::string_view eventType, std::string_view stateKey)
+findStateEventId(Txn &txn,
+                 Store &statesKeyDb,
+                 std::string_view eventType,
+                 std::string_view stateKey)
 {
     std::optional<std::string> foundEventId;
     forEachDupValue(txn, statesKeyDb, eventType, [&foundEventId, stateKey](std::string_view value) {

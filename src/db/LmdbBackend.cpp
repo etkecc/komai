@@ -14,10 +14,10 @@
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Internal.h"
+#include "db/Json.h"
 #include "db/LmdbError.h"
 #include "db/LmdbFlags.h"
 #include "db/Scan.h"
-#include "db/Json.h"
 
 namespace {
 

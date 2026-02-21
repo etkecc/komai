@@ -17,7 +17,7 @@ parseOrderEntry(std::string_view value)
     if (!db::parseJsonValue(value, parsed))
         // Work around legacy cache entries that stored raw event ids instead of JSON.
         return OrderEntry{.eventId      = value.empty() ? std::nullopt
-                                                       : std::optional<std::string>(std::string(value)),
+                                                        : std::optional<std::string>(std::string(value)),
                           .prevBatch    = std::nullopt,
                           .hasPrevBatch = false};
 

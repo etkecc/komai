@@ -21,7 +21,7 @@ class Txn;
 class Dbi;
 
 using Transaction = Txn;
-using Store = Dbi;
+using Store       = Dbi;
 
 bool
 removeMessageOrderMapping(Transaction &txn,

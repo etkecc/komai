@@ -43,7 +43,9 @@ forEachEntry(Transaction &txn,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor);
 
 void
-forEachUniqueKey(Transaction &txn, Store &db, const std::function<bool(std::string_view key)> &visitor);
+forEachUniqueKey(Transaction &txn,
+                 Store &db,
+                 const std::function<bool(std::string_view key)> &visitor);
 
 void
 forEachEntry(Transaction &txn,

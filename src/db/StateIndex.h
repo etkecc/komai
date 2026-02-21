@@ -15,10 +15,13 @@ class Txn;
 class Dbi;
 
 using Transaction = Txn;
-using Store = Dbi;
+using Store       = Dbi;
 
 std::optional<std::string>
-findStateEventId(Transaction &txn, Store &statesKeyDb, std::string_view eventType, std::string_view stateKey);
+findStateEventId(Transaction &txn,
+                 Store &statesKeyDb,
+                 std::string_view eventType,
+                 std::string_view stateKey);
 
 std::vector<std::string>
 listStateEventIds(Transaction &txn, Store &statesKeyDb, std::string_view eventType);

@@ -16,16 +16,22 @@ class Txn;
 class Dbi;
 
 using Transaction = Txn;
-using Store = Dbi;
+using Store       = Dbi;
 
 bool
-getSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key, std::string_view &value);
+getSyncStateValue(Transaction &txn,
+                  Store &syncStateDb,
+                  catalog::SyncStateKey key,
+                  std::string_view &value);
 
 std::optional<std::string>
 getSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key);
 
 void
-putSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key, std::string_view value);
+putSyncStateValue(Transaction &txn,
+                  Store &syncStateDb,
+                  catalog::SyncStateKey key,
+                  std::string_view value);
 
 bool
 removeSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key);

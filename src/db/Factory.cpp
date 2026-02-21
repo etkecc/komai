@@ -4,8 +4,8 @@
 
 #include "db/Backend.h"
 
-#include <array>
 #include <algorithm>
+#include <array>
 #include <cstdlib>
 #include <memory>
 #include <string>

@@ -18,7 +18,10 @@ public:
     ~LmdbBackend() override;
 
     std::string_view id() const noexcept override { return kLmdbBackendId; }
-    StorageCategory storageCategory() const noexcept override { return StorageCategory::Persistent; }
+    StorageCategory storageCategory() const noexcept override
+    {
+        return StorageCategory::Persistent;
+    }
     bool supportsCompaction() const noexcept override { return true; }
 
     void open(std::string_view directory, const BackendOptions &options) override;

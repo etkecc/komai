@@ -8,19 +8,19 @@
 #include <array>
 #include <cctype>
 #include <exception>
-#include <stdexcept>
 #include <map>
+#include <stdexcept>
 #include <vector>
 
 #include <nlohmann/json.hpp>
 
 #include "db/Catalog.h"
 #include "db/Error.h"
+#include "db/Json.h"
 #include "db/NamePolicy.h"
 #include "db/OlmSessionIndex.h"
 #include "db/Scan.h"
 #include "db/StateIndex.h"
-#include "db/Json.h"
 
 namespace {
 
@@ -79,7 +79,11 @@ openGlobalStore(Database &database, Transaction &txn, catalog::GlobalDb db, bool
 }
 
 Store
-openRoomStore(Database &database, Transaction &txn, std::string_view roomId, catalog::RoomDb db, bool create)
+openRoomStore(Database &database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb db,
+              bool create)
 {
     auto options = openOptionsForRoom(db);
     if (create)
@@ -99,7 +103,10 @@ roomDbsForFullResync() noexcept
 }
 
 bool
-tryDropNamedStore(Database &database, Transaction &txn, std::string_view dbName, std::string *error) noexcept
+tryDropNamedStore(Database &database,
+                  Transaction &txn,
+                  std::string_view dbName,
+                  std::string *error) noexcept
 {
     if (error)
         error->clear();
@@ -130,7 +137,8 @@ migrateLegacyStateByKeyToStatesKey(Database &database,
     try {
         auto oldStateskeyDb =
           openRoomStore(database, txn, roomId, catalog::RoomDb::LegacyStateByKey, true);
-        auto newStateskeyDb = openRoomStore(database, txn, roomId, catalog::RoomDb::StatesKey, true);
+        auto newStateskeyDb =
+          openRoomStore(database, txn, roomId, catalog::RoomDb::StatesKey, true);
 
         forEachEntry(
           txn,
@@ -250,8 +258,8 @@ migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
 
         oldDb.drop(txn, true);
 
-        auto newDb = openNamedStore(
-          database, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
+        auto newDb =
+          openNamedStore(database, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
         for (const auto &[sessionKey, pickled] : sessions) {
             nlohmann::json value;
             value["ts"] = 0;
@@ -273,7 +281,7 @@ migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &o
 
         migrated      = true;
         auto curveKey = *catalog::legacyOlmCurveFromV2Name(dbName);
-        auto oldDb = openNamedStore(database, txn, dbName, false);
+        auto oldDb    = openNamedStore(database, txn, dbName, false);
         forEachEntry(
           txn,
           oldDb,

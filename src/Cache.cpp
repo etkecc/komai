@@ -7,9 +7,9 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <string_view>
 #include <unordered_set>
 #include <variant>
-#include <string_view>
 
 #include <QCoreApplication>
 #include <QDir>
@@ -37,19 +37,19 @@
 #include "ProfileSecrets.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
-#include "db/StorageApi.h"
 #include "db/DupIndex.h"
 #include "db/Json.h"
+#include "db/Maintenance.h"
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
 #include "db/OlmSessionIndex.h"
 #include "db/OrderEntry.h"
 #include "db/ReadReceiptIndex.h"
 #include "db/RoomInfo.h"
-#include "db/Maintenance.h"
 #include "db/Scan.h"
 #include "db/Serde.h"
 #include "db/StateIndex.h"
+#include "db/StorageApi.h"
 #include "db/SyncState.h"
 #include "db/TimelineIndex.h"
 #include "encryption/Olm.h"
@@ -120,9 +120,11 @@ Cache::storage() const
 db::Transaction
 Cache::beginTxn(db::Transaction *parent, db::TransactionFlags flags)
 {
-    return db::beginTransaction(
-      storage(), parent, flags == db::TransactionFlags::ReadOnly ? db::AccessMode::ReadOnly
-                                                       : db::AccessMode::ReadWrite);
+    return db::beginTransaction(storage(),
+                                parent,
+                                flags == db::TransactionFlags::ReadOnly
+                                  ? db::AccessMode::ReadOnly
+                                  : db::AccessMode::ReadWrite);
 }
 
 bool
@@ -147,8 +149,8 @@ struct RO_txn
 RO_txn
 ro_txn(db::Database &storage)
 {
-    thread_local db::Transaction txn       = db::beginReadTransaction(storage);
-    thread_local int reuse_counter = 0;
+    thread_local db::Transaction txn = db::beginReadTransaction(storage);
+    thread_local int reuse_counter   = 0;
 
     if (reuse_counter >= 100 || !db::ownsTransaction(storage, txn)) {
         txn.abort();
@@ -269,7 +271,8 @@ Cache::getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> 
 }
 
 void
-Cache::removeLeftRooms(db::Transaction &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms)
+Cache::removeLeftRooms(db::Transaction &txn,
+                       const std::map<std::string, mtx::responses::LeftRoom> &rooms)
 {
     for (const auto &room : rooms) {
         removeRoom(txn, room.first);
@@ -391,7 +394,7 @@ Cache::setup()
 
     const bool isPersistentBackend =
       db::storageCategory(storage()) == db::StorageCategory::Persistent;
-    const bool isInitial           = isPersistentBackend && !QFile::exists(cacheDirectory_);
+    const bool isInitial = isPersistentBackend && !QFile::exists(cacheDirectory_);
 
     auto storageOptions = [] {
         auto settings      = UserSettings::instance();
@@ -422,7 +425,8 @@ Cache::setup()
 
     nhlog::db()->info("Using storage backend: {}", db::id(storage()));
     if (!isPersistentBackend)
-        nhlog::db()->warn("Using ephemeral storage backend; cache contents will be lost on restart");
+        nhlog::db()->warn(
+          "Using ephemeral storage backend; cache contents will be lost on restart");
 
     if (isInitial) {
         nhlog::db()->info("initializing {} backend", db::id(storage()));
@@ -446,9 +450,8 @@ Cache::setup()
         // https://github.com/Nheko-Reborn/nheko/issues/1355
         // https://github.com/Nheko-Reborn/nheko/issues/1303
         db::open(storage(),
-                          isPersistentBackend ? std::string_view(cacheDirectoryPath)
-                                             : std::string_view{},
-                          storageOptions);
+                 isPersistentBackend ? std::string_view(cacheDirectoryPath) : std::string_view{},
+                 storageOptions);
 
         if (needsCompact) {
             if (!db::maintenance::supportsCompaction(storage())) {
@@ -467,7 +470,7 @@ Cache::setup()
                                       compactDir.toStdString());
                 } else {
                     // Create a temporary backend matching the current storage backend.
-                    auto temp = db::createDatabase(db::id(storage()));
+                    auto temp                        = db::createDatabase(db::id(storage()));
                     const std::string compactDirPath = compactDir.toStdString();
                     db::open(temp, compactDirPath, storageOptions);
 
@@ -531,7 +534,8 @@ Cache::setup()
     db->olmSessions = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::OlmSessions);
 
     // What rooms are encrypted
-    db->encryptedRooms_ = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EncryptedRooms);
+    db->encryptedRooms_ =
+      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EncryptedRooms);
     db->eventExpiryBgJob_ =
       db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EventExpirationBgJob);
 
@@ -1260,9 +1264,8 @@ Cache::getOlmSession(const std::string &curve25519, const std::string &session_i
     try {
         auto txn = ro_txn(storage());
 
-        if (auto data =
-              db::getJsonValue<StoredOlmSession>(txn, db->olmSessions, db::catalog::olmSessionKey(
-                                                                    curve25519, session_id))) {
+        if (auto data = db::getJsonValue<StoredOlmSession>(
+              txn, db->olmSessions, db::catalog::olmSessionKey(curve25519, session_id))) {
             return unpickle<SessionObject>(data->pickled_session, pickle_secret_);
         }
 
@@ -1285,7 +1288,7 @@ Cache::getLatestOlmSession(const std::string &curve25519)
           db->olmSessions,
           curve25519,
           [&currentNewest, &txn, this, &curve25519](std::string_view sessionId,
-                                                   std::string_view /*pickled_session*/) {
+                                                    std::string_view /*pickled_session*/) {
               auto data = db::getJsonValue<StoredOlmSession>(
                 txn, db->olmSessions, db::catalog::olmSessionKey(curve25519, sessionId));
               if (!data)
@@ -1638,7 +1641,8 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    std::string error;
-                   if (!db::maintenance::migrateLegacyStateByKeyToStatesKey(storage(), txn, room_id, &error)) {
+                   if (!db::maintenance::migrateLegacyStateByKeyToStatesKey(
+                         storage(), txn, room_id, &error)) {
                        nhlog::db()->error(
                          "While migrating state events from {}, ignoring error {}", room_id, error);
                    }
@@ -1657,7 +1661,8 @@ Cache::runMigrations()
            // migrate olm sessions to a single db
            try {
                auto txn = beginTxn(nullptr);
-               if (db::maintenance::migrateLegacyOlmShardsV2ToUnified(storage(), txn, db->olmSessions))
+               if (db::maintenance::migrateLegacyOlmShardsV2ToUnified(
+                     storage(), txn, db->olmSessions))
                    txn.commit();
            } catch (const db::Error &e) {
                nhlog::db()->critical("Failed to convert olm sessions database in migration! {}",
@@ -1921,7 +1926,9 @@ Cache::getStateEvent(db::Transaction &txn, const std::string &room_id, std::stri
 
 template<typename T>
 std::vector<mtx::events::StateEvent<T>>
-Cache::getStateEventsWithType(db::Transaction &txn, const std::string &room_id, mtx::events::EventType type)
+Cache::getStateEventsWithType(db::Transaction &txn,
+                              const std::string &room_id,
+                              mtx::events::EventType type)
 
 {
     if (room_id.empty())
@@ -1937,7 +1944,8 @@ Cache::getStateEventsWithType(db::Transaction &txn, const std::string &room_id, 
 
         for (const auto &eventId : db::listStateEventIds(txn, statesKeyDb, typeStr)) {
             try {
-                if (auto event = db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
+                if (auto event =
+                      db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
                     events.push_back(std::move(*event));
             } catch (std::exception &e) {
                 nhlog::db()->warn("Failed to parse state event: {}", e.what());
@@ -2343,7 +2351,8 @@ try {
 }
 
 void
-Cache::saveInvites(db::Transaction &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms)
+Cache::saveInvites(db::Transaction &txn,
+                   const std::map<std::string, mtx::responses::InvitedRoom> &rooms)
 {
     for (const auto &room : rooms) {
         auto statesdb  = getInviteStatesDb(txn, room.first);
@@ -2932,8 +2941,8 @@ Cache::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &members
     using namespace mtx::events::state;
 
     try {
-        if (auto msg =
-              db::getJsonValue<StateEvent<Name>>(txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
+        if (auto msg = db::getJsonValue<StateEvent<Name>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
             if (!msg->content.name.empty())
                 return QString::fromStdString(msg->content.name);
         }
@@ -4279,7 +4288,8 @@ Cache::presence(const std::string &user_id)
 
     auto txn = ro_txn(storage());
     try {
-        if (auto val = db::getJsonValue<mtx::events::presence::Presence>(txn, db->presence, user_id))
+        if (auto val =
+              db::getJsonValue<mtx::events::presence::Presence>(txn, db->presence, user_id))
             presence_ = std::move(*val);
     } catch (const nlohmann::json::exception &e) {
         nhlog::db()->warn("failed to parse presence entry for {}: {}", user_id, e.what());

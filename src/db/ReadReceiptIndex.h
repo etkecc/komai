@@ -13,7 +13,7 @@ class Txn;
 class Dbi;
 
 using Transaction = Txn;
-using Store = Dbi;
+using Store       = Dbi;
 
 std::string
 readReceiptKey(std::string_view eventId, std::string_view roomId);

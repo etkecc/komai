@@ -13,7 +13,7 @@ class Txn;
 class Dbi;
 
 using Transaction = Txn;
-using Store = Dbi;
+using Store       = Dbi;
 
 std::string
 megolmSessionKey(std::string_view roomId, std::string_view sessionId);

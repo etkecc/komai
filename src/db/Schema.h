@@ -8,8 +8,8 @@
 #include <string>
 #include <string_view>
 
-#include "db/Catalog.h"
 #include "db/Backend.h"
+#include "db/Catalog.h"
 
 namespace db {
 
@@ -37,8 +37,6 @@ void
 migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn);
 
 bool
-migrateLegacyOlmShardsV2ToUnified(Database &database,
-                                  Transaction &txn,
-                                  Store &olmSessions);
+migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &olmSessions);
 
 } // namespace db

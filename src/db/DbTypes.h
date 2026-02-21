@@ -192,20 +192,11 @@ public:
         return get(key, value, CursorOp::First);
     }
 
-    bool moveLast(std::string &key, std::string &value)
-    {
-        return get(key, value, CursorOp::Last);
-    }
+    bool moveLast(std::string &key, std::string &value) { return get(key, value, CursorOp::Last); }
 
-    bool moveNext(std::string &key, std::string &value)
-    {
-        return get(key, value, CursorOp::Next);
-    }
+    bool moveNext(std::string &key, std::string &value) { return get(key, value, CursorOp::Next); }
 
-    bool movePrev(std::string &key, std::string &value)
-    {
-        return get(key, value, CursorOp::Prev);
-    }
+    bool movePrev(std::string &key, std::string &value) { return get(key, value, CursorOp::Prev); }
 
     bool moveNextNoDup(std::string &key, std::string &value)
     {

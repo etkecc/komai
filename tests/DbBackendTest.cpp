@@ -1602,7 +1602,7 @@ testScanHelper()
     {
         auto txn  = db::beginWriteTransaction(*backend);
         auto main = db::openStore(*backend, txn, "main", openOptions(db::StoreFlags::Create));
-        auto dup  = db::openStore(*backend, 
+        auto dup  = db::openStore(*backend,
           txn, "dup", openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
 
         ok &= expect(main.put(txn, "b", "b"), "scan helper setup inserts main entry #1");
@@ -1884,12 +1884,12 @@ testTimelineIndexHelper()
         auto txn = db::beginWriteTransaction(*backend);
         auto messageToOrderDb =
           db::openStore(*backend, txn, "message_to_order", openOptions(db::StoreFlags::Create));
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn, "event_order", openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn, "order_to_message", openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventsDb    = db::openStore(*backend, txn, "events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = db::openStore(*backend, 
+        auto relationsDb = db::openStore(*backend,
           txn, "relations", openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
         auto eventToOrderDb =
           db::openStore(*backend, txn, "event_to_order", openOptions(db::StoreFlags::Create));
@@ -2164,15 +2164,15 @@ testTimelineIndexHelper()
         auto txn = db::beginWriteTransaction(*backend);
         auto eventToOrderDb =
           db::openStore(*backend, txn, "scan_event_to_order", openOptions(db::StoreFlags::Create));
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn, "scan_event_order", openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto messageToOrderDb =
           db::openStore(*backend, txn, "scan_message_to_order", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "scan_order_to_message",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto unusedOrderToMessageDb = db::openStore(*backend, 
+        auto unusedOrderToMessageDb = db::openStore(*backend,
           txn,
           "scan_order_to_message_empty",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2336,7 +2336,7 @@ testTimelineIndexHelper()
 
     {
         auto txn = db::beginWriteTransaction(*backend);
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn,
           "prev_batch_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2386,7 +2386,7 @@ testTimelineIndexHelper()
 
     {
         auto txn = db::beginWriteTransaction(*backend);
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn,
           "order_marker_scan",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2425,7 +2425,7 @@ testTimelineIndexHelper()
 
     {
         auto txn = db::beginWriteTransaction(*backend);
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn,
           "order_cleanup",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2433,12 +2433,12 @@ testTimelineIndexHelper()
           db::openStore(*backend, txn, "order_cleanup_event_to_order", openOptions(db::StoreFlags::Create));
         auto messageToOrderDb =
           db::openStore(*backend, txn, "order_cleanup_message_to_order", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "order_cleanup_order_to_message",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventsDb = db::openStore(*backend, txn, "order_cleanup_events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = db::openStore(*backend, 
+        auto relationsDb = db::openStore(*backend,
           txn,
           "order_cleanup_relations",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
@@ -2522,7 +2522,7 @@ testTimelineIndexHelper()
           db::openStore(*backend, txn, "order_cleanup", openOptions(db::StoreFlags::IntegerKey));
         auto eventToOrderDb = db::openStore(*backend, txn, "order_cleanup_event_to_order");
         auto messageToOrderDb = db::openStore(*backend, txn, "order_cleanup_message_to_order");
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "order_cleanup_order_to_message",
           openOptions(db::StoreFlags::IntegerKey));
@@ -2551,15 +2551,15 @@ testTimelineIndexHelper()
 
     {
         auto txn = db::beginWriteTransaction(*backend);
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn,
           "message_mapping_cleanup_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "message_mapping_cleanup_o2m",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto messageToOrderDb = db::openStore(*backend, 
+        auto messageToOrderDb = db::openStore(*backend,
           txn, "message_mapping_cleanup_m2o", openOptions(db::StoreFlags::Create));
 
         ok &= expect(eventOrderDb.put(txn, integerKey(1), db::serializeOrderEntry("$keep-1")),
@@ -2588,7 +2588,7 @@ testTimelineIndexHelper()
 
     {
         auto txn = db::beginReadTransaction(*backend);
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "message_mapping_cleanup_o2m",
           openOptions(db::StoreFlags::IntegerKey));
@@ -2611,7 +2611,7 @@ testTimelineIndexHelper()
 
     {
         auto txn = db::beginWriteTransaction(*backend);
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn,
           "trim_oldest_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2619,12 +2619,12 @@ testTimelineIndexHelper()
           db::openStore(*backend, txn, "trim_oldest_e2o", openOptions(db::StoreFlags::Create));
         auto messageToOrderDb =
           db::openStore(*backend, txn, "trim_oldest_m2o", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "trim_oldest_o2m",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventsDb = db::openStore(*backend, txn, "trim_oldest_events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = db::openStore(*backend, 
+        auto relationsDb = db::openStore(*backend,
           txn,
           "trim_oldest_relations",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
@@ -2684,7 +2684,7 @@ testTimelineIndexHelper()
 
     {
         auto txn = db::beginWriteTransaction(*backend);
-        auto eventOrderDb = db::openStore(*backend, 
+        auto eventOrderDb = db::openStore(*backend,
           txn,
           "clear_before_marker_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2692,13 +2692,13 @@ testTimelineIndexHelper()
           db::openStore(*backend, txn, "clear_before_marker_e2o", openOptions(db::StoreFlags::Create));
         auto messageToOrderDb =
           db::openStore(*backend, txn, "clear_before_marker_m2o", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "clear_before_marker_o2m",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventsDb =
           db::openStore(*backend, txn, "clear_before_marker_events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = db::openStore(*backend, 
+        auto relationsDb = db::openStore(*backend,
           txn,
           "clear_before_marker_relations",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
@@ -2742,7 +2742,7 @@ testTimelineIndexHelper()
           db::openStore(*backend, txn, "clear_before_marker_order", openOptions(db::StoreFlags::IntegerKey));
         auto eventToOrderDb = db::openStore(*backend, txn, "clear_before_marker_e2o");
         auto messageToOrderDb = db::openStore(*backend, txn, "clear_before_marker_m2o");
-        auto orderToMessageDb = db::openStore(*backend, 
+        auto orderToMessageDb = db::openStore(*backend,
           txn,
           "clear_before_marker_o2m",
           openOptions(db::StoreFlags::IntegerKey));
@@ -2896,7 +2896,7 @@ testInMemoryBackend()
 
     {
         auto rwDupTxn = db::beginWriteTransaction(*backend);
-        auto dupDb    = db::openStore(*backend, 
+        auto dupDb    = db::openStore(*backend,
           rwDupTxn,
           "state_by_key",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort,
@@ -2910,7 +2910,7 @@ testInMemoryBackend()
 
     {
         auto roDupTxn = db::beginReadTransaction(*backend);
-        auto dupDbRo  = db::openStore(*backend, 
+        auto dupDbRo  = db::openStore(*backend,
           roDupTxn, "state_by_key", openOptions(db::StoreFlags::DupSort, db::DupsortComparator::StateKey));
 
         auto cursor = db::openCursor(roDupTxn, dupDbRo);
@@ -2934,7 +2934,7 @@ testInMemoryBackend()
         auto rwPlainTxn = db::beginWriteTransaction(*backend);
         ok &= expectDbError(
           [&] {
-              db::openStore(*backend, 
+              db::openStore(*backend,
                 rwPlainTxn,
                 "plain",
                 openOptions(db::StoreFlags::Create, db::DupsortComparator::StateKey));
@@ -2974,7 +2974,7 @@ testLmdbBackend()
     {
         auto rwTxn = db::beginWriteTransaction(*backend);
         auto one   = db::openStore(*backend, rwTxn, "one", openOptions(db::StoreFlags::Create));
-        auto two = db::openStore(*backend, 
+        auto two = db::openStore(*backend,
           rwTxn, "two", openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
         ok &= expect(one.put(rwTxn, "k1", "v1"), "lmdb put in one");
         ok &= expect(two.put(rwTxn, "k2", "v2"), "lmdb put in two");
@@ -2991,7 +2991,7 @@ testLmdbBackend()
                             "lmdb openStore rejects empty database name");
         ok &= expectDbError(
           [&] {
-              db::openStore(*backend, 
+              db::openStore(*backend,
                 roTxn, "plain", openOptions(db::StoreFlags::None, db::DupsortComparator::StateKey));
           },
           "lmdb openStore rejects dupsort comparator on non-dupsort db");

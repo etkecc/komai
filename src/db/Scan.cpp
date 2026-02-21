@@ -101,7 +101,9 @@ forEachEntry(Transaction &txn,
 }
 
 void
-forEachUniqueKey(Transaction &txn, Store &db, const std::function<bool(std::string_view key)> &visitor)
+forEachUniqueKey(Transaction &txn,
+                 Store &db,
+                 const std::function<bool(std::string_view key)> &visitor)
 {
     auto cursor = Cursor::open(txn, db);
 
@@ -193,16 +195,15 @@ eraseEntriesIf(Transaction &txn,
         return 0;
 
     std::vector<std::pair<std::string, std::string>> entriesToDelete;
-    forEachEntry(
-      txn,
-      db,
-      startIndex,
-      limit,
-      [&entriesToDelete, &predicate](std::string_view key, std::string_view value) {
-          if (predicate(key, value))
-              entriesToDelete.emplace_back(std::string(key), std::string(value));
-          return true;
-      });
+    forEachEntry(txn,
+                 db,
+                 startIndex,
+                 limit,
+                 [&entriesToDelete, &predicate](std::string_view key, std::string_view value) {
+                     if (predicate(key, value))
+                         entriesToDelete.emplace_back(std::string(key), std::string(value));
+                     return true;
+                 });
 
     for (const auto &[key, value] : entriesToDelete)
         db.del(txn, key, value);

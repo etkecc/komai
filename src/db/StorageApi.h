@@ -4,92 +4,92 @@
 
 #pragma once
 
-#include <string>
-#include <string_view>
 #include <memory>
 #include <optional>
 #include <span>
+#include <string>
+#include <string_view>
 #include <vector>
 
-#include "db/Error.h"
 #include "db/Backend.h"
-#include "db/NamePolicy.h"
 #include "db/Catalog.h"
+#include "db/DupIndex.h"
+#include "db/Error.h"
 #include "db/Json.h"
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
+#include "db/NamePolicy.h"
 #include "db/OlmSessionIndex.h"
 #include "db/OrderEntry.h"
 #include "db/ReadReceiptIndex.h"
 #include "db/RoomInfo.h"
+#include "db/Scan.h"
 #include "db/Serde.h"
 #include "db/StateIndex.h"
-#include "db/Scan.h"
-#include "db/DupIndex.h"
-#include "db/TimelineIndex.h"
 #include "db/SyncState.h"
+#include "db/TimelineIndex.h"
 
 namespace db::storage {
 
-using Database    = db::Database;
-using Transaction = db::Transaction;
-using Store       = db::Store;
-using Cursor      = db::Cursor;
-using CursorHandle = db::CursorHandle;
-using Options         = db::StoreOpenOptions;
+using Database         = db::Database;
+using Transaction      = db::Transaction;
+using Store            = db::Store;
+using Cursor           = db::Cursor;
+using CursorHandle     = db::CursorHandle;
+using Options          = db::StoreOpenOptions;
 using StoreOpenOptions = db::StoreOpenOptions;
-using DatabaseOptions = db::DatabaseOptions;
-using DatabaseId  = db::DatabaseId;
-using StorageCategory = db::StorageCategory;
-using Error          = db::Error;
-using ErrorKind      = db::ErrorKind;
-using AccessFlags = db::AccessFlags;
+using DatabaseOptions  = db::DatabaseOptions;
+using DatabaseId       = db::DatabaseId;
+using StorageCategory  = db::StorageCategory;
+using Error            = db::Error;
+using ErrorKind        = db::ErrorKind;
+using AccessFlags      = db::AccessFlags;
 using TransactionFlags = db::TxnFlags;
-using StoreFlags = db::StoreFlags;
-using BackendId = DatabaseId;
-using DatabaseIdSet = db::DatabaseIdSet;
-using ScanDirection = db::ScanDirection;
-using StoreCapability = db::StoreCapability;
+using StoreFlags       = db::StoreFlags;
+using BackendId        = DatabaseId;
+using DatabaseIdSet    = db::DatabaseIdSet;
+using ScanDirection    = db::ScanDirection;
+using StoreCapability  = db::StoreCapability;
 
+using db::findStateEventId;
+using db::forEachOlmSessionForCurve;
+using db::getInboundMegolmSessionValue;
 using db::getJsonValue;
-using db::putJsonValue;
+using db::getMegolmSessionDataValue;
+using db::getMemberInfo;
+using db::getReadReceiptValue;
 using db::getRoomInfo;
-using db::putRoomInfo;
+using db::getSyncStateSecretValue;
+using db::getSyncStateValue;
+using db::listOlmSessionIds;
+using db::listStateEventIds;
+using db::megolmSessionKey;
+using db::parseMegolmSessionKey;
+using db::parseMemberInfo;
 using db::parseRoomInfo;
+using db::putInboundMegolmSessionValue;
+using db::putJsonValue;
+using db::putMegolmSessionDataValue;
+using db::putMemberInfo;
+using db::putOlmSessionValue;
+using db::putReadReceiptValue;
+using db::putRoomInfo;
+using db::putStateEventId;
+using db::putSyncStateSecretValue;
+using db::putSyncStateValue;
+using db::removeStateEventId;
+using db::removeSyncStateSecretValue;
+using db::removeSyncStateValue;
+using db::serializeOrderEntry;
 using db::serializeRoomInfo;
 using db::toSv;
-using db::parseMemberInfo;
-using db::serializeOrderEntry;
-using db::getMemberInfo;
-using db::putMemberInfo;
-using db::removeStateEventId;
-using db::putStateEventId;
-using db::findStateEventId;
-using db::listStateEventIds;
-using db::forEachOlmSessionForCurve;
-using db::getSyncStateValue;
-using db::putSyncStateValue;
-using db::removeSyncStateValue;
-using db::getSyncStateSecretValue;
-using db::putSyncStateSecretValue;
-using db::removeSyncStateSecretValue;
-using db::getInboundMegolmSessionValue;
-using db::putInboundMegolmSessionValue;
-using db::putMegolmSessionDataValue;
-using db::getMegolmSessionDataValue;
-using db::parseMegolmSessionKey;
-using db::megolmSessionKey;
-using db::putOlmSessionValue;
-using db::listOlmSessionIds;
-using db::getReadReceiptValue;
-using db::putReadReceiptValue;
 
-inline constexpr std::string_view kMemoryDatabaseId = db::kMemoryDatabaseId;
+inline constexpr std::string_view kMemoryDatabaseId   = db::kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryDatabaseId = db::kInMemoryDatabaseId;
-inline constexpr std::string_view kLmdbDatabaseId = db::kLmdbDatabaseId;
-inline constexpr std::string_view kMemoryBackendId = db::kMemoryBackendId;
-inline constexpr std::string_view kInMemoryBackendId = db::kInMemoryBackendId;
-inline constexpr std::string_view kLmdbBackendId = db::kLmdbBackendId;
+inline constexpr std::string_view kLmdbDatabaseId     = db::kLmdbDatabaseId;
+inline constexpr std::string_view kMemoryBackendId    = db::kMemoryBackendId;
+inline constexpr std::string_view kInMemoryBackendId  = db::kInMemoryBackendId;
+inline constexpr std::string_view kLmdbBackendId      = db::kLmdbBackendId;
 
 enum class AccessMode
 {
@@ -150,55 +150,56 @@ openOptionsForRoom(catalog::RoomDb db)
     return ::db::openOptionsForRoom(db);
 }
 
+using db::appendEventOrderEntry;
+using db::appendMessageOrderEntry;
+using db::cleanupTimelineBeforePrevBatchMarker;
+using db::eraseEntriesIf;
+using db::eventIndexForEvent;
+using db::firstEntry;
+using db::firstOrderedIndex;
+using db::firstPrevBatchToken;
 using db::forEachDupValue;
 using db::forEachEntry;
 using db::forEachEntryFromKey;
 using db::forEachEntryWithPrefix;
 using db::forEachUniqueKey;
-using db::listDupValues;
-using db::listEntries;
-using db::listKeys;
-using db::listUniqueKeys;
-using db::eraseEntriesIf;
-using db::firstEntry;
-using db::firstPrevBatchToken;
-using db::firstOrderedIndex;
 using db::lastEntry;
+using db::lastInvisibleEventAfter;
 using db::lastOrderedIndex;
 using db::lastTimelineEventId;
 using db::lastVisibleEvent;
-using db::lastInvisibleEventAfter;
+using db::listDupValues;
+using db::listEntries;
+using db::listKeys;
 using db::listOrderEntriesAfterPrevBatchMarker;
 using db::listOrderEntryEventIds;
-using db::timelineEventIdAtIndex;
-using db::timelineIndexForEvent;
-using db::eventIndexForEvent;
-using db::timelineRange;
+using db::listUniqueKeys;
+using db::prependEventOrderEntry;
+using db::prependMessageOrderEntry;
 using db::putDupValueForKeys;
-using db::replaceDupValueForKeys;
+using db::putEventOrderMapping;
+using db::putEventOrderMappingForEvent;
+using db::putMessageOrderMapping;
+using db::putOrderEntry;
 using db::removeMessageOrderMapping;
 using db::removeMessageOrderMappingsNotInOrderEntries;
 using db::removeOrderEntryReferences;
 using db::removeOrderEntryWithReferences;
 using db::removePendingEntriesByTxnId;
 using db::removeTimelineEventReferences;
-using db::trimOldestOrderEntriesWithReferences;
-using db::cleanupTimelineBeforePrevBatchMarker;
+using db::replaceDupValueForKeys;
 using db::replaceTimelineEventId;
 using db::setOrderEntryPrevBatch;
-using db::putEventOrderMapping;
-using db::putMessageOrderMapping;
-using db::putOrderEntry;
-using db::putEventOrderMappingForEvent;
-using db::appendEventOrderEntry;
-using db::prependEventOrderEntry;
-using db::appendMessageOrderEntry;
-using db::prependMessageOrderEntry;
+using db::timelineEventIdAtIndex;
+using db::timelineIndexForEvent;
+using db::timelineRange;
+using db::trimOldestOrderEntriesWithReferences;
 
 inline void
 requireCapabilities(const Database &database, StoreFlags flags)
 {
-    if (hasFlag(flags, StoreFlags::DupSort) && !supportsCapability(database, Capability::DuplicateKeys))
+    if (hasFlag(flags, StoreFlags::DupSort) &&
+        !supportsCapability(database, Capability::DuplicateKeys))
         throw Error("Database backend does not support duplicate-key stores", ErrorKind::Invalid);
     if (hasFlag(flags, StoreFlags::IntegerKey) &&
         !supportsCapability(database, Capability::IntegerKeys))
@@ -319,7 +320,9 @@ open(std::unique_ptr<Database> &database,
 }
 
 inline void
-open(const std::unique_ptr<Database> &database, std::string_view directory, const DatabaseOptions &options = {})
+open(const std::unique_ptr<Database> &database,
+     std::string_view directory,
+     const DatabaseOptions &options = {})
 {
     open(database.get(), directory, options);
 }
@@ -454,13 +457,17 @@ storageCategory(const std::unique_ptr<Database> &database)
 }
 
 inline Transaction
-beginTransaction(Database &database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)
+beginTransaction(Database &database,
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     return database.beginTxn(parent, toAccessFlags(mode));
 }
 
 inline Transaction
-beginTransaction(Database *database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)
+beginTransaction(Database *database,
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     if (!database)
         throw Error("Database pointer is null", ErrorKind::Invalid);
@@ -470,16 +477,16 @@ beginTransaction(Database *database, Transaction *parent = nullptr, AccessMode m
 
 inline Transaction
 beginTransaction(std::unique_ptr<Database> &database,
-                Transaction *parent = nullptr,
-                AccessMode mode = AccessMode::ReadWrite)
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     return beginTransaction(database.get(), parent, mode);
 }
 
 inline Transaction
 beginTransaction(const std::unique_ptr<Database> &database,
-                Transaction *parent = nullptr,
-                AccessMode mode = AccessMode::ReadWrite)
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     return beginTransaction(database.get(), parent, mode);
 }
@@ -554,7 +561,9 @@ beginTransaction(std::unique_ptr<Database> &database, Transaction *parent, Trans
 }
 
 inline Transaction
-beginTransaction(const std::unique_ptr<Database> &database, Transaction *parent, TransactionFlags flags)
+beginTransaction(const std::unique_ptr<Database> &database,
+                 Transaction *parent,
+                 TransactionFlags flags)
 {
     return beginTransaction(database.get(), parent, flags);
 }
@@ -620,11 +629,11 @@ inline Store
 openNamedStore(Database &database,
                Transaction &txn,
                std::string_view name,
-               bool create = true,
+               bool create      = true,
                StoreFlags flags = StoreFlags::None)
 {
-    auto options      = openOptionsForName(name);
-    options.flags   |= flags;
+    auto options = openOptionsForName(name);
+    options.flags |= flags;
     if (create)
         options.flags |= StoreFlags::Create;
 
@@ -636,7 +645,7 @@ inline Store
 openNamedStore(Database *database,
                Transaction &txn,
                std::string_view name,
-               bool create = true,
+               bool create      = true,
                StoreFlags flags = StoreFlags::None)
 {
     if (!database)
@@ -649,7 +658,7 @@ inline Store
 openNamedStore(std::unique_ptr<Database> &database,
                Transaction &txn,
                std::string_view name,
-               bool create = true,
+               bool create      = true,
                StoreFlags flags = StoreFlags::None)
 {
     return openNamedStore(database.get(), txn, name, create, flags);
@@ -659,7 +668,7 @@ inline Store
 openNamedStore(const std::unique_ptr<Database> &database,
                Transaction &txn,
                std::string_view name,
-               bool create = true,
+               bool create      = true,
                StoreFlags flags = StoreFlags::None)
 {
     return openNamedStore(database.get(), txn, name, create, flags);
@@ -669,7 +678,7 @@ inline Store
 openStore(Database &database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     return openNamedStore(database, txn, name, create, flags);
@@ -679,7 +688,7 @@ inline Store
 openStore(Database *database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     if (!database)
@@ -692,7 +701,7 @@ inline Store
 openStore(std::unique_ptr<Database> &database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     return openNamedStore(database, txn, name, create, flags);
@@ -702,7 +711,7 @@ inline Store
 openStore(const std::unique_ptr<Database> &database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     return openNamedStore(database, txn, name, create, flags);
@@ -725,13 +734,19 @@ openStore(Database *database, Transaction &txn, std::string_view name, const Opt
 }
 
 inline Store
-openStore(std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const Options &options)
+openStore(std::unique_ptr<Database> &database,
+          Transaction &txn,
+          std::string_view name,
+          const Options &options)
 {
     return openStore(database.get(), txn, name, options);
 }
 
 inline Store
-openStore(const std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const Options &options)
+openStore(const std::unique_ptr<Database> &database,
+          Transaction &txn,
+          std::string_view name,
+          const Options &options)
 {
     return openStore(database.get(), txn, name, options);
 }
@@ -756,13 +771,19 @@ openGlobalStore(Database *database, Transaction &txn, catalog::GlobalDb store, b
 }
 
 inline Store
-openGlobalStore(std::unique_ptr<Database> &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+openGlobalStore(std::unique_ptr<Database> &database,
+                Transaction &txn,
+                catalog::GlobalDb store,
+                bool create = true)
 {
     return openGlobalStore(database.get(), txn, store, create);
 }
 
 inline Store
-openGlobalStore(const std::unique_ptr<Database> &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+openGlobalStore(const std::unique_ptr<Database> &database,
+                Transaction &txn,
+                catalog::GlobalDb store,
+                bool create = true)
 {
     return openGlobalStore(database.get(), txn, store, create);
 }
@@ -820,15 +841,15 @@ namespace db {
 
 using storage::AccessMode;
 using storage::Capability;
+using storage::CursorHandle;
+using storage::DatabaseOptions;
+using storage::Options;
 using storage::ScanDirection;
 using storage::Store;
 using storage::StoreFlags;
 using storage::StoreOpenOptions;
-using storage::Options;
 using storage::Transaction;
-using storage::CursorHandle;
 using storage::TransactionFlags;
-using storage::DatabaseOptions;
 
 inline std::unique_ptr<Database>
 createDatabaseFromEnvironment(DatabaseId variableName = "KOMAI_DB_BACKEND")
@@ -856,10 +877,10 @@ requireCapabilities(const Database &database, StoreFlags flags)
 
 inline Store
 openNamedStore(Database &database,
-              Transaction &txn,
-              std::string_view name,
-              bool create = true,
-              StoreFlags flags = StoreFlags::None)
+               Transaction &txn,
+               std::string_view name,
+               bool create      = true,
+               StoreFlags flags = StoreFlags::None)
 {
     return storage::openNamedStore(database, txn, name, create, flags);
 }
@@ -868,7 +889,7 @@ inline Store
 openNamedStore(Database *database,
                Transaction &txn,
                std::string_view name,
-               bool create = true,
+               bool create      = true,
                StoreFlags flags = StoreFlags::None)
 {
     return storage::openNamedStore(database, txn, name, create, flags);
@@ -878,7 +899,7 @@ inline Store
 openNamedStore(std::unique_ptr<Database> &database,
                Transaction &txn,
                std::string_view name,
-               bool create = true,
+               bool create      = true,
                StoreFlags flags = StoreFlags::None)
 {
     return storage::openNamedStore(database, txn, name, create, flags);
@@ -888,7 +909,7 @@ inline Store
 openNamedStore(const std::unique_ptr<Database> &database,
                Transaction &txn,
                std::string_view name,
-               bool create = true,
+               bool create      = true,
                StoreFlags flags = StoreFlags::None)
 {
     return storage::openNamedStore(database, txn, name, create, flags);
@@ -898,7 +919,7 @@ inline Store
 openStore(Database &database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     return storage::openStore(database, txn, name, create, flags);
@@ -908,7 +929,7 @@ inline Store
 openStore(Database *database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     return storage::openStore(database, txn, name, create, flags);
@@ -918,7 +939,7 @@ inline Store
 openStore(std::unique_ptr<Database> &database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     return storage::openStore(database, txn, name, create, flags);
@@ -928,32 +949,44 @@ inline Store
 openStore(const std::unique_ptr<Database> &database,
           Transaction &txn,
           std::string_view name,
-          bool create = true,
+          bool create      = true,
           StoreFlags flags = StoreFlags::None)
 {
     return storage::openStore(database, txn, name, create, flags);
 }
 
 inline Store
-openStore(Database &database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+openStore(Database &database,
+          Transaction &txn,
+          std::string_view name,
+          const StoreOpenOptions &options)
 {
     return storage::openStore(database, txn, name, options);
 }
 
 inline Store
-openStore(Database *database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+openStore(Database *database,
+          Transaction &txn,
+          std::string_view name,
+          const StoreOpenOptions &options)
 {
     return storage::openStore(database, txn, name, options);
 }
 
 inline Store
-openStore(std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+openStore(std::unique_ptr<Database> &database,
+          Transaction &txn,
+          std::string_view name,
+          const StoreOpenOptions &options)
 {
     return storage::openStore(database, txn, name, options);
 }
 
 inline Store
-openStore(const std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+openStore(const std::unique_ptr<Database> &database,
+          Transaction &txn,
+          std::string_view name,
+          const StoreOpenOptions &options)
 {
     return storage::openStore(database, txn, name, options);
 }
@@ -971,16 +1004,19 @@ openGlobalStore(Database *database, Transaction &txn, catalog::GlobalDb store, b
 }
 
 inline Store
-openGlobalStore(std::unique_ptr<Database> &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+openGlobalStore(std::unique_ptr<Database> &database,
+                Transaction &txn,
+                catalog::GlobalDb store,
+                bool create = true)
 {
     return storage::openGlobalStore(database, txn, store, create);
 }
 
 inline Store
 openGlobalStore(const std::unique_ptr<Database> &database,
-               Transaction &txn,
-               catalog::GlobalDb store,
-               bool create = true)
+                Transaction &txn,
+                catalog::GlobalDb store,
+                bool create = true)
 {
     return storage::openGlobalStore(database, txn, store, create);
 }
@@ -1056,29 +1092,33 @@ ownsTransaction(std::unique_ptr<Database> &database, const Transaction &transact
 }
 
 inline Transaction
-beginTransaction(Database &database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)
+beginTransaction(Database &database,
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     return storage::beginTransaction(database, parent, mode);
 }
 
 inline Transaction
-beginTransaction(Database *database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)
+beginTransaction(Database *database,
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     return storage::beginTransaction(database, parent, mode);
 }
 
 inline Transaction
 beginTransaction(std::unique_ptr<Database> &database,
-                Transaction *parent = nullptr,
-                AccessMode mode = AccessMode::ReadWrite)
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     return storage::beginTransaction(database, parent, mode);
 }
 
 inline Transaction
 beginTransaction(const std::unique_ptr<Database> &database,
-                Transaction *parent = nullptr,
-                AccessMode mode = AccessMode::ReadWrite)
+                 Transaction *parent = nullptr,
+                 AccessMode mode     = AccessMode::ReadWrite)
 {
     return storage::beginTransaction(database, parent, mode);
 }
@@ -1144,7 +1184,9 @@ open(Database *database, std::string_view directory, const DatabaseOptions &opti
 }
 
 inline void
-open(std::unique_ptr<Database> &database, std::string_view directory, const DatabaseOptions &options = {})
+open(std::unique_ptr<Database> &database,
+     std::string_view directory,
+     const DatabaseOptions &options = {})
 {
     storage::open(database, directory, options);
 }

@@ -8,44 +8,38 @@
 #include <string>
 #include <string_view>
 
+#include "db/Backend.h"
 #include "db/Catalog.h"
 
 namespace db {
-
-class Backend;
-class Txn;
-class Dbi;
-
-using Transaction = Txn;
-using Store = Dbi;
 
 std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept;
 
 bool
-tryDropNamedStore(Backend &backend,
+tryDropNamedStore(Database &database,
                   Transaction &txn,
                   std::string_view dbName,
                   std::string *error = nullptr) noexcept;
 
 bool
-tryDropNamedDbi(Backend &backend, Transaction &txn, std::string_view dbName, std::string *error = nullptr) noexcept;
+tryDropNamedDbi(Database &database, Transaction &txn, std::string_view dbName, std::string *error = nullptr) noexcept;
 
 bool
-migrateLegacyStateByKeyToStatesKey(Backend &backend,
+migrateLegacyStateByKeyToStatesKey(Database &database,
                                    Transaction &txn,
                                    std::string_view roomId,
                                    std::string *error = nullptr) noexcept;
 
 bool
-migrateLegacyMegolmSessionIndexes(Backend &backend,
+migrateLegacyMegolmSessionIndexes(Database &database,
                                   Transaction &txn,
                                   std::string *error = nullptr) noexcept;
 
 void
-migrateLegacyOlmShardsV1ToV2(Backend &backend, Transaction &txn);
+migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn);
 
 bool
-migrateLegacyOlmShardsV2ToUnified(Backend &backend, Transaction &txn, Store &olmSessions);
+migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &olmSessions);
 
 } // namespace db

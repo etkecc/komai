@@ -18,19 +18,12 @@
 
 #include "CacheCryptoStructs.h"
 #include "CacheStructs.h"
+#include "db/Backend.h"
 #include "db/Flags.h"
 
 namespace mtx::responses {
 struct Messages;
 struct StateEvents;
-}
-
-namespace db {
-class Backend;
-class Txn;
-class Dbi;
-using Transaction = Txn;
-using Store = Dbi;
 }
 
 struct CacheDb;
@@ -430,8 +423,8 @@ private:
     std::optional<UserKeyCache> userKeys_(const std::string &user_id, db::Transaction &txn);
 
     void setNextBatchToken(db::Transaction &txn, const std::string &token);
-    db::Backend &storage();
-    const db::Backend &storage() const;
+    db::Database &storage();
+    const db::Database &storage() const;
     db::Transaction beginTxn(db::Transaction *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
 
     QString localUserId_;

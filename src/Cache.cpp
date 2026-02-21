@@ -84,7 +84,7 @@ using Receipts       = std::map<std::string, std::map<std::string, uint64_t>>;
 
 struct CacheDb
 {
-    std::unique_ptr<db::Backend> storage = db::createConfiguredBackendFromEnvironment();
+    std::unique_ptr<db::Database> storage = db::createConfiguredBackendFromEnvironment();
     db::Store syncState;
     db::Store rooms;
     db::Store spacesChildren, spacesParents;
@@ -105,7 +105,7 @@ struct CacheDb
 
 Cache::~Cache() noexcept = default;
 
-db::Backend &
+db::Database &
 Cache::storage()
 {
     if (!db || !db->storage)
@@ -113,7 +113,7 @@ Cache::storage()
     return *db->storage;
 }
 
-const db::Backend &
+const db::Database &
 Cache::storage() const
 {
     if (!db || !db->storage)
@@ -149,12 +149,12 @@ struct RO_txn
 };
 
 RO_txn
-ro_txn(db::Backend &storage)
+ro_txn(db::Database &storage)
 {
     thread_local db::Transaction txn       = db::storage::beginReadTransaction(storage);
     thread_local int reuse_counter = 0;
 
-    if (reuse_counter >= 100 || !storage.ownsTxn(txn)) {
+    if (reuse_counter >= 100 || !db::storage::ownsTransaction(storage, txn)) {
         txn.abort();
         txn           = db::storage::beginReadTransaction(storage);
         reuse_counter = 0;

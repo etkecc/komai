@@ -22,10 +22,13 @@ using Database    = db::Database;
 using Transaction = db::Transaction;
 using Store       = db::Store;
 using CursorHandle = db::CursorHandle;
-using Options     = db::StoreOpenOptions;
+using Options         = db::StoreOpenOptions;
+using StoreOpenOptions = db::StoreOpenOptions;
 using DatabaseOptions = db::DatabaseOptions;
 using DatabaseId  = db::DatabaseId;
 using StorageCategory = db::StorageCategory;
+using Error          = db::Error;
+using ErrorKind      = db::ErrorKind;
 using AccessFlags = db::AccessFlags;
 using TransactionFlags = db::TxnFlags;
 using StoreFlags = db::StoreFlags;
@@ -78,6 +81,24 @@ supportsCapability(const Database &database, Capability capability) noexcept
     default:
         return false;
     }
+}
+
+inline StoreOpenOptions
+openOptionsForName(std::string_view name)
+{
+    return db::openOptionsForName(name);
+}
+
+inline StoreOpenOptions
+openOptionsForGlobal(catalog::GlobalDb db)
+{
+    return db::openOptionsForGlobal(db);
+}
+
+inline StoreOpenOptions
+openOptionsForRoom(catalog::RoomDb db)
+{
+    return db::openOptionsForRoom(db);
 }
 
 inline void

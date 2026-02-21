@@ -93,7 +93,7 @@ createDatabase()
 }
 
 inline std::unique_ptr<Database>
-createDatabase(BackendId id)
+createDatabase(DatabaseId id)
 {
     return db::createBackend(id);
 }

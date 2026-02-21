@@ -6,6 +6,7 @@
 
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include "db/Error.h"
 #include "db/Backend.h"
@@ -178,10 +179,22 @@ beginWriteTransaction(Database &database, Transaction *parent = nullptr)
     return beginTransaction(database, parent, AccessMode::ReadWrite);
 }
 
+inline Transaction
+beginTransaction(Database &database, Transaction *parent, TxnFlags flags)
+{
+    return database.beginTxn(parent, flags);
+}
+
 inline Cursor
 openCursor(Transaction &txn, Store &store)
 {
     return Cursor::open(txn, store);
+}
+
+inline std::vector<std::string>
+listStoreNames(Database &database, Transaction &txn)
+{
+    return database.listStoreNames(txn);
 }
 
 inline Store

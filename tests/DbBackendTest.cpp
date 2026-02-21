@@ -295,14 +295,14 @@ testSchemaHelpers()
     const auto eventsDbi = db::catalog::roomName(roomId, db::catalog::RoomDb::Events);
 
     {
-        auto txn   = backend->beginTxn();
+        auto txn   = db::storage::beginWriteTransaction(*backend);
         auto events = db::storage::openRoomStore(*backend, txn, roomId, db::catalog::RoomDb::Events);
         ok &= expect(events.put(txn, "$event", "{}"), "schema helper setup creates room events db");
         txn.commit();
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         std::string error;
         ok &= expect(db::tryDropNamedStore(*backend, txn, eventsDbi, &error),
                      "schema helper drops existing named db");
@@ -311,7 +311,7 @@ testSchemaHelpers()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         std::string error;
         ok &= expect(!db::tryDropNamedStore(*backend, txn, eventsDbi, &error),
                      "schema helper reports false when named db is missing");
@@ -320,7 +320,7 @@ testSchemaHelpers()
 
     const auto legacyRoom = std::string("!legacy:example");
     {
-        auto txn    = backend->beginTxn();
+        auto txn    = db::storage::beginWriteTransaction(*backend);
         auto legacy = db::storage::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::LegacyStateByKey);
         ok &= expect(legacy.put(txn, "m.room.member", R"({"key":"@alice:example","id":"$member"})"),
                      "schema helper setup inserts legacy state-by-key payload");
@@ -328,7 +328,7 @@ testSchemaHelpers()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         std::string error;
         const bool migrated = db::migrateLegacyStateByKeyToStatesKey(*backend, txn, legacyRoom, &error);
         ok &= expect(migrated, "schema helper migrates legacy state-by-key db");
@@ -337,7 +337,7 @@ testSchemaHelpers()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto statesKey =
           db::storage::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::StatesKey, false);
         std::string_view value;
@@ -356,7 +356,7 @@ testSchemaHelpers()
 
     const auto brokenRoom = std::string("!broken:example");
     {
-        auto txn    = backend->beginTxn();
+        auto txn    = db::storage::beginWriteTransaction(*backend);
         auto legacy = db::storage::openRoomStore(*backend, txn, brokenRoom, db::catalog::RoomDb::LegacyStateByKey);
         ok &= expect(legacy.put(txn, "m.room.member", "{not-json"),
                      "schema helper setup inserts invalid legacy payload");
@@ -364,7 +364,7 @@ testSchemaHelpers()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         std::string error;
         ok &= expect(!db::migrateLegacyStateByKeyToStatesKey(*backend, txn, brokenRoom, &error),
                      "schema helper reports false for invalid state-by-key payload");
@@ -374,7 +374,7 @@ testSchemaHelpers()
     const auto legacyMegolmKey = std::string(R"({"room_id":"!room:example","sender_key":"curve","session_id":"sid"})");
     const auto migratedMegolmKey = std::string(R"({"room_id":"!room:example","session_id":"sid"})");
     {
-        auto txn     = backend->beginTxn();
+        auto txn     = db::storage::beginWriteTransaction(*backend);
         auto inbound = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
         auto outbound =
           db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions);
@@ -390,7 +390,7 @@ testSchemaHelpers()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         std::string error;
         ok &= expect(db::migrateLegacyMegolmSessionIndexes(*backend, txn, &error),
                      "schema helper migrates legacy megolm index keys");
@@ -399,7 +399,7 @@ testSchemaHelpers()
     }
 
     {
-        auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn      = db::storage::beginReadTransaction(*backend);
         auto inbound  = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions, false);
         auto outbound =
           db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions, false);
@@ -423,7 +423,7 @@ testSchemaHelpers()
     }
 
     {
-        auto txn     = backend->beginTxn();
+        auto txn     = db::storage::beginWriteTransaction(*backend);
         auto inbound = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
         ok &= expect(inbound.put(txn, "{bad-json", "pickle"),
                      "schema helper setup inserts invalid megolm key payload");
@@ -451,7 +451,7 @@ testLegacyOlmMigrationHelpers()
 
     const auto v1Name = std::string("olm_sessions/curve-1");
     {
-        auto txn  = backend->beginTxn();
+        auto txn  = db::storage::beginWriteTransaction(*backend);
         auto oldV1 = db::storage::openNamedStore(*backend, txn, v1Name);
         ok &= expect(oldV1.put(txn, "sess-ok", "pickle-ok"), "legacy olm v1 setup puts printable value");
         ok &= expect(oldV1.put(txn, "sess-bad", std::string("bad\1value", 9)),
@@ -460,14 +460,14 @@ testLegacyOlmMigrationHelpers()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         db::migrateLegacyOlmShardsV1ToV2(*backend, txn);
         txn.commit();
     }
 
     const auto v2Name = db::catalog::legacyOlmShardV2NameFromV1(v1Name);
     {
-        auto txn    = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn    = db::storage::beginReadTransaction(*backend);
         auto newV2  = db::storage::openNamedStore(*backend, txn, v2Name, false);
         std::string_view value;
         ok &= expect(newV2.get(txn, "sess-ok", value), "legacy olm v1->v2 migration keeps printable session");
@@ -480,7 +480,7 @@ testLegacyOlmMigrationHelpers()
     }
 
     {
-        auto txn     = backend->beginTxn();
+        auto txn     = db::storage::beginWriteTransaction(*backend);
         auto olmV2Db = db::storage::openNamedStore(*backend, txn, "olm_sessions.v2/curve-2");
         ok &= expect(olmV2Db.put(txn, "sess-2", v2Payload),
                      "legacy olm v2 setup puts migrated-style payload");
@@ -492,7 +492,7 @@ testLegacyOlmMigrationHelpers()
     }
 
     {
-        auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn      = db::storage::beginReadTransaction(*backend);
         auto unified  = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
         std::string_view value;
         ok &= expect(unified.get(txn, db::catalog::olmSessionKey("curve-2", "sess-2"), value),
@@ -504,7 +504,7 @@ testLegacyOlmMigrationHelpers()
     }
 
     {
-        auto txn     = backend->beginTxn();
+        auto txn     = db::storage::beginWriteTransaction(*backend);
         auto unified = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
         ok &= expect(!db::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
                      "legacy olm v2->v3 helper reports no-op when no shards exist");
@@ -526,8 +526,9 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 
     const auto dupDbName = std::string(backendId) + "_dupsort_contract";
     {
-        auto txn = backend.beginTxn();
-        auto dbi = backend.openStore(
+        auto txn = db::storage::beginWriteTransaction(backend);
+        auto dbi = db::storage::openStore(
+          backend,
           txn, dupDbName, openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
         ok &= expect(dbi.put(txn, "k", "b"), testName("dupsort put #1"));
         ok &= expect(dbi.put(txn, "k", "a"), testName("dupsort put #2"));
@@ -537,8 +538,9 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
     }
 
     {
-        auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = backend.openStore(txn, dupDbName, openOptions(db::StoreFlags::DupSort));
+        auto txn = db::storage::beginReadTransaction(backend);
+        auto dbi =
+          db::storage::openStore(backend, txn, dupDbName, openOptions(db::StoreFlags::DupSort));
 
         auto cursor = db::storage::openCursor(txn, dbi);
         std::string key = "k", value;
@@ -565,8 +567,9 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
 
     const auto intDbName = std::string(backendId) + "_integer_key_contract";
     {
-        auto txn = backend.beginTxn();
-        auto dbi = backend.openStore(
+        auto txn = db::storage::beginWriteTransaction(backend);
+        auto dbi = db::storage::openStore(
+          backend,
           txn, intDbName, openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         ok &= expect(dbi.put(txn, integerKey(5), "five"), testName("integer-key put #1"));
         ok &= expect(dbi.put(txn, integerKey(1), "one"), testName("integer-key put #2"));
@@ -575,8 +578,9 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
     }
 
     {
-        auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = backend.openStore(txn, intDbName, openOptions(db::StoreFlags::IntegerKey));
+        auto txn = db::storage::beginReadTransaction(backend);
+        auto dbi =
+          db::storage::openStore(backend, txn, intDbName, openOptions(db::StoreFlags::IntegerKey));
 
         auto cursor = db::storage::openCursor(txn, dbi);
         std::string key, value;
@@ -605,7 +609,7 @@ testOpenHelpers()
     backend->open("", options);
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto dbi =
           db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder);
         ok &= expect(dbi.put(txn, integerKey(7), "seven"), "openRoomStore puts integer key #1");
@@ -619,7 +623,7 @@ testOpenHelpers()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto dbi =
           db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
         auto cursor = db::storage::openCursor(txn, dbi);
@@ -761,7 +765,7 @@ testCompactionHelper()
     to->open("", options);
 
     {
-        auto txn      = from->beginTxn();
+        auto txn      = db::storage::beginWriteTransaction(*from);
         auto intDb    = db::storage::openRoomStore(*from, txn, "!room:example", db::catalog::RoomDb::EventOrder);
         auto dupsortDb = db::storage::openGlobalStore(*from, txn, db::catalog::GlobalDb::SpacesChildren);
 
@@ -775,7 +779,7 @@ testCompactionHelper()
     db::compact(*from, *to);
 
     {
-        auto txn      = to->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn      = db::storage::beginReadTransaction(*to);
         auto intDb    = db::storage::openRoomStore(*to, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
         auto dupsortDb = db::storage::openGlobalStore(*to, txn, db::catalog::GlobalDb::SpacesChildren, false);
 
@@ -809,7 +813,7 @@ testStateIndexHelper()
     backend->open("", options);
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto statesKeyDb =
           db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey);
         ok &= expect(statesKeyDb.put(
@@ -827,7 +831,7 @@ testStateIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto statesKeyDb =
           db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
 
@@ -861,7 +865,7 @@ testStateIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto statesKeyDb =
           db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
 
@@ -875,7 +879,7 @@ testStateIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto statesKeyDb =
           db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
 
@@ -904,7 +908,7 @@ testSyncStateHelper()
     backend->open("", options);
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto syncStateDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState);
 
         db::putSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch, "batch-1");
@@ -913,7 +917,7 @@ testSyncStateHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto syncStateDb =
           db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
 
@@ -940,7 +944,7 @@ testSyncStateHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto syncStateDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
 
         ok &= expect(db::removeSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch),
@@ -951,7 +955,7 @@ testSyncStateHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto syncStateDb =
           db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
 
@@ -978,7 +982,7 @@ testMegolmIndexHelper()
     backend->open("", options);
 
     {
-        auto txn      = backend->beginTxn();
+        auto txn      = db::storage::beginWriteTransaction(*backend);
         auto inboundDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
         auto dataDb    = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData);
 
@@ -990,7 +994,7 @@ testMegolmIndexHelper()
     }
 
     {
-        auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn      = db::storage::beginReadTransaction(*backend);
         auto inboundDb = db::storage::openGlobalStore(
           *backend, txn, db::catalog::GlobalDb::InboundMegolmSessions, false);
         auto dataDb =
@@ -1042,7 +1046,7 @@ testReadReceiptIndexHelper()
     backend->open("", options);
 
     {
-        auto txn  = backend->beginTxn();
+        auto txn  = db::storage::beginWriteTransaction(*backend);
         auto dbi  = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::ReadReceipts);
         db::putReadReceiptValue(
           txn, dbi, "$event-1", "!room:example", R"({"@alice:example.org":123})");
@@ -1050,7 +1054,7 @@ testReadReceiptIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto dbi = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::ReadReceipts, false);
 
         std::string_view value;
@@ -1102,14 +1106,14 @@ testRoomInfoHelper()
     info.tags                             = {"m.favourite", "u.work"};
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto dbi = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::Rooms);
         db::putRoomInfo(txn, dbi, "!room:example", info);
         txn.commit();
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto dbi = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::Rooms, false);
 
         RoomInfo loaded;
@@ -1175,15 +1179,15 @@ testMemberInfoHelper()
     };
 
     {
-        auto txn = backend->beginTxn();
-        auto dbi = backend->openStore(txn, "members", openOptions(db::StoreFlags::Create));
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto dbi = db::storage::openStore(*backend, txn, "members", openOptions(db::StoreFlags::Create));
         db::putMemberInfo(txn, dbi, "@alice:example.org", info);
         txn.commit();
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = backend->openStore(txn, "members");
+        auto txn = db::storage::beginReadTransaction(*backend);
+        auto dbi = db::storage::openStore(*backend, txn, "members");
 
         MemberInfo loaded;
         ok &= expect(db::getMemberInfo(txn, dbi, "@alice:example.org", loaded),
@@ -1237,15 +1241,15 @@ testJsonHelpers()
     std::vector<int> numbers{1, 2, 3, 5};
 
     {
-        auto txn   = backend->beginTxn();
-        auto jsonDb = backend->openStore(txn, "json", openOptions(db::StoreFlags::Create));
+        auto txn   = db::storage::beginWriteTransaction(*backend);
+        auto jsonDb = db::storage::openStore(*backend, txn, "json", openOptions(db::StoreFlags::Create));
         db::putJsonValue(txn, jsonDb, "numbers", numbers);
         txn.commit();
     }
 
     {
-        auto txn   = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto jsonDb = backend->openStore(txn, "json");
+        auto txn   = db::storage::beginReadTransaction(*backend);
+        auto jsonDb = db::storage::openStore(*backend, txn, "json");
 
         const auto parsed = db::getJsonValue<std::vector<int>>(txn, jsonDb, "numbers");
         ok &= expect(parsed.has_value(), "json helper returns value for existing key");
@@ -1264,15 +1268,15 @@ testJsonHelpers()
     }
 
     {
-        auto txn    = backend->beginTxn();
-        auto jsonDb = backend->openStore(txn, "json", openOptions(db::StoreFlags::Create));
+        auto txn    = db::storage::beginWriteTransaction(*backend);
+        auto jsonDb = db::storage::openStore(*backend, txn, "json", openOptions(db::StoreFlags::Create));
         jsonDb.put(txn, "bad", "{bad-json");
         txn.commit();
     }
 
     {
-        auto txn   = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto jsonDb = backend->openStore(txn, "json");
+        auto txn   = db::storage::beginReadTransaction(*backend);
+        auto jsonDb = db::storage::openStore(*backend, txn, "json");
 
         bool parseError = false;
         try {
@@ -1419,7 +1423,7 @@ testOlmSessionIndexHelper()
     backend->open("", options);
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto olmSessionsDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
 
         db::putOlmSessionValue(txn, olmSessionsDb, "curve-a", "sess-2", R"({"ts":2})");
@@ -1429,7 +1433,7 @@ testOlmSessionIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto olmSessionsDb =
           db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
 
@@ -1475,7 +1479,7 @@ testDupIndexHelper()
     backend->open("", options);
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto spaces = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
         ok &= expect(spaces.put(txn, "space", "child-z"),
                      "dup index helper setup writes duplicate value #1");
@@ -1489,7 +1493,7 @@ testDupIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto spaces =
           db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
 
@@ -1527,7 +1531,7 @@ testDupIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto spaces = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
 
         const std::vector<std::string_view> keys = {"alpha", "beta", "", "alpha"};
@@ -1547,7 +1551,7 @@ testDupIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto spaces =
           db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
 
@@ -1579,9 +1583,9 @@ testScanHelper()
     backend->open("", options);
 
     {
-        auto txn  = backend->beginTxn();
-        auto main = backend->openStore(txn, "main", openOptions(db::StoreFlags::Create));
-        auto dup  = backend->openStore(
+        auto txn  = db::storage::beginWriteTransaction(*backend);
+        auto main = db::storage::openStore(*backend, txn, "main", openOptions(db::StoreFlags::Create));
+        auto dup  = db::storage::openStore(*backend, 
           txn, "dup", openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
 
         ok &= expect(main.put(txn, "b", "b"), "scan helper setup inserts main entry #1");
@@ -1593,9 +1597,9 @@ testScanHelper()
     }
 
     {
-        auto txn  = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto main = backend->openStore(txn, "main");
-        auto dup  = backend->openStore(txn, "dup");
+        auto txn  = db::storage::beginReadTransaction(*backend);
+        auto main = db::storage::openStore(*backend, txn, "main");
+        auto dup  = db::storage::openStore(*backend, txn, "dup");
 
         const auto mainKeys = db::listKeys(txn, main);
         ok &= expect(mainKeys.size() == 2, "scan helper lists all keys in simple db");
@@ -1749,9 +1753,9 @@ testScanHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
-        auto main = backend->openStore(txn, "main");
-        auto dup = backend->openStore(txn, "dup");
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto main = db::storage::openStore(*backend, txn, "main");
+        auto dup = db::storage::openStore(*backend, txn, "dup");
 
         const auto removedNone = db::eraseEntriesIf(
           txn,
@@ -1779,9 +1783,9 @@ testScanHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto main = backend->openStore(txn, "main");
-        auto dup = backend->openStore(txn, "dup");
+        auto txn = db::storage::beginReadTransaction(*backend);
+        auto main = db::storage::openStore(*backend, txn, "main");
+        auto dup = db::storage::openStore(*backend, txn, "dup");
 
         const auto remainingMain = db::listEntries(txn, main);
         ok &= expect(remainingMain.size() == 1,
@@ -1860,18 +1864,18 @@ testTimelineIndexHelper()
     backend->open("", options);
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto messageToOrderDb =
-          backend->openStore(txn, "message_to_order", openOptions(db::StoreFlags::Create));
-        auto eventOrderDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "message_to_order", openOptions(db::StoreFlags::Create));
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn, "event_order", openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto orderToMessageDb = backend->openStore(
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn, "order_to_message", openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto eventsDb    = backend->openStore(txn, "events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = backend->openStore(
+        auto eventsDb    = db::storage::openStore(*backend, txn, "events", openOptions(db::StoreFlags::Create));
+        auto relationsDb = db::storage::openStore(*backend, 
           txn, "relations", openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
         auto eventToOrderDb =
-          backend->openStore(txn, "event_to_order", openOptions(db::StoreFlags::Create));
+          db::storage::openStore(*backend, txn, "event_to_order", openOptions(db::StoreFlags::Create));
 
         const auto messageOrder = integerKey(7);
         ok &= expect(messageToOrderDb.put(txn, "$event", messageOrder),
@@ -2104,15 +2108,15 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto messageToOrderDb = backend->openStore(txn, "message_to_order");
+        auto txn = db::storage::beginReadTransaction(*backend);
+        auto messageToOrderDb = db::storage::openStore(*backend, txn, "message_to_order");
         auto eventOrderDb =
-          backend->openStore(txn, "event_order", openOptions(db::StoreFlags::IntegerKey));
+          db::storage::openStore(*backend, txn, "event_order", openOptions(db::StoreFlags::IntegerKey));
         auto orderToMessageDb =
-          backend->openStore(txn, "order_to_message", openOptions(db::StoreFlags::IntegerKey));
-        auto eventsDb       = backend->openStore(txn, "events");
-        auto relationsDb    = backend->openStore(txn, "relations");
-        auto eventToOrderDb = backend->openStore(txn, "event_to_order");
+          db::storage::openStore(*backend, txn, "order_to_message", openOptions(db::StoreFlags::IntegerKey));
+        auto eventsDb       = db::storage::openStore(*backend, txn, "events");
+        auto relationsDb    = db::storage::openStore(*backend, txn, "relations");
+        auto eventToOrderDb = db::storage::openStore(*backend, txn, "event_to_order");
 
         std::string_view value;
         ok &= expect(!eventsDb.get(txn, "$event", value),
@@ -2140,18 +2144,18 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto eventToOrderDb =
-          backend->openStore(txn, "scan_event_to_order", openOptions(db::StoreFlags::Create));
-        auto eventOrderDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "scan_event_to_order", openOptions(db::StoreFlags::Create));
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn, "scan_event_order", openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto messageToOrderDb =
-          backend->openStore(txn, "scan_message_to_order", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "scan_message_to_order", openOptions(db::StoreFlags::Create));
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "scan_order_to_message",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto unusedOrderToMessageDb = backend->openStore(
+        auto unusedOrderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "scan_order_to_message_empty",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2190,15 +2194,15 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto eventToOrderDb = backend->openStore(txn, "scan_event_to_order");
+        auto txn = db::storage::beginReadTransaction(*backend);
+        auto eventToOrderDb = db::storage::openStore(*backend, txn, "scan_event_to_order");
         auto eventOrderDb =
-          backend->openStore(txn, "scan_event_order", openOptions(db::StoreFlags::IntegerKey));
-        auto messageToOrderDb = backend->openStore(txn, "scan_message_to_order");
+          db::storage::openStore(*backend, txn, "scan_event_order", openOptions(db::StoreFlags::IntegerKey));
+        auto messageToOrderDb = db::storage::openStore(*backend, txn, "scan_message_to_order");
         auto orderToMessageDb =
-          backend->openStore(txn, "scan_order_to_message", openOptions(db::StoreFlags::IntegerKey));
+          db::storage::openStore(*backend, txn, "scan_order_to_message", openOptions(db::StoreFlags::IntegerKey));
         auto emptyOrderToMessageDb =
-          backend->openStore(txn, "scan_order_to_message_empty", openOptions(db::StoreFlags::IntegerKey));
+          db::storage::openStore(*backend, txn, "scan_order_to_message_empty", openOptions(db::StoreFlags::IntegerKey));
 
         const auto invisibleFromA =
           db::lastInvisibleEventAfter(txn, eventToOrderDb, eventOrderDb, messageToOrderDb, "$a");
@@ -2286,9 +2290,9 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto pendingDb =
-          backend->openStore(txn, "pending_cleanup", openOptions(db::StoreFlags::Create));
+          db::storage::openStore(*backend, txn, "pending_cleanup", openOptions(db::StoreFlags::Create));
         ok &= expect(pendingDb.put(txn, "1", "$txn-remove"),
                      "timeline index helper pending setup writes entry #1");
         ok &= expect(pendingDb.put(txn, "2", "$keep"),
@@ -2303,8 +2307,8 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto pendingDb = backend->openStore(txn, "pending_cleanup");
+        auto txn      = db::storage::beginReadTransaction(*backend);
+        auto pendingDb = db::storage::openStore(*backend, txn, "pending_cleanup");
         const auto pendingEntries = db::listEntries(txn, pendingDb);
         ok &= expect(pendingEntries.size() == 1,
                      "timeline index helper removePendingEntriesByTxnId leaves non-matching pending entries");
@@ -2314,8 +2318,8 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
-        auto eventOrderDb = backend->openStore(
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn,
           "prev_batch_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2329,17 +2333,17 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto eventOrderDb =
-          backend->openStore(txn, "prev_batch_order", openOptions(db::StoreFlags::IntegerKey));
+          db::storage::openStore(*backend, txn, "prev_batch_order", openOptions(db::StoreFlags::IntegerKey));
         ok &= expect(!db::firstPrevBatchToken(txn, eventOrderDb).has_value(),
                      "timeline index helper firstPrevBatchToken returns no value when first entry has no token");
     }
 
     {
-        auto txn = backend->beginTxn();
+        auto txn = db::storage::beginWriteTransaction(*backend);
         auto eventOrderDb =
-          backend->openStore(txn, "prev_batch_order", openOptions(db::StoreFlags::IntegerKey));
+          db::storage::openStore(*backend, txn, "prev_batch_order", openOptions(db::StoreFlags::IntegerKey));
         ok &= expect(db::setOrderEntryPrevBatch(txn, eventOrderDb, 1, "updated-token"),
                      "timeline index helper setOrderEntryPrevBatch updates existing entry");
         ok &= expect(!db::setOrderEntryPrevBatch(txn, eventOrderDb, 99, "missing-token"),
@@ -2348,9 +2352,9 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto eventOrderDb =
-          backend->openStore(txn, "prev_batch_order", openOptions(db::StoreFlags::IntegerKey));
+          db::storage::openStore(*backend, txn, "prev_batch_order", openOptions(db::StoreFlags::IntegerKey));
         const auto firstToken = db::firstPrevBatchToken(txn, eventOrderDb);
         ok &= expect(firstToken.has_value() && firstToken.value_or("") == "updated-token",
                      "timeline index helper firstPrevBatchToken reads updated token");
@@ -2364,8 +2368,8 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
-        auto eventOrderDb = backend->openStore(
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn,
           "order_marker_scan",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
@@ -2383,9 +2387,9 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto eventOrderDb =
-          backend->openStore(txn, "order_marker_scan", openOptions(db::StoreFlags::IntegerKey));
+          db::storage::openStore(*backend, txn, "order_marker_scan", openOptions(db::StoreFlags::IntegerKey));
 
         const auto orderEntriesToDelete = db::listOrderEntriesAfterPrevBatchMarker(txn, eventOrderDb);
         ok &= expect(orderEntriesToDelete.size() == 2,
@@ -2403,21 +2407,21 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
-        auto eventOrderDb = backend->openStore(
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn,
           "order_cleanup",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventToOrderDb =
-          backend->openStore(txn, "order_cleanup_event_to_order", openOptions(db::StoreFlags::Create));
+          db::storage::openStore(*backend, txn, "order_cleanup_event_to_order", openOptions(db::StoreFlags::Create));
         auto messageToOrderDb =
-          backend->openStore(txn, "order_cleanup_message_to_order", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "order_cleanup_message_to_order", openOptions(db::StoreFlags::Create));
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "order_cleanup_order_to_message",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto eventsDb = backend->openStore(txn, "order_cleanup_events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = backend->openStore(
+        auto eventsDb = db::storage::openStore(*backend, txn, "order_cleanup_events", openOptions(db::StoreFlags::Create));
+        auto relationsDb = db::storage::openStore(*backend, 
           txn,
           "order_cleanup_relations",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
@@ -2496,17 +2500,17 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto eventOrderDb =
-          backend->openStore(txn, "order_cleanup", openOptions(db::StoreFlags::IntegerKey));
-        auto eventToOrderDb = backend->openStore(txn, "order_cleanup_event_to_order");
-        auto messageToOrderDb = backend->openStore(txn, "order_cleanup_message_to_order");
-        auto orderToMessageDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "order_cleanup", openOptions(db::StoreFlags::IntegerKey));
+        auto eventToOrderDb = db::storage::openStore(*backend, txn, "order_cleanup_event_to_order");
+        auto messageToOrderDb = db::storage::openStore(*backend, txn, "order_cleanup_message_to_order");
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "order_cleanup_order_to_message",
           openOptions(db::StoreFlags::IntegerKey));
-        auto eventsDb = backend->openStore(txn, "order_cleanup_events");
-        auto relationsDb = backend->openStore(txn, "order_cleanup_relations");
+        auto eventsDb = db::storage::openStore(*backend, txn, "order_cleanup_events");
+        auto relationsDb = db::storage::openStore(*backend, txn, "order_cleanup_relations");
 
         std::string_view value;
         ok &= expect(eventOrderDb.size(txn) == 1,
@@ -2529,16 +2533,16 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
-        auto eventOrderDb = backend->openStore(
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn,
           "message_mapping_cleanup_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto orderToMessageDb = backend->openStore(
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "message_mapping_cleanup_o2m",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto messageToOrderDb = backend->openStore(
+        auto messageToOrderDb = db::storage::openStore(*backend, 
           txn, "message_mapping_cleanup_m2o", openOptions(db::StoreFlags::Create));
 
         ok &= expect(eventOrderDb.put(txn, integerKey(1), db::serializeOrderEntry("$keep-1")),
@@ -2566,12 +2570,12 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto orderToMessageDb = backend->openStore(
+        auto txn = db::storage::beginReadTransaction(*backend);
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "message_mapping_cleanup_o2m",
           openOptions(db::StoreFlags::IntegerKey));
-        auto messageToOrderDb = backend->openStore(txn, "message_mapping_cleanup_m2o");
+        auto messageToOrderDb = db::storage::openStore(*backend, txn, "message_mapping_cleanup_m2o");
 
         std::string_view value;
         ok &= expect(!orderToMessageDb.get(txn, integerKey(13), value),
@@ -2589,21 +2593,21 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
-        auto eventOrderDb = backend->openStore(
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn,
           "trim_oldest_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventToOrderDb =
-          backend->openStore(txn, "trim_oldest_e2o", openOptions(db::StoreFlags::Create));
+          db::storage::openStore(*backend, txn, "trim_oldest_e2o", openOptions(db::StoreFlags::Create));
         auto messageToOrderDb =
-          backend->openStore(txn, "trim_oldest_m2o", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "trim_oldest_m2o", openOptions(db::StoreFlags::Create));
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "trim_oldest_o2m",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
-        auto eventsDb = backend->openStore(txn, "trim_oldest_events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = backend->openStore(
+        auto eventsDb = db::storage::openStore(*backend, txn, "trim_oldest_events", openOptions(db::StoreFlags::Create));
+        auto relationsDb = db::storage::openStore(*backend, 
           txn,
           "trim_oldest_relations",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
@@ -2638,14 +2642,14 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto eventOrderDb =
-          backend->openStore(txn, "trim_oldest_order", openOptions(db::StoreFlags::IntegerKey));
-        auto eventToOrderDb = backend->openStore(txn, "trim_oldest_e2o");
-        auto messageToOrderDb = backend->openStore(txn, "trim_oldest_m2o");
+          db::storage::openStore(*backend, txn, "trim_oldest_order", openOptions(db::StoreFlags::IntegerKey));
+        auto eventToOrderDb = db::storage::openStore(*backend, txn, "trim_oldest_e2o");
+        auto messageToOrderDb = db::storage::openStore(*backend, txn, "trim_oldest_m2o");
         auto orderToMessageDb =
-          backend->openStore(txn, "trim_oldest_o2m", openOptions(db::StoreFlags::IntegerKey));
-        auto eventsDb = backend->openStore(txn, "trim_oldest_events");
+          db::storage::openStore(*backend, txn, "trim_oldest_o2m", openOptions(db::StoreFlags::IntegerKey));
+        auto eventsDb = db::storage::openStore(*backend, txn, "trim_oldest_events");
 
         std::string_view value;
         ok &= expect(eventOrderDb.size(txn) == 2,
@@ -2662,22 +2666,22 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn();
-        auto eventOrderDb = backend->openStore(
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto eventOrderDb = db::storage::openStore(*backend, 
           txn,
           "clear_before_marker_order",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventToOrderDb =
-          backend->openStore(txn, "clear_before_marker_e2o", openOptions(db::StoreFlags::Create));
+          db::storage::openStore(*backend, txn, "clear_before_marker_e2o", openOptions(db::StoreFlags::Create));
         auto messageToOrderDb =
-          backend->openStore(txn, "clear_before_marker_m2o", openOptions(db::StoreFlags::Create));
-        auto orderToMessageDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "clear_before_marker_m2o", openOptions(db::StoreFlags::Create));
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "clear_before_marker_o2m",
           openOptions(db::StoreFlags::Create | db::StoreFlags::IntegerKey));
         auto eventsDb =
-          backend->openStore(txn, "clear_before_marker_events", openOptions(db::StoreFlags::Create));
-        auto relationsDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "clear_before_marker_events", openOptions(db::StoreFlags::Create));
+        auto relationsDb = db::storage::openStore(*backend, 
           txn,
           "clear_before_marker_relations",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
@@ -2716,16 +2720,16 @@ testTimelineIndexHelper()
     }
 
     {
-        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto txn = db::storage::beginReadTransaction(*backend);
         auto eventOrderDb =
-          backend->openStore(txn, "clear_before_marker_order", openOptions(db::StoreFlags::IntegerKey));
-        auto eventToOrderDb = backend->openStore(txn, "clear_before_marker_e2o");
-        auto messageToOrderDb = backend->openStore(txn, "clear_before_marker_m2o");
-        auto orderToMessageDb = backend->openStore(
+          db::storage::openStore(*backend, txn, "clear_before_marker_order", openOptions(db::StoreFlags::IntegerKey));
+        auto eventToOrderDb = db::storage::openStore(*backend, txn, "clear_before_marker_e2o");
+        auto messageToOrderDb = db::storage::openStore(*backend, txn, "clear_before_marker_m2o");
+        auto orderToMessageDb = db::storage::openStore(*backend, 
           txn,
           "clear_before_marker_o2m",
           openOptions(db::StoreFlags::IntegerKey));
-        auto eventsDb = backend->openStore(txn, "clear_before_marker_events");
+        auto eventsDb = db::storage::openStore(*backend, txn, "clear_before_marker_events");
 
         std::string_view value;
         ok &= expect(eventOrderDb.size(txn) == 3,
@@ -2832,29 +2836,29 @@ testInMemoryBackend()
     ok &= expect(backend->isOpen(), "memory backend opens");
 
     {
-        auto rwTxn = backend->beginTxn();
-        auto main  = backend->openStore(rwTxn, "main", openOptions(db::StoreFlags::Create));
+        auto rwTxn = db::storage::beginWriteTransaction(*backend);
+        auto main  = db::storage::openStore(*backend, rwTxn, "main", openOptions(db::StoreFlags::Create));
         ok &= expect(main.put(rwTxn, "k", "v"), "memory put into main");
         rwTxn.commit();
     }
 
     {
-        auto roTxn  = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto mainRo = backend->openStore(roTxn, "main");
+        auto roTxn  = db::storage::beginReadTransaction(*backend);
+        auto mainRo = db::storage::openStore(*backend, roTxn, "main");
         std::string_view value;
         ok &= expect(mainRo.get(roTxn, "k", value), "memory get finds written key");
         ok &= expect(value == "v", "memory get returns expected value");
 
-        const auto names = backend->listStoreNames(roTxn);
+        const auto names = db::storage::listStoreNames(*backend, roTxn);
         ok &= expect(containsName(names, "main"), "memory listStoreNames contains main");
 
-        ok &= expectDbError([&] { backend->openStore(roTxn, ""); },
+        ok &= expectDbError([&] { db::storage::openStore(*backend, roTxn, ""); },
                             "memory openStore rejects empty database name");
     }
 
     {
-        auto rwDupTxn = backend->beginTxn();
-        auto dupDb    = backend->openStore(
+        auto rwDupTxn = db::storage::beginWriteTransaction(*backend);
+        auto dupDb    = db::storage::openStore(*backend, 
           rwDupTxn,
           "state_by_key",
           openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort,
@@ -2867,8 +2871,8 @@ testInMemoryBackend()
     }
 
     {
-        auto roDupTxn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dupDbRo  = backend->openStore(
+        auto roDupTxn = db::storage::beginReadTransaction(*backend);
+        auto dupDbRo  = db::storage::openStore(*backend, 
           roDupTxn, "state_by_key", openOptions(db::StoreFlags::DupSort, db::DupsortComparator::StateKey));
 
         auto cursor = db::storage::openCursor(roDupTxn, dupDbRo);
@@ -2880,7 +2884,7 @@ testInMemoryBackend()
 
         ok &= expectDbError(
           [&] {
-              backend->openStore(roDupTxn,
+              db::storage::openStore(*backend, roDupTxn,
                                "state_by_key",
                                openOptions(db::StoreFlags::DupSort,
                                            db::DupsortComparator::LegacyStateByKeyJson));
@@ -2889,10 +2893,10 @@ testInMemoryBackend()
     }
 
     {
-        auto rwPlainTxn = backend->beginTxn();
+        auto rwPlainTxn = db::storage::beginWriteTransaction(*backend);
         ok &= expectDbError(
           [&] {
-              backend->openStore(
+              db::storage::openStore(*backend, 
                 rwPlainTxn,
                 "plain",
                 openOptions(db::StoreFlags::Create, db::DupsortComparator::StateKey));
@@ -2930,9 +2934,9 @@ testLmdbBackend()
     ok &= expect(backend->isOpen(), "lmdb backend opens");
 
     {
-        auto rwTxn = backend->beginTxn();
-        auto one   = backend->openStore(rwTxn, "one", openOptions(db::StoreFlags::Create));
-        auto two = backend->openStore(
+        auto rwTxn = db::storage::beginWriteTransaction(*backend);
+        auto one   = db::storage::openStore(*backend, rwTxn, "one", openOptions(db::StoreFlags::Create));
+        auto two = db::storage::openStore(*backend, 
           rwTxn, "two", openOptions(db::StoreFlags::Create | db::StoreFlags::DupSort));
         ok &= expect(one.put(rwTxn, "k1", "v1"), "lmdb put in one");
         ok &= expect(two.put(rwTxn, "k2", "v2"), "lmdb put in two");
@@ -2940,16 +2944,16 @@ testLmdbBackend()
     }
 
     {
-        auto roTxn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        const auto names = backend->listStoreNames(roTxn);
+        auto roTxn      = db::storage::beginReadTransaction(*backend);
+        const auto names = db::storage::listStoreNames(*backend, roTxn);
         ok &= expect(containsName(names, "one"), "lmdb listStoreNames contains one");
         ok &= expect(containsName(names, "two"), "lmdb listStoreNames contains two");
 
-        ok &= expectDbError([&] { backend->openStore(roTxn, ""); },
+        ok &= expectDbError([&] { db::storage::openStore(*backend, roTxn, ""); },
                             "lmdb openStore rejects empty database name");
         ok &= expectDbError(
           [&] {
-              backend->openStore(
+              db::storage::openStore(*backend, 
                 roTxn, "plain", openOptions(db::StoreFlags::None, db::DupsortComparator::StateKey));
           },
           "lmdb openStore rejects dupsort comparator on non-dupsort db");
@@ -2962,8 +2966,8 @@ testLmdbBackend()
 
     backend->open(tmp.path().toStdString(), options);
     {
-        auto roTxn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto one   = backend->openStore(roTxn, "one");
+        auto roTxn = db::storage::beginReadTransaction(*backend);
+        auto one   = db::storage::openStore(*backend, roTxn, "one");
         std::string_view value;
         ok &= expect(one.get(roTxn, "k1", value), "lmdb data survives reopen");
         ok &= expect(value == "v1", "lmdb reopened value matches written value");

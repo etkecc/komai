@@ -1012,6 +1012,7 @@ add_library(komai_db
     src/db/ReadReceiptIndex.cpp
     src/db/RoomInfo.cpp
     src/db/Scan.cpp
+    src/db/Maintenance.cpp
     src/db/Schema.cpp
     src/db/StateIndex.cpp
     src/db/SyncState.cpp

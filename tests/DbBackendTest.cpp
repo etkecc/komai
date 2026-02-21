@@ -2766,42 +2766,45 @@ testFactory()
                  "in-memory backend id is canonicalized to memory");
 
     auto defaultBackend = db::createDefaultBackend();
-    ok &= expect(defaultBackend->id() == db::defaultBackendId(),
+    ok &= expect(db::storage::id(defaultBackend) == db::defaultBackendId(),
                  "default backend id matches defaultBackendId");
-    ok &= expect(defaultBackend->supportsCompaction() == db::isBackendSupported(db::kLmdbBackendId),
+    ok &= expect(db::storage::supportsCompaction(defaultBackend) ==
+                     db::isBackendSupported(db::kLmdbBackendId),
                  "default backend compaction support aligns with lmdb availability");
-    ok &= expect(defaultBackend->storageCategory() ==
+    ok &= expect(db::storage::storageCategory(defaultBackend) ==
                    (db::isBackendSupported(db::kLmdbBackendId) ? db::StorageCategory::Persistent
                                                                 : db::StorageCategory::Ephemeral),
                  "default backend persistence matches lmdb availability");
 
     auto memoryBackend = db::createBackend(db::kMemoryBackendId);
-    ok &= expect(memoryBackend->id() == db::kMemoryBackendId, "memory backend is creatable");
-    ok &= expect(!memoryBackend->supportsCompaction(),
+    ok &= expect(db::storage::id(memoryBackend) == db::kMemoryBackendId,
+                 "memory backend is creatable");
+    ok &= expect(!db::storage::supportsCompaction(memoryBackend),
                  "memory backend reports no compaction support");
-    ok &= expect(memoryBackend->storageCategory() == db::StorageCategory::Ephemeral,
+    ok &= expect(db::storage::storageCategory(memoryBackend) == db::StorageCategory::Ephemeral,
                  "memory backend is ephemeral");
 
     auto configuredDefault = db::createConfiguredBackend("");
-    ok &= expect(configuredDefault->id() == db::defaultBackendId(),
+    ok &= expect(db::storage::id(configuredDefault) == db::defaultBackendId(),
                  "configured backend defaults to default id when empty");
 
     auto configuredMemory = db::createConfiguredBackend(db::kMemoryBackendId);
-    ok &= expect(configuredMemory->id() == db::kMemoryBackendId,
+    ok &= expect(db::storage::id(configuredMemory) == db::kMemoryBackendId,
                  "configured backend accepts explicit memory id");
     auto configuredInMemoryAlias = db::createConfiguredBackend(db::kInMemoryBackendId);
-    ok &= expect(configuredInMemoryAlias->id() == db::kMemoryBackendId,
+    ok &= expect(db::storage::id(configuredInMemoryAlias) == db::kMemoryBackendId,
                  "configured backend aliases in-memory to memory id");
 
     EnvVarGuard envGuard("KOMAI_DB_BACKEND_TEST_OVERRIDE");
     envGuard.unset();
     auto envDefault = db::createConfiguredBackendFromEnvironment(envGuard.name_);
-    ok &= expect(envDefault->id() == db::defaultBackendId(),
+    ok &= expect(db::storage::id(envDefault) == db::defaultBackendId(),
                  "environment-based backend defaults to default id when unset");
 
     envGuard.set(db::kMemoryBackendId);
     auto envMemory = db::createConfiguredBackendFromEnvironment(envGuard.name_);
-    ok &= expect(envMemory->id() == db::kMemoryBackendId, "environment-based backend accepts memory id");
+    ok &= expect(db::storage::id(envMemory) == db::kMemoryBackendId,
+                 "environment-based backend accepts memory id");
 
     envGuard.set("not-a-backend");
     ok &= expectDbError([&] { db::createConfiguredBackendFromEnvironment(envGuard.name_); },
@@ -2813,7 +2816,7 @@ testFactory()
                         "configured backend rejects unknown id");
     if (db::isBackendSupported(db::kLmdbBackendId)) {
         auto lmdbBackend = db::createBackend(db::kLmdbBackendId);
-        ok &= expect(lmdbBackend->id() == db::kLmdbBackendId,
+        ok &= expect(db::storage::id(lmdbBackend) == db::kLmdbBackendId,
                      "lmdb backend is creatable when available");
     } else {
         ok &= expectDbError([] { db::createBackend(db::kLmdbBackendId); },

@@ -160,16 +160,76 @@ id(const Database &database)
     return database.id();
 }
 
+inline std::string_view
+id(Database *database)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return id(*database);
+}
+
+inline std::string_view
+id(std::unique_ptr<Database> &database)
+{
+    return id(database.get());
+}
+
+inline std::string_view
+id(const std::unique_ptr<Database> &database)
+{
+    return id(database.get());
+}
+
 inline bool
 supportsCompaction(const Database &database)
 {
     return database.supportsCompaction();
 }
 
+inline bool
+supportsCompaction(Database *database)
+{
+    return database ? supportsCompaction(*database) : false;
+}
+
+inline bool
+supportsCompaction(std::unique_ptr<Database> &database)
+{
+    return supportsCompaction(database.get());
+}
+
+inline bool
+supportsCompaction(const std::unique_ptr<Database> &database)
+{
+    return supportsCompaction(database.get());
+}
+
 inline StorageCategory
 storageCategory(const Database &database)
 {
     return database.storageCategory();
+}
+
+inline StorageCategory
+storageCategory(Database *database)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return storageCategory(*database);
+}
+
+inline StorageCategory
+storageCategory(std::unique_ptr<Database> &database)
+{
+    return storageCategory(database.get());
+}
+
+inline StorageCategory
+storageCategory(const std::unique_ptr<Database> &database)
+{
+    return storageCategory(database.get());
 }
 
 class Cursor

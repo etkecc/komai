@@ -541,26 +541,26 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
         auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto dbi = backend.openStore(txn, dupDbName, openOptions(db::StoreFlags::DupSort));
 
-        auto cursor = db::Cursor::open(txn, dbi);
-        std::string_view key = "k", value;
-        ok &= expect(cursor.get(key, value, db::CursorOp::Set), testName("cursor Set"));
+        auto cursor = db::storage::openCursor(txn, dbi);
+        std::string key = "k", value;
+        ok &= expect(cursor.moveTo(key, key, value), testName("cursor Set"));
         ok &= expect(key == "k", testName("cursor Set key"));
         ok &= expect(value == "a", testName("cursor Set returns first sorted dup value"));
 
-        ok &= expect(cursor.get(key, value, db::CursorOp::NextDup), testName("cursor NextDup #1"));
+        ok &= expect(cursor.moveNextDup(key, value), testName("cursor NextDup #1"));
         ok &= expect(value == "b", testName("cursor NextDup #1 value"));
-        ok &= expect(cursor.get(key, value, db::CursorOp::NextDup), testName("cursor NextDup #2"));
+        ok &= expect(cursor.moveNextDup(key, value), testName("cursor NextDup #2"));
         ok &= expect(value == "c", testName("cursor NextDup #2 value"));
-        ok &= expect(!cursor.get(key, value, db::CursorOp::NextDup),
+        ok &= expect(!cursor.moveNextDup(key, value),
                      testName("cursor NextDup at end returns false"));
 
-        ok &= expect(cursor.get(key, value, db::CursorOp::Set), testName("cursor Set before NextNoDup"));
-        ok &= expect(cursor.get(key, value, db::CursorOp::NextNoDup), testName("cursor NextNoDup"));
+        ok &= expect(cursor.moveTo(key, key, value), testName("cursor Set before NextNoDup"));
+        ok &= expect(cursor.moveNextNoDup(key, value), testName("cursor NextNoDup"));
         ok &= expect(key == "z", testName("cursor NextNoDup key"));
         ok &= expect(value == "zz", testName("cursor NextNoDup value"));
 
         key = "m";
-        ok &= expect(cursor.get(key, value, db::CursorOp::SetRange), testName("cursor SetRange"));
+        ok &= expect(cursor.moveToRange(key, key, value), testName("cursor SetRange"));
         ok &= expect(key == "z", testName("cursor SetRange key"));
     }
 
@@ -579,15 +579,15 @@ testCursorAndOrderingContract(db::Backend &backend, std::string_view backendId)
         auto txn = backend.beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto dbi = backend.openStore(txn, intDbName, openOptions(db::StoreFlags::IntegerKey));
 
-        auto cursor = db::Cursor::open(txn, dbi);
-        std::string_view key, value;
-        ok &= expect(cursor.get(key, value, db::CursorOp::First), testName("integer-key cursor First"));
+        auto cursor = db::storage::openCursor(txn, dbi);
+        std::string key, value;
+        ok &= expect(cursor.moveFirst(key, value), testName("integer-key cursor First"));
         ok &= expect(readIntegerKey(key) == 1, testName("integer-key first key is smallest"));
 
-        ok &= expect(cursor.get(key, value, db::CursorOp::Next), testName("integer-key cursor Next #1"));
+        ok &= expect(cursor.moveNext(key, value), testName("integer-key cursor Next #1"));
         ok &= expect(readIntegerKey(key) == 3, testName("integer-key second key"));
 
-        ok &= expect(cursor.get(key, value, db::CursorOp::Next), testName("integer-key cursor Next #2"));
+        ok &= expect(cursor.moveNext(key, value), testName("integer-key cursor Next #2"));
         ok &= expect(readIntegerKey(key) == 5, testName("integer-key third key"));
     }
 
@@ -623,20 +623,20 @@ testOpenHelpers()
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto dbi =
           db::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
-        auto cursor = db::Cursor::open(txn, dbi);
+        auto cursor = db::storage::openCursor(txn, dbi);
 
-        std::string_view key, value;
-        ok &= expect(cursor.get(key, value, db::CursorOp::First), "openRoomStore cursor first");
+        std::string key, value;
+        ok &= expect(cursor.moveFirst(key, value), "openRoomStore cursor first");
         ok &= expect(readIntegerKey(key) == 1,
                      "openRoomStore applies IntegerKey policy for /event_order");
 
         auto spaces = db::openGlobalStore(*backend,
-                                        txn,
-                                        db::catalog::GlobalDb::SpacesChildren,
-                                        false);
-        auto spacesCursor = db::Cursor::open(txn, spaces);
-        std::string_view spacesKey = "space", spacesValue;
-        ok &= expect(spacesCursor.get(spacesKey, spacesValue, db::CursorOp::Set),
+                                         txn,
+                                         db::catalog::GlobalDb::SpacesChildren,
+                                         false);
+        auto spacesCursor = db::storage::openCursor(txn, spaces);
+        std::string spacesKey = "space", spacesValue;
+        ok &= expect(spacesCursor.moveTo(spacesKey, spacesKey, spacesValue),
                      "openGlobalStore cursor Set on DupSort db");
         ok &= expect(spacesValue == "child-a", "openGlobalStore applies DupSort policy");
     }
@@ -761,15 +761,15 @@ testCompactionHelper()
         auto intDb    = db::openRoomStore(*to, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
         auto dupsortDb = db::openGlobalStore(*to, txn, db::catalog::GlobalDb::SpacesChildren, false);
 
-        auto intCursor = db::Cursor::open(txn, intDb);
-        std::string_view key, value;
-        ok &= expect(intCursor.get(key, value, db::CursorOp::First),
+        auto intCursor = db::storage::openCursor(txn, intDb);
+        std::string key, value;
+        ok &= expect(intCursor.moveFirst(key, value),
                      "compaction destination integer cursor first");
         ok &= expect(readIntegerKey(key) == 2, "compaction preserves IntegerKey policy");
 
-        auto dupCursor = db::Cursor::open(txn, dupsortDb);
-        std::string_view dupKey = "space", dupValue;
-        ok &= expect(dupCursor.get(dupKey, dupValue, db::CursorOp::Set),
+        auto dupCursor = db::storage::openCursor(txn, dupsortDb);
+        std::string dupKey = "space", dupValue;
+        ok &= expect(dupCursor.moveTo(dupKey, dupKey, dupValue),
                      "compaction destination dupsort cursor set");
         ok &= expect(dupValue == "child-a", "compaction preserves DupSort policy");
     }
@@ -2853,9 +2853,9 @@ testInMemoryBackend()
         auto dupDbRo  = backend->openStore(
           roDupTxn, "state_by_key", openOptions(db::StoreFlags::DupSort, db::DupsortComparator::StateKey));
 
-        auto cursor = db::Cursor::open(roDupTxn, dupDbRo);
-        std::string_view key = "m.room.member", dupValue;
-        ok &= expect(cursor.get(key, dupValue, db::CursorOp::Set), "memory dupsort cursor set works");
+        auto cursor = db::storage::openCursor(roDupTxn, dupDbRo);
+        std::string key = "m.room.member", dupValue;
+        ok &= expect(cursor.moveTo(key, key, dupValue), "memory dupsort cursor set works");
         ok &= expect(key == "m.room.member", "memory dupsort key is expected");
         ok &= expect(stateKeyFromComposite(dupValue) == "alpha",
                      "memory dupsort comparator orders by state_key");

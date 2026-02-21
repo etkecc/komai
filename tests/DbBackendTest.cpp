@@ -2650,6 +2650,14 @@ testFactory()
 {
     bool ok = true;
 
+    const auto available = db::availableBackendIds();
+    ok &= expect(!available.empty(), "at least one backend id is available");
+    ok &= expect(std::find(available.begin(), available.end(), db::kMemoryBackendId) !=
+                   available.end(),
+                 "memory backend id is available");
+    ok &= expect(db::canonicalBackendId(db::kInMemoryBackendId) == db::kMemoryBackendId,
+                 "in-memory backend id is canonicalized to memory");
+
     auto defaultBackend = db::createDefaultBackend();
     ok &= expect(defaultBackend->id() == db::defaultBackendId(),
                  "default backend id matches defaultBackendId");

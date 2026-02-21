@@ -4,12 +4,14 @@
 
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <exception>
 #include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <span>
 #include <vector>
 
 #include "db/Error.h"
@@ -87,5 +89,9 @@ bool
 isBackendSupported(std::string_view id) noexcept;
 std::string_view
 defaultBackendId() noexcept;
+std::string_view
+canonicalBackendId(std::string_view id) noexcept;
+std::span<const std::string_view>
+availableBackendIds() noexcept;
 
 } // namespace db

@@ -4,6 +4,7 @@
 
 #include "db/Backend.h"
 
+#include <array>
 #include <cstdlib>
 #include <memory>
 #include <string>
@@ -21,15 +22,26 @@ createDefaultBackend()
     return createBackend(defaultBackendId());
 }
 
+std::string_view
+canonicalBackendId(std::string_view id) noexcept
+{
+    if (id == kInMemoryBackendId)
+        return kMemoryBackendId;
+
+    return id;
+}
+
 std::unique_ptr<Backend>
 createBackend(std::string_view id)
 {
     if (id.empty())
         return createDefaultBackend();
 
-    if (id == kMemoryBackendId || id == kInMemoryBackendId)
+    const auto canonicalId = canonicalBackendId(id);
+
+    if (canonicalId == kMemoryBackendId)
         return std::make_unique<InMemoryBackend>();
-    if (id == kLmdbBackendId) {
+    if (canonicalId == kLmdbBackendId) {
 #if KOMAI_DB_WITH_LMDB
         return std::make_unique<LmdbBackend>();
 #else
@@ -37,15 +49,17 @@ createBackend(std::string_view id)
 #endif
     }
 
-    throw Error(std::string("Unknown database backend: ") + std::string(id), ErrorKind::Invalid);
+    throw Error(std::string("Unknown database backend: ") + std::string(canonicalId), ErrorKind::Invalid);
 }
 
 bool
 isBackendSupported(std::string_view id) noexcept
 {
-    if (id == kMemoryBackendId || id == kInMemoryBackendId)
+    const auto canonicalId = canonicalBackendId(id);
+
+    if (canonicalId == kMemoryBackendId)
         return true;
-    if (id == kLmdbBackendId) {
+    if (canonicalId == kLmdbBackendId) {
 #if KOMAI_DB_WITH_LMDB
         return true;
 #else
@@ -64,6 +78,18 @@ defaultBackendId() noexcept
 #else
     return kMemoryBackendId;
 #endif
+}
+
+std::span<const std::string_view>
+availableBackendIds() noexcept
+{
+#if KOMAI_DB_WITH_LMDB
+    static constexpr std::array<std::string_view, 2> ids{kLmdbBackendId, kMemoryBackendId};
+#else
+    static constexpr std::array<std::string_view, 1> ids{kMemoryBackendId};
+#endif
+
+    return ids;
 }
 
 std::unique_ptr<Backend>

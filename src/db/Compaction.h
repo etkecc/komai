@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "db/Backend.h"
+#include "db/StorageApi.h"
 
 namespace db {
 
 void
-compact(Database &from, Database &to);
+compact(storage::Database &from, storage::Database &to);
 
 } // namespace db

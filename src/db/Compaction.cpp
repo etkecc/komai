@@ -10,7 +10,7 @@
 namespace db {
 
 void
-compact(Database &from, Database &to)
+compact(storage::Database &from, storage::Database &to)
 {
     auto fromTxn = storage::beginTransaction(from, nullptr, AccessFlags::ReadOnly);
     auto toTxn   = storage::beginWriteTransaction(to);

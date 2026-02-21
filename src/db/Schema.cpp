@@ -14,9 +14,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "db/Backend.h"
 #include "db/Catalog.h"
-#include "db/DbTypes.h"
 #include "db/OlmSessionIndex.h"
 #include "db/Scan.h"
 #include "db/StorageApi.h"
@@ -52,7 +50,7 @@ roomDbsForFullResync() noexcept
 }
 
 bool
-tryDropNamedStore(Database &database, Transaction &txn, std::string_view dbName, std::string *error) noexcept
+tryDropNamedStore(storage::Database &database, storage::Transaction &txn, std::string_view dbName, std::string *error) noexcept
 {
     if (error)
         error->clear();
@@ -72,8 +70,8 @@ tryDropNamedStore(Database &database, Transaction &txn, std::string_view dbName,
 }
 
 bool
-migrateLegacyStateByKeyToStatesKey(Database &database,
-                                   Transaction &txn,
+migrateLegacyStateByKeyToStatesKey(storage::Database &database,
+                                   storage::Transaction &txn,
                                    std::string_view roomId,
                                    std::string *error) noexcept
 {
@@ -112,7 +110,7 @@ migrateLegacyStateByKeyToStatesKey(Database &database,
 }
 
 bool
-migrateLegacyMegolmSessionIndexes(Database &database, Transaction &txn, std::string *error) noexcept
+migrateLegacyMegolmSessionIndexes(storage::Database &database, storage::Transaction &txn, std::string *error) noexcept
 {
     if (error)
         error->clear();
@@ -181,7 +179,7 @@ migrateLegacyMegolmSessionIndexes(Database &database, Transaction &txn, std::str
 }
 
 void
-migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
+migrateLegacyOlmShardsV1ToV2(storage::Database &database, storage::Transaction &txn)
 {
     const auto dbNames = db::storage::listStoreNames(database, txn);
     for (const auto &dbName : dbNames) {
@@ -216,7 +214,9 @@ migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
 }
 
 bool
-migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &olmSessions)
+migrateLegacyOlmShardsV2ToUnified(storage::Database &database,
+                                  storage::Transaction &txn,
+                                  storage::Store &olmSessions)
 {
     const auto dbNames = db::storage::listStoreNames(database, txn);
     bool migrated      = false;

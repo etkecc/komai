@@ -367,6 +367,23 @@ parseEventOrderEntry(std::string_view value)
     }
 }
 
+static void
+removePendingTxnEntries(db::Txn &txn, db::Dbi &pendingDb, std::string_view txnId)
+{
+    std::vector<std::pair<std::string, std::string>> entriesToDelete;
+    db::forEachEntry(
+      txn,
+      pendingDb,
+      [&entriesToDelete, txnId](std::string_view timestamp, std::string_view pendingTxn) {
+          if (pendingTxn == txnId)
+              entriesToDelete.emplace_back(std::string(timestamp), std::string(pendingTxn));
+          return true;
+      });
+
+    for (const auto &[timestamp, pendingTxn] : entriesToDelete)
+        pendingDb.del(txn, timestamp, pendingTxn);
+}
+
 void
 Cache::setup()
 {
@@ -2572,8 +2589,11 @@ Cache::roomIds()
     auto txn = ro_txn(storage());
 
     std::vector<QString> rooms;
-    for (const auto &room_id : db::listKeys(txn, db->rooms))
-        rooms.push_back(QString::fromStdString(room_id));
+    rooms.reserve(db->rooms.size(txn));
+    db::forEachUniqueKey(txn, db->rooms, [&rooms](std::string_view room_id) {
+        rooms.push_back(QString::fromStdString(std::string(room_id)));
+        return true;
+    });
 
     return rooms;
 }
@@ -3436,7 +3456,7 @@ std::vector<std::string>
 Cache::joinedRooms()
 {
     auto txn = ro_txn(storage());
-    return db::listKeys(txn, db->rooms);
+    return db::listUniqueKeys(txn, db->rooms);
 }
 
 std::map<std::string, RoomInfo>
@@ -3648,6 +3668,7 @@ Cache::firstPendingMessage(const std::string &room_id)
 {
     auto txn     = beginTxn();
     auto pending = getPendingMessagesDb(txn, room_id);
+    bool cleaned = false;
 
     try {
         for (const auto &[tsIgnored, pendingTxn] : db::listEntries(txn, pending)) {
@@ -3655,6 +3676,7 @@ Cache::firstPendingMessage(const std::string &room_id)
             std::string_view event;
             if (!eventsDb.get(txn, pendingTxn, event)) {
                 pending.del(txn, tsIgnored, pendingTxn);
+                cleaned = true;
                 continue;
             }
 
@@ -3662,15 +3684,20 @@ Cache::firstPendingMessage(const std::string &room_id)
                 mtx::events::collections::TimelineEvents te =
                   nlohmann::json::parse(event).get<mtx::events::collections::TimelineEvents>();
 
+                if (cleaned)
+                    txn.commit();
                 return te;
             } catch (std::exception &e) {
                 nhlog::db()->error("Failed to parse message from cache {}", e.what());
                 pending.del(txn, tsIgnored, pendingTxn);
+                cleaned = true;
                 continue;
             }
         }
     } catch (const db::Error &e) {
     }
+    if (cleaned)
+        txn.commit();
     return std::nullopt;
 }
 
@@ -3680,10 +3707,7 @@ Cache::removePendingStatus(const std::string &room_id, const std::string &txn_id
     auto txn     = beginTxn();
     auto pending = getPendingMessagesDb(txn, room_id);
 
-    for (const auto &[tsIgnored, pendingTxn] : db::listEntries(txn, pending)) {
-        if (pendingTxn == txn_id)
-            pending.del(txn, tsIgnored, pendingTxn);
-    }
+    removePendingTxnEntries(txn, pending, txn_id);
 
     txn.commit();
 }
@@ -3770,10 +3794,7 @@ Cache::saveTimelineMessages(db::Txn &txn,
                 }
             }
 
-            for (const auto &[tsIgnored, pendingTxn] : db::listEntries(txn, pending)) {
-                if (pendingTxn == txn_id)
-                    pending.del(txn, tsIgnored, pendingTxn);
-            }
+            removePendingTxnEntries(txn, pending, txn_id);
         } else if (auto redaction =
                      std::get_if<mtx::events::RedactionEvent<mtx::events::msg::Redaction>>(&e)) {
             if (redaction->redacts.empty())
@@ -4046,11 +4067,19 @@ Cache::clearTimeline(const std::string &room_id)
           return true;
       });
 
-    for (const auto &[messageOrder, eventId] : db::listEntries(txn, order2msgDb)) {
-        if (!remainingEventIds.contains(eventId)) {
-            order2msgDb.del(txn, messageOrder);
-            msg2orderDb.del(txn, eventId);
-        }
+    std::vector<std::pair<std::string, std::string>> staleMessageEntries;
+    db::forEachEntry(txn,
+                     order2msgDb,
+                     [&remainingEventIds, &staleMessageEntries](std::string_view messageOrder,
+                                                                std::string_view eventId) {
+                         if (!remainingEventIds.contains(std::string(eventId)))
+                             staleMessageEntries.emplace_back(std::string(messageOrder),
+                                                              std::string(eventId));
+                         return true;
+                     });
+    for (const auto &[messageOrder, eventId] : staleMessageEntries) {
+        order2msgDb.del(txn, messageOrder);
+        msg2orderDb.del(txn, eventId);
     }
 
     txn.commit();
@@ -4088,7 +4117,7 @@ Cache::isNotificationSent(const std::string &event_id)
 std::vector<std::string>
 Cache::getRoomIds(db::Txn &txn)
 {
-    return db::listKeys(txn, db->rooms);
+    return db::listUniqueKeys(txn, db->rooms);
 }
 
 void
@@ -4166,9 +4195,11 @@ Cache::updateSpaces(db::Txn &txn,
     for (const auto &space : spaces_with_updates) {
         // delete old entries
         {
-            for (const auto &space_child : db::listDupValues(txn, db->spacesChildren, space)) {
-                db->spacesParents.del(txn, space_child, space);
-            }
+            db::forEachDupValue(
+              txn, db->spacesChildren, space, [this, &txn, &space](std::string_view space_child) {
+                  db->spacesParents.del(txn, space_child, space);
+                  return true;
+              });
             db->spacesChildren.del(txn, space);
         }
 
@@ -4225,26 +4256,29 @@ Cache::spaces()
     auto txn = ro_txn(storage());
 
     QMap<QString, std::optional<RoomInfo>> ret;
-    std::unordered_set<std::string> seen;
-    db::forEachEntry(
-      txn,
-      db->spacesChildren,
-      [this, &txn, &ret, &seen](std::string_view space_id, std::string_view space_child) {
-          if (space_child.empty())
-              return true;
-          if (!seen.insert(std::string(space_id)).second)
-              return true;
+    db::forEachUniqueKey(txn, db->spacesChildren, [this, &txn, &ret](std::string_view space_id) {
+        bool hasNonEmptyChild = false;
+        db::forEachDupValue(
+          txn, db->spacesChildren, space_id, [&hasNonEmptyChild](std::string_view space_child) {
+              if (space_child.empty())
+                  return true;
+              hasNonEmptyChild = true;
+              return false;
+          });
+        if (!hasNonEmptyChild)
+            return true;
 
-          std::string_view room_data;
-          if (db->rooms.get(txn, space_id, room_data)) {
-              RoomInfo tmp = nlohmann::json::parse(room_data).get<RoomInfo>();
-              ret.insert(QString::fromStdString(std::string(space_id)), tmp);
-          } else {
-              ret.insert(QString::fromStdString(std::string(space_id)), std::nullopt);
-          }
+        const auto spaceId = std::string(space_id);
+        std::string_view room_data;
+        if (db->rooms.get(txn, spaceId, room_data)) {
+            RoomInfo tmp = nlohmann::json::parse(room_data).get<RoomInfo>();
+            ret.insert(QString::fromStdString(spaceId), tmp);
+        } else {
+            ret.insert(QString::fromStdString(spaceId), std::nullopt);
+        }
 
-          return true;
-      });
+        return true;
+    });
 
     return ret;
 }
@@ -4254,8 +4288,12 @@ Cache::getParentRoomIds(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
-    std::vector<std::string> roomids = db::listDupValues(txn, db->spacesParents, room_id);
-    roomids.erase(std::remove(roomids.begin(), roomids.end(), ""), roomids.end());
+    std::vector<std::string> roomids;
+    db::forEachDupValue(txn, db->spacesParents, room_id, [&roomids](std::string_view parentRoomId) {
+        if (!parentRoomId.empty())
+            roomids.emplace_back(parentRoomId);
+        return true;
+    });
 
     return roomids;
 }
@@ -4265,8 +4303,12 @@ Cache::getChildRoomIds(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
-    std::vector<std::string> roomids = db::listDupValues(txn, db->spacesChildren, room_id);
-    roomids.erase(std::remove(roomids.begin(), roomids.end(), ""), roomids.end());
+    std::vector<std::string> roomids;
+    db::forEachDupValue(txn, db->spacesChildren, room_id, [&roomids](std::string_view childRoomId) {
+        if (!childRoomId.empty())
+            roomids.emplace_back(childRoomId);
+        return true;
+    });
 
     return roomids;
 }
@@ -4448,7 +4490,7 @@ Cache::roomMembers(const std::string &room_id)
 
     try {
         auto db_ = getMembersDb(txn, room_id);
-        return db::listKeys(txn, db_);
+        return db::listUniqueKeys(txn, db_);
     } catch (const db::Error &e) {
         nhlog::db()->error("Failed to retrieve members from db in room {}: {}", room_id, e.what());
         return {};
@@ -4467,17 +4509,20 @@ Cache::roomVerificationStatus(const std::string &room_id)
         auto keysDb = getUserKeysDb(txn);
         std::vector<std::string> keysToRequest;
 
-        for (const auto &user_id : db::listKeys(txn, db_)) {
-            auto verif = verificationStatus_(user_id, txn);
-            if (verif.unverified_device_count) {
-                trust = crypto::Unverified;
-                if (verif.verified_devices.empty() && verif.no_keys) {
-                    // we probably don't have the keys yet, so query them
-                    keysToRequest.push_back(user_id);
-                }
-            } else if (verif.user_verified == crypto::TOFU && trust == crypto::Verified)
-                trust = crypto::TOFU;
-        }
+        db::forEachUniqueKey(
+          txn, db_, [&keysToRequest, &trust, &txn, this](std::string_view user_id) {
+              const auto userId = std::string(user_id);
+              auto verif        = verificationStatus_(userId, txn);
+              if (verif.unverified_device_count) {
+                  trust = crypto::Unverified;
+                  if (verif.verified_devices.empty() && verif.no_keys) {
+                      // we probably don't have the keys yet, so query them
+                      keysToRequest.push_back(userId);
+                  }
+              } else if (verif.user_verified == crypto::TOFU && trust == crypto::Verified)
+                  trust = crypto::TOFU;
+              return true;
+          });
 
         if (!keysToRequest.empty()) {
             std::string_view token;
@@ -4510,49 +4555,54 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
         auto db_    = getMembersDb(txn, room_id);
         auto keysDb = getUserKeysDb(txn);
 
-        for (const auto &user_id : db::listKeys(txn, db_)) {
-            auto res = keysDb.get(txn, user_id, keys);
+        db::forEachUniqueKey(
+          txn,
+          db_,
+          [&members, &keysDb, &txn, &keys, verified_only, this](std::string_view user_id) {
+              const auto userId = std::string(user_id);
+              auto res          = keysDb.get(txn, userId, keys);
 
-            if (res) {
-                auto k = nlohmann::json::parse(keys).get<UserKeyCache>();
-                if (verified_only) {
-                    auto verif = verificationStatus_(user_id, txn);
+              if (res) {
+                  auto k = nlohmann::json::parse(keys).get<UserKeyCache>();
+                  if (verified_only) {
+                      auto verif = verificationStatus_(userId, txn);
 
-                    if (verif.user_verified == crypto::Trust::Verified ||
-                        !verif.verified_devices.empty()) {
-                        auto keyCopy = k;
-                        keyCopy.device_keys.clear();
+                      if (verif.user_verified == crypto::Trust::Verified ||
+                          !verif.verified_devices.empty()) {
+                          auto keyCopy = k;
+                          keyCopy.device_keys.clear();
 
-                        std::copy_if(
-                          k.device_keys.begin(),
-                          k.device_keys.end(),
-                          std::inserter(keyCopy.device_keys, keyCopy.device_keys.end()),
-                          [&verif](const auto &key) {
-                              auto curve25519 = key.second.keys.find("curve25519:" + key.first);
-                              if (curve25519 == key.second.keys.end())
-                                  return false;
-                              if (auto t = verif.verified_device_keys.find(curve25519->second);
-                                  t == verif.verified_device_keys.end() ||
-                                  t->second != crypto::Trust::Verified)
-                                  return false;
+                          std::copy_if(
+                            k.device_keys.begin(),
+                            k.device_keys.end(),
+                            std::inserter(keyCopy.device_keys, keyCopy.device_keys.end()),
+                            [&verif](const auto &key) {
+                                auto curve25519 = key.second.keys.find("curve25519:" + key.first);
+                                if (curve25519 == key.second.keys.end())
+                                    return false;
+                                if (auto t = verif.verified_device_keys.find(curve25519->second);
+                                    t == verif.verified_device_keys.end() ||
+                                    t->second != crypto::Trust::Verified)
+                                    return false;
 
-                              return key.first == key.second.device_id &&
-                                     std::find(verif.verified_devices.begin(),
-                                               verif.verified_devices.end(),
-                                               key.first) != verif.verified_devices.end();
-                          });
+                                return key.first == key.second.device_id &&
+                                       std::find(verif.verified_devices.begin(),
+                                                 verif.verified_devices.end(),
+                                                 key.first) != verif.verified_devices.end();
+                            });
 
-                        if (!keyCopy.device_keys.empty())
-                            members[user_id] = std::move(keyCopy);
-                    }
-                } else {
-                    members[user_id] = std::move(k);
-                }
-            } else {
-                if (!verified_only)
-                    members[user_id] = {};
-            }
-        }
+                          if (!keyCopy.device_keys.empty())
+                              members[userId] = std::move(keyCopy);
+                      }
+                  } else {
+                      members[userId] = std::move(k);
+                  }
+              } else {
+                  if (!verified_only)
+                      members[userId] = {};
+              }
+              return true;
+          });
 
         return members;
     } catch (std::exception &e) {

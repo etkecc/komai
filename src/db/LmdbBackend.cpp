@@ -16,6 +16,7 @@
 #include "db/Internal.h"
 #include "db/LmdbError.h"
 #include "db/LmdbFlags.h"
+#include "db/Scan.h"
 
 namespace {
 
@@ -338,21 +339,14 @@ LmdbBackend::openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &opti
 std::vector<std::string>
 LmdbBackend::listDbiNames(Txn &txn)
 {
-    std::vector<std::string> names;
-
     if (!detail::txnImpl(txn))
         throw Error("Invalid transaction", ErrorKind::Invalid);
 
     auto &lmdbTxn = requireLmdbTxn(*detail::txnImpl(txn));
     auto rootDb   = Dbi{std::make_shared<LmdbDbiImpl>(
       translateLmdbErrors([&] { return lmdb::dbi::open(lmdbTxn.native()); }))};
-    auto cursor   = Cursor::open(txn, rootDb);
 
-    std::string_view dbName;
-    while (cursor.get(dbName, CursorOp::NextNoDup))
-        names.emplace_back(dbName);
-
-    return names;
+    return listUniqueKeys(txn, rootDb);
 }
 
 std::optional<std::size_t>

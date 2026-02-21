@@ -882,6 +882,13 @@ testScanHelper()
         ok &= expect(mainKeys.size() >= 2 && mainKeys[1] == "b",
                      "scan helper keeps key order in simple db #2");
 
+        const auto uniqueMainKeys = db::listUniqueKeys(txn, main);
+        ok &= expect(uniqueMainKeys.size() == 2, "scan helper lists unique keys in simple db");
+        ok &= expect(uniqueMainKeys.size() >= 2 && uniqueMainKeys[0] == "a",
+                     "scan helper unique-key iteration keeps simple db order #1");
+        ok &= expect(uniqueMainKeys.size() >= 2 && uniqueMainKeys[1] == "b",
+                     "scan helper unique-key iteration keeps simple db order #2");
+
         const auto dupKeys = db::listKeys(txn, dup);
         ok &= expect(dupKeys.size() == 3, "scan helper lists key entries in dupsort db");
         ok &= expect(dupKeys.size() >= 3 && dupKeys[0] == "k",
@@ -890,6 +897,14 @@ testScanHelper()
                      "scan helper includes duplicate key instances #2");
         ok &= expect(dupKeys.size() >= 3 && dupKeys[2] == "z",
                      "scan helper includes subsequent keys in dupsort db");
+
+        const auto uniqueDupKeys = db::listUniqueKeys(txn, dup);
+        ok &= expect(uniqueDupKeys.size() == 2,
+                     "scan helper lists unique keys in dupsort db");
+        ok &= expect(uniqueDupKeys.size() >= 2 && uniqueDupKeys[0] == "k",
+                     "scan helper unique-key iteration preserves order #1");
+        ok &= expect(uniqueDupKeys.size() >= 2 && uniqueDupKeys[1] == "z",
+                     "scan helper unique-key iteration preserves order #2");
 
         const auto mainEntries = db::listEntries(txn, main);
         ok &= expect(mainEntries.size() == 2, "scan helper lists all key/value entries in simple db");
@@ -939,6 +954,18 @@ testScanHelper()
                      "scan helper forEachEntry preserves iteration order #1");
         ok &= expect(forEachValues.size() >= 2 && forEachValues[1] == "k=v2",
                      "scan helper forEachEntry preserves iteration order #2");
+
+        std::vector<std::string> uniqueForEachKeys;
+        db::forEachUniqueKey(txn, dup, [&uniqueForEachKeys](std::string_view key) {
+            uniqueForEachKeys.emplace_back(key);
+            return uniqueForEachKeys.size() < 2;
+        });
+        ok &= expect(uniqueForEachKeys.size() == 2,
+                     "scan helper forEachUniqueKey supports early stop");
+        ok &= expect(uniqueForEachKeys.size() >= 2 && uniqueForEachKeys[0] == "k",
+                     "scan helper forEachUniqueKey preserves order #1");
+        ok &= expect(uniqueForEachKeys.size() >= 2 && uniqueForEachKeys[1] == "z",
+                     "scan helper forEachUniqueKey preserves order #2");
 
         std::vector<std::string> pagedForEachValues;
         db::forEachEntry(txn,

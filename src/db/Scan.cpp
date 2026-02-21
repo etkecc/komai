@@ -21,6 +21,19 @@ listKeys(Txn &txn, Dbi &db)
     return keys;
 }
 
+std::vector<std::string>
+listUniqueKeys(Txn &txn, Dbi &db)
+{
+    std::vector<std::string> keys;
+    auto cursor = Cursor::open(txn, db);
+
+    std::string_view key;
+    while (cursor.get(key, CursorOp::NextNoDup))
+        keys.emplace_back(key);
+
+    return keys;
+}
+
 std::vector<std::pair<std::string, std::string>>
 listEntries(Txn &txn, Dbi &db)
 {
@@ -77,6 +90,18 @@ forEachEntry(Txn &txn,
     std::string_view value;
     while (cursor.get(key, value, CursorOp::Next)) {
         if (!visitor(key, value))
+            break;
+    }
+}
+
+void
+forEachUniqueKey(Txn &txn, Dbi &db, const std::function<bool(std::string_view key)> &visitor)
+{
+    auto cursor = Cursor::open(txn, db);
+
+    std::string_view key;
+    while (cursor.get(key, CursorOp::NextNoDup)) {
+        if (!visitor(key))
             break;
     }
 }

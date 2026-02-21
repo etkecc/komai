@@ -25,6 +25,9 @@ enum class ScanDirection
 std::vector<std::string>
 listKeys(Txn &txn, Dbi &db);
 
+std::vector<std::string>
+listUniqueKeys(Txn &txn, Dbi &db);
+
 std::vector<std::pair<std::string, std::string>>
 listEntries(Txn &txn, Dbi &db);
 
@@ -35,6 +38,9 @@ void
 forEachEntry(Txn &txn,
              Dbi &db,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor);
+
+void
+forEachUniqueKey(Txn &txn, Dbi &db, const std::function<bool(std::string_view key)> &visitor);
 
 void
 forEachEntry(Txn &txn,

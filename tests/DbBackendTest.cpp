@@ -279,7 +279,7 @@ testSchemaHelpers()
     auto backend               = db::createBackend("memory");
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxDbs             = 128;
     backend->open("", options);
 
     const auto roomId    = std::string("!room:example");
@@ -843,6 +843,43 @@ testDupIndexHelper()
         ok &= expect(!missingVisited, "dup index callback iteration skips missing key");
     }
 
+    {
+        auto txn = backend->beginTxn();
+        auto spaces = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
+
+        const std::vector<std::string_view> keys = {"alpha", "beta", "", "alpha"};
+        const auto written = db::putDupValueForKeys(txn, spaces, keys, "child-bulk");
+        ok &= expect(written == 3, "dup index helper putDupValueForKeys writes non-empty keys");
+
+        const auto rewritten =
+          db::replaceDupValueForKeys(txn, spaces, keys, "child-bulk", "child-remap");
+        ok &= expect(rewritten == 3,
+                     "dup index helper replaceDupValueForKeys rewrites values for non-empty keys");
+
+        const auto rewrittenNoop =
+          db::replaceDupValueForKeys(txn, spaces, keys, "child-remap", "child-remap");
+        ok &= expect(rewrittenNoop == 0,
+                     "dup index helper replaceDupValueForKeys no-ops for same old/new value");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto spaces =
+          db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
+
+        const auto alphaValues = db::listDupValues(txn, spaces, "alpha");
+        ok &= expect(alphaValues.size() == 2,
+                     "dup index helper bulk write keeps duplicate values for repeated keys");
+        ok &= expect(alphaValues.size() >= 2 && alphaValues[0] == "child-remap" &&
+                       alphaValues[1] == "child-remap",
+                     "dup index helper replaceDupValueForKeys rewrites repeated-key values");
+
+        const auto betaValues = db::listDupValues(txn, spaces, "beta");
+        ok &= expect(betaValues.size() == 1 && betaValues[0] == "child-remap",
+                     "dup index helper replaceDupValueForKeys rewrites single-key value");
+    }
+
     backend->close();
     return ok;
 }
@@ -1136,7 +1173,7 @@ testTimelineIndexHelper()
     auto backend               = db::createBackend("memory");
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxDbs             = 128;
     backend->open("", options);
 
     {
@@ -1284,6 +1321,35 @@ testTimelineIndexHelper()
         ok &= expect(helperOrderEntry.eventId.has_value() &&
                        helperOrderEntry.eventId.value_or("") == "$event-helper",
                      "timeline index helper putEventOrderMapping stores expected order-entry event id");
+
+        db::putOrderEntry(txn, eventOrderDb, 56, "$event-helper-2", "batch-56");
+        ok &= expect(eventOrderDb.get(txn, integerKey(56), value),
+                     "timeline index helper putOrderEntry writes event_order payload");
+        const auto helperOrderEntry2 = db::parseOrderEntry(value);
+        ok &= expect(helperOrderEntry2.eventId.has_value() &&
+                       helperOrderEntry2.eventId.value_or("") == "$event-helper-2",
+                     "timeline index helper putOrderEntry stores expected event id");
+        ok &= expect(helperOrderEntry2.hasPrevBatch &&
+                       helperOrderEntry2.prevBatch.has_value() &&
+                       helperOrderEntry2.prevBatch.value_or("") == "batch-56",
+                     "timeline index helper putOrderEntry stores expected prev_batch");
+
+        db::putEventOrderMappingForEvent(
+          txn, eventOrderDb, eventToOrderDb, 57, "$event-helper-3", "batch-57");
+        ok &= expect(eventToOrderDb.get(txn, "$event-helper-3", value),
+                     "timeline index helper putEventOrderMappingForEvent writes event_to_order entry");
+        ok &= expect(value == integerKey(57),
+                     "timeline index helper putEventOrderMappingForEvent preserves event-order index");
+        ok &= expect(eventOrderDb.get(txn, integerKey(57), value),
+                     "timeline index helper putEventOrderMappingForEvent writes event_order payload");
+        const auto helperOrderEntry3 = db::parseOrderEntry(value);
+        ok &= expect(helperOrderEntry3.eventId.has_value() &&
+                       helperOrderEntry3.eventId.value_or("") == "$event-helper-3",
+                     "timeline index helper putEventOrderMappingForEvent stores expected event id");
+        ok &= expect(helperOrderEntry3.hasPrevBatch &&
+                       helperOrderEntry3.prevBatch.has_value() &&
+                       helperOrderEntry3.prevBatch.value_or("") == "batch-57",
+                     "timeline index helper putEventOrderMappingForEvent stores expected prev_batch");
 
         db::putMessageOrderMapping(
           txn, orderToMessageDb, messageToOrderDb, 101, "$message-helper", db::PutFlags::Append);
@@ -1580,6 +1646,387 @@ testTimelineIndexHelper()
         ok &= expect(updatedEntry.hasPrevBatch && updatedEntry.prevBatch.has_value() &&
                        updatedEntry.prevBatch.value_or("") == "updated-token",
                      "timeline index helper setOrderEntryPrevBatch writes token in entry payload");
+    }
+
+    {
+        auto txn = backend->beginTxn();
+        auto eventOrderDb = backend->openDbi(
+          txn,
+          "order_marker_scan",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        ok &= expect(eventOrderDb.put(txn, integerKey(1), db::serializeOrderEntry("$e1")),
+                     "timeline index helper marker scan setup writes order entry #1");
+        ok &= expect(eventOrderDb.put(txn, integerKey(2), db::serializeOrderEntry("$e2")),
+                     "timeline index helper marker scan setup writes order entry #2");
+        ok &= expect(eventOrderDb.put(txn, integerKey(3), db::serializeOrderEntry("$e3", "token")),
+                     "timeline index helper marker scan setup writes marker entry");
+        ok &= expect(eventOrderDb.put(txn, integerKey(4), db::serializeOrderEntry("$e4")),
+                     "timeline index helper marker scan setup writes order entry #4");
+        ok &= expect(eventOrderDb.put(txn, integerKey(5), db::serializeOrderEntry("$e5")),
+                     "timeline index helper marker scan setup writes order entry #5");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto eventOrderDb =
+          backend->openDbi(txn, "order_marker_scan", openOptions(db::DbiFlags::IntegerKey));
+
+        const auto orderEntriesToDelete = db::listOrderEntriesAfterPrevBatchMarker(txn, eventOrderDb);
+        ok &= expect(orderEntriesToDelete.size() == 2,
+                     "timeline index helper listOrderEntriesAfterPrevBatchMarker returns entries before marker");
+        ok &= expect(orderEntriesToDelete.size() >= 2 &&
+                       readIntegerKey(orderEntriesToDelete[0].first) == 2 &&
+                       readIntegerKey(orderEntriesToDelete[1].first) == 1,
+                     "timeline index helper listOrderEntriesAfterPrevBatchMarker preserves backward scan order");
+
+        const auto eventIds = db::listOrderEntryEventIds(txn, eventOrderDb);
+        ok &= expect(eventIds.size() == 5,
+                     "timeline index helper listOrderEntryEventIds returns all event ids");
+        ok &= expect(eventIds.size() >= 5 && eventIds[0] == "$e1" && eventIds[4] == "$e5",
+                     "timeline index helper listOrderEntryEventIds preserves ordered iteration");
+    }
+
+    {
+        auto txn = backend->beginTxn();
+        auto eventOrderDb = backend->openDbi(
+          txn,
+          "order_cleanup",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto eventToOrderDb =
+          backend->openDbi(txn, "order_cleanup_event_to_order", openOptions(db::DbiFlags::Create));
+        auto messageToOrderDb =
+          backend->openDbi(txn, "order_cleanup_message_to_order", openOptions(db::DbiFlags::Create));
+        auto orderToMessageDb = backend->openDbi(
+          txn,
+          "order_cleanup_order_to_message",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto eventsDb = backend->openDbi(txn, "order_cleanup_events", openOptions(db::DbiFlags::Create));
+        auto relationsDb = backend->openDbi(
+          txn,
+          "order_cleanup_relations",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
+
+        ok &= expect(eventOrderDb.put(txn, integerKey(1), db::serializeOrderEntry("$e1")),
+                     "timeline index helper order cleanup setup writes order entry #1");
+        ok &= expect(eventOrderDb.put(txn, integerKey(2), db::serializeOrderEntry("$e2")),
+                     "timeline index helper order cleanup setup writes order entry #2");
+        ok &= expect(eventOrderDb.put(txn, integerKey(3), db::serializeOrderEntry("$e3")),
+                     "timeline index helper order cleanup setup writes order entry #3");
+        ok &= expect(eventToOrderDb.put(txn, "$e1", integerKey(1)),
+                     "timeline index helper order cleanup setup writes event_to_order #1");
+        ok &= expect(eventToOrderDb.put(txn, "$e2", integerKey(2)),
+                     "timeline index helper order cleanup setup writes event_to_order #2");
+        ok &= expect(eventToOrderDb.put(txn, "$e3", integerKey(3)),
+                     "timeline index helper order cleanup setup writes event_to_order #3");
+        ok &= expect(messageToOrderDb.put(txn, "$e1", integerKey(11)),
+                     "timeline index helper order cleanup setup writes message_to_order #1");
+        ok &= expect(messageToOrderDb.put(txn, "$e2", integerKey(12)),
+                     "timeline index helper order cleanup setup writes message_to_order #2");
+        ok &= expect(orderToMessageDb.put(txn, integerKey(11), "$e1"),
+                     "timeline index helper order cleanup setup writes order_to_message #1");
+        ok &= expect(orderToMessageDb.put(txn, integerKey(12), "$e2"),
+                     "timeline index helper order cleanup setup writes order_to_message #2");
+        ok &= expect(eventsDb.put(txn, "$e1", R"({"event_id":"$e1"})"),
+                     "timeline index helper order cleanup setup writes event payload #1");
+        ok &= expect(eventsDb.put(txn, "$e2", R"({"event_id":"$e2"})"),
+                     "timeline index helper order cleanup setup writes event payload #2");
+        ok &= expect(eventsDb.put(txn, "$e3", R"({"event_id":"$e3"})"),
+                     "timeline index helper order cleanup setup writes event payload #3");
+        ok &= expect(relationsDb.put(txn, "$e1", "$r1"),
+                     "timeline index helper order cleanup setup writes relation #1");
+        ok &= expect(relationsDb.put(txn, "$e2", "$r2"),
+                     "timeline index helper order cleanup setup writes relation #2");
+
+        std::string_view entryTwoValue;
+        ok &= expect(eventOrderDb.get(txn, integerKey(2), entryTwoValue),
+                     "timeline index helper order cleanup setup reads order entry #2 value");
+        db::removeOrderEntryReferences(txn,
+                                       eventsDb,
+                                       relationsDb,
+                                       eventToOrderDb,
+                                       messageToOrderDb,
+                                       orderToMessageDb,
+                                       entryTwoValue);
+
+        std::string_view entryOneValue;
+        ok &= expect(eventOrderDb.get(txn, integerKey(1), entryOneValue),
+                     "timeline index helper order cleanup setup reads order entry #1 value");
+        db::removeOrderEntryWithReferences(txn,
+                                           eventOrderDb,
+                                           eventsDb,
+                                           relationsDb,
+                                           eventToOrderDb,
+                                           messageToOrderDb,
+                                           orderToMessageDb,
+                                           integerKey(1),
+                                           entryOneValue);
+
+        const auto removedCount = db::eraseOrderEntriesWithReferencesIf(
+          txn,
+          eventOrderDb,
+          eventsDb,
+          relationsDb,
+          eventToOrderDb,
+          messageToOrderDb,
+          orderToMessageDb,
+          0,
+          10,
+          [](std::string_view orderKey, std::string_view /*orderEntryValue*/) {
+              return orderKey == integerKey(3);
+          });
+        ok &= expect(removedCount == 1,
+                     "timeline index helper eraseOrderEntriesWithReferencesIf removes matching order entries");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto eventOrderDb =
+          backend->openDbi(txn, "order_cleanup", openOptions(db::DbiFlags::IntegerKey));
+        auto eventToOrderDb = backend->openDbi(txn, "order_cleanup_event_to_order");
+        auto messageToOrderDb = backend->openDbi(txn, "order_cleanup_message_to_order");
+        auto orderToMessageDb = backend->openDbi(
+          txn,
+          "order_cleanup_order_to_message",
+          openOptions(db::DbiFlags::IntegerKey));
+        auto eventsDb = backend->openDbi(txn, "order_cleanup_events");
+        auto relationsDb = backend->openDbi(txn, "order_cleanup_relations");
+
+        std::string_view value;
+        ok &= expect(eventOrderDb.size(txn) == 1,
+                     "timeline index helper order cleanup leaves only one order entry");
+        ok &= expect(!eventsDb.get(txn, "$e1", value) && !eventsDb.get(txn, "$e2", value) &&
+                       !eventsDb.get(txn, "$e3", value),
+                     "timeline index helper order cleanup removes event payloads for cleaned entries");
+        ok &= expect(!eventToOrderDb.get(txn, "$e1", value) && !eventToOrderDb.get(txn, "$e2", value) &&
+                       !eventToOrderDb.get(txn, "$e3", value),
+                     "timeline index helper order cleanup removes event_to_order mappings");
+        ok &= expect(!messageToOrderDb.get(txn, "$e1", value) &&
+                       !messageToOrderDb.get(txn, "$e2", value),
+                     "timeline index helper order cleanup removes message_to_order mappings");
+        ok &= expect(!orderToMessageDb.get(txn, integerKey(11), value) &&
+                       !orderToMessageDb.get(txn, integerKey(12), value),
+                     "timeline index helper order cleanup removes order_to_message mappings");
+        ok &= expect(db::listDupValues(txn, relationsDb, "$e1").empty() &&
+                       db::listDupValues(txn, relationsDb, "$e2").empty(),
+                     "timeline index helper order cleanup removes relation values for cleaned entries");
+    }
+
+    {
+        auto txn = backend->beginTxn();
+        auto eventOrderDb = backend->openDbi(
+          txn,
+          "message_mapping_cleanup_order",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto orderToMessageDb = backend->openDbi(
+          txn,
+          "message_mapping_cleanup_o2m",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto messageToOrderDb = backend->openDbi(
+          txn, "message_mapping_cleanup_m2o", openOptions(db::DbiFlags::Create));
+
+        ok &= expect(eventOrderDb.put(txn, integerKey(1), db::serializeOrderEntry("$keep-1")),
+                     "timeline index helper message mapping cleanup setup writes order entry #1");
+        ok &= expect(eventOrderDb.put(txn, integerKey(2), db::serializeOrderEntry("$keep-2")),
+                     "timeline index helper message mapping cleanup setup writes order entry #2");
+        ok &= expect(orderToMessageDb.put(txn, integerKey(11), "$keep-1"),
+                     "timeline index helper message mapping cleanup setup writes o2m keep #1");
+        ok &= expect(orderToMessageDb.put(txn, integerKey(12), "$keep-2"),
+                     "timeline index helper message mapping cleanup setup writes o2m keep #2");
+        ok &= expect(orderToMessageDb.put(txn, integerKey(13), "$stale"),
+                     "timeline index helper message mapping cleanup setup writes o2m stale");
+        ok &= expect(messageToOrderDb.put(txn, "$keep-1", integerKey(11)),
+                     "timeline index helper message mapping cleanup setup writes m2o keep #1");
+        ok &= expect(messageToOrderDb.put(txn, "$keep-2", integerKey(12)),
+                     "timeline index helper message mapping cleanup setup writes m2o keep #2");
+        ok &= expect(messageToOrderDb.put(txn, "$stale", integerKey(13)),
+                     "timeline index helper message mapping cleanup setup writes m2o stale");
+
+        const auto removed = db::removeMessageOrderMappingsNotInOrderEntries(
+          txn, eventOrderDb, orderToMessageDb, messageToOrderDb);
+        ok &= expect(removed == 1,
+                     "timeline index helper removeMessageOrderMappingsNotInOrderEntries removes stale mappings");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto orderToMessageDb = backend->openDbi(
+          txn,
+          "message_mapping_cleanup_o2m",
+          openOptions(db::DbiFlags::IntegerKey));
+        auto messageToOrderDb = backend->openDbi(txn, "message_mapping_cleanup_m2o");
+
+        std::string_view value;
+        ok &= expect(!orderToMessageDb.get(txn, integerKey(13), value),
+                     "timeline index helper removeMessageOrderMappingsNotInOrderEntries removes stale o2m key");
+        ok &= expect(!messageToOrderDb.get(txn, "$stale", value),
+                     "timeline index helper removeMessageOrderMappingsNotInOrderEntries removes stale m2o key");
+        ok &= expect(orderToMessageDb.get(txn, integerKey(11), value) && value == "$keep-1",
+                     "timeline index helper removeMessageOrderMappingsNotInOrderEntries preserves keep o2m #1");
+        ok &= expect(orderToMessageDb.get(txn, integerKey(12), value) && value == "$keep-2",
+                     "timeline index helper removeMessageOrderMappingsNotInOrderEntries preserves keep o2m #2");
+        ok &= expect(messageToOrderDb.get(txn, "$keep-1", value) && value == integerKey(11),
+                     "timeline index helper removeMessageOrderMappingsNotInOrderEntries preserves keep m2o #1");
+        ok &= expect(messageToOrderDb.get(txn, "$keep-2", value) && value == integerKey(12),
+                     "timeline index helper removeMessageOrderMappingsNotInOrderEntries preserves keep m2o #2");
+    }
+
+    {
+        auto txn = backend->beginTxn();
+        auto eventOrderDb = backend->openDbi(
+          txn,
+          "trim_oldest_order",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto eventToOrderDb =
+          backend->openDbi(txn, "trim_oldest_e2o", openOptions(db::DbiFlags::Create));
+        auto messageToOrderDb =
+          backend->openDbi(txn, "trim_oldest_m2o", openOptions(db::DbiFlags::Create));
+        auto orderToMessageDb = backend->openDbi(
+          txn,
+          "trim_oldest_o2m",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto eventsDb = backend->openDbi(txn, "trim_oldest_events", openOptions(db::DbiFlags::Create));
+        auto relationsDb = backend->openDbi(
+          txn,
+          "trim_oldest_relations",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
+
+        for (std::uint64_t index = 1; index <= 4; ++index) {
+            const auto eventId = "$trim-" + std::to_string(index);
+            ok &= expect(eventOrderDb.put(txn, integerKey(index), db::serializeOrderEntry(eventId)),
+                         "timeline index helper trim-oldest setup writes event_order entry");
+            ok &= expect(eventToOrderDb.put(txn, eventId, integerKey(index)),
+                         "timeline index helper trim-oldest setup writes event_to_order entry");
+            ok &= expect(messageToOrderDb.put(txn, eventId, integerKey(index + 100)),
+                         "timeline index helper trim-oldest setup writes message_to_order entry");
+            ok &= expect(orderToMessageDb.put(txn, integerKey(index + 100), eventId),
+                         "timeline index helper trim-oldest setup writes order_to_message entry");
+            ok &= expect(eventsDb.put(txn, eventId, "{}"),
+                         "timeline index helper trim-oldest setup writes event payload");
+            ok &= expect(relationsDb.put(txn, eventId, "$rel"),
+                         "timeline index helper trim-oldest setup writes relation value");
+        }
+
+        const auto removed = db::trimOldestOrderEntriesWithReferences(txn,
+                                                                       eventOrderDb,
+                                                                       eventsDb,
+                                                                       relationsDb,
+                                                                       eventToOrderDb,
+                                                                       messageToOrderDb,
+                                                                       orderToMessageDb,
+                                                                       2);
+        ok &= expect(removed == 2,
+                     "timeline index helper trimOldestOrderEntriesWithReferences removes requested count");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto eventOrderDb =
+          backend->openDbi(txn, "trim_oldest_order", openOptions(db::DbiFlags::IntegerKey));
+        auto eventToOrderDb = backend->openDbi(txn, "trim_oldest_e2o");
+        auto messageToOrderDb = backend->openDbi(txn, "trim_oldest_m2o");
+        auto orderToMessageDb =
+          backend->openDbi(txn, "trim_oldest_o2m", openOptions(db::DbiFlags::IntegerKey));
+        auto eventsDb = backend->openDbi(txn, "trim_oldest_events");
+
+        std::string_view value;
+        ok &= expect(eventOrderDb.size(txn) == 2,
+                     "timeline index helper trimOldestOrderEntriesWithReferences leaves remaining order entries");
+        ok &= expect(!eventToOrderDb.get(txn, "$trim-1", value) && !eventToOrderDb.get(txn, "$trim-2", value),
+                     "timeline index helper trimOldestOrderEntriesWithReferences removes early event_to_order mappings");
+        ok &= expect(!messageToOrderDb.get(txn, "$trim-1", value) &&
+                       !messageToOrderDb.get(txn, "$trim-2", value),
+                     "timeline index helper trimOldestOrderEntriesWithReferences removes early message_to_order mappings");
+        ok &= expect(orderToMessageDb.get(txn, integerKey(103), value) && value == "$trim-3",
+                     "timeline index helper trimOldestOrderEntriesWithReferences preserves later order_to_message mapping");
+        ok &= expect(!eventsDb.get(txn, "$trim-1", value) && !eventsDb.get(txn, "$trim-2", value),
+                     "timeline index helper trimOldestOrderEntriesWithReferences removes early event payloads");
+    }
+
+    {
+        auto txn = backend->beginTxn();
+        auto eventOrderDb = backend->openDbi(
+          txn,
+          "clear_before_marker_order",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto eventToOrderDb =
+          backend->openDbi(txn, "clear_before_marker_e2o", openOptions(db::DbiFlags::Create));
+        auto messageToOrderDb =
+          backend->openDbi(txn, "clear_before_marker_m2o", openOptions(db::DbiFlags::Create));
+        auto orderToMessageDb = backend->openDbi(
+          txn,
+          "clear_before_marker_o2m",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::IntegerKey));
+        auto eventsDb =
+          backend->openDbi(txn, "clear_before_marker_events", openOptions(db::DbiFlags::Create));
+        auto relationsDb = backend->openDbi(
+          txn,
+          "clear_before_marker_relations",
+          openOptions(db::DbiFlags::Create | db::DbiFlags::DupSort));
+
+        for (std::uint64_t index = 1; index <= 5; ++index) {
+            const auto eventId = "$marker-" + std::to_string(index);
+            const auto orderEntry = index == 3 ? db::serializeOrderEntry(eventId, "batch-token")
+                                               : db::serializeOrderEntry(eventId);
+            ok &= expect(eventOrderDb.put(txn, integerKey(index), orderEntry),
+                         "timeline index helper clear-before-marker setup writes event_order entry");
+            ok &= expect(eventToOrderDb.put(txn, eventId, integerKey(index)),
+                         "timeline index helper clear-before-marker setup writes event_to_order entry");
+            ok &= expect(messageToOrderDb.put(txn, eventId, integerKey(index + 200)),
+                         "timeline index helper clear-before-marker setup writes message_to_order entry");
+            ok &= expect(orderToMessageDb.put(txn, integerKey(index + 200), eventId),
+                         "timeline index helper clear-before-marker setup writes order_to_message entry");
+            ok &= expect(eventsDb.put(txn, eventId, "{}"),
+                         "timeline index helper clear-before-marker setup writes event payload");
+            ok &= expect(relationsDb.put(txn, eventId, "$rel"),
+                         "timeline index helper clear-before-marker setup writes relation value");
+        }
+
+        ok &= expect(messageToOrderDb.put(txn, "$stale-marker", integerKey(999)),
+                     "timeline index helper clear-before-marker setup writes stale message_to_order entry");
+        ok &= expect(orderToMessageDb.put(txn, integerKey(999), "$stale-marker"),
+                     "timeline index helper clear-before-marker setup writes stale order_to_message entry");
+
+        db::cleanupTimelineBeforePrevBatchMarker(txn,
+                                                 eventOrderDb,
+                                                 eventsDb,
+                                                 relationsDb,
+                                                 eventToOrderDb,
+                                                 messageToOrderDb,
+                                                 orderToMessageDb);
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto eventOrderDb =
+          backend->openDbi(txn, "clear_before_marker_order", openOptions(db::DbiFlags::IntegerKey));
+        auto eventToOrderDb = backend->openDbi(txn, "clear_before_marker_e2o");
+        auto messageToOrderDb = backend->openDbi(txn, "clear_before_marker_m2o");
+        auto orderToMessageDb = backend->openDbi(
+          txn,
+          "clear_before_marker_o2m",
+          openOptions(db::DbiFlags::IntegerKey));
+        auto eventsDb = backend->openDbi(txn, "clear_before_marker_events");
+
+        std::string_view value;
+        ok &= expect(eventOrderDb.size(txn) == 3,
+                     "timeline index helper cleanupTimelineBeforePrevBatchMarker keeps marker and newer entries");
+        ok &= expect(!eventToOrderDb.get(txn, "$marker-1", value) &&
+                       !eventToOrderDb.get(txn, "$marker-2", value),
+                     "timeline index helper cleanupTimelineBeforePrevBatchMarker removes older event_to_order mappings");
+        ok &= expect(orderToMessageDb.get(txn, integerKey(203), value) && value == "$marker-3",
+                     "timeline index helper cleanupTimelineBeforePrevBatchMarker preserves marker order_to_message mapping");
+        ok &= expect(!orderToMessageDb.get(txn, integerKey(999), value),
+                     "timeline index helper cleanupTimelineBeforePrevBatchMarker removes stale order_to_message mapping");
+        ok &= expect(!messageToOrderDb.get(txn, "$stale-marker", value),
+                     "timeline index helper cleanupTimelineBeforePrevBatchMarker removes stale message_to_order mapping");
+        ok &= expect(eventsDb.get(txn, "$marker-3", value) && eventsDb.get(txn, "$marker-4", value) &&
+                       eventsDb.get(txn, "$marker-5", value),
+                     "timeline index helper cleanupTimelineBeforePrevBatchMarker keeps marker and newer payloads");
     }
 
     backend->close();

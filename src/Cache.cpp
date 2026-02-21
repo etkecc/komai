@@ -358,6 +358,19 @@ cacheDirectoryName(const QString &userid, const QString &profile)
     return app_paths::data::databaseDirectory(userid, profile);
 }
 
+template<typename RelationCollection>
+std::vector<std::string_view>
+relationTargetEventIds(const RelationCollection &relations)
+{
+    std::vector<std::string_view> targets;
+    targets.reserve(relations.size());
+    for (const auto &relation : relations) {
+        if (!relation.event_id.empty())
+            targets.emplace_back(relation.event_id);
+    }
+    return targets;
+}
+
 void
 Cache::setup()
 {
@@ -2627,9 +2640,9 @@ Cache::replaceEvent(const std::string &room_id,
     {
         eventsDb.del(txn, event_id);
         eventsDb.put(txn, event_id, event_json);
-        for (const auto &relation : mtx::accessors::relations(event).relations) {
-            relationsDb.put(txn, relation.event_id, event_id);
-        }
+        const auto relationTargets =
+          relationTargetEventIds(mtx::accessors::relations(event).relations);
+        db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
     }
 
     txn.commit();
@@ -3654,15 +3667,9 @@ Cache::saveTimelineMessages(db::Txn &txn,
                                                           event_id,
                                                           eventJson,
                                                           orderEntry)) {
-            auto relations = mtx::accessors::relations(e);
-            if (!relations.relations.empty()) {
-                for (const auto &r : relations.relations) {
-                    if (!r.event_id.empty()) {
-                        relationsDb.del(txn, r.event_id, txn_id);
-                        relationsDb.put(txn, r.event_id, event_id);
-                    }
-                }
-            }
+            auto relations             = mtx::accessors::relations(e);
+            const auto relationTargets = relationTargetEventIds(relations.relations);
+            db::replaceDupValueForKeys(txn, relationsDb, relationTargets, txn_id, event_id);
 
             db::removePendingEntriesByTxnId(txn, pending, txn_id);
         } else if (auto redaction =
@@ -3755,14 +3762,9 @@ Cache::saveTimelineMessages(db::Txn &txn,
             }
             eventsDb.put(txn, event_id, eventJson);
 
-            auto relations = mtx::accessors::relations(e);
-            if (!relations.relations.empty()) {
-                for (const auto &r : relations.relations) {
-                    if (!r.event_id.empty()) {
-                        relationsDb.put(txn, r.event_id, event_id);
-                    }
-                }
-            }
+            auto relations             = mtx::accessors::relations(e);
+            const auto relationTargets = relationTargetEventIds(relations.relations);
+            db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
         }
     }
 }
@@ -3810,8 +3812,7 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         if (!evToOrderDb.get(txn, event_id, unused_read)) {
             --index;
 
-            const auto orderEntry = db::serializeOrderEntry(event_id_val);
-            db::putEventOrderMapping(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
+            db::putEventOrderMappingForEvent(txn, orderDb, evToOrderDb, index, event_id);
 
             // TODO(Nico): Allow blacklisting more event types in UI
             if (!isHiddenEvent(txn, e, room_id)) {
@@ -3821,18 +3822,13 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         }
         eventsDb.put(txn, event_id, event.dump());
 
-        auto relations = mtx::accessors::relations(e);
-        if (!relations.relations.empty()) {
-            for (const auto &r : relations.relations) {
-                if (!r.event_id.empty()) {
-                    relationsDb.put(txn, r.event_id, event_id);
-                }
-            }
-        }
+        auto relations             = mtx::accessors::relations(e);
+        const auto relationTargets = relationTargetEventIds(relations.relations);
+        db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
     }
 
     if (!event_id_val.empty()) {
-        orderDb.put(txn, db::toSv(index), db::serializeOrderEntry(event_id_val, res.end));
+        db::putOrderEntry(txn, orderDb, index, event_id_val, res.end);
     } else if (!res.chunk.empty()) {
         // to not break pagination, even if all events are redactions we try to persist something in
         // the batch.
@@ -3842,12 +3838,7 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
 
         auto event = mtx::accessors::serialize_event(res.chunk.back()).dump();
         eventsDb.put(txn, event_id_val, event);
-        db::putEventOrderMapping(txn,
-                                 orderDb,
-                                 evToOrderDb,
-                                 index,
-                                 event_id_val,
-                                 db::serializeOrderEntry(event_id_val, res.end));
+        db::putEventOrderMappingForEvent(txn, orderDb, evToOrderDb, index, event_id_val, res.end);
     }
 
     txn.commit();
@@ -3867,58 +3858,8 @@ Cache::clearTimeline(const std::string &room_id)
     auto msg2orderDb = getMessageToOrderDb(txn, room_id);
     auto order2msgDb = getOrderToMessageDb(txn, room_id);
 
-    std::vector<std::pair<std::string, std::string>> orderEntriesToDelete;
-    bool passedPaginationToken = false;
-    if (const auto lastOrder = db::lastEntry(txn, orderDb); lastOrder) {
-        db::forEachEntryFromKey(txn,
-                                orderDb,
-                                lastOrder->first,
-                                db::ScanDirection::Backward,
-                                [&orderEntriesToDelete, &passedPaginationToken](
-                                  std::string_view orderKey, std::string_view orderValue) {
-                                    const auto entry = db::parseOrderEntry(orderValue);
-                                    if (passedPaginationToken) {
-                                        orderEntriesToDelete.emplace_back(std::string(orderKey),
-                                                                          std::string(orderValue));
-                                    } else if (entry.hasPrevBatch) {
-                                        passedPaginationToken = true;
-                                    }
-                                    return true;
-                                });
-    }
-
-    for (const auto &[orderKey, orderValue] : orderEntriesToDelete) {
-        const auto entry = db::parseOrderEntry(orderValue);
-        if (entry.eventId) {
-            db::removeTimelineEventReferences(
-              txn, eventsDb, relationsDb, evToOrderDb, msg2orderDb, order2msgDb, *entry.eventId);
-        }
-        orderDb.del(txn, orderKey);
-    }
-
-    std::unordered_set<std::string> remainingEventIds;
-    db::forEachEntry(
-      txn,
-      orderDb,
-      [&remainingEventIds](std::string_view /*orderKey*/, std::string_view orderValue) {
-          const auto entry = db::parseOrderEntry(orderValue);
-          if (entry.eventId)
-              remainingEventIds.insert(*entry.eventId);
-          return true;
-      });
-
-    std::vector<std::string> staleEventIds;
-    db::eraseEntriesIf(txn,
-                       order2msgDb,
-                       [&remainingEventIds, &staleEventIds](std::string_view /*messageOrder*/,
-                                                            std::string_view eventId) {
-                           if (remainingEventIds.contains(std::string(eventId)))
-                               return false;
-                           staleEventIds.emplace_back(eventId);
-                           return true;
-                       });
-    for (const auto &eventId : staleEventIds)
-        db::removeMessageOrderMapping(txn, msg2orderDb, order2msgDb, eventId);
+    db::cleanupTimelineBeforePrevBatchMarker(
+      txn, orderDb, eventsDb, relationsDb, evToOrderDb, msg2orderDb, order2msgDb);
 
     txn.commit();
 }
@@ -3989,21 +3930,8 @@ Cache::deleteOldMessages()
             continue;
 
         const auto toDeleteCount = message_count - MAX_RESTORED_MESSAGES;
-        db::eraseEntriesIf(
-          txn,
-          orderDb,
-          0,
-          toDeleteCount,
-          [&txn, &evToOrderDb, &eventsDb, &relationsDb, &m2o, &o2m](std::string_view /*orderKey*/,
-                                                                    std::string_view orderValue) {
-              const auto entry = db::parseOrderEntry(orderValue);
-
-              if (entry.eventId) {
-                  db::removeTimelineEventReferences(
-                    txn, eventsDb, relationsDb, evToOrderDb, m2o, o2m, *entry.eventId);
-              }
-              return true;
-          });
+        db::trimOldestOrderEntriesWithReferences(
+          txn, orderDb, eventsDb, relationsDb, evToOrderDb, m2o, o2m, toDeleteCount);
     }
     txn.commit();
 }

@@ -6,9 +6,12 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <utility>
+#include <vector>
 
 #include "db/Flags.h"
 
@@ -43,6 +46,23 @@ putEventOrderMapping(Txn &txn,
                      std::string_view eventId,
                      std::string_view orderEntryValue,
                      PutFlags eventOrderPutFlags = PutFlags::None);
+
+void
+putOrderEntry(Txn &txn,
+              Dbi &eventOrderDb,
+              std::uint64_t eventOrder,
+              std::string_view eventId,
+              std::optional<std::string_view> prevBatch = std::nullopt,
+              PutFlags eventOrderPutFlags               = PutFlags::None);
+
+void
+putEventOrderMappingForEvent(Txn &txn,
+                             Dbi &eventOrderDb,
+                             Dbi &eventToOrderDb,
+                             std::uint64_t eventOrder,
+                             std::string_view eventId,
+                             std::optional<std::string_view> prevBatch = std::nullopt,
+                             PutFlags eventOrderPutFlags               = PutFlags::None);
 
 void
 putMessageOrderMapping(Txn &txn,
@@ -98,6 +118,71 @@ setOrderEntryPrevBatch(Txn &txn,
 
 std::size_t
 removePendingEntriesByTxnId(Txn &txn, Dbi &pendingDb, std::string_view txnId);
+
+std::vector<std::pair<std::string, std::string>>
+listOrderEntriesAfterPrevBatchMarker(Txn &txn, Dbi &eventOrderDb);
+
+std::vector<std::string>
+listOrderEntryEventIds(Txn &txn, Dbi &eventOrderDb);
+
+std::size_t
+removeMessageOrderMappingsNotInOrderEntries(Txn &txn,
+                                            Dbi &eventOrderDb,
+                                            Dbi &orderToMessageDb,
+                                            Dbi &messageToOrderDb);
+
+void
+removeOrderEntryReferences(Txn &txn,
+                           Dbi &eventsDb,
+                           Dbi &relationsDb,
+                           Dbi &eventToOrderDb,
+                           Dbi &messageToOrderDb,
+                           Dbi &orderToMessageDb,
+                           std::string_view orderEntryValue);
+
+void
+removeOrderEntryWithReferences(Txn &txn,
+                               Dbi &eventOrderDb,
+                               Dbi &eventsDb,
+                               Dbi &relationsDb,
+                               Dbi &eventToOrderDb,
+                               Dbi &messageToOrderDb,
+                               Dbi &orderToMessageDb,
+                               std::string_view orderKey,
+                               std::string_view orderEntryValue);
+
+std::size_t
+eraseOrderEntriesWithReferencesIf(
+  Txn &txn,
+  Dbi &eventOrderDb,
+  Dbi &eventsDb,
+  Dbi &relationsDb,
+  Dbi &eventToOrderDb,
+  Dbi &messageToOrderDb,
+  Dbi &orderToMessageDb,
+  std::size_t startIndex,
+  std::size_t limit,
+  const std::function<bool(std::string_view orderKey, std::string_view orderEntryValue)>
+    &predicate);
+
+std::size_t
+trimOldestOrderEntriesWithReferences(Txn &txn,
+                                     Dbi &eventOrderDb,
+                                     Dbi &eventsDb,
+                                     Dbi &relationsDb,
+                                     Dbi &eventToOrderDb,
+                                     Dbi &messageToOrderDb,
+                                     Dbi &orderToMessageDb,
+                                     std::size_t count);
+
+void
+cleanupTimelineBeforePrevBatchMarker(Txn &txn,
+                                     Dbi &eventOrderDb,
+                                     Dbi &eventsDb,
+                                     Dbi &relationsDb,
+                                     Dbi &eventToOrderDb,
+                                     Dbi &messageToOrderDb,
+                                     Dbi &orderToMessageDb);
 
 void
 removeTimelineEventReferences(Txn &txn,

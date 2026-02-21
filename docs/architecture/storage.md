@@ -78,6 +78,8 @@ Database hash:
   (`db::removeMessageOrderMapping(...)`,
   `db::replaceTimelineEventId(...)`,
   `db::putEventOrderMapping(...)`,
+  `db::putOrderEntry(...)`,
+  `db::putEventOrderMappingForEvent(...)`,
   `db::putMessageOrderMapping(...)`,
   `db::lastInvisibleEventAfter(...)`,
   `db::lastVisibleEvent(...)`,
@@ -91,6 +93,14 @@ Database hash:
   `db::firstPrevBatchToken(...)`,
   `db::setOrderEntryPrevBatch(...)`,
   `db::removePendingEntriesByTxnId(...)`,
+  `db::listOrderEntriesAfterPrevBatchMarker(...)`,
+  `db::listOrderEntryEventIds(...)`,
+  `db::removeMessageOrderMappingsNotInOrderEntries(...)`,
+  `db::removeOrderEntryReferences(...)`,
+  `db::removeOrderEntryWithReferences(...)`,
+  `db::eraseOrderEntriesWithReferencesIf(...)`,
+  `db::trimOldestOrderEntriesWithReferences(...)`,
+  `db::cleanupTimelineBeforePrevBatchMarker(...)`,
   `db::removeTimelineEventReferences(...)`) so callers do not duplicate
   cross-index logic (`message_to_order`, `order_to_message`,
   `event_to_order`, event payload/relation deletion, and visible/invisible
@@ -100,7 +110,8 @@ Database hash:
   `db::removeStateEventId(...)`) so callers do not need
   to encode backend cursor/dupsort iteration details.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
-  (`db::listDupValues(...)`, `db::forEachDupValue(...)`) to avoid repeating cursor
+  (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
+  `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor
   `Set`/`FirstDup`/`NextDup` loops.
 - Reusable key scanning is centralized in `src/db/Scan.cpp`
   (`db::listKeys(...)`, `db::listUniqueKeys(...)`, `db::listEntries(...)`

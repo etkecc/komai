@@ -4,7 +4,9 @@
 
 #pragma once
 
+#include <cstddef>
 #include <functional>
+#include <span>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -22,5 +24,18 @@ forEachDupValue(Txn &txn,
 
 std::vector<std::string>
 listDupValues(Txn &txn, Dbi &db, std::string_view key);
+
+std::size_t
+putDupValueForKeys(Txn &txn,
+                   Dbi &db,
+                   std::span<const std::string_view> keys,
+                   std::string_view value);
+
+std::size_t
+replaceDupValueForKeys(Txn &txn,
+                       Dbi &db,
+                       std::span<const std::string_view> keys,
+                       std::string_view oldValue,
+                       std::string_view newValue);
 
 } // namespace db

@@ -92,10 +92,10 @@ public:
     virtual bool isOpen() const noexcept                                                     = 0;
     virtual Transaction beginTxn(Transaction *parent = nullptr, AccessFlags flags = AccessFlags::None) = 0;
     virtual bool ownsTxn(const Transaction &txn) const noexcept                                        = 0;
-    virtual Store openDbi(Transaction &txn,
+    virtual Store openStore(Transaction &txn,
                           std::string_view name,
                           const DbiOpenOptions &options = {})                                        = 0;
-    virtual std::vector<std::string> listDbiNames(Transaction &txn)                                    = 0;
+    virtual std::vector<std::string> listStoreNames(Transaction &txn)                                    = 0;
     virtual std::optional<std::size_t> mapSizeBytes() const noexcept                         = 0;
 };
 

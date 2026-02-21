@@ -181,7 +181,7 @@ migrateLegacyMegolmSessionIndexes(Backend &backend, Transaction &txn, std::strin
 void
 migrateLegacyOlmShardsV1ToV2(Backend &backend, Transaction &txn)
 {
-    const auto dbNames = backend.listDbiNames(txn);
+    const auto dbNames = backend.listStoreNames(txn);
     for (const auto &dbName : dbNames) {
         if (!catalog::isLegacyOlmShardV1(dbName))
             continue;
@@ -215,7 +215,7 @@ migrateLegacyOlmShardsV1ToV2(Backend &backend, Transaction &txn)
 bool
 migrateLegacyOlmShardsV2ToUnified(Backend &backend, Transaction &txn, Store &olmSessions)
 {
-    const auto dbNames = backend.listDbiNames(txn);
+    const auto dbNames = backend.listStoreNames(txn);
     bool migrated      = false;
 
     for (const auto &dbName : dbNames) {

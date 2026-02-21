@@ -16,7 +16,7 @@ compact(Database &from, Database &to)
     auto fromTxn = from.beginTxn(nullptr, AccessFlags::ReadOnly);
     auto toTxn   = to.beginTxn();
 
-    const auto dbNames = from.listDbiNames(fromTxn);
+    const auto dbNames = from.listStoreNames(fromTxn);
     for (const auto &dbName : dbNames) {
         auto fromDb = openNamedStore(from, fromTxn, dbName, false);
         auto toDb   = openNamedStore(to, toTxn, dbName, true);

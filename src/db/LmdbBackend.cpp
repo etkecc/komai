@@ -306,7 +306,7 @@ LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
 }
 
 Dbi
-LmdbBackend::openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &options)
+LmdbBackend::openStore(Txn &txn, std::string_view name, const DbiOpenOptions &options)
 {
     if (!detail::txnImpl(txn))
         throw Error("Invalid transaction", ErrorKind::Invalid);
@@ -338,7 +338,7 @@ LmdbBackend::openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &opti
 }
 
 std::vector<std::string>
-LmdbBackend::listDbiNames(Txn &txn)
+LmdbBackend::listStoreNames(Txn &txn)
 {
     if (!detail::txnImpl(txn))
         throw Error("Invalid transaction", ErrorKind::Invalid);

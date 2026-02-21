@@ -88,7 +88,7 @@ openNamedStore(Database &database,
     if (create)
         options.flags |= DbiFlags::Create;
 
-    return database.openDbi(txn, name, options);
+    return database.openStore(txn, name, options);
 }
 
 inline Store
@@ -104,7 +104,7 @@ openStore(Database &database,
 inline Store
 openStore(Database &database, Transaction &txn, std::string_view name, const Options &options)
 {
-    return database.openDbi(txn, name, options);
+    return database.openStore(txn, name, options);
 }
 
 inline bool

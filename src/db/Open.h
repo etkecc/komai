@@ -20,22 +20,9 @@ NamedStore
 openNamedStore(Database &backend, DatabaseTxn &txn, std::string_view name, bool create = true);
 
 NamedStore
-openNamedDbi(Database &backend, DatabaseTxn &txn, std::string_view name, bool create = true);
-
-NamedStore
 openGlobalStore(Database &backend, DatabaseTxn &txn, catalog::GlobalDb db, bool create = true);
-
-NamedStore
-openGlobalDbi(Database &backend, DatabaseTxn &txn, catalog::GlobalDb db, bool create = true);
 
 RoomStore
 openRoomStore(Database &backend, DatabaseTxn &txn, std::string_view roomId, catalog::RoomDb db, bool create = true);
-
-NamedStore
-openRoomDbi(Database &backend,
-            DatabaseTxn &txn,
-            std::string_view roomId,
-            catalog::RoomDb db,
-            bool create = true);
 
 } // namespace db

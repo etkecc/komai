@@ -744,7 +744,7 @@ InMemoryBackend::ownsTxn(const Txn &txn) const noexcept
 }
 
 Dbi
-InMemoryBackend::openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &options)
+InMemoryBackend::openStore(Txn &txn, std::string_view name, const DbiOpenOptions &options)
 {
     if (!isOpen())
         throw Error("In-memory backend is not open", ErrorKind::Invalid);
@@ -803,7 +803,7 @@ InMemoryBackend::openDbi(Txn &txn, std::string_view name, const DbiOpenOptions &
 }
 
 std::vector<std::string>
-InMemoryBackend::listDbiNames(Txn &txn)
+InMemoryBackend::listStoreNames(Txn &txn)
 {
     if (!isOpen())
         throw Error("In-memory backend is not open", ErrorKind::Invalid);

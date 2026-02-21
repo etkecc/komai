@@ -171,8 +171,8 @@ Database hash:
 - Cache DB open options (integer-key / dupsort / comparator) are centralized in
   `src/db/NamePolicy.cpp` (`db::openOptionsForName(...)`,
   `db::openOptionsForGlobal(...)`, `db::openOptionsForRoom(...)`) and consumed via
-  `src/db/Open.cpp` (`db::openNamedDbi(...)`, `db::openGlobalDbi(...)`,
-  `db::openRoomDbi(...)`); backend APIs consume a unified
+  `src/db/Open.cpp` (`db::openNamedStore(...)`, `db::openGlobalStore(...)`,
+  `db::openRoomStore(...)`); backend APIs consume a unified
   `db::DbiOpenOptions` instead of separate flag/comparator arguments.
 
 ## Prefixes

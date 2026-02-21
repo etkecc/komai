@@ -16,13 +16,7 @@ openNamedStore(Database &backend, DatabaseTxn &txn, std::string_view name, bool 
     if (create)
         options.flags |= DbiFlags::Create;
 
-    return backend.openDbi(txn, name, options);
-}
-
-NamedStore
-openNamedDbi(Database &backend, DatabaseTxn &txn, std::string_view name, bool create)
-{
-    return openNamedStore(backend, txn, name, create);
+    return backend.openStore(txn, name, options);
 }
 
 NamedStore
@@ -32,13 +26,7 @@ openGlobalStore(Database &backend, DatabaseTxn &txn, catalog::GlobalDb db, bool 
     if (create)
         options.flags |= DbiFlags::Create;
 
-    return backend.openDbi(txn, catalog::globalName(db), options);
-}
-
-NamedStore
-openGlobalDbi(Database &backend, DatabaseTxn &txn, catalog::GlobalDb db, bool create)
-{
-    return openGlobalStore(backend, txn, db, create);
+    return backend.openStore(txn, catalog::globalName(db), options);
 }
 
 NamedStore
@@ -48,13 +36,7 @@ openRoomStore(Database &backend, DatabaseTxn &txn, std::string_view roomId, cata
     if (create)
         options.flags |= DbiFlags::Create;
 
-    return backend.openDbi(txn, catalog::roomName(roomId, db), options);
-}
-
-RoomStore
-openRoomDbi(Database &backend, DatabaseTxn &txn, std::string_view roomId, catalog::RoomDb db, bool create)
-{
-    return openRoomStore(backend, txn, roomId, db, create);
+    return backend.openStore(txn, catalog::roomName(roomId, db), options);
 }
 
 } // namespace db

@@ -18,8 +18,7 @@
 
 #include "CacheCryptoStructs.h"
 #include "CacheStructs.h"
-#include "db/Backend.h"
-#include "db/Flags.h"
+#include "db/StorageApi.h"
 
 namespace mtx::responses {
 struct Messages;

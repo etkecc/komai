@@ -89,25 +89,25 @@ requireCapabilities(const Database &database, StoreFlags flags)
 inline std::unique_ptr<Database>
 createDatabase()
 {
-    return db::createDefaultBackend();
+    return db::createDefaultDatabase();
 }
 
 inline std::unique_ptr<Database>
 createDatabase(DatabaseId id)
 {
-    return db::createBackend(id);
+    return db::createDatabase(id);
 }
 
 inline std::unique_ptr<Database>
 createConfiguredDatabase(DatabaseId requestedId = {})
 {
-    return db::createConfiguredBackend(requestedId);
+    return db::createConfiguredDatabase(requestedId);
 }
 
 inline std::unique_ptr<Database>
 createDatabaseFromEnvironment(DatabaseId variableName = "KOMAI_DB_BACKEND")
 {
-    return db::createConfiguredBackendFromEnvironment(variableName);
+    return db::createConfiguredDatabaseFromEnvironment(variableName);
 }
 
 inline bool

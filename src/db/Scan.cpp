@@ -6,7 +6,7 @@
 
 #include <limits>
 
-#include "db/DbTypes.h"
+#include "db/StorageApi.h"
 
 namespace db {
 
@@ -14,10 +14,11 @@ std::vector<std::string>
 listKeys(Transaction &txn, Store &db)
 {
     std::vector<std::string> keys;
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key;
-    while (cursor.get(key, CursorOp::Next))
+    std::string key;
+    std::string value;
+    while (cursor.moveNext(key, value))
         keys.emplace_back(key);
 
     return keys;
@@ -27,10 +28,11 @@ std::vector<std::string>
 listUniqueKeys(Transaction &txn, Store &db)
 {
     std::vector<std::string> keys;
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key;
-    while (cursor.get(key, CursorOp::NextNoDup))
+    std::string key;
+    std::string value;
+    while (cursor.moveNextNoDup(key, value))
         keys.emplace_back(key);
 
     return keys;
@@ -40,12 +42,12 @@ std::vector<std::pair<std::string, std::string>>
 listEntries(Transaction &txn, Store &db)
 {
     std::vector<std::pair<std::string, std::string>> entries;
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key;
-    std::string_view value;
-    while (cursor.get(key, value, CursorOp::Next))
-        entries.emplace_back(std::string(key), std::string(value));
+    std::string key;
+    std::string value;
+    while (cursor.moveNext(key, value))
+        entries.emplace_back(key, value);
 
     return entries;
 }
@@ -57,14 +59,14 @@ listEntries(Transaction &txn, Store &db, std::size_t startIndex, std::size_t lim
     if (limit == 0)
         return entries;
 
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
     std::size_t currentIndex = 0;
     std::size_t remaining    = limit;
 
-    std::string_view key;
-    std::string_view value;
-    while (cursor.get(key, value, CursorOp::Next)) {
+    std::string key;
+    std::string value;
+    while (cursor.moveNext(key, value)) {
         if (currentIndex < startIndex) {
             currentIndex += 1;
             continue;
@@ -73,9 +75,11 @@ listEntries(Transaction &txn, Store &db, std::size_t startIndex, std::size_t lim
         if (remaining == 0)
             break;
 
-        entries.emplace_back(std::string(key), std::string(value));
+        entries.emplace_back(std::move(key), std::move(value));
         currentIndex += 1;
         remaining -= 1;
+        key.clear();
+        value.clear();
     }
 
     return entries;
@@ -86,25 +90,28 @@ forEachEntry(Transaction &txn,
              Store &db,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key;
-    std::string_view value;
-    while (cursor.get(key, value, CursorOp::Next)) {
+    std::string key;
+    std::string value;
+    while (cursor.moveNext(key, value)) {
         if (!visitor(key, value))
             break;
+        value.clear();
     }
 }
 
 void
 forEachUniqueKey(Transaction &txn, Store &db, const std::function<bool(std::string_view key)> &visitor)
 {
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key;
-    while (cursor.get(key, CursorOp::NextNoDup)) {
+    std::string key;
+    std::string value;
+    while (cursor.moveNextNoDup(key, value)) {
         if (!visitor(key))
             break;
+        value.clear();
     }
 }
 
@@ -118,14 +125,14 @@ forEachEntry(Transaction &txn,
     if (limit == 0)
         return;
 
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
     std::size_t currentIndex = 0;
     std::size_t remaining    = limit;
 
-    std::string_view key;
-    std::string_view value;
-    while (cursor.get(key, value, CursorOp::Next)) {
+    std::string key;
+    std::string value;
+    while (cursor.moveNext(key, value)) {
         if (currentIndex < startIndex) {
             currentIndex += 1;
             continue;
@@ -145,27 +152,27 @@ forEachEntry(Transaction &txn,
 std::optional<std::pair<std::string, std::string>>
 firstEntry(Transaction &txn, Store &db)
 {
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key;
-    std::string_view value;
-    if (!cursor.get(key, value, CursorOp::First))
+    std::string key;
+    std::string value;
+    if (!cursor.moveFirst(key, value))
         return std::nullopt;
 
-    return std::pair(std::string(key), std::string(value));
+    return std::pair(std::move(key), std::move(value));
 }
 
 std::optional<std::pair<std::string, std::string>>
 lastEntry(Transaction &txn, Store &db)
 {
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key;
-    std::string_view value;
-    if (!cursor.get(key, value, CursorOp::Last))
+    std::string key;
+    std::string value;
+    if (!cursor.moveLast(key, value))
         return std::nullopt;
 
-    return std::pair(std::string(key), std::string(value));
+    return std::pair(std::move(key), std::move(value));
 }
 
 std::size_t
@@ -187,15 +194,16 @@ eraseEntriesIf(Transaction &txn,
         return 0;
 
     std::vector<std::pair<std::string, std::string>> entriesToDelete;
-    forEachEntry(txn,
-                 db,
-                 startIndex,
-                 limit,
-                 [&entriesToDelete, &predicate](std::string_view key, std::string_view value) {
-                     if (predicate(key, value))
-                         entriesToDelete.emplace_back(std::string(key), std::string(value));
-                     return true;
-                 });
+    forEachEntry(
+      txn,
+      db,
+      startIndex,
+      limit,
+      [&entriesToDelete, &predicate](std::string_view key, std::string_view value) {
+          if (predicate(key, value))
+              entriesToDelete.emplace_back(std::string(key), std::string(value));
+          return true;
+      });
 
     for (const auto &[key, value] : entriesToDelete)
         db.del(txn, key, value);
@@ -211,18 +219,25 @@ forEachEntryFromKey(
   ScanDirection direction,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key = startKey;
-    std::string_view value;
-    if (!cursor.get(key, value, CursorOp::Set))
+    std::string key;
+    std::string value;
+    if (!cursor.moveTo(startKey, key, value))
         return;
 
-    const auto nextOp = direction == ScanDirection::Forward ? CursorOp::Next : CursorOp::Prev;
-    do {
+    const auto moveForward = direction == ScanDirection::Forward;
+    while (true) {
         if (!visitor(key, value))
             break;
-    } while (cursor.get(key, value, nextOp));
+
+        if (moveForward) {
+            if (!cursor.moveNext(key, value))
+                break;
+        } else if (!cursor.movePrev(key, value)) {
+            break;
+        }
+    }
 }
 
 void
@@ -232,11 +247,11 @@ forEachEntryWithPrefix(
   std::string_view prefix,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {
-    auto cursor = Cursor::open(txn, db);
+    auto cursor = storage::Cursor::open(txn, db);
 
-    std::string_view key = prefix;
-    std::string_view value;
-    if (!cursor.get(key, value, CursorOp::SetRange))
+    std::string key;
+    std::string value;
+    if (!cursor.moveToRange(prefix, key, value))
         return;
 
     do {
@@ -244,7 +259,7 @@ forEachEntryWithPrefix(
             break;
         if (!visitor(key, value))
             break;
-    } while (cursor.get(key, value, CursorOp::Next));
+    } while (cursor.moveNext(key, value));
 }
 
 } // namespace db

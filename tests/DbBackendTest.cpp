@@ -682,10 +682,10 @@ testStorageApiHelpers()
         auto roTxn = db::storage::beginReadTransaction(*backend);
         auto events =
           db::storage::openStore(*backend, roTxn, "room-events", false, db::StoreFlags::IntegerKey);
-        std::string_view key;
-        std::string_view value;
+        std::string key;
+        std::string value;
         auto cursor = db::storage::openCursor(roTxn, events);
-        ok &= expect(cursor.get(key, value, db::CursorOp::First), "storage API cursor first");
+        ok &= expect(cursor.moveFirst(key, value), "storage API cursor first");
         ok &= expect(key == integerKey(7), "storage API cursor first key is lowest");
         ok &= expect(value == "value-7", "storage API cursor first value");
     }

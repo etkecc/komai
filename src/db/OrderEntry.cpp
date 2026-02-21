@@ -6,31 +6,31 @@
 
 #include <nlohmann/json.hpp>
 
+#include "db/Json.h"
+
 namespace db {
 
 OrderEntry
 parseOrderEntry(std::string_view value)
 {
-    try {
-        const auto parsed = nlohmann::json::parse(value);
-
-        OrderEntry entry;
-        entry.hasPrevBatch = parsed.count("prev_batch") != 0;
-        if (parsed.contains("prev_batch") && parsed["prev_batch"].is_string())
-            entry.prevBatch = parsed["prev_batch"].get<std::string>();
-        if (parsed.contains("event_id") && parsed["event_id"].is_string()) {
-            const auto eventId = parsed["event_id"].get<std::string>();
-            if (!eventId.empty())
-                entry.eventId = eventId;
-        }
-        return entry;
-    } catch (std::exception &) {
+    nlohmann::json parsed;
+    if (!db::parseJsonValue(value, parsed))
         // Work around legacy cache entries that stored raw event ids instead of JSON.
-        OrderEntry entry;
-        if (!value.empty())
-            entry.eventId = std::string(value);
-        return entry;
+        return OrderEntry{.eventId      = value.empty() ? std::nullopt
+                                                       : std::optional<std::string>(std::string(value)),
+                          .prevBatch    = std::nullopt,
+                          .hasPrevBatch = false};
+
+    OrderEntry entry;
+    entry.hasPrevBatch = parsed.count("prev_batch") != 0;
+    if (parsed.contains("prev_batch") && parsed["prev_batch"].is_string())
+        entry.prevBatch = parsed["prev_batch"].get<std::string>();
+    if (parsed.contains("event_id") && parsed["event_id"].is_string()) {
+        const auto eventId = parsed["event_id"].get<std::string>();
+        if (!eventId.empty())
+            entry.eventId = eventId;
     }
+    return entry;
 }
 
 std::string

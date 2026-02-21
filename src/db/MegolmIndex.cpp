@@ -9,6 +9,7 @@
 #include <nlohmann/json.hpp>
 
 #include "db/DbTypes.h"
+#include "db/Json.h"
 
 namespace {
 
@@ -34,19 +35,18 @@ megolmSessionKey(std::string_view roomId, std::string_view sessionId)
 bool
 parseMegolmSessionKey(std::string_view key, std::string &roomId, std::string &sessionId) noexcept
 {
-    try {
-        const auto parsed = nlohmann::json::parse(key);
-        if (!parsed.contains("room_id") || !parsed.contains("session_id") ||
-            !parsed.at("room_id").is_string() || !parsed.at("session_id").is_string()) {
-            return false;
-        }
+    nlohmann::json parsed;
+    if (!db::parseJsonValue(key, parsed))
+        return false;
 
-        roomId    = parsed.at("room_id").get<std::string>();
-        sessionId = parsed.at("session_id").get<std::string>();
-        return true;
-    } catch (const std::exception &) {
+    if (!parsed.contains("room_id") || !parsed.contains("session_id") ||
+        !parsed.at("room_id").is_string() || !parsed.at("session_id").is_string()) {
         return false;
     }
+
+    roomId    = parsed.at("room_id").get<std::string>();
+    sessionId = parsed.at("session_id").get<std::string>();
+    return true;
 }
 
 bool

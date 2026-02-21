@@ -1164,6 +1164,24 @@ testJsonHelpers()
         ok &= expect(parseError, "json helper propagates parse_error for malformed payloads");
     }
 
+    {
+        const auto goodVec = db::parseJsonValue<std::vector<int>>(R"([1,2,3])");
+        ok &= expect(goodVec.has_value() && *goodVec == std::vector<int>({1, 2, 3}),
+                     "json parse helper parses valid json payloads");
+
+        const auto malformedVec = db::parseJsonValue<std::vector<int>>("{bad-json");
+        ok &= expect(!malformedVec.has_value(),
+                     "json parse helper returns empty optional for malformed payload");
+
+        std::vector<int> parsed;
+        ok &= expect(db::parseJsonValue<std::vector<int>>(R"([4,5])", parsed) &&
+                         parsed == std::vector<int>({4, 5}),
+                     "json parse helper output overload parses valid payload");
+
+        ok &= expect(!db::parseJsonValue<std::vector<int>>(R"({"oops":true})", parsed),
+                     "json parse helper output overload returns false for malformed payload");
+    }
+
     backend->close();
     return ok;
 }

@@ -20,6 +20,7 @@
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Internal.h"
+#include "db/Json.h"
 
 namespace {
 
@@ -42,11 +43,11 @@ stateKeyFromCompositeValue(std::string_view value)
 std::string
 stateKeyFromLegacyJson(std::string_view value)
 {
-    try {
-        return nlohmann::json::parse(value).value("key", "");
-    } catch (...) {
+    nlohmann::json parsed;
+    if (!db::parseJsonValue(value, parsed))
         return {};
-    }
+
+    return parsed.value("key", "");
 }
 
 struct KeyLess

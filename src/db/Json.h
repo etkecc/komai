@@ -13,6 +13,29 @@
 
 namespace db {
 
+template<typename T>
+std::optional<T>
+parseJsonValue(std::string_view raw)
+{
+    try {
+        return nlohmann::json::parse(raw).template get<T>();
+    } catch (const nlohmann::json::exception &) {
+        return std::nullopt;
+    }
+}
+
+template<typename T>
+bool
+parseJsonValue(std::string_view raw, T &value)
+{
+    const auto parsed = parseJsonValue<T>(raw);
+    if (!parsed)
+        return false;
+
+    value = std::move(*parsed);
+    return true;
+}
+
 template<typename T, typename K>
 std::optional<T>
 getJsonValue(Txn &txn, Dbi &db, const K &key)

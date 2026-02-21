@@ -8,6 +8,7 @@
 #include <array>
 #include <cctype>
 #include <exception>
+#include <stdexcept>
 #include <map>
 #include <vector>
 
@@ -20,6 +21,7 @@
 #include "db/Open.h"
 #include "db/Scan.h"
 #include "db/StateIndex.h"
+#include "db/Json.h"
 
 namespace {
 
@@ -86,7 +88,9 @@ migrateLegacyStateByKeyToStatesKey(Backend &backend,
           txn,
           oldStateskeyDb,
           [&txn, &newStateskeyDb](std::string_view eventType, std::string_view data) {
-              auto parsed = nlohmann::json::parse(std::string_view(data.data(), data.size()));
+              nlohmann::json parsed;
+              if (!db::parseJsonValue(data, parsed))
+                  throw std::runtime_error("invalid legacy state-by-key payload");
               putStateEventId(
                 txn, newStateskeyDb, eventType, parsed.value("key", ""), parsed.value("id", ""));
               return true;
@@ -130,7 +134,9 @@ migrateLegacyMegolmSessionIndexes(Backend &backend, Txn &txn, std::string *error
                      inboundMegolmSessionDb,
                      [&txn, &megolmSessionDataDb, &inboundSessions, &megolmSessionData](
                        std::string_view key, std::string_view value) {
-                         auto indexVal = nlohmann::json::parse(key);
+                         nlohmann::json indexVal;
+                         if (!db::parseJsonValue(key, indexVal))
+                             throw std::runtime_error("invalid legacy megolm index key");
                          if (!indexVal.contains("sender_key") ||
                              !indexVal.at("sender_key").is_string())
                              return true;
@@ -139,7 +145,9 @@ migrateLegacyMegolmSessionIndexes(Backend &backend, Txn &txn, std::string *error
 
                          std::string_view dataVal;
                          if (megolmSessionDataDb.get(txn, key, dataVal)) {
-                             auto data          = nlohmann::json::parse(dataVal);
+                             nlohmann::json data;
+                             if (!db::parseJsonValue(dataVal, data))
+                                 throw std::runtime_error("invalid legacy megolm metadata payload");
                              data["sender_key"] = senderKey;
 
                              const auto newKey         = indexVal.dump();

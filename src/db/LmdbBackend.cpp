@@ -17,6 +17,7 @@
 #include "db/LmdbError.h"
 #include "db/LmdbFlags.h"
 #include "db/Scan.h"
+#include "db/Json.h"
 
 namespace {
 
@@ -36,13 +37,13 @@ compareStateKey(const MDB_val *a, const MDB_val *b)
 std::string
 stateKeyFromLegacyJson(const MDB_val *value)
 {
-    try {
-        return nlohmann::json::parse(
-                 std::string_view(static_cast<const char *>(value->mv_data), value->mv_size))
-          .value("key", "");
-    } catch (...) {
+    nlohmann::json parsed;
+    const std::string_view raw(static_cast<const char *>(value->mv_data), value->mv_size);
+    if (!db::parseJsonValue(raw, parsed)) {
         return {};
     }
+
+    return parsed.value("key", "");
 }
 
 int

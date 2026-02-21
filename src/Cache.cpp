@@ -878,21 +878,17 @@ Cache::exportSessionKeys()
           }
 
           try {
-              using namespace mtx::crypto;
-
-              std::string_view v;
-              if (db::getMegolmSessionDataValue(
-                    txn, db->megolmSessionsData, index.room_id, index.session_id, v)) {
-                  auto data           = nlohmann::json::parse(v).get<GroupSessionData>();
-                  exported.sender_key = data.sender_key;
-                  if (!data.sender_claimed_ed25519_key.empty())
-                      exported.sender_claimed_keys["ed25519"] = data.sender_claimed_ed25519_key;
-                  exported.forwarding_curve25519_key_chain = data.forwarding_curve25519_key_chain;
-              } else {
+              const auto key = db::megolmSessionKey(index.room_id, index.session_id);
+              const auto data =
+                db::getJsonValue<GroupSessionData>(txn, db->megolmSessionsData, key);
+              if (!data)
                   return true;
-              }
 
-          } catch (std::exception &e) {
+              exported.sender_key = data->sender_key;
+              if (!data->sender_claimed_ed25519_key.empty())
+                  exported.sender_claimed_keys["ed25519"] = data->sender_claimed_ed25519_key;
+              exported.forwarding_curve25519_key_chain = data->forwarding_curve25519_key_chain;
+          } catch (const std::exception &e) {
               nhlog::db()->error("Failed to retrieve Megolm Session Data: {}", e.what());
               return true;
           }
@@ -996,16 +992,16 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
 
         // merge trusted > untrusted
         // first known index minimum
-        if (db::getMegolmSessionDataValue(
-              txn, db->megolmSessionsData, index.room_id, index.session_id, value)) {
-            auto oldData = nlohmann::json::parse(value).get<GroupSessionData>();
+        if (auto data = db::getJsonValue<GroupSessionData>(
+              txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
+            auto oldData = std::move(*data);
             if (oldData.trusted && newIndex >= oldIndex) {
                 nhlog::crypto()->warn(
                   "Not storing inbound session of lesser trust or bigger index.");
                 return;
             }
 
-            oldData.trusted = data.trusted || oldData.trusted;
+            oldData.trusted = data->trusted || oldData.trusted;
 
             if (newIndex < oldIndex) {
                 db::putInboundMegolmSessionValue(
@@ -1168,9 +1164,9 @@ Cache::getOutboundMegolmSession(const std::string &room_id)
         index.room_id    = room_id;
         index.session_id = mtx::crypto::session_id(ref.session.get());
 
-        if (db::getMegolmSessionDataValue(
-              txn, db->megolmSessionsData, index.room_id, index.session_id, value)) {
-            ref.data = nlohmann::json::parse(value).get<GroupSessionData>();
+        if (auto data = db::getJsonValue<GroupSessionData>(
+              txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
+            ref.data = std::move(*data);
         }
 
         return ref;
@@ -1187,11 +1183,9 @@ Cache::getMegolmSessionData(const MegolmSessionIndex &index)
         using namespace mtx::crypto;
 
         auto txn = ro_txn(storage());
-
-        std::string_view value;
-        if (db::getMegolmSessionDataValue(
-              txn, db->megolmSessionsData, index.room_id, index.session_id, value)) {
-            return nlohmann::json::parse(value).get<GroupSessionData>();
+        if (auto data = db::getJsonValue<GroupSessionData>(
+              txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
+            return data;
         }
 
         return std::nullopt;
@@ -1256,12 +1250,10 @@ Cache::getOlmSession(const std::string &curve25519, const std::string &session_i
     try {
         auto txn = ro_txn(storage());
 
-        std::string_view pickled;
-        bool found = db::getOlmSessionValue(txn, db->olmSessions, curve25519, session_id, pickled);
-
-        if (found) {
-            auto data = nlohmann::json::parse(pickled).get<StoredOlmSession>();
-            return unpickle<SessionObject>(data.pickled_session, pickle_secret_);
+        if (auto data =
+              db::getJsonValue<StoredOlmSession>(txn, db->olmSessions, db::catalog::olmSessionKey(
+                                                                    curve25519, session_id))) {
+            return unpickle<SessionObject>(data->pickled_session, pickle_secret_);
         }
 
     } catch (...) {
@@ -1282,10 +1274,15 @@ Cache::getLatestOlmSession(const std::string &curve25519)
           txn,
           db->olmSessions,
           curve25519,
-          [&currentNewest](std::string_view /*sessionId*/, std::string_view pickled_session) {
-              auto data = nlohmann::json::parse(pickled_session).get<StoredOlmSession>();
-              if (!currentNewest || currentNewest->last_message_ts < data.last_message_ts)
-                  currentNewest = data;
+          [&currentNewest, &txn, this, &curve25519](std::string_view sessionId,
+                                                   std::string_view /*pickled_session*/) {
+              auto data = db::getJsonValue<StoredOlmSession>(
+                txn, db->olmSessions, db::catalog::olmSessionKey(curve25519, sessionId));
+              if (!data)
+                  return true;
+
+              if (!currentNewest || currentNewest->last_message_ts < data->last_message_ts)
+                  currentNewest = *data;
               return true;
           });
 

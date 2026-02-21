@@ -31,7 +31,6 @@ using TransactionFlags = db::TxnFlags;
 using StoreFlags = db::StoreFlags;
 using BackendId = DatabaseId;
 using DatabaseIdSet = db::DatabaseIdSet;
-using DatabaseBackendId = DatabaseId;
 
 inline constexpr std::string_view kMemoryDatabaseId = db::kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryDatabaseId = db::kInMemoryDatabaseId;
@@ -158,7 +157,7 @@ availableDatabaseIds()
 }
 
 inline std::span<const DatabaseId>
-availableBackendIds()
+availableBackendIds() noexcept
 {
     return availableDatabaseIds();
 }

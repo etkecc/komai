@@ -15,6 +15,9 @@
 #include "db/Backend.h"
 #include "db/NamePolicy.h"
 #include "db/Catalog.h"
+#include "db/Scan.h"
+#include "db/DupIndex.h"
+#include "db/TimelineIndex.h"
 
 namespace db::storage {
 
@@ -34,6 +37,7 @@ using TransactionFlags = db::TxnFlags;
 using StoreFlags = db::StoreFlags;
 using BackendId = DatabaseId;
 using DatabaseIdSet = db::DatabaseIdSet;
+using ScanDirection = db::ScanDirection;
 
 inline constexpr std::string_view kMemoryDatabaseId = db::kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryDatabaseId = db::kInMemoryDatabaseId;
@@ -100,6 +104,51 @@ openOptionsForRoom(catalog::RoomDb db)
 {
     return db::openOptionsForRoom(db);
 }
+
+using db::forEachDupValue;
+using db::forEachEntry;
+using db::forEachEntryFromKey;
+using db::forEachEntryWithPrefix;
+using db::forEachUniqueKey;
+using db::listDupValues;
+using db::listEntries;
+using db::listKeys;
+using db::listUniqueKeys;
+using db::eraseEntriesIf;
+using db::firstEntry;
+using db::firstPrevBatchToken;
+using db::firstOrderedIndex;
+using db::lastEntry;
+using db::lastOrderedIndex;
+using db::lastTimelineEventId;
+using db::lastVisibleEvent;
+using db::lastInvisibleEventAfter;
+using db::listOrderEntriesAfterPrevBatchMarker;
+using db::listOrderEntryEventIds;
+using db::timelineEventIdAtIndex;
+using db::timelineIndexForEvent;
+using db::eventIndexForEvent;
+using db::timelineRange;
+using db::putDupValueForKeys;
+using db::replaceDupValueForKeys;
+using db::removeMessageOrderMapping;
+using db::removeMessageOrderMappingsNotInOrderEntries;
+using db::removeOrderEntryReferences;
+using db::removeOrderEntryWithReferences;
+using db::removePendingEntriesByTxnId;
+using db::removeTimelineEventReferences;
+using db::trimOldestOrderEntriesWithReferences;
+using db::cleanupTimelineBeforePrevBatchMarker;
+using db::replaceTimelineEventId;
+using db::setOrderEntryPrevBatch;
+using db::putEventOrderMapping;
+using db::putMessageOrderMapping;
+using db::putOrderEntry;
+using db::putEventOrderMappingForEvent;
+using db::appendEventOrderEntry;
+using db::prependEventOrderEntry;
+using db::appendMessageOrderEntry;
+using db::prependMessageOrderEntry;
 
 inline void
 requireCapabilities(const Database &database, StoreFlags flags)

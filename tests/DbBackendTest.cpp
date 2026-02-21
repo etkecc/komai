@@ -724,6 +724,25 @@ testStorageApiHelpers()
         ok &= expect(!cursor.moveNextDup(key, value), "storage API dupsort end after three values");
     }
 
+    {
+        auto roTxn = db::storage::beginReadTransaction(*backend);
+        auto events = db::storage::openStore(*backend,
+                                             roTxn,
+                                             "room-events",
+                                             false,
+                                             db::StoreFlags::IntegerKey);
+        auto cursor = db::storage::openCursor(roTxn, events);
+        std::string key;
+        std::string value;
+        ok &= expect(cursor.moveLast(key, value), "storage API cursor last");
+        ok &= expect(key == integerKey(11), "storage API cursor last key is highest");
+        ok &= expect(value == "value-11", "storage API cursor last value");
+
+        ok &= expect(cursor.movePrev(key, value), "storage API cursor movePrev from last");
+        ok &= expect(key == integerKey(7), "storage API cursor movePrev reaches previous key");
+        ok &= expect(value == "value-7", "storage API cursor movePrev value");
+    }
+
     backend->close();
     return ok;
 }

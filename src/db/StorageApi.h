@@ -9,9 +9,8 @@
 
 #include "db/Error.h"
 #include "db/Backend.h"
-#include "db/Open.h"
-#include "db/Catalog.h"
 #include "db/NamePolicy.h"
+#include "db/Catalog.h"
 
 namespace db::storage {
 

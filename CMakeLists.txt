@@ -485,7 +485,6 @@ set(SRC_FILES
     src/db/LmdbHeaders.h
     src/db/StorageApi.h
     src/db/NamePolicy.h
-    src/db/Open.h
     src/db/OrderEntry.h
     src/db/Scan.h
     src/db/Schema.h
@@ -1008,7 +1007,6 @@ add_library(komai_db
     src/db/MegolmIndex.cpp
     src/db/MemberInfo.cpp
     src/db/NamePolicy.cpp
-    src/db/Open.cpp
     src/db/OlmSessionIndex.cpp
     src/db/OrderEntry.cpp
     src/db/ReadReceiptIndex.cpp

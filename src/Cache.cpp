@@ -2326,7 +2326,7 @@ try {
         } else if (errorKind == db::ErrorKind::MapFull) {
             auto settings = UserSettings::instance();
 
-            if (const auto mapSize = storage().mapSizeBytes(); mapSize.has_value()) {
+            if (const auto mapSize = db::storage::mapSizeBytes(storage()); mapSize.has_value()) {
                 settings->setMaxDbSize(static_cast<qulonglong>(*mapSize * 2));
             }
         }

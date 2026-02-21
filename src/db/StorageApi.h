@@ -7,6 +7,7 @@
 #include <string>
 #include <string_view>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "db/Error.h"
@@ -209,6 +210,30 @@ inline StorageCategory
 storageCategory(const Database &database)
 {
     return database.storageCategory();
+}
+
+inline std::optional<std::size_t>
+mapSizeBytes(const Database &database)
+{
+    return database.mapSizeBytes();
+}
+
+inline std::optional<std::size_t>
+mapSizeBytes(Database *database)
+{
+    return database ? mapSizeBytes(*database) : std::nullopt;
+}
+
+inline std::optional<std::size_t>
+mapSizeBytes(std::unique_ptr<Database> &database)
+{
+    return mapSizeBytes(database.get());
+}
+
+inline std::optional<std::size_t>
+mapSizeBytes(const std::unique_ptr<Database> &database)
+{
+    return mapSizeBytes(database.get());
 }
 
 inline StorageCategory

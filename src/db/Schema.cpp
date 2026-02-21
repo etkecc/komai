@@ -50,7 +50,7 @@ roomDbsForFullResync() noexcept
 }
 
 bool
-tryDropNamedStore(storage::Database &database, storage::Transaction &txn, std::string_view dbName, std::string *error) noexcept
+tryDropNamedStore(Database &database, Transaction &txn, std::string_view dbName, std::string *error) noexcept
 {
     if (error)
         error->clear();
@@ -70,8 +70,8 @@ tryDropNamedStore(storage::Database &database, storage::Transaction &txn, std::s
 }
 
 bool
-migrateLegacyStateByKeyToStatesKey(storage::Database &database,
-                                   storage::Transaction &txn,
+migrateLegacyStateByKeyToStatesKey(Database &database,
+                                   Transaction &txn,
                                    std::string_view roomId,
                                    std::string *error) noexcept
 {
@@ -110,7 +110,7 @@ migrateLegacyStateByKeyToStatesKey(storage::Database &database,
 }
 
 bool
-migrateLegacyMegolmSessionIndexes(storage::Database &database, storage::Transaction &txn, std::string *error) noexcept
+migrateLegacyMegolmSessionIndexes(Database &database, Transaction &txn, std::string *error) noexcept
 {
     if (error)
         error->clear();
@@ -179,7 +179,7 @@ migrateLegacyMegolmSessionIndexes(storage::Database &database, storage::Transact
 }
 
 void
-migrateLegacyOlmShardsV1ToV2(storage::Database &database, storage::Transaction &txn)
+migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
 {
     const auto dbNames = db::storage::listStoreNames(database, txn);
     for (const auto &dbName : dbNames) {
@@ -214,9 +214,7 @@ migrateLegacyOlmShardsV1ToV2(storage::Database &database, storage::Transaction &
 }
 
 bool
-migrateLegacyOlmShardsV2ToUnified(storage::Database &database,
-                                  storage::Transaction &txn,
-                                  storage::Store &olmSessions)
+migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &olmSessions)
 {
     const auto dbNames = db::storage::listStoreNames(database, txn);
     bool migrated      = false;

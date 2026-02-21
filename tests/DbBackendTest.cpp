@@ -289,7 +289,7 @@ testSchemaHelpers()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 128;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     const auto roomId    = std::string("!room:example");
     const auto eventsDbi = db::catalog::roomName(roomId, db::catalog::RoomDb::Events);
@@ -433,7 +433,7 @@ testSchemaHelpers()
         ok &= expect(!error.empty(), "schema helper provides error text on megolm migration failure");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -446,7 +446,7 @@ testLegacyOlmMigrationHelpers()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 64;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
     const std::string v2Payload = R"({"s":"pickle-2","ts":7})";
 
     const auto v1Name = std::string("olm_sessions/curve-1");
@@ -511,7 +511,7 @@ testLegacyOlmMigrationHelpers()
         txn.commit();
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -606,7 +606,7 @@ testOpenHelpers()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn = db::storage::beginWriteTransaction(*backend);
@@ -644,7 +644,7 @@ testOpenHelpers()
         ok &= expect(spacesValue == "child-a", "openGlobalStore applies DupSort policy");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -657,7 +657,7 @@ testStorageApiHelpers()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     ok &= expect(db::storage::supportsCapability(*backend, db::storage::Capability::DuplicateKeys),
                  "storage API exposes duplicate-key capability");
@@ -747,7 +747,7 @@ testStorageApiHelpers()
         ok &= expect(value == "value-7", "storage API cursor movePrev value");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -761,8 +761,8 @@ testCompactionHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    from->open("", options);
-    to->open("", options);
+    db::storage::open(from, "", options);
+    db::storage::open(to, "", options);
 
     {
         auto txn      = db::storage::beginWriteTransaction(*from);
@@ -796,8 +796,8 @@ testCompactionHelper()
         ok &= expect(dupValue == "child-a", "compaction preserves DupSort policy");
     }
 
-    from->close();
-    to->close();
+    db::storage::close(from);
+    db::storage::close(to);
     return ok;
 }
 
@@ -810,7 +810,7 @@ testStateIndexHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn = db::storage::beginWriteTransaction(*backend);
@@ -892,7 +892,7 @@ testStateIndexHelper()
                      "state index helper write API keeps state-key ordering after replace #2");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -905,7 +905,7 @@ testSyncStateHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn = db::storage::beginWriteTransaction(*backend);
@@ -966,7 +966,7 @@ testSyncStateHelper()
                      "sync state helper reports missing secret-keyed value");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -979,7 +979,7 @@ testMegolmIndexHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn      = db::storage::beginWriteTransaction(*backend);
@@ -1030,7 +1030,7 @@ testMegolmIndexHelper()
                      "megolm index helper rejects malformed key");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1043,7 +1043,7 @@ testReadReceiptIndexHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn  = db::storage::beginWriteTransaction(*backend);
@@ -1076,7 +1076,7 @@ testReadReceiptIndexHelper()
                      "read receipt helper serializes event/room key fields");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1089,7 +1089,7 @@ testRoomInfoHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     RoomInfo info;
     info.name                             = "Room";
@@ -1155,7 +1155,7 @@ testRoomInfoHelper()
         ok &= expect(parseError, "room info helper propagates on malformed payload");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1168,7 +1168,7 @@ testMemberInfoHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     MemberInfo info{
       .name       = "Alice",
@@ -1223,7 +1223,7 @@ testMemberInfoHelper()
         ok &= expect(parseError, "member info helper propagates on malformed payload");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1236,7 +1236,7 @@ testJsonHelpers()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 16;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     std::vector<int> numbers{1, 2, 3, 5};
 
@@ -1309,7 +1309,7 @@ testJsonHelpers()
                      "json parse helper output overload returns false for malformed payload");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1420,7 +1420,7 @@ testOlmSessionIndexHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn = db::storage::beginWriteTransaction(*backend);
@@ -1463,7 +1463,7 @@ testOlmSessionIndexHelper()
                      "olm session helper callback exposes ordered session ids");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1476,7 +1476,7 @@ testDupIndexHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn = db::storage::beginWriteTransaction(*backend);
@@ -1567,7 +1567,7 @@ testDupIndexHelper()
                      "dup index helper replaceDupValueForKeys rewrites single-key value");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1580,7 +1580,7 @@ testScanHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn  = db::storage::beginWriteTransaction(*backend);
@@ -1800,7 +1800,7 @@ testScanHelper()
                      "scan helper eraseEntriesIf preserves non-matching entry values");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -1861,7 +1861,7 @@ testTimelineIndexHelper()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 128;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
     {
         auto txn = db::storage::beginWriteTransaction(*backend);
@@ -2748,7 +2748,7 @@ testTimelineIndexHelper()
                      "timeline index helper cleanupTimelineBeforePrevBatchMarker keeps marker and newer payloads");
     }
 
-    backend->close();
+    db::storage::close(backend);
     return ok;
 }
 
@@ -2831,9 +2831,9 @@ testInMemoryBackend()
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
     options.maxDbs             = 32;
-    backend->open("", options);
+    db::storage::open(backend, "", options);
 
-    ok &= expect(backend->isOpen(), "memory backend opens");
+    ok &= expect(db::storage::isOpen(backend), "memory backend opens");
 
     {
         auto rwTxn = db::storage::beginWriteTransaction(*backend);
@@ -2906,8 +2906,8 @@ testInMemoryBackend()
 
     ok &= testCursorAndOrderingContract(*backend, db::kMemoryBackendId);
 
-    backend->close();
-    ok &= expect(!backend->isOpen(), "memory backend closes");
+    db::storage::close(backend);
+    ok &= expect(!db::storage::isOpen(backend), "memory backend closes");
     return ok;
 }
 
@@ -2929,9 +2929,9 @@ testLmdbBackend()
     options.mapSizeBytes       = 1U << 24;
     options.maxDbs             = 32;
     options.durability         = db::Durability::Durable;
-    backend->open(tmp.path().toStdString(), options);
+    db::storage::open(backend, tmp.path().toStdString(), options);
 
-    ok &= expect(backend->isOpen(), "lmdb backend opens");
+    ok &= expect(db::storage::isOpen(backend), "lmdb backend opens");
 
     {
         auto rwTxn = db::storage::beginWriteTransaction(*backend);
@@ -2961,10 +2961,10 @@ testLmdbBackend()
 
     ok &= testCursorAndOrderingContract(*backend, db::kLmdbBackendId);
 
-    backend->close();
-    ok &= expect(!backend->isOpen(), "lmdb backend closes");
+    db::storage::close(backend);
+    ok &= expect(!db::storage::isOpen(backend), "lmdb backend closes");
 
-    backend->open(tmp.path().toStdString(), options);
+    db::storage::open(backend, tmp.path().toStdString(), options);
     {
         auto roTxn = db::storage::beginReadTransaction(*backend);
         auto one   = db::storage::openStore(*backend, roTxn, "one");
@@ -2973,8 +2973,8 @@ testLmdbBackend()
         ok &= expect(value == "v1", "lmdb reopened value matches written value");
     }
 
-    backend->close();
-    ok &= expect(!backend->isOpen(), "lmdb backend closes");
+    db::storage::close(backend);
+    ok &= expect(!db::storage::isOpen(backend), "lmdb backend closes");
     return ok;
 }
 

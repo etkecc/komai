@@ -6,6 +6,7 @@
 
 #include <string>
 #include <string_view>
+#include <memory>
 #include <vector>
 
 #include "db/Error.h"
@@ -20,6 +21,7 @@ using Transaction = db::Transaction;
 using Store       = db::Store;
 using CursorHandle = db::CursorHandle;
 using Options     = db::StoreOpenOptions;
+using DatabaseOptions = db::BackendOptions;
 
 enum class AccessMode
 {
@@ -70,6 +72,104 @@ requireCapabilities(const Database &database, StoreFlags flags)
     if (hasFlag(flags, StoreFlags::IntegerKey) &&
         !supportsCapability(database, Capability::IntegerKeys))
         throw Error("Backend does not support integer-key stores", ErrorKind::Invalid);
+}
+
+inline void
+open(Database &database, std::string_view directory, const DatabaseOptions &options = {})
+{
+    database.open(directory, options);
+}
+
+inline void
+open(Database *database, std::string_view directory, const DatabaseOptions &options = {})
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    open(*database, directory, options);
+}
+
+inline void
+open(std::unique_ptr<Database> &database,
+     std::string_view directory,
+     const DatabaseOptions &options = {})
+{
+    open(database.get(), directory, options);
+}
+
+inline void
+open(const std::unique_ptr<Database> &database, std::string_view directory, const DatabaseOptions &options = {})
+{
+    open(database.get(), directory, options);
+}
+
+inline void
+close(Database &database)
+{
+    database.close();
+}
+
+inline void
+close(Database *database)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    close(*database);
+}
+
+inline void
+close(std::unique_ptr<Database> &database)
+{
+    close(database.get());
+}
+
+inline void
+close(const std::unique_ptr<Database> &database)
+{
+    close(database.get());
+}
+
+inline bool
+isOpen(const Database &database)
+{
+    return database.isOpen();
+}
+
+inline bool
+isOpen(const Database *database)
+{
+    return database ? isOpen(*database) : false;
+}
+
+inline bool
+isOpen(const std::unique_ptr<Database> &database)
+{
+    return isOpen(database.get());
+}
+
+inline bool
+isOpen(const std::unique_ptr<const Database> &database)
+{
+    return isOpen(database.get());
+}
+
+inline std::string_view
+id(const Database &database)
+{
+    return database.id();
+}
+
+inline bool
+supportsCompaction(const Database &database)
+{
+    return database.supportsCompaction();
+}
+
+inline StorageCategory
+storageCategory(const Database &database)
+{
+    return database.storageCategory();
 }
 
 class Cursor

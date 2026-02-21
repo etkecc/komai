@@ -7,7 +7,8 @@
 #include <string_view>
 
 #include "db/Schema.h"
-#include "db/Compaction.h"
+#include "db/Scan.h"
+#include "db/StorageApi.h"
 
 namespace db::maintenance {
 
@@ -79,7 +80,22 @@ supportsCompaction(const std::unique_ptr<Database> &database) noexcept
 void
 compact(Database &from, Database &to)
 {
-    db::compact(from, to);
+    auto fromTxn = storage::beginTransaction(from, nullptr, storage::AccessFlags::ReadOnly);
+    auto toTxn   = storage::beginWriteTransaction(to);
+
+    const auto dbNames = storage::listStoreNames(from, fromTxn);
+    for (const auto &dbName : dbNames) {
+        auto fromDb = db::storage::openNamedStore(from, fromTxn, dbName, false);
+        auto toDb   = db::storage::openNamedStore(to, toTxn, dbName, true);
+
+        forEachEntry(
+          fromTxn, fromDb, [&toTxn, &toDb](std::string_view key, std::string_view value) {
+              toDb.put(toTxn, key, value, db::PutFlags::AppendDup);
+              return true;
+          });
+    }
+
+    toTxn.commit();
 }
 
 } // namespace db::maintenance

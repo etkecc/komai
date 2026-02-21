@@ -4,10 +4,13 @@
 
 #include "db/MemberInfo.h"
 
+#include <stdexcept>
+
 #include <nlohmann/json.hpp>
 
 #include "CacheStructs.h"
 #include "db/DbTypes.h"
+#include "db/Json.h"
 
 void
 to_json(nlohmann::json &j, const MemberInfo &info)
@@ -43,7 +46,11 @@ serializeMemberInfo(const MemberInfo &info)
 MemberInfo
 parseMemberInfo(std::string_view value)
 {
-    return nlohmann::json::parse(value).get<MemberInfo>();
+    const auto parsed = db::parseJsonValue<MemberInfo>(value);
+    if (!parsed)
+        throw std::runtime_error("failed to parse member info");
+
+    return *parsed;
 }
 
 bool

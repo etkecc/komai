@@ -1033,9 +1033,19 @@ testRoomInfoHelper()
         const auto serialized = db::serializeRoomInfo(info);
         const auto parsed     = db::parseRoomInfo(serialized);
         ok &= expect(parsed.name == info.name && parsed.topic == info.topic &&
-                       parsed.approximate_last_modification_ts ==
-                         info.approximate_last_modification_ts,
+                           parsed.approximate_last_modification_ts ==
+                             info.approximate_last_modification_ts,
                      "room info helper parse/serialize roundtrip preserves key fields");
+    }
+
+    {
+        bool parseError = false;
+        try {
+            (void)db::parseRoomInfo("{bad-json");
+        } catch (const std::exception &) {
+            parseError = true;
+        }
+        ok &= expect(parseError, "room info helper propagates on malformed payload");
     }
 
     backend->close();
@@ -1094,6 +1104,16 @@ testMemberInfoHelper()
                        parsed.inviter == info.inviter && parsed.reason == info.reason &&
                        parsed.is_direct == info.is_direct,
                      "member info helper parse/serialize roundtrip preserves fields");
+    }
+
+    {
+        bool parseError = false;
+        try {
+            (void)db::parseMemberInfo("{bad-json");
+        } catch (const std::exception &) {
+            parseError = true;
+        }
+        ok &= expect(parseError, "member info helper propagates on malformed payload");
     }
 
     backend->close();

@@ -6,6 +6,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <stdexcept>
 
 #include <QCoreApplication>
 
@@ -13,6 +14,7 @@
 
 #include "CacheStructs.h"
 #include "db/DbTypes.h"
+#include "db/Json.h"
 
 void
 to_json(nlohmann::json &j, const RoomInfo &info)
@@ -81,7 +83,11 @@ serializeRoomInfo(const RoomInfo &info)
 RoomInfo
 parseRoomInfo(std::string_view value)
 {
-    return nlohmann::json::parse(value).get<RoomInfo>();
+    const auto parsed = db::parseJsonValue<RoomInfo>(value);
+    if (!parsed)
+        throw std::runtime_error("failed to parse room info");
+
+    return *parsed;
 }
 
 bool

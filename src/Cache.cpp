@@ -122,8 +122,8 @@ Cache::storage() const
     return *db->storage;
 }
 
-db::Txn
-Cache::beginTxn(db::Txn *parent, db::TxnFlags flags)
+db::Transaction
+Cache::beginTxn(db::Transaction *parent, db::TxnFlags flags)
 {
     return db::storage::beginTransaction(
       storage(), parent, flags == db::TxnFlags::ReadOnly ? db::storage::AccessMode::ReadOnly
@@ -144,15 +144,15 @@ std::unique_ptr<Cache> instance_ = nullptr;
 struct RO_txn
 {
     ~RO_txn() { txn.reset(); }
-    operator db::Txn &() noexcept { return txn; }
+    operator db::Transaction &() noexcept { return txn; }
 
-    db::Txn &txn;
+    db::Transaction &txn;
 };
 
 RO_txn
 ro_txn(db::Backend &storage)
 {
-    thread_local db::Txn txn       = db::storage::beginReadTransaction(storage);
+    thread_local db::Transaction txn       = db::storage::beginReadTransaction(storage);
     thread_local int reuse_counter = 0;
 
     if (reuse_counter >= 100 || !storage.ownsTxn(txn)) {
@@ -173,95 +173,95 @@ ro_txn(db::Backend &storage)
     return RO_txn{txn};
 }
 
-db::Dbi
-Cache::getEventsDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getEventsDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Events);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Events);
 }
 
-db::Dbi
-Cache::getEventOrderDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getEventOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventOrder);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventOrder);
 }
 
 // inverse of EventOrderDb
-db::Dbi
-Cache::getEventToOrderDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getEventToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventToOrder);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventToOrder);
 }
 
-db::Dbi
-Cache::getMessageToOrderDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getMessageToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::MessageToOrder);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::MessageToOrder);
 }
 
-db::Dbi
-Cache::getOrderToMessageDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getOrderToMessageDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::OrderToMessage);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::OrderToMessage);
 }
 
-db::Dbi
-Cache::getPendingMessagesDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getPendingMessagesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Pending);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Pending);
 }
 
-db::Dbi
-Cache::getRelationsDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getRelationsDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Related);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Related);
 }
 
-db::Dbi
-Cache::getInviteStatesDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getInviteStatesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteState);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteState);
 }
 
-db::Dbi
-Cache::getInviteMembersDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getInviteMembersDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteMembers);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteMembers);
 }
 
-db::Dbi
-Cache::getStatesDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getStatesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::State);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::State);
 }
 
-db::Dbi
-Cache::getStatesKeyDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getStatesKeyDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::StatesKey);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::StatesKey);
 }
 
-db::Dbi
-Cache::getAccountDataDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getAccountDataDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::AccountData);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::AccountData);
 }
 
-db::Dbi
-Cache::getMembersDb(db::Txn &txn, const std::string &room_id)
+db::Store
+Cache::getMembersDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Members);
+    return db::storage::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Members);
 }
 
-db::Dbi
-Cache::getUserKeysDb(db::Txn &txn)
+db::Store
+Cache::getUserKeysDb(db::Transaction &txn)
 {
-    return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::UserKeys);
+    return db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::UserKeys);
 }
 
-db::Dbi
-Cache::getVerificationDb(db::Txn &txn)
+db::Store
+Cache::getVerificationDb(db::Transaction &txn)
 {
-    return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Verified);
+    return db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Verified);
 }
 
 QString
@@ -274,7 +274,7 @@ Cache::getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> 
 }
 
 void
-Cache::removeLeftRooms(db::Txn &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms)
+Cache::removeLeftRooms(db::Transaction &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms)
 {
     for (const auto &room : rooms) {
         removeRoom(txn, room.first);
@@ -285,7 +285,7 @@ Cache::removeLeftRooms(db::Txn &txn, const std::map<std::string, mtx::responses:
 }
 
 bool
-Cache::isHiddenEvent(db::Txn &txn,
+Cache::isHiddenEvent(db::Transaction &txn,
                      mtx::events::collections::TimelineEvents e,
                      const std::string &room_id)
 {
@@ -513,29 +513,29 @@ Cache::setup()
     }
 
     auto txn           = beginTxn();
-    db->syncState      = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SyncState);
-    db->rooms          = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Rooms);
-    db->spacesChildren = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SpacesChildren);
-    db->spacesParents  = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SpacesParents);
-    db->invites        = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Invites);
-    db->readReceipts   = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::ReadReceipts);
-    db->notifications  = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Notifications);
-    db->presence       = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Presence);
+    db->syncState      = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SyncState);
+    db->rooms          = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Rooms);
+    db->spacesChildren = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SpacesChildren);
+    db->spacesParents  = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::SpacesParents);
+    db->invites        = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Invites);
+    db->readReceipts   = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::ReadReceipts);
+    db->notifications  = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Notifications);
+    db->presence       = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Presence);
 
     // Session management
     db->inboundMegolmSessions =
-      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::InboundMegolmSessions);
+      db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::InboundMegolmSessions);
     db->outboundMegolmSessions =
-      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::OutboundMegolmSessions);
+      db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::OutboundMegolmSessions);
     db->megolmSessionsData =
-      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::MegolmSessionsData);
+      db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::MegolmSessionsData);
 
-    db->olmSessions = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::OlmSessions);
+    db->olmSessions = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::OlmSessions);
 
     // What rooms are encrypted
-    db->encryptedRooms_ = db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EncryptedRooms);
+    db->encryptedRooms_ = db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EncryptedRooms);
     db->eventExpiryBgJob_ =
-      db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EventExpirationBgJob);
+      db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::EventExpirationBgJob);
 
     [[maybe_unused]] auto verificationDb = getVerificationDb(txn);
     [[maybe_unused]] auto userKeysDb     = getUserKeysDb(txn);
@@ -825,7 +825,7 @@ Cache::loadEventExpirationProgress(const std::string &room, const std::string &e
 }
 
 void
-Cache::setEncryptedRoom(db::Txn &txn, const std::string &room_id)
+Cache::setEncryptedRoom(db::Transaction &txn, const std::string &room_id)
 {
     nhlog::db()->info("mark room {} as encrypted", room_id);
 
@@ -1372,7 +1372,7 @@ Cache::backupVersion()
 }
 
 void
-Cache::removeInvite(db::Txn &txn, const std::string &room_id)
+Cache::removeInvite(db::Transaction &txn, const std::string &room_id)
 {
     db->invites.del(txn, room_id);
     getInviteStatesDb(txn, room_id).drop(txn, true);
@@ -1388,7 +1388,7 @@ Cache::removeInvite(const std::string &room_id)
 }
 
 void
-Cache::removeRoom(db::Txn &txn, const std::string &roomid)
+Cache::removeRoom(db::Transaction &txn, const std::string &roomid)
 {
     db->rooms.del(txn, roomid);
     getStatesDb(txn, roomid).drop(txn, true);
@@ -1405,7 +1405,7 @@ Cache::removeRoom(const std::string &roomid)
 }
 
 void
-Cache::setNextBatchToken(db::Txn &txn, const std::string &token)
+Cache::setNextBatchToken(db::Transaction &txn, const std::string &token)
 {
     db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch, token);
 }
@@ -1473,7 +1473,7 @@ Cache::runMigrations()
            try {
                auto txn = beginTxn(nullptr);
                auto pending_receipts =
-                 db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::PendingReceipts);
+                 db::storage::openGlobalStore(storage(), txn, db::catalog::GlobalDb::PendingReceipts);
                pending_receipts.drop(txn, true);
                txn.commit();
            } catch (const db::Error &) {
@@ -1492,7 +1492,7 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto messagesDb = db::openRoomStore(
+                       auto messagesDb = db::storage::openRoomStore(
                          storage(), txn, room_id, db::catalog::RoomDb::LegacyMessages, false);
 
                        // keep some old messages and batch token
@@ -1747,7 +1747,7 @@ Cache::readReceipts(const QString &event_id, const QString &room_id)
 }
 
 void
-Cache::updateReadReceipt(db::Txn &txn, const std::string &room_id, const Receipts &receipts)
+Cache::updateReadReceipt(db::Transaction &txn, const std::string &room_id, const Receipts &receipts)
 {
     auto user_id = this->localUserId_.toStdString();
     for (const auto &receipt : receipts) {
@@ -1887,7 +1887,7 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
 
 template<typename T>
 std::optional<mtx::events::StateEvent<T>>
-Cache::getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view state_key)
+Cache::getStateEvent(db::Transaction &txn, const std::string &room_id, std::string_view state_key)
 {
     try {
         constexpr auto type = mtx::events::state_content_to_type<T>;
@@ -1922,7 +1922,7 @@ Cache::getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view 
 
 template<typename T>
 std::vector<mtx::events::StateEvent<T>>
-Cache::getStateEventsWithType(db::Txn &txn, const std::string &room_id, mtx::events::EventType type)
+Cache::getStateEventsWithType(db::Transaction &txn, const std::string &room_id, mtx::events::EventType type)
 
 {
     if (room_id.empty())
@@ -1951,11 +1951,11 @@ Cache::getStateEventsWithType(db::Txn &txn, const std::string &room_id, mtx::eve
 
 template<class T>
 void
-Cache::saveStateEvents(db::Txn &txn,
-                       db::Dbi &statesdb,
-                       db::Dbi &stateskeydb,
-                       db::Dbi &membersdb,
-                       db::Dbi &eventsDb,
+Cache::saveStateEvents(db::Transaction &txn,
+                       db::Store &statesdb,
+                       db::Store &stateskeydb,
+                       db::Store &membersdb,
+                       db::Store &eventsDb,
                        const std::string &room_id,
                        const std::vector<T> &events)
 {
@@ -1965,11 +1965,11 @@ Cache::saveStateEvents(db::Txn &txn,
 
 template<class T>
 void
-Cache::saveStateEvent(db::Txn &txn,
-                      db::Dbi &statesdb,
-                      db::Dbi &stateskeydb,
-                      db::Dbi &membersdb,
-                      db::Dbi &eventsDb,
+Cache::saveStateEvent(db::Transaction &txn,
+                      db::Store &statesdb,
+                      db::Store &stateskeydb,
+                      db::Store &membersdb,
+                      db::Store &eventsDb,
                       const std::string &room_id,
                       const T &event)
 {
@@ -2344,7 +2344,7 @@ try {
 }
 
 void
-Cache::saveInvites(db::Txn &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms)
+Cache::saveInvites(db::Transaction &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms)
 {
     for (const auto &room : rooms) {
         auto statesdb  = getInviteStatesDb(txn, room.first);
@@ -2364,9 +2364,9 @@ Cache::saveInvites(db::Txn &txn, const std::map<std::string, mtx::responses::Inv
 }
 
 void
-Cache::saveInvite(db::Txn &txn,
-                  db::Dbi &statesdb,
-                  db::Dbi &membersdb,
+Cache::saveInvite(db::Transaction &txn,
+                  db::Store &statesdb,
+                  db::Store &membersdb,
                   const mtx::responses::InvitedRoom &room)
 {
     using namespace mtx::events;
@@ -2405,7 +2405,7 @@ Cache::saveInvite(db::Txn &txn,
 
 void
 Cache::savePresence(
-  db::Txn &txn,
+  db::Transaction &txn,
   const std::vector<mtx::events::Event<mtx::events::presence::Presence>> &presenceUpdates)
 {
     for (const auto &update : presenceUpdates) {
@@ -2683,9 +2683,9 @@ Cache::roomNamesAndAliases()
 }
 
 std::string
-Cache::getLastEventId(db::Txn &txn, const std::string &room_id)
+Cache::getLastEventId(db::Transaction &txn, const std::string &room_id)
 {
-    db::Dbi orderDb;
+    db::Store orderDb;
     try {
         orderDb = getOrderToMessageDb(txn, room_id);
     } catch (const db::Error &e) {
@@ -2701,7 +2701,7 @@ std::optional<Cache::TimelineRange>
 Cache::getTimelineRange(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
-    db::Dbi orderDb;
+    db::Store orderDb;
     try {
         orderDb = getOrderToMessageDb(txn, room_id);
     } catch (const db::Error &e) {
@@ -2724,7 +2724,7 @@ Cache::getTimelineIndex(const std::string &room_id, std::string_view event_id)
 
     auto txn = ro_txn(storage());
 
-    db::Dbi orderDb;
+    db::Store orderDb;
     try {
         orderDb = getMessageToOrderDb(txn, room_id);
     } catch (const db::Error &e) {
@@ -2744,7 +2744,7 @@ Cache::getEventIndex(const std::string &room_id, std::string_view event_id)
 
     auto txn = ro_txn(storage());
 
-    db::Dbi orderDb;
+    db::Store orderDb;
     try {
         orderDb = getEventToOrderDb(txn, room_id);
     } catch (const db::Error &e) {
@@ -2764,9 +2764,9 @@ Cache::lastInvisibleEventAfter(const std::string &room_id, std::string_view even
 
     auto txn = ro_txn(storage());
 
-    db::Dbi orderDb;
-    db::Dbi eventOrderDb;
-    db::Dbi timelineDb;
+    db::Store orderDb;
+    db::Store eventOrderDb;
+    db::Store timelineDb;
     try {
         orderDb      = getEventToOrderDb(txn, room_id);
         eventOrderDb = getEventOrderDb(txn, room_id);
@@ -2792,9 +2792,9 @@ Cache::lastVisibleEvent(const std::string &room_id, std::string_view event_id)
         return {};
 
     auto txn = ro_txn(storage());
-    db::Dbi orderDb;
-    db::Dbi eventOrderDb;
-    db::Dbi timelineDb;
+    db::Store orderDb;
+    db::Store eventOrderDb;
+    db::Store timelineDb;
     try {
         orderDb      = getEventToOrderDb(txn, room_id);
         eventOrderDb = getEventOrderDb(txn, room_id);
@@ -2811,7 +2811,7 @@ std::optional<std::string>
 Cache::getTimelineEventId(const std::string &room_id, uint64_t index)
 {
     auto txn = ro_txn(storage());
-    db::Dbi orderDb;
+    db::Store orderDb;
     try {
         orderDb = getOrderToMessageDb(txn, room_id);
     } catch (const db::Error &e) {
@@ -2877,7 +2877,7 @@ Cache::invite(std::string_view roomid)
 }
 
 QString
-Cache::getRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
+Cache::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -2927,7 +2927,7 @@ Cache::getRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
 }
 
 QString
-Cache::getRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
+Cache::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3002,7 +3002,7 @@ Cache::getRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
 }
 
 mtx::events::state::JoinRule
-Cache::getRoomJoinRule(db::Txn &txn, db::Dbi &statesdb)
+Cache::getRoomJoinRule(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3019,7 +3019,7 @@ Cache::getRoomJoinRule(db::Txn &txn, db::Dbi &statesdb)
 }
 
 bool
-Cache::getRoomGuestAccess(db::Txn &txn, db::Dbi &statesdb)
+Cache::getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3036,7 +3036,7 @@ Cache::getRoomGuestAccess(db::Txn &txn, db::Dbi &statesdb)
 }
 
 QString
-Cache::getRoomTopic(db::Txn &txn, db::Dbi &statesdb)
+Cache::getRoomTopic(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3055,7 +3055,7 @@ Cache::getRoomTopic(db::Txn &txn, db::Dbi &statesdb)
 }
 
 QString
-Cache::getRoomVersion(db::Txn &txn, db::Dbi &statesdb)
+Cache::getRoomVersion(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3075,7 +3075,7 @@ Cache::getRoomVersion(db::Txn &txn, db::Dbi &statesdb)
 }
 
 bool
-Cache::getRoomIsSpace(db::Txn &txn, db::Dbi &statesdb)
+Cache::getRoomIsSpace(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3094,7 +3094,7 @@ Cache::getRoomIsSpace(db::Txn &txn, db::Dbi &statesdb)
 }
 
 bool
-Cache::getRoomIsTombstoned(db::Txn &txn, db::Dbi &statesdb)
+Cache::getRoomIsTombstoned(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3112,7 +3112,7 @@ Cache::getRoomIsTombstoned(db::Txn &txn, db::Dbi &statesdb)
 }
 
 QString
-Cache::getInviteRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
+Cache::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3151,7 +3151,7 @@ Cache::getInviteRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
 }
 
 QString
-Cache::getInviteRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
+Cache::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3190,7 +3190,7 @@ Cache::getInviteRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersd
 }
 
 QString
-Cache::getInviteRoomTopic(db::Txn &txn, db::Dbi &db_)
+Cache::getInviteRoomTopic(db::Transaction &txn, db::Store &db_)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3208,7 +3208,7 @@ Cache::getInviteRoomTopic(db::Txn &txn, db::Dbi &db_)
 }
 
 bool
-Cache::getInviteRoomIsSpace(db::Txn &txn, db::Dbi &db_)
+Cache::getInviteRoomIsSpace(db::Transaction &txn, db::Store &db_)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -3481,8 +3481,8 @@ Cache::removePendingStatus(const std::string &room_id, const std::string &txn_id
 }
 
 void
-Cache::saveTimelineMessages(db::Txn &txn,
-                            db::Dbi &eventsDb,
+Cache::saveTimelineMessages(db::Transaction &txn,
+                            db::Store &eventsDb,
                             const std::string &room_id,
                             const mtx::responses::Timeline &res)
 {
@@ -3767,7 +3767,7 @@ Cache::isNotificationSent(const std::string &event_id)
 }
 
 std::vector<std::string>
-Cache::getRoomIds(db::Txn &txn)
+Cache::getRoomIds(db::Transaction &txn)
 {
     return db::listUniqueKeys(txn, db->rooms);
 }
@@ -3820,7 +3820,7 @@ Cache::deleteOldData() noexcept
 }
 
 void
-Cache::updateSpaces(db::Txn &txn,
+Cache::updateSpaces(db::Transaction &txn,
                     const std::set<std::string> &spaces_with_updates,
                     std::set<std::string> rooms_with_updates)
 {
@@ -4058,7 +4058,7 @@ Cache::getAccountData(mtx::events::EventType type, const std::string &room_id)
 }
 
 std::optional<mtx::events::collections::RoomAccountDataEvents>
-Cache::getAccountData(db::Txn &txn, mtx::events::EventType type, const std::string &room_id)
+Cache::getAccountData(db::Transaction &txn, mtx::events::EventType type, const std::string &room_id)
 {
     try {
         auto db_ = getAccountDataDb(txn, room_id);
@@ -4297,7 +4297,7 @@ Cache::userKeys(const std::string &user_id)
 }
 
 std::optional<UserKeyCache>
-Cache::userKeys_(const std::string &user_id, db::Txn &txn)
+Cache::userKeys_(const std::string &user_id, db::Transaction &txn)
 {
     try {
         auto db_ = getUserKeysDb(txn);
@@ -4474,8 +4474,8 @@ Cache::markUserKeysOutOfDate(const std::vector<std::string> &user_ids)
 }
 
 void
-Cache::markUserKeysOutOfDate(db::Txn &txn,
-                             db::Dbi &db_,
+Cache::markUserKeysOutOfDate(db::Transaction &txn,
+                             db::Store &db_,
                              const std::vector<std::string> &user_ids,
                              const std::string &sync_token)
 {
@@ -4606,7 +4606,7 @@ Cache::query_keys(const std::string &user_id,
 }
 
 std::optional<VerificationCache>
-Cache::verificationCache(const std::string &user_id, db::Txn &txn)
+Cache::verificationCache(const std::string &user_id, db::Transaction &txn)
 {
     auto db_ = getVerificationDb(txn);
     try {
@@ -4702,7 +4702,7 @@ Cache::verificationStatus(const std::string &user_id)
 }
 
 VerificationStatus
-Cache::verificationStatus_(const std::string &user_id, db::Txn &txn)
+Cache::verificationStatus_(const std::string &user_id, db::Transaction &txn)
 {
     std::unique_lock<std::mutex> lock(verification_storage.verification_storage_mtx);
     if (verification_storage.status.count(user_id))

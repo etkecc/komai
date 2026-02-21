@@ -55,8 +55,8 @@ public:
     getMembersWithKeys(const std::string &room_id, bool verified_only);
     void updateUserKeys(const std::string &sync_token, const mtx::responses::QueryKeys &keyQuery);
     void markUserKeysOutOfDate(const std::vector<std::string> &user_ids);
-    void markUserKeysOutOfDate(db::Txn &txn,
-                               db::Dbi &db,
+    void markUserKeysOutOfDate(db::Transaction &txn,
+                               db::Store &db,
                                const std::vector<std::string> &user_ids,
                                const std::string &sync_token);
     void query_keys(
@@ -79,20 +79,20 @@ public:
     QMap<QString, std::optional<RoomInfo>> spaces();
 
     //! Calculate & return the name of the room.
-    QString getRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
+    QString getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
     //! Get room join rules
-    mtx::events::state::JoinRule getRoomJoinRule(db::Txn &txn, db::Dbi &statesdb);
-    bool getRoomGuestAccess(db::Txn &txn, db::Dbi &statesdb);
+    mtx::events::state::JoinRule getRoomJoinRule(db::Transaction &txn, db::Store &statesdb);
+    bool getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb);
     //! Retrieve the topic of the room if any.
-    QString getRoomTopic(db::Txn &txn, db::Dbi &statesdb);
+    QString getRoomTopic(db::Transaction &txn, db::Store &statesdb);
     //! Retrieve the room avatar's url if any.
-    QString getRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
+    QString getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
     //! Retrieve the version of the room if any.
-    QString getRoomVersion(db::Txn &txn, db::Dbi &statesdb);
+    QString getRoomVersion(db::Transaction &txn, db::Store &statesdb);
     //! Retrieve if the room is a space
-    bool getRoomIsSpace(db::Txn &txn, db::Dbi &statesdb);
+    bool getRoomIsSpace(db::Transaction &txn, db::Store &statesdb);
     //! Retrieve if the room is tombstoned (closed or replaced by a different room)
-    bool getRoomIsTombstoned(db::Txn &txn, db::Dbi &statesdb);
+    bool getRoomIsTombstoned(db::Transaction &txn, db::Store &statesdb);
 
     // for the event expiry background job
     void storeEventExpirationProgress(const std::string &room,
@@ -136,9 +136,9 @@ public:
 
     void deleteData();
 
-    void removeInvite(db::Txn &txn, const std::string &room_id);
+    void removeInvite(db::Transaction &txn, const std::string &room_id);
     void removeInvite(const std::string &room_id);
-    void removeRoom(db::Txn &txn, const std::string &roomid);
+    void removeRoom(db::Transaction &txn, const std::string &roomid);
     void removeRoom(const std::string &roomid);
     void setup();
 
@@ -162,7 +162,7 @@ public:
     //! There should be only one user id present in a receipt list per room.
     //! The user id should be removed from any other lists.
     using Receipts = std::map<std::string, std::map<std::string, uint64_t>>;
-    void updateReadReceipt(db::Txn &txn, const std::string &room_id, const Receipts &receipts);
+    void updateReadReceipt(db::Transaction &txn, const std::string &room_id, const Receipts &receipts);
 
     //! Retrieve all the read receipts for the given event id and room.
     //!
@@ -228,7 +228,7 @@ public:
     void deleteOldMessages();
     void deleteOldData() noexcept;
     //! Retrieve all saved room ids.
-    std::vector<std::string> getRoomIds(db::Txn &txn);
+    std::vector<std::string> getRoomIds(db::Transaction &txn);
     std::vector<std::string> getParentRoomIds(const std::string &room_id);
     std::vector<std::string> getChildRoomIds(const std::string &room_id);
 
@@ -236,7 +236,7 @@ public:
     getImagePacks(const std::string &room_id, std::optional<bool> stickers);
 
     //! Mark a room that uses e2e encryption.
-    void setEncryptedRoom(db::Txn &txn, const std::string &room_id);
+    void setEncryptedRoom(db::Transaction &txn, const std::string &room_id);
     bool isRoomEncrypted(const std::string &room_id);
     std::optional<mtx::events::state::Encryption>
     roomEncryptionSettings(const std::string &room_id);
@@ -324,115 +324,115 @@ private:
     void deleteSecretFromStore(const std::string name, bool internal);
 
     //! Save an invited room.
-    void saveInvite(db::Txn &txn,
-                    db::Dbi &statesdb,
-                    db::Dbi &membersdb,
+    void saveInvite(db::Transaction &txn,
+                    db::Store &statesdb,
+                    db::Store &membersdb,
                     const mtx::responses::InvitedRoom &room);
 
-    QString getInviteRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
-    QString getInviteRoomTopic(db::Txn &txn, db::Dbi &statesdb);
-    QString getInviteRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb);
-    bool getInviteRoomIsSpace(db::Txn &txn, db::Dbi &db);
+    QString getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
+    QString getInviteRoomTopic(db::Transaction &txn, db::Store &statesdb);
+    QString getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
+    bool getInviteRoomIsSpace(db::Transaction &txn, db::Store &db);
 
     std::optional<MemberInfo> getMember(const std::string &room_id, const std::string &user_id);
 
-    std::string getLastEventId(db::Txn &txn, const std::string &room_id);
-    void saveTimelineMessages(db::Txn &txn,
-                              db::Dbi &eventsDb,
+    std::string getLastEventId(db::Transaction &txn, const std::string &room_id);
+    void saveTimelineMessages(db::Transaction &txn,
+                              db::Store &eventsDb,
                               const std::string &room_id,
                               const mtx::responses::Timeline &res);
 
     //! retrieve a specific event from account data
     //! pass empty room_id for global account data
     std::optional<mtx::events::collections::RoomAccountDataEvents>
-    getAccountData(db::Txn &txn, mtx::events::EventType type, const std::string &room_id);
-    bool isHiddenEvent(db::Txn &txn,
+    getAccountData(db::Transaction &txn, mtx::events::EventType type, const std::string &room_id);
+    bool isHiddenEvent(db::Transaction &txn,
                        mtx::events::collections::TimelineEvents e,
                        const std::string &room_id);
 
     template<class T>
-    void saveStateEvents(db::Txn &txn,
-                         db::Dbi &statesdb,
-                         db::Dbi &stateskeydb,
-                         db::Dbi &membersdb,
-                         db::Dbi &eventsDb,
+    void saveStateEvents(db::Transaction &txn,
+                         db::Store &statesdb,
+                         db::Store &stateskeydb,
+                         db::Store &membersdb,
+                         db::Store &eventsDb,
                          const std::string &room_id,
                          const std::vector<T> &events);
 
     template<class T>
-    void saveStateEvent(db::Txn &txn,
-                        db::Dbi &statesdb,
-                        db::Dbi &stateskeydb,
-                        db::Dbi &membersdb,
-                        db::Dbi &eventsDb,
+    void saveStateEvent(db::Transaction &txn,
+                        db::Store &statesdb,
+                        db::Store &stateskeydb,
+                        db::Store &membersdb,
+                        db::Store &eventsDb,
                         const std::string &room_id,
                         const T &event);
 
     template<typename T>
     std::optional<mtx::events::StateEvent<T>>
-    getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view state_key = "");
+    getStateEvent(db::Transaction &txn, const std::string &room_id, std::string_view state_key = "");
 
     template<typename T>
     std::vector<mtx::events::StateEvent<T>>
-    getStateEventsWithType(db::Txn &txn,
+    getStateEventsWithType(db::Transaction &txn,
                            const std::string &room_id,
                            mtx::events::EventType type = mtx::events::state_content_to_type<T>);
 
-    void saveInvites(db::Txn &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms);
+    void saveInvites(db::Transaction &txn, const std::map<std::string, mtx::responses::InvitedRoom> &rooms);
 
     void savePresence(
-      db::Txn &txn,
+      db::Transaction &txn,
       const std::vector<mtx::events::Event<mtx::events::presence::Presence>> &presenceUpdates);
 
     //! Sends signals for the rooms that are removed.
     void
-    removeLeftRooms(db::Txn &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms);
+    removeLeftRooms(db::Transaction &txn, const std::map<std::string, mtx::responses::LeftRoom> &rooms);
 
-    void updateSpaces(db::Txn &txn,
+    void updateSpaces(db::Transaction &txn,
                       const std::set<std::string> &spaces_with_updates,
                       std::set<std::string> rooms_with_updates);
 
-    db::Dbi getEventsDb(db::Txn &txn, const std::string &room_id);
+    db::Store getEventsDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getEventOrderDb(db::Txn &txn, const std::string &room_id);
+    db::Store getEventOrderDb(db::Transaction &txn, const std::string &room_id);
 
     // inverse of EventOrderDb
-    db::Dbi getEventToOrderDb(db::Txn &txn, const std::string &room_id);
+    db::Store getEventToOrderDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getMessageToOrderDb(db::Txn &txn, const std::string &room_id);
+    db::Store getMessageToOrderDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getOrderToMessageDb(db::Txn &txn, const std::string &room_id);
+    db::Store getOrderToMessageDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getPendingMessagesDb(db::Txn &txn, const std::string &room_id);
+    db::Store getPendingMessagesDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getRelationsDb(db::Txn &txn, const std::string &room_id);
+    db::Store getRelationsDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getInviteStatesDb(db::Txn &txn, const std::string &room_id);
+    db::Store getInviteStatesDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getInviteMembersDb(db::Txn &txn, const std::string &room_id);
+    db::Store getInviteMembersDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getStatesDb(db::Txn &txn, const std::string &room_id);
+    db::Store getStatesDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getStatesKeyDb(db::Txn &txn, const std::string &room_id);
+    db::Store getStatesKeyDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getAccountDataDb(db::Txn &txn, const std::string &room_id);
+    db::Store getAccountDataDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getMembersDb(db::Txn &txn, const std::string &room_id);
+    db::Store getMembersDb(db::Transaction &txn, const std::string &room_id);
 
-    db::Dbi getUserKeysDb(db::Txn &txn);
+    db::Store getUserKeysDb(db::Transaction &txn);
 
-    db::Dbi getVerificationDb(db::Txn &txn);
+    db::Store getVerificationDb(db::Transaction &txn);
 
     QString getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> &event);
 
-    std::optional<VerificationCache> verificationCache(const std::string &user_id, db::Txn &txn);
-    VerificationStatus verificationStatus_(const std::string &user_id, db::Txn &txn);
-    std::optional<UserKeyCache> userKeys_(const std::string &user_id, db::Txn &txn);
+    std::optional<VerificationCache> verificationCache(const std::string &user_id, db::Transaction &txn);
+    VerificationStatus verificationStatus_(const std::string &user_id, db::Transaction &txn);
+    std::optional<UserKeyCache> userKeys_(const std::string &user_id, db::Transaction &txn);
 
-    void setNextBatchToken(db::Txn &txn, const std::string &token);
+    void setNextBatchToken(db::Transaction &txn, const std::string &token);
     db::Backend &storage();
     const db::Backend &storage() const;
-    db::Txn beginTxn(db::Txn *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
+    db::Transaction beginTxn(db::Transaction *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
 
     QString localUserId_;
     QString cacheDirectory_;

@@ -15,9 +15,19 @@
 #include "db/Backend.h"
 #include "db/NamePolicy.h"
 #include "db/Catalog.h"
+#include "db/Json.h"
+#include "db/MegolmIndex.h"
+#include "db/MemberInfo.h"
+#include "db/OlmSessionIndex.h"
+#include "db/OrderEntry.h"
+#include "db/ReadReceiptIndex.h"
+#include "db/RoomInfo.h"
+#include "db/Serde.h"
+#include "db/StateIndex.h"
 #include "db/Scan.h"
 #include "db/DupIndex.h"
 #include "db/TimelineIndex.h"
+#include "db/SyncState.h"
 
 namespace db::storage {
 
@@ -38,6 +48,40 @@ using StoreFlags = db::StoreFlags;
 using BackendId = DatabaseId;
 using DatabaseIdSet = db::DatabaseIdSet;
 using ScanDirection = db::ScanDirection;
+using StoreCapability = db::StoreCapability;
+
+using db::getJsonValue;
+using db::putJsonValue;
+using db::getRoomInfo;
+using db::putRoomInfo;
+using db::parseRoomInfo;
+using db::serializeRoomInfo;
+using db::toSv;
+using db::parseMemberInfo;
+using db::serializeOrderEntry;
+using db::getMemberInfo;
+using db::putMemberInfo;
+using db::removeStateEventId;
+using db::putStateEventId;
+using db::findStateEventId;
+using db::listStateEventIds;
+using db::forEachOlmSessionForCurve;
+using db::getSyncStateValue;
+using db::putSyncStateValue;
+using db::removeSyncStateValue;
+using db::getSyncStateSecretValue;
+using db::putSyncStateSecretValue;
+using db::removeSyncStateSecretValue;
+using db::getInboundMegolmSessionValue;
+using db::putInboundMegolmSessionValue;
+using db::putMegolmSessionDataValue;
+using db::getMegolmSessionDataValue;
+using db::parseMegolmSessionKey;
+using db::megolmSessionKey;
+using db::putOlmSessionValue;
+using db::listOlmSessionIds;
+using db::getReadReceiptValue;
+using db::putReadReceiptValue;
 
 inline constexpr std::string_view kMemoryDatabaseId = db::kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryDatabaseId = db::kInMemoryDatabaseId;

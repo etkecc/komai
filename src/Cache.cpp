@@ -668,7 +668,7 @@ Cache::secret(std::string_view name_, bool internal)
 
     auto txn = ro_txn(storage());
     std::string_view value;
-    if (!db::getSyncStateSecretValue(txn, db->syncState, name.toStdString(), value))
+    if (!db::storage::getSyncStateSecretValue(txn, db->syncState, name.toStdString(), value))
         return std::nullopt;
 
     mtx::secret_storage::AesHmacSha2EncryptedData data = nlohmann::json::parse(value);
@@ -690,7 +690,7 @@ Cache::storeSecret(std::string_view name_, const std::string &secret, bool inter
     auto encrypted =
       mtx::crypto::encrypt(secret, mtx::crypto::to_binary_buf(pickle_secret_), name_);
 
-    db::putSyncStateSecretValue(
+    db::storage::putSyncStateSecretValue(
       txn, db->syncState, name.toStdString(), nlohmann::json(encrypted).dump());
     txn.commit();
     emit secretChanged(std::string(name_));
@@ -702,7 +702,7 @@ Cache::deleteSecret(std::string_view name_, bool internal)
     auto name = secretName(name_, internal);
 
     auto txn = beginTxn();
-    db::removeSyncStateSecretValue(txn, db->syncState, name.toStdString());
+    db::storage::removeSyncStateSecretValue(txn, db->syncState, name.toStdString());
     txn.commit();
 }
 
@@ -852,7 +852,7 @@ Cache::roomEncryptionSettings(const std::string &room_id)
     try {
         auto txn      = ro_txn(storage());
         auto statesdb = getStatesDb(txn, room_id);
-        if (auto msg = db::getJsonValue<StateEvent<Encryption>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<Encryption>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomEncryption))) {
             return msg->content;
         }
@@ -880,7 +880,7 @@ Cache::exportSessionKeys()
           auto saved_session = unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
 
           try {
-              if (!db::parseMegolmSessionKey(key, index.room_id, index.session_id)) {
+              if (!db::storage::parseMegolmSessionKey(key, index.room_id, index.session_id)) {
                   nhlog::db()->critical("failed to export megolm session: invalid index key");
                   return true;
               }
@@ -890,9 +890,9 @@ Cache::exportSessionKeys()
           }
 
           try {
-              const auto key = db::megolmSessionKey(index.room_id, index.session_id);
+              const auto key = db::storage::megolmSessionKey(index.room_id, index.session_id);
               const auto data =
-                db::getJsonValue<GroupSessionData>(txn, db->megolmSessionsData, key);
+                db::storage::getJsonValue<GroupSessionData>(txn, db->megolmSessionsData, key);
               if (!data)
                   return true;
 
@@ -943,7 +943,7 @@ Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
               pickle<InboundSessionObject>(exported_session.get(), pickle_secret_);
 
             std::string_view value;
-            if (db::getInboundMegolmSessionValue(
+            if (db::storage::getInboundMegolmSessionValue(
                   txn, db->inboundMegolmSessions, index.room_id, index.session_id, value)) {
                 auto oldSession =
                   unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
@@ -955,9 +955,9 @@ Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
                 }
             }
 
-            db::putInboundMegolmSessionValue(
+            db::storage::putInboundMegolmSessionValue(
               txn, db->inboundMegolmSessions, index.room_id, index.session_id, pickled);
-            db::putMegolmSessionDataValue(txn,
+            db::storage::putMegolmSessionDataValue(txn,
                                           db->megolmSessionsData,
                                           index.room_id,
                                           index.session_id,
@@ -995,7 +995,7 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
     auto txn = beginTxn();
 
     std::string_view value;
-    if (db::getInboundMegolmSessionValue(
+    if (db::storage::getInboundMegolmSessionValue(
           txn, db->inboundMegolmSessions, index.room_id, index.session_id, value)) {
         auto oldSession = unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
 
@@ -1004,8 +1004,8 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
 
         // merge trusted > untrusted
         // first known index minimum
-        if (auto data = db::getJsonValue<GroupSessionData>(
-              txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
+        if (auto data = db::storage::getJsonValue<GroupSessionData>(
+              txn, db->megolmSessionsData, db::storage::megolmSessionKey(index.room_id, index.session_id))) {
             auto oldData = std::move(*data);
             if (oldData.trusted && newIndex >= oldIndex) {
                 nhlog::crypto()->warn(
@@ -1016,12 +1016,12 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
             oldData.trusted = data->trusted || oldData.trusted;
 
             if (newIndex < oldIndex) {
-                db::putInboundMegolmSessionValue(
+                db::storage::putInboundMegolmSessionValue(
                   txn, db->inboundMegolmSessions, index.room_id, index.session_id, pickled);
                 oldData.message_index = newIndex;
             }
 
-            db::putMegolmSessionDataValue(txn,
+            db::storage::putMegolmSessionDataValue(txn,
                                           db->megolmSessionsData,
                                           index.room_id,
                                           index.session_id,
@@ -1031,9 +1031,9 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
         }
     }
 
-    db::putInboundMegolmSessionValue(
+    db::storage::putInboundMegolmSessionValue(
       txn, db->inboundMegolmSessions, index.room_id, index.session_id, pickled);
-    db::putMegolmSessionDataValue(
+    db::storage::putMegolmSessionDataValue(
       txn, db->megolmSessionsData, index.room_id, index.session_id, nlohmann::json(data).dump());
     txn.commit();
 }
@@ -1047,7 +1047,7 @@ Cache::getInboundMegolmSession(const MegolmSessionIndex &index)
         auto txn = ro_txn(storage());
         std::string_view value;
 
-        if (db::getInboundMegolmSessionValue(
+        if (db::storage::getInboundMegolmSessionValue(
               txn, db->inboundMegolmSessions, index.room_id, index.session_id, value)) {
             auto session = unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
             return session;
@@ -1068,7 +1068,7 @@ Cache::inboundMegolmSessionExists(const MegolmSessionIndex &index)
         auto txn = ro_txn(storage());
         std::string_view value;
 
-        return db::getInboundMegolmSessionValue(
+        return db::storage::getInboundMegolmSessionValue(
           txn, db->inboundMegolmSessions, index.room_id, index.session_id, value);
     } catch (std::exception &e) {
         nhlog::db()->error("Failed to get inbound megolm session {}", e.what());
@@ -1099,7 +1099,7 @@ Cache::updateOutboundMegolmSession(const std::string &room_id,
 
     auto txn = beginTxn();
     db->outboundMegolmSessions.put(txn, room_id, j.dump());
-    db::putMegolmSessionDataValue(
+    db::storage::putMegolmSessionDataValue(
       txn, db->megolmSessionsData, index.room_id, index.session_id, nlohmann::json(data).dump());
     txn.commit();
 }
@@ -1139,7 +1139,7 @@ Cache::saveOutboundMegolmSession(const std::string &room_id,
 
     auto txn = beginTxn();
     db->outboundMegolmSessions.put(txn, room_id, j.dump());
-    db::putMegolmSessionDataValue(
+    db::storage::putMegolmSessionDataValue(
       txn, db->megolmSessionsData, index.room_id, index.session_id, nlohmann::json(data).dump());
     txn.commit();
 }
@@ -1176,8 +1176,8 @@ Cache::getOutboundMegolmSession(const std::string &room_id)
         index.room_id    = room_id;
         index.session_id = mtx::crypto::session_id(ref.session.get());
 
-        if (auto data = db::getJsonValue<GroupSessionData>(
-              txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
+        if (auto data = db::storage::getJsonValue<GroupSessionData>(
+              txn, db->megolmSessionsData, db::storage::megolmSessionKey(index.room_id, index.session_id))) {
             ref.data = std::move(*data);
         }
 
@@ -1195,8 +1195,8 @@ Cache::getMegolmSessionData(const MegolmSessionIndex &index)
         using namespace mtx::crypto;
 
         auto txn = ro_txn(storage());
-        if (auto data = db::getJsonValue<GroupSessionData>(
-              txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
+        if (auto data = db::storage::getJsonValue<GroupSessionData>(
+              txn, db->megolmSessionsData, db::storage::megolmSessionKey(index.room_id, index.session_id))) {
             return data;
         }
 
@@ -1225,7 +1225,7 @@ Cache::saveOlmSessions(std::vector<std::pair<std::string, mtx::crypto::OlmSessio
         stored_session.pickled_session = pickled;
         stored_session.last_message_ts = timestamp;
 
-        db::putOlmSessionValue(
+        db::storage::putOlmSessionValue(
           txn, db->olmSessions, curve25519, session_id, nlohmann::json(stored_session).dump());
     }
 
@@ -1248,7 +1248,7 @@ Cache::saveOlmSession(const std::string &curve25519,
     stored_session.pickled_session = pickled;
     stored_session.last_message_ts = timestamp;
 
-    db::putOlmSessionValue(
+    db::storage::putOlmSessionValue(
       txn, db->olmSessions, curve25519, session_id, nlohmann::json(stored_session).dump());
 
     txn.commit();
@@ -1263,7 +1263,7 @@ Cache::getOlmSession(const std::string &curve25519, const std::string &session_i
         auto txn = ro_txn(storage());
 
         if (auto data =
-              db::getJsonValue<StoredOlmSession>(txn, db->olmSessions, db::catalog::olmSessionKey(
+              db::storage::getJsonValue<StoredOlmSession>(txn, db->olmSessions, db::catalog::olmSessionKey(
                                                                     curve25519, session_id))) {
             return unpickle<SessionObject>(data->pickled_session, pickle_secret_);
         }
@@ -1282,13 +1282,13 @@ Cache::getLatestOlmSession(const std::string &curve25519)
         auto txn = ro_txn(storage());
 
         std::optional<StoredOlmSession> currentNewest;
-        db::forEachOlmSessionForCurve(
+        db::storage::forEachOlmSessionForCurve(
           txn,
           db->olmSessions,
           curve25519,
           [&currentNewest, &txn, this, &curve25519](std::string_view sessionId,
                                                    std::string_view /*pickled_session*/) {
-              auto data = db::getJsonValue<StoredOlmSession>(
+              auto data = db::storage::getJsonValue<StoredOlmSession>(
                 txn, db->olmSessions, db::catalog::olmSessionKey(curve25519, sessionId));
               if (!data)
                   return true;
@@ -1313,7 +1313,7 @@ Cache::getOlmSessions(const std::string &curve25519)
 
     try {
         auto txn = ro_txn(storage());
-        return db::listOlmSessionIds(txn, db->olmSessions, curve25519);
+        return db::storage::listOlmSessionIds(txn, db->olmSessions, curve25519);
     } catch (...) {
         return {};
     }
@@ -1323,7 +1323,7 @@ void
 Cache::saveOlmAccount(const std::string &data)
 {
     auto txn = beginTxn();
-    db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount, data);
+    db::storage::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount, data);
     txn.commit();
 }
 
@@ -1331,7 +1331,7 @@ std::string
 Cache::restoreOlmAccount()
 {
     auto txn = ro_txn(storage());
-    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount)
+    return db::storage::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount)
       .value_or("");
 }
 
@@ -1341,7 +1341,7 @@ Cache::saveBackupVersion(const OnlineBackupVersion &data)
     auto txn = beginTxn();
     const auto key =
       db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
-    db::putJsonValue(txn, db->syncState, key, data);
+    db::storage::putJsonValue(txn, db->syncState, key, data);
     txn.commit();
 }
 
@@ -1349,7 +1349,7 @@ void
 Cache::deleteBackupVersion()
 {
     auto txn = beginTxn();
-    db::removeSyncStateValue(
+    db::storage::removeSyncStateValue(
       txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
     txn.commit();
 }
@@ -1361,7 +1361,7 @@ Cache::backupVersion()
         auto txn = ro_txn(storage());
         const auto key =
           db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
-        auto value = db::getJsonValue<OnlineBackupVersion>(txn, db->syncState, key);
+        auto value = db::storage::getJsonValue<OnlineBackupVersion>(txn, db->syncState, key);
         if (!value)
             return std::nullopt;
 
@@ -1407,7 +1407,7 @@ Cache::removeRoom(const std::string &roomid)
 void
 Cache::setNextBatchToken(db::storage::Transaction &txn, const std::string &token)
 {
-    db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch, token);
+    db::storage::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch, token);
 }
 
 bool
@@ -1417,7 +1417,7 @@ Cache::isInitialized()
         return false;
 
     auto txn = ro_txn(storage());
-    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
+    return db::storage::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
       .has_value();
 }
 
@@ -1428,7 +1428,7 @@ Cache::nextBatchToken()
         throw std::runtime_error("Storage backend is closed");
 
     auto txn = ro_txn(storage());
-    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
+    return db::storage::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
       .value_or("");
 }
 
@@ -1459,7 +1459,7 @@ Cache::runMigrations()
     {
         auto txn = ro_txn(storage());
         auto currentVersion =
-          db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
+          db::storage::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
 
         if (!currentVersion.has_value())
             return false;
@@ -1691,7 +1691,7 @@ Cache::formatVersion()
 {
     auto txn = ro_txn(storage());
     auto currentVersion =
-      db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
+      db::storage::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
     if (!currentVersion.has_value())
         return cache::CacheVersion::Older;
 
@@ -1709,7 +1709,7 @@ void
 Cache::setCurrentFormat()
 {
     auto txn = beginTxn();
-    db::putSyncStateValue(txn,
+    db::storage::putSyncStateValue(txn,
                           db->syncState,
                           db::catalog::SyncStateKey::CacheFormatVersion,
                           CURRENT_CACHE_FORMAT_VERSION);
@@ -1727,7 +1727,7 @@ Cache::readReceipts(const QString &event_id, const QString &room_id)
 
         std::string_view value;
 
-        bool res = db::getReadReceiptValue(
+        bool res = db::storage::getReadReceiptValue(
           txn, db->readReceipts, event_id.toStdString(), room_id.toStdString(), value);
 
         if (res) {
@@ -1759,7 +1759,7 @@ Cache::updateReadReceipt(db::storage::Transaction &txn, const std::string &room_
             std::string_view prev_value;
 
             bool exists =
-              db::getReadReceiptValue(txn, db->readReceipts, event_id, room_id, prev_value);
+              db::storage::getReadReceiptValue(txn, db->readReceipts, event_id, room_id, prev_value);
 
             std::map<std::string, uint64_t> saved_receipts;
 
@@ -1782,7 +1782,7 @@ Cache::updateReadReceipt(db::storage::Transaction &txn, const std::string &room_
             nlohmann::json json_updated_value = saved_receipts;
             std::string merged_receipts       = json_updated_value.dump();
 
-            db::putReadReceiptValue(txn, db->readReceipts, event_id, room_id, merged_receipts);
+            db::storage::putReadReceiptValue(txn, db->readReceipts, event_id, room_id, merged_receipts);
 
         } catch (const db::storage::Error &e) {
             nhlog::db()->critical("updateReadReceipts: {}", e.what());
@@ -1866,7 +1866,7 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
 
     {
         try {
-            if (auto previousRoomInfo = db::getRoomInfo(txn, db->rooms, room))
+            if (auto previousRoomInfo = db::storage::getRoomInfo(txn, db->rooms, room))
                 updatedInfo = std::move(*previousRoomInfo);
         } catch (const nlohmann::json::exception &e) {
             nhlog::db()->warn("failed to parse room info for room '{}': {}", room, e.what());
@@ -1881,7 +1881,7 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
     updatedInfo.is_space      = getRoomIsSpace(txn, statesdb);
     updatedInfo.is_tombstoned = getRoomIsTombstoned(txn, statesdb);
 
-    db::putRoomInfo(txn, db->rooms, room, updatedInfo);
+    db::storage::putRoomInfo(txn, db->rooms, room, updatedInfo);
     updateSpaces(txn, {room}, {room});
     txn.commit();
 }
@@ -1901,16 +1901,16 @@ Cache::getStateEvent(db::storage::Transaction &txn, const std::string &room_id, 
 
         if (state_key.empty()) {
             auto db_ = getStatesDb(txn, room_id);
-            return db::getJsonValue<mtx::events::StateEvent<T>>(txn, db_, typeStr);
+            return db::storage::getJsonValue<mtx::events::StateEvent<T>>(txn, db_, typeStr);
         } else {
             try {
                 auto statesKeyDb = getStatesKeyDb(txn, room_id);
                 auto eventsDb    = getEventsDb(txn, room_id);
-                auto eventId     = db::findStateEventId(txn, statesKeyDb, typeStr, state_key);
+                auto eventId     = db::storage::findStateEventId(txn, statesKeyDb, typeStr, state_key);
                 if (!eventId) {
                     return std::nullopt;
                 }
-                return db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, *eventId);
+                return db::storage::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, *eventId);
 
             } catch (std::exception &) {
                 return std::nullopt;
@@ -1937,9 +1937,9 @@ Cache::getStateEventsWithType(db::storage::Transaction &txn, const std::string &
         const auto typeStr = to_string(type);
         std::string_view value;
 
-        for (const auto &eventId : db::listStateEventIds(txn, statesKeyDb, typeStr)) {
+        for (const auto &eventId : db::storage::listStateEventIds(txn, statesKeyDb, typeStr)) {
             try {
-                if (auto event = db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
+                if (auto event = db::storage::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
                     events.push_back(std::move(*event));
             } catch (std::exception &e) {
                 nhlog::db()->warn("Failed to parse state event: {}", e.what());
@@ -2001,7 +2001,7 @@ Cache::saveStateEvent(db::storage::Transaction &txn,
               e->content.is_direct,
             };
 
-            db::putMemberInfo(txn, membersdb, e->state_key, tmp);
+            db::storage::putMemberInfo(txn, membersdb, e->state_key, tmp);
             break;
         }
         default: {
@@ -2035,7 +2035,7 @@ Cache::saveStateEvent(db::storage::Transaction &txn,
                           // membership is not revoked, but names are yeeted (so we set the name
                           // to the mxid)
                           MemberInfo tmp{e.state_key, ""};
-                          db::putMemberInfo(txn, membersdb, e.state_key, tmp);
+                          db::storage::putMemberInfo(txn, membersdb, e.state_key, tmp);
                       } else if (e.state_key.empty()) {
                           // strictly speaking some stuff in those events can be redacted, but
                           // this is close enough. Ref:
@@ -2046,12 +2046,12 @@ Cache::saveStateEvent(db::storage::Transaction &txn,
                               e.type != EventType::RoomHistoryVisibility)
                               statesdb.del(txn, to_string(e.type));
                       } else
-                          db::removeStateEventId(
+                          db::storage::removeStateEventId(
                             txn, stateskeydb, to_string(e.type), e.state_key, e.event_id);
                   } else if (e.state_key.empty()) {
                       statesdb.put(txn, to_string(e.type), nlohmann::json(e).dump());
                   } else {
-                      db::putStateEventId(
+                      db::storage::putStateEventId(
                         txn, stateskeydb, to_string(e.type), e.state_key, e.event_id);
                   }
               }
@@ -2128,7 +2128,7 @@ try {
             if (db->rooms.get(txn, room.first, originalRoomInfoView)) {
                 originalRoomInfoDump = std::string(originalRoomInfoView);
                 try {
-                    RoomInfo tmp     = db::parseRoomInfo(originalRoomInfoDump);
+                    RoomInfo tmp     = db::storage::parseRoomInfo(originalRoomInfoDump);
                     updatedInfo.tags = std::move(tmp.tags);
 
                     updatedInfo.approximate_last_modification_ts =
@@ -2234,11 +2234,11 @@ try {
             updatedInfo.approximate_last_modification_ts = mtx::accessors::origin_server_ts_ms(e);
         }
 
-        if (auto newRoomInfoDump = db::serializeRoomInfo(updatedInfo);
+        if (auto newRoomInfoDump = db::storage::serializeRoomInfo(updatedInfo);
             newRoomInfoDump != originalRoomInfoDump) {
             // nhlog::db()->critical(
             //   "Writing out new room info:\n{}\n{}", originalRoomInfoDump, newRoomInfoDump);
-            db::putRoomInfo(txn, db->rooms, room.first, updatedInfo);
+            db::storage::putRoomInfo(txn, db->rooms, room.first, updatedInfo);
         }
 
         for (const auto &e : room.second.ephemeral.events) {
@@ -2360,7 +2360,7 @@ Cache::saveInvites(db::storage::Transaction &txn, const std::map<std::string, mt
         updatedInfo.is_space   = getInviteRoomIsSpace(txn, statesdb);
         updatedInfo.is_invite  = true;
 
-        db::putRoomInfo(txn, db->invites, room.first, updatedInfo);
+        db::storage::putRoomInfo(txn, db->invites, room.first, updatedInfo);
     }
 }
 
@@ -2389,7 +2389,7 @@ Cache::saveInvite(db::storage::Transaction &txn,
                            msg->content.reason,
                            msg->content.is_direct};
 
-            db::putMemberInfo(txn, membersdb, msg->state_key, tmp);
+            db::storage::putMemberInfo(txn, membersdb, msg->state_key, tmp);
         } else {
             std::visit(
               [&txn, &statesdb](auto msg) {
@@ -2434,7 +2434,7 @@ Cache::singleRoomInfo(const std::string &room_id)
 
     try {
         auto statesdb = getStatesDb(txn, room_id);
-        if (auto info = db::getRoomInfo(txn, db->rooms, room_id)) {
+        if (auto info = db::storage::getRoomInfo(txn, db->rooms, room_id)) {
             auto tmp         = std::move(*info);
             tmp.member_count = getMembersDb(txn, room_id).size(txn);
             tmp.join_rule    = getRoomJoinRule(txn, statesdb);
@@ -2455,10 +2455,10 @@ Cache::updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
     auto txn = beginTxn();
 
     try {
-        if (auto info = db::getRoomInfo(txn, db->rooms, room_id)) {
+        if (auto info = db::storage::getRoomInfo(txn, db->rooms, room_id)) {
             auto tmp                             = std::move(*info);
             tmp.approximate_last_modification_ts = ts;
-            db::putRoomInfo(txn, db->rooms, room_id, tmp);
+            db::storage::putRoomInfo(txn, db->rooms, room_id, tmp);
             txn.commit();
             return;
         }
@@ -2484,7 +2484,7 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
         // Check if the room is joined.
         if (db->rooms.get(txn, room, data)) {
             try {
-                RoomInfo tmp     = db::parseRoomInfo(data);
+                RoomInfo tmp     = db::storage::parseRoomInfo(data);
                 tmp.member_count = getMembersDb(txn, room).size(txn);
                 tmp.join_rule    = getRoomJoinRule(txn, statesdb);
                 tmp.guest_access = getRoomGuestAccess(txn, statesdb);
@@ -2500,7 +2500,7 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
             // Check if the room is an invite.
             if (db->invites.get(txn, room, data)) {
                 try {
-                    RoomInfo tmp     = db::parseRoomInfo(data);
+                    RoomInfo tmp     = db::storage::parseRoomInfo(data);
                     tmp.member_count = getInviteMembersDb(txn, room).size(txn);
 
                     room_info.emplace(QString::fromStdString(room), std::move(tmp));
@@ -2554,7 +2554,7 @@ Cache::getEvent(const std::string &room_id, std::string_view event_id)
     auto eventsDb = getEventsDb(txn, room_id);
 
     try {
-        return db::getJsonValue<mtx::events::collections::TimelineEvents>(txn, eventsDb, event_id);
+        return db::storage::getJsonValue<mtx::events::collections::TimelineEvents>(txn, eventsDb, event_id);
     } catch (std::exception &e) {
         nhlog::db()->error("Failed to parse message from cache {}", e.what());
         return std::nullopt;
@@ -2624,7 +2624,7 @@ Cache::roomInfo(bool withInvites)
     // Gather info about the joined rooms.
     db::storage::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-          RoomInfo tmp     = db::parseRoomInfo(room_data);
+          RoomInfo tmp     = db::storage::parseRoomInfo(room_data);
           tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
           result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
           return true;
@@ -2636,7 +2636,7 @@ Cache::roomInfo(bool withInvites)
           txn,
           db->invites,
           [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-              RoomInfo tmp     = db::parseRoomInfo(room_data);
+              RoomInfo tmp     = db::storage::parseRoomInfo(room_data);
               tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
               return true;
@@ -2657,7 +2657,7 @@ Cache::roomNamesAndAliases()
     db::storage::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
           try {
-              RoomInfo info = db::parseRoomInfo(room_data);
+              RoomInfo info = db::storage::parseRoomInfo(room_data);
 
               auto aliases =
                 getStateEvent<mtx::events::state::CanonicalAlias>(txn, std::string(room_id));
@@ -2695,7 +2695,7 @@ Cache::getLastEventId(db::storage::Transaction &txn, const std::string &room_id)
         return {};
     }
 
-    return db::lastTimelineEventId(txn, orderDb).value_or("");
+    return db::storage::lastTimelineEventId(txn, orderDb).value_or("");
 }
 
 std::optional<Cache::TimelineRange>
@@ -2835,7 +2835,7 @@ Cache::invites()
       db->invites,
       [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
           try {
-              RoomInfo tmp     = db::parseRoomInfo(room_data);
+              RoomInfo tmp     = db::storage::parseRoomInfo(room_data);
               tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
           } catch (const nlohmann::json::exception &e) {
@@ -2862,7 +2862,7 @@ Cache::invite(std::string_view roomid)
 
     if (db->invites.get(txn, roomid, room_data)) {
         try {
-            RoomInfo tmp     = db::parseRoomInfo(room_data);
+            RoomInfo tmp     = db::storage::parseRoomInfo(room_data);
             tmp.member_count = getInviteMembersDb(txn, std::string(roomid)).size(txn);
             result           = std::move(tmp);
         } catch (const nlohmann::json::exception &e) {
@@ -2884,7 +2884,7 @@ Cache::getRoomAvatarUrl(db::storage::Transaction &txn, db::storage::Store &state
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<Avatar>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<Avatar>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomAvatar))) {
             if (!msg->content.url.empty())
                 return QString::fromStdString(msg->content.url);
@@ -2905,7 +2905,7 @@ Cache::getRoomAvatarUrl(db::storage::Transaction &txn, db::storage::Store &state
     // Resolve avatar for 1-1 chats.
     db::storage::forEachEntry(txn, membersdb, [&](std::string_view user_id, std::string_view member_data) {
         try {
-            MemberInfo m = db::parseMemberInfo(member_data);
+            MemberInfo m = db::storage::parseMemberInfo(member_data);
             if (user_id == localUserId) {
                 fallback_url = m.avatar_url;
                 return true;
@@ -2935,7 +2935,7 @@ Cache::getRoomName(db::storage::Transaction &txn, db::storage::Store &statesdb, 
 
     try {
         if (auto msg =
-              db::getJsonValue<StateEvent<Name>>(txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
+              db::storage::getJsonValue<StateEvent<Name>>(txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
             if (!msg->content.name.empty())
                 return QString::fromStdString(msg->content.name);
         }
@@ -2944,7 +2944,7 @@ Cache::getRoomName(db::storage::Transaction &txn, db::storage::Store &statesdb, 
     }
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<CanonicalAlias>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<CanonicalAlias>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomCanonicalAlias))) {
             if (!msg->content.alias.empty())
                 return QString::fromStdString(msg->content.alias);
@@ -2960,7 +2960,7 @@ Cache::getRoomName(db::storage::Transaction &txn, db::storage::Store &statesdb, 
     db::storage::forEachEntry(
       txn, membersdb, 0, 3, [&members](std::string_view user_id, std::string_view member_data) {
           try {
-              members.emplace(user_id, db::parseMemberInfo(member_data));
+              members.emplace(user_id, db::storage::parseMemberInfo(member_data));
           } catch (const nlohmann::json::exception &e) {
               nhlog::db()->warn("failed to parse member info: {}", e.what());
           }
@@ -3009,7 +3009,7 @@ Cache::getRoomJoinRule(db::storage::Transaction &txn, db::storage::Store &states
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<state::JoinRules>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<state::JoinRules>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomJoinRules))) {
             return msg->content.join_rule;
         }
@@ -3026,7 +3026,7 @@ Cache::getRoomGuestAccess(db::storage::Transaction &txn, db::storage::Store &sta
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<GuestAccess>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<GuestAccess>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomGuestAccess))) {
             return msg->content.guest_access == AccessState::CanJoin;
         }
@@ -3043,7 +3043,7 @@ Cache::getRoomTopic(db::storage::Transaction &txn, db::storage::Store &statesdb)
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<Topic>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<Topic>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomTopic))) {
             if (!msg->content.topic.empty())
                 return QString::fromStdString(msg->content.topic);
@@ -3062,7 +3062,7 @@ Cache::getRoomVersion(db::storage::Transaction &txn, db::storage::Store &statesd
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<Create>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<Create>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
             if (!msg->content.room_version.empty())
                 return QString::fromStdString(msg->content.room_version);
@@ -3082,7 +3082,7 @@ Cache::getRoomIsSpace(db::storage::Transaction &txn, db::storage::Store &statesd
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<Create>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<Create>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
             return msg->content.type == mtx::events::state::room_type::space;
         }
@@ -3101,7 +3101,7 @@ Cache::getRoomIsTombstoned(db::storage::Transaction &txn, db::storage::Store &st
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StateEvent<Tombstone>>(
+        if (auto msg = db::storage::getJsonValue<StateEvent<Tombstone>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
             return true;
         }
@@ -3119,7 +3119,7 @@ Cache::getInviteRoomName(db::storage::Transaction &txn, db::storage::Store &stat
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StrippedEvent<state::Name>>(
+        if (auto msg = db::storage::getJsonValue<StrippedEvent<state::Name>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
             return QString::fromStdString(msg->content.name);
         }
@@ -3135,7 +3135,7 @@ Cache::getInviteRoomName(db::storage::Transaction &txn, db::storage::Store &stat
             return true;
 
         try {
-            MemberInfo tmp  = db::parseMemberInfo(member_data);
+            MemberInfo tmp  = db::storage::parseMemberInfo(member_data);
             memberName      = QString::fromStdString(tmp.name);
             foundMemberName = true;
             return false;
@@ -3158,7 +3158,7 @@ Cache::getInviteRoomAvatarUrl(db::storage::Transaction &txn, db::storage::Store 
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StrippedEvent<state::Avatar>>(
+        if (auto msg = db::storage::getJsonValue<StrippedEvent<state::Avatar>>(
               txn, statesdb, to_string(mtx::events::EventType::RoomAvatar))) {
             return QString::fromStdString(msg->content.url);
         }
@@ -3174,7 +3174,7 @@ Cache::getInviteRoomAvatarUrl(db::storage::Transaction &txn, db::storage::Store 
             return true;
 
         try {
-            MemberInfo tmp = db::parseMemberInfo(member_data);
+            MemberInfo tmp = db::storage::parseMemberInfo(member_data);
             avatarUrl      = QString::fromStdString(tmp.avatar_url);
             foundAvatarUrl = true;
             return false;
@@ -3197,7 +3197,7 @@ Cache::getInviteRoomTopic(db::storage::Transaction &txn, db::storage::Store &db_
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StrippedEvent<Topic>>(
+        if (auto msg = db::storage::getJsonValue<StrippedEvent<Topic>>(
               txn, db_, to_string(mtx::events::EventType::RoomTopic))) {
             return QString::fromStdString(msg->content.topic);
         }
@@ -3215,7 +3215,7 @@ Cache::getInviteRoomIsSpace(db::storage::Transaction &txn, db::storage::Store &d
     using namespace mtx::events::state;
 
     try {
-        if (auto msg = db::getJsonValue<StrippedEvent<Create>>(
+        if (auto msg = db::storage::getJsonValue<StrippedEvent<Create>>(
               txn, db_, to_string(mtx::events::EventType::RoomCreate))) {
             return msg->content.type == mtx::events::state::room_type::space;
         }
@@ -3249,7 +3249,7 @@ Cache::getCommonRooms(const std::string &user_id)
                                                     std::string_view room_data) {
           try {
               if (getMembersDb(txn, std::string(room_id)).get(txn, user_id, member_info)) {
-                  RoomInfo tmp = db::parseRoomInfo(room_data);
+                  RoomInfo tmp = db::storage::parseRoomInfo(room_data);
                   result.emplace(std::string(room_id), std::move(tmp));
               }
           } catch (std::exception &e) {
@@ -3275,7 +3275,7 @@ Cache::getMember(const std::string &room_id, const std::string &user_id)
 
         auto membersdb = getMembersDb(txn, room_id);
 
-        return db::getMemberInfo(txn, membersdb, user_id);
+        return db::storage::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
         nhlog::db()->warn(
           "Failed to read member ({}) in room ({}): {}", user_id, room_id, e.what());
@@ -3298,7 +3298,7 @@ Cache::getMembers(const std::string &room_id, std::size_t startIndex, std::size_
                          len,
                          [&members](std::string_view user_id, std::string_view user_data) {
                              try {
-                                 MemberInfo tmp = db::parseMemberInfo(user_data);
+                                 MemberInfo tmp = db::storage::parseMemberInfo(user_data);
                                  members.emplace_back(RoomMember{
                                    QString::fromStdString(std::string(user_id)),
                                    QString::fromStdString(tmp.name),
@@ -3328,7 +3328,7 @@ Cache::getInviteMember(const std::string &room_id, const std::string &user_id)
 
         auto membersdb = getInviteMembersDb(txn, room_id);
 
-        return db::getMemberInfo(txn, membersdb, user_id);
+        return db::storage::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
         nhlog::db()->warn(
           "Failed to read member ({}) in invite room ({}): {}", user_id, room_id, e.what());
@@ -3350,7 +3350,7 @@ Cache::getMembersFromInvite(const std::string &room_id, std::size_t startIndex, 
                          len,
                          [&members](std::string_view user_id, std::string_view user_data) {
                              try {
-                                 MemberInfo tmp = db::parseMemberInfo(user_data);
+                                 MemberInfo tmp = db::storage::parseMemberInfo(user_data);
                                  members.emplace_back(RoomMember{
                                    QString::fromStdString(std::string(user_id)),
                                    QString::fromStdString(tmp.name),
@@ -3402,7 +3402,7 @@ Cache::savePendingMessage(const std::string &room_id,
     auto pending = getPendingMessagesDb(txn, room_id);
 
     int64_t now = QDateTime::currentMSecsSinceEpoch();
-    pending.put(txn, db::toSv(now), mtx::accessors::event_id(message));
+    pending.put(txn, db::storage::toSv(now), mtx::accessors::event_id(message));
 
     txn.commit();
 }
@@ -3444,7 +3444,7 @@ Cache::firstPendingMessage(const std::string &room_id)
           [&eventsDb, &txn, &firstValid, &staleEntries](std::string_view timestamp,
                                                         std::string_view pendingTxn) {
               try {
-                  if (auto event = db::getJsonValue<mtx::events::collections::TimelineEvents>(
+                  if (auto event = db::storage::getJsonValue<mtx::events::collections::TimelineEvents>(
                         txn, eventsDb, pendingTxn)) {
                       firstValid = std::move(*event);
                       return false;
@@ -3530,7 +3530,7 @@ Cache::saveTimelineMessages(db::storage::Transaction &txn,
 
         std::string_view event_id = event_id_val;
 
-        const auto orderEntry = db::serializeOrderEntry(
+        const auto orderEntry = db::storage::serializeOrderEntry(
           event_id_val,
           first && !res.prev_batch.empty() ? std::optional<std::string_view>(res.prev_batch)
                                            : std::nullopt);
@@ -3662,7 +3662,7 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         msgIndex = *firstMessage;
 
     if (res.chunk.empty()) {
-        if (db::setOrderEntryPrevBatch(txn, orderDb, index, res.end)) {
+        if (db::storage::setOrderEntryPrevBatch(txn, orderDb, index, res.end)) {
             txn.commit();
         }
         return msgIndex;
@@ -3683,7 +3683,7 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         std::string_view unused_read;
         if (!evToOrderDb.get(txn, event_id, unused_read)) {
             db::storage::prependEventOrderEntry(
-              txn, orderDb, evToOrderDb, index, event_id, db::serializeOrderEntry(event_id));
+              txn, orderDb, evToOrderDb, index, event_id, db::storage::serializeOrderEntry(event_id));
 
             // TODO(Nico): Allow blacklisting more event types in UI
             if (!isHiddenEvent(txn, e, room_id)) {
@@ -3712,7 +3712,7 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
                                    evToOrderDb,
                                    index,
                                    event_id_val,
-                                   db::serializeOrderEntry(event_id_val, res.end));
+                                   db::storage::serializeOrderEntry(event_id_val, res.end));
     }
 
     txn.commit();
@@ -3804,7 +3804,7 @@ Cache::deleteOldMessages()
             continue;
 
         const auto toDeleteCount = message_count - MAX_RESTORED_MESSAGES;
-        db::trimOldestOrderEntriesWithReferences(
+        db::storage::trimOldestOrderEntriesWithReferences(
           txn, orderDb, eventsDb, relationsDb, evToOrderDb, m2o, o2m, toDeleteCount);
     }
     txn.commit();
@@ -3907,7 +3907,7 @@ Cache::spaces()
         const auto spaceId = std::string(space_id);
         std::string_view room_data;
         if (db->rooms.get(txn, spaceId, room_data)) {
-            RoomInfo tmp = db::parseRoomInfo(room_data);
+            RoomInfo tmp = db::storage::parseRoomInfo(room_data);
             ret.insert(QString::fromStdString(spaceId), tmp);
         } else {
             ret.insert(QString::fromStdString(spaceId), std::nullopt);
@@ -4095,7 +4095,7 @@ Cache::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes
         int64_t user_level      = std::numeric_limits<int64_t>::min();
 
         try {
-            if (auto msg = db::getJsonValue<StateEvent<PowerLevels>>(
+            if (auto msg = db::storage::getJsonValue<StateEvent<PowerLevels>>(
                   txn, db_, to_string(EventType::RoomPowerLevels))) {
                 user_level = msg->content.user_level(user_id);
 
@@ -4159,7 +4159,7 @@ Cache::roomVerificationStatus(const std::string &room_id)
               txn,
               keysDb,
               keysToRequest,
-              db::getSyncStateValue(txn, this->db->syncState, db::catalog::SyncStateKey::NextBatch)
+              db::storage::getSyncStateValue(txn, this->db->syncState, db::catalog::SyncStateKey::NextBatch)
                 .value_or(""));
         }
 
@@ -4184,7 +4184,7 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
         db::storage::forEachUniqueKey(
           txn, db_, [&members, &keysDb, &txn, verified_only, this](std::string_view user_id) {
               const auto userId = std::string(user_id);
-              if (auto k = db::getJsonValue<UserKeyCache>(txn, keysDb, userId)) {
+              if (auto k = db::storage::getJsonValue<UserKeyCache>(txn, keysDb, userId)) {
                   if (verified_only) {
                       auto verif = verificationStatus_(userId, txn);
 
@@ -4281,7 +4281,7 @@ Cache::presence(const std::string &user_id)
 
     auto txn = ro_txn(storage());
     try {
-        if (auto val = db::getJsonValue<mtx::events::presence::Presence>(txn, db->presence, user_id))
+        if (auto val = db::storage::getJsonValue<mtx::events::presence::Presence>(txn, db->presence, user_id))
             presence_ = std::move(*val);
     } catch (const nlohmann::json::exception &e) {
         nhlog::db()->warn("failed to parse presence entry for {}: {}", user_id, e.what());
@@ -4302,7 +4302,7 @@ Cache::userKeys_(const std::string &user_id, db::storage::Transaction &txn)
 {
     try {
         auto db_ = getUserKeysDb(txn);
-        return db::getJsonValue<UserKeyCache>(txn, db_, user_id);
+        return db::storage::getJsonValue<UserKeyCache>(txn, db_, user_id);
     } catch (std::exception &e) {
         nhlog::db()->error("Failed to retrieve user keys for {}: {}", user_id, e.what());
         return std::nullopt;
@@ -4332,7 +4332,7 @@ Cache::updateUserKeys(const std::string &sync_token, const mtx::responses::Query
         auto updateToWrite = update;
 
         UserKeyCache oldEntry{};
-        if (db::getJsonValue(txn, db_, user, oldEntry)) {
+        if (db::storage::getJsonValue(txn, db_, user, oldEntry)) {
             updateToWrite     = oldEntry;
             auto last_changed = updateToWrite.last_changed;
             // skip if we are tracking this and expect it to be up to date with the last
@@ -4431,7 +4431,7 @@ Cache::updateUserKeys(const std::string &sync_token, const mtx::responses::Query
             }
         }
         updateToWrite.updated_at = sync_token;
-        db::putJsonValue(txn, db_, user, updateToWrite);
+        db::storage::putJsonValue(txn, db_, user, updateToWrite);
     }
 
     txn.commit();
@@ -4493,13 +4493,13 @@ Cache::markUserKeysOutOfDate(db::storage::Transaction &txn,
 
         UserKeyCache cacheEntry{};
         try {
-            db::getJsonValue(txn, db_, user, cacheEntry);
+            db::storage::getJsonValue(txn, db_, user, cacheEntry);
         } catch (std::exception &e) {
             nhlog::db()->error("Failed to parse {}: {}", user, e.what());
         }
         cacheEntry.last_changed = sync_token;
 
-        db::putJsonValue(txn, db_, user, cacheEntry);
+        db::storage::putJsonValue(txn, db_, user, cacheEntry);
 
         query.device_keys[user] = {};
 
@@ -4611,7 +4611,7 @@ Cache::verificationCache(const std::string &user_id, db::storage::Transaction &t
 {
     auto db_ = getVerificationDb(txn);
     try {
-        return db::getJsonValue<VerificationCache>(txn, db_, user_id);
+        return db::storage::getJsonValue<VerificationCache>(txn, db_, user_id);
     } catch (std::exception &) {
         return {};
     }
@@ -4625,14 +4625,14 @@ Cache::markDeviceVerified(const std::string &user_id, const std::string &key)
 
     try {
         VerificationCache verified_state;
-        db::getJsonValue(txn, db_, user_id, verified_state);
+        db::storage::getJsonValue(txn, db_, user_id, verified_state);
 
         for (const auto &device : verified_state.device_verified)
             if (device == key)
                 return;
 
         verified_state.device_verified.insert(key);
-        db::putJsonValue(txn, db_, user_id, verified_state);
+        db::storage::putJsonValue(txn, db_, user_id, verified_state);
         txn.commit();
     } catch (std::exception &) {
     }
@@ -4667,11 +4667,11 @@ Cache::markDeviceUnverified(const std::string &user_id, const std::string &key)
 
     try {
         VerificationCache verified_state;
-        db::getJsonValue(txn, db_, user_id, verified_state);
+        db::storage::getJsonValue(txn, db_, user_id, verified_state);
 
         verified_state.device_verified.erase(key);
 
-        db::putJsonValue(txn, db_, user_id, verified_state);
+        db::storage::putJsonValue(txn, db_, user_id, verified_state);
         txn.commit();
     } catch (std::exception &) {
     }

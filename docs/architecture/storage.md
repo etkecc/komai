@@ -142,6 +142,10 @@ Database hash:
   (`db::serializeMemberInfo(...)`, `db::parseMemberInfo(...)`,
   `db::getMemberInfo(...)`, `db::putMemberInfo(...)`) so callers do not
   duplicate `MemberInfo` JSON serialization/parsing and keyed reads/writes.
+- Reusable cache-crypto struct codecs are centralized in
+  `src/CacheCryptoStructs.cpp`, keeping crypto/key/cache value serialization in one
+  place instead of inline in `Cache.cpp` so callers only parse/store values through
+  typed helpers.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
   (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
   `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor

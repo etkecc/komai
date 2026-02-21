@@ -17,6 +17,7 @@
 #include <nlohmann/json.hpp>
 
 #include "CacheStructs.h"
+#include "CacheCryptoStructs.h"
 #include "db/Backend.h"
 #include "db/Catalog.h"
 #include "db/Compaction.h"
@@ -1095,6 +1096,104 @@ testMemberInfoHelper()
     }
 
     backend->close();
+    return ok;
+}
+
+bool
+testCacheCryptoHelpers()
+{
+    bool ok = true;
+
+    UserKeyCache userKeys;
+    userKeys.updated_at         = "up";
+    userKeys.last_changed       = "lc";
+    userKeys.master_key_changed = true;
+    userKeys.seen_device_ids.insert("deviceA");
+    userKeys.seen_device_keys.insert("keyA");
+
+    const auto userKeysSerialized = nlohmann::json(userKeys).dump();
+    const auto userKeysParsed    = nlohmann::json::parse(userKeysSerialized).get<UserKeyCache>();
+    ok &= expect(userKeysParsed.updated_at == userKeys.updated_at &&
+                   userKeysParsed.last_changed == userKeys.last_changed &&
+                   userKeysParsed.master_key_changed == userKeys.master_key_changed &&
+                   userKeysParsed.seen_device_ids == userKeys.seen_device_ids &&
+                   userKeysParsed.seen_device_keys == userKeys.seen_device_keys,
+                 "cache crypto helper preserves UserKeyCache fields");
+
+    VerificationCache verification;
+    verification.device_verified = {"a"};
+    verification.device_blocked  = {"b"};
+    const auto verificationSerialized = nlohmann::json(verification).dump();
+    const auto verificationParsed =
+      nlohmann::json::parse(verificationSerialized).get<VerificationCache>();
+    ok &= expect(verificationParsed.device_verified == verification.device_verified &&
+                   verificationParsed.device_blocked == verification.device_blocked,
+                 "cache crypto helper preserves VerificationCache fields");
+
+    OnlineBackupVersion backup;
+    backup.version   = "1";
+    backup.algorithm = "m.megolm_backup.v1.curve25519-aes-sha2";
+    const auto backupSerialized = nlohmann::json(backup).dump();
+    const auto backupParsed     = nlohmann::json::parse(backupSerialized).get<OnlineBackupVersion>();
+    ok &= expect(backupParsed.version == backup.version &&
+                   backupParsed.algorithm == backup.algorithm,
+                 "cache crypto helper preserves OnlineBackupVersion fields");
+
+    DeviceKeysToMsgIndex keys;
+    keys.deviceids = {{"ed25519:key1", 7}, {"curve25519:key2", 12}};
+    const auto keysSerialized = nlohmann::json(keys).dump();
+    const auto keysParsed     = nlohmann::json::parse(keysSerialized).get<DeviceKeysToMsgIndex>();
+    ok &= expect(keysParsed.deviceids == keys.deviceids,
+                 "cache crypto helper preserves DeviceKeysToMsgIndex fields");
+
+    SharedWithUsers recipients;
+    DeviceKeysToMsgIndex keysForBob;
+    keysForBob.deviceids = {{"ed25519:key3", 1}};
+    recipients.keys = {
+      {"@alice:example.org", keys},
+      {"@bob:example.org", keysForBob},
+    };
+    const auto recipientsSerialized = nlohmann::json(recipients).dump();
+    const auto recipientsParsed =
+      nlohmann::json::parse(recipientsSerialized).get<SharedWithUsers>();
+    ok &= expect(recipientsParsed.keys.size() == recipients.keys.size(),
+                 "cache crypto helper preserves SharedWithUsers map size");
+
+    GroupSessionData sessionData;
+    sessionData.message_index = 42;
+    sessionData.timestamp     = 123456789;
+    sessionData.trusted       = true;
+    sessionData.sender_key    = "s";
+    sessionData.sender_claimed_ed25519_key =
+      "mXCnK9qFj8qY..."; // ensure value is non-empty for parser roundtrip coverage
+    sessionData.forwarding_curve25519_key_chain = {"fwd-1", "fwd-2"};
+    sessionData.currently.keys                = recipients.keys;
+    sessionData.indices                      = {{1, "evt-1"}, {2, "evt-2"}};
+    const auto sessionSerialized = nlohmann::json(sessionData).dump();
+    const auto sessionParsed    = nlohmann::json::parse(sessionSerialized).get<GroupSessionData>();
+    ok &= expect(sessionParsed.message_index == sessionData.message_index &&
+                   sessionParsed.timestamp == sessionData.timestamp &&
+                   sessionParsed.trusted == sessionData.trusted &&
+                   sessionParsed.sender_key == sessionData.sender_key &&
+                   sessionParsed.indices == sessionData.indices &&
+                   sessionParsed.currently.keys == sessionData.currently.keys,
+                 "cache crypto helper preserves GroupSessionData fields");
+
+    DevicePublicKeys pubKey{"ed", "curve"};
+    const auto pubSerialized = nlohmann::json(pubKey).dump();
+    const auto pubParsed     = nlohmann::json::parse(pubSerialized).get<DevicePublicKeys>();
+    ok &= expect(pubParsed.ed25519 == pubKey.ed25519 && pubParsed.curve25519 == pubKey.curve25519,
+                 "cache crypto helper preserves DevicePublicKeys fields");
+
+    StoredOlmSession olmSession;
+    olmSession.last_message_ts = 100;
+    olmSession.pickled_session = "pickled";
+    const auto olmSerialized = nlohmann::json(olmSession).dump();
+    const auto olmParsed     = nlohmann::json::parse(olmSerialized).get<StoredOlmSession>();
+    ok &= expect(olmParsed.last_message_ts == olmSession.last_message_ts &&
+                   olmParsed.pickled_session == olmSession.pickled_session,
+                 "cache crypto helper preserves StoredOlmSession fields");
+
     return ok;
 }
 
@@ -2677,6 +2776,7 @@ main()
     ok &= testReadReceiptIndexHelper();
     ok &= testRoomInfoHelper();
     ok &= testMemberInfoHelper();
+    ok &= testCacheCryptoHelpers();
     ok &= testOlmSessionIndexHelper();
     ok &= testDupIndexHelper();
     ok &= testScanHelper();

@@ -2788,6 +2788,8 @@ testFactory()
                  "default backend compaction support aligns with lmdb availability");
     ok &= expect(db::maintenance::supportsCompaction(defaultBackend) == lmdbSupported,
                  "default backend supports compaction via unique_ptr interface");
+    ok &= expect(!db::maintenance::supportsCompaction(static_cast<db::Backend *>(nullptr)),
+                 "compaction capability API accepts null pointers");
     ok &= expect(db::storage::storageCategory(defaultBackend) ==
                    (lmdbSupported ? db::StorageCategory::Persistent
                                                                 : db::StorageCategory::Ephemeral),

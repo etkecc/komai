@@ -13,7 +13,7 @@ openOptionsForGlobal(catalog::GlobalDb db)
     StoreOpenOptions options{};
 
     if (db == catalog::GlobalDb::SpacesChildren || db == catalog::GlobalDb::SpacesParents)
-        options.flags |= DbiFlags::DupSort;
+        options.flags |= StoreFlags::DupSort;
 
     return options;
 }
@@ -25,15 +25,15 @@ openOptionsForRoom(catalog::RoomDb db)
 
     if (db == catalog::RoomDb::EventOrder || db == catalog::RoomDb::OrderToMessage ||
         db == catalog::RoomDb::Pending)
-        options.flags |= DbiFlags::IntegerKey;
+        options.flags |= StoreFlags::IntegerKey;
 
     if (db == catalog::RoomDb::Related) {
-        options.flags |= DbiFlags::DupSort;
+        options.flags |= StoreFlags::DupSort;
     } else if (db == catalog::RoomDb::StatesKey) {
-        options.flags |= DbiFlags::DupSort;
+        options.flags |= StoreFlags::DupSort;
         options.dupsortComparator = DupsortComparator::StateKey;
     } else if (db == catalog::RoomDb::LegacyStateByKey) {
-        options.flags |= DbiFlags::DupSort;
+        options.flags |= StoreFlags::DupSort;
         options.dupsortComparator = DupsortComparator::LegacyStateByKeyJson;
     }
 

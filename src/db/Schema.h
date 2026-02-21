@@ -23,6 +23,12 @@ std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept;
 
 bool
+tryDropNamedStore(Backend &backend,
+                  Transaction &txn,
+                  std::string_view dbName,
+                  std::string *error = nullptr) noexcept;
+
+bool
 tryDropNamedDbi(Backend &backend,
                                    Transaction &txn,
                 std::string_view dbName,

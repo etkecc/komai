@@ -14,7 +14,7 @@ openNamedStore(Database &backend, DatabaseTxn &txn, std::string_view name, bool 
 {
     auto options = openOptionsForName(name);
     if (create)
-        options.flags |= DbiFlags::Create;
+        options.flags |= StoreFlags::Create;
 
     return backend.openStore(txn, name, options);
 }
@@ -24,7 +24,7 @@ openGlobalStore(Database &backend, DatabaseTxn &txn, catalog::GlobalDb db, bool 
 {
     auto options = openOptionsForGlobal(db);
     if (create)
-        options.flags |= DbiFlags::Create;
+        options.flags |= StoreFlags::Create;
 
     return backend.openStore(txn, catalog::globalName(db), options);
 }
@@ -34,7 +34,7 @@ openRoomStore(Database &backend, DatabaseTxn &txn, std::string_view roomId, cata
 {
     auto options = openOptionsForRoom(db);
     if (create)
-        options.flags |= DbiFlags::Create;
+        options.flags |= StoreFlags::Create;
 
     return backend.openStore(txn, catalog::roomName(roomId, db), options);
 }

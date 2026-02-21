@@ -1563,7 +1563,8 @@ Cache::runMigrations()
                    for (const auto roomDb : db::roomDbsForFullResync()) {
                        const auto dbName = db::catalog::roomName(room, roomDb);
                        std::string error;
-                       if (!db::tryDropNamedDbi(storage(), txn, dbName, &error) && !error.empty())
+                       if (!db::tryDropNamedStore(storage(), txn, dbName, &error) &&
+                           !error.empty())
                            nhlog::db()->warn("Failed to drop '{}': {}", dbName, error);
                    }
                }

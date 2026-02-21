@@ -73,7 +73,7 @@ Database hash:
 - Reusable schema/migration primitives (for example, full-resync room DB lists,
   drop helpers, and legacy migration helpers) are centralized in
   `src/db/Schema.cpp` (`db::roomDbsForFullResync(...)`,
-  `db::tryDropNamedDbi(...)`, `db::migrateLegacyStateByKeyToStatesKey(...)`,
+  `db::tryDropNamedStore(...)`, `db::migrateLegacyStateByKeyToStatesKey(...)`,
   `db::migrateLegacyMegolmSessionIndexes(...)`, `db::migrateLegacyOlmShardsV1ToV2(...)`,
   `db::migrateLegacyOlmShardsV2ToUnified(...)`).
 - Reusable event-order entry parsing (including legacy raw event-id fallback) is

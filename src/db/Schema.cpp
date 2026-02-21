@@ -52,7 +52,7 @@ roomDbsForFullResync() noexcept
 }
 
 bool
-tryDropNamedDbi(Backend &backend, Transaction &txn, std::string_view dbName, std::string *error) noexcept
+tryDropNamedStore(Backend &backend, Transaction &txn, std::string_view dbName, std::string *error) noexcept
 {
     if (error)
         error->clear();
@@ -69,6 +69,12 @@ tryDropNamedDbi(Backend &backend, Transaction &txn, std::string_view dbName, std
             *error = "unknown error";
         return false;
     }
+}
+
+bool
+tryDropNamedDbi(Backend &backend, Transaction &txn, std::string_view dbName, std::string *error) noexcept
+{
+    return tryDropNamedStore(backend, txn, dbName, error);
 }
 
 bool

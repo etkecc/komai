@@ -36,6 +36,12 @@ enum class Durability
     Relaxed,
 };
 
+enum class StorageCategory
+{
+    Persistent,
+    Ephemeral,
+};
+
 struct BackendOptions
 {
     std::size_t mapSizeBytes = 0;
@@ -57,6 +63,7 @@ public:
     virtual ~Backend() = default;
 
     virtual std::string_view id() const noexcept                                             = 0;
+    virtual StorageCategory storageCategory() const noexcept                                 = 0;
     virtual bool supportsCompaction() const noexcept                                         = 0;
     virtual void open(std::string_view directory, const BackendOptions &options)             = 0;
     virtual void close() noexcept                                                            = 0;

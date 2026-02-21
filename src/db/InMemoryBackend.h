@@ -19,6 +19,7 @@ public:
     ~InMemoryBackend() override;
 
     std::string_view id() const noexcept override { return kMemoryBackendId; }
+    StorageCategory storageCategory() const noexcept override { return StorageCategory::Ephemeral; }
     bool supportsCompaction() const noexcept override { return false; }
 
     void open(std::string_view directory, const BackendOptions &options) override;

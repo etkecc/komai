@@ -2654,16 +2654,22 @@ testFactory()
 #if KOMAI_DB_WITH_LMDB
     ok &= expect(defaultBackend->id() == db::kLmdbBackendId, "default backend is lmdb");
     ok &= expect(defaultBackend->supportsCompaction(), "lmdb backend reports compaction support");
+    ok &= expect(defaultBackend->storageCategory() == db::StorageCategory::Persistent,
+                 "lmdb backend is persistent");
 #else
     ok &= expect(defaultBackend->id() == db::kMemoryBackendId, "default backend falls back to memory");
     ok &= expect(!defaultBackend->supportsCompaction(),
                  "memory default reports no compaction support");
+    ok &= expect(defaultBackend->storageCategory() == db::StorageCategory::Ephemeral,
+                 "memory default is ephemeral");
 #endif
 
     auto memoryBackend = db::createBackend(db::kMemoryBackendId);
     ok &= expect(memoryBackend->id() == db::kMemoryBackendId, "memory backend is creatable");
     ok &= expect(!memoryBackend->supportsCompaction(),
                  "memory backend reports no compaction support");
+    ok &= expect(memoryBackend->storageCategory() == db::StorageCategory::Ephemeral,
+                 "memory backend is ephemeral");
 
     auto configuredDefault = db::createConfiguredBackend("");
 #if KOMAI_DB_WITH_LMDB

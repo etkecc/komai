@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <unordered_set>
 #include <variant>
+#include <string_view>
 
 #include <QCoreApplication>
 #include <QDir>
@@ -390,7 +391,8 @@ Cache::setup()
 
     nhlog::db()->debug("Database at: {}", cacheDirectory_.toStdString());
 
-    bool isInitial = !QFile::exists(cacheDirectory_);
+    const bool isPersistentBackend = storage().storageCategory() == db::StorageCategory::Persistent;
+    const bool isInitial           = isPersistentBackend && !QFile::exists(cacheDirectory_);
 
     auto storageOptions = [] {
         auto settings      = UserSettings::instance();
@@ -442,7 +444,8 @@ Cache::setup()
         // corruption is a database-backend or filesystem bug. See
         // https://github.com/Nheko-Reborn/nheko/issues/1355
         // https://github.com/Nheko-Reborn/nheko/issues/1303
-        db->storage->open(cacheDirectoryPath, storageOptions);
+        db->storage->open(
+          isPersistentBackend ? std::string_view(cacheDirectoryPath) : std::string_view{}, storageOptions);
 
         if (needsCompact) {
             if (!storage().supportsCompaction()) {
@@ -486,6 +489,10 @@ Cache::setup()
         const auto errorKind = e.kind();
         if (errorKind != db::ErrorKind::VersionMismatch && errorKind != db::ErrorKind::Invalid) {
             throw std::runtime_error("Storage initialization failed: " + std::string(e.what()));
+        }
+
+        if (!isPersistentBackend) {
+            throw;
         }
 
         nhlog::db()->warn("resetting cache due to incompatible storage format: {}", e.what());

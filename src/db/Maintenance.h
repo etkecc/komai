@@ -46,6 +46,12 @@ supportsCompaction(const Database &database) noexcept;
 bool
 supportsCompaction(const Database *database) noexcept;
 
+bool
+supportsCompaction(std::unique_ptr<Database> &database) noexcept;
+
+bool
+supportsCompaction(const std::unique_ptr<Database> &database) noexcept;
+
 void
 compact(Database &from, Database &to);
 

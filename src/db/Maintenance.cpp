@@ -64,6 +64,18 @@ supportsCompaction(const Database *database) noexcept
     return database ? supportsCompaction(*database) : false;
 }
 
+bool
+supportsCompaction(std::unique_ptr<Database> &database) noexcept
+{
+    return supportsCompaction(database.get());
+}
+
+bool
+supportsCompaction(const std::unique_ptr<Database> &database) noexcept
+{
+    return supportsCompaction(database.get());
+}
+
 void
 compact(Database &from, Database &to)
 {

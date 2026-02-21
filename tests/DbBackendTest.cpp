@@ -24,7 +24,6 @@
 #include "db/Json.h"
 #include "db/DupIndex.h"
 #include "db/StorageApi.h"
-#include "db/StorageCompat.h"
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
 #include "db/NamePolicy.h"

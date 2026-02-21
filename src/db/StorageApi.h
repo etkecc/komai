@@ -134,19 +134,19 @@ supportsCapability(const Database &database, Capability capability) noexcept
 inline StoreOpenOptions
 openOptionsForName(std::string_view name)
 {
-    return db::openOptionsForName(name);
+    return ::db::openOptionsForName(name);
 }
 
 inline StoreOpenOptions
 openOptionsForGlobal(catalog::GlobalDb db)
 {
-    return db::openOptionsForGlobal(db);
+    return ::db::openOptionsForGlobal(db);
 }
 
 inline StoreOpenOptions
 openOptionsForRoom(catalog::RoomDb db)
 {
-    return db::openOptionsForRoom(db);
+    return ::db::openOptionsForRoom(db);
 }
 
 using db::forEachDupValue;
@@ -903,3 +903,394 @@ openRoomStore(const std::unique_ptr<Database> &database,
 }
 
 } // namespace db::storage
+
+namespace db {
+
+using storage::AccessMode;
+using storage::Capability;
+using storage::ScanDirection;
+using storage::Store;
+using storage::StoreFlags;
+using storage::StoreOpenOptions;
+using storage::Options;
+using storage::Transaction;
+using storage::CursorHandle;
+using storage::TransactionFlags;
+using storage::DatabaseOptions;
+
+inline std::unique_ptr<Database>
+createDatabaseFromEnvironment(DatabaseId variableName = "KOMAI_DB_BACKEND")
+{
+    return storage::createDatabaseFromEnvironment(variableName);
+}
+
+inline TransactionFlags
+toAccessFlags(AccessMode mode) noexcept
+{
+    return storage::toAccessFlags(mode);
+}
+
+inline bool
+supportsCapability(const Database &database, Capability capability) noexcept
+{
+    return storage::supportsCapability(database, capability);
+}
+
+inline void
+requireCapabilities(const Database &database, StoreFlags flags)
+{
+    return storage::requireCapabilities(database, flags);
+}
+
+inline Store
+openNamedStore(Database &database,
+              Transaction &txn,
+              std::string_view name,
+              bool create = true,
+              StoreFlags flags = StoreFlags::None)
+{
+    return storage::openNamedStore(database, txn, name, create, flags);
+}
+
+inline Store
+openNamedStore(Database *database,
+               Transaction &txn,
+               std::string_view name,
+               bool create = true,
+               StoreFlags flags = StoreFlags::None)
+{
+    return storage::openNamedStore(database, txn, name, create, flags);
+}
+
+inline Store
+openNamedStore(std::unique_ptr<Database> &database,
+               Transaction &txn,
+               std::string_view name,
+               bool create = true,
+               StoreFlags flags = StoreFlags::None)
+{
+    return storage::openNamedStore(database, txn, name, create, flags);
+}
+
+inline Store
+openNamedStore(const std::unique_ptr<Database> &database,
+               Transaction &txn,
+               std::string_view name,
+               bool create = true,
+               StoreFlags flags = StoreFlags::None)
+{
+    return storage::openNamedStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(Database &database,
+          Transaction &txn,
+          std::string_view name,
+          bool create = true,
+          StoreFlags flags = StoreFlags::None)
+{
+    return storage::openStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(Database *database,
+          Transaction &txn,
+          std::string_view name,
+          bool create = true,
+          StoreFlags flags = StoreFlags::None)
+{
+    return storage::openStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(std::unique_ptr<Database> &database,
+          Transaction &txn,
+          std::string_view name,
+          bool create = true,
+          StoreFlags flags = StoreFlags::None)
+{
+    return storage::openStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(const std::unique_ptr<Database> &database,
+          Transaction &txn,
+          std::string_view name,
+          bool create = true,
+          StoreFlags flags = StoreFlags::None)
+{
+    return storage::openStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(Database &database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+{
+    return storage::openStore(database, txn, name, options);
+}
+
+inline Store
+openStore(Database *database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+{
+    return storage::openStore(database, txn, name, options);
+}
+
+inline Store
+openStore(std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+{
+    return storage::openStore(database, txn, name, options);
+}
+
+inline Store
+openStore(const std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const StoreOpenOptions &options)
+{
+    return storage::openStore(database, txn, name, options);
+}
+
+inline Store
+openGlobalStore(Database &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+{
+    return storage::openGlobalStore(database, txn, store, create);
+}
+
+inline Store
+openGlobalStore(Database *database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+{
+    return storage::openGlobalStore(database, txn, store, create);
+}
+
+inline Store
+openGlobalStore(std::unique_ptr<Database> &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+{
+    return storage::openGlobalStore(database, txn, store, create);
+}
+
+inline Store
+openGlobalStore(const std::unique_ptr<Database> &database,
+               Transaction &txn,
+               catalog::GlobalDb store,
+               bool create = true)
+{
+    return storage::openGlobalStore(database, txn, store, create);
+}
+
+inline Store
+openRoomStore(Database &database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb store,
+              bool create = true)
+{
+    return storage::openRoomStore(database, txn, roomId, store, create);
+}
+
+inline Store
+openRoomStore(Database *database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb store,
+              bool create = true)
+{
+    return storage::openRoomStore(database, txn, roomId, store, create);
+}
+
+inline Store
+openRoomStore(std::unique_ptr<Database> &database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb store,
+              bool create = true)
+{
+    return storage::openRoomStore(database, txn, roomId, store, create);
+}
+
+inline Store
+openRoomStore(const std::unique_ptr<Database> &database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb store,
+              bool create = true)
+{
+    return storage::openRoomStore(database, txn, roomId, store, create);
+}
+
+inline storage::Cursor
+openCursor(Transaction &txn, Store &store)
+{
+    return storage::openCursor(txn, store);
+}
+
+inline bool
+ownsTransaction(const Database &database, const Transaction &transaction)
+{
+    return storage::ownsTransaction(database, transaction);
+}
+
+inline bool
+ownsTransaction(const Database *database, const Transaction &transaction)
+{
+    return storage::ownsTransaction(database, transaction);
+}
+
+inline bool
+ownsTransaction(const std::unique_ptr<Database> &database, const Transaction &transaction)
+{
+    return storage::ownsTransaction(database, transaction);
+}
+
+inline bool
+ownsTransaction(std::unique_ptr<Database> &database, const Transaction &transaction)
+{
+    return storage::ownsTransaction(database, transaction);
+}
+
+inline Transaction
+beginTransaction(Database &database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)
+{
+    return storage::beginTransaction(database, parent, mode);
+}
+
+inline Transaction
+beginTransaction(Database *database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)
+{
+    return storage::beginTransaction(database, parent, mode);
+}
+
+inline Transaction
+beginTransaction(std::unique_ptr<Database> &database,
+                Transaction *parent = nullptr,
+                AccessMode mode = AccessMode::ReadWrite)
+{
+    return storage::beginTransaction(database, parent, mode);
+}
+
+inline Transaction
+beginTransaction(const std::unique_ptr<Database> &database,
+                Transaction *parent = nullptr,
+                AccessMode mode = AccessMode::ReadWrite)
+{
+    return storage::beginTransaction(database, parent, mode);
+}
+
+inline Transaction
+beginReadTransaction(Database &database, Transaction *parent = nullptr)
+{
+    return storage::beginReadTransaction(database, parent);
+}
+
+inline Transaction
+beginReadTransaction(Database *database, Transaction *parent = nullptr)
+{
+    return storage::beginReadTransaction(database, parent);
+}
+
+inline Transaction
+beginReadTransaction(std::unique_ptr<Database> &database, Transaction *parent = nullptr)
+{
+    return storage::beginReadTransaction(database, parent);
+}
+
+inline Transaction
+beginReadTransaction(const std::unique_ptr<Database> &database, Transaction *parent = nullptr)
+{
+    return storage::beginReadTransaction(database, parent);
+}
+
+inline Transaction
+beginWriteTransaction(Database &database, Transaction *parent = nullptr)
+{
+    return storage::beginWriteTransaction(database, parent);
+}
+
+inline Transaction
+beginWriteTransaction(Database *database, Transaction *parent = nullptr)
+{
+    return storage::beginWriteTransaction(database, parent);
+}
+
+inline Transaction
+beginWriteTransaction(std::unique_ptr<Database> &database, Transaction *parent = nullptr)
+{
+    return storage::beginWriteTransaction(database, parent);
+}
+
+inline Transaction
+beginWriteTransaction(const std::unique_ptr<Database> &database, Transaction *parent = nullptr)
+{
+    return storage::beginWriteTransaction(database, parent);
+}
+
+inline void
+open(Database &database, std::string_view directory, const DatabaseOptions &options = {})
+{
+    storage::open(database, directory, options);
+}
+
+inline void
+open(Database *database, std::string_view directory, const DatabaseOptions &options = {})
+{
+    storage::open(database, directory, options);
+}
+
+inline void
+open(std::unique_ptr<Database> &database, std::string_view directory, const DatabaseOptions &options = {})
+{
+    storage::open(database, directory, options);
+}
+
+inline void
+open(const std::unique_ptr<Database> &database,
+     std::string_view directory,
+     const DatabaseOptions &options = {})
+{
+    storage::open(database, directory, options);
+}
+
+inline void
+close(Database &database)
+{
+    storage::close(database);
+}
+
+inline void
+close(Database *database)
+{
+    storage::close(database);
+}
+
+inline void
+close(std::unique_ptr<Database> &database)
+{
+    storage::close(database);
+}
+
+inline void
+close(const std::unique_ptr<Database> &database)
+{
+    storage::close(database);
+}
+
+inline std::vector<std::string>
+listStoreNames(Database &database, Transaction &txn)
+{
+    return storage::listStoreNames(database, txn);
+}
+
+inline std::vector<std::string>
+listStoreNames(Database *database, Transaction &txn)
+{
+    return storage::listStoreNames(database, txn);
+}
+
+inline std::vector<std::string>
+listStoreNames(std::unique_ptr<Database> &database, Transaction &txn)
+{
+    return storage::listStoreNames(database, txn);
+}
+
+inline std::vector<std::string>
+listStoreNames(const std::unique_ptr<Database> &database, Transaction &txn)
+{
+    return storage::listStoreNames(database, txn);
+}
+
+} // namespace db

@@ -451,7 +451,7 @@ Cache::setup()
                           storageOptions);
 
         if (needsCompact) {
-            if (!db::storage::supportsCompaction(storage())) {
+            if (!db::maintenance::supportsCompaction(storage())) {
                 nhlog::db()->warn("Storage backend '{}' does not support compaction, skipping.",
                                   db::storage::id(storage()));
             } else {
@@ -472,7 +472,7 @@ Cache::setup()
                     db::storage::open(temp, compactDirPath, storageOptions);
 
                     // copy data
-                    db::storage::compact(storage(), *temp);
+                    db::maintenance::compact(storage(), *temp);
 
                     // close envs
                     db::storage::close(temp);

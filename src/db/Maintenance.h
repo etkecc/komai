@@ -40,4 +40,10 @@ migrateLegacyStateByKeyToStatesKey(Database &database,
 bool
 migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &olmSessions);
 
+bool
+supportsCompaction(const Database &database) noexcept;
+
+void
+compact(Database &from, Database &to);
+
 }

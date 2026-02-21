@@ -7,6 +7,7 @@
 #include <string_view>
 
 #include "db/Schema.h"
+#include "db/Compaction.h"
 
 namespace db::maintenance {
 
@@ -49,6 +50,18 @@ bool
 migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &olmSessions)
 {
     return db::migrateLegacyOlmShardsV2ToUnified(database, txn, olmSessions);
+}
+
+bool
+supportsCompaction(const Database &database) noexcept
+{
+    return database.supportsCompaction();
+}
+
+void
+compact(Database &from, Database &to)
+{
+    db::compact(from, to);
 }
 
 } // namespace db::maintenance

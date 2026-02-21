@@ -23,6 +23,7 @@ using Store       = db::Store;
 using CursorHandle = db::CursorHandle;
 using Options     = db::StoreOpenOptions;
 using DatabaseOptions = db::BackendOptions;
+using BackendId = std::string_view;
 
 enum class AccessMode
 {
@@ -73,6 +74,48 @@ requireCapabilities(const Database &database, StoreFlags flags)
     if (hasFlag(flags, StoreFlags::IntegerKey) &&
         !supportsCapability(database, Capability::IntegerKeys))
         throw Error("Backend does not support integer-key stores", ErrorKind::Invalid);
+}
+
+inline std::unique_ptr<Database>
+createDatabase()
+{
+    return db::createDefaultBackend();
+}
+
+inline std::unique_ptr<Database>
+createDatabase(BackendId id)
+{
+    return db::createBackend(id);
+}
+
+inline std::unique_ptr<Database>
+createConfiguredDatabase(BackendId requestedId = {})
+{
+    return db::createConfiguredBackend(requestedId);
+}
+
+inline std::unique_ptr<Database>
+createDatabaseFromEnvironment(BackendId variableName = "KOMAI_DB_BACKEND")
+{
+    return db::createConfiguredBackendFromEnvironment(variableName);
+}
+
+inline bool
+isDatabaseSupported(BackendId id) noexcept
+{
+    return db::isBackendSupported(id);
+}
+
+inline std::string_view
+defaultDatabaseId() noexcept
+{
+    return db::defaultBackendId();
+}
+
+inline BackendId
+canonicalDatabaseId(BackendId id) noexcept
+{
+    return db::canonicalBackendId(id);
 }
 
 inline void
@@ -353,7 +396,50 @@ beginTransaction(Database &database, Transaction *parent = nullptr, AccessMode m
 }
 
 inline Transaction
+beginTransaction(Database *database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return beginTransaction(*database, parent, mode);
+}
+
+inline Transaction
+beginTransaction(std::unique_ptr<Database> &database,
+                Transaction *parent = nullptr,
+                AccessMode mode = AccessMode::ReadWrite)
+{
+    return beginTransaction(database.get(), parent, mode);
+}
+
+inline Transaction
+beginTransaction(const std::unique_ptr<Database> &database,
+                Transaction *parent = nullptr,
+                AccessMode mode = AccessMode::ReadWrite)
+{
+    return beginTransaction(database.get(), parent, mode);
+}
+
+inline Transaction
 beginReadTransaction(Database &database, Transaction *parent = nullptr)
+{
+    return beginTransaction(database, parent, AccessMode::ReadOnly);
+}
+
+inline Transaction
+beginReadTransaction(Database *database, Transaction *parent = nullptr)
+{
+    return beginTransaction(database, parent, AccessMode::ReadOnly);
+}
+
+inline Transaction
+beginReadTransaction(std::unique_ptr<Database> &database, Transaction *parent = nullptr)
+{
+    return beginTransaction(database, parent, AccessMode::ReadOnly);
+}
+
+inline Transaction
+beginReadTransaction(const std::unique_ptr<Database> &database, Transaction *parent = nullptr)
 {
     return beginTransaction(database, parent, AccessMode::ReadOnly);
 }
@@ -365,9 +451,48 @@ beginWriteTransaction(Database &database, Transaction *parent = nullptr)
 }
 
 inline Transaction
+beginWriteTransaction(Database *database, Transaction *parent = nullptr)
+{
+    return beginTransaction(database, parent, AccessMode::ReadWrite);
+}
+
+inline Transaction
+beginWriteTransaction(std::unique_ptr<Database> &database, Transaction *parent = nullptr)
+{
+    return beginTransaction(database, parent, AccessMode::ReadWrite);
+}
+
+inline Transaction
+beginWriteTransaction(const std::unique_ptr<Database> &database, Transaction *parent = nullptr)
+{
+    return beginTransaction(database, parent, AccessMode::ReadWrite);
+}
+
+inline Transaction
 beginTransaction(Database &database, Transaction *parent, TxnFlags flags)
 {
     return database.beginTxn(parent, flags);
+}
+
+inline Transaction
+beginTransaction(Database *database, Transaction *parent, TxnFlags flags)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return beginTransaction(*database, parent, flags);
+}
+
+inline Transaction
+beginTransaction(std::unique_ptr<Database> &database, Transaction *parent, TxnFlags flags)
+{
+    return beginTransaction(database.get(), parent, flags);
+}
+
+inline Transaction
+beginTransaction(const std::unique_ptr<Database> &database, Transaction *parent, TxnFlags flags)
+{
+    return beginTransaction(database.get(), parent, flags);
 }
 
 inline Cursor
@@ -376,10 +501,55 @@ openCursor(Transaction &txn, Store &store)
     return Cursor::open(txn, store);
 }
 
+inline bool
+ownsTransaction(const Database &database, const Transaction &transaction)
+{
+    return database.ownsTxn(transaction);
+}
+
+inline bool
+ownsTransaction(const Database *database, const Transaction &transaction)
+{
+    return database ? ownsTransaction(*database, transaction) : false;
+}
+
+inline bool
+ownsTransaction(const std::unique_ptr<Database> &database, const Transaction &transaction)
+{
+    return ownsTransaction(database.get(), transaction);
+}
+
+inline bool
+ownsTransaction(std::unique_ptr<Database> &database, const Transaction &transaction)
+{
+    return ownsTransaction(database.get(), transaction);
+}
+
 inline std::vector<std::string>
 listStoreNames(Database &database, Transaction &txn)
 {
     return database.listStoreNames(txn);
+}
+
+inline std::vector<std::string>
+listStoreNames(Database *database, Transaction &txn)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return listStoreNames(*database, txn);
+}
+
+inline std::vector<std::string>
+listStoreNames(std::unique_ptr<Database> &database, Transaction &txn)
+{
+    return listStoreNames(database.get(), txn);
+}
+
+inline std::vector<std::string>
+listStoreNames(const std::unique_ptr<Database> &database, Transaction &txn)
+{
+    return listStoreNames(database.get(), txn);
 }
 
 inline Store
@@ -399,7 +569,73 @@ openNamedStore(Database &database,
 }
 
 inline Store
+openNamedStore(Database *database,
+               Transaction &txn,
+               std::string_view name,
+               bool create = true,
+               StoreFlags flags = StoreFlags::None)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return openNamedStore(*database, txn, name, create, flags);
+}
+
+inline Store
+openNamedStore(std::unique_ptr<Database> &database,
+               Transaction &txn,
+               std::string_view name,
+               bool create = true,
+               StoreFlags flags = StoreFlags::None)
+{
+    return openNamedStore(database.get(), txn, name, create, flags);
+}
+
+inline Store
+openNamedStore(const std::unique_ptr<Database> &database,
+               Transaction &txn,
+               std::string_view name,
+               bool create = true,
+               StoreFlags flags = StoreFlags::None)
+{
+    return openNamedStore(database.get(), txn, name, create, flags);
+}
+
+inline Store
 openStore(Database &database,
+          Transaction &txn,
+          std::string_view name,
+          bool create = true,
+          StoreFlags flags = StoreFlags::None)
+{
+    return openNamedStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(Database *database,
+          Transaction &txn,
+          std::string_view name,
+          bool create = true,
+          StoreFlags flags = StoreFlags::None)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return openNamedStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(std::unique_ptr<Database> &database,
+          Transaction &txn,
+          std::string_view name,
+          bool create = true,
+          StoreFlags flags = StoreFlags::None)
+{
+    return openNamedStore(database, txn, name, create, flags);
+}
+
+inline Store
+openStore(const std::unique_ptr<Database> &database,
           Transaction &txn,
           std::string_view name,
           bool create = true,
@@ -416,6 +652,27 @@ openStore(Database &database, Transaction &txn, std::string_view name, const Opt
 }
 
 inline Store
+openStore(Database *database, Transaction &txn, std::string_view name, const Options &options)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return openStore(*database, txn, name, options);
+}
+
+inline Store
+openStore(std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const Options &options)
+{
+    return openStore(database.get(), txn, name, options);
+}
+
+inline Store
+openStore(const std::unique_ptr<Database> &database, Transaction &txn, std::string_view name, const Options &options)
+{
+    return openStore(database.get(), txn, name, options);
+}
+
+inline Store
 openGlobalStore(Database &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
 {
     auto options = openOptionsForGlobal(store);
@@ -423,6 +680,27 @@ openGlobalStore(Database &database, Transaction &txn, catalog::GlobalDb store, b
         options.flags |= StoreFlags::Create;
 
     return openStore(database, txn, catalog::globalName(store), options);
+}
+
+inline Store
+openGlobalStore(Database *database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return openGlobalStore(*database, txn, store, create);
+}
+
+inline Store
+openGlobalStore(std::unique_ptr<Database> &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+{
+    return openGlobalStore(database.get(), txn, store, create);
+}
+
+inline Store
+openGlobalStore(const std::unique_ptr<Database> &database, Transaction &txn, catalog::GlobalDb store, bool create = true)
+{
+    return openGlobalStore(database.get(), txn, store, create);
 }
 
 inline Store
@@ -437,6 +715,39 @@ openRoomStore(Database &database,
         options.flags |= StoreFlags::Create;
 
     return openStore(database, txn, catalog::roomName(roomId, store), options);
+}
+
+inline Store
+openRoomStore(Database *database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb store,
+              bool create = true)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return openRoomStore(*database, txn, roomId, store, create);
+}
+
+inline Store
+openRoomStore(std::unique_ptr<Database> &database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb store,
+              bool create = true)
+{
+    return openRoomStore(database.get(), txn, roomId, store, create);
+}
+
+inline Store
+openRoomStore(const std::unique_ptr<Database> &database,
+              Transaction &txn,
+              std::string_view roomId,
+              catalog::RoomDb store,
+              bool create = true)
+{
+    return openRoomStore(database.get(), txn, roomId, store, create);
 }
 
 } // namespace db::storage

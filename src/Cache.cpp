@@ -37,10 +37,10 @@
 #include "ProfileSecrets.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
-#include "db/Backend.h"
 #include "db/Catalog.h"
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
+#include "db/StorageApi.h"
 #include "db/DupIndex.h"
 #include "db/Json.h"
 #include "db/MegolmIndex.h"
@@ -55,7 +55,6 @@
 #include "db/StateIndex.h"
 #include "db/SyncState.h"
 #include "db/TimelineIndex.h"
-#include "db/StorageApi.h"
 #include "encryption/Olm.h"
 
 //! Should be changed when a breaking change occurs in the cache format.
@@ -84,7 +83,7 @@ using Receipts       = std::map<std::string, std::map<std::string, uint64_t>>;
 
 struct CacheDb
 {
-    std::unique_ptr<db::Database> storage = db::createConfiguredBackendFromEnvironment();
+    std::unique_ptr<db::Database> storage = db::storage::createDatabaseFromEnvironment();
     db::Store syncState;
     db::Store rooms;
     db::Store spacesChildren, spacesParents;
@@ -416,7 +415,7 @@ Cache::setup()
             dbCount = 1u << 20;
         }
 
-        return db::BackendOptions{
+        return db::storage::DatabaseOptions{
           .mapSizeBytes = dbSize,
           .maxDbs       = dbCount,
           .durability   = db::Durability::Relaxed,
@@ -470,7 +469,7 @@ Cache::setup()
                                       compactDir.toStdString());
                 } else {
                     // Create a temporary backend matching the current storage backend.
-                    auto temp = db::createBackend(db::storage::id(storage()));
+                    auto temp = db::storage::createDatabase(db::storage::id(storage()));
                     const std::string compactDirPath = compactDir.toStdString();
                     db::storage::open(temp, compactDirPath, storageOptions);
 

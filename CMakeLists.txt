@@ -573,7 +573,7 @@ if(USE_BUNDLED_OLM)
         Olm
         GIT_REPOSITORY https://gitlab.matrix.org/matrix-org/olm.git
         GIT_TAG        3.2.16
-        PATCH_COMMAND  git apply
+        PATCH_COMMAND  git apply --whitespace=nowarn
             ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0001-fix-list-const-ptr.patch
             ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0002-fix-cmake-cmp0148.patch
         UPDATE_DISCONNECTED 1

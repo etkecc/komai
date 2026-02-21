@@ -2785,7 +2785,7 @@ testFactory()
     auto defaultBackend = db::createDefaultDatabase();
     ok &= expect(db::storage::id(defaultBackend) == db::defaultDatabaseId(),
                  "default backend id matches defaultDatabaseId");
-    ok &= expect(db::storage::supportsCompaction(defaultBackend) == lmdbSupported,
+    ok &= expect(db::maintenance::supportsCompaction(*defaultBackend) == lmdbSupported,
                  "default backend compaction support aligns with lmdb availability");
     ok &= expect(db::storage::storageCategory(defaultBackend) ==
                    (lmdbSupported ? db::StorageCategory::Persistent
@@ -2795,7 +2795,7 @@ testFactory()
     auto memoryBackend = db::createDatabase(db::storage::kMemoryDatabaseId);
     ok &= expect(db::storage::id(memoryBackend) == db::storage::kMemoryDatabaseId,
                  "memory backend is creatable");
-    ok &= expect(!db::storage::supportsCompaction(memoryBackend),
+    ok &= expect(!db::maintenance::supportsCompaction(*memoryBackend),
                  "memory backend reports no compaction support");
     ok &= expect(db::storage::storageCategory(memoryBackend) == db::StorageCategory::Ephemeral,
                  "memory backend is ephemeral");

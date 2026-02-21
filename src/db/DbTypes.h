@@ -187,6 +187,48 @@ public:
         return found;
     }
 
+    bool moveFirst(std::string &key, std::string &value)
+    {
+        return get(key, value, CursorOp::First);
+    }
+
+    bool moveLast(std::string &key, std::string &value)
+    {
+        return get(key, value, CursorOp::Last);
+    }
+
+    bool moveNext(std::string &key, std::string &value)
+    {
+        return get(key, value, CursorOp::Next);
+    }
+
+    bool movePrev(std::string &key, std::string &value)
+    {
+        return get(key, value, CursorOp::Prev);
+    }
+
+    bool moveNextNoDup(std::string &key, std::string &value)
+    {
+        return get(key, value, CursorOp::NextNoDup);
+    }
+
+    bool moveNextDup(std::string &key, std::string &value)
+    {
+        return get(key, value, CursorOp::NextDup);
+    }
+
+    bool moveTo(std::string_view key, std::string &foundKey, std::string &foundValue)
+    {
+        foundKey = key;
+        return get(foundKey, foundValue, CursorOp::Set);
+    }
+
+    bool moveToRange(std::string_view key, std::string &foundKey, std::string &foundValue)
+    {
+        foundKey = key;
+        return get(foundKey, foundValue, CursorOp::SetRange);
+    }
+
     template<typename Key, typename Value>
     bool put(const Key &key, const Value &value, PutFlags flags = PutFlags::None)
     {

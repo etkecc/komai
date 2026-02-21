@@ -34,6 +34,7 @@ namespace db::storage {
 using Database    = db::Database;
 using Transaction = db::Transaction;
 using Store       = db::Store;
+using Cursor      = db::Cursor;
 using CursorHandle = db::CursorHandle;
 using Options         = db::StoreOpenOptions;
 using StoreOpenOptions = db::StoreOpenOptions;
@@ -451,95 +452,6 @@ storageCategory(const std::unique_ptr<Database> &database)
 {
     return ::db::storageCategory(database.get());
 }
-
-class Cursor
-{
-public:
-    Cursor() = default;
-    Cursor(Transaction &txn, Store &store)
-      : handle_(db::Cursor::open(txn, store))
-    {}
-
-    static Cursor
-    open(Transaction &txn, Store &store)
-    {
-        return Cursor{txn, store};
-    }
-
-    bool
-    moveFirst(std::string &key, std::string &value)
-    {
-        return move(MoveOp::First, key, value);
-    }
-
-    bool
-    moveLast(std::string &key, std::string &value)
-    {
-        return move(MoveOp::Last, key, value);
-    }
-
-    bool
-    moveNext(std::string &key, std::string &value)
-    {
-        return move(MoveOp::Next, key, value);
-    }
-
-    bool
-    movePrev(std::string &key, std::string &value)
-    {
-        return move(MoveOp::Prev, key, value);
-    }
-
-    bool
-    moveNextNoDup(std::string &key, std::string &value)
-    {
-        return move(MoveOp::NextNoDup, key, value);
-    }
-
-    bool
-    moveNextDup(std::string &key, std::string &value)
-    {
-        return move(MoveOp::NextDup, key, value);
-    }
-
-    bool
-    moveTo(std::string_view key, std::string &foundKey, std::string &foundValue)
-    {
-        std::string seekKey{key};
-        return move(MoveOp::Set, seekKey, foundKey, foundValue);
-    }
-
-    bool
-    moveToRange(std::string_view key, std::string &foundKey, std::string &foundValue)
-    {
-        std::string seekKey{key};
-        return move(MoveOp::SetRange, seekKey, foundKey, foundValue);
-    }
-
-private:
-    bool
-    move(MoveOp op, std::string &key, std::string &value)
-    {
-        std::string_view keyBytes = key;
-        std::string_view valueBytes;
-
-        if (!handle_.get(keyBytes, valueBytes, op))
-            return false;
-
-        key.assign(keyBytes.data(), keyBytes.size());
-        value.assign(valueBytes.data(), valueBytes.size());
-        return true;
-    }
-
-    bool
-    move(MoveOp op, std::string &seek, std::string &key, std::string &value)
-    {
-        key = seek;
-        return move(op, key, value);
-    }
-
-    CursorHandle handle_;
-};
 
 inline Transaction
 beginTransaction(Database &database, Transaction *parent = nullptr, AccessMode mode = AccessMode::ReadWrite)

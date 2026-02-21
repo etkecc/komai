@@ -63,6 +63,14 @@ enum class StorageCategory
     Ephemeral,
 };
 
+enum class StoreCapability
+{
+    None,
+    DuplicateKeys,
+    IntegerKeys,
+    PrefixScan,
+};
+
 struct BackendOptions
 {
     std::size_t mapSizeBytes = 0;
@@ -99,6 +107,10 @@ public:
                           const StoreOpenOptions &options = {})                                       = 0;
     virtual std::vector<std::string> listStoreNames(Transaction &txn)                                    = 0;
     virtual std::optional<std::size_t> mapSizeBytes() const noexcept                         = 0;
+    virtual bool supports(StoreCapability capability) const noexcept
+    {
+        return capability == StoreCapability::None;
+    }
 };
 
 std::unique_ptr<Backend>

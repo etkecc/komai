@@ -28,6 +28,9 @@ enum class Capability
 {
     None,
     Transactions,
+    DuplicateKeys,
+    IntegerKeys,
+    PrefixScan,
 };
 
 inline AccessFlags
@@ -117,6 +120,12 @@ supportsCapability(const Database &database, Capability capability) noexcept
     case Capability::Transactions:
         // All backends we expose are transaction-capable today.
         return true;
+    case Capability::DuplicateKeys:
+        return database.supports(db::StoreCapability::DuplicateKeys);
+    case Capability::IntegerKeys:
+        return database.supports(db::StoreCapability::IntegerKeys);
+    case Capability::PrefixScan:
+        return database.supports(db::StoreCapability::PrefixScan);
     default:
         return false;
     }

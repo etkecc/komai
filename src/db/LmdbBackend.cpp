@@ -337,6 +337,20 @@ LmdbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptions &
     return dbi;
 }
 
+bool
+LmdbBackend::supports(StoreCapability capability) const noexcept
+{
+    switch (capability) {
+    case StoreCapability::DuplicateKeys:
+    case StoreCapability::IntegerKeys:
+    case StoreCapability::PrefixScan:
+        return true;
+    case StoreCapability::None:
+    default:
+        return capability == StoreCapability::None;
+    }
+}
+
 std::vector<std::string>
 LmdbBackend::listStoreNames(Txn &txn)
 {

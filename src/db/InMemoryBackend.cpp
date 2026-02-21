@@ -802,6 +802,20 @@ InMemoryBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptio
     return Dbi{std::make_shared<InMemoryDbiImpl>(&impl_->state, dbName, flags)};
 }
 
+bool
+InMemoryBackend::supports(StoreCapability capability) const noexcept
+{
+    switch (capability) {
+    case StoreCapability::DuplicateKeys:
+    case StoreCapability::IntegerKeys:
+    case StoreCapability::PrefixScan:
+        return true;
+    case StoreCapability::None:
+    default:
+        return capability == StoreCapability::None;
+    }
+}
+
 std::vector<std::string>
 InMemoryBackend::listStoreNames(Txn &txn)
 {

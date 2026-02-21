@@ -30,6 +30,7 @@ public:
     Dbi openStore(Txn &txn, std::string_view name, const StoreOpenOptions &options = {}) override;
     std::vector<std::string> listStoreNames(Txn &txn) override;
     std::optional<std::size_t> mapSizeBytes() const noexcept override;
+    bool supports(StoreCapability capability) const noexcept override;
 
 private:
     std::unique_ptr<Impl> impl_;

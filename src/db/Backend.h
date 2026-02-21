@@ -171,4 +171,82 @@ availableDatabaseIds() noexcept;
 std::span<const std::string_view>
 availableBackendIds() noexcept;
 
+inline bool
+isOpen(const Database &database) noexcept
+{
+    return database.isOpen();
+}
+
+inline bool
+isOpen(const Database *database) noexcept
+{
+    return database != nullptr && isOpen(*database);
+}
+
+inline bool
+isOpen(const std::unique_ptr<Database> &database) noexcept
+{
+    return isOpen(database.get());
+}
+
+inline std::string_view
+id(const Database &database) noexcept
+{
+    return database.id();
+}
+
+inline std::string_view
+id(const Database *database)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return id(*database);
+}
+
+inline std::string_view
+id(const std::unique_ptr<Database> &database)
+{
+    return id(database.get());
+}
+
+inline StorageCategory
+storageCategory(const Database &database) noexcept
+{
+    return database.storageCategory();
+}
+
+inline StorageCategory
+storageCategory(const Database *database)
+{
+    if (!database)
+        throw Error("Database pointer is null", ErrorKind::Invalid);
+
+    return storageCategory(*database);
+}
+
+inline StorageCategory
+storageCategory(const std::unique_ptr<Database> &database)
+{
+    return storageCategory(database.get());
+}
+
+inline std::optional<std::size_t>
+mapSizeBytes(const Database &database) noexcept
+{
+    return database.mapSizeBytes();
+}
+
+inline std::optional<std::size_t>
+mapSizeBytes(const Database *database) noexcept
+{
+    return database ? mapSizeBytes(*database) : std::nullopt;
+}
+
+inline std::optional<std::size_t>
+mapSizeBytes(const std::unique_ptr<Database> &database)
+{
+    return mapSizeBytes(database.get());
+}
+
 } // namespace db

@@ -359,19 +359,19 @@ isOpen(const Database &database)
 inline bool
 isOpen(const Database *database)
 {
-    return database ? isOpen(*database) : false;
+    return database ? ::db::isOpen(*database) : false;
 }
 
 inline bool
 isOpen(const std::unique_ptr<Database> &database)
 {
-    return isOpen(database.get());
+    return ::db::isOpen(database.get());
 }
 
 inline bool
 isOpen(const std::unique_ptr<const Database> &database)
 {
-    return isOpen(database.get());
+    return ::db::isOpen(database.get());
 }
 
 inline std::string_view
@@ -386,19 +386,19 @@ id(Database *database)
     if (!database)
         throw Error("Database pointer is null", ErrorKind::Invalid);
 
-    return id(*database);
+    return ::db::id(*database);
 }
 
 inline std::string_view
 id(std::unique_ptr<Database> &database)
 {
-    return id(database.get());
+    return ::db::id(database.get());
 }
 
 inline std::string_view
 id(const std::unique_ptr<Database> &database)
 {
-    return id(database.get());
+    return ::db::id(database.get());
 }
 
 inline StorageCategory
@@ -416,19 +416,19 @@ mapSizeBytes(const Database &database)
 inline std::optional<std::size_t>
 mapSizeBytes(Database *database)
 {
-    return database ? mapSizeBytes(*database) : std::nullopt;
+    return database ? ::db::mapSizeBytes(*database) : std::nullopt;
 }
 
 inline std::optional<std::size_t>
 mapSizeBytes(std::unique_ptr<Database> &database)
 {
-    return mapSizeBytes(database.get());
+    return ::db::mapSizeBytes(database.get());
 }
 
 inline std::optional<std::size_t>
 mapSizeBytes(const std::unique_ptr<Database> &database)
 {
-    return mapSizeBytes(database.get());
+    return ::db::mapSizeBytes(database.get());
 }
 
 inline StorageCategory
@@ -437,19 +437,19 @@ storageCategory(Database *database)
     if (!database)
         throw Error("Database pointer is null", ErrorKind::Invalid);
 
-    return storageCategory(*database);
+    return ::db::storageCategory(*database);
 }
 
 inline StorageCategory
 storageCategory(std::unique_ptr<Database> &database)
 {
-    return storageCategory(database.get());
+    return ::db::storageCategory(database.get());
 }
 
 inline StorageCategory
 storageCategory(const std::unique_ptr<Database> &database)
 {
-    return storageCategory(database.get());
+    return ::db::storageCategory(database.get());
 }
 
 class Cursor

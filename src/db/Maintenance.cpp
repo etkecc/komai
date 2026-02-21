@@ -6,11 +6,38 @@
 
 #include <string_view>
 
+#include "db/Error.h"
 #include "db/Schema.h"
 #include "db/Scan.h"
-#include "db/StorageApi.h"
+#include "db/NamePolicy.h"
 
 namespace db::maintenance {
+
+namespace {
+
+void
+requireStoreRequirements(const Database &database, const StoreOpenOptions &options)
+{
+    if (hasFlag(options.flags, StoreFlags::DupSort) &&
+        !database.supports(DatabaseCapability::DuplicateKeys))
+        throw Error("Database backend does not support duplicate-key stores", ErrorKind::Invalid);
+    if (hasFlag(options.flags, StoreFlags::IntegerKey) &&
+        !database.supports(DatabaseCapability::IntegerKeys))
+        throw Error("Database backend does not support integer-key stores", ErrorKind::Invalid);
+}
+
+Store
+openNamedStore(Database &database, Transaction &txn, std::string_view dbName, bool create = true)
+{
+    auto options = openOptionsForName(dbName);
+    if (create)
+        options.flags |= StoreFlags::Create;
+
+    requireStoreRequirements(database, options);
+    return database.openStore(txn, dbName, options);
+}
+
+} // namespace
 
 std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept
@@ -80,13 +107,13 @@ supportsCompaction(const std::unique_ptr<Database> &database) noexcept
 void
 compact(Database &from, Database &to)
 {
-    auto fromTxn = storage::beginTransaction(from, nullptr, storage::AccessFlags::ReadOnly);
-    auto toTxn   = storage::beginWriteTransaction(to);
+    auto fromTxn = from.beginTxn(nullptr, AccessFlags::ReadOnly);
+    auto toTxn   = to.beginTxn();
 
-    const auto dbNames = storage::listStoreNames(from, fromTxn);
+    const auto dbNames = from.listStoreNames(fromTxn);
     for (const auto &dbName : dbNames) {
-        auto fromDb = db::storage::openNamedStore(from, fromTxn, dbName, false);
-        auto toDb   = db::storage::openNamedStore(to, toTxn, dbName, true);
+        auto fromDb = openNamedStore(from, fromTxn, dbName, false);
+        auto toDb   = openNamedStore(to, toTxn, dbName, true);
 
         forEachEntry(
           fromTxn, fromDb, [&toTxn, &toDb](std::string_view key, std::string_view value) {

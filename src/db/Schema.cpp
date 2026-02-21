@@ -15,9 +15,10 @@
 #include <nlohmann/json.hpp>
 
 #include "db/Catalog.h"
+#include "db/Error.h"
+#include "db/NamePolicy.h"
 #include "db/OlmSessionIndex.h"
 #include "db/Scan.h"
-#include "db/StorageApi.h"
 #include "db/StateIndex.h"
 #include "db/Json.h"
 
@@ -42,6 +43,54 @@ constexpr std::array<db::catalog::RoomDb, 12> kRoomDbsForFullResync = {
 
 namespace db {
 
+namespace {
+
+void
+requireStoreRequirements(const Database &database, const StoreOpenOptions &options)
+{
+    if (hasFlag(options.flags, StoreFlags::DupSort) &&
+        !database.supports(DatabaseCapability::DuplicateKeys))
+        throw Error("Database backend does not support duplicate-key stores", ErrorKind::Invalid);
+    if (hasFlag(options.flags, StoreFlags::IntegerKey) &&
+        !database.supports(DatabaseCapability::IntegerKeys))
+        throw Error("Database backend does not support integer-key stores", ErrorKind::Invalid);
+}
+
+Store
+openNamedStore(Database &database, Transaction &txn, std::string_view dbName, bool create)
+{
+    auto options = openOptionsForName(dbName);
+    if (create)
+        options.flags |= StoreFlags::Create;
+
+    requireStoreRequirements(database, options);
+    return database.openStore(txn, dbName, options);
+}
+
+Store
+openGlobalStore(Database &database, Transaction &txn, catalog::GlobalDb db, bool create)
+{
+    auto options = openOptionsForGlobal(db);
+    if (create)
+        options.flags |= StoreFlags::Create;
+
+    requireStoreRequirements(database, options);
+    return database.openStore(txn, catalog::globalName(db), options);
+}
+
+Store
+openRoomStore(Database &database, Transaction &txn, std::string_view roomId, catalog::RoomDb db, bool create)
+{
+    auto options = openOptionsForRoom(db);
+    if (create)
+        options.flags |= StoreFlags::Create;
+
+    requireStoreRequirements(database, options);
+    return database.openStore(txn, catalog::roomName(roomId, db), options);
+}
+
+} // namespace
+
 std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept
 {
@@ -56,7 +105,7 @@ tryDropNamedStore(Database &database, Transaction &txn, std::string_view dbName,
         error->clear();
 
     try {
-        db::storage::openNamedStore(database, txn, dbName, false).drop(txn, true);
+        openNamedStore(database, txn, dbName, false).drop(txn, true);
         return true;
     } catch (const std::exception &e) {
         if (error)
@@ -80,9 +129,8 @@ migrateLegacyStateByKeyToStatesKey(Database &database,
 
     try {
         auto oldStateskeyDb =
-          db::storage::openRoomStore(database, txn, roomId, catalog::RoomDb::LegacyStateByKey);
-        auto newStateskeyDb =
-          db::storage::openRoomStore(database, txn, roomId, catalog::RoomDb::StatesKey);
+          openRoomStore(database, txn, roomId, catalog::RoomDb::LegacyStateByKey, true);
+        auto newStateskeyDb = openRoomStore(database, txn, roomId, catalog::RoomDb::StatesKey, true);
 
         forEachEntry(
           txn,
@@ -117,11 +165,11 @@ migrateLegacyMegolmSessionIndexes(Database &database, Transaction &txn, std::str
 
     try {
         auto inboundMegolmSessionDb =
-          db::storage::openGlobalStore(database, txn, catalog::GlobalDb::InboundMegolmSessions);
+          openGlobalStore(database, txn, catalog::GlobalDb::InboundMegolmSessions, true);
         auto outboundMegolmSessionDb =
-          db::storage::openGlobalStore(database, txn, catalog::GlobalDb::OutboundMegolmSessions);
+          openGlobalStore(database, txn, catalog::GlobalDb::OutboundMegolmSessions, true);
         auto megolmSessionDataDb =
-          db::storage::openGlobalStore(database, txn, catalog::GlobalDb::MegolmSessionsData);
+          openGlobalStore(database, txn, catalog::GlobalDb::MegolmSessionsData, true);
 
         try {
             outboundMegolmSessionDb.drop(txn, false);
@@ -181,12 +229,12 @@ migrateLegacyMegolmSessionIndexes(Database &database, Transaction &txn, std::str
 void
 migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
 {
-    const auto dbNames = db::storage::listStoreNames(database, txn);
+    const auto dbNames = database.listStoreNames(txn);
     for (const auto &dbName : dbNames) {
         if (!catalog::isLegacyOlmShardV1(dbName))
             continue;
 
-        auto oldDb = db::storage::openNamedStore(database, txn, dbName, false);
+        auto oldDb = openNamedStore(database, txn, dbName, false);
         std::vector<std::pair<std::string, std::string>> sessions;
 
         forEachEntry(
@@ -202,8 +250,8 @@ migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
 
         oldDb.drop(txn, true);
 
-        auto newDb =
-          db::storage::openNamedStore(database, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
+        auto newDb = openNamedStore(
+          database, txn, catalog::legacyOlmShardV2NameFromV1(dbName), true);
         for (const auto &[sessionKey, pickled] : sessions) {
             nlohmann::json value;
             value["ts"] = 0;
@@ -216,7 +264,7 @@ migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
 bool
 migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &olmSessions)
 {
-    const auto dbNames = db::storage::listStoreNames(database, txn);
+    const auto dbNames = database.listStoreNames(txn);
     bool migrated      = false;
 
     for (const auto &dbName : dbNames) {
@@ -225,7 +273,7 @@ migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &o
 
         migrated      = true;
         auto curveKey = *catalog::legacyOlmCurveFromV2Name(dbName);
-        auto oldDb = db::storage::openNamedStore(database, txn, dbName, false);
+        auto oldDb = openNamedStore(database, txn, dbName, false);
         forEachEntry(
           txn,
           oldDb,

@@ -3,10 +3,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "db/Scan.h"
+#include "db/DbTypes.h"
 
 #include <limits>
-
-#include "db/StorageApi.h"
 
 namespace db {
 
@@ -14,11 +13,11 @@ std::vector<std::string>
 listKeys(Transaction &txn, Store &db)
 {
     std::vector<std::string> keys;
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::string key;
     std::string value;
-    while (cursor.moveNext(key, value))
+    while (cursor.get(key, value, CursorOp::Next))
         keys.emplace_back(key);
 
     return keys;
@@ -28,11 +27,11 @@ std::vector<std::string>
 listUniqueKeys(Transaction &txn, Store &db)
 {
     std::vector<std::string> keys;
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::string key;
     std::string value;
-    while (cursor.moveNextNoDup(key, value))
+    while (cursor.get(key, value, CursorOp::NextNoDup))
         keys.emplace_back(key);
 
     return keys;
@@ -42,11 +41,11 @@ std::vector<std::pair<std::string, std::string>>
 listEntries(Transaction &txn, Store &db)
 {
     std::vector<std::pair<std::string, std::string>> entries;
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::string key;
     std::string value;
-    while (cursor.moveNext(key, value))
+    while (cursor.get(key, value, CursorOp::Next))
         entries.emplace_back(key, value);
 
     return entries;
@@ -59,14 +58,14 @@ listEntries(Transaction &txn, Store &db, std::size_t startIndex, std::size_t lim
     if (limit == 0)
         return entries;
 
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::size_t currentIndex = 0;
     std::size_t remaining    = limit;
 
     std::string key;
     std::string value;
-    while (cursor.moveNext(key, value)) {
+    while (cursor.get(key, value, CursorOp::Next)) {
         if (currentIndex < startIndex) {
             currentIndex += 1;
             continue;
@@ -90,11 +89,11 @@ forEachEntry(Transaction &txn,
              Store &db,
              const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::string key;
     std::string value;
-    while (cursor.moveNext(key, value)) {
+    while (cursor.get(key, value, CursorOp::Next)) {
         if (!visitor(key, value))
             break;
         value.clear();
@@ -104,11 +103,11 @@ forEachEntry(Transaction &txn,
 void
 forEachUniqueKey(Transaction &txn, Store &db, const std::function<bool(std::string_view key)> &visitor)
 {
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::string key;
     std::string value;
-    while (cursor.moveNextNoDup(key, value)) {
+    while (cursor.get(key, value, CursorOp::NextNoDup)) {
         if (!visitor(key))
             break;
         value.clear();
@@ -125,14 +124,14 @@ forEachEntry(Transaction &txn,
     if (limit == 0)
         return;
 
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::size_t currentIndex = 0;
     std::size_t remaining    = limit;
 
     std::string key;
     std::string value;
-    while (cursor.moveNext(key, value)) {
+    while (cursor.get(key, value, CursorOp::Next)) {
         if (currentIndex < startIndex) {
             currentIndex += 1;
             continue;
@@ -152,11 +151,11 @@ forEachEntry(Transaction &txn,
 std::optional<std::pair<std::string, std::string>>
 firstEntry(Transaction &txn, Store &db)
 {
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::string key;
     std::string value;
-    if (!cursor.moveFirst(key, value))
+    if (!cursor.get(key, value, CursorOp::First))
         return std::nullopt;
 
     return std::pair(std::move(key), std::move(value));
@@ -165,11 +164,11 @@ firstEntry(Transaction &txn, Store &db)
 std::optional<std::pair<std::string, std::string>>
 lastEntry(Transaction &txn, Store &db)
 {
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
     std::string key;
     std::string value;
-    if (!cursor.moveLast(key, value))
+    if (!cursor.get(key, value, CursorOp::Last))
         return std::nullopt;
 
     return std::pair(std::move(key), std::move(value));
@@ -219,11 +218,11 @@ forEachEntryFromKey(
   ScanDirection direction,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
-    std::string key;
+    std::string key{startKey};
     std::string value;
-    if (!cursor.moveTo(startKey, key, value))
+    if (!cursor.get(key, value, CursorOp::Set))
         return;
 
     const auto moveForward = direction == ScanDirection::Forward;
@@ -232,9 +231,9 @@ forEachEntryFromKey(
             break;
 
         if (moveForward) {
-            if (!cursor.moveNext(key, value))
+            if (!cursor.get(key, value, CursorOp::Next))
                 break;
-        } else if (!cursor.movePrev(key, value)) {
+        } else if (!cursor.get(key, value, CursorOp::Prev)) {
             break;
         }
     }
@@ -247,11 +246,11 @@ forEachEntryWithPrefix(
   std::string_view prefix,
   const std::function<bool(std::string_view key, std::string_view value)> &visitor)
 {
-    auto cursor = storage::Cursor::open(txn, db);
+    auto cursor = Cursor::open(txn, db);
 
-    std::string key;
+    std::string key{prefix};
     std::string value;
-    if (!cursor.moveToRange(prefix, key, value))
+    if (!cursor.get(key, value, CursorOp::SetRange))
         return;
 
     do {
@@ -259,7 +258,7 @@ forEachEntryWithPrefix(
             break;
         if (!visitor(key, value))
             break;
-    } while (cursor.moveNext(key, value));
+    } while (cursor.get(key, value, CursorOp::Next));
 }
 
 } // namespace db

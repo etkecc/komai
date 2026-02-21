@@ -2651,18 +2651,14 @@ testFactory()
     bool ok = true;
 
     auto defaultBackend = db::createDefaultBackend();
-#if KOMAI_DB_WITH_LMDB
-    ok &= expect(defaultBackend->id() == db::kLmdbBackendId, "default backend is lmdb");
-    ok &= expect(defaultBackend->supportsCompaction(), "lmdb backend reports compaction support");
-    ok &= expect(defaultBackend->storageCategory() == db::StorageCategory::Persistent,
-                 "lmdb backend is persistent");
-#else
-    ok &= expect(defaultBackend->id() == db::kMemoryBackendId, "default backend falls back to memory");
-    ok &= expect(!defaultBackend->supportsCompaction(),
-                 "memory default reports no compaction support");
-    ok &= expect(defaultBackend->storageCategory() == db::StorageCategory::Ephemeral,
-                 "memory default is ephemeral");
-#endif
+    ok &= expect(defaultBackend->id() == db::defaultBackendId(),
+                 "default backend id matches defaultBackendId");
+    ok &= expect(defaultBackend->supportsCompaction() == db::isBackendSupported(db::kLmdbBackendId),
+                 "default backend compaction support aligns with lmdb availability");
+    ok &= expect(defaultBackend->storageCategory() ==
+                   (db::isBackendSupported(db::kLmdbBackendId) ? db::StorageCategory::Persistent
+                                                                : db::StorageCategory::Ephemeral),
+                 "default backend persistence matches lmdb availability");
 
     auto memoryBackend = db::createBackend(db::kMemoryBackendId);
     ok &= expect(memoryBackend->id() == db::kMemoryBackendId, "memory backend is creatable");
@@ -2672,12 +2668,8 @@ testFactory()
                  "memory backend is ephemeral");
 
     auto configuredDefault = db::createConfiguredBackend("");
-#if KOMAI_DB_WITH_LMDB
-    ok &= expect(configuredDefault->id() == db::kLmdbBackendId, "configured backend defaults to lmdb on empty id");
-#else
-    ok &= expect(configuredDefault->id() == db::kMemoryBackendId,
-                 "configured backend defaults to memory when lmdb is disabled");
-#endif
+    ok &= expect(configuredDefault->id() == db::defaultBackendId(),
+                 "configured backend defaults to default id when empty");
 
     auto configuredMemory = db::createConfiguredBackend(db::kMemoryBackendId);
     ok &= expect(configuredMemory->id() == db::kMemoryBackendId,
@@ -2689,12 +2681,8 @@ testFactory()
     EnvVarGuard envGuard("KOMAI_DB_BACKEND_TEST_OVERRIDE");
     envGuard.unset();
     auto envDefault = db::createConfiguredBackendFromEnvironment(envGuard.name_);
-#if KOMAI_DB_WITH_LMDB
-    ok &= expect(envDefault->id() == db::kLmdbBackendId, "environment-based backend defaults to lmdb when unset");
-#else
-    ok &= expect(envDefault->id() == db::kMemoryBackendId,
-                 "environment-based backend defaults to memory when lmdb is disabled");
-#endif
+    ok &= expect(envDefault->id() == db::defaultBackendId(),
+                 "environment-based backend defaults to default id when unset");
 
     envGuard.set(db::kMemoryBackendId);
     auto envMemory = db::createConfiguredBackendFromEnvironment(envGuard.name_);
@@ -2708,13 +2696,14 @@ testFactory()
                         "unknown backend id fails with db::Error");
     ok &= expectDbError([] { db::createConfiguredBackend("not-a-backend"); },
                         "configured backend rejects unknown id");
-#if KOMAI_DB_WITH_LMDB
-    auto lmdbBackend = db::createBackend(db::kLmdbBackendId);
-    ok &= expect(lmdbBackend->id() == db::kLmdbBackendId, "lmdb backend is creatable when enabled");
-#else
-    ok &= expectDbError([] { db::createBackend(db::kLmdbBackendId); },
-                        "lmdb backend creation fails when lmdb support is disabled");
-#endif
+    if (db::isBackendSupported(db::kLmdbBackendId)) {
+        auto lmdbBackend = db::createBackend(db::kLmdbBackendId);
+        ok &= expect(lmdbBackend->id() == db::kLmdbBackendId,
+                     "lmdb backend is creatable when available");
+    } else {
+        ok &= expectDbError([] { db::createBackend(db::kLmdbBackendId); },
+                            "lmdb backend creation fails when lmdb support is disabled");
+    }
     return ok;
 }
 
@@ -2810,9 +2799,9 @@ testInMemoryBackend()
 bool
 testLmdbBackend()
 {
-#if !KOMAI_DB_WITH_LMDB
-    return true;
-#else
+    if (!db::isBackendSupported(db::kLmdbBackendId))
+        return true;
+
     bool ok = true;
 
     QTemporaryDir tmp;
@@ -2872,7 +2861,6 @@ testLmdbBackend()
     backend->close();
     ok &= expect(!backend->isOpen(), "lmdb backend closes");
     return ok;
-#endif
 }
 
 } // namespace

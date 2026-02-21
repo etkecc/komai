@@ -83,5 +83,9 @@ std::unique_ptr<Backend>
 createConfiguredBackend(std::string_view requestedId);
 std::unique_ptr<Backend>
 createConfiguredBackendFromEnvironment(std::string_view variableName = "KOMAI_DB_BACKEND");
+bool
+isBackendSupported(std::string_view id) noexcept;
+std::string_view
+defaultBackendId() noexcept;
 
 } // namespace db

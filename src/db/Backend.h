@@ -73,11 +73,14 @@ struct BackendOptions
     Durability durability = Durability::Relaxed;
 };
 
-struct DbiOpenOptions
+struct StoreOpenOptions
 {
-    DbiFlags flags                                     = DbiFlags::None;
+    StoreFlags flags                                  = StoreFlags::None;
     std::optional<DupsortComparator> dupsortComparator = std::nullopt;
 };
+
+// Existing backend option type retained for compatibility.
+using DbiOpenOptions = StoreOpenOptions;
 
 class Backend
 {
@@ -94,7 +97,7 @@ public:
     virtual bool ownsTxn(const Transaction &txn) const noexcept                                        = 0;
     virtual Store openStore(Transaction &txn,
                           std::string_view name,
-                          const DbiOpenOptions &options = {})                                        = 0;
+                          const StoreOpenOptions &options = {})                                       = 0;
     virtual std::vector<std::string> listStoreNames(Transaction &txn)                                    = 0;
     virtual std::optional<std::size_t> mapSizeBytes() const noexcept                         = 0;
 };

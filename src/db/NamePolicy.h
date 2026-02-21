@@ -11,13 +11,13 @@
 
 namespace db {
 
-DbiOpenOptions
+StoreOpenOptions
 openOptionsForGlobal(catalog::GlobalDb db);
 
-DbiOpenOptions
+StoreOpenOptions
 openOptionsForRoom(catalog::RoomDb db);
 
-DbiOpenOptions
+StoreOpenOptions
 openOptionsForName(std::string_view dbName);
 
 } // namespace db

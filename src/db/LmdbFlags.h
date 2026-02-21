@@ -22,7 +22,7 @@ toLmdbTxnFlags(TxnFlags flags) noexcept
 }
 
 inline unsigned
-toLmdbDbiFlags(DbiFlags flags) noexcept
+toLmdbStoreFlags(StoreFlags flags) noexcept
 {
     unsigned native = 0;
 
@@ -34,6 +34,12 @@ toLmdbDbiFlags(DbiFlags flags) noexcept
         native |= MDB_DUPSORT;
 
     return native;
+}
+
+inline unsigned
+toLmdbDbiFlags(StoreFlags flags) noexcept
+{
+    return toLmdbStoreFlags(flags);
 }
 
 inline unsigned

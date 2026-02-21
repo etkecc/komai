@@ -306,7 +306,7 @@ LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
 }
 
 Dbi
-LmdbBackend::openStore(Txn &txn, std::string_view name, const DbiOpenOptions &options)
+LmdbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptions &options)
 {
     if (!detail::txnImpl(txn))
         throw Error("Invalid transaction", ErrorKind::Invalid);
@@ -319,7 +319,7 @@ LmdbBackend::openStore(Txn &txn, std::string_view name, const DbiOpenOptions &op
 
     auto dbi = translateLmdbErrors([&] {
         return Dbi{std::make_shared<LmdbDbiImpl>(
-          lmdb::dbi::open(lmdbTxn.native(), dbName.c_str(), toLmdbDbiFlags(flags)))};
+          lmdb::dbi::open(lmdbTxn.native(), dbName.c_str(), toLmdbStoreFlags(flags)))};
     });
 
     if (options.dupsortComparator.has_value()) {

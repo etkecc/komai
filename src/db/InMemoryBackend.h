@@ -27,7 +27,7 @@ public:
     bool isOpen() const noexcept override;
     Txn beginTxn(Txn *parent = nullptr, TxnFlags flags = TxnFlags::None) override;
     bool ownsTxn(const Txn &txn) const noexcept override;
-    Dbi openStore(Txn &txn, std::string_view name, const DbiOpenOptions &options = {}) override;
+    Dbi openStore(Txn &txn, std::string_view name, const StoreOpenOptions &options = {}) override;
     std::vector<std::string> listStoreNames(Txn &txn) override;
     std::optional<std::size_t> mapSizeBytes() const noexcept override;
 

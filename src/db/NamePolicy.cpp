@@ -7,10 +7,10 @@
 
 namespace db {
 
-DbiOpenOptions
+StoreOpenOptions
 openOptionsForGlobal(catalog::GlobalDb db)
 {
-    DbiOpenOptions options{};
+    StoreOpenOptions options{};
 
     if (db == catalog::GlobalDb::SpacesChildren || db == catalog::GlobalDb::SpacesParents)
         options.flags |= DbiFlags::DupSort;
@@ -18,10 +18,10 @@ openOptionsForGlobal(catalog::GlobalDb db)
     return options;
 }
 
-DbiOpenOptions
+StoreOpenOptions
 openOptionsForRoom(catalog::RoomDb db)
 {
-    DbiOpenOptions options{};
+    StoreOpenOptions options{};
 
     if (db == catalog::RoomDb::EventOrder || db == catalog::RoomDb::OrderToMessage ||
         db == catalog::RoomDb::Pending)
@@ -40,10 +40,10 @@ openOptionsForRoom(catalog::RoomDb db)
     return options;
 }
 
-DbiOpenOptions
+StoreOpenOptions
 openOptionsForName(std::string_view dbName)
 {
-    DbiOpenOptions options{};
+    StoreOpenOptions options{};
 
     if (catalog::hasRoomSuffix(dbName, catalog::RoomDb::EventOrder))
         options = openOptionsForRoom(catalog::RoomDb::EventOrder);

@@ -16,7 +16,7 @@ using Database    = db::Database;
 using Transaction = db::Transaction;
 using Store       = db::Store;
 using Cursor      = db::CursorHandle;
-using Options     = db::DbiOpenOptions;
+using Options     = db::StoreOpenOptions;
 
 enum class AccessMode
 {
@@ -86,7 +86,7 @@ openNamedStore(Database &database,
     Options options;
     options.flags = flags;
     if (create)
-        options.flags |= DbiFlags::Create;
+        options.flags |= StoreFlags::Create;
 
     return database.openStore(txn, name, options);
 }

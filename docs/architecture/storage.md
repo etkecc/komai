@@ -173,7 +173,7 @@ Database hash:
   `db::openOptionsForGlobal(...)`, `db::openOptionsForRoom(...)`) and consumed via
   `src/db/Open.cpp` (`db::openNamedStore(...)`, `db::openGlobalStore(...)`,
   `db::openRoomStore(...)`); backend APIs consume a unified
-  `db::DbiOpenOptions` instead of separate flag/comparator arguments.
+  `db::StoreOpenOptions` instead of separate flag/comparator arguments.
 
 ## Prefixes
 

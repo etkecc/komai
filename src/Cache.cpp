@@ -3732,7 +3732,7 @@ Cache::clearTimeline(const std::string &room_id)
     auto msg2orderDb = getMessageToOrderDb(txn, room_id);
     auto order2msgDb = getOrderToMessageDb(txn, room_id);
 
-    db::cleanupTimelineBeforePrevBatchMarker(
+    db::storage::cleanupTimelineBeforePrevBatchMarker(
       txn, orderDb, eventsDb, relationsDb, evToOrderDb, msg2orderDb, order2msgDb);
 
     txn.commit();

@@ -423,12 +423,12 @@ Cache::setup()
         };
     }();
 
-    nhlog::db()->info("Using storage backend: {}", db->storage->id());
+    nhlog::db()->info("Using storage backend: {}", db::storage::id(storage()));
     if (!isPersistentBackend)
         nhlog::db()->warn("Using ephemeral storage backend; cache contents will be lost on restart");
 
     if (isInitial) {
-        nhlog::db()->info("initializing {} backend", db->storage->id());
+        nhlog::db()->info("initializing {} backend", db::storage::id(storage()));
 
         if (!QDir().mkpath(cacheDirectory_)) {
             throw std::runtime_error(
@@ -448,13 +448,15 @@ Cache::setup()
         // corruption is a database-backend or filesystem bug. See
         // https://github.com/Nheko-Reborn/nheko/issues/1355
         // https://github.com/Nheko-Reborn/nheko/issues/1303
-        db->storage->open(
-          isPersistentBackend ? std::string_view(cacheDirectoryPath) : std::string_view{}, storageOptions);
+        db::storage::open(storage(),
+                          isPersistentBackend ? std::string_view(cacheDirectoryPath)
+                                             : std::string_view{},
+                          storageOptions);
 
         if (needsCompact) {
-            if (!storage().supportsCompaction()) {
+            if (!db::storage::supportsCompaction(storage())) {
                 nhlog::db()->warn("Storage backend '{}' does not support compaction, skipping.",
-                                  storage().id());
+                                  db::storage::id(storage()));
             } else {
                 auto compactDir  = cacheDirectory_ + "-compacting";
                 auto toDeleteDir = cacheDirectory_ + "-olddb";
@@ -470,14 +472,14 @@ Cache::setup()
                     // Create a temporary backend matching the current storage backend.
                     auto temp                        = db::createBackend(storage().id());
                     const std::string compactDirPath = compactDir.toStdString();
-                    temp->open(compactDirPath, storageOptions);
+                    db::storage::open(temp, compactDirPath, storageOptions);
 
                     // copy data
                     db::compact(storage(), *temp);
 
                     // close envs
-                    temp->close();
-                    db->storage->close();
+                    db::storage::close(temp);
+                    db::storage::close(storage());
 
                     // swap the databases and delete old one
                     QDir().rename(cacheDirectory_, toDeleteDir);
@@ -485,7 +487,7 @@ Cache::setup()
                     QDir(toDeleteDir).removeRecursively();
 
                     // reopen env
-                    db->storage->open(cacheDirectoryPath, storageOptions);
+                    db::storage::open(storage(), cacheDirectoryPath, storageOptions);
                 }
             }
         }
@@ -508,7 +510,7 @@ Cache::setup()
             if (!stateDir.remove(file))
                 throw std::runtime_error(("Unable to delete file " + file).toStdString().c_str());
         }
-        db->storage->open(cacheDirectoryPath, storageOptions);
+        db::storage::open(storage(), cacheDirectoryPath, storageOptions);
     }
 
     auto txn           = beginTxn();
@@ -1412,7 +1414,7 @@ Cache::setNextBatchToken(db::Transaction &txn, const std::string &token)
 bool
 Cache::isInitialized()
 {
-    if (!storage().isOpen())
+    if (!db::storage::isOpen(storage()))
         return false;
 
     auto txn = ro_txn(storage());
@@ -1423,7 +1425,7 @@ Cache::isInitialized()
 std::string
 Cache::nextBatchToken()
 {
-    if (!storage().isOpen())
+    if (!db::storage::isOpen(storage()))
         throw std::runtime_error("Storage backend is closed");
 
     auto txn = ro_txn(storage());
@@ -1437,7 +1439,7 @@ Cache::deleteData()
     if (this->databaseReady_) {
         this->databaseReady_ = false;
 
-        db->storage->close();
+        db::storage::close(storage());
 
         verification_storage.status.clear();
 
@@ -3266,7 +3268,7 @@ Cache::getCommonRooms(const std::string &user_id)
 std::optional<MemberInfo>
 Cache::getMember(const std::string &room_id, const std::string &user_id)
 {
-    if (user_id.empty() || !storage().isOpen())
+    if (user_id.empty() || !db::storage::isOpen(storage()))
         return std::nullopt;
 
     try {
@@ -3319,7 +3321,7 @@ Cache::getMembers(const std::string &room_id, std::size_t startIndex, std::size_
 std::optional<MemberInfo>
 Cache::getInviteMember(const std::string &room_id, const std::string &user_id)
 {
-    if (user_id.empty() || !storage().isOpen())
+    if (user_id.empty() || !db::storage::isOpen(storage()))
         return std::nullopt;
 
     try {

@@ -198,6 +198,11 @@ testNamePolicy()
     ok &= expect(simple.flags == db::StoreFlags::None && !simple.dupsortComparator.has_value(),
                  "name policy leaves simple db names unflagged");
 
+    const auto storageLayerRoomOrder =
+      db::storage::openOptionsForName(db::catalog::roomName("!room:example", db::catalog::RoomDb::EventOrder));
+    ok &= expect(storageLayerRoomOrder.flags == roomOrder.flags,
+                 "storage-layer option helper mirrors room event order policy");
+
     return ok;
 }
 

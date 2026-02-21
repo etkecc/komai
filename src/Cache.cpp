@@ -46,7 +46,6 @@
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
 #include "db/OlmSessionIndex.h"
-#include "db/Open.h"
 #include "db/OrderEntry.h"
 #include "db/ReadReceiptIndex.h"
 #include "db/RoomInfo.h"

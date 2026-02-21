@@ -13,11 +13,12 @@
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QEventLoop>
 #include <QFile>
 #include <QHash>
 #include <QMap>
 #include <QMessageBox>
-#include <QEventLoop>
+#include <QTimer>
 
 #if __has_include(<keychain.h>)
 #include <keychain.h>
@@ -29,6 +30,7 @@
 
 #include <mtx/responses/common.hpp>
 #include <mtx/responses/messages.hpp>
+#include <mtx/secret_storage.hpp>
 
 #include "ChatPage.h"
 #include "EventAccessors.h"
@@ -553,6 +555,13 @@ Cache::setup()
       true);
 }
 
+static QString
+secretName(std::string_view name, bool internal)
+{
+    return profile_secrets::cacheSecretStoreKey(
+      UserSettings::instance()->profile(), name, internal);
+}
+
 static void
 fatalSecretError()
 {
@@ -570,45 +579,6 @@ fatalSecretError()
 
     QCoreApplication::exit(1);
     exit(1);
-}
-
-static QString
-secretName(std::string_view name, bool internal)
-{
-    return profile_secrets::cacheSecretStoreKey(
-      UserSettings::instance()->profile(), name, internal);
-}
-
-static void
-deleteSecretFromStoreBlocking(std::string name, bool internal)
-{
-    auto userSettings = UserSettings::instance();
-    const auto key    = secretName(name, internal);
-
-    if (userSettings->runWithoutSecureSecretsService()) {
-        userSettings->removeSecret(key);
-        return;
-    }
-
-    QEventLoop loop;
-    auto *job = new QKeychain::DeletePasswordJob(QCoreApplication::applicationName());
-    job->setAutoDelete(true);
-    job->setInsecureFallback(false);
-    job->setKey(key);
-    QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
-    QObject::connect(job,
-                     &QKeychain::Job::finished,
-                     job,
-                     [key](QKeychain::Job *j) {
-                         if (j->error() != QKeychain::Error::NoError &&
-                             j->error() != QKeychain::Error::EntryNotFound) {
-                             nhlog::db()->warn("Failed to delete secret '{}' from secure backend: {}",
-                                               key.toStdString(),
-                                               static_cast<int>(j->error()));
-                         }
-                     });
-    job->start();
-    loop.exec();
 }
 
 void
@@ -637,7 +607,10 @@ Cache::loadSecretsFromStore(
             auto name  = secretName(name_, internal);
             auto value = userSettings->secret(name);
             if (value.isEmpty()) {
-                nhlog::db()->info("Restored empty secret '{}'.", name.toStdString());
+                nhlog::db()->info("Restored empty cache secret '{}'."
+                                  " Removing in-memory secret value.",
+                                  name.toStdString());
+                userSettings->removeSecret(name);
             } else {
                 callback(name_, internal, value.toStdString());
             }
@@ -680,6 +653,10 @@ Cache::loadSecretsFromStore(
                 }
                 if (secret.isEmpty()) {
                     nhlog::db()->debug("Restored empty secret '{}'.", name.toStdString());
+                    const auto wasDeleted = profile_secrets::deleteProfileSecretValueBlocking(name);
+                    if (!wasDeleted)
+                        nhlog::db()->warn("Failed to clean up empty cache secret '{}'.",
+                                          name.toStdString());
                 } else {
                     callback(name__, internal_, secret.toStdString());
                 }
@@ -802,8 +779,8 @@ Cache::deleteSecretFromStore(const std::string name, bool internal)
 
     job->setKey(name_);
 
-    job->connect(
-      job, &QKeychain::Job::finished, this, [this, name]() { emit secretChanged(name); });
+    QObject::connect(
+      job, &QKeychain::Job::finished, this, [this, name] { emit secretChanged(name); });
     job->start();
 }
 
@@ -1482,7 +1459,6 @@ Cache::deleteData()
         this->databaseReady_ = false;
     }
 
-    deleteSecretFromStoreBlocking("pickle_secret", true);
     emit secretChanged("pickle_secret");
 }
 
@@ -2567,7 +2543,7 @@ Cache::roomAvatarUrl(const std::string &room_id)
     auto txn = ro_txn(storage());
 
     try {
-        auto statesdb = getStatesDb(txn, room_id);
+        auto statesdb  = getStatesDb(txn, room_id);
         auto membersdb = getMembersDb(txn, room_id);
         return getRoomAvatarUrl(txn, statesdb, membersdb);
     } catch (const std::exception &e) {

@@ -54,6 +54,7 @@ public:
     QSharedPointer<UserSettings> userSettings() { return userSettings_; }
     CallManager *callManager() { return callManager_; }
     TimelineViewManager *timelineManager() { return view_manager_; }
+    bool isShuttingDown() const { return shuttingDown_.load(); }
 
     void initiateLogout();
     void prepareShutdown();

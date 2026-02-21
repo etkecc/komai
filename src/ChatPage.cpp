@@ -5,8 +5,8 @@
 #include <QApplication>
 #include <QInputDialog>
 #include <QMessageBox>
-#include <QPushButton>
 #include <QMetaObject>
+#include <QPushButton>
 #include <QThread>
 
 #include <algorithm>
@@ -437,6 +437,9 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
 void
 ChatPage::dropToLoginPage(const QString &msg)
 {
+    if (shuttingDown_)
+        return;
+
     nhlog::ui()->info("dropping to the login page: {}", msg.toStdString());
 
     http::client()->shutdown();
@@ -491,6 +494,8 @@ ChatPage::bootstrap(QString userid,
                     QString token,
                     bool hadSessionIdentity)
 {
+    shuttingDown_ = false;
+
     using namespace mtx::identifiers;
 
     try {
@@ -514,6 +519,9 @@ ChatPage::bootstrap(QString userid,
 
         cache::onDatabaseReady(
           this, [this, userid, deviceId, homeserver, token, hadSessionIdentity] {
+              if (shuttingDown_)
+                  return;
+
               nhlog::db()->info("database ready");
 
               const bool isInitialized = cache::isInitialized();
@@ -697,6 +705,9 @@ ChatPage::tryInitialSync()
     http::client()->upload_keys(
       olm::client()->create_upload_keys_request(),
       [this](const mtx::responses::UploadKeys &res, mtx::http::RequestErr err) {
+          if (shuttingDown_)
+              return;
+
           if (err) {
               const int status_code = static_cast<int>(err->status_code);
 
@@ -707,8 +718,8 @@ ChatPage::tryInitialSync()
 
               nhlog::crypto()->critical("failed to upload one time keys: {}", err);
 
-              QString errorMsg(tr("Failed to setup encryption keys. Server response: "
-                                  "%1 %2. Please try again later.")
+              QString errorMsg(tr("Failed to setup encryption keys. Server response: %1 %2. Please "
+                                  "try again later.")
                                  .arg(QString::fromStdString(err->matrix_error.error))
                                  .arg(status_code));
 
@@ -1473,12 +1484,14 @@ ChatPage::initiateLogout()
 void
 ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &loginMessage)
 {
+    shuttingDown_ = true;
+
     if (policy == LogoutPolicy::LocalOnly) {
         finalizeLogout(route, loginMessage);
         return;
     }
 
-    auto completed = std::make_shared<std::atomic_bool>(false);
+    auto completed          = std::make_shared<std::atomic_bool>(false);
     auto finalizeOnUiThread = [this, route, loginMessage]() {
         if (QThread::currentThread() == thread()) {
             finalizeLogout(route, loginMessage);
@@ -1502,7 +1515,7 @@ ChatPage::performLogout(LogoutPolicy policy, LogoutRoute route, const QString &l
     });
 
     http::client()->logout([this, completed, finalizeOnUiThread](const mtx::responses::Logout &,
-                                                                mtx::http::RequestErr err) {
+                                                                 mtx::http::RequestErr err) {
         if (completed->exchange(true))
             return;
 

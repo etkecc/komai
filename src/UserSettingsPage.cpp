@@ -16,7 +16,6 @@
 #include <QString>
 #include <QTextStream>
 #include <QTimer>
-#include <mtx/secret_storage.hpp>
 
 #include <yaml-cpp/yaml.h>
 
@@ -308,30 +307,6 @@ deleteSecureValue(const QString &key)
           });
         job->start();
     });
-}
-
-void
-deleteSecureValueBlocking(const QString &key)
-{
-    QEventLoop loop;
-
-    auto *job = new QKeychain::DeletePasswordJob(QCoreApplication::applicationName());
-    job->setAutoDelete(true);
-    job->setInsecureFallback(false);
-    job->setKey(key);
-
-    QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
-    QObject::connect(job, &QKeychain::Job::finished, job, [key](QKeychain::Job *j) {
-        if (j->error() != QKeychain::Error::NoError &&
-            j->error() != QKeychain::Error::EntryNotFound) {
-            nhlog::ui()->warn("Failed to delete secret '{}' from secure backend: {}",
-                              key.toStdString(),
-                              static_cast<int>(j->error()));
-        }
-    });
-    job->start();
-
-    loop.exec();
 }
 
 QString
@@ -845,6 +820,8 @@ UserSettings::loadSecretsYaml(const YAML::Node &root)
 void
 UserSettings::loadSecretsForProvider()
 {
+    bool hasEmptySecureSecrets = false;
+
     if (runWithoutSecureSecretsService_) {
         const auto secretsRoot = loadYamlFile(secretsFilePath_, "secrets");
         loadSecretsYaml(secretsRoot);
@@ -856,10 +833,30 @@ UserSettings::loadSecretsForProvider()
 
     const auto secureAccessToken =
       readSecureValue(secureStoreKey(profile_, SecureStoreAccessTokenKey));
-    accessToken_ = secureAccessToken.value_or(QString());
+    if (secureAccessToken && secureAccessToken->isEmpty()) {
+        nhlog::ui()->warn("Secure backend access token was empty; removing stale session auth "
+                          "secret for profile '{}'",
+                          app_paths::normalizedProfileId(profile_).toStdString());
+        hasEmptySecureSecrets = true;
+        accessToken_.clear();
+    } else {
+        accessToken_ = secureAccessToken.value_or(QString());
+    }
 
     const auto serializedSecrets = readSecureValue(secureStoreKey(profile_, SecureStoreSecretsKey));
-    secrets_ = serializedSecrets ? decodeSecretsMap(*serializedSecrets) : QMap<QString, QString>{};
+    if (serializedSecrets && serializedSecrets->isEmpty()) {
+        nhlog::ui()->warn("Secure backend secrets payload was empty; removing stale secret storage "
+                          "for profile '{}'",
+                          app_paths::normalizedProfileId(profile_).toStdString());
+        hasEmptySecureSecrets = true;
+        secrets_.clear();
+    } else {
+        secrets_ =
+          serializedSecrets ? decodeSecretsMap(*serializedSecrets) : QMap<QString, QString>{};
+    }
+
+    if (hasEmptySecureSecrets)
+        profile_secrets::deleteSettingsProfileSecretsFromStoreBlocking(profile_);
 
     if (hasSessionValue(accessToken_) &&
         (!hasSessionValue(userId_) || !hasSessionValue(deviceId_))) {
@@ -1048,15 +1045,25 @@ UserSettings::clearAuth()
     deviceId_    = QString();
     secrets_.clear();
 
-    const auto accessTokenKey = secureStoreKey(profile_, SecureStoreAccessTokenKey);
-    const auto secretsKey     = secureStoreKey(profile_, SecureStoreSecretsKey);
+    // Persist session/auth changes without scheduling secure backend writes.
+    saveSessionYaml();
+
+    if (runWithoutSecureSecretsService_) {
+        saveSecretsYaml();
+    } else if (QFileInfo::exists(secretsFilePath_) && !QFile::remove(secretsFilePath_))
+        nhlog::ui()->warn("Failed to remove stale secrets file: {}",
+                          secretsFilePath_.toStdString());
 
     if (!runWithoutSecureSecretsService_) {
-        deleteSecureValueBlocking(accessTokenKey);
-        deleteSecureValueBlocking(secretsKey);
+        const auto allSecretsDeleted =
+          profile_secrets::deleteAllProfileSecretsFromStoreBlocking(profile_);
+        if (!allSecretsDeleted) {
+            nhlog::ui()->warn("Failed to delete all profile secrets during logout for profile '{}'",
+                              app_paths::normalizedProfileId(profile_).toStdString());
+        }
     }
 
-    save();
+    saveStateYaml();
 }
 
 bool

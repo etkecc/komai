@@ -7,9 +7,13 @@
 #include <QObject>
 #include <QQmlEngine>
 
+#include <string>
 #include <map>
 #include <mutex>
 #include <set>
+#include <vector>
+
+#include <nlohmann/json_fwd.hpp>
 
 #include <mtx/responses/crypto.hpp>
 #include <mtxclient/crypto/objects.hpp>

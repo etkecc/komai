@@ -7,7 +7,11 @@
 #include <QDateTime>
 #include <QString>
 
+#include <tuple>
 #include <string>
+#include <vector>
+
+#include <nlohmann/json_fwd.hpp>
 
 #include <mtx/events/join_rules.hpp>
 #include <mtx/events/mscs/image_packs.hpp>

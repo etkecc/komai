@@ -201,6 +201,7 @@ mise *args: _ensure_mise_data_directory
 	#!/bin/sh
 	export MISE_DATA_DIR="{{ mise_data_dir }}"
 	export MISE_TRUSTED_CONFIG_PATHS="{{ mise_trusted_config_paths }}"
+	export MISE_YES=1
 	mise {{ args }}
 
 # Runs prek (pre-commit hooks manager) with the given arguments

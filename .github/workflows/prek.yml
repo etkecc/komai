@@ -13,7 +13,7 @@ jobs:
   prek:
     runs-on: ubuntu-24.04
     container:
-      image: docker.io/alpine:3.23
+      image: docker.io/archlinux:base-devel
 
     steps:
       - name: Checkout
@@ -21,39 +21,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apk add --no-cache \
-            build-base \
-            cmake \
-            git \
-            python3 \
-            just \
-            bash \
-            mise \
-            qt6-qtbase-dev \
-            qt6-qtdeclarative-dev \
-            qt6-qtdeclarative-private-dev \
-            qt6-qtmultimedia-dev \
-            qt6-qtsvg-dev \
-            qt6-qttools-dev \
-            coeurl-dev \
-            mtxclient-dev \
-            olm-dev \
-            qtkeychain-dev \
-            kdsingleapplication-dev \
-            lmdb-dev \
-            lmdbxx \
-            nlohmann-json \
-            spdlog-dev \
-            cmark-dev \
-            re2-dev \
-            openssl-dev \
-            curl-dev \
-            libevent-dev \
-            libsecret-dev \
-            yaml-cpp-dev \
-            zlib-dev
+          pacman -Sy --noconfirm --needed \
+            cmake just git python mise \
+            qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
+            mtxclient coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
+            nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication \
+            curl libevent libsecret
 
       - name: Run prek on all files
         run: |
-          just configure
+          # VoIP is disabled to avoid installing GStreamer dependencies.
+          just configure -DVOIP=OFF
           just prek-run-on-all

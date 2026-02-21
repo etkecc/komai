@@ -2676,6 +2676,9 @@ testFactory()
     auto configuredMemory = db::createConfiguredBackend(db::kMemoryBackendId);
     ok &= expect(configuredMemory->id() == db::kMemoryBackendId,
                  "configured backend accepts explicit memory id");
+    auto configuredInMemoryAlias = db::createConfiguredBackend(db::kInMemoryBackendId);
+    ok &= expect(configuredInMemoryAlias->id() == db::kMemoryBackendId,
+                 "configured backend aliases in-memory to memory id");
 
     EnvVarGuard envGuard("KOMAI_DB_BACKEND_TEST_OVERRIDE");
     envGuard.unset();

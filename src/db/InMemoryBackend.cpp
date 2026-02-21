@@ -77,13 +77,13 @@ compareDupValues(db::DupsortComparator comparator, std::string_view lhs, std::st
 
 struct InMemoryDatabase
 {
-    explicit InMemoryDatabase(db::DbiFlags flags = db::DbiFlags::None)
+    explicit InMemoryDatabase(db::StoreFlags flags = db::StoreFlags::None)
       : flags(flags)
-      , records(KeyLess{db::hasFlag(flags, db::DbiFlags::IntegerKey)})
+      , records(KeyLess{db::hasFlag(flags, db::StoreFlags::IntegerKey)})
     {
     }
 
-    db::DbiFlags flags;
+    db::StoreFlags flags;
     db::DupsortComparator dupsortComparator = db::DupsortComparator::StateKey;
     bool hasDupsortComparator               = false;
 
@@ -189,7 +189,7 @@ private:
 class InMemoryDbiImpl final : public db::detail::DbiImpl
 {
 public:
-    InMemoryDbiImpl(BackendState *backend, std::string name, db::DbiFlags openFlags)
+    InMemoryDbiImpl(BackendState *backend, std::string name, db::StoreFlags openFlags)
       : backend_(backend)
       , name_(std::move(name))
       , openFlags_(openFlags)
@@ -209,7 +209,7 @@ public:
 
     BackendState *backend() const noexcept { return backend_; }
     const std::string &name() const noexcept { return name_; }
-    db::DbiFlags openFlags() const noexcept { return openFlags_; }
+    db::StoreFlags openFlags() const noexcept { return openFlags_; }
 
     InMemoryDatabase *lookupMutable(InMemoryTxnImpl &txn, bool createIfMissing);
     const InMemoryDatabase *lookup(const InMemoryTxnImpl &txn) const;
@@ -219,7 +219,7 @@ private:
 
     BackendState *backend_;
     std::string name_;
-    db::DbiFlags openFlags_;
+    db::StoreFlags openFlags_;
 };
 
 InMemoryTxnImpl &
@@ -299,7 +299,7 @@ InMemoryTxnImpl::snapshot() const
 void
 InMemoryDbiImpl::sortDupValues(InMemoryDatabase &db, std::vector<std::string> &values) const
 {
-    if (!db::hasFlag(db.flags, db::DbiFlags::DupSort))
+    if (!db::hasFlag(db.flags, db::StoreFlags::DupSort))
         return;
 
     std::sort(values.begin(), values.end(), [&db](const std::string &lhs, const std::string &rhs) {
@@ -361,12 +361,12 @@ InMemoryDbiImpl::put(db::detail::TxnImpl &txn,
                      db::PutFlags /*flags*/)
 {
     auto &inTxn = requireTxn(txn);
-    auto *db    = lookupMutable(inTxn, db::hasFlag(openFlags_, db::DbiFlags::Create));
+    auto *db    = lookupMutable(inTxn, db::hasFlag(openFlags_, db::StoreFlags::Create));
     if (!db)
         throw db::Error("In-memory database does not exist", db::ErrorKind::Invalid);
 
     auto &values = db->records[std::string(key)];
-    if (db::hasFlag(db->flags, db::DbiFlags::DupSort)) {
+    if (db::hasFlag(db->flags, db::StoreFlags::DupSort)) {
         values.emplace_back(value);
         sortDupValues(*db, values);
     } else {
@@ -397,7 +397,7 @@ InMemoryDbiImpl::del(db::detail::TxnImpl &txn, std::string_view key, std::string
     if (it == db->records.end())
         return false;
 
-    if (!db::hasFlag(db->flags, db::DbiFlags::DupSort)) {
+    if (!db::hasFlag(db->flags, db::StoreFlags::DupSort)) {
         if (it->second.empty() || it->second.front() != value)
             return false;
         db->records.erase(it);
@@ -437,7 +437,7 @@ InMemoryDbiImpl::size(db::detail::TxnImpl &txn)
     if (!db)
         return 0;
 
-    if (!db::hasFlag(db->flags, db::DbiFlags::DupSort))
+    if (!db::hasFlag(db->flags, db::StoreFlags::DupSort))
         return db->records.size();
 
     std::size_t total = 0;
@@ -657,7 +657,7 @@ InMemoryCursorImpl::del(unsigned /*flags*/)
     if (it == db->records.end())
         return false;
 
-    if (!db::hasFlag(db->flags, db::DbiFlags::DupSort)) {
+    if (!db::hasFlag(db->flags, db::StoreFlags::DupSort)) {
         db->records.erase(it);
     } else {
         auto &values = it->second;
@@ -743,7 +743,7 @@ InMemoryBackend::ownsTxn(const Txn &txn) const noexcept
     return implTxn && implTxn->backend() == &impl_->state;
 }
 
-Dbi
+Store
 InMemoryBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptions &options)
 {
     if (!isOpen())
@@ -759,7 +759,7 @@ InMemoryBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptio
     auto &inTxn       = requireTxn(*detail::txnImpl(txn));
     const bool exists = inTxn.snapshot().dbs.find(dbName) != inTxn.snapshot().dbs.end();
     if (!exists) {
-        if (!hasFlag(flags, DbiFlags::Create) || inTxn.isReadOnly())
+        if (!hasFlag(flags, StoreFlags::Create) || inTxn.isReadOnly())
             throw Error("In-memory database does not exist", ErrorKind::Invalid);
 
         auto &snapshot = inTxn.mutableSnapshot();
@@ -775,7 +775,7 @@ InMemoryBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptio
             throw Error("In-memory database does not exist", ErrorKind::Invalid);
 
         const auto &db = it->second;
-        if (!hasFlag(db.flags, DbiFlags::DupSort))
+        if (!hasFlag(db.flags, StoreFlags::DupSort))
             throw Error("dupsort comparator requires DupSort database flag", ErrorKind::Invalid);
 
         if (db.hasDupsortComparator) {

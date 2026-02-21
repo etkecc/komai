@@ -11,7 +11,7 @@ namespace db {
 
 void
 forEachDupValue(Txn &txn,
-                Dbi &db,
+                Store &db,
                 std::string_view key,
                 const std::function<bool(std::string_view value)> &visitor)
 {
@@ -27,7 +27,7 @@ forEachDupValue(Txn &txn,
 }
 
 std::vector<std::string>
-listDupValues(Txn &txn, Dbi &db, std::string_view key)
+listDupValues(Txn &txn, Store &db, std::string_view key)
 {
     std::vector<std::string> values;
     forEachDupValue(txn, db, key, [&values](std::string_view value) {
@@ -40,7 +40,7 @@ listDupValues(Txn &txn, Dbi &db, std::string_view key)
 
 std::size_t
 putDupValueForKeys(Txn &txn,
-                   Dbi &db,
+                   Store &db,
                    std::span<const std::string_view> keys,
                    std::string_view value)
 {
@@ -60,7 +60,7 @@ putDupValueForKeys(Txn &txn,
 
 std::size_t
 replaceDupValueForKeys(Txn &txn,
-                       Dbi &db,
+                       Store &db,
                        std::span<const std::string_view> keys,
                        std::string_view oldValue,
                        std::string_view newValue)

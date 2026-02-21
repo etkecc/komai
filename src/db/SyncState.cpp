@@ -9,13 +9,13 @@
 namespace db {
 
 bool
-getSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key, std::string_view &value)
+getSyncStateValue(Txn &txn, Store &syncStateDb, catalog::SyncStateKey key, std::string_view &value)
 {
     return syncStateDb.get(txn, catalog::syncStateKey(key), value);
 }
 
 std::optional<std::string>
-getSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key)
+getSyncStateValue(Txn &txn, Store &syncStateDb, catalog::SyncStateKey key)
 {
     std::string_view value;
     if (!getSyncStateValue(txn, syncStateDb, key, value))
@@ -25,20 +25,20 @@ getSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key)
 }
 
 void
-putSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key, std::string_view value)
+putSyncStateValue(Txn &txn, Store &syncStateDb, catalog::SyncStateKey key, std::string_view value)
 {
     syncStateDb.put(txn, catalog::syncStateKey(key), value);
 }
 
 bool
-removeSyncStateValue(Txn &txn, Dbi &syncStateDb, catalog::SyncStateKey key)
+removeSyncStateValue(Txn &txn, Store &syncStateDb, catalog::SyncStateKey key)
 {
     return syncStateDb.del(txn, catalog::syncStateKey(key));
 }
 
 bool
 getSyncStateSecretValue(Txn &txn,
-                        Dbi &syncStateDb,
+                        Store &syncStateDb,
                         std::string_view secretName,
                         std::string_view &value)
 {
@@ -46,7 +46,7 @@ getSyncStateSecretValue(Txn &txn,
 }
 
 std::optional<std::string>
-getSyncStateSecretValue(Txn &txn, Dbi &syncStateDb, std::string_view secretName)
+getSyncStateSecretValue(Txn &txn, Store &syncStateDb, std::string_view secretName)
 {
     std::string_view value;
     if (!getSyncStateSecretValue(txn, syncStateDb, secretName, value))
@@ -57,7 +57,7 @@ getSyncStateSecretValue(Txn &txn, Dbi &syncStateDb, std::string_view secretName)
 
 void
 putSyncStateSecretValue(Txn &txn,
-                        Dbi &syncStateDb,
+                        Store &syncStateDb,
                         std::string_view secretName,
                         std::string_view value)
 {
@@ -65,7 +65,7 @@ putSyncStateSecretValue(Txn &txn,
 }
 
 bool
-removeSyncStateSecretValue(Txn &txn, Dbi &syncStateDb, std::string_view secretName)
+removeSyncStateSecretValue(Txn &txn, Store &syncStateDb, std::string_view secretName)
 {
     return syncStateDb.del(txn, catalog::syncStateSecretKey(secretName));
 }

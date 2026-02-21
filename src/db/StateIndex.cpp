@@ -11,7 +11,7 @@
 namespace db {
 
 std::optional<std::string>
-findStateEventId(Txn &txn, Dbi &statesKeyDb, std::string_view eventType, std::string_view stateKey)
+findStateEventId(Txn &txn, Store &statesKeyDb, std::string_view eventType, std::string_view stateKey)
 {
     std::optional<std::string> foundEventId;
     forEachDupValue(txn, statesKeyDb, eventType, [&foundEventId, stateKey](std::string_view value) {
@@ -28,7 +28,7 @@ findStateEventId(Txn &txn, Dbi &statesKeyDb, std::string_view eventType, std::st
 }
 
 std::vector<std::string>
-listStateEventIds(Txn &txn, Dbi &statesKeyDb, std::string_view eventType)
+listStateEventIds(Txn &txn, Store &statesKeyDb, std::string_view eventType)
 {
     std::vector<std::string> eventIds;
     forEachDupValue(txn, statesKeyDb, eventType, [&eventIds](std::string_view value) {
@@ -43,7 +43,7 @@ listStateEventIds(Txn &txn, Dbi &statesKeyDb, std::string_view eventType)
 
 bool
 removeStateEventId(Txn &txn,
-                   Dbi &statesKeyDb,
+                   Store &statesKeyDb,
                    std::string_view eventType,
                    std::string_view stateKey,
                    std::string_view eventId)
@@ -53,7 +53,7 @@ removeStateEventId(Txn &txn,
 
 void
 putStateEventId(Txn &txn,
-                Dbi &statesKeyDb,
+                Store &statesKeyDb,
                 std::string_view eventType,
                 std::string_view stateKey,
                 std::string_view eventId)

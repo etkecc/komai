@@ -26,11 +26,11 @@ toLmdbStoreFlags(StoreFlags flags) noexcept
 {
     unsigned native = 0;
 
-    if (hasFlag(flags, DbiFlags::Create))
+    if (hasFlag(flags, StoreFlags::Create))
         native |= MDB_CREATE;
-    if (hasFlag(flags, DbiFlags::IntegerKey))
+    if (hasFlag(flags, StoreFlags::IntegerKey))
         native |= MDB_INTEGERKEY;
-    if (hasFlag(flags, DbiFlags::DupSort))
+    if (hasFlag(flags, StoreFlags::DupSort))
         native |= MDB_DUPSORT;
 
     return native;

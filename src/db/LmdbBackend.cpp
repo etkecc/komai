@@ -305,7 +305,7 @@ LmdbBackend::beginTxn(Txn *parent, TxnFlags flags)
     });
 }
 
-Dbi
+Store
 LmdbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptions &options)
 {
     if (!detail::txnImpl(txn))
@@ -323,7 +323,7 @@ LmdbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptions &
     });
 
     if (options.dupsortComparator.has_value()) {
-        if (!hasFlag(flags, DbiFlags::DupSort))
+        if (!hasFlag(flags, StoreFlags::DupSort))
             throw Error("dupsort comparator requires DupSort database flag", ErrorKind::Invalid);
 
         auto &lmdbDbi = requireLmdbDbi(*detail::dbiImpl(dbi));

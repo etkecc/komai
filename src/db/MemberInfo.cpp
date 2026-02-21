@@ -54,7 +54,7 @@ parseMemberInfo(std::string_view value)
 }
 
 bool
-getMemberInfo(Txn &txn, Dbi &membersDb, std::string_view userId, MemberInfo &info)
+getMemberInfo(Txn &txn, Store &membersDb, std::string_view userId, MemberInfo &info)
 {
     std::string_view value;
     if (!membersDb.get(txn, userId, value))
@@ -65,7 +65,7 @@ getMemberInfo(Txn &txn, Dbi &membersDb, std::string_view userId, MemberInfo &inf
 }
 
 std::optional<MemberInfo>
-getMemberInfo(Txn &txn, Dbi &membersDb, std::string_view userId)
+getMemberInfo(Txn &txn, Store &membersDb, std::string_view userId)
 {
     MemberInfo info;
     if (!getMemberInfo(txn, membersDb, userId, info))
@@ -75,7 +75,7 @@ getMemberInfo(Txn &txn, Dbi &membersDb, std::string_view userId)
 }
 
 void
-putMemberInfo(Txn &txn, Dbi &membersDb, std::string_view userId, const MemberInfo &info)
+putMemberInfo(Txn &txn, Store &membersDb, std::string_view userId, const MemberInfo &info)
 {
     membersDb.put(txn, userId, serializeMemberInfo(info));
 }

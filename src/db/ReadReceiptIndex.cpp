@@ -31,7 +31,7 @@ readReceiptKey(std::string_view eventId, std::string_view roomId)
 
 bool
 getReadReceiptValue(Txn &txn,
-                    Dbi &readReceiptDb,
+                    Store &readReceiptDb,
                     std::string_view eventId,
                     std::string_view roomId,
                     std::string_view &value)
@@ -41,7 +41,7 @@ getReadReceiptValue(Txn &txn,
 
 void
 putReadReceiptValue(Txn &txn,
-                    Dbi &readReceiptDb,
+                    Store &readReceiptDb,
                     std::string_view eventId,
                     std::string_view roomId,
                     std::string_view value)

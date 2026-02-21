@@ -14,8 +14,8 @@ namespace db {
 
 bool
 removeMessageOrderMapping(Txn &txn,
-                          Dbi &messageToOrderDb,
-                          Dbi &orderToMessageDb,
+                          Store &messageToOrderDb,
+                          Store &orderToMessageDb,
                           std::string_view eventId)
 {
     std::string_view messageOrder;
@@ -29,11 +29,11 @@ removeMessageOrderMapping(Txn &txn,
 
 bool
 replaceTimelineEventId(Txn &txn,
-                       Dbi &eventsDb,
-                       Dbi &eventOrderDb,
-                       Dbi &eventToOrderDb,
-                       Dbi &messageToOrderDb,
-                       Dbi &orderToMessageDb,
+                       Store &eventsDb,
+                       Store &eventOrderDb,
+                       Store &eventToOrderDb,
+                       Store &messageToOrderDb,
+                       Store &orderToMessageDb,
                        std::string_view oldEventId,
                        std::string_view newEventId,
                        std::string_view eventJson,
@@ -70,8 +70,8 @@ replaceTimelineEventId(Txn &txn,
 
 void
 putEventOrderMapping(Txn &txn,
-                     Dbi &eventOrderDb,
-                     Dbi &eventToOrderDb,
+                     Store &eventOrderDb,
+                     Store &eventToOrderDb,
                      std::uint64_t eventOrder,
                      std::string_view eventId,
                      std::string_view orderEntryValue,
@@ -83,7 +83,7 @@ putEventOrderMapping(Txn &txn,
 
 void
 putOrderEntry(Txn &txn,
-              Dbi &eventOrderDb,
+              Store &eventOrderDb,
               std::uint64_t eventOrder,
               std::string_view eventId,
               std::optional<std::string_view> prevBatch,
@@ -95,8 +95,8 @@ putOrderEntry(Txn &txn,
 
 void
 putEventOrderMappingForEvent(Txn &txn,
-                             Dbi &eventOrderDb,
-                             Dbi &eventToOrderDb,
+                             Store &eventOrderDb,
+                             Store &eventToOrderDb,
                              std::uint64_t eventOrder,
                              std::string_view eventId,
                              std::optional<std::string_view> prevBatch,
@@ -113,8 +113,8 @@ putEventOrderMappingForEvent(Txn &txn,
 
 void
 putMessageOrderMapping(Txn &txn,
-                       Dbi &orderToMessageDb,
-                       Dbi &messageToOrderDb,
+                       Store &orderToMessageDb,
+                       Store &messageToOrderDb,
                        std::uint64_t messageOrder,
                        std::string_view eventId,
                        PutFlags orderToMessagePutFlags)
@@ -125,8 +125,8 @@ putMessageOrderMapping(Txn &txn,
 
 std::uint64_t
 appendEventOrderEntry(Txn &txn,
-                      Dbi &eventOrderDb,
-                      Dbi &eventToOrderDb,
+                      Store &eventOrderDb,
+                      Store &eventToOrderDb,
                       std::uint64_t &lastEventOrder,
                       std::string_view eventId,
                       std::string_view orderEntryValue)
@@ -144,8 +144,8 @@ appendEventOrderEntry(Txn &txn,
 
 std::uint64_t
 prependEventOrderEntry(Txn &txn,
-                       Dbi &eventOrderDb,
-                       Dbi &eventToOrderDb,
+                       Store &eventOrderDb,
+                       Store &eventToOrderDb,
                        std::uint64_t &firstEventOrder,
                        std::string_view eventId,
                        std::string_view orderEntryValue)
@@ -158,8 +158,8 @@ prependEventOrderEntry(Txn &txn,
 
 std::uint64_t
 appendMessageOrderEntry(Txn &txn,
-                        Dbi &orderToMessageDb,
-                        Dbi &messageToOrderDb,
+                        Store &orderToMessageDb,
+                        Store &messageToOrderDb,
                         std::uint64_t &lastMessageOrder,
                         std::string_view eventId)
 {
@@ -171,8 +171,8 @@ appendMessageOrderEntry(Txn &txn,
 
 std::uint64_t
 prependMessageOrderEntry(Txn &txn,
-                         Dbi &orderToMessageDb,
-                         Dbi &messageToOrderDb,
+                         Store &orderToMessageDb,
+                         Store &messageToOrderDb,
                          std::uint64_t &firstMessageOrder,
                          std::string_view eventId)
 {
@@ -183,9 +183,9 @@ prependMessageOrderEntry(Txn &txn,
 
 std::optional<std::pair<std::uint64_t, std::string>>
 lastInvisibleEventAfter(Txn &txn,
-                        Dbi &eventToOrderDb,
-                        Dbi &eventOrderDb,
-                        Dbi &messageToOrderDb,
+                        Store &eventToOrderDb,
+                        Store &eventOrderDb,
+                        Store &messageToOrderDb,
                         std::string_view eventId)
 {
     if (eventId.empty())
@@ -224,9 +224,9 @@ lastInvisibleEventAfter(Txn &txn,
 
 std::optional<std::pair<std::uint64_t, std::string>>
 lastVisibleEvent(Txn &txn,
-                 Dbi &eventToOrderDb,
-                 Dbi &eventOrderDb,
-                 Dbi &messageToOrderDb,
+                 Store &eventToOrderDb,
+                 Store &eventOrderDb,
+                 Store &messageToOrderDb,
                  std::string_view eventId)
 {
     if (eventId.empty())
@@ -263,7 +263,7 @@ lastVisibleEvent(Txn &txn,
 }
 
 std::optional<std::string>
-lastTimelineEventId(Txn &txn, Dbi &orderToMessageDb)
+lastTimelineEventId(Txn &txn, Store &orderToMessageDb)
 {
     const auto last = lastEntry(txn, orderToMessageDb);
     if (!last)
@@ -273,7 +273,7 @@ lastTimelineEventId(Txn &txn, Dbi &orderToMessageDb)
 }
 
 std::optional<std::pair<std::uint64_t, std::uint64_t>>
-timelineRange(Txn &txn, Dbi &orderToMessageDb)
+timelineRange(Txn &txn, Store &orderToMessageDb)
 {
     const auto first = firstEntry(txn, orderToMessageDb);
     if (!first)
@@ -287,7 +287,7 @@ timelineRange(Txn &txn, Dbi &orderToMessageDb)
 }
 
 std::optional<std::uint64_t>
-timelineIndexForEvent(Txn &txn, Dbi &messageToOrderDb, std::string_view eventId)
+timelineIndexForEvent(Txn &txn, Store &messageToOrderDb, std::string_view eventId)
 {
     if (eventId.empty())
         return std::nullopt;
@@ -300,7 +300,7 @@ timelineIndexForEvent(Txn &txn, Dbi &messageToOrderDb, std::string_view eventId)
 }
 
 std::optional<std::uint64_t>
-eventIndexForEvent(Txn &txn, Dbi &eventToOrderDb, std::string_view eventId)
+eventIndexForEvent(Txn &txn, Store &eventToOrderDb, std::string_view eventId)
 {
     if (eventId.empty())
         return std::nullopt;
@@ -313,7 +313,7 @@ eventIndexForEvent(Txn &txn, Dbi &eventToOrderDb, std::string_view eventId)
 }
 
 std::optional<std::string>
-timelineEventIdAtIndex(Txn &txn, Dbi &orderToMessageDb, std::uint64_t index)
+timelineEventIdAtIndex(Txn &txn, Store &orderToMessageDb, std::uint64_t index)
 {
     std::string_view value;
     if (!orderToMessageDb.get(txn, toSv(index), value))
@@ -323,7 +323,7 @@ timelineEventIdAtIndex(Txn &txn, Dbi &orderToMessageDb, std::uint64_t index)
 }
 
 std::optional<std::uint64_t>
-firstOrderedIndex(Txn &txn, Dbi &orderedDb)
+firstOrderedIndex(Txn &txn, Store &orderedDb)
 {
     const auto first = firstEntry(txn, orderedDb);
     if (!first)
@@ -333,7 +333,7 @@ firstOrderedIndex(Txn &txn, Dbi &orderedDb)
 }
 
 std::optional<std::uint64_t>
-lastOrderedIndex(Txn &txn, Dbi &orderedDb)
+lastOrderedIndex(Txn &txn, Store &orderedDb)
 {
     const auto last = lastEntry(txn, orderedDb);
     if (!last)
@@ -343,7 +343,7 @@ lastOrderedIndex(Txn &txn, Dbi &orderedDb)
 }
 
 std::optional<std::string>
-firstPrevBatchToken(Txn &txn, Dbi &eventOrderDb)
+firstPrevBatchToken(Txn &txn, Store &eventOrderDb)
 {
     const auto first = firstEntry(txn, eventOrderDb);
     if (!first)
@@ -354,7 +354,7 @@ firstPrevBatchToken(Txn &txn, Dbi &eventOrderDb)
 
 bool
 setOrderEntryPrevBatch(Txn &txn,
-                       Dbi &eventOrderDb,
+                       Store &eventOrderDb,
                        std::uint64_t eventOrder,
                        std::string_view prevBatch)
 {
@@ -370,7 +370,7 @@ setOrderEntryPrevBatch(Txn &txn,
 }
 
 std::size_t
-removePendingEntriesByTxnId(Txn &txn, Dbi &pendingDb, std::string_view txnId)
+removePendingEntriesByTxnId(Txn &txn, Store &pendingDb, std::string_view txnId)
 {
     return eraseEntriesIf(
       txn, pendingDb, [txnId](std::string_view /*timestamp*/, std::string_view pendingTxn) {
@@ -379,7 +379,7 @@ removePendingEntriesByTxnId(Txn &txn, Dbi &pendingDb, std::string_view txnId)
 }
 
 std::vector<std::pair<std::string, std::string>>
-listOrderEntriesAfterPrevBatchMarker(Txn &txn, Dbi &eventOrderDb)
+listOrderEntriesAfterPrevBatchMarker(Txn &txn, Store &eventOrderDb)
 {
     std::vector<std::pair<std::string, std::string>> orderEntriesToDelete;
     bool passedPaginationToken = false;
@@ -408,7 +408,7 @@ listOrderEntriesAfterPrevBatchMarker(Txn &txn, Dbi &eventOrderDb)
 }
 
 std::vector<std::string>
-listOrderEntryEventIds(Txn &txn, Dbi &eventOrderDb)
+listOrderEntryEventIds(Txn &txn, Store &eventOrderDb)
 {
     std::vector<std::string> eventIds;
     forEachEntry(
@@ -424,9 +424,9 @@ listOrderEntryEventIds(Txn &txn, Dbi &eventOrderDb)
 
 std::size_t
 removeMessageOrderMappingsNotInOrderEntries(Txn &txn,
-                                            Dbi &eventOrderDb,
-                                            Dbi &orderToMessageDb,
-                                            Dbi &messageToOrderDb)
+                                            Store &eventOrderDb,
+                                            Store &orderToMessageDb,
+                                            Store &messageToOrderDb)
 {
     std::unordered_set<std::string> expectedEventIds;
     for (const auto &eventId : listOrderEntryEventIds(txn, eventOrderDb))
@@ -451,11 +451,11 @@ removeMessageOrderMappingsNotInOrderEntries(Txn &txn,
 
 void
 removeOrderEntryReferences(Txn &txn,
-                           Dbi &eventsDb,
-                           Dbi &relationsDb,
-                           Dbi &eventToOrderDb,
-                           Dbi &messageToOrderDb,
-                           Dbi &orderToMessageDb,
+                           Store &eventsDb,
+                           Store &relationsDb,
+                           Store &eventToOrderDb,
+                           Store &messageToOrderDb,
+                           Store &orderToMessageDb,
                            std::string_view orderEntryValue)
 {
     const auto entry = parseOrderEntry(orderEntryValue);
@@ -473,12 +473,12 @@ removeOrderEntryReferences(Txn &txn,
 
 void
 removeOrderEntryWithReferences(Txn &txn,
-                               Dbi &eventOrderDb,
-                               Dbi &eventsDb,
-                               Dbi &relationsDb,
-                               Dbi &eventToOrderDb,
-                               Dbi &messageToOrderDb,
-                               Dbi &orderToMessageDb,
+                               Store &eventOrderDb,
+                               Store &eventsDb,
+                               Store &relationsDb,
+                               Store &eventToOrderDb,
+                               Store &messageToOrderDb,
+                               Store &orderToMessageDb,
                                std::string_view orderKey,
                                std::string_view orderEntryValue)
 {
@@ -495,12 +495,12 @@ removeOrderEntryWithReferences(Txn &txn,
 std::size_t
 eraseOrderEntriesWithReferencesIf(
   Txn &txn,
-  Dbi &eventOrderDb,
-  Dbi &eventsDb,
-  Dbi &relationsDb,
-  Dbi &eventToOrderDb,
-  Dbi &messageToOrderDb,
-  Dbi &orderToMessageDb,
+  Store &eventOrderDb,
+  Store &eventsDb,
+  Store &relationsDb,
+  Store &eventToOrderDb,
+  Store &messageToOrderDb,
+  Store &orderToMessageDb,
   std::size_t startIndex,
   std::size_t limit,
   const std::function<bool(std::string_view orderKey, std::string_view orderEntryValue)> &predicate)
@@ -534,12 +534,12 @@ eraseOrderEntriesWithReferencesIf(
 
 std::size_t
 trimOldestOrderEntriesWithReferences(Txn &txn,
-                                     Dbi &eventOrderDb,
-                                     Dbi &eventsDb,
-                                     Dbi &relationsDb,
-                                     Dbi &eventToOrderDb,
-                                     Dbi &messageToOrderDb,
-                                     Dbi &orderToMessageDb,
+                                     Store &eventOrderDb,
+                                     Store &eventsDb,
+                                     Store &relationsDb,
+                                     Store &eventToOrderDb,
+                                     Store &messageToOrderDb,
+                                     Store &orderToMessageDb,
                                      std::size_t count)
 {
     return eraseOrderEntriesWithReferencesIf(
@@ -557,12 +557,12 @@ trimOldestOrderEntriesWithReferences(Txn &txn,
 
 void
 cleanupTimelineBeforePrevBatchMarker(Txn &txn,
-                                     Dbi &eventOrderDb,
-                                     Dbi &eventsDb,
-                                     Dbi &relationsDb,
-                                     Dbi &eventToOrderDb,
-                                     Dbi &messageToOrderDb,
-                                     Dbi &orderToMessageDb)
+                                     Store &eventOrderDb,
+                                     Store &eventsDb,
+                                     Store &relationsDb,
+                                     Store &eventToOrderDb,
+                                     Store &messageToOrderDb,
+                                     Store &orderToMessageDb)
 {
     const auto orderEntriesToDelete = listOrderEntriesAfterPrevBatchMarker(txn, eventOrderDb);
     for (const auto &[orderKey, orderEntryValue] : orderEntriesToDelete) {
@@ -583,11 +583,11 @@ cleanupTimelineBeforePrevBatchMarker(Txn &txn,
 
 void
 removeTimelineEventReferences(Txn &txn,
-                              Dbi &eventsDb,
-                              Dbi &relationsDb,
-                              Dbi &eventToOrderDb,
-                              Dbi &messageToOrderDb,
-                              Dbi &orderToMessageDb,
+                              Store &eventsDb,
+                              Store &relationsDb,
+                              Store &eventToOrderDb,
+                              Store &messageToOrderDb,
+                              Store &orderToMessageDb,
                               std::string_view eventId)
 {
     eventToOrderDb.del(txn, eventId);

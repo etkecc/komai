@@ -91,7 +91,7 @@ parseRoomInfo(std::string_view value)
 }
 
 bool
-getRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId, RoomInfo &info)
+getRoomInfo(Txn &txn, Store &roomInfoDb, std::string_view roomId, RoomInfo &info)
 {
     std::string_view value;
     if (!roomInfoDb.get(txn, roomId, value))
@@ -102,7 +102,7 @@ getRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId, RoomInfo &info)
 }
 
 std::optional<RoomInfo>
-getRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId)
+getRoomInfo(Txn &txn, Store &roomInfoDb, std::string_view roomId)
 {
     RoomInfo info;
     if (!getRoomInfo(txn, roomInfoDb, roomId, info))
@@ -112,7 +112,7 @@ getRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId)
 }
 
 void
-putRoomInfo(Txn &txn, Dbi &roomInfoDb, std::string_view roomId, const RoomInfo &info)
+putRoomInfo(Txn &txn, Store &roomInfoDb, std::string_view roomId, const RoomInfo &info)
 {
     roomInfoDb.put(txn, roomId, serializeRoomInfo(info));
 }

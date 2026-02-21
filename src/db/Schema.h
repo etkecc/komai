@@ -29,10 +29,7 @@ tryDropNamedStore(Backend &backend,
                   std::string *error = nullptr) noexcept;
 
 bool
-tryDropNamedDbi(Backend &backend,
-                                   Transaction &txn,
-                std::string_view dbName,
-                std::string *error = nullptr) noexcept;
+tryDropNamedDbi(Backend &backend, Transaction &txn, std::string_view dbName, std::string *error = nullptr) noexcept;
 
 bool
 migrateLegacyStateByKeyToStatesKey(Backend &backend,

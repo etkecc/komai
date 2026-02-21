@@ -12,7 +12,7 @@ namespace db {
 
 bool
 getOlmSessionValue(Txn &txn,
-                   Dbi &olmSessionsDb,
+                   Store &olmSessionsDb,
                    std::string_view curve25519,
                    std::string_view sessionId,
                    std::string_view &value)
@@ -22,7 +22,7 @@ getOlmSessionValue(Txn &txn,
 
 void
 putOlmSessionValue(Txn &txn,
-                   Dbi &olmSessionsDb,
+                   Store &olmSessionsDb,
                    std::string_view curve25519,
                    std::string_view sessionId,
                    std::string_view value)
@@ -33,7 +33,7 @@ putOlmSessionValue(Txn &txn,
 std::size_t
 forEachOlmSessionForCurve(
   Txn &txn,
-  Dbi &olmSessionsDb,
+  Store &olmSessionsDb,
   std::string_view curve25519,
   const std::function<bool(std::string_view sessionId, std::string_view value)> &callback)
 {
@@ -51,7 +51,7 @@ forEachOlmSessionForCurve(
 }
 
 std::vector<std::string>
-listOlmSessionIds(Txn &txn, Dbi &olmSessionsDb, std::string_view curve25519)
+listOlmSessionIds(Txn &txn, Store &olmSessionsDb, std::string_view curve25519)
 {
     std::vector<std::string> sessionIds;
     forEachOlmSessionForCurve(

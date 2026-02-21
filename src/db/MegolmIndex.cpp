@@ -51,7 +51,7 @@ parseMegolmSessionKey(std::string_view key, std::string &roomId, std::string &se
 
 bool
 getMegolmSessionDataValue(Txn &txn,
-                          Dbi &megolmSessionDataDb,
+                          Store &megolmSessionDataDb,
                           std::string_view roomId,
                           std::string_view sessionId,
                           std::string_view &value)
@@ -61,7 +61,7 @@ getMegolmSessionDataValue(Txn &txn,
 
 void
 putMegolmSessionDataValue(Txn &txn,
-                          Dbi &megolmSessionDataDb,
+                          Store &megolmSessionDataDb,
                           std::string_view roomId,
                           std::string_view sessionId,
                           std::string_view value)
@@ -71,7 +71,7 @@ putMegolmSessionDataValue(Txn &txn,
 
 bool
 getInboundMegolmSessionValue(Txn &txn,
-                             Dbi &inboundMegolmSessionDb,
+                             Store &inboundMegolmSessionDb,
                              std::string_view roomId,
                              std::string_view sessionId,
                              std::string_view &value)
@@ -81,7 +81,7 @@ getInboundMegolmSessionValue(Txn &txn,
 
 void
 putInboundMegolmSessionValue(Txn &txn,
-                             Dbi &inboundMegolmSessionDb,
+                             Store &inboundMegolmSessionDb,
                              std::string_view roomId,
                              std::string_view sessionId,
                              std::string_view value)

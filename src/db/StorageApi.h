@@ -30,10 +30,15 @@ using AccessFlags = db::AccessFlags;
 using TransactionFlags = db::TxnFlags;
 using StoreFlags = db::StoreFlags;
 using BackendId = DatabaseId;
+using DatabaseIdSet = db::DatabaseIdSet;
+using DatabaseBackendId = DatabaseId;
 
 inline constexpr std::string_view kMemoryDatabaseId = db::kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryDatabaseId = db::kInMemoryDatabaseId;
 inline constexpr std::string_view kLmdbDatabaseId = db::kLmdbDatabaseId;
+inline constexpr std::string_view kMemoryBackendId = db::kMemoryBackendId;
+inline constexpr std::string_view kInMemoryBackendId = db::kInMemoryBackendId;
+inline constexpr std::string_view kLmdbBackendId = db::kLmdbBackendId;
 
 enum class AccessMode
 {
@@ -116,6 +121,12 @@ isDatabaseSupported(DatabaseId id) noexcept
     return db::isDatabaseSupported(id);
 }
 
+inline bool
+isBackendSupported(DatabaseId id) noexcept
+{
+    return db::isDatabaseSupported(id);
+}
+
 inline DatabaseId
 defaultDatabaseId() noexcept
 {
@@ -129,6 +140,12 @@ defaultBackendId() noexcept
 }
 
 inline DatabaseId
+canonicalBackendId(DatabaseId id) noexcept
+{
+    return canonicalDatabaseId(id);
+}
+
+inline DatabaseId
 canonicalDatabaseId(DatabaseId id) noexcept
 {
     return db::canonicalDatabaseId(id);
@@ -138,6 +155,30 @@ inline std::span<const DatabaseId>
 availableDatabaseIds()
 {
     return db::availableDatabaseIds();
+}
+
+inline std::span<const DatabaseId>
+availableBackendIds()
+{
+    return availableDatabaseIds();
+}
+
+inline std::unique_ptr<Database>
+createBackend(DatabaseId id)
+{
+    return createDatabase(id);
+}
+
+inline std::unique_ptr<Database>
+createConfiguredBackend(DatabaseId requestedId = {})
+{
+    return createConfiguredDatabase(requestedId);
+}
+
+inline std::unique_ptr<Database>
+createConfiguredBackendFromEnvironment(DatabaseId variableName = "KOMAI_DB_BACKEND")
+{
+    return createDatabaseFromEnvironment(variableName);
 }
 
 inline void

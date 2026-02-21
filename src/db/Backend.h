@@ -44,12 +44,15 @@ using AccessFlags = TxnFlags;
 using WriteFlags  = PutFlags;
 using MoveOp      = CursorOp;
 
+// Canonical database identifiers.
 inline constexpr std::string_view kMemoryDatabaseId{"memory"};
 inline constexpr std::string_view kInMemoryDatabaseId{"in-memory"};
 inline constexpr std::string_view kLmdbDatabaseId{"lmdb"};
-inline constexpr std::string_view kMemoryBackendId{"memory"};
-inline constexpr std::string_view kInMemoryBackendId{"in-memory"};
-inline constexpr std::string_view kLmdbBackendId{"lmdb"};
+
+// Backward-compatible backend identifiers.
+inline constexpr std::string_view kMemoryBackendId = kMemoryDatabaseId;
+inline constexpr std::string_view kInMemoryBackendId = kInMemoryDatabaseId;
+inline constexpr std::string_view kLmdbBackendId = kLmdbDatabaseId;
 
 enum class DupsortComparator
 {

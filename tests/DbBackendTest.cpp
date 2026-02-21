@@ -2768,17 +2768,19 @@ testFactory()
 {
     bool ok = true;
 
-    const auto available = db::availableDatabaseIds();
+    const auto available = db::storage::availableDatabaseIds();
     ok &= expect(!available.empty(), "at least one backend id is available");
-    ok &= expect(std::find(available.begin(), available.end(), db::kMemoryDatabaseId) !=
+    ok &= expect(std::find(available.begin(), available.end(), db::storage::kMemoryDatabaseId) !=
                    available.end(),
                  "memory database id is available");
-    ok &= expect(db::canonicalDatabaseId(db::kInMemoryDatabaseId) == db::kMemoryDatabaseId,
+    ok &= expect(db::storage::canonicalDatabaseId(db::storage::kInMemoryDatabaseId) ==
+                     db::storage::kMemoryDatabaseId,
                  "in-memory backend id is canonicalized to memory");
-    ok &= expect(db::isDatabaseSupported(db::kLmdbDatabaseId) == db::isBackendSupported(db::kLmdbBackendId),
+    ok &= expect(db::storage::isDatabaseSupported(db::storage::kLmdbDatabaseId) ==
+                     db::storage::isBackendSupported(db::storage::kLmdbDatabaseId),
                  "database and backend support checks are consistent for lmdb");
 
-    const auto lmdbSupported = db::isDatabaseSupported(db::kLmdbDatabaseId);
+    const auto lmdbSupported = db::storage::isDatabaseSupported(db::storage::kLmdbDatabaseId);
     auto defaultBackend = db::createDefaultDatabase();
     ok &= expect(db::storage::id(defaultBackend) == db::defaultDatabaseId(),
                  "default backend id matches defaultDatabaseId");
@@ -2789,8 +2791,8 @@ testFactory()
                                                                 : db::StorageCategory::Ephemeral),
                  "default backend persistence matches lmdb availability");
 
-    auto memoryBackend = db::createDatabase(db::kMemoryDatabaseId);
-    ok &= expect(db::storage::id(memoryBackend) == db::kMemoryDatabaseId,
+    auto memoryBackend = db::createDatabase(db::storage::kMemoryDatabaseId);
+    ok &= expect(db::storage::id(memoryBackend) == db::storage::kMemoryDatabaseId,
                  "memory backend is creatable");
     ok &= expect(!db::storage::supportsCompaction(memoryBackend),
                  "memory backend reports no compaction support");
@@ -2801,11 +2803,11 @@ testFactory()
     ok &= expect(db::storage::id(configuredDefault) == db::defaultBackendId(),
                  "configured backend defaults to default id when empty");
 
-    auto configuredMemory = db::createConfiguredDatabase(db::kMemoryDatabaseId);
-    ok &= expect(db::storage::id(configuredMemory) == db::kMemoryDatabaseId,
+    auto configuredMemory = db::createConfiguredDatabase(db::storage::kMemoryDatabaseId);
+    ok &= expect(db::storage::id(configuredMemory) == db::storage::kMemoryDatabaseId,
                  "configured backend accepts explicit memory id");
-    auto configuredInMemoryAlias = db::createConfiguredDatabase(db::kInMemoryDatabaseId);
-    ok &= expect(db::storage::id(configuredInMemoryAlias) == db::kMemoryDatabaseId,
+    auto configuredInMemoryAlias = db::createConfiguredDatabase(db::storage::kInMemoryDatabaseId);
+    ok &= expect(db::storage::id(configuredInMemoryAlias) == db::storage::kMemoryDatabaseId,
                  "configured backend aliases in-memory database id to memory id");
 
     EnvVarGuard envGuard("KOMAI_DB_BACKEND_TEST_OVERRIDE");
@@ -2814,9 +2816,9 @@ testFactory()
     ok &= expect(db::storage::id(envDefault) == db::defaultBackendId(),
                  "environment-based backend defaults to default id when unset");
 
-    envGuard.set(db::kMemoryDatabaseId);
+    envGuard.set(db::storage::kMemoryDatabaseId);
     auto envMemory = db::createConfiguredDatabaseFromEnvironment(envGuard.name_);
-    ok &= expect(db::storage::id(envMemory) == db::kMemoryDatabaseId,
+    ok &= expect(db::storage::id(envMemory) == db::storage::kMemoryDatabaseId,
                  "environment-based backend accepts memory id");
 
     envGuard.set("not-a-backend");
@@ -2828,21 +2830,21 @@ testFactory()
     ok &= expectDbError([] { db::createConfiguredDatabase("not-a-backend"); },
                         "configured database id rejects unknown id");
     if (lmdbSupported) {
-        auto lmdbBackend = db::createDatabase(db::kLmdbDatabaseId);
-        ok &= expect(db::storage::id(lmdbBackend) == db::kLmdbDatabaseId,
+    auto lmdbBackend = db::createDatabase(db::storage::kLmdbDatabaseId);
+    ok &= expect(db::storage::id(lmdbBackend) == db::storage::kLmdbDatabaseId,
                      "lmdb backend is creatable when available");
     } else {
-        ok &= expectDbError([] { db::createDatabase(db::kLmdbDatabaseId); },
+        ok &= expectDbError([] { db::createDatabase(db::storage::kLmdbDatabaseId); },
                             "lmdb backend creation fails when lmdb support is disabled");
     }
 
     // Compatibility checks on legacy API names.
-    const auto legacyAvailable = db::availableBackendIds();
+    const auto legacyAvailable = db::storage::availableBackendIds();
     ok &= expect(std::find(legacyAvailable.begin(),
                            legacyAvailable.end(),
-                           db::kMemoryBackendId) != legacyAvailable.end(),
+                           db::storage::kMemoryBackendId) != legacyAvailable.end(),
                  "legacy backend id enumeration still includes memory");
-    ok &= expectDbError([] { db::createConfiguredBackend("not-a-backend"); },
+    ok &= expectDbError([] { db::storage::createConfiguredBackend("not-a-backend"); },
                         "legacy configured backend rejects unknown id");
     return ok;
 }
@@ -2939,7 +2941,7 @@ testInMemoryBackend()
 bool
 testLmdbBackend()
 {
-    if (!db::isBackendSupported(db::kLmdbBackendId))
+    if (!db::storage::isBackendSupported(db::storage::kLmdbDatabaseId))
         return true;
 
     bool ok = true;
@@ -2984,7 +2986,7 @@ testLmdbBackend()
           "lmdb openStore rejects dupsort comparator on non-dupsort db");
     }
 
-    ok &= testCursorAndOrderingContract(*backend, db::kLmdbDatabaseId);
+    ok &= testCursorAndOrderingContract(*backend, db::storage::kLmdbDatabaseId);
 
     db::storage::close(backend);
     ok &= expect(!db::storage::isOpen(backend), "lmdb backend closes");

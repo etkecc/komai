@@ -20,4 +20,11 @@ struct OrderEntry
 OrderEntry
 parseOrderEntry(std::string_view value);
 
+std::string
+serializeOrderEntry(const OrderEntry &entry);
+
+std::string
+serializeOrderEntry(std::string_view eventId,
+                    std::optional<std::string_view> prevBatch = std::nullopt);
+
 } // namespace db

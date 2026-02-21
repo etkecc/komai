@@ -74,6 +74,27 @@ Database hash:
   `db::migrateLegacyOlmShardsV2ToUnified(...)`).
 - Reusable event-order entry parsing (including legacy raw event-id fallback) is
   centralized in `src/db/OrderEntry.cpp` (`db::parseOrderEntry(...)`).
+- Reusable timeline-index helpers are centralized in `src/db/TimelineIndex.cpp`
+  (`db::removeMessageOrderMapping(...)`,
+  `db::replaceTimelineEventId(...)`,
+  `db::putEventOrderMapping(...)`,
+  `db::putMessageOrderMapping(...)`,
+  `db::lastInvisibleEventAfter(...)`,
+  `db::lastVisibleEvent(...)`,
+  `db::lastTimelineEventId(...)`,
+  `db::timelineRange(...)`,
+  `db::timelineIndexForEvent(...)`,
+  `db::eventIndexForEvent(...)`,
+  `db::timelineEventIdAtIndex(...)`,
+  `db::firstOrderedIndex(...)`,
+  `db::lastOrderedIndex(...)`,
+  `db::firstPrevBatchToken(...)`,
+  `db::setOrderEntryPrevBatch(...)`,
+  `db::removePendingEntriesByTxnId(...)`,
+  `db::removeTimelineEventReferences(...)`) so callers do not duplicate
+  cross-index logic (`message_to_order`, `order_to_message`,
+  `event_to_order`, event payload/relation deletion, and visible/invisible
+  timeline lookups).
 - Reusable state-index query helpers are centralized in `src/db/StateIndex.cpp`
   (`db::findStateEventId(...)`, `db::listStateEventIds(...)`, `db::putStateEventId(...)`,
   `db::removeStateEventId(...)`) so callers do not need

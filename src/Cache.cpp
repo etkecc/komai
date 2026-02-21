@@ -47,6 +47,7 @@
 #include "db/Schema.h"
 #include "db/Serde.h"
 #include "db/StateIndex.h"
+#include "db/TimelineIndex.h"
 #include "encryption/Olm.h"
 
 //! Should be changed when a breaking change occurs in the cache format.
@@ -355,15 +356,6 @@ static QString
 cacheDirectoryName(const QString &userid, const QString &profile)
 {
     return app_paths::data::databaseDirectory(userid, profile);
-}
-
-static void
-removePendingTxnEntries(db::Txn &txn, db::Dbi &pendingDb, std::string_view txnId)
-{
-    db::eraseEntriesIf(
-      txn, pendingDb, [txnId](std::string_view /*timestamp*/, std::string_view pendingTxn) {
-          return pendingTxn == txnId;
-      });
 }
 
 void
@@ -2586,13 +2578,7 @@ Cache::previousBatchToken(const std::string &room_id)
     auto txn = ro_txn(storage());
     try {
         auto orderDb = getEventOrderDb(txn, room_id);
-
-        const auto first = db::firstEntry(txn, orderDb);
-        if (!first) {
-            return "";
-        }
-
-        return db::parseOrderEntry(first->second).prevBatch.value_or("");
+        return db::firstPrevBatchToken(txn, orderDb).value_or("");
     } catch (...) {
         return "";
     }
@@ -2751,11 +2737,7 @@ Cache::getLastEventId(db::Txn &txn, const std::string &room_id)
         return {};
     }
 
-    const auto last = db::lastEntry(txn, orderDb);
-    if (!last)
-        return {};
-
-    return last->second;
+    return db::lastTimelineEventId(txn, orderDb).value_or("");
 }
 
 std::optional<Cache::TimelineRange>
@@ -2771,21 +2753,11 @@ Cache::getTimelineRange(const std::string &room_id)
         return {};
     }
 
-    const auto last = db::lastEntry(txn, orderDb);
-    if (!last) {
+    const auto range = db::timelineRange(txn, orderDb);
+    if (!range)
         return {};
-    }
 
-    TimelineRange range{};
-    range.last = db::fromSv<uint64_t>(last->first);
-
-    const auto first = db::firstEntry(txn, orderDb);
-    if (!first) {
-        return {};
-    }
-    range.first = db::fromSv<uint64_t>(first->first);
-
-    return range;
+    return TimelineRange{.first = range->first, .last = range->second};
 }
 std::optional<uint64_t>
 Cache::getTimelineIndex(const std::string &room_id, std::string_view event_id)
@@ -2804,14 +2776,7 @@ Cache::getTimelineIndex(const std::string &room_id, std::string_view event_id)
         return {};
     }
 
-    std::string_view indexVal{event_id.data(), event_id.size()}, val;
-
-    bool success = orderDb.get(txn, indexVal, val);
-    if (!success) {
-        return {};
-    }
-
-    return db::fromSv<uint64_t>(val);
+    return db::timelineIndexForEvent(txn, orderDb, event_id);
 }
 
 std::optional<uint64_t>
@@ -2831,14 +2796,7 @@ Cache::getEventIndex(const std::string &room_id, std::string_view event_id)
         return {};
     }
 
-    std::string_view val;
-
-    bool success = orderDb.get(txn, event_id, val);
-    if (!success) {
-        return {};
-    }
-
-    return db::fromSv<uint64_t>(val);
+    return db::eventIndexForEvent(txn, orderDb, event_id);
 }
 
 std::optional<std::pair<uint64_t, std::string>>
@@ -2862,39 +2820,8 @@ Cache::lastInvisibleEventAfter(const std::string &room_id, std::string_view even
         return {};
     }
 
-    std::string_view indexVal;
-
-    bool success = orderDb.get(txn, event_id, indexVal);
-    if (!success) {
-        return {};
-    }
-
     try {
-        uint64_t prevIdx = db::fromSv<uint64_t>(indexVal);
-        std::string prevId{event_id};
-
-        std::optional<std::pair<uint64_t, std::string>> result;
-        db::forEachEntryFromKey(txn,
-                                eventOrderDb,
-                                indexVal,
-                                db::ScanDirection::Forward,
-                                [&](std::string_view key, std::string_view value) {
-                                    std::string evId =
-                                      db::parseOrderEntry(value).eventId.value_or("");
-                                    std::string_view temp;
-                                    if (timelineDb.get(txn, evId, temp)) {
-                                        result = std::pair{prevIdx, std::string(prevId)};
-                                        return false;
-                                    } else {
-                                        prevIdx = db::fromSv<uint64_t>(key);
-                                        prevId  = std::move(evId);
-                                    }
-                                    return true;
-                                });
-        if (result)
-            return result;
-
-        return std::pair{prevIdx, std::string(prevId)};
+        return db::lastInvisibleEventAfter(txn, orderDb, eventOrderDb, timelineDb, event_id);
     } catch (const db::Error &e) {
         nhlog::db()->error("Failed to get last invisible event after {}", event_id, e.what());
         return {};
@@ -2916,35 +2843,7 @@ Cache::lastVisibleEvent(const std::string &room_id, std::string_view event_id)
         eventOrderDb = getEventOrderDb(txn, room_id);
         timelineDb   = getMessageToOrderDb(txn, room_id);
 
-        std::string_view indexVal;
-
-        bool success = orderDb.get(txn, event_id, indexVal);
-        if (!success) {
-            return {};
-        }
-
-        uint64_t idx = db::fromSv<uint64_t>(indexVal);
-        std::string evId{event_id};
-
-        std::optional<std::pair<uint64_t, std::string>> result;
-        db::forEachEntryFromKey(txn,
-                                eventOrderDb,
-                                indexVal,
-                                db::ScanDirection::Backward,
-                                [&](std::string_view key, std::string_view value) {
-                                    evId = db::parseOrderEntry(value).eventId.value_or("");
-                                    std::string_view temp;
-                                    idx = db::fromSv<uint64_t>(key);
-                                    if (timelineDb.get(txn, evId, temp)) {
-                                        result = std::pair{idx, evId};
-                                        return false;
-                                    }
-                                    return true;
-                                });
-        if (result)
-            return result;
-
-        return std::pair{idx, evId};
+        return db::lastVisibleEvent(txn, orderDb, eventOrderDb, timelineDb, event_id);
     } catch (const db::Error &e) {
         nhlog::db()->error("Failed to get last visible event after {}", event_id, e.what());
         return {};
@@ -2964,14 +2863,7 @@ Cache::getTimelineEventId(const std::string &room_id, uint64_t index)
         return {};
     }
 
-    std::string_view val;
-
-    bool success = orderDb.get(txn, db::toSv(index), val);
-    if (!success) {
-        return {};
-    }
-
-    return std::string(val);
+    return db::timelineEventIdAtIndex(txn, orderDb, index);
 }
 
 QHash<QString, RoomInfo>
@@ -3692,7 +3584,7 @@ Cache::removePendingStatus(const std::string &room_id, const std::string &txn_id
     auto txn     = beginTxn();
     auto pending = getPendingMessagesDb(txn, room_id);
 
-    removePendingTxnEntries(txn, pending, txn_id);
+    db::removePendingEntriesByTxnId(txn, pending, txn_id);
 
     txn.commit();
 }
@@ -3726,14 +3618,12 @@ Cache::saveTimelineMessages(db::Txn &txn,
     using namespace mtx::events::state;
 
     uint64_t index = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto lastOrder = db::lastEntry(txn, orderDb); lastOrder) {
-        index = db::fromSv<uint64_t>(lastOrder->first);
-    }
+    if (const auto lastOrder = db::lastOrderedIndex(txn, orderDb); lastOrder)
+        index = *lastOrder;
 
     uint64_t msgIndex = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto lastMessage = db::lastEntry(txn, order2msgDb); lastMessage) {
-        msgIndex = db::fromSv<uint64_t>(lastMessage->first);
-    }
+    if (const auto lastMessage = db::lastOrderedIndex(txn, order2msgDb); lastMessage)
+        msgIndex = *lastMessage;
 
     bool first = true;
     for (const auto &e : res.events) {
@@ -3748,27 +3638,22 @@ Cache::saveTimelineMessages(db::Txn &txn,
 
         std::string_view event_id = event_id_val;
 
-        nlohmann::json orderEntry = nlohmann::json::object();
-        orderEntry["event_id"]    = event_id_val;
-        if (first && !res.prev_batch.empty())
-            orderEntry["prev_batch"] = res.prev_batch;
+        const auto orderEntry = db::serializeOrderEntry(
+          event_id_val,
+          first && !res.prev_batch.empty() ? std::optional<std::string_view>(res.prev_batch)
+                                           : std::nullopt);
+        const auto eventJson = event.dump();
 
-        std::string_view txn_order;
-        if (!txn_id.empty() && evToOrderDb.get(txn, txn_id, txn_order)) {
-            eventsDb.put(txn, event_id, event.dump());
-            eventsDb.del(txn, txn_id);
-
-            std::string_view msg_txn_order;
-            if (msg2orderDb.get(txn, txn_id, msg_txn_order)) {
-                order2msgDb.put(txn, msg_txn_order, event_id);
-                msg2orderDb.put(txn, event_id, msg_txn_order);
-                msg2orderDb.del(txn, txn_id);
-            }
-
-            orderDb.put(txn, txn_order, orderEntry.dump());
-            evToOrderDb.put(txn, event_id, txn_order);
-            evToOrderDb.del(txn, txn_id);
-
+        if (!txn_id.empty() && db::replaceTimelineEventId(txn,
+                                                          eventsDb,
+                                                          orderDb,
+                                                          evToOrderDb,
+                                                          msg2orderDb,
+                                                          order2msgDb,
+                                                          txn_id,
+                                                          event_id,
+                                                          eventJson,
+                                                          orderEntry)) {
             auto relations = mtx::accessors::relations(e);
             if (!relations.relations.empty()) {
                 for (const auto &r : relations.relations) {
@@ -3779,7 +3664,7 @@ Cache::saveTimelineMessages(db::Txn &txn,
                 }
             }
 
-            removePendingTxnEntries(txn, pending, txn_id);
+            db::removePendingEntriesByTxnId(txn, pending, txn_id);
         } else if (auto redaction =
                      std::get_if<mtx::events::RedactionEvent<mtx::events::msg::Redaction>>(&e)) {
             if (redaction->redacts.empty())
@@ -3791,10 +3676,10 @@ Cache::saveTimelineMessages(db::Txn &txn,
                 first = false;
                 ++index;
 
-                nhlog::db()->debug("saving redaction '{}'", orderEntry.dump());
+                nhlog::db()->debug("saving redaction '{}'", orderEntry);
 
-                orderDb.put(txn, db::toSv(index), orderEntry.dump(), db::PutFlags::Append);
-                evToOrderDb.put(txn, event_id, db::toSv(index));
+                db::putEventOrderMapping(
+                  txn, orderDb, evToOrderDb, index, event_id, orderEntry, db::PutFlags::Append);
                 eventsDb.put(txn, event_id, event.dump());
             }
 
@@ -3854,22 +3739,21 @@ Cache::saveTimelineMessages(db::Txn &txn,
 
                 ++index;
 
-                nhlog::db()->debug("saving '{}'", orderEntry.dump());
+                nhlog::db()->debug("saving '{}'", orderEntry);
 
-                orderDb.put(txn, db::toSv(index), orderEntry.dump(), db::PutFlags::Append);
-                evToOrderDb.put(txn, event_id, db::toSv(index));
+                db::putEventOrderMapping(
+                  txn, orderDb, evToOrderDb, index, event_id, orderEntry, db::PutFlags::Append);
 
                 // TODO(Nico): Allow blacklisting more event types in UI
                 if (!isHiddenEvent(txn, e, room_id)) {
                     ++msgIndex;
-                    order2msgDb.put(txn, db::toSv(msgIndex), event_id, db::PutFlags::Append);
-
-                    msg2orderDb.put(txn, event_id, db::toSv(msgIndex));
+                    db::putMessageOrderMapping(
+                      txn, order2msgDb, msg2orderDb, msgIndex, event_id, db::PutFlags::Append);
                 }
             } else {
-                nhlog::db()->warn("duplicate event '{}'", orderEntry.dump());
+                nhlog::db()->warn("duplicate event '{}'", orderEntry);
             }
-            eventsDb.put(txn, event_id, event.dump());
+            eventsDb.put(txn, event_id, eventJson);
 
             auto relations = mtx::accessors::relations(e);
             if (!relations.relations.empty()) {
@@ -3896,21 +3780,15 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
     auto order2msgDb = getOrderToMessageDb(txn, room_id);
 
     uint64_t index = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto firstOrder = db::firstEntry(txn, orderDb); firstOrder) {
-        index = db::fromSv<uint64_t>(firstOrder->first);
-    }
+    if (const auto firstOrder = db::firstOrderedIndex(txn, orderDb); firstOrder)
+        index = *firstOrder;
 
     uint64_t msgIndex = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto firstMessage = db::firstEntry(txn, order2msgDb); firstMessage) {
-        msgIndex = db::fromSv<uint64_t>(firstMessage->first);
-    }
+    if (const auto firstMessage = db::firstOrderedIndex(txn, order2msgDb); firstMessage)
+        msgIndex = *firstMessage;
 
     if (res.chunk.empty()) {
-        std::string_view val;
-        if (orderDb.get(txn, db::toSv(index), val)) {
-            auto orderEntry          = nlohmann::json::parse(val);
-            orderEntry["prev_batch"] = res.end;
-            orderDb.put(txn, db::toSv(index), orderEntry.dump());
+        if (db::setOrderEntryPrevBatch(txn, orderDb, index, res.end)) {
             txn.commit();
         }
         return msgIndex;
@@ -3932,18 +3810,13 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         if (!evToOrderDb.get(txn, event_id, unused_read)) {
             --index;
 
-            nlohmann::json orderEntry = nlohmann::json::object();
-            orderEntry["event_id"]    = event_id_val;
-
-            orderDb.put(txn, db::toSv(index), orderEntry.dump());
-            evToOrderDb.put(txn, event_id, db::toSv(index));
+            const auto orderEntry = db::serializeOrderEntry(event_id_val);
+            db::putEventOrderMapping(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
 
             // TODO(Nico): Allow blacklisting more event types in UI
             if (!isHiddenEvent(txn, e, room_id)) {
                 --msgIndex;
-                order2msgDb.put(txn, db::toSv(msgIndex), event_id);
-
-                msg2orderDb.put(txn, event_id, db::toSv(msgIndex));
+                db::putMessageOrderMapping(txn, order2msgDb, msg2orderDb, msgIndex, event_id);
             }
         }
         eventsDb.put(txn, event_id, event.dump());
@@ -3959,25 +3832,22 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
     }
 
     if (!event_id_val.empty()) {
-        nlohmann::json orderEntry = nlohmann::json::object();
-        orderEntry["event_id"]    = event_id_val;
-        orderEntry["prev_batch"]  = res.end;
-        orderDb.put(txn, db::toSv(index), orderEntry.dump());
+        orderDb.put(txn, db::toSv(index), db::serializeOrderEntry(event_id_val, res.end));
     } else if (!res.chunk.empty()) {
         // to not break pagination, even if all events are redactions we try to persist something in
         // the batch.
 
-        nlohmann::json orderEntry = nlohmann::json::object();
-        event_id_val              = mtx::accessors::event_id(res.chunk.back());
+        event_id_val = mtx::accessors::event_id(res.chunk.back());
         --index;
 
         auto event = mtx::accessors::serialize_event(res.chunk.back()).dump();
         eventsDb.put(txn, event_id_val, event);
-        evToOrderDb.put(txn, event_id_val, db::toSv(index));
-
-        orderEntry["event_id"]   = event_id_val;
-        orderEntry["prev_batch"] = res.end;
-        orderDb.put(txn, db::toSv(index), orderEntry.dump());
+        db::putEventOrderMapping(txn,
+                                 orderDb,
+                                 evToOrderDb,
+                                 index,
+                                 event_id_val,
+                                 db::serializeOrderEntry(event_id_val, res.end));
     }
 
     txn.commit();
@@ -4020,17 +3890,8 @@ Cache::clearTimeline(const std::string &room_id)
     for (const auto &[orderKey, orderValue] : orderEntriesToDelete) {
         const auto entry = db::parseOrderEntry(orderValue);
         if (entry.eventId) {
-            const auto &event_id = *entry.eventId;
-            evToOrderDb.del(txn, event_id);
-            eventsDb.del(txn, event_id);
-            relationsDb.del(txn, event_id);
-
-            std::string_view order{};
-            bool exists = msg2orderDb.get(txn, event_id, order);
-            if (exists) {
-                order2msgDb.del(txn, order);
-                msg2orderDb.del(txn, event_id);
-            }
+            db::removeTimelineEventReferences(
+              txn, eventsDb, relationsDb, evToOrderDb, msg2orderDb, order2msgDb, *entry.eventId);
         }
         orderDb.del(txn, orderKey);
     }
@@ -4057,7 +3918,7 @@ Cache::clearTimeline(const std::string &room_id)
                            return true;
                        });
     for (const auto &eventId : staleEventIds)
-        msg2orderDb.del(txn, eventId);
+        db::removeMessageOrderMapping(txn, msg2orderDb, order2msgDb, eventId);
 
     txn.commit();
 }
@@ -4112,13 +3973,13 @@ Cache::deleteOldMessages()
         auto relationsDb = getRelationsDb(txn, room_id);
 
         uint64_t first, last;
-        if (const auto lastEntry = db::lastEntry(txn, orderDb); lastEntry) {
-            last = db::fromSv<uint64_t>(lastEntry->first);
+        if (const auto lastEntry = db::lastOrderedIndex(txn, orderDb); lastEntry) {
+            last = *lastEntry;
         } else {
             continue;
         }
-        if (const auto firstEntry = db::firstEntry(txn, orderDb); firstEntry) {
-            first = db::fromSv<uint64_t>(firstEntry->first);
+        if (const auto firstEntry = db::firstOrderedIndex(txn, orderDb); firstEntry) {
+            first = *firstEntry;
         } else {
             continue;
         }
@@ -4128,30 +3989,21 @@ Cache::deleteOldMessages()
             continue;
 
         const auto toDeleteCount = message_count - MAX_RESTORED_MESSAGES;
-        db::eraseEntriesIf(txn,
-                           orderDb,
-                           0,
-                           toDeleteCount,
-                           [&txn, &evToOrderDb, &eventsDb, &relationsDb, &m2o, &o2m](
-                             std::string_view /*orderKey*/, std::string_view orderValue) {
-                               const auto entry = db::parseOrderEntry(orderValue);
+        db::eraseEntriesIf(
+          txn,
+          orderDb,
+          0,
+          toDeleteCount,
+          [&txn, &evToOrderDb, &eventsDb, &relationsDb, &m2o, &o2m](std::string_view /*orderKey*/,
+                                                                    std::string_view orderValue) {
+              const auto entry = db::parseOrderEntry(orderValue);
 
-                               if (entry.eventId) {
-                                   const auto &event_id = *entry.eventId;
-                                   evToOrderDb.del(txn, event_id);
-                                   eventsDb.del(txn, event_id);
-
-                                   relationsDb.del(txn, event_id);
-
-                                   std::string_view order{};
-                                   bool exists = m2o.get(txn, event_id, order);
-                                   if (exists) {
-                                       o2m.del(txn, order);
-                                       m2o.del(txn, event_id);
-                                   }
-                               }
-                               return true;
-                           });
+              if (entry.eventId) {
+                  db::removeTimelineEventReferences(
+                    txn, eventsDb, relationsDb, evToOrderDb, m2o, o2m, *entry.eventId);
+              }
+              return true;
+          });
     }
     txn.commit();
 }

@@ -33,4 +33,38 @@ parseOrderEntry(std::string_view value)
     }
 }
 
+std::string
+serializeOrderEntry(const OrderEntry &entry)
+{
+    auto serialized = nlohmann::json::object();
+    if (entry.eventId)
+        serialized["event_id"] = *entry.eventId;
+
+    if (entry.hasPrevBatch) {
+        if (entry.prevBatch)
+            serialized["prev_batch"] = *entry.prevBatch;
+        else
+            serialized["prev_batch"] = nullptr;
+    } else if (entry.prevBatch) {
+        serialized["prev_batch"] = *entry.prevBatch;
+    }
+
+    return serialized.dump();
+}
+
+std::string
+serializeOrderEntry(std::string_view eventId, std::optional<std::string_view> prevBatch)
+{
+    OrderEntry entry;
+    if (!eventId.empty())
+        entry.eventId = std::string(eventId);
+
+    if (prevBatch.has_value()) {
+        entry.hasPrevBatch = true;
+        entry.prevBatch    = std::string(*prevBatch);
+    }
+
+    return serializeOrderEntry(entry);
+}
+
 } // namespace db

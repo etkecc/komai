@@ -154,5 +154,3 @@ from_json(const nlohmann::json &obj, StoredOlmSession &msg)
     msg.last_message_ts = obj.at("ts").get<uint64_t>();
     msg.pickled_session = obj.at("s").get<std::string>();
 }
-
-#include "moc_CacheCryptoStructs.cpp"

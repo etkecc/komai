@@ -5,12 +5,11 @@
 #pragma once
 
 #include <QObject>
-#include <QQmlEngine>
 
-#include <string>
 #include <map>
 #include <mutex>
 #include <set>
+#include <string>
 #include <vector>
 
 #include <nlohmann/json_fwd.hpp>
@@ -24,7 +23,6 @@ struct Encrypted;
 
 namespace crypto {
 Q_NAMESPACE
-QML_NAMED_ELEMENT(Crypto)
 
 //! How much a participant is trusted.
 enum Trust
@@ -45,12 +43,16 @@ struct DeviceKeysToMsgIndex
     // Using the device id is safe because we check for reuse on device list updates
     // Using the device id makes our logic much easier to read.
     std::map<std::string, uint32_t> deviceids;
+
+    bool operator==(const DeviceKeysToMsgIndex &other) const = default;
 };
 
 struct SharedWithUsers
 {
     // userid to keys
     std::map<std::string, DeviceKeysToMsgIndex> keys;
+
+    bool operator==(const SharedWithUsers &other) const = default;
 };
 
 // Extra information associated with an outbound megolm session.
@@ -94,6 +96,14 @@ struct DevicePublicKeys
     std::string curve25519;
 };
 
+void
+to_json(nlohmann::json &obj, const DeviceKeysToMsgIndex &info);
+void
+from_json(const nlohmann::json &obj, DeviceKeysToMsgIndex &info);
+void
+to_json(nlohmann::json &obj, const SharedWithUsers &info);
+void
+from_json(const nlohmann::json &obj, SharedWithUsers &info);
 void
 to_json(nlohmann::json &obj, const DevicePublicKeys &msg);
 void

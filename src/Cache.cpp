@@ -41,6 +41,7 @@
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
+#include "db/Json.h"
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
 #include "db/OlmSessionIndex.h"
@@ -1337,10 +1338,9 @@ void
 Cache::saveBackupVersion(const OnlineBackupVersion &data)
 {
     auto txn = beginTxn();
-    db::putSyncStateValue(txn,
-                          db->syncState,
-                          db::catalog::SyncStateKey::CurrentOnlineBackupVersion,
-                          nlohmann::json(data).dump());
+    const auto key =
+      db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
+    db::putJsonValue(txn, db->syncState, key, data);
     txn.commit();
 }
 
@@ -1357,13 +1357,14 @@ std::optional<OnlineBackupVersion>
 Cache::backupVersion()
 {
     try {
-        auto txn   = ro_txn(storage());
-        auto value = db::getSyncStateValue(
-          txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
-        if (!value.has_value())
+        auto txn = ro_txn(storage());
+        const auto key =
+          db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
+        auto value = db::getJsonValue<OnlineBackupVersion>(txn, db->syncState, key);
+        if (!value)
             return std::nullopt;
 
-        return nlohmann::json::parse(*value).get<OnlineBackupVersion>();
+        return value;
     } catch (...) {
         return std::nullopt;
     }
@@ -4245,8 +4246,6 @@ Cache::roomVerificationStatus(const std::string &room_id)
 std::map<std::string, std::optional<UserKeyCache>>
 Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
 {
-    std::string_view keys;
-
     try {
         auto txn = ro_txn(storage());
         std::map<std::string, std::optional<UserKeyCache>> members;
@@ -4255,25 +4254,20 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
         auto keysDb = getUserKeysDb(txn);
 
         db::forEachUniqueKey(
-          txn,
-          db_,
-          [&members, &keysDb, &txn, &keys, verified_only, this](std::string_view user_id) {
+          txn, db_, [&members, &keysDb, &txn, verified_only, this](std::string_view user_id) {
               const auto userId = std::string(user_id);
-              auto res          = keysDb.get(txn, userId, keys);
-
-              if (res) {
-                  auto k = nlohmann::json::parse(keys).get<UserKeyCache>();
+              if (auto k = db::getJsonValue<UserKeyCache>(txn, keysDb, userId)) {
                   if (verified_only) {
                       auto verif = verificationStatus_(userId, txn);
 
                       if (verif.user_verified == crypto::Trust::Verified ||
                           !verif.verified_devices.empty()) {
-                          auto keyCopy = k;
+                          auto keyCopy = *k;
                           keyCopy.device_keys.clear();
 
                           std::copy_if(
-                            k.device_keys.begin(),
-                            k.device_keys.end(),
+                            k->device_keys.begin(),
+                            k->device_keys.end(),
                             std::inserter(keyCopy.device_keys, keyCopy.device_keys.end()),
                             [&verif](const auto &key) {
                                 auto curve25519 = key.second.keys.find("curve25519:" + key.first);
@@ -4294,7 +4288,7 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
                               members[userId] = std::move(keyCopy);
                       }
                   } else {
-                      members[userId] = std::move(k);
+                      members[userId] = std::move(*k);
                   }
               } else {
                   if (!verified_only)
@@ -4380,17 +4374,9 @@ Cache::userKeys(const std::string &user_id)
 std::optional<UserKeyCache>
 Cache::userKeys_(const std::string &user_id, db::Txn &txn)
 {
-    std::string_view keys;
-
     try {
         auto db_ = getUserKeysDb(txn);
-        auto res = db_.get(txn, user_id, keys);
-
-        if (res) {
-            return nlohmann::json::parse(keys).get<UserKeyCache>();
-        } else {
-            return std::nullopt;
-        }
+        return db::getJsonValue<UserKeyCache>(txn, db_, user_id);
     } catch (std::exception &e) {
         nhlog::db()->error("Failed to retrieve user keys for {}: {}", user_id, e.what());
         return std::nullopt;
@@ -4419,11 +4405,9 @@ Cache::updateUserKeys(const std::string &sync_token, const mtx::responses::Query
 
         auto updateToWrite = update;
 
-        std::string_view oldKeys;
-        auto res = db_.get(txn, user, oldKeys);
-
-        if (res) {
-            updateToWrite     = nlohmann::json::parse(oldKeys).get<UserKeyCache>();
+        UserKeyCache oldEntry{};
+        if (db::getJsonValue(txn, db_, user, oldEntry)) {
+            updateToWrite     = oldEntry;
             auto last_changed = updateToWrite.last_changed;
             // skip if we are tracking this and expect it to be up to date with the last
             // sync token
@@ -4521,7 +4505,7 @@ Cache::updateUserKeys(const std::string &sync_token, const mtx::responses::Query
             }
         }
         updateToWrite.updated_at = sync_token;
-        db_.put(txn, user, nlohmann::json(updateToWrite).dump());
+        db::putJsonValue(txn, db_, user, updateToWrite);
     }
 
     txn.commit();
@@ -4581,21 +4565,15 @@ Cache::markUserKeysOutOfDate(db::Txn &txn,
 
         nhlog::db()->debug("Marking user keys out of date: {}", user);
 
-        std::string_view oldKeys;
-
         UserKeyCache cacheEntry{};
-        auto res = db_.get(txn, user, oldKeys);
-        if (res) {
-            try {
-                cacheEntry = nlohmann::json::parse(std::string_view(oldKeys.data(), oldKeys.size()))
-                               .get<UserKeyCache>();
-            } catch (std::exception &e) {
-                nhlog::db()->error("Failed to parse {}: {}", oldKeys, e.what());
-            }
+        try {
+            db::getJsonValue(txn, db_, user, cacheEntry);
+        } catch (std::exception &e) {
+            nhlog::db()->error("Failed to parse {}: {}", user, e.what());
         }
         cacheEntry.last_changed = sync_token;
 
-        db_.put(txn, user, nlohmann::json(cacheEntry).dump());
+        db::putJsonValue(txn, db_, user, cacheEntry);
 
         query.device_keys[user] = {};
 
@@ -4705,19 +4683,9 @@ Cache::query_keys(const std::string &user_id,
 std::optional<VerificationCache>
 Cache::verificationCache(const std::string &user_id, db::Txn &txn)
 {
-    std::string_view verifiedVal;
-
     auto db_ = getVerificationDb(txn);
-
     try {
-        VerificationCache verified_state;
-        auto res = db_.get(txn, user_id, verifiedVal);
-        if (res) {
-            verified_state = nlohmann::json::parse(verifiedVal).get<VerificationCache>();
-            return verified_state;
-        } else {
-            return {};
-        }
+        return db::getJsonValue<VerificationCache>(txn, db_, user_id);
     } catch (std::exception &) {
         return {};
     }
@@ -4726,28 +4694,21 @@ Cache::verificationCache(const std::string &user_id, db::Txn &txn)
 void
 Cache::markDeviceVerified(const std::string &user_id, const std::string &key)
 {
-    {
-        std::string_view val;
+    auto txn = beginTxn();
+    auto db_ = getVerificationDb(txn);
 
-        auto txn = beginTxn();
-        auto db_ = getVerificationDb(txn);
+    try {
+        VerificationCache verified_state;
+        db::getJsonValue(txn, db_, user_id, verified_state);
 
-        try {
-            VerificationCache verified_state;
-            auto res = db_.get(txn, user_id, val);
-            if (res) {
-                verified_state = nlohmann::json::parse(val).get<VerificationCache>();
-            }
+        for (const auto &device : verified_state.device_verified)
+            if (device == key)
+                return;
 
-            for (const auto &device : verified_state.device_verified)
-                if (device == key)
-                    return;
-
-            verified_state.device_verified.insert(key);
-            db_.put(txn, user_id, nlohmann::json(verified_state).dump());
-            txn.commit();
-        } catch (std::exception &) {
-        }
+        verified_state.device_verified.insert(key);
+        db::putJsonValue(txn, db_, user_id, verified_state);
+        txn.commit();
+    } catch (std::exception &) {
     }
 
     const auto local_user = utils::localUser().toStdString();
@@ -4761,6 +4722,7 @@ Cache::markDeviceVerified(const std::string &user_id, const std::string &key)
             verification_storage.status.erase(user_id);
         }
     }
+
     if (user_id == local_user) {
         for (const auto &[user, status] : tmp) {
             (void)status;
@@ -4774,21 +4736,16 @@ Cache::markDeviceVerified(const std::string &user_id, const std::string &key)
 void
 Cache::markDeviceUnverified(const std::string &user_id, const std::string &key)
 {
-    std::string_view val;
-
     auto txn = beginTxn();
     auto db_ = getVerificationDb(txn);
 
     try {
         VerificationCache verified_state;
-        auto res = db_.get(txn, user_id, val);
-        if (res) {
-            verified_state = nlohmann::json::parse(val).get<VerificationCache>();
-        }
+        db::getJsonValue(txn, db_, user_id, verified_state);
 
         verified_state.device_verified.erase(key);
 
-        db_.put(txn, user_id, nlohmann::json(verified_state).dump());
+        db::putJsonValue(txn, db_, user_id, verified_state);
         txn.commit();
     } catch (std::exception &) {
     }

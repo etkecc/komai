@@ -7,8 +7,8 @@
 #include <QDateTime>
 #include <QString>
 
-#include <tuple>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include <nlohmann/json_fwd.hpp>

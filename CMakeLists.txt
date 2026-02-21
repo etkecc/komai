@@ -470,6 +470,7 @@ set(SRC_FILES
     src/Cache.cpp
     src/Cache.h
     src/CacheCryptoStructs.cpp
+    src/CacheCryptoStructsQml.cpp
     src/CacheCryptoStructs.h
     src/CacheStructs.h
     src/Cache_p.h
@@ -1041,10 +1042,12 @@ if(BUILD_TESTING)
 
     add_executable(komai_db_backend_test
         tests/DbBackendTest.cpp
+        src/CacheCryptoStructs.cpp
     )
     target_include_directories(komai_db_backend_test PRIVATE src)
     target_link_libraries(komai_db_backend_test PRIVATE
         komai_db
+        MatrixClient::MatrixClient
     )
     add_test(NAME komai_db_backend_test COMMAND komai_db_backend_test)
     set_tests_properties(komai_db_backend_test PROPERTIES LABELS "integration;db")

@@ -1008,6 +1008,7 @@ add_library(komai_db
     src/db/Scan.cpp
     src/db/Schema.cpp
     src/db/StateIndex.cpp
+    src/db/SyncState.cpp
     src/db/TimelineIndex.cpp
 )
 target_include_directories(komai_db PUBLIC src)

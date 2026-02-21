@@ -27,6 +27,7 @@
 #include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/StateIndex.h"
+#include "db/SyncState.h"
 #include "db/TimelineIndex.h"
 
 namespace {
@@ -774,6 +775,80 @@ testStateIndexHelper()
                      "state index helper write API keeps state-key ordering after replace #1");
         ok &= expect(memberIds.size() >= 2 && memberIds[1] == "$event-z",
                      "state index helper write API keeps state-key ordering after replace #2");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testSyncStateHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn = backend->beginTxn();
+        auto syncStateDb = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SyncState);
+
+        db::putSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch, "batch-1");
+        db::putSyncStateSecretValue(txn, syncStateDb, "pickle_secret", "encrypted-pickle");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto syncStateDb =
+          db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SyncState, false);
+
+        std::string_view nextBatch;
+        ok &= expect(db::getSyncStateValue(
+                       txn, syncStateDb, db::catalog::SyncStateKey::NextBatch, nextBatch),
+                     "sync state helper reads enum-keyed value");
+        ok &= expect(nextBatch == "batch-1", "sync state helper returns enum-keyed value");
+
+        const auto nextBatchCopy =
+          db::getSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch);
+        ok &= expect(nextBatchCopy.has_value() && *nextBatchCopy == "batch-1",
+                     "sync state helper optional getter returns enum-keyed value");
+
+        std::string_view secretValue;
+        ok &= expect(db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret", secretValue),
+                     "sync state helper reads secret-keyed value");
+        ok &= expect(secretValue == "encrypted-pickle",
+                     "sync state helper returns secret-keyed value");
+
+        const auto secretCopy = db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret");
+        ok &= expect(secretCopy.has_value() && *secretCopy == "encrypted-pickle",
+                     "sync state helper optional getter returns secret-keyed value");
+    }
+
+    {
+        auto txn = backend->beginTxn();
+        auto syncStateDb = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SyncState, false);
+
+        ok &= expect(db::removeSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch),
+                     "sync state helper removes enum-keyed value");
+        ok &= expect(db::removeSyncStateSecretValue(txn, syncStateDb, "pickle_secret"),
+                     "sync state helper removes secret-keyed value");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto syncStateDb =
+          db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::SyncState, false);
+
+        ok &= expect(
+          !db::getSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch).has_value(),
+          "sync state helper reports missing enum-keyed value");
+        ok &= expect(!db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret").has_value(),
+                     "sync state helper reports missing secret-keyed value");
     }
 
     backend->close();
@@ -2298,6 +2373,7 @@ main()
     ok &= testNamePolicy();
     ok &= testOpenHelpers();
     ok &= testStateIndexHelper();
+    ok &= testSyncStateHelper();
     ok &= testDupIndexHelper();
     ok &= testScanHelper();
     ok &= testOrderEntryHelper();

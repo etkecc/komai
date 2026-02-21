@@ -47,6 +47,7 @@
 #include "db/Schema.h"
 #include "db/Serde.h"
 #include "db/StateIndex.h"
+#include "db/SyncState.h"
 #include "db/TimelineIndex.h"
 #include "encryption/Olm.h"
 
@@ -649,8 +650,7 @@ Cache::secret(std::string_view name_, bool internal)
 
     auto txn = ro_txn(storage());
     std::string_view value;
-    auto db_name = db::catalog::syncStateSecretKey(name.toStdString());
-    if (!db->syncState.get(txn, db_name, value))
+    if (!db::getSyncStateSecretValue(txn, db->syncState, name.toStdString(), value))
         return std::nullopt;
 
     mtx::secret_storage::AesHmacSha2EncryptedData data = nlohmann::json::parse(value);
@@ -672,8 +672,8 @@ Cache::storeSecret(std::string_view name_, const std::string &secret, bool inter
     auto encrypted =
       mtx::crypto::encrypt(secret, mtx::crypto::to_binary_buf(pickle_secret_), name_);
 
-    auto db_name = db::catalog::syncStateSecretKey(name.toStdString());
-    db->syncState.put(txn, db_name, nlohmann::json(encrypted).dump());
+    db::putSyncStateSecretValue(
+      txn, db->syncState, name.toStdString(), nlohmann::json(encrypted).dump());
     txn.commit();
     emit secretChanged(std::string(name_));
 }
@@ -684,9 +684,7 @@ Cache::deleteSecret(std::string_view name_, bool internal)
     auto name = secretName(name_, internal);
 
     auto txn = beginTxn();
-    std::string_view value;
-    auto db_name = db::catalog::syncStateSecretKey(name.toStdString());
-    db->syncState.del(txn, db_name, value);
+    db::removeSyncStateSecretValue(txn, db->syncState, name.toStdString());
     txn.commit();
 }
 
@@ -1313,7 +1311,7 @@ void
 Cache::saveOlmAccount(const std::string &data)
 {
     auto txn = beginTxn();
-    db->syncState.put(txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::OlmAccount), data);
+    db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount, data);
     txn.commit();
 }
 
@@ -1321,22 +1319,18 @@ std::string
 Cache::restoreOlmAccount()
 {
     auto txn = ro_txn(storage());
-
-    std::string_view pickled;
-    db->syncState.get(
-      txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::OlmAccount), pickled);
-
-    return std::string(pickled.data(), pickled.size());
+    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount)
+      .value_or("");
 }
 
 void
 Cache::saveBackupVersion(const OnlineBackupVersion &data)
 {
     auto txn = beginTxn();
-    db->syncState.put(
-      txn,
-      db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion),
-      nlohmann::json(data).dump());
+    db::putSyncStateValue(txn,
+                          db->syncState,
+                          db::catalog::SyncStateKey::CurrentOnlineBackupVersion,
+                          nlohmann::json(data).dump());
     txn.commit();
 }
 
@@ -1344,8 +1338,8 @@ void
 Cache::deleteBackupVersion()
 {
     auto txn = beginTxn();
-    db->syncState.del(
-      txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion));
+    db::removeSyncStateValue(
+      txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
     txn.commit();
 }
 
@@ -1353,12 +1347,13 @@ std::optional<OnlineBackupVersion>
 Cache::backupVersion()
 {
     try {
-        auto txn = ro_txn(storage());
-        std::string_view v;
-        db->syncState.get(
-          txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion), v);
+        auto txn   = ro_txn(storage());
+        auto value = db::getSyncStateValue(
+          txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
+        if (!value.has_value())
+            return std::nullopt;
 
-        return nlohmann::json::parse(v).get<OnlineBackupVersion>();
+        return nlohmann::json::parse(*value).get<OnlineBackupVersion>();
     } catch (...) {
         return std::nullopt;
     }
@@ -1400,7 +1395,7 @@ Cache::removeRoom(const std::string &roomid)
 void
 Cache::setNextBatchToken(db::Txn &txn, const std::string &token)
 {
-    db->syncState.put(txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::NextBatch), token);
+    db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch, token);
 }
 
 bool
@@ -1410,12 +1405,8 @@ Cache::isInitialized()
         return false;
 
     auto txn = ro_txn(storage());
-    std::string_view token;
-
-    bool res = db->syncState.get(
-      txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::NextBatch), token);
-
-    return res;
+    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
+      .has_value();
 }
 
 std::string
@@ -1425,15 +1416,8 @@ Cache::nextBatchToken()
         throw std::runtime_error("Storage backend is closed");
 
     auto txn = ro_txn(storage());
-    std::string_view token;
-
-    bool result = db->syncState.get(
-      txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::NextBatch), token);
-
-    if (result)
-        return std::string(token.data(), token.size());
-    else
-        return "";
+    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
+      .value_or("");
 }
 
 void
@@ -1462,17 +1446,13 @@ Cache::runMigrations()
     std::string stored_version;
     {
         auto txn = ro_txn(storage());
+        auto currentVersion =
+          db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
 
-        std::string_view current_version;
-        bool res = db->syncState.get(
-          txn,
-          db::catalog::syncStateKey(db::catalog::SyncStateKey::CacheFormatVersion),
-          current_version);
-
-        if (!res)
+        if (!currentVersion.has_value())
             return false;
 
-        stored_version = std::string(current_version);
+        stored_version = std::move(*currentVersion);
     }
 
     std::vector<std::pair<std::string, std::function<bool()>>> migrations{
@@ -1697,17 +1677,12 @@ cache::CacheVersion
 Cache::formatVersion()
 {
     auto txn = ro_txn(storage());
-
-    std::string_view current_version;
-    bool res =
-      db->syncState.get(txn,
-                        db::catalog::syncStateKey(db::catalog::SyncStateKey::CacheFormatVersion),
-                        current_version);
-
-    if (!res)
+    auto currentVersion =
+      db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
+    if (!currentVersion.has_value())
         return cache::CacheVersion::Older;
 
-    std::string stored_version(current_version.data(), current_version.size());
+    std::string stored_version = *currentVersion;
 
     if (stored_version < CURRENT_CACHE_FORMAT_VERSION)
         return cache::CacheVersion::Older;
@@ -1721,10 +1696,10 @@ void
 Cache::setCurrentFormat()
 {
     auto txn = beginTxn();
-
-    db->syncState.put(txn,
-                      db::catalog::syncStateKey(db::catalog::SyncStateKey::CacheFormatVersion),
-                      CURRENT_CACHE_FORMAT_VERSION);
+    db::putSyncStateValue(txn,
+                          db->syncState,
+                          db::catalog::SyncStateKey::CacheFormatVersion,
+                          CURRENT_CACHE_FORMAT_VERSION);
 
     txn.commit();
 }
@@ -4282,14 +4257,12 @@ Cache::roomVerificationStatus(const std::string &room_id)
           });
 
         if (!keysToRequest.empty()) {
-            std::string_view token;
-
-            bool result = this->db->syncState.get(
-              txn, db::catalog::syncStateKey(db::catalog::SyncStateKey::NextBatch), token);
-
-            if (!result)
-                token = "";
-            markUserKeysOutOfDate(txn, keysDb, keysToRequest, std::string(token));
+            markUserKeysOutOfDate(
+              txn,
+              keysDb,
+              keysToRequest,
+              db::getSyncStateValue(txn, this->db->syncState, db::catalog::SyncStateKey::NextBatch)
+                .value_or(""));
         }
 
     } catch (std::exception &e) {

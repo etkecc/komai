@@ -113,6 +113,11 @@ Database hash:
   (`db::findStateEventId(...)`, `db::listStateEventIds(...)`, `db::putStateEventId(...)`,
   `db::removeStateEventId(...)`) so callers do not need
   to encode backend cursor/dupsort iteration details.
+- Reusable sync-state helpers are centralized in `src/db/SyncState.cpp`
+  (`db::getSyncStateValue(...)`, `db::putSyncStateValue(...)`,
+  `db::removeSyncStateValue(...)`, `db::getSyncStateSecretValue(...)`,
+  `db::putSyncStateSecretValue(...)`, `db::removeSyncStateSecretValue(...)`)
+  so callers do not manually construct sync-state and sync-state secret key names.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
   (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
   `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor

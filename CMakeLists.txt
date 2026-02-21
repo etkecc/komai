@@ -1029,9 +1029,9 @@ if(KOMAI_DB_ENABLE_LMDB_BACKEND)
         lmdbxx::lmdbxx
         liblmdb::lmdb
     )
-    target_compile_definitions(komai_db PUBLIC KOMAI_DB_WITH_LMDB=1)
+    target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_LMDB=1)
 else()
-    target_compile_definitions(komai_db PUBLIC KOMAI_DB_WITH_LMDB=0)
+    target_compile_definitions(komai_db PRIVATE KOMAI_DB_WITH_LMDB=0)
 endif()
 
 if(BUILD_TESTING)

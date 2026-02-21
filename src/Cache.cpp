@@ -42,10 +42,12 @@
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
 #include "db/MegolmIndex.h"
+#include "db/MemberInfo.h"
 #include "db/OlmSessionIndex.h"
 #include "db/Open.h"
 #include "db/OrderEntry.h"
 #include "db/ReadReceiptIndex.h"
+#include "db/RoomInfo.h"
 #include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/Serde.h"
@@ -1860,17 +1862,11 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
     RoomInfo updatedInfo;
 
     {
-        std::string_view data;
-        if (db->rooms.get(txn, room, data)) {
-            try {
-                updatedInfo =
-                  nlohmann::json::parse(std::string_view(data.data(), data.size())).get<RoomInfo>();
-            } catch (const nlohmann::json::exception &e) {
-                nhlog::db()->warn("failed to parse room info: room_id ({}), {}: {}",
-                                  room,
-                                  std::string(data.data(), data.size()),
-                                  e.what());
-            }
+        try {
+            if (auto previousRoomInfo = db::getRoomInfo(txn, db->rooms, room))
+                updatedInfo = std::move(*previousRoomInfo);
+        } catch (const nlohmann::json::exception &e) {
+            nhlog::db()->warn("failed to parse room info for room '{}': {}", room, e.what());
         }
     }
 
@@ -1882,7 +1878,7 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
     updatedInfo.is_space      = getRoomIsSpace(txn, statesdb);
     updatedInfo.is_tombstoned = getRoomIsTombstoned(txn, statesdb);
 
-    db->rooms.put(txn, room, nlohmann::json(updatedInfo).dump());
+    db::putRoomInfo(txn, db->rooms, room, updatedInfo);
     updateSpaces(txn, {room}, {room});
     txn.commit();
 }
@@ -2009,7 +2005,7 @@ Cache::saveStateEvent(db::Txn &txn,
               e->content.is_direct,
             };
 
-            membersdb.put(txn, e->state_key, nlohmann::json(tmp).dump());
+            db::putMemberInfo(txn, membersdb, e->state_key, tmp);
             break;
         }
         default: {
@@ -2043,7 +2039,7 @@ Cache::saveStateEvent(db::Txn &txn,
                           // membership is not revoked, but names are yeeted (so we set the name
                           // to the mxid)
                           MemberInfo tmp{e.state_key, ""};
-                          membersdb.put(txn, e.state_key, nlohmann::json(tmp).dump());
+                          db::putMemberInfo(txn, membersdb, e.state_key, tmp);
                       } else if (e.state_key.empty()) {
                           // strictly speaking some stuff in those events can be redacted, but
                           // this is close enough. Ref:
@@ -2129,12 +2125,14 @@ try {
         saveTimelineMessages(txn, eventsDb, room.first, room.second.timeline);
 
         RoomInfo updatedInfo;
-        std::string_view originalRoomInfoDump;
+        std::string originalRoomInfoDump;
         {
             // retrieve the old tags and modification ts
-            if (db->rooms.get(txn, room.first, originalRoomInfoDump)) {
+            std::string_view originalRoomInfoView;
+            if (db->rooms.get(txn, room.first, originalRoomInfoView)) {
+                originalRoomInfoDump = std::string(originalRoomInfoView);
                 try {
-                    RoomInfo tmp     = nlohmann::json::parse(originalRoomInfoDump).get<RoomInfo>();
+                    RoomInfo tmp     = db::parseRoomInfo(originalRoomInfoDump);
                     updatedInfo.tags = std::move(tmp.tags);
 
                     updatedInfo.approximate_last_modification_ts =
@@ -2240,11 +2238,11 @@ try {
             updatedInfo.approximate_last_modification_ts = mtx::accessors::origin_server_ts_ms(e);
         }
 
-        if (auto newRoomInfoDump = nlohmann::json(updatedInfo).dump();
+        if (auto newRoomInfoDump = db::serializeRoomInfo(updatedInfo);
             newRoomInfoDump != originalRoomInfoDump) {
             // nhlog::db()->critical(
             //   "Writing out new room info:\n{}\n{}", originalRoomInfoDump, newRoomInfoDump);
-            db->rooms.put(txn, room.first, newRoomInfoDump);
+            db::putRoomInfo(txn, db->rooms, room.first, updatedInfo);
         }
 
         for (const auto &e : room.second.ephemeral.events) {
@@ -2366,7 +2364,7 @@ Cache::saveInvites(db::Txn &txn, const std::map<std::string, mtx::responses::Inv
         updatedInfo.is_space   = getInviteRoomIsSpace(txn, statesdb);
         updatedInfo.is_invite  = true;
 
-        db->invites.put(txn, room.first, nlohmann::json(updatedInfo).dump());
+        db::putRoomInfo(txn, db->invites, room.first, updatedInfo);
     }
 }
 
@@ -2395,7 +2393,7 @@ Cache::saveInvite(db::Txn &txn,
                            msg->content.reason,
                            msg->content.is_direct};
 
-            membersdb.put(txn, msg->state_key, nlohmann::json(tmp).dump());
+            db::putMemberInfo(txn, membersdb, msg->state_key, tmp);
         } else {
             std::visit(
               [&txn, &statesdb](auto msg) {
@@ -2440,25 +2438,15 @@ Cache::singleRoomInfo(const std::string &room_id)
 
     try {
         auto statesdb = getStatesDb(txn, room_id);
-
-        std::string_view data;
-
-        // Check if the room is joined.
-        if (db->rooms.get(txn, room_id, data)) {
-            try {
-                RoomInfo tmp     = nlohmann::json::parse(data).get<RoomInfo>();
-                tmp.member_count = getMembersDb(txn, room_id).size(txn);
-                tmp.join_rule    = getRoomJoinRule(txn, statesdb);
-                tmp.guest_access = getRoomGuestAccess(txn, statesdb);
-
-                return tmp;
-            } catch (const nlohmann::json::exception &e) {
-                nhlog::db()->warn("failed to parse room info: room_id ({}), {}: {}",
-                                  room_id,
-                                  std::string(data.data(), data.size()),
-                                  e.what());
-            }
+        if (auto info = db::getRoomInfo(txn, db->rooms, room_id)) {
+            auto tmp         = std::move(*info);
+            tmp.member_count = getMembersDb(txn, room_id).size(txn);
+            tmp.join_rule    = getRoomJoinRule(txn, statesdb);
+            tmp.guest_access = getRoomGuestAccess(txn, statesdb);
+            return tmp;
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse room info for room '{}': {}", room_id, e.what());
     } catch (const db::Error &e) {
         nhlog::db()->warn("failed to read room info from db: room_id ({}), {}", room_id, e.what());
     }
@@ -2471,25 +2459,15 @@ Cache::updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
     auto txn = beginTxn();
 
     try {
-        auto statesdb = getStatesDb(txn, room_id);
-
-        std::string_view data;
-
-        // Check if the room is joined.
-        if (db->rooms.get(txn, room_id, data)) {
-            try {
-                RoomInfo tmp                         = nlohmann::json::parse(data).get<RoomInfo>();
-                tmp.approximate_last_modification_ts = ts;
-                db->rooms.put(txn, room_id, nlohmann::json(tmp).dump());
-                txn.commit();
-                return;
-            } catch (const nlohmann::json::exception &e) {
-                nhlog::db()->warn("failed to parse room info: room_id ({}), {}: {}",
-                                  room_id,
-                                  std::string(data.data(), data.size()),
-                                  e.what());
-            }
+        if (auto info = db::getRoomInfo(txn, db->rooms, room_id)) {
+            auto tmp                             = std::move(*info);
+            tmp.approximate_last_modification_ts = ts;
+            db::putRoomInfo(txn, db->rooms, room_id, tmp);
+            txn.commit();
+            return;
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse room info for room '{}': {}", room_id, e.what());
     } catch (const db::Error &e) {
         nhlog::db()->warn("failed to read room info from db: room_id ({}), {}", room_id, e.what());
     }
@@ -2510,7 +2488,7 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
         // Check if the room is joined.
         if (db->rooms.get(txn, room, data)) {
             try {
-                RoomInfo tmp     = nlohmann::json::parse(data).get<RoomInfo>();
+                RoomInfo tmp     = db::parseRoomInfo(data);
                 tmp.member_count = getMembersDb(txn, room).size(txn);
                 tmp.join_rule    = getRoomJoinRule(txn, statesdb);
                 tmp.guest_access = getRoomGuestAccess(txn, statesdb);
@@ -2526,7 +2504,7 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
             // Check if the room is an invite.
             if (db->invites.get(txn, room, data)) {
                 try {
-                    RoomInfo tmp = nlohmann::json::parse(std::string_view(data)).get<RoomInfo>();
+                    RoomInfo tmp     = db::parseRoomInfo(data);
                     tmp.member_count = getInviteMembersDb(txn, room).size(txn);
 
                     room_info.emplace(QString::fromStdString(room), std::move(tmp));
@@ -2655,7 +2633,7 @@ Cache::roomInfo(bool withInvites)
     // Gather info about the joined rooms.
     db::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-          RoomInfo tmp     = nlohmann::json::parse(room_data).get<RoomInfo>();
+          RoomInfo tmp     = db::parseRoomInfo(room_data);
           tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
           result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
           return true;
@@ -2667,7 +2645,7 @@ Cache::roomInfo(bool withInvites)
           txn,
           db->invites,
           [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-              RoomInfo tmp     = nlohmann::json::parse(room_data).get<RoomInfo>();
+              RoomInfo tmp     = db::parseRoomInfo(room_data);
               tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
               return true;
@@ -2688,7 +2666,7 @@ Cache::roomNamesAndAliases()
     db::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
           try {
-              RoomInfo info = nlohmann::json::parse(room_data).get<RoomInfo>();
+              RoomInfo info = db::parseRoomInfo(room_data);
 
               auto aliases =
                 getStateEvent<mtx::events::state::CanonicalAlias>(txn, std::string(room_id));
@@ -2866,7 +2844,7 @@ Cache::invites()
       db->invites,
       [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
           try {
-              RoomInfo tmp     = nlohmann::json::parse(room_data).get<RoomInfo>();
+              RoomInfo tmp     = db::parseRoomInfo(room_data);
               tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
           } catch (const nlohmann::json::exception &e) {
@@ -2893,7 +2871,7 @@ Cache::invite(std::string_view roomid)
 
     if (db->invites.get(txn, roomid, room_data)) {
         try {
-            RoomInfo tmp     = nlohmann::json::parse(room_data).get<RoomInfo>();
+            RoomInfo tmp     = db::parseRoomInfo(room_data);
             tmp.member_count = getInviteMembersDb(txn, std::string(roomid)).size(txn);
             result           = std::move(tmp);
         } catch (const nlohmann::json::exception &e) {
@@ -2942,7 +2920,7 @@ Cache::getRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
     // Resolve avatar for 1-1 chats.
     db::forEachEntry(txn, membersdb, [&](std::string_view user_id, std::string_view member_data) {
         try {
-            MemberInfo m = nlohmann::json::parse(member_data).get<MemberInfo>();
+            MemberInfo m = db::parseMemberInfo(member_data);
             if (user_id == localUserId) {
                 fallback_url = m.avatar_url;
                 return true;
@@ -3008,7 +2986,7 @@ Cache::getRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
     db::forEachEntry(
       txn, membersdb, 0, 3, [&members](std::string_view user_id, std::string_view member_data) {
           try {
-              members.emplace(user_id, nlohmann::json::parse(member_data).get<MemberInfo>());
+              members.emplace(user_id, db::parseMemberInfo(member_data));
           } catch (const nlohmann::json::exception &e) {
               nhlog::db()->warn("failed to parse member info: {}", e.what());
           }
@@ -3211,7 +3189,7 @@ Cache::getInviteRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
             return true;
 
         try {
-            MemberInfo tmp  = nlohmann::json::parse(member_data).get<MemberInfo>();
+            MemberInfo tmp  = db::parseMemberInfo(member_data);
             memberName      = QString::fromStdString(tmp.name);
             foundMemberName = true;
             return false;
@@ -3254,7 +3232,7 @@ Cache::getInviteRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersd
             return true;
 
         try {
-            MemberInfo tmp = nlohmann::json::parse(member_data).get<MemberInfo>();
+            MemberInfo tmp = db::parseMemberInfo(member_data);
             avatarUrl      = QString::fromStdString(tmp.avatar_url);
             foundAvatarUrl = true;
             return false;
@@ -3335,7 +3313,7 @@ Cache::getCommonRooms(const std::string &user_id)
                                                     std::string_view room_data) {
           try {
               if (getMembersDb(txn, std::string(room_id)).get(txn, user_id, member_info)) {
-                  RoomInfo tmp = nlohmann::json::parse(room_data).get<RoomInfo>();
+                  RoomInfo tmp = db::parseRoomInfo(room_data);
                   result.emplace(std::string(room_id), std::move(tmp));
               }
           } catch (std::exception &e) {
@@ -3361,11 +3339,7 @@ Cache::getMember(const std::string &room_id, const std::string &user_id)
 
         auto membersdb = getMembersDb(txn, room_id);
 
-        std::string_view info;
-        if (membersdb.get(txn, user_id, info)) {
-            MemberInfo m = nlohmann::json::parse(info).get<MemberInfo>();
-            return m;
-        }
+        return db::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
         nhlog::db()->warn(
           "Failed to read member ({}) in room ({}): {}", user_id, room_id, e.what());
@@ -3388,8 +3362,7 @@ Cache::getMembers(const std::string &room_id, std::size_t startIndex, std::size_
                          len,
                          [&members](std::string_view user_id, std::string_view user_data) {
                              try {
-                                 MemberInfo tmp =
-                                   nlohmann::json::parse(user_data).get<MemberInfo>();
+                                 MemberInfo tmp = db::parseMemberInfo(user_data);
                                  members.emplace_back(RoomMember{
                                    QString::fromStdString(std::string(user_id)),
                                    QString::fromStdString(tmp.name),
@@ -3419,11 +3392,7 @@ Cache::getInviteMember(const std::string &room_id, const std::string &user_id)
 
         auto membersdb = getInviteMembersDb(txn, room_id);
 
-        std::string_view info;
-        if (membersdb.get(txn, user_id, info)) {
-            MemberInfo m = nlohmann::json::parse(info).get<MemberInfo>();
-            return m;
-        }
+        return db::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
         nhlog::db()->warn(
           "Failed to read member ({}) in invite room ({}): {}", user_id, room_id, e.what());
@@ -3445,8 +3414,7 @@ Cache::getMembersFromInvite(const std::string &room_id, std::size_t startIndex, 
                          len,
                          [&members](std::string_view user_id, std::string_view user_data) {
                              try {
-                                 MemberInfo tmp =
-                                   nlohmann::json::parse(user_data).get<MemberInfo>();
+                                 MemberInfo tmp = db::parseMemberInfo(user_data);
                                  members.emplace_back(RoomMember{
                                    QString::fromStdString(std::string(user_id)),
                                    QString::fromStdString(tmp.name),
@@ -4004,7 +3972,7 @@ Cache::spaces()
         const auto spaceId = std::string(space_id);
         std::string_view room_data;
         if (db->rooms.get(txn, spaceId, room_data)) {
-            RoomInfo tmp = nlohmann::json::parse(room_data).get<RoomInfo>();
+            RoomInfo tmp = db::parseRoomInfo(room_data);
             ret.insert(QString::fromStdString(spaceId), tmp);
         } else {
             ret.insert(QString::fromStdString(spaceId), std::nullopt);
@@ -5040,85 +5008,6 @@ Cache::verificationStatus_(const std::string &user_id, db::Txn &txn)
         nhlog::db()->error("Failed to calculate verification status of {}: {}", user_id, e.what());
         return status;
     }
-}
-
-void
-to_json(nlohmann::json &j, const RoomInfo &info)
-{
-    j["name"]         = info.name;
-    j["topic"]        = info.topic;
-    j["avatar_url"]   = info.avatar_url;
-    j["version"]      = info.version;
-    j["is_invite"]    = info.is_invite;
-    j["is_space"]     = info.is_space;
-    j["tombst"]       = info.is_tombstoned;
-    j["join_rule"]    = info.join_rule;
-    j["guest_access"] = info.guest_access;
-
-    j["app_l_ts"] = info.approximate_last_modification_ts;
-
-    j["notification_count"] = info.notification_count;
-    j["highlight_count"]    = info.highlight_count;
-
-    if (info.member_count != 0)
-        j["member_count"] = info.member_count;
-
-    if (info.tags.size() != 0)
-        j["tags"] = info.tags;
-}
-
-void
-from_json(const nlohmann::json &j, RoomInfo &info)
-{
-    info.name       = j.at("name").get<std::string>();
-    info.topic      = j.at("topic").get<std::string>();
-    info.avatar_url = j.at("avatar_url").get<std::string>();
-    info.version    = j.value(
-      "version", QCoreApplication::translate("RoomInfo", "no version stored").toStdString());
-
-    info.is_invite     = j.at("is_invite").get<bool>();
-    info.is_space      = j.value("is_space", false);
-    info.is_tombstoned = j.value("tombst", false);
-
-    info.join_rule    = j.at("join_rule").get<mtx::events::state::JoinRule>();
-    info.guest_access = j.at("guest_access").get<bool>();
-
-    info.approximate_last_modification_ts = j.value<uint64_t>("app_l_ts", 0);
-    // workaround for bad values being stored in the past
-    if (info.approximate_last_modification_ts < 100000000000)
-        info.approximate_last_modification_ts = 0;
-
-    info.notification_count = j.value("notification_count", 0);
-    info.highlight_count    = j.value("highlight_count", 0);
-
-    if (j.count("member_count"))
-        info.member_count = j.at("member_count").get<size_t>();
-
-    if (j.count("tags"))
-        info.tags = j.at("tags").get<std::vector<std::string>>();
-}
-
-void
-to_json(nlohmann::json &j, const MemberInfo &info)
-{
-    j["name"]       = info.name;
-    j["avatar_url"] = info.avatar_url;
-    if (!info.inviter.empty())
-        j["inviter"] = info.inviter;
-    if (info.is_direct)
-        j["is_direct"] = info.is_direct;
-    if (!info.reason.empty())
-        j["reason"] = info.reason;
-}
-
-void
-from_json(const nlohmann::json &j, MemberInfo &info)
-{
-    info.name       = j.value("name", "");
-    info.avatar_url = j.value("avatar_url", "");
-    info.is_direct  = j.value("is_direct", false);
-    info.reason     = j.value("reason", "");
-    info.inviter    = j.value("inviter", "");
 }
 
 void

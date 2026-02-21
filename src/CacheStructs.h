@@ -5,7 +5,6 @@
 #pragma once
 
 #include <QDateTime>
-#include <QImage>
 #include <QString>
 
 #include <string>

@@ -1003,11 +1003,13 @@ add_library(komai_db
     src/db/Factory.cpp
     src/db/InMemoryBackend.cpp
     src/db/MegolmIndex.cpp
+    src/db/MemberInfo.cpp
     src/db/NamePolicy.cpp
     src/db/Open.cpp
     src/db/OlmSessionIndex.cpp
     src/db/OrderEntry.cpp
     src/db/ReadReceiptIndex.cpp
+    src/db/RoomInfo.cpp
     src/db/Scan.cpp
     src/db/Schema.cpp
     src/db/StateIndex.cpp

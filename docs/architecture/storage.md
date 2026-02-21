@@ -134,6 +134,14 @@ Database hash:
   (`db::readReceiptKey(...)`, `db::getReadReceiptValue(...)`,
   `db::putReadReceiptValue(...)`) so callers do not duplicate event+room key
   encoding for read receipt payload storage.
+- Reusable room-info helpers are centralized in `src/db/RoomInfo.cpp`
+  (`db::serializeRoomInfo(...)`, `db::parseRoomInfo(...)`,
+  `db::getRoomInfo(...)`, `db::putRoomInfo(...)`) so callers do not duplicate
+  `RoomInfo` JSON serialization/parsing and keyed reads/writes in `rooms`/`invites`.
+- Reusable member-info helpers are centralized in `src/db/MemberInfo.cpp`
+  (`db::serializeMemberInfo(...)`, `db::parseMemberInfo(...)`,
+  `db::getMemberInfo(...)`, `db::putMemberInfo(...)`) so callers do not
+  duplicate `MemberInfo` JSON serialization/parsing and keyed reads/writes.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
   (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
   `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor

@@ -16,17 +16,20 @@
 
 #include <nlohmann/json.hpp>
 
+#include "CacheStructs.h"
 #include "db/Backend.h"
 #include "db/Catalog.h"
 #include "db/Compaction.h"
 #include "db/DbTypes.h"
 #include "db/DupIndex.h"
 #include "db/MegolmIndex.h"
+#include "db/MemberInfo.h"
 #include "db/NamePolicy.h"
 #include "db/Open.h"
 #include "db/OlmSessionIndex.h"
 #include "db/OrderEntry.h"
 #include "db/ReadReceiptIndex.h"
+#include "db/RoomInfo.h"
 #include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/StateIndex.h"
@@ -962,6 +965,133 @@ testReadReceiptIndexHelper()
         ok &= expect(key.find("\"event_id\":\"$event-1\"") != std::string::npos &&
                        key.find("\"room_id\":\"!room:example\"") != std::string::npos,
                      "read receipt helper serializes event/room key fields");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testRoomInfoHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    RoomInfo info;
+    info.name                             = "Room";
+    info.topic                            = "Topic";
+    info.avatar_url                       = "mxc://example/avatar";
+    info.version                          = "11";
+    info.is_invite                        = false;
+    info.is_space                         = true;
+    info.is_tombstoned                    = false;
+    info.member_count                     = 42;
+    info.approximate_last_modification_ts = 1234567890123ULL;
+    info.notification_count               = 9;
+    info.highlight_count                  = 2;
+    info.tags                             = {"m.favourite", "u.work"};
+
+    {
+        auto txn = backend->beginTxn();
+        auto dbi = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::Rooms);
+        db::putRoomInfo(txn, dbi, "!room:example", info);
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto dbi = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::Rooms, false);
+
+        RoomInfo loaded;
+        ok &= expect(db::getRoomInfo(txn, dbi, "!room:example", loaded),
+                     "room info helper reads room info by id");
+        ok &= expect(loaded.name == "Room" && loaded.topic == "Topic" &&
+                       loaded.avatar_url == "mxc://example/avatar" && loaded.version == "11",
+                     "room info helper preserves core room fields");
+        ok &= expect(loaded.is_space && !loaded.is_invite && !loaded.is_tombstoned,
+                     "room info helper preserves boolean room flags");
+        ok &= expect(loaded.tags.size() == 2 && loaded.tags[0] == "m.favourite" &&
+                       loaded.tags[1] == "u.work",
+                     "room info helper preserves room tags");
+
+        const auto optionalLoaded = db::getRoomInfo(txn, dbi, "!room:example");
+        ok &= expect(optionalLoaded.has_value() && optionalLoaded->notification_count == 9 &&
+                       optionalLoaded->highlight_count == 2,
+                     "room info helper optional getter preserves notification counters");
+        ok &= expect(!db::getRoomInfo(txn, dbi, "!missing:example").has_value(),
+                     "room info helper optional getter reports missing room");
+    }
+
+    {
+        const auto serialized = db::serializeRoomInfo(info);
+        const auto parsed     = db::parseRoomInfo(serialized);
+        ok &= expect(parsed.name == info.name && parsed.topic == info.topic &&
+                       parsed.approximate_last_modification_ts ==
+                         info.approximate_last_modification_ts,
+                     "room info helper parse/serialize roundtrip preserves key fields");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testMemberInfoHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    MemberInfo info{
+      .name       = "Alice",
+      .avatar_url = "mxc://example/alice",
+      .inviter    = "@bob:example.org",
+      .reason     = "Join us",
+      .is_direct  = true,
+    };
+
+    {
+        auto txn = backend->beginTxn();
+        auto dbi = backend->openDbi(txn, "members", openOptions(db::DbiFlags::Create));
+        db::putMemberInfo(txn, dbi, "@alice:example.org", info);
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto dbi = backend->openDbi(txn, "members");
+
+        MemberInfo loaded;
+        ok &= expect(db::getMemberInfo(txn, dbi, "@alice:example.org", loaded),
+                     "member info helper reads user member record");
+        ok &= expect(loaded.name == "Alice" && loaded.avatar_url == "mxc://example/alice" &&
+                       loaded.inviter == "@bob:example.org" && loaded.reason == "Join us" &&
+                       loaded.is_direct,
+                     "member info helper preserves all member fields");
+
+        const auto optionalLoaded = db::getMemberInfo(txn, dbi, "@alice:example.org");
+        ok &= expect(optionalLoaded.has_value() && optionalLoaded->name == "Alice",
+                     "member info helper optional getter returns member record");
+        ok &= expect(!db::getMemberInfo(txn, dbi, "@missing:example.org").has_value(),
+                     "member info helper optional getter reports missing user");
+    }
+
+    {
+        const auto serialized = db::serializeMemberInfo(info);
+        const auto parsed     = db::parseMemberInfo(serialized);
+        ok &= expect(parsed.name == info.name && parsed.avatar_url == info.avatar_url &&
+                       parsed.inviter == info.inviter && parsed.reason == info.reason &&
+                       parsed.is_direct == info.is_direct,
+                     "member info helper parse/serialize roundtrip preserves fields");
     }
 
     backend->close();
@@ -2545,6 +2675,8 @@ main()
     ok &= testSyncStateHelper();
     ok &= testMegolmIndexHelper();
     ok &= testReadReceiptIndexHelper();
+    ok &= testRoomInfoHelper();
+    ok &= testMemberInfoHelper();
     ok &= testOlmSessionIndexHelper();
     ok &= testDupIndexHelper();
     ok &= testScanHelper();

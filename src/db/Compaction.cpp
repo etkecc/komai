@@ -12,7 +12,7 @@ namespace db {
 void
 compact(storage::Database &from, storage::Database &to)
 {
-    auto fromTxn = storage::beginTransaction(from, nullptr, AccessFlags::ReadOnly);
+    auto fromTxn = storage::beginTransaction(from, nullptr, storage::AccessFlags::ReadOnly);
     auto toTxn   = storage::beginWriteTransaction(to);
 
     const auto dbNames = storage::listStoreNames(from, fromTxn);

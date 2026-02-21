@@ -28,7 +28,6 @@
 #include "db/MegolmIndex.h"
 #include "db/MemberInfo.h"
 #include "db/NamePolicy.h"
-#include "db/Open.h"
 #include "db/OlmSessionIndex.h"
 #include "db/OrderEntry.h"
 #include "db/ReadReceiptIndex.h"
@@ -297,7 +296,7 @@ testSchemaHelpers()
 
     {
         auto txn   = backend->beginTxn();
-        auto events = db::openRoomStore(*backend, txn, roomId, db::catalog::RoomDb::Events);
+        auto events = db::storage::openRoomStore(*backend, txn, roomId, db::catalog::RoomDb::Events);
         ok &= expect(events.put(txn, "$event", "{}"), "schema helper setup creates room events db");
         txn.commit();
     }
@@ -322,7 +321,7 @@ testSchemaHelpers()
     const auto legacyRoom = std::string("!legacy:example");
     {
         auto txn    = backend->beginTxn();
-        auto legacy = db::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::LegacyStateByKey);
+        auto legacy = db::storage::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::LegacyStateByKey);
         ok &= expect(legacy.put(txn, "m.room.member", R"({"key":"@alice:example","id":"$member"})"),
                      "schema helper setup inserts legacy state-by-key payload");
         txn.commit();
@@ -340,7 +339,7 @@ testSchemaHelpers()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto statesKey =
-          db::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::StatesKey, false);
+          db::storage::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::StatesKey, false);
         std::string_view value;
         ok &= expect(statesKey.get(txn, "m.room.member", value),
                      "schema helper migrates state-by-key entry into states_key db");
@@ -351,14 +350,14 @@ testSchemaHelpers()
                      "schema helper preserves migrated event id in states_key payload");
 
         ok &= expectDbError(
-          [&] { db::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::LegacyStateByKey, false); },
+          [&] { db::storage::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::LegacyStateByKey, false); },
           "schema helper drops legacy state-by-key db after migration");
     }
 
     const auto brokenRoom = std::string("!broken:example");
     {
         auto txn    = backend->beginTxn();
-        auto legacy = db::openRoomStore(*backend, txn, brokenRoom, db::catalog::RoomDb::LegacyStateByKey);
+        auto legacy = db::storage::openRoomStore(*backend, txn, brokenRoom, db::catalog::RoomDb::LegacyStateByKey);
         ok &= expect(legacy.put(txn, "m.room.member", "{not-json"),
                      "schema helper setup inserts invalid legacy payload");
         txn.commit();
@@ -376,10 +375,10 @@ testSchemaHelpers()
     const auto migratedMegolmKey = std::string(R"({"room_id":"!room:example","session_id":"sid"})");
     {
         auto txn     = backend->beginTxn();
-        auto inbound = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
+        auto inbound = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
         auto outbound =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions);
-        auto data = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions);
+        auto data = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData);
 
         ok &= expect(inbound.put(txn, legacyMegolmKey, "pickle"),
                      "schema helper setup inserts legacy inbound megolm session");
@@ -401,10 +400,10 @@ testSchemaHelpers()
 
     {
         auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto inbound  = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions, false);
+        auto inbound  = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions, false);
         auto outbound =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions, false);
-        auto data = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData, false);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions, false);
+        auto data = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData, false);
 
         std::string_view value;
         ok &= expect(inbound.get(txn, migratedMegolmKey, value),
@@ -425,7 +424,7 @@ testSchemaHelpers()
 
     {
         auto txn     = backend->beginTxn();
-        auto inbound = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
+        auto inbound = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
         ok &= expect(inbound.put(txn, "{bad-json", "pickle"),
                      "schema helper setup inserts invalid megolm key payload");
         std::string error;
@@ -453,7 +452,7 @@ testLegacyOlmMigrationHelpers()
     const auto v1Name = std::string("olm_sessions/curve-1");
     {
         auto txn  = backend->beginTxn();
-        auto oldV1 = db::openNamedStore(*backend, txn, v1Name);
+        auto oldV1 = db::storage::openNamedStore(*backend, txn, v1Name);
         ok &= expect(oldV1.put(txn, "sess-ok", "pickle-ok"), "legacy olm v1 setup puts printable value");
         ok &= expect(oldV1.put(txn, "sess-bad", std::string("bad\1value", 9)),
                      "legacy olm v1 setup puts non-printable value");
@@ -469,24 +468,24 @@ testLegacyOlmMigrationHelpers()
     const auto v2Name = db::catalog::legacyOlmShardV2NameFromV1(v1Name);
     {
         auto txn    = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto newV2  = db::openNamedStore(*backend, txn, v2Name, false);
+        auto newV2  = db::storage::openNamedStore(*backend, txn, v2Name, false);
         std::string_view value;
         ok &= expect(newV2.get(txn, "sess-ok", value), "legacy olm v1->v2 migration keeps printable session");
         ok &= expect(value.size() > 0, "legacy olm v1->v2 migration stores non-empty payload");
         ok &= expect(!newV2.get(txn, "sess-bad", value),
                      "legacy olm v1->v2 migration drops non-printable sessions");
 
-        ok &= expectDbError([&] { db::openNamedStore(*backend, txn, v1Name, false); },
+        ok &= expectDbError([&] { db::storage::openNamedStore(*backend, txn, v1Name, false); },
                             "legacy olm v1 db is dropped after migration");
     }
 
     {
         auto txn     = backend->beginTxn();
-        auto olmV2Db = db::openNamedStore(*backend, txn, "olm_sessions.v2/curve-2");
+        auto olmV2Db = db::storage::openNamedStore(*backend, txn, "olm_sessions.v2/curve-2");
         ok &= expect(olmV2Db.put(txn, "sess-2", v2Payload),
                      "legacy olm v2 setup puts migrated-style payload");
 
-        auto unified = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
+        auto unified = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
         ok &= expect(db::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
                      "legacy olm v2->v3 helper reports migration happened");
         txn.commit();
@@ -494,19 +493,19 @@ testLegacyOlmMigrationHelpers()
 
     {
         auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto unified  = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
+        auto unified  = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
         std::string_view value;
         ok &= expect(unified.get(txn, db::catalog::olmSessionKey("curve-2", "sess-2"), value),
                      "legacy olm v2->v3 helper migrates into unified db");
         ok &= expect(value.size() > 0, "legacy olm v2->v3 helper preserves non-empty payload");
 
-        ok &= expectDbError([&] { db::openNamedStore(*backend, txn, "olm_sessions.v2/curve-2", false); },
+        ok &= expectDbError([&] { db::storage::openNamedStore(*backend, txn, "olm_sessions.v2/curve-2", false); },
                             "legacy olm v2 shard is dropped after migration");
     }
 
     {
         auto txn     = backend->beginTxn();
-        auto unified = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
+        auto unified = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
         ok &= expect(!db::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
                      "legacy olm v2->v3 helper reports no-op when no shards exist");
         txn.commit();
@@ -608,12 +607,12 @@ testOpenHelpers()
     {
         auto txn = backend->beginTxn();
         auto dbi =
-          db::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder);
+          db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder);
         ok &= expect(dbi.put(txn, integerKey(7), "seven"), "openRoomStore puts integer key #1");
         ok &= expect(dbi.put(txn, integerKey(1), "one"), "openRoomStore puts integer key #2");
         ok &= expect(dbi.put(txn, integerKey(4), "four"), "openRoomStore puts integer key #3");
 
-        auto spaces = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
+        auto spaces = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
         ok &= expect(spaces.put(txn, "space", "child-z"), "openGlobalStore dupsort put #1");
         ok &= expect(spaces.put(txn, "space", "child-a"), "openGlobalStore dupsort put #2");
         txn.commit();
@@ -622,7 +621,7 @@ testOpenHelpers()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto dbi =
-          db::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
+          db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
         auto cursor = db::storage::openCursor(txn, dbi);
 
         std::string key, value;
@@ -630,7 +629,7 @@ testOpenHelpers()
         ok &= expect(readIntegerKey(key) == 1,
                      "openRoomStore applies IntegerKey policy for /event_order");
 
-        auto spaces = db::openGlobalStore(*backend,
+        auto spaces = db::storage::openGlobalStore(*backend,
                                          txn,
                                          db::catalog::GlobalDb::SpacesChildren,
                                          false);
@@ -744,8 +743,8 @@ testCompactionHelper()
 
     {
         auto txn      = from->beginTxn();
-        auto intDb    = db::openRoomStore(*from, txn, "!room:example", db::catalog::RoomDb::EventOrder);
-        auto dupsortDb = db::openGlobalStore(*from, txn, db::catalog::GlobalDb::SpacesChildren);
+        auto intDb    = db::storage::openRoomStore(*from, txn, "!room:example", db::catalog::RoomDb::EventOrder);
+        auto dupsortDb = db::storage::openGlobalStore(*from, txn, db::catalog::GlobalDb::SpacesChildren);
 
         ok &= expect(intDb.put(txn, integerKey(9), "nine"), "compaction source integer put #1");
         ok &= expect(intDb.put(txn, integerKey(2), "two"), "compaction source integer put #2");
@@ -758,8 +757,8 @@ testCompactionHelper()
 
     {
         auto txn      = to->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto intDb    = db::openRoomStore(*to, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
-        auto dupsortDb = db::openGlobalStore(*to, txn, db::catalog::GlobalDb::SpacesChildren, false);
+        auto intDb    = db::storage::openRoomStore(*to, txn, "!room:example", db::catalog::RoomDb::EventOrder, false);
+        auto dupsortDb = db::storage::openGlobalStore(*to, txn, db::catalog::GlobalDb::SpacesChildren, false);
 
         auto intCursor = db::storage::openCursor(txn, intDb);
         std::string key, value;
@@ -793,7 +792,7 @@ testStateIndexHelper()
     {
         auto txn = backend->beginTxn();
         auto statesKeyDb =
-          db::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey);
+          db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey);
         ok &= expect(statesKeyDb.put(
                        txn, "m.room.member", db::catalog::stateEventIndexValue("zeta", "$event-z")),
                      "state index helper setup writes member index entry #1");
@@ -811,7 +810,7 @@ testStateIndexHelper()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto statesKeyDb =
-          db::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
+          db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
 
         const auto memberEventId =
           db::findStateEventId(txn, statesKeyDb, "m.room.member", "alpha");
@@ -845,7 +844,7 @@ testStateIndexHelper()
     {
         auto txn = backend->beginTxn();
         auto statesKeyDb =
-          db::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
+          db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
 
         ok &= expect(db::removeStateEventId(
                        txn, statesKeyDb, "m.room.member", "alpha", "$event-a"),
@@ -859,7 +858,7 @@ testStateIndexHelper()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto statesKeyDb =
-          db::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
+          db::storage::openRoomStore(*backend, txn, "!room:example", db::catalog::RoomDb::StatesKey, false);
 
         const auto memberIds = db::listStateEventIds(txn, statesKeyDb, "m.room.member");
         ok &= expect(memberIds.size() == 2,
@@ -887,7 +886,7 @@ testSyncStateHelper()
 
     {
         auto txn = backend->beginTxn();
-        auto syncStateDb = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState);
+        auto syncStateDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState);
 
         db::putSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch, "batch-1");
         db::putSyncStateSecretValue(txn, syncStateDb, "pickle_secret", "encrypted-pickle");
@@ -897,7 +896,7 @@ testSyncStateHelper()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto syncStateDb =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
 
         std::string_view nextBatch;
         ok &= expect(db::getSyncStateValue(
@@ -923,7 +922,7 @@ testSyncStateHelper()
 
     {
         auto txn = backend->beginTxn();
-        auto syncStateDb = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
+        auto syncStateDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
 
         ok &= expect(db::removeSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch),
                      "sync state helper removes enum-keyed value");
@@ -935,7 +934,7 @@ testSyncStateHelper()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto syncStateDb =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState, false);
 
         ok &= expect(
           !db::getSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch).has_value(),
@@ -961,8 +960,8 @@ testMegolmIndexHelper()
 
     {
         auto txn      = backend->beginTxn();
-        auto inboundDb = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
-        auto dataDb    = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData);
+        auto inboundDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
+        auto dataDb    = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData);
 
         db::putInboundMegolmSessionValue(
           txn, inboundDb, "!room-a:example", "sess-1", "pickled-1");
@@ -973,10 +972,10 @@ testMegolmIndexHelper()
 
     {
         auto txn      = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto inboundDb = db::openGlobalStore(
+        auto inboundDb = db::storage::openGlobalStore(
           *backend, txn, db::catalog::GlobalDb::InboundMegolmSessions, false);
         auto dataDb =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData, false);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData, false);
 
         std::string_view value;
         ok &= expect(db::getInboundMegolmSessionValue(
@@ -1025,7 +1024,7 @@ testReadReceiptIndexHelper()
 
     {
         auto txn  = backend->beginTxn();
-        auto dbi  = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::ReadReceipts);
+        auto dbi  = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::ReadReceipts);
         db::putReadReceiptValue(
           txn, dbi, "$event-1", "!room:example", R"({"@alice:example.org":123})");
         txn.commit();
@@ -1033,7 +1032,7 @@ testReadReceiptIndexHelper()
 
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::ReadReceipts, false);
+        auto dbi = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::ReadReceipts, false);
 
         std::string_view value;
         ok &= expect(
@@ -1085,14 +1084,14 @@ testRoomInfoHelper()
 
     {
         auto txn = backend->beginTxn();
-        auto dbi = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::Rooms);
+        auto dbi = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::Rooms);
         db::putRoomInfo(txn, dbi, "!room:example", info);
         txn.commit();
     }
 
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
-        auto dbi = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::Rooms, false);
+        auto dbi = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::Rooms, false);
 
         RoomInfo loaded;
         ok &= expect(db::getRoomInfo(txn, dbi, "!room:example", loaded),
@@ -1402,7 +1401,7 @@ testOlmSessionIndexHelper()
 
     {
         auto txn = backend->beginTxn();
-        auto olmSessionsDb = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
+        auto olmSessionsDb = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
 
         db::putOlmSessionValue(txn, olmSessionsDb, "curve-a", "sess-2", R"({"ts":2})");
         db::putOlmSessionValue(txn, olmSessionsDb, "curve-a", "sess-1", R"({"ts":1})");
@@ -1413,7 +1412,7 @@ testOlmSessionIndexHelper()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto olmSessionsDb =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
 
         std::string_view value;
         ok &= expect(db::getOlmSessionValue(txn, olmSessionsDb, "curve-a", "sess-1", value),
@@ -1458,7 +1457,7 @@ testDupIndexHelper()
 
     {
         auto txn = backend->beginTxn();
-        auto spaces = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
+        auto spaces = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
         ok &= expect(spaces.put(txn, "space", "child-z"),
                      "dup index helper setup writes duplicate value #1");
         ok &= expect(spaces.put(txn, "space", "child-a"),
@@ -1473,7 +1472,7 @@ testDupIndexHelper()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto spaces =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
 
         const auto spaceValues = db::listDupValues(txn, spaces, "space");
         ok &= expect(spaceValues.size() == 3,
@@ -1510,7 +1509,7 @@ testDupIndexHelper()
 
     {
         auto txn = backend->beginTxn();
-        auto spaces = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
+        auto spaces = db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren);
 
         const std::vector<std::string_view> keys = {"alpha", "beta", "", "alpha"};
         const auto written = db::putDupValueForKeys(txn, spaces, keys, "child-bulk");
@@ -1531,7 +1530,7 @@ testDupIndexHelper()
     {
         auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
         auto spaces =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
+          db::storage::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SpacesChildren, false);
 
         const auto alphaValues = db::listDupValues(txn, spaces, "alpha");
         ok &= expect(alphaValues.size() == 2,

@@ -310,6 +310,30 @@ deleteSecureValue(const QString &key)
     });
 }
 
+void
+deleteSecureValueBlocking(const QString &key)
+{
+    QEventLoop loop;
+
+    auto *job = new QKeychain::DeletePasswordJob(QCoreApplication::applicationName());
+    job->setAutoDelete(true);
+    job->setInsecureFallback(false);
+    job->setKey(key);
+
+    QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+    QObject::connect(job, &QKeychain::Job::finished, job, [key](QKeychain::Job *j) {
+        if (j->error() != QKeychain::Error::NoError &&
+            j->error() != QKeychain::Error::EntryNotFound) {
+            nhlog::ui()->warn("Failed to delete secret '{}' from secure backend: {}",
+                              key.toStdString(),
+                              static_cast<int>(j->error()));
+        }
+    });
+    job->start();
+
+    loop.exec();
+}
+
 QString
 encodeSecretsMap(const QMap<QString, QString> &secrets)
 {
@@ -1022,6 +1046,16 @@ UserSettings::clearAuth()
     homeserver_  = QString();
     userId_      = QString();
     deviceId_    = QString();
+    secrets_.clear();
+
+    const auto accessTokenKey = secureStoreKey(profile_, SecureStoreAccessTokenKey);
+    const auto secretsKey     = secureStoreKey(profile_, SecureStoreSecretsKey);
+
+    if (!runWithoutSecureSecretsService_) {
+        deleteSecureValueBlocking(accessTokenKey);
+        deleteSecureValueBlocking(secretsKey);
+    }
+
     save();
 }
 

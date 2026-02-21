@@ -17,6 +17,7 @@
 #include <QHash>
 #include <QMap>
 #include <QMessageBox>
+#include <QEventLoop>
 
 #if __has_include(<keychain.h>)
 #include <keychain.h>
@@ -576,6 +577,38 @@ secretName(std::string_view name, bool internal)
 {
     return profile_secrets::cacheSecretStoreKey(
       UserSettings::instance()->profile(), name, internal);
+}
+
+static void
+deleteSecretFromStoreBlocking(std::string name, bool internal)
+{
+    auto userSettings = UserSettings::instance();
+    const auto key    = secretName(name, internal);
+
+    if (userSettings->runWithoutSecureSecretsService()) {
+        userSettings->removeSecret(key);
+        return;
+    }
+
+    QEventLoop loop;
+    auto *job = new QKeychain::DeletePasswordJob(QCoreApplication::applicationName());
+    job->setAutoDelete(true);
+    job->setInsecureFallback(false);
+    job->setKey(key);
+    QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+    QObject::connect(job,
+                     &QKeychain::Job::finished,
+                     job,
+                     [key](QKeychain::Job *j) {
+                         if (j->error() != QKeychain::Error::NoError &&
+                             j->error() != QKeychain::Error::EntryNotFound) {
+                             nhlog::db()->warn("Failed to delete secret '{}' from secure backend: {}",
+                                               key.toStdString(),
+                                               static_cast<int>(j->error()));
+                         }
+                     });
+    job->start();
+    loop.exec();
 }
 
 void
@@ -1438,18 +1471,19 @@ Cache::deleteData()
 {
     if (this->databaseReady_) {
         this->databaseReady_ = false;
-
         db::close(storage());
-
         verification_storage.status.clear();
 
         if (!cacheDirectory_.isEmpty()) {
             QDir(cacheDirectory_).removeRecursively();
             nhlog::db()->info("deleted cache files from disk");
         }
-
-        deleteSecretFromStore("pickle_secret", true);
+    } else {
+        this->databaseReady_ = false;
     }
+
+    deleteSecretFromStoreBlocking("pickle_secret", true);
+    emit secretChanged("pickle_secret");
 }
 
 //! migrates db to the current format

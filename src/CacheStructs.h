@@ -30,19 +30,6 @@ struct RoomMember
     bool is_direct = false;
 };
 
-//! Used to uniquely identify a list of read receipts.
-struct ReadReceiptKey
-{
-    std::string event_id;
-    std::string room_id;
-};
-
-void
-to_json(nlohmann::json &j, const ReadReceiptKey &key);
-
-void
-from_json(const nlohmann::json &j, ReadReceiptKey &key);
-
 struct DescInfo
 {
     QString event_id;

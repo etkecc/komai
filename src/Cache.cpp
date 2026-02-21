@@ -45,6 +45,7 @@
 #include "db/OlmSessionIndex.h"
 #include "db/Open.h"
 #include "db/OrderEntry.h"
+#include "db/ReadReceiptIndex.h"
 #include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/Serde.h"
@@ -1716,16 +1717,13 @@ Cache::readReceipts(const QString &event_id, const QString &room_id)
 {
     CachedReceipts receipts;
 
-    ReadReceiptKey receipt_key{event_id.toStdString(), room_id.toStdString()};
-    nlohmann::json json_key = receipt_key;
-
     try {
         auto txn = ro_txn(storage());
-        auto key = json_key.dump();
 
         std::string_view value;
 
-        bool res = db->readReceipts.get(txn, key, value);
+        bool res = db::getReadReceiptValue(
+          txn, db->readReceipts, event_id.toStdString(), room_id.toStdString(), value);
 
         if (res) {
             auto json_response =
@@ -1752,15 +1750,11 @@ Cache::updateReadReceipt(db::Txn &txn, const std::string &room_id, const Receipt
         const auto event_id = receipt.first;
         auto event_receipts = receipt.second;
 
-        ReadReceiptKey receipt_key{event_id, room_id};
-        nlohmann::json json_key = receipt_key;
-
         try {
-            const auto key = json_key.dump();
-
             std::string_view prev_value;
 
-            bool exists = db->readReceipts.get(txn, key, prev_value);
+            bool exists =
+              db::getReadReceiptValue(txn, db->readReceipts, event_id, room_id, prev_value);
 
             std::map<std::string, uint64_t> saved_receipts;
 
@@ -1783,7 +1777,7 @@ Cache::updateReadReceipt(db::Txn &txn, const std::string &room_id, const Receipt
             nlohmann::json json_updated_value = saved_receipts;
             std::string merged_receipts       = json_updated_value.dump();
 
-            db->readReceipts.put(txn, key, merged_receipts);
+            db::putReadReceiptValue(txn, db->readReceipts, event_id, room_id, merged_receipts);
 
         } catch (const db::Error &e) {
             nhlog::db()->critical("updateReadReceipts: {}", e.what());
@@ -5102,19 +5096,6 @@ from_json(const nlohmann::json &j, RoomInfo &info)
 
     if (j.count("tags"))
         info.tags = j.at("tags").get<std::vector<std::string>>();
-}
-
-void
-to_json(nlohmann::json &j, const ReadReceiptKey &key)
-{
-    j = nlohmann::json{{"event_id", key.event_id}, {"room_id", key.room_id}};
-}
-
-void
-from_json(const nlohmann::json &j, ReadReceiptKey &key)
-{
-    key.event_id = j.at("event_id").get<std::string>();
-    key.room_id  = j.at("room_id").get<std::string>();
 }
 
 void

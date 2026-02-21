@@ -26,6 +26,7 @@
 #include "db/Open.h"
 #include "db/OlmSessionIndex.h"
 #include "db/OrderEntry.h"
+#include "db/ReadReceiptIndex.h"
 #include "db/Scan.h"
 #include "db/Schema.h"
 #include "db/StateIndex.h"
@@ -915,6 +916,52 @@ testMegolmIndexHelper()
                      "megolm index helper preserves parsed room/session ids");
         ok &= expect(!db::parseMegolmSessionKey("not-json", roomId, sessionId),
                      "megolm index helper rejects malformed key");
+    }
+
+    backend->close();
+    return ok;
+}
+
+bool
+testReadReceiptIndexHelper()
+{
+    bool ok = true;
+
+    auto backend               = db::createBackend("memory");
+    db::BackendOptions options = {};
+    options.mapSizeBytes       = 1U << 20;
+    options.maxDbs             = 32;
+    backend->open("", options);
+
+    {
+        auto txn  = backend->beginTxn();
+        auto dbi  = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::ReadReceipts);
+        db::putReadReceiptValue(
+          txn, dbi, "$event-1", "!room:example", R"({"@alice:example.org":123})");
+        txn.commit();
+    }
+
+    {
+        auto txn = backend->beginTxn(nullptr, db::TxnFlags::ReadOnly);
+        auto dbi = db::openGlobalDbi(*backend, txn, db::catalog::GlobalDb::ReadReceipts, false);
+
+        std::string_view value;
+        ok &= expect(
+          db::getReadReceiptValue(txn, dbi, "$event-1", "!room:example", value),
+          "read receipt helper reads event+room keyed payload");
+        ok &= expect(value == R"({"@alice:example.org":123})",
+                     "read receipt helper returns event+room keyed payload");
+
+        ok &= expect(
+          !db::getReadReceiptValue(txn, dbi, "$event-2", "!room:example", value),
+          "read receipt helper reports missing event+room key");
+    }
+
+    {
+        const auto key = db::readReceiptKey("$event-1", "!room:example");
+        ok &= expect(key.find("\"event_id\":\"$event-1\"") != std::string::npos &&
+                       key.find("\"room_id\":\"!room:example\"") != std::string::npos,
+                     "read receipt helper serializes event/room key fields");
     }
 
     backend->close();
@@ -2497,6 +2544,7 @@ main()
     ok &= testStateIndexHelper();
     ok &= testSyncStateHelper();
     ok &= testMegolmIndexHelper();
+    ok &= testReadReceiptIndexHelper();
     ok &= testOlmSessionIndexHelper();
     ok &= testDupIndexHelper();
     ok &= testScanHelper();

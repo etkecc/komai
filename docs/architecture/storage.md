@@ -129,6 +129,11 @@ Database hash:
   `db::getMegolmSessionDataValue(...)`, `db::putMegolmSessionDataValue(...)`) so
   callers do not repeat JSON key encoding/parsing and twin-index access patterns
   for inbound/session-data Megolm storage.
+- Reusable read-receipt key helpers are centralized in
+  `src/db/ReadReceiptIndex.cpp`
+  (`db::readReceiptKey(...)`, `db::getReadReceiptValue(...)`,
+  `db::putReadReceiptValue(...)`) so callers do not duplicate event+room key
+  encoding for read receipt payload storage.
 - Reusable dupsort key->values iteration is centralized in `src/db/DupIndex.cpp`
   (`db::listDupValues(...)`, `db::forEachDupValue(...)`,
   `db::putDupValueForKeys(...)`, `db::replaceDupValueForKeys(...)`) to avoid repeating cursor

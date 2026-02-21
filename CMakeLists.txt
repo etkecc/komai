@@ -1007,6 +1007,7 @@ add_library(komai_db
     src/db/Open.cpp
     src/db/OlmSessionIndex.cpp
     src/db/OrderEntry.cpp
+    src/db/ReadReceiptIndex.cpp
     src/db/Scan.cpp
     src/db/Schema.cpp
     src/db/StateIndex.cpp

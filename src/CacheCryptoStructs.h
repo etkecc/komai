@@ -6,6 +6,10 @@
 
 #include <QObject>
 
+#ifdef KOMAI_WITH_QML
+#include <QQmlEngine>
+#endif
+
 #include <map>
 #include <mutex>
 #include <set>
@@ -23,6 +27,9 @@ struct Encrypted;
 
 namespace crypto {
 Q_NAMESPACE
+#ifdef KOMAI_WITH_QML
+QML_NAMED_ELEMENT(Crypto)
+#endif
 
 //! How much a participant is trusted.
 enum Trust

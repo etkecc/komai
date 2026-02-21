@@ -780,6 +780,7 @@ set_target_properties(nheko
     PROPERTIES
         CMAKE_SKIP_INSTALL_RPATH TRUE
         AUTOMOC ON)
+target_compile_definitions(nheko PRIVATE KOMAI_WITH_QML=1)
 
 #
 # Add qml files

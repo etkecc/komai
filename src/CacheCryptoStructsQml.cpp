@@ -6,8 +6,4 @@
 
 #include "CacheCryptoStructs.h"
 
-namespace crypto {
-QML_NAMED_ELEMENT(Crypto)
-}
-
 #include "moc_CacheCryptoStructs.cpp"

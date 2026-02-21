@@ -24,6 +24,7 @@ jobs:
           apt-get update
           apt-get install --yes --no-install-recommends \
             cmake \
+            curl \
             just \
             pkg-config \
             libevent-dev \

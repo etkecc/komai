@@ -656,6 +656,14 @@ testStorageApiHelpers()
     options.maxDbs             = 32;
     backend->open("", options);
 
+    ok &= expect(db::storage::supportsCapability(*backend, db::storage::Capability::DuplicateKeys),
+                 "storage API exposes duplicate-key capability");
+    ok &= expect(db::storage::supportsCapability(*backend, db::storage::Capability::IntegerKeys),
+                 "storage API exposes integer-key capability");
+    ok &= expect(db::storage::supportsCapability(*backend, db::storage::Capability::PrefixScan),
+                 "storage API exposes prefix-scan capability");
+    ok &= expect(db::storage::supportsCapability(*backend, db::storage::Capability::Transactions),
+                 "storage API exposes transactions capability");
     {
         auto txn = db::storage::beginWriteTransaction(*backend);
         auto events =

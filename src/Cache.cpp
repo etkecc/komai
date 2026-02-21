@@ -393,7 +393,7 @@ Cache::setup()
 
     nhlog::db()->debug("Database at: {}", cacheDirectory_.toStdString());
 
-    const bool isPersistentBackend = storage().storageCategory() == db::StorageCategory::Persistent;
+    const bool isPersistentBackend = db::storage::storageCategory(storage()) == db::StorageCategory::Persistent;
     const bool isInitial           = isPersistentBackend && !QFile::exists(cacheDirectory_);
 
     auto storageOptions = [] {
@@ -470,7 +470,7 @@ Cache::setup()
                                       compactDir.toStdString());
                 } else {
                     // Create a temporary backend matching the current storage backend.
-                    auto temp                        = db::createBackend(storage().id());
+                    auto temp = db::createBackend(db::storage::id(storage()));
                     const std::string compactDirPath = compactDir.toStdString();
                     db::storage::open(temp, compactDirPath, storageOptions);
 

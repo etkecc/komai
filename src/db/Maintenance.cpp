@@ -58,6 +58,12 @@ supportsCompaction(const Database &database) noexcept
     return database.supportsCompaction();
 }
 
+bool
+supportsCompaction(const Database *database) noexcept
+{
+    return database ? supportsCompaction(*database) : false;
+}
+
 void
 compact(Database &from, Database &to)
 {

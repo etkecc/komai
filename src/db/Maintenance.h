@@ -43,6 +43,9 @@ migrateLegacyOlmShardsV2ToUnified(Database &database, Transaction &txn, Store &o
 bool
 supportsCompaction(const Database &database) noexcept;
 
+bool
+supportsCompaction(const Database *database) noexcept;
+
 void
 compact(Database &from, Database &to);
 

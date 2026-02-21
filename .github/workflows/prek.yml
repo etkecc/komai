@@ -16,13 +16,18 @@ jobs:
       image: docker.io/archlinux:base-devel
 
     steps:
+      # git must be installed before checkout so it does a proper clone
+      # (with .git directory) instead of a tarball download.
+      - name: Install git
+        run: pacman -Sy --noconfirm git
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install dependencies
         run: |
-          pacman -Sy --noconfirm --needed \
-            cmake just git python mise \
+          pacman -S --noconfirm --needed \
+            cmake just python mise \
             qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
             mtxclient coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
             nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication \
@@ -30,9 +35,6 @@ jobs:
 
       - name: Run prek on all files
         run: |
-          # The checkout action's safe.directory config targets the host
-          # git, not the container's git installed via pacman.
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           # VoIP is disabled to avoid installing GStreamer dependencies.
           just configure -DVOIP=OFF
           just prek-run-on-all

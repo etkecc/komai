@@ -12,6 +12,8 @@ permissions:
 jobs:
   prek:
     runs-on: ubuntu-24.04
+    container:
+      image: docker.io/ubuntu:25.10
 
     steps:
       - name: Checkout
@@ -19,8 +21,8 @@ jobs:
 
       - name: Install native build dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install --yes \
+          apt-get update
+          apt-get install --yes --no-install-recommends \
             cmake \
             just \
             pkg-config \
@@ -50,4 +52,6 @@ jobs:
           cache: true
 
       - name: Run prek on all files
-        run: just prek-run-on-all
+        run: |
+          just configure -DUSE_BUNDLED_COEURL=ON
+          just prek-run-on-all

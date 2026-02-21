@@ -9,7 +9,7 @@
 #include <string_view>
 
 #include "db/Catalog.h"
-#include "db/StorageApi.h"
+#include "db/Backend.h"
 
 namespace db {
 
@@ -17,28 +17,28 @@ std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept;
 
 bool
-tryDropNamedStore(storage::Database &database,
-                  storage::Transaction &txn,
+tryDropNamedStore(Database &database,
+                  Transaction &txn,
                   std::string_view dbName,
                   std::string *error = nullptr) noexcept;
 
 bool
-migrateLegacyStateByKeyToStatesKey(storage::Database &database,
-                                   storage::Transaction &txn,
+migrateLegacyStateByKeyToStatesKey(Database &database,
+                                   Transaction &txn,
                                    std::string_view roomId,
                                    std::string *error = nullptr) noexcept;
 
 bool
-migrateLegacyMegolmSessionIndexes(storage::Database &database,
-                                  storage::Transaction &txn,
+migrateLegacyMegolmSessionIndexes(Database &database,
+                                  Transaction &txn,
                                   std::string *error = nullptr) noexcept;
 
 void
-migrateLegacyOlmShardsV1ToV2(storage::Database &database, storage::Transaction &txn);
+migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn);
 
 bool
-migrateLegacyOlmShardsV2ToUnified(storage::Database &database,
-                                  storage::Transaction &txn,
-                                  storage::Store &olmSessions);
+migrateLegacyOlmShardsV2ToUnified(Database &database,
+                                  Transaction &txn,
+                                  Store &olmSessions);
 
 } // namespace db

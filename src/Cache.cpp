@@ -79,56 +79,10 @@ bool needsCompact = false;
 
 namespace cache_db_compat {
 
-std::span<const db::catalog::RoomDb>
-roomDbsForFullResync()
-{
-    return db::roomDbsForFullResync();
-}
-
 void
 compactStorage(db::storage::Database &from, db::storage::Database &to)
 {
     db::compact(from, to);
-}
-
-bool
-tryDropNamedStore(db::storage::Database &database,
-                  db::storage::Transaction &txn,
-                  std::string_view dbName,
-                  std::string *error = nullptr) noexcept
-{
-    return db::tryDropNamedStore(database, txn, dbName, error);
-}
-
-void
-migrateLegacyOlmShardsV1ToV2(db::storage::Database &database, db::storage::Transaction &txn)
-{
-    db::migrateLegacyOlmShardsV1ToV2(database, txn);
-}
-
-bool
-migrateLegacyMegolmSessionIndexes(db::storage::Database &database,
-                                 db::storage::Transaction &txn,
-                                 std::string *error = nullptr) noexcept
-{
-    return db::migrateLegacyMegolmSessionIndexes(database, txn, error);
-}
-
-bool
-migrateLegacyStateByKeyToStatesKey(db::storage::Database &database,
-                                  db::storage::Transaction &txn,
-                                  std::string_view roomId,
-                                  std::string *error = nullptr) noexcept
-{
-    return db::migrateLegacyStateByKeyToStatesKey(database, txn, roomId, error);
-}
-
-bool
-migrateLegacyOlmShardsV2ToUnified(db::storage::Database &database,
-                                  db::storage::Transaction &txn,
-                                  db::storage::Store &olmSessions)
-{
-    return db::migrateLegacyOlmShardsV2ToUnified(database, txn, olmSessions);
 }
 
 } // namespace cache_db_compat
@@ -1599,7 +1553,7 @@ Cache::runMigrations()
        [this]() {
            try {
                auto txn = beginTxn();
-               cache_db_compat::migrateLegacyOlmShardsV1ToV2(storage(), txn);
+               db::storage::migrateLegacyOlmShardsV1ToV2(storage(), txn);
                txn.commit();
            } catch (const db::storage::Error &) {
                nhlog::db()->critical("Failed to migrate olm sessions,");
@@ -1616,10 +1570,10 @@ Cache::runMigrations()
                auto room_ids = getRoomIds(txn);
 
                for (const auto &room : room_ids) {
-                   for (const auto roomDb : cache_db_compat::roomDbsForFullResync()) {
+                   for (const auto roomDb : db::storage::roomDbsForFullResync()) {
                        const auto dbName = db::catalog::roomName(room, roomDb);
                        std::string error;
-                       if (!cache_db_compat::tryDropNamedStore(storage(), txn, dbName, &error) &&
+                       if (!db::storage::tryDropNamedStore(storage(), txn, dbName, &error) &&
                            !error.empty())
                            nhlog::db()->warn("Failed to drop '{}': {}", dbName, error);
                    }
@@ -1648,7 +1602,7 @@ Cache::runMigrations()
        [this]() {
            auto txn = beginTxn(nullptr);
            std::string error;
-           if (!cache_db_compat::migrateLegacyMegolmSessionIndexes(storage(), txn, &error)) {
+           if (!db::storage::migrateLegacyMegolmSessionIndexes(storage(), txn, &error)) {
                nhlog::db()->warn(
                  "Failed to migrate stored megolm session to have no sender key: {}", error);
                return false;
@@ -1696,7 +1650,7 @@ Cache::runMigrations()
 
                for (const auto &room_id : room_ids) {
                    std::string error;
-                   if (!cache_db_compat::migrateLegacyStateByKeyToStatesKey(storage(), txn, room_id, &error)) {
+                   if (!db::storage::migrateLegacyStateByKeyToStatesKey(storage(), txn, room_id, &error)) {
                        nhlog::db()->error(
                          "While migrating state events from {}, ignoring error {}", room_id, error);
                    }
@@ -1715,7 +1669,7 @@ Cache::runMigrations()
            // migrate olm sessions to a single db
            try {
                auto txn = beginTxn(nullptr);
-               if (cache_db_compat::migrateLegacyOlmShardsV2ToUnified(storage(), txn, db->olmSessions))
+               if (db::storage::migrateLegacyOlmShardsV2ToUnified(storage(), txn, db->olmSessions))
                    txn.commit();
            } catch (const db::storage::Error &e) {
                nhlog::db()->critical("Failed to convert olm sessions database in migration! {}",

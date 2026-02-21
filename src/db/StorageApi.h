@@ -22,6 +22,7 @@
 #include "db/OrderEntry.h"
 #include "db/ReadReceiptIndex.h"
 #include "db/RoomInfo.h"
+#include "db/Schema.h"
 #include "db/Serde.h"
 #include "db/StateIndex.h"
 #include "db/Scan.h"
@@ -193,6 +194,52 @@ using db::appendEventOrderEntry;
 using db::prependEventOrderEntry;
 using db::appendMessageOrderEntry;
 using db::prependMessageOrderEntry;
+
+inline std::span<const catalog::RoomDb>
+roomDbsForFullResync() noexcept
+{
+    return db::roomDbsForFullResync();
+}
+
+inline bool
+tryDropNamedStore(Database &database,
+                  Transaction &txn,
+                  std::string_view dbName,
+                  std::string *error = nullptr) noexcept
+{
+    return db::tryDropNamedStore(database, txn, dbName, error);
+}
+
+inline void
+migrateLegacyOlmShardsV1ToV2(Database &database, Transaction &txn)
+{
+    db::migrateLegacyOlmShardsV1ToV2(database, txn);
+}
+
+inline bool
+migrateLegacyMegolmSessionIndexes(Database &database,
+                                 Transaction &txn,
+                                 std::string *error = nullptr) noexcept
+{
+    return db::migrateLegacyMegolmSessionIndexes(database, txn, error);
+}
+
+inline bool
+migrateLegacyStateByKeyToStatesKey(Database &database,
+                                   Transaction &txn,
+                                   std::string_view roomId,
+                                   std::string *error = nullptr) noexcept
+{
+    return db::migrateLegacyStateByKeyToStatesKey(database, txn, roomId, error);
+}
+
+inline bool
+migrateLegacyOlmShardsV2ToUnified(Database &database,
+                                  Transaction &txn,
+                                  Store &olmSessions)
+{
+    return db::migrateLegacyOlmShardsV2ToUnified(database, txn, olmSessions);
+}
 
 inline void
 requireCapabilities(const Database &database, StoreFlags flags)

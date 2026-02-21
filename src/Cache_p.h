@@ -424,7 +424,8 @@ private:
     void setNextBatchToken(db::Transaction &txn, const std::string &token);
     db::Database &storage();
     const db::Database &storage() const;
-    db::Transaction beginTxn(db::Transaction *parent = nullptr, db::TxnFlags flags = db::TxnFlags::None);
+    db::Transaction beginTxn(db::Transaction *parent = nullptr,
+                             db::storage::TransactionFlags flags = db::storage::TransactionFlags::None);
 
     QString localUserId_;
     QString cacheDirectory_;

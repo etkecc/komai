@@ -23,6 +23,8 @@ using Store       = db::Store;
 using CursorHandle = db::CursorHandle;
 using Options     = db::StoreOpenOptions;
 using DatabaseOptions = db::BackendOptions;
+using TransactionFlags = db::TxnFlags;
+using StoreFlags = db::StoreFlags;
 using BackendId = std::string_view;
 
 enum class AccessMode

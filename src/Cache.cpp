@@ -121,11 +121,11 @@ Cache::storage() const
 }
 
 db::Transaction
-Cache::beginTxn(db::Transaction *parent, db::TxnFlags flags)
+Cache::beginTxn(db::Transaction *parent, db::storage::TransactionFlags flags)
 {
     return db::storage::beginTransaction(
-      storage(), parent, flags == db::TxnFlags::ReadOnly ? db::storage::AccessMode::ReadOnly
-                                                      : db::storage::AccessMode::ReadWrite);
+      storage(), parent, flags == db::storage::TransactionFlags::ReadOnly ? db::storage::AccessMode::ReadOnly
+                                                       : db::storage::AccessMode::ReadWrite);
 }
 
 bool

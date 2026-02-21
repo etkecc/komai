@@ -688,6 +688,41 @@ testStorageApiHelpers()
         ok &= expect(cursor.moveFirst(key, value), "storage API cursor first");
         ok &= expect(key == integerKey(7), "storage API cursor first key is lowest");
         ok &= expect(value == "value-7", "storage API cursor first value");
+        ok &= expect(!cursor.moveTo("missing", key, value), "storage API cursor moveTo missing");
+        ok &= expect(cursor.moveTo(integerKey(11), key, value), "storage API cursor moveTo exact");
+        ok &= expect(key == integerKey(11), "storage API cursor moveTo finds key");
+        ok &= expect(value == "value-11", "storage API cursor moveTo finds value");
+    }
+
+    {
+        auto txn = db::storage::beginWriteTransaction(*backend);
+        auto dups =
+          db::storage::openStore(*backend,
+                                 txn,
+                                 "dupsort-events",
+                                 true,
+                                 db::StoreFlags::Create | db::StoreFlags::DupSort);
+        ok &= expect(dups.put(txn, "space", "two"), "storage API dupsort put #1");
+        ok &= expect(dups.put(txn, "space", "one"), "storage API dupsort put #2");
+        ok &= expect(dups.put(txn, "space", "three"), "storage API dupsort put #3");
+        txn.commit();
+    }
+
+    {
+        auto roTxn = db::storage::beginReadTransaction(*backend);
+        auto dups =
+          db::storage::openStore(*backend, roTxn, "dupsort-events", false, db::StoreFlags::DupSort);
+        auto cursor = db::storage::openCursor(roTxn, dups);
+        std::string key;
+        std::string value;
+        ok &= expect(cursor.moveTo("space", key, value), "storage API dupsort cursor moveTo");
+        ok &= expect(key == "space", "storage API dupsort key is space");
+        ok &= expect(value == "one", "storage API dupsort first value");
+        ok &= expect(cursor.moveNextDup(key, value), "storage API dupsort moveNextDup");
+        ok &= expect(value == "three", "storage API dupsort next value");
+        ok &= expect(cursor.moveNextDup(key, value), "storage API dupsort moveNextDup #2");
+        ok &= expect(value == "two", "storage API dupsort next value #2");
+        ok &= expect(!cursor.moveNextDup(key, value), "storage API dupsort end after three values");
     }
 
     backend->close();

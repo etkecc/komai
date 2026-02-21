@@ -30,6 +30,12 @@
 #include "db/TimelineIndex.h"
 #include "db/SyncState.h"
 
+namespace db {
+
+void compact(Database &from, Database &to);
+
+} // namespace db
+
 namespace db::storage {
 
 using Database    = db::Database;
@@ -194,6 +200,12 @@ using db::appendEventOrderEntry;
 using db::prependEventOrderEntry;
 using db::appendMessageOrderEntry;
 using db::prependMessageOrderEntry;
+
+inline void
+compact(Database &from, Database &to)
+{
+    db::compact(from, to);
+}
 
 inline std::span<const catalog::RoomDb>
 roomDbsForFullResync() noexcept

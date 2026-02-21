@@ -77,16 +77,6 @@ static constexpr size_t MAX_RESTORED_MESSAGES = 5'000;
 //! flag to be set, when the db should be compacted on startup
 bool needsCompact = false;
 
-namespace cache_db_compat {
-
-void
-compactStorage(db::storage::Database &from, db::storage::Database &to)
-{
-    db::compact(from, to);
-}
-
-} // namespace cache_db_compat
-
 using CachedReceipts = std::multimap<uint64_t, std::string, std::greater<uint64_t>>;
 using Receipts       = std::map<std::string, std::map<std::string, uint64_t>>;
 
@@ -484,7 +474,7 @@ Cache::setup()
                     db::storage::open(temp, compactDirPath, storageOptions);
 
                     // copy data
-                    cache_db_compat::compactStorage(storage(), *temp);
+                    db::storage::compact(storage(), *temp);
 
                     // close envs
                     db::storage::close(temp);

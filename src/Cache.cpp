@@ -37,7 +37,6 @@
 #include "ProfileSecrets.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
-#include "db/Catalog.h"
 #include "db/StorageApi.h"
 #include "db/DupIndex.h"
 #include "db/Json.h"

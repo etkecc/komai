@@ -840,21 +840,13 @@ Cache::roomEncryptionSettings(const std::string &room_id)
     try {
         auto txn      = ro_txn(storage());
         auto statesdb = getStatesDb(txn, room_id);
-        std::string_view event;
-        bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomEncryption), event);
-
-        if (res) {
-            try {
-                StateEvent<Encryption> msg =
-                  nlohmann::json::parse(event).get<StateEvent<Encryption>>();
-
-                return msg.content;
-            } catch (const nlohmann::json::exception &e) {
-                nhlog::db()->warn("failed to parse m.room.encryption event: {}", e.what());
-                return Encryption{};
-            }
+        if (auto msg = db::getJsonValue<StateEvent<Encryption>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomEncryption))) {
+            return msg->content;
         }
     } catch (db::Error &) {
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.encryption event: {}", e.what());
     }
 
     return std::nullopt;
@@ -1897,12 +1889,9 @@ Cache::getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view 
             return std::nullopt;
         const auto typeStr = to_string(type);
 
-        std::string_view value;
         if (state_key.empty()) {
             auto db_ = getStatesDb(txn, room_id);
-            if (!db_.get(txn, typeStr, value)) {
-                return std::nullopt;
-            }
+            return db::getJsonValue<mtx::events::StateEvent<T>>(txn, db_, typeStr);
         } else {
             try {
                 auto statesKeyDb = getStatesKeyDb(txn, room_id);
@@ -1911,15 +1900,12 @@ Cache::getStateEvent(db::Txn &txn, const std::string &room_id, std::string_view 
                 if (!eventId) {
                     return std::nullopt;
                 }
-                if (!eventsDb.get(txn, *eventId, value))
-                    return std::nullopt;
+                return db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, *eventId);
 
             } catch (std::exception &) {
                 return std::nullopt;
             }
         }
-
-        return nlohmann::json::parse(value).get<mtx::events::StateEvent<T>>();
     } catch (std::exception &) {
         return std::nullopt;
     }
@@ -1943,9 +1929,8 @@ Cache::getStateEventsWithType(db::Txn &txn, const std::string &room_id, mtx::eve
 
         for (const auto &eventId : db::listStateEventIds(txn, statesKeyDb, typeStr)) {
             try {
-                if (eventsDb.get(txn, eventId, value))
-                    events.push_back(
-                      nlohmann::json::parse(value).get<mtx::events::StateEvent<T>>());
+                if (auto event = db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
+                    events.push_back(std::move(*event));
             } catch (std::exception &e) {
                 nhlog::db()->warn("Failed to parse state event: {}", e.what());
             }
@@ -2558,13 +2543,8 @@ Cache::getEvent(const std::string &room_id, std::string_view event_id)
     auto txn      = ro_txn(storage());
     auto eventsDb = getEventsDb(txn, room_id);
 
-    std::string_view event{};
-    bool success = eventsDb.get(txn, event_id, event);
-    if (!success)
-        return {};
-
     try {
-        return nlohmann::json::parse(event).get<mtx::events::collections::TimelineEvents>();
+        return db::getJsonValue<mtx::events::collections::TimelineEvents>(txn, eventsDb, event_id);
     } catch (std::exception &e) {
         nhlog::db()->error("Failed to parse message from cache {}", e.what());
         return std::nullopt;
@@ -2893,20 +2873,14 @@ Cache::getRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomAvatar), event);
-
-    if (res) {
-        try {
-            StateEvent<Avatar> msg =
-              nlohmann::json::parse(std::string_view(event.data(), event.size()))
-                .get<StateEvent<Avatar>>();
-
-            if (!msg.content.url.empty())
-                return QString::fromStdString(msg.content.url);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.avatar event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<Avatar>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomAvatar))) {
+            if (!msg->content.url.empty())
+                return QString::fromStdString(msg->content.url);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.avatar event: {}", e.what());
     }
 
     // We don't use an avatar for group chats.
@@ -2949,35 +2923,24 @@ Cache::getRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomName), event);
-
-    if (res) {
-        try {
-            StateEvent<Name> msg =
-              nlohmann::json::parse(std::string_view(event.data(), event.size()))
-                .get<StateEvent<Name>>();
-
-            if (!msg.content.name.empty())
-                return QString::fromStdString(msg.content.name);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.name event: {}", e.what());
+    try {
+        if (auto msg =
+              db::getJsonValue<StateEvent<Name>>(txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
+            if (!msg->content.name.empty())
+                return QString::fromStdString(msg->content.name);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.name event: {}", e.what());
     }
 
-    res = statesdb.get(txn, to_string(mtx::events::EventType::RoomCanonicalAlias), event);
-
-    if (res) {
-        try {
-            StateEvent<CanonicalAlias> msg =
-              nlohmann::json::parse(std::string_view(event.data(), event.size()))
-                .get<StateEvent<CanonicalAlias>>();
-
-            if (!msg.content.alias.empty())
-                return QString::fromStdString(msg.content.alias);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.canonical_alias event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<CanonicalAlias>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomCanonicalAlias))) {
+            if (!msg->content.alias.empty())
+                return QString::fromStdString(msg->content.alias);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.canonical_alias event: {}", e.what());
     }
 
     const auto total = membersdb.size(txn);
@@ -3035,17 +2998,13 @@ Cache::getRoomJoinRule(db::Txn &txn, db::Dbi &statesdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomJoinRules), event);
-
-    if (res) {
-        try {
-            StateEvent<state::JoinRules> msg =
-              nlohmann::json::parse(event).get<StateEvent<state::JoinRules>>();
-            return msg.content.join_rule;
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.join_rule event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<state::JoinRules>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomJoinRules))) {
+            return msg->content.join_rule;
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.join_rule event: {}", e.what());
     }
     return state::JoinRule::Knock;
 }
@@ -3056,17 +3015,13 @@ Cache::getRoomGuestAccess(db::Txn &txn, db::Dbi &statesdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomGuestAccess), event);
-
-    if (res) {
-        try {
-            StateEvent<GuestAccess> msg =
-              nlohmann::json::parse(event).get<StateEvent<GuestAccess>>();
-            return msg.content.guest_access == AccessState::CanJoin;
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.guest_access event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<GuestAccess>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomGuestAccess))) {
+            return msg->content.guest_access == AccessState::CanJoin;
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.guest_access event: {}", e.what());
     }
     return false;
 }
@@ -3077,18 +3032,14 @@ Cache::getRoomTopic(db::Txn &txn, db::Dbi &statesdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomTopic), event);
-
-    if (res) {
-        try {
-            StateEvent<Topic> msg = nlohmann::json::parse(event).get<StateEvent<Topic>>();
-
-            if (!msg.content.topic.empty())
-                return QString::fromStdString(msg.content.topic);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.topic event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<Topic>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomTopic))) {
+            if (!msg->content.topic.empty())
+                return QString::fromStdString(msg->content.topic);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.topic event: {}", e.what());
     }
 
     return QString();
@@ -3100,18 +3051,14 @@ Cache::getRoomVersion(db::Txn &txn, db::Dbi &statesdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomCreate), event);
-
-    if (res) {
-        try {
-            StateEvent<Create> msg = nlohmann::json::parse(event).get<StateEvent<Create>>();
-
-            if (!msg.content.room_version.empty())
-                return QString::fromStdString(msg.content.room_version);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.create event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<Create>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
+            if (!msg->content.room_version.empty())
+                return QString::fromStdString(msg->content.room_version);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.create event: {}", e.what());
     }
 
     nhlog::db()->warn("m.room.create event is missing room version, assuming version \"1\"");
@@ -3124,17 +3071,13 @@ Cache::getRoomIsSpace(db::Txn &txn, db::Dbi &statesdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomCreate), event);
-
-    if (res) {
-        try {
-            StateEvent<Create> msg = nlohmann::json::parse(event).get<StateEvent<Create>>();
-
-            return msg.content.type == mtx::events::state::room_type::space;
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.create event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<Create>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
+            return msg->content.type == mtx::events::state::room_type::space;
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.create event: {}", e.what());
     }
 
     nhlog::db()->warn("m.room.create event is missing room version, assuming version \"1\"");
@@ -3147,17 +3090,13 @@ Cache::getRoomIsTombstoned(db::Txn &txn, db::Dbi &statesdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomCreate), event);
-
-    if (res) {
-        try {
-            StateEvent<Tombstone> msg = nlohmann::json::parse(event).get<StateEvent<Tombstone>>();
-
+    try {
+        if (auto msg = db::getJsonValue<StateEvent<Tombstone>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
             return true;
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.tombstone event: {}", e.what());
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.tombstone event: {}", e.what());
     }
 
     return false;
@@ -3169,17 +3108,13 @@ Cache::getInviteRoomName(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersdb)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomName), event);
-
-    if (res) {
-        try {
-            StrippedEvent<state::Name> msg =
-              nlohmann::json::parse(event).get<StrippedEvent<state::Name>>();
-            return QString::fromStdString(msg.content.name);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.name event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StrippedEvent<state::Name>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
+            return QString::fromStdString(msg->content.name);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.name event: {}", e.what());
     }
 
     const auto localUserId = localUserId_.toStdString();
@@ -3212,17 +3147,13 @@ Cache::getInviteRoomAvatarUrl(db::Txn &txn, db::Dbi &statesdb, db::Dbi &membersd
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = statesdb.get(txn, to_string(mtx::events::EventType::RoomAvatar), event);
-
-    if (res) {
-        try {
-            StrippedEvent<state::Avatar> msg =
-              nlohmann::json::parse(event).get<StrippedEvent<state::Avatar>>();
-            return QString::fromStdString(msg.content.url);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.avatar event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StrippedEvent<state::Avatar>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomAvatar))) {
+            return QString::fromStdString(msg->content.url);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.avatar event: {}", e.what());
     }
 
     const auto localUserId = localUserId_.toStdString();
@@ -3255,16 +3186,13 @@ Cache::getInviteRoomTopic(db::Txn &txn, db::Dbi &db_)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = db_.get(txn, to_string(mtx::events::EventType::RoomTopic), event);
-
-    if (res) {
-        try {
-            StrippedEvent<Topic> msg = nlohmann::json::parse(event).get<StrippedEvent<Topic>>();
-            return QString::fromStdString(msg.content.topic);
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.topic event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StrippedEvent<Topic>>(
+              txn, db_, to_string(mtx::events::EventType::RoomTopic))) {
+            return QString::fromStdString(msg->content.topic);
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.topic event: {}", e.what());
     }
 
     return QString();
@@ -3276,16 +3204,13 @@ Cache::getInviteRoomIsSpace(db::Txn &txn, db::Dbi &db_)
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-    std::string_view event;
-    bool res = db_.get(txn, to_string(mtx::events::EventType::RoomCreate), event);
-
-    if (res) {
-        try {
-            StrippedEvent<Create> msg = nlohmann::json::parse(event).get<StrippedEvent<Create>>();
-            return msg.content.type == mtx::events::state::room_type::space;
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::db()->warn("failed to parse m.room.topic event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StrippedEvent<Create>>(
+              txn, db_, to_string(mtx::events::EventType::RoomCreate))) {
+            return msg->content.type == mtx::events::state::room_type::space;
         }
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse m.room.topic event: {}", e.what());
     }
 
     return false;
@@ -3508,21 +3433,20 @@ Cache::firstPendingMessage(const std::string &room_id)
           pending,
           [&eventsDb, &txn, &firstValid, &staleEntries](std::string_view timestamp,
                                                         std::string_view pendingTxn) {
-              std::string_view event;
-              if (!eventsDb.get(txn, pendingTxn, event)) {
-                  staleEntries.emplace_back(std::string(timestamp), std::string(pendingTxn));
-                  return true;
-              }
-
               try {
-                  firstValid =
-                    nlohmann::json::parse(event).get<mtx::events::collections::TimelineEvents>();
-                  return false;
-              } catch (std::exception &e) {
+                  if (auto event = db::getJsonValue<mtx::events::collections::TimelineEvents>(
+                        txn, eventsDb, pendingTxn)) {
+                      firstValid = std::move(*event);
+                      return false;
+                  }
+              } catch (const nlohmann::json::exception &e) {
                   nhlog::db()->error("Failed to parse message from cache {}", e.what());
                   staleEntries.emplace_back(std::string(timestamp), std::string(pendingTxn));
                   return true;
               }
+
+              staleEntries.emplace_back(std::string(timestamp), std::string(pendingTxn));
+              return true;
           });
     } catch (const db::Error &e) {
     }
@@ -4160,23 +4084,17 @@ Cache::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes
         int64_t min_event_level = std::numeric_limits<int64_t>::max();
         int64_t user_level      = std::numeric_limits<int64_t>::min();
 
-        std::string_view event;
-        bool res = db_.get(txn, to_string(EventType::RoomPowerLevels), event);
-
-        if (res) {
-            try {
-                StateEvent<PowerLevels> msg =
-                  nlohmann::json::parse(std::string_view(event.data(), event.size()))
-                    .get<StateEvent<PowerLevels>>();
-
-                user_level = msg.content.user_level(user_id);
+        try {
+            if (auto msg = db::getJsonValue<StateEvent<PowerLevels>>(
+                  txn, db_, to_string(EventType::RoomPowerLevels))) {
+                user_level = msg->content.user_level(user_id);
 
                 for (const auto &ty : eventTypes)
                     min_event_level =
-                      std::min(min_event_level, msg.content.state_level(to_string(ty)));
-            } catch (const nlohmann::json::exception &e) {
-                nhlog::db()->warn("failed to parse m.room.power_levels event: {}", e.what());
+                      std::min(min_event_level, msg->content.state_level(to_string(ty)));
             }
+        } catch (const nlohmann::json::exception &e) {
+            nhlog::db()->warn("failed to parse m.room.power_levels event: {}", e.what());
         }
 
         return user_level >= min_event_level;
@@ -4351,14 +4269,12 @@ Cache::presence(const std::string &user_id)
     if (user_id.empty())
         return presence_;
 
-    std::string_view presenceVal;
-
     auto txn = ro_txn(storage());
-    auto res = db->presence.get(txn, user_id, presenceVal);
-
-    if (res) {
-        presence_ = nlohmann::json::parse(std::string_view(presenceVal.data(), presenceVal.size()))
-                      .get<mtx::events::presence::Presence>();
+    try {
+        if (auto val = db::getJsonValue<mtx::events::presence::Presence>(txn, db->presence, user_id))
+            presence_ = std::move(*val);
+    } catch (const nlohmann::json::exception &e) {
+        nhlog::db()->warn("failed to parse presence entry for {}: {}", user_id, e.what());
     }
 
     return presence_;

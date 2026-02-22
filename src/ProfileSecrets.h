@@ -21,6 +21,9 @@ struct CacheSecretDescriptor
 bool
 deleteProfileSecretValueBlocking(const QString &key);
 
+bool
+deleteEmptyProfileSecretValueBlocking(const QString &key);
+
 QString
 normalizedProfileId(QStringView profile);
 QString

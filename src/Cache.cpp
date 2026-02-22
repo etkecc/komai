@@ -652,11 +652,22 @@ Cache::loadSecretsFromStore(
                     fatalSecretError();
                 }
                 if (secret.isEmpty()) {
-                    nhlog::db()->debug("Restored empty secret '{}'.", name.toStdString());
-                    const auto wasDeleted = profile_secrets::deleteProfileSecretValueBlocking(name);
-                    if (!wasDeleted)
-                        nhlog::db()->warn("Failed to clean up empty cache secret '{}'.",
-                                          name.toStdString());
+                    nhlog::db()->debug("Restored empty cache secret '{}'; scheduling cleanup.",
+                                       name.toStdString());
+                    QTimer::singleShot(0, this, [name] {
+                        auto userSettings = UserSettings::instance();
+                        if (userSettings->runWithoutSecureSecretsService()) {
+                            userSettings->removeSecret(name);
+                            return;
+                        }
+
+                        const auto deleted =
+                          profile_secrets::deleteEmptyProfileSecretValueBlocking(name);
+                        if (!deleted) {
+                            nhlog::db()->warn("Failed to clean up stale empty cache secret '{}'.",
+                                              name.toStdString());
+                        }
+                    });
                 } else {
                     callback(name__, internal_, secret.toStdString());
                 }
@@ -723,6 +734,13 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
 {
     auto name         = secretName(name_, true);
     auto userSettings = UserSettings::instance();
+
+    if (secret.empty()) {
+        nhlog::db()->warn("Refusing to store empty cache secret '{}'; deleting instead.",
+                          name_.c_str());
+        deleteSecretFromStore(name_, true);
+        return;
+    }
 
     if (userSettings->runWithoutSecureSecretsService()) {
         userSettings->setSecret(name, QString::fromStdString(secret));

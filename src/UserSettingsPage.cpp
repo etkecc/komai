@@ -837,6 +837,14 @@ UserSettings::loadSecretsForProvider()
         nhlog::ui()->warn("Secure backend access token was empty; removing stale session auth "
                           "secret for profile '{}'",
                           app_paths::normalizedProfileId(profile_).toStdString());
+        const auto accessTokenStoreKey = secureStoreKey(profile_, SecureStoreAccessTokenKey);
+        const auto staleAccessTokenDeleted =
+          profile_secrets::deleteProfileSecretValueBlocking(accessTokenStoreKey);
+        if (!staleAccessTokenDeleted) {
+            nhlog::ui()->warn(
+              "Failed to remove stale secure backend access token secret for profile '{}'",
+              app_paths::normalizedProfileId(profile_).toStdString());
+        }
         hasEmptySecureSecrets = true;
         accessToken_.clear();
     } else {
@@ -848,15 +856,53 @@ UserSettings::loadSecretsForProvider()
         nhlog::ui()->warn("Secure backend secrets payload was empty; removing stale secret storage "
                           "for profile '{}'",
                           app_paths::normalizedProfileId(profile_).toStdString());
+        const auto secretsStoreKey = secureStoreKey(profile_, SecureStoreSecretsKey);
+        const auto staleSecretsDeleted =
+          profile_secrets::deleteProfileSecretValueBlocking(secretsStoreKey);
+        if (!staleSecretsDeleted) {
+            nhlog::ui()->warn(
+              "Failed to remove stale secure backend session secrets for profile '{}'",
+              app_paths::normalizedProfileId(profile_).toStdString());
+        }
         hasEmptySecureSecrets = true;
         secrets_.clear();
     } else {
         secrets_ =
           serializedSecrets ? decodeSecretsMap(*serializedSecrets) : QMap<QString, QString>{};
+
+        bool sessionSecretsPruned = false;
+        for (auto it = secrets_.begin(); it != secrets_.end();) {
+            if (it.value().isEmpty()) {
+                nhlog::ui()->warn("Pruning empty secure secret entry '{}' for profile '{}'",
+                                  it.key().toStdString(),
+                                  app_paths::normalizedProfileId(profile_).toStdString());
+                it                   = secrets_.erase(it);
+                sessionSecretsPruned = true;
+            } else {
+                ++it;
+            }
+        }
+        if (sessionSecretsPruned) {
+            const auto secretsStoreKey = secureStoreKey(profile_, SecureStoreSecretsKey);
+            if (secrets_.isEmpty()) {
+                const auto staleSecretsDeleted =
+                  profile_secrets::deleteProfileSecretValueBlocking(secretsStoreKey);
+                if (!staleSecretsDeleted) {
+                    nhlog::ui()->warn(
+                      "Failed to remove stale secure backend session secrets for profile '{}'",
+                      app_paths::normalizedProfileId(profile_).toStdString());
+                }
+            } else {
+                writeSecureValue(secretsStoreKey, encodeSecretsMap(secrets_));
+            }
+            hasEmptySecureSecrets = true;
+        }
     }
 
-    if (hasEmptySecureSecrets)
-        profile_secrets::deleteSettingsProfileSecretsFromStoreBlocking(profile_);
+    if (hasEmptySecureSecrets) {
+        nhlog::ui()->warn("Found stale/empty secure backend values for profile '{}'",
+                          app_paths::normalizedProfileId(profile_).toStdString());
+    }
 
     if (hasSessionValue(accessToken_) &&
         (!hasSessionValue(userId_) || !hasSessionValue(deviceId_))) {
@@ -1168,6 +1214,11 @@ UserSettings::secret(const QString &name) const
 void
 UserSettings::setSecret(const QString &name, const QString &value)
 {
+    if (value.isEmpty()) {
+        removeSecret(name);
+        return;
+    }
+
     secrets_[name] = value;
     save();
 }
@@ -1798,18 +1849,26 @@ UserSettings::saveSecretsYaml() const
     }
 
     // Preferred mode stores auth and secret map in the secure backend.
-    const auto accessTokenKey = secureStoreKey(profile_, SecureStoreAccessTokenKey);
-    const auto secretsKey     = secureStoreKey(profile_, SecureStoreSecretsKey);
+    const auto accessTokenKey              = secureStoreKey(profile_, SecureStoreAccessTokenKey);
+    const auto secretsKey                  = secureStoreKey(profile_, SecureStoreSecretsKey);
+    QMap<QString, QString> nonEmptySecrets = secrets_;
+
+    for (auto it = nonEmptySecrets.begin(); it != nonEmptySecrets.end();) {
+        if (it.value().isEmpty())
+            it = nonEmptySecrets.erase(it);
+        else
+            ++it;
+    }
 
     if (accessToken_.isEmpty())
         deleteSecureValue(accessTokenKey);
     else
         writeSecureValue(accessTokenKey, accessToken_);
 
-    if (secrets_.isEmpty())
+    if (nonEmptySecrets.isEmpty())
         deleteSecureValue(secretsKey);
     else
-        writeSecureValue(secretsKey, encodeSecretsMap(secrets_));
+        writeSecureValue(secretsKey, encodeSecretsMap(nonEmptySecrets));
 
     // In secure backend mode, keep secrets.yml absent to avoid stale plaintext fallback data.
     if (QFileInfo::exists(secretsFilePath_) && !QFile::remove(secretsFilePath_))

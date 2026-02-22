@@ -144,6 +144,71 @@ deleteProfileSecretValueBlocking(const QString &key)
 }
 
 bool
+deleteEmptyProfileSecretValueBlocking(const QString &key)
+{
+    auto settings = UserSettings::instance();
+    if (settings->runWithoutSecureSecretsService()) {
+        nhlog::ui()->info(
+          "Skipping secure-backend empty-secret cleanup for key '{}'; insecure mode",
+          key.toStdString());
+        settings->removeSecret(key);
+        return true;
+    }
+
+    auto readJobStatus = [&](const QString &target) -> std::optional<bool> {
+        std::optional<bool> status;
+        QEventLoop loop;
+        auto *job = new QKeychain::ReadPasswordJob(QCoreApplication::applicationName());
+        job->setAutoDelete(true);
+        job->setInsecureFallback(false);
+        job->setKey(target);
+
+        QObject::connect(job, &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+        QObject::connect(job, &QKeychain::Job::finished, job, [&status](QKeychain::Job *j) {
+            if (j->error() == QKeychain::Error::NoError)
+                status = static_cast<QKeychain::ReadPasswordJob *>(j)->textData().isEmpty();
+            else if (j->error() == QKeychain::Error::EntryNotFound)
+                status = true;
+            else
+                status.reset();
+        });
+        job->start();
+        loop.exec();
+        return status;
+    };
+
+    const auto isEmpty = readJobStatus(key);
+    if (!isEmpty) {
+        nhlog::ui()->warn("Failed to verify cache secret '{}' for stale-empty cleanup",
+                          key.toStdString());
+        return false;
+    }
+
+    if (!*isEmpty) {
+        nhlog::ui()->debug(
+          "Skipping deletion of cache secret '{}' because it now has non-empty value",
+          key.toStdString());
+        return true;
+    }
+
+    const auto isEmptyAfterRead = readJobStatus(key);
+    if (!isEmptyAfterRead) {
+        nhlog::ui()->warn("Failed to re-verify cache secret '{}' for stale-empty cleanup",
+                          key.toStdString());
+        return false;
+    }
+
+    if (!*isEmptyAfterRead) {
+        nhlog::ui()->debug(
+          "Skipping deletion of cache secret '{}' because it was rewritten before cleanup",
+          key.toStdString());
+        return true;
+    }
+
+    return deleteProfileSecretValueBlocking(key);
+}
+
+bool
 deleteAllProfileSecretsFromStoreBlocking(QStringView profile)
 {
     return deleteSettingsProfileSecretsFromStoreBlocking(profile) &&

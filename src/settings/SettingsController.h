@@ -5,6 +5,7 @@
 #pragma once
 
 #include <optional>
+#include <memory>
 
 namespace YAML {
 class Node;
@@ -13,7 +14,21 @@ class Node;
 class UserSettings;
 class QString;
 
+namespace spdlog {
+class logger;
+}
+
 namespace settings {
+
+struct ControllerLoggers
+{
+    std::shared_ptr<spdlog::logger> ui;
+};
+
+void
+setLoggers(ControllerLoggers loggers);
+ControllerLoggers
+activeLoggers();
 
 /**
  * Orchestrates settings persistence for a profile: computes profile-scoped

@@ -36,6 +36,7 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Paths.h"
+#include "settings/SettingsController.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
 #include "Utils.h"
@@ -293,6 +294,7 @@ main(int argc, char *argv[])
     settings::storage::setLoggers({.ui = nhlog::ui(), .db = nhlog::db()});
     cache::setLoggers({.db = nhlog::db()});
     settings::persistence::setLoggers({.ui = nhlog::ui()});
+    settings::setLoggers({.ui = nhlog::ui()});
     settings::serializer::setLoggers({.ui = nhlog::ui()});
 
     ThemeRegistry::initialize();

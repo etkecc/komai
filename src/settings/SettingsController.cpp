@@ -4,9 +4,10 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include <utility>
 #include "SettingsController.h"
+#include <spdlog/logger.h>
 
-#include "Logging.h"
 #include "Paths.h"
 #include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
@@ -29,6 +30,35 @@ using settings::storage::stateFilePathForProfile;
 using settings::persistence::providerFromConfig;
 
 } // namespace
+
+namespace {
+
+settings::ControllerLoggers
+defaultLoggers()
+{
+    return {};
+}
+
+settings::ControllerLoggers &
+currentLoggers()
+{
+    static settings::ControllerLoggers loggers = defaultLoggers();
+    return loggers;
+}
+
+} // namespace
+
+void
+settings::setLoggers(settings::ControllerLoggers loggers)
+{
+    currentLoggers() = std::move(loggers);
+}
+
+settings::ControllerLoggers
+settings::activeLoggers()
+{
+    return currentLoggers();
+}
 
 void
 settings::SettingsController::load(UserSettings &settings, std::optional<QString> profile)
@@ -135,8 +165,10 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 void
 settings::SettingsController::clearAuth(UserSettings &settings)
 {
-    nhlog::ui()->info("Clearing persisted session auth/identity for profile '{}'",
-                      app_paths::normalizedProfileId(settings.profile_).toStdString());
+    if (const auto logger = activeLoggers().ui) {
+        logger->info("Clearing persisted session auth/identity for profile '{}'",
+                     app_paths::normalizedProfileId(settings.profile_).toStdString());
+    }
 
     settings.accessToken_ = QString();
     settings.homeserver_  = QString();
@@ -145,9 +177,11 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings.secrets_.clear();
 
     if (pathExists(settings.sessionFilePath_) && !removePath(settings.sessionFilePath_)) {
-        nhlog::ui()->warn("Failed to remove session file '{}', keeping file to avoid "
-                          "accidental data loss",
-                          settings.sessionFilePath_.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Failed to remove session file '{}', keeping file to avoid "
+                         "accidental data loss",
+                         settings.sessionFilePath_.toStdString());
+        }
     }
 
     settings::persistence::clearProfileSecrets(

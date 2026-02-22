@@ -88,6 +88,12 @@ UserSettings::load(std::optional<QString> profile, const YAML::Node &configRoot)
     controller.load(*this, profile, configRoot);
 }
 
+void
+UserSettings::setPersistenceSuspended(bool suspended)
+{
+    suppressSettingsSave_ = suspended;
+}
+
 QString
 UserSettings::emojiFont() const
 {
@@ -118,6 +124,9 @@ UserSettings::applyTheme()
 void
 UserSettings::save()
 {
+    if (suppressSettingsSave_)
+        return;
+
     settings::SettingsController controller;
     controller.save(*this);
 }

@@ -33,23 +33,30 @@ namespace settings::serializer {
 void
 loadSession(UserSettings &settings, const YAML::Node &root)
 {
-    settings.setHomeserver(readString(root, SettingKey::SessionAccountHomeserver, QString()));
-    settings.setUserId(readString(root, SettingKey::SessionAccountUserId, QString()));
-    settings.setDeviceId(readString(root, SettingKey::SessionDeviceId, QString()));
+    settings.setSessionSnapshot(UserSettings::SessionSnapshot{
+      .userId      = readString(root, SettingKey::SessionAccountUserId, QString()),
+      .accessToken = QString(),
+      .deviceId    = readString(root, SettingKey::SessionDeviceId, QString()),
+      .homeserver  = readString(root, SettingKey::SessionAccountHomeserver, QString())});
 }
 
 void
 saveSession(const UserSettings &settings, const QString &sessionFilePath)
 {
-    const bool hasUserId      = hasSessionValue(settings.userId());
-    const bool hasDeviceId    = hasSessionValue(settings.deviceId());
+    const bool hasUserId     = hasSessionValue(settings.userId());
+    const bool hasDeviceId   = hasSessionValue(settings.deviceId());
+    const bool hasHomeserver = hasSessionValue(settings.homeserver());
     const bool hasAccessToken = hasSessionValue(settings.accessToken());
 
-    if (hasAccessToken && (!hasUserId || !hasDeviceId)) {
+    if (!hasAccessToken)
+        return;
+
+    if (!hasUserId || !hasDeviceId || !hasHomeserver) {
         nhlog::ui()->warn("Skipping session.yml write because session identity is incomplete "
-                          "(has_user_id={}, has_device_id={}, has_access_token=true)",
+                          "(has_user_id={}, has_device_id={}, has_homeserver={})",
                           hasUserId,
-                          hasDeviceId);
+                          hasDeviceId,
+                          hasHomeserver);
         return;
     }
 

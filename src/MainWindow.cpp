@@ -201,10 +201,14 @@ MainWindow::restoreWindowSize()
 
     nhlog::ui()->info("Restoring window size {}x{}", savedWidth, savedHeight);
 
-    if (savedWidth == 0 || savedHeight == 0)
+    if (savedWidth <= 0 || savedHeight <= 0) {
+        nhlog::ui()->warn("Loaded invalid window size, falling back to defaults {}x{}",
+                          conf::window::width,
+                          conf::window::height);
         resize(conf::window::width, conf::window::height);
-    else
+    } else {
         resize(savedWidth, savedHeight);
+    }
 }
 
 void

@@ -366,11 +366,14 @@ public:
     // Persist full auth/session material even if fields are unchanged in memory.
     // This keeps file/keychain storage repaired after partial deletion/corruption.
     bool persistSessionSnapshot(const SessionSnapshot &snapshot);
+    // Load session identity fields from persisted storage without triggering settings save.
+    void setSessionSnapshot(const SessionSnapshot &snapshot);
 
     // Secrets storage helpers (for fallback mode)
     QString secret(const QString &name) const;
     void setSecret(const QString &name, const QString &value);
     void removeSecret(const QString &name);
+    void setPersistenceSuspended(bool suspended);
 
     // Theme helpers for QML (used on the Welcome page)
     Q_INVOKABLE int themeVariantIndex() const;
@@ -653,6 +656,7 @@ private:
     bool runWithoutSecureSecretsService_ = false;
     bool enableHttp3_                    = false;
     QMap<QString, QString> secrets_;
+    bool suppressSettingsSave_ = false;
 
     // Paths to the per-profile settings directory and files.
     QString profileDirPath_;

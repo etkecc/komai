@@ -7,6 +7,7 @@
 #include <QString>
 #include <yaml-cpp/yaml.h>
 
+#include "Config.h"
 #include "Logging.h"
 #include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
@@ -31,8 +32,13 @@ loadState(UserSettings &settings, const YAML::Node &root)
     const auto communityListWidth =
       readScalar<int>(root, SettingKey::SidebarsCommunitiesWidthPx, 200);
 
-    settings.setWindowWidth(readScalar<int>(root, SettingKey::AppWindowSizeWidth, 0));
-    settings.setWindowHeight(readScalar<int>(root, SettingKey::AppWindowSizeHeight, 0));
+    const auto windowWidth =
+      readScalar<int>(root, SettingKey::AppWindowSizeWidth, conf::window::width);
+    const auto windowHeight =
+      readScalar<int>(root, SettingKey::AppWindowSizeHeight, conf::window::height);
+
+    settings.setWindowWidth(windowWidth > 0 ? windowWidth : conf::window::width);
+    settings.setWindowHeight(windowHeight > 0 ? windowHeight : conf::window::height);
     settings.setRoomListWidth(roomListWidth < -1 ? -1 : roomListWidth);
     settings.setCommunityListWidth(communityListWidth < 0 ? 0 : communityListWidth);
     settings.setCurrentTagId(

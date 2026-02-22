@@ -22,6 +22,9 @@ namespace settings::persistence {
 struct SecretsPayload
 {
     QString accessToken;
+    QString sessionUserId;
+    QString sessionDeviceId;
+    QString sessionHomeserver;
     QMap<QString, QString> secrets;
     bool hadStaleValues = false;
 };
@@ -50,7 +53,10 @@ saveProfileSecrets(const QString &profile,
                    bool runWithoutSecureSecretsService,
                    const QString &secretsFilePath,
                    const QString &accessToken,
-                   const QMap<QString, QString> &secrets);
+                   const QMap<QString, QString> &secrets,
+                   const QString &sessionUserId,
+                   const QString &sessionDeviceId,
+                   const QString &sessionHomeserver);
 
 /**
  * Remove all persisted session secrets/auth for a profile from both file-backed and

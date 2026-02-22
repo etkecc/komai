@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QDir>
+#include <QFile>
+#include <QFileInfo>
 
 #include <yaml-cpp/yaml.h>
 
@@ -52,6 +54,8 @@ settings::SettingsController::load(UserSettings &settings,
     settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
     QDir().mkpath(settings.profileDirPath_);
 
+    settings.setPersistenceSuspended(true);
+
     const auto effectiveConfig =
       configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath_, "config");
     settings.loadConfigYaml(effectiveConfig);
@@ -77,6 +81,18 @@ settings::SettingsController::load(UserSettings &settings,
                                                         settings.secretsFilePath_);
             settings.accessToken_ = payload.accessToken;
             settings.secrets_     = payload.secrets;
+
+            const auto snapshot = settings.sessionSnapshot();
+            if ((snapshot.userId.isEmpty() || snapshot.deviceId.isEmpty() ||
+                 snapshot.homeserver.isEmpty()) &&
+                !payload.sessionUserId.isEmpty() && !payload.sessionDeviceId.isEmpty() &&
+                !payload.sessionHomeserver.isEmpty()) {
+                settings.setSessionSnapshot(
+                  UserSettings::SessionSnapshot{.userId      = payload.sessionUserId,
+                                                .accessToken = payload.accessToken,
+                                                .deviceId    = payload.sessionDeviceId,
+                                                .homeserver  = payload.sessionHomeserver});
+            }
             break;
         }
         case staged_load_plan::Stage::State: {
@@ -88,6 +104,7 @@ settings::SettingsController::load(UserSettings &settings,
     }
 
     settings.applyTheme();
+    settings.setPersistenceSuspended(false);
 
     if (profile)
         emit settings.profileChanged(settings.profile_);
@@ -123,7 +140,13 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings.deviceId_    = QString();
     settings.secrets_.clear();
 
-    settings.saveSessionYaml();
+    if (QFileInfo(settings.sessionFilePath_).exists() &&
+        !QFile::remove(settings.sessionFilePath_)) {
+        nhlog::ui()->warn("Failed to remove session file '{}', keeping file to avoid "
+                          "accidental data loss",
+                          settings.sessionFilePath_.toStdString());
+    }
+
     settings::persistence::clearProfileSecrets(
       settings.profile_, settings.runWithoutSecureSecretsService_, settings.secretsFilePath_);
     settings.saveStateYaml();

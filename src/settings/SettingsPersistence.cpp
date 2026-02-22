@@ -24,6 +24,48 @@ isFileProvider(bool runWithoutSecureSecretsService)
     return false;
 }
 
+void
+storeInternalSessionMetadata(QMap<QString, QString> &secrets,
+                             const QString &userId,
+                             const QString &deviceId,
+                             const QString &homeserver)
+{
+    constexpr auto sessionUserIdKey     = "__session.user_id";
+    constexpr auto sessionDeviceIdKey   = "__session.device_id";
+    constexpr auto sessionHomeserverKey = "__session.homeserver";
+
+    if (userId.isEmpty())
+        secrets.remove(sessionUserIdKey);
+    else
+        secrets[sessionUserIdKey] = userId;
+
+    if (deviceId.isEmpty())
+        secrets.remove(sessionDeviceIdKey);
+    else
+        secrets[sessionDeviceIdKey] = deviceId;
+
+    if (homeserver.isEmpty())
+        secrets.remove(sessionHomeserverKey);
+    else
+        secrets[sessionHomeserverKey] = homeserver;
+}
+
+void
+extractInternalSessionMetadata(SecretsPayload &payload)
+{
+    constexpr auto sessionUserIdKey     = "__session.user_id";
+    constexpr auto sessionDeviceIdKey   = "__session.device_id";
+    constexpr auto sessionHomeserverKey = "__session.homeserver";
+
+    payload.sessionUserId     = payload.secrets.value(sessionUserIdKey);
+    payload.sessionDeviceId   = payload.secrets.value(sessionDeviceIdKey);
+    payload.sessionHomeserver = payload.secrets.value(sessionHomeserverKey);
+
+    payload.secrets.remove(sessionUserIdKey);
+    payload.secrets.remove(sessionDeviceIdKey);
+    payload.secrets.remove(sessionHomeserverKey);
+}
+
 } // namespace
 
 staged_load_plan::SecretsProvider
@@ -51,6 +93,7 @@ loadProfileSecrets(const QString &profile,
         payload.accessToken =
           yaml_settings::readString(secretsRoot, SettingKey::SecretsFileAuthAccessToken, QString());
         payload.secrets = yaml_settings::readStringMap(secretsRoot, SettingKey::SecretsFileMap);
+        extractInternalSessionMetadata(payload);
 
         nhlog::ui()->info("Loaded file-backed secrets (has_access_token={}, secrets_count={})",
                           !payload.accessToken.trimmed().isEmpty(),
@@ -95,6 +138,7 @@ loadProfileSecrets(const QString &profile,
         payload.secrets = serializedSecrets
                             ? settings::storage::decodeSecretsMap(*serializedSecrets)
                             : QMap<QString, QString>{};
+        extractInternalSessionMetadata(payload);
 
         bool sessionSecretsPruned = false;
         for (auto it = payload.secrets.begin(); it != payload.secrets.end();) {
@@ -143,13 +187,20 @@ saveProfileSecrets(const QString &profile,
                    bool runWithoutSecureSecretsService,
                    const QString &secretsFilePath,
                    const QString &accessToken,
-                   const QMap<QString, QString> &secrets)
+                   const QMap<QString, QString> &secrets,
+                   const QString &sessionUserId,
+                   const QString &sessionDeviceId,
+                   const QString &sessionHomeserver)
 {
+    auto secretsWithSessionMetadata = secrets;
+    storeInternalSessionMetadata(
+      secretsWithSessionMetadata, sessionUserId, sessionDeviceId, sessionHomeserver);
+
     if (isFileProvider(runWithoutSecureSecretsService)) {
         YAML::Node root(YAML::NodeType::Map);
         yaml_settings::setNode(
           root, SettingKey::SecretsFileAuthAccessToken, accessToken.toStdString());
-        yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, secrets);
+        yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, secretsWithSessionMetadata);
 
         if (settings::storage::writeYamlFile(secretsFilePath, root, true)) {
             nhlog::ui()->debug("Saved secrets to: {}", secretsFilePath.toStdString());
@@ -160,7 +211,7 @@ saveProfileSecrets(const QString &profile,
     const auto accessTokenKey =
       settings::storage::secureStoreKey(profile, SecureStoreAccessTokenKey);
     const auto secretsKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
-    QMap<QString, QString> nonEmptySecrets = secrets;
+    QMap<QString, QString> nonEmptySecrets = secretsWithSessionMetadata;
 
     for (auto it = nonEmptySecrets.begin(); it != nonEmptySecrets.end();) {
         if (it.value().isEmpty())

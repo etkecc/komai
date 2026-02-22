@@ -45,6 +45,12 @@ UserSettings::saveStateYaml() const
 void
 UserSettings::saveSecretsYaml() const
 {
-    settings::persistence::saveProfileSecrets(
-      profile_, runWithoutSecureSecretsService_, secretsFilePath_, accessToken_, secrets_);
+    settings::persistence::saveProfileSecrets(profile_,
+                                              runWithoutSecureSecretsService_,
+                                              secretsFilePath_,
+                                              accessToken_,
+                                              secrets_,
+                                              userId_,
+                                              deviceId_,
+                                              homeserver_);
 }

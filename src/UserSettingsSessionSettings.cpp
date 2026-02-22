@@ -67,6 +67,22 @@ UserSettings::sessionSnapshot() const
                            .homeserver  = homeserver_};
 }
 
+void
+UserSettings::setSessionSnapshot(const SessionSnapshot &snapshot)
+{
+    const auto applyField = [this](QString &field, const QString &value, auto signal) {
+        if (field == value)
+            return;
+
+        field = value;
+        emit(this->*signal)(value);
+    };
+
+    applyField(userId_, snapshot.userId, &UserSettings::userIdChanged);
+    applyField(deviceId_, snapshot.deviceId, &UserSettings::deviceIdChanged);
+    applyField(homeserver_, snapshot.homeserver, &UserSettings::homeserverChanged);
+}
+
 bool
 UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
 {

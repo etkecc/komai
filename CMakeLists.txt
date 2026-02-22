@@ -587,6 +587,11 @@ set(SRC_FILES
     src/MxcImageProvider.h
     src/Paths.cpp
     src/Paths.h
+    src/settings/SettingKeys.h
+    src/settings/SettingsPersistence.cpp
+    src/settings/SettingsPersistence.h
+    src/settings/SettingsStorage.cpp
+    src/settings/SettingsStorage.h
     src/settings/YamlSettings.h
     src/PowerlevelsEditModels.cpp
     src/PowerlevelsEditModels.h
@@ -608,6 +613,7 @@ set(SRC_FILES
     src/SingleImagePackModel.h
     src/TrayIcon.cpp
     src/TrayIcon.h
+    src/UserSettingsModel.cpp
     src/UserSettingsPage.cpp
     src/UserSettingsPage.h
     src/UsersModel.cpp
@@ -1107,6 +1113,33 @@ if(BUILD_TESTING)
     add_test(NAME komai_yaml_settings_test COMMAND komai_yaml_settings_test)
     set_tests_properties(komai_yaml_settings_test PROPERTIES LABELS "unit;settings")
 
+    add_executable(komai_staged_load_plan_test tests/StagedLoadPlanTest.cpp)
+    target_include_directories(komai_staged_load_plan_test PRIVATE src)
+    target_link_libraries(komai_staged_load_plan_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
+    add_test(NAME komai_staged_load_plan_test COMMAND komai_staged_load_plan_test)
+    set_tests_properties(komai_staged_load_plan_test PROPERTIES LABELS "unit;settings")
+
+    add_executable(komai_settings_storage_test
+        tests/SettingsStorageTest.cpp
+        tests/LoggingStub.cpp
+        tests/ProfileSecretsStub.cpp
+        src/Paths.cpp
+        src/settings/SettingsStorage.cpp
+    )
+    target_include_directories(komai_settings_storage_test PRIVATE src)
+    target_link_libraries(komai_settings_storage_test PRIVATE
+        Qt::Core
+        Qt::Qml
+        ${YAMLCPP_TARGET_NAME}
+    )
+    target_link_libraries(komai_settings_storage_test PRIVATE
+        qt6keychain
+        spdlog::spdlog
+        fmt::fmt
+    )
+    add_test(NAME komai_settings_storage_test COMMAND komai_settings_storage_test)
+    set_tests_properties(komai_settings_storage_test PROPERTIES LABELS "unit;settings")
+
     add_executable(komai_db_backend_test
         tests/DbBackendTest.cpp
         src/CacheCryptoStructs.cpp
@@ -1118,7 +1151,12 @@ if(BUILD_TESTING)
     )
     add_test(NAME komai_db_backend_test COMMAND komai_db_backend_test)
     set_tests_properties(komai_db_backend_test PROPERTIES LABELS "integration;db")
-    add_custom_target(komai_tests DEPENDS komai_yaml_settings_test komai_db_backend_test)
+    add_custom_target(komai_tests DEPENDS
+        komai_yaml_settings_test
+        komai_staged_load_plan_test
+        komai_settings_storage_test
+        komai_db_backend_test
+    )
 endif()
 
 target_link_libraries(komai PRIVATE

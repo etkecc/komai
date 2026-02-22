@@ -538,9 +538,7 @@ private:
 
     void loadConfigYaml(const YAML::Node &root);
     void loadSessionYaml(const YAML::Node &root);
-    void loadSecretsYaml(const YAML::Node &root);
     void loadStateYaml(const YAML::Node &root);
-    void loadSecretsForProvider();
 
     void saveConfigYaml() const;
     void saveSessionYaml() const;

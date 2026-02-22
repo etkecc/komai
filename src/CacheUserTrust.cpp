@@ -9,7 +9,9 @@
 #include <string_view>
 #include <vector>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 #include "MatrixClient.h"
 #include "Utils.h"
 
@@ -50,7 +52,8 @@ Cache::roomVerificationStatus(const std::string &room_id)
         }
 
     } catch (std::exception &e) {
-        nhlog::db()->error("Failed to calculate verification status for {}: {}", room_id, e.what());
+        if (const auto logger = cache::activeLoggers().db)
+            logger->error("Failed to calculate verification status for {}: {}", room_id, e.what());
         trust = crypto::Unverified;
     }
 
@@ -113,7 +116,8 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
 
         return members;
     } catch (std::exception &e) {
-        nhlog::db()->debug("Error retrieving members: {}", e.what());
+        if (const auto logger = cache::activeLoggers().db)
+            logger->debug("Error retrieving members: {}", e.what());
         return {};
     }
 }

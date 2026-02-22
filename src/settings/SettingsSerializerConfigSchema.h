@@ -62,22 +62,28 @@ struct StringSettingDescriptor
     void (UserSettings::*setter)(QString);
 };
 
-std::span<const BoolSettingDescriptor> boolConfigSettings();
-std::span<const IntSettingDescriptor> intConfigSettings();
-std::span<const UintSettingDescriptor> uintConfigSettings();
-std::span<const ULongLongSettingDescriptor> ulonglongConfigSettings();
-std::span<const DoubleSettingDescriptor> doubleConfigSettings();
-std::span<const StringSettingDescriptor> stringConfigSettings();
+std::span<const BoolSettingDescriptor>
+boolConfigSettings();
+std::span<const IntSettingDescriptor>
+intConfigSettings();
+std::span<const UintSettingDescriptor>
+uintConfigSettings();
+std::span<const ULongLongSettingDescriptor>
+ulonglongConfigSettings();
+std::span<const DoubleSettingDescriptor>
+doubleConfigSettings();
+std::span<const StringSettingDescriptor>
+stringConfigSettings();
 
-constexpr bool kDefaultUiMotionAnimationsEnabled = true;
-constexpr bool kDefaultInputEnableTextSelection = true;
-constexpr double kDefaultScaleFactor = -1.0;
-constexpr double kDefaultFontSizePt = 13.0;
-constexpr int kDefaultScreenShareFrameRate = 5;
+constexpr bool kDefaultUiMotionAnimationsEnabled  = true;
+constexpr bool kDefaultInputEnableTextSelection   = true;
+constexpr double kDefaultScaleFactor              = -1.0;
+constexpr double kDefaultFontSizePt               = 13.0;
+constexpr int kDefaultScreenShareFrameRate        = 5;
 constexpr int kDefaultPrivacyScreenTimeoutSeconds = 0;
-constexpr int kDefaultTimelineMaxWidthPx = 0;
-constexpr int kDefaultMaxDbs = 0;
-constexpr qulonglong kDefaultMaxDbSizeBytes = 0;
-constexpr uint kDefaultDbusApiAccess = 0;
+constexpr int kDefaultTimelineMaxWidthPx          = 0;
+constexpr int kDefaultMaxDbs                      = 0;
+constexpr qulonglong kDefaultMaxDbSizeBytes       = 0;
+constexpr uint kDefaultDbusApiAccess              = 0;
 
 } // namespace settings::serializer::config

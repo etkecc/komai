@@ -332,6 +332,7 @@ public:
     void setOnlyShareKeysWithVerifiedUsers(bool state);
     void setShareKeysWithTrustedUsers(bool state);
     void setUseOnlineKeyBackup(bool state);
+    void setUseOnlineKeyBackupFromConfig(bool state);
     void setProfile(QString profile);
     void setUserId(QString userId);
     void setAccessToken(QString accessToken);
@@ -606,10 +607,10 @@ private:
     bool mobileMode_;
     bool enableSwipeGestures_;
     int maxTimelineWidth_;
-    int roomListWidth_;
-    int communityListWidth_;
-    double scaleFactor_ = -1.0;
-    double baseFontSize_;
+    int roomListWidth_      = -1;
+    int communityListWidth_ = 200;
+    double scaleFactor_     = -1.0;
+    double baseFontSize_    = 13.0;
     QString font_;
     QString emojiFont_;
     Presence presence_;
@@ -897,12 +898,14 @@ public:
         Tab,
     };
 
+    static constexpr int kSettingRowCount = static_cast<int>(COUNT);
+
     UserSettingsModel(QObject *parent = nullptr);
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
         (void)parent;
-        return (int)COUNT;
+        return kSettingRowCount;
     }
     QVariant data(const QModelIndex &index, int role) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;

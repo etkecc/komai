@@ -35,6 +35,16 @@ UserSettings::setUseOnlineKeyBackup(bool useBackup)
 }
 
 void
+UserSettings::setUseOnlineKeyBackupFromConfig(bool useBackup)
+{
+    if (useBackup == useOnlineKeyBackup_)
+        return;
+
+    useOnlineKeyBackup_ = useBackup;
+    emit useOnlineKeyBackupChanged(useBackup);
+}
+
+void
 UserSettings::setRingtone(QString s)
 {
     setSetting(ringtone_, s, &UserSettings::ringtoneChanged);

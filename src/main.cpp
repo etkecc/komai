@@ -308,6 +308,16 @@ main(int argc, char *argv[])
 
     auto profileName = settings.lock()->profile();
 
+    if (const auto initialSettings = settings.lock()) {
+        const auto fontFamily = initialSettings->font();
+        nhlog::ui()->info("Startup UI settings: scaleFactor={}, fontSizePt={}, fontFamily='{}'",
+                          initialSettings->scaleFactor(),
+                          initialSettings->fontSize(),
+                          (fontFamily.isEmpty() || fontFamily == QLatin1String("default"))
+                            ? "system default"
+                            : fontFamily.toStdString());
+    }
+
     KDSingleApplication singleapp(
       QStringLiteral("im.komai.komai-%1")
         .arg(profileName == QLatin1String("default") ? QLatin1String("") : profileName));

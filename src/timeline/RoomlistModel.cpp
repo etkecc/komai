@@ -665,7 +665,7 @@ RoomlistModel::setDbusInterfaceEnabled(bool enabled)
         if (dbusInterface_)
             return;
 
-        dbusInterface_ = new NhekoDBusBackend{this};
+        dbusInterface_ = new DbusBackend{this};
         if (!QDBusConnection::sessionBus().registerObject(
               QStringLiteral("/"), dbusInterface_, QDBusConnection::ExportScriptableSlots)) {
             nhlog::ui()->warn("Failed to register rooms with D-Bus");

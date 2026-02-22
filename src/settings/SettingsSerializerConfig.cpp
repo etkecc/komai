@@ -8,9 +8,9 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "Logging.h"
 #include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigSchema.h"
-#include "Logging.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
@@ -21,30 +21,33 @@ namespace cfg = settings::serializer::config;
 
 namespace {
 
+using settings::storage::writeYamlFile;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
 using yaml_settings::setNode;
-using settings::storage::writeYamlFile;
 
 void
 loadConfigByType(UserSettings &settings, const YAML::Node &root)
 {
     for (const auto &descriptor : cfg::boolConfigSettings()) {
-        (settings.*descriptor.setter)(
-          readScalar<bool>(root, descriptor.key, descriptor.defaultValue));
+        (settings.*
+         descriptor.setter)(readScalar<bool>(root, descriptor.key, descriptor.defaultValue));
     }
     for (const auto &descriptor : cfg::intConfigSettings()) {
-        (settings.*descriptor.setter)(readScalar<int>(root, descriptor.key, descriptor.defaultValue));
+        (settings.*
+         descriptor.setter)(readScalar<int>(root, descriptor.key, descriptor.defaultValue));
     }
     for (const auto &descriptor : cfg::uintConfigSettings()) {
-        (settings.*descriptor.setter)(readScalar<uint>(root, descriptor.key, descriptor.defaultValue));
+        (settings.*
+         descriptor.setter)(readScalar<uint>(root, descriptor.key, descriptor.defaultValue));
     }
     for (const auto &descriptor : cfg::ulonglongConfigSettings()) {
-        (settings.*descriptor.setter)(
-          readScalar<qulonglong>(root, descriptor.key, descriptor.defaultValue));
+        (settings.*
+         descriptor.setter)(readScalar<qulonglong>(root, descriptor.key, descriptor.defaultValue));
     }
     for (const auto &descriptor : cfg::doubleConfigSettings()) {
-        (settings.*descriptor.setter)(readScalar<double>(root, descriptor.key, descriptor.defaultValue));
+        (settings.*
+         descriptor.setter)(readScalar<double>(root, descriptor.key, descriptor.defaultValue));
     }
     for (const auto &descriptor : cfg::stringConfigSettings()) {
         (settings.*descriptor.setter)(readString(root, descriptor.key, descriptor.defaultValue));
@@ -83,16 +86,24 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
     setNode(root,
             SettingKey::SidebarsRoomListLastMessagePreview,
             cfg::toStorageValue(settings.showLastMessagePreview()).toStdString());
-    setNode(root, SettingKey::SidebarsRoomListSort, cfg::toStorageValue(settings.roomSortOrder()).toStdString());
+    setNode(root,
+            SettingKey::SidebarsRoomListSort,
+            cfg::toStorageValue(settings.roomSortOrder()).toStdString());
     setNode(root,
             SettingKey::TimelineMessagesSenderUsername,
             cfg::toStorageValue(settings.showSenderUsername()).toStdString());
     setNode(root,
             SettingKey::TimelineMediaImageDisplay,
             cfg::toStorageValue(settings.showImage()).toStdString());
-    setNode(root, SettingKey::ComposerInputSendKey, cfg::toStorageValue(settings.sendMessageKey()).toStdString());
-    setNode(root, SettingKey::ComposerInputAutoReplaceEmoji, cfg::toStorageValue(settings.autoReplaceEmoji()).toStdString());
-    setNode(root, SettingKey::NetworkPresenceDefault, cfg::toStorageValue(settings.presence()).toStdString());
+    setNode(root,
+            SettingKey::ComposerInputSendKey,
+            cfg::toStorageValue(settings.sendMessageKey()).toStdString());
+    setNode(root,
+            SettingKey::ComposerInputAutoReplaceEmoji,
+            cfg::toStorageValue(settings.autoReplaceEmoji()).toStdString());
+    setNode(root,
+            SettingKey::NetworkPresenceDefault,
+            cfg::toStorageValue(settings.presence()).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, !settings.reducedMotion());
     setNode(root, SettingKey::UiInputEnableTextSelection, !settings.mobileMode());
 
@@ -133,7 +144,8 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
       readString(root, SettingKey::TimelineMediaImageDisplay, QStringLiteral("always")),
       UserSettings::ShowImage::Always));
     settings.setShowSenderUsername(cfg::showSenderUsernameFromStorage(
-      readString(root, SettingKey::TimelineMessagesSenderUsername, QStringLiteral("only_in_large_rooms")),
+      readString(
+        root, SettingKey::TimelineMessagesSenderUsername, QStringLiteral("only_in_large_rooms")),
       UserSettings::ShowSenderUsername::OnlyInLargeRooms));
     settings.setPresence(cfg::presenceFromStorage(
       readString(root, SettingKey::NetworkPresenceDefault, QStringLiteral("automatic_presence")),
@@ -144,9 +156,10 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
 
     settings.setReducedMotion(!readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
-    settings.setMobileMode(
-      !readScalar<bool>(root, SettingKey::UiInputEnableTextSelection, cfg::kDefaultInputEnableTextSelection));
-    const auto scaleFactor = readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
+    settings.setMobileMode(!readScalar<bool>(
+      root, SettingKey::UiInputEnableTextSelection, cfg::kDefaultInputEnableTextSelection));
+    const auto scaleFactor =
+      readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
     if (settings::core::isScaleFactorInRange(scaleFactor))
         settings.setScaleFactor(scaleFactor);
     else

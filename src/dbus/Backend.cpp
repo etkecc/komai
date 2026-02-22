@@ -12,21 +12,20 @@
 #include "MainWindow.h"
 #include "MxcImageProvider.h"
 #include "UserSettingsPage.h"
+#include "settings/SettingKeys.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 
 #include <QDBusConnection>
 
-NhekoDBusBackend::NhekoDBusBackend(RoomlistModel *parent)
+DbusBackend::DbusBackend(RoomlistModel *parent)
   : QObject{parent}
   , m_parent{parent}
 {
 }
 
 namespace {
-constexpr int integrationsDbusAccessReadOnly  = 1;
-constexpr int integrationsDbusAccessReadWrite = 2;
-static const auto DbusArgTypePrefix           = QStringLiteral("string:");
+static const auto DbusArgTypePrefix = QStringLiteral("string:");
 
 QString
 stripDbusTypePrefix(QString arg)
@@ -45,14 +44,14 @@ bool
 dbusReadAccessEnabled()
 {
     const auto settings = UserSettings::instance();
-    return settings && settings->integrationsDbusApiAccess() >= integrationsDbusAccessReadOnly;
+    return settings && settings->integrationsDbusApiAccess() >= IntegrationsDbusAccessReadOnly;
 }
 
 bool
 dbusWriteAccessEnabled()
 {
     const auto settings = UserSettings::instance();
-    return settings && settings->integrationsDbusApiAccess() >= integrationsDbusAccessReadWrite;
+    return settings && settings->integrationsDbusApiAccess() >= IntegrationsDbusAccessReadWrite;
 }
 
 struct RoomReplyState
@@ -64,7 +63,7 @@ struct RoomReplyState
 }
 
 QVector<nheko::dbus::RoomInfoItem>
-NhekoDBusBackend::rooms() const
+DbusBackend::rooms() const
 {
     if (!dbusReadAccessEnabled())
         return {};
@@ -98,7 +97,7 @@ NhekoDBusBackend::rooms() const
 }
 
 QImage
-NhekoDBusBackend::image(const QString &uri, const QDBusMessage &message) const
+DbusBackend::image(const QString &uri, const QDBusMessage &message) const
 {
     if (!dbusReadAccessEnabled())
         return {};
@@ -120,7 +119,7 @@ NhekoDBusBackend::image(const QString &uri, const QDBusMessage &message) const
 }
 
 void
-NhekoDBusBackend::activateRoom(const QString &alias) const
+DbusBackend::activateRoom(const QString &alias) const
 {
     if (!dbusWriteAccessEnabled())
         return;
@@ -130,7 +129,7 @@ NhekoDBusBackend::activateRoom(const QString &alias) const
 }
 
 void
-NhekoDBusBackend::joinRoom(const QString &alias) const
+DbusBackend::joinRoom(const QString &alias) const
 {
     if (!dbusWriteAccessEnabled())
         return;
@@ -140,7 +139,7 @@ NhekoDBusBackend::joinRoom(const QString &alias) const
 }
 
 void
-NhekoDBusBackend::directChat(const QString &userId) const
+DbusBackend::directChat(const QString &userId) const
 {
     if (!dbusWriteAccessEnabled())
         return;
@@ -150,7 +149,7 @@ NhekoDBusBackend::directChat(const QString &userId) const
 }
 
 QString
-NhekoDBusBackend::statusMessage() const
+DbusBackend::statusMessage() const
 {
     if (!dbusReadAccessEnabled())
         return {};
@@ -159,7 +158,7 @@ NhekoDBusBackend::statusMessage() const
 }
 
 void
-NhekoDBusBackend::setStatusMessage(const QString &message)
+DbusBackend::setStatusMessage(const QString &message)
 {
     if (!dbusWriteAccessEnabled())
         return;
@@ -168,7 +167,7 @@ NhekoDBusBackend::setStatusMessage(const QString &message)
 }
 
 void
-NhekoDBusBackend::setTheme(const QString &theme)
+DbusBackend::setTheme(const QString &theme)
 {
     if (!dbusWriteAccessEnabled()) {
         nhlog::ui()->warn("Ignoring D-Bus setTheme call: write access is disabled (theme: '{}')",
@@ -192,7 +191,7 @@ NhekoDBusBackend::setTheme(const QString &theme)
 }
 
 void
-NhekoDBusBackend::bringWindowToTop() const
+DbusBackend::bringWindowToTop() const
 {
     MainWindow::instance()->show();
     MainWindow::instance()->raise();

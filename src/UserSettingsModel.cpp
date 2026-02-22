@@ -151,6 +151,9 @@ static const SettingMeta settingsTable[] = {
 // Note: settingsTable must have exactly COUNT entries (one per Indices enum value before COUNT).
 // The Indices enum puts ScaleFactor, IntegrationsDbusSection, and the D-Bus rows
 // after COUNT when platform flags exclude them.
+constexpr int settingsTableCount = sizeof(settingsTable) / sizeof(settingsTable[0]);
+static_assert(settingsTableCount == UserSettingsModel::kSettingRowCount,
+              "settingsTable size must match the number of visible settings indices");
 
 #undef I
 #undef SM
@@ -160,7 +163,7 @@ static const SettingMeta settingsTable[] = {
 QVariant
 UserSettingsModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() >= COUNT)
+    if (index.row() >= settingsTableCount)
         return {};
 
     auto i = UserSettings::instance();
@@ -231,7 +234,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
 bool
 UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.row() >= COUNT)
+    if (index.row() >= settingsTableCount)
         return false;
 
     auto i = UserSettings::instance();

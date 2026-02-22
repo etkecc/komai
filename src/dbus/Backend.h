@@ -12,13 +12,13 @@
 
 class RoomlistModel;
 
-class NhekoDBusBackend final : public QObject
+class DbusBackend final : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "cc.etke.komai")
 
 public:
-    NhekoDBusBackend(RoomlistModel *parent);
+    DbusBackend(RoomlistModel *parent);
 
 public slots:
     //! Get the Komai D-Bus API version.

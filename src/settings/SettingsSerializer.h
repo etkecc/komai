@@ -20,13 +20,18 @@ namespace settings::serializer {
  * settings model. It remains a pure settings utility with no QML lifecycle
  * responsibilities.
  */
-void loadConfig(UserSettings &settings, const YAML::Node &root);
-void loadSession(UserSettings &settings, const YAML::Node &root);
-void loadState(UserSettings &settings, const YAML::Node &root);
+void
+loadConfig(UserSettings &settings, const YAML::Node &root);
+void
+loadSession(UserSettings &settings, const YAML::Node &root);
+void
+loadState(UserSettings &settings, const YAML::Node &root);
 
-void saveConfig(const UserSettings &settings, const QString &configFilePath);
-void saveSession(const UserSettings &settings, const QString &sessionFilePath);
-void saveState(const UserSettings &settings, const QString &stateFilePath);
+void
+saveConfig(const UserSettings &settings, const QString &configFilePath);
+void
+saveSession(const UserSettings &settings, const QString &sessionFilePath);
+void
+saveState(const UserSettings &settings, const QString &stateFilePath);
 
 } // namespace settings::serializer
-

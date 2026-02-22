@@ -8,8 +8,8 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include "UserSettingsPage.h"
 #include "Logging.h"
+#include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
@@ -24,9 +24,9 @@ hasSessionValue(const QString &value)
 
 } // namespace
 
+using settings::storage::writeYamlFile;
 using yaml_settings::readString;
 using yaml_settings::setNode;
-using settings::storage::writeYamlFile;
 
 namespace settings::serializer {
 
@@ -46,11 +46,10 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
     const bool hasAccessToken = hasSessionValue(settings.accessToken());
 
     if (hasAccessToken && (!hasUserId || !hasDeviceId)) {
-        nhlog::ui()->warn(
-          "Skipping session.yml write because session identity is incomplete "
-          "(has_user_id={}, has_device_id={}, has_access_token=true)",
-          hasUserId,
-          hasDeviceId);
+        nhlog::ui()->warn("Skipping session.yml write because session identity is incomplete "
+                          "(has_user_id={}, has_device_id={}, has_access_token=true)",
+                          hasUserId,
+                          hasDeviceId);
         return;
     }
 

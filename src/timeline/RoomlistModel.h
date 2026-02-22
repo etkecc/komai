@@ -160,8 +160,8 @@ private:
     std::map<QString, std::vector<QString>> directChatToUser;
 
 #ifdef NHEKO_DBUS_SYS
-    NhekoDBusBackend *dbusInterface_ = nullptr;
-    friend class NhekoDBusBackend;
+    DbusBackend *dbusInterface_ = nullptr;
+    friend class DbusBackend;
 #endif
 
     friend class FilteredRoomlistModel;

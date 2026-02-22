@@ -66,9 +66,11 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: communityListC
 
-                collapsedWidth: communitiesList.avatarSize + 2 * Nheko.paddingMedium
+                collapsedWidth: Math.max(communitiesList.avatarSize + 2 * Nheko.paddingMedium, 1)
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
-                preferredWidth: Settings.communityListWidth > collapsedWidth ? Settings.communityListWidth : collapsedWidth
+                preferredWidth: Settings.communityListWidth > collapsedWidth
+                                ? Settings.communityListWidth
+                                : collapsedWidth
                 visible: Settings.showCommunitiesSidebar
 
                 CommunitiesList {
@@ -88,11 +90,11 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: roomListC
 
-                collapsedWidth: roomlist.avatarSize + 2 * Nheko.paddingMedium
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
+                collapsedWidth: Math.max(roomlist.avatarSize + 2 * Nheko.paddingMedium, 1)
                 preferredWidth: (Settings.roomListWidth == -1)
-                                ? Nheko.defaultRoomListWidth
-                                : (Settings.roomListWidth > collapsedWidth ? Settings.roomListWidth : collapsedWidth)
+                                ? Math.max(Nheko.defaultRoomListWidth, collapsedWidth)
+                                : Math.max(Settings.roomListWidth, collapsedWidth)
 
                 RoomList {
                     id: roomlist

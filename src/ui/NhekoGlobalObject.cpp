@@ -146,7 +146,7 @@ int
 Nheko::listIconSize() const
 {
     QFontMetricsF fm(QGuiApplication::font());
-    return qCeil(fm.lineSpacing() * sidebarAvatarMultiplier());
+    return qMax(1, qCeil(fm.lineSpacing() * sidebarAvatarMultiplier()));
 }
 
 // Icon size for action bars (top bar, room list actions bar).

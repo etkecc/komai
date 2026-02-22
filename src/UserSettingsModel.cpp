@@ -13,6 +13,7 @@
 #include <QMessageBox>
 #include <QMetaEnum>
 #include <QSortFilterProxyModel>
+#include <array>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
@@ -81,6 +82,81 @@ UserSettingsModel::modelForTab(int tab) const
 // ── Metadata table for settings model ──────────────────────────────────────────
 
 namespace {
+
+struct SectionDescriptor
+{
+    int row;
+    int tab;
+    const char *title;
+};
+
+constexpr auto sectionDescriptors = std::to_array<SectionDescriptor>({
+  SectionDescriptor{UserSettingsModel::LookFeelThemeSection, UserSettingsModel::TabLookFeel,
+                   QT_TR_NOOP("THEME")},
+  SectionDescriptor{UserSettingsModel::LookFeelFontsSection, UserSettingsModel::TabLookFeel,
+                   QT_TR_NOOP("FONTS")},
+  SectionDescriptor{UserSettingsModel::LookFeelBehaviorSection, UserSettingsModel::TabLookFeel,
+                   QT_TR_NOOP("BEHAVIOR")},
+  SectionDescriptor{UserSettingsModel::LookFeelRoomListSection, UserSettingsModel::TabSidebars,
+                   QT_TR_NOOP("ROOM LIST")},
+  SectionDescriptor{UserSettingsModel::LookFeelCommunitiesSidebarSection,
+                   UserSettingsModel::TabSidebars,
+                   QT_TR_NOOP("COMMUNITIES SIDEBAR")},
+  SectionDescriptor{UserSettingsModel::IntegrationsSystemTraySection, UserSettingsModel::TabIntegrations,
+                   QT_TR_NOOP("SYSTEM TRAY")},
+#ifdef NHEKO_DBUS_SYS
+  SectionDescriptor{UserSettingsModel::IntegrationsDbusSection, UserSettingsModel::TabIntegrations,
+                   QT_TR_NOOP("D-BUS")},
+#endif
+  SectionDescriptor{UserSettingsModel::IntegrationsBrowserSection, UserSettingsModel::TabIntegrations,
+                   QT_TR_NOOP("BROWSER")},
+  SectionDescriptor{UserSettingsModel::TimelineMessagesSection, UserSettingsModel::TabTimeline,
+                   QT_TR_NOOP("MESSAGES")},
+  SectionDescriptor{UserSettingsModel::TimelineMediaSection, UserSettingsModel::TabTimeline,
+                   QT_TR_NOOP("MEDIA")},
+  SectionDescriptor{UserSettingsModel::ComposerInputSection, UserSettingsModel::TabComposer,
+                   QT_TR_NOOP("INPUT")},
+  SectionDescriptor{UserSettingsModel::ComposerFeedbackSection, UserSettingsModel::TabComposer,
+                   QT_TR_NOOP("FEEDBACK")},
+  SectionDescriptor{UserSettingsModel::ComposerExtrasSection, UserSettingsModel::TabComposer,
+                   QT_TR_NOOP("EXTRAS")},
+  SectionDescriptor{UserSettingsModel::NotificationsDesktopSection, UserSettingsModel::TabNotifications,
+                   QT_TR_NOOP("DESKTOP")},
+  SectionDescriptor{UserSettingsModel::CallsGeneralSection, UserSettingsModel::TabCalls,
+                   QT_TR_NOOP("GENERAL")},
+  SectionDescriptor{UserSettingsModel::CallsDevicesSection, UserSettingsModel::TabCalls,
+                   QT_TR_NOOP("DEVICES")},
+  SectionDescriptor{UserSettingsModel::PrivacyScreenLockSection, UserSettingsModel::TabPrivacy,
+                   QT_TR_NOOP("SCREEN LOCK")},
+  SectionDescriptor{UserSettingsModel::PrivacyDataSection, UserSettingsModel::TabPrivacy,
+                   QT_TR_NOOP("DATA & MAINTENANCE")},
+  SectionDescriptor{UserSettingsModel::PrivacyUsersSection, UserSettingsModel::TabPrivacy,
+                   QT_TR_NOOP("USERS")},
+  SectionDescriptor{UserSettingsModel::EncryptionKeySharingSection, UserSettingsModel::TabEncryption,
+                   QT_TR_NOOP("KEY SHARING")},
+  SectionDescriptor{UserSettingsModel::EncryptionBackupSection, UserSettingsModel::TabEncryption,
+                   QT_TR_NOOP("BACKUP")},
+  SectionDescriptor{UserSettingsModel::EncryptionCrossSigningSection, UserSettingsModel::TabEncryption,
+                   QT_TR_NOOP("CROSS-SIGNING")},
+  SectionDescriptor{UserSettingsModel::SessionAccountSection, UserSettingsModel::TabSession,
+                   QT_TR_NOOP("ACCOUNT")},
+  SectionDescriptor{UserSettingsModel::SessionDeviceSection, UserSettingsModel::TabSession,
+                   QT_TR_NOOP("DEVICE")},
+  SectionDescriptor{UserSettingsModel::SessionActionsSection, UserSettingsModel::TabSession,
+                   QT_TR_NOOP("ACTIONS")},
+  SectionDescriptor{UserSettingsModel::AboutApplicationSection, UserSettingsModel::TabAbout,
+                   QT_TR_NOOP("APPLICATION")},
+});
+
+const char *
+sectionTitleForRow(int row)
+{
+    for (const auto &section : sectionDescriptors) {
+        if (section.row == row)
+            return section.title;
+    }
+    return {};
+}
 
 struct SettingMeta
 {
@@ -174,6 +250,10 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Name:
+        if (m.type == UserSettingsModel::SectionTitle) {
+            auto title = sectionTitleForRow(index.row());
+            return title ? tr(title) : QVariant{};
+        }
         return m.name ? tr(m.name) : QVariant{};
     case Description:
         return m.description ? tr(m.description) : QVariant{};

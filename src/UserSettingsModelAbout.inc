@@ -1,7 +1,7 @@
     // ── About Tab ───────────────────────────────────────────────────────────
 
     // AboutApplicationSection
-    { QT_TR_NOOP("APPLICATION"), nullptr, SM::SectionTitle, SM::TabAbout,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabAbout,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // AppName
     { QT_TR_NOOP("Name"), nullptr, SM::Link, SM::TabAbout,

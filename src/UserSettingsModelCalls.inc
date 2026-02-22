@@ -1,7 +1,7 @@
     // ── Calls Tab ───────────────────────────────────────────────────────────
 
     // CallsGeneralSection
-    { QT_TR_NOOP("GENERAL"), nullptr, SM::SectionTitle, SM::TabCalls,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableLegacyCalls
     { QT_TR_NOOP("Enable legacy calls"),
@@ -30,7 +30,7 @@
     },
       {}, {}, {}, nullptr, nullptr },
     // CallsDevicesSection
-    { QT_TR_NOOP("DEVICES"), nullptr, SM::SectionTitle, SM::TabCalls,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Microphone
     { QT_TR_NOOP("Microphone"),

@@ -5,6 +5,7 @@
 pragma ComponentBehavior: Bound
 import "../.."
 import "../../dialogs"
+import "../../components"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -69,6 +70,7 @@ Item {
                         spacing: Nheko.paddingSmall
 
                         Label {
+                            visible: r.model.type != UserSettingsModel.SectionTitle
                             Layout.alignment: Qt.AlignLeft
                             Layout.fillWidth: true
                             color: palette.text
@@ -256,22 +258,9 @@ Item {
                         }
                         DelegateChoice {
                             roleValue: UserSettingsModel.SectionTitle
-                            ColumnLayout {
+                            SettingsSection {
                                 width: grid.width
-                                spacing: 0
-
-                                Item {
-                                    Layout.fillWidth: true
-                                    height: fontMetrics.lineSpacing
-                                    Rectangle {
-                                        anchors.topMargin: Nheko.paddingSmall
-                                        anchors.top: parent.top
-                                        anchors.left: parent.left
-                                        anchors.right: parent.right
-                                        color: palette.buttonText
-                                        height: 1
-                                    }
-                                }
+                                label: r.model.name
                             }
                         }
                         DelegateChoice {

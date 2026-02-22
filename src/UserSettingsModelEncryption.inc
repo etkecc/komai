@@ -1,7 +1,7 @@
     // ── Encryption Tab ──────────────────────────────────────────────────────
 
     // EncryptionKeySharingSection
-    { QT_TR_NOOP("KEY SHARING"), nullptr, SM::SectionTitle, SM::TabEncryption,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // OnlyShareKeysWithVerifiedUsers
     { QT_TR_NOOP("Send encrypted messages to verified users only"),
@@ -30,7 +30,7 @@
     },
       {}, {}, {}, nullptr, nullptr },
     // EncryptionBackupSection
-    { QT_TR_NOOP("BACKUP"), nullptr, SM::SectionTitle, SM::TabEncryption,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UseOnlineKeyBackup
     { QT_TR_NOOP("Online key backup"),
@@ -49,7 +49,7 @@
     { QT_TR_NOOP("Session keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EncryptionCrossSigningSection
-    { QT_TR_NOOP("CROSS-SIGNING"), nullptr, SM::SectionTitle, SM::TabEncryption,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // OnlineBackupKey
     { QT_TR_NOOP("Online backup key"),

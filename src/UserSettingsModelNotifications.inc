@@ -1,7 +1,7 @@
     // ── Notifications Tab ───────────────────────────────────────────────────
 
     // NotificationsDesktopSection
-    { QT_TR_NOOP("DESKTOP"), nullptr, SM::SectionTitle, SM::TabNotifications,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabNotifications,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // DesktopNotifications
     { QT_TR_NOOP("Desktop notifications"),

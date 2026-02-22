@@ -1,7 +1,7 @@
     // ── Session Tab ─────────────────────────────────────────────────────────
 
     // SessionAccountSection
-    { QT_TR_NOOP("ACCOUNT"), nullptr, SM::SectionTitle, SM::TabSession,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabSession,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UserId
     { QT_TR_NOOP("User ID"), nullptr, SM::ReadOnlyText, SM::TabSession,
@@ -20,7 +20,7 @@
       },
       nullptr, {}, {}, {}, nullptr, nullptr },
     // SessionDeviceSection
-    { QT_TR_NOOP("DEVICE"), nullptr, SM::SectionTitle, SM::TabSession,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabSession,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // DeviceId
     { QT_TR_NOOP("Device ID"), nullptr, SM::ReadOnlyText, SM::TabSession,
@@ -37,7 +37,7 @@
       []() -> QVariant { return I->accessToken(); },
       nullptr, {}, {}, {}, nullptr, nullptr },
     // SessionActionsSection
-    { QT_TR_NOOP("ACTIONS"), nullptr, SM::SectionTitle, SM::TabSession,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabSession,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Logout
     { QT_TR_NOOP("Logout"), nullptr, SM::LogoutButton, SM::TabSession,

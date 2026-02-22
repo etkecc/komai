@@ -706,7 +706,6 @@ public:
     };
     Q_ENUM(SettingsTab);
 
-private:
     enum Indices
     {
         // == Look & Feel Tab ==
@@ -868,6 +867,8 @@ private:
         IntegrationsDbusApiAccess,
 #endif
     };
+
+private:
 
 public:
     enum Types

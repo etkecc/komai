@@ -1,7 +1,7 @@
     // ── Timeline Tab ────────────────────────────────────────────────────────
 
     // TimelineMessagesSection
-    { QT_TR_NOOP("MESSAGES"), nullptr, SM::SectionTitle, SM::TabTimeline,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Bubbles
     { QT_TR_NOOP("Enable message bubbles"),
@@ -129,7 +129,7 @@
     },
       {}, {}, {}, nullptr, nullptr },
     // TimelineMediaSection
-    { QT_TR_NOOP("MEDIA"), nullptr, SM::SectionTitle, SM::TabTimeline,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // FancyEffects
     { QT_TR_NOOP("Show message effects"),

@@ -1,7 +1,7 @@
     // ── Composer Tab ────────────────────────────────────────────────────────
 
     // ComposerInputSection
-    { QT_TR_NOOP("INPUT"), nullptr, SM::SectionTitle, SM::TabComposer,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Markdown
     { QT_TR_NOOP("Send messages as <a href=\"https://commonmark.org/help/\">Markdown</a>"),
@@ -59,7 +59,7 @@
       },
       nullptr },
     // ComposerFeedbackSection
-    { QT_TR_NOOP("FEEDBACK"), nullptr, SM::SectionTitle, SM::TabComposer,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TypingNotifications
     { QT_TR_NOOP("Typing notifications"),
@@ -88,7 +88,7 @@
       },
       {}, {}, {}, nullptr, nullptr },
     // ComposerExtrasSection
-    { QT_TR_NOOP("EXTRAS"), nullptr, SM::SectionTitle, SM::TabComposer,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableStickers
     { QT_TR_NOOP("Enable stickers"),

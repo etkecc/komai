@@ -1,7 +1,7 @@
     // ── Privacy Tab ─────────────────────────────────────────────────────────
 
     // PrivacyScreenLockSection
-    { QT_TR_NOOP("SCREEN LOCK"), nullptr, SM::SectionTitle, SM::TabPrivacy,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PrivacyScreen
     { QT_TR_NOOP("Privacy screen"),
@@ -31,7 +31,7 @@
       0, 3600, 10, nullptr,
       []() -> bool { return I->privacyScreen(); } },
     // PrivacyDataSection
-    { QT_TR_NOOP("DATA & MAINTENANCE"), nullptr, SM::SectionTitle, SM::TabPrivacy,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ExpireEvents
     { QT_TR_NOOP("Periodically delete expired events"),
@@ -65,7 +65,7 @@
     },
       {}, {}, {}, nullptr, nullptr },
     // PrivacyUsersSection
-    { QT_TR_NOOP("USERS"), nullptr, SM::SectionTitle, SM::TabPrivacy,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IgnoredUsers
     { QT_TR_NOOP("Ignored users"),

@@ -1,7 +1,7 @@
     // ── Look & Feel Tab ─────────────────────────────────────────────────────
 
     // LookFeelThemeSection
-    { QT_TR_NOOP("THEME"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Theme
     { QT_TR_NOOP("Theme"), nullptr, SM::ThemeSelector, SM::TabLookFeel,
@@ -28,7 +28,7 @@
       },
       nullptr },
     // LookFeelFontsSection
-    { QT_TR_NOOP("FONTS"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Font
     { QT_TR_NOOP("Font family"), nullptr, SM::Options, SM::TabLookFeel,
@@ -106,7 +106,7 @@
       nullptr, nullptr },
 #endif
     // LookFeelBehaviorSection
-    { QT_TR_NOOP("BEHAVIOR"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableUIAnimations
     { QT_TR_NOOP("Enable UI animations"),
@@ -149,7 +149,7 @@
       },
       {}, {}, {}, nullptr, nullptr },
     // LookFeelRoomListSection
-    { QT_TR_NOOP("ROOM LIST"), nullptr, SM::SectionTitle, SM::TabSidebars,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CompactRoomList
     { QT_TR_NOOP("Compact mode"),
@@ -273,7 +273,7 @@
       },
       nullptr },
     // LookFeelCommunitiesSidebarSection
-    { QT_TR_NOOP("COMMUNITIES SIDEBAR"), nullptr, SM::SectionTitle, SM::TabSidebars,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ShowCommunitiesSidebar
     { QT_TR_NOOP("Show communities sidebar"),
@@ -289,7 +289,7 @@
       },
       {}, {}, {}, nullptr, nullptr },
     // IntegrationsSystemTraySection
-    { QT_TR_NOOP("SYSTEM TRAY"), nullptr, SM::SectionTitle, SM::TabIntegrations,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsTray
     { QT_TR_NOOP("Minimize to tray"),
@@ -320,7 +320,7 @@
       []() -> bool { return I->tray(); } },
 #ifdef NHEKO_DBUS_SYS
     // IntegrationsDbusSection
-    { QT_TR_NOOP("D-BUS"), nullptr, SM::SectionTitle, SM::TabIntegrations,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsDbusApiAccess
     { QT_TR_NOOP("D-Bus access"),
@@ -347,5 +347,5 @@
       nullptr },
 #endif
     // IntegrationsBrowserSection
-    { QT_TR_NOOP("BROWSER"), nullptr, SM::SectionTitle, SM::TabIntegrations,
+    { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

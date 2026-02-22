@@ -7,9 +7,7 @@
 #include <string_view>
 
 #include <QApplication>
-#include <QDir>
 #include <QFile>
-#include <QFileInfo>
 #include <QTemporaryDir>
 
 #include <yaml-cpp/yaml.h>
@@ -21,6 +19,37 @@
 #include "ui/ThemeRegistry.h"
 
 namespace {
+
+struct StartupSettingsTestContext
+{
+    explicit StartupSettingsTestContext(QStringView profile)
+      : profile_{profile}
+      , baseDir_{QStringLiteral("/tmp/komai-startup-settings-test/") + profile.toString()}
+      , writerOverride_{settings::storage::inMemoryReaderWriter(baseDir_)}
+    {
+    }
+
+    bool isValid() const { return true; }
+
+    bool writeConfig(const YAML::Node &configRoot)
+    {
+        const auto configFile = settings::storage::configFilePathForProfile(profile_);
+        return settings::storage::writeYamlFile(configFile, configRoot, false);
+    }
+
+    QString configFile() const { return settings::storage::configFilePathForProfile(profile_); }
+
+    QString stateFile() const { return settings::storage::stateFilePathForProfile(profile_); }
+
+    QString sessionFile() const { return settings::storage::sessionFilePathForProfile(profile_); }
+
+    QString secretsFile() const { return settings::storage::secretsFilePathForProfile(profile_); }
+
+private:
+    QString profile_;
+    QString baseDir_;
+    settings::storage::ReaderWriterOverride writerOverride_{nullptr};
+};
 
 bool
 expect(bool condition, std::string_view message)
@@ -36,28 +65,15 @@ bool
 testStartupConfigSnapshotLoads()
 {
     const QString profile = QStringLiteral("profile-startup");
-    QTemporaryDir tmpRoot;
-    if (!tmpRoot.isValid())
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
-
-    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
-    const QString profileRoot = tmpRoot.path() + QStringLiteral("/komai/profiles/") + profile;
-    const QString path = profileRoot + QStringLiteral("/config.yml");
-
-    if (!QDir(profileRoot).mkpath(QStringLiteral("."))) {
-        return expect(false, "temporary profile config directory can be created");
-    }
-
-    QFile file{path};
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        return expect(false, "unable to create test profile config file");
-    }
 
     YAML::Node configRoot(YAML::NodeType::Map);
     configRoot["ui"]["scale"]["factor"] = 1.75;
     configRoot["ui"]["font"]["size_pt"] = 15;
-    file.write(QString::fromUtf8(YAML::Dump(configRoot)).toUtf8());
-    file.close();
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "test profile config can be persisted");
 
     const auto startup = settings::startup::readStartupConfig(profile);
     const bool scaleMatches =
@@ -76,11 +92,10 @@ bool
 testStartupConfigSnapshotMissingProfile()
 {
     const QString profile = QStringLiteral("missing-startup-profile");
-    QTemporaryDir tmpRoot;
-    if (!tmpRoot.isValid())
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
 
-    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
     const auto startup = settings::startup::readStartupConfig(profile);
 
     return expect(!startup.uiScaleFactor.has_value(),
@@ -163,11 +178,9 @@ bool
 testStartupPolicySkipsSessionWritesUntilCompleteSession()
 {
     const QString profile = QStringLiteral("startup-policy-profile");
-    QTemporaryDir tmpRoot;
-    if (!tmpRoot.isValid())
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
-
-    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
 
     int argc = 1;
     char arg0[] = "komai-startup-policy-test";
@@ -175,19 +188,16 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     QApplication app(argc, argv);
     ThemeRegistry::initialize();
 
-    const QString configFile = settings::storage::configFilePathForProfile(profile);
-    const QString stateFile  = settings::storage::stateFilePathForProfile(profile);
-    const QString sessionFile = settings::storage::sessionFilePathForProfile(profile);
-    const QString secretsFile = settings::storage::secretsFilePathForProfile(profile);
-
-    const auto profileDir = QFileInfo(configFile).absolutePath();
-    QDir().mkpath(profileDir);
+    const QString configFile = ctx.configFile();
+    const QString stateFile  = ctx.stateFile();
+    const QString sessionFile = ctx.sessionFile();
+    const QString secretsFile = ctx.secretsFile();
 
     YAML::Node configRoot(YAML::NodeType::Map);
     configRoot["secrets"]["provider"] = "file";
     configRoot["ui"]["theme"]["slug"] = "komai-light";
 
-    if (!settings::storage::writeYamlFile(configFile, configRoot, false))
+    if (!ctx.writeConfig(configRoot))
         return expect(false, "startup-policy fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -198,10 +208,11 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     settings->setRunWithoutSecureSecretsService(true);
     settings->save();
 
-    if (!expect(QFileInfo(configFile).exists(), "startup save creates config.yml in config-only mode"))
+    if (!expect(settings::storage::pathExists(configFile),
+                "startup save creates config.yml in config-only mode"))
         return false;
-    if (!expect(!QFileInfo(stateFile).exists() && !QFileInfo(sessionFile).exists() &&
-                  !QFileInfo(secretsFile).exists(),
+    if (!expect(!settings::storage::pathExists(stateFile) && !settings::storage::pathExists(sessionFile) &&
+                  !settings::storage::pathExists(secretsFile),
                 "startup save does not create state/session/secrets files")) {
         return false;
     }
@@ -215,10 +226,11 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
         return expect(false, "persistSessionSnapshot accepts complete session identity");
     }
 
-    return expect(QFileInfo(stateFile).exists(), "full persistence writes state.yml after complete snapshot") &&
-           expect(QFileInfo(sessionFile).exists(),
+    return expect(settings::storage::pathExists(stateFile),
+                  "full persistence writes state.yml after complete snapshot") &&
+           expect(settings::storage::pathExists(sessionFile),
                   "full persistence writes session.yml after complete snapshot") &&
-           expect(QFileInfo(secretsFile).exists(),
+           expect(settings::storage::pathExists(secretsFile),
                   "full persistence writes secrets.yml after complete snapshot");
 }
 
@@ -226,11 +238,9 @@ bool
 testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
 {
     const QString profile = QStringLiteral("startup-policy-config-only-profile");
-    QTemporaryDir tmpRoot;
-    if (!tmpRoot.isValid())
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
-
-    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
 
     int argc = 1;
     char arg0[] = "komai-startup-policy-config-only-test";
@@ -238,18 +248,15 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     QApplication app(argc, argv);
     ThemeRegistry::initialize();
 
-    const QString configFile = settings::storage::configFilePathForProfile(profile);
-    const QString stateFile  = settings::storage::stateFilePathForProfile(profile);
-    const QString sessionFile = settings::storage::sessionFilePathForProfile(profile);
-    const QString secretsFile = settings::storage::secretsFilePathForProfile(profile);
-
-    const auto profileDir = QFileInfo(configFile).absolutePath();
-    QDir().mkpath(profileDir);
+    const QString configFile = ctx.configFile();
+    const QString stateFile  = ctx.stateFile();
+    const QString sessionFile = ctx.sessionFile();
+    const QString secretsFile = ctx.secretsFile();
 
     YAML::Node configRoot(YAML::NodeType::Map);
     configRoot["secrets"]["provider"] = "file";
     configRoot["ui"]["theme"]["slug"] = "komai-light";
-    if (!settings::storage::writeYamlFile(configFile, configRoot, false))
+    if (!ctx.writeConfig(configRoot))
         return expect(false, "startup-policy-config-only fixture config can be persisted");
 
     UserSettings::initialize(profile);
@@ -261,7 +268,8 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     settings->setPersistenceSuspended(false);
     settings->setTheme(QStringLiteral("komai-dark"));
 
-    if (!expect(QFileInfo(configFile).exists(), "theme change creates config.yml in config-only mode"))
+    if (!expect(settings::storage::pathExists(configFile),
+                "theme change creates config.yml in config-only mode"))
         return false;
 
     auto configAfter = settings::storage::loadYamlFile(configFile, "config-after-theme-change");
@@ -273,8 +281,9 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
       storedTheme == QStringLiteral("komai-dark"), "theme change is persisted to config.yml");
 
     return persistedTheme &&
-           expect(!QFileInfo(stateFile).exists() && !QFileInfo(sessionFile).exists() &&
-                    !QFileInfo(secretsFile).exists(),
+           expect(!settings::storage::pathExists(stateFile) &&
+                    !settings::storage::pathExists(sessionFile) &&
+                    !settings::storage::pathExists(secretsFile),
                   "theme change does not create state/session/secrets files");
 }
 

@@ -2,10 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
-
 #include <yaml-cpp/yaml.h>
 
 #include "SettingsController.h"
@@ -21,8 +17,11 @@
 namespace {
 
 using settings::storage::configFilePathForProfile;
+using settings::storage::createDir;
 using settings::storage::loadYamlFile;
+using settings::storage::pathExists;
 using settings::storage::profileDirPath;
+using settings::storage::removePath;
 using settings::storage::secretsFilePathForProfile;
 using settings::storage::sessionFilePathForProfile;
 using settings::storage::stateFilePathForProfile;
@@ -52,7 +51,7 @@ settings::SettingsController::load(UserSettings &settings,
     settings.stateFilePath_   = stateFilePathForProfile(settings.profile_);
     settings.sessionFilePath_ = sessionFilePathForProfile(settings.profile_);
     settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
-    QDir().mkpath(settings.profileDirPath_);
+    createDir(settings.profileDirPath_);
 
     settings.setPersistenceSuspended(true);
 
@@ -122,7 +121,7 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
         settings.stateFilePath_   = stateFilePathForProfile(settings.profile_);
         settings.sessionFilePath_ = sessionFilePathForProfile(settings.profile_);
         settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
-        QDir().mkpath(settings.profileDirPath_);
+        createDir(settings.profileDirPath_);
     }
 
     settings.saveConfigYaml();
@@ -145,8 +144,7 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings.deviceId_    = QString();
     settings.secrets_.clear();
 
-    if (QFileInfo(settings.sessionFilePath_).exists() &&
-        !QFile::remove(settings.sessionFilePath_)) {
+    if (pathExists(settings.sessionFilePath_) && !removePath(settings.sessionFilePath_)) {
         nhlog::ui()->warn("Failed to remove session file '{}', keeping file to avoid "
                           "accidental data loss",
                           settings.sessionFilePath_.toStdString());

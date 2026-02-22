@@ -6,12 +6,52 @@
 
 #include <QMap>
 #include <QString>
+#include <QStringView>
+
+#include <memory>
 
 #include <optional>
 
 #include <yaml-cpp/yaml.h>
 
 namespace settings::storage {
+
+class ReaderWriter;
+using ReaderWriterPtr = std::shared_ptr<ReaderWriter>;
+
+/**
+ * Abstraction for settings persistence transport (filesystem or test-time memory).
+ */
+class ReaderWriter
+{
+public:
+    virtual ~ReaderWriter() = default;
+
+    virtual QString profileDirPath(const QString &profile) const                  = 0;
+    virtual QString configFilePathForProfile(const QString &profile) const        = 0;
+    virtual QString stateFilePathForProfile(const QString &profile) const         = 0;
+    virtual QString sessionFilePathForProfile(const QString &profile) const       = 0;
+    virtual QString secretsFilePathForProfile(const QString &profile) const       = 0;
+    virtual YAML::Node loadYamlFile(const QString &path, const char *label) const = 0;
+    virtual bool
+    writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly) const = 0;
+    virtual bool pathExists(const QString &path) const                                        = 0;
+    virtual bool createDir(const QString &path) const                                         = 0;
+    virtual bool removePath(const QString &path) const                                        = 0;
+};
+
+ReaderWriterPtr
+inMemoryReaderWriter(QStringView baseDir = QStringLiteral("/tmp/komai-test-settings"));
+
+class ReaderWriterOverride
+{
+public:
+    explicit ReaderWriterOverride(ReaderWriterPtr newWriter);
+    ~ReaderWriterOverride();
+
+private:
+    ReaderWriterPtr previousWriter_;
+};
 
 /**
  * File-system and secure-storage helpers for settings persistence.
@@ -31,6 +71,13 @@ sessionFilePathForProfile(const QString &profile);
 QString
 secretsFilePathForProfile(const QString &profile);
 
+bool
+pathExists(const QString &path);
+bool
+createDir(const QString &path);
+bool
+removePath(const QString &path);
+
 /**
  * Load/serialize YAML settings files.
  */
@@ -38,6 +85,9 @@ YAML::Node
 loadYamlFile(const QString &path, const char *label);
 bool
 writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly);
+
+void
+setReaderWriter(ReaderWriterPtr writer);
 
 /**
  * Secure backend key helpers used by fallback and keyring-backed secret storage.

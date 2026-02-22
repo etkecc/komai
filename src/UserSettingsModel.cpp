@@ -98,6 +98,16 @@ struct SettingMeta
 #define I UserSettings::instance()
 #define SM UserSettingsModel
 
+template <typename T>
+bool
+readSettingValue(const QVariant &value, T &out)
+{
+    if (!value.canConvert<T>())
+        return false;
+    out = value.value<T>();
+    return true;
+}
+
 // Helper: convert std::vector<std::string> to QStringList
 static QStringList
 vecToList(const std::vector<std::string> &vec)

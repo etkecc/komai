@@ -9,8 +9,11 @@
       SM::Toggle, SM::TabComposer,
       []() -> QVariant { return I->markdown(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setMarkdown(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setMarkdown(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // SendMessageKey
@@ -60,8 +63,11 @@
       SM::Toggle, SM::TabComposer,
       []() -> QVariant { return I->typingNotifications(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setTypingNotifications(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setTypingNotifications(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // ReadReceipts
@@ -70,8 +76,11 @@
       SM::Toggle, SM::TabComposer,
       []() -> QVariant { return I->readReceipts(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setReadReceipts(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setReadReceipts(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // ComposerExtrasSection
@@ -83,8 +92,10 @@
       SM::Toggle, SM::TabComposer,
       []() -> QVariant { return I->enableStickers(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setEnableStickers(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setEnableStickers(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
-

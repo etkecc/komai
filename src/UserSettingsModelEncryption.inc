@@ -7,21 +7,27 @@
     { QT_TR_NOOP("Send encrypted messages to verified users only"),
       QT_TR_NOOP("Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious."),
       SM::Toggle, SM::TabEncryption,
-      []() -> QVariant { return I->onlyShareKeysWithVerifiedUsers(); },
-      [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setOnlyShareKeysWithVerifiedUsers(v.toBool()); return true;
-      },
+    []() -> QVariant { return I->onlyShareKeysWithVerifiedUsers(); },
+    [](const QVariant &v) -> bool {
+        bool enabled = false;
+        if (!readSettingValue(v, enabled))
+            return false;
+        I->setOnlyShareKeysWithVerifiedUsers(enabled);
+        return true;
+    },
       {}, {}, {}, nullptr, nullptr },
     // ShareKeysWithTrustedUsers
     { QT_TR_NOOP("Share keys with verified users and devices"),
       QT_TR_NOOP("Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise."),
       SM::Toggle, SM::TabEncryption,
-      []() -> QVariant { return I->shareKeysWithTrustedUsers(); },
-      [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setShareKeysWithTrustedUsers(v.toBool()); return true;
-      },
+    []() -> QVariant { return I->shareKeysWithTrustedUsers(); },
+    [](const QVariant &v) -> bool {
+        bool enabled = false;
+        if (!readSettingValue(v, enabled))
+            return false;
+        I->setShareKeysWithTrustedUsers(enabled);
+        return true;
+    },
       {}, {}, {}, nullptr, nullptr },
     // EncryptionBackupSection
     { QT_TR_NOOP("BACKUP"), nullptr, SM::SectionTitle, SM::TabEncryption,
@@ -30,11 +36,14 @@
     { QT_TR_NOOP("Online key backup"),
       QT_TR_NOOP("Download message encryption keys from and upload to the encrypted online key backup."),
       SM::Toggle, SM::TabEncryption,
-      []() -> QVariant { return I->useOnlineKeyBackup(); },
-      [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setUseOnlineKeyBackup(v.toBool()); return true;
-      },
+    []() -> QVariant { return I->useOnlineKeyBackup(); },
+    [](const QVariant &v) -> bool {
+        bool enabled = false;
+        if (!readSettingValue(v, enabled))
+            return false;
+        I->setUseOnlineKeyBackup(enabled);
+        return true;
+    },
       {}, {}, {}, nullptr, nullptr },
     // SessionKeys
     { QT_TR_NOOP("Session keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
@@ -69,4 +78,3 @@
     // CrossSigningSecrets
     { QT_TR_NOOP("Cross-signing secrets"), nullptr, SM::XSignKeysRequestDownload, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-

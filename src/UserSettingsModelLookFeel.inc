@@ -37,8 +37,9 @@
           return fonts.indexOf(I->font());
       },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Int) return false;
-          auto idx = v.toInt();
+          int idx = 0;
+          if (!readSettingValue(v, idx))
+              return false;
           I->setFontFamily(idx == 0 ? QString{} : QFontDatabase::families().at(idx - 1));
           return true;
       },
@@ -53,8 +54,11 @@
     { QT_TR_NOOP("Font size"), nullptr, SM::Double, SM::TabLookFeel,
       []() -> QVariant { return I->fontSize(); },
       [](const QVariant &v) -> bool {
-          if (!v.canConvert<double>()) return false;
-          I->setFontSize(v.toDouble()); return true;
+          double size = 0.0;
+          if (!readSettingValue(v, size))
+              return false;
+          I->setFontSize(size);
+          return true;
       },
       8.0, 24.0, 0.5, nullptr, nullptr },
     // EmojiFont
@@ -66,8 +70,9 @@
           return fonts.indexOf(I->emojiFontFamily());
       },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Int) return false;
-          auto idx = v.toInt();
+          int idx = 0;
+          if (!readSettingValue(v, idx))
+              return false;
           I->setEmojiFontFamily(
             idx <= 0 ? QString()
                      : QFontDatabase::families(QFontDatabase::WritingSystem::Symbol).at(idx - 1));
@@ -87,8 +92,11 @@
       SM::Double, SM::TabLookFeel,
       []() -> QVariant { return I->scaleFactor(); },
       [](const QVariant &v) -> bool {
-          if (!v.canConvert<double>()) return false;
-          I->setScaleFactor(v.toDouble()); return true;
+          double factor = 0.0;
+          if (!readSettingValue(v, factor))
+              return false;
+          I->setScaleFactor(factor);
+          return true;
       },
       settings::core::kMinScaleFactor,
       settings::core::kMaxScaleFactor,
@@ -104,8 +112,11 @@
       SM::Toggle, SM::TabLookFeel,
       []() -> QVariant { return !I->reducedMotion(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setReducedMotion(!v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setReducedMotion(!enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // EnableTextSelection
@@ -115,8 +126,10 @@
       SM::Toggle, SM::TabLookFeel,
       []() -> QVariant { return !I->mobileMode(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setMobileMode(!v.toBool());
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setMobileMode(!enabled);
           return true;
       },
       {}, {}, {}, nullptr, nullptr },
@@ -126,8 +139,11 @@
       SM::Toggle, SM::TabLookFeel,
       []() -> QVariant { return I->enableSwipeGestures(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setEnableSwipeGestures(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setEnableSwipeGestures(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // LookFeelRoomListSection
@@ -139,8 +155,11 @@
       SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->compactRoomList(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setCompactRoomList(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setCompactRoomList(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // ShowRoomListTime
@@ -149,8 +168,11 @@
       SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->showRoomListTime(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setShowRoomListTime(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setShowRoomListTime(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // ShowLastMessagePreview
@@ -178,8 +200,11 @@
       SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->showCommunityNotificationCounts(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setShowCommunityNotificationCounts(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setShowCommunityNotificationCounts(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // UseCircularAvatars
@@ -188,8 +213,11 @@
       SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->useCircularAvatars(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setUseCircularAvatars(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setUseCircularAvatars(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // UseIdenticon
@@ -198,8 +226,11 @@
       SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->useIdenticon(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setUseIdenticon(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setUseIdenticon(enabled);
+          return true;
       },
       {}, {}, {}, nullptr,
       []() -> bool { return JdenticonProvider::isAvailable(); } },
@@ -209,8 +240,11 @@
       SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->scrollbarsInRoomlist(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setScrollbarsInRoomlist(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setScrollbarsInRoomlist(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // RoomSorting
@@ -218,9 +252,11 @@
       QT_TR_NOOP("How to order rooms."),
       SM::Options, SM::TabSidebars,
       []() -> QVariant { return static_cast<int>(I->roomSortOrder()); },
-      [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Int) return false;
-          I->setRoomSortOrder(static_cast<UserSettings::RoomSortOrder>(v.toInt())); return true;
+    [](const QVariant &v) -> bool {
+          int order = 0;
+          if (!readSettingValue(v, order))
+              return false;
+          I->setRoomSortOrder(static_cast<UserSettings::RoomSortOrder>(order)); return true;
       },
       {}, {}, {},
       []() -> QVariant {
@@ -241,8 +277,11 @@
       SM::Toggle, SM::TabSidebars,
       []() -> QVariant { return I->showCommunitiesSidebar(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setShowCommunitiesSidebar(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setShowCommunitiesSidebar(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // IntegrationsSystemTraySection
@@ -254,8 +293,11 @@
       SM::Toggle, SM::TabIntegrations,
       []() -> QVariant { return I->tray(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setTray(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setTray(enabled);
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // IntegrationsStartInTray
@@ -264,8 +306,11 @@
       SM::Toggle, SM::TabIntegrations,
       []() -> QVariant { return I->startInTray(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setStartInTray(v.toBool()); return true;
+          bool enabled = false;
+          if (!readSettingValue(v, enabled))
+              return false;
+          I->setStartInTray(enabled);
+          return true;
       },
       {}, {}, {}, nullptr,
       []() -> bool { return I->tray(); } },
@@ -279,9 +324,9 @@
       SM::Options, SM::TabIntegrations,
       []() -> QVariant { return I->integrationsDbusApiAccess(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Int && !v.canConvert<int>())
+          int access = 0;
+          if (!readSettingValue(v, access))
               return false;
-          auto access = v.toInt();
           if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)
               return false;
           I->setIntegrationsDbusApiAccess(access);

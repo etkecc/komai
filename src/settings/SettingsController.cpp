@@ -37,17 +37,17 @@ settings::SettingsController::load(UserSettings &settings, std::optional<QString
 
 void
 settings::SettingsController::load(UserSettings &settings,
-                                  std::optional<QString> profile,
-                                  const YAML::Node &configRoot)
+                                   std::optional<QString> profile,
+                                   const YAML::Node &configRoot)
 {
     if (profile)
         settings.profile_ = (*profile == QLatin1String("default")) ? QLatin1String("") : *profile;
     else
         settings.profile_ = QLatin1String("");
 
-    settings.profileDirPath_ = profileDirPath(settings.profile_);
-    settings.configFilePath_ = configFilePathForProfile(settings.profile_);
-    settings.stateFilePath_  = stateFilePathForProfile(settings.profile_);
+    settings.profileDirPath_  = profileDirPath(settings.profile_);
+    settings.configFilePath_  = configFilePathForProfile(settings.profile_);
+    settings.stateFilePath_   = stateFilePathForProfile(settings.profile_);
     settings.sessionFilePath_ = sessionFilePathForProfile(settings.profile_);
     settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
     QDir().mkpath(settings.profileDirPath_);
@@ -73,8 +73,8 @@ settings::SettingsController::load(UserSettings &settings,
         case staged_load_plan::Stage::SecretsFile: {
             const auto payload =
               settings::persistence::loadProfileSecrets(settings.profile_,
-                                                       settings.runWithoutSecureSecretsService_,
-                                                       settings.secretsFilePath_);
+                                                        settings.runWithoutSecureSecretsService_,
+                                                        settings.secretsFilePath_);
             settings.accessToken_ = payload.accessToken;
             settings.secrets_     = payload.secrets;
             break;
@@ -97,9 +97,9 @@ void
 settings::SettingsController::save(UserSettings &settings)
 {
     if (settings.profileDirPath_.isEmpty()) {
-        settings.profileDirPath_ = profileDirPath(settings.profile_);
-        settings.configFilePath_ = configFilePathForProfile(settings.profile_);
-        settings.stateFilePath_ = stateFilePathForProfile(settings.profile_);
+        settings.profileDirPath_  = profileDirPath(settings.profile_);
+        settings.configFilePath_  = configFilePathForProfile(settings.profile_);
+        settings.stateFilePath_   = stateFilePathForProfile(settings.profile_);
         settings.sessionFilePath_ = sessionFilePathForProfile(settings.profile_);
         settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
         QDir().mkpath(settings.profileDirPath_);
@@ -124,8 +124,7 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings.secrets_.clear();
 
     settings.saveSessionYaml();
-    settings::persistence::clearProfileSecrets(settings.profile_,
-                                              settings.runWithoutSecureSecretsService_,
-                                              settings.secretsFilePath_);
+    settings::persistence::clearProfileSecrets(
+      settings.profile_, settings.runWithoutSecureSecretsService_, settings.secretsFilePath_);
     settings.saveStateYaml();
 }

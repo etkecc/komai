@@ -9,8 +9,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "Paths.h"
-#include "settings/SettingKeys.h"
-#include "settings/YamlSettings.h"
+#include "settings/core/StartupConfig.h"
 
 namespace settings::startup {
 
@@ -23,11 +22,10 @@ readStartupConfig(const QString &profile)
         return settings;
 
     try {
-        settings.configRoot = YAML::LoadFile(path.toStdString());
-        const auto factor =
-          yaml_settings::readScalar<float>(settings.configRoot, SettingKey::UiScaleFactor, -1.0F);
-        if (factor >= 1.0F && factor <= 3.0F)
-            settings.uiScaleFactor = factor;
+        const auto root =
+          settings::core::snapshotFromYamlConfig(YAML::LoadFile(path.toStdString()));
+        settings.configRoot    = root.configRoot;
+        settings.uiScaleFactor = root.uiScaleFactor;
     } catch (const YAML::Exception &) {
     }
 

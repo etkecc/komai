@@ -14,6 +14,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "settings/StartupSettings.h"
+#include "settings/core/StartupConfig.h"
 
 namespace {
 
@@ -78,6 +79,27 @@ testStartupConfigSnapshotMissingProfile()
                   "missing profile snapshot is empty");
 }
 
+bool
+testCoreSnapshotExtraction()
+{
+    YAML::Node root(YAML::NodeType::Map);
+    root["ui"]["scale"]["factor"] = 2.0;
+    auto snapshot = settings::core::snapshotFromYamlConfig(root);
+    if (!expect(snapshot.uiScaleFactor.has_value() &&
+               std::abs(*snapshot.uiScaleFactor - 2.0F) < 0.0001F,
+               "core snapshot extracts supported scale factor")) {
+        return false;
+    }
+    if (!expect(!snapshot.configRoot["ui"]["scale"]["factor"].IsNull(),
+                "core snapshot keeps full config root")) {
+        return false;
+    }
+
+    root["ui"]["scale"]["factor"] = "invalid";
+    snapshot = settings::core::snapshotFromYamlConfig(root);
+    return expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores malformed scale factor");
+}
+
 } // namespace
 
 int
@@ -86,6 +108,7 @@ main()
     bool ok = true;
     ok &= testStartupConfigSnapshotLoads();
     ok &= testStartupConfigSnapshotMissingProfile();
+    ok &= testCoreSnapshotExtraction();
 
     return ok ? 0 : 1;
 }

@@ -590,6 +590,8 @@ set(SRC_FILES
     src/settings/SettingKeys.h
     src/settings/StartupSettings.h
     src/settings/StartupSettings.cpp
+    src/settings/core/StartupConfig.h
+    src/settings/core/StartupConfig.cpp
     src/settings/SettingsPersistence.cpp
     src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
@@ -618,8 +620,12 @@ set(SRC_FILES
     src/TrayIcon.cpp
     src/TrayIcon.h
     src/UserSettingsModel.cpp
+    src/UserSettingsPersistence.cpp
     src/UserSettingsPage.cpp
     src/UserSettingsPage.h
+    src/UserSettingsSetters.cpp
+    src/UserSettingsSessionSettings.cpp
+    src/UserSettingsTheme.cpp
     src/UsersModel.cpp
     src/UsersModel.h
     src/Utils.cpp
@@ -1128,6 +1134,7 @@ if(BUILD_TESTING)
         tests/ProfileSecretsStartupStub.cpp
         src/Paths.cpp
         src/settings/StartupSettings.cpp
+        src/settings/core/StartupConfig.cpp
     )
     target_include_directories(komai_startup_settings_test PRIVATE src)
     target_link_libraries(komai_startup_settings_test PRIVATE

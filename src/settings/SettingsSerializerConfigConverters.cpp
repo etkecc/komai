@@ -2,26 +2,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QString>
+#include "SettingsSerializerConfigConverters.h"
 
-#include <yaml-cpp/yaml.h>
-
-#include "Logging.h"
-#include "Paths.h"
 #include "UserSettingsPage.h"
-#include "settings/SettingKeys.h"
-#include "settings/SettingsPersistence.h"
-#include "settings/SettingsStorage.h"
-#include "settings/StagedLoadPlan.h"
-#include "settings/YamlSettings.h"
 
-namespace {
-
-bool
-hasSessionValue(const QString &value)
-{
-    return !value.trimmed().isEmpty();
-}
+namespace settings::serializer::config {
 
 QString
 toStorageValue(UserSettings::Presence value)
@@ -213,17 +198,4 @@ lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePre
     return fallback;
 }
 
-using settings::storage::writeYamlFile;
-using settings::storage::configFilePathForProfile;
-using settings::storage::stateFilePathForProfile;
-using settings::storage::sessionFilePathForProfile;
-using settings::storage::secretsFilePathForProfile;
-using yaml_settings::readNestedStringLists;
-using yaml_settings::readScalar;
-using yaml_settings::readString;
-using yaml_settings::readStringList;
-using yaml_settings::setNode;
-using yaml_settings::writeNestedStringLists;
-using yaml_settings::writeStringList;
-
-} // namespace
+} // namespace settings::serializer::config

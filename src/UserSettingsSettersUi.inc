@@ -34,7 +34,7 @@ UserSettings::setShowOwnAvatarInBubbleLayout(bool s)
     setSetting(showOwnAvatarInBubbleLayout_, s, &UserSettings::showOwnAvatarInBubbleLayoutChanged);
 }
 void
-UserSettings::setPinnedReactions(const QString &s)
+UserSettings::setPinnedReactions(QString s)
 {
     setSetting(pinnedReactions_, s, &UserSettings::pinnedReactionsChanged);
 }

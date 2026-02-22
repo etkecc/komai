@@ -15,6 +15,30 @@ Responsibility split:
 - `settings::storage` owns low-level file/keyring/YAML operations and profile path resolution.
 - `settings::startup` owns startup-only reads that must happen before `Q(Core)Application` is created.
 
+Current ownership map:
+
+- `src/UserSettingsPage.h/.cpp`
+  - `UserSettings` singleton façade (`Q_PROPERTY`, `Q_INVOKABLE`, `load()`, `save()`, `initialize()`).
+  - Maintains runtime settings state and delegates persistence orchestration to `settings::SettingsController`.
+- `src/UserSettingsPage.h/.cpp` (`UserSettingsModel`)
+  - QML list-model adapter and settings schema metadata mapping (`SettingMeta` rows, roles, and delegate types).
+- `src/UserSettingsSetters*.cpp` and `src/UserSettingsSettersCore.inc`
+  - Mutator behavior for setting updates, including inline validation/normalization and immediate side effects.
+- `src/UserSettingsTheme.cpp`
+  - Theme switching and runtime theme application.
+- `src/UserSettingsPersistence.cpp` and `src/settings/SettingsSerializer.*`
+  - Load/save pass-through methods split from `UserSettingsPage` to avoid persistence logic in the façade.
+- `src/UserSettingsSessionSettings.cpp`
+  - Session/auth/session-file related helpers.
+- `src/settings/SettingsController.*`
+  - Profile orchestration and persistence pipeline orchestration.
+- `src/settings/SettingsPersistence.*`
+  - Secret provider strategy plus secret payload load/save/cleanup behavior.
+- `src/settings/SettingsStorage.*`
+  - Profile pathing and direct file/secure-store I/O primitives.
+- `src/settings/StartupSettings.*`, `src/settings/core/StartupConfig.*`
+  - Bootstrap profile config preloading for startup-time scale-factor handling.
+
 ### Responsibility map
 
 - `src/UserSettingsPage.h/.cpp` (`UserSettings`)
@@ -53,7 +77,7 @@ Settings flow:
   - Canonical settings keys for all persisted scopes (config/state/session/secrets/runtime).
 - `src/settings/StagedLoadPlan.h`
   - Startup stage ordering and secrets-provider dispatch plan.
-- `src/UserSettingsPage.h/.cpp` (`UserSettingsModel`)
+- `src/UserSettingsModel.cpp` and `src/UserSettingsModel*.inc` (`UserSettingsModel`)
   - UI adapter that maps setting metadata to rows, roles, and tab-filtered models.
 
 Profile directory:
@@ -86,6 +110,20 @@ Primary implementation files:
 
 - `src/UserSettingsPage.cpp`
 - `src/UserSettingsPage.h`
+- `src/UserSettingsModel.cpp`
+- `src/UserSettingsModel*.inc`
+- `src/UserSettingsSetters.cpp`
+- `src/UserSettingsSettersCore.inc`
+- `src/UserSettingsSettersLayout.inc`
+- `src/UserSettingsSettersMisc.inc`
+- `src/UserSettingsSettersUi.inc`
+- `src/UserSettingsPersistence.cpp`
+- `src/settings/SettingsSerializerConfig.cpp`
+- `src/settings/SettingsSerializerSession.cpp`
+- `src/settings/SettingsSerializerState.cpp`
+- `src/settings/SettingsSerializer.h`
+- `src/UserSettingsSessionSettings.cpp`
+- `src/UserSettingsTheme.cpp`
 - `src/settings/SettingsController.cpp`
 - `src/settings/SettingsController.h`
 - `src/settings/SettingsPersistence.cpp`

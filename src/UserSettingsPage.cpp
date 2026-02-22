@@ -4,38 +4,15 @@
 
 #include <QApplication>
 #include <QCoreApplication>
-#include <QFile>
-#include <QFileDialog>
-#include <QFileInfo>
 #include <QFontDatabase>
-#include <QInputDialog>
-#include <QMessageBox>
-#include <QSortFilterProxyModel>
-#include <QStandardPaths>
-#include <QString>
-#include <QTextStream>
+#include <QGuiApplication>
 
 #include <yaml-cpp/yaml.h>
 
-#include "Cache.h"
 #include "JdenticonProvider.h"
-#include "Logging.h"
-#include "MainWindow.h"
-#include "MatrixClient.h"
-#include "Paths.h"
 #include "UserSettingsPage.h"
-#include "Utils.h"
-#include "encryption/Olm.h"
-#include "settings/SettingKeys.h"
 #include "settings/SettingsController.h"
-#include "settings/SettingsPersistence.h"
-#include "settings/SettingsStorage.h"
-#include "settings/StagedLoadPlan.h"
-#include "settings/YamlSettings.h"
 #include "ui/Theme.h"
-#include "voip/CallDevices.h"
-
-#include "config/nheko.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
 // Resolve the fontconfig generic "emoji" alias to an actual font family name.

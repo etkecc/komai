@@ -596,6 +596,12 @@ set(SRC_FILES
     src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
     src/settings/SettingsStorage.h
+    src/settings/SettingsSerializerConfigConverters.cpp
+    src/settings/SettingsSerializerConfigSchema.cpp
+    src/settings/SettingsSerializerConfig.cpp
+    src/settings/SettingsSerializerSession.cpp
+    src/settings/SettingsSerializerState.cpp
+    src/settings/SettingsSerializer.h
     src/settings/SettingsController.h
     src/settings/SettingsController.cpp
     src/settings/YamlSettings.h

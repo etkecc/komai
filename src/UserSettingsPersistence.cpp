@@ -2,20 +2,49 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QString>
-
-#include <yaml-cpp/yaml.h>
-
-#include "Logging.h"
-#include "Paths.h"
 #include "UserSettingsPage.h"
-#include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
-#include "settings/SettingsStorage.h"
-#include "settings/StagedLoadPlan.h"
-#include "settings/YamlSettings.h"
-#include "settings/core/StartupConfig.h"
+#include "settings/SettingsSerializer.h"
 
-#include "UserSettingsPersistenceHelpers.inc"
-#include "UserSettingsPersistenceLoad.inc"
-#include "UserSettingsPersistenceSave.inc"
+void
+UserSettings::loadConfigYaml(const YAML::Node &root)
+{
+    settings::serializer::loadConfig(*this, root);
+}
+
+void
+UserSettings::loadSessionYaml(const YAML::Node &root)
+{
+    settings::serializer::loadSession(*this, root);
+}
+
+void
+UserSettings::loadStateYaml(const YAML::Node &root)
+{
+    settings::serializer::loadState(*this, root);
+}
+
+void
+UserSettings::saveConfigYaml() const
+{
+    settings::serializer::saveConfig(*this, configFilePath_);
+}
+
+void
+UserSettings::saveSessionYaml() const
+{
+    settings::serializer::saveSession(*this, sessionFilePath_);
+}
+
+void
+UserSettings::saveStateYaml() const
+{
+    settings::serializer::saveState(*this, stateFilePath_);
+}
+
+void
+UserSettings::saveSecretsYaml() const
+{
+    settings::persistence::saveProfileSecrets(
+      profile_, runWithoutSecureSecretsService_, secretsFilePath_, accessToken_, secrets_);
+}

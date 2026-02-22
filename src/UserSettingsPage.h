@@ -294,7 +294,7 @@ public:
     void setSmallAvatars(bool state);
     void setEnableStickers(bool state);
     void setShowOwnAvatarInBubbleLayout(bool state);
-    void setPinnedReactions(const QString &value);
+    void setPinnedReactions(QString value);
     void setShowSenderUsername(ShowSenderUsername state);
     void setAnimateImagesOnHover(bool state);
     void setReadReceipts(bool state);

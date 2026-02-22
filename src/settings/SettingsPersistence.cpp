@@ -29,7 +29,7 @@ isFileProvider(bool runWithoutSecureSecretsService)
 staged_load_plan::SecretsProvider
 providerFromConfig(const YAML::Node &configRoot, bool runWithoutSecureSecretsService)
 {
-    const auto configProvider = staged_load_plan::providerFromConfig(configRoot);
+    const auto configProvider     = staged_load_plan::providerFromConfig(configRoot);
     const auto forcedFileProvider = isFileProvider(runWithoutSecureSecretsService);
     if (forcedFileProvider)
         return staged_load_plan::SecretsProvider::File;
@@ -38,17 +38,18 @@ providerFromConfig(const YAML::Node &configRoot, bool runWithoutSecureSecretsSer
 }
 
 SecretsPayload
-loadProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, const QString &secretsFilePath)
+loadProfileSecrets(const QString &profile,
+                   bool runWithoutSecureSecretsService,
+                   const QString &secretsFilePath)
 {
     SecretsPayload payload;
-    bool hasEmptySecureSecrets = false;
+    bool hasEmptySecureSecrets   = false;
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
 
     if (isFileProvider(runWithoutSecureSecretsService)) {
         const auto secretsRoot = settings::storage::loadYamlFile(secretsFilePath, "secrets");
-        payload.accessToken = yaml_settings::readString(secretsRoot,
-                                                       SettingKey::SecretsFileAuthAccessToken,
-                                                       QString());
+        payload.accessToken =
+          yaml_settings::readString(secretsRoot, SettingKey::SecretsFileAuthAccessToken, QString());
         payload.secrets = yaml_settings::readStringMap(secretsRoot, SettingKey::SecretsFileMap);
 
         nhlog::ui()->info("Loaded file-backed secrets (has_access_token={}, secrets_count={})",
@@ -57,9 +58,9 @@ loadProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, 
         return payload;
     }
 
-    const auto accessTokenStoreKey = settings::storage::secureStoreKey(profile, SecureStoreAccessTokenKey);
-    const auto secureAccessToken =
-      settings::storage::readSecureValue(accessTokenStoreKey);
+    const auto accessTokenStoreKey =
+      settings::storage::secureStoreKey(profile, SecureStoreAccessTokenKey);
+    const auto secureAccessToken = settings::storage::readSecureValue(accessTokenStoreKey);
     if (secureAccessToken && secureAccessToken->isEmpty()) {
         nhlog::ui()->warn("Secure backend access token was empty; removing stale session auth "
                           "secret for profile '{}'",
@@ -67,8 +68,9 @@ loadProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, 
         const auto staleAccessTokenDeleted =
           profile_secrets::deleteProfileSecretValueBlocking(accessTokenStoreKey);
         if (!staleAccessTokenDeleted) {
-            nhlog::ui()->warn("Failed to remove stale secure backend session auth secret for profile '{}'",
-                              normalizedProfile.toStdString());
+            nhlog::ui()->warn(
+              "Failed to remove stale secure backend session auth secret for profile '{}'",
+              normalizedProfile.toStdString());
         }
         hasEmptySecureSecrets = true;
     } else {
@@ -90,9 +92,9 @@ loadProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, 
         }
         hasEmptySecureSecrets = true;
     } else {
-        payload.secrets =
-          serializedSecrets ? settings::storage::decodeSecretsMap(*serializedSecrets)
-                           : QMap<QString, QString>{};
+        payload.secrets = serializedSecrets
+                            ? settings::storage::decodeSecretsMap(*serializedSecrets)
+                            : QMap<QString, QString>{};
 
         bool sessionSecretsPruned = false;
         for (auto it = payload.secrets.begin(); it != payload.secrets.end();) {
@@ -100,7 +102,7 @@ loadProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, 
                 nhlog::ui()->warn("Pruning empty secure secret entry '{}' for profile '{}'",
                                   it.key().toStdString(),
                                   normalizedProfile.toStdString());
-                it = payload.secrets.erase(it);
+                it                   = payload.secrets.erase(it);
                 sessionSecretsPruned = true;
             } else {
                 ++it;
@@ -117,8 +119,8 @@ loadProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, 
                       normalizedProfile.toStdString());
                 }
             } else {
-                settings::storage::writeSecureValue(secretsStoreKey,
-                                                   settings::storage::encodeSecretsMap(payload.secrets));
+                settings::storage::writeSecureValue(
+                  secretsStoreKey, settings::storage::encodeSecretsMap(payload.secrets));
             }
             hasEmptySecureSecrets = true;
         }
@@ -138,14 +140,15 @@ loadProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, 
 
 void
 saveProfileSecrets(const QString &profile,
-                  bool runWithoutSecureSecretsService,
-                  const QString &secretsFilePath,
-                  const QString &accessToken,
-                  const QMap<QString, QString> &secrets)
+                   bool runWithoutSecureSecretsService,
+                   const QString &secretsFilePath,
+                   const QString &accessToken,
+                   const QMap<QString, QString> &secrets)
 {
     if (isFileProvider(runWithoutSecureSecretsService)) {
         YAML::Node root(YAML::NodeType::Map);
-        yaml_settings::setNode(root, SettingKey::SecretsFileAuthAccessToken, accessToken.toStdString());
+        yaml_settings::setNode(
+          root, SettingKey::SecretsFileAuthAccessToken, accessToken.toStdString());
         yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, secrets);
 
         if (settings::storage::writeYamlFile(secretsFilePath, root, true)) {
@@ -154,8 +157,9 @@ saveProfileSecrets(const QString &profile,
         return;
     }
 
-    const auto accessTokenKey = settings::storage::secureStoreKey(profile, SecureStoreAccessTokenKey);
-    const auto secretsKey     = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
+    const auto accessTokenKey =
+      settings::storage::secureStoreKey(profile, SecureStoreAccessTokenKey);
+    const auto secretsKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
     QMap<QString, QString> nonEmptySecrets = secrets;
 
     for (auto it = nonEmptySecrets.begin(); it != nonEmptySecrets.end();) {
@@ -173,14 +177,17 @@ saveProfileSecrets(const QString &profile,
     if (nonEmptySecrets.isEmpty())
         settings::storage::deleteSecureValue(secretsKey);
     else
-        settings::storage::writeSecureValue(secretsKey, settings::storage::encodeSecretsMap(nonEmptySecrets));
+        settings::storage::writeSecureValue(secretsKey,
+                                            settings::storage::encodeSecretsMap(nonEmptySecrets));
 
     if (QFileInfo::exists(secretsFilePath) && !QFile::remove(secretsFilePath))
         nhlog::ui()->warn("Failed to remove stale secrets file: {}", secretsFilePath.toStdString());
 }
 
 bool
-clearProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, const QString &secretsFilePath)
+clearProfileSecrets(const QString &profile,
+                    bool runWithoutSecureSecretsService,
+                    const QString &secretsFilePath)
 {
     if (runWithoutSecureSecretsService) {
         const auto normalizedProfile = app_paths::normalizedProfileId(profile);

@@ -5,9 +5,9 @@
 #include "SettingsStorage.h"
 
 #include <QCoreApplication>
+#include <QCryptographicHash>
 #include <QDir>
 #include <QEventLoop>
-#include <QCryptographicHash>
 #include <QFile>
 #include <QFileInfo>
 #include <QTimer>
@@ -39,7 +39,8 @@ QString
 profileHashHex(QStringView profile)
 {
     return QString::fromLatin1(
-      QCryptographicHash::hash(normalizedProfileId(profile).toUtf8(), QCryptographicHash::Sha256).toHex());
+      QCryptographicHash::hash(normalizedProfileId(profile).toUtf8(), QCryptographicHash::Sha256)
+        .toHex());
 }
 
 QString
@@ -49,7 +50,8 @@ settingsSecretStoreKey(QStringView profile, QStringView keyName)
            keyName.toString();
 }
 
-const QString keychainServiceName()
+const QString
+keychainServiceName()
 {
     return QCoreApplication::applicationName();
 }

@@ -8,7 +8,22 @@
 #include <QObject>
 
 #include "Api.h"
-#include "config/nheko.h"
+
+#include <memory>
+
+namespace spdlog {
+class logger;
+}
+
+struct DbusBackendLoggers
+{
+    std::shared_ptr<spdlog::logger> ui;
+};
+
+void
+setLoggers(DbusBackendLoggers loggers);
+DbusBackendLoggers
+activeLoggers();
 
 class RoomlistModel;
 
@@ -22,9 +37,9 @@ public:
 
 public slots:
     //! Get the Komai D-Bus API version.
-    Q_SCRIPTABLE QString apiVersion() const { return nheko::dbus::dbusApiVersion.toString(); }
+    Q_SCRIPTABLE QString apiVersion() const;
     //! Get the app version.
-    Q_SCRIPTABLE QString appVersion() const { return nheko::version; }
+    Q_SCRIPTABLE QString appVersion() const;
     //! Call this function to get a list of all joined rooms.
     Q_SCRIPTABLE QVector<nheko::dbus::RoomInfoItem> rooms() const;
     //! Call this function to convert a URI into an image

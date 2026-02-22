@@ -33,6 +33,9 @@
 #include "CallManager.h"
 #include "ChatPage.h"
 #include "Logging.h"
+#ifdef NHEKO_DBUS_SYS
+#include "dbus/Backend.h"
+#endif
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Paths.h"
@@ -296,6 +299,9 @@ main(int argc, char *argv[])
     settings::persistence::setLoggers({.ui = nhlog::ui()});
     settings::setLoggers({.ui = nhlog::ui()});
     settings::serializer::setLoggers({.ui = nhlog::ui()});
+#ifdef NHEKO_DBUS_SYS
+    setLoggers({.ui = nhlog::ui()});
+#endif
 
     ThemeRegistry::initialize();
 

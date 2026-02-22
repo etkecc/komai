@@ -5,16 +5,18 @@
 #include "Backend.h"
 
 #include <mutex>
+#include <utility>
 
 #include "Cache.h"
 #include "ChatPage.h"
-#include "Logging.h"
+#include "config/nheko.h"
 #include "MainWindow.h"
 #include "MxcImageProvider.h"
 #include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
+#include <spdlog/logger.h>
 
 #include <QDBusConnection>
 
@@ -25,6 +27,7 @@ DbusBackend::DbusBackend(RoomlistModel *parent)
 }
 
 namespace {
+
 static const auto DbusArgTypePrefix = QStringLiteral("string:");
 
 QString
@@ -54,13 +57,51 @@ dbusWriteAccessEnabled()
     return settings && settings->integrationsDbusApiAccess() >= IntegrationsDbusAccessReadWrite;
 }
 
+DbusBackendLoggers
+defaultLoggers()
+{
+    return {};
+}
+
+DbusBackendLoggers &
+backendCurrentLoggers()
+{
+    static DbusBackendLoggers loggers = defaultLoggers();
+    return loggers;
+}
+} // namespace
+
+QString
+DbusBackend::apiVersion() const
+{
+    return nheko::dbus::dbusApiVersion.toString();
+}
+
+QString
+DbusBackend::appVersion() const
+{
+    return nheko::version;
+}
+
+void
+setLoggers(DbusBackendLoggers loggers)
+{
+    backendCurrentLoggers() = std::move(loggers);
+}
+
+DbusBackendLoggers
+activeLoggers()
+{
+    return backendCurrentLoggers();
+}
+
 struct RoomReplyState
 {
     QVector<nheko::dbus::RoomInfoItem> model;
     std::map<QString, RoomInfo> roominfos;
     std::mutex m;
 };
-}
+
 
 QVector<nheko::dbus::RoomInfoItem>
 DbusBackend::rooms() const
@@ -68,7 +109,9 @@ DbusBackend::rooms() const
     if (!dbusReadAccessEnabled())
         return {};
 
-    nhlog::ui()->debug("Rooms requested over D-Bus.");
+    if (const auto logger = activeLoggers().ui) {
+        logger->debug("Rooms requested over D-Bus.");
+    }
 
     const auto roomListModel = m_parent->models;
     QVector<nheko::dbus::RoomInfoItem> model;
@@ -92,7 +135,9 @@ DbusBackend::rooms() const
                                                   room->notificationCount()});
     }
 
-    nhlog::ui()->debug("Sending {} rooms over D-Bus...", model.size());
+    if (const auto logger = activeLoggers().ui) {
+        logger->debug("Sending {} rooms over D-Bus...", model.size());
+    }
     return model;
 }
 
@@ -105,7 +150,9 @@ DbusBackend::image(const QString &uri, const QDBusMessage &message) const
     const auto normalizedUri = stripDbusTypePrefix(uri);
 
     message.setDelayedReply(true);
-    nhlog::ui()->debug("Rooms requested over D-Bus.");
+    if (const auto logger = activeLoggers().ui) {
+        logger->debug("Rooms requested over D-Bus.");
+    }
     MainWindow::instance()->imageProvider()->download(
       QString(normalizedUri).remove("mxc://"),
       {96, 96},
@@ -170,8 +217,10 @@ void
 DbusBackend::setTheme(const QString &theme)
 {
     if (!dbusWriteAccessEnabled()) {
-        nhlog::ui()->warn("Ignoring D-Bus setTheme call: write access is disabled (theme: '{}')",
-                          theme.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Ignoring D-Bus setTheme call: write access is disabled (theme: '{}')",
+                         theme.toStdString());
+        }
         return;
     }
 
@@ -182,12 +231,16 @@ DbusBackend::setTheme(const QString &theme)
     const auto normalizedTheme = stripDbusTypePrefix(theme);
     const auto oldTheme        = settings->theme();
     settings->setTheme(normalizedTheme);
-    if (settings->theme() == oldTheme)
-        nhlog::ui()->warn("Ignoring D-Bus setTheme call: theme '{}' is not applicable",
-                          normalizedTheme.toStdString());
-    else
-        nhlog::ui()->info(
-          "Applied D-Bus theme: {} -> {}", oldTheme.toStdString(), settings->theme().toStdString());
+    if (settings->theme() == oldTheme) {
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Ignoring D-Bus setTheme call: theme '{}' is not applicable",
+                         normalizedTheme.toStdString());
+        }
+    } else if (const auto logger = activeLoggers().ui) {
+        logger->info("Applied D-Bus theme: {} -> {}",
+                     oldTheme.toStdString(),
+                     settings->theme().toStdString());
+    }
 }
 
 void

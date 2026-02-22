@@ -653,14 +653,38 @@ RoomlistModel::initializeRooms()
     endResetModel();
 
 #ifdef NHEKO_DBUS_SYS
-    if (MainWindow::instance()->dbusAvailable()) {
-        dbusInterface_ = new NhekoDBusBackend{this};
-        if (!QDBusConnection::sessionBus().registerObject(
-              "/", dbusInterface_, QDBusConnection::ExportScriptableSlots))
-            nhlog::ui()->warn("Failed to register rooms with D-Bus");
-    }
+    setDbusInterfaceEnabled(MainWindow::instance()->dbusAvailable());
 #endif
 }
+
+#ifdef NHEKO_DBUS_SYS
+void
+RoomlistModel::setDbusInterfaceEnabled(bool enabled)
+{
+    if (enabled) {
+        if (dbusInterface_)
+            return;
+
+        dbusInterface_ = new NhekoDBusBackend{this};
+        if (!QDBusConnection::sessionBus().registerObject(
+              QStringLiteral("/"), dbusInterface_, QDBusConnection::ExportScriptableSlots)) {
+            nhlog::ui()->warn("Failed to register rooms with D-Bus");
+            delete dbusInterface_;
+            dbusInterface_ = nullptr;
+            return;
+        }
+        return;
+    }
+
+    if (!dbusInterface_)
+        return;
+
+    QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/"));
+
+    delete dbusInterface_;
+    dbusInterface_ = nullptr;
+}
+#endif
 
 void
 RoomlistModel::clear()

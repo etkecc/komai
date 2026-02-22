@@ -1,6 +1,7 @@
 # Komai Documentation
 
 - ⚙️ [Configuration](configuration.md) -- profiles, settings format, file locations
+- 🔌 [Integrations](configuration/integrations/README.md) -- D-Bus and external automation hooks
 - 💾 [Storage](storage.md) -- on-disk data locations (config, database, cache, logs, themes)
 - 🛠️ [Development](development.md) -- day-to-day developer workflow, build/run, prek hooks
 - 🔀 [Differences from nheko](differences-from-nheko.md) -- what makes Komai different

@@ -782,10 +782,10 @@ elseif(WIN32)
     set(SRC_FILES ${SRC_FILES} src/notifications/ManagerWin.cpp src/wintoastlib.cpp src/wintoastlib.h)
 else()
     set(SRC_FILES ${SRC_FILES}
-        src/dbus/NhekoDBusApi.h
+        src/dbus/Api.h
         src/dbus/Backend.h
-        src/dbus/NhekoDBusApi.cpp
-        src/dbus/NhekoDBusBackend.cpp
+        src/dbus/Api.cpp
+        src/dbus/Backend.cpp
         src/notifications/ManagerLinux.cpp
     )
 endif()

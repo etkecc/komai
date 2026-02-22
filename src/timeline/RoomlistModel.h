@@ -120,6 +120,9 @@ public slots:
     void acceptInvite(QString roomid);
     void declineInvite(QString roomid);
     void leave(QString roomid, QString reason = "");
+#ifdef NHEKO_DBUS_SYS
+    void setDbusInterfaceEnabled(bool enabled);
+#endif
     TimelineModel *currentRoom() const { return currentRoom_.get(); }
     RoomPreview currentRoomPreview() const { return currentRoomPreview_.value_or(RoomPreview{}); }
     void setCurrentRoom(const QString &roomid);
@@ -157,7 +160,7 @@ private:
     std::map<QString, std::vector<QString>> directChatToUser;
 
 #ifdef NHEKO_DBUS_SYS
-    NhekoDBusBackend *dbusInterface_;
+    NhekoDBusBackend *dbusInterface_ = nullptr;
     friend class NhekoDBusBackend;
 #endif
 

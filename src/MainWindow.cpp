@@ -32,7 +32,7 @@
 #include "voip/WebRTCSession.h"
 
 #ifdef NHEKO_DBUS_SYS
-#include "dbus/NhekoDBusApi.h"
+#include "dbus/Api.h"
 #endif
 
 MainWindow *MainWindow::instance_ = nullptr;
@@ -73,6 +73,13 @@ MainWindow::MainWindow(QWindow *parent)
             this,
             SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
+#ifdef NHEKO_DBUS_SYS
+    connect(userSettings_.get(),
+            &UserSettings::integrationsDbusApiAccessChanged,
+            this,
+            [this](int) { refreshDbusAvailability(); });
+#endif
+
     trayIcon_->setVisible(userSettings_->tray());
     dock_ = new Dock(this);
     connect(chat_page_, SIGNAL(unreadMessages(int)), dock_, SLOT(setUnreadCount(int)));
@@ -111,17 +118,55 @@ MainWindow::registerQmlTypes()
     QObject::connect(engine(), &QQmlEngine::quit, &QGuiApplication::quit);
 
 #ifdef NHEKO_DBUS_SYS
-    if (UserSettings::instance()->exposeDBusApi()) {
-        if (QDBusConnection::sessionBus().isConnected() &&
-            QDBusConnection::sessionBus().registerService(KOMAI_DBUS_SERVICE_NAME)) {
+    refreshDbusAvailability();
+#endif
+}
+
+#ifdef NHEKO_DBUS_SYS
+void
+MainWindow::refreshDbusAvailability()
+{
+    RoomlistModel *chatRoomModel = nullptr;
+    if (chat_page_ && chat_page_->timelineManager())
+        chatRoomModel = chat_page_->timelineManager()->rooms();
+
+    constexpr int integrationsDbusAccessDisabled = 0;
+    const auto shouldExpose =
+      UserSettings::instance()->integrationsDbusApiAccess() != integrationsDbusAccessDisabled;
+
+    if (!shouldExpose) {
+        if (chatRoomModel)
+            chatRoomModel->setDbusInterfaceEnabled(false);
+
+        QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/"));
+        if (dbusAvailable_ &&
+            !QDBusConnection::sessionBus().unregisterService(KOMAI_DBUS_SERVICE_NAME))
+            nhlog::ui()->warn("Could not unregister D-Bus service");
+        dbusAvailable_ = false;
+        return;
+    }
+
+    if (!QDBusConnection::sessionBus().isConnected()) {
+        nhlog::ui()->warn("Could not connect to D-Bus");
+        dbusAvailable_ = false;
+        return;
+    }
+
+    if (!dbusAvailable_) {
+        if (QDBusConnection::sessionBus().registerService(KOMAI_DBUS_SERVICE_NAME)) {
             nheko::dbus::init();
             nhlog::ui()->info("Initialized D-Bus");
             dbusAvailable_ = true;
-        } else
+        } else {
             nhlog::ui()->warn("Could not connect to D-Bus!");
+            return;
+        }
     }
-#endif
+
+    if (chatRoomModel)
+        chatRoomModel->setDbusInterfaceEnabled(true);
 }
+#endif
 
 void
 MainWindow::setWindowTitle(int notificationCount)

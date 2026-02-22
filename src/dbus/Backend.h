@@ -7,7 +7,7 @@
 #include <QDBusMessage>
 #include <QObject>
 
-#include "NhekoDBusApi.h"
+#include "Api.h"
 #include "config/nheko.h"
 
 class RoomlistModel;
@@ -21,7 +21,7 @@ public:
     NhekoDBusBackend(RoomlistModel *parent);
 
 public slots:
-    //! Get the nheko D-Bus API version.
+    //! Get the Komai D-Bus API version.
     Q_SCRIPTABLE QString apiVersion() const { return nheko::dbus::dbusApiVersion.toString(); }
     //! Get the app version.
     Q_SCRIPTABLE QString appVersion() const { return nheko::version; }
@@ -40,7 +40,8 @@ public slots:
     Q_SCRIPTABLE QString statusMessage() const;
     //! Sets the user's status message.
     Q_SCRIPTABLE void setStatusMessage(const QString &message);
-    //! Sets the current theme (supported values: "light", "dark" or "system")
+    //! Sets the current theme. Use a valid theme slug (for example "komai", "komai-dark",
+    //! "nheko-light") or "system".
     Q_SCRIPTABLE void setTheme(const QString &theme);
 
 private:

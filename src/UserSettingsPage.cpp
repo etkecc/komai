@@ -114,12 +114,12 @@ constexpr auto EncryptionKeySharingShareWithTrusted  = "encryption.key_sharing.s
 constexpr auto EncryptionBackupOnlineEnabled         = "encryption.backup.online.enabled";
 constexpr auto NetworkTlsDisableCertificateValidation =
   "network.tls.disable_certificate_validation";
-constexpr auto NetworkHttp3Enabled            = "network.http3.enabled";
-constexpr auto DbMaxSizeBytes                 = "db.max_size_bytes";
-constexpr auto DbMaxFiles                     = "db.max_files";
-constexpr auto IntegrationsDbusExposeRoomInfo = "integrations.dbus.expose_room_info";
-constexpr auto IntegrationsBrowserCommand     = "integrations.browser.command";
-constexpr auto SecretsProvider                = "secrets.provider";
+constexpr auto NetworkHttp3Enabled        = "network.http3.enabled";
+constexpr auto DbMaxSizeBytes             = "db.max_size_bytes";
+constexpr auto DbMaxFiles                 = "db.max_files";
+constexpr auto IntegrationsDbusApiAccess  = "integrations.dbus.access";
+constexpr auto IntegrationsBrowserCommand = "integrations.browser.command";
+constexpr auto SecretsProvider            = "secrets.provider";
 
 // state.yml
 constexpr auto AppWindowSizeWidth                 = "app.window.size.width";
@@ -145,8 +145,11 @@ constexpr auto SecretsFileAuthAccessToken = "auth.access_token";
 constexpr auto SecretsFileMap             = "secrets";
 } // namespace SettingKey
 
-constexpr auto SecureStoreAccessTokenKey = "session.auth.access_token";
-constexpr auto SecureStoreSecretsKey     = "session.secrets";
+constexpr int IntegrationsDbusAccessNone      = 0;
+constexpr int IntegrationsDbusAccessReadOnly  = 1;
+constexpr int IntegrationsDbusAccessReadWrite = 2;
+constexpr auto SecureStoreAccessTokenKey      = "session.auth.access_token";
+constexpr auto SecureStoreSecretsKey          = "session.secrets";
 
 QString
 profileDirPath(const QString &profile)
@@ -739,7 +742,11 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     privacyScreen_ = readScalar<bool>(root, SettingKey::PrivacyScreenLockEnabled, false);
     privacyScreenTimeoutSeconds_ =
       readScalar<int>(root, SettingKey::PrivacyScreenLockTimeoutSeconds, 0);
-    exposeDBusApi_ = readScalar<bool>(root, SettingKey::IntegrationsDbusExposeRoomInfo, false);
+    integrationsDbusApiAccess_ =
+      readScalar<int>(root, SettingKey::IntegrationsDbusApiAccess, IntegrationsDbusAccessNone);
+    if (integrationsDbusApiAccess_ < IntegrationsDbusAccessNone ||
+        integrationsDbusApiAccess_ > IntegrationsDbusAccessReadWrite)
+        integrationsDbusApiAccess_ = IntegrationsDbusAccessNone;
     integrationsLinksBrowserCommand_ =
       readString(root, SettingKey::IntegrationsBrowserCommand, QString());
     updateSpaceVias_ = readScalar<bool>(root, SettingKey::PrivacyMaintenanceUpdateSpaceVias, true);
@@ -1057,9 +1064,11 @@ UserSettings::setCollapsedSpaces(QList<QStringList> spaces)
 }
 
 void
-UserSettings::setExposeDBusApi(bool s)
+UserSettings::setIntegrationsDbusApiAccess(int access)
 {
-    setSetting(exposeDBusApi_, s, &UserSettings::exposeDBusApiChanged);
+    if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)
+        return;
+    setSetting(integrationsDbusApiAccess_, access, &UserSettings::integrationsDbusApiAccessChanged);
 }
 void
 UserSettings::setIntegrationsLinksBrowserCommand(QString command)
@@ -1807,7 +1816,7 @@ UserSettings::saveConfigYaml() const
     setNode(root, SettingKey::NetworkHttp3Enabled, enableHttp3_);
     setNode(root, SettingKey::DbMaxSizeBytes, maxDbSize_);
     setNode(root, SettingKey::DbMaxFiles, maxDbs_);
-    setNode(root, SettingKey::IntegrationsDbusExposeRoomInfo, exposeDBusApi_);
+    setNode(root, SettingKey::IntegrationsDbusApiAccess, integrationsDbusApiAccess_);
     setNode(
       root, SettingKey::IntegrationsBrowserCommand, integrationsLinksBrowserCommand_.toStdString());
     setNode(root,
@@ -2236,16 +2245,29 @@ static const SettingMeta settingsTable[] = {
     // IntegrationsDbusSection
     { QT_TR_NOOP("D-BUS"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // IntegrationsExposeDBusApi
-    { QT_TR_NOOP("Expose room information via D-Bus"),
-      QT_TR_NOOP("Allow third-party plugins and applications to load information about rooms you are in via D-Bus. This can have useful applications, but it also could be used for nefarious purposes. Enable at your own risk.\n\nThis setting will take effect upon restart."),
-      SM::Toggle, SM::TabIntegrations,
-      []() -> QVariant { return I->exposeDBusApi(); },
+    // IntegrationsDbusApiAccess
+    { QT_TR_NOOP("D-Bus access"),
+      QT_TR_NOOP("Choose how much D-Bus access Komai exposes to local callers."),
+      SM::Options, SM::TabIntegrations,
+      []() -> QVariant { return I->integrationsDbusApiAccess(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setExposeDBusApi(v.toBool()); return true;
-    },
-      {}, {}, {}, nullptr, nullptr },
+          if (v.userType() != QMetaType::Int && !v.canConvert(QMetaType::Int))
+              return false;
+          auto access = v.toInt();
+          if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)
+              return false;
+          I->setIntegrationsDbusApiAccess(access);
+          return true;
+      },
+      {}, {}, {},
+      []() -> QVariant {
+          return QStringList{
+            QCoreApplication::translate("UserSettingsModel", "None"),
+            QCoreApplication::translate("UserSettingsModel", "Read-only"),
+            QCoreApplication::translate("UserSettingsModel", "Read & write"),
+          };
+      },
+      nullptr },
 #endif
     // IntegrationsBrowserSection
     { QT_TR_NOOP("BROWSER"), nullptr, SM::SectionTitle, SM::TabIntegrations,
@@ -2892,7 +2914,7 @@ static const SettingMeta settingsTable[] = {
 // clang-format on
 
 // Note: settingsTable must have exactly COUNT entries (one per Indices enum value before COUNT).
-// The Indices enum puts ScaleFactor, IntegrationsDbusSection, and IntegrationsExposeDBusApi
+// The Indices enum puts ScaleFactor, IntegrationsDbusSection, and the D-Bus rows
 // after COUNT when platform flags exclude them.
 
 #undef I
@@ -3145,7 +3167,7 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     CONNECT_SETTING(IntegrationsTray, trayChanged, Value);
     CONNECT_SETTING(IntegrationsStartInTray, startInTrayChanged, Value);
 #ifdef NHEKO_DBUS_SYS
-    CONNECT_SETTING(IntegrationsExposeDBusApi, exposeDBusApiChanged, Value);
+    CONNECT_SETTING(IntegrationsDbusApiAccess, integrationsDbusApiAccessChanged, Value);
 #endif
 
     // Tray has a side-effect on StartInTray's Enabled state

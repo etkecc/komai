@@ -136,14 +136,14 @@ class UserSettings final : public QObject
                  setOpenVideosInExternalApp NOTIFY openVideosInExternalAppChanged)
     Q_PROPERTY(QString integrationsLinksBrowserCommand READ integrationsLinksBrowserCommand WRITE
                  setIntegrationsLinksBrowserCommand NOTIFY integrationsLinksBrowserCommandChanged)
+    Q_PROPERTY(int integrationsDbusApiAccess READ integrationsDbusApiAccess WRITE
+                 setIntegrationsDbusApiAccess NOTIFY integrationsDbusApiAccessChanged)
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList recentReactions READ recentReactions WRITE setRecentReactions NOTIFY
                  recentReactionsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
-    Q_PROPERTY(
-      bool exposeDBusApi READ exposeDBusApi WRITE setExposeDBusApi NOTIFY exposeDBusApiChanged)
     Q_PROPERTY(bool updateSpaceVias READ updateSpaceVias WRITE setUpdateSpaceVias NOTIFY
                  updateSpaceViasChanged)
     Q_PROPERTY(bool expireEvents READ expireEvents WRITE setExpireEvents NOTIFY expireEventsChanged)
@@ -331,7 +331,7 @@ public:
     void setOpenVideosInExternalApp(bool state);
     void setIntegrationsLinksBrowserCommand(QString command);
     void setCollapsedSpaces(QList<QStringList> spaces);
-    void setExposeDBusApi(bool state);
+    void setIntegrationsDbusApiAccess(int access);
     void setUpdateSpaceVias(bool state);
     void setExpireEvents(bool state);
     void setWindowWidth(int width);
@@ -437,7 +437,7 @@ public:
     bool openImagesInExternalApp() const { return openImagesInExternalApp_; }
     bool openVideosInExternalApp() const { return openVideosInExternalApp_; }
     QList<QStringList> collapsedSpaces() const { return collapsedSpaces_; }
-    bool exposeDBusApi() const { return exposeDBusApi_; }
+    int integrationsDbusApiAccess() const { return integrationsDbusApiAccess_; }
     QString integrationsLinksBrowserCommand() const { return integrationsLinksBrowserCommand_; }
     bool updateSpaceVias() const { return updateSpaceVias_; }
     bool expireEvents() const { return expireEvents_; }
@@ -519,7 +519,7 @@ signals:
     void hiddenPinsChanged();
     void hiddenWidgetsChanged();
     void recentReactionsChanged();
-    void exposeDBusApiChanged(bool state);
+    void integrationsDbusApiAccessChanged(int state);
     void integrationsLinksBrowserCommandChanged(QString command);
     void updateSpaceViasChanged(bool state);
     void expireEventsChanged(bool state);
@@ -625,7 +625,7 @@ private:
     bool useIdenticon_;
     bool openImagesInExternalApp_;
     bool openVideosInExternalApp_;
-    bool exposeDBusApi_;
+    int integrationsDbusApiAccess_ = 0;
     QString integrationsLinksBrowserCommand_;
     bool updateSpaceVias_;
     bool expireEvents_;
@@ -709,7 +709,7 @@ private:
         IntegrationsStartInTray,
 #ifdef NHEKO_DBUS_SYS
         IntegrationsDbusSection,
-        IntegrationsExposeDBusApi,
+        IntegrationsDbusApiAccess,
 #endif
         IntegrationsBrowserSection,
 
@@ -829,7 +829,7 @@ private:
 #endif
 #ifndef NHEKO_DBUS_SYS
         IntegrationsDbusSection,
-        IntegrationsExposeDBusApi,
+        IntegrationsDbusApiAccess,
 #endif
     };
 

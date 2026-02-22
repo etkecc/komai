@@ -26,7 +26,7 @@
 #include "MxcImageProvider.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
-#include "dbus/NhekoDBusApi.h"
+#include "dbus/Api.h"
 
 NotificationsManager::NotificationsManager(QObject *parent)
   : QObject(parent)

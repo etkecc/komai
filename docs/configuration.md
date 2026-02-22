@@ -59,6 +59,12 @@ Security invariants:
 - `secrets.yml`: `auth.access_token` and `secrets` map (only when `secrets.provider=file`)
 - Full example files: [architecture/configuration-examples/profile/](architecture/configuration-examples/profile/)
 
+## Integrations
+
+Learn about optional integration hooks in the Integrations docs:
+
+- [D-Bus integration](configuration/integrations/dbus.md)
+
 ## Backup and Restore
 
 Backup profile files:

@@ -125,6 +125,9 @@ private:
     bool pageSupportsTray() const;
 
     void registerQmlTypes();
+#ifdef NHEKO_DBUS_SYS
+    void refreshDbusAvailability();
+#endif
 
     static MainWindow *instance_;
 

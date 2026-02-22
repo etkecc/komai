@@ -1,6 +1,9 @@
 # Settings Name Mapping (nheko -> Komai)
 
-This reference is for porting patches from upstream nheko into Komai.
+This reference is for porting changes between upstream nheko and Komai.
+It is intentionally focused on naming and key mapping, not behavior changes:
+- `Scope` maps old nheko-style names (C++ constant and flat keys) to Komai names/keys.
+- A `-` in the nheko column means “no direct upstream nheko equivalent”.
 
 Scope:
 - Map nheko-style setting names (C++ constants and flat serialization keys) to Komai names.
@@ -40,7 +43,7 @@ Note:
 | Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::ShowCommunitiesSidebar` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsTray` | `tray` | `app.window.tray.enabled` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsStartInTray` | `start_in_tray` | `app.startup.start_in_tray` | config.yml | yes |
-| Integrations | D-BUS | Expose room information via D-Bus | `UserSettingsModel::IntegrationsExposeDBusApi` | `expose_dbus_api` | `integrations.dbus.expose_room_info` | config.yml | yes |
+| Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::integrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::MobileMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |

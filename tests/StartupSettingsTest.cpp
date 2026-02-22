@@ -265,7 +265,10 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
         return false;
 
     auto configAfter = settings::storage::loadYamlFile(configFile, "config-after-theme-change");
-    const auto storedTheme = QString::fromStdString(configAfter["ui"]["theme"]["slug"].as<std::string>());
+    const auto themeNode = configAfter["ui"]["theme"]["slug"];
+    if (!themeNode || !themeNode.IsScalar())
+        return expect(false, "theme is persisted as scalar in config file");
+    const auto storedTheme = QString::fromStdString(themeNode.as<std::string>());
     const bool persistedTheme = expect(
       storedTheme == QStringLiteral("komai-dark"), "theme change is persisted to config.yml");
 

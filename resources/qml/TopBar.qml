@@ -41,15 +41,15 @@ Pane {
         color: palette.alternateBase
     }
     contentItem: Item {
-        GridLayout {
-            id: topLayout
+    GridLayout {
+        id: topLayout
 
-            anchors.left: parent.left
-            anchors.leftMargin: Nheko.paddingMedium
-            anchors.right: parent.right
-            anchors.rightMargin: Nheko.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            columnSpacing: 0
+        anchors.left: parent.left
+        anchors.leftMargin: Nheko.paddingMedium
+        anchors.right: parent.right
+        anchors.rightMargin: Nheko.paddingMedium
+        anchors.top: parent.top
+        columnSpacing: 0
             rowSpacing: Nheko.compactRoomList ? 0 : Nheko.paddingSmall
 
             Avatar {

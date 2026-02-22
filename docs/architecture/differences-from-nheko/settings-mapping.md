@@ -35,13 +35,13 @@ Note:
 | Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::ShowCommunityNotificationCounts` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
 | Sidebars | ROOM LIST | Use circular avatars | `UserSettingsModel::UseCircularAvatars` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Sidebars | ROOM LIST | Use identicons | `UserSettingsModel::UseIdenticon` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
-| Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::ScrollbarsInRoomlist` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars_visible` | config.yml | yes |
+| Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::ScrollbarsInRoomlist` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
 | Sidebars | ROOM LIST | Sorting | `UserSettingsModel::RoomSorting` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::ShowCommunitiesSidebar` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
 | Look & Feel | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::Tray` | `tray` | `app.window.tray.enabled` | config.yml | yes |
 | Look & Feel | SYSTEM TRAY | Start in tray | `UserSettingsModel::StartInTray` | `start_in_tray` | `app.startup.start_in_tray` | config.yml | yes |
 | Look & Feel | SYSTEM TRAY | Expose room information via D-Bus | `UserSettingsModel::ExposeDBusApi` | `expose_dbus_api` | `integrations.dbus.expose_room_info` | config.yml | yes |
-| Look & Feel | MOBILE | Touchscreen mode | `UserSettingsModel::MobileMode` | `mobile_mode` | `ui.input.touchscreen_mode` | config.yml | yes |
+| Look & Feel | MOBILE | Enable text selection on timeline | `UserSettingsModel::MobileMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
 | Look & Feel | MOBILE | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
 | Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::Bubbles` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
 | Timeline | MESSAGES | Use small avatars | `UserSettingsModel::SmallAvatars` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
@@ -50,7 +50,7 @@ Note:
 | Timeline | MESSAGES | Limit timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
 | Timeline | MESSAGES | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
 | Timeline | MESSAGES | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
-| Timeline | MESSAGES | Show action buttons | `UserSettingsModel::ShowActionButtons` | `show_action_buttons` | `timeline.messages.actions.visible` | config.yml | yes |
+| Timeline | MESSAGES | Show action buttons | `UserSettingsModel::ShowActionButtons` | `show_action_buttons` | `timeline.messages.actions.enabled` | config.yml | yes |
 | Timeline | MESSAGES | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
 | Timeline | MEDIA | Show message effects | `UserSettingsModel::FancyEffects` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
 | Timeline | MEDIA | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
@@ -115,7 +115,7 @@ Note:
 | `hidden_widgets` | `timeline.widgets.hidden` | state.yml | list(text) | runtime timeline state |
 | `recent_reactions` | `composer.reactions.recent` | state.yml | list(text) | runtime convenience state |
 | `collapsed_spaces` | `sidebars.communities.collapsed_spaces` | state.yml | list(list(text)) | runtime expansion state |
-| `presence` | `session.presence.default` | session.yml | enum | account-scoped preference |
+| `presence` | `network.presence.default` | config.yml | enum | account-scoped preference |
 | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | int | advanced calls/screenshare pref |
 | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | bool | advanced calls/screenshare pref |
 | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | bool | advanced calls/screenshare pref |

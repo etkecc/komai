@@ -47,7 +47,7 @@ macro(hunter_add_package_safe)
     message("pkg_conf_path: '$ENV{PKG_CONFIG_PATH}', pkg_conf_libdir: '$ENV{PKG_CONFIG_LIBDIR}'")
 endmacro()
 
-project(nheko LANGUAGES CXX C)
+project(komai LANGUAGES CXX C)
 
 option(USE_BUNDLED_SPDLOG "Use the bundled version of spdlog." ${HUNTER_ENABLED})
 option(USE_BUNDLED_FMT "Use the bundled version of {fmt}." ${HUNTER_ENABLED})
@@ -131,7 +131,7 @@ fix_project_version()
 # Set additional project information
 set(COMPANY "Komai")
 set(COPYRIGHT "Copyright (c) 2024 Komai Contributors")
-set(IDENTIFIER "im.nheko.Nheko")
+set(IDENTIFIER "com.etkecc.komai")
 
 add_project_meta(META_FILES_TO_INCLUDE)
 
@@ -808,7 +808,7 @@ add_custom_command(
     VERBATIM
 )
 
-set(NHEKO_DEPS
+set(KOMAI_DEPS
     ${SRC_FILES}
     ${QRC}
     ${META_FILES_TO_INCLUDE}
@@ -819,26 +819,26 @@ if(ASAN)
 endif()
 
 if(WIN32)
-    qt_add_executable(nheko WIN32 ${OS_BUNDLE} ${NHEKO_DEPS})
-    target_compile_definitions(nheko PRIVATE _WIN32_WINNT=0x0601 NOMINMAX WIN32_LEAN_AND_MEAN STRICT)
+    qt_add_executable(komai WIN32 ${OS_BUNDLE} ${KOMAI_DEPS})
+    target_compile_definitions(komai PRIVATE _WIN32_WINNT=0x0601 NOMINMAX WIN32_LEAN_AND_MEAN STRICT)
 else()
-    qt_add_executable(nheko ${OS_BUNDLE} ${NHEKO_DEPS})
+    qt_add_executable(komai ${OS_BUNDLE} ${KOMAI_DEPS})
 
     if(APPLE)
-        set_target_properties(nheko PROPERTIES MACOSX_BUNDLE_INFO_PLIST
+        set_target_properties(komai PROPERTIES MACOSX_BUNDLE_INFO_PLIST
             "${CMAKE_CURRENT_SOURCE_DIR}/cmake/MacOSXBundleInfo.plist.in")
     endif()
 
     if(HAVE_BACKTRACE_SYMBOLS_FD AND NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-        set_target_properties(nheko PROPERTIES ENABLE_EXPORTS ON)
+        set_target_properties(komai PROPERTIES ENABLE_EXPORTS ON)
     endif()
 endif()
 
-set_target_properties(nheko
+set_target_properties(komai
     PROPERTIES
         CMAKE_SKIP_INSTALL_RPATH TRUE
         AUTOMOC ON)
-target_compile_definitions(nheko PRIVATE KOMAI_WITH_QML=1)
+target_compile_definitions(komai PRIVATE KOMAI_WITH_QML=1)
 
 #
 # Add qml files
@@ -971,7 +971,7 @@ set(QML_SOURCES
     resources/qml/delegates/EncryptionEnabled.qml
     resources/qml/ui/TimelineEffects.qml
 )
-qt_add_qml_module(nheko
+qt_add_qml_module(komai
     URI im.nheko
     NO_RESOURCE_TARGET_PATH
     RESOURCE_PREFIX "/"
@@ -983,11 +983,11 @@ qt_add_qml_module(nheko
     src/UserDirectoryModel.cpp
     src/UserDirectoryModel.h
 )
-    #qt_target_qml_sources(nheko
+    #qt_target_qml_sources(komai
     #   #PREFIX "/"
     #)
 
-#set_target_properties(nheko PROPERTIES
+#set_target_properties(komai PROPERTIES
 #    QT_QMLCACHEGEN_ARGUMENTS "--verbose"
 #)
 
@@ -995,58 +995,58 @@ qt_add_qml_module(nheko
 # Bundle translations
 #
 file(GLOB LANG_TS_SRC "${CMAKE_CURRENT_SOURCE_DIR}/resources/langs/*/komai_*.ts")
-qt_add_translations(nheko RESOURCE_PREFIX "/translations" TS_FILES
+qt_add_translations(komai RESOURCE_PREFIX "/translations" TS_FILES
     ${LANG_TS_SRC} SOURCES ${QML_SOURCES} ${SRC_FILES})
 
 if(WIN32)
-    target_compile_definitions(nheko PRIVATE WIN32_LEAN_AND_MEAN)
-    target_link_libraries(nheko PRIVATE Qt6::DBus)
+    target_compile_definitions(komai PRIVATE WIN32_LEAN_AND_MEAN)
+    target_link_libraries(komai PRIVATE Qt6::DBus)
     if(MSVC)
-        target_compile_options(nheko PUBLIC "/Zc:__cplusplus")
+        target_compile_options(komai PUBLIC "/Zc:__cplusplus")
     endif()
 else()
-    target_link_libraries(nheko PRIVATE Qt6::DBus)
+    target_link_libraries(komai PRIVATE Qt6::DBus)
     if(FLATPAK)
-        target_compile_definitions(nheko PRIVATE NHEKO_FLATPAK)
+        target_compile_definitions(komai PRIVATE NHEKO_FLATPAK)
     endif()
 endif()
 
-target_include_directories(nheko PRIVATE src includes src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src includes src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
-    target_include_directories(nheko PRIVATE third_party/cpp-httplib-0.5.12)
-    target_sources(nheko PRIVATE third_party/cpp-httplib-0.5.12/httplib.h)
+    target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)
+    target_sources(komai PRIVATE third_party/cpp-httplib-0.5.12/httplib.h)
 else()
     find_package(httplib REQUIRED)
-    target_link_libraries(nheko PRIVATE httplib::httplib)
+    target_link_libraries(komai PRIVATE httplib::httplib)
 endif()
 
 if(USE_BUNDLED_BLURHASH)
-    target_include_directories(nheko PRIVATE third_party/blurhash)
+    target_include_directories(komai PRIVATE third_party/blurhash)
     set(BLURHASH_SRC_FILES
         third_party/blurhash/blurhash.cpp
         third_party/blurhash/blurhash.hpp
     )
-    target_sources(nheko PRIVATE ${BLURHASH_SRC_FILES})
+    target_sources(komai PRIVATE ${BLURHASH_SRC_FILES})
 else()
     find_package(PkgConfig REQUIRED)
     pkg_check_modules(blurhash REQUIRED IMPORTED_TARGET blurhash)
-    target_link_libraries(nheko PRIVATE PkgConfig::blurhash)
+    target_link_libraries(komai PRIVATE PkgConfig::blurhash)
 endif()
 
 # Fixup bundled keychain include dirs
 if(USE_BUNDLED_QTKEYCHAIN)
-    target_include_directories(nheko PRIVATE ${qt6keychain_SOURCE_DIR} ${qt6keychain_BINARY_DIR})
+    target_include_directories(komai PRIVATE ${qt6keychain_SOURCE_DIR} ${qt6keychain_BINARY_DIR})
 endif()
 if(USE_BUNDLED_KDSINGLEAPPLICATION)
-    target_include_directories(nheko PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
+    target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
 endif()
 
 if(NOT JSON_ImplicitConversions)
     set_target_properties(nlohmann_json::nlohmann_json PROPERTIES
         INTERFACE_COMPILE_DEFINITIONS "JSON_USE_IMPLICIT_CONVERSIONS=\$<BOOL:OFF>;JSON_DIAGNOSTICS=\$<BOOL:OFF>"
     )
-    target_compile_definitions(nheko PUBLIC JSON_USE_IMPLICIT_CONVERSIONS=0)
+    target_compile_definitions(komai PUBLIC JSON_USE_IMPLICIT_CONVERSIONS=0)
 endif()
 
 if(USE_BUNDLED_YAMLCPP)
@@ -1119,7 +1119,7 @@ if(BUILD_TESTING)
     add_custom_target(komai_tests DEPENDS komai_yaml_settings_test komai_db_backend_test)
 endif()
 
-target_link_libraries(nheko PRIVATE
+target_link_libraries(komai PRIVATE
     ${COEURL_TARGET_NAME}
     MatrixClient::MatrixClient
     cmark::cmark
@@ -1140,11 +1140,11 @@ target_link_libraries(nheko PRIVATE
 
 if(UNIX)
     # for wayland activation tokens
-    target_link_libraries(nheko PRIVATE Qt::GuiPrivate)
+    target_link_libraries(komai PRIVATE Qt::GuiPrivate)
 endif()
 
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")
-    target_precompile_headers(nheko
+    target_precompile_headers(komai
         PRIVATE
         <string>
         <algorithm>
@@ -1152,33 +1152,33 @@ if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")
 endif()
 
 if(TARGET PkgConfig::GSTREAMER)
-    target_link_libraries(nheko PRIVATE PkgConfig::GSTREAMER)
-    target_compile_definitions(nheko PRIVATE GSTREAMER_AVAILABLE)
+    target_link_libraries(komai PRIVATE PkgConfig::GSTREAMER)
+    target_compile_definitions(komai PRIVATE GSTREAMER_AVAILABLE)
 endif()
 if(TARGET PkgConfig::XCB)
-    target_link_libraries(nheko PRIVATE PkgConfig::XCB)
-    target_compile_definitions(nheko PRIVATE XCB_AVAILABLE)
+    target_link_libraries(komai PRIVATE PkgConfig::XCB)
+    target_compile_definitions(komai PRIVATE XCB_AVAILABLE)
 endif()
 
 if(MSVC)
-    target_link_libraries(nheko PRIVATE ntdll)
+    target_link_libraries(komai PRIVATE ntdll)
 endif()
 
 if(HAIKU)
-    target_link_libraries(nheko PRIVATE network)
+    target_link_libraries(komai PRIVATE network)
 endif()
 
 if(QML_DEBUGGING)
-    target_compile_definitions(nheko PRIVATE QML_DEBUGGING)
+    target_compile_definitions(komai PRIVATE QML_DEBUGGING)
 endif()
 
 if(NOT MSVC AND NOT HAIKU)
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" OR CI_BUILD)
-        target_compile_options(nheko PRIVATE "-Werror")
+        target_compile_options(komai PRIVATE "-Werror")
     endif()
 endif()
 #if(NOT MSVC)
-#   target_link_options(nheko PRIVATE "LINKER:,--gc-sections")
+#   target_link_options(komai PRIVATE "LINKER:,--gc-sections")
 #endif()
 
 if(MAN)
@@ -1187,12 +1187,12 @@ endif()
 
 # potential workaround for macdeployqt issues
 if(APPLE)
-    install(TARGETS nheko
+    install(TARGETS komai
         BUNDLE  DESTINATION .
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
     qt_generate_deploy_qml_app_script(
-        TARGET nheko
+        TARGET komai
         OUTPUT_SCRIPT deploy_script
         NO_UNSUPPORTED_PLATFORM_ERROR
     )
@@ -1202,13 +1202,13 @@ endif()
 if(UNIX AND NOT APPLE)
     if(FLATPAK)
         set(APPID "cc.etke.komai")
-        set_target_properties(nheko PROPERTIES OUTPUT_NAME "${APPID}")
+        set_target_properties(komai PROPERTIES OUTPUT_NAME "${APPID}")
     else()
         set(APPID "komai")
-        set_target_properties(nheko PROPERTIES OUTPUT_NAME "komai")
+        set_target_properties(komai PROPERTIES OUTPUT_NAME "komai")
     endif()
 
-    install(TARGETS nheko RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    install(TARGETS komai RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
     install(FILES "resources/komai-16.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/16x16/apps" RENAME "${APPID}.png")
     install(FILES "resources/komai-32.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/32x32/apps" RENAME "${APPID}.png")
     install(FILES "resources/komai-48.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/48x48/apps" RENAME "${APPID}.png")
@@ -1219,10 +1219,10 @@ if(UNIX AND NOT APPLE)
     install(FILES "resources/komai.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" RENAME "${APPID}.svg")
     install(FILES "resources/_komai" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/zsh/site-functions")
 
-    configure_file("resources/nheko.desktop.in" "resources/nheko.desktop" @ONLY)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/resources/nheko.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" RENAME "${APPID}.desktop")
-    configure_file("resources/nheko.appdata.xml.in" "resources/nheko.appdata.xml" @ONLY)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/resources/nheko.appdata.xml" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/metainfo" RENAME "${APPID}.appdata.xml")
+    configure_file("resources/komai.desktop.in" "resources/komai.desktop" @ONLY)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/resources/komai.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" RENAME "${APPID}.desktop")
+    configure_file("resources/komai.appdata.xml.in" "resources/komai.appdata.xml" @ONLY)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/resources/komai.appdata.xml" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/metainfo" RENAME "${APPID}.appdata.xml")
 
     if(NOT TARGET uninstall)
         configure_file(

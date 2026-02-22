@@ -58,7 +58,7 @@ constexpr auto UiFontEmojiFamily          = "ui.font.emoji_family";
 constexpr auto UiFontSizePt               = "ui.font.size_pt";
 constexpr auto UiScaleFactor              = "ui.scale.factor";
 constexpr auto UiMotionReduced            = "ui.motion.reduced";
-constexpr auto UiInputTouchscreenMode     = "ui.input.touchscreen_mode";
+constexpr auto UiInputEnableTextSelection = "ui.input.enable_text_selection";
 constexpr auto UiInputSwipeGestures       = "ui.input.swipe_gestures";
 constexpr auto UiAvatarsCircular          = "ui.avatars.circular";
 constexpr auto UiAvatarsIdenticonFallback = "ui.avatars.identicon_fallback";
@@ -68,7 +68,7 @@ constexpr auto SidebarsRoomListShowLastMessageTime =
 constexpr auto SidebarsRoomListLastMessagePreview = "sidebars.room_list.last_message_preview";
 constexpr auto SidebarsRoomListShowCommunityCounts =
   "sidebars.room_list.show_community_notification_counts";
-constexpr auto SidebarsRoomListScrollbarsVisible     = "sidebars.room_list.scrollbars_visible";
+constexpr auto SidebarsRoomListScrollbarsEnabled     = "sidebars.room_list.scrollbars.visible";
 constexpr auto SidebarsRoomListSort                  = "sidebars.room_list.sort";
 constexpr auto SidebarsCommunitiesVisible            = "sidebars.communities.visible";
 constexpr auto TimelineMessagesLayoutBubbles         = "timeline.messages.layout.bubbles";
@@ -78,7 +78,7 @@ constexpr auto TimelineMessagesSenderUsername        = "timeline.messages.sender
 constexpr auto TimelineMessagesMaxWidthPx            = "timeline.messages.max_width_px";
 constexpr auto TimelineMessagesEmojiOnlyEnlarge      = "timeline.messages.emoji_only_enlarge";
 constexpr auto TimelineMessagesHoverHighlight        = "timeline.messages.hover_highlight";
-constexpr auto TimelineMessageActionsVisible         = "timeline.messages.actions.visible";
+constexpr auto TimelineMessageActionsEnabled         = "timeline.messages.actions.enabled";
 constexpr auto TimelineMessageActionsPinnedReactions = "timeline.messages.actions.pinned_reactions";
 constexpr auto TimelineMediaEffectsEnabled           = "timeline.media.effects_enabled";
 constexpr auto TimelineMediaAnimateOnHover           = "timeline.media.animate_on_hover";
@@ -137,7 +137,7 @@ constexpr auto ComposerReactionsRecent            = "composer.reactions.recent";
 constexpr auto SessionAccountUserId     = "session.account.user_id";
 constexpr auto SessionAccountHomeserver = "session.account.homeserver";
 constexpr auto SessionDeviceId          = "session.device.id";
-constexpr auto SessionPresenceDefault   = "session.presence.default";
+constexpr auto NetworkPresenceDefault   = "network.presence.default";
 
 // secrets.yml (file provider fallback only)
 constexpr auto SecretsFileAuthAccessToken = "auth.access_token";
@@ -682,8 +682,8 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
       readScalar<bool>(root, SettingKey::NotificationsDesktopAlertOnIncoming, false);
     showCommunitiesSidebar_ = readScalar<bool>(root, SettingKey::SidebarsCommunitiesVisible, true);
     scrollbarsInRoomlist_ =
-      readScalar<bool>(root, SettingKey::SidebarsRoomListScrollbarsVisible, true);
-    showActionButtons_ = readScalar<bool>(root, SettingKey::TimelineMessageActionsVisible, true);
+      readScalar<bool>(root, SettingKey::SidebarsRoomListScrollbarsEnabled, true);
+    showActionButtons_ = readScalar<bool>(root, SettingKey::TimelineMessageActionsEnabled, true);
     maxTimelineWidth_  = readScalar<int>(root, SettingKey::TimelineMessagesMaxWidthPx, 0);
     messageHoverHighlight_ =
       readScalar<bool>(root, SettingKey::TimelineMessagesHoverHighlight, false);
@@ -741,7 +741,10 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     exposeDBusApi_   = readScalar<bool>(root, SettingKey::IntegrationsDbusExposeRoomInfo, false);
     updateSpaceVias_ = readScalar<bool>(root, SettingKey::PrivacyMaintenanceUpdateSpaceVias, true);
     expireEvents_    = readScalar<bool>(root, SettingKey::PrivacyMaintenanceExpireEvents, false);
-    mobileMode_      = readScalar<bool>(root, SettingKey::UiInputTouchscreenMode, false);
+    presence_        = presenceFromStorage(
+      readString(root, SettingKey::NetworkPresenceDefault, QStringLiteral("automatic_presence")),
+      Presence::AutomaticPresence);
+    mobileMode_          = !readScalar<bool>(root, SettingKey::UiInputEnableTextSelection, true);
     enableSwipeGestures_ = readScalar<bool>(root, SettingKey::UiInputSwipeGestures, false);
 
     if (!emojiFont_.isEmpty())
@@ -795,9 +798,6 @@ UserSettings::loadSessionYaml(const YAML::Node &root)
     homeserver_ = readString(root, SettingKey::SessionAccountHomeserver, QString());
     userId_     = readString(root, SettingKey::SessionAccountUserId, QString());
     deviceId_   = readString(root, SettingKey::SessionDeviceId, QString());
-    presence_   = presenceFromStorage(
-      readString(root, SettingKey::SessionPresenceDefault, QStringLiteral("automatic_presence")),
-      Presence::AutomaticPresence);
 
     nhlog::ui()->info(
       "Loaded session identity (has_user_id={}, has_device_id={}, has_homeserver={}, "
@@ -1730,7 +1730,7 @@ UserSettings::saveConfigYaml() const
         setNode(root, SettingKey::UiScaleFactor, scaleFactor_);
     setNode(root, SettingKey::UiFontSizePt, baseFontSize_);
     setNode(root, SettingKey::UiMotionReduced, reducedMotion_);
-    setNode(root, SettingKey::UiInputTouchscreenMode, mobileMode_);
+    setNode(root, SettingKey::UiInputEnableTextSelection, !mobileMode_);
     setNode(root, SettingKey::UiInputSwipeGestures, enableSwipeGestures_);
     setNode(root, SettingKey::UiAvatarsCircular, useCircularAvatars_);
     setNode(root, SettingKey::UiAvatarsIdenticonFallback, useIdenticon_);
@@ -1741,7 +1741,7 @@ UserSettings::saveConfigYaml() const
             toStorageValue(showLastMessagePreview_).toStdString());
     setNode(
       root, SettingKey::SidebarsRoomListShowCommunityCounts, showCommunityNotificationCounts_);
-    setNode(root, SettingKey::SidebarsRoomListScrollbarsVisible, scrollbarsInRoomlist_);
+    setNode(root, SettingKey::SidebarsRoomListScrollbarsEnabled, scrollbarsInRoomlist_);
     setNode(root, SettingKey::SidebarsRoomListSort, toStorageValue(roomSortOrder_).toStdString());
     setNode(root, SettingKey::SidebarsCommunitiesVisible, showCommunitiesSidebar_);
     setNode(root, SettingKey::TimelineMessagesLayoutBubbles, bubbles_);
@@ -1753,7 +1753,7 @@ UserSettings::saveConfigYaml() const
     setNode(root, SettingKey::TimelineMessagesMaxWidthPx, maxTimelineWidth_);
     setNode(root, SettingKey::TimelineMessagesEmojiOnlyEnlarge, enlargeEmojiOnlyMessages_);
     setNode(root, SettingKey::TimelineMessagesHoverHighlight, messageHoverHighlight_);
-    setNode(root, SettingKey::TimelineMessageActionsVisible, showActionButtons_);
+    setNode(root, SettingKey::TimelineMessageActionsEnabled, showActionButtons_);
     setNode(
       root, SettingKey::TimelineMessageActionsPinnedReactions, pinnedReactions_.toStdString());
     setNode(root, SettingKey::TimelineMediaEffectsEnabled, fancyEffects_);
@@ -1793,6 +1793,7 @@ UserSettings::saveConfigYaml() const
     setNode(root, SettingKey::EncryptionBackupOnlineEnabled, useOnlineKeyBackup_);
     setNode(
       root, SettingKey::NetworkTlsDisableCertificateValidation, disableCertificateValidation_);
+    setNode(root, SettingKey::NetworkPresenceDefault, toStorageValue(presence_).toStdString());
     setNode(root, SettingKey::NetworkHttp3Enabled, enableHttp3_);
     setNode(root, SettingKey::DbMaxSizeBytes, maxDbSize_);
     setNode(root, SettingKey::DbMaxFiles, maxDbs_);
@@ -1829,7 +1830,6 @@ UserSettings::saveSessionYaml() const
     setNode(root, SettingKey::SessionAccountUserId, userId_.toStdString());
     setNode(root, SettingKey::SessionAccountHomeserver, homeserver_.toStdString());
     setNode(root, SettingKey::SessionDeviceId, deviceId_.toStdString());
-    setNode(root, SettingKey::SessionPresenceDefault, toStorageValue(presence_).toStdString());
 
     if (writeYamlFile(sessionFilePath_, root, false))
         nhlog::ui()->debug("Saved session to: {}", sessionFilePath_.toStdString());
@@ -2214,13 +2214,15 @@ static const SettingMeta settingsTable[] = {
     { QT_TR_NOOP("MOBILE"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // MobileMode
-    { QT_TR_NOOP("Touchscreen mode"),
-      QT_TR_NOOP("Will prevent text selection in the timeline to make touch scrolling easier."),
+    { QT_TR_NOOP("Enable text selection on timeline"),
+      QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
+                 "experience."),
       SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->mobileMode(); },
+      []() -> QVariant { return !I->mobileMode(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setMobileMode(v.toBool()); return true;
+          I->setMobileMode(!v.toBool());
+          return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // EnableSwipeGestures

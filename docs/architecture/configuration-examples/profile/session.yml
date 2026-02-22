@@ -6,5 +6,3 @@ session:
     homeserver: "https://matrix.example.org"
   device:
     id: ABCDE12345
-  presence:
-    default: automatic_presence

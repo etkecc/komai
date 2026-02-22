@@ -17,7 +17,7 @@ ui:
   motion:
     reduced: false
   input:
-    touchscreen_mode: false
+    enable_text_selection: true
     swipe_gestures: false
   avatars:
     circular: false
@@ -31,7 +31,8 @@ sidebars:
     show_last_message_timestamp: true
     last_message_preview: always
     show_community_notification_counts: true
-    scrollbars_visible: true
+    scrollbars:
+      visible: true
     sort: unread_first_recent
   communities:
     visible: true
@@ -47,7 +48,7 @@ timeline:
     emoji_only_enlarge: true
     hover_highlight: false
     actions:
-      visible: true
+      enabled: true
       pinned_reactions: "👍️,👎️,😀,🤣,❤️"
   media:
     effects_enabled: true
@@ -107,6 +108,8 @@ encryption:
       enabled: true
 
 network:
+  presence:
+    default: automatic_presence
   http3:
     enabled: false
   tls:

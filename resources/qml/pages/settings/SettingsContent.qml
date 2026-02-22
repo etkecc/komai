@@ -242,9 +242,17 @@ Item {
                         DelegateChoice {
                             roleValue: UserSettingsModel.TextInput
                             TextField {
+                                id: textSettingField
                                 anchors.right: parent.right
                                 text: r.model.value
-                                onEditingFinished: r.model.value = text
+                                function applyText()
+                                {
+                                    r.model.value = text.trim();
+                                }
+                                onEditingFinished: applyText()
+                                onAccepted: applyText()
+                                onActiveFocusChanged: if (!activeFocus) applyText()
+                                Component.onDestruction: applyText()
                                 width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
                             }
                         }

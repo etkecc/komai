@@ -43,7 +43,14 @@ Item {
             text: UserSettingsModel.integrationsLinksBrowserCommand
             selectByMouse: true
             wrapMode: TextInput.NoWrap
-            onEditingFinished: UserSettingsModel.integrationsLinksBrowserCommand = browserCommandTextField.text.trim()
+            function applyCommand()
+            {
+                UserSettingsModel.integrationsLinksBrowserCommand = browserCommandTextField.text.trim();
+            }
+            onEditingFinished: applyCommand()
+            onAccepted: applyCommand()
+            onActiveFocusChanged: if (!activeFocus) applyCommand()
+            Component.onDestruction: applyCommand()
             placeholderText: qsTr("brave --profile-directory=\"Profile 7\" %u")
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Use %u for the URL, or leave empty to use the default browser.")

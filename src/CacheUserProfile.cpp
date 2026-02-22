@@ -9,7 +9,9 @@
 
 #include <nlohmann/json.hpp>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 
 QString
 Cache::displayName(const QString &room_id, const QString &user_id)
@@ -64,7 +66,8 @@ Cache::presence(const std::string &user_id)
               db::getJsonValue<mtx::events::presence::Presence>(txn, db->presence, user_id))
             presence_ = std::move(*val);
     } catch (const nlohmann::json::exception &e) {
-        nhlog::db()->warn("failed to parse presence entry for {}: {}", user_id, e.what());
+        if (const auto logger = cache::activeLoggers().db)
+            logger->warn("failed to parse presence entry for {}: {}", user_id, e.what());
     }
 
     return presence_;

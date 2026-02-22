@@ -8,11 +8,26 @@
 #include <QString>
 
 #include <yaml-cpp/yaml.h>
+#include <memory>
 
 #include "settings/SettingKeys.h"
 #include "settings/StagedLoadPlan.h"
 
+namespace spdlog {
+class logger;
+}
+
 namespace settings::persistence {
+
+struct PersistenceLoggers
+{
+    std::shared_ptr<spdlog::logger> ui;
+};
+
+void
+setLoggers(PersistenceLoggers loggers);
+PersistenceLoggers
+activeLoggers();
 
 /**
  * Functions that bridge settings persistence across file-backed and secure-backend

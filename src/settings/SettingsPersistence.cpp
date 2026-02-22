@@ -6,13 +6,44 @@
 
 #include "settings/SettingsPersistence.h"
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
 #include "Paths.h"
 #include "ProfileSecrets.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
 
 namespace settings::persistence {
+
+namespace {
+
+PersistenceLoggers
+defaultLoggers()
+{
+    return {};
+}
+
+PersistenceLoggers &
+currentLoggers()
+{
+    static PersistenceLoggers loggers = defaultLoggers();
+    return loggers;
+}
+
+} // namespace
+
+void
+setLoggers(PersistenceLoggers loggers)
+{
+    currentLoggers() = std::move(loggers);
+}
+
+PersistenceLoggers
+activeLoggers()
+{
+    return currentLoggers();
+}
+
 namespace {
 
 bool
@@ -94,9 +125,11 @@ loadProfileSecrets(const QString &profile,
         payload.secrets = yaml_settings::readStringMap(secretsRoot, SettingKey::SecretsFileMap);
         extractInternalSessionMetadata(payload);
 
-        nhlog::ui()->info("Loaded file-backed secrets (has_access_token={}, secrets_count={})",
-                          !payload.accessToken.trimmed().isEmpty(),
-                          payload.secrets.size());
+        if (const auto logger = activeLoggers().ui) {
+            logger->info("Loaded file-backed secrets (has_access_token={}, secrets_count={})",
+                         !payload.accessToken.trimmed().isEmpty(),
+                         payload.secrets.size());
+        }
         return payload;
     }
 
@@ -104,15 +137,19 @@ loadProfileSecrets(const QString &profile,
       settings::storage::secureStoreKey(profile, SecureStoreAccessTokenKey);
     const auto secureAccessToken = settings::storage::readSecureValue(accessTokenStoreKey);
     if (secureAccessToken && secureAccessToken->isEmpty()) {
-        nhlog::ui()->warn("Secure backend access token was empty; removing stale session auth "
-                          "secret for profile '{}'",
-                          normalizedProfile.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Secure backend access token was empty; removing stale session auth "
+                         "secret for profile '{}'",
+                         normalizedProfile.toStdString());
+        }
         const auto staleAccessTokenDeleted =
           profile_secrets::deleteProfileSecretValueBlocking(accessTokenStoreKey);
         if (!staleAccessTokenDeleted) {
-            nhlog::ui()->warn(
-              "Failed to remove stale secure backend session auth secret for profile '{}'",
-              normalizedProfile.toStdString());
+            if (const auto logger = activeLoggers().ui) {
+                logger->warn(
+                  "Failed to remove stale secure backend session auth secret for profile '{}'",
+                  normalizedProfile.toStdString());
+            }
         }
         hasEmptySecureSecrets = true;
     } else {
@@ -122,15 +159,19 @@ loadProfileSecrets(const QString &profile,
     const auto secretsStoreKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
     const auto serializedSecrets = settings::storage::readSecureValue(secretsStoreKey);
     if (serializedSecrets && serializedSecrets->isEmpty()) {
-        nhlog::ui()->warn("Secure backend secrets payload was empty; removing stale secret storage "
-                          "for profile '{}'",
-                          normalizedProfile.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn(
+              "Secure backend secrets payload was empty; removing stale secret storage for profile '{}'",
+              normalizedProfile.toStdString());
+        }
         const auto staleSecretsDeleted =
           profile_secrets::deleteProfileSecretValueBlocking(secretsStoreKey);
         if (!staleSecretsDeleted) {
-            nhlog::ui()->warn(
-              "Failed to remove stale secure backend session secrets for profile '{}'",
-              normalizedProfile.toStdString());
+            if (const auto logger = activeLoggers().ui) {
+                logger->warn(
+                  "Failed to remove stale secure backend session secrets for profile '{}'",
+                  normalizedProfile.toStdString());
+            }
         }
         hasEmptySecureSecrets = true;
     } else {
@@ -142,9 +183,11 @@ loadProfileSecrets(const QString &profile,
         bool sessionSecretsPruned = false;
         for (auto it = payload.secrets.begin(); it != payload.secrets.end();) {
             if (it.value().isEmpty()) {
-                nhlog::ui()->warn("Pruning empty secure secret entry '{}' for profile '{}'",
-                                  it.key().toStdString(),
-                                  normalizedProfile.toStdString());
+                if (const auto logger = activeLoggers().ui) {
+                    logger->warn("Pruning empty secure secret entry '{}' for profile '{}'",
+                                 it.key().toStdString(),
+                                 normalizedProfile.toStdString());
+                }
                 it                   = payload.secrets.erase(it);
                 sessionSecretsPruned = true;
             } else {
@@ -157,9 +200,11 @@ loadProfileSecrets(const QString &profile,
                 const auto staleSecretsDeleted =
                   profile_secrets::deleteProfileSecretValueBlocking(secretsStoreKey);
                 if (!staleSecretsDeleted) {
-                    nhlog::ui()->warn(
-                      "Failed to remove stale secure backend session secrets for profile '{}'",
-                      normalizedProfile.toStdString());
+                    if (const auto logger = activeLoggers().ui) {
+                        logger->warn(
+                          "Failed to remove stale secure backend session secrets for profile '{}'",
+                          normalizedProfile.toStdString());
+                    }
                 }
             } else {
                 settings::storage::writeSecureValue(
@@ -169,13 +214,18 @@ loadProfileSecrets(const QString &profile,
         }
     }
 
-    if (hasEmptySecureSecrets)
-        nhlog::ui()->warn("Found stale/empty secure backend values for profile '{}'",
-                          normalizedProfile.toStdString());
+    if (hasEmptySecureSecrets) {
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Found stale/empty secure backend values for profile '{}'",
+                         normalizedProfile.toStdString());
+        }
+    }
 
-    nhlog::ui()->info("Loaded secure-backend secrets (has_access_token={}, secrets_count={})",
-                      !payload.accessToken.trimmed().isEmpty(),
-                      payload.secrets.size());
+    if (const auto logger = activeLoggers().ui) {
+        logger->info("Loaded secure-backend secrets (has_access_token={}, secrets_count={})",
+                     !payload.accessToken.trimmed().isEmpty(),
+                     payload.secrets.size());
+    }
 
     payload.hadStaleValues = hasEmptySecureSecrets;
     return payload;
@@ -202,7 +252,9 @@ saveProfileSecrets(const QString &profile,
         yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, secretsWithSessionMetadata);
 
         if (settings::storage::writeYamlFile(secretsFilePath, root, true)) {
-            nhlog::ui()->debug("Saved secrets to: {}", secretsFilePath.toStdString());
+            if (const auto logger = activeLoggers().ui) {
+                logger->debug("Saved secrets to: {}", secretsFilePath.toStdString());
+            }
         }
         return;
     }
@@ -232,7 +284,9 @@ saveProfileSecrets(const QString &profile,
 
     if (settings::storage::pathExists(secretsFilePath) &&
         !settings::storage::removePath(secretsFilePath))
-        nhlog::ui()->warn("Failed to remove stale secrets file: {}", secretsFilePath.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Failed to remove stale secrets file: {}", secretsFilePath.toStdString());
+        }
 }
 
 bool
@@ -244,12 +298,16 @@ clearProfileSecrets(const QString &profile,
         const auto normalizedProfile = app_paths::normalizedProfileId(profile);
         if (settings::storage::pathExists(secretsFilePath) &&
             !settings::storage::removePath(secretsFilePath)) {
-            nhlog::ui()->warn("Failed to remove stale secrets file: {}",
-                              secretsFilePath.toStdString());
+            if (const auto logger = activeLoggers().ui) {
+                logger->warn("Failed to remove stale secrets file: {}",
+                             secretsFilePath.toStdString());
+            }
             return false;
         }
-        nhlog::ui()->info("Cleared file-backed secrets for profile '{}'",
-                          normalizedProfile.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->info("Cleared file-backed secrets for profile '{}'",
+                         normalizedProfile.toStdString());
+        }
         return true;
     }
 
@@ -257,13 +315,18 @@ clearProfileSecrets(const QString &profile,
     const auto allSecretsDeleted =
       profile_secrets::deleteAllProfileSecretsFromStoreBlocking(profile);
     if (!allSecretsDeleted) {
-        nhlog::ui()->warn("Failed to delete all profile secrets during logout for profile '{}'",
-                          normalizedProfile.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Failed to delete all profile secrets during logout for profile '{}'",
+                         normalizedProfile.toStdString());
+        }
     }
 
     if (settings::storage::pathExists(secretsFilePath) &&
         !settings::storage::removePath(secretsFilePath)) {
-        nhlog::ui()->warn("Failed to remove stale secrets file: {}", secretsFilePath.toStdString());
+        if (const auto logger = activeLoggers().ui) {
+            logger->warn("Failed to remove stale secrets file: {}",
+                         secretsFilePath.toStdString());
+        }
         return false;
     }
 

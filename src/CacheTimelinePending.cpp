@@ -6,9 +6,12 @@
 #include "Cache_p.h"
 
 #include "EventAccessors.h"
-#include "Logging.h"
 #include <QDateTime>
 #include <nlohmann/json.hpp>
+
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 
 void
 Cache::savePendingMessage(const std::string &room_id,
@@ -44,7 +47,8 @@ Cache::pendingEvents(const std::string &room_id)
               return true;
           });
     } catch (const db::Error &e) {
-        nhlog::db()->error("pending events error: {}", e.what());
+        if (const auto logger = cache::activeLoggers().db)
+            logger->error("pending events error: {}", e.what());
     }
 
     return pending_ids;
@@ -73,7 +77,8 @@ Cache::firstPendingMessage(const std::string &room_id)
                       return false;
                   }
               } catch (const nlohmann::json::exception &e) {
-                  nhlog::db()->error("Failed to parse message from cache {}", e.what());
+                  if (const auto logger = cache::activeLoggers().db)
+                      logger->error("Failed to parse message from cache {}", e.what());
                   staleEntries.emplace_back(std::string(timestamp), std::string(pendingTxn));
                   return true;
               }

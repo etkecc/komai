@@ -4,11 +4,28 @@
 
 #pragma once
 
+#include <string>
 #include <optional>
 
 #include <yaml-cpp/yaml.h>
 
 namespace settings::core {
+
+constexpr float kMinScaleFactor = 1.0F;
+constexpr float kMaxScaleFactor = 3.0F;
+constexpr float kScaleFactorStep = 0.25F;
+
+inline bool
+isScaleFactorInRange(float factor)
+{
+    return factor >= kMinScaleFactor && factor <= kMaxScaleFactor;
+}
+
+inline std::optional<float>
+normalizeScaleFactor(float factor)
+{
+    return isScaleFactorInRange(factor) ? std::optional<float>{factor} : std::nullopt;
+}
 
 /*!
  * Snapshot of bootstrap settings loaded before the Qt application is initialized.
@@ -24,5 +41,13 @@ struct StartupConfigSnapshot
 
 StartupConfigSnapshot
 snapshotFromYamlConfig(const YAML::Node &configRoot);
+
+/**
+ * Parse startup configuration snapshot from a YAML file path.
+ *
+ * Non-Qt helper used during bootstrap, before a QObject/QML stack exists.
+ */
+StartupConfigSnapshot
+snapshotFromYamlFile(std::string_view path);
 
 } // namespace settings::core

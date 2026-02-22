@@ -83,7 +83,10 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
     if (!emojiFont_.isEmpty())
         nhlog::ui()->info("Emoji font: \"{}\" (from settings)", emojiFont_.toStdString());
 
-    scaleFactor_      = readScalar<double>(root, SettingKey::UiScaleFactor, -1.0);
+    if (const auto scaleFactor = readScalar<double>(root, SettingKey::UiScaleFactor, -1.0); settings::core::isScaleFactorInRange(scaleFactor))
+        scaleFactor_ = scaleFactor;
+    else
+        scaleFactor_ = -1.0;
     baseFontSize_     = readScalar<double>(root, SettingKey::UiFontSizePt, 13.0);
     ringtone_         = readString(root, SettingKey::CallsAudioRingtone, QStringLiteral("Default"));
     microphone_       = readString(root, SettingKey::CallsDevicesMicrophone, QString());

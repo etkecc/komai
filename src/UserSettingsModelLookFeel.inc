@@ -90,7 +90,10 @@
           if (!v.canConvert(QMetaType::fromType<double>())) return false;
           I->setScaleFactor(v.toDouble()); return true;
       },
-      1.0, 3.0, .25, nullptr, nullptr },
+      settings::core::kMinScaleFactor,
+      settings::core::kMaxScaleFactor,
+      settings::core::kScaleFactorStep,
+      nullptr, nullptr },
 #endif
     // LookFeelBehaviorSection
     { QT_TR_NOOP("BEHAVIOR"), nullptr, SM::SectionTitle, SM::TabLookFeel,
@@ -297,4 +300,3 @@
     // IntegrationsBrowserSection
     { QT_TR_NOOP("BROWSER"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-

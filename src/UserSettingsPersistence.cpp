@@ -14,6 +14,7 @@
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"
+#include "settings/core/StartupConfig.h"
 
 #include "UserSettingsPersistenceHelpers.inc"
 #include "UserSettingsPersistenceLoad.inc"

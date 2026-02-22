@@ -8,7 +8,7 @@
 
 #include <QDir>
 #include <QFile>
-#include <QFileInfo>
+#include <QTemporaryDir>
 #include <QStandardPaths>
 
 #include <yaml-cpp/yaml.h>
@@ -32,13 +32,16 @@ bool
 testStartupConfigSnapshotLoads()
 {
     const QString profile = QStringLiteral("profile-startup");
+    QTemporaryDir tmpRoot;
+    if (!tmpRoot.isValid())
+        return expect(false, "temporary config root can be created");
+
+    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
     QStandardPaths::setTestModeEnabled(true);
-    const QString profileRoot = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) +
-                               QStringLiteral("/komai/profiles/") + profile;
+    const QString profileRoot = tmpRoot.path() + QStringLiteral("/komai/profiles/") + profile;
     const QString path = profileRoot + QStringLiteral("/config.yml");
 
-    const auto profileDir = QFileInfo(path).dir();
-    if (!profileDir.mkpath(profileDir.absolutePath())) {
+    if (!QDir(profileRoot).mkpath(QStringLiteral("."))) {
         return expect(false, "temporary profile config directory can be created");
     }
 
@@ -70,6 +73,11 @@ bool
 testStartupConfigSnapshotMissingProfile()
 {
     const QString profile = QStringLiteral("missing-startup-profile");
+    QTemporaryDir tmpRoot;
+    if (!tmpRoot.isValid())
+        return expect(false, "temporary config root can be created");
+
+    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
     QStandardPaths::setTestModeEnabled(true);
     const auto startup = settings::startup::readStartupConfig(profile);
 
@@ -100,6 +108,49 @@ testCoreSnapshotExtraction()
     return expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores malformed scale factor");
 }
 
+bool
+testCoreScaleRangeHelpers()
+{
+    bool ok = true;
+    ok &= expect(settings::core::isScaleFactorInRange(1.0F),
+                 "scale factor accepts lower bound");
+    ok &= expect(settings::core::isScaleFactorInRange(3.0F),
+                 "scale factor accepts upper bound");
+    ok &= expect(!settings::core::isScaleFactorInRange(0.5F),
+                 "scale factor rejects values below range");
+    ok &= expect(!settings::core::isScaleFactorInRange(3.5F),
+                 "scale factor rejects values above range");
+    const auto normalized = settings::core::normalizeScaleFactor(1.75F);
+    ok &= expect(normalized.has_value() && std::abs(*normalized - 1.75F) < 0.0001F,
+                 "scale factor normalization preserves in-range value");
+    ok &= expect(!settings::core::normalizeScaleFactor(0.5F).has_value(),
+                 "scale factor normalization rejects out-of-range values");
+    return ok;
+}
+
+bool
+testCoreSnapshotFromFile()
+{
+    QTemporaryDir tmpDir;
+    if (!tmpDir.isValid())
+        return expect(false, "temporary directory can be created");
+
+    const auto path = tmpDir.path() + QStringLiteral("/config.yml");
+    QFile file{path};
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return expect(false, "temporary snapshot file can be created");
+
+    YAML::Node root(YAML::NodeType::Map);
+    root["ui"]["scale"]["factor"] = 2.25;
+    file.write(QString::fromUtf8(YAML::Dump(root)).toUtf8());
+    file.close();
+
+    const auto snapshot = settings::core::snapshotFromYamlFile(path.toStdString());
+    return expect(snapshot.uiScaleFactor.has_value() &&
+                  std::abs(*snapshot.uiScaleFactor - 2.25F) < 0.0001F,
+                  "core snapshot loads from file path");
+}
+
 } // namespace
 
 int
@@ -109,6 +160,8 @@ main()
     ok &= testStartupConfigSnapshotLoads();
     ok &= testStartupConfigSnapshotMissingProfile();
     ok &= testCoreSnapshotExtraction();
+    ok &= testCoreSnapshotFromFile();
+    ok &= testCoreScaleRangeHelpers();
 
     return ok ? 0 : 1;
 }

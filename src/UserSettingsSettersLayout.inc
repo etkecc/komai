@@ -17,7 +17,7 @@ UserSettings::setFontSize(double size)
 void
 UserSettings::setScaleFactor(double factor)
 {
-    if (factor < 1.0 || factor > 3.0)
+    if (!settings::core::isScaleFactorInRange(factor))
         return;
     setSetting(scaleFactor_, factor, &UserSettings::scaleFactorChanged);
 }

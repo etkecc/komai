@@ -14,6 +14,7 @@
 #include "UserSettingsPage.h"
 #include "encryption/Olm.h"
 #include "settings/SettingKeys.h"
+#include "settings/core/StartupConfig.h"
 
 #include "UserSettingsSettersCore.inc"
 #include "UserSettingsSettersUi.inc"

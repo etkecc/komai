@@ -25,6 +25,7 @@
 #include "config/nheko.h"
 #include "encryption/Olm.h"
 #include "settings/SettingKeys.h"
+#include "settings/core/StartupConfig.h"
 
 /**
  * UserSettingsModel is a UI adapter: it exposes settings metadata through roles,

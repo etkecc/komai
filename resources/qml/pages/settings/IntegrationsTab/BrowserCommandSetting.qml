@@ -40,12 +40,12 @@ Item {
         TextField {
             id: browserCommandTextField
             Layout.fillWidth: true
-            text: UserSettingsModel.integrationsLinksBrowserCommand
+            text: Settings.integrationsLinksBrowserCommand ? Settings.integrationsLinksBrowserCommand : ""
             selectByMouse: true
             wrapMode: TextInput.NoWrap
             function applyCommand()
             {
-                UserSettingsModel.integrationsLinksBrowserCommand = browserCommandTextField.text.trim();
+                Settings.integrationsLinksBrowserCommand = browserCommandTextField.text.trim();
             }
             onEditingFinished: applyCommand()
             onAccepted: applyCommand()

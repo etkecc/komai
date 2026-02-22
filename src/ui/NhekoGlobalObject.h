@@ -41,6 +41,7 @@ class Nheko : public QObject
     Q_PROPERTY(int listIconSize READ listIconSize NOTIFY compactRoomListChanged)
     // Icon size for action bars (top bar, room list actions bar)
     Q_PROPERTY(int barIconSize READ barIconSize NOTIFY compactRoomListChanged)
+    Q_PROPERTY(int defaultRoomListWidth READ defaultRoomListWidth CONSTANT)
     Q_PROPERTY(bool showRoomListTime READ showRoomListTime NOTIFY showRoomListTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
 
@@ -66,6 +67,7 @@ public:
     double sidebarAvatarMultiplier() const;
     int listIconSize() const;
     int barIconSize() const;
+    int defaultRoomListWidth() const { return 300; }
     bool showRoomListTime() const;
 
     QString tagline() const { return tr("A fine desktop Matrix client you can get to love"); }

@@ -90,7 +90,9 @@ Rectangle {
 
                 collapsedWidth: roomlist.avatarSize + 2 * Nheko.paddingMedium
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
-                preferredWidth: (Settings.roomListWidth == -1) ? 250 : (Settings.roomListWidth > collapsedWidth ? Settings.roomListWidth : collapsedWidth)
+                preferredWidth: (Settings.roomListWidth == -1)
+                                ? Nheko.defaultRoomListWidth
+                                : (Settings.roomListWidth > collapsedWidth ? Settings.roomListWidth : collapsedWidth)
 
                 RoomList {
                     id: roomlist

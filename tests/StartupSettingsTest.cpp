@@ -222,6 +222,59 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
                   "full persistence writes secrets.yml after complete snapshot");
 }
 
+bool
+testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
+{
+    const QString profile = QStringLiteral("startup-policy-config-only-profile");
+    QTemporaryDir tmpRoot;
+    if (!tmpRoot.isValid())
+        return expect(false, "temporary config root can be created");
+
+    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
+
+    int argc = 1;
+    char arg0[] = "komai-startup-policy-config-only-test";
+    char *argv[] = {arg0, nullptr};
+    QApplication app(argc, argv);
+    ThemeRegistry::initialize();
+
+    const QString configFile = settings::storage::configFilePathForProfile(profile);
+    const QString stateFile  = settings::storage::stateFilePathForProfile(profile);
+    const QString sessionFile = settings::storage::sessionFilePathForProfile(profile);
+    const QString secretsFile = settings::storage::secretsFilePathForProfile(profile);
+
+    const auto profileDir = QFileInfo(configFile).absolutePath();
+    QDir().mkpath(profileDir);
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["secrets"]["provider"] = "file";
+    configRoot["ui"]["theme"]["slug"] = "komai-light";
+    if (!settings::storage::writeYamlFile(configFile, configRoot, false))
+        return expect(false, "startup-policy-config-only fixture config can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available after initialize");
+
+    settings->setRunWithoutSecureSecretsService(true);
+    settings->setPersistenceSuspended(false);
+    settings->setTheme(QStringLiteral("komai-dark"));
+
+    if (!expect(QFileInfo(configFile).exists(), "theme change creates config.yml in config-only mode"))
+        return false;
+
+    auto configAfter = settings::storage::loadYamlFile(configFile, "config-after-theme-change");
+    const auto storedTheme = QString::fromStdString(configAfter["ui"]["theme"]["slug"].as<std::string>());
+    const bool persistedTheme = expect(
+      storedTheme == QStringLiteral("komai-dark"), "theme change is persisted to config.yml");
+
+    return persistedTheme &&
+           expect(!QFileInfo(stateFile).exists() && !QFileInfo(sessionFile).exists() &&
+                    !QFileInfo(secretsFile).exists(),
+                  "theme change does not create state/session/secrets files");
+}
+
 } // namespace
 
 int
@@ -234,6 +287,7 @@ main()
     ok &= testCoreSnapshotFromFile();
     ok &= testCoreScaleRangeHelpers();
     ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
+    ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
 
     return ok ? 0 : 1;
 }

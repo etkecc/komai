@@ -7,6 +7,8 @@
 
 #include <stdexcept>
 
+#include <spdlog/logger.h>
+
 #include <QDir>
 #include <QFile>
 
@@ -17,7 +19,7 @@
 #endif
 
 #include "ChatPage.h"
-#include "Logging.h"
+#include "CacheApiWrappers.h"
 #include "MatrixClient.h"
 #include "Paths.h"
 #include "ProfileSecrets.h"
@@ -38,6 +40,16 @@ static constexpr auto DB_SIZE_DEFAULT = 1ULL * 1024ULL * 1024ULL * 1024ULL; // 1
 #error Not enough virtual address space for the database on target CPU
 #endif
 
+namespace {
+
+std::shared_ptr<spdlog::logger>
+cacheDbLogger()
+{
+    return cache::activeLoggers().db;
+}
+
+} // namespace
+
 static QString
 cacheDirectoryName(const QString &userid, const QString &profile)
 {
@@ -48,13 +60,16 @@ void
 Cache::setup()
 {
     auto settings = UserSettings::instance();
+    const auto logger = cacheDbLogger();
 
-    nhlog::db()->debug("setting up cache");
+    if (logger)
+        logger->debug("setting up cache");
 
     cacheDirectory_                      = cacheDirectoryName(localUserId_, settings->profile());
     const std::string cacheDirectoryPath = cacheDirectory_.toStdString();
 
-    nhlog::db()->debug("Database at: {}", cacheDirectory_.toStdString());
+    if (logger)
+        logger->debug("Database at: {}", cacheDirectory_.toStdString());
 
     const bool isPersistentBackend =
       db::storageCategory(storage()) == db::StorageCategory::Persistent;
@@ -87,13 +102,15 @@ Cache::setup()
         };
     }();
 
-    nhlog::db()->info("Using storage backend: {}", db::id(storage()));
+    if (logger)
+        logger->info("Using storage backend: {}", db::id(storage()));
     if (!isPersistentBackend)
-        nhlog::db()->warn(
-          "Using ephemeral storage backend; cache contents will be lost on restart");
+        if (logger)
+            logger->warn("Using ephemeral storage backend; cache contents will be lost on restart");
 
     if (isInitial) {
-        nhlog::db()->info("initializing {} backend", db::id(storage()));
+        if (logger)
+            logger->info("initializing {} backend", db::id(storage()));
 
         if (!QDir().mkpath(cacheDirectory_)) {
             throw std::runtime_error(
@@ -119,8 +136,9 @@ Cache::setup()
 
         if (needsCompact) {
             if (!db::maintenance::supportsCompaction(storage())) {
-                nhlog::db()->warn("Storage backend '{}' does not support compaction, skipping.",
-                                  db::id(storage()));
+                if (logger)
+                    logger->warn("Storage backend '{}' does not support compaction, skipping.",
+                                 db::id(storage()));
             } else {
                 auto compactDir  = cacheDirectory_ + "-compacting";
                 auto toDeleteDir = cacheDirectory_ + "-olddb";
@@ -129,9 +147,10 @@ Cache::setup()
                 if (QFile::exists(toDeleteDir))
                     QDir(toDeleteDir).removeRecursively();
                 if (!QDir().mkpath(compactDir)) {
-                    nhlog::db()->warn("Failed to create directory '{}' for database compaction, "
-                                      "skipping compaction!",
-                                      compactDir.toStdString());
+                    if (logger)
+                        logger->warn("Failed to create directory '{}' for database compaction, "
+                                     "skipping compaction!",
+                                     compactDir.toStdString());
                 } else {
                     // Create a temporary backend matching the current storage backend.
                     auto temp                        = db::createDatabase(db::id(storage()));
@@ -165,7 +184,8 @@ Cache::setup()
             throw;
         }
 
-        nhlog::db()->warn("resetting cache due to incompatible storage format: {}", e.what());
+        if (logger)
+            logger->warn("resetting cache due to incompatible storage format: {}", e.what());
 
         QDir stateDir(cacheDirectory_);
 

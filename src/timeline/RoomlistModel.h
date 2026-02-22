@@ -16,7 +16,7 @@
 #include <mtx/responses/sync.hpp>
 
 #ifdef NHEKO_DBUS_SYS
-#include "dbus/NhekoDBusBackend.h"
+#include "dbus/Backend.h"
 #endif
 
 class TimelineModel;

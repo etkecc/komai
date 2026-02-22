@@ -113,7 +113,7 @@ MainWindow::registerQmlTypes()
 #ifdef NHEKO_DBUS_SYS
     if (UserSettings::instance()->exposeDBusApi()) {
         if (QDBusConnection::sessionBus().isConnected() &&
-            QDBusConnection::sessionBus().registerService(NHEKO_DBUS_SERVICE_NAME)) {
+            QDBusConnection::sessionBus().registerService(KOMAI_DBUS_SERVICE_NAME)) {
             nheko::dbus::init();
             nhlog::ui()->info("Initialized D-Bus");
             dbusAvailable_ = true;

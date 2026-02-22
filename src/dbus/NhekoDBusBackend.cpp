@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "NhekoDBusBackend.h"
+#include "Backend.h"
 
 #include <mutex>
 
@@ -125,5 +125,3 @@ NhekoDBusBackend::bringWindowToTop() const
     MainWindow::instance()->show();
     MainWindow::instance()->raise();
 }
-
-#include "moc_NhekoDBusBackend.cpp"

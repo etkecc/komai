@@ -11,15 +11,15 @@
 
 namespace nheko::dbus {
 
-//! Registers all necessary classes with D-Bus. Call this before using any nheko D-Bus classes.
+//! Registers all necessary classes with D-Bus. Call this before using any Komai D-Bus classes.
 void
 init();
 
-//! The nheko D-Bus API version provided by this file. The API version number follows semantic
+//! The Komai D-Bus API version provided by this file. The API version number follows semantic
 //! versioning as defined by https://semver.org.
-inline const QVersionNumber dbusApiVersion{1, 0, 1};
+inline const QVersionNumber dbusApiVersion{1, 0, 2};
 
-//! Compare the installed Nheko API to the version that your client app targets to see if they
+//! Compare the installed API version to the version that your client app targets to see if they
 //! are compatible.
 bool
 apiVersionIsCompatible(const QVersionNumber &clientAppVersion);
@@ -57,12 +57,12 @@ private:
     int unreadNotifications_;
 };
 
-//! Get the nheko D-Bus API version.
+//! Get the Komai D-Bus API version.
 QString
 apiVersion();
-//! Get the nheko version.
+//! Get the app version.
 QString
-nhekoVersion();
+appVersion();
 //! Call this function to get a list of all joined rooms.
 QVector<RoomInfoItem>
 rooms();
@@ -100,4 +100,4 @@ operator<<(QDBusArgument &arg, const QImage &image);
 const QDBusArgument &
 operator>>(const QDBusArgument &arg, QImage &);
 
-#define NHEKO_DBUS_SERVICE_NAME "im.nheko.Nheko"
+#define KOMAI_DBUS_SERVICE_NAME "cc.etke.komai"

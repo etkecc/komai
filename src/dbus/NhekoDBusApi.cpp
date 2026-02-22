@@ -91,7 +91,7 @@ operator>>(const QDBusArgument &arg, RoomInfoItem &item)
 QString
 apiVersion()
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         return QDBusReply<QString>{interface.call(QStringLiteral("apiVersion"))}.value();
     else
@@ -99,11 +99,11 @@ apiVersion()
 }
 
 QString
-nhekoVersion()
+appVersion()
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
-        return QDBusReply<QString>{interface.call(QStringLiteral("nhekoVersion"))}.value();
+        return QDBusReply<QString>{interface.call(QStringLiteral("appVersion"))}.value();
     else
         return {};
 }
@@ -111,7 +111,7 @@ nhekoVersion()
 QVector<RoomInfoItem>
 rooms()
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         return QDBusReply<QVector<RoomInfoItem>>{interface.call(QStringLiteral("rooms"))}.value();
     else
@@ -121,7 +121,7 @@ rooms()
 QImage
 image(const QString &mxcuri)
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         return QDBusReply<QImage>{interface.call(QStringLiteral("image"), mxcuri)}.value();
     else
@@ -131,7 +131,7 @@ image(const QString &mxcuri)
 void
 activateRoom(const QString &alias)
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("activateRoom"), alias);
 }
@@ -139,7 +139,7 @@ activateRoom(const QString &alias)
 void
 joinRoom(const QString &alias)
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("joinRoom"), alias);
 }
@@ -147,7 +147,7 @@ joinRoom(const QString &alias)
 void
 directChat(const QString &userId)
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("directChat"), userId);
 }
@@ -155,7 +155,7 @@ directChat(const QString &userId)
 QString
 statusMessage()
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         return QDBusReply<QString>{interface.call(QStringLiteral("statusMessage"))}.value();
     else
@@ -165,7 +165,7 @@ statusMessage()
 void
 setStatusMessage(const QString &message)
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("setStatusMessage"), message);
 }
@@ -173,7 +173,7 @@ setStatusMessage(const QString &message)
 void
 setTheme(const QString &theme)
 {
-    if (QDBusInterface interface{QStringLiteral(NHEKO_DBUS_SERVICE_NAME), QStringLiteral("/")};
+    if (QDBusInterface interface{QStringLiteral(KOMAI_DBUS_SERVICE_NAME), QStringLiteral("/")};
         interface.isValid())
         interface.call(QDBus::NoBlock, QStringLiteral("setTheme"), theme);
 }
@@ -236,5 +236,3 @@ operator>>(const QDBusArgument &arg, QImage &image)
 
     return arg;
 }
-
-#include "moc_NhekoDBusApi.cpp"

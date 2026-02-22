@@ -783,7 +783,7 @@ elseif(WIN32)
 else()
     set(SRC_FILES ${SRC_FILES}
         src/dbus/NhekoDBusApi.h
-        src/dbus/NhekoDBusBackend.h
+        src/dbus/Backend.h
         src/dbus/NhekoDBusApi.cpp
         src/dbus/NhekoDBusBackend.cpp
         src/notifications/ManagerLinux.cpp

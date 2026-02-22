@@ -26,7 +26,7 @@ NhekoDBusBackend::NhekoDBusBackend(RoomlistModel *parent)
 namespace {
 constexpr int integrationsDbusAccessReadOnly  = 1;
 constexpr int integrationsDbusAccessReadWrite = 2;
-static const auto DbusArgTypePrefix = QStringLiteral("string:");
+static const auto DbusArgTypePrefix           = QStringLiteral("string:");
 
 QString
 stripDbusTypePrefix(QString arg)
@@ -170,8 +170,7 @@ NhekoDBusBackend::setStatusMessage(const QString &message)
 void
 NhekoDBusBackend::setTheme(const QString &theme)
 {
-    if (!dbusWriteAccessEnabled())
-    {
+    if (!dbusWriteAccessEnabled()) {
         nhlog::ui()->warn("Ignoring D-Bus setTheme call: write access is disabled (theme: '{}')",
                           theme.toStdString());
         return;
@@ -182,16 +181,14 @@ NhekoDBusBackend::setTheme(const QString &theme)
         return;
 
     const auto normalizedTheme = stripDbusTypePrefix(theme);
-    const auto oldTheme      = settings->theme();
+    const auto oldTheme        = settings->theme();
     settings->setTheme(normalizedTheme);
     if (settings->theme() == oldTheme)
         nhlog::ui()->warn("Ignoring D-Bus setTheme call: theme '{}' is not applicable",
                           normalizedTheme.toStdString());
     else
-        nhlog::ui()->info("Applied D-Bus theme: {} -> {}",
-                          oldTheme.toStdString(),
-                          settings->theme().toStdString());
-
+        nhlog::ui()->info(
+          "Applied D-Bus theme: {} -> {}", oldTheme.toStdString(), settings->theme().toStdString());
 }
 
 void

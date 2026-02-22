@@ -12,10 +12,11 @@ import os
 import re
 import sys
 
-from colors import parse_yaml, ALL_PALETTE_KEYS, VARIANT_SUFFIX_EXCEPTIONS
+from colors import parse_yaml, ALL_PALETTE_KEYS
 
 REQUIRED_FIELDS = ("name", "variant", "palette")
 VALID_VARIANTS = ("light", "dark")
+VALID_THEME_SUFFIXES = tuple(f"-{variant}" for variant in VALID_VARIANTS)
 BASE16_SLOTS = [f"base{i:02X}" for i in range(16)]
 
 HEX_RE = re.compile(r"^[0-9a-fA-F]{6}$")
@@ -45,7 +46,7 @@ def validate_theme(path: str) -> list[str]:
 
     # Check name doesn't redundantly include variant
     name = data.get("name", "")
-    if name and name not in VARIANT_SUFFIX_EXCEPTIONS:
+    if name:
         name_lower = name.lower()
         for suffix in (" dark", " light"):
             if name_lower.endswith(suffix):
@@ -53,6 +54,21 @@ def validate_theme(path: str) -> list[str]:
                     f"{filename}: name {name!r} ends with {suffix.strip()!r}"
                     " — the variant field already carries this; strip the suffix"
                 )
+
+    # Check theme identifier suffix consistency
+    slug = os.path.splitext(filename)[0]
+    slug_lower = slug.lower()
+    if not any(slug_lower.endswith(suffix) for suffix in VALID_THEME_SUFFIXES):
+        suffixes = ", ".join(VALID_THEME_SUFFIXES)
+        errors.append(
+            f"{filename}: theme identifier must end with one of: {suffixes}"
+        )
+
+    if variant and variant in VALID_VARIANTS:
+        if not slug_lower.endswith(f"-{variant}"):
+            errors.append(
+                f"{filename}: variant={variant!r} does not match theme identifier '{filename}'"
+            )
 
     # Check palette — all 20 keys must exist with valid hex
     palette = data.get("palette")

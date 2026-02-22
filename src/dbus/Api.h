@@ -85,7 +85,7 @@ statusMessage();
 //! Sets the user's status message (if supported by the homeserver).
 void
 setStatusMessage(const QString &message);
-//! Sets the current theme. Use a valid theme slug (for example "komai", "komai-dark",
+//! Sets the current theme. Use a valid theme slug (for example "komai-light", "komai-dark",
 //! "nheko-light") or "system".
 void
 setTheme(const QString &theme);

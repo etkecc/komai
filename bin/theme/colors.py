@@ -32,15 +32,8 @@ CUSTOM_KEYS = ["red", "green", "orange", "error"]
 
 ALL_PALETTE_KEYS = PALETTE_KEYS + CUSTOM_KEYS
 
-# Themes whose display name legitimately ends with "Dark" or "Light".
-# Everyone else gets the suffix stripped (the variant field carries that info).
-VARIANT_SUFFIX_EXCEPTIONS: set[str] = set()
-
-
 def strip_variant_suffix(name: str) -> str:
-    """Strip trailing ' dark'/'' light' (case-insensitive) from a theme name."""
-    if name in VARIANT_SUFFIX_EXCEPTIONS:
-        return name
+    """Strip trailing ' dark'/' light' (case-insensitive) from a theme name."""
     lower = name.lower()
     for suffix in (" dark", " light"):
         if lower.endswith(suffix):

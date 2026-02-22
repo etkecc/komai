@@ -256,5 +256,5 @@ ThemeRegistry::defaultThemeSlug(QStringView variant) const
         if (t.variant == variant)
             return t.slug;
     }
-    return QStringLiteral("komai");
+    return QStringLiteral("komai-light");
 }

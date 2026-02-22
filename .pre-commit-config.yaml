@@ -28,7 +28,7 @@ repos:
         name: Check Theme YAML Validity
         entry: python3 bin/theme/check.py
         language: system
-        files: '(resources/themes/.*\.yaml$|bin/theme/)'
+        files: '(resources/themes/.*\.yml$|bin/theme/)'
         pass_filenames: false
       - id: check-ts-normalized
         name: Check Translation Files Normalized

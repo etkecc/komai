@@ -9,7 +9,7 @@ app:
 
 ui:
   theme:
-    slug: komai
+    slug: komai-light
   font:
     family: ""
     emoji_family: ""

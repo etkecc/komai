@@ -121,12 +121,6 @@ def main():
 
     slug = sys.argv[1]
     force = "--force" in sys.argv
-    output_path = os.path.join(THEMES_DIR, f"{slug}.yml")
-
-    if os.path.exists(output_path) and not force:
-        print(f"Theme already exists: {output_path}")
-        print("Use --force to overwrite.")
-        sys.exit(1)
 
     url = f"{SCHEMES_URL}/{slug}.yaml"
     print(f"Downloading {url}...")
@@ -157,6 +151,11 @@ def main():
     name = strip_variant_suffix(data.get("name", slug.replace("-", " ").title()))
     author = data.get("author", "")
     variant = detect_variant(raw_palette)
+    output_path = os.path.join(THEMES_DIR, f"{slug}-{variant}.yml")
+    if os.path.exists(output_path) and not force:
+        print(f"Theme already exists: {output_path}")
+        print("Use --force to overwrite.")
+        sys.exit(1)
 
     # Apply Base16 → QPalette mapping at import time
     mapped = base16_to_palette(raw_palette, variant)

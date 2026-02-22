@@ -43,9 +43,9 @@ loadSession(UserSettings &settings, const YAML::Node &root)
 void
 saveSession(const UserSettings &settings, const QString &sessionFilePath)
 {
-    const bool hasUserId     = hasSessionValue(settings.userId());
-    const bool hasDeviceId   = hasSessionValue(settings.deviceId());
-    const bool hasHomeserver = hasSessionValue(settings.homeserver());
+    const bool hasUserId      = hasSessionValue(settings.userId());
+    const bool hasDeviceId    = hasSessionValue(settings.deviceId());
+    const bool hasHomeserver  = hasSessionValue(settings.homeserver());
     const bool hasAccessToken = hasSessionValue(settings.accessToken());
 
     if (!hasAccessToken)

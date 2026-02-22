@@ -27,6 +27,18 @@ namespace settings {
 class SettingsController
 {
 public:
+    enum class SavePolicy
+    {
+        /**
+         * Save the full settings stack: config.yml, state.yml, session.yml and secrets.
+         */
+        Full,
+        /**
+         * Save only safe startup/user-facing config values (no session/state/secrets).
+         */
+        ConfigOnly,
+    };
+
     /**
      * Load profile-local settings into the provided UserSettings instance.
      */
@@ -35,7 +47,7 @@ public:
     /**
      * Persist the provided UserSettings instance to all backing stores.
      */
-    void save(UserSettings &settings);
+    void save(UserSettings &settings, SavePolicy policy = SavePolicy::Full);
     /**
      * Remove stored auth/session material for the active profile and flush the
      * affected state.

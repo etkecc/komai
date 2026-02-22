@@ -104,14 +104,17 @@ settings::SettingsController::load(UserSettings &settings,
     }
 
     settings.applyTheme();
-    settings.setPersistenceSuspended(false);
+    settings.setPersistenceScopeReadyForAuth(settings.hasActiveSession());
+    // Keep persistence intentionally paused until the UI startup sequence completes.
+    // This avoids incidental `save()` calls from initialization code paths.
+    settings.setPersistenceSuspended(true);
 
     if (profile)
         emit settings.profileChanged(settings.profile_);
 }
 
 void
-settings::SettingsController::save(UserSettings &settings)
+settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 {
     if (settings.profileDirPath_.isEmpty()) {
         settings.profileDirPath_  = profileDirPath(settings.profile_);
@@ -123,9 +126,11 @@ settings::SettingsController::save(UserSettings &settings)
     }
 
     settings.saveConfigYaml();
-    settings.saveSessionYaml();
-    settings.saveSecretsYaml();
-    settings.saveStateYaml();
+    if (policy == SavePolicy::Full) {
+        settings.saveSessionYaml();
+        settings.saveSecretsYaml();
+        settings.saveStateYaml();
+    }
 }
 
 void

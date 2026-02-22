@@ -658,6 +658,15 @@ private:
     QMap<QString, QString> secrets_;
     bool suppressSettingsSave_ = false;
 
+    enum class StartupPersistenceScope
+    {
+        ConfigOnly,
+        Full,
+    };
+
+    void setPersistenceScopeReadyForAuth(bool ready);
+    StartupPersistenceScope startupPersistenceScope_ = StartupPersistenceScope::ConfigOnly;
+
     // Paths to the per-profile settings directory and files.
     QString profileDirPath_;
     QString configFilePath_;

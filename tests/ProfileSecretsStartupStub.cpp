@@ -4,6 +4,7 @@
 
 #include "ProfileSecrets.h"
 
+#include <QString>
 #include <QStringView>
 
 namespace profile_secrets {
@@ -15,6 +16,18 @@ normalizedProfileId(QStringView profile)
         return QStringLiteral("default");
 
     return profile.toString();
+}
+
+bool
+deleteProfileSecretValueBlocking(const QString &)
+{
+    return true;
+}
+
+bool
+deleteAllProfileSecretsFromStoreBlocking(QStringView)
+{
+    return true;
 }
 
 } // namespace profile_secrets

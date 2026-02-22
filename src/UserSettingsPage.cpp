@@ -10,6 +10,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "JdenticonProvider.h"
+#include "Logging.h"
 #include "UserSettingsPage.h"
 #include "settings/SettingsController.h"
 #include "ui/Theme.h"
@@ -94,6 +95,13 @@ UserSettings::setPersistenceSuspended(bool suspended)
     suppressSettingsSave_ = suspended;
 }
 
+void
+UserSettings::setPersistenceScopeReadyForAuth(bool ready)
+{
+    startupPersistenceScope_ =
+      ready ? StartupPersistenceScope::Full : StartupPersistenceScope::ConfigOnly;
+}
+
 QString
 UserSettings::emojiFont() const
 {
@@ -128,7 +136,26 @@ UserSettings::save()
         return;
 
     settings::SettingsController controller;
-    controller.save(*this);
+    if (startupPersistenceScope_ == StartupPersistenceScope::ConfigOnly) {
+        nhlog::ui()->debug("Startup settings persistence in config-only mode; skipping "
+                           "state/session/secrets writes");
+        controller.save(*this, settings::SettingsController::SavePolicy::ConfigOnly);
+    } else {
+        if (!hasActiveSession()) {
+            startupPersistenceScope_ = StartupPersistenceScope::ConfigOnly;
+            nhlog::ui()->warn(
+              "Startup settings persistence requested with incomplete session identity "
+              "(has_user_id={}, "
+              "has_access_token={}, has_device_id={}, has_homeserver={}); forcing config-only save",
+              userId_.trimmed().isEmpty() ? "false" : "true",
+              accessToken_.trimmed().isEmpty() ? "false" : "true",
+              deviceId_.trimmed().isEmpty() ? "false" : "true",
+              homeserver_.trimmed().isEmpty() ? "false" : "true");
+            controller.save(*this, settings::SettingsController::SavePolicy::ConfigOnly);
+        } else {
+            controller.save(*this, settings::SettingsController::SavePolicy::Full);
+        }
+    }
 }
 
 #include "moc_UserSettingsPage.cpp"

@@ -44,6 +44,7 @@ UserSettings::clearAuth()
 {
     settings::SettingsController controller;
     controller.clearAuth(*this);
+    setPersistenceScopeReadyForAuth(false);
 }
 
 bool
@@ -128,6 +129,7 @@ UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
 
     // Always write on explicit auth persist requests; in-memory equality does not
     // guarantee that session.yml / secrets.yml / secure backend values are present.
+    setPersistenceScopeReadyForAuth(true);
     save();
 
     return true;

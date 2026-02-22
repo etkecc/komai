@@ -1138,16 +1138,49 @@ if(BUILD_TESTING)
     add_executable(komai_startup_settings_test
         tests/StartupSettingsTest.cpp
         tests/ProfileSecretsStartupStub.cpp
+        tests/UserSettingsModelStartupStub.cpp
+        tests/JdenticonStartupStub.cpp
+        tests/OlmStartupStub.cpp
+        tests/LoggingStub.cpp
         src/Paths.cpp
+        src/UserSettingsPage.cpp
+        src/UserSettingsPersistence.cpp
+        src/UserSettingsSessionSettings.cpp
+        src/UserSettingsSetters.cpp
+        src/UserSettingsTheme.cpp
+        src/ui/Theme.cpp
+        src/ui/ThemeRegistry.cpp
         src/settings/StartupSettings.cpp
+        src/settings/SettingsController.cpp
+        src/settings/SettingsPersistence.cpp
+        src/settings/SettingsSerializerConfig.cpp
+        src/settings/SettingsSerializerConfigConverters.cpp
+        src/settings/SettingsSerializerConfigSchema.cpp
+        src/settings/SettingsSerializerSession.cpp
+        src/settings/SettingsSerializerState.cpp
+        src/settings/SettingsStorage.cpp
         src/settings/core/StartupConfig.cpp
+        src/MatrixClient.cpp
     )
-    target_include_directories(komai_startup_settings_test PRIVATE src)
+    target_include_directories(komai_startup_settings_test PRIVATE
+        src
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
     target_link_libraries(komai_startup_settings_test PRIVATE
         Qt::Core
         Qt::Qml
+        Qt::Gui
+        Qt::Widgets
+        Qt::Quick
         ${YAMLCPP_TARGET_NAME}
     )
+    target_link_libraries(komai_startup_settings_test PRIVATE
+        MatrixClient::MatrixClient
+        qt6keychain
+        spdlog::spdlog
+        fmt::fmt
+    )
+    set_target_properties(komai_startup_settings_test PROPERTIES AUTOMOC ON)
     add_test(NAME komai_startup_settings_test COMMAND komai_startup_settings_test)
     set_tests_properties(komai_startup_settings_test PROPERTIES LABELS "unit;settings")
 

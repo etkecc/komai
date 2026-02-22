@@ -6,15 +6,19 @@
 #include <iostream>
 #include <string_view>
 
+#include <QApplication>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QTemporaryDir>
-#include <QStandardPaths>
 
 #include <yaml-cpp/yaml.h>
 
+#include "UserSettingsPage.h"
 #include "settings/StartupSettings.h"
+#include "settings/SettingsStorage.h"
 #include "settings/core/StartupConfig.h"
+#include "ui/ThemeRegistry.h"
 
 namespace {
 
@@ -37,7 +41,6 @@ testStartupConfigSnapshotLoads()
         return expect(false, "temporary config root can be created");
 
     qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
-    QStandardPaths::setTestModeEnabled(true);
     const QString profileRoot = tmpRoot.path() + QStringLiteral("/komai/profiles/") + profile;
     const QString path = profileRoot + QStringLiteral("/config.yml");
 
@@ -78,7 +81,6 @@ testStartupConfigSnapshotMissingProfile()
         return expect(false, "temporary config root can be created");
 
     qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
-    QStandardPaths::setTestModeEnabled(true);
     const auto startup = settings::startup::readStartupConfig(profile);
 
     return expect(!startup.uiScaleFactor.has_value(),
@@ -157,6 +159,69 @@ testCoreSnapshotFromFile()
                   "core snapshot loads from file path");
 }
 
+bool
+testStartupPolicySkipsSessionWritesUntilCompleteSession()
+{
+    const QString profile = QStringLiteral("startup-policy-profile");
+    QTemporaryDir tmpRoot;
+    if (!tmpRoot.isValid())
+        return expect(false, "temporary config root can be created");
+
+    qputenv("XDG_CONFIG_HOME", tmpRoot.path().toUtf8());
+
+    int argc = 1;
+    char arg0[] = "komai-startup-policy-test";
+    char *argv[] = {arg0, nullptr};
+    QApplication app(argc, argv);
+    ThemeRegistry::initialize();
+
+    const QString configFile = settings::storage::configFilePathForProfile(profile);
+    const QString stateFile  = settings::storage::stateFilePathForProfile(profile);
+    const QString sessionFile = settings::storage::sessionFilePathForProfile(profile);
+    const QString secretsFile = settings::storage::secretsFilePathForProfile(profile);
+
+    const auto profileDir = QFileInfo(configFile).absolutePath();
+    QDir().mkpath(profileDir);
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["secrets"]["provider"] = "file";
+    configRoot["ui"]["theme"]["slug"] = "komai-light";
+
+    if (!settings::storage::writeYamlFile(configFile, configRoot, false))
+        return expect(false, "startup-policy fixture config can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available after initialize");
+
+    settings->setRunWithoutSecureSecretsService(true);
+    settings->save();
+
+    if (!expect(QFileInfo(configFile).exists(), "startup save creates config.yml in config-only mode"))
+        return false;
+    if (!expect(!QFileInfo(stateFile).exists() && !QFileInfo(sessionFile).exists() &&
+                  !QFileInfo(secretsFile).exists(),
+                "startup save does not create state/session/secrets files")) {
+        return false;
+    }
+
+    settings->setPersistenceSuspended(false);
+    if (!settings->persistSessionSnapshot(
+          UserSettings::SessionSnapshot{.userId      = QStringLiteral("@test:example.org"),
+                                       .accessToken = QStringLiteral("token"),
+                                       .deviceId    = QStringLiteral("DEVICE"),
+                                       .homeserver  = QStringLiteral("https://example.org")})) {
+        return expect(false, "persistSessionSnapshot accepts complete session identity");
+    }
+
+    return expect(QFileInfo(stateFile).exists(), "full persistence writes state.yml after complete snapshot") &&
+           expect(QFileInfo(sessionFile).exists(),
+                  "full persistence writes session.yml after complete snapshot") &&
+           expect(QFileInfo(secretsFile).exists(),
+                  "full persistence writes secrets.yml after complete snapshot");
+}
+
 } // namespace
 
 int
@@ -168,6 +233,7 @@ main()
     ok &= testCoreSnapshotExtraction();
     ok &= testCoreSnapshotFromFile();
     ok &= testCoreScaleRangeHelpers();
+    ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
 
     return ok ? 0 : 1;
 }

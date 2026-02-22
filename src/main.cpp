@@ -17,6 +17,7 @@
 #include <QPoint>
 #include <QQuickView>
 #include <QScreen>
+#include <QTimer>
 #include <QTranslator>
 
 // in theory we can enable this everywhere, but the header is missing on some of our CI systems and
@@ -460,6 +461,11 @@ main(int argc, char *argv[])
 
     MainWindow w(nullptr);
     // QQuickView w;
+
+    QTimer::singleShot(0, []() {
+        if (auto settings = UserSettings::instance())
+            settings->setPersistenceSuspended(false);
+    });
 
     // Move the MainWindow to the center
     // w.move(screenCenter(w.width(), w.height()));

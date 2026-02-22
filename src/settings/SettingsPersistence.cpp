@@ -230,7 +230,8 @@ saveProfileSecrets(const QString &profile,
         settings::storage::writeSecureValue(secretsKey,
                                             settings::storage::encodeSecretsMap(nonEmptySecrets));
 
-    if (settings::storage::pathExists(secretsFilePath) && !settings::storage::removePath(secretsFilePath))
+    if (settings::storage::pathExists(secretsFilePath) &&
+        !settings::storage::removePath(secretsFilePath))
         nhlog::ui()->warn("Failed to remove stale secrets file: {}", secretsFilePath.toStdString());
 }
 

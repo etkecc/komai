@@ -18,7 +18,9 @@
 #include <mtx/requests.hpp>
 #include <mtx/responses/common.hpp>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 
 std::vector<ImagePackInfo>
 Cache::getImagePacks(const std::string &room_id, std::optional<bool> stickers)
@@ -108,9 +110,10 @@ Cache::getImagePacks(const std::string &room_id, std::optional<bool> stickers)
                   try {
                       addRoomAndCanonicalParents(parent.state_key);
                   } catch (const db::Error &) {
-                      nhlog::db()->debug("Skipping events from parent community, because we are "
-                                         "not joined to it: {}",
-                                         parent.state_key);
+                      if (const auto logger = cache::activeLoggers().db)
+                          logger->debug("Skipping events from parent community, because we are "
+                                        "not joined to it: {}",
+                                        parent.state_key);
                   }
               }
           }

@@ -17,7 +17,9 @@
 #include <nlohmann/json.hpp>
 
 #include "EventAccessors.h"
-#include "Logging.h"
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
 #include "db/Maintenance.h"
@@ -81,7 +83,8 @@ Cache::getStateEventsWithType(db::Transaction &txn,
                       db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
                     events.push_back(std::move(*event));
             } catch (std::exception &e) {
-                nhlog::db()->warn("Failed to parse state event: {}", e.what());
+                if (const auto logger = cache::activeLoggers().db)
+                    logger->warn("Failed to parse state event: {}", e.what());
             }
         }
     }

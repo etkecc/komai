@@ -17,7 +17,9 @@
 #include <nlohmann/json.hpp>
 
 #include "EventAccessors.h"
-#include "Logging.h"
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
 #include "db/Maintenance.h"
@@ -46,7 +48,8 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
             if (auto previousRoomInfo = db::getRoomInfo(txn, db->rooms, room))
                 updatedInfo = std::move(*previousRoomInfo);
         } catch (const std::exception &e) {
-            nhlog::db()->warn("failed to parse room info for room '{}': {}", room, e.what());
+            if (const auto logger = cache::activeLoggers().db)
+                logger->warn("failed to parse room info for room '{}': {}", room, e.what());
         }
     }
 

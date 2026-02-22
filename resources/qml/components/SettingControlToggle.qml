@@ -4,9 +4,7 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-// qmllint disable unused-imports
-import QtQuick.Controls as Controls
-// qmllint enable unused-imports
+import QtQuick.Controls
 
 Item {
     id: root
@@ -20,7 +18,7 @@ Item {
     implicitWidth: button.implicitWidth
     implicitHeight: button.implicitHeight
 
-    Controls.ToggleButton {
+    Switch {
         id: button
 
         checked: root.value

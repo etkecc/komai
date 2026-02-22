@@ -15,7 +15,9 @@
 #include <QDir>
 #include <QTimer>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 #include "Utils.h"
 #include "db/Json.h"
 #include "db/StorageApi.h"
@@ -104,7 +106,8 @@ Cache::deleteData()
 
         if (!cacheDirectory_.isEmpty()) {
             QDir(cacheDirectory_).removeRecursively();
-            nhlog::db()->info("deleted cache files from disk");
+            if (const auto logger = cache::activeLoggers().db)
+                logger->info("deleted cache files from disk");
         }
     } else {
         this->databaseReady_ = false;
@@ -137,7 +140,8 @@ Cache::readReceipts(const QString &event_id, const QString &room_id)
         }
 
     } catch (const db::Error &e) {
-        nhlog::db()->critical("readReceipts: {}", e.what());
+        if (const auto logger = cache::activeLoggers().db)
+            logger->critical("readReceipts: {}", e.what());
     }
 
     return receipts;
@@ -181,7 +185,8 @@ Cache::updateReadReceipt(db::Transaction &txn, const std::string &room_id, const
             db::putReadReceiptValue(txn, db->readReceipts, event_id, room_id, merged_receipts);
 
         } catch (const db::Error &e) {
-            nhlog::db()->critical("updateReadReceipts: {}", e.what());
+            if (const auto logger = cache::activeLoggers().db)
+                logger->critical("updateReadReceipts: {}", e.what());
         }
     }
 }

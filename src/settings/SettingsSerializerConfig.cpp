@@ -138,6 +138,9 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
     settings.setPresence(cfg::presenceFromStorage(
       readString(root, SettingKey::NetworkPresenceDefault, QStringLiteral("automatic_presence")),
       UserSettings::Presence::AutomaticPresence));
+    if (settings.integrationsDbusApiAccess() < IntegrationsDbusAccessNone ||
+        settings.integrationsDbusApiAccess() > IntegrationsDbusAccessReadWrite)
+        settings.setIntegrationsDbusApiAccess(IntegrationsDbusAccessNone);
 
     settings.setReducedMotion(!readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));

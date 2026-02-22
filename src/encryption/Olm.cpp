@@ -903,6 +903,13 @@ mark_keys_as_published()
 void
 download_full_keybackup()
 {
+    if (!cache::isAvailable()) {
+        if (const auto logger = nhlog::crypto()) {
+            logger->debug("Skipping online key backup download: cache is not initialized yet.");
+        }
+        return;
+    }
+
     if (!UserSettings::instance()->useOnlineKeyBackup()) {
         // Online key backup disabled
         nhlog::crypto()->debug("Not downloading full online key backup, because it is disabled.");

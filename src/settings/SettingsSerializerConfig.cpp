@@ -96,7 +96,7 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
     setNode(root, SettingKey::UiMotionAnimationsEnabled, !settings.reducedMotion());
     setNode(root, SettingKey::UiInputEnableTextSelection, !settings.mobileMode());
 
-    if (settings.scaleFactor() >= 1.0 && settings.scaleFactor() <= 3.0)
+    if (settings::core::isScaleFactorInRange(settings.scaleFactor()))
         setNode(root, SettingKey::UiScaleFactor, settings.scaleFactor());
 
     setNode(root,

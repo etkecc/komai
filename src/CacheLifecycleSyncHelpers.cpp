@@ -9,11 +9,13 @@
 #include <string_view>
 #include <vector>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
 
 #include <nlohmann/json.hpp>
 
 #include <mtx/responses/common.hpp>
+
+#include "CacheApiWrappers.h"
 
 void
 Cache::saveInvites(db::Transaction &txn,
@@ -68,8 +70,9 @@ Cache::saveInvite(db::Transaction &txn,
                   auto j   = nlohmann::json(msg);
                   bool res = statesdb.put(txn, j["type"].get<std::string>(), j.dump());
 
-                  if (!res)
-                      nhlog::db()->warn("couldn't save data: {}", nlohmann::json(msg).dump());
+                  if (!res) {
+                                                cache::activeLoggers().db->warn("couldn't save data: {}", nlohmann::json(msg).dump());
+                  }
               },
               e);
         }
@@ -92,8 +95,6 @@ Cache::savePresence(
 
         db->presence.get(txn, update.sender, oldPresenceVal);
         if (oldPresenceVal != toWriteStr) {
-            // nhlog::db()->critical(
-            //   "Presence update for {}: {} -> {}", update.sender, oldPresenceVal, toWriteStr);
             db->presence.put(txn, update.sender, toWriteStr);
         }
     }

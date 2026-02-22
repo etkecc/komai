@@ -295,7 +295,7 @@ main(int argc, char *argv[])
     }
 
     settings::storage::setLoggers({.ui = nhlog::ui(), .db = nhlog::db()});
-    cache::setLoggers({.db = nhlog::db(), .crypto = nhlog::crypto()});
+    cache::setLoggers({.db = nhlog::db(), .crypto = nhlog::crypto(), .net = nhlog::net()});
     settings::persistence::setLoggers({.ui = nhlog::ui()});
     settings::setLoggers({.ui = nhlog::ui()});
     settings::serializer::setLoggers({.ui = nhlog::ui()});

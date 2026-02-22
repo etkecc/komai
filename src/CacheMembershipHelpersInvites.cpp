@@ -9,10 +9,11 @@
 #include <limits>
 
 #include <nlohmann/json.hpp>
+#include <spdlog/logger.h>
 
 #include <QHash>
 
-#include "Logging.h"
+#include "CacheApiWrappers.h"
 #include "db/MemberInfo.h"
 
 QHash<QString, RoomInfo>
@@ -25,19 +26,19 @@ Cache::invites()
       txn,
       db->invites,
       [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-          try {
-              RoomInfo tmp     = db::parseRoomInfo(room_data);
-              tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
-              result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
-          } catch (const std::exception &e) {
-              nhlog::db()->warn("failed to parse room info for invite: "
-                                "room_id ({}), {}: {}",
-                                room_id,
-                                std::string(room_data),
-                                e.what());
-          }
-          return true;
-      });
+        try {
+            RoomInfo tmp     = db::parseRoomInfo(room_data);
+            tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
+            result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+        } catch (const std::exception &e) {
+                            cache::activeLoggers().db->warn("failed to parse room info for invite: "
+                             "room_id ({}), {}: {}",
+                             room_id,
+                             std::string(room_data),
+                             e.what());
+        }
+        return true;
+    });
 
     return result;
 }
@@ -57,11 +58,11 @@ Cache::invite(std::string_view roomid)
             tmp.member_count = getInviteMembersDb(txn, std::string(roomid)).size(txn);
             result           = std::move(tmp);
         } catch (const std::exception &e) {
-            nhlog::db()->warn("failed to parse room info for invite: "
-                              "room_id ({}), {}: {}",
-                              roomid,
-                              std::string(room_data),
-                              e.what());
+                            cache::activeLoggers().db->warn("failed to parse room info for invite: "
+                             "room_id ({}), {}: {}",
+                             roomid,
+                             std::string(room_data),
+                             e.what());
         }
     }
 
@@ -81,8 +82,7 @@ Cache::getInviteMember(const std::string &room_id, const std::string &user_id)
 
         return db::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
-        nhlog::db()->warn(
-          "Failed to read member ({}) in invite room ({}): {}", user_id, room_id, e.what());
+                    cache::activeLoggers().db->warn("Failed to read member ({}) in invite room ({}): {}", user_id, room_id, e.what());
     }
     return std::nullopt;
 }
@@ -109,14 +109,14 @@ Cache::getMembersFromInvite(const std::string &room_id, std::size_t startIndex, 
                                    tmp.is_direct,
                                  });
                              } catch (const nlohmann::json::exception &e) {
-                                 nhlog::db()->warn("{}", e.what());
+                                                                      cache::activeLoggers().db->warn("{}", e.what());
                              }
                              return true;
                          });
 
         return members;
     } catch (const db::Error &e) {
-        nhlog::db()->error("Failed to retrieve members from db in room {}: {}", room_id, e.what());
+                    cache::activeLoggers().db->error("Failed to retrieve members from db in room {}: {}", room_id, e.what());
         return {};
     }
 }

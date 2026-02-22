@@ -24,10 +24,12 @@
 #include <mtx/secret_storage.hpp>
 #include <mtxclient/crypto/client.hpp>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
 #include "ProfileSecrets.h"
 #include "UserSettingsPage.h"
 #include "db/StorageApi.h"
+#include "CacheApiWrappers.h"
 
 static QString
 secretName(std::string_view name, bool internal)
@@ -71,7 +73,7 @@ Cache::loadSecretsFromStore(
         // migrations again. :D
         if (databaseReadyOnFinished) {
             emit databaseReady();
-            nhlog::db()->debug("Database ready");
+                            cache::activeLoggers().db->debug("Database ready");
         }
         return;
     }
@@ -81,9 +83,9 @@ Cache::loadSecretsFromStore(
             auto name  = secretName(name_, internal);
             auto value = userSettings->secret(name);
             if (value.isEmpty()) {
-                nhlog::db()->info("Restored empty cache secret '{}'."
-                                  " Removing in-memory secret value.",
-                                  name.toStdString());
+                                    cache::activeLoggers().db->info("Restored empty cache secret '{}'."
+                                 " Removing in-memory secret value.",
+                                 name.toStdString());
                 userSettings->removeSecret(name);
             } else {
                 callback(name_, internal, value.toStdString());
@@ -107,7 +109,7 @@ Cache::loadSecretsFromStore(
     connect(job,
             &QKeychain::ReadPasswordJob::finished,
             this,
-            [this,
+[this,
              name,
              toLoad,
              job,
@@ -115,19 +117,19 @@ Cache::loadSecretsFromStore(
              internal_ = internal,
              callback,
              databaseReadyOnFinished](QKeychain::Job *) mutable {
-                nhlog::db()->debug("Finished reading '{}'", name.toStdString());
+                                    cache::activeLoggers().db->debug("Finished reading '{}'", name.toStdString());
                 const QString secret = job->textData();
                 if (job->error() && job->error() != QKeychain::Error::EntryNotFound) {
-                    nhlog::db()->error("Restoring secret '{}' failed ({}): {}",
-                                       name.toStdString(),
-                                       static_cast<int>(job->error()),
-                                       job->errorString().toStdString());
+                                            cache::activeLoggers().db->error("Restoring secret '{}' failed ({}): {}",
+                                      name.toStdString(),
+                                      static_cast<int>(job->error()),
+                                      job->errorString().toStdString());
 
                     fatalSecretError();
                 }
                 if (secret.isEmpty()) {
-                    nhlog::db()->debug("Restored empty cache secret '{}'; scheduling cleanup.",
-                                       name.toStdString());
+                                            cache::activeLoggers().db->debug("Restored empty cache secret '{}'; scheduling cleanup.",
+                                      name.toStdString());
                     QTimer::singleShot(0, this, [name] {
                         auto userSettings = UserSettings::instance();
                         if (userSettings->runWithoutSecureSecretsService()) {
@@ -138,8 +140,9 @@ Cache::loadSecretsFromStore(
                         const auto deleted =
                           profile_secrets::deleteEmptyProfileSecretValueBlocking(name);
                         if (!deleted) {
-                            nhlog::db()->warn("Failed to clean up stale empty cache secret '{}'.",
-                                              name.toStdString());
+                                                            cache::activeLoggers().db->warn(
+                                  "Failed to clean up stale empty cache secret '{}'.",
+                                  name.toStdString());
                         }
                     });
                 } else {
@@ -154,7 +157,7 @@ Cache::loadSecretsFromStore(
                     loadSecretsFromStore(toLoad, callback, databaseReadyOnFinished);
                 });
             });
-    nhlog::db()->debug("Reading '{}'", name_);
+            cache::activeLoggers().db->debug("Reading '{}'", name_);
     job->start();
 }
 
@@ -210,8 +213,8 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
     auto userSettings = UserSettings::instance();
 
     if (secret.empty()) {
-        nhlog::db()->warn("Refusing to store empty cache secret '{}'; deleting instead.",
-                          name_.c_str());
+                    cache::activeLoggers().db->warn("Refusing to store empty cache secret '{}'; deleting instead.",
+                         name_.c_str());
         deleteSecretFromStore(name_, true);
         return;
     }
@@ -220,7 +223,7 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
         userSettings->setSecret(name, QString::fromStdString(secret));
         // if we emit the signal directly it won't be received
         QTimer::singleShot(0, this, [this, name_] { emit secretChanged(name_); });
-        nhlog::db()->info("Storing secret '{}' successful", name_);
+                    cache::activeLoggers().db->info("Storing secret '{}' successful", name_);
         return;
     }
 
@@ -238,14 +241,15 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
       this,
       [name_, this](QKeychain::Job *job) {
           if (job->error()) {
-              nhlog::db()->warn(
-                "Storing secret '{}' failed: {}", name_, job->errorString().toStdString());
+                                cache::activeLoggers().db->warn("Storing secret '{}' failed: {}",
+                               name_,
+                               job->errorString().toStdString());
               fatalSecretError();
           } else {
               // if we emit the signal directly, qtkeychain breaks and won't execute new
               // jobs. You can't start a job from the finish signal of a job.
               QTimer::singleShot(0, this, [this, name_] { emit secretChanged(name_); });
-              nhlog::db()->info("Storing secret '{}' successful", name_);
+                                cache::activeLoggers().db->info("Storing secret '{}' successful", name_);
           }
       },
       Qt::ConnectionType::DirectConnection);

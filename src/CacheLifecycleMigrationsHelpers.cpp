@@ -15,8 +15,10 @@
 
 #include <mtx/responses/messages.hpp>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
 #include "db/Maintenance.h"
+#include "CacheApiWrappers.h"
 
 namespace cache::detail {
 
@@ -33,11 +35,11 @@ buildPreMigrations(Cache *cache)
                pending_receipts.drop(txn, true);
                txn.commit();
            } catch (const db::Error &) {
-               nhlog::db()->critical("Failed to delete pending_receipts database in migration!");
+                                  cache::activeLoggers().db->critical("Failed to delete pending_receipts database in migration!");
                return false;
            }
 
-           nhlog::db()->info("Successfully deleted pending receipts database.");
+                          cache::activeLoggers().db->info("Successfully deleted pending receipts database.");
            return true;
        }},
       {"2020.07.05",
@@ -85,17 +87,18 @@ buildPreMigrations(Cache *cache)
                        // delete old messages db
                        messagesDb.drop(txn, true);
                    } catch (std::exception &e) {
-                       nhlog::db()->error(
-                         "While migrating messages from {}, ignoring error {}", room_id, e.what());
+                                                  cache::activeLoggers().db->error("While migrating messages from {}, ignoring error {}",
+                                         room_id,
+                                         e.what());
                    }
                }
                txn.commit();
            } catch (const db::Error &) {
-               nhlog::db()->critical("Failed to delete messages database in migration!");
+                                  cache::activeLoggers().db->critical("Failed to delete messages database in migration!");
                return false;
            }
 
-           nhlog::db()->info("Successfully deleted pending receipts database.");
+                          cache::activeLoggers().db->info("Successfully deleted pending receipts database.");
            return true;
        }},
       {"2020.10.20",
@@ -105,11 +108,11 @@ buildPreMigrations(Cache *cache)
                db::maintenance::migrateLegacyOlmShardsV1ToV2(cache->storage(), txn);
                txn.commit();
            } catch (const db::Error &) {
-               nhlog::db()->critical("Failed to migrate olm sessions,");
+                                  cache::activeLoggers().db->critical("Failed to migrate olm sessions,");
                return false;
            }
 
-           nhlog::db()->info("Successfully migrated olm sessions.");
+                          cache::activeLoggers().db->info("Successfully migrated olm sessions.");
            return true;
        }},
     };
@@ -124,8 +127,8 @@ buildPostMigrations(Cache *cache)
            auto txn = cache->beginTxn(nullptr);
            std::string error;
            if (!db::maintenance::migrateLegacyMegolmSessionIndexes(cache->storage(), txn, &error)) {
-               nhlog::db()->warn(
-                 "Failed to migrate stored megolm session to have no sender key: {}", error);
+                                  cache::activeLoggers().db->warn("Failed to migrate stored megolm session to have no sender key: {}",
+                               error);
                return false;
            }
 
@@ -142,17 +145,17 @@ buildPostMigrations(Cache *cache)
                    std::string error;
                    if (!db::maintenance::migrateLegacyStateByKeyToStatesKey(
                          cache->storage(), txn, room_id, &error)) {
-                       nhlog::db()->error(
-                         "While migrating state events from {}, ignoring error {}", room_id, error);
+                                                  cache::activeLoggers().db->error(
+                             "While migrating state events from {}, ignoring error {}", room_id, error);
                    }
                }
                txn.commit();
            } catch (const db::Error &) {
-               nhlog::db()->critical("Failed to convert states key database in migration!");
+                                  cache::activeLoggers().db->critical("Failed to convert states key database in migration!");
                return false;
            }
 
-           nhlog::db()->info("Successfully updated states key database format.");
+                          cache::activeLoggers().db->info("Successfully updated states key database format.");
            return true;
        }},
       {"2023.10.22",
@@ -164,12 +167,12 @@ buildPostMigrations(Cache *cache)
                      cache->storage(), txn, cache->db->olmSessions))
                    txn.commit();
            } catch (const db::Error &e) {
-               nhlog::db()->critical("Failed to convert olm sessions database in migration! {}",
-                                     e.what());
+                                  cache::activeLoggers().db->critical("Failed to convert olm sessions database in migration! {}",
+                                   e.what());
                return false;
            }
 
-           nhlog::db()->info("Successfully updated olm sessions database format.");
+                          cache::activeLoggers().db->info("Successfully updated olm sessions database format.");
            return true;
        }},
     };

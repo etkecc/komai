@@ -179,9 +179,11 @@ testCacheLoggerInjection()
 
     auto logger = std::make_shared<spdlog::logger>(
       QStringLiteral("cache-test").toStdString(), std::make_shared<spdlog::sinks::null_sink_mt>());
-    cache::setLoggers({.db = logger, .crypto = logger});
+    cache::setLoggers({.db = logger, .crypto = logger, .net = logger});
     cacheLoggers = cache::activeLoggers();
     ok &= expect(cacheLoggers.db == logger, "cache wrappers store injected db logger");
+    ok &= expect(cacheLoggers.crypto == logger, "cache wrappers store injected crypto logger");
+    ok &= expect(cacheLoggers.net == logger, "cache wrappers store injected net logger");
 
     return ok;
 }

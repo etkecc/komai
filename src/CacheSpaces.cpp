@@ -13,14 +13,15 @@
 #include <variant>
 
 #include <QMap>
+#include <spdlog/logger.h>
 
 #include <nlohmann/json.hpp>
 
 #include <mtx/responses/common.hpp>
 
-#include "Logging.h"
 #include "db/RoomInfo.h"
 #include "db/SyncState.h"
+#include "CacheApiWrappers.h"
 
 std::vector<std::string>
 Cache::getRoomIds(db::Transaction &txn)
@@ -82,12 +83,12 @@ Cache::updateSpaces(db::Transaction &txn,
                     db->spacesChildren.put(txn, space, room);
                     db->spacesParents.put(txn, room, space);
                 } else {
-                    nhlog::db()->debug("Skipping {} in {} because of missing PL. {}: {} < {}",
-                                       room,
-                                       space,
-                                       event.sender,
-                                       pls->content.user_level(event.sender),
-                                       pls->content.state_level(space_event_type));
+                                            cache::activeLoggers().db->debug("Skipping {} in {} because of missing PL. {}: {} < {}",
+                                      room,
+                                      space,
+                                      event.sender,
+                                      pls->content.user_level(event.sender),
+                                      pls->content.state_level(space_event_type));
                 }
             }
         }
@@ -119,7 +120,7 @@ Cache::spaces()
                 RoomInfo tmp = db::parseRoomInfo(room_data);
                 ret.insert(QString::fromStdString(spaceId), tmp);
             } catch (const std::exception &e) {
-                nhlog::db()->warn("failed to parse room info for space {}: {}", spaceId, e.what());
+                                    cache::activeLoggers().db->warn("failed to parse room info for space {}: {}", spaceId, e.what());
             }
         } else {
             ret.insert(QString::fromStdString(spaceId), std::nullopt);

@@ -159,14 +159,10 @@ backupVersion()
     try {
         return cacheInstance()->backupVersion();
     } catch (const std::exception &e) {
-        if (const auto logger = activeLoggers().db) {
-            logger->warn("Unable to read backup version: {}", e.what());
-        }
+        activeLoggers().db->warn("Unable to read backup version: {}", e.what());
         return std::nullopt;
     } catch (...) {
-        if (const auto logger = activeLoggers().db) {
-            logger->warn("Unable to read backup version: unexpected exception");
-        }
+        activeLoggers().db->warn("Unable to read backup version: unexpected exception");
         return std::nullopt;
     }
 }
@@ -184,14 +180,10 @@ secret(std::string_view name)
     try {
         return cacheInstance()->secret(name);
     } catch (const std::exception &e) {
-        if (const auto logger = activeLoggers().db) {
-            logger->warn("Unable to read secret '{}': {}", name, e.what());
-        }
+        activeLoggers().db->warn("Unable to read secret '{}': {}", name, e.what());
         return std::nullopt;
     } catch (...) {
-        if (const auto logger = activeLoggers().db) {
-            logger->warn("Unable to read secret '{}': unexpected exception", name);
-        }
+        activeLoggers().db->warn("Unable to read secret '{}': unexpected exception", name);
         return std::nullopt;
     }
 }

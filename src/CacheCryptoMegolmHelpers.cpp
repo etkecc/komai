@@ -8,14 +8,15 @@
 #include <string_view>
 
 #include <nlohmann/json.hpp>
+#include <spdlog/logger.h>
 
-#include "Logging.h"
 #include "db/Json.h"
 #include "db/MegolmIndex.h"
 #include "db/Serde.h"
 #include "db/StorageApi.h"
 #include "db/SyncState.h"
 #include "encryption/Olm.h"
+#include "CacheApiWrappers.h"
 
 //
 // Session Management
@@ -45,8 +46,7 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
               txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
             auto oldData = std::move(*data);
             if (oldData.trusted && newIndex >= oldIndex) {
-                nhlog::crypto()->warn(
-                  "Not storing inbound session of lesser trust or bigger index.");
+                                    cache::activeLoggers().crypto->warn("Not storing inbound session of lesser trust or bigger index.");
                 return;
             }
 
@@ -90,7 +90,7 @@ Cache::getInboundMegolmSession(const MegolmSessionIndex &index)
             return session;
         }
     } catch (std::exception &e) {
-        nhlog::crypto()->error("Failed to get inbound megolm session {}", e.what());
+                    cache::activeLoggers().crypto->error("Failed to get inbound megolm session {}", e.what());
     }
 
     return nullptr;
@@ -108,7 +108,7 @@ Cache::inboundMegolmSessionExists(const MegolmSessionIndex &index)
         return db::getInboundMegolmSessionValue(
           txn, db->inboundMegolmSessions, index.room_id, index.session_id, value);
     } catch (std::exception &e) {
-        nhlog::crypto()->error("Failed to get inbound megolm session {}", e.what());
+                    cache::activeLoggers().crypto->error("Failed to get inbound megolm session {}", e.what());
     }
 
     return false;
@@ -189,7 +189,7 @@ Cache::outboundMegolmSessionExists(const std::string &room_id) noexcept
         std::string_view value;
         return db->outboundMegolmSessions.get(txn, room_id, value);
     } catch (std::exception &e) {
-        nhlog::crypto()->error("Failed to retrieve outbound Megolm Session: {}", e.what());
+                    cache::activeLoggers().crypto->error("Failed to retrieve outbound Megolm Session: {}", e.what());
         return false;
     }
 }
@@ -221,7 +221,7 @@ Cache::getOutboundMegolmSession(const std::string &room_id)
 
         return ref;
     } catch (std::exception &e) {
-        nhlog::crypto()->error("Failed to retrieve outbound Megolm Session: {}", e.what());
+                    cache::activeLoggers().crypto->error("Failed to retrieve outbound Megolm Session: {}", e.what());
         return {};
     }
 }
@@ -240,7 +240,7 @@ Cache::getMegolmSessionData(const MegolmSessionIndex &index)
 
         return std::nullopt;
     } catch (std::exception &e) {
-        nhlog::crypto()->error("Failed to retrieve Megolm Session Data: {}", e.what());
+                    cache::activeLoggers().crypto->error("Failed to retrieve Megolm Session Data: {}", e.what());
         return std::nullopt;
     }
 }

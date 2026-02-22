@@ -22,10 +22,11 @@ struct CacheLoggers
 {
     std::shared_ptr<spdlog::logger> db;
     std::shared_ptr<spdlog::logger> crypto;
+    std::shared_ptr<spdlog::logger> net;
 };
 
 void
 setLoggers(CacheLoggers loggers);
-CacheLoggers
+const CacheLoggers &
 activeLoggers();
 }

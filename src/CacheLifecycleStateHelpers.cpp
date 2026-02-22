@@ -48,8 +48,7 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
             if (auto previousRoomInfo = db::getRoomInfo(txn, db->rooms, room))
                 updatedInfo = std::move(*previousRoomInfo);
         } catch (const std::exception &e) {
-            if (const auto logger = cache::activeLoggers().db)
-                logger->warn("failed to parse room info for room '{}': {}", room, e.what());
+                            cache::activeLoggers().db->warn("failed to parse room info for room '{}': {}", room, e.what());
         }
     }
 

@@ -106,8 +106,7 @@ Cache::deleteData()
 
         if (!cacheDirectory_.isEmpty()) {
             QDir(cacheDirectory_).removeRecursively();
-            if (const auto logger = cache::activeLoggers().db)
-                logger->info("deleted cache files from disk");
+                            cache::activeLoggers().db->info("deleted cache files from disk");
         }
     } else {
         this->databaseReady_ = false;
@@ -140,8 +139,7 @@ Cache::readReceipts(const QString &event_id, const QString &room_id)
         }
 
     } catch (const db::Error &e) {
-        if (const auto logger = cache::activeLoggers().db)
-            logger->critical("readReceipts: {}", e.what());
+                    cache::activeLoggers().db->critical("readReceipts: {}", e.what());
     }
 
     return receipts;
@@ -185,8 +183,7 @@ Cache::updateReadReceipt(db::Transaction &txn, const std::string &room_id, const
             db::putReadReceiptValue(txn, db->readReceipts, event_id, room_id, merged_receipts);
 
         } catch (const db::Error &e) {
-            if (const auto logger = cache::activeLoggers().db)
-                logger->critical("updateReadReceipts: {}", e.what());
+                            cache::activeLoggers().db->critical("updateReadReceipts: {}", e.what());
         }
     }
 }

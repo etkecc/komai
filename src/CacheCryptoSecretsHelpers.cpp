@@ -22,8 +22,7 @@ std::string
 Cache::createPickleSecret()
 {
     if (!this->pickle_secret_.empty()) {
-        if (const auto logger = cache::activeLoggers().crypto)
-            logger->warn("pickle secret already loaded; reusing existing secret");
+                    cache::activeLoggers().crypto->warn("pickle secret already loaded; reusing existing secret");
         return this->pickle_secret_;
     }
 

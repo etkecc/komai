@@ -52,8 +52,7 @@ Cache::roomVerificationStatus(const std::string &room_id)
         }
 
     } catch (std::exception &e) {
-        if (const auto logger = cache::activeLoggers().db)
-            logger->error("Failed to calculate verification status for {}: {}", room_id, e.what());
+                    cache::activeLoggers().db->error("Failed to calculate verification status for {}: {}", room_id, e.what());
         trust = crypto::Unverified;
     }
 
@@ -116,8 +115,7 @@ Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
 
         return members;
     } catch (std::exception &e) {
-        if (const auto logger = cache::activeLoggers().db)
-            logger->debug("Error retrieving members: {}", e.what());
+                    cache::activeLoggers().db->debug("Error retrieving members: {}", e.what());
         return {};
     }
 }

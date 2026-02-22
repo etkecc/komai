@@ -279,7 +279,7 @@
       SM::Options, SM::TabIntegrations,
       []() -> QVariant { return I->integrationsDbusApiAccess(); },
       [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Int && !v.canConvert(QMetaType::Int))
+          if (v.userType() != QMetaType::Int && !v.canConvert<int>())
               return false;
           auto access = v.toInt();
           if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)

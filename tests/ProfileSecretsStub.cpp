@@ -31,4 +31,18 @@ settingsSecretStoreKey(QStringView profile, QStringView keyName)
            keyName.toString();
 }
 
+bool
+deleteProfileSecretValueBlocking(const QString &key)
+{
+    (void)key;
+    return true;
+}
+
+bool
+deleteAllProfileSecretsFromStoreBlocking(QStringView profile)
+{
+    (void)profile;
+    return true;
+}
+
 } // namespace profile_secrets

@@ -12,6 +12,7 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 
 namespace {
@@ -126,6 +127,28 @@ testPathHelpers()
     return ok;
 }
 
+bool
+testProviderSelectionHonorsConfigAndOverrides()
+{
+    YAML::Node root(YAML::NodeType::Map);
+    root["secrets"]["provider"] = staged_load_plan::ProviderSecretServiceValue;
+    auto fromConfig = settings::persistence::providerFromConfig(root, false);
+    auto defaultSecretService =
+      expect(fromConfig == staged_load_plan::SecretsProvider::SecretService,
+             "secret provider defaults to secret_service");
+    const bool explicitFile = expect(settings::persistence::providerFromConfig(root, true) ==
+                                      staged_load_plan::SecretsProvider::File,
+                                    "forced file provider override still returns file");
+
+    root["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
+    const bool explicitFileConfig = expect(
+      settings::persistence::providerFromConfig(root, false) ==
+        staged_load_plan::SecretsProvider::File,
+      "file provider is honored from config");
+
+    return defaultSecretService && explicitFile && explicitFileConfig;
+}
+
 } // namespace
 
 int
@@ -136,6 +159,7 @@ main()
     ok &= testMissingAndInvalidFiles();
     ok &= testSecretsMapSerialization();
     ok &= testPathHelpers();
+    ok &= testProviderSelectionHonorsConfigAndOverrides();
 
     return ok ? 0 : 1;
 }

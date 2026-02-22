@@ -1150,6 +1150,7 @@ if(BUILD_TESTING)
         tests/LoggingStub.cpp
         tests/ProfileSecretsStub.cpp
         src/Paths.cpp
+        src/settings/SettingsPersistence.cpp
         src/settings/SettingsStorage.cpp
     )
     target_include_directories(komai_settings_storage_test PRIVATE src)

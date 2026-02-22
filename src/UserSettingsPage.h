@@ -16,6 +16,8 @@ namespace YAML {
 class Node;
 }
 
+class QSortFilterProxyModel;
+
 class UserSettings final : public QObject
 {
     Q_OBJECT
@@ -885,8 +887,12 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
+    Q_INVOKABLE QObject *modelForTab(int tab) const;
     Q_INVOKABLE void importSessionKeys();
     Q_INVOKABLE void exportSessionKeys();
     Q_INVOKABLE void requestCrossSigningSecrets();
     Q_INVOKABLE void downloadCrossSigningSecrets();
+
+private:
+    mutable QHash<int, QSortFilterProxyModel *> filteredModels_;
 };

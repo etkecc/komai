@@ -12,6 +12,7 @@
 #include <QFontDatabase>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QSortFilterProxyModel>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
@@ -1939,6 +1940,22 @@ UserSettingsModel::roleNames() const
     };
 
     return roles;
+}
+
+QObject *
+UserSettingsModel::modelForTab(int tab) const
+{
+    auto it = filteredModels_.find(tab);
+    if (it != filteredModels_.end())
+        return it.value();
+
+    auto *proxyModel = new QSortFilterProxyModel(const_cast<UserSettingsModel *>(this));
+    proxyModel->setSourceModel(const_cast<UserSettingsModel *>(this));
+    proxyModel->setFilterRole(Tab);
+    proxyModel->setFilterRegularExpression(QStringLiteral("^%1$").arg(tab));
+    filteredModels_.insert(tab, proxyModel);
+
+    return proxyModel;
 }
 
 // ── Metadata table for settings model ──────────────────────────────────────────

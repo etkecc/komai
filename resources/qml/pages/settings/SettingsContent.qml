@@ -50,14 +50,12 @@ Item {
             }
 
             Repeater {
-                model: UserSettingsModel
+                model: UserSettingsModel.modelForTab(root.tabFilter)
 
                 delegate: GridLayout {
                     id: r
 
-                    visible: model.tab === root.tabFilter
-                    Layout.preferredWidth: visible ? scroll.width : 0
-                    Layout.preferredHeight: visible ? implicitHeight : 0
+                    Layout.preferredWidth: scroll.width
                     columns: root.collapsed ? 1 : 2
                     rows: root.collapsed ? 2 : 1
                     required property var model

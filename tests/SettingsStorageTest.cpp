@@ -128,6 +128,38 @@ testPathHelpers()
 }
 
 bool
+testInMemoryReaderWriterOverride()
+{
+    bool ok = true;
+
+    const auto writer = settings::storage::inMemoryReaderWriter(QStringLiteral("/tmp/komai-test-storage-reader"));
+    settings::storage::ReaderWriterOverride writerOverride{writer};
+
+    const QString profile = QStringLiteral("readerwriter");
+    const auto configPath = settings::storage::configFilePathForProfile(profile);
+    const auto statePath  = settings::storage::stateFilePathForProfile(profile);
+
+    YAML::Node root(YAML::NodeType::Map);
+    root["integrations"]["dbus"]["access"] = 2;
+    ok &= expect(settings::storage::writeYamlFile(configPath, root, false),
+                "in-memory writer can persist YAML nodes");
+    const auto loaded = settings::storage::loadYamlFile(configPath, "readerwriter-config");
+    ok &= expect(
+      loaded["integrations"]["dbus"]["access"].as<int>() == 2, "in-memory writer stores written data");
+
+    ok &= expect(settings::storage::pathExists(configPath), "in-memory writer reports existing paths");
+    settings::storage::removePath(configPath);
+    ok &= expect(!settings::storage::pathExists(configPath), "in-memory writer removes paths");
+
+    ok &= expect(settings::storage::createDir(QStringLiteral("/tmp/irrelevant")),
+                "in-memory writer tolerates createDir calls");
+    ok &= expect(!settings::storage::pathExists(statePath),
+                  "state file still does not exist in in-memory backend");
+
+    return ok;
+}
+
+bool
 testProviderSelectionHonorsConfigAndOverrides()
 {
     YAML::Node root(YAML::NodeType::Map);
@@ -160,6 +192,7 @@ main()
     ok &= testSecretsMapSerialization();
     ok &= testPathHelpers();
     ok &= testProviderSelectionHonorsConfigAndOverrides();
+    ok &= testInMemoryReaderWriterOverride();
 
     return ok ? 0 : 1;
 }

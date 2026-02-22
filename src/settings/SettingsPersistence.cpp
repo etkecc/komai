@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QFileInfo>
 #include <QString>
 
 #include "settings/SettingsPersistence.h"
@@ -231,7 +230,7 @@ saveProfileSecrets(const QString &profile,
         settings::storage::writeSecureValue(secretsKey,
                                             settings::storage::encodeSecretsMap(nonEmptySecrets));
 
-    if (QFileInfo::exists(secretsFilePath) && !QFile::remove(secretsFilePath))
+    if (settings::storage::pathExists(secretsFilePath) && !settings::storage::removePath(secretsFilePath))
         nhlog::ui()->warn("Failed to remove stale secrets file: {}", secretsFilePath.toStdString());
 }
 
@@ -242,7 +241,8 @@ clearProfileSecrets(const QString &profile,
 {
     if (runWithoutSecureSecretsService) {
         const auto normalizedProfile = app_paths::normalizedProfileId(profile);
-        if (QFileInfo::exists(secretsFilePath) && !QFile::remove(secretsFilePath)) {
+        if (settings::storage::pathExists(secretsFilePath) &&
+            !settings::storage::removePath(secretsFilePath)) {
             nhlog::ui()->warn("Failed to remove stale secrets file: {}",
                               secretsFilePath.toStdString());
             return false;
@@ -260,7 +260,8 @@ clearProfileSecrets(const QString &profile,
                           normalizedProfile.toStdString());
     }
 
-    if (QFileInfo::exists(secretsFilePath) && !QFile::remove(secretsFilePath)) {
+    if (settings::storage::pathExists(secretsFilePath) &&
+        !settings::storage::removePath(secretsFilePath)) {
         nhlog::ui()->warn("Failed to remove stale secrets file: {}", secretsFilePath.toStdString());
         return false;
     }

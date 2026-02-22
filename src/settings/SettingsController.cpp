@@ -32,6 +32,14 @@ using settings::persistence::providerFromConfig;
 void
 settings::SettingsController::load(UserSettings &settings, std::optional<QString> profile)
 {
+    load(settings, profile, YAML::Node());
+}
+
+void
+settings::SettingsController::load(UserSettings &settings,
+                                  std::optional<QString> profile,
+                                  const YAML::Node &configRoot)
+{
     if (profile)
         settings.profile_ = (*profile == QLatin1String("default")) ? QLatin1String("") : *profile;
     else
@@ -44,10 +52,12 @@ settings::SettingsController::load(UserSettings &settings, std::optional<QString
     settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
     QDir().mkpath(settings.profileDirPath_);
 
-    const auto configRoot = loadYamlFile(settings.configFilePath_, "config");
-    settings.loadConfigYaml(configRoot);
+    const auto effectiveConfig =
+      configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath_, "config");
+    settings.loadConfigYaml(effectiveConfig);
 
-    const auto provider = providerFromConfig(configRoot, settings.runWithoutSecureSecretsService_);
+    const auto provider =
+      providerFromConfig(effectiveConfig, settings.runWithoutSecureSecretsService_);
     settings.runWithoutSecureSecretsService_ = provider == staged_load_plan::SecretsProvider::File;
 
     for (const auto stage : staged_load_plan::stagesForProvider(provider)) {

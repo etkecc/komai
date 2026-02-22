@@ -6,13 +6,29 @@
 
 #include <optional>
 
+#include <yaml-cpp/yaml.h>
+
 #include <QString>
 
 namespace settings::startup {
 
 /**
- * Read startup-only settings values that must be loaded before a QApplication is
- * created (such as initial scale-factor environment setup).
+ * Startup snapshot read before QApplication construction.
+ */
+struct StartupSettings
+{
+    YAML::Node configRoot;
+    std::optional<float> uiScaleFactor;
+};
+
+/**
+ * Read startup-only values once from profile config.
+ */
+StartupSettings
+readStartupConfig(const QString &profile);
+
+/**
+ * Backward-compatible helper for scale-factor-only reads.
  */
 std::optional<float>
 readUiScaleFactor(const QString &profile);

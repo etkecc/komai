@@ -189,12 +189,14 @@ main(int argc, char *argv[])
         qputenv("QML_DISABLE_DISK_CACHE", "1");
     }
 
+    const auto startupSettings = settings::startup::readStartupConfig(selectedProfile);
+
     // this needs to be after setting the application name. Or how would we find our settings
     // file then?
 #if !defined(Q_OS_MACOS)
     if (qgetenv("QT_SCALE_FACTOR").size() == 0) {
-        if (const auto factor = settings::startup::readUiScaleFactor(selectedProfile))
-            qputenv("QT_SCALE_FACTOR", QString::number(*factor).toUtf8());
+        if (startupSettings.uiScaleFactor)
+            qputenv("QT_SCALE_FACTOR", QString::number(*startupSettings.uiScaleFactor).toUtf8());
     }
 #endif
 
@@ -285,10 +287,22 @@ main(int argc, char *argv[])
 
     ThemeRegistry::initialize();
 
-    if (parser.isSet(configName))
-        UserSettings::initialize(parser.value(configName));
-    else
+    std::optional<QString> selectedProfileSetting;
+    if (parser.isSet(configName)) {
+        selectedProfileSetting = parser.value(configName);
+    } else if (!selectedProfile.isEmpty()) {
+        selectedProfileSetting = selectedProfile;
+    }
+
+    if (selectedProfileSetting && startupSettings.configRoot.IsDefined()) {
+        UserSettings::initialize(*selectedProfileSetting, startupSettings.configRoot);
+    } else if (!selectedProfileSetting && startupSettings.configRoot.IsDefined()) {
+        UserSettings::initialize(std::nullopt, startupSettings.configRoot);
+    } else if (selectedProfileSetting) {
+        UserSettings::initialize(*selectedProfileSetting);
+    } else {
         UserSettings::initialize(std::nullopt);
+    }
 
     auto settings = UserSettings::instance().toWeakRef();
 

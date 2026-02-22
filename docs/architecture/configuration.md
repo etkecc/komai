@@ -27,8 +27,8 @@ Settings flow:
 - startup:
   - `main.cpp` computes profile from args, reads pre-UI scale factor from `config.yml`, and initializes
     `UserSettings` before constructing visual UI (`MainWindow`).
-  - `main.cpp` delegates this pre-UI read to `settings::startup::readUiScaleFactor(...)` to keep
-    startup-only logic isolated from settings orchestration.
+  - `main.cpp` reads a startup snapshot via `settings::startup::readStartupConfig(...)` and passes the
+    loaded `config.yml` node into `settings::SettingsController` to avoid duplicate config parsing.
   - `ThemeRegistry::initialize()` and logging are set up before UI creation.
   - `UserSettings::load(profile)` calls `settings::SettingsController::load(...)`.
   - Controller resolves profile paths, runs staged config/session/secret/state load, then applies theme.

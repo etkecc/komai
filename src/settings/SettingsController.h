@@ -6,6 +6,10 @@
 
 #include <optional>
 
+namespace YAML {
+class Node;
+}
+
 class UserSettings;
 class QString;
 
@@ -27,6 +31,7 @@ public:
      * Load profile-local settings into the provided UserSettings instance.
      */
     void load(UserSettings &settings, std::optional<QString> profile);
+    void load(UserSettings &settings, std::optional<QString> profile, const YAML::Node &configRoot);
     /**
      * Persist the provided UserSettings instance to all backing stores.
      */

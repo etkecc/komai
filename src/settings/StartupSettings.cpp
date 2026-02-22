@@ -14,22 +14,30 @@
 
 namespace settings::startup {
 
+StartupSettings
+readStartupConfig(const QString &profile)
+{
+    StartupSettings settings;
+    const auto path = app_paths::config::profileConfigFile(profile);
+    if (!QFileInfo::exists(path))
+        return settings;
+
+    try {
+        settings.configRoot = YAML::LoadFile(path.toStdString());
+        const auto factor =
+          yaml_settings::readScalar<float>(settings.configRoot, SettingKey::UiScaleFactor, -1.0F);
+        if (factor >= 1.0F && factor <= 3.0F)
+            settings.uiScaleFactor = factor;
+    } catch (const YAML::Exception &) {
+    }
+
+    return settings;
+}
+
 std::optional<float>
 readUiScaleFactor(const QString &profile)
 {
-    const auto path = app_paths::config::profileConfigFile(profile);
-    if (!QFileInfo::exists(path))
-        return std::nullopt;
-
-    try {
-        const auto root = YAML::LoadFile(path.toStdString());
-        const auto factor = yaml_settings::readScalar<float>(root, SettingKey::UiScaleFactor, -1.0F);
-        if (factor < 1.0F || factor > 3.0F)
-            return std::nullopt;
-        return factor;
-    } catch (const YAML::Exception &) {
-        return std::nullopt;
-    }
+    return readStartupConfig(profile).uiScaleFactor;
 }
 
 } // namespace settings::startup

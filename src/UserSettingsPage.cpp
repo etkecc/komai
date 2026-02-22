@@ -327,10 +327,24 @@ UserSettings::initialize(std::optional<QString> profile)
 }
 
 void
+UserSettings::initialize(std::optional<QString> profile, const YAML::Node &configRoot)
+{
+    instance_.reset(new UserSettings());
+    instance_->load(profile, configRoot);
+}
+
+void
 UserSettings::load(std::optional<QString> profile)
 {
     settings::SettingsController controller;
     controller.load(*this, profile);
+}
+
+void
+UserSettings::load(std::optional<QString> profile, const YAML::Node &configRoot)
+{
+    settings::SettingsController controller;
+    controller.load(*this, profile, configRoot);
 }
 
 void

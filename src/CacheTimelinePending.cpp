@@ -7,12 +7,12 @@
 
 #include "EventAccessors.h"
 #include "Logging.h"
-#include <nlohmann/json.hpp>
 #include <QDateTime>
+#include <nlohmann/json.hpp>
 
 void
 Cache::savePendingMessage(const std::string &room_id,
-                         const mtx::events::collections::TimelineEvents &message)
+                          const mtx::events::collections::TimelineEvents &message)
 {
     auto txn      = beginTxn();
     auto eventsDb = getEventsDb(txn, room_id);

@@ -5,19 +5,19 @@
 #include "Cache.h"
 #include "Cache_p.h"
 
+#include <exception>
 #include <string_view>
 #include <type_traits>
 #include <variant>
 #include <vector>
-#include <exception>
 
 #include <mtx/responses/common.hpp>
 #include <mtx/responses/messages.hpp>
 #include <mtxclient/utils.hpp>
 #include <nlohmann/json.hpp>
 
-#include "Logging.h"
 #include "EventAccessors.h"
+#include "Logging.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
 #include "db/Maintenance.h"
@@ -70,8 +70,8 @@ Cache::getStateEventsWithType(db::Transaction &txn,
     std::vector<mtx::events::StateEvent<T>> events;
 
     {
-        auto statesKeyDb = getStatesKeyDb(txn, room_id);
-        auto eventsDb    = getEventsDb(txn, room_id);
+        auto statesKeyDb   = getStatesKeyDb(txn, room_id);
+        auto eventsDb      = getEventsDb(txn, room_id);
         const auto typeStr = to_string(type);
         std::string_view value;
 
@@ -89,16 +89,12 @@ Cache::getStateEventsWithType(db::Transaction &txn,
     return events;
 }
 
-#define NHEKO_CACHE_GET_STATE_EVENT_TXN_DEFINITION(Content)                                         \
-    template std::optional<mtx::events::StateEvent<Content>>                                       \
-    Cache::getStateEvent<Content>(db::Transaction &txn,                                           \
-                                  const std::string &room_id,                                       \
-                                  std::string_view state_key);                                      \
+#define NHEKO_CACHE_GET_STATE_EVENT_TXN_DEFINITION(Content)                                        \
+    template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>(        \
+      db::Transaction & txn, const std::string &room_id, std::string_view state_key);              \
                                                                                                    \
-    template std::vector<mtx::events::StateEvent<Content>>                                          \
-    Cache::getStateEventsWithType<Content>(db::Transaction &txn,                                    \
-                                           const std::string &room_id,                               \
-                                           mtx::events::EventType type);
+    template std::vector<mtx::events::StateEvent<Content>> Cache::getStateEventsWithType<Content>( \
+      db::Transaction & txn, const std::string &room_id, mtx::events::EventType type);
 
 NHEKO_CACHE_GET_STATE_EVENT_TXN_DEFINITION(mtx::events::msc2545::ImagePack)
 NHEKO_CACHE_GET_STATE_EVENT_TXN_DEFINITION(mtx::events::state::Aliases)

@@ -15,8 +15,8 @@
 
 #include <nlohmann/json.hpp>
 
-#include <mtx/responses/common.hpp>
 #include <mtx/requests.hpp>
+#include <mtx/responses/common.hpp>
 
 #include "Logging.h"
 

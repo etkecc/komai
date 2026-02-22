@@ -63,7 +63,7 @@ Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Message
         }
         eventsDb.put(txn, event_id, event.dump());
 
-        auto relations             = mtx::accessors::relations(e);
+        auto relations = mtx::accessors::relations(e);
         std::vector<std::string_view> relationTargets;
         relationTargets.reserve(relations.relations.size());
         for (const auto &relation : relations.relations) {

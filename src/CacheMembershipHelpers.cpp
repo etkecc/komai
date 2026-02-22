@@ -70,7 +70,6 @@ Cache::memberCount(const std::string &room_id)
     return getMembersDb(txn, room_id).size(txn);
 }
 
-
 std::vector<std::string>
 Cache::joinedRooms()
 {

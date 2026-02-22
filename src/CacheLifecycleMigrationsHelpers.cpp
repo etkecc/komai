@@ -15,11 +15,10 @@
 
 #include <mtx/responses/messages.hpp>
 
-#include "db/Maintenance.h"
 #include "Logging.h"
+#include "db/Maintenance.h"
 
-namespace cache::detail
-{
+namespace cache::detail {
 
 std::vector<std::pair<std::string, std::function<bool()>>>
 buildPreMigrations(Cache *cache)
@@ -44,13 +43,16 @@ buildPreMigrations(Cache *cache)
       {"2020.07.05",
        [cache]() {
            try {
-               auto txn = cache->beginTxn(nullptr);
+               auto txn      = cache->beginTxn(nullptr);
                auto room_ids = cache->getRoomIds(txn);
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto messagesDb = db::openRoomStore(
-                         cache->storage(), txn, room_id, db::catalog::RoomDb::LegacyMessages, false);
+                       auto messagesDb = db::openRoomStore(cache->storage(),
+                                                           txn,
+                                                           room_id,
+                                                           db::catalog::RoomDb::LegacyMessages,
+                                                           false);
 
                        // keep some old messages and batch token
                        {
@@ -58,7 +60,8 @@ buildPreMigrations(Cache *cache)
                            db::forEachEntry(
                              txn,
                              messagesDb,
-                             [&oldMessages](std::string_view /*ts*/, std::string_view stored_message) {
+                             [&oldMessages](std::string_view /*ts*/,
+                                            std::string_view stored_message) {
                                  auto j = nlohmann::json::parse(
                                    std::string_view(stored_message.data(), stored_message.size()));
 
@@ -161,9 +164,8 @@ buildPostMigrations(Cache *cache)
                      cache->storage(), txn, cache->db->olmSessions))
                    txn.commit();
            } catch (const db::Error &e) {
-               nhlog::db()->critical(
-                 "Failed to convert olm sessions database in migration! {}",
-                 e.what());
+               nhlog::db()->critical("Failed to convert olm sessions database in migration! {}",
+                                     e.what());
                return false;
            }
 

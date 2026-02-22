@@ -13,9 +13,9 @@
 #include "Logging.h"
 #include "db/Json.h"
 #include "db/MegolmIndex.h"
-#include "db/SyncState.h"
 #include "db/Serde.h"
 #include "db/StorageApi.h"
+#include "db/SyncState.h"
 #include "encryption/Olm.h"
 
 void
@@ -206,4 +206,3 @@ Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
 
     nhlog::crypto()->info("Imported {} out of {} keys", importCount, keys.sessions.size());
 }
-

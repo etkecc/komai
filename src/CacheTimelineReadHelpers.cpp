@@ -12,9 +12,9 @@
 
 constexpr size_t MAX_RESTORED_MESSAGES =
 #if Q_PROCESSOR_WORDSIZE >= 5 // 40-bit or more, up to 2^(8*WORDSIZE) words addressable.
-    30'000;
+  30'000;
 #elif Q_PROCESSOR_WORDSIZE == 4 // 32-bit address space limits mmaps
-    5'000;
+  5'000;
 #else
 #error Not enough virtual address space for the database on target CPU
 #endif

@@ -5,19 +5,19 @@
 #include "Cache.h"
 #include "Cache_p.h"
 
+#include <exception>
 #include <string_view>
 #include <type_traits>
 #include <variant>
 #include <vector>
-#include <exception>
 
 #include <mtx/responses/common.hpp>
 #include <mtx/responses/messages.hpp>
 #include <mtxclient/utils.hpp>
 #include <nlohmann/json.hpp>
 
-#include "Logging.h"
 #include "EventAccessors.h"
+#include "Logging.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
 #include "db/Maintenance.h"
@@ -187,21 +187,23 @@ Cache::saveStateEvent(db::Transaction &txn,
 }
 
 template void
-Cache::saveStateEvents<mtx::events::collections::StateEvents>(db::Transaction &txn,
-                                                             db::Store &statesdb,
-                                                             db::Store &stateskeydb,
-                                                             db::Store &membersdb,
-                                                             db::Store &eventsDb,
-                                                             const std::string &room_id,
-                                                             const std::vector<mtx::events::collections::StateEvents> &events);
+Cache::saveStateEvents<mtx::events::collections::StateEvents>(
+  db::Transaction &txn,
+  db::Store &statesdb,
+  db::Store &stateskeydb,
+  db::Store &membersdb,
+  db::Store &eventsDb,
+  const std::string &room_id,
+  const std::vector<mtx::events::collections::StateEvents> &events);
 
 template void
-Cache::saveStateEvents<mtx::events::collections::TimelineEvents>(db::Transaction &txn,
-                                                               db::Store &statesdb,
-                                                               db::Store &stateskeydb,
-                                                               db::Store &membersdb,
-                                                               db::Store &eventsDb,
-                                                               const std::string &room_id,
-                                                               const std::vector<mtx::events::collections::TimelineEvents> &events);
+Cache::saveStateEvents<mtx::events::collections::TimelineEvents>(
+  db::Transaction &txn,
+  db::Store &statesdb,
+  db::Store &stateskeydb,
+  db::Store &membersdb,
+  db::Store &eventsDb,
+  const std::string &room_id,
+  const std::vector<mtx::events::collections::TimelineEvents> &events);
 
 // no-op: moved transaction-based state-event getters to CacheLifecycleStateHelpersGetters.cpp

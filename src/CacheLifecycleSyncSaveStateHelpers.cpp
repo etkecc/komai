@@ -159,8 +159,8 @@ try {
                   [&txn, &accountDataDb](const auto &event) {
                       if constexpr (std::is_same_v<
                                       std::remove_cv_t<std::remove_reference_t<decltype(event)>>,
-                                      AccountDataEvent<
-                                        mtx::events::account_data::nheko_extensions::HiddenEvents>>) {
+                                      AccountDataEvent<mtx::events::account_data::nheko_extensions::
+                                                         HiddenEvents>>) {
                           if (!event.content.hidden_event_types) {
                               accountDataDb.del(txn, "im.nheko.hidden_events");
                               return;

@@ -23,8 +23,7 @@
 //! This will reset client's data.
 static constexpr std::string_view CURRENT_CACHE_FORMAT_VERSION{"2023.10.22"};
 
-namespace cache::detail
-{
+namespace cache::detail {
 
 std::vector<std::pair<std::string, std::function<bool()>>>
 buildPreMigrations(Cache *cache);
@@ -50,86 +49,72 @@ Cache::runMigrations()
     }
 
     auto migrations = cache::detail::buildPreMigrations(this);
-    migrations.emplace_back("2021.08.22",
-                           [this]() {
-                               try {
-                                   auto txn      = beginTxn(nullptr);
-                                   auto room_ids = getRoomIds(txn);
+    migrations.emplace_back("2021.08.22", [this]() {
+        try {
+            auto txn      = beginTxn(nullptr);
+            auto room_ids = getRoomIds(txn);
 
-                                   for (const auto &room : room_ids) {
-                                       for (const auto roomDb : db::maintenance::roomDbsForFullResync()) {
-                                           const auto dbName = db::catalog::roomName(room, roomDb);
-                                           std::string error;
-                                           if (!db::maintenance::tryDropNamedStore(storage(),
-                                                                                 txn,
-                                                                                 dbName,
-                                                                                 &error) &&
-                                               !error.empty())
-                                               nhlog::db()->warn("Failed to drop '{}': {}", dbName, error);
-                                       }
-                                   }
+            for (const auto &room : room_ids) {
+                for (const auto roomDb : db::maintenance::roomDbsForFullResync()) {
+                    const auto dbName = db::catalog::roomName(room, roomDb);
+                    std::string error;
+                    if (!db::maintenance::tryDropNamedStore(storage(), txn, dbName, &error) &&
+                        !error.empty())
+                        nhlog::db()->warn("Failed to drop '{}': {}", dbName, error);
+                }
+            }
 
-                                   // clear db, don't delete
-                                   db->rooms.drop(txn, false);
-                                   setNextBatchToken(txn, "");
+            // clear db, don't delete
+            db->rooms.drop(txn, false);
+            setNextBatchToken(txn, "");
 
-                                   txn.commit();
-                               } catch (const db::Error &) {
-                                   nhlog::db()->critical("Failed to clear cache!");
-                                   return false;
-                               }
+            txn.commit();
+        } catch (const db::Error &) {
+            nhlog::db()->critical("Failed to clear cache!");
+            return false;
+        }
 
-                               nhlog::db()->info(
-                                 "Successfully cleared the cache. Will do a clean sync after startup.");
-                               return true;
-                           });
-    migrations.emplace_back("2021.08.31",
-                           [this]() {
-                               storeSecretInStore("pickle_secret", "secret");
-                               this->pickle_secret_ = "secret";
-                               return true;
-                           });
-    migrations.emplace_back("2022.11.06",
-                           [this]() {
-                               databaseReady_ = false;
-                               loadSecretsFromStore(
-                                 {
-                                   {std::string(mtx::secret_storage::secrets::cross_signing_master),
-                                    false},
-                                   {std::string(mtx::secret_storage::secrets::cross_signing_self_signing),
-                                    false},
-                                   {std::string(mtx::secret_storage::secrets::cross_signing_user_signing),
-                                    false},
-                                   {std::string(mtx::secret_storage::secrets::megolm_backup_v1), false},
-                                 },
-                                 [this, count = 1](const std::string &name,
-                                                   bool internal,
-                                                   const std::string &value) mutable {
-                                     nhlog::db()->critical("Loaded secret {}", name);
-                                     this->storeSecret(name, value, internal);
+        nhlog::db()->info("Successfully cleared the cache. Will do a clean sync after startup.");
+        return true;
+    });
+    migrations.emplace_back("2021.08.31", [this]() {
+        storeSecretInStore("pickle_secret", "secret");
+        this->pickle_secret_ = "secret";
+        return true;
+    });
+    migrations.emplace_back("2022.11.06", [this]() {
+        databaseReady_ = false;
+        loadSecretsFromStore(
+          {
+            {std::string(mtx::secret_storage::secrets::cross_signing_master), false},
+            {std::string(mtx::secret_storage::secrets::cross_signing_self_signing), false},
+            {std::string(mtx::secret_storage::secrets::cross_signing_user_signing), false},
+            {std::string(mtx::secret_storage::secrets::megolm_backup_v1), false},
+          },
+          [this,
+           count = 1](const std::string &name, bool internal, const std::string &value) mutable {
+              nhlog::db()->critical("Loaded secret {}", name);
+              this->storeSecret(name, value, internal);
 
-                                     // HACK(Nico): delay deletion to not crash because of multiple
-                                     // nested deletions.
-                                     // Since this is just migration code, this should be fine.
+              // HACK(Nico): delay deletion to not crash because of multiple
+              // nested deletions.
+              // Since this is just migration code, this should be fine.
 
-                                     QTimer::singleShot(count * 2000, this, [this, name, internal] {
-                                         deleteSecretFromStore(name, internal);
-                                     });
-                                     count++;
-                                 },
-                                 false);
+              QTimer::singleShot(count * 2000, this, [this, name, internal] {
+                  deleteSecretFromStore(name, internal);
+              });
+              count++;
+          },
+          false);
 
-                               while (!this->databaseReady_) {
-                                   QCoreApplication::instance()->processEvents(
-                                     QEventLoop::AllEvents, 100);
-                               }
+        while (!this->databaseReady_) {
+            QCoreApplication::instance()->processEvents(QEventLoop::AllEvents, 100);
+        }
 
-                               return true;
-                           });
+        return true;
+    });
     auto postMigrations = cache::detail::buildPostMigrations(this);
-    migrations.insert(migrations.end(),
-                      postMigrations.begin(),
-                      postMigrations.end());
+    migrations.insert(migrations.end(), postMigrations.begin(), postMigrations.end());
 
     nhlog::db()->info("Running migrations, this may take a while!");
     for (const auto &[target_version, migration] : migrations) {

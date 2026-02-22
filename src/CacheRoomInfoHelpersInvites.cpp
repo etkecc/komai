@@ -52,9 +52,7 @@ Cache::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
 }
 
 QString
-Cache::getInviteRoomAvatarUrl(db::Transaction &txn,
-                              db::Store &statesdb,
-                              db::Store &membersdb)
+Cache::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;

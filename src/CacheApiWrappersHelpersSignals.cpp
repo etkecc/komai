@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "CacheApiWrappers.h"
+#include "Cache_p.h"
 
 #include <memory>
 #include <utility>
@@ -38,7 +38,8 @@ onReadReceiptsChanged(QObject *receiver,
 }
 
 void
-onRoomReadStatusChanged(QObject *receiver, std::function<void(const std::map<QString, bool> &)> callback)
+onRoomReadStatusChanged(QObject *receiver,
+                        std::function<void(const std::map<QString, bool> &)> callback)
 {
     QObject::connect(cacheInstance().get(),
                      &Cache::roomReadStatus,
@@ -77,7 +78,8 @@ onSecretChanged(QObject *receiver, std::function<void(const std::string &)> call
 void
 onVerificationStatusChanged(QObject *receiver, std::function<void(const std::string &)> callback)
 {
-    QObject::connect(cacheInstance().get(),
+    QObject::connect(
+      cacheInstance().get(),
       &Cache::verificationStatusChanged,
       receiver,
       [callback = std::move(callback)](const std::string &user_id) { callback(user_id); });

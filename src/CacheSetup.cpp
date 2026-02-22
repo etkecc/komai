@@ -23,8 +23,8 @@
 #include "ProfileSecrets.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
-#include "db/StorageApi.h"
 #include "db/Maintenance.h"
+#include "db/StorageApi.h"
 
 extern bool needsCompact;
 

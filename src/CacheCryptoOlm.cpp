@@ -12,9 +12,9 @@
 #include "Logging.h"
 #include "db/Json.h"
 #include "db/OlmSessionIndex.h"
-#include "db/SyncState.h"
 #include "db/Serde.h"
 #include "db/StorageApi.h"
+#include "db/SyncState.h"
 #include "encryption/Olm.h"
 
 void

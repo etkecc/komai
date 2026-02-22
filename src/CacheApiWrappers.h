@@ -11,5 +11,6 @@
 class Cache;
 
 namespace cache {
-std::unique_ptr<Cache> &cacheInstance();
+std::unique_ptr<Cache> &
+cacheInstance();
 }

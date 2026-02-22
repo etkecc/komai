@@ -135,7 +135,8 @@ Cache::loadSecretsFromStore(
                             return;
                         }
 
-                        const auto deleted = profile_secrets::deleteEmptyProfileSecretValueBlocking(name);
+                        const auto deleted =
+                          profile_secrets::deleteEmptyProfileSecretValueBlocking(name);
                         if (!deleted) {
                             nhlog::db()->warn("Failed to clean up stale empty cache secret '{}'.",
                                               name.toStdString());

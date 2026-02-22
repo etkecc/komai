@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "Cache.h"
-#include "Cache_p.h"
 #include "CacheApiWrappers.h"
+#include "Cache_p.h"
 
 namespace cache {
 
@@ -41,9 +41,9 @@ getStateEventsWithType(const std::string &room_id, mtx::events::EventType type)
 }
 
 #define NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(Content)                                            \
-    template std::optional<mtx::events::StateEvent<Content>> getStateEvent<Content>(        \
+    template std::optional<mtx::events::StateEvent<Content>> getStateEvent<Content>(               \
       const std::string &room_id, std::string_view state_key);                                     \
-    template std::vector<mtx::events::StateEvent<Content>> getStateEventsWithType<Content>( \
+    template std::vector<mtx::events::StateEvent<Content>> getStateEventsWithType<Content>(        \
       const std::string &room_id, mtx::events::EventType type);
 
 NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Aliases)

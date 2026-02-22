@@ -16,10 +16,10 @@
 #include <QTimer>
 
 #include "Logging.h"
-#include "db/Json.h"
-#include "db/SyncState.h"
-#include "db/StorageApi.h"
 #include "Utils.h"
+#include "db/Json.h"
+#include "db/StorageApi.h"
+#include "db/SyncState.h"
 
 void
 Cache::removeLeftRooms(db::Transaction &txn,
@@ -154,7 +154,8 @@ Cache::updateReadReceipt(db::Transaction &txn, const std::string &room_id, const
         try {
             std::string_view prev_value;
 
-            bool exists = db::getReadReceiptValue(txn, db->readReceipts, event_id, room_id, prev_value);
+            bool exists =
+              db::getReadReceiptValue(txn, db->readReceipts, event_id, room_id, prev_value);
 
             std::map<std::string, uint64_t> saved_receipts;
 

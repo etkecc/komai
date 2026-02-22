@@ -27,10 +27,4 @@ struct StartupSettings
 StartupSettings
 readStartupConfig(const QString &profile);
 
-/**
- * Backward-compatible helper for scale-factor-only reads.
- */
-std::optional<float>
-readUiScaleFactor(const QString &profile);
-
 } // namespace settings::startup

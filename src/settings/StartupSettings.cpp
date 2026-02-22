@@ -34,10 +34,4 @@ readStartupConfig(const QString &profile)
     return settings;
 }
 
-std::optional<float>
-readUiScaleFactor(const QString &profile)
-{
-    return readStartupConfig(profile).uiScaleFactor;
-}
-
 } // namespace settings::startup

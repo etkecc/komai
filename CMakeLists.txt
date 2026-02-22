@@ -1123,6 +1123,21 @@ if(BUILD_TESTING)
     add_test(NAME komai_staged_load_plan_test COMMAND komai_staged_load_plan_test)
     set_tests_properties(komai_staged_load_plan_test PROPERTIES LABELS "unit;settings")
 
+    add_executable(komai_startup_settings_test
+        tests/StartupSettingsTest.cpp
+        tests/ProfileSecretsStartupStub.cpp
+        src/Paths.cpp
+        src/settings/StartupSettings.cpp
+    )
+    target_include_directories(komai_startup_settings_test PRIVATE src)
+    target_link_libraries(komai_startup_settings_test PRIVATE
+        Qt::Core
+        Qt::Qml
+        ${YAMLCPP_TARGET_NAME}
+    )
+    add_test(NAME komai_startup_settings_test COMMAND komai_startup_settings_test)
+    set_tests_properties(komai_startup_settings_test PROPERTIES LABELS "unit;settings")
+
     add_executable(komai_settings_storage_test
         tests/SettingsStorageTest.cpp
         tests/LoggingStub.cpp
@@ -1158,6 +1173,7 @@ if(BUILD_TESTING)
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
+        komai_startup_settings_test
         komai_settings_storage_test
         komai_db_backend_test
     )

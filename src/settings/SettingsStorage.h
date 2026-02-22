@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <QString>
 #include <QMap>
+#include <QString>
 
 #include <optional>
 
@@ -13,21 +13,47 @@
 
 namespace settings::storage {
 
-QString profileDirPath(const QString &profile);
-QString configFilePathForProfile(const QString &profile);
-QString stateFilePathForProfile(const QString &profile);
-QString sessionFilePathForProfile(const QString &profile);
-QString secretsFilePathForProfile(const QString &profile);
+/**
+ * File-system and secure-storage helpers for settings persistence.
+ */
 
-YAML::Node loadYamlFile(const QString &path, const char *label);
-bool writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly);
+QString
+profileDirPath(const QString &profile);
+/**
+ * Build profile-scoped settings file paths.
+ */
+QString
+configFilePathForProfile(const QString &profile);
+QString
+stateFilePathForProfile(const QString &profile);
+QString
+sessionFilePathForProfile(const QString &profile);
+QString
+secretsFilePathForProfile(const QString &profile);
 
-QString secureStoreKey(const QString &profile, const char *keyName);
-std::optional<QString> readSecureValue(const QString &key);
-void writeSecureValue(const QString &key, const QString &value);
-void deleteSecureValue(const QString &key);
+/**
+ * Load/serialize YAML settings files.
+ */
+YAML::Node
+loadYamlFile(const QString &path, const char *label);
+bool
+writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly);
 
-QString encodeSecretsMap(const QMap<QString, QString> &secrets);
-QMap<QString, QString> decodeSecretsMap(const QString &serialized);
+/**
+ * Secure backend key helpers used by fallback and keyring-backed secret storage.
+ */
+QString
+secureStoreKey(const QString &profile, const char *keyName);
+std::optional<QString>
+readSecureValue(const QString &key);
+void
+writeSecureValue(const QString &key, const QString &value);
+void
+deleteSecureValue(const QString &key);
+
+QString
+encodeSecretsMap(const QMap<QString, QString> &secrets);
+QMap<QString, QString>
+decodeSecretsMap(const QString &serialized);
 
 } // namespace settings::storage

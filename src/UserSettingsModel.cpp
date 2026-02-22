@@ -25,6 +25,15 @@
 #include "config/nheko.h"
 #include "encryption/Olm.h"
 #include "settings/SettingKeys.h"
+
+/**
+ * UserSettingsModel is a UI adapter: it exposes settings metadata through roles,
+ * groups by tab, and translates UI edits into `UserSettings` mutations.
+ *
+ * Storage/load semantics are implemented in `UserSettings` and `settings::*`
+ * modules; this file intentionally contains list-model and delegate-facing
+ * behavior only.
+ */
 #include "ui/Theme.h"
 #include "ui/ThemeRegistry.h"
 #include "voip/CallDevices.h"

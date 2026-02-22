@@ -588,10 +588,14 @@ set(SRC_FILES
     src/Paths.cpp
     src/Paths.h
     src/settings/SettingKeys.h
+    src/settings/BootstrapSettings.h
+    src/settings/BootstrapSettings.cpp
     src/settings/SettingsPersistence.cpp
     src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
     src/settings/SettingsStorage.h
+    src/settings/SettingsController.h
+    src/settings/SettingsController.cpp
     src/settings/YamlSettings.h
     src/PowerlevelsEditModels.cpp
     src/PowerlevelsEditModels.h

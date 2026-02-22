@@ -19,8 +19,6 @@
 #include <QScreen>
 #include <QTranslator>
 
-#include <yaml-cpp/yaml.h>
-
 // in theory we can enable this everywhere, but the header is missing on some of our CI systems and
 // it is too much effort to install.
 #if __has_include(<QtGui/qpa/qplatformwindow_p.h>)
@@ -38,7 +36,7 @@
 #include "Paths.h"
 #include "Utils.h"
 #include "config/nheko.h"
-#include "settings/YamlSettings.h"
+#include "settings/BootstrapSettings.h"
 #include "ui/ThemeRegistry.h"
 
 #if defined(Q_OS_MACOS)
@@ -177,24 +175,6 @@ selectedProfileFromArgs(int argc, char *argv[])
     return {};
 }
 
-std::optional<float>
-scaleFactorFromConfig(QStringView profile)
-{
-    const auto path = app_paths::config::profileConfigFile(profile);
-    if (!QFileInfo::exists(path))
-        return std::nullopt;
-
-    try {
-        const auto root   = YAML::LoadFile(path.toStdString());
-        const auto factor = yaml_settings::readScalar<float>(root, "ui.scale.factor", -1.0F);
-        if (factor < 1.0F || factor > 3.0F)
-            return std::nullopt;
-        return factor;
-    } catch (const YAML::Exception &) {
-        return std::nullopt;
-    }
-}
-
 int
 main(int argc, char *argv[])
 {
@@ -213,7 +193,7 @@ main(int argc, char *argv[])
     // file then?
 #if !defined(Q_OS_MACOS)
     if (qgetenv("QT_SCALE_FACTOR").size() == 0) {
-        if (const auto factor = scaleFactorFromConfig(selectedProfile))
+        if (const auto factor = settings::bootstrap::readUiScaleFactor(selectedProfile))
             qputenv("QT_SCALE_FACTOR", QString::number(*factor).toUtf8());
     }
 #endif

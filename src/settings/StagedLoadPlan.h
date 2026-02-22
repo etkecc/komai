@@ -13,6 +13,9 @@
 
 namespace staged_load_plan {
 
+/**
+ * Secret backend selection and staged loading order used during startup.
+ */
 enum class SecretsProvider
 {
     SecretService,
@@ -32,6 +35,9 @@ inline constexpr auto SecretsProviderKey         = "secrets.provider";
 inline constexpr auto ProviderSecretServiceValue = "secret_service";
 inline constexpr auto ProviderFileValue          = "file";
 
+/**
+ * Read effective secret provider from YAML config.
+ */
 inline SecretsProvider
 providerFromConfig(const YAML::Node &configRoot)
 {
@@ -41,6 +47,9 @@ providerFromConfig(const YAML::Node &configRoot)
                                                         : SecretsProvider::SecretService;
 }
 
+/**
+ * Return the ordered list of stages to apply after reading config.
+ */
 inline QList<Stage>
 stagesForProvider(SecretsProvider provider)
 {

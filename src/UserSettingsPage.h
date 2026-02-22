@@ -18,6 +18,18 @@ class Node;
 
 class QSortFilterProxyModel;
 
+namespace settings {
+class SettingsController;
+}
+
+/**
+ * UserSettings is the runtime settings model exposed to QML.
+ *
+ * It owns the in-memory state and emits change notifications for UI components.
+ * It does not handle policy/transport details (for example profile path
+ * resolution, staged loads, or secure storage layout); those concerns are now
+ * orchestrated through settings::SettingsController.
+ */
 class UserSettings final : public QObject
 {
     Q_OBJECT
@@ -168,6 +180,8 @@ class UserSettings final : public QObject
     UserSettings();
 
 public:
+    friend class settings::SettingsController;
+
     static QSharedPointer<UserSettings> instance();
     static void initialize(std::optional<QString> profile);
     static UserSettings *create(QQmlEngine *qmlEngine, QJSEngine *)
@@ -649,6 +663,12 @@ private:
 
 class UserSettingsModel : public QAbstractListModel
 {
+    /**
+     * UserSettingsModel adapts runtime setting metadata for QML presentation.
+     *
+     * It renders sections + setting rows as a list model, provides role-based values
+     * for delegates, and forwards edits back to the singleton `UserSettings`.
+     */
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON

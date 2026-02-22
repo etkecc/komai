@@ -9,11 +9,16 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include "settings/StagedLoadPlan.h"
 #include "settings/SettingKeys.h"
+#include "settings/StagedLoadPlan.h"
 
 namespace settings::persistence {
 
+/**
+ * Functions that bridge settings persistence across file-backed and secure-backend
+ * storage. This layer owns provider selection, validation/normalization of
+ * profile secret payloads, and serialization/deserialization of secrets.
+ */
 struct SecretsPayload
 {
     QString accessToken;
@@ -21,19 +26,39 @@ struct SecretsPayload
     bool hadStaleValues = false;
 };
 
+/**
+ * Resolve the effective secret provider taking command-line/runtime overrides into
+ * account.
+ */
 staged_load_plan::SecretsProvider
 providerFromConfig(const YAML::Node &configRoot, bool runWithoutSecureSecretsService);
 
-SecretsPayload loadProfileSecrets(const QString &profile,
-                                 bool runWithoutSecureSecretsService,
-                                 const QString &secretsFilePath);
+/**
+ * Load secrets/session auth payload for the given profile using the resolved
+ * provider.
+ */
+SecretsPayload
+loadProfileSecrets(const QString &profile,
+                   bool runWithoutSecureSecretsService,
+                   const QString &secretsFilePath);
 
-void saveProfileSecrets(const QString &profile,
-                       bool runWithoutSecureSecretsService,
-                       const QString &secretsFilePath,
-                       const QString &accessToken,
-                       const QMap<QString, QString> &secrets);
+/**
+ * Persist session auth and profile secrets using the selected provider.
+ */
+void
+saveProfileSecrets(const QString &profile,
+                   bool runWithoutSecureSecretsService,
+                   const QString &secretsFilePath,
+                   const QString &accessToken,
+                   const QMap<QString, QString> &secrets);
 
-bool clearProfileSecrets(const QString &profile, bool runWithoutSecureSecretsService, const QString &secretsFilePath);
+/**
+ * Remove all persisted session secrets/auth for a profile from both file-backed and
+ * secure backends.
+ */
+bool
+clearProfileSecrets(const QString &profile,
+                    bool runWithoutSecureSecretsService,
+                    const QString &secretsFilePath);
 
 } // namespace settings::persistence

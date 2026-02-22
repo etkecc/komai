@@ -4,7 +4,57 @@ This document describes Komai's current configuration and secret persistence arc
 
 ## Overview
 
-Komai keeps a flat runtime `UserSettings` API (Qt properties/signals) but persists data by concern into separate per-profile files.
+Komai keeps a runtime `UserSettings` API (Qt properties/signals) and persists it across multiple profile-scoped stores (`config.yml`, `state.yml`, `session.yml`, `secrets.yml`).
+
+Responsibility split:
+
+- `UserSettings` owns the in-memory settings model and exposes QML properties/signals.
+- `settings::SettingsController` owns profile orchestration: path setup, staged loading, save orchestration, and auth/session clearing.
+- `settings::staged_load_plan` defines the load stages and how secrets-provider selection affects them.
+- `settings::persistence` handles secret-provider plumbing and serializing secret payloads.
+- `settings::storage` owns low-level file/keyring/YAML operations and profile path resolution.
+- `settings::bootstrap` owns startup-only reads that must happen before `Q(Core)Application` is created.
+
+### Responsibility map
+
+- `src/UserSettingsPage.h/.cpp` (`UserSettings`)
+  - Runtime settings API: `Q_PROPERTY`, signals, and getters/setters for UI consumption.
+  - In-memory defaults and current values.
+  - Delegates profile load/save/clear orchestration to `settings::SettingsController`.
+
+Settings flow:
+
+- startup:
+  - `main.cpp` computes profile from args, reads pre-UI scale factor from `config.yml`, and initializes
+    `UserSettings` before constructing visual UI (`MainWindow`).
+  - `main.cpp` delegates this pre-UI read to `settings::bootstrap::readUiScaleFactor(...)` to keep
+    startup-only logic isolated from settings orchestration.
+  - `ThemeRegistry::initialize()` and logging are set up before UI creation.
+  - `UserSettings::load(profile)` calls `settings::SettingsController::load(...)`.
+  - Controller resolves profile paths, runs staged config/session/secret/state load, then applies theme.
+- runtime mutation:
+  - QML delegates mutate through `UserSettingsModel` -> `UserSettings`.
+  - `UserSettings` updates in-memory values and persists via controller orchestration in `save()`.
+- exit/logout:
+  - `UserSettings::clearAuth()` delegates to controller to erase auth/session data and secrets.
+
+- `src/settings/SettingsController.h/.cpp` (`settings::SettingsController`)
+  - Profile lifecycle orchestration (`load`, `save`, `clearAuth`).
+  - Profile path resolution and stage sequencing.
+  - Top-level read/write ordering and event notifications.
+- `src/settings/SettingsPersistence.h/.cpp`
+  - Secret provider strategy and secrets payload handling (`secret_service` vs `file`).
+  - Payload load/save/cleanup for auth and per-profile secret maps.
+- `src/settings/SettingsStorage.h/.cpp`
+  - Profile path helpers (`configFilePathForProfile`, etc.).
+  - YAML file IO (`loadYamlFile`, `writeYamlFile`).
+  - Keychain wrappers (`readSecureValue`, `writeSecureValue`, `deleteSecureValue`).
+- `src/settings/SettingKeys.h`
+  - Canonical settings keys for all persisted scopes (config/state/session/secrets/runtime).
+- `src/settings/StagedLoadPlan.h`
+  - Startup stage ordering and secrets-provider dispatch plan.
+- `src/UserSettingsPage.h/.cpp` (`UserSettingsModel`)
+  - UI adapter that maps setting metadata to rows, roles, and tab-filtered models.
 
 Profile directory:
 
@@ -32,17 +82,26 @@ Reference examples:
 
 ## Persistence Model
 
-Primary implementation:
+Primary implementation files:
 
 - `src/UserSettingsPage.cpp`
 - `src/UserSettingsPage.h`
+- `src/settings/SettingsController.cpp`
+- `src/settings/SettingsController.h`
+- `src/settings/SettingsPersistence.cpp`
+- `src/settings/SettingsPersistence.h`
+- `src/settings/SettingsStorage.cpp`
+- `src/settings/SettingsStorage.h`
 
-Persistence split:
+Persistence entry points:
 
+- `UserSettings::load(...)` delegates to `settings::SettingsController`.
 - `UserSettings::loadConfigYaml(...)` / `saveConfigYaml()`
 - `UserSettings::loadSessionYaml(...)` / `saveSessionYaml()`
-- `UserSettings::loadSecretsYaml(...)` / `saveSecretsYaml()`
+- `UserSettings::saveSecretsYaml()`
 - `UserSettings::loadStateYaml(...)` / `saveStateYaml()`
+- `settings::SettingsController::save(...)`
+- `settings::SettingsController::clearAuth(...)`
 
 YAML key hierarchy is nested/dotted (for example `timeline.messages.layout.bubbles`).
 

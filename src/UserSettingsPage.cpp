@@ -4,7 +4,6 @@
 
 #include <QApplication>
 #include <QCoreApplication>
-#include <QDir>
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -28,6 +27,7 @@
 #include "Utils.h"
 #include "encryption/Olm.h"
 #include "settings/SettingKeys.h"
+#include "settings/SettingsController.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
@@ -40,14 +40,11 @@
 
 namespace {
 using settings::storage::configFilePathForProfile;
-using settings::storage::loadYamlFile;
 using settings::storage::profileDirPath;
 using settings::storage::secretsFilePathForProfile;
 using settings::storage::sessionFilePathForProfile;
 using settings::storage::stateFilePathForProfile;
 using settings::storage::writeYamlFile;
-
-using settings::persistence::providerFromConfig;
 using yaml_settings::readNestedStringLists;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
@@ -332,56 +329,8 @@ UserSettings::initialize(std::optional<QString> profile)
 void
 UserSettings::load(std::optional<QString> profile)
 {
-    if (profile)
-        profile_ = (*profile == QLatin1String("default")) ? QLatin1String("") : *profile;
-    else
-        profile_ = QLatin1String("");
-
-    profileDirPath_  = profileDirPath(profile_);
-    configFilePath_  = configFilePathForProfile(profile_);
-    stateFilePath_   = stateFilePathForProfile(profile_);
-    sessionFilePath_ = sessionFilePathForProfile(profile_);
-    secretsFilePath_ = secretsFilePathForProfile(profile_);
-    QDir().mkpath(profileDirPath_);
-
-    // Staged loading:
-    // 1) config.yml (resolves secrets.provider)
-    // 2) session.yml (account metadata)
-    // 3) secrets source (secure backend or secrets.yml file fallback)
-    // 4) state.yml (runtime/window/layout)
-    const auto configRoot = loadYamlFile(configFilePath_, "config");
-    loadConfigYaml(configRoot);
-
-    const auto provider = providerFromConfig(configRoot, runWithoutSecureSecretsService_);
-    runWithoutSecureSecretsService_ = provider == staged_load_plan::SecretsProvider::File;
-    for (const auto stage : staged_load_plan::stagesForProvider(provider)) {
-        switch (stage) {
-        case staged_load_plan::Stage::Config:
-            break;
-        case staged_load_plan::Stage::Session: {
-            const auto sessionRoot = loadYamlFile(sessionFilePath_, "session");
-            loadSessionYaml(sessionRoot);
-            break;
-        }
-        case staged_load_plan::Stage::SecretsSecureBackend:
-        case staged_load_plan::Stage::SecretsFile: {
-            const auto payload = settings::persistence::loadProfileSecrets(
-              profile_, runWithoutSecureSecretsService_, secretsFilePath_);
-            accessToken_ = payload.accessToken;
-            secrets_     = payload.secrets;
-        } break;
-        case staged_load_plan::Stage::State: {
-            const auto stateRoot = loadYamlFile(stateFilePath_, "state");
-            loadStateYaml(stateRoot);
-            break;
-        }
-        }
-    }
-
-    applyTheme();
-
-    if (profile)
-        emit profileChanged(profile_);
+    settings::SettingsController controller;
+    controller.load(*this, profile);
 }
 
 void
@@ -698,21 +647,8 @@ UserSettings::setWindowHeight(int s)
 void
 UserSettings::clearAuth()
 {
-    nhlog::ui()->info("Clearing persisted session auth/identity for profile '{}'",
-                      app_paths::normalizedProfileId(profile_).toStdString());
-
-    accessToken_ = QString();
-    homeserver_  = QString();
-    userId_      = QString();
-    deviceId_    = QString();
-    secrets_.clear();
-
-    // Persist session/auth changes, then clear secrets material.
-    saveSessionYaml();
-    settings::persistence::clearProfileSecrets(
-      profile_, runWithoutSecureSecretsService_, secretsFilePath_);
-
-    saveStateYaml();
+    settings::SettingsController controller;
+    controller.clearAuth(*this);
 }
 
 bool
@@ -1305,18 +1241,8 @@ UserSettings::applyTheme()
 void
 UserSettings::save()
 {
-    if (profileDirPath_.isEmpty()) {
-        profileDirPath_  = profileDirPath(profile_);
-        configFilePath_  = configFilePathForProfile(profile_);
-        stateFilePath_   = stateFilePathForProfile(profile_);
-        sessionFilePath_ = sessionFilePathForProfile(profile_);
-        secretsFilePath_ = secretsFilePathForProfile(profile_);
-    }
-
-    saveConfigYaml();
-    saveSessionYaml();
-    saveSecretsYaml();
-    saveStateYaml();
+    settings::SettingsController controller;
+    controller.save(*this);
 }
 
 void

@@ -99,134 +99,140 @@ Item {
                         }
                     }
 
-                    DelegateChooser {
-                        id: chooser
+                    Item {
+                        id: chooserContainer
                         visible: r.model.type != UserSettingsModel.SectionTitle
 
-                        roleValue: r.model.type
                         Layout.alignment: Qt.AlignRight
-
                         Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !root.collapsed) ? 2 : 1
-                        Layout.preferredHeight: child.height
-                        Layout.preferredWidth: child.implicitWidth
+                        Layout.preferredHeight: childrenRect.height
+                        Layout.preferredWidth: childrenRect.width
                         Layout.maximumWidth: r.model.type == UserSettingsModel.SectionTitle ? Number.POSITIVE_INFINITY : 400
                         Layout.fillWidth: r.model.type == UserSettingsModel.SectionTitle || r.model.type == UserSettingsModel.Options || r.model.type == UserSettingsModel.Number
                         Layout.rightMargin: r.model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
 
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.Toggle
-                            SettingControlToggle {
-                                value: r.model.value
-                                onToggled: r.model.value = value
-                                enabled: r.model.enabled
+                        DelegateChooser {
+                            id: chooser
+                            roleValue: r.model.type
+                            anchors.right: parent.right
+
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.Toggle
+                                SettingControlToggle {
+                                    value: r.model.value
+                                    onToggledValue: r.model.value = value
+                                    enabled: r.model.enabled
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.Options
-                            SettingControlCombo {
-                                anchors.right: parent.right
-                                value: r.model.value
-                                values: r.model.values
-                                width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
-                                onActivatedValueChanged: function(index) {
-                                    if (index !== r.model.value) {
-                                        r.model.value = index;
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.Options
+                                SettingControlCombo {
+                                    anchors.right: parent.right
+                                    value: r.model.value
+                                    values: r.model.values
+                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
+                                    onActivatedValueChanged: function(index) {
+                                        if (index !== r.model.value) {
+                                            r.model.value = index;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.ThemeSelector
-                            SettingRowThemeSelector {
-                                model: r.model
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.ThemeSelector
+                                SettingRowThemeSelector {
+                                    model: r.model
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.Integer
-                            SettingRowInteger {
-                                model: r.model
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.Integer
+                                SettingRowInteger {
+                                    model: r.model
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.Double
-                            SettingRowDouble {
-                                model: r.model
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.Double
+                                SettingRowDouble {
+                                    model: r.model
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.ReadOnlyText
-                            SettingRowReadOnlyText {
-                                model: r.model
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.ReadOnlyText
+                                SettingRowReadOnlyText {
+                                    model: r.model
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.Link
-                            SettingRowLink {
-                                model: r.model
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.Link
+                                SettingRowLink {
+                                    model: r.model
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.TextInput
-                            SettingControlTextInput {
-                                id: textSettingField
-                                anchors.right: parent.right
-                                textValue: r.model.value
-                                onSubmitted: r.model.value = text
-                                width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.TextInput
+                                SettingControlTextInput {
+                                    id: textSettingField
+                                    anchors.right: parent.right
+                                    textValue: r.model.value
+                                    onSubmitted: function (value) {
+                                        r.model.value = value;
+                                    }
+                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.SectionTitle
-                            SettingsSection {
-                                width: grid.width
-                                label: r.model.name
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.SectionTitle
+                                SettingsSection {
+                                    width: grid.width
+                                    label: r.model.name
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.KeyStatus
-                            SettingRowKeyStatus {
-                                model: r.model
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.KeyStatus
+                                SettingRowKeyStatus {
+                                    model: r.model
+                                }
                             }
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.SessionKeyImportExport
-                            SettingRowSessionKeys {}
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.XSignKeysRequestDownload
-                            SettingRowXSignKeys {}
-                        }
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.ConfigureHiddenEvents
-                            SettingRowHiddenEvents {}
-                        }
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.SessionKeyImportExport
+                                SettingRowSessionKeys {}
+                            }
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.XSignKeysRequestDownload
+                                SettingRowXSignKeys {}
+                            }
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.ConfigureHiddenEvents
+                                SettingRowHiddenEvents {}
+                            }
 
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.ManageIgnoredUsers
-                            SettingRowIgnoredUsers {}
-                        }
-
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.AccessTokenField
-                            SettingRowAccessTokenField {
-                                model: r.model
-                                width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.ManageIgnoredUsers
+                                SettingRowIgnoredUsers {}
                             }
-                        }
 
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.ProfileButton
-                            SettingRowProfileButton {}
-                        }
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.AccessTokenField
+                                SettingRowAccessTokenField {
+                                    model: r.model
+                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
+                                }
+                            }
 
-                        DelegateChoice {
-                            roleValue: UserSettingsModel.LogoutButton
-                            SettingRowLogout {}
-                        }
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.ProfileButton
+                                SettingRowProfileButton {}
+                            }
 
-                        DelegateChoice {
-                            SettingRowReadOnlyValue {
-                                model: r.model
+                            DelegateChoice {
+                                roleValue: UserSettingsModel.LogoutButton
+                                SettingRowLogout {}
+                            }
+
+                            DelegateChoice {
+                                SettingRowReadOnlyValue {
+                                    model: r.model
+                                }
                             }
                         }
                     }

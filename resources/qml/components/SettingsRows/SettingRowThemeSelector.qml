@@ -11,16 +11,25 @@ import im.nheko
 Item {
     required property var model
 
+    readonly property var safeThemeVariantValues:
+        (model && model.themeVariantValues !== undefined) ? model.themeVariantValues : []
+    readonly property int safeThemeVariantValue:
+        (model && model.themeVariantValue !== undefined) ? model.themeVariantValue : 0
+    readonly property var safeValues: (model && model.values !== undefined) ? model.values : []
+    readonly property int safeValue: (model && model.value !== undefined) ? model.value : 0
+
     RowLayout {
         anchors.right: parent.right
         spacing: Nheko.paddingSmall
 
         ComboBox {
             id: variantCombo
-            model: model.themeVariantValues
-            currentIndex: model.themeVariantValue
+            model: safeThemeVariantValues
+            currentIndex: safeThemeVariantValue
             onActivated: {
-                if (currentIndex !== model.themeVariantValue)
+                if (!model)
+                    return;
+                if (currentIndex !== safeThemeVariantValue)
                     model.themeVariantValue = currentIndex;
             }
             implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
@@ -30,10 +39,12 @@ Item {
         ComboBox {
             id: themeCombo
             visible: variantCombo.currentIndex !== 2
-            model: model.values
-            currentIndex: model.value
+            model: safeValues
+            currentIndex: safeValue
             onActivated: {
-                if (currentIndex >= 0 && currentIndex !== model.value)
+                if (!model)
+                    return;
+                if (currentIndex >= 0 && currentIndex !== safeValue)
                     model.value = currentIndex;
             }
             implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted

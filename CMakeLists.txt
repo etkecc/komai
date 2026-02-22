@@ -907,12 +907,30 @@ set(QML_SOURCES
     resources/qml/components/MainWindowDialog.qml
     resources/qml/components/NhekoTabButton.qml
     resources/qml/components/NotificationBubble.qml
+    resources/qml/components/SettingsSection.qml
     resources/qml/components/PowerlevelIndicator.qml
     resources/qml/components/ReorderableListview.qml
     resources/qml/components/SpaceMenu.qml
     resources/qml/components/SpaceMenuLevel.qml
     resources/qml/components/TextButton.qml
     resources/qml/components/UserListRow.qml
+    resources/qml/components/SettingControlCombo.qml
+    resources/qml/components/SettingControlTextInput.qml
+    resources/qml/components/SettingControlToggle.qml
+    resources/qml/components/SettingsRows/SettingRowInteger.qml
+    resources/qml/components/SettingsRows/SettingRowXSignKeys.qml
+    resources/qml/components/SettingsRows/SettingRowAccessTokenField.qml
+    resources/qml/components/SettingsRows/SettingRowProfileButton.qml
+    resources/qml/components/SettingsRows/SettingRowKeyStatus.qml
+    resources/qml/components/SettingsRows/SettingRowSessionKeys.qml
+    resources/qml/components/SettingsRows/SettingRowLogout.qml
+    resources/qml/components/SettingsRows/SettingRowDouble.qml
+    resources/qml/components/SettingsRows/SettingRowReadOnlyText.qml
+    resources/qml/components/SettingsRows/SettingRowLink.qml
+    resources/qml/components/SettingsRows/SettingRowIgnoredUsers.qml
+    resources/qml/components/SettingsRows/SettingRowThemeSelector.qml
+    resources/qml/components/SettingsRows/SettingRowReadOnlyValue.qml
+    resources/qml/components/SettingsRows/SettingRowHiddenEvents.qml
     resources/qml/delegates/Encrypted.qml
     resources/qml/delegates/FileMessage.qml
     resources/qml/delegates/ImageMessage.qml

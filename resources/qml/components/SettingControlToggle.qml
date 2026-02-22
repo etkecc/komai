@@ -6,13 +6,27 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
-ToggleButton {
+Item {
     id: root
 
     required property bool value
 
-    signal toggled(bool value)
+    signal toggledValue(bool value)
 
-    checked: value
-    onClicked: toggled(checked)
+    onEnabledChanged: button.enabled = enabled
+
+    implicitWidth: button.implicitWidth
+    implicitHeight: button.implicitHeight
+
+    ToggleButton {
+        id: button
+
+        checked: root.value
+        onToggled: {
+            root.value = checked;
+            root.toggledValue(checked);
+        }
+    }
+
+    Component.onCompleted: button.enabled = enabled
 }

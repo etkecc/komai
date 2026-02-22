@@ -14,9 +14,9 @@ namespace db {
 
 void
 removeStateEventIdsForStateKey(Txn &txn,
-                              Store &statesKeyDb,
-                              std::string_view eventType,
-                              std::string_view stateKey)
+                               Store &statesKeyDb,
+                               std::string_view eventType,
+                               std::string_view stateKey)
 {
     std::vector<std::string> valuesToRemove;
     forEachDupValue(txn, statesKeyDb, eventType, [&](std::string_view value) {

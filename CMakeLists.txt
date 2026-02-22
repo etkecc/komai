@@ -477,6 +477,56 @@ set(SRC_FILES
     src/BlurhashProvider.cpp
     src/BlurhashProvider.h
     src/Cache.cpp
+    src/CacheCore.cpp
+    src/CacheCoreHelpers.cpp
+    src/CacheLifecycleRooms.cpp
+    src/CacheLifecycleState.cpp
+    src/CacheLifecycleMigrations.cpp
+    src/CacheLifecycleStateHelpers.cpp
+    src/CacheLifecycleStateHelpersGetters.cpp
+    src/CacheLifecycleSync.cpp
+    src/CacheLifecycleSyncSaveState.cpp
+    src/CacheLifecycleSyncSaveStateHelpers.cpp
+    src/CacheLifecycleSyncHelpers.cpp
+    src/CacheLifecycleMigrationsHelpers.cpp
+    src/CacheLifecycle.cpp
+    src/CacheSetup.cpp
+    src/CacheMembership.cpp
+    src/CacheMembershipHelpers.cpp
+    src/CacheMembershipHelpersInvites.cpp
+    src/CacheRoomInfo.cpp
+    src/CacheRoomInfoHelpersGetters.cpp
+    src/CacheRoomInfoHelpers.cpp
+    src/CacheRoomInfoHelpersInvites.cpp
+    src/CacheSpaces.cpp
+    src/CacheSpacesImagePacks.cpp
+    src/CacheTimeline.cpp
+    src/CacheTimelineHelpers.cpp
+    src/CacheTimelineReadHelpers.cpp
+    src/CacheTimelinePending.cpp
+    src/CacheTimelineRead.cpp
+    src/CacheApiWrappersState.cpp
+    src/CacheCrypto.cpp
+    src/CacheCryptoMegolm.cpp
+    src/CacheCryptoMegolmHelpers.cpp
+    src/CacheCryptoMegolmMetadata.cpp
+    src/CacheCryptoOlm.cpp
+    src/CacheCryptoSecrets.cpp
+    src/CacheCryptoSecretsHelpers.cpp
+    src/CacheCryptoSecretsStoreHelpers.cpp
+    src/CacheCoreHelpersDisplay.cpp
+    src/CacheUserProfile.cpp
+    src/CacheUserKeys.cpp
+    src/CacheUserKeysNetwork.cpp
+    src/CacheUserKeysVerification.cpp
+    src/CacheUserKeysVerificationHelpers.cpp
+    src/CacheUserTrust.cpp
+    src/CacheApiWrappers.cpp
+    src/CacheApiWrappersHelpers.cpp
+    src/CacheApiWrappersHelpersSignals.cpp
+    src/CacheApiWrappersTimeline.cpp
+    src/CacheApiWrappersRoom.cpp
+    src/CacheApiWrappersCrypto.cpp
     src/Cache.h
     src/CacheCryptoStructs.cpp
     src/CacheCryptoStructsQml.cpp

@@ -117,21 +117,20 @@ RoomlistModel::data(const QModelIndex &index, int role) const
                                                   : QLatin1String("");
         }
 
-            if (models.contains(roomid)) {
+        if (models.contains(roomid)) {
             auto room = models.value(roomid);
             switch (role) {
-            case Roles::AvatarUrl:
-                {
-                    const auto roomModelAvatar = room->roomAvatarUrl();
-                    if (!roomModelAvatar.isEmpty())
-                        return roomModelAvatar;
-
-                    const auto avatarUrl = cache::roomAvatarUrl(roomid.toStdString());
-                    if (!avatarUrl.isEmpty())
-                        return avatarUrl;
-
+            case Roles::AvatarUrl: {
+                const auto roomModelAvatar = room->roomAvatarUrl();
+                if (!roomModelAvatar.isEmpty())
                     return roomModelAvatar;
-                }
+
+                const auto avatarUrl = cache::roomAvatarUrl(roomid.toStdString());
+                if (!avatarUrl.isEmpty())
+                    return avatarUrl;
+
+                return roomModelAvatar;
+            }
             case Roles::RoomName:
                 return room->plainRoomName();
             case Roles::LastMessage:

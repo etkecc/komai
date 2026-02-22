@@ -9,12 +9,12 @@
 #include <cstdint>
 #include <cstring>
 #include <filesystem>
+#include <map>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <string_view>
-#include <mutex>
-#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -34,15 +34,15 @@
 
 namespace {
 
-constexpr char kStorePrefixSeparator = '\0';
+constexpr char kStorePrefixSeparator        = '\0';
 constexpr std::string_view kStoreMetaPrefix = "__komai_db_meta/";
 constexpr std::string_view kStoreDataPrefix = "__komai_db_data/";
-constexpr std::size_t kIntegerKeySize      = sizeof(std::uint64_t);
+constexpr std::size_t kIntegerKeySize       = sizeof(std::uint64_t);
 
 struct StoreConfig
 {
-    db::StoreFlags flags = db::StoreFlags::None;
-    bool hasComparator   = false;
+    db::StoreFlags flags             = db::StoreFlags::None;
+    bool hasComparator               = false;
     db::DupsortComparator comparator = db::DupsortComparator::StateKey;
 };
 
@@ -175,10 +175,11 @@ decodeValueList(std::string_view raw, std::vector<std::string> &values)
         if (offset + sizeof(std::uint32_t) > raw.size())
             return false;
 
-        const auto length = (static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset])) << 24) |
-                           (static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset + 1])) << 16) |
-                           (static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset + 2])) << 8) |
-                           static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset + 3]));
+        const auto length =
+          (static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset])) << 24) |
+          (static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset + 1])) << 16) |
+          (static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset + 2])) << 8) |
+          static_cast<std::uint32_t>(static_cast<unsigned char>(raw[offset + 3]));
         offset += sizeof(std::uint32_t);
         if (offset + length > raw.size())
             return false;
@@ -210,7 +211,8 @@ throwIfRocksError(const rocksdb::Status &status, const char *context)
 db::Error
 backendMismatchError(const char *object)
 {
-    return db::Error(std::string("Database backend mismatch for ") + object, db::ErrorKind::Invalid);
+    return db::Error(std::string("Database backend mismatch for ") + object,
+                     db::ErrorKind::Invalid);
 }
 
 class RocksDbTxnImpl final : public db::detail::TxnImpl
@@ -240,8 +242,7 @@ public:
         }
     }
 
-    void
-    commit() override
+    void commit() override
     {
         if (done_)
             return;
@@ -263,25 +264,23 @@ public:
         options.sync = (durability_ == db::Durability::Durable);
         throwIfRocksError(db_->Write(options, &batch_), "Failed to commit RocksDB transaction");
 
-        done_        = true;
-        active_      = false;
+        done_   = true;
+        active_ = false;
         batch_.Clear();
         pendingWrites_.clear();
         readCache_.clear();
     }
 
-    void
-    abort() override
+    void abort() override
     {
-        done_        = true;
-        active_      = false;
+        done_   = true;
+        active_ = false;
         batch_.Clear();
         pendingWrites_.clear();
         readCache_.clear();
     }
 
-    void
-    renew() override
+    void renew() override
     {
         if (!readOnly_) {
             throw db::Error("Cannot renew read-write RocksDB transaction", db::ErrorKind::Invalid);
@@ -304,8 +303,7 @@ public:
         active_ = true;
     }
 
-    void
-    reset() noexcept override
+    void reset() noexcept override
     {
         if (readOnly_ && snapshot_) {
             db_->ReleaseSnapshot(snapshot_);
@@ -313,8 +311,8 @@ public:
             batch_.Clear();
             pendingWrites_.clear();
             readCache_.clear();
-            active_  = true;
-            done_    = false;
+            active_ = true;
+            done_   = false;
             return;
         }
 
@@ -325,20 +323,11 @@ public:
         done_   = false;
     }
 
-    bool
-    isReadOnly() const noexcept
-    {
-        return readOnly_;
-    }
+    bool isReadOnly() const noexcept { return readOnly_; }
 
-    const rocksdb::Snapshot *
-    snapshot() const noexcept
-    {
-        return snapshot_;
-    }
+    const rocksdb::Snapshot *snapshot() const noexcept { return snapshot_; }
 
-    void
-    detach() noexcept
+    void detach() noexcept
     {
         if (snapshot_) {
             db_->ReleaseSnapshot(snapshot_);
@@ -350,50 +339,37 @@ public:
         readCache_.clear();
     }
 
-    rocksdb::DB *
-    db() const noexcept
-    {
-        return db_.get();
-    }
+    rocksdb::DB *db() const noexcept { return db_.get(); }
 
-    std::uint64_t
-    generation() const noexcept
-    {
-        return generation_;
-    }
+    std::uint64_t generation() const noexcept { return generation_; }
 
-    rocksdb::WriteBatch &
-    batch()
+    rocksdb::WriteBatch &batch()
     {
         if (done_)
             throw db::Error("Cannot write to inactive RocksDB transaction", db::ErrorKind::Invalid);
         return batch_;
     }
 
-    void
-    markDeleted(std::string_view key)
+    void markDeleted(std::string_view key)
     {
         readCache_.erase(std::string(key));
         batch().Delete(std::string(key));
         pendingWrites_[std::string(key)] = std::nullopt;
     }
 
-    void
-    markWritten(std::string_view key, std::string_view value)
+    void markWritten(std::string_view key, std::string_view value)
     {
         readCache_.erase(std::string(key));
         pendingWrites_[std::string(key)] = std::string(value);
     }
 
-    bool
-    isDeleted(std::string_view key) const noexcept
+    bool isDeleted(std::string_view key) const noexcept
     {
         const auto it = pendingWrites_.find(std::string(key));
         return it != pendingWrites_.end() && !it->second.has_value();
     }
 
-    bool
-    getPending(std::string_view key, std::string &value) const
+    bool getPending(std::string_view key, std::string &value) const
     {
         const auto it = pendingWrites_.find(std::string(key));
         if (it == pendingWrites_.end() || !it->second.has_value())
@@ -402,8 +378,7 @@ public:
         return true;
     }
 
-    bool
-    getCachedRead(std::string_view key, std::string_view &value) const noexcept
+    bool getCachedRead(std::string_view key, std::string_view &value) const noexcept
     {
         const auto pendingIt = pendingWrites_.find(std::string(key));
         if (pendingIt != pendingWrites_.end()) {
@@ -422,29 +397,31 @@ public:
         return true;
     }
 
-    std::string_view
-    cacheRead(std::string_view key, std::string_view value)
+    std::string_view cacheRead(std::string_view key, std::string_view value)
     {
         auto &entry = readCache_[std::string(key)];
-        entry        = std::string(value);
+        entry       = std::string(value);
         return entry;
     }
 
 private:
     std::shared_ptr<rocksdb::DB> db_;
-    std::uint64_t generation_ = 0;
-    db::Durability durability_ = db::Durability::Relaxed;
-    bool readOnly_ = false;
+    std::uint64_t generation_          = 0;
+    db::Durability durability_         = db::Durability::Relaxed;
+    bool readOnly_                     = false;
     const rocksdb::Snapshot *snapshot_ = nullptr;
-    bool done_ = false;
-    bool active_ = true;
+    bool done_                         = false;
+    bool active_                       = true;
     rocksdb::WriteBatch batch_;
     std::map<std::string, std::string> readCache_;
     std::unordered_map<std::string, std::optional<std::string>> pendingWrites_;
 };
 
 bool
-readFromTransaction(RocksDbTxnImpl &txn, std::string_view key, std::string &value, const char *context)
+readFromTransaction(RocksDbTxnImpl &txn,
+                    std::string_view key,
+                    std::string &value,
+                    const char *context)
 {
     if (txn.getPending(key, value))
         return true;
@@ -472,23 +449,15 @@ public:
     {
     }
 
-    bool
-    get(std::string_view &key, std::string_view &value, db::CursorOp op) override;
+    bool get(std::string_view &key, std::string_view &value, db::CursorOp op) override;
 
-    bool
-    get(std::string_view &key, db::CursorOp op) override;
+    bool get(std::string_view &key, db::CursorOp op) override;
 
-    bool
-    put(std::string_view key, std::string_view value, db::PutFlags flags) override;
+    bool put(std::string_view key, std::string_view value, db::PutFlags flags) override;
 
-    bool
-    del(unsigned flags) override;
+    bool del(unsigned flags) override;
 
-    void
-    close() override
-    {
-        closed_ = true;
-    }
+    void close() override { closed_ = true; }
 
 private:
     struct Item
@@ -497,29 +466,26 @@ private:
         std::string value;
     };
 
-    enum class Direction {
+    enum class Direction
+    {
         None,
         Next,
         Prev,
     };
 
-    bool
-    loadItems();
-    bool
-    getImpl(std::string_view &key, std::string_view &value, db::CursorOp op, bool withValue);
-    bool
-    findByOp(db::CursorOp op, std::string_view key, std::string_view value);
-    int
-    compareKeys(std::string_view lhs, std::string_view rhs) const;
+    bool loadItems();
+    bool getImpl(std::string_view &key, std::string_view &value, db::CursorOp op, bool withValue);
+    bool findByOp(db::CursorOp op, std::string_view key, std::string_view value);
+    int compareKeys(std::string_view lhs, std::string_view rhs) const;
 
     std::vector<Item> items_;
-    bool loaded_ = false;
-    bool hasCursor_ = false;
-    bool closed_ = false;
-    bool afterDelete_ = false;
-    bool deleted_ = false;
-    int index_ = -1;
-    int deletedIndex_ = -1;
+    bool loaded_             = false;
+    bool hasCursor_          = false;
+    bool closed_             = false;
+    bool afterDelete_        = false;
+    bool deleted_            = false;
+    int index_               = -1;
+    int deletedIndex_        = -1;
     Direction lastDirection_ = Direction::None;
     std::string keyBuffer_;
     std::string valueBuffer_;
@@ -533,10 +499,10 @@ class RocksDbDbiImpl final : public db::detail::DbiImpl
 {
 public:
     RocksDbDbiImpl(rocksdb::DB *db,
-                    std::string name,
-                    db::StoreFlags flags,
-                    bool hasComparator,
-                    db::DupsortComparator comparator)
+                   std::string name,
+                   db::StoreFlags flags,
+                   bool hasComparator,
+                   db::DupsortComparator comparator)
       : db_(db)
       , name_(std::move(name))
       , openFlags_(flags)
@@ -545,84 +511,48 @@ public:
     {
     }
 
-    bool
-    get(db::detail::TxnImpl &txn, std::string_view key, std::string_view &value) override;
+    bool get(db::detail::TxnImpl &txn, std::string_view key, std::string_view &value) override;
 
-    bool
-    put(db::detail::TxnImpl &txn,
-        std::string_view key,
-        std::string_view value,
-        db::PutFlags flags) override;
+    bool put(db::detail::TxnImpl &txn,
+             std::string_view key,
+             std::string_view value,
+             db::PutFlags flags) override;
 
-    bool
-    del(db::detail::TxnImpl &txn, std::string_view key) override;
+    bool del(db::detail::TxnImpl &txn, std::string_view key) override;
 
-    bool
-    del(db::detail::TxnImpl &txn, std::string_view key, std::string_view value) override;
+    bool del(db::detail::TxnImpl &txn, std::string_view key, std::string_view value) override;
 
-    bool
-    drop(db::detail::TxnImpl &txn, bool del) override;
+    bool drop(db::detail::TxnImpl &txn, bool del) override;
 
-    std::size_t
-    size(db::detail::TxnImpl &txn) override;
+    std::size_t size(db::detail::TxnImpl &txn) override;
 
-    std::unique_ptr<db::detail::CursorImpl>
-    openCursor(db::detail::TxnImpl &txn) override;
+    std::unique_ptr<db::detail::CursorImpl> openCursor(db::detail::TxnImpl &txn) override;
 
-    bool
-    dupSort() const noexcept
-    {
-        return db::hasFlag(openFlags_, db::StoreFlags::DupSort);
-    }
+    bool dupSort() const noexcept { return db::hasFlag(openFlags_, db::StoreFlags::DupSort); }
 
-    bool
-    integerKey() const noexcept
-    {
-        return db::hasFlag(openFlags_, db::StoreFlags::IntegerKey);
-    }
+    bool integerKey() const noexcept { return db::hasFlag(openFlags_, db::StoreFlags::IntegerKey); }
 
-    db::StoreFlags
-    flags() const noexcept
-    {
-        return openFlags_;
-    }
+    db::StoreFlags flags() const noexcept { return openFlags_; }
 
-    const std::string &
-    name() const noexcept
-    {
-        return name_;
-    }
+    const std::string &name() const noexcept { return name_; }
 
-    bool
-    hasComparator() const noexcept
-    {
-        return hasComparator_;
-    }
+    bool hasComparator() const noexcept { return hasComparator_; }
 
-    db::DupsortComparator
-    comparator() const noexcept
-    {
-        return comparator_;
-    }
+    db::DupsortComparator comparator() const noexcept { return comparator_; }
 
-    rocksdb::DB *
-    db() const noexcept
-    {
-        return db_;
-    }
+    rocksdb::DB *db() const noexcept { return db_; }
 
 private:
-    bool
-    readValue(db::detail::TxnImpl &txn, std::string_view key, std::string &value) const;
-    bool
-    readAll(db::detail::TxnImpl &txn, std::string_view key, std::string &value) const;
-    bool
-    readValueList(db::detail::TxnImpl &txn, std::string_view key, std::vector<std::string> &values) const;
-    void
-    writeListValue(db::detail::TxnImpl &txn, std::string_view key, const std::vector<std::string_view> &values);
+    bool readValue(db::detail::TxnImpl &txn, std::string_view key, std::string &value) const;
+    bool readAll(db::detail::TxnImpl &txn, std::string_view key, std::string &value) const;
+    bool readValueList(db::detail::TxnImpl &txn,
+                       std::string_view key,
+                       std::vector<std::string> &values) const;
+    void writeListValue(db::detail::TxnImpl &txn,
+                        std::string_view key,
+                        const std::vector<std::string_view> &values);
 
-    std::string
-    dataKey(std::string_view key) const
+    std::string dataKey(std::string_view key) const
     {
         return encodeStoreKey(name_, key, integerKey());
     }
@@ -630,7 +560,7 @@ private:
     rocksdb::DB *db_;
     std::string name_;
     db::StoreFlags openFlags_;
-    bool hasComparator_ = false;
+    bool hasComparator_               = false;
     db::DupsortComparator comparator_ = db::DupsortComparator::StateKey;
 };
 
@@ -662,7 +592,8 @@ bool
 storeExists(RocksDbTxnImpl &txn, std::string_view name)
 {
     std::string raw;
-    return readFromTransaction(txn, encodeMetaKey(name), raw, "Failed to read RocksDB store metadata");
+    return readFromTransaction(
+      txn, encodeMetaKey(name), raw, "Failed to read RocksDB store metadata");
 }
 
 std::optional<StoreConfig>
@@ -670,7 +601,8 @@ loadStoreConfig(db::detail::TxnImpl &txn, const std::string &name)
 {
     auto &rocksTxn = requireRocksTxn(txn);
     std::string raw;
-    if (!readFromTransaction(rocksTxn, encodeMetaKey(name), raw, "Failed to read RocksDB store metadata")) {
+    if (!readFromTransaction(
+          rocksTxn, encodeMetaKey(name), raw, "Failed to read RocksDB store metadata")) {
         return std::nullopt;
     }
 
@@ -678,13 +610,12 @@ loadStoreConfig(db::detail::TxnImpl &txn, const std::string &name)
         throw db::Error("RocksDB store metadata is corrupt", db::ErrorKind::Invalid);
 
     StoreConfig config;
-    config.flags = static_cast<db::StoreFlags>(static_cast<unsigned char>(raw[0]));
+    config.flags         = static_cast<db::StoreFlags>(static_cast<unsigned char>(raw[0]));
     config.hasComparator = raw.size() >= 2 && raw[1] != '\0';
     if (config.hasComparator) {
         if (raw.size() < 3)
             throw db::Error("RocksDB store metadata is corrupt", db::ErrorKind::Invalid);
-        config.comparator =
-          static_cast<db::DupsortComparator>(static_cast<unsigned char>(raw[2]));
+        config.comparator = static_cast<db::DupsortComparator>(static_cast<unsigned char>(raw[2]));
     }
 
     return config;
@@ -704,7 +635,7 @@ persistStoreConfig(RocksDbTxnImpl &txn, const std::string &name, const StoreConf
         raw.push_back(static_cast<char>(static_cast<unsigned char>(config.comparator)));
 
     const auto meta = encodeMetaKey(name);
-    auto &batch = txn.batch();
+    auto &batch     = txn.batch();
     batch.Put(meta, raw);
     txn.markWritten(meta, raw);
 }
@@ -712,7 +643,7 @@ persistStoreConfig(RocksDbTxnImpl &txn, const std::string &name, const StoreConf
 std::size_t
 countStores(rocksdb::DB *db, const rocksdb::ReadOptions &options)
 {
-    std::size_t count = 0;
+    std::size_t count     = 0;
     const auto metaPrefix = std::string(kStoreMetaPrefix);
     std::unique_ptr<rocksdb::Iterator> iterator(db->NewIterator(options));
     for (iterator->Seek(metaPrefix); iterator->Valid(); iterator->Next()) {
@@ -724,9 +655,12 @@ countStores(rocksdb::DB *db, const rocksdb::ReadOptions &options)
 }
 
 void
-clearStoreData(db::detail::TxnImpl &txn, rocksdb::DB *db, const std::string &name, bool keepMetadata)
+clearStoreData(db::detail::TxnImpl &txn,
+               rocksdb::DB *db,
+               const std::string &name,
+               bool keepMetadata)
 {
-    auto &rocksTxn = requireRocksTxn(txn);
+    auto &rocksTxn    = requireRocksTxn(txn);
     const auto prefix = encodeStorePrefix(name);
     rocksdb::ReadOptions options;
     options.snapshot = rocksTxn.snapshot();
@@ -741,16 +675,16 @@ clearStoreData(db::detail::TxnImpl &txn, rocksdb::DB *db, const std::string &nam
     }
 
     if (!keepMetadata) {
-    const auto metaKey = encodeMetaKey(name);
-    rocksTxn.markDeleted(metaKey);
-    rocksTxn.batch().Delete(metaKey);
+        const auto metaKey = encodeMetaKey(name);
+        rocksTxn.markDeleted(metaKey);
+        rocksTxn.batch().Delete(metaKey);
     }
 }
 
 bool
 RocksDbDbiImpl::readValue(db::detail::TxnImpl &txn, std::string_view key, std::string &value) const
 {
-    auto &rocksTxn = requireRocksTxn(txn);
+    auto &rocksTxn          = requireRocksTxn(txn);
     const auto dataKeyValue = dataKey(key);
     return readFromTransaction(rocksTxn, dataKeyValue, value, "Failed to read RocksDB store data");
 }
@@ -763,8 +697,8 @@ RocksDbDbiImpl::readAll(db::detail::TxnImpl &txn, std::string_view key, std::str
 
 bool
 RocksDbDbiImpl::readValueList(db::detail::TxnImpl &txn,
-                               std::string_view key,
-                               std::vector<std::string> &values) const
+                              std::string_view key,
+                              std::vector<std::string> &values) const
 {
     std::string raw;
     if (!readAll(txn, key, raw))
@@ -777,7 +711,7 @@ RocksDbDbiImpl::writeListValue(db::detail::TxnImpl &txn,
                                std::string_view key,
                                const std::vector<std::string_view> &values)
 {
-    auto &rocksTxn = requireRocksTxn(txn);
+    auto &rocksTxn      = requireRocksTxn(txn);
     const auto storeKey = dataKey(key);
     if (values.empty()) {
         rocksTxn.batch().Delete(storeKey);
@@ -819,13 +753,14 @@ RocksDbDbiImpl::get(db::detail::TxnImpl &txn, std::string_view key, std::string_
 
 bool
 RocksDbDbiImpl::put(db::detail::TxnImpl &txn,
-                     std::string_view key,
-                     std::string_view value,
-                     db::PutFlags /*flags*/)
+                    std::string_view key,
+                    std::string_view value,
+                    db::PutFlags /*flags*/)
 {
     auto &rocksTxn = requireRocksTxn(txn);
     if (rocksTxn.isReadOnly())
-        throw db::Error("Cannot write through read-only RocksDB transaction", db::ErrorKind::Invalid);
+        throw db::Error("Cannot write through read-only RocksDB transaction",
+                        db::ErrorKind::Invalid);
 
     if (!db::hasFlag(openFlags_, db::StoreFlags::DupSort)) {
         auto &batch = rocksTxn.batch();
@@ -839,12 +774,13 @@ RocksDbDbiImpl::put(db::detail::TxnImpl &txn,
     values.emplace_back(value);
 
     if (hasComparator_) {
-        std::sort(values.begin(), values.end(), [&](const std::string &lhs, const std::string &rhs) {
-            const auto cmp = compareDupValues(comparator_, lhs, rhs);
-            if (cmp != 0)
-                return cmp < 0;
-            return lhs < rhs;
-        });
+        std::sort(
+          values.begin(), values.end(), [&](const std::string &lhs, const std::string &rhs) {
+              const auto cmp = compareDupValues(comparator_, lhs, rhs);
+              if (cmp != 0)
+                  return cmp < 0;
+              return lhs < rhs;
+          });
     } else {
         std::sort(values.begin(), values.end());
     }
@@ -862,7 +798,8 @@ RocksDbDbiImpl::del(db::detail::TxnImpl &txn, std::string_view key)
 {
     auto &rocksTxn = requireRocksTxn(txn);
     if (rocksTxn.isReadOnly())
-        throw db::Error("Cannot write through read-only RocksDB transaction", db::ErrorKind::Invalid);
+        throw db::Error("Cannot write through read-only RocksDB transaction",
+                        db::ErrorKind::Invalid);
 
     std::string value;
     if (!readAll(txn, key, value))
@@ -878,7 +815,8 @@ RocksDbDbiImpl::del(db::detail::TxnImpl &txn, std::string_view key, std::string_
 {
     auto &rocksTxn = requireRocksTxn(txn);
     if (rocksTxn.isReadOnly())
-        throw db::Error("Cannot write through read-only RocksDB transaction", db::ErrorKind::Invalid);
+        throw db::Error("Cannot write through read-only RocksDB transaction",
+                        db::ErrorKind::Invalid);
 
     if (!db::hasFlag(openFlags_, db::StoreFlags::DupSort)) {
         std::string current;
@@ -922,7 +860,7 @@ RocksDbDbiImpl::drop(db::detail::TxnImpl &txn, bool del)
 std::size_t
 RocksDbDbiImpl::size(db::detail::TxnImpl &txn)
 {
-    auto &rocksTxn = requireRocksTxn(txn);
+    auto &rocksTxn    = requireRocksTxn(txn);
     std::size_t total = 0;
     rocksdb::ReadOptions options;
     options.snapshot = rocksTxn.snapshot();
@@ -959,7 +897,7 @@ RocksDbCursorImpl::loadItems()
 
     auto &rocksTxnRef = *txn_;
     auto &rocksTxn    = requireRocksTxn(rocksTxnRef);
-    const auto prefix       = encodeStorePrefix(dbi_.name());
+    const auto prefix = encodeStorePrefix(dbi_.name());
 
     items_.clear();
     rocksdb::ReadOptions options;
@@ -987,9 +925,9 @@ RocksDbCursorImpl::loadItems()
         items_.push_back({key, iterator->value().ToString()});
     }
 
-    loaded_ = true;
-    index_ = -1;
-    hasCursor_ = false;
+    loaded_      = true;
+    index_       = -1;
+    hasCursor_   = false;
     afterDelete_ = false;
     return true;
 }
@@ -1083,7 +1021,7 @@ RocksDbCursorImpl::findByOp(db::CursorOp op, std::string_view key, std::string_v
 
         {
             const auto currentKey = afterDelete_ ? deletedKey_ : items_[index_].key;
-            const int start = afterDelete_ ? deletedIndex_ : index_ + 1;
+            const int start       = afterDelete_ ? deletedIndex_ : index_ + 1;
             for (int i = start; i < static_cast<int>(items_.size()); ++i) {
                 if (compareKeys(items_[i].key, currentKey) != 0) {
                     target = i;
@@ -1121,13 +1059,13 @@ RocksDbCursorImpl::getImpl(std::string_view &key,
         return false;
     }
 
-    afterDelete_ = false;
+    afterDelete_  = false;
     deletedIndex_ = -1;
     deleted_      = false;
     hasCursor_    = true;
     keyBuffer_    = items_[index_].key;
     valueBuffer_  = items_[index_].value;
-    key          = keyBuffer_;
+    key           = keyBuffer_;
     if (withValue)
         value = valueBuffer_;
 
@@ -1171,17 +1109,17 @@ RocksDbCursorImpl::del(unsigned /*flags*/)
     if (!hasCursor_ || index_ < 0 || index_ >= static_cast<int>(items_.size()))
         return false;
 
-    auto &txn      = *txn_;
+    auto &txn        = *txn_;
     const auto key   = items_[index_].key;
     const auto value = items_[index_].value;
-    auto &dbi = dbi_;
+    auto &dbi        = dbi_;
 
     if (!dbi.del(txn, key, value))
         return false;
 
-    deletedKey_ = key;
+    deletedKey_   = key;
     deletedIndex_ = index_;
-    afterDelete_ = true;
+    afterDelete_  = true;
 
     items_.erase(items_.begin() + index_);
     if (index_ >= static_cast<int>(items_.size()))
@@ -1204,8 +1142,8 @@ public:
     std::mutex txnMutex;
     std::vector<std::weak_ptr<RocksDbTxnImpl>> txns;
     db::Durability durability = db::Durability::Relaxed;
-    unsigned maxDbs = 0;
-    std::uint64_t generation = 0;
+    unsigned maxDbs           = 0;
+    std::uint64_t generation  = 0;
     std::optional<std::size_t> mapSize;
     std::filesystem::path directory;
 };
@@ -1235,21 +1173,21 @@ RocksDbBackend::open(std::string_view directory, const BackendOptions &options)
     std::filesystem::create_directories(directory);
 
     rocksdb::Options dbOptions;
-    dbOptions.create_if_missing = true;
+    dbOptions.create_if_missing              = true;
     dbOptions.create_missing_column_families = true;
-    dbOptions.compression = rocksdb::kNoCompression;
-    dbOptions.use_fsync = (options.durability == Durability::Durable);
+    dbOptions.compression                    = rocksdb::kNoCompression;
+    dbOptions.use_fsync                      = (options.durability == Durability::Durable);
 
     rocksdb::DB *db = nullptr;
-    throwIfRocksError(
-      rocksdb::DB::Open(dbOptions, std::string(directory), &db), "Failed to open RocksDB backend");
+    throwIfRocksError(rocksdb::DB::Open(dbOptions, std::string(directory), &db),
+                      "Failed to open RocksDB backend");
 
-    impl_->db = std::shared_ptr<rocksdb::DB>(db, [](rocksdb::DB *value) { delete value; });
+    impl_->db        = std::shared_ptr<rocksdb::DB>(db, [](rocksdb::DB *value) { delete value; });
     impl_->directory = directory;
     ++impl_->generation;
     impl_->durability = options.durability;
-    impl_->maxDbs = options.maxDbs;
-    impl_->mapSize = options.mapSizeBytes;
+    impl_->maxDbs     = options.maxDbs;
+    impl_->mapSize    = options.mapSizeBytes;
 }
 
 void
@@ -1289,8 +1227,8 @@ RocksDbBackend::beginTxn(Txn *parent, TxnFlags flags)
         throw Error("Nested RocksDB transactions are not implemented", ErrorKind::Invalid);
 
     const bool readOnly = hasFlag(flags, TxnFlags::ReadOnly);
-    auto txn = std::make_shared<RocksDbTxnImpl>(
-      impl_->db, impl_->generation, readOnly, impl_->durability);
+    auto txn =
+      std::make_shared<RocksDbTxnImpl>(impl_->db, impl_->generation, readOnly, impl_->durability);
     {
         std::scoped_lock lock{impl_->txnMutex};
         impl_->txns.push_back(txn);
@@ -1308,7 +1246,7 @@ RocksDbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOption
     if (name.empty())
         throw Error("Database name must not be empty", ErrorKind::Invalid);
 
-    auto &rocksTxn = requireRocksTxn(*detail::txnImpl(txn));
+    auto &rocksTxn   = requireRocksTxn(*detail::txnImpl(txn));
     const auto flags = options.flags;
     const std::string dbName{name};
     const bool exists = storeExists(rocksTxn, dbName);
@@ -1331,15 +1269,11 @@ RocksDbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOption
         config.flags = flags;
         if (options.dupsortComparator.has_value()) {
             config.hasComparator = true;
-            config.comparator = *options.dupsortComparator;
+            config.comparator    = *options.dupsortComparator;
         }
         persistStoreConfig(rocksTxn, dbName, config);
-        return Store{
-          std::make_shared<RocksDbDbiImpl>(impl_->db.get(),
-                                           dbName,
-                                           config.flags,
-                                           config.hasComparator,
-                                           config.comparator)};
+        return Store{std::make_shared<RocksDbDbiImpl>(
+          impl_->db.get(), dbName, config.flags, config.hasComparator, config.comparator)};
     }
 
     auto config = loadStoreConfig(rocksTxn, dbName);
@@ -1355,9 +1289,10 @@ RocksDbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOption
                 throw Error("RocksDB dupsort comparator mismatch", ErrorKind::Invalid);
         } else {
             if (rocksTxn.isReadOnly())
-                throw Error("Cannot set dupsort comparator from read-only transaction", ErrorKind::Invalid);
+                throw Error("Cannot set dupsort comparator from read-only transaction",
+                            ErrorKind::Invalid);
             config->hasComparator = true;
-            config->comparator = *options.dupsortComparator;
+            config->comparator    = *options.dupsortComparator;
             persistStoreConfig(rocksTxn, dbName, *config);
         }
     }

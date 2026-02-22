@@ -5,6 +5,7 @@
 #pragma once
 
 #include <exception>
+#include <memory>
 #include <optional>
 
 #include <QDateTime>
@@ -20,12 +21,53 @@
 #include "CacheStructs.h"
 #include "db/StorageApi.h"
 
+class Cache;
+
+namespace cache {
+namespace detail {
+std::vector<std::pair<std::string, std::function<bool()>>>
+buildPreMigrations(Cache *cache);
+std::vector<std::pair<std::string, std::function<bool()>>>
+buildPostMigrations(Cache *cache);
+} // namespace detail
+} // namespace cache
+
 namespace mtx::responses {
 struct Messages;
 struct StateEvents;
 }
 
-struct CacheDb;
+struct CacheDb
+{
+    std::unique_ptr<db::Database> storage = db::createDatabaseFromEnvironment();
+    db::Store syncState;
+    db::Store rooms;
+    db::Store spacesChildren, spacesParents;
+    db::Store invites;
+    db::Store readReceipts;
+    db::Store notifications;
+    db::Store presence;
+
+    db::Store inboundMegolmSessions;
+    db::Store outboundMegolmSessions;
+    db::Store megolmSessionsData;
+    db::Store olmSessions;
+
+    db::Store encryptedRooms_;
+
+    db::Store eventExpiryBgJob_;
+};
+
+struct RO_txn
+{
+    ~RO_txn() { txn.reset(); }
+    operator db::Transaction &() noexcept { return txn; }
+
+    db::Transaction &txn;
+};
+
+RO_txn
+ro_txn(db::Database &storage);
 
 class Cache final : public QObject
 {
@@ -309,6 +351,11 @@ signals:
     void databaseReady();
 
 private:
+    friend std::vector<std::pair<std::string, std::function<bool()>>>
+    cache::detail::buildPreMigrations(Cache *cache);
+    friend std::vector<std::pair<std::string, std::function<bool()>>>
+    cache::detail::buildPostMigrations(Cache *cache);
+
     void loadSecretsFromStore(
       std::vector<std::pair<std::string, bool>> toLoad,
       std::function<void(const std::string &name, bool internal, const std::string &value)>
@@ -352,6 +399,14 @@ private:
                          db::Store &eventsDb,
                          const std::string &room_id,
                          const std::vector<T> &events);
+
+    void saveStateEvent(db::Transaction &txn,
+                        db::Store &statesdb,
+                        db::Store &stateskeydb,
+                        db::Store &membersdb,
+                        db::Store &eventsDb,
+                        const std::string &room_id,
+                        const mtx::events::collections::StateEvents &event);
 
     template<class T>
     void saveStateEvent(db::Transaction &txn,
@@ -452,6 +507,14 @@ private:
     Cache::getStateEventsWithType<Content>(const std::string &room_id,                             \
                                            mtx::events::EventType type);
 
+#define NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(Content)                                           \
+    extern template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>( \
+      db::Transaction & txn, const std::string &room_id, std::string_view state_key);              \
+                                                                                                   \
+    extern template std::vector<mtx::events::StateEvent<Content>>                                  \
+    Cache::getStateEventsWithType<Content>(                                                        \
+      db::Transaction & txn, const std::string &room_id, mtx::events::EventType type);
+
 NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Aliases)
 NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Avatar)
 NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::CanonicalAlias)
@@ -474,3 +537,26 @@ NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::policy_rule::ServerRule)
 NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::space::Child)
 NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::space::Parent)
 NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::msc2545::ImagePack)
+
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::msc2545::ImagePack)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Aliases)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Avatar)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::CanonicalAlias)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Create)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Encryption)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::GuestAccess)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::HistoryVisibility)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::JoinRules)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Member)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Name)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::PinnedEvents)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::PowerLevels)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Tombstone)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::ServerAcl)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Topic)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Widget)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::UserRule)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::RoomRule)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::ServerRule)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::space::Child)
+NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::space::Parent)

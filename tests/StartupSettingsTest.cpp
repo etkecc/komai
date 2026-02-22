@@ -105,7 +105,13 @@ testCoreSnapshotExtraction()
 
     root["ui"]["scale"]["factor"] = "invalid";
     snapshot = settings::core::snapshotFromYamlConfig(root);
-    return expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores malformed scale factor");
+    if (!expect(!snapshot.uiScaleFactor.has_value(), "core snapshot ignores malformed scale factor"))
+        return false;
+
+    root["ui"]["scale"]["factor"] = 5.0;
+    snapshot = settings::core::snapshotFromYamlConfig(root);
+    return expect(!snapshot.uiScaleFactor.has_value(),
+                  "core snapshot ignores out-of-range scale factors");
 }
 
 bool

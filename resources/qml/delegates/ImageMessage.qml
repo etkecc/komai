@@ -97,12 +97,6 @@ AbstractButton {
                         easing.type: Easing.Linear
                     }
 
-                    NumberAnimation {
-                        target: mxcimage
-                        property: "opacity"
-                        duration: 300
-                        easing.type: Easing.Linear
-                    }
                 }
             }
         }

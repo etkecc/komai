@@ -28,7 +28,7 @@ Item {
 
         Item {
             Layout.fillWidth: true
-            height: fontMetrics.lineSpacing
+            Layout.preferredHeight: fontMetrics.lineSpacing
 
             Rectangle {
                 anchors.topMargin: Nheko.paddingSmall

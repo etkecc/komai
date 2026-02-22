@@ -13,10 +13,11 @@
 #include <QMessageBox>
 #include <QMetaEnum>
 #include <QSortFilterProxyModel>
-#include <array>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
+#include <array>
+#include <type_traits>
 
 #include "Cache.h"
 #include "JdenticonProvider.h"
@@ -91,61 +92,86 @@ struct SectionDescriptor
 };
 
 constexpr auto sectionDescriptors = std::to_array<SectionDescriptor>({
-  SectionDescriptor{UserSettingsModel::LookFeelThemeSection, UserSettingsModel::TabLookFeel,
-                   QT_TR_NOOP("THEME")},
-  SectionDescriptor{UserSettingsModel::LookFeelFontsSection, UserSettingsModel::TabLookFeel,
-                   QT_TR_NOOP("FONTS")},
-  SectionDescriptor{UserSettingsModel::LookFeelBehaviorSection, UserSettingsModel::TabLookFeel,
-                   QT_TR_NOOP("BEHAVIOR")},
-  SectionDescriptor{UserSettingsModel::LookFeelRoomListSection, UserSettingsModel::TabSidebars,
-                   QT_TR_NOOP("ROOM LIST")},
+  SectionDescriptor{UserSettingsModel::LookFeelThemeSection,
+                    UserSettingsModel::TabLookFeel,
+                    QT_TR_NOOP("THEME")},
+  SectionDescriptor{UserSettingsModel::LookFeelFontsSection,
+                    UserSettingsModel::TabLookFeel,
+                    QT_TR_NOOP("FONTS")},
+  SectionDescriptor{UserSettingsModel::LookFeelBehaviorSection,
+                    UserSettingsModel::TabLookFeel,
+                    QT_TR_NOOP("BEHAVIOR")},
+  SectionDescriptor{UserSettingsModel::LookFeelRoomListSection,
+                    UserSettingsModel::TabSidebars,
+                    QT_TR_NOOP("ROOM LIST")},
   SectionDescriptor{UserSettingsModel::LookFeelCommunitiesSidebarSection,
-                   UserSettingsModel::TabSidebars,
-                   QT_TR_NOOP("COMMUNITIES SIDEBAR")},
-  SectionDescriptor{UserSettingsModel::IntegrationsSystemTraySection, UserSettingsModel::TabIntegrations,
-                   QT_TR_NOOP("SYSTEM TRAY")},
+                    UserSettingsModel::TabSidebars,
+                    QT_TR_NOOP("COMMUNITIES SIDEBAR")},
+  SectionDescriptor{UserSettingsModel::IntegrationsSystemTraySection,
+                    UserSettingsModel::TabIntegrations,
+                    QT_TR_NOOP("SYSTEM TRAY")},
 #ifdef NHEKO_DBUS_SYS
-  SectionDescriptor{UserSettingsModel::IntegrationsDbusSection, UserSettingsModel::TabIntegrations,
-                   QT_TR_NOOP("D-BUS")},
+  SectionDescriptor{UserSettingsModel::IntegrationsDbusSection,
+                    UserSettingsModel::TabIntegrations,
+                    QT_TR_NOOP("D-BUS")},
 #endif
-  SectionDescriptor{UserSettingsModel::IntegrationsBrowserSection, UserSettingsModel::TabIntegrations,
-                   QT_TR_NOOP("BROWSER")},
-  SectionDescriptor{UserSettingsModel::TimelineMessagesSection, UserSettingsModel::TabTimeline,
-                   QT_TR_NOOP("MESSAGES")},
-  SectionDescriptor{UserSettingsModel::TimelineMediaSection, UserSettingsModel::TabTimeline,
-                   QT_TR_NOOP("MEDIA")},
-  SectionDescriptor{UserSettingsModel::ComposerInputSection, UserSettingsModel::TabComposer,
-                   QT_TR_NOOP("INPUT")},
-  SectionDescriptor{UserSettingsModel::ComposerFeedbackSection, UserSettingsModel::TabComposer,
-                   QT_TR_NOOP("FEEDBACK")},
-  SectionDescriptor{UserSettingsModel::ComposerExtrasSection, UserSettingsModel::TabComposer,
-                   QT_TR_NOOP("EXTRAS")},
-  SectionDescriptor{UserSettingsModel::NotificationsDesktopSection, UserSettingsModel::TabNotifications,
-                   QT_TR_NOOP("DESKTOP")},
-  SectionDescriptor{UserSettingsModel::CallsGeneralSection, UserSettingsModel::TabCalls,
-                   QT_TR_NOOP("GENERAL")},
-  SectionDescriptor{UserSettingsModel::CallsDevicesSection, UserSettingsModel::TabCalls,
-                   QT_TR_NOOP("DEVICES")},
-  SectionDescriptor{UserSettingsModel::PrivacyScreenLockSection, UserSettingsModel::TabPrivacy,
-                   QT_TR_NOOP("SCREEN LOCK")},
-  SectionDescriptor{UserSettingsModel::PrivacyDataSection, UserSettingsModel::TabPrivacy,
-                   QT_TR_NOOP("DATA & MAINTENANCE")},
-  SectionDescriptor{UserSettingsModel::PrivacyUsersSection, UserSettingsModel::TabPrivacy,
-                   QT_TR_NOOP("USERS")},
-  SectionDescriptor{UserSettingsModel::EncryptionKeySharingSection, UserSettingsModel::TabEncryption,
-                   QT_TR_NOOP("KEY SHARING")},
-  SectionDescriptor{UserSettingsModel::EncryptionBackupSection, UserSettingsModel::TabEncryption,
-                   QT_TR_NOOP("BACKUP")},
-  SectionDescriptor{UserSettingsModel::EncryptionCrossSigningSection, UserSettingsModel::TabEncryption,
-                   QT_TR_NOOP("CROSS-SIGNING")},
-  SectionDescriptor{UserSettingsModel::SessionAccountSection, UserSettingsModel::TabSession,
-                   QT_TR_NOOP("ACCOUNT")},
-  SectionDescriptor{UserSettingsModel::SessionDeviceSection, UserSettingsModel::TabSession,
-                   QT_TR_NOOP("DEVICE")},
-  SectionDescriptor{UserSettingsModel::SessionActionsSection, UserSettingsModel::TabSession,
-                   QT_TR_NOOP("ACTIONS")},
-  SectionDescriptor{UserSettingsModel::AboutApplicationSection, UserSettingsModel::TabAbout,
-                   QT_TR_NOOP("APPLICATION")},
+  SectionDescriptor{UserSettingsModel::IntegrationsBrowserSection,
+                    UserSettingsModel::TabIntegrations,
+                    QT_TR_NOOP("BROWSER")},
+  SectionDescriptor{UserSettingsModel::TimelineMessagesSection,
+                    UserSettingsModel::TabTimeline,
+                    QT_TR_NOOP("MESSAGES")},
+  SectionDescriptor{UserSettingsModel::TimelineMediaSection,
+                    UserSettingsModel::TabTimeline,
+                    QT_TR_NOOP("MEDIA")},
+  SectionDescriptor{UserSettingsModel::ComposerInputSection,
+                    UserSettingsModel::TabComposer,
+                    QT_TR_NOOP("INPUT")},
+  SectionDescriptor{UserSettingsModel::ComposerFeedbackSection,
+                    UserSettingsModel::TabComposer,
+                    QT_TR_NOOP("FEEDBACK")},
+  SectionDescriptor{UserSettingsModel::ComposerExtrasSection,
+                    UserSettingsModel::TabComposer,
+                    QT_TR_NOOP("EXTRAS")},
+  SectionDescriptor{UserSettingsModel::NotificationsDesktopSection,
+                    UserSettingsModel::TabNotifications,
+                    QT_TR_NOOP("DESKTOP")},
+  SectionDescriptor{UserSettingsModel::CallsGeneralSection,
+                    UserSettingsModel::TabCalls,
+                    QT_TR_NOOP("GENERAL")},
+  SectionDescriptor{UserSettingsModel::CallsDevicesSection,
+                    UserSettingsModel::TabCalls,
+                    QT_TR_NOOP("DEVICES")},
+  SectionDescriptor{UserSettingsModel::PrivacyScreenLockSection,
+                    UserSettingsModel::TabPrivacy,
+                    QT_TR_NOOP("SCREEN LOCK")},
+  SectionDescriptor{UserSettingsModel::PrivacyDataSection,
+                    UserSettingsModel::TabPrivacy,
+                    QT_TR_NOOP("DATA & MAINTENANCE")},
+  SectionDescriptor{UserSettingsModel::PrivacyUsersSection,
+                    UserSettingsModel::TabPrivacy,
+                    QT_TR_NOOP("USERS")},
+  SectionDescriptor{UserSettingsModel::EncryptionKeySharingSection,
+                    UserSettingsModel::TabEncryption,
+                    QT_TR_NOOP("KEY SHARING")},
+  SectionDescriptor{UserSettingsModel::EncryptionBackupSection,
+                    UserSettingsModel::TabEncryption,
+                    QT_TR_NOOP("BACKUP")},
+  SectionDescriptor{UserSettingsModel::EncryptionCrossSigningSection,
+                    UserSettingsModel::TabEncryption,
+                    QT_TR_NOOP("CROSS-SIGNING")},
+  SectionDescriptor{UserSettingsModel::SessionAccountSection,
+                    UserSettingsModel::TabSession,
+                    QT_TR_NOOP("ACCOUNT")},
+  SectionDescriptor{UserSettingsModel::SessionDeviceSection,
+                    UserSettingsModel::TabSession,
+                    QT_TR_NOOP("DEVICE")},
+  SectionDescriptor{UserSettingsModel::SessionActionsSection,
+                    UserSettingsModel::TabSession,
+                    QT_TR_NOOP("ACTIONS")},
+  SectionDescriptor{UserSettingsModel::AboutApplicationSection,
+                    UserSettingsModel::TabAbout,
+                    QT_TR_NOOP("APPLICATION")},
 });
 
 const char *
@@ -199,6 +225,196 @@ readEnumSettingValue(const QVariant &value, Enum &out)
     out = static_cast<Enum>(raw);
     return true;
 }
+
+template<auto Get>
+QVariant
+getSettingValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+    return (i.get()->*Get)();
+}
+
+template<auto Get>
+QVariant
+getSettingEnumValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+    return static_cast<int>((i.get()->*Get)());
+}
+
+template<auto Set, typename T>
+using SetValueResult = decltype((std::declval<UserSettings *>()->*Set)(std::declval<T>()));
+
+template<auto Set, typename T>
+bool
+setSettingValueImpl(UserSettings *settings, const T &castValue, std::true_type /*is_void*/)
+{
+    (settings->*Set)(castValue);
+    return true;
+}
+
+template<auto Set, typename T>
+bool
+setSettingValueImpl(UserSettings *settings, const T &castValue, std::false_type /*is_void*/)
+{
+    return (settings->*Set)(castValue);
+}
+
+template<auto Set, typename T>
+bool
+setSettingValue(const QVariant &value)
+{
+    auto i = I;
+    if (!i)
+        return false;
+
+    T castValue{};
+    if (!readSettingValue(value, castValue))
+        return false;
+
+    return setSettingValueImpl<Set, T>(i.get(), castValue, std::is_void<SetValueResult<Set, T>>{});
+}
+
+template<auto Set, typename Enum>
+using SetEnumResult = decltype((std::declval<UserSettings *>()->*Set)(std::declval<Enum>()));
+
+template<auto Set, typename Enum>
+bool
+setSettingEnumValueImpl(UserSettings *settings, Enum enumValue, std::true_type /*is_void*/)
+{
+    (settings->*Set)(enumValue);
+    return true;
+}
+
+template<auto Set, typename Enum>
+bool
+setSettingEnumValueImpl(UserSettings *settings, Enum enumValue, std::false_type /*is_void*/)
+{
+    return (settings->*Set)(enumValue);
+}
+
+template<auto Set, typename Enum>
+bool
+setSettingEnumValue(const QVariant &value)
+{
+    auto i = I;
+    if (!i)
+        return false;
+
+    int rawValue = 0;
+    if (!readSettingValue(value, rawValue))
+        return false;
+
+    const auto meta = QMetaEnum::fromType<Enum>();
+    if (rawValue < 0 || rawValue >= meta.keyCount())
+        return false;
+
+    return setSettingEnumValueImpl<Set, Enum>(
+      i.get(), static_cast<Enum>(rawValue), std::is_void<SetEnumResult<Set, Enum>>{});
+}
+
+#define SIMPLE_BOOL_SETTING(name, desc, tab, getter, setter, enabled_cb)                           \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Toggle,                                                                                   \
+     tab,                                                                                          \
+     getSettingValue<&UserSettings::getter>,                                                       \
+     setSettingValue<&UserSettings::setter, bool>,                                                 \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb}
+
+#define SIMPLE_INVERTED_BOOL_SETTING(name, desc, tab, getter, setter, enabled_cb)                  \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Toggle,                                                                                   \
+     tab,                                                                                          \
+     []() -> QVariant { return !static_cast<bool>(I->getter()); },                                 \
+     [](const QVariant &value) -> bool {                                                           \
+         bool enabled{};                                                                           \
+         if (!readSettingValue(value, enabled))                                                    \
+             return false;                                                                         \
+         I->setter(!enabled);                                                                      \
+         return true;                                                                              \
+     },                                                                                            \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb}
+
+#define SIMPLE_READ_ONLY_TEXT(name, desc, tab, getter)                                             \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::ReadOnlyText,                                                                             \
+     tab,                                                                                          \
+     getSettingValue<&UserSettings::getter>,                                                       \
+     nullptr,                                                                                      \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     nullptr}
+
+#define SIMPLE_DOUBLE_SETTING(name, desc, tab, getter, setter, min_v, max_v, step_v)               \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Double,                                                                                   \
+     tab,                                                                                          \
+     getSettingValue<&UserSettings::getter>,                                                       \
+     setSettingValue<&UserSettings::setter, double>,                                               \
+     min_v,                                                                                        \
+     max_v,                                                                                        \
+     step_v,                                                                                       \
+     nullptr,                                                                                      \
+     nullptr}
+
+#define SIMPLE_OPTIONS_ENUM_SETTING(                                                               \
+  name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb)                             \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Options,                                                                                  \
+     tab,                                                                                          \
+     getSettingEnumValue<&UserSettings::getter>,                                                   \
+     setSettingEnumValue<&UserSettings::setter, enum_type>,                                        \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     values_expr,                                                                                  \
+     enabled_cb}
+
+#define SIMPLE_TEXT_SETTING(name, desc, tab, getter, setter, enabled_cb)                           \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::TextInput,                                                                                \
+     tab,                                                                                          \
+     getSettingValue<&UserSettings::getter>,                                                       \
+     setSettingValue<&UserSettings::setter, QString>,                                              \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb}
+
+#define SIMPLE_OPTIONS_INT_SETTING(                                                                \
+  name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb)                  \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Options,                                                                                  \
+     tab,                                                                                          \
+     getSettingValue<&UserSettings::getter>,                                                       \
+     setSettingValue<&UserSettings::setter, int>,                                                  \
+     min_v,                                                                                        \
+     max_v,                                                                                        \
+     step_v,                                                                                       \
+     values_expr,                                                                                  \
+     enabled_cb}
 
 // Helper: convert std::vector<std::string> to QStringList
 static QStringList

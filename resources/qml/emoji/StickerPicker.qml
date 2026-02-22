@@ -243,31 +243,26 @@ Popup {
                                 }
                             }
 
-                            contentItem: DelegateChooser {
-                                roleValue: del.modelData.unicode != undefined
+                            contentItem: Item {
+                                property bool isUnicode: del.modelData.unicode != undefined
 
-                                DelegateChoice {
-                                    roleValue: true
-
-                                    Text {
-                                        width: stickerDim
-                                        height: stickerDim
-                                        horizontalAlignment: Text.AlignHCenter
-                                        verticalAlignment: Text.AlignVCenter
-                                        font.family: Settings.emojiFont
-                                        font.pixelSize: 36
-                                        text: del.modelData.unicode.replace('\ufe0f', '')
-                                    }
+                                Text {
+                                    width: stickerDim
+                                    height: stickerDim
+                                    visible: isUnicode
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    font.family: Settings.emojiFont
+                                    font.pixelSize: 36
+                                    text: del.modelData.unicode.replace('\ufe0f', '')
                                 }
 
-                                DelegateChoice {
-                                    roleValue: false
-                                    Image {
-                                        height: stickerDim
-                                        width: stickerDim
-                                        source: del.modelData.url.replace("mxc://", "image://MxcImage/") + "?scale"
-                                        fillMode: Image.PreserveAspectFit
-                                    }
+                                Image {
+                                    height: stickerDim
+                                    width: stickerDim
+                                    visible: !isUnicode
+                                    source: del.modelData.url.replace("mxc://", "image://MxcImage/") + "?scale"
+                                    fillMode: Image.PreserveAspectFit
                                 }
                             }
 

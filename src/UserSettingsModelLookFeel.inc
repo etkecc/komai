@@ -52,17 +52,7 @@
           return fonts;
       },
       nullptr },
-    // FontSize
-    { QT_TR_NOOP("Font size"), nullptr, SM::Double, SM::TabLookFeel,
-      []() -> QVariant { return I->fontSize(); },
-      [](const QVariant &v) -> bool {
-          double size = 0.0;
-          if (!readSettingValue(v, size))
-              return false;
-          I->setFontSize(size);
-          return true;
-      },
-      8.0, 24.0, 0.5, nullptr, nullptr },
+    SIMPLE_DOUBLE_SETTING("Font size", nullptr, SM::TabLookFeel, fontSize, setFontSize, 8.0, 24.0, 0.5),
     // EmojiFont
     { QT_TR_NOOP("Emoji font family"), nullptr, SM::Options, SM::TabLookFeel,
       []() -> QVariant {
@@ -89,235 +79,123 @@
       nullptr },
 #ifndef Q_OS_MACOS
     // ScaleFactor
-    { QT_TR_NOOP("Scale factor [restart required]"),
+    SIMPLE_DOUBLE_SETTING(
+      "Scale factor [restart required]",
       QT_TR_NOOP("Change the scale factor of the whole user interface. Requires a restart to take effect."),
-      SM::Double, SM::TabLookFeel,
-      []() -> QVariant { return I->scaleFactor(); },
-      [](const QVariant &v) -> bool {
-          double factor = 0.0;
-          if (!readSettingValue(v, factor))
-              return false;
-          I->setScaleFactor(factor);
-          return true;
-      },
-      settings::core::kMinScaleFactor,
-      settings::core::kMaxScaleFactor,
-      settings::core::kScaleFactorStep,
-      nullptr, nullptr },
+      SM::TabLookFeel, scaleFactor, setScaleFactor, settings::core::kMinScaleFactor,
+      settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep),
 #endif
     // LookFeelBehaviorSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableUIAnimations
-    { QT_TR_NOOP("Enable UI animations"),
+    SIMPLE_INVERTED_BOOL_SETTING(
+      "Enable UI animations",
       QT_TR_NOOP("Komai uses animations in several places around the interface. Enable or disable them here."),
-      SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return !I->reducedMotion(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setReducedMotion(!enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+      SM::TabLookFeel,
+      reducedMotion,
+      setReducedMotion,
+      nullptr),
     // EnableTextSelection
-    { QT_TR_NOOP("Enable text selection on timeline"),
+    SIMPLE_INVERTED_BOOL_SETTING(
+      "Enable text selection on timeline",
       QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
                  "experience."),
-      SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return !I->mobileMode(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setMobileMode(!enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+      SM::TabLookFeel,
+      mobileMode,
+      setMobileMode,
+      nullptr),
     // EnableSwipeGestures
-    { QT_TR_NOOP("Enable swipe gestures"),
-      QT_TR_NOOP("Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
-      SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->enableSwipeGestures(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setEnableSwipeGestures(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+    SIMPLE_BOOL_SETTING(
+      "Enable swipe gestures",
+      QT_TR_NOOP(
+        "Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
+      SM::TabLookFeel, enableSwipeGestures, setEnableSwipeGestures, nullptr),
     // LookFeelRoomListSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CompactRoomList
-    { QT_TR_NOOP("Compact mode"),
-      QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
-      SM::Toggle, SM::TabSidebars,
-      []() -> QVariant { return I->compactRoomList(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setCompactRoomList(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+    SIMPLE_BOOL_SETTING("Compact mode",
+                        QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
+                        SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr),
     // ShowRoomListTime
-    { QT_TR_NOOP("Show last message timestamp"),
-      QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
-      SM::Toggle, SM::TabSidebars,
-      []() -> QVariant { return I->showRoomListTime(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setShowRoomListTime(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+    SIMPLE_BOOL_SETTING("Show last message timestamp",
+                        QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
+                        SM::TabSidebars, showRoomListTime, setShowRoomListTime, nullptr),
     // ShowLastMessagePreview
-    { QT_TR_NOOP("Show last message preview"),
+    SIMPLE_OPTIONS_ENUM_SETTING(
+      "Show last message preview",
       QT_TR_NOOP("Show a preview of the most recent message in each room."),
-      SM::Options, SM::TabSidebars,
-      []() -> QVariant { return static_cast<int>(I->showLastMessagePreview()); },
-      [](const QVariant &v) -> bool {
-          UserSettings::LastMessagePreview settingValue = UserSettings::LastMessagePreview{};
-          if (!readEnumSettingValue(v, settingValue))
-              return false;
-          I->setShowLastMessagePreview(settingValue);
-          return true;
-      },
-      {}, {}, {},
+      SM::TabSidebars,
+      showLastMessagePreview,
+      setShowLastMessagePreview,
+      UserSettings::LastMessagePreview,
       []() -> QVariant {
-          return QStringList{
-            QCoreApplication::translate("UserSettingsModel", "Always"),
-            QCoreApplication::translate("UserSettingsModel", "Only in unencrypted rooms"),
-            QCoreApplication::translate("UserSettingsModel", "Never"),
-          };
+          QStringList values;
+          values << QCoreApplication::translate("UserSettingsModel", "Always")
+                 << QCoreApplication::translate("UserSettingsModel", "Only in unencrypted rooms")
+                 << QCoreApplication::translate("UserSettingsModel", "Never");
+          return values;
       },
-      nullptr },
+      nullptr),
     // ShowCommunityNotificationCounts
-    { QT_TR_NOOP("Show notification counts"),
-      QT_TR_NOOP("Show total notification counts for communities and tags."),
-      SM::Toggle, SM::TabSidebars,
-      []() -> QVariant { return I->showCommunityNotificationCounts(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setShowCommunityNotificationCounts(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+    SIMPLE_BOOL_SETTING("Show notification counts",
+                        QT_TR_NOOP("Show total notification counts for communities and tags."),
+                        SM::TabSidebars, showCommunityNotificationCounts, setShowCommunityNotificationCounts, nullptr),
     // UseCircularAvatars
-    { QT_TR_NOOP("Use circular avatars"),
-      QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
-      SM::Toggle, SM::TabSidebars,
-      []() -> QVariant { return I->useCircularAvatars(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setUseCircularAvatars(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+    SIMPLE_BOOL_SETTING("Use circular avatars",
+                        QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
+                        SM::TabSidebars, useCircularAvatars, setUseCircularAvatars, nullptr),
     // UseIdenticon
-    { QT_TR_NOOP("Use identicons"),
+    SIMPLE_BOOL_SETTING(
+      "Use identicons",
       QT_TR_NOOP("Display an identicon instead of a letter when no avatar is set."),
-      SM::Toggle, SM::TabSidebars,
-      []() -> QVariant { return I->useIdenticon(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setUseIdenticon(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr,
-      []() -> bool { return JdenticonProvider::isAvailable(); } },
+      SM::TabSidebars,
+      useIdenticon,
+      setUseIdenticon,
+      []() -> bool { return JdenticonProvider::isAvailable(); }),
     // ScrollbarsInRoomlist
-    { QT_TR_NOOP("Show scrollbars"),
+    SIMPLE_BOOL_SETTING(
+      "Show scrollbars",
       QT_TR_NOOP("Show scrollbars in the room list and communities sidebar."),
-      SM::Toggle, SM::TabSidebars,
-      []() -> QVariant { return I->scrollbarsInRoomlist(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setScrollbarsInRoomlist(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+      SM::TabSidebars, scrollbarsInRoomlist, setScrollbarsInRoomlist, nullptr),
     // RoomSorting
-    { QT_TR_NOOP("Sorting"),
+    SIMPLE_OPTIONS_ENUM_SETTING(
+      "Sorting",
       QT_TR_NOOP("How to order rooms."),
-      SM::Options, SM::TabSidebars,
-      []() -> QVariant { return static_cast<int>(I->roomSortOrder()); },
-    [](const QVariant &v) -> bool {
-          int order = 0;
-          if (!readSettingValue(v, order))
-              return false;
-          I->setRoomSortOrder(static_cast<UserSettings::RoomSortOrder>(order)); return true;
-      },
-      {}, {}, {},
+      SM::TabSidebars,
+      roomSortOrder,
+      setRoomSortOrder,
+      UserSettings::RoomSortOrder,
       []() -> QVariant {
-          return QStringList{
-            QCoreApplication::translate("UserSettingsModel", "Unread first, then recent"),
-            QCoreApplication::translate("UserSettingsModel", "Unread first, then A-Z"),
-            QCoreApplication::translate("UserSettingsModel", "Recent activity"),
-            QCoreApplication::translate("UserSettingsModel", "Alphabetical"),
-          };
+          QStringList values;
+          values << QCoreApplication::translate("UserSettingsModel", "Unread first, then recent")
+                 << QCoreApplication::translate("UserSettingsModel", "Unread first, then A-Z")
+                 << QCoreApplication::translate("UserSettingsModel", "Recent activity")
+                 << QCoreApplication::translate("UserSettingsModel", "Alphabetical");
+          return values;
       },
-      nullptr },
+      nullptr),
     // LookFeelCommunitiesSidebarSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ShowCommunitiesSidebar
-    { QT_TR_NOOP("Show communities sidebar"),
-      QT_TR_NOOP("Show a column containing communities and tags."),
-      SM::Toggle, SM::TabSidebars,
-      []() -> QVariant { return I->showCommunitiesSidebar(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setShowCommunitiesSidebar(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+    SIMPLE_BOOL_SETTING("Show communities sidebar",
+                        QT_TR_NOOP("Show a column containing communities and tags."),
+                        SM::TabSidebars, showCommunitiesSidebar, setShowCommunitiesSidebar, nullptr),
     // IntegrationsSystemTraySection
     { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsTray
-    { QT_TR_NOOP("Minimize to tray"),
+    SIMPLE_BOOL_SETTING(
+      "Minimize to tray",
       QT_TR_NOOP("Keep the application running in the background after closing the client window."),
-      SM::Toggle, SM::TabIntegrations,
-      []() -> QVariant { return I->tray(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setTray(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
+      SM::TabIntegrations, tray, setTray, nullptr),
     // IntegrationsStartInTray
-    { QT_TR_NOOP("Start in tray"),
+    SIMPLE_BOOL_SETTING(
+      "Start in tray",
       QT_TR_NOOP("Start the application in the background without showing the client window."),
-      SM::Toggle, SM::TabIntegrations,
-      []() -> QVariant { return I->startInTray(); },
-      [](const QVariant &v) -> bool {
-          bool enabled = false;
-          if (!readSettingValue(v, enabled))
-              return false;
-          I->setStartInTray(enabled);
-          return true;
-      },
-      {}, {}, {}, nullptr,
-      []() -> bool { return I->tray(); } },
+      SM::TabIntegrations, startInTray, setStartInTray, nullptr),
 #ifdef NHEKO_DBUS_SYS
     // IntegrationsDbusSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,

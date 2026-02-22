@@ -4,47 +4,23 @@
     { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // OnlyShareKeysWithVerifiedUsers
-    { QT_TR_NOOP("Send encrypted messages to verified users only"),
+    SIMPLE_BOOL_SETTING(
+      "Send encrypted messages to verified users only",
       QT_TR_NOOP("Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious."),
-      SM::Toggle, SM::TabEncryption,
-    []() -> QVariant { return I->onlyShareKeysWithVerifiedUsers(); },
-    [](const QVariant &v) -> bool {
-        bool enabled = false;
-        if (!readSettingValue(v, enabled))
-            return false;
-        I->setOnlyShareKeysWithVerifiedUsers(enabled);
-        return true;
-    },
-      {}, {}, {}, nullptr, nullptr },
+      SM::TabEncryption, onlyShareKeysWithVerifiedUsers, setOnlyShareKeysWithVerifiedUsers, nullptr),
     // ShareKeysWithTrustedUsers
-    { QT_TR_NOOP("Share keys with verified users and devices"),
+    SIMPLE_BOOL_SETTING(
+      "Share keys with verified users and devices",
       QT_TR_NOOP("Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise."),
-      SM::Toggle, SM::TabEncryption,
-    []() -> QVariant { return I->shareKeysWithTrustedUsers(); },
-    [](const QVariant &v) -> bool {
-        bool enabled = false;
-        if (!readSettingValue(v, enabled))
-            return false;
-        I->setShareKeysWithTrustedUsers(enabled);
-        return true;
-    },
-      {}, {}, {}, nullptr, nullptr },
+      SM::TabEncryption, shareKeysWithTrustedUsers, setShareKeysWithTrustedUsers, nullptr),
     // EncryptionBackupSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UseOnlineKeyBackup
-    { QT_TR_NOOP("Online key backup"),
+    SIMPLE_BOOL_SETTING(
+      "Online key backup",
       QT_TR_NOOP("Download message encryption keys from and upload to the encrypted online key backup."),
-      SM::Toggle, SM::TabEncryption,
-    []() -> QVariant { return I->useOnlineKeyBackup(); },
-    [](const QVariant &v) -> bool {
-        bool enabled = false;
-        if (!readSettingValue(v, enabled))
-            return false;
-        I->setUseOnlineKeyBackup(enabled);
-        return true;
-    },
-      {}, {}, {}, nullptr, nullptr },
+      SM::TabEncryption, useOnlineKeyBackup, setUseOnlineKeyBackup, nullptr),
     // SessionKeys
     { QT_TR_NOOP("Session keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

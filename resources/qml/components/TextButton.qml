@@ -10,7 +10,6 @@ import im.nheko 1.0 // for cursor shape
 AbstractButton {
     id: button
 
-    property alias cursor: mouseArea.cursorShape
     property color highlightColor: palette.highlight
     property color buttonTextColor: palette.buttonText
 

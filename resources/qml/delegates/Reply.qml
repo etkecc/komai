@@ -5,7 +5,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import QtQuick.Layouts
 import im.nheko
 import "../"
 
@@ -19,6 +18,13 @@ AbstractButton {
     required property string eventId
 
     property var room_: room
+    property bool replyEventIsStateEvent: eventId ? room.dataById(eventId, Room.IsStateEvent, false) : false
+    property int replyEventType: eventId ? room.dataById(eventId, Room.Type, MtxEvent.UnknownMessage) : MtxEvent.UnknownMessage
+    property string replyEventTypeString: eventId ? room.dataById(eventId, Room.TypeString, "") : ""
+    property string replyEventBody: eventId ? room.dataById(eventId, Room.Body, "") : ""
+    property string replyEventFormattedBody: eventId ? room.dataById(eventId, Room.FormattedBody, "") : ""
+    property string replyEventFormattedStateEvent: eventId ? room.dataById(eventId, Room.FormattedStateEvent, "") : ""
+    property string replyEventCallType: eventId ? room.dataById(eventId, Room.CallType, "") : ""
 
     property string userId: eventId ? room.dataById(eventId, Room.UserId, "") : ""
     property string userName: eventId ? room.dataById(eventId, Room.UserName, "") : ""
@@ -48,12 +54,19 @@ AbstractButton {
     }
     onPressAndHold: replyContextMenu.show(timelineEvent.main.copyText, timelineEvent.main.linkAt(pressX-colorline.width, pressY - userName_.implicitHeight), r.eventId)
 
+    // qmllint disable required
     contentItem: TimelineEvent {
         id: timelineEvent
 
-        isStateEvent: false
+        isStateEvent: r.replyEventIsStateEvent
         room: r.room_
         eventId: r.eventId
+        type: r.replyEventType
+        typeString: r.replyEventTypeString
+        body: r.replyEventBody
+        formattedBody: r.replyEventFormattedBody
+        formattedStateEvent: r.replyEventFormattedStateEvent
+        callType: r.replyEventCallType
         replyTo: ""
         mainInset: 4 + Nheko.paddingMedium
         maxWidth: r.maxWidth
@@ -95,6 +108,7 @@ AbstractButton {
         }
 
     }
+    // qmllint enable required
 
     background: Rectangle {
         id: backgroundItem

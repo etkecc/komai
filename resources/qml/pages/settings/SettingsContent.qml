@@ -4,7 +4,6 @@
 
 pragma ComponentBehavior: Bound
 import "../.."
-import "../../dialogs"
 import "../../components"
 import "../../components/SettingsRows"
 import QtQuick
@@ -101,8 +100,6 @@ Item {
 
                     Item {
                         id: chooserContainer
-                        visible: r.model.type != UserSettingsModel.SectionTitle
-
                         Layout.alignment: Qt.AlignRight
                         Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !root.collapsed) ? 2 : 1
                         Layout.preferredHeight: childrenRect.height

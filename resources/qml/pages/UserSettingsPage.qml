@@ -4,12 +4,10 @@
 
 pragma ComponentBehavior: Bound
 import ".."
-import "../dialogs"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import QtQml.Models
 import im.nheko
 
 Rectangle {

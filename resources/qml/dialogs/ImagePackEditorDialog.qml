@@ -244,17 +244,22 @@ ApplicationWindow {
                         Layout.alignment: Qt.AlignHCenter
                     }
 
-                    MatrixTextField {
-                        Layout.fillWidth: true
-                        Layout.columnSpan: 2
-                        label: qsTr("Shortcode")
-                        property int bindingCounter: 0
-                        text: bindingCounter, imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.ShortCode)
-                        onTextEdited: {
-                            imagePack.setData(imagePack.index(currentImageIndex, 0), text, SingleImagePackModel.ShortCode);
-                            // force text field to update in case the model disagreed with the new value.
-                            bindingCounter++;
-                        }
+                        MatrixTextField {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 2
+                            label: qsTr("Shortcode")
+                            property int bindingCounter: 0
+                            text: {
+                                const currentCode = imagePack.data(imagePack.index(currentImageIndex, 0), SingleImagePackModel.ShortCode);
+                                if (bindingCounter % 2 === -1)
+                                    return currentCode;
+                                return currentCode;
+                            }
+                            onTextEdited: {
+                                imagePack.setData(imagePack.index(currentImageIndex, 0), text, SingleImagePackModel.ShortCode);
+                                // force text field to update in case the model disagreed with the new value.
+                                bindingCounter++;
+                            }
                     }
 
                     MatrixTextField {

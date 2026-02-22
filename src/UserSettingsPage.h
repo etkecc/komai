@@ -869,7 +869,6 @@ public:
     };
 
 private:
-
 public:
     enum Types
     {

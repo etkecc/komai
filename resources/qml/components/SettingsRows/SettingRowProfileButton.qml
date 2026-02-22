@@ -4,9 +4,7 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import im.nheko
-import "../../dialogs"
 
 Button {
     text: qsTr("Open Profile Settings")

@@ -8,7 +8,8 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
 #include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsStorage.h"
@@ -52,11 +53,12 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
         return;
 
     if (!hasUserId || !hasDeviceId || !hasHomeserver) {
-        nhlog::ui()->warn("Skipping session.yml write because session identity is incomplete "
-                          "(has_user_id={}, has_device_id={}, has_homeserver={})",
-                          hasUserId,
-                          hasDeviceId,
-                          hasHomeserver);
+        if (const auto logger = activeLoggers().ui)
+            logger->warn("Skipping session.yml write because session identity is incomplete "
+                         "(has_user_id={}, has_device_id={}, has_homeserver={})",
+                         hasUserId,
+                         hasDeviceId,
+                         hasHomeserver);
         return;
     }
 
@@ -65,8 +67,11 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
     setNode(root, SettingKey::SessionAccountHomeserver, settings.homeserver().toStdString());
     setNode(root, SettingKey::SessionDeviceId, settings.deviceId().toStdString());
 
-    if (writeYamlFile(sessionFilePath, root, false))
-        nhlog::ui()->debug("Saved session to: {}", sessionFilePath.toStdString());
+    if (writeYamlFile(sessionFilePath, root, false)) {
+        if (const auto logger = activeLoggers().ui) {
+            logger->debug("Saved session to: {}", sessionFilePath.toStdString());
+        }
+    }
 }
 
 } // namespace settings::serializer

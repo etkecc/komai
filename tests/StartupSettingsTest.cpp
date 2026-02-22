@@ -5,14 +5,18 @@
 #include <cmath>
 #include <iostream>
 #include <string_view>
+#include <memory>
 
 #include <QApplication>
 #include <QFile>
 #include <QTemporaryDir>
 
 #include <yaml-cpp/yaml.h>
+#include <spdlog/logger.h>
+#include <spdlog/sinks/null_sink.h>
 
 #include "UserSettingsPage.h"
+#include "settings/SettingsSerializer.h"
 #include "settings/StartupSettings.h"
 #include "settings/SettingsStorage.h"
 #include "settings/core/StartupConfig.h"
@@ -182,12 +186,6 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
 
-    int argc = 1;
-    char arg0[] = "komai-startup-policy-test";
-    char *argv[] = {arg0, nullptr};
-    QApplication app(argc, argv);
-    ThemeRegistry::initialize();
-
     const QString configFile = ctx.configFile();
     const QString stateFile  = ctx.stateFile();
     const QString sessionFile = ctx.sessionFile();
@@ -242,12 +240,6 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
 
-    int argc = 1;
-    char arg0[] = "komai-startup-policy-config-only-test";
-    char *argv[] = {arg0, nullptr};
-    QApplication app(argc, argv);
-    ThemeRegistry::initialize();
-
     const QString configFile = ctx.configFile();
     const QString stateFile  = ctx.stateFile();
     const QString sessionFile = ctx.sessionFile();
@@ -287,11 +279,74 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
                   "theme change does not create state/session/secrets files");
 }
 
+bool
+testSerializerLoggerInjection()
+{
+    const QString profile = QStringLiteral("serializer-logger-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "serializer logger fixture config root can be created");
+
+    settings::serializer::setLoggers({});
+    auto loggerState = settings::serializer::activeLoggers();
+    if (!expect(!loggerState.ui, "serializer accepts null-injected logger"))
+        return false;
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["ui"]["theme"]["slug"] = "komai-light";
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "serializer logger fixture config can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available after initialize");
+
+    settings->setWindowWidth(1366);
+    settings->setWindowHeight(768);
+    settings->setRoomListWidth(260);
+    settings->setCommunityListWidth(240);
+    const auto stateFile = ctx.stateFile();
+    settings::storage::removePath(stateFile);
+
+    settings::serializer::saveState(*settings, stateFile);
+    const bool nullLoggerWrite = expect(
+      settings::storage::pathExists(stateFile), "state write succeeds with null-injected serializer logger");
+
+    auto injectedLogger = std::make_shared<spdlog::logger>(
+      QStringLiteral("serializer-ui").toStdString(), std::make_shared<spdlog::sinks::null_sink_mt>());
+    settings::serializer::setLoggers({.ui = injectedLogger});
+    loggerState = settings::serializer::activeLoggers();
+    if (!expect(loggerState.ui == injectedLogger, "serializer stores injected ui logger"))
+        return false;
+
+    const bool injectedLoggerWrite = [&] {
+        settings::storage::removePath(stateFile);
+        settings::serializer::saveState(*settings, stateFile);
+        return settings::storage::pathExists(stateFile);
+    }();
+
+    const auto sessionFile = ctx.sessionFile();
+    settings->setAccessToken(QStringLiteral(""));
+    settings::storage::removePath(sessionFile);
+    settings::serializer::saveSession(*settings, sessionFile);
+    const bool noSessionFileWithoutToken = expect(
+      !settings::storage::pathExists(sessionFile), "session save is no-op when token is missing");
+
+    return nullLoggerWrite && injectedLoggerWrite && noSessionFileWithoutToken;
+}
+
 } // namespace
 
 int
 main()
 {
+    int argc = 1;
+    char arg0[] = "komai-startup-settings-test";
+    char *argv[] = {arg0, nullptr};
+    QApplication app(argc, argv);
+    ThemeRegistry::initialize();
+
     bool ok = true;
     ok &= testStartupConfigSnapshotLoads();
     ok &= testStartupConfigSnapshotMissingProfile();
@@ -300,6 +355,7 @@ main()
     ok &= testCoreScaleRangeHelpers();
     ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
+    ok &= testSerializerLoggerInjection();
 
     return ok ? 0 : 1;
 }

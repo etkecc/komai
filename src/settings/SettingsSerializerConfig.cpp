@@ -6,9 +6,11 @@
 
 #include <QString>
 
+#include <utility>
+#include <spdlog/logger.h>
+
 #include <yaml-cpp/yaml.h>
 
-#include "Logging.h"
 #include "SettingsSerializerConfigConverters.h"
 #include "SettingsSerializerConfigSchema.h"
 #include "settings/SettingKeys.h"
@@ -18,6 +20,37 @@
 #include "settings/core/StartupConfig.h"
 
 namespace cfg = settings::serializer::config;
+
+namespace settings::serializer {
+
+namespace {
+
+SerializerLoggers
+defaultLoggers()
+{
+    return {};
+}
+
+SerializerLoggers &
+currentLoggers()
+{
+    static SerializerLoggers loggers = defaultLoggers();
+    return loggers;
+}
+
+} // namespace
+
+void
+setLoggers(SerializerLoggers loggers)
+{
+    currentLoggers() = std::move(loggers);
+}
+
+SerializerLoggers
+activeLoggers()
+{
+    return currentLoggers();
+}
 
 namespace {
 
@@ -120,8 +153,6 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
 
 } // namespace
 
-namespace settings::serializer {
-
 void
 loadConfig(UserSettings &settings, const YAML::Node &root)
 {
@@ -172,8 +203,11 @@ saveConfig(const UserSettings &settings, const QString &configFilePath)
     YAML::Node root(YAML::NodeType::Map);
     makeConfigNode(settings, root);
 
-    if (writeYamlFile(configFilePath, root, false))
-        nhlog::ui()->debug("Saved config to: {}", configFilePath.toStdString());
+    if (writeYamlFile(configFilePath, root, false)) {
+        if (const auto logger = activeLoggers().ui) {
+            logger->debug("Saved config to: {}", configFilePath.toStdString());
+        }
+    }
 }
 
 } // namespace settings::serializer

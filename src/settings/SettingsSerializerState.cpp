@@ -8,7 +8,8 @@
 #include <yaml-cpp/yaml.h>
 
 #include "Config.h"
-#include "Logging.h"
+#include <spdlog/logger.h>
+
 #include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsStorage.h"
@@ -71,8 +72,11 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
     writeStringList(root, SettingKey::TimelineWidgetsHidden, settings.hiddenWidgets());
     writeStringList(root, SettingKey::ComposerReactionsRecent, settings.recentReactions());
 
-    if (writeYamlFile(stateFilePath, root, false))
-        nhlog::ui()->debug("Saved state to: {}", stateFilePath.toStdString());
+    if (writeYamlFile(stateFilePath, root, false)) {
+        if (const auto logger = activeLoggers().ui) {
+            logger->debug("Saved state to: {}", stateFilePath.toStdString());
+        }
+    }
 }
 
 } // namespace settings::serializer

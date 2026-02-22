@@ -4,14 +4,29 @@
 
 #pragma once
 
+#include <memory>
+
 namespace YAML {
 class Node;
 }
 
 class QString;
 class UserSettings;
+namespace spdlog {
+class logger;
+}
 
 namespace settings::serializer {
+
+struct SerializerLoggers
+{
+    std::shared_ptr<spdlog::logger> ui;
+};
+
+void
+setLoggers(SerializerLoggers loggers);
+SerializerLoggers
+activeLoggers();
 
 /**
  * YAML serialization/deserialization helpers for UserSettings persistence.

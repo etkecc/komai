@@ -58,7 +58,7 @@
       SM::Integer, SM::TabTimeline,
       []() -> QVariant { return I->maxTimelineWidth(); },
       [](const QVariant &v) -> bool {
-          if (!v.canConvert(QMetaType::fromType<int>())) return false;
+          if (!v.canConvert<int>()) return false;
           I->setMaxTimelineWidth(v.toInt()); return true;
       },
       0, 20000, 20, nullptr, nullptr },
@@ -98,7 +98,7 @@
       SM::TextInput, SM::TabTimeline,
       []() -> QVariant { return I->pinnedReactions(); },
       [](const QVariant &v) -> bool {
-          if (!v.canConvert(QMetaType::fromType<QString>())) return false;
+          if (!v.canConvert<QString>()) return false;
           I->setPinnedReactions(v.toString()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
@@ -164,4 +164,3 @@
           I->setOpenVideosInExternalApp(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-

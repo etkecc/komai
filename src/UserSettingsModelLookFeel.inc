@@ -53,7 +53,7 @@
     { QT_TR_NOOP("Font size"), nullptr, SM::Double, SM::TabLookFeel,
       []() -> QVariant { return I->fontSize(); },
       [](const QVariant &v) -> bool {
-          if (!v.canConvert(QMetaType::fromType<double>())) return false;
+          if (!v.canConvert<double>()) return false;
           I->setFontSize(v.toDouble()); return true;
       },
       8.0, 24.0, 0.5, nullptr, nullptr },
@@ -87,7 +87,7 @@
       SM::Double, SM::TabLookFeel,
       []() -> QVariant { return I->scaleFactor(); },
       [](const QVariant &v) -> bool {
-          if (!v.canConvert(QMetaType::fromType<double>())) return false;
+          if (!v.canConvert<double>()) return false;
           I->setScaleFactor(v.toDouble()); return true;
       },
       settings::core::kMinScaleFactor,

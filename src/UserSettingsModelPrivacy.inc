@@ -19,7 +19,7 @@
       SM::Integer, SM::TabPrivacy,
       []() -> QVariant { return I->privacyScreenTimeoutSeconds(); },
       [](const QVariant &v) -> bool {
-          if (!v.canConvert(QMetaType::fromType<int>())) return false;
+          if (!v.canConvert<int>()) return false;
           I->setPrivacyScreenTimeoutSeconds(v.toInt()); return true;
       },
       0, 3600, 10, nullptr,
@@ -60,4 +60,3 @@
       QT_TR_NOOP("Manage your ignored users."),
       SM::ManageIgnoredUsers, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-

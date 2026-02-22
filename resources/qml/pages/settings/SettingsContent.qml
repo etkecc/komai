@@ -114,24 +114,24 @@ Item {
 
                         DelegateChoice {
                             roleValue: UserSettingsModel.Toggle
-                            ToggleButton {
-                                checked: r.model.value
-                                onClicked: r.model.value = checked
+                            SettingControlToggle {
+                                value: r.model.value
+                                onToggled: r.model.value = value
                                 enabled: r.model.enabled
                             }
                         }
                         DelegateChoice {
                             roleValue: UserSettingsModel.Options
-                            ComboBox {
+                            SettingControlCombo {
                                 anchors.right: parent.right
-                                model: r.model.values
-                                currentIndex: r.model.value
+                                value: r.model.value
+                                values: r.model.values
                                 width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
-                                onActivated: {
-                                    r.model.value = currentIndex
+                                onActivatedValueChanged: function(index) {
+                                    if (index !== r.model.value) {
+                                        r.model.value = index;
+                                    }
                                 }
-                                implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-                                wheelEnabled: activeFocus
                             }
                         }
                         DelegateChoice {
@@ -241,18 +241,11 @@ Item {
                         }
                         DelegateChoice {
                             roleValue: UserSettingsModel.TextInput
-                            TextField {
+                            SettingControlTextInput {
                                 id: textSettingField
                                 anchors.right: parent.right
-                                text: r.model.value
-                                function applyText()
-                                {
-                                    r.model.value = text.trim();
-                                }
-                                onEditingFinished: applyText()
-                                onAccepted: applyText()
-                                onActiveFocusChanged: if (!activeFocus) applyText()
-                                Component.onDestruction: applyText()
+                                textValue: r.model.value
+                                onSubmitted: r.model.value = text
                                 width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
                             }
                         }

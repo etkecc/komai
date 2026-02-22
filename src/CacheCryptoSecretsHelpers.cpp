@@ -8,7 +8,9 @@
 #include <algorithm>
 #include <mtxclient/utils.hpp>
 
-#include "Logging.h"
+#include <spdlog/logger.h>
+
+#include "CacheApiWrappers.h"
 
 std::string
 Cache::pickleSecret()
@@ -20,7 +22,8 @@ std::string
 Cache::createPickleSecret()
 {
     if (!this->pickle_secret_.empty()) {
-        nhlog::crypto()->warn("pickle secret already loaded; reusing existing secret");
+        if (const auto logger = cache::activeLoggers().crypto)
+            logger->warn("pickle secret already loaded; reusing existing secret");
         return this->pickle_secret_;
     }
 

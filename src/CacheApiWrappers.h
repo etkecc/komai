@@ -21,6 +21,7 @@ cacheInstance();
 struct CacheLoggers
 {
     std::shared_ptr<spdlog::logger> db;
+    std::shared_ptr<spdlog::logger> crypto;
 };
 
 void

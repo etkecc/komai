@@ -64,7 +64,7 @@ Cache::deleteOldData() noexcept
     try {
         deleteOldMessages();
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error("failed to delete old messages: {}", e.what());
+        cache::activeLoggers().db->error("failed to delete old messages: {}", e.what());
     }
 }
 
@@ -77,7 +77,7 @@ Cache::getEvent(const std::string &room_id, std::string_view event_id)
     try {
         return db::getJsonValue<mtx::events::collections::TimelineEvents>(txn, eventsDb, event_id);
     } catch (std::exception &e) {
-                    cache::activeLoggers().db->error("Failed to parse message from cache {}", e.what());
+        cache::activeLoggers().db->error("Failed to parse message from cache {}", e.what());
         return std::nullopt;
     }
 }
@@ -103,7 +103,7 @@ Cache::relatedEvents(const std::string &room_id, const std::string &event_id)
     try {
         return db::listDupValues(txn, relationsDb, event_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error("related events error: {}", e.what());
+        cache::activeLoggers().db->error("related events error: {}", e.what());
         return {};
     }
 }
@@ -115,8 +115,8 @@ Cache::getLastEventId(db::Transaction &txn, const std::string &room_id)
     try {
         orderDb = getOrderToMessageDb(txn, room_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error(
-              "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
         return {};
     }
 
@@ -131,8 +131,8 @@ Cache::getTimelineRange(const std::string &room_id)
     try {
         orderDb = getOrderToMessageDb(txn, room_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error(
-              "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
         return {};
     }
 
@@ -155,8 +155,8 @@ Cache::getTimelineIndex(const std::string &room_id, std::string_view event_id)
     try {
         orderDb = getMessageToOrderDb(txn, room_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error(
-              "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
         return {};
     }
 
@@ -175,8 +175,8 @@ Cache::getEventIndex(const std::string &room_id, std::string_view event_id)
     try {
         orderDb = getEventToOrderDb(txn, room_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error(
-              "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
         return {};
     }
 
@@ -199,15 +199,16 @@ Cache::lastInvisibleEventAfter(const std::string &room_id, std::string_view even
         eventOrderDb = getEventOrderDb(txn, room_id);
         timelineDb   = getMessageToOrderDb(txn, room_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error(
-              "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
         return {};
     }
 
     try {
         return db::lastInvisibleEventAfter(txn, orderDb, eventOrderDb, timelineDb, event_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error("Failed to get last invisible event after {}", event_id, e.what());
+        cache::activeLoggers().db->error(
+          "Failed to get last invisible event after {}", event_id, e.what());
         return {};
     }
 }
@@ -229,7 +230,8 @@ Cache::lastVisibleEvent(const std::string &room_id, std::string_view event_id)
 
         return db::lastVisibleEvent(txn, orderDb, eventOrderDb, timelineDb, event_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error("Failed to get last visible event after {}", event_id, e.what());
+        cache::activeLoggers().db->error(
+          "Failed to get last visible event after {}", event_id, e.what());
         return {};
     }
 }
@@ -242,8 +244,8 @@ Cache::getTimelineEventId(const std::string &room_id, uint64_t index)
     try {
         orderDb = getOrderToMessageDb(txn, room_id);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error(
-              "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
         return {};
     }
 

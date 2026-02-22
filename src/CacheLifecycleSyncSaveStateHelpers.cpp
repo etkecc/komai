@@ -19,10 +19,10 @@
 #include <QMessageBox>
 #include <spdlog/logger.h>
 
+#include "CacheApiWrappers.h"
 #include "EventAccessors.h"
 #include "UserSettingsPage.h"
 #include "Utils.h"
-#include "CacheApiWrappers.h"
 
 void
 Cache::saveState(const mtx::responses::Sync &res)
@@ -90,10 +90,11 @@ try {
                     updatedInfo.approximate_last_modification_ts =
                       tmp.approximate_last_modification_ts;
                 } catch (const std::exception &e) {
-                                            cache::activeLoggers().db->warn("failed to parse room info: room_id ({}), {}: {}",
-                                     room.first,
-                                     originalRoomInfoDump,
-                                     e.what());
+                    cache::activeLoggers().db->warn(
+                      "failed to parse room info: room_id ({}), {}: {}",
+                      room.first,
+                      originalRoomInfoDump,
+                      e.what());
                 }
             }
         }
@@ -127,8 +128,8 @@ try {
             for (const auto &e : room.second.state.events) {
                 if (auto se = std::get_if<StateEvent<state::space::Parent>>(&e)) {
                     if (se->state_key.empty()) {
-                                                    cache::activeLoggers().db->warn("Skipping space parent with empty state key in room {}",
-                                         room.first);
+                        cache::activeLoggers().db->warn(
+                          "Skipping space parent with empty state key in room {}", room.first);
                     } else {
                         spaces_with_updates.insert(se->state_key);
                         room_has_space_update = true;
@@ -138,8 +139,8 @@ try {
             for (const auto &e : room.second.timeline.events) {
                 if (auto se = std::get_if<StateEvent<state::space::Parent>>(&e)) {
                     if (se->state_key.empty()) {
-                                                    cache::activeLoggers().db->warn("Skipping space child with empty state key in room {}",
-                                         room.first);
+                        cache::activeLoggers().db->warn(
+                          "Skipping space child with empty state key in room {}", room.first);
                     } else {
                         spaces_with_updates.insert(se->state_key);
                         room_has_space_update = true;

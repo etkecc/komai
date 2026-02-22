@@ -13,10 +13,10 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
+#include "CacheApiWrappers.h"
 #include "MatrixClient.h"
 #include "Utils.h"
 #include "encryption/Olm.h"
-#include "CacheApiWrappers.h"
 
 std::optional<VerificationCache>
 Cache::verificationCache(const std::string &user_id, db::Transaction &txn)
@@ -196,7 +196,7 @@ Cache::verificationStatus_(const std::string &user_id, db::Transaction &txn)
                 !mtx::crypto::ed25519_verify_signature(olm::client()->identity_keys().ed25519,
                                                        nlohmann::json(mk),
                                                        mk.signatures.at(local_user).at(dev_id))) {
-                                    cache::activeLoggers().crypto->debug("We have not verified our own master key");
+                cache::activeLoggers().crypto->debug("We have not verified our own master key");
                 verification_storage.status[user_id] = status;
                 return status;
             }
@@ -244,7 +244,8 @@ Cache::verificationStatus_(const std::string &user_id, db::Transaction &txn)
         verification_storage.status[user_id] = status;
         return status;
     } catch (std::exception &e) {
-                    cache::activeLoggers().db->error("Failed to calculate verification status of {}: {}", user_id, e.what());
+        cache::activeLoggers().db->error(
+          "Failed to calculate verification status of {}: {}", user_id, e.what());
         return status;
     }
 }

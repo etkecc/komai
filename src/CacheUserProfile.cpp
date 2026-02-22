@@ -66,7 +66,8 @@ Cache::presence(const std::string &user_id)
               db::getJsonValue<mtx::events::presence::Presence>(txn, db->presence, user_id))
             presence_ = std::move(*val);
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse presence entry for {}: {}", user_id, e.what());
+        cache::activeLoggers().db->warn(
+          "failed to parse presence entry for {}: {}", user_id, e.what());
     }
 
     return presence_;

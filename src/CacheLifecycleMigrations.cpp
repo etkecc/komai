@@ -18,8 +18,8 @@
 
 #include <spdlog/logger.h>
 
-#include "db/Maintenance.h"
 #include "CacheApiWrappers.h"
+#include "db/Maintenance.h"
 
 //! Should be changed when a breaking change occurs in the cache format.
 //! This will reset client's data.
@@ -62,7 +62,7 @@ Cache::runMigrations()
                     std::string error;
                     if (!db::maintenance::tryDropNamedStore(storage(), txn, dbName, &error) &&
                         !error.empty())
-                                                    cache::activeLoggers().db->warn("Failed to drop '{}': {}", dbName, error);
+                        cache::activeLoggers().db->warn("Failed to drop '{}': {}", dbName, error);
                 }
             }
 
@@ -72,11 +72,12 @@ Cache::runMigrations()
 
             txn.commit();
         } catch (const db::Error &) {
-                            cache::activeLoggers().db->critical("Failed to clear cache!");
+            cache::activeLoggers().db->critical("Failed to clear cache!");
             return false;
         }
 
-                    cache::activeLoggers().db->info("Successfully cleared the cache. Will do a clean sync after startup.");
+        cache::activeLoggers().db->info(
+          "Successfully cleared the cache. Will do a clean sync after startup.");
         return true;
     });
     migrations.emplace_back("2021.08.31", [this]() {
@@ -95,7 +96,7 @@ Cache::runMigrations()
           },
           [this,
            count = 1](const std::string &name, bool internal, const std::string &value) mutable {
-                                cache::activeLoggers().db->critical("Loaded secret {}", name);
+              cache::activeLoggers().db->critical("Loaded secret {}", name);
               this->storeSecret(name, value, internal);
 
               // HACK(Nico): delay deletion to not crash because of multiple
@@ -118,15 +119,15 @@ Cache::runMigrations()
     auto postMigrations = cache::detail::buildPostMigrations(this);
     migrations.insert(migrations.end(), postMigrations.begin(), postMigrations.end());
 
-            cache::activeLoggers().db->info("Running migrations, this may take a while!");
+    cache::activeLoggers().db->info("Running migrations, this may take a while!");
     for (const auto &[target_version, migration] : migrations) {
         if (target_version > stored_version)
             if (!migration()) {
-                                    cache::activeLoggers().db->critical("migration failure!");
+                cache::activeLoggers().db->critical("migration failure!");
                 return false;
             }
     }
-            cache::activeLoggers().db->info("Migrations finished.");
+    cache::activeLoggers().db->info("Migrations finished.");
 
     setCurrentFormat();
     return true;

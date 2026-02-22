@@ -9,8 +9,8 @@
 
 #include <spdlog/logger.h>
 
-#include "MatrixClient.h"
 #include "CacheApiWrappers.h"
+#include "MatrixClient.h"
 
 void
 Cache::markUserKeysOutOfDate(db::Transaction &txn,
@@ -23,17 +23,18 @@ Cache::markUserKeysOutOfDate(db::Transaction &txn,
 
     for (const auto &user : user_ids) {
         if (user.size() > 255) {
-                            cache::activeLoggers().db->debug("Skipping device key query for user with invalid mxid: {}", user);
+            cache::activeLoggers().db->debug(
+              "Skipping device key query for user with invalid mxid: {}", user);
             continue;
         }
 
-                    cache::activeLoggers().db->debug("Marking user keys out of date: {}", user);
+        cache::activeLoggers().db->debug("Marking user keys out of date: {}", user);
 
         UserKeyCache cacheEntry{};
         try {
             db::getJsonValue(txn, db_, user, cacheEntry);
         } catch (std::exception &e) {
-                            cache::activeLoggers().db->error("Failed to parse {}: {}", user, e.what());
+            cache::activeLoggers().db->error("Failed to parse {}: {}", user, e.what());
         }
         cacheEntry.last_changed = sync_token;
 
@@ -45,10 +46,10 @@ Cache::markUserKeysOutOfDate(db::Transaction &txn,
             http::client()->query_keys(
               query,
               [this, sync_token](const mtx::responses::QueryKeys &keys, mtx::http::RequestErr err) {
-              if (err) {
-                                                cache::activeLoggers().net->warn("failed to query device keys: {} {}",
-                                       err->matrix_error.error,
-                                       static_cast<int>(err->status_code));
+                  if (err) {
+                      cache::activeLoggers().net->warn("failed to query device keys: {} {}",
+                                                       err->matrix_error.error,
+                                                       static_cast<int>(err->status_code));
                       return;
                   }
 
@@ -62,10 +63,10 @@ Cache::markUserKeysOutOfDate(db::Transaction &txn,
         http::client()->query_keys(
           query,
           [this, sync_token](const mtx::responses::QueryKeys &keys, mtx::http::RequestErr err) {
-          if (err) {
-                                        cache::activeLoggers().net->warn("failed to query device keys: {} {}",
-                                   err->matrix_error.error,
-                                   static_cast<int>(err->status_code));
+              if (err) {
+                  cache::activeLoggers().net->warn("failed to query device keys: {} {}",
+                                                   err->matrix_error.error,
+                                                   static_cast<int>(err->status_code));
                   return;
               }
 
@@ -78,7 +79,8 @@ Cache::query_keys(const std::string &user_id,
                   std::function<void(const UserKeyCache &, mtx::http::RequestErr)> cb)
 {
     if (user_id.size() > 255) {
-                    cache::activeLoggers().db->debug("Skipping device key query for user with invalid mxid: {}", user_id);
+        cache::activeLoggers().db->debug("Skipping device key query for user with invalid mxid: {}",
+                                         user_id);
 
         mtx::http::ClientError err{};
         err.parse_error = "invalid mxid, more than 255 bytes";
@@ -97,12 +99,12 @@ Cache::query_keys(const std::string &user_id,
                 cb(cache_.value(), {});
                 return;
             } else
-                                    cache::activeLoggers().db->info("Keys outdated for {}: {} vs {}",
-                                 user_id,
-                                 cache_->updated_at,
-                                 cache_->last_changed);
+                cache::activeLoggers().db->info("Keys outdated for {}: {} vs {}",
+                                                user_id,
+                                                cache_->updated_at,
+                                                cache_->last_changed);
         } else
-                            cache::activeLoggers().db->info("No keys found for {}", user_id);
+            cache::activeLoggers().db->info("No keys found for {}", user_id);
 
         req.device_keys[user_id] = {};
 
@@ -132,9 +134,9 @@ Cache::query_keys(const std::string &user_id,
       [cb, user_id, last_changed, this](const mtx::responses::QueryKeys &res,
                                         mtx::http::RequestErr err) {
           if (err) {
-                                cache::activeLoggers().net->warn("failed to query device keys: {},{}",
-                               mtx::errors::to_string(err->matrix_error.errcode),
-                               static_cast<int>(err->status_code));
+              cache::activeLoggers().net->warn("failed to query device keys: {},{}",
+                                               mtx::errors::to_string(err->matrix_error.errcode),
+                                               static_cast<int>(err->status_code));
               cb({}, err);
               return;
           }

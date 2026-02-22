@@ -32,9 +32,11 @@ Cache::singleRoomInfo(const std::string &room_id)
             return tmp;
         }
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->warn("failed to read room info from db: room_id ({}), {}", room_id, e.what());
+        cache::activeLoggers().db->warn(
+          "failed to read room info from db: room_id ({}), {}", room_id, e.what());
     } catch (const std::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse room info for room '{}': {}", room_id, e.what());
+        cache::activeLoggers().db->warn(
+          "failed to parse room info for room '{}': {}", room_id, e.what());
     }
 
     return RoomInfo();
@@ -54,9 +56,11 @@ Cache::updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
             return;
         }
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->warn("failed to read room info from db: room_id ({}), {}", room_id, e.what());
+        cache::activeLoggers().db->warn(
+          "failed to read room info from db: room_id ({}), {}", room_id, e.what());
     } catch (const std::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse room info for room '{}': {}", room_id, e.what());
+        cache::activeLoggers().db->warn(
+          "failed to parse room info for room '{}': {}", room_id, e.what());
     }
 }
 
@@ -82,10 +86,10 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
 
                 room_info.emplace(QString::fromStdString(room), std::move(tmp));
             } catch (const std::exception &e) {
-                                    cache::activeLoggers().db->warn("failed to parse room info: room_id ({}), {}: {}",
-                                 room,
-                                 std::string(data.data(), data.size()),
-                                 e.what());
+                cache::activeLoggers().db->warn("failed to parse room info: room_id ({}), {}: {}",
+                                                room,
+                                                std::string(data.data(), data.size()),
+                                                e.what());
             }
         } else {
             // Check if the room is an invite.
@@ -96,11 +100,11 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
 
                     room_info.emplace(QString::fromStdString(room), std::move(tmp));
                 } catch (const std::exception &e) {
-                                            cache::activeLoggers().db->warn("failed to parse room info for invite: "
-                                     "room_id ({}), {}: {}",
-                                     room,
-                                     std::string(data.data(), data.size()),
-                                     e.what());
+                    cache::activeLoggers().db->warn("failed to parse room info for invite: "
+                                                    "room_id ({}), {}: {}",
+                                                    room,
+                                                    std::string(data.data(), data.size()),
+                                                    e.what());
                 }
             }
         }
@@ -121,7 +125,8 @@ Cache::roomAvatarUrl(const std::string &room_id)
         auto membersdb = getMembersDb(txn, room_id);
         return getRoomAvatarUrl(txn, statesdb, membersdb);
     } catch (const std::exception &e) {
-                    cache::activeLoggers().db->warn("failed to get room avatar url for room '{}': {}", room_id, e.what());
+        cache::activeLoggers().db->warn(
+          "failed to get room avatar url for room '{}': {}", room_id, e.what());
     }
 
     return {};
@@ -164,15 +169,16 @@ Cache::roomInfo(bool withInvites)
     // Gather info about the joined rooms.
     db::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-            try {
-                RoomInfo tmp     = db::parseRoomInfo(room_data);
-                tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
-                result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
-            } catch (const std::exception &e) {
-                                    cache::activeLoggers().db->warn("failed to parse room info for joined room ({}): {}", room_id, e.what());
-            }
-            return true;
-        });
+          try {
+              RoomInfo tmp     = db::parseRoomInfo(room_data);
+              tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
+              result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+          } catch (const std::exception &e) {
+              cache::activeLoggers().db->warn(
+                "failed to parse room info for joined room ({}): {}", room_id, e.what());
+          }
+          return true;
+      });
 
     if (withInvites) {
         // Gather info about the invites.
@@ -180,16 +186,16 @@ Cache::roomInfo(bool withInvites)
           txn,
           db->invites,
           [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-                try {
-                    RoomInfo tmp     = db::parseRoomInfo(room_data);
-                    tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
-                    result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
-                } catch (const std::exception &e) {
-                                            cache::activeLoggers().db->warn(
-                          "failed to parse room info for invite room ({}): {}", room_id, e.what());
-                }
-                return true;
-            });
+              try {
+                  RoomInfo tmp     = db::parseRoomInfo(room_data);
+                  tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
+                  result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
+              } catch (const std::exception &e) {
+                  cache::activeLoggers().db->warn(
+                    "failed to parse room info for invite room ({}): {}", room_id, e.what());
+              }
+              return true;
+          });
     }
 
     return result;
@@ -205,8 +211,8 @@ Cache::roomNamesAndAliases()
 
     db::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
-            try {
-                RoomInfo info = db::parseRoomInfo(room_data);
+          try {
+              RoomInfo info = db::parseRoomInfo(room_data);
 
               auto aliases =
                 getStateEvent<mtx::events::state::CanonicalAlias>(txn, std::string(room_id));
@@ -215,17 +221,18 @@ Cache::roomNamesAndAliases()
                   alias = aliases->content.alias;
               }
 
-                result.push_back(RoomNameAlias{
-                    .id              = std::string(room_id),
-                    .name            = std::move(info.name),
-                    .alias           = std::move(alias),
-                    .recent_activity = info.approximate_last_modification_ts,
-                    .is_tombstoned   = info.is_tombstoned,
-                    .is_space        = info.is_space,
-                  });
-            } catch (std::exception &e) {
-                                    cache::activeLoggers().db->warn("Failed to add room {} to result: {}", room_id, e.what());
-            }
+              result.push_back(RoomNameAlias{
+                .id              = std::string(room_id),
+                .name            = std::move(info.name),
+                .alias           = std::move(alias),
+                .recent_activity = info.approximate_last_modification_ts,
+                .is_tombstoned   = info.is_tombstoned,
+                .is_space        = info.is_space,
+              });
+          } catch (std::exception &e) {
+              cache::activeLoggers().db->warn(
+                "Failed to add room {} to result: {}", room_id, e.what());
+          }
           return true;
       });
 

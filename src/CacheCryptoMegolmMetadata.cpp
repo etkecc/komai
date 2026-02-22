@@ -56,7 +56,7 @@ Cache::loadEventExpirationProgress(const std::string &room, const std::string &e
 void
 Cache::setEncryptedRoom(db::Transaction &txn, const std::string &room_id)
 {
-            cache::activeLoggers().db->info("mark room {} as encrypted", room_id);
+    cache::activeLoggers().db->info("mark room {} as encrypted", room_id);
 
     db->encryptedRooms_.put(txn, room_id, "0");
 }
@@ -87,7 +87,7 @@ Cache::roomEncryptionSettings(const std::string &room_id)
         }
     } catch (db::Error &) {
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.encryption event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.encryption event: {}", e.what());
     }
 
     return std::nullopt;
@@ -110,11 +110,13 @@ Cache::exportSessionKeys()
 
           try {
               if (!db::parseMegolmSessionKey(key, index.room_id, index.session_id)) {
-                                        cache::activeLoggers().db->critical("failed to export megolm session: invalid index key");
+                  cache::activeLoggers().db->critical(
+                    "failed to export megolm session: invalid index key");
                   return true;
               }
           } catch (...) {
-                                cache::activeLoggers().db->critical("failed to export megolm session: invalid index key");
+              cache::activeLoggers().db->critical(
+                "failed to export megolm session: invalid index key");
               return true;
           }
 
@@ -130,7 +132,8 @@ Cache::exportSessionKeys()
                   exported.sender_claimed_keys["ed25519"] = data->sender_claimed_ed25519_key;
               exported.forwarding_curve25519_key_chain = data->forwarding_curve25519_key_chain;
           } catch (const std::exception &e) {
-                                cache::activeLoggers().db->error("Failed to retrieve Megolm Session Data: {}", e.what());
+              cache::activeLoggers().db->error("Failed to retrieve Megolm Session Data: {}",
+                                               e.what());
               return true;
           }
 
@@ -178,8 +181,8 @@ Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
                   unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
                 if (olm_inbound_group_session_first_known_index(exported_session.get()) >=
                     olm_inbound_group_session_first_known_index(oldSession.get())) {
-                                            cache::activeLoggers().crypto->warn(
-                          "Not storing inbound session with newer or equal first known index");
+                    cache::activeLoggers().crypto->warn(
+                      "Not storing inbound session with newer or equal first known index");
                     continue;
                 }
             }
@@ -195,16 +198,17 @@ Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
             ChatPage::instance()->receivedSessionKey(index.room_id, index.session_id);
             importCount++;
         } catch (const mtx::crypto::olm_exception &e) {
-                            cache::activeLoggers().crypto->critical(
-                  "failed to import inbound megolm session {}: {}", index.session_id, e.what());
+            cache::activeLoggers().crypto->critical(
+              "failed to import inbound megolm session {}: {}", index.session_id, e.what());
             continue;
         } catch (const db::Error &e) {
-                            cache::activeLoggers().crypto->critical(
-                  "failed to save inbound megolm session {}: {}", index.session_id, e.what());
+            cache::activeLoggers().crypto->critical(
+              "failed to save inbound megolm session {}: {}", index.session_id, e.what());
             continue;
         }
     }
     txn.commit();
 
-            cache::activeLoggers().crypto->info("Imported {} out of {} keys", importCount, keys.sessions.size());
+    cache::activeLoggers().crypto->info(
+      "Imported {} out of {} keys", importCount, keys.sessions.size());
 }

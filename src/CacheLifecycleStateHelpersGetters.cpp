@@ -83,7 +83,7 @@ Cache::getStateEventsWithType(db::Transaction &txn,
                       db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
                     events.push_back(std::move(*event));
             } catch (std::exception &e) {
-                                    cache::activeLoggers().db->warn("Failed to parse state event: {}", e.what());
+                cache::activeLoggers().db->warn("Failed to parse state event: {}", e.what());
             }
         }
     }

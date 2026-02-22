@@ -25,7 +25,7 @@ Cache::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
             return QString::fromStdString(msg->content.name);
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.name event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.name event: {}", e.what());
     }
 
     const auto localUserId = localUserId_.toStdString();
@@ -41,7 +41,7 @@ Cache::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
             foundMemberName = true;
             return false;
         } catch (const nlohmann::json::exception &e) {
-                            cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
+            cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
         }
         return true;
     });
@@ -58,14 +58,14 @@ Cache::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
     using namespace mtx::events;
     using namespace mtx::events::state;
 
-        try {
-            if (auto msg = db::getJsonValue<StrippedEvent<state::Avatar>>(
-                  txn, statesdb, to_string(mtx::events::EventType::RoomAvatar))) {
-                return QString::fromStdString(msg->content.url);
-            }
-        } catch (const nlohmann::json::exception &e) {
-                            cache::activeLoggers().db->warn("failed to parse m.room.avatar event: {}", e.what());
+    try {
+        if (auto msg = db::getJsonValue<StrippedEvent<state::Avatar>>(
+              txn, statesdb, to_string(mtx::events::EventType::RoomAvatar))) {
+            return QString::fromStdString(msg->content.url);
         }
+    } catch (const nlohmann::json::exception &e) {
+        cache::activeLoggers().db->warn("failed to parse m.room.avatar event: {}", e.what());
+    }
 
     const auto localUserId = localUserId_.toStdString();
     QString avatarUrl;
@@ -80,7 +80,7 @@ Cache::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
             foundAvatarUrl = true;
             return false;
         } catch (const nlohmann::json::exception &e) {
-                            cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
+            cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
         }
         return true;
     });
@@ -103,7 +103,7 @@ Cache::getInviteRoomTopic(db::Transaction &txn, db::Store &db_)
             return QString::fromStdString(msg->content.topic);
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.topic event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.topic event: {}", e.what());
     }
 
     return QString();
@@ -121,7 +121,7 @@ Cache::getInviteRoomIsSpace(db::Transaction &txn, db::Store &db_)
             return msg->content.type == mtx::events::state::room_type::space;
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.topic event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.topic event: {}", e.what());
     }
 
     return false;

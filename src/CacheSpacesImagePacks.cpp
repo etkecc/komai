@@ -110,9 +110,10 @@ Cache::getImagePacks(const std::string &room_id, std::optional<bool> stickers)
                   try {
                       addRoomAndCanonicalParents(parent.state_key);
                   } catch (const db::Error &) {
-                                                cache::activeLoggers().db->debug("Skipping events from parent community, because we are "
-                                        "not joined to it: {}",
-                                        parent.state_key);
+                      cache::activeLoggers().db->debug(
+                        "Skipping events from parent community, because we are "
+                        "not joined to it: {}",
+                        parent.state_key);
                   }
               }
           }

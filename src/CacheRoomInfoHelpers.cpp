@@ -28,7 +28,7 @@ Cache::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &me
                 return QString::fromStdString(msg->content.url);
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.avatar event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.avatar event: {}", e.what());
     }
 
     // We don't use an avatar for group chats.
@@ -53,7 +53,7 @@ Cache::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &me
             foundDirectUrl = true;
             return false;
         } catch (const nlohmann::json::exception &e) {
-                            cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
+            cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
         }
         return true;
     });
@@ -78,7 +78,7 @@ Cache::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &members
                 return QString::fromStdString(msg->content.name);
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.name event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.name event: {}", e.what());
     }
 
     try {
@@ -88,7 +88,8 @@ Cache::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &members
                 return QString::fromStdString(msg->content.alias);
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.canonical_alias event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.canonical_alias event: {}",
+                                        e.what());
     }
 
     const auto total = membersdb.size(txn);
@@ -100,7 +101,7 @@ Cache::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &members
           try {
               members.emplace(user_id, db::parseMemberInfo(member_data));
           } catch (const nlohmann::json::exception &e) {
-                                cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
+              cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
           }
           return true;
       });
@@ -152,7 +153,7 @@ Cache::getRoomJoinRule(db::Transaction &txn, db::Store &statesdb)
             return msg->content.join_rule;
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.join_rule event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.join_rule event: {}", e.what());
     }
     return state::JoinRule::Knock;
 }
@@ -169,7 +170,7 @@ Cache::getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb)
             return msg->content.guest_access == AccessState::CanJoin;
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.guest_access event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.guest_access event: {}", e.what());
     }
     return false;
 }
@@ -187,7 +188,7 @@ Cache::getRoomTopic(db::Transaction &txn, db::Store &statesdb)
                 return QString::fromStdString(msg->content.topic);
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.topic event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.topic event: {}", e.what());
     }
 
     return QString();
@@ -206,10 +207,11 @@ Cache::getRoomVersion(db::Transaction &txn, db::Store &statesdb)
                 return QString::fromStdString(msg->content.room_version);
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.create event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.create event: {}", e.what());
     }
 
-            cache::activeLoggers().db->warn("m.room.create event is missing room version, assuming version \"1\"");
+    cache::activeLoggers().db->warn(
+      "m.room.create event is missing room version, assuming version \"1\"");
     return QStringLiteral("1");
 }
 
@@ -225,10 +227,11 @@ Cache::getRoomIsSpace(db::Transaction &txn, db::Store &statesdb)
             return msg->content.type == mtx::events::state::room_type::space;
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.create event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.create event: {}", e.what());
     }
 
-            cache::activeLoggers().db->warn("m.room.create event is missing room version, assuming version \"1\"");
+    cache::activeLoggers().db->warn(
+      "m.room.create event is missing room version, assuming version \"1\"");
     return false;
 }
 
@@ -244,7 +247,7 @@ Cache::getRoomIsTombstoned(db::Transaction &txn, db::Store &statesdb)
             return true;
         }
     } catch (const nlohmann::json::exception &e) {
-                    cache::activeLoggers().db->warn("failed to parse m.room.tombstone event: {}", e.what());
+        cache::activeLoggers().db->warn("failed to parse m.room.tombstone event: {}", e.what());
     }
 
     return false;

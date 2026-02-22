@@ -71,7 +71,8 @@ Cache::saveInvite(db::Transaction &txn,
                   bool res = statesdb.put(txn, j["type"].get<std::string>(), j.dump());
 
                   if (!res) {
-                                                cache::activeLoggers().db->warn("couldn't save data: {}", nlohmann::json(msg).dump());
+                      cache::activeLoggers().db->warn("couldn't save data: {}",
+                                                      nlohmann::json(msg).dump());
                   }
               },
               e);

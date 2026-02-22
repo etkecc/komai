@@ -18,8 +18,8 @@
 #include <qt6keychain/keychain.h>
 #endif
 
-#include "ChatPage.h"
 #include "CacheApiWrappers.h"
+#include "ChatPage.h"
 #include "MatrixClient.h"
 #include "Paths.h"
 #include "ProfileSecrets.h"
@@ -59,7 +59,7 @@ cacheDirectoryName(const QString &userid, const QString &profile)
 void
 Cache::setup()
 {
-    auto settings = UserSettings::instance();
+    auto settings     = UserSettings::instance();
     const auto logger = cacheDbLogger();
 
     if (logger)

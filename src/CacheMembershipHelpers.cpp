@@ -36,12 +36,13 @@ Cache::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes
                   txn, db_, to_string(EventType::RoomPowerLevels))) {
                 user_level = msg->content.user_level(user_id);
 
-                    for (const auto &ty : eventTypes)
-                        min_event_level =
-                          std::min(min_event_level, msg->content.state_level(to_string(ty)));
+                for (const auto &ty : eventTypes)
+                    min_event_level =
+                      std::min(min_event_level, msg->content.state_level(to_string(ty)));
             }
         } catch (const nlohmann::json::exception &e) {
-                            cache::activeLoggers().db->warn("failed to parse m.room.power_levels event: {}", e.what());
+            cache::activeLoggers().db->warn("failed to parse m.room.power_levels event: {}",
+                                            e.what());
         }
 
         return user_level >= min_event_level;
@@ -59,7 +60,8 @@ Cache::roomMembers(const std::string &room_id)
         auto db_ = getMembersDb(txn, room_id);
         return db::listUniqueKeys(txn, db_);
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error("Failed to retrieve members from db in room {}: {}", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Failed to retrieve members from db in room {}: {}", room_id, e.what());
         return {};
     }
 }
@@ -98,10 +100,11 @@ Cache::getCommonRooms(const std::string &user_id)
                   result.emplace(std::string(room_id), std::move(tmp));
               }
           } catch (std::exception &e) {
-                                cache::activeLoggers().db->warn("Failed to read common room for member ({}) in room ({}): {}",
-                               user_id,
-                               room_id,
-                               e.what());
+              cache::activeLoggers().db->warn(
+                "Failed to read common room for member ({}) in room ({}): {}",
+                user_id,
+                room_id,
+                e.what());
           }
           return true;
       });
@@ -122,8 +125,8 @@ Cache::getMember(const std::string &room_id, const std::string &user_id)
 
         return db::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
-                    cache::activeLoggers().db->warn(
-              "Failed to read member ({}) in room ({}): {}", user_id, room_id, e.what());
+        cache::activeLoggers().db->warn(
+          "Failed to read member ({}) in room ({}): {}", user_id, room_id, e.what());
     }
     return std::nullopt;
 }
@@ -147,17 +150,18 @@ Cache::getMembers(const std::string &room_id, std::size_t startIndex, std::size_
                                  members.emplace_back(RoomMember{
                                    QString::fromStdString(std::string(user_id)),
                                    QString::fromStdString(tmp.name),
-                                 QString::fromStdString(tmp.avatar_url),
+                                   QString::fromStdString(tmp.avatar_url),
                                  });
                              } catch (const nlohmann::json::exception &e) {
-                                                                      cache::activeLoggers().db->warn("{}", e.what());
+                                 cache::activeLoggers().db->warn("{}", e.what());
                              }
                              return true;
                          });
 
         return members;
     } catch (const db::Error &e) {
-                    cache::activeLoggers().db->error("Failed to retrieve members from db in room {}: {}", room_id, e.what());
+        cache::activeLoggers().db->error(
+          "Failed to retrieve members from db in room {}: {}", room_id, e.what());
         return {};
     }
 }
@@ -174,8 +178,8 @@ Cache::isRoomMember(const std::string &user_id, const std::string &room_id)
 
         return res;
     } catch (std::exception &e) {
-                    cache::activeLoggers().db->warn(
-              "Failed to read member membership ({}) in room ({}): {}", user_id, room_id, e.what());
+        cache::activeLoggers().db->warn(
+          "Failed to read member membership ({}) in room ({}): {}", user_id, room_id, e.what());
     }
     return false;
 }

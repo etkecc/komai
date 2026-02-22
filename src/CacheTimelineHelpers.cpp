@@ -90,7 +90,7 @@ Cache::saveTimelineMessages(db::Transaction &txn,
 
         std::string event_id_val = event.value("event_id", "");
         if (event_id_val.empty()) {
-                            cache::activeLoggers().db->error("Event without id!");
+            cache::activeLoggers().db->error("Event without id!");
             continue;
         }
 
@@ -127,7 +127,7 @@ Cache::saveTimelineMessages(db::Transaction &txn,
             if (first && res.limited) {
                 first = false;
 
-                                    cache::activeLoggers().db->debug("saving redaction '{}'", orderEntry);
+                cache::activeLoggers().db->debug("saving redaction '{}'", orderEntry);
 
                 db::appendEventOrderEntry(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
                 eventsDb.put(txn, event_id, event.dump());
@@ -156,8 +156,8 @@ Cache::saveTimelineMessages(db::Transaction &txn,
                           redactedEvent.event_id  = ev.event_id;
                           redactedEvent.state_key = ev.state_key;
                           redactedEvent.type      = ev.type;
-                                                        cache::activeLoggers().db->critical("Redacting: {}",
-                                              nlohmann::json(redactedEvent).dump(2));
+                          cache::activeLoggers().db->critical(
+                            "Redacting: {}", nlohmann::json(redactedEvent).dump(2));
 
                           saveStateEvent(txn,
                                          statesdb,
@@ -173,7 +173,7 @@ Cache::saveTimelineMessages(db::Transaction &txn,
                 event["content"].clear();
 
             } catch (std::exception &e) {
-                                    cache::activeLoggers().db->error("Failed to parse message from cache {}", e.what());
+                cache::activeLoggers().db->error("Failed to parse message from cache {}", e.what());
                 continue;
             }
 
@@ -186,7 +186,7 @@ Cache::saveTimelineMessages(db::Transaction &txn,
             std::string_view unused_read;
             if (!evToOrderDb.get(txn, event_id, unused_read)) {
                 first = false;
-                                    cache::activeLoggers().db->debug("saving '{}'", orderEntry);
+                cache::activeLoggers().db->debug("saving '{}'", orderEntry);
 
                 db::appendEventOrderEntry(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
 
@@ -195,7 +195,7 @@ Cache::saveTimelineMessages(db::Transaction &txn,
                     db::appendMessageOrderEntry(txn, order2msgDb, msg2orderDb, msgIndex, event_id);
                 }
             } else {
-                                    cache::activeLoggers().db->warn("duplicate event '{}'", orderEntry);
+                cache::activeLoggers().db->warn("duplicate event '{}'", orderEntry);
             }
             eventsDb.put(txn, event_id, eventJson);
 

@@ -5,8 +5,8 @@
 #include <spdlog/logger.h>
 #include <spdlog/sinks/null_sink.h>
 
-#include <utility>
 #include <string_view>
+#include <utility>
 
 // Keep logger holder definition alongside this source translation unit.
 #include "CacheApiWrappers.h"
@@ -35,9 +35,9 @@ CacheLoggers
 defaultLoggers()
 {
     static const CacheLoggers loggers{
-      .db = nullCacheLogger("cache-db"),
+      .db     = nullCacheLogger("cache-db"),
       .crypto = nullCacheLogger("cache-crypto"),
-      .net = nullCacheLogger("cache-net"),
+      .net    = nullCacheLogger("cache-net"),
     };
     return loggers;
 }

@@ -53,12 +53,12 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
         return;
 
     if (!hasUserId || !hasDeviceId || !hasHomeserver) {
-        if (const auto logger = activeLoggers().ui)
-            logger->warn("Skipping session.yml write because session identity is incomplete "
-                         "(has_user_id={}, has_device_id={}, has_homeserver={})",
-                         hasUserId,
-                         hasDeviceId,
-                         hasHomeserver);
+        activeLoggers().ui->warn(
+          "Skipping session.yml write because session identity is incomplete "
+          "(has_user_id={}, has_device_id={}, has_homeserver={})",
+          hasUserId,
+          hasDeviceId,
+          hasHomeserver);
         return;
     }
 
@@ -68,9 +68,7 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
     setNode(root, SettingKey::SessionDeviceId, settings.deviceId().toStdString());
 
     if (writeYamlFile(sessionFilePath, root, false)) {
-        if (const auto logger = activeLoggers().ui) {
-            logger->debug("Saved session to: {}", sessionFilePath.toStdString());
-        }
+        activeLoggers().ui->debug("Saved session to: {}", sessionFilePath.toStdString());
     }
 }
 

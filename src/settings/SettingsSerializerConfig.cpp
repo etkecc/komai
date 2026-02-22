@@ -6,8 +6,11 @@
 
 #include <QString>
 
-#include <utility>
 #include <spdlog/logger.h>
+#include <spdlog/sinks/null_sink.h>
+#include <string>
+#include <string_view>
+#include <utility>
 
 #include <yaml-cpp/yaml.h>
 
@@ -25,10 +28,18 @@ namespace settings::serializer {
 
 namespace {
 
+std::shared_ptr<spdlog::logger>
+nullLogger(std::string_view name)
+{
+    static auto sink   = std::make_shared<spdlog::sinks::null_sink_mt>();
+    static auto logger = std::make_shared<spdlog::logger>(std::string(name), sink);
+    return logger;
+}
+
 SerializerLoggers
 defaultLoggers()
 {
-    return {};
+    return {.ui = nullLogger("settings-serializer-ui")};
 }
 
 SerializerLoggers &
@@ -43,10 +54,13 @@ currentLoggers()
 void
 setLoggers(SerializerLoggers loggers)
 {
+    const auto &defaults = defaultLoggers();
+    if (!loggers.ui)
+        loggers.ui = defaults.ui;
     currentLoggers() = std::move(loggers);
 }
 
-SerializerLoggers
+const SerializerLoggers &
 activeLoggers()
 {
     return currentLoggers();
@@ -204,9 +218,7 @@ saveConfig(const UserSettings &settings, const QString &configFilePath)
     makeConfigNode(settings, root);
 
     if (writeYamlFile(configFilePath, root, false)) {
-        if (const auto logger = activeLoggers().ui) {
-            logger->debug("Saved config to: {}", configFilePath.toStdString());
-        }
+        activeLoggers().ui->debug("Saved config to: {}", configFilePath.toStdString());
     }
 }
 

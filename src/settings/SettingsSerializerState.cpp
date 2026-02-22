@@ -73,9 +73,7 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
     writeStringList(root, SettingKey::ComposerReactionsRecent, settings.recentReactions());
 
     if (writeYamlFile(stateFilePath, root, false)) {
-        if (const auto logger = activeLoggers().ui) {
-            logger->debug("Saved state to: {}", stateFilePath.toStdString());
-        }
+        activeLoggers().ui->debug("Saved state to: {}", stateFilePath.toStdString());
     }
 }
 

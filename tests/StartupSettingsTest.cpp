@@ -289,7 +289,7 @@ testSerializerLoggerInjection()
 
     settings::serializer::setLoggers({});
     auto loggerState = settings::serializer::activeLoggers();
-    if (!expect(!loggerState.ui, "serializer accepts null-injected logger"))
+    if (!expect(!!loggerState.ui, "serializer defaults null-injected logger values"))
         return false;
 
     YAML::Node configRoot(YAML::NodeType::Map);

@@ -7,8 +7,8 @@
 #include <QMap>
 #include <QString>
 
-#include <yaml-cpp/yaml.h>
 #include <memory>
+#include <yaml-cpp/yaml.h>
 
 #include "settings/SettingKeys.h"
 #include "settings/StagedLoadPlan.h"
@@ -26,7 +26,7 @@ struct PersistenceLoggers
 
 void
 setLoggers(PersistenceLoggers loggers);
-PersistenceLoggers
+const PersistenceLoggers &
 activeLoggers();
 
 /**

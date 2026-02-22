@@ -22,7 +22,7 @@ struct DbusBackendLoggers
 
 void
 setLoggers(DbusBackendLoggers loggers);
-DbusBackendLoggers
+const DbusBackendLoggers &
 activeLoggers();
 
 class RoomlistModel;

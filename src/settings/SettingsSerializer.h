@@ -25,7 +25,7 @@ struct SerializerLoggers
 
 void
 setLoggers(SerializerLoggers loggers);
-SerializerLoggers
+const SerializerLoggers &
 activeLoggers();
 
 /**

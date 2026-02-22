@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <optional>
 #include <memory>
+#include <optional>
 
 namespace YAML {
 class Node;
@@ -27,7 +27,7 @@ struct ControllerLoggers
 
 void
 setLoggers(ControllerLoggers loggers);
-ControllerLoggers
+const ControllerLoggers &
 activeLoggers();
 
 /**

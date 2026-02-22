@@ -139,7 +139,8 @@ testLoggerInjectionNullAndInjectedLoggers()
 
     settings::storage::setLoggers({});
     auto current = settings::storage::activeLoggers();
-    ok &= expect(!current.ui && !current.db, "settings storage accepts null-injected loggers");
+    ok &= expect(current.ui && current.db,
+                 "settings storage defaults to injected null logger values");
 
     QTemporaryDir tempDir;
     if (!tempDir.isValid())
@@ -175,7 +176,8 @@ testCacheLoggerInjection()
 
     cache::setLoggers({});
     auto cacheLoggers = cache::activeLoggers();
-    ok &= expect(!cacheLoggers.db, "cache wrappers accept null-injected logger");
+    ok &= expect(cacheLoggers.db && cacheLoggers.crypto && cacheLoggers.net,
+                 "cache wrappers default missing loggers when none are injected");
 
     auto logger = std::make_shared<spdlog::logger>(
       QStringLiteral("cache-test").toStdString(), std::make_shared<spdlog::sinks::null_sink_mt>());

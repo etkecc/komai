@@ -99,7 +99,7 @@ void
 setReaderWriter(ReaderWriterPtr writer);
 void
 setLoggers(StorageLoggers loggers);
-StorageLoggers
+const StorageLoggers &
 activeLoggers();
 
 /**

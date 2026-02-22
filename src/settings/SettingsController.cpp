@@ -4,9 +4,13 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include <utility>
 #include "SettingsController.h"
 #include <spdlog/logger.h>
+#include <spdlog/sinks/null_sink.h>
+#include <utility>
+
+#include <string>
+#include <string_view>
 
 #include "Paths.h"
 #include "UserSettingsPage.h"
@@ -33,10 +37,18 @@ using settings::persistence::providerFromConfig;
 
 namespace {
 
+std::shared_ptr<spdlog::logger>
+nullLogger(std::string_view name)
+{
+    static auto sink   = std::make_shared<spdlog::sinks::null_sink_mt>();
+    static auto logger = std::make_shared<spdlog::logger>(std::string(name), sink);
+    return logger;
+}
+
 settings::ControllerLoggers
 defaultLoggers()
 {
-    return {};
+    return {.ui = nullLogger("settings-controller-ui")};
 }
 
 settings::ControllerLoggers &
@@ -51,10 +63,13 @@ currentLoggers()
 void
 settings::setLoggers(settings::ControllerLoggers loggers)
 {
+    const auto &defaults = defaultLoggers();
+    if (!loggers.ui)
+        loggers.ui = defaults.ui;
     currentLoggers() = std::move(loggers);
 }
 
-settings::ControllerLoggers
+const settings::ControllerLoggers &
 settings::activeLoggers()
 {
     return currentLoggers();
@@ -165,10 +180,8 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 void
 settings::SettingsController::clearAuth(UserSettings &settings)
 {
-    if (const auto logger = activeLoggers().ui) {
-        logger->info("Clearing persisted session auth/identity for profile '{}'",
-                     app_paths::normalizedProfileId(settings.profile_).toStdString());
-    }
+    activeLoggers().ui->info("Clearing persisted session auth/identity for profile '{}'",
+                             app_paths::normalizedProfileId(settings.profile_).toStdString());
 
     settings.accessToken_ = QString();
     settings.homeserver_  = QString();
@@ -177,11 +190,9 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings.secrets_.clear();
 
     if (pathExists(settings.sessionFilePath_) && !removePath(settings.sessionFilePath_)) {
-        if (const auto logger = activeLoggers().ui) {
-            logger->warn("Failed to remove session file '{}', keeping file to avoid "
-                         "accidental data loss",
-                         settings.sessionFilePath_.toStdString());
-        }
+        activeLoggers().ui->warn("Failed to remove session file '{}', keeping file to avoid "
+                                 "accidental data loss",
+                                 settings.sessionFilePath_.toStdString());
     }
 
     settings::persistence::clearProfileSecrets(

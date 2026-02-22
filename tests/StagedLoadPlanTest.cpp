@@ -1,0 +1,73 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include <iostream>
+
+#include "settings/StagedLoadPlan.h"
+
+namespace {
+
+bool
+expect(bool condition, const char *message)
+{
+    if (condition)
+        return true;
+
+    std::cerr << "FAILED: " << message << '\n';
+    return false;
+}
+
+bool
+testStagedLoadPlan()
+{
+    bool ok = true;
+
+    YAML::Node configFileProvider = YAML::Load(R"(
+secrets:
+  provider: file
+)");
+
+    const auto fileProvider = staged_load_plan::providerFromConfig(configFileProvider);
+    ok &= expect(fileProvider == staged_load_plan::SecretsProvider::File,
+                 "providerFromConfig resolves file provider");
+
+    const auto fileStages = staged_load_plan::stagesForProvider(fileProvider);
+    ok &= expect(fileStages.size() == 4, "file provider stages count");
+    ok &= expect(fileStages.at(0) == staged_load_plan::Stage::Config, "file stages[0]=config");
+    ok &= expect(fileStages.at(1) == staged_load_plan::Stage::Session, "file stages[1]=session");
+    ok &= expect(fileStages.at(2) == staged_load_plan::Stage::SecretsFile,
+                 "file stages[2]=secrets_file");
+    ok &= expect(fileStages.at(3) == staged_load_plan::Stage::State, "file stages[3]=state");
+
+    YAML::Node configDefault = YAML::Load(R"(
+ui:
+  theme:
+    slug: komai
+)");
+
+    const auto defaultProvider = staged_load_plan::providerFromConfig(configDefault);
+    ok &= expect(defaultProvider == staged_load_plan::SecretsProvider::SecretService,
+                 "providerFromConfig defaults to secret_service");
+
+    const auto secureStages = staged_load_plan::stagesForProvider(defaultProvider);
+    ok &= expect(secureStages.size() == 4, "secure provider stages count");
+    ok &= expect(secureStages.at(0) == staged_load_plan::Stage::Config, "secure stages[0]=config");
+    ok &= expect(secureStages.at(1) == staged_load_plan::Stage::Session,
+                 "secure stages[1]=session");
+    ok &= expect(secureStages.at(2) == staged_load_plan::Stage::SecretsSecureBackend,
+                 "secure stages[2]=secrets_secure_backend");
+    ok &= expect(secureStages.at(3) == staged_load_plan::Stage::State, "secure stages[3]=state");
+
+    return ok;
+}
+
+} // namespace
+
+int
+main()
+{
+    bool ok = true;
+    ok &= testStagedLoadPlan();
+    return ok ? 0 : 1;
+}

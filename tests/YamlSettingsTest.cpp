@@ -3,9 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <iostream>
-#include <string>
 
-#include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"
 
 namespace {
@@ -20,10 +18,8 @@ expect(bool condition, const char *message)
     return false;
 }
 
-} // namespace
-
-int
-main()
+bool
+testYamlHelpers()
 {
     bool ok = true;
 
@@ -56,41 +52,15 @@ session:
     ok &= expect(yaml_settings::readString(writeRoot, "a.b.d", QString{}) == QLatin1String("hello"),
                  "setNode/readString text roundtrip");
 
-    YAML::Node configFileProvider = YAML::Load(R"(
-secrets:
-  provider: file
-)");
+    return ok;
+}
 
-    const auto fileProvider = staged_load_plan::providerFromConfig(configFileProvider);
-    ok &= expect(fileProvider == staged_load_plan::SecretsProvider::File,
-                 "providerFromConfig resolves file provider");
+} // namespace
 
-    const auto fileStages = staged_load_plan::stagesForProvider(fileProvider);
-    ok &= expect(fileStages.size() == 4, "file provider stages count");
-    ok &= expect(fileStages.at(0) == staged_load_plan::Stage::Config, "file stages[0]=config");
-    ok &= expect(fileStages.at(1) == staged_load_plan::Stage::Session, "file stages[1]=session");
-    ok &= expect(fileStages.at(2) == staged_load_plan::Stage::SecretsFile,
-                 "file stages[2]=secrets_file");
-    ok &= expect(fileStages.at(3) == staged_load_plan::Stage::State, "file stages[3]=state");
-
-    YAML::Node configDefault = YAML::Load(R"(
-ui:
-  theme:
-    slug: komai
-)");
-
-    const auto defaultProvider = staged_load_plan::providerFromConfig(configDefault);
-    ok &= expect(defaultProvider == staged_load_plan::SecretsProvider::SecretService,
-                 "providerFromConfig defaults to secret_service");
-
-    const auto secureStages = staged_load_plan::stagesForProvider(defaultProvider);
-    ok &= expect(secureStages.size() == 4, "secure provider stages count");
-    ok &= expect(secureStages.at(0) == staged_load_plan::Stage::Config, "secure stages[0]=config");
-    ok &= expect(secureStages.at(1) == staged_load_plan::Stage::Session,
-                 "secure stages[1]=session");
-    ok &= expect(secureStages.at(2) == staged_load_plan::Stage::SecretsSecureBackend,
-                 "secure stages[2]=secrets_secure_backend");
-    ok &= expect(secureStages.at(3) == staged_load_plan::Stage::State, "secure stages[3]=state");
-
+int
+main()
+{
+    bool ok = true;
+    ok &= testYamlHelpers();
     return ok ? 0 : 1;
 }

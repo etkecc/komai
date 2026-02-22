@@ -39,14 +39,15 @@
 #include "config/nheko.h"
 
 namespace {
+using settings::storage::configFilePathForProfile;
 using settings::storage::loadYamlFile;
 using settings::storage::profileDirPath;
-using settings::storage::configFilePathForProfile;
-using settings::storage::stateFilePathForProfile;
-using settings::storage::sessionFilePathForProfile;
 using settings::storage::secretsFilePathForProfile;
+using settings::storage::sessionFilePathForProfile;
+using settings::storage::stateFilePathForProfile;
 using settings::storage::writeYamlFile;
 
+using settings::persistence::providerFromConfig;
 using yaml_settings::readNestedStringLists;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
@@ -54,7 +55,6 @@ using yaml_settings::readStringList;
 using yaml_settings::setNode;
 using yaml_settings::writeNestedStringLists;
 using yaml_settings::writeStringList;
-using settings::persistence::providerFromConfig;
 
 QString
 toStorageValue(UserSettings::Presence value)
@@ -364,14 +364,12 @@ UserSettings::load(std::optional<QString> profile)
             break;
         }
         case staged_load_plan::Stage::SecretsSecureBackend:
-        case staged_load_plan::Stage::SecretsFile:
-            {
-                const auto payload = settings::persistence::loadProfileSecrets(
-                  profile_, runWithoutSecureSecretsService_, secretsFilePath_);
-                accessToken_ = payload.accessToken;
-                secrets_ = payload.secrets;
-            }
-            break;
+        case staged_load_plan::Stage::SecretsFile: {
+            const auto payload = settings::persistence::loadProfileSecrets(
+              profile_, runWithoutSecureSecretsService_, secretsFilePath_);
+            accessToken_ = payload.accessToken;
+            secrets_     = payload.secrets;
+        } break;
         case staged_load_plan::Stage::State: {
             const auto stateRoot = loadYamlFile(stateFilePath_, "state");
             loadStateYaml(stateRoot);
@@ -508,7 +506,6 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
 
     if (scaleFactor_ < 1.0 || scaleFactor_ > 3.0)
         scaleFactor_ = -1.0;
-
 }
 
 void
@@ -712,9 +709,8 @@ UserSettings::clearAuth()
 
     // Persist session/auth changes, then clear secrets material.
     saveSessionYaml();
-    settings::persistence::clearProfileSecrets(profile_,
-                                               runWithoutSecureSecretsService_,
-                                               secretsFilePath_);
+    settings::persistence::clearProfileSecrets(
+      profile_, runWithoutSecureSecretsService_, secretsFilePath_);
 
     saveStateYaml();
 }
@@ -1447,11 +1443,8 @@ UserSettings::saveSessionYaml() const
 void
 UserSettings::saveSecretsYaml() const
 {
-    settings::persistence::saveProfileSecrets(profile_,
-                                              runWithoutSecureSecretsService_,
-                                              secretsFilePath_,
-                                              accessToken_,
-                                              secrets_);
+    settings::persistence::saveProfileSecrets(
+      profile_, runWithoutSecureSecretsService_, secretsFilePath_, accessToken_, secrets_);
 }
 
 void

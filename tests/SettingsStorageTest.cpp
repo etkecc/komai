@@ -1,0 +1,141 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+#include <iostream>
+#include <string_view>
+
+#include <QFile>
+#include <QFileInfo>
+#include <QMap>
+#include <QTemporaryDir>
+
+#include <yaml-cpp/yaml.h>
+
+#include "settings/SettingsStorage.h"
+
+namespace {
+
+bool
+expect(bool condition, std::string_view message)
+{
+    if (condition)
+        return true;
+
+    std::cerr << "FAILED: " << message << '\n';
+    return false;
+}
+
+bool
+testYamlRoundtrip()
+{
+    bool ok = true;
+    const QTemporaryDir tempDir;
+    if (!tempDir.isValid()) {
+        return expect(false, "temporary directory is valid");
+    }
+
+    const auto filePath = tempDir.path() + QStringLiteral("/settings.yml");
+    YAML::Node root(YAML::NodeType::Map);
+    root["ui"]["motion"]["enable_animations"] = true;
+    root["sidebars"]["room_list"]["width_px"] = 42;
+
+    ok &= expect(settings::storage::writeYamlFile(filePath, root, false), "writeYamlFile persists map");
+
+    const auto read = settings::storage::loadYamlFile(filePath, "settings-test");
+    ok &= expect(read["ui"]["motion"]["enable_animations"].as<bool>() ==
+                 root["ui"]["motion"]["enable_animations"].as<bool>(),
+                 "read back bool from written YAML");
+    ok &= expect(read["sidebars"]["room_list"]["width_px"].as<int>() ==
+                 root["sidebars"]["room_list"]["width_px"].as<int>(),
+                 "read back integer from written YAML");
+
+    return ok;
+}
+
+bool
+testMissingAndInvalidFiles()
+{
+    bool ok = true;
+
+    const QTemporaryDir tempDir;
+    if (!tempDir.isValid()) {
+        return expect(false, "temporary directory is valid");
+    }
+
+    const auto missingPath = tempDir.path() + QStringLiteral("/missing.yml");
+    const auto missingRoot = settings::storage::loadYamlFile(missingPath, "missing");
+    ok &= expect(missingRoot.IsMap(), "loadYamlFile returns map for missing file");
+    ok &= expect(missingRoot.size() == 0, "missing file load returns empty map");
+
+    const auto invalidPath = tempDir.path() + QStringLiteral("/invalid.yml");
+    {
+        QFile invalidFile{invalidPath};
+        if (!invalidFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            return expect(false, "failed to create invalid YAML fixture file");
+        }
+        invalidFile.write("ui: [\n");
+        invalidFile.close();
+    }
+
+    const auto invalidRoot = settings::storage::loadYamlFile(invalidPath, "invalid");
+    ok &= expect(invalidRoot.IsMap(), "loadYamlFile returns map for invalid YAML");
+    ok &= expect(invalidRoot.size() == 0, "invalid YAML load falls back to empty map");
+
+    return ok;
+}
+
+bool
+testSecretsMapSerialization()
+{
+    bool ok = true;
+
+    const QMap<QString, QString> source{{"access-token", "abcd"}, {"device-id", "dev123"}};
+    const auto packed = settings::storage::encodeSecretsMap(source);
+    const auto unpacked = settings::storage::decodeSecretsMap(packed);
+
+    ok &= expect(unpacked == source, "secrets map encode/decode roundtrip");
+    ok &= expect(settings::storage::decodeSecretsMap(QString{}).isEmpty(),
+                 "decodeSecretsMap returns empty for blank input");
+    ok &= expect(settings::storage::decodeSecretsMap(QStringLiteral("not: [yaml")).isEmpty(),
+                 "decodeSecretsMap returns empty for parse errors");
+
+    return ok;
+}
+
+bool
+testPathHelpers()
+{
+    bool ok = true;
+
+    const QString profile = QStringLiteral("profile-123");
+    const auto profileDir = settings::storage::profileDirPath(profile);
+    const auto configPath = settings::storage::configFilePathForProfile(profile);
+    const auto statePath = settings::storage::stateFilePathForProfile(profile);
+    const auto sessionPath = settings::storage::sessionFilePathForProfile(profile);
+    const auto secretsPath = settings::storage::secretsFilePathForProfile(profile);
+
+    ok &= expect(!profileDir.isEmpty(), "profile directory path is not empty");
+    ok &= expect(profileDir.contains(profile), "profile directory path includes profile id");
+    ok &= expect(configPath.endsWith(QStringLiteral("config.yml")), "config path ends with config.yml");
+    ok &= expect(statePath.endsWith(QStringLiteral("state.yml")), "state path ends with state.yml");
+    ok &= expect(sessionPath.endsWith(QStringLiteral("session.yml")), "session path ends with session.yml");
+    ok &= expect(secretsPath.endsWith(QStringLiteral("secrets.yml")), "secrets path ends with secrets.yml");
+    ok &= expect(QFileInfo(configPath).dir().absolutePath() == profileDir, "config path dir is profile dir");
+
+    return ok;
+}
+
+} // namespace
+
+int
+main()
+{
+    bool ok = true;
+    ok &= testYamlRoundtrip();
+    ok &= testMissingAndInvalidFiles();
+    ok &= testSecretsMapSerialization();
+    ok &= testPathHelpers();
+
+    return ok ? 0 : 1;
+}

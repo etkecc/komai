@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "BootstrapSettings.h"
+#include "StartupSettings.h"
 
 #include <QFileInfo>
 
@@ -12,10 +12,10 @@
 #include "settings/SettingKeys.h"
 #include "settings/YamlSettings.h"
 
-namespace settings::bootstrap {
+namespace settings::startup {
 
 std::optional<float>
-readUiScaleFactor(QStringView profile)
+readUiScaleFactor(const QString &profile)
 {
     const auto path = app_paths::config::profileConfigFile(profile);
     if (!QFileInfo::exists(path))
@@ -32,5 +32,4 @@ readUiScaleFactor(QStringView profile)
     }
 }
 
-} // namespace settings::bootstrap
-
+} // namespace settings::startup

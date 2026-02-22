@@ -13,7 +13,7 @@ Responsibility split:
 - `settings::staged_load_plan` defines the load stages and how secrets-provider selection affects them.
 - `settings::persistence` handles secret-provider plumbing and serializing secret payloads.
 - `settings::storage` owns low-level file/keyring/YAML operations and profile path resolution.
-- `settings::bootstrap` owns startup-only reads that must happen before `Q(Core)Application` is created.
+- `settings::startup` owns startup-only reads that must happen before `Q(Core)Application` is created.
 
 ### Responsibility map
 
@@ -27,7 +27,7 @@ Settings flow:
 - startup:
   - `main.cpp` computes profile from args, reads pre-UI scale factor from `config.yml`, and initializes
     `UserSettings` before constructing visual UI (`MainWindow`).
-  - `main.cpp` delegates this pre-UI read to `settings::bootstrap::readUiScaleFactor(...)` to keep
+  - `main.cpp` delegates this pre-UI read to `settings::startup::readUiScaleFactor(...)` to keep
     startup-only logic isolated from settings orchestration.
   - `ThemeRegistry::initialize()` and logging are set up before UI creation.
   - `UserSettings::load(profile)` calls `settings::SettingsController::load(...)`.

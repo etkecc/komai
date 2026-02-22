@@ -36,7 +36,7 @@
 #include "Paths.h"
 #include "Utils.h"
 #include "config/nheko.h"
-#include "settings/BootstrapSettings.h"
+#include "settings/StartupSettings.h"
 #include "ui/ThemeRegistry.h"
 
 #if defined(Q_OS_MACOS)
@@ -193,7 +193,7 @@ main(int argc, char *argv[])
     // file then?
 #if !defined(Q_OS_MACOS)
     if (qgetenv("QT_SCALE_FACTOR").size() == 0) {
-        if (const auto factor = settings::bootstrap::readUiScaleFactor(selectedProfile))
+        if (const auto factor = settings::startup::readUiScaleFactor(selectedProfile))
             qputenv("QT_SCALE_FACTOR", QString::number(*factor).toUtf8());
     }
 #endif

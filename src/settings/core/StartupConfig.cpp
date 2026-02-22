@@ -4,8 +4,8 @@
 
 #include "StartupConfig.h"
 
-#include <fstream>
 #include <filesystem>
+#include <fstream>
 
 namespace {
 
@@ -21,7 +21,7 @@ snapshotFromYamlConfig(const YAML::Node &configRoot)
 
     try {
         if (configRoot.IsDefined() && configRoot["ui"]["scale"]["factor"].IsDefined()) {
-            const auto factor = configRoot["ui"]["scale"]["factor"].as<float>(-1.0F);
+            const auto factor      = configRoot["ui"]["scale"]["factor"].as<float>(-1.0F);
             snapshot.uiScaleFactor = normalizeScaleFactor(factor);
         }
     } catch (...) {

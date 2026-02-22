@@ -4,15 +4,15 @@
 
 #pragma once
 
-#include <string>
 #include <optional>
+#include <string>
 
 #include <yaml-cpp/yaml.h>
 
 namespace settings::core {
 
-constexpr float kMinScaleFactor = 1.0F;
-constexpr float kMaxScaleFactor = 3.0F;
+constexpr float kMinScaleFactor  = 1.0F;
+constexpr float kMaxScaleFactor  = 3.0F;
 constexpr float kScaleFactorStep = 0.25F;
 
 inline bool

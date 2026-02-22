@@ -17,6 +17,6 @@
 #include "settings/core/StartupConfig.h"
 
 #include "UserSettingsSettersCore.inc"
-#include "UserSettingsSettersUi.inc"
 #include "UserSettingsSettersLayout.inc"
 #include "UserSettingsSettersMisc.inc"
+#include "UserSettingsSettersUi.inc"

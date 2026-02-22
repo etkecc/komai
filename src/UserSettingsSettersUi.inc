@@ -156,4 +156,3 @@ UserSettings::setPrivacyScreenTimeoutSeconds(int s)
 {
     setSetting(privacyScreenTimeoutSeconds_, s, &UserSettings::privacyScreenTimeoutSecondsChanged);
 }
-

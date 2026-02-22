@@ -48,9 +48,11 @@
       SM::Options, SM::TabTimeline,
       []() -> QVariant { return static_cast<int>(I->showSenderUsername()); },
       [](const QVariant &v) -> bool {
-          auto val = v.toInt();
-          if (val < 0 || QMetaEnum::fromType<UserSettings::ShowSenderUsername>().keyCount() <= val) return false;
-          I->setShowSenderUsername(static_cast<UserSettings::ShowSenderUsername>(val)); return true;
+          UserSettings::ShowSenderUsername settingValue = UserSettings::ShowSenderUsername{};
+          if (!readEnumSettingValue(v, settingValue))
+              return false;
+          I->setShowSenderUsername(settingValue);
+          return true;
       },
       {}, {}, {},
       []() -> QVariant {
@@ -161,9 +163,11 @@
       SM::Options, SM::TabTimeline,
       []() -> QVariant { return static_cast<int>(I->showImage()); },
       [](const QVariant &v) -> bool {
-          auto val = v.toInt();
-          if (val < 0 || QMetaEnum::fromType<UserSettings::ShowImage>().keyCount() <= val) return false;
-          I->setShowImage(static_cast<UserSettings::ShowImage>(val)); return true;
+          UserSettings::ShowImage settingValue = UserSettings::ShowImage{};
+          if (!readEnumSettingValue(v, settingValue))
+              return false;
+          I->setShowImage(settingValue);
+          return true;
       },
       {}, {}, {},
       []() -> QVariant {

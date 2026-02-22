@@ -14,7 +14,9 @@
           auto variant = ThemeRegistry::instance().themeVariant(I->theme());
           if (variant == u"system") return false;
           auto slugs = ThemeRegistry::instance().themeSlugs(variant);
-          int idx = v.toInt();
+          int idx = 0;
+          if (!readSettingValue(v, idx))
+              return false;
           if (idx >= 0 && idx < slugs.size()) { I->setTheme(slugs.at(idx)); return true; }
           return false;
       },
@@ -181,9 +183,11 @@
       SM::Options, SM::TabSidebars,
       []() -> QVariant { return static_cast<int>(I->showLastMessagePreview()); },
       [](const QVariant &v) -> bool {
-          auto val = v.toInt();
-          if (val < 0 || QMetaEnum::fromType<UserSettings::LastMessagePreview>().keyCount() <= val) return false;
-          I->setShowLastMessagePreview(static_cast<UserSettings::LastMessagePreview>(val)); return true;
+          UserSettings::LastMessagePreview settingValue = UserSettings::LastMessagePreview{};
+          if (!readEnumSettingValue(v, settingValue))
+              return false;
+          I->setShowLastMessagePreview(settingValue);
+          return true;
       },
       {}, {}, {},
       []() -> QVariant {

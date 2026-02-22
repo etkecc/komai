@@ -14,8 +14,8 @@ namespace {
 
 using settings::storage::configFilePathForProfile;
 using settings::storage::profileDirPath;
-using settings::storage::sessionFilePathForProfile;
 using settings::storage::secretsFilePathForProfile;
+using settings::storage::sessionFilePathForProfile;
 using settings::storage::stateFilePathForProfile;
 
 bool

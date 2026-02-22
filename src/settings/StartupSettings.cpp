@@ -14,8 +14,7 @@ readStartupConfig(const QString &profile)
 {
     const auto path = app_paths::config::profileConfigFile(profile);
     const auto root = settings::core::snapshotFromYamlFile(path.toStdString());
-    return StartupSettings{.configRoot    = root.configRoot,
-                          .uiScaleFactor = root.uiScaleFactor};
+    return StartupSettings{.configRoot = root.configRoot, .uiScaleFactor = root.uiScaleFactor};
 }
 
 } // namespace settings::startup

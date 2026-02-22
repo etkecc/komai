@@ -98,13 +98,29 @@ struct SettingMeta
 #define I UserSettings::instance()
 #define SM UserSettingsModel
 
-template <typename T>
+template<typename T>
 bool
 readSettingValue(const QVariant &value, T &out)
 {
     if (!value.canConvert<T>())
         return false;
     out = value.value<T>();
+    return true;
+}
+
+template<typename Enum>
+bool
+readEnumSettingValue(const QVariant &value, Enum &out)
+{
+    int raw = 0;
+    if (!readSettingValue(value, raw))
+        return false;
+
+    const auto meta = QMetaEnum::fromType<Enum>();
+    if (raw < 0 || meta.keyCount() <= raw)
+        return false;
+
+    out = static_cast<Enum>(raw);
     return true;
 }
 
@@ -225,7 +241,9 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         return m.setValue ? m.setValue(value) : false;
     } else if (role == ThemeVariantValue) {
         if (index.row() == Theme) {
-            int variantIdx = value.toInt();
+            int variantIdx = 0;
+            if (!readSettingValue(value, variantIdx))
+                return false;
             QString newVariant;
             if (variantIdx == 0)
                 newVariant = QStringLiteral("light");

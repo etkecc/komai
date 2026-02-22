@@ -42,4 +42,3 @@
     // Logout
     { QT_TR_NOOP("Logout"), nullptr, SM::LogoutButton, SM::TabSession,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-

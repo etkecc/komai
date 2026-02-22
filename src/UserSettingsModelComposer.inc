@@ -22,9 +22,11 @@
       SM::Options, SM::TabComposer,
       []() -> QVariant { return static_cast<int>(I->sendMessageKey()); },
       [](const QVariant &v) -> bool {
-          auto val = v.toInt();
-          if (val < 0 || QMetaEnum::fromType<UserSettings::SendMessageKey>().keyCount() <= val) return false;
-          I->setSendMessageKey(static_cast<UserSettings::SendMessageKey>(val)); return true;
+          UserSettings::SendMessageKey settingValue = UserSettings::SendMessageKey{};
+          if (!readEnumSettingValue(v, settingValue))
+              return false;
+          I->setSendMessageKey(settingValue);
+          return true;
       },
       {}, {}, {},
       []() -> QVariant {
@@ -41,9 +43,11 @@
       SM::Options, SM::TabComposer,
       []() -> QVariant { return static_cast<int>(I->autoReplaceEmoji()); },
       [](const QVariant &v) -> bool {
-          auto val = v.toInt();
-          if (val < 0 || QMetaEnum::fromType<UserSettings::AutoReplaceEmoji>().keyCount() <= val) return false;
-          I->setAutoReplaceEmoji(static_cast<UserSettings::AutoReplaceEmoji>(val)); return true;
+          UserSettings::AutoReplaceEmoji settingValue = UserSettings::AutoReplaceEmoji{};
+          if (!readEnumSettingValue(v, settingValue))
+              return false;
+          I->setAutoReplaceEmoji(settingValue);
+          return true;
       },
       {}, {}, {},
       []() -> QVariant {

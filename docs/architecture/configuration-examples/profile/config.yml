@@ -122,6 +122,10 @@ db:
 integrations:
   dbus:
     expose_room_info: false
+  # Optional command used when opening links from Komai.
+  # Use %u for the URL placeholder. If omitted, the URL is appended automatically.
+  browser:
+    command: ""
 
 secrets:
   # secret_service (default) uses QtKeychain/OS secret backend.

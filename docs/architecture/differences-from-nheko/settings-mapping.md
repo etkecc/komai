@@ -28,7 +28,7 @@ Note:
 | Look & Feel | FONTS | Font size | `UserSettingsModel::FontSize` | `font_size` | `ui.font.size_pt` | config.yml | yes |
 | Look & Feel | FONTS | Emoji font family | `UserSettingsModel::EmojiFont` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
 | Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
-| Look & Feel | EFFECTS | Reduce or disable animations | `UserSettingsModel::ReducedMotion` | `reduced_motion` | `ui.motion.reduced` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable UI animations | `UserSettingsModel::EnableUIAnimations` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
 | Sidebars | ROOM LIST | Compact mode | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::ShowRoomListTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message preview | `UserSettingsModel::ShowLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
@@ -38,11 +38,12 @@ Note:
 | Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::ScrollbarsInRoomlist` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
 | Sidebars | ROOM LIST | Sorting | `UserSettingsModel::RoomSorting` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::ShowCommunitiesSidebar` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
-| Look & Feel | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::Tray` | `tray` | `app.window.tray.enabled` | config.yml | yes |
-| Look & Feel | SYSTEM TRAY | Start in tray | `UserSettingsModel::StartInTray` | `start_in_tray` | `app.startup.start_in_tray` | config.yml | yes |
-| Look & Feel | SYSTEM TRAY | Expose room information via D-Bus | `UserSettingsModel::ExposeDBusApi` | `expose_dbus_api` | `integrations.dbus.expose_room_info` | config.yml | yes |
-| Look & Feel | MOBILE | Enable text selection on timeline | `UserSettingsModel::MobileMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
-| Look & Feel | MOBILE | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
+| Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsTray` | `tray` | `app.window.tray.enabled` | config.yml | yes |
+| Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsStartInTray` | `start_in_tray` | `app.startup.start_in_tray` | config.yml | yes |
+| Integrations | D-BUS | Expose room information via D-Bus | `UserSettingsModel::IntegrationsExposeDBusApi` | `expose_dbus_api` | `integrations.dbus.expose_room_info` | config.yml | yes |
+| Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::integrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::MobileMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
 | Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::Bubbles` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
 | Timeline | MESSAGES | Use small avatars | `UserSettingsModel::SmallAvatars` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | MESSAGES | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::ShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |

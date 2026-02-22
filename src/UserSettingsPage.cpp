@@ -57,7 +57,7 @@ constexpr auto UiFontFamily               = "ui.font.family";
 constexpr auto UiFontEmojiFamily          = "ui.font.emoji_family";
 constexpr auto UiFontSizePt               = "ui.font.size_pt";
 constexpr auto UiScaleFactor              = "ui.scale.factor";
-constexpr auto UiMotionReduced            = "ui.motion.reduced";
+constexpr auto UiMotionAnimationsEnabled   = "ui.motion.enable_animations";
 constexpr auto UiInputEnableTextSelection = "ui.input.enable_text_selection";
 constexpr auto UiInputSwipeGestures       = "ui.input.swipe_gestures";
 constexpr auto UiAvatarsCircular          = "ui.avatars.circular";
@@ -118,6 +118,7 @@ constexpr auto NetworkHttp3Enabled            = "network.http3.enabled";
 constexpr auto DbMaxSizeBytes                 = "db.max_size_bytes";
 constexpr auto DbMaxFiles                     = "db.max_files";
 constexpr auto IntegrationsDbusExposeRoomInfo = "integrations.dbus.expose_room_info";
+constexpr auto IntegrationsBrowserCommand     = "integrations.browser.command";
 constexpr auto SecretsProvider                = "secrets.provider";
 
 // state.yml
@@ -734,11 +735,13 @@ UserSettings::loadConfigYaml(const YAML::Node &root)
       readString(root, SettingKey::SidebarsRoomListLastMessagePreview, QStringLiteral("always")),
       LastMessagePreview::Always);
     fancyEffects_  = readScalar<bool>(root, SettingKey::TimelineMediaEffectsEnabled, true);
-    reducedMotion_ = readScalar<bool>(root, SettingKey::UiMotionReduced, false);
+    reducedMotion_ = !readScalar<bool>(root, SettingKey::UiMotionAnimationsEnabled, true);
     privacyScreen_ = readScalar<bool>(root, SettingKey::PrivacyScreenLockEnabled, false);
     privacyScreenTimeoutSeconds_ =
       readScalar<int>(root, SettingKey::PrivacyScreenLockTimeoutSeconds, 0);
-    exposeDBusApi_   = readScalar<bool>(root, SettingKey::IntegrationsDbusExposeRoomInfo, false);
+    exposeDBusApi_ = readScalar<bool>(root, SettingKey::IntegrationsDbusExposeRoomInfo, false);
+    integrationsLinksBrowserCommand_ =
+      readString(root, SettingKey::IntegrationsBrowserCommand, QString());
     updateSpaceVias_ = readScalar<bool>(root, SettingKey::PrivacyMaintenanceUpdateSpaceVias, true);
     expireEvents_    = readScalar<bool>(root, SettingKey::PrivacyMaintenanceExpireEvents, false);
     presence_        = presenceFromStorage(
@@ -1057,6 +1060,13 @@ void
 UserSettings::setExposeDBusApi(bool s)
 {
     setSetting(exposeDBusApi_, s, &UserSettings::exposeDBusApiChanged);
+}
+void
+UserSettings::setIntegrationsLinksBrowserCommand(QString command)
+{
+    setSetting(integrationsLinksBrowserCommand_,
+               command.trimmed(),
+               &UserSettings::integrationsLinksBrowserCommandChanged);
 }
 void
 UserSettings::setUpdateSpaceVias(bool s)
@@ -1729,7 +1739,7 @@ UserSettings::saveConfigYaml() const
     if (scaleFactor_ >= 1.0 && scaleFactor_ <= 3.0)
         setNode(root, SettingKey::UiScaleFactor, scaleFactor_);
     setNode(root, SettingKey::UiFontSizePt, baseFontSize_);
-    setNode(root, SettingKey::UiMotionReduced, reducedMotion_);
+    setNode(root, SettingKey::UiMotionAnimationsEnabled, !reducedMotion_);
     setNode(root, SettingKey::UiInputEnableTextSelection, !mobileMode_);
     setNode(root, SettingKey::UiInputSwipeGestures, enableSwipeGestures_);
     setNode(root, SettingKey::UiAvatarsCircular, useCircularAvatars_);
@@ -1798,6 +1808,8 @@ UserSettings::saveConfigYaml() const
     setNode(root, SettingKey::DbMaxSizeBytes, maxDbSize_);
     setNode(root, SettingKey::DbMaxFiles, maxDbs_);
     setNode(root, SettingKey::IntegrationsDbusExposeRoomInfo, exposeDBusApi_);
+    setNode(
+      root, SettingKey::IntegrationsBrowserCommand, integrationsLinksBrowserCommand_.toStdString());
     setNode(root,
             SettingKey::SecretsProvider,
             (runWithoutSecureSecretsService_
@@ -2046,17 +2058,39 @@ static const SettingMeta settingsTable[] = {
       },
       1.0, 3.0, .25, nullptr, nullptr },
 #endif
-    // LookFeelEffectsSection
-    { QT_TR_NOOP("EFFECTS"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    // LookFeelBehaviorSection
+    { QT_TR_NOOP("BEHAVIOR"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // ReducedMotion
-    { QT_TR_NOOP("Reduce or disable animations"),
-      QT_TR_NOOP("Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell."),
+    // EnableUIAnimations
+    { QT_TR_NOOP("Enable UI animations"),
+      QT_TR_NOOP("Komai uses animations in several places around the interface. Enable or disable them here."),
       SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->reducedMotion(); },
+      []() -> QVariant { return !I->reducedMotion(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
-          I->setReducedMotion(v.toBool()); return true;
+          I->setReducedMotion(!v.toBool()); return true;
+      },
+      {}, {}, {}, nullptr, nullptr },
+    // EnableTextSelection
+    { QT_TR_NOOP("Enable text selection on timeline"),
+      QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
+                 "experience."),
+      SM::Toggle, SM::TabLookFeel,
+      []() -> QVariant { return !I->mobileMode(); },
+      [](const QVariant &v) -> bool {
+          if (v.userType() != QMetaType::Bool) return false;
+          I->setMobileMode(!v.toBool());
+          return true;
+      },
+      {}, {}, {}, nullptr, nullptr },
+    // EnableSwipeGestures
+    { QT_TR_NOOP("Enable swipe gestures"),
+      QT_TR_NOOP("Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
+      SM::Toggle, SM::TabLookFeel,
+      []() -> QVariant { return I->enableSwipeGestures(); },
+      [](const QVariant &v) -> bool {
+          if (v.userType() != QMetaType::Bool) return false;
+          I->setEnableSwipeGestures(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
     // LookFeelRoomListSection
@@ -2174,23 +2208,23 @@ static const SettingMeta settingsTable[] = {
           I->setShowCommunitiesSidebar(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // LookFeelTraySection
-    { QT_TR_NOOP("SYSTEM TRAY"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    // IntegrationsSystemTraySection
+    { QT_TR_NOOP("SYSTEM TRAY"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // Tray
+    // IntegrationsTray
     { QT_TR_NOOP("Minimize to tray"),
       QT_TR_NOOP("Keep the application running in the background after closing the client window."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabIntegrations,
       []() -> QVariant { return I->tray(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
           I->setTray(v.toBool()); return true;
       },
       {}, {}, {}, nullptr, nullptr },
-    // StartInTray
+    // IntegrationsStartInTray
     { QT_TR_NOOP("Start in tray"),
       QT_TR_NOOP("Start the application in the background without showing the client window."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabIntegrations,
       []() -> QVariant { return I->startInTray(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
@@ -2199,42 +2233,23 @@ static const SettingMeta settingsTable[] = {
       {}, {}, {}, nullptr,
       []() -> bool { return I->tray(); } },
 #ifdef NHEKO_DBUS_SYS
-    // ExposeDBusApi
+    // IntegrationsDbusSection
+    { QT_TR_NOOP("D-BUS"), nullptr, SM::SectionTitle, SM::TabIntegrations,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // IntegrationsExposeDBusApi
     { QT_TR_NOOP("Expose room information via D-Bus"),
       QT_TR_NOOP("Allow third-party plugins and applications to load information about rooms you are in via D-Bus. This can have useful applications, but it also could be used for nefarious purposes. Enable at your own risk.\n\nThis setting will take effect upon restart."),
-      SM::Toggle, SM::TabLookFeel,
+      SM::Toggle, SM::TabIntegrations,
       []() -> QVariant { return I->exposeDBusApi(); },
       [](const QVariant &v) -> bool {
           if (v.userType() != QMetaType::Bool) return false;
           I->setExposeDBusApi(v.toBool()); return true;
-      },
+    },
       {}, {}, {}, nullptr, nullptr },
 #endif
-    // LookFeelMobileSection
-    { QT_TR_NOOP("MOBILE"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+    // IntegrationsBrowserSection
+    { QT_TR_NOOP("BROWSER"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // MobileMode
-    { QT_TR_NOOP("Enable text selection on timeline"),
-      QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
-                 "experience."),
-      SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return !I->mobileMode(); },
-      [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setMobileMode(!v.toBool());
-          return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
-    // EnableSwipeGestures
-    { QT_TR_NOOP("Enable swipe gestures"),
-      QT_TR_NOOP("Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
-      SM::Toggle, SM::TabLookFeel,
-      []() -> QVariant { return I->enableSwipeGestures(); },
-      [](const QVariant &v) -> bool {
-          if (v.userType() != QMetaType::Bool) return false;
-          I->setEnableSwipeGestures(v.toBool()); return true;
-      },
-      {}, {}, {}, nullptr, nullptr },
 
     // ── Timeline Tab ────────────────────────────────────────────────────────
 
@@ -2877,7 +2892,8 @@ static const SettingMeta settingsTable[] = {
 // clang-format on
 
 // Note: settingsTable must have exactly COUNT entries (one per Indices enum value before COUNT).
-// The Indices enum puts ScaleFactor/ExposeDBusApi after COUNT when platform flags exclude them.
+// The Indices enum puts ScaleFactor, IntegrationsDbusSection, and IntegrationsExposeDBusApi
+// after COUNT when platform flags exclude them.
 
 #undef I
 #undef SM
@@ -3112,7 +3128,7 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     CONNECT_SETTING(Font, fontChanged, Value);
     CONNECT_SETTING(FontSize, fontSizeChanged, Value);
     CONNECT_SETTING(EmojiFont, emojiFontChanged, Value);
-    CONNECT_SETTING(ReducedMotion, reducedMotionChanged, Value);
+    CONNECT_SETTING(EnableUIAnimations, reducedMotionChanged, Value);
     CONNECT_SETTING(CompactRoomList, compactRoomListChanged, Value);
     CONNECT_SETTING(ShowRoomListTime, showRoomListTimeChanged, Value);
     CONNECT_SETTING(ShowLastMessagePreview, showLastMessagePreviewChanged, Value);
@@ -3122,15 +3138,20 @@ UserSettingsModel::UserSettingsModel(QObject *p)
     CONNECT_SETTING(ScrollbarsInRoomlist, scrollbarsInRoomlistChanged, Value);
     CONNECT_SETTING(RoomSorting, roomSortOrderChanged, Value);
     CONNECT_SETTING(ShowCommunitiesSidebar, showCommunitiesSidebarChanged, Value);
-    CONNECT_SETTING(StartInTray, startInTrayChanged, Value);
-    CONNECT_SETTING(ExposeDBusApi, exposeDBusApiChanged, Value);
     CONNECT_SETTING(MobileMode, mobileModeChanged, Value);
     CONNECT_SETTING(EnableSwipeGestures, enableSwipeGesturesChanged, Value);
 
+    // Integrations
+    CONNECT_SETTING(IntegrationsTray, trayChanged, Value);
+    CONNECT_SETTING(IntegrationsStartInTray, startInTrayChanged, Value);
+#ifdef NHEKO_DBUS_SYS
+    CONNECT_SETTING(IntegrationsExposeDBusApi, exposeDBusApiChanged, Value);
+#endif
+
     // Tray has a side-effect on StartInTray's Enabled state
     connect(s.get(), &UserSettings::trayChanged, this, [this]() {
-        emit dataChanged(index(Tray), index(Tray), {Value});
-        emit dataChanged(index(StartInTray), index(StartInTray), {Enabled});
+        emit dataChanged(index(IntegrationsTray), index(IntegrationsTray), {Value});
+        emit dataChanged(index(IntegrationsStartInTray), index(IntegrationsStartInTray), {Enabled});
     });
 
     // Timeline

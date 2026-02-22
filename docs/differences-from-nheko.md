@@ -57,6 +57,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 
 - **Tabbed Settings panel** -- settings grouped into logical tabs instead of one long scrollable list
 - **Profile and Logout buttons** easily accessible in the Session tab
+- **Configurable browser command for links** -- allows opening links through a custom command (for a specific browser/profile or script workflow), while still supporting system defaults when not set.
 
 
 ## 🔧 Internal Improvements

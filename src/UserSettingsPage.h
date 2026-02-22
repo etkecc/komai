@@ -134,6 +134,8 @@ class UserSettings final : public QObject
                  setOpenImagesInExternalApp NOTIFY openImagesInExternalAppChanged)
     Q_PROPERTY(bool openVideosInExternalApp READ openVideosInExternalApp WRITE
                  setOpenVideosInExternalApp NOTIFY openVideosInExternalAppChanged)
+    Q_PROPERTY(QString integrationsLinksBrowserCommand READ integrationsLinksBrowserCommand WRITE
+                 setIntegrationsLinksBrowserCommand NOTIFY integrationsLinksBrowserCommandChanged)
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
     Q_PROPERTY(QStringList recentReactions READ recentReactions WRITE setRecentReactions NOTIFY
@@ -327,6 +329,7 @@ public:
     void setUseIdenticon(bool state);
     void setOpenImagesInExternalApp(bool state);
     void setOpenVideosInExternalApp(bool state);
+    void setIntegrationsLinksBrowserCommand(QString command);
     void setCollapsedSpaces(QList<QStringList> spaces);
     void setExposeDBusApi(bool state);
     void setUpdateSpaceVias(bool state);
@@ -435,6 +438,7 @@ public:
     bool openVideosInExternalApp() const { return openVideosInExternalApp_; }
     QList<QStringList> collapsedSpaces() const { return collapsedSpaces_; }
     bool exposeDBusApi() const { return exposeDBusApi_; }
+    QString integrationsLinksBrowserCommand() const { return integrationsLinksBrowserCommand_; }
     bool updateSpaceVias() const { return updateSpaceVias_; }
     bool expireEvents() const { return expireEvents_; }
     int windowWidth() const { return windowWidth_; }
@@ -516,6 +520,7 @@ signals:
     void hiddenWidgetsChanged();
     void recentReactionsChanged();
     void exposeDBusApiChanged(bool state);
+    void integrationsLinksBrowserCommandChanged(QString command);
     void updateSpaceViasChanged(bool state);
     void expireEventsChanged(bool state);
     void windowWidthChanged(int width);
@@ -621,6 +626,7 @@ private:
     bool openImagesInExternalApp_;
     bool openVideosInExternalApp_;
     bool exposeDBusApi_;
+    QString integrationsLinksBrowserCommand_;
     bool updateSpaceVias_;
     bool expireEvents_;
     int windowWidth_                     = 0;
@@ -659,6 +665,7 @@ public:
         TabPrivacy,
         TabEncryption,
         TabSession,
+        TabIntegrations,
         TabAbout,
     };
     Q_ENUM(SettingsTab);
@@ -678,9 +685,11 @@ private:
 #ifndef Q_OS_MACOS
         ScaleFactor,
 #endif
-        // Effects section
-        LookFeelEffectsSection,
-        ReducedMotion,
+        // Behavior section
+        LookFeelBehaviorSection,
+        EnableUIAnimations,
+        MobileMode,
+        EnableSwipeGestures,
         // Room List section
         LookFeelRoomListSection,
         CompactRoomList,
@@ -694,17 +703,15 @@ private:
         // Communities Sidebar section
         LookFeelCommunitiesSidebarSection,
         ShowCommunitiesSidebar,
-        // System Tray section
-        LookFeelTraySection,
-        Tray,
-        StartInTray,
+        // Integrations tab sections
+        IntegrationsSystemTraySection,
+        IntegrationsTray,
+        IntegrationsStartInTray,
 #ifdef NHEKO_DBUS_SYS
-        ExposeDBusApi,
+        IntegrationsDbusSection,
+        IntegrationsExposeDBusApi,
 #endif
-        // Mobile section
-        LookFeelMobileSection,
-        MobileMode,
-        EnableSwipeGestures,
+        IntegrationsBrowserSection,
 
         // == Timeline Tab ==
         // Messages section
@@ -821,7 +828,8 @@ private:
         ScaleFactor,
 #endif
 #ifndef NHEKO_DBUS_SYS
-        ExposeDBusApi,
+        IntegrationsDbusSection,
+        IntegrationsExposeDBusApi,
 #endif
     };
 

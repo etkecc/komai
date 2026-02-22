@@ -8,6 +8,7 @@
 #include <QDesktopServices>
 #include <QFontMetricsF>
 #include <QGuiApplication>
+#include <QProcess>
 #include <QStyle>
 #include <QUrl>
 #include <QWindow>
@@ -24,6 +25,48 @@
 #if XCB_AVAILABLE && QT_CONFIG(xcb)
 #include <xcb/xproto.h>
 #endif
+
+namespace {
+
+bool
+openWithBrowserCommand(const QString &command, const QUrl &url)
+{
+    const auto trimmedCommand = command.trimmed();
+    if (trimmedCommand.isEmpty())
+        return false;
+
+    auto args = QProcess::splitCommand(trimmedCommand);
+    if (args.isEmpty())
+        return false;
+
+    const QString formattedUrl = url.toString(QUrl::FullyEncoded);
+    bool hasPlaceholder        = false;
+    for (auto &arg : args) {
+        if (arg.contains(QStringLiteral("%u"))) {
+            hasPlaceholder = true;
+            arg            = arg.replace(QStringLiteral("%u"), formattedUrl);
+        }
+    }
+
+    auto browserCommand = args.takeFirst();
+    if (browserCommand.isEmpty())
+        return false;
+
+    if (!hasPlaceholder)
+        args.push_back(formattedUrl);
+
+    const bool started = QProcess::startDetached(browserCommand, args);
+    if (!started) {
+        nhlog::ui()->warn("Failed to start custom browser command '{}' for URL '{}'",
+                          trimmedCommand.toStdString(),
+                          url.toDisplayString().toStdString());
+        return false;
+    }
+
+    return true;
+}
+
+}
 
 Nheko::Nheko()
 {
@@ -127,7 +170,12 @@ Nheko::openLink(QString link) const
           QStringLiteral("mailto"),
         };
 
-        if (allowedUrlSchemes.contains(url.scheme()))
+        if (allowedUrlSchemes.contains(url.scheme()) &&
+            !UserSettings::instance()->integrationsLinksBrowserCommand().trimmed().isEmpty() &&
+            openWithBrowserCommand(UserSettings::instance()->integrationsLinksBrowserCommand(),
+                                   url)) {
+            return;
+        } else if (allowedUrlSchemes.contains(url.scheme()))
             QDesktopServices::openUrl(url);
         else
             nhlog::ui()->warn("Url '{}' not opened, because the scheme is not in the allow list",

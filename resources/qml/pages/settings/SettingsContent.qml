@@ -18,6 +18,7 @@ Item {
     property bool collapsed: false
     // Extra content to show above the repeater (used by AboutTab for logo)
     property Component headerContent: null
+    property Component footerContent: null
 
     Flickable {
         id: scroll
@@ -99,6 +100,7 @@ Item {
 
                     DelegateChooser {
                         id: chooser
+                        visible: r.model.type != UserSettingsModel.SectionTitle
 
                         roleValue: r.model.type
                         Layout.alignment: Qt.AlignRight
@@ -437,6 +439,12 @@ Item {
                         }
                     }
                 }
+            }
+
+            Loader {
+                Layout.fillWidth: true
+                active: root.footerContent !== null
+                sourceComponent: root.footerContent
             }
         }
     }

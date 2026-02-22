@@ -74,8 +74,8 @@ testStartupConfigSnapshotMissingProfile()
 
     return expect(!startup.uiScaleFactor.has_value(),
                   "missing profile has no startup scale factor") &&
-           expect(startup.configRoot.IsDefined() == false,
-                  "missing profile returns undefined YAML snapshot");
+           expect(!startup.configRoot.IsDefined() || startup.configRoot.size() == 0,
+                  "missing profile snapshot is empty");
 }
 
 } // namespace

@@ -29,6 +29,7 @@
 #include <kdsingleapplication.h>
 
 #include "Cache.h"
+#include "CacheApiWrappers.h"
 #include "CallManager.h"
 #include "ChatPage.h"
 #include "Logging.h"
@@ -37,6 +38,7 @@
 #include "Paths.h"
 #include "Utils.h"
 #include "config/nheko.h"
+#include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
 #include "ui/ThemeRegistry.h"
 
@@ -285,6 +287,9 @@ main(int argc, char *argv[])
         std::cerr << "Log initialization failed: " << ex.what() << std::endl;
         std::exit(1);
     }
+
+    settings::storage::setLoggers({.ui = nhlog::ui(), .db = nhlog::db()});
+    cache::setLoggers({.db = nhlog::db()});
 
     ThemeRegistry::initialize();
 

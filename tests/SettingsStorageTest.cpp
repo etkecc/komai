@@ -10,10 +10,15 @@
 #include <QMap>
 #include <QTemporaryDir>
 
+#include <memory>
 #include <yaml-cpp/yaml.h>
+
+#include <spdlog/logger.h>
+#include <spdlog/sinks/null_sink.h>
 
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
+#include "CacheApiWrappers.h"
 
 namespace {
 
@@ -128,6 +133,60 @@ testPathHelpers()
 }
 
 bool
+testLoggerInjectionNullAndInjectedLoggers()
+{
+    bool ok = true;
+
+    settings::storage::setLoggers({});
+    auto current = settings::storage::activeLoggers();
+    ok &= expect(!current.ui && !current.db, "settings storage accepts null-injected loggers");
+
+    QTemporaryDir tempDir;
+    if (!tempDir.isValid())
+        return expect(false, "temporary directory for logger smoke test is valid");
+    const auto file = tempDir.path() + QStringLiteral("/config.yml");
+    YAML::Node root(YAML::NodeType::Map);
+    root["ui"]["motion"]["enable_animations"] = false;
+    ok &= expect(settings::storage::writeYamlFile(file, root, false),
+                 "settings storage can write with null logger");
+    ok &= expect(settings::storage::loadYamlFile(file, "settings-test").IsMap(),
+                 "settings storage can read with null logger");
+
+    auto sharedSink = std::make_shared<spdlog::sinks::null_sink_mt>();
+    auto uiLogger   = std::make_shared<spdlog::logger>(QStringLiteral("test-ui").toStdString(),
+                                                       std::move(sharedSink));
+    auto dbLogger   = std::make_shared<spdlog::logger>(QStringLiteral("test-db").toStdString(),
+                                                       std::move(std::make_shared<spdlog::sinks::null_sink_mt>()));
+    settings::storage::setLoggers({.ui = uiLogger, .db = dbLogger});
+    current = settings::storage::activeLoggers();
+    ok &= expect(current.ui == uiLogger, "settings storage stores injected ui logger");
+    ok &= expect(current.db == dbLogger, "settings storage stores injected db logger");
+
+    ok &= expect(settings::storage::loadYamlFile(file, "settings-test").IsMap(),
+                 "settings storage can read with injected logger");
+
+    return ok;
+}
+
+bool
+testCacheLoggerInjection()
+{
+    bool ok = true;
+
+    cache::setLoggers({});
+    auto cacheLoggers = cache::activeLoggers();
+    ok &= expect(!cacheLoggers.db, "cache wrappers accept null-injected logger");
+
+    auto logger = std::make_shared<spdlog::logger>(
+      QStringLiteral("cache-test").toStdString(), std::make_shared<spdlog::sinks::null_sink_mt>());
+    cache::setLoggers({.db = logger});
+    cacheLoggers = cache::activeLoggers();
+    ok &= expect(cacheLoggers.db == logger, "cache wrappers store injected db logger");
+
+    return ok;
+}
+
+bool
 testInMemoryReaderWriterOverride()
 {
     bool ok = true;
@@ -191,6 +250,8 @@ main()
     ok &= testMissingAndInvalidFiles();
     ok &= testSecretsMapSerialization();
     ok &= testPathHelpers();
+    ok &= testLoggerInjectionNullAndInjectedLoggers();
+    ok &= testCacheLoggerInjection();
     ok &= testProviderSelectionHonorsConfigAndOverrides();
     ok &= testInMemoryReaderWriterOverride();
 

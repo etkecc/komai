@@ -14,6 +14,7 @@
 #include <QTimer>
 
 #include <fstream>
+#include <spdlog/logger.h>
 
 #if __has_include(<keychain.h>)
 #include <keychain.h>
@@ -21,7 +22,6 @@
 #include <qt6keychain/keychain.h>
 #endif
 
-#include "Logging.h"
 #include "Paths.h"
 
 namespace settings::storage {
@@ -90,7 +90,7 @@ public:
         QFileInfo info(path);
         const char *safeLabel = label ? label : "settings";
         if (!info.exists()) {
-            if (const auto logger = nhlog::ui()) {
+            if (const auto logger = activeLoggers().ui) {
                 logger->info(
                   "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
             }
@@ -99,12 +99,12 @@ public:
 
         try {
             auto root = YAML::LoadFile(path.toStdString());
-            if (const auto logger = nhlog::ui()) {
+            if (const auto logger = activeLoggers().ui) {
                 logger->info("Loaded {} from: {}", safeLabel, path.toStdString());
             }
             return root.IsMap() ? root : YAML::Node(YAML::NodeType::Map);
         } catch (const YAML::Exception &e) {
-            if (const auto logger = nhlog::ui()) {
+            if (const auto logger = activeLoggers().ui) {
                 logger->error(
                   "Failed to parse {} file {}: {}", safeLabel, path.toStdString(), e.what());
             }
@@ -118,7 +118,7 @@ public:
     {
         const auto dir = QFileInfo(path).absolutePath();
         if (!QDir().mkpath(dir)) {
-            if (const auto logger = nhlog::ui()) {
+            if (const auto logger = activeLoggers().ui) {
                 logger->error("Failed to create settings directory: {}", dir.toStdString());
             }
             return false;
@@ -130,7 +130,7 @@ public:
 
         std::ofstream file(path.toStdString());
         if (!file.is_open()) {
-            if (const auto logger = nhlog::ui()) {
+            if (const auto logger = activeLoggers().ui) {
                 logger->error("Failed to write settings file: {}", path.toStdString());
             }
             return false;
@@ -140,7 +140,7 @@ public:
 
         if (ownerReadWriteOnly) {
             if (!QFile::setPermissions(path, QFileDevice::ReadOwner | QFileDevice::WriteOwner)) {
-                if (const auto logger = nhlog::ui()) {
+                if (const auto logger = activeLoggers().ui) {
                     logger->warn("Failed to restrict permissions for {}", path.toStdString());
                 }
             }
@@ -201,7 +201,7 @@ public:
         const auto it = nodes_.find(path);
         if (it == nodes_.end()) {
             const char *safeLabel = label ? label : "settings";
-            if (const auto logger = nhlog::ui()) {
+            if (const auto logger = activeLoggers().ui) {
                 logger->info(
                   "{} file does not exist, using defaults: {}", safeLabel, path.toStdString());
             }
@@ -235,6 +235,19 @@ private:
     QString baseDir_;
     mutable QHash<QString, YAML::Node> nodes_;
 };
+
+StorageLoggers
+defaultLoggers()
+{
+    return {};
+}
+
+StorageLoggers &
+currentLoggers()
+{
+    static StorageLoggers loggers = defaultLoggers();
+    return loggers;
+}
 
 ReaderWriterPtr &
 currentReaderWriter()
@@ -276,6 +289,18 @@ setReaderWriter(ReaderWriterPtr writer)
 
     auto &global = currentReaderWriter();
     global       = std::move(writer);
+}
+
+void
+setLoggers(StorageLoggers loggers)
+{
+    currentLoggers() = std::move(loggers);
+}
+
+StorageLoggers
+activeLoggers()
+{
+    return currentLoggers();
 }
 
 QString
@@ -360,9 +385,11 @@ readSecureValue(const QString &key)
         return job->textData();
 
     if (job->error() != QKeychain::Error::EntryNotFound) {
-        nhlog::db()->warn("Failed to read secret '{}' from secure backend: {}",
-                          key.toStdString(),
-                          static_cast<int>(job->error()));
+        if (const auto logger = activeLoggers().db) {
+            logger->warn("Failed to read secret '{}' from secure backend: {}",
+                         key.toStdString(),
+                         static_cast<int>(job->error()));
+        }
     }
     return std::nullopt;
 }
@@ -379,9 +406,11 @@ writeSecureValue(const QString &key, const QString &value)
         QObject::connect(
           job, &QKeychain::WritePasswordJob::finished, job, [key](QKeychain::Job *j) {
               if (j->error() != QKeychain::Error::NoError) {
-                  nhlog::db()->warn("Failed to write secret '{}' to secure backend: {}",
-                                    key.toStdString(),
-                                    static_cast<int>(j->error()));
+                  if (const auto logger = activeLoggers().db) {
+                      logger->warn("Failed to write secret '{}' to secure backend: {}",
+                                   key.toStdString(),
+                                   static_cast<int>(j->error()));
+                  }
               }
           });
         job->start();
@@ -400,9 +429,11 @@ deleteSecureValue(const QString &key)
           job, &QKeychain::DeletePasswordJob::finished, job, [key](QKeychain::Job *j) {
               if (j->error() != QKeychain::Error::NoError &&
                   j->error() != QKeychain::Error::EntryNotFound) {
-                  nhlog::db()->warn("Failed to delete secret '{}' from secure backend: {}",
-                                    key.toStdString(),
-                                    static_cast<int>(j->error()));
+                  if (const auto logger = activeLoggers().db) {
+                      logger->warn("Failed to delete secret '{}' from secure backend: {}",
+                                   key.toStdString(),
+                                   static_cast<int>(j->error()));
+                  }
               }
           });
         job->start();

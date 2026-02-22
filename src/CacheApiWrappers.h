@@ -8,9 +8,23 @@
 
 #include "Cache.h"
 
+namespace spdlog {
+class logger;
+}
+
 class Cache;
 
 namespace cache {
 std::unique_ptr<Cache> &
 cacheInstance();
+
+struct CacheLoggers
+{
+    std::shared_ptr<spdlog::logger> db;
+};
+
+void
+setLoggers(CacheLoggers loggers);
+CacheLoggers
+activeLoggers();
 }

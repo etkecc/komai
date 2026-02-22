@@ -14,10 +14,19 @@
 
 #include <yaml-cpp/yaml.h>
 
+namespace spdlog {
+class logger;
+}
+
 namespace settings::storage {
 
 class ReaderWriter;
 using ReaderWriterPtr = std::shared_ptr<ReaderWriter>;
+struct StorageLoggers
+{
+    std::shared_ptr<spdlog::logger> ui;
+    std::shared_ptr<spdlog::logger> db;
+};
 
 /**
  * Abstraction for settings persistence transport (filesystem or test-time memory).
@@ -88,6 +97,10 @@ writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOn
 
 void
 setReaderWriter(ReaderWriterPtr writer);
+void
+setLoggers(StorageLoggers loggers);
+StorageLoggers
+activeLoggers();
 
 /**
  * Secure backend key helpers used by fallback and keyring-backed secret storage.

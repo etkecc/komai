@@ -1189,6 +1189,7 @@ if(BUILD_TESTING)
         tests/LoggingStub.cpp
         tests/ProfileSecretsStub.cpp
         src/Paths.cpp
+        src/CacheApiWrappers.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsStorage.cpp
     )

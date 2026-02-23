@@ -265,6 +265,18 @@ setSettingEnumValue(const QVariant &value)
     SIMPLE_OPTIONS_ENUM_SETTING_CORE(                                                              \
       name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, CORE_CONFIG(key))
 
+#define SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(                                                     \
+  name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, id, key)                    \
+    SIMPLE_OPTIONS_ENUM_SETTING_CORE(name,                                                         \
+                                     desc,                                                         \
+                                     tab,                                                          \
+                                     getter,                                                       \
+                                     setter,                                                       \
+                                     enum_type,                                                    \
+                                     values_expr,                                                  \
+                                     enabled_cb,                                                   \
+                                     CORE_CONFIG_ID(id, key))
+
 #define SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)            \
     {QT_TR_NOOP(name),                                                                             \
      desc,                                                                                         \
@@ -285,6 +297,9 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_TEXT_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)               \
     SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
+
+#define SIMPLE_TEXT_CONFIG_ID_SETTING(name, desc, tab, getter, setter, enabled_cb, id, key)        \
+    SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG_ID(id, key))
 
 #define SIMPLE_OPTIONS_INT_SETTING_CORE(                                                           \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, core_def)        \

@@ -216,13 +216,13 @@ inline constexpr std::array<SettingDefinition, 58> kPersistedSettingDefinitions{
    false},
 }};
 
-[[nodiscard]] inline std::span<const SettingDefinition>
+[[nodiscard]] constexpr std::span<const SettingDefinition>
 persistedDefinitions()
 {
     return kPersistedSettingDefinitions;
 }
 
-[[nodiscard]] inline std::optional<SettingDefinition>
+[[nodiscard]] constexpr std::optional<SettingDefinition>
 persistedDefinitionFor(SettingId id)
 {
     for (const auto &definition : kPersistedSettingDefinitions) {
@@ -233,10 +233,26 @@ persistedDefinitionFor(SettingId id)
     return std::nullopt;
 }
 
-[[nodiscard]] inline bool
+[[nodiscard]] constexpr bool
 hasPersistedDefinition(SettingId id)
 {
     return persistedDefinitionFor(id).has_value();
 }
+
+[[nodiscard]] constexpr bool
+hasUniquePersistedDefinitionIds()
+{
+    for (std::size_t i = 0; i < kPersistedSettingDefinitions.size(); ++i) {
+        for (std::size_t j = i + 1; j < kPersistedSettingDefinitions.size(); ++j) {
+            if (kPersistedSettingDefinitions[i].id == kPersistedSettingDefinitions[j].id)
+                return false;
+        }
+    }
+
+    return true;
+}
+
+static_assert(hasUniquePersistedDefinitionIds(),
+              "settings::core::definitions has duplicate SettingId entries");
 
 } // namespace settings::core::definitions

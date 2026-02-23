@@ -9,6 +9,7 @@
 #include <optional>
 #include <span>
 
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/core/SettingsStore.h"
 
 namespace settings::core::constraints {
@@ -33,13 +34,13 @@ inline constexpr std::array<IntRangeConstraint, 10> kIntRangeConstraints{{
   {SettingId::PrivacyScreenLockTimeoutSeconds, 0, 3600},
 }};
 
-[[nodiscard]] inline std::span<const IntRangeConstraint>
+[[nodiscard]] constexpr std::span<const IntRangeConstraint>
 intRangeConstraints()
 {
     return kIntRangeConstraints;
 }
 
-[[nodiscard]] inline std::optional<SettingsStore::IntRange>
+[[nodiscard]] constexpr std::optional<SettingsStore::IntRange>
 intRangeConstraintFor(SettingId id)
 {
     for (const auto &constraint : kIntRangeConstraints) {
@@ -52,11 +53,41 @@ intRangeConstraintFor(SettingId id)
     return std::nullopt;
 }
 
-[[nodiscard]] inline bool
+[[nodiscard]] constexpr bool
 hasIntRangeConstraint(SettingId id)
 {
     return intRangeConstraintFor(id).has_value();
 }
+
+[[nodiscard]] constexpr bool
+hasUniqueIntRangeConstraintIds()
+{
+    for (std::size_t i = 0; i < kIntRangeConstraints.size(); ++i) {
+        for (std::size_t j = i + 1; j < kIntRangeConstraints.size(); ++j) {
+            if (kIntRangeConstraints[i].id == kIntRangeConstraints[j].id)
+                return false;
+        }
+    }
+
+    return true;
+}
+
+[[nodiscard]] constexpr bool
+allConstrainedSettingsHavePersistedDefinitions()
+{
+    for (const auto &constraint : kIntRangeConstraints) {
+        if (!settings::core::definitions::hasPersistedDefinition(constraint.id))
+            return false;
+    }
+
+    return true;
+}
+
+static_assert(hasUniqueIntRangeConstraintIds(),
+              "settings::core::constraints has duplicate SettingId entries");
+static_assert(
+  allConstrainedSettingsHavePersistedDefinitions(),
+  "settings::core::constraints contains SettingIds not present in persisted definitions");
 
 inline void
 applyDefaultConstraints(SettingsStore &store)

@@ -21,6 +21,10 @@ enum class SettingId
     Unknown,
     UiThemeSlug,
     NetworkPresenceStatusPolicy,
+    EncryptionOnlineBackupKeyStatus,
+    EncryptionSelfSigningKeyStatus,
+    EncryptionUserSigningKeyStatus,
+    EncryptionMasterSigningKeyStatus,
 };
 
 struct SettingDefinition

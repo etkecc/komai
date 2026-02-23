@@ -149,17 +149,19 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
 
     // Special roles with only a few entries — keep as small switches
     case Good:
-        switch (index.row()) {
-        case OnlineBackupKey:
+        switch (m.core.id) {
+        case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
             return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
-        case SelfSigningKey:
+        case settings::core::SettingId::EncryptionSelfSigningKeyStatus:
             return cache::secret(mtx::secret_storage::secrets::cross_signing_self_signing)
               .has_value();
-        case UserSigningKey:
+        case settings::core::SettingId::EncryptionUserSigningKeyStatus:
             return cache::secret(mtx::secret_storage::secrets::cross_signing_user_signing)
               .has_value();
-        case MasterKey:
+        case settings::core::SettingId::EncryptionMasterSigningKeyStatus:
             return true;
+        default:
+            break;
         }
         break;
     case ThemeVariantValue:

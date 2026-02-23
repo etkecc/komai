@@ -246,6 +246,7 @@ setSettingEnumValue(const QVariant &value)
 #define CORE_CONFIG(key) CORE_SETTING(Config, key, false)
 #define CORE_CONFIG_RESTART(key) CORE_SETTING(Config, key, true)
 #define CORE_CONFIG_ID(id, key) CORE_SETTING_WITH_ID(id, Config, key, false)
+#define CORE_RUNTIME_ID(id) CORE_SETTING_WITH_ID(id, Runtime, nullptr, false)
 
 #define SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)            \
     {QT_TR_NOOP(name),                                                                             \

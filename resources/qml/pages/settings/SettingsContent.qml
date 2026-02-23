@@ -150,6 +150,20 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
+                                        roleValue: UserSettingsModel.OptionsWithDescription
+                                        SettingControlCombo {
+                                            anchors.right: parent.right
+                                            value: r.model.value
+                                            values: r.model.values
+                                            width: Math.min(implicitWidth, r.controlWidth)
+                                            onActivatedValueChanged: function(index) {
+                                                if (index !== r.model.value) {
+                                                    r.model.value = index;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    DelegateChoice {
                                         roleValue: UserSettingsModel.ThemeSelector
                                         SettingRowThemeSelector {
                                             anchors.right: parent.right
@@ -255,6 +269,17 @@ Item {
                                     }
                                 }
                             }
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            visible: r.model.type == UserSettingsModel.OptionsWithDescription && !!r.model.description
+                            text: r.model.description ?? ""
+                            color: palette.buttonText
+                            font.pointSize: 0.9 * fontMetrics.font.pointSize
+                            wrapMode: Text.Wrap
+                            Layout.topMargin: -Nheko.paddingSmall
+                            Layout.bottomMargin: Nheko.paddingSmall
                         }
                     }
                 }

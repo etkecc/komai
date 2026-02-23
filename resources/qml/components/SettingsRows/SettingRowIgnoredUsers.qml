@@ -9,7 +9,7 @@ import im.nheko
 import "../../dialogs"
 
 Button {
-    text: qsTr("MANAGE")
+    text: qsTr("Manage")
     onClicked: {
         var dialog = ignoredUsersDialog.createObject();
         dialog.show();

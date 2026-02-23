@@ -1,5 +1,58 @@
     // ── Privacy Tab ─────────────────────────────────────────────────────────
 
+    // PrivacyPresenceSection
+    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // PresenceDefault
+    { QT_TR_NOOP("Status policy"),
+      QT_TR_NOOP("Automatic keeps you online while active and sets you unavailable after 5 minutes of inactivity."),
+      SM::OptionsWithDescription, SM::TabPrivacy,
+      []() -> QVariant {
+          switch (I->presence()) {
+          case UserSettings::Presence::Online:
+              return 0;
+          case UserSettings::Presence::Unavailable:
+              return 1;
+          case UserSettings::Presence::Offline:
+              return 2;
+          case UserSettings::Presence::AutomaticPresence:
+              return 3;
+          }
+          return 3;
+      },
+      [](const QVariant &v) -> bool {
+          int option = 0;
+          if (!readSettingValue(v, option))
+              return false;
+
+          switch (option) {
+          case 0:
+              I->setPresence(UserSettings::Presence::Online);
+              return true;
+          case 1:
+              I->setPresence(UserSettings::Presence::Unavailable);
+              return true;
+          case 2:
+              I->setPresence(UserSettings::Presence::Offline);
+              return true;
+          case 3:
+              I->setPresence(UserSettings::Presence::AutomaticPresence);
+              return true;
+          default:
+              return false;
+          }
+      },
+      {}, {}, {},
+      []() -> QVariant {
+          return QStringList{
+            QCoreApplication::translate("UserSettingsModel", "Always online"),
+            QCoreApplication::translate("UserSettingsModel", "Always unavailable"),
+            QCoreApplication::translate("UserSettingsModel", "Always offline"),
+            QCoreApplication::translate("UserSettingsModel", "Automatic"),
+          };
+      },
+      nullptr },
+
     // PrivacyScreenLockSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

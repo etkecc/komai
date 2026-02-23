@@ -803,6 +803,9 @@ public:
         Ringtone,
 
         // == Privacy Tab ==
+        // Presence section
+        PrivacyPresenceSection,
+        PresenceDefault,
         // Screen Lock section
         PrivacyScreenLockSection,
         PrivacyScreen,
@@ -875,6 +878,7 @@ public:
         Toggle,
         ReadOnlyText,
         Options,
+        OptionsWithDescription,
         Integer,
         Double,
         SectionTitle,

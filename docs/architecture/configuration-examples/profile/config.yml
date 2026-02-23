@@ -109,7 +109,7 @@ encryption:
 
 network:
   presence:
-    default: automatic_presence
+    status_policy: automatic_presence
   http3:
     enabled: false
   tls:

@@ -20,6 +20,7 @@ This document captures configuration-architecture differences between Komai and 
 - Per-profile directory: `~/.config/komai/profiles/<profile-id>/` (`<profile-id>` is the `-p` profile name/identifier)
 - Default profile id is `default`
 - Dotted hierarchical keys in YAML (`a.b.c`)
+- Some keys are intentionally renamed from upstream nheko flat keys (for example, nheko `presence` maps to Komai `network.presence.status_policy`)
 - Durable/runtime/session/secret concerns are written to separate files
 - Database and cache paths are profile-scoped (`data/profiles/<profile-id>/...`, `cache/profiles/<profile-id>/...`)
 

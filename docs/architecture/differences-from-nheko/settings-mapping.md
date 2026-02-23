@@ -119,7 +119,7 @@ Note:
 | `hidden_widgets` | `timeline.widgets.hidden` | state.yml | list(text) | runtime timeline state |
 | `recent_reactions` | `composer.reactions.recent` | state.yml | list(text) | runtime convenience state |
 | `collapsed_spaces` | `sidebars.communities.collapsed_spaces` | state.yml | list(list(text)) | runtime expansion state |
-| `presence` | `network.presence.default` | config.yml | enum | account-scoped preference |
+| `presence` | `network.presence.status_policy` | config.yml | enum | account-scoped preference |
 | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | int | advanced calls/screenshare pref |
 | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | bool | advanced calls/screenshare pref |
 | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | bool | advanced calls/screenshare pref |

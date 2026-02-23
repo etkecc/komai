@@ -9,7 +9,7 @@ import im.nheko
 import "../../dialogs"
 
 Button {
-    text: qsTr("CONFIGURE")
+    text: qsTr("Configure")
     onClicked: {
         var dialog = hiddenEventsDialog.createObject();
         dialog.show();

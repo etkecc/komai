@@ -53,7 +53,7 @@ Security invariants:
 
 ## What Goes Where
 
-- `config.yml`: theme, fonts, notifications, timeline behavior, network/db settings, `secrets.provider`, `network.presence.default`
+- `config.yml`: theme, fonts, notifications, timeline behavior, network/db settings, `secrets.provider`, `network.presence.status_policy`
 - `state.yml`: window size, sidebar widths, hidden/collapsed UI state, recent reactions
 - `session.yml`: user id, homeserver, device id
 - `secrets.yml`: `auth.access_token` and `secrets` map (only when `secrets.provider=file`)

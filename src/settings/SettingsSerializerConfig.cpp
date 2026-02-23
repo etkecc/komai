@@ -149,7 +149,7 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
             SettingKey::ComposerInputAutoReplaceEmoji,
             cfg::toStorageValue(settings.autoReplaceEmoji()).toStdString());
     setNode(root,
-            SettingKey::NetworkPresenceDefault,
+            SettingKey::NetworkPresenceStatusPolicy,
             cfg::toStorageValue(settings.presence()).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, !settings.reducedMotion());
     setNode(root, SettingKey::UiInputEnableTextSelection, !settings.mobileMode());
@@ -193,7 +193,8 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
         root, SettingKey::TimelineMessagesSenderUsername, QStringLiteral("only_in_large_rooms")),
       UserSettings::ShowSenderUsername::OnlyInLargeRooms));
     settings.setPresence(cfg::presenceFromStorage(
-      readString(root, SettingKey::NetworkPresenceDefault, QStringLiteral("automatic_presence")),
+      readString(
+        root, SettingKey::NetworkPresenceStatusPolicy, QStringLiteral("automatic_presence")),
       UserSettings::Presence::AutomaticPresence));
     if (settings.integrationsDbusApiAccess() < IntegrationsDbusAccessNone ||
         settings.integrationsDbusApiAccess() > IntegrationsDbusAccessReadWrite)

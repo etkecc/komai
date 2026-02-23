@@ -43,6 +43,7 @@ enum class SettingId
     IntegrationsSystemTrayEnabled,
     IntegrationsSystemTrayAutostart,
     IntegrationsDbusApiAccess,
+    IntegrationsBrowserCommand,
     ComposerInputMarkdownEnabled,
     ComposerInputSendKey,
     ComposerInputAutoReplaceEmoji,

@@ -150,9 +150,14 @@ UserSettings::setIntegrationsDbusApiAccess(int access)
 void
 UserSettings::setIntegrationsLinksBrowserCommand(QString command)
 {
-    setSetting(integrationsLinksBrowserCommand_,
-               command.trimmed(),
-               &UserSettings::integrationsLinksBrowserCommandChanged);
+    command = command.trimmed();
+    if (integrationsLinksBrowserCommand_ == command)
+        return;
+    integrationsLinksBrowserCommand_ = command;
+    (void)coreStore_.set(settings::core::SettingId::IntegrationsBrowserCommand,
+                         command.toStdString());
+    emit integrationsLinksBrowserCommandChanged(command);
+    save();
 }
 void
 UserSettings::setUpdateSpaceVias(bool s)

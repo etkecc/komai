@@ -848,7 +848,14 @@ public:
             return *value;
         return integrationsDbusApiAccess_;
     }
-    QString integrationsLinksBrowserCommand() const { return integrationsLinksBrowserCommand_; }
+    QString integrationsLinksBrowserCommand() const
+    {
+        if (const auto value = coreStore_.valueAs<std::string>(
+              settings::core::SettingId::IntegrationsBrowserCommand);
+            value.has_value())
+            return QString::fromStdString(*value);
+        return integrationsLinksBrowserCommand_;
+    }
     bool updateSpaceVias() const
     {
         if (const auto value = coreStore_.valueAs<bool>(

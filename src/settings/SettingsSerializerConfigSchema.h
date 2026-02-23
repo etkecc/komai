@@ -81,6 +81,10 @@ inline constexpr bool kDefaultUiMotionAnimationsEnabled =
   settings::core::definitions::kDefaultUiMotionAnimationsEnabled;
 inline constexpr bool kDefaultInputEnableTextSelection =
   settings::core::definitions::kDefaultInputEnableTextSelection;
+inline constexpr bool kDefaultCertificateValidationEnabled =
+  settings::core::definitions::kDefaultCertificateValidationEnabled;
+inline constexpr bool kDefaultNetworkHttp3Enabled =
+  settings::core::definitions::kDefaultNetworkHttp3Enabled;
 inline constexpr double kDefaultScaleFactor = settings::core::definitions::kDefaultScaleFactor;
 inline constexpr double kDefaultFontSizePt  = settings::core::definitions::kDefaultFontSizePt;
 inline constexpr int kDefaultScreenShareFrameRate =

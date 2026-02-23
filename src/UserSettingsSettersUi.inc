@@ -1,17 +1,33 @@
 void
 UserSettings::setMarkdown(bool s)
 {
-    setSetting(markdown_, s, &UserSettings::markdownChanged);
+    if (markdown_ == s)
+        return;
+    markdown_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputMarkdownEnabled, s);
+    emit markdownChanged(s);
+    save();
 }
 void
 UserSettings::setSendMessageKey(SendMessageKey s)
 {
-    setSetting(sendMessageKey_, s, &UserSettings::sendMessageKeyChanged);
+    if (sendMessageKey_ == s)
+        return;
+    sendMessageKey_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputSendKey, static_cast<int>(s));
+    emit sendMessageKeyChanged(s);
+    save();
 }
 void
 UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s)
 {
-    setSetting(autoReplaceEmoji_, s, &UserSettings::autoReplaceEmojiChanged);
+    if (autoReplaceEmoji_ == s)
+        return;
+    autoReplaceEmoji_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputAutoReplaceEmoji,
+                         static_cast<int>(s));
+    emit autoReplaceEmojiChanged(s);
+    save();
 }
 void
 UserSettings::setBubbles(bool s)
@@ -36,7 +52,12 @@ UserSettings::setSmallAvatars(bool s)
 void
 UserSettings::setEnableStickers(bool s)
 {
-    setSetting(enableStickers_, s, &UserSettings::enableStickersChanged);
+    if (enableStickers_ == s)
+        return;
+    enableStickers_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerExtrasStickersEnabled, s);
+    emit enableStickersChanged(s);
+    save();
 }
 void
 UserSettings::setShowOwnAvatarInBubbleLayout(bool s)
@@ -83,12 +104,22 @@ UserSettings::setAnimateImagesOnHover(bool s)
 void
 UserSettings::setReadReceipts(bool s)
 {
-    setSetting(readReceipts_, s, &UserSettings::readReceiptsChanged);
+    if (readReceipts_ == s)
+        return;
+    readReceipts_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerFeedbackReadReceipts, s);
+    emit readReceiptsChanged(s);
+    save();
 }
 void
 UserSettings::setTypingNotifications(bool s)
 {
-    setSetting(typingNotifications_, s, &UserSettings::typingNotificationsChanged);
+    if (typingNotifications_ == s)
+        return;
+    typingNotifications_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerFeedbackTypingNotifications, s);
+    emit typingNotificationsChanged(s);
+    save();
 }
 void
 UserSettings::setRoomSortOrder(RoomSortOrder s)
@@ -133,12 +164,22 @@ UserSettings::setRoomListWidth(int s)
 void
 UserSettings::setDesktopNotifications(bool s)
 {
-    setSetting(hasDesktopNotifications_, s, &UserSettings::desktopNotificationsChanged);
+    if (hasDesktopNotifications_ == s)
+        return;
+    hasDesktopNotifications_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NotificationsDesktopEnabled, s);
+    emit desktopNotificationsChanged(s);
+    save();
 }
 void
 UserSettings::setAlertOnIncomingMessages(bool s)
 {
-    setSetting(alertOnIncomingMessages_, s, &UserSettings::alertOnIncomingMessagesChanged);
+    if (alertOnIncomingMessages_ == s)
+        return;
+    alertOnIncomingMessages_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NotificationsDesktopAlertOnIncoming, s);
+    emit alertOnIncomingMessagesChanged(s);
+    save();
 }
 void
 UserSettings::setUseCircularAvatars(bool s)
@@ -153,7 +194,12 @@ UserSettings::setUseCircularAvatars(bool s)
 void
 UserSettings::setDecryptNotifications(bool s)
 {
-    setSetting(decryptNotifications_, s, &UserSettings::decryptNotificationsChanged);
+    if (decryptNotifications_ == s)
+        return;
+    decryptNotifications_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NotificationsDesktopDecryptMessages, s);
+    emit decryptNotificationsChanged(s);
+    save();
 }
 void
 UserSettings::setShowCommunityNotificationCounts(bool s)

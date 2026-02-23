@@ -32,12 +32,22 @@ UserSettings::setEnlargeEmojiOnlyMessages(bool s)
 void
 UserSettings::setTray(bool s)
 {
-    setSetting(tray_, s, &UserSettings::trayChanged);
+    if (tray_ == s)
+        return;
+    tray_ = s;
+    (void)coreStore_.set(settings::core::SettingId::IntegrationsSystemTrayEnabled, s);
+    emit trayChanged(s);
+    save();
 }
 void
 UserSettings::setStartInTray(bool s)
 {
-    setSetting(startInTray_, s, &UserSettings::startInTrayChanged);
+    if (startInTray_ == s)
+        return;
+    startInTray_ = s;
+    (void)coreStore_.set(settings::core::SettingId::IntegrationsSystemTrayAutostart, s);
+    emit startInTrayChanged(s);
+    save();
 }
 void
 UserSettings::setMobileMode(bool s)
@@ -130,7 +140,12 @@ UserSettings::setIntegrationsDbusApiAccess(int access)
 {
     if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)
         return;
-    setSetting(integrationsDbusApiAccess_, access, &UserSettings::integrationsDbusApiAccessChanged);
+    if (integrationsDbusApiAccess_ == access)
+        return;
+    integrationsDbusApiAccess_ = access;
+    (void)coreStore_.set(settings::core::SettingId::IntegrationsDbusApiAccess, access);
+    emit integrationsDbusApiAccessChanged(access);
+    save();
 }
 void
 UserSettings::setIntegrationsLinksBrowserCommand(QString command)

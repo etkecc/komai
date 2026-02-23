@@ -1,12 +1,22 @@
 void
 UserSettings::setUseFallbackCallRelayServer(bool s)
 {
-    setSetting(useFallbackCallRelayServer_, s, &UserSettings::useFallbackCallRelayServerChanged);
+    if (useFallbackCallRelayServer_ == s)
+        return;
+    useFallbackCallRelayServer_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsRelayUseFallbackServer, s);
+    emit useFallbackCallRelayServerChanged(s);
+    save();
 }
 void
 UserSettings::setEnableLegacyCalls(bool s)
 {
-    setSetting(enableLegacyCalls_, s, &UserSettings::enableLegacyCallsChanged);
+    if (enableLegacyCalls_ == s)
+        return;
+    enableLegacyCalls_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsLegacyEnabled, s);
+    emit enableLegacyCallsChanged(s);
+    save();
 }
 void
 UserSettings::setOnlyShareKeysWithVerifiedUsers(bool s)
@@ -47,27 +57,52 @@ UserSettings::setUseOnlineKeyBackupFromConfig(bool useBackup)
 void
 UserSettings::setRingtone(QString s)
 {
-    setSetting(ringtone_, s, &UserSettings::ringtoneChanged);
+    if (ringtone_ == s)
+        return;
+    ringtone_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsAudioRingtone, s.toStdString());
+    emit ringtoneChanged(s);
+    save();
 }
 void
 UserSettings::setMicrophone(QString s)
 {
-    setSetting(microphone_, s, &UserSettings::microphoneChanged);
+    if (microphone_ == s)
+        return;
+    microphone_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsDevicesMicrophone, s.toStdString());
+    emit microphoneChanged(s);
+    save();
 }
 void
 UserSettings::setCamera(QString s)
 {
-    setSetting(camera_, s, &UserSettings::cameraChanged);
+    if (camera_ == s)
+        return;
+    camera_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsDevicesCamera, s.toStdString());
+    emit cameraChanged(s);
+    save();
 }
 void
 UserSettings::setCameraResolution(QString s)
 {
-    setSetting(cameraResolution_, s, &UserSettings::cameraResolutionChanged);
+    if (cameraResolution_ == s)
+        return;
+    cameraResolution_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsDevicesCameraResolution, s.toStdString());
+    emit cameraResolutionChanged(s);
+    save();
 }
 void
 UserSettings::setCameraFrameRate(QString s)
 {
-    setSetting(cameraFrameRate_, s, &UserSettings::cameraFrameRateChanged);
+    if (cameraFrameRate_ == s)
+        return;
+    cameraFrameRate_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsDevicesCameraFrameRate, s.toStdString());
+    emit cameraFrameRateChanged(s);
+    save();
 }
 void
 UserSettings::setScreenShareFrameRate(int s)

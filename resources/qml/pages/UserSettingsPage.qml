@@ -97,6 +97,7 @@ Rectangle {
                         { text: qsTr("Composer"), icon: "qrc:/icons/icons/ui/edit.svg", tab: UserSettingsModel.TabComposer },
                         { text: qsTr("Notifications"), icon: "qrc:/icons/icons/ui/alert.svg", tab: UserSettingsModel.TabNotifications },
                         { text: qsTr("Calls"), icon: "qrc:/icons/icons/ui/place-call.svg", tab: UserSettingsModel.TabCalls },
+                        { text: qsTr("Network"), icon: "qrc:/icons/icons/ui/world.svg", tab: UserSettingsModel.TabNetwork },
                         { text: qsTr("Privacy"), icon: "qrc:/icons/icons/ui/eye-hide.svg", tab: UserSettingsModel.TabPrivacy },
                         { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-filled.svg", tab: UserSettingsModel.TabEncryption },
                         { text: qsTr("Session"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabSession },
@@ -204,6 +205,8 @@ Rectangle {
                     return "settings/NotificationsTab.qml";
                 case UserSettingsModel.TabCalls:
                     return "settings/CallsTab.qml";
+                case UserSettingsModel.TabNetwork:
+                    return "settings/NetworkTab.qml";
                 case UserSettingsModel.TabPrivacy:
                     return "settings/PrivacyTab.qml";
                 case UserSettingsModel.TabEncryption:

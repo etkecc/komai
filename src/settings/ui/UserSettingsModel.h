@@ -31,6 +31,7 @@ public:
         TabComposer,
         TabNotifications,
         TabCalls,
+        TabNetwork,
         TabPrivacy,
         TabEncryption,
         TabSession,

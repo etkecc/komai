@@ -429,6 +429,7 @@ const SettingMeta settingsTable[] = {
     #include "rows/UserSettingsModelComposer.inc"
     #include "rows/UserSettingsModelNotifications.inc"
     #include "rows/UserSettingsModelCalls.inc"
+    #include "rows/UserSettingsModelNetwork.inc"
     #include "rows/UserSettingsModelPrivacy.inc"
     #include "rows/UserSettingsModelEncryption.inc"
     #include "rows/UserSettingsModelSession.inc"

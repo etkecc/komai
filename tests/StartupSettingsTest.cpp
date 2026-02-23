@@ -397,6 +397,12 @@ testControllerSyncsCoreStore()
     ok &= expect(markdown.has_value() && *markdown == settings->markdownEnabled(),
                  "controller sync stores markdown setting in core settings store");
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (!settings::ui::facade::hasCoreStoreValueMapping(definition.id)) {
+            std::cerr << "FAILED: controller bridge table missing persisted setting id "
+                      << static_cast<int>(definition.id) << '\n';
+            ok = false;
+            continue;
+        }
         const auto mappedValue =
           settings::ui::facade::coreStoreValueForSettingId(*settings, definition.id);
         if (!mappedValue.has_value()) {

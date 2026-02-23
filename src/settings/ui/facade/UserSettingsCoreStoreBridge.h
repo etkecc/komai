@@ -17,4 +17,7 @@ namespace settings::ui::facade {
 [[nodiscard]] std::optional<settings::core::SettingsStore::Value>
 coreStoreValueForSettingId(const UserSettings &settings, settings::core::SettingId id);
 
+[[nodiscard]] bool
+hasCoreStoreValueMapping(settings::core::SettingId id);
+
 } // namespace settings::ui::facade

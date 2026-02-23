@@ -20,6 +20,8 @@ struct StartupSettings
 {
     YAML::Node configRoot;
     std::optional<float> uiScaleFactor;
+    QString configFilePath;
+    bool configFileExists{false};
 };
 
 /**

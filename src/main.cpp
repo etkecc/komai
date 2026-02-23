@@ -304,6 +304,16 @@ main(int argc, char *argv[])
     setLoggers({.ui = nhlog::ui()});
 #endif
 
+    // Startup config is read before logger initialization (for early scale-factor bootstrap),
+    // so storage-layer load logs would be dropped. Replay a single explicit config source log
+    // after logger setup to keep startup file-load logging consistent with session/state.
+    if (startupSettings.configFileExists) {
+        nhlog::ui()->info("Loaded config from: {}", startupSettings.configFilePath.toStdString());
+    } else {
+        nhlog::ui()->info("config file does not exist, using defaults: {}",
+                          startupSettings.configFilePath.toStdString());
+    }
+
     ThemeRegistry::initialize();
 
     std::optional<QString> selectedProfileSetting;

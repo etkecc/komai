@@ -14,9 +14,13 @@ StartupSettings
 readStartupConfig(const QString &profile)
 {
     const auto path = settings::storage::configFilePathForProfile(profile);
+    const auto exists = settings::storage::pathExists(path);
     const auto root = settings::core::snapshotFromYamlConfig(
       settings::storage::loadYamlFile(path, "startup config"));
-    return StartupSettings{.configRoot = root.configRoot, .uiScaleFactor = root.uiScaleFactor};
+    return StartupSettings{.configRoot       = root.configRoot,
+                           .uiScaleFactor    = root.uiScaleFactor,
+                           .configFilePath   = path,
+                           .configFileExists = exists};
 }
 
 } // namespace settings::startup

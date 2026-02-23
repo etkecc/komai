@@ -11,10 +11,10 @@
 #include "Config.h"
 #include <spdlog/logger.h>
 
-#include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 using settings::storage::writeYamlFile;
 using yaml_settings::readNestedStringLists;

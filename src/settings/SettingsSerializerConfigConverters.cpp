@@ -5,7 +5,7 @@
 
 #include "SettingsSerializerConfigConverters.h"
 
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 namespace settings::serializer::config {
 

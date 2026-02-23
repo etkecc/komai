@@ -13,10 +13,10 @@
 #include "JdenticonProvider.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "UserSettingsPage.h"
 #include "encryption/Olm.h"
 #include "settings/SettingKeys.h"
 #include "settings/core/StartupConfig.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 #include "UserSettingsSettersCore.inc"
 #include "UserSettingsSettersLayout.inc"

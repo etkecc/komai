@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "Paths.h"
-#include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
@@ -20,6 +19,7 @@
 #include "settings/core/SettingDefinition.h"
 #include "settings/core/SettingsSerializer.h"
 #include "settings/ui/SettingDescriptor.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include <string>
 #include <string_view>
 

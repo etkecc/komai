@@ -8,7 +8,7 @@
 #include <QString>
 #include <QStringList>
 
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/ThemeRegistry.h"
 
 namespace {

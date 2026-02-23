@@ -3,9 +3,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "UserSettingsPage.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 void
 UserSettings::loadConfigYaml(const YAML::Node &root)

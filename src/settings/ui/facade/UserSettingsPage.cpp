@@ -12,8 +12,8 @@
 
 #include "JdenticonProvider.h"
 #include "Logging.h"
-#include "UserSettingsPage.h"
 #include "settings/SettingsController.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)

@@ -23,13 +23,13 @@
 #include "Cache.h"
 #include "JdenticonProvider.h"
 #include "MainWindow.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
 #include "config/nheko.h"
 #include "encryption/Olm.h"
 #include "settings/SettingKeys.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptor.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 /**
  * UserSettingsModel is a UI adapter: it exposes settings metadata through roles,

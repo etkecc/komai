@@ -51,7 +51,8 @@
             QCoreApplication::translate("UserSettingsModel", "Automatic"),
           };
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::NetworkPresenceStatusPolicy) },
     // PresenceStatusMessage
     { QT_TR_NOOP("Status message"),
       nullptr,
@@ -62,34 +63,34 @@
     { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PrivacyScreen
-    SIMPLE_BOOL_SETTING("Privacy screen",
+    SIMPLE_BOOL_CONFIG_SETTING("Privacy screen",
                         QT_TR_NOOP("When the window loses focus, the timeline will\nbe blurred."),
-                        SM::TabPrivacy, privacyScreen, setPrivacyScreen, nullptr),
+                        SM::TabPrivacy, privacyScreen, setPrivacyScreen, nullptr, SettingKey::PrivacyScreenLockEnabled),
     // PrivacyScreenTimeoutSeconds
-    SIMPLE_OPTIONS_INT_SETTING(
+    SIMPLE_OPTIONS_INT_CONFIG_SETTING(
       "Privacy screen timeout (seconds)",
       QT_TR_NOOP(
         "Set how long after focus loss before the screen is blurred.\nSet to 0 to blur immediately after focus loss.\nMaximum is 3600 seconds (1 hour)."),
       SM::TabPrivacy, privacyScreenTimeoutSeconds, setPrivacyScreenTimeoutSeconds, 0, 3600, 10,
-      nullptr, []() -> bool { return I->privacyScreen(); }),
+      nullptr, []() -> bool { return I->privacyScreen(); }, SettingKey::PrivacyScreenLockTimeoutSeconds),
     // PrivacyDataSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ExpireEvents
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Periodically delete expired events",
       QT_TR_NOOP("Regularly redact expired events as specified in the event expiration configuration. Since this is currently not executed server side, you need to have one client running this regularly."),
-      SM::TabPrivacy, expireEvents, setExpireEvents, nullptr),
+      SM::TabPrivacy, expireEvents, setExpireEvents, nullptr, SettingKey::PrivacyMaintenanceExpireEvents),
     // HiddenTimelineEvents
     { QT_TR_NOOP("Hidden events"),
       QT_TR_NOOP("Configure whether to show or hide certain events like room joins."),
       SM::ConfigureHiddenEvents, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UpdateSpaceVias
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Periodically update community routing information",
       QT_TR_NOOP("To allow new users to join a community, the community needs to expose some information about what servers participate in a room to community members. Since the room participants can change over time, this needs to be updated from time to time. This setting enables a background job to do that automatically."),
-      SM::TabPrivacy, updateSpaceVias, setUpdateSpaceVias, nullptr),
+      SM::TabPrivacy, updateSpaceVias, setUpdateSpaceVias, nullptr, SettingKey::PrivacyMaintenanceUpdateSpaceVias),
     // PrivacyUsersSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

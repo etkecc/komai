@@ -26,7 +26,8 @@
           if (variant == u"system") return QStringList{};
           return ThemeRegistry::instance().themeNames(variant);
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::UiThemeSlug) },
     // LookFeelFontsSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -51,8 +52,10 @@
           fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System font"));
           return fonts;
       },
-      nullptr },
-    SIMPLE_DOUBLE_SETTING("Font size", nullptr, SM::TabLookFeel, fontSize, setFontSize, 8.0, 24.0, 0.5),
+      nullptr,
+      CORE_CONFIG(SettingKey::UiFontFamily) },
+    SIMPLE_DOUBLE_CONFIG_SETTING(
+      "Font size", nullptr, SM::TabLookFeel, fontSize, setFontSize, 8.0, 24.0, 0.5, SettingKey::UiFontSizePt),
     // EmojiFont
     { QT_TR_NOOP("Emoji font family"), nullptr, SM::Options, SM::TabLookFeel,
       []() -> QVariant {
@@ -76,54 +79,57 @@
           fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System emoji font"));
           return fonts;
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::UiFontEmojiFamily) },
 #ifndef Q_OS_MACOS
     // ScaleFactor
-    SIMPLE_DOUBLE_SETTING(
+    SIMPLE_DOUBLE_CONFIG_RESTART_SETTING(
       "Scale factor [restart required]",
       QT_TR_NOOP("Change the scale factor of the whole user interface. Requires a restart to take effect."),
       SM::TabLookFeel, scaleFactor, setScaleFactor, settings::core::kMinScaleFactor,
-      settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep),
+      settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep, SettingKey::UiScaleFactor),
 #endif
     // LookFeelBehaviorSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableUIAnimations
-    SIMPLE_INVERTED_BOOL_SETTING(
+    SIMPLE_INVERTED_BOOL_CONFIG_SETTING(
       "Enable UI animations",
       QT_TR_NOOP("Komai uses animations in several places around the interface. Enable or disable them here."),
       SM::TabLookFeel,
       reducedMotion,
       setReducedMotion,
-      nullptr),
+      nullptr,
+      SettingKey::UiMotionAnimationsEnabled),
     // EnableTextSelection
-    SIMPLE_INVERTED_BOOL_SETTING(
+    SIMPLE_INVERTED_BOOL_CONFIG_SETTING(
       "Enable text selection on timeline",
       QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
                  "experience."),
       SM::TabLookFeel,
       mobileMode,
       setMobileMode,
-      nullptr),
+      nullptr,
+      SettingKey::UiInputEnableTextSelection),
     // EnableSwipeGestures
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Enable swipe gestures",
       QT_TR_NOOP(
         "Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
-      SM::TabLookFeel, enableSwipeGestures, setEnableSwipeGestures, nullptr),
+      SM::TabLookFeel, enableSwipeGestures, setEnableSwipeGestures, nullptr, SettingKey::UiInputSwipeGestures),
     // LookFeelRoomListSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CompactRoomList
-    SIMPLE_BOOL_SETTING("Compact mode",
+    SIMPLE_BOOL_CONFIG_SETTING("Compact mode",
                         QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
-                        SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr),
+                        SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr, SettingKey::SidebarsRoomListCompact),
     // ShowRoomListTime
-    SIMPLE_BOOL_SETTING("Show last message timestamp",
+    SIMPLE_BOOL_CONFIG_SETTING("Show last message timestamp",
                         QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
-                        SM::TabSidebars, showRoomListTime, setShowRoomListTime, nullptr),
+                        SM::TabSidebars, showRoomListTime, setShowRoomListTime, nullptr, SettingKey::SidebarsRoomListShowLastMessageTime),
     // ShowLastMessagePreview
-    SIMPLE_OPTIONS_ENUM_SETTING(
+    SIMPLE_OPTIONS_ENUM_CONFIG_SETTING(
       "Show last message preview",
       QT_TR_NOOP("Show a preview of the most recent message in each room."),
       SM::TabSidebars,
@@ -137,30 +143,32 @@
                  << QCoreApplication::translate("UserSettingsModel", "Never");
           return values;
       },
-      nullptr),
+      nullptr,
+      SettingKey::SidebarsRoomListLastMessagePreview),
     // ShowCommunityNotificationCounts
-    SIMPLE_BOOL_SETTING("Show notification counts",
+    SIMPLE_BOOL_CONFIG_SETTING("Show notification counts",
                         QT_TR_NOOP("Show total notification counts for communities and tags."),
-                        SM::TabSidebars, showCommunityNotificationCounts, setShowCommunityNotificationCounts, nullptr),
+                        SM::TabSidebars, showCommunityNotificationCounts, setShowCommunityNotificationCounts, nullptr, SettingKey::SidebarsRoomListShowCommunityCounts),
     // UseCircularAvatars
-    SIMPLE_BOOL_SETTING("Use circular avatars",
+    SIMPLE_BOOL_CONFIG_SETTING("Use circular avatars",
                         QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
-                        SM::TabSidebars, useCircularAvatars, setUseCircularAvatars, nullptr),
+                        SM::TabSidebars, useCircularAvatars, setUseCircularAvatars, nullptr, SettingKey::UiAvatarsCircular),
     // UseIdenticon
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Use identicons",
       QT_TR_NOOP("Display an identicon instead of a letter when no avatar is set."),
       SM::TabSidebars,
       useIdenticon,
       setUseIdenticon,
-      []() -> bool { return JdenticonProvider::isAvailable(); }),
+      []() -> bool { return JdenticonProvider::isAvailable(); },
+      SettingKey::UiAvatarsIdenticonFallback),
     // ScrollbarsInRoomlist
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Show scrollbars",
       QT_TR_NOOP("Show scrollbars in the room list and communities sidebar."),
-      SM::TabSidebars, scrollbarsInRoomlist, setScrollbarsInRoomlist, nullptr),
+      SM::TabSidebars, scrollbarsInRoomlist, setScrollbarsInRoomlist, nullptr, SettingKey::SidebarsRoomListScrollbarsEnabled),
     // RoomSorting
-    SIMPLE_OPTIONS_ENUM_SETTING(
+    SIMPLE_OPTIONS_ENUM_CONFIG_SETTING(
       "Sorting",
       QT_TR_NOOP("How to order rooms."),
       SM::TabSidebars,
@@ -175,27 +183,28 @@
                  << QCoreApplication::translate("UserSettingsModel", "Alphabetical");
           return values;
       },
-      nullptr),
+      nullptr,
+      SettingKey::SidebarsRoomListSort),
     // LookFeelCommunitiesSidebarSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ShowCommunitiesSidebar
-    SIMPLE_BOOL_SETTING("Show communities sidebar",
+    SIMPLE_BOOL_CONFIG_SETTING("Show communities sidebar",
                         QT_TR_NOOP("Show a column containing communities and tags."),
-                        SM::TabSidebars, showCommunitiesSidebar, setShowCommunitiesSidebar, nullptr),
+                        SM::TabSidebars, showCommunitiesSidebar, setShowCommunitiesSidebar, nullptr, SettingKey::SidebarsCommunitiesVisible),
     // IntegrationsSystemTraySection
     { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsTray
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Minimize to tray",
       QT_TR_NOOP("Keep the application running in the background after closing the client window."),
-      SM::TabIntegrations, tray, setTray, nullptr),
+      SM::TabIntegrations, tray, setTray, nullptr, SettingKey::IntegrationsSystemTrayEnabled),
     // IntegrationsStartInTray
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Start in tray",
       QT_TR_NOOP("Start the application in the background without showing the client window."),
-      SM::TabIntegrations, startInTray, setStartInTray, nullptr),
+      SM::TabIntegrations, startInTray, setStartInTray, nullptr, SettingKey::IntegrationsSystemTrayAutostart),
 #ifdef KOMAI_DBUS_SYS
     // IntegrationsDbusSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
@@ -222,7 +231,8 @@
             QCoreApplication::translate("UserSettingsModel", "Read & write"),
           };
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::IntegrationsDbusApiAccess) },
 #endif
     // IntegrationsBrowserSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,

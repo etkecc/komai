@@ -73,6 +73,11 @@ syncCoreStoreFromSettings(UserSettings &settings)
 
     const auto set = [&store](settings::core::SettingId id,
                               settings::core::SettingsStore::Value value) {
+        if (!settings::core::definitions::hasPersistedDefinition(id)) {
+            currentLoggers().ui->warn(
+              "No persisted definition for core setting id {}; value will not be serialized",
+              static_cast<int>(id));
+        }
         (void)store.setValue(id, std::move(value));
     };
 

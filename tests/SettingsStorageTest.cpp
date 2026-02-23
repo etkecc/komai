@@ -19,6 +19,7 @@
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "CacheApiWrappers.h"
+#include "TestEnvironment.h"
 
 namespace {
 
@@ -249,6 +250,12 @@ testProviderSelectionHonorsConfigAndOverrides()
 int
 main()
 {
+    test_env::ScopedTestHome testHome{QStringLiteral("komai-settings-storage-test")};
+    if (!testHome.isValid()) {
+        std::cerr << "FAILED: test home environment can be created\n";
+        return 1;
+    }
+
     bool ok = true;
     ok &= testYamlRoundtrip();
     ok &= testMissingAndInvalidFiles();

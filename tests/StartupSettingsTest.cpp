@@ -22,6 +22,7 @@
 #include "settings/StartupSettings.h"
 #include "settings/core/StartupConfig.h"
 #include "ui/ThemeRegistry.h"
+#include "TestEnvironment.h"
 
 namespace {
 
@@ -362,6 +363,12 @@ testSettingDescriptorReadSettingValueHelper()
 int
 main()
 {
+    test_env::ScopedTestHome testHome{QStringLiteral("komai-startup-settings-test")};
+    if (!testHome.isValid()) {
+        std::cerr << "FAILED: test home environment can be created\n";
+        return 1;
+    }
+
     int argc = 1;
     char arg0[] = "komai-startup-settings-test";
     char *argv[] = {arg0, nullptr};

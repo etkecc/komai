@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "settings/YamlSettings.h"
+#include "TestEnvironment.h"
 
 namespace {
 
@@ -60,6 +61,12 @@ session:
 int
 main()
 {
+    test_env::ScopedTestHome testHome{QStringLiteral("komai-yaml-settings-test")};
+    if (!testHome.isValid()) {
+        std::cerr << "FAILED: test home environment can be created\n";
+        return 1;
+    }
+
     bool ok = true;
     ok &= testYamlHelpers();
     return ok ? 0 : 1;

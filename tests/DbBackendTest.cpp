@@ -36,6 +36,7 @@
 #include "db/StateIndex.h"
 #include "db/SyncState.h"
 #include "db/TimelineIndex.h"
+#include "TestEnvironment.h"
 
 namespace {
 
@@ -3139,6 +3140,12 @@ testRocksDbBackend()
 int
 main()
 {
+    test_env::ScopedTestHome testHome{QStringLiteral("komai-db-backend-test")};
+    if (!testHome.isValid()) {
+        std::cerr << "FAILED: test home environment can be created\n";
+        return 1;
+    }
+
     bool ok = true;
     ok &= testCatalog();
     ok &= testSchemaHelpers();

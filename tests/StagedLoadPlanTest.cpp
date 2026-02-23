@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "settings/StagedLoadPlan.h"
+#include "TestEnvironment.h"
 
 namespace {
 
@@ -67,6 +68,12 @@ ui:
 int
 main()
 {
+    test_env::ScopedTestHome testHome{QStringLiteral("komai-staged-load-plan-test")};
+    if (!testHome.isValid()) {
+        std::cerr << "FAILED: test home environment can be created\n";
+        return 1;
+    }
+
     bool ok = true;
     ok &= testStagedLoadPlan();
     return ok ? 0 : 1;

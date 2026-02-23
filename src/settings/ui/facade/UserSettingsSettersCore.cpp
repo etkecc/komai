@@ -4,3 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "settings/SettingKeys.h"
+
+#include "UserSettingsSettersCore.inc"

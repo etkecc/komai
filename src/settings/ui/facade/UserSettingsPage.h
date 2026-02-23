@@ -474,7 +474,14 @@ signals:
 
 private:
     template<typename T, typename Signal>
-    void setSetting(T &member, const T &value, Signal signal);
+    void setSetting(T &member, const T &value, Signal signal)
+    {
+        if (member == value)
+            return;
+        member = value;
+        emit(this->*signal)(value);
+        save();
+    }
 
     void loadConfigYaml(const YAML::Node &root);
     void loadSessionYaml(const YAML::Node &root);

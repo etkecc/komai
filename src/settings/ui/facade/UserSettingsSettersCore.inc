@@ -1,14 +1,3 @@
-template<typename T, typename Signal>
-void
-UserSettings::setSetting(T &member, const T &value, Signal signal)
-{
-    if (member == value)
-        return;
-    member = value;
-    emit(this->*signal)(value);
-    save();
-}
-
 void
 UserSettings::setMessageHoverHighlight(bool s)
 {

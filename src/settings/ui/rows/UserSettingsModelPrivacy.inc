@@ -77,20 +77,20 @@
     { QT_TR_NOOP("Data & maintenance"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ExpireEvents
-    SIMPLE_BOOL_CONFIG_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Periodically delete expired events",
       QT_TR_NOOP("Regularly redact expired events as specified in the event expiration configuration. Since this is currently not executed server side, you need to have one client running this regularly."),
-      SM::TabPrivacy, expireEvents, setExpireEvents, nullptr, SettingKey::PrivacyMaintenanceExpireEvents),
+      SM::TabPrivacy, expireEvents, setExpireEvents, nullptr, PrivacyMaintenanceExpireEvents, SettingKey::PrivacyMaintenanceExpireEvents),
     // HiddenTimelineEvents
     { QT_TR_NOOP("Hidden events"),
       QT_TR_NOOP("Configure whether to show or hide certain events like room joins."),
       SM::ConfigureHiddenEvents, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UpdateSpaceVias
-    SIMPLE_BOOL_CONFIG_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Periodically update community routing information",
       QT_TR_NOOP("To allow new users to join a community, the community needs to expose some information about what servers participate in a room to community members. Since the room participants can change over time, this needs to be updated from time to time. This setting enables a background job to do that automatically."),
-      SM::TabPrivacy, updateSpaceVias, setUpdateSpaceVias, nullptr, SettingKey::PrivacyMaintenanceUpdateSpaceVias),
+      SM::TabPrivacy, updateSpaceVias, setUpdateSpaceVias, nullptr, PrivacyMaintenanceUpdateSpaceVias, SettingKey::PrivacyMaintenanceUpdateSpaceVias),
     // PrivacyUsersSection
     { QT_TR_NOOP("Users"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

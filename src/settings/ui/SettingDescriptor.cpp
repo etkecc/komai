@@ -22,7 +22,6 @@
 #include <QTextStream>
 #include <array>
 #include <iterator>
-#include <string_view>
 #include <type_traits>
 
 #include "Cache.h"
@@ -197,6 +196,11 @@ setSettingEnumValue(const QVariant &value)
 #define SIMPLE_INVERTED_BOOL_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)      \
     SIMPLE_INVERTED_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
 
+#define SIMPLE_INVERTED_BOOL_CONFIG_ID_SETTING(                                                    \
+  name, desc, tab, getter, setter, enabled_cb, id, key)                                            \
+    SIMPLE_INVERTED_BOOL_SETTING_CORE(                                                             \
+      name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG_ID(id, key))
+
 #define SIMPLE_READ_ONLY_TEXT(name, desc, tab, getter)                                             \
     {                                                                                              \
         QT_TR_NOOP(name), desc, SM::ReadOnlyText, tab, getSettingValue<&UserSettings::getter>,     \
@@ -227,6 +231,11 @@ setSettingEnumValue(const QVariant &value)
 #define SIMPLE_DOUBLE_CONFIG_SETTING(name, desc, tab, getter, setter, min_v, max_v, step_v, key)   \
     SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
       name, desc, tab, getter, setter, min_v, max_v, step_v, CORE_CONFIG(key))
+
+#define SIMPLE_DOUBLE_CONFIG_ID_SETTING(                                                           \
+  name, desc, tab, getter, setter, min_v, max_v, step_v, id, key)                                  \
+    SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
+      name, desc, tab, getter, setter, min_v, max_v, step_v, CORE_CONFIG_ID(id, key))
 
 #define SIMPLE_DOUBLE_CONFIG_RESTART_SETTING(                                                      \
   name, desc, tab, getter, setter, min_v, max_v, step_v, key)                                      \
@@ -393,22 +402,6 @@ rowForSettingId(settings::core::SettingId id)
 {
     for (int i = 0; i < settingsTableRowCount(); ++i) {
         if (settingsTable[i].core.id == id)
-            return i;
-    }
-    return -1;
-}
-
-int
-rowForPersistedKey(const char *key)
-{
-    if (!key)
-        return -1;
-
-    const std::string_view expected{key};
-    for (int i = 0; i < settingsTableRowCount(); ++i) {
-        if (!settingsTable[i].core.persistedKey)
-            continue;
-        if (std::string_view(settingsTable[i].core.persistedKey) == expected)
             return i;
     }
     return -1;

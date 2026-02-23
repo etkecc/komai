@@ -53,9 +53,17 @@
           return fonts;
       },
       nullptr,
-      CORE_CONFIG(SettingKey::UiFontFamily) },
-    SIMPLE_DOUBLE_CONFIG_SETTING(
-      "Font size", nullptr, SM::TabLookFeel, fontSize, setFontSize, 8.0, 24.0, 0.5, SettingKey::UiFontSizePt),
+      CORE_CONFIG_ID(UiFontFamily, SettingKey::UiFontFamily) },
+    SIMPLE_DOUBLE_CONFIG_ID_SETTING("Font size",
+                                    nullptr,
+                                    SM::TabLookFeel,
+                                    fontSize,
+                                    setFontSize,
+                                    8.0,
+                                    24.0,
+                                    0.5,
+                                    UiFontSizePt,
+                                    SettingKey::UiFontSizePt),
     // EmojiFont
     { QT_TR_NOOP("Emoji font family"), nullptr, SM::Options, SM::TabLookFeel,
       []() -> QVariant {
@@ -80,7 +88,7 @@
           return fonts;
       },
       nullptr,
-      CORE_CONFIG(SettingKey::UiFontEmojiFamily) },
+      CORE_CONFIG_ID(UiFontEmojiFamily, SettingKey::UiFontEmojiFamily) },
 #ifndef Q_OS_MACOS
     // ScaleFactor
     SIMPLE_DOUBLE_CONFIG_RESTART_SETTING(
@@ -93,16 +101,17 @@
     { QT_TR_NOOP("Behavior"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableUIAnimations
-    SIMPLE_INVERTED_BOOL_CONFIG_SETTING(
+    SIMPLE_INVERTED_BOOL_CONFIG_ID_SETTING(
       "Enable UI animations",
       QT_TR_NOOP("Komai uses animations in several places around the interface. Enable or disable them here."),
       SM::TabLookFeel,
       reducedMotion,
       setReducedMotion,
       nullptr,
+      UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),
     // EnableTextSelection
-    SIMPLE_INVERTED_BOOL_CONFIG_SETTING(
+    SIMPLE_INVERTED_BOOL_CONFIG_ID_SETTING(
       "Enable text selection on timeline",
       QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
                  "experience."),
@@ -110,26 +119,27 @@
       mobileMode,
       setMobileMode,
       nullptr,
+      UiInputEnableTextSelection,
       SettingKey::UiInputEnableTextSelection),
     // EnableSwipeGestures
-    SIMPLE_BOOL_CONFIG_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable swipe gestures",
       QT_TR_NOOP(
         "Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
-      SM::TabLookFeel, enableSwipeGestures, setEnableSwipeGestures, nullptr, SettingKey::UiInputSwipeGestures),
+      SM::TabLookFeel, enableSwipeGestures, setEnableSwipeGestures, nullptr, UiInputSwipeGestures, SettingKey::UiInputSwipeGestures),
     // LookFeelRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CompactRoomList
-    SIMPLE_BOOL_CONFIG_SETTING("Compact mode",
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Compact mode",
                         QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
-                        SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr, SettingKey::SidebarsRoomListCompact),
+                        SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr, SidebarsRoomListCompact, SettingKey::SidebarsRoomListCompact),
     // ShowRoomListTime
-    SIMPLE_BOOL_CONFIG_SETTING("Show last message timestamp",
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
                         QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
-                        SM::TabSidebars, showRoomListTime, setShowRoomListTime, nullptr, SettingKey::SidebarsRoomListShowLastMessageTime),
+                        SM::TabSidebars, showRoomListTime, setShowRoomListTime, nullptr, SidebarsRoomListShowLastMessageTime, SettingKey::SidebarsRoomListShowLastMessageTime),
     // ShowLastMessagePreview
-    SIMPLE_OPTIONS_ENUM_CONFIG_SETTING(
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show last message preview",
       QT_TR_NOOP("Show a preview of the most recent message in each room."),
       SM::TabSidebars,
@@ -144,31 +154,33 @@
           return values;
       },
       nullptr,
+      SidebarsRoomListLastMessagePreview,
       SettingKey::SidebarsRoomListLastMessagePreview),
     // ShowCommunityNotificationCounts
-    SIMPLE_BOOL_CONFIG_SETTING("Show notification counts",
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show notification counts",
                         QT_TR_NOOP("Show total notification counts for communities and tags."),
-                        SM::TabSidebars, showCommunityNotificationCounts, setShowCommunityNotificationCounts, nullptr, SettingKey::SidebarsRoomListShowCommunityCounts),
+                        SM::TabSidebars, showCommunityNotificationCounts, setShowCommunityNotificationCounts, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
     // UseCircularAvatars
-    SIMPLE_BOOL_CONFIG_SETTING("Use circular avatars",
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
                         QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
-                        SM::TabSidebars, useCircularAvatars, setUseCircularAvatars, nullptr, SettingKey::UiAvatarsCircular),
+                        SM::TabSidebars, useCircularAvatars, setUseCircularAvatars, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
     // UseIdenticon
-    SIMPLE_BOOL_CONFIG_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Use identicons",
       QT_TR_NOOP("Display an identicon instead of a letter when no avatar is set."),
       SM::TabSidebars,
       useIdenticon,
       setUseIdenticon,
       []() -> bool { return JdenticonProvider::isAvailable(); },
+      UiAvatarsIdenticonFallback,
       SettingKey::UiAvatarsIdenticonFallback),
     // ScrollbarsInRoomlist
-    SIMPLE_BOOL_CONFIG_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show scrollbars",
       QT_TR_NOOP("Show scrollbars in the room list and communities sidebar."),
-      SM::TabSidebars, scrollbarsInRoomlist, setScrollbarsInRoomlist, nullptr, SettingKey::SidebarsRoomListScrollbarsEnabled),
+      SM::TabSidebars, scrollbarsInRoomlist, setScrollbarsInRoomlist, nullptr, SidebarsRoomListScrollbarsEnabled, SettingKey::SidebarsRoomListScrollbarsEnabled),
     // RoomSorting
-    SIMPLE_OPTIONS_ENUM_CONFIG_SETTING(
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sorting",
       QT_TR_NOOP("How to order rooms."),
       SM::TabSidebars,
@@ -184,14 +196,15 @@
           return values;
       },
       nullptr,
+      SidebarsRoomListSort,
       SettingKey::SidebarsRoomListSort),
     // LookFeelCommunitiesSidebarSection
     { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ShowCommunitiesSidebar
-    SIMPLE_BOOL_CONFIG_SETTING("Show communities sidebar",
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
                         QT_TR_NOOP("Show a column containing communities and tags."),
-                        SM::TabSidebars, showCommunitiesSidebar, setShowCommunitiesSidebar, nullptr, SettingKey::SidebarsCommunitiesVisible),
+                        SM::TabSidebars, showCommunitiesSidebar, setShowCommunitiesSidebar, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
     // IntegrationsSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

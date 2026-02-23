@@ -12,5 +12,5 @@
         }
     });
     CONNECT_SETTING_ID(PrivacyScreenLockTimeoutSeconds, privacyScreenTimeoutSecondsChanged, Value);
-    CONNECT_SETTING_KEY(SettingKey::PrivacyMaintenanceExpireEvents, expireEventsChanged, Value);
-    CONNECT_SETTING_KEY(SettingKey::PrivacyMaintenanceUpdateSpaceVias, updateSpaceViasChanged, Value);
+    CONNECT_SETTING_ID(PrivacyMaintenanceExpireEvents, expireEventsChanged, Value);
+    CONNECT_SETTING_ID(PrivacyMaintenanceUpdateSpaceVias, updateSpaceViasChanged, Value);

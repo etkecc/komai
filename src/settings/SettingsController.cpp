@@ -21,6 +21,7 @@
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/core/SettingsSerializer.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -67,111 +68,150 @@ currentLoggers()
 void
 syncCoreStoreFromSettings(UserSettings &settings)
 {
+    const auto valueForSettingId =
+      [&settings](
+        settings::core::SettingId id) -> std::optional<settings::core::SettingsStore::Value> {
+        switch (id) {
+        case settings::core::SettingId::UiThemeSlug:
+            return settings.theme().toStdString();
+        case settings::core::SettingId::UiFontFamily:
+            return settings.font().toStdString();
+        case settings::core::SettingId::UiFontSizePt:
+            return settings.fontSize();
+        case settings::core::SettingId::UiFontEmojiFamily:
+            return settings.emojiFontFamily().toStdString();
+        case settings::core::SettingId::UiMotionAnimationsEnabled:
+            return settings.uiAnimationsEnabled();
+        case settings::core::SettingId::UiInputEnableTextSelection:
+            return settings.textSelectionEnabled();
+        case settings::core::SettingId::UiInputSwipeGestures:
+            return settings.swipeGesturesEnabled();
+        case settings::core::SettingId::UiAvatarsCircular:
+            return settings.circularAvatarsEnabled();
+        case settings::core::SettingId::UiAvatarsIdenticonFallback:
+            return settings.identiconFallbackEnabled();
+        case settings::core::SettingId::SidebarsRoomListCompact:
+            return settings.compactRoomList();
+        case settings::core::SettingId::SidebarsRoomListShowLastMessageTime:
+            return settings.roomListShowLastMessageTime();
+        case settings::core::SettingId::SidebarsRoomListLastMessagePreview:
+            return static_cast<int>(settings.showLastMessagePreview());
+        case settings::core::SettingId::SidebarsRoomListShowCommunityCounts:
+            return settings.communityNotificationCountsVisible();
+        case settings::core::SettingId::SidebarsRoomListScrollbarsEnabled:
+            return settings.roomListScrollbarsVisible();
+        case settings::core::SettingId::SidebarsRoomListSort:
+            return static_cast<int>(settings.roomSortOrder());
+        case settings::core::SettingId::SidebarsCommunitiesVisible:
+            return settings.communitiesSidebarVisible();
+        case settings::core::SettingId::NetworkPresenceStatusPolicy:
+            return static_cast<int>(settings.presence());
+        case settings::core::SettingId::PrivacyMaintenanceExpireEvents:
+            return settings.expireEvents();
+        case settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias:
+            return settings.updateSpaceVias();
+        case settings::core::SettingId::PrivacyScreenLockEnabled:
+            return settings.privacyScreen();
+        case settings::core::SettingId::PrivacyScreenLockTimeoutSeconds:
+            return settings.privacyScreenTimeoutSeconds();
+        case settings::core::SettingId::IntegrationsSystemTrayEnabled:
+            return settings.systemTrayEnabled();
+        case settings::core::SettingId::IntegrationsSystemTrayAutostart:
+            return settings.systemTrayAutostart();
+        case settings::core::SettingId::IntegrationsDbusApiAccess:
+            return settings.integrationsDbusApiAccess();
+        case settings::core::SettingId::IntegrationsBrowserCommand:
+            return settings.integrationsLinksBrowserCommand().toStdString();
+        case settings::core::SettingId::ComposerInputMarkdownEnabled:
+            return settings.markdownEnabled();
+        case settings::core::SettingId::ComposerInputSendKey:
+            return static_cast<int>(settings.sendMessageKey());
+        case settings::core::SettingId::ComposerInputAutoReplaceEmoji:
+            return static_cast<int>(settings.autoReplaceEmoji());
+        case settings::core::SettingId::ComposerFeedbackTypingNotifications:
+            return settings.typingNotificationsEnabled();
+        case settings::core::SettingId::ComposerFeedbackReadReceipts:
+            return settings.readReceiptsEnabled();
+        case settings::core::SettingId::ComposerExtrasStickersEnabled:
+            return settings.stickersEnabled();
+        case settings::core::SettingId::NotificationsDesktopEnabled:
+            return settings.desktopNotificationsEnabled();
+        case settings::core::SettingId::NotificationsDesktopAlertOnIncoming:
+            return settings.alertOnIncomingMessages();
+        case settings::core::SettingId::NotificationsDesktopDecryptMessages:
+            return settings.decryptNotifications();
+        case settings::core::SettingId::CallsLegacyEnabled:
+            return settings.legacyCallsEnabled();
+        case settings::core::SettingId::CallsRelayUseFallbackServer:
+            return settings.fallbackCallRelayServerEnabled();
+        case settings::core::SettingId::CallsDevicesMicrophone:
+            return settings.microphone().toStdString();
+        case settings::core::SettingId::CallsDevicesCamera:
+            return settings.camera().toStdString();
+        case settings::core::SettingId::CallsDevicesCameraResolution:
+            return settings.cameraResolution().toStdString();
+        case settings::core::SettingId::CallsDevicesCameraFrameRate:
+            return settings.cameraFrameRate().toStdString();
+        case settings::core::SettingId::CallsAudioRingtone:
+            return settings.ringtone().toStdString();
+        case settings::core::SettingId::TimelineMessagesLayoutBubbles:
+            return settings.timelineBubblesEnabled();
+        case settings::core::SettingId::TimelineMessagesLayoutSmallAvatars:
+            return settings.timelineSmallAvatarsEnabled();
+        case settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar:
+            return settings.timelineShowOwnAvatarInBubbleLayout();
+        case settings::core::SettingId::TimelineMessagesSenderUsername:
+            return static_cast<int>(settings.showSenderUsername());
+        case settings::core::SettingId::TimelineMessagesMaxWidthPx:
+            return settings.maxTimelineWidth();
+        case settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge:
+            return settings.enlargeEmojiOnlyMessages();
+        case settings::core::SettingId::TimelineMessagesHoverHighlight:
+            return settings.messageHoverHighlight();
+        case settings::core::SettingId::TimelineMessageActionsEnabled:
+            return settings.timelineMessageActionsEnabled();
+        case settings::core::SettingId::TimelineMessageActionsPinnedReactions:
+            return settings.pinnedReactions().toStdString();
+        case settings::core::SettingId::TimelineMediaEffectsEnabled:
+            return settings.timelineMediaEffectsEnabled();
+        case settings::core::SettingId::TimelineMediaAnimateOnHover:
+            return settings.animateImagesOnHover();
+        case settings::core::SettingId::TimelineMediaImageDisplay:
+            return static_cast<int>(settings.showImage());
+        case settings::core::SettingId::TimelineMediaOpenImagesExternal:
+            return settings.openImagesInExternalApp();
+        case settings::core::SettingId::TimelineMediaOpenVideosExternal:
+            return settings.openVideosInExternalApp();
+        case settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers:
+            return settings.onlyShareKeysWithVerifiedUsers();
+        case settings::core::SettingId::EncryptionKeySharingShareWithTrusted:
+            return settings.shareKeysWithTrustedUsers();
+        case settings::core::SettingId::EncryptionBackupOnlineEnabled:
+            return settings.onlineKeyBackupEnabled();
+        default:
+            return std::nullopt;
+        }
+    };
+
     auto &store = settings.mutableCoreStore();
     store.clear();
     settings::core::constraints::applyDefaultConstraints(store);
 
-    const auto set = [&store](settings::core::SettingId id,
-                              settings::core::SettingsStore::Value value) {
-        if (!settings::core::definitions::hasPersistedDefinition(id)) {
-            currentLoggers().ui->warn(
-              "No persisted definition for core setting id {}; value will not be serialized",
-              static_cast<int>(id));
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        const auto value = valueForSettingId(definition.id);
+        if (!value.has_value()) {
+            currentLoggers().ui->warn("No core-store mapping for setting id {}",
+                                      static_cast<int>(definition.id));
+            continue;
         }
-        (void)store.setValue(id, std::move(value));
-    };
 
-    set(settings::core::SettingId::UiThemeSlug, settings.theme().toStdString());
-    set(settings::core::SettingId::UiFontFamily, settings.font().toStdString());
-    set(settings::core::SettingId::UiFontSizePt, settings.fontSize());
-    set(settings::core::SettingId::UiFontEmojiFamily, settings.emojiFontFamily().toStdString());
-    set(settings::core::SettingId::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
-    set(settings::core::SettingId::UiInputEnableTextSelection, settings.textSelectionEnabled());
-    set(settings::core::SettingId::UiInputSwipeGestures, settings.swipeGesturesEnabled());
-    set(settings::core::SettingId::UiAvatarsCircular, settings.circularAvatarsEnabled());
-    set(settings::core::SettingId::UiAvatarsIdenticonFallback, settings.identiconFallbackEnabled());
-    set(settings::core::SettingId::SidebarsRoomListCompact, settings.compactRoomList());
-    set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime,
-        settings.roomListShowLastMessageTime());
-    set(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
-        static_cast<int>(settings.showLastMessagePreview()));
-    set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts,
-        settings.communityNotificationCountsVisible());
-    set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled,
-        settings.roomListScrollbarsVisible());
-    set(settings::core::SettingId::SidebarsRoomListSort,
-        static_cast<int>(settings.roomSortOrder()));
-    set(settings::core::SettingId::SidebarsCommunitiesVisible,
-        settings.communitiesSidebarVisible());
-    set(settings::core::SettingId::NetworkPresenceStatusPolicy,
-        static_cast<int>(settings.presence()));
-    set(settings::core::SettingId::PrivacyMaintenanceExpireEvents, settings.expireEvents());
-    set(settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias, settings.updateSpaceVias());
-    set(settings::core::SettingId::PrivacyScreenLockEnabled, settings.privacyScreen());
-    set(settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
-        settings.privacyScreenTimeoutSeconds());
-    set(settings::core::SettingId::IntegrationsSystemTrayEnabled, settings.systemTrayEnabled());
-    set(settings::core::SettingId::IntegrationsSystemTrayAutostart, settings.systemTrayAutostart());
-    set(settings::core::SettingId::IntegrationsDbusApiAccess, settings.integrationsDbusApiAccess());
-    set(settings::core::SettingId::IntegrationsBrowserCommand,
-        settings.integrationsLinksBrowserCommand().toStdString());
-    set(settings::core::SettingId::ComposerInputMarkdownEnabled, settings.markdownEnabled());
-    set(settings::core::SettingId::ComposerInputSendKey,
-        static_cast<int>(settings.sendMessageKey()));
-    set(settings::core::SettingId::ComposerInputAutoReplaceEmoji,
-        static_cast<int>(settings.autoReplaceEmoji()));
-    set(settings::core::SettingId::ComposerFeedbackTypingNotifications,
-        settings.typingNotificationsEnabled());
-    set(settings::core::SettingId::ComposerFeedbackReadReceipts, settings.readReceiptsEnabled());
-    set(settings::core::SettingId::ComposerExtrasStickersEnabled, settings.stickersEnabled());
-    set(settings::core::SettingId::NotificationsDesktopEnabled,
-        settings.desktopNotificationsEnabled());
-    set(settings::core::SettingId::NotificationsDesktopAlertOnIncoming,
-        settings.alertOnIncomingMessages());
-    set(settings::core::SettingId::NotificationsDesktopDecryptMessages,
-        settings.decryptNotifications());
-    set(settings::core::SettingId::CallsLegacyEnabled, settings.legacyCallsEnabled());
-    set(settings::core::SettingId::CallsRelayUseFallbackServer,
-        settings.fallbackCallRelayServerEnabled());
-    set(settings::core::SettingId::CallsDevicesMicrophone, settings.microphone().toStdString());
-    set(settings::core::SettingId::CallsDevicesCamera, settings.camera().toStdString());
-    set(settings::core::SettingId::CallsDevicesCameraResolution,
-        settings.cameraResolution().toStdString());
-    set(settings::core::SettingId::CallsDevicesCameraFrameRate,
-        settings.cameraFrameRate().toStdString());
-    set(settings::core::SettingId::CallsAudioRingtone, settings.ringtone().toStdString());
-    set(settings::core::SettingId::TimelineMessagesLayoutBubbles,
-        settings.timelineBubblesEnabled());
-    set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars,
-        settings.timelineSmallAvatarsEnabled());
-    set(settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar,
-        settings.timelineShowOwnAvatarInBubbleLayout());
-    set(settings::core::SettingId::TimelineMessagesSenderUsername,
-        static_cast<int>(settings.showSenderUsername()));
-    set(settings::core::SettingId::TimelineMessagesMaxWidthPx, settings.maxTimelineWidth());
-    set(settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge,
-        settings.enlargeEmojiOnlyMessages());
-    set(settings::core::SettingId::TimelineMessagesHoverHighlight,
-        settings.messageHoverHighlight());
-    set(settings::core::SettingId::TimelineMessageActionsEnabled,
-        settings.timelineMessageActionsEnabled());
-    set(settings::core::SettingId::TimelineMessageActionsPinnedReactions,
-        settings.pinnedReactions().toStdString());
-    set(settings::core::SettingId::TimelineMediaEffectsEnabled,
-        settings.timelineMediaEffectsEnabled());
-    set(settings::core::SettingId::TimelineMediaAnimateOnHover, settings.animateImagesOnHover());
-    set(settings::core::SettingId::TimelineMediaImageDisplay,
-        static_cast<int>(settings.showImage()));
-    set(settings::core::SettingId::TimelineMediaOpenImagesExternal,
-        settings.openImagesInExternalApp());
-    set(settings::core::SettingId::TimelineMediaOpenVideosExternal,
-        settings.openVideosInExternalApp());
-    set(settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers,
-        settings.onlyShareKeysWithVerifiedUsers());
-    set(settings::core::SettingId::EncryptionKeySharingShareWithTrusted,
-        settings.shareKeysWithTrustedUsers());
-    set(settings::core::SettingId::EncryptionBackupOnlineEnabled,
-        settings.onlineKeyBackupEnabled());
+        const auto result = store.setValue(definition.id, *value);
+        if (!result.success) {
+            currentLoggers().ui->warn("Invalid value for setting id {} ignored: {}",
+                                      static_cast<int>(definition.id),
+                                      result.validationError);
+        }
+    }
 }
 
 const YAML::Node *

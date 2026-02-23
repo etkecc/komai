@@ -16,6 +16,7 @@ def generate_provider_class(**kwargs):
     entrycount = sum([len(c[1]) for c in kwargs.items()])
     tmpl = Template('''\
     // SPDX-FileCopyrightText: Nheko Contributors
+    // SPDX-FileCopyrightText: Komai Contributors
     //
     // SPDX-License-Identifier: GPL-3.0-or-later
 

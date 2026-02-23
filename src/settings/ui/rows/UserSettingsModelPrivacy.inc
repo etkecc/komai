@@ -63,16 +63,16 @@
     { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PrivacyScreen
-    SIMPLE_BOOL_CONFIG_SETTING("Privacy screen",
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Privacy screen",
                         QT_TR_NOOP("When the window loses focus, the timeline will\nbe blurred."),
-                        SM::TabPrivacy, privacyScreen, setPrivacyScreen, nullptr, SettingKey::PrivacyScreenLockEnabled),
+                        SM::TabPrivacy, privacyScreen, setPrivacyScreen, nullptr, PrivacyScreenLockEnabled, SettingKey::PrivacyScreenLockEnabled),
     // PrivacyScreenTimeoutSeconds
-    SIMPLE_OPTIONS_INT_CONFIG_SETTING(
+    SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
       "Privacy screen timeout (seconds)",
       QT_TR_NOOP(
         "Set how long after focus loss before the screen is blurred.\nSet to 0 to blur immediately after focus loss.\nMaximum is 3600 seconds (1 hour)."),
       SM::TabPrivacy, privacyScreenTimeoutSeconds, setPrivacyScreenTimeoutSeconds, 0, 3600, 10,
-      nullptr, []() -> bool { return I->privacyScreen(); }, SettingKey::PrivacyScreenLockTimeoutSeconds),
+      nullptr, []() -> bool { return I->privacyScreen(); }, PrivacyScreenLockTimeoutSeconds, SettingKey::PrivacyScreenLockTimeoutSeconds),
     // PrivacyDataSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

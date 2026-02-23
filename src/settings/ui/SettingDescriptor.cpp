@@ -269,6 +269,9 @@ setSettingEnumValue(const QVariant &value)
 #define SIMPLE_BOOL_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)               \
     SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
 
+#define SIMPLE_BOOL_CONFIG_ID_SETTING(name, desc, tab, getter, setter, enabled_cb, id, key)        \
+    SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG_ID(id, key))
+
 #define SIMPLE_INVERTED_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)   \
     {QT_TR_NOOP(name),                                                                             \
      desc,                                                                                         \
@@ -427,6 +430,20 @@ setSettingEnumValue(const QVariant &value)
                                     values_expr,                                                   \
                                     enabled_cb,                                                    \
                                     CORE_CONFIG(key))
+
+#define SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(                                                      \
+  name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, id, key)         \
+    SIMPLE_OPTIONS_INT_SETTING_CORE(name,                                                          \
+                                    desc,                                                          \
+                                    tab,                                                           \
+                                    getter,                                                        \
+                                    setter,                                                        \
+                                    min_v,                                                         \
+                                    max_v,                                                         \
+                                    step_v,                                                        \
+                                    values_expr,                                                   \
+                                    enabled_cb,                                                    \
+                                    CORE_CONFIG_ID(id, key))
 
 // Helper: convert std::vector<std::string> to QStringList
 static QStringList

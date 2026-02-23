@@ -21,6 +21,8 @@ enum class SettingId
     Unknown,
     UiThemeSlug,
     NetworkPresenceStatusPolicy,
+    PrivacyScreenLockEnabled,
+    PrivacyScreenLockTimeoutSeconds,
     EncryptionOnlineBackupKeyStatus,
     EncryptionSelfSigningKeyStatus,
     EncryptionUserSigningKeyStatus,

@@ -7,7 +7,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable legacy calls",
       QT_TR_NOOP("Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release."),
-      SM::TabCalls, enableLegacyCalls, setEnableLegacyCalls, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
+      SM::TabCalls, legacyCallsEnabled, setLegacyCallsEnabled, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
     // UseFallbackCallRelayServer
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use fallback call relay server",
                         QT_TR_NOOP("Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one."),

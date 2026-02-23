@@ -50,13 +50,13 @@ UserSettings::setTimelineSmallAvatarsEnabled(bool s)
     save();
 }
 void
-UserSettings::setEnableStickers(bool s)
+UserSettings::setStickersEnabled(bool s)
 {
-    if (enableStickers_ == s)
+    if (stickersEnabled_ == s)
         return;
-    enableStickers_ = s;
+    stickersEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::ComposerExtrasStickersEnabled, s);
-    emit enableStickersChanged(s);
+    emit stickersEnabledChanged(s);
     save();
 }
 void

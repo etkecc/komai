@@ -60,13 +60,13 @@ UserSettings::setTextSelectionEnabled(bool s)
     save();
 }
 void
-UserSettings::setEnableSwipeGestures(bool s)
+UserSettings::setSwipeGesturesEnabled(bool s)
 {
-    if (enableSwipeGestures_ == s)
+    if (swipeGesturesEnabled_ == s)
         return;
-    enableSwipeGestures_ = s;
+    swipeGesturesEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::UiInputSwipeGestures, s);
-    emit enableSwipeGesturesChanged(s);
+    emit swipeGesturesEnabledChanged(s);
     save();
 }
 void
@@ -207,7 +207,7 @@ UserSettings::setRunWithoutSecureSecretsService(bool s)
       runWithoutSecureSecretsService_, s, &UserSettings::runWithoutSecureSecretsServiceChanged);
 }
 void
-UserSettings::setEnableHttp3(bool s)
+UserSettings::setHttp3Enabled(bool s)
 {
-    setSetting(enableHttp3_, s, &UserSettings::enableHttp3Changed);
+    setSetting(http3Enabled_, s, &UserSettings::http3EnabledChanged);
 }

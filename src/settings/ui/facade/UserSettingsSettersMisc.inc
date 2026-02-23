@@ -9,13 +9,13 @@ UserSettings::setUseFallbackCallRelayServer(bool s)
     save();
 }
 void
-UserSettings::setEnableLegacyCalls(bool s)
+UserSettings::setLegacyCallsEnabled(bool s)
 {
-    if (enableLegacyCalls_ == s)
+    if (legacyCallsEnabled_ == s)
         return;
-    enableLegacyCalls_ = s;
+    legacyCallsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsLegacyEnabled, s);
-    emit enableLegacyCallsChanged(s);
+    emit legacyCallsEnabledChanged(s);
     save();
 }
 void

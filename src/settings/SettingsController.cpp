@@ -80,7 +80,7 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::UiFontEmojiFamily, settings.emojiFontFamily().toStdString());
     set(settings::core::SettingId::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
     set(settings::core::SettingId::UiInputEnableTextSelection, settings.textSelectionEnabled());
-    set(settings::core::SettingId::UiInputSwipeGestures, settings.enableSwipeGestures());
+    set(settings::core::SettingId::UiInputSwipeGestures, settings.swipeGesturesEnabled());
     set(settings::core::SettingId::UiAvatarsCircular, settings.circularAvatarsEnabled());
     set(settings::core::SettingId::UiAvatarsIdenticonFallback, settings.identiconFallbackEnabled());
     set(settings::core::SettingId::SidebarsRoomListCompact, settings.compactRoomList());
@@ -116,14 +116,14 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::ComposerFeedbackTypingNotifications,
         settings.typingNotificationsEnabled());
     set(settings::core::SettingId::ComposerFeedbackReadReceipts, settings.readReceiptsEnabled());
-    set(settings::core::SettingId::ComposerExtrasStickersEnabled, settings.enableStickers());
+    set(settings::core::SettingId::ComposerExtrasStickersEnabled, settings.stickersEnabled());
     set(settings::core::SettingId::NotificationsDesktopEnabled,
         settings.desktopNotificationsEnabled());
     set(settings::core::SettingId::NotificationsDesktopAlertOnIncoming,
         settings.alertOnIncomingMessages());
     set(settings::core::SettingId::NotificationsDesktopDecryptMessages,
         settings.decryptNotifications());
-    set(settings::core::SettingId::CallsLegacyEnabled, settings.enableLegacyCalls());
+    set(settings::core::SettingId::CallsLegacyEnabled, settings.legacyCallsEnabled());
     set(settings::core::SettingId::CallsRelayUseFallbackServer,
         settings.useFallbackCallRelayServer());
     set(settings::core::SettingId::CallsDevicesMicrophone, settings.microphone().toStdString());

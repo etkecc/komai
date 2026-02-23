@@ -125,7 +125,7 @@ Container {
         snapMode: ListView.SnapOneItem
         orientation: ListView.Horizontal
         highlightRangeMode: ListView.StrictlyEnforceRange
-        interactive: Settings.enableSwipeGestures && singlePageMode
+        interactive: Settings.swipeGesturesEnabled && singlePageMode
         highlightMoveDuration: (container.singlePageMode && Settings.uiAnimationsEnabled) ? 200 : 0
         currentIndex: container.singlePageMode ? container.pageIndex : 0
         boundsBehavior: Flickable.StopAtBounds

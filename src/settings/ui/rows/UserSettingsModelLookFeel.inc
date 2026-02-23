@@ -77,7 +77,7 @@
       "Enable swipe gestures",
       QT_TR_NOOP(
         "Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
-      SM::TabLookFeel, enableSwipeGestures, setEnableSwipeGestures, nullptr, UiInputSwipeGestures, SettingKey::UiInputSwipeGestures),
+      SM::TabLookFeel, swipeGesturesEnabled, setSwipeGesturesEnabled, nullptr, UiInputSwipeGestures, SettingKey::UiInputSwipeGestures),
     // LookFeelRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

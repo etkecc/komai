@@ -47,4 +47,4 @@
     // EnableStickers
     SIMPLE_BOOL_CONFIG_ID_SETTING("Enable stickers",
                         QT_TR_NOOP("Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs."),
-                        SM::TabComposer, enableStickers, setEnableStickers, nullptr, ComposerExtrasStickersEnabled, SettingKey::ComposerExtrasStickersEnabled),
+                        SM::TabComposer, stickersEnabled, setStickersEnabled, nullptr, ComposerExtrasStickersEnabled, SettingKey::ComposerExtrasStickersEnabled),

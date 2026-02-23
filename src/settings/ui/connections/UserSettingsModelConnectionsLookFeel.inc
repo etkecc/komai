@@ -17,4 +17,4 @@
     CONNECT_SETTING_ID(SidebarsRoomListSort, roomSortOrderChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, communitiesSidebarVisibleChanged, Value);
     CONNECT_SETTING_ID(UiInputEnableTextSelection, textSelectionEnabledChanged, Value);
-    CONNECT_SETTING_ID(UiInputSwipeGestures, enableSwipeGesturesChanged, Value);
+    CONNECT_SETTING_ID(UiInputSwipeGestures, swipeGesturesEnabledChanged, Value);

@@ -51,7 +51,7 @@ Rectangle {
             hoverEnabled: true
             image: CallManager.isOnCall ? ":/icons/icons/ui/end-call.svg" : ":/icons/icons/ui/place-call.svg"
             opacity: (CallManager.haveCallInvite || CallManager.isOnCallOnOtherDevice) ? 0.3 : 1
-            visible: CallManager.callsSupported && showAllButtons && Settings.enableLegacyCalls
+            visible: CallManager.callsSupported && showAllButtons && Settings.legacyCallsEnabled
             Layout.preferredWidth: 32
 
             onClicked: {
@@ -419,7 +419,7 @@ Rectangle {
             Layout.preferredHeight: 32
             hoverEnabled: true
             image: ":/icons/icons/ui/sticky-note-solid.svg"
-            visible: showAllButtons && Settings.enableStickers
+            visible: showAllButtons && Settings.stickersEnabled
             Layout.preferredWidth: 32
 
             onClicked: stickerPopup.visible ? stickerPopup.close() : stickerPopup.show(stickerButton, room.roomId, function (row) {

@@ -10,7 +10,7 @@ import QtQuick.Layouts 1.2
 import im.nheko 1.0
 
 Rectangle {
-    visible: CallManager.isOnCall && Settings.enableLegacyCalls
+    visible: CallManager.isOnCall && Settings.legacyCallsEnabled
     color: callInviteBar.color
     implicitHeight: visible ? rowLayout.height + 8 : 0
 

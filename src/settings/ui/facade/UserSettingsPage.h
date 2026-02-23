@@ -60,8 +60,8 @@ class UserSettings final : public QObject
                  setTimelineBubblesEnabled NOTIFY timelineBubblesEnabledChanged)
     Q_PROPERTY(bool timelineSmallAvatarsEnabled READ timelineSmallAvatarsEnabled WRITE
                  setTimelineSmallAvatarsEnabled NOTIFY timelineSmallAvatarsEnabledChanged)
-    Q_PROPERTY(
-      bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
+    Q_PROPERTY(bool stickersEnabled READ stickersEnabled WRITE setStickersEnabled NOTIFY
+                 stickersEnabledChanged)
     Q_PROPERTY(
       bool timelineShowOwnAvatarInBubbleLayout READ timelineShowOwnAvatarInBubbleLayout WRITE
         setTimelineShowOwnAvatarInBubbleLayout NOTIFY timelineShowOwnAvatarInBubbleLayoutChanged)
@@ -113,8 +113,8 @@ class UserSettings final : public QObject
                  communityListWidthChanged)
     Q_PROPERTY(bool textSelectionEnabled READ textSelectionEnabled WRITE setTextSelectionEnabled
                  NOTIFY textSelectionEnabledChanged)
-    Q_PROPERTY(bool enableSwipeGestures READ enableSwipeGestures WRITE setEnableSwipeGestures NOTIFY
-                 enableSwipeGesturesChanged)
+    Q_PROPERTY(bool swipeGesturesEnabled READ swipeGesturesEnabled WRITE setSwipeGesturesEnabled
+                 NOTIFY swipeGesturesEnabledChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
     Q_PROPERTY(double fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY(QString font READ font WRITE setFontFamily NOTIFY fontChanged)
@@ -138,8 +138,8 @@ class UserSettings final : public QObject
                  NOTIFY screenShareHideCursorChanged)
     Q_PROPERTY(bool useFallbackCallRelayServer READ useFallbackCallRelayServer WRITE
                  setUseFallbackCallRelayServer NOTIFY useFallbackCallRelayServerChanged)
-    Q_PROPERTY(bool enableLegacyCalls READ enableLegacyCalls WRITE setEnableLegacyCalls NOTIFY
-                 enableLegacyCallsChanged)
+    Q_PROPERTY(bool legacyCallsEnabled READ legacyCallsEnabled WRITE setLegacyCallsEnabled NOTIFY
+                 legacyCallsEnabledChanged)
     Q_PROPERTY(bool onlyShareKeysWithVerifiedUsers READ onlyShareKeysWithVerifiedUsers WRITE
                  setOnlyShareKeysWithVerifiedUsers NOTIFY onlyShareKeysWithVerifiedUsersChanged)
     Q_PROPERTY(bool shareKeysWithTrustedUsers READ shareKeysWithTrustedUsers WRITE
@@ -186,7 +186,7 @@ class UserSettings final : public QObject
                  setRunWithoutSecureSecretsService NOTIFY runWithoutSecureSecretsServiceChanged)
 
     // Experimental features
-    Q_PROPERTY(bool enableHttp3 READ enableHttp3 WRITE setEnableHttp3 NOTIFY enableHttp3Changed)
+    Q_PROPERTY(bool http3Enabled READ http3Enabled WRITE setHttp3Enabled NOTIFY http3EnabledChanged)
 
     UserSettings();
 
@@ -291,7 +291,7 @@ public:
     void setSystemTrayEnabled(bool state);
     void setSystemTrayAutostart(bool state);
     void setTextSelectionEnabled(bool mode);
-    void setEnableSwipeGestures(bool mode);
+    void setSwipeGesturesEnabled(bool mode);
     void setScaleFactor(double factor);
     void setFontSize(double size);
     void setFontFamily(QString family);
@@ -303,7 +303,7 @@ public:
     void setAutoReplaceEmoji(AutoReplaceEmoji state);
     void setTimelineBubblesEnabled(bool state);
     void setTimelineSmallAvatarsEnabled(bool state);
-    void setEnableStickers(bool state);
+    void setStickersEnabled(bool state);
     void setTimelineShowOwnAvatarInBubbleLayout(bool state);
     void setPinnedReactions(QString value);
     void setShowSenderUsername(ShowSenderUsername state);
@@ -339,7 +339,7 @@ public:
     void setScreenShareRemoteVideo(bool state);
     void setScreenShareHideCursor(bool state);
     void setUseFallbackCallRelayServer(bool state);
-    void setEnableLegacyCalls(bool state);
+    void setLegacyCallsEnabled(bool state);
     void setOnlyShareKeysWithVerifiedUsers(bool state);
     void setShareKeysWithTrustedUsers(bool state);
     void setUseOnlineKeyBackup(bool state);
@@ -369,7 +369,7 @@ public:
     void setMaxDbSize(qulonglong size);
     void setMaxDbs(uint count);
     void setRunWithoutSecureSecretsService(bool state);
-    void setEnableHttp3(bool state);
+    void setHttp3Enabled(bool state);
     void clearAuth();
     bool hasPersistedSessionIdentity() const;
     bool hasActiveSession() const;
@@ -572,13 +572,13 @@ public:
             return *value;
         return timelineSmallAvatarsEnabled_;
     }
-    bool enableStickers() const
+    bool stickersEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::ComposerExtrasStickersEnabled);
             value.has_value())
             return *value;
-        return enableStickers_;
+        return stickersEnabled_;
     }
     bool timelineShowOwnAvatarInBubbleLayout() const
     {
@@ -647,13 +647,13 @@ public:
             return *value;
         return textSelectionEnabled_;
     }
-    bool enableSwipeGestures() const
+    bool swipeGesturesEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::UiInputSwipeGestures);
             value.has_value())
             return *value;
-        return enableSwipeGestures_;
+        return swipeGesturesEnabled_;
     }
     bool readReceiptsEnabled() const
     {
@@ -788,13 +788,13 @@ public:
             return *value;
         return useFallbackCallRelayServer_;
     }
-    bool enableLegacyCalls() const
+    bool legacyCallsEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::CallsLegacyEnabled);
             value.has_value())
             return *value;
-        return enableLegacyCalls_;
+        return legacyCallsEnabled_;
     }
     bool shareKeysWithTrustedUsers() const
     {
@@ -887,7 +887,7 @@ public:
     qulonglong maxDbSize() const { return maxDbSize_; }
     uint maxDbs() const { return maxDbs_; }
     bool runWithoutSecureSecretsService() const { return runWithoutSecureSecretsService_; }
-    bool enableHttp3() const { return enableHttp3_; }
+    bool http3Enabled() const { return http3Enabled_; }
     settings::core::SettingsStore &mutableCoreStore() { return coreStore_; }
     const settings::core::SettingsStore &coreStore() const { return coreStore_; }
 
@@ -905,7 +905,7 @@ signals:
     void autoReplaceEmojiChanged(AutoReplaceEmoji state);
     void timelineBubblesEnabledChanged(bool state);
     void timelineSmallAvatarsEnabledChanged(bool state);
-    void enableStickersChanged(bool state);
+    void stickersEnabledChanged(bool state);
     void timelineShowOwnAvatarInBubbleLayoutChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
     void showSenderUsernameChanged(ShowSenderUsername state);
@@ -929,7 +929,7 @@ signals:
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
     void textSelectionEnabledChanged(bool mode);
-    void enableSwipeGesturesChanged(bool state);
+    void swipeGesturesEnabledChanged(bool state);
     void scaleFactorChanged(double factor);
     void fontSizeChanged(double state);
     void fontChanged(QString state);
@@ -946,7 +946,7 @@ signals:
     void screenShareRemoteVideoChanged(bool state);
     void screenShareHideCursorChanged(bool state);
     void useFallbackCallRelayServerChanged(bool state);
-    void enableLegacyCallsChanged(bool state);
+    void legacyCallsEnabledChanged(bool state);
     void onlyShareKeysWithVerifiedUsersChanged(bool state);
     void shareKeysWithTrustedUsersChanged(bool state);
     void useOnlineKeyBackupChanged(bool state);
@@ -971,7 +971,7 @@ signals:
     void maxDbSizeChanged(qulonglong size);
     void maxDbsChanged(uint count);
     void runWithoutSecureSecretsServiceChanged(bool state);
-    void enableHttp3Changed(bool state);
+    void http3EnabledChanged(bool state);
 
 private:
     template<typename T, typename Signal>

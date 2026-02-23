@@ -603,7 +603,7 @@ ChatPage::bootstrap(QString userid,
               getProfileInfo();
               getBackupVersion();
               tryInitialSync();
-              if (UserSettings::instance()->enableLegacyCalls())
+              if (UserSettings::instance()->legacyCallsEnabled())
                   callManager_->refreshTurnServer();
               emit MainWindow::instance()->reload();
           });
@@ -671,7 +671,7 @@ ChatPage::loadStateFromCache()
     getProfileInfo();
     getBackupVersion();
     verifyOneTimeKeyCountAfterStartup();
-    if (UserSettings::instance()->enableLegacyCalls())
+    if (UserSettings::instance()->legacyCallsEnabled())
         callManager_->refreshTurnServer();
 
     emit contentLoaded();

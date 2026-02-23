@@ -80,7 +80,7 @@ Note:
 | Calls | DEVICES | Ringtone | `UserSettingsModel::Ringtone` | `ringtone` | `calls.audio.ringtone` | config.yml | yes |
 | Calls | SCREEN SHARING | Screen share frame rate | `UserSettingsModel::ScreenShareFrameRate` | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | yes |
 | Calls | SCREEN SHARING | Include camera picture-in-picture | `UserSettingsModel::ScreenSharePiP` | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | yes |
-| Calls | SCREEN SHARING | Show participant camera during screen sharing | `UserSettingsModel::ScreenShareRemoteVideo` | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | yes |
+| Calls | SCREEN SHARING | Show participant camera while screen sharing | `UserSettingsModel::ScreenShareRemoteVideo` | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | yes |
 | Calls | SCREEN SHARING | Show mouse cursor | `UserSettingsModel::ScreenShareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
 | Privacy | SCREEN LOCK | Privacy screen | `UserSettingsModel::PrivacyScreen` | `privacy_screen` | `privacy.screen_lock.enabled` | config.yml | yes |
 | Privacy | SCREEN LOCK | Privacy screen timeout (seconds) | `UserSettingsModel::PrivacyScreenTimeoutSeconds` | `privacy_screen_timeout_seconds` | `privacy.screen_lock.timeout_seconds` | config.yml | yes |

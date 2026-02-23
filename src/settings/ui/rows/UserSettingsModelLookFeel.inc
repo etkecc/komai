@@ -63,7 +63,7 @@
       SettingKey::UiMotionAnimationsEnabled),
     // InputMode
     { QT_TR_NOOP("Input mode"),
-      QT_TR_NOOP("Choose whether Komai behaves like a desktop app or a touch-oriented app."),
+      QT_TR_NOOP("Desktop keeps mouse-first interactions. Touch favors swipe and touch-oriented behavior."),
       SM::Options, SM::TabLookFeel,
       lookFeelInputModeValue,
       setLookFeelInputModeValue,
@@ -75,7 +75,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable swipe gestures",
       QT_TR_NOOP(
-        "Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
+        "Enable gestures such as swiping between Rooms and Timeline, or swiping a message to reply."),
       SM::TabLookFeel, swipeGesturesEnabled, setSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
     // LookFeelRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,

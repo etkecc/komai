@@ -6,7 +6,7 @@
     // TimelineBubblesEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable message bubbles",
-      QT_TR_NOOP("Messages get a bubble background. This also triggers some layout changes (WIP)."),
+      QT_TR_NOOP("Render messages in bubble-style layout."),
       SM::TabTimeline, timelineBubblesEnabled, setTimelineBubblesEnabled, nullptr, TimelineMessagesLayoutBubbles, SettingKey::TimelineMessagesLayoutBubbles),
     // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
@@ -30,7 +30,7 @@
     // MaxTimelineWidth
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING("Limit timeline width",
                               QT_TR_NOOP(
-                                "Set the max width of messages in the timeline (in pixels). This can help readability on wide screen when Komai is maximized"),
+                                "Set the maximum timeline message width (in pixels). This can improve readability on wide screens."),
                               SM::TabTimeline, maxTimelineWidth, setMaxTimelineWidth, 0, 20000, 20,
                               nullptr, nullptr, TimelineMessagesMaxWidthPx, SettingKey::TimelineMessagesMaxWidthPx),
     // EnlargeEmojiOnlyMessages
@@ -66,13 +66,13 @@
       SM::TabTimeline, timelineMediaEffectsEnabled, setTimelineMediaEffectsEnabled, nullptr, TimelineMediaEffectsEnabled, SettingKey::TimelineMediaEffectsEnabled),
     // AnimateImagesOnHover
     SIMPLE_BOOL_CONFIG_ID_SETTING("Play animated images only on hover",
-                        QT_TR_NOOP("Plays media like GIFs or WEBPs only when explicitly hovering over them."),
+                        QT_TR_NOOP("Play animated media (such as GIF/WebP) only while hovering."),
                         SM::TabTimeline, animateImagesOnHover, setAnimateImagesOnHover, nullptr, TimelineMediaAnimateOnHover, SettingKey::TimelineMediaAnimateOnHover),
     // ShowImage
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show images automatically",
       QT_TR_NOOP(
-        "If images should be automatically displayed. You can select between always showing images by default, only show them by default in private rooms or always require interaction to show images."),
+        "Choose when images are displayed automatically."),
       SM::TabTimeline, showImage, setShowImage, UserSettings::ShowImage,
       timelineShowImageValues,
       nullptr,

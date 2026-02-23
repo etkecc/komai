@@ -6,7 +6,7 @@
     // Markdown
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Send messages as <a href=\"https://commonmark.org/help/\">Markdown</a>",
-      QT_TR_NOOP("Allow using markdown in messages.\nWhen disabled, all messages are sent as a plain text."),
+      QT_TR_NOOP("Send messages using Markdown formatting. When disabled, messages are sent as plain text."),
       SM::TabComposer, markdownEnabled, setMarkdownEnabled, nullptr, ComposerInputMarkdownEnabled, SettingKey::ComposerInputMarkdownEnabled),
     // SendMessageKey
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
@@ -34,12 +34,12 @@
     // TypingNotifications
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Typing notifications",
-      QT_TR_NOOP("Show who is typing in a room.\nThis will also enable or disable sending typing notifications to others."),
+      QT_TR_NOOP("Show who is typing in a room and send your typing status to others."),
       SM::TabComposer, typingNotificationsEnabled, setTypingNotificationsEnabled, nullptr, ComposerFeedbackTypingNotifications, SettingKey::ComposerFeedbackTypingNotifications),
     // ReadReceipts
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Read receipts",
-      QT_TR_NOOP("Show if your message was read.\nStatus is displayed next to timestamps.\nWarning: If your homeserver does not support this, your rooms will never be marked as read!"),
+      QT_TR_NOOP("Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read."),
       SM::TabComposer, readReceiptsEnabled, setReadReceiptsEnabled, nullptr, ComposerFeedbackReadReceipts, SettingKey::ComposerFeedbackReadReceipts),
     // ComposerExtrasSection
     { QT_TR_NOOP("Extras"), nullptr, SM::SectionTitle, SM::TabComposer,

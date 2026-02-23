@@ -5,13 +5,13 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PrivacyScreen
     SIMPLE_BOOL_CONFIG_ID_SETTING("Privacy screen",
-                        QT_TR_NOOP("When the window loses focus, the timeline will\nbe blurred."),
+                        QT_TR_NOOP("Blur the timeline when the app loses window focus."),
                         SM::TabPrivacy, privacyScreen, setPrivacyScreen, nullptr, PrivacyScreenLockEnabled, SettingKey::PrivacyScreenLockEnabled),
     // PrivacyScreenTimeoutSeconds
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
       "Privacy screen timeout (seconds)",
       QT_TR_NOOP(
-        "Set how long after focus loss before the screen is blurred.\nSet to 0 to blur immediately after focus loss.\nMaximum is 3600 seconds (1 hour)."),
+        "Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour)."),
       SM::TabPrivacy, privacyScreenTimeoutSeconds, setPrivacyScreenTimeoutSeconds, 0, 3600, 10,
       nullptr, privacyScreenTimeoutEnabled, PrivacyScreenLockTimeoutSeconds, SettingKey::PrivacyScreenLockTimeoutSeconds),
     // PrivacyDataSection
@@ -20,7 +20,7 @@
     // ExpireEvents
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Periodically delete expired events",
-      QT_TR_NOOP("Regularly redact expired events as specified in the event expiration configuration. Since this is currently not executed server side, you need to have one client running this regularly."),
+      QT_TR_NOOP("Regularly redact expired events based on room expiration rules. Because homeservers may not do this automatically, at least one of your clients should keep this enabled."),
       SM::TabPrivacy, expireEvents, setExpireEvents, nullptr, PrivacyMaintenanceExpireEvents, SettingKey::PrivacyMaintenanceExpireEvents),
     // HiddenTimelineEvents
     { QT_TR_NOOP("Hidden events"),
@@ -30,7 +30,7 @@
     // UpdateSpaceVias
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Periodically update community routing information",
-      QT_TR_NOOP("To allow new users to join a community, the community needs to expose some information about what servers participate in a room to community members. Since the room participants can change over time, this needs to be updated from time to time. This setting enables a background job to do that automatically."),
+      QT_TR_NOOP("Keep community routing metadata up to date in the background so joins continue to work as room membership changes."),
       SM::TabPrivacy, updateSpaceVias, setUpdateSpaceVias, nullptr, PrivacyMaintenanceUpdateSpaceVias, SettingKey::PrivacyMaintenanceUpdateSpaceVias),
     // PrivacyUsersSection
     { QT_TR_NOOP("Users"), nullptr, SM::SectionTitle, SM::TabPrivacy,

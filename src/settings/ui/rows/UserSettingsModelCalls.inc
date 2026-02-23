@@ -6,7 +6,7 @@
     // EnableLegacyCalls
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable legacy calls",
-      QT_TR_NOOP("Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release."),
+      QT_TR_NOOP("Show the legacy call button in the composer. This older VoIP path may be unreliable."),
       SM::TabCalls, legacyCallsEnabled, setLegacyCallsEnabled, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
     // UseFallbackCallRelayServer
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use turn.matrix.org when no relay is configured",
@@ -64,7 +64,7 @@
     // CallsScreenshareFrameRate
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
       "Screen share frame rate",
-      QT_TR_NOOP("Target frame rate for screen-sharing streams."),
+      QT_TR_NOOP("Target frames per second for screen-sharing streams."),
       SM::TabCalls, screenShareFrameRate, setScreenShareFrameRate, 1, 120, 1,
       nullptr, nullptr, CallsScreenshareFrameRate, SettingKey::CallsScreenshareFrameRate),
     // CallsScreensharePictureInPicture
@@ -74,7 +74,7 @@
       SM::TabCalls, screenSharePiP, setScreenSharePiP, nullptr, CallsScreensharePictureInPicture, SettingKey::CallsScreensharePictureInPicture),
     // CallsScreenshareIncludeRemoteVideo
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Show participant camera during screen sharing",
+      "Show participant camera while screen sharing",
       QT_TR_NOOP("Show the other participant's camera during screen sharing."),
       SM::TabCalls, screenShareRemoteVideo, setScreenShareRemoteVideo, nullptr, CallsScreenshareIncludeRemoteVideo, SettingKey::CallsScreenshareIncludeRemoteVideo),
     // CallsScreenshareShowCursor

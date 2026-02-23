@@ -11,7 +11,7 @@
     // AlertOnIncomingMessages
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Alert on incoming messages",
-      QT_TR_NOOP("Show an alert when a message is received.\nThis usually causes the application icon in the task bar to animate in some fashion."),
+      QT_TR_NOOP("Show an attention alert when a message is received (for example, taskbar icon activity)."),
       SM::TabNotifications, alertOnIncomingMessages, setAlertOnIncomingMessages, nullptr, NotificationsDesktopAlertOnIncoming, SettingKey::NotificationsDesktopAlertOnIncoming),
     // DecryptNotifications
     SIMPLE_BOOL_CONFIG_ID_SETTING("Decrypt notifications",

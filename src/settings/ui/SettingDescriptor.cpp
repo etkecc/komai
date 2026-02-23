@@ -437,15 +437,15 @@ vecToList(const std::vector<std::string> &vec)
 
 // clang-format off
 const SettingMeta settingsTable[] = {
-    #include "UserSettingsModelLookFeel.inc"
-    #include "UserSettingsModelTimeline.inc"
-    #include "UserSettingsModelComposer.inc"
-    #include "UserSettingsModelNotifications.inc"
-    #include "UserSettingsModelCalls.inc"
-    #include "UserSettingsModelPrivacy.inc"
-    #include "UserSettingsModelEncryption.inc"
-    #include "UserSettingsModelSession.inc"
-    #include "UserSettingsModelAbout.inc"
+    #include "rows/UserSettingsModelLookFeel.inc"
+    #include "rows/UserSettingsModelTimeline.inc"
+    #include "rows/UserSettingsModelComposer.inc"
+    #include "rows/UserSettingsModelNotifications.inc"
+    #include "rows/UserSettingsModelCalls.inc"
+    #include "rows/UserSettingsModelPrivacy.inc"
+    #include "rows/UserSettingsModelEncryption.inc"
+    #include "rows/UserSettingsModelSession.inc"
+    #include "rows/UserSettingsModelAbout.inc"
 };
 // clang-format on
 

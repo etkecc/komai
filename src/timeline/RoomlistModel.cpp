@@ -19,7 +19,7 @@
 #include "Utils.h"
 #include "voip/CallManager.h"
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
 #include <QDBusConnection>
 #endif
 
@@ -652,12 +652,12 @@ RoomlistModel::initializeRooms()
 
     endResetModel();
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     setDbusInterfaceEnabled(MainWindow::instance()->dbusAvailable());
 #endif
 }
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
 void
 RoomlistModel::setDbusInterfaceEnabled(bool enabled)
 {

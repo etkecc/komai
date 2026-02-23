@@ -1,7 +1,7 @@
     // Integrations
     CONNECT_SETTING(IntegrationsTray, trayChanged, Value);
     CONNECT_SETTING(IntegrationsStartInTray, startInTrayChanged, Value);
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     CONNECT_SETTING(IntegrationsDbusApiAccess, integrationsDbusApiAccessChanged, Value);
 #endif
 

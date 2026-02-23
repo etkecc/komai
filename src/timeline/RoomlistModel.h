@@ -15,7 +15,7 @@
 
 #include <mtx/responses/sync.hpp>
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif
 
@@ -120,7 +120,7 @@ public slots:
     void acceptInvite(QString roomid);
     void declineInvite(QString roomid);
     void leave(QString roomid, QString reason = "");
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     void setDbusInterfaceEnabled(bool enabled);
 #endif
     TimelineModel *currentRoom() const { return currentRoom_.get(); }
@@ -159,7 +159,7 @@ private:
 
     std::map<QString, std::vector<QString>> directChatToUser;
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     DbusBackend *dbusInterface_ = nullptr;
     friend class DbusBackend;
 #endif

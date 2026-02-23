@@ -8,7 +8,7 @@
 
 #include "Logging.h"
 
-#if defined(NHEKO_DBUS_SYS)
+#if defined(KOMAI_DBUS_SYS)
 #include <qdbusconnectioninterface.h>
 Dock::Dock(QObject *parent)
   : QObject(parent)

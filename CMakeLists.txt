@@ -776,7 +776,7 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 # this must be defined here to make the moc work properly
 if(NOT APPLE AND NOT WIN32)
-    add_compile_definitions(NHEKO_DBUS_SYS)
+    add_compile_definitions(KOMAI_DBUS_SYS)
 endif()
 
 #
@@ -1050,7 +1050,7 @@ if(WIN32)
 else()
     target_link_libraries(komai PRIVATE Qt6::DBus)
     if(FLATPAK)
-        target_compile_definitions(komai PRIVATE NHEKO_FLATPAK)
+        target_compile_definitions(komai PRIVATE KOMAI_FLATPAK)
     endif()
 endif()
 

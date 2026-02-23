@@ -33,7 +33,7 @@
 #include "CallManager.h"
 #include "ChatPage.h"
 #include "Logging.h"
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif
 #include "MainWindow.h"
@@ -299,7 +299,7 @@ main(int argc, char *argv[])
     settings::persistence::setLoggers({.ui = nhlog::ui()});
     settings::setLoggers({.ui = nhlog::ui()});
     settings::serializer::setLoggers({.ui = nhlog::ui()});
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     setLoggers({.ui = nhlog::ui()});
 #endif
 
@@ -404,7 +404,7 @@ main(int argc, char *argv[])
 #if !defined(Q_OS_MACOS)
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("komai"), QIcon{":/logos/komai.png"}));
 #endif
-#ifdef NHEKO_FLATPAK
+#ifdef KOMAI_FLATPAK
     app.setDesktopFileName(QStringLiteral("im.nheko.Nheko"));
 #else
     app.setDesktopFileName(QStringLiteral("komai"));

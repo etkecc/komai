@@ -196,7 +196,7 @@
       "Start in tray",
       QT_TR_NOOP("Start the application in the background without showing the client window."),
       SM::TabIntegrations, startInTray, setStartInTray, nullptr),
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     // IntegrationsDbusSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

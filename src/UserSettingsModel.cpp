@@ -110,7 +110,7 @@ constexpr auto sectionDescriptors = std::to_array<SectionDescriptor>({
   SectionDescriptor{UserSettingsModel::IntegrationsSystemTraySection,
                     UserSettingsModel::TabIntegrations,
                     QT_TR_NOOP("System tray")},
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
   SectionDescriptor{UserSettingsModel::IntegrationsDbusSection,
                     UserSettingsModel::TabIntegrations,
                     QT_TR_NOOP("D-Bus")},

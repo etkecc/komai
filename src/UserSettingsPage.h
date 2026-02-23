@@ -742,7 +742,7 @@ public:
         IntegrationsSystemTraySection,
         IntegrationsTray,
         IntegrationsStartInTray,
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
         IntegrationsDbusSection,
         IntegrationsDbusApiAccess,
 #endif
@@ -866,7 +866,7 @@ public:
 #ifdef Q_OS_MACOS
         ScaleFactor,
 #endif
-#ifndef NHEKO_DBUS_SYS
+#ifndef KOMAI_DBUS_SYS
         IntegrationsDbusSection,
         IntegrationsDbusApiAccess,
 #endif

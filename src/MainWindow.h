@@ -85,7 +85,7 @@ public:
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     bool dbusAvailable() const { return dbusAvailable_; }
 #endif
 
@@ -125,7 +125,7 @@ private:
     bool pageSupportsTray() const;
 
     void registerQmlTypes();
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     void refreshDbusAvailability();
 #endif
 
@@ -146,7 +146,7 @@ private:
 
     QMultiHash<QString, QWindow *> roomWindows_;
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     bool dbusAvailable_{false};
 #endif
 };

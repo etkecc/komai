@@ -11,7 +11,7 @@
 
 #include <mtx/responses/notifications.hpp>
 
-#if defined(NHEKO_DBUS_SYS)
+#if defined(KOMAI_DBUS_SYS)
 #include <QtDBus/QDBusArgument>
 #include <QtDBus/QDBusInterface>
 #endif
@@ -50,7 +50,7 @@ signals:
 public slots:
     void removeNotifications(const QString &roomId, const std::vector<QString> &eventId);
 
-#if defined(NHEKO_DBUS_SYS)
+#if defined(KOMAI_DBUS_SYS)
 public:
     void closeNotifications(QString roomId);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)

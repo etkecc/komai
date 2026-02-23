@@ -4,7 +4,7 @@
 
 #pragma once
 #include <QObject>
-#if defined(NHEKO_DBUS_SYS)
+#if defined(KOMAI_DBUS_SYS)
 #include <QDBusServiceWatcher>
 #include <QtDBus/QDBusArgument>
 #include <QtDBus/QDBusInterface>
@@ -19,7 +19,7 @@ public slots:
     void setUnreadCount(const int count);
 
 private:
-#if defined(NHEKO_DBUS_SYS)
+#if defined(KOMAI_DBUS_SYS)
     void unitySetNotificationCount(const int count);
     QDBusServiceWatcher *unityServiceWatcher = nullptr;
     bool unityServiceAvailable               = false;

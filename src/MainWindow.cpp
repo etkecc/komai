@@ -31,7 +31,7 @@
 #include "voip/CallManager.h"
 #include "voip/WebRTCSession.h"
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
 #include "dbus/Api.h"
 #endif
 
@@ -73,7 +73,7 @@ MainWindow::MainWindow(QWindow *parent)
             this,
             SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     connect(userSettings_.get(),
             &UserSettings::integrationsDbusApiAccessChanged,
             this,
@@ -117,12 +117,12 @@ MainWindow::registerQmlTypes()
 
     QObject::connect(engine(), &QQmlEngine::quit, &QGuiApplication::quit);
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
     refreshDbusAvailability();
 #endif
 }
 
-#ifdef NHEKO_DBUS_SYS
+#ifdef KOMAI_DBUS_SYS
 void
 MainWindow::refreshDbusAvailability()
 {

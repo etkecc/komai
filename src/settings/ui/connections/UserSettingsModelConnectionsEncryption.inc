@@ -7,5 +7,15 @@
 
     // Cross-signing secrets (from MainWindow, not UserSettings)
     connect(MainWindow::instance(), &MainWindow::secretsChanged, this, [this]() {
-        emit dataChanged(index(OnlineBackupKey), index(MasterKey), {Value, Good});
+        constexpr auto ids = std::array{
+          settings::core::SettingId::EncryptionOnlineBackupKeyStatus,
+          settings::core::SettingId::EncryptionSelfSigningKeyStatus,
+          settings::core::SettingId::EncryptionUserSigningKeyStatus,
+          settings::core::SettingId::EncryptionMasterSigningKeyStatus,
+        };
+
+        for (const auto id : ids) {
+            if (const int idx = rowForSettingId(id); idx >= 0)
+                emit dataChanged(index(idx), index(idx), {Value, Good});
+        }
     });

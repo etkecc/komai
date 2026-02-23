@@ -153,7 +153,7 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
             SettingKey::NetworkPresenceStatusPolicy,
             cfg::toStorageValue(settings.presence()).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
-    setNode(root, SettingKey::UiInputEnableTextSelection, !settings.touchInputMode());
+    setNode(root, SettingKey::UiInputEnableTextSelection, settings.textSelectionEnabled());
 
     if (settings::core::isScaleFactorInRange(settings.scaleFactor()))
         setNode(root, SettingKey::UiScaleFactor, settings.scaleFactor());
@@ -203,7 +203,7 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
 
     settings.setUiAnimationsEnabled(readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
-    settings.setTouchInputMode(!readScalar<bool>(
+    settings.setTextSelectionEnabled(readScalar<bool>(
       root, SettingKey::UiInputEnableTextSelection, cfg::kDefaultInputEnableTextSelection));
     const auto scaleFactor =
       readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);

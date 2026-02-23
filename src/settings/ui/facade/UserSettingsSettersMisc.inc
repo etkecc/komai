@@ -146,13 +146,13 @@ UserSettings::setCurrentTagId(const QString currentTagId)
 }
 
 void
-UserSettings::setDisableCertificateValidation(bool disabled)
+UserSettings::setCertificateValidationEnabled(bool enabled)
 {
-    if (disabled == disableCertificateValidation_)
+    if (enabled == certificateValidationEnabled_)
         return;
-    disableCertificateValidation_ = disabled;
-    http::client()->verify_certificates(!disabled);
-    emit disableCertificateValidationChanged(disabled);
+    certificateValidationEnabled_ = enabled;
+    http::client()->verify_certificates(enabled);
+    emit certificateValidationEnabledChanged(enabled);
     save();
 }
 

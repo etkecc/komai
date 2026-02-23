@@ -106,7 +106,7 @@ network:
   http3:
     enabled: false
   tls:
-    disable_certificate_validation: false
+    enable_certificate_validation: true
 
 db:
   max_size_bytes: 0

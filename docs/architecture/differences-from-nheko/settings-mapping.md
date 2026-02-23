@@ -45,7 +45,7 @@ Note:
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsStartInTray` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::integrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::TextSelectionEnabled` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
 | Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::Bubbles` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
 | Timeline | MESSAGES | Use small avatars | `UserSettingsModel::SmallAvatars` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
@@ -124,7 +124,7 @@ Note:
 | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | bool | advanced calls/screenshare pref |
 | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | bool | advanced calls/screenshare pref |
 | `screen_share_hide_cursor` | `calls.screenshare.hide_cursor` | config.yml | bool | advanced calls/screenshare pref |
-| `disable_certificate_validation` | `network.tls.disable_certificate_validation` | config.yml | bool | network/security advanced pref |
+| `disable_certificate_validation` | `network.tls.enable_certificate_validation` | config.yml | bool | inverted from upstream key semantics; positive in Komai |
 | `enable_http3` | `network.http3.enabled` | config.yml | bool | network advanced pref |
 | `max_db_size` | `db.max_size_bytes` | config.yml | qulonglong | database tuning |
 | `max_dbs` | `db.max_files` | config.yml | uint | database tuning |

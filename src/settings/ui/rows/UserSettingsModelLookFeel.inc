@@ -62,13 +62,13 @@
       UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),
     // EnableTextSelection
-    SIMPLE_INVERTED_BOOL_CONFIG_ID_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable text selection on timeline",
       QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
                  "experience."),
       SM::TabLookFeel,
-      touchInputMode,
-      setTouchInputMode,
+      textSelectionEnabled,
+      setTextSelectionEnabled,
       nullptr,
       UiInputEnableTextSelection,
       SettingKey::UiInputEnableTextSelection),

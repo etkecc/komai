@@ -107,8 +107,8 @@ class UserSettings final : public QObject
       int roomListWidth READ roomListWidth WRITE setRoomListWidth NOTIFY roomListWidthChanged)
     Q_PROPERTY(int communityListWidth READ communityListWidth WRITE setCommunityListWidth NOTIFY
                  communityListWidthChanged)
-    Q_PROPERTY(
-      bool touchInputMode READ touchInputMode WRITE setTouchInputMode NOTIFY touchInputModeChanged)
+    Q_PROPERTY(bool textSelectionEnabled READ textSelectionEnabled WRITE setTextSelectionEnabled
+                 NOTIFY textSelectionEnabledChanged)
     Q_PROPERTY(bool enableSwipeGestures READ enableSwipeGestures WRITE setEnableSwipeGestures NOTIFY
                  enableSwipeGesturesChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -147,8 +147,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(QString accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged)
     Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
     Q_PROPERTY(QString homeserver READ homeserver WRITE setHomeserver NOTIFY homeserverChanged)
-    Q_PROPERTY(bool disableCertificateValidation READ disableCertificateValidation WRITE
-                 setDisableCertificateValidation NOTIFY disableCertificateValidationChanged)
+    Q_PROPERTY(bool certificateValidationEnabled READ certificateValidationEnabled WRITE
+                 setCertificateValidationEnabled NOTIFY certificateValidationEnabledChanged)
     Q_PROPERTY(bool useIdenticon READ useIdenticon WRITE setUseIdenticon NOTIFY useIdenticonChanged)
     Q_PROPERTY(bool openImagesInExternalApp READ openImagesInExternalApp WRITE
                  setOpenImagesInExternalApp NOTIFY openImagesInExternalAppChanged)
@@ -285,7 +285,7 @@ public:
     void setEnlargeEmojiOnlyMessages(bool state);
     void setTray(bool state);
     void setStartInTray(bool state);
-    void setTouchInputMode(bool mode);
+    void setTextSelectionEnabled(bool mode);
     void setEnableSwipeGestures(bool mode);
     void setScaleFactor(double factor);
     void setFontSize(double size);
@@ -345,7 +345,7 @@ public:
     void setDeviceId(QString deviceId);
     void setCurrentTagId(QString currentTagId);
     void setHomeserver(QString homeserver);
-    void setDisableCertificateValidation(bool disabled);
+    void setCertificateValidationEnabled(bool enabled);
     void setHiddenTags(const QStringList &hiddenTags);
     void setMutedTags(const QStringList &mutedTags);
     void setHiddenPins(const QStringList &hiddenTags);
@@ -634,13 +634,13 @@ public:
             return *value;
         return showActionButtons_;
     }
-    bool touchInputMode() const
+    bool textSelectionEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::UiInputEnableTextSelection);
             value.has_value())
-            return !*value;
-        return touchInputMode_;
+            return *value;
+        return textSelectionEnabled_;
     }
     bool enableSwipeGestures() const
     {
@@ -818,7 +818,7 @@ public:
     QString deviceId() const { return deviceId_; }
     QString currentTagId() const { return currentTagId_; }
     QString homeserver() const { return homeserver_; }
-    bool disableCertificateValidation() const { return disableCertificateValidation_; }
+    bool certificateValidationEnabled() const { return certificateValidationEnabled_; }
     QStringList hiddenTags() const { return hiddenTags_; }
     QStringList mutedTags() const { return mutedTags_; }
     QStringList hiddenPins() const { return hiddenPins_; }
@@ -920,7 +920,7 @@ signals:
     void maxTimelineWidthChanged(int state);
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
-    void touchInputModeChanged(bool mode);
+    void textSelectionEnabledChanged(bool mode);
     void enableSwipeGesturesChanged(bool state);
     void scaleFactorChanged(double factor);
     void fontSizeChanged(double state);
@@ -947,7 +947,7 @@ signals:
     void accessTokenChanged(QString accessToken);
     void deviceIdChanged(QString deviceId);
     void homeserverChanged(QString homeserver);
-    void disableCertificateValidationChanged(bool disabled);
+    void certificateValidationEnabledChanged(bool enabled);
     void useIdenticonChanged(bool state);
     void openImagesInExternalAppChanged(bool state);
     void openVideosInExternalAppChanged(bool state);
@@ -1020,7 +1020,7 @@ private:
     bool shareKeysWithTrustedUsers_;
     bool onlyShareKeysWithVerifiedUsers_;
     bool useOnlineKeyBackup_;
-    bool touchInputMode_;
+    bool textSelectionEnabled_;
     bool enableSwipeGestures_;
     int maxTimelineWidth_;
     int roomListWidth_      = -1;
@@ -1042,7 +1042,7 @@ private:
     bool screenShareHideCursor_;
     bool useFallbackCallRelayServer_;
     bool enableLegacyCalls_;
-    bool disableCertificateValidation_ = false;
+    bool certificateValidationEnabled_ = true;
     QString profile_;
     QString userId_;
     QString accessToken_;

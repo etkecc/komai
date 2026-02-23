@@ -50,13 +50,13 @@ UserSettings::setStartInTray(bool s)
     save();
 }
 void
-UserSettings::setTouchInputMode(bool s)
+UserSettings::setTextSelectionEnabled(bool s)
 {
-    if (touchInputMode_ == s)
+    if (textSelectionEnabled_ == s)
         return;
-    touchInputMode_ = s;
-    (void)coreStore_.set(settings::core::SettingId::UiInputEnableTextSelection, !s);
-    emit touchInputModeChanged(s);
+    textSelectionEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::UiInputEnableTextSelection, s);
+    emit textSelectionEnabledChanged(s);
     save();
 }
 void

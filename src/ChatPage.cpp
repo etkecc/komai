@@ -508,7 +508,7 @@ ChatPage::bootstrap(QString userid,
     http::client()->set_server(homeserver.toStdString());
     http::client()->set_device_id(deviceId.toStdString());
     http::client()->set_access_token(token.toStdString());
-    http::client()->verify_certificates(!UserSettings::instance()->disableCertificateValidation());
+    http::client()->verify_certificates(UserSettings::instance()->certificateValidationEnabled());
 
     // The Olm client needs the user_id & device_id that will be included
     // in the generated payloads & keys.

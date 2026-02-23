@@ -72,15 +72,14 @@ constexpr auto PrivacyMaintenanceUpdateSpaceVias     = "privacy.maintenance.upda
 constexpr auto EncryptionKeySharingOnlyVerifiedUsers = "encryption.key_sharing.only_verified_users";
 constexpr auto EncryptionKeySharingShareWithTrusted  = "encryption.key_sharing.share_with_trusted";
 constexpr auto EncryptionBackupOnlineEnabled         = "encryption.backup.online.enabled";
-constexpr auto NetworkTlsDisableCertificateValidation =
-  "network.tls.disable_certificate_validation";
-constexpr auto NetworkHttp3Enabled         = "network.http3.enabled";
-constexpr auto NetworkPresenceStatusPolicy = "network.presence.status_policy";
-constexpr auto DbMaxSizeBytes              = "db.max_size_bytes";
-constexpr auto DbMaxFiles                  = "db.max_files";
-constexpr auto IntegrationsDbusApiAccess   = "integrations.dbus.access";
-constexpr auto IntegrationsBrowserCommand  = "integrations.browser.command";
-constexpr auto SecretsProvider             = "secrets.provider";
+constexpr auto NetworkTlsEnableCertificateValidation = "network.tls.enable_certificate_validation";
+constexpr auto NetworkHttp3Enabled                   = "network.http3.enabled";
+constexpr auto NetworkPresenceStatusPolicy           = "network.presence.status_policy";
+constexpr auto DbMaxSizeBytes                        = "db.max_size_bytes";
+constexpr auto DbMaxFiles                            = "db.max_files";
+constexpr auto IntegrationsDbusApiAccess             = "integrations.dbus.access";
+constexpr auto IntegrationsBrowserCommand            = "integrations.browser.command";
+constexpr auto SecretsProvider                       = "secrets.provider";
 
 // state.yml
 constexpr auto AppWindowSizeWidth                 = "app.window.size.width";

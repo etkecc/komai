@@ -29,6 +29,7 @@
 #include "settings/SettingKeys.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptor.h"
+#include "settings/ui/UserSettingsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 /**

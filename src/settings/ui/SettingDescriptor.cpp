@@ -52,17 +52,6 @@ getSettingValue()
     return (i.get()->*Get)();
 }
 
-template<auto Get>
-QVariant
-getInvertedBoolSettingValue()
-{
-    auto i = I;
-    if (!i)
-        return {};
-
-    return !static_cast<bool>((i.get()->*Get)());
-}
-
 template<settings::core::SettingId Id, auto Get>
 QVariant
 getCoreBoolValue()
@@ -75,20 +64,6 @@ getCoreBoolValue()
         return *value;
 
     return (i.get()->*Get)();
-}
-
-template<settings::core::SettingId Id, auto Get>
-QVariant
-getCoreInvertedBoolValue()
-{
-    auto i = I;
-    if (!i)
-        return {};
-
-    if (const auto value = i->coreStore().valueAs<bool>(Id); value.has_value())
-        return !(*value);
-
-    return !static_cast<bool>((i.get()->*Get)());
 }
 
 template<settings::core::SettingId Id, auto Get>
@@ -190,22 +165,6 @@ setSettingValue(const QVariant &value)
     return setSettingValueImpl<Set, T>(i.get(), castValue, std::is_void<SetValueResult<Set, T>>{});
 }
 
-template<auto Set>
-bool
-setInvertedBoolSettingValue(const QVariant &value)
-{
-    auto i = I;
-    if (!i)
-        return false;
-
-    bool enabled{};
-    if (!readSettingValue(value, enabled))
-        return false;
-
-    return setSettingValueImpl<Set, bool>(
-      i.get(), !enabled, std::is_void<SetValueResult<Set, bool>>{});
-}
-
 template<auto Set, typename Enum>
 using SetEnumResult = decltype((std::declval<UserSettings *>()->*Set)(std::declval<Enum>()));
 
@@ -284,42 +243,6 @@ setSettingEnumValue(const QVariant &value)
      tab,                                                                                          \
      getCoreBoolValue<settings::core::SettingId::id, &UserSettings::getter>,                       \
      setSettingValue<&UserSettings::setter, bool>,                                                 \
-     {},                                                                                           \
-     {},                                                                                           \
-     {},                                                                                           \
-     nullptr,                                                                                      \
-     enabled_cb,                                                                                   \
-     CORE_CONFIG_ID(id, key)}
-
-#define SIMPLE_INVERTED_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)   \
-    {QT_TR_NOOP(name),                                                                             \
-     desc,                                                                                         \
-     SM::Toggle,                                                                                   \
-     tab,                                                                                          \
-     getInvertedBoolSettingValue<&UserSettings::getter>,                                           \
-     setInvertedBoolSettingValue<&UserSettings::setter>,                                           \
-     {},                                                                                           \
-     {},                                                                                           \
-     {},                                                                                           \
-     nullptr,                                                                                      \
-     enabled_cb,                                                                                   \
-     core_def}
-
-#define SIMPLE_INVERTED_BOOL_SETTING(name, desc, tab, getter, setter, enabled_cb)                  \
-    SIMPLE_INVERTED_BOOL_SETTING_CORE(                                                             \
-      name, desc, tab, getter, setter, enabled_cb, settings::core::SettingDefinition{})
-
-#define SIMPLE_INVERTED_BOOL_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)      \
-    SIMPLE_INVERTED_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
-
-#define SIMPLE_INVERTED_BOOL_CONFIG_ID_SETTING(                                                    \
-  name, desc, tab, getter, setter, enabled_cb, id, key)                                            \
-    {QT_TR_NOOP(name),                                                                             \
-     desc,                                                                                         \
-     SM::Toggle,                                                                                   \
-     tab,                                                                                          \
-     getCoreInvertedBoolValue<settings::core::SettingId::id, &UserSettings::getter>,               \
-     setInvertedBoolSettingValue<&UserSettings::setter>,                                           \
      {},                                                                                           \
      {},                                                                                           \
      {},                                                                                           \

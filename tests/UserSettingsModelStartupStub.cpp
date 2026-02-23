@@ -4,8 +4,9 @@
 
 #include <QHash>
 
-#include "settings/ui/facade/UserSettingsPage.h"
 #include "settings/ui/SettingDescriptor.h"
+#include "settings/ui/UserSettingsModel.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 UserSettingsModel::UserSettingsModel(QObject *parent)
   : QAbstractListModel(parent)

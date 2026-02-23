@@ -632,6 +632,7 @@ set(SRC_FILES
     src/SingleImagePackModel.h
     src/TrayIcon.cpp
     src/TrayIcon.h
+    src/settings/ui/UserSettingsModel.h
     src/settings/ui/UserSettingsModel.cpp
     src/settings/ui/facade/UserSettingsPersistence.cpp
     src/settings/ui/facade/UserSettingsPage.cpp
@@ -1030,6 +1031,7 @@ if(BUILD_TESTING)
         tests/StartupSettingsTest.cpp
         tests/ProfileSecretsStartupStub.cpp
         tests/UserSettingsModelStartupStub.cpp
+        src/settings/ui/UserSettingsModel.h
         tests/JdenticonStartupStub.cpp
         tests/OlmStartupStub.cpp
         tests/LoggingStub.cpp

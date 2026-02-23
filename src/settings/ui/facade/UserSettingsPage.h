@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include <QAbstractListModel>
 #include <QMap>
 #include <QProcessEnvironment>
 #include <QQmlEngine>
@@ -19,8 +18,6 @@
 namespace YAML {
 class Node;
 }
-
-class QSortFilterProxyModel;
 
 namespace settings {
 class SettingsController;
@@ -1091,92 +1088,4 @@ private:
     static QSharedPointer<UserSettings> instance_;
 };
 
-class UserSettingsModel : public QAbstractListModel
-{
-    /**
-     * UserSettingsModel adapts runtime setting metadata for QML presentation.
-     *
-     * It renders sections + setting rows as a list model, provides role-based values
-     * for delegates, and forwards edits back to the singleton `UserSettings`.
-     */
-    Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
-
-public:
-    enum SettingsTab
-    {
-        TabLookFeel,
-        TabSidebars,
-        TabTimeline,
-        TabComposer,
-        TabNotifications,
-        TabCalls,
-        TabPrivacy,
-        TabEncryption,
-        TabSession,
-        TabIntegrations,
-        TabAbout,
-    };
-    Q_ENUM(SettingsTab);
-
-private:
-public:
-    enum Types
-    {
-        Toggle,
-        ReadOnlyText,
-        Options,
-        OptionsWithDescription,
-        PresenceStatusMessageField,
-        Integer,
-        Double,
-        SectionTitle,
-        SectionBar,
-        KeyStatus,
-        SessionKeyImportExport,
-        XSignKeysRequestDownload,
-        ConfigureHiddenEvents,
-        ManageIgnoredUsers,
-        Link,
-        ThemeSelector,
-        TextInput,
-        LogoutButton,
-        ProfileButton,
-        AccessTokenField,
-    };
-    Q_ENUM(Types);
-
-    enum Roles
-    {
-        Name,
-        Description,
-        Value,
-        Type,
-        ValueLowerBound,
-        ValueUpperBound,
-        ValueStep,
-        Values,
-        Good,
-        Enabled,
-        ThemeVariantValue,
-        ThemeVariantValues,
-        SettingImage,
-        Tab,
-    };
-
-    UserSettingsModel(QObject *parent = nullptr);
-    QHash<int, QByteArray> roleNames() const override;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
-
-    Q_INVOKABLE QObject *modelForTab(int tab) const;
-    Q_INVOKABLE void importSessionKeys();
-    Q_INVOKABLE void exportSessionKeys();
-    Q_INVOKABLE void requestCrossSigningSecrets();
-    Q_INVOKABLE void downloadCrossSigningSecrets();
-
-private:
-    mutable QHash<int, QSortFilterProxyModel *> filteredModels_;
-};
+#include "settings/ui/UserSettingsModel.h"

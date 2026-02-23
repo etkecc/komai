@@ -1,12 +1,19 @@
     // Integrations
-    CONNECT_SETTING(IntegrationsTray, trayChanged, Value);
-    CONNECT_SETTING(IntegrationsStartInTray, startInTrayChanged, Value);
+    CONNECT_SETTING_ID(IntegrationsSystemTrayEnabled, trayChanged, Value);
+    CONNECT_SETTING_ID(IntegrationsSystemTrayAutostart, startInTrayChanged, Value);
 #ifdef KOMAI_DBUS_SYS
-    CONNECT_SETTING(IntegrationsDbusApiAccess, integrationsDbusApiAccessChanged, Value);
+    CONNECT_SETTING_ID(IntegrationsDbusApiAccess, integrationsDbusApiAccessChanged, Value);
 #endif
 
     // Tray has a side-effect on StartInTray's Enabled state
     connect(s.get(), &UserSettings::trayChanged, this, [this]() {
-        emit dataChanged(index(IntegrationsTray), index(IntegrationsTray), {Value});
-        emit dataChanged(index(IntegrationsStartInTray), index(IntegrationsStartInTray), {Enabled});
+        if (const int trayIdx = rowForSettingId(settings::core::SettingId::IntegrationsSystemTrayEnabled);
+            trayIdx >= 0) {
+            emit dataChanged(index(trayIdx), index(trayIdx), {Value});
+        }
+        if (const int startInTrayIdx =
+              rowForSettingId(settings::core::SettingId::IntegrationsSystemTrayAutostart);
+            startInTrayIdx >= 0) {
+            emit dataChanged(index(startInTrayIdx), index(startInTrayIdx), {Enabled});
+        }
     });

@@ -196,15 +196,15 @@
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsTray
-    SIMPLE_BOOL_CONFIG_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Minimize to tray",
       QT_TR_NOOP("Keep the application running in the background after closing the client window."),
-      SM::TabIntegrations, tray, setTray, nullptr, SettingKey::IntegrationsSystemTrayEnabled),
+      SM::TabIntegrations, tray, setTray, nullptr, IntegrationsSystemTrayEnabled, SettingKey::IntegrationsSystemTrayEnabled),
     // IntegrationsStartInTray
-    SIMPLE_BOOL_CONFIG_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Start in tray",
       QT_TR_NOOP("Start the application in the background without showing the client window."),
-      SM::TabIntegrations, startInTray, setStartInTray, nullptr, SettingKey::IntegrationsSystemTrayAutostart),
+      SM::TabIntegrations, startInTray, setStartInTray, nullptr, IntegrationsSystemTrayAutostart, SettingKey::IntegrationsSystemTrayAutostart),
 #ifdef KOMAI_DBUS_SYS
     // IntegrationsDbusSection
     { QT_TR_NOOP("D-Bus"), nullptr, SM::SectionTitle, SM::TabIntegrations,
@@ -232,7 +232,7 @@
           };
       },
       nullptr,
-      CORE_CONFIG(SettingKey::IntegrationsDbusApiAccess) },
+      CORE_CONFIG_ID(IntegrationsDbusApiAccess, SettingKey::IntegrationsDbusApiAccess) },
 #endif
     // IntegrationsBrowserSection
     { QT_TR_NOOP("Browser"), nullptr, SM::SectionTitle, SM::TabIntegrations,

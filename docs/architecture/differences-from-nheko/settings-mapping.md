@@ -33,41 +33,41 @@ Note:
 | Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable UI animations | `UserSettingsModel::EnableUIAnimations` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
 | Sidebars | ROOM LIST | Compact mode | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
-| Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::ShowRoomListTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
+| Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::RoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message preview | `UserSettingsModel::ShowLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
 | Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::ShowCommunityNotificationCounts` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
-| Sidebars | ROOM LIST | Use circular avatars | `UserSettingsModel::UseCircularAvatars` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
-| Sidebars | ROOM LIST | Use identicons | `UserSettingsModel::UseIdenticon` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
-| Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::ScrollbarsInRoomlist` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
+| Sidebars | ROOM LIST | Use circular avatars | `UserSettingsModel::CircularAvatarsEnabled` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
+| Sidebars | ROOM LIST | Use identicons | `UserSettingsModel::IdenticonFallbackEnabled` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
+| Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::RoomListScrollbarsVisible` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
 | Sidebars | ROOM LIST | Sorting | `UserSettingsModel::RoomSorting` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
-| Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::ShowCommunitiesSidebar` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
-| Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsTray` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
-| Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsStartInTray` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
+| Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::CommunitiesSidebarVisible` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
+| Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsSystemTrayEnabled` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
+| Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::integrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::TextSelectionEnabled` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
-| Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::Bubbles` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
-| Timeline | MESSAGES | Use small avatars | `UserSettingsModel::SmallAvatars` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
-| Timeline | MESSAGES | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::ShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
+| Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::TimelineBubblesEnabled` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
+| Timeline | MESSAGES | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
+| Timeline | MESSAGES | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
 | Timeline | MESSAGES | Show sender username above messages | `UserSettingsModel::ShowSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
 | Timeline | MESSAGES | Limit timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
 | Timeline | MESSAGES | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
 | Timeline | MESSAGES | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
-| Timeline | MESSAGES | Show action buttons | `UserSettingsModel::ShowActionButtons` | `show_action_buttons` | `timeline.messages.actions.enabled` | config.yml | yes |
+| Timeline | MESSAGES | Show action buttons | `UserSettingsModel::TimelineMessageActionsEnabled` | `show_action_buttons` | `timeline.messages.actions.enabled` | config.yml | yes |
 | Timeline | MESSAGES | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
 | Timeline | MEDIA | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
 | Timeline | MEDIA | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
 | Timeline | MEDIA | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
 | Timeline | MEDIA | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
 | Timeline | MEDIA | Open videos in an external app | `UserSettingsModel::OpenVideosInExternalApp` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
-| Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::Markdown` | `markdown` | `composer.input.markdown_enabled` | config.yml | yes |
+| Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::MarkdownEnabled` | `markdown` | `composer.input.markdown_enabled` | config.yml | yes |
 | Composer | INPUT | Send messages with a shortcut | `UserSettingsModel::SendMessageKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
 | Composer | INPUT | Auto-replace text emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
-| Composer | FEEDBACK | Typing notifications | `UserSettingsModel::TypingNotifications` | `typing_notifications` | `composer.feedback.typing_notifications` | config.yml | yes |
-| Composer | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceipts` | `read_receipts` | `composer.feedback.read_receipts` | config.yml | yes |
+| Composer | FEEDBACK | Typing notifications | `UserSettingsModel::TypingNotificationsEnabled` | `typing_notifications` | `composer.feedback.typing_notifications` | config.yml | yes |
+| Composer | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceiptsEnabled` | `read_receipts` | `composer.feedback.read_receipts` | config.yml | yes |
 | Composer | EXTRAS | Enable stickers | `UserSettingsModel::EnableStickers` | `enable_stickers` | `composer.extras.stickers_enabled` | config.yml | yes |
-| Notifications | DESKTOP | Desktop notifications | `UserSettingsModel::DesktopNotifications` | `desktop_notifications` | `notifications.desktop.enabled` | config.yml | yes |
+| Notifications | DESKTOP | Desktop notifications | `UserSettingsModel::DesktopNotificationsEnabled` | `desktop_notifications` | `notifications.desktop.enabled` | config.yml | yes |
 | Notifications | DESKTOP | Alert on incoming messages | `UserSettingsModel::AlertOnIncomingMessages` | `alert_on_incoming_messages` | `notifications.desktop.alert_on_incoming` | config.yml | yes |
 | Notifications | DESKTOP | Decrypt notifications | `UserSettingsModel::DecryptNotifications` | `decrypt_notifications` | `notifications.desktop.decrypt_messages` | config.yml | yes |
 | Calls | GENERAL | Enable legacy calls | `UserSettingsModel::EnableLegacyCalls` | `enable_legacy_calls` | `calls.legacy_enabled` | config.yml | yes |

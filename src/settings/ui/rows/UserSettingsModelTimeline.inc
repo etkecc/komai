@@ -3,21 +3,21 @@
     // TimelineMessagesSection
     { QT_TR_NOOP("Messages"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // Bubbles
+    // TimelineBubblesEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable message bubbles",
       QT_TR_NOOP("Messages get a bubble background. This also triggers some layout changes (WIP)."),
-      SM::TabTimeline, bubbles, setBubbles, nullptr, TimelineMessagesLayoutBubbles, SettingKey::TimelineMessagesLayoutBubbles),
-    // SmallAvatars
+      SM::TabTimeline, timelineBubblesEnabled, setTimelineBubblesEnabled, nullptr, TimelineMessagesLayoutBubbles, SettingKey::TimelineMessagesLayoutBubbles),
+    // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
                            QT_TR_NOOP("Avatars are resized to fit above the message."),
-                           SM::TabTimeline, smallAvatars, setSmallAvatars, nullptr, TimelineMessagesLayoutSmallAvatars, SettingKey::TimelineMessagesLayoutSmallAvatars),
-    // ShowOwnAvatarInBubbleLayout
+                           SM::TabTimeline, timelineSmallAvatarsEnabled, setTimelineSmallAvatarsEnabled, nullptr, TimelineMessagesLayoutSmallAvatars, SettingKey::TimelineMessagesLayoutSmallAvatars),
+    // TimelineShowOwnAvatarInBubbleLayout
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show your avatar next to your own messages (bubble layout)",
       QT_TR_NOOP(
         "When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan."),
-      SM::TabTimeline, showOwnAvatarInBubbleLayout, setShowOwnAvatarInBubbleLayout, nullptr, TimelineMessagesLayoutShowOwnAvatar, SettingKey::TimelineMessagesLayoutShowOwnAvatar),
+      SM::TabTimeline, timelineShowOwnAvatarInBubbleLayout, setTimelineShowOwnAvatarInBubbleLayout, nullptr, TimelineMessagesLayoutShowOwnAvatar, SettingKey::TimelineMessagesLayoutShowOwnAvatar),
     // ShowSenderUsername
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show sender username above messages",

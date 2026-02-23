@@ -56,12 +56,15 @@ class UserSettings final : public QObject
                  sendMessageKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji autoReplaceEmoji READ autoReplaceEmoji WRITE setAutoReplaceEmoji
                  NOTIFY autoReplaceEmojiChanged)
-    Q_PROPERTY(bool bubbles READ bubbles WRITE setBubbles NOTIFY bubblesChanged)
-    Q_PROPERTY(bool smallAvatars READ smallAvatars WRITE setSmallAvatars NOTIFY smallAvatarsChanged)
+    Q_PROPERTY(bool timelineBubblesEnabled READ timelineBubblesEnabled WRITE
+                 setTimelineBubblesEnabled NOTIFY timelineBubblesEnabledChanged)
+    Q_PROPERTY(bool timelineSmallAvatarsEnabled READ timelineSmallAvatarsEnabled WRITE
+                 setTimelineSmallAvatarsEnabled NOTIFY timelineSmallAvatarsEnabledChanged)
     Q_PROPERTY(
       bool enableStickers READ enableStickers WRITE setEnableStickers NOTIFY enableStickersChanged)
-    Q_PROPERTY(bool showOwnAvatarInBubbleLayout READ showOwnAvatarInBubbleLayout WRITE
-                 setShowOwnAvatarInBubbleLayout NOTIFY showOwnAvatarInBubbleLayoutChanged)
+    Q_PROPERTY(
+      bool timelineShowOwnAvatarInBubbleLayout READ timelineShowOwnAvatarInBubbleLayout WRITE
+        setTimelineShowOwnAvatarInBubbleLayout NOTIFY timelineShowOwnAvatarInBubbleLayoutChanged)
     Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY
                  pinnedReactionsChanged)
     Q_PROPERTY(ShowSenderUsername showSenderUsername READ showSenderUsername WRITE
@@ -298,10 +301,10 @@ public:
     void setMarkdownEnabled(bool state);
     void setSendMessageKey(SendMessageKey key);
     void setAutoReplaceEmoji(AutoReplaceEmoji state);
-    void setBubbles(bool state);
-    void setSmallAvatars(bool state);
+    void setTimelineBubblesEnabled(bool state);
+    void setTimelineSmallAvatarsEnabled(bool state);
     void setEnableStickers(bool state);
-    void setShowOwnAvatarInBubbleLayout(bool state);
+    void setTimelineShowOwnAvatarInBubbleLayout(bool state);
     void setPinnedReactions(QString value);
     void setShowSenderUsername(ShowSenderUsername state);
     void setAnimateImagesOnHover(bool state);
@@ -553,21 +556,21 @@ public:
             return static_cast<AutoReplaceEmoji>(*value);
         return autoReplaceEmoji_;
     }
-    bool bubbles() const
+    bool timelineBubblesEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesLayoutBubbles);
             value.has_value())
             return *value;
-        return bubbles_;
+        return timelineBubblesEnabled_;
     }
-    bool smallAvatars() const
+    bool timelineSmallAvatarsEnabled() const
     {
         if (const auto value = coreStore_.valueAs<bool>(
               settings::core::SettingId::TimelineMessagesLayoutSmallAvatars);
             value.has_value())
             return *value;
-        return smallAvatars_;
+        return timelineSmallAvatarsEnabled_;
     }
     bool enableStickers() const
     {
@@ -577,13 +580,13 @@ public:
             return *value;
         return enableStickers_;
     }
-    bool showOwnAvatarInBubbleLayout() const
+    bool timelineShowOwnAvatarInBubbleLayout() const
     {
         if (const auto value = coreStore_.valueAs<bool>(
               settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar);
             value.has_value())
             return *value;
-        return showOwnAvatarInBubbleLayout_;
+        return timelineShowOwnAvatarInBubbleLayout_;
     }
     QString pinnedReactions() const
     {
@@ -900,10 +903,10 @@ signals:
     void markdownEnabledChanged(bool state);
     void sendMessageKeyChanged(SendMessageKey key);
     void autoReplaceEmojiChanged(AutoReplaceEmoji state);
-    void bubblesChanged(bool state);
-    void smallAvatarsChanged(bool state);
+    void timelineBubblesEnabledChanged(bool state);
+    void timelineSmallAvatarsEnabledChanged(bool state);
     void enableStickersChanged(bool state);
-    void showOwnAvatarInBubbleLayoutChanged(bool state);
+    void timelineShowOwnAvatarInBubbleLayoutChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
     void showSenderUsernameChanged(ShowSenderUsername state);
     void animateImagesOnHoverChanged(bool state);

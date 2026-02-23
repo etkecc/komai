@@ -30,7 +30,7 @@ Column {
     property bool showLabel: dayChanged || timestamp - previousMessageTimestamp > oneHour
     property bool shouldShowSenderUsername: Settings.showSenderUsername === 0 ? true : Settings.showSenderUsername === 2 ? false : (room ? room.roomMemberCount > Settings.showSenderUsernameLargeRoomThreshold : true)
 
-    bottomPadding: Settings.bubbles ? (isSender && !showLabel ? 0 : 2) : 3
+    bottomPadding: Settings.timelineBubblesEnabled ? (isSender && !showLabel ? 0 : 2) : 3
     spacing: 8
     topPadding: userName_.visible ? 4 : 0
     visible: (previousMessageUserId !== userId || showLabel || isStateEvent !== previousMessageIsStateEvent)
@@ -60,7 +60,7 @@ Column {
 
         height: userName_.height
         spacing: 4
-        visible: !isStateEvent && shouldShowSenderUsername && (Settings.bubbles ? !isSender : true)
+        visible: !isStateEvent && shouldShowSenderUsername && (Settings.timelineBubblesEnabled ? !isSender : true)
 
         AbstractButton {
             id: userNameButton

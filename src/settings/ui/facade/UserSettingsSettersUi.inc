@@ -30,23 +30,23 @@ UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s)
     save();
 }
 void
-UserSettings::setBubbles(bool s)
+UserSettings::setTimelineBubblesEnabled(bool s)
 {
-    if (bubbles_ == s)
+    if (timelineBubblesEnabled_ == s)
         return;
-    bubbles_ = s;
+    timelineBubblesEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutBubbles, s);
-    emit bubblesChanged(s);
+    emit timelineBubblesEnabledChanged(s);
     save();
 }
 void
-UserSettings::setSmallAvatars(bool s)
+UserSettings::setTimelineSmallAvatarsEnabled(bool s)
 {
-    if (smallAvatars_ == s)
+    if (timelineSmallAvatarsEnabled_ == s)
         return;
-    smallAvatars_ = s;
+    timelineSmallAvatarsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars, s);
-    emit smallAvatarsChanged(s);
+    emit timelineSmallAvatarsEnabledChanged(s);
     save();
 }
 void
@@ -60,13 +60,13 @@ UserSettings::setEnableStickers(bool s)
     save();
 }
 void
-UserSettings::setShowOwnAvatarInBubbleLayout(bool s)
+UserSettings::setTimelineShowOwnAvatarInBubbleLayout(bool s)
 {
-    if (showOwnAvatarInBubbleLayout_ == s)
+    if (timelineShowOwnAvatarInBubbleLayout_ == s)
         return;
-    showOwnAvatarInBubbleLayout_ = s;
+    timelineShowOwnAvatarInBubbleLayout_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar, s);
-    emit showOwnAvatarInBubbleLayoutChanged(s);
+    emit timelineShowOwnAvatarInBubbleLayoutChanged(s);
     save();
 }
 void

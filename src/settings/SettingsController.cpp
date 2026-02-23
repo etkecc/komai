@@ -133,10 +133,12 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::CallsDevicesCameraFrameRate,
         settings.cameraFrameRate().toStdString());
     set(settings::core::SettingId::CallsAudioRingtone, settings.ringtone().toStdString());
-    set(settings::core::SettingId::TimelineMessagesLayoutBubbles, settings.bubbles());
-    set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars, settings.smallAvatars());
+    set(settings::core::SettingId::TimelineMessagesLayoutBubbles,
+        settings.timelineBubblesEnabled());
+    set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars,
+        settings.timelineSmallAvatarsEnabled());
     set(settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar,
-        settings.showOwnAvatarInBubbleLayout());
+        settings.timelineShowOwnAvatarInBubbleLayout());
     set(settings::core::SettingId::TimelineMessagesSenderUsername,
         static_cast<int>(settings.showSenderUsername()));
     set(settings::core::SettingId::TimelineMessagesMaxWidthPx, settings.maxTimelineWidth());

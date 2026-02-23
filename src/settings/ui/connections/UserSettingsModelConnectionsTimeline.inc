@@ -1,8 +1,9 @@
     // Timeline
-    CONNECT_SETTING_ID(TimelineMessagesLayoutBubbles, bubblesChanged, Value);
-    CONNECT_SETTING_ID(TimelineMessagesLayoutSmallAvatars, smallAvatarsChanged, Value);
+    CONNECT_SETTING_ID(TimelineMessagesLayoutBubbles, timelineBubblesEnabledChanged, Value);
     CONNECT_SETTING_ID(
-      TimelineMessagesLayoutShowOwnAvatar, showOwnAvatarInBubbleLayoutChanged, Value);
+      TimelineMessagesLayoutSmallAvatars, timelineSmallAvatarsEnabledChanged, Value);
+    CONNECT_SETTING_ID(
+      TimelineMessagesLayoutShowOwnAvatar, timelineShowOwnAvatarInBubbleLayoutChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesSenderUsername, showSenderUsernameChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesMaxWidthPx, maxTimelineWidthChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesEmojiOnlyEnlarge, enlargeEmojiOnlyMessagesChanged, Value);

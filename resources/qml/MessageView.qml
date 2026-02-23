@@ -118,7 +118,7 @@ Item {
             }
         }
 
-        delegate: Settings.bubbles ? bubbleMessageStyle : defaultMessageStyle
+        delegate: Settings.timelineBubblesEnabled ? bubbleMessageStyle : defaultMessageStyle
         footer: Item {
             width: chat.delegateMaxWidth
             // hacky, but works

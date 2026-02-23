@@ -242,5 +242,3 @@ callRingtoneValues()
 
     return list;
 }
-
-static QVariant

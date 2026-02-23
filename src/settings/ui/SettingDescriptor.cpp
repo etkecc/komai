@@ -54,11 +54,106 @@ getSettingValue()
 
 template<auto Get>
 QVariant
+getInvertedBoolSettingValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    return !static_cast<bool>((i.get()->*Get)());
+}
+
+template<settings::core::SettingId Id, auto Get>
+QVariant
+getCoreBoolValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    if (const auto value = i->coreStore().valueAs<bool>(Id); value.has_value())
+        return *value;
+
+    return (i.get()->*Get)();
+}
+
+template<settings::core::SettingId Id, auto Get>
+QVariant
+getCoreInvertedBoolValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    if (const auto value = i->coreStore().valueAs<bool>(Id); value.has_value())
+        return !(*value);
+
+    return !static_cast<bool>((i.get()->*Get)());
+}
+
+template<settings::core::SettingId Id, auto Get>
+QVariant
+getCoreIntValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    if (const auto value = i->coreStore().valueAs<int>(Id); value.has_value())
+        return *value;
+
+    return (i.get()->*Get)();
+}
+
+template<settings::core::SettingId Id, auto Get>
+QVariant
+getCoreDoubleValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    if (const auto value = i->coreStore().valueAs<double>(Id); value.has_value())
+        return *value;
+
+    return (i.get()->*Get)();
+}
+
+template<settings::core::SettingId Id, auto Get>
+QVariant
+getCoreStringValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    if (const auto value = i->coreStore().valueAs<std::string>(Id); value.has_value())
+        return QString::fromStdString(*value);
+
+    return (i.get()->*Get)();
+}
+
+template<auto Get>
+QVariant
 getSettingEnumValue()
 {
     auto i = I;
     if (!i)
         return {};
+    return static_cast<int>((i.get()->*Get)());
+}
+
+template<settings::core::SettingId Id, auto Get>
+QVariant
+getCoreEnumValue()
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    if (const auto value = i->coreStore().valueAs<int>(Id); value.has_value())
+        return *value;
+
     return static_cast<int>((i.get()->*Get)());
 }
 
@@ -93,6 +188,22 @@ setSettingValue(const QVariant &value)
         return false;
 
     return setSettingValueImpl<Set, T>(i.get(), castValue, std::is_void<SetValueResult<Set, T>>{});
+}
+
+template<auto Set>
+bool
+setInvertedBoolSettingValue(const QVariant &value)
+{
+    auto i = I;
+    if (!i)
+        return false;
+
+    bool enabled{};
+    if (!readSettingValue(value, enabled))
+        return false;
+
+    return setSettingValueImpl<Set, bool>(
+      i.get(), !enabled, std::is_void<SetValueResult<Set, bool>>{});
 }
 
 template<auto Set, typename Enum>
@@ -167,21 +278,26 @@ setSettingEnumValue(const QVariant &value)
     SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
 
 #define SIMPLE_BOOL_CONFIG_ID_SETTING(name, desc, tab, getter, setter, enabled_cb, id, key)        \
-    SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG_ID(id, key))
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Toggle,                                                                                   \
+     tab,                                                                                          \
+     getCoreBoolValue<settings::core::SettingId::id, &UserSettings::getter>,                       \
+     setSettingValue<&UserSettings::setter, bool>,                                                 \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key)}
 
 #define SIMPLE_INVERTED_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)   \
     {QT_TR_NOOP(name),                                                                             \
      desc,                                                                                         \
      SM::Toggle,                                                                                   \
      tab,                                                                                          \
-     []() -> QVariant { return !static_cast<bool>(I->getter()); },                                 \
-     [](const QVariant &value) -> bool {                                                           \
-         bool enabled{};                                                                           \
-         if (!readSettingValue(value, enabled))                                                    \
-             return false;                                                                         \
-         I->setter(!enabled);                                                                      \
-         return true;                                                                              \
-     },                                                                                            \
+     getInvertedBoolSettingValue<&UserSettings::getter>,                                           \
+     setInvertedBoolSettingValue<&UserSettings::setter>,                                           \
      {},                                                                                           \
      {},                                                                                           \
      {},                                                                                           \
@@ -198,8 +314,18 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_INVERTED_BOOL_CONFIG_ID_SETTING(                                                    \
   name, desc, tab, getter, setter, enabled_cb, id, key)                                            \
-    SIMPLE_INVERTED_BOOL_SETTING_CORE(                                                             \
-      name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG_ID(id, key))
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Toggle,                                                                                   \
+     tab,                                                                                          \
+     getCoreInvertedBoolValue<settings::core::SettingId::id, &UserSettings::getter>,               \
+     setInvertedBoolSettingValue<&UserSettings::setter>,                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key)}
 
 #define SIMPLE_READ_ONLY_TEXT(name, desc, tab, getter)                                             \
     {                                                                                              \
@@ -234,8 +360,18 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_DOUBLE_CONFIG_ID_SETTING(                                                           \
   name, desc, tab, getter, setter, min_v, max_v, step_v, id, key)                                  \
-    SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
-      name, desc, tab, getter, setter, min_v, max_v, step_v, CORE_CONFIG_ID(id, key))
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Double,                                                                                   \
+     tab,                                                                                          \
+     getCoreDoubleValue<settings::core::SettingId::id, &UserSettings::getter>,                     \
+     setSettingValue<&UserSettings::setter, double>,                                               \
+     min_v,                                                                                        \
+     max_v,                                                                                        \
+     step_v,                                                                                       \
+     nullptr,                                                                                      \
+     nullptr,                                                                                      \
+     CORE_CONFIG_ID(id, key)}
 
 #define SIMPLE_DOUBLE_CONFIG_RESTART_SETTING(                                                      \
   name, desc, tab, getter, setter, min_v, max_v, step_v, key)                                      \
@@ -276,15 +412,18 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(                                                     \
   name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, id, key)                    \
-    SIMPLE_OPTIONS_ENUM_SETTING_CORE(name,                                                         \
-                                     desc,                                                         \
-                                     tab,                                                          \
-                                     getter,                                                       \
-                                     setter,                                                       \
-                                     enum_type,                                                    \
-                                     values_expr,                                                  \
-                                     enabled_cb,                                                   \
-                                     CORE_CONFIG_ID(id, key))
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Options,                                                                                  \
+     tab,                                                                                          \
+     getCoreEnumValue<settings::core::SettingId::id, &UserSettings::getter>,                       \
+     setSettingEnumValue<&UserSettings::setter, enum_type>,                                        \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     values_expr,                                                                                  \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key)}
 
 #define SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)            \
     {QT_TR_NOOP(name),                                                                             \
@@ -308,7 +447,18 @@ setSettingEnumValue(const QVariant &value)
     SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
 
 #define SIMPLE_TEXT_CONFIG_ID_SETTING(name, desc, tab, getter, setter, enabled_cb, id, key)        \
-    SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG_ID(id, key))
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::TextInput,                                                                                \
+     tab,                                                                                          \
+     getCoreStringValue<settings::core::SettingId::id, &UserSettings::getter>,                     \
+     setSettingValue<&UserSettings::setter, QString>,                                              \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key)}
 
 #define SIMPLE_OPTIONS_INT_SETTING_CORE(                                                           \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, core_def)        \
@@ -355,17 +505,18 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(                                                      \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, id, key)         \
-    SIMPLE_OPTIONS_INT_SETTING_CORE(name,                                                          \
-                                    desc,                                                          \
-                                    tab,                                                           \
-                                    getter,                                                        \
-                                    setter,                                                        \
-                                    min_v,                                                         \
-                                    max_v,                                                         \
-                                    step_v,                                                        \
-                                    values_expr,                                                   \
-                                    enabled_cb,                                                    \
-                                    CORE_CONFIG_ID(id, key))
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Integer,                                                                                  \
+     tab,                                                                                          \
+     getCoreIntValue<settings::core::SettingId::id, &UserSettings::getter>,                        \
+     setSettingValue<&UserSettings::setter, int>,                                                  \
+     min_v,                                                                                        \
+     max_v,                                                                                        \
+     step_v,                                                                                       \
+     values_expr,                                                                                  \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key)}
 
 #include "settings/ui/SettingDescriptorCallbacks.inc"
 

@@ -260,6 +260,7 @@ privacyScreenTimeoutEnabled()
 
 #include "settings/ui/SettingDescriptorCallbacksCalls.inc"
 
+static QVariant
 sidebarsLastMessagePreviewValues()
 {
     QStringList values;

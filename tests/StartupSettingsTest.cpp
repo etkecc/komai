@@ -368,6 +368,10 @@ main()
         std::cerr << "FAILED: test home environment can be created\n";
         return 1;
     }
+    if (!testHome.isIsolated()) {
+        std::cerr << "FAILED: test home environment is isolated\n";
+        return 1;
+    }
 
     int argc = 1;
     char arg0[] = "komai-startup-settings-test";

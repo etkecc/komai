@@ -9,6 +9,7 @@
 #include <QByteArray>
 #include <QDir>
 #include <QTemporaryDir>
+#include <QString>
 
 namespace test_env {
 
@@ -73,6 +74,21 @@ public:
     }
 
     bool isValid() const { return baseDir_.isValid(); }
+
+    bool isIsolated() const
+    {
+        if (!isValid())
+            return false;
+
+        const auto rootPath = baseDir_.path();
+        const auto envUnderRoot = [&rootPath](const char *name) {
+            return QString::fromUtf8(qgetenv(name)).startsWith(rootPath);
+        };
+
+        return QDir::homePath().startsWith(rootPath) && envUnderRoot("HOME") &&
+               envUnderRoot("XDG_CONFIG_HOME") && envUnderRoot("XDG_STATE_HOME") &&
+               envUnderRoot("XDG_DATA_HOME") && envUnderRoot("XDG_CACHE_HOME");
+    }
 
     QString rootPath() const { return baseDir_.path(); }
 

@@ -66,6 +66,10 @@ main()
         std::cerr << "FAILED: test home environment can be created\n";
         return 1;
     }
+    if (!testHome.isIsolated()) {
+        std::cerr << "FAILED: test home environment is isolated\n";
+        return 1;
+    }
 
     bool ok = true;
     ok &= testYamlHelpers();

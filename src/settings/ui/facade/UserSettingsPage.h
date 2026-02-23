@@ -486,15 +486,6 @@ private:
                       settings::core::SettingsStore::Value value,
                       const char *settingName);
 
-    void loadConfigYaml(const YAML::Node &root);
-    void loadSessionYaml(const YAML::Node &root);
-    void loadStateYaml(const YAML::Node &root);
-
-    void saveConfigYaml() const;
-    void saveSessionYaml() const;
-    void saveSecretsYaml() const;
-    void saveStateYaml() const;
-
 #include "settings/ui/facade/UserSettingsPagePrivateMembers.h"
 
     void setPersistenceScopeReadyForAuth(bool ready);

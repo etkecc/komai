@@ -26,8 +26,8 @@ Current ownership map:
   - Mutator behavior for setting updates, including inline validation/normalization and immediate side effects.
 - `src/settings/ui/facade/UserSettingsTheme.cpp`
   - Theme switching and runtime theme application.
-- `src/settings/ui/facade/UserSettingsPersistence.cpp` and `src/settings/SettingsSerializer*`
-  - Load/save pass-through methods split from `UserSettingsPage` to avoid persistence logic in the façade.
+- `src/settings/SettingsSerializer*`
+  - Settings YAML serialization/deserialization and normalized value conversion.
 - `src/settings/ui/facade/UserSettingsSessionSettings.cpp`
   - Session/auth/session-file related helpers.
 - `src/settings/SettingsController.*`
@@ -118,7 +118,6 @@ Primary implementation files:
 - `src/settings/ui/facade/UserSettingsSettersLayout.cpp`
 - `src/settings/ui/facade/UserSettingsSettersMisc.cpp`
 - `src/settings/ui/facade/UserSettingsSettersUi.cpp`
-- `src/settings/ui/facade/UserSettingsPersistence.cpp`
 - `src/settings/SettingsSerializerConfig.cpp`
 - `src/settings/SettingsSerializerSession.cpp`
 - `src/settings/SettingsSerializerState.cpp`

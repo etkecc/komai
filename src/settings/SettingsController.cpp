@@ -12,6 +12,7 @@
 
 #include "Paths.h"
 #include "settings/SettingsPersistence.h"
+#include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"
@@ -206,7 +207,7 @@ settings::SettingsController::load(UserSettings &settings,
 
     const auto effectiveConfig =
       configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath_, "config");
-    settings.loadConfigYaml(effectiveConfig);
+    settings::serializer::loadConfig(settings, effectiveConfig);
 
     const auto provider               = providerFromConfig(effectiveConfig);
     settings.usesFileSecretsProvider_ = provider == staged_load_plan::SecretsProvider::File;
@@ -219,7 +220,7 @@ settings::SettingsController::load(UserSettings &settings,
             break;
         case staged_load_plan::Stage::Session: {
             sessionRoot = loadYamlFile(settings.sessionFilePath_, "session");
-            settings.loadSessionYaml(sessionRoot);
+            settings::serializer::loadSession(settings, sessionRoot);
             break;
         }
         case staged_load_plan::Stage::SecretsSecureBackend:
@@ -244,7 +245,7 @@ settings::SettingsController::load(UserSettings &settings,
         }
         case staged_load_plan::Stage::State: {
             stateRoot = loadYamlFile(settings.stateFilePath_, "state");
-            settings.loadStateYaml(stateRoot);
+            settings::serializer::loadState(settings, stateRoot);
             break;
         }
         }
@@ -275,13 +276,25 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 
     syncCoreStoreFromSettings(settings);
 
-    settings.saveConfigYaml();
+    settings::serializer::saveConfig(settings, settings.configFilePath_);
     syncConfigYamlFromCoreStore(settings.configFilePath_, settings.coreStore());
 
     if (policy == SavePolicy::Full) {
-        settings.saveSessionYaml();
-        settings.saveSecretsYaml();
-        settings.saveStateYaml();
+        settings::serializer::saveSession(settings, settings.sessionFilePath_);
+
+        const auto provider = settings::persistence::providerFromConfig(
+          settings::storage::loadYamlFile(settings.configFilePath_, "config"));
+        settings::persistence::saveProfileSecrets(settings.profile_,
+                                                  provider ==
+                                                    staged_load_plan::SecretsProvider::File,
+                                                  settings.secretsFilePath_,
+                                                  settings.accessToken_,
+                                                  settings.secrets_,
+                                                  settings.userId_,
+                                                  settings.deviceId_,
+                                                  settings.homeserver_);
+
+        settings::serializer::saveState(settings, settings.stateFilePath_);
     }
     syncCoreStoreFromSettings(settings);
 }
@@ -308,6 +321,6 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings::persistence::clearProfileSecrets(settings.profile_,
                                                provider == staged_load_plan::SecretsProvider::File,
                                                settings.secretsFilePath_);
-    settings.saveStateYaml();
+    settings::serializer::saveState(settings, settings.stateFilePath_);
     syncCoreStoreFromSettings(settings);
 }

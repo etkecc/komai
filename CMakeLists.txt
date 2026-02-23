@@ -634,7 +634,6 @@ set(SRC_FILES
     src/TrayIcon.h
     src/settings/ui/UserSettingsModel.h
     src/settings/ui/UserSettingsModel.cpp
-    src/settings/ui/facade/UserSettingsPersistence.cpp
     src/settings/ui/facade/UserSettingsPage.cpp
     src/settings/ui/facade/UserSettingsGettersUi.cpp
     src/settings/ui/facade/UserSettingsGettersLayout.cpp
@@ -1065,7 +1064,6 @@ if(BUILD_TESTING)
         src/settings/ui/facade/UserSettingsGettersLayout.cpp
         src/settings/ui/facade/UserSettingsGettersCalls.cpp
         src/settings/ui/facade/UserSettingsGettersMisc.cpp
-        src/settings/ui/facade/UserSettingsPersistence.cpp
         src/settings/ui/facade/UserSettingsSessionSettings.cpp
         src/settings/ui/facade/UserSettingsSettersCore.cpp
         src/settings/ui/facade/UserSettingsSettersLayout.cpp

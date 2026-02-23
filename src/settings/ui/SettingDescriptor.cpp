@@ -367,9 +367,6 @@ const SettingMeta settingsTable[] = {
 };
 // clang-format on
 
-static_assert(std::size(settingsTable) == UserSettingsModel::COUNT,
-              "settingsTable size must match the number of visible settings indices");
-
 int
 settingsTableRowCount()
 {

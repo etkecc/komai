@@ -99,6 +99,16 @@ hasSettingId(const settings::ui::SettingMeta &meta, settings::core::SettingId id
 {
     return meta.core.id == id;
 }
+
+int
+rowForSettingId(settings::core::SettingId id)
+{
+    for (int i = 0; i < settingsTableRowCount(); ++i) {
+        if (settingsTable[i].core.id == id)
+            return i;
+    }
+    return -1;
+}
 } // namespace
 
 QVariant
@@ -341,6 +351,13 @@ UserSettingsModel::UserSettingsModel(QObject *p)
         emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                                   \
     })
 
+#define CONNECT_SETTING_ID(id, sig, ...)                                                           \
+    if (const int idx = rowForSettingId(settings::core::SettingId::id); idx >= 0) {                \
+        connect(s.get(), &UserSettings::sig, this, [this, idx]() {                                 \
+            emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                               \
+        });                                                                                        \
+    }
+
 #include "settings/ui/connections/UserSettingsModelConnectionsCalls.inc"
 #include "settings/ui/connections/UserSettingsModelConnectionsComposer.inc"
 #include "settings/ui/connections/UserSettingsModelConnectionsEncryption.inc"
@@ -351,4 +368,5 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 #include "settings/ui/connections/UserSettingsModelConnectionsTimeline.inc"
 
 #undef CONNECT_SETTING
+#undef CONNECT_SETTING_ID
 }

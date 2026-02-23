@@ -1,5 +1,5 @@
     // Privacy — PrivacyScreen has a side-effect on PrivacyScreenTimeoutSeconds's Enabled state
-    CONNECT_SETTING(PresenceDefault, presenceChanged, Value);
+    CONNECT_SETTING_ID(NetworkPresenceStatusPolicy, presenceChanged, Value);
     connect(s.get(), &UserSettings::privacyScreenChanged, this, [this]() {
         emit dataChanged(index(PrivacyScreen), index(PrivacyScreen), {Value});
         emit dataChanged(index(PrivacyScreenTimeoutSeconds), index(PrivacyScreenTimeoutSeconds), {Enabled});

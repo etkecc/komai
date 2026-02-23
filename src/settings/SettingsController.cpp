@@ -103,8 +103,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::PrivacyScreenLockEnabled, settings.privacyScreen());
     set(settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
         settings.privacyScreenTimeoutSeconds());
-    set(settings::core::SettingId::IntegrationsSystemTrayEnabled, settings.tray());
-    set(settings::core::SettingId::IntegrationsSystemTrayAutostart, settings.startInTray());
+    set(settings::core::SettingId::IntegrationsSystemTrayEnabled, settings.systemTrayEnabled());
+    set(settings::core::SettingId::IntegrationsSystemTrayAutostart, settings.systemTrayAutostart());
     set(settings::core::SettingId::IntegrationsDbusApiAccess, settings.integrationsDbusApiAccess());
     set(settings::core::SettingId::IntegrationsBrowserCommand,
         settings.integrationsLinksBrowserCommand().toStdString());

@@ -150,12 +150,12 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Minimize to tray",
       QT_TR_NOOP("Keep the application running in the background after closing the client window."),
-      SM::TabIntegrations, tray, setTray, nullptr, IntegrationsSystemTrayEnabled, SettingKey::IntegrationsSystemTrayEnabled),
+      SM::TabIntegrations, systemTrayEnabled, setSystemTrayEnabled, nullptr, IntegrationsSystemTrayEnabled, SettingKey::IntegrationsSystemTrayEnabled),
     // IntegrationsStartInTray
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Start in tray",
       QT_TR_NOOP("Start the application in the background without showing the client window."),
-      SM::TabIntegrations, startInTray, setStartInTray, nullptr, IntegrationsSystemTrayAutostart, SettingKey::IntegrationsSystemTrayAutostart),
+      SM::TabIntegrations, systemTrayAutostart, setSystemTrayAutostart, nullptr, IntegrationsSystemTrayAutostart, SettingKey::IntegrationsSystemTrayAutostart),
 #ifdef KOMAI_DBUS_SYS
     // IntegrationsDbusSection
     { QT_TR_NOOP("D-Bus"), nullptr, SM::SectionTitle, SM::TabIntegrations,

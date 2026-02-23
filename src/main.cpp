@@ -488,7 +488,7 @@ main(int argc, char *argv[])
     // Move the MainWindow to the center
     // w.move(screenCenter(w.width(), w.height()));
 
-    if (!(settings.lock()->startInTray() && settings.lock()->tray()))
+    if (!(settings.lock()->systemTrayAutostart() && settings.lock()->systemTrayEnabled()))
         w.show();
 
     QObject::connect(&app, &QApplication::aboutToQuit, &w, [&w]() {

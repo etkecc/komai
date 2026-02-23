@@ -12,8 +12,8 @@ QString defaultTheme_ = QProcessEnvironment::systemEnvironment()
 QString theme_;
 bool messageHoverHighlight_;
 bool enlargeEmojiOnlyMessages_;
-bool tray_;
-bool startInTray_;
+bool systemTrayEnabled_;
+bool systemTrayAutostart_;
 bool communitiesSidebarVisible_;
 bool roomListScrollbarsVisible_;
 bool markdown_;

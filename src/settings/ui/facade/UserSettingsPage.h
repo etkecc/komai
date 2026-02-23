@@ -42,8 +42,10 @@ class UserSettings final : public QObject
                  NOTIFY messageHoverHighlightChanged)
     Q_PROPERTY(bool enlargeEmojiOnlyMessages READ enlargeEmojiOnlyMessages WRITE
                  setEnlargeEmojiOnlyMessages NOTIFY enlargeEmojiOnlyMessagesChanged)
-    Q_PROPERTY(bool tray READ tray WRITE setTray NOTIFY trayChanged)
-    Q_PROPERTY(bool startInTray READ startInTray WRITE setStartInTray NOTIFY startInTrayChanged)
+    Q_PROPERTY(bool systemTrayEnabled READ systemTrayEnabled WRITE setSystemTrayEnabled NOTIFY
+                 systemTrayEnabledChanged)
+    Q_PROPERTY(bool systemTrayAutostart READ systemTrayAutostart WRITE setSystemTrayAutostart NOTIFY
+                 systemTrayAutostartChanged)
     Q_PROPERTY(bool communitiesSidebarVisible READ communitiesSidebarVisible WRITE
                  setCommunitiesSidebarVisible NOTIFY communitiesSidebarVisibleChanged)
     Q_PROPERTY(bool roomListScrollbarsVisible READ roomListScrollbarsVisible WRITE
@@ -280,8 +282,8 @@ public:
     void setTheme(QString theme);
     void setMessageHoverHighlight(bool state);
     void setEnlargeEmojiOnlyMessages(bool state);
-    void setTray(bool state);
-    void setStartInTray(bool state);
+    void setSystemTrayEnabled(bool state);
+    void setSystemTrayAutostart(bool state);
     void setTextSelectionEnabled(bool mode);
     void setEnableSwipeGestures(bool mode);
     void setScaleFactor(double factor);
@@ -409,21 +411,21 @@ public:
             return *value;
         return enlargeEmojiOnlyMessages_;
     }
-    bool tray() const
+    bool systemTrayEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::IntegrationsSystemTrayEnabled);
             value.has_value())
             return *value;
-        return tray_;
+        return systemTrayEnabled_;
     }
-    bool startInTray() const
+    bool systemTrayAutostart() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::IntegrationsSystemTrayAutostart);
             value.has_value())
             return *value;
-        return startInTray_;
+        return systemTrayAutostart_;
     }
     bool communitiesSidebarVisible() const
     {
@@ -890,8 +892,8 @@ signals:
     void themeChanged(QString state);
     void messageHoverHighlightChanged(bool state);
     void enlargeEmojiOnlyMessagesChanged(bool state);
-    void trayChanged(bool state);
-    void startInTrayChanged(bool state);
+    void systemTrayEnabledChanged(bool state);
+    void systemTrayAutostartChanged(bool state);
     void markdownChanged(bool state);
     void sendMessageKeyChanged(SendMessageKey key);
     void autoReplaceEmojiChanged(AutoReplaceEmoji state);

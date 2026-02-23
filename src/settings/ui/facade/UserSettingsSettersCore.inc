@@ -30,23 +30,23 @@ UserSettings::setEnlargeEmojiOnlyMessages(bool s)
     save();
 }
 void
-UserSettings::setTray(bool s)
+UserSettings::setSystemTrayEnabled(bool s)
 {
-    if (tray_ == s)
+    if (systemTrayEnabled_ == s)
         return;
-    tray_ = s;
+    systemTrayEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::IntegrationsSystemTrayEnabled, s);
-    emit trayChanged(s);
+    emit systemTrayEnabledChanged(s);
     save();
 }
 void
-UserSettings::setStartInTray(bool s)
+UserSettings::setSystemTrayAutostart(bool s)
 {
-    if (startInTray_ == s)
+    if (systemTrayAutostart_ == s)
         return;
-    startInTray_ = s;
+    systemTrayAutostart_ = s;
     (void)coreStore_.set(settings::core::SettingId::IntegrationsSystemTrayAutostart, s);
-    emit startInTrayChanged(s);
+    emit systemTrayAutostartChanged(s);
     save();
 }
 void

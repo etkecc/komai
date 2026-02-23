@@ -472,6 +472,7 @@ public:
     uint maxDbs() const { return maxDbs_; }
     bool runWithoutSecureSecretsService() const { return runWithoutSecureSecretsService_; }
     bool enableHttp3() const { return enableHttp3_; }
+    settings::core::SettingsStore &mutableCoreStore() { return coreStore_; }
     const settings::core::SettingsStore &coreStore() const { return coreStore_; }
 
 signals:

@@ -5,6 +5,7 @@
 #include <QHash>
 
 #include "UserSettingsPage.h"
+#include "settings/ui/SettingDescriptor.h"
 
 UserSettingsModel::UserSettingsModel(QObject *parent)
   : QAbstractListModel(parent)
@@ -75,3 +76,23 @@ void
 UserSettingsModel::downloadCrossSigningSecrets()
 {
 }
+
+namespace settings::ui {
+
+const SettingMeta settingsTable[] = {
+  {nullptr, nullptr, 0, 0, nullptr, nullptr, {}, {}, {}, nullptr, nullptr, {}},
+};
+
+int
+settingsTableRowCount()
+{
+    return 0;
+}
+
+int
+rowForSettingId(settings::core::SettingId)
+{
+    return -1;
+}
+
+} // namespace settings::ui

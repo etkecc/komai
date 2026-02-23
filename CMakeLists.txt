@@ -1051,6 +1051,7 @@ if(BUILD_TESTING)
         src/settings/SettingsSerializerState.cpp
         src/settings/SettingsStorage.cpp
         src/settings/core/StartupConfig.cpp
+        src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
         src/MatrixClient.cpp
     )

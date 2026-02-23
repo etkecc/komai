@@ -16,7 +16,10 @@
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
+#include "settings/YamlSettings.h"
 #include "settings/core/SettingDefinition.h"
+#include "settings/core/SettingsSerializer.h"
+#include "settings/ui/SettingDescriptor.h"
 #include <string>
 #include <string_view>
 
@@ -31,6 +34,7 @@ using settings::storage::removePath;
 using settings::storage::secretsFilePathForProfile;
 using settings::storage::sessionFilePathForProfile;
 using settings::storage::stateFilePathForProfile;
+using settings::storage::writeYamlFile;
 
 using settings::persistence::providerFromConfig;
 
@@ -62,7 +66,7 @@ currentLoggers()
 void
 syncCoreStoreFromSettings(UserSettings &settings)
 {
-    auto &store = const_cast<settings::core::SettingsStore &>(settings.coreStore());
+    auto &store = settings.mutableCoreStore();
     store.clear();
 
     const auto set = [&store](settings::core::SettingId id,
@@ -154,6 +158,83 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::EncryptionBackupOnlineEnabled, settings.useOnlineKeyBackup());
 }
 
+const YAML::Node *
+rootNodeForScope(settings::core::SettingScope scope,
+                 const YAML::Node &configRoot,
+                 const YAML::Node &stateRoot,
+                 const YAML::Node &sessionRoot)
+{
+    switch (scope) {
+    case settings::core::SettingScope::Config:
+        return &configRoot;
+    case settings::core::SettingScope::State:
+        return &stateRoot;
+    case settings::core::SettingScope::Session:
+        return &sessionRoot;
+    case settings::core::SettingScope::Runtime:
+    case settings::core::SettingScope::Secrets:
+        return nullptr;
+    }
+
+    return nullptr;
+}
+
+void
+syncCoreStoreFromPersistence(UserSettings &settings,
+                             const YAML::Node &configRoot,
+                             const YAML::Node &stateRoot,
+                             const YAML::Node &sessionRoot)
+{
+    syncCoreStoreFromSettings(settings);
+
+    auto &store = settings.mutableCoreStore();
+    for (int row = 0; row < settings::ui::settingsTableRowCount(); ++row) {
+        const auto &meta = settings::ui::settingsTable[row];
+        const auto &core = meta.core;
+        if (core.id == settings::core::SettingId::Unknown || !core.persistedKey)
+            continue;
+
+        const auto *root = rootNodeForScope(core.scope, configRoot, stateRoot, sessionRoot);
+        if (!root)
+            continue;
+
+        const auto defaultValue = store.value(core.id);
+        if (!defaultValue.has_value())
+            continue;
+
+        const auto node = yaml_settings::getNode(*root, core.persistedKey);
+        (void)settings::core::serializer::setFromYamlNodeOrDefault(
+          store, core.id, node, *defaultValue);
+    }
+}
+
+void
+syncConfigYamlFromCoreStore(const QString &configFilePath,
+                            const settings::core::SettingsStore &store)
+{
+    YAML::Node configRoot = loadYamlFile(configFilePath, "config");
+    bool changed          = false;
+
+    for (int row = 0; row < settings::ui::settingsTableRowCount(); ++row) {
+        const auto &meta = settings::ui::settingsTable[row];
+        const auto &core = meta.core;
+        if (core.id == settings::core::SettingId::Unknown || !core.persistedKey ||
+            core.scope != settings::core::SettingScope::Config)
+            continue;
+
+        const auto value = store.value(core.id);
+        if (!value.has_value())
+            continue;
+
+        yaml_settings::setNode(
+          configRoot, core.persistedKey, settings::core::serializer::toYamlNode(*value));
+        changed = true;
+    }
+
+    if (changed)
+        writeYamlFile(configFilePath, configRoot, true);
+}
+
 } // namespace
 
 void
@@ -203,13 +284,15 @@ settings::SettingsController::load(UserSettings &settings,
     const auto provider =
       providerFromConfig(effectiveConfig, settings.runWithoutSecureSecretsService_);
     settings.runWithoutSecureSecretsService_ = provider == staged_load_plan::SecretsProvider::File;
+    YAML::Node sessionRoot;
+    YAML::Node stateRoot;
 
     for (const auto stage : staged_load_plan::stagesForProvider(provider)) {
         switch (stage) {
         case staged_load_plan::Stage::Config:
             break;
         case staged_load_plan::Stage::Session: {
-            const auto sessionRoot = loadYamlFile(settings.sessionFilePath_, "session");
+            sessionRoot = loadYamlFile(settings.sessionFilePath_, "session");
             settings.loadSessionYaml(sessionRoot);
             break;
         }
@@ -236,7 +319,7 @@ settings::SettingsController::load(UserSettings &settings,
             break;
         }
         case staged_load_plan::Stage::State: {
-            const auto stateRoot = loadYamlFile(settings.stateFilePath_, "state");
+            stateRoot = loadYamlFile(settings.stateFilePath_, "state");
             settings.loadStateYaml(stateRoot);
             break;
         }
@@ -244,7 +327,7 @@ settings::SettingsController::load(UserSettings &settings,
     }
 
     settings.applyTheme();
-    syncCoreStoreFromSettings(settings);
+    syncCoreStoreFromPersistence(settings, effectiveConfig, stateRoot, sessionRoot);
     settings.setPersistenceScopeReadyForAuth(settings.hasActiveSession());
     // Keep persistence intentionally paused until the UI startup sequence completes.
     // This avoids incidental `save()` calls from initialization code paths.
@@ -266,7 +349,11 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
         createDir(settings.profileDirPath_);
     }
 
+    syncCoreStoreFromSettings(settings);
+
     settings.saveConfigYaml();
+    syncConfigYamlFromCoreStore(settings.configFilePath_, settings.coreStore());
+
     if (policy == SavePolicy::Full) {
         settings.saveSessionYaml();
         settings.saveSecretsYaml();

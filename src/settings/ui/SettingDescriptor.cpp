@@ -213,9 +213,7 @@ setSettingEnumValue(const QVariant &value)
 
 #define CORE_SETTING_WITH_ID(id, scope, key, restart) settings::core::SettingId::id
 
-#define CORE_SETTING(scope, key, restart) CORE_SETTING_WITH_ID(Unknown, scope, key, restart)
-#define CORE_CONFIG(key) CORE_SETTING(Config, key, false)
-#define CORE_CONFIG_RESTART(key) CORE_SETTING(Config, key, true)
+#define CORE_CONFIG_RESTART(key) CORE_SETTING_WITH_ID(Unknown, Config, key, true)
 #define CORE_CONFIG_ID(id, key) CORE_SETTING_WITH_ID(id, Config, key, false)
 #define CORE_RUNTIME_ID(id) CORE_SETTING_WITH_ID(id, Runtime, nullptr, false)
 
@@ -236,9 +234,6 @@ setSettingEnumValue(const QVariant &value)
 #define SIMPLE_BOOL_SETTING(name, desc, tab, getter, setter, enabled_cb)                           \
     SIMPLE_BOOL_SETTING_CORE(                                                                      \
       name, desc, tab, getter, setter, enabled_cb, settings::core::SettingId::Unknown)
-
-#define SIMPLE_BOOL_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)               \
-    SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
 
 #define SIMPLE_BOOL_CONFIG_ID_SETTING(name, desc, tab, getter, setter, enabled_cb, id, key)        \
     {QT_TR_NOOP(name),                                                                             \
@@ -287,10 +282,6 @@ setSettingEnumValue(const QVariant &value)
     SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
       name, desc, tab, getter, setter, min_v, max_v, step_v, settings::core::SettingId::Unknown)
 
-#define SIMPLE_DOUBLE_CONFIG_SETTING(name, desc, tab, getter, setter, min_v, max_v, step_v, key)   \
-    SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
-      name, desc, tab, getter, setter, min_v, max_v, step_v, CORE_CONFIG(key))
-
 #define SIMPLE_DOUBLE_CONFIG_ID_SETTING(                                                           \
   name, desc, tab, getter, setter, min_v, max_v, step_v, id, key)                                  \
     {QT_TR_NOOP(name),                                                                             \
@@ -338,11 +329,6 @@ setSettingEnumValue(const QVariant &value)
                                      enabled_cb,                                                   \
                                      settings::core::SettingId::Unknown)
 
-#define SIMPLE_OPTIONS_ENUM_CONFIG_SETTING(                                                        \
-  name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, key)                        \
-    SIMPLE_OPTIONS_ENUM_SETTING_CORE(                                                              \
-      name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, CORE_CONFIG(key))
-
 #define SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(                                                     \
   name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, id, key)                    \
     {QT_TR_NOOP(name),                                                                             \
@@ -375,9 +361,6 @@ setSettingEnumValue(const QVariant &value)
 #define SIMPLE_TEXT_SETTING(name, desc, tab, getter, setter, enabled_cb)                           \
     SIMPLE_TEXT_SETTING_CORE(                                                                      \
       name, desc, tab, getter, setter, enabled_cb, settings::core::SettingId::Unknown)
-
-#define SIMPLE_TEXT_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)               \
-    SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
 
 #define SIMPLE_TEXT_CONFIG_ID_SETTING(name, desc, tab, getter, setter, enabled_cb, id, key)        \
     {QT_TR_NOOP(name),                                                                             \
@@ -421,20 +404,6 @@ setSettingEnumValue(const QVariant &value)
                                     values_expr,                                                   \
                                     enabled_cb,                                                    \
                                     settings::core::SettingId::Unknown)
-
-#define SIMPLE_OPTIONS_INT_CONFIG_SETTING(                                                         \
-  name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, key)             \
-    SIMPLE_OPTIONS_INT_SETTING_CORE(name,                                                          \
-                                    desc,                                                          \
-                                    tab,                                                           \
-                                    getter,                                                        \
-                                    setter,                                                        \
-                                    min_v,                                                         \
-                                    max_v,                                                         \
-                                    step_v,                                                        \
-                                    values_expr,                                                   \
-                                    enabled_cb,                                                    \
-                                    CORE_CONFIG(key))
 
 #define SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(                                                      \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, id, key)         \

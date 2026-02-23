@@ -157,13 +157,6 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
 
     if (settings::core::isScaleFactorInRange(settings.scaleFactor()))
         setNode(root, SettingKey::UiScaleFactor, settings.scaleFactor());
-
-    setNode(root,
-            SettingKey::SecretsProvider,
-            (settings.runWithoutSecureSecretsService()
-               ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
-               : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
-              .toStdString());
 }
 
 } // namespace
@@ -218,6 +211,14 @@ saveConfig(const UserSettings &settings, const QString &configFilePath)
 {
     YAML::Node root(YAML::NodeType::Map);
     makeConfigNode(settings, root);
+    const auto existingConfig = settings::storage::loadYamlFile(configFilePath, "config");
+    const auto provider       = staged_load_plan::providerFromConfig(existingConfig);
+    setNode(root,
+            SettingKey::SecretsProvider,
+            (provider == staged_load_plan::SecretsProvider::File
+               ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
+               : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
+              .toStdString());
 
     if (writeYamlFile(configFilePath, root, false)) {
         activeLoggers().ui->debug("Saved config to: {}", configFilePath.toStdString());

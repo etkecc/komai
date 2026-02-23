@@ -201,12 +201,6 @@ UserSettings::setMaxDbs(uint s)
     setSetting(maxDbs_, s, &UserSettings::maxDbsChanged);
 }
 void
-UserSettings::setRunWithoutSecureSecretsService(bool s)
-{
-    setSetting(
-      runWithoutSecureSecretsService_, s, &UserSettings::runWithoutSecureSecretsServiceChanged);
-}
-void
 UserSettings::setHttp3Enabled(bool s)
 {
     setSetting(http3Enabled_, s, &UserSettings::http3EnabledChanged);

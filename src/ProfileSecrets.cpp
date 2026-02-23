@@ -52,7 +52,7 @@ deleteProfileSecretValueBlocking(const QString &key)
 
     nhlog::ui()->info("Deleting profile secret '{}'", key.toStdString());
 
-    if (settings->runWithoutSecureSecretsService()) {
+    if (settings->secretsFileProviderEnabled()) {
         settings->removeSecret(key);
         nhlog::ui()->info("Deleted in-memory secret '{}' for insecure secret storage mode",
                           key.toStdString());
@@ -148,7 +148,7 @@ bool
 deleteEmptyProfileSecretValueBlocking(const QString &key)
 {
     auto settings = UserSettings::instance();
-    if (settings->runWithoutSecureSecretsService()) {
+    if (settings->secretsFileProviderEnabled()) {
         nhlog::ui()->info(
           "Skipping secure-backend empty-secret cleanup for key '{}'; insecure mode",
           key.toStdString());

@@ -5,6 +5,7 @@
 
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
+#include "settings/SettingsStorage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 void
@@ -46,8 +47,10 @@ UserSettings::saveStateYaml() const
 void
 UserSettings::saveSecretsYaml() const
 {
+    const auto provider = settings::persistence::providerFromConfig(
+      settings::storage::loadYamlFile(configFilePath_, "config"));
     settings::persistence::saveProfileSecrets(profile_,
-                                              runWithoutSecureSecretsService_,
+                                              provider == staged_load_plan::SecretsProvider::File,
                                               secretsFilePath_,
                                               accessToken_,
                                               secrets_,

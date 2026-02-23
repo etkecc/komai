@@ -182,10 +182,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(qulonglong maxDbSize READ maxDbSize WRITE setMaxDbSize NOTIFY maxDbSizeChanged)
     Q_PROPERTY(uint maxDbs READ maxDbs WRITE setMaxDbs NOTIFY maxDbsChanged)
 
-    // Secrets storage fallback
-    Q_PROPERTY(bool runWithoutSecureSecretsService READ runWithoutSecureSecretsService WRITE
-                 setRunWithoutSecureSecretsService NOTIFY runWithoutSecureSecretsServiceChanged)
-
     // Experimental features
     Q_PROPERTY(bool http3Enabled READ http3Enabled WRITE setHttp3Enabled NOTIFY http3EnabledChanged)
 
@@ -369,7 +365,6 @@ public:
     void setWindowHeight(int height);
     void setMaxDbSize(qulonglong size);
     void setMaxDbs(uint count);
-    void setRunWithoutSecureSecretsService(bool state);
     void setHttp3Enabled(bool state);
     void clearAuth();
     bool hasPersistedSessionIdentity() const;
@@ -887,7 +882,8 @@ public:
     int windowHeight() const { return windowHeight_; }
     qulonglong maxDbSize() const { return maxDbSize_; }
     uint maxDbs() const { return maxDbs_; }
-    bool runWithoutSecureSecretsService() const { return runWithoutSecureSecretsService_; }
+    // Internal helper: secrets provider is configured via `secrets.provider` in config.yml.
+    bool secretsFileProviderEnabled() const { return secretsFileProviderEnabled_; }
     bool http3Enabled() const { return http3Enabled_; }
     settings::core::SettingsStore &mutableCoreStore() { return coreStore_; }
     const settings::core::SettingsStore &coreStore() const { return coreStore_; }
@@ -971,7 +967,6 @@ signals:
     void windowHeightChanged(int height);
     void maxDbSizeChanged(qulonglong size);
     void maxDbsChanged(uint count);
-    void runWithoutSecureSecretsServiceChanged(bool state);
     void http3EnabledChanged(bool state);
 
 private:

@@ -46,11 +46,10 @@ struct SecretsPayload
 };
 
 /**
- * Resolve the effective secret provider taking command-line/runtime overrides into
- * account.
+ * Resolve the effective secret provider from `config.yml`.
  */
 staged_load_plan::SecretsProvider
-providerFromConfig(const YAML::Node &configRoot, bool runWithoutSecureSecretsService);
+providerFromConfig(const YAML::Node &configRoot);
 
 /**
  * Load secrets/session auth payload for the given profile using the resolved
@@ -58,7 +57,7 @@ providerFromConfig(const YAML::Node &configRoot, bool runWithoutSecureSecretsSer
  */
 SecretsPayload
 loadProfileSecrets(const QString &profile,
-                   bool runWithoutSecureSecretsService,
+                   bool secretsFileProviderEnabled,
                    const QString &secretsFilePath);
 
 /**
@@ -66,7 +65,7 @@ loadProfileSecrets(const QString &profile,
  */
 void
 saveProfileSecrets(const QString &profile,
-                   bool runWithoutSecureSecretsService,
+                   bool secretsFileProviderEnabled,
                    const QString &secretsFilePath,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets,
@@ -80,7 +79,7 @@ saveProfileSecrets(const QString &profile,
  */
 bool
 clearProfileSecrets(const QString &profile,
-                    bool runWithoutSecureSecretsService,
+                    bool secretsFileProviderEnabled,
                     const QString &secretsFilePath);
 
 } // namespace settings::persistence

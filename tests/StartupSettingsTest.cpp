@@ -206,7 +206,6 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     if (!settings)
         return expect(false, "UserSettings instance is available after initialize");
 
-    settings->setRunWithoutSecureSecretsService(true);
     settings->save();
 
     if (!expect(settings::storage::pathExists(configFile),
@@ -259,7 +258,6 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     if (!settings)
         return expect(false, "UserSettings instance is available after initialize");
 
-    settings->setRunWithoutSecureSecretsService(true);
     settings->setPersistenceSuspended(false);
     settings->setTheme(QStringLiteral("komai-dark"));
 

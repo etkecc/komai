@@ -290,9 +290,8 @@ settings::SettingsController::load(UserSettings &settings,
       configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath_, "config");
     settings.loadConfigYaml(effectiveConfig);
 
-    const auto provider =
-      providerFromConfig(effectiveConfig, settings.runWithoutSecureSecretsService_);
-    settings.runWithoutSecureSecretsService_ = provider == staged_load_plan::SecretsProvider::File;
+    const auto provider                  = providerFromConfig(effectiveConfig);
+    settings.secretsFileProviderEnabled_ = provider == staged_load_plan::SecretsProvider::File;
     YAML::Node sessionRoot;
     YAML::Node stateRoot;
 
@@ -307,10 +306,8 @@ settings::SettingsController::load(UserSettings &settings,
         }
         case staged_load_plan::Stage::SecretsSecureBackend:
         case staged_load_plan::Stage::SecretsFile: {
-            const auto payload =
-              settings::persistence::loadProfileSecrets(settings.profile_,
-                                                        settings.runWithoutSecureSecretsService_,
-                                                        settings.secretsFilePath_);
+            const auto payload = settings::persistence::loadProfileSecrets(
+              settings.profile_, settings.secretsFileProviderEnabled_, settings.secretsFilePath_);
             settings.accessToken_ = payload.accessToken;
             settings.secrets_     = payload.secrets;
 
@@ -389,8 +386,10 @@ settings::SettingsController::clearAuth(UserSettings &settings)
                                  settings.sessionFilePath_.toStdString());
     }
 
-    settings::persistence::clearProfileSecrets(
-      settings.profile_, settings.runWithoutSecureSecretsService_, settings.secretsFilePath_);
+    const auto provider = providerFromConfig(loadYamlFile(settings.configFilePath_, "config"));
+    settings::persistence::clearProfileSecrets(settings.profile_,
+                                               provider == staged_load_plan::SecretsProvider::File,
+                                               settings.secretsFilePath_);
     settings.saveStateYaml();
     syncCoreStoreFromSettings(settings);
 }

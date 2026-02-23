@@ -62,14 +62,6 @@ activeLoggers()
 
 namespace {
 
-bool
-isFileProvider(bool runWithoutSecureSecretsService)
-{
-    if (runWithoutSecureSecretsService)
-        return true;
-    return false;
-}
-
 void
 storeInternalSessionMetadata(QMap<QString, QString> &secrets,
                              const QString &userId,
@@ -115,26 +107,21 @@ extractInternalSessionMetadata(SecretsPayload &payload)
 } // namespace
 
 staged_load_plan::SecretsProvider
-providerFromConfig(const YAML::Node &configRoot, bool runWithoutSecureSecretsService)
+providerFromConfig(const YAML::Node &configRoot)
 {
-    const auto configProvider     = staged_load_plan::providerFromConfig(configRoot);
-    const auto forcedFileProvider = isFileProvider(runWithoutSecureSecretsService);
-    if (forcedFileProvider)
-        return staged_load_plan::SecretsProvider::File;
-
-    return configProvider;
+    return staged_load_plan::providerFromConfig(configRoot);
 }
 
 SecretsPayload
 loadProfileSecrets(const QString &profile,
-                   bool runWithoutSecureSecretsService,
+                   bool secretsFileProviderEnabled,
                    const QString &secretsFilePath)
 {
     SecretsPayload payload;
     bool hasEmptySecureSecrets   = false;
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
 
-    if (isFileProvider(runWithoutSecureSecretsService)) {
+    if (secretsFileProviderEnabled) {
         const auto secretsRoot = settings::storage::loadYamlFile(secretsFilePath, "secrets");
         payload.accessToken =
           yaml_settings::readString(secretsRoot, SettingKey::SecretsFileAuthAccessToken, QString());
@@ -233,7 +220,7 @@ loadProfileSecrets(const QString &profile,
 
 void
 saveProfileSecrets(const QString &profile,
-                   bool runWithoutSecureSecretsService,
+                   bool secretsFileProviderEnabled,
                    const QString &secretsFilePath,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets,
@@ -245,7 +232,7 @@ saveProfileSecrets(const QString &profile,
     storeInternalSessionMetadata(
       secretsWithSessionMetadata, sessionUserId, sessionDeviceId, sessionHomeserver);
 
-    if (isFileProvider(runWithoutSecureSecretsService)) {
+    if (secretsFileProviderEnabled) {
         YAML::Node root(YAML::NodeType::Map);
         yaml_settings::setNode(
           root, SettingKey::SecretsFileAuthAccessToken, accessToken.toStdString());
@@ -288,10 +275,10 @@ saveProfileSecrets(const QString &profile,
 
 bool
 clearProfileSecrets(const QString &profile,
-                    bool runWithoutSecureSecretsService,
+                    bool secretsFileProviderEnabled,
                     const QString &secretsFilePath)
 {
-    if (runWithoutSecureSecretsService) {
+    if (secretsFileProviderEnabled) {
         const auto normalizedProfile = app_paths::normalizedProfileId(profile);
         if (settings::storage::pathExists(secretsFilePath) &&
             !settings::storage::removePath(secretsFilePath)) {

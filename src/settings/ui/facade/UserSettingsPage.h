@@ -70,13 +70,14 @@ class UserSettings final : public QObject
       int showSenderUsernameLargeRoomThreshold READ showSenderUsernameLargeRoomThreshold CONSTANT)
     Q_PROPERTY(bool animateImagesOnHover READ animateImagesOnHover WRITE setAnimateImagesOnHover
                  NOTIFY animateImagesOnHoverChanged)
-    Q_PROPERTY(bool typingNotifications READ typingNotifications WRITE setTypingNotifications NOTIFY
-                 typingNotificationsChanged)
+    Q_PROPERTY(bool typingNotificationsEnabled READ typingNotificationsEnabled WRITE
+                 setTypingNotificationsEnabled NOTIFY typingNotificationsEnabledChanged)
     Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
                  roomSortOrderChanged)
     Q_PROPERTY(bool timelineMessageActionsEnabled READ timelineMessageActionsEnabled WRITE
                  setTimelineMessageActionsEnabled NOTIFY timelineMessageActionsEnabledChanged)
-    Q_PROPERTY(bool readReceipts READ readReceipts WRITE setReadReceipts NOTIFY readReceiptsChanged)
+    Q_PROPERTY(bool readReceiptsEnabled READ readReceiptsEnabled WRITE setReadReceiptsEnabled NOTIFY
+                 readReceiptsEnabledChanged)
     Q_PROPERTY(bool desktopNotificationsEnabled READ desktopNotificationsEnabled WRITE
                  setDesktopNotificationsEnabled NOTIFY desktopNotificationsEnabledChanged)
     Q_PROPERTY(bool alertOnIncomingMessages READ alertOnIncomingMessages WRITE
@@ -303,8 +304,8 @@ public:
     void setPinnedReactions(QString value);
     void setShowSenderUsername(ShowSenderUsername state);
     void setAnimateImagesOnHover(bool state);
-    void setReadReceipts(bool state);
-    void setTypingNotifications(bool state);
+    void setReadReceiptsEnabled(bool state);
+    void setTypingNotificationsEnabled(bool state);
     void setRoomSortOrder(RoomSortOrder order);
     void setTimelineMessageActionsEnabled(bool state);
     void setMaxTimelineWidth(int state);
@@ -609,13 +610,13 @@ public:
             return *value;
         return animateImagesOnHover_;
     }
-    bool typingNotifications() const
+    bool typingNotificationsEnabled() const
     {
         if (const auto value = coreStore_.valueAs<bool>(
               settings::core::SettingId::ComposerFeedbackTypingNotifications);
             value.has_value())
             return *value;
-        return typingNotifications_;
+        return typingNotificationsEnabled_;
     }
     RoomSortOrder roomSortOrder() const
     {
@@ -650,13 +651,13 @@ public:
             return *value;
         return enableSwipeGestures_;
     }
-    bool readReceipts() const
+    bool readReceiptsEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::ComposerFeedbackReadReceipts);
             value.has_value())
             return *value;
-        return readReceipts_;
+        return readReceiptsEnabled_;
     }
     bool desktopNotificationsEnabled() const
     {
@@ -905,9 +906,9 @@ signals:
     void pinnedReactionsChanged(const QString &value);
     void showSenderUsernameChanged(ShowSenderUsername state);
     void animateImagesOnHoverChanged(bool state);
-    void typingNotificationsChanged(bool state);
+    void typingNotificationsEnabledChanged(bool state);
     void timelineMessageActionsEnabledChanged(bool state);
-    void readReceiptsChanged(bool state);
+    void readReceiptsEnabledChanged(bool state);
     void desktopNotificationsEnabledChanged(bool state);
     void alertOnIncomingMessagesChanged(bool state);
     void useCircularAvatarsChanged(bool state);

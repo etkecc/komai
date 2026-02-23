@@ -1445,7 +1445,7 @@ TimelineModel::readEvent(const std::string &id)
               });
           }
       },
-      !UserSettings::instance()->readReceipts());
+      !UserSettings::instance()->readReceiptsEnabled());
 }
 
 QString

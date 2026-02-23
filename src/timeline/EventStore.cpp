@@ -283,7 +283,7 @@ EventStore::EventStore(std::string room_id, QObject *)
                     nhlog::net()->warn("failed to read_event ({}, {})", room_id_, event_id);
                 }
             },
-            !UserSettings::instance()->readReceipts());
+            !UserSettings::instance()->readReceiptsEnabled());
 
           auto idx = idToIndex(event_id);
 

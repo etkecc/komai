@@ -102,23 +102,23 @@ UserSettings::setAnimateImagesOnHover(bool s)
     save();
 }
 void
-UserSettings::setReadReceipts(bool s)
+UserSettings::setReadReceiptsEnabled(bool s)
 {
-    if (readReceipts_ == s)
+    if (readReceiptsEnabled_ == s)
         return;
-    readReceipts_ = s;
+    readReceiptsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::ComposerFeedbackReadReceipts, s);
-    emit readReceiptsChanged(s);
+    emit readReceiptsEnabledChanged(s);
     save();
 }
 void
-UserSettings::setTypingNotifications(bool s)
+UserSettings::setTypingNotificationsEnabled(bool s)
 {
-    if (typingNotifications_ == s)
+    if (typingNotificationsEnabled_ == s)
         return;
-    typingNotifications_ = s;
+    typingNotificationsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::ComposerFeedbackTypingNotifications, s);
-    emit typingNotificationsChanged(s);
+    emit typingNotificationsEnabledChanged(s);
     save();
 }
 void

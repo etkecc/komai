@@ -35,12 +35,12 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Typing notifications",
       QT_TR_NOOP("Show who is typing in a room.\nThis will also enable or disable sending typing notifications to others."),
-      SM::TabComposer, typingNotifications, setTypingNotifications, nullptr, ComposerFeedbackTypingNotifications, SettingKey::ComposerFeedbackTypingNotifications),
+      SM::TabComposer, typingNotificationsEnabled, setTypingNotificationsEnabled, nullptr, ComposerFeedbackTypingNotifications, SettingKey::ComposerFeedbackTypingNotifications),
     // ReadReceipts
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Read receipts",
       QT_TR_NOOP("Show if your message was read.\nStatus is displayed next to timestamps.\nWarning: If your homeserver does not support this, your rooms will never be marked as read!"),
-      SM::TabComposer, readReceipts, setReadReceipts, nullptr, ComposerFeedbackReadReceipts, SettingKey::ComposerFeedbackReadReceipts),
+      SM::TabComposer, readReceiptsEnabled, setReadReceiptsEnabled, nullptr, ComposerFeedbackReadReceipts, SettingKey::ComposerFeedbackReadReceipts),
     // ComposerExtrasSection
     { QT_TR_NOOP("Extras"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

@@ -114,8 +114,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::ComposerInputAutoReplaceEmoji,
         static_cast<int>(settings.autoReplaceEmoji()));
     set(settings::core::SettingId::ComposerFeedbackTypingNotifications,
-        settings.typingNotifications());
-    set(settings::core::SettingId::ComposerFeedbackReadReceipts, settings.readReceipts());
+        settings.typingNotificationsEnabled());
+    set(settings::core::SettingId::ComposerFeedbackReadReceipts, settings.readReceiptsEnabled());
     set(settings::core::SettingId::ComposerExtrasStickersEnabled, settings.enableStickers());
     set(settings::core::SettingId::NotificationsDesktopEnabled,
         settings.desktopNotificationsEnabled());

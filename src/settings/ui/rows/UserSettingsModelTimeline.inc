@@ -1,7 +1,7 @@
     // ── Timeline Tab ────────────────────────────────────────────────────────
 
-    // TimelineMessagesSection
-    { QT_TR_NOOP("Messages"), nullptr, SM::SectionTitle, SM::TabTimeline,
+    // TimelinePresentationSection
+    { QT_TR_NOOP("Presentation"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TimelineMessageLayout
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
@@ -18,7 +18,7 @@
                            SM::TabTimeline, timelineSmallAvatarsEnabled, setTimelineSmallAvatarsEnabled, nullptr, TimelineMessagesLayoutSmallAvatars, SettingKey::TimelineMessagesLayoutSmallAvatars),
     // TimelineShowOwnAvatarInBubbleLayout
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Show your avatar next to your own messages (bubble layout)",
+      "Show avatar next to own message bubbles",
       QT_TR_NOOP(
         "When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan."),
       SM::TabTimeline, timelineShowOwnAvatarInBubbleLayout, setTimelineShowOwnAvatarInBubbleLayout, nullptr, TimelineMessagesLayoutShowOwnAvatar, SettingKey::TimelineMessagesLayoutShowOwnAvatar),
@@ -45,6 +45,11 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Highlight message on hover",
                         QT_TR_NOOP("Change the background color of messages when you hover over them."),
                         SM::TabTimeline, messageHoverHighlight, setMessageHoverHighlight, nullptr, TimelineMessagesHoverHighlight, SettingKey::TimelineMessagesHoverHighlight),
+    // TimelineMediaEffectsEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Show message effects",
+      QT_TR_NOOP("Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen."),
+      SM::TabTimeline, timelineMediaEffectsEnabled, setTimelineMediaEffectsEnabled, nullptr, TimelineMediaEffectsEnabled, SettingKey::TimelineMediaEffectsEnabled),
     // TimelineFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -58,6 +63,9 @@
       "Read receipts",
       QT_TR_NOOP("Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read."),
       SM::TabTimeline, readReceiptsEnabled, setReadReceiptsEnabled, nullptr, TimelineReadReceiptsEnabled, SettingKey::TimelineReadReceiptsEnabled),
+    // TimelineActionsSection
+    { QT_TR_NOOP("Actions"), nullptr, SM::SectionTitle, SM::TabTimeline,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TimelineMessageActionsActivationPolicy
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Actions activation policy",
@@ -78,13 +86,8 @@
       TimelineMessageActionsPinnedReactions,
       SettingKey::TimelineMessageActionsPinnedReactions),
     // TimelineMediaSection
-    { QT_TR_NOOP("Media"), nullptr, SM::SectionTitle, SM::TabTimeline,
+    { QT_TR_NOOP("Media handling"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // TimelineMediaEffectsEnabled
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Show message effects",
-      QT_TR_NOOP("Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen."),
-      SM::TabTimeline, timelineMediaEffectsEnabled, setTimelineMediaEffectsEnabled, nullptr, TimelineMediaEffectsEnabled, SettingKey::TimelineMediaEffectsEnabled),
     // AnimateImagesOnHover
     SIMPLE_BOOL_CONFIG_ID_SETTING("Play animated images only on hover",
                         QT_TR_NOOP("Play animated media (such as GIF/WebP) only while hovering."),

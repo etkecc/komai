@@ -48,20 +48,20 @@ Note:
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::IntegrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Interaction mode | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures_enabled` | config.yml | yes |
-| Timeline | MESSAGES | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
-| Timeline | MESSAGES | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
-| Timeline | MESSAGES | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
-| Timeline | MESSAGES | Show sender username above messages | `UserSettingsModel::ShowSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
-| Timeline | MESSAGES | Maximum timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
-| Timeline | MESSAGES | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
-| Timeline | MESSAGES | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
-| Timeline | MESSAGES | Actions activation policy | `UserSettingsModel::TimelineMessageActionsPolicy` | `show_action_buttons` | `timeline.messages.actions.activation_policy` | config.yml | yes |
-| Timeline | MESSAGES | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
-| Timeline | MEDIA | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
-| Timeline | MEDIA | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
-| Timeline | MEDIA | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
-| Timeline | MEDIA | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
-| Timeline | MEDIA | Open videos in an external app | `UserSettingsModel::OpenVideosInExternalApp` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
+| Timeline | PRESENTATION | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
+| Timeline | PRESENTATION | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
+| Timeline | PRESENTATION | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
+| Timeline | PRESENTATION | Show sender username above messages | `UserSettingsModel::ShowSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
+| Timeline | PRESENTATION | Maximum timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
+| Timeline | PRESENTATION | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
+| Timeline | PRESENTATION | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
+| Timeline | PRESENTATION | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
+| Timeline | ACTIONS | Actions activation policy | `UserSettingsModel::TimelineMessageActionsPolicy` | `show_action_buttons` | `timeline.messages.actions.activation_policy` | config.yml | yes |
+| Timeline | ACTIONS | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Open videos in an external app | `UserSettingsModel::OpenVideosInExternalApp` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
 | Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::MarkdownEnabled` | `markdown` | `composer.input.markdown_enabled` | config.yml | yes |
 | Composer | INPUT | Send key | `UserSettingsModel::SendMessageKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
 | Composer | INPUT | Auto-replace emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |

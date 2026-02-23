@@ -23,6 +23,19 @@ expect(bool condition, const char *message)
     return false;
 }
 
+constexpr std::array<settings::core::SettingId, 10> kExpectedConstrainedIds{{
+  settings::core::SettingId::IntegrationsDbusApiAccess,
+  settings::core::SettingId::NetworkPresenceStatusPolicy,
+  settings::core::SettingId::ComposerInputSendKey,
+  settings::core::SettingId::ComposerInputAutoReplaceEmoji,
+  settings::core::SettingId::SidebarsRoomListSort,
+  settings::core::SettingId::SidebarsRoomListLastMessagePreview,
+  settings::core::SettingId::TimelineMessagesSenderUsername,
+  settings::core::SettingId::TimelineMediaImageDisplay,
+  settings::core::SettingId::TimelineMessagesMaxWidthPx,
+  settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
+}};
+
 bool
 testBasicSetGet()
 {
@@ -157,24 +170,11 @@ testEnumValidationRejectsWrongType()
 bool
 testConstraintSchemaCoverage()
 {
-    constexpr std::array<settings::core::SettingId, 10> expectedConstrainedIds{{
-      settings::core::SettingId::IntegrationsDbusApiAccess,
-      settings::core::SettingId::NetworkPresenceStatusPolicy,
-      settings::core::SettingId::ComposerInputSendKey,
-      settings::core::SettingId::ComposerInputAutoReplaceEmoji,
-      settings::core::SettingId::SidebarsRoomListSort,
-      settings::core::SettingId::SidebarsRoomListLastMessagePreview,
-      settings::core::SettingId::TimelineMessagesSenderUsername,
-      settings::core::SettingId::TimelineMediaImageDisplay,
-      settings::core::SettingId::TimelineMessagesMaxWidthPx,
-      settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
-    }};
-
     bool ok = true;
-    ok &= expect(settings::core::constraints::intRangeConstraints().size() ==
-                   expectedConstrainedIds.size(),
+    ok &= expect(settings::core::constraints::intRangeConstraintCount() ==
+                   kExpectedConstrainedIds.size(),
                  "constraint schema size matches expected constrained setting list");
-    for (const auto id : expectedConstrainedIds) {
+    for (const auto id : kExpectedConstrainedIds) {
         if (!settings::core::constraints::hasIntRangeConstraint(id)) {
             std::cerr << "FAILED: missing constraint schema for SettingId "
                       << static_cast<int>(id) << '\n';
@@ -285,13 +285,26 @@ testPersistedDefinitionUniqueness()
 bool
 testConstrainedSettingsArePersisted()
 {
+    std::unordered_set<int> expectedConstrainedIds;
+    for (const auto id : kExpectedConstrainedIds)
+        expectedConstrainedIds.insert(static_cast<int>(id));
+
     bool ok = true;
-    for (const auto &constraint : settings::core::constraints::intRangeConstraints()) {
-        if (!settings::core::definitions::hasPersistedDefinition(constraint.id)) {
-            std::cerr << "FAILED: constrained setting without persisted definition for SettingId "
-                      << static_cast<int>(constraint.id) << '\n';
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (!definition.hasIntRangeConstraint)
+            continue;
+
+        if (expectedConstrainedIds.erase(static_cast<int>(definition.id)) == 0) {
+            std::cerr << "FAILED: unexpected constrained setting in persisted schema for SettingId "
+                      << static_cast<int>(definition.id) << '\n';
             ok = false;
         }
+    }
+
+    for (const auto id : expectedConstrainedIds) {
+        std::cerr << "FAILED: expected constrained setting missing from persisted schema for SettingId "
+                  << id << '\n';
+        ok = false;
     }
 
     return ok;

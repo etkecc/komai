@@ -5,49 +5,23 @@
 
 #pragma once
 
-#include <array>
+#include <cstddef>
 #include <optional>
-#include <span>
 
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/core/SettingsStore.h"
 
 namespace settings::core::constraints {
 
-struct IntRangeConstraint
-{
-    SettingId id{SettingId::Unknown};
-    int minValue{0};
-    int maxValue{0};
-};
-
-inline constexpr std::array<IntRangeConstraint, 10> kIntRangeConstraints{{
-  {SettingId::IntegrationsDbusApiAccess, 0, 2},
-  {SettingId::NetworkPresenceStatusPolicy, 0, 3},
-  {SettingId::ComposerInputSendKey, 0, 2},
-  {SettingId::ComposerInputAutoReplaceEmoji, 0, 2},
-  {SettingId::SidebarsRoomListSort, 0, 3},
-  {SettingId::SidebarsRoomListLastMessagePreview, 0, 2},
-  {SettingId::TimelineMessagesSenderUsername, 0, 2},
-  {SettingId::TimelineMediaImageDisplay, 0, 2},
-  {SettingId::TimelineMessagesMaxWidthPx, 0, 20000},
-  {SettingId::PrivacyScreenLockTimeoutSeconds, 0, 3600},
-}};
-
-[[nodiscard]] constexpr std::span<const IntRangeConstraint>
-intRangeConstraints()
-{
-    return kIntRangeConstraints;
-}
-
 [[nodiscard]] constexpr std::optional<SettingsStore::IntRange>
 intRangeConstraintFor(SettingId id)
 {
-    for (const auto &constraint : kIntRangeConstraints) {
-        if (constraint.id == id) {
-            return SettingsStore::IntRange{.minValue = constraint.minValue,
-                                           .maxValue = constraint.maxValue};
-        }
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (definition.id != id || !definition.hasIntRangeConstraint)
+            continue;
+
+        return SettingsStore::IntRange{.minValue = definition.intRangeConstraintMin,
+                                       .maxValue = definition.intRangeConstraintMax};
     }
 
     return std::nullopt;
@@ -60,42 +34,57 @@ hasIntRangeConstraint(SettingId id)
 }
 
 [[nodiscard]] constexpr bool
-hasUniqueIntRangeConstraintIds()
+hasValidIntRangeConstraints()
 {
-    for (std::size_t i = 0; i < kIntRangeConstraints.size(); ++i) {
-        for (std::size_t j = i + 1; j < kIntRangeConstraints.size(); ++j) {
-            if (kIntRangeConstraints[i].id == kIntRangeConstraints[j].id)
-                return false;
-        }
-    }
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (!definition.hasIntRangeConstraint)
+            continue;
 
-    return true;
-}
-
-[[nodiscard]] constexpr bool
-allConstrainedSettingsHavePersistedDefinitions()
-{
-    for (const auto &constraint : kIntRangeConstraints) {
-        if (!settings::core::definitions::hasPersistedDefinition(constraint.id))
+        if (definition.intRangeConstraintMin > definition.intRangeConstraintMax)
             return false;
     }
 
     return true;
 }
 
-static_assert(hasUniqueIntRangeConstraintIds(),
-              "settings::core::constraints has duplicate SettingId entries");
-static_assert(
-  allConstrainedSettingsHavePersistedDefinitions(),
-  "settings::core::constraints contains SettingIds not present in persisted definitions");
+[[nodiscard]] constexpr bool
+hasNoUnknownConstrainedSettings()
+{
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (definition.hasIntRangeConstraint && definition.id == SettingId::Unknown)
+            return false;
+    }
+
+    return true;
+}
+
+[[nodiscard]] constexpr std::size_t
+intRangeConstraintCount()
+{
+    std::size_t count = 0;
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (definition.hasIntRangeConstraint)
+            ++count;
+    }
+    return count;
+}
+
+static_assert(hasValidIntRangeConstraints(),
+              "settings::core::constraints contains invalid integer ranges");
+static_assert(hasNoUnknownConstrainedSettings(),
+              "settings::core::constraints includes an Unknown setting id");
 
 inline void
 applyDefaultConstraints(SettingsStore &store)
 {
     store.clearConstraints();
 
-    for (const auto &constraint : kIntRangeConstraints) {
-        store.setIntRangeConstraint(constraint.id, constraint.minValue, constraint.maxValue);
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (!definition.hasIntRangeConstraint)
+            continue;
+
+        store.setIntRangeConstraint(
+          definition.id, definition.intRangeConstraintMin, definition.intRangeConstraintMax);
     }
 }
 

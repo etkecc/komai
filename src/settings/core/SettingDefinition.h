@@ -85,10 +85,13 @@ enum class SettingId
 
 struct SettingDefinition
 {
-    SettingId id             = SettingId::Unknown;
-    SettingScope scope       = SettingScope::Runtime;
-    const char *persistedKey = nullptr;
-    bool requiresRestart     = false;
+    SettingId id               = SettingId::Unknown;
+    SettingScope scope         = SettingScope::Runtime;
+    const char *persistedKey   = nullptr;
+    bool requiresRestart       = false;
+    bool hasIntRangeConstraint = false;
+    int intRangeConstraintMin  = 0;
+    int intRangeConstraintMax  = 0;
 };
 
 } // namespace settings::core

@@ -27,15 +27,10 @@
 
 namespace {
 
-using settings::storage::configFilePathForProfile;
 using settings::storage::createDir;
 using settings::storage::loadYamlFile;
 using settings::storage::pathExists;
-using settings::storage::profileDirPath;
 using settings::storage::removePath;
-using settings::storage::secretsFilePathForProfile;
-using settings::storage::sessionFilePathForProfile;
-using settings::storage::stateFilePathForProfile;
 using settings::storage::writeYamlFile;
 
 using settings::persistence::providerFromConfig;
@@ -192,15 +187,11 @@ settings::SettingsController::load(UserSettings &settings,
                                    const YAML::Node &configRoot)
 {
     if (profile)
-        settings.profile_ = (*profile == QLatin1String("default")) ? QLatin1String("") : *profile;
+        settings.applyProfilePathState((*profile == QLatin1String("default")) ? QLatin1String("")
+                                                                              : *profile);
     else
-        settings.profile_ = QLatin1String("");
+        settings.applyProfilePathState(QLatin1String(""));
 
-    settings.profileDirPath_  = profileDirPath(settings.profile_);
-    settings.configFilePath_  = configFilePathForProfile(settings.profile_);
-    settings.stateFilePath_   = stateFilePathForProfile(settings.profile_);
-    settings.sessionFilePath_ = sessionFilePathForProfile(settings.profile_);
-    settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
     createDir(settings.profileDirPath_);
 
     settings.setPersistenceSuspended(true);
@@ -266,11 +257,7 @@ void
 settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 {
     if (settings.profileDirPath_.isEmpty()) {
-        settings.profileDirPath_  = profileDirPath(settings.profile_);
-        settings.configFilePath_  = configFilePathForProfile(settings.profile_);
-        settings.stateFilePath_   = stateFilePathForProfile(settings.profile_);
-        settings.sessionFilePath_ = sessionFilePathForProfile(settings.profile_);
-        settings.secretsFilePath_ = secretsFilePathForProfile(settings.profile_);
+        settings.applyProfilePathState(settings.profile_);
         createDir(settings.profileDirPath_);
     }
 

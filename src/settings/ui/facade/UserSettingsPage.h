@@ -473,6 +473,8 @@ signals:
     void http3EnabledChanged(bool state);
 
 private:
+    void applyProfilePathState(const QString &profile);
+
     template<typename T, typename Signal>
     void setSetting(T &member, const T &value, Signal signal)
     {

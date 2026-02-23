@@ -162,15 +162,21 @@ UserSettings::removeSecret(const QString &name)
 }
 
 void
-UserSettings::setProfile(QString profile)
+UserSettings::applyProfilePathState(const QString &profile)
 {
-    // always set this to allow setting this when loading and it is overwritten on the cli
     profile_         = profile;
     profileDirPath_  = profileDirPath(profile_);
     configFilePath_  = configFilePathForProfile(profile_);
     stateFilePath_   = stateFilePathForProfile(profile_);
     sessionFilePath_ = sessionFilePathForProfile(profile_);
     secretsFilePath_ = secretsFilePathForProfile(profile_);
+}
+
+void
+UserSettings::setProfile(QString profile)
+{
+    // always set this to allow setting this when loading and it is overwritten on the cli
+    applyProfilePathState(profile);
     emit profileChanged(profile_);
     save();
 }

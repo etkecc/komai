@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <array>
+#include <unordered_set>
 
 #include "TestEnvironment.h"
 #include "settings/core/SettingsConstraints.h"
@@ -264,6 +265,39 @@ testPersistedDefinitionCoverage()
 }
 
 bool
+testPersistedDefinitionUniqueness()
+{
+    std::unordered_set<int> seen;
+    bool ok = true;
+
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        const int idValue = static_cast<int>(definition.id);
+        if (!seen.insert(idValue).second) {
+            std::cerr << "FAILED: duplicate persisted definition for SettingId " << idValue
+                      << '\n';
+            ok = false;
+        }
+    }
+
+    return ok;
+}
+
+bool
+testConstrainedSettingsArePersisted()
+{
+    bool ok = true;
+    for (const auto &constraint : settings::core::constraints::intRangeConstraints()) {
+        if (!settings::core::definitions::hasPersistedDefinition(constraint.id)) {
+            std::cerr << "FAILED: constrained setting without persisted definition for SettingId "
+                      << static_cast<int>(constraint.id) << '\n';
+            ok = false;
+        }
+    }
+
+    return ok;
+}
+
+bool
 testUnconstrainedSettingsAcceptAnyInt()
 {
     settings::core::SettingsStore store;
@@ -300,6 +334,8 @@ main()
     ok &= testEnumValidationRejectsWrongType();
     ok &= testConstraintSchemaCoverage();
     ok &= testPersistedDefinitionCoverage();
+    ok &= testPersistedDefinitionUniqueness();
+    ok &= testConstrainedSettingsArePersisted();
     ok &= testUnconstrainedSettingsAcceptAnyInt();
     return ok ? 0 : 1;
 }

@@ -588,6 +588,8 @@ set(SRC_FILES
     src/Paths.cpp
     src/Paths.h
     src/settings/SettingKeys.h
+    src/settings/SettingDescriptor.h
+    src/settings/SettingDescriptor.cpp
     src/settings/StartupSettings.h
     src/settings/StartupSettings.cpp
     src/settings/core/StartupConfig.h

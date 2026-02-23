@@ -5,8 +5,8 @@
 
 // Default to system theme if QT_QPA_PLATFORMTHEME var is set.
 QString defaultTheme_ = QProcessEnvironment::systemEnvironment()
-                          .value(QStringLiteral("QT_QPA_PLATFORMTHEME"), QLatin1String(""))
-                          .isEmpty()
+                            .value(QStringLiteral("QT_QPA_PLATFORMTHEME"), QLatin1String(""))
+                            .isEmpty()
                           ? "komai-light"
                           : "komai-light";
 QString theme_;
@@ -36,7 +36,7 @@ bool useCircularAvatars_;
 bool decryptNotifications_;
 bool showCommunityNotificationCounts_;
 bool compactRoomList_;
-bool showRoomListTime_;
+bool roomListShowLastMessageTime_;
 LastMessagePreview showLastMessagePreview_;
 bool timelineMediaEffectsEnabled_;
 bool uiAnimationsEnabled_;

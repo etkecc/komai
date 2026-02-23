@@ -5,7 +5,8 @@
     CONNECT_SETTING_ID(UiFontEmojiFamily, emojiFontChanged, Value);
     CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiAnimationsEnabledChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListCompact, compactRoomListChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListShowLastMessageTime, showRoomListTimeChanged, Value);
+    CONNECT_SETTING_ID(
+      SidebarsRoomListShowLastMessageTime, roomListShowLastMessageTimeChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListLastMessagePreview, showLastMessagePreviewChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListShowCommunityCounts, showCommunityNotificationCountsChanged, Value);

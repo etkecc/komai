@@ -43,7 +43,8 @@ class Nheko : public QObject
     // Icon size for action bars (top bar, room list actions bar)
     Q_PROPERTY(int barIconSize READ barIconSize NOTIFY compactRoomListChanged)
     Q_PROPERTY(int defaultRoomListWidth READ defaultRoomListWidth CONSTANT)
-    Q_PROPERTY(bool showRoomListTime READ showRoomListTime NOTIFY showRoomListTimeChanged)
+    Q_PROPERTY(bool roomListShowLastMessageTime READ roomListShowLastMessageTime NOTIFY
+                 roomListShowLastMessageTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
@@ -69,7 +70,7 @@ public:
     int listIconSize() const;
     int barIconSize() const;
     int defaultRoomListWidth() const { return 300; }
-    bool showRoomListTime() const;
+    bool roomListShowLastMessageTime() const;
 
     QString tagline() const { return tr("A fine desktop Matrix client you can get to love"); }
 
@@ -109,7 +110,7 @@ signals:
     void colorsChanged();
     void profileChanged();
     void compactRoomListChanged();
-    void showRoomListTimeChanged();
+    void roomListShowLastMessageTimeChanged();
 
     void openLogoutDialog();
     void openJoinRoomDialog();

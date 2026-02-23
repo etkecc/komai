@@ -85,7 +85,7 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::UiAvatarsIdenticonFallback, settings.useIdenticon());
     set(settings::core::SettingId::SidebarsRoomListCompact, settings.compactRoomList());
     set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime,
-        settings.showRoomListTime());
+        settings.roomListShowLastMessageTime());
     set(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
         static_cast<int>(settings.showLastMessagePreview()));
     set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts,

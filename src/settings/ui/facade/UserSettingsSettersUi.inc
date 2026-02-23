@@ -222,13 +222,13 @@ UserSettings::setCompactRoomList(bool s)
     save();
 }
 void
-UserSettings::setShowRoomListTime(bool s)
+UserSettings::setRoomListShowLastMessageTime(bool s)
 {
-    if (showRoomListTime_ == s)
+    if (roomListShowLastMessageTime_ == s)
         return;
-    showRoomListTime_ = s;
+    roomListShowLastMessageTime_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime, s);
-    emit showRoomListTimeChanged(s);
+    emit roomListShowLastMessageTimeChanged(s);
     save();
 }
 void

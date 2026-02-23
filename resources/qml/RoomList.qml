@@ -803,7 +803,7 @@ Page {
                             color: roomItem.unimportantText
                             font.pixelSize: fontMetrics.font.pixelSize * 0.95
                             text: time
-                            visible: !isInvite && !isSpace && Nheko.showRoomListTime
+                            visible: !isInvite && !isSpace && Nheko.roomListShowLastMessageTime
                         }
                         NotificationBubble {
                             id: spaceNotificationBubble

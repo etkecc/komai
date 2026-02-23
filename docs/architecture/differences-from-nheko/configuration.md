@@ -12,7 +12,7 @@ This document captures configuration-architecture differences between Komai and 
 | Data/cache layout | app/org-dependent Qt location shape | explicit profile-scoped layout under `~/.local/share/komai/profiles/<profile-id>/` and `~/.cache/komai/profiles/<profile-id>/` |
 | Secret provider selection | not modeled as staged file-first provider key | explicit `secrets.provider` in `config.yml` |
 | Load pipeline | monolithic load path | staged load (`config` -> `session` -> secrets -> `state`) |
-| Runtime API | mixed implementation concerns | flat runtime API with split persistence concerns |
+| Runtime API | mixed implementation concerns | flat runtime API with split persistence concerns and semantics-aligned setting names |
 | Path construction | scattered per-callsite path joins | centralized in `src/Paths.h` / `src/Paths.cpp` |
 
 ## Komai-Specific Configuration Design

@@ -85,10 +85,10 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Compact mode",
                         QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
                         SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr, SidebarsRoomListCompact, SettingKey::SidebarsRoomListCompact),
-    // ShowRoomListTime
+    // RoomListShowLastMessageTime
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
                         QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
-                        SM::TabSidebars, showRoomListTime, setShowRoomListTime, nullptr, SidebarsRoomListShowLastMessageTime, SettingKey::SidebarsRoomListShowLastMessageTime),
+                        SM::TabSidebars, roomListShowLastMessageTime, setRoomListShowLastMessageTime, nullptr, SidebarsRoomListShowLastMessageTime, SettingKey::SidebarsRoomListShowLastMessageTime),
     // ShowLastMessagePreview
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show last message preview",

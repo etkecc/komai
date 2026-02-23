@@ -78,9 +78,9 @@ Nheko::Nheko()
             this,
             &Nheko::compactRoomListChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::showRoomListTimeChanged,
+            &UserSettings::roomListShowLastMessageTimeChanged,
             this,
-            &Nheko::showRoomListTimeChanged);
+            &Nheko::roomListShowLastMessageTimeChanged);
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Nheko::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Nheko::showRoomJoinPrompt);
     connect(this, &Nheko::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
@@ -130,9 +130,9 @@ Nheko::compactRoomList() const
 }
 
 bool
-Nheko::showRoomListTime() const
+Nheko::roomListShowLastMessageTime() const
 {
-    return UserSettings::instance()->showRoomListTime();
+    return UserSettings::instance()->roomListShowLastMessageTime();
 }
 
 double

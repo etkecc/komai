@@ -86,8 +86,8 @@ class UserSettings final : public QObject
                  setShowCommunityNotificationCounts NOTIFY showCommunityNotificationCountsChanged)
     Q_PROPERTY(bool compactRoomList READ compactRoomList WRITE setCompactRoomList NOTIFY
                  compactRoomListChanged)
-    Q_PROPERTY(bool showRoomListTime READ showRoomListTime WRITE setShowRoomListTime NOTIFY
-                 showRoomListTimeChanged)
+    Q_PROPERTY(bool roomListShowLastMessageTime READ roomListShowLastMessageTime WRITE
+                 setRoomListShowLastMessageTime NOTIFY roomListShowLastMessageTimeChanged)
     Q_PROPERTY(LastMessagePreview showLastMessagePreview READ showLastMessagePreview WRITE
                  setShowLastMessagePreview NOTIFY showLastMessagePreviewChanged)
     Q_PROPERTY(bool timelineMediaEffectsEnabled READ timelineMediaEffectsEnabled WRITE
@@ -313,7 +313,7 @@ public:
     void setDecryptNotifications(bool state);
     void setShowCommunityNotificationCounts(bool state);
     void setCompactRoomList(bool state);
-    void setShowRoomListTime(bool state);
+    void setRoomListShowLastMessageTime(bool state);
     void setShowLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiAnimationsEnabled(bool state);
@@ -473,13 +473,13 @@ public:
             return *value;
         return compactRoomList_;
     }
-    bool showRoomListTime() const
+    bool roomListShowLastMessageTime() const
     {
         if (const auto value = coreStore_.valueAs<bool>(
               settings::core::SettingId::SidebarsRoomListShowLastMessageTime);
             value.has_value())
             return *value;
-        return showRoomListTime_;
+        return roomListShowLastMessageTime_;
     }
     LastMessagePreview showLastMessagePreview() const
     {
@@ -911,7 +911,7 @@ signals:
     void decryptNotificationsChanged(bool state);
     void showCommunityNotificationCountsChanged(bool state);
     void compactRoomListChanged(bool state);
-    void showRoomListTimeChanged(bool state);
+    void roomListShowLastMessageTimeChanged(bool state);
     void showLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiAnimationsEnabledChanged(bool state);

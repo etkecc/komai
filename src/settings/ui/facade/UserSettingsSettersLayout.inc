@@ -1,12 +1,11 @@
 void
 UserSettings::setFontSize(double size)
 {
-    constexpr double kDefaultFontSizePt = 13.0;
-    constexpr double kMinFontSizePt    = 6.0;
-    constexpr double kMaxFontSizePt    = 64.0;
+    constexpr double kMinFontSizePt = 6.0;
+    constexpr double kMaxFontSizePt = 64.0;
 
     if (!std::isfinite(size) || size < kMinFontSizePt || size > kMaxFontSizePt)
-        size = kDefaultFontSizePt;
+        size = settings::core::definitions::kDefaultFontSizePt;
 
     if (size == baseFontSize_)
         return;

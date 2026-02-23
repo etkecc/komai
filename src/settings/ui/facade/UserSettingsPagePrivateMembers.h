@@ -51,7 +51,7 @@ int maxTimelineWidth_;
 int roomListWidth_      = settings::core::definitions::kDefaultSidebarsRoomListWidthPx;
 int communityListWidth_ = settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx;
 double scaleFactor_     = -1.0;
-double baseFontSize_    = 13.0;
+double baseFontSize_    = settings::core::definitions::kDefaultFontSizePt;
 QString font_;
 QString emojiFont_;
 Presence presence_;

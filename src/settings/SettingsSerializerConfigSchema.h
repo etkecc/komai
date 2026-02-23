@@ -10,6 +10,7 @@
 #include <QString>
 
 #include "SettingKeys.h"
+#include "settings/core/SettingsDefinitions.h"
 
 class UserSettings;
 
@@ -76,15 +77,22 @@ doubleConfigSettings();
 std::span<const StringSettingDescriptor>
 stringConfigSettings();
 
-constexpr bool kDefaultUiMotionAnimationsEnabled  = true;
-constexpr bool kDefaultInputEnableTextSelection   = true;
-constexpr double kDefaultScaleFactor              = -1.0;
-constexpr double kDefaultFontSizePt               = 13.0;
-constexpr int kDefaultScreenShareFrameRate        = 5;
-constexpr int kDefaultPrivacyScreenTimeoutSeconds = 0;
-constexpr int kDefaultTimelineMaxWidthPx          = 0;
-constexpr int kDefaultMaxDbs                      = 0;
-constexpr qulonglong kDefaultMaxDbSizeBytes       = 0;
-constexpr uint kDefaultDbusApiAccess              = 0;
+inline constexpr bool kDefaultUiMotionAnimationsEnabled =
+  settings::core::definitions::kDefaultUiMotionAnimationsEnabled;
+inline constexpr bool kDefaultInputEnableTextSelection =
+  settings::core::definitions::kDefaultInputEnableTextSelection;
+inline constexpr double kDefaultScaleFactor = settings::core::definitions::kDefaultScaleFactor;
+inline constexpr double kDefaultFontSizePt  = settings::core::definitions::kDefaultFontSizePt;
+inline constexpr int kDefaultScreenShareFrameRate =
+  settings::core::definitions::kDefaultScreenShareFrameRate;
+inline constexpr int kDefaultPrivacyScreenTimeoutSeconds =
+  settings::core::definitions::kDefaultPrivacyScreenTimeoutSeconds;
+inline constexpr int kDefaultTimelineMaxWidthPx =
+  settings::core::definitions::kDefaultTimelineMaxWidthPx;
+inline constexpr uint kDefaultMaxDbs = settings::core::definitions::kDefaultMaxDbs;
+inline constexpr qulonglong kDefaultMaxDbSizeBytes =
+  settings::core::definitions::kDefaultMaxDbSizeBytes;
+inline constexpr uint kDefaultDbusApiAccess =
+  settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
 
 } // namespace settings::serializer::config

@@ -14,8 +14,18 @@
 
 namespace settings::core::definitions {
 
-inline constexpr int kDefaultSidebarsRoomListWidthPx    = 300;
-inline constexpr int kDefaultSidebarsCommunitiesWidthPx = 200;
+inline constexpr int kDefaultSidebarsRoomListWidthPx       = 300;
+inline constexpr int kDefaultSidebarsCommunitiesWidthPx    = 200;
+inline constexpr bool kDefaultUiMotionAnimationsEnabled    = true;
+inline constexpr bool kDefaultInputEnableTextSelection     = true;
+inline constexpr double kDefaultScaleFactor                = -1.0;
+inline constexpr double kDefaultFontSizePt                 = 13.0;
+inline constexpr int kDefaultScreenShareFrameRate          = 5;
+inline constexpr int kDefaultPrivacyScreenTimeoutSeconds   = 0;
+inline constexpr int kDefaultTimelineMaxWidthPx            = 0;
+inline constexpr unsigned int kDefaultMaxDbs               = 0;
+inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
+inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
 
 inline constexpr std::array<SettingDefinition, 58> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},

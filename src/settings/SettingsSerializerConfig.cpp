@@ -203,7 +203,7 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
     if (settings::core::isScaleFactorInRange(scaleFactor))
         settings.setScaleFactor(scaleFactor);
     else
-        settings.setScaleFactor(-1.0);
+        settings.setScaleFactor(cfg::kDefaultScaleFactor);
 }
 
 void

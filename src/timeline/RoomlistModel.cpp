@@ -558,7 +558,7 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
         if (auto idx = roomidToIndex(qroomid); idx != -1)
             emit dataChanged(index(idx), index(idx), {Roles::AvatarUrl});
 
-        if (ChatPage::instance()->userSettings()->typingNotificationsEnabled()) {
+        if (ChatPage::instance()->userSettings()->showTypingNotificationsEnabled()) {
             for (const auto &ev : room.ephemeral.events) {
                 if (auto t =
                       std::get_if<mtx::events::EphemeralEvent<mtx::events::ephemeral::Typing>>(

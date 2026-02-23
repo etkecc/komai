@@ -49,15 +49,18 @@ timeline:
     image_display: always
     open_images_external: false
     open_videos_external: false
+  typing:
+    show_enabled: true
+  read_receipts:
+    enabled: true
 
 composer:
   input:
     markdown_enabled: true
     send_key: enter
     auto_replace_emoji: always
-  feedback:
-    typing_notifications: true
-    read_receipts: true
+  typing:
+    send_enabled: true
   extras:
     stickers_enabled: false
 

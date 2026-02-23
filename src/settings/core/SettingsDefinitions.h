@@ -35,7 +35,7 @@ inline constexpr unsigned int kDefaultMaxStores                 = 0;
 inline constexpr unsigned long long kDefaultMaxDbSizeBytes      = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
 
-inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{{
+inline constexpr std::array<SettingDefinition, 65> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},
   {SettingId::UiFontFamily, SettingScope::Config, SettingKey::UiFontFamily, false},
   {SettingId::UiFontSizePt, SettingScope::Config, SettingKey::UiFontSizePt, false},
@@ -156,13 +156,9 @@ inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{
    true,
    0,
    2},
-  {SettingId::ComposerFeedbackTypingNotifications,
+  {SettingId::ComposerTypingSendEnabled,
    SettingScope::Config,
-   SettingKey::ComposerFeedbackTypingNotifications,
-   false},
-  {SettingId::ComposerFeedbackReadReceipts,
-   SettingScope::Config,
-   SettingKey::ComposerFeedbackReadReceipts,
+   SettingKey::ComposerTypingSendEnabled,
    false},
   {SettingId::ComposerExtrasStickersEnabled,
    SettingScope::Config,
@@ -254,6 +250,14 @@ inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{
   {SettingId::TimelineMessagesHoverHighlight,
    SettingScope::Config,
    SettingKey::TimelineMessagesHoverHighlight,
+   false},
+  {SettingId::TimelineTypingShowEnabled,
+   SettingScope::Config,
+   SettingKey::TimelineTypingShowEnabled,
+   false},
+  {SettingId::TimelineReadReceiptsEnabled,
+   SettingScope::Config,
+   SettingKey::TimelineReadReceiptsEnabled,
    false},
   {SettingId::TimelineMessageActionsActivationPolicy,
    SettingScope::Config,

@@ -260,13 +260,22 @@ UserSettings::animateImagesOnHover() const
     return animateImagesOnHover_;
 }
 bool
-UserSettings::typingNotificationsEnabled() const
+UserSettings::sendTypingNotificationsEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerFeedbackTypingNotifications);
+          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerTypingSendEnabled);
         value.has_value())
         return *value;
-    return typingNotificationsEnabled_;
+    return sendTypingNotificationsEnabled_;
+}
+bool
+UserSettings::showTypingNotificationsEnabled() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineTypingShowEnabled);
+        value.has_value())
+        return *value;
+    return showTypingNotificationsEnabled_;
 }
 UserSettings::RoomSortOrder
 UserSettings::roomSortOrder() const
@@ -310,7 +319,7 @@ bool
 UserSettings::readReceiptsEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerFeedbackReadReceipts);
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineReadReceiptsEnabled);
         value.has_value())
         return *value;
     return readReceiptsEnabled_;

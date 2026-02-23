@@ -8,6 +8,8 @@
     CONNECT_SETTING_ID(TimelineMessagesMaxWidthPx, maxTimelineWidthChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesEmojiOnlyEnlarge, enlargeEmojiOnlyMessagesChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesHoverHighlight, messageHoverHighlightChanged, Value);
+    CONNECT_SETTING_ID(TimelineTypingShowEnabled, showTypingNotificationsEnabledChanged, Value);
+    CONNECT_SETTING_ID(TimelineReadReceiptsEnabled, readReceiptsEnabledChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessageActionsActivationPolicy, timelineMessageActionsPolicyChanged, Value);
     CONNECT_SETTING_ID(TimelineMessageActionsPinnedReactions, pinnedReactionsChanged, Value);

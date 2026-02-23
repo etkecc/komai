@@ -21,7 +21,8 @@ bool timelineShowOwnAvatarInBubbleLayout_;
 QString pinnedReactions_;
 ShowSenderUsername showSenderUsername_;
 bool animateImagesOnHover_;
-bool typingNotificationsEnabled_;
+bool sendTypingNotificationsEnabled_;
+bool showTypingNotificationsEnabled_;
 RoomSortOrder roomSortOrder_;
 TimelineMessageActionsPolicy timelineMessageActionsPolicy_ =
   TimelineMessageActionsPolicy::ActionsButton;

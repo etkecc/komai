@@ -26,7 +26,8 @@
     ShowSenderUsername showSenderUsername() const;
     int showSenderUsernameLargeRoomThreshold() const;
     bool animateImagesOnHover() const;
-    bool typingNotificationsEnabled() const;
+    bool sendTypingNotificationsEnabled() const;
+    bool showTypingNotificationsEnabled() const;
     RoomSortOrder roomSortOrder() const;
     TimelineMessageActionsPolicy timelineMessageActionsPolicy() const;
     bool touchInputModeEnabled() const;

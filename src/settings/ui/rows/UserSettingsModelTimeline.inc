@@ -45,6 +45,19 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Highlight message on hover",
                         QT_TR_NOOP("Change the background color of messages when you hover over them."),
                         SM::TabTimeline, messageHoverHighlight, setMessageHoverHighlight, nullptr, TimelineMessagesHoverHighlight, SettingKey::TimelineMessagesHoverHighlight),
+    // TimelineFeedbackSection
+    { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabTimeline,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // TimelineTypingShowEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Show when others are typing",
+      QT_TR_NOOP("Show typing indicators from other room members."),
+      SM::TabTimeline, showTypingNotificationsEnabled, setShowTypingNotificationsEnabled, nullptr, TimelineTypingShowEnabled, SettingKey::TimelineTypingShowEnabled),
+    // TimelineReadReceiptsEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Read receipts",
+      QT_TR_NOOP("Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read."),
+      SM::TabTimeline, readReceiptsEnabled, setReadReceiptsEnabled, nullptr, TimelineReadReceiptsEnabled, SettingKey::TimelineReadReceiptsEnabled),
     // TimelineMessageActionsActivationPolicy
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Actions activation policy",

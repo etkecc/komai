@@ -15,7 +15,7 @@ namespace settings::serializer::config {
 
 namespace {
 
-const std::array<BoolSettingDescriptor, 37> BoolSettings{
+const std::array<BoolSettingDescriptor, 38> BoolSettings{
   BoolSettingDescriptor{SettingKey::IntegrationsSystemTrayEnabled,
                         false,
                         &UserSettings::systemTrayEnabled,
@@ -52,11 +52,15 @@ const std::array<BoolSettingDescriptor, 37> BoolSettings{
                         false,
                         &UserSettings::animateImagesOnHover,
                         &UserSettings::setAnimateImagesOnHover},
-  BoolSettingDescriptor{SettingKey::ComposerFeedbackTypingNotifications,
+  BoolSettingDescriptor{SettingKey::ComposerTypingSendEnabled,
                         true,
-                        &UserSettings::typingNotificationsEnabled,
-                        &UserSettings::setTypingNotificationsEnabled},
-  BoolSettingDescriptor{SettingKey::ComposerFeedbackReadReceipts,
+                        &UserSettings::sendTypingNotificationsEnabled,
+                        &UserSettings::setSendTypingNotificationsEnabled},
+  BoolSettingDescriptor{SettingKey::TimelineTypingShowEnabled,
+                        true,
+                        &UserSettings::showTypingNotificationsEnabled,
+                        &UserSettings::setShowTypingNotificationsEnabled},
+  BoolSettingDescriptor{SettingKey::TimelineReadReceiptsEnabled,
                         true,
                         &UserSettings::readReceiptsEnabled,
                         &UserSettings::setReadReceiptsEnabled},

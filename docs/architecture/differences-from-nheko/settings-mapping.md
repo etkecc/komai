@@ -65,9 +65,10 @@ Note:
 | Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::MarkdownEnabled` | `markdown` | `composer.input.markdown_enabled` | config.yml | yes |
 | Composer | INPUT | Send key | `UserSettingsModel::SendMessageKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
 | Composer | INPUT | Auto-replace emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
-| Composer | FEEDBACK | Typing notifications | `UserSettingsModel::TypingNotificationsEnabled` | `typing_notifications` | `composer.feedback.typing_notifications` | config.yml | yes |
-| Composer | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceiptsEnabled` | `read_receipts` | `composer.feedback.read_receipts` | config.yml | yes |
+| Composer | INPUT | Show others I am typing | `UserSettingsModel::SendTypingNotificationsEnabled` | `typing_notifications` | `composer.typing.send_enabled` | config.yml | yes |
 | Composer | EXTRAS | Enable stickers | `UserSettingsModel::StickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
+| Timeline | FEEDBACK | Show when others are typing | `UserSettingsModel::ShowTypingNotificationsEnabled` | `typing_notifications` | `timeline.typing.show_enabled` | config.yml | yes |
+| Timeline | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Enable system notifications | `UserSettingsModel::NotificationsEnabled` | `desktop_notifications` | `notifications.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `UserSettingsModel::NotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `notifications.attention_on_incoming` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Message content in notifications | `UserSettingsModel::NotificationMessageContentPolicy` | `decrypt_notifications` | `notifications.message_content_policy` | config.yml | yes |

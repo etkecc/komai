@@ -117,18 +117,28 @@ UserSettings::setReadReceiptsEnabled(bool s)
     if (readReceiptsEnabled_ == s)
         return;
     readReceiptsEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::ComposerFeedbackReadReceipts, s);
+    (void)coreStore_.set(settings::core::SettingId::TimelineReadReceiptsEnabled, s);
     emit readReceiptsEnabledChanged(s);
     save();
 }
 void
-UserSettings::setTypingNotificationsEnabled(bool s)
+UserSettings::setSendTypingNotificationsEnabled(bool s)
 {
-    if (typingNotificationsEnabled_ == s)
+    if (sendTypingNotificationsEnabled_ == s)
         return;
-    typingNotificationsEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::ComposerFeedbackTypingNotifications, s);
-    emit typingNotificationsEnabledChanged(s);
+    sendTypingNotificationsEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerTypingSendEnabled, s);
+    emit sendTypingNotificationsEnabledChanged(s);
+    save();
+}
+void
+UserSettings::setShowTypingNotificationsEnabled(bool s)
+{
+    if (showTypingNotificationsEnabled_ == s)
+        return;
+    showTypingNotificationsEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineTypingShowEnabled, s);
+    emit showTypingNotificationsEnabledChanged(s);
     save();
 }
 void

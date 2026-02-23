@@ -28,19 +28,11 @@
       nullptr,
       ComposerInputAutoReplaceEmoji,
       SettingKey::ComposerInputAutoReplaceEmoji),
-    // ComposerFeedbackSection
-    { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // TypingNotifications
+    // ComposerTypingSendEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Typing notifications",
-      QT_TR_NOOP("Show who is typing in a room and send your typing status to others."),
-      SM::TabComposer, typingNotificationsEnabled, setTypingNotificationsEnabled, nullptr, ComposerFeedbackTypingNotifications, SettingKey::ComposerFeedbackTypingNotifications),
-    // ReadReceipts
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Read receipts",
-      QT_TR_NOOP("Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read."),
-      SM::TabComposer, readReceiptsEnabled, setReadReceiptsEnabled, nullptr, ComposerFeedbackReadReceipts, SettingKey::ComposerFeedbackReadReceipts),
+      "Show others I am typing",
+      QT_TR_NOOP("Send your typing status to other room members while you type."),
+      SM::TabComposer, sendTypingNotificationsEnabled, setSendTypingNotificationsEnabled, nullptr, ComposerTypingSendEnabled, SettingKey::ComposerTypingSendEnabled),
     // ComposerExtrasSection
     { QT_TR_NOOP("Extras"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

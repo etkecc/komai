@@ -75,8 +75,10 @@ class UserSettings final : public QObject
       int showSenderUsernameLargeRoomThreshold READ showSenderUsernameLargeRoomThreshold CONSTANT)
     Q_PROPERTY(bool animateImagesOnHover READ animateImagesOnHover WRITE setAnimateImagesOnHover
                  NOTIFY animateImagesOnHoverChanged)
-    Q_PROPERTY(bool typingNotificationsEnabled READ typingNotificationsEnabled WRITE
-                 setTypingNotificationsEnabled NOTIFY typingNotificationsEnabledChanged)
+    Q_PROPERTY(bool sendTypingNotificationsEnabled READ sendTypingNotificationsEnabled WRITE
+                 setSendTypingNotificationsEnabled NOTIFY sendTypingNotificationsEnabledChanged)
+    Q_PROPERTY(bool showTypingNotificationsEnabled READ showTypingNotificationsEnabled WRITE
+                 setShowTypingNotificationsEnabled NOTIFY showTypingNotificationsEnabledChanged)
     Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
                  roomSortOrderChanged)
     Q_PROPERTY(
@@ -332,7 +334,8 @@ public:
     void setShowSenderUsername(ShowSenderUsername state);
     void setAnimateImagesOnHover(bool state);
     void setReadReceiptsEnabled(bool state);
-    void setTypingNotificationsEnabled(bool state);
+    void setSendTypingNotificationsEnabled(bool state);
+    void setShowTypingNotificationsEnabled(bool state);
     void setRoomSortOrder(RoomSortOrder order);
     void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
     void setMaxTimelineWidth(int state);
@@ -451,7 +454,8 @@ signals:
     void pinnedReactionsChanged(const QString &value);
     void showSenderUsernameChanged(ShowSenderUsername state);
     void animateImagesOnHoverChanged(bool state);
-    void typingNotificationsEnabledChanged(bool state);
+    void sendTypingNotificationsEnabledChanged(bool state);
+    void showTypingNotificationsEnabledChanged(bool state);
     void timelineMessageActionsPolicyChanged(TimelineMessageActionsPolicy policy);
     void readReceiptsEnabledChanged(bool state);
     void notificationsEnabledChanged(bool state);

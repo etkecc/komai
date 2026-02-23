@@ -43,4 +43,7 @@ settingsTableRowCount();
 int
 rowForSettingId(settings::core::SettingId id);
 
+int
+rowForPersistedKey(const char *key);
+
 } // namespace settings::ui

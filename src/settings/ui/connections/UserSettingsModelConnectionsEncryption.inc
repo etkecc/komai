@@ -1,7 +1,9 @@
     // Encryption
-    CONNECT_SETTING(OnlyShareKeysWithVerifiedUsers, onlyShareKeysWithVerifiedUsersChanged, Value);
-    CONNECT_SETTING(ShareKeysWithTrustedUsers, shareKeysWithTrustedUsersChanged, Value);
-    CONNECT_SETTING(UseOnlineKeyBackup, useOnlineKeyBackupChanged, Value);
+    CONNECT_SETTING_KEY(
+      SettingKey::EncryptionKeySharingOnlyVerifiedUsers, onlyShareKeysWithVerifiedUsersChanged, Value);
+    CONNECT_SETTING_KEY(
+      SettingKey::EncryptionKeySharingShareWithTrusted, shareKeysWithTrustedUsersChanged, Value);
+    CONNECT_SETTING_KEY(SettingKey::EncryptionBackupOnlineEnabled, useOnlineKeyBackupChanged, Value);
 
     // Cross-signing secrets (from MainWindow, not UserSettings)
     connect(MainWindow::instance(), &MainWindow::secretsChanged, this, [this]() {

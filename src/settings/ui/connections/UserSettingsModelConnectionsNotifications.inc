@@ -1,4 +1,6 @@
     // Notifications
-    CONNECT_SETTING(DesktopNotifications, desktopNotificationsChanged, Value);
-    CONNECT_SETTING(AlertOnIncomingMessages, alertOnIncomingMessagesChanged, Value);
-    CONNECT_SETTING(DecryptNotifications, decryptNotificationsChanged, Value);
+    CONNECT_SETTING_KEY(SettingKey::NotificationsDesktopEnabled, desktopNotificationsChanged, Value);
+    CONNECT_SETTING_KEY(
+      SettingKey::NotificationsDesktopAlertOnIncoming, alertOnIncomingMessagesChanged, Value);
+    CONNECT_SETTING_KEY(
+      SettingKey::NotificationsDesktopDecryptMessages, decryptNotificationsChanged, Value);

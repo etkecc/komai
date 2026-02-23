@@ -1,8 +1,9 @@
     // Calls
-    CONNECT_SETTING(EnableLegacyCalls, enableLegacyCallsChanged, Value);
-    CONNECT_SETTING(UseFallbackCallRelayServer, useFallbackCallRelayServerChanged, Value);
-    CONNECT_SETTING(Microphone, microphoneChanged, Value, Values);
-    CONNECT_SETTING(Camera, cameraChanged, Value, Values);
-    CONNECT_SETTING(CameraResolution, cameraResolutionChanged, Value, Values);
-    CONNECT_SETTING(CameraFrameRate, cameraFrameRateChanged, Value, Values);
-    CONNECT_SETTING(Ringtone, ringtoneChanged, Values, Value);
+    CONNECT_SETTING_KEY(SettingKey::CallsLegacyEnabled, enableLegacyCallsChanged, Value);
+    CONNECT_SETTING_KEY(
+      SettingKey::CallsRelayUseFallbackServer, useFallbackCallRelayServerChanged, Value);
+    CONNECT_SETTING_KEY(SettingKey::CallsDevicesMicrophone, microphoneChanged, Value, Values);
+    CONNECT_SETTING_KEY(SettingKey::CallsDevicesCamera, cameraChanged, Value, Values);
+    CONNECT_SETTING_KEY(SettingKey::CallsDevicesCameraResolution, cameraResolutionChanged, Value, Values);
+    CONNECT_SETTING_KEY(SettingKey::CallsDevicesCameraFrameRate, cameraFrameRateChanged, Value, Values);
+    CONNECT_SETTING_KEY(SettingKey::CallsAudioRingtone, ringtoneChanged, Values, Value);

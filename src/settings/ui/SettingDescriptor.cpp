@@ -22,6 +22,7 @@
 #include <QTextStream>
 #include <array>
 #include <iterator>
+#include <string_view>
 #include <type_traits>
 
 #include "Cache.h"
@@ -380,6 +381,22 @@ rowForSettingId(settings::core::SettingId id)
 {
     for (int i = 0; i < settingsTableRowCount(); ++i) {
         if (settingsTable[i].core.id == id)
+            return i;
+    }
+    return -1;
+}
+
+int
+rowForPersistedKey(const char *key)
+{
+    if (!key)
+        return -1;
+
+    const std::string_view expected{key};
+    for (int i = 0; i < settingsTableRowCount(); ++i) {
+        if (!settingsTable[i].core.persistedKey)
+            continue;
+        if (std::string_view(settingsTable[i].core.persistedKey) == expected)
             return i;
     }
     return -1;

@@ -27,6 +27,7 @@
 #include "Utils.h"
 #include "config/nheko.h"
 #include "encryption/Olm.h"
+#include "settings/SettingKeys.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptor.h"
 
@@ -89,6 +90,7 @@ UserSettingsModel::modelForTab(int tab) const
 }
 
 using settings::ui::readSettingValue;
+using settings::ui::rowForPersistedKey;
 using settings::ui::rowForSettingId;
 using settings::ui::settingsTable;
 using settings::ui::settingsTableRowCount;
@@ -337,6 +339,13 @@ UserSettingsModel::UserSettingsModel(QObject *p)
         emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                                   \
     })
 
+#define CONNECT_SETTING_KEY(key, sig, ...)                                                         \
+    if (const int idx = rowForPersistedKey(key); idx >= 0) {                                       \
+        connect(s.get(), &UserSettings::sig, this, [this, idx]() {                                 \
+            emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                               \
+        });                                                                                        \
+    }
+
 #define CONNECT_SETTING_ID(id, sig, ...)                                                           \
     if (const int idx = rowForSettingId(settings::core::SettingId::id); idx >= 0) {                \
         connect(s.get(), &UserSettings::sig, this, [this, idx]() {                                 \
@@ -354,5 +363,6 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 #include "settings/ui/connections/UserSettingsModelConnectionsTimeline.inc"
 
 #undef CONNECT_SETTING
+#undef CONNECT_SETTING_KEY
 #undef CONNECT_SETTING_ID
 }

@@ -16,9 +16,10 @@
 #include <spdlog/sinks/null_sink.h>
 
 #include "UserSettingsPage.h"
+#include "settings/SettingDescriptor.h"
 #include "settings/SettingsSerializer.h"
-#include "settings/StartupSettings.h"
 #include "settings/SettingsStorage.h"
+#include "settings/StartupSettings.h"
 #include "settings/core/StartupConfig.h"
 #include "ui/ThemeRegistry.h"
 
@@ -336,6 +337,26 @@ testSerializerLoggerInjection()
     return nullLoggerWrite && injectedLoggerWrite && noSessionFileWithoutToken;
 }
 
+bool
+testSettingDescriptorReadSettingValueHelper()
+{
+    int parsedInt = 0;
+    QString parsedString;
+
+    const bool intOk = expect(settings::descriptor::readSettingValue(QVariant{42}, parsedInt) &&
+                                parsedInt == 42,
+                              "settings descriptor helper reads int values");
+    const bool strOk =
+      expect(settings::descriptor::readSettingValue(QVariant{QStringLiteral("abc")}, parsedString) &&
+               parsedString == QStringLiteral("abc"),
+             "settings descriptor helper reads QString values");
+    const bool rejectBadType = expect(
+      !settings::descriptor::readSettingValue(QVariant{QVariantList{}}, parsedInt),
+      "settings descriptor helper rejects incompatible types");
+
+    return intOk && strOk && rejectBadType;
+}
+
 } // namespace
 
 int
@@ -356,6 +377,7 @@ main()
     ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
     ok &= testSerializerLoggerInjection();
+    ok &= testSettingDescriptorReadSettingValueHelper();
 
     return ok ? 0 : 1;
 }

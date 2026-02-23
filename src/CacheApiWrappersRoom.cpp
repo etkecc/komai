@@ -40,36 +40,36 @@ getStateEventsWithType(const std::string &room_id, mtx::events::EventType type)
     return cacheInstance()->getStateEventsWithType<T>(room_id, type);
 }
 
-#define NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(Content)                                            \
+#define KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(Content)                                            \
     template std::optional<mtx::events::StateEvent<Content>> getStateEvent<Content>(               \
       const std::string &room_id, std::string_view state_key);                                     \
     template std::vector<mtx::events::StateEvent<Content>> getStateEventsWithType<Content>(        \
       const std::string &room_id, mtx::events::EventType type);
 
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Aliases)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Avatar)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::CanonicalAlias)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Create)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Encryption)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::GuestAccess)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::HistoryVisibility)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::JoinRules)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Member)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Name)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::PinnedEvents)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::PowerLevels)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Tombstone)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::ServerAcl)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Topic)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Widget)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::policy_rule::UserRule)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::policy_rule::RoomRule)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::policy_rule::ServerRule)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::space::Child)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::space::Parent)
-NHEKO_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::msc2545::ImagePack)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Aliases)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Avatar)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::CanonicalAlias)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Create)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Encryption)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::GuestAccess)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::HistoryVisibility)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::JoinRules)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Member)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Name)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::PinnedEvents)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::PowerLevels)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Tombstone)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::ServerAcl)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Topic)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Widget)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::policy_rule::UserRule)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::policy_rule::RoomRule)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::policy_rule::ServerRule)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::space::Child)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::space::Parent)
+KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::msc2545::ImagePack)
 
-#undef NHEKO_CACHE_GET_STATE_EVENT_DEFINITION
+#undef KOMAI_CACHE_GET_STATE_EVENT_DEFINITION
 
 void
 saveState(const mtx::responses::Sync &res)

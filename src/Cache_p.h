@@ -499,7 +499,7 @@ private:
     std::unique_ptr<CacheDb> db;
 };
 
-#define NHEKO_CACHE_GET_STATE_EVENT_FORWARD(Content)                                               \
+#define KOMAI_CACHE_GET_STATE_EVENT_FORWARD(Content)                                               \
     extern template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>( \
       const std::string &room_id, std::string_view state_key);                                     \
                                                                                                    \
@@ -507,7 +507,7 @@ private:
     Cache::getStateEventsWithType<Content>(const std::string &room_id,                             \
                                            mtx::events::EventType type);
 
-#define NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(Content)                                           \
+#define KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(Content)                                           \
     extern template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>( \
       db::Transaction & txn, const std::string &room_id, std::string_view state_key);              \
                                                                                                    \
@@ -515,48 +515,48 @@ private:
     Cache::getStateEventsWithType<Content>(                                                        \
       db::Transaction & txn, const std::string &room_id, mtx::events::EventType type);
 
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Aliases)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Avatar)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::CanonicalAlias)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Create)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Encryption)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::GuestAccess)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::HistoryVisibility)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::JoinRules)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Member)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Name)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::PinnedEvents)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::PowerLevels)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Tombstone)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::ServerAcl)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Topic)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Widget)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::policy_rule::UserRule)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::policy_rule::RoomRule)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::policy_rule::ServerRule)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::space::Child)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::space::Parent)
-NHEKO_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::msc2545::ImagePack)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Aliases)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Avatar)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::CanonicalAlias)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Create)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Encryption)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::GuestAccess)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::HistoryVisibility)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::JoinRules)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Member)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Name)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::PinnedEvents)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::PowerLevels)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Tombstone)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::ServerAcl)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Topic)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Widget)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::policy_rule::UserRule)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::policy_rule::RoomRule)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::policy_rule::ServerRule)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::space::Child)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::space::Parent)
+KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::msc2545::ImagePack)
 
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::msc2545::ImagePack)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Aliases)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Avatar)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::CanonicalAlias)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Create)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Encryption)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::GuestAccess)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::HistoryVisibility)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::JoinRules)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Member)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Name)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::PinnedEvents)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::PowerLevels)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Tombstone)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::ServerAcl)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Topic)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Widget)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::UserRule)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::RoomRule)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::ServerRule)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::space::Child)
-NHEKO_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::space::Parent)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::msc2545::ImagePack)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Aliases)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Avatar)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::CanonicalAlias)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Create)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Encryption)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::GuestAccess)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::HistoryVisibility)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::JoinRules)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Member)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Name)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::PinnedEvents)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::PowerLevels)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Tombstone)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::ServerAcl)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Topic)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::Widget)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::UserRule)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::RoomRule)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::policy_rule::ServerRule)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::space::Child)
+KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(mtx::events::state::space::Parent)

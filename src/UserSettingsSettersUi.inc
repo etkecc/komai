@@ -16,12 +16,22 @@ UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s)
 void
 UserSettings::setBubbles(bool s)
 {
-    setSetting(bubbles_, s, &UserSettings::bubblesChanged);
+    if (bubbles_ == s)
+        return;
+    bubbles_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutBubbles, s);
+    emit bubblesChanged(s);
+    save();
 }
 void
 UserSettings::setSmallAvatars(bool s)
 {
-    setSetting(smallAvatars_, s, &UserSettings::smallAvatarsChanged);
+    if (smallAvatars_ == s)
+        return;
+    smallAvatars_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars, s);
+    emit smallAvatarsChanged(s);
+    save();
 }
 void
 UserSettings::setEnableStickers(bool s)
@@ -31,22 +41,44 @@ UserSettings::setEnableStickers(bool s)
 void
 UserSettings::setShowOwnAvatarInBubbleLayout(bool s)
 {
-    setSetting(showOwnAvatarInBubbleLayout_, s, &UserSettings::showOwnAvatarInBubbleLayoutChanged);
+    if (showOwnAvatarInBubbleLayout_ == s)
+        return;
+    showOwnAvatarInBubbleLayout_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar, s);
+    emit showOwnAvatarInBubbleLayoutChanged(s);
+    save();
 }
 void
 UserSettings::setPinnedReactions(QString s)
 {
-    setSetting(pinnedReactions_, s, &UserSettings::pinnedReactionsChanged);
+    if (pinnedReactions_ == s)
+        return;
+    pinnedReactions_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessageActionsPinnedReactions,
+                         s.toStdString());
+    emit pinnedReactionsChanged(s);
+    save();
 }
 void
 UserSettings::setShowSenderUsername(ShowSenderUsername s)
 {
-    setSetting(showSenderUsername_, s, &UserSettings::showSenderUsernameChanged);
+    if (showSenderUsername_ == s)
+        return;
+    showSenderUsername_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesSenderUsername,
+                         static_cast<int>(s));
+    emit showSenderUsernameChanged(s);
+    save();
 }
 void
 UserSettings::setAnimateImagesOnHover(bool s)
 {
-    setSetting(animateImagesOnHover_, s, &UserSettings::animateImagesOnHoverChanged);
+    if (animateImagesOnHover_ == s)
+        return;
+    animateImagesOnHover_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaAnimateOnHover, s);
+    emit animateImagesOnHoverChanged(s);
+    save();
 }
 void
 UserSettings::setReadReceipts(bool s)
@@ -61,17 +93,32 @@ UserSettings::setTypingNotifications(bool s)
 void
 UserSettings::setRoomSortOrder(RoomSortOrder s)
 {
-    setSetting(roomSortOrder_, s, &UserSettings::roomSortOrderChanged);
+    if (roomSortOrder_ == s)
+        return;
+    roomSortOrder_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListSort, static_cast<int>(s));
+    emit roomSortOrderChanged(s);
+    save();
 }
 void
 UserSettings::setShowActionButtons(bool s)
 {
-    setSetting(showActionButtons_, s, &UserSettings::showActionButtonsChanged);
+    if (showActionButtons_ == s)
+        return;
+    showActionButtons_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessageActionsEnabled, s);
+    emit showActionButtonsChanged(s);
+    save();
 }
 void
 UserSettings::setMaxTimelineWidth(int s)
 {
-    setSetting(maxTimelineWidth_, s, &UserSettings::maxTimelineWidthChanged);
+    if (maxTimelineWidth_ == s)
+        return;
+    maxTimelineWidth_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesMaxWidthPx, s);
+    emit maxTimelineWidthChanged(s);
+    save();
 }
 void
 UserSettings::setCommunityListWidth(int s)
@@ -111,28 +158,53 @@ UserSettings::setDecryptNotifications(bool s)
 void
 UserSettings::setShowCommunityNotificationCounts(bool s)
 {
-    setSetting(
-      showCommunityNotificationCounts_, s, &UserSettings::showCommunityNotificationCountsChanged);
+    if (showCommunityNotificationCounts_ == s)
+        return;
+    showCommunityNotificationCounts_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts, s);
+    emit showCommunityNotificationCountsChanged(s);
+    save();
 }
 void
 UserSettings::setCompactRoomList(bool s)
 {
-    setSetting(compactRoomList_, s, &UserSettings::compactRoomListChanged);
+    if (compactRoomList_ == s)
+        return;
+    compactRoomList_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListCompact, s);
+    emit compactRoomListChanged(s);
+    save();
 }
 void
 UserSettings::setShowRoomListTime(bool s)
 {
-    setSetting(showRoomListTime_, s, &UserSettings::showRoomListTimeChanged);
+    if (showRoomListTime_ == s)
+        return;
+    showRoomListTime_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime, s);
+    emit showRoomListTimeChanged(s);
+    save();
 }
 void
 UserSettings::setShowLastMessagePreview(LastMessagePreview s)
 {
-    setSetting(showLastMessagePreview_, s, &UserSettings::showLastMessagePreviewChanged);
+    if (showLastMessagePreview_ == s)
+        return;
+    showLastMessagePreview_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
+                         static_cast<int>(s));
+    emit showLastMessagePreviewChanged(s);
+    save();
 }
 void
 UserSettings::setFancyEffects(bool s)
 {
-    setSetting(fancyEffects_, s, &UserSettings::fancyEffectsChanged);
+    if (fancyEffects_ == s)
+        return;
+    fancyEffects_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaEffectsEnabled, s);
+    emit fancyEffectsChanged(s);
+    save();
 }
 
 void

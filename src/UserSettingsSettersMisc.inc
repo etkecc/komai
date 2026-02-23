@@ -123,10 +123,20 @@ UserSettings::setUseIdenticon(bool s)
 void
 UserSettings::setOpenImagesInExternalApp(bool s)
 {
-    setSetting(openImagesInExternalApp_, s, &UserSettings::openImagesInExternalAppChanged);
+    if (openImagesInExternalApp_ == s)
+        return;
+    openImagesInExternalApp_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaOpenImagesExternal, s);
+    emit openImagesInExternalAppChanged(s);
+    save();
 }
 void
 UserSettings::setOpenVideosInExternalApp(bool s)
 {
-    setSetting(openVideosInExternalApp_, s, &UserSettings::openVideosInExternalAppChanged);
+    if (openVideosInExternalApp_ == s)
+        return;
+    openVideosInExternalApp_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaOpenVideosExternal, s);
+    emit openVideosInExternalAppChanged(s);
+    save();
 }

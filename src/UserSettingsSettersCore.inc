@@ -12,12 +12,22 @@ UserSettings::setSetting(T &member, const T &value, Signal signal)
 void
 UserSettings::setMessageHoverHighlight(bool s)
 {
-    setSetting(messageHoverHighlight_, s, &UserSettings::messageHoverHighlightChanged);
+    if (messageHoverHighlight_ == s)
+        return;
+    messageHoverHighlight_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesHoverHighlight, s);
+    emit messageHoverHighlightChanged(s);
+    save();
 }
 void
 UserSettings::setEnlargeEmojiOnlyMessages(bool s)
 {
-    setSetting(enlargeEmojiOnlyMessages_, s, &UserSettings::enlargeEmojiOnlyMessagesChanged);
+    if (enlargeEmojiOnlyMessages_ == s)
+        return;
+    enlargeEmojiOnlyMessages_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge, s);
+    emit enlargeEmojiOnlyMessagesChanged(s);
+    save();
 }
 void
 UserSettings::setTray(bool s)
@@ -52,12 +62,22 @@ UserSettings::setEnableSwipeGestures(bool s)
 void
 UserSettings::setShowCommunitiesSidebar(bool s)
 {
-    setSetting(showCommunitiesSidebar_, s, &UserSettings::showCommunitiesSidebarChanged);
+    if (showCommunitiesSidebar_ == s)
+        return;
+    showCommunitiesSidebar_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesVisible, s);
+    emit showCommunitiesSidebarChanged(s);
+    save();
 }
 void
 UserSettings::setScrollbarsInRoomlist(bool s)
 {
-    setSetting(scrollbarsInRoomlist_, s, &UserSettings::scrollbarsInRoomlistChanged);
+    if (scrollbarsInRoomlist_ == s)
+        return;
+    scrollbarsInRoomlist_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled, s);
+    emit scrollbarsInRoomlistChanged(s);
+    save();
 }
 
 void

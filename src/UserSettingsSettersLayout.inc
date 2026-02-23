@@ -94,5 +94,11 @@ UserSettings::setPresence(Presence s)
 void
 UserSettings::setShowImage(ShowImage s)
 {
-    setSetting(showImage_, s, &UserSettings::showImageChanged);
+    if (showImage_ == s)
+        return;
+    showImage_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaImageDisplay,
+                         static_cast<int>(s));
+    emit showImageChanged(s);
+    save();
 }

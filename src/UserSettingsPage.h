@@ -394,12 +394,40 @@ public:
             return QString::fromStdString(*value);
         return !theme_.isEmpty() ? theme_ : defaultTheme_;
     }
-    bool messageHoverHighlight() const { return messageHoverHighlight_; }
-    bool enlargeEmojiOnlyMessages() const { return enlargeEmojiOnlyMessages_; }
+    bool messageHoverHighlight() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesHoverHighlight);
+            value.has_value())
+            return *value;
+        return messageHoverHighlight_;
+    }
+    bool enlargeEmojiOnlyMessages() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge);
+            value.has_value())
+            return *value;
+        return enlargeEmojiOnlyMessages_;
+    }
     bool tray() const { return tray_; }
     bool startInTray() const { return startInTray_; }
-    bool showCommunitiesSidebar() const { return showCommunitiesSidebar_; }
-    bool scrollbarsInRoomlist() const { return scrollbarsInRoomlist_; }
+    bool showCommunitiesSidebar() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsCommunitiesVisible);
+            value.has_value())
+            return *value;
+        return showCommunitiesSidebar_;
+    }
+    bool scrollbarsInRoomlist() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::SidebarsRoomListScrollbarsEnabled);
+            value.has_value())
+            return *value;
+        return scrollbarsInRoomlist_;
+    }
     bool useCircularAvatars() const
     {
         if (const auto value =
@@ -409,11 +437,47 @@ public:
         return useCircularAvatars_;
     }
     bool decryptNotifications() const { return decryptNotifications_; }
-    bool showCommunityNotificationCounts() const { return showCommunityNotificationCounts_; }
-    bool compactRoomList() const { return compactRoomList_; }
-    bool showRoomListTime() const { return showRoomListTime_; }
-    LastMessagePreview showLastMessagePreview() const { return showLastMessagePreview_; }
-    bool fancyEffects() const { return fancyEffects_; }
+    bool showCommunityNotificationCounts() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::SidebarsRoomListShowCommunityCounts);
+            value.has_value())
+            return *value;
+        return showCommunityNotificationCounts_;
+    }
+    bool compactRoomList() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListCompact);
+            value.has_value())
+            return *value;
+        return compactRoomList_;
+    }
+    bool showRoomListTime() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::SidebarsRoomListShowLastMessageTime);
+            value.has_value())
+            return *value;
+        return showRoomListTime_;
+    }
+    LastMessagePreview showLastMessagePreview() const
+    {
+        if (const auto value = coreStore_.valueAs<int>(
+              settings::core::SettingId::SidebarsRoomListLastMessagePreview);
+            value.has_value() && *value >= static_cast<int>(LastMessagePreview::Always) &&
+            *value <= static_cast<int>(LastMessagePreview::Never))
+            return static_cast<LastMessagePreview>(*value);
+        return showLastMessagePreview_;
+    }
+    bool fancyEffects() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMediaEffectsEnabled);
+            value.has_value())
+            return *value;
+        return fancyEffects_;
+    }
     bool reducedMotion() const
     {
         if (const auto value =
@@ -441,17 +505,75 @@ public:
     bool markdown() const { return markdown_; }
     SendMessageKey sendMessageKey() const { return sendMessageKey_; }
     AutoReplaceEmoji autoReplaceEmoji() const { return autoReplaceEmoji_; }
-    bool bubbles() const { return bubbles_; }
-    bool smallAvatars() const { return smallAvatars_; }
+    bool bubbles() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesLayoutBubbles);
+            value.has_value())
+            return *value;
+        return bubbles_;
+    }
+    bool smallAvatars() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::TimelineMessagesLayoutSmallAvatars);
+            value.has_value())
+            return *value;
+        return smallAvatars_;
+    }
     bool enableStickers() const { return enableStickers_; }
-    bool showOwnAvatarInBubbleLayout() const { return showOwnAvatarInBubbleLayout_; }
-    QString pinnedReactions() const { return pinnedReactions_; }
-    ShowSenderUsername showSenderUsername() const { return showSenderUsername_; }
+    bool showOwnAvatarInBubbleLayout() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar);
+            value.has_value())
+            return *value;
+        return showOwnAvatarInBubbleLayout_;
+    }
+    QString pinnedReactions() const
+    {
+        if (const auto value = coreStore_.valueAs<std::string>(
+              settings::core::SettingId::TimelineMessageActionsPinnedReactions);
+            value.has_value())
+            return QString::fromStdString(*value);
+        return pinnedReactions_;
+    }
+    ShowSenderUsername showSenderUsername() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesSenderUsername);
+            value.has_value() && *value >= static_cast<int>(ShowSenderUsername::Always) &&
+            *value <= static_cast<int>(ShowSenderUsername::Never))
+            return static_cast<ShowSenderUsername>(*value);
+        return showSenderUsername_;
+    }
     int showSenderUsernameLargeRoomThreshold() const { return 16; }
-    bool animateImagesOnHover() const { return animateImagesOnHover_; }
+    bool animateImagesOnHover() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMediaAnimateOnHover);
+            value.has_value())
+            return *value;
+        return animateImagesOnHover_;
+    }
     bool typingNotifications() const { return typingNotifications_; }
-    RoomSortOrder roomSortOrder() const { return roomSortOrder_; }
-    bool showActionButtons() const { return showActionButtons_; }
+    RoomSortOrder roomSortOrder() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<int>(settings::core::SettingId::SidebarsRoomListSort);
+            value.has_value() && *value >= static_cast<int>(RoomSortOrder::UnreadFirst_Recent) &&
+            *value <= static_cast<int>(RoomSortOrder::Alphabetical))
+            return static_cast<RoomSortOrder>(*value);
+        return roomSortOrder_;
+    }
+    bool showActionButtons() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessageActionsEnabled);
+            value.has_value())
+            return *value;
+        return showActionButtons_;
+    }
     bool mobileMode() const
     {
         if (const auto value =
@@ -472,7 +594,14 @@ public:
     bool hasDesktopNotifications() const { return hasDesktopNotifications_; }
     bool alertOnIncomingMessages() const { return alertOnIncomingMessages_; }
     bool hasNotifications() const { return hasDesktopNotifications() || alertOnIncomingMessages(); }
-    int maxTimelineWidth() const { return maxTimelineWidth_; }
+    int maxTimelineWidth() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesMaxWidthPx);
+            value.has_value())
+            return *value;
+        return maxTimelineWidth_;
+    }
     int communityListWidth() const { return communityListWidth_; }
     int roomListWidth() const { return roomListWidth_; }
     double scaleFactor() const { return scaleFactor_ > 0.0 ? scaleFactor_ : 1.0; }
@@ -509,7 +638,15 @@ public:
             return static_cast<Presence>(*value);
         return presence_;
     }
-    ShowImage showImage() const { return showImage_; }
+    ShowImage showImage() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<int>(settings::core::SettingId::TimelineMediaImageDisplay);
+            value.has_value() && *value >= static_cast<int>(ShowImage::Always) &&
+            *value <= static_cast<int>(ShowImage::Never))
+            return static_cast<ShowImage>(*value);
+        return showImage_;
+    }
     QString ringtone() const { return ringtone_; }
     QString microphone() const { return microphone_; }
     QString camera() const { return camera_; }
@@ -537,8 +674,22 @@ public:
     QStringList hiddenWidgets() const { return hiddenWidgets_; }
     QStringList recentReactions() const { return recentReactions_; }
     bool useIdenticon() const;
-    bool openImagesInExternalApp() const { return openImagesInExternalApp_; }
-    bool openVideosInExternalApp() const { return openVideosInExternalApp_; }
+    bool openImagesInExternalApp() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMediaOpenImagesExternal);
+            value.has_value())
+            return *value;
+        return openImagesInExternalApp_;
+    }
+    bool openVideosInExternalApp() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMediaOpenVideosExternal);
+            value.has_value())
+            return *value;
+        return openVideosInExternalApp_;
+    }
     QList<QStringList> collapsedSpaces() const { return collapsedSpaces_; }
     int integrationsDbusApiAccess() const { return integrationsDbusApiAccess_; }
     QString integrationsLinksBrowserCommand() const { return integrationsLinksBrowserCommand_; }

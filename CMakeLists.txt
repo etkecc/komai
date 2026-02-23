@@ -632,13 +632,13 @@ set(SRC_FILES
     src/SingleImagePackModel.h
     src/TrayIcon.cpp
     src/TrayIcon.h
-    src/UserSettingsModel.cpp
-    src/UserSettingsPersistence.cpp
+    src/settings/ui/UserSettingsModel.cpp
+    src/settings/ui/facade/UserSettingsPersistence.cpp
     src/UserSettingsPage.cpp
     src/UserSettingsPage.h
-    src/UserSettingsSetters.cpp
-    src/UserSettingsSessionSettings.cpp
-    src/UserSettingsTheme.cpp
+    src/settings/ui/facade/UserSettingsSetters.cpp
+    src/settings/ui/facade/UserSettingsSessionSettings.cpp
+    src/settings/ui/facade/UserSettingsTheme.cpp
     src/UsersModel.cpp
     src/UsersModel.h
     src/Utils.cpp
@@ -1035,10 +1035,10 @@ if(BUILD_TESTING)
         tests/LoggingStub.cpp
         src/Paths.cpp
         src/UserSettingsPage.cpp
-        src/UserSettingsPersistence.cpp
-        src/UserSettingsSessionSettings.cpp
-        src/UserSettingsSetters.cpp
-        src/UserSettingsTheme.cpp
+        src/settings/ui/facade/UserSettingsPersistence.cpp
+        src/settings/ui/facade/UserSettingsSessionSettings.cpp
+        src/settings/ui/facade/UserSettingsSetters.cpp
+        src/settings/ui/facade/UserSettingsTheme.cpp
         src/ui/Theme.cpp
         src/ui/ThemeRegistry.cpp
         src/settings/StartupSettings.cpp

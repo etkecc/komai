@@ -343,15 +343,15 @@ testSettingDescriptorReadSettingValueHelper()
     int parsedInt = 0;
     QString parsedString;
 
-    const bool intOk = expect(settings::descriptor::readSettingValue(QVariant{42}, parsedInt) &&
+    const bool intOk = expect(settings::ui::readSettingValue(QVariant{42}, parsedInt) &&
                                 parsedInt == 42,
                               "settings descriptor helper reads int values");
     const bool strOk =
-      expect(settings::descriptor::readSettingValue(QVariant{QStringLiteral("abc")}, parsedString) &&
+      expect(settings::ui::readSettingValue(QVariant{QStringLiteral("abc")}, parsedString) &&
                parsedString == QStringLiteral("abc"),
              "settings descriptor helper reads QString values");
     const bool rejectBadType = expect(
-      !settings::descriptor::readSettingValue(QVariant{QVariantList{}}, parsedInt),
+      !settings::ui::readSettingValue(QVariant{QVariantList{}}, parsedInt),
       "settings descriptor helper rejects incompatible types");
 
     return intOk && strOk && rejectBadType;

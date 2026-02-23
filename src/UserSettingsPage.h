@@ -918,15 +918,9 @@ public:
         Tab,
     };
 
-    static constexpr int kSettingRowCount = static_cast<int>(COUNT);
-
     UserSettingsModel(QObject *parent = nullptr);
     QHash<int, QByteArray> roleNames() const override;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override
-    {
-        (void)parent;
-        return kSettingRowCount;
-    }
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 

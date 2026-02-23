@@ -9,7 +9,7 @@
 
 #include "UserSettingsPage.h"
 
-namespace settings::descriptor {
+namespace settings::core {
 
 enum class SettingScope
 {
@@ -19,6 +19,23 @@ enum class SettingScope
     Session,
     Secrets,
 };
+
+enum class SettingId
+{
+    Unknown,
+};
+
+struct SettingDefinition
+{
+    SettingId id             = SettingId::Unknown;
+    SettingScope scope       = SettingScope::Runtime;
+    const char *persistedKey = nullptr;
+    bool requiresRestart     = false;
+};
+
+} // namespace settings::core
+
+namespace settings::ui {
 
 struct SettingMeta
 {
@@ -31,9 +48,7 @@ struct SettingMeta
     QVariant lowerBound, upperBound, step;
     QVariant (*getValues)(); // for Options type (nullptr if N/A)
     bool (*isEnabled)();     // nullptr = always enabled
-    SettingScope scope       = SettingScope::Runtime;
-    const char *persistedKey = nullptr;
-    bool requiresRestart     = false;
+    settings::core::SettingDefinition core{};
 };
 
 template<typename T>
@@ -49,6 +64,9 @@ readSettingValue(const QVariant &value, T &out)
 const char *
 sectionTitleForRow(int row);
 
-extern const SettingMeta settingsTable[UserSettingsModel::kSettingRowCount];
+extern const SettingMeta settingsTable[];
 
-} // namespace settings::descriptor
+int
+settingsTableRowCount();
+
+} // namespace settings::ui

@@ -21,6 +21,7 @@
 #include <QStringList>
 #include <QTextStream>
 #include <array>
+#include <iterator>
 #include <type_traits>
 
 #include "Cache.h"
@@ -36,7 +37,7 @@
 #include "ui/ThemeRegistry.h"
 #include "voip/CallDevices.h"
 
-namespace settings::descriptor {
+namespace settings::ui {
 
 struct SectionDescriptor
 {
@@ -358,10 +359,16 @@ const SettingMeta settingsTable[] = {
 };
 // clang-format on
 
-static_assert(std::size(settingsTable) == UserSettingsModel::kSettingRowCount,
+static_assert(std::size(settingsTable) == UserSettingsModel::COUNT,
               "settingsTable size must match the number of visible settings indices");
+
+int
+settingsTableRowCount()
+{
+    return static_cast<int>(std::size(settingsTable));
+}
 
 #undef I
 #undef SM
 
-} // namespace settings::descriptor
+} // namespace settings::ui

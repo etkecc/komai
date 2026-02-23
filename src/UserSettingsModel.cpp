@@ -66,6 +66,13 @@ UserSettingsModel::roleNames() const
     return roles;
 }
 
+int
+UserSettingsModel::rowCount(const QModelIndex &parent) const
+{
+    (void)parent;
+    return settings::ui::settingsTableRowCount();
+}
+
 QObject *
 UserSettingsModel::modelForTab(int tab) const
 {
@@ -82,14 +89,15 @@ UserSettingsModel::modelForTab(int tab) const
     return proxyModel;
 }
 
-using settings::descriptor::readSettingValue;
-using settings::descriptor::sectionTitleForRow;
-using settings::descriptor::settingsTable;
+using settings::ui::readSettingValue;
+using settings::ui::sectionTitleForRow;
+using settings::ui::settingsTable;
+using settings::ui::settingsTableRowCount;
 
 QVariant
 UserSettingsModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() >= UserSettingsModel::kSettingRowCount)
+    if (index.row() >= settingsTableRowCount())
         return {};
 
     auto i = UserSettings::instance();
@@ -172,7 +180,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
 bool
 UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.row() >= UserSettingsModel::kSettingRowCount)
+    if (index.row() >= settingsTableRowCount())
         return false;
 
     auto i = UserSettings::instance();

@@ -32,6 +32,12 @@ UserSettingsModel::roleNames() const
     };
 }
 
+int
+UserSettingsModel::rowCount(const QModelIndex &) const
+{
+    return 0;
+}
+
 QVariant
 UserSettingsModel::data(const QModelIndex &, int) const
 {

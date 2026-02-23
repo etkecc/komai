@@ -265,7 +265,7 @@ inline constexpr std::array<SettingDefinition, 65> kPersistedSettingDefinitions{
    false,
    true,
    0,
-   3},
+   2},
   {SettingId::TimelineMessageActionsPinnedReactions,
    SettingScope::Config,
    SettingKey::TimelineMessageActionsPinnedReactions,

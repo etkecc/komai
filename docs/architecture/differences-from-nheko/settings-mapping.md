@@ -50,7 +50,7 @@ Note:
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures_enabled` | config.yml | yes |
 | Timeline | PRESENTATION | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
 | Timeline | PRESENTATION | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
-| Timeline | PRESENTATION | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
+| Timeline | PRESENTATION | Show avatar next to own message bubbles | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
 | Timeline | PRESENTATION | Show sender username above messages | `UserSettingsModel::ShowSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
 | Timeline | PRESENTATION | Maximum timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
 | Timeline | PRESENTATION | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |

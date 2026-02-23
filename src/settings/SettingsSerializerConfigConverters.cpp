@@ -207,8 +207,6 @@ toStorageValue(UserSettings::TimelineMessageActionsPolicy value)
         return QStringLiteral("on_message_hover");
     case UserSettings::TimelineMessageActionsPolicy::ActionsButton:
         return QStringLiteral("on_button_click");
-    case UserSettings::TimelineMessageActionsPolicy::OnLongPress:
-        return QStringLiteral("on_message_long_press");
     case UserSettings::TimelineMessageActionsPolicy::Never:
         return QStringLiteral("never");
     }
@@ -223,8 +221,6 @@ timelineMessageActionsPolicyFromStorage(const QString &value,
         return UserSettings::TimelineMessageActionsPolicy::OnHover;
     if (value == QLatin1String("on_button_click"))
         return UserSettings::TimelineMessageActionsPolicy::ActionsButton;
-    if (value == QLatin1String("on_message_long_press"))
-        return UserSettings::TimelineMessageActionsPolicy::OnLongPress;
     if (value == QLatin1String("never"))
         return UserSettings::TimelineMessageActionsPolicy::Never;
     return fallback;

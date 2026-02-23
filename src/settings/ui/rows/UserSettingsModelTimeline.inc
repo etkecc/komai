@@ -69,7 +69,7 @@
     // TimelineMessageActionsActivationPolicy
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Actions activation policy",
-      QT_TR_NOOP("Choose how message actions are opened. Currently, 'On message hover' and 'On message long press' behave like 'On button click'."),
+      QT_TR_NOOP("Choose how message actions are opened."),
       SM::TabTimeline, timelineMessageActionsPolicy, setTimelineMessageActionsPolicy, UserSettings::TimelineMessageActionsPolicy,
       timelineMessageActionsPolicyValues,
       nullptr,

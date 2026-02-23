@@ -261,7 +261,6 @@ public:
     {
         OnHover,
         ActionsButton,
-        OnLongPress,
         Never,
     };
     Q_ENUM(TimelineMessageActionsPolicy)

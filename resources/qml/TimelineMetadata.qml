@@ -101,7 +101,7 @@ RowLayout {
         highlightColor: palette.highlight
         changeColorOnHover: true
         image: ":/icons/icons/ui/plus-circle.svg"
-        visible: Settings.timelineMessageActionsPolicy !== Settings.TimelineMessageActionsPolicy.Never
+        visible: Settings.timelineMessageActionsPolicy === Settings.TimelineMessageActionsPolicy.ActionsButton
 
         onClicked: metadata.actionToggled()
     }

@@ -59,6 +59,39 @@ TimelineEvent {
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - metadata.width
 
+    function openMessageActions(pin, anchorItem) {
+        if (!anchorItem)
+            return;
+
+        hoverDismissTimer.stop();
+        messageActions.model = wrapper;
+        messageActions.attached = wrapper;
+        messageActions.pinned = pin;
+
+        var pos = anchorItem.mapToItem(chat.contentItem, 0, 0);
+        var barW = messageActions.implicitWidth;
+
+        // Y: bar opens upward from anchor top
+        messageActions.y = pos.y - messageActions.implicitHeight;
+
+        var leftBound = wrapper.x + Nheko.paddingLarge;
+        var rightBound = wrapper.x + wrapper.width - Nheko.paddingLarge;
+        var minX = leftBound;
+        var maxX = rightBound - barW;
+        if (maxX < minX) {
+            minX = wrapper.x;
+            maxX = wrapper.x + wrapper.width - barW;
+        }
+        if (pin) {
+            // X (button mode): center on anchor, clamped to delegate bounds
+            var centerX = pos.x + anchorItem.width / 2 - barW / 2;
+            messageActions.x = Math.max(minX, Math.min(centerX, maxX));
+        } else {
+            // X (hover mode): align to message side
+            messageActions.x = wrapper.isSender ? maxX : minX;
+        }
+    }
+
     data: [
         Loader {
             id: section
@@ -189,6 +222,32 @@ TimelineEvent {
             HoverHandler {
                 id: messageHover
                 blocking: false
+                onHoveredChanged: {
+                    if (Settings.timelineMessageActionsPolicy !== Settings.TimelineMessageActionsPolicy.OnHover)
+                        return;
+
+                    if (hovered) {
+                        hoverDismissTimer.stop();
+                        wrapper.openMessageActions(false, wrapper.main);
+                    } else if (messageActions.attached === wrapper && !messageActions.pinned) {
+                        hoverDismissTimer.restart();
+                    }
+                }
+            }
+
+            Timer {
+                id: hoverDismissTimer
+                interval: 180
+                repeat: false
+                onTriggered: {
+                    if (Settings.timelineMessageActionsPolicy !== Settings.TimelineMessageActionsPolicy.OnHover)
+                        return;
+                    if (messageActions.attached !== wrapper || messageActions.pinned)
+                        return;
+                    if (messageHover.hovered || messageActions.hovered)
+                        return;
+                    messageActions.dismiss();
+                }
             }
 
             AbstractButton {
@@ -371,23 +430,7 @@ TimelineEvent {
                 if (messageActions.pinned && messageActions.attached === wrapper) {
                     messageActions.dismiss();
                 } else {
-                    messageActions.model = wrapper;
-                    messageActions.attached = wrapper;
-                    messageActions.pinned = true;
-
-                    // Map toggle button position to chat.contentItem coords
-                    var btn = metadata.actionToggleButton;
-                    var pos = btn.mapToItem(chat.contentItem, 0, 0);
-                    var barW = messageActions.implicitWidth;
-
-                    // Y: bar opens upward — bottom edge at toggle top
-                    messageActions.y = pos.y - messageActions.implicitHeight;
-
-                    // X: center on toggle button, clamped to delegate bounds
-                    var centerX = pos.x + btn.width / 2 - barW / 2;
-                    var leftBound = wrapper.x;
-                    var rightBound = wrapper.x + wrapper.width;
-                    messageActions.x = Math.max(leftBound, Math.min(centerX, rightBound - barW));
+                    wrapper.openMessageActions(true, metadata.actionToggleButton);
                 }
             }
         },

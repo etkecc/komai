@@ -197,7 +197,7 @@ Item {
 
             hoverEnabled: true
             padding: Nheko.paddingMedium
-            visible: Settings.timelineMessageActionsPolicy !== Settings.TimelineMessageActionsPolicy.Never && pinned && !!attached
+            visible: Settings.timelineMessageActionsPolicy !== Settings.TimelineMessageActionsPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsPolicy === Settings.TimelineMessageActionsPolicy.OnHover)
             z: 10
             parent: chat.contentItem
             // No anchors — x/y set imperatively by the message styles

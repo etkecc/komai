@@ -59,7 +59,6 @@ timelineMessageActionsPolicyValues()
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "On message hover")
            << QCoreApplication::translate("UserSettingsModel", "On button click")
-           << QCoreApplication::translate("UserSettingsModel", "On message long press")
            << QCoreApplication::translate("UserSettingsModel", "Never");
     return values;
 }

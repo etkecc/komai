@@ -27,7 +27,7 @@
           return ThemeRegistry::instance().themeNames(variant);
       },
       nullptr,
-      CORE_CONFIG(SettingKey::UiThemeSlug) },
+      CORE_CONFIG_ID(UiThemeSlug, SettingKey::UiThemeSlug) },
     // LookFeelFontsSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

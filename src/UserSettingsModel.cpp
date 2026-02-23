@@ -18,7 +18,6 @@
 #include <QString>
 #include <QTextStream>
 #include <array>
-#include <string_view>
 #include <type_traits>
 
 #include "Cache.h"
@@ -28,7 +27,6 @@
 #include "Utils.h"
 #include "config/nheko.h"
 #include "encryption/Olm.h"
-#include "settings/SettingKeys.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptor.h"
 
@@ -97,9 +95,9 @@ using settings::ui::settingsTableRowCount;
 
 namespace {
 bool
-hasPersistedKey(const settings::ui::SettingMeta &meta, std::string_view key)
+hasSettingId(const settings::ui::SettingMeta &meta, settings::core::SettingId id)
 {
-    return meta.core.persistedKey && std::string_view(meta.core.persistedKey) == key;
+    return meta.core.id == id;
 }
 } // namespace
 
@@ -126,7 +124,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         if (!m.description)
             return QVariant{};
 
-        if (hasPersistedKey(m, SettingKey::NetworkPresenceStatusPolicy)) {
+        if (hasSettingId(m, settings::core::SettingId::NetworkPresenceStatusPolicy)) {
             return tr(m.description)
               .arg(QStringLiteral("https://spec.matrix.org/v1.17/client-server-api/#presence"));
         }
@@ -165,7 +163,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         }
         break;
     case ThemeVariantValue:
-        if (hasPersistedKey(m, SettingKey::UiThemeSlug)) {
+        if (hasSettingId(m, settings::core::SettingId::UiThemeSlug)) {
             auto variant = ThemeRegistry::instance().themeVariant(i->theme());
             if (variant == u"light")
                 return 0;
@@ -175,7 +173,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         }
         return -1;
     case ThemeVariantValues:
-        if (hasPersistedKey(m, SettingKey::UiThemeSlug))
+        if (hasSettingId(m, settings::core::SettingId::UiThemeSlug))
             return QStringList{
               QStringLiteral("Light"), QStringLiteral("Dark"), QStringLiteral("System")};
         return QStringList{};
@@ -199,7 +197,7 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         return m.setValue ? m.setValue(value) : false;
     } else if (role == ThemeVariantValue) {
         const auto &m = settingsTable[index.row()];
-        if (hasPersistedKey(m, SettingKey::UiThemeSlug)) {
+        if (hasSettingId(m, settings::core::SettingId::UiThemeSlug)) {
             int variantIdx = 0;
             if (!readSettingValue(value, variantIdx))
                 return false;

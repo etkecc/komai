@@ -19,6 +19,8 @@ enum class SettingScope
 enum class SettingId
 {
     Unknown,
+    UiThemeSlug,
+    NetworkPresenceStatusPolicy,
 };
 
 struct SettingDefinition

@@ -4,14 +4,14 @@
     { nullptr, nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableLegacyCalls
-    SIMPLE_BOOL_SETTING(
+    SIMPLE_BOOL_CONFIG_SETTING(
       "Enable legacy calls",
       QT_TR_NOOP("Show the call button in the message composer. This uses the old VoIP calling feature which may not work reliably. Element Call support is expected in a future release."),
-      SM::TabCalls, enableLegacyCalls, setEnableLegacyCalls, nullptr),
+      SM::TabCalls, enableLegacyCalls, setEnableLegacyCalls, nullptr, SettingKey::CallsLegacyEnabled),
     // UseFallbackCallRelayServer
-    SIMPLE_BOOL_SETTING("Use fallback call relay server",
+    SIMPLE_BOOL_CONFIG_SETTING("Use fallback call relay server",
                         QT_TR_NOOP("Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one."),
-                        SM::TabCalls, useFallbackCallRelayServer, setUseFallbackCallRelayServer, nullptr),
+                        SM::TabCalls, useFallbackCallRelayServer, setUseFallbackCallRelayServer, nullptr, SettingKey::CallsRelayUseFallbackServer),
     // CallsDevicesSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -34,7 +34,8 @@
       []() -> QVariant {
           return vecToList(CallDevices::instance().names(false, I->microphone().toStdString()));
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::CallsDevicesMicrophone) },
     // Camera
     { QT_TR_NOOP("Camera"), nullptr, SM::Options, SM::TabCalls,
       []() -> QVariant {
@@ -52,7 +53,8 @@
       []() -> QVariant {
           return vecToList(CallDevices::instance().names(true, I->camera().toStdString()));
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::CallsDevicesCamera) },
     // CameraResolution
     { QT_TR_NOOP("Camera resolution"), nullptr, SM::Options, SM::TabCalls,
       []() -> QVariant {
@@ -70,7 +72,8 @@
       []() -> QVariant {
           return vecToList(CallDevices::instance().resolutions(I->camera().toStdString()));
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::CallsDevicesCameraResolution) },
     // CameraFrameRate
     { QT_TR_NOOP("Camera frame rate"), nullptr, SM::Options, SM::TabCalls,
       []() -> QVariant {
@@ -91,7 +94,8 @@
           return vecToList(CallDevices::instance().frameRates(
             I->camera().toStdString(), I->cameraResolution().toStdString()));
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::CallsDevicesCameraFrameRate) },
     // Ringtone
     { QT_TR_NOOP("Ringtone"), nullptr, SM::Options, SM::TabCalls,
       []() -> QVariant {
@@ -126,4 +130,5 @@
           if (!l.contains(I->ringtone())) l.push_back(I->ringtone());
           return l;
       },
-      nullptr },
+      nullptr,
+      CORE_CONFIG(SettingKey::CallsAudioRingtone) },

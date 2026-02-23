@@ -236,14 +236,16 @@ setSettingEnumValue(const QVariant &value)
       i.get(), static_cast<Enum>(rawValue), std::is_void<SetEnumResult<Set, Enum>>{});
 }
 
-#define CORE_SETTING(scope, key, restart)                                                          \
+#define CORE_SETTING_WITH_ID(id, scope, key, restart)                                              \
     settings::core::SettingDefinition                                                              \
     {                                                                                              \
-        settings::core::SettingId::Unknown, settings::core::SettingScope::scope, key, restart      \
+        settings::core::SettingId::id, settings::core::SettingScope::scope, key, restart           \
     }
 
+#define CORE_SETTING(scope, key, restart) CORE_SETTING_WITH_ID(Unknown, scope, key, restart)
 #define CORE_CONFIG(key) CORE_SETTING(Config, key, false)
 #define CORE_CONFIG_RESTART(key) CORE_SETTING(Config, key, true)
+#define CORE_CONFIG_ID(id, key) CORE_SETTING_WITH_ID(id, Config, key, false)
 
 #define SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)            \
     {QT_TR_NOOP(name),                                                                             \

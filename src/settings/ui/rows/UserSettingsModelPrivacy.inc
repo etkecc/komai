@@ -52,7 +52,7 @@
           };
       },
       nullptr,
-      CORE_CONFIG(SettingKey::NetworkPresenceStatusPolicy) },
+      CORE_CONFIG_ID(NetworkPresenceStatusPolicy, SettingKey::NetworkPresenceStatusPolicy) },
     // PresenceStatusMessage
     { QT_TR_NOOP("Status message"),
       nullptr,

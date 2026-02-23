@@ -18,8 +18,8 @@
 #include "settings/YamlSettings.h"
 #include "settings/core/SettingDefinition.h"
 #include "settings/core/SettingsConstraints.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/core/SettingsSerializer.h"
-#include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include <string>
 #include <string_view>
@@ -199,23 +199,21 @@ syncCoreStoreFromPersistence(UserSettings &settings,
     syncCoreStoreFromSettings(settings);
 
     auto &store = settings.mutableCoreStore();
-    for (int row = 0; row < settings::ui::settingsTableRowCount(); ++row) {
-        const auto &meta = settings::ui::settingsTable[row];
-        const auto &core = meta.core;
-        if (core.id == settings::core::SettingId::Unknown || !core.persistedKey)
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (definition.id == settings::core::SettingId::Unknown || !definition.persistedKey)
             continue;
 
-        const auto *root = rootNodeForScope(core.scope, configRoot, stateRoot, sessionRoot);
+        const auto *root = rootNodeForScope(definition.scope, configRoot, stateRoot, sessionRoot);
         if (!root)
             continue;
 
-        const auto defaultValue = store.value(core.id);
+        const auto defaultValue = store.value(definition.id);
         if (!defaultValue.has_value())
             continue;
 
-        const auto node = yaml_settings::getNode(*root, core.persistedKey);
+        const auto node = yaml_settings::getNode(*root, definition.persistedKey);
         (void)settings::core::serializer::setFromYamlNodeOrDefault(
-          store, core.id, node, *defaultValue);
+          store, definition.id, node, *defaultValue);
     }
 }
 
@@ -226,19 +224,17 @@ syncConfigYamlFromCoreStore(const QString &configFilePath,
     YAML::Node configRoot = loadYamlFile(configFilePath, "config");
     bool changed          = false;
 
-    for (int row = 0; row < settings::ui::settingsTableRowCount(); ++row) {
-        const auto &meta = settings::ui::settingsTable[row];
-        const auto &core = meta.core;
-        if (core.id == settings::core::SettingId::Unknown || !core.persistedKey ||
-            core.scope != settings::core::SettingScope::Config)
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (definition.id == settings::core::SettingId::Unknown || !definition.persistedKey ||
+            definition.scope != settings::core::SettingScope::Config)
             continue;
 
-        const auto value = store.value(core.id);
+        const auto value = store.value(definition.id);
         if (!value.has_value())
             continue;
 
         yaml_settings::setNode(
-          configRoot, core.persistedKey, settings::core::serializer::toYamlNode(*value));
+          configRoot, definition.persistedKey, settings::core::serializer::toYamlNode(*value));
         changed = true;
     }
 

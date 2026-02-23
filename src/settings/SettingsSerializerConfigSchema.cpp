@@ -170,7 +170,7 @@ const std::array<BoolSettingDescriptor, 38> BoolSettings{
                         &UserSettings::setExpireEvents},
 };
 
-const std::array<IntSettingDescriptor, 4> IntSettings{
+const std::array<IntSettingDescriptor, 3> IntSettings{
   IntSettingDescriptor{SettingKey::TimelineMessagesMaxWidthPx,
                        kDefaultTimelineMaxWidthPx,
                        &UserSettings::maxTimelineWidth,
@@ -183,10 +183,6 @@ const std::array<IntSettingDescriptor, 4> IntSettings{
                        kDefaultScreenShareFrameRate,
                        &UserSettings::screenShareFrameRate,
                        &UserSettings::setScreenShareFrameRate},
-  IntSettingDescriptor{SettingKey::IntegrationsDbusApiAccess,
-                       static_cast<int>(kDefaultDbusApiAccess),
-                       &UserSettings::integrationsDbusApiAccess,
-                       &UserSettings::setIntegrationsDbusApiAccess},
 };
 
 const std::array<UintSettingDescriptor, 1> UintSettings{

@@ -35,6 +35,26 @@ inline constexpr unsigned int kDefaultMaxStores                 = 0;
 inline constexpr unsigned long long kDefaultMaxDbSizeBytes      = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
 
+inline constexpr std::array<SettingId, 11> kEnumTokenConfigSettingIds{{
+  SettingId::SidebarsRoomListLastMessagePreview,
+  SettingId::SidebarsRoomListSort,
+  SettingId::NetworkPresenceStatusPolicy,
+  SettingId::IntegrationsDbusApiAccess,
+  SettingId::ComposerInputSendKey,
+  SettingId::ComposerInputAutoReplaceEmoji,
+  SettingId::NotificationsMessageContentPolicy,
+  SettingId::TimelineMessagesLayoutStyle,
+  SettingId::TimelineMessagesSenderUsername,
+  SettingId::TimelineMessageActionsActivationPolicy,
+  SettingId::TimelineMediaImageDisplay,
+}};
+
+inline constexpr std::array<SettingId, 3> kNumericConstrainedConfigSettingIds{{
+  SettingId::CallsScreenshareFrameRate,
+  SettingId::TimelineMessagesMaxWidthPx,
+  SettingId::PrivacyWindowFocusBlurDelaySeconds,
+}};
+
 inline constexpr std::array<SettingDefinition, 65> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},
   {SettingId::UiFontFamily, SettingScope::Config, SettingKey::UiFontFamily, false},
@@ -345,6 +365,60 @@ hasUniquePersistedDefinitionIds()
 
 static_assert(hasUniquePersistedDefinitionIds(),
               "settings::core::definitions has duplicate SettingId entries");
+
+[[nodiscard]] constexpr std::span<const SettingId>
+enumTokenConfigSettingIds()
+{
+    return kEnumTokenConfigSettingIds;
+}
+
+[[nodiscard]] constexpr bool
+isEnumTokenConfigSettingId(SettingId id)
+{
+    for (const auto candidate : kEnumTokenConfigSettingIds) {
+        if (candidate == id)
+            return true;
+    }
+    return false;
+}
+
+[[nodiscard]] constexpr bool
+isNumericConstrainedConfigSettingId(SettingId id)
+{
+    for (const auto candidate : kNumericConstrainedConfigSettingIds) {
+        if (candidate == id)
+            return true;
+    }
+    return false;
+}
+
+[[nodiscard]] constexpr bool
+hasCompleteConstrainedConfigClassification()
+{
+    for (const auto &definition : kPersistedSettingDefinitions) {
+        if (!definition.hasIntRangeConstraint || definition.scope != SettingScope::Config)
+            continue;
+
+        if (!isEnumTokenConfigSettingId(definition.id) &&
+            !isNumericConstrainedConfigSettingId(definition.id))
+            return false;
+    }
+
+    for (const auto id : kEnumTokenConfigSettingIds) {
+        if (!hasPersistedDefinition(id))
+            return false;
+    }
+
+    for (const auto id : kNumericConstrainedConfigSettingIds) {
+        if (!hasPersistedDefinition(id))
+            return false;
+    }
+
+    return true;
+}
+
+static_assert(hasCompleteConstrainedConfigClassification(),
+              "constrained config settings must be classified as enum-token or numeric");
 
 [[nodiscard]] constexpr int
 normalizeRoomListWidthPx(int value)

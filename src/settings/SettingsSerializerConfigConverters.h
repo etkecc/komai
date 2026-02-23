@@ -5,9 +5,24 @@
 
 #pragma once
 
+#include <span>
+
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "settings/core/SettingDefinition.h"
 
 namespace settings::serializer::config {
+
+struct EnumTokenAdapter
+{
+    settings::core::SettingId id;
+    const char *key;
+    const char *defaultToken;
+    QString (*toStorage)(const UserSettings &settings);
+    void (*applyFromStorage)(UserSettings &settings, const QString &rawToken);
+};
+
+std::span<const EnumTokenAdapter>
+enumTokenAdapters();
 
 QString
 toStorageValue(UserSettings::Presence value);
@@ -62,5 +77,10 @@ UserSettings::NotificationMessageContentPolicy
 notificationMessageContentPolicyFromStorage(
   const QString &value,
   UserSettings::NotificationMessageContentPolicy fallback);
+
+QString
+dbusAccessToStorage(int value);
+int
+dbusAccessFromStorage(const QString &value, int fallback);
 
 } // namespace settings::serializer::config

@@ -18,9 +18,11 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "settings/ui/SettingDescriptor.h"
+#include "settings/SettingKeys.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
+#include "settings/YamlSettings.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsCoreStoreBridge.h"
@@ -68,6 +70,27 @@ expect(bool condition, std::string_view message)
 
     std::cerr << "FAILED: " << message << '\n';
     return false;
+}
+
+bool
+expectScalarString(const YAML::Node &root,
+                   const char *dottedKey,
+                   const QString &expected,
+                   std::string_view message)
+{
+    const auto node = yaml_settings::getNode(root, dottedKey);
+    if (!node || !node.IsScalar()) {
+        std::cerr << "FAILED: " << message << " (missing scalar at '" << dottedKey << "')\n";
+        return false;
+    }
+
+    try {
+        return expect(QString::fromStdString(node.as<std::string>()) == expected, message);
+    } catch (...) {
+        std::cerr << "FAILED: " << message << " (unable to parse scalar at '" << dottedKey
+                  << "' as string)\n";
+        return false;
+    }
 }
 
 bool
@@ -283,6 +306,89 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
 }
 
 bool
+testEnumSettingsPersistAsStrings()
+{
+    const QString profile = QStringLiteral("enum-settings-string-persistence-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "enum persistence fixture config root can be created");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for enum persistence test");
+
+    settings->setPersistenceSuspended(false);
+    settings->setPresence(UserSettings::Presence::Offline);
+    settings->setShowImage(UserSettings::ShowImage::Never);
+    settings->setShowSenderUsername(UserSettings::ShowSenderUsername::Always);
+    settings->setAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
+    settings->setSendMessageKey(UserSettings::SendMessageKey::CtrlEnter);
+    settings->setRoomSortOrder(UserSettings::RoomSortOrder::Alphabetical);
+    settings->setShowLastMessagePreview(UserSettings::LastMessagePreview::Never);
+    settings->setTimelineMessageActionsPolicy(UserSettings::TimelineMessageActionsPolicy::OnHover);
+    settings->setTimelineMessageLayout(UserSettings::TimelineMessageLayout::Minimal);
+    settings->setNotificationMessageContentPolicy(
+      UserSettings::NotificationMessageContentPolicy::Never);
+    settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
+    settings->setTouchInputModeEnabled(true);
+    settings->save();
+
+    const auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "config");
+    bool ok               = true;
+    ok &= expectScalarString(configRoot,
+                             SettingKey::NetworkPresenceStatusPolicy,
+                             QStringLiteral("offline"),
+                             "presence policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::TimelineMediaImageDisplay,
+                             QStringLiteral("never"),
+                             "image display policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::TimelineMessagesSenderUsername,
+                             QStringLiteral("always"),
+                             "sender username policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::ComposerInputAutoReplaceEmoji,
+                             QStringLiteral("never"),
+                             "auto-replace emoji policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::ComposerInputSendKey,
+                             QStringLiteral("ctrl_enter"),
+                             "send key policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::SidebarsRoomListSort,
+                             QStringLiteral("alphabetical"),
+                             "room sort policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::SidebarsRoomListLastMessagePreview,
+                             QStringLiteral("never"),
+                             "last message preview policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::TimelineMessageActionsActivationPolicy,
+                             QStringLiteral("on_message_hover"),
+                             "message actions activation policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::TimelineMessagesLayoutStyle,
+                             QStringLiteral("minimal"),
+                             "timeline layout style is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::NotificationsMessageContentPolicy,
+                             QStringLiteral("never"),
+                             "notification message content policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::IntegrationsDbusApiAccess,
+                             QStringLiteral("read_only"),
+                             "D-Bus access policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::UiInputMode,
+                             QStringLiteral("touch"),
+                             "input mode is persisted as string token");
+
+    return ok;
+}
+
+bool
 testSerializerLoggerInjection()
 {
     const QString profile = QStringLiteral("serializer-logger-profile");
@@ -493,6 +599,7 @@ main()
     ok &= testCoreScaleRangeHelpers();
     ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
+    ok &= testEnumSettingsPersistAsStrings();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();

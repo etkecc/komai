@@ -63,7 +63,8 @@ composer:
   typing:
     send_enabled: true
   extras:
-    stickers_enabled: false
+    stickers:
+      enabled: false
 
 notifications:
   enabled: true
@@ -120,7 +121,7 @@ integrations:
     enabled: false
     autostart: false
   dbus:
-    expose_room_info: false
+    access: none
   # Optional command used when opening links from Komai.
   # Use %u for the URL placeholder. If omitted, the URL is appended automatically.
   browser:

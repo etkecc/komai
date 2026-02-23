@@ -96,7 +96,5 @@ inline constexpr int kDefaultTimelineMaxWidthPx =
 inline constexpr uint kDefaultMaxStores = settings::core::definitions::kDefaultMaxStores;
 inline constexpr qulonglong kDefaultMaxDbSizeBytes =
   settings::core::definitions::kDefaultMaxDbSizeBytes;
-inline constexpr uint kDefaultDbusApiAccess =
-  settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
 
 } // namespace settings::serializer::config

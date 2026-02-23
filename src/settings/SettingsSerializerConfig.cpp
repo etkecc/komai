@@ -86,7 +86,9 @@ toStorageUiInputMode(bool touchInputModeEnabled)
 bool
 fromStorageUiInputMode(const QString &value)
 {
-    return value.trimmed().compare(QLatin1String(kUiInputModeTouch), Qt::CaseInsensitive) == 0;
+    if (value.trimmed().compare(QLatin1String(kUiInputModeTouch), Qt::CaseInsensitive) == 0)
+        return true;
+    return false;
 }
 
 void
@@ -146,36 +148,8 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
     saveConfigByType(settings, root);
 
     setNode(root, SettingKey::UiThemeSlug, settings.theme().toStdString());
-    setNode(root,
-            SettingKey::SidebarsRoomListLastMessagePreview,
-            cfg::toStorageValue(settings.showLastMessagePreview()).toStdString());
-    setNode(root,
-            SettingKey::SidebarsRoomListSort,
-            cfg::toStorageValue(settings.roomSortOrder()).toStdString());
-    setNode(root,
-            SettingKey::TimelineMessagesSenderUsername,
-            cfg::toStorageValue(settings.showSenderUsername()).toStdString());
-    setNode(root,
-            SettingKey::TimelineMessagesLayoutStyle,
-            cfg::toStorageValue(settings.timelineMessageLayout()).toStdString());
-    setNode(root,
-            SettingKey::TimelineMediaImageDisplay,
-            cfg::toStorageValue(settings.showImage()).toStdString());
-    setNode(root,
-            SettingKey::TimelineMessageActionsActivationPolicy,
-            cfg::toStorageValue(settings.timelineMessageActionsPolicy()).toStdString());
-    setNode(root,
-            SettingKey::ComposerInputSendKey,
-            cfg::toStorageValue(settings.sendMessageKey()).toStdString());
-    setNode(root,
-            SettingKey::ComposerInputAutoReplaceEmoji,
-            cfg::toStorageValue(settings.autoReplaceEmoji()).toStdString());
-    setNode(root,
-            SettingKey::NetworkPresenceStatusPolicy,
-            cfg::toStorageValue(settings.presence()).toStdString());
-    setNode(root,
-            SettingKey::NotificationsMessageContentPolicy,
-            cfg::toStorageValue(settings.notificationMessageContentPolicy()).toStdString());
+    for (const auto &adapter : cfg::enumTokenAdapters())
+        setNode(root, adapter.key, adapter.toStorage(settings).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
     setNode(root,
             SettingKey::UiInputMode,
@@ -193,44 +167,10 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
     loadConfigByType(settings, root);
 
     settings.setTheme(readString(root, SettingKey::UiThemeSlug, settings.theme()));
-    settings.setSendMessageKey(cfg::sendMessageKeyFromStorage(
-      readString(root, SettingKey::ComposerInputSendKey, QStringLiteral("enter")),
-      UserSettings::SendMessageKey::Enter));
-    settings.setAutoReplaceEmoji(cfg::autoReplaceEmojiFromStorage(
-      readString(root, SettingKey::ComposerInputAutoReplaceEmoji, QStringLiteral("always")),
-      UserSettings::AutoReplaceEmoji::Always));
-    settings.setRoomSortOrder(cfg::roomSortOrderFromStorage(
-      readString(root, SettingKey::SidebarsRoomListSort, QStringLiteral("unread_first_recent")),
-      UserSettings::RoomSortOrder::UnreadFirst_Recent));
-    settings.setShowLastMessagePreview(cfg::lastMessagePreviewFromStorage(
-      readString(root, SettingKey::SidebarsRoomListLastMessagePreview, QStringLiteral("always")),
-      UserSettings::LastMessagePreview::Always));
-    settings.setShowImage(cfg::showImageFromStorage(
-      readString(root, SettingKey::TimelineMediaImageDisplay, QStringLiteral("always")),
-      UserSettings::ShowImage::Always));
-    settings.setTimelineMessageActionsPolicy(cfg::timelineMessageActionsPolicyFromStorage(
-      readString(root,
-                 SettingKey::TimelineMessageActionsActivationPolicy,
-                 QStringLiteral("on_button_click")),
-      UserSettings::TimelineMessageActionsPolicy::ActionsButton));
-    settings.setShowSenderUsername(cfg::showSenderUsernameFromStorage(
-      readString(
-        root, SettingKey::TimelineMessagesSenderUsername, QStringLiteral("only_in_large_rooms")),
-      UserSettings::ShowSenderUsername::OnlyInLargeRooms));
-    settings.setTimelineMessageLayout(cfg::timelineMessageLayoutFromStorage(
-      readString(root, SettingKey::TimelineMessagesLayoutStyle, QStringLiteral("bubbles")),
-      UserSettings::TimelineMessageLayout::Bubbles));
-    settings.setPresence(cfg::presenceFromStorage(
-      readString(
-        root, SettingKey::NetworkPresenceStatusPolicy, QStringLiteral("automatic_presence")),
-      UserSettings::Presence::AutomaticPresence));
-    settings.setNotificationMessageContentPolicy(cfg::notificationMessageContentPolicyFromStorage(
-      readString(
-        root, SettingKey::NotificationsMessageContentPolicy, QStringLiteral("whenever_available")),
-      UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
-    if (settings.integrationsDbusApiAccess() < IntegrationsDbusAccessNone ||
-        settings.integrationsDbusApiAccess() > IntegrationsDbusAccessReadWrite)
-        settings.setIntegrationsDbusApiAccess(IntegrationsDbusAccessNone);
+    for (const auto &adapter : cfg::enumTokenAdapters()) {
+        adapter.applyFromStorage(
+          settings, readString(root, adapter.key, QString::fromLatin1(adapter.defaultToken)));
+    }
 
     settings.setUiAnimationsEnabled(readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));

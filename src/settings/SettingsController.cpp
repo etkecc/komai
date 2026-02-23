@@ -133,31 +133,6 @@ syncCoreStoreFromPersistence(UserSettings &settings,
     }
 }
 
-void
-syncConfigYamlFromCoreStore(const QString &configFilePath,
-                            const settings::core::SettingsStore &store)
-{
-    YAML::Node configRoot = loadYamlFile(configFilePath, "config");
-    bool changed          = false;
-
-    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
-        if (definition.id == settings::core::SettingId::Unknown || !definition.persistedKey ||
-            definition.scope != settings::core::SettingScope::Config)
-            continue;
-
-        const auto value = store.value(definition.id);
-        if (!value.has_value())
-            continue;
-
-        yaml_settings::setNode(
-          configRoot, definition.persistedKey, settings::core::serializer::toYamlNode(*value));
-        changed = true;
-    }
-
-    if (changed)
-        writeYamlFile(configFilePath, configRoot, true);
-}
-
 } // namespace
 
 void
@@ -263,7 +238,6 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
     syncCoreStoreFromSettings(settings);
 
     settings::serializer::saveConfig(settings, settings.configFilePath());
-    syncConfigYamlFromCoreStore(settings.configFilePath(), settings.coreStore());
 
     if (policy == SavePolicy::Full) {
         settings::serializer::saveSession(settings, settings.sessionFilePath());

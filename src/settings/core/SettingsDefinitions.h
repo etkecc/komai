@@ -16,6 +16,8 @@ namespace settings::core::definitions {
 
 inline constexpr int kDefaultSidebarsRoomListWidthPx       = 300;
 inline constexpr int kDefaultSidebarsCommunitiesWidthPx    = 200;
+inline constexpr int kDefaultWindowWidthPx                 = 1050;
+inline constexpr int kDefaultWindowHeightPx                = 700;
 inline constexpr bool kDefaultUiMotionAnimationsEnabled    = true;
 inline constexpr bool kDefaultInputEnableTextSelection     = true;
 inline constexpr double kDefaultScaleFactor                = -1.0;
@@ -314,6 +316,18 @@ normalizeRoomListWidthPx(int value)
 normalizeCommunitiesWidthPx(int value)
 {
     return value > 0 ? value : kDefaultSidebarsCommunitiesWidthPx;
+}
+
+[[nodiscard]] constexpr int
+normalizeWindowWidthPx(int value)
+{
+    return value > 0 ? value : kDefaultWindowWidthPx;
+}
+
+[[nodiscard]] constexpr int
+normalizeWindowHeightPx(int value)
+{
+    return value > 0 ? value : kDefaultWindowHeightPx;
 }
 
 } // namespace settings::core::definitions

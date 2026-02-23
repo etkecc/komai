@@ -8,7 +8,6 @@
 #include <QString>
 #include <yaml-cpp/yaml.h>
 
-#include "Config.h"
 #include <spdlog/logger.h>
 
 #include "settings/SettingKeys.h"
@@ -40,13 +39,13 @@ loadState(UserSettings &settings, const YAML::Node &root)
                       SettingKey::SidebarsCommunitiesWidthPx,
                       settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx);
 
-    const auto windowWidth =
-      readScalar<int>(root, SettingKey::AppWindowSizeWidth, conf::window::width);
-    const auto windowHeight =
-      readScalar<int>(root, SettingKey::AppWindowSizeHeight, conf::window::height);
+    const auto windowWidth = readScalar<int>(
+      root, SettingKey::AppWindowSizeWidth, settings::core::definitions::kDefaultWindowWidthPx);
+    const auto windowHeight = readScalar<int>(
+      root, SettingKey::AppWindowSizeHeight, settings::core::definitions::kDefaultWindowHeightPx);
 
-    settings.setWindowWidth(windowWidth > 0 ? windowWidth : conf::window::width);
-    settings.setWindowHeight(windowHeight > 0 ? windowHeight : conf::window::height);
+    settings.setWindowWidth(settings::core::definitions::normalizeWindowWidthPx(windowWidth));
+    settings.setWindowHeight(settings::core::definitions::normalizeWindowHeightPx(windowHeight));
     settings.setRoomListWidth(settings::core::definitions::normalizeRoomListWidthPx(roomListWidth));
     settings.setCommunityListWidth(
       settings::core::definitions::normalizeCommunitiesWidthPx(communityListWidth));

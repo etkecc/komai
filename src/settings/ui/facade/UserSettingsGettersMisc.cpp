@@ -38,6 +38,10 @@ UserSettings::homeserver() const
 bool
 UserSettings::certificateValidationEnabled() const
 {
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::NetworkTlsEnableCertificateValidation);
+        value.has_value())
+        return *value;
     return certificateValidationEnabled_;
 }
 QStringList
@@ -153,6 +157,9 @@ UserSettings::usesFileSecretsProvider() const
 bool
 UserSettings::http3Enabled() const
 {
+    if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::NetworkHttp3Enabled);
+        value.has_value())
+        return *value;
     return http3Enabled_;
 }
 settings::core::SettingsStore &

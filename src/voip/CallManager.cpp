@@ -1118,7 +1118,7 @@ CallManager::previewWindow(unsigned int index) const
         }
         g_object_set(ximagesrc, "use-damage", FALSE, nullptr);
         g_object_set(ximagesrc, "xid", windows_[index].second, nullptr);
-        g_object_set(ximagesrc, "show-pointer", !settings->screenShareHideCursor(), nullptr);
+        g_object_set(ximagesrc, "show-pointer", settings->screenShareShowCursor(), nullptr);
         g_object_set(ximagesrc, "do-timestamp", (gboolean)1, nullptr);
 
         gst_bin_add(GST_BIN(pipe_), ximagesrc);
@@ -1132,7 +1132,7 @@ CallManager::previewWindow(unsigned int index) const
             return;
         }
         g_object_set(d3d11screensrc, "window-handle", windows_[index].second, nullptr);
-        g_object_set(d3d11screensrc, "show-cursor", !settings->screenShareHideCursor(), nullptr);
+        g_object_set(d3d11screensrc, "show-cursor", settings->screenShareShowCursor(), nullptr);
 
         gst_bin_add(GST_BIN(pipe_), d3d11screensrc);
         screencastsrc = d3d11screensrc;

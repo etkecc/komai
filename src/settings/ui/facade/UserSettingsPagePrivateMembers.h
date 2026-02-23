@@ -3,12 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// Default to system theme if QT_QPA_PLATFORMTHEME var is set.
-QString defaultTheme_ = QProcessEnvironment::systemEnvironment()
-                            .value(QStringLiteral("QT_QPA_PLATFORMTHEME"), QLatin1String(""))
-                            .isEmpty()
-                          ? "komai-light"
-                          : "komai-light";
+QString defaultTheme_ = QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 QString theme_;
 bool messageHoverHighlight_;
 bool enlargeEmojiOnlyMessages_;
@@ -64,7 +59,7 @@ QString cameraFrameRate_;
 int screenShareFrameRate_;
 bool screenSharePiP_;
 bool screenShareRemoteVideo_;
-bool screenShareHideCursor_;
+bool screenShareShowCursor_ = settings::core::definitions::kDefaultScreenShareShowCursor;
 bool fallbackCallRelayServerEnabled_;
 bool legacyCallsEnabled_;
 bool certificateValidationEnabled_ =

@@ -124,7 +124,7 @@ Note:
 | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | int | advanced calls/screenshare pref |
 | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | bool | advanced calls/screenshare pref |
 | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | bool | advanced calls/screenshare pref |
-| `screen_share_hide_cursor` | `calls.screenshare.hide_cursor` | config.yml | bool | advanced calls/screenshare pref |
+| `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | bool | key semantics flipped to positive naming in Komai |
 | `disable_certificate_validation` | `network.tls.enable_certificate_validation` | config.yml | bool | inverted from upstream key semantics; positive in Komai |
 | `enable_http3` | `network.http3.enabled` | config.yml | bool | network advanced pref |
 | `max_db_size` | `db.max_size_bytes` | config.yml | qulonglong | database tuning |

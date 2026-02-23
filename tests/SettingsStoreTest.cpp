@@ -24,9 +24,10 @@ expect(bool condition, const char *message)
     return false;
 }
 
-constexpr std::array<settings::core::SettingId, 10> kExpectedConstrainedIds{{
+constexpr std::array<settings::core::SettingId, 11> kExpectedConstrainedIds{{
   settings::core::SettingId::IntegrationsDbusApiAccess,
   settings::core::SettingId::NetworkPresenceStatusPolicy,
+  settings::core::SettingId::CallsScreenshareFrameRate,
   settings::core::SettingId::ComposerInputSendKey,
   settings::core::SettingId::ComposerInputAutoReplaceEmoji,
   settings::core::SettingId::SidebarsRoomListSort,
@@ -240,7 +241,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 58;
+    constexpr std::size_t expectedPersistedDefinitionCount = 64;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

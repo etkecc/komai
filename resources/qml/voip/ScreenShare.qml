@@ -76,7 +76,7 @@ Popup {
                 highlighted: !CallManager.screenShareReady
                 text: qsTr("Request screencast")
                 onClicked: {
-                  Settings.screenShareHideCursor = hideCursorCheckBox.checked;
+                  Settings.screenShareShowCursor = showCursorCheckBox.checked;
                   CallManager.setupScreenShareXDP();
                 }
             }
@@ -136,14 +136,14 @@ Popup {
             }
 
             MatrixText {
-                text: qsTr("Hide mouse cursor")
+                text: qsTr("Show mouse cursor")
             }
 
             ToggleButton {
-                id: hideCursorCheckBox
+                id: showCursorCheckBox
 
                 Layout.alignment: Qt.AlignRight
-                checked: Settings.screenShareHideCursor
+                checked: Settings.screenShareShowCursor
             }
 
         }
@@ -164,7 +164,7 @@ Popup {
                     Settings.screenShareFrameRate = frameRateCombo.currentText;
                     Settings.screenSharePiP = pipCheckBox.checked;
                     Settings.screenShareRemoteVideo = remoteVideoCheckBox.checked;
-                    Settings.screenShareHideCursor = hideCursorCheckBox.checked;
+                    Settings.screenShareShowCursor = showCursorCheckBox.checked;
 
                     CallManager.sendInvite(room.roomId, Voip.SCREEN, windowCombo.currentIndex);
                     close();

@@ -118,22 +118,45 @@ UserSettings::setCameraFrameRate(QString s)
 void
 UserSettings::setScreenShareFrameRate(int s)
 {
-    setSetting(screenShareFrameRate_, s, &UserSettings::screenShareFrameRateChanged);
+    if (screenShareFrameRate_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::CallsScreenshareFrameRate,
+                      s,
+                      "calls.screenshare.frame_rate"))
+        return;
+    screenShareFrameRate_ = s;
+    emit screenShareFrameRateChanged(s);
+    save();
 }
 void
 UserSettings::setScreenSharePiP(bool s)
 {
-    setSetting(screenSharePiP_, s, &UserSettings::screenSharePiPChanged);
+    if (screenSharePiP_ == s)
+        return;
+    screenSharePiP_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsScreensharePictureInPicture, s);
+    emit screenSharePiPChanged(s);
+    save();
 }
 void
 UserSettings::setScreenShareRemoteVideo(bool s)
 {
-    setSetting(screenShareRemoteVideo_, s, &UserSettings::screenShareRemoteVideoChanged);
+    if (screenShareRemoteVideo_ == s)
+        return;
+    screenShareRemoteVideo_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsScreenshareIncludeRemoteVideo, s);
+    emit screenShareRemoteVideoChanged(s);
+    save();
 }
 void
-UserSettings::setScreenShareHideCursor(bool s)
+UserSettings::setScreenShareShowCursor(bool s)
 {
-    setSetting(screenShareHideCursor_, s, &UserSettings::screenShareHideCursorChanged);
+    if (screenShareShowCursor_ == s)
+        return;
+    screenShareShowCursor_ = s;
+    (void)coreStore_.set(settings::core::SettingId::CallsScreenshareShowCursor, s);
+    emit screenShareShowCursorChanged(s);
+    save();
 }
 
 void
@@ -151,6 +174,7 @@ UserSettings::setCertificateValidationEnabled(bool enabled)
     if (enabled == certificateValidationEnabled_)
         return;
     certificateValidationEnabled_ = enabled;
+    (void)coreStore_.set(settings::core::SettingId::NetworkTlsEnableCertificateValidation, enabled);
     http::client()->verify_certificates(enabled);
     emit certificateValidationEnabledChanged(enabled);
     save();

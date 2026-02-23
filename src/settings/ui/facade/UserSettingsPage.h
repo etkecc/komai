@@ -136,8 +136,8 @@ class UserSettings final : public QObject
       bool screenSharePiP READ screenSharePiP WRITE setScreenSharePiP NOTIFY screenSharePiPChanged)
     Q_PROPERTY(bool screenShareRemoteVideo READ screenShareRemoteVideo WRITE
                  setScreenShareRemoteVideo NOTIFY screenShareRemoteVideoChanged)
-    Q_PROPERTY(bool screenShareHideCursor READ screenShareHideCursor WRITE setScreenShareHideCursor
-                 NOTIFY screenShareHideCursorChanged)
+    Q_PROPERTY(bool screenShareShowCursor READ screenShareShowCursor WRITE setScreenShareShowCursor
+                 NOTIFY screenShareShowCursorChanged)
     Q_PROPERTY(bool fallbackCallRelayServerEnabled READ fallbackCallRelayServerEnabled WRITE
                  setFallbackCallRelayServerEnabled NOTIFY fallbackCallRelayServerEnabledChanged)
     Q_PROPERTY(bool legacyCallsEnabled READ legacyCallsEnabled WRITE setLegacyCallsEnabled NOTIFY
@@ -333,7 +333,7 @@ public:
     void setScreenShareFrameRate(int frameRate);
     void setScreenSharePiP(bool state);
     void setScreenShareRemoteVideo(bool state);
-    void setScreenShareHideCursor(bool state);
+    void setScreenShareShowCursor(bool state);
     void setFallbackCallRelayServerEnabled(bool state);
     void setLegacyCallsEnabled(bool state);
     void setOnlyShareKeysWithVerifiedUsers(bool state);
@@ -458,7 +458,7 @@ signals:
     void screenShareFrameRateChanged(int frameRate);
     void screenSharePiPChanged(bool state);
     void screenShareRemoteVideoChanged(bool state);
-    void screenShareHideCursorChanged(bool state);
+    void screenShareShowCursorChanged(bool state);
     void fallbackCallRelayServerEnabledChanged(bool state);
     void legacyCallsEnabledChanged(bool state);
     void onlyShareKeysWithVerifiedUsersChanged(bool state);

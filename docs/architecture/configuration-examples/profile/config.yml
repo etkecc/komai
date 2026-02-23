@@ -82,7 +82,7 @@ calls:
     frame_rate: 5
     picture_in_picture: true
     include_remote_video: false
-    hide_cursor: false
+    show_cursor: true
 
 privacy:
   screen_lock:

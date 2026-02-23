@@ -6,7 +6,7 @@
     int screenShareFrameRate() const;
     bool screenSharePiP() const;
     bool screenShareRemoteVideo() const;
-    bool screenShareHideCursor() const;
+    bool screenShareShowCursor() const;
     bool fallbackCallRelayServerEnabled() const;
     bool legacyCallsEnabled() const;
     bool shareKeysWithTrustedUsers() const;

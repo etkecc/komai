@@ -346,6 +346,7 @@ UserSettingsModel::UserSettingsModel(QObject *p)
 #include "settings/ui/connections/UserSettingsModelConnectionsEncryption.inc"
 #include "settings/ui/connections/UserSettingsModelConnectionsIntegrations.inc"
 #include "settings/ui/connections/UserSettingsModelConnectionsLookFeel.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsNetwork.inc"
 #include "settings/ui/connections/UserSettingsModelConnectionsNotifications.inc"
 #include "settings/ui/connections/UserSettingsModelConnectionsPrivacy.inc"
 #include "settings/ui/connections/UserSettingsModelConnectionsTimeline.inc"

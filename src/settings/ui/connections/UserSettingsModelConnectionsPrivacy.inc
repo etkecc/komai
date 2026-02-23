@@ -1,5 +1,4 @@
     // Privacy — PrivacyScreen has a side-effect on PrivacyScreenTimeoutSeconds's Enabled state
-    CONNECT_SETTING_ID(NetworkPresenceStatusPolicy, presenceChanged, Value);
     connect(s.get(), &UserSettings::privacyScreenChanged, this, [this]() {
         if (const int privacyIdx = rowForSettingId(settings::core::SettingId::PrivacyScreenLockEnabled);
             privacyIdx >= 0) {

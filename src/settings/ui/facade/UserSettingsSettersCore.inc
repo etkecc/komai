@@ -193,5 +193,10 @@ UserSettings::setMaxDbs(uint s)
 void
 UserSettings::setHttp3Enabled(bool s)
 {
-    setSetting(http3Enabled_, s, &UserSettings::http3EnabledChanged);
+    if (http3Enabled_ == s)
+        return;
+    http3Enabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NetworkHttp3Enabled, s);
+    emit http3EnabledChanged(s);
+    save();
 }

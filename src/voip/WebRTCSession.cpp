@@ -1078,8 +1078,8 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
                            settings->screenSharePiP());
         nhlog::ui()->debug("WebRTC: screen share request remote camera: {}",
                            settings->screenShareRemoteVideo());
-        nhlog::ui()->debug("WebRTC: screen share hide mouse cursor: {}",
-                           settings->screenShareHideCursor());
+        nhlog::ui()->debug("WebRTC: screen share show mouse cursor: {}",
+                           settings->screenShareShowCursor());
 
         GstElement *screencastsrc = nullptr;
 
@@ -1091,7 +1091,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             }
             g_object_set(ximagesrc, "use-damage", FALSE, nullptr);
             g_object_set(ximagesrc, "xid", shareWindowId_, nullptr);
-            g_object_set(ximagesrc, "show-pointer", !settings->screenShareHideCursor(), nullptr);
+            g_object_set(ximagesrc, "show-pointer", settings->screenShareShowCursor(), nullptr);
             g_object_set(ximagesrc, "do-timestamp", (gboolean)1, nullptr);
 
             gst_bin_add(GST_BIN(pipe_), ximagesrc);
@@ -1107,8 +1107,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             }
             g_object_set(
               d3d11screensrc, "window-handle", static_cast<guint64>(shareWindowId_), nullptr);
-            g_object_set(
-              d3d11screensrc, "show-cursor", !settings->screenShareHideCursor(), nullptr);
+            g_object_set(d3d11screensrc, "show-cursor", settings->screenShareShowCursor(), nullptr);
             g_object_set(d3d11screensrc, "do-timestamp", (gboolean)1, nullptr);
             gst_bin_add(GST_BIN(pipe_), d3d11screensrc);
 

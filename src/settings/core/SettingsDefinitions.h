@@ -18,6 +18,9 @@ inline constexpr int kDefaultSidebarsRoomListWidthPx       = 300;
 inline constexpr int kDefaultSidebarsCommunitiesWidthPx    = 200;
 inline constexpr int kDefaultWindowWidthPx                 = 1050;
 inline constexpr int kDefaultWindowHeightPx                = 700;
+inline constexpr const char *kDefaultUiThemeSlug           = "komai-light";
+inline constexpr const char *kDefaultCallsAudioRingtone    = "Default";
+inline constexpr const char *kDefaultPinnedReactions       = "👍️,👎️,😀,🤣,❤️";
 inline constexpr bool kDefaultUiMotionAnimationsEnabled    = true;
 inline constexpr bool kDefaultInputEnableTextSelection     = true;
 inline constexpr bool kDefaultCertificateValidationEnabled = true;
@@ -25,13 +28,14 @@ inline constexpr bool kDefaultNetworkHttp3Enabled          = false;
 inline constexpr double kDefaultScaleFactor                = -1.0;
 inline constexpr double kDefaultFontSizePt                 = 13.0;
 inline constexpr int kDefaultScreenShareFrameRate          = 5;
+inline constexpr bool kDefaultScreenShareShowCursor        = true;
 inline constexpr int kDefaultPrivacyScreenTimeoutSeconds   = 0;
 inline constexpr int kDefaultTimelineMaxWidthPx            = 0;
 inline constexpr unsigned int kDefaultMaxDbs               = 0;
 inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
 
-inline constexpr std::array<SettingDefinition, 58> kPersistedSettingDefinitions{{
+inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},
   {SettingId::UiFontFamily, SettingScope::Config, SettingKey::UiFontFamily, false},
   {SettingId::UiFontSizePt, SettingScope::Config, SettingKey::UiFontSizePt, false},
@@ -91,6 +95,11 @@ inline constexpr std::array<SettingDefinition, 58> kPersistedSettingDefinitions{
    true,
    0,
    3},
+  {SettingId::NetworkTlsEnableCertificateValidation,
+   SettingScope::Config,
+   SettingKey::NetworkTlsEnableCertificateValidation,
+   false},
+  {SettingId::NetworkHttp3Enabled, SettingScope::Config, SettingKey::NetworkHttp3Enabled, false},
   {SettingId::PrivacyMaintenanceExpireEvents,
    SettingScope::Config,
    SettingKey::PrivacyMaintenanceExpireEvents,
@@ -190,6 +199,25 @@ inline constexpr std::array<SettingDefinition, 58> kPersistedSettingDefinitions{
    SettingKey::CallsDevicesCameraFrameRate,
    false},
   {SettingId::CallsAudioRingtone, SettingScope::Config, SettingKey::CallsAudioRingtone, false},
+  {SettingId::CallsScreenshareFrameRate,
+   SettingScope::Config,
+   SettingKey::CallsScreenshareFrameRate,
+   false,
+   true,
+   1,
+   120},
+  {SettingId::CallsScreensharePictureInPicture,
+   SettingScope::Config,
+   SettingKey::CallsScreensharePictureInPicture,
+   false},
+  {SettingId::CallsScreenshareIncludeRemoteVideo,
+   SettingScope::Config,
+   SettingKey::CallsScreenshareIncludeRemoteVideo,
+   false},
+  {SettingId::CallsScreenshareShowCursor,
+   SettingScope::Config,
+   SettingKey::CallsScreenshareShowCursor,
+   false},
   {SettingId::TimelineMessagesLayoutBubbles,
    SettingScope::Config,
    SettingKey::TimelineMessagesLayoutBubbles,

@@ -187,7 +187,7 @@ callRingtoneValue()
     const auto v = i->ringtone();
     if (v == QStringView(u"Mute"))
         return 0;
-    if (v == QStringView(u"Default"))
+    if (v == QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone))
         return 1;
     if (v == QStringView(u"Other"))
         return 2;
@@ -220,8 +220,10 @@ setCallRingtoneValue(const QVariant &v)
         i->setRingtone(QStringLiteral("Mute"));
         i->setRingtone(QStringLiteral("Mute"));
     } else if (ringtone == 1) {
-        i->setRingtone(QStringLiteral("Default"));
-        i->setRingtone(QStringLiteral("Default"));
+        const auto defaultRingtone =
+          QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone);
+        i->setRingtone(defaultRingtone);
+        i->setRingtone(defaultRingtone);
     }
 
     return true;
@@ -232,7 +234,7 @@ callRingtoneValues()
 {
     QStringList list{
       QStringLiteral("Mute"),
-      QStringLiteral("Default"),
+      QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone),
       QStringLiteral("Other"),
     };
 

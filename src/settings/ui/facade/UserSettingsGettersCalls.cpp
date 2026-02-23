@@ -53,22 +53,38 @@ UserSettings::cameraFrameRate() const
 int
 UserSettings::screenShareFrameRate() const
 {
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::CallsScreenshareFrameRate);
+        value.has_value())
+        return *value;
     return screenShareFrameRate_;
 }
 bool
 UserSettings::screenSharePiP() const
 {
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::CallsScreensharePictureInPicture);
+        value.has_value())
+        return *value;
     return screenSharePiP_;
 }
 bool
 UserSettings::screenShareRemoteVideo() const
 {
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::CallsScreenshareIncludeRemoteVideo);
+        value.has_value())
+        return *value;
     return screenShareRemoteVideo_;
 }
 bool
-UserSettings::screenShareHideCursor() const
+UserSettings::screenShareShowCursor() const
 {
-    return screenShareHideCursor_;
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::CallsScreenshareShowCursor);
+        value.has_value())
+        return *value;
+    return screenShareShowCursor_;
 }
 bool
 UserSettings::fallbackCallRelayServerEnabled() const

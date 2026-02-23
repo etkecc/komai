@@ -18,7 +18,7 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "RegisterPage.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/UIA.h"
 
 RegisterPage::RegisterPage(QObject *parent)

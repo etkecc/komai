@@ -9,8 +9,8 @@
 
 #include "Cache.h"
 #include "CompletionModelRoles.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 RoomsModel::RoomsModel(bool showOnlyRoomWithAliases, QObject *parent)
   : QAbstractListModel(parent)

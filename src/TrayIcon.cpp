@@ -12,7 +12,7 @@
 #include <QWindow>
 
 #include "TrayIcon.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 MsgCountComposedIcon::MsgCountComposedIcon(const QIcon &icon)
   : QIconEngine()

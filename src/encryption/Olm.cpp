@@ -24,7 +24,7 @@
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {
 auto client_ = std::make_unique<mtx::crypto::OlmClient>();

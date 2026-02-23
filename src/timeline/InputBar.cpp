@@ -36,8 +36,8 @@
 #include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/UserProfile.h"
 
 #include "blurhash.hpp"

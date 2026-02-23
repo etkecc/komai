@@ -14,9 +14,9 @@
 #include "ChatPage.h"
 #include "MainWindow.h"
 #include "MxcImageProvider.h"
-#include "UserSettingsPage.h"
 #include "config/nheko.h"
 #include "settings/SettingKeys.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include <spdlog/logger.h>

@@ -20,7 +20,7 @@
 #include <mtx/secret_storage.hpp>
 
 #include "Logging.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 namespace profile_secrets {
 

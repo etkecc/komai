@@ -21,9 +21,9 @@
 #include <spdlog/logger.h>
 
 #include "CacheApiWrappers.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
 #include "db/Maintenance.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 void
 Cache::updateState(const std::string &room, const mtx::responses::StateEvents &state, bool wipe)

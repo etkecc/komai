@@ -8,7 +8,7 @@
 #include "ScreenCastPortal.h"
 #include "ChatPage.h"
 #include "Logging.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>

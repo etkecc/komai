@@ -19,8 +19,8 @@
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 #include "mtx/responses/turn_server.hpp"
 #include "voip/ScreenCastPortal.h"

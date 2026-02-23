@@ -15,7 +15,7 @@
 
 #include "Logging.h"
 #include "Paths.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 namespace http {
 

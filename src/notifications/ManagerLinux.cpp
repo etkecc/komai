@@ -25,9 +25,9 @@
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MxcImageProvider.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
 #include "dbus/Api.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 NotificationsManager::NotificationsManager(QObject *parent)
   : QObject(parent)

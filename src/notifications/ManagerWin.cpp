@@ -17,8 +17,8 @@
 #include "EventAccessors.h"
 #include "MxcImageProvider.h"
 #include "Paths.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 using namespace WinToastLib;
 

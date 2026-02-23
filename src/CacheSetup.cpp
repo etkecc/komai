@@ -24,10 +24,10 @@
 #include "MatrixClient.h"
 #include "Paths.h"
 #include "ProfileSecrets.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
 #include "db/Maintenance.h"
 #include "db/StorageApi.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 extern bool needsCompact;
 

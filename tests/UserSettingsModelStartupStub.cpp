@@ -4,7 +4,7 @@
 
 #include <QHash>
 
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "settings/ui/SettingDescriptor.h"
 
 UserSettingsModel::UserSettingsModel(QObject *parent)

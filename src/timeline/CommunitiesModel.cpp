@@ -13,8 +13,8 @@
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Permissions.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineModel.h"
 
 CommunitiesModel::CommunitiesModel(QObject *parent)

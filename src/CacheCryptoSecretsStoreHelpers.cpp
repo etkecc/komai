@@ -29,8 +29,8 @@
 
 #include "CacheApiWrappers.h"
 #include "ProfileSecrets.h"
-#include "UserSettingsPage.h"
 #include "db/StorageApi.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 static QString
 secretName(std::string_view name, bool internal)

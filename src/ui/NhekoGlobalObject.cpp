@@ -20,8 +20,8 @@
 #include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 #if XCB_AVAILABLE && QT_CONFIG(xcb)
 #include <xcb/xproto.h>

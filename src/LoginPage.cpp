@@ -17,7 +17,7 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "SSOHandler.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 using namespace mtx::identifiers;
 

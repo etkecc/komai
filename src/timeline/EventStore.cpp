@@ -18,8 +18,8 @@
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Reaction.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 QCache<EventStore::IdIndex, olm::DecryptionResult> EventStore::decryptedEvents_{1000};
 QCache<EventStore::IdIndex, mtx::events::collections::TimelineEvents> EventStore::events_by_id_{

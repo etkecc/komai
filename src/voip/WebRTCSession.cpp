@@ -19,8 +19,8 @@
 #include "CallDevices.h"
 #include "ChatPage.h"
 #include "Logging.h"
-#include "UserSettingsPage.h"
 #include "WebRTCSession.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "voip/ScreenCastPortal.h"
 
 #ifdef GSTREAMER_AVAILABLE

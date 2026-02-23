@@ -12,8 +12,8 @@
 #include <QSharedPointer>
 #include <QSystemTrayIcon>
 
-#include "UserSettingsPage.h"
 #include "dock/Dock.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 class ChatPage;
 class RegisterPage;

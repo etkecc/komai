@@ -22,8 +22,8 @@
 
 #include "CacheApiWrappers.h"
 #include "EventAccessors.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 void
 Cache::saveState(const mtx::responses::Sync &res)

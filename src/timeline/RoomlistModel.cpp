@@ -16,8 +16,8 @@
 #include "MxcImageProvider.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "voip/CallManager.h"
 
 #ifdef KOMAI_DBUS_SYS

@@ -33,9 +33,9 @@
 #include "ReadReceiptsModel.h"
 #include "RoomlistModel.h"
 #include "TimelineViewManager.h"
-#include "UserSettingsPage.h"
 #include "Utils.h"
 #include "encryption/Olm.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/UserProfile.h"
 
 namespace std {

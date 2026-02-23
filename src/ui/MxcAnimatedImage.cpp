@@ -15,7 +15,7 @@
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Paths.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineModel.h"
 
 void

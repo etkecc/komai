@@ -9,7 +9,7 @@
 
 #include "CallDevices.h"
 #include "Logging.h"
-#include "UserSettingsPage.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 #ifdef GSTREAMER_AVAILABLE
 extern "C"

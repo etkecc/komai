@@ -786,9 +786,30 @@ public:
             return *value;
         return enableLegacyCalls_;
     }
-    bool shareKeysWithTrustedUsers() const { return shareKeysWithTrustedUsers_; }
-    bool onlyShareKeysWithVerifiedUsers() const { return onlyShareKeysWithVerifiedUsers_; }
-    bool useOnlineKeyBackup() const { return useOnlineKeyBackup_; }
+    bool shareKeysWithTrustedUsers() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::EncryptionKeySharingShareWithTrusted);
+            value.has_value())
+            return *value;
+        return shareKeysWithTrustedUsers_;
+    }
+    bool onlyShareKeysWithVerifiedUsers() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers);
+            value.has_value())
+            return *value;
+        return onlyShareKeysWithVerifiedUsers_;
+    }
+    bool useOnlineKeyBackup() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::EncryptionBackupOnlineEnabled);
+            value.has_value())
+            return *value;
+        return useOnlineKeyBackup_;
+    }
     QString profile() const { return profile_; }
     QString userId() const { return userId_; }
     QString accessToken() const { return accessToken_; }

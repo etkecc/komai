@@ -21,13 +21,22 @@ UserSettings::setEnableLegacyCalls(bool s)
 void
 UserSettings::setOnlyShareKeysWithVerifiedUsers(bool s)
 {
-    setSetting(
-      onlyShareKeysWithVerifiedUsers_, s, &UserSettings::onlyShareKeysWithVerifiedUsersChanged);
+    if (onlyShareKeysWithVerifiedUsers_ == s)
+        return;
+    onlyShareKeysWithVerifiedUsers_ = s;
+    (void)coreStore_.set(settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers, s);
+    emit onlyShareKeysWithVerifiedUsersChanged(s);
+    save();
 }
 void
 UserSettings::setShareKeysWithTrustedUsers(bool s)
 {
-    setSetting(shareKeysWithTrustedUsers_, s, &UserSettings::shareKeysWithTrustedUsersChanged);
+    if (shareKeysWithTrustedUsers_ == s)
+        return;
+    shareKeysWithTrustedUsers_ = s;
+    (void)coreStore_.set(settings::core::SettingId::EncryptionKeySharingShareWithTrusted, s);
+    emit shareKeysWithTrustedUsersChanged(s);
+    save();
 }
 
 void
@@ -37,6 +46,7 @@ UserSettings::setUseOnlineKeyBackup(bool useBackup)
         return;
 
     useOnlineKeyBackup_ = useBackup;
+    (void)coreStore_.set(settings::core::SettingId::EncryptionBackupOnlineEnabled, useBackup);
     emit useOnlineKeyBackupChanged(useBackup);
     save();
 
@@ -51,6 +61,7 @@ UserSettings::setUseOnlineKeyBackupFromConfig(bool useBackup)
         return;
 
     useOnlineKeyBackup_ = useBackup;
+    (void)coreStore_.set(settings::core::SettingId::EncryptionBackupOnlineEnabled, useBackup);
     emit useOnlineKeyBackupChanged(useBackup);
 }
 

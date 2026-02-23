@@ -282,8 +282,8 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
             verificationManager_,
             &VerificationManager::receivedDeviceVerificationStart);
     connect(parent, &ChatPage::loggedOut, this, [this]() {
-        isInitialSync_ = true;
-        emit initialSyncChanged(true);
+        waitingForFirstSync_ = true;
+        emit waitingForFirstSyncChanged(true);
     });
     connect(parent, &ChatPage::connectionLost, this, [this] {
         isConnected_ = false;
@@ -395,9 +395,9 @@ TimelineViewManager::sync(const mtx::responses::Sync &sync_)
     this->presenceEmitter->sync(sync_.presence);
     this->processIgnoredUsers(sync_.account_data);
 
-    if (isInitialSync_) {
-        this->isInitialSync_ = false;
-        emit initialSyncChanged(false);
+    if (waitingForFirstSync_) {
+        this->waitingForFirstSync_ = false;
+        emit waitingForFirstSyncChanged(false);
     }
 }
 

@@ -49,7 +49,7 @@ Item {
     ColumnLayout {
         anchors.centerIn: parent
         spacing: 16
-        visible: !room && !TimelineManager.isInitialSync && (!roomPreview || !roomPreview.roomid)
+        visible: !room && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
 
         Image {
             Layout.alignment: Qt.AlignHCenter
@@ -73,8 +73,8 @@ Item {
         foreground: palette.mid
         height: Nheko.timelineLogoSize
         opacity: hh.hovered ? 0.3 : 1
-        running: TimelineManager.isInitialSync
-        visible: TimelineManager.isInitialSync
+        running: TimelineManager.waitingForFirstSync
+        visible: TimelineManager.waitingForFirstSync
         z: 3
 
         Behavior on opacity  {

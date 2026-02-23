@@ -513,8 +513,10 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
       },
       Qt::QueuedConnection);
 
-    connect(
-      manager_, &TimelineViewManager::initialSyncChanged, &events, &EventStore::enableKeyRequests);
+    connect(manager_,
+            &TimelineViewManager::waitingForFirstSyncChanged,
+            &events,
+            &EventStore::enableKeyRequests);
 
     connect(this, &TimelineModel::encryptionChanged, this, &TimelineModel::trustlevelChanged);
     connect(this, &TimelineModel::roomMemberCountChanged, this, &TimelineModel::trustlevelChanged);

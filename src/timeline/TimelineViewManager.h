@@ -56,8 +56,8 @@ class TimelineViewManager final : public QObject
     QML_NAMED_ELEMENT(TimelineManager)
     QML_SINGLETON
 
-    Q_PROPERTY(
-      bool isInitialSync MEMBER isInitialSync_ READ isInitialSync NOTIFY initialSyncChanged)
+    Q_PROPERTY(bool waitingForFirstSync MEMBER waitingForFirstSync_ READ waitingForFirstSync NOTIFY
+                 waitingForFirstSyncChanged)
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY isConnectedChanged)
     Q_PROPERTY(QVector<QString> ignoredUsers READ getIgnoredUsers NOTIFY ignoredUsersChanged)
 
@@ -76,7 +76,7 @@ public:
 
     void clearAll();
 
-    Q_INVOKABLE bool isInitialSync() const { return isInitialSync_; }
+    Q_INVOKABLE bool waitingForFirstSync() const { return waitingForFirstSync_; }
     bool isConnected() const { return isConnected_; }
     Q_INVOKABLE void openImageOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
@@ -106,7 +106,7 @@ public:
 
 signals:
     void activeTimelineChanged(TimelineModel *timeline);
-    void initialSyncChanged(bool isInitialSync);
+    void waitingForFirstSyncChanged(bool waitingForFirstSync);
     void isConnectedChanged(bool state);
     void replyingEventChanged(QString replyingEvent);
     void replyClosed();
@@ -153,8 +153,8 @@ public slots:
     RoomlistModel *rooms() { return rooms_; }
 
 private:
-    bool isInitialSync_ = true;
-    bool isConnected_   = true;
+    bool waitingForFirstSync_ = true;
+    bool isConnected_         = true;
 
     RoomlistModel *rooms_          = nullptr;
     FilteredRoomlistModel *frooms_ = nullptr;

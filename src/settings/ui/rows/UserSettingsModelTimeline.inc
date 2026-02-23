@@ -59,11 +59,11 @@
     // TimelineMediaSection
     { QT_TR_NOOP("Media"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // FancyEffects
+    // TimelineMediaEffectsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show message effects",
       QT_TR_NOOP("Some messages can be sent with fancy effects. For example, messages sent with '/confetti' will show confetti on screen."),
-      SM::TabTimeline, fancyEffects, setFancyEffects, nullptr, TimelineMediaEffectsEnabled, SettingKey::TimelineMediaEffectsEnabled),
+      SM::TabTimeline, timelineMediaEffectsEnabled, setTimelineMediaEffectsEnabled, nullptr, TimelineMediaEffectsEnabled, SettingKey::TimelineMediaEffectsEnabled),
     // AnimateImagesOnHover
     SIMPLE_BOOL_CONFIG_ID_SETTING("Play animated images only on hover",
                         QT_TR_NOOP("Plays media like GIFs or WEBPs only when explicitly hovering over them."),

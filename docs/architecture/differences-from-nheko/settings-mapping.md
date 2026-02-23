@@ -56,7 +56,7 @@ Note:
 | Timeline | MESSAGES | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
 | Timeline | MESSAGES | Show action buttons | `UserSettingsModel::ShowActionButtons` | `show_action_buttons` | `timeline.messages.actions.enabled` | config.yml | yes |
 | Timeline | MESSAGES | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
-| Timeline | MEDIA | Show message effects | `UserSettingsModel::FancyEffects` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
+| Timeline | MEDIA | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
 | Timeline | MEDIA | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
 | Timeline | MEDIA | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
 | Timeline | MEDIA | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |

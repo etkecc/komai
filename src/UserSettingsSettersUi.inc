@@ -243,13 +243,13 @@ UserSettings::setShowLastMessagePreview(LastMessagePreview s)
     save();
 }
 void
-UserSettings::setFancyEffects(bool s)
+UserSettings::setTimelineMediaEffectsEnabled(bool s)
 {
-    if (fancyEffects_ == s)
+    if (timelineMediaEffectsEnabled_ == s)
         return;
-    fancyEffects_ = s;
+    timelineMediaEffectsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMediaEffectsEnabled, s);
-    emit fancyEffectsChanged(s);
+    emit timelineMediaEffectsEnabledChanged(s);
     save();
 }
 
@@ -265,7 +265,7 @@ UserSettings::setReducedMotion(bool state)
 
     // Also toggle other motion related settings
     if (reducedMotion_) {
-        setFancyEffects(false);
+        setTimelineMediaEffectsEnabled(false);
         setAnimateImagesOnHover(true);
     }
 }

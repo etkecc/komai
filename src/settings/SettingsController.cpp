@@ -145,7 +145,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::TimelineMessageActionsEnabled, settings.showActionButtons());
     set(settings::core::SettingId::TimelineMessageActionsPinnedReactions,
         settings.pinnedReactions().toStdString());
-    set(settings::core::SettingId::TimelineMediaEffectsEnabled, settings.fancyEffects());
+    set(settings::core::SettingId::TimelineMediaEffectsEnabled,
+        settings.timelineMediaEffectsEnabled());
     set(settings::core::SettingId::TimelineMediaAnimateOnHover, settings.animateImagesOnHover());
     set(settings::core::SettingId::TimelineMediaImageDisplay,
         static_cast<int>(settings.showImage()));

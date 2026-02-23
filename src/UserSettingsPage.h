@@ -93,7 +93,8 @@ class UserSettings final : public QObject
                  showRoomListTimeChanged)
     Q_PROPERTY(LastMessagePreview showLastMessagePreview READ showLastMessagePreview WRITE
                  setShowLastMessagePreview NOTIFY showLastMessagePreviewChanged)
-    Q_PROPERTY(bool fancyEffects READ fancyEffects WRITE setFancyEffects NOTIFY fancyEffectsChanged)
+    Q_PROPERTY(bool timelineMediaEffectsEnabled READ timelineMediaEffectsEnabled WRITE
+                 setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
     Q_PROPERTY(
       bool reducedMotion READ reducedMotion WRITE setReducedMotion NOTIFY reducedMotionChanged)
     Q_PROPERTY(
@@ -316,7 +317,7 @@ public:
     void setCompactRoomList(bool state);
     void setShowRoomListTime(bool state);
     void setShowLastMessagePreview(LastMessagePreview style);
-    void setFancyEffects(bool state);
+    void setTimelineMediaEffectsEnabled(bool state);
     void setReducedMotion(bool state);
     void setPrivacyScreen(bool state);
     void setPrivacyScreenTimeoutSeconds(int state);
@@ -491,13 +492,13 @@ public:
             return static_cast<LastMessagePreview>(*value);
         return showLastMessagePreview_;
     }
-    bool fancyEffects() const
+    bool timelineMediaEffectsEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMediaEffectsEnabled);
             value.has_value())
             return *value;
-        return fancyEffects_;
+        return timelineMediaEffectsEnabled_;
     }
     bool reducedMotion() const
     {
@@ -911,7 +912,7 @@ signals:
     void compactRoomListChanged(bool state);
     void showRoomListTimeChanged(bool state);
     void showLastMessagePreviewChanged(LastMessagePreview style);
-    void fancyEffectsChanged(bool state);
+    void timelineMediaEffectsEnabledChanged(bool state);
     void reducedMotionChanged(bool state);
     void privacyScreenChanged(bool state);
     void privacyScreenTimeoutSecondsChanged(int state);
@@ -1011,7 +1012,7 @@ private:
     bool compactRoomList_;
     bool showRoomListTime_;
     LastMessagePreview showLastMessagePreview_;
-    bool fancyEffects_;
+    bool timelineMediaEffectsEnabled_;
     bool reducedMotion_;
     bool privacyScreen_;
     int privacyScreenTimeoutSeconds_;

@@ -422,14 +422,14 @@ Item {
     }
     Connections {
         function onConfetti() {
-            if (!Settings.fancyEffects)
+            if (!Settings.timelineMediaEffectsEnabled)
                 return;
             shouldEffectsRun = true;
             timelineEffects.pulseConfetti();
             room.markSpecialEffectsDone();
         }
         function onConfettiDone() {
-            if (!Settings.fancyEffects)
+            if (!Settings.timelineMediaEffectsEnabled)
                 return;
             effectsTimer.restart();
         }
@@ -442,14 +442,14 @@ Item {
             timelineRoot.destroyOnClose(dialog);
         }
         function onRainfall() {
-            if (!Settings.fancyEffects)
+            if (!Settings.timelineMediaEffectsEnabled)
                 return;
             shouldEffectsRun = true;
             timelineEffects.pulseRainfall();
             room.markSpecialEffectsDone();
         }
         function onRainfallDone() {
-            if (!Settings.fancyEffects)
+            if (!Settings.timelineMediaEffectsEnabled)
                 return;
             effectsTimer.restart();
         }

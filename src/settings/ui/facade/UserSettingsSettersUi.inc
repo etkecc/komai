@@ -182,13 +182,13 @@ UserSettings::setAlertOnIncomingMessages(bool s)
     save();
 }
 void
-UserSettings::setUseCircularAvatars(bool s)
+UserSettings::setCircularAvatarsEnabled(bool s)
 {
-    if (useCircularAvatars_ == s)
+    if (circularAvatarsEnabled_ == s)
         return;
-    useCircularAvatars_ = s;
+    circularAvatarsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::UiAvatarsCircular, s);
-    emit useCircularAvatarsChanged(s);
+    emit circularAvatarsEnabledChanged(s);
     save();
 }
 void

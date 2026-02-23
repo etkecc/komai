@@ -81,8 +81,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
     set(settings::core::SettingId::UiInputEnableTextSelection, settings.textSelectionEnabled());
     set(settings::core::SettingId::UiInputSwipeGestures, settings.enableSwipeGestures());
-    set(settings::core::SettingId::UiAvatarsCircular, settings.useCircularAvatars());
-    set(settings::core::SettingId::UiAvatarsIdenticonFallback, settings.useIdenticon());
+    set(settings::core::SettingId::UiAvatarsCircular, settings.circularAvatarsEnabled());
+    set(settings::core::SettingId::UiAvatarsIdenticonFallback, settings.identiconFallbackEnabled());
     set(settings::core::SettingId::SidebarsRoomListCompact, settings.compactRoomList());
     set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime,
         settings.roomListShowLastMessageTime());

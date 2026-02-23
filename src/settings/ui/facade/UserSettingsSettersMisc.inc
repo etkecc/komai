@@ -157,13 +157,13 @@ UserSettings::setCertificateValidationEnabled(bool enabled)
 }
 
 void
-UserSettings::setUseIdenticon(bool s)
+UserSettings::setIdenticonFallbackEnabled(bool s)
 {
-    if (useIdenticon_ == s)
+    if (identiconFallbackEnabled_ == s)
         return;
-    useIdenticon_ = s;
+    identiconFallbackEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::UiAvatarsIdenticonFallback, s);
-    emit useIdenticonChanged(s);
+    emit identiconFallbackEnabledChanged(s);
     save();
 }
 void

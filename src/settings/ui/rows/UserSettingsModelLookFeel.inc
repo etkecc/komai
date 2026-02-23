@@ -105,17 +105,17 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show notification counts",
                         QT_TR_NOOP("Show total notification counts for communities and tags."),
                         SM::TabSidebars, showCommunityNotificationCounts, setShowCommunityNotificationCounts, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
-    // UseCircularAvatars
+    // CircularAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
                         QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
-                        SM::TabSidebars, useCircularAvatars, setUseCircularAvatars, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
-    // UseIdenticon
+                        SM::TabSidebars, circularAvatarsEnabled, setCircularAvatarsEnabled, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
+    // IdenticonFallbackEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Use identicons",
       QT_TR_NOOP("Display an identicon instead of a letter when no avatar is set."),
       SM::TabSidebars,
-      useIdenticon,
-      setUseIdenticon,
+      identiconFallbackEnabled,
+      setIdenticonFallbackEnabled,
       identiconSettingEnabled,
       UiAvatarsIdenticonFallback,
       SettingKey::UiAvatarsIdenticonFallback),

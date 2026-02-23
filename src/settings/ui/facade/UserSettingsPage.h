@@ -82,8 +82,8 @@ class UserSettings final : public QObject
                  setDesktopNotificationsEnabled NOTIFY desktopNotificationsEnabledChanged)
     Q_PROPERTY(bool alertOnIncomingMessages READ alertOnIncomingMessages WRITE
                  setAlertOnIncomingMessages NOTIFY alertOnIncomingMessagesChanged)
-    Q_PROPERTY(bool useCircularAvatars READ useCircularAvatars WRITE setUseCircularAvatars NOTIFY
-                 useCircularAvatarsChanged)
+    Q_PROPERTY(bool circularAvatarsEnabled READ circularAvatarsEnabled WRITE
+                 setCircularAvatarsEnabled NOTIFY circularAvatarsEnabledChanged)
     Q_PROPERTY(bool decryptNotifications READ decryptNotifications WRITE setDecryptNotifications
                  NOTIFY decryptNotificationsChanged)
     Q_PROPERTY(bool showCommunityNotificationCounts READ showCommunityNotificationCounts WRITE
@@ -150,7 +150,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(QString homeserver READ homeserver WRITE setHomeserver NOTIFY homeserverChanged)
     Q_PROPERTY(bool certificateValidationEnabled READ certificateValidationEnabled WRITE
                  setCertificateValidationEnabled NOTIFY certificateValidationEnabledChanged)
-    Q_PROPERTY(bool useIdenticon READ useIdenticon WRITE setUseIdenticon NOTIFY useIdenticonChanged)
+    Q_PROPERTY(bool identiconFallbackEnabled READ identiconFallbackEnabled WRITE
+                 setIdenticonFallbackEnabled NOTIFY identiconFallbackEnabledChanged)
     Q_PROPERTY(bool openImagesInExternalApp READ openImagesInExternalApp WRITE
                  setOpenImagesInExternalApp NOTIFY openImagesInExternalAppChanged)
     Q_PROPERTY(bool openVideosInExternalApp READ openVideosInExternalApp WRITE
@@ -313,7 +314,7 @@ public:
     void setRoomListWidth(int state);
     void setDesktopNotificationsEnabled(bool state);
     void setAlertOnIncomingMessages(bool state);
-    void setUseCircularAvatars(bool state);
+    void setCircularAvatarsEnabled(bool state);
     void setDecryptNotifications(bool state);
     void setShowCommunityNotificationCounts(bool state);
     void setCompactRoomList(bool state);
@@ -352,7 +353,7 @@ public:
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setRecentReactions(QStringList recent);
-    void setUseIdenticon(bool state);
+    void setIdenticonFallbackEnabled(bool state);
     void setOpenImagesInExternalApp(bool state);
     void setOpenVideosInExternalApp(bool state);
     void setIntegrationsLinksBrowserCommand(QString command);
@@ -445,13 +446,13 @@ public:
             return *value;
         return roomListScrollbarsVisible_;
     }
-    bool useCircularAvatars() const
+    bool circularAvatarsEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::UiAvatarsCircular);
             value.has_value())
             return *value;
-        return useCircularAvatars_;
+        return circularAvatarsEnabled_;
     }
     bool decryptNotifications() const
     {
@@ -828,7 +829,7 @@ public:
     QStringList hiddenPins() const { return hiddenPins_; }
     QStringList hiddenWidgets() const { return hiddenWidgets_; }
     QStringList recentReactions() const { return recentReactions_; }
-    bool useIdenticon() const;
+    bool identiconFallbackEnabled() const;
     bool openImagesInExternalApp() const
     {
         if (const auto value =
@@ -911,7 +912,7 @@ signals:
     void readReceiptsEnabledChanged(bool state);
     void desktopNotificationsEnabledChanged(bool state);
     void alertOnIncomingMessagesChanged(bool state);
-    void useCircularAvatarsChanged(bool state);
+    void circularAvatarsEnabledChanged(bool state);
     void decryptNotificationsChanged(bool state);
     void showCommunityNotificationCountsChanged(bool state);
     void compactRoomListChanged(bool state);
@@ -952,7 +953,7 @@ signals:
     void deviceIdChanged(QString deviceId);
     void homeserverChanged(QString homeserver);
     void certificateValidationEnabledChanged(bool enabled);
-    void useIdenticonChanged(bool state);
+    void identiconFallbackEnabledChanged(bool state);
     void openImagesInExternalAppChanged(bool state);
     void openVideosInExternalAppChanged(bool state);
     void hiddenPinsChanged();

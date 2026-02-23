@@ -408,12 +408,12 @@ Pane {
         property Transition replaceExitOrg
 
         function updateTrans() {
-            pushEnter = Settings.reducedMotion ? reducedMotionTransitionEnter : pushEnterOrg;
-            pushExit = Settings.reducedMotion ? reducedMotionTransitionExit : pushExitOrg;
-            popEnter = Settings.reducedMotion ? reducedMotionTransitionEnter : popEnterOrg;
-            popExit = Settings.reducedMotion ? reducedMotionTransitionExit : popExitOrg;
-            replaceEnter = Settings.reducedMotion ? reducedMotionTransitionEnter : replaceEnterOrg;
-            replaceExit = Settings.reducedMotion ? reducedMotionTransitionExit : replaceExitOrg;
+            pushEnter = Settings.uiAnimationsEnabled ? pushEnterOrg : reducedMotionTransitionEnter;
+            pushExit = Settings.uiAnimationsEnabled ? pushExitOrg : reducedMotionTransitionExit;
+            popEnter = Settings.uiAnimationsEnabled ? popEnterOrg : reducedMotionTransitionEnter;
+            popExit = Settings.uiAnimationsEnabled ? popExitOrg : reducedMotionTransitionExit;
+            replaceEnter = Settings.uiAnimationsEnabled ? replaceEnterOrg : reducedMotionTransitionEnter;
+            replaceExit = Settings.uiAnimationsEnabled ? replaceExitOrg : reducedMotionTransitionExit;
         }
 
         anchors.fill: parent
@@ -459,7 +459,7 @@ Pane {
             }
         }
         Connections {
-            function onReducedMotionChanged() {
+            function onUiAnimationsReducedChanged() {
                 mainWindow.updateTrans();
             }
 

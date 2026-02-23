@@ -52,12 +52,12 @@
     { QT_TR_NOOP("Behavior"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableUIAnimations
-    SIMPLE_INVERTED_BOOL_CONFIG_ID_SETTING(
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable UI animations",
       QT_TR_NOOP("Komai uses animations in several places around the interface. Enable or disable them here."),
       SM::TabLookFeel,
-      reducedMotion,
-      setReducedMotion,
+      uiAnimationsEnabled,
+      setUiAnimationsEnabled,
       nullptr,
       UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),

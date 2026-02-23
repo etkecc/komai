@@ -278,7 +278,7 @@ Item {
                             NumberAnimation { target: btnPinned; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
                         }
                         onHoveredChanged: {
-                            if (hovered && !Settings.reducedMotion)
+                            if (hovered && Settings.uiAnimationsEnabled)
                                 pinnedPulseAnim.start();
                         }
                     }
@@ -346,7 +346,7 @@ Item {
                             NumberAnimation { target: btnRecent; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
                         }
                         onHoveredChanged: {
-                            if (hovered && !Settings.reducedMotion)
+                            if (hovered && Settings.uiAnimationsEnabled)
                                 recentPulseAnim.start();
                         }
                     }

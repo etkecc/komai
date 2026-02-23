@@ -254,17 +254,17 @@ UserSettings::setTimelineMediaEffectsEnabled(bool s)
 }
 
 void
-UserSettings::setReducedMotion(bool state)
+UserSettings::setUiAnimationsEnabled(bool state)
 {
-    if (state == reducedMotion_)
+    if (state == uiAnimationsEnabled_)
         return;
-    reducedMotion_ = state;
-    (void)coreStore_.set(settings::core::SettingId::UiMotionAnimationsEnabled, !state);
-    emit reducedMotionChanged(state);
+    uiAnimationsEnabled_ = state;
+    (void)coreStore_.set(settings::core::SettingId::UiMotionAnimationsEnabled, state);
+    emit uiAnimationsEnabledChanged(state);
     save();
 
     // Also toggle other motion related settings
-    if (reducedMotion_) {
+    if (!uiAnimationsEnabled_) {
         setTimelineMediaEffectsEnabled(false);
         setAnimateImagesOnHover(true);
     }

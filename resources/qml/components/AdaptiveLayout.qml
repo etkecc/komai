@@ -126,7 +126,7 @@ Container {
         orientation: ListView.Horizontal
         highlightRangeMode: ListView.StrictlyEnforceRange
         interactive: Settings.enableSwipeGestures && singlePageMode
-        highlightMoveDuration: (container.singlePageMode && !Settings.reducedMotion) ? 200 : 0
+        highlightMoveDuration: (container.singlePageMode && Settings.uiAnimationsEnabled) ? 200 : 0
         currentIndex: container.singlePageMode ? container.pageIndex : 0
         boundsBehavior: Flickable.StopAtBounds
     }

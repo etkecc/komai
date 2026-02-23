@@ -78,7 +78,7 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::UiFontFamily, settings.font().toStdString());
     set(settings::core::SettingId::UiFontSizePt, settings.fontSize());
     set(settings::core::SettingId::UiFontEmojiFamily, settings.emojiFontFamily().toStdString());
-    set(settings::core::SettingId::UiMotionAnimationsEnabled, !settings.reducedMotion());
+    set(settings::core::SettingId::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
     set(settings::core::SettingId::UiInputEnableTextSelection, !settings.touchInputMode());
     set(settings::core::SettingId::UiInputSwipeGestures, settings.enableSwipeGestures());
     set(settings::core::SettingId::UiAvatarsCircular, settings.useCircularAvatars());

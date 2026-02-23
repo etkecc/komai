@@ -152,7 +152,7 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
     setNode(root,
             SettingKey::NetworkPresenceStatusPolicy,
             cfg::toStorageValue(settings.presence()).toStdString());
-    setNode(root, SettingKey::UiMotionAnimationsEnabled, !settings.reducedMotion());
+    setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
     setNode(root, SettingKey::UiInputEnableTextSelection, !settings.touchInputMode());
 
     if (settings::core::isScaleFactorInRange(settings.scaleFactor()))
@@ -201,7 +201,7 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
         settings.integrationsDbusApiAccess() > IntegrationsDbusAccessReadWrite)
         settings.setIntegrationsDbusApiAccess(IntegrationsDbusAccessNone);
 
-    settings.setReducedMotion(!readScalar<bool>(
+    settings.setUiAnimationsEnabled(readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
     settings.setTouchInputMode(!readScalar<bool>(
       root, SettingKey::UiInputEnableTextSelection, cfg::kDefaultInputEnableTextSelection));

@@ -136,29 +136,29 @@ ColumnLayout {
         }
 
         ToggleButton {
-            id: reducedMotionToggle
+            id: animationsToggle
             Layout.alignment: Qt.AlignVCenter
-            checked: Settings.reducedMotion
-            onCheckedChanged: Settings.reducedMotion = checked
+            checked: Settings.uiAnimationsEnabled
+            onCheckedChanged: Settings.uiAnimationsEnabled = checked
         }
 
         Label {
             Layout.alignment: Qt.AlignVCenter
             Layout.margins: Nheko.paddingSmall
-            text: qsTr("Reduce animations")
+            text: qsTr("Enable animations")
             color: palette.text
 
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: reducedMotionToggle.toggle()
+                onClicked: animationsToggle.toggle()
             }
 
             HoverHandler {
                 id: hovered
             }
             ToolTip.visible: hovered.hovered
-            ToolTip.text: qsTr("Komai uses animations in several places to make stuff pretty. This allows you to turn those off if they make you feel unwell.")
+            ToolTip.text: qsTr("Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.")
             ToolTip.delay: Nheko.tooltipDelay
         }
     }

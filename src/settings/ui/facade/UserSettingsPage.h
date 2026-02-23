@@ -95,8 +95,8 @@ class UserSettings final : public QObject
                  setShowLastMessagePreview NOTIFY showLastMessagePreviewChanged)
     Q_PROPERTY(bool timelineMediaEffectsEnabled READ timelineMediaEffectsEnabled WRITE
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
-    Q_PROPERTY(
-      bool reducedMotion READ reducedMotion WRITE setReducedMotion NOTIFY reducedMotionChanged)
+    Q_PROPERTY(bool uiAnimationsEnabled READ uiAnimationsEnabled WRITE setUiAnimationsEnabled NOTIFY
+                 uiAnimationsEnabledChanged)
     Q_PROPERTY(
       bool privacyScreen READ privacyScreen WRITE setPrivacyScreen NOTIFY privacyScreenChanged)
     Q_PROPERTY(int privacyScreenTimeoutSeconds READ privacyScreenTimeoutSeconds WRITE
@@ -319,7 +319,7 @@ public:
     void setShowRoomListTime(bool state);
     void setShowLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
-    void setReducedMotion(bool state);
+    void setUiAnimationsEnabled(bool state);
     void setPrivacyScreen(bool state);
     void setPrivacyScreenTimeoutSeconds(int state);
     void setPresence(Presence state);
@@ -501,13 +501,13 @@ public:
             return *value;
         return timelineMediaEffectsEnabled_;
     }
-    bool reducedMotion() const
+    bool uiAnimationsEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::UiMotionAnimationsEnabled);
             value.has_value())
-            return !*value;
-        return reducedMotion_;
+            return *value;
+        return uiAnimationsEnabled_;
     }
     bool privacyScreen() const
     {
@@ -914,7 +914,7 @@ signals:
     void showRoomListTimeChanged(bool state);
     void showLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
-    void reducedMotionChanged(bool state);
+    void uiAnimationsEnabledChanged(bool state);
     void privacyScreenChanged(bool state);
     void privacyScreenTimeoutSecondsChanged(int state);
     void maxTimelineWidthChanged(int state);
@@ -1014,7 +1014,7 @@ private:
     bool showRoomListTime_;
     LastMessagePreview showLastMessagePreview_;
     bool timelineMediaEffectsEnabled_;
-    bool reducedMotion_;
+    bool uiAnimationsEnabled_;
     bool privacyScreen_;
     int privacyScreenTimeoutSeconds_;
     bool shareKeysWithTrustedUsers_;

@@ -635,7 +635,7 @@ set(SRC_FILES
     src/settings/ui/UserSettingsModel.cpp
     src/settings/ui/facade/UserSettingsPersistence.cpp
     src/settings/ui/facade/UserSettingsPage.cpp
-    src/UserSettingsPage.h
+    src/settings/ui/facade/UserSettingsPage.h
     src/settings/ui/facade/UserSettingsSetters.cpp
     src/settings/ui/facade/UserSettingsSessionSettings.cpp
     src/settings/ui/facade/UserSettingsTheme.cpp

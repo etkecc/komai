@@ -18,6 +18,7 @@
 #include <QString>
 #include <QTextStream>
 #include <array>
+#include <string_view>
 #include <type_traits>
 
 #include "Cache.h"
@@ -94,6 +95,14 @@ using settings::ui::sectionTitleForRow;
 using settings::ui::settingsTable;
 using settings::ui::settingsTableRowCount;
 
+namespace {
+bool
+hasPersistedKey(const settings::ui::SettingMeta &meta, std::string_view key)
+{
+    return meta.core.persistedKey && std::string_view(meta.core.persistedKey) == key;
+}
+} // namespace
+
 QVariant
 UserSettingsModel::data(const QModelIndex &index, int role) const
 {
@@ -117,7 +126,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         if (!m.description)
             return QVariant{};
 
-        if (index.row() == PresenceDefault) {
+        if (hasPersistedKey(m, SettingKey::NetworkPresenceStatusPolicy)) {
             return tr(m.description)
               .arg(QStringLiteral("https://spec.matrix.org/v1.17/client-server-api/#presence"));
         }
@@ -156,7 +165,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         }
         break;
     case ThemeVariantValue:
-        if (index.row() == Theme) {
+        if (hasPersistedKey(m, SettingKey::UiThemeSlug)) {
             auto variant = ThemeRegistry::instance().themeVariant(i->theme());
             if (variant == u"light")
                 return 0;
@@ -166,7 +175,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         }
         return -1;
     case ThemeVariantValues:
-        if (index.row() == Theme)
+        if (hasPersistedKey(m, SettingKey::UiThemeSlug))
             return QStringList{
               QStringLiteral("Light"), QStringLiteral("Dark"), QStringLiteral("System")};
         return QStringList{};
@@ -189,7 +198,8 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         const auto &m = settingsTable[index.row()];
         return m.setValue ? m.setValue(value) : false;
     } else if (role == ThemeVariantValue) {
-        if (index.row() == Theme) {
+        const auto &m = settingsTable[index.row()];
+        if (hasPersistedKey(m, SettingKey::UiThemeSlug)) {
             int variantIdx = 0;
             if (!readSettingValue(value, variantIdx))
                 return false;

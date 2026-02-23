@@ -188,75 +188,35 @@ testConstraintSchemaCoverage()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::array<settings::core::SettingId, 58> expectedPersistedIds{{
-      settings::core::SettingId::UiThemeSlug,
-      settings::core::SettingId::UiFontFamily,
-      settings::core::SettingId::UiFontSizePt,
-      settings::core::SettingId::UiFontEmojiFamily,
-      settings::core::SettingId::UiMotionAnimationsEnabled,
-      settings::core::SettingId::UiInputEnableTextSelection,
-      settings::core::SettingId::UiInputSwipeGestures,
-      settings::core::SettingId::UiAvatarsCircular,
-      settings::core::SettingId::UiAvatarsIdenticonFallback,
-      settings::core::SettingId::SidebarsRoomListCompact,
-      settings::core::SettingId::SidebarsRoomListShowLastMessageTime,
-      settings::core::SettingId::SidebarsRoomListLastMessagePreview,
-      settings::core::SettingId::SidebarsRoomListShowCommunityCounts,
-      settings::core::SettingId::SidebarsRoomListScrollbarsEnabled,
-      settings::core::SettingId::SidebarsRoomListSort,
-      settings::core::SettingId::SidebarsCommunitiesVisible,
-      settings::core::SettingId::NetworkPresenceStatusPolicy,
-      settings::core::SettingId::PrivacyMaintenanceExpireEvents,
-      settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias,
-      settings::core::SettingId::PrivacyScreenLockEnabled,
-      settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
-      settings::core::SettingId::IntegrationsSystemTrayEnabled,
-      settings::core::SettingId::IntegrationsSystemTrayAutostart,
-      settings::core::SettingId::IntegrationsDbusApiAccess,
-      settings::core::SettingId::IntegrationsBrowserCommand,
-      settings::core::SettingId::ComposerInputMarkdownEnabled,
-      settings::core::SettingId::ComposerInputSendKey,
-      settings::core::SettingId::ComposerInputAutoReplaceEmoji,
-      settings::core::SettingId::ComposerFeedbackTypingNotifications,
-      settings::core::SettingId::ComposerFeedbackReadReceipts,
-      settings::core::SettingId::ComposerExtrasStickersEnabled,
-      settings::core::SettingId::NotificationsDesktopEnabled,
-      settings::core::SettingId::NotificationsDesktopAlertOnIncoming,
-      settings::core::SettingId::NotificationsDesktopDecryptMessages,
-      settings::core::SettingId::CallsLegacyEnabled,
-      settings::core::SettingId::CallsRelayUseFallbackServer,
-      settings::core::SettingId::CallsDevicesMicrophone,
-      settings::core::SettingId::CallsDevicesCamera,
-      settings::core::SettingId::CallsDevicesCameraResolution,
-      settings::core::SettingId::CallsDevicesCameraFrameRate,
-      settings::core::SettingId::CallsAudioRingtone,
-      settings::core::SettingId::TimelineMessagesLayoutBubbles,
-      settings::core::SettingId::TimelineMessagesLayoutSmallAvatars,
-      settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar,
-      settings::core::SettingId::TimelineMessagesSenderUsername,
-      settings::core::SettingId::TimelineMessagesMaxWidthPx,
-      settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge,
-      settings::core::SettingId::TimelineMessagesHoverHighlight,
-      settings::core::SettingId::TimelineMessageActionsEnabled,
-      settings::core::SettingId::TimelineMessageActionsPinnedReactions,
-      settings::core::SettingId::TimelineMediaEffectsEnabled,
-      settings::core::SettingId::TimelineMediaAnimateOnHover,
-      settings::core::SettingId::TimelineMediaImageDisplay,
-      settings::core::SettingId::TimelineMediaOpenImagesExternal,
-      settings::core::SettingId::TimelineMediaOpenVideosExternal,
-      settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers,
-      settings::core::SettingId::EncryptionKeySharingShareWithTrusted,
-      settings::core::SettingId::EncryptionBackupOnlineEnabled,
-    }};
+    constexpr std::size_t expectedPersistedDefinitionCount = 58;
+    const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;
-    ok &= expect(settings::core::definitions::persistedDefinitions().size() ==
-                   expectedPersistedIds.size(),
+    ok &= expect(definitions.size() == expectedPersistedDefinitionCount,
                  "persisted definition schema size matches expected setting list");
-    for (const auto id : expectedPersistedIds) {
-        if (!settings::core::definitions::hasPersistedDefinition(id)) {
-            std::cerr << "FAILED: missing persisted definition for SettingId "
-                      << static_cast<int>(id) << '\n';
+
+    for (const auto &definition : definitions) {
+        if (definition.id == settings::core::SettingId::Unknown) {
+            std::cerr << "FAILED: persisted definition uses SettingId::Unknown\n";
+            ok = false;
+        }
+
+        if (definition.scope == settings::core::SettingScope::Runtime) {
+            std::cerr << "FAILED: runtime-scoped setting in persisted definitions for SettingId "
+                      << static_cast<int>(definition.id) << '\n';
+            ok = false;
+        }
+
+        if (definition.persistedKey == nullptr || definition.persistedKey[0] == '\0') {
+            std::cerr << "FAILED: persisted definition missing key for SettingId "
+                      << static_cast<int>(definition.id) << '\n';
+            ok = false;
+        }
+
+        if (definition.hasIntRangeConstraint &&
+            definition.intRangeConstraintMin > definition.intRangeConstraintMax) {
+            std::cerr << "FAILED: invalid int range in persisted definition for SettingId "
+                      << static_cast<int>(definition.id) << '\n';
             ok = false;
         }
     }

@@ -17,18 +17,18 @@ Responsibility split:
 
 Current ownership map:
 
-- `src/UserSettingsPage.h/.cpp`
+- `src/settings/ui/facade/UserSettingsPage.h/.cpp`
   - `UserSettings` singleton façade (`Q_PROPERTY`, `Q_INVOKABLE`, `load()`, `save()`, `initialize()`).
   - Maintains runtime settings state and delegates persistence orchestration to `settings::SettingsController`.
-- `src/UserSettingsPage.h/.cpp` (`UserSettingsModel`)
+- `src/settings/ui/UserSettingsModel.h/.cpp` (`UserSettingsModel`)
   - QML list-model adapter and settings schema metadata mapping (`SettingMeta` rows, roles, and delegate types).
-- `src/UserSettingsSetters*.cpp` and `src/UserSettingsSettersCore.inc`
+- `src/settings/ui/facade/UserSettingsSetters*.cpp`
   - Mutator behavior for setting updates, including inline validation/normalization and immediate side effects.
-- `src/UserSettingsTheme.cpp`
+- `src/settings/ui/facade/UserSettingsTheme.cpp`
   - Theme switching and runtime theme application.
-- `src/UserSettingsPersistence.cpp` and `src/settings/SettingsSerializer.*`
+- `src/settings/ui/facade/UserSettingsPersistence.cpp` and `src/settings/SettingsSerializer*`
   - Load/save pass-through methods split from `UserSettingsPage` to avoid persistence logic in the façade.
-- `src/UserSettingsSessionSettings.cpp`
+- `src/settings/ui/facade/UserSettingsSessionSettings.cpp`
   - Session/auth/session-file related helpers.
 - `src/settings/SettingsController.*`
   - Profile orchestration and persistence pipeline orchestration.
@@ -38,10 +38,12 @@ Current ownership map:
   - Profile pathing and direct file/secure-store I/O primitives.
 - `src/settings/StartupSettings.*`, `src/settings/core/StartupConfig.*`
   - Bootstrap profile config preloading for startup-time scale-factor handling.
+- `src/settings/core/SettingDefinition.h`, `src/settings/core/SettingsDefinitions.h`, `src/settings/core/SettingsConstraints.h`
+  - Canonical persisted setting schema (`SettingId`, scope, key, restart policy) and schema-level value constraints.
 
 ### Responsibility map
 
-- `src/UserSettingsPage.h/.cpp` (`UserSettings`)
+- `src/settings/ui/facade/UserSettingsPage.h/.cpp` (`UserSettings`)
   - Runtime settings API: `Q_PROPERTY`, signals, and getters/setters for UI consumption.
   - In-memory defaults and current values.
   - Delegates profile load/save/clear orchestration to `settings::SettingsController`.
@@ -77,7 +79,7 @@ Settings flow:
   - Canonical settings keys for all persisted scopes (config/state/session/secrets/runtime).
 - `src/settings/StagedLoadPlan.h`
   - Startup stage ordering and secrets-provider dispatch plan.
-- `src/UserSettingsModel.cpp` and `src/UserSettingsModel*.inc` (`UserSettingsModel`)
+- `src/settings/ui/UserSettingsModel.cpp` and `src/settings/ui/rows/UserSettingsModel*.inc` (`UserSettingsModel`)
   - UI adapter that maps setting metadata to rows, roles, and tab-filtered models.
 
 Profile directory:
@@ -108,28 +110,30 @@ Reference examples:
 
 Primary implementation files:
 
-- `src/UserSettingsPage.cpp`
-- `src/UserSettingsPage.h`
-- `src/UserSettingsModel.cpp`
-- `src/UserSettingsModel*.inc`
-- `src/UserSettingsSetters.cpp`
-- `src/UserSettingsSettersCore.inc`
-- `src/UserSettingsSettersLayout.inc`
-- `src/UserSettingsSettersMisc.inc`
-- `src/UserSettingsSettersUi.inc`
-- `src/UserSettingsPersistence.cpp`
+- `src/settings/ui/facade/UserSettingsPage.cpp`
+- `src/settings/ui/facade/UserSettingsPage.h`
+- `src/settings/ui/UserSettingsModel.cpp`
+- `src/settings/ui/rows/UserSettingsModel*.inc`
+- `src/settings/ui/facade/UserSettingsSettersCore.cpp`
+- `src/settings/ui/facade/UserSettingsSettersLayout.cpp`
+- `src/settings/ui/facade/UserSettingsSettersMisc.cpp`
+- `src/settings/ui/facade/UserSettingsSettersUi.cpp`
+- `src/settings/ui/facade/UserSettingsPersistence.cpp`
 - `src/settings/SettingsSerializerConfig.cpp`
 - `src/settings/SettingsSerializerSession.cpp`
 - `src/settings/SettingsSerializerState.cpp`
 - `src/settings/SettingsSerializer.h`
-- `src/UserSettingsSessionSettings.cpp`
-- `src/UserSettingsTheme.cpp`
+- `src/settings/ui/facade/UserSettingsSessionSettings.cpp`
+- `src/settings/ui/facade/UserSettingsTheme.cpp`
 - `src/settings/SettingsController.cpp`
 - `src/settings/SettingsController.h`
 - `src/settings/SettingsPersistence.cpp`
 - `src/settings/SettingsPersistence.h`
 - `src/settings/SettingsStorage.cpp`
 - `src/settings/SettingsStorage.h`
+- `src/settings/core/SettingDefinition.h`
+- `src/settings/core/SettingsDefinitions.h`
+- `src/settings/core/SettingsConstraints.h`
 
 Persistence entry points:
 

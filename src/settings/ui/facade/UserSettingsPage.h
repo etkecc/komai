@@ -107,7 +107,8 @@ class UserSettings final : public QObject
       int roomListWidth READ roomListWidth WRITE setRoomListWidth NOTIFY roomListWidthChanged)
     Q_PROPERTY(int communityListWidth READ communityListWidth WRITE setCommunityListWidth NOTIFY
                  communityListWidthChanged)
-    Q_PROPERTY(bool mobileMode READ mobileMode WRITE setMobileMode NOTIFY mobileModeChanged)
+    Q_PROPERTY(
+      bool touchInputMode READ touchInputMode WRITE setTouchInputMode NOTIFY touchInputModeChanged)
     Q_PROPERTY(bool enableSwipeGestures READ enableSwipeGestures WRITE setEnableSwipeGestures NOTIFY
                  enableSwipeGesturesChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -284,7 +285,7 @@ public:
     void setEnlargeEmojiOnlyMessages(bool state);
     void setTray(bool state);
     void setStartInTray(bool state);
-    void setMobileMode(bool mode);
+    void setTouchInputMode(bool mode);
     void setEnableSwipeGestures(bool mode);
     void setScaleFactor(double factor);
     void setFontSize(double size);
@@ -633,13 +634,13 @@ public:
             return *value;
         return showActionButtons_;
     }
-    bool mobileMode() const
+    bool touchInputMode() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::UiInputEnableTextSelection);
             value.has_value())
             return !*value;
-        return mobileMode_;
+        return touchInputMode_;
     }
     bool enableSwipeGestures() const
     {
@@ -919,7 +920,7 @@ signals:
     void maxTimelineWidthChanged(int state);
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
-    void mobileModeChanged(bool mode);
+    void touchInputModeChanged(bool mode);
     void enableSwipeGesturesChanged(bool state);
     void scaleFactorChanged(double factor);
     void fontSizeChanged(double state);
@@ -1019,7 +1020,7 @@ private:
     bool shareKeysWithTrustedUsers_;
     bool onlyShareKeysWithVerifiedUsers_;
     bool useOnlineKeyBackup_;
-    bool mobileMode_;
+    bool touchInputMode_;
     bool enableSwipeGestures_;
     int maxTimelineWidth_;
     int roomListWidth_      = -1;

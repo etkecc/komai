@@ -14,5 +14,5 @@
     CONNECT_SETTING_ID(SidebarsRoomListScrollbarsEnabled, scrollbarsInRoomlistChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListSort, roomSortOrderChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, showCommunitiesSidebarChanged, Value);
-    CONNECT_SETTING_ID(UiInputEnableTextSelection, mobileModeChanged, Value);
+    CONNECT_SETTING_ID(UiInputEnableTextSelection, touchInputModeChanged, Value);
     CONNECT_SETTING_ID(UiInputSwipeGestures, enableSwipeGesturesChanged, Value);

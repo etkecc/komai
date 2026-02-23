@@ -45,7 +45,7 @@ Note:
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsStartInTray` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::integrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::MobileMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
 | Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::Bubbles` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
 | Timeline | MESSAGES | Use small avatars | `UserSettingsModel::SmallAvatars` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |

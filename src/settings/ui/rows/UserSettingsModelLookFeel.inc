@@ -67,8 +67,8 @@
       QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
                  "experience."),
       SM::TabLookFeel,
-      mobileMode,
-      setMobileMode,
+      touchInputMode,
+      setTouchInputMode,
       nullptr,
       UiInputEnableTextSelection,
       SettingKey::UiInputEnableTextSelection),

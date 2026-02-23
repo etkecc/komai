@@ -17,9 +17,9 @@
 #include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"
 #include "settings/core/SettingDefinition.h"
+#include "settings/core/SettingsConstraints.h"
 #include "settings/core/SettingsSerializer.h"
 #include "settings/ui/SettingDescriptor.h"
-#include "settings/ui/UserSettingsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include <string>
 #include <string_view>
@@ -65,42 +65,11 @@ currentLoggers()
 }
 
 void
-syncCoreStoreConstraintsFromSettingsTable(UserSettings &settings)
-{
-    auto &store = settings.mutableCoreStore();
-    store.clearConstraints();
-
-    for (int row = 0; row < settings::ui::settingsTableRowCount(); ++row) {
-        const auto &meta = settings::ui::settingsTable[row];
-        const auto &core = meta.core;
-        if (core.id == settings::core::SettingId::Unknown)
-            continue;
-        if (meta.type != UserSettingsModel::Options &&
-            meta.type != UserSettingsModel::OptionsWithDescription &&
-            meta.type != UserSettingsModel::Integer)
-            continue;
-        if (!meta.lowerBound.isValid() || !meta.upperBound.isValid())
-            continue;
-
-        bool lowerOk    = false;
-        bool upperOk    = false;
-        const int lower = meta.lowerBound.toInt(&lowerOk);
-        const int upper = meta.upperBound.toInt(&upperOk);
-        if (!lowerOk || !upperOk)
-            continue;
-        if (upper < lower)
-            continue;
-
-        store.setIntRangeConstraint(core.id, lower, upper);
-    }
-}
-
-void
 syncCoreStoreFromSettings(UserSettings &settings)
 {
     auto &store = settings.mutableCoreStore();
     store.clear();
-    syncCoreStoreConstraintsFromSettingsTable(settings);
+    settings::core::constraints::applyDefaultConstraints(store);
 
     const auto set = [&store](settings::core::SettingId id,
                               settings::core::SettingsStore::Value value) {

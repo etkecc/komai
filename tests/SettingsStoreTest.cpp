@@ -3,8 +3,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <iostream>
+#include <array>
 
 #include "TestEnvironment.h"
+#include "settings/core/SettingsConstraints.h"
 #include "settings/core/SettingsStore.h"
 
 namespace {
@@ -114,7 +116,7 @@ bool
 testEnumValidationRejectsOutOfRange()
 {
     settings::core::SettingsStore store;
-    store.setIntRangeConstraint(settings::core::SettingId::IntegrationsDbusApiAccess, 0, 2);
+    settings::core::constraints::applyDefaultConstraints(store);
     const auto invalid =
       store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 99);
     const bool hasRejectedValue =
@@ -136,7 +138,7 @@ bool
 testEnumValidationRejectsWrongType()
 {
     settings::core::SettingsStore store;
-    store.setIntRangeConstraint(settings::core::SettingId::NetworkPresenceStatusPolicy, 0, 3);
+    settings::core::constraints::applyDefaultConstraints(store);
     const auto invalid =
       store.set(settings::core::SettingId::NetworkPresenceStatusPolicy, true);
 
@@ -146,6 +148,37 @@ testEnumValidationRejectsWrongType()
     ok &= expect(!invalid.validationError.empty(), "wrong enum/int type reports error");
     ok &= expect(!store.hasValue(settings::core::SettingId::NetworkPresenceStatusPolicy),
                  "wrong enum/int type is not stored");
+
+    return ok;
+}
+
+bool
+testConstraintSchemaCoverage()
+{
+    constexpr std::array<settings::core::SettingId, 10> expectedConstrainedIds{{
+      settings::core::SettingId::IntegrationsDbusApiAccess,
+      settings::core::SettingId::NetworkPresenceStatusPolicy,
+      settings::core::SettingId::ComposerInputSendKey,
+      settings::core::SettingId::ComposerInputAutoReplaceEmoji,
+      settings::core::SettingId::SidebarsRoomListSort,
+      settings::core::SettingId::SidebarsRoomListLastMessagePreview,
+      settings::core::SettingId::TimelineMessagesSenderUsername,
+      settings::core::SettingId::TimelineMediaImageDisplay,
+      settings::core::SettingId::TimelineMessagesMaxWidthPx,
+      settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
+    }};
+
+    bool ok = true;
+    ok &= expect(settings::core::constraints::intRangeConstraints().size() ==
+                   expectedConstrainedIds.size(),
+                 "constraint schema size matches expected constrained setting list");
+    for (const auto id : expectedConstrainedIds) {
+        if (!settings::core::constraints::hasIntRangeConstraint(id)) {
+            std::cerr << "FAILED: missing constraint schema for SettingId "
+                      << static_cast<int>(id) << '\n';
+            ok = false;
+        }
+    }
 
     return ok;
 }
@@ -185,6 +218,7 @@ main()
     ok &= testStringListValue();
     ok &= testEnumValidationRejectsOutOfRange();
     ok &= testEnumValidationRejectsWrongType();
+    ok &= testConstraintSchemaCoverage();
     ok &= testUnconstrainedSettingsAcceptAnyInt();
     return ok ? 0 : 1;
 }

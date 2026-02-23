@@ -12,6 +12,7 @@
 #include <QSharedPointer>
 
 #include <optional>
+#include <string>
 
 #include "settings/core/SettingsStore.h"
 
@@ -385,23 +386,58 @@ public:
     Q_INVOKABLE int themeIndexInCurrentVariant() const;
     Q_INVOKABLE void setThemeByVariantIndex(int index);
 
-    QString theme() const { return !theme_.isEmpty() ? theme_ : defaultTheme_; }
+    QString theme() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
+            value.has_value() && !value->empty())
+            return QString::fromStdString(*value);
+        return !theme_.isEmpty() ? theme_ : defaultTheme_;
+    }
     bool messageHoverHighlight() const { return messageHoverHighlight_; }
     bool enlargeEmojiOnlyMessages() const { return enlargeEmojiOnlyMessages_; }
     bool tray() const { return tray_; }
     bool startInTray() const { return startInTray_; }
     bool showCommunitiesSidebar() const { return showCommunitiesSidebar_; }
     bool scrollbarsInRoomlist() const { return scrollbarsInRoomlist_; }
-    bool useCircularAvatars() const { return useCircularAvatars_; }
+    bool useCircularAvatars() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::UiAvatarsCircular);
+            value.has_value())
+            return *value;
+        return useCircularAvatars_;
+    }
     bool decryptNotifications() const { return decryptNotifications_; }
     bool showCommunityNotificationCounts() const { return showCommunityNotificationCounts_; }
     bool compactRoomList() const { return compactRoomList_; }
     bool showRoomListTime() const { return showRoomListTime_; }
     LastMessagePreview showLastMessagePreview() const { return showLastMessagePreview_; }
     bool fancyEffects() const { return fancyEffects_; }
-    bool reducedMotion() const { return reducedMotion_; }
-    bool privacyScreen() const { return privacyScreen_; }
-    int privacyScreenTimeoutSeconds() const { return privacyScreenTimeoutSeconds_; }
+    bool reducedMotion() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::UiMotionAnimationsEnabled);
+            value.has_value())
+            return !*value;
+        return reducedMotion_;
+    }
+    bool privacyScreen() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::PrivacyScreenLockEnabled);
+            value.has_value())
+            return *value;
+        return privacyScreen_;
+    }
+    int privacyScreenTimeoutSeconds() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<int>(settings::core::SettingId::PrivacyScreenLockTimeoutSeconds);
+            value.has_value())
+            return *value;
+        return privacyScreenTimeoutSeconds_;
+    }
     bool markdown() const { return markdown_; }
     SendMessageKey sendMessageKey() const { return sendMessageKey_; }
     AutoReplaceEmoji autoReplaceEmoji() const { return autoReplaceEmoji_; }
@@ -416,8 +452,22 @@ public:
     bool typingNotifications() const { return typingNotifications_; }
     RoomSortOrder roomSortOrder() const { return roomSortOrder_; }
     bool showActionButtons() const { return showActionButtons_; }
-    bool mobileMode() const { return mobileMode_; }
-    bool enableSwipeGestures() const { return enableSwipeGestures_; }
+    bool mobileMode() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::UiInputEnableTextSelection);
+            value.has_value())
+            return !*value;
+        return mobileMode_;
+    }
+    bool enableSwipeGestures() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::UiInputSwipeGestures);
+            value.has_value())
+            return *value;
+        return enableSwipeGestures_;
+    }
     bool readReceipts() const { return readReceipts_; }
     bool hasDesktopNotifications() const { return hasDesktopNotifications_; }
     bool alertOnIncomingMessages() const { return alertOnIncomingMessages_; }
@@ -426,11 +476,39 @@ public:
     int communityListWidth() const { return communityListWidth_; }
     int roomListWidth() const { return roomListWidth_; }
     double scaleFactor() const { return scaleFactor_ > 0.0 ? scaleFactor_ : 1.0; }
-    double fontSize() const { return baseFontSize_; }
-    QString font() const { return font_; }
+    double fontSize() const
+    {
+        if (const auto value = coreStore_.valueAs<double>(settings::core::SettingId::UiFontSizePt);
+            value.has_value())
+            return *value;
+        return baseFontSize_;
+    }
+    QString font() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<std::string>(settings::core::SettingId::UiFontFamily);
+            value.has_value())
+            return QString::fromStdString(*value);
+        return font_;
+    }
     QString emojiFont() const;
-    QString emojiFontFamily() const { return emojiFont_; }
-    Presence presence() const { return presence_; }
+    QString emojiFontFamily() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<std::string>(settings::core::SettingId::UiFontEmojiFamily);
+            value.has_value())
+            return QString::fromStdString(*value);
+        return emojiFont_;
+    }
+    Presence presence() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<int>(settings::core::SettingId::NetworkPresenceStatusPolicy);
+            value.has_value() && *value >= static_cast<int>(Presence::AutomaticPresence) &&
+            *value <= static_cast<int>(Presence::Offline))
+            return static_cast<Presence>(*value);
+        return presence_;
+    }
     ShowImage showImage() const { return showImage_; }
     QString ringtone() const { return ringtone_; }
     QString microphone() const { return microphone_; }
@@ -464,8 +542,22 @@ public:
     QList<QStringList> collapsedSpaces() const { return collapsedSpaces_; }
     int integrationsDbusApiAccess() const { return integrationsDbusApiAccess_; }
     QString integrationsLinksBrowserCommand() const { return integrationsLinksBrowserCommand_; }
-    bool updateSpaceVias() const { return updateSpaceVias_; }
-    bool expireEvents() const { return expireEvents_; }
+    bool updateSpaceVias() const
+    {
+        if (const auto value = coreStore_.valueAs<bool>(
+              settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias);
+            value.has_value())
+            return *value;
+        return updateSpaceVias_;
+    }
+    bool expireEvents() const
+    {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::PrivacyMaintenanceExpireEvents);
+            value.has_value())
+            return *value;
+        return expireEvents_;
+    }
     int windowWidth() const { return windowWidth_; }
     int windowHeight() const { return windowHeight_; }
     qulonglong maxDbSize() const { return maxDbSize_; }

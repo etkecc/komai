@@ -113,7 +113,12 @@ UserSettings::setDisableCertificateValidation(bool disabled)
 void
 UserSettings::setUseIdenticon(bool s)
 {
-    setSetting(useIdenticon_, s, &UserSettings::useIdenticonChanged);
+    if (useIdenticon_ == s)
+        return;
+    useIdenticon_ = s;
+    (void)coreStore_.set(settings::core::SettingId::UiAvatarsIdenticonFallback, s);
+    emit useIdenticonChanged(s);
+    save();
 }
 void
 UserSettings::setOpenImagesInExternalApp(bool s)

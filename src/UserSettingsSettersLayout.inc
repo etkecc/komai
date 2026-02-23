@@ -11,6 +11,7 @@ UserSettings::setFontSize(double size)
     if (size == baseFontSize_)
         return;
     baseFontSize_ = size;
+    (void)coreStore_.set(settings::core::SettingId::UiFontSizePt, size);
 
     const static auto defaultFamily = QFont().defaultFamily();
     QFont f((font_.isEmpty() || font_ == QStringLiteral("default")) ? defaultFamily : font_);
@@ -39,6 +40,7 @@ UserSettings::setFontFamily(QString family)
     if (family == font_)
         return;
     font_ = family;
+    (void)coreStore_.set(settings::core::SettingId::UiFontFamily, family.toStdString());
 
     const static auto defaultFamily = QFont().defaultFamily();
     QFont f((family.isEmpty() || family == QStringLiteral("default")) ? defaultFamily : family);
@@ -69,6 +71,7 @@ UserSettings::setEmojiFontFamily(QString family)
 #endif
         emojiFont_ = family;
     }
+    (void)coreStore_.set(settings::core::SettingId::UiFontEmojiFamily, emojiFont_.toStdString());
 
     nhlog::ui()->info("Emoji font: changed to \"{}\"",
                       emojiFont_.isEmpty() ? "system default" : emojiFont_.toStdString());
@@ -80,7 +83,13 @@ UserSettings::setEmojiFontFamily(QString family)
 void
 UserSettings::setPresence(Presence s)
 {
-    setSetting(presence_, s, &UserSettings::presenceChanged);
+    if (presence_ == s)
+        return;
+    presence_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NetworkPresenceStatusPolicy,
+                         static_cast<int>(s));
+    emit presenceChanged(s);
+    save();
 }
 void
 UserSettings::setShowImage(ShowImage s)

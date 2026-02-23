@@ -96,7 +96,12 @@ UserSettings::setAlertOnIncomingMessages(bool s)
 void
 UserSettings::setUseCircularAvatars(bool s)
 {
-    setSetting(useCircularAvatars_, s, &UserSettings::useCircularAvatarsChanged);
+    if (useCircularAvatars_ == s)
+        return;
+    useCircularAvatars_ = s;
+    (void)coreStore_.set(settings::core::SettingId::UiAvatarsCircular, s);
+    emit useCircularAvatarsChanged(s);
+    save();
 }
 void
 UserSettings::setDecryptNotifications(bool s)
@@ -136,6 +141,7 @@ UserSettings::setReducedMotion(bool state)
     if (state == reducedMotion_)
         return;
     reducedMotion_ = state;
+    (void)coreStore_.set(settings::core::SettingId::UiMotionAnimationsEnabled, !state);
     emit reducedMotionChanged(state);
     save();
 
@@ -149,10 +155,20 @@ UserSettings::setReducedMotion(bool state)
 void
 UserSettings::setPrivacyScreen(bool s)
 {
-    setSetting(privacyScreen_, s, &UserSettings::privacyScreenChanged);
+    if (privacyScreen_ == s)
+        return;
+    privacyScreen_ = s;
+    (void)coreStore_.set(settings::core::SettingId::PrivacyScreenLockEnabled, s);
+    emit privacyScreenChanged(s);
+    save();
 }
 void
 UserSettings::setPrivacyScreenTimeoutSeconds(int s)
 {
-    setSetting(privacyScreenTimeoutSeconds_, s, &UserSettings::privacyScreenTimeoutSecondsChanged);
+    if (privacyScreenTimeoutSeconds_ == s)
+        return;
+    privacyScreenTimeoutSeconds_ = s;
+    (void)coreStore_.set(settings::core::SettingId::PrivacyScreenLockTimeoutSeconds, s);
+    emit privacyScreenTimeoutSecondsChanged(s);
+    save();
 }

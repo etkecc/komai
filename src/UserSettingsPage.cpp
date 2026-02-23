@@ -120,7 +120,14 @@ UserSettings::emojiFont() const
 bool
 UserSettings::useIdenticon() const
 {
-    return useIdenticon_ && JdenticonProvider::isAvailable();
+    const auto enabled = [this]() {
+        if (const auto value =
+              coreStore_.valueAs<bool>(settings::core::SettingId::UiAvatarsIdenticonFallback);
+            value.has_value())
+            return *value;
+        return useIdenticon_;
+    }();
+    return enabled && JdenticonProvider::isAvailable();
 }
 
 void

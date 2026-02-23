@@ -32,12 +32,22 @@ UserSettings::setStartInTray(bool s)
 void
 UserSettings::setMobileMode(bool s)
 {
-    setSetting(mobileMode_, s, &UserSettings::mobileModeChanged);
+    if (mobileMode_ == s)
+        return;
+    mobileMode_ = s;
+    (void)coreStore_.set(settings::core::SettingId::UiInputEnableTextSelection, !s);
+    emit mobileModeChanged(s);
+    save();
 }
 void
 UserSettings::setEnableSwipeGestures(bool s)
 {
-    setSetting(enableSwipeGestures_, s, &UserSettings::enableSwipeGesturesChanged);
+    if (enableSwipeGestures_ == s)
+        return;
+    enableSwipeGestures_ = s;
+    (void)coreStore_.set(settings::core::SettingId::UiInputSwipeGestures, s);
+    emit enableSwipeGesturesChanged(s);
+    save();
 }
 void
 UserSettings::setShowCommunitiesSidebar(bool s)
@@ -112,12 +122,22 @@ UserSettings::setIntegrationsLinksBrowserCommand(QString command)
 void
 UserSettings::setUpdateSpaceVias(bool s)
 {
-    setSetting(updateSpaceVias_, s, &UserSettings::updateSpaceViasChanged);
+    if (updateSpaceVias_ == s)
+        return;
+    updateSpaceVias_ = s;
+    (void)coreStore_.set(settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias, s);
+    emit updateSpaceViasChanged(s);
+    save();
 }
 void
 UserSettings::setExpireEvents(bool s)
 {
-    setSetting(expireEvents_, s, &UserSettings::expireEventsChanged);
+    if (expireEvents_ == s)
+        return;
+    expireEvents_ = s;
+    (void)coreStore_.set(settings::core::SettingId::PrivacyMaintenanceExpireEvents, s);
+    emit expireEventsChanged(s);
+    save();
 }
 void
 UserSettings::setWindowWidth(int s)

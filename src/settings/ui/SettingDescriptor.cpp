@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "settings/SettingDescriptor.h"
+#include "settings/ui/SettingDescriptor.h"
 
 #include <QApplication>
 #include <QCoreApplication>

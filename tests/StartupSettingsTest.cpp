@@ -16,7 +16,7 @@
 #include <spdlog/sinks/null_sink.h>
 
 #include "UserSettingsPage.h"
-#include "settings/SettingDescriptor.h"
+#include "settings/ui/SettingDescriptor.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"

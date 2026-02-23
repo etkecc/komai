@@ -7,33 +7,7 @@
 
 #include <QVariant>
 
-#include "UserSettingsPage.h"
-
-namespace settings::core {
-
-enum class SettingScope
-{
-    Runtime,
-    Config,
-    State,
-    Session,
-    Secrets,
-};
-
-enum class SettingId
-{
-    Unknown,
-};
-
-struct SettingDefinition
-{
-    SettingId id             = SettingId::Unknown;
-    SettingScope scope       = SettingScope::Runtime;
-    const char *persistedKey = nullptr;
-    bool requiresRestart     = false;
-};
-
-} // namespace settings::core
+#include "settings/core/SettingDefinition.h"
 
 namespace settings::ui {
 

@@ -194,7 +194,7 @@ main(int argc, char *argv[])
 
     // Disable the qml disk cache by default to prevent crashes on updates. See
     // https://github.com/Nheko-Reborn/nheko/issues/1383
-    if (qgetenv("NHEKO_ALLOW_QML_DISK_CACHE").size() == 0) {
+    if (qgetenv("KOMAI_ALLOW_QML_DISK_CACHE").size() == 0) {
         qputenv("QML_DISABLE_DISK_CACHE", "1");
     }
 
@@ -270,12 +270,12 @@ main(int argc, char *argv[])
         } else if (parser.isSet(debugOption)) {
             level = "trace";
         } else {
-            level = qEnvironmentVariable("NHEKO_LOG_LEVEL");
+            level = qEnvironmentVariable("KOMAI_LOG_LEVEL");
         }
 
         QStringList targets =
           (parser.isSet(logType) ? parser.value(logType)
-                                 : qEnvironmentVariable("NHEKO_LOG_TYPE", "file,stderr"))
+                                 : qEnvironmentVariable("KOMAI_LOG_TYPE", "file,stderr"))
             .split(',', Qt::SkipEmptyParts);
         targets.removeAll("none");
         bool to_stderr = bool(targets.removeAll("stderr"));
@@ -355,7 +355,7 @@ main(int argc, char *argv[])
         // When the token is set in the env, use it by default as that's what we're supposed to do
         // But leave a env knob so users can workaround terminal emulators that leak tokens
         if (waylandApp &&
-            (!qEnvironmentVariableIsEmpty("NHEKO_FORCE_ACTIVATION_SPLASH") || token.isEmpty())) {
+            (!qEnvironmentVariableIsEmpty("KOMAI_FORCE_ACTIVATION_SPLASH") || token.isEmpty())) {
             QQuickView window;
             window.setTitle("Activate main instance");
             window.setMaximumSize(QSize(100, 50));

@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "Paths.h"
-#include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"

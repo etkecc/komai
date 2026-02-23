@@ -104,7 +104,7 @@
     // ShowCommunityNotificationCounts
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show notification counts",
                         QT_TR_NOOP("Show total notification counts for communities and tags."),
-                        SM::TabSidebars, showCommunityNotificationCounts, setShowCommunityNotificationCounts, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
+                        SM::TabSidebars, communityNotificationCountsVisible, setCommunityNotificationCountsVisible, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
     // CircularAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
                         QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),

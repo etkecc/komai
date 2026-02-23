@@ -89,7 +89,7 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
         static_cast<int>(settings.showLastMessagePreview()));
     set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts,
-        settings.showCommunityNotificationCounts());
+        settings.communityNotificationCountsVisible());
     set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled,
         settings.roomListScrollbarsVisible());
     set(settings::core::SettingId::SidebarsRoomListSort,
@@ -125,7 +125,7 @@ syncCoreStoreFromSettings(UserSettings &settings)
         settings.decryptNotifications());
     set(settings::core::SettingId::CallsLegacyEnabled, settings.legacyCallsEnabled());
     set(settings::core::SettingId::CallsRelayUseFallbackServer,
-        settings.useFallbackCallRelayServer());
+        settings.fallbackCallRelayServerEnabled());
     set(settings::core::SettingId::CallsDevicesMicrophone, settings.microphone().toStdString());
     set(settings::core::SettingId::CallsDevicesCamera, settings.camera().toStdString());
     set(settings::core::SettingId::CallsDevicesCameraResolution,
@@ -163,7 +163,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
         settings.onlyShareKeysWithVerifiedUsers());
     set(settings::core::SettingId::EncryptionKeySharingShareWithTrusted,
         settings.shareKeysWithTrustedUsers());
-    set(settings::core::SettingId::EncryptionBackupOnlineEnabled, settings.useOnlineKeyBackup());
+    set(settings::core::SettingId::EncryptionBackupOnlineEnabled,
+        settings.onlineKeyBackupEnabled());
 }
 
 const YAML::Node *

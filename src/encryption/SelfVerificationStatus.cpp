@@ -40,7 +40,7 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
 void
 SelfVerificationStatus::setupCrosssigning(bool useSSSS,
                                           const QString &password,
-                                          bool useOnlineKeyBackup)
+                                          bool onlineKeyBackupEnabled)
 {
     nhlog::db()->info("Clicked setup crossigning");
 
@@ -60,7 +60,7 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
                        xsign_keys->private_user_signing_key);
 
     std::optional<mtx::crypto::OlmClient::OnlineKeyBackupSetup> okb;
-    if (useOnlineKeyBackup) {
+    if (onlineKeyBackupEnabled) {
         okb = olm::client()->create_online_key_backup(xsign_keys->private_master_key);
         if (!okb) {
             nhlog::crypto()->critical("Failed to setup online key backup!");

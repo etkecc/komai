@@ -9,7 +9,7 @@
       SidebarsRoomListShowLastMessageTime, roomListShowLastMessageTimeChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListLastMessagePreview, showLastMessagePreviewChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsRoomListShowCommunityCounts, showCommunityNotificationCountsChanged, Value);
+      SidebarsRoomListShowCommunityCounts, communityNotificationCountsVisibleChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, circularAvatarsEnabledChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsIdenticonFallback, identiconFallbackEnabledChanged, Value);
     CONNECT_SETTING_ID(

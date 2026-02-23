@@ -1,11 +1,11 @@
 void
-UserSettings::setUseFallbackCallRelayServer(bool s)
+UserSettings::setFallbackCallRelayServerEnabled(bool s)
 {
-    if (useFallbackCallRelayServer_ == s)
+    if (fallbackCallRelayServerEnabled_ == s)
         return;
-    useFallbackCallRelayServer_ = s;
+    fallbackCallRelayServerEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsRelayUseFallbackServer, s);
-    emit useFallbackCallRelayServerChanged(s);
+    emit fallbackCallRelayServerEnabledChanged(s);
     save();
 }
 void
@@ -40,14 +40,14 @@ UserSettings::setShareKeysWithTrustedUsers(bool s)
 }
 
 void
-UserSettings::setUseOnlineKeyBackup(bool useBackup)
+UserSettings::setOnlineKeyBackupEnabled(bool useBackup)
 {
-    if (useBackup == useOnlineKeyBackup_)
+    if (useBackup == onlineKeyBackupEnabled_)
         return;
 
-    useOnlineKeyBackup_ = useBackup;
+    onlineKeyBackupEnabled_ = useBackup;
     (void)coreStore_.set(settings::core::SettingId::EncryptionBackupOnlineEnabled, useBackup);
-    emit useOnlineKeyBackupChanged(useBackup);
+    emit onlineKeyBackupEnabledChanged(useBackup);
     save();
 
     if (useBackup)
@@ -55,14 +55,14 @@ UserSettings::setUseOnlineKeyBackup(bool useBackup)
 }
 
 void
-UserSettings::setUseOnlineKeyBackupFromConfig(bool useBackup)
+UserSettings::setOnlineKeyBackupEnabledFromConfig(bool useBackup)
 {
-    if (useBackup == useOnlineKeyBackup_)
+    if (useBackup == onlineKeyBackupEnabled_)
         return;
 
-    useOnlineKeyBackup_ = useBackup;
+    onlineKeyBackupEnabled_ = useBackup;
     (void)coreStore_.set(settings::core::SettingId::EncryptionBackupOnlineEnabled, useBackup);
-    emit useOnlineKeyBackupChanged(useBackup);
+    emit onlineKeyBackupEnabledChanged(useBackup);
 }
 
 void

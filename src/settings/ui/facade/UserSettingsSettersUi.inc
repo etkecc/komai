@@ -202,13 +202,13 @@ UserSettings::setDecryptNotifications(bool s)
     save();
 }
 void
-UserSettings::setShowCommunityNotificationCounts(bool s)
+UserSettings::setCommunityNotificationCountsVisible(bool s)
 {
-    if (showCommunityNotificationCounts_ == s)
+    if (communityNotificationCountsVisible_ == s)
         return;
-    showCommunityNotificationCounts_ = s;
+    communityNotificationCountsVisible_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts, s);
-    emit showCommunityNotificationCountsChanged(s);
+    emit communityNotificationCountsVisibleChanged(s);
     save();
 }
 void

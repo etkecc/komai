@@ -92,7 +92,7 @@ Item {
             radius: Nheko.paddingSmall
         }
 
-        onAccepted: SelfVerificationStatus.setupCrosssigning(storeSecretsOnline.checked, usePassword.checked ? passwordField.text : "", useOnlineKeyBackup.checked)
+        onAccepted: SelfVerificationStatus.setupCrosssigning(storeSecretsOnline.checked, usePassword.checked ? passwordField.text : "", onlineKeyBackupEnabled.checked)
 
         GridLayout {
             id: grid
@@ -197,7 +197,7 @@ Item {
                 Layout.preferredHeight: storeSecretsOnline.height
 
                 ToggleButton {
-                    id: useOnlineKeyBackup
+                    id: onlineKeyBackupEnabled
 
                     checked: true
 

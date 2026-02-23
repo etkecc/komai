@@ -831,7 +831,7 @@ backup_session_key(const MegolmSessionIndex &idx,
                    mtx::crypto::InboundGroupSessionPtr &session)
 {
     try {
-        if (!UserSettings::instance()->useOnlineKeyBackup()) {
+        if (!UserSettings::instance()->onlineKeyBackupEnabled()) {
             // Online key backup disabled
             return;
         }
@@ -911,7 +911,7 @@ download_full_keybackup()
         return;
     }
 
-    if (!UserSettings::instance()->useOnlineKeyBackup()) {
+    if (!UserSettings::instance()->onlineKeyBackupEnabled()) {
         // Online key backup disabled
         nhlog::crypto()->debug("Not downloading full online key backup, because it is disabled.");
         return;
@@ -992,7 +992,7 @@ download_full_keybackup()
 void
 lookup_keybackup(const std::string &room, const std::string &session_id)
 {
-    if (!UserSettings::instance()->useOnlineKeyBackup()) {
+    if (!UserSettings::instance()->onlineKeyBackupEnabled()) {
         // Online key backup disabled
         return;
     }

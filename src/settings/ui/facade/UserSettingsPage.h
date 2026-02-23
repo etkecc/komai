@@ -89,8 +89,9 @@ class UserSettings final : public QObject
                  setCircularAvatarsEnabled NOTIFY circularAvatarsEnabledChanged)
     Q_PROPERTY(bool decryptNotifications READ decryptNotifications WRITE setDecryptNotifications
                  NOTIFY decryptNotificationsChanged)
-    Q_PROPERTY(bool showCommunityNotificationCounts READ showCommunityNotificationCounts WRITE
-                 setShowCommunityNotificationCounts NOTIFY showCommunityNotificationCountsChanged)
+    Q_PROPERTY(
+      bool communityNotificationCountsVisible READ communityNotificationCountsVisible WRITE
+        setCommunityNotificationCountsVisible NOTIFY communityNotificationCountsVisibleChanged)
     Q_PROPERTY(bool compactRoomList READ compactRoomList WRITE setCompactRoomList NOTIFY
                  compactRoomListChanged)
     Q_PROPERTY(bool roomListShowLastMessageTime READ roomListShowLastMessageTime WRITE
@@ -136,16 +137,16 @@ class UserSettings final : public QObject
                  setScreenShareRemoteVideo NOTIFY screenShareRemoteVideoChanged)
     Q_PROPERTY(bool screenShareHideCursor READ screenShareHideCursor WRITE setScreenShareHideCursor
                  NOTIFY screenShareHideCursorChanged)
-    Q_PROPERTY(bool useFallbackCallRelayServer READ useFallbackCallRelayServer WRITE
-                 setUseFallbackCallRelayServer NOTIFY useFallbackCallRelayServerChanged)
+    Q_PROPERTY(bool fallbackCallRelayServerEnabled READ fallbackCallRelayServerEnabled WRITE
+                 setFallbackCallRelayServerEnabled NOTIFY fallbackCallRelayServerEnabledChanged)
     Q_PROPERTY(bool legacyCallsEnabled READ legacyCallsEnabled WRITE setLegacyCallsEnabled NOTIFY
                  legacyCallsEnabledChanged)
     Q_PROPERTY(bool onlyShareKeysWithVerifiedUsers READ onlyShareKeysWithVerifiedUsers WRITE
                  setOnlyShareKeysWithVerifiedUsers NOTIFY onlyShareKeysWithVerifiedUsersChanged)
     Q_PROPERTY(bool shareKeysWithTrustedUsers READ shareKeysWithTrustedUsers WRITE
                  setShareKeysWithTrustedUsers NOTIFY shareKeysWithTrustedUsersChanged)
-    Q_PROPERTY(bool useOnlineKeyBackup READ useOnlineKeyBackup WRITE setUseOnlineKeyBackup NOTIFY
-                 useOnlineKeyBackupChanged)
+    Q_PROPERTY(bool onlineKeyBackupEnabled READ onlineKeyBackupEnabled WRITE
+                 setOnlineKeyBackupEnabled NOTIFY onlineKeyBackupEnabledChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(QString userId READ userId WRITE setUserId NOTIFY userIdChanged)
     Q_PROPERTY(QString accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged)
@@ -319,7 +320,7 @@ public:
     void setAlertOnIncomingMessages(bool state);
     void setCircularAvatarsEnabled(bool state);
     void setDecryptNotifications(bool state);
-    void setShowCommunityNotificationCounts(bool state);
+    void setCommunityNotificationCountsVisible(bool state);
     void setCompactRoomList(bool state);
     void setRoomListShowLastMessageTime(bool state);
     void setShowLastMessagePreview(LastMessagePreview style);
@@ -338,12 +339,12 @@ public:
     void setScreenSharePiP(bool state);
     void setScreenShareRemoteVideo(bool state);
     void setScreenShareHideCursor(bool state);
-    void setUseFallbackCallRelayServer(bool state);
+    void setFallbackCallRelayServerEnabled(bool state);
     void setLegacyCallsEnabled(bool state);
     void setOnlyShareKeysWithVerifiedUsers(bool state);
     void setShareKeysWithTrustedUsers(bool state);
-    void setUseOnlineKeyBackup(bool state);
-    void setUseOnlineKeyBackupFromConfig(bool state);
+    void setOnlineKeyBackupEnabled(bool state);
+    void setOnlineKeyBackupEnabledFromConfig(bool state);
     void setProfile(QString profile);
     void setUserId(QString userId);
     void setAccessToken(QString accessToken);
@@ -465,13 +466,13 @@ public:
             return *value;
         return decryptNotifications_;
     }
-    bool showCommunityNotificationCounts() const
+    bool communityNotificationCountsVisible() const
     {
         if (const auto value = coreStore_.valueAs<bool>(
               settings::core::SettingId::SidebarsRoomListShowCommunityCounts);
             value.has_value())
             return *value;
-        return showCommunityNotificationCounts_;
+        return communityNotificationCountsVisible_;
     }
     bool compactRoomList() const
     {
@@ -780,13 +781,13 @@ public:
     bool screenSharePiP() const { return screenSharePiP_; }
     bool screenShareRemoteVideo() const { return screenShareRemoteVideo_; }
     bool screenShareHideCursor() const { return screenShareHideCursor_; }
-    bool useFallbackCallRelayServer() const
+    bool fallbackCallRelayServerEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::CallsRelayUseFallbackServer);
             value.has_value())
             return *value;
-        return useFallbackCallRelayServer_;
+        return fallbackCallRelayServerEnabled_;
     }
     bool legacyCallsEnabled() const
     {
@@ -812,13 +813,13 @@ public:
             return *value;
         return onlyShareKeysWithVerifiedUsers_;
     }
-    bool useOnlineKeyBackup() const
+    bool onlineKeyBackupEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::EncryptionBackupOnlineEnabled);
             value.has_value())
             return *value;
-        return useOnlineKeyBackup_;
+        return onlineKeyBackupEnabled_;
     }
     QString profile() const { return profile_; }
     QString userId() const { return userId_; }
@@ -917,7 +918,7 @@ signals:
     void alertOnIncomingMessagesChanged(bool state);
     void circularAvatarsEnabledChanged(bool state);
     void decryptNotificationsChanged(bool state);
-    void showCommunityNotificationCountsChanged(bool state);
+    void communityNotificationCountsVisibleChanged(bool state);
     void compactRoomListChanged(bool state);
     void roomListShowLastMessageTimeChanged(bool state);
     void showLastMessagePreviewChanged(LastMessagePreview style);
@@ -945,11 +946,11 @@ signals:
     void screenSharePiPChanged(bool state);
     void screenShareRemoteVideoChanged(bool state);
     void screenShareHideCursorChanged(bool state);
-    void useFallbackCallRelayServerChanged(bool state);
+    void fallbackCallRelayServerEnabledChanged(bool state);
     void legacyCallsEnabledChanged(bool state);
     void onlyShareKeysWithVerifiedUsersChanged(bool state);
     void shareKeysWithTrustedUsersChanged(bool state);
-    void useOnlineKeyBackupChanged(bool state);
+    void onlineKeyBackupEnabledChanged(bool state);
     void profileChanged(QString profile);
     void userIdChanged(QString userId);
     void accessTokenChanged(QString accessToken);

@@ -11,7 +11,7 @@
     // UseFallbackCallRelayServer
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use fallback call relay server",
                         QT_TR_NOOP("Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one."),
-                        SM::TabCalls, useFallbackCallRelayServer, setUseFallbackCallRelayServer, nullptr, CallsRelayUseFallbackServer, SettingKey::CallsRelayUseFallbackServer),
+                        SM::TabCalls, fallbackCallRelayServerEnabled, setFallbackCallRelayServerEnabled, nullptr, CallsRelayUseFallbackServer, SettingKey::CallsRelayUseFallbackServer),
     // CallsDevicesSection
     { QT_TR_NOOP("Devices"), nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

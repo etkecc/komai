@@ -746,7 +746,7 @@ Page {
                         bubbleBackgroundColor: roomItem.bubbleBackground
                         bubbleTextColor: roomItem.bubbleText
                         hasLoudNotification: roomItem.hasLoudNotification
-                        mayBeVisible: collapsed && (isSpace ? Settings.showCommunityNotificationCounts : true)
+                        mayBeVisible: collapsed && (isSpace ? Settings.communityNotificationCountsVisible : true)
                         notificationCount: roomItem.notificationCount
                     }
                 }
@@ -812,7 +812,7 @@ Page {
                             bubbleBackgroundColor: roomItem.bubbleBackground
                             bubbleTextColor: roomItem.bubbleText
                             hasLoudNotification: roomItem.hasLoudNotification
-                            mayBeVisible: !collapsed && (isSpace ? Settings.showCommunityNotificationCounts : compactMode)
+                            mayBeVisible: !collapsed && (isSpace ? Settings.communityNotificationCountsVisible : compactMode)
                             notificationCount: roomItem.notificationCount
                             parent: (isSpace || compactMode) ? titleRow : subtextRow
                         }

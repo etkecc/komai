@@ -89,6 +89,7 @@ UserSettingsModel::modelForTab(int tab) const
 }
 
 using settings::ui::readSettingValue;
+using settings::ui::rowForSettingId;
 using settings::ui::settingsTable;
 using settings::ui::settingsTableRowCount;
 
@@ -97,16 +98,6 @@ bool
 hasSettingId(const settings::ui::SettingMeta &meta, settings::core::SettingId id)
 {
     return meta.core.id == id;
-}
-
-int
-rowForSettingId(settings::core::SettingId id)
-{
-    for (int i = 0; i < settingsTableRowCount(); ++i) {
-        if (settingsTable[i].core.id == id)
-            return i;
-    }
-    return -1;
 }
 } // namespace
 

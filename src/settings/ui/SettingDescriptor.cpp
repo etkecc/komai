@@ -375,6 +375,16 @@ settingsTableRowCount()
     return static_cast<int>(std::size(settingsTable));
 }
 
+int
+rowForSettingId(settings::core::SettingId id)
+{
+    for (int i = 0; i < settingsTableRowCount(); ++i) {
+        if (settingsTable[i].core.id == id)
+            return i;
+    }
+    return -1;
+}
+
 #undef I
 #undef SM
 

@@ -40,4 +40,7 @@ extern const SettingMeta settingsTable[];
 int
 settingsTableRowCount();
 
+int
+rowForSettingId(settings::core::SettingId id);
+
 } // namespace settings::ui

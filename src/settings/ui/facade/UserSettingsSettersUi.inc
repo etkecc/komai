@@ -132,13 +132,13 @@ UserSettings::setRoomSortOrder(RoomSortOrder s)
     save();
 }
 void
-UserSettings::setShowActionButtons(bool s)
+UserSettings::setTimelineMessageActionsEnabled(bool s)
 {
-    if (showActionButtons_ == s)
+    if (timelineMessageActionsEnabled_ == s)
         return;
-    showActionButtons_ = s;
+    timelineMessageActionsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessageActionsEnabled, s);
-    emit showActionButtonsChanged(s);
+    emit timelineMessageActionsEnabledChanged(s);
     save();
 }
 void
@@ -162,13 +162,13 @@ UserSettings::setRoomListWidth(int s)
     setSetting(roomListWidth_, s, &UserSettings::roomListWidthChanged);
 }
 void
-UserSettings::setDesktopNotifications(bool s)
+UserSettings::setDesktopNotificationsEnabled(bool s)
 {
-    if (hasDesktopNotifications_ == s)
+    if (desktopNotificationsEnabled_ == s)
         return;
-    hasDesktopNotifications_ = s;
+    desktopNotificationsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::NotificationsDesktopEnabled, s);
-    emit desktopNotificationsChanged(s);
+    emit desktopNotificationsEnabledChanged(s);
     save();
 }
 void

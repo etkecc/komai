@@ -41,11 +41,11 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Highlight message on hover",
                         QT_TR_NOOP("Change the background color of messages when you hover over them."),
                         SM::TabTimeline, messageHoverHighlight, setMessageHoverHighlight, nullptr, TimelineMessagesHoverHighlight, SettingKey::TimelineMessagesHoverHighlight),
-    // ShowActionButtons
+    // TimelineMessageActionsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show action buttons",
       QT_TR_NOOP("Show quick actions next to each message (react, reply, forward, and more)."),
-      SM::TabTimeline, showActionButtons, setShowActionButtons, nullptr, TimelineMessageActionsEnabled, SettingKey::TimelineMessageActionsEnabled),
+      SM::TabTimeline, timelineMessageActionsEnabled, setTimelineMessageActionsEnabled, nullptr, TimelineMessageActionsEnabled, SettingKey::TimelineMessageActionsEnabled),
     // PinnedReactions
     SIMPLE_TEXT_CONFIG_ID_SETTING(
       "Pinned reactions",

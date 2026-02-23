@@ -337,7 +337,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                                 if (isRoomActive(roomModel->roomId()))
                                     continue;
 
-                                if (userSettings_->hasDesktopNotifications()) {
+                                if (userSettings_->desktopNotificationsEnabled()) {
                                     notifications.emplace_back(roomModel, te, room_id, actions);
                                 }
                             }

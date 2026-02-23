@@ -80,13 +80,13 @@ UserSettings::setShowCommunitiesSidebar(bool s)
     save();
 }
 void
-UserSettings::setScrollbarsInRoomlist(bool s)
+UserSettings::setRoomListScrollbarsVisible(bool s)
 {
-    if (scrollbarsInRoomlist_ == s)
+    if (roomListScrollbarsVisible_ == s)
         return;
-    scrollbarsInRoomlist_ = s;
+    roomListScrollbarsVisible_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled, s);
-    emit scrollbarsInRoomlistChanged(s);
+    emit roomListScrollbarsVisibleChanged(s);
     save();
 }
 

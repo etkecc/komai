@@ -7,7 +7,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Desktop notifications",
       QT_TR_NOOP("Notify about received messages when the client is not currently focused."),
-      SM::TabNotifications, hasDesktopNotifications, setDesktopNotifications, nullptr, NotificationsDesktopEnabled, SettingKey::NotificationsDesktopEnabled),
+      SM::TabNotifications, desktopNotificationsEnabled, setDesktopNotificationsEnabled, nullptr, NotificationsDesktopEnabled, SettingKey::NotificationsDesktopEnabled),
     // AlertOnIncomingMessages
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Alert on incoming messages",

@@ -91,7 +91,7 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts,
         settings.showCommunityNotificationCounts());
     set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled,
-        settings.scrollbarsInRoomlist());
+        settings.roomListScrollbarsVisible());
     set(settings::core::SettingId::SidebarsRoomListSort,
         static_cast<int>(settings.roomSortOrder()));
     set(settings::core::SettingId::SidebarsCommunitiesVisible, settings.showCommunitiesSidebar());
@@ -116,7 +116,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
         settings.typingNotifications());
     set(settings::core::SettingId::ComposerFeedbackReadReceipts, settings.readReceipts());
     set(settings::core::SettingId::ComposerExtrasStickersEnabled, settings.enableStickers());
-    set(settings::core::SettingId::NotificationsDesktopEnabled, settings.hasDesktopNotifications());
+    set(settings::core::SettingId::NotificationsDesktopEnabled,
+        settings.desktopNotificationsEnabled());
     set(settings::core::SettingId::NotificationsDesktopAlertOnIncoming,
         settings.alertOnIncomingMessages());
     set(settings::core::SettingId::NotificationsDesktopDecryptMessages,
@@ -142,7 +143,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
         settings.enlargeEmojiOnlyMessages());
     set(settings::core::SettingId::TimelineMessagesHoverHighlight,
         settings.messageHoverHighlight());
-    set(settings::core::SettingId::TimelineMessageActionsEnabled, settings.showActionButtons());
+    set(settings::core::SettingId::TimelineMessageActionsEnabled,
+        settings.timelineMessageActionsEnabled());
     set(settings::core::SettingId::TimelineMessageActionsPinnedReactions,
         settings.pinnedReactions().toStdString());
     set(settings::core::SettingId::TimelineMediaEffectsEnabled,

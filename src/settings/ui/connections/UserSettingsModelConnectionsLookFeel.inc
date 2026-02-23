@@ -11,7 +11,8 @@
       SidebarsRoomListShowCommunityCounts, showCommunityNotificationCountsChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, useCircularAvatarsChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsIdenticonFallback, useIdenticonChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListScrollbarsEnabled, scrollbarsInRoomlistChanged, Value);
+    CONNECT_SETTING_ID(
+      SidebarsRoomListScrollbarsEnabled, roomListScrollbarsVisibleChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListSort, roomSortOrderChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, showCommunitiesSidebarChanged, Value);
     CONNECT_SETTING_ID(UiInputEnableTextSelection, textSelectionEnabledChanged, Value);

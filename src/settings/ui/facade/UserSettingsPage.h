@@ -46,8 +46,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool startInTray READ startInTray WRITE setStartInTray NOTIFY startInTrayChanged)
     Q_PROPERTY(bool showCommunitiesSidebar READ showCommunitiesSidebar WRITE
                  setShowCommunitiesSidebar NOTIFY showCommunitiesSidebarChanged)
-    Q_PROPERTY(bool scrollbarsInRoomlist READ scrollbarsInRoomlist WRITE setScrollbarsInRoomlist
-                 NOTIFY scrollbarsInRoomlistChanged)
+    Q_PROPERTY(bool roomListScrollbarsVisible READ roomListScrollbarsVisible WRITE
+                 setRoomListScrollbarsVisible NOTIFY roomListScrollbarsVisibleChanged)
     Q_PROPERTY(bool markdown READ markdown WRITE setMarkdown NOTIFY markdownChanged)
     Q_PROPERTY(SendMessageKey sendMessageKey READ sendMessageKey WRITE setSendMessageKey NOTIFY
                  sendMessageKeyChanged)
@@ -71,11 +71,11 @@ class UserSettings final : public QObject
                  typingNotificationsChanged)
     Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
                  roomSortOrderChanged)
-    Q_PROPERTY(bool showActionButtons READ showActionButtons WRITE setShowActionButtons NOTIFY
-                 showActionButtonsChanged)
+    Q_PROPERTY(bool timelineMessageActionsEnabled READ timelineMessageActionsEnabled WRITE
+                 setTimelineMessageActionsEnabled NOTIFY timelineMessageActionsEnabledChanged)
     Q_PROPERTY(bool readReceipts READ readReceipts WRITE setReadReceipts NOTIFY readReceiptsChanged)
-    Q_PROPERTY(bool desktopNotifications READ hasDesktopNotifications WRITE setDesktopNotifications
-                 NOTIFY desktopNotificationsChanged)
+    Q_PROPERTY(bool desktopNotificationsEnabled READ desktopNotificationsEnabled WRITE
+                 setDesktopNotificationsEnabled NOTIFY desktopNotificationsEnabledChanged)
     Q_PROPERTY(bool alertOnIncomingMessages READ alertOnIncomingMessages WRITE
                  setAlertOnIncomingMessages NOTIFY alertOnIncomingMessagesChanged)
     Q_PROPERTY(bool useCircularAvatars READ useCircularAvatars WRITE setUseCircularAvatars NOTIFY
@@ -289,7 +289,7 @@ public:
     void setFontFamily(QString family);
     void setEmojiFontFamily(QString family);
     void setShowCommunitiesSidebar(bool state);
-    void setScrollbarsInRoomlist(bool state);
+    void setRoomListScrollbarsVisible(bool state);
     void setMarkdown(bool state);
     void setSendMessageKey(SendMessageKey key);
     void setAutoReplaceEmoji(AutoReplaceEmoji state);
@@ -303,11 +303,11 @@ public:
     void setReadReceipts(bool state);
     void setTypingNotifications(bool state);
     void setRoomSortOrder(RoomSortOrder order);
-    void setShowActionButtons(bool state);
+    void setTimelineMessageActionsEnabled(bool state);
     void setMaxTimelineWidth(int state);
     void setCommunityListWidth(int state);
     void setRoomListWidth(int state);
-    void setDesktopNotifications(bool state);
+    void setDesktopNotificationsEnabled(bool state);
     void setAlertOnIncomingMessages(bool state);
     void setUseCircularAvatars(bool state);
     void setDecryptNotifications(bool state);
@@ -433,13 +433,13 @@ public:
             return *value;
         return showCommunitiesSidebar_;
     }
-    bool scrollbarsInRoomlist() const
+    bool roomListScrollbarsVisible() const
     {
         if (const auto value = coreStore_.valueAs<bool>(
               settings::core::SettingId::SidebarsRoomListScrollbarsEnabled);
             value.has_value())
             return *value;
-        return scrollbarsInRoomlist_;
+        return roomListScrollbarsVisible_;
     }
     bool useCircularAvatars() const
     {
@@ -623,13 +623,13 @@ public:
             return static_cast<RoomSortOrder>(*value);
         return roomSortOrder_;
     }
-    bool showActionButtons() const
+    bool timelineMessageActionsEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessageActionsEnabled);
             value.has_value())
             return *value;
-        return showActionButtons_;
+        return timelineMessageActionsEnabled_;
     }
     bool textSelectionEnabled() const
     {
@@ -655,13 +655,13 @@ public:
             return *value;
         return readReceipts_;
     }
-    bool hasDesktopNotifications() const
+    bool desktopNotificationsEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsDesktopEnabled);
             value.has_value())
             return *value;
-        return hasDesktopNotifications_;
+        return desktopNotificationsEnabled_;
     }
     bool alertOnIncomingMessages() const
     {
@@ -671,7 +671,10 @@ public:
             return *value;
         return alertOnIncomingMessages_;
     }
-    bool hasNotifications() const { return hasDesktopNotifications() || alertOnIncomingMessages(); }
+    bool hasNotifications() const
+    {
+        return desktopNotificationsEnabled() || alertOnIncomingMessages();
+    }
     int maxTimelineWidth() const
     {
         if (const auto value =
@@ -882,7 +885,7 @@ public:
 
 signals:
     void showCommunitiesSidebarChanged(bool state);
-    void scrollbarsInRoomlistChanged(bool state);
+    void roomListScrollbarsVisibleChanged(bool state);
     void roomSortOrderChanged(RoomSortOrder order);
     void themeChanged(QString state);
     void messageHoverHighlightChanged(bool state);
@@ -900,9 +903,9 @@ signals:
     void showSenderUsernameChanged(ShowSenderUsername state);
     void animateImagesOnHoverChanged(bool state);
     void typingNotificationsChanged(bool state);
-    void showActionButtonsChanged(bool state);
+    void timelineMessageActionsEnabledChanged(bool state);
     void readReceiptsChanged(bool state);
-    void desktopNotificationsChanged(bool state);
+    void desktopNotificationsEnabledChanged(bool state);
     void alertOnIncomingMessagesChanged(bool state);
     void useCircularAvatarsChanged(bool state);
     void decryptNotificationsChanged(bool state);
@@ -975,117 +978,9 @@ private:
     void saveSecretsYaml() const;
     void saveStateYaml() const;
 
-    // Default to system theme if QT_QPA_PLATFORMTHEME var is set.
-    QString defaultTheme_ = QProcessEnvironment::systemEnvironment()
-                                .value(QStringLiteral("QT_QPA_PLATFORMTHEME"), QLatin1String(""))
-                                .isEmpty()
-                              ? "komai-light"
-                              : "komai-light";
-    QString theme_;
-    bool messageHoverHighlight_;
-    bool enlargeEmojiOnlyMessages_;
-    bool tray_;
-    bool startInTray_;
-    bool showCommunitiesSidebar_;
-    bool scrollbarsInRoomlist_;
-    bool markdown_;
-    SendMessageKey sendMessageKey_;
-    AutoReplaceEmoji autoReplaceEmoji_;
-    bool bubbles_;
-    bool smallAvatars_;
-    bool enableStickers_;
-    bool showOwnAvatarInBubbleLayout_;
-    QString pinnedReactions_;
-    ShowSenderUsername showSenderUsername_;
-    bool animateImagesOnHover_;
-    bool typingNotifications_;
-    RoomSortOrder roomSortOrder_;
-    bool showActionButtons_;
-    bool readReceipts_;
-    bool hasDesktopNotifications_;
-    bool alertOnIncomingMessages_;
-    bool useCircularAvatars_;
-    bool decryptNotifications_;
-    bool showCommunityNotificationCounts_;
-    bool compactRoomList_;
-    bool showRoomListTime_;
-    LastMessagePreview showLastMessagePreview_;
-    bool timelineMediaEffectsEnabled_;
-    bool uiAnimationsEnabled_;
-    bool privacyScreen_;
-    int privacyScreenTimeoutSeconds_;
-    bool shareKeysWithTrustedUsers_;
-    bool onlyShareKeysWithVerifiedUsers_;
-    bool useOnlineKeyBackup_;
-    bool textSelectionEnabled_;
-    bool enableSwipeGestures_;
-    int maxTimelineWidth_;
-    int roomListWidth_      = -1;
-    int communityListWidth_ = 200;
-    double scaleFactor_     = -1.0;
-    double baseFontSize_    = 13.0;
-    QString font_;
-    QString emojiFont_;
-    Presence presence_;
-    ShowImage showImage_;
-    QString ringtone_;
-    QString microphone_;
-    QString camera_;
-    QString cameraResolution_;
-    QString cameraFrameRate_;
-    int screenShareFrameRate_;
-    bool screenSharePiP_;
-    bool screenShareRemoteVideo_;
-    bool screenShareHideCursor_;
-    bool useFallbackCallRelayServer_;
-    bool enableLegacyCalls_;
-    bool certificateValidationEnabled_ = true;
-    QString profile_;
-    QString userId_;
-    QString accessToken_;
-    QString deviceId_;
-    QString currentTagId_;
-    QString homeserver_;
-    QStringList hiddenTags_;
-    QStringList mutedTags_;
-    QStringList hiddenPins_;
-    QStringList hiddenWidgets_;
-    QStringList recentReactions_;
-    QList<QStringList> collapsedSpaces_;
-    bool useIdenticon_;
-    bool openImagesInExternalApp_;
-    bool openVideosInExternalApp_;
-    int integrationsDbusApiAccess_ = 0;
-    QString integrationsLinksBrowserCommand_;
-    bool updateSpaceVias_;
-    bool expireEvents_;
-    int windowWidth_                     = 0;
-    int windowHeight_                    = 0;
-    qulonglong maxDbSize_                = 0;
-    uint maxDbs_                         = 0;
-    bool runWithoutSecureSecretsService_ = false;
-    bool enableHttp3_                    = false;
-    QMap<QString, QString> secrets_;
-    settings::core::SettingsStore coreStore_;
-    bool suppressSettingsSave_ = false;
-
-    enum class StartupPersistenceScope
-    {
-        ConfigOnly,
-        Full,
-    };
+#include "settings/ui/facade/UserSettingsPagePrivateMembers.h"
 
     void setPersistenceScopeReadyForAuth(bool ready);
-    StartupPersistenceScope startupPersistenceScope_ = StartupPersistenceScope::ConfigOnly;
-
-    // Paths to the per-profile settings directory and files.
-    QString profileDirPath_;
-    QString configFilePath_;
-    QString stateFilePath_;
-    QString sessionFilePath_;
-    QString secretsFilePath_;
-
-    static QSharedPointer<UserSettings> instance_;
 };
 
 #include "settings/ui/UserSettingsModel.h"

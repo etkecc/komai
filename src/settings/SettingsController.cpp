@@ -290,8 +290,8 @@ settings::SettingsController::load(UserSettings &settings,
       configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath_, "config");
     settings.loadConfigYaml(effectiveConfig);
 
-    const auto provider                  = providerFromConfig(effectiveConfig);
-    settings.secretsFileProviderEnabled_ = provider == staged_load_plan::SecretsProvider::File;
+    const auto provider               = providerFromConfig(effectiveConfig);
+    settings.usesFileSecretsProvider_ = provider == staged_load_plan::SecretsProvider::File;
     YAML::Node sessionRoot;
     YAML::Node stateRoot;
 
@@ -307,7 +307,7 @@ settings::SettingsController::load(UserSettings &settings,
         case staged_load_plan::Stage::SecretsSecureBackend:
         case staged_load_plan::Stage::SecretsFile: {
             const auto payload = settings::persistence::loadProfileSecrets(
-              settings.profile_, settings.secretsFileProviderEnabled_, settings.secretsFilePath_);
+              settings.profile_, settings.usesFileSecretsProvider_, settings.secretsFilePath_);
             settings.accessToken_ = payload.accessToken;
             settings.secrets_     = payload.secrets;
 

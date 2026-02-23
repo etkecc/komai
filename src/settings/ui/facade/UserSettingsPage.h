@@ -883,7 +883,7 @@ public:
     qulonglong maxDbSize() const { return maxDbSize_; }
     uint maxDbs() const { return maxDbs_; }
     // Internal helper: secrets provider is configured via `secrets.provider` in config.yml.
-    bool secretsFileProviderEnabled() const { return secretsFileProviderEnabled_; }
+    bool usesFileSecretsProvider() const { return usesFileSecretsProvider_; }
     bool http3Enabled() const { return http3Enabled_; }
     settings::core::SettingsStore &mutableCoreStore() { return coreStore_; }
     const settings::core::SettingsStore &coreStore() const { return coreStore_; }

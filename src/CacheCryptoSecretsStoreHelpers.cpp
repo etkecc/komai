@@ -79,7 +79,7 @@ Cache::loadSecretsFromStore(
         return;
     }
 
-    if (userSettings->secretsFileProviderEnabled()) {
+    if (userSettings->usesFileSecretsProvider()) {
         for (auto &[name_, internal] : toLoad) {
             auto name  = secretName(name_, internal);
             auto value = userSettings->secret(name);
@@ -134,7 +134,7 @@ Cache::loadSecretsFromStore(
                 "Restored empty cache secret '{}'; scheduling cleanup.", name.toStdString());
               QTimer::singleShot(0, this, [name] {
                   auto userSettings = UserSettings::instance();
-                  if (userSettings->secretsFileProviderEnabled()) {
+                  if (userSettings->usesFileSecretsProvider()) {
                       userSettings->removeSecret(name);
                       return;
                   }
@@ -219,7 +219,7 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
         return;
     }
 
-    if (userSettings->secretsFileProviderEnabled()) {
+    if (userSettings->usesFileSecretsProvider()) {
         userSettings->setSecret(name, QString::fromStdString(secret));
         // if we emit the signal directly it won't be received
         QTimer::singleShot(0, this, [this, name_] { emit secretChanged(name_); });
@@ -261,7 +261,7 @@ Cache::deleteSecretFromStore(const std::string name, bool internal)
     auto name_        = secretName(name, internal);
     auto userSettings = UserSettings::instance();
 
-    if (userSettings->secretsFileProviderEnabled()) {
+    if (userSettings->usesFileSecretsProvider()) {
         userSettings->removeSecret(name_);
         // if we emit the signal directly it won't be received
         QTimer::singleShot(0, this, [this, name] { emit secretChanged(name); });

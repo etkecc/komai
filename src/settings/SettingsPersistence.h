@@ -57,7 +57,7 @@ providerFromConfig(const YAML::Node &configRoot);
  */
 SecretsPayload
 loadProfileSecrets(const QString &profile,
-                   bool secretsFileProviderEnabled,
+                   bool usesFileSecretsProvider,
                    const QString &secretsFilePath);
 
 /**
@@ -65,7 +65,7 @@ loadProfileSecrets(const QString &profile,
  */
 void
 saveProfileSecrets(const QString &profile,
-                   bool secretsFileProviderEnabled,
+                   bool usesFileSecretsProvider,
                    const QString &secretsFilePath,
                    const QString &accessToken,
                    const QMap<QString, QString> &secrets,
@@ -79,7 +79,7 @@ saveProfileSecrets(const QString &profile,
  */
 bool
 clearProfileSecrets(const QString &profile,
-                    bool secretsFileProviderEnabled,
+                    bool usesFileSecretsProvider,
                     const QString &secretsFilePath);
 
 } // namespace settings::persistence

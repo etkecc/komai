@@ -23,13 +23,7 @@
       "Show sender username above messages",
       QT_TR_NOOP("Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context."),
       SM::TabTimeline, showSenderUsername, setShowSenderUsername, UserSettings::ShowSenderUsername,
-      []() -> QVariant {
-          QStringList values;
-          values << QCoreApplication::translate("UserSettingsModel", "Always")
-                 << QCoreApplication::translate("UserSettingsModel", "Only in large rooms (> 16 members)")
-                 << QCoreApplication::translate("UserSettingsModel", "Never");
-          return values;
-      },
+      timelineSenderUsernameValues,
       nullptr,
       TimelineMessagesSenderUsername,
       SettingKey::TimelineMessagesSenderUsername),
@@ -80,13 +74,7 @@
       QT_TR_NOOP(
         "If images should be automatically displayed. You can select between always showing images by default, only show them by default in private rooms or always require interaction to show images."),
       SM::TabTimeline, showImage, setShowImage, UserSettings::ShowImage,
-      []() -> QVariant {
-          QStringList values;
-          values << QCoreApplication::translate("UserSettingsModel", "Always")
-                 << QCoreApplication::translate("UserSettingsModel", "Only in private rooms")
-                 << QCoreApplication::translate("UserSettingsModel", "Never");
-          return values;
-      },
+      timelineShowImageValues,
       nullptr,
       TimelineMediaImageDisplay,
       SettingKey::TimelineMediaImageDisplay),

@@ -5,27 +5,10 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Theme
     { QT_TR_NOOP("Theme"), nullptr, SM::ThemeSelector, SM::TabLookFeel,
-      []() -> QVariant {
-          auto variant = ThemeRegistry::instance().themeVariant(I->theme());
-          if (variant == u"system") return -1;
-          return ThemeRegistry::instance().themeSlugs(variant).indexOf(I->theme());
-      },
-      [](const QVariant &v) -> bool {
-          auto variant = ThemeRegistry::instance().themeVariant(I->theme());
-          if (variant == u"system") return false;
-          auto slugs = ThemeRegistry::instance().themeSlugs(variant);
-          int idx = 0;
-          if (!readSettingValue(v, idx))
-              return false;
-          if (idx >= 0 && idx < slugs.size()) { I->setTheme(slugs.at(idx)); return true; }
-          return false;
-      },
+      lookFeelThemeValue,
+      setLookFeelThemeValue,
       {}, {}, {},
-      []() -> QVariant {
-          auto variant = ThemeRegistry::instance().themeVariant(I->theme());
-          if (variant == u"system") return QStringList{};
-          return ThemeRegistry::instance().themeNames(variant);
-      },
+      lookFeelThemeValues,
       nullptr,
       CORE_CONFIG_ID(UiThemeSlug, SettingKey::UiThemeSlug) },
     // LookFeelFontsSection
@@ -33,25 +16,10 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Font
     { QT_TR_NOOP("Font family"), nullptr, SM::Options, SM::TabLookFeel,
-      []() -> QVariant {
-          if (I->font().isEmpty()) return 0;
-          auto fonts = QFontDatabase::families();
-          fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System font"));
-          return fonts.indexOf(I->font());
-      },
-      [](const QVariant &v) -> bool {
-          int idx = 0;
-          if (!readSettingValue(v, idx))
-              return false;
-          I->setFontFamily(idx == 0 ? QString{} : QFontDatabase::families().at(idx - 1));
-          return true;
-      },
+      lookFeelFontFamilyValue,
+      setLookFeelFontFamilyValue,
       {}, {}, {},
-      []() -> QVariant {
-          auto fonts = QFontDatabase::families();
-          fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System font"));
-          return fonts;
-      },
+      lookFeelFontFamilyValues,
       nullptr,
       CORE_CONFIG_ID(UiFontFamily, SettingKey::UiFontFamily) },
     SIMPLE_DOUBLE_CONFIG_ID_SETTING("Font size",
@@ -66,27 +34,10 @@
                                     SettingKey::UiFontSizePt),
     // EmojiFont
     { QT_TR_NOOP("Emoji font family"), nullptr, SM::Options, SM::TabLookFeel,
-      []() -> QVariant {
-          if (I->emojiFontFamily().isEmpty()) return 0;
-          auto fonts = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
-          fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System emoji font"));
-          return fonts.indexOf(I->emojiFontFamily());
-      },
-      [](const QVariant &v) -> bool {
-          int idx = 0;
-          if (!readSettingValue(v, idx))
-              return false;
-          I->setEmojiFontFamily(
-            idx <= 0 ? QString()
-                     : QFontDatabase::families(QFontDatabase::WritingSystem::Symbol).at(idx - 1));
-          return true;
-      },
+      lookFeelEmojiFontFamilyValue,
+      setLookFeelEmojiFontFamilyValue,
       {}, {}, {},
-      []() -> QVariant {
-          auto fonts = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
-          fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System emoji font"));
-          return fonts;
-      },
+      lookFeelEmojiFontFamilyValues,
       nullptr,
       CORE_CONFIG_ID(UiFontEmojiFamily, SettingKey::UiFontEmojiFamily) },
 #ifndef Q_OS_MACOS
@@ -146,13 +97,7 @@
       showLastMessagePreview,
       setShowLastMessagePreview,
       UserSettings::LastMessagePreview,
-      []() -> QVariant {
-          QStringList values;
-          values << QCoreApplication::translate("UserSettingsModel", "Always")
-                 << QCoreApplication::translate("UserSettingsModel", "Only in unencrypted rooms")
-                 << QCoreApplication::translate("UserSettingsModel", "Never");
-          return values;
-      },
+      sidebarsLastMessagePreviewValues,
       nullptr,
       SidebarsRoomListLastMessagePreview,
       SettingKey::SidebarsRoomListLastMessagePreview),
@@ -171,7 +116,7 @@
       SM::TabSidebars,
       useIdenticon,
       setUseIdenticon,
-      []() -> bool { return JdenticonProvider::isAvailable(); },
+      identiconSettingEnabled,
       UiAvatarsIdenticonFallback,
       SettingKey::UiAvatarsIdenticonFallback),
     // ScrollbarsInRoomlist
@@ -187,14 +132,7 @@
       roomSortOrder,
       setRoomSortOrder,
       UserSettings::RoomSortOrder,
-      []() -> QVariant {
-          QStringList values;
-          values << QCoreApplication::translate("UserSettingsModel", "Unread first, then recent")
-                 << QCoreApplication::translate("UserSettingsModel", "Unread first, then A-Z")
-                 << QCoreApplication::translate("UserSettingsModel", "Recent activity")
-                 << QCoreApplication::translate("UserSettingsModel", "Alphabetical");
-          return values;
-      },
+      sidebarsRoomSortValues,
       nullptr,
       SidebarsRoomListSort,
       SettingKey::SidebarsRoomListSort),
@@ -226,24 +164,10 @@
     { QT_TR_NOOP("D-Bus access"),
       QT_TR_NOOP("Choose how much D-Bus access Komai exposes to local callers."),
       SM::Options, SM::TabIntegrations,
-      []() -> QVariant { return I->integrationsDbusApiAccess(); },
-      [](const QVariant &v) -> bool {
-          int access = 0;
-          if (!readSettingValue(v, access))
-              return false;
-          if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)
-              return false;
-          I->setIntegrationsDbusApiAccess(access);
-          return true;
-      },
+      integrationsDbusApiAccessValue,
+      setIntegrationsDbusApiAccessValue,
       {}, {}, {},
-      []() -> QVariant {
-          return QStringList{
-            QCoreApplication::translate("UserSettingsModel", "None"),
-            QCoreApplication::translate("UserSettingsModel", "Read-only"),
-            QCoreApplication::translate("UserSettingsModel", "Read & write"),
-          };
-      },
+      integrationsDbusApiAccessValues,
       nullptr,
       CORE_CONFIG_ID(IntegrationsDbusApiAccess, SettingKey::IntegrationsDbusApiAccess) },
 #endif

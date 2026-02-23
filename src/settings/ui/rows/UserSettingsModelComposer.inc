@@ -14,13 +14,7 @@
       QT_TR_NOOP(
         "Select what Enter key combination sends the message. Shift+Enter adds a new line, unless it has been selected, in which case Enter adds a new line instead.\n\nIf an emoji picker or a mention picker is open, it is always handled first."),
       SM::TabComposer, sendMessageKey, setSendMessageKey, UserSettings::SendMessageKey,
-      []() -> QVariant {
-          QStringList values;
-          values << QCoreApplication::translate("UserSettingsModel", "Enter")
-                 << QCoreApplication::translate("UserSettingsModel", "Shift+Enter")
-                 << QCoreApplication::translate("UserSettingsModel", "Ctrl+Enter");
-          return values;
-      },
+      composerSendMessageKeyValues,
       nullptr,
       ComposerInputSendKey,
       SettingKey::ComposerInputSendKey),
@@ -30,13 +24,7 @@
       QT_TR_NOOP(
         "Automatically replace text emoticons like :) :D :P with their emoji equivalents when sending a message. Choose whether to replace everywhere or only at the end."),
       SM::TabComposer, autoReplaceEmoji, setAutoReplaceEmoji, UserSettings::AutoReplaceEmoji,
-      []() -> QVariant {
-          QStringList values;
-          values << QCoreApplication::translate("UserSettingsModel", "Always")
-                 << QCoreApplication::translate("UserSettingsModel", "Only at the end of messages")
-                 << QCoreApplication::translate("UserSettingsModel", "Never");
-          return values;
-      },
+      composerAutoReplaceEmojiValues,
       nullptr,
       ComposerInputAutoReplaceEmoji,
       SettingKey::ComposerInputAutoReplaceEmoji),

@@ -85,9 +85,11 @@ UserSettings::setPresence(Presence s)
 {
     if (presence_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::NetworkPresenceStatusPolicy,
+                      static_cast<int>(s),
+                      "network.presence.status_policy"))
+        return;
     presence_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NetworkPresenceStatusPolicy,
-                         static_cast<int>(s));
     emit presenceChanged(s);
     save();
 }
@@ -96,9 +98,11 @@ UserSettings::setShowImage(ShowImage s)
 {
     if (showImage_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::TimelineMediaImageDisplay,
+                      static_cast<int>(s),
+                      "timeline.media.image_display"))
+        return;
     showImage_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineMediaImageDisplay,
-                         static_cast<int>(s));
     emit showImageChanged(s);
     save();
 }

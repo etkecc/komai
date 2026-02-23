@@ -23,6 +23,11 @@ class SettingsStore
 public:
     using StringList = std::vector<std::string>;
     using Value      = std::variant<std::monostate, bool, int, double, std::string, StringList>;
+    struct IntRange
+    {
+        int minValue{0};
+        int maxValue{0};
+    };
 
     struct SetResult
     {
@@ -44,6 +49,8 @@ public:
     [[nodiscard]] std::size_t size() const;
     void clear();
     [[nodiscard]] bool erase(SettingId id);
+    void setIntRangeConstraint(SettingId id, int minValue, int maxValue);
+    void clearConstraints();
 
     [[nodiscard]] SetResult setValue(SettingId id, Value value);
     [[nodiscard]] std::optional<Value> value(SettingId id) const;
@@ -71,6 +78,7 @@ public:
 
 private:
     std::unordered_map<SettingId, Value, SettingIdHash> values_;
+    std::unordered_map<SettingId, IntRange, SettingIdHash> intRangeConstraints_;
 };
 
 } // namespace settings::core

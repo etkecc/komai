@@ -482,6 +482,9 @@ private:
         emit(this->*signal)(value);
         save();
     }
+    bool setCoreValue(settings::core::SettingId id,
+                      settings::core::SettingsStore::Value value,
+                      const char *settingName);
 
     void loadConfigYaml(const YAML::Node &root);
     void loadSessionYaml(const YAML::Node &root);

@@ -132,6 +132,14 @@ getCoreEnumValue()
     return static_cast<int>((i.get()->*Get)());
 }
 
+template<typename Enum>
+int
+enumMaxValue()
+{
+    const auto meta = QMetaEnum::fromType<Enum>();
+    return meta.isValid() ? (meta.keyCount() - 1) : -1;
+}
+
 template<auto Set, typename T>
 using SetValueResult = decltype((std::declval<UserSettings *>()->*Set)(std::declval<T>()));
 
@@ -309,9 +317,9 @@ setSettingEnumValue(const QVariant &value)
      tab,                                                                                          \
      getSettingEnumValue<&UserSettings::getter>,                                                   \
      setSettingEnumValue<&UserSettings::setter, enum_type>,                                        \
-     {},                                                                                           \
-     {},                                                                                           \
-     {},                                                                                           \
+     0,                                                                                            \
+     enumMaxValue<enum_type>(),                                                                    \
+     1,                                                                                            \
      values_expr,                                                                                  \
      enabled_cb,                                                                                   \
      core_def}
@@ -341,9 +349,9 @@ setSettingEnumValue(const QVariant &value)
      tab,                                                                                          \
      getCoreEnumValue<settings::core::SettingId::id, &UserSettings::getter>,                       \
      setSettingEnumValue<&UserSettings::setter, enum_type>,                                        \
-     {},                                                                                           \
-     {},                                                                                           \
-     {},                                                                                           \
+     0,                                                                                            \
+     enumMaxValue<enum_type>(),                                                                    \
+     1,                                                                                            \
      values_expr,                                                                                  \
      enabled_cb,                                                                                   \
      CORE_CONFIG_ID(id, key)}

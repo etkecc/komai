@@ -13,8 +13,11 @@ UserSettings::setSendMessageKey(SendMessageKey s)
 {
     if (sendMessageKey_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::ComposerInputSendKey,
+                      static_cast<int>(s),
+                      "composer.input.send_key"))
+        return;
     sendMessageKey_ = s;
-    (void)coreStore_.set(settings::core::SettingId::ComposerInputSendKey, static_cast<int>(s));
     emit sendMessageKeyChanged(s);
     save();
 }
@@ -23,9 +26,11 @@ UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s)
 {
     if (autoReplaceEmoji_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::ComposerInputAutoReplaceEmoji,
+                      static_cast<int>(s),
+                      "composer.input.auto_replace_emoji"))
+        return;
     autoReplaceEmoji_ = s;
-    (void)coreStore_.set(settings::core::SettingId::ComposerInputAutoReplaceEmoji,
-                         static_cast<int>(s));
     emit autoReplaceEmojiChanged(s);
     save();
 }
@@ -85,9 +90,11 @@ UserSettings::setShowSenderUsername(ShowSenderUsername s)
 {
     if (showSenderUsername_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesSenderUsername,
+                      static_cast<int>(s),
+                      "timeline.messages.sender.username"))
+        return;
     showSenderUsername_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesSenderUsername,
-                         static_cast<int>(s));
     emit showSenderUsernameChanged(s);
     save();
 }
@@ -126,8 +133,11 @@ UserSettings::setRoomSortOrder(RoomSortOrder s)
 {
     if (roomSortOrder_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::SidebarsRoomListSort,
+                      static_cast<int>(s),
+                      "sidebars.room_list.sort"))
+        return;
     roomSortOrder_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListSort, static_cast<int>(s));
     emit roomSortOrderChanged(s);
     save();
 }
@@ -236,9 +246,11 @@ UserSettings::setShowLastMessagePreview(LastMessagePreview s)
 {
     if (showLastMessagePreview_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
+                      static_cast<int>(s),
+                      "sidebars.room_list.last_message_preview"))
+        return;
     showLastMessagePreview_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
-                         static_cast<int>(s));
     emit showLastMessagePreviewChanged(s);
     save();
 }

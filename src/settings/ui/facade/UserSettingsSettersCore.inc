@@ -127,12 +127,13 @@ UserSettings::setCollapsedSpaces(QList<QStringList> spaces)
 void
 UserSettings::setIntegrationsDbusApiAccess(int access)
 {
-    if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)
-        return;
     if (integrationsDbusApiAccess_ == access)
         return;
+    if (!setCoreValue(settings::core::SettingId::IntegrationsDbusApiAccess,
+                      access,
+                      "integrations.dbus.access"))
+        return;
     integrationsDbusApiAccess_ = access;
-    (void)coreStore_.set(settings::core::SettingId::IntegrationsDbusApiAccess, access);
     emit integrationsDbusApiAccessChanged(access);
     save();
 }

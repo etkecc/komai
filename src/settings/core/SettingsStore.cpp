@@ -5,7 +5,31 @@
 
 #include "settings/core/SettingsStore.h"
 
+#include <optional>
+#include <string>
+
 namespace settings::core {
+
+namespace {
+
+std::optional<std::string>
+validateIntRangeValue(const SettingsStore::Value &value, const SettingsStore::IntRange &range)
+{
+    const auto asInt = std::get_if<int>(&value);
+    if (asInt == nullptr) {
+        return std::string("expected integer value in range [") + std::to_string(range.minValue) +
+               ", " + std::to_string(range.maxValue) + "]";
+    }
+
+    if (*asInt < range.minValue || *asInt > range.maxValue) {
+        return std::string("value '") + std::to_string(*asInt) + "' out of range [" +
+               std::to_string(range.minValue) + ", " + std::to_string(range.maxValue) + "]";
+    }
+
+    return std::nullopt;
+}
+
+} // namespace
 
 bool
 SettingsStore::hasValue(SettingId id) const
@@ -31,6 +55,18 @@ SettingsStore::erase(SettingId id)
     return values_.erase(id) > 0;
 }
 
+void
+SettingsStore::setIntRangeConstraint(SettingId id, int minValue, int maxValue)
+{
+    intRangeConstraints_[id] = IntRange{.minValue = minValue, .maxValue = maxValue};
+}
+
+void
+SettingsStore::clearConstraints()
+{
+    intRangeConstraints_.clear();
+}
+
 SettingsStore::SetResult
 SettingsStore::setValue(SettingId id, Value value)
 {
@@ -40,6 +76,16 @@ SettingsStore::setValue(SettingId id, Value value)
           .changed         = false,
           .validationError = "setting id must not be Unknown",
         };
+    }
+
+    if (const auto rangeIt = intRangeConstraints_.find(id); rangeIt != intRangeConstraints_.end()) {
+        if (const auto error = validateIntRangeValue(value, rangeIt->second); error.has_value()) {
+            return SetResult{
+              .success         = false,
+              .changed         = false,
+              .validationError = *error,
+            };
+        }
     }
 
     auto it = values_.find(id);

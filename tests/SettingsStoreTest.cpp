@@ -110,6 +110,57 @@ testStringListValue()
                   "string list preserves ordering and values");
 }
 
+bool
+testEnumValidationRejectsOutOfRange()
+{
+    settings::core::SettingsStore store;
+    store.setIntRangeConstraint(settings::core::SettingId::IntegrationsDbusApiAccess, 0, 2);
+    const auto invalid =
+      store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 99);
+    const bool hasRejectedValue =
+      store.hasValue(settings::core::SettingId::IntegrationsDbusApiAccess);
+    const auto valid = store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 2);
+
+    bool ok = true;
+    ok &= expect(!invalid.success, "enum/int validation rejects out-of-range values");
+    ok &= expect(!invalid.changed, "invalid enum/int value does not mark changed");
+    ok &= expect(!invalid.validationError.empty(), "invalid enum/int value reports error");
+    ok &= expect(!hasRejectedValue,
+                 "rejected enum/int value is not stored");
+    ok &= expect(valid.success && valid.changed, "valid enum/int value is accepted");
+
+    return ok;
+}
+
+bool
+testEnumValidationRejectsWrongType()
+{
+    settings::core::SettingsStore store;
+    store.setIntRangeConstraint(settings::core::SettingId::NetworkPresenceStatusPolicy, 0, 3);
+    const auto invalid =
+      store.set(settings::core::SettingId::NetworkPresenceStatusPolicy, true);
+
+    bool ok = true;
+    ok &= expect(!invalid.success, "enum/int validation rejects wrong value type");
+    ok &= expect(!invalid.changed, "wrong enum/int type does not mark changed");
+    ok &= expect(!invalid.validationError.empty(), "wrong enum/int type reports error");
+    ok &= expect(!store.hasValue(settings::core::SettingId::NetworkPresenceStatusPolicy),
+                 "wrong enum/int type is not stored");
+
+    return ok;
+}
+
+bool
+testUnconstrainedSettingsAcceptAnyInt()
+{
+    settings::core::SettingsStore store;
+    const auto result = store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 99);
+    const auto value = store.valueAs<int>(settings::core::SettingId::IntegrationsDbusApiAccess);
+
+    return expect(result.success && result.changed, "unconstrained setting accepts raw int") &&
+           expect(value.has_value() && *value == 99, "unconstrained setting stores raw int value");
+}
+
 } // namespace
 
 int
@@ -132,5 +183,8 @@ main()
     ok &= testTypeMismatchRead();
     ok &= testEraseAndClear();
     ok &= testStringListValue();
+    ok &= testEnumValidationRejectsOutOfRange();
+    ok &= testEnumValidationRejectsWrongType();
+    ok &= testUnconstrainedSettingsAcceptAnyInt();
     return ok ? 0 : 1;
 }

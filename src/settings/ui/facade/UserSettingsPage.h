@@ -375,6 +375,8 @@ public:
     bool persistSessionSnapshot(const SessionSnapshot &snapshot);
     // Load session identity fields from persisted storage without triggering settings save.
     void setSessionSnapshot(const SessionSnapshot &snapshot);
+    void applyLoadedSecrets(const QString &accessToken, const QMap<QString, QString> &secrets);
+    void clearAuthInMemory();
 
     // Secrets storage helpers (for fallback mode)
     QString secret(const QString &name) const;

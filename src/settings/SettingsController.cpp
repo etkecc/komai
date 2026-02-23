@@ -218,8 +218,7 @@ settings::SettingsController::load(UserSettings &settings,
         case staged_load_plan::Stage::SecretsFile: {
             const auto payload = settings::persistence::loadProfileSecrets(
               settings.profile_, settings.usesFileSecretsProvider_, settings.secretsFilePath_);
-            settings.accessToken_ = payload.accessToken;
-            settings.secrets_     = payload.secrets;
+            settings.applyLoadedSecrets(payload.accessToken, payload.secrets);
 
             const auto snapshot = settings.sessionSnapshot();
             if ((snapshot.userId.isEmpty() || snapshot.deviceId.isEmpty() ||
@@ -292,11 +291,7 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     activeLoggers().ui->info("Clearing persisted session auth/identity for profile '{}'",
                              app_paths::normalizedProfileId(settings.profile_).toStdString());
 
-    settings.accessToken_ = QString();
-    settings.homeserver_  = QString();
-    settings.userId_      = QString();
-    settings.deviceId_    = QString();
-    settings.secrets_.clear();
+    settings.clearAuthInMemory();
 
     if (pathExists(settings.sessionFilePath_) && !removePath(settings.sessionFilePath_)) {
         activeLoggers().ui->warn("Failed to remove session file '{}', keeping file to avoid "

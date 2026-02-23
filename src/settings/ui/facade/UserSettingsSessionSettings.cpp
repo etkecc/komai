@@ -136,6 +136,23 @@ UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
     return true;
 }
 
+void
+UserSettings::applyLoadedSecrets(const QString &accessToken, const QMap<QString, QString> &secrets)
+{
+    accessToken_ = accessToken;
+    secrets_     = secrets;
+}
+
+void
+UserSettings::clearAuthInMemory()
+{
+    accessToken_ = QString();
+    homeserver_  = QString();
+    userId_      = QString();
+    deviceId_    = QString();
+    secrets_.clear();
+}
+
 QString
 UserSettings::secret(const QString &name) const
 {

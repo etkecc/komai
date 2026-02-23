@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <string>
 #include <string_view>
 #include <memory>
 
@@ -358,6 +359,54 @@ testSettingDescriptorReadSettingValueHelper()
     return intOk && strOk && rejectBadType;
 }
 
+bool
+testControllerSyncsCoreStore()
+{
+    const QString profile = QStringLiteral("core-store-sync-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "core store sync fixture config root can be created");
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["ui"]["theme"]["slug"]                   = "komai-dark";
+    configRoot["ui"]["font"]["size_pt"]                 = 15.5;
+    configRoot["network"]["presence"]["status_policy"]  = "offline";
+    configRoot["composer"]["input"]["markdown"]["enabled"] = true;
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "core store sync fixture config can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available after initialize");
+
+    const auto &store = settings->coreStore();
+    const auto theme = store.valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
+    const auto fontSize = store.valueAs<double>(settings::core::SettingId::UiFontSizePt);
+    const auto presence = store.valueAs<int>(settings::core::SettingId::NetworkPresenceStatusPolicy);
+    const auto markdown = store.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownEnabled);
+
+    bool ok = true;
+    ok &= expect(theme.has_value() && *theme == settings->theme().toStdString(),
+                 "controller sync stores theme value in core settings store");
+    ok &= expect(fontSize.has_value() && std::abs(*fontSize - settings->fontSize()) < 0.0001,
+                 "controller sync stores font size value in core settings store");
+    ok &= expect(presence.has_value() &&
+                   *presence == static_cast<int>(settings->presence()),
+                 "controller sync stores presence policy in core settings store");
+    ok &= expect(markdown.has_value() && *markdown == settings->markdown(),
+                 "controller sync stores markdown setting in core settings store");
+
+    settings->setPersistenceSuspended(false);
+    settings->setTheme(QStringLiteral("komai-light"));
+    const auto updatedTheme =
+      settings->coreStore().valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
+    ok &= expect(updatedTheme.has_value() && *updatedTheme == settings->theme().toStdString(),
+                 "controller save path refreshes core settings store values");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -389,6 +438,7 @@ main()
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
+    ok &= testControllerSyncsCoreStore();
 
     return ok ? 0 : 1;
 }

@@ -22,7 +22,7 @@ class SettingsStore
 {
 public:
     using StringList = std::vector<std::string>;
-    using Value = std::variant<std::monostate, bool, int, double, std::string, StringList>;
+    using Value      = std::variant<std::monostate, bool, int, double, std::string, StringList>;
 
     struct SetResult
     {

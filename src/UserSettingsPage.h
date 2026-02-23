@@ -13,6 +13,8 @@
 
 #include <optional>
 
+#include "settings/core/SettingsStore.h"
+
 namespace YAML {
 class Node;
 }
@@ -470,6 +472,7 @@ public:
     uint maxDbs() const { return maxDbs_; }
     bool runWithoutSecureSecretsService() const { return runWithoutSecureSecretsService_; }
     bool enableHttp3() const { return enableHttp3_; }
+    const settings::core::SettingsStore &coreStore() const { return coreStore_; }
 
 signals:
     void showCommunitiesSidebarChanged(bool state);
@@ -657,6 +660,7 @@ private:
     bool runWithoutSecureSecretsService_ = false;
     bool enableHttp3_                    = false;
     QMap<QString, QString> secrets_;
+    settings::core::SettingsStore coreStore_;
     bool suppressSettingsSave_ = false;
 
     enum class StartupPersistenceScope

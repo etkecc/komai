@@ -1049,6 +1049,7 @@ if(BUILD_TESTING)
         src/settings/SettingsSerializerState.cpp
         src/settings/SettingsStorage.cpp
         src/settings/core/StartupConfig.cpp
+        src/settings/core/SettingsStore.cpp
         src/MatrixClient.cpp
     )
     target_include_directories(komai_startup_settings_test PRIVATE

@@ -10,15 +10,15 @@
 #include <spdlog/sinks/null_sink.h>
 #include <utility>
 
-#include <string>
-#include <string_view>
-
 #include "Paths.h"
 #include "UserSettingsPage.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
+#include "settings/core/SettingDefinition.h"
+#include <string>
+#include <string_view>
 
 namespace {
 
@@ -57,6 +57,101 @@ currentLoggers()
 {
     static settings::ControllerLoggers loggers = defaultLoggers();
     return loggers;
+}
+
+void
+syncCoreStoreFromSettings(UserSettings &settings)
+{
+    auto &store = const_cast<settings::core::SettingsStore &>(settings.coreStore());
+    store.clear();
+
+    const auto set = [&store](settings::core::SettingId id,
+                              settings::core::SettingsStore::Value value) {
+        (void)store.setValue(id, std::move(value));
+    };
+
+    set(settings::core::SettingId::UiThemeSlug, settings.theme().toStdString());
+    set(settings::core::SettingId::UiFontFamily, settings.font().toStdString());
+    set(settings::core::SettingId::UiFontSizePt, settings.fontSize());
+    set(settings::core::SettingId::UiFontEmojiFamily, settings.emojiFontFamily().toStdString());
+    set(settings::core::SettingId::UiMotionAnimationsEnabled, !settings.reducedMotion());
+    set(settings::core::SettingId::UiInputEnableTextSelection, !settings.mobileMode());
+    set(settings::core::SettingId::UiInputSwipeGestures, settings.enableSwipeGestures());
+    set(settings::core::SettingId::UiAvatarsCircular, settings.useCircularAvatars());
+    set(settings::core::SettingId::UiAvatarsIdenticonFallback, settings.useIdenticon());
+    set(settings::core::SettingId::SidebarsRoomListCompact, settings.compactRoomList());
+    set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime,
+        settings.showRoomListTime());
+    set(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
+        static_cast<int>(settings.showLastMessagePreview()));
+    set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts,
+        settings.showCommunityNotificationCounts());
+    set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled,
+        settings.scrollbarsInRoomlist());
+    set(settings::core::SettingId::SidebarsRoomListSort,
+        static_cast<int>(settings.roomSortOrder()));
+    set(settings::core::SettingId::SidebarsCommunitiesVisible, settings.showCommunitiesSidebar());
+    set(settings::core::SettingId::NetworkPresenceStatusPolicy,
+        static_cast<int>(settings.presence()));
+    set(settings::core::SettingId::PrivacyMaintenanceExpireEvents, settings.expireEvents());
+    set(settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias, settings.updateSpaceVias());
+    set(settings::core::SettingId::PrivacyScreenLockEnabled, settings.privacyScreen());
+    set(settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
+        settings.privacyScreenTimeoutSeconds());
+    set(settings::core::SettingId::IntegrationsSystemTrayEnabled, settings.tray());
+    set(settings::core::SettingId::IntegrationsSystemTrayAutostart, settings.startInTray());
+    set(settings::core::SettingId::IntegrationsDbusApiAccess, settings.integrationsDbusApiAccess());
+    set(settings::core::SettingId::ComposerInputMarkdownEnabled, settings.markdown());
+    set(settings::core::SettingId::ComposerInputSendKey,
+        static_cast<int>(settings.sendMessageKey()));
+    set(settings::core::SettingId::ComposerInputAutoReplaceEmoji,
+        static_cast<int>(settings.autoReplaceEmoji()));
+    set(settings::core::SettingId::ComposerFeedbackTypingNotifications,
+        settings.typingNotifications());
+    set(settings::core::SettingId::ComposerFeedbackReadReceipts, settings.readReceipts());
+    set(settings::core::SettingId::ComposerExtrasStickersEnabled, settings.enableStickers());
+    set(settings::core::SettingId::NotificationsDesktopEnabled, settings.hasDesktopNotifications());
+    set(settings::core::SettingId::NotificationsDesktopAlertOnIncoming,
+        settings.alertOnIncomingMessages());
+    set(settings::core::SettingId::NotificationsDesktopDecryptMessages,
+        settings.decryptNotifications());
+    set(settings::core::SettingId::CallsLegacyEnabled, settings.enableLegacyCalls());
+    set(settings::core::SettingId::CallsRelayUseFallbackServer,
+        settings.useFallbackCallRelayServer());
+    set(settings::core::SettingId::CallsDevicesMicrophone, settings.microphone().toStdString());
+    set(settings::core::SettingId::CallsDevicesCamera, settings.camera().toStdString());
+    set(settings::core::SettingId::CallsDevicesCameraResolution,
+        settings.cameraResolution().toStdString());
+    set(settings::core::SettingId::CallsDevicesCameraFrameRate,
+        settings.cameraFrameRate().toStdString());
+    set(settings::core::SettingId::CallsAudioRingtone, settings.ringtone().toStdString());
+    set(settings::core::SettingId::TimelineMessagesLayoutBubbles, settings.bubbles());
+    set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars, settings.smallAvatars());
+    set(settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar,
+        settings.showOwnAvatarInBubbleLayout());
+    set(settings::core::SettingId::TimelineMessagesSenderUsername,
+        static_cast<int>(settings.showSenderUsername()));
+    set(settings::core::SettingId::TimelineMessagesMaxWidthPx, settings.maxTimelineWidth());
+    set(settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge,
+        settings.enlargeEmojiOnlyMessages());
+    set(settings::core::SettingId::TimelineMessagesHoverHighlight,
+        settings.messageHoverHighlight());
+    set(settings::core::SettingId::TimelineMessageActionsEnabled, settings.showActionButtons());
+    set(settings::core::SettingId::TimelineMessageActionsPinnedReactions,
+        settings.pinnedReactions().toStdString());
+    set(settings::core::SettingId::TimelineMediaEffectsEnabled, settings.fancyEffects());
+    set(settings::core::SettingId::TimelineMediaAnimateOnHover, settings.animateImagesOnHover());
+    set(settings::core::SettingId::TimelineMediaImageDisplay,
+        static_cast<int>(settings.showImage()));
+    set(settings::core::SettingId::TimelineMediaOpenImagesExternal,
+        settings.openImagesInExternalApp());
+    set(settings::core::SettingId::TimelineMediaOpenVideosExternal,
+        settings.openVideosInExternalApp());
+    set(settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers,
+        settings.onlyShareKeysWithVerifiedUsers());
+    set(settings::core::SettingId::EncryptionKeySharingShareWithTrusted,
+        settings.shareKeysWithTrustedUsers());
+    set(settings::core::SettingId::EncryptionBackupOnlineEnabled, settings.useOnlineKeyBackup());
 }
 
 } // namespace
@@ -149,6 +244,7 @@ settings::SettingsController::load(UserSettings &settings,
     }
 
     settings.applyTheme();
+    syncCoreStoreFromSettings(settings);
     settings.setPersistenceScopeReadyForAuth(settings.hasActiveSession());
     // Keep persistence intentionally paused until the UI startup sequence completes.
     // This avoids incidental `save()` calls from initialization code paths.
@@ -176,6 +272,7 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
         settings.saveSecretsYaml();
         settings.saveStateYaml();
     }
+    syncCoreStoreFromSettings(settings);
 }
 
 void
@@ -199,4 +296,5 @@ settings::SettingsController::clearAuth(UserSettings &settings)
     settings::persistence::clearProfileSecrets(
       settings.profile_, settings.runWithoutSecureSecretsService_, settings.secretsFilePath_);
     settings.saveStateYaml();
+    syncCoreStoreFromSettings(settings);
 }

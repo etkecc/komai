@@ -164,12 +164,16 @@ UserSettings::setMaxTimelineWidth(int s)
 void
 UserSettings::setCommunityListWidth(int s)
 {
-    setSetting(communityListWidth_, s, &UserSettings::communityListWidthChanged);
+    setSetting(communityListWidth_,
+               settings::core::definitions::normalizeCommunitiesWidthPx(s),
+               &UserSettings::communityListWidthChanged);
 }
 void
 UserSettings::setRoomListWidth(int s)
 {
-    setSetting(roomListWidth_, s, &UserSettings::roomListWidthChanged);
+    setSetting(roomListWidth_,
+               settings::core::definitions::normalizeRoomListWidthPx(s),
+               &UserSettings::roomListWidthChanged);
 }
 void
 UserSettings::setDesktopNotificationsEnabled(bool s)

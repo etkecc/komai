@@ -14,6 +14,9 @@
 
 namespace settings::core::definitions {
 
+inline constexpr int kDefaultSidebarsRoomListWidthPx    = 300;
+inline constexpr int kDefaultSidebarsCommunitiesWidthPx = 200;
+
 inline constexpr std::array<SettingDefinition, 58> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},
   {SettingId::UiFontFamily, SettingScope::Config, SettingKey::UiFontFamily, false},
@@ -290,5 +293,17 @@ hasUniquePersistedDefinitionIds()
 
 static_assert(hasUniquePersistedDefinitionIds(),
               "settings::core::definitions has duplicate SettingId entries");
+
+[[nodiscard]] constexpr int
+normalizeRoomListWidthPx(int value)
+{
+    return value > 0 ? value : kDefaultSidebarsRoomListWidthPx;
+}
+
+[[nodiscard]] constexpr int
+normalizeCommunitiesWidthPx(int value)
+{
+    return value > 0 ? value : kDefaultSidebarsCommunitiesWidthPx;
+}
 
 } // namespace settings::core::definitions

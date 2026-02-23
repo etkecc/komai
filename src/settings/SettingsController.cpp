@@ -249,7 +249,7 @@ settings::SettingsController::load(UserSettings &settings,
     settings.setPersistenceSuspended(true);
 
     if (profile)
-        emit settings.profileChanged(settings.profileId());
+        settings.notifyProfileChanged();
 }
 
 void

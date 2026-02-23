@@ -207,6 +207,12 @@ UserSettings::clearAuthInMemory()
     secrets_.clear();
 }
 
+void
+UserSettings::notifyProfileChanged()
+{
+    emit profileChanged(profile_);
+}
+
 QString
 UserSettings::secret(const QString &name) const
 {

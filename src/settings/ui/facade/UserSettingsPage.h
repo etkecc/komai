@@ -13,6 +13,7 @@
 #include <optional>
 #include <string>
 
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/core/SettingsStore.h"
 
 namespace YAML {
@@ -188,8 +189,6 @@ class UserSettings final : public QObject
     UserSettings();
 
 public:
-    friend class settings::SettingsController;
-
     static QSharedPointer<UserSettings> instance();
     static void initialize(std::optional<QString> profile);
     static void initialize(std::optional<QString> profile, const YAML::Node &configRoot);
@@ -377,6 +376,7 @@ public:
     void setSessionSnapshot(const SessionSnapshot &snapshot);
     void applyLoadedSecrets(const QString &accessToken, const QMap<QString, QString> &secrets);
     void clearAuthInMemory();
+    void notifyProfileChanged();
     void setUsesFileSecretsProvider(bool usesFileSecretsProvider);
     [[nodiscard]] bool hasResolvedProfilePaths() const;
     [[nodiscard]] const QString &profileId() const;
@@ -392,6 +392,9 @@ public:
     void setSecret(const QString &name, const QString &value);
     void removeSecret(const QString &name);
     void setPersistenceSuspended(bool suspended);
+    // Internal settings lifecycle hooks used by SettingsController.
+    void applyProfilePathState(const QString &profile);
+    void setPersistenceScopeReadyForAuth(bool ready);
 
     // Theme helpers for QML (used on the Welcome page)
     Q_INVOKABLE int themeVariantIndex() const;
@@ -484,8 +487,6 @@ signals:
     void http3EnabledChanged(bool state);
 
 private:
-    void applyProfilePathState(const QString &profile);
-
     template<typename T, typename Signal>
     void setSetting(T &member, const T &value, Signal signal)
     {
@@ -500,8 +501,6 @@ private:
                       const char *settingName);
 
 #include "settings/ui/facade/UserSettingsPagePrivateMembers.h"
-
-    void setPersistenceScopeReadyForAuth(bool ready);
 };
 
 #include "settings/ui/UserSettingsModel.h"

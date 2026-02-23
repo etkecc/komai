@@ -14,6 +14,7 @@
 #include "settings/SettingKeys.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 using settings::storage::writeYamlFile;
@@ -30,9 +31,14 @@ namespace settings::serializer {
 void
 loadState(UserSettings &settings, const YAML::Node &root)
 {
-    const auto roomListWidth = readScalar<int>(root, SettingKey::SidebarsRoomListWidthPx, -1);
+    const auto roomListWidth =
+      readScalar<int>(root,
+                      SettingKey::SidebarsRoomListWidthPx,
+                      settings::core::definitions::kDefaultSidebarsRoomListWidthPx);
     const auto communityListWidth =
-      readScalar<int>(root, SettingKey::SidebarsCommunitiesWidthPx, 200);
+      readScalar<int>(root,
+                      SettingKey::SidebarsCommunitiesWidthPx,
+                      settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx);
 
     const auto windowWidth =
       readScalar<int>(root, SettingKey::AppWindowSizeWidth, conf::window::width);
@@ -41,8 +47,9 @@ loadState(UserSettings &settings, const YAML::Node &root)
 
     settings.setWindowWidth(windowWidth > 0 ? windowWidth : conf::window::width);
     settings.setWindowHeight(windowHeight > 0 ? windowHeight : conf::window::height);
-    settings.setRoomListWidth(roomListWidth < -1 ? -1 : roomListWidth);
-    settings.setCommunityListWidth(communityListWidth < 0 ? 0 : communityListWidth);
+    settings.setRoomListWidth(settings::core::definitions::normalizeRoomListWidthPx(roomListWidth));
+    settings.setCommunityListWidth(
+      settings::core::definitions::normalizeCommunitiesWidthPx(communityListWidth));
     settings.setCurrentTagId(
       readString(root, SettingKey::SessionNavigationCurrentTagId, QString()));
     settings.setHiddenTags(readStringList(root, SettingKey::SidebarsCommunitiesHiddenTags));

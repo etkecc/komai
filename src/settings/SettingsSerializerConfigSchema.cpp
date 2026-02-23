@@ -15,11 +15,11 @@ namespace settings::serializer::config {
 namespace {
 
 const std::array<BoolSettingDescriptor, 40> BoolSettings{
-  BoolSettingDescriptor{SettingKey::AppWindowTrayEnabled,
+  BoolSettingDescriptor{SettingKey::IntegrationsSystemTrayEnabled,
                         false,
                         &UserSettings::tray,
                         &UserSettings::setTray},
-  BoolSettingDescriptor{SettingKey::AppStartupStartInTray,
+  BoolSettingDescriptor{SettingKey::IntegrationsSystemTrayAutostart,
                         false,
                         &UserSettings::startInTray,
                         &UserSettings::setStartInTray},

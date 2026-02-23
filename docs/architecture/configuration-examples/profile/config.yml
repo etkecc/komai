@@ -1,12 +1,5 @@
 # Sample profile config.yml (durable settings)
 
-app:
-  startup:
-    start_in_tray: false
-  window:
-    tray:
-      enabled: false
-
 ui:
   theme:
     slug: komai-light
@@ -120,6 +113,9 @@ db:
   max_files: 0
 
 integrations:
+  system_tray:
+    enabled: false
+    autostart: false
   dbus:
     expose_room_info: false
   # Optional command used when opening links from Komai.

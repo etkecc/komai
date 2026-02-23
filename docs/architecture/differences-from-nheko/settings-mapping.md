@@ -41,8 +41,8 @@ Note:
 | Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::ScrollbarsInRoomlist` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
 | Sidebars | ROOM LIST | Sorting | `UserSettingsModel::RoomSorting` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::ShowCommunitiesSidebar` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
-| Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsTray` | `tray` | `app.window.tray.enabled` | config.yml | yes |
-| Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsStartInTray` | `start_in_tray` | `app.startup.start_in_tray` | config.yml | yes |
+| Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsTray` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
+| Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsStartInTray` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::integrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::MobileMode` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |

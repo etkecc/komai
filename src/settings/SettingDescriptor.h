@@ -11,6 +11,15 @@
 
 namespace settings::descriptor {
 
+enum class SettingScope
+{
+    Runtime,
+    Config,
+    State,
+    Session,
+    Secrets,
+};
+
 struct SettingMeta
 {
     const char *name;                   // tr() key (nullptr = skip)
@@ -22,6 +31,9 @@ struct SettingMeta
     QVariant lowerBound, upperBound, step;
     QVariant (*getValues)(); // for Options type (nullptr if N/A)
     bool (*isEnabled)();     // nullptr = always enabled
+    SettingScope scope       = SettingScope::Runtime;
+    const char *persistedKey = nullptr;
+    bool requiresRestart     = false;
 };
 
 template<typename T>

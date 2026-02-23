@@ -341,14 +341,14 @@ UserSettingsModel::UserSettingsModel(QObject *p)
         emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                                   \
     })
 
-#include "UserSettingsModelConnectionsCalls.inc"
-#include "UserSettingsModelConnectionsComposer.inc"
-#include "UserSettingsModelConnectionsEncryption.inc"
-#include "UserSettingsModelConnectionsIntegrations.inc"
-#include "UserSettingsModelConnectionsLookFeel.inc"
-#include "UserSettingsModelConnectionsNotifications.inc"
-#include "UserSettingsModelConnectionsPrivacy.inc"
-#include "UserSettingsModelConnectionsTimeline.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsCalls.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsComposer.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsEncryption.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsIntegrations.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsLookFeel.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsNotifications.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsPrivacy.inc"
+#include "settings/ui/connections/UserSettingsModelConnectionsTimeline.inc"
 
 #undef CONNECT_SETTING
 }

@@ -636,6 +636,10 @@ set(SRC_FILES
     src/settings/ui/UserSettingsModel.cpp
     src/settings/ui/facade/UserSettingsPersistence.cpp
     src/settings/ui/facade/UserSettingsPage.cpp
+    src/settings/ui/facade/UserSettingsGettersUi.cpp
+    src/settings/ui/facade/UserSettingsGettersLayout.cpp
+    src/settings/ui/facade/UserSettingsGettersCalls.cpp
+    src/settings/ui/facade/UserSettingsGettersMisc.cpp
     src/settings/ui/facade/UserSettingsPage.h
     src/settings/ui/facade/UserSettingsSetters.cpp
     src/settings/ui/facade/UserSettingsSessionSettings.cpp
@@ -1015,17 +1019,33 @@ else()
 endif()
 
 if(BUILD_TESTING)
+    # Intentionally point HOME/XDG_* to non-writable /proc paths for all tests.
+    # This makes accidental writes to user/home-derived locations fail fast.
+    # Tests that need filesystem access must explicitly use ScopedTestHome.
+    set(komai_test_env
+        "HOME=/proc/komai-test-home"
+        "XDG_CONFIG_HOME=/proc/komai-test-config"
+        "XDG_DATA_HOME=/proc/komai-test-data"
+        "XDG_CACHE_HOME=/proc/komai-test-cache"
+        "XDG_STATE_HOME=/proc/komai-test-state"
+    )
+
+    function(komai_configure_test test_name labels)
+        set_tests_properties(${test_name} PROPERTIES LABELS "${labels}")
+        set_property(TEST ${test_name} PROPERTY ENVIRONMENT "${komai_test_env}")
+    endfunction()
+
     add_executable(komai_yaml_settings_test tests/YamlSettingsTest.cpp)
     target_include_directories(komai_yaml_settings_test PRIVATE src)
     target_link_libraries(komai_yaml_settings_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
     add_test(NAME komai_yaml_settings_test COMMAND komai_yaml_settings_test)
-    set_tests_properties(komai_yaml_settings_test PROPERTIES LABELS "unit;settings")
+    komai_configure_test(komai_yaml_settings_test "unit;settings")
 
     add_executable(komai_staged_load_plan_test tests/StagedLoadPlanTest.cpp)
     target_include_directories(komai_staged_load_plan_test PRIVATE src)
     target_link_libraries(komai_staged_load_plan_test PRIVATE Qt::Core ${YAMLCPP_TARGET_NAME})
     add_test(NAME komai_staged_load_plan_test COMMAND komai_staged_load_plan_test)
-    set_tests_properties(komai_staged_load_plan_test PROPERTIES LABELS "unit;settings")
+    komai_configure_test(komai_staged_load_plan_test "unit;settings")
 
     add_executable(komai_startup_settings_test
         tests/StartupSettingsTest.cpp
@@ -1037,6 +1057,10 @@ if(BUILD_TESTING)
         tests/LoggingStub.cpp
         src/Paths.cpp
         src/settings/ui/facade/UserSettingsPage.cpp
+        src/settings/ui/facade/UserSettingsGettersUi.cpp
+        src/settings/ui/facade/UserSettingsGettersLayout.cpp
+        src/settings/ui/facade/UserSettingsGettersCalls.cpp
+        src/settings/ui/facade/UserSettingsGettersMisc.cpp
         src/settings/ui/facade/UserSettingsPersistence.cpp
         src/settings/ui/facade/UserSettingsSessionSettings.cpp
         src/settings/ui/facade/UserSettingsSetters.cpp
@@ -1077,7 +1101,7 @@ if(BUILD_TESTING)
     )
     set_target_properties(komai_startup_settings_test PROPERTIES AUTOMOC ON)
     add_test(NAME komai_startup_settings_test COMMAND komai_startup_settings_test)
-    set_tests_properties(komai_startup_settings_test PROPERTIES LABELS "unit;settings")
+    komai_configure_test(komai_startup_settings_test "unit;settings")
 
     add_executable(komai_settings_storage_test
         tests/SettingsStorageTest.cpp
@@ -1100,7 +1124,7 @@ if(BUILD_TESTING)
         fmt::fmt
     )
     add_test(NAME komai_settings_storage_test COMMAND komai_settings_storage_test)
-    set_tests_properties(komai_settings_storage_test PROPERTIES LABELS "unit;settings")
+    komai_configure_test(komai_settings_storage_test "unit;settings")
 
     add_executable(komai_settings_store_test
         tests/SettingsStoreTest.cpp
@@ -1109,7 +1133,7 @@ if(BUILD_TESTING)
     target_include_directories(komai_settings_store_test PRIVATE src)
     target_link_libraries(komai_settings_store_test PRIVATE Qt::Core)
     add_test(NAME komai_settings_store_test COMMAND komai_settings_store_test)
-    set_tests_properties(komai_settings_store_test PROPERTIES LABELS "unit;settings")
+    komai_configure_test(komai_settings_store_test "unit;settings")
 
     add_executable(komai_settings_serializer_core_test
         tests/SettingsSerializerCoreTest.cpp
@@ -1119,7 +1143,7 @@ if(BUILD_TESTING)
     target_include_directories(komai_settings_serializer_core_test PRIVATE src)
     target_link_libraries(komai_settings_serializer_core_test PRIVATE ${YAMLCPP_TARGET_NAME})
     add_test(NAME komai_settings_serializer_core_test COMMAND komai_settings_serializer_core_test)
-    set_tests_properties(komai_settings_serializer_core_test PROPERTIES LABELS "unit;settings")
+    komai_configure_test(komai_settings_serializer_core_test "unit;settings")
 
     add_executable(komai_db_backend_test
         tests/DbBackendTest.cpp
@@ -1131,7 +1155,7 @@ if(BUILD_TESTING)
         MatrixClient::MatrixClient
     )
     add_test(NAME komai_db_backend_test COMMAND komai_db_backend_test)
-    set_tests_properties(komai_db_backend_test PROPERTIES LABELS "integration;db")
+    komai_configure_test(komai_db_backend_test "integration;db")
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test

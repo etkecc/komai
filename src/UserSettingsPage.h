@@ -806,6 +806,7 @@ public:
         // Presence section
         PrivacyPresenceSection,
         PresenceDefault,
+        PresenceStatusMessage,
         // Screen Lock section
         PrivacyScreenLockSection,
         PrivacyScreen,
@@ -879,6 +880,7 @@ public:
         ReadOnlyText,
         Options,
         OptionsWithDescription,
+        PresenceStatusMessageField,
         Integer,
         Double,
         SectionTitle,

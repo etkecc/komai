@@ -188,6 +188,13 @@ Nheko::punyLink(QString link) const
     QUrl url(link);
     return url.toDisplayString(QUrl::FullyEncoded);
 }
+
+QString
+Nheko::statusMessage() const
+{
+    return ChatPage::instance()->status();
+}
+
 void
 Nheko::setStatusMessage(QString msg) const
 {

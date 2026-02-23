@@ -80,6 +80,7 @@ public:
     }
     Q_INVOKABLE void openLink(QString link) const;
     Q_INVOKABLE QString punyLink(QString link) const;
+    Q_INVOKABLE QString statusMessage() const;
     Q_INVOKABLE void setStatusMessage(QString msg) const;
     Q_INVOKABLE void showUserSettingsPage() const;
     Q_INVOKABLE void logout() const;

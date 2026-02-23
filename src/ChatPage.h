@@ -240,4 +240,9 @@ private:
 
     // Stores when our windows lost focus. Invalid when our windows have focus.
     QDateTime lastWindowActive;
+
+    // Last locally known status message (local submit and/or latest local-user presence from sync).
+    // Used as a runtime shadow so UI can reflect updates immediately without waiting for cache
+    // echo.
+    std::optional<QString> statusMessageShadow_;
 };

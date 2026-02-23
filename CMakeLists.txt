@@ -931,6 +931,7 @@ set(QML_SOURCES
     resources/qml/components/SettingsRows/SettingRowThemeSelector.qml
     resources/qml/components/SettingsRows/SettingRowReadOnlyValue.qml
     resources/qml/components/SettingsRows/SettingRowHiddenEvents.qml
+    resources/qml/components/SettingsRows/SettingRowPresenceStatusMessage.qml
     resources/qml/delegates/Encrypted.qml
     resources/qml/delegates/FileMessage.qml
     resources/qml/delegates/ImageMessage.qml

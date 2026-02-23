@@ -845,6 +845,13 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
     try {
         cache::saveState(res);
         olm::handle_to_device_messages(res.to_device.events);
+        const auto localUserId = http::client()->user_id().to_string();
+        for (const auto &presence : res.presence) {
+            if (presence.sender == localUserId) {
+                statusMessageShadow_ = QString::fromStdString(presence.content.status_msg);
+                break;
+            }
+        }
 
         // reject forbidden invites
         if (!res.rooms.invite.empty()) {
@@ -1241,16 +1248,22 @@ ChatPage::receivedSessionKey(const std::string &room_id, const std::string &sess
 QString
 ChatPage::status() const
 {
+    if (statusMessageShadow_.has_value())
+        return *statusMessageShadow_;
+
     return QString::fromStdString(cache::presence(utils::localUser().toStdString()).status_msg);
 }
 
 void
 ChatPage::setStatus(const QString &status)
 {
+    statusMessageShadow_ = status;
+
     http::client()->put_presence_status(
-      currentPresence(), status.toStdString(), [](mtx::http::RequestErr err) {
+      currentPresence(), status.toStdString(), [this](mtx::http::RequestErr err) {
           if (err) {
               nhlog::net()->warn("failed to set presence status_msg: {}", err->matrix_error.error);
+              statusMessageShadow_.reset();
           }
       });
 }

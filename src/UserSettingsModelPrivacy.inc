@@ -5,7 +5,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PresenceDefault
     { QT_TR_NOOP("Status policy"),
-      QT_TR_NOOP("Automatic keeps you online while active and sets you unavailable after 5 minutes of inactivity."),
+      QT_TR_NOOP("Controls your <a href=\"%1\">Presence</a> status on the Matrix network.\nAutomatic is either 'online' or 'unavailable' (after 5 minutes of inactivity)."),
       SM::OptionsWithDescription, SM::TabPrivacy,
       []() -> QVariant {
           switch (I->presence()) {
@@ -52,6 +52,11 @@
           };
       },
       nullptr },
+    // PresenceStatusMessage
+    { QT_TR_NOOP("Status message"),
+      nullptr,
+      SM::PresenceStatusMessageField, SM::TabPrivacy,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
 
     // PrivacyScreenLockSection
     { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,

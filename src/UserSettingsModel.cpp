@@ -475,7 +475,15 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         }
         return m.name ? tr(m.name) : QVariant{};
     case Description:
-        return m.description ? tr(m.description) : QVariant{};
+        if (!m.description)
+            return QVariant{};
+
+        if (index.row() == PresenceDefault) {
+            return tr(m.description)
+              .arg(QStringLiteral("https://spec.matrix.org/v1.17/client-server-api/#presence"));
+        }
+
+        return tr(m.description);
     case Type:
         return m.type;
     case Tab:

@@ -164,6 +164,13 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
+                                        roleValue: UserSettingsModel.PresenceStatusMessageField
+                                        SettingRowPresenceStatusMessage {
+                                            anchors.right: parent.right
+                                            width: r.controlWidth
+                                        }
+                                    }
+                                    DelegateChoice {
                                         roleValue: UserSettingsModel.ThemeSelector
                                         SettingRowThemeSelector {
                                             anchors.right: parent.right
@@ -275,11 +282,15 @@ Item {
                             Layout.fillWidth: true
                             visible: r.model.type == UserSettingsModel.OptionsWithDescription && !!r.model.description
                             text: r.model.description ?? ""
+                            textFormat: Text.RichText
                             color: palette.buttonText
                             font.pointSize: 0.9 * fontMetrics.font.pointSize
                             wrapMode: Text.Wrap
                             Layout.topMargin: -Nheko.paddingSmall
                             Layout.bottomMargin: Nheko.paddingSmall
+                            onLinkActivated: function(link) {
+                                Qt.openUrlExternally(link);
+                            }
                         }
                     }
                 }

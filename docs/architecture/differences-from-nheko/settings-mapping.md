@@ -46,8 +46,8 @@ Note:
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::IntegrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::TextSelectionEnabled` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Input mode | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures_enabled` | config.yml | yes |
 | Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::TimelineBubblesEnabled` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
 | Timeline | MESSAGES | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | MESSAGES | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
@@ -72,12 +72,16 @@ Note:
 | Notifications | DESKTOP | Alert on incoming messages | `UserSettingsModel::AlertOnIncomingMessages` | `alert_on_incoming_messages` | `notifications.desktop.alert_on_incoming` | config.yml | yes |
 | Notifications | DESKTOP | Decrypt notifications | `UserSettingsModel::DecryptNotifications` | `decrypt_notifications` | `notifications.desktop.decrypt_messages` | config.yml | yes |
 | Calls | GENERAL | Enable legacy calls | `UserSettingsModel::LegacyCallsEnabled` | `enable_legacy_calls` | `calls.legacy_enabled` | config.yml | yes |
-| Calls | GENERAL | Use fallback call relay server | `UserSettingsModel::FallbackCallRelayServerEnabled` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
+| Calls | GENERAL | Use turn.matrix.org when no relay is configured | `UserSettingsModel::FallbackCallRelayServerEnabled` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
 | Calls | DEVICES | Microphone | `UserSettingsModel::Microphone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
 | Calls | DEVICES | Camera | `UserSettingsModel::Camera` | `camera` | `calls.devices.camera` | config.yml | yes |
 | Calls | DEVICES | Camera resolution | `UserSettingsModel::CameraResolution` | `camera_resolution` | `calls.devices.camera_resolution` | config.yml | yes |
 | Calls | DEVICES | Camera frame rate | `UserSettingsModel::CameraFrameRate` | `camera_frame_rate` | `calls.devices.camera_frame_rate` | config.yml | yes |
 | Calls | DEVICES | Ringtone | `UserSettingsModel::Ringtone` | `ringtone` | `calls.audio.ringtone` | config.yml | yes |
+| Calls | SCREEN SHARING | Screen share frame rate | `UserSettingsModel::ScreenShareFrameRate` | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | yes |
+| Calls | SCREEN SHARING | Include camera picture-in-picture | `UserSettingsModel::ScreenSharePiP` | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | yes |
+| Calls | SCREEN SHARING | Show participant camera during screen sharing | `UserSettingsModel::ScreenShareRemoteVideo` | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | yes |
+| Calls | SCREEN SHARING | Show mouse cursor | `UserSettingsModel::ScreenShareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
 | Privacy | SCREEN LOCK | Privacy screen | `UserSettingsModel::PrivacyScreen` | `privacy_screen` | `privacy.screen_lock.enabled` | config.yml | yes |
 | Privacy | SCREEN LOCK | Privacy screen timeout (seconds) | `UserSettingsModel::PrivacyScreenTimeoutSeconds` | `privacy_screen_timeout_seconds` | `privacy.screen_lock.timeout_seconds` | config.yml | yes |
 | Privacy | DATA & MAINTENANCE | Periodically delete expired events | `UserSettingsModel::ExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
@@ -128,6 +132,6 @@ Note:
 | `disable_certificate_validation` | `network.tls.enable_certificate_validation` | config.yml | bool | inverted from upstream key semantics; positive in Komai |
 | `enable_http3` | `network.http3.enabled` | config.yml | bool | network advanced pref |
 | `max_db_size` | `db.max_size_bytes` | config.yml | qulonglong | database tuning |
-| `max_dbs` | `db.max_files` | config.yml | uint | database tuning |
+| `max_dbs` | `db.max_stores` | config.yml | uint | database tuning |
 | `run_without_secure_secrets_service` | `secrets.provider` | config.yml | bool -> enum | mapped: false=secret_service, true=file; no direct runtime toggle in Komai |
 | `secrets` | `secrets` | secret backend (fallback: secrets.yml) | map(text->text) | secret map; do not keep in config.yml |

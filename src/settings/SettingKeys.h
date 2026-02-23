@@ -10,19 +10,19 @@ namespace SettingKey {
  * Canonical dotted keys used by settings load/save and migration-safe reads.
  */
 // config.yml
-constexpr auto IntegrationsSystemTrayEnabled   = "integrations.system_tray.enabled";
-constexpr auto IntegrationsSystemTrayAutostart = "integrations.system_tray.autostart";
-constexpr auto UiThemeSlug                     = "ui.theme.slug";
-constexpr auto UiFontFamily                    = "ui.font.family";
-constexpr auto UiFontEmojiFamily               = "ui.font.emoji_family";
-constexpr auto UiFontSizePt                    = "ui.font.size_pt";
-constexpr auto UiScaleFactor                   = "ui.scale.factor";
-constexpr auto UiMotionAnimationsEnabled       = "ui.motion.enable_animations";
-constexpr auto UiInputEnableTextSelection      = "ui.input.enable_text_selection";
-constexpr auto UiInputSwipeGestures            = "ui.input.swipe_gestures";
-constexpr auto UiAvatarsCircular               = "ui.avatars.circular";
-constexpr auto UiAvatarsIdenticonFallback      = "ui.avatars.identicon_fallback";
-constexpr auto SidebarsRoomListCompact         = "sidebars.room_list.compact";
+constexpr auto IntegrationsSystemTrayEnabled    = "integrations.system_tray.enabled";
+constexpr auto IntegrationsSystemTrayAutostart  = "integrations.system_tray.autostart";
+constexpr auto UiThemeSlug                      = "ui.theme.slug";
+constexpr auto UiFontFamily                     = "ui.font.family";
+constexpr auto UiFontEmojiFamily                = "ui.font.emoji_family";
+constexpr auto UiFontSizePt                     = "ui.font.size_pt";
+constexpr auto UiScaleFactor                    = "ui.scale.factor";
+constexpr auto UiMotionAnimationsEnabled        = "ui.motion.enable_animations";
+constexpr auto UiInputMode                      = "ui.input.mode";
+constexpr auto UiInputTouchSwipeGesturesEnabled = "ui.input.touch.swipe_gestures_enabled";
+constexpr auto UiAvatarsCircular                = "ui.avatars.circular";
+constexpr auto UiAvatarsIdenticonFallback       = "ui.avatars.identicon_fallback";
+constexpr auto SidebarsRoomListCompact          = "sidebars.room_list.compact";
 constexpr auto SidebarsRoomListShowLastMessageTime =
   "sidebars.room_list.show_last_message_timestamp";
 constexpr auto SidebarsRoomListLastMessagePreview = "sidebars.room_list.last_message_preview";
@@ -76,7 +76,7 @@ constexpr auto NetworkTlsEnableCertificateValidation = "network.tls.enable_certi
 constexpr auto NetworkHttp3Enabled                   = "network.http3.enabled";
 constexpr auto NetworkPresenceStatusPolicy           = "network.presence.status_policy";
 constexpr auto DbMaxSizeBytes                        = "db.max_size_bytes";
-constexpr auto DbMaxFiles                            = "db.max_files";
+constexpr auto DbMaxStores                           = "db.max_stores";
 constexpr auto IntegrationsDbusApiAccess             = "integrations.dbus.access";
 constexpr auto IntegrationsBrowserCommand            = "integrations.browser.command";
 constexpr auto SecretsProvider                       = "secrets.provider";

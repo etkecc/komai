@@ -79,8 +79,8 @@ stringConfigSettings();
 
 inline constexpr bool kDefaultUiMotionAnimationsEnabled =
   settings::core::definitions::kDefaultUiMotionAnimationsEnabled;
-inline constexpr bool kDefaultInputEnableTextSelection =
-  settings::core::definitions::kDefaultInputEnableTextSelection;
+inline constexpr bool kDefaultUiInputModeTouchEnabled =
+  settings::core::definitions::kDefaultUiInputModeTouchEnabled;
 inline constexpr bool kDefaultCertificateValidationEnabled =
   settings::core::definitions::kDefaultCertificateValidationEnabled;
 inline constexpr bool kDefaultNetworkHttp3Enabled =
@@ -93,7 +93,7 @@ inline constexpr int kDefaultPrivacyScreenTimeoutSeconds =
   settings::core::definitions::kDefaultPrivacyScreenTimeoutSeconds;
 inline constexpr int kDefaultTimelineMaxWidthPx =
   settings::core::definitions::kDefaultTimelineMaxWidthPx;
-inline constexpr uint kDefaultMaxDbs = settings::core::definitions::kDefaultMaxDbs;
+inline constexpr uint kDefaultMaxStores = settings::core::definitions::kDefaultMaxStores;
 inline constexpr qulonglong kDefaultMaxDbSizeBytes =
   settings::core::definitions::kDefaultMaxDbSizeBytes;
 inline constexpr uint kDefaultDbusApiAccess =

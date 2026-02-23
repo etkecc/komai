@@ -120,7 +120,7 @@ const std::array<BoolSettingDescriptor, 40> BoolSettings{
                         kDefaultNetworkHttp3Enabled,
                         &UserSettings::http3Enabled,
                         &UserSettings::setHttp3Enabled},
-  BoolSettingDescriptor{SettingKey::UiInputSwipeGestures,
+  BoolSettingDescriptor{SettingKey::UiInputTouchSwipeGesturesEnabled,
                         false,
                         &UserSettings::swipeGesturesEnabled,
                         &UserSettings::setSwipeGesturesEnabled},
@@ -198,10 +198,10 @@ const std::array<IntSettingDescriptor, 4> IntSettings{
 };
 
 const std::array<UintSettingDescriptor, 1> UintSettings{
-  UintSettingDescriptor{SettingKey::DbMaxFiles,
-                        kDefaultMaxDbs,
-                        &UserSettings::maxDbs,
-                        &UserSettings::setMaxDbs},
+  UintSettingDescriptor{SettingKey::DbMaxStores,
+                        kDefaultMaxStores,
+                        &UserSettings::maxStores,
+                        &UserSettings::setMaxStores},
 };
 
 const std::array<ULongLongSettingDescriptor, 1> ULongLongSettings{

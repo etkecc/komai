@@ -113,8 +113,8 @@ class UserSettings final : public QObject
       int roomListWidth READ roomListWidth WRITE setRoomListWidth NOTIFY roomListWidthChanged)
     Q_PROPERTY(int communityListWidth READ communityListWidth WRITE setCommunityListWidth NOTIFY
                  communityListWidthChanged)
-    Q_PROPERTY(bool textSelectionEnabled READ textSelectionEnabled WRITE setTextSelectionEnabled
-                 NOTIFY textSelectionEnabledChanged)
+    Q_PROPERTY(bool touchInputModeEnabled READ touchInputModeEnabled WRITE setTouchInputModeEnabled
+                 NOTIFY touchInputModeEnabledChanged)
     Q_PROPERTY(bool swipeGesturesEnabled READ swipeGesturesEnabled WRITE setSwipeGesturesEnabled
                  NOTIFY swipeGesturesEnabledChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -181,7 +181,7 @@ class UserSettings final : public QObject
 
     // Database settings (internal, auto-adjusted)
     Q_PROPERTY(qulonglong maxDbSize READ maxDbSize WRITE setMaxDbSize NOTIFY maxDbSizeChanged)
-    Q_PROPERTY(uint maxDbs READ maxDbs WRITE setMaxDbs NOTIFY maxDbsChanged)
+    Q_PROPERTY(uint maxStores READ maxStores WRITE setMaxStores NOTIFY maxStoresChanged)
 
     // Experimental features
     Q_PROPERTY(bool http3Enabled READ http3Enabled WRITE setHttp3Enabled NOTIFY http3EnabledChanged)
@@ -286,7 +286,7 @@ public:
     void setEnlargeEmojiOnlyMessages(bool state);
     void setSystemTrayEnabled(bool state);
     void setSystemTrayAutostart(bool state);
-    void setTextSelectionEnabled(bool mode);
+    void setTouchInputModeEnabled(bool mode);
     void setSwipeGesturesEnabled(bool mode);
     void setScaleFactor(double factor);
     void setFontSize(double size);
@@ -363,7 +363,7 @@ public:
     void setWindowWidth(int width);
     void setWindowHeight(int height);
     void setMaxDbSize(qulonglong size);
-    void setMaxDbs(uint count);
+    void setMaxStores(uint count);
     void setHttp3Enabled(bool state);
     void clearAuth();
     bool hasPersistedSessionIdentity() const;
@@ -442,7 +442,7 @@ signals:
     void maxTimelineWidthChanged(int state);
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
-    void textSelectionEnabledChanged(bool mode);
+    void touchInputModeEnabledChanged(bool mode);
     void swipeGesturesEnabledChanged(bool state);
     void scaleFactorChanged(double factor);
     void fontSizeChanged(double state);
@@ -483,7 +483,7 @@ signals:
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);
     void maxDbSizeChanged(qulonglong size);
-    void maxDbsChanged(uint count);
+    void maxStoresChanged(uint count);
     void http3EnabledChanged(bool state);
 
 private:

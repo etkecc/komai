@@ -110,7 +110,7 @@ network:
 
 db:
   max_size_bytes: 0
-  max_files: 0
+  max_stores: 0
 
 integrations:
   system_tray:

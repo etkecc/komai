@@ -268,7 +268,7 @@ LmdbBackend::open(std::string_view directory, const BackendOptions &options)
         const std::string directoryPath{directory};
         impl_->env = lmdb::env::create();
         impl_->env.set_mapsize(options.mapSizeBytes);
-        impl_->env.set_max_dbs(options.maxDbs);
+        impl_->env.set_max_dbs(options.maxStores);
         impl_->env.open(directoryPath.c_str(), flags);
     });
 }

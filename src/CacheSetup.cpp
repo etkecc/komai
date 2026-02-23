@@ -81,7 +81,7 @@ Cache::setup()
         std::size_t dbSize = settings->maxDbSize();
         if (dbSize == 0 || dbSize < DB_SIZE_DEFAULT)
             dbSize = DB_SIZE_DEFAULT;
-        unsigned dbCount = settings->maxDbs();
+        unsigned dbCount = settings->maxStores();
         if (dbCount == 0 || dbCount < MAX_DBS_DEFAULT)
             dbCount = MAX_DBS_DEFAULT;
 
@@ -98,7 +98,7 @@ Cache::setup()
 
         return db::DatabaseOptions{
           .mapSizeBytes = dbSize,
-          .maxDbs       = dbCount,
+          .maxStores    = dbCount,
           .durability   = db::Durability::Relaxed,
         };
     }();

@@ -277,7 +277,7 @@ try {
                                      res.rooms.knock.size() + res.rooms.leave.size()) *
                                     20);
 
-            settings->setMaxDbs(std::max(settings->maxDbs() * 2, roomDbCount));
+            settings->setMaxStores(std::max(settings->maxStores() * 2, roomDbCount));
         } else if (errorKind == db::ErrorKind::MapFull) {
             auto settings = UserSettings::instance();
 

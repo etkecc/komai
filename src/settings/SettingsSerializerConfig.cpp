@@ -74,6 +74,21 @@ using yaml_settings::readScalar;
 using yaml_settings::readString;
 using yaml_settings::setNode;
 
+constexpr auto kUiInputModeDesktop = "desktop";
+constexpr auto kUiInputModeTouch   = "touch";
+
+QString
+toStorageUiInputMode(bool touchInputModeEnabled)
+{
+    return QString::fromLatin1(touchInputModeEnabled ? kUiInputModeTouch : kUiInputModeDesktop);
+}
+
+bool
+fromStorageUiInputMode(const QString &value)
+{
+    return value.trimmed().compare(QLatin1String(kUiInputModeTouch), Qt::CaseInsensitive) == 0;
+}
+
 void
 loadConfigByType(UserSettings &settings, const YAML::Node &root)
 {
@@ -153,7 +168,9 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
             SettingKey::NetworkPresenceStatusPolicy,
             cfg::toStorageValue(settings.presence()).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
-    setNode(root, SettingKey::UiInputEnableTextSelection, settings.textSelectionEnabled());
+    setNode(root,
+            SettingKey::UiInputMode,
+            toStorageUiInputMode(settings.touchInputModeEnabled()).toStdString());
 
     if (settings::core::isScaleFactorInRange(settings.scaleFactor()))
         setNode(root, SettingKey::UiScaleFactor, settings.scaleFactor());
@@ -196,8 +213,11 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
 
     settings.setUiAnimationsEnabled(readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
-    settings.setTextSelectionEnabled(readScalar<bool>(
-      root, SettingKey::UiInputEnableTextSelection, cfg::kDefaultInputEnableTextSelection));
+    settings.setTouchInputModeEnabled(fromStorageUiInputMode(
+      readString(root,
+                 SettingKey::UiInputMode,
+                 QString::fromLatin1(cfg::kDefaultUiInputModeTouchEnabled ? kUiInputModeTouch
+                                                                          : kUiInputModeDesktop))));
     const auto scaleFactor =
       readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
     if (settings::core::isScaleFactorInRange(scaleFactor))

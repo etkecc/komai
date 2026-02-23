@@ -86,7 +86,7 @@ enum class StoreCapability
 struct BackendOptions
 {
     std::size_t mapSizeBytes = 0;
-    unsigned maxDbs          = 0;
+    unsigned maxStores       = 0;
 
     // Keep current cache behavior by default.
     Durability durability = Durability::Relaxed;

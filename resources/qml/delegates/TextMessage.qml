@@ -34,7 +34,7 @@ MatrixText {
         padding: ` + Math.ceil(fontMetrics.lineSpacing/2) + `px;
     }
     blockquote { margin-left: 1em; }
-    ` + (Settings.textSelectionEnabled ? `span[data-mx-spoiler] {
+    ` + (Settings.touchInputModeEnabled ? `span[data-mx-spoiler] {
         color: transparent;
         background-color: ` + palette.text + `;
     }` : "") +  // TODO(Nico): Figure out how to support mobile

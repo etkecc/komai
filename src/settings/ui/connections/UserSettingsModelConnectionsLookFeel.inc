@@ -4,6 +4,7 @@
     CONNECT_SETTING_ID(UiFontSizePt, fontSizeChanged, Value);
     CONNECT_SETTING_ID(UiFontEmojiFamily, emojiFontChanged, Value);
     CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiAnimationsEnabledChanged, Value);
+    CONNECT_SETTING_ID(UiInputMode, touchInputModeEnabledChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListCompact, compactRoomListChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListShowLastMessageTime, roomListShowLastMessageTimeChanged, Value);
@@ -16,5 +17,4 @@
       SidebarsRoomListScrollbarsEnabled, roomListScrollbarsVisibleChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListSort, roomSortOrderChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, communitiesSidebarVisibleChanged, Value);
-    CONNECT_SETTING_ID(UiInputEnableTextSelection, textSelectionEnabledChanged, Value);
-    CONNECT_SETTING_ID(UiInputSwipeGestures, swipeGesturesEnabledChanged, Value);
+    CONNECT_SETTING_ID(UiInputTouchSwipeGesturesEnabled, swipeGesturesEnabledChanged, Value);

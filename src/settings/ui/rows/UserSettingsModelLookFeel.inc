@@ -61,23 +61,22 @@
       nullptr,
       UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),
-    // EnableTextSelection
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Enable text selection on timeline",
-      QT_TR_NOOP("Enable text selection in timeline messages. Disable this for a touch-style input "
-                 "experience."),
-      SM::TabLookFeel,
-      textSelectionEnabled,
-      setTextSelectionEnabled,
+    // InputMode
+    { QT_TR_NOOP("Input mode"),
+      QT_TR_NOOP("Choose whether Komai behaves like a desktop app or a touch-oriented app."),
+      SM::Options, SM::TabLookFeel,
+      lookFeelInputModeValue,
+      setLookFeelInputModeValue,
+      {}, {}, {},
+      lookFeelInputModeValues,
       nullptr,
-      UiInputEnableTextSelection,
-      SettingKey::UiInputEnableTextSelection),
+      CORE_CONFIG_ID(UiInputMode, SettingKey::UiInputMode) },
     // EnableSwipeGestures
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable swipe gestures",
       QT_TR_NOOP(
         "Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
-      SM::TabLookFeel, swipeGesturesEnabled, setSwipeGesturesEnabled, nullptr, UiInputSwipeGestures, SettingKey::UiInputSwipeGestures),
+      SM::TabLookFeel, swipeGesturesEnabled, setSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
     // LookFeelRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

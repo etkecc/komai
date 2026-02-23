@@ -1143,7 +1143,7 @@ public:
     std::mutex txnMutex;
     std::vector<std::weak_ptr<RocksDbTxnImpl>> txns;
     db::Durability durability = db::Durability::Relaxed;
-    unsigned maxDbs           = 0;
+    unsigned maxStores        = 0;
     std::uint64_t generation  = 0;
     std::optional<std::size_t> mapSize;
     std::filesystem::path directory;
@@ -1187,7 +1187,7 @@ RocksDbBackend::open(std::string_view directory, const BackendOptions &options)
     impl_->directory = directory;
     ++impl_->generation;
     impl_->durability = options.durability;
-    impl_->maxDbs     = options.maxDbs;
+    impl_->maxStores  = options.maxStores;
     impl_->mapSize    = options.mapSizeBytes;
 }
 
@@ -1259,10 +1259,10 @@ RocksDbBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOption
         if (options.dupsortComparator.has_value() && !hasFlag(flags, db::StoreFlags::DupSort))
             throw Error("dupsort comparator requires DupSort database flag", ErrorKind::Invalid);
 
-        if (impl_->maxDbs > 0) {
+        if (impl_->maxStores > 0) {
             rocksdb::ReadOptions readOptions;
             readOptions.snapshot = rocksTxn.snapshot();
-            if (countStores(impl_->db.get(), readOptions) >= impl_->maxDbs)
+            if (countStores(impl_->db.get(), readOptions) >= impl_->maxStores)
                 throw Error("Maximum number of RocksDB databases reached", ErrorKind::DbsFull);
         }
 

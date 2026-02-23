@@ -22,7 +22,7 @@ inline constexpr const char *kDefaultUiThemeSlug           = "komai-light";
 inline constexpr const char *kDefaultCallsAudioRingtone    = "Default";
 inline constexpr const char *kDefaultPinnedReactions       = "👍️,👎️,😀,🤣,❤️";
 inline constexpr bool kDefaultUiMotionAnimationsEnabled    = true;
-inline constexpr bool kDefaultInputEnableTextSelection     = true;
+inline constexpr bool kDefaultUiInputModeTouchEnabled      = false;
 inline constexpr bool kDefaultCertificateValidationEnabled = true;
 inline constexpr bool kDefaultNetworkHttp3Enabled          = false;
 inline constexpr double kDefaultScaleFactor                = -1.0;
@@ -31,7 +31,7 @@ inline constexpr int kDefaultScreenShareFrameRate          = 5;
 inline constexpr bool kDefaultScreenShareShowCursor        = true;
 inline constexpr int kDefaultPrivacyScreenTimeoutSeconds   = 0;
 inline constexpr int kDefaultTimelineMaxWidthPx            = 0;
-inline constexpr unsigned int kDefaultMaxDbs               = 0;
+inline constexpr unsigned int kDefaultMaxStores            = 0;
 inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
 
@@ -44,11 +44,11 @@ inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{
    SettingScope::Config,
    SettingKey::UiMotionAnimationsEnabled,
    false},
-  {SettingId::UiInputEnableTextSelection,
+  {SettingId::UiInputMode, SettingScope::Config, SettingKey::UiInputMode, false},
+  {SettingId::UiInputTouchSwipeGesturesEnabled,
    SettingScope::Config,
-   SettingKey::UiInputEnableTextSelection,
+   SettingKey::UiInputTouchSwipeGesturesEnabled,
    false},
-  {SettingId::UiInputSwipeGestures, SettingScope::Config, SettingKey::UiInputSwipeGestures, false},
   {SettingId::UiAvatarsCircular, SettingScope::Config, SettingKey::UiAvatarsCircular, false},
   {SettingId::UiAvatarsIdenticonFallback,
    SettingScope::Config,

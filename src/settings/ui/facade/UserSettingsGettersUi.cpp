@@ -283,19 +283,18 @@ UserSettings::timelineMessageActionsEnabled() const
     return timelineMessageActionsEnabled_;
 }
 bool
-UserSettings::textSelectionEnabled() const
+UserSettings::touchInputModeEnabled() const
 {
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::UiInputEnableTextSelection);
+    if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::UiInputMode);
         value.has_value())
         return *value;
-    return textSelectionEnabled_;
+    return touchInputModeEnabled_;
 }
 bool
 UserSettings::swipeGesturesEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::UiInputSwipeGestures);
+          coreStore_.valueAs<bool>(settings::core::SettingId::UiInputTouchSwipeGesturesEnabled);
         value.has_value())
         return *value;
     return swipeGesturesEnabled_;

@@ -143,3 +143,45 @@ identiconSettingEnabled()
 {
     return JdenticonProvider::isAvailable();
 }
+
+static QVariant
+lookFeelInputModeValue()
+{
+    auto i = I;
+    if (!i)
+        return 0;
+
+    return i->touchInputModeEnabled() ? 1 : 0;
+}
+
+static bool
+setLookFeelInputModeValue(const QVariant &v)
+{
+    auto i = I;
+    if (!i)
+        return false;
+
+    int option = 0;
+    if (!readSettingValue(v, option))
+        return false;
+
+    switch (option) {
+    case 0:
+        i->setTouchInputModeEnabled(false);
+        return true;
+    case 1:
+        i->setTouchInputModeEnabled(true);
+        return true;
+    default:
+        return false;
+    }
+}
+
+static QVariant
+lookFeelInputModeValues()
+{
+    return QStringList{
+      QCoreApplication::translate("UserSettingsModel", "Desktop"),
+      QCoreApplication::translate("UserSettingsModel", "Touch"),
+    };
+}

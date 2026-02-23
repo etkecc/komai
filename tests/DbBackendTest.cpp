@@ -293,7 +293,7 @@ testSchemaHelpers()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 128;
+    options.maxStores             = 128;
     db::open(backend, "", options);
 
     const auto roomId    = std::string("!room:example");
@@ -451,7 +451,7 @@ testLegacyOlmMigrationHelpers()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 64;
+    options.maxStores             = 64;
     db::open(backend, "", options);
     const std::string v2Payload = R"({"s":"pickle-2","ts":7})";
 
@@ -611,7 +611,7 @@ testOpenHelpers()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -662,7 +662,7 @@ testStorageApiHelpers()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     const auto ids = db::availableDatabaseIds();
@@ -777,7 +777,7 @@ testCompactionHelper()
     auto to                    = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(from, "", options);
     db::open(to, "", options);
 
@@ -827,7 +827,7 @@ testStateIndexHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -923,7 +923,7 @@ testSyncStateHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -997,7 +997,7 @@ testMegolmIndexHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -1061,7 +1061,7 @@ testReadReceiptIndexHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -1107,7 +1107,7 @@ testRoomInfoHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     RoomInfo info;
@@ -1186,7 +1186,7 @@ testMemberInfoHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     MemberInfo info{
@@ -1254,7 +1254,7 @@ testJsonHelpers()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 16;
+    options.maxStores             = 16;
     db::open(backend, "", options);
 
     std::vector<int> numbers{1, 2, 3, 5};
@@ -1438,7 +1438,7 @@ testOlmSessionIndexHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -1494,7 +1494,7 @@ testDupIndexHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -1598,7 +1598,7 @@ testScanHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     {
@@ -1879,7 +1879,7 @@ testTimelineIndexHelper()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 128;
+    options.maxStores             = 128;
     db::open(backend, "", options);
 
     {
@@ -2882,7 +2882,7 @@ testInMemoryBackend()
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     db::open(backend, "", options);
 
     ok &= expect(db::isOpen(backend), "memory backend opens");
@@ -2979,7 +2979,7 @@ testLmdbBackend()
     auto backend               = db::createDatabase(db::kLmdbDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 24;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     options.durability         = db::Durability::Durable;
     db::open(backend, tmp.path().toStdString(), options);
 
@@ -3046,7 +3046,7 @@ testRocksDbBackend()
     auto backend               = db::createDatabase(db::kRocksDbDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 24;
-    options.maxDbs             = 32;
+    options.maxStores             = 32;
     options.durability         = db::Durability::Durable;
     db::open(backend, tmp.path().toStdString(), options);
 

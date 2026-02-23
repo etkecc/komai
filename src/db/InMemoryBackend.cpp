@@ -103,7 +103,7 @@ struct BackendState
 
     bool open                 = false;
     std::size_t mapSize       = 0;
-    unsigned maxDbs           = 0;
+    unsigned maxStores        = 0;
     db::Durability durability = db::Durability::Relaxed;
 };
 
@@ -323,7 +323,7 @@ InMemoryDbiImpl::lookupMutable(InMemoryTxnImpl &txn, bool createIfMissing)
     if (!createIfMissing)
         return nullptr;
 
-    if (backend_->maxDbs > 0 && snapshot.dbs.size() >= backend_->maxDbs)
+    if (backend_->maxStores > 0 && snapshot.dbs.size() >= backend_->maxStores)
         throw db::Error("Maximum number of in-memory databases reached", db::ErrorKind::DbsFull);
 
     auto [inserted, _] = snapshot.dbs.emplace(name_, InMemoryDatabase{openFlags_});
@@ -704,7 +704,7 @@ InMemoryBackend::open(std::string_view /*directory*/, const BackendOptions &opti
     impl_->state.committed  = {};
     impl_->state.open       = true;
     impl_->state.mapSize    = options.mapSizeBytes;
-    impl_->state.maxDbs     = options.maxDbs;
+    impl_->state.maxStores  = options.maxStores;
     impl_->state.durability = options.durability;
 }
 
@@ -764,7 +764,7 @@ InMemoryBackend::openStore(Txn &txn, std::string_view name, const StoreOpenOptio
             throw Error("In-memory database does not exist", ErrorKind::Invalid);
 
         auto &snapshot = inTxn.mutableSnapshot();
-        if (impl_->state.maxDbs > 0 && snapshot.dbs.size() >= impl_->state.maxDbs)
+        if (impl_->state.maxStores > 0 && snapshot.dbs.size() >= impl_->state.maxStores)
             throw Error("Maximum number of in-memory databases reached", ErrorKind::DbsFull);
         snapshot.dbs.emplace(dbName, InMemoryDatabase{flags});
     }

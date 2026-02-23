@@ -29,7 +29,7 @@
     bool typingNotificationsEnabled() const;
     RoomSortOrder roomSortOrder() const;
     bool timelineMessageActionsEnabled() const;
-    bool textSelectionEnabled() const;
+    bool touchInputModeEnabled() const;
     bool swipeGesturesEnabled() const;
     bool readReceiptsEnabled() const;
     bool desktopNotificationsEnabled() const;

@@ -144,9 +144,9 @@ UserSettings::maxDbSize() const
     return maxDbSize_;
 }
 uint
-UserSettings::maxDbs() const
+UserSettings::maxStores() const
 {
-    return maxDbs_;
+    return maxStores_;
 }
 // Internal helper: secrets provider is configured via `secrets.provider` in config.yml.
 bool

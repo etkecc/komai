@@ -39,13 +39,13 @@ UserSettings::setSystemTrayAutostart(bool s)
     save();
 }
 void
-UserSettings::setTextSelectionEnabled(bool s)
+UserSettings::setTouchInputModeEnabled(bool s)
 {
-    if (textSelectionEnabled_ == s)
+    if (touchInputModeEnabled_ == s)
         return;
-    textSelectionEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::UiInputEnableTextSelection, s);
-    emit textSelectionEnabledChanged(s);
+    touchInputModeEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::UiInputMode, s);
+    emit touchInputModeEnabledChanged(s);
     save();
 }
 void
@@ -54,7 +54,7 @@ UserSettings::setSwipeGesturesEnabled(bool s)
     if (swipeGesturesEnabled_ == s)
         return;
     swipeGesturesEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::UiInputSwipeGestures, s);
+    (void)coreStore_.set(settings::core::SettingId::UiInputTouchSwipeGesturesEnabled, s);
     emit swipeGesturesEnabledChanged(s);
     save();
 }
@@ -186,9 +186,9 @@ UserSettings::setMaxDbSize(qulonglong s)
     setSetting(maxDbSize_, s, &UserSettings::maxDbSizeChanged);
 }
 void
-UserSettings::setMaxDbs(uint s)
+UserSettings::setMaxStores(uint s)
 {
-    setSetting(maxDbs_, s, &UserSettings::maxDbsChanged);
+    setSetting(maxStores_, s, &UserSettings::maxStoresChanged);
 }
 void
 UserSettings::setHttp3Enabled(bool s)

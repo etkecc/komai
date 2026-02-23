@@ -9,6 +9,8 @@ import QtQuick.Layouts
 import im.nheko
 
 Item {
+    id: root
+
     required property var model
 
     readonly property var safeThemeVariantValues:
@@ -18,7 +20,11 @@ Item {
     readonly property var safeValues: (model && model.values !== undefined) ? model.values : []
     readonly property int safeValue: (model && model.value !== undefined) ? model.value : 0
 
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
+
     RowLayout {
+        id: row
         anchors.right: parent.right
         spacing: Nheko.paddingSmall
 

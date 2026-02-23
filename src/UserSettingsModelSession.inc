@@ -28,7 +28,12 @@
       nullptr, {}, {}, {}, nullptr, nullptr },
     // DeviceFingerprint
     { QT_TR_NOOP("Device fingerprint"), nullptr, SM::ReadOnlyText, SM::TabSession,
-      []() -> QVariant { return utils::humanReadableFingerprint(olm::client()->identity_keys().ed25519); },
+      []() -> QVariant {
+          auto fingerprint =
+            utils::humanReadableFingerprint(olm::client()->identity_keys().ed25519);
+          fingerprint.replace(u'\n', u' ');
+          return fingerprint.simplified();
+      },
       nullptr, {}, {}, {}, nullptr, nullptr },
     // AccessToken
     { QT_TR_NOOP("Access token"),

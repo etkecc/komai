@@ -39,9 +39,9 @@ Item {
             y: Nheko.paddingLarge
 
             spacing: Nheko.paddingMedium
-            property real contentMaxWidth: 800
+            property real contentMaxWidth: 1000
             property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
-            width: scroll.width - sideMargin * 2
+            width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin
 
             Loader {
@@ -53,182 +53,206 @@ Item {
             Repeater {
                 model: UserSettingsModel.modelForTab(root.tabFilter)
 
-                delegate: GridLayout {
+                delegate: Item {
                     id: r
 
-                    Layout.preferredWidth: scroll.width
-                    columns: root.collapsed ? 1 : 2
-                    rows: root.collapsed ? 2 : 1
                     required property var model
+                    Layout.fillWidth: true
+                    implicitHeight: row.implicitHeight
+                    width: grid.width
 
-                    RowLayout {
-                        Layout.alignment: Qt.AlignLeft
-                        Layout.fillWidth: true
-                        Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !root.collapsed) ? 2 : 1
-                        Layout.leftMargin: r.model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
-                        Layout.topMargin: r.model.type == UserSettingsModel.SectionTitle ? Nheko.paddingLarge : 0
-                        spacing: Nheko.paddingSmall
+                    readonly property real controlWidth: Math.min(500, Math.max(240, grid.width - Nheko.paddingLarge * 2))
 
-                        Label {
-                            visible: r.model.type != UserSettingsModel.SectionTitle
-                            Layout.alignment: Qt.AlignLeft
+                    ColumnLayout {
+                        id: row
+                        width: grid.width
+                        spacing: Nheko.paddingMedium
+
+                        SettingsSection {
+                            id: sectionLabel
                             Layout.fillWidth: true
-                            color: palette.text
-                            text: r.model.name
-                            textFormat: Text.AutoText
-                            font.pointSize: 1.1 * fontMetrics.font.pointSize
-                            onLinkActivated: function(link) {
-                                Qt.openUrlExternally(link);
-                            }
-
-                            HoverHandler {
-                                id: hovered
-                                enabled: r.model.description ?? false
-                            }
-                            ToolTip.visible: hovered.hovered && r.model.description
-                            ToolTip.text: r.model.description ?? ""
-                            ToolTip.delay: Nheko.tooltipDelay
-                            wrapMode: Text.Wrap
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-                                acceptedButtons: Qt.NoButton
-                            }
+                            Layout.topMargin: Nheko.paddingLarge
+                            Layout.bottomMargin: Nheko.paddingSmall
+                            visible: r.model.type == UserSettingsModel.SectionTitle
+                            label: r.model.name
                         }
-                    }
 
-                    Item {
-                        id: chooserContainer
-                        Layout.alignment: Qt.AlignRight
-                        Layout.columnSpan: (r.model.type == UserSettingsModel.SectionTitle && !root.collapsed) ? 2 : 1
-                        Layout.preferredHeight: childrenRect.height
-                        Layout.preferredWidth: childrenRect.width
-                        Layout.maximumWidth: r.model.type == UserSettingsModel.SectionTitle ? Number.POSITIVE_INFINITY : 400
-                        Layout.fillWidth: r.model.type == UserSettingsModel.SectionTitle || r.model.type == UserSettingsModel.Options || r.model.type == UserSettingsModel.Number
-                        Layout.rightMargin: r.model.type == UserSettingsModel.SectionTitle ? 0 : Nheko.paddingMedium
+                        RowLayout {
+                            id: settingRow
+                            Layout.fillWidth: true
+                            visible: r.model.type != UserSettingsModel.SectionTitle
+                            Layout.leftMargin: 0
+                            Layout.bottomMargin: Nheko.paddingMedium
+                            spacing: Nheko.paddingSmall
 
-                        DelegateChooser {
-                            id: chooser
-                            roleValue: r.model.type
-                            anchors.right: parent.right
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Toggle
-                                SettingControlToggle {
-                                    value: r.model.value
-                                    onToggledValue: r.model.value = value
-                                    enabled: r.model.enabled
+                            TextEdit {
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: 0
+                                Layout.alignment: Qt.AlignTop
+                                Layout.rightMargin: Nheko.paddingSmall
+                                color: palette.text
+                                text: r.model.name
+                                textFormat: Text.AutoText
+                                font.pointSize: 1.1 * fontMetrics.font.pointSize
+                                wrapMode: Text.Wrap
+                                readOnly: true
+                                selectByMouse: true
+                                onLinkActivated: function (link) {
+                                    Qt.openUrlExternally(link);
                                 }
+
+                                HoverHandler {
+                                    id: hovered
+                                    enabled: r.model.description ?? false
+                                }
+                                ToolTip.visible: hovered.hovered && r.model.description
+                                ToolTip.text: r.model.description ?? ""
+                                ToolTip.delay: Nheko.tooltipDelay
                             }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Options
-                                SettingControlCombo {
-                                    anchors.right: parent.right
-                                    value: r.model.value
-                                    values: r.model.values
-                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
-                                    onActivatedValueChanged: function(index) {
-                                        if (index !== r.model.value) {
-                                            r.model.value = index;
+
+                            Item {
+                                id: chooserContainer
+                                Layout.alignment: Qt.AlignRight | Qt.AlignTop
+                                Layout.preferredWidth: r.controlWidth
+                                Layout.maximumWidth: r.controlWidth
+                                Layout.minimumWidth: 140
+                                Layout.preferredHeight: childrenRect.height
+                                Layout.rightMargin: 0
+
+                                DelegateChooser {
+                                    id: chooser
+                                    roleValue: r.model.type
+                                    anchors.fill: parent
+
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.Toggle
+                                        SettingControlToggle {
+                                            anchors.right: parent.right
+                                            value: r.model.value
+                                            onToggledValue: function(value) {
+                                                r.model.value = value;
+                                            }
+                                            enabled: r.model.enabled
                                         }
                                     }
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ThemeSelector
-                                SettingRowThemeSelector {
-                                    model: r.model
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Integer
-                                SettingRowInteger {
-                                    model: r.model
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Double
-                                SettingRowDouble {
-                                    model: r.model
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ReadOnlyText
-                                SettingRowReadOnlyText {
-                                    model: r.model
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.Link
-                                SettingRowLink {
-                                    model: r.model
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.TextInput
-                                SettingControlTextInput {
-                                    id: textSettingField
-                                    anchors.right: parent.right
-                                    textValue: r.model.value
-                                    onSubmitted: function (value) {
-                                        r.model.value = value;
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.Options
+                                        SettingControlCombo {
+                                            anchors.right: parent.right
+                                            value: r.model.value
+                                            values: r.model.values
+                                            width: Math.min(implicitWidth, r.controlWidth)
+                                            onActivatedValueChanged: function(index) {
+                                                if (index !== r.model.value) {
+                                                    r.model.value = index;
+                                                }
+                                            }
+                                        }
                                     }
-                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.SectionTitle
-                                SettingsSection {
-                                    width: grid.width
-                                    label: r.model.name
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.KeyStatus
-                                SettingRowKeyStatus {
-                                    model: r.model
-                                }
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.SessionKeyImportExport
-                                SettingRowSessionKeys {}
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.XSignKeysRequestDownload
-                                SettingRowXSignKeys {}
-                            }
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ConfigureHiddenEvents
-                                SettingRowHiddenEvents {}
-                            }
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ManageIgnoredUsers
-                                SettingRowIgnoredUsers {}
-                            }
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.AccessTokenField
-                                SettingRowAccessTokenField {
-                                    model: r.model
-                                    width: Math.min(implicitWidth, scroll.width - Nheko.paddingMedium)
-                                }
-                            }
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.ProfileButton
-                                SettingRowProfileButton {}
-                            }
-
-                            DelegateChoice {
-                                roleValue: UserSettingsModel.LogoutButton
-                                SettingRowLogout {}
-                            }
-
-                            DelegateChoice {
-                                SettingRowReadOnlyValue {
-                                    model: r.model
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.ThemeSelector
+                                        SettingRowThemeSelector {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.Integer
+                                        SettingRowInteger {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.Double
+                                        SettingRowDouble {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.ReadOnlyText
+                                        SettingRowReadOnlyText {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.Link
+                                        SettingRowLink {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.TextInput
+                                        SettingControlTextInput {
+                                            id: textSettingField
+                                            anchors.right: parent.right
+                                            textValue: r.model.value
+                                            onSubmitted: function (value) {
+                                                r.model.value = value;
+                                            }
+                                            width: Math.min(implicitWidth, r.controlWidth)
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.KeyStatus
+                                        SettingRowKeyStatus {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.SessionKeyImportExport
+                                        SettingRowSessionKeys {
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.XSignKeysRequestDownload
+                                        SettingRowXSignKeys {
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.ConfigureHiddenEvents
+                                        SettingRowHiddenEvents {
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.ManageIgnoredUsers
+                                        SettingRowIgnoredUsers {
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.AccessTokenField
+                                        SettingRowAccessTokenField {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                            width: Math.min(implicitWidth, r.controlWidth)
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.ProfileButton
+                                        SettingRowProfileButton {
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.LogoutButton
+                                        SettingRowLogout {
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        SettingRowReadOnlyValue {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
                                 }
                             }
                         }

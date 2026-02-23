@@ -10,11 +10,11 @@ import im.nheko
 
 RowLayout {
     Button {
-        text: qsTr("DOWNLOAD")
+        text: qsTr("Download")
         onClicked: UserSettingsModel.downloadCrossSigningSecrets()
     }
     Button {
-        text: qsTr("REQUEST")
+        text: qsTr("Request")
         onClicked: UserSettingsModel.requestCrossSigningSecrets()
     }
 }

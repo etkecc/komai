@@ -10,8 +10,13 @@ TextEdit {
 
     required property var model
 
+    x: 0
+    width: parent ? parent.width : implicitWidth
+    clip: true
     color: palette.text
     text: model.value
+    horizontalAlignment: Text.AlignRight
+    wrapMode: TextEdit.NoWrap
     readOnly: true
-    textFormat: Text.PlainText
+    selectByMouse: true
 }

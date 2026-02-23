@@ -5,7 +5,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 
-Text {
+TextEdit {
     id: root
 
     required property var model
@@ -13,13 +13,9 @@ Text {
     color: palette.text
     text: model.value
     textFormat: Text.RichText
+    readOnly: true
+    selectByMouse: true
     onLinkActivated: function(link) {
         Qt.openUrlExternally(link);
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-        acceptedButtons: Qt.NoButton
     }
 }

@@ -12,10 +12,14 @@ Item {
     id: root
 
     required property string label
+    implicitWidth: sectionLayout.implicitWidth
+    implicitHeight: sectionLayout.implicitHeight
 
     ColumnLayout {
-        anchors.fill: parent
-        spacing: 0
+        id: sectionLayout
+        anchors.left: parent.left
+        anchors.right: parent.right
+        spacing: Nheko.paddingSmall
 
         Label {
             Layout.fillWidth: true
@@ -23,16 +27,16 @@ Item {
             text: root.label
             textFormat: Text.AutoText
             font.pointSize: 1.1 * fontMetrics.font.pointSize
+            font.capitalization: Font.AllUppercase
             wrapMode: Text.Wrap
         }
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: fontMetrics.lineSpacing
+            Layout.preferredHeight: Nheko.paddingLarge
 
             Rectangle {
-                anchors.topMargin: Nheko.paddingSmall
-                anchors.top: parent.top
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.right: parent.right
                 color: palette.buttonText

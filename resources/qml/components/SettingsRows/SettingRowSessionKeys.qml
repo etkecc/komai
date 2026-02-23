@@ -10,11 +10,11 @@ import im.nheko
 
 RowLayout {
     Button {
-        text: qsTr("IMPORT")
+        text: qsTr("Import")
         onClicked: UserSettingsModel.importSessionKeys()
     }
     Button {
-        text: qsTr("EXPORT")
+        text: qsTr("Export")
         onClicked: UserSettingsModel.exportSessionKeys()
     }
 }

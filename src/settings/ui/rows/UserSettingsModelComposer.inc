@@ -1,7 +1,7 @@
     // ── Composer Tab ────────────────────────────────────────────────────────
 
     // ComposerInputSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabComposer,
+    { QT_TR_NOOP("Input"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Markdown
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -39,7 +39,7 @@
       nullptr,
       SettingKey::ComposerInputAutoReplaceEmoji),
     // ComposerFeedbackSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabComposer,
+    { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TypingNotifications
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -52,7 +52,7 @@
       QT_TR_NOOP("Show if your message was read.\nStatus is displayed next to timestamps.\nWarning: If your homeserver does not support this, your rooms will never be marked as read!"),
       SM::TabComposer, readReceipts, setReadReceipts, nullptr, SettingKey::ComposerFeedbackReadReceipts),
     // ComposerExtrasSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabComposer,
+    { QT_TR_NOOP("Extras"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableStickers
     SIMPLE_BOOL_CONFIG_SETTING("Enable stickers",

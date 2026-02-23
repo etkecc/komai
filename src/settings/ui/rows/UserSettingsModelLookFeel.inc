@@ -1,7 +1,7 @@
     // ── Look & Feel Tab ─────────────────────────────────────────────────────
 
     // LookFeelThemeSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { QT_TR_NOOP("Theme"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Theme
     { QT_TR_NOOP("Theme"), nullptr, SM::ThemeSelector, SM::TabLookFeel,
@@ -29,7 +29,7 @@
       nullptr,
       CORE_CONFIG_ID(UiThemeSlug, SettingKey::UiThemeSlug) },
     // LookFeelFontsSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { QT_TR_NOOP("Fonts"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Font
     { QT_TR_NOOP("Font family"), nullptr, SM::Options, SM::TabLookFeel,
@@ -90,7 +90,7 @@
       settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep, SettingKey::UiScaleFactor),
 #endif
     // LookFeelBehaviorSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabLookFeel,
+    { QT_TR_NOOP("Behavior"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableUIAnimations
     SIMPLE_INVERTED_BOOL_CONFIG_SETTING(
@@ -118,7 +118,7 @@
         "Enable swipe gestures like swiping left/right between Rooms and Timeline, or swiping a message to reply."),
       SM::TabLookFeel, enableSwipeGestures, setEnableSwipeGestures, nullptr, SettingKey::UiInputSwipeGestures),
     // LookFeelRoomListSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
+    { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CompactRoomList
     SIMPLE_BOOL_CONFIG_SETTING("Compact mode",
@@ -186,14 +186,14 @@
       nullptr,
       SettingKey::SidebarsRoomListSort),
     // LookFeelCommunitiesSidebarSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabSidebars,
+    { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ShowCommunitiesSidebar
     SIMPLE_BOOL_CONFIG_SETTING("Show communities sidebar",
                         QT_TR_NOOP("Show a column containing communities and tags."),
                         SM::TabSidebars, showCommunitiesSidebar, setShowCommunitiesSidebar, nullptr, SettingKey::SidebarsCommunitiesVisible),
     // IntegrationsSystemTraySection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
+    { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsTray
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -207,7 +207,7 @@
       SM::TabIntegrations, startInTray, setStartInTray, nullptr, SettingKey::IntegrationsSystemTrayAutostart),
 #ifdef KOMAI_DBUS_SYS
     // IntegrationsDbusSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
+    { QT_TR_NOOP("D-Bus"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IntegrationsDbusApiAccess
     { QT_TR_NOOP("D-Bus access"),
@@ -235,5 +235,5 @@
       CORE_CONFIG(SettingKey::IntegrationsDbusApiAccess) },
 #endif
     // IntegrationsBrowserSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabIntegrations,
+    { QT_TR_NOOP("Browser"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

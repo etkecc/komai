@@ -1,7 +1,7 @@
     // ── Privacy Tab ─────────────────────────────────────────────────────────
 
     // PrivacyPresenceSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
+    { QT_TR_NOOP("Presence"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PresenceDefault
     { QT_TR_NOOP("Status policy"),
@@ -60,7 +60,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
 
     // PrivacyScreenLockSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
+    { QT_TR_NOOP("Screen lock"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PrivacyScreen
     SIMPLE_BOOL_CONFIG_ID_SETTING("Privacy screen",
@@ -74,7 +74,7 @@
       SM::TabPrivacy, privacyScreenTimeoutSeconds, setPrivacyScreenTimeoutSeconds, 0, 3600, 10,
       nullptr, []() -> bool { return I->privacyScreen(); }, PrivacyScreenLockTimeoutSeconds, SettingKey::PrivacyScreenLockTimeoutSeconds),
     // PrivacyDataSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
+    { QT_TR_NOOP("Data & maintenance"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ExpireEvents
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -92,7 +92,7 @@
       QT_TR_NOOP("To allow new users to join a community, the community needs to expose some information about what servers participate in a room to community members. Since the room participants can change over time, this needs to be updated from time to time. This setting enables a background job to do that automatically."),
       SM::TabPrivacy, updateSpaceVias, setUpdateSpaceVias, nullptr, SettingKey::PrivacyMaintenanceUpdateSpaceVias),
     // PrivacyUsersSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabPrivacy,
+    { QT_TR_NOOP("Users"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IgnoredUsers
     { QT_TR_NOOP("Ignored users"),

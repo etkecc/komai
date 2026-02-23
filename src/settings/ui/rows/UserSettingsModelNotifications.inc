@@ -1,7 +1,7 @@
     // ── Notifications Tab ───────────────────────────────────────────────────
 
     // NotificationsDesktopSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabNotifications,
+    { QT_TR_NOOP("Desktop"), nullptr, SM::SectionTitle, SM::TabNotifications,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // DesktopNotifications
     SIMPLE_BOOL_CONFIG_SETTING(

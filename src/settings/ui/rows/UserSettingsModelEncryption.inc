@@ -1,7 +1,7 @@
     // ── Encryption Tab ──────────────────────────────────────────────────────
 
     // EncryptionKeySharingSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
+    { QT_TR_NOOP("Key sharing"), nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // OnlyShareKeysWithVerifiedUsers
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -14,7 +14,7 @@
       QT_TR_NOOP("Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise."),
       SM::TabEncryption, shareKeysWithTrustedUsers, setShareKeysWithTrustedUsers, nullptr, SettingKey::EncryptionKeySharingShareWithTrusted),
     // EncryptionBackupSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
+    { QT_TR_NOOP("Backup"), nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UseOnlineKeyBackup
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -25,7 +25,7 @@
     { QT_TR_NOOP("Session keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EncryptionCrossSigningSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabEncryption,
+    { QT_TR_NOOP("Cross-signing"), nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // OnlineBackupKey
     { QT_TR_NOOP("Online backup key"),

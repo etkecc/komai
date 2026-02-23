@@ -89,7 +89,6 @@ UserSettingsModel::modelForTab(int tab) const
 }
 
 using settings::ui::readSettingValue;
-using settings::ui::sectionTitleForRow;
 using settings::ui::settingsTable;
 using settings::ui::settingsTableRowCount;
 
@@ -125,10 +124,6 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Name:
-        if (m.type == UserSettingsModel::SectionTitle) {
-            auto title = sectionTitleForRow(index.row());
-            return title ? tr(title) : QVariant{};
-        }
         return m.name ? tr(m.name) : QVariant{};
     case Description:
         if (!m.description)

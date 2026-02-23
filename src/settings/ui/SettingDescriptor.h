@@ -35,9 +35,6 @@ readSettingValue(const QVariant &value, T &out)
     return true;
 }
 
-const char *
-sectionTitleForRow(int row);
-
 extern const SettingMeta settingsTable[];
 
 int

@@ -1,7 +1,7 @@
     // ── Timeline Tab ────────────────────────────────────────────────────────
 
     // TimelineMessagesSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabTimeline,
+    { QT_TR_NOOP("Messages"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Bubbles
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -61,7 +61,7 @@
       nullptr,
       SettingKey::TimelineMessageActionsPinnedReactions),
     // TimelineMediaSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabTimeline,
+    { QT_TR_NOOP("Media"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // FancyEffects
     SIMPLE_BOOL_CONFIG_SETTING(

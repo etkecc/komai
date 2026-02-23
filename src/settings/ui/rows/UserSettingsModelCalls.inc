@@ -1,7 +1,7 @@
     // ── Calls Tab ───────────────────────────────────────────────────────────
 
     // CallsGeneralSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabCalls,
+    { QT_TR_NOOP("General"), nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableLegacyCalls
     SIMPLE_BOOL_CONFIG_SETTING(
@@ -13,7 +13,7 @@
                         QT_TR_NOOP("Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one."),
                         SM::TabCalls, useFallbackCallRelayServer, setUseFallbackCallRelayServer, nullptr, SettingKey::CallsRelayUseFallbackServer),
     // CallsDevicesSection
-    { nullptr, nullptr, SM::SectionTitle, SM::TabCalls,
+    { QT_TR_NOOP("Devices"), nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Microphone
     { QT_TR_NOOP("Microphone"),

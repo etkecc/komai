@@ -595,6 +595,8 @@ set(SRC_FILES
     src/settings/core/SettingDefinition.h
     src/settings/core/StartupConfig.h
     src/settings/core/StartupConfig.cpp
+    src/settings/core/SettingsStore.h
+    src/settings/core/SettingsStore.cpp
     src/settings/SettingsPersistence.cpp
     src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
@@ -1094,6 +1096,15 @@ if(BUILD_TESTING)
     add_test(NAME komai_settings_storage_test COMMAND komai_settings_storage_test)
     set_tests_properties(komai_settings_storage_test PROPERTIES LABELS "unit;settings")
 
+    add_executable(komai_settings_store_test
+        tests/SettingsStoreTest.cpp
+        src/settings/core/SettingsStore.cpp
+    )
+    target_include_directories(komai_settings_store_test PRIVATE src)
+    target_link_libraries(komai_settings_store_test PRIVATE Qt::Core)
+    add_test(NAME komai_settings_store_test COMMAND komai_settings_store_test)
+    set_tests_properties(komai_settings_store_test PROPERTIES LABELS "unit;settings")
+
     add_executable(komai_db_backend_test
         tests/DbBackendTest.cpp
         src/CacheCryptoStructs.cpp
@@ -1110,6 +1121,7 @@ if(BUILD_TESTING)
         komai_staged_load_plan_test
         komai_startup_settings_test
         komai_settings_storage_test
+        komai_settings_store_test
         komai_db_backend_test
     )
 endif()

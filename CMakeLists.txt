@@ -641,7 +641,6 @@ set(SRC_FILES
     src/settings/ui/facade/UserSettingsGettersCalls.cpp
     src/settings/ui/facade/UserSettingsGettersMisc.cpp
     src/settings/ui/facade/UserSettingsPage.h
-    src/settings/ui/facade/UserSettingsSetters.cpp
     src/settings/ui/facade/UserSettingsSettersCore.cpp
     src/settings/ui/facade/UserSettingsSettersLayout.cpp
     src/settings/ui/facade/UserSettingsSettersUi.cpp
@@ -1068,7 +1067,6 @@ if(BUILD_TESTING)
         src/settings/ui/facade/UserSettingsGettersMisc.cpp
         src/settings/ui/facade/UserSettingsPersistence.cpp
         src/settings/ui/facade/UserSettingsSessionSettings.cpp
-        src/settings/ui/facade/UserSettingsSetters.cpp
         src/settings/ui/facade/UserSettingsSettersCore.cpp
         src/settings/ui/facade/UserSettingsSettersLayout.cpp
         src/settings/ui/facade/UserSettingsSettersUi.cpp

@@ -94,7 +94,8 @@ syncCoreStoreFromSettings(UserSettings &settings)
         settings.roomListScrollbarsVisible());
     set(settings::core::SettingId::SidebarsRoomListSort,
         static_cast<int>(settings.roomSortOrder()));
-    set(settings::core::SettingId::SidebarsCommunitiesVisible, settings.showCommunitiesSidebar());
+    set(settings::core::SettingId::SidebarsCommunitiesVisible,
+        settings.communitiesSidebarVisible());
     set(settings::core::SettingId::NetworkPresenceStatusPolicy,
         static_cast<int>(settings.presence()));
     set(settings::core::SettingId::PrivacyMaintenanceExpireEvents, settings.expireEvents());

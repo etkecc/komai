@@ -14,7 +14,7 @@ bool messageHoverHighlight_;
 bool enlargeEmojiOnlyMessages_;
 bool tray_;
 bool startInTray_;
-bool showCommunitiesSidebar_;
+bool communitiesSidebarVisible_;
 bool roomListScrollbarsVisible_;
 bool markdown_;
 SendMessageKey sendMessageKey_;

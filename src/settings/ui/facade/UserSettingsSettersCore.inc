@@ -70,13 +70,13 @@ UserSettings::setEnableSwipeGestures(bool s)
     save();
 }
 void
-UserSettings::setShowCommunitiesSidebar(bool s)
+UserSettings::setCommunitiesSidebarVisible(bool s)
 {
-    if (showCommunitiesSidebar_ == s)
+    if (communitiesSidebarVisible_ == s)
         return;
-    showCommunitiesSidebar_ = s;
+    communitiesSidebarVisible_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesVisible, s);
-    emit showCommunitiesSidebarChanged(s);
+    emit communitiesSidebarVisibleChanged(s);
     save();
 }
 void

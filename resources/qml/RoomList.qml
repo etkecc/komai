@@ -26,7 +26,7 @@ Page {
 
         Pane {
             id: userInfoPanel
-            Layout.maximumHeight: Settings.showCommunitiesSidebar ? 0 : -1
+            Layout.maximumHeight: Settings.communitiesSidebarVisible ? 0 : -1
             clip: true
 
             function openUserProfile() {
@@ -191,7 +191,7 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             color: Nheko.theme.separator
-            Layout.preferredHeight: Settings.showCommunitiesSidebar ? 0 : 2
+            Layout.preferredHeight: Settings.communitiesSidebarVisible ? 0 : 2
         }
         Pane {
             id: roomActionsBar

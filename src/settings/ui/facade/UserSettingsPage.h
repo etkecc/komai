@@ -44,8 +44,8 @@ class UserSettings final : public QObject
                  setEnlargeEmojiOnlyMessages NOTIFY enlargeEmojiOnlyMessagesChanged)
     Q_PROPERTY(bool tray READ tray WRITE setTray NOTIFY trayChanged)
     Q_PROPERTY(bool startInTray READ startInTray WRITE setStartInTray NOTIFY startInTrayChanged)
-    Q_PROPERTY(bool showCommunitiesSidebar READ showCommunitiesSidebar WRITE
-                 setShowCommunitiesSidebar NOTIFY showCommunitiesSidebarChanged)
+    Q_PROPERTY(bool communitiesSidebarVisible READ communitiesSidebarVisible WRITE
+                 setCommunitiesSidebarVisible NOTIFY communitiesSidebarVisibleChanged)
     Q_PROPERTY(bool roomListScrollbarsVisible READ roomListScrollbarsVisible WRITE
                  setRoomListScrollbarsVisible NOTIFY roomListScrollbarsVisibleChanged)
     Q_PROPERTY(bool markdown READ markdown WRITE setMarkdown NOTIFY markdownChanged)
@@ -288,7 +288,7 @@ public:
     void setFontSize(double size);
     void setFontFamily(QString family);
     void setEmojiFontFamily(QString family);
-    void setShowCommunitiesSidebar(bool state);
+    void setCommunitiesSidebarVisible(bool state);
     void setRoomListScrollbarsVisible(bool state);
     void setMarkdown(bool state);
     void setSendMessageKey(SendMessageKey key);
@@ -425,13 +425,13 @@ public:
             return *value;
         return startInTray_;
     }
-    bool showCommunitiesSidebar() const
+    bool communitiesSidebarVisible() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsCommunitiesVisible);
             value.has_value())
             return *value;
-        return showCommunitiesSidebar_;
+        return communitiesSidebarVisible_;
     }
     bool roomListScrollbarsVisible() const
     {
@@ -884,7 +884,7 @@ public:
     const settings::core::SettingsStore &coreStore() const { return coreStore_; }
 
 signals:
-    void showCommunitiesSidebarChanged(bool state);
+    void communitiesSidebarVisibleChanged(bool state);
     void roomListScrollbarsVisibleChanged(bool state);
     void roomSortOrderChanged(RoomSortOrder order);
     void themeChanged(QString state);

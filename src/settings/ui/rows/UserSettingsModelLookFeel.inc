@@ -139,10 +139,10 @@
     // LookFeelCommunitiesSidebarSection
     { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // ShowCommunitiesSidebar
+    // CommunitiesSidebarVisible
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
                         QT_TR_NOOP("Show a column containing communities and tags."),
-                        SM::TabSidebars, showCommunitiesSidebar, setShowCommunitiesSidebar, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
+                        SM::TabSidebars, communitiesSidebarVisible, setCommunitiesSidebarVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
     // IntegrationsSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

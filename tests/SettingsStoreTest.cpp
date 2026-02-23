@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <array>
+#include <limits>
 #include <unordered_set>
 
 #include "TestEnvironment.h"
@@ -186,6 +187,57 @@ testConstraintSchemaCoverage()
 }
 
 bool
+testConstrainedDefinitionsEnforceRanges()
+{
+    settings::core::SettingsStore store;
+    settings::core::constraints::applyDefaultConstraints(store);
+
+    bool ok = true;
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (!definition.hasIntRangeConstraint)
+            continue;
+
+        const int minValue = definition.intRangeConstraintMin;
+        const int maxValue = definition.intRangeConstraintMax;
+        const auto setMin = store.set(definition.id, minValue);
+        const auto setMax = store.set(definition.id, maxValue);
+        const auto stored = store.valueAs<int>(definition.id);
+
+        if (!setMin.success || !setMax.success) {
+            std::cerr << "FAILED: constrained setting rejects declared bounds for SettingId "
+                      << static_cast<int>(definition.id) << '\n';
+            ok = false;
+        }
+
+        if (!stored.has_value() || *stored != maxValue) {
+            std::cerr << "FAILED: constrained setting does not persist declared max bound for SettingId "
+                      << static_cast<int>(definition.id) << '\n';
+            ok = false;
+        }
+
+        if (minValue > std::numeric_limits<int>::min()) {
+            const auto belowMin = store.set(definition.id, minValue - 1);
+            if (belowMin.success) {
+                std::cerr << "FAILED: constrained setting accepts below-min value for SettingId "
+                          << static_cast<int>(definition.id) << '\n';
+                ok = false;
+            }
+        }
+
+        if (maxValue < std::numeric_limits<int>::max()) {
+            const auto aboveMax = store.set(definition.id, maxValue + 1);
+            if (aboveMax.success) {
+                std::cerr << "FAILED: constrained setting accepts above-max value for SettingId "
+                          << static_cast<int>(definition.id) << '\n';
+                ok = false;
+            }
+        }
+    }
+
+    return ok;
+}
+
+bool
 testPersistedDefinitionCoverage()
 {
     constexpr std::size_t expectedPersistedDefinitionCount = 58;
@@ -306,6 +358,7 @@ main()
     ok &= testEnumValidationRejectsOutOfRange();
     ok &= testEnumValidationRejectsWrongType();
     ok &= testConstraintSchemaCoverage();
+    ok &= testConstrainedDefinitionsEnforceRanges();
     ok &= testPersistedDefinitionCoverage();
     ok &= testPersistedDefinitionUniqueness();
     ok &= testConstrainedSettingsArePersisted();

@@ -33,8 +33,8 @@ Item {
         background: Rectangle {
             border.color: Nheko.theme.separator
             border.width: 1
-            color: palette.window
-            radius: Nheko.paddingSmall
+            color: palette.alternateBase
+            radius: 8
         }
 
         ColumnLayout {
@@ -205,55 +205,108 @@ Item {
             }
         }
     }
-    MainWindowDialog {
+    Dialog {
         id: verifyMasterKey
 
         // Workaround palettes not inheriting for popups
         palette: timelineRoot.palette
-        standardButtons: Dialog.Cancel
 
-        GridLayout {
-            id: masterGrid
+        parent: Overlay.overlay
+        modal: true
+        padding: Nheko.paddingMedium
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        standardButtons: Dialog.NoButton
+        width: Math.min(760, (parent ? parent.width : 760) - Nheko.paddingLarge * 2)
+        x: Math.round(((parent ? parent.width : width) - width) / 2)
+        y: Math.round((parent ? parent.height : 0) / 4)
 
-            columns: 1
-            width: verifyMasterKey.useableWidth
-            z: 1
+        Keys.onEscapePressed: verifyMasterKey.close()
 
-            Label {
-                Layout.alignment: Qt.AlignHCenter
-                Layout.margins: Nheko.paddingMedium
-                color: palette.text
-                //Layout.columnSpan: 2
-                font.pointSize: fontMetrics.font.pointSize * 2
-                text: qsTr("Activate Encryption")
-                wrapMode: Text.Wrap
-            }
-            Label {
-                Layout.alignment: Qt.AlignLeft
-                Layout.margins: Nheko.paddingMedium
-                //Layout.columnSpan: 2
-                Layout.maximumWidth: grid.width - Nheko.paddingMedium * 2
-                color: palette.text
-                text: qsTr("It seems like you have encryption already configured for this account. To be able to access your encrypted messages and make this device appear as trusted, you can either verify an existing device or (if you have one) enter your recovery passphrase. Please select one of the options below.\nIf you choose verify, you need to have the other device available. If you choose \"enter passphrase\", you will need your recovery key or passphrase. If you click cancel, you can choose to verify yourself at a later point.")
-                wrapMode: Text.Wrap
-            }
-            FlatButton {
-                Layout.alignment: Qt.AlignHCenter
-                text: qsTr("verify")
+        Overlay.modal: Rectangle {
+            color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.7)
+        }
 
-                onClicked: {
-                    SelfVerificationStatus.verifyMasterKey();
-                    verifyMasterKey.close();
+        background: Rectangle {
+            color: palette.alternateBase
+            radius: 8
+        }
+
+        contentItem: ColumnLayout {
+            spacing: Nheko.paddingMedium
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Nheko.paddingSmall
+
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredWidth: 24
+                    Layout.preferredHeight: 24
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://colorimage/:/icons/icons/ui/shield-filled-exclamation-mark.svg?" + palette.text
+                    sourceSize.width: width * Screen.devicePixelRatio
+                    sourceSize.height: height * Screen.devicePixelRatio
+                }
+                Label {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
+                    color: palette.text
+                    font.bold: true
+                    font.pointSize: fontMetrics.font.pointSize * 1.2
+                    text: qsTr("Activate Encryption")
+                }
+                ImageButton {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredWidth: 20
+                    Layout.preferredHeight: 20
+                    ToolTip.text: qsTr("Close")
+                    ToolTip.visible: hovered
+                    image: ":/icons/icons/ui/dismiss.svg"
+
+                    onClicked: verifyMasterKey.close()
                 }
             }
-            FlatButton {
-                Layout.alignment: Qt.AlignHCenter
-                text: qsTr("enter passphrase")
-                visible: SelfVerificationStatus.hasSSSS
 
-                onClicked: {
-                    SelfVerificationStatus.verifyMasterKeyWithPassphrase();
-                    verifyMasterKey.close();
+            TextEdit {
+                Layout.fillWidth: true
+                color: palette.text
+                readOnly: true
+                selectByMouse: true
+                text: qsTr("Encryption is already configured for this account. Verify this device to access encrypted messages and mark it as trusted. You can cancel and do this later.")
+                textFormat: TextEdit.PlainText
+                wrapMode: TextEdit.Wrap
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Nheko.paddingSmall
+
+                Button {
+                    text: qsTr("Cancel")
+                    onClicked: verifyMasterKey.close()
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    text: qsTr("Enter passphrase")
+                    visible: SelfVerificationStatus.hasSSSS
+
+                    onClicked: {
+                        SelfVerificationStatus.verifyMasterKeyWithPassphrase();
+                        verifyMasterKey.close();
+                    }
+                }
+                Button {
+                    text: qsTr("Verify with another device")
+                    highlighted: true
+
+                    onClicked: {
+                        SelfVerificationStatus.verifyMasterKey();
+                        verifyMasterKey.close();
+                    }
                 }
             }
         }

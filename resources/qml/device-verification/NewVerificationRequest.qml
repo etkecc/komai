@@ -23,7 +23,7 @@ ColumnLayout {
                     if (flow.isMultiDeviceVerification)
                         return qsTr("To allow other users to see which of your devices actually belong to you, you can verify them. This also allows key backup to work automatically. Verify an unverified device now? (Please make sure you have one of those devices available.)");
                     else
-                        return qsTr("To allow other users to see which of your devices actually belong to you, you can verify them. This also allows key backup to work automatically. Verify %1 now?").arg(flow.deviceId);
+                        return qsTr("This device's identifier is: %1\n\nTo allow other users to see which of your devices actually belong to you, you can verify them. This also allows key backup to work automatically. Verify this device now?").arg(flow.deviceId);
                 else
                     return qsTr("To ensure that no malicious user can eavesdrop on your encrypted communications you can verify the other party.");
             } else {

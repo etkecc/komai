@@ -62,7 +62,7 @@
       UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),
     // InputMode
-    { QT_TR_NOOP("Input mode"),
+    { QT_TR_NOOP("Interaction mode"),
       QT_TR_NOOP("Desktop keeps mouse-first interactions. Touch favors swipe and touch-oriented behavior."),
       SM::Options, SM::TabLookFeel,
       lookFeelInputModeValue,
@@ -81,7 +81,7 @@
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CompactRoomList
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Compact mode",
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Compact layout",
                         QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
                         SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr, SidebarsRoomListCompact, SettingKey::SidebarsRoomListCompact),
     // RoomListShowLastMessageTime

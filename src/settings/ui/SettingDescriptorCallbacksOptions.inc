@@ -35,11 +35,31 @@ timelineSenderUsernameValues()
 }
 
 static QVariant
+timelineMessageLayoutValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Minimal")
+           << QCoreApplication::translate("UserSettingsModel", "Bubbles");
+    return values;
+}
+
+static QVariant
 timelineShowImageValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Always")
            << QCoreApplication::translate("UserSettingsModel", "Only in private rooms")
+           << QCoreApplication::translate("UserSettingsModel", "Never");
+    return values;
+}
+
+static QVariant
+timelineMessageActionsPolicyValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "On message hover")
+           << QCoreApplication::translate("UserSettingsModel", "On button click")
+           << QCoreApplication::translate("UserSettingsModel", "On message long press")
            << QCoreApplication::translate("UserSettingsModel", "Never");
     return values;
 }
@@ -61,5 +81,15 @@ composerAutoReplaceEmojiValues()
     values << QCoreApplication::translate("UserSettingsModel", "Always")
            << QCoreApplication::translate("UserSettingsModel", "Only at the end of messages")
            << QCoreApplication::translate("UserSettingsModel", "Never");
+    return values;
+}
+
+static QVariant
+notificationsMessageContentPolicyValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Never")
+           << QCoreApplication::translate("UserSettingsModel", "Only in unencrypted rooms")
+           << QCoreApplication::translate("UserSettingsModel", "Whenever available");
     return values;
 }

@@ -3,11 +3,15 @@
     // TimelineMessagesSection
     { QT_TR_NOOP("Messages"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // TimelineBubblesEnabled
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Enable message bubbles",
-      QT_TR_NOOP("Render messages in bubble-style layout."),
-      SM::TabTimeline, timelineBubblesEnabled, setTimelineBubblesEnabled, nullptr, TimelineMessagesLayoutBubbles, SettingKey::TimelineMessagesLayoutBubbles),
+    // TimelineMessageLayout
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Layout",
+      QT_TR_NOOP("Choose how messages are laid out in the timeline."),
+      SM::TabTimeline, timelineMessageLayout, setTimelineMessageLayout, UserSettings::TimelineMessageLayout,
+      timelineMessageLayoutValues,
+      nullptr,
+      TimelineMessagesLayoutStyle,
+      SettingKey::TimelineMessagesLayoutStyle),
     // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
                            QT_TR_NOOP("Avatars are resized to fit above the message."),
@@ -28,7 +32,7 @@
       TimelineMessagesSenderUsername,
       SettingKey::TimelineMessagesSenderUsername),
     // MaxTimelineWidth
-    SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING("Limit timeline width",
+    SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING("Maximum timeline width",
                               QT_TR_NOOP(
                                 "Set the maximum timeline message width (in pixels). This can improve readability on wide screens."),
                               SM::TabTimeline, maxTimelineWidth, setMaxTimelineWidth, 0, 20000, 20,
@@ -41,11 +45,15 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Highlight message on hover",
                         QT_TR_NOOP("Change the background color of messages when you hover over them."),
                         SM::TabTimeline, messageHoverHighlight, setMessageHoverHighlight, nullptr, TimelineMessagesHoverHighlight, SettingKey::TimelineMessagesHoverHighlight),
-    // TimelineMessageActionsEnabled
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Show action buttons",
-      QT_TR_NOOP("Show quick actions next to each message (react, reply, forward, and more)."),
-      SM::TabTimeline, timelineMessageActionsEnabled, setTimelineMessageActionsEnabled, nullptr, TimelineMessageActionsEnabled, SettingKey::TimelineMessageActionsEnabled),
+    // TimelineMessageActionsActivationPolicy
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Actions activation policy",
+      QT_TR_NOOP("Choose how message actions are opened. Currently, 'On message hover' and 'On message long press' behave like 'On button click'."),
+      SM::TabTimeline, timelineMessageActionsPolicy, setTimelineMessageActionsPolicy, UserSettings::TimelineMessageActionsPolicy,
+      timelineMessageActionsPolicyValues,
+      nullptr,
+      TimelineMessageActionsActivationPolicy,
+      SettingKey::TimelineMessageActionsActivationPolicy),
     // PinnedReactions
     SIMPLE_TEXT_CONFIG_ID_SETTING(
       "Pinned reactions",

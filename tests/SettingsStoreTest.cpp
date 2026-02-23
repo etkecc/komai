@@ -24,18 +24,21 @@ expect(bool condition, const char *message)
     return false;
 }
 
-constexpr std::array<settings::core::SettingId, 11> kExpectedConstrainedIds{{
+constexpr std::array<settings::core::SettingId, 14> kExpectedConstrainedIds{{
   settings::core::SettingId::IntegrationsDbusApiAccess,
   settings::core::SettingId::NetworkPresenceStatusPolicy,
   settings::core::SettingId::CallsScreenshareFrameRate,
+  settings::core::SettingId::NotificationsMessageContentPolicy,
   settings::core::SettingId::ComposerInputSendKey,
   settings::core::SettingId::ComposerInputAutoReplaceEmoji,
   settings::core::SettingId::SidebarsRoomListSort,
   settings::core::SettingId::SidebarsRoomListLastMessagePreview,
+  settings::core::SettingId::TimelineMessagesLayoutStyle,
   settings::core::SettingId::TimelineMessagesSenderUsername,
   settings::core::SettingId::TimelineMediaImageDisplay,
+  settings::core::SettingId::TimelineMessageActionsActivationPolicy,
   settings::core::SettingId::TimelineMessagesMaxWidthPx,
-  settings::core::SettingId::PrivacyScreenLockTimeoutSeconds,
+  settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds,
 }};
 
 bool

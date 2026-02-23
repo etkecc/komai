@@ -18,7 +18,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UseOnlineKeyBackup
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Online key backup",
+      "Enable online key backup",
       QT_TR_NOOP("Download message encryption keys from and upload to the encrypted online key backup."),
       SM::TabEncryption, onlineKeyBackupEnabled, setOnlineKeyBackupEnabled, nullptr, EncryptionBackupOnlineEnabled, SettingKey::EncryptionBackupOnlineEnabled),
     // SessionKeys

@@ -147,29 +147,29 @@ Page {
                     text: qsTr("Automatic online status")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.AutomaticPresence
-                    onTriggered: if (checked) Settings.presence = Settings.AutomaticPresence
+                    checked: Settings.presence == Settings.Presence.AutomaticPresence
+                    onTriggered: if (checked) Settings.presence = Settings.Presence.AutomaticPresence
                 }
                 MenuItem {
                     text: qsTr("Online")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.Online
-                    onTriggered: if (checked) Settings.presence = Settings.Online
+                    checked: Settings.presence == Settings.Presence.Online
+                    onTriggered: if (checked) Settings.presence = Settings.Presence.Online
                 }
                 MenuItem {
                     text: qsTr("Unavailable")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.Unavailable
-                    onTriggered: if (checked) Settings.presence = Settings.Unavailable
+                    checked: Settings.presence == Settings.Presence.Unavailable
+                    onTriggered: if (checked) Settings.presence = Settings.Presence.Unavailable
                 }
                 MenuItem {
                     text: qsTr("Offline")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.Offline
-                    onTriggered: if (checked) Settings.presence = Settings.Offline
+                    checked: Settings.presence == Settings.Presence.Offline
+                    onTriggered: if (checked) Settings.presence = Settings.Presence.Offline
                 }
             }
             TapHandler {
@@ -763,7 +763,7 @@ Page {
                     Item {
                         id: titleRow
 
-                        property bool previewsEnabled: !isSpace && (Settings.showLastMessagePreview === Settings.Always || (Settings.showLastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
+                        property bool previewsEnabled: !isSpace && (Settings.showLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.showLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
 
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
@@ -823,7 +823,7 @@ Page {
                         Layout.alignment: Qt.AlignBottom
                         Layout.fillWidth: true
                         Layout.preferredHeight: subtitleText.implicitHeight
-                        visible: !compactMode && !isSpace && (Settings.showLastMessagePreview === Settings.Always || (Settings.showLastMessagePreview === Settings.OnlyUnencrypted && !isEncrypted))
+                        visible: !compactMode && !isSpace && (Settings.showLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.showLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
 
                         ElidedLabel {
                             id: subtitleText
@@ -910,17 +910,17 @@ Page {
                     id: timeline
 
                     anchors.fill: parent
-                    privacyScreen: privacyScreen
+                    windowFocusBlurOverlay: windowFocusBlurOverlay
                     room: roomWindowW.room
                     roomPreview: roomWindowW.roomPreview.roomid ? roomWindowW.roomPreview : null
                 }
                 PrivacyScreen {
-                    id: privacyScreen
+                    id: windowFocusBlurOverlay
 
                     anchors.fill: parent
-                    screenTimeout: Settings.privacyScreenTimeoutSeconds
+                    screenTimeout: Settings.windowFocusBlurDelaySeconds
                     timelineRoot: timeline
-                    visible: Settings.privacyScreen
+                    visible: Settings.windowFocusBlurEnabled
                     windowTarget: roomWindowW
                 }
             }

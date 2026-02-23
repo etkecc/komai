@@ -44,4 +44,23 @@ toStorageValue(UserSettings::LastMessagePreview value);
 UserSettings::LastMessagePreview
 lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePreview fallback);
 
+QString
+toStorageValue(UserSettings::TimelineMessageActionsPolicy value);
+UserSettings::TimelineMessageActionsPolicy
+timelineMessageActionsPolicyFromStorage(const QString &value,
+                                        UserSettings::TimelineMessageActionsPolicy fallback);
+
+QString
+toStorageValue(UserSettings::TimelineMessageLayout value);
+UserSettings::TimelineMessageLayout
+timelineMessageLayoutFromStorage(const QString &value,
+                                 UserSettings::TimelineMessageLayout fallback);
+
+QString
+toStorageValue(UserSettings::NotificationMessageContentPolicy value);
+UserSettings::NotificationMessageContentPolicy
+notificationMessageContentPolicyFromStorage(
+  const QString &value,
+  UserSettings::NotificationMessageContentPolicy fallback);
+
 } // namespace settings::serializer::config

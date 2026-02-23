@@ -1,4 +1,4 @@
     // Notifications
-    CONNECT_SETTING_ID(NotificationsDesktopEnabled, desktopNotificationsEnabledChanged, Value);
-    CONNECT_SETTING_ID(NotificationsDesktopAlertOnIncoming, alertOnIncomingMessagesChanged, Value);
-    CONNECT_SETTING_ID(NotificationsDesktopDecryptMessages, decryptNotificationsChanged, Value);
+    CONNECT_SETTING_ID(NotificationsEnabled, notificationsEnabledChanged, Value);
+    CONNECT_SETTING_ID(NotificationsAttentionOnIncoming, notificationsAttentionOnIncomingChanged, Value);
+    CONNECT_SETTING_ID(NotificationsMessageContentPolicy, notificationMessageContentPolicyChanged, Value);

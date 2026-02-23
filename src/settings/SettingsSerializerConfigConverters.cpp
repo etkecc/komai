@@ -199,4 +199,84 @@ lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePre
     return fallback;
 }
 
+QString
+toStorageValue(UserSettings::TimelineMessageActionsPolicy value)
+{
+    switch (value) {
+    case UserSettings::TimelineMessageActionsPolicy::OnHover:
+        return QStringLiteral("on_message_hover");
+    case UserSettings::TimelineMessageActionsPolicy::ActionsButton:
+        return QStringLiteral("on_button_click");
+    case UserSettings::TimelineMessageActionsPolicy::OnLongPress:
+        return QStringLiteral("on_message_long_press");
+    case UserSettings::TimelineMessageActionsPolicy::Never:
+        return QStringLiteral("never");
+    }
+    return QStringLiteral("on_button_click");
+}
+
+UserSettings::TimelineMessageActionsPolicy
+timelineMessageActionsPolicyFromStorage(const QString &value,
+                                        UserSettings::TimelineMessageActionsPolicy fallback)
+{
+    if (value == QLatin1String("on_message_hover"))
+        return UserSettings::TimelineMessageActionsPolicy::OnHover;
+    if (value == QLatin1String("on_button_click"))
+        return UserSettings::TimelineMessageActionsPolicy::ActionsButton;
+    if (value == QLatin1String("on_message_long_press"))
+        return UserSettings::TimelineMessageActionsPolicy::OnLongPress;
+    if (value == QLatin1String("never"))
+        return UserSettings::TimelineMessageActionsPolicy::Never;
+    return fallback;
+}
+
+QString
+toStorageValue(UserSettings::TimelineMessageLayout value)
+{
+    switch (value) {
+    case UserSettings::TimelineMessageLayout::Minimal:
+        return QStringLiteral("minimal");
+    case UserSettings::TimelineMessageLayout::Bubbles:
+        return QStringLiteral("bubbles");
+    }
+    return QStringLiteral("bubbles");
+}
+
+UserSettings::TimelineMessageLayout
+timelineMessageLayoutFromStorage(const QString &value, UserSettings::TimelineMessageLayout fallback)
+{
+    if (value == QLatin1String("minimal"))
+        return UserSettings::TimelineMessageLayout::Minimal;
+    if (value == QLatin1String("bubbles"))
+        return UserSettings::TimelineMessageLayout::Bubbles;
+    return fallback;
+}
+
+QString
+toStorageValue(UserSettings::NotificationMessageContentPolicy value)
+{
+    switch (value) {
+    case UserSettings::NotificationMessageContentPolicy::Never:
+        return QStringLiteral("never");
+    case UserSettings::NotificationMessageContentPolicy::UnencryptedOnly:
+        return QStringLiteral("unencrypted_only");
+    case UserSettings::NotificationMessageContentPolicy::WheneverAvailable:
+        return QStringLiteral("whenever_available");
+    }
+    return QStringLiteral("whenever_available");
+}
+
+UserSettings::NotificationMessageContentPolicy
+notificationMessageContentPolicyFromStorage(const QString &value,
+                                            UserSettings::NotificationMessageContentPolicy fallback)
+{
+    if (value == QLatin1String("never"))
+        return UserSettings::NotificationMessageContentPolicy::Never;
+    if (value == QLatin1String("unencrypted_only"))
+        return UserSettings::NotificationMessageContentPolicy::UnencryptedOnly;
+    if (value == QLatin1String("whenever_available"))
+        return UserSettings::NotificationMessageContentPolicy::WheneverAvailable;
+    return fallback;
+}
+
 } // namespace settings::serializer::config

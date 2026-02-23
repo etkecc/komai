@@ -118,7 +118,7 @@ Rectangle {
                 TimelineView {
                     id: timeline
 
-                    privacyScreen: privacyScreen
+                    windowFocusBlurOverlay: windowFocusBlurOverlay
                     room: Rooms.currentRoom
                     roomPreview: Rooms.currentRoomPreview.roomid ? Rooms.currentRoomPreview : null
                     showBackButton: adaptiveView.singlePageMode
@@ -127,12 +127,12 @@ Rectangle {
         }
     }
     PrivacyScreen {
-        id: privacyScreen
+        id: windowFocusBlurOverlay
 
         anchors.fill: parent
-        screenTimeout: Settings.privacyScreenTimeoutSeconds
+        screenTimeout: Settings.windowFocusBlurDelaySeconds
         timelineRoot: adaptiveView
-        visible: Settings.privacyScreen
+        visible: Settings.windowFocusBlurEnabled
         windowTarget: MainWindow
     }
 }

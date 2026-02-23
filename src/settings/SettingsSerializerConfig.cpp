@@ -156,8 +156,14 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
             SettingKey::TimelineMessagesSenderUsername,
             cfg::toStorageValue(settings.showSenderUsername()).toStdString());
     setNode(root,
+            SettingKey::TimelineMessagesLayoutStyle,
+            cfg::toStorageValue(settings.timelineMessageLayout()).toStdString());
+    setNode(root,
             SettingKey::TimelineMediaImageDisplay,
             cfg::toStorageValue(settings.showImage()).toStdString());
+    setNode(root,
+            SettingKey::TimelineMessageActionsActivationPolicy,
+            cfg::toStorageValue(settings.timelineMessageActionsPolicy()).toStdString());
     setNode(root,
             SettingKey::ComposerInputSendKey,
             cfg::toStorageValue(settings.sendMessageKey()).toStdString());
@@ -167,6 +173,9 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
     setNode(root,
             SettingKey::NetworkPresenceStatusPolicy,
             cfg::toStorageValue(settings.presence()).toStdString());
+    setNode(root,
+            SettingKey::NotificationsMessageContentPolicy,
+            cfg::toStorageValue(settings.notificationMessageContentPolicy()).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
     setNode(root,
             SettingKey::UiInputMode,
@@ -199,14 +208,26 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
     settings.setShowImage(cfg::showImageFromStorage(
       readString(root, SettingKey::TimelineMediaImageDisplay, QStringLiteral("always")),
       UserSettings::ShowImage::Always));
+    settings.setTimelineMessageActionsPolicy(cfg::timelineMessageActionsPolicyFromStorage(
+      readString(root,
+                 SettingKey::TimelineMessageActionsActivationPolicy,
+                 QStringLiteral("on_button_click")),
+      UserSettings::TimelineMessageActionsPolicy::ActionsButton));
     settings.setShowSenderUsername(cfg::showSenderUsernameFromStorage(
       readString(
         root, SettingKey::TimelineMessagesSenderUsername, QStringLiteral("only_in_large_rooms")),
       UserSettings::ShowSenderUsername::OnlyInLargeRooms));
+    settings.setTimelineMessageLayout(cfg::timelineMessageLayoutFromStorage(
+      readString(root, SettingKey::TimelineMessagesLayoutStyle, QStringLiteral("bubbles")),
+      UserSettings::TimelineMessageLayout::Bubbles));
     settings.setPresence(cfg::presenceFromStorage(
       readString(
         root, SettingKey::NetworkPresenceStatusPolicy, QStringLiteral("automatic_presence")),
       UserSettings::Presence::AutomaticPresence));
+    settings.setNotificationMessageContentPolicy(cfg::notificationMessageContentPolicyFromStorage(
+      readString(
+        root, SettingKey::NotificationsMessageContentPolicy, QStringLiteral("whenever_available")),
+      UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
     if (settings.integrationsDbusApiAccess() < IntegrationsDbusAccessNone ||
         settings.integrationsDbusApiAccess() > IntegrationsDbusAccessReadWrite)
         settings.setIntegrationsDbusApiAccess(IntegrationsDbusAccessNone);

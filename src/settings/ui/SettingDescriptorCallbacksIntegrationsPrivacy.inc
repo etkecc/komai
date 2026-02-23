@@ -101,8 +101,8 @@ privacyPresenceStatusPolicyValues()
 }
 
 static bool
-privacyScreenTimeoutEnabled()
+windowFocusBlurDelaySecondsEnabled()
 {
     auto i = I;
-    return i && i->privacyScreen();
+    return i && i->windowFocusBlurEnabled();
 }

@@ -75,14 +75,17 @@ UserSettings::circularAvatarsEnabled() const
         return *value;
     return circularAvatarsEnabled_;
 }
-bool
-UserSettings::decryptNotifications() const
+UserSettings::NotificationMessageContentPolicy
+UserSettings::notificationMessageContentPolicy() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsDesktopDecryptMessages);
-        value.has_value())
-        return *value;
-    return decryptNotifications_;
+          coreStore_.valueAs<int>(settings::core::SettingId::NotificationsMessageContentPolicy);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::NotificationMessageContentPolicy::Never) &&
+        *value <=
+          static_cast<int>(UserSettings::NotificationMessageContentPolicy::WheneverAvailable))
+        return static_cast<UserSettings::NotificationMessageContentPolicy>(*value);
+    return notificationMessageContentPolicy_;
 }
 bool
 UserSettings::communityNotificationCountsVisible() const
@@ -140,22 +143,22 @@ UserSettings::uiAnimationsEnabled() const
     return uiAnimationsEnabled_;
 }
 bool
-UserSettings::privacyScreen() const
+UserSettings::windowFocusBlurEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::PrivacyScreenLockEnabled);
+          coreStore_.valueAs<bool>(settings::core::SettingId::PrivacyWindowFocusBlurEnabled);
         value.has_value())
         return *value;
-    return privacyScreen_;
+    return windowFocusBlurEnabled_;
 }
 int
-UserSettings::privacyScreenTimeoutSeconds() const
+UserSettings::windowFocusBlurDelaySeconds() const
 {
     if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::PrivacyScreenLockTimeoutSeconds);
+          coreStore_.valueAs<int>(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds);
         value.has_value())
         return *value;
-    return privacyScreenTimeoutSeconds_;
+    return windowFocusBlurDelaySeconds_;
 }
 bool
 UserSettings::markdownEnabled() const
@@ -185,14 +188,16 @@ UserSettings::autoReplaceEmoji() const
         return static_cast<UserSettings::AutoReplaceEmoji>(*value);
     return autoReplaceEmoji_;
 }
-bool
-UserSettings::timelineBubblesEnabled() const
+UserSettings::TimelineMessageLayout
+UserSettings::timelineMessageLayout() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesLayoutBubbles);
-        value.has_value())
-        return *value;
-    return timelineBubblesEnabled_;
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutStyle);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::TimelineMessageLayout::Minimal) &&
+        *value <= static_cast<int>(UserSettings::TimelineMessageLayout::Bubbles))
+        return static_cast<UserSettings::TimelineMessageLayout>(*value);
+    return timelineMessageLayout_;
 }
 bool
 UserSettings::timelineSmallAvatarsEnabled() const
@@ -273,14 +278,16 @@ UserSettings::roomSortOrder() const
         return static_cast<UserSettings::RoomSortOrder>(*value);
     return roomSortOrder_;
 }
-bool
-UserSettings::timelineMessageActionsEnabled() const
+UserSettings::TimelineMessageActionsPolicy
+UserSettings::timelineMessageActionsPolicy() const
 {
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessageActionsEnabled);
-        value.has_value())
-        return *value;
-    return timelineMessageActionsEnabled_;
+    if (const auto value = coreStore_.valueAs<int>(
+          settings::core::SettingId::TimelineMessageActionsActivationPolicy);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::TimelineMessageActionsPolicy::OnHover) &&
+        *value <= static_cast<int>(UserSettings::TimelineMessageActionsPolicy::Never))
+        return static_cast<UserSettings::TimelineMessageActionsPolicy>(*value);
+    return timelineMessageActionsPolicy_;
 }
 bool
 UserSettings::touchInputModeEnabled() const
@@ -309,27 +316,27 @@ UserSettings::readReceiptsEnabled() const
     return readReceiptsEnabled_;
 }
 bool
-UserSettings::desktopNotificationsEnabled() const
+UserSettings::notificationsEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsDesktopEnabled);
+          coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsEnabled);
         value.has_value())
         return *value;
-    return desktopNotificationsEnabled_;
+    return notificationsEnabled_;
 }
 bool
-UserSettings::alertOnIncomingMessages() const
+UserSettings::notificationsAttentionOnIncoming() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsDesktopAlertOnIncoming);
+          coreStore_.valueAs<bool>(settings::core::SettingId::NotificationsAttentionOnIncoming);
         value.has_value())
         return *value;
-    return alertOnIncomingMessages_;
+    return notificationsAttentionOnIncoming_;
 }
 bool
 UserSettings::hasNotifications() const
 {
-    return desktopNotificationsEnabled() || alertOnIncomingMessages();
+    return notificationsEnabled() || notificationsAttentionOnIncoming();
 }
 int
 UserSettings::maxTimelineWidth() const

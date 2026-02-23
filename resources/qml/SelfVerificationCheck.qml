@@ -221,8 +221,6 @@ Item {
         x: Math.round(((parent ? parent.width : width) - width) / 2)
         y: Math.round((parent ? parent.height : 0) / 4)
 
-        Keys.onEscapePressed: verifyMasterKey.close()
-
         Overlay.modal: Rectangle {
             color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.7)
         }

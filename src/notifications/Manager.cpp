@@ -37,6 +37,10 @@ NotificationsManager::getMessageTemplate(const mtx::responses::Notification &not
     const auto sender =
       cache::displayName(QString::fromStdString(notification.room_id),
                          QString::fromStdString(mtx::accessors::sender(notification.event)));
+    const auto messageContentPolicy = UserSettings::instance()->notificationMessageContentPolicy();
+
+    if (messageContentPolicy == UserSettings::NotificationMessageContentPolicy::Never)
+        return tr("%1 sent a message").arg(sender);
 
     // TODO: decrypt this message if the decryption setting is on in the UserSettings
     if (auto msg = std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(

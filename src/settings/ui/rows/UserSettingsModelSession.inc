@@ -12,7 +12,7 @@
       getSettingValue<&UserSettings::homeserver>,
       nullptr, {}, {}, {}, nullptr, nullptr },
     // Profile
-    { QT_TR_NOOP("Profile"), nullptr, SM::ProfileButton, SM::TabSession,
+    { QT_TR_NOOP("Edit profile"), nullptr, SM::ProfileButton, SM::TabSession,
       sessionProfileValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
     // SessionDeviceSection
@@ -36,5 +36,5 @@
     { QT_TR_NOOP("Actions"), nullptr, SM::SectionTitle, SM::TabSession,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Logout
-    { QT_TR_NOOP("Logout"), nullptr, SM::LogoutButton, SM::TabSession,
+    { QT_TR_NOOP("Log out"), nullptr, SM::LogoutButton, SM::TabSession,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

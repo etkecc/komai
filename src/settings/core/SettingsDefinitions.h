@@ -14,26 +14,26 @@
 
 namespace settings::core::definitions {
 
-inline constexpr int kDefaultSidebarsRoomListWidthPx       = 300;
-inline constexpr int kDefaultSidebarsCommunitiesWidthPx    = 200;
-inline constexpr int kDefaultWindowWidthPx                 = 1050;
-inline constexpr int kDefaultWindowHeightPx                = 700;
-inline constexpr const char *kDefaultUiThemeSlug           = "komai-light";
-inline constexpr const char *kDefaultCallsAudioRingtone    = "Default";
-inline constexpr const char *kDefaultPinnedReactions       = "👍️,👎️,😀,🤣,❤️";
-inline constexpr bool kDefaultUiMotionAnimationsEnabled    = true;
-inline constexpr bool kDefaultUiInputModeTouchEnabled      = false;
-inline constexpr bool kDefaultCertificateValidationEnabled = true;
-inline constexpr bool kDefaultNetworkHttp3Enabled          = false;
-inline constexpr double kDefaultScaleFactor                = -1.0;
-inline constexpr double kDefaultFontSizePt                 = 13.0;
-inline constexpr int kDefaultScreenShareFrameRate          = 5;
-inline constexpr bool kDefaultScreenShareShowCursor        = true;
-inline constexpr int kDefaultPrivacyScreenTimeoutSeconds   = 0;
-inline constexpr int kDefaultTimelineMaxWidthPx            = 0;
-inline constexpr unsigned int kDefaultMaxStores            = 0;
-inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
-inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
+inline constexpr int kDefaultSidebarsRoomListWidthPx            = 300;
+inline constexpr int kDefaultSidebarsCommunitiesWidthPx         = 200;
+inline constexpr int kDefaultWindowWidthPx                      = 1050;
+inline constexpr int kDefaultWindowHeightPx                     = 700;
+inline constexpr const char *kDefaultUiThemeSlug                = "komai-light";
+inline constexpr const char *kDefaultCallsAudioRingtone         = "Default";
+inline constexpr const char *kDefaultPinnedReactions            = "👍️,👎️,😀,🤣,❤️";
+inline constexpr bool kDefaultUiMotionAnimationsEnabled         = true;
+inline constexpr bool kDefaultUiInputModeTouchEnabled           = false;
+inline constexpr bool kDefaultCertificateValidationEnabled      = true;
+inline constexpr bool kDefaultNetworkHttp3Enabled               = false;
+inline constexpr double kDefaultScaleFactor                     = -1.0;
+inline constexpr double kDefaultFontSizePt                      = 13.0;
+inline constexpr int kDefaultScreenShareFrameRate               = 5;
+inline constexpr bool kDefaultScreenShareShowCursor             = true;
+inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
+inline constexpr int kDefaultTimelineMaxWidthPx                 = 0;
+inline constexpr unsigned int kDefaultMaxStores                 = 0;
+inline constexpr unsigned long long kDefaultMaxDbSizeBytes      = 0;
+inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
 
 inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},
@@ -108,13 +108,13 @@ inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{
    SettingScope::Config,
    SettingKey::PrivacyMaintenanceUpdateSpaceVias,
    false},
-  {SettingId::PrivacyScreenLockEnabled,
+  {SettingId::PrivacyWindowFocusBlurEnabled,
    SettingScope::Config,
-   SettingKey::PrivacyScreenLockEnabled,
+   SettingKey::PrivacyWindowFocusBlurEnabled,
    false},
-  {SettingId::PrivacyScreenLockTimeoutSeconds,
+  {SettingId::PrivacyWindowFocusBlurDelaySeconds,
    SettingScope::Config,
-   SettingKey::PrivacyScreenLockTimeoutSeconds,
+   SettingKey::PrivacyWindowFocusBlurDelaySeconds,
    false,
    true,
    0,
@@ -168,18 +168,18 @@ inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{
    SettingScope::Config,
    SettingKey::ComposerExtrasStickersEnabled,
    false},
-  {SettingId::NotificationsDesktopEnabled,
+  {SettingId::NotificationsEnabled, SettingScope::Config, SettingKey::NotificationsEnabled, false},
+  {SettingId::NotificationsAttentionOnIncoming,
    SettingScope::Config,
-   SettingKey::NotificationsDesktopEnabled,
+   SettingKey::NotificationsAttentionOnIncoming,
    false},
-  {SettingId::NotificationsDesktopAlertOnIncoming,
+  {SettingId::NotificationsMessageContentPolicy,
    SettingScope::Config,
-   SettingKey::NotificationsDesktopAlertOnIncoming,
-   false},
-  {SettingId::NotificationsDesktopDecryptMessages,
-   SettingScope::Config,
-   SettingKey::NotificationsDesktopDecryptMessages,
-   false},
+   SettingKey::NotificationsMessageContentPolicy,
+   false,
+   true,
+   0,
+   2},
   {SettingId::CallsLegacyEnabled, SettingScope::Config, SettingKey::CallsLegacyEnabled, false},
   {SettingId::CallsRelayUseFallbackServer,
    SettingScope::Config,
@@ -218,10 +218,13 @@ inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{
    SettingScope::Config,
    SettingKey::CallsScreenshareShowCursor,
    false},
-  {SettingId::TimelineMessagesLayoutBubbles,
+  {SettingId::TimelineMessagesLayoutStyle,
    SettingScope::Config,
-   SettingKey::TimelineMessagesLayoutBubbles,
-   false},
+   SettingKey::TimelineMessagesLayoutStyle,
+   false,
+   true,
+   0,
+   1},
   {SettingId::TimelineMessagesLayoutSmallAvatars,
    SettingScope::Config,
    SettingKey::TimelineMessagesLayoutSmallAvatars,
@@ -252,10 +255,13 @@ inline constexpr std::array<SettingDefinition, 64> kPersistedSettingDefinitions{
    SettingScope::Config,
    SettingKey::TimelineMessagesHoverHighlight,
    false},
-  {SettingId::TimelineMessageActionsEnabled,
+  {SettingId::TimelineMessageActionsActivationPolicy,
    SettingScope::Config,
-   SettingKey::TimelineMessageActionsEnabled,
-   false},
+   SettingKey::TimelineMessageActionsActivationPolicy,
+   false,
+   true,
+   0,
+   3},
   {SettingId::TimelineMessageActionsPinnedReactions,
    SettingScope::Config,
    SettingKey::TimelineMessageActionsPinnedReactions,

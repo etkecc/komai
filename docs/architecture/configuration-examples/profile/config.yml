@@ -33,7 +33,7 @@ sidebars:
 timeline:
   messages:
     layout:
-      bubbles: true
+      style: bubbles
       small_avatars: false
       show_own_avatar: true
     sender_username: only_in_large_rooms
@@ -41,7 +41,7 @@ timeline:
     emoji_only_enlarge: true
     hover_highlight: false
     actions:
-      enabled: true
+      activation_policy: on_button_click
       pinned_reactions: "👍️,👎️,😀,🤣,❤️"
   media:
     effects_enabled: true
@@ -62,10 +62,9 @@ composer:
     stickers_enabled: false
 
 notifications:
-  desktop:
-    enabled: true
-    alert_on_incoming: false
-    decrypt_messages: true
+  enabled: true
+  attention_on_incoming: false
+  message_content_policy: whenever_available
 
 calls:
   legacy_enabled: false
@@ -85,9 +84,9 @@ calls:
     show_cursor: true
 
 privacy:
-  screen_lock:
+  window_focus_blur:
     enabled: false
-    timeout_seconds: 0
+    delay_seconds: 0
   maintenance:
     expire_events: false
     update_space_vias: true

@@ -33,7 +33,7 @@ Note:
 | Look & Feel | FONTS | Emoji font family | `UserSettingsModel::EmojiFont` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
 | Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable UI animations | `UserSettingsModel::EnableUIAnimations` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
-| Sidebars | ROOM LIST | Compact mode | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
+| Sidebars | ROOM LIST | Compact layout | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::RoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message preview | `UserSettingsModel::ShowLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
 | Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::CommunityNotificationCountsVisible` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
@@ -46,16 +46,16 @@ Note:
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::IntegrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Input mode | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Interaction mode | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures_enabled` | config.yml | yes |
-| Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::TimelineBubblesEnabled` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
+| Timeline | MESSAGES | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
 | Timeline | MESSAGES | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | MESSAGES | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
 | Timeline | MESSAGES | Show sender username above messages | `UserSettingsModel::ShowSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
-| Timeline | MESSAGES | Limit timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
+| Timeline | MESSAGES | Maximum timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
 | Timeline | MESSAGES | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
 | Timeline | MESSAGES | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
-| Timeline | MESSAGES | Show action buttons | `UserSettingsModel::TimelineMessageActionsEnabled` | `show_action_buttons` | `timeline.messages.actions.enabled` | config.yml | yes |
+| Timeline | MESSAGES | Actions activation policy | `UserSettingsModel::TimelineMessageActionsPolicy` | `show_action_buttons` | `timeline.messages.actions.activation_policy` | config.yml | yes |
 | Timeline | MESSAGES | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
 | Timeline | MEDIA | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
 | Timeline | MEDIA | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
@@ -63,16 +63,16 @@ Note:
 | Timeline | MEDIA | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
 | Timeline | MEDIA | Open videos in an external app | `UserSettingsModel::OpenVideosInExternalApp` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
 | Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::MarkdownEnabled` | `markdown` | `composer.input.markdown_enabled` | config.yml | yes |
-| Composer | INPUT | Send messages with a shortcut | `UserSettingsModel::SendMessageKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
-| Composer | INPUT | Auto-replace text emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
+| Composer | INPUT | Send key | `UserSettingsModel::SendMessageKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
+| Composer | INPUT | Auto-replace emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
 | Composer | FEEDBACK | Typing notifications | `UserSettingsModel::TypingNotificationsEnabled` | `typing_notifications` | `composer.feedback.typing_notifications` | config.yml | yes |
 | Composer | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceiptsEnabled` | `read_receipts` | `composer.feedback.read_receipts` | config.yml | yes |
 | Composer | EXTRAS | Enable stickers | `UserSettingsModel::StickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
-| Notifications | DESKTOP | Desktop notifications | `UserSettingsModel::DesktopNotificationsEnabled` | `desktop_notifications` | `notifications.desktop.enabled` | config.yml | yes |
-| Notifications | DESKTOP | Alert on incoming messages | `UserSettingsModel::AlertOnIncomingMessages` | `alert_on_incoming_messages` | `notifications.desktop.alert_on_incoming` | config.yml | yes |
-| Notifications | DESKTOP | Decrypt notifications | `UserSettingsModel::DecryptNotifications` | `decrypt_notifications` | `notifications.desktop.decrypt_messages` | config.yml | yes |
+| Notifications | SYSTEM NOTIFICATIONS | Enable system notifications | `UserSettingsModel::NotificationsEnabled` | `desktop_notifications` | `notifications.enabled` | config.yml | yes |
+| Notifications | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `UserSettingsModel::NotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `notifications.attention_on_incoming` | config.yml | yes |
+| Notifications | SYSTEM NOTIFICATIONS | Message content in notifications | `UserSettingsModel::NotificationMessageContentPolicy` | `decrypt_notifications` | `notifications.message_content_policy` | config.yml | yes |
 | Calls | GENERAL | Enable legacy calls | `UserSettingsModel::LegacyCallsEnabled` | `enable_legacy_calls` | `calls.legacy_enabled` | config.yml | yes |
-| Calls | GENERAL | Use turn.matrix.org when no relay is configured | `UserSettingsModel::FallbackCallRelayServerEnabled` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
+| Calls | GENERAL | Use turn.matrix.org as fallback relay | `UserSettingsModel::FallbackCallRelayServerEnabled` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
 | Calls | DEVICES | Microphone | `UserSettingsModel::Microphone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
 | Calls | DEVICES | Camera | `UserSettingsModel::Camera` | `camera` | `calls.devices.camera` | config.yml | yes |
 | Calls | DEVICES | Camera resolution | `UserSettingsModel::CameraResolution` | `camera_resolution` | `calls.devices.camera_resolution` | config.yml | yes |
@@ -82,15 +82,15 @@ Note:
 | Calls | SCREEN SHARING | Include camera picture-in-picture | `UserSettingsModel::ScreenSharePiP` | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | yes |
 | Calls | SCREEN SHARING | Show participant camera while screen sharing | `UserSettingsModel::ScreenShareRemoteVideo` | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | yes |
 | Calls | SCREEN SHARING | Show mouse cursor | `UserSettingsModel::ScreenShareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
-| Privacy | SCREEN LOCK | Privacy screen | `UserSettingsModel::PrivacyScreen` | `privacy_screen` | `privacy.screen_lock.enabled` | config.yml | yes |
-| Privacy | SCREEN LOCK | Privacy screen timeout (seconds) | `UserSettingsModel::PrivacyScreenTimeoutSeconds` | `privacy_screen_timeout_seconds` | `privacy.screen_lock.timeout_seconds` | config.yml | yes |
-| Privacy | DATA & MAINTENANCE | Periodically delete expired events | `UserSettingsModel::ExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
+| Privacy | WINDOW BLUR | Blur on focus loss | `UserSettingsModel::WindowFocusBlurEnabled` | `privacy_screen` | `privacy.window_focus_blur.enabled` | config.yml | yes |
+| Privacy | WINDOW BLUR | Blur delay (seconds) | `UserSettingsModel::WindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `privacy.window_focus_blur.delay_seconds` | config.yml | yes |
+| Privacy | DATA & MAINTENANCE | Delete expired events periodically | `UserSettingsModel::ExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
 | Privacy | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `privacy.timeline.hidden_events` | runtime/UI-specific | no |
-| Privacy | DATA & MAINTENANCE | Periodically update community routing information | `UserSettingsModel::UpdateSpaceVias` | `update_space_vias` | `privacy.maintenance.update_space_vias` | config.yml | yes |
+| Privacy | DATA & MAINTENANCE | Update community routing info periodically | `UserSettingsModel::UpdateSpaceVias` | `update_space_vias` | `privacy.maintenance.update_space_vias` | config.yml | yes |
 | Privacy | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `privacy.users.ignored` | runtime/UI-specific | no |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `UserSettingsModel::OnlyShareKeysWithVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |
 | Encryption | KEY SHARING | Share keys with verified users and devices | `UserSettingsModel::ShareKeysWithTrustedUsers` | `share_keys_with_trusted_users` | `encryption.key_sharing.share_with_trusted` | config.yml | yes |
-| Encryption | BACKUP | Online key backup | `UserSettingsModel::OnlineKeyBackupEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |
+| Encryption | BACKUP | Enable online key backup | `UserSettingsModel::OnlineKeyBackupEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |
 | Encryption | BACKUP | Session keys | `UserSettingsModel::SessionKeys` | `-` | `encryption.backup.session_keys` | action only | no |
 | Encryption | CROSS-SIGNING | Online backup key | `UserSettingsModel::OnlineBackupKey` | `-` | `encryption.cross_signing.online_backup_key_cached` | derived/runtime | optional |
 | Encryption | CROSS-SIGNING | Self signing key | `UserSettingsModel::SelfSigningKey` | `-` | `encryption.cross_signing.self_signing_key_cached` | derived/runtime | optional |
@@ -103,7 +103,7 @@ Note:
 | Session | DEVICE | Device ID | `UserSettingsModel::DeviceId` | `device_id` | `session.device.id` | session.yml | yes |
 | Session | DEVICE | Device fingerprint | `UserSettingsModel::DeviceFingerprint` | `-` | `session.device.fingerprint` | derived/runtime | no |
 | Session | DEVICE | Access token | `UserSettingsModel::AccessToken` | `access_token` | `auth.access_token` | secret backend (fallback: secrets.yml) | yes (secret backend; file fallback only) |
-| Session | ACTIONS | Logout | `UserSettingsModel::Logout` | `-` | `session.actions.logout` | action only | no |
+| Session | ACTIONS | Log out | `UserSettingsModel::Logout` | `-` | `session.actions.logout` | action only | no |
 | About | APPLICATION | Name | `UserSettingsModel::AppName` | `-` | `about.application.name` | derived/runtime | no |
 | About | APPLICATION | Platform | `UserSettingsModel::Platform` | `-` | `about.application.platform` | derived/runtime | no |
 | About | APPLICATION | Based on | `UserSettingsModel::BasedOn` | `-` | `about.application.based_on` | derived/runtime | no |

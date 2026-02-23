@@ -32,15 +32,15 @@ AbstractButton {
     hoverEnabled: true
     enabled: !EventDelegateChooser.isReply
 
-    state: (img.status != Image.Ready || timeline.privacyScreen.active) ? "BlurhashVisible" : "ImageVisible"
+    state: (img.status != Image.Ready || timeline.windowFocusBlurOverlay.active) ? "BlurhashVisible" : "ImageVisible"
     states: [
         State {
             name: "BlurhashVisible"
 
             PropertyChanges {
                 blurhash_ {
-                    opacity: (img.status != Image.Ready) || (timeline.privacyScreen.active && blurhash) ? 1 : 0
-                    visible: (img.status != Image.Ready) || (timeline.privacyScreen.active && blurhash)
+                    opacity: (img.status != Image.Ready) || (timeline.windowFocusBlurOverlay.active && blurhash) ? 1 : 0
+                    visible: (img.status != Image.Ready) || (timeline.windowFocusBlurOverlay.active && blurhash)
                 }
             }
 

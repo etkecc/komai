@@ -89,8 +89,8 @@ inline constexpr double kDefaultScaleFactor = settings::core::definitions::kDefa
 inline constexpr double kDefaultFontSizePt  = settings::core::definitions::kDefaultFontSizePt;
 inline constexpr int kDefaultScreenShareFrameRate =
   settings::core::definitions::kDefaultScreenShareFrameRate;
-inline constexpr int kDefaultPrivacyScreenTimeoutSeconds =
-  settings::core::definitions::kDefaultPrivacyScreenTimeoutSeconds;
+inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds =
+  settings::core::definitions::kDefaultPrivacyWindowFocusBlurDelaySeconds;
 inline constexpr int kDefaultTimelineMaxWidthPx =
   settings::core::definitions::kDefaultTimelineMaxWidthPx;
 inline constexpr uint kDefaultMaxStores = settings::core::definitions::kDefaultMaxStores;

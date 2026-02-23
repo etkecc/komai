@@ -185,7 +185,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
         // in this edge case, that's probably a non-issue.
         // TODO: Replace this once we have proper pushrules support. This is a horrible hack
         if (prevNotificationCount < notificationCount) {
-            if (userSettings_->alertOnIncomingMessages())
+            if (userSettings_->notificationsAttentionOnIncoming())
                 MainWindow::instance()->alert(0);
         }
         prevNotificationCount = notificationCount;
@@ -294,10 +294,16 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                         std::visit(
                           [room_id_ = room_id](auto &event_) { event_.room_id = room_id_; }, te);
 
+                        const auto notificationMessageContentPolicy =
+                          userSettings_->notificationMessageContentPolicy();
+                        const bool decryptEncryptedNotificationContent =
+                          notificationMessageContentPolicy ==
+                          UserSettings::NotificationMessageContentPolicy::WheneverAvailable;
+
                         if (auto encryptedEvent =
                               std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
                                 &event);
-                            encryptedEvent && userSettings_->decryptNotifications()) {
+                            encryptedEvent && decryptEncryptedNotificationContent) {
                             MegolmSessionIndex index(room_id, encryptedEvent->content);
 
                             auto result = olm::decryptEvent(index, *encryptedEvent);
@@ -313,7 +319,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                                 if (auto encryptedEvent = std::get_if<
                                       mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
                                       &related.value());
-                                    encryptedEvent && userSettings_->decryptNotifications()) {
+                                    encryptedEvent && decryptEncryptedNotificationContent) {
                                     MegolmSessionIndex index(room_id, encryptedEvent->content);
 
                                     auto result = olm::decryptEvent(index, *encryptedEvent);
@@ -337,7 +343,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                                 if (isRoomActive(roomModel->roomId()))
                                     continue;
 
-                                if (userSettings_->desktopNotificationsEnabled()) {
+                                if (userSettings_->notificationsEnabled()) {
                                     notifications.emplace_back(roomModel, te, room_id, actions);
                                 }
                             }

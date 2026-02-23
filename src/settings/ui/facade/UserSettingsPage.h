@@ -35,6 +35,7 @@ class SettingsController;
 class UserSettings final : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
     QML_NAMED_ELEMENT(Settings)
     QML_SINGLETON
 
@@ -57,8 +58,8 @@ class UserSettings final : public QObject
                  sendMessageKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji autoReplaceEmoji READ autoReplaceEmoji WRITE setAutoReplaceEmoji
                  NOTIFY autoReplaceEmojiChanged)
-    Q_PROPERTY(bool timelineBubblesEnabled READ timelineBubblesEnabled WRITE
-                 setTimelineBubblesEnabled NOTIFY timelineBubblesEnabledChanged)
+    Q_PROPERTY(TimelineMessageLayout timelineMessageLayout READ timelineMessageLayout WRITE
+                 setTimelineMessageLayout NOTIFY timelineMessageLayoutChanged)
     Q_PROPERTY(bool timelineSmallAvatarsEnabled READ timelineSmallAvatarsEnabled WRITE
                  setTimelineSmallAvatarsEnabled NOTIFY timelineSmallAvatarsEnabledChanged)
     Q_PROPERTY(bool stickersEnabled READ stickersEnabled WRITE setStickersEnabled NOTIFY
@@ -78,18 +79,20 @@ class UserSettings final : public QObject
                  setTypingNotificationsEnabled NOTIFY typingNotificationsEnabledChanged)
     Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
                  roomSortOrderChanged)
-    Q_PROPERTY(bool timelineMessageActionsEnabled READ timelineMessageActionsEnabled WRITE
-                 setTimelineMessageActionsEnabled NOTIFY timelineMessageActionsEnabledChanged)
+    Q_PROPERTY(
+      TimelineMessageActionsPolicy timelineMessageActionsPolicy READ timelineMessageActionsPolicy
+        WRITE setTimelineMessageActionsPolicy NOTIFY timelineMessageActionsPolicyChanged)
     Q_PROPERTY(bool readReceiptsEnabled READ readReceiptsEnabled WRITE setReadReceiptsEnabled NOTIFY
                  readReceiptsEnabledChanged)
-    Q_PROPERTY(bool desktopNotificationsEnabled READ desktopNotificationsEnabled WRITE
-                 setDesktopNotificationsEnabled NOTIFY desktopNotificationsEnabledChanged)
-    Q_PROPERTY(bool alertOnIncomingMessages READ alertOnIncomingMessages WRITE
-                 setAlertOnIncomingMessages NOTIFY alertOnIncomingMessagesChanged)
+    Q_PROPERTY(bool notificationsEnabled READ notificationsEnabled WRITE setNotificationsEnabled
+                 NOTIFY notificationsEnabledChanged)
+    Q_PROPERTY(bool notificationsAttentionOnIncoming READ notificationsAttentionOnIncoming WRITE
+                 setNotificationsAttentionOnIncoming NOTIFY notificationsAttentionOnIncomingChanged)
     Q_PROPERTY(bool circularAvatarsEnabled READ circularAvatarsEnabled WRITE
                  setCircularAvatarsEnabled NOTIFY circularAvatarsEnabledChanged)
-    Q_PROPERTY(bool decryptNotifications READ decryptNotifications WRITE setDecryptNotifications
-                 NOTIFY decryptNotificationsChanged)
+    Q_PROPERTY(NotificationMessageContentPolicy notificationMessageContentPolicy READ
+                 notificationMessageContentPolicy WRITE setNotificationMessageContentPolicy NOTIFY
+                   notificationMessageContentPolicyChanged)
     Q_PROPERTY(
       bool communityNotificationCountsVisible READ communityNotificationCountsVisible WRITE
         setCommunityNotificationCountsVisible NOTIFY communityNotificationCountsVisibleChanged)
@@ -103,10 +106,10 @@ class UserSettings final : public QObject
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
     Q_PROPERTY(bool uiAnimationsEnabled READ uiAnimationsEnabled WRITE setUiAnimationsEnabled NOTIFY
                  uiAnimationsEnabledChanged)
-    Q_PROPERTY(
-      bool privacyScreen READ privacyScreen WRITE setPrivacyScreen NOTIFY privacyScreenChanged)
-    Q_PROPERTY(int privacyScreenTimeoutSeconds READ privacyScreenTimeoutSeconds WRITE
-                 setPrivacyScreenTimeoutSeconds NOTIFY privacyScreenTimeoutSecondsChanged)
+    Q_PROPERTY(bool windowFocusBlurEnabled READ windowFocusBlurEnabled WRITE
+                 setWindowFocusBlurEnabled NOTIFY windowFocusBlurEnabledChanged)
+    Q_PROPERTY(int windowFocusBlurDelaySeconds READ windowFocusBlurDelaySeconds WRITE
+                 setWindowFocusBlurDelaySeconds NOTIFY windowFocusBlurDelaySecondsChanged)
     Q_PROPERTY(int maxTimelineWidth READ maxTimelineWidth WRITE setMaxTimelineWidth NOTIFY
                  maxTimelineWidthChanged)
     Q_PROPERTY(
@@ -252,6 +255,22 @@ public:
     };
     Q_ENUM(SendMessageKey)
 
+    enum class TimelineMessageActionsPolicy
+    {
+        OnHover,
+        ActionsButton,
+        OnLongPress,
+        Never,
+    };
+    Q_ENUM(TimelineMessageActionsPolicy)
+
+    enum class TimelineMessageLayout
+    {
+        Minimal,
+        Bubbles,
+    };
+    Q_ENUM(TimelineMessageLayout)
+
     enum class RoomSortOrder
     {
         UnreadFirst_Recent, // Unread first, then by recent activity
@@ -268,6 +287,14 @@ public:
         Never,           // Never show message previews
     };
     Q_ENUM(LastMessagePreview)
+
+    enum class NotificationMessageContentPolicy
+    {
+        Never,
+        UnencryptedOnly,
+        WheneverAvailable,
+    };
+    Q_ENUM(NotificationMessageContentPolicy)
 
     struct SessionSnapshot
     {
@@ -297,7 +324,7 @@ public:
     void setMarkdownEnabled(bool state);
     void setSendMessageKey(SendMessageKey key);
     void setAutoReplaceEmoji(AutoReplaceEmoji state);
-    void setTimelineBubblesEnabled(bool state);
+    void setTimelineMessageLayout(TimelineMessageLayout layout);
     void setTimelineSmallAvatarsEnabled(bool state);
     void setStickersEnabled(bool state);
     void setTimelineShowOwnAvatarInBubbleLayout(bool state);
@@ -307,22 +334,22 @@ public:
     void setReadReceiptsEnabled(bool state);
     void setTypingNotificationsEnabled(bool state);
     void setRoomSortOrder(RoomSortOrder order);
-    void setTimelineMessageActionsEnabled(bool state);
+    void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
     void setMaxTimelineWidth(int state);
     void setCommunityListWidth(int state);
     void setRoomListWidth(int state);
-    void setDesktopNotificationsEnabled(bool state);
-    void setAlertOnIncomingMessages(bool state);
+    void setNotificationsEnabled(bool state);
+    void setNotificationsAttentionOnIncoming(bool state);
     void setCircularAvatarsEnabled(bool state);
-    void setDecryptNotifications(bool state);
+    void setNotificationMessageContentPolicy(NotificationMessageContentPolicy policy);
     void setCommunityNotificationCountsVisible(bool state);
     void setCompactRoomList(bool state);
     void setRoomListShowLastMessageTime(bool state);
     void setShowLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiAnimationsEnabled(bool state);
-    void setPrivacyScreen(bool state);
-    void setPrivacyScreenTimeoutSeconds(int state);
+    void setWindowFocusBlurEnabled(bool state);
+    void setWindowFocusBlurDelaySeconds(int state);
     void setPresence(Presence state);
     void setShowImage(ShowImage state);
     void setRingtone(QString ringtone);
@@ -417,7 +444,7 @@ signals:
     void markdownEnabledChanged(bool state);
     void sendMessageKeyChanged(SendMessageKey key);
     void autoReplaceEmojiChanged(AutoReplaceEmoji state);
-    void timelineBubblesEnabledChanged(bool state);
+    void timelineMessageLayoutChanged(TimelineMessageLayout layout);
     void timelineSmallAvatarsEnabledChanged(bool state);
     void stickersEnabledChanged(bool state);
     void timelineShowOwnAvatarInBubbleLayoutChanged(bool state);
@@ -425,20 +452,20 @@ signals:
     void showSenderUsernameChanged(ShowSenderUsername state);
     void animateImagesOnHoverChanged(bool state);
     void typingNotificationsEnabledChanged(bool state);
-    void timelineMessageActionsEnabledChanged(bool state);
+    void timelineMessageActionsPolicyChanged(TimelineMessageActionsPolicy policy);
     void readReceiptsEnabledChanged(bool state);
-    void desktopNotificationsEnabledChanged(bool state);
-    void alertOnIncomingMessagesChanged(bool state);
+    void notificationsEnabledChanged(bool state);
+    void notificationsAttentionOnIncomingChanged(bool state);
     void circularAvatarsEnabledChanged(bool state);
-    void decryptNotificationsChanged(bool state);
+    void notificationMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
     void communityNotificationCountsVisibleChanged(bool state);
     void compactRoomListChanged(bool state);
     void roomListShowLastMessageTimeChanged(bool state);
     void showLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiAnimationsEnabledChanged(bool state);
-    void privacyScreenChanged(bool state);
-    void privacyScreenTimeoutSecondsChanged(int state);
+    void windowFocusBlurEnabledChanged(bool state);
+    void windowFocusBlurDelaySecondsChanged(int state);
     void maxTimelineWidthChanged(int state);
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);

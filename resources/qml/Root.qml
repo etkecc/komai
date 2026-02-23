@@ -459,7 +459,7 @@ Pane {
             }
         }
         Connections {
-            function onUiAnimationsReducedChanged() {
+            function onUiAnimationsEnabledChanged() {
                 mainWindow.updateTrans();
             }
 

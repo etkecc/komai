@@ -35,13 +35,16 @@ UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s)
     save();
 }
 void
-UserSettings::setTimelineBubblesEnabled(bool s)
+UserSettings::setTimelineMessageLayout(TimelineMessageLayout s)
 {
-    if (timelineBubblesEnabled_ == s)
+    if (timelineMessageLayout_ == s)
         return;
-    timelineBubblesEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutBubbles, s);
-    emit timelineBubblesEnabledChanged(s);
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesLayoutStyle,
+                      static_cast<int>(s),
+                      "timeline.messages.layout.style"))
+        return;
+    timelineMessageLayout_ = s;
+    emit timelineMessageLayoutChanged(s);
     save();
 }
 void
@@ -142,13 +145,16 @@ UserSettings::setRoomSortOrder(RoomSortOrder s)
     save();
 }
 void
-UserSettings::setTimelineMessageActionsEnabled(bool s)
+UserSettings::setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy s)
 {
-    if (timelineMessageActionsEnabled_ == s)
+    if (timelineMessageActionsPolicy_ == s)
         return;
-    timelineMessageActionsEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineMessageActionsEnabled, s);
-    emit timelineMessageActionsEnabledChanged(s);
+    if (!setCoreValue(settings::core::SettingId::TimelineMessageActionsActivationPolicy,
+                      static_cast<int>(s),
+                      "timeline.messages.actions.activation_policy"))
+        return;
+    timelineMessageActionsPolicy_ = s;
+    emit timelineMessageActionsPolicyChanged(s);
     save();
 }
 void
@@ -176,23 +182,23 @@ UserSettings::setRoomListWidth(int s)
                &UserSettings::roomListWidthChanged);
 }
 void
-UserSettings::setDesktopNotificationsEnabled(bool s)
+UserSettings::setNotificationsEnabled(bool s)
 {
-    if (desktopNotificationsEnabled_ == s)
+    if (notificationsEnabled_ == s)
         return;
-    desktopNotificationsEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NotificationsDesktopEnabled, s);
-    emit desktopNotificationsEnabledChanged(s);
+    notificationsEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NotificationsEnabled, s);
+    emit notificationsEnabledChanged(s);
     save();
 }
 void
-UserSettings::setAlertOnIncomingMessages(bool s)
+UserSettings::setNotificationsAttentionOnIncoming(bool s)
 {
-    if (alertOnIncomingMessages_ == s)
+    if (notificationsAttentionOnIncoming_ == s)
         return;
-    alertOnIncomingMessages_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NotificationsDesktopAlertOnIncoming, s);
-    emit alertOnIncomingMessagesChanged(s);
+    notificationsAttentionOnIncoming_ = s;
+    (void)coreStore_.set(settings::core::SettingId::NotificationsAttentionOnIncoming, s);
+    emit notificationsAttentionOnIncomingChanged(s);
     save();
 }
 void
@@ -206,13 +212,16 @@ UserSettings::setCircularAvatarsEnabled(bool s)
     save();
 }
 void
-UserSettings::setDecryptNotifications(bool s)
+UserSettings::setNotificationMessageContentPolicy(NotificationMessageContentPolicy s)
 {
-    if (decryptNotifications_ == s)
+    if (notificationMessageContentPolicy_ == s)
         return;
-    decryptNotifications_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NotificationsDesktopDecryptMessages, s);
-    emit decryptNotificationsChanged(s);
+    if (!setCoreValue(settings::core::SettingId::NotificationsMessageContentPolicy,
+                      static_cast<int>(s),
+                      "notifications.message_content_policy"))
+        return;
+    notificationMessageContentPolicy_ = s;
+    emit notificationMessageContentPolicyChanged(s);
     save();
 }
 void
@@ -287,22 +296,22 @@ UserSettings::setUiAnimationsEnabled(bool state)
 }
 
 void
-UserSettings::setPrivacyScreen(bool s)
+UserSettings::setWindowFocusBlurEnabled(bool s)
 {
-    if (privacyScreen_ == s)
+    if (windowFocusBlurEnabled_ == s)
         return;
-    privacyScreen_ = s;
-    (void)coreStore_.set(settings::core::SettingId::PrivacyScreenLockEnabled, s);
-    emit privacyScreenChanged(s);
+    windowFocusBlurEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::PrivacyWindowFocusBlurEnabled, s);
+    emit windowFocusBlurEnabledChanged(s);
     save();
 }
 void
-UserSettings::setPrivacyScreenTimeoutSeconds(int s)
+UserSettings::setWindowFocusBlurDelaySeconds(int s)
 {
-    if (privacyScreenTimeoutSeconds_ == s)
+    if (windowFocusBlurDelaySeconds_ == s)
         return;
-    privacyScreenTimeoutSeconds_ = s;
-    (void)coreStore_.set(settings::core::SettingId::PrivacyScreenLockTimeoutSeconds, s);
-    emit privacyScreenTimeoutSecondsChanged(s);
+    windowFocusBlurDelaySeconds_ = s;
+    (void)coreStore_.set(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds, s);
+    emit windowFocusBlurDelaySecondsChanged(s);
     save();
 }

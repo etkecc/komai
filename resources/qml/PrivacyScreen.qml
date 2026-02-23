@@ -9,9 +9,9 @@ import im.nheko
 import QtQuick.Effects
 
 Item {
-    id: privacyScreen
+    id: windowFocusBlurOverlay
 
-    readonly property bool active: Settings.privacyScreen && screenSaver.state === "Visible"
+    readonly property bool active: Settings.windowFocusBlurEnabled && screenSaver.state === "Visible"
     property int screenTimeout
     property var timelineRoot
     required property var windowTarget

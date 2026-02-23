@@ -144,7 +144,7 @@ Persistence entry points:
 - `settings::SettingsController::save(...)`
 - `settings::SettingsController::clearAuth(...)`
 
-YAML key hierarchy is nested/dotted (for example `timeline.messages.layout.bubbles`).
+YAML key hierarchy is nested/dotted (for example `timeline.messages.layout.style`).
 
 ## Staged Load Order
 

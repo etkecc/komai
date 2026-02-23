@@ -99,7 +99,7 @@ namespace {
 bool
 hasSettingId(const settings::ui::SettingMeta &meta, settings::core::SettingId id)
 {
-    return meta.core.id == id;
+    return meta.settingId == id;
 }
 } // namespace
 
@@ -147,7 +147,7 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
 
     // Special roles with only a few entries — keep as small switches
     case Good:
-        switch (m.core.id) {
+        switch (m.settingId) {
         case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
             return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
         case settings::core::SettingId::EncryptionSelfSigningKeyStatus:

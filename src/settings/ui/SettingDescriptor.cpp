@@ -211,11 +211,7 @@ setSettingEnumValue(const QVariant &value)
       i.get(), static_cast<Enum>(rawValue), std::is_void<SetEnumResult<Set, Enum>>{});
 }
 
-#define CORE_SETTING_WITH_ID(id, scope, key, restart)                                              \
-    settings::core::SettingDefinition                                                              \
-    {                                                                                              \
-        settings::core::SettingId::id, settings::core::SettingScope::scope, key, restart           \
-    }
+#define CORE_SETTING_WITH_ID(id, scope, key, restart) settings::core::SettingId::id
 
 #define CORE_SETTING(scope, key, restart) CORE_SETTING_WITH_ID(Unknown, scope, key, restart)
 #define CORE_CONFIG(key) CORE_SETTING(Config, key, false)
@@ -239,7 +235,7 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_BOOL_SETTING(name, desc, tab, getter, setter, enabled_cb)                           \
     SIMPLE_BOOL_SETTING_CORE(                                                                      \
-      name, desc, tab, getter, setter, enabled_cb, settings::core::SettingDefinition{})
+      name, desc, tab, getter, setter, enabled_cb, settings::core::SettingId::Unknown)
 
 #define SIMPLE_BOOL_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)               \
     SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
@@ -259,12 +255,18 @@ setSettingEnumValue(const QVariant &value)
      CORE_CONFIG_ID(id, key)}
 
 #define SIMPLE_READ_ONLY_TEXT(name, desc, tab, getter)                                             \
-    {                                                                                              \
-        QT_TR_NOOP(name), desc, SM::ReadOnlyText, tab, getSettingValue<&UserSettings::getter>,     \
-          nullptr, {}, {}, {}, nullptr, nullptr, settings::core::SettingDefinition                 \
-        {                                                                                          \
-        }                                                                                          \
-    }
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::ReadOnlyText,                                                                             \
+     tab,                                                                                          \
+     getSettingValue<&UserSettings::getter>,                                                       \
+     nullptr,                                                                                      \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     nullptr,                                                                                      \
+     settings::core::SettingId::Unknown}
 
 #define SIMPLE_DOUBLE_SETTING_CORE(                                                                \
   name, desc, tab, getter, setter, min_v, max_v, step_v, core_def)                                 \
@@ -283,7 +285,7 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_DOUBLE_SETTING(name, desc, tab, getter, setter, min_v, max_v, step_v)               \
     SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
-      name, desc, tab, getter, setter, min_v, max_v, step_v, settings::core::SettingDefinition{})
+      name, desc, tab, getter, setter, min_v, max_v, step_v, settings::core::SettingId::Unknown)
 
 #define SIMPLE_DOUBLE_CONFIG_SETTING(name, desc, tab, getter, setter, min_v, max_v, step_v, key)   \
     SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
@@ -334,7 +336,7 @@ setSettingEnumValue(const QVariant &value)
                                      enum_type,                                                    \
                                      values_expr,                                                  \
                                      enabled_cb,                                                   \
-                                     settings::core::SettingDefinition{})
+                                     settings::core::SettingId::Unknown)
 
 #define SIMPLE_OPTIONS_ENUM_CONFIG_SETTING(                                                        \
   name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, key)                        \
@@ -372,7 +374,7 @@ setSettingEnumValue(const QVariant &value)
 
 #define SIMPLE_TEXT_SETTING(name, desc, tab, getter, setter, enabled_cb)                           \
     SIMPLE_TEXT_SETTING_CORE(                                                                      \
-      name, desc, tab, getter, setter, enabled_cb, settings::core::SettingDefinition{})
+      name, desc, tab, getter, setter, enabled_cb, settings::core::SettingId::Unknown)
 
 #define SIMPLE_TEXT_CONFIG_SETTING(name, desc, tab, getter, setter, enabled_cb, key)               \
     SIMPLE_TEXT_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, CORE_CONFIG(key))
@@ -418,7 +420,7 @@ setSettingEnumValue(const QVariant &value)
                                     step_v,                                                        \
                                     values_expr,                                                   \
                                     enabled_cb,                                                    \
-                                    settings::core::SettingDefinition{})
+                                    settings::core::SettingId::Unknown)
 
 #define SIMPLE_OPTIONS_INT_CONFIG_SETTING(                                                         \
   name, desc, tab, getter, setter, min_v, max_v, step_v, values_expr, enabled_cb, key)             \
@@ -475,7 +477,7 @@ int
 rowForSettingId(settings::core::SettingId id)
 {
     for (int i = 0; i < settingsTableRowCount(); ++i) {
-        if (settingsTable[i].core.id == id)
+        if (settingsTable[i].settingId == id)
             return i;
     }
     return -1;

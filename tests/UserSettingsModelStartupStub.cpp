@@ -81,7 +81,18 @@ UserSettingsModel::downloadCrossSigningSecrets()
 namespace settings::ui {
 
 const SettingMeta settingsTable[] = {
-  {nullptr, nullptr, 0, 0, nullptr, nullptr, {}, {}, {}, nullptr, nullptr, {}},
+  {nullptr,
+   nullptr,
+   0,
+   0,
+   nullptr,
+   nullptr,
+   {},
+   {},
+   {},
+   nullptr,
+   nullptr,
+   settings::core::SettingId::Unknown},
 };
 
 int

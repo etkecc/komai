@@ -13,7 +13,7 @@ AbstractButton {
 
     property color buttonTextColor: palette.buttonText
     property bool changeColorOnHover: true
-    property alias cursor: mouseArea.cursorShape
+    property int cursor: Qt.PointingHandCursor
     property color highlightColor: palette.highlight
     property string image: undefined
     property bool ripple: true
@@ -41,7 +41,7 @@ AbstractButton {
         id: mouseArea
 
         anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
+        cursorShape: button.cursor
     }
     Ripple {
         color: Qt.rgba(button.buttonTextColor.r, button.buttonTextColor.g, button.buttonTextColor.b, 0.5)

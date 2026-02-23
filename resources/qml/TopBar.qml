@@ -332,36 +332,6 @@ Pane {
                     cursorShape: Qt.PointingHandCursor
                 }
             }
-            Dialog {
-                id: encryptionDialog
-
-                parent: Overlay.overlay
-                anchors.centerIn: parent
-                modal: true
-                standardButtons: Dialog.Ok
-                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-                title: qsTr("Encryption status")
-                width: Math.min(520, parent.width - Nheko.paddingLarge * 2)
-                padding: Nheko.paddingLarge
-
-                contentItem: ColumnLayout {
-                    spacing: Nheko.paddingMedium
-
-                    Label {
-                        Layout.fillWidth: true
-                        wrapMode: Text.Wrap
-                        text: encryptionButton.encryptionDialogTitle()
-                        color: palette.text
-                        font.bold: true
-                    }
-                    MatrixText {
-                        Layout.fillWidth: true
-                        wrapMode: Text.Wrap
-                        text: encryptionButton.encryptionDialogBody()
-                        color: palette.buttonText
-                    }
-                }
-            }
             ImageButton {
                 id: roomSettingsButton
 
@@ -681,6 +651,38 @@ Pane {
 
                     onClicked: searchButton.searchActive = false
                 }
+            }
+        }
+    }
+
+    Dialog {
+        id: encryptionDialog
+
+        parent: Overlay.overlay
+        x: Math.round(((parent ? parent.width : width) - width) / 2)
+        y: Math.round(((parent ? parent.height : height) - height) / 2)
+        modal: true
+        standardButtons: Dialog.Ok
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        title: qsTr("Encryption status")
+        implicitWidth: Math.max(240, Math.min(520, (parent ? parent.width : 520) - Nheko.paddingLarge * 2))
+        padding: Nheko.paddingLarge
+
+        contentItem: ColumnLayout {
+            spacing: Nheko.paddingMedium
+
+            Label {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                text: encryptionButton.encryptionDialogTitle()
+                color: palette.text
+                font.bold: true
+            }
+            MatrixText {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                text: encryptionButton.encryptionDialogBody()
+                color: palette.buttonText
             }
         }
     }

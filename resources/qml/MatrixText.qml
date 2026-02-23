@@ -9,7 +9,7 @@ import im.nheko
 TextArea {
     id: r
 
-    property alias cursorShape: cs.cursorShape
+    property int cursorShape: Qt.ArrowCursor
 
     ToolTip.text: Nheko.punyLink(hoveredLink)
     ToolTip.visible: hoveredLink || false
@@ -45,6 +45,6 @@ TextArea {
         id: cs
 
         anchors.fill: parent
-        cursorShape: hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: hoveredLink ? Qt.PointingHandCursor : r.cursorShape
     }
 }

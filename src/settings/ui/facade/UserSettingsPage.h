@@ -377,6 +377,15 @@ public:
     void setSessionSnapshot(const SessionSnapshot &snapshot);
     void applyLoadedSecrets(const QString &accessToken, const QMap<QString, QString> &secrets);
     void clearAuthInMemory();
+    void setUsesFileSecretsProvider(bool usesFileSecretsProvider);
+    [[nodiscard]] bool hasResolvedProfilePaths() const;
+    [[nodiscard]] const QString &profileId() const;
+    [[nodiscard]] const QString &profileDirPath() const;
+    [[nodiscard]] const QString &configFilePath() const;
+    [[nodiscard]] const QString &stateFilePath() const;
+    [[nodiscard]] const QString &sessionFilePath() const;
+    [[nodiscard]] const QString &secretsFilePath() const;
+    [[nodiscard]] const QMap<QString, QString> &secretsMap() const;
 
     // Secrets storage helpers (for fallback mode)
     QString secret(const QString &name) const;

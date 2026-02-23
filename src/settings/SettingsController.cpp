@@ -192,16 +192,16 @@ settings::SettingsController::load(UserSettings &settings,
     else
         settings.applyProfilePathState(QLatin1String(""));
 
-    createDir(settings.profileDirPath_);
+    createDir(settings.profileDirPath());
 
     settings.setPersistenceSuspended(true);
 
     const auto effectiveConfig =
-      configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath_, "config");
+      configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath(), "config");
     settings::serializer::loadConfig(settings, effectiveConfig);
 
-    const auto provider               = providerFromConfig(effectiveConfig);
-    settings.usesFileSecretsProvider_ = provider == staged_load_plan::SecretsProvider::File;
+    const auto provider = providerFromConfig(effectiveConfig);
+    settings.setUsesFileSecretsProvider(provider == staged_load_plan::SecretsProvider::File);
     YAML::Node sessionRoot;
     YAML::Node stateRoot;
 
@@ -210,14 +210,14 @@ settings::SettingsController::load(UserSettings &settings,
         case staged_load_plan::Stage::Config:
             break;
         case staged_load_plan::Stage::Session: {
-            sessionRoot = loadYamlFile(settings.sessionFilePath_, "session");
+            sessionRoot = loadYamlFile(settings.sessionFilePath(), "session");
             settings::serializer::loadSession(settings, sessionRoot);
             break;
         }
         case staged_load_plan::Stage::SecretsSecureBackend:
         case staged_load_plan::Stage::SecretsFile: {
             const auto payload = settings::persistence::loadProfileSecrets(
-              settings.profile_, settings.usesFileSecretsProvider_, settings.secretsFilePath_);
+              settings.profileId(), settings.usesFileSecretsProvider(), settings.secretsFilePath());
             settings.applyLoadedSecrets(payload.accessToken, payload.secrets);
 
             const auto snapshot = settings.sessionSnapshot();
@@ -234,7 +234,7 @@ settings::SettingsController::load(UserSettings &settings,
             break;
         }
         case staged_load_plan::Stage::State: {
-            stateRoot = loadYamlFile(settings.stateFilePath_, "state");
+            stateRoot = loadYamlFile(settings.stateFilePath(), "state");
             settings::serializer::loadState(settings, stateRoot);
             break;
         }
@@ -249,38 +249,38 @@ settings::SettingsController::load(UserSettings &settings,
     settings.setPersistenceSuspended(true);
 
     if (profile)
-        emit settings.profileChanged(settings.profile_);
+        emit settings.profileChanged(settings.profileId());
 }
 
 void
 settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 {
-    if (settings.profileDirPath_.isEmpty()) {
-        settings.applyProfilePathState(settings.profile_);
-        createDir(settings.profileDirPath_);
+    if (!settings.hasResolvedProfilePaths()) {
+        settings.applyProfilePathState(settings.profileId());
+        createDir(settings.profileDirPath());
     }
 
     syncCoreStoreFromSettings(settings);
 
-    settings::serializer::saveConfig(settings, settings.configFilePath_);
-    syncConfigYamlFromCoreStore(settings.configFilePath_, settings.coreStore());
+    settings::serializer::saveConfig(settings, settings.configFilePath());
+    syncConfigYamlFromCoreStore(settings.configFilePath(), settings.coreStore());
 
     if (policy == SavePolicy::Full) {
-        settings::serializer::saveSession(settings, settings.sessionFilePath_);
+        settings::serializer::saveSession(settings, settings.sessionFilePath());
 
         const auto provider = settings::persistence::providerFromConfig(
-          settings::storage::loadYamlFile(settings.configFilePath_, "config"));
-        settings::persistence::saveProfileSecrets(settings.profile_,
+          settings::storage::loadYamlFile(settings.configFilePath(), "config"));
+        settings::persistence::saveProfileSecrets(settings.profileId(),
                                                   provider ==
                                                     staged_load_plan::SecretsProvider::File,
-                                                  settings.secretsFilePath_,
-                                                  settings.accessToken_,
-                                                  settings.secrets_,
-                                                  settings.userId_,
-                                                  settings.deviceId_,
-                                                  settings.homeserver_);
+                                                  settings.secretsFilePath(),
+                                                  settings.accessToken(),
+                                                  settings.secretsMap(),
+                                                  settings.userId(),
+                                                  settings.deviceId(),
+                                                  settings.homeserver());
 
-        settings::serializer::saveState(settings, settings.stateFilePath_);
+        settings::serializer::saveState(settings, settings.stateFilePath());
     }
     syncCoreStoreFromSettings(settings);
 }
@@ -289,20 +289,20 @@ void
 settings::SettingsController::clearAuth(UserSettings &settings)
 {
     activeLoggers().ui->info("Clearing persisted session auth/identity for profile '{}'",
-                             app_paths::normalizedProfileId(settings.profile_).toStdString());
+                             app_paths::normalizedProfileId(settings.profileId()).toStdString());
 
     settings.clearAuthInMemory();
 
-    if (pathExists(settings.sessionFilePath_) && !removePath(settings.sessionFilePath_)) {
+    if (pathExists(settings.sessionFilePath()) && !removePath(settings.sessionFilePath())) {
         activeLoggers().ui->warn("Failed to remove session file '{}', keeping file to avoid "
                                  "accidental data loss",
-                                 settings.sessionFilePath_.toStdString());
+                                 settings.sessionFilePath().toStdString());
     }
 
-    const auto provider = providerFromConfig(loadYamlFile(settings.configFilePath_, "config"));
-    settings::persistence::clearProfileSecrets(settings.profile_,
+    const auto provider = providerFromConfig(loadYamlFile(settings.configFilePath(), "config"));
+    settings::persistence::clearProfileSecrets(settings.profileId(),
                                                provider == staged_load_plan::SecretsProvider::File,
-                                               settings.secretsFilePath_);
-    settings::serializer::saveState(settings, settings.stateFilePath_);
+                                               settings.secretsFilePath());
+    settings::serializer::saveState(settings, settings.stateFilePath());
     syncCoreStoreFromSettings(settings);
 }

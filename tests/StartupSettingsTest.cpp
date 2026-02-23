@@ -422,6 +422,48 @@ testControllerSyncsCoreStore()
     return ok;
 }
 
+bool
+testControllerResolvesProfilePathsPerProfile()
+{
+    StartupSettingsTestContext ctx{QStringLiteral("profile-path-fixture")};
+    if (!ctx.isValid())
+        return expect(false, "profile path fixture can be created");
+
+    const QString profileA = QStringLiteral("profile-a");
+    UserSettings::initialize(profileA);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for profile path test");
+
+    bool ok = true;
+    ok &= expect(settings->profileId() == profileA, "profile id reflects initialized profile");
+    ok &= expect(settings->profileDirPath() == settings::storage::profileDirPath(profileA),
+                 "profile dir path resolves via storage helpers");
+    ok &= expect(settings->configFilePath() == settings::storage::configFilePathForProfile(profileA),
+                 "config path resolves via storage helpers");
+    ok &= expect(settings->stateFilePath() == settings::storage::stateFilePathForProfile(profileA),
+                 "state path resolves via storage helpers");
+    ok &= expect(settings->sessionFilePath() == settings::storage::sessionFilePathForProfile(profileA),
+                 "session path resolves via storage helpers");
+    ok &= expect(settings->secretsFilePath() == settings::storage::secretsFilePathForProfile(profileA),
+                 "secrets path resolves via storage helpers");
+
+    const QString profileB = QStringLiteral("profile-b");
+    UserSettings::initialize(profileB);
+    const auto settingsAfter = UserSettings::instance();
+    if (!settingsAfter)
+        return expect(false, "UserSettings instance is available after profile switch");
+
+    ok &= expect(settingsAfter->profileId() == profileB,
+                 "profile id updates when reinitializing profile");
+    ok &= expect(settingsAfter->profileDirPath() == settings::storage::profileDirPath(profileB),
+                 "profile dir path updates with profile change");
+    ok &= expect(settingsAfter->configFilePath() == settings::storage::configFilePathForProfile(profileB),
+                 "config path updates with profile change");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -454,6 +496,7 @@ main()
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();
+    ok &= testControllerResolvesProfilePathsPerProfile();
 
     return ok ? 0 : 1;
 }

@@ -22,6 +22,8 @@
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
 #include "settings/core/StartupConfig.h"
+#include "settings/core/SettingsDefinitions.h"
+#include "settings/ui/facade/UserSettingsCoreStoreBridge.h"
 #include "ui/ThemeRegistry.h"
 #include "TestEnvironment.h"
 
@@ -394,6 +396,15 @@ testControllerSyncsCoreStore()
                  "controller sync stores presence policy in core settings store");
     ok &= expect(markdown.has_value() && *markdown == settings->markdownEnabled(),
                  "controller sync stores markdown setting in core settings store");
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        const auto mappedValue =
+          settings::ui::facade::coreStoreValueForSettingId(*settings, definition.id);
+        if (!mappedValue.has_value()) {
+            std::cerr << "FAILED: controller bridge missing persisted setting id "
+                      << static_cast<int>(definition.id) << '\n';
+            ok = false;
+        }
+    }
 
     settings->setPersistenceSuspended(false);
     settings->setTheme(QStringLiteral("komai-light"));

@@ -646,6 +646,7 @@ set(SRC_FILES
     src/settings/ui/facade/UserSettingsSettersLayout.cpp
     src/settings/ui/facade/UserSettingsSettersUi.cpp
     src/settings/ui/facade/UserSettingsSettersMisc.cpp
+    src/settings/ui/facade/UserSettingsCoreStoreBridge.cpp
     src/settings/ui/facade/UserSettingsSessionSettings.cpp
     src/settings/ui/facade/UserSettingsTheme.cpp
     src/UsersModel.cpp
@@ -1072,6 +1073,7 @@ if(BUILD_TESTING)
         src/settings/ui/facade/UserSettingsSettersLayout.cpp
         src/settings/ui/facade/UserSettingsSettersUi.cpp
         src/settings/ui/facade/UserSettingsSettersMisc.cpp
+        src/settings/ui/facade/UserSettingsCoreStoreBridge.cpp
         src/settings/ui/facade/UserSettingsTheme.cpp
         src/ui/Theme.cpp
         src/ui/ThemeRegistry.cpp

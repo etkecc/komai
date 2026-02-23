@@ -50,7 +50,8 @@ class UserSettings final : public QObject
                  setCommunitiesSidebarVisible NOTIFY communitiesSidebarVisibleChanged)
     Q_PROPERTY(bool roomListScrollbarsVisible READ roomListScrollbarsVisible WRITE
                  setRoomListScrollbarsVisible NOTIFY roomListScrollbarsVisibleChanged)
-    Q_PROPERTY(bool markdown READ markdown WRITE setMarkdown NOTIFY markdownChanged)
+    Q_PROPERTY(bool markdownEnabled READ markdownEnabled WRITE setMarkdownEnabled NOTIFY
+                 markdownEnabledChanged)
     Q_PROPERTY(SendMessageKey sendMessageKey READ sendMessageKey WRITE setSendMessageKey NOTIFY
                  sendMessageKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji autoReplaceEmoji READ autoReplaceEmoji WRITE setAutoReplaceEmoji
@@ -292,7 +293,7 @@ public:
     void setEmojiFontFamily(QString family);
     void setCommunitiesSidebarVisible(bool state);
     void setRoomListScrollbarsVisible(bool state);
-    void setMarkdown(bool state);
+    void setMarkdownEnabled(bool state);
     void setSendMessageKey(SendMessageKey key);
     void setAutoReplaceEmoji(AutoReplaceEmoji state);
     void setBubbles(bool state);
@@ -524,13 +525,13 @@ public:
             return *value;
         return privacyScreenTimeoutSeconds_;
     }
-    bool markdown() const
+    bool markdownEnabled() const
     {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownEnabled);
             value.has_value())
             return *value;
-        return markdown_;
+        return markdownEnabled_;
     }
     SendMessageKey sendMessageKey() const
     {
@@ -894,7 +895,7 @@ signals:
     void enlargeEmojiOnlyMessagesChanged(bool state);
     void systemTrayEnabledChanged(bool state);
     void systemTrayAutostartChanged(bool state);
-    void markdownChanged(bool state);
+    void markdownEnabledChanged(bool state);
     void sendMessageKeyChanged(SendMessageKey key);
     void autoReplaceEmojiChanged(AutoReplaceEmoji state);
     void bubblesChanged(bool state);

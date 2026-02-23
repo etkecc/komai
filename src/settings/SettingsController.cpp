@@ -108,7 +108,7 @@ syncCoreStoreFromSettings(UserSettings &settings)
     set(settings::core::SettingId::IntegrationsDbusApiAccess, settings.integrationsDbusApiAccess());
     set(settings::core::SettingId::IntegrationsBrowserCommand,
         settings.integrationsLinksBrowserCommand().toStdString());
-    set(settings::core::SettingId::ComposerInputMarkdownEnabled, settings.markdown());
+    set(settings::core::SettingId::ComposerInputMarkdownEnabled, settings.markdownEnabled());
     set(settings::core::SettingId::ComposerInputSendKey,
         static_cast<int>(settings.sendMessageKey()));
     set(settings::core::SettingId::ComposerInputAutoReplaceEmoji,

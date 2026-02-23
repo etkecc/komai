@@ -1,11 +1,11 @@
 void
-UserSettings::setMarkdown(bool s)
+UserSettings::setMarkdownEnabled(bool s)
 {
-    if (markdown_ == s)
+    if (markdownEnabled_ == s)
         return;
-    markdown_ = s;
+    markdownEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::ComposerInputMarkdownEnabled, s);
-    emit markdownChanged(s);
+    emit markdownEnabledChanged(s);
     save();
 }
 void

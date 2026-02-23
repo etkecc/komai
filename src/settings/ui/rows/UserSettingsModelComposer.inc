@@ -7,7 +7,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Send messages as <a href=\"https://commonmark.org/help/\">Markdown</a>",
       QT_TR_NOOP("Allow using markdown in messages.\nWhen disabled, all messages are sent as a plain text."),
-      SM::TabComposer, markdown, setMarkdown, nullptr, ComposerInputMarkdownEnabled, SettingKey::ComposerInputMarkdownEnabled),
+      SM::TabComposer, markdownEnabled, setMarkdownEnabled, nullptr, ComposerInputMarkdownEnabled, SettingKey::ComposerInputMarkdownEnabled),
     // SendMessageKey
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Send messages with a shortcut",

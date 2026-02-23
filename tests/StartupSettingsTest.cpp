@@ -394,7 +394,7 @@ testControllerSyncsCoreStore()
     ok &= expect(presence.has_value() &&
                    *presence == static_cast<int>(settings->presence()),
                  "controller sync stores presence policy in core settings store");
-    ok &= expect(markdown.has_value() && *markdown == settings->markdown(),
+    ok &= expect(markdown.has_value() && *markdown == settings->markdownEnabled(),
                  "controller sync stores markdown setting in core settings store");
 
     settings->setPersistenceSuspended(false);

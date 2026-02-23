@@ -16,7 +16,7 @@ bool systemTrayEnabled_;
 bool systemTrayAutostart_;
 bool communitiesSidebarVisible_;
 bool roomListScrollbarsVisible_;
-bool markdown_;
+bool markdownEnabled_;
 SendMessageKey sendMessageKey_;
 AutoReplaceEmoji autoReplaceEmoji_;
 bool bubbles_;

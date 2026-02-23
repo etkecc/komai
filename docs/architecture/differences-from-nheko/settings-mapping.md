@@ -14,9 +14,10 @@ Not in scope:
 - Backward-compatibility migration guarantees for old key names.
 
 Source of truth:
-- `src/UserSettingsPage.cpp` (`SettingKey::*` constants and load/save code).
-- `src/UserSettingsPage.cpp` settings metadata table (`SettingMeta` rows).
-- `src/UserSettingsPage.h` (`UserSettingsModel` constants).
+- `src/settings/SettingKeys.h` (`SettingKey::*` constants).
+- `src/settings/SettingsSerializerConfigSchema.cpp` (config load/save descriptors).
+- `src/settings/ui/rows/*.inc` (`UserSettingsModel` row metadata).
+- `src/settings/ui/facade/UserSettingsPage.h` (runtime settings API exposed to QML).
 
 Note:
 - `UserSettingsModel::ScaleFactor` uses `ui.scale.factor` in profile `config.yml`; startup applies it via
@@ -35,7 +36,7 @@ Note:
 | Sidebars | ROOM LIST | Compact mode | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::RoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message preview | `UserSettingsModel::ShowLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
-| Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::ShowCommunityNotificationCounts` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
+| Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::CommunityNotificationCountsVisible` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
 | Sidebars | ROOM LIST | Use circular avatars | `UserSettingsModel::CircularAvatarsEnabled` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Sidebars | ROOM LIST | Use identicons | `UserSettingsModel::IdenticonFallbackEnabled` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
 | Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::RoomListScrollbarsVisible` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
@@ -44,9 +45,9 @@ Note:
 | Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsSystemTrayEnabled` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
-| Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::integrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
+| Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::IntegrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable text selection on timeline | `UserSettingsModel::TextSelectionEnabled` | `mobile_mode` | `ui.input.enable_text_selection` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::EnableSwipeGestures` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.swipe_gestures` | config.yml | yes |
 | Timeline | MESSAGES | Enable message bubbles | `UserSettingsModel::TimelineBubblesEnabled` | `bubbles` | `timeline.messages.layout.bubbles` | config.yml | yes |
 | Timeline | MESSAGES | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | MESSAGES | Show your avatar next to your own messages (bubble layout) | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
@@ -66,12 +67,12 @@ Note:
 | Composer | INPUT | Auto-replace text emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
 | Composer | FEEDBACK | Typing notifications | `UserSettingsModel::TypingNotificationsEnabled` | `typing_notifications` | `composer.feedback.typing_notifications` | config.yml | yes |
 | Composer | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceiptsEnabled` | `read_receipts` | `composer.feedback.read_receipts` | config.yml | yes |
-| Composer | EXTRAS | Enable stickers | `UserSettingsModel::EnableStickers` | `enable_stickers` | `composer.extras.stickers_enabled` | config.yml | yes |
+| Composer | EXTRAS | Enable stickers | `UserSettingsModel::StickersEnabled` | `enable_stickers` | `composer.extras.stickers_enabled` | config.yml | yes |
 | Notifications | DESKTOP | Desktop notifications | `UserSettingsModel::DesktopNotificationsEnabled` | `desktop_notifications` | `notifications.desktop.enabled` | config.yml | yes |
 | Notifications | DESKTOP | Alert on incoming messages | `UserSettingsModel::AlertOnIncomingMessages` | `alert_on_incoming_messages` | `notifications.desktop.alert_on_incoming` | config.yml | yes |
 | Notifications | DESKTOP | Decrypt notifications | `UserSettingsModel::DecryptNotifications` | `decrypt_notifications` | `notifications.desktop.decrypt_messages` | config.yml | yes |
-| Calls | GENERAL | Enable legacy calls | `UserSettingsModel::EnableLegacyCalls` | `enable_legacy_calls` | `calls.legacy_enabled` | config.yml | yes |
-| Calls | GENERAL | Use fallback call relay server | `UserSettingsModel::UseFallbackCallRelayServer` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
+| Calls | GENERAL | Enable legacy calls | `UserSettingsModel::LegacyCallsEnabled` | `enable_legacy_calls` | `calls.legacy_enabled` | config.yml | yes |
+| Calls | GENERAL | Use fallback call relay server | `UserSettingsModel::FallbackCallRelayServerEnabled` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
 | Calls | DEVICES | Microphone | `UserSettingsModel::Microphone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
 | Calls | DEVICES | Camera | `UserSettingsModel::Camera` | `camera` | `calls.devices.camera` | config.yml | yes |
 | Calls | DEVICES | Camera resolution | `UserSettingsModel::CameraResolution` | `camera_resolution` | `calls.devices.camera_resolution` | config.yml | yes |
@@ -85,7 +86,7 @@ Note:
 | Privacy | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `privacy.users.ignored` | runtime/UI-specific | no |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `UserSettingsModel::OnlyShareKeysWithVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |
 | Encryption | KEY SHARING | Share keys with verified users and devices | `UserSettingsModel::ShareKeysWithTrustedUsers` | `share_keys_with_trusted_users` | `encryption.key_sharing.share_with_trusted` | config.yml | yes |
-| Encryption | BACKUP | Online key backup | `UserSettingsModel::UseOnlineKeyBackup` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |
+| Encryption | BACKUP | Online key backup | `UserSettingsModel::OnlineKeyBackupEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |
 | Encryption | BACKUP | Session keys | `UserSettingsModel::SessionKeys` | `-` | `encryption.backup.session_keys` | action only | no |
 | Encryption | CROSS-SIGNING | Online backup key | `UserSettingsModel::OnlineBackupKey` | `-` | `encryption.cross_signing.online_backup_key_cached` | derived/runtime | optional |
 | Encryption | CROSS-SIGNING | Self signing key | `UserSettingsModel::SelfSigningKey` | `-` | `encryption.cross_signing.self_signing_key_cached` | derived/runtime | optional |
@@ -128,5 +129,5 @@ Note:
 | `enable_http3` | `network.http3.enabled` | config.yml | bool | network advanced pref |
 | `max_db_size` | `db.max_size_bytes` | config.yml | qulonglong | database tuning |
 | `max_dbs` | `db.max_files` | config.yml | uint | database tuning |
-| `run_without_secure_secrets_service` | `secrets.provider` | config.yml | bool -> enum | mapped: false=secret_service, true=file |
+| `run_without_secure_secrets_service` | `secrets.provider` | config.yml | bool -> enum | mapped: false=secret_service, true=file; no direct runtime toggle in Komai |
 | `secrets` | `secrets` | secret backend (fallback: secrets.yml) | map(text->text) | secret map; do not keep in config.yml |

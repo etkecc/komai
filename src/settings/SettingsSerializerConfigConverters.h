@@ -7,8 +7,8 @@
 
 #include <span>
 
-#include "settings/ui/facade/UserSettingsPage.h"
 #include "settings/core/SettingDefinition.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 
 namespace settings::serializer::config {
 

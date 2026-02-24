@@ -269,9 +269,8 @@ settings::SettingsController::clearAuth(UserSettings &settings)
                                  settings.sessionFilePath().toStdString());
     }
 
-    settings::persistence::clearProfileSecrets(settings.profileId(),
-                                               settings.usesFileSecretsProvider(),
-                                               settings.secretsFilePath());
+    settings::persistence::clearProfileSecrets(
+      settings.profileId(), settings.usesFileSecretsProvider(), settings.secretsFilePath());
     settings::serializer::saveState(settings, settings.stateFilePath());
     syncCoreStoreFromSettings(settings);
 }

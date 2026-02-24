@@ -112,8 +112,8 @@ class UserSettings final : public QObject
                  setWindowFocusBlurEnabled NOTIFY windowFocusBlurEnabledChanged)
     Q_PROPERTY(int windowFocusBlurDelaySeconds READ windowFocusBlurDelaySeconds WRITE
                  setWindowFocusBlurDelaySeconds NOTIFY windowFocusBlurDelaySecondsChanged)
-    Q_PROPERTY(
-      int maxContentWidth READ maxContentWidth WRITE setMaxContentWidth NOTIFY maxContentWidthChanged)
+    Q_PROPERTY(int maxContentWidth READ maxContentWidth WRITE setMaxContentWidth NOTIFY
+                 maxContentWidthChanged)
     Q_PROPERTY(int maxTimelineWidth READ maxTimelineWidth WRITE setMaxTimelineWidth NOTIFY
                  maxTimelineWidthChanged)
     Q_PROPERTY(

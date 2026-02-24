@@ -318,8 +318,7 @@ presenceToStorage(const UserSettings &settings)
 void
 applyPresenceFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setPresence(
-      presenceFromStorage(rawToken, UserSettings::Presence::AutomaticPresence));
+    settings.setPresence(presenceFromStorage(rawToken, UserSettings::Presence::AutomaticPresence));
 }
 
 QString
@@ -343,8 +342,8 @@ showSenderUsernameToStorage(const UserSettings &settings)
 void
 applyShowSenderUsernameFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setShowSenderUsername(showSenderUsernameFromStorage(
-      rawToken, UserSettings::ShowSenderUsername::OnlyInLargeRooms));
+    settings.setShowSenderUsername(
+      showSenderUsernameFromStorage(rawToken, UserSettings::ShowSenderUsername::OnlyInLargeRooms));
 }
 
 QString

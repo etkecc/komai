@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.13...3.21)
 
+# Prevent in-source builds that create CMake artifacts in the repo root.
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+    message(FATAL_ERROR
+        "In-source builds are not supported.\n"
+        "Use an out-of-source build directory (for example: var/build/native).\n"
+        "Try: just configure\n"
+        "If you previously configured in-source, remove CMakeFiles/ and CMakeCache.txt from the project root.")
+endif()
+
 option(APPVEYOR_BUILD "Build on appveyor" OFF)
 option(CI_BUILD "Set when building in CI. Enables -Werror where possible" OFF)
 option(ASAN "Compile with address sanitizers" OFF)

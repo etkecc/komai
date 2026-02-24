@@ -77,6 +77,23 @@
       QT_TR_NOOP(
         "Enable gestures such as swiping between Rooms and Timeline, or swiping a message to reply."),
       SM::TabLookFeel, swipeGesturesEnabled, setSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
+    // LookFeelAvatarsSection
+    { QT_TR_NOOP("Avatars"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // CircularAvatarsEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
+                        QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
+                        SM::TabLookFeel, circularAvatarsEnabled, setCircularAvatarsEnabled, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
+    // IdenticonFallbackEnabled
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Use identicons",
+      QT_TR_NOOP("Display an identicon instead of a letter when no avatar is set."),
+      SM::TabLookFeel,
+      identiconFallbackEnabled,
+      setIdenticonFallbackEnabled,
+      identiconSettingEnabled,
+      UiAvatarsIdenticonFallback,
+      SettingKey::UiAvatarsIdenticonFallback),
     // LookFeelRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -104,20 +121,6 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show notification counts",
                         QT_TR_NOOP("Show total notification counts for communities and tags."),
                         SM::TabSidebars, communityNotificationCountsVisible, setCommunityNotificationCountsVisible, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
-    // CircularAvatarsEnabled
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
-                        QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
-                        SM::TabSidebars, circularAvatarsEnabled, setCircularAvatarsEnabled, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
-    // IdenticonFallbackEnabled
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Use identicons",
-      QT_TR_NOOP("Display an identicon instead of a letter when no avatar is set."),
-      SM::TabSidebars,
-      identiconFallbackEnabled,
-      setIdenticonFallbackEnabled,
-      identiconSettingEnabled,
-      UiAvatarsIdenticonFallback,
-      SettingKey::UiAvatarsIdenticonFallback),
     // RoomListScrollbarsVisible
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show scrollbars",

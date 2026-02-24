@@ -252,9 +252,9 @@ Page {
                         property int iconSize: Math.round(badgeSize * 0.69)
 
                         anchors.bottom: roomActionsAvatar.bottom
-                        anchors.right: roomActionsAvatar.right
+                        anchors.left: roomActionsAvatar.left
                         anchors.bottomMargin: -2
-                        anchors.rightMargin: -2
+                        anchors.leftMargin: -2
                         width: badgeSize
                         height: badgeSize
                         radius: Math.round(badgeSize * 0.25)

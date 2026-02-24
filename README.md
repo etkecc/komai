@@ -5,7 +5,7 @@
 
 🧑‍💻 **Komai** is a usability-focused fork of [nheko](https://nheko.im/nheko-reborn/nheko), a desktop [Matrix](https://matrix.org/) client built with Qt/C++/QML, by [etke.cc](https://etke.cc/).
 
-The name *Komai* ([細い](https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84), "fine/slender" in Japanese) carries several layers: "ko" evokes small/fine (小), "m" nods to **M**atrix, and "ai" (愛) means love — but also a nod to **AI**, since this client is largely vibe-coded. A small Matrix client you can possibly get to love.
+The name *Komai* ([細い](https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84), "fine/slender" in Japanese) carries several layers: "ko" evokes small/fine (小), "m" nods to **M**atrix, and "ai" (愛) means love — but also a nod to **AI**, since this client is largely vibe-engineered. A small Matrix client you can possibly get to love.
 
 The name also evokes [Komainu](https://en.wikipedia.org/wiki/Komainu) (狛犬), the mythical lion-dog guardians of Shinto shrines. If *nheko* nods to *neko* (猫, "cat"), then *Komai* answers with the *inu* (犬, "dog") of komainu — yet the komainu is also part lion, which is itself a cat. A fork that is both a playful contrast and a quiet kinship with its upstream.
 

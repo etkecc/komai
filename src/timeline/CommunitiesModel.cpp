@@ -97,7 +97,7 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
     } else if (index.row() == 1) {
         switch (role) {
         case CommunitiesModel::Roles::AvatarUrl:
-            return QStringLiteral(":/icons/icons/ui/people.svg");
+            return QStringLiteral(":/icons/icons/ui/person.svg");
         case CommunitiesModel::Roles::DisplayName:
             return tr("Direct Chats");
         case CommunitiesModel::Roles::Tooltip:

@@ -1,0 +1,96 @@
+# SPDX-FileCopyrightText: Komai Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+version = 1
+
+[[annotations]]
+path = [
+  "emoji-categories/*.svg",
+  "ui/add-square-button.svg",
+  "ui/alert.svg",
+  "ui/angle-arrow-left.svg",
+  "ui/attach.svg",
+  "ui/ban.svg",
+  "ui/bookmark-disabled.svg",
+  "ui/bookmark.svg",
+  "ui/building-shop.svg",
+  "ui/chat.svg",
+  "ui/checkmark.svg",
+  "ui/clock.svg",
+  "ui/collapsed.svg",
+  "ui/copy.svg",
+  "ui/delete.svg",
+  "ui/dismiss.svg",
+  "ui/dismiss_edit.svg",
+  "ui/dismiss_thread.svg",
+  "ui/double-checkmark.svg",
+  "ui/download.svg",
+  "ui/edit.svg",
+  "ui/end-call.svg",
+  "ui/expanded.svg",
+  "ui/eye-hide.svg",
+  "ui/eye-show.svg",
+  "ui/go-to.svg",
+  "ui/image-failed.svg",
+  "ui/image.svg",
+  "ui/lowprio.svg",
+  "ui/microphone-mute.svg",
+  "ui/microphone-unmute.svg",
+  "ui/music.svg",
+  "ui/needle.svg",
+  "ui/new-thread.svg",
+  "ui/options.svg",
+  "ui/pause-symbol.svg",
+  "ui/people.svg",
+  "ui/person.svg",
+  "ui/picture-in-picture.svg",
+  "ui/pin-off.svg",
+  "ui/pin.svg",
+  "ui/place-call.svg",
+  "ui/play-sign.svg",
+  "ui/power-off.svg",
+  "ui/refresh.svg",
+  "ui/reply.svg",
+  "ui/ribbon.svg",
+  "ui/ribbon_star.svg",
+  "ui/room-directory.svg",
+  "ui/round-remove-button.svg",
+  "ui/screen-share.svg",
+  "ui/search.svg",
+  "ui/send.svg",
+  "ui/settings.svg",
+  "ui/shield-filled-checkmark.svg",
+  "ui/shield-filled-cross.svg",
+  "ui/shield-filled-exclamation-mark.svg",
+  "ui/shield-filled.svg",
+  "ui/smile-add.svg",
+  "ui/smile.svg",
+  "ui/speech-bubbles.svg",
+  "ui/star.svg",
+  "ui/sticky-note-solid.svg",
+  "ui/tag.svg",
+  "ui/thread.svg",
+  "ui/user-friends-solid.svg",
+  "ui/video-file.svg",
+  "ui/video.svg",
+  "ui/volume-off-indicator.svg",
+  "ui/volume-up.svg",
+  "ui/world.svg",
+  "ui/zip.svg",
+]
+SPDX-FileCopyrightText = [
+  "Nheko Contributors",
+  "Microsoft Corporation"
+]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+  "ui/integrations.svg",
+  "ui/plus-circle.svg",
+  "ui/sidebar.svg",
+  "ui/state-event.svg",
+  "ui/toggles.svg",
+]
+SPDX-FileCopyrightText = "Komai Contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"

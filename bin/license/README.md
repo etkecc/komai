@@ -18,7 +18,7 @@ This keeps everyday linting predictable and keeps intentional source churn expli
 
 ## Files
 
-- `check.sh` - runs REUSE checks for `src/` and `resources/qml/` files.
+- `check.sh` - runs REUSE checks for `src/`, `resources/qml/`, and icon licensing metadata under `resources/icons/`.
 - `inject.sh` - adds SPDX headers to files that are missing them.
 - `reuse-annotate.sh` - compatibility wrapper that forwards to `inject.sh`.
 
@@ -34,6 +34,7 @@ The `license-check` hook is also used in `.pre-commit-config.yaml` and therefore
 
 - `check.sh` skips cleanly if `reuse` is unavailable in the current environment.
 - `check.sh` requires `LICENSES/GPL-3.0-or-later.txt` to exist.
+- `check.sh` requires `LICENSES/MIT.txt` for third-party icon licensing.
 - `inject.sh` uses `--skip-existing`, so it only injects missing headers (no broad reorder churn).
 - `inject.sh` exits non-zero if it changed files (via `git diff --exit-code`), so changes are visible and reviewable.
 

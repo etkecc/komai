@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #ifndef JDENTICONINTERFACE_H
 #define JDENTICONINTERFACE_H
 

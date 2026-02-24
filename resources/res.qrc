@@ -13,7 +13,6 @@
         <file>icons/ui/copy.svg</file>
         <file>icons/ui/delete.svg</file>
         <file>icons/ui/dismiss.svg</file>
-        <file>icons/ui/dismiss_edit.svg</file>
         <file>icons/ui/double-checkmark.svg</file>
         <file>icons/ui/download.svg</file>
         <file>icons/ui/edit.svg</file>
@@ -30,7 +29,6 @@
         <file>icons/ui/music.svg</file>
         <file>icons/ui/thread.svg</file>
         <file>icons/ui/new-thread.svg</file>
-        <file>icons/ui/dismiss_thread.svg</file>
         <file>icons/ui/options.svg</file>
         <file>icons/ui/pause-symbol.svg</file>
         <file>icons/ui/people.svg</file>
@@ -59,7 +57,6 @@
         <file>icons/ui/star.svg</file>
         <file>icons/ui/sticky-note-solid.svg</file>
         <file>icons/ui/tag.svg</file>
-        <file>icons/ui/user-friends-solid.svg</file>
         <file>icons/ui/video-file.svg</file>
         <file>icons/ui/video.svg</file>
         <file>icons/ui/volume-off-indicator.svg</file>

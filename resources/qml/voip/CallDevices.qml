@@ -49,7 +49,7 @@ Popup {
                 Image {
                     Layout.preferredWidth: 22
                     Layout.preferredHeight: 22
-                    source: "image://colorimage/:/icons/icons/ui/video-call.svg?" + palette.windowText
+                    source: "image://colorimage/:/icons/icons/ui/video.svg?" + palette.windowText
                 }
 
                 ComboBox {

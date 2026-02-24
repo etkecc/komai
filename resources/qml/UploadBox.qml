@@ -47,15 +47,15 @@ Page {
             }
             contentItem: ColumnLayout {
                 Image {
-                    property string typeStr: switch (modelData.mediaType) {
+                    property string fallbackIconSource: switch (modelData.mediaType) {
                     case MediaUpload.Video:
-                        return "video-file";
+                        return "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.buttonText;
                     case MediaUpload.Audio:
-                        return "music";
+                        return "image://colorimage/:/icons/icons/ui/music.svg?" + palette.buttonText;
                     case MediaUpload.Image:
-                        return "image";
+                        return "image://colorimage/:/icons/icons/ui/image.svg?" + palette.buttonText;
                     default:
-                        return "zip";
+                        return "image://colorimage/:/icons/icons/ui/zip.svg?" + palette.buttonText;
                     }
 
                     Layout.fillHeight: true
@@ -63,7 +63,7 @@ Page {
                     fillMode: Image.PreserveAspectFit
                     mipmap: true
                     smooth: true
-                    source: (modelData.thumbnail != "") ? modelData.thumbnail : ("image://colorimage/:/icons/icons/ui/" + typeStr + ".svg?" + palette.buttonText)
+                    source: (modelData.thumbnail != "") ? modelData.thumbnail : fallbackIconSource
                     sourceSize.height: pane.availableHeight - namefield.height
                     sourceSize.width: pane.availableWidth
                 }

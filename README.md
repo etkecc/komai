@@ -87,7 +87,7 @@ See 📄 [Documentation](docs/README.md) for the full list of guides, including 
 
 ## 🤝 Contributing
 
-See [CONTRIBUTING](.github/CONTRIBUTING.md).
+See [Development](docs/development.md).
 
 
 ## 🆘 Support

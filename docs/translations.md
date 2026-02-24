@@ -45,7 +45,7 @@ just translations-normalize --lang de  # single language
 
 ## 🤖 AI-powered translation
 
-The translation pipeline lives in [`bin/translations-translate.py`](../bin/translations-translate.py).
+The translation pipeline lives in [`bin/translations/translate.py`](../bin/translations/translate.py).
 
 ### ⚙️ How it works
 

@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// DO NOT EDIT Provider.h DIRECTLY! EDIT IT IN scripts/emoji_codegen.py AND RUN scripts/codegen.sh!
+// DO NOT EDIT Provider.h DIRECTLY! EDIT IT IN bin/emoji/codegen.py AND RUN just emoji-generate!
 
 #pragma once
 #include "Emoji.h"

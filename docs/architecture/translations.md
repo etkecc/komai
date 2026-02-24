@@ -1,6 +1,6 @@
 # Translation system architecture
 
-This document covers the technical design of the AI-assisted translation pipeline in `bin/translations-translate.py` and the decisions behind it.
+This document covers the technical design of the AI-assisted translation pipeline in `bin/translations/translate.py` and the decisions behind it.
 
 For user-facing workflow documentation, see [docs/translations.md](../translations.md).
 

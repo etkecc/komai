@@ -20,7 +20,7 @@ def generate_provider_class(**kwargs):
     //
     // SPDX-License-Identifier: GPL-3.0-or-later
 
-    // DO NOT EDIT Provider.h DIRECTLY! EDIT IT IN scripts/emoji_codegen.py AND RUN scripts/codegen.sh!
+    // DO NOT EDIT Provider.h DIRECTLY! EDIT IT IN bin/emoji/codegen.py AND RUN just emoji-generate!
 
     #pragma once
     #include <array>
@@ -52,7 +52,7 @@ def generate_qml_list(**kwargs):
     d = dict(kwargs=kwargs, entrycount=entrycount)
     print(tmpl.render(d))
 def usage():
-    print('usage: emoji_codegen.py {impl|header} /path/to/emoji-test /path/to/shortcodes.txt')
+    print('usage: codegen.py {impl|header} /path/to/emoji-test /path/to/shortcodes.txt')
 if __name__ == '__main__':
     if len(sys.argv) < 4:
         usage()
@@ -163,8 +163,7 @@ if __name__ == '__main__':
         categories[current_category].append(Emoji(code, shortname, name))
 
     # Use xclip to pipe the output to clipboard.
-    # e.g ./emoji_codegen.py emoji.json | xclip -sel clip
-    # alternatively - delete the var from src/emoji/Provider.cpp, and do ./codegen.sh emojis shortcodes >> ../src/emoji/Provider.cpp
+    # e.g ./codegen.py impl resources/emoji-test.txt resources/shortcodes.txt | xclip -sel clip
     func = None
     if mode == 'impl':
         func = generate_qml_list

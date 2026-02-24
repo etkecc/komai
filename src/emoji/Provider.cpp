@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// DO NOT EDIT PROVIDER.CPP DIRECTLY! EDIT resources/provider-head.txt AND RUN scripts/codegen.sh!
+// DO NOT EDIT PROVIDER.CPP DIRECTLY! EDIT resources/provider-head.txt AND RUN just emoji-generate!
 
 #include "emoji/Provider.h"
 

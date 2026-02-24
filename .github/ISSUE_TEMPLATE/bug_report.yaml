@@ -1,73 +1,97 @@
-name: Bug Report
-description: Create a report to help us improve
-#title: "[Bug]: "
+name: Bug report
+description: Report a reproducible problem in Komai
 labels: [bug]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
-        Please try to fill out all fields to the best of your ability.
-  - type: textarea
-    id: description
+        Thanks for reporting this.
+        Please include concrete reproduction steps and environment details so we can triage quickly.
+
+  - type: checkboxes
+    id: triage-checks
     attributes:
-      label: Describe the bug
-      description: A clear and concise description of what the bug is.
-      placeholder: Enter your description here.
+      label: Before submitting
+      options:
+        - label: I searched existing issues for duplicates.
+          required: true
+        - label: I tested with the latest available Komai build for my install method.
+          required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Bug summary
+      description: One short paragraph describing the problem.
+      placeholder: Komai freezes for ~5s when switching rooms after login.
     validations:
       required: true
+
   - type: textarea
     id: reproduction-steps
     attributes:
-      label: To Reproduce
-      description: Steps to reproduce the behavior.
+      label: Steps to reproduce
       placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
-      value: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
+        1. Start Komai with profile `work`
+        2. Open room X
+        3. Click room Y
+        4. Observe freeze
     validations:
       required: true
+
   - type: textarea
-    id: behaviour
-    attributes:
-      label: What happened?
-      description: A clear and concise description of what actually happened.
-    validations:
-      required: false
-  - type: textarea
-    id: expected-behaviour
+    id: expected-behavior
     attributes:
       label: Expected behavior
-      description: A clear and concise description of what you expected to happen.
+      placeholder: Room switch should complete immediately.
     validations:
-      required: false
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      placeholder: UI freezes for ~5s, then switches rooms.
+    validations:
+      required: true
+
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots
-      description: If applicable, add screenshots to help explain your problem.
-      placeholder: Upload your screenshots here. You can paste them or click on "Attach files".
+      label: Screenshots or screen recording
+      description: Optional but often very helpful for UI/UX bugs.
     validations:
       required: false
+
   - type: input
     id: version
     attributes:
-      label: Version
-      description: Get the version from the settings menu (bottom right corner)
-      placeholder: 0.0.1-deafbeef
+      label: Komai version
+      description: Copy from Settings/About (or from package metadata).
+      placeholder: 0.1.0-abcdef0
     validations:
       required: true
+
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: Installation method
+      options:
+        - Flathub (stable Flatpak)
+        - Flatpak nightly or manual Flatpak bundle
+        - AppImage
+        - Linux distro package (AUR, repo package, etc.)
+        - macOS DMG
+        - Windows package
+        - Local build from source
+        - Other
+    validations:
+      required: true
+
   - type: dropdown
     id: os
     attributes:
       label: Operating system
-      multiple: true
       options:
         - Linux
         - macOS
@@ -75,75 +99,71 @@ body:
         - BSD
         - Haiku
         - Other
-  - type: dropdown
-    id: install-method
-    attributes:
-      label: Installation method
-      multiple: true
-      options:
-        - Flathub
-        - Flatpak nightly repo or download
-        - AppImage
-        - Windows download
-        - macOS DMG file
-        - Some repository (AUR, homebrew, distribution repository, PPA, etc)
-        - Local build
-  - type: input
-    id: qt-version
-    attributes:
-      label: Qt version
-      description: What version of Qt does your system use? (If you compiled Komai yourself.)
-      placeholder: 5.15.2.
     validations:
-      required: false
-  - type: input
-    id: compiler
-    attributes:
-      label: C++ compiler
-      description: What compiler (and version) did you use (if you compiled Komai yourself)?
-      placeholder: gcc-9000
-    validations:
-      required: false
+      required: true
+
   - type: input
     id: de
     attributes:
-      label: Desktop Environment
-      description: If you are on Linux, describe your desktop environment.
-      placeholder: KDE with i3 as the window manager
+      label: Desktop environment / window manager
+      description: Linux/BSD only.
+      placeholder: KDE Plasma (Wayland), GNOME (X11), sway, i3, etc.
     validations:
       required: false
+
   - type: checkboxes
-    id: profiles
+    id: profile-usage
     attributes:
-      label: Did you use profiles?
-      description: Usually by passing the --profile command line parameter. If you don't know, answer 'no'.
+      label: Profile usage
+      description: Komai profile selection uses `-p <profile-id>`.
       options:
-        - label: Profiles used?
+        - label: I use a non-default profile (`-p <profile-id>`).
           required: false
+
+  - type: input
+    id: qt-version
+    attributes:
+      label: Qt version (local builds only)
+      description: Only fill this if you built Komai yourself.
+      placeholder: 6.8.1
+    validations:
+      required: false
+
+  - type: input
+    id: compiler
+    attributes:
+      label: C++ compiler (local builds only)
+      description: Only fill this if you built Komai yourself.
+      placeholder: gcc 15.1 / clang 19.1
+    validations:
+      required: false
+
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      description: Paste relevant logs. Remove secrets/tokens before posting.
       placeholder: |
-        The log file is located in
-          Linux: ~/.cache/komai/
-          macOS: ~/Library/Caches/komai or /Library/Caches/komai
-          Windows: C:/Users/<USER>/AppData/Local/komai/cache
+        Default log location:
+          Linux:   ~/.cache/komai/profiles/<profile-id>/komai.log
+          macOS:   ~/Library/Caches/komai/profiles/<profile-id>/komai.log
+          Windows: C:/Users/<USER>/AppData/Local/komai/cache/profiles/<profile-id>/komai.log
       render: shell
+    validations:
+      required: false
+
   - type: textarea
     id: backtrace
     attributes:
-      label: Backtrace
-      description: If the program crashed send a backtrace.
+      label: Backtrace (if crash)
+      description: A crash backtrace makes fixes much faster.
       placeholder: |
-        You can retrieve a backtrace by building komai with -DCMAKE_BUILD_TYPE=Debug and running it through gdb or lldb.
-
+        just configure-debug
+        just build
         gdb ./var/build/native/komai
-
-        >> run
-
-        ... Make the program crash
-
-        >> bt
+        (gdb) run
+        ... reproduce crash ...
+        (gdb) bt
       render: shell
+    validations:
+      required: false

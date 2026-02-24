@@ -109,6 +109,10 @@ generate-themes:
 import-theme *args:
 	python3 {{ justfile_directory() }}/bin/theme/import.py {{ args }}
 
+# Regenerates src/emoji/Provider.{h,cpp} from Unicode emoji data files
+emoji-generate:
+	{{ justfile_directory() }}/bin/emoji/generate.sh
+
 # Removes the build directory
 clean:
 	rm -rf {{ build_dir }}
@@ -149,11 +153,11 @@ translations-update:
 
 # Normalizes .ts files to a canonical XML format (idempotent)
 translations-normalize *args:
-	python3 {{ justfile_directory() }}/bin/translations-translate.py normalize {{ args }}
+	python3 {{ justfile_directory() }}/bin/translations/translate.py normalize {{ args }}
 
 # Auto-translates unfinished strings for a language using Claude CLI
 translations-claude-translate-lang lang *args:
-	python3 {{ justfile_directory() }}/bin/translations-translate.py translate {{ lang }} {{ args }}
+	python3 {{ justfile_directory() }}/bin/translations/translate.py translate {{ lang }} {{ args }}
 
 # Auto-translates unfinished strings for all languages using Claude CLI
 translations-claude-translate-all *args:
@@ -244,6 +248,10 @@ lint:
 		check-ts-normalized \
 		qmllint \
 		no-qsettings
+
+# Normalizes SPDX headers in C++/QML sources via reuse
+license:
+	{{ justfile_directory() }}/bin/license/reuse-annotate.sh
 
 # Invokes mise with the project-local data directory
 mise *args: _ensure_mise_data_directory

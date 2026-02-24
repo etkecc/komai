@@ -1238,7 +1238,7 @@ endif()
 #endif()
 
 if(MAN)
-    add_subdirectory(man)
+    add_subdirectory(etc/man)
 endif()
 
 # potential workaround for macdeployqt issues

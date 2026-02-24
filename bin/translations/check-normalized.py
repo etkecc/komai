@@ -44,7 +44,7 @@ def would_normalize_change(ts_path: str) -> bool:
 
     root = tree.getroot()
 
-    # Reproduce the same normalization as write_ts in translations-translate.py
+    # Reproduce the same normalization as write_ts in translations/translate.py
     header_lines = []
     for line in before.split("\n"):
         stripped = line.strip()
@@ -66,7 +66,7 @@ def would_normalize_change(ts_path: str) -> bool:
 
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.join(script_dir, "..")
+    project_root = os.path.join(script_dir, "..", "..")
     langs_dir = os.path.join(project_root, "resources", "langs")
 
     # Check staged files if any, otherwise check all

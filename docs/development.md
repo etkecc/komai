@@ -18,6 +18,7 @@ just build
 just test
 just test-integration
 just run
+just lint
 ```
 
 ## 🔁 Typical Workflow
@@ -101,6 +102,11 @@ Notes:
 - `docs/architecture/` - implementation details
 - `.pre-commit-config.yaml` - configured `prek` hooks
 - `justfile` - development/build commands
+
+## 🧩 Maintenance Helpers
+
+- `just emoji-generate` - regenerate `src/emoji/Provider.{h,cpp}` from emoji data files
+- `just license` - normalize SPDX headers in C++/header/QML files via `reuse`
 
 ## 📚 Related Docs
 

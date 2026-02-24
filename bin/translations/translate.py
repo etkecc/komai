@@ -6,11 +6,11 @@ Subcommands:
     translate   Translate unfinished strings for a language using Claude CLI.
 
 Examples:
-    python3 bin/translations-translate.py normalize
-    python3 bin/translations-translate.py normalize --lang de
-    python3 bin/translations-translate.py translate de
-    python3 bin/translations-translate.py translate ja --batch-size 50
-    python3 bin/translations-translate.py translate fr --dry-run
+    python3 bin/translations/translate.py normalize
+    python3 bin/translations/translate.py normalize --lang de
+    python3 bin/translations/translate.py translate de
+    python3 bin/translations/translate.py translate ja --batch-size 50
+    python3 bin/translations/translate.py translate fr --dry-run
 
 The translate subcommand:
 1. Parses resources/langs/<lang>/komai_<lang>.ts for unfinished translations
@@ -31,7 +31,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.join(SCRIPT_DIR, "..")
+PROJECT_ROOT = os.path.join(SCRIPT_DIR, "..", "..")
 LANGS_DIR = os.path.join(PROJECT_ROOT, "resources", "langs")
 GUIDE_FILE = os.path.join(LANGS_DIR, "GUIDE.md")
 

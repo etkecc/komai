@@ -652,7 +652,7 @@ set(SRC_FILES
     src/Utils.cpp
     src/Utils.h
 
-    includes/jdenticoninterface.h
+    src/jdenticoninterface.h
 
     src/main.cpp
 )
@@ -934,7 +934,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src includes src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)

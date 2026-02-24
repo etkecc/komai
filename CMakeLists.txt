@@ -13,7 +13,7 @@ option(FLATPAK "Set this only if Nheko is built as a flatpak" OFF)
 option(JSON_ImplicitConversions "Disable implicit conversions in nlohmann/json" ON)
 
 set(
-    CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/toolchain.cmake"
+    CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_LIST_DIR}/cmake/toolchain.cmake"
     CACHE
     FILEPATH "Default toolchain"
 )

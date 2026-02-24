@@ -404,7 +404,7 @@ Page {
                             return qsTr("Unverified login");
                         case SelfVerificationStatus.UnverifiedDevices:
                             //: There are unverified devices signed in to this account.
-                            return qsTr("Please verify your other devices");
+                            return qsTr("Verify your other devices");
                         default:
                             return "";
                         }

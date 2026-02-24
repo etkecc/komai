@@ -170,7 +170,11 @@ const std::array<BoolSettingDescriptor, 38> BoolSettings{
                         &UserSettings::setExpireEvents},
 };
 
-const std::array<IntSettingDescriptor, 3> IntSettings{
+const std::array<IntSettingDescriptor, 4> IntSettings{
+  IntSettingDescriptor{SettingKey::UiLayoutContentMaxWidthPx,
+                       kDefaultUiLayoutContentMaxWidthPx,
+                       &UserSettings::maxContentWidth,
+                       &UserSettings::setMaxContentWidth},
   IntSettingDescriptor{SettingKey::TimelineMessagesMaxWidthPx,
                        kDefaultTimelineMaxWidthPx,
                        &UserSettings::maxTimelineWidth,

@@ -91,6 +91,8 @@ inline constexpr int kDefaultScreenShareFrameRate =
   settings::core::definitions::kDefaultScreenShareFrameRate;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds =
   settings::core::definitions::kDefaultPrivacyWindowFocusBlurDelaySeconds;
+inline constexpr int kDefaultUiLayoutContentMaxWidthPx =
+  settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
 inline constexpr int kDefaultTimelineMaxWidthPx =
   settings::core::definitions::kDefaultTimelineMaxWidthPx;
 inline constexpr uint kDefaultMaxStores = settings::core::definitions::kDefaultMaxStores;

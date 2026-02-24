@@ -40,7 +40,7 @@ Item {
             y: Nheko.paddingLarge
 
             spacing: Nheko.paddingMedium
-            property real contentMaxWidth: 1000
+            property real contentMaxWidth: Settings.maxContentWidth > 0 ? Settings.maxContentWidth : Number.POSITIVE_INFINITY
             property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
             width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin
@@ -197,6 +197,13 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
+                                        roleValue: UserSettingsModel.IntegerWithDescription
+                                        SettingRowInteger {
+                                            anchors.right: parent.right
+                                            model: r.model
+                                        }
+                                    }
+                                    DelegateChoice {
                                         roleValue: UserSettingsModel.Double
                                         SettingRowDouble {
                                             anchors.right: parent.right
@@ -290,9 +297,10 @@ Item {
                             }
                         }
 
-                        Label {
+                        TextEdit {
                             Layout.fillWidth: true
                             visible: (r.model.type == UserSettingsModel.OptionsWithDescription
+                                      || r.model.type == UserSettingsModel.IntegerWithDescription
                                       || r.model.type == UserSettingsModel.ToggleWithDescription)
                                      && !!r.model.description
                             text: r.model.description ?? ""
@@ -300,6 +308,8 @@ Item {
                             color: palette.buttonText
                             font.pointSize: 0.9 * Settings.fontSize
                             wrapMode: Text.Wrap
+                            readOnly: true
+                            selectByMouse: true
                             Layout.topMargin: -Nheko.paddingSmall
                             Layout.bottomMargin: Nheko.paddingSmall
                             onLinkActivated: function(link) {

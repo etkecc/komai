@@ -45,6 +45,7 @@ bool onlyShareKeysWithVerifiedUsers_;
 bool onlineKeyBackupEnabled_;
 bool touchInputModeEnabled_;
 bool swipeGesturesEnabled_;
+int maxContentWidth_  = settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
 int maxTimelineWidth_;
 int roomListWidth_      = settings::core::definitions::kDefaultSidebarsRoomListWidthPx;
 int communityListWidth_ = settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx;

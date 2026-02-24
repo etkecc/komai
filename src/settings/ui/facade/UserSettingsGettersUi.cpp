@@ -348,6 +348,15 @@ UserSettings::hasNotifications() const
     return notificationsEnabled() || notificationsAttentionOnIncoming();
 }
 int
+UserSettings::maxContentWidth() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
+        value.has_value())
+        return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(*value);
+    return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(maxContentWidth_);
+}
+int
 UserSettings::maxTimelineWidth() const
 {
     if (const auto value =

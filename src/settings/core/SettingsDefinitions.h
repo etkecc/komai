@@ -27,6 +27,8 @@ inline constexpr bool kDefaultCertificateValidationEnabled      = true;
 inline constexpr bool kDefaultNetworkHttp3Enabled               = false;
 inline constexpr double kDefaultScaleFactor                     = -1.0;
 inline constexpr double kDefaultFontSizePt                      = 13.0;
+inline constexpr int kDefaultUiLayoutContentMaxWidthPx          = 0;
+inline constexpr int kMinUiLayoutContentMaxWidthPx              = 560;
 inline constexpr int kDefaultScreenShareFrameRate               = 5;
 inline constexpr bool kDefaultScreenShareShowCursor             = true;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
@@ -49,13 +51,14 @@ inline constexpr std::array<SettingId, 11> kEnumTokenConfigSettingIds{{
   SettingId::TimelineMediaImageDisplay,
 }};
 
-inline constexpr std::array<SettingId, 3> kNumericConstrainedConfigSettingIds{{
+inline constexpr std::array<SettingId, 4> kNumericConstrainedConfigSettingIds{{
+  SettingId::UiLayoutContentMaxWidthPx,
   SettingId::CallsScreenshareFrameRate,
   SettingId::TimelineMessagesMaxWidthPx,
   SettingId::PrivacyWindowFocusBlurDelaySeconds,
 }};
 
-inline constexpr std::array<SettingDefinition, 65> kPersistedSettingDefinitions{{
+inline constexpr std::array<SettingDefinition, 66> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},
   {SettingId::UiFontFamily, SettingScope::Config, SettingKey::UiFontFamily, false},
   {SettingId::UiFontSizePt, SettingScope::Config, SettingKey::UiFontSizePt, false},
@@ -69,6 +72,13 @@ inline constexpr std::array<SettingDefinition, 65> kPersistedSettingDefinitions{
    SettingScope::Config,
    SettingKey::UiInputTouchSwipeGesturesEnabled,
    false},
+  {SettingId::UiLayoutContentMaxWidthPx,
+   SettingScope::Config,
+   SettingKey::UiLayoutContentMaxWidthPx,
+   false,
+   true,
+   0,
+   20000},
   {SettingId::UiAvatarsCircular, SettingScope::Config, SettingKey::UiAvatarsCircular, false},
   {SettingId::UiAvatarsIdenticonFallback,
    SettingScope::Config,
@@ -442,6 +452,15 @@ normalizeWindowWidthPx(int value)
 normalizeWindowHeightPx(int value)
 {
     return value > 0 ? value : kDefaultWindowHeightPx;
+}
+
+[[nodiscard]] constexpr int
+normalizeUiLayoutContentMaxWidthPx(int value)
+{
+    if (value <= 0)
+        return kDefaultUiLayoutContentMaxWidthPx;
+
+    return value < kMinUiLayoutContentMaxWidthPx ? kMinUiLayoutContentMaxWidthPx : value;
 }
 
 } // namespace settings::core::definitions

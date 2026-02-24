@@ -77,6 +77,20 @@
       QT_TR_NOOP(
         "Enable gestures such as swiping between Rooms and Timeline, or swiping a message to reply."),
       SM::TabLookFeel, swipeGesturesEnabled, setSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
+    // LookFeelLayoutSection
+    { QT_TR_NOOP("Layout"), nullptr, SM::SectionTitle, SM::TabLookFeel,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // MaxContentWidth
+    { QT_TR_NOOP("Maximum content width"),
+      QT_TR_NOOP("Set the maximum width (in pixels) for non-timeline content. Use 0 for uncapped; minimum effective value is 560."),
+      SM::IntegerWithDescription, SM::TabLookFeel,
+      getCoreIntValue<settings::core::SettingId::UiLayoutContentMaxWidthPx,
+                      &UserSettings::maxContentWidth>,
+      setSettingValue<&UserSettings::setMaxContentWidth, int>,
+      0, 20000, 20,
+      nullptr,
+      nullptr,
+      CORE_CONFIG_ID(UiLayoutContentMaxWidthPx, SettingKey::UiLayoutContentMaxWidthPx) },
     // LookFeelAvatarsSection
     { QT_TR_NOOP("Avatars"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

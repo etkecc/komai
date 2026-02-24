@@ -26,6 +26,7 @@ enum class SettingId
     UiMotionAnimationsEnabled,
     UiInputMode,
     UiInputTouchSwipeGesturesEnabled,
+    UiLayoutContentMaxWidthPx,
     UiAvatarsCircular,
     UiAvatarsIdenticonFallback,
     SidebarsRoomListCompact,

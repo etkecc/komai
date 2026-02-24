@@ -15,6 +15,9 @@ ui:
   avatars:
     circular: false
     identicon_fallback: true
+  layout:
+    content:
+      max_width_px: 0
   scale:
     factor: 1.0
 

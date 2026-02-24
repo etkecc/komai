@@ -20,6 +20,7 @@ constexpr auto UiScaleFactor                    = "ui.scale.factor";
 constexpr auto UiMotionAnimationsEnabled        = "ui.motion.enable_animations";
 constexpr auto UiInputMode                      = "ui.input.mode";
 constexpr auto UiInputTouchSwipeGesturesEnabled = "ui.input.touch.swipe_gestures_enabled";
+constexpr auto UiLayoutContentMaxWidthPx        = "ui.layout.content.max_width_px";
 constexpr auto UiAvatarsCircular                = "ui.avatars.circular";
 constexpr auto UiAvatarsIdenticonFallback       = "ui.avatars.identicon_fallback";
 constexpr auto SidebarsRoomListCompact          = "sidebars.room_list.compact";

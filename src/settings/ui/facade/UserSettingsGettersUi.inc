@@ -36,4 +36,5 @@
     bool notificationsEnabled() const;
     bool notificationsAttentionOnIncoming() const;
     bool hasNotifications() const;
+    int maxContentWidth() const;
     int maxTimelineWidth() const;

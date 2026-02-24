@@ -51,6 +51,7 @@ public:
         OptionsWithDescription,
         PresenceStatusMessageField,
         Integer,
+        IntegerWithDescription,
         Double,
         SectionTitle,
         SectionBar,

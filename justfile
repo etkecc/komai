@@ -247,11 +247,20 @@ lint:
 		check-theme-yaml \
 		check-ts-normalized \
 		qmllint \
-		no-qsettings
+		no-qsettings \
+		license-check
 
-# Normalizes SPDX headers in C++/QML sources via reuse
+# Runs REUSE compliance lint (skips if reuse is unavailable in this environment)
+license-check:
+	{{ justfile_directory() }}/bin/license/check.sh
+
+# Injects SPDX headers into source files that are currently missing them
+license-inject:
+	{{ justfile_directory() }}/bin/license/inject.sh
+
+# Backward-compatible alias
 license:
-	{{ justfile_directory() }}/bin/license/reuse-annotate.sh
+	@just --justfile {{ justfile() }} license-check
 
 # Invokes mise with the project-local data directory
 mise *args: _ensure_mise_data_directory

@@ -106,7 +106,8 @@ Notes:
 ## 🧩 Maintenance Helpers
 
 - `just emoji-generate` - regenerate `src/emoji/Provider.{h,cpp}` from emoji data files
-- `just license` - normalize SPDX headers in C++/header/QML files via `reuse`
+- `just license-check` - run REUSE compliance lint (skips when `reuse` is unavailable)
+- `just license-inject` - add SPDX headers to source files that currently lack them
 
 ## 📚 Related Docs
 

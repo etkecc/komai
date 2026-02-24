@@ -45,6 +45,11 @@ repos:
         language: system
         files: '^src/.*\.(cpp|h)$'
         pass_filenames: false
+      - id: license-check
+        name: REUSE license compliance check
+        entry: ./bin/license/check.sh
+        language: system
+        pass_filenames: false
       - id: tests
         name: Run C++ test suite
         entry: ./bin/prek/tests.sh

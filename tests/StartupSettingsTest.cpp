@@ -22,6 +22,7 @@
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
+#include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/core/SettingsDefinitions.h"
@@ -225,11 +226,26 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
 
     if (!ctx.writeConfig(configRoot))
         return expect(false, "startup-policy fixture config can be persisted");
+    const auto persistedConfig =
+      settings::storage::loadYamlFile(configFile, "startup-policy-fixture-config");
+    if (!expect(staged_load_plan::providerFromConfig(persistedConfig) ==
+                  staged_load_plan::SecretsProvider::File,
+                "fixture config persists file secrets provider token"))
+        return false;
 
     UserSettings::initialize(profile);
     const auto settings = UserSettings::instance();
     if (!settings)
         return expect(false, "UserSettings instance is available after initialize");
+    if (!expect(settings->configFilePath() == configFile,
+                "resolved config path matches fixture path")) {
+        std::cerr << "expected: " << configFile.toStdString() << '\n'
+                  << "actual:   " << settings->configFilePath().toStdString() << '\n';
+        return false;
+    }
+    if (!expect(settings->usesFileSecretsProvider(),
+                "file provider from config is applied during startup load"))
+        return false;
 
     settings->save();
 

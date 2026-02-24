@@ -169,8 +169,9 @@ settings::SettingsController::load(UserSettings &settings,
 
     settings.setPersistenceSuspended(true);
 
+    const bool hasInjectedConfig = configRoot.IsDefined() && !configRoot.IsNull();
     const auto effectiveConfig =
-      configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath(), "config");
+      hasInjectedConfig ? configRoot : loadYamlFile(settings.configFilePath(), "config");
     settings::serializer::loadConfig(settings, effectiveConfig);
 
     const auto provider = settings::persistence::providerFromConfig(effectiveConfig);

@@ -408,12 +408,12 @@ Pane {
         property Transition replaceExitOrg
 
         function updateTrans() {
-            pushEnter = Settings.uiAnimationsEnabled ? pushEnterOrg : reducedMotionTransitionEnter;
-            pushExit = Settings.uiAnimationsEnabled ? pushExitOrg : reducedMotionTransitionExit;
-            popEnter = Settings.uiAnimationsEnabled ? popEnterOrg : reducedMotionTransitionEnter;
-            popExit = Settings.uiAnimationsEnabled ? popExitOrg : reducedMotionTransitionExit;
-            replaceEnter = Settings.uiAnimationsEnabled ? replaceEnterOrg : reducedMotionTransitionEnter;
-            replaceExit = Settings.uiAnimationsEnabled ? replaceExitOrg : reducedMotionTransitionExit;
+            pushEnter = Settings.uiAnimationsEnabled ? pushEnterOrg : reducedMotionNoopTransition;
+            pushExit = Settings.uiAnimationsEnabled ? pushExitOrg : reducedMotionNoopTransition;
+            popEnter = Settings.uiAnimationsEnabled ? popEnterOrg : reducedMotionNoopTransition;
+            popExit = Settings.uiAnimationsEnabled ? popExitOrg : reducedMotionNoopTransition;
+            replaceEnter = Settings.uiAnimationsEnabled ? replaceEnterOrg : reducedMotionNoopTransition;
+            replaceExit = Settings.uiAnimationsEnabled ? replaceExitOrg : reducedMotionNoopTransition;
         }
 
         anchors.fill: parent
@@ -430,33 +430,7 @@ Pane {
         }
 
         Transition {
-            id: reducedMotionTransitionExit
-
-            PropertyAnimation {
-                duration: 200
-                from: 1
-                property: "opacity"
-                to: 0
-            }
-        }
-        Transition {
-            id: reducedMotionTransitionEnter
-
-            SequentialAnimation {
-                PropertyAction {
-                    property: "opacity"
-                    value: 0
-                }
-                PauseAnimation {
-                    duration: 200
-                }
-                PropertyAnimation {
-                    duration: 200
-                    from: 0
-                    property: "opacity"
-                    to: 1
-                }
-            }
+            id: reducedMotionNoopTransition
         }
         Connections {
             function onUiAnimationsEnabledChanged() {

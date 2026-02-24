@@ -39,7 +39,7 @@ macos-app-install:
 	cp -Rf var/build/native/komai.app /Applications
 
 lint:
-	./.ci/format.sh
+	just lint
 
 license:
 	./.ci/licenses.sh

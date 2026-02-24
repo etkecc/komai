@@ -231,9 +231,18 @@ appimage-clean:
 	rm -rf "{{ appimage_build_dir }}" 2>/dev/null || \
 		docker run --rm -v "{{ justfile_directory() }}/var/build:/cleanup" "$image" rm -rf /cleanup/appimage
 
-# Runs the linter/formatter
+# Runs selected lint/format hooks via prek
 lint:
-	{{ justfile_directory() }}/.ci/format.sh
+	@just --justfile {{ justfile() }} prek-run-on-all \
+		trailing-whitespace \
+		end-of-file-fixer \
+		check-yaml \
+		check-json \
+		clang-format \
+		check-theme-yaml \
+		check-ts-normalized \
+		qmllint \
+		no-qsettings
 
 # Invokes mise with the project-local data directory
 mise *args: _ensure_mise_data_directory

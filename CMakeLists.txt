@@ -1031,6 +1031,8 @@ if(BUILD_TESTING)
         "XDG_DATA_HOME=/proc/komai-test-data"
         "XDG_CACHE_HOME=/proc/komai-test-cache"
         "XDG_STATE_HOME=/proc/komai-test-state"
+        # Force headless Qt platform to avoid display-server dependency in hooks/CI.
+        "QT_QPA_PLATFORM=offscreen"
     )
 
     function(komai_configure_test test_name labels)

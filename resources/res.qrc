@@ -78,6 +78,7 @@
         <file alias="icons/ui/plus-circle.svg">icons/fluent/assets/Add Circle/SVG/ic_fluent_add_circle_24_regular.svg</file>
         <file alias="icons/ui/state-event.svg">icons/fluent/assets/Branch/SVG/ic_fluent_branch_24_regular.svg</file>
         <file alias="icons/ui/toggles.svg">icons/fluent/assets/Toggle Multiple/SVG/ic_fluent_toggle_multiple_24_regular.svg</file>
+        <file alias="icons/ui/network-disconnected.svg">icons/fluent/assets/Plug Disconnected/SVG/ic_fluent_plug_disconnected_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

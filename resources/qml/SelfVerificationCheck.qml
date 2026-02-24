@@ -271,7 +271,7 @@ Item {
                 color: palette.text
                 readOnly: true
                 selectByMouse: true
-                text: qsTr("Encryption is already configured for this account. Verify this device to access encrypted messages and mark it as trusted. You can cancel and do this later.")
+                text: qsTr("This account already has encryption keys, but this device is not verified yet.\nVerification marks this device as trusted and gives you access to encrypted messages.")
                 textFormat: TextEdit.PlainText
                 wrapMode: TextEdit.Wrap
             }
@@ -281,7 +281,7 @@ Item {
                 spacing: Nheko.paddingSmall
 
                 Button {
-                    text: qsTr("Cancel")
+                    text: qsTr("Not now")
                     onClicked: verifyMasterKey.close()
                 }
 
@@ -323,14 +323,16 @@ Item {
             showRecoverKeyDialog.open();
         }
         function onStatusChanged() {
-            console.log("STATUS CHANGED: " + SelfVerificationStatus.status);
-            if (SelfVerificationStatus.status == SelfVerificationStatus.NoMasterKey) {
-                bootstrapCrosssigning.open();
-            } else if (SelfVerificationStatus.status == SelfVerificationStatus.UnverifiedMasterKey) {
-                verifyMasterKey.open();
-            } else {
+            if (SelfVerificationStatus.status == SelfVerificationStatus.AllVerified) {
                 bootstrapCrosssigning.close();
                 verifyMasterKey.close();
+            }
+        }
+        function onPromptForStatus(status) {
+            if (status === SelfVerificationStatus.NoMasterKey) {
+                bootstrapCrosssigning.open();
+            } else if (status === SelfVerificationStatus.UnverifiedMasterKey) {
+                verifyMasterKey.open();
             }
         }
 

@@ -282,6 +282,12 @@ SelfVerificationStatus::verifyUnverifiedDevices()
 }
 
 void
+SelfVerificationStatus::promptCurrentVerificationAction()
+{
+    emit promptForStatus(static_cast<int>(status_));
+}
+
+void
 SelfVerificationStatus::invalidate()
 {
     using namespace mtx::secret_storage;

@@ -6,5 +6,5 @@
 import im.nheko
 
 SettingsContent {
-    tabFilter: UserSettingsModel.TabSession
+    tabFilter: UserSettingsModel.TabAccount
 }

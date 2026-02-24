@@ -34,7 +34,7 @@ public:
         TabNetwork,
         TabPrivacy,
         TabEncryption,
-        TabSession,
+        TabAccount,
         TabIntegrations,
         TabAbout,
     };

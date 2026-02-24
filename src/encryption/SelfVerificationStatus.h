@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE void verifyMasterKey();
     Q_INVOKABLE void verifyMasterKeyWithPassphrase();
     Q_INVOKABLE void verifyUnverifiedDevices();
+    Q_INVOKABLE void promptCurrentVerificationAction();
 
     Status status() const { return status_; }
     bool hasSSSS() const { return hasSSSS_; }
@@ -44,6 +45,7 @@ signals:
     void setupCompleted();
     void showRecoveryKey(QString key);
     void setupFailed(QString message);
+    void promptForStatus(int status);
 
 public slots:
     void invalidate();

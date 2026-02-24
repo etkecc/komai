@@ -24,9 +24,9 @@ ColumnLayout {
             if (flow.sender) {
                 if (flow.isSelfVerification)
                     if (flow.isMultiDeviceVerification)
-                        return qsTr("To allow other users to see which of your devices actually belong to you, you can verify them. This also allows key backup to work automatically. Verify an unverified device now? (Please make sure you have one of those devices available.)");
+                        return qsTr("Some of your logged-in devices are not verified yet. Verification helps protect encrypted chats and keeps key backup working.\n\nTo start, make sure one of your other devices is available.");
                     else
-                        return qsTr("This device's identifier is: %1\n\nTo allow other users to see which of your devices actually belong to you, you can verify them. This also allows key backup to work automatically. Verify this device now?").arg(flow.deviceId);
+                        return qsTr("This device ID is: %1\n\nThis device is not verified yet. Verification helps protect encrypted chats and keeps key backup working.\n\nStart now?").arg(flow.deviceId);
                 else
                     return qsTr("To ensure that no malicious user can eavesdrop on your encrypted communications you can verify the other party.");
             } else {
@@ -47,7 +47,7 @@ ColumnLayout {
     RowLayout {
         Button {
             Layout.alignment: Qt.AlignLeft
-            text: flow.sender ? qsTr("Cancel") : qsTr("Deny")
+            text: flow.sender ? qsTr("Not now") : qsTr("Deny")
             onClicked: {
                 flow.cancel();
                 dialog.close();

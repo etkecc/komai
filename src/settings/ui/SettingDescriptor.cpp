@@ -432,7 +432,7 @@ const SettingMeta settingsTable[] = {
     #include "rows/UserSettingsModelNetwork.inc"
     #include "rows/UserSettingsModelPrivacy.inc"
     #include "rows/UserSettingsModelEncryption.inc"
-    #include "rows/UserSettingsModelSession.inc"
+    #include "rows/UserSettingsModelAccount.inc"
     #include "rows/UserSettingsModelAbout.inc"
 };
 // clang-format on

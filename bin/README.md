@@ -17,6 +17,7 @@ The big picture:
 ## What Lives Here
 
 - [`emoji/`](emoji/README.md) - generate `src/emoji/Provider.{h,cpp}` from Unicode emoji data.
+- [`icons/`](icons/README.md) - icon audit and pinned Fluent sync helpers.
 - [`license/`](license/README.md) - REUSE license checks and SPDX header injection helpers.
 - [`prek/`](prek/README.md) - project-specific hook wrappers used by `.pre-commit-config.yaml`.
 - [`theme/`](theme/README.md) - theme validation, import, and C++ header generation.

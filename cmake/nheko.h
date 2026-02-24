@@ -1,6 +1,7 @@
 namespace nheko {
 inline constexpr auto version          = "${PROJECT_VERSION}";
 inline constexpr auto commit_hash      = "${GIT_COMMIT_HASH}";
+inline constexpr auto fluent_icons_ref = "${FLUENT_ICONS_VERSION}";
 inline constexpr auto build_os         = "${CMAKE_HOST_SYSTEM_NAME}";
 inline constexpr auto enable_debug_log = ${SPDLOG_DEBUG_ON};
 }

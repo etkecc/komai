@@ -45,6 +45,24 @@ repos:
         language: system
         files: '^src/.*\.(cpp|h)$'
         pass_filenames: false
+      - id: icons-audit
+        name: Audit icon references and resource registration
+        entry: ./bin/icons/audit.sh --strict
+        language: system
+        files: '^(resources/icons/.*\.svg|resources/res\.qrc|resources/qml/.*\.qml|src/.*\.(cpp|h)|bin/icons/.*)$'
+        pass_filenames: false
+      - id: icons-list-check
+        name: Verify generated icon catalog is up to date
+        entry: python3 bin/icons/generate-list.py --check
+        language: system
+        files: '^(resources/res\.qrc|resources/icons/.*\.svg|docs/architecture/icons-list\.md|bin/icons/generate-list\.py)$'
+        pass_filenames: false
+      - id: icons-derived-check
+        name: Verify derived icon generation
+        entry: python3 bin/icons/generate-derived.py --check
+        language: system
+        files: '^(resources/icons/fluent/assets/Checkmark/SVG/ic_fluent_checkmark_32_regular\.svg|resources/icons/ui/double-checkmark\.svg|bin/icons/generate-derived\.py)$'
+        pass_filenames: false
       - id: license-check
         name: REUSE license compliance check
         entry: ./bin/license/check.sh

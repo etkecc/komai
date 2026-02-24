@@ -9,10 +9,4 @@
 - 🎨 [Themes](themes.md) -- built-in themes and how to create your own
 - 🌐 [Translations](translations.md) -- supported languages and translation process
 
-
-## For Developers
-
-- 🏗️ [Architecture](architecture/README.md) -- internal design and implementation details
-- 🏗️ [Configuration Architecture](architecture/configuration.md) -- persistence model, load order, secret providers
-- 💾 [Storage Architecture](architecture/storage.md) -- centralized path helpers and callsites
-- 🔀 [Architecture Differences from nheko](architecture/differences-from-nheko/README.md) -- configuration and secret-service deltas
+For implementation details, see 🏗️ [Architecture](architecture/README.md).

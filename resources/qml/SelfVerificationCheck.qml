@@ -242,7 +242,7 @@ Item {
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
                     fillMode: Image.PreserveAspectFit
-                    source: "image://colorimage/:/icons/icons/ui/shield-filled-exclamation-mark.svg?" + palette.text
+                    source: "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + palette.text
                     sourceSize.width: width * Screen.devicePixelRatio
                     sourceSize.height: height * Screen.devicePixelRatio
                 }

@@ -113,6 +113,26 @@ import-theme *args:
 emoji-generate:
 	{{ justfile_directory() }}/bin/emoji/generate.sh
 
+# Audits icon references vs resources/res.qrc and files on disk
+icons-audit *args:
+	{{ justfile_directory() }}/bin/icons/audit.sh {{ args }}
+
+# Regenerates docs/architecture/icons-list.md from resources/res.qrc
+icons-generate-list *args:
+	python3 {{ justfile_directory() }}/bin/icons/generate-list.py {{ args }}
+
+# Regenerates derived local icons from Fluent source assets
+icons-generate-derived *args:
+	python3 {{ justfile_directory() }}/bin/icons/generate-derived.py {{ args }}
+
+# Syncs mirrored Fluent icons from pinned source
+icons-sync *args:
+	{{ justfile_directory() }}/bin/icons/sync-fluent.sh {{ args }}
+
+# Fetches one Fluent icon into resources/icons/fluent/ and wires a qrc alias
+icons-fetch rel_path alias_svg_name:
+	{{ justfile_directory() }}/bin/icons/fetch.sh "{{ rel_path }}" "{{ alias_svg_name }}"
+
 # Removes the build directory
 clean:
 	rm -rf {{ build_dir }}
@@ -247,6 +267,9 @@ lint:
 		check-theme-yaml \
 		check-ts-normalized \
 		qmllint \
+		icons-audit \
+		icons-list-check \
+		icons-derived-check \
 		no-qsettings \
 		license-check
 

@@ -45,6 +45,8 @@ class Nheko : public QObject
     Q_PROPERTY(bool roomListShowLastMessageTime READ roomListShowLastMessageTime NOTIFY
                  roomListShowLastMessageTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
+    Q_PROPERTY(QString taglineTemplate READ taglineTemplate CONSTANT)
+    Q_PROPERTY(QString matrixWord READ matrixWord CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
 
@@ -70,7 +72,9 @@ public:
     int barIconSize() const;
     bool roomListShowLastMessageTime() const;
 
-    QString tagline() const { return tr("A fine desktop Matrix client you can get to love"); }
+    QString taglineTemplate() const { return tr("A fine desktop %1 chat app you can get to love"); }
+    QString matrixWord() const { return tr("Matrix"); }
+    QString tagline() const { return taglineTemplate().arg(matrixWord()); }
 
     UserProfile *currentUser() const;
 

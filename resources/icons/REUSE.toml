@@ -5,6 +5,7 @@ version = 1
 
 [[annotations]]
 path = [
+  "fluent/**/*.svg",
   "emoji-categories/*.svg",
   "ui/add-square-button.svg",
   "ui/alert.svg",
@@ -54,10 +55,10 @@ path = [
   "ui/search.svg",
   "ui/send.svg",
   "ui/settings.svg",
-  "ui/shield-filled-checkmark.svg",
-  "ui/shield-filled-cross.svg",
-  "ui/shield-filled-exclamation-mark.svg",
-  "ui/shield-filled.svg",
+  "ui/shield-regular-checkmark.svg",
+  "ui/shield-regular-cross.svg",
+  "ui/shield-regular-exclamation-mark.svg",
+  "ui/shield-regular.svg",
   "ui/smile-add.svg",
   "ui/smile.svg",
   "ui/speech-bubbles.svg",

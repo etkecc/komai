@@ -63,7 +63,7 @@ aboutPlatformValue()
 }
 
 static QVariant
-aboutBasedOnValue()
+aboutAcknowledgementNhekoProjectValue()
 {
     return QStringLiteral("<a href=\"https://nheko.im/nheko-reborn/nheko\">nheko</a> @ ~v0.12.1 "
                           "(<a href=\"https://nheko.im/nheko-reborn/nheko/-/commit/"
@@ -71,7 +71,25 @@ aboutBasedOnValue()
 }
 
 static QVariant
+aboutAcknowledgementFluentIconsProjectValue()
+{
+    return QStringLiteral(
+      "<a href=\"https://github.com/microsoft/fluentui-system-icons\">Fluent UI System Icons</a> @ ") +
+           QString::fromStdString(nheko::fluent_icons_ref) +
+           QStringLiteral(" by <a href=\"https://www.microsoft.com\">Microsoft</a> "
+                          "(<a href=\"https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE\">MIT</a>)");
+}
+
+static QVariant
 aboutMaintainedByValue()
 {
     return QStringLiteral("<a href=\"https://etke.cc\">etke.cc</a>");
+}
+
+static QVariant
+aboutKomaiLicenseValue()
+{
+    return QStringLiteral(
+      "<a href=\"https://github.com/etkecc/komai/blob/main/LICENSES/GPL-3.0-or-later.txt\">"
+      "GPL-3.0-or-later</a>");
 }

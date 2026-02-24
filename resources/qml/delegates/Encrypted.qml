@@ -25,7 +25,7 @@ Control {
         spacing: Nheko.paddingMedium
 
         Image {
-            source: "image://colorimage/:/icons/icons/ui/shield-filled-cross.svg?" + Nheko.theme.error
+            source: "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Nheko.theme.error
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24

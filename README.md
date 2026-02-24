@@ -1,41 +1,42 @@
 <p align="center">
 	<img src="resources/komai.svg" alt="Komai logo" width="128" />
-	<h1 align="center">Komai (細い)</h1>
 </p>
+<h1 align="center">Komai (<a target="_blank" href="https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84">こまい</a>)</h1>
+<h2 align="center">A fine <a target="_blank" href="https://matrix.org/">Matrix</a> chat app you can get to love</h2>
 
-🧑‍💻 **Komai** is a usability-focused fork of [nheko](https://nheko.im/nheko-reborn/nheko), a desktop [Matrix](https://matrix.org/) client built with Qt/C++/QML, by [etke.cc](https://etke.cc/).
+🧑‍💻 **Komai** is a [Matrix](https://matrix.org/) chat application built with [C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML). Komai was started as a [usability](https://en.wikipedia.org/wiki/Usability)-focused [fork](https://en.wikipedia.org/wiki/Fork_(software_development)) of [nheko](https://nheko.im/nheko-reborn/nheko).
 
-The name *Komai* ([細い](https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84), "fine/slender" in Japanese) carries several layers: "ko" evokes small/fine (小), "m" nods to **M**atrix, and "ai" (愛) means love — but also a nod to **AI**, since this client is largely vibe-engineered. A small Matrix client you can possibly get to love.
+Komai was started by the [etke.cc](https://etke.cc/) team, but contributions by anyone are welcome! It's fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping.
 
-The name also evokes [Komainu](https://en.wikipedia.org/wiki/Komainu) (狛犬), the mythical lion-dog guardians of Shinto shrines. If *nheko* nods to *neko* (猫, "cat"), then *Komai* answers with the *inu* (犬, "dog") of komainu — yet the komainu is also part lion, which is itself a cat. A fork that is both a playful contrast and a quiet kinship with its upstream.
-
+If you're curious about the origin of this project and its name, see the [🦁 Identity](docs/identity.md) documentation page.
 
 ## 🎯 Design Philosophy
 
-- 🖥️ **Desktop-first UX** — optimized for large screens where the room list is always visible
+- 🖥️ **Desktop-first UX** — optimized for large screens
 - 👓 **Readable by everyone** — all visible text must be comfortably readable at default settings, including by elderly users
-- 🎨 **Subtle but effective** — visual changes are noticeable without being jarring
-- 🧱 **Built on nheko** — inherits nheko's solid Matrix protocol support while improving the interface
+- 🎨 **Subtle but effective** — [themeable](docs/themes.md), [configurable](docs/configuration.md), user-first
+- 🧱 **Built on [nheko](https://nheko.im/nheko-reborn/nheko)** — inherits nheko's solid Matrix protocol support while improving the interface
 
 
 ## 🌟 Features
 
-Everything nheko offers, plus [UX improvements on top](docs/differences-from-nheko.md):
+Everything [nheko](https://nheko.im/nheko-reborn/nheko) offers, plus [UX improvements & additional features on top](docs/differences-from-nheko.md).
 
-- 🔐 End-to-end encryption
-- 📞 VoIP calls (voice & video)
-- 💬 Typing notifications, read receipts, presence
+Highlights:
+
+- 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by [mtxclient](https://github.com/Nheko-Reborn/mtxclient) and [olm](https://gitlab.matrix.org/matrix-org/olm))
+- 📞 (Legacy) Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (including custom stickers)
-- 💬 Replies, forwards, and message reactions
-- 🔍 Room switcher (`Ctrl-K`)
-- 🎨 14 built-in themes (Komai, Nord, Catppuccin, Dracula, Solarized, and more)
-- 🫧 Polished bubble-style messages with per-sender colors
-- 🖱️ Click-to-toggle message actions (replaces finicky hover-only bar)
-- 👤 Avatars on bubble side with configurable sender name display
-- 📐 Compact room list, polished sidebar, and reworked room bar
-- ⚡ Performance optimizations (virtual timeline window, faster room switching)
+- 💬 Replies, [Discord](https://discord.com/)-style threads, and message forwarding
+- 🎨 14 [built-in themes](docs/themes.md#-built-in-themes), but also [🗂️ user-themable](docs/themes.md#️-user-themes)
+- 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/translations.md))
+- 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that both grandma and you can use, making neither of you feel stupid or incapable
+- 🔧 Lots of [configurability](docs/configuration.md) - you're in control
+- 📋 Good support for hundreds of rooms and spaces
+- ⚡ Quick & lightweight native application ([C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
+- 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping
 
-For the full list of changes, see 📄 [Differences from nheko](docs/differences-from-nheko.md).
+If you're curious about the full list of changes from [nheko](https://nheko.im/nheko-reborn/nheko), see 📄 [Differences from nheko](docs/differences-from-nheko.md).
 
 
 ## 📸 Screenshots
@@ -55,16 +56,6 @@ just run
 
 For dependencies, distro-specific package lists, CMake flags, and more, see 📄 [Native build](docs/packaging/native.md).
 For contributor workflow and local checks, see 📄 [Development](docs/development.md).
-
-
-## 🎨 Themes
-
-Komai ships with many built-in themes and makes it easy to add more. See 📄 [Themes](docs/themes.md) for details.
-
-
-## 🌐 Translations
-
-Komai inherits human-made translations from nheko and fills in the gaps with AI-assisted translation (Claude CLI) to ensure complete coverage across 30+ languages. See 📄 [Translations](docs/translations.md) for details.
 
 
 ## 📦 Packaging

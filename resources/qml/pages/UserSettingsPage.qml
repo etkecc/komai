@@ -99,7 +99,7 @@ Rectangle {
                         { text: qsTr("Calls"), icon: "qrc:/icons/icons/ui/place-call.svg", tab: UserSettingsModel.TabCalls },
                         { text: qsTr("Network"), icon: "qrc:/icons/icons/ui/world.svg", tab: UserSettingsModel.TabNetwork },
                         { text: qsTr("Privacy"), icon: "qrc:/icons/icons/ui/eye-hide.svg", tab: UserSettingsModel.TabPrivacy },
-                        { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-filled.svg", tab: UserSettingsModel.TabEncryption },
+                        { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-regular.svg", tab: UserSettingsModel.TabEncryption },
                         { text: qsTr("Session"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabSession },
                         { text: qsTr("Integrations"), icon: "qrc:/icons/icons/ui/integrations.svg", tab: UserSettingsModel.TabIntegrations },
                         { text: qsTr("About"), icon: "qrc:/logos/komai.svg", tab: UserSettingsModel.TabAbout }

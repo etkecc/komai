@@ -18,20 +18,20 @@ Image {
             return "image://colorimage/" + unencryptedIcon + "?";
         switch (trust) {
         case Crypto.Verified:
-            return "image://colorimage/:/icons/icons/ui/shield-filled-checkmark.svg?";
+            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?";
         case Crypto.TOFU:
-            return "image://colorimage/:/icons/icons/ui/shield-filled.svg?";
+            return "image://colorimage/:/icons/icons/ui/shield-regular.svg?";
         case Crypto.Unverified:
         case Crypto.MessageUnverified:
-            return "image://colorimage/:/icons/icons/ui/shield-filled-exclamation-mark.svg?";
+            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?";
         default:
-            return "image://colorimage/:/icons/icons/ui/shield-filled-cross.svg?";
+            return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?";
         }
     }
     property int trust: Crypto.Unverified
     property color unencryptedColor: Nheko.theme.error
     property color unencryptedHoverColor: unencryptedColor
-    property string unencryptedIcon: ":/icons/icons/ui/shield-filled-cross.svg"
+    property string unencryptedIcon: ":/icons/icons/ui/shield-regular-cross.svg"
 
     ToolTip.text: {
         if (!encrypted)

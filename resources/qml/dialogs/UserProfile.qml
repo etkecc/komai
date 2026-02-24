@@ -372,13 +372,13 @@ ApplicationWindow {
                             source: {
                                 switch (verificationStatus) {
                                     case VerificationStatus.VERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-filled-checkmark.svg?" + Nheko.theme.green;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Nheko.theme.green;
                                     case VerificationStatus.UNVERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-filled-exclamation-mark.svg?" + Nheko.theme.orange;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Nheko.theme.orange;
                                     case VerificationStatus.SELF:
                                     return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Nheko.theme.green;
                                     default:
-                                    return "image://colorimage/:/icons/icons/ui/shield-filled-cross.svg?" + Nheko.theme.orange;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Nheko.theme.orange;
                                 }
                             }
                         }
@@ -455,13 +455,13 @@ ApplicationWindow {
                     source: {
                         switch (verificationStatus) {
                             case VerificationStatus.VERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-filled-checkmark.svg?" + Nheko.theme.green;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Nheko.theme.green;
                             case VerificationStatus.UNVERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-filled-exclamation-mark.svg?" + Nheko.theme.orange;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Nheko.theme.orange;
                             case VerificationStatus.SELF:
                             return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Nheko.theme.green;
                             default:
-                            return "image://colorimage/:/icons/icons/ui/shield-filled.svg?" + Nheko.theme.red;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular.svg?" + Nheko.theme.red;
                         }
                     }
                 }

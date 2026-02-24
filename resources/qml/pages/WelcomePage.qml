@@ -12,6 +12,10 @@ import "../components/"
 import ".."
 
 ColumnLayout {
+    id: root
+    readonly property string matrixUrl: "https://matrix.org/"
+    readonly property string komaiMeaningUrl: "https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84"
+
     Item {
         Layout.fillHeight: true
     }
@@ -23,32 +27,55 @@ ColumnLayout {
         Layout.preferredWidth: 256
     }
 
-    Label {
+    Text {
         Layout.topMargin: Nheko.paddingLarge
         Layout.leftMargin: Nheko.paddingLarge
         Layout.rightMargin: Nheko.paddingLarge
         Layout.bottomMargin: 0
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        text: qsTr("Welcome to Komai!")
+        textFormat: Text.RichText
+        text: "<style>a { color: " + palette.highlight + "; text-decoration: none; }</style>" +
+              qsTr("Welcome to Komai") +
+              " (<a href=\"" + root.komaiMeaningUrl + "\">こまい</a>)"
         color: palette.text
         font.pointSize: Settings.fontSize * 2
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
+        onLinkActivated: function(link) {
+            Qt.openUrlExternally(link);
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        }
     }
 
-    Label {
+    Text {
         Layout.topMargin: Nheko.paddingSmall
         Layout.leftMargin: Nheko.paddingLarge
         Layout.rightMargin: Nheko.paddingLarge
         Layout.bottomMargin: Nheko.paddingLarge
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        text: Nheko.tagline
+        textFormat: Text.RichText
+        text: "<style>a { color: " + palette.highlight + "; }</style>" +
+              Nheko.taglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Nheko.matrixWord + "</a>")
         color: palette.buttonText
         font.pointSize: Settings.fontSize * 1.5
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
+        onLinkActivated: function(link) {
+            Qt.openUrlExternally(link);
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        }
     }
 
     RowLayout {

@@ -11,11 +11,23 @@
     { QT_TR_NOOP("Platform"), nullptr, SM::ReadOnlyText, SM::TabAbout,
       aboutPlatformValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
-    // BasedOn
-    { QT_TR_NOOP("Based on"), nullptr, SM::Link, SM::TabAbout,
-      aboutBasedOnValue,
-      nullptr, {}, {}, {}, nullptr, nullptr },
     // MaintainedBy
     { QT_TR_NOOP("Maintained by"), nullptr, SM::Link, SM::TabAbout,
       aboutMaintainedByValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },
+    // KomaiLicense
+    { QT_TR_NOOP("License"), nullptr, SM::Link, SM::TabAbout,
+      aboutKomaiLicenseValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },
+
+    // AboutAcknowledgementsSection
+    { QT_TR_NOOP("Acknowledgements"), nullptr, SM::SectionTitle, SM::TabAbout,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // AcknowledgementsNheko
+    { QT_TR_NOOP("Fork base"), nullptr, SM::Link, SM::TabAbout,
+      aboutAcknowledgementNhekoProjectValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },
+    // AcknowledgementsFluentIcons
+    { QT_TR_NOOP("Icon set"), nullptr, SM::Link, SM::TabAbout,
+      aboutAcknowledgementFluentIconsProjectValue,
       nullptr, {}, {}, {}, nullptr, nullptr },

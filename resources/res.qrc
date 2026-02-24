@@ -1,83 +1,83 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>icons/ui/add-square-button.svg</file>
-        <file>icons/ui/alert.svg</file>
-        <file>icons/ui/angle-arrow-left.svg</file>
-        <file>icons/ui/attach.svg</file>
-        <file>icons/ui/ban.svg</file>
-        <file>icons/ui/building-shop.svg</file>
-        <file>icons/ui/chat.svg</file>
-        <file>icons/ui/checkmark.svg</file>
-        <file>icons/ui/clock.svg</file>
-        <file>icons/ui/collapsed.svg</file>
-        <file>icons/ui/copy.svg</file>
-        <file>icons/ui/delete.svg</file>
-        <file>icons/ui/dismiss.svg</file>
+        <file alias="icons/ui/add-square-button.svg">icons/fluent/assets/Add Square/SVG/ic_fluent_add_square_16_regular.svg</file>
+        <file alias="icons/ui/alert.svg">icons/fluent/assets/Alert/SVG/ic_fluent_alert_24_regular.svg</file>
+        <file alias="icons/ui/angle-arrow-left.svg">icons/fluent/assets/Chevron Left/SVG/ic_fluent_chevron_left_28_regular.svg</file>
+        <file alias="icons/ui/attach.svg">icons/fluent/assets/Attach/SVG/ic_fluent_attach_24_regular.svg</file>
+        <file alias="icons/ui/ban.svg">icons/fluent/assets/Prohibited/SVG/ic_fluent_prohibited_28_regular.svg</file>
+        <file alias="icons/ui/building-shop.svg">icons/fluent/assets/Building Shop/SVG/ic_fluent_building_shop_24_regular.svg</file>
+        <file alias="icons/ui/chat.svg">icons/fluent/assets/Chat/SVG/ic_fluent_chat_32_regular.svg</file>
+        <file alias="icons/ui/checkmark.svg">icons/fluent/assets/Checkmark/SVG/ic_fluent_checkmark_32_regular.svg</file>
+        <file alias="icons/ui/clock.svg">icons/fluent/assets/Clock/SVG/ic_fluent_clock_32_regular.svg</file>
+        <file alias="icons/ui/collapsed.svg">icons/fluent/assets/Chevron Right/SVG/ic_fluent_chevron_right_24_regular.svg</file>
+        <file alias="icons/ui/copy.svg">icons/fluent/assets/Copy/SVG/ic_fluent_copy_24_regular.svg</file>
+        <file alias="icons/ui/delete.svg">icons/fluent/assets/Delete/SVG/ic_fluent_delete_24_regular.svg</file>
+        <file alias="icons/ui/dismiss.svg">icons/fluent/assets/Dismiss/SVG/ic_fluent_dismiss_32_regular.svg</file>
         <file>icons/ui/double-checkmark.svg</file>
-        <file>icons/ui/download.svg</file>
-        <file>icons/ui/edit.svg</file>
-        <file>icons/ui/end-call.svg</file>
-        <file>icons/ui/expanded.svg</file>
-        <file>icons/ui/eye-hide.svg</file>
-        <file>icons/ui/eye-show.svg</file>
-        <file>icons/ui/go-to.svg</file>
-        <file>icons/ui/image-failed.svg</file>
-        <file>icons/ui/image.svg</file>
-        <file>icons/ui/lowprio.svg</file>
-        <file>icons/ui/microphone-mute.svg</file>
-        <file>icons/ui/microphone-unmute.svg</file>
-        <file>icons/ui/music.svg</file>
-        <file>icons/ui/thread.svg</file>
-        <file>icons/ui/new-thread.svg</file>
-        <file>icons/ui/options.svg</file>
-        <file>icons/ui/pause-symbol.svg</file>
-        <file>icons/ui/people.svg</file>
-        <file>icons/ui/person.svg</file>
-        <file>icons/ui/picture-in-picture.svg</file>
-        <file>icons/ui/pin-off.svg</file>
-        <file>icons/ui/pin.svg</file>
-        <file>icons/ui/place-call.svg</file>
-        <file>icons/ui/play-sign.svg</file>
-        <file>icons/ui/power-off.svg</file>
-        <file>icons/ui/refresh.svg</file>
-        <file>icons/ui/reply.svg</file>
-        <file>icons/ui/ribbon.svg</file>
-        <file>icons/ui/ribbon_star.svg</file>
-        <file>icons/ui/integrations.svg</file>
-        <file>icons/ui/room-directory.svg</file>
-        <file>icons/ui/round-remove-button.svg</file>
-        <file>icons/ui/screen-share.svg</file>
-        <file>icons/ui/search.svg</file>
-        <file>icons/ui/send.svg</file>
-        <file>icons/ui/settings.svg</file>
-        <file>icons/ui/sidebar.svg</file>
-        <file>icons/ui/smile.svg</file>
-        <file>icons/ui/smile-add.svg</file>
-        <file>icons/ui/speech-bubbles.svg</file>
-        <file>icons/ui/star.svg</file>
-        <file>icons/ui/sticky-note-solid.svg</file>
-        <file>icons/ui/tag.svg</file>
-        <file>icons/ui/video-file.svg</file>
-        <file>icons/ui/video.svg</file>
-        <file>icons/ui/volume-off-indicator.svg</file>
-        <file>icons/ui/volume-up.svg</file>
-        <file>icons/ui/world.svg</file>
-        <file>icons/ui/zip.svg</file>
-        <file>icons/emoji-categories/activity.svg</file>
-        <file>icons/emoji-categories/flags.svg</file>
-        <file>icons/emoji-categories/foods.svg</file>
-        <file>icons/emoji-categories/nature.svg</file>
-        <file>icons/emoji-categories/objects.svg</file>
-        <file>icons/emoji-categories/people.svg</file>
-        <file>icons/emoji-categories/symbols.svg</file>
-        <file>icons/emoji-categories/travel.svg</file>
-        <file>icons/ui/shield-filled.svg</file>
-        <file>icons/ui/shield-filled-exclamation-mark.svg</file>
-        <file>icons/ui/shield-filled-checkmark.svg</file>
-        <file>icons/ui/shield-filled-cross.svg</file>
-        <file>icons/ui/plus-circle.svg</file>
-        <file>icons/ui/state-event.svg</file>
-        <file>icons/ui/toggles.svg</file>
+        <file alias="icons/ui/download.svg">icons/fluent/assets/Arrow Download/SVG/ic_fluent_arrow_download_24_regular.svg</file>
+        <file alias="icons/ui/edit.svg">icons/fluent/assets/Edit/SVG/ic_fluent_edit_32_regular.svg</file>
+        <file alias="icons/ui/end-call.svg">icons/fluent/assets/Call End/SVG/ic_fluent_call_end_28_regular.svg</file>
+        <file alias="icons/ui/expanded.svg">icons/fluent/assets/Chevron Down/SVG/ic_fluent_chevron_down_24_regular.svg</file>
+        <file alias="icons/ui/eye-hide.svg">icons/fluent/assets/Eye Off/SVG/ic_fluent_eye_off_24_regular.svg</file>
+        <file alias="icons/ui/eye-show.svg">icons/fluent/assets/Eye/SVG/ic_fluent_eye_24_regular.svg</file>
+        <file alias="icons/ui/go-to.svg">icons/fluent/assets/Target Arrow/SVG/ic_fluent_target_arrow_24_regular.svg</file>
+        <file alias="icons/ui/image-failed.svg">icons/fluent/assets/Image Prohibited/SVG/ic_fluent_image_prohibited_24_regular.svg</file>
+        <file alias="icons/ui/image.svg">icons/fluent/assets/Image/SVG/ic_fluent_image_24_regular.svg</file>
+        <file alias="icons/ui/lowprio.svg">icons/fluent/assets/Arrow Circle Down/SVG/ic_fluent_arrow_circle_down_32_regular.svg</file>
+        <file alias="icons/ui/microphone-mute.svg">icons/fluent/assets/Mic Off/SVG/ic_fluent_mic_off_28_regular.svg</file>
+        <file alias="icons/ui/microphone-unmute.svg">icons/fluent/assets/Mic/SVG/ic_fluent_mic_32_regular.svg</file>
+        <file alias="icons/ui/music.svg">icons/fluent/assets/Music Note 2/SVG/ic_fluent_music_note_2_24_regular.svg</file>
+        <file alias="icons/ui/thread.svg">icons/fluent/assets/Chat Multiple/SVG/ic_fluent_chat_multiple_24_regular.svg</file>
+        <file alias="icons/ui/new-thread.svg">icons/fluent/assets/Chat Add/SVG/ic_fluent_chat_add_24_regular.svg</file>
+        <file alias="icons/ui/options.svg">icons/fluent/assets/Options/SVG/ic_fluent_options_32_regular.svg</file>
+        <file alias="icons/ui/pause-symbol.svg">icons/fluent/assets/Pause/SVG/ic_fluent_pause_24_regular.svg</file>
+        <file alias="icons/ui/people.svg">icons/fluent/assets/People/SVG/ic_fluent_people_24_regular.svg</file>
+        <file alias="icons/ui/person.svg">icons/fluent/assets/Person/SVG/ic_fluent_person_24_regular.svg</file>
+        <file alias="icons/ui/picture-in-picture.svg">icons/fluent/assets/Picture In Picture/SVG/ic_fluent_picture_in_picture_24_regular.svg</file>
+        <file alias="icons/ui/pin-off.svg">icons/fluent/assets/Pin Off/SVG/ic_fluent_pin_off_24_regular.svg</file>
+        <file alias="icons/ui/pin.svg">icons/fluent/assets/Pin/SVG/ic_fluent_pin_24_regular.svg</file>
+        <file alias="icons/ui/place-call.svg">icons/fluent/assets/Call/SVG/ic_fluent_call_32_regular.svg</file>
+        <file alias="icons/ui/play-sign.svg">icons/fluent/assets/Play/SVG/ic_fluent_play_32_regular.svg</file>
+        <file alias="icons/ui/power-off.svg">icons/fluent/assets/Power/SVG/ic_fluent_power_28_regular.svg</file>
+        <file alias="icons/ui/refresh.svg">icons/fluent/assets/Arrow Sync/SVG/ic_fluent_arrow_sync_24_regular.svg</file>
+        <file alias="icons/ui/reply.svg">icons/fluent/assets/Arrow Reply/SVG/ic_fluent_arrow_reply_24_regular.svg</file>
+        <file alias="icons/ui/ribbon.svg">icons/fluent/assets/Ribbon/SVG/ic_fluent_ribbon_24_regular.svg</file>
+        <file alias="icons/ui/ribbon_star.svg">icons/fluent/assets/Ribbon Star/SVG/ic_fluent_ribbon_star_24_regular.svg</file>
+        <file alias="icons/ui/integrations.svg">icons/fluent/assets/Puzzle Piece/SVG/ic_fluent_puzzle_piece_24_regular.svg</file>
+        <file alias="icons/ui/room-directory.svg">icons/fluent/assets/Conference Room/SVG/ic_fluent_conference_room_24_regular.svg</file>
+        <file alias="icons/ui/round-remove-button.svg">icons/fluent/assets/Subtract Circle/SVG/ic_fluent_subtract_circle_32_regular.svg</file>
+        <file alias="icons/ui/screen-share.svg">icons/fluent/assets/Share Screen Start/SVG/ic_fluent_share_screen_start_48_regular.svg</file>
+        <file alias="icons/ui/search.svg">icons/fluent/assets/Search/SVG/ic_fluent_search_32_regular.svg</file>
+        <file alias="icons/ui/send.svg">icons/fluent/assets/Send/SVG/ic_fluent_send_28_regular.svg</file>
+        <file alias="icons/ui/settings.svg">icons/fluent/assets/Settings/SVG/ic_fluent_settings_32_regular.svg</file>
+        <file alias="icons/ui/sidebar.svg">icons/fluent/assets/Panel Left/SVG/ic_fluent_panel_left_24_regular.svg</file>
+        <file alias="icons/ui/smile.svg">icons/fluent/assets/Emoji/SVG/ic_fluent_emoji_32_regular.svg</file>
+        <file alias="icons/ui/smile-add.svg">icons/fluent/assets/Emoji Add/SVG/ic_fluent_emoji_add_24_regular.svg</file>
+        <file alias="icons/ui/speech-bubbles.svg">icons/fluent/assets/Chat Multiple/SVG/ic_fluent_chat_multiple_24_regular.svg</file>
+        <file alias="icons/ui/star.svg">icons/fluent/assets/Star/SVG/ic_fluent_star_28_regular.svg</file>
+        <file alias="icons/ui/sticky-note-solid.svg">icons/fluent/assets/Sticker/SVG/ic_fluent_sticker_24_regular.svg</file>
+        <file alias="icons/ui/tag.svg">icons/fluent/assets/Tag/SVG/ic_fluent_tag_32_regular.svg</file>
+        <file alias="icons/ui/video-file.svg">icons/fluent/assets/Video Clip/SVG/ic_fluent_video_clip_24_regular.svg</file>
+        <file alias="icons/ui/video.svg">icons/fluent/assets/Video/SVG/ic_fluent_video_32_regular.svg</file>
+        <file alias="icons/ui/volume-off-indicator.svg">icons/fluent/assets/Speaker Mute/SVG/ic_fluent_speaker_mute_28_regular.svg</file>
+        <file alias="icons/ui/volume-up.svg">icons/fluent/assets/Speaker 2/SVG/ic_fluent_speaker_2_32_regular.svg</file>
+        <file alias="icons/ui/world.svg">icons/fluent/assets/Globe/SVG/ic_fluent_globe_32_regular.svg</file>
+        <file alias="icons/ui/zip.svg">icons/fluent/assets/Folder Zip/SVG/ic_fluent_folder_zip_24_regular.svg</file>
+        <file alias="icons/emoji-categories/activity.svg">icons/fluent/assets/Sport American Football/SVG/ic_fluent_sport_american_football_24_regular.svg</file>
+        <file alias="icons/emoji-categories/flags.svg">icons/fluent/assets/Flag/SVG/ic_fluent_flag_28_regular.svg</file>
+        <file alias="icons/emoji-categories/foods.svg">icons/fluent/assets/Food Apple/SVG/ic_fluent_food_apple_24_regular.svg</file>
+        <file alias="icons/emoji-categories/nature.svg">icons/fluent/assets/Tree Deciduous/SVG/ic_fluent_tree_deciduous_24_regular.svg</file>
+        <file alias="icons/emoji-categories/objects.svg">icons/fluent/assets/Lightbulb Filament/SVG/ic_fluent_lightbulb_filament_24_regular.svg</file>
+        <file alias="icons/emoji-categories/people.svg">icons/fluent/assets/Emoji/SVG/ic_fluent_emoji_28_regular.svg</file>
+        <file alias="icons/emoji-categories/symbols.svg">icons/fluent/assets/Symbols/SVG/ic_fluent_symbols_24_regular.svg</file>
+        <file alias="icons/emoji-categories/travel.svg">icons/fluent/assets/Vehicle Car/SVG/ic_fluent_vehicle_car_28_regular.svg</file>
+        <file alias="icons/ui/shield-regular.svg">icons/fluent/assets/Shield/SVG/ic_fluent_shield_24_regular.svg</file>
+        <file alias="icons/ui/shield-regular-exclamation-mark.svg">icons/fluent/assets/Shield Error/SVG/ic_fluent_shield_error_24_regular.svg</file>
+        <file alias="icons/ui/shield-regular-checkmark.svg">icons/fluent/assets/Shield Checkmark/SVG/ic_fluent_shield_checkmark_24_regular.svg</file>
+        <file alias="icons/ui/shield-regular-cross.svg">icons/fluent/assets/Shield Dismiss/SVG/ic_fluent_shield_dismiss_24_regular.svg</file>
+        <file alias="icons/ui/plus-circle.svg">icons/fluent/assets/Add Circle/SVG/ic_fluent_add_circle_24_regular.svg</file>
+        <file alias="icons/ui/state-event.svg">icons/fluent/assets/Branch/SVG/ic_fluent_branch_24_regular.svg</file>
+        <file alias="icons/ui/toggles.svg">icons/fluent/assets/Toggle Multiple/SVG/ic_fluent_toggle_multiple_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

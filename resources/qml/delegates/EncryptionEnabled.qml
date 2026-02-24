@@ -25,7 +25,7 @@ Control {
         spacing: Nheko.paddingMedium
 
         Image {
-            source: "image://colorimage/:/icons/icons/ui/shield-filled-checkmark.svg?" + Nheko.theme.green
+            source: "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Nheko.theme.green
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24

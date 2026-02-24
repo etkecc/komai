@@ -2,7 +2,7 @@
 
 ## What is Komai?
 
-Komai (細い, "fine/slender") is a usability-focused fork of [nheko](https://nheko.im/nheko-reborn/nheko), a Qt/C++ desktop Matrix client, by [etke.cc](https://etke.cc/).
+Komai (こまい, "fine/slender") is a usability-focused fork of [nheko](https://nheko.im/nheko-reborn/nheko), a Qt/C++ desktop Matrix client, by [etke.cc](https://etke.cc/).
 
 This is a **real git fork** -- the full source code is committed to this repository and we develop directly on it.
 
@@ -63,6 +63,12 @@ See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 - `src/ui/Theme.cpp` / `.h` -- Theme loading and application
 - See [docs/themes.md](docs/themes.md) for theme format
 
+### Icons
+- `resources/icons/ui/*.svg` -- UI icon assets (mostly Fluent-derived + some Komai-authored icons)
+- `resources/icons/emoji-categories/*.svg` -- Emoji category tab icons
+- `resources/res.qrc` -- icon resource registration used by Qt/QML
+- See [docs/architecture/icons.md](docs/architecture/icons.md) for icon sourcing/licensing/update workflow
+
 ### QML Components
 - `resources/qml/components/` -- Reusable UI components
 - `resources/qml/dialogs/` -- Dialog windows
@@ -95,6 +101,16 @@ Access via `Nheko.theme.*`:
 - [docs/README.md](docs/README.md) -- Documentation index
 - [docs/architecture/](docs/architecture/) -- Technical/developer documentation
 - [docs/differences-from-nheko.md](docs/differences-from-nheko.md) -- What makes Komai different
+
+## Icon Change Checklist
+
+When adding/changing icons:
+
+- Keep icons vendored under `resources/icons/` (do not add runtime network fetches in build paths).
+- Update `resources/res.qrc` for any new or removed icon file.
+- Run `just icons-audit` to detect reference/qrc/file mismatches.
+- Prefer existing icons over adding near-duplicates.
+- For Fluent-derived icons, keep attribution/licensing tasks aligned with `var/plans/icons-license-audit.md`.
 
 
 ## Environment

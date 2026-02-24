@@ -1,0 +1,8 @@
+# Pinned Fluent UI System Icons source.
+# Keep source location pinned for reproducibility.
+#
+# This file is committed config, not scratch data.
+# `sync-fluent.sh` reads it to resolve the exact upstream source.
+# Version/ref pin lives in `bin/icons/FLUENT_VERSION_REF`.
+
+FLUENT_REPO="microsoft/fluentui-system-icons"

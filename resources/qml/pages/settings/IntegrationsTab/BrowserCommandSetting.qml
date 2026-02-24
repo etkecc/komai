@@ -26,7 +26,7 @@ Item {
             color: palette.text
             text: qsTr("Link browser command")
             textFormat: Text.AutoText
-            font.pointSize: 1.1 * fontMetrics.font.pointSize
+            font.pointSize: 1.1 * Settings.fontSize
             font.weight: Font.DemiBold
         }
 
@@ -34,7 +34,7 @@ Item {
             Layout.fillWidth: true
             color: palette.buttonText
             text: qsTr("Use this command to launch links; use %u where the link URL should be inserted.")
-            font.pointSize: 0.9 * fontMetrics.font.pointSize
+            font.pointSize: 0.9 * Settings.fontSize
             wrapMode: Text.Wrap
         }
 

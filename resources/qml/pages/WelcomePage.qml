@@ -32,7 +32,7 @@ ColumnLayout {
         Layout.fillWidth: true
         text: qsTr("Welcome to Komai!")
         color: palette.text
-        font.pointSize: fontMetrics.font.pointSize * 2
+        font.pointSize: Settings.fontSize * 2
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
     }
@@ -46,7 +46,7 @@ ColumnLayout {
         Layout.fillWidth: true
         text: Nheko.tagline
         color: palette.buttonText
-        font.pointSize: fontMetrics.font.pointSize * 1.5
+        font.pointSize: Settings.fontSize * 1.5
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
     }
@@ -84,7 +84,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("An early touch of personality")
         color: palette.buttonText
-        font.pointSize: fontMetrics.font.pointSize * 1.1
+        font.pointSize: Settings.fontSize * 1.1
     }
 
     RowLayout {
@@ -172,7 +172,7 @@ ColumnLayout {
         Layout.bottomMargin: Nheko.paddingLarge
         Layout.leftMargin: Nheko.paddingLarge
         Layout.rightMargin: Nheko.paddingLarge
-        font.pointSize: fontMetrics.font.pointSize * 0.9
+        font.pointSize: Settings.fontSize * 0.9
         textFormat: Text.RichText
         text: "<style>a { color: " + palette.highlight + "; }</style>" +
               "<a href=\"https://github.com/etkecc/komai\">Komai</a>" +

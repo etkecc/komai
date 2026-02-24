@@ -5,6 +5,7 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
+import im.nheko
 
 TextEdit {
     id: root
@@ -15,6 +16,7 @@ TextEdit {
     width: parent ? parent.width : implicitWidth
     clip: true
     color: palette.text
+    font.pointSize: Settings.fontSize
     text: model.value
     horizontalAlignment: Text.AlignRight
     wrapMode: TextEdit.NoWrap

@@ -6,6 +6,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
+import im.nheko
 
 TextField {
     id: root
@@ -14,6 +15,7 @@ TextField {
 
     signal submitted(string text)
 
+    font.pointSize: Settings.fontSize
     text: textValue
 
     function applyText()

@@ -30,7 +30,7 @@ SettingsContent {
                 Layout.fillWidth: true
                 text: Nheko.tagline
                 color: palette.buttonText
-                font.pointSize: fontMetrics.font.pointSize * 1.2
+                font.pointSize: Settings.fontSize * 1.2
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
             }

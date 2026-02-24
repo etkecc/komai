@@ -27,7 +27,7 @@ Item {
             color: palette.text
             text: root.label
             textFormat: Text.AutoText
-            font.pointSize: 1.1 * fontMetrics.font.pointSize
+            font.pointSize: 1.1 * Settings.fontSize
             font.capitalization: Font.AllUppercase
             wrapMode: Text.Wrap
         }

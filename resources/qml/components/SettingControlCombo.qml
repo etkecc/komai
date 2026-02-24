@@ -16,6 +16,7 @@ ComboBox {
 
     signal activatedValueChanged(int index)
 
+    font.pointSize: Settings.fontSize
     model: values
     currentIndex: value
     onActivated: activatedValueChanged(currentIndex)

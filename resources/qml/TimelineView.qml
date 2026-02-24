@@ -63,7 +63,7 @@ Item {
 
         Label {
             Layout.alignment: Qt.AlignHCenter
-            font.pointSize: 24
+            font.pointSize: Settings.fontSize * 1.85
             text: qsTr("No room open")
             color: palette.text
         }

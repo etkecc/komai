@@ -89,7 +89,7 @@ ApplicationWindow {
                         color: roomDirDelegate.unimportantText
                         Layout.row: 1
                         Layout.column: 0
-                        font.pointSize: fontMetrics.font.pointSize*0.9
+                        font.pointSize: Settings.fontSize*0.9
                         elide: Text.ElideRight
                         maximumLineCount: 2
                         Layout.fillWidth: true
@@ -105,7 +105,7 @@ ApplicationWindow {
                         id: roomCount
 
                         color: roomDirDelegate.unimportantText
-                        font.pointSize: fontMetrics.font.pointSize*0.9
+                        font.pointSize: Settings.fontSize*0.9
                         text: model.numMembers.toString()
                     }
 

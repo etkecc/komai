@@ -6,11 +6,13 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
+import im.nheko
 
 SpinBox {
     id: root
 
     anchors.right: parent.right
+    font.pointSize: Settings.fontSize
     from: model.valueLowerBound
     to: model.valueUpperBound
     stepSize: model.valueStep

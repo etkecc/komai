@@ -108,7 +108,7 @@ Item {
                 Layout.columnSpan: 2
                 Layout.margins: Nheko.paddingMedium
                 color: palette.text
-                font.pointSize: fontMetrics.font.pointSize * 2
+                font.pointSize: Settings.fontSize * 2
                 text: qsTr("Setup Encryption")
                 wrapMode: Text.Wrap
             }
@@ -251,7 +251,7 @@ Item {
                     Layout.alignment: Qt.AlignVCenter
                     color: palette.text
                     font.bold: true
-                    font.pointSize: fontMetrics.font.pointSize * 1.2
+                    font.pointSize: Settings.fontSize * 1.2
                     text: qsTr("Activate Encryption")
                 }
                 ImageButton {

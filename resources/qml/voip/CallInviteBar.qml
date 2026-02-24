@@ -49,7 +49,7 @@ Rectangle {
 
         Label {
             Layout.leftMargin: 8
-            font.pointSize: fontMetrics.font.pointSize * 1.1
+            font.pointSize: Settings.fontSize * 1.1
             text: CallManager.callPartyDisplayName
             color: "#000000"
         }
@@ -62,7 +62,7 @@ Rectangle {
         }
 
         Label {
-            font.pointSize: fontMetrics.font.pointSize * 1.1
+            font.pointSize: Settings.fontSize * 1.1
             text: CallManager.callType == Voip.VIDEO ? qsTr("Video Call") : qsTr("Voice Call")
             color: "#000000"
         }

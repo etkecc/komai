@@ -46,7 +46,7 @@ RowLayout {
         ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
         ToolTip.visible: ma.hovered
         color: palette.inactive.text
-        font.pointSize: fontMetrics.font.pointSize * parent.scaling
+        font.pointSize: Settings.fontSize * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
 
         HoverHandler {

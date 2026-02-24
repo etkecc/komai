@@ -6,6 +6,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.10
+import im.nheko
 
 ColumnLayout {
     property string title: flow.sender ? qsTr("Send Verification Request") : qsTr("Received Verification Request")
@@ -18,6 +19,7 @@ ColumnLayout {
         Layout.preferredWidth: 400
         Layout.fillWidth: true
         wrapMode: Text.Wrap
+        font.pointSize: Settings.fontSize
         text: {
             if (flow.sender) {
                 if (flow.isSelfVerification)

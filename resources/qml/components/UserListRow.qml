@@ -39,7 +39,7 @@ ItemDelegate {
             Layout.fillWidth: true
             text: displayName
             color: Qt.darker(roomId ? TimelineManager.roomUserColor(roomId, userid, palette.window, palette.highlight) : TimelineManager.userColor(userid, palette.window), 1.3)
-            font.pointSize: fontMetrics.font.pointSize
+            font.pointSize: Settings.fontSize
         }
 
         Label {
@@ -47,7 +47,7 @@ ItemDelegate {
             Layout.alignment: Qt.AlignTop
             text: userid
             color: palette.buttonText
-            font.pointSize: fontMetrics.font.pointSize * 0.9
+            font.pointSize: Settings.fontSize * 0.9
         }
     }
 }

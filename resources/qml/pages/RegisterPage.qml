@@ -61,7 +61,7 @@ Item {
                 Layout.fillWidth: true
                 text: qsTr("Register a Matrix account")
                 color: palette.text
-                font.pointSize: fontMetrics.font.pointSize * 1.5
+                font.pointSize: Settings.fontSize * 1.5
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -75,7 +75,7 @@ Item {
                 Layout.fillWidth: true
                 text: qsTr("But... where?")
                 color: palette.buttonText
-                font.pointSize: fontMetrics.font.pointSize
+                font.pointSize: Settings.fontSize
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -115,7 +115,7 @@ Item {
                             Layout.fillWidth: true
                             textFormat: Text.RichText
                             wrapMode: Text.Wrap
-                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            font.pointSize: Settings.fontSize * 0.95
                             text: "<style>a { color: " + palette.highlight + "; }</style>" +
                                   qsTr("Public servers like <a href=\"https://matrix.org/\">matrix.org</a> exist (may be overloaded)")
                             color: palette.text
@@ -147,7 +147,7 @@ Item {
                             Layout.fillWidth: true
                             textFormat: Text.RichText
                             wrapMode: Text.Wrap
-                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            font.pointSize: Settings.fontSize * 0.95
                             text: "<style>a { color: " + palette.highlight + "; }</style>" +
                                   qsTr("<a href=\"https://matrix.org/ecosystem/hosting/\">Hosting providers</a> exist, including the makers of this app — <a href=\"https://etke.cc/\">etke.cc</a>")
                             color: palette.text
@@ -179,7 +179,7 @@ Item {
                             Layout.fillWidth: true
                             textFormat: Text.RichText
                             wrapMode: Text.Wrap
-                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            font.pointSize: Settings.fontSize * 0.95
                             text: "<style>a { color: " + palette.highlight + "; }</style>" +
                                   qsTr("<a href=\"https://matrix.org/ecosystem/hosting/\">Self-hosting</a> is possible (hardware or cloud infra required)")
                             color: palette.text
@@ -211,7 +211,7 @@ Item {
                             Layout.fillWidth: true
                             textFormat: Text.RichText
                             wrapMode: Text.Wrap
-                            font.pointSize: fontMetrics.font.pointSize * 0.95
+                            font.pointSize: Settings.fontSize * 0.95
                             text: "<style>a { color: " + palette.highlight + "; }</style>" +
                                   qsTr("<a href=\"https://matrix.org/\">Matrix</a> does not support server migration yet — choose carefully")
                             color: palette.text

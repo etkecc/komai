@@ -6,6 +6,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
+import im.nheko
 
 SpinBox {
     id: root
@@ -16,6 +17,7 @@ SpinBox {
     readonly property int decimals: 2
 
     anchors.right: parent.right
+    font.pointSize: Settings.fontSize
     from: model.valueLowerBound * div
     to: model.valueUpperBound * div
     stepSize: model.valueStep * div

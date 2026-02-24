@@ -7,6 +7,7 @@ appimage_build_dir := justfile_directory() / "var/build/appimage"
 # mise (dev tool version manager)
 mise_data_dir := env("MISE_DATA_DIR", justfile_directory() / "var/mise")
 mise_trusted_config_paths := justfile_directory() / "mise.toml"
+prek_home := env("PREK_HOME", justfile_directory() / "var/prek")
 
 # Shows help
 default:
@@ -250,6 +251,7 @@ mise *args: _ensure_mise_data_directory
 	export MISE_DATA_DIR="{{ mise_data_dir }}"
 	export MISE_TRUSTED_CONFIG_PATHS="{{ mise_trusted_config_paths }}"
 	export MISE_YES=1
+	export PREK_HOME="{{ prek_home }}"
 	mise {{ args }}
 
 # Runs prek (pre-commit hooks manager) with the given arguments
@@ -266,13 +268,22 @@ prek-run-on-all *args: _ensure_mise_tools_installed
 
 # Installs the git pre-commit hook (runs prek automatically before each commit)
 prek-install-git-pre-commit-hook: _ensure_mise_tools_installed
-	@just --justfile {{ justfile() }} mise exec -- prek install
+	#!/usr/bin/env sh
+	set -eu
+	just --justfile {{ justfile() }} mise exec -- prek install
+	hook="{{ justfile_directory() }}/.git/hooks/pre-commit"
+	if [ -f "$hook" ] && ! grep -q '^export PREK_HOME=' "$hook"; then
+		sed -i '2iexport PREK_HOME="{{ prek_home }}"' "$hook"
+	fi
 
 # Internal - ensures var/mise directory exists
 _ensure_mise_data_directory:
 	#!/bin/sh
 	if [ ! -d "{{ mise_data_dir }}" ]; then
 		mkdir -p "{{ mise_data_dir }}"
+	fi
+	if [ ! -d "{{ prek_home }}" ]; then
+		mkdir -p "{{ prek_home }}"
 	fi
 
 # Internal - ensures mise tools are installed

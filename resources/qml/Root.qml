@@ -15,6 +15,14 @@ import im.nheko
 Pane {
     id: timelineRoot
 
+    function adjustFontSize(step) {
+        const minFontSizePt = 6;
+        const maxFontSizePt = 64;
+        const next = Math.max(minFontSizePt, Math.min(maxFontSizePt, Settings.fontSize + step));
+        if (next !== Settings.fontSize)
+            Settings.fontSize = next;
+    }
+
     function destroyOnClose(obj) {
         if (obj.closing != undefined)
             obj.closing.connect(() => obj.destroy(1000));
@@ -120,6 +128,18 @@ Pane {
                 console.error("Failed to create component: " + component.errorString());
             }
         }
+    }
+    Shortcut {
+        sequences: [StandardKey.ZoomIn, "Ctrl+Plus", "Ctrl+Equal", "Ctrl+Shift+Equal"]
+        context: Qt.ApplicationShortcut
+
+        onActivated: timelineRoot.adjustFontSize(1)
+    }
+    Shortcut {
+        sequences: [StandardKey.ZoomOut, "Ctrl+Minus", "Ctrl+Underscore"]
+        context: Qt.ApplicationShortcut
+
+        onActivated: timelineRoot.adjustFontSize(-1)
     }
     Shortcut {
         // Add alternative shortcut, because sometimes Alt+A is stolen by the TextEdit

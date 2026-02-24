@@ -1097,6 +1097,7 @@ if(BUILD_TESTING)
         src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
         src/MatrixClient.cpp
+        ${THEME_DEFINITIONS_H}
     )
     target_include_directories(komai_startup_settings_test PRIVATE
         src

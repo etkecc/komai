@@ -28,12 +28,10 @@
 namespace {
 
 using settings::storage::createDir;
-using settings::storage::loadYamlFile;
 using settings::storage::pathExists;
 using settings::storage::removePath;
-using settings::storage::writeYamlFile;
 
-using settings::persistence::providerFromConfig;
+using settings::storage::loadYamlFile;
 
 } // namespace
 
@@ -175,7 +173,7 @@ settings::SettingsController::load(UserSettings &settings,
       configRoot.IsDefined() ? configRoot : loadYamlFile(settings.configFilePath(), "config");
     settings::serializer::loadConfig(settings, effectiveConfig);
 
-    const auto provider = providerFromConfig(effectiveConfig);
+    const auto provider = settings::persistence::providerFromConfig(effectiveConfig);
     settings.setUsesFileSecretsProvider(provider == staged_load_plan::SecretsProvider::File);
     YAML::Node sessionRoot;
     YAML::Node stateRoot;
@@ -237,16 +235,14 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 
     syncCoreStoreFromSettings(settings);
 
-    settings::serializer::saveConfig(settings, settings.configFilePath());
+    settings::serializer::saveConfig(
+      settings, settings.configFilePath(), settings.usesFileSecretsProvider());
 
     if (policy == SavePolicy::Full) {
         settings::serializer::saveSession(settings, settings.sessionFilePath());
 
-        const auto provider = settings::persistence::providerFromConfig(
-          settings::storage::loadYamlFile(settings.configFilePath(), "config"));
         settings::persistence::saveProfileSecrets(settings.profileId(),
-                                                  provider ==
-                                                    staged_load_plan::SecretsProvider::File,
+                                                  settings.usesFileSecretsProvider(),
                                                   settings.secretsFilePath(),
                                                   settings.accessToken(),
                                                   settings.secretsMap(),
@@ -273,9 +269,8 @@ settings::SettingsController::clearAuth(UserSettings &settings)
                                  settings.sessionFilePath().toStdString());
     }
 
-    const auto provider = providerFromConfig(loadYamlFile(settings.configFilePath(), "config"));
     settings::persistence::clearProfileSecrets(settings.profileId(),
-                                               provider == staged_load_plan::SecretsProvider::File,
+                                               settings.usesFileSecretsProvider(),
                                                settings.secretsFilePath());
     settings::serializer::saveState(settings, settings.stateFilePath());
     syncCoreStoreFromSettings(settings);

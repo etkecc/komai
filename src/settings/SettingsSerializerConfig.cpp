@@ -188,15 +188,15 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
 }
 
 void
-saveConfig(const UserSettings &settings, const QString &configFilePath)
+saveConfig(const UserSettings &settings,
+           const QString &configFilePath,
+           bool usesFileSecretsProvider)
 {
     YAML::Node root(YAML::NodeType::Map);
     makeConfigNode(settings, root);
-    const auto existingConfig = settings::storage::loadYamlFile(configFilePath, "config");
-    const auto provider       = staged_load_plan::providerFromConfig(existingConfig);
     setNode(root,
             SettingKey::SecretsProvider,
-            (provider == staged_load_plan::SecretsProvider::File
+            (usesFileSecretsProvider
                ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
                : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
               .toStdString());

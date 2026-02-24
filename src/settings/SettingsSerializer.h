@@ -44,7 +44,9 @@ void
 loadState(UserSettings &settings, const YAML::Node &root);
 
 void
-saveConfig(const UserSettings &settings, const QString &configFilePath);
+saveConfig(const UserSettings &settings,
+           const QString &configFilePath,
+           bool usesFileSecretsProvider);
 void
 saveSession(const UserSettings &settings, const QString &sessionFilePath);
 void

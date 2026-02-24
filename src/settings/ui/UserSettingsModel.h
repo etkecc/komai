@@ -45,6 +45,7 @@ public:
     enum Types
     {
         Toggle,
+        ToggleWithDescription,
         ReadOnlyText,
         Options,
         OptionsWithDescription,

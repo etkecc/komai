@@ -137,6 +137,17 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
+                                        roleValue: UserSettingsModel.ToggleWithDescription
+                                        SettingControlToggle {
+                                            anchors.right: parent.right
+                                            value: r.model.value
+                                            onToggledValue: function(value) {
+                                                r.model.value = value;
+                                            }
+                                            enabled: r.model.enabled
+                                        }
+                                    }
+                                    DelegateChoice {
                                         roleValue: UserSettingsModel.Options
                                         SettingControlCombo {
                                             anchors.right: parent.right
@@ -281,7 +292,9 @@ Item {
 
                         Label {
                             Layout.fillWidth: true
-                            visible: r.model.type == UserSettingsModel.OptionsWithDescription && !!r.model.description
+                            visible: (r.model.type == UserSettingsModel.OptionsWithDescription
+                                      || r.model.type == UserSettingsModel.ToggleWithDescription)
+                                     && !!r.model.description
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
                             color: palette.buttonText

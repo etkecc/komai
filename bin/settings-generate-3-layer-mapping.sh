@@ -64,8 +64,11 @@ join -t $'\t' -1 1 -2 1 "$tmpdir/id_to_keyconst.tsv" "$tmpdir/id_to_runtimeexpr.
 join -t $'\t' -1 2 -2 1 <(sort -t $'\t' -k2,2 "$tmpdir/id_keyconst_runtime.tsv") "$tmpdir/keyconst_to_dotted.tsv" > "$tmpdir/full.tsv"
 awk -F '\t' '{print $2"\t"$1"\t"$3"\t"$4}' "$tmpdir/full.tsv" | sort > "$tmpdir/full_sorted.tsv"
 
-# Heuristic mismatch audit: expected runtime getter name is lcfirst(SettingId)
-awk -F '\t' '
+# Heuristic naming audit:
+# - expected runtime getter name is lcfirst(SettingId)
+# - explicit '*PersistedValue' suffix is allowed for persistence adapters
+touch "$tmpdir/name_mismatches.tsv" "$tmpdir/name_exceptions.tsv"
+awk -F '\t' -v exceptionsFile="$tmpdir/name_exceptions.tsv" -v mismatchesFile="$tmpdir/name_mismatches.tsv" '
   function lcfirst(s) { return tolower(substr(s, 1, 1)) substr(s, 2) }
   {
     id=$1
@@ -73,13 +76,18 @@ awk -F '\t' '
     getter=""
     if (match(expr, /settings\.([A-Za-z0-9_]+)\(/, m)) getter=m[1]
     expected=lcfirst(id)
+    if (getter != "" && getter == expected "PersistedValue") {
+      print id "\t" expected "\t" getter "\t" expr > exceptionsFile
+      next
+    }
     if (getter != "" && getter != expected)
-      print id "\t" expected "\t" getter "\t" expr
+      print id "\t" expected "\t" getter "\t" expr > mismatchesFile
   }
-' "$tmpdir/full_sorted.tsv" > "$tmpdir/name_mismatches.tsv"
+' "$tmpdir/full_sorted.tsv"
 
 rows="$(wc -l < "$tmpdir/full_sorted.tsv")"
 mismatches="$(wc -l < "$tmpdir/name_mismatches.tsv")"
+exceptions="$(wc -l < "$tmpdir/name_exceptions.tsv")"
 
 mkdir -p "$(dirname "$output_path")"
 {
@@ -95,7 +103,13 @@ mkdir -p "$(dirname "$output_path")"
   echo "Rows: $rows"
   echo
   echo "Naming mismatch summary:"
-  echo "- Total mismatches (heuristic \`lcfirst(SettingId)\` vs runtime getter name): $mismatches"
+  echo "- Total hard mismatches (heuristic \`lcfirst(SettingId)\` vs runtime getter name): $mismatches"
+  echo "- Allowed exceptions (\`*PersistedValue\` suffix): $exceptions"
+  if [[ "$exceptions" -gt 0 ]]; then
+    while IFS=$'\t' read -r id expected getter expr; do
+      echo "- exception \`$id\`: expected \`$expected\`, uses allowed \`$getter\` (from \`$expr\`)"
+    done < "$tmpdir/name_exceptions.tsv"
+  fi
   if [[ "$mismatches" -gt 0 ]]; then
     while IFS=$'\t' read -r id expected getter expr; do
       echo "- \`$id\`: expected \`$expected\`, found \`$getter\` (from \`$expr\`)"

@@ -38,24 +38,11 @@ inline constexpr unsigned long long kDefaultMaxDbSizeBytes      = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
 
 inline constexpr std::array<SettingId, 11> kEnumTokenConfigSettingIds{{
-  SettingId::SidebarsRoomListLastMessagePreview,
-  SettingId::SidebarsRoomListSort,
-  SettingId::NetworkPresenceStatusPolicy,
-  SettingId::IntegrationsDbusApiAccess,
-  SettingId::ComposerInputSendKey,
-  SettingId::ComposerInputAutoReplaceEmoji,
-  SettingId::NotificationsMessageContentPolicy,
-  SettingId::TimelineMessagesLayoutStyle,
-  SettingId::TimelineMessagesSenderUsername,
-  SettingId::TimelineMessageActionsActivationPolicy,
-  SettingId::TimelineMediaImageDisplay,
+#include "SettingsDefinitionsEnumTokenConfigSettingIds.inc"
 }};
 
 inline constexpr std::array<SettingId, 4> kNumericConstrainedConfigSettingIds{{
-  SettingId::UiLayoutContentMaxWidthPx,
-  SettingId::CallsScreenshareFrameRate,
-  SettingId::TimelineMessagesMaxWidthPx,
-  SettingId::PrivacyWindowFocusBlurDelaySeconds,
+#include "SettingsDefinitionsNumericConstrainedConfigSettingIds.inc"
 }};
 
 inline constexpr std::array<SettingDefinition, 67> kPersistedSettingDefinitions{{

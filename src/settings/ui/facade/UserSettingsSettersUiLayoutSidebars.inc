@@ -1,0 +1,85 @@
+void
+UserSettings::setSidebarsRoomListSort(RoomSortOrder s)
+{
+    if (sidebarsRoomListSort_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::SidebarsRoomListSort,
+                      static_cast<int>(s),
+                      "sidebars.room_list.sort"))
+        return;
+    sidebarsRoomListSort_ = s;
+    emit sidebarsRoomListSortChanged(s);
+    save();
+}
+void
+UserSettings::setUiLayoutContentMaxWidthPx(int s)
+{
+    const auto normalized = settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(s);
+
+    if (uiLayoutContentMaxWidthPx_ == normalized)
+        return;
+    if (!setCoreValue(settings::core::SettingId::UiLayoutContentMaxWidthPx,
+                      normalized,
+                      SettingKey::UiLayoutContentMaxWidthPx))
+        return;
+    uiLayoutContentMaxWidthPx_ = normalized;
+    emit uiLayoutContentMaxWidthPxChanged(normalized);
+    save();
+}
+void
+UserSettings::setSidebarsCommunitiesWidthPx(int s)
+{
+    setSetting(sidebarsCommunitiesWidthPx_,
+               settings::core::definitions::normalizeCommunitiesWidthPx(s),
+               &UserSettings::sidebarsCommunitiesWidthPxChanged);
+}
+void
+UserSettings::setSidebarsRoomListWidthPx(int s)
+{
+    setSetting(sidebarsRoomListWidthPx_,
+               settings::core::definitions::normalizeRoomListWidthPx(s),
+               &UserSettings::sidebarsRoomListWidthPxChanged);
+}
+void
+UserSettings::setSidebarsRoomListShowCommunityCounts(bool s)
+{
+    if (sidebarsRoomListShowCommunityCounts_ == s)
+        return;
+    sidebarsRoomListShowCommunityCounts_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts, s);
+    emit sidebarsRoomListShowCommunityCountsChanged(s);
+    save();
+}
+void
+UserSettings::setSidebarsRoomListCompact(bool s)
+{
+    if (sidebarsRoomListCompact_ == s)
+        return;
+    sidebarsRoomListCompact_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListCompact, s);
+    emit sidebarsRoomListCompactChanged(s);
+    save();
+}
+void
+UserSettings::setSidebarsRoomListShowLastMessageTime(bool s)
+{
+    if (sidebarsRoomListShowLastMessageTime_ == s)
+        return;
+    sidebarsRoomListShowLastMessageTime_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime, s);
+    emit sidebarsRoomListShowLastMessageTimeChanged(s);
+    save();
+}
+void
+UserSettings::setSidebarsRoomListLastMessagePreview(LastMessagePreview s)
+{
+    if (sidebarsRoomListLastMessagePreview_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
+                      static_cast<int>(s),
+                      "sidebars.room_list.last_message_preview"))
+        return;
+    sidebarsRoomListLastMessagePreview_ = s;
+    emit sidebarsRoomListLastMessagePreviewChanged(s);
+    save();
+}

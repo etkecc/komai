@@ -656,6 +656,9 @@ set(SRC_FILES
     src/settings/SettingsSerializer.h
     src/settings/SettingsController.h
     src/settings/SettingsController.cpp
+    src/settings/SettingsControllerLoad.cpp
+    src/settings/SettingsControllerSave.cpp
+    src/settings/SettingsControllerInternal.h
     src/settings/YamlSettings.h
     src/PowerlevelsEditModels.cpp
     src/PowerlevelsEditModels.h
@@ -1161,6 +1164,8 @@ if(BUILD_TESTING)
         src/ui/ThemeRegistry.cpp
         src/settings/StartupSettings.cpp
         src/settings/SettingsController.cpp
+        src/settings/SettingsControllerLoad.cpp
+        src/settings/SettingsControllerSave.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp

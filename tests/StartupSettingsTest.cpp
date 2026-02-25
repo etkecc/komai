@@ -55,6 +55,12 @@ struct StartupSettingsTestContext
         return settings::storage::writeYamlFile(stateFile, stateRoot, false);
     }
 
+    bool writeSession(const YAML::Node &sessionRoot)
+    {
+        const auto sessionFile = settings::storage::sessionFilePathForProfile(profile_);
+        return settings::storage::writeYamlFile(sessionFile, sessionRoot, false);
+    }
+
     QString configFile() const { return settings::storage::configFilePathForProfile(profile_); }
 
     QString stateFile() const { return settings::storage::stateFilePathForProfile(profile_); }
@@ -511,6 +517,36 @@ testInvalidStateDimensionsFallbackToSafeValues()
 }
 
 bool
+testSessionIdentityValuesAreTrimmedOnLoad()
+{
+    const QString profile = QStringLiteral("session-trim-normalization-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "session trim fixture root can be created");
+
+    YAML::Node sessionRoot(YAML::NodeType::Map);
+    sessionRoot["session"]["account"]["user_id"]   = "  @alice:example.org  ";
+    sessionRoot["session"]["account"]["homeserver"] = "  https://example.org  ";
+    sessionRoot["session"]["device_id"]            = "   ";
+    if (!ctx.writeSession(sessionRoot))
+        return expect(false, "session trim fixture can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for session trim test");
+
+    bool ok = true;
+    ok &= expect(settings->userId() == QStringLiteral("@alice:example.org"),
+                 "user id is trimmed when loading session snapshot");
+    ok &= expect(settings->homeserver() == QStringLiteral("https://example.org"),
+                 "homeserver is trimmed when loading session snapshot");
+    ok &= expect(settings->deviceId().isEmpty(),
+                 "whitespace-only device id is normalized to empty");
+    return ok;
+}
+
+bool
 testSerializerLoggerInjection()
 {
     const QString profile = QStringLiteral("serializer-logger-profile");
@@ -791,6 +827,7 @@ main()
     ok &= testEnumSettingsPersistAsStrings();
     ok &= testInvalidConfigTokensFallbackToSafeValues();
     ok &= testInvalidStateDimensionsFallbackToSafeValues();
+    ok &= testSessionIdentityValuesAreTrimmedOnLoad();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();

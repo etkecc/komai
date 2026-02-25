@@ -24,6 +24,18 @@ hasSessionValue(const QString &value)
     return !value.trimmed().isEmpty();
 }
 
+QString
+readNormalizedSessionValue(const YAML::Node &root, const char *key)
+{
+    const auto rawValue        = yaml_settings::readString(root, key, QString());
+    const auto normalizedValue = rawValue.trimmed();
+    if (rawValue != normalizedValue) {
+        settings::serializer::activeLoggers().ui->warn(
+          "Normalized value for '{}' while loading session identity", key);
+    }
+    return normalizedValue;
+}
+
 } // namespace
 
 using settings::storage::writeYamlFile;
@@ -36,10 +48,10 @@ void
 loadSession(UserSettings &settings, const YAML::Node &root)
 {
     settings.setSessionSnapshot(UserSettings::SessionSnapshot{
-      .userId      = readString(root, SettingKey::SessionAccountUserId, QString()),
+      .userId      = readNormalizedSessionValue(root, SettingKey::SessionAccountUserId),
       .accessToken = QString(),
-      .deviceId    = readString(root, SettingKey::SessionDeviceId, QString()),
-      .homeserver  = readString(root, SettingKey::SessionAccountHomeserver, QString())});
+      .deviceId    = readNormalizedSessionValue(root, SettingKey::SessionDeviceId),
+      .homeserver  = readNormalizedSessionValue(root, SettingKey::SessionAccountHomeserver)});
 }
 
 void

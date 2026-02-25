@@ -133,15 +133,15 @@ applyTimelineLayoutStyleFromStorage(UserSettings &settings, const QString &rawTo
 }
 
 QString
-notificationMessageContentPolicyToStorage(const UserSettings &settings)
+notificationsMessageContentPolicyToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.notificationMessageContentPolicy());
+    return toStorageValue(settings.notificationsMessageContentPolicy());
 }
 
 void
 applyNotificationMessageContentPolicyFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setNotificationMessageContentPolicy(notificationMessageContentPolicyFromStorage(
+    settings.setNotificationsMessageContentPolicy(notificationsMessageContentPolicyFromStorage(
       rawToken, UserSettings::NotificationMessageContentPolicy::WheneverAvailable));
 }
 
@@ -192,7 +192,7 @@ constexpr std::array<EnumTokenAdapter, 11> kEnumTokenAdapters{{
   {settings::core::SettingId::NotificationsMessageContentPolicy,
    SettingKey::NotificationsMessageContentPolicy,
    "whenever_available",
-   &notificationMessageContentPolicyToStorage,
+   &notificationsMessageContentPolicyToStorage,
    &applyNotificationMessageContentPolicyFromStorage},
   {settings::core::SettingId::TimelineMessagesLayoutStyle,
    SettingKey::TimelineMessagesLayoutStyle,

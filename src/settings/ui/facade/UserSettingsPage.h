@@ -95,9 +95,9 @@ class UserSettings final : public QObject
                  setNotificationsAttentionOnIncoming NOTIFY notificationsAttentionOnIncomingChanged)
     Q_PROPERTY(bool uiAvatarsCircular READ uiAvatarsCircular WRITE setUiAvatarsCircular NOTIFY
                  uiAvatarsCircularChanged)
-    Q_PROPERTY(NotificationMessageContentPolicy notificationMessageContentPolicy READ
-                 notificationMessageContentPolicy WRITE setNotificationMessageContentPolicy NOTIFY
-                   notificationMessageContentPolicyChanged)
+    Q_PROPERTY(NotificationMessageContentPolicy notificationsMessageContentPolicy READ
+                 notificationsMessageContentPolicy WRITE setNotificationsMessageContentPolicy NOTIFY
+                   notificationsMessageContentPolicyChanged)
     Q_PROPERTY(
       bool sidebarsRoomListShowCommunityCounts READ sidebarsRoomListShowCommunityCounts WRITE
         setSidebarsRoomListShowCommunityCounts NOTIFY sidebarsRoomListShowCommunityCountsChanged)
@@ -368,7 +368,7 @@ public:
     void setNotificationsEnabled(bool state);
     void setNotificationsAttentionOnIncoming(bool state);
     void setUiAvatarsCircular(bool state);
-    void setNotificationMessageContentPolicy(NotificationMessageContentPolicy policy);
+    void setNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
     void setSidebarsRoomListShowCommunityCounts(bool state);
     void setSidebarsRoomListCompact(bool state);
     void setSidebarsRoomListShowLastMessageTime(bool state);
@@ -485,7 +485,7 @@ signals:
     void notificationsEnabledChanged(bool state);
     void notificationsAttentionOnIncomingChanged(bool state);
     void uiAvatarsCircularChanged(bool state);
-    void notificationMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
+    void notificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
     void sidebarsRoomListShowCommunityCountsChanged(bool state);
     void sidebarsRoomListCompactChanged(bool state);
     void sidebarsRoomListShowLastMessageTimeChanged(bool state);

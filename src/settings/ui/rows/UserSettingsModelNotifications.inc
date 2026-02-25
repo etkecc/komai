@@ -12,7 +12,7 @@
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Message content in notifications",
       QT_TR_NOOP("Choose how much message text to include in notifications."),
-      SM::TabNotifications, notificationMessageContentPolicy, setNotificationMessageContentPolicy, UserSettings::NotificationMessageContentPolicy,
+      SM::TabNotifications, notificationsMessageContentPolicy, setNotificationsMessageContentPolicy, UserSettings::NotificationMessageContentPolicy,
       notificationsMessageContentPolicyValues,
       nullptr,
       NotificationsMessageContentPolicy,

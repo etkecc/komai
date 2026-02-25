@@ -64,7 +64,7 @@ UserSettings::uiAvatarsCircular() const
 }
 
 UserSettings::NotificationMessageContentPolicy
-UserSettings::notificationMessageContentPolicy() const
+UserSettings::notificationsMessageContentPolicy() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::NotificationsMessageContentPolicy);
@@ -73,7 +73,7 @@ UserSettings::notificationMessageContentPolicy() const
         *value <=
           static_cast<int>(UserSettings::NotificationMessageContentPolicy::WheneverAvailable))
         return static_cast<UserSettings::NotificationMessageContentPolicy>(*value);
-    return notificationMessageContentPolicy_;
+    return notificationsMessageContentPolicy_;
 }
 
 bool

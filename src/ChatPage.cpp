@@ -294,10 +294,10 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                         std::visit(
                           [room_id_ = room_id](auto &event_) { event_.room_id = room_id_; }, te);
 
-                        const auto notificationMessageContentPolicy =
-                          userSettings_->notificationMessageContentPolicy();
+                        const auto notificationsMessageContentPolicy =
+                          userSettings_->notificationsMessageContentPolicy();
                         const bool decryptEncryptedNotificationContent =
-                          notificationMessageContentPolicy ==
+                          notificationsMessageContentPolicy ==
                           UserSettings::NotificationMessageContentPolicy::WheneverAvailable;
 
                         if (auto encryptedEvent =

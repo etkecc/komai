@@ -37,7 +37,7 @@ NotificationsManager::getMessageTemplate(const mtx::responses::Notification &not
     const auto sender =
       cache::displayName(QString::fromStdString(notification.room_id),
                          QString::fromStdString(mtx::accessors::sender(notification.event)));
-    const auto messageContentPolicy = UserSettings::instance()->notificationMessageContentPolicy();
+    const auto messageContentPolicy = UserSettings::instance()->notificationsMessageContentPolicy();
 
     if (messageContentPolicy == UserSettings::NotificationMessageContentPolicy::Never)
         return tr("%1 sent a message").arg(sender);

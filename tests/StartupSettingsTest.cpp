@@ -380,7 +380,7 @@ testEnumSettingsPersistAsStrings()
     settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
     settings->setTimelineMessageActionsPolicy(UserSettings::TimelineMessageActionsPolicy::OnHover);
     settings->setTimelineMessageLayout(UserSettings::TimelineMessageLayout::Minimal);
-    settings->setNotificationMessageContentPolicy(
+    settings->setNotificationsMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
     settings->setUiInputModeTouchEnabled(true);

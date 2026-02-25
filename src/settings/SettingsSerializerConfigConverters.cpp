@@ -234,8 +234,9 @@ toStorageValue(UserSettings::NotificationMessageContentPolicy value)
 }
 
 UserSettings::NotificationMessageContentPolicy
-notificationMessageContentPolicyFromStorage(const QString &value,
-                                            UserSettings::NotificationMessageContentPolicy fallback)
+notificationsMessageContentPolicyFromStorage(
+  const QString &value,
+  UserSettings::NotificationMessageContentPolicy fallback)
 {
     return valueFromStorageToken(value, fallback, kNotificationMessageContentPolicyTokens);
 }

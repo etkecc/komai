@@ -30,7 +30,7 @@ bool timelineReadReceiptsEnabled_;
 bool notificationsEnabled_;
 bool notificationsAttentionOnIncoming_;
 bool uiAvatarsCircular_;
-NotificationMessageContentPolicy notificationMessageContentPolicy_ =
+NotificationMessageContentPolicy notificationsMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;
 bool sidebarsRoomListShowCommunityCounts_;
 bool sidebarsRoomListCompact_;

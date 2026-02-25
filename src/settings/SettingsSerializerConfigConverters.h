@@ -74,7 +74,7 @@ timelineMessageLayoutFromStorage(const QString &value,
 QString
 toStorageValue(UserSettings::NotificationMessageContentPolicy value);
 UserSettings::NotificationMessageContentPolicy
-notificationMessageContentPolicyFromStorage(
+notificationsMessageContentPolicyFromStorage(
   const QString &value,
   UserSettings::NotificationMessageContentPolicy fallback);
 

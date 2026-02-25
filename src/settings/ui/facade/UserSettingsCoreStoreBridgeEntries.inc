@@ -36,7 +36,7 @@ X(ComposerExtrasStickersEnabled, settings.composerExtrasStickersEnabled())
 X(NotificationsEnabled, settings.notificationsEnabled())
 X(NotificationsAttentionOnIncoming, settings.notificationsAttentionOnIncoming())
 X(NotificationsMessageContentPolicy,
-  static_cast<int>(settings.notificationMessageContentPolicy()))
+  static_cast<int>(settings.notificationsMessageContentPolicy()))
 X(CallsLegacyEnabled, settings.callsLegacyEnabled())
 X(CallsRelayUseFallbackServer, settings.callsRelayUseFallbackServer())
 X(CallsDevicesMicrophone, settings.callsDevicesMicrophone().toStdString())

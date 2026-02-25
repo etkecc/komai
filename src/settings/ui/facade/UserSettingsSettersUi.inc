@@ -240,16 +240,16 @@ UserSettings::setUiAvatarsCircular(bool s)
     save();
 }
 void
-UserSettings::setNotificationMessageContentPolicy(NotificationMessageContentPolicy s)
+UserSettings::setNotificationsMessageContentPolicy(NotificationMessageContentPolicy s)
 {
-    if (notificationMessageContentPolicy_ == s)
+    if (notificationsMessageContentPolicy_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::NotificationsMessageContentPolicy,
                       static_cast<int>(s),
                       "notifications.message_content_policy"))
         return;
-    notificationMessageContentPolicy_ = s;
-    emit notificationMessageContentPolicyChanged(s);
+    notificationsMessageContentPolicy_ = s;
+    emit notificationsMessageContentPolicyChanged(s);
     save();
 }
 void

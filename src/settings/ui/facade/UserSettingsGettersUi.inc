@@ -6,7 +6,7 @@
     bool sidebarsCommunitiesVisible() const;
     bool sidebarsRoomListScrollbarsEnabled() const;
     bool uiAvatarsCircular() const;
-    NotificationMessageContentPolicy notificationMessageContentPolicy() const;
+    NotificationMessageContentPolicy notificationsMessageContentPolicy() const;
     bool sidebarsRoomListShowCommunityCounts() const;
     bool sidebarsRoomListCompact() const;
     bool sidebarsRoomListShowLastMessageTime() const;

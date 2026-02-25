@@ -224,7 +224,7 @@ TimelineEvent {
                 id: messageHover
                 blocking: false
                 onHoveredChanged: {
-                    if (Settings.timelineMessageActionsPolicy !== Settings.TimelineMessageActionsPolicy.OnHover)
+                    if (Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsPolicy.OnHover)
                         return;
 
                     if (hovered) {
@@ -241,7 +241,7 @@ TimelineEvent {
                 interval: 180
                 repeat: false
                 onTriggered: {
-                    if (Settings.timelineMessageActionsPolicy !== Settings.TimelineMessageActionsPolicy.OnHover)
+                    if (Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsPolicy.OnHover)
                         return;
                     if (messageActions.attached !== wrapper || messageActions.pinned)
                         return;

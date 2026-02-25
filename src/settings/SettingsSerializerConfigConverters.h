@@ -62,8 +62,9 @@ lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePre
 QString
 toStorageValue(UserSettings::TimelineMessageActionsPolicy value);
 UserSettings::TimelineMessageActionsPolicy
-timelineMessageActionsPolicyFromStorage(const QString &value,
-                                        UserSettings::TimelineMessageActionsPolicy fallback);
+timelineMessageActionsActivationPolicyFromStorage(
+  const QString &value,
+  UserSettings::TimelineMessageActionsPolicy fallback);
 
 QString
 toStorageValue(UserSettings::TimelineMessageLayout value);

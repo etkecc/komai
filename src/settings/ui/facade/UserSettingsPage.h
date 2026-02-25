@@ -85,8 +85,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(RoomSortOrder sidebarsRoomListSort READ sidebarsRoomListSort WRITE
                  setSidebarsRoomListSort NOTIFY sidebarsRoomListSortChanged)
     Q_PROPERTY(
-      TimelineMessageActionsPolicy timelineMessageActionsPolicy READ timelineMessageActionsPolicy
-        WRITE setTimelineMessageActionsPolicy NOTIFY timelineMessageActionsPolicyChanged)
+      TimelineMessageActionsPolicy timelineMessageActionsActivationPolicy READ
+        timelineMessageActionsActivationPolicy WRITE setTimelineMessageActionsActivationPolicy
+          NOTIFY timelineMessageActionsActivationPolicyChanged)
     Q_PROPERTY(bool timelineReadReceiptsEnabled READ timelineReadReceiptsEnabled WRITE
                  setTimelineReadReceiptsEnabled NOTIFY timelineReadReceiptsEnabledChanged)
     Q_PROPERTY(bool notificationsEnabled READ notificationsEnabled WRITE setNotificationsEnabled
@@ -360,7 +361,7 @@ public:
     void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
     void setSidebarsRoomListSort(RoomSortOrder order);
-    void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
+    void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsPolicy policy);
     void setUiLayoutContentMaxWidthPx(int state);
     void setTimelineMessagesMaxWidthPx(int state);
     void setSidebarsCommunitiesWidthPx(int state);
@@ -480,7 +481,7 @@ signals:
     void timelineMediaAnimateOnHoverChanged(bool state);
     void composerTypingSendEnabledChanged(bool state);
     void timelineTypingShowEnabledChanged(bool state);
-    void timelineMessageActionsPolicyChanged(TimelineMessageActionsPolicy policy);
+    void timelineMessageActionsActivationPolicyChanged(TimelineMessageActionsPolicy policy);
     void timelineReadReceiptsEnabledChanged(bool state);
     void notificationsEnabledChanged(bool state);
     void notificationsAttentionOnIncomingChanged(bool state);

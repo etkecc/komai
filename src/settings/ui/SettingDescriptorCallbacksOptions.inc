@@ -54,7 +54,7 @@ timelineShowImageValues()
 }
 
 static QVariant
-timelineMessageActionsPolicyValues()
+timelineMessageActionsActivationPolicyValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "On message hover")

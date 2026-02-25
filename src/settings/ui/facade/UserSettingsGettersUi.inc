@@ -29,7 +29,7 @@
     bool composerTypingSendEnabled() const;
     bool timelineTypingShowEnabled() const;
     RoomSortOrder sidebarsRoomListSort() const;
-    TimelineMessageActionsPolicy timelineMessageActionsPolicy() const;
+    TimelineMessageActionsPolicy timelineMessageActionsActivationPolicy() const;
     bool uiInputModeTouchEnabled() const;
     bool uiInputTouchSwipeGesturesEnabled() const;
     bool timelineReadReceiptsEnabled() const;

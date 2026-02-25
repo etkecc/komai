@@ -109,14 +109,15 @@ applyLastMessagePreviewFromStorage(UserSettings &settings, const QString &rawTok
 QString
 timelineActionsPolicyToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.timelineMessageActionsPolicy());
+    return toStorageValue(settings.timelineMessageActionsActivationPolicy());
 }
 
 void
 applyTimelineActionsPolicyFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setTimelineMessageActionsPolicy(timelineMessageActionsPolicyFromStorage(
-      rawToken, UserSettings::TimelineMessageActionsPolicy::ActionsButton));
+    settings.setTimelineMessageActionsActivationPolicy(
+      timelineMessageActionsActivationPolicyFromStorage(
+        rawToken, UserSettings::TimelineMessageActionsPolicy::ActionsButton));
 }
 
 QString

@@ -166,7 +166,7 @@ UserSettings::timelineTypingShowEnabled() const
 }
 
 UserSettings::TimelineMessageActionsPolicy
-UserSettings::timelineMessageActionsPolicy() const
+UserSettings::timelineMessageActionsActivationPolicy() const
 {
     if (const auto value = coreStore_.valueAs<int>(
           settings::core::SettingId::TimelineMessageActionsActivationPolicy);
@@ -174,7 +174,7 @@ UserSettings::timelineMessageActionsPolicy() const
         *value >= static_cast<int>(UserSettings::TimelineMessageActionsPolicy::OnHover) &&
         *value <= static_cast<int>(UserSettings::TimelineMessageActionsPolicy::Never))
         return static_cast<UserSettings::TimelineMessageActionsPolicy>(*value);
-    return timelineMessageActionsPolicy_;
+    return timelineMessageActionsActivationPolicy_;
 }
 
 bool

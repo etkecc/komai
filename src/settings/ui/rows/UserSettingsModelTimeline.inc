@@ -70,8 +70,8 @@
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Actions activation policy",
       QT_TR_NOOP("Choose how message actions are opened."),
-      SM::TabTimeline, timelineMessageActionsPolicy, setTimelineMessageActionsPolicy, UserSettings::TimelineMessageActionsPolicy,
-      timelineMessageActionsPolicyValues,
+      SM::TabTimeline, timelineMessageActionsActivationPolicy, setTimelineMessageActionsActivationPolicy, UserSettings::TimelineMessageActionsPolicy,
+      timelineMessageActionsActivationPolicyValues,
       nullptr,
       TimelineMessageActionsActivationPolicy,
       SettingKey::TimelineMessageActionsActivationPolicy),

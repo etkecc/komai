@@ -155,16 +155,16 @@ UserSettings::setSidebarsRoomListSort(RoomSortOrder s)
     save();
 }
 void
-UserSettings::setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy s)
+UserSettings::setTimelineMessageActionsActivationPolicy(TimelineMessageActionsPolicy s)
 {
-    if (timelineMessageActionsPolicy_ == s)
+    if (timelineMessageActionsActivationPolicy_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::TimelineMessageActionsActivationPolicy,
                       static_cast<int>(s),
                       "timeline.messages.actions.activation_policy"))
         return;
-    timelineMessageActionsPolicy_ = s;
-    emit timelineMessageActionsPolicyChanged(s);
+    timelineMessageActionsActivationPolicy_ = s;
+    emit timelineMessageActionsActivationPolicyChanged(s);
     save();
 }
 void

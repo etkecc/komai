@@ -208,8 +208,9 @@ toStorageValue(UserSettings::TimelineMessageActionsPolicy value)
 }
 
 UserSettings::TimelineMessageActionsPolicy
-timelineMessageActionsPolicyFromStorage(const QString &value,
-                                        UserSettings::TimelineMessageActionsPolicy fallback)
+timelineMessageActionsActivationPolicyFromStorage(
+  const QString &value,
+  UserSettings::TimelineMessageActionsPolicy fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelineActionsPolicyTokens);
 }

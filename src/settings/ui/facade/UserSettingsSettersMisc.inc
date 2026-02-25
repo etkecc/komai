@@ -169,44 +169,44 @@ UserSettings::setCurrentTagId(const QString currentTagId)
 }
 
 void
-UserSettings::setCertificateValidationEnabled(bool enabled)
+UserSettings::setNetworkTlsEnableCertificateValidation(bool enabled)
 {
-    if (enabled == certificateValidationEnabled_)
+    if (enabled == networkTlsEnableCertificateValidation_)
         return;
-    certificateValidationEnabled_ = enabled;
+    networkTlsEnableCertificateValidation_ = enabled;
     (void)coreStore_.set(settings::core::SettingId::NetworkTlsEnableCertificateValidation, enabled);
     http::client()->verify_certificates(enabled);
-    emit certificateValidationEnabledChanged(enabled);
+    emit networkTlsEnableCertificateValidationChanged(enabled);
     save();
 }
 
 void
-UserSettings::setIdenticonFallbackEnabled(bool s)
+UserSettings::setUiAvatarsIdenticonFallback(bool s)
 {
-    if (identiconFallbackEnabled_ == s)
+    if (uiAvatarsIdenticonFallback_ == s)
         return;
-    identiconFallbackEnabled_ = s;
+    uiAvatarsIdenticonFallback_ = s;
     (void)coreStore_.set(settings::core::SettingId::UiAvatarsIdenticonFallback, s);
-    emit identiconFallbackEnabledChanged(s);
+    emit uiAvatarsIdenticonFallbackChanged(s);
     save();
 }
 void
-UserSettings::setOpenImagesInExternalApp(bool s)
+UserSettings::setTimelineMediaOpenImagesExternal(bool s)
 {
-    if (openImagesInExternalApp_ == s)
+    if (timelineMediaOpenImagesExternal_ == s)
         return;
-    openImagesInExternalApp_ = s;
+    timelineMediaOpenImagesExternal_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMediaOpenImagesExternal, s);
-    emit openImagesInExternalAppChanged(s);
+    emit timelineMediaOpenImagesExternalChanged(s);
     save();
 }
 void
-UserSettings::setOpenVideosInExternalApp(bool s)
+UserSettings::setTimelineMediaOpenVideosExternal(bool s)
 {
-    if (openVideosInExternalApp_ == s)
+    if (timelineMediaOpenVideosExternal_ == s)
         return;
-    openVideosInExternalApp_ = s;
+    timelineMediaOpenVideosExternal_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMediaOpenVideosExternal, s);
-    emit openVideosInExternalAppChanged(s);
+    emit timelineMediaOpenVideosExternalChanged(s);
     save();
 }

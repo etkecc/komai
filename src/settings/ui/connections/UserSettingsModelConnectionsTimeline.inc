@@ -16,5 +16,5 @@
     CONNECT_SETTING_ID(TimelineMediaEffectsEnabled, timelineMediaEffectsEnabledChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaAnimateOnHover, timelineMediaAnimateOnHoverChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaImageDisplay, timelineMediaImageDisplayChanged, Value);
-    CONNECT_SETTING_ID(TimelineMediaOpenImagesExternal, openImagesInExternalAppChanged, Value);
-    CONNECT_SETTING_ID(TimelineMediaOpenVideosExternal, openVideosInExternalAppChanged, Value);
+    CONNECT_SETTING_ID(TimelineMediaOpenImagesExternal, timelineMediaOpenImagesExternalChanged, Value);
+    CONNECT_SETTING_ID(TimelineMediaOpenVideosExternal, timelineMediaOpenVideosExternalChanged, Value);

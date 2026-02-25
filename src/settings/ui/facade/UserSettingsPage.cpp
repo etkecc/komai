@@ -118,14 +118,14 @@ UserSettings::emojiFont() const
 }
 
 bool
-UserSettings::identiconFallbackEnabled() const
+UserSettings::uiAvatarsIdenticonFallback() const
 {
     const auto enabled = [this]() {
         if (const auto value =
               coreStore_.valueAs<bool>(settings::core::SettingId::UiAvatarsIdenticonFallback);
             value.has_value())
             return *value;
-        return identiconFallbackEnabled_;
+        return uiAvatarsIdenticonFallback_;
     }();
     return enabled && JdenticonProvider::isAvailable();
 }

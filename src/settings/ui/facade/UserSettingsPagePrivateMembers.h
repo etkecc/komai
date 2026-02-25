@@ -66,7 +66,7 @@ bool screenShareRemoteVideo_;
 bool screenShareShowCursor_ = settings::core::definitions::kDefaultScreenShareShowCursor;
 bool callsRelayUseFallbackServer_;
 bool callsLegacyEnabled_;
-bool certificateValidationEnabled_ =
+bool networkTlsEnableCertificateValidation_ =
   settings::core::definitions::kDefaultCertificateValidationEnabled;
 QString profile_;
 QString userId_;
@@ -80,9 +80,9 @@ QStringList hiddenPins_;
 QStringList hiddenWidgets_;
 QStringList recentReactions_;
 QList<QStringList> collapsedSpaces_;
-bool identiconFallbackEnabled_;
-bool openImagesInExternalApp_;
-bool openVideosInExternalApp_;
+bool uiAvatarsIdenticonFallback_;
+bool timelineMediaOpenImagesExternal_;
+bool timelineMediaOpenVideosExternal_;
 int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
 QString integrationsLinksBrowserCommand_;
 bool updateSpaceVias_;

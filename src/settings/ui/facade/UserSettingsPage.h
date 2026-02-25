@@ -168,14 +168,15 @@ class UserSettings final : public QObject
     Q_PROPERTY(QString accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged)
     Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
     Q_PROPERTY(QString homeserver READ homeserver WRITE setHomeserver NOTIFY homeserverChanged)
-    Q_PROPERTY(bool certificateValidationEnabled READ certificateValidationEnabled WRITE
-                 setCertificateValidationEnabled NOTIFY certificateValidationEnabledChanged)
-    Q_PROPERTY(bool identiconFallbackEnabled READ identiconFallbackEnabled WRITE
-                 setIdenticonFallbackEnabled NOTIFY identiconFallbackEnabledChanged)
-    Q_PROPERTY(bool openImagesInExternalApp READ openImagesInExternalApp WRITE
-                 setOpenImagesInExternalApp NOTIFY openImagesInExternalAppChanged)
-    Q_PROPERTY(bool openVideosInExternalApp READ openVideosInExternalApp WRITE
-                 setOpenVideosInExternalApp NOTIFY openVideosInExternalAppChanged)
+    Q_PROPERTY(bool networkTlsEnableCertificateValidation READ networkTlsEnableCertificateValidation
+                 WRITE setNetworkTlsEnableCertificateValidation NOTIFY
+                   networkTlsEnableCertificateValidationChanged)
+    Q_PROPERTY(bool uiAvatarsIdenticonFallback READ uiAvatarsIdenticonFallback WRITE
+                 setUiAvatarsIdenticonFallback NOTIFY uiAvatarsIdenticonFallbackChanged)
+    Q_PROPERTY(bool timelineMediaOpenImagesExternal READ timelineMediaOpenImagesExternal WRITE
+                 setTimelineMediaOpenImagesExternal NOTIFY timelineMediaOpenImagesExternalChanged)
+    Q_PROPERTY(bool timelineMediaOpenVideosExternal READ timelineMediaOpenVideosExternal WRITE
+                 setTimelineMediaOpenVideosExternal NOTIFY timelineMediaOpenVideosExternalChanged)
     Q_PROPERTY(QString integrationsLinksBrowserCommand READ integrationsLinksBrowserCommand WRITE
                  setIntegrationsLinksBrowserCommand NOTIFY integrationsLinksBrowserCommandChanged)
     Q_PROPERTY(int integrationsDbusApiAccess READ integrationsDbusApiAccess WRITE
@@ -386,15 +387,15 @@ public:
     void setDeviceId(QString deviceId);
     void setCurrentTagId(QString currentTagId);
     void setHomeserver(QString homeserver);
-    void setCertificateValidationEnabled(bool enabled);
+    void setNetworkTlsEnableCertificateValidation(bool enabled);
     void setHiddenTags(const QStringList &hiddenTags);
     void setMutedTags(const QStringList &mutedTags);
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setRecentReactions(QStringList recent);
-    void setIdenticonFallbackEnabled(bool state);
-    void setOpenImagesInExternalApp(bool state);
-    void setOpenVideosInExternalApp(bool state);
+    void setUiAvatarsIdenticonFallback(bool state);
+    void setTimelineMediaOpenImagesExternal(bool state);
+    void setTimelineMediaOpenVideosExternal(bool state);
     void setIntegrationsLinksBrowserCommand(QString command);
     void setCollapsedSpaces(QList<QStringList> spaces);
     void setIntegrationsDbusApiAccess(int access);
@@ -511,10 +512,10 @@ signals:
     void accessTokenChanged(QString accessToken);
     void deviceIdChanged(QString deviceId);
     void homeserverChanged(QString homeserver);
-    void certificateValidationEnabledChanged(bool enabled);
-    void identiconFallbackEnabledChanged(bool state);
-    void openImagesInExternalAppChanged(bool state);
-    void openVideosInExternalAppChanged(bool state);
+    void networkTlsEnableCertificateValidationChanged(bool enabled);
+    void uiAvatarsIdenticonFallbackChanged(bool state);
+    void timelineMediaOpenImagesExternalChanged(bool state);
+    void timelineMediaOpenVideosExternalChanged(bool state);
     void hiddenPinsChanged();
     void hiddenWidgetsChanged();
     void recentReactionsChanged();

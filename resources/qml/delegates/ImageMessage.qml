@@ -107,7 +107,7 @@ AbstractButton {
     property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth+4 : false
 
     onClicked: {
-        Settings.openImagesInExternalApp ? room.openMedia(eventId) : TimelineManager.openImageOverlay(room, url, eventId, originalWidth, proportionalHeight);
+        Settings.timelineMediaOpenImagesExternal ? room.openMedia(eventId) : TimelineManager.openImageOverlay(room, url, eventId, originalWidth, proportionalHeight);
     }
 
     Item {

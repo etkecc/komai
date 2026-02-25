@@ -58,7 +58,8 @@ RegisterPage::setServer(const QString &server)
     lastServer = server;
 
     http::client()->set_server(server.toStdString());
-    http::client()->verify_certificates(UserSettings::instance()->certificateValidationEnabled());
+    http::client()->verify_certificates(
+      UserSettings::instance()->networkTlsEnableCertificateValidation());
 
     hsError_.clear();
     emit hsErrorChanged();

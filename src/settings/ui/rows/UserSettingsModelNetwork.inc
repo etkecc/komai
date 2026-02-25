@@ -26,7 +26,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Validate TLS certificates",
       QT_TR_NOOP("Reject invalid or untrusted server certificates."),
-      SM::TabNetwork, certificateValidationEnabled, setCertificateValidationEnabled, nullptr, NetworkTlsEnableCertificateValidation, SettingKey::NetworkTlsEnableCertificateValidation),
+      SM::TabNetwork, networkTlsEnableCertificateValidation, setNetworkTlsEnableCertificateValidation, nullptr, NetworkTlsEnableCertificateValidation, SettingKey::NetworkTlsEnableCertificateValidation),
     // NetworkHttp3Enabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable HTTP/3",

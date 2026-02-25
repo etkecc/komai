@@ -116,7 +116,7 @@ LoginPage::onMatrixIdEntered()
 
         http::client()->set_server(user.hostname());
         http::client()->verify_certificates(
-          UserSettings::instance()->certificateValidationEnabled());
+          UserSettings::instance()->networkTlsEnableCertificateValidation());
         homeserver_ = QString::fromStdString(user.hostname());
         emit homeserverChanged();
 

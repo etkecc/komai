@@ -41,14 +41,14 @@ AbstractButton {
         text: TimelineManager.escapeEmoji(avatar.displayName ? String.fromCodePoint(avatar.displayName.codePointAt(0)) : "")
         textFormat: Text.RichText
         verticalAlignment: Text.AlignVCenter
-        visible: img.status != Image.Ready && !Settings.identiconFallbackEnabled
+        visible: img.status != Image.Ready && !Settings.uiAvatarsIdenticonFallback
     }
     Image {
         id: identicon
 
         anchors.fill: parent
-        source: Settings.identiconFallbackEnabled ? ("image://jdenticon/" + (avatar.userid !== "" ? avatar.userid : avatar.roomid) + "?radius=" + (Settings.circularAvatarsEnabled ? 100 : 25)) : ""
-        visible: Settings.identiconFallbackEnabled && img.status != Image.Ready
+        source: Settings.uiAvatarsIdenticonFallback ? ("image://jdenticon/" + (avatar.userid !== "" ? avatar.userid : avatar.roomid) + "?radius=" + (Settings.circularAvatarsEnabled ? 100 : 25)) : ""
+        visible: Settings.uiAvatarsIdenticonFallback && img.status != Image.Ready
     }
     Image {
         id: img

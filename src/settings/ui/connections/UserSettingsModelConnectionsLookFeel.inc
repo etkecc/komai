@@ -13,7 +13,7 @@
     CONNECT_SETTING_ID(
       SidebarsRoomListShowCommunityCounts, sidebarsRoomListShowCommunityCountsChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, circularAvatarsEnabledChanged, Value);
-    CONNECT_SETTING_ID(UiAvatarsIdenticonFallback, identiconFallbackEnabledChanged, Value);
+    CONNECT_SETTING_ID(UiAvatarsIdenticonFallback, uiAvatarsIdenticonFallbackChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListScrollbarsEnabled, sidebarsRoomListScrollbarsVisibleChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);

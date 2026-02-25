@@ -63,7 +63,7 @@ Item {
         }
 
         TapHandler {
-            onTapped: Settings.openVideosInExternalApp ? room.openMedia(eventId) : mediaControls.showControls()
+            onTapped: Settings.timelineMediaOpenVideosExternal ? room.openMedia(eventId) : mediaControls.showControls()
         }
 
         Image {

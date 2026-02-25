@@ -223,7 +223,7 @@ const std::array<StringSettingDescriptor, 9> StringSettings{
                           &UserSettings::setUiFontFamily},
   StringSettingDescriptor{SettingKey::UiFontEmojiFamily,
                           QString(),
-                          &UserSettings::emojiFontFamily,
+                          &UserSettings::uiEmojiFontFamilyConfigured,
                           &UserSettings::setUiEmojiFontFamily},
   StringSettingDescriptor{SettingKey::TimelineMessageActionsPinnedReactions,
                           QString::fromUtf8(settings::core::definitions::kDefaultPinnedReactions),

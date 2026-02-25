@@ -639,6 +639,9 @@ set(SRC_FILES
     src/settings/core/SettingsSerializer.h
     src/settings/core/SettingsSerializer.cpp
     src/settings/SettingsPersistence.cpp
+    src/settings/SettingsPersistenceLoad.cpp
+    src/settings/SettingsPersistenceSave.cpp
+    src/settings/SettingsPersistenceInternal.h
     src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
     src/settings/SettingsStorageSecureBackend.cpp
@@ -1159,6 +1162,8 @@ if(BUILD_TESTING)
         src/settings/StartupSettings.cpp
         src/settings/SettingsController.cpp
         src/settings/SettingsPersistence.cpp
+        src/settings/SettingsPersistenceLoad.cpp
+        src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsSerializerConfig.cpp
         src/settings/SettingsSerializerConfigConverters.cpp
         src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp
@@ -1203,6 +1208,8 @@ if(BUILD_TESTING)
         src/Paths.cpp
         src/CacheApiWrappers.cpp
         src/settings/SettingsPersistence.cpp
+        src/settings/SettingsPersistenceLoad.cpp
+        src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsStorage.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         src/settings/SettingsStorageSecretsCodec.cpp

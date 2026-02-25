@@ -21,7 +21,7 @@
     int windowWidth() const;
     int windowHeight() const;
     qulonglong dbMaxSizeBytes() const;
-    uint maxStores() const;
+    uint dbMaxStores() const;
     bool usesFileSecretsProvider() const;
     bool networkHttp3Enabled() const;
     settings::core::SettingsStore &mutableCoreStore();

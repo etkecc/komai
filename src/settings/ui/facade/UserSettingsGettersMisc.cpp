@@ -144,9 +144,9 @@ UserSettings::dbMaxSizeBytes() const
     return dbMaxSizeBytes_;
 }
 uint
-UserSettings::maxStores() const
+UserSettings::dbMaxStores() const
 {
-    return maxStores_;
+    return dbMaxStores_;
 }
 // Internal helper: secrets provider is configured via `secrets.provider` in config.yml.
 bool

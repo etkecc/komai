@@ -186,9 +186,9 @@ UserSettings::setDbMaxSizeBytes(qulonglong s)
     setSetting(dbMaxSizeBytes_, s, &UserSettings::dbMaxSizeBytesChanged);
 }
 void
-UserSettings::setMaxStores(uint s)
+UserSettings::setDbMaxStores(uint s)
 {
-    setSetting(maxStores_, s, &UserSettings::maxStoresChanged);
+    setSetting(dbMaxStores_, s, &UserSettings::dbMaxStoresChanged);
 }
 void
 UserSettings::setNetworkHttp3Enabled(bool s)

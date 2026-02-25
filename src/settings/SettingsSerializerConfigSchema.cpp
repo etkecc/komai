@@ -198,8 +198,8 @@ const std::array<IntSettingDescriptor, 4> IntSettings{
 const std::array<UintSettingDescriptor, 1> UintSettings{
   UintSettingDescriptor{SettingKey::DbMaxStores,
                         kDefaultMaxStores,
-                        &UserSettings::maxStores,
-                        &UserSettings::setMaxStores},
+                        &UserSettings::dbMaxStores,
+                        &UserSettings::setDbMaxStores},
 };
 
 const std::array<ULongLongSettingDescriptor, 1> ULongLongSettings{

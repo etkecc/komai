@@ -211,7 +211,7 @@ class UserSettings final : public QObject
     // Database settings (internal, auto-adjusted)
     Q_PROPERTY(qulonglong dbMaxSizeBytes READ dbMaxSizeBytes WRITE setDbMaxSizeBytes NOTIFY
                  dbMaxSizeBytesChanged)
-    Q_PROPERTY(uint maxStores READ maxStores WRITE setMaxStores NOTIFY maxStoresChanged)
+    Q_PROPERTY(uint dbMaxStores READ dbMaxStores WRITE setDbMaxStores NOTIFY dbMaxStoresChanged)
 
     // Experimental features
     Q_PROPERTY(bool networkHttp3Enabled READ networkHttp3Enabled WRITE setNetworkHttp3Enabled NOTIFY
@@ -419,7 +419,7 @@ public:
     void setWindowWidth(int width);
     void setWindowHeight(int height);
     void setDbMaxSizeBytes(qulonglong size);
-    void setMaxStores(uint count);
+    void setDbMaxStores(uint count);
     void setNetworkHttp3Enabled(bool state);
     void clearAuth();
     bool hasPersistedSessionIdentity() const;
@@ -541,7 +541,7 @@ signals:
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);
     void dbMaxSizeBytesChanged(qulonglong size);
-    void maxStoresChanged(uint count);
+    void dbMaxStoresChanged(uint count);
     void networkHttp3EnabledChanged(bool state);
 
 private:

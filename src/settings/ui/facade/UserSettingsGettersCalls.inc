@@ -9,6 +9,6 @@
     bool screenShareShowCursor() const;
     bool fallbackCallRelayServerEnabled() const;
     bool legacyCallsEnabled() const;
-    bool shareKeysWithTrustedUsers() const;
-    bool onlyShareKeysWithVerifiedUsers() const;
+    bool encryptionKeySharingShareWithTrusted() const;
+    bool encryptionKeySharingOnlyVerifiedUsers() const;
     bool encryptionBackupOnlineEnabled() const;

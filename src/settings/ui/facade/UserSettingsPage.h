@@ -149,10 +149,12 @@ class UserSettings final : public QObject
                  setFallbackCallRelayServerEnabled NOTIFY fallbackCallRelayServerEnabledChanged)
     Q_PROPERTY(bool legacyCallsEnabled READ legacyCallsEnabled WRITE setLegacyCallsEnabled NOTIFY
                  legacyCallsEnabledChanged)
-    Q_PROPERTY(bool onlyShareKeysWithVerifiedUsers READ onlyShareKeysWithVerifiedUsers WRITE
-                 setOnlyShareKeysWithVerifiedUsers NOTIFY onlyShareKeysWithVerifiedUsersChanged)
-    Q_PROPERTY(bool shareKeysWithTrustedUsers READ shareKeysWithTrustedUsers WRITE
-                 setShareKeysWithTrustedUsers NOTIFY shareKeysWithTrustedUsersChanged)
+    Q_PROPERTY(bool encryptionKeySharingOnlyVerifiedUsers READ encryptionKeySharingOnlyVerifiedUsers
+                 WRITE setEncryptionKeySharingOnlyVerifiedUsers NOTIFY
+                   encryptionKeySharingOnlyVerifiedUsersChanged)
+    Q_PROPERTY(
+      bool encryptionKeySharingShareWithTrusted READ encryptionKeySharingShareWithTrusted WRITE
+        setEncryptionKeySharingShareWithTrusted NOTIFY encryptionKeySharingShareWithTrustedChanged)
     Q_PROPERTY(bool encryptionBackupOnlineEnabled READ encryptionBackupOnlineEnabled WRITE
                  setEncryptionBackupOnlineEnabled NOTIFY encryptionBackupOnlineEnabledChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
@@ -368,8 +370,8 @@ public:
     void setScreenShareShowCursor(bool state);
     void setFallbackCallRelayServerEnabled(bool state);
     void setLegacyCallsEnabled(bool state);
-    void setOnlyShareKeysWithVerifiedUsers(bool state);
-    void setShareKeysWithTrustedUsers(bool state);
+    void setEncryptionKeySharingOnlyVerifiedUsers(bool state);
+    void setEncryptionKeySharingShareWithTrusted(bool state);
     void setEncryptionBackupOnlineEnabled(bool state);
     void setEncryptionBackupOnlineEnabledFromConfig(bool state);
     void setProfile(QString profile);
@@ -495,8 +497,8 @@ signals:
     void screenShareShowCursorChanged(bool state);
     void fallbackCallRelayServerEnabledChanged(bool state);
     void legacyCallsEnabledChanged(bool state);
-    void onlyShareKeysWithVerifiedUsersChanged(bool state);
-    void shareKeysWithTrustedUsersChanged(bool state);
+    void encryptionKeySharingOnlyVerifiedUsersChanged(bool state);
+    void encryptionKeySharingShareWithTrustedChanged(bool state);
     void encryptionBackupOnlineEnabledChanged(bool state);
     void profileChanged(QString profile);
     void userIdChanged(QString userId);

@@ -1,8 +1,8 @@
     // Encryption
     CONNECT_SETTING_ID(
-      EncryptionKeySharingOnlyVerifiedUsers, onlyShareKeysWithVerifiedUsersChanged, Value);
+      EncryptionKeySharingOnlyVerifiedUsers, encryptionKeySharingOnlyVerifiedUsersChanged, Value);
     CONNECT_SETTING_ID(
-      EncryptionKeySharingShareWithTrusted, shareKeysWithTrustedUsersChanged, Value);
+      EncryptionKeySharingShareWithTrusted, encryptionKeySharingShareWithTrustedChanged, Value);
     CONNECT_SETTING_ID(EncryptionBackupOnlineEnabled, encryptionBackupOnlineEnabledChanged, Value);
 
     // Cross-signing secrets (from MainWindow, not UserSettings)

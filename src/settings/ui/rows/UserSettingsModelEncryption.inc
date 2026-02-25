@@ -7,12 +7,12 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Send encrypted messages to verified users only",
       QT_TR_NOOP("Requires a user to be verified to send encrypted messages to them. This improves safety but makes E2EE more tedious."),
-      SM::TabEncryption, onlyShareKeysWithVerifiedUsers, setOnlyShareKeysWithVerifiedUsers, nullptr, EncryptionKeySharingOnlyVerifiedUsers, SettingKey::EncryptionKeySharingOnlyVerifiedUsers),
+      SM::TabEncryption, encryptionKeySharingOnlyVerifiedUsers, setEncryptionKeySharingOnlyVerifiedUsers, nullptr, EncryptionKeySharingOnlyVerifiedUsers, SettingKey::EncryptionKeySharingOnlyVerifiedUsers),
     // ShareKeysWithTrustedUsers
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Share keys with verified users and devices",
       QT_TR_NOOP("Automatically replies to key requests from other users if they are verified, even if that device shouldn't have access to those keys otherwise."),
-      SM::TabEncryption, shareKeysWithTrustedUsers, setShareKeysWithTrustedUsers, nullptr, EncryptionKeySharingShareWithTrusted, SettingKey::EncryptionKeySharingShareWithTrusted),
+      SM::TabEncryption, encryptionKeySharingShareWithTrusted, setEncryptionKeySharingShareWithTrusted, nullptr, EncryptionKeySharingShareWithTrusted, SettingKey::EncryptionKeySharingShareWithTrusted),
     // EncryptionBackupSection
     { QT_TR_NOOP("Backup"), nullptr, SM::SectionTitle, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

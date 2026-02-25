@@ -19,23 +19,23 @@ UserSettings::setLegacyCallsEnabled(bool s)
     save();
 }
 void
-UserSettings::setOnlyShareKeysWithVerifiedUsers(bool s)
+UserSettings::setEncryptionKeySharingOnlyVerifiedUsers(bool s)
 {
-    if (onlyShareKeysWithVerifiedUsers_ == s)
+    if (encryptionKeySharingOnlyVerifiedUsers_ == s)
         return;
-    onlyShareKeysWithVerifiedUsers_ = s;
+    encryptionKeySharingOnlyVerifiedUsers_ = s;
     (void)coreStore_.set(settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers, s);
-    emit onlyShareKeysWithVerifiedUsersChanged(s);
+    emit encryptionKeySharingOnlyVerifiedUsersChanged(s);
     save();
 }
 void
-UserSettings::setShareKeysWithTrustedUsers(bool s)
+UserSettings::setEncryptionKeySharingShareWithTrusted(bool s)
 {
-    if (shareKeysWithTrustedUsers_ == s)
+    if (encryptionKeySharingShareWithTrusted_ == s)
         return;
-    shareKeysWithTrustedUsers_ = s;
+    encryptionKeySharingShareWithTrusted_ = s;
     (void)coreStore_.set(settings::core::SettingId::EncryptionKeySharingShareWithTrusted, s);
-    emit shareKeysWithTrustedUsersChanged(s);
+    emit encryptionKeySharingShareWithTrustedChanged(s);
     save();
 }
 

@@ -104,22 +104,22 @@ UserSettings::legacyCallsEnabled() const
     return legacyCallsEnabled_;
 }
 bool
-UserSettings::shareKeysWithTrustedUsers() const
+UserSettings::encryptionKeySharingShareWithTrusted() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::EncryptionKeySharingShareWithTrusted);
         value.has_value())
         return *value;
-    return shareKeysWithTrustedUsers_;
+    return encryptionKeySharingShareWithTrusted_;
 }
 bool
-UserSettings::onlyShareKeysWithVerifiedUsers() const
+UserSettings::encryptionKeySharingOnlyVerifiedUsers() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
           settings::core::SettingId::EncryptionKeySharingOnlyVerifiedUsers);
         value.has_value())
         return *value;
-    return onlyShareKeysWithVerifiedUsers_;
+    return encryptionKeySharingOnlyVerifiedUsers_;
 }
 bool
 UserSettings::encryptionBackupOnlineEnabled() const

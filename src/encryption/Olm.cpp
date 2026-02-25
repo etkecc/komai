@@ -529,7 +529,7 @@ encrypt_group_message(const std::string &room_id, const std::string &device_id, 
     auto own_user_id = http::client()->user_id().to_string();
 
     auto members = cache::getMembersWithKeys(
-      room_id, UserSettings::instance()->onlyShareKeysWithVerifiedUsers());
+      room_id, UserSettings::instance()->encryptionKeySharingOnlyVerifiedUsers());
 
     std::map<std::string, std::vector<std::string>> sendSessionTo;
     mtx::crypto::OutboundGroupSessionPtr session = nullptr;
@@ -1170,7 +1170,7 @@ handle_key_request_message(const mtx::events::DeviceEvent<mtx::events::msg::KeyR
     bool verifiedDevice     = false;
     if (verificationStatus &&
         // Share keys, if the option to share with trusted users is enabled or with yourself
-        (ChatPage::instance()->userSettings()->shareKeysWithTrustedUsers() ||
+        (ChatPage::instance()->userSettings()->encryptionKeySharingShareWithTrusted() ||
          req.sender == http::client()->user_id().to_string())) {
         for (const auto &dev : verificationStatus->verified_devices) {
             if (dev == req.content.requesting_device_id) {

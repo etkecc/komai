@@ -64,8 +64,8 @@ int screenShareFrameRate_;
 bool screenSharePiP_;
 bool screenShareRemoteVideo_;
 bool screenShareShowCursor_ = settings::core::definitions::kDefaultScreenShareShowCursor;
-bool fallbackCallRelayServerEnabled_;
-bool legacyCallsEnabled_;
+bool callsRelayUseFallbackServer_;
+bool callsLegacyEnabled_;
 bool certificateValidationEnabled_ =
   settings::core::definitions::kDefaultCertificateValidationEnabled;
 QString profile_;

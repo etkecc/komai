@@ -1,21 +1,21 @@
 void
-UserSettings::setFallbackCallRelayServerEnabled(bool s)
+UserSettings::setCallsRelayUseFallbackServer(bool s)
 {
-    if (fallbackCallRelayServerEnabled_ == s)
+    if (callsRelayUseFallbackServer_ == s)
         return;
-    fallbackCallRelayServerEnabled_ = s;
+    callsRelayUseFallbackServer_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsRelayUseFallbackServer, s);
-    emit fallbackCallRelayServerEnabledChanged(s);
+    emit callsRelayUseFallbackServerChanged(s);
     save();
 }
 void
-UserSettings::setLegacyCallsEnabled(bool s)
+UserSettings::setCallsLegacyEnabled(bool s)
 {
-    if (legacyCallsEnabled_ == s)
+    if (callsLegacyEnabled_ == s)
         return;
-    legacyCallsEnabled_ = s;
+    callsLegacyEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsLegacyEnabled, s);
-    emit legacyCallsEnabledChanged(s);
+    emit callsLegacyEnabledChanged(s);
     save();
 }
 void

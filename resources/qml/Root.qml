@@ -307,7 +307,7 @@ Pane {
     }
     Connections {
         function onNewInviteState() {
-            if (CallManager.haveCallInvite && !Settings.touchInputModeEnabled && Settings.legacyCallsEnabled) {
+            if (CallManager.haveCallInvite && !Settings.touchInputModeEnabled && Settings.callsLegacyEnabled) {
                 var component = Qt.createComponent("qrc:/resources/qml/voip/CallInvite.qml");
                 if (component.status == Component.Ready) {
                     var dialog = component.createObject(timelineRoot);

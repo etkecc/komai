@@ -139,7 +139,7 @@ Item {
                         filterByNotifications: topBar.filterNotifications
                     }
                     Loader {
-                        source: CallManager.isOnCall && CallManager.callType != Voip.VOICE && Settings.legacyCallsEnabled ? (Qt.platform.os != "windows" ? "voip/VideoCall.qml" : "voip/VideoCallD3D11.qml") : ""
+                        source: CallManager.isOnCall && CallManager.callType != Voip.VOICE && Settings.callsLegacyEnabled ? (Qt.platform.os != "windows" ? "voip/VideoCall.qml" : "voip/VideoCallD3D11.qml") : ""
 
                         onLoaded: TimelineManager.setVideoCallItem()
                     }

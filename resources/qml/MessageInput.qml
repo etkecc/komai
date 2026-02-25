@@ -51,7 +51,7 @@ Rectangle {
             hoverEnabled: true
             image: CallManager.isOnCall ? ":/icons/icons/ui/end-call.svg" : ":/icons/icons/ui/place-call.svg"
             opacity: (CallManager.haveCallInvite || CallManager.isOnCallOnOtherDevice) ? 0.3 : 1
-            visible: CallManager.callsSupported && showAllButtons && Settings.legacyCallsEnabled
+            visible: CallManager.callsSupported && showAllButtons && Settings.callsLegacyEnabled
             Layout.preferredWidth: 32
 
             onClicked: {

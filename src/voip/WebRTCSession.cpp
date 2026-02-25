@@ -901,7 +901,7 @@ WebRTCSession::startPipeline(int opusPayloadType, int vp8PayloadType)
 
     webrtc_ = gst_bin_get_by_name(GST_BIN(pipe_), "webrtcbin");
 
-    if (ChatPage::instance()->userSettings()->fallbackCallRelayServerEnabled()) {
+    if (ChatPage::instance()->userSettings()->callsRelayUseFallbackServer()) {
         nhlog::ui()->info("WebRTC: setting STUN server: {}", STUN_SERVER);
         g_object_set(webrtc_, "stun-server", STUN_SERVER, nullptr);
     }

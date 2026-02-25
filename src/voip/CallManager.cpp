@@ -237,7 +237,7 @@ CallManager::CallManager(QObject *parent)
 void
 CallManager::sendInvite(const QString &roomid, CallType callType, unsigned int windowIndex)
 {
-    if (!UserSettings::instance()->legacyCallsEnabled())
+    if (!UserSettings::instance()->callsLegacyEnabled())
         return;
     if (isOnCall() || isOnCallOnOtherDevice()) {
         if (isOnCallOnOtherDevice_ != "")
@@ -368,7 +368,7 @@ CallManager::hangUp(CallHangUp::Reason reason)
 void
 CallManager::syncEvent(const mtx::events::collections::TimelineEvents &event)
 {
-    if (!UserSettings::instance()->legacyCallsEnabled())
+    if (!UserSettings::instance()->callsLegacyEnabled())
         return;
 #ifdef GSTREAMER_AVAILABLE
     if (handleEvent<CallInvite>(event) || handleEvent<CallCandidates>(event) ||

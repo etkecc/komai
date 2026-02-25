@@ -87,21 +87,21 @@ UserSettings::screenShareShowCursor() const
     return screenShareShowCursor_;
 }
 bool
-UserSettings::fallbackCallRelayServerEnabled() const
+UserSettings::callsRelayUseFallbackServer() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::CallsRelayUseFallbackServer);
         value.has_value())
         return *value;
-    return fallbackCallRelayServerEnabled_;
+    return callsRelayUseFallbackServer_;
 }
 bool
-UserSettings::legacyCallsEnabled() const
+UserSettings::callsLegacyEnabled() const
 {
     if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::CallsLegacyEnabled);
         value.has_value())
         return *value;
-    return legacyCallsEnabled_;
+    return callsLegacyEnabled_;
 }
 bool
 UserSettings::encryptionKeySharingShareWithTrusted() const

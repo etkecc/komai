@@ -7,11 +7,11 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable legacy calls",
       QT_TR_NOOP("Show the legacy call button in the composer. This older VoIP path may be unreliable."),
-      SM::TabCalls, legacyCallsEnabled, setLegacyCallsEnabled, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
+      SM::TabCalls, callsLegacyEnabled, setCallsLegacyEnabled, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
     // UseFallbackCallRelayServer
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use turn.matrix.org as fallback relay",
                         QT_TR_NOOP("Use turn.matrix.org as a fallback relay/STUN server when your homeserver does not provide one."),
-                        SM::TabCalls, fallbackCallRelayServerEnabled, setFallbackCallRelayServerEnabled, nullptr, CallsRelayUseFallbackServer, SettingKey::CallsRelayUseFallbackServer),
+                        SM::TabCalls, callsRelayUseFallbackServer, setCallsRelayUseFallbackServer, nullptr, CallsRelayUseFallbackServer, SettingKey::CallsRelayUseFallbackServer),
     // CallsDevicesSection
     { QT_TR_NOOP("Devices"), nullptr, SM::SectionTitle, SM::TabCalls,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

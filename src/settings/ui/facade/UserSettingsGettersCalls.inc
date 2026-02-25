@@ -7,8 +7,8 @@
     bool screenSharePiP() const;
     bool screenShareRemoteVideo() const;
     bool screenShareShowCursor() const;
-    bool fallbackCallRelayServerEnabled() const;
-    bool legacyCallsEnabled() const;
+    bool callsRelayUseFallbackServer() const;
+    bool callsLegacyEnabled() const;
     bool encryptionKeySharingShareWithTrusted() const;
     bool encryptionKeySharingOnlyVerifiedUsers() const;
     bool encryptionBackupOnlineEnabled() const;

@@ -73,8 +73,8 @@ Note:
 | Notifications | SYSTEM NOTIFICATIONS | Enable system notifications | `UserSettingsModel::NotificationsEnabled` | `desktop_notifications` | `notifications.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `UserSettingsModel::NotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `notifications.attention_on_incoming` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Message content in notifications | `UserSettingsModel::NotificationMessageContentPolicy` | `decrypt_notifications` | `notifications.message_content_policy` | config.yml | yes |
-| Calls | GENERAL | Enable legacy calls | `UserSettingsModel::LegacyCallsEnabled` | `enable_legacy_calls` | `calls.legacy.enabled` | config.yml | yes |
-| Calls | GENERAL | Use turn.matrix.org as fallback relay | `UserSettingsModel::FallbackCallRelayServerEnabled` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
+| Calls | GENERAL | Enable legacy calls | `UserSettingsModel::CallsLegacyEnabled` | `enable_legacy_calls` | `calls.legacy.enabled` | config.yml | yes |
+| Calls | GENERAL | Use turn.matrix.org as fallback relay | `UserSettingsModel::CallsRelayUseFallbackServer` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
 | Calls | DEVICES | Microphone | `UserSettingsModel::Microphone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
 | Calls | DEVICES | Camera | `UserSettingsModel::Camera` | `camera` | `calls.devices.camera` | config.yml | yes |
 | Calls | DEVICES | Camera resolution | `UserSettingsModel::CameraResolution` | `camera_resolution` | `calls.devices.camera_resolution` | config.yml | yes |

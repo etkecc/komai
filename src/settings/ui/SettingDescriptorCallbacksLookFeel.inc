@@ -161,20 +161,7 @@ setLookFeelInputModeValue(const QVariant &v)
     if (!i)
         return false;
 
-    int option = 0;
-    if (!readSettingValue(v, option))
-        return false;
-
-    switch (option) {
-    case 0:
-        i->setTouchInputModeEnabled(false);
-        return true;
-    case 1:
-        i->setTouchInputModeEnabled(true);
-        return true;
-    default:
-        return false;
-    }
+    return applyIndexedOption(v, 0, 1, [i](int option) { i->setTouchInputModeEnabled(option == 1); });
 }
 
 static QVariant

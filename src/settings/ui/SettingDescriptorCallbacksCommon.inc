@@ -12,3 +12,31 @@ vecToList(const std::vector<std::string> &vec)
         l.push_back(QString::fromStdString(d));
     return l;
 }
+
+template<typename Setter>
+bool
+applyIndexedOption(const QVariant &value, int minInclusive, int maxInclusive, Setter setFromIndex)
+{
+    int index = 0;
+    if (!readSettingValue(value, index))
+        return false;
+    if (index < minInclusive || index > maxInclusive)
+        return false;
+
+    setFromIndex(index);
+    return true;
+}
+
+template<typename Setter>
+bool
+applyStringListSelection(const QVariant &value, const QStringList &choices, Setter setFromValue)
+{
+    int index = 0;
+    if (!readSettingValue(value, index))
+        return false;
+    if (index < 0 || index >= choices.size())
+        return false;
+
+    setFromValue(choices.at(index));
+    return true;
+}

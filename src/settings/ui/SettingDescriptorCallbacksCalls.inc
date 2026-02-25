@@ -28,16 +28,9 @@ setCallMicrophoneValue(const QVariant &v)
     if (!i)
         return false;
 
-    int idx = 0;
-    if (!readSettingValue(v, idx))
-        return false;
-
-    const auto list = callMicrophoneValuesList();
-    if (idx < 0 || idx >= list.size())
-        return false;
-
-    i->setMicrophone(list.at(idx));
-    return true;
+    return applyStringListSelection(v, callMicrophoneValuesList(), [i](const QString &choice) {
+        i->setMicrophone(choice);
+    });
 }
 
 static QVariant
@@ -71,16 +64,9 @@ setCallCameraValue(const QVariant &v)
     if (!i)
         return false;
 
-    int idx = 0;
-    if (!readSettingValue(v, idx))
-        return false;
-
-    const auto list = callCameraValuesList();
-    if (idx < 0 || idx >= list.size())
-        return false;
-
-    i->setCamera(list.at(idx));
-    return true;
+    return applyStringListSelection(v, callCameraValuesList(), [i](const QString &choice) {
+        i->setCamera(choice);
+    });
 }
 
 static QVariant
@@ -114,16 +100,8 @@ setCallCameraResolutionValue(const QVariant &v)
     if (!i)
         return false;
 
-    int idx = 0;
-    if (!readSettingValue(v, idx))
-        return false;
-
-    const auto list = callCameraResolutionValuesList();
-    if (idx < 0 || idx >= list.size())
-        return false;
-
-    i->setCameraResolution(list.at(idx));
-    return true;
+    return applyStringListSelection(
+      v, callCameraResolutionValuesList(), [i](const QString &choice) { i->setCameraResolution(choice); });
 }
 
 static QVariant
@@ -159,16 +137,8 @@ setCallCameraFrameRateValue(const QVariant &v)
     if (!i)
         return false;
 
-    int idx = 0;
-    if (!readSettingValue(v, idx))
-        return false;
-
-    const auto list = callCameraFrameRateValuesList();
-    if (idx < 0 || idx >= list.size())
-        return false;
-
-    i->setCameraFrameRate(list.at(idx));
-    return true;
+    return applyStringListSelection(
+      v, callCameraFrameRateValuesList(), [i](const QString &choice) { i->setCameraFrameRate(choice); });
 }
 
 static QVariant

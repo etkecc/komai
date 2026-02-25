@@ -19,14 +19,10 @@ setIntegrationsDbusApiAccessValue(const QVariant &v)
     if (!i)
         return false;
 
-    int access = 0;
-    if (!readSettingValue(v, access))
-        return false;
-    if (access < IntegrationsDbusAccessNone || access > IntegrationsDbusAccessReadWrite)
-        return false;
-
-    i->setIntegrationsDbusApiAccess(access);
-    return true;
+    return applyIndexedOption(
+      v, IntegrationsDbusAccessNone, IntegrationsDbusAccessReadWrite, [i](int access) {
+          i->setIntegrationsDbusApiAccess(access);
+      });
 }
 
 static QVariant
@@ -67,26 +63,16 @@ setPrivacyPresenceStatusPolicyValue(const QVariant &v)
     if (!i)
         return false;
 
-    int option = 0;
-    if (!readSettingValue(v, option))
-        return false;
+    static constexpr std::array<UserSettings::Presence, 4> kPresenceByIndex{
+      UserSettings::Presence::Online,
+      UserSettings::Presence::Unavailable,
+      UserSettings::Presence::Offline,
+      UserSettings::Presence::AutomaticPresence,
+    };
 
-    switch (option) {
-    case 0:
-        i->setPresence(UserSettings::Presence::Online);
-        return true;
-    case 1:
-        i->setPresence(UserSettings::Presence::Unavailable);
-        return true;
-    case 2:
-        i->setPresence(UserSettings::Presence::Offline);
-        return true;
-    case 3:
-        i->setPresence(UserSettings::Presence::AutomaticPresence);
-        return true;
-    default:
-        return false;
-    }
+    return applyIndexedOption(v, 0, static_cast<int>(kPresenceByIndex.size() - 1), [i](int option) {
+        i->setPresence(kPresenceByIndex.at(static_cast<size_t>(option)));
+    });
 }
 
 static QVariant

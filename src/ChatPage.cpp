@@ -1466,6 +1466,7 @@ ChatPage::getBackupVersion()
                       // Compatibility for backups created with mtxclient v0.10.1, where
                       // auth_data.public_key was double-encoded in create_online_key_backup:
                       // https://github.com/Nheko-Reborn/mtxclient/blob/v0.10.1/lib/crypto/client.cpp#L267
+                      // Upstream fix PR: https://github.com/Nheko-Reborn/mtxclient/pull/113
                       // Accept one decode layer so users can still recover existing backups.
                       try {
                           if (base642bin(backupPublicKey) == pubkey) {

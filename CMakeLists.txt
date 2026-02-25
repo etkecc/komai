@@ -71,6 +71,7 @@ option(USE_BUNDLED_JSON "Use the bundled version of nlohmann json." ${HUNTER_ENA
 option(USE_BUNDLED_OPENSSL "Use the bundled version of OpenSSL." OFF)
 # Default to bundled mtxclient because v0.10.1 has a key-backup public_key
 # double-encoding issue that we patch locally in third_party/mtxclient-patches.
+# Upstream PR: https://github.com/Nheko-Reborn/mtxclient/pull/113
 option(USE_BUNDLED_MTXCLIENT "Use the bundled version of the Matrix Client library." ON)
 option(USE_BUNDLED_LMDB "Use the bundled version of lmdb." ${HUNTER_ENABLED})
 option(USE_BUNDLED_LMDBXX "Use the bundled version of lmdb++." ${HUNTER_ENABLED})
@@ -806,6 +807,8 @@ if(USE_BUNDLED_MTXCLIENT)
     FetchContent_MakeAvailable(MatrixClient)
 
     # Apply the local compatibility patch for bundled MatrixClient sources.
+    # Upstream PR: https://github.com/Nheko-Reborn/mtxclient/pull/113
+    # Drop this local patch once a released mtxclient tag includes that fix.
     # This handles both normal FetchContent checkouts and external source dirs
     # (for example via FETCHCONTENT_SOURCE_DIR_MATRIXCLIENT in Flatpak builds).
     execute_process(

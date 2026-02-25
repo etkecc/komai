@@ -31,7 +31,7 @@ X(IntegrationsBrowserCommand, settings.integrationsLinksBrowserCommand().toStdSt
 X(ComposerInputMarkdownEnabled, settings.markdownEnabled())
 X(ComposerInputSendKey, static_cast<int>(settings.sendMessageKey()))
 X(ComposerInputAutoReplaceEmoji, static_cast<int>(settings.autoReplaceEmoji()))
-X(ComposerTypingSendEnabled, settings.sendTypingNotificationsEnabled())
+X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())
 X(ComposerExtrasStickersEnabled, settings.stickersEnabled())
 X(NotificationsEnabled, settings.notificationsEnabled())
 X(NotificationsAttentionOnIncoming, settings.notificationsAttentionOnIncoming())

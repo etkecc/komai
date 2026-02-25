@@ -1617,7 +1617,7 @@ InputBar::startTyping()
     if (!typingRefresh_.isActive()) {
         typingRefresh_.start();
 
-        if (ChatPage::instance()->userSettings()->sendTypingNotificationsEnabled()) {
+        if (ChatPage::instance()->userSettings()->composerTypingSendEnabled()) {
             http::client()->start_typing(
               room->roomId().toStdString(), 10'000, [](mtx::http::RequestErr err) {
                   if (err) {
@@ -1635,7 +1635,7 @@ InputBar::stopTyping()
     typingRefresh_.stop();
     typingTimeout_.stop();
 
-    if (!ChatPage::instance()->userSettings()->sendTypingNotificationsEnabled())
+    if (!ChatPage::instance()->userSettings()->composerTypingSendEnabled())
         return;
 
     http::client()->stop_typing(room->roomId().toStdString(), [](mtx::http::RequestErr err) {

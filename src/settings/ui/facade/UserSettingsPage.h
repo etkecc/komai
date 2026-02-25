@@ -76,8 +76,8 @@ class UserSettings final : public QObject
                  timelineMessagesSenderUsernameLargeRoomThreshold CONSTANT)
     Q_PROPERTY(bool timelineMediaAnimateOnHover READ timelineMediaAnimateOnHover WRITE
                  setTimelineMediaAnimateOnHover NOTIFY timelineMediaAnimateOnHoverChanged)
-    Q_PROPERTY(bool sendTypingNotificationsEnabled READ sendTypingNotificationsEnabled WRITE
-                 setSendTypingNotificationsEnabled NOTIFY sendTypingNotificationsEnabledChanged)
+    Q_PROPERTY(bool composerTypingSendEnabled READ composerTypingSendEnabled WRITE
+                 setComposerTypingSendEnabled NOTIFY composerTypingSendEnabledChanged)
     Q_PROPERTY(bool timelineTypingShowEnabled READ timelineTypingShowEnabled WRITE
                  setTimelineTypingShowEnabled NOTIFY timelineTypingShowEnabledChanged)
     Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
@@ -338,7 +338,7 @@ public:
     void setTimelineMessagesSenderUsername(ShowSenderUsername state);
     void setTimelineMediaAnimateOnHover(bool state);
     void setReadReceiptsEnabled(bool state);
-    void setSendTypingNotificationsEnabled(bool state);
+    void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
     void setRoomSortOrder(RoomSortOrder order);
     void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
@@ -459,7 +459,7 @@ signals:
     void pinnedReactionsChanged(const QString &value);
     void timelineMessagesSenderUsernameChanged(ShowSenderUsername state);
     void timelineMediaAnimateOnHoverChanged(bool state);
-    void sendTypingNotificationsEnabledChanged(bool state);
+    void composerTypingSendEnabledChanged(bool state);
     void timelineTypingShowEnabledChanged(bool state);
     void timelineMessageActionsPolicyChanged(TimelineMessageActionsPolicy policy);
     void readReceiptsEnabledChanged(bool state);

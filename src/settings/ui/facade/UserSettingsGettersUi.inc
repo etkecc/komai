@@ -26,7 +26,7 @@
     ShowSenderUsername timelineMessagesSenderUsername() const;
     int timelineMessagesSenderUsernameLargeRoomThreshold() const;
     bool timelineMediaAnimateOnHover() const;
-    bool sendTypingNotificationsEnabled() const;
+    bool composerTypingSendEnabled() const;
     bool timelineTypingShowEnabled() const;
     RoomSortOrder roomSortOrder() const;
     TimelineMessageActionsPolicy timelineMessageActionsPolicy() const;

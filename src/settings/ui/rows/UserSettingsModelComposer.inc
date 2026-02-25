@@ -32,7 +32,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show others I am typing",
       QT_TR_NOOP("Send your typing status to other room members while you type."),
-      SM::TabComposer, sendTypingNotificationsEnabled, setSendTypingNotificationsEnabled, nullptr, ComposerTypingSendEnabled, SettingKey::ComposerTypingSendEnabled),
+      SM::TabComposer, composerTypingSendEnabled, setComposerTypingSendEnabled, nullptr, ComposerTypingSendEnabled, SettingKey::ComposerTypingSendEnabled),
     // ComposerExtrasSection
     { QT_TR_NOOP("Extras"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

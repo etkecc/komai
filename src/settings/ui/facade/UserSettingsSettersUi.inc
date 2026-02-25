@@ -122,13 +122,13 @@ UserSettings::setReadReceiptsEnabled(bool s)
     save();
 }
 void
-UserSettings::setSendTypingNotificationsEnabled(bool s)
+UserSettings::setComposerTypingSendEnabled(bool s)
 {
-    if (sendTypingNotificationsEnabled_ == s)
+    if (composerTypingSendEnabled_ == s)
         return;
-    sendTypingNotificationsEnabled_ = s;
+    composerTypingSendEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::ComposerTypingSendEnabled, s);
-    emit sendTypingNotificationsEnabledChanged(s);
+    emit composerTypingSendEnabledChanged(s);
     save();
 }
 void

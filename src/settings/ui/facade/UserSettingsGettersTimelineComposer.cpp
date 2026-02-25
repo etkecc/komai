@@ -146,13 +146,13 @@ UserSettings::timelineMediaAnimateOnHover() const
 }
 
 bool
-UserSettings::sendTypingNotificationsEnabled() const
+UserSettings::composerTypingSendEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::ComposerTypingSendEnabled);
         value.has_value())
         return *value;
-    return sendTypingNotificationsEnabled_;
+    return composerTypingSendEnabled_;
 }
 
 bool

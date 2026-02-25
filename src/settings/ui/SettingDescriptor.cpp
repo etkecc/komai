@@ -12,6 +12,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFontDatabase>
+#include <QHash>
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QMetaEnum>
@@ -446,11 +447,31 @@ settingsTableRowCount()
 int
 rowForSettingId(settings::core::SettingId id)
 {
-    for (int i = 0; i < settingsTableRowCount(); ++i) {
-        if (settingsTable[i].settingId == id)
-            return i;
-    }
-    return -1;
+    if (id == settings::core::SettingId::Unknown)
+        return -1;
+
+    static const auto lookup = [] {
+        QHash<int, int> idToRow;
+        idToRow.reserve(settingsTableRowCount());
+
+        for (int i = 0; i < settingsTableRowCount(); ++i) {
+            const auto settingId = settingsTable[i].settingId;
+            if (settingId == settings::core::SettingId::Unknown)
+                continue;
+
+            const int key = static_cast<int>(settingId);
+            Q_ASSERT_X(!idToRow.contains(key),
+                       "settings::ui::rowForSettingId",
+                       "Duplicate non-Unknown SettingId found in settingsTable.");
+
+            if (!idToRow.contains(key))
+                idToRow.insert(key, i);
+        }
+
+        return idToRow;
+    }();
+
+    return lookup.value(static_cast<int>(id), -1);
 }
 
 #undef I

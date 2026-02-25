@@ -19,7 +19,6 @@
 #include "config/nheko.h"
 #include "encryption/Olm.h"
 #include "settings/core/StartupConfig.h"
-#include "settings/ui/SettingDescriptorRowMacros.inc"
 #include "settings/ui/SettingDescriptorValueAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
@@ -42,7 +41,10 @@ using descriptor_value::getSettingValue;
 using descriptor_value::setSettingEnumValue;
 using descriptor_value::setSettingValue;
 
+// Row macros require `SM` and accessors above, so include them locally where
+// descriptor table wiring is assembled.
 #include "settings/ui/SettingDescriptorCallbacks.inc"
+#include "settings/ui/SettingDescriptorRowMacros.inc"
 
 // clang-format off
 const SettingMeta settingsTable[] = {

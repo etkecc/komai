@@ -22,10 +22,16 @@ Current ownership map:
   - Maintains runtime settings state and delegates persistence orchestration to `settings::SettingsController`.
 - `src/settings/ui/UserSettingsModel.h/.cpp` (`UserSettingsModel`)
   - QML list-model adapter and settings schema metadata mapping (`SettingMeta` rows, roles, and delegate types).
+- `src/settings/ui/SettingDescriptor.h/.cpp`
+  - Descriptor primitives and shared SettingId-to-row lookup cache.
+- `src/settings/ui/SettingDescriptorTable.cpp`
+  - Descriptor table construction (`settingsTable`) and row/callback registration.
 - `src/settings/ui/UserSettingsModelConnections.cpp`
   - Dedicated wiring for settings-row data-change signals (keeps `UserSettingsModel` focused on role/data logic).
 - `src/settings/ui/SettingInputValidation.h/.cpp`
-  - Centralized model-input validation for settings edits (type/range/domain checks before mutators run).
+  - Centralized model-input validation for settings edits and SettingId-backed role updates.
+- `src/settings/ui/SettingRoleData.h/.cpp`
+  - SettingId-backed special-role adapters (for example theme variant roles and encryption key-status roles).
 - `src/settings/ui/SessionKeyActions.h/.cpp`
   - Session import/export and cross-signing action handlers used by settings-row buttons.
 - `src/settings/ui/facade/UserSettingsSetters*.cpp`
@@ -87,12 +93,18 @@ Settings flow:
   - Startup stage ordering and secrets-provider dispatch plan.
 - `src/settings/ui/UserSettingsModel.cpp` and `src/settings/ui/rows/UserSettingsModel*.inc` (`UserSettingsModel`)
   - UI adapter that maps setting metadata to rows, roles, and tab-filtered models.
+- `src/settings/ui/SettingDescriptor.h/.cpp`
+  - Descriptor metadata contract (`SettingMeta`) and SettingId row lookup helper.
+- `src/settings/ui/SettingDescriptorTable.cpp`
+  - Central descriptor table definition and callback/value bindings.
 - `src/settings/ui/UserSettingsModelConnections.cpp`
   - Row-to-signal binding setup (`dataChanged` emission policy for settings dependencies).
 - `src/settings/ui/SessionKeyActions.cpp`
   - Session key import/export and cross-signing request/download action handling.
 - `src/settings/ui/SettingDescriptorCallbacks*.inc`
-  - Descriptor-bound role helpers for special role reads/writes (for example key-status `good` and theme variant roles).
+  - Descriptor-bound value helpers used by `settingsTable` row entries.
+- `src/settings/ui/SettingRoleData.cpp`
+  - SettingId-based special role handlers (theme variant and key-status `good` role values).
 
 Profile directory:
 
@@ -126,9 +138,14 @@ Primary implementation files:
 - `src/settings/ui/facade/UserSettingsPage.h`
 - `src/settings/ui/UserSettingsModel.cpp`
 - `src/settings/ui/UserSettingsModelConnections.cpp`
+- `src/settings/ui/SettingDescriptor.h`
+- `src/settings/ui/SettingDescriptor.cpp`
+- `src/settings/ui/SettingDescriptorTable.cpp`
 - `src/settings/ui/rows/UserSettingsModel*.inc`
 - `src/settings/ui/SettingInputValidation.h`
 - `src/settings/ui/SettingInputValidation.cpp`
+- `src/settings/ui/SettingRoleData.h`
+- `src/settings/ui/SettingRoleData.cpp`
 - `src/settings/ui/SessionKeyActions.h`
 - `src/settings/ui/SessionKeyActions.cpp`
 - `src/settings/ui/facade/UserSettingsSettersCore.cpp`

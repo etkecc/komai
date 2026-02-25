@@ -1459,11 +1459,30 @@ ChatPage::getBackupVersion()
                   using namespace mtx::crypto;
                   auto pubkey = CURVE25519_public_key_from_private(to_binary_buf(base642bin(*key)));
 
-                  if (auth_data["public_key"].get<std::string>() != pubkey) {
+                  const auto backupPublicKey = auth_data.value("public_key", std::string{});
+                  bool backupKeyMatches      = (backupPublicKey == pubkey);
+
+                  if (!backupKeyMatches) {
+                      // Compatibility for backups created with mtxclient v0.10.1, where
+                      // auth_data.public_key was double-encoded in create_online_key_backup:
+                      // https://github.com/Nheko-Reborn/mtxclient/blob/v0.10.1/lib/crypto/client.cpp#L267
+                      // Accept one decode layer so users can still recover existing backups.
+                      try {
+                          if (base642bin(backupPublicKey) == pubkey) {
+                              backupKeyMatches = true;
+                              nhlog::crypto()->warn("Online backup metadata public_key appears "
+                                                    "double-encoded; accepting decoded value.");
+                          }
+                      } catch (...) {
+                          // Keep original mismatch behavior below.
+                      }
+                  }
+
+                  if (!backupKeyMatches) {
                       nhlog::crypto()->info("Our backup key {} does not match the one "
                                             "used in the online backup {}",
                                             pubkey,
-                                            auth_data["public_key"].get<std::string>());
+                                            backupPublicKey);
                       cache::deleteBackupVersion();
                       return;
                   }

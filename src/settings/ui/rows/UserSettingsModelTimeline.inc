@@ -62,7 +62,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Read receipts",
       QT_TR_NOOP("Show whether your messages were read. If your homeserver does not support read receipts, rooms may not be marked as read."),
-      SM::TabTimeline, readReceiptsEnabled, setReadReceiptsEnabled, nullptr, TimelineReadReceiptsEnabled, SettingKey::TimelineReadReceiptsEnabled),
+      SM::TabTimeline, timelineReadReceiptsEnabled, setTimelineReadReceiptsEnabled, nullptr, TimelineReadReceiptsEnabled, SettingKey::TimelineReadReceiptsEnabled),
     // TimelineActionsSection
     { QT_TR_NOOP("Actions"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

@@ -9,7 +9,7 @@
     CONNECT_SETTING_ID(TimelineMessagesEmojiOnlyEnlarge, timelineMessagesEmojiOnlyEnlargeChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesHoverHighlight, timelineMessagesHoverHighlightChanged, Value);
     CONNECT_SETTING_ID(TimelineTypingShowEnabled, timelineTypingShowEnabledChanged, Value);
-    CONNECT_SETTING_ID(TimelineReadReceiptsEnabled, readReceiptsEnabledChanged, Value);
+    CONNECT_SETTING_ID(TimelineReadReceiptsEnabled, timelineReadReceiptsEnabledChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessageActionsActivationPolicy, timelineMessageActionsPolicyChanged, Value);
     CONNECT_SETTING_ID(TimelineMessageActionsPinnedReactions, pinnedReactionsChanged, Value);

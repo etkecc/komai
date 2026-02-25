@@ -85,8 +85,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       TimelineMessageActionsPolicy timelineMessageActionsPolicy READ timelineMessageActionsPolicy
         WRITE setTimelineMessageActionsPolicy NOTIFY timelineMessageActionsPolicyChanged)
-    Q_PROPERTY(bool readReceiptsEnabled READ readReceiptsEnabled WRITE setReadReceiptsEnabled NOTIFY
-                 readReceiptsEnabledChanged)
+    Q_PROPERTY(bool timelineReadReceiptsEnabled READ timelineReadReceiptsEnabled WRITE
+                 setTimelineReadReceiptsEnabled NOTIFY timelineReadReceiptsEnabledChanged)
     Q_PROPERTY(bool notificationsEnabled READ notificationsEnabled WRITE setNotificationsEnabled
                  NOTIFY notificationsEnabledChanged)
     Q_PROPERTY(bool notificationsAttentionOnIncoming READ notificationsAttentionOnIncoming WRITE
@@ -338,7 +338,7 @@ public:
     void setPinnedReactions(QString value);
     void setTimelineMessagesSenderUsername(ShowSenderUsername state);
     void setTimelineMediaAnimateOnHover(bool state);
-    void setReadReceiptsEnabled(bool state);
+    void setTimelineReadReceiptsEnabled(bool state);
     void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
     void setSidebarsRoomListSort(RoomSortOrder order);
@@ -463,7 +463,7 @@ signals:
     void composerTypingSendEnabledChanged(bool state);
     void timelineTypingShowEnabledChanged(bool state);
     void timelineMessageActionsPolicyChanged(TimelineMessageActionsPolicy policy);
-    void readReceiptsEnabledChanged(bool state);
+    void timelineReadReceiptsEnabledChanged(bool state);
     void notificationsEnabledChanged(bool state);
     void notificationsAttentionOnIncomingChanged(bool state);
     void circularAvatarsEnabledChanged(bool state);

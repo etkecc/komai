@@ -178,13 +178,13 @@ UserSettings::timelineMessageActionsPolicy() const
 }
 
 bool
-UserSettings::readReceiptsEnabled() const
+UserSettings::timelineReadReceiptsEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::TimelineReadReceiptsEnabled);
         value.has_value())
         return *value;
-    return readReceiptsEnabled_;
+    return timelineReadReceiptsEnabled_;
 }
 
 int

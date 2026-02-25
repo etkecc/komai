@@ -112,13 +112,13 @@ UserSettings::setTimelineMediaAnimateOnHover(bool s)
     save();
 }
 void
-UserSettings::setReadReceiptsEnabled(bool s)
+UserSettings::setTimelineReadReceiptsEnabled(bool s)
 {
-    if (readReceiptsEnabled_ == s)
+    if (timelineReadReceiptsEnabled_ == s)
         return;
-    readReceiptsEnabled_ = s;
+    timelineReadReceiptsEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineReadReceiptsEnabled, s);
-    emit readReceiptsEnabledChanged(s);
+    emit timelineReadReceiptsEnabledChanged(s);
     save();
 }
 void

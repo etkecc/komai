@@ -32,7 +32,7 @@
     TimelineMessageActionsPolicy timelineMessageActionsPolicy() const;
     bool touchInputModeEnabled() const;
     bool uiInputTouchSwipeGesturesEnabled() const;
-    bool readReceiptsEnabled() const;
+    bool timelineReadReceiptsEnabled() const;
     bool notificationsEnabled() const;
     bool notificationsAttentionOnIncoming() const;
     bool hasNotifications() const;

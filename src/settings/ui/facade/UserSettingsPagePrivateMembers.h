@@ -26,7 +26,7 @@ bool timelineTypingShowEnabled_;
 RoomSortOrder sidebarsRoomListSort_;
 TimelineMessageActionsPolicy timelineMessageActionsPolicy_ =
   TimelineMessageActionsPolicy::ActionsButton;
-bool readReceiptsEnabled_;
+bool timelineReadReceiptsEnabled_;
 bool notificationsEnabled_;
 bool notificationsAttentionOnIncoming_;
 bool circularAvatarsEnabled_;

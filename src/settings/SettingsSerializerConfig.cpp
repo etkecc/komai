@@ -70,6 +70,7 @@ activeLoggers()
 namespace {
 
 using settings::storage::writeYamlFile;
+using yaml_settings::getNode;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
 using yaml_settings::setNode;
@@ -214,8 +215,16 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
       readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
     if (settings::core::isScaleFactorInRange(scaleFactor))
         settings.setScaleFactor(scaleFactor);
-    else
+    else {
+        const auto scaleFactorNode = getNode(root, SettingKey::UiScaleFactor);
+        if (scaleFactorNode && scaleFactorNode.IsScalar()) {
+            activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
+                                     scaleFactor,
+                                     SettingKey::UiScaleFactor,
+                                     cfg::kDefaultScaleFactor);
+        }
         settings.setScaleFactor(cfg::kDefaultScaleFactor);
+    }
 }
 
 void

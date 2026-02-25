@@ -1,0 +1,53 @@
+// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+static QVariant
+lookFeelThemeValue()
+{
+    auto i = I;
+    if (!i)
+        return -1;
+
+    auto variant = ThemeRegistry::instance().themeVariant(i->theme());
+    if (variant == u"system")
+        return -1;
+
+    return ThemeRegistry::instance().themeSlugs(variant).indexOf(i->theme());
+}
+
+static bool
+setLookFeelThemeValue(const QVariant &v)
+{
+    auto i = I;
+    if (!i)
+        return false;
+
+    auto variant = ThemeRegistry::instance().themeVariant(i->theme());
+    if (variant == u"system")
+        return false;
+
+    auto slugs = ThemeRegistry::instance().themeSlugs(variant);
+    return applyStringListSelection(v, slugs, [i](const QString &slug) { i->setTheme(slug); });
+}
+
+static QVariant
+lookFeelThemeValues()
+{
+    auto i = I;
+    if (!i)
+        return QStringList{};
+
+    auto variant = ThemeRegistry::instance().themeVariant(i->theme());
+    if (variant == u"system")
+        return QStringList{};
+
+    return ThemeRegistry::instance().themeNames(variant);
+}
+
+static bool
+identiconSettingEnabled()
+{
+    return JdenticonProvider::isAvailable();
+}

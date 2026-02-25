@@ -1,0 +1,5 @@
+  {settings::core::SettingId::IntegrationsDbusApiAccess,
+   SettingKey::IntegrationsDbusApiAccess,
+   "none",
+   &dbusAccessToStorageFromSettings,
+   &applyDbusAccessFromStorage},

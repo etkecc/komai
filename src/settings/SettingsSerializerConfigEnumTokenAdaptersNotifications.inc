@@ -1,0 +1,5 @@
+  {settings::core::SettingId::NotificationsMessageContentPolicy,
+   SettingKey::NotificationsMessageContentPolicy,
+   "whenever_available",
+   &notificationsMessageContentPolicyToStorage,
+   &applyNotificationMessageContentPolicyFromStorage},

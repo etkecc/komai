@@ -1,0 +1,5 @@
+  {settings::core::SettingId::NetworkPresenceStatusPolicy,
+   SettingKey::NetworkPresenceStatusPolicy,
+   "automatic_presence",
+   &presenceToStorage,
+   &applyPresenceFromStorage},

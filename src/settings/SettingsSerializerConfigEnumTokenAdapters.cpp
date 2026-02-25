@@ -160,61 +160,12 @@ applyDbusAccessFromStorage(UserSettings &settings, const QString &rawToken)
 }
 
 constexpr std::array<EnumTokenAdapter, 11> kEnumTokenAdapters{{
-  {settings::core::SettingId::SidebarsRoomListLastMessagePreview,
-   SettingKey::SidebarsRoomListLastMessagePreview,
-   "always",
-   &lastMessagePreviewToStorage,
-   &applyLastMessagePreviewFromStorage},
-  {settings::core::SettingId::SidebarsRoomListSort,
-   SettingKey::SidebarsRoomListSort,
-   "unread_first_recent",
-   &roomSortOrderToStorage,
-   &applyRoomSortOrderFromStorage},
-  {settings::core::SettingId::NetworkPresenceStatusPolicy,
-   SettingKey::NetworkPresenceStatusPolicy,
-   "automatic_presence",
-   &presenceToStorage,
-   &applyPresenceFromStorage},
-  {settings::core::SettingId::IntegrationsDbusApiAccess,
-   SettingKey::IntegrationsDbusApiAccess,
-   "none",
-   &dbusAccessToStorageFromSettings,
-   &applyDbusAccessFromStorage},
-  {settings::core::SettingId::ComposerInputSendKey,
-   SettingKey::ComposerInputSendKey,
-   "enter",
-   &sendMessageKeyToStorage,
-   &applySendMessageKeyFromStorage},
-  {settings::core::SettingId::ComposerInputAutoReplaceEmoji,
-   SettingKey::ComposerInputAutoReplaceEmoji,
-   "always",
-   &autoReplaceEmojiToStorage,
-   &applyAutoReplaceEmojiFromStorage},
-  {settings::core::SettingId::NotificationsMessageContentPolicy,
-   SettingKey::NotificationsMessageContentPolicy,
-   "whenever_available",
-   &notificationsMessageContentPolicyToStorage,
-   &applyNotificationMessageContentPolicyFromStorage},
-  {settings::core::SettingId::TimelineMessagesLayoutStyle,
-   SettingKey::TimelineMessagesLayoutStyle,
-   "bubbles",
-   &timelineLayoutStyleToStorage,
-   &applyTimelineLayoutStyleFromStorage},
-  {settings::core::SettingId::TimelineMessagesSenderUsername,
-   SettingKey::TimelineMessagesSenderUsername,
-   "only_in_large_rooms",
-   &showSenderUsernameToStorage,
-   &applyShowSenderUsernameFromStorage},
-  {settings::core::SettingId::TimelineMessageActionsActivationPolicy,
-   SettingKey::TimelineMessageActionsActivationPolicy,
-   "on_button_click",
-   &timelineActionsPolicyToStorage,
-   &applyTimelineActionsPolicyFromStorage},
-  {settings::core::SettingId::TimelineMediaImageDisplay,
-   SettingKey::TimelineMediaImageDisplay,
-   "always",
-   &showImageToStorage,
-   &applyShowImageFromStorage},
+#include "SettingsSerializerConfigEnumTokenAdaptersComposer.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersIntegrations.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersNetwork.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersNotifications.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersSidebars.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersTimeline.inc"
 }};
 
 constexpr bool

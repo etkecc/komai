@@ -20,7 +20,7 @@ This document captures configuration-architecture differences between Komai and 
 - Per-profile directory: `~/.config/komai/profiles/<profile-id>/` (`<profile-id>` is the `-p` profile name/identifier)
 - Default profile id is `default`
 - Dotted hierarchical keys in YAML (`a.b.c`)
-- Some keys are intentionally renamed from upstream nheko flat keys (for example, nheko `presence` maps to Komai `network.presence.status_policy`, nheko `mobile_mode` maps to `ui.input.mode`, nheko `enable_swipe_gestures` maps to `ui.input.touch.swipe_gestures_enabled`, and nheko `tray`/`start_in_tray` map to `integrations.system_tray.enabled`/`integrations.system_tray.autostart`)
+- Some keys are intentionally renamed from upstream nheko flat keys (for example, nheko `presence` maps to Komai `network.presence.status_policy`, nheko `mobile_mode` maps to `ui.input.mode`, nheko `enable_swipe_gestures` maps to `ui.input.touch.swipe_gestures.enabled`, and nheko `tray`/`start_in_tray` map to `integrations.system_tray.enabled`/`integrations.system_tray.autostart`)
 - Durable/runtime/session/secret concerns are written to separate files
 - Database and cache paths are profile-scoped (`data/profiles/<profile-id>/...`, `cache/profiles/<profile-id>/...`)
 

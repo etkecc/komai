@@ -48,23 +48,27 @@ timeline:
       activation_policy: on_button_click
       pinned_reactions: "👍️,👎️,😀,🤣,❤️"
   media:
-    effects_enabled: true
+    effects:
+      enabled: true
     animate_on_hover: false
     image_display: always
     open_images_external: false
     open_videos_external: false
   typing:
-    show_enabled: true
+    show:
+      enabled: true
   read_receipts:
     enabled: true
 
 composer:
   input:
-    markdown_enabled: true
+    markdown:
+      enabled: true
     send_key: enter
     auto_replace_emoji: always
   typing:
-    send_enabled: true
+    send:
+      enabled: true
   extras:
     stickers:
       enabled: false
@@ -75,7 +79,8 @@ notifications:
   message_content_policy: whenever_available
 
 calls:
-  legacy_enabled: false
+  legacy:
+    enabled: false
   relay:
     use_fallback_server: false
   devices:

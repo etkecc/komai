@@ -48,7 +48,7 @@ Note:
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::IntegrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Interaction mode | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures_enabled` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures.enabled` | config.yml | yes |
 | Timeline | PRESENTATION | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
 | Timeline | PRESENTATION | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | PRESENTATION | Show avatar next to own message bubbles | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
@@ -56,24 +56,24 @@ Note:
 | Timeline | PRESENTATION | Maximum timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
 | Timeline | PRESENTATION | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
 | Timeline | PRESENTATION | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
-| Timeline | PRESENTATION | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects_enabled` | config.yml | yes |
+| Timeline | PRESENTATION | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects.enabled` | config.yml | yes |
 | Timeline | ACTIONS | Actions activation policy | `UserSettingsModel::TimelineMessageActionsPolicy` | `show_action_buttons` | `timeline.messages.actions.activation_policy` | config.yml | yes |
 | Timeline | ACTIONS | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Open videos in an external app | `UserSettingsModel::OpenVideosInExternalApp` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
-| Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::MarkdownEnabled` | `markdown` | `composer.input.markdown_enabled` | config.yml | yes |
+| Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::MarkdownEnabled` | `markdown` | `composer.input.markdown.enabled` | config.yml | yes |
 | Composer | INPUT | Send key | `UserSettingsModel::SendMessageKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
 | Composer | INPUT | Auto-replace emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
-| Composer | INPUT | Show others I am typing | `UserSettingsModel::SendTypingNotificationsEnabled` | `typing_notifications` | `composer.typing.send_enabled` | config.yml | yes |
+| Composer | INPUT | Show others I am typing | `UserSettingsModel::SendTypingNotificationsEnabled` | `typing_notifications` | `composer.typing.send.enabled` | config.yml | yes |
 | Composer | EXTRAS | Enable stickers | `UserSettingsModel::StickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
-| Timeline | FEEDBACK | Show when others are typing | `UserSettingsModel::ShowTypingNotificationsEnabled` | `typing_notifications` | `timeline.typing.show_enabled` | config.yml | yes |
+| Timeline | FEEDBACK | Show when others are typing | `UserSettingsModel::ShowTypingNotificationsEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Enable system notifications | `UserSettingsModel::NotificationsEnabled` | `desktop_notifications` | `notifications.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `UserSettingsModel::NotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `notifications.attention_on_incoming` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Message content in notifications | `UserSettingsModel::NotificationMessageContentPolicy` | `decrypt_notifications` | `notifications.message_content_policy` | config.yml | yes |
-| Calls | GENERAL | Enable legacy calls | `UserSettingsModel::LegacyCallsEnabled` | `enable_legacy_calls` | `calls.legacy_enabled` | config.yml | yes |
+| Calls | GENERAL | Enable legacy calls | `UserSettingsModel::LegacyCallsEnabled` | `enable_legacy_calls` | `calls.legacy.enabled` | config.yml | yes |
 | Calls | GENERAL | Use turn.matrix.org as fallback relay | `UserSettingsModel::FallbackCallRelayServerEnabled` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
 | Calls | DEVICES | Microphone | `UserSettingsModel::Microphone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
 | Calls | DEVICES | Camera | `UserSettingsModel::Camera` | `camera` | `calls.devices.camera` | config.yml | yes |

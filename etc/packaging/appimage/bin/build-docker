@@ -43,7 +43,7 @@ docker run --rm \
             qml6-module-qt5compat-graphicaleffects \
             qtkeychain-qt6-dev \
             libcurl4-openssl-dev libevent-dev libspdlog-dev libfmt-dev libolm-dev \
-            liblmdb-dev libcmark-dev nlohmann-json3-dev libgtest-dev libre2-dev \
+            liblmdb-dev libcmark-dev nlohmann-json3-dev libgtest-dev libre2-dev libyaml-cpp-dev \
             libgl1-mesa-dev libxkbcommon-dev \
             libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev \
             desktop-file-utils elfutils fakeroot file squashfs-tools zsync \

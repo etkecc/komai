@@ -644,6 +644,8 @@ set(SRC_FILES
     src/settings/SettingsPersistenceInternal.h
     src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
+    src/settings/SettingsStoragePathApi.cpp
+    src/settings/SettingsStorageInternal.h
     src/settings/SettingsStorageSecureBackend.cpp
     src/settings/SettingsStorageSecretsCodec.cpp
     src/settings/SettingsStorage.h
@@ -1176,6 +1178,7 @@ if(BUILD_TESTING)
         src/settings/SettingsSerializerSession.cpp
         src/settings/SettingsSerializerState.cpp
         src/settings/SettingsStorage.cpp
+        src/settings/SettingsStoragePathApi.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         src/settings/SettingsStorageSecretsCodec.cpp
         src/settings/core/StartupConfig.cpp
@@ -1216,6 +1219,7 @@ if(BUILD_TESTING)
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsStorage.cpp
+        src/settings/SettingsStoragePathApi.cpp
         src/settings/SettingsStorageSecureBackend.cpp
         src/settings/SettingsStorageSecretsCodec.cpp
     )

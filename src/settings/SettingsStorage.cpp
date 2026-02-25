@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "SettingsStorage.h"
+#include "SettingsStorageInternal.h"
 
 #include <QCryptographicHash>
 #include <QDir>
@@ -70,13 +71,6 @@ profileHashHex(QStringView profile)
     return QString::fromLatin1(
       QCryptographicHash::hash(normalizedProfileId(profile).toUtf8(), QCryptographicHash::Sha256)
         .toHex());
-}
-
-QString
-settingsSecretStoreKey(QStringView profile, QStringView keyName)
-{
-    return QStringLiteral("komai.") + profileHashHex(profile) + QStringLiteral(".settings.") +
-           keyName.toString();
 }
 
 class FilesystemReaderWriter : public ReaderWriter
@@ -252,13 +246,20 @@ currentReaderWriter()
     return activeWriter;
 }
 
+} // namespace
+
+QString
+detail::settingsSecretStoreKey(QStringView profile, QStringView keyName)
+{
+    return QStringLiteral("komai.") + profileHashHex(profile) + QStringLiteral(".settings.") +
+           keyName.toString();
+}
+
 ReaderWriter &
-defaultReaderWriter()
+detail::defaultReaderWriter()
 {
     return *currentReaderWriter();
 }
-
-} // namespace
 
 ReaderWriterPtr
 inMemoryReaderWriter(QStringView baseDir)
@@ -302,72 +303,6 @@ const StorageLoggers &
 activeLoggers()
 {
     return currentLoggers();
-}
-
-QString
-profileDirPath(const QString &profile)
-{
-    return defaultReaderWriter().profileDirPath(profile);
-}
-
-QString
-configFilePathForProfile(const QString &profile)
-{
-    return defaultReaderWriter().configFilePathForProfile(profile);
-}
-
-QString
-stateFilePathForProfile(const QString &profile)
-{
-    return defaultReaderWriter().stateFilePathForProfile(profile);
-}
-
-QString
-sessionFilePathForProfile(const QString &profile)
-{
-    return defaultReaderWriter().sessionFilePathForProfile(profile);
-}
-
-QString
-secretsFilePathForProfile(const QString &profile)
-{
-    return defaultReaderWriter().secretsFilePathForProfile(profile);
-}
-
-bool
-pathExists(const QString &path)
-{
-    return defaultReaderWriter().pathExists(path);
-}
-
-bool
-createDir(const QString &path)
-{
-    return defaultReaderWriter().createDir(path);
-}
-
-bool
-removePath(const QString &path)
-{
-    return defaultReaderWriter().removePath(path);
-}
-
-YAML::Node
-loadYamlFile(const QString &path, const char *label)
-{
-    return defaultReaderWriter().loadYamlFile(path, label);
-}
-
-bool
-writeYamlFile(const QString &path, const YAML::Node &root, bool ownerReadWriteOnly)
-{
-    return defaultReaderWriter().writeYamlFile(path, root, ownerReadWriteOnly);
-}
-
-QString
-secureStoreKey(const QString &profile, const char *keyName)
-{
-    return settingsSecretStoreKey(profile, QString::fromLatin1(keyName));
 }
 
 } // namespace settings::storage

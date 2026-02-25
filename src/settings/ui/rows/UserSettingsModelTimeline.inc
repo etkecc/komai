@@ -35,7 +35,7 @@
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING("Maximum timeline width",
                               QT_TR_NOOP(
                                 "Set the maximum timeline message width (in pixels). This can improve readability on wide screens."),
-                              SM::TabTimeline, maxTimelineWidth, setMaxTimelineWidth, 0, 20000, 20,
+                              SM::TabTimeline, timelineMessagesMaxWidthPx, setTimelineMessagesMaxWidthPx, 0, 20000, 20,
                               nullptr, nullptr, TimelineMessagesMaxWidthPx, SettingKey::TimelineMessagesMaxWidthPx),
     // EnlargeEmojiOnlyMessages
     SIMPLE_BOOL_CONFIG_ID_SETTING("Enlarge emoji-only messages",

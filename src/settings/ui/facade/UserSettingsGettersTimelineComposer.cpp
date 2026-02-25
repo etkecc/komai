@@ -188,11 +188,11 @@ UserSettings::timelineReadReceiptsEnabled() const
 }
 
 int
-UserSettings::maxTimelineWidth() const
+UserSettings::timelineMessagesMaxWidthPx() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesMaxWidthPx);
         value.has_value())
         return *value;
-    return maxTimelineWidth_;
+    return timelineMessagesMaxWidthPx_;
 }

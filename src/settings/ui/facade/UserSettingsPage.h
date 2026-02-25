@@ -118,8 +118,8 @@ class UserSettings final : public QObject
                  setWindowFocusBlurDelaySeconds NOTIFY windowFocusBlurDelaySecondsChanged)
     Q_PROPERTY(int uiLayoutContentMaxWidthPx READ uiLayoutContentMaxWidthPx WRITE
                  setUiLayoutContentMaxWidthPx NOTIFY uiLayoutContentMaxWidthPxChanged)
-    Q_PROPERTY(int maxTimelineWidth READ maxTimelineWidth WRITE setMaxTimelineWidth NOTIFY
-                 maxTimelineWidthChanged)
+    Q_PROPERTY(int timelineMessagesMaxWidthPx READ timelineMessagesMaxWidthPx WRITE
+                 setTimelineMessagesMaxWidthPx NOTIFY timelineMessagesMaxWidthPxChanged)
     Q_PROPERTY(
       int roomListWidth READ roomListWidth WRITE setRoomListWidth NOTIFY roomListWidthChanged)
     Q_PROPERTY(int communityListWidth READ communityListWidth WRITE setCommunityListWidth NOTIFY
@@ -356,7 +356,7 @@ public:
     void setSidebarsRoomListSort(RoomSortOrder order);
     void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
     void setUiLayoutContentMaxWidthPx(int state);
-    void setMaxTimelineWidth(int state);
+    void setTimelineMessagesMaxWidthPx(int state);
     void setCommunityListWidth(int state);
     void setRoomListWidth(int state);
     void setNotificationsEnabled(bool state);
@@ -489,7 +489,7 @@ signals:
     void windowFocusBlurEnabledChanged(bool state);
     void windowFocusBlurDelaySecondsChanged(int state);
     void uiLayoutContentMaxWidthPxChanged(int state);
-    void maxTimelineWidthChanged(int state);
+    void timelineMessagesMaxWidthPxChanged(int state);
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
     void uiInputModeTouchEnabledChanged(bool mode);

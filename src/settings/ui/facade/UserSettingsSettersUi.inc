@@ -183,16 +183,16 @@ UserSettings::setUiLayoutContentMaxWidthPx(int s)
     save();
 }
 void
-UserSettings::setMaxTimelineWidth(int s)
+UserSettings::setTimelineMessagesMaxWidthPx(int s)
 {
-    if (maxTimelineWidth_ == s)
+    if (timelineMessagesMaxWidthPx_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::TimelineMessagesMaxWidthPx,
                       s,
                       SettingKey::TimelineMessagesMaxWidthPx))
         return;
-    maxTimelineWidth_ = s;
-    emit maxTimelineWidthChanged(s);
+    timelineMessagesMaxWidthPx_ = s;
+    emit timelineMessagesMaxWidthPxChanged(s);
     save();
 }
 void

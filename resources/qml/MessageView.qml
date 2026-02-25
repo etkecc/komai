@@ -51,7 +51,7 @@ Item {
     ListView {
         id: chat
 
-        property int delegateMaxWidth: ((Settings.maxTimelineWidth > 100 && Settings.maxTimelineWidth < chatRoot.availableWidth) ? Settings.maxTimelineWidth : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
+        property int delegateMaxWidth: ((Settings.timelineMessagesMaxWidthPx > 100 && Settings.timelineMessagesMaxWidthPx < chatRoot.availableWidth) ? Settings.timelineMessagesMaxWidthPx : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
 
         ScrollBar.vertical: scrollbar
         anchors.fill: parent

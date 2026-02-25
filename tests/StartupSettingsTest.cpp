@@ -747,21 +747,21 @@ testConstrainedIntSettersRejectInvalidUpdates()
     settings->setPersistenceSuspended(false);
 
     settings->setUiLayoutContentMaxWidthPx(1200);
-    settings->setMaxTimelineWidth(900);
+    settings->setTimelineMessagesMaxWidthPx(900);
     settings->setWindowFocusBlurDelaySeconds(5);
 
     const auto baselineContentWidth = settings->uiLayoutContentMaxWidthPx();
-    const auto baselineTimelineWidth = settings->maxTimelineWidth();
+    const auto baselineTimelineWidth = settings->timelineMessagesMaxWidthPx();
     const auto baselineBlurDelay     = settings->windowFocusBlurDelaySeconds();
 
     settings->setUiLayoutContentMaxWidthPx(50000);         // invalid: > 20000
-    settings->setMaxTimelineWidth(50000);        // invalid: > 20000
+    settings->setTimelineMessagesMaxWidthPx(50000);        // invalid: > 20000
     settings->setWindowFocusBlurDelaySeconds(-3); // invalid: < 0
 
     bool ok = true;
     ok &= expect(settings->uiLayoutContentMaxWidthPx() == baselineContentWidth,
                  "invalid max content width update is ignored");
-    ok &= expect(settings->maxTimelineWidth() == baselineTimelineWidth,
+    ok &= expect(settings->timelineMessagesMaxWidthPx() == baselineTimelineWidth,
                  "invalid max timeline width update is ignored");
     ok &= expect(settings->windowFocusBlurDelaySeconds() == baselineBlurDelay,
                  "invalid window blur delay update is ignored");

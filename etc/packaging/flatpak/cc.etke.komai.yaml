@@ -217,18 +217,6 @@ modules:
         tag: v0.3.1
         type: git
         url: https://nheko.im/Nheko-Reborn/coeurl.git
-  - name: mtxclient
-    config-opts:
-      - -DBUILD_LIB_TESTS=OFF
-      - -DBUILD_LIB_EXAMPLES=OFF
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DBUILD_SHARED_LIBS=OFF
-    buildsystem: cmake-ninja
-    sources:
-      - commit: 15b43844f4ec27faa5f2ec92c4ded313206763aa
-        tag: v0.10.1
-        type: git
-        url: https://github.com/Nheko-Reborn/mtxclient.git
   - name: komai
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
@@ -236,6 +224,9 @@ modules:
       - -DCOMPILE_QML=ON
       - -DMAN=OFF
       - -DFLATPAK=ON
+      - -DFORCE_IN_SOURCE_BUILDS=ON
+      # Keep bundled MatrixClient mode and use a local pre-fetched source tree.
+      - -DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient
     buildsystem: cmake-ninja
     sources:
       - path: ../../..
@@ -248,3 +239,8 @@ modules:
         sha256: 5e12eb3aefe9050068af7df2c663edabc977ef34c9e7ba7b9d2c43e0ad47d8df
         type: archive
         url: https://github.com/hoytech/lmdbxx/archive/1.0.0.tar.gz
+      - dest: .deps/mtxclient
+        commit: 15b43844f4ec27faa5f2ec92c4ded313206763aa
+        tag: v0.10.1
+        type: git
+        url: https://github.com/Nheko-Reborn/mtxclient.git

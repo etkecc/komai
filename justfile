@@ -33,7 +33,7 @@ configure-all-backends *args:
 build *args:
 	#!/usr/bin/env bash
 	set -euo pipefail
-	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]]; then
+	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
 		just --justfile {{ justfile() }} configure
 	fi
 	cmake --build {{ build_dir }} --parallel "$(nproc)" {{ args }}
@@ -54,7 +54,7 @@ test: test-unit test-integration
 test-unit *args:
 	#!/usr/bin/env bash
 	set -euo pipefail
-	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]]; then
+	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
 		just --justfile {{ justfile() }} configure
 	fi
 	cmake --build {{ build_dir }} --parallel "$(nproc)" --target komai_tests
@@ -64,7 +64,7 @@ test-unit *args:
 test-all-backends *args:
 	#!/usr/bin/env bash
 	set -euo pipefail
-	if [[ ! -f "{{ rocksdb_build_dir }}/CMakeCache.txt" ]]; then
+	if [[ ! -f "{{ rocksdb_build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ rocksdb_build_dir }}/CMakeCache.txt"; then
 		just --justfile {{ justfile() }} configure-all-backends
 	fi
 	cmake --build {{ rocksdb_build_dir }} --parallel "$(nproc)" --target komai_tests
@@ -74,7 +74,7 @@ test-all-backends *args:
 test-integration *args:
 	#!/usr/bin/env bash
 	set -euo pipefail
-	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]]; then
+	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
 		just --justfile {{ justfile() }} configure
 	fi
 	cmake --build {{ build_dir }} --parallel "$(nproc)" --target komai_tests

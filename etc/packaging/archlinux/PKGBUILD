@@ -15,7 +15,6 @@ depends=(
 	kdsingleapplication
 	libolm
 	lmdb
-	mtxclient
 	'org.freedesktop.secrets'
 	qt6-base
 	qt6-declarative
@@ -38,7 +37,7 @@ makedepends=(
 )
 optdepends=(
 	'qt6-jdenticon: Auto-generated profile pictures (identicons)'
-	'kimageformats: Extends the formats nheko supports for image attachments'
+	'kimageformats: Extends the formats Komai supports for image attachments'
 	'gst-plugins-base-libs: VoIP/Video calls'
 	'gst-plugins-good: VoIP/Video calls'
 	'gst-plugins-bad: VoIP/Video calls'
@@ -65,7 +64,6 @@ build() {
 
 package() {
 	depends+=(
-		mtxclient libmatrix_client.so
 		spdlog libspdlog.so
 		libolm libolm.so
 	)

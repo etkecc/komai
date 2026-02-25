@@ -53,7 +53,7 @@ sudo cmake --install var/build/native
 | [Qt6](https://www.qt.io/) | 6.5 | Base, Declarative, Multimedia, SVG, Tools |
 | [CMake](https://cmake.org/) | 3.15 | |
 | [Python 3](https://www.python.org/) | | Theme generation at build time |
-| [mtxclient](https://github.com/Nheko-Reborn/mtxclient) | | Matrix client library |
+| [mtxclient](https://github.com/Nheko-Reborn/mtxclient) | | Optional when building against system MatrixClient (`-DUSE_BUNDLED_MTXCLIENT=OFF`) |
 | [coeurl](https://nheko.im/Nheko-Reborn/coeurl) | | HTTP library |
 | [LMDB](https://www.symas.com/lmdb) | | Database |
 | [lmdb++](https://github.com/hoytech/lmdbxx) | | C++ LMDB wrapper |
@@ -77,14 +77,18 @@ sudo cmake --install var/build/native
 
 ### Bundling dependencies
 
-Most dependencies can be bundled automatically instead of using system packages:
+`mtxclient` is bundled by default (with local patching from `third_party/mtxclient-patches/`).
+Other dependencies can still be bundled selectively:
 
 ```sh
 # Bundle everything
 just configure -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF
 
-# Or bundle specific libraries
-just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_MTXCLIENT=ON -DUSE_BUNDLED_LMDBXX=ON
+# Bundle specific libraries
+just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_LMDBXX=ON
+
+# Build against system MatrixClient instead of bundled+patched
+just configure -DUSE_BUNDLED_MTXCLIENT=OFF
 ```
 
 ## Distro-specific package lists
@@ -94,9 +98,12 @@ just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_MTXCLIENT=ON -DUSE_BUNDLED_
 ```sh
 sudo pacman -S qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig \
-    mtxclient coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
+    coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication
 ```
+
+Install `mtxclient` only if you explicitly build against system MatrixClient
+(`-DUSE_BUNDLED_MTXCLIENT=OFF`).
 
 ### Debian 13+ / Ubuntu 24.04+
 
@@ -113,7 +120,7 @@ sudo apt install -y build-essential cmake pkg-config python3 \
 Some dependencies may need bundling on Debian/Ubuntu:
 
 ```sh
-just build -DUSE_BUNDLED_COEURL=1 -DUSE_BUNDLED_MTXCLIENT=1 -DUSE_BUNDLED_LMDBXX=1
+just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_LMDBXX=ON
 ```
 
 ## Debug builds

@@ -29,9 +29,13 @@ just flatpak-run       # Run Komai
 The Flatpak manifest at [`etc/packaging/flatpak/cc.etke.komai.yaml`](../../etc/packaging/flatpak/cc.etke.komai.yaml) works similarly to a Dockerfile:
 
 1. Starts from the KDE Platform runtime (provides Qt6, KDE Frameworks, GStreamer, etc.)
-2. Builds ~16 dependency modules from source (LMDB, olm, spdlog, mtxclient, etc.)
+2. Builds dependency modules from source (LMDB, olm, spdlog, etc.)
 3. Builds Komai itself from the local source tree
 4. Packages everything into a Flatpak bundle
+
+Komai uses bundled `mtxclient` by default. For Flatpak, the manifest pre-fetches the
+`mtxclient` source as `.deps/mtxclient` and points CMake there via
+`-DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient` so builds stay offline-friendly.
 
 The `flatpak-builder` tool caches each module, so subsequent builds only rebuild what changed. The cache lives at `var/build/flatpak/.flatpak-builder/`.
 

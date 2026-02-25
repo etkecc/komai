@@ -1,0 +1,31 @@
+From 9f2f4fbdfcc3f8b3d47edc8d73a6c3d9de9f6694 Mon Sep 17 00:00:00 2001
+From: Slavi Pantaleev <slavi@devture.com>
+Date: Wed, 25 Feb 2026 04:20:00 +0200
+Subject: [PATCH] crypto: avoid double-encoding backup auth_data public_key
+
+`CURVE25519_public_key_from_private()` already returns the base64-encoded
+curve25519 public key string.
+
+Encoding that value again with `bin2base64_unpadded(...)` stores a different
+string in `auth_data.public_key` (base64 of base64), which later causes
+clients to report backup key mismatches during restore/verification.
+
+---
+ lib/crypto/client.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/crypto/client.cpp b/lib/crypto/client.cpp
+index 8fc0f46..ccf1f2d 100644
+--- a/lib/crypto/client.cpp
++++ b/lib/crypto/client.cpp
+@@ -264,7 +264,7 @@ OlmClient::create_online_key_backup(const std::string &masterKey)
+     setup.privateKey = key;
+
+     json auth_data;
+-    auth_data["public_key"] = bin2base64_unpadded(CURVE25519_public_key_from_private(key));
++    auth_data["public_key"] = CURVE25519_public_key_from_private(key);
+     auto master             = PkSigning::from_seed(masterKey);
+
+     auto sig = master.sign(auth_data.dump());
+--
+2.48.1

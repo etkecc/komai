@@ -32,6 +32,7 @@
 #include "config/nheko.h"
 #include "encryption/Olm.h"
 #include "settings/SettingKeys.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
@@ -39,6 +40,24 @@
 #include "voip/CallDevices.h"
 
 namespace settings::ui {
+
+namespace {
+
+bool
+isRuntimeStatusSettingId(settings::core::SettingId id)
+{
+    switch (id) {
+    case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
+    case settings::core::SettingId::EncryptionSelfSigningKeyStatus:
+    case settings::core::SettingId::EncryptionUserSigningKeyStatus:
+    case settings::core::SettingId::EncryptionMasterSigningKeyStatus:
+        return true;
+    default:
+        return false;
+    }
+}
+
+} // namespace
 
 #define I UserSettings::instance()
 #define SM UserSettingsModel
@@ -216,6 +235,7 @@ setSettingEnumValue(const QVariant &value)
 
 #define CORE_CONFIG_RESTART(key) CORE_SETTING_WITH_ID(Unknown, Config, key, true)
 #define CORE_CONFIG_ID(id, key) CORE_SETTING_WITH_ID(id, Config, key, false)
+#define CORE_CONFIG_RESTART_ID(id, key) CORE_SETTING_WITH_ID(id, Config, key, true)
 #define CORE_RUNTIME_ID(id) CORE_SETTING_WITH_ID(id, Runtime, nullptr, false)
 
 #define SIMPLE_BOOL_SETTING_CORE(name, desc, tab, getter, setter, enabled_cb, core_def)            \
@@ -302,6 +322,11 @@ setSettingEnumValue(const QVariant &value)
   name, desc, tab, getter, setter, min_v, max_v, step_v, key)                                      \
     SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
       name, desc, tab, getter, setter, min_v, max_v, step_v, CORE_CONFIG_RESTART(key))
+
+#define SIMPLE_DOUBLE_CONFIG_RESTART_ID_SETTING(                                                   \
+  name, desc, tab, getter, setter, min_v, max_v, step_v, id, key)                                  \
+    SIMPLE_DOUBLE_SETTING_CORE(                                                                    \
+      name, desc, tab, getter, setter, min_v, max_v, step_v, CORE_CONFIG_RESTART_ID(id, key))
 
 #define SIMPLE_OPTIONS_ENUM_SETTING_CORE(                                                          \
   name, desc, tab, getter, setter, enum_type, values_expr, enabled_cb, core_def)                   \
@@ -458,6 +483,13 @@ rowForSettingId(settings::core::SettingId id)
             const auto settingId = settingsTable[i].settingId;
             if (settingId == settings::core::SettingId::Unknown)
                 continue;
+
+            const bool knownPersisted =
+              settings::core::definitions::hasPersistedDefinition(settingId);
+            const bool knownRuntime = isRuntimeStatusSettingId(settingId);
+            Q_ASSERT_X(knownPersisted || knownRuntime,
+                       "settings::ui::rowForSettingId",
+                       "settingsTable row references an unknown non-persisted SettingId.");
 
             const int key = static_cast<int>(settingId);
             Q_ASSERT_X(!idToRow.contains(key),

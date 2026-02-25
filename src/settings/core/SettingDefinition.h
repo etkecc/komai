@@ -20,6 +20,7 @@ enum class SettingId
 {
     Unknown,
     UiThemeSlug,
+    UiScaleFactor,
     UiFontFamily,
     UiFontSizePt,
     UiFontEmojiFamily,

@@ -44,11 +44,12 @@
       CORE_CONFIG_ID(UiFontEmojiFamily, SettingKey::UiFontEmojiFamily) },
 #ifndef Q_OS_MACOS
     // ScaleFactor
-    SIMPLE_DOUBLE_CONFIG_RESTART_SETTING(
+    SIMPLE_DOUBLE_CONFIG_RESTART_ID_SETTING(
       "Scale factor [restart required]",
       QT_TR_NOOP("Change the scale factor of the whole user interface. Requires a restart to take effect."),
       SM::TabLookFeel, scaleFactor, setScaleFactor, settings::core::kMinScaleFactor,
-      settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep, SettingKey::UiScaleFactor),
+      settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep,
+      UiScaleFactor, SettingKey::UiScaleFactor),
 #endif
     // LookFeelBehaviorSection
     { QT_TR_NOOP("Behavior"), nullptr, SM::SectionTitle, SM::TabLookFeel,

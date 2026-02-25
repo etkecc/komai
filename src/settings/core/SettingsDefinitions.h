@@ -58,8 +58,9 @@ inline constexpr std::array<SettingId, 4> kNumericConstrainedConfigSettingIds{{
   SettingId::PrivacyWindowFocusBlurDelaySeconds,
 }};
 
-inline constexpr std::array<SettingDefinition, 66> kPersistedSettingDefinitions{{
+inline constexpr std::array<SettingDefinition, 67> kPersistedSettingDefinitions{{
   {SettingId::UiThemeSlug, SettingScope::Config, SettingKey::UiThemeSlug, false},
+  {SettingId::UiScaleFactor, SettingScope::Config, SettingKey::UiScaleFactor, true},
   {SettingId::UiFontFamily, SettingScope::Config, SettingKey::UiFontFamily, false},
   {SettingId::UiFontSizePt, SettingScope::Config, SettingKey::UiFontSizePt, false},
   {SettingId::UiFontEmojiFamily, SettingScope::Config, SettingKey::UiFontEmojiFamily, false},

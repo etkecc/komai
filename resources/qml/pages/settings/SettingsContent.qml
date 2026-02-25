@@ -120,6 +120,41 @@ Item {
                                 Layout.preferredHeight: childrenRect.height
                                 Layout.rightMargin: 0
 
+                                Component {
+                                    id: toggleDelegate
+                                    SettingControlToggle {
+                                        anchors.right: parent.right
+                                        value: r.model.value
+                                        onToggledValue: function(value) {
+                                            r.model.value = value;
+                                        }
+                                        enabled: r.model.enabled
+                                    }
+                                }
+
+                                Component {
+                                    id: optionsDelegate
+                                    SettingControlCombo {
+                                        anchors.right: parent.right
+                                        value: r.model.value
+                                        values: r.model.values
+                                        width: Math.min(implicitWidth, r.controlWidth)
+                                        onActivatedValueChanged: function(index) {
+                                            if (index !== r.model.value) {
+                                                r.model.value = index;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Component {
+                                    id: integerDelegate
+                                    SettingRowInteger {
+                                        anchors.right: parent.right
+                                        model: r.model
+                                    }
+                                }
+
                                 DelegateChooser {
                                     id: chooser
                                     roleValue: r.model.type
@@ -127,53 +162,19 @@ Item {
 
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.Toggle
-                                        SettingControlToggle {
-                                            anchors.right: parent.right
-                                            value: r.model.value
-                                            onToggledValue: function(value) {
-                                                r.model.value = value;
-                                            }
-                                            enabled: r.model.enabled
-                                        }
+                                        delegate: toggleDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ToggleWithDescription
-                                        SettingControlToggle {
-                                            anchors.right: parent.right
-                                            value: r.model.value
-                                            onToggledValue: function(value) {
-                                                r.model.value = value;
-                                            }
-                                            enabled: r.model.enabled
-                                        }
+                                        delegate: toggleDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.Options
-                                        SettingControlCombo {
-                                            anchors.right: parent.right
-                                            value: r.model.value
-                                            values: r.model.values
-                                            width: Math.min(implicitWidth, r.controlWidth)
-                                            onActivatedValueChanged: function(index) {
-                                                if (index !== r.model.value) {
-                                                    r.model.value = index;
-                                                }
-                                            }
-                                        }
+                                        delegate: optionsDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.OptionsWithDescription
-                                        SettingControlCombo {
-                                            anchors.right: parent.right
-                                            value: r.model.value
-                                            values: r.model.values
-                                            width: Math.min(implicitWidth, r.controlWidth)
-                                            onActivatedValueChanged: function(index) {
-                                                if (index !== r.model.value) {
-                                                    r.model.value = index;
-                                                }
-                                            }
-                                        }
+                                        delegate: optionsDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.PresenceStatusMessageField
@@ -191,17 +192,11 @@ Item {
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.Integer
-                                        SettingRowInteger {
-                                            anchors.right: parent.right
-                                            model: r.model
-                                        }
+                                        delegate: integerDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.IntegerWithDescription
-                                        SettingRowInteger {
-                                            anchors.right: parent.right
-                                            model: r.model
-                                        }
+                                        delegate: integerDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.Double

@@ -9,6 +9,7 @@
 #include "settings/ui/SessionKeyActions.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/SettingInputValidation.h"
+#include "settings/ui/SettingRoleData.h"
 #include "settings/ui/UserSettingsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
@@ -85,11 +86,9 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
     case Name:
         return m.name ? tr(m.name) : QVariant{};
     case Description:
-        if (m.getRoleData) {
-            const auto value = m.getRoleData(role);
-            if (value.isValid())
-                return value;
-        }
+        if (const auto roleData = settings::ui::roleDataForSetting(m.settingId, role);
+            roleData.isValid())
+            return roleData;
 
         if (!m.description)
             return QVariant{};
@@ -113,11 +112,9 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
     case Good:
     case ThemeVariantValue:
     case ThemeVariantValues:
-        if (m.getRoleData) {
-            const auto value = m.getRoleData(role);
-            if (value.isValid())
-                return value;
-        }
+        if (const auto roleData = settings::ui::roleDataForSetting(m.settingId, role);
+            roleData.isValid())
+            return roleData;
         if (role == ThemeVariantValue)
             return -1;
         if (role == ThemeVariantValues)
@@ -152,7 +149,7 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         return m.setValue(value);
     }
 
-    if (m.setRoleData) {
+    if (settings::ui::hasWritableRoleDataForSetting(m.settingId, role)) {
         if (!validateRoleInput(m, role, value)) {
             nhlog::ui()->warn(
               "Ignoring invalid settings role input (setting_id={}, type={}, role={})",
@@ -163,8 +160,8 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         }
     }
 
-    if (m.setRoleData)
-        return m.setRoleData(role, value);
+    if (settings::ui::hasWritableRoleDataForSetting(m.settingId, role))
+        return settings::ui::setRoleDataForSetting(m.settingId, role, value);
 
     return false;
 }

@@ -623,6 +623,8 @@ set(SRC_FILES
     src/settings/ui/SettingDescriptor.h
     src/settings/ui/SettingDescriptor.cpp
     src/settings/ui/SettingDescriptorTable.cpp
+    src/settings/ui/SettingRoleData.h
+    src/settings/ui/SettingRoleData.cpp
     src/settings/ui/SettingInputValidation.h
     src/settings/ui/SettingInputValidation.cpp
     src/settings/ui/SessionKeyActions.h

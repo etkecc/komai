@@ -86,19 +86,6 @@ privacyPresenceStatusPolicyValues()
     };
 }
 
-static QVariant
-privacyPresenceStatusPolicyRoleData(int role)
-{
-    if (role != SM::Description)
-        return {};
-
-    return QCoreApplication::translate(
-             "UserSettingsModel",
-             "Controls your <a href=\"%1\">Presence</a> status on the Matrix network.\n"
-             "Automatic is either 'online' or 'unavailable' (after 5 minutes of inactivity).")
-      .arg(QStringLiteral("https://spec.matrix.org/v1.17/client-server-api/#presence"));
-}
-
 static bool
 windowFocusBlurDelaySecondsEnabled()
 {

@@ -11,21 +11,7 @@ UserSettings::setSidebarsRoomListSort(RoomSortOrder s)
     emit sidebarsRoomListSortChanged(s);
     save();
 }
-void
-UserSettings::setUiLayoutContentMaxWidthPx(int s)
-{
-    const auto normalized = settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(s);
 
-    if (uiLayoutContentMaxWidthPx_ == normalized)
-        return;
-    if (!setCoreValue(settings::core::SettingId::UiLayoutContentMaxWidthPx,
-                      normalized,
-                      SettingKey::UiLayoutContentMaxWidthPx))
-        return;
-    uiLayoutContentMaxWidthPx_ = normalized;
-    emit uiLayoutContentMaxWidthPxChanged(normalized);
-    save();
-}
 void
 UserSettings::setSidebarsCommunitiesWidthPx(int s)
 {
@@ -33,6 +19,7 @@ UserSettings::setSidebarsCommunitiesWidthPx(int s)
                settings::core::definitions::normalizeCommunitiesWidthPx(s),
                &UserSettings::sidebarsCommunitiesWidthPxChanged);
 }
+
 void
 UserSettings::setSidebarsRoomListWidthPx(int s)
 {
@@ -40,6 +27,7 @@ UserSettings::setSidebarsRoomListWidthPx(int s)
                settings::core::definitions::normalizeRoomListWidthPx(s),
                &UserSettings::sidebarsRoomListWidthPxChanged);
 }
+
 void
 UserSettings::setSidebarsRoomListShowCommunityCounts(bool s)
 {
@@ -50,6 +38,7 @@ UserSettings::setSidebarsRoomListShowCommunityCounts(bool s)
     emit sidebarsRoomListShowCommunityCountsChanged(s);
     save();
 }
+
 void
 UserSettings::setSidebarsRoomListCompact(bool s)
 {
@@ -60,6 +49,7 @@ UserSettings::setSidebarsRoomListCompact(bool s)
     emit sidebarsRoomListCompactChanged(s);
     save();
 }
+
 void
 UserSettings::setSidebarsRoomListShowLastMessageTime(bool s)
 {
@@ -70,6 +60,7 @@ UserSettings::setSidebarsRoomListShowLastMessageTime(bool s)
     emit sidebarsRoomListShowLastMessageTimeChanged(s);
     save();
 }
+
 void
 UserSettings::setSidebarsRoomListLastMessagePreview(LastMessagePreview s)
 {

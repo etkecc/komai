@@ -212,21 +212,21 @@ setCallRingtoneValue(const QVariant &v)
           QCoreApplication::translate("UserSettingsModel", "Select a file"),
           homeFolder,
           QCoreApplication::translate("UserSettingsModel", "All Files (*)"));
-        if (!filepath.isEmpty()) {
-            i->setRingtone(filepath);
-            i->setRingtone(filepath);
-        }
+        if (filepath.isEmpty())
+            return false;
+        i->setRingtone(filepath);
+        return true;
     } else if (ringtone == 0) {
         i->setRingtone(QStringLiteral("Mute"));
-        i->setRingtone(QStringLiteral("Mute"));
+        return true;
     } else if (ringtone == 1) {
         const auto defaultRingtone =
           QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone);
         i->setRingtone(defaultRingtone);
-        i->setRingtone(defaultRingtone);
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 static QVariant

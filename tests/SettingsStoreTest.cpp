@@ -5,6 +5,7 @@
 #include <iostream>
 #include <array>
 #include <limits>
+#include <string_view>
 #include <unordered_set>
 
 #include "TestEnvironment.h"
@@ -41,6 +42,8 @@ constexpr std::array<settings::core::SettingId, 15> kExpectedConstrainedIds{{
   settings::core::SettingId::TimelineMessagesMaxWidthPx,
   settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds,
 }};
+
+constexpr std::string_view kLegacyEnabledSuffix{"_enabled"};
 
 bool
 testBasicSetGet()
@@ -267,6 +270,14 @@ testPersistedDefinitionCoverage()
         if (definition.persistedKey == nullptr || definition.persistedKey[0] == '\0') {
             std::cerr << "FAILED: persisted definition missing key for SettingId "
                       << static_cast<int>(definition.id) << '\n';
+            ok = false;
+        }
+
+        const std::string_view persistedKey{definition.persistedKey};
+        if (persistedKey.ends_with(kLegacyEnabledSuffix)) {
+            std::cerr << "FAILED: persisted definition key still uses legacy '_enabled' suffix: '"
+                      << persistedKey << "' for SettingId " << static_cast<int>(definition.id)
+                      << '\n';
             ok = false;
         }
 

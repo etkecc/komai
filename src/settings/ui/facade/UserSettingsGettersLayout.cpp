@@ -26,7 +26,7 @@ UserSettings::uiFontSizePt() const
     if (const auto value = coreStore_.valueAs<double>(settings::core::SettingId::UiFontSizePt);
         value.has_value())
         return *value;
-    return baseFontSize_;
+    return uiFontSizePt_;
 }
 QString
 UserSettings::uiFontFamily() const

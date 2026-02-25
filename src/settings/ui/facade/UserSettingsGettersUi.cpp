@@ -11,7 +11,7 @@ UserSettings::uiThemeSlug() const
     if (const auto value = coreStore_.valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
         value.has_value() && !value->empty())
         return QString::fromStdString(*value);
-    return !theme_.isEmpty() ? theme_ : defaultTheme_;
+    return !uiThemeSlug_.isEmpty() ? uiThemeSlug_ : uiThemeSlugDefault_;
 }
 
 bool

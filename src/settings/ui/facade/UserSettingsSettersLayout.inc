@@ -7,9 +7,9 @@ UserSettings::setUiFontSizePt(double size)
     if (!std::isfinite(size) || size < kMinFontSizePt || size > kMaxFontSizePt)
         size = settings::core::definitions::kDefaultFontSizePt;
 
-    if (size == baseFontSize_)
+    if (size == uiFontSizePt_)
         return;
-    baseFontSize_ = size;
+    uiFontSizePt_ = size;
     (void)coreStore_.set(settings::core::SettingId::UiFontSizePt, size);
 
     const static auto defaultFamily = QFont().defaultFamily();

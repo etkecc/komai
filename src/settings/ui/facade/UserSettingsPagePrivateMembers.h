@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-QString defaultTheme_ = QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
-QString theme_;
+QString uiThemeSlugDefault_ = QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
+QString uiThemeSlug_;
 bool timelineMessagesHoverHighlight_;
 bool timelineMessagesEmojiOnlyEnlarge_;
 bool integrationsSystemTrayEnabled_;
@@ -18,7 +18,7 @@ TimelineMessagesLayoutStyle timelineMessagesLayoutStyle_ = TimelineMessagesLayou
 bool timelineMessagesLayoutSmallAvatars_;
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;
-QString pinnedReactions_;
+QString timelineMessageActionsPinnedReactions_;
 ShowSenderUsername timelineMessagesSenderUsername_;
 bool timelineMediaAnimateOnHover_;
 bool composerTypingSendEnabled_;
@@ -50,7 +50,7 @@ int timelineMessagesMaxWidthPx_;
 int sidebarsRoomListWidthPx_    = settings::core::definitions::kDefaultSidebarsRoomListWidthPx;
 int sidebarsCommunitiesWidthPx_ = settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx;
 double uiScaleFactor_           = settings::core::definitions::kDefaultScaleFactor;
-double baseFontSize_            = settings::core::definitions::kDefaultFontSizePt;
+double uiFontSizePt_            = settings::core::definitions::kDefaultFontSizePt;
 QString uiFontFamily_;
 QString uiFontEmojiFamily_;
 Presence networkPresenceStatusPolicy_;

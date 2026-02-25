@@ -115,7 +115,7 @@ UserSettings::timelineMessageActionsPinnedReactions() const
           settings::core::SettingId::TimelineMessageActionsPinnedReactions);
         value.has_value())
         return QString::fromStdString(*value);
-    return pinnedReactions_;
+    return timelineMessageActionsPinnedReactions_;
 }
 
 UserSettings::ShowSenderUsername

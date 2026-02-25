@@ -28,7 +28,7 @@ UserSettings::setUiThemeSlug(QString theme)
 {
     if (theme == this->uiThemeSlug() || !validThemeSlugs().contains(theme))
         return;
-    theme_ = theme;
+    uiThemeSlug_ = theme;
     (void)coreStore_.set(settings::core::SettingId::UiThemeSlug, theme.toStdString());
     save();
     applyTheme();

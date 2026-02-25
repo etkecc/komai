@@ -40,6 +40,8 @@ Current ownership map:
   - Theme switching and runtime theme application.
 - `src/settings/SettingsSerializer*`
   - Settings YAML serialization/deserialization and normalized value conversion.
+  - Enum token conversion and adapter registry are split between
+    `SettingsSerializerConfigConverters.cpp` and `SettingsSerializerConfigEnumTokenAdapters.cpp`.
 - `src/settings/ui/facade/UserSettingsSessionSettings.cpp`
   - Session/auth/session-file related helpers.
 - `src/settings/SettingsController.*`
@@ -153,6 +155,7 @@ Primary implementation files:
 - `src/settings/ui/facade/UserSettingsSettersMisc.cpp`
 - `src/settings/ui/facade/UserSettingsSettersUi.cpp`
 - `src/settings/SettingsSerializerConfig.cpp`
+- `src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp`
 - `src/settings/SettingsSerializerSession.cpp`
 - `src/settings/SettingsSerializerState.cpp`
 - `src/settings/SettingsSerializer.h`

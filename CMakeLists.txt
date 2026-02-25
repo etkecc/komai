@@ -641,6 +641,8 @@ set(SRC_FILES
     src/settings/SettingsPersistence.cpp
     src/settings/SettingsPersistence.h
     src/settings/SettingsStorage.cpp
+    src/settings/SettingsStorageSecureBackend.cpp
+    src/settings/SettingsStorageSecretsCodec.cpp
     src/settings/SettingsStorage.h
     src/settings/SettingsSerializerConfigConverters.cpp
     src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp
@@ -1164,6 +1166,8 @@ if(BUILD_TESTING)
         src/settings/SettingsSerializerSession.cpp
         src/settings/SettingsSerializerState.cpp
         src/settings/SettingsStorage.cpp
+        src/settings/SettingsStorageSecureBackend.cpp
+        src/settings/SettingsStorageSecretsCodec.cpp
         src/settings/core/StartupConfig.cpp
         src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
@@ -1200,6 +1204,8 @@ if(BUILD_TESTING)
         src/CacheApiWrappers.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsStorage.cpp
+        src/settings/SettingsStorageSecureBackend.cpp
+        src/settings/SettingsStorageSecretsCodec.cpp
     )
     target_include_directories(komai_settings_storage_test PRIVATE src)
     target_link_libraries(komai_settings_storage_test PRIVATE

@@ -1,4 +1,4 @@
-# Configuration
+# Settings
 
 Komai stores settings and session data as YAML under a per-profile directory.
 
@@ -57,13 +57,13 @@ Security invariants:
 - `state.yml`: window size, sidebar widths, hidden/collapsed UI state, recent reactions
 - `session.yml`: user id, homeserver, device id
 - `secrets.yml`: `auth.access_token` and `secrets` map (only when `secrets.provider=file`)
-- Full example files: [architecture/configuration/examples/profile/](architecture/configuration/examples/profile/)
+- Full example files: [architecture/settings/examples/profile/](architecture/settings/examples/profile/)
 
 ## Integrations
 
 Learn about optional integration hooks in the Integrations docs:
 
-- [D-Bus integration](configuration/integrations/dbus.md)
+- [D-Bus integration](settings/integrations/dbus.md)
 
 ## Backup and Restore
 
@@ -95,5 +95,5 @@ Important:
 
 For complete storage details, see [storage.md](storage.md).
 
-For implementation details, see [architecture/configuration/README.md](architecture/configuration/README.md) and
+For implementation details, see [architecture/settings/README.md](architecture/settings/README.md) and
 [architecture/storage.md](architecture/storage.md).

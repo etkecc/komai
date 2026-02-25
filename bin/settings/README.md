@@ -1,6 +1,6 @@
 # Settings Tooling 🧭
 
-Start with [`docs/architecture/configuration/README.md`](../../docs/architecture/configuration/README.md) to understand the settings layers, then use this directory for architecture audits.
+Start with [`docs/architecture/settings/README.md`](../../docs/architecture/settings/README.md) to understand the settings layers, then use this directory for architecture audits.
 
 ## Purpose
 
@@ -14,15 +14,15 @@ This is mainly for refactoring safety and review clarity.
 
 ## Scripts
 
-- `generate-3-layer-mapping.sh`
-  - Generates `docs/architecture/configuration/3-layer-mapping.md`
+- `settings-3-layer-mapping.sh`
+  - Generates `docs/architecture/settings/3-layer-mapping.md`
   - Supports `--check` mode for drift detection without overwriting.
 
 Examples:
 
 ```sh
-just settings-generate-3-layer-mapping
-just settings-check-3-layer-mapping
+just settings-3-layer-mapping-generate
+just settings-3-layer-mapping-check
 ```
 
 ## Drift Checks

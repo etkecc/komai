@@ -197,13 +197,20 @@ translations-claude-translate-all *args:
 		}
 	done
 
-# Regenerates docs/architecture/configuration/3-layer-mapping.md from settings source-of-truth files
-settings-generate-3-layer-mapping *args:
-	{{ justfile_directory() }}/bin/settings/generate-3-layer-mapping.sh {{ args }}
+# Regenerates docs/architecture/settings/3-layer-mapping.md from settings source-of-truth files
+settings-3-layer-mapping-generate *args:
+	{{ justfile_directory() }}/bin/settings/settings-3-layer-mapping.sh {{ args }}
 
-# Checks whether docs/architecture/configuration/3-layer-mapping.md is up to date (no rewrite)
+# Checks whether docs/architecture/settings/3-layer-mapping.md is up to date (no rewrite)
+settings-3-layer-mapping-check *args:
+	{{ justfile_directory() }}/bin/settings/settings-3-layer-mapping.sh check {{ args }}
+
+# Backward-compatible aliases (deprecated; prefer settings-3-layer-mapping-*)
+settings-generate-3-layer-mapping *args:
+	just --justfile {{ justfile() }} settings-3-layer-mapping-generate {{ args }}
+
 settings-check-3-layer-mapping *args:
-	{{ justfile_directory() }}/bin/settings/generate-3-layer-mapping.sh --check {{ args }}
+	just --justfile {{ justfile() }} settings-3-layer-mapping-check {{ args }}
 
 # Builds a Flatpak bundle from the local source tree
 flatpak-build:
@@ -278,6 +285,7 @@ lint:
 		icons-audit \
 		icons-list-check \
 		icons-derived-check \
+		settings-3-layer-mapping-check \
 		no-qsettings \
 		license-check
 

@@ -65,9 +65,9 @@ repos:
         pass_filenames: false
       - id: settings-3-layer-mapping-check
         name: Verify settings 3-layer mapping is up to date
-        entry: ./bin/settings/generate-3-layer-mapping.sh --check
+        entry: ./bin/settings/settings-3-layer-mapping.sh check
         language: system
-        files: '^(src/settings/core/SettingsDefinitionsPersisted.*\.inc|src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries.*\.inc|src/settings/SettingKeys\.h|bin/settings/generate-3-layer-mapping\.sh|docs/architecture/configuration/3-layer-mapping\.md)$'
+        files: '^(src/settings/core/SettingsDefinitionsPersisted.*\.inc|src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries.*\.inc|src/settings/SettingKeys\.h|bin/settings/settings-3-layer-mapping\.sh|docs/architecture/settings/3-layer-mapping\.md)$'
         pass_filenames: false
       - id: license-check
         name: REUSE license compliance check

@@ -6,7 +6,7 @@ Komai stores data in several places depending on purpose.
 
 | Kind | Location |
 | --- | --- |
-| Profile configuration files | `~/.config/komai/profiles/<profile-id>/` |
+| Profile settings files | `~/.config/komai/profiles/<profile-id>/` |
 | Chat database (default backend: LMDB when built, memory fallback when no persistent backend is built) | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
 | User themes | `~/.local/share/komai/themes/` |
 | Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
@@ -42,7 +42,7 @@ Inside `~/.config/komai/profiles/<profile-id>/`:
 - `session.yml` - non-secret session/account metadata
 - `secrets.yml` - only used when `secrets.provider=file`
 
-See [Configuration](configuration.md) for semantics and examples.
+See [Settings](settings.md) for semantics and examples.
 
 ## Secrets
 
@@ -53,6 +53,6 @@ Secure-backend secrets are not part of on-disk YAML backup.
 
 ## See Also
 
-- [Configuration](configuration.md)
+- [Settings](settings.md)
 - [Architecture: Storage](architecture/storage.md)
-- [Architecture: Configuration](architecture/configuration/README.md)
+- [Architecture: Settings](architecture/settings/README.md)

@@ -28,8 +28,8 @@ Because resources are compiled in, missing files or stale qrc entries are build/
 
 - Most modern UI icons were introduced by the Fluent switch (`8f50e891`).
 - Some icons are Komai-authored custom assets (for example `plus-circle.svg`, `toggles.svg`, `state-event.svg`, `sidebar.svg`, `integrations.svg`).
-- Provenance/cleanup tracking is kept in:
-  - `var/plans/icons-license-audit.md`
+- Provenance/licensing metadata is tracked in:
+  - `resources/icons/REUSE.toml`
 
 ## Current Policy (Komai)
 
@@ -89,6 +89,5 @@ Sync scope:
 
 - Fluent UI System Icons are MIT licensed; using MIT assets in this GPL project is allowed.
 - We must preserve proper license attribution/metadata for third-party assets.
-- Implementation tasks are tracked in:
-  - `var/plans/icons-license-audit.md`
-- User-facing acknowledgements cleanup (About tab) is also tracked there.
+- License metadata lives in `resources/icons/REUSE.toml`.
+- Keep `resources/icons/REUSE.toml` and this document in sync when icon sources change.

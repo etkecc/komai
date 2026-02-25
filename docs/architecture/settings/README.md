@@ -1,6 +1,6 @@
-# Configuration Architecture
+# Settings Architecture
 
-This document describes Komai's current configuration and secret persistence architecture.
+This document describes Komai's current settings and secret persistence architecture.
 
 ## Overview
 
@@ -280,8 +280,8 @@ This keeps fallback and secure-backend key identity consistent.
 
 To audit naming alignment across persisted settings definitions, runtime getters, and persisted keys:
 
-- run `just settings-generate-3-layer-mapping`
-- run `just settings-check-3-layer-mapping` for non-mutating drift checks
+- run `just settings-3-layer-mapping-generate`
+- run `just settings-3-layer-mapping-check` for non-mutating drift checks
 - inspect [`3-layer-mapping.md`](3-layer-mapping.md)
 
 The generated report includes:
@@ -292,9 +292,9 @@ The generated report includes:
 ## Notes
 
 - Canonical references are:
-  - [User Configuration Guide](../configuration.md)
-  - [Storage Guide](../storage.md)
+  - [User Settings Guide](../../settings.md)
+  - [Storage Guide](../../storage.md)
   - [this architecture document](README.md)
-  - [storage architecture](../storage.md)
-  - [configuration examples](examples/profile/)
-  - [nheko to Komai settings mapping](differences-from-nheko/settings-mapping.md)
+  - [Storage Architecture](../storage.md)
+  - [settings examples](examples/profile/)
+  - [nheko to Komai settings mapping](../differences-from-nheko/settings-mapping.md)

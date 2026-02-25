@@ -30,24 +30,27 @@ Use `just` as the build entry point:
 
 - `just build` -- CMake configure + build (output: `var/build/native/komai`)
 - `just test` -- Build and run unit tests (`ctest` in `var/build/native`)
+- `just lint` -- Run selected `prek` hooks on all files (format/lint/policy/docs drift checks)
 - `just run` -- Run the compiled binary
 - `just clean` -- Remove build directory
 - `just appimage-build-docker` -- Build AppImage in Docker
 - `just flatpak-build` -- Build Flatpak package
 
 When making changes to C++/QML files, always run `just build` to verify the build succeeds and to prepare it for the human operator to test.
-For C++/header/QML changes, `prek` also runs unit tests via `bin/prek/unit-tests.sh`.
+Before committing, run `just lint` (or rely on git hook + CI running the same `.pre-commit-config.yaml` hooks via `prek`).
+For C++/header/QML changes, `prek` also runs unit tests via `bin/prek/tests.sh`.
 
 See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 
 
 ## Key Source Locations
 
-### Settings and Configuration
-- `src/UserSettingsPage.cpp` / `.h` -- All user settings with Qt properties
+### Settings
+- `src/settings/ui/facade/UserSettingsPage.cpp` / `.h` -- User settings Qt properties and facade logic
 - Settings stored per profile in `~/.config/komai/profiles/<profile-id>/` (`<profile-id>` is the `-p` profile identifier)
 - Main files: `config.yml`, `state.yml`, `session.yml`, and `secrets.yml` (file-provider fallback only)
-- See [docs/architecture/configuration/README.md](docs/architecture/configuration/README.md) for details
+- User-facing settings docs: `docs/settings.md`
+- See [docs/architecture/settings/README.md](docs/architecture/settings/README.md) for details
 
 ### Room List (Sidebar)
 - `resources/qml/RoomList.qml` -- Room list UI
@@ -98,8 +101,8 @@ Access via `Nheko.theme.*`:
 
 ## Documentation
 
-- [docs/README.md](docs/README.md) -- Documentation index
-- [docs/architecture/](docs/architecture/) -- Technical/developer documentation
+- [docs/README.md](docs/README.md) -- User/docs index
+- [docs/architecture/README.md](docs/architecture/README.md) -- Technical docs index (start here, then open only task-relevant pages)
 - [docs/differences-from-nheko.md](docs/differences-from-nheko.md) -- What makes Komai different
 
 ## Icon Change Checklist
@@ -110,7 +113,7 @@ When adding/changing icons:
 - Update `resources/res.qrc` for any new or removed icon file.
 - Run `just icons-audit` to detect reference/qrc/file mismatches.
 - Prefer existing icons over adding near-duplicates.
-- For Fluent-derived icons, keep attribution/licensing tasks aligned with `var/plans/icons-license-audit.md`.
+- For Fluent-derived icons, keep attribution/licensing aligned with `resources/icons/REUSE.toml` and `docs/architecture/icons.md`.
 
 
 ## Environment

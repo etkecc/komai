@@ -14,7 +14,7 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 
 - 🖥️ **Desktop-first UX** — optimized for large screens
 - 👓 **Readable by everyone** — all visible text must be comfortably readable at default settings, including by elderly users
-- 🎨 **Subtle but effective** — [themeable](docs/themes.md), [configurable](docs/configuration.md), user-first
+- 🎨 **Subtle but effective** — [themeable](docs/themes.md), [customizable](docs/settings.md), user-first
 - 🧱 **Built on [nheko](https://nheko.im/nheko-reborn/nheko)** — inherits nheko's solid Matrix protocol support while improving the interface
 
 
@@ -31,7 +31,7 @@ Highlights:
 - 🎨 14 [built-in themes](docs/themes.md#-built-in-themes), but also [🗂️ user-themable](docs/themes.md#️-user-themes)
 - 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/translations.md))
 - 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that both grandma and you can use, making neither of you feel stupid or incapable
-- 🔧 Lots of [configurability](docs/configuration.md) - you're in control
+- 🔧 Lots of [settings controls](docs/settings.md) - you're in control
 - 📋 Good support for hundreds of rooms and spaces
 - ⚡ Quick & lightweight native application ([C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
 - 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping
@@ -73,7 +73,7 @@ See 📄 [Packaging](docs/packaging/README.md) for an overview of all methods.
 
 ## 📚 Documentation
 
-See 📄 [Documentation](docs/README.md) for the full list of guides, including configuration, theming, translations, and packaging.
+See 📄 [Documentation](docs/README.md) for the full list of guides, including settings, theming, translations, and packaging.
 
 
 ## 🤝 Contributing

@@ -1,6 +1,6 @@
-# Configuration Differences vs nheko
+# Settings Differences vs nheko
 
-This document captures configuration-architecture differences between Komai and upstream nheko.
+This document captures settings-architecture differences between Komai and upstream nheko.
 
 ## High-Level Differences
 
@@ -15,7 +15,7 @@ This document captures configuration-architecture differences between Komai and 
 | Runtime API | mixed implementation concerns | flat runtime API with split persistence concerns and semantics-aligned setting names |
 | Path construction | scattered per-callsite path joins | centralized in `src/Paths.h` / `src/Paths.cpp` |
 
-## Komai-Specific Configuration Design
+## Komai-Specific Settings Design
 
 - Per-profile directory: `~/.config/komai/profiles/<profile-id>/` (`<profile-id>` is the `-p` profile name/identifier)
 - Default profile id is `default`
@@ -33,13 +33,13 @@ This document captures configuration-architecture differences between Komai and 
 
 See also:
 
-- [User Configuration Guide](../../configuration.md)
-- [Configuration Architecture](../configuration.md)
+- [User Settings Guide](../../settings.md)
+- [Settings Architecture](../settings/README.md)
 - [Storage Architecture](../storage.md)
 - [Storage Guide](../../storage.md)
 - [Secret Storage Differences](secret-services.md)
 - [Settings Name Mapping](settings-mapping.md)
-- [Configuration Example (config.yml)](../configuration/examples/profile/config.yml)
-- [Configuration Example (state.yml)](../configuration/examples/profile/state.yml)
-- [Configuration Example (session.yml)](../configuration/examples/profile/session.yml)
-- [Configuration Example (secrets.yml)](../configuration/examples/profile/secrets.yml)
+- [Settings Example (config.yml)](../settings/examples/profile/config.yml)
+- [Settings Example (state.yml)](../settings/examples/profile/state.yml)
+- [Settings Example (session.yml)](../settings/examples/profile/session.yml)
+- [Settings Example (secrets.yml)](../settings/examples/profile/secrets.yml)

@@ -533,7 +533,7 @@ testSessionIdentityValuesAreTrimmedOnLoad()
     YAML::Node sessionRoot(YAML::NodeType::Map);
     sessionRoot["session"]["account"]["user_id"]   = "  @alice:example.org  ";
     sessionRoot["session"]["account"]["homeserver"] = "  https://example.org  ";
-    sessionRoot["session"]["device_id"]            = "   ";
+    sessionRoot["session"]["device"]["id"]         = "   ";
     if (!ctx.writeSession(sessionRoot))
         return expect(false, "session trim fixture can be persisted");
 
@@ -709,6 +709,50 @@ testConfigMigrationNormalizesNonMapConfigRoot()
                           SettingKey::ConfigSchemaVersion,
                           settings::migrations::kCurrentConfigSchemaVersion,
                           "normalized map still gets current schema version stamp");
+    return ok;
+}
+
+bool
+testMalformedFileSecretsPayloadFallsBackSafely()
+{
+    const QString profile = QStringLiteral("malformed-file-secrets-payload-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "malformed file secrets fixture root can be created");
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["secrets"]["provider"] = staged_load_plan::ProviderFileValue;
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "malformed file secrets fixture config can be persisted");
+
+    YAML::Node sessionRoot(YAML::NodeType::Map);
+    sessionRoot["session"]["account"]["user_id"]    = "@alice:example.org";
+    sessionRoot["session"]["account"]["homeserver"] = "https://example.org";
+    sessionRoot["session"]["device"]["id"]          = "DEVICE1";
+    if (!ctx.writeSession(sessionRoot))
+        return expect(false, "malformed file secrets fixture session can be persisted");
+
+    YAML::Node secretsRoot(YAML::NodeType::Map);
+    secretsRoot["auth"]["access_token"] = YAML::Node(YAML::NodeType::Sequence);
+    secretsRoot["secrets"]              = "not-a-map";
+    if (!settings::storage::writeYamlFile(ctx.secretsFile(), secretsRoot, false))
+        return expect(false, "malformed file secrets fixture payload can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for malformed file secrets test");
+
+    bool ok = true;
+    ok &= expect(settings->usesFileSecretsProvider(),
+                 "file-provider mode is selected for malformed file secrets test");
+    ok &= expect(settings->accessToken().isEmpty(), "malformed file secrets access token falls back to empty");
+    ok &= expect(settings->secret(QLatin1String("unknown")).isEmpty(),
+                 "malformed file secrets map falls back to empty map");
+    ok &= expect(settings->hasPersistedSessionIdentity(),
+                 "session identity remains available from session.yml");
+    ok &= expect(!settings->hasActiveSession(),
+                 "missing token in malformed file secrets keeps session inactive");
     return ok;
 }
 
@@ -1130,6 +1174,7 @@ main()
     ok &= testConfigMigrationStampsVersionWhenMissing();
     ok &= testConfigMigrationKeepsFutureVersionUntouched();
     ok &= testConfigMigrationNormalizesNonMapConfigRoot();
+    ok &= testMalformedFileSecretsPayloadFallsBackSafely();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();

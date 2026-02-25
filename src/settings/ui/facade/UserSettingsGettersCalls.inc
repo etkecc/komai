@@ -9,6 +9,3 @@
     bool callsScreenshareShowCursor() const;
     bool callsRelayUseFallbackServer() const;
     bool callsLegacyEnabled() const;
-    bool encryptionKeySharingShareWithTrusted() const;
-    bool encryptionKeySharingOnlyVerifiedUsers() const;
-    bool encryptionBackupOnlineEnabled() const;

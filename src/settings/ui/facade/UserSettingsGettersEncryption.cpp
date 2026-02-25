@@ -5,4 +5,4 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 
-#include "UserSettingsGettersCallsCalls.inc"
+#include "UserSettingsGettersEncryptionImpl.inc"

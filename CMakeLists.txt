@@ -680,6 +680,7 @@ set(SRC_FILES
     src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp
     src/settings/ui/facade/UserSettingsGettersLayout.cpp
     src/settings/ui/facade/UserSettingsGettersCalls.cpp
+    src/settings/ui/facade/UserSettingsGettersEncryption.cpp
     src/settings/ui/facade/UserSettingsGettersMisc.cpp
     src/settings/ui/facade/UserSettingsPage.h
     src/settings/ui/facade/UserSettingsSettersCore.cpp
@@ -1142,6 +1143,7 @@ if(BUILD_TESTING)
         src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp
         src/settings/ui/facade/UserSettingsGettersLayout.cpp
         src/settings/ui/facade/UserSettingsGettersCalls.cpp
+        src/settings/ui/facade/UserSettingsGettersEncryption.cpp
         src/settings/ui/facade/UserSettingsGettersMisc.cpp
         src/settings/ui/facade/UserSettingsSessionSettings.cpp
         src/settings/ui/facade/UserSettingsSettersCore.cpp

@@ -133,8 +133,8 @@ UserSettings::uiAvatarsIdenticonFallback() const
 void
 UserSettings::applyTheme()
 {
-    QGuiApplication::setPalette(Theme::paletteFromTheme(this->theme()));
-    QApplication::setPalette(Theme::paletteFromTheme(this->theme()));
+    QGuiApplication::setPalette(Theme::paletteFromTheme(this->uiThemeSlug()));
+    QApplication::setPalette(Theme::paletteFromTheme(this->uiThemeSlug()));
 }
 
 void

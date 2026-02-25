@@ -336,7 +336,7 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
         return expect(false, "UserSettings instance is available after initialize");
 
     settings->setPersistenceSuspended(false);
-    settings->setTheme(QStringLiteral("komai-dark"));
+    settings->setUiThemeSlug(QStringLiteral("komai-dark"));
 
     if (!expect(settings::storage::pathExists(configFile),
                 "theme change creates config.yml in config-only mode"))
@@ -461,7 +461,7 @@ testInvalidConfigTokensFallbackToSafeValues()
         return expect(false, "UserSettings instance is available for invalid token test");
 
     bool ok = true;
-    ok &= expect(settings->theme() != QStringLiteral("not-a-real-theme"),
+    ok &= expect(settings->uiThemeSlug() != QStringLiteral("not-a-real-theme"),
                  "invalid theme slug is ignored");
     ok &= expect(settings->networkPresenceStatusPolicy() == UserSettings::Presence::AutomaticPresence,
                  "invalid presence token falls back to automatic presence");
@@ -654,7 +654,7 @@ testControllerSyncsCoreStore()
     const auto markdown = store.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownEnabled);
 
     bool ok = true;
-    ok &= expect(theme.has_value() && *theme == settings->theme().toStdString(),
+    ok &= expect(theme.has_value() && *theme == settings->uiThemeSlug().toStdString(),
                  "controller sync stores theme value in core settings store");
     ok &= expect(fontSize.has_value() && std::abs(*fontSize - settings->uiFontSizePt()) < 0.0001,
                  "controller sync stores font size value in core settings store");
@@ -680,10 +680,10 @@ testControllerSyncsCoreStore()
     }
 
     settings->setPersistenceSuspended(false);
-    settings->setTheme(QStringLiteral("komai-light"));
+    settings->setUiThemeSlug(QStringLiteral("komai-light"));
     const auto updatedTheme =
       settings->coreStore().valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
-    ok &= expect(updatedTheme.has_value() && *updatedTheme == settings->theme().toStdString(),
+    ok &= expect(updatedTheme.has_value() && *updatedTheme == settings->uiThemeSlug().toStdString(),
                  "controller save path refreshes core settings store values");
 
     return ok;

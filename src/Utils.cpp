@@ -1166,7 +1166,7 @@ getQuoteBody(const RelatedInfo &related)
 QString
 utils::linkColor()
 {
-    const auto theme = UserSettings::instance()->theme();
+    const auto theme = UserSettings::instance()->uiThemeSlug();
 
     if (theme == QLatin1String("light")) {
         return QStringLiteral("#0077b5");

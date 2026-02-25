@@ -24,21 +24,21 @@ validThemeSlugs()
 } // namespace
 
 void
-UserSettings::setTheme(QString theme)
+UserSettings::setUiThemeSlug(QString theme)
 {
-    if (theme == this->theme() || !validThemeSlugs().contains(theme))
+    if (theme == this->uiThemeSlug() || !validThemeSlugs().contains(theme))
         return;
     theme_ = theme;
     (void)coreStore_.set(settings::core::SettingId::UiThemeSlug, theme.toStdString());
     save();
     applyTheme();
-    emit themeChanged(theme);
+    emit uiThemeSlugChanged(theme);
 }
 
 int
 UserSettings::themeVariantIndex() const
 {
-    auto variant = ThemeRegistry::instance().themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
     if (variant == u"light")
         return 0;
     else if (variant == u"dark")
@@ -58,16 +58,16 @@ UserSettings::setThemeVariantByIndex(int index)
     else
         newVariant = QStringLiteral("system");
 
-    auto currentVariant = ThemeRegistry::instance().themeVariant(theme());
+    auto currentVariant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
     if (newVariant == currentVariant)
         return;
-    setTheme(ThemeRegistry::instance().defaultThemeSlug(newVariant));
+    setUiThemeSlug(ThemeRegistry::instance().defaultThemeSlug(newVariant));
 }
 
 QStringList
 UserSettings::themeNamesForCurrentVariant() const
 {
-    auto variant = ThemeRegistry::instance().themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
     if (variant == u"system")
         return {};
     return ThemeRegistry::instance().themeNames(variant);
@@ -76,20 +76,20 @@ UserSettings::themeNamesForCurrentVariant() const
 int
 UserSettings::themeIndexInCurrentVariant() const
 {
-    auto variant = ThemeRegistry::instance().themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
     if (variant == u"system")
         return -1;
     auto slugs = ThemeRegistry::instance().themeSlugs(variant);
-    return slugs.indexOf(theme());
+    return slugs.indexOf(uiThemeSlug());
 }
 
 void
 UserSettings::setThemeByVariantIndex(int index)
 {
-    auto variant = ThemeRegistry::instance().themeVariant(theme());
+    auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
     if (variant == u"system")
         return;
     auto slugs = ThemeRegistry::instance().themeSlugs(variant);
     if (index >= 0 && index < slugs.size())
-        setTheme(slugs.at(index));
+        setUiThemeSlug(slugs.at(index));
 }

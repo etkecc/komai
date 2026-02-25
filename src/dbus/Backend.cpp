@@ -247,14 +247,15 @@ DbusBackend::setTheme(const QString &theme)
         return;
 
     const auto normalizedTheme = stripDbusTypePrefix(theme);
-    const auto oldTheme        = settings->theme();
-    settings->setTheme(normalizedTheme);
-    if (settings->theme() == oldTheme) {
+    const auto oldTheme        = settings->uiThemeSlug();
+    settings->setUiThemeSlug(normalizedTheme);
+    if (settings->uiThemeSlug() == oldTheme) {
         activeLoggers().ui->warn("Ignoring D-Bus setTheme call: theme '{}' is not applicable",
                                  normalizedTheme.toStdString());
     } else {
-        activeLoggers().ui->info(
-          "Applied D-Bus theme: {} -> {}", oldTheme.toStdString(), settings->theme().toStdString());
+        activeLoggers().ui->info("Applied D-Bus theme: {} -> {}",
+                                 oldTheme.toStdString(),
+                                 settings->uiThemeSlug().toStdString());
     }
 }
 

@@ -160,7 +160,7 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
 {
     saveConfigByType(settings, root);
 
-    setNode(root, SettingKey::UiThemeSlug, settings.theme().toStdString());
+    setNode(root, SettingKey::UiThemeSlug, settings.uiThemeSlug().toStdString());
     for (const auto &adapter : cfg::enumTokenAdapters())
         setNode(root, adapter.key, adapter.toStorage(settings).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiMotionAnimationsEnabled());
@@ -179,13 +179,13 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
 {
     loadConfigByType(settings, root);
 
-    const auto requestedTheme = readString(root, SettingKey::UiThemeSlug, settings.theme());
-    settings.setTheme(requestedTheme);
-    if (settings.theme() != requestedTheme) {
+    const auto requestedTheme = readString(root, SettingKey::UiThemeSlug, settings.uiThemeSlug());
+    settings.setUiThemeSlug(requestedTheme);
+    if (settings.uiThemeSlug() != requestedTheme) {
         activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
                                  requestedTheme.toStdString(),
                                  SettingKey::UiThemeSlug,
-                                 settings.theme().toStdString());
+                                 settings.uiThemeSlug().toStdString());
     }
 
     for (const auto &adapter : cfg::enumTokenAdapters()) {

@@ -27,7 +27,7 @@ themeRoleData(int role)
         return {};
 
     if (role == UserSettingsModel::ThemeVariantValue) {
-        const auto variant = ThemeRegistry::instance().themeVariant(i->theme());
+        const auto variant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
         if (variant == u"light")
             return 0;
         if (variant == u"dark")
@@ -70,11 +70,11 @@ setThemeRoleData(int role, const QVariant &value)
     else
         newVariant = QStringLiteral("system");
 
-    const auto currentVariant = ThemeRegistry::instance().themeVariant(i->theme());
+    const auto currentVariant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
     if (newVariant == currentVariant)
         return false;
 
-    i->setTheme(ThemeRegistry::instance().defaultThemeSlug(newVariant));
+    i->setUiThemeSlug(ThemeRegistry::instance().defaultThemeSlug(newVariant));
     return true;
 }
 

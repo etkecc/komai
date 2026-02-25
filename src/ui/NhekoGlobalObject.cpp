@@ -71,8 +71,10 @@ openWithBrowserCommand(const QString &command, const QUrl &url)
 
 Nheko::Nheko()
 {
-    connect(
-      UserSettings::instance().get(), &UserSettings::themeChanged, this, &Nheko::colorsChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::uiThemeSlugChanged,
+            this,
+            &Nheko::colorsChanged);
     connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListCompactChanged,
             this,
@@ -102,13 +104,13 @@ Nheko::updateUserProfile()
 QPalette
 Nheko::colors() const
 {
-    return Theme::paletteFromTheme(UserSettings::instance()->theme());
+    return Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
 }
 
 QPalette
 Nheko::inactiveColors() const
 {
-    auto p = Theme::paletteFromTheme(UserSettings::instance()->theme());
+    auto p = Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
     p.setCurrentColorGroup(QPalette::ColorGroup::Inactive);
     return p;
 }
@@ -116,7 +118,7 @@ Nheko::inactiveColors() const
 Theme
 Nheko::theme() const
 {
-    return Theme(UserSettings::instance()->theme());
+    return Theme(UserSettings::instance()->uiThemeSlug());
 }
 
 int

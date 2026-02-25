@@ -1,4 +1,4 @@
-    QString theme() const;
+    QString uiThemeSlug() const;
     bool timelineMessagesHoverHighlight() const;
     bool timelineMessagesEmojiOnlyEnlarge() const;
     bool integrationsSystemTrayEnabled() const;

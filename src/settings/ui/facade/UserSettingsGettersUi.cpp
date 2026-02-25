@@ -6,7 +6,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 QString
-UserSettings::theme() const
+UserSettings::uiThemeSlug() const
 {
     if (const auto value = coreStore_.valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
         value.has_value() && !value->empty())

@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWindow *parent)
     chat_page_ = new ChatPage(userSettings_, this);
     registerQmlTypes();
 
-    setColor(Theme::paletteFromTheme(userSettings_->theme()).window().color());
+    setColor(Theme::paletteFromTheme(userSettings_->uiThemeSlug()).window().color());
     setSource(QUrl(QStringLiteral("qrc:///resources/qml/Root.qml")));
 
     trayIcon_ = new TrayIcon(QStringLiteral(":/logos/komai.svg"), this);
@@ -65,9 +65,10 @@ MainWindow::MainWindow(QWindow *parent)
     connect(chat_page_, &ChatPage::showLoginPage, this, &MainWindow::switchToLoginPage);
     connect(chat_page_, &ChatPage::showNotification, this, &MainWindow::showNotification);
 
-    connect(userSettings_.get(), &UserSettings::themeChanged, this, [this](const QString &theme) {
-        setColor(Theme::paletteFromTheme(theme).window().color());
-    });
+    connect(
+      userSettings_.get(), &UserSettings::uiThemeSlugChanged, this, [this](const QString &theme) {
+          setColor(Theme::paletteFromTheme(theme).window().color());
+      });
     connect(userSettings_.get(),
             &UserSettings::integrationsSystemTrayEnabledChanged,
             trayIcon_,

@@ -39,7 +39,7 @@ class UserSettings final : public QObject
     QML_NAMED_ELEMENT(Settings)
     QML_SINGLETON
 
-    Q_PROPERTY(QString theme READ theme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY(QString uiThemeSlug READ uiThemeSlug WRITE setUiThemeSlug NOTIFY uiThemeSlugChanged)
     Q_PROPERTY(bool timelineMessagesHoverHighlight READ timelineMessagesHoverHighlight WRITE
                  setTimelineMessagesHoverHighlight NOTIFY timelineMessagesHoverHighlightChanged)
     Q_PROPERTY(bool timelineMessagesEmojiOnlyEnlarge READ timelineMessagesEmojiOnlyEnlarge WRITE
@@ -335,7 +335,7 @@ public:
     void load(std::optional<QString> profile);
     void load(std::optional<QString> profile, const YAML::Node &configRoot);
     void applyTheme();
-    void setTheme(QString theme);
+    void setUiThemeSlug(QString theme);
     void setTimelineMessagesHoverHighlight(bool state);
     void setTimelineMessagesEmojiOnlyEnlarge(bool state);
     void setIntegrationsSystemTrayEnabled(bool state);
@@ -465,7 +465,7 @@ signals:
     void sidebarsCommunitiesVisibleChanged(bool state);
     void sidebarsRoomListScrollbarsEnabledChanged(bool state);
     void sidebarsRoomListSortChanged(RoomSortOrder order);
-    void themeChanged(QString state);
+    void uiThemeSlugChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
     void integrationsSystemTrayEnabledChanged(bool state);

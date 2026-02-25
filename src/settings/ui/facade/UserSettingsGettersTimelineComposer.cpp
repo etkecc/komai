@@ -66,15 +66,15 @@ UserSettings::composerInputAutoReplaceEmoji() const
     return composerInputAutoReplaceEmoji_;
 }
 
-UserSettings::TimelineMessageLayout
+UserSettings::TimelineMessagesLayoutStyle
 UserSettings::timelineMessagesLayoutStyle() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutStyle);
         value.has_value() &&
-        *value >= static_cast<int>(UserSettings::TimelineMessageLayout::Minimal) &&
-        *value <= static_cast<int>(UserSettings::TimelineMessageLayout::Bubbles))
-        return static_cast<UserSettings::TimelineMessageLayout>(*value);
+        *value >= static_cast<int>(UserSettings::TimelineMessagesLayoutStyle::Minimal) &&
+        *value <= static_cast<int>(UserSettings::TimelineMessagesLayoutStyle::Bubbles))
+        return static_cast<UserSettings::TimelineMessagesLayoutStyle>(*value);
     return timelineMessagesLayoutStyle_;
 }
 
@@ -165,15 +165,15 @@ UserSettings::timelineTypingShowEnabled() const
     return timelineTypingShowEnabled_;
 }
 
-UserSettings::TimelineMessageActionsPolicy
+UserSettings::TimelineMessageActionsActivationPolicy
 UserSettings::timelineMessageActionsActivationPolicy() const
 {
     if (const auto value = coreStore_.valueAs<int>(
           settings::core::SettingId::TimelineMessageActionsActivationPolicy);
         value.has_value() &&
-        *value >= static_cast<int>(UserSettings::TimelineMessageActionsPolicy::OnHover) &&
-        *value <= static_cast<int>(UserSettings::TimelineMessageActionsPolicy::Never))
-        return static_cast<UserSettings::TimelineMessageActionsPolicy>(*value);
+        *value >= static_cast<int>(UserSettings::TimelineMessageActionsActivationPolicy::OnHover) &&
+        *value <= static_cast<int>(UserSettings::TimelineMessageActionsActivationPolicy::Never))
+        return static_cast<UserSettings::TimelineMessageActionsActivationPolicy>(*value);
     return timelineMessageActionsActivationPolicy_;
 }
 

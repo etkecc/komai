@@ -117,7 +117,7 @@ applyTimelineActionsPolicyFromStorage(UserSettings &settings, const QString &raw
 {
     settings.setTimelineMessageActionsActivationPolicy(
       timelineMessageActionsActivationPolicyFromStorage(
-        rawToken, UserSettings::TimelineMessageActionsPolicy::ActionsButton));
+        rawToken, UserSettings::TimelineMessageActionsActivationPolicy::ActionsButton));
 }
 
 QString
@@ -130,7 +130,7 @@ void
 applyTimelineLayoutStyleFromStorage(UserSettings &settings, const QString &rawToken)
 {
     settings.setTimelineMessagesLayoutStyle(timelineMessagesLayoutStyleFromStorage(
-      rawToken, UserSettings::TimelineMessageLayout::Bubbles));
+      rawToken, UserSettings::TimelineMessagesLayoutStyle::Bubbles));
 }
 
 QString

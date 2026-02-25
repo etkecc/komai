@@ -3,11 +3,11 @@
     // TimelinePresentationSection
     { QT_TR_NOOP("Presentation"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // TimelineMessageLayout
+    // TimelineMessagesLayoutStyle
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Layout",
       QT_TR_NOOP("Choose how messages are laid out in the timeline."),
-      SM::TabTimeline, timelineMessagesLayoutStyle, setTimelineMessagesLayoutStyle, UserSettings::TimelineMessageLayout,
+      SM::TabTimeline, timelineMessagesLayoutStyle, setTimelineMessagesLayoutStyle, UserSettings::TimelineMessagesLayoutStyle,
       timelineMessagesLayoutStyleValues,
       nullptr,
       TimelineMessagesLayoutStyle,
@@ -70,7 +70,7 @@
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Actions activation policy",
       QT_TR_NOOP("Choose how message actions are opened."),
-      SM::TabTimeline, timelineMessageActionsActivationPolicy, setTimelineMessageActionsActivationPolicy, UserSettings::TimelineMessageActionsPolicy,
+      SM::TabTimeline, timelineMessageActionsActivationPolicy, setTimelineMessageActionsActivationPolicy, UserSettings::TimelineMessageActionsActivationPolicy,
       timelineMessageActionsActivationPolicyValues,
       nullptr,
       TimelineMessageActionsActivationPolicy,

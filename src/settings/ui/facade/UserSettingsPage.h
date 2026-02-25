@@ -59,8 +59,9 @@ class UserSettings final : public QObject
                  setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
                  WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
-    Q_PROPERTY(TimelineMessageLayout timelineMessagesLayoutStyle READ timelineMessagesLayoutStyle
-                 WRITE setTimelineMessagesLayoutStyle NOTIFY timelineMessagesLayoutStyleChanged)
+    Q_PROPERTY(
+      TimelineMessagesLayoutStyle timelineMessagesLayoutStyle READ timelineMessagesLayoutStyle WRITE
+        setTimelineMessagesLayoutStyle NOTIFY timelineMessagesLayoutStyleChanged)
     Q_PROPERTY(
       bool timelineMessagesLayoutSmallAvatars READ timelineMessagesLayoutSmallAvatars WRITE
         setTimelineMessagesLayoutSmallAvatars NOTIFY timelineMessagesLayoutSmallAvatarsChanged)
@@ -87,7 +88,7 @@ class UserSettings final : public QObject
     Q_PROPERTY(RoomSortOrder sidebarsRoomListSort READ sidebarsRoomListSort WRITE
                  setSidebarsRoomListSort NOTIFY sidebarsRoomListSortChanged)
     Q_PROPERTY(
-      TimelineMessageActionsPolicy timelineMessageActionsActivationPolicy READ
+      TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy READ
         timelineMessageActionsActivationPolicy WRITE setTimelineMessageActionsActivationPolicy
           NOTIFY timelineMessageActionsActivationPolicyChanged)
     Q_PROPERTY(bool timelineReadReceiptsEnabled READ timelineReadReceiptsEnabled WRITE
@@ -284,20 +285,20 @@ public:
     };
     Q_ENUM(SendMessageKey)
 
-    enum class TimelineMessageActionsPolicy
+    enum class TimelineMessageActionsActivationPolicy
     {
         OnHover,
         ActionsButton,
         Never,
     };
-    Q_ENUM(TimelineMessageActionsPolicy)
+    Q_ENUM(TimelineMessageActionsActivationPolicy)
 
-    enum class TimelineMessageLayout
+    enum class TimelineMessagesLayoutStyle
     {
         Minimal,
         Bubbles,
     };
-    Q_ENUM(TimelineMessageLayout)
+    Q_ENUM(TimelineMessagesLayoutStyle)
 
     enum class RoomSortOrder
     {
@@ -352,7 +353,7 @@ public:
     void setComposerInputMarkdownEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
-    void setTimelineMessagesLayoutStyle(TimelineMessageLayout layout);
+    void setTimelineMessagesLayoutStyle(TimelineMessagesLayoutStyle layout);
     void setTimelineMessagesLayoutSmallAvatars(bool state);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
@@ -363,7 +364,7 @@ public:
     void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
     void setSidebarsRoomListSort(RoomSortOrder order);
-    void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsPolicy policy);
+    void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsActivationPolicy policy);
     void setUiLayoutContentMaxWidthPx(int state);
     void setTimelineMessagesMaxWidthPx(int state);
     void setSidebarsCommunitiesWidthPx(int state);
@@ -474,7 +475,7 @@ signals:
     void composerInputMarkdownEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
-    void timelineMessagesLayoutStyleChanged(TimelineMessageLayout layout);
+    void timelineMessagesLayoutStyleChanged(TimelineMessagesLayoutStyle layout);
     void timelineMessagesLayoutSmallAvatarsChanged(bool state);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);
@@ -483,7 +484,8 @@ signals:
     void timelineMediaAnimateOnHoverChanged(bool state);
     void composerTypingSendEnabledChanged(bool state);
     void timelineTypingShowEnabledChanged(bool state);
-    void timelineMessageActionsActivationPolicyChanged(TimelineMessageActionsPolicy policy);
+    void
+    timelineMessageActionsActivationPolicyChanged(TimelineMessageActionsActivationPolicy policy);
     void timelineReadReceiptsEnabledChanged(bool state);
     void notificationsEnabledChanged(bool state);
     void notificationsAttentionOnIncomingChanged(bool state);

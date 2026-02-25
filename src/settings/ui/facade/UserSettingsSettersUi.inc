@@ -35,7 +35,7 @@ UserSettings::setComposerInputAutoReplaceEmoji(AutoReplaceEmoji s)
     save();
 }
 void
-UserSettings::setTimelineMessagesLayoutStyle(TimelineMessageLayout s)
+UserSettings::setTimelineMessagesLayoutStyle(TimelineMessagesLayoutStyle s)
 {
     if (timelineMessagesLayoutStyle_ == s)
         return;
@@ -155,7 +155,7 @@ UserSettings::setSidebarsRoomListSort(RoomSortOrder s)
     save();
 }
 void
-UserSettings::setTimelineMessageActionsActivationPolicy(TimelineMessageActionsPolicy s)
+UserSettings::setTimelineMessageActionsActivationPolicy(TimelineMessageActionsActivationPolicy s)
 {
     if (timelineMessageActionsActivationPolicy_ == s)
         return;

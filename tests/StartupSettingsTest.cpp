@@ -378,8 +378,10 @@ testEnumSettingsPersistAsStrings()
     settings->setComposerInputSendKey(UserSettings::SendMessageKey::CtrlEnter);
     settings->setSidebarsRoomListSort(UserSettings::RoomSortOrder::Alphabetical);
     settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
-    settings->setTimelineMessageActionsActivationPolicy(UserSettings::TimelineMessageActionsPolicy::OnHover);
-    settings->setTimelineMessagesLayoutStyle(UserSettings::TimelineMessageLayout::Minimal);
+    settings->setTimelineMessageActionsActivationPolicy(
+      UserSettings::TimelineMessageActionsActivationPolicy::OnHover);
+    settings->setTimelineMessagesLayoutStyle(
+      UserSettings::TimelineMessagesLayoutStyle::Minimal);
     settings->setNotificationsMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);

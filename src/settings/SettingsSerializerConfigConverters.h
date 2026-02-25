@@ -60,17 +60,17 @@ UserSettings::LastMessagePreview
 lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePreview fallback);
 
 QString
-toStorageValue(UserSettings::TimelineMessageActionsPolicy value);
-UserSettings::TimelineMessageActionsPolicy
+toStorageValue(UserSettings::TimelineMessageActionsActivationPolicy value);
+UserSettings::TimelineMessageActionsActivationPolicy
 timelineMessageActionsActivationPolicyFromStorage(
   const QString &value,
-  UserSettings::TimelineMessageActionsPolicy fallback);
+  UserSettings::TimelineMessageActionsActivationPolicy fallback);
 
 QString
-toStorageValue(UserSettings::TimelineMessageLayout value);
-UserSettings::TimelineMessageLayout
+toStorageValue(UserSettings::TimelineMessagesLayoutStyle value);
+UserSettings::TimelineMessagesLayoutStyle
 timelineMessagesLayoutStyleFromStorage(const QString &value,
-                                       UserSettings::TimelineMessageLayout fallback);
+                                       UserSettings::TimelineMessagesLayoutStyle fallback);
 
 QString
 toStorageValue(UserSettings::NotificationMessageContentPolicy value);

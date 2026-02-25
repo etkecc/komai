@@ -18,7 +18,7 @@
     bool composerInputMarkdownEnabled() const;
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
-    TimelineMessageLayout timelineMessagesLayoutStyle() const;
+    TimelineMessagesLayoutStyle timelineMessagesLayoutStyle() const;
     bool timelineMessagesLayoutSmallAvatars() const;
     bool composerExtrasStickersEnabled() const;
     bool timelineMessagesLayoutShowOwnAvatar() const;
@@ -29,7 +29,7 @@
     bool composerTypingSendEnabled() const;
     bool timelineTypingShowEnabled() const;
     RoomSortOrder sidebarsRoomListSort() const;
-    TimelineMessageActionsPolicy timelineMessageActionsActivationPolicy() const;
+    TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy() const;
     bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;
     bool timelineReadReceiptsEnabled() const;

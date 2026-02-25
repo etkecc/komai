@@ -89,17 +89,18 @@ constexpr std::array<std::pair<UserSettings::LastMessagePreview, const char *>, 
     {UserSettings::LastMessagePreview::Never, "never"},
   }};
 
-constexpr std::array<std::pair<UserSettings::TimelineMessageActionsPolicy, const char *>, 3>
+constexpr std::array<std::pair<UserSettings::TimelineMessageActionsActivationPolicy, const char *>,
+                     3>
   kTimelineActionsPolicyTokens{{
-    {UserSettings::TimelineMessageActionsPolicy::OnHover, "on_message_hover"},
-    {UserSettings::TimelineMessageActionsPolicy::ActionsButton, "on_button_click"},
-    {UserSettings::TimelineMessageActionsPolicy::Never, "never"},
+    {UserSettings::TimelineMessageActionsActivationPolicy::OnHover, "on_message_hover"},
+    {UserSettings::TimelineMessageActionsActivationPolicy::ActionsButton, "on_button_click"},
+    {UserSettings::TimelineMessageActionsActivationPolicy::Never, "never"},
   }};
 
-constexpr std::array<std::pair<UserSettings::TimelineMessageLayout, const char *>, 2>
+constexpr std::array<std::pair<UserSettings::TimelineMessagesLayoutStyle, const char *>, 2>
   kTimelineLayoutTokens{{
-    {UserSettings::TimelineMessageLayout::Minimal, "minimal"},
-    {UserSettings::TimelineMessageLayout::Bubbles, "bubbles"},
+    {UserSettings::TimelineMessagesLayoutStyle::Minimal, "minimal"},
+    {UserSettings::TimelineMessagesLayoutStyle::Bubbles, "bubbles"},
   }};
 
 constexpr std::array<std::pair<UserSettings::NotificationMessageContentPolicy, const char *>, 3>
@@ -202,28 +203,28 @@ lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePre
 }
 
 QString
-toStorageValue(UserSettings::TimelineMessageActionsPolicy value)
+toStorageValue(UserSettings::TimelineMessageActionsActivationPolicy value)
 {
     return valueToStorageToken(value, kTimelineActionsPolicyTokens, "on_button_click");
 }
 
-UserSettings::TimelineMessageActionsPolicy
+UserSettings::TimelineMessageActionsActivationPolicy
 timelineMessageActionsActivationPolicyFromStorage(
   const QString &value,
-  UserSettings::TimelineMessageActionsPolicy fallback)
+  UserSettings::TimelineMessageActionsActivationPolicy fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelineActionsPolicyTokens);
 }
 
 QString
-toStorageValue(UserSettings::TimelineMessageLayout value)
+toStorageValue(UserSettings::TimelineMessagesLayoutStyle value)
 {
     return valueToStorageToken(value, kTimelineLayoutTokens, "bubbles");
 }
 
-UserSettings::TimelineMessageLayout
+UserSettings::TimelineMessagesLayoutStyle
 timelineMessagesLayoutStyleFromStorage(const QString &value,
-                                       UserSettings::TimelineMessageLayout fallback)
+                                       UserSettings::TimelineMessagesLayoutStyle fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelineLayoutTokens);
 }

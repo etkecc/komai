@@ -15,7 +15,7 @@ Control {
     required property string filename
     required property string filesize
 
-    padding: Settings.timelineMessagesLayoutStyle === Settings.TimelineMessageLayout.Bubbles ? 8 : 12
+    padding: Settings.timelineMessagesLayoutStyle === Settings.TimelineMessagesLayoutStyle.Bubbles ? 8 : 12
     //Layout.preferredHeight: rowa.implicitHeight + padding
     //Layout.maximumWidth: rowa.Layout.maximumWidth + metadataWidth + padding
     property int metadataWidth: 0
@@ -93,7 +93,7 @@ Control {
     background: Rectangle {
         color: palette.alternateBase
         radius: fontMetrics.lineSpacing / 2 + 2 * Nheko.paddingSmall
-        visible: Settings.timelineMessagesLayoutStyle === Settings.TimelineMessageLayout.Minimal // the bubble in a bubble looks odd
+        visible: Settings.timelineMessagesLayoutStyle === Settings.TimelineMessagesLayoutStyle.Minimal // the bubble in a bubble looks odd
     }
 
 }

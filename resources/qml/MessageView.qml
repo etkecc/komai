@@ -118,7 +118,7 @@ Item {
             }
         }
 
-        delegate: Settings.timelineMessagesLayoutStyle === Settings.TimelineMessageLayout.Bubbles ? bubbleMessageStyle : defaultMessageStyle
+        delegate: Settings.timelineMessagesLayoutStyle === Settings.TimelineMessagesLayoutStyle.Bubbles ? bubbleMessageStyle : defaultMessageStyle
         footer: Item {
             width: chat.delegateMaxWidth
             // hacky, but works
@@ -197,7 +197,7 @@ Item {
 
             hoverEnabled: true
             padding: Nheko.paddingMedium
-            visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsPolicy.OnHover)
+            visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover)
             z: 10
             parent: chat.contentItem
             // No anchors — x/y set imperatively by the message styles

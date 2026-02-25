@@ -14,7 +14,7 @@ bool sidebarsRoomListScrollbarsEnabled_;
 bool composerInputMarkdownEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;
-TimelineMessageLayout timelineMessagesLayoutStyle_ = TimelineMessageLayout::Bubbles;
+TimelineMessagesLayoutStyle timelineMessagesLayoutStyle_ = TimelineMessagesLayoutStyle::Bubbles;
 bool timelineMessagesLayoutSmallAvatars_;
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;
@@ -24,8 +24,8 @@ bool timelineMediaAnimateOnHover_;
 bool composerTypingSendEnabled_;
 bool timelineTypingShowEnabled_;
 RoomSortOrder sidebarsRoomListSort_;
-TimelineMessageActionsPolicy timelineMessageActionsActivationPolicy_ =
-  TimelineMessageActionsPolicy::ActionsButton;
+TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy_ =
+  TimelineMessageActionsActivationPolicy::ActionsButton;
 bool timelineReadReceiptsEnabled_;
 bool notificationsEnabled_;
 bool notificationsAttentionOnIncoming_;

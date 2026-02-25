@@ -230,13 +230,13 @@ UserSettings::setNotificationsAttentionOnIncoming(bool s)
     save();
 }
 void
-UserSettings::setCircularAvatarsEnabled(bool s)
+UserSettings::setUiAvatarsCircular(bool s)
 {
-    if (circularAvatarsEnabled_ == s)
+    if (uiAvatarsCircular_ == s)
         return;
-    circularAvatarsEnabled_ = s;
+    uiAvatarsCircular_ = s;
     (void)coreStore_.set(settings::core::SettingId::UiAvatarsCircular, s);
-    emit circularAvatarsEnabledChanged(s);
+    emit uiAvatarsCircularChanged(s);
     save();
 }
 void

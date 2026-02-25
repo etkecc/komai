@@ -98,7 +98,7 @@
     // CircularAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
                         QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
-                        SM::TabLookFeel, circularAvatarsEnabled, setCircularAvatarsEnabled, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
+                        SM::TabLookFeel, uiAvatarsCircular, setUiAvatarsCircular, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
     // IdenticonFallbackEnabled
     { QT_TR_NOOP("Use identicons"),
       QT_TR_NOOP("Requires the <a href=\"https://jdenticon.com/\">jdenticon</a> plugin; if unavailable in this build, this option is ignored."),

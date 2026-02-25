@@ -55,12 +55,12 @@ UserSettings::sidebarsRoomListScrollbarsVisible() const
 }
 
 bool
-UserSettings::circularAvatarsEnabled() const
+UserSettings::uiAvatarsCircular() const
 {
     if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::UiAvatarsCircular);
         value.has_value())
         return *value;
-    return circularAvatarsEnabled_;
+    return uiAvatarsCircular_;
 }
 
 UserSettings::NotificationMessageContentPolicy

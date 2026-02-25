@@ -29,7 +29,7 @@ TimelineMessageActionsPolicy timelineMessageActionsPolicy_ =
 bool timelineReadReceiptsEnabled_;
 bool notificationsEnabled_;
 bool notificationsAttentionOnIncoming_;
-bool circularAvatarsEnabled_;
+bool uiAvatarsCircular_;
 NotificationMessageContentPolicy notificationMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;
 bool sidebarsRoomListShowCommunityCounts_;

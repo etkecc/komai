@@ -92,8 +92,8 @@ class UserSettings final : public QObject
                  NOTIFY notificationsEnabledChanged)
     Q_PROPERTY(bool notificationsAttentionOnIncoming READ notificationsAttentionOnIncoming WRITE
                  setNotificationsAttentionOnIncoming NOTIFY notificationsAttentionOnIncomingChanged)
-    Q_PROPERTY(bool circularAvatarsEnabled READ circularAvatarsEnabled WRITE
-                 setCircularAvatarsEnabled NOTIFY circularAvatarsEnabledChanged)
+    Q_PROPERTY(bool uiAvatarsCircular READ uiAvatarsCircular WRITE setUiAvatarsCircular NOTIFY
+                 uiAvatarsCircularChanged)
     Q_PROPERTY(NotificationMessageContentPolicy notificationMessageContentPolicy READ
                  notificationMessageContentPolicy WRITE setNotificationMessageContentPolicy NOTIFY
                    notificationMessageContentPolicyChanged)
@@ -361,7 +361,7 @@ public:
     void setRoomListWidth(int state);
     void setNotificationsEnabled(bool state);
     void setNotificationsAttentionOnIncoming(bool state);
-    void setCircularAvatarsEnabled(bool state);
+    void setUiAvatarsCircular(bool state);
     void setNotificationMessageContentPolicy(NotificationMessageContentPolicy policy);
     void setSidebarsRoomListShowCommunityCounts(bool state);
     void setSidebarsRoomListCompact(bool state);
@@ -478,7 +478,7 @@ signals:
     void timelineReadReceiptsEnabledChanged(bool state);
     void notificationsEnabledChanged(bool state);
     void notificationsAttentionOnIncomingChanged(bool state);
-    void circularAvatarsEnabledChanged(bool state);
+    void uiAvatarsCircularChanged(bool state);
     void notificationMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
     void sidebarsRoomListShowCommunityCountsChanged(bool state);
     void sidebarsRoomListCompactChanged(bool state);

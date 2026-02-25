@@ -5,7 +5,7 @@
     bool integrationsSystemTrayAutostart() const;
     bool sidebarsCommunitiesVisible() const;
     bool sidebarsRoomListScrollbarsVisible() const;
-    bool circularAvatarsEnabled() const;
+    bool uiAvatarsCircular() const;
     NotificationMessageContentPolicy notificationMessageContentPolicy() const;
     bool sidebarsRoomListShowCommunityCounts() const;
     bool sidebarsRoomListCompact() const;

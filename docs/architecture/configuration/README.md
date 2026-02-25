@@ -135,10 +135,10 @@ Default profile id: `default`.
 
 Reference examples:
 
-- [Profile config.yml](configuration-examples/profile/config.yml)
-- [Profile state.yml](configuration-examples/profile/state.yml)
-- [Profile session.yml](configuration-examples/profile/session.yml)
-- [Profile secrets.yml](configuration-examples/profile/secrets.yml)
+- [Profile config.yml](examples/profile/config.yml)
+- [Profile state.yml](examples/profile/state.yml)
+- [Profile session.yml](examples/profile/session.yml)
+- [Profile secrets.yml](examples/profile/secrets.yml)
 
 ## Persistence Model
 
@@ -282,7 +282,7 @@ To audit naming alignment across persisted settings definitions, runtime getters
 
 - run `just settings-generate-3-layer-mapping`
 - run `just settings-check-3-layer-mapping` for non-mutating drift checks
-- inspect `var/plans/settings-3-layer-mapping.md`
+- inspect [`3-layer-mapping.md`](3-layer-mapping.md)
 
 The generated report includes:
 
@@ -294,7 +294,7 @@ The generated report includes:
 - Canonical references are:
   - [User Configuration Guide](../configuration.md)
   - [Storage Guide](../storage.md)
-  - [this architecture document](configuration.md)
-  - [storage architecture](storage.md)
-  - [configuration examples](configuration-examples/profile/)
+  - [this architecture document](README.md)
+  - [storage architecture](../storage.md)
+  - [configuration examples](examples/profile/)
   - [nheko to Komai settings mapping](differences-from-nheko/settings-mapping.md)

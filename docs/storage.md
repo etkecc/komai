@@ -55,4 +55,4 @@ Secure-backend secrets are not part of on-disk YAML backup.
 
 - [Configuration](configuration.md)
 - [Architecture: Storage](architecture/storage.md)
-- [Architecture: Configuration](architecture/configuration.md)
+- [Architecture: Configuration](architecture/configuration/README.md)

@@ -57,7 +57,7 @@ Security invariants:
 - `state.yml`: window size, sidebar widths, hidden/collapsed UI state, recent reactions
 - `session.yml`: user id, homeserver, device id
 - `secrets.yml`: `auth.access_token` and `secrets` map (only when `secrets.provider=file`)
-- Full example files: [architecture/configuration-examples/profile/](architecture/configuration-examples/profile/)
+- Full example files: [architecture/configuration/examples/profile/](architecture/configuration/examples/profile/)
 
 ## Integrations
 
@@ -95,5 +95,5 @@ Important:
 
 For complete storage details, see [storage.md](storage.md).
 
-For implementation details, see [architecture/configuration.md](architecture/configuration.md) and
+For implementation details, see [architecture/configuration/README.md](architecture/configuration/README.md) and
 [architecture/storage.md](architecture/storage.md).

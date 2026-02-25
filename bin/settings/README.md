@@ -1,6 +1,6 @@
 # Settings Tooling 🧭
 
-Start with [`docs/architecture/configuration.md`](../../docs/architecture/configuration.md) to understand the settings layers, then use this directory for architecture audits.
+Start with [`docs/architecture/configuration/README.md`](../../docs/architecture/configuration/README.md) to understand the settings layers, then use this directory for architecture audits.
 
 ## Purpose
 
@@ -15,7 +15,7 @@ This is mainly for refactoring safety and review clarity.
 ## Scripts
 
 - `generate-3-layer-mapping.sh`
-  - Generates `var/plans/settings-3-layer-mapping.md`
+  - Generates `docs/architecture/configuration/3-layer-mapping.md`
   - Supports `--check` mode for drift detection without overwriting.
 
 Examples:
@@ -25,8 +25,6 @@ just settings-generate-3-layer-mapping
 just settings-check-3-layer-mapping
 ```
 
-## Why Not A Default Pre-commit Hook?
+## Drift Checks
 
-By default, this report is written under `var/plans/`, which is intentionally not tracked in git. Running a strict hook for an untracked artifact would add noise without protecting repository state.
-
-If we later move this report to a tracked location (for example `docs/architecture/`), wiring `--check` into `prek` becomes useful and straightforward.
+This report is now a tracked docs artifact. A `prek` check should enforce `--check` mode to prevent drift.

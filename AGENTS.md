@@ -47,7 +47,7 @@ See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 - `src/UserSettingsPage.cpp` / `.h` -- All user settings with Qt properties
 - Settings stored per profile in `~/.config/komai/profiles/<profile-id>/` (`<profile-id>` is the `-p` profile identifier)
 - Main files: `config.yml`, `state.yml`, `session.yml`, and `secrets.yml` (file-provider fallback only)
-- See [docs/architecture/configuration.md](docs/architecture/configuration.md) for details
+- See [docs/architecture/configuration/README.md](docs/architecture/configuration/README.md) for details
 
 ### Room List (Sidebar)
 - `resources/qml/RoomList.qml` -- Room list UI

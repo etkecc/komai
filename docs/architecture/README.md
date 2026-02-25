@@ -4,7 +4,8 @@ Technical documentation for Komai internals.
 
 ## Core Systems
 
-- ⚙️ [Configuration Architecture](configuration.md) -- persistence model, load order, and secret-provider behavior
+- ⚙️ [Configuration Architecture](configuration/README.md) -- persistence model, load order, and secret-provider behavior
+- 🧭 [Configuration 3-Layer Mapping](configuration/3-layer-mapping.md) -- `SettingId` ↔ runtime getter ↔ persisted key audit report
 - 🧩 [Icons Architecture](icons.md) -- icon source of truth, validation, and Fluent sync workflow
 - 💾 [Storage Architecture](storage.md) -- path helpers, storage layout, and callsites
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
@@ -19,7 +20,7 @@ Technical documentation for Komai internals.
 
 ## Configuration Examples
 
-- 🧾 [Profile Example: config.yml](configuration-examples/profile/config.yml)
-- 🧾 [Profile Example: state.yml](configuration-examples/profile/state.yml)
-- 🧾 [Profile Example: session.yml](configuration-examples/profile/session.yml)
-- 🧾 [Profile Example: secrets.yml](configuration-examples/profile/secrets.yml)
+- 🧾 [Profile Example: config.yml](configuration/examples/profile/config.yml)
+- 🧾 [Profile Example: state.yml](configuration/examples/profile/state.yml)
+- 🧾 [Profile Example: session.yml](configuration/examples/profile/session.yml)
+- 🧾 [Profile Example: secrets.yml](configuration/examples/profile/secrets.yml)

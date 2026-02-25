@@ -48,5 +48,5 @@ Secret IDs use the profile-first hex hash format and namespaces shown above.
 See also:
 
 - [Configuration Architecture](../configuration.md)
-- [Configuration Example (config.yml)](../configuration-examples/profile/config.yml)
-- [Configuration Example (secrets.yml)](../configuration-examples/profile/secrets.yml)
+- [Configuration Example (config.yml)](../configuration/examples/profile/config.yml)
+- [Configuration Example (secrets.yml)](../configuration/examples/profile/secrets.yml)

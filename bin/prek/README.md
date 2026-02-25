@@ -39,4 +39,4 @@ Tool references:
 Related docs:
 
 - [`docs/development.md`](../../docs/development.md)
-- [`docs/architecture/configuration.md`](../../docs/architecture/configuration.md)
+- [`docs/architecture/configuration/README.md`](../../docs/architecture/configuration/README.md)

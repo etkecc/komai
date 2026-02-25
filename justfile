@@ -197,11 +197,11 @@ translations-claude-translate-all *args:
 		}
 	done
 
-# Regenerates var/plans/settings-3-layer-mapping.md from settings source-of-truth files
+# Regenerates docs/architecture/configuration/3-layer-mapping.md from settings source-of-truth files
 settings-generate-3-layer-mapping *args:
 	{{ justfile_directory() }}/bin/settings/generate-3-layer-mapping.sh {{ args }}
 
-# Checks whether var/plans/settings-3-layer-mapping.md is up to date (no rewrite)
+# Checks whether docs/architecture/configuration/3-layer-mapping.md is up to date (no rewrite)
 settings-check-3-layer-mapping *args:
 	{{ justfile_directory() }}/bin/settings/generate-3-layer-mapping.sh --check {{ args }}
 

@@ -130,7 +130,7 @@ awk -F '\t' '{print $2"\t"$1"\t"$3"\t"$4}' "$tmpdir/full.tsv" | sort > "$tmpdir/
 
 # Heuristic naming audit:
 # - expected runtime getter name is lcfirst(SettingId)
-# - explicit '*PersistedValue' suffix is allowed for persistence adapters
+# - explicit '*StorageValue' suffix is allowed for persistence adapters
 : > "$tmpdir/name_mismatches.tsv"
 : > "$tmpdir/name_exceptions.tsv"
 awk -F '\t' -v exceptionsFile="$tmpdir/name_exceptions.tsv" -v mismatchesFile="$tmpdir/name_mismatches.tsv" '
@@ -141,7 +141,7 @@ awk -F '\t' -v exceptionsFile="$tmpdir/name_exceptions.tsv" -v mismatchesFile="$
     getter=""
     if (match(expr, /settings\.([A-Za-z0-9_]+)\(/, m)) getter=m[1]
     expected=lcfirst(id)
-    if (getter != "" && getter == expected "PersistedValue") {
+    if (getter != "" && getter == expected "StorageValue") {
       print id "\t" expected "\t" getter "\t" expr > exceptionsFile
       next
     }
@@ -171,7 +171,7 @@ mkdir -p "$(dirname "$generated_path")"
   echo
   echo "Naming mismatch summary:"
   echo "- Total hard mismatches (heuristic \`lcfirst(SettingId)\` vs runtime getter name): $mismatches"
-  echo "- Allowed exceptions (\`*PersistedValue\` suffix): $exceptions"
+  echo "- Allowed exceptions (\`*StorageValue\` suffix): $exceptions"
   if [[ "$exceptions" -gt 0 ]]; then
     while IFS=$'\t' read -r id expected getter expr; do
       echo "- exception \`$id\`: expected \`$expected\`, uses allowed \`$getter\` (from \`$expr\`)"

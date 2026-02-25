@@ -13,8 +13,8 @@ Rows: 67
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
-- Allowed exceptions (`*PersistedValue` suffix): 1
-- exception `UiFontEmojiFamily`: expected `uiFontEmojiFamily`, uses allowed `uiFontEmojiFamilyPersistedValue` (from `settings.uiFontEmojiFamilyPersistedValue().toStdString()`)
+- Allowed exceptions (`*StorageValue` suffix): 1
+- exception `UiFontEmojiFamily`: expected `uiFontEmojiFamily`, uses allowed `uiFontEmojiFamilyStorageValue` (from `settings.uiFontEmojiFamilyStorageValue().toStdString()`)
 
 | SettingId | Runtime Getter Expression | SettingKey Const | Persisted Key |
 |---|---|---|---|
@@ -76,7 +76,7 @@ Naming mismatch summary:
 | `TimelineTypingShowEnabled` | `settings.timelineTypingShowEnabled()` | `TimelineTypingShowEnabled` | `timeline.typing.show.enabled` |
 | `UiAvatarsCircular` | `settings.uiAvatarsCircular()` | `UiAvatarsCircular` | `ui.avatars.circular` |
 | `UiAvatarsIdenticonFallback` | `settings.uiAvatarsIdenticonFallback()` | `UiAvatarsIdenticonFallback` | `ui.avatars.identicon_fallback` |
-| `UiFontEmojiFamily` | `settings.uiFontEmojiFamilyPersistedValue().toStdString()` | `UiFontEmojiFamily` | `ui.font.emoji_family` |
+| `UiFontEmojiFamily` | `settings.uiFontEmojiFamilyStorageValue().toStdString()` | `UiFontEmojiFamily` | `ui.font.emoji_family` |
 | `UiFontFamily` | `settings.uiFontFamily().toStdString()` | `UiFontFamily` | `ui.font.family` |
 | `UiFontSizePt` | `settings.uiFontSizePt()` | `UiFontSizePt` | `ui.font.size_pt` |
 | `UiInputMode` | `settings.uiInputMode()` | `UiInputMode` | `ui.input.mode` |

@@ -12,7 +12,8 @@
       {}, {}, {},
       privacyPresenceStatusPolicyValues,
       nullptr,
-      CORE_CONFIG_ID(NetworkPresenceStatusPolicy, SettingKey::NetworkPresenceStatusPolicy) },
+      CORE_CONFIG_ID(NetworkPresenceStatusPolicy, SettingKey::NetworkPresenceStatusPolicy),
+      privacyPresenceStatusPolicyRoleData },
     // PresenceStatusMessage
     { QT_TR_NOOP("Status message"),
       nullptr,

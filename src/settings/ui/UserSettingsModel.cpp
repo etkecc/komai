@@ -95,11 +95,6 @@ using settings::ui::settingsTable;
 using settings::ui::settingsTableRowCount;
 
 namespace {
-bool
-hasSettingId(const settings::ui::SettingMeta &meta, settings::core::SettingId id)
-{
-    return meta.settingId == id;
-}
 } // namespace
 
 QVariant
@@ -118,14 +113,14 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
     case Name:
         return m.name ? tr(m.name) : QVariant{};
     case Description:
-        if (!m.description)
-            return QVariant{};
-
-        if (hasSettingId(m, settings::core::SettingId::NetworkPresenceStatusPolicy)) {
-            return tr(m.description)
-              .arg(QStringLiteral("https://spec.matrix.org/v1.17/client-server-api/#presence"));
+        if (m.getRoleData) {
+            const auto value = m.getRoleData(role);
+            if (value.isValid())
+                return value;
         }
 
+        if (!m.description)
+            return QVariant{};
         return tr(m.description);
     case Type:
         return m.type;

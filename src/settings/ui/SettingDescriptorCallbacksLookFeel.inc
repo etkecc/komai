@@ -63,7 +63,11 @@ lookFeelThemeRoleData(int role)
     }
 
     if (role == SM::ThemeVariantValues)
-        return QStringList{QStringLiteral("Light"), QStringLiteral("Dark"), QStringLiteral("System")};
+        return QStringList{
+          QCoreApplication::translate("UserSettingsModel", "Light"),
+          QCoreApplication::translate("UserSettingsModel", "Dark"),
+          QCoreApplication::translate("UserSettingsModel", "System"),
+        };
 
     return {};
 }

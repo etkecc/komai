@@ -46,7 +46,7 @@ TimelineEvent {
     required property QtObject replyContextMenu
     required property Item messageActions
 
-    property int avatarMargin: (wrapper.isStateEvent ? 0 : (Nheko.avatarSize * (Settings.timelineSmallAvatarsEnabled ? 0.5 : 1) + 8)) // align with avatar
+    property int avatarMargin: (wrapper.isStateEvent ? 0 : (Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8)) // align with avatar
 
     property alias hovered: messageHover.hovered
 
@@ -185,10 +185,10 @@ TimelineEvent {
             ToolTip.text: wrapper.userId
             ToolTip.visible: messageUserAvatar.hovered
             displayName: wrapper.userName
-            height: Nheko.avatarSize * (Settings.timelineSmallAvatarsEnabled ? 0.5 : 1)
+            height: Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
             url: !wrapper.room ? "" : wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/")
             userid: wrapper.userId
-            width: Nheko.avatarSize * (Settings.timelineSmallAvatarsEnabled ? 0.5 : 1)
+            width: Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
 
             visible: !wrapper.isStateEvent
             opacity: (wrapper.previousMessageUserId !== wrapper.userId || wrapper.showSection || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent) ? 1.0 : 0.0

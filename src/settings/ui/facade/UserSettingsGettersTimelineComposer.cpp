@@ -79,13 +79,13 @@ UserSettings::timelineMessageLayout() const
 }
 
 bool
-UserSettings::timelineSmallAvatarsEnabled() const
+UserSettings::timelineMessagesLayoutSmallAvatars() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars);
         value.has_value())
         return *value;
-    return timelineSmallAvatarsEnabled_;
+    return timelineMessagesLayoutSmallAvatars_;
 }
 
 bool
@@ -99,13 +99,13 @@ UserSettings::composerExtrasStickersEnabled() const
 }
 
 bool
-UserSettings::timelineShowOwnAvatarInBubbleLayout() const
+UserSettings::timelineMessagesLayoutShowOwnAvatar() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar);
         value.has_value())
         return *value;
-    return timelineShowOwnAvatarInBubbleLayout_;
+    return timelineMessagesLayoutShowOwnAvatar_;
 }
 
 QString

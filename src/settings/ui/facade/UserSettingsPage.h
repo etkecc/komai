@@ -61,13 +61,14 @@ class UserSettings final : public QObject
                  WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
     Q_PROPERTY(TimelineMessageLayout timelineMessageLayout READ timelineMessageLayout WRITE
                  setTimelineMessageLayout NOTIFY timelineMessageLayoutChanged)
-    Q_PROPERTY(bool timelineSmallAvatarsEnabled READ timelineSmallAvatarsEnabled WRITE
-                 setTimelineSmallAvatarsEnabled NOTIFY timelineSmallAvatarsEnabledChanged)
+    Q_PROPERTY(
+      bool timelineMessagesLayoutSmallAvatars READ timelineMessagesLayoutSmallAvatars WRITE
+        setTimelineMessagesLayoutSmallAvatars NOTIFY timelineMessagesLayoutSmallAvatarsChanged)
     Q_PROPERTY(bool composerExtrasStickersEnabled READ composerExtrasStickersEnabled WRITE
                  setComposerExtrasStickersEnabled NOTIFY composerExtrasStickersEnabledChanged)
     Q_PROPERTY(
-      bool timelineShowOwnAvatarInBubbleLayout READ timelineShowOwnAvatarInBubbleLayout WRITE
-        setTimelineShowOwnAvatarInBubbleLayout NOTIFY timelineShowOwnAvatarInBubbleLayoutChanged)
+      bool timelineMessagesLayoutShowOwnAvatar READ timelineMessagesLayoutShowOwnAvatar WRITE
+        setTimelineMessagesLayoutShowOwnAvatar NOTIFY timelineMessagesLayoutShowOwnAvatarChanged)
     Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY
                  pinnedReactionsChanged)
     Q_PROPERTY(
@@ -349,9 +350,9 @@ public:
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
     void setTimelineMessageLayout(TimelineMessageLayout layout);
-    void setTimelineSmallAvatarsEnabled(bool state);
+    void setTimelineMessagesLayoutSmallAvatars(bool state);
     void setComposerExtrasStickersEnabled(bool state);
-    void setTimelineShowOwnAvatarInBubbleLayout(bool state);
+    void setTimelineMessagesLayoutShowOwnAvatar(bool state);
     void setPinnedReactions(QString value);
     void setTimelineMessagesSenderUsername(ShowSenderUsername state);
     void setTimelineMediaAnimateOnHover(bool state);
@@ -471,9 +472,9 @@ signals:
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
     void timelineMessageLayoutChanged(TimelineMessageLayout layout);
-    void timelineSmallAvatarsEnabledChanged(bool state);
+    void timelineMessagesLayoutSmallAvatarsChanged(bool state);
     void composerExtrasStickersEnabledChanged(bool state);
-    void timelineShowOwnAvatarInBubbleLayoutChanged(bool state);
+    void timelineMessagesLayoutShowOwnAvatarChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
     void timelineMessagesSenderUsernameChanged(ShowSenderUsername state);
     void timelineMediaAnimateOnHoverChanged(bool state);

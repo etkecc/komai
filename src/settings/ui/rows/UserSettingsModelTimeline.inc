@@ -15,13 +15,13 @@
     // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
                            QT_TR_NOOP("Avatars are resized to fit above the message."),
-                           SM::TabTimeline, timelineSmallAvatarsEnabled, setTimelineSmallAvatarsEnabled, nullptr, TimelineMessagesLayoutSmallAvatars, SettingKey::TimelineMessagesLayoutSmallAvatars),
+                           SM::TabTimeline, timelineMessagesLayoutSmallAvatars, setTimelineMessagesLayoutSmallAvatars, nullptr, TimelineMessagesLayoutSmallAvatars, SettingKey::TimelineMessagesLayoutSmallAvatars),
     // TimelineShowOwnAvatarInBubbleLayout
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show avatar next to own message bubbles",
       QT_TR_NOOP(
         "When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan."),
-      SM::TabTimeline, timelineShowOwnAvatarInBubbleLayout, setTimelineShowOwnAvatarInBubbleLayout, nullptr, TimelineMessagesLayoutShowOwnAvatar, SettingKey::TimelineMessagesLayoutShowOwnAvatar),
+      SM::TabTimeline, timelineMessagesLayoutShowOwnAvatar, setTimelineMessagesLayoutShowOwnAvatar, nullptr, TimelineMessagesLayoutShowOwnAvatar, SettingKey::TimelineMessagesLayoutShowOwnAvatar),
     // ShowSenderUsername
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show sender username above messages",

@@ -19,9 +19,9 @@
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
     TimelineMessageLayout timelineMessageLayout() const;
-    bool timelineSmallAvatarsEnabled() const;
+    bool timelineMessagesLayoutSmallAvatars() const;
     bool composerExtrasStickersEnabled() const;
-    bool timelineShowOwnAvatarInBubbleLayout() const;
+    bool timelineMessagesLayoutShowOwnAvatar() const;
     QString pinnedReactions() const;
     ShowSenderUsername timelineMessagesSenderUsername() const;
     int timelineMessagesSenderUsernameLargeRoomThreshold() const;

@@ -48,13 +48,13 @@ UserSettings::setTimelineMessageLayout(TimelineMessageLayout s)
     save();
 }
 void
-UserSettings::setTimelineSmallAvatarsEnabled(bool s)
+UserSettings::setTimelineMessagesLayoutSmallAvatars(bool s)
 {
-    if (timelineSmallAvatarsEnabled_ == s)
+    if (timelineMessagesLayoutSmallAvatars_ == s)
         return;
-    timelineSmallAvatarsEnabled_ = s;
+    timelineMessagesLayoutSmallAvatars_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutSmallAvatars, s);
-    emit timelineSmallAvatarsEnabledChanged(s);
+    emit timelineMessagesLayoutSmallAvatarsChanged(s);
     save();
 }
 void
@@ -68,13 +68,13 @@ UserSettings::setComposerExtrasStickersEnabled(bool s)
     save();
 }
 void
-UserSettings::setTimelineShowOwnAvatarInBubbleLayout(bool s)
+UserSettings::setTimelineMessagesLayoutShowOwnAvatar(bool s)
 {
-    if (timelineShowOwnAvatarInBubbleLayout_ == s)
+    if (timelineMessagesLayoutShowOwnAvatar_ == s)
         return;
-    timelineShowOwnAvatarInBubbleLayout_ = s;
+    timelineMessagesLayoutShowOwnAvatar_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar, s);
-    emit timelineShowOwnAvatarInBubbleLayoutChanged(s);
+    emit timelineMessagesLayoutShowOwnAvatarChanged(s);
     save();
 }
 void

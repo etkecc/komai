@@ -39,7 +39,7 @@ ColumnLayout {
               qsTr("Welcome to Komai") +
               " (<a href=\"" + root.komaiMeaningUrl + "\">こまい</a>)"
         color: palette.text
-        font.pointSize: Settings.fontSize * 2
+        font.pointSize: Settings.uiFontSizePt * 2
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
         onLinkActivated: function(link) {
@@ -64,7 +64,7 @@ ColumnLayout {
         text: "<style>a { color: " + palette.highlight + "; }</style>" +
               Nheko.taglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Nheko.matrixWord + "</a>")
         color: palette.buttonText
-        font.pointSize: Settings.fontSize * 1.5
+        font.pointSize: Settings.uiFontSizePt * 1.5
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
         onLinkActivated: function(link) {
@@ -111,7 +111,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("An early touch of personality")
         color: palette.buttonText
-        font.pointSize: Settings.fontSize * 1.1
+        font.pointSize: Settings.uiFontSizePt * 1.1
     }
 
     RowLayout {
@@ -199,7 +199,7 @@ ColumnLayout {
         Layout.bottomMargin: Nheko.paddingLarge
         Layout.leftMargin: Nheko.paddingLarge
         Layout.rightMargin: Nheko.paddingLarge
-        font.pointSize: Settings.fontSize * 0.9
+        font.pointSize: Settings.uiFontSizePt * 0.9
         textFormat: Text.RichText
         text: "<style>a { color: " + palette.highlight + "; }</style>" +
               "<a href=\"https://github.com/etkecc/komai\">Komai</a>" +

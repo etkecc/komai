@@ -42,7 +42,7 @@ Rectangle {
 
         Label {
             Layout.leftMargin: 8
-            font.pointSize: Settings.fontSize * 1.1
+            font.pointSize: Settings.uiFontSizePt * 1.1
             text: CallManager.callPartyDisplayName
             color: "#000000"
         }
@@ -90,7 +90,7 @@ Rectangle {
         Label {
             id: callStateLabel
 
-            font.pointSize: Settings.fontSize * 1.1
+            font.pointSize: Settings.uiFontSizePt * 1.1
             color: "#000000"
         }
 
@@ -193,7 +193,7 @@ Rectangle {
             Layout.leftMargin: 16
             visible: CallManager.callType == Voip.SCREEN && CallManager.callState == Voip.CONNECTED
             text: qsTr("You are screen sharing")
-            font.pointSize: Settings.fontSize * 1.1
+            font.pointSize: Settings.uiFontSizePt * 1.1
             color: "#000000"
         }
 

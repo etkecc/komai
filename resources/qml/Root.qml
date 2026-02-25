@@ -19,9 +19,9 @@ Pane {
     function adjustFontSize(step) {
         const minFontSizePt = 6;
         const maxFontSizePt = 64;
-        const next = Math.max(minFontSizePt, Math.min(maxFontSizePt, Settings.fontSize + step));
-        if (next !== Settings.fontSize)
-            Settings.fontSize = next;
+        const next = Math.max(minFontSizePt, Math.min(maxFontSizePt, Settings.uiFontSizePt + step));
+        if (next !== Settings.uiFontSizePt)
+            Settings.uiFontSizePt = next;
     }
 
     function destroyOnClose(obj) {

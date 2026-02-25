@@ -46,7 +46,7 @@ Button {
             text: control.text
             //font: control.font
             font.capitalization: Font.AllUppercase
-            font.pointSize: Math.ceil(Settings.fontSize * 1.5)
+            font.pointSize: Math.ceil(Settings.uiFontSizePt * 1.5)
             //font.capitalization: Font.AllUppercase
             color: palette.light
             horizontalAlignment: Text.AlignHCenter

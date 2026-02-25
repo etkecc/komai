@@ -31,7 +31,7 @@ Item {
 
         ComboBox {
             id: variantCombo
-            font.pointSize: Settings.fontSize
+            font.pointSize: Settings.uiFontSizePt
             model: safeThemeVariantValues
             currentIndex: safeThemeVariantValue
             onActivated: {
@@ -47,7 +47,7 @@ Item {
         ComboBox {
             id: themeCombo
             visible: variantCombo.currentIndex !== 2
-            font.pointSize: Settings.fontSize
+            font.pointSize: Settings.uiFontSizePt
             model: safeValues
             currentIndex: safeValue
             onActivated: {

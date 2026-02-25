@@ -15,7 +15,7 @@ TextMessage {
 
     font.italic: true
     color: palette.buttonText
-    font.pointSize: isStateEvent? 0.95*Settings.fontSize : Settings.fontSize
+    font.pointSize: isStateEvent? 0.95*Settings.uiFontSizePt : Settings.uiFontSizePt
     horizontalAlignment: isStateEvent ? Text.AlignLeft : undefined
     leftPadding: isStateEvent ? (stateEventIconSize + Nheko.paddingSmall) : 0
 

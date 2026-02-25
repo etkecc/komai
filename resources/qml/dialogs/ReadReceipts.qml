@@ -38,7 +38,7 @@ ApplicationWindow {
             color: palette.text
             Layout.alignment: Qt.AlignCenter
             text: qsTr("Read receipts")
-            font.pointSize: Settings.fontSize * 1.5
+            font.pointSize: Settings.uiFontSizePt * 1.5
         }
 
         ScrollView {
@@ -94,7 +94,7 @@ ApplicationWindow {
                             ElidedLabel {
                                 fullText: model.displayName
                                 color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, palette.highlight) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
-                                font.pointSize: Settings.fontSize
+                                font.pointSize: Settings.uiFontSizePt
                                 elideWidth: del.width - Nheko.paddingMedium - avatar.width
                                 Layout.fillWidth: true
                             }
@@ -102,7 +102,7 @@ ApplicationWindow {
                             ElidedLabel {
                                 fullText: model.timestamp
                                 color: palette.buttonText
-                                font.pointSize: Settings.fontSize * 0.9
+                                font.pointSize: Settings.uiFontSizePt * 0.9
                                 elideWidth: del.width - Nheko.paddingMedium - avatar.width
                                 Layout.fillWidth: true
                             }

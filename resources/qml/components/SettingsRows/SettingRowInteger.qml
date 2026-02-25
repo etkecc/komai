@@ -12,7 +12,7 @@ SpinBox {
     id: root
 
     anchors.right: parent.right
-    font.pointSize: Settings.fontSize
+    font.pointSize: Settings.uiFontSizePt
     from: model.valueLowerBound
     to: model.valueUpperBound
     stepSize: model.valueStep

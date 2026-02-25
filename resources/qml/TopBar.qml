@@ -143,7 +143,7 @@ Pane {
                 color: palette.text
                 elide: Text.ElideRight
                 font.bold: true
-                font.pointSize: Settings.fontSize * 1.1
+                font.pointSize: Settings.uiFontSizePt * 1.1
                 maximumLineCount: 1
                 text: roomName
                 textFormat: Text.RichText

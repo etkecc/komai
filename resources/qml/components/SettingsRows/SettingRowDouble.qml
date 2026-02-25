@@ -17,7 +17,7 @@ SpinBox {
     readonly property int decimals: 2
 
     anchors.right: parent.right
-    font.pointSize: Settings.fontSize
+    font.pointSize: Settings.uiFontSizePt
     from: model.valueLowerBound * div
     to: model.valueUpperBound * div
     stepSize: model.valueStep * div

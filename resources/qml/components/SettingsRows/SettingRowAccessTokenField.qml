@@ -21,7 +21,7 @@ Loader {
         id: hiddenComponent
         Button {
             anchors.right: parent.right
-            font.pointSize: Settings.fontSize
+            font.pointSize: Settings.uiFontSizePt
             text: qsTr("Click to reveal")
             onClicked: root.revealed = true
         }
@@ -35,7 +35,7 @@ Loader {
             TextField {
                 text: root.model.value
                 readOnly: true
-                font.pointSize: Settings.fontSize
+                font.pointSize: Settings.uiFontSizePt
                 Layout.preferredWidth: 350
             }
 

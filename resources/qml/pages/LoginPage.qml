@@ -61,7 +61,7 @@ Item {
                 Layout.fillWidth: true
                 text: qsTr("Login to your Matrix account")
                 color: palette.text
-                font.pointSize: Settings.fontSize * 1.5
+                font.pointSize: Settings.uiFontSizePt * 1.5
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
             }

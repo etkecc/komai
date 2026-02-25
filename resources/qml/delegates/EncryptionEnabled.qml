@@ -38,7 +38,7 @@ Control {
             MatrixText {
                 text: qsTr("%1 enabled end-to-end encryption").arg(r.userName)
                 font.bold: true
-                font.pointSize: Settings.fontSize * 1.1
+                font.pointSize: Settings.uiFontSizePt * 1.1
                 color: palette.text
                 Layout.fillWidth: true
                 Layout.maximumWidth: implicitWidth + 1

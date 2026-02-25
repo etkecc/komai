@@ -82,7 +82,7 @@ Page {
                     ElidedLabel {
                         Layout.alignment: Qt.AlignBottom
                         elideWidth: col.width
-                        font.pointSize: Settings.fontSize * 1.1
+                        font.pointSize: Settings.uiFontSizePt * 1.1
                         font.weight: Font.DemiBold
                         fullText: userInfoGrid.profile ? userInfoGrid.profile.displayName : ""
                     }
@@ -90,7 +90,7 @@ Page {
                         Layout.alignment: Qt.AlignTop
                         color: palette.buttonText
                         elideWidth: col.width
-                        font.pointSize: Settings.fontSize * 0.9
+                        font.pointSize: Settings.uiFontSizePt * 0.9
                         fullText: userInfoGrid.profile ? userInfoGrid.profile.userid : ""
                     }
                 }

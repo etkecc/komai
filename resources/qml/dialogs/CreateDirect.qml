@@ -56,14 +56,14 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 text: profile? profile.displayName : ""
                 color: TimelineManager.userColor(userID.text, palette.window)
-                font.pointSize: Settings.fontSize
+                font.pointSize: Settings.uiFontSizePt
             }
 
             Label {
                 Layout.fillWidth: true
                 text: userID.text
                 color: palette.buttonText
-                font.pointSize: Settings.fontSize * 0.9
+                font.pointSize: Settings.uiFontSizePt * 0.9
             }
         }
 

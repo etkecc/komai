@@ -123,7 +123,7 @@ Column {
             color: palette.buttonText
             elide: Text.ElideRight
             font.italic: true
-            font.pointSize: Math.floor(Settings.fontSize * 0.8)
+            font.pointSize: Math.floor(Settings.uiFontSizePt * 0.8)
             text: userStatus.replace(/\n/g, " ")
             textFormat: Text.PlainText
             width: Math.min(implicitWidth, userInfo.remainingWidth - userName_.width - parent.spacing)

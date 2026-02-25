@@ -16,7 +16,7 @@ ComboBox {
 
     signal activatedValueChanged(int index)
 
-    font.pointSize: Settings.fontSize
+    font.pointSize: Settings.uiFontSizePt
     model: values
     currentIndex: value
     onActivated: activatedValueChanged(currentIndex)

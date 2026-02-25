@@ -67,7 +67,7 @@ Item {
                 Layout.columnSpan: 2
                 Layout.margins: Nheko.paddingMedium
                 color: palette.text
-                font.pointSize: Settings.fontSize * 2
+                font.pointSize: Settings.uiFontSizePt * 2
                 text: qsTr("Setup Encryption")
                 wrapMode: Text.Wrap
             }

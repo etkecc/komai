@@ -16,7 +16,7 @@ TextEdit {
     width: parent ? parent.width : implicitWidth
     clip: true
     color: palette.text
-    font.pointSize: Settings.fontSize
+    font.pointSize: Settings.uiFontSizePt
     text: model.value
     horizontalAlignment: Text.AlignRight
     wrapMode: TextEdit.NoWrap

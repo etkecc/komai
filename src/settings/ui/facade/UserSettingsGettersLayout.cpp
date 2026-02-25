@@ -21,7 +21,7 @@ UserSettings::uiScaleFactor() const
     return uiScaleFactor_ > 0.0 ? uiScaleFactor_ : 1.0;
 }
 double
-UserSettings::fontSize() const
+UserSettings::uiFontSizePt() const
 {
     if (const auto value = coreStore_.valueAs<double>(settings::core::SettingId::UiFontSizePt);
         value.has_value())

@@ -42,7 +42,7 @@ MatrixText {
     ` + formatted.replace(/<del>/g, "<s>").replace(/<\/del>/g, "</s>").replace(/<strike>/g, "<s>").replace(/<\/strike>/g, "</s>")
 
     enabled: !isReply
-    font.pointSize: (Settings.timelineMessagesEmojiOnlyEnlarge && isOnlyEmoji > 0 && isOnlyEmoji < 4) ? Settings.fontSize * 3 : Settings.fontSize
+    font.pointSize: (Settings.timelineMessagesEmojiOnlyEnlarge && isOnlyEmoji > 0 && isOnlyEmoji < 4) ? Settings.uiFontSizePt * 3 : Settings.uiFontSizePt
 
     NhekoCursorShape {
         enabled: isReply

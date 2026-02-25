@@ -341,7 +341,7 @@ main(int argc, char *argv[])
         const auto fontFamily = initialSettings->font();
         nhlog::ui()->info("Startup UI settings: scaleFactor={}, fontSizePt={}, fontFamily='{}'",
                           initialSettings->uiScaleFactor(),
-                          initialSettings->fontSize(),
+                          initialSettings->uiFontSizePt(),
                           (fontFamily.isEmpty() || fontFamily == QLatin1String("default"))
                             ? "system default"
                             : fontFamily.toStdString());
@@ -445,7 +445,7 @@ main(int argc, char *argv[])
     if (!userFontFamily.isEmpty() && userFontFamily != QLatin1String("default")) {
         font.setFamily(userFontFamily);
     }
-    font.setPointSizeF(settings.lock()->fontSize());
+    font.setPointSizeF(settings.lock()->uiFontSizePt());
 
     app.setFont(font);
 

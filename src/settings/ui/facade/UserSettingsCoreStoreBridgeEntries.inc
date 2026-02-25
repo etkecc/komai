@@ -2,7 +2,7 @@
 X(UiThemeSlug, settings.theme().toStdString())
 X(UiScaleFactor, settings.uiScaleFactor())
 X(UiFontFamily, settings.font().toStdString())
-X(UiFontSizePt, settings.fontSize())
+X(UiFontSizePt, settings.uiFontSizePt())
 X(UiFontEmojiFamily, settings.emojiFontFamily().toStdString())
 X(UiMotionAnimationsEnabled, settings.uiMotionAnimationsEnabled())
 X(UiInputMode, settings.uiInputModeTouchEnabled())

@@ -212,8 +212,8 @@ const std::array<ULongLongSettingDescriptor, 1> ULongLongSettings{
 const std::array<DoubleSettingDescriptor, 1> DoubleSettings{
   DoubleSettingDescriptor{SettingKey::UiFontSizePt,
                           kDefaultFontSizePt,
-                          &UserSettings::fontSize,
-                          &UserSettings::setFontSize},
+                          &UserSettings::uiFontSizePt,
+                          &UserSettings::setUiFontSizePt},
 };
 
 const std::array<StringSettingDescriptor, 9> StringSettings{

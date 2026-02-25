@@ -48,7 +48,7 @@ Item {
             id: statusMessageField
 
             Layout.fillWidth: true
-            font.pointSize: Settings.fontSize
+            font.pointSize: Settings.uiFontSizePt
             selectByMouse: true
             placeholderText: qsTr("Set a status message")
             onAccepted: {

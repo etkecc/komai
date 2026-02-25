@@ -130,7 +130,8 @@ class UserSettings final : public QObject
                  setUiInputTouchSwipeGesturesEnabled NOTIFY uiInputTouchSwipeGesturesEnabledChanged)
     Q_PROPERTY(
       double uiScaleFactor READ uiScaleFactor WRITE setUiScaleFactor NOTIFY uiScaleFactorChanged)
-    Q_PROPERTY(double fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
+    Q_PROPERTY(
+      double uiFontSizePt READ uiFontSizePt WRITE setUiFontSizePt NOTIFY uiFontSizePtChanged)
     Q_PROPERTY(QString font READ font WRITE setFontFamily NOTIFY fontChanged)
     Q_PROPERTY(QString emojiFont READ emojiFont WRITE setEmojiFontFamily NOTIFY emojiFontChanged)
     Q_PROPERTY(Presence networkPresenceStatusPolicy READ networkPresenceStatusPolicy WRITE
@@ -336,7 +337,7 @@ public:
     void setUiInputModeTouchEnabled(bool mode);
     void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setUiScaleFactor(double factor);
-    void setFontSize(double size);
+    void setUiFontSizePt(double size);
     void setFontFamily(QString family);
     void setEmojiFontFamily(QString family);
     void setSidebarsCommunitiesVisible(bool state);
@@ -496,7 +497,7 @@ signals:
     void uiInputModeTouchEnabledChanged(bool mode);
     void uiInputTouchSwipeGesturesEnabledChanged(bool state);
     void uiScaleFactorChanged(double factor);
-    void fontSizeChanged(double state);
+    void uiFontSizePtChanged(double state);
     void fontChanged(QString state);
     void emojiFontChanged(QString state);
     void networkPresenceStatusPolicyChanged(Presence state);

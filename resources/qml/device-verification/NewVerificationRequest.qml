@@ -19,7 +19,7 @@ ColumnLayout {
         Layout.preferredWidth: 400
         Layout.fillWidth: true
         wrapMode: Text.Wrap
-        font.pointSize: Settings.fontSize
+        font.pointSize: Settings.uiFontSizePt
         text: {
             if (flow.sender) {
                 if (flow.isSelfVerification)

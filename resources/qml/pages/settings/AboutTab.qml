@@ -34,7 +34,7 @@ SettingsContent {
                 textFormat: Text.RichText
                 text: "Komai (<a href=\"" + aboutTab.komaiMeaningUrl + "\">こまい</a>)"
                 color: palette.text
-                font.pointSize: Settings.fontSize * 2
+                font.pointSize: Settings.uiFontSizePt * 2
                 font.bold: true
                 onLinkActivated: function(link) {
                     Qt.openUrlExternally(link);
@@ -54,7 +54,7 @@ SettingsContent {
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
                       Nheko.taglineTemplate.arg("<a href=\"" + aboutTab.matrixUrl + "\">" + Nheko.matrixWord + "</a>")
                 color: palette.buttonText
-                font.pointSize: Settings.fontSize * 1.2
+                font.pointSize: Settings.uiFontSizePt * 1.2
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
                 onLinkActivated: function(link) {

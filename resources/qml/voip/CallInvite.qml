@@ -44,7 +44,7 @@ Popup {
             Layout.topMargin: callInv.parent.height / 25
             Layout.fillWidth: true
             text: CallManager.callPartyDisplayName
-            font.pointSize: Settings.fontSize * 2
+            font.pointSize: Settings.uiFontSizePt * 2
             color: palette.windowText
             horizontalAlignment: Text.AlignHCenter
         }
@@ -74,7 +74,7 @@ Popup {
             Label {
                 Layout.alignment: Qt.AlignCenter
                 text: CallManager.callType == Voip.VIDEO ? qsTr("Video Call") : qsTr("Voice Call")
-                font.pointSize: Settings.fontSize * 2
+                font.pointSize: Settings.uiFontSizePt * 2
                 color: palette.windowText
             }
 

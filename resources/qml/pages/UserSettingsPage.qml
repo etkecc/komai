@@ -71,7 +71,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
                             text: qsTr("Settings")
-                            font.pointSize: Settings.fontSize * 1.2
+                            font.pointSize: Settings.uiFontSizePt * 1.2
                             font.bold: true
                             color: headerBack.hovered ? palette.brightText : palette.text
                         }

@@ -76,7 +76,7 @@ Dialog {
                 Layout.fillWidth: true
                 color: palette.text
                 font.bold: true
-                font.pointSize: Settings.fontSize * 1.2
+                font.pointSize: Settings.uiFontSizePt * 1.2
                 text: root.titleText
             }
 

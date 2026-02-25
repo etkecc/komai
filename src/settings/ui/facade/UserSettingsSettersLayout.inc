@@ -1,5 +1,5 @@
 void
-UserSettings::setFontSize(double size)
+UserSettings::setUiFontSizePt(double size)
 {
     constexpr double kMinFontSizePt = 6.0;
     constexpr double kMaxFontSizePt = 64.0;
@@ -14,10 +14,10 @@ UserSettings::setFontSize(double size)
 
     const static auto defaultFamily = QFont().defaultFamily();
     QFont f((font_.isEmpty() || font_ == QStringLiteral("default")) ? defaultFamily : font_);
-    f.setPointSizeF(fontSize());
+    f.setPointSizeF(uiFontSizePt());
     QApplication::setFont(f);
 
-    emit fontSizeChanged(size);
+    emit uiFontSizePtChanged(size);
     save();
 }
 
@@ -43,7 +43,7 @@ UserSettings::setFontFamily(QString family)
 
     const static auto defaultFamily = QFont().defaultFamily();
     QFont f((family.isEmpty() || family == QStringLiteral("default")) ? defaultFamily : family);
-    f.setPointSizeF(fontSize());
+    f.setPointSizeF(uiFontSizePt());
     QApplication::setFont(f);
 
     emit fontChanged(family);

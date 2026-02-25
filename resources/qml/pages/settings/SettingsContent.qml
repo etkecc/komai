@@ -93,7 +93,7 @@ Item {
                                 color: palette.text
                                 text: r.model.name
                                 textFormat: Text.AutoText
-                                font.pointSize: 1.1 * Settings.fontSize
+                                font.pointSize: 1.1 * Settings.uiFontSizePt
                                 wrapMode: Text.Wrap
                                 readOnly: true
                                 selectByMouse: true
@@ -300,7 +300,7 @@ Item {
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
                             color: palette.buttonText
-                            font.pointSize: 0.9 * Settings.fontSize
+                            font.pointSize: 0.9 * Settings.uiFontSizePt
                             wrapMode: Text.Wrap
                             readOnly: true
                             selectByMouse: true

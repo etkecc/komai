@@ -656,7 +656,7 @@ testControllerSyncsCoreStore()
     bool ok = true;
     ok &= expect(theme.has_value() && *theme == settings->theme().toStdString(),
                  "controller sync stores theme value in core settings store");
-    ok &= expect(fontSize.has_value() && std::abs(*fontSize - settings->fontSize()) < 0.0001,
+    ok &= expect(fontSize.has_value() && std::abs(*fontSize - settings->uiFontSizePt()) < 0.0001,
                  "controller sync stores font size value in core settings store");
     ok &= expect(presence.has_value() &&
                    *presence == static_cast<int>(settings->networkPresenceStatusPolicy()),

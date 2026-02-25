@@ -15,7 +15,7 @@ TextField {
 
     signal submitted(string text)
 
-    font.pointSize: Settings.fontSize
+    font.pointSize: Settings.uiFontSizePt
     text: textValue
 
     function applyText()

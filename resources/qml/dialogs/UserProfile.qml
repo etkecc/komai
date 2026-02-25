@@ -179,7 +179,7 @@ ApplicationWindow {
                 horizontalAlignment: TextEdit.AlignHCenter
                 Layout.leftMargin: Nheko.paddingMedium
                 Layout.rightMargin: Nheko.paddingMedium
-                font.pointSize: Math.floor(Settings.fontSize * 0.9)
+                font.pointSize: Math.floor(Settings.uiFontSizePt * 0.9)
 
                 property string userStatus: Presence.userStatus(profile.userid)
                 Connections {

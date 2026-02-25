@@ -82,8 +82,7 @@ validateConfigSchemaDescriptors();
 
 inline constexpr bool kDefaultUiMotionAnimationsEnabled =
   settings::core::definitions::kDefaultUiMotionAnimationsEnabled;
-inline constexpr bool kDefaultUiInputModeTouchEnabled =
-  settings::core::definitions::kDefaultUiInputModeTouchEnabled;
+inline constexpr bool kDefaultUiInputMode = settings::core::definitions::kDefaultUiInputMode;
 inline constexpr bool kDefaultCertificateValidationEnabled =
   settings::core::definitions::kDefaultCertificateValidationEnabled;
 inline constexpr bool kDefaultNetworkHttp3Enabled =

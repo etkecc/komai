@@ -202,11 +202,10 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
 
     settings.setUiMotionAnimationsEnabled(readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
-    const auto inputModeToken =
-      readString(root,
-                 SettingKey::UiInputMode,
-                 QString::fromLatin1(cfg::kDefaultUiInputModeTouchEnabled ? kUiInputModeTouch
-                                                                          : kUiInputModeDesktop));
+    const auto inputModeToken = readString(
+      root,
+      SettingKey::UiInputMode,
+      QString::fromLatin1(cfg::kDefaultUiInputMode ? kUiInputModeTouch : kUiInputModeDesktop));
     if (!isKnownUiInputModeToken(inputModeToken)) {
         activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
                                  inputModeToken.toStdString(),

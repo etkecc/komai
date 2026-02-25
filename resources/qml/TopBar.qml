@@ -29,11 +29,11 @@ Pane {
     property int trustlevel: room ? room.trustlevel : Crypto.Unverified
     property int topBarAvatarSize: Nheko.barIconSize
     property int sidebarEntryHeight: Nheko.listIconSize + 2 * Nheko.paddingMedium
-    property int buttonPaddingH: Nheko.compactRoomList ? Nheko.paddingSmall : Nheko.paddingMedium
+    property int buttonPaddingH: Nheko.sidebarsRoomListCompact ? Nheko.paddingSmall : Nheko.paddingMedium
     property int buttonPaddingV: 0
 
     Layout.fillWidth: true
-    Layout.minimumHeight: Nheko.compactRoomList ? sidebarEntryHeight : 0
+    Layout.minimumHeight: Nheko.sidebarsRoomListCompact ? sidebarEntryHeight : 0
     implicitHeight: Math.max(topLayout.height + Nheko.paddingMedium * 2, sidebarEntryHeight)
     padding: 0
     z: 3
@@ -51,14 +51,14 @@ Pane {
         anchors.rightMargin: Nheko.paddingMedium
         anchors.top: parent.top
         columnSpacing: 0
-            rowSpacing: Nheko.compactRoomList ? 0 : Nheko.paddingSmall
+            rowSpacing: Nheko.sidebarsRoomListCompact ? 0 : Nheko.paddingSmall
 
             Avatar {
                 id: communityAvatar
 
-                property string avatarUrl: (Settings.communitiesSidebarVisible && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
-                property string communityId: (Settings.communitiesSidebarVisible && room && room.parentSpace && room.parentSpace.roomid) || ""
-                property string communityName: (Settings.communitiesSidebarVisible && room && room.parentSpace && room.parentSpace.roomName) || ""
+                property string avatarUrl: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
+                property string communityId: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomid) || ""
+                property string communityName: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomName) || ""
 
                 Layout.alignment: Qt.AlignHCenter
                 Layout.column: 1
@@ -69,7 +69,7 @@ Pane {
                 implicitWidth: fontMetrics.lineSpacing
                 roomid: communityId
                 url: avatarUrl.replace("mxc://", "image://MxcImage/")
-                visible: !Nheko.compactRoomList && roomid && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentTagId)
+                visible: !Nheko.sidebarsRoomListCompact && roomid && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentTagId)
             }
             Label {
                 id: communityLabel
@@ -157,7 +157,7 @@ Pane {
                 Layout.maximumHeight: fontMetrics.lineSpacing * 2 // show 2 lines
                 Layout.row: 2
                 clip: true
-                visible: roomTopic.length > 0 && !Nheko.compactRoomList
+                visible: roomTopic.length > 0 && !Nheko.sidebarsRoomListCompact
                 color: topBar.palette.text
                 selectByMouse: true
                 text: roomTopic

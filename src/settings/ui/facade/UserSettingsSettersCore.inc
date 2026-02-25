@@ -59,23 +59,23 @@ UserSettings::setUiInputTouchSwipeGesturesEnabled(bool s)
     save();
 }
 void
-UserSettings::setCommunitiesSidebarVisible(bool s)
+UserSettings::setSidebarsCommunitiesVisible(bool s)
 {
-    if (communitiesSidebarVisible_ == s)
+    if (sidebarsCommunitiesVisible_ == s)
         return;
-    communitiesSidebarVisible_ = s;
+    sidebarsCommunitiesVisible_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesVisible, s);
-    emit communitiesSidebarVisibleChanged(s);
+    emit sidebarsCommunitiesVisibleChanged(s);
     save();
 }
 void
-UserSettings::setRoomListScrollbarsVisible(bool s)
+UserSettings::setSidebarsRoomListScrollbarsVisible(bool s)
 {
-    if (roomListScrollbarsVisible_ == s)
+    if (sidebarsRoomListScrollbarsVisible_ == s)
         return;
-    roomListScrollbarsVisible_ = s;
+    sidebarsRoomListScrollbarsVisible_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled, s);
-    emit roomListScrollbarsVisibleChanged(s);
+    emit sidebarsRoomListScrollbarsVisibleChanged(s);
     save();
 }
 

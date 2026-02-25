@@ -253,33 +253,33 @@ UserSettings::setNotificationMessageContentPolicy(NotificationMessageContentPoli
     save();
 }
 void
-UserSettings::setCommunityNotificationCountsVisible(bool s)
+UserSettings::setSidebarsRoomListShowCommunityCounts(bool s)
 {
-    if (communityNotificationCountsVisible_ == s)
+    if (sidebarsRoomListShowCommunityCounts_ == s)
         return;
-    communityNotificationCountsVisible_ = s;
+    sidebarsRoomListShowCommunityCounts_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowCommunityCounts, s);
-    emit communityNotificationCountsVisibleChanged(s);
+    emit sidebarsRoomListShowCommunityCountsChanged(s);
     save();
 }
 void
-UserSettings::setCompactRoomList(bool s)
+UserSettings::setSidebarsRoomListCompact(bool s)
 {
-    if (compactRoomList_ == s)
+    if (sidebarsRoomListCompact_ == s)
         return;
-    compactRoomList_ = s;
+    sidebarsRoomListCompact_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListCompact, s);
-    emit compactRoomListChanged(s);
+    emit sidebarsRoomListCompactChanged(s);
     save();
 }
 void
-UserSettings::setRoomListShowLastMessageTime(bool s)
+UserSettings::setSidebarsRoomListShowLastMessageTime(bool s)
 {
-    if (roomListShowLastMessageTime_ == s)
+    if (sidebarsRoomListShowLastMessageTime_ == s)
         return;
-    roomListShowLastMessageTime_ = s;
+    sidebarsRoomListShowLastMessageTime_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListShowLastMessageTime, s);
-    emit roomListShowLastMessageTimeChanged(s);
+    emit sidebarsRoomListShowLastMessageTimeChanged(s);
     save();
 }
 void

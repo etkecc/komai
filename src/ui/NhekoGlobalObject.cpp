@@ -74,13 +74,13 @@ Nheko::Nheko()
     connect(
       UserSettings::instance().get(), &UserSettings::themeChanged, this, &Nheko::colorsChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::compactRoomListChanged,
+            &UserSettings::sidebarsRoomListCompactChanged,
             this,
-            &Nheko::compactRoomListChanged);
+            &Nheko::sidebarsRoomListCompactChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::roomListShowLastMessageTimeChanged,
+            &UserSettings::sidebarsRoomListShowLastMessageTimeChanged,
             this,
-            &Nheko::roomListShowLastMessageTimeChanged);
+            &Nheko::sidebarsRoomListShowLastMessageTimeChanged);
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Nheko::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Nheko::showRoomJoinPrompt);
     connect(
@@ -126,22 +126,22 @@ Nheko::tooltipDelay() const
 }
 
 bool
-Nheko::compactRoomList() const
+Nheko::sidebarsRoomListCompact() const
 {
-    return UserSettings::instance()->compactRoomList();
+    return UserSettings::instance()->sidebarsRoomListCompact();
 }
 
 bool
-Nheko::roomListShowLastMessageTime() const
+Nheko::sidebarsRoomListShowLastMessageTime() const
 {
-    return UserSettings::instance()->roomListShowLastMessageTime();
+    return UserSettings::instance()->sidebarsRoomListShowLastMessageTime();
 }
 
 double
 Nheko::sidebarAvatarMultiplier() const
 {
     // Normal mode: 2.0x line spacing, Compact mode: 1.25x line spacing
-    return compactRoomList() ? 1.25 : 2.0;
+    return sidebarsRoomListCompact() ? 1.25 : 2.0;
 }
 
 // Font-scaled icon size for list entries (room list rows, community entries).
@@ -158,7 +158,7 @@ Nheko::listIconSize() const
 int
 Nheko::barIconSize() const
 {
-    return compactRoomList() ? listIconSize() : avatarSize();
+    return sidebarsRoomListCompact() ? listIconSize() : avatarSize();
 }
 
 void

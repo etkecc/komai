@@ -56,7 +56,7 @@ Rectangle {
                 preferredWidth: Settings.communityListWidth > collapsedWidth
                                 ? Settings.communityListWidth
                                 : collapsedWidth
-                visible: Settings.communitiesSidebarVisible
+                visible: Settings.sidebarsCommunitiesVisible
 
                 CommunitiesList {
                     id: communitiesList

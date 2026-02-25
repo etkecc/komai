@@ -48,10 +48,11 @@ class UserSettings final : public QObject
                  setIntegrationsSystemTrayEnabled NOTIFY integrationsSystemTrayEnabledChanged)
     Q_PROPERTY(bool integrationsSystemTrayAutostart READ integrationsSystemTrayAutostart WRITE
                  setIntegrationsSystemTrayAutostart NOTIFY integrationsSystemTrayAutostartChanged)
-    Q_PROPERTY(bool communitiesSidebarVisible READ communitiesSidebarVisible WRITE
-                 setCommunitiesSidebarVisible NOTIFY communitiesSidebarVisibleChanged)
-    Q_PROPERTY(bool roomListScrollbarsVisible READ roomListScrollbarsVisible WRITE
-                 setRoomListScrollbarsVisible NOTIFY roomListScrollbarsVisibleChanged)
+    Q_PROPERTY(bool sidebarsCommunitiesVisible READ sidebarsCommunitiesVisible WRITE
+                 setSidebarsCommunitiesVisible NOTIFY sidebarsCommunitiesVisibleChanged)
+    Q_PROPERTY(
+      bool sidebarsRoomListScrollbarsVisible READ sidebarsRoomListScrollbarsVisible WRITE
+        setSidebarsRoomListScrollbarsVisible NOTIFY sidebarsRoomListScrollbarsVisibleChanged)
     Q_PROPERTY(bool markdownEnabled READ markdownEnabled WRITE setMarkdownEnabled NOTIFY
                  markdownEnabledChanged)
     Q_PROPERTY(SendMessageKey sendMessageKey READ sendMessageKey WRITE setSendMessageKey NOTIFY
@@ -97,12 +98,13 @@ class UserSettings final : public QObject
                  notificationMessageContentPolicy WRITE setNotificationMessageContentPolicy NOTIFY
                    notificationMessageContentPolicyChanged)
     Q_PROPERTY(
-      bool communityNotificationCountsVisible READ communityNotificationCountsVisible WRITE
-        setCommunityNotificationCountsVisible NOTIFY communityNotificationCountsVisibleChanged)
-    Q_PROPERTY(bool compactRoomList READ compactRoomList WRITE setCompactRoomList NOTIFY
-                 compactRoomListChanged)
-    Q_PROPERTY(bool roomListShowLastMessageTime READ roomListShowLastMessageTime WRITE
-                 setRoomListShowLastMessageTime NOTIFY roomListShowLastMessageTimeChanged)
+      bool sidebarsRoomListShowCommunityCounts READ sidebarsRoomListShowCommunityCounts WRITE
+        setSidebarsRoomListShowCommunityCounts NOTIFY sidebarsRoomListShowCommunityCountsChanged)
+    Q_PROPERTY(bool sidebarsRoomListCompact READ sidebarsRoomListCompact WRITE
+                 setSidebarsRoomListCompact NOTIFY sidebarsRoomListCompactChanged)
+    Q_PROPERTY(
+      bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime WRITE
+        setSidebarsRoomListShowLastMessageTime NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
     Q_PROPERTY(LastMessagePreview sidebarsRoomListLastMessagePreview READ
                  sidebarsRoomListLastMessagePreview WRITE setSidebarsRoomListLastMessagePreview
                    NOTIFY sidebarsRoomListLastMessagePreviewChanged)
@@ -326,8 +328,8 @@ public:
     void setFontSize(double size);
     void setFontFamily(QString family);
     void setEmojiFontFamily(QString family);
-    void setCommunitiesSidebarVisible(bool state);
-    void setRoomListScrollbarsVisible(bool state);
+    void setSidebarsCommunitiesVisible(bool state);
+    void setSidebarsRoomListScrollbarsVisible(bool state);
     void setMarkdownEnabled(bool state);
     void setSendMessageKey(SendMessageKey key);
     void setAutoReplaceEmoji(AutoReplaceEmoji state);
@@ -351,9 +353,9 @@ public:
     void setNotificationsAttentionOnIncoming(bool state);
     void setCircularAvatarsEnabled(bool state);
     void setNotificationMessageContentPolicy(NotificationMessageContentPolicy policy);
-    void setCommunityNotificationCountsVisible(bool state);
-    void setCompactRoomList(bool state);
-    void setRoomListShowLastMessageTime(bool state);
+    void setSidebarsRoomListShowCommunityCounts(bool state);
+    void setSidebarsRoomListCompact(bool state);
+    void setSidebarsRoomListShowLastMessageTime(bool state);
     void setSidebarsRoomListLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiMotionAnimationsEnabled(bool state);
@@ -442,8 +444,8 @@ public:
 #include "settings/ui/facade/UserSettingsGetters.inc"
 
 signals:
-    void communitiesSidebarVisibleChanged(bool state);
-    void roomListScrollbarsVisibleChanged(bool state);
+    void sidebarsCommunitiesVisibleChanged(bool state);
+    void sidebarsRoomListScrollbarsVisibleChanged(bool state);
     void sidebarsRoomListSortChanged(RoomSortOrder order);
     void themeChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
@@ -468,9 +470,9 @@ signals:
     void notificationsAttentionOnIncomingChanged(bool state);
     void circularAvatarsEnabledChanged(bool state);
     void notificationMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
-    void communityNotificationCountsVisibleChanged(bool state);
-    void compactRoomListChanged(bool state);
-    void roomListShowLastMessageTimeChanged(bool state);
+    void sidebarsRoomListShowCommunityCountsChanged(bool state);
+    void sidebarsRoomListCompactChanged(bool state);
+    void sidebarsRoomListShowLastMessageTimeChanged(bool state);
     void sidebarsRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiMotionAnimationsEnabledChanged(bool state);

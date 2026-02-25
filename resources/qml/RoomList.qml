@@ -14,7 +14,7 @@ import im.nheko
 Page {
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
-    property bool compactMode: Nheko.compactRoomList
+    property bool compactMode: Nheko.sidebarsRoomListCompact
     property int avatarSize: Nheko.listIconSize
     property bool collapsed: false
 
@@ -26,7 +26,7 @@ Page {
 
         Pane {
             id: userInfoPanel
-            Layout.maximumHeight: Settings.communitiesSidebarVisible ? 0 : -1
+            Layout.maximumHeight: Settings.sidebarsCommunitiesVisible ? 0 : -1
             clip: true
 
             function openUserProfile() {
@@ -191,7 +191,7 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             color: Nheko.theme.separator
-            Layout.preferredHeight: Settings.communitiesSidebarVisible ? 0 : 2
+            Layout.preferredHeight: Settings.sidebarsCommunitiesVisible ? 0 : 2
         }
         Pane {
             id: roomActionsBar
@@ -522,7 +522,7 @@ Page {
             id: scrollbar
 
             parent: roomlist
-            policy: !collapsed && Settings.roomListScrollbarsVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            policy: !collapsed && Settings.sidebarsRoomListScrollbarsVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
             palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
 
@@ -666,7 +666,7 @@ Page {
                         bubbleBackgroundColor: roomItem.bubbleBackground
                         bubbleTextColor: roomItem.bubbleText
                         hasLoudNotification: roomItem.hasLoudNotification
-                        mayBeVisible: collapsed && (isSpace ? Settings.communityNotificationCountsVisible : true)
+                        mayBeVisible: collapsed && (isSpace ? Settings.sidebarsRoomListShowCommunityCounts : true)
                         notificationCount: roomItem.notificationCount
                     }
                 }
@@ -723,7 +723,7 @@ Page {
                             color: roomItem.unimportantText
                             font.pixelSize: fontMetrics.font.pixelSize * 0.95
                             text: time
-                            visible: !isInvite && !isSpace && Nheko.roomListShowLastMessageTime
+                            visible: !isInvite && !isSpace && Nheko.sidebarsRoomListShowLastMessageTime
                         }
                         NotificationBubble {
                             id: spaceNotificationBubble
@@ -732,7 +732,7 @@ Page {
                             bubbleBackgroundColor: roomItem.bubbleBackground
                             bubbleTextColor: roomItem.bubbleText
                             hasLoudNotification: roomItem.hasLoudNotification
-                            mayBeVisible: !collapsed && (isSpace ? Settings.communityNotificationCountsVisible : compactMode)
+                            mayBeVisible: !collapsed && (isSpace ? Settings.sidebarsRoomListShowCommunityCounts : compactMode)
                             notificationCount: roomItem.notificationCount
                             parent: (isSpace || compactMode) ? titleRow : subtextRow
                         }

@@ -35,23 +35,23 @@ UserSettings::integrationsSystemTrayAutostart() const
 }
 
 bool
-UserSettings::communitiesSidebarVisible() const
+UserSettings::sidebarsCommunitiesVisible() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsCommunitiesVisible);
         value.has_value())
         return *value;
-    return communitiesSidebarVisible_;
+    return sidebarsCommunitiesVisible_;
 }
 
 bool
-UserSettings::roomListScrollbarsVisible() const
+UserSettings::sidebarsRoomListScrollbarsVisible() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled);
         value.has_value())
         return *value;
-    return roomListScrollbarsVisible_;
+    return sidebarsRoomListScrollbarsVisible_;
 }
 
 bool
@@ -77,33 +77,33 @@ UserSettings::notificationMessageContentPolicy() const
 }
 
 bool
-UserSettings::communityNotificationCountsVisible() const
+UserSettings::sidebarsRoomListShowCommunityCounts() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListShowCommunityCounts);
         value.has_value())
         return *value;
-    return communityNotificationCountsVisible_;
+    return sidebarsRoomListShowCommunityCounts_;
 }
 
 bool
-UserSettings::compactRoomList() const
+UserSettings::sidebarsRoomListCompact() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListCompact);
         value.has_value())
         return *value;
-    return compactRoomList_;
+    return sidebarsRoomListCompact_;
 }
 
 bool
-UserSettings::roomListShowLastMessageTime() const
+UserSettings::sidebarsRoomListShowLastMessageTime() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListShowLastMessageTime);
         value.has_value())
         return *value;
-    return roomListShowLastMessageTime_;
+    return sidebarsRoomListShowLastMessageTime_;
 }
 
 UserSettings::LastMessagePreview

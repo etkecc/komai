@@ -6,16 +6,16 @@
     CONNECT_SETTING_ID(UiLayoutContentMaxWidthPx, maxContentWidthChanged, Value);
     CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, Value);
     CONNECT_SETTING_ID(UiInputMode, touchInputModeEnabledChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListCompact, compactRoomListChanged, Value);
+    CONNECT_SETTING_ID(SidebarsRoomListCompact, sidebarsRoomListCompactChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsRoomListShowLastMessageTime, roomListShowLastMessageTimeChanged, Value);
+      SidebarsRoomListShowLastMessageTime, sidebarsRoomListShowLastMessageTimeChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListLastMessagePreview, sidebarsRoomListLastMessagePreviewChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsRoomListShowCommunityCounts, communityNotificationCountsVisibleChanged, Value);
+      SidebarsRoomListShowCommunityCounts, sidebarsRoomListShowCommunityCountsChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, circularAvatarsEnabledChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsIdenticonFallback, identiconFallbackEnabledChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsRoomListScrollbarsEnabled, roomListScrollbarsVisibleChanged, Value);
+      SidebarsRoomListScrollbarsEnabled, sidebarsRoomListScrollbarsVisibleChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);
-    CONNECT_SETTING_ID(SidebarsCommunitiesVisible, communitiesSidebarVisibleChanged, Value);
+    CONNECT_SETTING_ID(SidebarsCommunitiesVisible, sidebarsCommunitiesVisibleChanged, Value);
     CONNECT_SETTING_ID(UiInputTouchSwipeGesturesEnabled, uiInputTouchSwipeGesturesEnabledChanged, Value);

@@ -3,13 +3,13 @@
     bool timelineMessagesEmojiOnlyEnlarge() const;
     bool integrationsSystemTrayEnabled() const;
     bool integrationsSystemTrayAutostart() const;
-    bool communitiesSidebarVisible() const;
-    bool roomListScrollbarsVisible() const;
+    bool sidebarsCommunitiesVisible() const;
+    bool sidebarsRoomListScrollbarsVisible() const;
     bool circularAvatarsEnabled() const;
     NotificationMessageContentPolicy notificationMessageContentPolicy() const;
-    bool communityNotificationCountsVisible() const;
-    bool compactRoomList() const;
-    bool roomListShowLastMessageTime() const;
+    bool sidebarsRoomListShowCommunityCounts() const;
+    bool sidebarsRoomListCompact() const;
+    bool sidebarsRoomListShowLastMessageTime() const;
     LastMessagePreview sidebarsRoomListLastMessagePreview() const;
     bool timelineMediaEffectsEnabled() const;
     bool uiMotionAnimationsEnabled() const;

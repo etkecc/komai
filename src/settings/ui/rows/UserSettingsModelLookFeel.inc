@@ -116,11 +116,11 @@
     // CompactRoomList
     SIMPLE_BOOL_CONFIG_ID_SETTING("Compact layout",
                         QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
-                        SM::TabSidebars, compactRoomList, setCompactRoomList, nullptr, SidebarsRoomListCompact, SettingKey::SidebarsRoomListCompact),
+                        SM::TabSidebars, sidebarsRoomListCompact, setSidebarsRoomListCompact, nullptr, SidebarsRoomListCompact, SettingKey::SidebarsRoomListCompact),
     // RoomListShowLastMessageTime
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
                         QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
-                        SM::TabSidebars, roomListShowLastMessageTime, setRoomListShowLastMessageTime, nullptr, SidebarsRoomListShowLastMessageTime, SettingKey::SidebarsRoomListShowLastMessageTime),
+                        SM::TabSidebars, sidebarsRoomListShowLastMessageTime, setSidebarsRoomListShowLastMessageTime, nullptr, SidebarsRoomListShowLastMessageTime, SettingKey::SidebarsRoomListShowLastMessageTime),
     // ShowLastMessagePreview
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show last message preview",
@@ -136,12 +136,12 @@
     // ShowCommunityNotificationCounts
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show notification counts",
                         QT_TR_NOOP("Show total notification counts for communities and tags."),
-                        SM::TabSidebars, communityNotificationCountsVisible, setCommunityNotificationCountsVisible, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
+                        SM::TabSidebars, sidebarsRoomListShowCommunityCounts, setSidebarsRoomListShowCommunityCounts, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
     // RoomListScrollbarsVisible
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show scrollbars",
       QT_TR_NOOP("Show scrollbars in the room list and communities sidebar."),
-      SM::TabSidebars, roomListScrollbarsVisible, setRoomListScrollbarsVisible, nullptr, SidebarsRoomListScrollbarsEnabled, SettingKey::SidebarsRoomListScrollbarsEnabled),
+      SM::TabSidebars, sidebarsRoomListScrollbarsVisible, setSidebarsRoomListScrollbarsVisible, nullptr, SidebarsRoomListScrollbarsEnabled, SettingKey::SidebarsRoomListScrollbarsEnabled),
     // RoomSorting
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sorting",
@@ -160,7 +160,7 @@
     // CommunitiesSidebarVisible
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
                         QT_TR_NOOP("Show a column containing communities and tags."),
-                        SM::TabSidebars, communitiesSidebarVisible, setCommunitiesSidebarVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
+                        SM::TabSidebars, sidebarsCommunitiesVisible, setSidebarsCommunitiesVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
     // IntegrationsSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

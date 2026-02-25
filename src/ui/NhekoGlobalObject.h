@@ -35,15 +35,16 @@ class Nheko : public QObject
     // Size of the Komai logo shown in the main timeline empty state
     // and the initial sync spinner.
     Q_PROPERTY(int timelineLogoSize READ timelineLogoSize CONSTANT)
-    Q_PROPERTY(bool compactRoomList READ compactRoomList NOTIFY compactRoomListChanged)
-    Q_PROPERTY(
-      double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY compactRoomListChanged)
+    Q_PROPERTY(bool sidebarsRoomListCompact READ sidebarsRoomListCompact NOTIFY
+                 sidebarsRoomListCompactChanged)
+    Q_PROPERTY(double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY
+                 sidebarsRoomListCompactChanged)
     // Font-scaled icon size for list entries (room list rows, community entries)
-    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY compactRoomListChanged)
+    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY sidebarsRoomListCompactChanged)
     // Icon size for action bars (top bar, room list actions bar)
-    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY compactRoomListChanged)
-    Q_PROPERTY(bool roomListShowLastMessageTime READ roomListShowLastMessageTime NOTIFY
-                 roomListShowLastMessageTimeChanged)
+    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY sidebarsRoomListCompactChanged)
+    Q_PROPERTY(bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime
+                 NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
     Q_PROPERTY(QString taglineTemplate READ taglineTemplate CONSTANT)
     Q_PROPERTY(QString matrixWord READ matrixWord CONSTANT)
@@ -66,11 +67,11 @@ public:
     int tooltipDelay() const;
     int timelineLogoSize() const { return 128; }
 
-    bool compactRoomList() const;
+    bool sidebarsRoomListCompact() const;
     double sidebarAvatarMultiplier() const;
     int listIconSize() const;
     int barIconSize() const;
-    bool roomListShowLastMessageTime() const;
+    bool sidebarsRoomListShowLastMessageTime() const;
 
     QString taglineTemplate() const { return tr("A fine desktop %1 chat app you can get to love"); }
     QString matrixWord() const { return tr("Matrix"); }
@@ -113,8 +114,8 @@ public slots:
 signals:
     void colorsChanged();
     void profileChanged();
-    void compactRoomListChanged();
-    void roomListShowLastMessageTimeChanged();
+    void sidebarsRoomListCompactChanged();
+    void sidebarsRoomListShowLastMessageTimeChanged();
 
     void openLogoutDialog();
     void openJoinRoomDialog();

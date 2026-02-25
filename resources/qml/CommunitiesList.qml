@@ -43,7 +43,7 @@ Page {
             id: scrollbar
 
             parent: communitiesList
-            policy: !collapsed && Settings.roomListScrollbarsVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            policy: !collapsed && Settings.sidebarsRoomListScrollbarsVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
             palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
 
@@ -177,7 +177,7 @@ Page {
                         bubbleTextColor: communityItem.bubbleText
                         font.pixelSize: fontMetrics.font.pixelSize * 0.6
                         hasLoudNotification: model.hasLoudNotification
-                        mayBeVisible: communitySidebar.collapsed && !model.muted && Settings.communityNotificationCountsVisible
+                        mayBeVisible: communitySidebar.collapsed && !model.muted && Settings.sidebarsRoomListShowCommunityCounts
                         notificationCount: model.unreadMessages
                     }
                 }
@@ -199,7 +199,7 @@ Page {
                     bubbleBackgroundColor: communityItem.bubbleBackground
                     bubbleTextColor: communityItem.bubbleText
                     hasLoudNotification: model.hasLoudNotification
-                    mayBeVisible: !communitySidebar.collapsed && !model.muted && Settings.communityNotificationCountsVisible
+                    mayBeVisible: !communitySidebar.collapsed && !model.muted && Settings.sidebarsRoomListShowCommunityCounts
                     notificationCount: model.unreadMessages
                 }
             }

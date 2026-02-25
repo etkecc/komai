@@ -6,6 +6,7 @@
 
 #include <array>
 
+#include "Logging.h"
 #include "MainWindow.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -23,6 +24,9 @@ UserSettingsModel::wireSettingConnections(UserSettings *settings)
         connect(settings, &UserSettings::sig, this, [this, idx]() {                                \
             emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                               \
         });                                                                                        \
+    } else {                                                                                       \
+        nhlog::ui()->warn(                                                                         \
+          "Missing settings row for SettingId::{} while wiring signal '{}'", #id, #sig);           \
     }
 
 #include "settings/ui/connections/UserSettingsModelConnectionsCalls.inc"

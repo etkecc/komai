@@ -94,9 +94,6 @@ using settings::ui::rowForSettingId;
 using settings::ui::settingsTable;
 using settings::ui::settingsTableRowCount;
 
-namespace {
-} // namespace
-
 QVariant
 UserSettingsModel::data(const QModelIndex &index, int role) const
 {

@@ -622,6 +622,8 @@ set(SRC_FILES
     src/settings/SettingKeys.h
     src/settings/ui/SettingDescriptor.h
     src/settings/ui/SettingDescriptor.cpp
+    src/settings/ui/SettingInputValidation.h
+    src/settings/ui/SettingInputValidation.cpp
     src/settings/StartupSettings.h
     src/settings/StartupSettings.cpp
     src/settings/core/SettingDefinition.h
@@ -1211,6 +1213,15 @@ if(BUILD_TESTING)
     add_test(NAME komai_settings_store_test COMMAND komai_settings_store_test)
     komai_configure_test(komai_settings_store_test "unit;settings")
 
+    add_executable(komai_setting_input_validation_test
+        tests/SettingInputValidationTest.cpp
+        src/settings/ui/SettingInputValidation.cpp
+    )
+    target_include_directories(komai_setting_input_validation_test PRIVATE src)
+    target_link_libraries(komai_setting_input_validation_test PRIVATE Qt::Core Qt::Qml)
+    add_test(NAME komai_setting_input_validation_test COMMAND komai_setting_input_validation_test)
+    komai_configure_test(komai_setting_input_validation_test "unit;settings")
+
     add_executable(komai_settings_serializer_core_test
         tests/SettingsSerializerCoreTest.cpp
         src/settings/core/SettingsSerializer.cpp
@@ -1238,6 +1249,7 @@ if(BUILD_TESTING)
         komai_startup_settings_test
         komai_settings_storage_test
         komai_settings_store_test
+        komai_setting_input_validation_test
         komai_settings_serializer_core_test
         komai_db_backend_test
     )

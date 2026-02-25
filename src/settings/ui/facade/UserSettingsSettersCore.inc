@@ -1,3 +1,5 @@
 #include "UserSettingsSettersCoreUiRuntime.inc"
-#include "UserSettingsSettersCoreIntegrationsPrivacyNetwork.inc"
+#include "UserSettingsSettersCoreIntegrations.inc"
+#include "UserSettingsSettersCorePrivacy.inc"
+#include "UserSettingsSettersCoreNetwork.inc"
 #include "UserSettingsSettersCoreStateRuntime.inc"

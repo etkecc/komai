@@ -5,6 +5,8 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 
-#include "UserSettingsGettersUiLookFeelIntegrations.inc"
-#include "UserSettingsGettersUiNotificationsPrivacy.inc"
+#include "UserSettingsGettersUiIntegrations.inc"
+#include "UserSettingsGettersUiLookFeel.inc"
+#include "UserSettingsGettersUiNotifications.inc"
+#include "UserSettingsGettersUiPrivacy.inc"
 #include "UserSettingsGettersUiSidebars.inc"

@@ -8,6 +8,7 @@ UserSettings::setIntegrationsSystemTrayEnabled(bool s)
     emit integrationsSystemTrayEnabledChanged(s);
     save();
 }
+
 void
 UserSettings::setIntegrationsSystemTrayAutostart(bool s)
 {
@@ -18,6 +19,7 @@ UserSettings::setIntegrationsSystemTrayAutostart(bool s)
     emit integrationsSystemTrayAutostartChanged(s);
     save();
 }
+
 void
 UserSettings::setIntegrationsDbusApiAccess(int access)
 {
@@ -31,6 +33,7 @@ UserSettings::setIntegrationsDbusApiAccess(int access)
     emit integrationsDbusApiAccessChanged(access);
     save();
 }
+
 void
 UserSettings::setIntegrationsBrowserCommand(QString command)
 {
@@ -41,35 +44,5 @@ UserSettings::setIntegrationsBrowserCommand(QString command)
     (void)coreStore_.set(settings::core::SettingId::IntegrationsBrowserCommand,
                          command.toStdString());
     emit integrationsBrowserCommandChanged(command);
-    save();
-}
-void
-UserSettings::setPrivacyMaintenanceUpdateSpaceVias(bool s)
-{
-    if (privacyMaintenanceUpdateSpaceVias_ == s)
-        return;
-    privacyMaintenanceUpdateSpaceVias_ = s;
-    (void)coreStore_.set(settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias, s);
-    emit privacyMaintenanceUpdateSpaceViasChanged(s);
-    save();
-}
-void
-UserSettings::setPrivacyMaintenanceExpireEvents(bool s)
-{
-    if (privacyMaintenanceExpireEvents_ == s)
-        return;
-    privacyMaintenanceExpireEvents_ = s;
-    (void)coreStore_.set(settings::core::SettingId::PrivacyMaintenanceExpireEvents, s);
-    emit privacyMaintenanceExpireEventsChanged(s);
-    save();
-}
-void
-UserSettings::setNetworkHttp3Enabled(bool s)
-{
-    if (networkHttp3Enabled_ == s)
-        return;
-    networkHttp3Enabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::NetworkHttp3Enabled, s);
-    emit networkHttp3EnabledChanged(s);
     save();
 }

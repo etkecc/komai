@@ -22,6 +22,8 @@ Current ownership map:
   - Maintains runtime settings state and delegates persistence orchestration to `settings::SettingsController`.
 - `src/settings/ui/UserSettingsModel.h/.cpp` (`UserSettingsModel`)
   - QML list-model adapter and settings schema metadata mapping (`SettingMeta` rows, roles, and delegate types).
+- `src/settings/ui/SettingInputValidation.h/.cpp`
+  - Centralized model-input validation for settings edits (type/range/domain checks before mutators run).
 - `src/settings/ui/facade/UserSettingsSetters*.cpp`
   - Mutator behavior for setting updates, including inline validation/normalization and immediate side effects.
 - `src/settings/ui/facade/UserSettingsTheme.cpp`
@@ -81,6 +83,8 @@ Settings flow:
   - Startup stage ordering and secrets-provider dispatch plan.
 - `src/settings/ui/UserSettingsModel.cpp` and `src/settings/ui/rows/UserSettingsModel*.inc` (`UserSettingsModel`)
   - UI adapter that maps setting metadata to rows, roles, and tab-filtered models.
+- `src/settings/ui/SettingDescriptorCallbacks*.inc`
+  - Descriptor-bound role helpers for special role reads/writes (for example key-status `good` and theme variant roles).
 
 Profile directory:
 
@@ -114,6 +118,8 @@ Primary implementation files:
 - `src/settings/ui/facade/UserSettingsPage.h`
 - `src/settings/ui/UserSettingsModel.cpp`
 - `src/settings/ui/rows/UserSettingsModel*.inc`
+- `src/settings/ui/SettingInputValidation.h`
+- `src/settings/ui/SettingInputValidation.cpp`
 - `src/settings/ui/facade/UserSettingsSettersCore.cpp`
 - `src/settings/ui/facade/UserSettingsSettersLayout.cpp`
 - `src/settings/ui/facade/UserSettingsSettersMisc.cpp`

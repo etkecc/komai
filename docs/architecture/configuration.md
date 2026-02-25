@@ -276,6 +276,18 @@ This keeps fallback and secure-backend key identity consistent.
 - Matrix secret names are stored under `matrix` scope.
 - In file mode, these values are stored in `secrets.yml` under the `secrets` map.
 
+## 3-Layer Naming Audit
+
+To audit naming alignment across persisted settings definitions, runtime getters, and persisted keys:
+
+- run `just settings-generate-3-layer-mapping`
+- inspect `var/plans/settings-3-layer-mapping.md`
+
+The generated report includes:
+
+- full mapping rows (`SettingId` <-> runtime getter expression <-> `SettingKey` <-> dotted key)
+- a heuristic mismatch summary (`lcfirst(SettingId)` vs runtime getter name)
+
 ## Notes
 
 - Canonical references are:

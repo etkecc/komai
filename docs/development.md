@@ -111,6 +111,7 @@ Notes:
 - `just icons-generate-derived` - regenerate derived local icons from Fluent sources (for example `ui/double-checkmark.svg`)
 - `just icons-fetch <REL_PATH> <ALIAS_SVG_NAME>` - fetch one Fluent icon into `resources/icons/fluent/` and wire qrc alias (`ui/` by default)
 - `just icons-sync [--dry-run]` - sync mirrored Fluent icons from pinned upstream ref
+- `just settings-generate-3-layer-mapping` - regenerate `var/plans/settings-3-layer-mapping.md` (`SettingId` ↔ runtime getter ↔ persisted key audit)
 - `just license-check` - run REUSE compliance lint (skips when `reuse` is unavailable)
 - `just license-inject` - add SPDX headers to source files that currently lack them
 

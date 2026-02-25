@@ -104,6 +104,8 @@ public slots:
     void receivedSessionKey(const std::string &room_id, const std::string &session_id);
     void decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
                                   const SecretsToDecrypt &secrets);
+    void submitSecretUnlockInput(const QString &text);
+    void cancelSecretUnlockInput();
     void sendNotificationReply(const QString &roomid, const QString &eventid, const QString &body);
 signals:
     void connectionLost();
@@ -163,6 +165,7 @@ signals:
 
     void downloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
                            const SecretsToDecrypt &secrets);
+    void promptUnlockKeyBackup();
 
     void showRoomJoinPrompt(RoomSummary *);
     void internalKnock(const QString &room,
@@ -222,6 +225,9 @@ private:
 
     template<typename T>
     void connectCallMessage();
+    void processDownloadedSecretsUnlockInput(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
+                                             const SecretsToDecrypt &secrets,
+                                             const QString &text);
 
     TimelineViewManager *view_manager_;
 
@@ -246,4 +252,11 @@ private:
     // Used as a runtime shadow so UI can reflect updates immediately without waiting for cache
     // echo.
     std::optional<QString> statusMessageShadow_;
+
+    struct PendingSecretsUnlockRequest
+    {
+        mtx::secret_storage::AesHmacSha2KeyDescription keyDesc;
+        SecretsToDecrypt secrets;
+    };
+    std::optional<PendingSecretsUnlockRequest> pendingSecretsUnlockRequest_;
 };

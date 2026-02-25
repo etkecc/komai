@@ -23,7 +23,7 @@ ColumnLayout {
         switch (SelfVerificationStatus.status) {
         case SelfVerificationStatus.NoMasterKey:
             //: Cross-signing setup has not run yet.
-            return qsTr("Encryption is not set up for this account yet. Click to set up encryption on this device.");
+            return qsTr("To prevent losing access to encrypted messages, click to set up encryption secrets backup.");
         case SelfVerificationStatus.UnverifiedMasterKey:
             //: The user just signed in with this device and hasn't verified their master key.
             return qsTr("This account already has encryption keys, but this login is not verified yet. Click to verify this device and unlock encrypted messages.");
@@ -109,6 +109,8 @@ ColumnLayout {
             onSingleTapped: {
                 if (SelfVerificationStatus.status === SelfVerificationStatus.UnverifiedDevices)
                     SelfVerificationStatus.verifyUnverifiedDevices();
+                else if (SelfVerificationStatus.status === SelfVerificationStatus.NoMasterKey)
+                    SelfVerificationStatus.setupEncryptionBackup();
                 else
                     SelfVerificationStatus.promptCurrentVerificationAction();
             }

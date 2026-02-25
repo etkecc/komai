@@ -1576,20 +1576,48 @@ void
 ChatPage::decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
                                    const SecretsToDecrypt &secrets)
 {
-    QString text = QInputDialog::getText(
-      nullptr,
-      QCoreApplication::translate("CrossSigningSecrets", "Decrypt secrets"),
-      keyDesc.name.empty()
-        ? QCoreApplication::translate(
-            "CrossSigningSecrets", "Enter your recovery key or passphrase to decrypt your secrets:")
-        : QCoreApplication::translate(
-            "CrossSigningSecrets",
-            "Enter your recovery key or passphrase called %1 to decrypt your secrets:")
-            .arg(QString::fromStdString(keyDesc.name)),
-      QLineEdit::Password);
+    pendingSecretsUnlockRequest_ = PendingSecretsUnlockRequest{std::move(keyDesc), secrets};
+    nhlog::crypto()->info("Prompting user to unlock encryption secrets from key backup.");
+    emit promptUnlockKeyBackup();
+}
 
-    if (text.isEmpty())
+void
+ChatPage::submitSecretUnlockInput(const QString &text)
+{
+    if (!pendingSecretsUnlockRequest_) {
+        nhlog::crypto()->warn(
+          "Received unlock input, but no pending secrets unlock request exists.");
         return;
+    }
+
+    auto request = std::move(*pendingSecretsUnlockRequest_);
+    pendingSecretsUnlockRequest_.reset();
+
+    if (text.isEmpty()) {
+        nhlog::crypto()->info("Secrets unlock cancelled: empty input.");
+        return;
+    }
+
+    processDownloadedSecretsUnlockInput(std::move(request.keyDesc), request.secrets, text);
+}
+
+void
+ChatPage::cancelSecretUnlockInput()
+{
+    if (!pendingSecretsUnlockRequest_)
+        return;
+
+    nhlog::crypto()->info("Secrets unlock prompt dismissed by user.");
+    pendingSecretsUnlockRequest_.reset();
+}
+
+void
+ChatPage::processDownloadedSecretsUnlockInput(
+  mtx::secret_storage::AesHmacSha2KeyDescription keyDesc,
+  const SecretsToDecrypt &secrets,
+  const QString &text)
+{
+    nhlog::crypto()->info("Processing security key / passphrase input for secrets unlock.");
 
     // strip space chars from a recovery key. It can't contain those, but some clients insert them
     // to make them easier to read.
@@ -1610,10 +1638,14 @@ ChatPage::decryptDownloadedSecrets(mtx::secret_storage::AesHmacSha2KeyDescriptio
     if (!decryptionKey) {
         QMessageBox::information(
           nullptr,
-          QCoreApplication::translate("CrossSigningSecrets", "Decryption failed"),
-          QCoreApplication::translate("CrossSigningSecrets",
-                                      "Failed to decrypt secrets with the "
-                                      "provided recovery key or passphrase"));
+          QCoreApplication::translate("CrossSigningSecrets", "Unlock failed"),
+          keyDesc.passphrase
+            ? QCoreApplication::translate(
+                "CrossSigningSecrets",
+                "Failed to unlock your key backup with the provided security key or passphrase")
+            : QCoreApplication::translate(
+                "CrossSigningSecrets",
+                "Failed to unlock your key backup with the provided security key"));
         return;
     }
 

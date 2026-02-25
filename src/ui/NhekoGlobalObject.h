@@ -88,6 +88,8 @@ public:
     Q_INVOKABLE void setStatusMessage(QString msg) const;
     Q_INVOKABLE void showUserSettingsPage() const;
     Q_INVOKABLE void logout() const;
+    Q_INVOKABLE void submitUnlockKeyBackup(QString keyOrPassphrase) const;
+    Q_INVOKABLE void cancelUnlockKeyBackup() const;
     Q_INVOKABLE void createRoom(bool space,
                                 const QString &name,
                                 const QString &topic,
@@ -117,6 +119,7 @@ signals:
     void openLogoutDialog();
     void openJoinRoomDialog();
     void joinRoom(QString roomId, QString reason = "");
+    void promptUnlockKeyBackup();
 
     void showRoomJoinPrompt(RoomSummary *summary);
 

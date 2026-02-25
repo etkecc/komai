@@ -23,6 +23,7 @@
         <file alias="icons/ui/go-to.svg">icons/fluent/assets/Target Arrow/SVG/ic_fluent_target_arrow_24_regular.svg</file>
         <file alias="icons/ui/image-failed.svg">icons/fluent/assets/Image Prohibited/SVG/ic_fluent_image_prohibited_24_regular.svg</file>
         <file alias="icons/ui/image.svg">icons/fluent/assets/Image/SVG/ic_fluent_image_24_regular.svg</file>
+        <file alias="icons/ui/key.svg">icons/fluent/assets/Key/SVG/ic_fluent_key_24_regular.svg</file>
         <file alias="icons/ui/lowprio.svg">icons/fluent/assets/Arrow Circle Down/SVG/ic_fluent_arrow_circle_down_32_regular.svg</file>
         <file alias="icons/ui/microphone-mute.svg">icons/fluent/assets/Mic Off/SVG/ic_fluent_mic_off_28_regular.svg</file>
         <file alias="icons/ui/microphone-unmute.svg">icons/fluent/assets/Mic/SVG/ic_fluent_mic_32_regular.svg</file>

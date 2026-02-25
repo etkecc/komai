@@ -83,6 +83,8 @@ Nheko::Nheko()
             &Nheko::roomListShowLastMessageTimeChanged);
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Nheko::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Nheko::showRoomJoinPrompt);
+    connect(
+      ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Nheko::promptUnlockKeyBackup);
     connect(this, &Nheko::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
 }
 
@@ -220,6 +222,18 @@ void
 Nheko::logout() const
 {
     ChatPage::instance()->initiateLogout();
+}
+
+void
+Nheko::submitUnlockKeyBackup(QString keyOrPassphrase) const
+{
+    ChatPage::instance()->submitSecretUnlockInput(keyOrPassphrase);
+}
+
+void
+Nheko::cancelUnlockKeyBackup() const
+{
+    ChatPage::instance()->cancelSecretUnlockInput();
 }
 
 void

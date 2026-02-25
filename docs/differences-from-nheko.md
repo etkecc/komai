@@ -53,6 +53,13 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 - **Welcome, Login, and Registration pages** prettified with consistent layout and branding
 
 
+## 🔐 Encryption Setup and Recovery
+
+- **Clear encryption backup prompt** -- when backup is missing, Komai shows a focused banner that explains why setup matters and lets you start immediately
+- **One-click backup setup flow** -- creates a new security key and then shows a dedicated "save this key" dialog with copy support and keyboard-friendly actions
+- **Improved encryption prompts** -- unlock and verification flows now use clearer, more human wording so next steps are easier to understand
+
+
 ## ⚙️ Reorganized Settings
 
 - **Tabbed Settings panel** -- settings grouped into logical tabs instead of one long scrollable list

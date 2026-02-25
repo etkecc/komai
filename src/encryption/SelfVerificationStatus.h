@@ -34,6 +34,8 @@ public:
     Q_INVOKABLE void verifyMasterKey();
     Q_INVOKABLE void verifyMasterKeyWithPassphrase();
     Q_INVOKABLE void verifyUnverifiedDevices();
+    Q_INVOKABLE void setupEncryptionBackup();
+    Q_INVOKABLE void resetEncryptionIdentity();
     Q_INVOKABLE void promptCurrentVerificationAction();
 
     Status status() const { return status_; }

@@ -17,6 +17,7 @@
 #include "MatrixClient.h"
 #include "Olm.h"
 #include "encryption/VerificationManager.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/UIA.h"
 
@@ -279,6 +280,38 @@ SelfVerificationStatus::verifyUnverifiedDevices()
     if (!devices.empty())
         ChatPage::instance()->timelineManager()->verificationManager()->verifyOneOfDevices(
           QString::fromStdString(this_user), std::move(devices));
+}
+
+void
+SelfVerificationStatus::setupEncryptionBackup()
+{
+    const auto onlineBackupEnabled = UserSettings::instance()->onlineKeyBackupEnabled();
+    nhlog::crypto()->info(
+      "Setting up encryption backup via banner action (online backup enabled={})",
+      onlineBackupEnabled);
+
+    // Default backup flow:
+    // - enable SSSS with recovery key mode (no passphrase)
+    // - honor current online key-backup preference
+    setupCrosssigning(true, QString(), onlineBackupEnabled);
+}
+
+void
+SelfVerificationStatus::resetEncryptionIdentity()
+{
+    const auto onlineBackupEnabled = UserSettings::instance()->onlineKeyBackupEnabled();
+
+    nhlog::crypto()->warn(
+      "Reset requested for self-signing identity. Current status={}, online backup={}, "
+      "SSSS enabled for this flow (recovery-key style, no passphrase).",
+      static_cast<int>(status_),
+      onlineBackupEnabled);
+    nhlog::crypto()->warn(
+      "Reset does not remove old server-side secret storage entries or old backup versions.");
+
+    // Reset behavior: rotate/upload fresh cross-signing keys, reuse current online-backup setting,
+    // and enable SSSS without an explicit passphrase (recovery key flow).
+    setupCrosssigning(true, QString(), onlineBackupEnabled);
 }
 
 void

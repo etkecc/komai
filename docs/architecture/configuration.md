@@ -26,6 +26,10 @@ Current ownership map:
   - Descriptor primitives and shared SettingId-to-row lookup cache.
 - `src/settings/ui/SettingDescriptorTable.cpp`
   - Descriptor table construction (`settingsTable`) and row/callback registration.
+- `src/settings/ui/SettingDescriptorValueAccessors.h`
+  - Shared typed value getter/setter templates used by descriptor rows.
+- `src/settings/ui/SettingDescriptorRowMacros.inc`
+  - Shared row-construction macros used by settings row include files.
 - `src/settings/ui/UserSettingsModelConnections.cpp`
   - Dedicated wiring for settings-row data-change signals (keeps `UserSettingsModel` focused on role/data logic).
 - `src/settings/ui/SettingInputValidation.h/.cpp`
@@ -99,6 +103,10 @@ Settings flow:
   - Descriptor metadata contract (`SettingMeta`) and SettingId row lookup helper.
 - `src/settings/ui/SettingDescriptorTable.cpp`
   - Central descriptor table definition and callback/value bindings.
+- `src/settings/ui/SettingDescriptorValueAccessors.h`
+  - Shared value conversion helpers for descriptor row bindings.
+- `src/settings/ui/SettingDescriptorRowMacros.inc`
+  - Shared row-construction macros for settings row includes.
 - `src/settings/ui/UserSettingsModelConnections.cpp`
   - Row-to-signal binding setup (`dataChanged` emission policy for settings dependencies).
 - `src/settings/ui/SessionKeyActions.cpp`
@@ -143,6 +151,9 @@ Primary implementation files:
 - `src/settings/ui/SettingDescriptor.h`
 - `src/settings/ui/SettingDescriptor.cpp`
 - `src/settings/ui/SettingDescriptorTable.cpp`
+- `src/settings/ui/SettingDescriptorValueAccessors.h`
+- `src/settings/ui/SettingDescriptorRowMacros.inc`
+- `src/settings/ui/SettingDescriptorRowMacrosUndef.inc`
 - `src/settings/ui/rows/UserSettingsModel*.inc`
 - `src/settings/ui/SettingInputValidation.h`
 - `src/settings/ui/SettingInputValidation.cpp`

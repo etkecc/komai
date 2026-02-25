@@ -4,39 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 static QVariant
-integrationsDbusApiAccessValue()
-{
-    auto i = I;
-    if (!i)
-        return IntegrationsDbusAccessNone;
-    return i->integrationsDbusApiAccess();
-}
-
-static bool
-setIntegrationsDbusApiAccessValue(const QVariant &v)
-{
-    auto i = I;
-    if (!i)
-        return false;
-
-    return applyIndexedOption(
-      v, IntegrationsDbusAccessNone, IntegrationsDbusAccessReadWrite, [i](int access) {
-          i->setIntegrationsDbusApiAccess(access);
-      });
-}
-
-static QVariant
-integrationsDbusApiAccessValues()
-{
-    return QStringList{
-      QCoreApplication::translate("UserSettingsModel", "None"),
-      QCoreApplication::translate("UserSettingsModel", "Read-only"),
-      QCoreApplication::translate("UserSettingsModel", "Read & write"),
-    };
-}
-
-static QVariant
-privacyPresenceStatusPolicyValue()
+networkPresenceStatusPolicyValue()
 {
     auto i = I;
     if (!i)
@@ -57,7 +25,7 @@ privacyPresenceStatusPolicyValue()
 }
 
 static bool
-setPrivacyPresenceStatusPolicyValue(const QVariant &v)
+setNetworkPresenceStatusPolicyValue(const QVariant &v)
 {
     auto i = I;
     if (!i)
@@ -76,7 +44,7 @@ setPrivacyPresenceStatusPolicyValue(const QVariant &v)
 }
 
 static QVariant
-privacyPresenceStatusPolicyValues()
+networkPresenceStatusPolicyValues()
 {
     return QStringList{
       QCoreApplication::translate("UserSettingsModel", "Always online"),
@@ -84,11 +52,4 @@ privacyPresenceStatusPolicyValues()
       QCoreApplication::translate("UserSettingsModel", "Always offline"),
       QCoreApplication::translate("UserSettingsModel", "Automatic"),
     };
-}
-
-static bool
-privacyWindowFocusBlurDelaySecondsEnabled()
-{
-    auto i = I;
-    return i && i->privacyWindowFocusBlurEnabled();
 }

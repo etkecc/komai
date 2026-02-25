@@ -7,10 +7,10 @@
     { QT_TR_NOOP("Status policy"),
       QT_TR_NOOP("Controls your <a href=\"%1\">Presence</a> status on the Matrix network.\nAutomatic is either 'online' or 'unavailable' (after 5 minutes of inactivity)."),
       SM::OptionsWithDescription, SM::TabNetwork,
-      privacyPresenceStatusPolicyValue,
-      setPrivacyPresenceStatusPolicyValue,
+      networkPresenceStatusPolicyValue,
+      setNetworkPresenceStatusPolicyValue,
       {}, {}, {},
-      privacyPresenceStatusPolicyValues,
+      networkPresenceStatusPolicyValues,
       nullptr,
       CORE_CONFIG_ID(NetworkPresenceStatusPolicy, SettingKey::NetworkPresenceStatusPolicy) },
     // PresenceStatusMessage

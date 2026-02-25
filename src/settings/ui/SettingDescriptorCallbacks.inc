@@ -5,7 +5,9 @@
 
 #include "settings/ui/SettingDescriptorCallbacksCommon.inc"
 #include "settings/ui/SettingDescriptorCallbacksLookFeel.inc"
-#include "settings/ui/SettingDescriptorCallbacksIntegrationsPrivacy.inc"
+#include "settings/ui/SettingDescriptorCallbacksIntegrations.inc"
+#include "settings/ui/SettingDescriptorCallbacksNetwork.inc"
+#include "settings/ui/SettingDescriptorCallbacksPrivacy.inc"
 #include "settings/ui/SettingDescriptorCallbacksCalls.inc"
 #include "settings/ui/SettingDescriptorCallbacksOptionsSidebars.inc"
 #include "settings/ui/SettingDescriptorCallbacksOptionsTimeline.inc"

@@ -9,6 +9,7 @@
 #include <QQmlEngine>
 
 class QSortFilterProxyModel;
+class UserSettings;
 
 class UserSettingsModel : public QAbstractListModel
 {
@@ -100,5 +101,7 @@ public:
     Q_INVOKABLE void downloadCrossSigningSecrets();
 
 private:
+    void wireSettingConnections(UserSettings *settings);
+
     mutable QHash<int, QSortFilterProxyModel *> filteredModels_;
 };

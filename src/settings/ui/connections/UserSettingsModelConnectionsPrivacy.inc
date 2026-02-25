@@ -1,5 +1,5 @@
     // Privacy — WindowFocusBlurEnabled has a side-effect on WindowFocusBlurDelaySeconds's Enabled state
-    connect(s.get(), &UserSettings::windowFocusBlurEnabledChanged, this, [this]() {
+    connect(settings, &UserSettings::windowFocusBlurEnabledChanged, this, [this]() {
         if (const int privacyIdx = rowForSettingId(settings::core::SettingId::PrivacyWindowFocusBlurEnabled);
             privacyIdx >= 0) {
             emit dataChanged(index(privacyIdx), index(privacyIdx), {Value});

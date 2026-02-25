@@ -6,7 +6,7 @@
 #endif
 
     // Tray has a side-effect on StartInTray's Enabled state
-    connect(s.get(), &UserSettings::systemTrayEnabledChanged, this, [this]() {
+    connect(settings, &UserSettings::systemTrayEnabledChanged, this, [this]() {
         if (const int trayIdx = rowForSettingId(settings::core::SettingId::IntegrationsSystemTrayEnabled);
             trayIdx >= 0) {
             emit dataChanged(index(trayIdx), index(trayIdx), {Value});

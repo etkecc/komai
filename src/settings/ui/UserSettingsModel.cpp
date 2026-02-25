@@ -3,32 +3,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QApplication>
-#include <QCoreApplication>
-#include <QDir>
-#include <QFile>
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QFontDatabase>
-#include <QInputDialog>
-#include <QMessageBox>
-#include <QMetaEnum>
 #include <QSortFilterProxyModel>
-#include <QStandardPaths>
-#include <QString>
-#include <QTextStream>
-#include <array>
-#include <type_traits>
 
-#include "Cache.h"
-#include "JdenticonProvider.h"
 #include "Logging.h"
-#include "MainWindow.h"
-#include "Utils.h"
-#include "config/nheko.h"
-#include "encryption/Olm.h"
-#include "settings/SettingKeys.h"
-#include "settings/core/StartupConfig.h"
+#include "settings/ui/SessionKeyActions.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/SettingInputValidation.h"
 #include "settings/ui/UserSettingsModel.h"
@@ -42,8 +20,6 @@
  * modules; this file intentionally contains list-model and delegate-facing
  * behavior only.
  */
-#include "voip/CallDevices.h"
-
 QHash<int, QByteArray>
 UserSettingsModel::roleNames() const
 {
@@ -199,134 +175,26 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
 void
 UserSettingsModel::importSessionKeys()
 {
-    const QString homeFolder = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    const QString fileName   = QFileDialog::getOpenFileName(
-      nullptr, tr("Open Sessions File"), homeFolder, QLatin1String(""));
-
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(nullptr, tr("Error"), file.errorString());
-        return;
-    }
-
-    auto bin     = file.peek(file.size());
-    auto payload = std::string(bin.data(), bin.size());
-
-    bool ok;
-    auto password = QInputDialog::getText(nullptr,
-                                          tr("File Password"),
-                                          tr("Enter the passphrase to decrypt the file:"),
-                                          QLineEdit::Password,
-                                          QLatin1String(""),
-                                          &ok);
-    if (!ok)
-        return;
-
-    if (password.isEmpty()) {
-        QMessageBox::warning(nullptr, tr("Error"), tr("The password cannot be empty"));
-        return;
-    }
-
-    try {
-        auto sessions = mtx::crypto::decrypt_exported_sessions(payload, password.toStdString());
-        cache::importSessionKeys(std::move(sessions));
-    } catch (const std::exception &e) {
-        QMessageBox::warning(nullptr, tr("Error"), e.what());
-    }
+    settings::ui::importSessionKeys();
 }
 void
 UserSettingsModel::exportSessionKeys()
 {
-    // Open password dialog.
-    bool ok;
-    auto password = QInputDialog::getText(nullptr,
-                                          tr("File Password"),
-                                          tr("Enter passphrase to encrypt your session keys:"),
-                                          QLineEdit::Password,
-                                          QLatin1String(""),
-                                          &ok);
-    if (!ok)
-        return;
-
-    if (password.isEmpty()) {
-        QMessageBox::warning(nullptr, tr("Error"), tr("The password cannot be empty"));
-        return;
-    }
-
-    auto repeatedPassword = QInputDialog::getText(nullptr,
-                                                  tr("Repeat File Password"),
-                                                  tr("Repeat the passphrase:"),
-                                                  QLineEdit::Password,
-                                                  QLatin1String(""),
-                                                  &ok);
-    if (!ok)
-        return;
-
-    if (password != repeatedPassword) {
-        QMessageBox::warning(nullptr, tr("Error"), tr("Passwords don't match"));
-        return;
-    }
-
-    // Open file dialog to save the file.
-    const QString homeFolder = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-    const QString fileName   = QFileDialog::getSaveFileName(
-      nullptr, tr("File to save the exported session keys"), homeFolder);
-
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(nullptr, tr("Error"), file.errorString());
-        return;
-    }
-
-    // Export sessions & save to file.
-    try {
-        auto encrypted_blob = mtx::crypto::encrypt_exported_sessions(cache::exportSessionKeys(),
-                                                                     password.toStdString());
-
-        QString b64 = QString::fromStdString(mtx::crypto::bin2base64(encrypted_blob));
-
-        QString prefix(QStringLiteral("-----BEGIN MEGOLM SESSION DATA-----"));
-        QString suffix(QStringLiteral("-----END MEGOLM SESSION DATA-----"));
-        QString newline(QStringLiteral("\n"));
-        QTextStream out(&file);
-        out << prefix << newline << b64 << newline << suffix << newline;
-        file.close();
-    } catch (const std::exception &e) {
-        QMessageBox::warning(nullptr, tr("Error"), e.what());
-    }
+    settings::ui::exportSessionKeys();
 }
 void
 UserSettingsModel::requestCrossSigningSecrets()
 {
-    olm::request_cross_signing_keys();
+    settings::ui::requestCrossSigningSecrets();
 }
 void
 UserSettingsModel::downloadCrossSigningSecrets()
 {
-    olm::download_cross_signing_keys();
+    settings::ui::downloadCrossSigningSecrets();
 }
 
 UserSettingsModel::UserSettingsModel(QObject *p)
   : QAbstractListModel(p)
 {
-    auto s = UserSettings::instance();
-
-#define CONNECT_SETTING_ID(id, sig, ...)                                                           \
-    if (const int idx = rowForSettingId(settings::core::SettingId::id); idx >= 0) {                \
-        connect(s.get(), &UserSettings::sig, this, [this, idx]() {                                 \
-            emit dataChanged(index(idx), index(idx), {__VA_ARGS__});                               \
-        });                                                                                        \
-    }
-
-#include "settings/ui/connections/UserSettingsModelConnectionsCalls.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsComposer.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsEncryption.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsIntegrations.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsLookFeel.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsNetwork.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsNotifications.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsPrivacy.inc"
-#include "settings/ui/connections/UserSettingsModelConnectionsTimeline.inc"
-
-#undef CONNECT_SETTING_ID
+    wireSettingConnections(UserSettings::instance().get());
 }

@@ -624,6 +624,8 @@ set(SRC_FILES
     src/settings/ui/SettingDescriptor.cpp
     src/settings/ui/SettingInputValidation.h
     src/settings/ui/SettingInputValidation.cpp
+    src/settings/ui/SessionKeyActions.h
+    src/settings/ui/SessionKeyActions.cpp
     src/settings/StartupSettings.h
     src/settings/StartupSettings.cpp
     src/settings/core/SettingDefinition.h
@@ -668,6 +670,7 @@ set(SRC_FILES
     src/TrayIcon.h
     src/settings/ui/UserSettingsModel.h
     src/settings/ui/UserSettingsModel.cpp
+    src/settings/ui/UserSettingsModelConnections.cpp
     src/settings/ui/facade/UserSettingsPage.cpp
     src/settings/ui/facade/UserSettingsGettersUi.cpp
     src/settings/ui/facade/UserSettingsGettersLayout.cpp

@@ -168,18 +168,18 @@ UserSettings::setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy s)
     save();
 }
 void
-UserSettings::setMaxContentWidth(int s)
+UserSettings::setUiLayoutContentMaxWidthPx(int s)
 {
     const auto normalized = settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(s);
 
-    if (maxContentWidth_ == normalized)
+    if (uiLayoutContentMaxWidthPx_ == normalized)
         return;
     if (!setCoreValue(settings::core::SettingId::UiLayoutContentMaxWidthPx,
                       normalized,
                       SettingKey::UiLayoutContentMaxWidthPx))
         return;
-    maxContentWidth_ = normalized;
-    emit maxContentWidthChanged(normalized);
+    uiLayoutContentMaxWidthPx_ = normalized;
+    emit uiLayoutContentMaxWidthPxChanged(normalized);
     save();
 }
 void

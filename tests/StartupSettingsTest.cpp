@@ -746,20 +746,20 @@ testConstrainedIntSettersRejectInvalidUpdates()
 
     settings->setPersistenceSuspended(false);
 
-    settings->setMaxContentWidth(1200);
+    settings->setUiLayoutContentMaxWidthPx(1200);
     settings->setMaxTimelineWidth(900);
     settings->setWindowFocusBlurDelaySeconds(5);
 
-    const auto baselineContentWidth = settings->maxContentWidth();
+    const auto baselineContentWidth = settings->uiLayoutContentMaxWidthPx();
     const auto baselineTimelineWidth = settings->maxTimelineWidth();
     const auto baselineBlurDelay     = settings->windowFocusBlurDelaySeconds();
 
-    settings->setMaxContentWidth(50000);         // invalid: > 20000
+    settings->setUiLayoutContentMaxWidthPx(50000);         // invalid: > 20000
     settings->setMaxTimelineWidth(50000);        // invalid: > 20000
     settings->setWindowFocusBlurDelaySeconds(-3); // invalid: < 0
 
     bool ok = true;
-    ok &= expect(settings->maxContentWidth() == baselineContentWidth,
+    ok &= expect(settings->uiLayoutContentMaxWidthPx() == baselineContentWidth,
                  "invalid max content width update is ignored");
     ok &= expect(settings->maxTimelineWidth() == baselineTimelineWidth,
                  "invalid max timeline width update is ignored");

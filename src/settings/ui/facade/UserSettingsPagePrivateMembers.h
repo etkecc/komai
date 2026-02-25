@@ -45,7 +45,7 @@ bool encryptionKeySharingOnlyVerifiedUsers_;
 bool encryptionBackupOnlineEnabled_;
 bool uiInputModeTouchEnabled_;
 bool uiInputTouchSwipeGesturesEnabled_;
-int maxContentWidth_ = settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
+int uiLayoutContentMaxWidthPx_ = settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
 int maxTimelineWidth_;
 int roomListWidth_      = settings::core::definitions::kDefaultSidebarsRoomListWidthPx;
 int communityListWidth_ = settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx;

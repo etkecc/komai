@@ -179,8 +179,8 @@ const std::array<BoolSettingDescriptor, 38> BoolSettings{
 const std::array<IntSettingDescriptor, 4> IntSettings{
   IntSettingDescriptor{SettingKey::UiLayoutContentMaxWidthPx,
                        kDefaultUiLayoutContentMaxWidthPx,
-                       &UserSettings::maxContentWidth,
-                       &UserSettings::setMaxContentWidth},
+                       &UserSettings::uiLayoutContentMaxWidthPx,
+                       &UserSettings::setUiLayoutContentMaxWidthPx},
   IntSettingDescriptor{SettingKey::TimelineMessagesMaxWidthPx,
                        kDefaultTimelineMaxWidthPx,
                        &UserSettings::maxTimelineWidth,

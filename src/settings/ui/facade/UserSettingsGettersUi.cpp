@@ -204,11 +204,12 @@ UserSettings::hasNotifications() const
 }
 
 int
-UserSettings::maxContentWidth() const
+UserSettings::uiLayoutContentMaxWidthPx() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
         value.has_value())
         return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(*value);
-    return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(maxContentWidth_);
+    return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(
+      uiLayoutContentMaxWidthPx_);
 }

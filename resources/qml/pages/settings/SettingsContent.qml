@@ -39,7 +39,7 @@ Item {
             y: Nheko.paddingLarge
 
             spacing: Nheko.paddingMedium
-            property real contentMaxWidth: Settings.maxContentWidth > 0 ? Settings.maxContentWidth : Number.POSITIVE_INFINITY
+            property real contentMaxWidth: Settings.uiLayoutContentMaxWidthPx > 0 ? Settings.uiLayoutContentMaxWidthPx : Number.POSITIVE_INFINITY
             property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
             width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin

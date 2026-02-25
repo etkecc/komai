@@ -622,6 +622,7 @@ set(SRC_FILES
     src/settings/SettingKeys.h
     src/settings/ui/SettingDescriptor.h
     src/settings/ui/SettingDescriptor.cpp
+    src/settings/ui/SettingDescriptorTable.cpp
     src/settings/ui/SettingInputValidation.h
     src/settings/ui/SettingInputValidation.cpp
     src/settings/ui/SessionKeyActions.h

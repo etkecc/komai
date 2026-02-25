@@ -79,7 +79,7 @@ Window {
             visible: loaded
             anchors.fill: parent
             roomm: imageOverlay.room
-            play: !Settings.animateImagesOnHover || mouseArea.hovered
+            play: !Settings.timelineMediaAnimateOnHover || mouseArea.hovered
             eventId: imageOverlay.eventId
         }
 

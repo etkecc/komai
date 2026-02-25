@@ -42,13 +42,13 @@ applyShowImageFromStorage(UserSettings &settings, const QString &rawToken)
 QString
 showSenderUsernameToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.showSenderUsername());
+    return toStorageValue(settings.timelineMessagesSenderUsername());
 }
 
 void
 applyShowSenderUsernameFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setShowSenderUsername(
+    settings.setTimelineMessagesSenderUsername(
       showSenderUsernameFromStorage(rawToken, UserSettings::ShowSenderUsername::OnlyInLargeRooms));
 }
 

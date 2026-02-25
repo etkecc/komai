@@ -5,8 +5,8 @@
 
 QString defaultTheme_ = QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 QString theme_;
-bool messageHoverHighlight_;
-bool enlargeEmojiOnlyMessages_;
+bool timelineMessagesHoverHighlight_;
+bool timelineMessagesEmojiOnlyEnlarge_;
 bool systemTrayEnabled_;
 bool systemTrayAutostart_;
 bool communitiesSidebarVisible_;
@@ -19,10 +19,10 @@ bool timelineSmallAvatarsEnabled_;
 bool stickersEnabled_;
 bool timelineShowOwnAvatarInBubbleLayout_;
 QString pinnedReactions_;
-ShowSenderUsername showSenderUsername_;
-bool animateImagesOnHover_;
+ShowSenderUsername timelineMessagesSenderUsername_;
+bool timelineMediaAnimateOnHover_;
 bool sendTypingNotificationsEnabled_;
-bool showTypingNotificationsEnabled_;
+bool timelineTypingShowEnabled_;
 RoomSortOrder roomSortOrder_;
 TimelineMessageActionsPolicy timelineMessageActionsPolicy_ =
   TimelineMessageActionsPolicy::ActionsButton;

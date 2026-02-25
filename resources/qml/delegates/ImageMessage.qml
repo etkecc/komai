@@ -144,7 +144,7 @@ AbstractButton {
 
             visible: loaded
             roomm: room
-            play: !Settings.animateImagesOnHover || imageClipper.parent.hovered
+            play: !Settings.timelineMediaAnimateOnHover || imageClipper.parent.hovered
             eventId: showImage ? imageClipper.parent.eventId : ""
 
             anchors.fill: parent

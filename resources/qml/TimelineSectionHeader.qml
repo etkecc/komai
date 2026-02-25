@@ -28,7 +28,7 @@ Column {
     property int oneHour: 60 * 60 * 1000
     property bool dayChanged: previousMessageDay !== day
     property bool showLabel: dayChanged || timestamp - previousMessageTimestamp > oneHour
-    property bool shouldShowSenderUsername: Settings.showSenderUsername === 0 ? true : Settings.showSenderUsername === 2 ? false : (room ? room.roomMemberCount > Settings.showSenderUsernameLargeRoomThreshold : true)
+    property bool shouldShowSenderUsername: Settings.timelineMessagesSenderUsername === 0 ? true : Settings.timelineMessagesSenderUsername === 2 ? false : (room ? room.roomMemberCount > Settings.timelineMessagesSenderUsernameLargeRoomThreshold : true)
 
     bottomPadding: Settings.timelineMessageLayout === Settings.TimelineMessageLayout.Bubbles ? (isSender && !showLabel ? 0 : 2) : 3
     spacing: 8

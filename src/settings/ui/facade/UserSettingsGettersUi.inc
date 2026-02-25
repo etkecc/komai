@@ -1,6 +1,6 @@
     QString theme() const;
-    bool messageHoverHighlight() const;
-    bool enlargeEmojiOnlyMessages() const;
+    bool timelineMessagesHoverHighlight() const;
+    bool timelineMessagesEmojiOnlyEnlarge() const;
     bool systemTrayEnabled() const;
     bool systemTrayAutostart() const;
     bool communitiesSidebarVisible() const;
@@ -23,11 +23,11 @@
     bool stickersEnabled() const;
     bool timelineShowOwnAvatarInBubbleLayout() const;
     QString pinnedReactions() const;
-    ShowSenderUsername showSenderUsername() const;
-    int showSenderUsernameLargeRoomThreshold() const;
-    bool animateImagesOnHover() const;
+    ShowSenderUsername timelineMessagesSenderUsername() const;
+    int timelineMessagesSenderUsernameLargeRoomThreshold() const;
+    bool timelineMediaAnimateOnHover() const;
     bool sendTypingNotificationsEnabled() const;
-    bool showTypingNotificationsEnabled() const;
+    bool timelineTypingShowEnabled() const;
     RoomSortOrder roomSortOrder() const;
     TimelineMessageActionsPolicy timelineMessageActionsPolicy() const;
     bool touchInputModeEnabled() const;

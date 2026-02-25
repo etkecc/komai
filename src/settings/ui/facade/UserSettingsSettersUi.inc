@@ -89,26 +89,26 @@ UserSettings::setPinnedReactions(QString s)
     save();
 }
 void
-UserSettings::setShowSenderUsername(ShowSenderUsername s)
+UserSettings::setTimelineMessagesSenderUsername(ShowSenderUsername s)
 {
-    if (showSenderUsername_ == s)
+    if (timelineMessagesSenderUsername_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::TimelineMessagesSenderUsername,
                       static_cast<int>(s),
                       "timeline.messages.sender.username"))
         return;
-    showSenderUsername_ = s;
-    emit showSenderUsernameChanged(s);
+    timelineMessagesSenderUsername_ = s;
+    emit timelineMessagesSenderUsernameChanged(s);
     save();
 }
 void
-UserSettings::setAnimateImagesOnHover(bool s)
+UserSettings::setTimelineMediaAnimateOnHover(bool s)
 {
-    if (animateImagesOnHover_ == s)
+    if (timelineMediaAnimateOnHover_ == s)
         return;
-    animateImagesOnHover_ = s;
+    timelineMediaAnimateOnHover_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMediaAnimateOnHover, s);
-    emit animateImagesOnHoverChanged(s);
+    emit timelineMediaAnimateOnHoverChanged(s);
     save();
 }
 void
@@ -132,13 +132,13 @@ UserSettings::setSendTypingNotificationsEnabled(bool s)
     save();
 }
 void
-UserSettings::setShowTypingNotificationsEnabled(bool s)
+UserSettings::setTimelineTypingShowEnabled(bool s)
 {
-    if (showTypingNotificationsEnabled_ == s)
+    if (timelineTypingShowEnabled_ == s)
         return;
-    showTypingNotificationsEnabled_ = s;
+    timelineTypingShowEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineTypingShowEnabled, s);
-    emit showTypingNotificationsEnabledChanged(s);
+    emit timelineTypingShowEnabledChanged(s);
     save();
 }
 void
@@ -319,7 +319,7 @@ UserSettings::setUiAnimationsEnabled(bool state)
     // Also toggle other motion related settings
     if (!uiAnimationsEnabled_) {
         setTimelineMediaEffectsEnabled(false);
-        setAnimateImagesOnHover(true);
+        setTimelineMediaAnimateOnHover(true);
     }
 }
 

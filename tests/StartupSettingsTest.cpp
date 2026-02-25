@@ -373,7 +373,7 @@ testEnumSettingsPersistAsStrings()
     settings->setPersistenceSuspended(false);
     settings->setPresence(UserSettings::Presence::Offline);
     settings->setShowImage(UserSettings::ShowImage::Never);
-    settings->setShowSenderUsername(UserSettings::ShowSenderUsername::Always);
+    settings->setTimelineMessagesSenderUsername(UserSettings::ShowSenderUsername::Always);
     settings->setAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
     settings->setSendMessageKey(UserSettings::SendMessageKey::CtrlEnter);
     settings->setRoomSortOrder(UserSettings::RoomSortOrder::Alphabetical);

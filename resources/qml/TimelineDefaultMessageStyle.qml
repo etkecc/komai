@@ -119,7 +119,7 @@ TimelineEvent {
             // this looks better without margins
             anchors.fill: gridContainer
             radius: Nheko.paddingMedium
-            color: (Settings.messageHoverHighlight && messageHover.hovered) ? palette.alternateBase : "transparent"
+            color: (Settings.timelineMessagesHoverHighlight && messageHover.hovered) ? palette.alternateBase : "transparent"
 
             // This is partially duplicated by a later handler, however we need this to handle the remaining events around the reply.
             TapHandler {

@@ -40,10 +40,10 @@ class UserSettings final : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(QString theme READ theme WRITE setTheme NOTIFY themeChanged)
-    Q_PROPERTY(bool messageHoverHighlight READ messageHoverHighlight WRITE setMessageHoverHighlight
-                 NOTIFY messageHoverHighlightChanged)
-    Q_PROPERTY(bool enlargeEmojiOnlyMessages READ enlargeEmojiOnlyMessages WRITE
-                 setEnlargeEmojiOnlyMessages NOTIFY enlargeEmojiOnlyMessagesChanged)
+    Q_PROPERTY(bool timelineMessagesHoverHighlight READ timelineMessagesHoverHighlight WRITE
+                 setTimelineMessagesHoverHighlight NOTIFY timelineMessagesHoverHighlightChanged)
+    Q_PROPERTY(bool timelineMessagesEmojiOnlyEnlarge READ timelineMessagesEmojiOnlyEnlarge WRITE
+                 setTimelineMessagesEmojiOnlyEnlarge NOTIFY timelineMessagesEmojiOnlyEnlargeChanged)
     Q_PROPERTY(bool systemTrayEnabled READ systemTrayEnabled WRITE setSystemTrayEnabled NOTIFY
                  systemTrayEnabledChanged)
     Q_PROPERTY(bool systemTrayAutostart READ systemTrayAutostart WRITE setSystemTrayAutostart NOTIFY
@@ -69,16 +69,17 @@ class UserSettings final : public QObject
         setTimelineShowOwnAvatarInBubbleLayout NOTIFY timelineShowOwnAvatarInBubbleLayoutChanged)
     Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY
                  pinnedReactionsChanged)
-    Q_PROPERTY(ShowSenderUsername showSenderUsername READ showSenderUsername WRITE
-                 setShowSenderUsername NOTIFY showSenderUsernameChanged)
     Q_PROPERTY(
-      int showSenderUsernameLargeRoomThreshold READ showSenderUsernameLargeRoomThreshold CONSTANT)
-    Q_PROPERTY(bool animateImagesOnHover READ animateImagesOnHover WRITE setAnimateImagesOnHover
-                 NOTIFY animateImagesOnHoverChanged)
+      ShowSenderUsername timelineMessagesSenderUsername READ timelineMessagesSenderUsername WRITE
+        setTimelineMessagesSenderUsername NOTIFY timelineMessagesSenderUsernameChanged)
+    Q_PROPERTY(int timelineMessagesSenderUsernameLargeRoomThreshold READ
+                 timelineMessagesSenderUsernameLargeRoomThreshold CONSTANT)
+    Q_PROPERTY(bool timelineMediaAnimateOnHover READ timelineMediaAnimateOnHover WRITE
+                 setTimelineMediaAnimateOnHover NOTIFY timelineMediaAnimateOnHoverChanged)
     Q_PROPERTY(bool sendTypingNotificationsEnabled READ sendTypingNotificationsEnabled WRITE
                  setSendTypingNotificationsEnabled NOTIFY sendTypingNotificationsEnabledChanged)
-    Q_PROPERTY(bool showTypingNotificationsEnabled READ showTypingNotificationsEnabled WRITE
-                 setShowTypingNotificationsEnabled NOTIFY showTypingNotificationsEnabledChanged)
+    Q_PROPERTY(bool timelineTypingShowEnabled READ timelineTypingShowEnabled WRITE
+                 setTimelineTypingShowEnabled NOTIFY timelineTypingShowEnabledChanged)
     Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
                  roomSortOrderChanged)
     Q_PROPERTY(
@@ -314,8 +315,8 @@ public:
     void load(std::optional<QString> profile, const YAML::Node &configRoot);
     void applyTheme();
     void setTheme(QString theme);
-    void setMessageHoverHighlight(bool state);
-    void setEnlargeEmojiOnlyMessages(bool state);
+    void setTimelineMessagesHoverHighlight(bool state);
+    void setTimelineMessagesEmojiOnlyEnlarge(bool state);
     void setSystemTrayEnabled(bool state);
     void setSystemTrayAutostart(bool state);
     void setTouchInputModeEnabled(bool mode);
@@ -334,11 +335,11 @@ public:
     void setStickersEnabled(bool state);
     void setTimelineShowOwnAvatarInBubbleLayout(bool state);
     void setPinnedReactions(QString value);
-    void setShowSenderUsername(ShowSenderUsername state);
-    void setAnimateImagesOnHover(bool state);
+    void setTimelineMessagesSenderUsername(ShowSenderUsername state);
+    void setTimelineMediaAnimateOnHover(bool state);
     void setReadReceiptsEnabled(bool state);
     void setSendTypingNotificationsEnabled(bool state);
-    void setShowTypingNotificationsEnabled(bool state);
+    void setTimelineTypingShowEnabled(bool state);
     void setRoomSortOrder(RoomSortOrder order);
     void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
     void setMaxContentWidth(int state);
@@ -444,8 +445,8 @@ signals:
     void roomListScrollbarsVisibleChanged(bool state);
     void roomSortOrderChanged(RoomSortOrder order);
     void themeChanged(QString state);
-    void messageHoverHighlightChanged(bool state);
-    void enlargeEmojiOnlyMessagesChanged(bool state);
+    void timelineMessagesHoverHighlightChanged(bool state);
+    void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
     void systemTrayEnabledChanged(bool state);
     void systemTrayAutostartChanged(bool state);
     void markdownEnabledChanged(bool state);
@@ -456,10 +457,10 @@ signals:
     void stickersEnabledChanged(bool state);
     void timelineShowOwnAvatarInBubbleLayoutChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
-    void showSenderUsernameChanged(ShowSenderUsername state);
-    void animateImagesOnHoverChanged(bool state);
+    void timelineMessagesSenderUsernameChanged(ShowSenderUsername state);
+    void timelineMediaAnimateOnHoverChanged(bool state);
     void sendTypingNotificationsEnabledChanged(bool state);
-    void showTypingNotificationsEnabledChanged(bool state);
+    void timelineTypingShowEnabledChanged(bool state);
     void timelineMessageActionsPolicyChanged(TimelineMessageActionsPolicy policy);
     void readReceiptsEnabledChanged(bool state);
     void notificationsEnabledChanged(bool state);

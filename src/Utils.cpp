@@ -321,7 +321,7 @@ utils::replaceEmoji(const QString &body)
                 if (!insideFontBlock) {
                     fmtBody += QStringLiteral("<font face=\"") %
                                UserSettings::instance()->emojiFont() %
-                               (UserSettings::instance()->enlargeEmojiOnlyMessages()
+                               (UserSettings::instance()->timelineMessagesEmojiOnlyEnlarge()
                                   ? QStringLiteral("\" size=\"4\">")
                                   : QStringLiteral("\">"));
                     insideFontBlock = true;

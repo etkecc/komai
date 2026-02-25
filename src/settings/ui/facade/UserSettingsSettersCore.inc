@@ -1,21 +1,21 @@
 void
-UserSettings::setMessageHoverHighlight(bool s)
+UserSettings::setTimelineMessagesHoverHighlight(bool s)
 {
-    if (messageHoverHighlight_ == s)
+    if (timelineMessagesHoverHighlight_ == s)
         return;
-    messageHoverHighlight_ = s;
+    timelineMessagesHoverHighlight_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessagesHoverHighlight, s);
-    emit messageHoverHighlightChanged(s);
+    emit timelineMessagesHoverHighlightChanged(s);
     save();
 }
 void
-UserSettings::setEnlargeEmojiOnlyMessages(bool s)
+UserSettings::setTimelineMessagesEmojiOnlyEnlarge(bool s)
 {
-    if (enlargeEmojiOnlyMessages_ == s)
+    if (timelineMessagesEmojiOnlyEnlarge_ == s)
         return;
-    enlargeEmojiOnlyMessages_ = s;
+    timelineMessagesEmojiOnlyEnlarge_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge, s);
-    emit enlargeEmojiOnlyMessagesChanged(s);
+    emit timelineMessagesEmojiOnlyEnlargeChanged(s);
     save();
 }
 void

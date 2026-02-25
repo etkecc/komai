@@ -6,23 +6,23 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 bool
-UserSettings::messageHoverHighlight() const
+UserSettings::timelineMessagesHoverHighlight() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesHoverHighlight);
         value.has_value())
         return *value;
-    return messageHoverHighlight_;
+    return timelineMessagesHoverHighlight_;
 }
 
 bool
-UserSettings::enlargeEmojiOnlyMessages() const
+UserSettings::timelineMessagesEmojiOnlyEnlarge() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge);
         value.has_value())
         return *value;
-    return enlargeEmojiOnlyMessages_;
+    return timelineMessagesEmojiOnlyEnlarge_;
 }
 
 bool
@@ -119,30 +119,30 @@ UserSettings::pinnedReactions() const
 }
 
 UserSettings::ShowSenderUsername
-UserSettings::showSenderUsername() const
+UserSettings::timelineMessagesSenderUsername() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesSenderUsername);
         value.has_value() && *value >= static_cast<int>(UserSettings::ShowSenderUsername::Always) &&
         *value <= static_cast<int>(UserSettings::ShowSenderUsername::Never))
         return static_cast<UserSettings::ShowSenderUsername>(*value);
-    return showSenderUsername_;
+    return timelineMessagesSenderUsername_;
 }
 
 int
-UserSettings::showSenderUsernameLargeRoomThreshold() const
+UserSettings::timelineMessagesSenderUsernameLargeRoomThreshold() const
 {
     return 16;
 }
 
 bool
-UserSettings::animateImagesOnHover() const
+UserSettings::timelineMediaAnimateOnHover() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMediaAnimateOnHover);
         value.has_value())
         return *value;
-    return animateImagesOnHover_;
+    return timelineMediaAnimateOnHover_;
 }
 
 bool
@@ -156,13 +156,13 @@ UserSettings::sendTypingNotificationsEnabled() const
 }
 
 bool
-UserSettings::showTypingNotificationsEnabled() const
+UserSettings::timelineTypingShowEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::TimelineTypingShowEnabled);
         value.has_value())
         return *value;
-    return showTypingNotificationsEnabled_;
+    return timelineTypingShowEnabled_;
 }
 
 UserSettings::TimelineMessageActionsPolicy

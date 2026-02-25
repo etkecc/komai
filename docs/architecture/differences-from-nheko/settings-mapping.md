@@ -52,14 +52,14 @@ Note:
 | Timeline | PRESENTATION | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
 | Timeline | PRESENTATION | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | PRESENTATION | Show avatar next to own message bubbles | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
-| Timeline | PRESENTATION | Show sender username above messages | `UserSettingsModel::ShowSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
+| Timeline | PRESENTATION | Show sender username above messages | `UserSettingsModel::TimelineMessagesSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
 | Timeline | PRESENTATION | Maximum timeline width | `UserSettingsModel::MaxTimelineWidth` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
-| Timeline | PRESENTATION | Enlarge emoji-only messages | `UserSettingsModel::EnlargeEmojiOnlyMessages` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
-| Timeline | PRESENTATION | Highlight message on hover | `UserSettingsModel::MessageHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
+| Timeline | PRESENTATION | Enlarge emoji-only messages | `UserSettingsModel::TimelineMessagesEmojiOnlyEnlarge` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
+| Timeline | PRESENTATION | Highlight message on hover | `UserSettingsModel::TimelineMessagesHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
 | Timeline | PRESENTATION | Show message effects | `UserSettingsModel::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects.enabled` | config.yml | yes |
 | Timeline | ACTIONS | Actions activation policy | `UserSettingsModel::TimelineMessageActionsPolicy` | `show_action_buttons` | `timeline.messages.actions.activation_policy` | config.yml | yes |
 | Timeline | ACTIONS | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
-| Timeline | MEDIA HANDLING | Play animated images only on hover | `UserSettingsModel::AnimateImagesOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Play animated images only on hover | `UserSettingsModel::TimelineMediaAnimateOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Open videos in an external app | `UserSettingsModel::OpenVideosInExternalApp` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
@@ -68,7 +68,7 @@ Note:
 | Composer | INPUT | Auto-replace emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
 | Composer | INPUT | Show others I am typing | `UserSettingsModel::SendTypingNotificationsEnabled` | `typing_notifications` | `composer.typing.send.enabled` | config.yml | yes |
 | Composer | EXTRAS | Enable stickers | `UserSettingsModel::StickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
-| Timeline | FEEDBACK | Show when others are typing | `UserSettingsModel::ShowTypingNotificationsEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
+| Timeline | FEEDBACK | Show when others are typing | `UserSettingsModel::TimelineTypingShowEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Read receipts | `UserSettingsModel::ReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Enable system notifications | `UserSettingsModel::NotificationsEnabled` | `desktop_notifications` | `notifications.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Flash app window/taskbar on incoming messages | `UserSettingsModel::NotificationsAttentionOnIncoming` | `alert_on_incoming_messages` | `notifications.attention_on_incoming` | config.yml | yes |

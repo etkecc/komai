@@ -1,0 +1,8 @@
+BoolSettingDescriptor{SettingKey::NetworkTlsEnableCertificateValidation,
+                      kDefaultCertificateValidationEnabled,
+                      &UserSettings::networkTlsEnableCertificateValidation,
+                      &UserSettings::setNetworkTlsEnableCertificateValidation},
+BoolSettingDescriptor{SettingKey::NetworkHttp3Enabled,
+                      kDefaultNetworkHttp3Enabled,
+                      &UserSettings::networkHttp3Enabled,
+                      &UserSettings::setNetworkHttp3Enabled},

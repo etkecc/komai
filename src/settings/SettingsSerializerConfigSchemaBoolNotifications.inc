@@ -1,0 +1,8 @@
+BoolSettingDescriptor{SettingKey::NotificationsEnabled,
+                      true,
+                      &UserSettings::notificationsEnabled,
+                      &UserSettings::setNotificationsEnabled},
+BoolSettingDescriptor{SettingKey::NotificationsAttentionOnIncoming,
+                      false,
+                      &UserSettings::notificationsAttentionOnIncoming,
+                      &UserSettings::setNotificationsAttentionOnIncoming},

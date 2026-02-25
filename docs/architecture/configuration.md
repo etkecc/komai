@@ -281,6 +281,7 @@ This keeps fallback and secure-backend key identity consistent.
 To audit naming alignment across persisted settings definitions, runtime getters, and persisted keys:
 
 - run `just settings-generate-3-layer-mapping`
+- run `just settings-check-3-layer-mapping` for non-mutating drift checks
 - inspect `var/plans/settings-3-layer-mapping.md`
 
 The generated report includes:

@@ -35,10 +35,10 @@ Item {
             model: safeThemeVariantValues
             currentIndex: safeThemeVariantValue
             onActivated: {
-                if (!model)
+                if (!root.model)
                     return;
                 if (currentIndex !== safeThemeVariantValue)
-                    model.themeVariantValue = currentIndex;
+                    root.model.themeVariantValue = currentIndex;
             }
             implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
             wheelEnabled: activeFocus
@@ -51,10 +51,10 @@ Item {
             model: safeValues
             currentIndex: safeValue
             onActivated: {
-                if (!model)
+                if (!root.model)
                     return;
                 if (currentIndex >= 0 && currentIndex !== safeValue)
-                    model.value = currentIndex;
+                    root.model.value = currentIndex;
             }
             implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
             wheelEnabled: activeFocus

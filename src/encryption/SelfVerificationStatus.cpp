@@ -23,12 +23,12 @@
 SelfVerificationStatus::SelfVerificationStatus(QObject *o)
   : QObject(o)
 {
+    cache::onSelfVerificationStatusChanged(this, [this] { invalidate(); });
+    cache::onDatabaseReady(this, [this] { invalidate(); });
+
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, [this] {
-        if (!this->property("selfVerificationStatusConnected").toBool()) {
-            cache::onSelfVerificationStatusChanged(this, [this] { invalidate(); });
-            this->setProperty("selfVerificationStatusConnected", true);
-        }
         cache::markUserKeysOutOfDate({http::client()->user_id().to_string()});
+        invalidate();
     });
 
     connect(ChatPage::instance(),
@@ -312,9 +312,12 @@ SelfVerificationStatus::invalidate()
 
         cache::markUserKeysOutOfDate({http::client()->user_id().to_string()});
 
-        QTimer::singleShot(1'000, this, [] {
+        QTimer::singleShot(1'000, this, [this] {
             cache::queryKeys(http::client()->user_id().to_string(),
-                             [](const UserKeyCache &, mtx::http::RequestErr) {});
+                             [this](const UserKeyCache &, mtx::http::RequestErr) {
+                                 QMetaObject::invokeMethod(
+                                   this, &SelfVerificationStatus::invalidate, Qt::QueuedConnection);
+                             });
         });
     }
 

@@ -654,6 +654,9 @@ set(SRC_FILES
     src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp
     src/settings/SettingsSerializerConfigSchema.cpp
     src/settings/SettingsSerializerConfig.cpp
+    src/settings/SettingsSerializerConfigLoad.cpp
+    src/settings/SettingsSerializerConfigSave.cpp
+    src/settings/SettingsSerializerConfigInternal.h
     src/settings/SettingsSerializerSession.cpp
     src/settings/SettingsSerializerState.cpp
     src/settings/SettingsSerializer.h
@@ -1174,6 +1177,8 @@ if(BUILD_TESTING)
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp
         src/settings/SettingsSerializerConfig.cpp
+        src/settings/SettingsSerializerConfigLoad.cpp
+        src/settings/SettingsSerializerConfigSave.cpp
         src/settings/SettingsSerializerConfigConverters.cpp
         src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp
         src/settings/SettingsSerializerConfigSchema.cpp

@@ -7,19 +7,18 @@
 
 #include <QString>
 
+#include <array>
 #include <spdlog/logger.h>
 #include <spdlog/sinks/null_sink.h>
 #include <string>
 #include <string_view>
 #include <utility>
-
 #include <yaml-cpp/yaml.h>
 
 #include "SettingsSerializerConfigConverters.h"
+#include "SettingsSerializerConfigInternal.h"
 #include "SettingsSerializerConfigSchema.h"
 #include "settings/SettingKeys.h"
-#include "settings/SettingsStorage.h"
-#include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"
 #include "settings/core/StartupConfig.h"
 
@@ -67,16 +66,18 @@ activeLoggers()
     return currentLoggers();
 }
 
-namespace {
+namespace detail {
 
-using settings::storage::writeYamlFile;
-using yaml_settings::getNode;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
 using yaml_settings::setNode;
 
+namespace {
+
 constexpr auto kUiInputModeDesktop = "desktop";
 constexpr auto kUiInputModeTouch   = "touch";
+
+} // namespace
 
 QString
 toStorageUiInputMode(bool uiInputMode)
@@ -171,81 +172,6 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
         setNode(root, SettingKey::UiScaleFactor, settings.uiScaleFactor());
 }
 
-} // namespace
-
-void
-loadConfig(UserSettings &settings, const YAML::Node &root)
-{
-    loadConfigByType(settings, root);
-
-    const auto requestedTheme = readString(root, SettingKey::UiThemeSlug, settings.uiThemeSlug());
-    settings.setUiThemeSlug(requestedTheme);
-    if (settings.uiThemeSlug() != requestedTheme) {
-        activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                 requestedTheme.toStdString(),
-                                 SettingKey::UiThemeSlug,
-                                 settings.uiThemeSlug().toStdString());
-    }
-
-    for (const auto &adapter : cfg::enumTokenAdapters()) {
-        const auto rawToken =
-          readString(root, adapter.key, QString::fromLatin1(adapter.defaultToken));
-        adapter.applyFromStorage(settings, rawToken);
-        const auto appliedToken = adapter.toStorage(settings);
-        if (rawToken != appliedToken) {
-            activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                     rawToken.toStdString(),
-                                     adapter.key,
-                                     appliedToken.toStdString());
-        }
-    }
-
-    settings.setUiMotionAnimationsEnabled(readScalar<bool>(
-      root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
-    const auto inputModeToken = readString(
-      root,
-      SettingKey::UiInputMode,
-      QString::fromLatin1(cfg::kDefaultUiInputMode ? kUiInputModeTouch : kUiInputModeDesktop));
-    if (!isKnownUiInputModeToken(inputModeToken)) {
-        activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                 inputModeToken.toStdString(),
-                                 SettingKey::UiInputMode,
-                                 kUiInputModeDesktop);
-    }
-    settings.setUiInputMode(fromStorageUiInputMode(inputModeToken));
-    const auto scaleFactor =
-      readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
-    if (settings::core::isScaleFactorInRange(scaleFactor))
-        settings.setUiScaleFactor(scaleFactor);
-    else {
-        const auto scaleFactorNode = getNode(root, SettingKey::UiScaleFactor);
-        if (scaleFactorNode && scaleFactorNode.IsScalar()) {
-            activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
-                                     scaleFactor,
-                                     SettingKey::UiScaleFactor,
-                                     cfg::kDefaultScaleFactor);
-        }
-        settings.setUiScaleFactor(cfg::kDefaultScaleFactor);
-    }
-}
-
-void
-saveConfig(const UserSettings &settings,
-           const QString &configFilePath,
-           bool usesFileSecretsProvider)
-{
-    YAML::Node root(YAML::NodeType::Map);
-    makeConfigNode(settings, root);
-    setNode(root,
-            SettingKey::SecretsProvider,
-            (usesFileSecretsProvider
-               ? QString::fromLatin1(staged_load_plan::ProviderFileValue)
-               : QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue))
-              .toStdString());
-
-    if (writeYamlFile(configFilePath, root, false)) {
-        activeLoggers().ui->debug("Saved config to: {}", configFilePath.toStdString());
-    }
-}
+} // namespace detail
 
 } // namespace settings::serializer

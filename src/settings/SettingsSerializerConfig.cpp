@@ -103,6 +103,8 @@ isKnownUiInputModeToken(const QString &value)
 void
 loadConfigByType(UserSettings &settings, const YAML::Node &root)
 {
+    cfg::validateConfigSchemaDescriptors();
+
     for (const auto &descriptor : cfg::boolConfigSettings()) {
         (settings.*
          descriptor.setter)(readScalar<bool>(root, descriptor.key, descriptor.defaultValue));
@@ -131,6 +133,8 @@ loadConfigByType(UserSettings &settings, const YAML::Node &root)
 void
 saveConfigByType(const UserSettings &settings, YAML::Node &root)
 {
+    cfg::validateConfigSchemaDescriptors();
+
     for (const auto &descriptor : cfg::boolConfigSettings()) {
         setNode(root, descriptor.key, (settings.*descriptor.getter)());
     }

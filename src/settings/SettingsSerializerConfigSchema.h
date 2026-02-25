@@ -77,6 +77,9 @@ doubleConfigSettings();
 std::span<const StringSettingDescriptor>
 stringConfigSettings();
 
+void
+validateConfigSchemaDescriptors();
+
 inline constexpr bool kDefaultUiMotionAnimationsEnabled =
   settings::core::definitions::kDefaultUiMotionAnimationsEnabled;
 inline constexpr bool kDefaultUiInputModeTouchEnabled =

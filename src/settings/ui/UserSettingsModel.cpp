@@ -47,6 +47,7 @@ int
 UserSettingsModel::rowCount(const QModelIndex &parent) const
 {
     (void)parent;
+    settings::ui::validateSettingsTable();
     return settings::ui::settingsTableRowCount();
 }
 

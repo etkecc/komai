@@ -6,8 +6,10 @@
 #include "settings/ui/SettingDescriptor.h"
 
 #include <QHash>
+#include <mutex>
 
 #include "settings/core/SettingsDefinitions.h"
+#include "settings/ui/UserSettingsModel.h"
 
 namespace settings::ui {
 
@@ -29,9 +31,48 @@ isRuntimeStatusSettingId(settings::core::SettingId id)
 
 } // namespace
 
+void
+validateSettingsTable()
+{
+    static std::once_flag validationOnce;
+    std::call_once(validationOnce, []() {
+        for (int i = 0; i < settingsTableRowCount(); ++i) {
+            const auto &row = settingsTable[i];
+
+            Q_ASSERT_X(row.type >= UserSettingsModel::Toggle &&
+                         row.type <= UserSettingsModel::AccessTokenField,
+                       "settings::ui::validateSettingsTable",
+                       "settingsTable row has an invalid type enum value.");
+
+            Q_ASSERT_X(row.tab >= UserSettingsModel::TabLookFeel &&
+                         row.tab <= UserSettingsModel::TabAbout,
+                       "settings::ui::validateSettingsTable",
+                       "settingsTable row has an invalid tab enum value.");
+
+            if (row.type == UserSettingsModel::SectionTitle) {
+                Q_ASSERT_X(!row.getValue && !row.setValue,
+                           "settings::ui::validateSettingsTable",
+                           "SectionTitle rows must not provide value mutators.");
+            } else if (row.type == UserSettingsModel::KeyStatus) {
+                Q_ASSERT_X(row.getValue && !row.setValue,
+                           "settings::ui::validateSettingsTable",
+                           "KeyStatus rows must be read-only and provide a value getter.");
+            }
+
+            if (row.settingId != settings::core::SettingId::Unknown) {
+                Q_ASSERT_X(row.type != UserSettingsModel::SectionTitle,
+                           "settings::ui::validateSettingsTable",
+                           "SectionTitle rows must not be bound to a SettingId.");
+            }
+        }
+    });
+}
+
 int
 rowForSettingId(settings::core::SettingId id)
 {
+    validateSettingsTable();
+
     if (id == settings::core::SettingId::Unknown)
         return -1;
 

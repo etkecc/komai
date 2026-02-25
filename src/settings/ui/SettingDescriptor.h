@@ -40,6 +40,9 @@ extern const SettingMeta settingsTable[];
 int
 settingsTableRowCount();
 
+void
+validateSettingsTable();
+
 int
 rowForSettingId(settings::core::SettingId id);
 

@@ -146,39 +146,19 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         return m.step;
     case Values:
         return m.getValues ? m.getValues() : QVariant{};
-
-    // Special roles with only a few entries — keep as small switches
     case Good:
-        switch (m.settingId) {
-        case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
-            return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
-        case settings::core::SettingId::EncryptionSelfSigningKeyStatus:
-            return cache::secret(mtx::secret_storage::secrets::cross_signing_self_signing)
-              .has_value();
-        case settings::core::SettingId::EncryptionUserSigningKeyStatus:
-            return cache::secret(mtx::secret_storage::secrets::cross_signing_user_signing)
-              .has_value();
-        case settings::core::SettingId::EncryptionMasterSigningKeyStatus:
-            return true;
-        default:
-            break;
-        }
-        break;
     case ThemeVariantValue:
-        if (hasSettingId(m, settings::core::SettingId::UiThemeSlug)) {
-            auto variant = ThemeRegistry::instance().themeVariant(i->theme());
-            if (variant == u"light")
-                return 0;
-            if (variant == u"dark")
-                return 1;
-            return 2;
-        }
-        return -1;
     case ThemeVariantValues:
-        if (hasSettingId(m, settings::core::SettingId::UiThemeSlug))
-            return QStringList{
-              QStringLiteral("Light"), QStringLiteral("Dark"), QStringLiteral("System")};
-        return QStringList{};
+        if (m.getRoleData) {
+            const auto value = m.getRoleData(role);
+            if (value.isValid())
+                return value;
+        }
+        if (role == ThemeVariantValue)
+            return -1;
+        if (role == ThemeVariantValues)
+            return QStringList{};
+        return false;
     case SettingImage:
         return QString();
     }

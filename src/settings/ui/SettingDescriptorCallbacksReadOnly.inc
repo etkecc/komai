@@ -28,6 +28,38 @@ encryptionMasterSigningKeyStatusValue()
 }
 
 static QVariant
+encryptionOnlineBackupKeyRoleData(int role)
+{
+    if (role == SM::Good)
+        return cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value();
+    return {};
+}
+
+static QVariant
+encryptionSelfSigningKeyRoleData(int role)
+{
+    if (role == SM::Good)
+        return cache::secret(mtx::secret_storage::secrets::cross_signing_self_signing).has_value();
+    return {};
+}
+
+static QVariant
+encryptionUserSigningKeyRoleData(int role)
+{
+    if (role == SM::Good)
+        return cache::secret(mtx::secret_storage::secrets::cross_signing_user_signing).has_value();
+    return {};
+}
+
+static QVariant
+encryptionMasterSigningKeyRoleData(int role)
+{
+    if (role == SM::Good)
+        return true;
+    return {};
+}
+
+static QVariant
 sessionProfileValue()
 {
     auto i = I;

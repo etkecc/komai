@@ -10,7 +10,8 @@
       {}, {}, {},
       lookFeelThemeValues,
       nullptr,
-      CORE_CONFIG_ID(UiThemeSlug, SettingKey::UiThemeSlug) },
+      CORE_CONFIG_ID(UiThemeSlug, SettingKey::UiThemeSlug),
+      lookFeelThemeRoleData },
     // LookFeelFontsSection
     { QT_TR_NOOP("Fonts"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

@@ -47,6 +47,28 @@ lookFeelThemeValues()
 }
 
 static QVariant
+lookFeelThemeRoleData(int role)
+{
+    auto i = I;
+    if (!i)
+        return {};
+
+    if (role == SM::ThemeVariantValue) {
+        const auto variant = ThemeRegistry::instance().themeVariant(i->theme());
+        if (variant == u"light")
+            return 0;
+        if (variant == u"dark")
+            return 1;
+        return 2;
+    }
+
+    if (role == SM::ThemeVariantValues)
+        return QStringList{QStringLiteral("Light"), QStringLiteral("Dark"), QStringLiteral("System")};
+
+    return {};
+}
+
+static QVariant
 lookFeelFontFamilyValue()
 {
     auto i = I;

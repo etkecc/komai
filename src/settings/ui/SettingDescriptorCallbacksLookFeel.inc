@@ -28,16 +28,8 @@ setLookFeelThemeValue(const QVariant &v)
     if (variant == u"system")
         return false;
 
-    int idx = 0;
-    if (!readSettingValue(v, idx))
-        return false;
-
     auto slugs = ThemeRegistry::instance().themeSlugs(variant);
-    if (idx < 0 || idx >= slugs.size())
-        return false;
-
-    i->setTheme(slugs.at(idx));
-    return true;
+    return applyStringListSelection(v, slugs, [i](const QString &slug) { i->setTheme(slug); });
 }
 
 static QVariant
@@ -76,16 +68,10 @@ setLookFeelFontFamilyValue(const QVariant &v)
     if (!i)
         return false;
 
-    int idx = 0;
-    if (!readSettingValue(v, idx))
-        return false;
-
     auto fonts = QFontDatabase::families();
-    if (idx < 0 || idx > fonts.size())
-        return false;
-
-    i->setFontFamily(idx == 0 ? QString{} : fonts.at(idx - 1));
-    return true;
+    return applyIndexedOption(v, 0, fonts.size(), [i, fonts](int idx) {
+        i->setFontFamily(idx == 0 ? QString{} : fonts.at(idx - 1));
+    });
 }
 
 static QVariant
@@ -118,16 +104,10 @@ setLookFeelEmojiFontFamilyValue(const QVariant &v)
     if (!i)
         return false;
 
-    int idx = 0;
-    if (!readSettingValue(v, idx))
-        return false;
-
     auto fonts = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
-    if (idx < 0 || idx > fonts.size())
-        return false;
-
-    i->setEmojiFontFamily(idx <= 0 ? QString{} : fonts.at(idx - 1));
-    return true;
+    return applyIndexedOption(v, 0, fonts.size(), [i, fonts](int idx) {
+        i->setEmojiFontFamily(idx <= 0 ? QString{} : fonts.at(idx - 1));
+    });
 }
 
 static QVariant

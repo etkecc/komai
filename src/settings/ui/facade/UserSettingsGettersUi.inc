@@ -22,7 +22,7 @@
     bool timelineMessagesLayoutSmallAvatars() const;
     bool composerExtrasStickersEnabled() const;
     bool timelineMessagesLayoutShowOwnAvatar() const;
-    QString pinnedReactions() const;
+    QString timelineMessageActionsPinnedReactions() const;
     ShowSenderUsername timelineMessagesSenderUsername() const;
     int timelineMessagesSenderUsernameLargeRoomThreshold() const;
     bool timelineMediaAnimateOnHover() const;

@@ -69,8 +69,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool timelineMessagesLayoutShowOwnAvatar READ timelineMessagesLayoutShowOwnAvatar WRITE
         setTimelineMessagesLayoutShowOwnAvatar NOTIFY timelineMessagesLayoutShowOwnAvatarChanged)
-    Q_PROPERTY(QString pinnedReactions READ pinnedReactions WRITE setPinnedReactions NOTIFY
-                 pinnedReactionsChanged)
+    Q_PROPERTY(
+      QString timelineMessageActionsPinnedReactions READ timelineMessageActionsPinnedReactions WRITE
+        setTimelineMessageActionsPinnedReactions NOTIFY
+          timelineMessageActionsPinnedReactionsChanged)
     Q_PROPERTY(
       ShowSenderUsername timelineMessagesSenderUsername READ timelineMessagesSenderUsername WRITE
         setTimelineMessagesSenderUsername NOTIFY timelineMessagesSenderUsernameChanged)
@@ -355,7 +357,7 @@ public:
     void setTimelineMessagesLayoutSmallAvatars(bool state);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
-    void setPinnedReactions(QString value);
+    void setTimelineMessageActionsPinnedReactions(QString value);
     void setTimelineMessagesSenderUsername(ShowSenderUsername state);
     void setTimelineMediaAnimateOnHover(bool state);
     void setTimelineReadReceiptsEnabled(bool state);
@@ -477,7 +479,7 @@ signals:
     void timelineMessagesLayoutSmallAvatarsChanged(bool state);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);
-    void pinnedReactionsChanged(const QString &value);
+    void timelineMessageActionsPinnedReactionsChanged(const QString &value);
     void timelineMessagesSenderUsernameChanged(ShowSenderUsername state);
     void timelineMediaAnimateOnHoverChanged(bool state);
     void composerTypingSendEnabledChanged(bool state);

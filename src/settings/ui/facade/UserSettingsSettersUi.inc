@@ -78,14 +78,14 @@ UserSettings::setTimelineMessagesLayoutShowOwnAvatar(bool s)
     save();
 }
 void
-UserSettings::setPinnedReactions(QString s)
+UserSettings::setTimelineMessageActionsPinnedReactions(QString s)
 {
     if (pinnedReactions_ == s)
         return;
     pinnedReactions_ = s;
     (void)coreStore_.set(settings::core::SettingId::TimelineMessageActionsPinnedReactions,
                          s.toStdString());
-    emit pinnedReactionsChanged(s);
+    emit timelineMessageActionsPinnedReactionsChanged(s);
     save();
 }
 void

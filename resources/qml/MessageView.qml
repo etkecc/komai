@@ -218,7 +218,7 @@ Item {
 
                 // --- Pinned reactions (from user setting, comma-separated, max 10) ---
                 Repeater {
-                    model: Settings.pinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
+                    model: Settings.timelineMessageActionsPinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
                     visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
 
                     delegate: AbstractButton {
@@ -285,7 +285,7 @@ Item {
                 }
                 // --- Recent reactions (from user history, excluding pinned; total pinned+recent capped at 10) ---
                 Repeater {
-                    property var pinnedSet: Settings.pinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
+                    property var pinnedSet: Settings.timelineMessageActionsPinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
                     model: Settings.recentReactions.filter(function(r) { return pinnedSet.indexOf(r) < 0; }).slice(0, Math.max(0, 10 - pinnedSet.length))
                     visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
 

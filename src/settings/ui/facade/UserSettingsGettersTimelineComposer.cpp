@@ -109,7 +109,7 @@ UserSettings::timelineMessagesLayoutShowOwnAvatar() const
 }
 
 QString
-UserSettings::pinnedReactions() const
+UserSettings::timelineMessageActionsPinnedReactions() const
 {
     if (const auto value = coreStore_.valueAs<std::string>(
           settings::core::SettingId::TimelineMessageActionsPinnedReactions);

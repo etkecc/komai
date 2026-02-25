@@ -71,14 +71,15 @@ void
 setDefaultDevice(bool isVideo)
 {
     auto settings = UserSettings::instance();
-    if (isVideo && settings->camera().isEmpty()) {
+    if (isVideo && settings->callsDevicesCamera().isEmpty()) {
         const VideoSource &camera = videoSources_.front();
-        settings->setCamera(QString::fromStdString(camera.name));
-        settings->setCameraResolution(QString::fromStdString(camera.caps.front().resolution));
-        settings->setCameraFrameRate(
+        settings->setCallsDevicesCamera(QString::fromStdString(camera.name));
+        settings->setCallsDevicesCameraResolution(
+          QString::fromStdString(camera.caps.front().resolution));
+        settings->setCallsDevicesCameraFrameRate(
           QString::fromStdString(camera.caps.front().frameRates.front()));
-    } else if (!isVideo && settings->microphone().isEmpty()) {
-        settings->setMicrophone(QString::fromStdString(audioSources_.front().name));
+    } else if (!isVideo && settings->callsDevicesMicrophone().isEmpty()) {
+        settings->setCallsDevicesMicrophone(QString::fromStdString(audioSources_.front().name));
     }
 }
 
@@ -330,7 +331,7 @@ CallDevices::frameRates(const std::string &cameraName, const std::string &resolu
 GstDevice *
 CallDevices::audioDevice() const
 {
-    std::string name = UserSettings::instance()->microphone().toStdString();
+    std::string name = UserSettings::instance()->callsDevicesMicrophone().toStdString();
     if (auto it = std::find_if(audioSources_.cbegin(),
                                audioSources_.cend(),
                                [&name](const auto &s) { return s.name == name; });
@@ -347,11 +348,11 @@ GstDevice *
 CallDevices::videoDevice(std::pair<int, int> &resolution, std::pair<int, int> &frameRate) const
 {
     auto settings    = UserSettings::instance();
-    std::string name = settings->camera().toStdString();
+    std::string name = settings->callsDevicesCamera().toStdString();
     if (auto s = getVideoSource(name); s) {
         nhlog::ui()->debug("WebRTC: camera: {}", name);
-        resolution = tokenise(settings->cameraResolution().toStdString(), 'x');
-        frameRate  = tokenise(settings->cameraFrameRate().toStdString(), '/');
+        resolution = tokenise(settings->callsDevicesCameraResolution().toStdString(), 'x');
+        frameRate  = tokenise(settings->callsDevicesCameraFrameRate().toStdString(), '/');
         nhlog::ui()->debug("WebRTC: camera resolution: {}x{}", resolution.first, resolution.second);
         nhlog::ui()->debug("WebRTC: camera frame rate: {}/{}", frameRate.first, frameRate.second);
         return s->device;

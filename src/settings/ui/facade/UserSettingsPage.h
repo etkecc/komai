@@ -136,21 +136,25 @@ class UserSettings final : public QObject
                  setNetworkPresenceStatusPolicy NOTIFY networkPresenceStatusPolicyChanged)
     Q_PROPERTY(ShowImage timelineMediaImageDisplay READ timelineMediaImageDisplay WRITE
                  setTimelineMediaImageDisplay NOTIFY timelineMediaImageDisplayChanged)
-    Q_PROPERTY(QString ringtone READ ringtone WRITE setRingtone NOTIFY ringtoneChanged)
-    Q_PROPERTY(QString microphone READ microphone WRITE setMicrophone NOTIFY microphoneChanged)
-    Q_PROPERTY(QString camera READ camera WRITE setCamera NOTIFY cameraChanged)
-    Q_PROPERTY(QString cameraResolution READ cameraResolution WRITE setCameraResolution NOTIFY
-                 cameraResolutionChanged)
-    Q_PROPERTY(QString cameraFrameRate READ cameraFrameRate WRITE setCameraFrameRate NOTIFY
-                 cameraFrameRateChanged)
-    Q_PROPERTY(int screenShareFrameRate READ screenShareFrameRate WRITE setScreenShareFrameRate
-                 NOTIFY screenShareFrameRateChanged)
+    Q_PROPERTY(QString callsAudioRingtone READ callsAudioRingtone WRITE setCallsAudioRingtone NOTIFY
+                 callsAudioRingtoneChanged)
+    Q_PROPERTY(QString callsDevicesMicrophone READ callsDevicesMicrophone WRITE
+                 setCallsDevicesMicrophone NOTIFY callsDevicesMicrophoneChanged)
+    Q_PROPERTY(QString callsDevicesCamera READ callsDevicesCamera WRITE setCallsDevicesCamera NOTIFY
+                 callsDevicesCameraChanged)
+    Q_PROPERTY(QString callsDevicesCameraResolution READ callsDevicesCameraResolution WRITE
+                 setCallsDevicesCameraResolution NOTIFY callsDevicesCameraResolutionChanged)
+    Q_PROPERTY(QString callsDevicesCameraFrameRate READ callsDevicesCameraFrameRate WRITE
+                 setCallsDevicesCameraFrameRate NOTIFY callsDevicesCameraFrameRateChanged)
+    Q_PROPERTY(int callsScreenshareFrameRate READ callsScreenshareFrameRate WRITE
+                 setCallsScreenshareFrameRate NOTIFY callsScreenshareFrameRateChanged)
+    Q_PROPERTY(bool callsScreensharePictureInPicture READ callsScreensharePictureInPicture WRITE
+                 setCallsScreensharePictureInPicture NOTIFY callsScreensharePictureInPictureChanged)
     Q_PROPERTY(
-      bool screenSharePiP READ screenSharePiP WRITE setScreenSharePiP NOTIFY screenSharePiPChanged)
-    Q_PROPERTY(bool screenShareRemoteVideo READ screenShareRemoteVideo WRITE
-                 setScreenShareRemoteVideo NOTIFY screenShareRemoteVideoChanged)
-    Q_PROPERTY(bool screenShareShowCursor READ screenShareShowCursor WRITE setScreenShareShowCursor
-                 NOTIFY screenShareShowCursorChanged)
+      bool callsScreenshareIncludeRemoteVideo READ callsScreenshareIncludeRemoteVideo WRITE
+        setCallsScreenshareIncludeRemoteVideo NOTIFY callsScreenshareIncludeRemoteVideoChanged)
+    Q_PROPERTY(bool callsScreenshareShowCursor READ callsScreenshareShowCursor WRITE
+                 setCallsScreenshareShowCursor NOTIFY callsScreenshareShowCursorChanged)
     Q_PROPERTY(bool callsRelayUseFallbackServer READ callsRelayUseFallbackServer WRITE
                  setCallsRelayUseFallbackServer NOTIFY callsRelayUseFallbackServerChanged)
     Q_PROPERTY(bool callsLegacyEnabled READ callsLegacyEnabled WRITE setCallsLegacyEnabled NOTIFY
@@ -369,15 +373,15 @@ public:
     void setWindowFocusBlurDelaySeconds(int state);
     void setNetworkPresenceStatusPolicy(Presence state);
     void setTimelineMediaImageDisplay(ShowImage state);
-    void setRingtone(QString ringtone);
-    void setMicrophone(QString microphone);
-    void setCamera(QString camera);
-    void setCameraResolution(QString resolution);
-    void setCameraFrameRate(QString frameRate);
-    void setScreenShareFrameRate(int frameRate);
-    void setScreenSharePiP(bool state);
-    void setScreenShareRemoteVideo(bool state);
-    void setScreenShareShowCursor(bool state);
+    void setCallsAudioRingtone(QString callsAudioRingtone);
+    void setCallsDevicesMicrophone(QString callsDevicesMicrophone);
+    void setCallsDevicesCamera(QString callsDevicesCamera);
+    void setCallsDevicesCameraResolution(QString resolution);
+    void setCallsDevicesCameraFrameRate(QString frameRate);
+    void setCallsScreenshareFrameRate(int frameRate);
+    void setCallsScreensharePictureInPicture(bool state);
+    void setCallsScreenshareIncludeRemoteVideo(bool state);
+    void setCallsScreenshareShowCursor(bool state);
     void setCallsRelayUseFallbackServer(bool state);
     void setCallsLegacyEnabled(bool state);
     void setEncryptionKeySharingOnlyVerifiedUsers(bool state);
@@ -496,15 +500,15 @@ signals:
     void emojiFontChanged(QString state);
     void networkPresenceStatusPolicyChanged(Presence state);
     void timelineMediaImageDisplayChanged(ShowImage state);
-    void ringtoneChanged(QString ringtone);
-    void microphoneChanged(QString microphone);
-    void cameraChanged(QString camera);
-    void cameraResolutionChanged(QString resolution);
-    void cameraFrameRateChanged(QString frameRate);
-    void screenShareFrameRateChanged(int frameRate);
-    void screenSharePiPChanged(bool state);
-    void screenShareRemoteVideoChanged(bool state);
-    void screenShareShowCursorChanged(bool state);
+    void callsAudioRingtoneChanged(QString callsAudioRingtone);
+    void callsDevicesMicrophoneChanged(QString callsDevicesMicrophone);
+    void callsDevicesCameraChanged(QString callsDevicesCamera);
+    void callsDevicesCameraResolutionChanged(QString resolution);
+    void callsDevicesCameraFrameRateChanged(QString frameRate);
+    void callsScreenshareFrameRateChanged(int frameRate);
+    void callsScreensharePictureInPictureChanged(bool state);
+    void callsScreenshareIncludeRemoteVideoChanged(bool state);
+    void callsScreenshareShowCursorChanged(bool state);
     void callsRelayUseFallbackServerChanged(bool state);
     void callsLegacyEnabledChanged(bool state);
     void encryptionKeySharingOnlyVerifiedUsersChanged(bool state);

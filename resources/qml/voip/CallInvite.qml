@@ -176,9 +176,9 @@ Popup {
                 implicitHeight: buttonLayout.buttonSize
                 onClicked: {
                     if (buttonLayout.validateMic()) {
-                        Settings.microphone = micCombo.currentText;
+                        Settings.callsDevicesMicrophone = micCombo.currentText;
                         if (cameraCombo.visible)
-                            Settings.camera = cameraCombo.currentText;
+                            Settings.callsDevicesCamera = cameraCombo.currentText;
 
                         CallManager.acceptInvite();
                         close();

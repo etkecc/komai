@@ -10,7 +10,7 @@ callRingtoneValue()
     if (!i)
         return 1;
 
-    const auto v = i->ringtone();
+    const auto v = i->callsAudioRingtone();
     if (v == QStringView(u"Mute"))
         return 0;
     if (v == QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone))
@@ -40,15 +40,15 @@ setCallRingtoneValue(const QVariant &v)
           QCoreApplication::translate("UserSettingsModel", "All Files (*)"));
         if (filepath.isEmpty())
             return false;
-        i->setRingtone(filepath);
+        i->setCallsAudioRingtone(filepath);
         return true;
     } else if (ringtone == 0) {
-        i->setRingtone(QStringLiteral("Mute"));
+        i->setCallsAudioRingtone(QStringLiteral("Mute"));
         return true;
     } else if (ringtone == 1) {
         const auto defaultRingtone =
           QString::fromLatin1(settings::core::definitions::kDefaultCallsAudioRingtone);
-        i->setRingtone(defaultRingtone);
+        i->setCallsAudioRingtone(defaultRingtone);
         return true;
     }
 
@@ -65,8 +65,8 @@ callRingtoneValues()
     };
 
     auto i = I;
-    if (i && !list.contains(i->ringtone()))
-        list.push_back(i->ringtone());
+    if (i && !list.contains(i->callsAudioRingtone()))
+        list.push_back(i->callsAudioRingtone());
 
     return list;
 }

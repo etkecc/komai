@@ -81,7 +81,7 @@ Popup {
                 icon.source: "qrc:/icons/icons/ui/place-call.svg"
                 onClicked: {
                     if (buttonLayout.validateMic()) {
-                        Settings.microphone = micCombo.currentText;
+                        Settings.callsDevicesMicrophone = micCombo.currentText;
                         CallManager.sendInvite(room.roomId, Voip.VOICE);
                         close();
                     }
@@ -94,8 +94,8 @@ Popup {
                 icon.source: "qrc:/icons/icons/ui/video.svg"
                 onClicked: {
                     if (buttonLayout.validateMic()) {
-                        Settings.microphone = micCombo.currentText;
-                        Settings.camera = cameraCombo.currentText;
+                        Settings.callsDevicesMicrophone = micCombo.currentText;
+                        Settings.callsDevicesCamera = cameraCombo.currentText;
                         CallManager.sendInvite(room.roomId, Voip.VIDEO);
                         close();
                     }
@@ -107,8 +107,8 @@ Popup {
                 icon.source: "qrc:/icons/icons/ui/screen-share.svg"
                 onClicked: {
                     if (buttonLayout.validateMic()) {
-                        Settings.microphone = micCombo.currentText;
-                        Settings.camera = cameraCombo.currentText;
+                        Settings.callsDevicesMicrophone = micCombo.currentText;
+                        Settings.callsDevicesCamera = cameraCombo.currentText;
 
                         var dialog = screenShareDialog.createObject(timelineRoot);
                         dialog.open();

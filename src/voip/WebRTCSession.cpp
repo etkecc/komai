@@ -1036,7 +1036,8 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
     GstElement *tee          = gst_element_factory_make("tee", "videosrctee");
     gst_bin_add_many(GST_BIN(pipe_), videoconvert, tee, nullptr);
 
-    if (callType_ == CallType::VIDEO || (settings->screenSharePiP() && devices_.haveCamera())) {
+    if (callType_ == CallType::VIDEO ||
+        (settings->callsScreensharePictureInPicture() && devices_.haveCamera())) {
         std::pair<int, int> resolution;
         std::pair<int, int> frameRate;
         GstDevice *device = devices_.videoDevice(resolution, frameRate);
@@ -1073,13 +1074,13 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
 
     if (callType_ == CallType::SCREEN) {
         nhlog::ui()->debug("WebRTC: screen share frame rate: {} fps",
-                           settings->screenShareFrameRate());
+                           settings->callsScreenshareFrameRate());
         nhlog::ui()->debug("WebRTC: screen share picture-in-picture: {}",
-                           settings->screenSharePiP());
+                           settings->callsScreensharePictureInPicture());
         nhlog::ui()->debug("WebRTC: screen share request remote camera: {}",
-                           settings->screenShareRemoteVideo());
+                           settings->callsScreenshareIncludeRemoteVideo());
         nhlog::ui()->debug("WebRTC: screen share show mouse cursor: {}",
-                           settings->screenShareShowCursor());
+                           settings->callsScreenshareShowCursor());
 
         GstElement *screencastsrc = nullptr;
 
@@ -1091,7 +1092,8 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             }
             g_object_set(ximagesrc, "use-damage", FALSE, nullptr);
             g_object_set(ximagesrc, "xid", shareWindowId_, nullptr);
-            g_object_set(ximagesrc, "show-pointer", settings->screenShareShowCursor(), nullptr);
+            g_object_set(
+              ximagesrc, "show-pointer", settings->callsScreenshareShowCursor(), nullptr);
             g_object_set(ximagesrc, "do-timestamp", (gboolean)1, nullptr);
 
             gst_bin_add(GST_BIN(pipe_), ximagesrc);
@@ -1107,7 +1109,8 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
             }
             g_object_set(
               d3d11screensrc, "window-handle", static_cast<guint64>(shareWindowId_), nullptr);
-            g_object_set(d3d11screensrc, "show-cursor", settings->screenShareShowCursor(), nullptr);
+            g_object_set(
+              d3d11screensrc, "show-cursor", settings->callsScreenshareShowCursor(), nullptr);
             g_object_set(d3d11screensrc, "do-timestamp", (gboolean)1, nullptr);
             gst_bin_add(GST_BIN(pipe_), d3d11screensrc);
 
@@ -1162,7 +1165,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
                                             "I420", // For vp8enc
                                             "framerate",
                                             GST_TYPE_FRACTION,
-                                            settings->screenShareFrameRate(),
+                                            settings->callsScreenshareFrameRate(),
                                             1,
                                             nullptr);
         GstElement *capsfilter = gst_element_factory_make("capsfilter", nullptr);
@@ -1170,7 +1173,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
         gst_caps_unref(caps);
         gst_bin_add(GST_BIN(pipe_), capsfilter);
 
-        if (settings->screenSharePiP() && devices_.haveCamera()) {
+        if (settings->callsScreensharePictureInPicture() && devices_.haveCamera()) {
             GstElement *compositor = gst_element_factory_make("compositor", nullptr);
             g_object_set(compositor, "background", 1, nullptr);
             gst_bin_add(GST_BIN(pipe_), compositor);
@@ -1225,7 +1228,7 @@ WebRTCSession::addVideoPipeline(int vp8PayloadType)
     }
 
     if (callType_ == CallType::SCREEN &&
-        !ChatPage::instance()->userSettings()->screenShareRemoteVideo()) {
+        !ChatPage::instance()->userSettings()->callsScreenshareIncludeRemoteVideo()) {
         GArray *transceivers;
         g_signal_emit_by_name(webrtcbin, "get-transceivers", &transceivers);
         GstWebRTCRTPTransceiver *transceiver =

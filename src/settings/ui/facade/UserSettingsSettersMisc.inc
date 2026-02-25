@@ -66,96 +66,96 @@ UserSettings::setEncryptionBackupOnlineEnabledFromConfig(bool useBackup)
 }
 
 void
-UserSettings::setRingtone(QString s)
+UserSettings::setCallsAudioRingtone(QString s)
 {
-    if (ringtone_ == s)
+    if (callsAudioRingtone_ == s)
         return;
-    ringtone_ = s;
+    callsAudioRingtone_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsAudioRingtone, s.toStdString());
-    emit ringtoneChanged(s);
+    emit callsAudioRingtoneChanged(s);
     save();
 }
 void
-UserSettings::setMicrophone(QString s)
+UserSettings::setCallsDevicesMicrophone(QString s)
 {
-    if (microphone_ == s)
+    if (callsDevicesMicrophone_ == s)
         return;
-    microphone_ = s;
+    callsDevicesMicrophone_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsDevicesMicrophone, s.toStdString());
-    emit microphoneChanged(s);
+    emit callsDevicesMicrophoneChanged(s);
     save();
 }
 void
-UserSettings::setCamera(QString s)
+UserSettings::setCallsDevicesCamera(QString s)
 {
-    if (camera_ == s)
+    if (callsDevicesCamera_ == s)
         return;
-    camera_ = s;
+    callsDevicesCamera_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsDevicesCamera, s.toStdString());
-    emit cameraChanged(s);
+    emit callsDevicesCameraChanged(s);
     save();
 }
 void
-UserSettings::setCameraResolution(QString s)
+UserSettings::setCallsDevicesCameraResolution(QString s)
 {
-    if (cameraResolution_ == s)
+    if (callsDevicesCameraResolution_ == s)
         return;
-    cameraResolution_ = s;
+    callsDevicesCameraResolution_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsDevicesCameraResolution, s.toStdString());
-    emit cameraResolutionChanged(s);
+    emit callsDevicesCameraResolutionChanged(s);
     save();
 }
 void
-UserSettings::setCameraFrameRate(QString s)
+UserSettings::setCallsDevicesCameraFrameRate(QString s)
 {
-    if (cameraFrameRate_ == s)
+    if (callsDevicesCameraFrameRate_ == s)
         return;
-    cameraFrameRate_ = s;
+    callsDevicesCameraFrameRate_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsDevicesCameraFrameRate, s.toStdString());
-    emit cameraFrameRateChanged(s);
+    emit callsDevicesCameraFrameRateChanged(s);
     save();
 }
 void
-UserSettings::setScreenShareFrameRate(int s)
+UserSettings::setCallsScreenshareFrameRate(int s)
 {
-    if (screenShareFrameRate_ == s)
+    if (callsScreenshareFrameRate_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::CallsScreenshareFrameRate,
                       s,
                       "calls.screenshare.frame_rate"))
         return;
-    screenShareFrameRate_ = s;
-    emit screenShareFrameRateChanged(s);
+    callsScreenshareFrameRate_ = s;
+    emit callsScreenshareFrameRateChanged(s);
     save();
 }
 void
-UserSettings::setScreenSharePiP(bool s)
+UserSettings::setCallsScreensharePictureInPicture(bool s)
 {
-    if (screenSharePiP_ == s)
+    if (callsScreensharePictureInPicture_ == s)
         return;
-    screenSharePiP_ = s;
+    callsScreensharePictureInPicture_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsScreensharePictureInPicture, s);
-    emit screenSharePiPChanged(s);
+    emit callsScreensharePictureInPictureChanged(s);
     save();
 }
 void
-UserSettings::setScreenShareRemoteVideo(bool s)
+UserSettings::setCallsScreenshareIncludeRemoteVideo(bool s)
 {
-    if (screenShareRemoteVideo_ == s)
+    if (callsScreenshareIncludeRemoteVideo_ == s)
         return;
-    screenShareRemoteVideo_ = s;
+    callsScreenshareIncludeRemoteVideo_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsScreenshareIncludeRemoteVideo, s);
-    emit screenShareRemoteVideoChanged(s);
+    emit callsScreenshareIncludeRemoteVideoChanged(s);
     save();
 }
 void
-UserSettings::setScreenShareShowCursor(bool s)
+UserSettings::setCallsScreenshareShowCursor(bool s)
 {
-    if (screenShareShowCursor_ == s)
+    if (callsScreenshareShowCursor_ == s)
         return;
-    screenShareShowCursor_ = s;
+    callsScreenshareShowCursor_ = s;
     (void)coreStore_.set(settings::core::SettingId::CallsScreenshareShowCursor, s);
-    emit screenShareShowCursorChanged(s);
+    emit callsScreenshareShowCursorChanged(s);
     save();
 }
 

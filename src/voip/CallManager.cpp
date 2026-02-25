@@ -429,7 +429,7 @@ CallManager::handleEvent(const RoomEvent<CallInvite> &callInviteEvent)
     auto roomInfo     = cache::singleRoomInfo(callInviteEvent.room_id);
     callPartyVersion_ = callInviteEvent.content.version;
 
-    const QString &ringtone = UserSettings::instance()->ringtone();
+    const QString &ringtone = UserSettings::instance()->callsAudioRingtone();
     bool sharesRoom         = true;
 
     std::vector<RoomMember> members(cache::getMembers(callInviteEvent.room_id));
@@ -788,8 +788,8 @@ QStringList
 CallManager::devices(bool isVideo) const
 {
     QStringList ret;
-    const QString &defaultDevice =
-      isVideo ? UserSettings::instance()->camera() : UserSettings::instance()->microphone();
+    const QString &defaultDevice = isVideo ? UserSettings::instance()->callsDevicesCamera()
+                                           : UserSettings::instance()->callsDevicesMicrophone();
     std::vector<std::string> devices =
       CallDevices::instance().names(isVideo, defaultDevice.toStdString());
     assert(devices.size() < std::numeric_limits<int>::max());
@@ -1102,8 +1102,12 @@ CallManager::previewWindow(unsigned int index) const
     gst_bin_add_many(
       GST_BIN(pipe_), videorate, videoconvert, videoscale, capsfilter, preview_sink, nullptr);
 
-    GstCaps *caps = gst_caps_new_simple(
-      "video/x-raw", "framerate", GST_TYPE_FRACTION, settings->screenShareFrameRate(), 1, nullptr);
+    GstCaps *caps = gst_caps_new_simple("video/x-raw",
+                                        "framerate",
+                                        GST_TYPE_FRACTION,
+                                        settings->callsScreenshareFrameRate(),
+                                        1,
+                                        nullptr);
     g_object_set(capsfilter, "caps", caps, nullptr);
     gst_caps_unref(caps);
 
@@ -1118,7 +1122,7 @@ CallManager::previewWindow(unsigned int index) const
         }
         g_object_set(ximagesrc, "use-damage", FALSE, nullptr);
         g_object_set(ximagesrc, "xid", windows_[index].second, nullptr);
-        g_object_set(ximagesrc, "show-pointer", settings->screenShareShowCursor(), nullptr);
+        g_object_set(ximagesrc, "show-pointer", settings->callsScreenshareShowCursor(), nullptr);
         g_object_set(ximagesrc, "do-timestamp", (gboolean)1, nullptr);
 
         gst_bin_add(GST_BIN(pipe_), ximagesrc);
@@ -1132,7 +1136,8 @@ CallManager::previewWindow(unsigned int index) const
             return;
         }
         g_object_set(d3d11screensrc, "window-handle", windows_[index].second, nullptr);
-        g_object_set(d3d11screensrc, "show-cursor", settings->screenShareShowCursor(), nullptr);
+        g_object_set(
+          d3d11screensrc, "show-cursor", settings->callsScreenshareShowCursor(), nullptr);
 
         gst_bin_add(GST_BIN(pipe_), d3d11screensrc);
         screencastsrc = d3d11screensrc;

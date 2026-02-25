@@ -6,85 +6,85 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 QString
-UserSettings::ringtone() const
+UserSettings::callsAudioRingtone() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::CallsAudioRingtone);
         value.has_value())
         return QString::fromStdString(*value);
-    return ringtone_;
+    return callsAudioRingtone_;
 }
 QString
-UserSettings::microphone() const
+UserSettings::callsDevicesMicrophone() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::CallsDevicesMicrophone);
         value.has_value())
         return QString::fromStdString(*value);
-    return microphone_;
+    return callsDevicesMicrophone_;
 }
 QString
-UserSettings::camera() const
+UserSettings::callsDevicesCamera() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::CallsDevicesCamera);
         value.has_value())
         return QString::fromStdString(*value);
-    return camera_;
+    return callsDevicesCamera_;
 }
 QString
-UserSettings::cameraResolution() const
+UserSettings::callsDevicesCameraResolution() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::CallsDevicesCameraResolution);
         value.has_value())
         return QString::fromStdString(*value);
-    return cameraResolution_;
+    return callsDevicesCameraResolution_;
 }
 QString
-UserSettings::cameraFrameRate() const
+UserSettings::callsDevicesCameraFrameRate() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::CallsDevicesCameraFrameRate);
         value.has_value())
         return QString::fromStdString(*value);
-    return cameraFrameRate_;
+    return callsDevicesCameraFrameRate_;
 }
 int
-UserSettings::screenShareFrameRate() const
+UserSettings::callsScreenshareFrameRate() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::CallsScreenshareFrameRate);
         value.has_value())
         return *value;
-    return screenShareFrameRate_;
+    return callsScreenshareFrameRate_;
 }
 bool
-UserSettings::screenSharePiP() const
+UserSettings::callsScreensharePictureInPicture() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::CallsScreensharePictureInPicture);
         value.has_value())
         return *value;
-    return screenSharePiP_;
+    return callsScreensharePictureInPicture_;
 }
 bool
-UserSettings::screenShareRemoteVideo() const
+UserSettings::callsScreenshareIncludeRemoteVideo() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::CallsScreenshareIncludeRemoteVideo);
         value.has_value())
         return *value;
-    return screenShareRemoteVideo_;
+    return callsScreenshareIncludeRemoteVideo_;
 }
 bool
-UserSettings::screenShareShowCursor() const
+UserSettings::callsScreenshareShowCursor() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::CallsScreenshareShowCursor);
         value.has_value())
         return *value;
-    return screenShareShowCursor_;
+    return callsScreenshareShowCursor_;
 }
 bool
 UserSettings::callsRelayUseFallbackServer() const

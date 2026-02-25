@@ -358,9 +358,9 @@ ScreenCastPortal::selectSources()
                         {QStringLiteral("handle_token"), handle_token}};
 
     auto settings = ChatPage::instance()->userSettings();
-    if (settings->screenShareShowCursor() && (availableCursorModes & (uint)2) != 0) {
+    if (settings->callsScreenshareShowCursor() && (availableCursorModes & (uint)2) != 0) {
         options["cursor_mode"] = (uint)2;
-    } else if (!settings->screenShareShowCursor() && (availableCursorModes & (uint)1) != 0) {
+    } else if (!settings->callsScreenshareShowCursor() && (availableCursorModes & (uint)1) != 0) {
         options["cursor_mode"] = (uint)1;
     }
 

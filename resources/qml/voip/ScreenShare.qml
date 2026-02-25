@@ -15,7 +15,7 @@ Popup {
     anchors.centerIn: parent;
 
     Component.onCompleted: {
-        frameRateCombo.currentIndex = frameRateCombo.find(Settings.screenShareFrameRate);
+        frameRateCombo.currentIndex = frameRateCombo.find(Settings.callsScreenshareFrameRate);
     }
     Component.onDestruction: {
         CallManager.closeScreenShare();
@@ -76,7 +76,7 @@ Popup {
                 highlighted: !CallManager.screenShareReady
                 text: qsTr("Request screencast")
                 onClicked: {
-                  Settings.screenShareShowCursor = showCursorCheckBox.checked;
+                  Settings.callsScreenshareShowCursor = showCursorCheckBox.checked;
                   CallManager.setupScreenShareXDP();
                 }
             }
@@ -116,7 +116,7 @@ Popup {
                 id: pipCheckBox
 
                 enabled: CallManager.cameras.length > 0
-                checked: CallManager.cameras.length > 0 && Settings.screenSharePiP
+                checked: CallManager.cameras.length > 0 && Settings.callsScreensharePictureInPicture
                 Layout.alignment: Qt.AlignRight
             }
 
@@ -130,7 +130,7 @@ Popup {
                 id: remoteVideoCheckBox
 
                 Layout.alignment: Qt.AlignRight
-                checked: Settings.screenShareRemoteVideo
+                checked: Settings.callsScreenshareIncludeRemoteVideo
                 ToolTip.text: qsTr("View your callee's camera like a regular video call")
                 ToolTip.visible: hovered
             }
@@ -143,7 +143,7 @@ Popup {
                 id: showCursorCheckBox
 
                 Layout.alignment: Qt.AlignRight
-                checked: Settings.screenShareShowCursor
+                checked: Settings.callsScreenshareShowCursor
             }
 
         }
@@ -161,10 +161,10 @@ Popup {
                 icon.source: "qrc:/icons/icons/ui/screen-share.svg"
 
                 onClicked: {
-                    Settings.screenShareFrameRate = frameRateCombo.currentText;
-                    Settings.screenSharePiP = pipCheckBox.checked;
-                    Settings.screenShareRemoteVideo = remoteVideoCheckBox.checked;
-                    Settings.screenShareShowCursor = showCursorCheckBox.checked;
+                    Settings.callsScreenshareFrameRate = frameRateCombo.currentText;
+                    Settings.callsScreensharePictureInPicture = pipCheckBox.checked;
+                    Settings.callsScreenshareIncludeRemoteVideo = remoteVideoCheckBox.checked;
+                    Settings.callsScreenshareShowCursor = showCursorCheckBox.checked;
 
                     CallManager.sendInvite(room.roomId, Voip.SCREEN, windowCombo.currentIndex);
                     close();

@@ -67,9 +67,9 @@ Popup {
             Layout.leftMargin: 128
             standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
             onAccepted: {
-                Settings.microphone = micCombo.currentText;
+                Settings.callsDevicesMicrophone = micCombo.currentText;
                 if (cameraCombo.visible)
-                    Settings.camera = cameraCombo.currentText;
+                    Settings.callsDevicesCamera = cameraCombo.currentText;
 
                 close();
             }

@@ -9,7 +9,7 @@ callMicrophoneValuesList()
     auto i = I;
     if (!i)
         return {};
-    return vecToList(CallDevices::instance().names(false, i->microphone().toStdString()));
+    return vecToList(CallDevices::instance().names(false, i->callsDevicesMicrophone().toStdString()));
 }
 
 static QVariant
@@ -18,7 +18,7 @@ callMicrophoneValue()
     auto i = I;
     if (!i)
         return -1;
-    return callMicrophoneValuesList().indexOf(i->microphone());
+    return callMicrophoneValuesList().indexOf(i->callsDevicesMicrophone());
 }
 
 static bool
@@ -29,7 +29,7 @@ setCallMicrophoneValue(const QVariant &v)
         return false;
 
     return applyStringListSelection(v, callMicrophoneValuesList(), [i](const QString &choice) {
-        i->setMicrophone(choice);
+        i->setCallsDevicesMicrophone(choice);
     });
 }
 
@@ -45,7 +45,7 @@ callCameraValuesList()
     auto i = I;
     if (!i)
         return {};
-    return vecToList(CallDevices::instance().names(true, i->camera().toStdString()));
+    return vecToList(CallDevices::instance().names(true, i->callsDevicesCamera().toStdString()));
 }
 
 static QVariant
@@ -54,7 +54,7 @@ callCameraValue()
     auto i = I;
     if (!i)
         return -1;
-    return callCameraValuesList().indexOf(i->camera());
+    return callCameraValuesList().indexOf(i->callsDevicesCamera());
 }
 
 static bool
@@ -65,7 +65,7 @@ setCallCameraValue(const QVariant &v)
         return false;
 
     return applyStringListSelection(v, callCameraValuesList(), [i](const QString &choice) {
-        i->setCamera(choice);
+        i->setCallsDevicesCamera(choice);
     });
 }
 
@@ -81,7 +81,7 @@ callCameraResolutionValuesList()
     auto i = I;
     if (!i)
         return {};
-    return vecToList(CallDevices::instance().resolutions(i->camera().toStdString()));
+    return vecToList(CallDevices::instance().resolutions(i->callsDevicesCamera().toStdString()));
 }
 
 static QVariant
@@ -90,7 +90,7 @@ callCameraResolutionValue()
     auto i = I;
     if (!i)
         return -1;
-    return callCameraResolutionValuesList().indexOf(i->cameraResolution());
+    return callCameraResolutionValuesList().indexOf(i->callsDevicesCameraResolution());
 }
 
 static bool
@@ -101,7 +101,7 @@ setCallCameraResolutionValue(const QVariant &v)
         return false;
 
     return applyStringListSelection(
-      v, callCameraResolutionValuesList(), [i](const QString &choice) { i->setCameraResolution(choice); });
+      v, callCameraResolutionValuesList(), [i](const QString &choice) { i->setCallsDevicesCameraResolution(choice); });
 }
 
 static QVariant
@@ -117,8 +117,8 @@ callCameraFrameRateValuesList()
     if (!i)
         return {};
 
-    return vecToList(CallDevices::instance().frameRates(i->camera().toStdString(),
-                                                        i->cameraResolution().toStdString()));
+    return vecToList(CallDevices::instance().frameRates(i->callsDevicesCamera().toStdString(),
+                                                        i->callsDevicesCameraResolution().toStdString()));
 }
 
 static QVariant
@@ -127,7 +127,7 @@ callCameraFrameRateValue()
     auto i = I;
     if (!i)
         return -1;
-    return callCameraFrameRateValuesList().indexOf(i->cameraFrameRate());
+    return callCameraFrameRateValuesList().indexOf(i->callsDevicesCameraFrameRate());
 }
 
 static bool
@@ -138,7 +138,7 @@ setCallCameraFrameRateValue(const QVariant &v)
         return false;
 
     return applyStringListSelection(
-      v, callCameraFrameRateValuesList(), [i](const QString &choice) { i->setCameraFrameRate(choice); });
+      v, callCameraFrameRateValuesList(), [i](const QString &choice) { i->setCallsDevicesCameraFrameRate(choice); });
 }
 
 static QVariant

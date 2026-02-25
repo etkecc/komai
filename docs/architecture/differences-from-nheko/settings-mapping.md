@@ -75,15 +75,15 @@ Note:
 | Notifications | SYSTEM NOTIFICATIONS | Message content in notifications | `UserSettingsModel::NotificationMessageContentPolicy` | `decrypt_notifications` | `notifications.message_content_policy` | config.yml | yes |
 | Calls | GENERAL | Enable legacy calls | `UserSettingsModel::CallsLegacyEnabled` | `enable_legacy_calls` | `calls.legacy.enabled` | config.yml | yes |
 | Calls | GENERAL | Use turn.matrix.org as fallback relay | `UserSettingsModel::CallsRelayUseFallbackServer` | `use_fallback_call_relay_server` | `calls.relay.use_fallback_server` | config.yml | yes |
-| Calls | DEVICES | Microphone | `UserSettingsModel::Microphone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
-| Calls | DEVICES | Camera | `UserSettingsModel::Camera` | `camera` | `calls.devices.camera` | config.yml | yes |
-| Calls | DEVICES | Camera resolution | `UserSettingsModel::CameraResolution` | `camera_resolution` | `calls.devices.camera_resolution` | config.yml | yes |
-| Calls | DEVICES | Camera frame rate | `UserSettingsModel::CameraFrameRate` | `camera_frame_rate` | `calls.devices.camera_frame_rate` | config.yml | yes |
-| Calls | DEVICES | Ringtone | `UserSettingsModel::Ringtone` | `ringtone` | `calls.audio.ringtone` | config.yml | yes |
-| Calls | SCREEN SHARING | Screen share frame rate | `UserSettingsModel::ScreenShareFrameRate` | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | yes |
-| Calls | SCREEN SHARING | Include camera picture-in-picture | `UserSettingsModel::ScreenSharePiP` | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | yes |
-| Calls | SCREEN SHARING | Show participant camera while screen sharing | `UserSettingsModel::ScreenShareRemoteVideo` | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | yes |
-| Calls | SCREEN SHARING | Show mouse cursor | `UserSettingsModel::ScreenShareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
+| Calls | DEVICES | Microphone | `UserSettingsModel::CallsDevicesMicrophone` | `microphone` | `calls.devices.microphone` | config.yml | yes |
+| Calls | DEVICES | Camera | `UserSettingsModel::CallsDevicesCamera` | `camera` | `calls.devices.camera` | config.yml | yes |
+| Calls | DEVICES | Camera resolution | `UserSettingsModel::CallsDevicesCameraResolution` | `camera_resolution` | `calls.devices.camera_resolution` | config.yml | yes |
+| Calls | DEVICES | Camera frame rate | `UserSettingsModel::CallsDevicesCameraFrameRate` | `camera_frame_rate` | `calls.devices.camera_frame_rate` | config.yml | yes |
+| Calls | DEVICES | Ringtone | `UserSettingsModel::CallsAudioRingtone` | `ringtone` | `calls.audio.ringtone` | config.yml | yes |
+| Calls | SCREEN SHARING | Screen share frame rate | `UserSettingsModel::CallsScreenshareFrameRate` | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | yes |
+| Calls | SCREEN SHARING | Include camera picture-in-picture | `UserSettingsModel::CallsScreensharePictureInPicture` | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | yes |
+| Calls | SCREEN SHARING | Show participant camera while screen sharing | `UserSettingsModel::CallsScreenshareIncludeRemoteVideo` | `screen_share_remote_video` | `calls.screenshare.include_remote_video` | config.yml | yes |
+| Calls | SCREEN SHARING | Show mouse cursor | `UserSettingsModel::CallsScreenshareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
 | Privacy | WINDOW BLUR | Blur on focus loss | `UserSettingsModel::WindowFocusBlurEnabled` | `privacy_screen` | `privacy.window_focus_blur.enabled` | config.yml | yes |
 | Privacy | WINDOW BLUR | Blur delay (seconds) | `UserSettingsModel::WindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `privacy.window_focus_blur.delay_seconds` | config.yml | yes |
 | Privacy | DATA & MAINTENANCE | Delete expired events periodically | `UserSettingsModel::PrivacyMaintenanceExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |

@@ -100,18 +100,18 @@ Rectangle {
                     dialog.open();
             timelineRoot.destroyOnClose(dialog);
                     return ;
-                } else if (!CallManager.mics.includes(Settings.microphone)) {
+                } else if (!CallManager.mics.includes(Settings.callsDevicesMicrophone)) {
                     var dialog = deviceError.createObject(timelineRoot, {
-                        "errorString": qsTr("Unknown microphone: %1").arg(Settings.microphone),
+                        "errorString": qsTr("Unknown microphone: %1").arg(Settings.callsDevicesMicrophone),
                         "image": ":/icons/icons/ui/place-call.svg"
                     });
                     dialog.open();
             timelineRoot.destroyOnClose(dialog);
                     return ;
                 }
-                if (CallManager.callType == Voip.VIDEO && CallManager.cameras.length > 0 && !CallManager.cameras.includes(Settings.camera)) {
+                if (CallManager.callType == Voip.VIDEO && CallManager.cameras.length > 0 && !CallManager.cameras.includes(Settings.callsDevicesCamera)) {
                     var dialog = deviceError.createObject(timelineRoot, {
-                        "errorString": qsTr("Unknown camera: %1").arg(Settings.camera),
+                        "errorString": qsTr("Unknown camera: %1").arg(Settings.callsDevicesCamera),
                         "image": ":/icons/icons/ui/video.svg"
                     });
                     dialog.open();

@@ -15,11 +15,8 @@
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
-#include "settings/YamlSettings.h"
-#include "settings/core/SettingDefinition.h"
 #include "settings/core/SettingsConstraints.h"
 #include "settings/core/SettingsDefinitions.h"
-#include "settings/core/SettingsSerializer.h"
 #include "settings/ui/facade/UserSettingsCoreStoreBridge.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include <string>
@@ -80,54 +77,6 @@ syncCoreStoreFromSettings(UserSettings &settings)
                                       static_cast<int>(definition.id),
                                       result.validationError);
         }
-    }
-}
-
-const YAML::Node *
-rootNodeForScope(settings::core::SettingScope scope,
-                 const YAML::Node &configRoot,
-                 const YAML::Node &stateRoot,
-                 const YAML::Node &sessionRoot)
-{
-    switch (scope) {
-    case settings::core::SettingScope::Config:
-        return &configRoot;
-    case settings::core::SettingScope::State:
-        return &stateRoot;
-    case settings::core::SettingScope::Session:
-        return &sessionRoot;
-    case settings::core::SettingScope::Runtime:
-    case settings::core::SettingScope::Secrets:
-        return nullptr;
-    }
-
-    return nullptr;
-}
-
-void
-syncCoreStoreFromPersistence(UserSettings &settings,
-                             const YAML::Node &configRoot,
-                             const YAML::Node &stateRoot,
-                             const YAML::Node &sessionRoot)
-{
-    syncCoreStoreFromSettings(settings);
-
-    auto &store = settings.mutableCoreStore();
-    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
-        if (definition.id == settings::core::SettingId::Unknown || !definition.persistedKey)
-            continue;
-
-        const auto *root = rootNodeForScope(definition.scope, configRoot, stateRoot, sessionRoot);
-        if (!root)
-            continue;
-
-        const auto defaultValue = store.value(definition.id);
-        if (!defaultValue.has_value())
-            continue;
-
-        const auto node = yaml_settings::getNode(*root, definition.persistedKey);
-        (void)settings::core::serializer::setFromYamlNodeOrDefault(
-          store, definition.id, node, *defaultValue);
     }
 }
 
@@ -216,7 +165,10 @@ settings::SettingsController::load(UserSettings &settings,
     }
 
     settings.applyTheme();
-    syncCoreStoreFromPersistence(settings, effectiveConfig, stateRoot, sessionRoot);
+    // Keep the core store synchronized from validated runtime settings only.
+    // Avoid re-importing raw YAML scalars here, because that can bypass token
+    // conversion/validation paths and reintroduce invalid persisted values.
+    syncCoreStoreFromSettings(settings);
     settings.setPersistenceScopeReadyForAuth(settings.hasActiveSession());
     // Keep persistence intentionally paused until the UI startup sequence completes.
     // This avoids incidental `save()` calls from initialization code paths.

@@ -91,6 +91,14 @@ fromStorageUiInputMode(const QString &value)
     return false;
 }
 
+bool
+isKnownUiInputModeToken(const QString &value)
+{
+    const auto trimmed = value.trimmed();
+    return trimmed.compare(QLatin1String(kUiInputModeDesktop), Qt::CaseInsensitive) == 0 ||
+           trimmed.compare(QLatin1String(kUiInputModeTouch), Qt::CaseInsensitive) == 0;
+}
+
 void
 loadConfigByType(UserSettings &settings, const YAML::Node &root)
 {
@@ -166,19 +174,42 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
 {
     loadConfigByType(settings, root);
 
-    settings.setTheme(readString(root, SettingKey::UiThemeSlug, settings.theme()));
+    const auto requestedTheme = readString(root, SettingKey::UiThemeSlug, settings.theme());
+    settings.setTheme(requestedTheme);
+    if (settings.theme() != requestedTheme) {
+        activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
+                                 requestedTheme.toStdString(),
+                                 SettingKey::UiThemeSlug,
+                                 settings.theme().toStdString());
+    }
+
     for (const auto &adapter : cfg::enumTokenAdapters()) {
-        adapter.applyFromStorage(
-          settings, readString(root, adapter.key, QString::fromLatin1(adapter.defaultToken)));
+        const auto rawToken =
+          readString(root, adapter.key, QString::fromLatin1(adapter.defaultToken));
+        adapter.applyFromStorage(settings, rawToken);
+        const auto appliedToken = adapter.toStorage(settings);
+        if (rawToken != appliedToken) {
+            activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
+                                     rawToken.toStdString(),
+                                     adapter.key,
+                                     appliedToken.toStdString());
+        }
     }
 
     settings.setUiAnimationsEnabled(readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
-    settings.setTouchInputModeEnabled(fromStorageUiInputMode(
+    const auto inputModeToken =
       readString(root,
                  SettingKey::UiInputMode,
                  QString::fromLatin1(cfg::kDefaultUiInputModeTouchEnabled ? kUiInputModeTouch
-                                                                          : kUiInputModeDesktop))));
+                                                                          : kUiInputModeDesktop));
+    if (!isKnownUiInputModeToken(inputModeToken)) {
+        activeLoggers().ui->warn("Invalid value '{}' for '{}'; using '{}'",
+                                 inputModeToken.toStdString(),
+                                 SettingKey::UiInputMode,
+                                 kUiInputModeDesktop);
+    }
+    settings.setTouchInputModeEnabled(fromStorageUiInputMode(inputModeToken));
     const auto scaleFactor =
       readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
     if (settings::core::isScaleFactorInRange(scaleFactor))

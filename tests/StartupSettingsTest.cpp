@@ -426,6 +426,49 @@ testEnumSettingsPersistAsStrings()
 }
 
 bool
+testInvalidConfigTokensFallbackToSafeValues()
+{
+    const QString profile = QStringLiteral("invalid-config-token-fallback-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "invalid token fixture config root can be created");
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["ui"]["theme"]["slug"]                  = "not-a-real-theme";
+    configRoot["ui"]["input"]["mode"]                  = "spaceship";
+    configRoot["network"]["presence"]["status_policy"] = "not_a_real_presence";
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "invalid token fixture config can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for invalid token test");
+
+    bool ok = true;
+    ok &= expect(settings->theme() != QStringLiteral("not-a-real-theme"),
+                 "invalid theme slug is ignored");
+    ok &= expect(settings->presence() == UserSettings::Presence::AutomaticPresence,
+                 "invalid presence token falls back to automatic presence");
+    ok &= expect(!settings->touchInputModeEnabled(),
+                 "invalid input mode token falls back to desktop mode");
+
+    const auto &store = settings->coreStore();
+    const auto theme = store.valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
+    const auto presence = store.valueAs<int>(settings::core::SettingId::NetworkPresenceStatusPolicy);
+    const auto inputMode = store.valueAs<bool>(settings::core::SettingId::UiInputMode);
+    ok &= expect(theme.has_value() && *theme != std::string{"not-a-real-theme"},
+                 "core store keeps valid theme after invalid theme token");
+    ok &= expect(presence.has_value() &&
+                   *presence == static_cast<int>(UserSettings::Presence::AutomaticPresence),
+                 "core store keeps fallback presence for invalid token");
+    ok &= expect(inputMode.has_value() && !*inputMode,
+                 "core store keeps fallback input mode for invalid token");
+
+    return ok;
+}
+
+bool
 testSerializerLoggerInjection()
 {
     const QString profile = QStringLiteral("serializer-logger-profile");
@@ -704,6 +747,7 @@ main()
     ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
     ok &= testEnumSettingsPersistAsStrings();
+    ok &= testInvalidConfigTokensFallbackToSafeValues();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();

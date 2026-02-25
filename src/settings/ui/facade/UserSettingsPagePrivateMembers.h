@@ -51,8 +51,8 @@ int sidebarsRoomListWidthPx_    = settings::core::definitions::kDefaultSidebarsR
 int sidebarsCommunitiesWidthPx_ = settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx;
 double uiScaleFactor_           = settings::core::definitions::kDefaultScaleFactor;
 double baseFontSize_            = settings::core::definitions::kDefaultFontSizePt;
-QString font_;
-QString emojiFont_;
+QString uiFontFamily_;
+QString uiEmojiFontFamily_;
 Presence networkPresenceStatusPolicy_;
 ShowImage timelineMediaImageDisplay_;
 QString callsAudioRingtone_;

@@ -253,7 +253,7 @@ Popup {
                                     visible: isUnicode
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: Settings.emojiFont
+                                    font.family: Settings.uiEmojiFontFamily
                                     font.pixelSize: 36
                                     text: del.modelData.unicode.replace('\ufe0f', '')
                                 }

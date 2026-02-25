@@ -2,8 +2,8 @@
     int sidebarsRoomListWidthPx() const;
     double uiScaleFactor() const;
     double uiFontSizePt() const;
-    QString font() const;
-    QString emojiFont() const;
+    QString uiFontFamily() const;
+    QString uiEmojiFontFamily() const;
     QString emojiFontFamily() const;
     Presence networkPresenceStatusPolicy() const;
     ShowImage timelineMediaImageDisplay() const;

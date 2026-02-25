@@ -50,7 +50,7 @@ Flow {
 
                     elide: Text.ElideRight
                     elideWidth: 150
-                    font.family: Settings.emojiFont
+                    font.family: Settings.uiEmojiFontFamily
                     text: modelData.displayKey
                 }
                 Text {
@@ -58,7 +58,7 @@ Flow {
 
                     anchors.baseline: reactionCounter.baseline
                     color: reaction.hovered ? palette.highlightedText : palette.text
-                    font.family: Settings.emojiFont
+                    font.family: Settings.uiEmojiFontFamily
                     font.pixelSize: 20
                     textFormat: TextEdit.RichText
                     maximumLineCount: 1

@@ -250,7 +250,7 @@ Item {
                             anchors.centerIn: parent
                             color: btnPinned.hovered ? btnPinned.highlightColor : btnPinned.buttonTextColor
                             font.pixelSize: 32
-                            font.family: Settings.emojiFont
+                            font.family: Settings.uiEmojiFontFamily
                             horizontalAlignment: Text.AlignHCenter
                             padding: 0
                             text: TimelineManager.htmlEscape(btnPinned.modelData)
@@ -318,7 +318,7 @@ Item {
                             anchors.centerIn: parent
                             color: btnRecent.hovered ? btnRecent.highlightColor : btnRecent.buttonTextColor
                             font.pixelSize: 32
-                            font.family: Settings.emojiFont
+                            font.family: Settings.uiEmojiFontFamily
                             horizontalAlignment: Text.AlignHCenter
                             padding: 0
                             text: TimelineManager.htmlEscape(btnRecent.modelData)

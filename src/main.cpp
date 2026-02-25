@@ -338,7 +338,7 @@ main(int argc, char *argv[])
     auto profileName = settings.lock()->profile();
 
     if (const auto initialSettings = settings.lock()) {
-        const auto fontFamily = initialSettings->font();
+        const auto fontFamily = initialSettings->uiFontFamily();
         nhlog::ui()->info("Startup UI settings: scaleFactor={}, fontSizePt={}, fontFamily='{}'",
                           initialSettings->uiScaleFactor(),
                           initialSettings->uiFontSizePt(),
@@ -441,7 +441,7 @@ main(int argc, char *argv[])
     app.installEventFilter(filter);
 
     QFont font;
-    QString userFontFamily = settings.lock()->font();
+    QString userFontFamily = settings.lock()->uiFontFamily();
     if (!userFontFamily.isEmpty() && userFontFamily != QLatin1String("default")) {
         font.setFamily(userFontFamily);
     }
@@ -450,7 +450,7 @@ main(int argc, char *argv[])
     app.setFont(font);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-    if (auto emojiFont = settings.lock()->emojiFont(); !emojiFont.isEmpty()) {
+    if (auto emojiFont = settings.lock()->uiEmojiFontFamily(); !emojiFont.isEmpty()) {
         QFontDatabase::addApplicationEmojiFontFamily(emojiFont);
     }
 #endif

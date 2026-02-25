@@ -647,7 +647,7 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
           QStringLiteral("<mx-reply>.*</mx-reply>"),
           QRegularExpression::DotMatchesEverythingOption);
 
-        auto ascent = QFontMetrics(UserSettings::instance()->font()).ascent();
+        auto ascent = QFontMetrics(UserSettings::instance()->uiFontFamily()).ascent();
 
         bool isReply = mtx::accessors::relations(event).reply_to(false).has_value();
 
@@ -2734,7 +2734,7 @@ TimelineModel::formatImagePackEvent(
     const auto &newImages = event.content.images;
     const auto oldImages  = prevEvent ? prevEvent->content.images : decltype(newImages){};
 
-    auto ascent = QFontMetrics(UserSettings::instance()->font()).ascent();
+    auto ascent = QFontMetrics(UserSettings::instance()->uiFontFamily()).ascent();
 
     auto calcChange = [ascent](const std::map<std::string, mtx::events::msc2545::PackImage> &newI,
                                const std::map<std::string, mtx::events::msc2545::PackImage> &oldI) {

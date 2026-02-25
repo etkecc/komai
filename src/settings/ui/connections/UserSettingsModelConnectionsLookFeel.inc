@@ -1,8 +1,8 @@
     // Look & Feel
     CONNECT_SETTING_ID(UiThemeSlug, themeChanged, Value, Values, ThemeVariantValue);
-    CONNECT_SETTING_ID(UiFontFamily, fontChanged, Value);
+    CONNECT_SETTING_ID(UiFontFamily, uiFontFamilyChanged, Value);
     CONNECT_SETTING_ID(UiFontSizePt, uiFontSizePtChanged, Value);
-    CONNECT_SETTING_ID(UiFontEmojiFamily, emojiFontChanged, Value);
+    CONNECT_SETTING_ID(UiFontEmojiFamily, uiEmojiFontFamilyChanged, Value);
     CONNECT_SETTING_ID(UiLayoutContentMaxWidthPx, uiLayoutContentMaxWidthPxChanged, Value);
     CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, Value);
     CONNECT_SETTING_ID(UiInputMode, uiInputModeTouchEnabledChanged, Value);

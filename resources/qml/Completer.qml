@@ -183,7 +183,7 @@ Control {
 
                         Label {
                             color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                            font.family: Settings.emojiFont
+                            font.family: Settings.uiEmojiFontFamily
                             text: model.unicode
                             visible: !!model.unicode
                         }

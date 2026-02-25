@@ -29,12 +29,12 @@ UserSettings::uiFontSizePt() const
     return baseFontSize_;
 }
 QString
-UserSettings::font() const
+UserSettings::uiFontFamily() const
 {
     if (const auto value = coreStore_.valueAs<std::string>(settings::core::SettingId::UiFontFamily);
         value.has_value())
         return QString::fromStdString(*value);
-    return font_;
+    return uiFontFamily_;
 }
 QString
 UserSettings::emojiFontFamily() const
@@ -43,7 +43,7 @@ UserSettings::emojiFontFamily() const
           coreStore_.valueAs<std::string>(settings::core::SettingId::UiFontEmojiFamily);
         value.has_value())
         return QString::fromStdString(*value);
-    return emojiFont_;
+    return uiEmojiFontFamily_;
 }
 UserSettings::Presence
 UserSettings::networkPresenceStatusPolicy() const

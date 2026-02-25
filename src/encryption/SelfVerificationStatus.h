@@ -7,6 +7,8 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QString>
+#include <vector>
 
 class SelfVerificationStatus : public QObject
 {
@@ -17,6 +19,8 @@ class SelfVerificationStatus : public QObject
 
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
     Q_PROPERTY(bool hasSSSS READ hasSSSS NOTIFY hasSSSSChanged)
+    Q_PROPERTY(bool canVerifyWithAnotherDevice READ canVerifyWithAnotherDevice NOTIFY
+                 canVerifyWithAnotherDeviceChanged)
 
 public:
     SelfVerificationStatus(QObject *o = nullptr);
@@ -31,7 +35,7 @@ public:
 
     Q_INVOKABLE void
     setupCrosssigning(bool useSSSS, const QString &password, bool onlineKeyBackupEnabled);
-    Q_INVOKABLE void verifyMasterKey();
+    Q_INVOKABLE bool verifyMasterKey();
     Q_INVOKABLE void verifyMasterKeyWithPassphrase();
     Q_INVOKABLE void verifyUnverifiedDevices();
     Q_INVOKABLE void setupEncryptionBackup();
@@ -40,10 +44,12 @@ public:
 
     Status status() const { return status_; }
     bool hasSSSS() const { return hasSSSS_; }
+    bool canVerifyWithAnotherDevice() const { return canVerifyWithAnotherDevice_; }
 
 signals:
     void statusChanged();
     void hasSSSSChanged();
+    void canVerifyWithAnotherDeviceChanged();
     void setupCompleted();
     void showRecoveryKey(QString key);
     void setupFailed(QString message);
@@ -53,6 +59,9 @@ public slots:
     void invalidate();
 
 private:
-    Status status_ = AllVerified;
-    bool hasSSSS_  = true;
+    std::vector<QString> verificationDevicesFromMasterSignatures() const;
+
+    Status status_                   = AllVerified;
+    bool hasSSSS_                    = true;
+    bool canVerifyWithAnotherDevice_ = false;
 };

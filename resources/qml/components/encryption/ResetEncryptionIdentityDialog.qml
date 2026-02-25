@@ -1,0 +1,58 @@
+// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import ".." as Components
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import im.nheko 1.0
+
+Components.OverlayDialog {
+    id: root
+
+    signal resetRequested()
+
+    titleText: qsTr("Reset encryption identity?")
+    titleIcon: ":/icons/icons/ui/shield-regular-exclamation-mark.svg"
+    titleIconColor: Nheko.theme.orange
+
+    TextEdit {
+        Layout.fillWidth: true
+        color: palette.text
+        readOnly: true
+        selectByMouse: true
+        text: qsTr("Resetting creates a new encryption identity for this account and starts setup again.\n\nYou will get a new security key. Better save it to avoid resetting again.\n\nPrevious server-side key backups are not removed automatically.")
+        textFormat: TextEdit.PlainText
+        wrapMode: TextEdit.Wrap
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Nheko.paddingSmall
+
+        Button {
+            Layout.rightMargin: Nheko.paddingLarge
+            text: qsTr("Not now")
+            onClicked: root.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            icon.source: "qrc:/icons/icons/ui/refresh.svg"
+            icon.width: 18
+            icon.height: 18
+            text: qsTr("Reset")
+            highlighted: true
+
+            onClicked: {
+                resetRequested();
+                root.close();
+            }
+        }
+    }
+}

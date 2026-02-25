@@ -221,34 +221,22 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
       });
 }
 
-void
+bool
 SelfVerificationStatus::verifyMasterKey()
 {
     nhlog::db()->info("Clicked verify master key");
 
     const auto this_user = http::client()->user_id().to_string();
+    auto devices         = verificationDevicesFromMasterSignatures();
 
-    auto keys        = cache::userKeys(this_user);
-    const auto &sigs = keys->master_keys.signatures[this_user];
-
-    std::vector<QString> devices;
-    for (const auto &[dev, sig] : sigs) {
-        (void)sig;
-
-        auto d = QString::fromStdString(dev);
-        if (d.startsWith(QLatin1String("ed25519:"))) {
-            d.remove(QStringLiteral("ed25519:"));
-
-            if (keys->device_keys.count(d.toStdString()))
-                devices.push_back(std::move(d));
-        }
-    }
-
-    if (!devices.empty())
+    if (!devices.empty()) {
         ChatPage::instance()->timelineManager()->verificationManager()->verifyOneOfDevices(
           QString::fromStdString(this_user), std::move(devices));
-    else
-        nhlog::db()->info("No devices to verify");
+        return true;
+    }
+
+    nhlog::db()->info("No devices to verify");
+    return false;
 }
 
 void
@@ -320,6 +308,35 @@ SelfVerificationStatus::promptCurrentVerificationAction()
     emit promptForStatus(static_cast<int>(status_));
 }
 
+std::vector<QString>
+SelfVerificationStatus::verificationDevicesFromMasterSignatures() const
+{
+    std::vector<QString> devices;
+
+    const auto this_user = http::client()->user_id().to_string();
+    auto keys            = cache::userKeys(this_user);
+    if (!keys)
+        return devices;
+
+    const auto sigsIt = keys->master_keys.signatures.find(this_user);
+    if (sigsIt == keys->master_keys.signatures.end())
+        return devices;
+
+    for (const auto &[dev, sig] : sigsIt->second) {
+        (void)sig;
+
+        auto d = QString::fromStdString(dev);
+        if (!d.startsWith(QLatin1String("ed25519:")))
+            continue;
+
+        d.remove(QStringLiteral("ed25519:"));
+        if (keys->device_keys.count(d.toStdString()))
+            devices.push_back(std::move(d));
+    }
+
+    return devices;
+}
+
 void
 SelfVerificationStatus::invalidate()
 {
@@ -327,7 +344,21 @@ SelfVerificationStatus::invalidate()
 
     nhlog::db()->debug("Invalidating self verification status");
     if (!cache::isInitialized()) {
-        nhlog::db()->warn("SelfVerificationStatus: cache not initialized");
+        nhlog::db()->debug("SelfVerificationStatus: cache not initialized yet");
+        if (canVerifyWithAnotherDevice_) {
+            canVerifyWithAnotherDevice_ = false;
+            emit canVerifyWithAnotherDeviceChanged();
+        }
+        return;
+    }
+
+    // During startup, onDatabaseReady can fire before the Olm account is loaded/created.
+    // Accessing verification state too early can throw "identity_keys: account == nullptr".
+    try {
+        (void)olm::client()->identity_keys();
+    } catch (const std::exception &e) {
+        nhlog::db()->debug("SelfVerificationStatus: OLM account not ready yet: {}", e.what());
+        QTimer::singleShot(250, this, &SelfVerificationStatus::invalidate);
         return;
     }
 
@@ -352,6 +383,20 @@ SelfVerificationStatus::invalidate()
                                    this, &SelfVerificationStatus::invalidate, Qt::QueuedConnection);
                              });
         });
+    }
+
+    if (!keys) {
+        if (canVerifyWithAnotherDevice_) {
+            canVerifyWithAnotherDevice_ = false;
+            emit canVerifyWithAnotherDeviceChanged();
+        }
+        return;
+    }
+
+    const bool canVerifyNow = !verificationDevicesFromMasterSignatures().empty();
+    if (canVerifyWithAnotherDevice_ != canVerifyNow) {
+        canVerifyWithAnotherDevice_ = canVerifyNow;
+        emit canVerifyWithAnotherDeviceChanged();
     }
 
     if (keys->master_keys.keys.empty()) {

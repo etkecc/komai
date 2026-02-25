@@ -6,6 +6,7 @@
 import "./dialogs"
 import "./pages"
 import "./ui"
+import "./components/encryption" as Encryption
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
@@ -320,7 +321,7 @@ Pane {
 
         target: CallManager
     }
-    SelfVerificationCheck {
+    Encryption.SelfVerificationCoordinator {
     }
     InputDialog {
         id: uiaPassPrompt

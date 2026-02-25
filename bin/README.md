@@ -14,6 +14,10 @@ The big picture:
 - `bin/*` scripts are the implementation details behind those `just` tasks and local [`prek`](https://prek.j178.dev/) hooks.
 - CI reuses the same scripts so local and CI behavior stay aligned.
 
+Top-level helper scripts:
+
+- [`settings-generate-3-layer-mapping.sh`](settings-generate-3-layer-mapping.sh) - regenerates settings naming/mapping audit output in `var/plans/settings-3-layer-mapping.md`.
+
 ## What Lives Here
 
 - [`emoji/`](emoji/README.md) - generate `src/emoji/Provider.{h,cpp}` from Unicode emoji data.

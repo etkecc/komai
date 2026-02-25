@@ -197,6 +197,10 @@ translations-claude-translate-all *args:
 		}
 	done
 
+# Regenerates var/plans/settings-3-layer-mapping.md from settings source-of-truth files
+settings-generate-3-layer-mapping *args:
+	{{ justfile_directory() }}/bin/settings-generate-3-layer-mapping.sh {{ args }}
+
 # Builds a Flatpak bundle from the local source tree
 flatpak-build:
 	#!/usr/bin/env bash

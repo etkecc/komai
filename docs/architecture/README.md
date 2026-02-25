@@ -5,6 +5,7 @@ Technical documentation for Komai internals.
 ## Core Systems
 
 - ⚙️ [Settings Architecture](settings/README.md) -- persistence model, load order, and secret-provider behavior
+- 🧱 [Settings Migrations](settings/migrations.md) -- schema versioning and migration strategy
 - 🧭 [Settings 3-Layer Mapping](settings/3-layer-mapping.md) -- `SettingId` ↔ runtime getter ↔ persisted key audit report
 - 🧩 [Icons Architecture](icons.md) -- icon source of truth, validation, and Fluent sync workflow
 - 💾 [Storage Architecture](storage.md) -- path helpers, storage layout, and callsites

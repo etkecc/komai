@@ -12,6 +12,7 @@
 
 #include "SettingsSerializerConfigInternal.h"
 #include "settings/SettingKeys.h"
+#include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StagedLoadPlan.h"
 #include "settings/YamlSettings.h"
@@ -28,6 +29,7 @@ saveConfig(const UserSettings &settings,
 {
     YAML::Node root(YAML::NodeType::Map);
     detail::makeConfigNode(settings, root);
+    settings::migrations::stampCurrentConfigSchemaVersion(root);
 
     setNode(root,
             SettingKey::SecretsProvider,

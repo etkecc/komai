@@ -437,6 +437,12 @@ Pane {
             replaceExit = Settings.uiMotionAnimationsEnabled ? replaceExitOrg : reducedMotionNoopTransition;
         }
 
+        function openUserSettingsPage() {
+            if (mainWindow.currentItem && mainWindow.currentItem.objectName === "userSettingsPage")
+                return;
+            mainWindow.push(userSettingsPage);
+        }
+
         anchors.fill: parent
         initialItem: welcomePage
 
@@ -507,6 +513,9 @@ Pane {
             mainWindow.replace(welcomePage, {}, loginPage, {
                     "error": error
                 }, StackView.PopTransition);
+        }
+        function onShowUserSettingsPageRequested() {
+            mainWindow.openUserSettingsPage();
         }
 
         target: MainWindow

@@ -254,6 +254,12 @@ MainWindow::showChatPage(bool hadSessionIdentity)
     emit switchToChatPage();
 }
 
+void
+MainWindow::showUserSettingsPage()
+{
+    emit showUserSettingsPageRequested();
+}
+
 bool
 NhekoFixupPaletteEventFilter::eventFilter(QObject *obj, QEvent *event)
 {

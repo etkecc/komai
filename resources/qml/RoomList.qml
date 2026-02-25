@@ -232,7 +232,7 @@ Page {
                         if (mouse.button === Qt.RightButton || !roomActionsBar.showActionButtons)
                             profileContextMenu.popup(roomActionsAvatar)
                         else
-                            mainWindow.push(userSettingsPage)
+                            MainWindow.showUserSettingsPage()
                     }
 
                     Avatar {
@@ -421,7 +421,7 @@ Page {
         MenuItem {
             text: qsTr("Application Settings")
             icon.source: "qrc:/icons/icons/ui/toggles.svg"
-            onTriggered: mainWindow.push(userSettingsPage)
+            onTriggered: MainWindow.showUserSettingsPage()
         }
         MenuSeparator {
         }

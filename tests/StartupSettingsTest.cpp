@@ -23,6 +23,7 @@
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsSerializerConfigConverters.h"
 #include "settings/SettingsSerializerConfigSchema.h"
+#include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
 #include "settings/StagedLoadPlan.h"
@@ -552,6 +553,105 @@ testSessionIdentityValuesAreTrimmedOnLoad()
 }
 
 bool
+testMalformedSessionIdentityValuesFallbackToEmpty()
+{
+    const QString profile = QStringLiteral("session-malformed-values-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "malformed session fixture root can be created");
+
+    YAML::Node sessionRoot(YAML::NodeType::Map);
+    sessionRoot["session"]["account"]["user_id"]    = YAML::Node(YAML::NodeType::Map);
+    sessionRoot["session"]["account"]["homeserver"] = YAML::Node(YAML::NodeType::Sequence);
+    sessionRoot["session"]["device"]["id"]          = YAML::Node(YAML::NodeType::Map);
+    if (!ctx.writeSession(sessionRoot))
+        return expect(false, "malformed session fixture can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for malformed session test");
+
+    bool ok = true;
+    ok &= expect(settings->userId().isEmpty(), "non-string user id falls back to empty");
+    ok &= expect(settings->homeserver().isEmpty(), "non-string homeserver falls back to empty");
+    ok &= expect(settings->deviceId().isEmpty(), "non-string device id falls back to empty");
+    ok &= expect(!settings->hasPersistedSessionIdentity(),
+                 "malformed session data does not report persisted identity");
+    ok &= expect(!settings->hasActiveSession(),
+                 "malformed session data does not report active session");
+    return ok;
+}
+
+bool
+testSessionAuthStateHelpersForIncompleteLogin()
+{
+    const QString profile = QStringLiteral("session-auth-state-helpers-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "session auth helper fixture root can be created");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for session auth helper test");
+
+    bool ok = true;
+    ok &= expect(!settings->hasPersistedSessionIdentity(),
+                 "fresh profile starts without persisted session identity");
+    ok &= expect(!settings->hasActiveSession(), "fresh profile starts without active session");
+
+    settings->setSessionSnapshot(UserSettings::SessionSnapshot{
+      .userId      = QStringLiteral("@alice:example.org"),
+      .accessToken = QString(),
+      .deviceId    = QStringLiteral("DEVICE1"),
+      .homeserver  = QStringLiteral("https://example.org")});
+    ok &= expect(settings->hasPersistedSessionIdentity(),
+                 "session identity can exist without access token");
+    ok &= expect(!settings->hasActiveSession(),
+                 "session without token is treated as incomplete login");
+
+    settings->setAccessToken(QStringLiteral("token"));
+    ok &= expect(settings->hasActiveSession(),
+                 "adding access token marks session as active");
+
+    settings->clearAuth();
+    ok &= expect(!settings->hasPersistedSessionIdentity(),
+                 "clearAuth removes persisted session identity");
+    ok &= expect(!settings->hasActiveSession(), "clearAuth removes active session");
+
+    return ok;
+}
+
+bool
+testConfigSchemaVersionIsStampedOnSave()
+{
+    const QString profile = QStringLiteral("config-schema-version-stamp-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "config schema version fixture root can be created");
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["ui"]["theme"]["slug"] = "komai-light";
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "config schema version fixture can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for schema version test");
+
+    settings->setPersistenceSuspended(false);
+    settings->setUiThemeSlug(QStringLiteral("komai-dark"));
+
+    const auto persisted = settings::storage::loadYamlFile(ctx.configFile(), "schema-version");
+    return expectScalarInt(persisted,
+                           SettingKey::ConfigSchemaVersion,
+                           settings::migrations::kCurrentConfigSchemaVersion,
+                           "config save stamps current settings schema version");
+}
+
+bool
 testSerializerLoggerInjection()
 {
     const QString profile = QStringLiteral("serializer-logger-profile");
@@ -963,6 +1063,9 @@ main()
     ok &= testInvalidConfigTokensFallbackToSafeValues();
     ok &= testInvalidStateDimensionsFallbackToSafeValues();
     ok &= testSessionIdentityValuesAreTrimmedOnLoad();
+    ok &= testMalformedSessionIdentityValuesFallbackToEmpty();
+    ok &= testSessionAuthStateHelpersForIncompleteLogin();
+    ok &= testConfigSchemaVersionIsStampedOnSave();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();

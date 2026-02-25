@@ -6,8 +6,10 @@
 #include "SettingsController.h"
 #include "SettingsControllerInternal.h"
 
+#include <spdlog/logger.h>
 #include <yaml-cpp/yaml.h>
 
+#include "settings/SettingsMigrations.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
@@ -43,11 +45,18 @@ settings::SettingsController::load(UserSettings &settings,
     settings.setPersistenceSuspended(true);
 
     const bool hasInjectedConfig = configRoot.IsDefined() && !configRoot.IsNull();
-    const auto effectiveConfig =
+    const auto loadedConfig =
       hasInjectedConfig ? configRoot : loadYamlFile(settings.configFilePath(), "config");
-    settings::serializer::loadConfig(settings, effectiveConfig);
+    const auto migrationOutcome = settings::migrations::migrateConfigRoot(loadedConfig);
+    if (migrationOutcome.hadFutureVersion) {
+        activeLoggers().ui->warn("Config schema version {} is newer than supported version {}; "
+                                 "known keys will still be loaded but no migration will be applied",
+                                 migrationOutcome.sourceVersion,
+                                 settings::migrations::kCurrentConfigSchemaVersion);
+    }
+    settings::serializer::loadConfig(settings, migrationOutcome.migratedRoot);
 
-    const auto provider = settings::persistence::providerFromConfig(effectiveConfig);
+    const auto provider = settings::persistence::providerFromConfig(migrationOutcome.migratedRoot);
     settings.setUsesFileSecretsProvider(provider == staged_load_plan::SecretsProvider::File);
     YAML::Node sessionRoot;
     YAML::Node stateRoot;

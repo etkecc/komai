@@ -643,6 +643,8 @@ set(SRC_FILES
     src/settings/SettingsPersistenceSave.cpp
     src/settings/SettingsPersistenceInternal.h
     src/settings/SettingsPersistence.h
+    src/settings/SettingsMigrations.cpp
+    src/settings/SettingsMigrations.h
     src/settings/SettingsStorage.cpp
     src/settings/SettingsStoragePathApi.cpp
     src/settings/SettingsStorageReaderWriterFilesystem.cpp
@@ -1175,6 +1177,7 @@ if(BUILD_TESTING)
         src/settings/SettingsController.cpp
         src/settings/SettingsControllerLoad.cpp
         src/settings/SettingsControllerSave.cpp
+        src/settings/SettingsMigrations.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp

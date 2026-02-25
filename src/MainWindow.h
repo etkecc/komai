@@ -85,6 +85,8 @@ public:
 
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);
+    //! Request showing the user settings page from any app page/state.
+    Q_INVOKABLE void showUserSettingsPage();
 
 #ifdef KOMAI_DBUS_SYS
     bool dbusAvailable() const { return dbusAvailable_; }
@@ -117,6 +119,7 @@ signals:
     void switchToChatPage();
     void switchToWelcomePage();
     void switchToLoginPage(QString error);
+    void showUserSettingsPageRequested();
 
 private:
     void showDialog(QWidget *dialog);

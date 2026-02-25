@@ -181,6 +181,7 @@ class UserSettings final : public QObject
     Q_PROPERTY(QString accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged)
     Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
     Q_PROPERTY(QString homeserver READ homeserver WRITE setHomeserver NOTIFY homeserverChanged)
+    Q_PROPERTY(bool hasActiveSession READ hasActiveSession NOTIFY sessionAuthStateChanged)
     Q_PROPERTY(bool networkTlsEnableCertificateValidation READ networkTlsEnableCertificateValidation
                  WRITE setNetworkTlsEnableCertificateValidation NOTIFY
                    networkTlsEnableCertificateValidationChanged)
@@ -546,6 +547,7 @@ signals:
     void dbMaxSizeBytesChanged(qulonglong size);
     void dbMaxStoresChanged(uint count);
     void networkHttp3EnabledChanged(bool state);
+    void sessionAuthStateChanged();
 
 private:
     template<typename T, typename Signal>
@@ -560,6 +562,8 @@ private:
     bool setCoreValue(settings::core::SettingId id,
                       settings::core::SettingsStore::Value value,
                       const char *settingName);
+    void emitSessionAuthStateChangedIfNeeded(bool hadPersistedSessionIdentity,
+                                             bool hadActiveSessionState);
 
 #include "settings/ui/facade/UserSettingsPagePrivateMembers.h"
 };

@@ -10,6 +10,7 @@ namespace SettingKey {
  * Canonical dotted keys used by settings load/save and migration-safe reads.
  */
 // config.yml
+constexpr auto ConfigSchemaVersion              = "meta.settings_schema_version";
 constexpr auto IntegrationsSystemTrayEnabled    = "integrations.system_tray.enabled";
 constexpr auto IntegrationsSystemTrayAutostart  = "integrations.system_tray.autostart";
 constexpr auto UiThemeSlug                      = "ui.theme.slug";

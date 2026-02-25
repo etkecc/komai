@@ -13,6 +13,7 @@ import im.nheko
 
 Rectangle {
     id: userSettingsDialog
+    objectName: "userSettingsPage"
 
     property int collapsePoint: 600
     property bool collapsed: width < collapsePoint

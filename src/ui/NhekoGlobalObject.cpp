@@ -20,6 +20,7 @@
 #include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
+#include "MainWindow.h"
 #include "Utils.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
@@ -216,7 +217,8 @@ Nheko::currentUser() const
 void
 Nheko::showUserSettingsPage() const
 {
-    ChatPage::instance()->showUserSettingsPage();
+    if (auto *window = MainWindow::instance())
+        window->showUserSettingsPage();
 }
 
 void

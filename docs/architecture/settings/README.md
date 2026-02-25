@@ -13,6 +13,7 @@ Responsibility split:
 - `settings::staged_load_plan` defines the load stages and how secrets-provider selection affects them.
 - `settings::persistence` handles secret-provider plumbing and serializing secret payloads.
 - `settings::storage` owns low-level file/keyring/YAML operations and profile path resolution.
+- `settings::migrations` owns schema-versioned config migration logic.
 - `settings::startup` owns startup-only reads that must happen before `Q(Core)Application` is created.
 
 Current ownership map:
@@ -54,6 +55,8 @@ Current ownership map:
   - Secret provider strategy plus secret payload load/save/cleanup behavior.
 - `src/settings/SettingsStorage.*`
   - Profile pathing and direct file/secure-store I/O primitives.
+- `src/settings/SettingsMigrations.*`
+  - Config schema-version migration entry point and migration step chain.
 - `src/settings/StartupSettings.*`, `src/settings/core/StartupConfig.*`
   - Bootstrap profile config preloading for startup-time scale-factor handling.
 - `src/settings/core/SettingDefinition.h`, `src/settings/core/SettingsDefinitions.h`, `src/settings/core/SettingsConstraints.h`
@@ -295,6 +298,7 @@ The generated report includes:
   - [User Settings Guide](../../settings.md)
   - [Storage Guide](../../storage.md)
   - [this architecture document](README.md)
+  - [settings migration playbook](migrations.md)
   - [Storage Architecture](../storage.md)
   - [settings examples](examples/profile/)
   - [nheko to Komai settings mapping](../differences-from-nheko/settings-mapping.md)

@@ -30,6 +30,9 @@ UserSettings::sessionSnapshot() const
 void
 UserSettings::setSessionSnapshot(const SessionSnapshot &snapshot)
 {
+    const bool hadPersistedSessionIdentity = hasPersistedSessionIdentity();
+    const bool hadActiveSessionState       = hasActiveSession();
+
     const auto applyField = [this](QString &field, const QString &value, auto signal) {
         if (field == value)
             return;
@@ -41,11 +44,15 @@ UserSettings::setSessionSnapshot(const SessionSnapshot &snapshot)
     applyField(userId_, snapshot.userId, &UserSettings::userIdChanged);
     applyField(deviceId_, snapshot.deviceId, &UserSettings::deviceIdChanged);
     applyField(homeserver_, snapshot.homeserver, &UserSettings::homeserverChanged);
+    emitSessionAuthStateChangedIfNeeded(hadPersistedSessionIdentity, hadActiveSessionState);
 }
 
 bool
 UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
 {
+    const bool hadPersistedSessionIdentity = hasPersistedSessionIdentity();
+    const bool hadActiveSessionState       = hasActiveSession();
+
     nhlog::ui()->info("Persisting session snapshot for profile '{}' "
                       "(has_user_id={}, has_access_token={}, has_device_id={}, has_homeserver={})",
                       app_paths::normalizedProfileId(profile_).toStdString(),
@@ -80,6 +87,7 @@ UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
     applyField(accessToken_, snapshot.accessToken, &UserSettings::accessTokenChanged);
     applyField(deviceId_, snapshot.deviceId, &UserSettings::deviceIdChanged);
     applyField(homeserver_, snapshot.homeserver, &UserSettings::homeserverChanged);
+    emitSessionAuthStateChangedIfNeeded(hadPersistedSessionIdentity, hadActiveSessionState);
 
     if (!changed)
         nhlog::ui()->debug("Persisted session snapshot unchanged; rewriting session/auth storage");
@@ -97,16 +105,32 @@ UserSettings::persistSessionSnapshot(const SessionSnapshot &snapshot)
 void
 UserSettings::applyLoadedSecrets(const QString &accessToken, const QMap<QString, QString> &secrets)
 {
+    const bool hadPersistedSessionIdentity = hasPersistedSessionIdentity();
+    const bool hadActiveSessionState       = hasActiveSession();
     accessToken_ = accessToken;
     secrets_     = secrets;
+    emitSessionAuthStateChangedIfNeeded(hadPersistedSessionIdentity, hadActiveSessionState);
 }
 
 void
 UserSettings::clearAuthInMemory()
 {
+    const bool hadPersistedSessionIdentity = hasPersistedSessionIdentity();
+    const bool hadActiveSessionState       = hasActiveSession();
     accessToken_ = QString();
     homeserver_  = QString();
     userId_      = QString();
     deviceId_    = QString();
     secrets_.clear();
+    emitSessionAuthStateChangedIfNeeded(hadPersistedSessionIdentity, hadActiveSessionState);
+}
+
+void
+UserSettings::emitSessionAuthStateChangedIfNeeded(bool hadPersistedSessionIdentity,
+                                                  bool hadActiveSessionState)
+{
+    if (hadPersistedSessionIdentity != hasPersistedSessionIdentity() ||
+        hadActiveSessionState != hasActiveSession()) {
+        emit sessionAuthStateChanged();
+    }
 }

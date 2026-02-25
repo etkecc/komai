@@ -5,302 +5,251 @@
 
 #include "SettingsSerializerConfigConverters.h"
 
+#include <array>
+
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace settings::serializer::config {
 
+namespace {
+
+template<typename ValueT, std::size_t N>
+QString
+valueToStorageToken(ValueT value,
+                    const std::array<std::pair<ValueT, const char *>, N> &tokenMap,
+                    const char *fallbackToken)
+{
+    for (const auto &[candidate, token] : tokenMap) {
+        if (candidate == value)
+            return QString::fromLatin1(token);
+    }
+
+    return QString::fromLatin1(fallbackToken);
+}
+
+template<typename ValueT, std::size_t N>
+ValueT
+valueFromStorageToken(const QString &value,
+                      ValueT fallback,
+                      const std::array<std::pair<ValueT, const char *>, N> &tokenMap)
+{
+    for (const auto &[candidate, token] : tokenMap) {
+        if (value == QLatin1String(token))
+            return candidate;
+    }
+
+    return fallback;
+}
+
+constexpr std::array<std::pair<UserSettings::Presence, const char *>, 4> kPresenceTokens{{
+  {UserSettings::Presence::AutomaticPresence, "automatic_presence"},
+  {UserSettings::Presence::Online, "online"},
+  {UserSettings::Presence::Unavailable, "unavailable"},
+  {UserSettings::Presence::Offline, "offline"},
+}};
+
+constexpr std::array<std::pair<UserSettings::ShowImage, const char *>, 3> kShowImageTokens{{
+  {UserSettings::ShowImage::Always, "always"},
+  {UserSettings::ShowImage::OnlyPrivate, "only_private"},
+  {UserSettings::ShowImage::Never, "never"},
+}};
+
+constexpr std::array<std::pair<UserSettings::ShowSenderUsername, const char *>, 3>
+  kShowSenderUsernameTokens{{
+    {UserSettings::ShowSenderUsername::Always, "always"},
+    {UserSettings::ShowSenderUsername::OnlyInLargeRooms, "only_in_large_rooms"},
+    {UserSettings::ShowSenderUsername::Never, "never"},
+  }};
+
+constexpr std::array<std::pair<UserSettings::AutoReplaceEmoji, const char *>, 3>
+  kAutoReplaceEmojiTokens{{
+    {UserSettings::AutoReplaceEmoji::Always, "always"},
+    {UserSettings::AutoReplaceEmoji::OnlyAtEnd, "only_at_end"},
+    {UserSettings::AutoReplaceEmoji::Never, "never"},
+  }};
+
+constexpr std::array<std::pair<UserSettings::SendMessageKey, const char *>, 3>
+  kSendMessageKeyTokens{{
+    {UserSettings::SendMessageKey::Enter, "enter"},
+    {UserSettings::SendMessageKey::ShiftEnter, "shift_enter"},
+    {UserSettings::SendMessageKey::CtrlEnter, "ctrl_enter"},
+  }};
+
+constexpr std::array<std::pair<UserSettings::RoomSortOrder, const char *>, 4> kRoomSortOrderTokens{{
+  {UserSettings::RoomSortOrder::UnreadFirst_Recent, "unread_first_recent"},
+  {UserSettings::RoomSortOrder::UnreadFirst_Alpha, "unread_first_alpha"},
+  {UserSettings::RoomSortOrder::Recent, "recent"},
+  {UserSettings::RoomSortOrder::Alphabetical, "alphabetical"},
+}};
+
+constexpr std::array<std::pair<UserSettings::LastMessagePreview, const char *>, 3>
+  kLastMessagePreviewTokens{{
+    {UserSettings::LastMessagePreview::Always, "always"},
+    {UserSettings::LastMessagePreview::OnlyUnencrypted, "only_unencrypted"},
+    {UserSettings::LastMessagePreview::Never, "never"},
+  }};
+
+constexpr std::array<std::pair<UserSettings::TimelineMessageActionsPolicy, const char *>, 3>
+  kTimelineActionsPolicyTokens{{
+    {UserSettings::TimelineMessageActionsPolicy::OnHover, "on_message_hover"},
+    {UserSettings::TimelineMessageActionsPolicy::ActionsButton, "on_button_click"},
+    {UserSettings::TimelineMessageActionsPolicy::Never, "never"},
+  }};
+
+constexpr std::array<std::pair<UserSettings::TimelineMessageLayout, const char *>, 2>
+  kTimelineLayoutTokens{{
+    {UserSettings::TimelineMessageLayout::Minimal, "minimal"},
+    {UserSettings::TimelineMessageLayout::Bubbles, "bubbles"},
+  }};
+
+constexpr std::array<std::pair<UserSettings::NotificationMessageContentPolicy, const char *>, 3>
+  kNotificationMessageContentPolicyTokens{{
+    {UserSettings::NotificationMessageContentPolicy::Never, "never"},
+    {UserSettings::NotificationMessageContentPolicy::UnencryptedOnly, "unencrypted_only"},
+    {UserSettings::NotificationMessageContentPolicy::WheneverAvailable, "whenever_available"},
+  }};
+
+constexpr std::array<std::pair<int, const char *>, 3> kDbusAccessTokens{{
+  {IntegrationsDbusAccessNone, "none"},
+  {IntegrationsDbusAccessReadOnly, "read_only"},
+  {IntegrationsDbusAccessReadWrite, "read_write"},
+}};
+
+} // namespace
+
 QString
 toStorageValue(UserSettings::Presence value)
 {
-    switch (value) {
-    case UserSettings::Presence::AutomaticPresence:
-        return QStringLiteral("automatic_presence");
-    case UserSettings::Presence::Online:
-        return QStringLiteral("online");
-    case UserSettings::Presence::Unavailable:
-        return QStringLiteral("unavailable");
-    case UserSettings::Presence::Offline:
-        return QStringLiteral("offline");
-    }
-    return QStringLiteral("automatic_presence");
+    return valueToStorageToken(value, kPresenceTokens, "automatic_presence");
 }
 
 UserSettings::Presence
 presenceFromStorage(const QString &value, UserSettings::Presence fallback)
 {
-    if (value == QLatin1String("automatic_presence"))
-        return UserSettings::Presence::AutomaticPresence;
-    if (value == QLatin1String("online"))
-        return UserSettings::Presence::Online;
-    if (value == QLatin1String("unavailable"))
-        return UserSettings::Presence::Unavailable;
-    if (value == QLatin1String("offline"))
-        return UserSettings::Presence::Offline;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kPresenceTokens);
 }
 
 QString
 toStorageValue(UserSettings::ShowImage value)
 {
-    switch (value) {
-    case UserSettings::ShowImage::Always:
-        return QStringLiteral("always");
-    case UserSettings::ShowImage::OnlyPrivate:
-        return QStringLiteral("only_private");
-    case UserSettings::ShowImage::Never:
-        return QStringLiteral("never");
-    }
-    return QStringLiteral("always");
+    return valueToStorageToken(value, kShowImageTokens, "always");
 }
 
 UserSettings::ShowImage
 showImageFromStorage(const QString &value, UserSettings::ShowImage fallback)
 {
-    if (value == QLatin1String("always"))
-        return UserSettings::ShowImage::Always;
-    if (value == QLatin1String("only_private"))
-        return UserSettings::ShowImage::OnlyPrivate;
-    if (value == QLatin1String("never"))
-        return UserSettings::ShowImage::Never;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kShowImageTokens);
 }
 
 QString
 toStorageValue(UserSettings::ShowSenderUsername value)
 {
-    switch (value) {
-    case UserSettings::ShowSenderUsername::Always:
-        return QStringLiteral("always");
-    case UserSettings::ShowSenderUsername::OnlyInLargeRooms:
-        return QStringLiteral("only_in_large_rooms");
-    case UserSettings::ShowSenderUsername::Never:
-        return QStringLiteral("never");
-    }
-    return QStringLiteral("only_in_large_rooms");
+    return valueToStorageToken(value, kShowSenderUsernameTokens, "only_in_large_rooms");
 }
 
 UserSettings::ShowSenderUsername
 showSenderUsernameFromStorage(const QString &value, UserSettings::ShowSenderUsername fallback)
 {
-    if (value == QLatin1String("always"))
-        return UserSettings::ShowSenderUsername::Always;
-    if (value == QLatin1String("only_in_large_rooms"))
-        return UserSettings::ShowSenderUsername::OnlyInLargeRooms;
-    if (value == QLatin1String("never"))
-        return UserSettings::ShowSenderUsername::Never;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kShowSenderUsernameTokens);
 }
 
 QString
 toStorageValue(UserSettings::AutoReplaceEmoji value)
 {
-    switch (value) {
-    case UserSettings::AutoReplaceEmoji::Always:
-        return QStringLiteral("always");
-    case UserSettings::AutoReplaceEmoji::OnlyAtEnd:
-        return QStringLiteral("only_at_end");
-    case UserSettings::AutoReplaceEmoji::Never:
-        return QStringLiteral("never");
-    }
-    return QStringLiteral("always");
+    return valueToStorageToken(value, kAutoReplaceEmojiTokens, "always");
 }
 
 UserSettings::AutoReplaceEmoji
 autoReplaceEmojiFromStorage(const QString &value, UserSettings::AutoReplaceEmoji fallback)
 {
-    if (value == QLatin1String("always"))
-        return UserSettings::AutoReplaceEmoji::Always;
-    if (value == QLatin1String("only_at_end"))
-        return UserSettings::AutoReplaceEmoji::OnlyAtEnd;
-    if (value == QLatin1String("never"))
-        return UserSettings::AutoReplaceEmoji::Never;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kAutoReplaceEmojiTokens);
 }
 
 QString
 toStorageValue(UserSettings::SendMessageKey value)
 {
-    switch (value) {
-    case UserSettings::SendMessageKey::Enter:
-        return QStringLiteral("enter");
-    case UserSettings::SendMessageKey::ShiftEnter:
-        return QStringLiteral("shift_enter");
-    case UserSettings::SendMessageKey::CtrlEnter:
-        return QStringLiteral("ctrl_enter");
-    }
-    return QStringLiteral("enter");
+    return valueToStorageToken(value, kSendMessageKeyTokens, "enter");
 }
 
 UserSettings::SendMessageKey
 sendMessageKeyFromStorage(const QString &value, UserSettings::SendMessageKey fallback)
 {
-    if (value == QLatin1String("enter"))
-        return UserSettings::SendMessageKey::Enter;
-    if (value == QLatin1String("shift_enter"))
-        return UserSettings::SendMessageKey::ShiftEnter;
-    if (value == QLatin1String("ctrl_enter"))
-        return UserSettings::SendMessageKey::CtrlEnter;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kSendMessageKeyTokens);
 }
 
 QString
 toStorageValue(UserSettings::RoomSortOrder value)
 {
-    switch (value) {
-    case UserSettings::RoomSortOrder::UnreadFirst_Recent:
-        return QStringLiteral("unread_first_recent");
-    case UserSettings::RoomSortOrder::UnreadFirst_Alpha:
-        return QStringLiteral("unread_first_alpha");
-    case UserSettings::RoomSortOrder::Recent:
-        return QStringLiteral("recent");
-    case UserSettings::RoomSortOrder::Alphabetical:
-        return QStringLiteral("alphabetical");
-    }
-    return QStringLiteral("unread_first_recent");
+    return valueToStorageToken(value, kRoomSortOrderTokens, "unread_first_recent");
 }
 
 UserSettings::RoomSortOrder
 roomSortOrderFromStorage(const QString &value, UserSettings::RoomSortOrder fallback)
 {
-    if (value == QLatin1String("unread_first_recent"))
-        return UserSettings::RoomSortOrder::UnreadFirst_Recent;
-    if (value == QLatin1String("unread_first_alpha"))
-        return UserSettings::RoomSortOrder::UnreadFirst_Alpha;
-    if (value == QLatin1String("recent"))
-        return UserSettings::RoomSortOrder::Recent;
-    if (value == QLatin1String("alphabetical"))
-        return UserSettings::RoomSortOrder::Alphabetical;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kRoomSortOrderTokens);
 }
 
 QString
 toStorageValue(UserSettings::LastMessagePreview value)
 {
-    switch (value) {
-    case UserSettings::LastMessagePreview::Always:
-        return QStringLiteral("always");
-    case UserSettings::LastMessagePreview::OnlyUnencrypted:
-        return QStringLiteral("only_unencrypted");
-    case UserSettings::LastMessagePreview::Never:
-        return QStringLiteral("never");
-    }
-    return QStringLiteral("always");
+    return valueToStorageToken(value, kLastMessagePreviewTokens, "always");
 }
 
 UserSettings::LastMessagePreview
 lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePreview fallback)
 {
-    if (value == QLatin1String("always"))
-        return UserSettings::LastMessagePreview::Always;
-    if (value == QLatin1String("only_unencrypted"))
-        return UserSettings::LastMessagePreview::OnlyUnencrypted;
-    if (value == QLatin1String("never"))
-        return UserSettings::LastMessagePreview::Never;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kLastMessagePreviewTokens);
 }
 
 QString
 toStorageValue(UserSettings::TimelineMessageActionsPolicy value)
 {
-    switch (value) {
-    case UserSettings::TimelineMessageActionsPolicy::OnHover:
-        return QStringLiteral("on_message_hover");
-    case UserSettings::TimelineMessageActionsPolicy::ActionsButton:
-        return QStringLiteral("on_button_click");
-    case UserSettings::TimelineMessageActionsPolicy::Never:
-        return QStringLiteral("never");
-    }
-    return QStringLiteral("on_button_click");
+    return valueToStorageToken(value, kTimelineActionsPolicyTokens, "on_button_click");
 }
 
 UserSettings::TimelineMessageActionsPolicy
 timelineMessageActionsPolicyFromStorage(const QString &value,
                                         UserSettings::TimelineMessageActionsPolicy fallback)
 {
-    if (value == QLatin1String("on_message_hover"))
-        return UserSettings::TimelineMessageActionsPolicy::OnHover;
-    if (value == QLatin1String("on_button_click"))
-        return UserSettings::TimelineMessageActionsPolicy::ActionsButton;
-    if (value == QLatin1String("never"))
-        return UserSettings::TimelineMessageActionsPolicy::Never;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kTimelineActionsPolicyTokens);
 }
 
 QString
 toStorageValue(UserSettings::TimelineMessageLayout value)
 {
-    switch (value) {
-    case UserSettings::TimelineMessageLayout::Minimal:
-        return QStringLiteral("minimal");
-    case UserSettings::TimelineMessageLayout::Bubbles:
-        return QStringLiteral("bubbles");
-    }
-    return QStringLiteral("bubbles");
+    return valueToStorageToken(value, kTimelineLayoutTokens, "bubbles");
 }
 
 UserSettings::TimelineMessageLayout
 timelineMessageLayoutFromStorage(const QString &value, UserSettings::TimelineMessageLayout fallback)
 {
-    if (value == QLatin1String("minimal"))
-        return UserSettings::TimelineMessageLayout::Minimal;
-    if (value == QLatin1String("bubbles"))
-        return UserSettings::TimelineMessageLayout::Bubbles;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kTimelineLayoutTokens);
 }
 
 QString
 toStorageValue(UserSettings::NotificationMessageContentPolicy value)
 {
-    switch (value) {
-    case UserSettings::NotificationMessageContentPolicy::Never:
-        return QStringLiteral("never");
-    case UserSettings::NotificationMessageContentPolicy::UnencryptedOnly:
-        return QStringLiteral("unencrypted_only");
-    case UserSettings::NotificationMessageContentPolicy::WheneverAvailable:
-        return QStringLiteral("whenever_available");
-    }
-    return QStringLiteral("whenever_available");
+    return valueToStorageToken(
+      value, kNotificationMessageContentPolicyTokens, "whenever_available");
 }
 
 UserSettings::NotificationMessageContentPolicy
 notificationMessageContentPolicyFromStorage(const QString &value,
                                             UserSettings::NotificationMessageContentPolicy fallback)
 {
-    if (value == QLatin1String("never"))
-        return UserSettings::NotificationMessageContentPolicy::Never;
-    if (value == QLatin1String("unencrypted_only"))
-        return UserSettings::NotificationMessageContentPolicy::UnencryptedOnly;
-    if (value == QLatin1String("whenever_available"))
-        return UserSettings::NotificationMessageContentPolicy::WheneverAvailable;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kNotificationMessageContentPolicyTokens);
 }
 
 QString
 dbusAccessToStorage(int value)
 {
-    switch (value) {
-    case IntegrationsDbusAccessNone:
-        return QStringLiteral("none");
-    case IntegrationsDbusAccessReadOnly:
-        return QStringLiteral("read_only");
-    case IntegrationsDbusAccessReadWrite:
-        return QStringLiteral("read_write");
-    default:
-        break;
-    }
-    return QStringLiteral("none");
+    return valueToStorageToken(value, kDbusAccessTokens, "none");
 }
 
 int
 dbusAccessFromStorage(const QString &value, int fallback)
 {
-    if (value == QLatin1String("none"))
-        return IntegrationsDbusAccessNone;
-    if (value == QLatin1String("read_only"))
-        return IntegrationsDbusAccessReadOnly;
-    if (value == QLatin1String("read_write"))
-        return IntegrationsDbusAccessReadWrite;
-    return fallback;
+    return valueFromStorageToken(value, fallback, kDbusAccessTokens);
 }
 
 } // namespace settings::serializer::config

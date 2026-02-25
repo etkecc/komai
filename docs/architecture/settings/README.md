@@ -82,6 +82,10 @@ Settings flow:
 - runtime mutation:
   - QML delegates mutate through `UserSettingsModel` -> `UserSettings`.
   - `UserSettings` updates in-memory values and persists via controller orchestration in `save()`.
+- pre-login settings access:
+  - settings page can be opened even without an active session.
+  - session-dependent account details are guarded by `UserSettings::hasActiveSession`.
+  - the Account tab is disabled while signed out, with a signed-out fallback view.
 - exit/logout:
   - `UserSettings::clearAuth()` delegates to controller to erase auth/session data and secrets.
 
@@ -209,6 +213,12 @@ Load order is intentionally staged:
 4. `state.yml` (runtime/layout)
 
 This prevents secret-source ambiguity and allows provider selection before secret reads.
+
+Config migration note:
+
+- after loading `config.yml`, `settings::migrations::migrateConfigRoot(...)` runs before config values are applied.
+- future schema versions are loaded best-effort with a warning.
+- unsupported migration paths are also warned and treated as partial migrations.
 
 Startup nuance:
 

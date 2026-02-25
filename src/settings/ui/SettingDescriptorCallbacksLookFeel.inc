@@ -68,6 +68,38 @@ lookFeelThemeRoleData(int role)
     return {};
 }
 
+static bool
+setLookFeelThemeRoleData(int role, const QVariant &value)
+{
+    if (role != SM::ThemeVariantValue)
+        return false;
+
+    auto i = I;
+    if (!i)
+        return false;
+
+    int variantIdx = 0;
+    if (!readSettingValue(value, variantIdx))
+        return false;
+    if (variantIdx < 0 || variantIdx > 2)
+        return false;
+
+    QString newVariant;
+    if (variantIdx == 0)
+        newVariant = QStringLiteral("light");
+    else if (variantIdx == 1)
+        newVariant = QStringLiteral("dark");
+    else
+        newVariant = QStringLiteral("system");
+
+    const auto currentVariant = ThemeRegistry::instance().themeVariant(i->theme());
+    if (newVariant == currentVariant)
+        return false;
+
+    i->setTheme(ThemeRegistry::instance().defaultThemeSlug(newVariant));
+    return true;
+}
+
 static QVariant
 lookFeelFontFamilyValue()
 {

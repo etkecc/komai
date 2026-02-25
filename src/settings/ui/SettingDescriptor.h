@@ -24,6 +24,7 @@ struct SettingMeta
     bool (*isEnabled)();     // nullptr = always enabled
     settings::core::SettingId settingId{settings::core::SettingId::Unknown};
     QVariant (*getRoleData)(int role){nullptr}; // optional provider for special roles
+    bool (*setRoleData)(int role, const QVariant &value){nullptr}; // optional special role setter
 };
 
 template<typename T>

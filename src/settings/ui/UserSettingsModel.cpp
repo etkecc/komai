@@ -42,8 +42,6 @@
  * modules; this file intentionally contains list-model and delegate-facing
  * behavior only.
  */
-#include "ui/Theme.h"
-#include "ui/ThemeRegistry.h"
 #include "voip/CallDevices.h"
 
 QHash<int, QByteArray>
@@ -92,7 +90,6 @@ UserSettingsModel::modelForTab(int tab) const
     return proxyModel;
 }
 
-using settings::ui::readSettingValue;
 using settings::ui::rowForSettingId;
 using settings::ui::settingsTable;
 using settings::ui::settingsTableRowCount;
@@ -176,8 +173,8 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
     if (!i)
         return false;
 
+    const auto &m = settingsTable[index.row()];
     if (role == Value) {
-        const auto &m = settingsTable[index.row()];
         if (!m.setValue)
             return false;
         if (!validateSettingInput(m, value)) {
@@ -188,29 +185,11 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
             return false;
         }
         return m.setValue(value);
-    } else if (role == ThemeVariantValue) {
-        const auto &m = settingsTable[index.row()];
-        if (hasSettingId(m, settings::core::SettingId::UiThemeSlug)) {
-            int variantIdx = 0;
-            if (!readSettingValue(value, variantIdx))
-                return false;
-            if (variantIdx < 0 || variantIdx > 2)
-                return false;
-            QString newVariant;
-            if (variantIdx == 0)
-                newVariant = QStringLiteral("light");
-            else if (variantIdx == 1)
-                newVariant = QStringLiteral("dark");
-            else
-                newVariant = QStringLiteral("system");
-            auto currentVariant = ThemeRegistry::instance().themeVariant(i->theme());
-            if (newVariant == currentVariant)
-                return false;
-            i->setTheme(ThemeRegistry::instance().defaultThemeSlug(newVariant));
-            return true;
-        }
-        return false;
     }
+
+    if (m.setRoleData)
+        return m.setRoleData(role, value);
+
     return false;
 }
 

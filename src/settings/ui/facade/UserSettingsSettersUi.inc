@@ -35,16 +35,16 @@ UserSettings::setComposerInputAutoReplaceEmoji(AutoReplaceEmoji s)
     save();
 }
 void
-UserSettings::setTimelineMessageLayout(TimelineMessageLayout s)
+UserSettings::setTimelineMessagesLayoutStyle(TimelineMessageLayout s)
 {
-    if (timelineMessageLayout_ == s)
+    if (timelineMessagesLayoutStyle_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::TimelineMessagesLayoutStyle,
                       static_cast<int>(s),
                       "timeline.messages.layout.style"))
         return;
-    timelineMessageLayout_ = s;
-    emit timelineMessageLayoutChanged(s);
+    timelineMessagesLayoutStyle_ = s;
+    emit timelineMessagesLayoutStyleChanged(s);
     save();
 }
 void

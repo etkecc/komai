@@ -123,14 +123,14 @@ applyTimelineActionsPolicyFromStorage(UserSettings &settings, const QString &raw
 QString
 timelineLayoutStyleToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.timelineMessageLayout());
+    return toStorageValue(settings.timelineMessagesLayoutStyle());
 }
 
 void
 applyTimelineLayoutStyleFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setTimelineMessageLayout(
-      timelineMessageLayoutFromStorage(rawToken, UserSettings::TimelineMessageLayout::Bubbles));
+    settings.setTimelineMessagesLayoutStyle(timelineMessagesLayoutStyleFromStorage(
+      rawToken, UserSettings::TimelineMessageLayout::Bubbles));
 }
 
 QString

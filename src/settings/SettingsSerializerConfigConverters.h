@@ -69,8 +69,8 @@ timelineMessageActionsActivationPolicyFromStorage(
 QString
 toStorageValue(UserSettings::TimelineMessageLayout value);
 UserSettings::TimelineMessageLayout
-timelineMessageLayoutFromStorage(const QString &value,
-                                 UserSettings::TimelineMessageLayout fallback);
+timelineMessagesLayoutStyleFromStorage(const QString &value,
+                                       UserSettings::TimelineMessageLayout fallback);
 
 QString
 toStorageValue(UserSettings::NotificationMessageContentPolicy value);

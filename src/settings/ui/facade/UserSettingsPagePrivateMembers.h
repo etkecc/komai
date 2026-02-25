@@ -14,7 +14,7 @@ bool sidebarsRoomListScrollbarsEnabled_;
 bool composerInputMarkdownEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;
-TimelineMessageLayout timelineMessageLayout_ = TimelineMessageLayout::Bubbles;
+TimelineMessageLayout timelineMessagesLayoutStyle_ = TimelineMessageLayout::Bubbles;
 bool timelineMessagesLayoutSmallAvatars_;
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;

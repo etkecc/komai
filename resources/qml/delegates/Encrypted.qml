@@ -75,6 +75,6 @@ Control {
     background: Rectangle {
         color: palette.alternateBase
         radius: fontMetrics.lineSpacing / 2 + 2 * Nheko.paddingMedium
-        visible: Settings.timelineMessageLayout === Settings.TimelineMessageLayout.Minimal // the bubble in a bubble looks odd
+        visible: Settings.timelineMessagesLayoutStyle === Settings.TimelineMessageLayout.Minimal // the bubble in a bubble looks odd
     }
 }

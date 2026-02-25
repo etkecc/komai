@@ -7,8 +7,8 @@
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Layout",
       QT_TR_NOOP("Choose how messages are laid out in the timeline."),
-      SM::TabTimeline, timelineMessageLayout, setTimelineMessageLayout, UserSettings::TimelineMessageLayout,
-      timelineMessageLayoutValues,
+      SM::TabTimeline, timelineMessagesLayoutStyle, setTimelineMessagesLayoutStyle, UserSettings::TimelineMessageLayout,
+      timelineMessagesLayoutStyleValues,
       nullptr,
       TimelineMessagesLayoutStyle,
       SettingKey::TimelineMessagesLayoutStyle),

@@ -222,7 +222,8 @@ toStorageValue(UserSettings::TimelineMessageLayout value)
 }
 
 UserSettings::TimelineMessageLayout
-timelineMessageLayoutFromStorage(const QString &value, UserSettings::TimelineMessageLayout fallback)
+timelineMessagesLayoutStyleFromStorage(const QString &value,
+                                       UserSettings::TimelineMessageLayout fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelineLayoutTokens);
 }

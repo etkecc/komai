@@ -67,7 +67,7 @@ UserSettings::composerInputAutoReplaceEmoji() const
 }
 
 UserSettings::TimelineMessageLayout
-UserSettings::timelineMessageLayout() const
+UserSettings::timelineMessagesLayoutStyle() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutStyle);
@@ -75,7 +75,7 @@ UserSettings::timelineMessageLayout() const
         *value >= static_cast<int>(UserSettings::TimelineMessageLayout::Minimal) &&
         *value <= static_cast<int>(UserSettings::TimelineMessageLayout::Bubbles))
         return static_cast<UserSettings::TimelineMessageLayout>(*value);
-    return timelineMessageLayout_;
+    return timelineMessagesLayoutStyle_;
 }
 
 bool

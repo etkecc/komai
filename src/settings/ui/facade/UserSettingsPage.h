@@ -59,8 +59,8 @@ class UserSettings final : public QObject
                  setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
                  WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
-    Q_PROPERTY(TimelineMessageLayout timelineMessageLayout READ timelineMessageLayout WRITE
-                 setTimelineMessageLayout NOTIFY timelineMessageLayoutChanged)
+    Q_PROPERTY(TimelineMessageLayout timelineMessagesLayoutStyle READ timelineMessagesLayoutStyle
+                 WRITE setTimelineMessagesLayoutStyle NOTIFY timelineMessagesLayoutStyleChanged)
     Q_PROPERTY(
       bool timelineMessagesLayoutSmallAvatars READ timelineMessagesLayoutSmallAvatars WRITE
         setTimelineMessagesLayoutSmallAvatars NOTIFY timelineMessagesLayoutSmallAvatarsChanged)
@@ -350,7 +350,7 @@ public:
     void setComposerInputMarkdownEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
-    void setTimelineMessageLayout(TimelineMessageLayout layout);
+    void setTimelineMessagesLayoutStyle(TimelineMessageLayout layout);
     void setTimelineMessagesLayoutSmallAvatars(bool state);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
@@ -472,7 +472,7 @@ signals:
     void composerInputMarkdownEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
-    void timelineMessageLayoutChanged(TimelineMessageLayout layout);
+    void timelineMessagesLayoutStyleChanged(TimelineMessageLayout layout);
     void timelineMessagesLayoutSmallAvatarsChanged(bool state);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);

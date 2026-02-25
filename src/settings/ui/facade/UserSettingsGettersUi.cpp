@@ -15,23 +15,23 @@ UserSettings::theme() const
 }
 
 bool
-UserSettings::systemTrayEnabled() const
+UserSettings::integrationsSystemTrayEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::IntegrationsSystemTrayEnabled);
         value.has_value())
         return *value;
-    return systemTrayEnabled_;
+    return integrationsSystemTrayEnabled_;
 }
 
 bool
-UserSettings::systemTrayAutostart() const
+UserSettings::integrationsSystemTrayAutostart() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::IntegrationsSystemTrayAutostart);
         value.has_value())
         return *value;
-    return systemTrayAutostart_;
+    return integrationsSystemTrayAutostart_;
 }
 
 bool

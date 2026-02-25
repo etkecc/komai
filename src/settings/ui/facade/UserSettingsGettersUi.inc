@@ -1,8 +1,8 @@
     QString theme() const;
     bool timelineMessagesHoverHighlight() const;
     bool timelineMessagesEmojiOnlyEnlarge() const;
-    bool systemTrayEnabled() const;
-    bool systemTrayAutostart() const;
+    bool integrationsSystemTrayEnabled() const;
+    bool integrationsSystemTrayAutostart() const;
     bool communitiesSidebarVisible() const;
     bool roomListScrollbarsVisible() const;
     bool circularAvatarsEnabled() const;

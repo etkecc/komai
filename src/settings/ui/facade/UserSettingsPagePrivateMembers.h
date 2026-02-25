@@ -7,8 +7,8 @@ QString defaultTheme_ = QString::fromLatin1(settings::core::definitions::kDefaul
 QString theme_;
 bool timelineMessagesHoverHighlight_;
 bool timelineMessagesEmojiOnlyEnlarge_;
-bool systemTrayEnabled_;
-bool systemTrayAutostart_;
+bool integrationsSystemTrayEnabled_;
+bool integrationsSystemTrayAutostart_;
 bool communitiesSidebarVisible_;
 bool roomListScrollbarsVisible_;
 bool markdownEnabled_;

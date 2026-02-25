@@ -44,10 +44,10 @@ class UserSettings final : public QObject
                  setTimelineMessagesHoverHighlight NOTIFY timelineMessagesHoverHighlightChanged)
     Q_PROPERTY(bool timelineMessagesEmojiOnlyEnlarge READ timelineMessagesEmojiOnlyEnlarge WRITE
                  setTimelineMessagesEmojiOnlyEnlarge NOTIFY timelineMessagesEmojiOnlyEnlargeChanged)
-    Q_PROPERTY(bool systemTrayEnabled READ systemTrayEnabled WRITE setSystemTrayEnabled NOTIFY
-                 systemTrayEnabledChanged)
-    Q_PROPERTY(bool systemTrayAutostart READ systemTrayAutostart WRITE setSystemTrayAutostart NOTIFY
-                 systemTrayAutostartChanged)
+    Q_PROPERTY(bool integrationsSystemTrayEnabled READ integrationsSystemTrayEnabled WRITE
+                 setIntegrationsSystemTrayEnabled NOTIFY integrationsSystemTrayEnabledChanged)
+    Q_PROPERTY(bool integrationsSystemTrayAutostart READ integrationsSystemTrayAutostart WRITE
+                 setIntegrationsSystemTrayAutostart NOTIFY integrationsSystemTrayAutostartChanged)
     Q_PROPERTY(bool communitiesSidebarVisible READ communitiesSidebarVisible WRITE
                  setCommunitiesSidebarVisible NOTIFY communitiesSidebarVisibleChanged)
     Q_PROPERTY(bool roomListScrollbarsVisible READ roomListScrollbarsVisible WRITE
@@ -318,8 +318,8 @@ public:
     void setTheme(QString theme);
     void setTimelineMessagesHoverHighlight(bool state);
     void setTimelineMessagesEmojiOnlyEnlarge(bool state);
-    void setSystemTrayEnabled(bool state);
-    void setSystemTrayAutostart(bool state);
+    void setIntegrationsSystemTrayEnabled(bool state);
+    void setIntegrationsSystemTrayAutostart(bool state);
     void setTouchInputModeEnabled(bool mode);
     void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setScaleFactor(double factor);
@@ -448,8 +448,8 @@ signals:
     void themeChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
-    void systemTrayEnabledChanged(bool state);
-    void systemTrayAutostartChanged(bool state);
+    void integrationsSystemTrayEnabledChanged(bool state);
+    void integrationsSystemTrayAutostartChanged(bool state);
     void markdownEnabledChanged(bool state);
     void sendMessageKeyChanged(SendMessageKey key);
     void autoReplaceEmojiChanged(AutoReplaceEmoji state);

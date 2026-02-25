@@ -19,23 +19,23 @@ UserSettings::setTimelineMessagesEmojiOnlyEnlarge(bool s)
     save();
 }
 void
-UserSettings::setSystemTrayEnabled(bool s)
+UserSettings::setIntegrationsSystemTrayEnabled(bool s)
 {
-    if (systemTrayEnabled_ == s)
+    if (integrationsSystemTrayEnabled_ == s)
         return;
-    systemTrayEnabled_ = s;
+    integrationsSystemTrayEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::IntegrationsSystemTrayEnabled, s);
-    emit systemTrayEnabledChanged(s);
+    emit integrationsSystemTrayEnabledChanged(s);
     save();
 }
 void
-UserSettings::setSystemTrayAutostart(bool s)
+UserSettings::setIntegrationsSystemTrayAutostart(bool s)
 {
-    if (systemTrayAutostart_ == s)
+    if (integrationsSystemTrayAutostart_ == s)
         return;
-    systemTrayAutostart_ = s;
+    integrationsSystemTrayAutostart_ = s;
     (void)coreStore_.set(settings::core::SettingId::IntegrationsSystemTrayAutostart, s);
-    emit systemTrayAutostartChanged(s);
+    emit integrationsSystemTrayAutostartChanged(s);
     save();
 }
 void

@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWindow *parent)
         setColor(Theme::paletteFromTheme(theme).window().color());
     });
     connect(userSettings_.get(),
-            &UserSettings::systemTrayEnabledChanged,
+            &UserSettings::integrationsSystemTrayEnabledChanged,
             trayIcon_,
             &TrayIcon::setVisible);
     connect(trayIcon_,
@@ -84,7 +84,7 @@ MainWindow::MainWindow(QWindow *parent)
             [this](int) { refreshDbusAvailability(); });
 #endif
 
-    trayIcon_->setVisible(userSettings_->systemTrayEnabled());
+    trayIcon_->setVisible(userSettings_->integrationsSystemTrayEnabled());
     dock_ = new Dock(this);
     connect(chat_page_, SIGNAL(unreadMessages(int)), dock_, SLOT(setUnreadCount(int)));
 
@@ -284,7 +284,7 @@ MainWindow::closeEvent(QCloseEvent *event)
     }
 
     if (!qApp->isSavingSession() && isVisible() && pageSupportsTray() &&
-        userSettings_->systemTrayEnabled()) {
+        userSettings_->integrationsSystemTrayEnabled()) {
         event->ignore();
         hide();
         return;

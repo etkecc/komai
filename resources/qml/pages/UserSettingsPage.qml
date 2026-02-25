@@ -101,7 +101,7 @@ Rectangle {
                         { text: qsTr("Network"), icon: "qrc:/icons/icons/ui/world.svg", tab: UserSettingsModel.TabNetwork },
                         { text: qsTr("Privacy"), icon: "qrc:/icons/icons/ui/eye-hide.svg", tab: UserSettingsModel.TabPrivacy },
                         { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-regular.svg", tab: UserSettingsModel.TabEncryption },
-                        { text: qsTr("Account"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabAccount },
+                        { text: qsTr("Account"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabAccount, requiresSession: true },
                         { text: qsTr("Integrations"), icon: "qrc:/icons/icons/ui/integrations.svg", tab: UserSettingsModel.TabIntegrations },
                         { text: qsTr("About"), icon: "qrc:/logos/komai.svg", tab: UserSettingsModel.TabAbout }
                     ]
@@ -111,8 +111,11 @@ Rectangle {
                         required property var modelData
                         required property int index
                         property bool isActive: userSettingsDialog.currentTab === modelData.tab
+                        property bool requiresSession: modelData.requiresSession === true
+                        property bool availableInCurrentSession: !requiresSession || Settings.hasActiveSession
                         property color backgroundColor: "transparent"
                         property color textColor: palette.text
+                        enabled: availableInCurrentSession
 
                         width: ListView.view.width
                         height: 48
@@ -127,7 +130,7 @@ Rectangle {
                         states: [
                             State {
                                 name: "hover"
-                                when: navItem.hovered && !navItem.isActive
+                                when: navItem.hovered && !navItem.isActive && navItem.enabled
 
                                 PropertyChanges {
                                     navItem {
@@ -138,7 +141,7 @@ Rectangle {
                             },
                             State {
                                 name: "active"
-                                when: navItem.isActive
+                                when: navItem.isActive && navItem.enabled
 
                                 PropertyChanges {
                                     navItem {
@@ -149,7 +152,11 @@ Rectangle {
                             }
                         ]
 
-                        onClicked: userSettingsDialog.currentTab = modelData.tab
+                        onClicked: {
+                            if (!enabled)
+                                return;
+                            userSettingsDialog.currentTab = modelData.tab;
+                        }
 
                         contentItem: RowLayout {
                             spacing: Nheko.paddingMedium
@@ -170,11 +177,15 @@ Rectangle {
                                 Layout.fillWidth: true
                                 Layout.alignment: Qt.AlignVCenter
                                 text: navItem.modelData.text
-                                color: navItem.textColor
+                                color: navItem.enabled ? navItem.textColor : palette.buttonText
                                 font.bold: navItem.isActive
                                 elide: Text.ElideRight
                             }
                         }
+
+                        ToolTip.visible: hovered && !enabled && requiresSession
+                        ToolTip.delay: Nheko.tooltipDelay
+                        ToolTip.text: qsTr("Available after login")
                     }
                 }
             }

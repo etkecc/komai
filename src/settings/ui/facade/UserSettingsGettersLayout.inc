@@ -1,6 +1,6 @@
     int sidebarsCommunitiesWidthPx() const;
     int sidebarsRoomListWidthPx() const;
-    double scaleFactor() const;
+    double uiScaleFactor() const;
     double fontSize() const;
     QString font() const;
     QString emojiFont() const;

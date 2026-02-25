@@ -49,7 +49,7 @@ int uiLayoutContentMaxWidthPx_ = settings::core::definitions::kDefaultUiLayoutCo
 int timelineMessagesMaxWidthPx_;
 int sidebarsRoomListWidthPx_    = settings::core::definitions::kDefaultSidebarsRoomListWidthPx;
 int sidebarsCommunitiesWidthPx_ = settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx;
-double scaleFactor_             = settings::core::definitions::kDefaultScaleFactor;
+double uiScaleFactor_           = settings::core::definitions::kDefaultScaleFactor;
 double baseFontSize_            = settings::core::definitions::kDefaultFontSizePt;
 QString font_;
 QString emojiFont_;

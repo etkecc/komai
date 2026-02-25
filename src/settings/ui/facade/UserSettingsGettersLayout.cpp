@@ -16,9 +16,9 @@ UserSettings::sidebarsRoomListWidthPx() const
     return sidebarsRoomListWidthPx_;
 }
 double
-UserSettings::scaleFactor() const
+UserSettings::uiScaleFactor() const
 {
-    return scaleFactor_ > 0.0 ? scaleFactor_ : 1.0;
+    return uiScaleFactor_ > 0.0 ? uiScaleFactor_ : 1.0;
 }
 double
 UserSettings::fontSize() const

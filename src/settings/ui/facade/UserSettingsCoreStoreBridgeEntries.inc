@@ -1,6 +1,6 @@
 // clang-format off
 X(UiThemeSlug, settings.theme().toStdString())
-X(UiScaleFactor, settings.scaleFactor())
+X(UiScaleFactor, settings.uiScaleFactor())
 X(UiFontFamily, settings.font().toStdString())
 X(UiFontSizePt, settings.fontSize())
 X(UiFontEmojiFamily, settings.emojiFontFamily().toStdString())

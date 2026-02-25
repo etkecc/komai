@@ -128,7 +128,8 @@ class UserSettings final : public QObject
                  setUiInputModeTouchEnabled NOTIFY uiInputModeTouchEnabledChanged)
     Q_PROPERTY(bool uiInputTouchSwipeGesturesEnabled READ uiInputTouchSwipeGesturesEnabled WRITE
                  setUiInputTouchSwipeGesturesEnabled NOTIFY uiInputTouchSwipeGesturesEnabledChanged)
-    Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
+    Q_PROPERTY(
+      double uiScaleFactor READ uiScaleFactor WRITE setUiScaleFactor NOTIFY uiScaleFactorChanged)
     Q_PROPERTY(double fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY(QString font READ font WRITE setFontFamily NOTIFY fontChanged)
     Q_PROPERTY(QString emojiFont READ emojiFont WRITE setEmojiFontFamily NOTIFY emojiFontChanged)
@@ -334,7 +335,7 @@ public:
     void setIntegrationsSystemTrayAutostart(bool state);
     void setUiInputModeTouchEnabled(bool mode);
     void setUiInputTouchSwipeGesturesEnabled(bool mode);
-    void setScaleFactor(double factor);
+    void setUiScaleFactor(double factor);
     void setFontSize(double size);
     void setFontFamily(QString family);
     void setEmojiFontFamily(QString family);
@@ -494,7 +495,7 @@ signals:
     void sidebarsCommunitiesWidthPxChanged(int state);
     void uiInputModeTouchEnabledChanged(bool mode);
     void uiInputTouchSwipeGesturesEnabledChanged(bool state);
-    void scaleFactorChanged(double factor);
+    void uiScaleFactorChanged(double factor);
     void fontSizeChanged(double state);
     void fontChanged(QString state);
     void emojiFontChanged(QString state);

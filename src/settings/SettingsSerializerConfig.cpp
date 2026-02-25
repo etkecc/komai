@@ -168,8 +168,8 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
             SettingKey::UiInputMode,
             toStorageUiInputMode(settings.uiInputModeTouchEnabled()).toStdString());
 
-    if (settings::core::isScaleFactorInRange(settings.scaleFactor()))
-        setNode(root, SettingKey::UiScaleFactor, settings.scaleFactor());
+    if (settings::core::isScaleFactorInRange(settings.uiScaleFactor()))
+        setNode(root, SettingKey::UiScaleFactor, settings.uiScaleFactor());
 }
 
 } // namespace
@@ -218,7 +218,7 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
     const auto scaleFactor =
       readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
     if (settings::core::isScaleFactorInRange(scaleFactor))
-        settings.setScaleFactor(scaleFactor);
+        settings.setUiScaleFactor(scaleFactor);
     else {
         const auto scaleFactorNode = getNode(root, SettingKey::UiScaleFactor);
         if (scaleFactorNode && scaleFactorNode.IsScalar()) {
@@ -227,7 +227,7 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
                                      SettingKey::UiScaleFactor,
                                      cfg::kDefaultScaleFactor);
         }
-        settings.setScaleFactor(cfg::kDefaultScaleFactor);
+        settings.setUiScaleFactor(cfg::kDefaultScaleFactor);
     }
 }
 

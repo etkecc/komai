@@ -45,7 +45,7 @@
     SIMPLE_DOUBLE_CONFIG_RESTART_ID_SETTING(
       "Scale factor [restart required]",
       QT_TR_NOOP("Change the scale factor of the whole user interface. Requires a restart to take effect."),
-      SM::TabLookFeel, scaleFactor, setScaleFactor, settings::core::kMinScaleFactor,
+      SM::TabLookFeel, uiScaleFactor, setUiScaleFactor, settings::core::kMinScaleFactor,
       settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep,
       UiScaleFactor, SettingKey::UiScaleFactor),
 #endif

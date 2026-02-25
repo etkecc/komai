@@ -36,7 +36,6 @@ UserSettingsModel::roleNames() const
       {Enabled, "enabled"},
       {ThemeVariantValue, "themeVariantValue"},
       {ThemeVariantValues, "themeVariantValues"},
-      {SettingImage, "settingImage"},
       {Tab, "tab"},
     };
 
@@ -124,8 +123,6 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         if (role == ThemeVariantValues)
             return QStringList{};
         return false;
-    case SettingImage:
-        return QString();
     }
 
     return {};

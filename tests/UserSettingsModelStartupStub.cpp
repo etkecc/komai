@@ -29,7 +29,6 @@ UserSettingsModel::roleNames() const
       {Enabled, "enabled"},
       {ThemeVariantValue, "themeVariantValue"},
       {ThemeVariantValues, "themeVariantValues"},
-      {SettingImage, "settingImage"},
       {Tab, "tab"},
     };
 }

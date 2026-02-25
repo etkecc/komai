@@ -84,7 +84,6 @@ public:
         Enabled,
         ThemeVariantValue,
         ThemeVariantValues,
-        SettingImage,
         Tab,
     };
 

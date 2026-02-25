@@ -10,7 +10,7 @@
     bool communityNotificationCountsVisible() const;
     bool compactRoomList() const;
     bool roomListShowLastMessageTime() const;
-    LastMessagePreview showLastMessagePreview() const;
+    LastMessagePreview sidebarsRoomListLastMessagePreview() const;
     bool timelineMediaEffectsEnabled() const;
     bool uiAnimationsEnabled() const;
     bool windowFocusBlurEnabled() const;
@@ -28,7 +28,7 @@
     bool timelineMediaAnimateOnHover() const;
     bool composerTypingSendEnabled() const;
     bool timelineTypingShowEnabled() const;
-    RoomSortOrder roomSortOrder() const;
+    RoomSortOrder sidebarsRoomListSort() const;
     TimelineMessageActionsPolicy timelineMessageActionsPolicy() const;
     bool touchInputModeEnabled() const;
     bool swipeGesturesEnabled() const;

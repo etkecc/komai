@@ -80,8 +80,8 @@ class UserSettings final : public QObject
                  setComposerTypingSendEnabled NOTIFY composerTypingSendEnabledChanged)
     Q_PROPERTY(bool timelineTypingShowEnabled READ timelineTypingShowEnabled WRITE
                  setTimelineTypingShowEnabled NOTIFY timelineTypingShowEnabledChanged)
-    Q_PROPERTY(RoomSortOrder roomSortOrder READ roomSortOrder WRITE setRoomSortOrder NOTIFY
-                 roomSortOrderChanged)
+    Q_PROPERTY(RoomSortOrder sidebarsRoomListSort READ sidebarsRoomListSort WRITE
+                 setSidebarsRoomListSort NOTIFY sidebarsRoomListSortChanged)
     Q_PROPERTY(
       TimelineMessageActionsPolicy timelineMessageActionsPolicy READ timelineMessageActionsPolicy
         WRITE setTimelineMessageActionsPolicy NOTIFY timelineMessageActionsPolicyChanged)
@@ -103,8 +103,9 @@ class UserSettings final : public QObject
                  compactRoomListChanged)
     Q_PROPERTY(bool roomListShowLastMessageTime READ roomListShowLastMessageTime WRITE
                  setRoomListShowLastMessageTime NOTIFY roomListShowLastMessageTimeChanged)
-    Q_PROPERTY(LastMessagePreview showLastMessagePreview READ showLastMessagePreview WRITE
-                 setShowLastMessagePreview NOTIFY showLastMessagePreviewChanged)
+    Q_PROPERTY(LastMessagePreview sidebarsRoomListLastMessagePreview READ
+                 sidebarsRoomListLastMessagePreview WRITE setSidebarsRoomListLastMessagePreview
+                   NOTIFY sidebarsRoomListLastMessagePreviewChanged)
     Q_PROPERTY(bool timelineMediaEffectsEnabled READ timelineMediaEffectsEnabled WRITE
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
     Q_PROPERTY(bool uiAnimationsEnabled READ uiAnimationsEnabled WRITE setUiAnimationsEnabled NOTIFY
@@ -340,7 +341,7 @@ public:
     void setReadReceiptsEnabled(bool state);
     void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
-    void setRoomSortOrder(RoomSortOrder order);
+    void setSidebarsRoomListSort(RoomSortOrder order);
     void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
     void setMaxContentWidth(int state);
     void setMaxTimelineWidth(int state);
@@ -353,7 +354,7 @@ public:
     void setCommunityNotificationCountsVisible(bool state);
     void setCompactRoomList(bool state);
     void setRoomListShowLastMessageTime(bool state);
-    void setShowLastMessagePreview(LastMessagePreview style);
+    void setSidebarsRoomListLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiAnimationsEnabled(bool state);
     void setWindowFocusBlurEnabled(bool state);
@@ -443,7 +444,7 @@ public:
 signals:
     void communitiesSidebarVisibleChanged(bool state);
     void roomListScrollbarsVisibleChanged(bool state);
-    void roomSortOrderChanged(RoomSortOrder order);
+    void sidebarsRoomListSortChanged(RoomSortOrder order);
     void themeChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
@@ -470,7 +471,7 @@ signals:
     void communityNotificationCountsVisibleChanged(bool state);
     void compactRoomListChanged(bool state);
     void roomListShowLastMessageTimeChanged(bool state);
-    void showLastMessagePreviewChanged(LastMessagePreview style);
+    void sidebarsRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiAnimationsEnabledChanged(bool state);
     void windowFocusBlurEnabledChanged(bool state);

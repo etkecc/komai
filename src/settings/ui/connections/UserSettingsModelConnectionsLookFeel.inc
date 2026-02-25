@@ -9,13 +9,13 @@
     CONNECT_SETTING_ID(SidebarsRoomListCompact, compactRoomListChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListShowLastMessageTime, roomListShowLastMessageTimeChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListLastMessagePreview, showLastMessagePreviewChanged, Value);
+    CONNECT_SETTING_ID(SidebarsRoomListLastMessagePreview, sidebarsRoomListLastMessagePreviewChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListShowCommunityCounts, communityNotificationCountsVisibleChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, circularAvatarsEnabledChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsIdenticonFallback, identiconFallbackEnabledChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListScrollbarsEnabled, roomListScrollbarsVisibleChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListSort, roomSortOrderChanged, Value);
+    CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, communitiesSidebarVisibleChanged, Value);
     CONNECT_SETTING_ID(UiInputTouchSwipeGesturesEnabled, swipeGesturesEnabledChanged, Value);

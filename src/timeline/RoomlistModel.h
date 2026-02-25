@@ -251,7 +251,7 @@ signals:
 private:
     short int calculateImportance(const QModelIndex &idx) const;
     RoomlistModel *roomlistmodel;
-    int roomSortOrder = 0; // UserSettings::RoomSortOrder enum value
+    int sidebarsRoomListSort = 0; // UserSettings::RoomSortOrder enum value
 
     enum class FilterBy
     {

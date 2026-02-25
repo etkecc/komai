@@ -376,8 +376,8 @@ testEnumSettingsPersistAsStrings()
     settings->setTimelineMessagesSenderUsername(UserSettings::ShowSenderUsername::Always);
     settings->setAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
     settings->setSendMessageKey(UserSettings::SendMessageKey::CtrlEnter);
-    settings->setRoomSortOrder(UserSettings::RoomSortOrder::Alphabetical);
-    settings->setShowLastMessagePreview(UserSettings::LastMessagePreview::Never);
+    settings->setSidebarsRoomListSort(UserSettings::RoomSortOrder::Alphabetical);
+    settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
     settings->setTimelineMessageActionsPolicy(UserSettings::TimelineMessageActionsPolicy::OnHover);
     settings->setTimelineMessageLayout(UserSettings::TimelineMessageLayout::Minimal);
     settings->setNotificationMessageContentPolicy(

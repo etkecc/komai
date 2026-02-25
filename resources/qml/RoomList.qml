@@ -683,7 +683,7 @@ Page {
                     Item {
                         id: titleRow
 
-                        property bool previewsEnabled: !isSpace && (Settings.showLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.showLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
+                        property bool previewsEnabled: !isSpace && (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
 
                         Layout.alignment: Qt.AlignTop
                         Layout.fillWidth: true
@@ -743,7 +743,7 @@ Page {
                         Layout.alignment: Qt.AlignBottom
                         Layout.fillWidth: true
                         Layout.preferredHeight: subtitleText.implicitHeight
-                        visible: !compactMode && !isSpace && (Settings.showLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.showLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
+                        visible: !compactMode && !isSpace && (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
 
                         ElidedLabel {
                             id: subtitleText

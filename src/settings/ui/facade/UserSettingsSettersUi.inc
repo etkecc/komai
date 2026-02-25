@@ -142,16 +142,16 @@ UserSettings::setTimelineTypingShowEnabled(bool s)
     save();
 }
 void
-UserSettings::setRoomSortOrder(RoomSortOrder s)
+UserSettings::setSidebarsRoomListSort(RoomSortOrder s)
 {
-    if (roomSortOrder_ == s)
+    if (sidebarsRoomListSort_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::SidebarsRoomListSort,
                       static_cast<int>(s),
                       "sidebars.room_list.sort"))
         return;
-    roomSortOrder_ = s;
-    emit roomSortOrderChanged(s);
+    sidebarsRoomListSort_ = s;
+    emit sidebarsRoomListSortChanged(s);
     save();
 }
 void
@@ -283,16 +283,16 @@ UserSettings::setRoomListShowLastMessageTime(bool s)
     save();
 }
 void
-UserSettings::setShowLastMessagePreview(LastMessagePreview s)
+UserSettings::setSidebarsRoomListLastMessagePreview(LastMessagePreview s)
 {
-    if (showLastMessagePreview_ == s)
+    if (sidebarsRoomListLastMessagePreview_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::SidebarsRoomListLastMessagePreview,
                       static_cast<int>(s),
                       "sidebars.room_list.last_message_preview"))
         return;
-    showLastMessagePreview_ = s;
-    emit showLastMessagePreviewChanged(s);
+    sidebarsRoomListLastMessagePreview_ = s;
+    emit sidebarsRoomListLastMessagePreviewChanged(s);
     save();
 }
 void

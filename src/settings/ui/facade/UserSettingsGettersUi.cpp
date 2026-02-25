@@ -107,14 +107,14 @@ UserSettings::roomListShowLastMessageTime() const
 }
 
 UserSettings::LastMessagePreview
-UserSettings::showLastMessagePreview() const
+UserSettings::sidebarsRoomListLastMessagePreview() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::SidebarsRoomListLastMessagePreview);
         value.has_value() && *value >= static_cast<int>(UserSettings::LastMessagePreview::Always) &&
         *value <= static_cast<int>(UserSettings::LastMessagePreview::Never))
         return static_cast<UserSettings::LastMessagePreview>(*value);
-    return showLastMessagePreview_;
+    return sidebarsRoomListLastMessagePreview_;
 }
 
 bool
@@ -148,14 +148,14 @@ UserSettings::windowFocusBlurDelaySeconds() const
 }
 
 UserSettings::RoomSortOrder
-UserSettings::roomSortOrder() const
+UserSettings::sidebarsRoomListSort() const
 {
     if (const auto value = coreStore_.valueAs<int>(settings::core::SettingId::SidebarsRoomListSort);
         value.has_value() &&
         *value >= static_cast<int>(UserSettings::RoomSortOrder::UnreadFirst_Recent) &&
         *value <= static_cast<int>(UserSettings::RoomSortOrder::Alphabetical))
         return static_cast<UserSettings::RoomSortOrder>(*value);
-    return roomSortOrder_;
+    return sidebarsRoomListSort_;
 }
 
 bool

@@ -31,20 +31,22 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
     cache::onRoomReadStatusChanged(
       this, [this](const std::map<QString, bool> &status) { updateReadStatus(status); });
 
-    connect(
-      UserSettings::instance().get(), &UserSettings::showLastMessagePreviewChanged, this, [this]() {
-          auto style   = UserSettings::instance()->showLastMessagePreview();
-          bool decrypt = (style == UserSettings::LastMessagePreview::Always);
-          QHash<QString, QSharedPointer<TimelineModel>>::iterator i;
-          for (i = models.begin(); i != models.end(); ++i) {
-              auto ptr = i.value();
+    connect(UserSettings::instance().get(),
+            &UserSettings::sidebarsRoomListLastMessagePreviewChanged,
+            this,
+            [this]() {
+                auto style   = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
+                bool decrypt = (style == UserSettings::LastMessagePreview::Always);
+                QHash<QString, QSharedPointer<TimelineModel>>::iterator i;
+                for (i = models.begin(); i != models.end(); ++i) {
+                    auto ptr = i.value();
 
-              if (!ptr.isNull()) {
-                  ptr->setDecryptDescription(decrypt);
-                  ptr->updateLastMessage();
-              }
-          }
-      });
+                    if (!ptr.isNull()) {
+                        ptr->setDecryptDescription(decrypt);
+                        ptr->updateLastMessage();
+                    }
+                }
+            });
 
     connect(this,
             &RoomlistModel::totalUnreadMessageCountUpdated,
@@ -294,7 +296,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
 {
     if (!models.contains(room_id)) {
         QSharedPointer<TimelineModel> newRoom(new TimelineModel(manager, room_id));
-        auto style = UserSettings::instance()->showLastMessagePreview();
+        auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
         newRoom->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
 
         connect(this,
@@ -903,8 +905,10 @@ FilteredRoomlistModel::calculateImportance(const QModelIndex &idx) const
             return NoPreview;
     } else if (sourceModel()->data(idx, RoomlistModel::IsInvite).toBool()) {
         return Invite;
-    } else if (this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::Recent) ||
-               this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::Alphabetical)) {
+    } else if (this->sidebarsRoomListSort ==
+                 static_cast<int>(UserSettings::RoomSortOrder::Recent) ||
+               this->sidebarsRoomListSort ==
+                 static_cast<int>(UserSettings::RoomSortOrder::Alphabetical)) {
         return ImportanceDisabled;
     } else if (sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool()) {
         return NewMentions;
@@ -936,8 +940,9 @@ FilteredRoomlistModel::lessThan(const QModelIndex &left, const QModelIndex &righ
     // Zero if empty, otherwise the time that the event occured
 
     bool sortAlphabetically =
-      (this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::UnreadFirst_Alpha) ||
-       this->roomSortOrder == static_cast<int>(UserSettings::RoomSortOrder::Alphabetical));
+      (this->sidebarsRoomListSort ==
+         static_cast<int>(UserSettings::RoomSortOrder::UnreadFirst_Alpha) ||
+       this->sidebarsRoomListSort == static_cast<int>(UserSettings::RoomSortOrder::Alphabetical));
 
     if (sortAlphabetically) {
         QString a_order = sourceModel()->data(left_idx, RoomlistModel::RoomName).toString();
@@ -963,15 +968,15 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
 {
     instance_ = this;
 
-    this->roomSortOrder = static_cast<int>(UserSettings::instance()->roomSortOrder());
+    this->sidebarsRoomListSort = static_cast<int>(UserSettings::instance()->sidebarsRoomListSort());
     setSourceModel(model);
     setDynamicSortFilter(true);
 
     QObject::connect(UserSettings::instance().get(),
-                     &UserSettings::roomSortOrderChanged,
+                     &UserSettings::sidebarsRoomListSortChanged,
                      this,
                      [this](UserSettings::RoomSortOrder order) {
-                         this->roomSortOrder = static_cast<int>(order);
+                         this->sidebarsRoomListSort = static_cast<int>(order);
                          invalidate();
                      });
 

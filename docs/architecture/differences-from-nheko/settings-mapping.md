@@ -38,10 +38,10 @@ Note:
 | Look & Feel | AVATARS | Use identicons | `UserSettingsModel::IdenticonFallbackEnabled` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
 | Sidebars | ROOM LIST | Compact layout | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::RoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
-| Sidebars | ROOM LIST | Show last message preview | `UserSettingsModel::ShowLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
+| Sidebars | ROOM LIST | Show last message preview | `UserSettingsModel::SidebarsRoomListLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
 | Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::CommunityNotificationCountsVisible` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
 | Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::RoomListScrollbarsVisible` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
-| Sidebars | ROOM LIST | Sorting | `UserSettingsModel::RoomSorting` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
+| Sidebars | ROOM LIST | Sorting | `UserSettingsModel::SidebarsRoomListSort` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::CommunitiesSidebarVisible` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsSystemTrayEnabled` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |

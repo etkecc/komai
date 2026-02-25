@@ -23,7 +23,7 @@ ShowSenderUsername timelineMessagesSenderUsername_;
 bool timelineMediaAnimateOnHover_;
 bool composerTypingSendEnabled_;
 bool timelineTypingShowEnabled_;
-RoomSortOrder roomSortOrder_;
+RoomSortOrder sidebarsRoomListSort_;
 TimelineMessageActionsPolicy timelineMessageActionsPolicy_ =
   TimelineMessageActionsPolicy::ActionsButton;
 bool readReceiptsEnabled_;
@@ -35,7 +35,7 @@ NotificationMessageContentPolicy notificationMessageContentPolicy_ =
 bool communityNotificationCountsVisible_;
 bool compactRoomList_;
 bool roomListShowLastMessageTime_;
-LastMessagePreview showLastMessagePreview_;
+LastMessagePreview sidebarsRoomListLastMessagePreview_;
 bool timelineMediaEffectsEnabled_;
 bool uiAnimationsEnabled_;
 bool windowFocusBlurEnabled_;

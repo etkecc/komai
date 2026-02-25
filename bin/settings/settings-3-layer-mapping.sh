@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 set -euo pipefail
+export LC_ALL=C
 
 usage() {
     cat <<'USAGE'

@@ -39,13 +39,13 @@ UserSettings::setIntegrationsSystemTrayAutostart(bool s)
     save();
 }
 void
-UserSettings::setUiInputModeTouchEnabled(bool s)
+UserSettings::setUiInputMode(bool s)
 {
-    if (uiInputModeTouchEnabled_ == s)
+    if (uiInputMode_ == s)
         return;
-    uiInputModeTouchEnabled_ = s;
+    uiInputMode_ = s;
     (void)coreStore_.set(settings::core::SettingId::UiInputMode, s);
-    emit uiInputModeTouchEnabledChanged(s);
+    emit uiInputModeChanged(s);
     save();
 }
 void

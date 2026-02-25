@@ -79,9 +79,9 @@ constexpr auto kUiInputModeDesktop = "desktop";
 constexpr auto kUiInputModeTouch   = "touch";
 
 QString
-toStorageUiInputMode(bool uiInputModeTouchEnabled)
+toStorageUiInputMode(bool uiInputMode)
 {
-    return QString::fromLatin1(uiInputModeTouchEnabled ? kUiInputModeTouch : kUiInputModeDesktop);
+    return QString::fromLatin1(uiInputMode ? kUiInputModeTouch : kUiInputModeDesktop);
 }
 
 bool
@@ -164,9 +164,8 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
     for (const auto &adapter : cfg::enumTokenAdapters())
         setNode(root, adapter.key, adapter.toStorage(settings).toStdString());
     setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiMotionAnimationsEnabled());
-    setNode(root,
-            SettingKey::UiInputMode,
-            toStorageUiInputMode(settings.uiInputModeTouchEnabled()).toStdString());
+    setNode(
+      root, SettingKey::UiInputMode, toStorageUiInputMode(settings.uiInputMode()).toStdString());
 
     if (settings::core::isScaleFactorInRange(settings.uiScaleFactor()))
         setNode(root, SettingKey::UiScaleFactor, settings.uiScaleFactor());
@@ -214,7 +213,7 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
                                  SettingKey::UiInputMode,
                                  kUiInputModeDesktop);
     }
-    settings.setUiInputModeTouchEnabled(fromStorageUiInputMode(inputModeToken));
+    settings.setUiInputMode(fromStorageUiInputMode(inputModeToken));
     const auto scaleFactor =
       readScalar<double>(root, SettingKey::UiScaleFactor, cfg::kDefaultScaleFactor);
     if (settings::core::isScaleFactorInRange(scaleFactor))

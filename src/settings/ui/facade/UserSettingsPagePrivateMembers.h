@@ -43,7 +43,7 @@ int privacyWindowFocusBlurDelaySeconds_;
 bool encryptionKeySharingShareWithTrusted_;
 bool encryptionKeySharingOnlyVerifiedUsers_;
 bool encryptionBackupOnlineEnabled_;
-bool uiInputModeTouchEnabled_;
+bool uiInputMode_;
 bool uiInputTouchSwipeGesturesEnabled_;
 int uiLayoutContentMaxWidthPx_ = settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;
 int timelineMessagesMaxWidthPx_;

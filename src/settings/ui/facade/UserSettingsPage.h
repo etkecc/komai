@@ -129,8 +129,7 @@ class UserSettings final : public QObject
                  setSidebarsRoomListWidthPx NOTIFY sidebarsRoomListWidthPxChanged)
     Q_PROPERTY(int sidebarsCommunitiesWidthPx READ sidebarsCommunitiesWidthPx WRITE
                  setSidebarsCommunitiesWidthPx NOTIFY sidebarsCommunitiesWidthPxChanged)
-    Q_PROPERTY(bool uiInputModeTouchEnabled READ uiInputModeTouchEnabled WRITE
-                 setUiInputModeTouchEnabled NOTIFY uiInputModeTouchEnabledChanged)
+    Q_PROPERTY(bool uiInputMode READ uiInputMode WRITE setUiInputMode NOTIFY uiInputModeChanged)
     Q_PROPERTY(bool uiInputTouchSwipeGesturesEnabled READ uiInputTouchSwipeGesturesEnabled WRITE
                  setUiInputTouchSwipeGesturesEnabled NOTIFY uiInputTouchSwipeGesturesEnabledChanged)
     Q_PROPERTY(
@@ -342,7 +341,7 @@ public:
     void setTimelineMessagesEmojiOnlyEnlarge(bool state);
     void setIntegrationsSystemTrayEnabled(bool state);
     void setIntegrationsSystemTrayAutostart(bool state);
-    void setUiInputModeTouchEnabled(bool mode);
+    void setUiInputMode(bool mode);
     void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setUiScaleFactor(double factor);
     void setUiFontSizePt(double size);
@@ -502,7 +501,7 @@ signals:
     void timelineMessagesMaxWidthPxChanged(int state);
     void sidebarsRoomListWidthPxChanged(int state);
     void sidebarsCommunitiesWidthPxChanged(int state);
-    void uiInputModeTouchEnabledChanged(bool mode);
+    void uiInputModeChanged(bool mode);
     void uiInputTouchSwipeGesturesEnabledChanged(bool state);
     void uiScaleFactorChanged(double factor);
     void uiFontSizePtChanged(double state);

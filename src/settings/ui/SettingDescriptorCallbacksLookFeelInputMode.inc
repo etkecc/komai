@@ -10,7 +10,7 @@ lookFeelInputModeValue()
     if (!i)
         return 0;
 
-    return i->uiInputModeTouchEnabled() ? 1 : 0;
+    return i->uiInputMode() ? 1 : 0;
 }
 
 static bool
@@ -20,7 +20,7 @@ setLookFeelInputModeValue(const QVariant &v)
     if (!i)
         return false;
 
-    return applyIndexedOption(v, 0, 1, [i](int option) { i->setUiInputModeTouchEnabled(option == 1); });
+    return applyIndexedOption(v, 0, 1, [i](int option) { i->setUiInputMode(option == 1); });
 }
 
 static QVariant

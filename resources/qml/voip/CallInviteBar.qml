@@ -10,7 +10,7 @@ import QtQuick.Layouts
 import im.nheko
 
 Rectangle {
-    visible: CallManager.haveCallInvite && Settings.uiInputModeTouchEnabled && Settings.callsLegacyEnabled
+    visible: CallManager.haveCallInvite && Settings.uiInputMode && Settings.callsLegacyEnabled
     color: "#2ECC71"
     implicitHeight: visible ? rowLayout.height + 8 : 0
 

@@ -30,7 +30,7 @@
     bool timelineTypingShowEnabled() const;
     RoomSortOrder sidebarsRoomListSort() const;
     TimelineMessageActionsPolicy timelineMessageActionsActivationPolicy() const;
-    bool uiInputModeTouchEnabled() const;
+    bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;
     bool timelineReadReceiptsEnabled() const;
     bool notificationsEnabled() const;

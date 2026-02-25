@@ -150,23 +150,23 @@ UserSettings::setIntegrationsLinksBrowserCommand(QString command)
     save();
 }
 void
-UserSettings::setUpdateSpaceVias(bool s)
+UserSettings::setPrivacyMaintenanceUpdateSpaceVias(bool s)
 {
-    if (updateSpaceVias_ == s)
+    if (privacyMaintenanceUpdateSpaceVias_ == s)
         return;
-    updateSpaceVias_ = s;
+    privacyMaintenanceUpdateSpaceVias_ = s;
     (void)coreStore_.set(settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias, s);
-    emit updateSpaceViasChanged(s);
+    emit privacyMaintenanceUpdateSpaceViasChanged(s);
     save();
 }
 void
-UserSettings::setExpireEvents(bool s)
+UserSettings::setPrivacyMaintenanceExpireEvents(bool s)
 {
-    if (expireEvents_ == s)
+    if (privacyMaintenanceExpireEvents_ == s)
         return;
-    expireEvents_ = s;
+    privacyMaintenanceExpireEvents_ = s;
     (void)coreStore_.set(settings::core::SettingId::PrivacyMaintenanceExpireEvents, s);
-    emit expireEventsChanged(s);
+    emit privacyMaintenanceExpireEventsChanged(s);
     save();
 }
 void
@@ -191,12 +191,12 @@ UserSettings::setMaxStores(uint s)
     setSetting(maxStores_, s, &UserSettings::maxStoresChanged);
 }
 void
-UserSettings::setHttp3Enabled(bool s)
+UserSettings::setNetworkHttp3Enabled(bool s)
 {
-    if (http3Enabled_ == s)
+    if (networkHttp3Enabled_ == s)
         return;
-    http3Enabled_ = s;
+    networkHttp3Enabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::NetworkHttp3Enabled, s);
-    emit http3EnabledChanged(s);
+    emit networkHttp3EnabledChanged(s);
     save();
 }

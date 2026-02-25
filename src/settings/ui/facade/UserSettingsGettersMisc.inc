@@ -16,13 +16,13 @@
     QList<QStringList> collapsedSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsLinksBrowserCommand() const;
-    bool updateSpaceVias() const;
-    bool expireEvents() const;
+    bool privacyMaintenanceUpdateSpaceVias() const;
+    bool privacyMaintenanceExpireEvents() const;
     int windowWidth() const;
     int windowHeight() const;
     qulonglong maxDbSize() const;
     uint maxStores() const;
     bool usesFileSecretsProvider() const;
-    bool http3Enabled() const;
+    bool networkHttp3Enabled() const;
     settings::core::SettingsStore &mutableCoreStore();
     const settings::core::SettingsStore &coreStore() const;

@@ -21,7 +21,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Delete expired events periodically",
       QT_TR_NOOP("Regularly redact expired events based on room expiration rules. Because homeservers may not do this automatically, at least one of your clients should keep this enabled."),
-      SM::TabPrivacy, expireEvents, setExpireEvents, nullptr, PrivacyMaintenanceExpireEvents, SettingKey::PrivacyMaintenanceExpireEvents),
+      SM::TabPrivacy, privacyMaintenanceExpireEvents, setPrivacyMaintenanceExpireEvents, nullptr, PrivacyMaintenanceExpireEvents, SettingKey::PrivacyMaintenanceExpireEvents),
     // HiddenTimelineEvents
     { QT_TR_NOOP("Hidden events"),
       QT_TR_NOOP("Configure whether to show or hide certain events like room joins."),
@@ -31,7 +31,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Update community routing info periodically",
       QT_TR_NOOP("Keep community routing metadata up to date in the background so joins continue to work as room membership changes."),
-      SM::TabPrivacy, updateSpaceVias, setUpdateSpaceVias, nullptr, PrivacyMaintenanceUpdateSpaceVias, SettingKey::PrivacyMaintenanceUpdateSpaceVias),
+      SM::TabPrivacy, privacyMaintenanceUpdateSpaceVias, setPrivacyMaintenanceUpdateSpaceVias, nullptr, PrivacyMaintenanceUpdateSpaceVias, SettingKey::PrivacyMaintenanceUpdateSpaceVias),
     // PrivacyUsersSection
     { QT_TR_NOOP("Users"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

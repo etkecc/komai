@@ -1587,7 +1587,7 @@ utils::roomVias(const std::string &roomid)
 void
 utils::updateSpaceVias()
 {
-    if (!UserSettings::instance()->updateSpaceVias())
+    if (!UserSettings::instance()->privacyMaintenanceUpdateSpaceVias())
         return;
 
     nhlog::net()->info("update space vias called");
@@ -1759,7 +1759,7 @@ std::atomic<bool> event_expiration_running = false;
 void
 utils::removeExpiredEvents()
 {
-    if (!UserSettings::instance()->expireEvents())
+    if (!UserSettings::instance()->privacyMaintenanceExpireEvents())
         return;
 
     if (event_expiration_running.exchange(true)) {

@@ -35,19 +35,19 @@ Note:
 | Look & Feel | BEHAVIOR | Enable UI animations | `UserSettingsModel::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
 | Look & Feel | LAYOUT | Maximum content width | `UserSettingsModel::MaxContentWidth` | `-` | `ui.layout.content.max_width_px` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `UserSettingsModel::CircularAvatarsEnabled` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
-| Look & Feel | AVATARS | Use identicons | `UserSettingsModel::IdenticonFallbackEnabled` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
-| Sidebars | ROOM LIST | Compact layout | `UserSettingsModel::CompactRoomList` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
-| Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::RoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
+| Look & Feel | AVATARS | Use identicons | `UserSettingsModel::UiAvatarsIdenticonFallback` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
+| Sidebars | ROOM LIST | Compact layout | `UserSettingsModel::SidebarsRoomListCompact` | `compact_room_list` | `sidebars.room_list.compact` | config.yml | yes |
+| Sidebars | ROOM LIST | Show last message timestamp | `UserSettingsModel::SidebarsRoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message preview | `UserSettingsModel::SidebarsRoomListLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
-| Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::CommunityNotificationCountsVisible` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
-| Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::RoomListScrollbarsVisible` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
+| Sidebars | ROOM LIST | Show notification counts | `UserSettingsModel::SidebarsRoomListShowCommunityCounts` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
+| Sidebars | ROOM LIST | Show scrollbars | `UserSettingsModel::SidebarsRoomListScrollbarsEnabled` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
 | Sidebars | ROOM LIST | Sorting | `UserSettingsModel::SidebarsRoomListSort` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
-| Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::CommunitiesSidebarVisible` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
+| Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `UserSettingsModel::SidebarsCommunitiesVisible` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Minimize to tray | `UserSettingsModel::IntegrationsSystemTrayEnabled` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Start in tray | `UserSettingsModel::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::IntegrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Interaction mode | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Interaction mode | `UserSettingsModel::UiInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::UiInputTouchSwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures.enabled` | config.yml | yes |
 | Timeline | PRESENTATION | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
 | Timeline | PRESENTATION | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
@@ -60,14 +60,14 @@ Note:
 | Timeline | ACTIONS | Actions activation policy | `UserSettingsModel::TimelineMessageActionsPolicy` | `show_action_buttons` | `timeline.messages.actions.activation_policy` | config.yml | yes |
 | Timeline | ACTIONS | Pinned reactions | `UserSettingsModel::PinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Play animated images only on hover | `UserSettingsModel::TimelineMediaAnimateOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
-| Timeline | MEDIA HANDLING | Show images automatically | `UserSettingsModel::ShowImage` | `show_image` | `timeline.media.image_display` | config.yml | yes |
-| Timeline | MEDIA HANDLING | Open images in an external app | `UserSettingsModel::OpenImagesInExternalApp` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
-| Timeline | MEDIA HANDLING | Open videos in an external app | `UserSettingsModel::OpenVideosInExternalApp` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
-| Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::MarkdownEnabled` | `markdown` | `composer.input.markdown.enabled` | config.yml | yes |
-| Composer | INPUT | Send key | `UserSettingsModel::SendMessageKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
-| Composer | INPUT | Auto-replace emoticons with emoji | `UserSettingsModel::AutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Show images automatically | `UserSettingsModel::TimelineMediaImageDisplay` | `show_image` | `timeline.media.image_display` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Open images in an external app | `UserSettingsModel::TimelineMediaOpenImagesExternal` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Open videos in an external app | `UserSettingsModel::TimelineMediaOpenVideosExternal` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
+| Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `UserSettingsModel::ComposerInputMarkdownEnabled` | `markdown` | `composer.input.markdown.enabled` | config.yml | yes |
+| Composer | INPUT | Send key | `UserSettingsModel::ComposerInputSendKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
+| Composer | INPUT | Auto-replace emoticons with emoji | `UserSettingsModel::ComposerInputAutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
 | Composer | INPUT | Show others I am typing | `UserSettingsModel::ComposerTypingSendEnabled` | `typing_notifications` | `composer.typing.send.enabled` | config.yml | yes |
-| Composer | EXTRAS | Enable stickers | `UserSettingsModel::StickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
+| Composer | EXTRAS | Enable stickers | `UserSettingsModel::ComposerExtrasStickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Show when others are typing | `UserSettingsModel::TimelineTypingShowEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Read receipts | `UserSettingsModel::TimelineReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |
 | Notifications | SYSTEM NOTIFICATIONS | Enable system notifications | `UserSettingsModel::NotificationsEnabled` | `desktop_notifications` | `notifications.enabled` | config.yml | yes |
@@ -86,9 +86,9 @@ Note:
 | Calls | SCREEN SHARING | Show mouse cursor | `UserSettingsModel::ScreenShareShowCursor` | `screen_share_hide_cursor` | `calls.screenshare.show_cursor` | config.yml | yes |
 | Privacy | WINDOW BLUR | Blur on focus loss | `UserSettingsModel::WindowFocusBlurEnabled` | `privacy_screen` | `privacy.window_focus_blur.enabled` | config.yml | yes |
 | Privacy | WINDOW BLUR | Blur delay (seconds) | `UserSettingsModel::WindowFocusBlurDelaySeconds` | `privacy_screen_timeout_seconds` | `privacy.window_focus_blur.delay_seconds` | config.yml | yes |
-| Privacy | DATA & MAINTENANCE | Delete expired events periodically | `UserSettingsModel::ExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
+| Privacy | DATA & MAINTENANCE | Delete expired events periodically | `UserSettingsModel::PrivacyMaintenanceExpireEvents` | `expire_events` | `privacy.maintenance.expire_events` | config.yml | yes |
 | Privacy | DATA & MAINTENANCE | Hidden events | `UserSettingsModel::HiddenTimelineEvents` | `-` | `privacy.timeline.hidden_events` | runtime/UI-specific | no |
-| Privacy | DATA & MAINTENANCE | Update community routing info periodically | `UserSettingsModel::UpdateSpaceVias` | `update_space_vias` | `privacy.maintenance.update_space_vias` | config.yml | yes |
+| Privacy | DATA & MAINTENANCE | Update community routing info periodically | `UserSettingsModel::PrivacyMaintenanceUpdateSpaceVias` | `update_space_vias` | `privacy.maintenance.update_space_vias` | config.yml | yes |
 | Privacy | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `privacy.users.ignored` | runtime/UI-specific | no |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `UserSettingsModel::EncryptionKeySharingOnlyVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |
 | Encryption | KEY SHARING | Share keys with verified users and devices | `UserSettingsModel::EncryptionKeySharingShareWithTrusted` | `share_keys_with_trusted_users` | `encryption.key_sharing.share_with_trusted` | config.yml | yes |

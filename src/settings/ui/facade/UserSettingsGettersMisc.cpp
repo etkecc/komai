@@ -111,22 +111,22 @@ UserSettings::integrationsLinksBrowserCommand() const
     return integrationsLinksBrowserCommand_;
 }
 bool
-UserSettings::updateSpaceVias() const
+UserSettings::privacyMaintenanceUpdateSpaceVias() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::PrivacyMaintenanceUpdateSpaceVias);
         value.has_value())
         return *value;
-    return updateSpaceVias_;
+    return privacyMaintenanceUpdateSpaceVias_;
 }
 bool
-UserSettings::expireEvents() const
+UserSettings::privacyMaintenanceExpireEvents() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::PrivacyMaintenanceExpireEvents);
         value.has_value())
         return *value;
-    return expireEvents_;
+    return privacyMaintenanceExpireEvents_;
 }
 int
 UserSettings::windowWidth() const
@@ -155,12 +155,12 @@ UserSettings::usesFileSecretsProvider() const
     return usesFileSecretsProvider_;
 }
 bool
-UserSettings::http3Enabled() const
+UserSettings::networkHttp3Enabled() const
 {
     if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::NetworkHttp3Enabled);
         value.has_value())
         return *value;
-    return http3Enabled_;
+    return networkHttp3Enabled_;
 }
 settings::core::SettingsStore &
 UserSettings::mutableCoreStore()

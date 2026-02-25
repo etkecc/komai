@@ -26,7 +26,7 @@ client()
         auto c = std::make_shared<mtx::http::Client>();
 
         // Disabled by default until CPU usage and reliability improves
-        if (UserSettings::instance()->http3Enabled()) {
+        if (UserSettings::instance()->networkHttp3Enabled()) {
             nhlog::net()->warn("Enabling http3 support. This is currently usually a worse "
                                "experience, so you are on your own.");
             c->alt_svc_cache_path(

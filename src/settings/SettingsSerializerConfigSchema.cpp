@@ -120,8 +120,8 @@ const std::array<BoolSettingDescriptor, 38> BoolSettings{
                         &UserSettings::setNetworkTlsEnableCertificateValidation},
   BoolSettingDescriptor{SettingKey::NetworkHttp3Enabled,
                         kDefaultNetworkHttp3Enabled,
-                        &UserSettings::http3Enabled,
-                        &UserSettings::setHttp3Enabled},
+                        &UserSettings::networkHttp3Enabled,
+                        &UserSettings::setNetworkHttp3Enabled},
   BoolSettingDescriptor{SettingKey::UiInputTouchSwipeGesturesEnabled,
                         false,
                         &UserSettings::uiInputTouchSwipeGesturesEnabled,
@@ -168,12 +168,12 @@ const std::array<BoolSettingDescriptor, 38> BoolSettings{
                         &UserSettings::setTimelineMediaOpenVideosExternal},
   BoolSettingDescriptor{SettingKey::PrivacyMaintenanceUpdateSpaceVias,
                         true,
-                        &UserSettings::updateSpaceVias,
-                        &UserSettings::setUpdateSpaceVias},
+                        &UserSettings::privacyMaintenanceUpdateSpaceVias,
+                        &UserSettings::setPrivacyMaintenanceUpdateSpaceVias},
   BoolSettingDescriptor{SettingKey::PrivacyMaintenanceExpireEvents,
                         false,
-                        &UserSettings::expireEvents,
-                        &UserSettings::setExpireEvents},
+                        &UserSettings::privacyMaintenanceExpireEvents,
+                        &UserSettings::setPrivacyMaintenanceExpireEvents},
 };
 
 const std::array<IntSettingDescriptor, 4> IntSettings{

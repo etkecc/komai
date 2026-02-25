@@ -11,5 +11,5 @@
         }
     });
     CONNECT_SETTING_ID(PrivacyWindowFocusBlurDelaySeconds, windowFocusBlurDelaySecondsChanged, Value);
-    CONNECT_SETTING_ID(PrivacyMaintenanceExpireEvents, expireEventsChanged, Value);
-    CONNECT_SETTING_ID(PrivacyMaintenanceUpdateSpaceVias, updateSpaceViasChanged, Value);
+    CONNECT_SETTING_ID(PrivacyMaintenanceExpireEvents, privacyMaintenanceExpireEventsChanged, Value);
+    CONNECT_SETTING_ID(PrivacyMaintenanceUpdateSpaceVias, privacyMaintenanceUpdateSpaceViasChanged, Value);

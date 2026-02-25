@@ -187,9 +187,11 @@ class UserSettings final : public QObject
                  recentReactionsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
-    Q_PROPERTY(bool updateSpaceVias READ updateSpaceVias WRITE setUpdateSpaceVias NOTIFY
-                 updateSpaceViasChanged)
-    Q_PROPERTY(bool expireEvents READ expireEvents WRITE setExpireEvents NOTIFY expireEventsChanged)
+    Q_PROPERTY(
+      bool privacyMaintenanceUpdateSpaceVias READ privacyMaintenanceUpdateSpaceVias WRITE
+        setPrivacyMaintenanceUpdateSpaceVias NOTIFY privacyMaintenanceUpdateSpaceViasChanged)
+    Q_PROPERTY(bool privacyMaintenanceExpireEvents READ privacyMaintenanceExpireEvents WRITE
+                 setPrivacyMaintenanceExpireEvents NOTIFY privacyMaintenanceExpireEventsChanged)
 
     // Window geometry (not exposed to QML, used internally)
     Q_PROPERTY(int windowWidth READ windowWidth WRITE setWindowWidth NOTIFY windowWidthChanged)
@@ -200,7 +202,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(uint maxStores READ maxStores WRITE setMaxStores NOTIFY maxStoresChanged)
 
     // Experimental features
-    Q_PROPERTY(bool http3Enabled READ http3Enabled WRITE setHttp3Enabled NOTIFY http3EnabledChanged)
+    Q_PROPERTY(bool networkHttp3Enabled READ networkHttp3Enabled WRITE setNetworkHttp3Enabled NOTIFY
+                 networkHttp3EnabledChanged)
 
     UserSettings();
 
@@ -399,13 +402,13 @@ public:
     void setIntegrationsLinksBrowserCommand(QString command);
     void setCollapsedSpaces(QList<QStringList> spaces);
     void setIntegrationsDbusApiAccess(int access);
-    void setUpdateSpaceVias(bool state);
-    void setExpireEvents(bool state);
+    void setPrivacyMaintenanceUpdateSpaceVias(bool state);
+    void setPrivacyMaintenanceExpireEvents(bool state);
     void setWindowWidth(int width);
     void setWindowHeight(int height);
     void setMaxDbSize(qulonglong size);
     void setMaxStores(uint count);
-    void setHttp3Enabled(bool state);
+    void setNetworkHttp3Enabled(bool state);
     void clearAuth();
     bool hasPersistedSessionIdentity() const;
     bool hasActiveSession() const;
@@ -521,13 +524,13 @@ signals:
     void recentReactionsChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsLinksBrowserCommandChanged(QString command);
-    void updateSpaceViasChanged(bool state);
-    void expireEventsChanged(bool state);
+    void privacyMaintenanceUpdateSpaceViasChanged(bool state);
+    void privacyMaintenanceExpireEventsChanged(bool state);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);
     void maxDbSizeChanged(qulonglong size);
     void maxStoresChanged(uint count);
-    void http3EnabledChanged(bool state);
+    void networkHttp3EnabledChanged(bool state);
 
 private:
     template<typename T, typename Signal>

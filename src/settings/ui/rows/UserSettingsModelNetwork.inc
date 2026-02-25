@@ -31,4 +31,4 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable HTTP/3",
       QT_TR_NOOP("Use HTTP/3 for Matrix server connections when available."),
-      SM::TabNetwork, http3Enabled, setHttp3Enabled, nullptr, NetworkHttp3Enabled, SettingKey::NetworkHttp3Enabled),
+      SM::TabNetwork, networkHttp3Enabled, setNetworkHttp3Enabled, nullptr, NetworkHttp3Enabled, SettingKey::NetworkHttp3Enabled),

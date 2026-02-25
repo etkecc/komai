@@ -266,7 +266,7 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
     updateColorPalette();
 
     connect(UserSettings::instance().get(),
-            &UserSettings::themeChanged,
+            &UserSettings::uiThemeSlugChanged,
             this,
             &TimelineViewManager::updateColorPalette);
     connect(parent,

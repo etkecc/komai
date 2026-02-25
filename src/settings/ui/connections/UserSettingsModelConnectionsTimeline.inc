@@ -12,7 +12,7 @@
     CONNECT_SETTING_ID(TimelineReadReceiptsEnabled, timelineReadReceiptsEnabledChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessageActionsActivationPolicy, timelineMessageActionsActivationPolicyChanged, Value);
-    CONNECT_SETTING_ID(TimelineMessageActionsPinnedReactions, pinnedReactionsChanged, Value);
+    CONNECT_SETTING_ID(TimelineMessageActionsPinnedReactions, timelineMessageActionsPinnedReactionsChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaEffectsEnabled, timelineMediaEffectsEnabledChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaAnimateOnHover, timelineMediaAnimateOnHoverChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaImageDisplay, timelineMediaImageDisplayChanged, Value);

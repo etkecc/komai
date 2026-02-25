@@ -22,7 +22,13 @@ SpinBox {
     to: model.valueUpperBound * div
     stepSize: model.valueStep * div
     value: model.value * div
-    onValueModified: model.value = value / div
+    onValueModified: {
+        if (!root.model)
+            return;
+        const nextValue = value / root.div;
+        if (root.model.value !== nextValue)
+            root.model.value = nextValue;
+    }
     editable: true
     wheelEnabled: activeFocus
 

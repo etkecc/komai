@@ -17,7 +17,12 @@ SpinBox {
     to: model.valueUpperBound
     stepSize: model.valueStep
     value: model.value
-    onValueChanged: model.value = value
+    onValueModified: {
+        if (!root.model)
+            return;
+        if (root.model.value !== value)
+            root.model.value = value;
+    }
     editable: true
     wheelEnabled: activeFocus
 

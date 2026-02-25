@@ -14,20 +14,16 @@ Item {
 
     signal toggledValue(bool value)
 
-    onEnabledChanged: button.enabled = enabled
-
     implicitWidth: button.implicitWidth
     implicitHeight: button.implicitHeight
 
     Switch {
         id: button
 
+        enabled: root.enabled
         checked: root.value
         onToggled: {
-            root.value = checked;
             root.toggledValue(checked);
         }
     }
-
-    Component.onCompleted: button.enabled = enabled
 }

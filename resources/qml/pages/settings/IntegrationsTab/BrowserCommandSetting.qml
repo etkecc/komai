@@ -41,12 +41,12 @@ Item {
         TextField {
             id: browserCommandTextField
             Layout.fillWidth: true
-            text: Settings.integrationsLinksBrowserCommand ? Settings.integrationsLinksBrowserCommand : ""
+            text: Settings.integrationsBrowserCommand ? Settings.integrationsBrowserCommand : ""
             selectByMouse: true
             wrapMode: TextInput.NoWrap
             function applyCommand()
             {
-                Settings.integrationsLinksBrowserCommand = browserCommandTextField.text.trim();
+                Settings.integrationsBrowserCommand = browserCommandTextField.text.trim();
             }
             onEditingFinished: applyCommand()
             onAccepted: applyCommand()

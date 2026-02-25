@@ -102,13 +102,13 @@ UserSettings::integrationsDbusApiAccess() const
     return integrationsDbusApiAccess_;
 }
 QString
-UserSettings::integrationsLinksBrowserCommand() const
+UserSettings::integrationsBrowserCommand() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::IntegrationsBrowserCommand);
         value.has_value())
         return QString::fromStdString(*value);
-    return integrationsLinksBrowserCommand_;
+    return integrationsBrowserCommand_;
 }
 bool
 UserSettings::privacyMaintenanceUpdateSpaceVias() const

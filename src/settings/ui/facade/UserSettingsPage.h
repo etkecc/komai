@@ -177,8 +177,8 @@ class UserSettings final : public QObject
                  setTimelineMediaOpenImagesExternal NOTIFY timelineMediaOpenImagesExternalChanged)
     Q_PROPERTY(bool timelineMediaOpenVideosExternal READ timelineMediaOpenVideosExternal WRITE
                  setTimelineMediaOpenVideosExternal NOTIFY timelineMediaOpenVideosExternalChanged)
-    Q_PROPERTY(QString integrationsLinksBrowserCommand READ integrationsLinksBrowserCommand WRITE
-                 setIntegrationsLinksBrowserCommand NOTIFY integrationsLinksBrowserCommandChanged)
+    Q_PROPERTY(QString integrationsBrowserCommand READ integrationsBrowserCommand WRITE
+                 setIntegrationsBrowserCommand NOTIFY integrationsBrowserCommandChanged)
     Q_PROPERTY(int integrationsDbusApiAccess READ integrationsDbusApiAccess WRITE
                  setIntegrationsDbusApiAccess NOTIFY integrationsDbusApiAccessChanged)
 
@@ -399,7 +399,7 @@ public:
     void setUiAvatarsIdenticonFallback(bool state);
     void setTimelineMediaOpenImagesExternal(bool state);
     void setTimelineMediaOpenVideosExternal(bool state);
-    void setIntegrationsLinksBrowserCommand(QString command);
+    void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QList<QStringList> spaces);
     void setIntegrationsDbusApiAccess(int access);
     void setPrivacyMaintenanceUpdateSpaceVias(bool state);
@@ -523,7 +523,7 @@ signals:
     void hiddenWidgetsChanged();
     void recentReactionsChanged();
     void integrationsDbusApiAccessChanged(int state);
-    void integrationsLinksBrowserCommandChanged(QString command);
+    void integrationsBrowserCommandChanged(QString command);
     void privacyMaintenanceUpdateSpaceViasChanged(bool state);
     void privacyMaintenanceExpireEventsChanged(bool state);
     void windowWidthChanged(int width);

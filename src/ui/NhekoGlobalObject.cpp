@@ -174,9 +174,8 @@ Nheko::openLink(QString link) const
         };
 
         if (allowedUrlSchemes.contains(url.scheme()) &&
-            !UserSettings::instance()->integrationsLinksBrowserCommand().trimmed().isEmpty() &&
-            openWithBrowserCommand(UserSettings::instance()->integrationsLinksBrowserCommand(),
-                                   url)) {
+            !UserSettings::instance()->integrationsBrowserCommand().trimmed().isEmpty() &&
+            openWithBrowserCommand(UserSettings::instance()->integrationsBrowserCommand(), url)) {
             return;
         } else if (allowedUrlSchemes.contains(url.scheme()))
             QDesktopServices::openUrl(url);

@@ -84,7 +84,7 @@ bool uiAvatarsIdenticonFallback_;
 bool timelineMediaOpenImagesExternal_;
 bool timelineMediaOpenVideosExternal_;
 int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
-QString integrationsLinksBrowserCommand_;
+QString integrationsBrowserCommand_;
 bool privacyMaintenanceUpdateSpaceVias_;
 bool privacyMaintenanceExpireEvents_;
 int windowWidth_              = settings::core::definitions::kDefaultWindowWidthPx;

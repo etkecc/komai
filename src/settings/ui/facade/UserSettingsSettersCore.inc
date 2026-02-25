@@ -138,15 +138,15 @@ UserSettings::setIntegrationsDbusApiAccess(int access)
     save();
 }
 void
-UserSettings::setIntegrationsLinksBrowserCommand(QString command)
+UserSettings::setIntegrationsBrowserCommand(QString command)
 {
     command = command.trimmed();
-    if (integrationsLinksBrowserCommand_ == command)
+    if (integrationsBrowserCommand_ == command)
         return;
-    integrationsLinksBrowserCommand_ = command;
+    integrationsBrowserCommand_ = command;
     (void)coreStore_.set(settings::core::SettingId::IntegrationsBrowserCommand,
                          command.toStdString());
-    emit integrationsLinksBrowserCommandChanged(command);
+    emit integrationsBrowserCommandChanged(command);
     save();
 }
 void

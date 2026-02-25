@@ -15,7 +15,7 @@
     bool timelineMediaOpenVideosExternal() const;
     QList<QStringList> collapsedSpaces() const;
     int integrationsDbusApiAccess() const;
-    QString integrationsLinksBrowserCommand() const;
+    QString integrationsBrowserCommand() const;
     bool privacyMaintenanceUpdateSpaceVias() const;
     bool privacyMaintenanceExpireEvents() const;
     int windowWidth() const;

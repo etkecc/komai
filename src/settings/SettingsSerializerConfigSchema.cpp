@@ -252,8 +252,8 @@ const std::array<StringSettingDescriptor, 9> StringSettings{
                           &UserSettings::setCameraFrameRate},
   StringSettingDescriptor{SettingKey::IntegrationsBrowserCommand,
                           QString(),
-                          &UserSettings::integrationsLinksBrowserCommand,
-                          &UserSettings::setIntegrationsLinksBrowserCommand},
+                          &UserSettings::integrationsBrowserCommand,
+                          &UserSettings::setIntegrationsBrowserCommand},
 };
 
 template<typename DescriptorT>

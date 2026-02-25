@@ -37,7 +37,7 @@ UserSettings::uiFontFamily() const
     return uiFontFamily_;
 }
 QString
-UserSettings::uiFontEmojiFamilyConfigured() const
+UserSettings::uiFontEmojiFamilyStorageValue() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::UiFontEmojiFamily);

@@ -46,12 +46,12 @@ lookFeelEmojiFontFamilyValue()
     if (!i)
         return 0;
 
-    if (i->uiFontEmojiFamilyConfigured().isEmpty())
+    if (i->uiFontEmojiFamilyStorageValue().isEmpty())
         return 0;
 
     auto fonts = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
     fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System emoji font"));
-    return fonts.indexOf(i->uiFontEmojiFamilyConfigured());
+    return fonts.indexOf(i->uiFontEmojiFamilyStorageValue());
 }
 
 static bool

@@ -15,12 +15,12 @@
     bool uiMotionAnimationsEnabled() const;
     bool windowFocusBlurEnabled() const;
     int windowFocusBlurDelaySeconds() const;
-    bool markdownEnabled() const;
-    SendMessageKey sendMessageKey() const;
-    AutoReplaceEmoji autoReplaceEmoji() const;
+    bool composerInputMarkdownEnabled() const;
+    SendMessageKey composerInputSendKey() const;
+    AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
     TimelineMessageLayout timelineMessageLayout() const;
     bool timelineSmallAvatarsEnabled() const;
-    bool stickersEnabled() const;
+    bool composerExtrasStickersEnabled() const;
     bool timelineShowOwnAvatarInBubbleLayout() const;
     QString pinnedReactions() const;
     ShowSenderUsername timelineMessagesSenderUsername() const;

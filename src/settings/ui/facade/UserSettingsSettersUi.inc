@@ -1,37 +1,37 @@
 void
-UserSettings::setMarkdownEnabled(bool s)
+UserSettings::setComposerInputMarkdownEnabled(bool s)
 {
-    if (markdownEnabled_ == s)
+    if (composerInputMarkdownEnabled_ == s)
         return;
-    markdownEnabled_ = s;
+    composerInputMarkdownEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::ComposerInputMarkdownEnabled, s);
-    emit markdownEnabledChanged(s);
+    emit composerInputMarkdownEnabledChanged(s);
     save();
 }
 void
-UserSettings::setSendMessageKey(SendMessageKey s)
+UserSettings::setComposerInputSendKey(SendMessageKey s)
 {
-    if (sendMessageKey_ == s)
+    if (composerInputSendKey_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::ComposerInputSendKey,
                       static_cast<int>(s),
                       "composer.input.send_key"))
         return;
-    sendMessageKey_ = s;
-    emit sendMessageKeyChanged(s);
+    composerInputSendKey_ = s;
+    emit composerInputSendKeyChanged(s);
     save();
 }
 void
-UserSettings::setAutoReplaceEmoji(AutoReplaceEmoji s)
+UserSettings::setComposerInputAutoReplaceEmoji(AutoReplaceEmoji s)
 {
-    if (autoReplaceEmoji_ == s)
+    if (composerInputAutoReplaceEmoji_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::ComposerInputAutoReplaceEmoji,
                       static_cast<int>(s),
                       "composer.input.auto_replace_emoji"))
         return;
-    autoReplaceEmoji_ = s;
-    emit autoReplaceEmojiChanged(s);
+    composerInputAutoReplaceEmoji_ = s;
+    emit composerInputAutoReplaceEmojiChanged(s);
     save();
 }
 void
@@ -58,13 +58,13 @@ UserSettings::setTimelineSmallAvatarsEnabled(bool s)
     save();
 }
 void
-UserSettings::setStickersEnabled(bool s)
+UserSettings::setComposerExtrasStickersEnabled(bool s)
 {
-    if (stickersEnabled_ == s)
+    if (composerExtrasStickersEnabled_ == s)
         return;
-    stickersEnabled_ = s;
+    composerExtrasStickersEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::ComposerExtrasStickersEnabled, s);
-    emit stickersEnabledChanged(s);
+    emit composerExtrasStickersEnabledChanged(s);
     save();
 }
 void

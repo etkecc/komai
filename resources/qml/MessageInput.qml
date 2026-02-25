@@ -194,17 +194,17 @@ Rectangle {
                             event.accepted = true;
                         }
                         // Send message Enter key combination event.
-                        else if (Settings.sendMessageKey == 0 && event.modifiers == Qt.NoModifier
-                              || Settings.sendMessageKey == 1 && event.modifiers == Qt.ShiftModifier
-                              || Settings.sendMessageKey == 2 && event.modifiers == Qt.ControlModifier
+                        else if (Settings.composerInputSendKey == 0 && event.modifiers == Qt.NoModifier
+                              || Settings.composerInputSendKey == 1 && event.modifiers == Qt.ShiftModifier
+                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier
                         ) {
                             room.input.send();
                             event.accepted = true;
                         }
                         // Add newline Enter key combination event.
-                        else if (Settings.sendMessageKey == 0 && event.modifiers == Qt.ShiftModifier
-                              || Settings.sendMessageKey == 1 && event.modifiers == Qt.NoModifier
-                              || Settings.sendMessageKey == 2 && event.modifiers == Qt.ShiftModifier
+                        else if (Settings.composerInputSendKey == 0 && event.modifiers == Qt.ShiftModifier
+                              || Settings.composerInputSendKey == 1 && event.modifiers == Qt.NoModifier
+                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ShiftModifier
                         ) {
                             messageInput.insert(messageInput.cursorPosition, "\n");
                             event.accepted = true;
@@ -419,7 +419,7 @@ Rectangle {
             Layout.preferredHeight: 32
             hoverEnabled: true
             image: ":/icons/icons/ui/sticky-note-solid.svg"
-            visible: showAllButtons && Settings.stickersEnabled
+            visible: showAllButtons && Settings.composerExtrasStickersEnabled
             Layout.preferredWidth: 32
 
             onClicked: stickerPopup.visible ? stickerPopup.close() : stickerPopup.show(stickerButton, room.roomId, function (row) {

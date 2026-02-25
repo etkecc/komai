@@ -1,6 +1,6 @@
     // Composer
-    CONNECT_SETTING_ID(ComposerInputMarkdownEnabled, markdownEnabledChanged, Value);
-    CONNECT_SETTING_ID(ComposerInputSendKey, sendMessageKeyChanged, Value);
-    CONNECT_SETTING_ID(ComposerInputAutoReplaceEmoji, autoReplaceEmojiChanged, Value);
+    CONNECT_SETTING_ID(ComposerInputMarkdownEnabled, composerInputMarkdownEnabledChanged, Value);
+    CONNECT_SETTING_ID(ComposerInputSendKey, composerInputSendKeyChanged, Value);
+    CONNECT_SETTING_ID(ComposerInputAutoReplaceEmoji, composerInputAutoReplaceEmojiChanged, Value);
     CONNECT_SETTING_ID(ComposerTypingSendEnabled, composerTypingSendEnabledChanged, Value);
-    CONNECT_SETTING_ID(ComposerExtrasStickersEnabled, stickersEnabledChanged, Value);
+    CONNECT_SETTING_ID(ComposerExtrasStickersEnabled, composerExtrasStickersEnabledChanged, Value);

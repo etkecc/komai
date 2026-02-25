@@ -68,7 +68,7 @@ UsersModel::data(const QModelIndex &index, int role) const
     if (hasIndex(index.row(), index.column(), index.parent())) {
         switch (role) {
         case CompletionModel::CompletionRole:
-            if (UserSettings::instance()->markdownEnabled())
+            if (UserSettings::instance()->composerInputMarkdownEnabled())
                 return QStringLiteral("[%1](https://matrix.to/#/%2)")
                   .arg(utils::escapeMentionMarkdown(QString(displayNames[index.row()])),
                        QString(QUrl::toPercentEncoding(userids[index.row()])));

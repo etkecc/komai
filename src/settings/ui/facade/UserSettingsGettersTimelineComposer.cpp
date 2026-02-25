@@ -36,34 +36,34 @@ UserSettings::timelineMediaEffectsEnabled() const
 }
 
 bool
-UserSettings::markdownEnabled() const
+UserSettings::composerInputMarkdownEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownEnabled);
         value.has_value())
         return *value;
-    return markdownEnabled_;
+    return composerInputMarkdownEnabled_;
 }
 
 UserSettings::SendMessageKey
-UserSettings::sendMessageKey() const
+UserSettings::composerInputSendKey() const
 {
     if (const auto value = coreStore_.valueAs<int>(settings::core::SettingId::ComposerInputSendKey);
         value.has_value() && *value >= static_cast<int>(UserSettings::SendMessageKey::Enter) &&
         *value <= static_cast<int>(UserSettings::SendMessageKey::CtrlEnter))
         return static_cast<UserSettings::SendMessageKey>(*value);
-    return sendMessageKey_;
+    return composerInputSendKey_;
 }
 
 UserSettings::AutoReplaceEmoji
-UserSettings::autoReplaceEmoji() const
+UserSettings::composerInputAutoReplaceEmoji() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::ComposerInputAutoReplaceEmoji);
         value.has_value() && *value >= static_cast<int>(UserSettings::AutoReplaceEmoji::Always) &&
         *value <= static_cast<int>(UserSettings::AutoReplaceEmoji::Never))
         return static_cast<UserSettings::AutoReplaceEmoji>(*value);
-    return autoReplaceEmoji_;
+    return composerInputAutoReplaceEmoji_;
 }
 
 UserSettings::TimelineMessageLayout
@@ -89,13 +89,13 @@ UserSettings::timelineSmallAvatarsEnabled() const
 }
 
 bool
-UserSettings::stickersEnabled() const
+UserSettings::composerExtrasStickersEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::ComposerExtrasStickersEnabled);
         value.has_value())
         return *value;
-    return stickersEnabled_;
+    return composerExtrasStickersEnabled_;
 }
 
 bool

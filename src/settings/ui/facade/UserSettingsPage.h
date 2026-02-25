@@ -53,18 +53,18 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool sidebarsRoomListScrollbarsVisible READ sidebarsRoomListScrollbarsVisible WRITE
         setSidebarsRoomListScrollbarsVisible NOTIFY sidebarsRoomListScrollbarsVisibleChanged)
-    Q_PROPERTY(bool markdownEnabled READ markdownEnabled WRITE setMarkdownEnabled NOTIFY
-                 markdownEnabledChanged)
-    Q_PROPERTY(SendMessageKey sendMessageKey READ sendMessageKey WRITE setSendMessageKey NOTIFY
-                 sendMessageKeyChanged)
-    Q_PROPERTY(AutoReplaceEmoji autoReplaceEmoji READ autoReplaceEmoji WRITE setAutoReplaceEmoji
-                 NOTIFY autoReplaceEmojiChanged)
+    Q_PROPERTY(bool composerInputMarkdownEnabled READ composerInputMarkdownEnabled WRITE
+                 setComposerInputMarkdownEnabled NOTIFY composerInputMarkdownEnabledChanged)
+    Q_PROPERTY(SendMessageKey composerInputSendKey READ composerInputSendKey WRITE
+                 setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
+    Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
+                 WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
     Q_PROPERTY(TimelineMessageLayout timelineMessageLayout READ timelineMessageLayout WRITE
                  setTimelineMessageLayout NOTIFY timelineMessageLayoutChanged)
     Q_PROPERTY(bool timelineSmallAvatarsEnabled READ timelineSmallAvatarsEnabled WRITE
                  setTimelineSmallAvatarsEnabled NOTIFY timelineSmallAvatarsEnabledChanged)
-    Q_PROPERTY(bool stickersEnabled READ stickersEnabled WRITE setStickersEnabled NOTIFY
-                 stickersEnabledChanged)
+    Q_PROPERTY(bool composerExtrasStickersEnabled READ composerExtrasStickersEnabled WRITE
+                 setComposerExtrasStickersEnabled NOTIFY composerExtrasStickersEnabledChanged)
     Q_PROPERTY(
       bool timelineShowOwnAvatarInBubbleLayout READ timelineShowOwnAvatarInBubbleLayout WRITE
         setTimelineShowOwnAvatarInBubbleLayout NOTIFY timelineShowOwnAvatarInBubbleLayoutChanged)
@@ -330,12 +330,12 @@ public:
     void setEmojiFontFamily(QString family);
     void setSidebarsCommunitiesVisible(bool state);
     void setSidebarsRoomListScrollbarsVisible(bool state);
-    void setMarkdownEnabled(bool state);
-    void setSendMessageKey(SendMessageKey key);
-    void setAutoReplaceEmoji(AutoReplaceEmoji state);
+    void setComposerInputMarkdownEnabled(bool state);
+    void setComposerInputSendKey(SendMessageKey key);
+    void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
     void setTimelineMessageLayout(TimelineMessageLayout layout);
     void setTimelineSmallAvatarsEnabled(bool state);
-    void setStickersEnabled(bool state);
+    void setComposerExtrasStickersEnabled(bool state);
     void setTimelineShowOwnAvatarInBubbleLayout(bool state);
     void setPinnedReactions(QString value);
     void setTimelineMessagesSenderUsername(ShowSenderUsername state);
@@ -452,12 +452,12 @@ signals:
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
     void integrationsSystemTrayEnabledChanged(bool state);
     void integrationsSystemTrayAutostartChanged(bool state);
-    void markdownEnabledChanged(bool state);
-    void sendMessageKeyChanged(SendMessageKey key);
-    void autoReplaceEmojiChanged(AutoReplaceEmoji state);
+    void composerInputMarkdownEnabledChanged(bool state);
+    void composerInputSendKeyChanged(SendMessageKey key);
+    void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
     void timelineMessageLayoutChanged(TimelineMessageLayout layout);
     void timelineSmallAvatarsEnabledChanged(bool state);
-    void stickersEnabledChanged(bool state);
+    void composerExtrasStickersEnabledChanged(bool state);
     void timelineShowOwnAvatarInBubbleLayoutChanged(bool state);
     void pinnedReactionsChanged(const QString &value);
     void timelineMessagesSenderUsernameChanged(ShowSenderUsername state);

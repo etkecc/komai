@@ -535,7 +535,7 @@ InputBar::generateMentions() const
 QString
 InputBar::replaceTextEmoticons(const QString &input) const
 {
-    auto setting = ChatPage::instance()->userSettings()->autoReplaceEmoji();
+    auto setting = ChatPage::instance()->userSettings()->composerInputAutoReplaceEmoji();
 
     if (setting == UserSettings::AutoReplaceEmoji::Never)
         return input;
@@ -630,7 +630,7 @@ InputBar::message(const QString &msg, MarkdownOverride useMarkdown, bool rainbow
     mtx::events::msg::Text text = {};
     text.body                   = body.trimmed().toStdString();
 
-    if ((ChatPage::instance()->userSettings()->markdownEnabled() &&
+    if ((ChatPage::instance()->userSettings()->composerInputMarkdownEnabled() &&
          useMarkdown == MarkdownOverride::NOT_SPECIFIED) ||
         useMarkdown == MarkdownOverride::ON) {
         text.formatted_body = utils::markdownToHtml(body, rainbowify).toStdString();
@@ -672,7 +672,7 @@ InputBar::emote(const QString &msg, bool rainbowify)
     emote.body = body.trimmed().toStdString();
 
     if (html != body.trimmed().toHtmlEscaped() &&
-        ChatPage::instance()->userSettings()->markdownEnabled()) {
+        ChatPage::instance()->userSettings()->composerInputMarkdownEnabled()) {
         emote.formatted_body = html.toStdString();
         emote.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
@@ -695,7 +695,7 @@ InputBar::notice(const QString &msg, bool rainbowify)
     notice.body = body.trimmed().toStdString();
 
     if (html != body.trimmed().toHtmlEscaped() &&
-        ChatPage::instance()->userSettings()->markdownEnabled()) {
+        ChatPage::instance()->userSettings()->composerInputMarkdownEnabled()) {
         notice.formatted_body = html.toStdString();
         notice.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
@@ -719,7 +719,7 @@ InputBar::confetti(const QString &body, bool rainbowify)
     confetti.body    = emoBody.trimmed().toStdString();
 
     if (html != emoBody.trimmed().toHtmlEscaped() &&
-        ChatPage::instance()->userSettings()->markdownEnabled()) {
+        ChatPage::instance()->userSettings()->composerInputMarkdownEnabled()) {
         confetti.formatted_body = html.toStdString();
         confetti.format         = "org.matrix.custom.html";
         // Remove markdown links by completer
@@ -743,7 +743,7 @@ InputBar::rainfall(const QString &body)
     rain.body    = emoBody.trimmed().toStdString();
 
     if (html != emoBody.trimmed().toHtmlEscaped() &&
-        ChatPage::instance()->userSettings()->markdownEnabled()) {
+        ChatPage::instance()->userSettings()->composerInputMarkdownEnabled()) {
         nlohmann::json j;
         j["formatted_body"] = html.toStdString();
         j["format"]         = "org.matrix.custom.html";
@@ -769,7 +769,7 @@ InputBar::customMsgtype(const QString &msgtype, const QString &body)
     msg.body    = emoBody.trimmed().toStdString();
 
     if (html != emoBody.trimmed().toHtmlEscaped() &&
-        ChatPage::instance()->userSettings()->markdownEnabled()) {
+        ChatPage::instance()->userSettings()->composerInputMarkdownEnabled()) {
         nlohmann::json j;
         j["formatted_body"] = html.toStdString();
         j["format"]         = "org.matrix.custom.html";

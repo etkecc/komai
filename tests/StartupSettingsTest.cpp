@@ -374,8 +374,8 @@ testEnumSettingsPersistAsStrings()
     settings->setPresence(UserSettings::Presence::Offline);
     settings->setShowImage(UserSettings::ShowImage::Never);
     settings->setTimelineMessagesSenderUsername(UserSettings::ShowSenderUsername::Always);
-    settings->setAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
-    settings->setSendMessageKey(UserSettings::SendMessageKey::CtrlEnter);
+    settings->setComposerInputAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
+    settings->setComposerInputSendKey(UserSettings::SendMessageKey::CtrlEnter);
     settings->setSidebarsRoomListSort(UserSettings::RoomSortOrder::Alphabetical);
     settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
     settings->setTimelineMessageActionsPolicy(UserSettings::TimelineMessageActionsPolicy::OnHover);
@@ -661,7 +661,7 @@ testControllerSyncsCoreStore()
     ok &= expect(presence.has_value() &&
                    *presence == static_cast<int>(settings->presence()),
                  "controller sync stores presence policy in core settings store");
-    ok &= expect(markdown.has_value() && *markdown == settings->markdownEnabled(),
+    ok &= expect(markdown.has_value() && *markdown == settings->composerInputMarkdownEnabled(),
                  "controller sync stores markdown setting in core settings store");
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (!settings::ui::facade::hasCoreStoreValueMapping(definition.id)) {

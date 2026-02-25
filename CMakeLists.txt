@@ -684,6 +684,7 @@ set(SRC_FILES
     src/TrayIcon.h
     src/settings/ui/UserSettingsModel.h
     src/settings/ui/UserSettingsModel.cpp
+    src/settings/ui/UserSettingsModelData.cpp
     src/settings/ui/UserSettingsModelConnections.cpp
     src/settings/ui/facade/UserSettingsPage.cpp
     src/settings/ui/facade/UserSettingsGettersUi.cpp

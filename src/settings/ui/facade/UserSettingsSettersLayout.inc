@@ -51,31 +51,31 @@ UserSettings::setUiFontFamily(QString family)
 }
 
 void
-UserSettings::setUiEmojiFontFamily(QString family)
+UserSettings::setUiFontEmojiFamily(QString family)
 {
-    if (family == uiEmojiFontFamily_)
+    if (family == uiFontEmojiFamily_)
         return;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-    if (uiEmojiFontFamily_.isEmpty()) {
-        QFontDatabase::removeApplicationEmojiFontFamily(uiEmojiFontFamily_);
+    if (uiFontEmojiFamily_.isEmpty()) {
+        QFontDatabase::removeApplicationEmojiFontFamily(uiFontEmojiFamily_);
     }
 #endif
 
     if (family.isEmpty()) {
-        uiEmojiFontFamily_.clear();
+        uiFontEmojiFamily_.clear();
     } else {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
         QFontDatabase::addApplicationEmojiFontFamily(family);
 #endif
-        uiEmojiFontFamily_ = family;
+        uiFontEmojiFamily_ = family;
     }
-    (void)coreStore_.set(settings::core::SettingId::UiFontEmojiFamily, uiEmojiFontFamily_.toStdString());
+    (void)coreStore_.set(settings::core::SettingId::UiFontEmojiFamily, uiFontEmojiFamily_.toStdString());
 
     nhlog::ui()->info("Emoji font: changed to \"{}\"",
-                      uiEmojiFontFamily_.isEmpty() ? "system default" : uiEmojiFontFamily_.toStdString());
+                      uiFontEmojiFamily_.isEmpty() ? "system default" : uiFontEmojiFamily_.toStdString());
 
-    emit uiEmojiFontFamilyChanged(family);
+    emit uiFontEmojiFamilyChanged(family);
     save();
 }
 

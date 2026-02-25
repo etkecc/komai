@@ -138,8 +138,8 @@ class UserSettings final : public QObject
       double uiFontSizePt READ uiFontSizePt WRITE setUiFontSizePt NOTIFY uiFontSizePtChanged)
     Q_PROPERTY(
       QString uiFontFamily READ uiFontFamily WRITE setUiFontFamily NOTIFY uiFontFamilyChanged)
-    Q_PROPERTY(QString uiEmojiFontFamily READ uiEmojiFontFamily WRITE setUiEmojiFontFamily NOTIFY
-                 uiEmojiFontFamilyChanged)
+    Q_PROPERTY(QString uiFontEmojiFamily READ uiFontEmojiFamily WRITE setUiFontEmojiFamily NOTIFY
+                 uiFontEmojiFamilyChanged)
     Q_PROPERTY(Presence networkPresenceStatusPolicy READ networkPresenceStatusPolicy WRITE
                  setNetworkPresenceStatusPolicy NOTIFY networkPresenceStatusPolicyChanged)
     Q_PROPERTY(ShowImage timelineMediaImageDisplay READ timelineMediaImageDisplay WRITE
@@ -346,7 +346,7 @@ public:
     void setUiScaleFactor(double factor);
     void setUiFontSizePt(double size);
     void setUiFontFamily(QString family);
-    void setUiEmojiFontFamily(QString family);
+    void setUiFontEmojiFamily(QString family);
     void setSidebarsCommunitiesVisible(bool state);
     void setSidebarsRoomListScrollbarsEnabled(bool state);
     void setComposerInputMarkdownEnabled(bool state);
@@ -506,7 +506,7 @@ signals:
     void uiScaleFactorChanged(double factor);
     void uiFontSizePtChanged(double state);
     void uiFontFamilyChanged(QString state);
-    void uiEmojiFontFamilyChanged(QString state);
+    void uiFontEmojiFamilyChanged(QString state);
     void networkPresenceStatusPolicyChanged(Presence state);
     void timelineMediaImageDisplayChanged(ShowImage state);
     void callsAudioRingtoneChanged(QString callsAudioRingtone);

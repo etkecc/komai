@@ -52,7 +52,7 @@ int sidebarsCommunitiesWidthPx_ = settings::core::definitions::kDefaultSidebarsC
 double uiScaleFactor_           = settings::core::definitions::kDefaultScaleFactor;
 double baseFontSize_            = settings::core::definitions::kDefaultFontSizePt;
 QString uiFontFamily_;
-QString uiEmojiFontFamily_;
+QString uiFontEmojiFamily_;
 Presence networkPresenceStatusPolicy_;
 ShowImage timelineMediaImageDisplay_;
 QString callsAudioRingtone_;

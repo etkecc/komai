@@ -450,7 +450,7 @@ main(int argc, char *argv[])
     app.setFont(font);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
-    if (auto emojiFont = settings.lock()->uiEmojiFontFamily(); !emojiFont.isEmpty()) {
+    if (auto emojiFont = settings.lock()->uiFontEmojiFamily(); !emojiFont.isEmpty()) {
         QFontDatabase::addApplicationEmojiFontFamily(emojiFont);
     }
 #endif

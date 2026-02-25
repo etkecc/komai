@@ -46,12 +46,12 @@ lookFeelEmojiFontFamilyValue()
     if (!i)
         return 0;
 
-    if (i->uiEmojiFontFamilyConfigured().isEmpty())
+    if (i->uiFontEmojiFamilyConfigured().isEmpty())
         return 0;
 
     auto fonts = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
     fonts.prepend(QCoreApplication::translate("UserSettingsModel", "System emoji font"));
-    return fonts.indexOf(i->uiEmojiFontFamilyConfigured());
+    return fonts.indexOf(i->uiFontEmojiFamilyConfigured());
 }
 
 static bool
@@ -63,7 +63,7 @@ setLookFeelEmojiFontFamilyValue(const QVariant &v)
 
     auto fonts = QFontDatabase::families(QFontDatabase::WritingSystem::Symbol);
     return applyIndexedOption(v, 0, fonts.size(), [i, fonts](int idx) {
-        i->setUiEmojiFontFamily(idx <= 0 ? QString{} : fonts.at(idx - 1));
+        i->setUiFontEmojiFamily(idx <= 0 ? QString{} : fonts.at(idx - 1));
     });
 }
 

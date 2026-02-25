@@ -104,17 +104,17 @@ UserSettings::setPersistenceScopeReadyForAuth(bool ready)
 }
 
 QString
-UserSettings::uiEmojiFontFamily() const
+UserSettings::uiFontEmojiFamily() const
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
     // Qt < 6.9 needs a real font family name for <font face=""> and QML font.family.
     // Cache the resolved value so we don't scan QFontDatabase on every call.
-    if (uiEmojiFontFamily_.isEmpty()) {
+    if (uiFontEmojiFamily_.isEmpty()) {
         static const QString resolved = resolveEmojiFontFamily();
         return resolved;
     }
 #endif
-    return uiEmojiFontFamily_;
+    return uiFontEmojiFamily_;
 }
 
 bool

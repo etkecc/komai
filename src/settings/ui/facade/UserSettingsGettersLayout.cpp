@@ -37,13 +37,13 @@ UserSettings::uiFontFamily() const
     return uiFontFamily_;
 }
 QString
-UserSettings::uiEmojiFontFamilyConfigured() const
+UserSettings::uiFontEmojiFamilyConfigured() const
 {
     if (const auto value =
           coreStore_.valueAs<std::string>(settings::core::SettingId::UiFontEmojiFamily);
         value.has_value())
         return QString::fromStdString(*value);
-    return uiEmojiFontFamily_;
+    return uiFontEmojiFamily_;
 }
 UserSettings::Presence
 UserSettings::networkPresenceStatusPolicy() const

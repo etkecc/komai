@@ -48,6 +48,8 @@ testToggleValidation()
     const auto meta = makeMeta(UserSettingsModel::Toggle);
     return expect(settings::ui::validateSettingInput(meta, QVariant{true}),
                   "toggle accepts bool values") &&
+           expect(!settings::ui::validateSettingInput(meta, QVariant{QStringLiteral("true")}),
+                  "toggle rejects string values") &&
            expect(!settings::ui::validateSettingInput(meta, QVariant{QVariantList{}}),
                   "toggle rejects incompatible values");
 }
@@ -101,6 +103,8 @@ testTextValidation()
     const auto meta = makeMeta(UserSettingsModel::TextInput);
     return expect(settings::ui::validateSettingInput(meta, QVariant{QStringLiteral("ok")}),
                   "text input accepts string values") &&
+           expect(!settings::ui::validateSettingInput(meta, QVariant{123}),
+                  "text input rejects non-string scalar values") &&
            expect(!settings::ui::validateSettingInput(meta, QVariant{QVariantList{}}),
                   "text input rejects incompatible values");
 }

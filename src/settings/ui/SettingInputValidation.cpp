@@ -4,6 +4,7 @@
 
 #include "settings/ui/SettingInputValidation.h"
 
+#include <QMetaType>
 #include <QStringList>
 #include <QVariantList>
 
@@ -98,7 +99,7 @@ validateSettingInput(const SettingMeta &meta, const QVariant &value)
     switch (meta.type) {
     case UserSettingsModel::Toggle:
     case UserSettingsModel::ToggleWithDescription:
-        return value.canConvert<bool>();
+        return value.metaType().id() == QMetaType::Bool;
     case UserSettingsModel::Options:
     case UserSettingsModel::OptionsWithDescription:
     case UserSettingsModel::ThemeSelector:
@@ -109,7 +110,7 @@ validateSettingInput(const SettingMeta &meta, const QVariant &value)
     case UserSettingsModel::Double:
         return validateDoubleInput(meta, value);
     case UserSettingsModel::TextInput:
-        return value.canConvert<QString>();
+        return value.metaType().id() == QMetaType::QString;
     default:
         return true;
     }

@@ -14,8 +14,8 @@ namespace settings::ui {
 bool
 validateSettingInput(const SettingMeta &meta, const QVariant &value);
 
-// Validate user-provided model input for special role setters (setRoleData).
+// Validate user-provided model input for SettingId-backed special role setters.
 bool
-validateRoleInput(const SettingMeta &meta, int role, const QVariant &value);
+validateRoleInput(settings::core::SettingId settingId, int role, const QVariant &value);
 
 } // namespace settings::ui

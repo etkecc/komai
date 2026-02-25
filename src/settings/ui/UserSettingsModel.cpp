@@ -150,7 +150,7 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
     }
 
     if (settings::ui::hasWritableRoleDataForSetting(m.settingId, role)) {
-        if (!validateRoleInput(m, role, value)) {
+        if (!validateRoleInput(m.settingId, role, value)) {
             nhlog::ui()->warn(
               "Ignoring invalid settings role input (setting_id={}, type={}, role={})",
               static_cast<int>(m.settingId),

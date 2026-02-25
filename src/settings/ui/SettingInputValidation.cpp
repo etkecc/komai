@@ -117,11 +117,11 @@ validateSettingInput(const SettingMeta &meta, const QVariant &value)
 }
 
 bool
-validateRoleInput(const SettingMeta &meta, int role, const QVariant &value)
+validateRoleInput(settings::core::SettingId settingId, int role, const QVariant &value)
 {
     switch (role) {
     case UserSettingsModel::ThemeVariantValue: {
-        if (meta.type != UserSettingsModel::ThemeSelector)
+        if (settingId != settings::core::SettingId::UiThemeSlug)
             return false;
         if (value.metaType().id() != QMetaType::Int)
             return false;

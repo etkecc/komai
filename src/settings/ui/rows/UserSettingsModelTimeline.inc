@@ -97,7 +97,7 @@
       "Show images automatically",
       QT_TR_NOOP(
         "Choose when images are displayed automatically."),
-      SM::TabTimeline, showImage, setShowImage, UserSettings::ShowImage,
+      SM::TabTimeline, timelineMediaImageDisplay, setTimelineMediaImageDisplay, UserSettings::ShowImage,
       timelineShowImageValues,
       nullptr,
       TimelineMediaImageDisplay,

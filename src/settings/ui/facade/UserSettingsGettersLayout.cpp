@@ -46,7 +46,7 @@ UserSettings::emojiFontFamily() const
     return emojiFont_;
 }
 UserSettings::Presence
-UserSettings::presence() const
+UserSettings::networkPresenceStatusPolicy() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::NetworkPresenceStatusPolicy);
@@ -54,15 +54,15 @@ UserSettings::presence() const
         *value >= static_cast<int>(UserSettings::Presence::AutomaticPresence) &&
         *value <= static_cast<int>(UserSettings::Presence::Offline))
         return static_cast<UserSettings::Presence>(*value);
-    return presence_;
+    return networkPresenceStatusPolicy_;
 }
 UserSettings::ShowImage
-UserSettings::showImage() const
+UserSettings::timelineMediaImageDisplay() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::TimelineMediaImageDisplay);
         value.has_value() && *value >= static_cast<int>(UserSettings::ShowImage::Always) &&
         *value <= static_cast<int>(UserSettings::ShowImage::Never))
         return static_cast<UserSettings::ShowImage>(*value);
-    return showImage_;
+    return timelineMediaImageDisplay_;
 }

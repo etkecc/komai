@@ -3434,7 +3434,7 @@ TimelineModel::parentSpace()
 bool
 TimelineModel::showImage() const
 {
-    auto show = UserSettings::instance()->showImage();
+    auto show = UserSettings::instance()->timelineMediaImageDisplay();
 
     switch (show) {
     case UserSettings::ShowImage::Always:

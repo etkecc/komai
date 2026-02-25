@@ -1292,7 +1292,7 @@ ChatPage::shouldThrottleSync() const
 mtx::presence::PresenceState
 ChatPage::currentPresence() const
 {
-    switch (userSettings_->presence()) {
+    switch (userSettings_->networkPresenceStatusPolicy()) {
     case UserSettings::Presence::Online:
         return mtx::presence::online;
     case UserSettings::Presence::Unavailable:

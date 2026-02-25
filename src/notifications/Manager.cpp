@@ -13,7 +13,7 @@
 bool
 NotificationsManager::allowShowingImages(const mtx::responses::Notification &notification)
 {
-    auto show = UserSettings::instance()->showImage();
+    auto show = UserSettings::instance()->timelineMediaImageDisplay();
 
     switch (show) {
     case UserSettings::ShowImage::Always:

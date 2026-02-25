@@ -5,5 +5,5 @@
     QString font() const;
     QString emojiFont() const;
     QString emojiFontFamily() const;
-    Presence presence() const;
-    ShowImage showImage() const;
+    Presence networkPresenceStatusPolicy() const;
+    ShowImage timelineMediaImageDisplay() const;

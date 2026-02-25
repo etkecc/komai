@@ -18,25 +18,27 @@ namespace {
 QString
 presenceToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.presence());
+    return toStorageValue(settings.networkPresenceStatusPolicy());
 }
 
 void
 applyPresenceFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setPresence(presenceFromStorage(rawToken, UserSettings::Presence::AutomaticPresence));
+    settings.setNetworkPresenceStatusPolicy(
+      presenceFromStorage(rawToken, UserSettings::Presence::AutomaticPresence));
 }
 
 QString
 showImageToStorage(const UserSettings &settings)
 {
-    return toStorageValue(settings.showImage());
+    return toStorageValue(settings.timelineMediaImageDisplay());
 }
 
 void
 applyShowImageFromStorage(UserSettings &settings, const QString &rawToken)
 {
-    settings.setShowImage(showImageFromStorage(rawToken, UserSettings::ShowImage::Always));
+    settings.setTimelineMediaImageDisplay(
+      showImageFromStorage(rawToken, UserSettings::ShowImage::Always));
 }
 
 QString

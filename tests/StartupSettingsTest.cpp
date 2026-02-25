@@ -371,8 +371,8 @@ testEnumSettingsPersistAsStrings()
         return expect(false, "UserSettings instance is available for enum persistence test");
 
     settings->setPersistenceSuspended(false);
-    settings->setPresence(UserSettings::Presence::Offline);
-    settings->setShowImage(UserSettings::ShowImage::Never);
+    settings->setNetworkPresenceStatusPolicy(UserSettings::Presence::Offline);
+    settings->setTimelineMediaImageDisplay(UserSettings::ShowImage::Never);
     settings->setTimelineMessagesSenderUsername(UserSettings::ShowSenderUsername::Always);
     settings->setComposerInputAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
     settings->setComposerInputSendKey(UserSettings::SendMessageKey::CtrlEnter);
@@ -463,7 +463,7 @@ testInvalidConfigTokensFallbackToSafeValues()
     bool ok = true;
     ok &= expect(settings->theme() != QStringLiteral("not-a-real-theme"),
                  "invalid theme slug is ignored");
-    ok &= expect(settings->presence() == UserSettings::Presence::AutomaticPresence,
+    ok &= expect(settings->networkPresenceStatusPolicy() == UserSettings::Presence::AutomaticPresence,
                  "invalid presence token falls back to automatic presence");
     ok &= expect(!settings->uiInputModeTouchEnabled(),
                  "invalid input mode token falls back to desktop mode");
@@ -659,7 +659,7 @@ testControllerSyncsCoreStore()
     ok &= expect(fontSize.has_value() && std::abs(*fontSize - settings->fontSize()) < 0.0001,
                  "controller sync stores font size value in core settings store");
     ok &= expect(presence.has_value() &&
-                   *presence == static_cast<int>(settings->presence()),
+                   *presence == static_cast<int>(settings->networkPresenceStatusPolicy()),
                  "controller sync stores presence policy in core settings store");
     ok &= expect(markdown.has_value() && *markdown == settings->composerInputMarkdownEnabled(),
                  "controller sync stores markdown setting in core settings store");

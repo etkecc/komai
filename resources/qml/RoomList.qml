@@ -147,29 +147,29 @@ Page {
                     text: qsTr("Automatic online status")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.Presence.AutomaticPresence
-                    onTriggered: if (checked) Settings.presence = Settings.Presence.AutomaticPresence
+                    checked: Settings.networkPresenceStatusPolicy == Settings.Presence.AutomaticPresence
+                    onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.AutomaticPresence
                 }
                 MenuItem {
                     text: qsTr("Online")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.Presence.Online
-                    onTriggered: if (checked) Settings.presence = Settings.Presence.Online
+                    checked: Settings.networkPresenceStatusPolicy == Settings.Presence.Online
+                    onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.Online
                 }
                 MenuItem {
                     text: qsTr("Unavailable")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.Presence.Unavailable
-                    onTriggered: if (checked) Settings.presence = Settings.Presence.Unavailable
+                    checked: Settings.networkPresenceStatusPolicy == Settings.Presence.Unavailable
+                    onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.Unavailable
                 }
                 MenuItem {
                     text: qsTr("Offline")
                     ButtonGroup.group: onlineStateGroup
                     checkable: true
-                    checked: Settings.presence == Settings.Presence.Offline
-                    onTriggered: if (checked) Settings.presence = Settings.Presence.Offline
+                    checked: Settings.networkPresenceStatusPolicy == Settings.Presence.Offline
+                    onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.Offline
                 }
             }
             TapHandler {

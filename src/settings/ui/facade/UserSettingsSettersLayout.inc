@@ -80,28 +80,28 @@ UserSettings::setEmojiFontFamily(QString family)
 }
 
 void
-UserSettings::setPresence(Presence s)
+UserSettings::setNetworkPresenceStatusPolicy(Presence s)
 {
-    if (presence_ == s)
+    if (networkPresenceStatusPolicy_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::NetworkPresenceStatusPolicy,
                       static_cast<int>(s),
                       "network.presence.status_policy"))
         return;
-    presence_ = s;
-    emit presenceChanged(s);
+    networkPresenceStatusPolicy_ = s;
+    emit networkPresenceStatusPolicyChanged(s);
     save();
 }
 void
-UserSettings::setShowImage(ShowImage s)
+UserSettings::setTimelineMediaImageDisplay(ShowImage s)
 {
-    if (showImage_ == s)
+    if (timelineMediaImageDisplay_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::TimelineMediaImageDisplay,
                       static_cast<int>(s),
                       "timeline.media.image_display"))
         return;
-    showImage_ = s;
-    emit showImageChanged(s);
+    timelineMediaImageDisplay_ = s;
+    emit timelineMediaImageDisplayChanged(s);
     save();
 }

@@ -42,7 +42,7 @@ privacyPresenceStatusPolicyValue()
     if (!i)
         return 3;
 
-    switch (i->presence()) {
+    switch (i->networkPresenceStatusPolicy()) {
     case UserSettings::Presence::Online:
         return 0;
     case UserSettings::Presence::Unavailable:
@@ -71,7 +71,7 @@ setPrivacyPresenceStatusPolicyValue(const QVariant &v)
     };
 
     return applyIndexedOption(v, 0, static_cast<int>(kPresenceByIndex.size() - 1), [i](int option) {
-        i->setPresence(kPresenceByIndex.at(static_cast<size_t>(option)));
+        i->setNetworkPresenceStatusPolicy(kPresenceByIndex.at(static_cast<size_t>(option)));
     });
 }
 

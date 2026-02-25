@@ -116,4 +116,25 @@ validateSettingInput(const SettingMeta &meta, const QVariant &value)
     }
 }
 
+bool
+validateRoleInput(const SettingMeta &meta, int role, const QVariant &value)
+{
+    switch (role) {
+    case UserSettingsModel::ThemeVariantValue: {
+        if (meta.type != UserSettingsModel::ThemeSelector)
+            return false;
+        if (value.metaType().id() != QMetaType::Int)
+            return false;
+
+        int variantIndex = 0;
+        if (!readSettingValue(value, variantIndex))
+            return false;
+
+        return variantIndex >= 0 && variantIndex <= 2;
+    }
+    default:
+        return true;
+    }
+}
+
 } // namespace settings::ui

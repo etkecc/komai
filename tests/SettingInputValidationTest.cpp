@@ -109,6 +109,32 @@ testTextValidation()
                   "text input rejects incompatible values");
 }
 
+bool
+testRoleValidation()
+{
+    const auto themeMeta = makeMeta(UserSettingsModel::ThemeSelector);
+    const auto toggleMeta = makeMeta(UserSettingsModel::Toggle);
+
+    return expect(settings::ui::validateRoleInput(
+                    themeMeta, UserSettingsModel::ThemeVariantValue, QVariant{0}),
+                  "theme role accepts light variant index") &&
+           expect(settings::ui::validateRoleInput(
+                    themeMeta, UserSettingsModel::ThemeVariantValue, QVariant{2}),
+                  "theme role accepts system variant index") &&
+           expect(!settings::ui::validateRoleInput(
+                    themeMeta, UserSettingsModel::ThemeVariantValue, QVariant{-1}),
+                  "theme role rejects negative variant index") &&
+           expect(!settings::ui::validateRoleInput(
+                    themeMeta, UserSettingsModel::ThemeVariantValue, QVariant{3}),
+                  "theme role rejects out-of-range variant index") &&
+           expect(!settings::ui::validateRoleInput(
+                    themeMeta, UserSettingsModel::ThemeVariantValue, QVariant{QStringLiteral("1")}),
+                  "theme role rejects non-int variant values") &&
+           expect(!settings::ui::validateRoleInput(
+                    toggleMeta, UserSettingsModel::ThemeVariantValue, QVariant{1}),
+                  "theme role rejects non-theme row types");
+}
+
 } // namespace
 
 int
@@ -120,5 +146,6 @@ main()
     ok &= testDoubleValidation();
     ok &= testOptionsValidation();
     ok &= testTextValidation();
+    ok &= testRoleValidation();
     return ok ? 0 : 1;
 }

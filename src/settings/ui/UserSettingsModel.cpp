@@ -182,6 +182,17 @@ UserSettingsModel::setData(const QModelIndex &index, const QVariant &value, int 
         return m.setValue(value);
     }
 
+    if (m.setRoleData) {
+        if (!validateRoleInput(m, role, value)) {
+            nhlog::ui()->warn(
+              "Ignoring invalid settings role input (setting_id={}, type={}, role={})",
+              static_cast<int>(m.settingId),
+              m.type,
+              role);
+            return false;
+        }
+    }
+
     if (m.setRoleData)
         return m.setRoleData(role, value);
 

@@ -27,7 +27,7 @@ Some checks need project-specific logic that is too complex for a plain pre-comm
 ## Dependencies
 
 - `qmllint.sh`: Qt6 tooling (`qmake6` and/or `qmllint` linked against Qt6)
-- `no-qsettings.sh`: `rg` preferred (falls back to `grep`)
+- `no-qsettings.sh`: standard `grep`
 - `tests.sh`: `just`, build dependencies for test targets
 
 Tool references:

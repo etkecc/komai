@@ -14,6 +14,7 @@
 # qrc-only entries are warnings.
 
 set -eu
+export LC_ALL=C
 
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 cd "$repo_root"
@@ -34,7 +35,20 @@ ui_emoji_files_file="$tmpdir/ui-emoji-files.txt"
 fluent_files_file="$tmpdir/fluent-files.txt"
 qrc_fluent_targets_file="$tmpdir/qrc-fluent-targets.txt"
 
-rg --no-heading -o "icons/(ui|emoji-categories)/[A-Za-z0-9._-]+\\.svg" src resources/qml \
+extract_refs() {
+    grep -RhoE --binary-files=without-match \
+        "icons/(ui|emoji-categories)/[A-Za-z0-9._-]+\\.svg" src resources/qml 2>/dev/null \
+        || true
+}
+
+list_svgs() {
+    for dir in "$@"; do
+        [ -d "$dir" ] || continue
+        find "$dir" -type f -name '*.svg'
+    done
+}
+
+extract_refs \
     | sed 's#^.*icons/##; s#^icons/##' \
     | sort -u > "$refs_file"
 
@@ -64,7 +78,7 @@ awk '
 
 sort -u -o "$qrc_target_file" "$qrc_target_file"
 
-rg --files resources/icons -g '*.svg' \
+list_svgs resources/icons \
     | sed 's#^resources/icons/##' \
     | sort -u > "$files_file"
 
@@ -77,13 +91,13 @@ fluent_orphans="$tmpdir/fluent-orphans.txt"
 comm -23 "$refs_file" "$qrc_alias_file" > "$missing_qrc"
 comm -23 "$qrc_alias_file" "$refs_file" > "$qrc_only"
 comm -23 "$qrc_target_file" "$files_file" > "$missing_targets"
-rg --files resources/icons/ui resources/icons/emoji-categories -g '*.svg' \
+list_svgs resources/icons/ui resources/icons/emoji-categories \
     | sed 's#^resources/icons/##' \
     | sort -u > "$ui_emoji_files_file"
 comm -23 "$ui_emoji_files_file" "$qrc_alias_file" > "$files_not_qrc"
 
 if [ -d "resources/icons/fluent" ]; then
-    rg --files resources/icons/fluent -g '*.svg' \
+    list_svgs resources/icons/fluent \
         | sed 's#^resources/icons/##' \
         | sort -u > "$fluent_files_file"
 else

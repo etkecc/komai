@@ -95,6 +95,27 @@ expectScalarString(const YAML::Node &root,
 }
 
 bool
+expectScalarInt(const YAML::Node &root,
+                const char *dottedKey,
+                int expected,
+                std::string_view message)
+{
+    const auto node = yaml_settings::getNode(root, dottedKey);
+    if (!node || !node.IsScalar()) {
+        std::cerr << "FAILED: " << message << " (missing scalar at '" << dottedKey << "')\n";
+        return false;
+    }
+
+    try {
+        return expect(node.as<int>() == expected, message);
+    } catch (...) {
+        std::cerr << "FAILED: " << message << " (unable to parse scalar at '" << dottedKey
+                  << "' as int)\n";
+        return false;
+    }
+}
+
+bool
 testStartupConfigSnapshotLoads()
 {
     const QString profile = QStringLiteral("profile-startup");
@@ -586,6 +607,73 @@ testControllerResolvesProfilePathsPerProfile()
     return ok;
 }
 
+bool
+testConstrainedIntSettersRejectInvalidUpdates()
+{
+    const QString profile = QStringLiteral("constrained-int-setters-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "constrained-int fixture config root can be created");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for constrained-int test");
+
+    settings->setPersistenceSuspended(false);
+
+    settings->setMaxContentWidth(1200);
+    settings->setMaxTimelineWidth(900);
+    settings->setWindowFocusBlurDelaySeconds(5);
+
+    const auto baselineContentWidth = settings->maxContentWidth();
+    const auto baselineTimelineWidth = settings->maxTimelineWidth();
+    const auto baselineBlurDelay     = settings->windowFocusBlurDelaySeconds();
+
+    settings->setMaxContentWidth(50000);         // invalid: > 20000
+    settings->setMaxTimelineWidth(50000);        // invalid: > 20000
+    settings->setWindowFocusBlurDelaySeconds(-3); // invalid: < 0
+
+    bool ok = true;
+    ok &= expect(settings->maxContentWidth() == baselineContentWidth,
+                 "invalid max content width update is ignored");
+    ok &= expect(settings->maxTimelineWidth() == baselineTimelineWidth,
+                 "invalid max timeline width update is ignored");
+    ok &= expect(settings->windowFocusBlurDelaySeconds() == baselineBlurDelay,
+                 "invalid window blur delay update is ignored");
+
+    const auto &store = settings->coreStore();
+    const auto contentWidthValue =
+      store.valueAs<int>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
+    const auto timelineWidthValue =
+      store.valueAs<int>(settings::core::SettingId::TimelineMessagesMaxWidthPx);
+    const auto blurDelayValue =
+      store.valueAs<int>(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds);
+
+    ok &= expect(contentWidthValue.has_value() && *contentWidthValue == baselineContentWidth,
+                 "core store keeps previous max content width on invalid update");
+    ok &= expect(timelineWidthValue.has_value() && *timelineWidthValue == baselineTimelineWidth,
+                 "core store keeps previous max timeline width on invalid update");
+    ok &= expect(blurDelayValue.has_value() && *blurDelayValue == baselineBlurDelay,
+                 "core store keeps previous window blur delay on invalid update");
+
+    const auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "config");
+    ok &= expectScalarInt(configRoot,
+                          SettingKey::UiLayoutContentMaxWidthPx,
+                          baselineContentWidth,
+                          "config keeps previous max content width on invalid update");
+    ok &= expectScalarInt(configRoot,
+                          SettingKey::TimelineMessagesMaxWidthPx,
+                          baselineTimelineWidth,
+                          "config keeps previous max timeline width on invalid update");
+    ok &= expectScalarInt(configRoot,
+                          SettingKey::PrivacyWindowFocusBlurDelaySeconds,
+                          baselineBlurDelay,
+                          "config keeps previous window blur delay on invalid update");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -620,6 +708,7 @@ main()
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();
     ok &= testControllerResolvesProfilePathsPerProfile();
+    ok &= testConstrainedIntSettersRejectInvalidUpdates();
 
     return ok ? 0 : 1;
 }

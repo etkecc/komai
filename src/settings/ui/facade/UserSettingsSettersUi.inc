@@ -174,8 +174,11 @@ UserSettings::setMaxContentWidth(int s)
 
     if (maxContentWidth_ == normalized)
         return;
+    if (!setCoreValue(settings::core::SettingId::UiLayoutContentMaxWidthPx,
+                      normalized,
+                      SettingKey::UiLayoutContentMaxWidthPx))
+        return;
     maxContentWidth_ = normalized;
-    (void)coreStore_.set(settings::core::SettingId::UiLayoutContentMaxWidthPx, normalized);
     emit maxContentWidthChanged(normalized);
     save();
 }
@@ -184,8 +187,11 @@ UserSettings::setMaxTimelineWidth(int s)
 {
     if (maxTimelineWidth_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesMaxWidthPx,
+                      s,
+                      SettingKey::TimelineMessagesMaxWidthPx))
+        return;
     maxTimelineWidth_ = s;
-    (void)coreStore_.set(settings::core::SettingId::TimelineMessagesMaxWidthPx, s);
     emit maxTimelineWidthChanged(s);
     save();
 }
@@ -332,8 +338,11 @@ UserSettings::setWindowFocusBlurDelaySeconds(int s)
 {
     if (windowFocusBlurDelaySeconds_ == s)
         return;
+    if (!setCoreValue(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds,
+                      s,
+                      SettingKey::PrivacyWindowFocusBlurDelaySeconds))
+        return;
     windowFocusBlurDelaySeconds_ = s;
-    (void)coreStore_.set(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds, s);
     emit windowFocusBlurDelaySecondsChanged(s);
     save();
 }

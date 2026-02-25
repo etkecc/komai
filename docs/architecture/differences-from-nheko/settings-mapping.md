@@ -32,7 +32,7 @@ Note:
 | Look & Feel | FONTS | Font size | `UserSettingsModel::FontSize` | `font_size` | `ui.font.size_pt` | config.yml | yes |
 | Look & Feel | FONTS | Emoji font family | `UserSettingsModel::EmojiFont` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
 | Look & Feel | FONTS | Scale factor | `UserSettingsModel::ScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable UI animations | `UserSettingsModel::EnableUIAnimations` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable UI animations | `UserSettingsModel::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
 | Look & Feel | LAYOUT | Maximum content width | `UserSettingsModel::MaxContentWidth` | `-` | `ui.layout.content.max_width_px` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `UserSettingsModel::CircularAvatarsEnabled` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Look & Feel | AVATARS | Use identicons | `UserSettingsModel::IdenticonFallbackEnabled` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
@@ -48,7 +48,7 @@ Note:
 | Integrations | D-BUS | D-Bus access | `UserSettingsModel::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |
 | Integrations | BROWSER | Browser open command (Komai-only) | `UserSettingsModel::IntegrationsLinksBrowserCommand` | `-` | `integrations.browser.command` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Interaction mode | `UserSettingsModel::TouchInputMode` | `mobile_mode` | `ui.input.mode` | config.yml | yes |
-| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::SwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures.enabled` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Enable swipe gestures | `UserSettingsModel::UiInputTouchSwipeGesturesEnabled` | `enable_swipe_gestures` | `ui.input.touch.swipe_gestures.enabled` | config.yml | yes |
 | Timeline | PRESENTATION | Layout | `UserSettingsModel::TimelineMessageLayout` | `bubbles` | `timeline.messages.layout.style` | config.yml | yes |
 | Timeline | PRESENTATION | Use small avatars | `UserSettingsModel::TimelineSmallAvatarsEnabled` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | PRESENTATION | Show avatar next to own message bubbles | `UserSettingsModel::TimelineShowOwnAvatarInBubbleLayout` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |

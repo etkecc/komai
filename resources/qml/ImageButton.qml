@@ -55,7 +55,7 @@ AbstractButton {
         NumberAnimation { target: button; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
     }
     onHoveredChanged: {
-        if (hovered && hoverPulse && Settings.uiAnimationsEnabled)
+        if (hovered && hoverPulse && Settings.uiMotionAnimationsEnabled)
             hoverPulseAnim.start();
     }
 }

@@ -108,8 +108,8 @@ class UserSettings final : public QObject
                    NOTIFY sidebarsRoomListLastMessagePreviewChanged)
     Q_PROPERTY(bool timelineMediaEffectsEnabled READ timelineMediaEffectsEnabled WRITE
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
-    Q_PROPERTY(bool uiAnimationsEnabled READ uiAnimationsEnabled WRITE setUiAnimationsEnabled NOTIFY
-                 uiAnimationsEnabledChanged)
+    Q_PROPERTY(bool uiMotionAnimationsEnabled READ uiMotionAnimationsEnabled WRITE
+                 setUiMotionAnimationsEnabled NOTIFY uiMotionAnimationsEnabledChanged)
     Q_PROPERTY(bool windowFocusBlurEnabled READ windowFocusBlurEnabled WRITE
                  setWindowFocusBlurEnabled NOTIFY windowFocusBlurEnabledChanged)
     Q_PROPERTY(int windowFocusBlurDelaySeconds READ windowFocusBlurDelaySeconds WRITE
@@ -124,8 +124,8 @@ class UserSettings final : public QObject
                  communityListWidthChanged)
     Q_PROPERTY(bool touchInputModeEnabled READ touchInputModeEnabled WRITE setTouchInputModeEnabled
                  NOTIFY touchInputModeEnabledChanged)
-    Q_PROPERTY(bool swipeGesturesEnabled READ swipeGesturesEnabled WRITE setSwipeGesturesEnabled
-                 NOTIFY swipeGesturesEnabledChanged)
+    Q_PROPERTY(bool uiInputTouchSwipeGesturesEnabled READ uiInputTouchSwipeGesturesEnabled WRITE
+                 setUiInputTouchSwipeGesturesEnabled NOTIFY uiInputTouchSwipeGesturesEnabledChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
     Q_PROPERTY(double fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY(QString font READ font WRITE setFontFamily NOTIFY fontChanged)
@@ -321,7 +321,7 @@ public:
     void setSystemTrayEnabled(bool state);
     void setSystemTrayAutostart(bool state);
     void setTouchInputModeEnabled(bool mode);
-    void setSwipeGesturesEnabled(bool mode);
+    void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setScaleFactor(double factor);
     void setFontSize(double size);
     void setFontFamily(QString family);
@@ -356,7 +356,7 @@ public:
     void setRoomListShowLastMessageTime(bool state);
     void setSidebarsRoomListLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
-    void setUiAnimationsEnabled(bool state);
+    void setUiMotionAnimationsEnabled(bool state);
     void setWindowFocusBlurEnabled(bool state);
     void setWindowFocusBlurDelaySeconds(int state);
     void setPresence(Presence state);
@@ -473,7 +473,7 @@ signals:
     void roomListShowLastMessageTimeChanged(bool state);
     void sidebarsRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
-    void uiAnimationsEnabledChanged(bool state);
+    void uiMotionAnimationsEnabledChanged(bool state);
     void windowFocusBlurEnabledChanged(bool state);
     void windowFocusBlurDelaySecondsChanged(int state);
     void maxContentWidthChanged(int state);
@@ -481,7 +481,7 @@ signals:
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
     void touchInputModeEnabledChanged(bool mode);
-    void swipeGesturesEnabledChanged(bool state);
+    void uiInputTouchSwipeGesturesEnabledChanged(bool state);
     void scaleFactorChanged(double factor);
     void fontSizeChanged(double state);
     void fontChanged(QString state);

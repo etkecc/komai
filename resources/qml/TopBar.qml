@@ -537,7 +537,7 @@ Pane {
 
                             SequentialAnimation {
                                 loops: Animation.Infinite
-                                running: searchIcon.isLoading && Settings.uiAnimationsEnabled
+                                running: searchIcon.isLoading && Settings.uiMotionAnimationsEnabled
 
                                 ParallelAnimation {
                                     NumberAnimation {
@@ -599,11 +599,11 @@ Pane {
 
                         anchors.fill: parent
                         source: searchIconContent
-                        saturation: searchIcon.isLoading && !Settings.uiAnimationsEnabled ? 0.0 : -1.0
+                        saturation: searchIcon.isLoading && !Settings.uiMotionAnimationsEnabled ? 0.0 : -1.0
 
                         SequentialAnimation {
                             loops: Animation.Infinite
-                            running: searchIcon.isLoading && Settings.uiAnimationsEnabled
+                            running: searchIcon.isLoading && Settings.uiMotionAnimationsEnabled
 
                             NumberAnimation {
                                 target: searchEffect
@@ -625,7 +625,7 @@ Pane {
                             onRunningChanged: {
                                 if (!running) {
                                     searchEffect.saturation = Qt.binding(function() {
-                                        return (searchIcon.isLoading && !Settings.uiAnimationsEnabled) ? 0.0 : -1.0;
+                                        return (searchIcon.isLoading && !Settings.uiMotionAnimationsEnabled) ? 0.0 : -1.0;
                                     });
                                 }
                             }

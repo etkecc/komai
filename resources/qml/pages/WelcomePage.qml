@@ -165,8 +165,8 @@ ColumnLayout {
         ToggleButton {
             id: animationsToggle
             Layout.alignment: Qt.AlignVCenter
-            checked: Settings.uiAnimationsEnabled
-            onCheckedChanged: Settings.uiAnimationsEnabled = checked
+            checked: Settings.uiMotionAnimationsEnabled
+            onCheckedChanged: Settings.uiMotionAnimationsEnabled = checked
         }
 
         Label {

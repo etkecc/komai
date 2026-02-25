@@ -118,13 +118,13 @@ UserSettings::sidebarsRoomListLastMessagePreview() const
 }
 
 bool
-UserSettings::uiAnimationsEnabled() const
+UserSettings::uiMotionAnimationsEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::UiMotionAnimationsEnabled);
         value.has_value())
         return *value;
-    return uiAnimationsEnabled_;
+    return uiMotionAnimationsEnabled_;
 }
 
 bool
@@ -168,13 +168,13 @@ UserSettings::touchInputModeEnabled() const
 }
 
 bool
-UserSettings::swipeGesturesEnabled() const
+UserSettings::uiInputTouchSwipeGesturesEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::UiInputTouchSwipeGesturesEnabled);
         value.has_value())
         return *value;
-    return swipeGesturesEnabled_;
+    return uiInputTouchSwipeGesturesEnabled_;
 }
 
 bool

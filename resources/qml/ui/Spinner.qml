@@ -28,7 +28,7 @@ Item {
 
         SequentialAnimation {
             loops: Animation.Infinite
-            running: spinner.running && Settings.uiAnimationsEnabled
+            running: spinner.running && Settings.uiMotionAnimationsEnabled
 
             NumberAnimation {
                 target: logo

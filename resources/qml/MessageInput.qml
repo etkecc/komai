@@ -486,7 +486,7 @@ Rectangle {
                 interval: 500
                 repeat: false
                 onTriggered: {
-                    if (messageInput.length > 0 && Settings.uiAnimationsEnabled)
+                    if (messageInput.length > 0 && Settings.uiMotionAnimationsEnabled)
                         shakeAnimation.start();
                 }
             }
@@ -494,7 +494,7 @@ Rectangle {
             Connections {
                 target: messageInput
                 function onTextChanged() {
-                    if (messageInput.length > 0 && Settings.uiAnimationsEnabled)
+                    if (messageInput.length > 0 && Settings.uiMotionAnimationsEnabled)
                         shakeTimer.restart();
                     else
                         shakeTimer.stop();

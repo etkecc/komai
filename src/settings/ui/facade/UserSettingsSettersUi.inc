@@ -307,17 +307,17 @@ UserSettings::setTimelineMediaEffectsEnabled(bool s)
 }
 
 void
-UserSettings::setUiAnimationsEnabled(bool state)
+UserSettings::setUiMotionAnimationsEnabled(bool state)
 {
-    if (state == uiAnimationsEnabled_)
+    if (state == uiMotionAnimationsEnabled_)
         return;
-    uiAnimationsEnabled_ = state;
+    uiMotionAnimationsEnabled_ = state;
     (void)coreStore_.set(settings::core::SettingId::UiMotionAnimationsEnabled, state);
-    emit uiAnimationsEnabledChanged(state);
+    emit uiMotionAnimationsEnabledChanged(state);
     save();
 
     // Also toggle other motion related settings
-    if (!uiAnimationsEnabled_) {
+    if (!uiMotionAnimationsEnabled_) {
         setTimelineMediaEffectsEnabled(false);
         setTimelineMediaAnimateOnHover(true);
     }

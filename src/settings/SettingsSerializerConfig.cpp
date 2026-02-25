@@ -163,7 +163,7 @@ makeConfigNode(const UserSettings &settings, YAML::Node &root)
     setNode(root, SettingKey::UiThemeSlug, settings.theme().toStdString());
     for (const auto &adapter : cfg::enumTokenAdapters())
         setNode(root, adapter.key, adapter.toStorage(settings).toStdString());
-    setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiAnimationsEnabled());
+    setNode(root, SettingKey::UiMotionAnimationsEnabled, settings.uiMotionAnimationsEnabled());
     setNode(root,
             SettingKey::UiInputMode,
             toStorageUiInputMode(settings.touchInputModeEnabled()).toStdString());
@@ -201,7 +201,7 @@ loadConfig(UserSettings &settings, const YAML::Node &root)
         }
     }
 
-    settings.setUiAnimationsEnabled(readScalar<bool>(
+    settings.setUiMotionAnimationsEnabled(readScalar<bool>(
       root, SettingKey::UiMotionAnimationsEnabled, cfg::kDefaultUiMotionAnimationsEnabled));
     const auto inputModeToken =
       readString(root,

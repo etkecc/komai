@@ -57,8 +57,8 @@
       "Enable UI animations",
       QT_TR_NOOP("Komai uses animations in several places around the interface. Enable or disable them here."),
       SM::TabLookFeel,
-      uiAnimationsEnabled,
-      setUiAnimationsEnabled,
+      uiMotionAnimationsEnabled,
+      setUiMotionAnimationsEnabled,
       nullptr,
       UiMotionAnimationsEnabled,
       SettingKey::UiMotionAnimationsEnabled),
@@ -77,7 +77,7 @@
       "Enable swipe gestures",
       QT_TR_NOOP(
         "Enable gestures such as swiping between Rooms and Timeline, or swiping a message to reply."),
-      SM::TabLookFeel, swipeGesturesEnabled, setSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
+      SM::TabLookFeel, uiInputTouchSwipeGesturesEnabled, setUiInputTouchSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
     // LookFeelLayoutSection
     { QT_TR_NOOP("Layout"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

@@ -49,13 +49,13 @@ UserSettings::setTouchInputModeEnabled(bool s)
     save();
 }
 void
-UserSettings::setSwipeGesturesEnabled(bool s)
+UserSettings::setUiInputTouchSwipeGesturesEnabled(bool s)
 {
-    if (swipeGesturesEnabled_ == s)
+    if (uiInputTouchSwipeGesturesEnabled_ == s)
         return;
-    swipeGesturesEnabled_ = s;
+    uiInputTouchSwipeGesturesEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::UiInputTouchSwipeGesturesEnabled, s);
-    emit swipeGesturesEnabledChanged(s);
+    emit uiInputTouchSwipeGesturesEnabledChanged(s);
     save();
 }
 void

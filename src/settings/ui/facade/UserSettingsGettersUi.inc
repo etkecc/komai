@@ -12,7 +12,7 @@
     bool roomListShowLastMessageTime() const;
     LastMessagePreview sidebarsRoomListLastMessagePreview() const;
     bool timelineMediaEffectsEnabled() const;
-    bool uiAnimationsEnabled() const;
+    bool uiMotionAnimationsEnabled() const;
     bool windowFocusBlurEnabled() const;
     int windowFocusBlurDelaySeconds() const;
     bool markdownEnabled() const;
@@ -31,7 +31,7 @@
     RoomSortOrder sidebarsRoomListSort() const;
     TimelineMessageActionsPolicy timelineMessageActionsPolicy() const;
     bool touchInputModeEnabled() const;
-    bool swipeGesturesEnabled() const;
+    bool uiInputTouchSwipeGesturesEnabled() const;
     bool readReceiptsEnabled() const;
     bool notificationsEnabled() const;
     bool notificationsAttentionOnIncoming() const;

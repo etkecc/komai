@@ -429,12 +429,12 @@ Pane {
         property Transition replaceExitOrg
 
         function updateTrans() {
-            pushEnter = Settings.uiAnimationsEnabled ? pushEnterOrg : reducedMotionNoopTransition;
-            pushExit = Settings.uiAnimationsEnabled ? pushExitOrg : reducedMotionNoopTransition;
-            popEnter = Settings.uiAnimationsEnabled ? popEnterOrg : reducedMotionNoopTransition;
-            popExit = Settings.uiAnimationsEnabled ? popExitOrg : reducedMotionNoopTransition;
-            replaceEnter = Settings.uiAnimationsEnabled ? replaceEnterOrg : reducedMotionNoopTransition;
-            replaceExit = Settings.uiAnimationsEnabled ? replaceExitOrg : reducedMotionNoopTransition;
+            pushEnter = Settings.uiMotionAnimationsEnabled ? pushEnterOrg : reducedMotionNoopTransition;
+            pushExit = Settings.uiMotionAnimationsEnabled ? pushExitOrg : reducedMotionNoopTransition;
+            popEnter = Settings.uiMotionAnimationsEnabled ? popEnterOrg : reducedMotionNoopTransition;
+            popExit = Settings.uiMotionAnimationsEnabled ? popExitOrg : reducedMotionNoopTransition;
+            replaceEnter = Settings.uiMotionAnimationsEnabled ? replaceEnterOrg : reducedMotionNoopTransition;
+            replaceExit = Settings.uiMotionAnimationsEnabled ? replaceExitOrg : reducedMotionNoopTransition;
         }
 
         anchors.fill: parent

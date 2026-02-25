@@ -4,9 +4,10 @@
 
 #include <cmath>
 #include <iostream>
+#include <memory>
+#include <set>
 #include <string>
 #include <string_view>
-#include <memory>
 
 #include <QApplication>
 #include <QFile>
@@ -20,6 +21,8 @@
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsSerializer.h"
+#include "settings/SettingsSerializerConfigConverters.h"
+#include "settings/SettingsSerializerConfigSchema.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
 #include "settings/StagedLoadPlan.h"
@@ -795,6 +798,136 @@ testConstrainedIntSettersRejectInvalidUpdates()
     return ok;
 }
 
+bool
+testConfigSchemaCoverageAndKeyUniqueness()
+{
+    bool ok = true;
+    const std::set<QString> schemaOnlyConfigKeys{
+      QString::fromLatin1(SettingKey::DbMaxStores),
+      QString::fromLatin1(SettingKey::DbMaxSizeBytes),
+    };
+
+    auto hasPersistedConfigKey = [](const QString &key) {
+        for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+            if (definition.scope != settings::core::SettingScope::Config)
+                continue;
+            if (key == QLatin1String(definition.persistedKey))
+                return true;
+        }
+        return false;
+    };
+
+    std::set<QString> typedKeys;
+    const auto collectTyped = [&](auto descriptors, std::string_view label) {
+        for (const auto &descriptor : descriptors) {
+            const QString key = QString::fromLatin1(descriptor.key);
+            if (key.isEmpty()) {
+                std::cerr << "FAILED: empty key in " << label << '\n';
+                ok = false;
+                continue;
+            }
+
+            if (!typedKeys.insert(key).second) {
+                std::cerr << "FAILED: duplicate typed descriptor key '" << key.toStdString()
+                          << "' in " << label << '\n';
+                ok = false;
+            }
+
+            if (!hasPersistedConfigKey(key) && schemaOnlyConfigKeys.count(key) == 0) {
+                std::cerr << "FAILED: typed descriptor key '" << key.toStdString()
+                          << "' missing persisted config definition (and not in schema-only allowlist)\n";
+                ok = false;
+            }
+        }
+    };
+
+    collectTyped(settings::serializer::config::boolConfigSettings(), "boolConfigSettings");
+    collectTyped(settings::serializer::config::intConfigSettings(), "intConfigSettings");
+    collectTyped(settings::serializer::config::uintConfigSettings(), "uintConfigSettings");
+    collectTyped(settings::serializer::config::ulonglongConfigSettings(), "ulonglongConfigSettings");
+    collectTyped(settings::serializer::config::doubleConfigSettings(), "doubleConfigSettings");
+    collectTyped(settings::serializer::config::stringConfigSettings(), "stringConfigSettings");
+
+    std::set<QString> enumTokenKeys;
+    std::set<settings::core::SettingId> enumTokenIds;
+    for (const auto &adapter : settings::serializer::config::enumTokenAdapters()) {
+        const QString key = QString::fromLatin1(adapter.key);
+
+        if (!enumTokenIds.insert(adapter.id).second) {
+            std::cerr << "FAILED: duplicate enum token adapter id "
+                      << static_cast<int>(adapter.id) << '\n';
+            ok = false;
+        }
+
+        if (!enumTokenKeys.insert(key).second) {
+            std::cerr << "FAILED: duplicate enum token adapter key '" << key.toStdString() << "'\n";
+            ok = false;
+        }
+
+        if (typedKeys.count(key) != 0) {
+            std::cerr << "FAILED: enum token adapter key '" << key.toStdString()
+                      << "' overlaps typed descriptor key set\n";
+            ok = false;
+        }
+
+        if (QString::fromLatin1(adapter.defaultToken).isEmpty()) {
+            std::cerr << "FAILED: enum token adapter default token is empty for key '"
+                      << key.toStdString() << "'\n";
+            ok = false;
+        }
+
+        const auto definition = settings::core::definitions::persistedDefinitionFor(adapter.id);
+        if (!definition.has_value()) {
+            std::cerr << "FAILED: enum token adapter id " << static_cast<int>(adapter.id)
+                      << " has no persisted definition\n";
+            ok = false;
+            continue;
+        }
+
+        if (definition->scope != settings::core::SettingScope::Config) {
+            std::cerr << "FAILED: enum token adapter id " << static_cast<int>(adapter.id)
+                      << " is not a config-scoped persisted definition\n";
+            ok = false;
+        }
+
+        if (key != QLatin1String(definition->persistedKey)) {
+            std::cerr << "FAILED: enum token adapter key mismatch for id "
+                      << static_cast<int>(adapter.id) << " ('" << key.toStdString() << "' vs '"
+                      << definition->persistedKey << "')\n";
+            ok = false;
+        }
+    }
+
+    std::set<QString> serializerHandledConfigKeys = typedKeys;
+    serializerHandledConfigKeys.insert(enumTokenKeys.begin(), enumTokenKeys.end());
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiThemeSlug));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiMotionAnimationsEnabled));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiInputMode));
+    serializerHandledConfigKeys.insert(QString::fromLatin1(SettingKey::UiScaleFactor));
+
+    for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
+        if (definition.scope != settings::core::SettingScope::Config)
+            continue;
+
+        const QString key = QString::fromLatin1(definition.persistedKey);
+        if (serializerHandledConfigKeys.count(key) == 0) {
+            std::cerr << "FAILED: persisted config definition key '" << definition.persistedKey
+                      << "' is not covered by serializer schema/adapters\n";
+            ok = false;
+        }
+    }
+
+    for (const auto &key : serializerHandledConfigKeys) {
+        if (!hasPersistedConfigKey(key) && schemaOnlyConfigKeys.count(key) == 0) {
+            std::cerr << "FAILED: serializer key '" << key.toStdString()
+                      << "' has no persisted config definition\n";
+            ok = false;
+        }
+    }
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -833,6 +966,7 @@ main()
     ok &= testControllerSyncsCoreStore();
     ok &= testControllerResolvesProfilePathsPerProfile();
     ok &= testConstrainedIntSettersRejectInvalidUpdates();
+    ok &= testConfigSchemaCoverageAndKeyUniqueness();
 
     return ok ? 0 : 1;
 }

@@ -30,7 +30,6 @@
 #include "Utils.h"
 #include "config/nheko.h"
 #include "encryption/Olm.h"
-#include "settings/SettingKeys.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
@@ -211,6 +210,8 @@ setSettingEnumValue(const QVariant &value)
       i.get(), static_cast<Enum>(rawValue), std::is_void<SetEnumResult<Set, Enum>>{});
 }
 
+// Keep macro argument shape compatible with existing row includes while we only
+// consume SettingId here. Scope/key/restart metadata comes from core definitions.
 #define CORE_SETTING_WITH_ID(id, scope, key, restart) settings::core::SettingId::id
 
 #define CORE_CONFIG_RESTART(key) CORE_SETTING_WITH_ID(Unknown, Config, key, true)

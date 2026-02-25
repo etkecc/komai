@@ -652,6 +652,67 @@ testConfigSchemaVersionIsStampedOnSave()
 }
 
 bool
+testConfigMigrationStampsVersionWhenMissing()
+{
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["ui"]["theme"]["slug"] = "komai-light";
+
+    const auto outcome = settings::migrations::migrateConfigRoot(configRoot);
+    bool ok            = true;
+    ok &= expect(!outcome.hadFutureVersion,
+                 "missing schema version is treated as migratable current-or-older config");
+    ok &= expect(outcome.sourceVersion == 0, "missing schema version is treated as v0");
+    ok &= expectScalarInt(outcome.migratedRoot,
+                          SettingKey::ConfigSchemaVersion,
+                          settings::migrations::kCurrentConfigSchemaVersion,
+                          "migration stamps current schema version on migrated root");
+    ok &= expectScalarString(outcome.migratedRoot,
+                             SettingKey::UiThemeSlug,
+                             QStringLiteral("komai-light"),
+                             "migration preserves existing config values");
+    return ok;
+}
+
+bool
+testConfigMigrationKeepsFutureVersionUntouched()
+{
+    YAML::Node configRoot(YAML::NodeType::Map);
+    constexpr int futureVersion = settings::migrations::kCurrentConfigSchemaVersion + 7;
+    configRoot["meta"]["settings_schema_version"] = futureVersion;
+    configRoot["ui"]["theme"]["slug"]             = "komai-dark";
+
+    const auto outcome = settings::migrations::migrateConfigRoot(configRoot);
+    bool ok            = true;
+    ok &= expect(outcome.hadFutureVersion, "future schema version is surfaced as future-version");
+    ok &= expect(outcome.sourceVersion == futureVersion,
+                 "future schema version is reported in migration outcome");
+    ok &= expectScalarInt(outcome.migratedRoot,
+                          SettingKey::ConfigSchemaVersion,
+                          futureVersion,
+                          "future schema version remains untouched");
+    ok &= expectScalarString(outcome.migratedRoot,
+                             SettingKey::UiThemeSlug,
+                             QStringLiteral("komai-dark"),
+                             "future-version migration keeps existing values unchanged");
+    return ok;
+}
+
+bool
+testConfigMigrationNormalizesNonMapConfigRoot()
+{
+    YAML::Node nonMapRoot("not-a-map");
+    const auto outcome = settings::migrations::migrateConfigRoot(nonMapRoot);
+    bool ok            = true;
+    ok &= expect(outcome.migratedRoot.IsMap(),
+                 "migration normalizes non-map config root to an empty map");
+    ok &= expectScalarInt(outcome.migratedRoot,
+                          SettingKey::ConfigSchemaVersion,
+                          settings::migrations::kCurrentConfigSchemaVersion,
+                          "normalized map still gets current schema version stamp");
+    return ok;
+}
+
+bool
 testSerializerLoggerInjection()
 {
     const QString profile = QStringLiteral("serializer-logger-profile");
@@ -1066,6 +1127,9 @@ main()
     ok &= testMalformedSessionIdentityValuesFallbackToEmpty();
     ok &= testSessionAuthStateHelpersForIncompleteLogin();
     ok &= testConfigSchemaVersionIsStampedOnSave();
+    ok &= testConfigMigrationStampsVersionWhenMissing();
+    ok &= testConfigMigrationKeepsFutureVersionUntouched();
+    ok &= testConfigMigrationNormalizesNonMapConfigRoot();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();

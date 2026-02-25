@@ -139,9 +139,9 @@ UserSettings::windowHeight() const
     return windowHeight_;
 }
 qulonglong
-UserSettings::maxDbSize() const
+UserSettings::dbMaxSizeBytes() const
 {
-    return maxDbSize_;
+    return dbMaxSizeBytes_;
 }
 uint
 UserSettings::maxStores() const

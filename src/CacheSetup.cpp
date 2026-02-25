@@ -78,7 +78,7 @@ Cache::setup()
 
     auto storageOptions = [] {
         auto settings      = UserSettings::instance();
-        std::size_t dbSize = settings->maxDbSize();
+        std::size_t dbSize = settings->dbMaxSizeBytes();
         if (dbSize == 0 || dbSize < DB_SIZE_DEFAULT)
             dbSize = DB_SIZE_DEFAULT;
         unsigned dbCount = settings->maxStores();

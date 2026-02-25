@@ -89,7 +89,7 @@ bool privacyMaintenanceUpdateSpaceVias_;
 bool privacyMaintenanceExpireEvents_;
 int windowWidth_              = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_             = settings::core::definitions::kDefaultWindowHeightPx;
-qulonglong maxDbSize_         = settings::core::definitions::kDefaultMaxDbSizeBytes;
+qulonglong dbMaxSizeBytes_    = settings::core::definitions::kDefaultMaxDbSizeBytes;
 uint maxStores_               = settings::core::definitions::kDefaultMaxStores;
 bool usesFileSecretsProvider_ = false;
 bool networkHttp3Enabled_     = settings::core::definitions::kDefaultNetworkHttp3Enabled;

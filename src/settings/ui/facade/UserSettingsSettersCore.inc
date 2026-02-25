@@ -181,9 +181,9 @@ UserSettings::setWindowHeight(int s)
 }
 
 void
-UserSettings::setMaxDbSize(qulonglong s)
+UserSettings::setDbMaxSizeBytes(qulonglong s)
 {
-    setSetting(maxDbSize_, s, &UserSettings::maxDbSizeChanged);
+    setSetting(dbMaxSizeBytes_, s, &UserSettings::dbMaxSizeBytesChanged);
 }
 void
 UserSettings::setMaxStores(uint s)

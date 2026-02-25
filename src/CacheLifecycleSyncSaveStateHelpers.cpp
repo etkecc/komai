@@ -282,7 +282,7 @@ try {
             auto settings = UserSettings::instance();
 
             if (const auto mapSize = db::mapSizeBytes(storage()); mapSize.has_value()) {
-                settings->setMaxDbSize(static_cast<qulonglong>(*mapSize * 2));
+                settings->setDbMaxSizeBytes(static_cast<qulonglong>(*mapSize * 2));
             }
         }
 

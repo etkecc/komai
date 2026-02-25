@@ -20,7 +20,7 @@
     bool privacyMaintenanceExpireEvents() const;
     int windowWidth() const;
     int windowHeight() const;
-    qulonglong maxDbSize() const;
+    qulonglong dbMaxSizeBytes() const;
     uint maxStores() const;
     bool usesFileSecretsProvider() const;
     bool networkHttp3Enabled() const;

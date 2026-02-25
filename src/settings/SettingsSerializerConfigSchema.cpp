@@ -205,8 +205,8 @@ const std::array<UintSettingDescriptor, 1> UintSettings{
 const std::array<ULongLongSettingDescriptor, 1> ULongLongSettings{
   ULongLongSettingDescriptor{SettingKey::DbMaxSizeBytes,
                              kDefaultMaxDbSizeBytes,
-                             &UserSettings::maxDbSize,
-                             &UserSettings::setMaxDbSize},
+                             &UserSettings::dbMaxSizeBytes,
+                             &UserSettings::setDbMaxSizeBytes},
 };
 
 const std::array<DoubleSettingDescriptor, 1> DoubleSettings{

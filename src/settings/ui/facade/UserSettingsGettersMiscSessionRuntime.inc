@@ -78,3 +78,10 @@ UserSettings::dbMaxStores() const
 {
     return dbMaxStores_;
 }
+
+// Internal helper: secrets provider is configured via `secrets.provider` in config.yml.
+bool
+UserSettings::usesFileSecretsProvider() const
+{
+    return usesFileSecretsProvider_;
+}

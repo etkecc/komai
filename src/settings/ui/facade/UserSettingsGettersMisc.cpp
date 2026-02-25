@@ -6,5 +6,8 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 #include "UserSettingsGettersMiscCoreStore.inc"
-#include "UserSettingsGettersMiscNetworkIntegrations.inc"
+#include "UserSettingsGettersMiscIntegrations.inc"
+#include "UserSettingsGettersMiscNetwork.inc"
+#include "UserSettingsGettersMiscPrivacy.inc"
 #include "UserSettingsGettersMiscSessionRuntime.inc"
+#include "UserSettingsGettersMiscTimeline.inc"

@@ -10,7 +10,7 @@ bool timelineMessagesEmojiOnlyEnlarge_;
 bool integrationsSystemTrayEnabled_;
 bool integrationsSystemTrayAutostart_;
 bool sidebarsCommunitiesVisible_;
-bool sidebarsRoomListScrollbarsVisible_;
+bool sidebarsRoomListScrollbarsEnabled_;
 bool composerInputMarkdownEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;

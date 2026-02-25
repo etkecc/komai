@@ -141,7 +141,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show scrollbars",
       QT_TR_NOOP("Show scrollbars in the room list and communities sidebar."),
-      SM::TabSidebars, sidebarsRoomListScrollbarsVisible, setSidebarsRoomListScrollbarsVisible, nullptr, SidebarsRoomListScrollbarsEnabled, SettingKey::SidebarsRoomListScrollbarsEnabled),
+      SM::TabSidebars, sidebarsRoomListScrollbarsEnabled, setSidebarsRoomListScrollbarsEnabled, nullptr, SidebarsRoomListScrollbarsEnabled, SettingKey::SidebarsRoomListScrollbarsEnabled),
     // RoomSorting
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sorting",

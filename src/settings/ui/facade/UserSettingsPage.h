@@ -51,8 +51,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool sidebarsCommunitiesVisible READ sidebarsCommunitiesVisible WRITE
                  setSidebarsCommunitiesVisible NOTIFY sidebarsCommunitiesVisibleChanged)
     Q_PROPERTY(
-      bool sidebarsRoomListScrollbarsVisible READ sidebarsRoomListScrollbarsVisible WRITE
-        setSidebarsRoomListScrollbarsVisible NOTIFY sidebarsRoomListScrollbarsVisibleChanged)
+      bool sidebarsRoomListScrollbarsEnabled READ sidebarsRoomListScrollbarsEnabled WRITE
+        setSidebarsRoomListScrollbarsEnabled NOTIFY sidebarsRoomListScrollbarsEnabledChanged)
     Q_PROPERTY(bool composerInputMarkdownEnabled READ composerInputMarkdownEnabled WRITE
                  setComposerInputMarkdownEnabled NOTIFY composerInputMarkdownEnabledChanged)
     Q_PROPERTY(SendMessageKey composerInputSendKey READ composerInputSendKey WRITE
@@ -345,7 +345,7 @@ public:
     void setUiFontFamily(QString family);
     void setUiEmojiFontFamily(QString family);
     void setSidebarsCommunitiesVisible(bool state);
-    void setSidebarsRoomListScrollbarsVisible(bool state);
+    void setSidebarsRoomListScrollbarsEnabled(bool state);
     void setComposerInputMarkdownEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
@@ -461,7 +461,7 @@ public:
 
 signals:
     void sidebarsCommunitiesVisibleChanged(bool state);
-    void sidebarsRoomListScrollbarsVisibleChanged(bool state);
+    void sidebarsRoomListScrollbarsEnabledChanged(bool state);
     void sidebarsRoomListSortChanged(RoomSortOrder order);
     void themeChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);

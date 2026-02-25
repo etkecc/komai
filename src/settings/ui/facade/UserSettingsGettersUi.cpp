@@ -45,13 +45,13 @@ UserSettings::sidebarsCommunitiesVisible() const
 }
 
 bool
-UserSettings::sidebarsRoomListScrollbarsVisible() const
+UserSettings::sidebarsRoomListScrollbarsEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled);
         value.has_value())
         return *value;
-    return sidebarsRoomListScrollbarsVisible_;
+    return sidebarsRoomListScrollbarsEnabled_;
 }
 
 bool

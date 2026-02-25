@@ -15,7 +15,7 @@
     CONNECT_SETTING_ID(UiAvatarsCircular, uiAvatarsCircularChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsIdenticonFallback, uiAvatarsIdenticonFallbackChanged, Value);
     CONNECT_SETTING_ID(
-      SidebarsRoomListScrollbarsEnabled, sidebarsRoomListScrollbarsVisibleChanged, Value);
+      SidebarsRoomListScrollbarsEnabled, sidebarsRoomListScrollbarsEnabledChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, sidebarsCommunitiesVisibleChanged, Value);
     CONNECT_SETTING_ID(UiInputTouchSwipeGesturesEnabled, uiInputTouchSwipeGesturesEnabledChanged, Value);

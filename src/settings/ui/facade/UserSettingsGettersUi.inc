@@ -4,7 +4,7 @@
     bool integrationsSystemTrayEnabled() const;
     bool integrationsSystemTrayAutostart() const;
     bool sidebarsCommunitiesVisible() const;
-    bool sidebarsRoomListScrollbarsVisible() const;
+    bool sidebarsRoomListScrollbarsEnabled() const;
     bool uiAvatarsCircular() const;
     NotificationMessageContentPolicy notificationMessageContentPolicy() const;
     bool sidebarsRoomListShowCommunityCounts() const;

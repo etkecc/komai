@@ -383,7 +383,7 @@ testEnumSettingsPersistAsStrings()
     settings->setNotificationMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
-    settings->setTouchInputModeEnabled(true);
+    settings->setUiInputModeTouchEnabled(true);
     settings->save();
 
     const auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "config");
@@ -465,7 +465,7 @@ testInvalidConfigTokensFallbackToSafeValues()
                  "invalid theme slug is ignored");
     ok &= expect(settings->presence() == UserSettings::Presence::AutomaticPresence,
                  "invalid presence token falls back to automatic presence");
-    ok &= expect(!settings->touchInputModeEnabled(),
+    ok &= expect(!settings->uiInputModeTouchEnabled(),
                  "invalid input mode token falls back to desktop mode");
 
     const auto &store = settings->coreStore();

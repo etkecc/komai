@@ -5,7 +5,7 @@
     CONNECT_SETTING_ID(UiFontEmojiFamily, emojiFontChanged, Value);
     CONNECT_SETTING_ID(UiLayoutContentMaxWidthPx, maxContentWidthChanged, Value);
     CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, Value);
-    CONNECT_SETTING_ID(UiInputMode, touchInputModeEnabledChanged, Value);
+    CONNECT_SETTING_ID(UiInputMode, uiInputModeTouchEnabledChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListCompact, sidebarsRoomListCompactChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListShowLastMessageTime, sidebarsRoomListShowLastMessageTimeChanged, Value);

@@ -159,12 +159,12 @@ UserSettings::sidebarsRoomListSort() const
 }
 
 bool
-UserSettings::touchInputModeEnabled() const
+UserSettings::uiInputModeTouchEnabled() const
 {
     if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::UiInputMode);
         value.has_value())
         return *value;
-    return touchInputModeEnabled_;
+    return uiInputModeTouchEnabled_;
 }
 
 bool

@@ -124,8 +124,8 @@ class UserSettings final : public QObject
       int roomListWidth READ roomListWidth WRITE setRoomListWidth NOTIFY roomListWidthChanged)
     Q_PROPERTY(int communityListWidth READ communityListWidth WRITE setCommunityListWidth NOTIFY
                  communityListWidthChanged)
-    Q_PROPERTY(bool touchInputModeEnabled READ touchInputModeEnabled WRITE setTouchInputModeEnabled
-                 NOTIFY touchInputModeEnabledChanged)
+    Q_PROPERTY(bool uiInputModeTouchEnabled READ uiInputModeTouchEnabled WRITE
+                 setUiInputModeTouchEnabled NOTIFY uiInputModeTouchEnabledChanged)
     Q_PROPERTY(bool uiInputTouchSwipeGesturesEnabled READ uiInputTouchSwipeGesturesEnabled WRITE
                  setUiInputTouchSwipeGesturesEnabled NOTIFY uiInputTouchSwipeGesturesEnabledChanged)
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -322,7 +322,7 @@ public:
     void setTimelineMessagesEmojiOnlyEnlarge(bool state);
     void setIntegrationsSystemTrayEnabled(bool state);
     void setIntegrationsSystemTrayAutostart(bool state);
-    void setTouchInputModeEnabled(bool mode);
+    void setUiInputModeTouchEnabled(bool mode);
     void setUiInputTouchSwipeGesturesEnabled(bool mode);
     void setScaleFactor(double factor);
     void setFontSize(double size);
@@ -482,7 +482,7 @@ signals:
     void maxTimelineWidthChanged(int state);
     void roomListWidthChanged(int state);
     void communityListWidthChanged(int state);
-    void touchInputModeEnabledChanged(bool mode);
+    void uiInputModeTouchEnabledChanged(bool mode);
     void uiInputTouchSwipeGesturesEnabledChanged(bool state);
     void scaleFactorChanged(double factor);
     void fontSizeChanged(double state);

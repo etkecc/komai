@@ -42,7 +42,7 @@ bool windowFocusBlurEnabled_;
 int windowFocusBlurDelaySeconds_;
 bool shareKeysWithTrustedUsers_;
 bool onlyShareKeysWithVerifiedUsers_;
-bool onlineKeyBackupEnabled_;
+bool encryptionBackupOnlineEnabled_;
 bool touchInputModeEnabled_;
 bool swipeGesturesEnabled_;
 int maxContentWidth_ = settings::core::definitions::kDefaultUiLayoutContentMaxWidthPx;

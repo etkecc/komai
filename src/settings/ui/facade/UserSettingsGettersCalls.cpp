@@ -122,11 +122,11 @@ UserSettings::onlyShareKeysWithVerifiedUsers() const
     return onlyShareKeysWithVerifiedUsers_;
 }
 bool
-UserSettings::onlineKeyBackupEnabled() const
+UserSettings::encryptionBackupOnlineEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::EncryptionBackupOnlineEnabled);
         value.has_value())
         return *value;
-    return onlineKeyBackupEnabled_;
+    return encryptionBackupOnlineEnabled_;
 }

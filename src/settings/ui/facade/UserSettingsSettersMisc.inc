@@ -40,14 +40,14 @@ UserSettings::setShareKeysWithTrustedUsers(bool s)
 }
 
 void
-UserSettings::setOnlineKeyBackupEnabled(bool useBackup)
+UserSettings::setEncryptionBackupOnlineEnabled(bool useBackup)
 {
-    if (useBackup == onlineKeyBackupEnabled_)
+    if (useBackup == encryptionBackupOnlineEnabled_)
         return;
 
-    onlineKeyBackupEnabled_ = useBackup;
+    encryptionBackupOnlineEnabled_ = useBackup;
     (void)coreStore_.set(settings::core::SettingId::EncryptionBackupOnlineEnabled, useBackup);
-    emit onlineKeyBackupEnabledChanged(useBackup);
+    emit encryptionBackupOnlineEnabledChanged(useBackup);
     save();
 
     if (useBackup)
@@ -55,14 +55,14 @@ UserSettings::setOnlineKeyBackupEnabled(bool useBackup)
 }
 
 void
-UserSettings::setOnlineKeyBackupEnabledFromConfig(bool useBackup)
+UserSettings::setEncryptionBackupOnlineEnabledFromConfig(bool useBackup)
 {
-    if (useBackup == onlineKeyBackupEnabled_)
+    if (useBackup == encryptionBackupOnlineEnabled_)
         return;
 
-    onlineKeyBackupEnabled_ = useBackup;
+    encryptionBackupOnlineEnabled_ = useBackup;
     (void)coreStore_.set(settings::core::SettingId::EncryptionBackupOnlineEnabled, useBackup);
-    emit onlineKeyBackupEnabledChanged(useBackup);
+    emit encryptionBackupOnlineEnabledChanged(useBackup);
 }
 
 void

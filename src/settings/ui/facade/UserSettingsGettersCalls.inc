@@ -11,4 +11,4 @@
     bool legacyCallsEnabled() const;
     bool shareKeysWithTrustedUsers() const;
     bool onlyShareKeysWithVerifiedUsers() const;
-    bool onlineKeyBackupEnabled() const;
+    bool encryptionBackupOnlineEnabled() const;

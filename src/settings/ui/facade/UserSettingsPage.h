@@ -153,8 +153,8 @@ class UserSettings final : public QObject
                  setOnlyShareKeysWithVerifiedUsers NOTIFY onlyShareKeysWithVerifiedUsersChanged)
     Q_PROPERTY(bool shareKeysWithTrustedUsers READ shareKeysWithTrustedUsers WRITE
                  setShareKeysWithTrustedUsers NOTIFY shareKeysWithTrustedUsersChanged)
-    Q_PROPERTY(bool onlineKeyBackupEnabled READ onlineKeyBackupEnabled WRITE
-                 setOnlineKeyBackupEnabled NOTIFY onlineKeyBackupEnabledChanged)
+    Q_PROPERTY(bool encryptionBackupOnlineEnabled READ encryptionBackupOnlineEnabled WRITE
+                 setEncryptionBackupOnlineEnabled NOTIFY encryptionBackupOnlineEnabledChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(QString userId READ userId WRITE setUserId NOTIFY userIdChanged)
     Q_PROPERTY(QString accessToken READ accessToken WRITE setAccessToken NOTIFY accessTokenChanged)
@@ -370,8 +370,8 @@ public:
     void setLegacyCallsEnabled(bool state);
     void setOnlyShareKeysWithVerifiedUsers(bool state);
     void setShareKeysWithTrustedUsers(bool state);
-    void setOnlineKeyBackupEnabled(bool state);
-    void setOnlineKeyBackupEnabledFromConfig(bool state);
+    void setEncryptionBackupOnlineEnabled(bool state);
+    void setEncryptionBackupOnlineEnabledFromConfig(bool state);
     void setProfile(QString profile);
     void setUserId(QString userId);
     void setAccessToken(QString accessToken);
@@ -497,7 +497,7 @@ signals:
     void legacyCallsEnabledChanged(bool state);
     void onlyShareKeysWithVerifiedUsersChanged(bool state);
     void shareKeysWithTrustedUsersChanged(bool state);
-    void onlineKeyBackupEnabledChanged(bool state);
+    void encryptionBackupOnlineEnabledChanged(bool state);
     void profileChanged(QString profile);
     void userIdChanged(QString userId);
     void accessTokenChanged(QString accessToken);

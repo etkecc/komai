@@ -41,7 +41,7 @@ SelfVerificationStatus::SelfVerificationStatus(QObject *o)
 void
 SelfVerificationStatus::setupCrosssigning(bool useSSSS,
                                           const QString &password,
-                                          bool onlineKeyBackupEnabled)
+                                          bool encryptionBackupOnlineEnabled)
 {
     nhlog::db()->info("Clicked setup crossigning");
 
@@ -61,7 +61,7 @@ SelfVerificationStatus::setupCrosssigning(bool useSSSS,
                        xsign_keys->private_user_signing_key);
 
     std::optional<mtx::crypto::OlmClient::OnlineKeyBackupSetup> okb;
-    if (onlineKeyBackupEnabled) {
+    if (encryptionBackupOnlineEnabled) {
         okb = olm::client()->create_online_key_backup(xsign_keys->private_master_key);
         if (!okb) {
             nhlog::crypto()->critical("Failed to setup online key backup!");
@@ -273,7 +273,7 @@ SelfVerificationStatus::verifyUnverifiedDevices()
 void
 SelfVerificationStatus::setupEncryptionBackup()
 {
-    const auto onlineBackupEnabled = UserSettings::instance()->onlineKeyBackupEnabled();
+    const auto onlineBackupEnabled = UserSettings::instance()->encryptionBackupOnlineEnabled();
     nhlog::crypto()->info(
       "Setting up encryption backup via banner action (online backup enabled={})",
       onlineBackupEnabled);
@@ -287,7 +287,7 @@ SelfVerificationStatus::setupEncryptionBackup()
 void
 SelfVerificationStatus::resetEncryptionIdentity()
 {
-    const auto onlineBackupEnabled = UserSettings::instance()->onlineKeyBackupEnabled();
+    const auto onlineBackupEnabled = UserSettings::instance()->encryptionBackupOnlineEnabled();
 
     nhlog::crypto()->warn(
       "Reset requested for self-signing identity. Current status={}, online backup={}, "

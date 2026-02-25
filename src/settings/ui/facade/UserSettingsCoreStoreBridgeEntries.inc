@@ -66,5 +66,5 @@ X(TimelineMediaOpenImagesExternal, settings.openImagesInExternalApp())
 X(TimelineMediaOpenVideosExternal, settings.openVideosInExternalApp())
 X(EncryptionKeySharingOnlyVerifiedUsers, settings.onlyShareKeysWithVerifiedUsers())
 X(EncryptionKeySharingShareWithTrusted, settings.shareKeysWithTrustedUsers())
-X(EncryptionBackupOnlineEnabled, settings.onlineKeyBackupEnabled())
+X(EncryptionBackupOnlineEnabled, settings.encryptionBackupOnlineEnabled())
 // clang-format on

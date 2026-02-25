@@ -92,7 +92,7 @@ Note:
 | Privacy | USERS | Ignored users | `UserSettingsModel::IgnoredUsers` | `-` | `privacy.users.ignored` | runtime/UI-specific | no |
 | Encryption | KEY SHARING | Send encrypted messages to verified users only | `UserSettingsModel::OnlyShareKeysWithVerifiedUsers` | `only_share_keys_with_verified_users` | `encryption.key_sharing.only_verified_users` | config.yml | yes |
 | Encryption | KEY SHARING | Share keys with verified users and devices | `UserSettingsModel::ShareKeysWithTrustedUsers` | `share_keys_with_trusted_users` | `encryption.key_sharing.share_with_trusted` | config.yml | yes |
-| Encryption | BACKUP | Enable online key backup | `UserSettingsModel::OnlineKeyBackupEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |
+| Encryption | BACKUP | Enable online key backup | `UserSettingsModel::EncryptionBackupOnlineEnabled` | `use_online_key_backup` | `encryption.backup.online.enabled` | config.yml | yes |
 | Encryption | BACKUP | Session keys | `UserSettingsModel::SessionKeys` | `-` | `encryption.backup.session_keys` | action only | no |
 | Encryption | CROSS-SIGNING | Online backup key | `UserSettingsModel::OnlineBackupKey` | `-` | `encryption.cross_signing.online_backup_key_cached` | derived/runtime | optional |
 | Encryption | CROSS-SIGNING | Self signing key | `UserSettingsModel::SelfSigningKey` | `-` | `encryption.cross_signing.self_signing_key_cached` | derived/runtime | optional |

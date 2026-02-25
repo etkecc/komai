@@ -20,7 +20,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable online key backup",
       QT_TR_NOOP("Download message encryption keys from and upload to the encrypted online key backup."),
-      SM::TabEncryption, onlineKeyBackupEnabled, setOnlineKeyBackupEnabled, nullptr, EncryptionBackupOnlineEnabled, SettingKey::EncryptionBackupOnlineEnabled),
+      SM::TabEncryption, encryptionBackupOnlineEnabled, setEncryptionBackupOnlineEnabled, nullptr, EncryptionBackupOnlineEnabled, SettingKey::EncryptionBackupOnlineEnabled),
     // SessionKeys
     { QT_TR_NOOP("Session keys"), nullptr, SM::SessionKeyImportExport, SM::TabEncryption,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

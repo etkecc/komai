@@ -1430,7 +1430,7 @@ ChatPage::getProfileInfo()
 void
 ChatPage::getBackupVersion()
 {
-    if (!UserSettings::instance()->onlineKeyBackupEnabled()) {
+    if (!UserSettings::instance()->encryptionBackupOnlineEnabled()) {
         nhlog::crypto()->info("Online key backup disabled.");
         return;
     }

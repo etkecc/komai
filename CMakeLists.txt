@@ -677,6 +677,7 @@ set(SRC_FILES
     src/settings/ui/UserSettingsModelConnections.cpp
     src/settings/ui/facade/UserSettingsPage.cpp
     src/settings/ui/facade/UserSettingsGettersUi.cpp
+    src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp
     src/settings/ui/facade/UserSettingsGettersLayout.cpp
     src/settings/ui/facade/UserSettingsGettersCalls.cpp
     src/settings/ui/facade/UserSettingsGettersMisc.cpp
@@ -1138,6 +1139,7 @@ if(BUILD_TESTING)
         src/Paths.cpp
         src/settings/ui/facade/UserSettingsPage.cpp
         src/settings/ui/facade/UserSettingsGettersUi.cpp
+        src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp
         src/settings/ui/facade/UserSettingsGettersLayout.cpp
         src/settings/ui/facade/UserSettingsGettersCalls.cpp
         src/settings/ui/facade/UserSettingsGettersMisc.cpp

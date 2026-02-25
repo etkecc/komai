@@ -151,7 +151,7 @@ ColumnLayout {
 
         Connections {
             target: Settings
-            function onThemeChanged() {
+            function onUiThemeSlugChanged() {
                 variantCombo.currentIndex = Settings.themeVariantIndex()
                 themeCombo.model = Settings.themeNamesForCurrentVariant()
                 themeCombo.currentIndex = Settings.themeIndexInCurrentVariant()

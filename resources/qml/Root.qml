@@ -454,7 +454,7 @@ Pane {
             id: reducedMotionNoopTransition
         }
         Connections {
-            function onUiAnimationsEnabledChanged() {
+            function onUiMotionAnimationsEnabledChanged() {
                 mainWindow.updateTrans();
             }
 

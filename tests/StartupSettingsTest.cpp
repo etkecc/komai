@@ -49,6 +49,12 @@ struct StartupSettingsTestContext
         return settings::storage::writeYamlFile(configFile, configRoot, false);
     }
 
+    bool writeState(const YAML::Node &stateRoot)
+    {
+        const auto stateFile = settings::storage::stateFilePathForProfile(profile_);
+        return settings::storage::writeYamlFile(stateFile, stateRoot, false);
+    }
+
     QString configFile() const { return settings::storage::configFilePathForProfile(profile_); }
 
     QString stateFile() const { return settings::storage::stateFilePathForProfile(profile_); }
@@ -469,6 +475,42 @@ testInvalidConfigTokensFallbackToSafeValues()
 }
 
 bool
+testInvalidStateDimensionsFallbackToSafeValues()
+{
+    const QString profile = QStringLiteral("invalid-state-dimensions-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "invalid state fixture root can be created");
+
+    YAML::Node stateRoot(YAML::NodeType::Map);
+    stateRoot["app"]["window"]["size"]["width"]            = -10;
+    stateRoot["app"]["window"]["size"]["height"]           = 0;
+    stateRoot["sidebars"]["room_list"]["width_px"]         = -20;
+    stateRoot["sidebars"]["communities"]["width_px"]       = 0;
+    if (!ctx.writeState(stateRoot))
+        return expect(false, "invalid state fixture can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for invalid state test");
+
+    bool ok = true;
+    ok &= expect(settings->windowWidth() == settings::core::definitions::kDefaultWindowWidthPx,
+                 "invalid window width falls back to default");
+    ok &= expect(settings->windowHeight() == settings::core::definitions::kDefaultWindowHeightPx,
+                 "invalid window height falls back to default");
+    ok &= expect(settings->roomListWidth() ==
+                   settings::core::definitions::kDefaultSidebarsRoomListWidthPx,
+                 "invalid room list width falls back to default");
+    ok &= expect(settings->communityListWidth() ==
+                   settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx,
+                 "invalid communities width falls back to default");
+
+    return ok;
+}
+
+bool
 testSerializerLoggerInjection()
 {
     const QString profile = QStringLiteral("serializer-logger-profile");
@@ -748,6 +790,7 @@ main()
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
     ok &= testEnumSettingsPersistAsStrings();
     ok &= testInvalidConfigTokensFallbackToSafeValues();
+    ok &= testInvalidStateDimensionsFallbackToSafeValues();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();
     ok &= testControllerSyncsCoreStore();

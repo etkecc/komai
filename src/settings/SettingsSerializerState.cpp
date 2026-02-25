@@ -27,28 +27,48 @@ using yaml_settings::writeStringList;
 
 namespace settings::serializer {
 
+namespace {
+
+int
+readNormalizedStateInt(const YAML::Node &root,
+                       const char *key,
+                       int defaultValue,
+                       int (*normalize)(int))
+{
+    const auto rawValue        = readScalar<int>(root, key, defaultValue);
+    const auto normalizedValue = normalize(rawValue);
+    if (rawValue != normalizedValue) {
+        activeLoggers().ui->warn(
+          "Invalid value '{}' for '{}'; using '{}'", rawValue, key, normalizedValue);
+    }
+    return normalizedValue;
+}
+
+} // namespace
+
 void
 loadState(UserSettings &settings, const YAML::Node &root)
 {
-    const auto roomListWidth =
-      readScalar<int>(root,
-                      SettingKey::SidebarsRoomListWidthPx,
-                      settings::core::definitions::kDefaultSidebarsRoomListWidthPx);
-    const auto communityListWidth =
-      readScalar<int>(root,
-                      SettingKey::SidebarsCommunitiesWidthPx,
-                      settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx);
-
-    const auto windowWidth = readScalar<int>(
-      root, SettingKey::AppWindowSizeWidth, settings::core::definitions::kDefaultWindowWidthPx);
-    const auto windowHeight = readScalar<int>(
-      root, SettingKey::AppWindowSizeHeight, settings::core::definitions::kDefaultWindowHeightPx);
-
-    settings.setWindowWidth(settings::core::definitions::normalizeWindowWidthPx(windowWidth));
-    settings.setWindowHeight(settings::core::definitions::normalizeWindowHeightPx(windowHeight));
-    settings.setRoomListWidth(settings::core::definitions::normalizeRoomListWidthPx(roomListWidth));
+    settings.setWindowWidth(
+      readNormalizedStateInt(root,
+                             SettingKey::AppWindowSizeWidth,
+                             settings::core::definitions::kDefaultWindowWidthPx,
+                             settings::core::definitions::normalizeWindowWidthPx));
+    settings.setWindowHeight(
+      readNormalizedStateInt(root,
+                             SettingKey::AppWindowSizeHeight,
+                             settings::core::definitions::kDefaultWindowHeightPx,
+                             settings::core::definitions::normalizeWindowHeightPx));
+    settings.setRoomListWidth(
+      readNormalizedStateInt(root,
+                             SettingKey::SidebarsRoomListWidthPx,
+                             settings::core::definitions::kDefaultSidebarsRoomListWidthPx,
+                             settings::core::definitions::normalizeRoomListWidthPx));
     settings.setCommunityListWidth(
-      settings::core::definitions::normalizeCommunitiesWidthPx(communityListWidth));
+      readNormalizedStateInt(root,
+                             SettingKey::SidebarsCommunitiesWidthPx,
+                             settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx,
+                             settings::core::definitions::normalizeCommunitiesWidthPx));
     settings.setCurrentTagId(
       readString(root, SettingKey::SessionNavigationCurrentTagId, QString()));
     settings.setHiddenTags(readStringList(root, SettingKey::SidebarsCommunitiesHiddenTags));

@@ -723,6 +723,32 @@ testConfigMigrationNormalizesNonMapConfigRoot()
 }
 
 bool
+testConfigMigrationClampsNegativeSchemaVersion()
+{
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["meta"]["settings_schema_version"] = -5;
+    configRoot["ui"]["theme"]["slug"]             = "komai-dark";
+
+    const auto outcome = settings::migrations::migrateConfigRoot(configRoot);
+    bool ok            = true;
+    ok &= expect(!outcome.hadFutureVersion, "negative schema version is not treated as future");
+    ok &= expect(!outcome.hadUnsupportedPath,
+                 "negative schema version clamp keeps migration path supported");
+    ok &= expect(outcome.sourceVersion == 0, "negative schema version is clamped to v0");
+    ok &= expect(outcome.migratedVersion == settings::migrations::kCurrentConfigSchemaVersion,
+                 "clamped schema version migrates to current schema version");
+    ok &= expectScalarInt(outcome.migratedRoot,
+                          SettingKey::ConfigSchemaVersion,
+                          settings::migrations::kCurrentConfigSchemaVersion,
+                          "clamped schema version stores current version in migrated root");
+    ok &= expectScalarString(outcome.migratedRoot,
+                             SettingKey::UiThemeSlug,
+                             QStringLiteral("komai-dark"),
+                             "clamped schema version migration preserves config values");
+    return ok;
+}
+
+bool
 testMalformedFileSecretsPayloadFallsBackSafely()
 {
     const QString profile = QStringLiteral("malformed-file-secrets-payload-profile");
@@ -1184,6 +1210,7 @@ main()
     ok &= testConfigMigrationStampsVersionWhenMissing();
     ok &= testConfigMigrationKeepsFutureVersionUntouched();
     ok &= testConfigMigrationNormalizesNonMapConfigRoot();
+    ok &= testConfigMigrationClampsNegativeSchemaVersion();
     ok &= testMalformedFileSecretsPayloadFallsBackSafely();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();

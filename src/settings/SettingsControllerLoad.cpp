@@ -54,6 +54,13 @@ settings::SettingsController::load(UserSettings &settings,
                                  migrationOutcome.sourceVersion,
                                  settings::migrations::kCurrentConfigSchemaVersion);
     }
+    if (migrationOutcome.hadUnsupportedPath) {
+        activeLoggers().ui->warn(
+          "Config migration path is unsupported from schema version {} to {}; "
+          "loaded values may be partially migrated",
+          migrationOutcome.sourceVersion,
+          settings::migrations::kCurrentConfigSchemaVersion);
+    }
     settings::serializer::loadConfig(settings, migrationOutcome.migratedRoot);
 
     const auto provider = settings::persistence::providerFromConfig(migrationOutcome.migratedRoot);

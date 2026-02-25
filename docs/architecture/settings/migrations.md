@@ -13,8 +13,10 @@ Current behavior:
 
 - reads `meta.settings_schema_version` from `config.yml` (`0` when missing)
 - treats `1` as the current schema version
+- runs an explicit step chain (`v0 -> v1`, then next steps as added over time)
 - applies a foundational `v0 -> v1` migration step (schema version stamping only)
 - warns when loading a config with a newer schema version than the app supports
+- warns when a migration path is unsupported between known versions
 
 The schema version key is:
 

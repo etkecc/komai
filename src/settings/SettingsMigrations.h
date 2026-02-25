@@ -12,8 +12,10 @@ namespace settings::migrations {
 struct ConfigMigrationOutcome
 {
     YAML::Node migratedRoot;
-    int sourceVersion     = 0;
-    bool hadFutureVersion = false;
+    int sourceVersion       = 0;
+    int migratedVersion     = 0;
+    bool hadFutureVersion   = false;
+    bool hadUnsupportedPath = false;
 };
 
 inline constexpr int kCurrentConfigSchemaVersion = 1;

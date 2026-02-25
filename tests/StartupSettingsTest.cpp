@@ -661,7 +661,11 @@ testConfigMigrationStampsVersionWhenMissing()
     bool ok            = true;
     ok &= expect(!outcome.hadFutureVersion,
                  "missing schema version is treated as migratable current-or-older config");
+    ok &= expect(!outcome.hadUnsupportedPath,
+                 "missing schema version has a supported migration path");
     ok &= expect(outcome.sourceVersion == 0, "missing schema version is treated as v0");
+    ok &= expect(outcome.migratedVersion == settings::migrations::kCurrentConfigSchemaVersion,
+                 "missing schema version migrates to current version");
     ok &= expectScalarInt(outcome.migratedRoot,
                           SettingKey::ConfigSchemaVersion,
                           settings::migrations::kCurrentConfigSchemaVersion,
@@ -684,8 +688,12 @@ testConfigMigrationKeepsFutureVersionUntouched()
     const auto outcome = settings::migrations::migrateConfigRoot(configRoot);
     bool ok            = true;
     ok &= expect(outcome.hadFutureVersion, "future schema version is surfaced as future-version");
+    ok &= expect(!outcome.hadUnsupportedPath,
+                 "future schema version bypass does not report unsupported migration path");
     ok &= expect(outcome.sourceVersion == futureVersion,
                  "future schema version is reported in migration outcome");
+    ok &= expect(outcome.migratedVersion == futureVersion,
+                 "future schema version keeps migration target untouched");
     ok &= expectScalarInt(outcome.migratedRoot,
                           SettingKey::ConfigSchemaVersion,
                           futureVersion,
@@ -705,6 +713,8 @@ testConfigMigrationNormalizesNonMapConfigRoot()
     bool ok            = true;
     ok &= expect(outcome.migratedRoot.IsMap(),
                  "migration normalizes non-map config root to an empty map");
+    ok &= expect(!outcome.hadUnsupportedPath,
+                 "non-map config normalization follows a supported migration path");
     ok &= expectScalarInt(outcome.migratedRoot,
                           SettingKey::ConfigSchemaVersion,
                           settings::migrations::kCurrentConfigSchemaVersion,

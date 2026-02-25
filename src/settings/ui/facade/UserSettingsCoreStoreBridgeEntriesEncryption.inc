@@ -1,0 +1,3 @@
+X(EncryptionKeySharingOnlyVerifiedUsers, settings.encryptionKeySharingOnlyVerifiedUsers())
+X(EncryptionKeySharingShareWithTrusted, settings.encryptionKeySharingShareWithTrusted())
+X(EncryptionBackupOnlineEnabled, settings.encryptionBackupOnlineEnabled())

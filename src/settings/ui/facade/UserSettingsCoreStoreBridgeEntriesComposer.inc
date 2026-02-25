@@ -1,0 +1,5 @@
+X(ComposerInputMarkdownEnabled, settings.composerInputMarkdownEnabled())
+X(ComposerInputSendKey, static_cast<int>(settings.composerInputSendKey()))
+X(ComposerInputAutoReplaceEmoji, static_cast<int>(settings.composerInputAutoReplaceEmoji()))
+X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())
+X(ComposerExtrasStickersEnabled, settings.composerExtrasStickersEnabled())

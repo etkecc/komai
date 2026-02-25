@@ -59,12 +59,12 @@ loadState(UserSettings &settings, const YAML::Node &root)
                              SettingKey::AppWindowSizeHeight,
                              settings::core::definitions::kDefaultWindowHeightPx,
                              settings::core::definitions::normalizeWindowHeightPx));
-    settings.setRoomListWidth(
+    settings.setSidebarsRoomListWidthPx(
       readNormalizedStateInt(root,
                              SettingKey::SidebarsRoomListWidthPx,
                              settings::core::definitions::kDefaultSidebarsRoomListWidthPx,
                              settings::core::definitions::normalizeRoomListWidthPx));
-    settings.setCommunityListWidth(
+    settings.setSidebarsCommunitiesWidthPx(
       readNormalizedStateInt(root,
                              SettingKey::SidebarsCommunitiesWidthPx,
                              settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx,
@@ -88,8 +88,8 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
 
     setNode(root, SettingKey::AppWindowSizeWidth, settings.windowWidth());
     setNode(root, SettingKey::AppWindowSizeHeight, settings.windowHeight());
-    setNode(root, SettingKey::SidebarsRoomListWidthPx, settings.roomListWidth());
-    setNode(root, SettingKey::SidebarsCommunitiesWidthPx, settings.communityListWidth());
+    setNode(root, SettingKey::SidebarsRoomListWidthPx, settings.sidebarsRoomListWidthPx());
+    setNode(root, SettingKey::SidebarsCommunitiesWidthPx, settings.sidebarsCommunitiesWidthPx());
     setNode(root, SettingKey::SessionNavigationCurrentTagId, settings.currentTagId().toStdString());
     writeStringList(root, SettingKey::SidebarsCommunitiesHiddenTags, settings.hiddenTags());
     writeStringList(root, SettingKey::SidebarsCommunitiesMutedTags, settings.mutedTags());

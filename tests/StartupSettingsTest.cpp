@@ -509,10 +509,10 @@ testInvalidStateDimensionsFallbackToSafeValues()
                  "invalid window width falls back to default");
     ok &= expect(settings->windowHeight() == settings::core::definitions::kDefaultWindowHeightPx,
                  "invalid window height falls back to default");
-    ok &= expect(settings->roomListWidth() ==
+    ok &= expect(settings->sidebarsRoomListWidthPx() ==
                    settings::core::definitions::kDefaultSidebarsRoomListWidthPx,
                  "invalid room list width falls back to default");
-    ok &= expect(settings->communityListWidth() ==
+    ok &= expect(settings->sidebarsCommunitiesWidthPx() ==
                    settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx,
                  "invalid communities width falls back to default");
 
@@ -574,8 +574,8 @@ testSerializerLoggerInjection()
 
     settings->setWindowWidth(1366);
     settings->setWindowHeight(768);
-    settings->setRoomListWidth(260);
-    settings->setCommunityListWidth(240);
+    settings->setSidebarsRoomListWidthPx(260);
+    settings->setSidebarsCommunitiesWidthPx(240);
     const auto stateFile = ctx.stateFile();
     settings::storage::removePath(stateFile);
 

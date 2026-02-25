@@ -196,18 +196,18 @@ UserSettings::setTimelineMessagesMaxWidthPx(int s)
     save();
 }
 void
-UserSettings::setCommunityListWidth(int s)
+UserSettings::setSidebarsCommunitiesWidthPx(int s)
 {
-    setSetting(communityListWidth_,
+    setSetting(sidebarsCommunitiesWidthPx_,
                settings::core::definitions::normalizeCommunitiesWidthPx(s),
-               &UserSettings::communityListWidthChanged);
+               &UserSettings::sidebarsCommunitiesWidthPxChanged);
 }
 void
-UserSettings::setRoomListWidth(int s)
+UserSettings::setSidebarsRoomListWidthPx(int s)
 {
-    setSetting(roomListWidth_,
+    setSetting(sidebarsRoomListWidthPx_,
                settings::core::definitions::normalizeRoomListWidthPx(s),
-               &UserSettings::roomListWidthChanged);
+               &UserSettings::sidebarsRoomListWidthPxChanged);
 }
 void
 UserSettings::setNotificationsEnabled(bool s)

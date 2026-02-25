@@ -1,5 +1,5 @@
-    int communityListWidth() const;
-    int roomListWidth() const;
+    int sidebarsCommunitiesWidthPx() const;
+    int sidebarsRoomListWidthPx() const;
     double scaleFactor() const;
     double fontSize() const;
     QString font() const;

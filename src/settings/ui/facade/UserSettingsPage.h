@@ -120,10 +120,10 @@ class UserSettings final : public QObject
                  setUiLayoutContentMaxWidthPx NOTIFY uiLayoutContentMaxWidthPxChanged)
     Q_PROPERTY(int timelineMessagesMaxWidthPx READ timelineMessagesMaxWidthPx WRITE
                  setTimelineMessagesMaxWidthPx NOTIFY timelineMessagesMaxWidthPxChanged)
-    Q_PROPERTY(
-      int roomListWidth READ roomListWidth WRITE setRoomListWidth NOTIFY roomListWidthChanged)
-    Q_PROPERTY(int communityListWidth READ communityListWidth WRITE setCommunityListWidth NOTIFY
-                 communityListWidthChanged)
+    Q_PROPERTY(int sidebarsRoomListWidthPx READ sidebarsRoomListWidthPx WRITE
+                 setSidebarsRoomListWidthPx NOTIFY sidebarsRoomListWidthPxChanged)
+    Q_PROPERTY(int sidebarsCommunitiesWidthPx READ sidebarsCommunitiesWidthPx WRITE
+                 setSidebarsCommunitiesWidthPx NOTIFY sidebarsCommunitiesWidthPxChanged)
     Q_PROPERTY(bool uiInputModeTouchEnabled READ uiInputModeTouchEnabled WRITE
                  setUiInputModeTouchEnabled NOTIFY uiInputModeTouchEnabledChanged)
     Q_PROPERTY(bool uiInputTouchSwipeGesturesEnabled READ uiInputTouchSwipeGesturesEnabled WRITE
@@ -357,8 +357,8 @@ public:
     void setTimelineMessageActionsPolicy(TimelineMessageActionsPolicy policy);
     void setUiLayoutContentMaxWidthPx(int state);
     void setTimelineMessagesMaxWidthPx(int state);
-    void setCommunityListWidth(int state);
-    void setRoomListWidth(int state);
+    void setSidebarsCommunitiesWidthPx(int state);
+    void setSidebarsRoomListWidthPx(int state);
     void setNotificationsEnabled(bool state);
     void setNotificationsAttentionOnIncoming(bool state);
     void setUiAvatarsCircular(bool state);
@@ -490,8 +490,8 @@ signals:
     void windowFocusBlurDelaySecondsChanged(int state);
     void uiLayoutContentMaxWidthPxChanged(int state);
     void timelineMessagesMaxWidthPxChanged(int state);
-    void roomListWidthChanged(int state);
-    void communityListWidthChanged(int state);
+    void sidebarsRoomListWidthPxChanged(int state);
+    void sidebarsCommunitiesWidthPxChanged(int state);
     void uiInputModeTouchEnabledChanged(bool mode);
     void uiInputTouchSwipeGesturesEnabledChanged(bool state);
     void scaleFactorChanged(double factor);

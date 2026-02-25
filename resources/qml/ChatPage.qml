@@ -53,8 +53,8 @@ Rectangle {
 
                 collapsedWidth: Math.max(communitiesList.avatarSize + 2 * Nheko.paddingMedium, 1)
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
-                preferredWidth: Settings.communityListWidth > collapsedWidth
-                                ? Settings.communityListWidth
+                preferredWidth: Settings.sidebarsCommunitiesWidthPx > collapsedWidth
+                                ? Settings.sidebarsCommunitiesWidthPx
                                 : collapsedWidth
                 visible: Settings.sidebarsCommunitiesVisible
 
@@ -65,7 +65,7 @@ Rectangle {
                 }
                 Binding {
                     delayed: true
-                    property: 'communityListWidth'
+                    property: 'sidebarsCommunitiesWidthPx'
                     restoreMode: Binding.RestoreBindingOrValue
                     target: Settings
                     value: communityListC.preferredWidth
@@ -77,7 +77,7 @@ Rectangle {
 
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
                 collapsedWidth: Math.max(roomlist.avatarSize + 2 * Nheko.paddingMedium, 1)
-                preferredWidth: Math.max(Settings.roomListWidth, collapsedWidth)
+                preferredWidth: Math.max(Settings.sidebarsRoomListWidthPx, collapsedWidth)
 
                 RoomList {
                     id: roomlist
@@ -87,7 +87,7 @@ Rectangle {
                 }
                 Binding {
                     delayed: true
-                    property: 'roomListWidth'
+                    property: 'sidebarsRoomListWidthPx'
                     restoreMode: Binding.RestoreBindingOrValue
                     target: Settings
                     value: roomListC.preferredWidth

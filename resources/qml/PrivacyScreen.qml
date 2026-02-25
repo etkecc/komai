@@ -11,7 +11,7 @@ import QtQuick.Effects
 Item {
     id: windowFocusBlurOverlay
 
-    readonly property bool active: Settings.windowFocusBlurEnabled && screenSaver.state === "Visible"
+    readonly property bool active: Settings.privacyWindowFocusBlurEnabled && screenSaver.state === "Visible"
     property int screenTimeout
     property var timelineRoot
     required property var windowTarget

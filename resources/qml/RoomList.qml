@@ -838,9 +838,9 @@ Page {
                     id: windowFocusBlurOverlay
 
                     anchors.fill: parent
-                    screenTimeout: Settings.windowFocusBlurDelaySeconds
+                    screenTimeout: Settings.privacyWindowFocusBlurDelaySeconds
                     timelineRoot: timeline
-                    visible: Settings.windowFocusBlurEnabled
+                    visible: Settings.privacyWindowFocusBlurEnabled
                     windowTarget: roomWindowW
                 }
             }

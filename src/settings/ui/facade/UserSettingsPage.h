@@ -112,10 +112,11 @@ class UserSettings final : public QObject
                  setTimelineMediaEffectsEnabled NOTIFY timelineMediaEffectsEnabledChanged)
     Q_PROPERTY(bool uiMotionAnimationsEnabled READ uiMotionAnimationsEnabled WRITE
                  setUiMotionAnimationsEnabled NOTIFY uiMotionAnimationsEnabledChanged)
-    Q_PROPERTY(bool windowFocusBlurEnabled READ windowFocusBlurEnabled WRITE
-                 setWindowFocusBlurEnabled NOTIFY windowFocusBlurEnabledChanged)
-    Q_PROPERTY(int windowFocusBlurDelaySeconds READ windowFocusBlurDelaySeconds WRITE
-                 setWindowFocusBlurDelaySeconds NOTIFY windowFocusBlurDelaySecondsChanged)
+    Q_PROPERTY(bool privacyWindowFocusBlurEnabled READ privacyWindowFocusBlurEnabled WRITE
+                 setPrivacyWindowFocusBlurEnabled NOTIFY privacyWindowFocusBlurEnabledChanged)
+    Q_PROPERTY(
+      int privacyWindowFocusBlurDelaySeconds READ privacyWindowFocusBlurDelaySeconds WRITE
+        setPrivacyWindowFocusBlurDelaySeconds NOTIFY privacyWindowFocusBlurDelaySecondsChanged)
     Q_PROPERTY(int uiLayoutContentMaxWidthPx READ uiLayoutContentMaxWidthPx WRITE
                  setUiLayoutContentMaxWidthPx NOTIFY uiLayoutContentMaxWidthPxChanged)
     Q_PROPERTY(int timelineMessagesMaxWidthPx READ timelineMessagesMaxWidthPx WRITE
@@ -371,8 +372,8 @@ public:
     void setSidebarsRoomListLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
     void setUiMotionAnimationsEnabled(bool state);
-    void setWindowFocusBlurEnabled(bool state);
-    void setWindowFocusBlurDelaySeconds(int state);
+    void setPrivacyWindowFocusBlurEnabled(bool state);
+    void setPrivacyWindowFocusBlurDelaySeconds(int state);
     void setNetworkPresenceStatusPolicy(Presence state);
     void setTimelineMediaImageDisplay(ShowImage state);
     void setCallsAudioRingtone(QString callsAudioRingtone);
@@ -488,8 +489,8 @@ signals:
     void sidebarsRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);
     void uiMotionAnimationsEnabledChanged(bool state);
-    void windowFocusBlurEnabledChanged(bool state);
-    void windowFocusBlurDelaySecondsChanged(int state);
+    void privacyWindowFocusBlurEnabledChanged(bool state);
+    void privacyWindowFocusBlurDelaySecondsChanged(int state);
     void uiLayoutContentMaxWidthPxChanged(int state);
     void timelineMessagesMaxWidthPxChanged(int state);
     void sidebarsRoomListWidthPxChanged(int state);

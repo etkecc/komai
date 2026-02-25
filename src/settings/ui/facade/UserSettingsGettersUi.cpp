@@ -128,23 +128,23 @@ UserSettings::uiMotionAnimationsEnabled() const
 }
 
 bool
-UserSettings::windowFocusBlurEnabled() const
+UserSettings::privacyWindowFocusBlurEnabled() const
 {
     if (const auto value =
           coreStore_.valueAs<bool>(settings::core::SettingId::PrivacyWindowFocusBlurEnabled);
         value.has_value())
         return *value;
-    return windowFocusBlurEnabled_;
+    return privacyWindowFocusBlurEnabled_;
 }
 
 int
-UserSettings::windowFocusBlurDelaySeconds() const
+UserSettings::privacyWindowFocusBlurDelaySeconds() const
 {
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds);
         value.has_value())
         return *value;
-    return windowFocusBlurDelaySeconds_;
+    return privacyWindowFocusBlurDelaySeconds_;
 }
 
 UserSettings::RoomSortOrder

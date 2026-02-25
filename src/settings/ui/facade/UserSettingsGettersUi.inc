@@ -13,8 +13,8 @@
     LastMessagePreview sidebarsRoomListLastMessagePreview() const;
     bool timelineMediaEffectsEnabled() const;
     bool uiMotionAnimationsEnabled() const;
-    bool windowFocusBlurEnabled() const;
-    int windowFocusBlurDelaySeconds() const;
+    bool privacyWindowFocusBlurEnabled() const;
+    int privacyWindowFocusBlurDelaySeconds() const;
     bool composerInputMarkdownEnabled() const;
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;

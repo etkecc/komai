@@ -6,14 +6,14 @@
     // PrivacyWindowFocusBlur
     SIMPLE_BOOL_CONFIG_ID_SETTING("Blur on focus loss",
                         QT_TR_NOOP("Blur the timeline when the app loses window focus."),
-                        SM::TabPrivacy, windowFocusBlurEnabled, setWindowFocusBlurEnabled, nullptr, PrivacyWindowFocusBlurEnabled, SettingKey::PrivacyWindowFocusBlurEnabled),
+                        SM::TabPrivacy, privacyWindowFocusBlurEnabled, setPrivacyWindowFocusBlurEnabled, nullptr, PrivacyWindowFocusBlurEnabled, SettingKey::PrivacyWindowFocusBlurEnabled),
     // PrivacyWindowFocusBlurDelaySeconds
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
       "Blur delay (seconds)",
       QT_TR_NOOP(
         "Set how long after focus loss before blurring starts. Set 0 to blur immediately. Maximum is 3600 seconds (1 hour)."),
-      SM::TabPrivacy, windowFocusBlurDelaySeconds, setWindowFocusBlurDelaySeconds, 0, 3600, 10,
-      nullptr, windowFocusBlurDelaySecondsEnabled, PrivacyWindowFocusBlurDelaySeconds, SettingKey::PrivacyWindowFocusBlurDelaySeconds),
+      SM::TabPrivacy, privacyWindowFocusBlurDelaySeconds, setPrivacyWindowFocusBlurDelaySeconds, 0, 3600, 10,
+      nullptr, privacyWindowFocusBlurDelaySecondsEnabled, PrivacyWindowFocusBlurDelaySeconds, SettingKey::PrivacyWindowFocusBlurDelaySeconds),
     // PrivacyDataSection
     { QT_TR_NOOP("Data & maintenance"), nullptr, SM::SectionTitle, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

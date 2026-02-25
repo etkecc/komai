@@ -324,25 +324,25 @@ UserSettings::setUiMotionAnimationsEnabled(bool state)
 }
 
 void
-UserSettings::setWindowFocusBlurEnabled(bool s)
+UserSettings::setPrivacyWindowFocusBlurEnabled(bool s)
 {
-    if (windowFocusBlurEnabled_ == s)
+    if (privacyWindowFocusBlurEnabled_ == s)
         return;
-    windowFocusBlurEnabled_ = s;
+    privacyWindowFocusBlurEnabled_ = s;
     (void)coreStore_.set(settings::core::SettingId::PrivacyWindowFocusBlurEnabled, s);
-    emit windowFocusBlurEnabledChanged(s);
+    emit privacyWindowFocusBlurEnabledChanged(s);
     save();
 }
 void
-UserSettings::setWindowFocusBlurDelaySeconds(int s)
+UserSettings::setPrivacyWindowFocusBlurDelaySeconds(int s)
 {
-    if (windowFocusBlurDelaySeconds_ == s)
+    if (privacyWindowFocusBlurDelaySeconds_ == s)
         return;
     if (!setCoreValue(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds,
                       s,
                       SettingKey::PrivacyWindowFocusBlurDelaySeconds))
         return;
-    windowFocusBlurDelaySeconds_ = s;
-    emit windowFocusBlurDelaySecondsChanged(s);
+    privacyWindowFocusBlurDelaySeconds_ = s;
+    emit privacyWindowFocusBlurDelaySecondsChanged(s);
     save();
 }

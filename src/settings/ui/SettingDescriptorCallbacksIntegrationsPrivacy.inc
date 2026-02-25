@@ -87,8 +87,8 @@ privacyPresenceStatusPolicyValues()
 }
 
 static bool
-windowFocusBlurDelaySecondsEnabled()
+privacyWindowFocusBlurDelaySecondsEnabled()
 {
     auto i = I;
-    return i && i->windowFocusBlurEnabled();
+    return i && i->privacyWindowFocusBlurEnabled();
 }

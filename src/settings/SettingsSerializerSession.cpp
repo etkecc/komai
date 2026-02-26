@@ -12,6 +12,7 @@
 #include <spdlog/logger.h>
 
 #include "settings/SettingKeys.h"
+#include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -76,6 +77,7 @@ saveSession(const UserSettings &settings, const QString &sessionFilePath)
     }
 
     YAML::Node root(YAML::NodeType::Map);
+    settings::migrations::stampCurrentSessionSchemaVersion(root);
     setNode(root, SettingKey::SessionAccountUserId, settings.userId().toStdString());
     setNode(root, SettingKey::SessionAccountHomeserver, settings.homeserver().toStdString());
     setNode(root, SettingKey::SessionDeviceId, settings.deviceId().toStdString());

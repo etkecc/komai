@@ -27,23 +27,7 @@ saveProfileSecrets(const QString &profile,
 {
     auto secretsWithSessionMetadata = secrets;
     detail::storeInternalSessionMetadata(
-      secretsWithSessionMetadata, sessionUserId, sessionDeviceId, sessionHomeserver);
-
-    if (usesFileSecretsProvider) {
-        YAML::Node root(YAML::NodeType::Map);
-        yaml_settings::setNode(
-          root, SettingKey::SecretsFileAuthAccessToken, accessToken.toStdString());
-        yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, secretsWithSessionMetadata);
-
-        if (settings::storage::writeYamlFile(secretsFilePath, root, true)) {
-            activeLoggers().ui->debug("Saved secrets to: {}", secretsFilePath.toStdString());
-        }
-        return;
-    }
-
-    const auto accessTokenKey =
-      settings::storage::secureStoreKey(profile, SecureStoreAccessTokenKey);
-    const auto secretsKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
+      secretsWithSessionMetadata, accessToken, sessionUserId, sessionDeviceId, sessionHomeserver);
     QMap<QString, QString> nonEmptySecrets = secretsWithSessionMetadata;
 
     for (auto it = nonEmptySecrets.begin(); it != nonEmptySecrets.end();) {
@@ -53,10 +37,17 @@ saveProfileSecrets(const QString &profile,
             ++it;
     }
 
-    if (accessToken.isEmpty())
-        settings::storage::deleteSecureValue(accessTokenKey);
-    else
-        settings::storage::writeSecureValue(accessTokenKey, accessToken);
+    if (usesFileSecretsProvider) {
+        YAML::Node root(YAML::NodeType::Map);
+        yaml_settings::writeStringMap(root, SettingKey::SecretsFileMap, nonEmptySecrets);
+
+        if (settings::storage::writeYamlFile(secretsFilePath, root, true)) {
+            activeLoggers().ui->debug("Saved secrets to: {}", secretsFilePath.toStdString());
+        }
+        return;
+    }
+
+    const auto secretsKey = settings::storage::secureStoreKey(profile, SecureStoreSecretsKey);
 
     if (nonEmptySecrets.isEmpty())
         settings::storage::deleteSecureValue(secretsKey);

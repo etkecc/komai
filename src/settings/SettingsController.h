@@ -57,9 +57,18 @@ public:
 
     /**
      * Load profile-local settings into the provided UserSettings instance.
+     * This path is read-only and never writes settings files.
      */
     void load(UserSettings &settings, std::optional<QString> profile);
     void load(UserSettings &settings, std::optional<QString> profile, const YAML::Node &configRoot);
+    /**
+     * Load settings, apply in-memory migration steps, and persist migrated roots
+     * when needed (for example version bump writeback or first-file initialization).
+     */
+    void loadAndMigrate(UserSettings &settings, std::optional<QString> profile);
+    void loadAndMigrate(UserSettings &settings,
+                        std::optional<QString> profile,
+                        const YAML::Node &configRoot);
     /**
      * Persist the provided UserSettings instance to all backing stores.
      */

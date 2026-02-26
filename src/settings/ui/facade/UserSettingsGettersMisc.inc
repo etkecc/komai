@@ -23,6 +23,7 @@
     qulonglong dbMaxSizeBytes() const;
     uint dbMaxStores() const;
     bool usesFileSecretsProvider() const;
+    bool secretsProviderFallbackWarningVisible() const;
     bool networkHttp3Enabled() const;
     settings::core::SettingsStore &mutableCoreStore();
     const settings::core::SettingsStore &coreStore() const;

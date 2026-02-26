@@ -1,6 +1,6 @@
 # Prek Local Hook Wrappers ✅
 
-This directory holds local wrapper scripts used by [`prek`](https://prek.j178.dev/) hooks; see [`docs/development.md`](../../docs/development.md) for the day-to-day lint/test flow.
+This directory holds local wrapper scripts used by [`prek`](https://prek.j178.dev/) hooks; see [`docs/maintainers/development.md`](../../docs/maintainers/development.md) for the day-to-day lint/test flow.
 
 Quick orientation:
 
@@ -38,5 +38,5 @@ Tool references:
 
 Related docs:
 
-- [`docs/development.md`](../../docs/development.md)
+- [`docs/maintainers/development.md`](../../docs/maintainers/development.md)
 - [`docs/architecture/settings/README.md`](../../docs/architecture/settings/README.md)

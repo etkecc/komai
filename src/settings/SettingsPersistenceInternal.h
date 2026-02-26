@@ -11,6 +11,7 @@ namespace settings::persistence::detail {
 
 void
 storeInternalSessionMetadata(QMap<QString, QString> &secrets,
+                             const QString &accessToken,
                              const QString &userId,
                              const QString &deviceId,
                              const QString &homeserver);

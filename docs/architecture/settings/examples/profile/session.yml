@@ -1,5 +1,8 @@
 # Sample profile session.yml (account/session metadata)
 
+meta:
+  settings_schema_version: 1
+
 session:
   account:
     user_id: "@alice:example.org"

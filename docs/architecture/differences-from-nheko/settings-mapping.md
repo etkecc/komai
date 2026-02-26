@@ -106,7 +106,7 @@ Note:
 | Session | ACCOUNT | Profile | `UserSettingsModel::Profile` | `-` | `session.profile.name` | runtime only | no |
 | Session | DEVICE | Device ID | `UserSettingsModel::DeviceId` | `device_id` | `session.device.id` | session.yml | yes |
 | Session | DEVICE | Device fingerprint | `UserSettingsModel::DeviceFingerprint` | `-` | `session.device.fingerprint` | derived/runtime | no |
-| Session | DEVICE | Access token | `UserSettingsModel::AccessToken` | `access_token` | `auth.access_token` | secret backend (fallback: secrets.yml) | yes (secret backend; file fallback only) |
+| Session | DEVICE | Access token | `UserSettingsModel::AccessToken` | `access_token` | `secrets.__session.access_token` | secret backend (fallback: secrets.yml) | yes (stored inside `session.secrets` payload) |
 | Session | ACTIONS | Log out | `UserSettingsModel::Logout` | `-` | `session.actions.logout` | action only | no |
 | About | APPLICATION | Name | `UserSettingsModel::AppName` | `-` | `about.application.name` | derived/runtime | no |
 | About | APPLICATION | Platform | `UserSettingsModel::Platform` | `-` | `about.application.platform` | derived/runtime | no |

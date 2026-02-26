@@ -40,7 +40,7 @@ When making changes to C++/QML files, always run `just build` to verify the buil
 Before committing, run `just lint` (or rely on git hook + CI running the same `.pre-commit-config.yaml` hooks via `prek`).
 For C++/header/QML changes, `prek` also runs unit tests via `bin/prek/tests.sh`.
 
-See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
+See [docs/maintainers/packaging/native.md](docs/maintainers/packaging/native.md) for build dependencies.
 
 
 ## Key Source Locations
@@ -49,7 +49,7 @@ See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 - `src/settings/ui/facade/UserSettingsPage.cpp` / `.h` -- User settings Qt properties and facade logic
 - Settings stored per profile in `~/.config/komai/profiles/<profile-id>/` (`<profile-id>` is the `-p` profile identifier)
 - Main files: `config.yml`, `state.yml`, `session.yml`, and `secrets.yml` (file-provider fallback only)
-- User-facing settings docs: `docs/settings.md`
+- User-facing settings docs: `docs/user-guide/settings/README.md`
 - See [docs/architecture/settings/README.md](docs/architecture/settings/README.md) for details
 
 ### Room List (Sidebar)
@@ -64,7 +64,7 @@ See [docs/packaging/native.md](docs/packaging/native.md) for build dependencies.
 ### Themes
 - `resources/themes/*.yml` -- Theme definitions (colors, styles)
 - `src/ui/Theme.cpp` / `.h` -- Theme loading and application
-- See [docs/themes.md](docs/themes.md) for theme format
+- See [docs/user-guide/themes.md](docs/user-guide/themes.md) for theme format
 
 ### Icons
 - `resources/icons/ui/*.svg` -- UI icon assets (mostly Fluent-derived + some Komai-authored icons)
@@ -103,7 +103,7 @@ Access via `Nheko.theme.*`:
 
 - [docs/README.md](docs/README.md) -- User/docs index
 - [docs/architecture/README.md](docs/architecture/README.md) -- Technical docs index (start here, then open only task-relevant pages)
-- [docs/differences-from-nheko.md](docs/differences-from-nheko.md) -- What makes Komai different
+- [docs/user-guide/differences-from-nheko.md](docs/user-guide/differences-from-nheko.md) -- What makes Komai different
 
 ## Icon Change Checklist
 

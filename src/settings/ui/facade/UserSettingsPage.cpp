@@ -80,14 +80,14 @@ void
 UserSettings::load(std::optional<QString> profile)
 {
     settings::SettingsController controller;
-    controller.load(*this, profile);
+    controller.loadAndMigrate(*this, profile);
 }
 
 void
 UserSettings::load(std::optional<QString> profile, const YAML::Node &configRoot)
 {
     settings::SettingsController controller;
-    controller.load(*this, profile, configRoot);
+    controller.loadAndMigrate(*this, profile, configRoot);
 }
 
 void

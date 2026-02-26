@@ -10,7 +10,8 @@ namespace SettingKey {
  * Canonical dotted keys used by settings load/save and migration-safe reads.
  */
 // config.yml
-constexpr auto ConfigSchemaVersion              = "meta.settings_schema_version";
+constexpr auto SchemaVersion                    = "meta.settings_schema_version";
+constexpr auto ConfigSchemaVersion              = SchemaVersion;
 constexpr auto IntegrationsSystemTrayEnabled    = "integrations.system_tray.enabled";
 constexpr auto IntegrationsSystemTrayAutostart  = "integrations.system_tray.autostart";
 constexpr auto UiThemeSlug                      = "ui.theme.slug";
@@ -86,6 +87,7 @@ constexpr auto IntegrationsBrowserCommand            = "integrations.browser.com
 constexpr auto SecretsProvider                       = "secrets.provider";
 
 // state.yml
+constexpr auto StateSchemaVersion                 = SchemaVersion;
 constexpr auto AppWindowSizeWidth                 = "app.window.size.width";
 constexpr auto AppWindowSizeHeight                = "app.window.size.height";
 constexpr auto SidebarsRoomListWidthPx            = "sidebars.room_list.width_px";
@@ -99,18 +101,17 @@ constexpr auto TimelineWidgetsHidden              = "timeline.widgets.hidden";
 constexpr auto ComposerReactionsRecent            = "composer.reactions.recent";
 
 // session.yml
+constexpr auto SessionSchemaVersion     = SchemaVersion;
 constexpr auto SessionAccountUserId     = "session.account.user_id";
 constexpr auto SessionAccountHomeserver = "session.account.homeserver";
 constexpr auto SessionDeviceId          = "session.device.id";
 
 // secrets.yml (file provider fallback only)
-constexpr auto SecretsFileAuthAccessToken = "auth.access_token";
-constexpr auto SecretsFileMap             = "secrets";
+constexpr auto SecretsFileMap = "secrets";
 } // namespace SettingKey
 
 constexpr int IntegrationsDbusAccessNone      = 0;
 constexpr int IntegrationsDbusAccessReadOnly  = 1;
 constexpr int IntegrationsDbusAccessReadWrite = 2;
 
-constexpr auto SecureStoreAccessTokenKey = "session.auth.access_token";
-constexpr auto SecureStoreSecretsKey     = "session.secrets";
+constexpr auto SecureStoreSecretsKey = "session.secrets";

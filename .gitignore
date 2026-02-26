@@ -3,7 +3,7 @@
 
 # Generated source artifacts
 # - src/ui/ThemeDefinitions.h is generated from resources/themes/*.yml
-#   via bin/theme/generate.py (see docs/themes.md and docs/architecture/themes.md).
+#   via bin/theme/generate.py (see docs/user-guide/themes.md and docs/architecture/themes.md).
 resources/complete-emoji.txt
 src/ui/ThemeDefinitions.h
 

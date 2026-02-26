@@ -81,7 +81,7 @@ just prek-run-on-staged
 just prek-run-on-all
 ```
 
-The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), theme checks, translation normalization checks, QML linting, and C++ unit tests (run on C++/header/QML changes).
+The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), Markdown link checks, theme checks, translation normalization checks, QML linting, and C++ unit tests (run on C++/header/QML changes).
 
 Note: QML linting expects Qt6 `qmllint`. If unavailable, it is skipped with a message.
 
@@ -113,12 +113,13 @@ Notes:
 - `just icons-sync [--dry-run]` - sync mirrored Fluent icons from pinned upstream ref
 - `just settings-3-layer-mapping-generate` - regenerate `docs/architecture/settings/3-layer-mapping.md` (`SettingId` ↔ runtime getter ↔ persisted key audit)
 - `just settings-3-layer-mapping-check` - check drift for that report without rewriting it
+- `just docs-check-links` - verify Markdown links point to existing local targets
 - `just license-check` - run REUSE compliance lint (skips when `reuse` is unavailable)
 - `just license-inject` - add SPDX headers to source files that currently lack them
 
 ## 📚 Related Docs
 
-- [Architecture](architecture/)
-- [Themes](themes.md)
+- [Architecture](../architecture/)
+- [Themes](../user-guide/themes.md)
 - [Translations](translations.md)
 - [Packaging](packaging/README.md)

@@ -182,6 +182,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(QString deviceId READ deviceId WRITE setDeviceId NOTIFY deviceIdChanged)
     Q_PROPERTY(QString homeserver READ homeserver WRITE setHomeserver NOTIFY homeserverChanged)
     Q_PROPERTY(bool hasActiveSession READ hasActiveSession NOTIFY sessionAuthStateChanged)
+    Q_PROPERTY(bool secretsProviderFallbackWarningVisible READ secretsProviderFallbackWarningVisible
+                 NOTIFY secretsProviderFallbackWarningVisibleChanged)
     Q_PROPERTY(bool networkTlsEnableCertificateValidation READ networkTlsEnableCertificateValidation
                  WRITE setNetworkTlsEnableCertificateValidation NOTIFY
                    networkTlsEnableCertificateValidationChanged)
@@ -437,6 +439,7 @@ public:
     void clearAuthInMemory();
     void notifyProfileChanged();
     void setUsesFileSecretsProvider(bool usesFileSecretsProvider);
+    void setSecretsProviderFallbackWarningVisible(bool visible);
     [[nodiscard]] bool hasResolvedProfilePaths() const;
     [[nodiscard]] const QString &profileId() const;
     [[nodiscard]] const QString &profileDirPath() const;
@@ -547,6 +550,7 @@ signals:
     void dbMaxSizeBytesChanged(qulonglong size);
     void dbMaxStoresChanged(uint count);
     void networkHttp3EnabledChanged(bool state);
+    void secretsProviderFallbackWarningVisibleChanged(bool visible);
     void sessionAuthStateChanged();
 
 private:

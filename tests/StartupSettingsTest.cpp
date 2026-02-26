@@ -79,6 +79,39 @@ private:
     settings::storage::ReaderWriterOverride writerOverride_{nullptr};
 };
 
+class ScopedEnvVar
+{
+public:
+    ScopedEnvVar(const char *name, const QByteArray &value)
+      : name_{name}
+      , previousValue_{qgetenv(name)}
+      , hadPreviousValue_{!previousValue_.isNull()}
+    {
+        set(value);
+    }
+
+    ~ScopedEnvVar()
+    {
+        if (hadPreviousValue_)
+            qputenv(name_.constData(), previousValue_);
+        else
+            qunsetenv(name_.constData());
+    }
+
+    void set(const QByteArray &value)
+    {
+        if (value.isNull())
+            qunsetenv(name_.constData());
+        else
+            qputenv(name_.constData(), value);
+    }
+
+private:
+    QByteArray name_;
+    QByteArray previousValue_;
+    bool hadPreviousValue_{false};
+};
+
 bool
 expect(bool condition, std::string_view message)
 {
@@ -251,6 +284,8 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     StartupSettingsTestContext ctx{profile};
     if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
+    ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
+                                    QByteArrayLiteral("unavailable")};
 
     const QString configFile = ctx.configFile();
     const QString stateFile  = ctx.stateFile();
@@ -304,12 +339,48 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
         return expect(false, "persistSessionSnapshot accepts complete session identity");
     }
 
-    return expect(settings::storage::pathExists(stateFile),
-                  "full persistence writes state.yml after complete snapshot") &&
-           expect(settings::storage::pathExists(sessionFile),
-                  "full persistence writes session.yml after complete snapshot") &&
-           expect(settings::storage::pathExists(secretsFile),
-                  "full persistence writes secrets.yml after complete snapshot");
+    const bool stateFileExists = settings::storage::pathExists(stateFile);
+    const bool sessionFileExists = settings::storage::pathExists(sessionFile);
+    const bool secretsFileExists = settings::storage::pathExists(secretsFile);
+
+    bool ok = true;
+    ok &= expect(stateFileExists, "full persistence writes state.yml after complete snapshot");
+    ok &= expect(sessionFileExists,
+                 "full persistence writes session.yml after complete snapshot");
+    ok &= expect(secretsFileExists,
+                 "full persistence writes secrets.yml after complete snapshot");
+    if (!ok)
+        return false;
+
+    const auto persistedState = settings::storage::loadYamlFile(stateFile, "state-stamp-check");
+    const auto persistedSession =
+      settings::storage::loadYamlFile(sessionFile, "session-stamp-check");
+    const auto persistedSecrets =
+      settings::storage::loadYamlFile(secretsFile, "secrets-structure-check");
+    ok &= expectScalarInt(persistedState,
+                          SettingKey::StateSchemaVersion,
+                          settings::migrations::kCurrentStateSchemaVersion,
+                          "first state.yml creation stamps current schema version");
+    ok &= expectScalarInt(persistedSession,
+                          SettingKey::SessionSchemaVersion,
+                          settings::migrations::kCurrentSessionSchemaVersion,
+                          "first session.yml creation stamps current schema version");
+    const auto legacyAccessTokenNode =
+      yaml_settings::getNode(persistedSecrets, "auth.access_token");
+    ok &= expect(!legacyAccessTokenNode || legacyAccessTokenNode.IsNull(),
+                 "secrets.yml no longer stores legacy auth.access_token field");
+    const auto persistedSecretsMap =
+      yaml_settings::readStringMap(persistedSecrets, SettingKey::SecretsFileMap);
+    ok &= expect(persistedSecretsMap.value(QStringLiteral("__session.access_token")) ==
+                   QStringLiteral("token"),
+                 "secrets.yml stores access token in internal secrets map key");
+    UserSettings::initialize(profile);
+    const auto reloadedSettings = UserSettings::instance();
+    if (!reloadedSettings)
+        return expect(false, "UserSettings instance is available after reload");
+    ok &= expect(reloadedSettings->accessToken() == QStringLiteral("token"),
+                 "access token reloads from internal secrets map key");
+    return ok;
 }
 
 bool
@@ -319,6 +390,8 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     StartupSettingsTestContext ctx{profile};
     if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
+    ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
+                                    QByteArrayLiteral("unavailable")};
 
     const QString configFile = ctx.configFile();
     const QString stateFile  = ctx.stateFile();
@@ -356,6 +429,155 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
                     !settings::storage::pathExists(sessionFile) &&
                     !settings::storage::pathExists(secretsFile),
                   "theme change does not create state/session/secrets files");
+}
+
+bool
+testStartupSecretsProviderAutoSelectAndWelcomeUpgrade()
+{
+    const QString profile = QStringLiteral("startup-secrets-provider-auto-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "startup secrets auto-select fixture root can be created");
+
+    ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
+                                    QByteArrayLiteral("unavailable")};
+
+    UserSettings::initialize(profile);
+    auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for startup auto-select test");
+
+    bool ok = true;
+    ok &= expect(settings->usesFileSecretsProvider(),
+                 "missing secure backend on new profile selects file secrets provider");
+    ok &= expect(settings->secretsProviderFallbackWarningVisible(),
+                 "welcome warning is visible when file provider is used as fallback");
+    ok &= expect(!settings->hasActiveSession(),
+                 "startup auto-select fixture remains in pre-auth welcome flow");
+    if (!ok)
+        return false;
+
+    auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "startup-auto-select-config");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::SecretsProvider,
+                             QString::fromLatin1(staged_load_plan::ProviderFileValue),
+                             "new profile persists file provider when secure backend is unavailable");
+    if (!ok)
+        return false;
+
+    forcedAvailability.set(QByteArrayLiteral("available"));
+    UserSettings::initialize(profile);
+    settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available after startup auto-upgrade");
+
+    ok &= expect(!settings->usesFileSecretsProvider(),
+                 "pre-auth relaunch upgrades provider to secret_service when backend returns");
+    ok &= expect(!settings->secretsProviderFallbackWarningVisible(),
+                 "welcome warning is hidden after pre-auth provider upgrade");
+    configRoot = settings::storage::loadYamlFile(ctx.configFile(), "startup-auto-upgrade-config");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::SecretsProvider,
+                             QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue),
+                             "pre-auth relaunch persists upgraded secret_service provider");
+    return ok;
+}
+
+bool
+testStartupSecretsProviderDoesNotSwitchAfterActiveSession()
+{
+    const QString profile = QStringLiteral("startup-secrets-provider-active-session-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "startup secrets active-session fixture root can be created");
+
+    ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
+                                    QByteArrayLiteral("unavailable")};
+
+    UserSettings::initialize(profile);
+    auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for active-session test");
+    if (!expect(settings->usesFileSecretsProvider(),
+                "active-session fixture starts with file provider fallback"))
+        return false;
+
+    settings->setPersistenceSuspended(false);
+    if (!settings->persistSessionSnapshot(
+          UserSettings::SessionSnapshot{.userId      = QStringLiteral("@alice:example.org"),
+                                       .accessToken = QStringLiteral("token"),
+                                       .deviceId    = QStringLiteral("DEVICE1"),
+                                       .homeserver  = QStringLiteral("https://example.org")})) {
+        return expect(false, "persistSessionSnapshot succeeds for active-session fixture");
+    }
+
+    forcedAvailability.set(QByteArrayLiteral("available"));
+    UserSettings::initialize(profile);
+    settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available after active-session relaunch");
+
+    bool ok = true;
+    ok &= expect(settings->hasActiveSession(), "fixture reload keeps active session");
+    ok &= expect(settings->usesFileSecretsProvider(),
+                 "active session keeps configured file provider despite secure backend availability");
+    ok &= expect(!settings->secretsProviderFallbackWarningVisible(),
+                 "welcome fallback warning is hidden for active sessions");
+
+    const auto configRoot = settings::storage::loadYamlFile(ctx.configFile(), "active-session-config");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::SecretsProvider,
+                             QString::fromLatin1(staged_load_plan::ProviderFileValue),
+                             "active-session relaunch does not rewrite configured provider");
+    return ok;
+}
+
+bool
+testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists()
+{
+    const QString profile = QStringLiteral("startup-secrets-provider-session-identity-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "startup secrets session-identity fixture root can be created");
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["secrets"]["provider"] = staged_load_plan::ProviderSecretServiceValue;
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "session-identity fixture config can be persisted");
+
+    YAML::Node sessionRoot(YAML::NodeType::Map);
+    sessionRoot["session"]["account"]["user_id"]    = "@alice:example.org";
+    sessionRoot["session"]["account"]["homeserver"] = "https://example.org";
+    sessionRoot["session"]["device"]["id"]          = "DEVICE1";
+    if (!ctx.writeSession(sessionRoot))
+        return expect(false, "session-identity fixture session can be persisted");
+
+    ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
+                                    QByteArrayLiteral("unavailable")};
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for session-identity test");
+
+    bool ok = true;
+    ok &= expect(settings->hasPersistedSessionIdentity(),
+                 "fixture keeps persisted session identity from session.yml");
+    ok &= expect(!settings->hasActiveSession(),
+                 "missing secure token keeps session inactive in session-identity fixture");
+    ok &= expect(!settings->usesFileSecretsProvider(),
+                 "startup auto-selection does not switch provider when session identity exists");
+    ok &= expect(!settings->secretsProviderFallbackWarningVisible(),
+                 "welcome fallback warning is hidden when provider auto-switch is blocked");
+
+    const auto persistedConfig =
+      settings::storage::loadYamlFile(ctx.configFile(), "session-identity-config");
+    ok &= expectScalarString(
+      persistedConfig,
+      SettingKey::SecretsProvider,
+      QString::fromLatin1(staged_load_plan::ProviderSecretServiceValue),
+      "session-identity startup keeps configured secret_service provider");
+    return ok;
 }
 
 bool
@@ -652,6 +874,45 @@ testConfigSchemaVersionIsStampedOnSave()
 }
 
 bool
+testNewProfileConfigIsStampedOnInitialLoad()
+{
+    const QString profile = QStringLiteral("new-profile-config-schema-stamp-on-load");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "new profile schema-stamp fixture root can be created");
+
+    const QString configFile  = ctx.configFile();
+    const QString stateFile   = ctx.stateFile();
+    const QString sessionFile = ctx.sessionFile();
+    const QString secretsFile = ctx.secretsFile();
+
+    settings::storage::removePath(configFile);
+    settings::storage::removePath(stateFile);
+    settings::storage::removePath(sessionFile);
+    settings::storage::removePath(secretsFile);
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for new profile schema stamp test");
+
+    bool ok = true;
+    ok &= expect(settings::storage::pathExists(configFile),
+                 "new profile initializes config.yml during initial load");
+    const auto persisted = settings::storage::loadYamlFile(configFile, "new-profile-config");
+    ok &= expectScalarInt(
+      persisted,
+      SettingKey::ConfigSchemaVersion,
+      settings::migrations::kCurrentConfigSchemaVersion,
+      "new profile config is stamped with current schema version");
+    ok &= expect(!settings::storage::pathExists(stateFile) &&
+                   !settings::storage::pathExists(sessionFile) &&
+                   !settings::storage::pathExists(secretsFile),
+                 "initial profile load stamps config only (no state/session/secrets writes)");
+    return ok;
+}
+
+bool
 testConfigMigrationStampsVersionWhenMissing()
 {
     YAML::Node configRoot(YAML::NodeType::Map);
@@ -749,6 +1010,59 @@ testConfigMigrationClampsNegativeSchemaVersion()
 }
 
 bool
+testStateAndSessionMigrationWritebackOnLoad()
+{
+    const QString profile = QStringLiteral("state-session-migration-writeback-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "state/session migration fixture root can be created");
+
+    YAML::Node configRoot(YAML::NodeType::Map);
+    configRoot["ui"]["theme"]["slug"] = "komai-light";
+    if (!ctx.writeConfig(configRoot))
+        return expect(false, "state/session migration fixture config can be persisted");
+
+    YAML::Node sessionRoot(YAML::NodeType::Map);
+    sessionRoot["session"]["account"]["user_id"]    = "@alice:example.org";
+    sessionRoot["session"]["account"]["homeserver"] = "https://example.org";
+    sessionRoot["session"]["device"]["id"]          = "DEVICE1";
+    if (!ctx.writeSession(sessionRoot))
+        return expect(false, "state/session migration fixture session can be persisted");
+
+    YAML::Node stateRoot(YAML::NodeType::Map);
+    stateRoot["app"]["window"]["size"]["width"]  = 1440;
+    stateRoot["app"]["window"]["size"]["height"] = 900;
+    if (!ctx.writeState(stateRoot))
+        return expect(false, "state/session migration fixture state can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for migration writeback test");
+
+    bool ok = true;
+    ok &= expect(settings->userId() == QStringLiteral("@alice:example.org"),
+                 "session migration keeps existing user id");
+    ok &= expect(settings->windowWidth() == 1440, "state migration keeps existing window width");
+    if (!ok)
+        return false;
+
+    const auto persistedSession = settings::storage::loadYamlFile(
+      ctx.sessionFile(), "state-session-migration-writeback-session");
+    const auto persistedState =
+      settings::storage::loadYamlFile(ctx.stateFile(), "state-session-migration-writeback-state");
+    ok &= expectScalarInt(persistedSession,
+                          SettingKey::SessionSchemaVersion,
+                          settings::migrations::kCurrentSessionSchemaVersion,
+                          "session migration writeback stamps current schema version");
+    ok &= expectScalarInt(persistedState,
+                          SettingKey::StateSchemaVersion,
+                          settings::migrations::kCurrentStateSchemaVersion,
+                          "state migration writeback stamps current schema version");
+    return ok;
+}
+
+bool
 testMalformedFileSecretsPayloadFallsBackSafely()
 {
     const QString profile = QStringLiteral("malformed-file-secrets-payload-profile");
@@ -769,8 +1083,7 @@ testMalformedFileSecretsPayloadFallsBackSafely()
         return expect(false, "malformed file secrets fixture session can be persisted");
 
     YAML::Node secretsRoot(YAML::NodeType::Map);
-    secretsRoot["auth"]["access_token"] = YAML::Node(YAML::NodeType::Sequence);
-    secretsRoot["secrets"]              = "not-a-map";
+    secretsRoot["secrets"] = "not-a-map";
     if (!settings::storage::writeYamlFile(ctx.secretsFile(), secretsRoot, false))
         return expect(false, "malformed file secrets fixture payload can be persisted");
 
@@ -1200,6 +1513,9 @@ main()
     ok &= testCoreScaleRangeHelpers();
     ok &= testStartupPolicySkipsSessionWritesUntilCompleteSession();
     ok &= testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets();
+    ok &= testStartupSecretsProviderAutoSelectAndWelcomeUpgrade();
+    ok &= testStartupSecretsProviderDoesNotSwitchAfterActiveSession();
+    ok &= testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists();
     ok &= testEnumSettingsPersistAsStrings();
     ok &= testInvalidConfigTokensFallbackToSafeValues();
     ok &= testInvalidStateDimensionsFallbackToSafeValues();
@@ -1207,10 +1523,12 @@ main()
     ok &= testMalformedSessionIdentityValuesFallbackToEmpty();
     ok &= testSessionAuthStateHelpersForIncompleteLogin();
     ok &= testConfigSchemaVersionIsStampedOnSave();
+    ok &= testNewProfileConfigIsStampedOnInitialLoad();
     ok &= testConfigMigrationStampsVersionWhenMissing();
     ok &= testConfigMigrationKeepsFutureVersionUntouched();
     ok &= testConfigMigrationNormalizesNonMapConfigRoot();
     ok &= testConfigMigrationClampsNegativeSchemaVersion();
+    ok &= testStateAndSessionMigrationWritebackOnLoad();
     ok &= testMalformedFileSecretsPayloadFallsBackSafely();
     ok &= testSerializerLoggerInjection();
     ok &= testSettingDescriptorReadSettingValueHelper();

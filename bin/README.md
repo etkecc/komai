@@ -1,6 +1,6 @@
 # Bin Scripts Toolkit 🧰
 
-This directory contains small operational scripts that support Komai development workflows. Start with [`docs/development.md`](../docs/development.md), then use [`just`](https://github.com/casey/just) + [`prek`](https://prek.j178.dev/) as the main entrypoints.
+This directory contains small operational scripts that support Komai development workflows. Start with [`docs/maintainers/development.md`](../docs/maintainers/development.md), then use [`just`](https://github.com/casey/just) + [`prek`](https://prek.j178.dev/) as the main entrypoints.
 
 Quick orientation (humans and agents):
 
@@ -16,6 +16,7 @@ The big picture:
 
 ## What Lives Here
 
+- [`docs/`](docs/README.md) - Markdown quality checks for documentation links.
 - [`emoji/`](emoji/README.md) - generate `src/emoji/Provider.{h,cpp}` from Unicode emoji data.
 - [`icons/`](icons/README.md) - icon audit and pinned Fluent sync helpers.
 - [`license/`](license/README.md) - REUSE license checks and SPDX header injection helpers.
@@ -38,6 +39,6 @@ External tools referenced here:
 
 Related docs:
 
-- [`docs/development.md`](../docs/development.md)
-- [`docs/themes.md`](../docs/themes.md)
-- [`docs/translations.md`](../docs/translations.md)
+- [`docs/maintainers/development.md`](../docs/maintainers/development.md)
+- [`docs/user-guide/themes.md`](../docs/user-guide/themes.md)
+- [`docs/maintainers/translations.md`](../docs/maintainers/translations.md)

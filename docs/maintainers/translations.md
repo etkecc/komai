@@ -7,7 +7,7 @@ To address this, Komai uses AI-assisted translation (via the [Claude CLI](https:
 
 ## 📂 Directory structure
 
-Translation files live in per-language directories under [`resources/langs/`](../resources/langs/):
+Translation files live in per-language directories under [`resources/langs/`](../../resources/langs/):
 
 ```
 resources/langs/
@@ -45,20 +45,20 @@ just translations-normalize --lang de  # single language
 
 ## 🤖 AI-powered translation
 
-The translation pipeline lives in [`bin/translations/translate.py`](../bin/translations/translate.py).
+The translation pipeline lives in [`bin/translations/translate.py`](../../bin/translations/translate.py).
 
 ### ⚙️ How it works
 
 1. The script parses a `.ts` file and extracts all `<translation type="unfinished">` entries
 2. It sends batches of source strings (with their QML/C++ context names) to Claude as JSON
-3. Claude returns translations following the rules in [`resources/langs/GUIDE.md`](../resources/langs/GUIDE.md)
+3. Claude returns translations following the rules in [`resources/langs/GUIDE.md`](../../resources/langs/GUIDE.md)
 4. The script injects translations back into the `.ts` file, removing the `type="unfinished"` attribute
 5. 💾 Each batch is saved immediately — safe to abort mid-run (Ctrl+C) without losing progress
 6. 🔁 Re-running the script only processes remaining unfinished strings
 
 ### 📝 Translation instructions
 
-The file [`resources/langs/GUIDE.md`](../resources/langs/GUIDE.md) is the system prompt given to Claude. It contains rules about preserving placeholders (`%1`, `%2`), HTML tags, XML entities, keyboard shortcuts, and untranslatable terms (Matrix, Komai, etc.).
+The file [`resources/langs/GUIDE.md`](../../resources/langs/GUIDE.md) is the system prompt given to Claude. It contains rules about preserving placeholders (`%1`, `%2`), HTML tags, XML entities, keyboard shortcuts, and untranslatable terms (Matrix, Komai, etc.).
 
 Optional per-language guides can be placed at `resources/langs/{LANGUAGE}/GUIDE.md` (e.g., `resources/langs/de/GUIDE.md` for German-specific instructions like formal/informal address). If present, they are appended to the general guide.
 
@@ -118,4 +118,4 @@ git add resources/langs/ && git commit -m "Update translations"
 - Very large batches may hit context limits. The default batch size of 75 works well in practice.
 - AI translations should be reviewed, especially for languages with complex grammar or honorific systems. Per-language `GUIDE.md` files can help steer Claude toward the right register.
 
-For technical details on why the system works the way it does (XML normalization, ElementTree vs regex, plural form limitations), see [architecture/translations.md](architecture/translations.md).
+For technical details on why the system works the way it does (XML normalization, ElementTree vs regex, plural form limitations), see [architecture/translations.md](../architecture/translations.md).

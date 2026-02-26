@@ -1,5 +1,8 @@
 # Sample profile state.yml (runtime/volatile UI state)
 
+meta:
+  settings_schema_version: 1
+
 app:
   window:
     size:

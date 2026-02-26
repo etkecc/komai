@@ -1,7 +1,7 @@
 # Theme System Architecture
 
 This document describes the technical pipeline for Komai's theme system.
-For user-facing documentation, see [docs/themes.md](../themes.md).
+For user-facing documentation, see [docs/user-guide/themes.md](../user-guide/themes.md).
 
 
 ## Pipeline overview

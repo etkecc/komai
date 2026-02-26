@@ -11,6 +11,7 @@
 #include <spdlog/logger.h>
 
 #include "settings/SettingKeys.h"
+#include "settings/SettingsMigrations.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
 #include "settings/core/SettingsDefinitions.h"
@@ -85,6 +86,7 @@ void
 saveState(const UserSettings &settings, const QString &stateFilePath)
 {
     YAML::Node root(YAML::NodeType::Map);
+    settings::migrations::stampCurrentStateSchemaVersion(root);
 
     setNode(root, SettingKey::AppWindowSizeWidth, settings.windowWidth());
     setNode(root, SettingKey::AppWindowSizeHeight, settings.windowHeight());

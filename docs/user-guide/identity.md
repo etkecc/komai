@@ -1,7 +1,7 @@
-## Identity
+## 🦁 Identity
 
 <p align="center">
-    <img src="../resources/komai.svg" alt="Komai logo" width="128" />
+    <img src="../../resources/komai.svg" alt="Komai logo" width="128" />
 </p>
 <h1 align="center">Komai (<a target="_blank" href="https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84">こまい</a>)</h1>
 <h2 align="center">A fine <a target="_blank" href="https://matrix.org/">Matrix</a> chat app you can get to love</h2>

@@ -2,7 +2,7 @@
 
 This document covers the technical design of the AI-assisted translation pipeline in `bin/translations/translate.py` and the decisions behind it.
 
-For user-facing workflow documentation, see [docs/translations.md](../translations.md).
+For user-facing workflow documentation, see [docs/maintainers/translations.md](../maintainers/translations.md).
 
 
 ## Qt .ts file format

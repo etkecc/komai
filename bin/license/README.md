@@ -1,6 +1,6 @@
 # License Tooling ⚖️
 
-This directory contains [`REUSE`](https://reuse.software/)-oriented helpers for source license metadata; operational context is in [`docs/development.md`](../../docs/development.md).
+This directory contains [`REUSE`](https://reuse.software/)-oriented helpers for source license metadata; operational context is in [`docs/maintainers/development.md`](../../docs/maintainers/development.md).
 
 Quick orientation:
 
@@ -45,4 +45,4 @@ The `license-check` hook is also used in `.pre-commit-config.yaml` and therefore
 
 Related docs:
 
-- [`docs/development.md`](../../docs/development.md)
+- [`docs/maintainers/development.md`](../../docs/maintainers/development.md)

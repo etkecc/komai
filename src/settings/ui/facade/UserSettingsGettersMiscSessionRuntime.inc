@@ -85,3 +85,9 @@ UserSettings::usesFileSecretsProvider() const
 {
     return usesFileSecretsProvider_;
 }
+
+bool
+UserSettings::secretsProviderFallbackWarningVisible() const
+{
+    return secretsProviderFallbackWarningVisible_;
+}

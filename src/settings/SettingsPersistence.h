@@ -34,6 +34,9 @@ activeLoggers();
  * Functions that bridge settings persistence across file-backed and secure-backend
  * storage. This layer owns provider selection, validation/normalization of
  * profile secret payloads, and serialization/deserialization of secrets.
+ *
+ * Access token and session identity metadata are stored in the secrets payload
+ * under internal `__session.*` keys for both providers.
  */
 struct SecretsPayload
 {

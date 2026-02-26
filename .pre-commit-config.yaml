@@ -69,6 +69,12 @@ repos:
         language: system
         files: '^(src/settings/core/SettingsDefinitionsPersisted.*\.inc|src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries.*\.inc|src/settings/SettingKeys\.h|bin/settings/settings-3-layer-mapping\.sh|docs/architecture/settings/3-layer-mapping\.md)$'
         pass_filenames: false
+      - id: check-markdown-links
+        name: Check Markdown links
+        entry: python3 bin/docs/check-links.py
+        language: system
+        files: '(^|/).+\.md$|^bin/docs/check-links\.py$'
+        pass_filenames: false
       - id: license-check
         name: REUSE license compliance check
         entry: ./bin/license/check.sh

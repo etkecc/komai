@@ -1,6 +1,6 @@
 # Translation Tooling 🌐
 
-This directory contains tooling for translation normalization and AI-assisted updates; see [`docs/translations.md`](../../docs/translations.md), [`docs/architecture/translations.md`](../../docs/architecture/translations.md), and the [`Claude CLI` docs](https://docs.anthropic.com/en/docs/claude-cli).
+This directory contains tooling for translation normalization and AI-assisted updates; see [`docs/maintainers/translations.md`](../../docs/maintainers/translations.md), [`docs/architecture/translations.md`](../../docs/architecture/translations.md), and the [`Claude CLI` docs](https://docs.anthropic.com/en/docs/claude-cli).
 
 ## Why It Exists
 
@@ -36,5 +36,5 @@ Qt `.ts` files are XML and easily drift in formatting. We also support increment
 
 Related docs:
 
-- [`docs/translations.md`](../../docs/translations.md)
+- [`docs/maintainers/translations.md`](../../docs/maintainers/translations.md)
 - [`docs/architecture/translations.md`](../../docs/architecture/translations.md)

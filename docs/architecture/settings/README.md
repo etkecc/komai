@@ -13,7 +13,7 @@ Responsibility split:
 - `settings::staged_load_plan` defines the load stages and how secrets-provider selection affects them.
 - `settings::persistence` handles secret-provider plumbing and serializing secret payloads.
 - `settings::storage` owns low-level file/keyring/YAML operations and profile path resolution.
-- `settings::migrations` owns schema-versioned config migration logic.
+- `settings::migrations` owns schema-versioned migration logic for `config.yml`, `state.yml`, and `session.yml`.
 - `settings::startup` owns startup-only reads that must happen before `Q(Core)Application` is created.
 
 Current ownership map:
@@ -56,7 +56,7 @@ Current ownership map:
 - `src/settings/SettingsStorage.*`
   - Profile pathing and direct file/secure-store I/O primitives.
 - `src/settings/SettingsMigrations.*`
-  - Config schema-version migration entry point and migration step chain.
+  - Settings schema-version migration entry points and migration step chain.
 - `src/settings/StartupSettings.*`, `src/settings/core/StartupConfig.*`
   - Bootstrap profile config preloading for startup-time scale-factor handling.
 - `src/settings/core/SettingDefinition.h`, `src/settings/core/SettingsDefinitions.h`, `src/settings/core/SettingsConstraints.h`
@@ -77,7 +77,8 @@ Settings flow:
   - `main.cpp` reads a startup snapshot via `settings::startup::readStartupConfig(...)` and passes the
     loaded `config.yml` node into `settings::SettingsController` to avoid duplicate config parsing.
   - `ThemeRegistry::initialize()` and logging are set up before UI creation.
-  - `UserSettings::load(profile)` calls `settings::SettingsController::load(...)`.
+  - `UserSettings::load(profile)` calls `settings::SettingsController::loadAndMigrate(...)`
+    (explicit migration writeback path).
   - Controller resolves profile paths, runs staged config/session/secret/state load, then applies theme.
 - runtime mutation:
   - QML delegates mutate through `UserSettingsModel` -> `UserSettings`.
@@ -137,6 +138,10 @@ Files:
 - `state.yml` - runtime/layout/window state
 - `session.yml` - account/session metadata (non-secret)
 - `secrets.yml` - file-provider fallback secrets (only when `secrets.provider=file`)
+
+Schema version key for versioned settings files:
+
+- `meta.settings_schema_version` (currently `1` for `config.yml`, `state.yml`, `session.yml`)
 
 Default profile id: `default`.
 
@@ -214,9 +219,9 @@ Load order is intentionally staged:
 
 This prevents secret-source ambiguity and allows provider selection before secret reads.
 
-Config migration note:
+Settings migration note:
 
-- after loading `config.yml`, `settings::migrations::migrateConfigRoot(...)` runs before config values are applied.
+- after loading `config.yml`, `state.yml`, and `session.yml`, matching migration entry points run before values are applied.
 - future schema versions are loaded best-effort with a warning.
 - unsupported migration paths are also warned and treated as partial migrations.
 
@@ -232,14 +237,22 @@ Startup nuance:
 - `secret_service` (default)
 - `file`
 
+Startup provider policy:
+
+- On first profile creation, Komai probes secure backend availability and writes the chosen provider to `config.yml` (`secret_service` when available, otherwise `file`).
+- If the profile is still pre-auth (no persisted session identity), startup re-evaluates secure backend availability and can switch providers before authentication.
+- Once a profile has an active session, startup keeps the configured provider and does not auto-fallback between providers.
+
 Behavior:
 
 - `secret_service`
-  - `session.auth.access_token` and `session.secrets` are stored in secure backend only
+  - `session.secrets` is stored in secure backend
+  - access token and session metadata are embedded in that secrets payload under internal keys (`__session.*`)
   - `session.yml` stores non-secret session metadata
   - `secrets.yml` is absent/unused
 - `file`
-  - `auth.access_token` and `secrets` are stored in `secrets.yml`
+  - `secrets` map is stored in `secrets.yml`
+  - access token and session metadata are embedded under internal keys (`__session.*`)
   - cache-side secret storage also uses this fallback map via `UserSettings::secret/setSecret/removeSecret`
 
 `secrets.yml` write permissions are restricted to owner read/write.
@@ -266,7 +279,6 @@ Namespaces:
 
 Examples:
 
-- `komai.<profile_hash>.settings.session.auth.access_token`
 - `komai.<profile_hash>.settings.session.secrets`
 - `komai.<profile_hash>.local_crypto.pickle_secret`
 
@@ -276,8 +288,9 @@ Legacy Base64 profile-hash IDs are intentionally not used.
 
 When `secrets.provider=file`, `secrets.yml` includes:
 
-- `auth.access_token: <token>`
-- `secrets:` map where keys are full secret IDs (`komai.<profile_hash>.<scope>.<name>`)
+- `secrets:` map with:
+  - internal `__session.*` entries for access token and session metadata
+  - full secret IDs (`komai.<profile_hash>.<scope>.<name>`) for regular secrets
 
 This keeps fallback and secure-backend key identity consistent.
 
@@ -305,8 +318,8 @@ The generated report includes:
 ## Notes
 
 - Canonical references are:
-  - [User Settings Guide](../../settings.md)
-  - [Storage Guide](../../storage.md)
+  - [User Settings Guide](../../user-guide/settings/README.md)
+  - [Storage Guide](../../user-guide/storage.md)
   - [this architecture document](README.md)
   - [settings migration playbook](migrations.md)
   - [Storage Architecture](../storage.md)

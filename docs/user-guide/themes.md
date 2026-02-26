@@ -1,13 +1,32 @@
 # 🎨 Themes
 
-Komai uses a data-driven theme system. Built-in themes are defined as YAML files in `resources/themes/` and compiled into the binary at build time. Each YAML file contains resolved QPalette-level colors directly — what you see in the YAML is what the app uses.
+Komai uses a data-driven theme system. Built-in themes are defined as YAML files in [`resources/themes/`](../../resources/themes/) and compiled into the binary at build time. Each YAML file contains resolved QPalette-level colors directly — what you see in the YAML is what the app uses.
 
 
 ## 🧰 Built-in themes
 
-Komai ships with several built-in themes (see `resources/themes/` for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Gruvbox, Nord, Solarized, and Tokyo Night.
+Komai ships with several built-in themes (see [`resources/themes/`](../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Gruvbox, Nord, Solarized, and Tokyo Night.
 
 A **System** option is also available, which uses your OS palette instead of a built-in theme.
+
+
+## ⚙️ Where Your Current Theme Choice Is Stored
+
+Komai stores the selected theme per profile in:
+
+- `~/.config/komai/profiles/<profile-id>/config.yml`
+- key: `ui.theme.slug`
+
+Example:
+
+```yaml
+ui:
+  theme:
+    slug: komai-dark
+```
+
+See [Settings: What Goes Where](settings/README.md#what-goes-where) for config semantics and
+[Settings: Profile Location](settings/README.md#profile-location) for profile paths.
 
 
 ## 🗂️ User themes
@@ -19,6 +38,7 @@ In addition to built-in themes, Komai loads custom theme YAML files at startup f
 3. `/usr/share/komai/themes/` — distro-packaged themes
 
 The filename (without the extension) becomes the theme slug. User themes appear in the Settings dropdown alongside built-in themes.
+For storage context, see [Storage Locations](storage.md#linux-paths).
 
 **Priority rules:**
 - Built-in themes always win over external themes with the same slug
@@ -54,7 +74,7 @@ just build
 
 ### ✍️ Hand-crafted themes
 
-Drop a `.yml` file into `resources/themes/` with all 20 palette keys and rebuild. The theme appears in Settings automatically.
+Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all 20 palette keys and rebuild. The theme appears in Settings automatically.
 
 
 ## 🧩 Theme YAML format
@@ -90,11 +110,11 @@ palette:
 
 Imported themes also include an optional `source_base16:` section with the original Base16 palette for reference. This section is ignored by the build.
 
-See [docs/architecture/themes.md](architecture/themes.md) for the technical pipeline details.
+See [docs/architecture/themes.md](../architecture/themes.md) for the technical pipeline details.
 
 
 ## ⚙️ How it works
 
-At build time, CMake runs `bin/theme/generate.py` which reads all `resources/themes/*.yml` files and generates `src/ui/ThemeDefinitions.h` — a C++ header containing a registry of all theme palettes with inline lookup functions. This header is gitignored as a build artifact.
+At build time, CMake runs [`bin/theme/generate.py`](../../bin/theme/generate.py) which reads all [`resources/themes/*.yml`](../../resources/themes/) files and generates `src/ui/ThemeDefinitions.h` — a C++ header containing a registry of all theme palettes with inline lookup functions. This header is gitignored as a build artifact.
 
 The `just generate-themes` recipe can also be used to regenerate the header manually.

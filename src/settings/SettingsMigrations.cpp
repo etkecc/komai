@@ -17,57 +17,53 @@ namespace settings::migrations {
 namespace {
 
 int
-readConfigSchemaVersion(const YAML::Node &configRoot)
+readSchemaVersion(const YAML::Node &root, const char *schemaVersionKey)
 {
-    return std::max(0,
-                    yaml_settings::readScalar<int>(configRoot, SettingKey::ConfigSchemaVersion, 0));
+    return std::max(0, yaml_settings::readScalar<int>(root, schemaVersionKey, 0));
 }
 
 void
-migrateConfigV0ToV1(YAML::Node &configRoot)
+stampSchemaVersion(YAML::Node &root, const char *schemaVersionKey, int version)
 {
-    // v0 -> v1: foundational schema version stamping (no key rewrites yet).
-    stampCurrentConfigSchemaVersion(configRoot);
+    if (!root || !root.IsMap())
+        root = YAML::Node(YAML::NodeType::Map);
+    yaml_settings::setNode(root, schemaVersionKey, version);
 }
 
 bool
-applyMigrationStep(int sourceVersion, YAML::Node &configRoot)
+applyMigrationStep(int sourceVersion,
+                   YAML::Node &root,
+                   const char *schemaVersionKey,
+                   int currentVersion)
 {
     switch (sourceVersion) {
     case 0:
-        migrateConfigV0ToV1(configRoot);
+        // v0 -> v1: foundational schema version stamping (no key rewrites yet).
+        if (currentVersion >= 1)
+            stampSchemaVersion(root, schemaVersionKey, 1);
         return true;
     default:
         return false;
     }
 }
 
-} // namespace
-
-void
-stampCurrentConfigSchemaVersion(YAML::Node &configRoot)
+ScopeMigrationOutcome
+migrateRoot(const YAML::Node &root, const char *schemaVersionKey, int currentVersion)
 {
-    if (!configRoot || !configRoot.IsMap())
-        configRoot = YAML::Node(YAML::NodeType::Map);
-    yaml_settings::setNode(
-      configRoot, SettingKey::ConfigSchemaVersion, kCurrentConfigSchemaVersion);
-}
-
-ConfigMigrationOutcome
-migrateConfigRoot(const YAML::Node &configRoot)
-{
-    ConfigMigrationOutcome outcome;
-    outcome.migratedRoot    = (configRoot && configRoot.IsMap()) ? YAML::Clone(configRoot)
-                                                                 : YAML::Node(YAML::NodeType::Map);
-    outcome.sourceVersion   = readConfigSchemaVersion(outcome.migratedRoot);
+    ScopeMigrationOutcome outcome;
+    outcome.migratedRoot =
+      (root && root.IsMap()) ? YAML::Clone(root) : YAML::Node(YAML::NodeType::Map);
+    outcome.sourceVersion   = readSchemaVersion(outcome.migratedRoot, schemaVersionKey);
     outcome.migratedVersion = outcome.sourceVersion;
-    if (outcome.sourceVersion > kCurrentConfigSchemaVersion) {
+
+    if (outcome.sourceVersion > currentVersion) {
         outcome.hadFutureVersion = true;
         return outcome;
     }
 
-    while (outcome.migratedVersion < kCurrentConfigSchemaVersion) {
-        const bool applied = applyMigrationStep(outcome.migratedVersion, outcome.migratedRoot);
+    while (outcome.migratedVersion < currentVersion) {
+        const bool applied = applyMigrationStep(
+          outcome.migratedVersion, outcome.migratedRoot, schemaVersionKey, currentVersion);
         if (!applied) {
             outcome.hadUnsupportedPath = true;
             break;
@@ -75,12 +71,48 @@ migrateConfigRoot(const YAML::Node &configRoot)
         ++outcome.migratedVersion;
     }
 
-    if (!outcome.hadUnsupportedPath) {
-        yaml_settings::setNode(
-          outcome.migratedRoot, SettingKey::ConfigSchemaVersion, outcome.migratedVersion);
-    }
+    if (!outcome.hadUnsupportedPath)
+        stampSchemaVersion(outcome.migratedRoot, schemaVersionKey, outcome.migratedVersion);
 
     return outcome;
+}
+
+} // namespace
+
+void
+stampCurrentConfigSchemaVersion(YAML::Node &configRoot)
+{
+    stampSchemaVersion(configRoot, SettingKey::ConfigSchemaVersion, kCurrentConfigSchemaVersion);
+}
+
+void
+stampCurrentStateSchemaVersion(YAML::Node &stateRoot)
+{
+    stampSchemaVersion(stateRoot, SettingKey::StateSchemaVersion, kCurrentStateSchemaVersion);
+}
+
+void
+stampCurrentSessionSchemaVersion(YAML::Node &sessionRoot)
+{
+    stampSchemaVersion(sessionRoot, SettingKey::SessionSchemaVersion, kCurrentSessionSchemaVersion);
+}
+
+ConfigMigrationOutcome
+migrateConfigRoot(const YAML::Node &configRoot)
+{
+    return migrateRoot(configRoot, SettingKey::ConfigSchemaVersion, kCurrentConfigSchemaVersion);
+}
+
+StateMigrationOutcome
+migrateStateRoot(const YAML::Node &stateRoot)
+{
+    return migrateRoot(stateRoot, SettingKey::StateSchemaVersion, kCurrentStateSchemaVersion);
+}
+
+SessionMigrationOutcome
+migrateSessionRoot(const YAML::Node &sessionRoot)
+{
+    return migrateRoot(sessionRoot, SettingKey::SessionSchemaVersion, kCurrentSessionSchemaVersion);
 }
 
 } // namespace settings::migrations

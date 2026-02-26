@@ -1,4 +1,4 @@
-# Differences from nheko
+# 🔀 Differences from nheko
 
 Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvements focused on desktop usability. This page lists the notable user-facing changes.
 
@@ -75,22 +75,22 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 - **Not so eager to destroy your session** during temporary secret storage failures ([nheko#1875](https://github.com/Nheko-Reborn/nheko/issues/1875)) -- you can now close, fix your keychain, and relaunch without losing data
 - **Virtual timeline window** -- only the most recent messages are exposed to the UI at a time, enabling instant scroll-up from local cache
 - **Faster room switching** by reducing off-screen pre-rendered messages
-- **Predictable profile selection** -- launching without `-p` always uses the default [profile](settings.md#profiles) instead of remembering the last-used one
-- **Per-profile settings** -- all settings (theme, notifications, sidebar widths, etc.) are stored per-profile, so each account can have its own look and feel. See [Settings](settings.md#profiles)
-- **Human-readable YAML settings** -- settings are stored in YAML files instead of Qt's INI format, making manual editing and backup straightforward. See [Settings](settings.md)
+- **Predictable profile selection** -- launching without `-p` always uses the default [profile](settings/README.md#profiles) instead of remembering the last-used one
+- **Per-profile settings** -- all settings (theme, notifications, sidebar widths, etc.) are stored per-profile, so each account can have its own look and feel. See [Settings](settings/README.md#profiles)
+- **Human-readable YAML settings** -- settings are stored in YAML files instead of Qt's INI format, making manual editing and backup straightforward. See [Settings](settings/README.md)
 - **Split settings by concern** -- each profile stores `config.yml` (preferences), `state.yml` (runtime/layout), `session.yml` (session metadata), and `secrets.yml` (file-mode fallback secrets), instead of one monolithic file
 - **Hierarchical key organization** -- settings are grouped in nested sections (`ui.*`, `timeline.*`, `composer.*`, etc.) rather than flat keys
 - **Profile-scoped data and cache layout** -- runtime data and caches are explicitly grouped under `~/.local/share/komai/profiles/<profile-id>/...` and `~/.cache/komai/profiles/<profile-id>/...`
 - **Centralized storage path construction** -- path logic is unified in one helper module instead of ad-hoc joins across callsites
-- **Documented sample profile files** -- canonical examples are available in [architecture/settings/examples/profile](architecture/settings/examples/profile/)
+- **Documented sample profile files** -- canonical examples are available in [architecture/settings/examples/profile](../architecture/settings/examples/profile/)
 
 ### Architecture Details
 
-- Settings architecture differences: [architecture/differences-from-nheko/settings.md](architecture/differences-from-nheko/settings.md)
-- Secret service behavior differences: [architecture/differences-from-nheko/secret-services.md](architecture/differences-from-nheko/secret-services.md)
-- Settings name mapping for patch porting: [architecture/differences-from-nheko/settings-mapping.md](architecture/differences-from-nheko/settings-mapping.md)
+- Settings architecture differences: [architecture/differences-from-nheko/settings.md](../architecture/differences-from-nheko/settings.md)
+- Secret service behavior differences: [architecture/differences-from-nheko/secret-services.md](../architecture/differences-from-nheko/secret-services.md)
+- Settings name mapping for patch porting: [architecture/differences-from-nheko/settings-mapping.md](../architecture/differences-from-nheko/settings-mapping.md)
 
 
 ## 🌐 Translations
 
-AI-assisted translation fills in gaps left by nheko's incomplete human translations, covering 30+ languages. See [Translations](translations.md) for details.
+AI-assisted translation fills in gaps left by nheko's incomplete human translations, covering 30+ languages. See [Translations](../maintainers/translations.md) for details.

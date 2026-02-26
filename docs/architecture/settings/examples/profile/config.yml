@@ -1,5 +1,8 @@
 # Sample profile config.yml (durable settings)
 
+meta:
+  settings_schema_version: 1
+
 ui:
   theme:
     slug: komai-light

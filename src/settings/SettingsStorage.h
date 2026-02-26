@@ -114,6 +114,15 @@ void
 writeSecureValue(const QString &key, const QString &value);
 void
 deleteSecureValue(const QString &key);
+/**
+ * Probe whether the secure backend is currently usable in this environment.
+ *
+ * This helper is used for startup-time provider selection before any session
+ * exists. It prefers secure backend usage when available and avoids silent
+ * fallback for established sessions.
+ */
+bool
+isSecureBackendAvailable();
 
 QString
 encodeSecretsMap(const QMap<QString, QString> &secrets);

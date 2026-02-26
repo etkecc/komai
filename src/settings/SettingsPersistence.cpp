@@ -64,13 +64,20 @@ namespace detail {
 
 void
 storeInternalSessionMetadata(QMap<QString, QString> &secrets,
+                             const QString &accessToken,
                              const QString &userId,
                              const QString &deviceId,
                              const QString &homeserver)
 {
-    constexpr auto sessionUserIdKey     = "__session.user_id";
-    constexpr auto sessionDeviceIdKey   = "__session.device_id";
-    constexpr auto sessionHomeserverKey = "__session.homeserver";
+    constexpr auto sessionAccessTokenKey = "__session.access_token";
+    constexpr auto sessionUserIdKey      = "__session.user_id";
+    constexpr auto sessionDeviceIdKey    = "__session.device_id";
+    constexpr auto sessionHomeserverKey  = "__session.homeserver";
+
+    if (accessToken.isEmpty())
+        secrets.remove(sessionAccessTokenKey);
+    else
+        secrets[sessionAccessTokenKey] = accessToken;
 
     if (userId.isEmpty())
         secrets.remove(sessionUserIdKey);
@@ -91,14 +98,19 @@ storeInternalSessionMetadata(QMap<QString, QString> &secrets,
 void
 extractInternalSessionMetadata(SecretsPayload &payload)
 {
-    constexpr auto sessionUserIdKey     = "__session.user_id";
-    constexpr auto sessionDeviceIdKey   = "__session.device_id";
-    constexpr auto sessionHomeserverKey = "__session.homeserver";
+    constexpr auto sessionAccessTokenKey = "__session.access_token";
+    constexpr auto sessionUserIdKey      = "__session.user_id";
+    constexpr auto sessionDeviceIdKey    = "__session.device_id";
+    constexpr auto sessionHomeserverKey  = "__session.homeserver";
 
+    const auto internalAccessToken = payload.secrets.value(sessionAccessTokenKey);
+    if (!internalAccessToken.isEmpty())
+        payload.accessToken = internalAccessToken;
     payload.sessionUserId     = payload.secrets.value(sessionUserIdKey);
     payload.sessionDeviceId   = payload.secrets.value(sessionDeviceIdKey);
     payload.sessionHomeserver = payload.secrets.value(sessionHomeserverKey);
 
+    payload.secrets.remove(sessionAccessTokenKey);
     payload.secrets.remove(sessionUserIdKey);
     payload.secrets.remove(sessionDeviceIdKey);
     payload.secrets.remove(sessionHomeserverKey);

@@ -9,7 +9,7 @@
 
 namespace settings::migrations {
 
-struct ConfigMigrationOutcome
+struct ScopeMigrationOutcome
 {
     YAML::Node migratedRoot;
     int sourceVersion       = 0;
@@ -18,11 +18,26 @@ struct ConfigMigrationOutcome
     bool hadUnsupportedPath = false;
 };
 
-inline constexpr int kCurrentConfigSchemaVersion = 1;
+using ConfigMigrationOutcome  = ScopeMigrationOutcome;
+using StateMigrationOutcome   = ScopeMigrationOutcome;
+using SessionMigrationOutcome = ScopeMigrationOutcome;
+
+inline constexpr int kCurrentSettingsSchemaVersion = 1;
+inline constexpr int kCurrentConfigSchemaVersion   = kCurrentSettingsSchemaVersion;
+inline constexpr int kCurrentStateSchemaVersion    = kCurrentSettingsSchemaVersion;
+inline constexpr int kCurrentSessionSchemaVersion  = kCurrentSettingsSchemaVersion;
 
 ConfigMigrationOutcome
 migrateConfigRoot(const YAML::Node &configRoot);
+StateMigrationOutcome
+migrateStateRoot(const YAML::Node &stateRoot);
+SessionMigrationOutcome
+migrateSessionRoot(const YAML::Node &sessionRoot);
 void
 stampCurrentConfigSchemaVersion(YAML::Node &configRoot);
+void
+stampCurrentStateSchemaVersion(YAML::Node &stateRoot);
+void
+stampCurrentSessionSchemaVersion(YAML::Node &sessionRoot);
 
 } // namespace settings::migrations

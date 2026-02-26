@@ -15,6 +15,7 @@ ColumnLayout {
     id: root
     readonly property string matrixUrl: "https://matrix.org/"
     readonly property string komaiMeaningUrl: "https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84"
+    readonly property string secretsStorageDocsUrl: "https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/secret-storage.md"
 
     Item {
         Layout.fillHeight: true
@@ -65,6 +66,34 @@ ColumnLayout {
               Nheko.taglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Nheko.matrixWord + "</a>")
         color: palette.buttonText
         font.pointSize: Settings.uiFontSizePt * 1.5
+        wrapMode: Text.Wrap
+        horizontalAlignment: Text.AlignHCenter
+        onLinkActivated: function(link) {
+            Qt.openUrlExternally(link);
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        }
+    }
+
+    Text {
+        visible: Settings.secretsProviderFallbackWarningVisible
+        Layout.topMargin: Nheko.paddingSmall
+        Layout.leftMargin: Nheko.paddingLarge
+        Layout.rightMargin: Nheko.paddingLarge
+        Layout.bottomMargin: Nheko.paddingLarge
+        Layout.alignment: Qt.AlignHCenter
+        Layout.fillWidth: true
+        textFormat: Text.RichText
+        text: "<style>a { color: " + palette.highlight + "; }</style>" +
+              qsTr("Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.") +
+              " " +
+              "<a href=\"" + root.secretsStorageDocsUrl + "\">" + qsTr("Learn more") + "</a>"
+        color: Nheko.theme.red
+        font.pointSize: Settings.uiFontSizePt * 1.05
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
         onLinkActivated: function(link) {

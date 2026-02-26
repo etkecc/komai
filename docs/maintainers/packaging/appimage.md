@@ -41,7 +41,7 @@ Both recipes do the same three steps (one inside Docker, the other on the host):
 
 1. 🔨 **Compile** -- builds Komai from source using CMake with `-DCMAKE_INSTALL_PREFIX=/usr`
 2. 📂 **Install into AppDir** -- installs the binary and resources into `var/build/appimage/AppDir/usr/`
-3. 📦 **Bundle with appimage-builder** -- uses the manifest at [`etc/packaging/appimage/AppImageBuilder.yml`](../../etc/packaging/appimage/AppImageBuilder.yml) to pull runtime dependencies (Qt6, GStreamer, etc.) from Ubuntu 25.04 (Plucky) apt repos and package everything into a self-contained AppImage
+3. 📦 **Bundle with appimage-builder** -- uses the manifest at [`etc/packaging/appimage/AppImageBuilder.yml`](../../../etc/packaging/appimage/AppImageBuilder.yml) to pull runtime dependencies (Qt6, GStreamer, etc.) from Ubuntu 25.04 (Plucky) apt repos and package everything into a self-contained AppImage
 
 The manifest pulls Qt6 libraries and QML modules, GStreamer plugins (for VoIP/media), and system libraries from Ubuntu Plucky's apt repos. The resulting AppImage ships its own Qt6 runtime and doesn't depend on the host system's Qt version.
 

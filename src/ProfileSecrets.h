@@ -35,7 +35,7 @@ QString
 cacheSecretStoreKey(QStringView profile, std::string_view keyName, bool internal);
 const std::array<CacheSecretDescriptor, 5> &
 cacheSecretDescriptors() noexcept;
-const std::array<std::string_view, 2> &
+const std::array<std::string_view, 1> &
 settingsSecretNames() noexcept;
 bool
 deleteAllProfileSecretsFromStoreBlocking(QStringView profile);

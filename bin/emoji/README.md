@@ -1,6 +1,6 @@
 # Emoji Provider Generation 🙂
 
-This directory builds Komai's compiled emoji provider source files from upstream Unicode data plus Komai-specific overrides; start with [`docs/development.md`](../../docs/development.md) and Unicode emoji data at [`unicode.org/Public/emoji`](https://unicode.org/Public/emoji/).
+This directory builds Komai's compiled emoji provider source files from upstream Unicode data plus Komai-specific overrides; start with [`docs/maintainers/development.md`](../../docs/maintainers/development.md) and Unicode emoji data at [`unicode.org/Public/emoji`](https://unicode.org/Public/emoji/).
 
 Quick orientation:
 
@@ -47,4 +47,4 @@ Generated outputs:
 
 Related docs:
 
-- [`docs/development.md`](../../docs/development.md)
+- [`docs/maintainers/development.md`](../../docs/maintainers/development.md)

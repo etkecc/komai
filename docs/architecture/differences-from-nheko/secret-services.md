@@ -9,6 +9,12 @@ Komai uses explicit provider selection via `secrets.provider` in `config.yml`:
 - `secret_service` (default): secure backend via [QtKeychain](https://github.com/frankosterfeld/qtkeychain) (for example [KWallet](https://api.kde.org/frameworks/kwallet/html/index.html) or [GNOME Keyring](https://gitlab.gnome.org/GNOME/gnome-keyring))
 - `file`: fallback to `secrets.yml`
 
+Provider selection is startup-aware:
+
+- first profile launch chooses the best available provider and writes it to config
+- pre-auth launches (no persisted session identity) can re-evaluate and switch providers
+- post-auth launches keep the configured provider and fail loudly on secure-backend issues
+
 In both modes, secret identity names are profile-scoped and deterministic.
 
 ## Secret ID Format
@@ -32,13 +38,14 @@ Default profile hash convenience value:
 
 ### `secret_service`
 
-- Access token and secrets map are stored in secure backend.
+- Secrets map is stored in secure backend (`session.secrets`).
+- Access token and session metadata are embedded in that map under internal `__session.*` keys.
 - `session.yml` does not contain token/secrets.
 
 ### `file`
 
-- `auth.access_token` is stored in `secrets.yml`.
-- `secrets` stores all fallback secret values.
+- `secrets` in `secrets.yml` stores all fallback secret values.
+- Access token and session metadata are embedded in that map under internal `__session.*` keys.
 - Keys in `secrets` are full secret IDs (same IDs used in secure backend mode).
 
 ## Key-ID Notes

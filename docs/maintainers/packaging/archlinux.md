@@ -1,6 +1,6 @@
 # Arch Linux
 
-Build and install Komai as an Arch Linux package using the PKGBUILD at [`etc/packaging/archlinux/`](../../etc/packaging/archlinux/).
+Build and install Komai as an Arch Linux package using the PKGBUILD at [`etc/packaging/archlinux/`](../../../etc/packaging/archlinux/).
 
 ## Install from the PKGBUILD
 
@@ -26,4 +26,4 @@ The package declares `provides=('nheko')` and `conflicts=('nheko')`, so it acts 
 
 ## For maintainers
 
-See the [maintainer notes](../../etc/packaging/archlinux/README.md) for details on updating the PKGBUILD for new releases and differences from the official nheko package.
+See the [maintainer notes](../../../etc/packaging/archlinux/README.md) for details on updating the PKGBUILD for new releases and differences from the official nheko package.

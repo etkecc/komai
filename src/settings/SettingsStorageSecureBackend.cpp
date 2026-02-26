@@ -30,6 +30,25 @@ keychainServiceName()
     return QCoreApplication::applicationName();
 }
 
+std::optional<bool>
+forcedSecureBackendAvailabilityFromEnv()
+{
+    const auto forced = qgetenv("KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY").trimmed().toLower();
+    if (forced.isNull() || forced.isEmpty())
+        return std::nullopt;
+
+    if (forced == "1" || forced == "true" || forced == "yes" || forced == "available")
+        return true;
+
+    if (forced == "0" || forced == "false" || forced == "no" || forced == "unavailable")
+        return false;
+
+    activeLoggers().ui->warn("Ignoring invalid KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY value '{}'; "
+                             "expected available/unavailable or true/false",
+                             forced.toStdString());
+    return std::nullopt;
+}
+
 } // namespace
 
 std::optional<QString>
@@ -95,6 +114,45 @@ deleteSecureValue(const QString &key)
           });
         job->start();
     });
+}
+
+bool
+isSecureBackendAvailable()
+{
+    if (const auto forced = forcedSecureBackendAvailabilityFromEnv(); forced.has_value()) {
+        activeLoggers().ui->warn("Using forced secure-backend availability override "
+                                 "(KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY={}): {}",
+                                 *forced ? "available" : "unavailable",
+                                 *forced ? "secure backend enabled for provider selection"
+                                         : "secure backend disabled for provider selection");
+        return *forced;
+    }
+
+    if (!QCoreApplication::instance()) {
+        activeLoggers().db->warn(
+          "Secure backend availability probe requested before QCoreApplication exists");
+        return false;
+    }
+
+    QEventLoop loop;
+    auto job = std::make_unique<QKeychain::ReadPasswordJob>(keychainServiceName());
+    job->setAutoDelete(false);
+    job->setInsecureFallback(false);
+    job->setKey(QStringLiteral("komai.secure_backend_probe"));
+    QObject::connect(job.get(), &QKeychain::Job::finished, &loop, &QEventLoop::quit);
+    job->start();
+    loop.exec();
+
+    const auto error = job->error();
+    if (error == QKeychain::Error::NoError || error == QKeychain::Error::EntryNotFound) {
+        activeLoggers().db->info("Secure backend availability probe: available");
+        return true;
+    }
+
+    activeLoggers().db->warn("Secure backend availability probe failed: {} ({})",
+                             static_cast<int>(error),
+                             job->errorString().toStdString());
+    return false;
 }
 
 } // namespace settings::storage

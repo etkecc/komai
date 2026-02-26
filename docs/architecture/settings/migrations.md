@@ -11,22 +11,30 @@ Migration plumbing exists in:
 
 Current behavior:
 
-- reads `meta.settings_schema_version` from `config.yml` (`0` when missing)
-- treats `1` as the current schema version
+- reads `meta.settings_schema_version` from `config.yml`, `state.yml`, and `session.yml` (`0` when missing)
+- treats `1` as the current schema version for all settings YAML scopes
 - runs an explicit step chain (`v0 -> v1`, then next steps as added over time)
 - applies a foundational `v0 -> v1` migration step (schema version stamping only)
-- warns when loading a config with a newer schema version than the app supports
+- exposes two load paths:
+  - `SettingsController::load(...)`: read-only load (no file writes)
+  - `SettingsController::loadAndMigrate(...)`: load + migration writeback when needed
+- stamps brand-new profile `config.yml` on initial `loadAndMigrate(...)` with the current schema version
+- stamps brand-new `state.yml` / `session.yml` on first creation during full persistence saves
+- writes back migrated `config.yml` / `state.yml` / `session.yml` during `loadAndMigrate(...)` when existing files are older than the current schema
+- warns when loading a settings file with a newer schema version than the app supports
 - warns when a migration path is unsupported between known versions
 
 The schema version key is:
 
 - `meta.settings_schema_version`
 
+`secrets.yml` is intentionally excluded for now because secrets persistence remains provider-dependent (`secret_service` vs `file`) and uses compatibility parsing rules.
+
 ## Intended Migration Strategy
 
 When introducing a breaking settings change:
 
-1. increase `settings::migrations::kCurrentConfigSchemaVersion`
+1. increase `settings::migrations::kCurrentSettingsSchemaVersion`
 2. add deterministic `vN -> vN+1` migration logic in `SettingsMigrations.cpp`
 3. keep migration steps small and composable
 4. run migrations in order until current version is reached

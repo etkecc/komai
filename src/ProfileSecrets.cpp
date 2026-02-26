@@ -37,11 +37,10 @@ cacheSecretDescriptors() noexcept
     return descriptors;
 }
 
-const std::array<std::string_view, 2> &
+const std::array<std::string_view, 1> &
 settingsSecretNames() noexcept
 {
-    static const std::array<std::string_view, 2> names{"session.auth.access_token",
-                                                       "session.secrets"};
+    static const std::array<std::string_view, 1> names{"session.secrets"};
     return names;
 }
 

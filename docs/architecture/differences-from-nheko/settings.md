@@ -33,10 +33,10 @@ This document captures settings-architecture differences between Komai and upstr
 
 See also:
 
-- [User Settings Guide](../../settings.md)
+- [User Settings Guide](../../user-guide/settings/README.md)
 - [Settings Architecture](../settings/README.md)
 - [Storage Architecture](../storage.md)
-- [Storage Guide](../../storage.md)
+- [Storage Guide](../../user-guide/storage.md)
 - [Secret Storage Differences](secret-services.md)
 - [Settings Name Mapping](settings-mapping.md)
 - [Settings Example (config.yml)](../settings/examples/profile/config.yml)

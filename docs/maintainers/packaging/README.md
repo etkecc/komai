@@ -11,7 +11,7 @@ Komai can be packaged and installed through several methods. This directory docu
 
 ## Directory layout
 
-Packaging-related source files (manifests, PKGBUILDs, etc.) live in [`etc/packaging/`](../../etc/packaging/), organized by method:
+Packaging-related source files (manifests, PKGBUILDs, etc.) live in [`etc/packaging/`](../../../etc/packaging/), organized by method:
 
 ```
 etc/packaging/

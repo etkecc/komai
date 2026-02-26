@@ -4,6 +4,16 @@ UserSettings::setUsesFileSecretsProvider(bool usesFileSecretsProvider)
     usesFileSecretsProvider_ = usesFileSecretsProvider;
 }
 
+void
+UserSettings::setSecretsProviderFallbackWarningVisible(bool visible)
+{
+    if (secretsProviderFallbackWarningVisible_ == visible)
+        return;
+
+    secretsProviderFallbackWarningVisible_ = visible;
+    emit secretsProviderFallbackWarningVisibleChanged(visible);
+}
+
 bool
 UserSettings::hasResolvedProfilePaths() const
 {

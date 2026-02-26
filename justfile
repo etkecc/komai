@@ -205,6 +205,10 @@ settings-3-layer-mapping-generate *args:
 settings-3-layer-mapping-check *args:
 	{{ justfile_directory() }}/bin/settings/settings-3-layer-mapping.sh check {{ args }}
 
+# Checks Markdown links for local path validity
+docs-check-links:
+	python3 {{ justfile_directory() }}/bin/docs/check-links.py
+
 # Backward-compatible aliases (deprecated; prefer settings-3-layer-mapping-*)
 settings-generate-3-layer-mapping *args:
 	just --justfile {{ justfile() }} settings-3-layer-mapping-generate {{ args }}
@@ -284,10 +288,11 @@ lint:
 		qmllint \
 		icons-audit \
 		icons-list-check \
-		icons-derived-check \
-		settings-3-layer-mapping-check \
-		no-qsettings \
-		license-check
+			icons-derived-check \
+			settings-3-layer-mapping-check \
+			check-markdown-links \
+			no-qsettings \
+			license-check
 
 # Runs REUSE compliance lint (skips if reuse is unavailable in this environment)
 license-check:

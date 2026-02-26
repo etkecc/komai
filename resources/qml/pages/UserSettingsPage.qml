@@ -119,7 +119,7 @@ Rectangle {
                         property bool isActive: userSettingsDialog.currentTab === modelData.tab
                         property bool requiresSession: modelData.requiresSession === true
                         property bool availableInCurrentSession: !requiresSession || Settings.hasActiveSession
-                        property color backgroundColor: "transparent"
+                        property color backgroundColor: palette.window
                         property color textColor: palette.text
                         enabled: availableInCurrentSession
 

@@ -26,7 +26,7 @@ ApplicationWindow {
     title: qsTr("Apply permission changes")
 
     Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel]
         onActivated: roomSettingsDialog.close()
     }
 

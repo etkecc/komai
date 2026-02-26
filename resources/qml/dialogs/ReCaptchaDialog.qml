@@ -29,7 +29,7 @@ ApplicationWindow {
     width: Math.max(msg.implicitWidth, footer.implicitWidth)
 
     Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel]
         onActivated: recaptchaRoot.reject()
     }
 

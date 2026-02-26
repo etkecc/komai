@@ -20,7 +20,7 @@ ApplicationWindow {
     height: fontMetrics.lineSpacing * 7
 
     Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel]
         onActivated: dbb.rejected()
     }
 

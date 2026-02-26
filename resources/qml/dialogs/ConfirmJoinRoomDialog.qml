@@ -24,7 +24,7 @@ ApplicationWindow {
     height: content.implicitHeight + Nheko.paddingLarge + footer.implicitHeight
 
     Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel]
         onActivated: dbb.rejected()
     }
 

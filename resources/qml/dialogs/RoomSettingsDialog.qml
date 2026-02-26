@@ -27,7 +27,7 @@ ApplicationWindow {
     title: qsTr("Room Settings")
 
     Shortcut {
-        sequence: StandardKey.Cancel
+        sequences: [StandardKey.Cancel]
         onActivated: roomSettingsDialog.close()
     }
 

@@ -7,7 +7,6 @@ version = 1
 path = [
   "fluent/**/*.svg",
   "emoji-categories/*.svg",
-  "ui/add-square-button.svg",
   "ui/alert.svg",
   "ui/angle-arrow-left.svg",
   "ui/attach.svg",

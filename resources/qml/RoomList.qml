@@ -283,7 +283,7 @@ Page {
                     Layout.preferredHeight: roomActionsBar.buttonSize
                     Layout.preferredWidth: roomActionsBar.buttonSize
                     hoverEnabled: true
-                    image: ":/icons/icons/ui/add-square-button.svg"
+                    image: ":/icons/icons/ui/plus-circle.svg"
                     visible: roomActionsBar.showActionButtons
 
                     onClicked: roomJoinCreateMenu.popup(startChatButton)
@@ -427,12 +427,12 @@ Page {
         }
         MenuItem {
             text: qsTr("Join a room")
-            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
             onTriggered: Nheko.openJoinRoomDialog()
         }
         MenuItem {
             text: qsTr("Create a new room")
-            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
             onTriggered: {
                 var createRoom = createRoomComponent.createObject(timelineRoot);
                 createRoom.show();
@@ -441,7 +441,7 @@ Page {
         }
         MenuItem {
             text: qsTr("Start a direct chat")
-            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
             onTriggered: {
                 var createDirect = createDirectComponent.createObject(timelineRoot);
                 createDirect.show();
@@ -450,7 +450,7 @@ Page {
         }
         MenuItem {
             text: qsTr("Create a new community")
-            icon.source: "qrc:/icons/icons/ui/add-square-button.svg"
+            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
             onTriggered: {
                 var createRoom = createRoomComponent.createObject(timelineRoot, {
                         "space": true

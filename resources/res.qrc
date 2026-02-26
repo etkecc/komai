@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/icons">
-        <file alias="icons/ui/add-square-button.svg">icons/fluent/assets/Add Square/SVG/ic_fluent_add_square_16_regular.svg</file>
         <file alias="icons/ui/alert.svg">icons/fluent/assets/Alert/SVG/ic_fluent_alert_24_regular.svg</file>
         <file alias="icons/ui/angle-arrow-left.svg">icons/fluent/assets/Chevron Left/SVG/ic_fluent_chevron_left_28_regular.svg</file>
         <file alias="icons/ui/arrow-right.svg">icons/fluent/assets/Arrow Right/SVG/ic_fluent_arrow_right_24_regular.svg</file>

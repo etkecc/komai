@@ -8,7 +8,6 @@ Generated from `resources/res.qrc`, sorted by icon source path.
 | Icon | Alias |
 | --- | --- |
 | ![icons/fluent/assets/Add Circle/SVG/ic_fluent_add_circle_24_regular.svg](../../resources/icons/fluent/assets/Add%20Circle/SVG/ic_fluent_add_circle_24_regular.svg)<br>`icons/fluent/assets/Add Circle/SVG/ic_fluent_add_circle_24_regular.svg` | `icons/ui/plus-circle.svg` |
-| ![icons/fluent/assets/Add Square/SVG/ic_fluent_add_square_16_regular.svg](../../resources/icons/fluent/assets/Add%20Square/SVG/ic_fluent_add_square_16_regular.svg)<br>`icons/fluent/assets/Add Square/SVG/ic_fluent_add_square_16_regular.svg` | `icons/ui/add-square-button.svg` |
 | ![icons/fluent/assets/Alert/SVG/ic_fluent_alert_24_regular.svg](../../resources/icons/fluent/assets/Alert/SVG/ic_fluent_alert_24_regular.svg)<br>`icons/fluent/assets/Alert/SVG/ic_fluent_alert_24_regular.svg` | `icons/ui/alert.svg` |
 | ![icons/fluent/assets/Arrow Circle Down/SVG/ic_fluent_arrow_circle_down_32_regular.svg](../../resources/icons/fluent/assets/Arrow%20Circle%20Down/SVG/ic_fluent_arrow_circle_down_32_regular.svg)<br>`icons/fluent/assets/Arrow Circle Down/SVG/ic_fluent_arrow_circle_down_32_regular.svg` | `icons/ui/lowprio.svg` |
 | ![icons/fluent/assets/Arrow Download/SVG/ic_fluent_arrow_download_24_regular.svg](../../resources/icons/fluent/assets/Arrow%20Download/SVG/ic_fluent_arrow_download_24_regular.svg)<br>`icons/fluent/assets/Arrow Download/SVG/ic_fluent_arrow_download_24_regular.svg` | `icons/ui/download.svg` |

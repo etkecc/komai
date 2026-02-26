@@ -8,6 +8,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.15
 import im.nheko 1.0
+import "onboarding" as Onboarding
 import "../components/"
 import "../ui/"
 import "../"
@@ -22,28 +23,11 @@ Item {
         id: regis
     }
 
-    ScrollView {
+    Onboarding.OnboardingScrollPage {
         id: scroll
-
-        clip: false
-        ScrollBar.horizontal.visible: false
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: Nheko.paddingLarge * 3
-        height: Math.min(registrationPage.height, col.implicitHeight)
-        anchors.leftMargin: Nheko.paddingLarge
-        anchors.rightMargin: Nheko.paddingLarge
-
-        contentWidth: availableWidth
-
-        ColumnLayout {
-            id: col
-
-            spacing: Nheko.paddingMedium
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(registrationPage.maxExpansion, scroll.width- Nheko.paddingLarge*2)
+        anchors.fill: parent
+        maxContentWidth: registrationPage.maxExpansion
+        topSpacerHeight: Nheko.paddingLarge * 3
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
@@ -368,10 +352,12 @@ Item {
 
             FlatButton {
                 id: regisBtn
+                compact: true
                 visible: regis.supported
                 enabled: usernameLabel.text && passwordLabel.text && passwordLabel.text == passwordConfirmationLabel.text
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("REGISTER")
+                iconImage: "image://colorimage/:/icons/icons/ui/plus-circle.svg?" + (enabled ? palette.light : palette.buttonText)
                 function register() {
                     regis.startRegistration(usernameLabel.text, passwordLabel.text, deviceNameLabel.text)
                 }
@@ -380,7 +366,6 @@ Item {
                 Keys.onReturnPressed: regisBtn.register()
                 Keys.enabled: regisBtn.enabled && regis.supported
             }
-        }
     }
 
     ImageButton {

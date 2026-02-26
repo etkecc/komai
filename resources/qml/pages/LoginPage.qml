@@ -8,6 +8,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.15
 import im.nheko 1.0
+import "onboarding" as Onboarding
 import "../components/"
 import "../ui/"
 import "../"
@@ -24,28 +25,11 @@ Item {
         id: login
     }
 
-    ScrollView {
+    Onboarding.OnboardingScrollPage {
         id: scroll
-
-        clip: false
-        ScrollBar.horizontal.visible: false
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: Nheko.paddingLarge * 3
-        height: Math.min(loginPage.height, col.implicitHeight)
-        anchors.leftMargin: Nheko.paddingLarge
-        anchors.rightMargin: Nheko.paddingLarge
-
-        contentWidth: availableWidth
-
-        ColumnLayout {
-            id: col
-
-            spacing: Nheko.paddingMedium
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(loginPage.maxExpansion, scroll.width- Nheko.paddingLarge*2)
+        anchors.fill: parent
+        maxContentWidth: loginPage.maxExpansion
+        topSpacerHeight: Nheko.paddingLarge * 3
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
@@ -192,10 +176,12 @@ Item {
 
             FlatButton {
                 id: pwBtn
+                compact: true
                 visible: login.passwordSupported
                 enabled: loginPage.loginEnabled
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("LOGIN")
+                iconImage: "image://colorimage/:/icons/icons/ui/arrow-right.svg?" + (enabled ? palette.light : palette.buttonText)
                 function pwLogin() {
                     login.onLoginButtonClicked(Login.Password, matrixIdLabel.text, passwordLabel.text, deviceNameLabel.text)
                 }
@@ -212,6 +198,7 @@ Item {
 
                 delegate: FlatButton {
                     id: ssoBtn
+                    compact: true
                     visible: login.ssoSupported
                     enabled: loginPage.loginEnabled
                     Layout.alignment: Qt.AlignHCenter
@@ -226,7 +213,6 @@ Item {
                     Keys.enabled: ssoBtn.enabled && !login.passwordSupported
                 }
             }
-        }
     }
 
     ImageButton {

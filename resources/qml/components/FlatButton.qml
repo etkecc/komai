@@ -13,12 +13,15 @@ import im.nheko
 Button {
     id: control
 
-    implicitHeight: Math.ceil(control.contentItem.implicitHeight * 1.70)
+    property bool compact: false
+    property string iconImage: ""
+    property real sizeScale: compact ? 1.3 : 1.5
+    property real heightScale: compact ? 1.55 : 1.70
+
+    implicitHeight: Math.ceil(control.contentItem.implicitHeight * control.heightScale)
     implicitWidth: Math.ceil(control.contentItem.implicitWidth + control.contentItem.implicitHeight)
     hoverEnabled: true
     opacity: enabled ? 1.0 : 0.6
-
-    property string iconImage: ""
 
     MultiEffect {
         anchors.fill: control.background
@@ -36,8 +39,8 @@ Button {
         Image {
             Layout.leftMargin: Nheko.paddingMedium
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-            Layout.preferredHeight: fontMetrics.font.pixelSize * 1.5
-            Layout.preferredWidth:  fontMetrics.font.pixelSize * 1.5
+            Layout.preferredHeight: fontMetrics.font.pixelSize * control.sizeScale
+            Layout.preferredWidth:  fontMetrics.font.pixelSize * control.sizeScale
             visible: !!iconImage
             source: iconImage
         }
@@ -47,7 +50,7 @@ Button {
             text: control.text
             //font: control.font
             font.capitalization: Font.AllUppercase
-            font.pointSize: Math.ceil(Settings.uiFontSizePt * 1.5)
+            font.pointSize: Math.ceil(Settings.uiFontSizePt * control.sizeScale)
             //font.capitalization: Font.AllUppercase
             color: control.enabled ? palette.light : palette.buttonText
             horizontalAlignment: Text.AlignHCenter

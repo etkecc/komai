@@ -13,6 +13,9 @@ Rectangle {
     id: replyPopup
 
     property color threadColor: room ? TimelineManager.userColor(room.thread, palette.base) : palette.buttonText
+    property int headerTextHeight: Math.round(Qt.application.font.pixelSize * 2.4)
+    property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
+    property int headerFontSize: Math.ceil(replyPopup.headerTextHeight * 0.45)
 
     Layout.fillWidth: true
     color: palette.alternateBase
@@ -49,8 +52,8 @@ Rectangle {
 
             Image {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: threadHeaderLabel.font.pixelSize
-                Layout.preferredWidth: threadHeaderLabel.font.pixelSize
+                Layout.preferredHeight: replyPopup.headerIconSize
+                Layout.preferredWidth: replyPopup.headerIconSize
                 source: "image://colorimage/:/icons/icons/ui/thread.svg?" + replyPopup.threadColor
             }
 
@@ -58,6 +61,7 @@ Rectangle {
                 id: threadHeaderLabel
 
                 color: palette.text
+                font.pixelSize: replyPopup.headerFontSize
                 font.bold: true
                 text: qsTr("Replying in a thread")
             }
@@ -73,8 +77,8 @@ Rectangle {
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: threadHeaderLabel.font.pixelSize
-                Layout.preferredWidth: threadHeaderLabel.font.pixelSize
+                Layout.preferredHeight: replyPopup.headerIconSize
+                Layout.preferredWidth: replyPopup.headerIconSize
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
 
@@ -90,8 +94,8 @@ Rectangle {
 
             Image {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: replyHeaderLabel.font.pixelSize
-                Layout.preferredWidth: replyHeaderLabel.font.pixelSize
+                Layout.preferredHeight: replyPopup.headerIconSize
+                Layout.preferredWidth: replyPopup.headerIconSize
                 source: "image://colorimage/:/icons/icons/ui/reply.svg?" + palette.text
             }
 
@@ -99,6 +103,7 @@ Rectangle {
                 id: replyHeaderLabel
 
                 color: palette.text
+                font.pixelSize: replyPopup.headerFontSize
                 font.bold: true
                 text: qsTr("Replying to this message")
             }
@@ -114,8 +119,8 @@ Rectangle {
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: replyHeaderLabel.font.pixelSize
-                Layout.preferredWidth: replyHeaderLabel.font.pixelSize
+                Layout.preferredHeight: replyPopup.headerIconSize
+                Layout.preferredWidth: replyPopup.headerIconSize
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
 
@@ -131,8 +136,8 @@ Rectangle {
 
             Image {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: editHeaderLabel.font.pixelSize
-                Layout.preferredWidth: editHeaderLabel.font.pixelSize
+                Layout.preferredHeight: replyPopup.headerIconSize
+                Layout.preferredWidth: replyPopup.headerIconSize
                 source: "image://colorimage/:/icons/icons/ui/edit.svg?" + palette.text
             }
 
@@ -140,6 +145,7 @@ Rectangle {
                 id: editHeaderLabel
 
                 color: palette.text
+                font.pixelSize: replyPopup.headerFontSize
                 font.bold: true
                 text: qsTr("Editing a message")
             }
@@ -155,8 +161,8 @@ Rectangle {
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: editHeaderLabel.font.pixelSize
-                Layout.preferredWidth: editHeaderLabel.font.pixelSize
+                Layout.preferredHeight: replyPopup.headerIconSize
+                Layout.preferredWidth: replyPopup.headerIconSize
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
 

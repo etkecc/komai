@@ -1,3 +1,5 @@
+set tempdir := "var/tmp/just"
+
 # Paths
 build_dir := justfile_directory() / "var/build/native"
 rocksdb_build_dir := justfile_directory() / "var/build/native-rocksdb"
@@ -30,7 +32,7 @@ configure-all-backends *args:
 		{{ args }}
 
 # Builds the project (configures first if needed)
-build *args:
+build *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
@@ -39,7 +41,7 @@ build *args:
 	cmake --build {{ build_dir }} --parallel "$(nproc)" {{ args }}
 
 # Builds the project with LMDB + RocksDB support (configures first if needed)
-build-all-backends *args:
+build-all-backends *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	if [[ ! -f "{{ rocksdb_build_dir }}/CMakeCache.txt" ]]; then
@@ -51,7 +53,7 @@ build-all-backends *args:
 test: test-unit test-integration
 
 # Runs unit tests
-test-unit *args:
+test-unit *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
@@ -61,7 +63,7 @@ test-unit *args:
 	ctest --test-dir {{ build_dir }} --output-on-failure -L unit {{ args }}
 
 # Runs all tests against the LMDB + RocksDB build directory
-test-all-backends *args:
+test-all-backends *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	if [[ ! -f "{{ rocksdb_build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ rocksdb_build_dir }}/CMakeCache.txt"; then
@@ -71,7 +73,7 @@ test-all-backends *args:
 	ctest --test-dir {{ rocksdb_build_dir }} --output-on-failure {{ args }}
 
 # Runs integration tests
-test-integration *args:
+test-integration *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	if [[ ! -f "{{ build_dir }}/CMakeCache.txt" ]] || grep -q '^USE_BUNDLED_MTXCLIENT:BOOL=OFF$' "{{ build_dir }}/CMakeCache.txt"; then
@@ -90,7 +92,7 @@ install:
 	cmake --install {{ build_dir }}
 
 # Runs the compiled binary (builds first if needed)
-run *args:
+run *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	binary="{{ build_dir }}/komai"
@@ -146,7 +148,7 @@ configure-debug *args:
 		{{ args }}
 
 # Runs the compiled binary from the all-backends build (builds first if needed)
-run-all-backends *args:
+run-all-backends *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	binary="{{ rocksdb_build_dir }}/komai"
@@ -156,7 +158,7 @@ run-all-backends *args:
 	exec "$binary" {{ args }}
 
 # Extracts translatable strings from source code into .ts files, then normalizes
-translations-update:
+translations-update: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	ts_files=()
@@ -180,7 +182,7 @@ translations-claude-translate-lang lang *args:
 	python3 {{ justfile_directory() }}/bin/translations/translate.py translate {{ lang }} {{ args }}
 
 # Auto-translates unfinished strings for all languages using Claude CLI
-translations-claude-translate-all *args:
+translations-claude-translate-all *args: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	for d in {{ justfile_directory() }}/resources/langs/*/; do
@@ -217,7 +219,7 @@ settings-check-3-layer-mapping *args:
 	just --justfile {{ justfile() }} settings-3-layer-mapping-check {{ args }}
 
 # Builds a Flatpak bundle from the local source tree
-flatpak-build:
+flatpak-build: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 
@@ -265,7 +267,7 @@ appimage-build-native:
 	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-native "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
 
 # Removes the AppImage build directory (uses Docker if needed for root-owned files)
-appimage-clean:
+appimage-clean: _ensure_just_temp_directory
 	#!/usr/bin/env bash
 	set -euo pipefail
 	if [[ ! -e "{{ appimage_build_dir }}" ]]; then
@@ -338,14 +340,13 @@ prek-install-git-pre-commit-hook: _ensure_mise_tools_installed
 	fi
 
 # Internal - ensures var/mise directory exists
-_ensure_mise_data_directory:
-	#!/bin/sh
-	if [ ! -d "{{ mise_data_dir }}" ]; then
-		mkdir -p "{{ mise_data_dir }}"
-	fi
-	if [ ! -d "{{ prek_home }}" ]; then
-		mkdir -p "{{ prek_home }}"
-	fi
+_ensure_just_temp_directory:
+	@mkdir -p "{{ justfile_directory() }}/var/tmp/just"
+
+# Internal - ensures var/mise directory exists
+_ensure_mise_data_directory: _ensure_just_temp_directory
+	@mkdir -p "{{ mise_data_dir }}"
+	@mkdir -p "{{ prek_home }}"
 
 # Internal - ensures mise tools are installed
 _ensure_mise_tools_installed: _ensure_mise_data_directory

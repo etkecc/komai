@@ -284,6 +284,8 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     StartupSettingsTestContext ctx{profile};
     if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
+    // This test validates file-provider persistence semantics; pin secure backend
+    // as unavailable so pre-auth auto-upgrade does not rewrite provider selection.
     ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
                                     QByteArrayLiteral("unavailable")};
 
@@ -390,6 +392,8 @@ testStartupPolicyConfigOnlyEditsDoNotCreateSessionOrSecrets()
     StartupSettingsTestContext ctx{profile};
     if (!ctx.isValid())
         return expect(false, "temporary config root can be created");
+    // Keep this fixture in file mode deterministically; the test targets config-only
+    // write behavior, not startup provider auto-selection.
     ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
                                     QByteArrayLiteral("unavailable")};
 
@@ -439,6 +443,7 @@ testStartupSecretsProviderAutoSelectAndWelcomeUpgrade()
     if (!ctx.isValid())
         return expect(false, "startup secrets auto-select fixture root can be created");
 
+    // Explicitly model "missing backend first launch" -> "backend recovered relaunch".
     ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
                                     QByteArrayLiteral("unavailable")};
 
@@ -491,6 +496,8 @@ testStartupSecretsProviderDoesNotSwitchAfterActiveSession()
     if (!ctx.isValid())
         return expect(false, "startup secrets active-session fixture root can be created");
 
+    // Start from file fallback, then flip to available to verify active-session
+    // profiles do not auto-switch providers once session auth exists.
     ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
                                     QByteArrayLiteral("unavailable")};
 
@@ -552,6 +559,8 @@ testStartupSecretsProviderDoesNotSwitchWhenSessionIdentityExists()
     if (!ctx.writeSession(sessionRoot))
         return expect(false, "session-identity fixture session can be persisted");
 
+    // Even if secure backend is unavailable, persisted session identity should
+    // block provider auto-switch and keep configured provider unchanged.
     ScopedEnvVar forcedAvailability{"KOMAI_FORCE_SECRET_SERVICE_AVAILABILITY",
                                     QByteArrayLiteral("unavailable")};
 

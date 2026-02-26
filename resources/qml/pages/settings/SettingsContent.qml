@@ -30,13 +30,12 @@ Item {
         anchors.rightMargin: Nheko.paddingSmall
 
         contentWidth: width
-        contentHeight: grid.height + Nheko.paddingLarge * 2
+        contentHeight: grid.height + Nheko.paddingLarge
         clip: true
         boundsBehavior: Flickable.StopAtBounds
 
         ColumnLayout {
             id: grid
-            y: Nheko.paddingLarge
 
             spacing: 0
             property real contentMaxWidth: Settings.uiLayoutContentMaxWidthPx > 0 ? Settings.uiLayoutContentMaxWidthPx : Number.POSITIVE_INFINITY
@@ -57,6 +56,7 @@ Item {
                     id: r
 
                     required property var model
+                    required property int index
                     Layout.fillWidth: true
                     implicitHeight: row.implicitHeight
                     width: grid.width
@@ -91,7 +91,7 @@ Item {
                         SettingsSection {
                             id: sectionLabel
                             Layout.fillWidth: true
-                            Layout.topMargin: Nheko.paddingLarge
+                            Layout.topMargin: r.index === 0 ? Nheko.paddingMedium : Nheko.paddingLarge
                             Layout.bottomMargin: Nheko.paddingSmall
                             visible: r.model.type == UserSettingsModel.SectionTitle
                             label: r.model.name

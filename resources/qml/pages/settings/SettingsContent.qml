@@ -62,6 +62,7 @@ Item {
                     width: grid.width
 
                     readonly property real controlWidth: Math.min(500, Math.max(240, grid.width - Nheko.paddingLarge * 2))
+                    readonly property bool isTimelinePreviewRow: r.model.type == UserSettingsModel.TimelinePreview
                     readonly property bool hasInlineDescription: (r.model.type == UserSettingsModel.OptionsWithDescription
                           || r.model.type == UserSettingsModel.IntegerWithDescription
                           || r.model.type == UserSettingsModel.ToggleWithDescription)
@@ -87,7 +88,7 @@ Item {
                             visible: r.model.type != UserSettingsModel.SectionTitle
                             Layout.leftMargin: 0
                             Layout.bottomMargin: Nheko.paddingMedium
-                            spacing: Nheko.paddingSmall
+                            spacing: r.isTimelinePreviewRow ? 0 : Nheko.paddingSmall
 
                             TextEdit {
                                 Layout.fillWidth: true
@@ -101,6 +102,7 @@ Item {
                                 wrapMode: Text.Wrap
                                 readOnly: true
                                 selectByMouse: true
+                                visible: !r.isTimelinePreviewRow
                                 onLinkActivated: function (link) {
                                     Qt.openUrlExternally(link);
                                 }
@@ -117,10 +119,13 @@ Item {
                             Item {
                                 id: chooserContainer
                                 Layout.alignment: Qt.AlignRight | Qt.AlignTop
-                                Layout.preferredWidth: r.controlWidth
-                                Layout.maximumWidth: r.controlWidth
-                                Layout.minimumWidth: 140
-                                Layout.preferredHeight: childrenRect.height
+                                Layout.fillWidth: r.isTimelinePreviewRow
+                                Layout.preferredWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
+                                Layout.maximumWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
+                                Layout.minimumWidth: r.isTimelinePreviewRow ? 0 : 140
+                                Layout.preferredHeight: r.isTimelinePreviewRow
+                                    ? (chooser.child ? chooser.child.implicitHeight : 0)
+                                    : childrenRect.height
                                 Layout.rightMargin: 0
 
                                 Component {
@@ -282,6 +287,13 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.LogoutButton
                                         SettingRowLogout {
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.TimelinePreview
+                                        SettingRowTimelinePreview {
+                                            anchors.left: parent.left
                                             anchors.right: parent.right
                                         }
                                     }

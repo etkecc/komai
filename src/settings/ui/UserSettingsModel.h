@@ -67,6 +67,7 @@ public:
         LogoutButton,
         ProfileButton,
         AccessTokenField,
+        TimelinePreview,
     };
     Q_ENUM(Types);
 

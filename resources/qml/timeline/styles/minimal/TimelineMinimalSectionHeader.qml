@@ -1,4 +1,3 @@
-// SPDX-FileCopyrightText: Nheko Contributors
 // SPDX-FileCopyrightText: Komai Contributors
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
@@ -8,7 +7,7 @@ import QtQuick.Controls
 import QtQuick.Window
 import im.nheko
 
-import "./components"
+import "../../../components"
 
 Column {
 
@@ -28,9 +27,13 @@ Column {
     property int oneHour: 60 * 60 * 1000
     property bool dayChanged: previousMessageDay !== day
     property bool showLabel: dayChanged || timestamp - previousMessageTimestamp > oneHour
-    property bool shouldShowSenderUsername: Settings.timelineMessagesSenderUsername === 0 ? true : Settings.timelineMessagesSenderUsername === 2 ? false : (room ? room.roomMemberCount > Settings.timelineMessagesSenderUsernameLargeRoomThreshold : true)
+    property bool shouldShowSenderUsername: Settings.timelineMessagesSenderUsername === 0
+        ? true
+        : Settings.timelineMessagesSenderUsername === 2
+            ? false
+            : (room ? room.roomMemberCount > Settings.timelineMessagesSenderUsernameLargeRoomThreshold : false)
 
-    bottomPadding: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Bubbles ? (isSender && !showLabel ? 0 : 2) : 3
+    bottomPadding: 3
     spacing: 8
     topPadding: userName_.visible ? 4 : 0
     visible: (previousMessageUserId !== userId || showLabel || isStateEvent !== previousMessageIsStateEvent)
@@ -60,7 +63,7 @@ Column {
 
         height: userName_.height
         spacing: 4
-        visible: !isStateEvent && shouldShowSenderUsername && (Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Bubbles ? !isSender : true)
+        visible: !isStateEvent && shouldShowSenderUsername
 
         AbstractButton {
             id: userNameButton
@@ -130,7 +133,6 @@ Column {
 
             HoverHandler {
                 id: statusMsgHoverHandler
-
             }
             Connections {
                 function onPresenceChanged(id) {

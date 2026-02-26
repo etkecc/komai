@@ -8,97 +8,37 @@ import QtQuick.Controls
 import QtQuick.Window
 import im.nheko
 
-import "./components"
+import "../.."
 
-TimelineEvent {
+TimelineMessageStyleBase {
     id: wrapper
-    ListView.delayRemove: true
-    width: chat.delegateMaxWidth
     // We return a larger size for any item but the most bottom one, if it isn't initialized yet, since otherwise Qt will create way too many items.
     // If we did that also for the first item, it would mess with the scroll location a bit, so we don't do it for that item.
     height: Math.max((section.item?.height ?? 0) + Math.max(((gridContainer.implicitHeight < 1 && index != 0) ? 100 : gridContainer.implicitHeight), (messageUserAvatar.visible ? messageUserAvatar.height : 0)) + reactionRow.implicitHeight + unreadRow.height, 10)
-    anchors.horizontalCenter: ListView.view.contentItem.horizontalCenter
     //room: chatRoot.roommodel
-
-    required property var day
-    required property bool isSender
-    required property int index
-    property var previousMessageDay: (index + 1) >= chat.count ? 0 : chat.model.dataByIndex(index + 1, Room.Day)
-    property var previousMessageTimestamp: (index + 1) >= chat.count ? 0 : chat.model.dataByIndex(index + 1, Room.Timestamp)
-    property bool previousMessageIsStateEvent: (index + 1) >= chat.count ? true : chat.model.dataByIndex(index + 1, Room.IsStateEvent)
-    property string previousMessageUserId: (index + 1) >= chat.count ? "" : chat.model.dataByIndex(index + 1, Room.UserId)
-
-    required property date timestamp
-    required property string userId
-    required property string userName
-    required property string threadId
-    required property int userPowerlevel
-    required property bool isEdited
-    required property bool isEncrypted
-    required property var reactions
-    required property int status
-    required property int trustlevel
-    required property int notificationlevel
-    required property int type
-    required property bool isEditable
-
-    required property QtObject messageContextMenu
-    required property QtObject replyContextMenu
-    required property Item messageActions
+    styleProfile: TimelineStyleProfile {
+        fileMessagePadding: 12
+        showFileMessageBackground: true
+        showEncryptedMessageBackground: true
+    }
 
     property int avatarMargin: (wrapper.isStateEvent ? 0 : (Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8)) // align with avatar
 
     property alias hovered: messageHover.hovered
 
-    property int oneHour: 60 * 60 * 1000
-    property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour
-    readonly property bool hasRoom: wrapper.room !== null
-
     mainInset: (threadId ? (4 + Nheko.paddingSmall) : 0)
     replyInset: mainInset + 4 + Nheko.paddingSmall
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - metadata.width
-
-    function openMessageActions(pin, anchorItem) {
-        if (!anchorItem)
-            return;
-
-        hoverDismissTimer.stop();
-        messageActions.model = wrapper;
-        messageActions.attached = wrapper;
-        messageActions.pinned = pin;
-
-        var pos = anchorItem.mapToItem(chat.contentItem, 0, 0);
-        var barW = messageActions.implicitWidth;
-
-        // Y: bar opens upward from anchor top
-        messageActions.y = pos.y - messageActions.implicitHeight;
-
-        var leftBound = wrapper.x + Nheko.paddingLarge;
-        var rightBound = wrapper.x + wrapper.width - Nheko.paddingLarge;
-        var minX = leftBound;
-        var maxX = rightBound - barW;
-        if (maxX < minX) {
-            minX = wrapper.x;
-            maxX = wrapper.x + wrapper.width - barW;
-        }
-        if (pin) {
-            // X (button mode): center on anchor, clamped to delegate bounds
-            var centerX = pos.x + anchorItem.width / 2 - barW / 2;
-            messageActions.x = Math.max(minX, Math.min(centerX, maxX));
-        } else {
-            // X (hover mode): align to message side
-            messageActions.x = wrapper.isSender ? maxX : minX;
-        }
-    }
+    hoverDismissTimerRef: hoverDismissTimer
 
     data: [
         Loader {
             id: section
 
-            active: wrapper.previousMessageUserId !== wrapper.userId || wrapper.showSection || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent
+            active: wrapper.startsNewMessageGroup
             //asynchronous: true
-            sourceComponent: TimelineSectionHeader {
+            sourceComponent: TimelineMinimalSectionHeader {
                 day: wrapper.day
                 isSender: wrapper.isSender
                 isStateEvent: wrapper.isStateEvent
@@ -128,7 +68,7 @@ TimelineEvent {
                 gesturePolicy: TapHandler.ReleaseWithinBounds
 
                 onSingleTapped: (event) => {
-                    messageContextMenu.show(wrapper.eventId, wrapper.threadId, wrapper.type, wrapper.isSender, wrapper.isEncrypted, wrapper.isEditable, wrapper.main.hoveredLink, wrapper.main.copyText);
+                    wrapper.openMessageContextMenu(wrapper.main.hoveredLink, wrapper.main.copyText);
                     event.accepted = true;
                 }
             }
@@ -186,12 +126,12 @@ TimelineEvent {
             ToolTip.visible: messageUserAvatar.hovered
             displayName: wrapper.userName
             height: Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
-            url: !wrapper.room ? "" : wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/")
+            url: wrapper.avatarImageUrl(wrapper.userId)
             userid: wrapper.userId
             width: Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
 
             visible: !wrapper.isStateEvent
-            opacity: (wrapper.previousMessageUserId !== wrapper.userId || wrapper.showSection || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent) ? 1.0 : 0.0
+            opacity: wrapper.startsNewMessageGroup ? 1.0 : 0.0
 
             x: 0
             y: section.visible && section.active ? section.y + section.height : 0
@@ -204,10 +144,7 @@ TimelineEvent {
 
             Connections {
                 function onRoomAvatarUrlChanged() {
-                    if (wrapper.room) {
-                        messageUserAvatar.url =
-                          wrapper.room.avatarUrl(wrapper.userId).replace("mxc://", "image://MxcImage/");
-                    }
+                    messageUserAvatar.url = wrapper.avatarImageUrl(wrapper.userId);
                 }
                 target: wrapper.room
             }
@@ -223,32 +160,14 @@ TimelineEvent {
             HoverHandler {
                 id: messageHover
                 blocking: false
-                onHoveredChanged: {
-                    if (Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.OnHover)
-                        return;
-
-                    if (hovered) {
-                        hoverDismissTimer.stop();
-                        wrapper.openMessageActions(false, wrapper.main);
-                    } else if (messageActions.attached === wrapper && !messageActions.pinned) {
-                        hoverDismissTimer.restart();
-                    }
-                }
+                onHoveredChanged: wrapper.handleMessageHoverChanged(hovered, wrapper.main)
             }
 
             Timer {
                 id: hoverDismissTimer
                 interval: 180
                 repeat: false
-                onTriggered: {
-                    if (Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.OnHover)
-                        return;
-                    if (messageActions.attached !== wrapper || messageActions.pinned)
-                        return;
-                    if (messageHover.hovered || messageActions.hovered)
-                        return;
-                    messageActions.dismiss();
-                }
+                onTriggered: wrapper.handleHoverDismissTimerTriggered(messageHover.hovered)
             }
 
             AbstractButton {
@@ -288,7 +207,9 @@ TimelineEvent {
 
                     leftPadding: Nheko.paddingSmall + 4
 
-                    property color userColor: TimelineManager.roomUserColor(wrapper.room ? wrapper.room.roomId : '', wrapper.reply?.userId ?? '', palette.base, palette.highlight)
+                    property color userColor: wrapper.room
+                        ? TimelineManager.roomUserColor(wrapper.room.roomId, wrapper.reply?.userId ?? '', palette.base, palette.highlight)
+                        : TimelineManager.userColor(wrapper.reply?.userId ?? '', palette.base)
 
                     clip: true
 
@@ -352,10 +273,10 @@ TimelineEvent {
                             }
                         }
                     }
-                    onPressAndHold: wrapper.replyContextMenu.show(wrapper.reply.copyText ?? "", wrapper.reply.linkAt ? wrapper.reply.linkAt(pressX-replyLine.width - Nheko.paddingSmall, pressY - replyUserButton.implicitHeight) : "", wrapper.replyTo)
+                    onPressAndHold: wrapper.openReplyContextMenu(wrapper.reply, wrapper.replyTo, pressX, pressY, replyLine.width, replyUserButton.implicitHeight)
                     TapHandler {
                         acceptedButtons: Qt.RightButton
-                        onSingleTapped: (eventPoint) => wrapper.replyContextMenu.show(wrapper.reply.copyText ?? "", wrapper.reply.linkAt ? wrapper.reply.linkAt(eventPoint.position.x-replyLine.width - Nheko.paddingSmall, eventPoint.position.y - replyUserButton.implicitHeight) : "", wrapper.replyTo)
+                        onSingleTapped: (eventPoint) => wrapper.openReplyContextMenu(wrapper.reply, wrapper.replyTo, eventPoint.position.x, eventPoint.position.y, replyLine.width, replyUserButton.implicitHeight)
                         gesturePolicy: TapHandler.ReleaseWithinBounds
                         acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
                     }
@@ -415,6 +336,7 @@ TimelineEvent {
                 visible: !wrapper.isStateEvent
 
                 eventId: wrapper.eventId
+                forceTrailingTimestampLayout: true
                 status: wrapper.status
                 trustlevel: wrapper.trustlevel
                 isEdited: wrapper.isEdited
@@ -428,11 +350,7 @@ TimelineEvent {
         Connections {
             target: metadata
             function onActionToggled() {
-                if (messageActions.pinned && messageActions.attached === wrapper) {
-                    messageActions.dismiss();
-                } else {
-                    wrapper.openMessageActions(true, metadata.actionToggleButton);
-                }
+                wrapper.togglePinnedMessageActions(metadata.actionToggleButton);
             }
         },
         Item {
@@ -448,7 +366,7 @@ TimelineEvent {
                 gesturePolicy: TapHandler.ReleaseWithinBounds
 
                 onSingleTapped: (event) => {
-                    messageContextMenu.show(wrapper.eventId, wrapper.threadId, wrapper.type, wrapper.isSender, wrapper.isEncrypted, wrapper.isEditable, wrapper.main.hoveredLink, wrapper.main.copyText);
+                    wrapper.openMessageContextMenu(wrapper.main.hoveredLink, wrapper.main.copyText);
                 }
             }
         },
@@ -462,14 +380,13 @@ TimelineEvent {
 
             anchors {
                 top: gridContainer.bottom
-                topMargin: -4
+                topMargin: 0
             }
         },
-        Rectangle {
+        Item {
             id: unreadRow
 
-            color: palette.highlight
-            height: visible ? 3 : 0
+            height: visible ? (3 + Nheko.paddingSmall) : 0
             visible: wrapper.hasRoom && (wrapper.index > 0 && (wrapper.room.fullyReadEventId == wrapper.eventId))
 
             anchors {
@@ -477,6 +394,14 @@ TimelineEvent {
                 right: parent.right
                 top: reactionRow.bottom
                 topMargin: 5
+            }
+
+            Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                color: palette.highlight
+                height: 3
             }
         }
     ]

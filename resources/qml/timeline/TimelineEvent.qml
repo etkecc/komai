@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./delegates"
+import "../delegates"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
@@ -15,6 +15,8 @@ EventDelegateChooser {
 
     required property bool isStateEvent
     property bool scrolledToThis: false
+    property QtObject styleProfile: TimelineStyleProfile {}
+    property QtObject resolvedStyleProfile: styleProfile
 
     // qmllint disable required
     EventDelegateChoice {
@@ -63,7 +65,7 @@ EventDelegateChooser {
             Layout.fillWidth: true
             body: formatted
             formatted: formattedStateEvent
-            isOnlyEmoji: false
+            isOnlyEmoji: 0
             isReply: EventDelegateChooser.isReply
             isStateEvent: true
             keepFullText: true
@@ -91,7 +93,7 @@ EventDelegateChooser {
                     return qsTr("%1 placed a call.").arg(TimelineManager.escapeEmoji(userName));
                 }
             }
-            isOnlyEmoji: false
+            isOnlyEmoji: 0
             keepFullText: true
         }
     }
@@ -123,7 +125,7 @@ EventDelegateChooser {
                     return qsTr("%1 is negotiating the call...").arg(TimelineManager.escapeEmoji(userName));
                 }
             }
-            isOnlyEmoji: false
+            isOnlyEmoji: 0
             keepFullText: true
         }
     }
@@ -148,6 +150,7 @@ EventDelegateChooser {
             required property string userName
 
             Layout.fillWidth: true
+            styleProfile: resolvedStyleProfile
         }
     }
     EventDelegateChoice {
@@ -168,6 +171,7 @@ EventDelegateChooser {
             required property string userName
 
             Layout.fillWidth: true
+            styleProfile: resolvedStyleProfile
         }
     }
     EventDelegateChoice {
@@ -205,7 +209,7 @@ EventDelegateChooser {
                 Layout.fillWidth: true
                 body: formatted
                 formatted: member.formattedStateEvent
-                isOnlyEmoji: false
+                isOnlyEmoji: 0
                 isReply: EventDelegateChooser.isReply
                 isStateEvent: true
                 keepFullText: true
@@ -238,7 +242,7 @@ EventDelegateChooser {
                 Layout.fillWidth: true
                 body: formatted
                 formatted: qsTr("This room was replaced for the following reason: %1").arg(tombstone.body)
-                isOnlyEmoji: false
+                isOnlyEmoji: 0
                 isReply: EventDelegateChooser.isReply
                 isStateEvent: true
                 keepFullText: true

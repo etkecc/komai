@@ -7,6 +7,7 @@ import "./ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import Qt5Compat.GraphicalEffects
 import im.nheko 1.0
 
 AbstractButton {
@@ -43,37 +44,55 @@ AbstractButton {
         verticalAlignment: Text.AlignVCenter
         visible: img.status != Image.Ready && !Settings.uiAvatarsIdenticonFallback
     }
-    Image {
-        id: identicon
+    Item {
+        id: avatarClipper
 
         anchors.fill: parent
-        source: Settings.uiAvatarsIdenticonFallback ? ("image://jdenticon/" + (avatar.userid !== "" ? avatar.userid : avatar.roomid) + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25)) : ""
-        visible: Settings.uiAvatarsIdenticonFallback && img.status != Image.Ready
-    }
-    Image {
-        id: img
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: Rectangle {
+                width: avatarClipper.width
+                height: avatarClipper.height
+                radius: Settings.uiAvatarsCircular ? height / 2 : height / 8
+            }
+        }
 
-        anchors.fill: parent
-        asynchronous: true
-        fillMode: avatar.crop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-        source: if (avatar.url.startsWith('image://colorimage')) {
-            return avatar.url + "&radius=" + (Settings.uiAvatarsCircular ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
-        } else if (avatar.url.startsWith('image://')) {
-            return avatar.url + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
-        } else if (avatar.url.startsWith(':/')) {
-            return "image://colorimage/" + avatar.url + "?" + label.color;
-        } else {
-            return "";
+        Image {
+            id: identicon
+
+            anchors.fill: parent
+            source: Settings.uiAvatarsIdenticonFallback ? ("image://jdenticon/" + (avatar.userid !== "" ? avatar.userid : avatar.roomid) + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25)) : ""
+            visible: Settings.uiAvatarsIdenticonFallback && img.status != Image.Ready
         }
-        sourceSize.height: if (!avatar.url.startsWith('image://MxcImage/') && avatar.url.endsWith('.svg')){
-            return avatar.height
-        } else {
-            return avatar.height * Screen.devicePixelRatio
-        }
-        sourceSize.width: if (!avatar.url.startsWith('image://MxcImage/') && avatar.url.endsWith('.svg')){
-            return avatar.width
-        } else {
-            return avatar.width * Screen.devicePixelRatio
+        Image {
+            id: img
+
+            anchors.fill: parent
+            asynchronous: true
+            fillMode: avatar.crop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+            source: if (avatar.url.startsWith('image://colorimage')) {
+                return avatar.url + "&radius=" + (Settings.uiAvatarsCircular ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
+            } else if (avatar.url.startsWith('image://')) {
+                return avatar.url + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
+            } else if (avatar.url.startsWith(':/logos/') || avatar.url.startsWith('qrc:/logos/')
+                       || avatar.url.startsWith(':/preview-avatars/') || avatar.url.startsWith('qrc:/preview-avatars/')) {
+                // Keep branded logos and bundled avatar images un-tinted.
+                return avatar.url;
+            } else if (avatar.url.startsWith(':/')) {
+                return "image://colorimage/" + avatar.url + "?" + label.color;
+            } else {
+                return "";
+            }
+            sourceSize.height: if (!avatar.url.startsWith('image://MxcImage/') && avatar.url.endsWith('.svg')){
+                return avatar.height
+            } else {
+                return avatar.height * Screen.devicePixelRatio
+            }
+            sourceSize.width: if (!avatar.url.startsWith('image://MxcImage/') && avatar.url.endsWith('.svg')){
+                return avatar.width
+            } else {
+                return avatar.width * Screen.devicePixelRatio
+            }
         }
     }
     Rectangle {

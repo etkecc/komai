@@ -3,10 +3,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./components"
-import "./emoji"
-import "./ui"
-import "./voip"
+import "../components"
+import "../emoji"
+import "../ui"
+import "../voip"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -139,14 +139,14 @@ Item {
                         filterByNotifications: topBar.filterNotifications
                     }
                     Loader {
-                        source: CallManager.isOnCall && CallManager.callType != Voip.VOICE && Settings.callsLegacyEnabled ? (Qt.platform.os != "windows" ? "voip/VideoCall.qml" : "voip/VideoCallD3D11.qml") : ""
+                        source: CallManager.isOnCall && CallManager.callType != Voip.VOICE && Settings.callsLegacyEnabled ? (Qt.platform.os != "windows" ? "../voip/VideoCall.qml" : "../voip/VideoCallD3D11.qml") : ""
 
                         onLoaded: TimelineManager.setVideoCallItem()
                     }
                 }
                 TypingIndicator {
                     id: typingIndicator
-
+                    room: timelineView.room
                 }
             }
         }
@@ -165,8 +165,7 @@ Item {
         Repeater {
             model: room ? room.input.mentions : null
 
-            MessageInputWarning {
-                required property string modelData
+            delegate: MessageInputWarning {
                 bubbleColor: modelData == "@room" ? Nheko.theme.error : Nheko.theme.orange
                 text: modelData == "@room" ? qsTr("You are about to notify the whole room") : qsTr("You will be mentioning %1").arg(modelData)
                 showRemove: true

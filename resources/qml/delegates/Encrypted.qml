@@ -13,6 +13,7 @@ Control {
 
     required property int encryptionError
     required property string eventId
+    required property QtObject styleProfile
 
     padding: Nheko.paddingMedium
     implicitHeight: contents.implicitHeight + Nheko.paddingMedium * 2
@@ -75,6 +76,6 @@ Control {
     background: Rectangle {
         color: palette.alternateBase
         radius: fontMetrics.lineSpacing / 2 + 2 * Nheko.paddingMedium
-        visible: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Minimal // the bubble in a bubble looks odd
+        visible: styleProfile.showEncryptedMessageBackground
     }
 }

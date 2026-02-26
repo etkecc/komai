@@ -7,7 +7,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
 import im.nheko 1.0
-import "../../components/"
 
 RowLayout {
     Label {

@@ -10,7 +10,6 @@ import QtQuick.Window 2.15
 import im.nheko 1.0
 import "onboarding" as Onboarding
 import "welcome" as Welcome
-import ".."
 
 Item {
     id: root

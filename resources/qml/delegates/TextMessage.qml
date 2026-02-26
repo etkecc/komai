@@ -4,14 +4,26 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import ".."
+import QtQuick.Window
 import im.nheko
 
 MatrixText {
     required property string body
-    required property bool isOnlyEmoji
+    required property int isOnlyEmoji
     property bool isReply: EventDelegateChooser.isReply
     required property bool keepFullText
     required property string formatted
+    readonly property bool emojiOnlyMessage: isOnlyEmoji > 0 && isOnlyEmoji < 4
+    readonly property bool enlargedEmojiOnly: Settings.timelineMessagesEmojiOnlyEnlarge && emojiOnlyMessage
+    // Cap enlarged emoji-only messages against the default timeline avatar size.
+    // We intentionally ignore the "small avatars" toggle here: otherwise the cap gets too low and
+    // "enlarged" emojis can end up near regular text size, which defeats the feature.
+    readonly property real timelineAvatarSize: Nheko.avatarSize
+    readonly property real pixelsPerPoint: Math.max(0.01, Screen.pixelDensity * 25.4 / 72)
+    readonly property int enlargedEmojiCapPixelSize: Math.max(1, Math.round(timelineAvatarSize * 0.9))
+    readonly property real enlargedEmojiCapPointSize: enlargedEmojiCapPixelSize / pixelsPerPoint
+    readonly property real enlargedEmojiPointSize: Math.min(Settings.uiFontSizePt * 3, enlargedEmojiCapPointSize)
+    readonly property int emojiBottomTrim: emojiOnlyMessage ? Math.min(18, Math.round(font.pixelSize * 0.32)) : 0
 
     property string copyText: selectedText ? getText(selectionStart, selectionEnd) : body
     property int metadataWidth: 100
@@ -42,7 +54,8 @@ MatrixText {
     ` + formatted.replace(/<del>/g, "<s>").replace(/<\/del>/g, "</s>").replace(/<strike>/g, "<s>").replace(/<\/strike>/g, "</s>")
 
     enabled: !isReply
-    font.pointSize: (Settings.timelineMessagesEmojiOnlyEnlarge && isOnlyEmoji > 0 && isOnlyEmoji < 4) ? Settings.uiFontSizePt * 3 : Settings.uiFontSizePt
+    font.pointSize: enlargedEmojiOnly ? enlargedEmojiPointSize : Settings.uiFontSizePt
+    bottomPadding: -emojiBottomTrim
 
     NhekoCursorShape {
         enabled: isReply

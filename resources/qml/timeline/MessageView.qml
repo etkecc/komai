@@ -3,8 +3,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./ui"
-import "./dialogs"
+import "./styles/bubble"
+import "./styles/minimal"
+import "../components"
+import "../ui"
+import "../dialogs"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
@@ -78,7 +81,7 @@ Item {
         onHeightChanged: contentY = (lastScrollPos-height)
 
         Component {
-            id: defaultMessageStyle
+            id: minimalMessageStyle
 
             TimelineDefaultMessageStyle {
                 messageActions: messageActionsC
@@ -118,7 +121,17 @@ Item {
             }
         }
 
-        delegate: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Bubbles ? bubbleMessageStyle : defaultMessageStyle
+        function styleDelegateFor(style) {
+            switch (style) {
+            case Settings.TimelineMessagesStyle.Bubbles:
+                return bubbleMessageStyle;
+            case Settings.TimelineMessagesStyle.Minimal:
+            default:
+                return minimalMessageStyle;
+            }
+        }
+
+        delegate: styleDelegateFor(Settings.timelineMessagesStyle)
         footer: Item {
             width: chat.delegateMaxWidth
             // hacky, but works
@@ -271,15 +284,14 @@ Item {
                         Ripple {
                             color: Qt.rgba(btnPinned.buttonTextColor.r, btnPinned.buttonTextColor.g, btnPinned.buttonTextColor.b, 0.5)
                         }
-                        SequentialAnimation {
+                        HoverPulseAnimation {
                             id: pinnedPulseAnim
 
-                            NumberAnimation { target: btnPinned; property: "scale"; from: 1.0; to: 1.2; duration: 150; easing.type: Easing.OutQuad }
-                            NumberAnimation { target: btnPinned; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
+                            targetItem: btnPinned
                         }
                         onHoveredChanged: {
-                            if (hovered && Settings.uiMotionAnimationsEnabled)
-                                pinnedPulseAnim.start();
+                            if (hovered)
+                                pinnedPulseAnim.pulse();
                         }
                     }
                 }
@@ -339,36 +351,15 @@ Item {
                         Ripple {
                             color: Qt.rgba(btnRecent.buttonTextColor.r, btnRecent.buttonTextColor.g, btnRecent.buttonTextColor.b, 0.5)
                         }
-                        SequentialAnimation {
+                        HoverPulseAnimation {
                             id: recentPulseAnim
 
-                            NumberAnimation { target: btnRecent; property: "scale"; from: 1.0; to: 1.2; duration: 150; easing.type: Easing.OutQuad }
-                            NumberAnimation { target: btnRecent; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
+                            targetItem: btnRecent
                         }
                         onHoveredChanged: {
-                            if (hovered && Settings.uiMotionAnimationsEnabled)
-                                recentPulseAnim.start();
+                            if (hovered)
+                                recentPulseAnim.pulse();
                         }
-                    }
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Edit")
-                    ToolTip.visible: hovered
-                    buttonTextColor: palette.buttonText
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/edit.svg"
-                    visible: !!row.model && row.model.isEditable
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-
-                    onClicked: {
-                        if (row.model.isEditable)
-                            room.edit = row.model.eventId;
-                        messageActionsC.dismiss();
                     }
                 }
                 ImageButton {
@@ -391,6 +382,26 @@ Item {
                             room.input.reaction(event_id, plaintext);
                             TimelineManager.focusMessageInput();
                         })
+                }
+                ImageButton {
+                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.text: qsTr("Edit")
+                    ToolTip.visible: hovered
+                    buttonTextColor: palette.buttonText
+                    hoverEnabled: true
+                    hoverPulse: true
+                    image: ":/icons/icons/ui/edit.svg"
+                    visible: !!row.model && row.model.isEditable
+                    leftPadding: row.itemPadding
+                    rightPadding: row.itemPadding
+                    Layout.preferredWidth: 32 + 2 * row.itemPadding
+                    Layout.preferredHeight: 32
+
+                    onClicked: {
+                        if (row.model.isEditable)
+                            room.edit = row.model.eventId;
+                        messageActionsC.dismiss();
+                    }
                 }
                 ImageButton {
                     ToolTip.delay: Nheko.tooltipDelay

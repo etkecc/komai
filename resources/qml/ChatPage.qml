@@ -4,10 +4,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import "components"
 import "components/banners" as Banners
+import "timeline" as Timeline
 import im.nheko 1.0
 
 // this needs to be last
@@ -109,7 +109,7 @@ Rectangle {
                     Banners.SelfVerificationBanner {
                         Layout.fillWidth: true
                     }
-                    TimelineView {
+                    Timeline.TimelineView {
                         id: timeline
 
                         Layout.fillHeight: true

@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pragma ComponentBehavior: Bound
+import "./components"
 import "./ui"
 import QtQuick
 import QtQuick.Controls
@@ -48,14 +49,13 @@ AbstractButton {
         color: Qt.rgba(button.buttonTextColor.r, button.buttonTextColor.g, button.buttonTextColor.b, 0.5)
         enabled: button.ripple
     }
-    SequentialAnimation {
+    HoverPulseAnimation {
         id: hoverPulseAnim
 
-        NumberAnimation { target: button; property: "scale"; from: 1.0; to: 1.2; duration: 150; easing.type: Easing.OutQuad }
-        NumberAnimation { target: button; property: "scale"; from: 1.2; to: 1.0; duration: 150; easing.type: Easing.InQuad }
+        targetItem: button
     }
     onHoveredChanged: {
-        if (hovered && hoverPulse && Settings.uiMotionAnimationsEnabled)
-            hoverPulseAnim.start();
+        if (hovered && hoverPulse)
+            hoverPulseAnim.pulse();
     }
 }

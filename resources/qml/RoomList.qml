@@ -5,6 +5,7 @@
 
 import "./components"
 import "./dialogs"
+import "./timeline" as Timeline
 import "./ui"
 import QtQuick
 import QtQuick.Controls
@@ -826,7 +827,7 @@ Page {
 
                     onActivated: roomWindowW.close()
                 }
-                TimelineView {
+                Timeline.TimelineView {
                     id: timeline
 
                     anchors.fill: parent

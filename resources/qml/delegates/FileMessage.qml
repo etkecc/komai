@@ -11,11 +11,12 @@ import im.nheko
 Control {
     id: evRoot
 
+    required property QtObject styleProfile
     required property string eventId
     required property string filename
     required property string filesize
 
-    padding: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Bubbles ? 8 : 12
+    padding: styleProfile.fileMessagePadding
     //Layout.preferredHeight: rowa.implicitHeight + padding
     //Layout.maximumWidth: rowa.Layout.maximumWidth + metadataWidth + padding
     property int metadataWidth: 0
@@ -93,7 +94,7 @@ Control {
     background: Rectangle {
         color: palette.alternateBase
         radius: fontMetrics.lineSpacing / 2 + 2 * Nheko.paddingSmall
-        visible: Settings.timelineMessagesStyle === Settings.TimelineMessagesStyle.Minimal // the bubble in a bubble looks odd
+        visible: styleProfile.showFileMessageBackground
     }
 
 }

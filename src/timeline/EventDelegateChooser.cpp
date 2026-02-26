@@ -8,7 +8,10 @@
 
 #include "Logging.h"
 
+#include <QJSValue>
+#include <QQmlContext>
 #include <QQmlEngine>
+#include <QQmlExpression>
 #include <QtGlobal>
 
 #include <ranges>
@@ -102,6 +105,106 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
     item->setParentItem(&chooser);
     item->setParent(&chooser);
 
+    auto attached = qobject_cast<EventDelegateChooserAttachedType *>(
+      qmlAttachedPropertiesObject<EventDelegateChooser>(obj));
+    Q_ASSERT(attached != nullptr);
+    attached->setIsReply(this->forReply || chooser.limitAsReply_);
+
+    auto chooserContext = QQmlEngine::contextForObject(&chooser);
+    if (!chooserContext)
+        chooserContext = QQmlEngine::contextForObject(obj);
+    // Workaround for https://bugreports.qt.io/browse/QTBUG-98846
+    QHash<QString, RequiredPropertyKey> requiredProperties;
+    for (const auto &[propKey, prop] :
+         QQmlIncubatorPrivate::get(this)->requiredProperties()->asKeyValueRange()) {
+        requiredProperties.insert(prop.propertyName, propKey);
+    }
+
+    auto mo                = obj->metaObject();
+    auto evaluateInContext = [chooserContext, this](const QString &expressionText) -> QVariant {
+        if (!chooserContext)
+            return {};
+
+        QQmlExpression expr(chooserContext, &chooser, expressionText);
+        auto value = expr.evaluate();
+        if (expr.hasError())
+            return {};
+        return value;
+    };
+
+    auto readPreviewValue =
+      [this, chooserContext, evaluateInContext](const char *propertyName) -> QVariant {
+        auto key         = QString::fromUtf8(propertyName);
+        auto previewData = chooser.property("previewData");
+        if (previewData.isValid()) {
+            QVariantMap previewMap;
+            if (previewData.canConvert<QVariantMap>()) {
+                previewMap = previewData.toMap();
+            } else if (previewData.userType() == qMetaTypeId<QJSValue>()) {
+                previewMap = previewData.value<QJSValue>().toVariant().toMap();
+            }
+
+            if (auto it = previewMap.find(key); it != previewMap.end())
+                return it.value();
+        }
+
+        auto chooserMeta = chooser.metaObject();
+        if (chooserMeta->indexOfProperty(propertyName) >= 0) {
+            auto directValue = chooser.property(propertyName);
+            if (directValue.isValid())
+                return directValue;
+        }
+
+        if (!chooserContext)
+            return {};
+
+        auto name         = key;
+        auto contextValue = chooserContext->contextProperty(name);
+        if (contextValue.isValid())
+            return contextValue;
+
+        auto modelData = chooserContext->contextProperty(QStringLiteral("modelData"));
+        if (modelData.canConvert<QVariantMap>()) {
+            auto modelMap = modelData.toMap();
+            if (auto it = modelMap.find(name); it != modelMap.end())
+                return it.value();
+        }
+
+        if (auto value = evaluateInContext(name); value.isValid())
+            return value;
+
+        if (auto value = evaluateInContext(QStringLiteral("modelData.%1").arg(name));
+            value.isValid())
+            return value;
+
+        if (auto value = evaluateInContext(QStringLiteral("model.%1").arg(name)); value.isValid())
+            return value;
+
+        return {};
+    };
+
+    // Preview delegates may be instantiated without a TimelineModel room.
+    // In that case, populate required properties from the delegate context.
+    if (!chooser.room_) {
+        Qt::beginPropertyUpdateGroup();
+        for (int i = 0; i < mo->propertyCount(); i++) {
+            auto prop = mo->property(i);
+            if (!prop.isRequired() && !requiredProperties.contains(prop.name()))
+                continue;
+
+            auto value = readPreviewValue(prop.name());
+            if (!value.isValid())
+                continue;
+
+            mo->property(i).write(obj, value);
+            if (const auto &req = requiredProperties.find(prop.name());
+                req != requiredProperties.end())
+                QQmlIncubatorPrivate::get(this)->requiredProperties()->remove(*req);
+        }
+        Qt::endPropertyUpdateGroup();
+        return;
+    }
+
     auto roleNames = chooser.room_->roleNames();
     QHash<QByteArray, int> nameToRole;
     for (const auto &[k, v] : roleNames.asKeyValueRange()) {
@@ -110,41 +213,22 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
 
     QHash<int, int> roleToPropIdx;
     std::vector<QModelRoleData> roles;
-    // Workaround for https://bugreports.qt.io/browse/QTBUG-98846
-    QHash<QString, RequiredPropertyKey> requiredProperties;
-    for (const auto &[propKey, prop] :
-         QQmlIncubatorPrivate::get(this)->requiredProperties()->asKeyValueRange()) {
-        requiredProperties.insert(prop.propertyName, propKey);
-    }
-
-    // collect required properties
-    auto mo = obj->metaObject();
     for (int i = 0; i < mo->propertyCount(); i++) {
         auto prop = mo->property(i);
-        // nhlog::ui()->critical("Found prop {}", prop.name());
-        //  See https://bugreports.qt.io/browse/QTBUG-98846
         if (!prop.isRequired() && !requiredProperties.contains(prop.name()))
             continue;
 
         if (auto role = nameToRole.find(prop.name()); role != nameToRole.end()) {
             roleToPropIdx.insert(*role, i);
             roles.emplace_back(*role);
-
-            // nhlog::ui()->critical("Found prop {}, idx {}, role {}", prop.name(), i, *role);
         } else {
             nhlog::ui()->critical("Required property {} not found in model!", prop.name());
         }
     }
 
-    // nhlog::ui()->debug("Querying data for id {}", currentId.toStdString());
     chooser.room_->multiData(currentId, forReply ? chooser.eventId_ : QString(), roles);
 
     Qt::beginPropertyUpdateGroup();
-    auto attached = qobject_cast<EventDelegateChooserAttachedType *>(
-      qmlAttachedPropertiesObject<EventDelegateChooser>(obj));
-    Q_ASSERT(attached != nullptr);
-    attached->setIsReply(this->forReply || chooser.limitAsReply_);
-
     for (const auto &role : roles) {
         const auto &roleName = roleNames[role.role()];
         // nhlog::ui()->critical("Setting role {}, {} to {}",
@@ -241,17 +325,32 @@ EventDelegateChooser::DelegateIncubator::setInitialState(QObject *obj)
 void
 EventDelegateChooser::DelegateIncubator::reset(QString id)
 {
-    if (!chooser.room_ || id.isEmpty())
+    if (id.isEmpty())
         return;
 
     // nhlog::ui()->debug("Reset with id {}, reply {}", id.toStdString(), forReply);
 
     this->currentId = id;
 
-    auto role =
-      chooser.room_
-        ->dataById(id, TimelineModel::Roles::Type, forReply ? chooser.eventId_ : QString())
-        .toInt();
+    int role = -1;
+    if (chooser.room_) {
+        role = chooser.room_
+                 ->dataById(id, TimelineModel::Roles::Type, forReply ? chooser.eventId_ : QString())
+                 .toInt();
+    } else {
+        QVariant roleValue = chooser.property("type");
+        if (!roleValue.isValid()) {
+            if (auto chooserContext = QQmlEngine::contextForObject(&chooser)) {
+                roleValue = chooserContext->contextProperty(QStringLiteral("type"));
+                if (!roleValue.isValid()) {
+                    QQmlExpression expr(chooserContext, &chooser, QStringLiteral("type"));
+                    roleValue = expr.evaluate();
+                }
+            }
+        }
+
+        role = roleValue.toInt();
+    }
     this->oldType = role;
 
     for (const auto choice : std::as_const(chooser.choices_)) {

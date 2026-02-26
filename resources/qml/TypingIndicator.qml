@@ -8,6 +8,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 
 Item {
+    property var room: null
+
     Layout.fillWidth: true
     implicitHeight: Math.max(fontMetrics.height * 1.2, typingDisplay.height)
 

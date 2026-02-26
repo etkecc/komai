@@ -3,6 +3,11 @@
     // TimelinePresentationSection
     { QT_TR_NOOP("Presentation"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // TimelinePresentationPreview
+    { QT_TR_NOOP("Timeline preview"),
+      QT_TR_NOOP("Live preview powered by the same timeline delegates used in rooms."),
+      SM::TimelinePreview, SM::TabTimeline,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TimelineMessagesStyle
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Style",

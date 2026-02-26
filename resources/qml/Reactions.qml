@@ -109,7 +109,8 @@ Flow {
             }
             onClicked: {
                 console.debug("Picked " + modelData.key + "in response to " + reactionFlow.eventId + ". selfReactedEvent: " + modelData.selfReactedEvent);
-                room.input.reaction(reactionFlow.eventId, modelData.key);
+                if (room && room.input)
+                    room.input.reaction(reactionFlow.eventId, modelData.key);
             }
 
             NhekoCursorShape {

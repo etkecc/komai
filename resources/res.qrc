@@ -97,6 +97,10 @@
         <file>komai-32.png</file>
         <file>komai-16.png</file>
     </qresource>
+    <qresource prefix="/preview-avatars">
+        <file alias="alice.png">preview-avatars/alice.png</file>
+        <file alias="bob.png">preview-avatars/bob.png</file>
+    </qresource>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>confettiparticle.svg</file>

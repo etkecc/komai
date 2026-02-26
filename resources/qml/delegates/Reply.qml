@@ -7,7 +7,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
 import im.nheko
-import "../"
 
 AbstractButton {
     id: r

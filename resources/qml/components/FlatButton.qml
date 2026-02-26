@@ -16,6 +16,7 @@ Button {
     implicitHeight: Math.ceil(control.contentItem.implicitHeight * 1.70)
     implicitWidth: Math.ceil(control.contentItem.implicitWidth + control.contentItem.implicitHeight)
     hoverEnabled: true
+    opacity: enabled ? 1.0 : 0.6
 
     property string iconImage: ""
 
@@ -24,7 +25,7 @@ Button {
         shadowHorizontalOffset: 3
         shadowVerticalOffset: 3
         shadowBlur: 8
-        shadowEnabled: true
+        shadowEnabled: control.enabled
         shadowColor: "#80000000"
         source: control.background
     }
@@ -48,7 +49,7 @@ Button {
             font.capitalization: Font.AllUppercase
             font.pointSize: Math.ceil(Settings.uiFontSizePt * 1.5)
             //font.capitalization: Font.AllUppercase
-            color: palette.light
+            color: control.enabled ? palette.light : palette.buttonText
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
@@ -59,7 +60,7 @@ Button {
         //height: control.contentItem.implicitHeight * 2
         //width: control.contentItem.implicitWidth * 2
         radius: height / 8
-        color: Qt.lighter(palette.dark, control.down ? 1.4 : (control.hovered ? 1.2 : 1))
+        color: control.enabled ? Qt.lighter(palette.dark, control.down ? 1.4 : (control.hovered ? 1.2 : 1)) : palette.mid
     }
 
 }

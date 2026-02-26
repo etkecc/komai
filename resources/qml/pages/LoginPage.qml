@@ -17,6 +17,8 @@ Item {
     property int maxExpansion: 400
 
     property string error: login.error
+    property bool hasPendingLoginInput: matrixIdLabel.text !== login.mxid || (login.homeserverNeeded && hsLabel.text !== login.homeserver)
+    property bool loginEnabled: login.homeserverValid && !hasPendingLoginInput
 
     Login {
         id: login
@@ -177,10 +179,21 @@ Item {
                 wrapMode: TextEdit.Wrap
             }
 
+            MatrixText {
+                Layout.fillWidth: true
+                textFormat: Text.PlainText
+                color: palette.buttonText
+                visible: !loginPage.error && (login.lookingUpHs || loginPage.hasPendingLoginInput || (login.homeserverNeeded && !login.homeserverValid))
+                text: login.lookingUpHs ? qsTr("Checking homeserver...")
+                                       : (loginPage.hasPendingLoginInput ? qsTr("Finish editing the login fields to continue.")
+                                                                         : qsTr("Login is disabled until the homeserver address is valid."))
+                wrapMode: TextEdit.Wrap
+            }
+
             FlatButton {
                 id: pwBtn
                 visible: login.passwordSupported
-                enabled: login.homeserverValid && matrixIdLabel.text == login.mxid && login.homeserver == hsLabel.text
+                enabled: loginPage.loginEnabled
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("LOGIN")
                 function pwLogin() {
@@ -200,7 +213,7 @@ Item {
                 delegate: FlatButton {
                     id: ssoBtn
                     visible: login.ssoSupported
-                    enabled: login.homeserverValid && matrixIdLabel.text == login.mxid && login.homeserver == hsLabel.text
+                    enabled: loginPage.loginEnabled
                     Layout.alignment: Qt.AlignHCenter
                     text: modelData.name
                     iconImage: modelData.avatarUrl.replace("mxc://", "image://MxcImage/")

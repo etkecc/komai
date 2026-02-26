@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QDesktopServices>
+#include <QUrl>
 
 #include <set>
 
@@ -29,6 +30,51 @@ normalizeHomeserverInput(QString homeserver)
     homeserver.remove(u'\r');
     homeserver.remove(u'\n');
     return homeserver;
+}
+
+QString
+normalizeHomeserverUrl(QString homeserver)
+{
+    homeserver = normalizeHomeserverInput(homeserver);
+    if (homeserver.isEmpty())
+        return homeserver;
+
+    if (!homeserver.contains("://"))
+        homeserver.prepend("https://");
+
+    QUrl url(homeserver, QUrl::TolerantMode);
+    if (!url.isValid() || url.host().isEmpty())
+        return homeserver;
+
+    if (url.port() < 0)
+        url.setPort(443);
+
+    // mtxclient expects only protocol + host + port in set_server().
+    url.setPath(QString());
+    url.setQuery(QString());
+    url.setFragment(QString());
+    url.setUserName(QString());
+    url.setPassword(QString());
+
+    return url.toString(QUrl::FullyEncoded);
+}
+
+QString
+requestErrorDetails(const mtx::http::ClientError &err)
+{
+    if (!err.matrix_error.error.empty())
+        return QString::fromStdString(err.matrix_error.error);
+
+    if (!err.parse_error.empty())
+        return QString::fromStdString(err.parse_error);
+
+    if (err.error_code != 0)
+        return QString::fromLatin1(err.error_code_string());
+
+    if (err.status_code != 0)
+        return QStringLiteral("HTTP %1").arg(err.status_code);
+
+    return {};
 }
 }
 
@@ -86,13 +132,26 @@ LoginPage::showError(const QString &msg)
 void
 LoginPage::setHomeserver(const QString &hs)
 {
-    const auto normalized = normalizeHomeserverInput(hs);
+    const auto normalized = normalizeHomeserverUrl(hs);
+    if (normalized.isEmpty()) {
+        if (homeserver_.isEmpty())
+            return;
 
-    if (normalized != homeserver_) {
-        homeserver_      = normalized;
+        homeserver_.clear();
         homeserverValid_ = false;
         emit homeserverChanged();
-        http::client()->set_server(normalized.toStdString());
+        return;
+    }
+
+    http::client()->set_server(normalized.toStdString());
+    const auto effectiveHomeserver = QString::fromStdString(http::client()->server_url());
+
+    if (effectiveHomeserver != homeserver_) {
+        homeserver_      = effectiveHomeserver;
+        homeserverValid_ = false;
+        emit homeserverChanged();
+        checkHomeserverVersion();
+    } else if (!homeserverValid_) {
         checkHomeserverVersion();
     }
 }
@@ -127,10 +186,11 @@ LoginPage::onMatrixIdEntered()
         lookingUpHs_      = true;
         emit lookingUpHsChanged();
 
-        http::client()->set_server(user.hostname());
+        http::client()->set_server(
+          normalizeHomeserverUrl(QString::fromStdString(user.hostname())).toStdString());
         http::client()->verify_certificates(
           UserSettings::instance()->networkTlsEnableCertificateValidation());
-        homeserver_ = QString::fromStdString(user.hostname());
+        homeserver_ = QString::fromStdString(http::client()->server_url());
         emit homeserverChanged();
 
         http::client()->well_known(
@@ -155,8 +215,13 @@ LoginPage::onMatrixIdEntered()
                       return;
                   }
 
-                  emit versionErrorCb(tr("Autodiscovery failed. Unknown error when "
-                                         "requesting .well-known."));
+                  const auto details = requestErrorDetails(*err);
+                  if (details.isEmpty())
+                      emit versionErrorCb(
+                        tr("Autodiscovery failed. Unknown error when requesting .well-known."));
+                  else
+                      emit versionErrorCb(
+                        tr("Autodiscovery failed while requesting .well-known: %1").arg(details));
                   nhlog::net()->error("Autodiscovery failed. Unknown error when "
                                       "requesting .well-known. {}",
                                       *err);
@@ -164,7 +229,10 @@ LoginPage::onMatrixIdEntered()
               }
 
               nhlog::net()->info("Autodiscovery: Discovered '" + res.homeserver.base_url + "'");
-              http::client()->set_server(res.homeserver.base_url);
+              http::client()->set_server(
+                normalizeHomeserverUrl(QString::fromStdString(res.homeserver.base_url))
+                  .toStdString());
+              homeserver_ = QString::fromStdString(http::client()->server_url());
               emit homeserverChanged();
               checkHomeserverVersion();
           });
@@ -201,8 +269,13 @@ LoginPage::checkHomeserverVersion()
 
             nhlog::net()->error("Error requesting versions: {}", *err);
 
-            emit versionErrorCb(
-              tr("An unknown error occured. Make sure the homeserver domain is valid."));
+            const auto details = requestErrorDetails(*err);
+            if (details.isEmpty()) {
+                emit versionErrorCb(
+                  tr("An unknown error occured. Make sure the homeserver domain is valid."));
+            } else {
+                emit versionErrorCb(tr("Failed to contact the homeserver: %1").arg(details));
+            }
             return;
         }
 
@@ -345,7 +418,10 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
               }
 
               if (res.well_known) {
-                  http::client()->set_server(res.well_known->homeserver.base_url);
+                  http::client()->set_server(
+                    normalizeHomeserverUrl(
+                      QString::fromStdString(res.well_known->homeserver.base_url))
+                      .toStdString());
                   nhlog::net()->info("Login requested to use server: " +
                                      res.well_known->homeserver.base_url);
               }
@@ -380,7 +456,10 @@ LoginPage::onLoginButtonClicked(LoginMethod loginMethod,
                     }
 
                     if (res.well_known) {
-                        http::client()->set_server(res.well_known->homeserver.base_url);
+                        http::client()->set_server(
+                          normalizeHomeserverUrl(
+                            QString::fromStdString(res.well_known->homeserver.base_url))
+                            .toStdString());
                         nhlog::net()->info("Login requested to use server: " +
                                            res.well_known->homeserver.base_url);
                     }

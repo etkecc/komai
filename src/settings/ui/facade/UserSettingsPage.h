@@ -59,9 +59,8 @@ class UserSettings final : public QObject
                  setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
                  WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
-    Q_PROPERTY(
-      TimelineMessagesLayoutStyle timelineMessagesLayoutStyle READ timelineMessagesLayoutStyle WRITE
-        setTimelineMessagesLayoutStyle NOTIFY timelineMessagesLayoutStyleChanged)
+    Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
+                 setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
     Q_PROPERTY(
       bool timelineMessagesLayoutSmallAvatars READ timelineMessagesLayoutSmallAvatars WRITE
         setTimelineMessagesLayoutSmallAvatars NOTIFY timelineMessagesLayoutSmallAvatarsChanged)
@@ -294,12 +293,12 @@ public:
     };
     Q_ENUM(TimelineMessageActionsActivationPolicy)
 
-    enum class TimelineMessagesLayoutStyle
+    enum class TimelineMessagesStyle
     {
         Minimal,
         Bubbles,
     };
-    Q_ENUM(TimelineMessagesLayoutStyle)
+    Q_ENUM(TimelineMessagesStyle)
 
     enum class RoomSortOrder
     {
@@ -354,7 +353,7 @@ public:
     void setComposerInputMarkdownEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
-    void setTimelineMessagesLayoutStyle(TimelineMessagesLayoutStyle layout);
+    void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesLayoutSmallAvatars(bool state);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
@@ -476,7 +475,7 @@ signals:
     void composerInputMarkdownEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
-    void timelineMessagesLayoutStyleChanged(TimelineMessagesLayoutStyle layout);
+    void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesLayoutSmallAvatarsChanged(bool state);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);

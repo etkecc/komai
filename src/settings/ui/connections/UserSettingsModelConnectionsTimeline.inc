@@ -1,5 +1,5 @@
     // Timeline
-    CONNECT_SETTING_ID(TimelineMessagesLayoutStyle, timelineMessagesLayoutStyleChanged, Value);
+    CONNECT_SETTING_ID(TimelineMessagesStyle, timelineMessagesStyleChanged, Value);
     CONNECT_SETTING_ID(
       TimelineMessagesLayoutSmallAvatars, timelineMessagesLayoutSmallAvatarsChanged, Value);
     CONNECT_SETTING_ID(

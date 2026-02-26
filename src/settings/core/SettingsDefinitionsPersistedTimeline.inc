@@ -1,6 +1,6 @@
-  {SettingId::TimelineMessagesLayoutStyle,
+  {SettingId::TimelineMessagesStyle,
    SettingScope::Config,
-   SettingKey::TimelineMessagesLayoutStyle,
+   SettingKey::TimelineMessagesStyle,
    false,
    true,
    0,

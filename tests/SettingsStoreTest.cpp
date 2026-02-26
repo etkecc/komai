@@ -35,7 +35,7 @@ constexpr std::array<settings::core::SettingId, 14> kExpectedConstrainedIds{{
   settings::core::SettingId::ComposerInputAutoReplaceEmoji,
   settings::core::SettingId::SidebarsRoomListSort,
   settings::core::SettingId::SidebarsRoomListLastMessagePreview,
-  settings::core::SettingId::TimelineMessagesLayoutStyle,
+  settings::core::SettingId::TimelineMessagesStyle,
   settings::core::SettingId::TimelineMessagesSenderUsername,
   settings::core::SettingId::TimelineMediaImageDisplay,
   settings::core::SettingId::TimelineMessageActionsActivationPolicy,

@@ -14,7 +14,7 @@ timelineSenderUsernameValues()
 }
 
 static QVariant
-timelineMessagesLayoutStyleValues()
+timelineMessagesStyleValues()
 {
     QStringList values;
     values << QCoreApplication::translate("UserSettingsModel", "Minimal")

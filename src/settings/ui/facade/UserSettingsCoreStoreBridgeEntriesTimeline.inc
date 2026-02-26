@@ -1,4 +1,4 @@
-X(TimelineMessagesLayoutStyle, static_cast<int>(settings.timelineMessagesLayoutStyle()))
+X(TimelineMessagesStyle, static_cast<int>(settings.timelineMessagesStyle()))
 X(TimelineMessagesLayoutSmallAvatars, settings.timelineMessagesLayoutSmallAvatars())
 X(TimelineMessagesLayoutShowOwnAvatar, settings.timelineMessagesLayoutShowOwnAvatar())
 X(TimelineMessagesSenderUsername, static_cast<int>(settings.timelineMessagesSenderUsername()))

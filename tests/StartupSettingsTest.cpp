@@ -616,8 +616,8 @@ testEnumSettingsPersistAsStrings()
     settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
     settings->setTimelineMessageActionsActivationPolicy(
       UserSettings::TimelineMessageActionsActivationPolicy::OnHover);
-    settings->setTimelineMessagesLayoutStyle(
-      UserSettings::TimelineMessagesLayoutStyle::Minimal);
+    settings->setTimelineMessagesStyle(
+      UserSettings::TimelineMessagesStyle::Minimal);
     settings->setNotificationsMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
@@ -659,7 +659,7 @@ testEnumSettingsPersistAsStrings()
                              QStringLiteral("on_message_hover"),
                              "message actions activation policy is persisted as string token");
     ok &= expectScalarString(configRoot,
-                             SettingKey::TimelineMessagesLayoutStyle,
+                             SettingKey::TimelineMessagesStyle,
                              QStringLiteral("minimal"),
                              "timeline layout style is persisted as string token");
     ok &= expectScalarString(configRoot,

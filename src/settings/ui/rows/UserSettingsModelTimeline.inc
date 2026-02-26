@@ -3,15 +3,15 @@
     // TimelinePresentationSection
     { QT_TR_NOOP("Presentation"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // TimelineMessagesLayoutStyle
+    // TimelineMessagesStyle
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
-      "Layout",
-      QT_TR_NOOP("Choose how messages are laid out in the timeline."),
-      SM::TabTimeline, timelineMessagesLayoutStyle, setTimelineMessagesLayoutStyle, UserSettings::TimelineMessagesLayoutStyle,
-      timelineMessagesLayoutStyleValues,
+      "Style",
+      QT_TR_NOOP("Choose the message style used in the timeline."),
+      SM::TabTimeline, timelineMessagesStyle, setTimelineMessagesStyle, UserSettings::TimelineMessagesStyle,
+      timelineMessagesStyleValues,
       nullptr,
-      TimelineMessagesLayoutStyle,
-      SettingKey::TimelineMessagesLayoutStyle),
+      TimelineMessagesStyle,
+      SettingKey::TimelineMessagesStyle),
     // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
                            QT_TR_NOOP("Avatars are resized to fit above the message."),

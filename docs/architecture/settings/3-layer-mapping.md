@@ -68,8 +68,8 @@ Naming mismatch summary:
 | `TimelineMessagesHoverHighlight` | `settings.timelineMessagesHoverHighlight()` | `TimelineMessagesHoverHighlight` | `timeline.messages.hover_highlight` |
 | `TimelineMessagesLayoutShowOwnAvatar` | `settings.timelineMessagesLayoutShowOwnAvatar()` | `TimelineMessagesLayoutShowOwnAvatar` | `timeline.messages.layout.show_own_avatar` |
 | `TimelineMessagesLayoutSmallAvatars` | `settings.timelineMessagesLayoutSmallAvatars()` | `TimelineMessagesLayoutSmallAvatars` | `timeline.messages.layout.small_avatars` |
-| `TimelineMessagesLayoutStyle` | `static_cast<int>(settings.timelineMessagesLayoutStyle())` | `TimelineMessagesLayoutStyle` | `timeline.messages.layout.style` |
 | `TimelineMessagesSenderUsername` | `static_cast<int>(settings.timelineMessagesSenderUsername())` | `TimelineMessagesSenderUsername` | `timeline.messages.sender_username` |
+| `TimelineMessagesStyle` | `static_cast<int>(settings.timelineMessagesStyle())` | `TimelineMessagesStyle` | `timeline.messages.style` |
 | `TimelineReadReceiptsEnabled` | `settings.timelineReadReceiptsEnabled()` | `TimelineReadReceiptsEnabled` | `timeline.read_receipts.enabled` |
 | `TimelineTypingShowEnabled` | `settings.timelineTypingShowEnabled()` | `TimelineTypingShowEnabled` | `timeline.typing.show.enabled` |
 | `UiAvatarsCircular` | `settings.uiAvatarsCircular()` | `UiAvatarsCircular` | `ui.avatars.circular` |

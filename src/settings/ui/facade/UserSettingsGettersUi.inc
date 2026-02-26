@@ -18,7 +18,7 @@
     bool composerInputMarkdownEnabled() const;
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
-    TimelineMessagesLayoutStyle timelineMessagesLayoutStyle() const;
+    TimelineMessagesStyle timelineMessagesStyle() const;
     bool timelineMessagesLayoutSmallAvatars() const;
     bool composerExtrasStickersEnabled() const;
     bool timelineMessagesLayoutShowOwnAvatar() const;

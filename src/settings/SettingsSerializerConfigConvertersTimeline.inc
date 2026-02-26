@@ -11,10 +11,10 @@ constexpr std::array<std::pair<UserSettings::TimelineMessageActionsActivationPol
     {UserSettings::TimelineMessageActionsActivationPolicy::Never, "never"},
   }};
 
-constexpr std::array<std::pair<UserSettings::TimelineMessagesLayoutStyle, const char *>, 2>
-  kTimelineLayoutTokens{{
-    {UserSettings::TimelineMessagesLayoutStyle::Minimal, "minimal"},
-    {UserSettings::TimelineMessagesLayoutStyle::Bubbles, "bubbles"},
+constexpr std::array<std::pair<UserSettings::TimelineMessagesStyle, const char *>, 2>
+  kTimelineStyleTokens{{
+    {UserSettings::TimelineMessagesStyle::Minimal, "minimal"},
+    {UserSettings::TimelineMessagesStyle::Bubbles, "bubbles"},
   }};
 
 QString
@@ -32,14 +32,14 @@ timelineMessageActionsActivationPolicyFromStorage(
 }
 
 QString
-toStorageValue(UserSettings::TimelineMessagesLayoutStyle value)
+toStorageValue(UserSettings::TimelineMessagesStyle value)
 {
-    return valueToStorageToken(value, kTimelineLayoutTokens, "bubbles");
+    return valueToStorageToken(value, kTimelineStyleTokens, "bubbles");
 }
 
-UserSettings::TimelineMessagesLayoutStyle
-timelineMessagesLayoutStyleFromStorage(const QString &value,
-                                       UserSettings::TimelineMessagesLayoutStyle fallback)
+UserSettings::TimelineMessagesStyle
+timelineMessagesStyleFromStorage(const QString &value,
+                                       UserSettings::TimelineMessagesStyle fallback)
 {
-    return valueFromStorageToken(value, fallback, kTimelineLayoutTokens);
+    return valueFromStorageToken(value, fallback, kTimelineStyleTokens);
 }

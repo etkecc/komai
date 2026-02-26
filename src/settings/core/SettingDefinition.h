@@ -67,7 +67,7 @@ enum class SettingId
     CallsScreenshareShowCursor,
     NetworkTlsEnableCertificateValidation,
     NetworkHttp3Enabled,
-    TimelineMessagesLayoutStyle,
+    TimelineMessagesStyle,
     TimelineMessagesLayoutSmallAvatars,
     TimelineMessagesLayoutShowOwnAvatar,
     TimelineMessagesSenderUsername,

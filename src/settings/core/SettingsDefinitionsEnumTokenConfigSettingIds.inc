@@ -16,7 +16,7 @@
   SettingId::NotificationsMessageContentPolicy,
 
   // timeline
-  SettingId::TimelineMessagesLayoutStyle,
+  SettingId::TimelineMessagesStyle,
   SettingId::TimelineMessagesSenderUsername,
   SettingId::TimelineMessageActionsActivationPolicy,
   SettingId::TimelineMediaImageDisplay,

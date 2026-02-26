@@ -1,14 +1,14 @@
 void
-UserSettings::setTimelineMessagesLayoutStyle(TimelineMessagesLayoutStyle s)
+UserSettings::setTimelineMessagesStyle(TimelineMessagesStyle s)
 {
-    if (timelineMessagesLayoutStyle_ == s)
+    if (timelineMessagesStyle_ == s)
         return;
-    if (!setCoreValue(settings::core::SettingId::TimelineMessagesLayoutStyle,
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesStyle,
                       static_cast<int>(s),
-                      "timeline.messages.layout.style"))
+                      "timeline.messages.style"))
         return;
-    timelineMessagesLayoutStyle_ = s;
-    emit timelineMessagesLayoutStyleChanged(s);
+    timelineMessagesStyle_ = s;
+    emit timelineMessagesStyleChanged(s);
     save();
 }
 void

@@ -18,16 +18,16 @@ UserSettings::timelineMessagesEmojiOnlyEnlarge() const
     return timelineMessagesEmojiOnlyEnlarge_;
 }
 
-UserSettings::TimelineMessagesLayoutStyle
-UserSettings::timelineMessagesLayoutStyle() const
+UserSettings::TimelineMessagesStyle
+UserSettings::timelineMessagesStyle() const
 {
     if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesLayoutStyle);
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesStyle);
         value.has_value() &&
-        *value >= static_cast<int>(UserSettings::TimelineMessagesLayoutStyle::Minimal) &&
-        *value <= static_cast<int>(UserSettings::TimelineMessagesLayoutStyle::Bubbles))
-        return static_cast<UserSettings::TimelineMessagesLayoutStyle>(*value);
-    return timelineMessagesLayoutStyle_;
+        *value >= static_cast<int>(UserSettings::TimelineMessagesStyle::Minimal) &&
+        *value <= static_cast<int>(UserSettings::TimelineMessagesStyle::Bubbles))
+        return static_cast<UserSettings::TimelineMessagesStyle>(*value);
+    return timelineMessagesStyle_;
 }
 
 bool

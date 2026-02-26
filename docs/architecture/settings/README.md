@@ -147,10 +147,10 @@ Default profile id: `default`.
 
 Reference examples:
 
-- [Profile config.yml](examples/profile/config.yml)
-- [Profile state.yml](examples/profile/state.yml)
-- [Profile session.yml](examples/profile/session.yml)
-- [Profile secrets.yml](examples/profile/secrets.yml)
+- [Profile config.yml](../../user-guide/settings/examples/profile/config.yml)
+- [Profile state.yml](../../user-guide/settings/examples/profile/state.yml)
+- [Profile session.yml](../../user-guide/settings/examples/profile/session.yml)
+- [Profile secrets.yml](../../user-guide/settings/examples/profile/secrets.yml)
 
 ## Persistence Model
 

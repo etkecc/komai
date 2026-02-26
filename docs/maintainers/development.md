@@ -40,6 +40,13 @@ just test
 just run
 ```
 
+## ✅ Minimum Verification
+
+- Run `just prek-run-on-all` before commit/PR for full hook coverage, or rely on the installed pre-commit hook for staged checks on each commit.
+- If `just prek-run-on-all` has already passed for the current tree immediately before commit, `git commit --no-verify` is acceptable to avoid running the same hooks twice.
+- Use `just lint` as a faster iteration check, including docs-only edits (it checks Markdown links and docs drift).
+- For C++/header/QML changes, also run `just build` (and the relevant tests) before commit/PR.
+
 If you need a clean rebuild:
 
 ```sh

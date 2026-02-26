@@ -55,5 +55,5 @@ Secret IDs use the profile-first hex hash format and namespaces shown above.
 See also:
 
 - [Settings Architecture](../settings/README.md)
-- [Settings Example (config.yml)](../settings/examples/profile/config.yml)
-- [Settings Example (secrets.yml)](../settings/examples/profile/secrets.yml)
+- [Settings Example (config.yml)](../../user-guide/settings/examples/profile/config.yml)
+- [Settings Example (secrets.yml)](../../user-guide/settings/examples/profile/secrets.yml)

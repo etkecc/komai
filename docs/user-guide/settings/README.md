@@ -81,7 +81,7 @@ Development/testing override:
 - `state.yml`: window size, sidebar widths, hidden/collapsed UI state, recent reactions
 - `session.yml`: user id, homeserver, device id
 - `secrets.yml`: `secrets` map (only when `secrets.provider=file`)
-- Full example files: [architecture/settings/examples/profile/](../../architecture/settings/examples/profile/)
+- Full example files: [settings/examples/profile/](examples/profile/)
 
 Theme note: the currently selected theme is stored as `ui.theme.slug` in `config.yml`.
 See [Themes](../themes.md#-where-your-current-theme-choice-is-stored).

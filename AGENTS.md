@@ -37,7 +37,9 @@ Use `just` as the build entry point:
 - `just flatpak-build` -- Build Flatpak package
 
 When making changes to C++/QML files, always run `just build` to verify the build succeeds and to prepare it for the human operator to test.
-Before committing, run `just lint` (or rely on git hook + CI running the same `.pre-commit-config.yaml` hooks via `prek`).
+Use `just lint` as a quick local verification step (including docs-only changes; it validates Markdown links and docs drift checks).
+Before committing, run `just prek-run-on-all` for full hook coverage, or rely on the installed `prek` pre-commit hook for staged checks on each commit.
+If `just prek-run-on-all` has already passed for the current tree immediately before commit, `git commit --no-verify` is allowed to skip duplicate hook execution.
 For C++/header/QML changes, `prek` also runs unit tests via `bin/prek/tests.sh`.
 
 See [docs/maintainers/packaging/native.md](docs/maintainers/packaging/native.md) for build dependencies.

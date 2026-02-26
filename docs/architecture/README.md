@@ -21,7 +21,7 @@ Technical documentation for Komai internals.
 
 ## Settings Examples
 
-- 🧾 [Profile Example: config.yml](settings/examples/profile/config.yml)
-- 🧾 [Profile Example: state.yml](settings/examples/profile/state.yml)
-- 🧾 [Profile Example: session.yml](settings/examples/profile/session.yml)
-- 🧾 [Profile Example: secrets.yml](settings/examples/profile/secrets.yml)
+- 🧾 [Profile Example: config.yml](../user-guide/settings/examples/profile/config.yml)
+- 🧾 [Profile Example: state.yml](../user-guide/settings/examples/profile/state.yml)
+- 🧾 [Profile Example: session.yml](../user-guide/settings/examples/profile/session.yml)
+- 🧾 [Profile Example: secrets.yml](../user-guide/settings/examples/profile/secrets.yml)

@@ -82,7 +82,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 - **Hierarchical key organization** -- settings are grouped in nested sections (`ui.*`, `timeline.*`, `composer.*`, etc.) rather than flat keys
 - **Profile-scoped data and cache layout** -- runtime data and caches are explicitly grouped under `~/.local/share/komai/profiles/<profile-id>/...` and `~/.cache/komai/profiles/<profile-id>/...`
 - **Centralized storage path construction** -- path logic is unified in one helper module instead of ad-hoc joins across callsites
-- **Documented sample profile files** -- canonical examples are available in [architecture/settings/examples/profile](../architecture/settings/examples/profile/)
+- **Documented sample profile files** -- canonical examples are available in [settings/examples/profile](settings/examples/profile/)
 
 ### Architecture Details
 

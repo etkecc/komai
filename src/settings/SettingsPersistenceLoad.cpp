@@ -28,7 +28,12 @@ loadProfileSecrets(const QString &profile,
     if (usesFileSecretsProvider) {
         const auto secretsRoot = settings::storage::loadYamlFile(secretsFilePath, "secrets");
         payload.secrets = yaml_settings::readStringMap(secretsRoot, SettingKey::SecretsFileMap);
-        detail::extractInternalSessionMetadata(payload);
+        const bool hadUnexpectedInternalSessionKeys =
+          detail::extractInternalSessionMetadata(payload);
+        if (hadUnexpectedInternalSessionKeys) {
+            saveProfileSecrets(
+              profile, true, secretsFilePath, payload.accessToken, payload.secrets);
+        }
 
         activeLoggers().ui->info(
           "Loaded file-backed secrets (has_access_token={}, secrets_count={})",
@@ -63,14 +68,12 @@ loadProfileSecrets(const QString &profile,
         }
 
         payload.secrets = decodedSecrets;
-        detail::extractInternalSessionMetadata(payload);
+        const bool hadUnexpectedInternalSessionKeys =
+          detail::extractInternalSessionMetadata(payload);
 
-        if (sessionSecretsPruned) {
-            if (decodedSecrets.isEmpty())
-                settings::storage::deleteSecureValue(secretsStoreKey);
-            else
-                settings::storage::writeSecureValue(
-                  secretsStoreKey, settings::storage::encodeSecretsMap(decodedSecrets));
+        if (sessionSecretsPruned || hadUnexpectedInternalSessionKeys) {
+            saveProfileSecrets(
+              profile, false, secretsFilePath, payload.accessToken, payload.secrets);
             hasEmptySecureSecrets = true;
         }
     }

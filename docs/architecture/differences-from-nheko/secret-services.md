@@ -39,13 +39,13 @@ Default profile hash convenience value:
 ### `secret_service`
 
 - Secrets map is stored in secure backend (`session.secrets`).
-- Access token and session metadata are embedded in that map under internal `__session.*` keys.
+- Access token is embedded in that map under internal `__session.access_token`.
 - `session.yml` does not contain token/secrets.
 
 ### `file`
 
 - `secrets` in `secrets.yml` stores all fallback secret values.
-- Access token and session metadata are embedded in that map under internal `__session.*` keys.
+- Access token is embedded in that map under internal `__session.access_token`.
 - Keys in `secrets` are full secret IDs (same IDs used in secure backend mode).
 
 ## Key-ID Notes

@@ -188,18 +188,6 @@ loadImpl(UserSettings &settings,
             const auto payload = settings::persistence::loadProfileSecrets(
               settings.profileId(), settings.usesFileSecretsProvider(), settings.secretsFilePath());
             settings.applyLoadedSecrets(payload.accessToken, payload.secrets);
-
-            const auto snapshot = settings.sessionSnapshot();
-            if ((snapshot.userId.isEmpty() || snapshot.deviceId.isEmpty() ||
-                 snapshot.homeserver.isEmpty()) &&
-                !payload.sessionUserId.isEmpty() && !payload.sessionDeviceId.isEmpty() &&
-                !payload.sessionHomeserver.isEmpty()) {
-                settings.setSessionSnapshot(
-                  UserSettings::SessionSnapshot{.userId      = payload.sessionUserId,
-                                                .accessToken = payload.accessToken,
-                                                .deviceId    = payload.sessionDeviceId,
-                                                .homeserver  = payload.sessionHomeserver});
-            }
             break;
         }
         case staged_load_plan::Stage::State: {

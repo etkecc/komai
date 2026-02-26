@@ -62,7 +62,7 @@ Startup selection behavior:
 
 Sensitive values:
 
-- `secrets` map (contains internal `__session.*` entries for access token/session metadata)
+- `secrets` map (contains internal `__session.access_token` plus other secret values)
 
 Security invariants:
 

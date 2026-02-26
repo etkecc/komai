@@ -35,15 +35,12 @@ activeLoggers();
  * storage. This layer owns provider selection, validation/normalization of
  * profile secret payloads, and serialization/deserialization of secrets.
  *
- * Access token and session identity metadata are stored in the secrets payload
- * under internal `__session.*` keys for both providers.
+ * Access token is stored in the secrets payload under internal
+ * `__session.access_token` for both providers.
  */
 struct SecretsPayload
 {
     QString accessToken;
-    QString sessionUserId;
-    QString sessionDeviceId;
-    QString sessionHomeserver;
     QMap<QString, QString> secrets;
     bool hadStaleValues = false;
 };
@@ -71,10 +68,7 @@ saveProfileSecrets(const QString &profile,
                    bool usesFileSecretsProvider,
                    const QString &secretsFilePath,
                    const QString &accessToken,
-                   const QMap<QString, QString> &secrets,
-                   const QString &sessionUserId,
-                   const QString &sessionDeviceId,
-                   const QString &sessionHomeserver);
+                   const QMap<QString, QString> &secrets);
 
 /**
  * Remove all persisted session secrets/auth for a profile from both file-backed and

@@ -376,6 +376,10 @@ testStartupPolicySkipsSessionWritesUntilCompleteSession()
     ok &= expect(persistedSecretsMap.value(QStringLiteral("__session.access_token")) ==
                    QStringLiteral("token"),
                  "secrets.yml stores access token in internal secrets map key");
+    ok &= expect(!persistedSecretsMap.contains(QStringLiteral("__session.user_id")) &&
+                   !persistedSecretsMap.contains(QStringLiteral("__session.device_id")) &&
+                   !persistedSecretsMap.contains(QStringLiteral("__session.homeserver")),
+                 "secrets.yml does not duplicate non-secret session metadata");
     UserSettings::initialize(profile);
     const auto reloadedSettings = UserSettings::instance();
     if (!reloadedSettings)

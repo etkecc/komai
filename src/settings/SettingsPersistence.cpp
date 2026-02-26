@@ -63,57 +63,39 @@ providerFromConfig(const YAML::Node &configRoot)
 namespace detail {
 
 void
-storeInternalSessionMetadata(QMap<QString, QString> &secrets,
-                             const QString &accessToken,
-                             const QString &userId,
-                             const QString &deviceId,
-                             const QString &homeserver)
+storeInternalSessionMetadata(QMap<QString, QString> &secrets, const QString &accessToken)
 {
     constexpr auto sessionAccessTokenKey = "__session.access_token";
-    constexpr auto sessionUserIdKey      = "__session.user_id";
-    constexpr auto sessionDeviceIdKey    = "__session.device_id";
-    constexpr auto sessionHomeserverKey  = "__session.homeserver";
 
     if (accessToken.isEmpty())
         secrets.remove(sessionAccessTokenKey);
     else
         secrets[sessionAccessTokenKey] = accessToken;
-
-    if (userId.isEmpty())
-        secrets.remove(sessionUserIdKey);
-    else
-        secrets[sessionUserIdKey] = userId;
-
-    if (deviceId.isEmpty())
-        secrets.remove(sessionDeviceIdKey);
-    else
-        secrets[sessionDeviceIdKey] = deviceId;
-
-    if (homeserver.isEmpty())
-        secrets.remove(sessionHomeserverKey);
-    else
-        secrets[sessionHomeserverKey] = homeserver;
 }
 
-void
+bool
 extractInternalSessionMetadata(SecretsPayload &payload)
 {
     constexpr auto sessionAccessTokenKey = "__session.access_token";
-    constexpr auto sessionUserIdKey      = "__session.user_id";
-    constexpr auto sessionDeviceIdKey    = "__session.device_id";
-    constexpr auto sessionHomeserverKey  = "__session.homeserver";
+    constexpr auto sessionKeyPrefix      = "__session.";
 
     const auto internalAccessToken = payload.secrets.value(sessionAccessTokenKey);
     if (!internalAccessToken.isEmpty())
         payload.accessToken = internalAccessToken;
-    payload.sessionUserId     = payload.secrets.value(sessionUserIdKey);
-    payload.sessionDeviceId   = payload.secrets.value(sessionDeviceIdKey);
-    payload.sessionHomeserver = payload.secrets.value(sessionHomeserverKey);
 
     payload.secrets.remove(sessionAccessTokenKey);
-    payload.secrets.remove(sessionUserIdKey);
-    payload.secrets.remove(sessionDeviceIdKey);
-    payload.secrets.remove(sessionHomeserverKey);
+
+    bool prunedUnexpectedInternalKeys = false;
+    for (auto it = payload.secrets.begin(); it != payload.secrets.end();) {
+        if (it.key().startsWith(QLatin1String(sessionKeyPrefix))) {
+            it                           = payload.secrets.erase(it);
+            prunedUnexpectedInternalKeys = true;
+        } else {
+            ++it;
+        }
+    }
+
+    return prunedUnexpectedInternalKeys;
 }
 
 } // namespace detail

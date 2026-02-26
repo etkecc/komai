@@ -42,10 +42,7 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
                                                   settings.usesFileSecretsProvider(),
                                                   settings.secretsFilePath(),
                                                   settings.accessToken(),
-                                                  settings.secretsMap(),
-                                                  settings.userId(),
-                                                  settings.deviceId(),
-                                                  settings.homeserver());
+                                                  settings.secretsMap());
 
         settings::serializer::saveState(settings, settings.stateFilePath());
     }

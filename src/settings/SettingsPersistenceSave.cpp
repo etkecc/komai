@@ -20,14 +20,10 @@ saveProfileSecrets(const QString &profile,
                    bool usesFileSecretsProvider,
                    const QString &secretsFilePath,
                    const QString &accessToken,
-                   const QMap<QString, QString> &secrets,
-                   const QString &sessionUserId,
-                   const QString &sessionDeviceId,
-                   const QString &sessionHomeserver)
+                   const QMap<QString, QString> &secrets)
 {
     auto secretsWithSessionMetadata = secrets;
-    detail::storeInternalSessionMetadata(
-      secretsWithSessionMetadata, accessToken, sessionUserId, sessionDeviceId, sessionHomeserver);
+    detail::storeInternalSessionMetadata(secretsWithSessionMetadata, accessToken);
     QMap<QString, QString> nonEmptySecrets = secretsWithSessionMetadata;
 
     for (auto it = nonEmptySecrets.begin(); it != nonEmptySecrets.end();) {

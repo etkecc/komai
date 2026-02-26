@@ -10,13 +10,9 @@
 namespace settings::persistence::detail {
 
 void
-storeInternalSessionMetadata(QMap<QString, QString> &secrets,
-                             const QString &accessToken,
-                             const QString &userId,
-                             const QString &deviceId,
-                             const QString &homeserver);
+storeInternalSessionMetadata(QMap<QString, QString> &secrets, const QString &accessToken);
 
-void
+bool
 extractInternalSessionMetadata(SecretsPayload &payload);
 
 } // namespace settings::persistence::detail

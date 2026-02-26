@@ -247,12 +247,12 @@ Behavior:
 
 - `secret_service`
   - `session.secrets` is stored in secure backend
-  - access token and session metadata are embedded in that secrets payload under internal keys (`__session.*`)
+  - access token is embedded in that secrets payload under internal key `__session.access_token`
   - `session.yml` stores non-secret session metadata
   - `secrets.yml` is absent/unused
 - `file`
   - `secrets` map is stored in `secrets.yml`
-  - access token and session metadata are embedded under internal keys (`__session.*`)
+  - access token is embedded under internal key `__session.access_token`
   - cache-side secret storage also uses this fallback map via `UserSettings::secret/setSecret/removeSecret`
 
 `secrets.yml` write permissions are restricted to owner read/write.
@@ -289,7 +289,7 @@ Legacy Base64 profile-hash IDs are intentionally not used.
 When `secrets.provider=file`, `secrets.yml` includes:
 
 - `secrets:` map with:
-  - internal `__session.*` entries for access token and session metadata
+  - internal `__session.access_token` for session auth
   - full secret IDs (`komai.<profile_hash>.<scope>.<name>`) for regular secrets
 
 This keeps fallback and secure-backend key identity consistent.

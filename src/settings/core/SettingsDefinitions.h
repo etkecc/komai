@@ -14,7 +14,7 @@
 
 namespace settings::core::definitions {
 
-inline constexpr int kDefaultSidebarsRoomListWidthPx            = 300;
+inline constexpr int kDefaultSidebarsRoomListWidthPx            = 400;
 inline constexpr int kDefaultSidebarsCommunitiesWidthPx         = 200;
 inline constexpr int kDefaultWindowWidthPx                      = 1050;
 inline constexpr int kDefaultWindowHeightPx                     = 700;

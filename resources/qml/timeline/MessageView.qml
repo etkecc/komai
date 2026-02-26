@@ -409,7 +409,7 @@ Item {
                     ToolTip.visible: hovered
                     hoverEnabled: true
                     hoverPulse: true
-                    image: (row.model && row.model.threadId) ? ":/icons/icons/ui/thread.svg" : ":/icons/icons/ui/new-thread.svg"
+                    image: ":/icons/icons/ui/thread.svg"
                     visible: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
                     leftPadding: row.itemPadding
                     rightPadding: row.itemPadding

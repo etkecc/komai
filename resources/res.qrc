@@ -28,8 +28,7 @@
         <file alias="icons/ui/microphone-mute.svg">icons/fluent/assets/Mic Off/SVG/ic_fluent_mic_off_28_regular.svg</file>
         <file alias="icons/ui/microphone-unmute.svg">icons/fluent/assets/Mic/SVG/ic_fluent_mic_32_regular.svg</file>
         <file alias="icons/ui/music.svg">icons/fluent/assets/Music Note 2/SVG/ic_fluent_music_note_2_24_regular.svg</file>
-        <file alias="icons/ui/thread.svg">icons/fluent/assets/Chat Multiple/SVG/ic_fluent_chat_multiple_24_regular.svg</file>
-        <file alias="icons/ui/new-thread.svg">icons/fluent/assets/Chat Add/SVG/ic_fluent_chat_add_24_regular.svg</file>
+        <file alias="icons/ui/thread.svg">icons/fluent/assets/Chat Add/SVG/ic_fluent_chat_add_24_regular.svg</file>
         <file alias="icons/ui/options.svg">icons/fluent/assets/Options/SVG/ic_fluent_options_32_regular.svg</file>
         <file alias="icons/ui/pause-symbol.svg">icons/fluent/assets/Pause/SVG/ic_fluent_pause_24_regular.svg</file>
         <file alias="icons/ui/people.svg">icons/fluent/assets/People/SVG/ic_fluent_people_24_regular.svg</file>

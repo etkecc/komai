@@ -185,7 +185,10 @@ TimelineMessageStyleBase {
                 contentItem: Item {
                     id: contentPlacementContainer
 
-                    implicitWidth: Math.max((wrapper.reply?.implicitWidth ?? 0) + wrapper.replyInset, (wrapper.main?.implicitWidth ?? 0) + wrapper.mainInset)
+                    property real replyContentWidth: Math.max(wrapper.reply?.width ?? 0, wrapper.reply?.implicitWidth ?? 0)
+                    property real mainContentWidth: Math.max(wrapper.main?.width ?? 0, wrapper.main?.implicitWidth ?? 0)
+
+                    implicitWidth: Math.max(replyContentWidth + wrapper.replyInset, mainContentWidth + wrapper.mainInset)
                     implicitHeight: contentColumn.implicitHeight
 
                     Column {

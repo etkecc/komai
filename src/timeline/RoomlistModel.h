@@ -129,6 +129,7 @@ public slots:
     void setCurrentRoom(const QString &roomid);
     void resetCurrentRoom()
     {
+        pendingCurrentRoomId_.clear();
         currentRoom_ = nullptr;
         currentRoomPreview_.reset();
         emit currentRoomChanged("");
@@ -157,6 +158,9 @@ private:
 
     QSharedPointer<TimelineModel> currentRoom_;
     std::optional<RoomPreview> currentRoomPreview_;
+    // When UI requests opening a room before sync inserts it into `models`,
+    // remember the target and switch once addRoom() sees it.
+    QString pendingCurrentRoomId_;
 
     std::map<QString, std::vector<QString>> directChatToUser;
 

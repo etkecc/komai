@@ -403,11 +403,28 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
             roomids.push_back(room_id);
         }
 
+        bool switchedToCurrentPreview = false;
         if ((wasInvite || wasPreview) && currentRoomPreview_ &&
             currentRoomPreview_->roomid() == room_id) {
             currentRoom_ = models.value(room_id);
             currentRoomPreview_.reset();
             emit currentRoomChanged(room_id);
+            switchedToCurrentPreview = true;
+        }
+
+        // Apply deferred focus requested earlier by setCurrentRoom() while this room
+        // did not exist in `models` yet (common right after create-room/direct-chat).
+        if (pendingCurrentRoomId_ == room_id) {
+            pendingCurrentRoomId_.clear();
+            if (!switchedToCurrentPreview) {
+                currentRoom_ = models.value(room_id);
+                currentRoomPreview_.reset();
+                emit currentRoomChanged(room_id);
+                nhlog::ui()->debug("Switched to deferred room: {}", room_id.toStdString());
+
+                if (currentRoom_->isSpace())
+                    emit spaceSelected(room_id);
+            }
         }
 
         for (auto p : previewsToAdd) {
@@ -632,6 +649,7 @@ RoomlistModel::initializeRooms()
     models.clear();
     roomids.clear();
     invites.clear();
+    pendingCurrentRoomId_.clear();
     currentRoom_ = nullptr;
 
     auto e = cache::getAccountData(mtx::events::EventType::Direct);
@@ -696,6 +714,7 @@ RoomlistModel::clear()
     models.clear();
     invites.clear();
     roomids.clear();
+    pendingCurrentRoomId_.clear();
     currentRoom_ = nullptr;
     emit currentRoomChanged("");
     endResetModel();
@@ -802,13 +821,16 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         return;
 
     if (roomid.isEmpty()) {
+        pendingCurrentRoomId_.clear();
         currentRoom_        = nullptr;
         currentRoomPreview_ = {};
         emit currentRoomChanged("");
+        return;
     }
 
     nhlog::ui()->debug("Trying to switch to: {}", roomid.toStdString());
     if (models.contains(roomid)) {
+        pendingCurrentRoomId_.clear();
         currentRoom_ = models.value(roomid);
         currentRoomPreview_.reset();
         emit currentRoomChanged(currentRoom_->roomId());
@@ -818,6 +840,7 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
             emit spaceSelected(roomid);
         }
     } else if (invites.contains(roomid) || previewedRooms.contains(roomid)) {
+        pendingCurrentRoomId_.clear();
         currentRoom_ = nullptr;
         std::optional<RoomInfo> i;
 
@@ -856,6 +879,10 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         }
 
         emit currentRoomChanged("");
+    } else {
+        pendingCurrentRoomId_ = roomid;
+        nhlog::ui()->debug("Deferring room switch until room is available: {}",
+                           roomid.toStdString());
     }
 }
 

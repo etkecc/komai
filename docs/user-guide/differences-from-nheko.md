@@ -2,6 +2,8 @@
 
 Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvements focused on desktop usability. This page lists the notable user-facing changes.
 
+For project background and naming context, see [🦁 Identity](identity.md).
+
 
 ## 🎨 Theming
 

@@ -52,6 +52,10 @@ Rectangle {
                     leftPadding: Nheko.paddingSmall
                     rightPadding: Nheko.paddingSmall
 
+                    HoverHandler {
+                        cursorShape: Qt.PointingHandCursor
+                    }
+
                     background: Rectangle {
                         color: headerBack.hovered ? palette.dark : "transparent"
                     }
@@ -118,6 +122,10 @@ Rectangle {
                         property color backgroundColor: "transparent"
                         property color textColor: palette.text
                         enabled: availableInCurrentSession
+
+                        HoverHandler {
+                            cursorShape: navItem.enabled && !navItem.isActive ? Qt.PointingHandCursor : Qt.ArrowCursor
+                        }
 
                         width: ListView.view.width
                         height: Nheko.navigationRowHeight

@@ -21,6 +21,17 @@
 
 using namespace mtx::identifiers;
 
+namespace {
+QString
+normalizeHomeserverInput(QString homeserver)
+{
+    homeserver = homeserver.trimmed();
+    homeserver.remove(u'\r');
+    homeserver.remove(u'\n');
+    return homeserver;
+}
+}
+
 LoginPage::LoginPage(QObject *parent)
   : QObject(parent)
   , inferredServerAddress_()
@@ -75,11 +86,13 @@ LoginPage::showError(const QString &msg)
 void
 LoginPage::setHomeserver(const QString &hs)
 {
-    if (hs != homeserver_) {
-        homeserver_      = hs;
+    const auto normalized = normalizeHomeserverInput(hs);
+
+    if (normalized != homeserver_) {
+        homeserver_      = normalized;
         homeserverValid_ = false;
         emit homeserverChanged();
-        http::client()->set_server(hs.toStdString());
+        http::client()->set_server(normalized.toStdString());
         checkHomeserverVersion();
     }
 }

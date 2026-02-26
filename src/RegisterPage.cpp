@@ -21,6 +21,17 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/UIA.h"
 
+namespace {
+QString
+normalizeHomeserverInput(QString homeserver)
+{
+    homeserver = homeserver.trimmed();
+    homeserver.remove(u'\r');
+    homeserver.remove(u'\n');
+    return homeserver;
+}
+}
+
 RegisterPage::RegisterPage(QObject *parent)
   : QObject(parent)
 {
@@ -52,12 +63,14 @@ RegisterPage::initialDeviceName() const
 void
 RegisterPage::setServer(const QString &server)
 {
-    if (server == lastServer)
+    const auto normalized = normalizeHomeserverInput(server);
+
+    if (normalized == lastServer)
         return;
 
-    lastServer = server;
+    lastServer = normalized;
 
-    http::client()->set_server(server.toStdString());
+    http::client()->set_server(normalized.toStdString());
     http::client()->verify_certificates(
       UserSettings::instance()->networkTlsEnableCertificateValidation());
 
@@ -67,41 +80,41 @@ RegisterPage::setServer(const QString &server)
     lookingUpHs_ = true;
     emit lookingUpHsChanged();
 
-    http::client()->well_known(
-      [this, prevServer = server](const mtx::responses::WellKnown &res, mtx::http::RequestErr err) {
-          // server changed in between
-          if (lastServer != prevServer)
-              return;
+    http::client()->well_known([this, prevServer = normalized](const mtx::responses::WellKnown &res,
+                                                               mtx::http::RequestErr err) {
+        // server changed in between
+        if (lastServer != prevServer)
+            return;
 
-          if (err) {
-              if (err->status_code == 404) {
-                  nhlog::net()->info("Autodiscovery: No .well-known.");
-                  // Check that the homeserver can be reached
-                  versionsCheck();
-                  return;
-              }
+        if (err) {
+            if (err->status_code == 404) {
+                nhlog::net()->info("Autodiscovery: No .well-known.");
+                // Check that the homeserver can be reached
+                versionsCheck();
+                return;
+            }
 
-              if (!err->parse_error.empty()) {
-                  setHsError(tr("Autodiscovery failed. Received malformed response."));
-                  nhlog::net()->error("Autodiscovery failed. Received malformed response. {}",
-                                      err->parse_error);
-                  emit hsErrorChanged();
-                  return;
-              }
+            if (!err->parse_error.empty()) {
+                setHsError(tr("Autodiscovery failed. Received malformed response."));
+                nhlog::net()->error("Autodiscovery failed. Received malformed response. {}",
+                                    err->parse_error);
+                emit hsErrorChanged();
+                return;
+            }
 
-              setHsError(tr("Autodiscovery failed. Unknown error when requesting .well-known."));
-              nhlog::net()->error("Autodiscovery failed. Unknown error when "
-                                  "requesting .well-known. {}",
-                                  *err);
-              return;
-          }
+            setHsError(tr("Autodiscovery failed. Unknown error when requesting .well-known."));
+            nhlog::net()->error("Autodiscovery failed. Unknown error when "
+                                "requesting .well-known. {}",
+                                *err);
+            return;
+        }
 
-          nhlog::net()->info("Autodiscovery: Discovered '" + res.homeserver.base_url + "'");
-          http::client()->set_server(res.homeserver.base_url);
-          emit hsErrorChanged();
-          // Check that the homeserver can be reached
-          versionsCheck();
-      });
+        nhlog::net()->info("Autodiscovery: Discovered '" + res.homeserver.base_url + "'");
+        http::client()->set_server(res.homeserver.base_url);
+        emit hsErrorChanged();
+        // Check that the homeserver can be reached
+        versionsCheck();
+    });
 }
 
 void

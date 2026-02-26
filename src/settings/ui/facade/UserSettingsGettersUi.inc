@@ -37,4 +37,3 @@
     bool notificationsAttentionOnIncoming() const;
     bool hasNotifications() const;
     int uiLayoutContentMaxWidthPx() const;
-    int timelineMessagesMaxWidthPx() const;

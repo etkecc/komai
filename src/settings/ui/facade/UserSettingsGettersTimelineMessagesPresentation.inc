@@ -66,13 +66,3 @@ UserSettings::timelineMessagesSenderUsernameLargeRoomThreshold() const
 {
     return 16;
 }
-
-int
-UserSettings::timelineMessagesMaxWidthPx() const
-{
-    if (const auto value =
-          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesMaxWidthPx);
-        value.has_value())
-        return *value;
-    return timelineMessagesMaxWidthPx_;
-}

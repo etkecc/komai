@@ -38,7 +38,6 @@ constexpr auto TimelineMessagesLayoutStyle         = "timeline.messages.layout.s
 constexpr auto TimelineMessagesLayoutSmallAvatars  = "timeline.messages.layout.small_avatars";
 constexpr auto TimelineMessagesLayoutShowOwnAvatar = "timeline.messages.layout.show_own_avatar";
 constexpr auto TimelineMessagesSenderUsername      = "timeline.messages.sender_username";
-constexpr auto TimelineMessagesMaxWidthPx          = "timeline.messages.max_width_px";
 constexpr auto TimelineMessagesEmojiOnlyEnlarge    = "timeline.messages.emoji_only_enlarge";
 constexpr auto TimelineMessagesHoverHighlight      = "timeline.messages.hover_highlight";
 constexpr auto TimelineTypingShowEnabled           = "timeline.typing.show.enabled";

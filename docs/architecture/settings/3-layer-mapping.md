@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 67
+Rows: 66
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -69,7 +69,6 @@ Naming mismatch summary:
 | `TimelineMessagesLayoutShowOwnAvatar` | `settings.timelineMessagesLayoutShowOwnAvatar()` | `TimelineMessagesLayoutShowOwnAvatar` | `timeline.messages.layout.show_own_avatar` |
 | `TimelineMessagesLayoutSmallAvatars` | `settings.timelineMessagesLayoutSmallAvatars()` | `TimelineMessagesLayoutSmallAvatars` | `timeline.messages.layout.small_avatars` |
 | `TimelineMessagesLayoutStyle` | `static_cast<int>(settings.timelineMessagesLayoutStyle())` | `TimelineMessagesLayoutStyle` | `timeline.messages.layout.style` |
-| `TimelineMessagesMaxWidthPx` | `settings.timelineMessagesMaxWidthPx()` | `TimelineMessagesMaxWidthPx` | `timeline.messages.max_width_px` |
 | `TimelineMessagesSenderUsername` | `static_cast<int>(settings.timelineMessagesSenderUsername())` | `TimelineMessagesSenderUsername` | `timeline.messages.sender_username` |
 | `TimelineReadReceiptsEnabled` | `settings.timelineReadReceiptsEnabled()` | `TimelineReadReceiptsEnabled` | `timeline.read_receipts.enabled` |
 | `TimelineTypingShowEnabled` | `settings.timelineTypingShowEnabled()` | `TimelineTypingShowEnabled` | `timeline.typing.show.enabled` |

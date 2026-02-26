@@ -1316,37 +1316,28 @@ testConstrainedIntSettersRejectInvalidUpdates()
     settings->setPersistenceSuspended(false);
 
     settings->setUiLayoutContentMaxWidthPx(1200);
-    settings->setTimelineMessagesMaxWidthPx(900);
     settings->setPrivacyWindowFocusBlurDelaySeconds(5);
 
     const auto baselineContentWidth = settings->uiLayoutContentMaxWidthPx();
-    const auto baselineTimelineWidth = settings->timelineMessagesMaxWidthPx();
     const auto baselineBlurDelay     = settings->privacyWindowFocusBlurDelaySeconds();
 
     settings->setUiLayoutContentMaxWidthPx(50000);         // invalid: > 20000
-    settings->setTimelineMessagesMaxWidthPx(50000);        // invalid: > 20000
     settings->setPrivacyWindowFocusBlurDelaySeconds(-3); // invalid: < 0
 
     bool ok = true;
     ok &= expect(settings->uiLayoutContentMaxWidthPx() == baselineContentWidth,
                  "invalid max content width update is ignored");
-    ok &= expect(settings->timelineMessagesMaxWidthPx() == baselineTimelineWidth,
-                 "invalid max timeline width update is ignored");
     ok &= expect(settings->privacyWindowFocusBlurDelaySeconds() == baselineBlurDelay,
                  "invalid window blur delay update is ignored");
 
     const auto &store = settings->coreStore();
     const auto contentWidthValue =
       store.valueAs<int>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
-    const auto timelineWidthValue =
-      store.valueAs<int>(settings::core::SettingId::TimelineMessagesMaxWidthPx);
     const auto blurDelayValue =
       store.valueAs<int>(settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds);
 
     ok &= expect(contentWidthValue.has_value() && *contentWidthValue == baselineContentWidth,
                  "core store keeps previous max content width on invalid update");
-    ok &= expect(timelineWidthValue.has_value() && *timelineWidthValue == baselineTimelineWidth,
-                 "core store keeps previous max timeline width on invalid update");
     ok &= expect(blurDelayValue.has_value() && *blurDelayValue == baselineBlurDelay,
                  "core store keeps previous window blur delay on invalid update");
 
@@ -1355,10 +1346,6 @@ testConstrainedIntSettersRejectInvalidUpdates()
                           SettingKey::UiLayoutContentMaxWidthPx,
                           baselineContentWidth,
                           "config keeps previous max content width on invalid update");
-    ok &= expectScalarInt(configRoot,
-                          SettingKey::TimelineMessagesMaxWidthPx,
-                          baselineTimelineWidth,
-                          "config keeps previous max timeline width on invalid update");
     ok &= expectScalarInt(configRoot,
                           SettingKey::PrivacyWindowFocusBlurDelaySeconds,
                           baselineBlurDelay,

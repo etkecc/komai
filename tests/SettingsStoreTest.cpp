@@ -25,7 +25,7 @@ expect(bool condition, const char *message)
     return false;
 }
 
-constexpr std::array<settings::core::SettingId, 15> kExpectedConstrainedIds{{
+constexpr std::array<settings::core::SettingId, 14> kExpectedConstrainedIds{{
   settings::core::SettingId::UiLayoutContentMaxWidthPx,
   settings::core::SettingId::IntegrationsDbusApiAccess,
   settings::core::SettingId::NetworkPresenceStatusPolicy,
@@ -39,7 +39,6 @@ constexpr std::array<settings::core::SettingId, 15> kExpectedConstrainedIds{{
   settings::core::SettingId::TimelineMessagesSenderUsername,
   settings::core::SettingId::TimelineMediaImageDisplay,
   settings::core::SettingId::TimelineMessageActionsActivationPolicy,
-  settings::core::SettingId::TimelineMessagesMaxWidthPx,
   settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds,
 }};
 
@@ -88,11 +87,11 @@ bool
 testTypeMismatchRead()
 {
     settings::core::SettingsStore store;
-    (void)store.set(settings::core::SettingId::TimelineMessagesMaxWidthPx, 1200);
+    (void)store.set(settings::core::SettingId::UiLayoutContentMaxWidthPx, 1200);
 
-    const auto asDouble = store.valueAs<double>(settings::core::SettingId::TimelineMessagesMaxWidthPx);
+    const auto asDouble = store.valueAs<double>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
     const auto asString = store.valueAs<std::string>(
-      settings::core::SettingId::TimelineMessagesMaxWidthPx);
+      settings::core::SettingId::UiLayoutContentMaxWidthPx);
 
     return expect(!asDouble.has_value(), "valueAs<double> rejects int value") &&
            expect(!asString.has_value(), "valueAs<string> rejects int value");
@@ -248,7 +247,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 67;
+    constexpr std::size_t expectedPersistedDefinitionCount = 66;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

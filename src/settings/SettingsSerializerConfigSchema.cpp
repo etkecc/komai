@@ -28,11 +28,10 @@ const std::array<BoolSettingDescriptor, 38> BoolSettings{
 #include "SettingsSerializerConfigSchemaBoolTimeline.inc"
 };
 
-const std::array<IntSettingDescriptor, 4> IntSettings{
+const std::array<IntSettingDescriptor, 3> IntSettings{
 #include "SettingsSerializerConfigSchemaIntCalls.inc"
 #include "SettingsSerializerConfigSchemaIntLookFeel.inc"
 #include "SettingsSerializerConfigSchemaIntPrivacy.inc"
-#include "SettingsSerializerConfigSchemaIntTimeline.inc"
 };
 
 const std::array<UintSettingDescriptor, 1> UintSettings{

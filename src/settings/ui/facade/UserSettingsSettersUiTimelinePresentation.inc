@@ -44,16 +44,3 @@ UserSettings::setTimelineMessagesSenderUsername(ShowSenderUsername s)
     emit timelineMessagesSenderUsernameChanged(s);
     save();
 }
-void
-UserSettings::setTimelineMessagesMaxWidthPx(int s)
-{
-    if (timelineMessagesMaxWidthPx_ == s)
-        return;
-    if (!setCoreValue(settings::core::SettingId::TimelineMessagesMaxWidthPx,
-                      s,
-                      SettingKey::TimelineMessagesMaxWidthPx))
-        return;
-    timelineMessagesMaxWidthPx_ = s;
-    emit timelineMessagesMaxWidthPxChanged(s);
-    save();
-}

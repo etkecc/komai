@@ -35,7 +35,7 @@ Note:
 | Look & Feel | FONTS | Emoji font family | `settings::core::SettingId::UiFontEmojiFamily` | `emoji_font_family` | `ui.font.emoji_family` | config.yml | yes |
 | Look & Feel | FONTS | Scale factor | `settings::core::SettingId::UiScaleFactor` | `settings/scale_factor` | `ui.scale.factor` | config.yml | yes |
 | Look & Feel | BEHAVIOR | Enable UI animations | `settings::core::SettingId::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
-| Look & Feel | LAYOUT | Maximum content width | `settings::core::SettingId::UiLayoutContentMaxWidthPx` | `-` | `ui.layout.content.max_width_px` | config.yml | yes |
+| Look & Feel | LAYOUT | Maximum content width | `settings::core::SettingId::UiLayoutContentMaxWidthPx` | `max_timeline_width` | `ui.layout.content.max_width_px` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `settings::core::SettingId::UiAvatarsCircular` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
 | Look & Feel | AVATARS | Use identicons | `settings::core::SettingId::UiAvatarsIdenticonFallback` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
 | Look & Feel | LAYOUT | Compact mode | `settings::core::SettingId::UiLayoutCompactMode` | `compact_room_list` | `ui.layout.compact_mode` | config.yml | yes |
@@ -55,7 +55,6 @@ Note:
 | Timeline | PRESENTATION | Use small avatars | `settings::core::SettingId::TimelineMessagesLayoutSmallAvatars` | `small_avatars` | `timeline.messages.layout.small_avatars` | config.yml | yes |
 | Timeline | PRESENTATION | Show avatar next to own message bubbles | `settings::core::SettingId::TimelineMessagesLayoutShowOwnAvatar` | `show_own_avatar_in_bubble_layout` | `timeline.messages.layout.show_own_avatar` | config.yml | yes |
 | Timeline | PRESENTATION | Show sender username above messages | `settings::core::SettingId::TimelineMessagesSenderUsername` | `show_sender_username` | `timeline.messages.sender_username` | config.yml | yes |
-| Timeline | PRESENTATION | Maximum timeline width | `settings::core::SettingId::TimelineMessagesMaxWidthPx` | `max_timeline_width` | `timeline.messages.max_width_px` | config.yml | yes |
 | Timeline | PRESENTATION | Enlarge emoji-only messages | `settings::core::SettingId::TimelineMessagesEmojiOnlyEnlarge` | `enlarge_emoji_only_messages` | `timeline.messages.emoji_only_enlarge` | config.yml | yes |
 | Timeline | PRESENTATION | Highlight message on hover | `settings::core::SettingId::TimelineMessagesHoverHighlight` | `message_hover_highlight` | `timeline.messages.hover_highlight` | config.yml | yes |
 | Timeline | PRESENTATION | Show message effects | `settings::core::SettingId::TimelineMediaEffectsEnabled` | `fancy_effects` | `timeline.media.effects.enabled` | config.yml | yes |

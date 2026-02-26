@@ -32,7 +32,6 @@ inline constexpr int kMinUiLayoutContentMaxWidthPx              = 560;
 inline constexpr int kDefaultScreenShareFrameRate               = 5;
 inline constexpr bool kDefaultScreenShareShowCursor             = true;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
-inline constexpr int kDefaultTimelineMaxWidthPx                 = 0;
 inline constexpr unsigned int kDefaultMaxStores                 = 0;
 inline constexpr unsigned long long kDefaultMaxDbSizeBytes      = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
@@ -41,11 +40,11 @@ inline constexpr std::array<SettingId, 11> kEnumTokenConfigSettingIds{{
 #include "SettingsDefinitionsEnumTokenConfigSettingIds.inc"
 }};
 
-inline constexpr std::array<SettingId, 4> kNumericConstrainedConfigSettingIds{{
+inline constexpr std::array<SettingId, 3> kNumericConstrainedConfigSettingIds{{
 #include "SettingsDefinitionsNumericConstrainedConfigSettingIds.inc"
 }};
 
-inline constexpr std::array<SettingDefinition, 67> kPersistedSettingDefinitions{{
+inline constexpr std::array<SettingDefinition, 66> kPersistedSettingDefinitions{{
 #include "SettingsDefinitionsPersistedCalls.inc"
 #include "SettingsDefinitionsPersistedComposer.inc"
 #include "SettingsDefinitionsPersistedEncryption.inc"

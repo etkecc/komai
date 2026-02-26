@@ -5,7 +5,6 @@
     CONNECT_SETTING_ID(
       TimelineMessagesLayoutShowOwnAvatar, timelineMessagesLayoutShowOwnAvatarChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesSenderUsername, timelineMessagesSenderUsernameChanged, Value);
-    CONNECT_SETTING_ID(TimelineMessagesMaxWidthPx, timelineMessagesMaxWidthPxChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesEmojiOnlyEnlarge, timelineMessagesEmojiOnlyEnlargeChanged, Value);
     CONNECT_SETTING_ID(TimelineMessagesHoverHighlight, timelineMessagesHoverHighlightChanged, Value);
     CONNECT_SETTING_ID(TimelineTypingShowEnabled, timelineTypingShowEnabledChanged, Value);

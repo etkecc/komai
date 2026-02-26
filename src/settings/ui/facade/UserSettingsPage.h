@@ -124,8 +124,6 @@ class UserSettings final : public QObject
         setPrivacyWindowFocusBlurDelaySeconds NOTIFY privacyWindowFocusBlurDelaySecondsChanged)
     Q_PROPERTY(int uiLayoutContentMaxWidthPx READ uiLayoutContentMaxWidthPx WRITE
                  setUiLayoutContentMaxWidthPx NOTIFY uiLayoutContentMaxWidthPxChanged)
-    Q_PROPERTY(int timelineMessagesMaxWidthPx READ timelineMessagesMaxWidthPx WRITE
-                 setTimelineMessagesMaxWidthPx NOTIFY timelineMessagesMaxWidthPxChanged)
     Q_PROPERTY(int sidebarsRoomListWidthPx READ sidebarsRoomListWidthPx WRITE
                  setSidebarsRoomListWidthPx NOTIFY sidebarsRoomListWidthPxChanged)
     Q_PROPERTY(int sidebarsCommunitiesWidthPx READ sidebarsCommunitiesWidthPx WRITE
@@ -369,7 +367,6 @@ public:
     void setSidebarsRoomListSort(RoomSortOrder order);
     void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsActivationPolicy policy);
     void setUiLayoutContentMaxWidthPx(int state);
-    void setTimelineMessagesMaxWidthPx(int state);
     void setSidebarsCommunitiesWidthPx(int state);
     void setSidebarsRoomListWidthPx(int state);
     void setNotificationsEnabled(bool state);
@@ -504,7 +501,6 @@ signals:
     void privacyWindowFocusBlurEnabledChanged(bool state);
     void privacyWindowFocusBlurDelaySecondsChanged(int state);
     void uiLayoutContentMaxWidthPxChanged(int state);
-    void timelineMessagesMaxWidthPxChanged(int state);
     void sidebarsRoomListWidthPxChanged(int state);
     void sidebarsCommunitiesWidthPxChanged(int state);
     void uiInputModeChanged(bool mode);

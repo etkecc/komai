@@ -2,7 +2,6 @@ X(TimelineMessagesLayoutStyle, static_cast<int>(settings.timelineMessagesLayoutS
 X(TimelineMessagesLayoutSmallAvatars, settings.timelineMessagesLayoutSmallAvatars())
 X(TimelineMessagesLayoutShowOwnAvatar, settings.timelineMessagesLayoutShowOwnAvatar())
 X(TimelineMessagesSenderUsername, static_cast<int>(settings.timelineMessagesSenderUsername()))
-X(TimelineMessagesMaxWidthPx, settings.timelineMessagesMaxWidthPx())
 X(TimelineMessagesEmojiOnlyEnlarge, settings.timelineMessagesEmojiOnlyEnlarge())
 X(TimelineMessagesHoverHighlight, settings.timelineMessagesHoverHighlight())
 X(TimelineTypingShowEnabled, settings.timelineTypingShowEnabled())

@@ -489,7 +489,7 @@ Item {
                     ToolTip.visible: hovered
                     hoverEnabled: true
                     hoverPulse: true
-                    image: ":/icons/icons/ui/options.svg"
+                    image: ":/icons/icons/ui/options-circle.svg"
                     leftPadding: row.itemPadding
                     rightPadding: row.itemPadding
                     Layout.preferredWidth: 32 + 2 * row.itemPadding

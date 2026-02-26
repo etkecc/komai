@@ -34,7 +34,6 @@ path = [
   "ui/microphone-unmute.svg",
   "ui/music.svg",
   "ui/new-thread.svg",
-  "ui/options.svg",
   "ui/pause-symbol.svg",
   "ui/people.svg",
   "ui/person.svg",

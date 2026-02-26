@@ -46,7 +46,7 @@ Item {
     readonly property string previewAliceFormattedBody: previewAliceTemplate
         .arg("<a href=\"" + previewKomaiUrl + "\">" + previewKomaiLabel + "</a>")
         .arg("<a href=\"" + previewMatrixUrl + "\">" + previewMatrixLabel + "</a>")
-    readonly property string previewCarolBody: qsTr("I'm testing it as we speak and currently configuring how messages look..\n\nIt's quite pleasing to the eye, but also.. insanely fast! ⚡")
+    readonly property string previewCarolBody: qsTr("I'm testing it as we speak and currently configuring how messages look..\n\nIt's quite pleasing to the eye, but also insanely fast! ⚡")
     readonly property string previewCarolFormattedBody: previewCarolBody.split("\n").join("<br>")
     readonly property int previewOwnMessageStatus: Settings.timelineReadReceiptsEnabled ? MtxEvent.Read : MtxEvent.Received
     readonly property var previewEventsForList: previewEvents.slice().reverse()

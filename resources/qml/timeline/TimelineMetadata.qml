@@ -106,7 +106,7 @@ RowLayout {
         buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
         highlightColor: palette.highlight
         changeColorOnHover: true
-        image: ":/icons/icons/ui/plus-circle.svg"
+        image: ":/icons/icons/ui/options-circle.svg"
         visible: !metadata.forceTrailingTimestampLayout
             && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
@@ -209,7 +209,7 @@ RowLayout {
         buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
         highlightColor: palette.highlight
         changeColorOnHover: true
-        image: ":/icons/icons/ui/plus-circle.svg"
+        image: ":/icons/icons/ui/options-circle.svg"
         visible: metadata.forceTrailingTimestampLayout
             && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 

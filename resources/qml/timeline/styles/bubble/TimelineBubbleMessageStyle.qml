@@ -186,7 +186,8 @@ TimelineMessageStyleBase {
                     id: contentPlacementContainer
 
                     property real replyContentWidth: Math.max(wrapper.reply?.width ?? 0, wrapper.reply?.implicitWidth ?? 0)
-                    property real mainContentWidth: Math.max(wrapper.main?.width ?? 0, wrapper.main?.implicitWidth ?? 0)
+                    // Avoid a width->implicitWidth feedback path when the main delegate reflows.
+                    property real mainContentWidth: wrapper.main?.implicitWidth ?? 0
 
                     implicitWidth: Math.max(replyContentWidth + wrapper.replyInset, mainContentWidth + wrapper.mainInset)
                     implicitHeight: contentColumn.implicitHeight

@@ -365,7 +365,7 @@ Pane {
                 bottomPadding: buttonPaddingV
                 ToolTip.text: qsTr("Room options")
                 ToolTip.visible: hovered
-                image: ":/icons/icons/ui/options.svg"
+                image: ":/icons/icons/ui/options-circle.svg"
                 visible: !!room
 
                 onClicked: roomOptionsMenu.popup(roomOptionsButton)

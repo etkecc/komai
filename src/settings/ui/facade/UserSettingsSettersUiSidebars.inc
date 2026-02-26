@@ -40,17 +40,6 @@ UserSettings::setSidebarsRoomListShowCommunityCounts(bool s)
 }
 
 void
-UserSettings::setSidebarsRoomListCompact(bool s)
-{
-    if (sidebarsRoomListCompact_ == s)
-        return;
-    sidebarsRoomListCompact_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListCompact, s);
-    emit sidebarsRoomListCompactChanged(s);
-    save();
-}
-
-void
 UserSettings::setSidebarsRoomListShowLastMessageTime(bool s)
 {
     if (sidebarsRoomListShowLastMessageTime_ == s)

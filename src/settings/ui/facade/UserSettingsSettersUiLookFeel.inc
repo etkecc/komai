@@ -25,3 +25,14 @@ UserSettings::setUiMotionAnimationsEnabled(bool state)
         setTimelineMediaAnimateOnHover(true);
     }
 }
+
+void
+UserSettings::setUiLayoutCompactMode(bool s)
+{
+    if (uiLayoutCompactMode_ == s)
+        return;
+    uiLayoutCompactMode_ = s;
+    (void)coreStore_.set(settings::core::SettingId::UiLayoutCompactMode, s);
+    emit uiLayoutCompactModeChanged(s);
+    save();
+}

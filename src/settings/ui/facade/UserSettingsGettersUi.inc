@@ -8,7 +8,7 @@
     bool uiAvatarsCircular() const;
     NotificationMessageContentPolicy notificationsMessageContentPolicy() const;
     bool sidebarsRoomListShowCommunityCounts() const;
-    bool sidebarsRoomListCompact() const;
+    bool uiLayoutCompactMode() const;
     bool sidebarsRoomListShowLastMessageTime() const;
     LastMessagePreview sidebarsRoomListLastMessagePreview() const;
     bool timelineMediaEffectsEnabled() const;

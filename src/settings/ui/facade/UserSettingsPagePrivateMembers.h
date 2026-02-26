@@ -33,7 +33,7 @@ bool uiAvatarsCircular_;
 NotificationMessageContentPolicy notificationsMessageContentPolicy_ =
   NotificationMessageContentPolicy::WheneverAvailable;
 bool sidebarsRoomListShowCommunityCounts_;
-bool sidebarsRoomListCompact_;
+bool uiLayoutCompactMode_;
 bool sidebarsRoomListShowLastMessageTime_;
 LastMessagePreview sidebarsRoomListLastMessagePreview_;
 bool timelineMediaEffectsEnabled_;

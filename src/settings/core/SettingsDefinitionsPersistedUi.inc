@@ -24,3 +24,7 @@
    SettingScope::Config,
    SettingKey::UiAvatarsIdenticonFallback,
    false},
+  {SettingId::UiLayoutCompactMode,
+   SettingScope::Config,
+   SettingKey::UiLayoutCompactMode,
+   false},

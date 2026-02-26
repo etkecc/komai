@@ -1,4 +1,3 @@
-X(SidebarsRoomListCompact, settings.sidebarsRoomListCompact())
 X(SidebarsRoomListShowLastMessageTime, settings.sidebarsRoomListShowLastMessageTime())
 X(SidebarsRoomListLastMessagePreview, static_cast<int>(settings.sidebarsRoomListLastMessagePreview()))
 X(SidebarsRoomListShowCommunityCounts, settings.sidebarsRoomListShowCommunityCounts())

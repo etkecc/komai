@@ -19,6 +19,8 @@ Rectangle {
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
     property int sidebarWidth: 200
+    property int headerIconSize: Nheko.barIconSize
+    property int headerButtonPaddingH: Nheko.uiLayoutCompactMode ? Nheko.paddingSmall : Nheko.paddingMedium
     color: palette.window
 
     // Handle Escape key to go back
@@ -45,7 +47,7 @@ Rectangle {
                 ItemDelegate {
                     id: headerBack
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 48
+                    Layout.preferredHeight: Nheko.navigationRowHeight
                     padding: Nheko.paddingSmall
                     leftPadding: Nheko.paddingSmall
                     rightPadding: Nheko.paddingSmall
@@ -71,15 +73,15 @@ Rectangle {
                         Label {
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
-                            text: qsTr("Settings")
-                            font.pointSize: Settings.uiFontSizePt * 1.2
+                            text: qsTr("Back to main")
+                            font.pointSize: Settings.uiFontSizePt * 1.1
                             font.bold: true
                             color: headerBack.hovered ? palette.brightText : palette.text
                         }
                     }
 
                     ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Back")
+                    ToolTip.text: qsTr("Back to main")
                     ToolTip.delay: Nheko.tooltipDelay
                 }
 
@@ -118,7 +120,7 @@ Rectangle {
                         enabled: availableInCurrentSession
 
                         width: ListView.view.width
-                        height: 48
+                        height: Nheko.navigationRowHeight
                         padding: Nheko.paddingSmall
                         leftPadding: Nheko.paddingSmall
                         rightPadding: Nheko.paddingSmall
@@ -198,42 +200,104 @@ Rectangle {
             color: Nheko.theme.separator
         }
 
-        // Settings content - Loader loads only the active tab
-        Loader {
+        // Settings content area
+        ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 0
 
-            source: {
-                switch (userSettingsDialog.currentTab) {
-                case UserSettingsModel.TabLookFeel:
-                    return "settings/LookFeelTab.qml";
-                case UserSettingsModel.TabSidebars:
-                    return "settings/SidebarsTab.qml";
-                case UserSettingsModel.TabTimeline:
-                    return "settings/TimelineTab.qml";
-                case UserSettingsModel.TabComposer:
-                    return "settings/ComposerTab.qml";
-                case UserSettingsModel.TabNotifications:
-                    return "settings/NotificationsTab.qml";
-                case UserSettingsModel.TabCalls:
-                    return "settings/CallsTab.qml";
-                case UserSettingsModel.TabNetwork:
-                    return "settings/NetworkTab.qml";
-                case UserSettingsModel.TabPrivacy:
-                    return "settings/PrivacyTab.qml";
-                case UserSettingsModel.TabEncryption:
-                    return "settings/EncryptionTab.qml";
-                case UserSettingsModel.TabAccount:
-                    return "settings/AccountTab.qml";
-                case UserSettingsModel.TabIntegrations:
-                    return "settings/IntegrationsTab.qml";
-                case UserSettingsModel.TabAbout:
-                    return "settings/AboutTab.qml";
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: headerBack.Layout.preferredHeight
+                color: palette.alternateBase
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: Nheko.paddingMedium
+                    anchors.rightMargin: Nheko.paddingMedium
+                    spacing: Nheko.paddingMedium
+
+                    Image {
+                        Layout.preferredWidth: userSettingsDialog.headerIconSize
+                        Layout.preferredHeight: userSettingsDialog.headerIconSize
+                        Layout.alignment: Qt.AlignVCenter
+                        source: "qrc:/logos/komai.svg"
+                        sourceSize.width: userSettingsDialog.headerIconSize
+                        sourceSize.height: userSettingsDialog.headerIconSize
+                        fillMode: Image.PreserveAspectFit
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignVCenter
+                        text: qsTr("Settings")
+                        font.pointSize: Settings.uiFontSizePt * 1.1
+                        font.bold: true
+                        color: palette.text
+                        elide: Text.ElideRight
+                    }
+
+                    ImageButton {
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.preferredWidth: userSettingsDialog.headerIconSize
+                        Layout.preferredHeight: userSettingsDialog.headerIconSize
+                        leftPadding: userSettingsDialog.headerButtonPaddingH
+                        rightPadding: userSettingsDialog.headerButtonPaddingH
+                        topPadding: 0
+                        bottomPadding: 0
+                        ToolTip.delay: Nheko.tooltipDelay
+                        ToolTip.text: qsTr("Close")
+                        ToolTip.visible: hovered
+                        image: ":/icons/icons/ui/dismiss.svg"
+
+                        onClicked: mainWindow.pop()
+                    }
                 }
             }
 
-            onLoaded: {
-                item.collapsed = Qt.binding(function() { return userSettingsDialog.collapsed; });
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 1
+                color: Nheko.theme.separator
+            }
+
+            // Loader loads only the active tab
+            Loader {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                source: {
+                    switch (userSettingsDialog.currentTab) {
+                    case UserSettingsModel.TabLookFeel:
+                        return "settings/LookFeelTab.qml";
+                    case UserSettingsModel.TabSidebars:
+                        return "settings/SidebarsTab.qml";
+                    case UserSettingsModel.TabTimeline:
+                        return "settings/TimelineTab.qml";
+                    case UserSettingsModel.TabComposer:
+                        return "settings/ComposerTab.qml";
+                    case UserSettingsModel.TabNotifications:
+                        return "settings/NotificationsTab.qml";
+                    case UserSettingsModel.TabCalls:
+                        return "settings/CallsTab.qml";
+                    case UserSettingsModel.TabNetwork:
+                        return "settings/NetworkTab.qml";
+                    case UserSettingsModel.TabPrivacy:
+                        return "settings/PrivacyTab.qml";
+                    case UserSettingsModel.TabEncryption:
+                        return "settings/EncryptionTab.qml";
+                    case UserSettingsModel.TabAccount:
+                        return "settings/AccountTab.qml";
+                    case UserSettingsModel.TabIntegrations:
+                        return "settings/IntegrationsTab.qml";
+                    case UserSettingsModel.TabAbout:
+                        return "settings/AboutTab.qml";
+                    }
+                }
+
+                onLoaded: {
+                    item.collapsed = Qt.binding(function() { return userSettingsDialog.collapsed; });
+                }
             }
         }
     }

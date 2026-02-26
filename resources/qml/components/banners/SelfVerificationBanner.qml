@@ -17,8 +17,7 @@ ColumnLayout {
                                      && dismissedStatus !== SelfVerificationStatus.status
     readonly property color accentColor: Nheko.theme.orange
     readonly property int iconSize: Nheko.barIconSize
-    readonly property int sidebarEntryHeight: Nheko.listIconSize + 2 * Nheko.paddingMedium
-    readonly property int targetHeight: sidebarEntryHeight + 1
+    readonly property int targetHeight: Nheko.navigationRowHeight + 1
     readonly property string statusText: {
         switch (SelfVerificationStatus.status) {
         case SelfVerificationStatus.NoMasterKey:

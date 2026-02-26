@@ -51,7 +51,7 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: communityListC
 
-                collapsedWidth: Math.max(communitiesList.avatarSize + 2 * Nheko.paddingMedium, 1)
+                collapsedWidth: Math.max(Nheko.navigationRowHeight, 1)
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
                 preferredWidth: Settings.sidebarsCommunitiesWidthPx > collapsedWidth
                                 ? Settings.sidebarsCommunitiesWidthPx
@@ -76,7 +76,7 @@ Rectangle {
                 id: roomListC
 
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
-                collapsedWidth: Math.max(roomlist.avatarSize + 2 * Nheko.paddingMedium, 1)
+                collapsedWidth: Math.max(Nheko.navigationRowHeight, 1)
                 preferredWidth: Math.max(Settings.sidebarsRoomListWidthPx, collapsedWidth)
 
                 RoomList {

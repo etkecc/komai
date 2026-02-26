@@ -30,7 +30,7 @@ enum class SettingId
     UiLayoutContentMaxWidthPx,
     UiAvatarsCircular,
     UiAvatarsIdenticonFallback,
-    SidebarsRoomListCompact,
+    UiLayoutCompactMode,
     SidebarsRoomListShowLastMessageTime,
     SidebarsRoomListLastMessagePreview,
     SidebarsRoomListShowCommunityCounts,

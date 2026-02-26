@@ -55,3 +55,13 @@ UserSettings::uiLayoutContentMaxWidthPx() const
     return settings::core::definitions::normalizeUiLayoutContentMaxWidthPx(
       uiLayoutContentMaxWidthPx_);
 }
+
+bool
+UserSettings::uiLayoutCompactMode() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::UiLayoutCompactMode);
+        value.has_value())
+        return *value;
+    return uiLayoutCompactMode_;
+}

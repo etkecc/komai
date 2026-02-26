@@ -35,14 +35,15 @@ class Nheko : public QObject
     // Size of the Komai logo shown in the main timeline empty state
     // and the initial sync spinner.
     Q_PROPERTY(int timelineLogoSize READ timelineLogoSize CONSTANT)
-    Q_PROPERTY(bool sidebarsRoomListCompact READ sidebarsRoomListCompact NOTIFY
-                 sidebarsRoomListCompactChanged)
-    Q_PROPERTY(double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY
-                 sidebarsRoomListCompactChanged)
+    Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode NOTIFY uiLayoutCompactModeChanged)
+    Q_PROPERTY(
+      double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY uiLayoutCompactModeChanged)
     // Font-scaled icon size for list entries (room list rows, community entries)
-    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY sidebarsRoomListCompactChanged)
+    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY uiLayoutCompactModeChanged)
+    // Shared row height baseline used by navigation surfaces (room/community rows and bars).
+    Q_PROPERTY(int navigationRowHeight READ navigationRowHeight NOTIFY uiLayoutCompactModeChanged)
     // Icon size for action bars (top bar, room list actions bar)
-    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY sidebarsRoomListCompactChanged)
+    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY uiLayoutCompactModeChanged)
     Q_PROPERTY(bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime
                  NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
@@ -67,9 +68,10 @@ public:
     int tooltipDelay() const;
     int timelineLogoSize() const { return 128; }
 
-    bool sidebarsRoomListCompact() const;
+    bool uiLayoutCompactMode() const;
     double sidebarAvatarMultiplier() const;
     int listIconSize() const;
+    int navigationRowHeight() const;
     int barIconSize() const;
     bool sidebarsRoomListShowLastMessageTime() const;
 
@@ -114,7 +116,7 @@ public slots:
 signals:
     void colorsChanged();
     void profileChanged();
-    void sidebarsRoomListCompactChanged();
+    void uiLayoutCompactModeChanged();
     void sidebarsRoomListShowLastMessageTimeChanged();
 
     void openLogoutDialog();

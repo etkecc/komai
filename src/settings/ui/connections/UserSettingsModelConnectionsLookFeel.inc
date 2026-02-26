@@ -6,7 +6,7 @@
     CONNECT_SETTING_ID(UiLayoutContentMaxWidthPx, uiLayoutContentMaxWidthPxChanged, Value);
     CONNECT_SETTING_ID(UiMotionAnimationsEnabled, uiMotionAnimationsEnabledChanged, Value);
     CONNECT_SETTING_ID(UiInputMode, uiInputModeChanged, Value);
-    CONNECT_SETTING_ID(SidebarsRoomListCompact, sidebarsRoomListCompactChanged, Value);
+    CONNECT_SETTING_ID(UiLayoutCompactMode, uiLayoutCompactModeChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsRoomListShowLastMessageTime, sidebarsRoomListShowLastMessageTimeChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListLastMessagePreview, sidebarsRoomListLastMessagePreviewChanged, Value);

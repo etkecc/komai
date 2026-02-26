@@ -105,8 +105,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool sidebarsRoomListShowCommunityCounts READ sidebarsRoomListShowCommunityCounts WRITE
         setSidebarsRoomListShowCommunityCounts NOTIFY sidebarsRoomListShowCommunityCountsChanged)
-    Q_PROPERTY(bool sidebarsRoomListCompact READ sidebarsRoomListCompact WRITE
-                 setSidebarsRoomListCompact NOTIFY sidebarsRoomListCompactChanged)
+    Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode WRITE setUiLayoutCompactMode NOTIFY
+                 uiLayoutCompactModeChanged)
     Q_PROPERTY(
       bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime WRITE
         setSidebarsRoomListShowLastMessageTime NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
@@ -377,7 +377,7 @@ public:
     void setUiAvatarsCircular(bool state);
     void setNotificationsMessageContentPolicy(NotificationMessageContentPolicy policy);
     void setSidebarsRoomListShowCommunityCounts(bool state);
-    void setSidebarsRoomListCompact(bool state);
+    void setUiLayoutCompactMode(bool state);
     void setSidebarsRoomListShowLastMessageTime(bool state);
     void setSidebarsRoomListLastMessagePreview(LastMessagePreview style);
     void setTimelineMediaEffectsEnabled(bool state);
@@ -496,7 +496,7 @@ signals:
     void uiAvatarsCircularChanged(bool state);
     void notificationsMessageContentPolicyChanged(NotificationMessageContentPolicy policy);
     void sidebarsRoomListShowCommunityCountsChanged(bool state);
-    void sidebarsRoomListCompactChanged(bool state);
+    void uiLayoutCompactModeChanged(bool state);
     void sidebarsRoomListShowLastMessageTimeChanged(bool state);
     void sidebarsRoomListLastMessagePreviewChanged(LastMessagePreview style);
     void timelineMediaEffectsEnabledChanged(bool state);

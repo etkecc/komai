@@ -14,7 +14,7 @@ import im.nheko
 Page {
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
-    property bool compactMode: Nheko.sidebarsRoomListCompact
+    property bool compactMode: Nheko.uiLayoutCompactMode
     property int avatarSize: Nheko.listIconSize
     property bool collapsed: false
 
@@ -200,7 +200,7 @@ Page {
             property bool showActionButtons: roomActionsBar.width > 160
 
             Layout.fillWidth: true
-            Layout.preferredHeight: avatarSize + 2 * Nheko.paddingMedium
+            Layout.preferredHeight: Nheko.navigationRowHeight
             horizontalPadding: Nheko.paddingMedium
             verticalPadding: 0
 
@@ -557,7 +557,7 @@ Page {
             ToolTip.delay: Nheko.tooltipDelay
             ToolTip.text: roomName
             ToolTip.visible: hovered && collapsed
-            height: avatarSize + 2 * Nheko.paddingMedium
+            height: Nheko.navigationRowHeight
             state: "normal"
             width: ListView.view.width - ((scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
 

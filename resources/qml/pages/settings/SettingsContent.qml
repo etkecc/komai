@@ -62,6 +62,10 @@ Item {
                     width: grid.width
 
                     readonly property real controlWidth: Math.min(500, Math.max(240, grid.width - Nheko.paddingLarge * 2))
+                    readonly property bool hasInlineDescription: (r.model.type == UserSettingsModel.OptionsWithDescription
+                          || r.model.type == UserSettingsModel.IntegerWithDescription
+                          || r.model.type == UserSettingsModel.ToggleWithDescription)
+                         && !!r.model.description
 
                     ColumnLayout {
                         id: row
@@ -103,9 +107,9 @@ Item {
 
                                 HoverHandler {
                                     id: hovered
-                                    enabled: r.model.description ?? false
+                                    enabled: !!r.model.description && !r.hasInlineDescription
                                 }
-                                ToolTip.visible: hovered.hovered && r.model.description
+                                ToolTip.visible: hovered.hovered && !!r.model.description && !r.hasInlineDescription
                                 ToolTip.text: r.model.description ?? ""
                                 ToolTip.delay: Nheko.tooltipDelay
                             }
@@ -293,10 +297,7 @@ Item {
 
                         TextEdit {
                             Layout.fillWidth: true
-                            visible: (r.model.type == UserSettingsModel.OptionsWithDescription
-                                      || r.model.type == UserSettingsModel.IntegerWithDescription
-                                      || r.model.type == UserSettingsModel.ToggleWithDescription)
-                                     && !!r.model.description
+                            visible: r.hasInlineDescription
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
                             color: palette.buttonText

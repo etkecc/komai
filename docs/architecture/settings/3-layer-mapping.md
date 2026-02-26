@@ -52,7 +52,6 @@ Naming mismatch summary:
 | `PrivacyWindowFocusBlurDelaySeconds` | `settings.privacyWindowFocusBlurDelaySeconds()` | `PrivacyWindowFocusBlurDelaySeconds` | `privacy.window_focus_blur.delay_seconds` |
 | `PrivacyWindowFocusBlurEnabled` | `settings.privacyWindowFocusBlurEnabled()` | `PrivacyWindowFocusBlurEnabled` | `privacy.window_focus_blur.enabled` |
 | `SidebarsCommunitiesVisible` | `settings.sidebarsCommunitiesVisible()` | `SidebarsCommunitiesVisible` | `sidebars.communities.visible` |
-| `SidebarsRoomListCompact` | `settings.sidebarsRoomListCompact()` | `SidebarsRoomListCompact` | `sidebars.room_list.compact` |
 | `SidebarsRoomListLastMessagePreview` | `static_cast<int>(settings.sidebarsRoomListLastMessagePreview())` | `SidebarsRoomListLastMessagePreview` | `sidebars.room_list.last_message_preview` |
 | `SidebarsRoomListScrollbarsEnabled` | `settings.sidebarsRoomListScrollbarsEnabled()` | `SidebarsRoomListScrollbarsEnabled` | `sidebars.room_list.scrollbars.visible` |
 | `SidebarsRoomListShowCommunityCounts` | `settings.sidebarsRoomListShowCommunityCounts()` | `SidebarsRoomListShowCommunityCounts` | `sidebars.room_list.show_community_notification_counts` |
@@ -81,6 +80,7 @@ Naming mismatch summary:
 | `UiFontSizePt` | `settings.uiFontSizePt()` | `UiFontSizePt` | `ui.font.size_pt` |
 | `UiInputMode` | `settings.uiInputMode()` | `UiInputMode` | `ui.input.mode` |
 | `UiInputTouchSwipeGesturesEnabled` | `settings.uiInputTouchSwipeGesturesEnabled()` | `UiInputTouchSwipeGesturesEnabled` | `ui.input.touch.swipe_gestures.enabled` |
+| `UiLayoutCompactMode` | `settings.uiLayoutCompactMode()` | `UiLayoutCompactMode` | `ui.layout.compact_mode` |
 | `UiLayoutContentMaxWidthPx` | `settings.uiLayoutContentMaxWidthPx()` | `UiLayoutContentMaxWidthPx` | `ui.layout.content.max_width_px` |
 | `UiMotionAnimationsEnabled` | `settings.uiMotionAnimationsEnabled()` | `UiMotionAnimationsEnabled` | `ui.motion.enable_animations` |
 | `UiScaleFactor` | `settings.uiScaleFactor()` | `UiScaleFactor` | `ui.scale.factor` |

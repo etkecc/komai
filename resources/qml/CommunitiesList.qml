@@ -66,7 +66,7 @@ Page {
             ToolTip.delay: Nheko.tooltipDelay
             ToolTip.text: model.tooltip
             ToolTip.visible: hovered && collapsed
-            height: avatarSize + 2 * Nheko.paddingMedium
+            height: Nheko.navigationRowHeight
             state: "normal"
             width: ListView.view.width - ((scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
 

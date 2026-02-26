@@ -25,7 +25,7 @@ constexpr auto UiInputTouchSwipeGesturesEnabled = "ui.input.touch.swipe_gestures
 constexpr auto UiLayoutContentMaxWidthPx        = "ui.layout.content.max_width_px";
 constexpr auto UiAvatarsCircular                = "ui.avatars.circular";
 constexpr auto UiAvatarsIdenticonFallback       = "ui.avatars.identicon_fallback";
-constexpr auto SidebarsRoomListCompact          = "sidebars.room_list.compact";
+constexpr auto UiLayoutCompactMode              = "ui.layout.compact_mode";
 constexpr auto SidebarsRoomListShowLastMessageTime =
   "sidebars.room_list.show_last_message_timestamp";
 constexpr auto SidebarsRoomListLastMessagePreview = "sidebars.room_list.last_message_preview";

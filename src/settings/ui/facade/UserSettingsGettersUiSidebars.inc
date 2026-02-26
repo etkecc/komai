@@ -29,16 +29,6 @@ UserSettings::sidebarsRoomListShowCommunityCounts() const
 }
 
 bool
-UserSettings::sidebarsRoomListCompact() const
-{
-    if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListCompact);
-        value.has_value())
-        return *value;
-    return sidebarsRoomListCompact_;
-}
-
-bool
 UserSettings::sidebarsRoomListShowLastMessageTime() const
 {
     if (const auto value =

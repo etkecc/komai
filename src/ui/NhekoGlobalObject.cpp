@@ -77,9 +77,9 @@ Nheko::Nheko()
             this,
             &Nheko::colorsChanged);
     connect(UserSettings::instance().get(),
-            &UserSettings::sidebarsRoomListCompactChanged,
+            &UserSettings::uiLayoutCompactModeChanged,
             this,
-            &Nheko::sidebarsRoomListCompactChanged);
+            &Nheko::uiLayoutCompactModeChanged);
     connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListShowLastMessageTimeChanged,
             this,
@@ -129,9 +129,9 @@ Nheko::tooltipDelay() const
 }
 
 bool
-Nheko::sidebarsRoomListCompact() const
+Nheko::uiLayoutCompactMode() const
 {
-    return UserSettings::instance()->sidebarsRoomListCompact();
+    return UserSettings::instance()->uiLayoutCompactMode();
 }
 
 bool
@@ -143,8 +143,8 @@ Nheko::sidebarsRoomListShowLastMessageTime() const
 double
 Nheko::sidebarAvatarMultiplier() const
 {
-    // Normal mode: 2.0x line spacing, Compact mode: 1.25x line spacing
-    return sidebarsRoomListCompact() ? 1.25 : 2.0;
+    // Spacious mode: 2.0x line spacing, Compact mode: 1.25x line spacing.
+    return uiLayoutCompactMode() ? 1.25 : 2.0;
 }
 
 // Font-scaled icon size for list entries (room list rows, community entries).
@@ -155,13 +155,23 @@ Nheko::listIconSize() const
     return qMax(1, qCeil(fm.lineSpacing() * sidebarAvatarMultiplier()));
 }
 
+// Shared baseline used to keep room-list and communities rows aligned with
+// adjacent bars (for example the top bar, room actions bar, and status banners).
+// The value follows list icon scaling and padding, so compact mode and font size
+// adjustments keep these surfaces visually aligned.
+int
+Nheko::navigationRowHeight() const
+{
+    return listIconSize() + 2 * paddingMedium();
+}
+
 // Icon size for action bars (top bar, room list actions bar).
 // In compact mode, matches listIconSize so bars align with list entries.
-// In normal mode, uses the constant avatarSize (40px).
+// In spacious mode, uses the constant avatarSize (40px).
 int
 Nheko::barIconSize() const
 {
-    return sidebarsRoomListCompact() ? listIconSize() : avatarSize();
+    return uiLayoutCompactMode() ? listIconSize() : avatarSize();
 }
 
 void

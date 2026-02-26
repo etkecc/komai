@@ -92,6 +92,17 @@
       nullptr,
       nullptr,
       CORE_CONFIG_ID(UiLayoutContentMaxWidthPx, SettingKey::UiLayoutContentMaxWidthPx) },
+    // CompactLayout
+    { QT_TR_NOOP("Compact mode"),
+      QT_TR_NOOP("Affects navigation containers such as header bars and room/sidebar entries, including their icon sizes."),
+      SM::ToggleWithDescription, SM::TabLookFeel,
+      getCoreBoolValue<settings::core::SettingId::UiLayoutCompactMode,
+                       &UserSettings::uiLayoutCompactMode>,
+      setSettingValue<&UserSettings::setUiLayoutCompactMode, bool>,
+      {}, {}, {},
+      nullptr,
+      nullptr,
+      CORE_CONFIG_ID(UiLayoutCompactMode, SettingKey::UiLayoutCompactMode) },
     // LookFeelAvatarsSection
     { QT_TR_NOOP("Avatars"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -110,13 +121,9 @@
       nullptr,
       identiconSettingEnabled,
       CORE_CONFIG_ID(UiAvatarsIdenticonFallback, SettingKey::UiAvatarsIdenticonFallback) },
-    // LookFeelRoomListSection
+    // SidebarsRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // CompactRoomList
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Compact layout",
-                        QT_TR_NOOP("Use smaller avatars and tighter spacing in the room list and communities sidebar."),
-                        SM::TabSidebars, sidebarsRoomListCompact, setSidebarsRoomListCompact, nullptr, SidebarsRoomListCompact, SettingKey::SidebarsRoomListCompact),
     // RoomListShowLastMessageTime
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
                         QT_TR_NOOP("Show the timestamp of the last message next to the room name."),

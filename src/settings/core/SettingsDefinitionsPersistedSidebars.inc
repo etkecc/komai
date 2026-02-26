@@ -1,7 +1,3 @@
-  {SettingId::SidebarsRoomListCompact,
-   SettingScope::Config,
-   SettingKey::SidebarsRoomListCompact,
-   false},
   {SettingId::SidebarsRoomListShowLastMessageTime,
    SettingScope::Config,
    SettingKey::SidebarsRoomListShowLastMessageTime,

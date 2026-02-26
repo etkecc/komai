@@ -329,5 +329,5 @@ The generated report includes:
   - [this architecture document](README.md)
   - [settings migration playbook](migrations.md)
   - [Storage Architecture](../storage.md)
-  - [settings examples](examples/profile/)
+  - [settings examples](../../user-guide/settings/examples/profile/)
   - [nheko to Komai settings mapping](../differences-from-nheko/settings-mapping.md)

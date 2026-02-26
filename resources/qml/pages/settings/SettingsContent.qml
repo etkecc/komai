@@ -38,7 +38,7 @@ Item {
             id: grid
             y: Nheko.paddingLarge
 
-            spacing: Nheko.paddingMedium
+            spacing: 0
             property real contentMaxWidth: Settings.uiLayoutContentMaxWidthPx > 0 ? Settings.uiLayoutContentMaxWidthPx : Number.POSITIVE_INFINITY
             property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
             width: Math.max(0, scroll.width - sideMargin * 2)
@@ -68,9 +68,24 @@ Item {
                           || r.model.type == UserSettingsModel.ToggleWithDescription)
                          && !!r.model.description
 
+                    HoverHandler {
+                        id: rowHover
+                        blocking: false
+                        enabled: settingRow.visible
+                    }
+
+                    Rectangle {
+                        anchors.fill: row
+                        color: palette.alternateBase
+                        radius: Nheko.paddingMedium
+                        visible: settingRow.visible && rowHover.hovered
+                        z: -1
+                    }
+
                     ColumnLayout {
                         id: row
                         width: grid.width
+                        height: implicitHeight
                         spacing: Nheko.paddingMedium
 
                         SettingsSection {
@@ -86,8 +101,10 @@ Item {
                             id: settingRow
                             Layout.fillWidth: true
                             visible: r.model.type != UserSettingsModel.SectionTitle
-                            Layout.leftMargin: 0
-                            Layout.bottomMargin: Nheko.paddingMedium
+                            Layout.topMargin: Nheko.paddingMedium
+                            Layout.leftMargin: Nheko.paddingSmall
+                            Layout.rightMargin: Nheko.paddingSmall
+                            Layout.bottomMargin: r.hasInlineDescription ? 0 : Nheko.paddingMedium
                             spacing: r.isTimelinePreviewRow ? 0 : Nheko.paddingSmall
 
                             TextEdit {
@@ -123,9 +140,9 @@ Item {
                                 Layout.preferredWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
                                 Layout.maximumWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
                                 Layout.minimumWidth: r.isTimelinePreviewRow ? 0 : 140
-                                Layout.preferredHeight: r.isTimelinePreviewRow
-                                    ? (chooser.child ? chooser.child.implicitHeight : 0)
-                                    : childrenRect.height
+                                readonly property real chooserHeight: chooser.child ? chooser.child.implicitHeight : 0
+                                Layout.preferredHeight: chooserHeight
+                                Layout.minimumHeight: chooserHeight
                                 Layout.rightMargin: 0
 
                                 Component {
@@ -309,6 +326,8 @@ Item {
 
                         TextEdit {
                             Layout.fillWidth: true
+                            Layout.leftMargin: Nheko.paddingSmall
+                            Layout.rightMargin: Nheko.paddingSmall
                             visible: r.hasInlineDescription
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
@@ -318,7 +337,7 @@ Item {
                             readOnly: true
                             selectByMouse: true
                             Layout.topMargin: -Nheko.paddingSmall
-                            Layout.bottomMargin: Nheko.paddingSmall
+                            Layout.bottomMargin: Nheko.paddingMedium
                             onLinkActivated: function(link) {
                                 Qt.openUrlExternally(link);
                             }

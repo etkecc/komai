@@ -143,7 +143,18 @@ Schema version key for versioned settings files:
 
 - `meta.settings_schema_version` (currently `1` for `config.yml`, `state.yml`, `session.yml`)
 
-Default profile id: `default`.
+Profile id normalization:
+
+- empty profile id -> `default`
+- `default` -> `default`
+- any other profile id -> unchanged
+- valid non-empty profile ids are restricted to ASCII `[A-Za-z0-9._-]` and
+  must not start or end with `.`
+
+Examples:
+
+- `komai` -> `default`
+- `komai -p etke` -> `etke`
 
 Reference examples:
 
@@ -264,25 +275,20 @@ Key generation is centralized in:
 - `src/ProfileSecrets.h`
 - `src/ProfileSecrets.cpp`
 
-Profile hash:
+Profile id:
 
-- `profile_hash = hex(sha256(normalized_profile_id))`
-- normalized profile id: empty/default -> `default`, otherwise profile id string
-- default profile hash convenience value:
-  - `37a8eec1ce19687d132fe29051dca629d164e2c4958ba141d5f4133a33f0688f`
+- `normalized_profile_id`: empty/default -> `default`, otherwise profile id string
 
 Namespaces:
 
-- settings secrets: `komai.<profile_hash>.settings.<key>`
-- local crypto secrets: `komai.<profile_hash>.local_crypto.<key>`
-- matrix secrets: `komai.<profile_hash>.matrix.<key>`
+- settings secrets: `komai.<profile-id>.settings.<key>`
+- local crypto secrets: `komai.<profile-id>.local_crypto.<key>`
+- matrix secrets: `komai.<profile-id>.matrix.<key>`
 
 Examples:
 
-- `komai.<profile_hash>.settings.session.secrets`
-- `komai.<profile_hash>.local_crypto.pickle_secret`
-
-Legacy Base64 profile-hash IDs are intentionally not used.
+- `komai.<profile-id>.settings.session.secrets`
+- `komai.<profile-id>.local_crypto.pickle_secret`
 
 ## File-Provider Secret Format
 
@@ -290,7 +296,7 @@ When `secrets.provider=file`, `secrets.yml` includes:
 
 - `secrets:` map with:
   - internal `__session.access_token` for session auth
-  - full secret IDs (`komai.<profile_hash>.<scope>.<name>`) for regular secrets
+  - full secret IDs (`komai.<profile-id>.<scope>.<name>`) for regular secrets
 
 This keeps fallback and secure-backend key identity consistent.
 

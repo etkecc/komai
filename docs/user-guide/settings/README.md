@@ -19,14 +19,21 @@ Each profile lives at:
 
 `<profile-id>` is the profile name/identifier you pass with `-p`.
 
+💡 If a profile is not explicitly specified, the application uses the `default` profile.
+
+Allowed profile-id characters:
+
+- ASCII letters and digits: `A-Z`, `a-z`, `0-9`
+- punctuation: `.`, `_`, `-`
+
+Other characters (for example `/`, `\`, newlines, or non-ASCII text) are rejected.
+
 Files in each profile directory:
 
 - `config.yml` - durable preferences and advanced non-secret options
 - `state.yml` - runtime/window/layout state
 - `session.yml` - account/session metadata (non-secret)
 - `secrets.yml` - file-mode fallback secrets (only when `secrets.provider=file`)
-
-Default profile id is `default`.
 
 See also: [Storage Locations](../storage.md#linux-paths).
 
@@ -127,7 +134,7 @@ Common secure-backend backup targets:
 | Data | Location |
 | --- | --- |
 | Profile settings/session/state | `~/.config/komai/profiles/` |
-| Local database data (default backend: LMDB in standard builds; memory if LMDB backend is disabled at build time) | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
+| Local database data (default backend: LMDB in standard builds; memory if LMDB backend is disabled at build time) | `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/` |
 | User themes | `~/.local/share/komai/themes/` |
 | Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
 | Log file (file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |

@@ -8,7 +8,6 @@
 #include <QCoreApplication>
 #include <QEventLoop>
 
-#include <QCryptographicHash>
 #include <optional>
 
 #if __has_include(<keychain.h>)
@@ -20,6 +19,7 @@
 #include <mtx/secret_storage.hpp>
 
 #include "Logging.h"
+#include "ProfileId.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace profile_secrets {
@@ -243,30 +243,20 @@ deleteCacheProfileSecretsFromStoreBlocking(QStringView profile)
 QString
 normalizedProfileId(QStringView profile)
 {
-    if (profile.isEmpty() || profile == u"default")
-        return QStringLiteral("default");
-    return profile.toString();
-}
-
-QString
-profileHashHex(QStringView profile)
-{
-    return QString::fromLatin1(
-      QCryptographicHash::hash(normalizedProfileId(profile).toUtf8(), QCryptographicHash::Sha256)
-        .toHex());
+    return profile_id::normalized(profile);
 }
 
 QString
 settingsSecretStoreKey(QStringView profile, QStringView keyName)
 {
-    return QStringLiteral("komai.") + profileHashHex(profile) + QStringLiteral(".settings.") +
+    return QStringLiteral("komai.") + normalizedProfileId(profile) + QStringLiteral(".settings.") +
            keyName.toString();
 }
 
 QString
 cacheSecretStoreKey(QStringView profile, std::string_view keyName, bool internal)
 {
-    return QStringLiteral("komai.") + profileHashHex(profile) + QStringLiteral(".") +
+    return QStringLiteral("komai.") + normalizedProfileId(profile) + QStringLiteral(".") +
            (internal ? QStringLiteral("local_crypto.") : QStringLiteral("matrix.")) +
            QString::fromUtf8(keyName.data(), static_cast<int>(keyName.size()));
 }

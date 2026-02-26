@@ -8,10 +8,12 @@
 #include <QFontDatabase>
 #include <QGuiApplication>
 
+#include <stdexcept>
 #include <yaml-cpp/yaml.h>
 
 #include "JdenticonProvider.h"
 #include "Logging.h"
+#include "ProfileId.h"
 #include "settings/SettingsController.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
@@ -79,6 +81,13 @@ UserSettings::initialize(std::optional<QString> profile, const YAML::Node &confi
 void
 UserSettings::load(std::optional<QString> profile)
 {
+    if (profile) {
+        if (const auto validationError = profile_id::validate(*profile); validationError) {
+            throw std::runtime_error(
+              QStringLiteral("Invalid profile id: %1").arg(*validationError).toStdString());
+        }
+    }
+
     settings::SettingsController controller;
     controller.loadAndMigrate(*this, profile);
 }
@@ -86,6 +95,13 @@ UserSettings::load(std::optional<QString> profile)
 void
 UserSettings::load(std::optional<QString> profile, const YAML::Node &configRoot)
 {
+    if (profile) {
+        if (const auto validationError = profile_id::validate(*profile); validationError) {
+            throw std::runtime_error(
+              QStringLiteral("Invalid profile id: %1").arg(*validationError).toStdString());
+        }
+    }
+
     settings::SettingsController controller;
     controller.loadAndMigrate(*this, profile, configRoot);
 }

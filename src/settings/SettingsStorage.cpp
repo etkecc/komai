@@ -6,12 +6,13 @@
 #include "SettingsStorage.h"
 #include "SettingsStorageInternal.h"
 
-#include <QCryptographicHash>
 #include <spdlog/logger.h>
 #include <spdlog/sinks/null_sink.h>
 
 #include <string>
 #include <string_view>
+
+#include "ProfileId.h"
 
 namespace settings::storage {
 
@@ -52,17 +53,7 @@ currentLoggers()
 QString
 normalizedProfileId(QStringView profile)
 {
-    if (profile.isEmpty() || profile == u"default")
-        return QStringLiteral("default");
-    return profile.toString();
-}
-
-QString
-profileHashHex(QStringView profile)
-{
-    return QString::fromLatin1(
-      QCryptographicHash::hash(normalizedProfileId(profile).toUtf8(), QCryptographicHash::Sha256)
-        .toHex());
+    return profile_id::normalized(profile);
 }
 
 ReaderWriterPtr &
@@ -77,7 +68,7 @@ currentReaderWriter()
 QString
 detail::settingsSecretStoreKey(QStringView profile, QStringView keyName)
 {
-    return QStringLiteral("komai.") + profileHashHex(profile) + QStringLiteral(".settings.") +
+    return QStringLiteral("komai.") + normalizedProfileId(profile) + QStringLiteral(".settings.") +
            keyName.toString();
 }
 

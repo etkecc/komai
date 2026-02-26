@@ -6,17 +6,52 @@
 #include "Paths.h"
 
 #include <QByteArray>
-#include <QCryptographicHash>
 #include <QSet>
 #include <QStandardPaths>
 
-#include "ProfileSecrets.h"
+#include "ProfileId.h"
 
 namespace {
 QString
 rootWithAppName(QStandardPaths::StandardLocation location)
 {
     return QStandardPaths::writableLocation(location) + QStringLiteral("/komai");
+}
+
+QString
+escapedStorageComponent(QStringView value)
+{
+    static constexpr char hexDigits[] = "0123456789ABCDEF";
+    const QByteArray bytes            = value.toString().toUtf8();
+
+    QString escaped;
+    escaped.reserve(bytes.size() * 3);
+
+    for (const auto byte : bytes) {
+        const auto ch     = static_cast<unsigned char>(byte);
+        const bool isSafe = (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z') ||
+                            (ch >= 'A' && ch <= 'Z') || ch == '-' || ch == '_' || ch == '.' ||
+                            ch == '@' || ch == '+';
+
+        if (isSafe) {
+            escaped.append(QChar::fromLatin1(static_cast<char>(ch)));
+            continue;
+        }
+
+        escaped.append(QChar::fromLatin1('%'));
+        escaped.append(QChar::fromLatin1(hexDigits[(ch >> 4) & 0x0f]));
+        escaped.append(QChar::fromLatin1(hexDigits[ch & 0x0f]));
+    }
+
+    if (escaped.isEmpty())
+        return QStringLiteral("_");
+
+    if (escaped.endsWith(QLatin1Char('.'))) {
+        escaped.chop(1);
+        escaped.append(QStringLiteral("%2E"));
+    }
+
+    return escaped;
 }
 }
 
@@ -25,7 +60,7 @@ namespace app_paths {
 QString
 normalizedProfileId(QStringView profileId)
 {
-    return profile_secrets::normalizedProfileId(profileId);
+    return profile_id::normalized(profileId);
 }
 
 QString
@@ -91,10 +126,7 @@ dbRoot(QStringView profileId)
 QString
 databaseDirectory(QStringView userId, QStringView profileId)
 {
-    QCryptographicHash hash(QCryptographicHash::Sha256);
-    hash.addData(userId.toString().toUtf8());
-
-    return dbRoot(profileId) + QStringLiteral("/") + QString::fromLatin1(hash.result().toHex());
+    return dbRoot(profileId) + QStringLiteral("/") + escapedStorageComponent(userId);
 }
 
 QString

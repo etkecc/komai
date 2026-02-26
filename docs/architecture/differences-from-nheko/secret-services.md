@@ -19,20 +19,17 @@ In both modes, secret identity names are profile-scoped and deterministic.
 
 ## Secret ID Format
 
-Profile hash:
+Profile id:
 
-- `profile_hash = hex(sha256(normalized_profile_id))`
 - `normalized_profile_id`: empty/default -> `default`
+- all other profile IDs are unchanged
+- valid non-empty profile IDs are ASCII `[A-Za-z0-9._-]` and cannot start/end with `.`
 
 Namespaces:
 
-- `komai.<profile_hash>.settings.<key>`
-- `komai.<profile_hash>.local_crypto.<key>`
-- `komai.<profile_hash>.matrix.<key>`
-
-Default profile hash convenience value:
-
-- `37a8eec1ce19687d132fe29051dca629d164e2c4958ba141d5f4133a33f0688f`
+- `komai.<profile-id>.settings.<key>`
+- `komai.<profile-id>.local_crypto.<key>`
+- `komai.<profile-id>.matrix.<key>`
 
 ## Behavior by Provider
 
@@ -50,7 +47,7 @@ Default profile hash convenience value:
 
 ## Key-ID Notes
 
-Secret IDs use the profile-first hex hash format and namespaces shown above.
+Secret IDs use the normalized profile id and namespaces shown above.
 
 See also:
 

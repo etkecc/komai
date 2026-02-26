@@ -40,6 +40,7 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Paths.h"
+#include "ProfileId.h"
 #include "Utils.h"
 #include "config/nheko.h"
 #include "settings/SettingsController.h"
@@ -192,6 +193,10 @@ main(int argc, char *argv[])
     QCoreApplication::setApplicationVersion(nheko::version);
     QCoreApplication::setOrganizationName(QStringLiteral("komai"));
     const QString selectedProfile = selectedProfileFromArgs(argc, argv);
+    if (const auto validationError = profile_id::validate(selectedProfile); validationError) {
+        std::cerr << "Invalid --profile value: " << validationError->toStdString() << std::endl;
+        return 1;
+    }
 
     // Disable the qml disk cache by default to prevent crashes on updates. See
     // https://github.com/Nheko-Reborn/nheko/issues/1383
@@ -251,7 +256,8 @@ main(int argc, char *argv[])
     QCommandLineOption configName(
       QStringList() << QStringLiteral("p") << QStringLiteral("profile"),
       QCoreApplication::tr("Create a unique profile which allows you to log into several "
-                           "accounts at the same time and start multiple instances of nheko."),
+                           "accounts at the same time and start multiple instances of Komai. "
+                           "Allowed profile id characters: A-Z, a-z, 0-9, '.', '_', '-'."),
       QCoreApplication::tr("profile"),
       QCoreApplication::tr("profile name"));
     parser.addOption(configName);

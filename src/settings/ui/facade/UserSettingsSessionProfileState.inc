@@ -1,3 +1,6 @@
+// Include here because this inline unit is compiled into multiple translation units.
+#include "ProfileId.h"
+
 void
 UserSettings::setUsesFileSecretsProvider(bool usesFileSecretsProvider)
 {
@@ -82,6 +85,13 @@ UserSettings::applyProfilePathState(const QString &profile)
 void
 UserSettings::setProfile(QString profile)
 {
+    if (const auto validationError = profile_id::validate(profile); validationError) {
+        nhlog::ui()->warn("Rejected invalid profile id '{}': {}",
+                          profile.toStdString(),
+                          validationError->toStdString());
+        return;
+    }
+
     // always set this to allow setting this when loading and it is overwritten on the cli
     applyProfilePathState(profile);
     emit profileChanged(profile_);

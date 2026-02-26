@@ -33,7 +33,7 @@ Design rules:
 ## Data/Cache Paths
 
 - `app_paths::data::dbRoot(profileId)` -> `~/.local/share/komai/profiles/<profile-id>/db`
-- `app_paths::data::databaseDirectory(userId, profileId)` -> `.../db/<hash>`
+- `app_paths::data::databaseDirectory(userId, profileId)` -> `.../db/<encoded-user-id>`
 - `app_paths::cache::mediaDirectory(profileId)` -> `~/.cache/komai/profiles/<profile-id>/media_cache`
 - `app_paths::cache::mediaMediaDirectory(profileId)` -> `~/.cache/komai/profiles/<profile-id>/media_cache/media`
 - `app_paths::cache::mediaFileForMxc(profileId, mxcId, suffix)` -> final media-cache file path
@@ -46,9 +46,11 @@ Design rules:
 - `app_paths::data::themeSearchDirectories()` -> `standardLocations(GenericDataLocation) + "/komai/themes"`
 - `app_paths::encodedIdComponent(value)` -> URL-safe Base64 without `=`
 
-Database hash:
+Database user-id component:
 
-- `hash = hex(sha256(user_id))`
+- `<encoded-user-id>` is user-id UTF-8 escaped to a cross-platform-safe ASCII
+  component: bytes outside `[A-Za-z0-9._@+-]` are encoded as `%HH`
+  (uppercase hex), and trailing `.` is encoded as `%2E`.
 
 ## Storage Backends
 
@@ -186,9 +188,9 @@ Filesystem prefixes:
 
 Secret-store key prefixes:
 
-- `komai.<profile_hash>.settings.`
-- `komai.<profile_hash>.local_crypto.`
-- `komai.<profile_hash>.matrix.`
+- `komai.<profile-id>.settings.`
+- `komai.<profile-id>.local_crypto.`
+- `komai.<profile-id>.matrix.`
 
 ## Main Call Sites
 

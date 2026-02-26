@@ -7,15 +7,14 @@
 #include <QString>
 #include <QStringView>
 
+#include "ProfileId.h"
+
 namespace profile_secrets {
 
 QString
 normalizedProfileId(QStringView profile)
 {
-    if (profile.isEmpty() || profile == u"default")
-        return QStringLiteral("default");
-
-    return profile.toString();
+    return profile_id::normalized(profile);
 }
 
 bool

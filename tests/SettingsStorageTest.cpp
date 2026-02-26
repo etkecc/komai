@@ -16,6 +16,9 @@
 #include <spdlog/logger.h>
 #include <spdlog/sinks/null_sink.h>
 
+#include "Paths.h"
+#include "ProfileId.h"
+#include "ProfileSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "CacheApiWrappers.h"
@@ -129,6 +132,80 @@ testPathHelpers()
     ok &= expect(sessionPath.endsWith(QStringLiteral("session.yml")), "session path ends with session.yml");
     ok &= expect(secretsPath.endsWith(QStringLiteral("secrets.yml")), "secrets path ends with secrets.yml");
     ok &= expect(QFileInfo(configPath).dir().absolutePath() == profileDir, "config path dir is profile dir");
+
+    const auto dbPath =
+      app_paths::data::databaseDirectory(QStringLiteral("@username:example.com/path"), profile);
+    ok &= expect(dbPath.endsWith(
+                   QStringLiteral("/db/@username%3Aexample.com%2Fpath")),
+                 "database path escapes user id with %hh encoding");
+
+    return ok;
+}
+
+bool
+testProfileIdNormalizationAndSecretKeyIds()
+{
+    bool ok = true;
+
+    ok &= expect(app_paths::normalizedProfileId(QStringLiteral("")) == QStringLiteral("default"),
+                 "empty profile id normalizes to default");
+    ok &= expect(app_paths::normalizedProfileId(QStringLiteral("default")) ==
+                   QStringLiteral("default"),
+                 "default profile id stays default");
+    ok &= expect(app_paths::normalizedProfileId(QStringLiteral("etke")) == QStringLiteral("etke"),
+                 "custom profile id stays unchanged");
+
+    const auto emptyProfileKey =
+      settings::storage::secureStoreKey(QStringLiteral(""), "session.secrets");
+    const auto defaultProfileKey =
+      settings::storage::secureStoreKey(QStringLiteral("default"), "session.secrets");
+    const auto customProfileKey =
+      settings::storage::secureStoreKey(QStringLiteral("etke"), "session.secrets");
+
+    ok &= expect(emptyProfileKey == QStringLiteral("komai.default.settings.session.secrets"),
+                 "secure key for empty profile uses normalized default id");
+    ok &= expect(defaultProfileKey == QStringLiteral("komai.default.settings.session.secrets"),
+                 "secure key for explicit default uses normalized default id");
+    ok &= expect(customProfileKey == QStringLiteral("komai.etke.settings.session.secrets"),
+                 "secure key uses custom normalized profile id");
+    ok &= expect(customProfileKey ==
+                   profile_secrets::settingsSecretStoreKey(QStringLiteral("etke"),
+                                                           QStringLiteral("session.secrets")),
+                 "settings and profile-secrets key builders stay aligned");
+
+    return ok;
+}
+
+bool
+testProfileIdValidation()
+{
+    bool ok = true;
+
+    ok &= expect(!profile_id::validate(QStringLiteral("")).has_value(),
+                 "empty profile id is allowed and maps to default");
+    ok &= expect(!profile_id::validate(QStringLiteral("default")).has_value(),
+                 "default profile id is valid");
+    ok &= expect(!profile_id::validate(QStringLiteral("test8.1")).has_value(),
+                 "dot-separated ASCII profile id is valid");
+    ok &= expect(!profile_id::validate(QStringLiteral("etke_cc-1")).has_value(),
+                 "underscore and dash profile id is valid");
+
+    ok &= expect(profile_id::validate(QStringLiteral("../komai/.")).has_value(),
+                 "path traversal style profile id is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("кирилица")).has_value(),
+                 "cyrillic profile id is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("こまい")).has_value(),
+                 "japanese profile id is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("line\nbreak")).has_value(),
+                 "profile id with newline is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("a/b")).has_value(),
+                 "profile id with path separator is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("a\\b")).has_value(),
+                 "profile id with backslash is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral(".hidden")).has_value(),
+                 "profile id starting with dot is rejected");
+    ok &= expect(profile_id::validate(QStringLiteral("trailing.")).has_value(),
+                 "profile id ending with dot is rejected");
 
     return ok;
 }
@@ -261,6 +338,8 @@ main()
     ok &= testMissingAndInvalidFiles();
     ok &= testSecretsMapSerialization();
     ok &= testPathHelpers();
+    ok &= testProfileIdNormalizationAndSecretKeyIds();
+    ok &= testProfileIdValidation();
     ok &= testLoggerInjectionNullAndInjectedLoggers();
     ok &= testCacheLoggerInjection();
     ok &= testProviderSelectionHonorsConfigAndOverrides();

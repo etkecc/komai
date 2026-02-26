@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <QCryptographicHash>
 #include <QString>
 
+#include "ProfileId.h"
 #include "ProfileSecrets.h"
 
 namespace profile_secrets {
@@ -12,23 +12,14 @@ namespace profile_secrets {
 QString
 normalizedProfileId(QStringView profile)
 {
-    if (profile.isEmpty() || profile == u"default")
-        return QStringLiteral("default");
-    return profile.toString();
-}
-
-QString
-profileHashHex(QStringView profile)
-{
-    return QString::fromLatin1(
-      QCryptographicHash::hash(normalizedProfileId(profile).toUtf8(), QCryptographicHash::Sha256).toHex());
+    return profile_id::normalized(profile);
 }
 
 QString
 settingsSecretStoreKey(QStringView profile, QStringView keyName)
 {
-    return QStringLiteral("komai.") + profileHashHex(profile) + QStringLiteral(".settings.") +
-           keyName.toString();
+    return QStringLiteral("komai.") + normalizedProfileId(profile) +
+           QStringLiteral(".settings.") + keyName.toString();
 }
 
 bool

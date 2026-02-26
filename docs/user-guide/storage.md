@@ -14,7 +14,7 @@ Quick jumps:
 | Kind | Location |
 | --- | --- |
 | Profile settings files | `~/.config/komai/profiles/<profile-id>/` |
-| Chat database (default backend: LMDB when built, memory fallback when no persistent backend is built) | `~/.local/share/komai/profiles/<profile-id>/db/<hash>/` |
+| Chat database (default backend: LMDB when built, memory fallback when no persistent backend is built) | `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/` |
 | User themes | `~/.local/share/komai/themes/` (see [themes.md](themes.md#-user-themes)) |
 | Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
 | Log file (if file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
@@ -22,13 +22,17 @@ Quick jumps:
 
 `<profile-id>` is the `-p` profile name/identifier.
 
-`<hash>` is `hex(sha256(user_id))`.
+💡 If a profile is not explicitly specified, the application uses the `default` profile.
+See [Settings](settings/README.md#profile-location) for allowed profile-id characters.
+
+`<encoded-user-id>` is the Matrix user ID escaped to a cross-platform-safe ASCII component:
+bytes outside `[A-Za-z0-9._@+-]` are encoded as `%HH` (uppercase hex).
 
 ## File Patterns We Write
 
 Filesystem path patterns:
 
-- Database (default backend: LMDB in standard builds; optional RocksDB when built and selected via `KOMAI_DB_BACKEND=rocksdb`; memory fallback when no persistent backend is built): `~/.local/share/komai/profiles/<profile-id>/db/<hash>/`
+- Database (default backend: LMDB in standard builds; optional RocksDB when built and selected via `KOMAI_DB_BACKEND=rocksdb`; memory fallback when no persistent backend is built): `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/`
 - Media cache entry: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>.<ext>`
 - Media cache (media subdir): `~/.cache/komai/profiles/<profile-id>/media_cache/media/<base64url(mxc-id)>.<ext>`
 - Media thumbnails: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>_<w>x<h>_<crop|scale>_radius<r>`
@@ -36,9 +40,9 @@ Filesystem path patterns:
 
 Secret-store key prefixes (for `secret_service` and `file` fallback map keys):
 
-- `komai.<profile_hash>.settings.`
-- `komai.<profile_hash>.local_crypto.`
-- `komai.<profile_hash>.matrix.`
+- `komai.<profile-id>.settings.`
+- `komai.<profile-id>.local_crypto.`
+- `komai.<profile-id>.matrix.`
 
 ## Profile File Split
 

@@ -80,6 +80,16 @@ Window {
         return !!room && !!eventId;
     }
 
+    function closeOverlaySoon()
+    {
+        // Defer closing to the next tick so we don't destroy the overlay from inside
+        // an active button signal handler (Qt can fatal in nested event-loop paths).
+        Qt.callLater(() => {
+            imageOverlay.hide();
+            imageOverlay.close();
+        });
+    }
+
     function firstVisibleActionButton()
     {
         return forwardButton.visible ? forwardButton : openButton;
@@ -330,9 +340,19 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
-                    imageOverlay.openCurrentMediaExternally();
-                    imageOverlay.hide();
-                    imageOverlay.close();
+                    const roomRef = imageOverlay.room;
+                    const eventRef = imageOverlay.eventId;
+                    const urlRef = imageOverlay.url;
+
+                    // Run external-open after the overlay is queued to close so this handler
+                    // returns quickly and does not keep UI objects alive across nested loops.
+                    imageOverlay.closeOverlaySoon();
+                    Qt.callLater(() => {
+                        if (roomRef && eventRef)
+                            roomRef.openMedia(eventRef);
+                        else
+                            TimelineManager.openMedia(urlRef);
+                    });
                 }
             }
 
@@ -351,9 +371,19 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
-                    imageOverlay.copyCurrentMedia();
-                    imageOverlay.hide();
-                    imageOverlay.close();
+                    const roomRef = imageOverlay.room;
+                    const eventRef = imageOverlay.eventId;
+                    const urlRef = imageOverlay.url;
+
+                    // Keep copy action out of the immediate click handler for the same
+                    // lifetime-safety reason as other actions.
+                    imageOverlay.closeOverlaySoon();
+                    Qt.callLater(() => {
+                        if (roomRef && eventRef)
+                            roomRef.copyMedia(eventRef);
+                        else
+                            TimelineManager.copyImage(urlRef);
+                    });
                 }
             }
 
@@ -372,9 +402,19 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
-                    imageOverlay.saveCurrentMedia();
-                    imageOverlay.hide();
-                    imageOverlay.close();
+                    const roomRef = imageOverlay.room;
+                    const eventRef = imageOverlay.eventId;
+                    const urlRef = imageOverlay.url;
+
+                    // Save opens a blocking native file dialog; defer it until after this
+                    // click handler unwinds to avoid "destroyed while handler in progress".
+                    imageOverlay.closeOverlaySoon();
+                    Qt.callLater(() => {
+                        if (roomRef && eventRef)
+                            roomRef.saveMedia(eventRef);
+                        else
+                            TimelineManager.saveMedia(urlRef);
+                    });
                 }
             }
 
@@ -392,7 +432,7 @@ Window {
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
                 iconSize: actionButtonIconSize
 
-                onClicked: imageOverlay.close()
+                onClicked: imageOverlay.closeOverlaySoon()
             }
         }
     }

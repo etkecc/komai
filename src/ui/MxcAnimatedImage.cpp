@@ -7,6 +7,7 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QImageReader>
 #include <QMimeDatabase>
 #include <QQuickWindow>
 #include <QSGImageNode>
@@ -21,6 +22,19 @@
 void
 MxcAnimatedImage::startDownload()
 {
+    // Always reset prior animation state first. The same item can be rebound to
+    // a different event, and stale "loaded" state would wrongly hide static fallback.
+    const bool wasLoaded = loaded_;
+    loaded_              = false;
+    if (wasLoaded)
+        emit loadedChanged();
+
+    movie.stop();
+    movie.setDevice(nullptr);
+    if (buffer.isOpen())
+        buffer.close();
+    buffer.setData({});
+
     if (!room_)
         return;
     if (eventId_.isEmpty())
@@ -92,10 +106,40 @@ MxcAnimatedImage::startDownload()
             nhlog::net()->error("Failed to setup animated image buffer: {}", e.what());
         }
 
-        QTimer::singleShot(0, this, [this, mimeType] {
-            nhlog::ui()->info(
-              "Playing movie with size: {}, {}", buffer.bytesAvailable(), buffer.isOpen());
-            movie.setFormat(mimeType);
+        QTimer::singleShot(0, this, [this, mimeType, self] {
+            if (!self)
+                return;
+
+            nhlog::ui()->info("Preparing animated media buffer with size: {}, {}",
+                              buffer.bytesAvailable(),
+                              buffer.isOpen());
+            // Don't trust event MIME blindly: some events advertise one format while
+            // bytes are a different valid image format (e.g. webp metadata with PNG bytes).
+            const auto declaredFormat = mimeType.split('/').back();
+            const auto detectedFormat = QImageReader::imageFormat(&buffer);
+            buffer.reset();
+
+            if (!detectedFormat.isEmpty() && declaredFormat != detectedFormat) {
+                nhlog::ui()->warn(
+                  "Media format mismatch for event '{}': declared='{}' detected='{}'",
+                  eventId_.toStdString(),
+                  declaredFormat.toStdString(),
+                  detectedFormat.toStdString());
+
+                // The static Image path is more robust for mismatched metadata/content,
+                // so prefer it over attempting animated rendering with uncertain format.
+                movie.stop();
+                movie.setDevice(nullptr);
+                const bool loadedStateChanged = loaded_;
+                loaded_                       = false;
+                if (loadedStateChanged)
+                    emit loadedChanged();
+                update();
+                return;
+            }
+
+            if (!detectedFormat.isEmpty())
+                movie.setFormat(detectedFormat);
             movie.setDevice(&buffer);
 
             if (height() != 0 && width() != 0)
@@ -109,7 +153,31 @@ MxcAnimatedImage::startDownload()
                 movie.jumpToFrame(0);
                 movie.setPaused(true);
             }
-            emit loadedChanged();
+
+            // If animated decode fails (despite mime type claiming it's animatable),
+            // report not-loaded so QML falls back to the regular static Image path.
+            bool canRenderMovie = movie.isValid();
+            if (canRenderMovie && movie.currentImage().isNull()) {
+                movie.jumpToFrame(0);
+                canRenderMovie = !movie.currentImage().isNull();
+            }
+
+            // Keep static media on the regular Image path to avoid unnecessary QMovie usage.
+            if (canRenderMovie && movie.frameCount() == 1)
+                canRenderMovie = false;
+
+            if (!canRenderMovie) {
+                nhlog::ui()->warn(
+                  "Animated media decode failed for event '{}', falling back to static image",
+                  eventId_.toStdString());
+                movie.stop();
+                movie.setDevice(nullptr);
+            }
+
+            const bool loadedStateChanged = loaded_ != canRenderMovie;
+            loaded_                       = canRenderMovie;
+            if (loadedStateChanged)
+                emit loadedChanged();
             update();
         });
     };

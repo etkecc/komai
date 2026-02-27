@@ -35,7 +35,7 @@ public:
     }
 
     bool animatable() const { return animatable_; }
-    bool loaded() const { return buffer.size() > 0; }
+    bool loaded() const { return loaded_; }
     bool play() const { return play_; }
     QString eventId() const { return eventId_; }
     TimelineModel *room() const { return room_; }
@@ -93,6 +93,7 @@ private:
     QString eventId_;
     QString filename_;
     bool animatable_ = false;
+    bool loaded_     = false;
     QBuffer buffer;
     QMovie movie;
     int currentFrame = 0;

@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWindow *parent)
     registerQmlTypes();
 
     setColor(Theme::paletteFromTheme(userSettings_->uiThemeSlug()).window().color());
-    setSource(QUrl(QStringLiteral("qrc:///resources/qml/Root.qml")));
+    setSource(QUrl(QStringLiteral("qrc:///resources/qml/shell/Root.qml")));
 
     trayIcon_ = new TrayIcon(QStringLiteral(":/logos/komai.svg"), this);
 

@@ -3,11 +3,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./dialogs"
-import "./pages"
-import "./shell"
-import "./ui"
-import "./components/encryption" as Encryption
+import ".."
+import "../dialogs"
+import "../pages"
+import "../ui"
+import "../components/encryption" as Encryption
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window

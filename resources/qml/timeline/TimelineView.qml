@@ -18,7 +18,7 @@ import im.nheko
 Item {
     id: timelineView
 
-    required property PrivacyScreen windowFocusBlurOverlay
+    required property var windowFocusBlurOverlay
     property var room: null
     property var roomPreview: null
     property bool shouldEffectsRun: false

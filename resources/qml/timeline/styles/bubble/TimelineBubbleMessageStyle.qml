@@ -362,7 +362,7 @@ TimelineMessageStyleBase {
 
                 // Bottom-align with the bubble content area
                 anchors.bottom: messageBubble.bottom
-                anchors.bottomMargin: messageBubble.padding - (metadataOuter.height - fontMetrics.height) / 2
+                anchors.bottomMargin: Math.max(1, messageBubble.bottomPadding - (metadataOuter.height - fontMetrics.height) / 2)
 
                 anchors.left: undefined
                 anchors.right: undefined

@@ -14,9 +14,10 @@ class logger;
 }
 
 class Cache;
+using MatrixStore = Cache;
 
 namespace cache {
-std::unique_ptr<Cache> &
+std::unique_ptr<MatrixStore> &
 cacheInstance();
 
 struct CacheLoggers

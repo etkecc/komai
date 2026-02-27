@@ -14,12 +14,12 @@
 #include <QObject>
 
 namespace {
-std::unique_ptr<Cache> instance_ = nullptr;
+std::unique_ptr<MatrixStore> instance_ = nullptr;
 }
 
 namespace cache {
 
-std::unique_ptr<Cache> &
+std::unique_ptr<MatrixStore> &
 cacheInstance()
 {
     return instance_;
@@ -28,7 +28,7 @@ cacheInstance()
 void
 init(const QString &user_id)
 {
-    instance_ = std::make_unique<Cache>(user_id);
+    instance_ = std::make_unique<MatrixStore>(user_id);
 }
 
 bool

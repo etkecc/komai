@@ -550,7 +550,6 @@ set(SRC_FILES
     src/cache/api/CacheApiRooms.h
     src/cache/api/CacheApiTimeline.h
     src/cache/api/CacheApiCrypto.h
-    src/cache/core/Cache.h
     src/cache/crypto/CacheCryptoStructs.cpp
     src/cache/crypto/CacheCryptoStructsQml.cpp
     src/cache/crypto/CacheCryptoStructs.h

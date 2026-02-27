@@ -19,4 +19,3 @@ This map documents the first-stage move from top-level `src/Cache*` files to the
 
 - Application-facing call sites should include `cache/Cache.h`.
 - Cache-module internals may include narrower `cache/*` submodule headers where needed.
-- `cache/core/Cache.h` remains as a compatibility shim to `cache/api/CacheApi.h`.

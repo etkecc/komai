@@ -12,7 +12,6 @@ class logger;
 }
 
 class MatrixStore;
-using Cache = MatrixStore;
 
 namespace cache {
 std::unique_ptr<MatrixStore> &

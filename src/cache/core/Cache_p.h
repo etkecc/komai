@@ -26,7 +26,6 @@
 #include "db/StorageApi.h"
 
 class MatrixStore;
-using Cache = MatrixStore;
 
 namespace cache {
 namespace detail {

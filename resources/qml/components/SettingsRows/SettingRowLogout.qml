@@ -7,6 +7,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import "../../dialogs"
+import "../../dialogs/account"
 
 Button {
     id: logoutBtn

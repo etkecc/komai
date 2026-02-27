@@ -9,8 +9,8 @@ import QtQuick.Layouts 1.2
 import QtQuick.Window 2.15
 import QtQuick.Effects
 import im.nheko 1.0
-import "../delegates"
-import "../ui"
+import "../../delegates"
+import "../../ui"
 
 Pane {
     id: topBar

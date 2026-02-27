@@ -6,6 +6,7 @@
 import "../components"
 import "../composer" as Composer
 import "../emoji"
+import "../room/components"
 import "../ui"
 import "../voip"
 import "./components"
@@ -84,7 +85,7 @@ Item {
         spacing: 0
         visible: room != null && !room.isSpace
 
-        TimelineRoomHeader {
+        RoomHeader {
             id: topBar
 
             showBackButton: timelineView.showBackButton

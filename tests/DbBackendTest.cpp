@@ -934,6 +934,10 @@ testSyncStateHelper()
         db::putNextBatchToken(txn, syncStateDb, "batch-2");
         db::putCacheFormatVersion(txn, syncStateDb, "3");
         db::putOlmAccount(txn, syncStateDb, "olm-account-pickle");
+        db::putCurrentOnlineBackupVersion(txn,
+                                          syncStateDb,
+                                          nlohmann::json{{"version", "v1"},
+                                                         {"algorithm", "m.megolm_backup.v1"}});
         db::putSyncStateSecretValue(txn, syncStateDb, "pickle_secret", "encrypted-pickle");
         txn.commit();
     }
@@ -976,6 +980,18 @@ testSyncStateHelper()
         ok &= expect(typedOlmAccount.has_value() && *typedOlmAccount == "olm-account-pickle",
                      "sync state helper typed getter returns olm account");
 
+        nlohmann::json backupVersionValue;
+        ok &= expect(db::getCurrentOnlineBackupVersion(txn, syncStateDb, backupVersionValue),
+                     "sync state helper typed getter reads backup version as json");
+        ok &= expect(backupVersionValue.contains("version") &&
+                       backupVersionValue["version"].get<std::string>() == "v1",
+                     "sync state helper typed getter returns backup version payload");
+
+        const auto backupVersionCopy =
+          db::getCurrentOnlineBackupVersion<nlohmann::json>(txn, syncStateDb);
+        ok &= expect(backupVersionCopy.has_value() && backupVersionCopy->contains("algorithm"),
+                     "sync state helper optional backup version getter returns payload");
+
         std::string_view secretValue;
         ok &= expect(db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret", secretValue),
                      "sync state helper reads secret-keyed value");
@@ -998,6 +1014,8 @@ testSyncStateHelper()
                      "sync state helper removes cache format version value");
         ok &= expect(db::removeSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::OlmAccount),
                      "sync state helper removes olm account value");
+        ok &= expect(db::removeCurrentOnlineBackupVersion(txn, syncStateDb),
+                     "sync state helper removes current online backup version");
         ok &= expect(db::removeSyncStateSecretValue(txn, syncStateDb, "pickle_secret"),
                      "sync state helper removes secret-keyed value");
         txn.commit();
@@ -1017,6 +1035,8 @@ testSyncStateHelper()
                      "sync state helper typed cache version getter reports missing value");
         ok &= expect(!db::getOlmAccount(txn, syncStateDb).has_value(),
                      "sync state helper typed olm account getter reports missing value");
+        ok &= expect(!db::getCurrentOnlineBackupVersion<nlohmann::json>(txn, syncStateDb).has_value(),
+                     "sync state helper typed backup version getter reports missing value");
         ok &= expect(!db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret").has_value(),
                      "sync state helper reports missing secret-keyed value");
     }

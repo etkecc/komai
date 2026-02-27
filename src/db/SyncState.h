@@ -57,6 +57,9 @@ void
 putOlmAccount(Transaction &txn, Store &syncStateDb, std::string_view account);
 
 bool
+removeCurrentOnlineBackupVersion(Transaction &txn, Store &syncStateDb);
+
+bool
 getSyncStateSecretValue(Transaction &txn,
                         Store &syncStateDb,
                         std::string_view secretName,
@@ -96,6 +99,30 @@ putSyncStateJsonValue(Transaction &txn,
                       const T &value)
 {
     putJsonValue(txn, syncStateDb, catalog::syncStateKey(key), value);
+}
+
+template<typename T>
+bool
+getCurrentOnlineBackupVersion(Transaction &txn, Store &syncStateDb, T &value)
+{
+    return getSyncStateJsonValue(
+      txn, syncStateDb, catalog::SyncStateKey::CurrentOnlineBackupVersion, value);
+}
+
+template<typename T>
+std::optional<T>
+getCurrentOnlineBackupVersion(Transaction &txn, Store &syncStateDb)
+{
+    return getSyncStateJsonValue<T>(
+      txn, syncStateDb, catalog::SyncStateKey::CurrentOnlineBackupVersion);
+}
+
+template<typename T>
+void
+putCurrentOnlineBackupVersion(Transaction &txn, Store &syncStateDb, const T &value)
+{
+    putSyncStateJsonValue(
+      txn, syncStateDb, catalog::SyncStateKey::CurrentOnlineBackupVersion, value);
 }
 
 } // namespace db

@@ -74,6 +74,13 @@ putOlmAccount(Txn &txn, Store &syncStateDb, std::string_view account)
 }
 
 bool
+removeCurrentOnlineBackupVersion(Txn &txn, Store &syncStateDb)
+{
+    return removeSyncStateValue(
+      txn, syncStateDb, catalog::SyncStateKey::CurrentOnlineBackupVersion);
+}
+
+bool
 getSyncStateSecretValue(Txn &txn,
                         Store &syncStateDb,
                         std::string_view secretName,

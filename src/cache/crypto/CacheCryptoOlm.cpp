@@ -151,8 +151,7 @@ void
 MatrixStore::saveBackupVersion(const OnlineBackupVersion &data)
 {
     auto txn = beginTxn();
-    db::putSyncStateJsonValue(
-      txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion, data);
+    db::putCurrentOnlineBackupVersion(txn, db->syncState, data);
     txn.commit();
 }
 
@@ -160,8 +159,7 @@ void
 MatrixStore::deleteBackupVersion()
 {
     auto txn = beginTxn();
-    db::removeSyncStateValue(
-      txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
+    db::removeCurrentOnlineBackupVersion(txn, db->syncState);
     txn.commit();
 }
 
@@ -170,8 +168,7 @@ MatrixStore::backupVersion()
 {
     try {
         auto txn   = ro_txn(storage());
-        auto value = db::getSyncStateJsonValue<OnlineBackupVersion>(
-          txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
+        auto value = db::getCurrentOnlineBackupVersion<OnlineBackupVersion>(txn, db->syncState);
         if (!value)
             return std::nullopt;
 

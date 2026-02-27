@@ -270,7 +270,6 @@ Page {
             compactMode: roomListPage.compactMode
             avatarSize: roomListPage.avatarSize
             collapsed: roomListPage.collapsed
-            fontMetrics: fontMetrics
             roomContextMenu: roomContextMenu
             scrollbar: scrollbar
         }

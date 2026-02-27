@@ -17,7 +17,7 @@ ItemDelegate {
     required property bool compactMode
     required property int avatarSize
     required property bool collapsed
-    required property var fontMetrics
+    readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
     required property var roomContextMenu
     required property var scrollbar
     required property string avatarUrl
@@ -44,7 +44,7 @@ ItemDelegate {
     ToolTip.visible: hovered && collapsed
     height: Nheko.navigationRowHeight
     state: "normal"
-    width: ListView.view.width - ((scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
+    width: ListView.view.width - ((scrollbar && scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
 
     topInset: 0
     bottomInset: 0
@@ -195,7 +195,7 @@ ItemDelegate {
                     anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Nheko.paddingSmall : 0
                     color: roomItem.unimportantText
                     elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Nheko.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0)))
-                    font.pixelSize: fontMetrics.font.pixelSize * 0.95
+                    font.pixelSize: baseFontPixelSize * 0.95
                     fullText: TimelineManager.htmlEscape(lastMessage)
                     textFormat: Text.RichText
                     visible: compactMode && titleRow.previewsEnabled
@@ -206,7 +206,7 @@ ItemDelegate {
                     anchors.baseline: titleText.baseline
                     anchors.right: parent.right
                     color: roomItem.unimportantText
-                    font.pixelSize: fontMetrics.font.pixelSize * 0.95
+                    font.pixelSize: baseFontPixelSize * 0.95
                     text: time
                     visible: !isInvite && !isSpace && Nheko.sidebarsRoomListShowLastMessageTime
                 }
@@ -236,7 +236,7 @@ ItemDelegate {
                     anchors.left: parent.left
                     color: roomItem.unimportantText
                     elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0)
-                    font.pixelSize: fontMetrics.font.pixelSize * 0.95
+                    font.pixelSize: baseFontPixelSize * 0.95
                     fullText: TimelineManager.htmlEscape(lastMessage)
                     textFormat: Text.RichText
                 }

@@ -14,6 +14,7 @@ Rectangle {
     required property bool hasLoudNotification
     required property color bubbleBackgroundColor
     required property color bubbleTextColor
+    readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
     property bool mayBeVisible: true
     property alias font: notificationBubbleText.font
     baselineOffset: notificationBubbleText.baseline - bubbleRoot.top
@@ -35,7 +36,7 @@ Rectangle {
         verticalAlignment: Text.AlignVCenter
         width: Math.max(implicitWidth + Nheko.paddingMedium, bubbleRoot.height)
         font.bold: true
-        font.pixelSize: fontMetrics.font.pixelSize * 0.8
+        font.pixelSize: bubbleRoot.baseFontPixelSize * 0.8
         color: bubbleRoot.hasLoudNotification ? "white" : bubbleRoot.bubbleTextColor
         text: bubbleRoot.notificationCount > 9999 ? "9999+" : bubbleRoot.notificationCount
 

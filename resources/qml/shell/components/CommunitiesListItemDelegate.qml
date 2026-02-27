@@ -17,9 +17,10 @@ ItemDelegate {
     required property int avatarSize
     required property bool collapsed
     required property var communityContextMenu
-    required property var fontMetrics
     required property var model
     required property var scrollbar
+    readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
+    readonly property real lineSpacing: Math.max(1, Math.round(baseFontPixelSize * 1.2))
 
     property color backgroundColor: palette.window
     property color bubbleBackground: palette.highlight
@@ -32,7 +33,7 @@ ItemDelegate {
     ToolTip.visible: hovered && collapsed
     height: Nheko.navigationRowHeight
     state: "normal"
-    width: ListView.view.width - ((scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
+    width: ListView.view.width - ((scrollbar && scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
 
     topInset: 0
     bottomInset: 0
@@ -92,14 +93,14 @@ ItemDelegate {
         id: row
 
         anchors.fill: parent
-        anchors.leftMargin: Nheko.paddingMedium + (collapsed ? 0 : (fontMetrics.lineSpacing * model.depth))
+        anchors.leftMargin: Nheko.paddingMedium + (collapsed ? 0 : (lineSpacing * model.depth))
         anchors.margins: Nheko.paddingMedium
         spacing: Nheko.paddingMedium
 
         ImageButton {
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredHeight: fontMetrics.lineSpacing
-            Layout.preferredWidth: fontMetrics.lineSpacing
+            Layout.preferredHeight: lineSpacing
+            Layout.preferredWidth: lineSpacing
             ToolTip.delay: Nheko.tooltipDelay
             ToolTip.text: model.collapsed ? qsTr("Expand") : qsTr("Collapse")
             ToolTip.visible: hovered
@@ -110,7 +111,7 @@ ItemDelegate {
             onClicked: model.collapsed = !model.collapsed
         }
         Item {
-            Layout.preferredWidth: fontMetrics.lineSpacing
+            Layout.preferredWidth: lineSpacing
             visible: !collapsed && !model.collapsible && Communities.containsSubspaces
         }
         Avatar {
@@ -139,7 +140,7 @@ ItemDelegate {
                 anchors.right: avatar.right
                 bubbleBackgroundColor: communityItem.bubbleBackground
                 bubbleTextColor: communityItem.bubbleText
-                font.pixelSize: fontMetrics.font.pixelSize * 0.6
+                font.pixelSize: baseFontPixelSize * 0.6
                 hasLoudNotification: model.hasLoudNotification
                 mayBeVisible: collapsed && !model.muted && Settings.sidebarsRoomListShowCommunityCounts
                 notificationCount: model.unreadMessages

@@ -56,7 +56,6 @@ Page {
             avatarSize: communitySidebar.avatarSize
             collapsed: communitySidebar.collapsed
             communityContextMenu: communityContextMenu
-            fontMetrics: fontMetrics
             scrollbar: scrollbar
         }
 

@@ -12,6 +12,7 @@ import im.nheko 1.0
 Rectangle {
     id: replyPopup
 
+    property bool roundTopCorners: true
     property color threadColor: room ? TimelineManager.userColor(room.thread, palette.base) : palette.buttonText
     property int headerTextHeight: Math.round(Qt.application.font.pixelSize * 2.4)
     property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
@@ -19,7 +20,7 @@ Rectangle {
 
     Layout.fillWidth: true
     color: palette.alternateBase
-    radius: 8
+    radius: replyPopup.roundTopCorners ? 8 : 0
     implicitHeight: room && (room.reply || room.thread || room.edit) ? popupColumn.implicitHeight + Nheko.paddingMedium * 2 : 0
     visible: room && (room.reply || room.edit || room.thread)
     z: 3
@@ -32,6 +33,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         height: parent.radius
         color: parent.color
+        visible: replyPopup.roundTopCorners
     }
 
     Column {

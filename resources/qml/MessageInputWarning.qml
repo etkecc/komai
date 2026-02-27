@@ -14,6 +14,7 @@ Rectangle {
     property color bubbleColor: Nheko.theme.error
     required property string text
     property bool showRemove: false
+    property bool roundTopCorners: false
 
     signal removeClicked();
 
@@ -31,9 +32,18 @@ Rectangle {
         border.width: 1
         // TODO: Qt.alpha() would make more sense but it wasn't working...
         color: Qt.rgba(bubbleColor.r, bubbleColor.g, bubbleColor.b, 0.3)
-        radius: 6
+        radius: warningRoot.roundTopCorners ? 6 : 0
         visible: warningRoot.visible
         z: 3
+
+        Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: parent.radius
+            color: parent.color
+            visible: warningRoot.roundTopCorners
+        }
 
         Label {
             id: warningDisplay

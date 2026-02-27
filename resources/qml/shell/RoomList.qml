@@ -293,16 +293,7 @@ Page {
                     ripple: false
                     visible: roomActionsBar.showActionButtons
 
-                    onClicked: {
-                        var component = Qt.createComponent(componentCatalog.quickSwitcher);
-                        if (component.status == Component.Ready) {
-                            var quickSwitch = component.createObject(timelineRoot);
-                            quickSwitch.open();
-                            destroyOnClosed(quickSwitch);
-                        } else {
-                            console.error("Failed to create component: " + component.errorString());
-                        }
-                    }
+                    onClicked: timelineRoot.openCatalogDialog(componentCatalog.quickSwitcher)
                 }
             }
         }

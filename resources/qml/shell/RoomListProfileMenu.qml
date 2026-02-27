@@ -19,16 +19,9 @@ Menu {
 
     function openCurrentUserProfile() {
         Nheko.updateUserProfile();
-        var component = Qt.createComponent(componentCatalog.userProfileDialog);
-        if (component.status == Component.Ready) {
-            var userProfile = component.createObject(timelineRoot, {
-                    "profile": Nheko.currentUser
-                });
-            userProfile.show();
-            timelineRoot.destroyOnClose(userProfile);
-        } else {
-            console.error("Failed to create component: " + component.errorString());
-        }
+        timelineRoot.showCatalogDialog(componentCatalog.userProfileDialog, {
+                "profile": Nheko.currentUser
+            });
     }
     function openCreateRoomDialog(properties) {
         var createRoom = createRoomComponent.createObject(timelineRoot, properties || {});

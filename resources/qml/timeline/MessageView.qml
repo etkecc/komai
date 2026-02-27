@@ -5,6 +5,7 @@
 
 import "./styles/bubble"
 import "./styles/plain"
+import "./components"
 import "../components"
 import "../ui"
 import "../dialogs/common"
@@ -246,7 +247,7 @@ Item {
 
             property Item attached: null
             // use comma to update on scroll
-            property alias model: row.model
+            property var model: null
             property bool pinned: false
             property bool positioned: false
             property Item anchorItem: null
@@ -297,279 +298,15 @@ Item {
                 color: palette.window
                 radius: padding
             }
-            contentItem: RowLayout {
-                id: row
-
-                property var model
-                property int itemPadding: Math.round(messageActionsC.padding / 2)
-
-                spacing: 0
-
-                // --- Pinned reactions (from user setting, comma-separated, max 10) ---
-                Repeater {
-                    model: Settings.timelineMessageActionsPinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
-                    visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
-
-                    delegate: AbstractButton {
-                        id: btnPinned
-
-                        property color buttonTextColor: palette.buttonText
-                        property color highlightColor: palette.highlight
-                        required property string modelData
-                        property bool showImage: modelData.startsWith("mxc://")
-
-                        Layout.alignment: Qt.AlignBottom
-                        focusPolicy: Qt.NoFocus
-                        leftPadding: row.itemPadding
-                        rightPadding: row.itemPadding
-                        height: showImage ? 32 : btnTextPinned.implicitHeight
-                        implicitHeight: showImage ? 32 : btnTextPinned.implicitHeight
-                        implicitWidth: (showImage ? 32 : btnTextPinned.implicitWidth) + 2 * row.itemPadding
-                        width: (showImage ? 32 : btnTextPinned.implicitWidth) + 2 * row.itemPadding
-
-                        onClicked: {
-                            room.input.reaction(row.model.eventId, modelData);
-                            TimelineManager.focusMessageInput();
-                            messageActionsC.dismiss();
-                        }
-
-                        Label {
-                            id: btnTextPinned
-
-                            anchors.centerIn: parent
-                            color: btnPinned.hovered ? btnPinned.highlightColor : btnPinned.buttonTextColor
-                            font.pixelSize: 32
-                            font.family: Settings.uiFontEmojiFamily
-                            horizontalAlignment: Text.AlignHCenter
-                            padding: 0
-                            text: TimelineManager.htmlEscape(btnPinned.modelData)
-                            verticalAlignment: Text.AlignVCenter
-                            visible: !btnPinned.showImage
-                        }
-                        Image {
-                            anchors.fill: parent
-                            fillMode: Image.PreserveAspectFit
-                            source: btnPinned.showImage ? (btnPinned.modelData.replace("mxc://", "image://MxcImage/") + "?scale") : ""
-                            sourceSize.height: btnPinned.height
-                            sourceSize.width: btnPinned.width
-                        }
-                        NhekoCursorShape {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                        }
-                        Ripple {
-                            color: Qt.rgba(btnPinned.buttonTextColor.r, btnPinned.buttonTextColor.g, btnPinned.buttonTextColor.b, 0.5)
-                        }
-                        HoverPulseAnimation {
-                            id: pinnedPulseAnim
-
-                            targetItem: btnPinned
-                        }
-                        onHoveredChanged: {
-                            if (hovered)
-                                pinnedPulseAnim.pulse();
-                        }
-                    }
-                }
-                // --- Recent reactions (from user history, excluding pinned; total pinned+recent capped at 10) ---
-                Repeater {
-                    property var pinnedSet: Settings.timelineMessageActionsPinnedReactions.split(",").map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; }).slice(0, 10)
-                    model: Settings.recentReactions.filter(function(r) { return pinnedSet.indexOf(r) < 0; }).slice(0, Math.max(0, 10 - pinnedSet.length))
-                    visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
-
-                    delegate: AbstractButton {
-                        id: btnRecent
-
-                        property color buttonTextColor: palette.buttonText
-                        property color highlightColor: palette.highlight
-                        required property string modelData
-                        property bool showImage: modelData.startsWith("mxc://")
-
-                        Layout.alignment: Qt.AlignBottom
-                        focusPolicy: Qt.NoFocus
-                        leftPadding: row.itemPadding
-                        rightPadding: row.itemPadding
-                        height: showImage ? 32 : btnTextRecent.implicitHeight
-                        implicitHeight: showImage ? 32 : btnTextRecent.implicitHeight
-                        implicitWidth: (showImage ? 32 : btnTextRecent.implicitWidth) + 2 * row.itemPadding
-                        width: (showImage ? 32 : btnTextRecent.implicitWidth) + 2 * row.itemPadding
-
-                        onClicked: {
-                            room.input.reaction(row.model.eventId, modelData);
-                            TimelineManager.focusMessageInput();
-                            messageActionsC.dismiss();
-                        }
-
-                        Label {
-                            id: btnTextRecent
-
-                            anchors.centerIn: parent
-                            color: btnRecent.hovered ? btnRecent.highlightColor : btnRecent.buttonTextColor
-                            font.pixelSize: 32
-                            font.family: Settings.uiFontEmojiFamily
-                            horizontalAlignment: Text.AlignHCenter
-                            padding: 0
-                            text: TimelineManager.htmlEscape(btnRecent.modelData)
-                            verticalAlignment: Text.AlignVCenter
-                            visible: !btnRecent.showImage
-                        }
-                        Image {
-                            anchors.fill: parent
-                            fillMode: Image.PreserveAspectFit
-                            source: btnRecent.showImage ? (btnRecent.modelData.replace("mxc://", "image://MxcImage/") + "?scale") : ""
-                            sourceSize.height: btnRecent.height
-                            sourceSize.width: btnRecent.width
-                        }
-                        NhekoCursorShape {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                        }
-                        Ripple {
-                            color: Qt.rgba(btnRecent.buttonTextColor.r, btnRecent.buttonTextColor.g, btnRecent.buttonTextColor.b, 0.5)
-                        }
-                        HoverPulseAnimation {
-                            id: recentPulseAnim
-
-                            targetItem: btnRecent
-                        }
-                        onHoveredChanged: {
-                            if (hovered)
-                                recentPulseAnim.pulse();
-                        }
-                    }
-                }
-                ImageButton {
-                    id: reactButton
-
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("React")
-                    ToolTip.visible: hovered
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/smile-add.svg"
-                    visible: room ? room.permissions.canSend(MtxEvent.Reaction) : false
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-
-                    onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(reactButton, room.roomId, function (plaintext, markdown) {
-                            var event_id = row.model ? row.model.eventId : "";
-                            room.input.reaction(event_id, plaintext);
-                            TimelineManager.focusMessageInput();
-                        })
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Edit")
-                    ToolTip.visible: hovered
-                    buttonTextColor: palette.buttonText
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/edit.svg"
-                    visible: !!row.model && row.model.isEditable
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-
-                    onClicked: {
-                        if (row.model.isEditable)
-                            room.edit = row.model.eventId;
-                        messageActionsC.dismiss();
-                    }
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: (row.model && row.model.threadId) ? qsTr("Reply in thread") : qsTr("New thread")
-                    ToolTip.visible: hovered
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/thread.svg"
-                    visible: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-
-                    onClicked: {
-                        room.thread = (row.model.threadId || row.model.eventId);
-                        messageActionsC.dismiss();
-                    }
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Reply")
-                    ToolTip.visible: hovered
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/reply.svg"
-                    visible: room ? room.permissions.canSend(MtxEvent.TextMessage) : false
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-
-                    onClicked: {
-                        room.reply = row.model.eventId;
-                        messageActionsC.dismiss();
-                    }
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Forward")
-                    ToolTip.visible: hovered
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/reply.svg"
-                    visible: !!row.model && (row.model.type == MtxEvent.ImageMessage || row.model.type == MtxEvent.VideoMessage || row.model.type == MtxEvent.AudioMessage || row.model.type == MtxEvent.FileMessage || row.model.type == MtxEvent.Sticker || row.model.type == MtxEvent.TextMessage || row.model.type == MtxEvent.LocationMessage || row.model.type == MtxEvent.EmoteMessage || row.model.type == MtxEvent.NoticeMessage)
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-                    transform: Scale { origin.x: 16 + row.itemPadding; xScale: -1 }
-
-                    onClicked: {
-                        chatRoot.openForwardDialog(row.model.eventId);
-                        messageActionsC.dismiss();
-                    }
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Go to message")
-                    ToolTip.visible: hovered
-                    buttonTextColor: palette.buttonText
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/go-to.svg"
-                    visible: !!row.model && filteredTimeline.filterByContent
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-
-                    onClicked: {
-                        topBar.searchString = "";
-                        room.showEvent(row.model.eventId);
-                        messageActionsC.dismiss();
-                    }
-                }
-                ImageButton {
-                    id: optionsButton
-
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Options")
-                    ToolTip.visible: hovered
-                    hoverEnabled: true
-                    hoverPulse: true
-                    image: ":/icons/icons/ui/options-circle.svg"
-                    leftPadding: row.itemPadding
-                    rightPadding: row.itemPadding
-                    Layout.preferredWidth: 32 + 2 * row.itemPadding
-                    Layout.preferredHeight: 32
-
-                    onClicked: messageContextMenuC.show(row.model.eventId, row.model.threadId, row.model.type, row.model.isSender, row.model.isEncrypted, row.model.isEditable, "", row.model.body, optionsButton)
-                }
+            contentItem: MessageActionsToolbar {
+                chatRoot: chatRoot
+                emojiPopup: emojiPopup
+                filteredTimeline: filteredTimeline
+                messageActionsControl: messageActionsC
+                messageContextMenu: messageContextMenuC
+                messageModel: messageActionsC.model
+                roomModel: room
+                topBar: topBar
             }
         }
         Shortcut {

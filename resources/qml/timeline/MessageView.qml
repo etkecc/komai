@@ -26,6 +26,28 @@ Item {
     readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
     property Room roommodel: room
 
+    function openForwardDialog(eventId) {
+        if (!eventId)
+            return null;
+        var forwardDialog = forwardCompleterComponent.createObject(timelineRoot);
+        if (!forwardDialog)
+            return null;
+        forwardDialog.setMessageEventId(eventId);
+        forwardDialog.open();
+        timelineRoot.destroyOnClose(forwardDialog);
+        return forwardDialog;
+    }
+
+    function showDialogFromComponent(componentRef, properties) {
+        var dialog = componentRef.createObject(timelineRoot, properties || {});
+        if (!dialog)
+            return null;
+        dialog.show();
+        dialog.forceActiveFocus();
+        timelineRoot.destroyOnClose(dialog);
+        return dialog;
+    }
+
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
     Connections {
         function onHideMenu() {
@@ -508,10 +530,7 @@ Item {
                     transform: Scale { origin.x: 16 + row.itemPadding; xScale: -1 }
 
                     onClicked: {
-                        var forwardMess = forwardCompleterComponent.createObject(timelineRoot);
-                        forwardMess.setMessageEventId(row.model.eventId);
-                        forwardMess.open();
-                        timelineRoot.destroyOnClose(forwardMess);
+                        chatRoot.openForwardDialog(row.model.eventId);
                         messageActionsC.dismiss();
                     }
                 }
@@ -607,11 +626,8 @@ Item {
 
             onActivated: {
                 if (room.reply) {
-                    var forwardMess = forwardCompleterComponent.createObject(timelineRoot);
-                    forwardMess.setMessageEventId(room.reply);
-                    forwardMess.open();
+                    chatRoot.openForwardDialog(room.reply);
                     room.reply = null;
-                    timelineRoot.destroyOnClose(forwardMess);
                 }
             }
         }
@@ -785,12 +801,7 @@ Item {
                     text: qsTr("&Forward")
                     visible: messageContextMenuC.eventType == MtxEvent.ImageMessage || messageContextMenuC.eventType == MtxEvent.VideoMessage || messageContextMenuC.eventType == MtxEvent.AudioMessage || messageContextMenuC.eventType == MtxEvent.FileMessage || messageContextMenuC.eventType == MtxEvent.Sticker || messageContextMenuC.eventType == MtxEvent.TextMessage || messageContextMenuC.eventType == MtxEvent.LocationMessage || messageContextMenuC.eventType == MtxEvent.EmoteMessage || messageContextMenuC.eventType == MtxEvent.NoticeMessage
 
-                    onTriggered: {
-                        var forwardMess = forwardCompleterComponent.createObject(timelineRoot);
-                        forwardMess.setMessageEventId(messageContextMenuC.eventId);
-                        forwardMess.open();
-                        timelineRoot.destroyOnClose(forwardMess);
-                    }
+                    onTriggered: chatRoot.openForwardDialog(messageContextMenuC.eventId)
                 }
             }
             Component {
@@ -822,11 +833,9 @@ Item {
                     visible: (room ? room.permissions.canRedact() : false) || messageContextMenuC.isSender
 
                     onTriggered: function () {
-                        var dialog = removeReason.createObject(timelineRoot);
-                        dialog.eventId = messageContextMenuC.eventId;
-                        dialog.show();
-                        dialog.forceActiveFocus();
-                        timelineRoot.destroyOnClose(dialog);
+                        chatRoot.showDialogFromComponent(removeReason, {
+                                "eventId": messageContextMenuC.eventId
+                            });
                     }
                 }
             }
@@ -834,10 +843,9 @@ Item {
                 MenuItem {
                     text: qsTr("Report message")
                     onTriggered: function () {
-                        var dialog = reportDialog.createObject(timelineRoot, {"eventId": messageContextMenuC.eventId});
-                        dialog.show();
-                        dialog.forceActiveFocus();
-                        timelineRoot.destroyOnClose(dialog);
+                        chatRoot.showDialogFromComponent(reportDialog, {
+                                "eventId": messageContextMenuC.eventId
+                            });
                     }
                 }
             }

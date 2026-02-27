@@ -224,7 +224,29 @@ TimelineMessageStyleBase {
                             anchors.left: parent.left
                             anchors.right: parent.right
 
-                            property color userColor: wrapper.resolveUserColor(wrapper.reply?.userId ?? '', palette.base, palette.highlight)
+                            property string replyUserId: {
+                                if (wrapper.room && wrapper.replyTo) {
+                                    const modelUserId = wrapper.room.dataById(wrapper.replyTo, Room.UserId, wrapper.eventId);
+                                    if (typeof modelUserId === "string" && modelUserId.length > 0)
+                                        return modelUserId;
+                                }
+
+                                const delegateUserId = wrapper.reply?.userId;
+                                return (typeof delegateUserId === "string") ? delegateUserId : "";
+                            }
+                            property bool isReplyFromCurrentUser: {
+                                const currentUser = Nheko.currentUser;
+                                const currentUserId = (currentUser && currentUser.userid)
+                                        ? String(currentUser.userid)
+                                        : "";
+                                return currentUserId.length > 0 && replyUserId === currentUserId;
+                            }
+                            property color userColor: isReplyFromCurrentUser
+                                ? palette.highlight
+                                : wrapper.resolveUserColor(replyUserId, palette.window, palette.highlight)
+                            property color roomColor: isReplyFromCurrentUser
+                                ? palette.highlight
+                                : wrapper.resolveUserColor(replyUserId, palette.base, palette.highlight)
 
                             clip: true
 
@@ -263,7 +285,7 @@ TimelineMessageStyleBase {
 
                             background: Rectangle {
                                 //width: replyRow.implicitContentWidth
-                                color: Qt.tint(palette.base, Qt.hsla(replyRow.userColor.hslHue, 0.5, replyRow.userColor.hslLightness, 0.1))
+                                color: Qt.tint(palette.base, Qt.hsla(replyRow.roomColor.hslHue, 0.5, replyRow.roomColor.hslLightness, 0.1))
                                 radius: Nheko.paddingMedium
                                 clip: true
                                 Rectangle {
@@ -272,7 +294,7 @@ TimelineMessageStyleBase {
                                     anchors.left: parent.left
 
                                     id: replyLine
-                                    color: replyRow.userColor
+                                    color: replyRow.roomColor
                                     width: 4
                                     radius: parent.radius
                                 }

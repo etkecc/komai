@@ -111,6 +111,14 @@ ApplicationWindow {
                 delegate: ItemDelegate {
                     id: del
 
+                    property bool isCurrentUser: {
+                        const currentUser = Nheko.currentUser;
+                        const currentUserId = (currentUser && currentUser.userid)
+                                ? String(currentUser.userid)
+                                : "";
+                        return currentUserId.length > 0 && model && model.mxid === currentUserId;
+                    }
+
                     onClicked: room.openUserProfile(model.mxid)
                     padding: Nheko.paddingMedium
                     width: ListView.view.width
@@ -144,7 +152,9 @@ ApplicationWindow {
 
                             ElidedLabel {
                                 fullText: model.displayName
-                                color: Qt.darker(roomMembersRoot.room ? TimelineManager.roomUserColor(roomMembersRoot.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
+                                color: del.isCurrentUser
+                                    ? palette.highlight
+                                    : Qt.darker(roomMembersRoot.room ? TimelineManager.roomUserColor(roomMembersRoot.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
                                 font.pixelSize: fontMetrics.font.pixelSize
                                 elideWidth: del.width - Nheko.paddingMedium * 2 - avatar.width - encryptInd.width
                                 Layout.fillWidth: true

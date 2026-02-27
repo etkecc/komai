@@ -165,8 +165,19 @@ Popup {
                 enabled: false
                 eventId: mid
                 room_: activeRoom
-                userColor: activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.window)
-                roomColor: activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.base)
+                property bool isReplyFromCurrentUser: {
+                    const currentUser = Nheko.currentUser;
+                    const currentUserId = (currentUser && currentUser.userid)
+                            ? String(currentUser.userid)
+                            : "";
+                    return currentUserId.length > 0 && replyPreview.userId === currentUserId;
+                }
+                userColor: isReplyFromCurrentUser
+                    ? palette.highlight
+                    : activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.window)
+                roomColor: isReplyFromCurrentUser
+                    ? palette.highlight
+                    : activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.base)
                 width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
                 maxWidth: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
             }

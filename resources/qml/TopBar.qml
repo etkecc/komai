@@ -415,11 +415,23 @@ Pane {
                             id: reply
 
                             property var e: room ? room.getDump(modelData, "pins") : {}
+                            property string replyUserId: (e && e.userId) ? String(e.userId) : ""
+                            property bool isReplyFromCurrentUser: {
+                                const currentUser = Nheko.currentUser;
+                                const currentUserId = (currentUser && currentUser.userid)
+                                        ? String(currentUser.userid)
+                                        : "";
+                                return currentUserId.length > 0 && replyUserId === currentUserId;
+                            }
 
                             maxWidth: pinnedMessages.width - 16
                             eventId: e.eventId ?? ""
-                            userColor: room ? TimelineManager.roomUserColor(room.roomId, e.userId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(e.userId, palette.window)
-                            roomColor: room ? TimelineManager.roomUserColor(room.roomId, e.userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(e.userId, palette.base)
+                            userColor: isReplyFromCurrentUser
+                                ? palette.highlight
+                                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.window)
+                            roomColor: isReplyFromCurrentUser
+                                ? palette.highlight
+                                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.base)
 
                             Connections {
                                 function onPinnedMessagesChanged() {

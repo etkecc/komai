@@ -179,11 +179,25 @@ Rectangle {
             visible: room && room.reply
 
             property var modelData: room ? room.getDump(room.reply, room.id) : {}
+            property string replyUserId: (modelData && modelData.userId)
+                ? String(modelData.userId)
+                : ""
+            property bool isReplyFromCurrentUser: {
+                const currentUser = Nheko.currentUser;
+                const currentUserId = (currentUser && currentUser.userid)
+                        ? String(currentUser.userid)
+                        : "";
+                return currentUserId.length > 0 && replyUserId === currentUserId;
+            }
 
             width: parent.width
             eventId: room?.reply ?? ""
-            userColor: room ? TimelineManager.roomUserColor(room.roomId, modelData.userId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(modelData.userId, palette.window)
-            roomColor: room ? TimelineManager.roomUserColor(room.roomId, modelData.userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(modelData.userId, palette.base)
+            userColor: isReplyFromCurrentUser
+                ? palette.highlight
+                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.window)
+            roomColor: isReplyFromCurrentUser
+                ? palette.highlight
+                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.base)
             maxWidth: parent.width
             limitHeight: true
         }

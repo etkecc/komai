@@ -20,9 +20,10 @@
 
 #include "Utils.h"
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/CacheSchema.h"
 #include "db/Json.h"
-#include "db/StorageApi.h"
-#include "db/SyncState.h"
+#include "db/storage/Core.h"
+#include "db/storage/Crypto.h"
 
 void
 MatrixStore::removeLeftRooms(db::Transaction &txn,
@@ -72,7 +73,7 @@ MatrixStore::removeRoom(const std::string &roomid)
 void
 MatrixStore::setNextBatchToken(db::Transaction &txn, const std::string &token)
 {
-    db::putNextBatchToken(txn, db->syncState, token);
+    cache::sync_state::putNextBatchToken(txn, db->syncState, token);
 }
 
 bool
@@ -82,7 +83,7 @@ MatrixStore::isInitialized()
         return false;
 
     auto txn = ro_txn(storage());
-    return db::getNextBatchToken(txn, db->syncState).has_value();
+    return cache::sync_state::getNextBatchToken(txn, db->syncState).has_value();
 }
 
 std::string
@@ -92,7 +93,7 @@ MatrixStore::nextBatchToken()
         throw std::runtime_error("Storage backend is closed");
 
     auto txn = ro_txn(storage());
-    return db::getNextBatchToken(txn, db->syncState).value_or("");
+    return cache::sync_state::getNextBatchToken(txn, db->syncState).value_or("");
 }
 
 void

@@ -15,7 +15,6 @@
 #include <QHash>
 
 #include "cache/api/CacheApiContext.h"
-#include "db/MemberInfo.h"
 
 QHash<QString, RoomInfo>
 MatrixStore::invites()
@@ -28,7 +27,7 @@ MatrixStore::invites()
       db->invites,
       [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
           try {
-              RoomInfo tmp     = db::parseRoomInfo(room_data);
+              RoomInfo tmp     = cache::codec::parseRoomInfo(room_data);
               tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
           } catch (const std::exception &e) {
@@ -55,7 +54,7 @@ MatrixStore::invite(std::string_view roomid)
 
     if (db->invites.get(txn, roomid, room_data)) {
         try {
-            RoomInfo tmp     = db::parseRoomInfo(room_data);
+            RoomInfo tmp     = cache::codec::parseRoomInfo(room_data);
             tmp.member_count = getInviteMembersDb(txn, std::string(roomid)).size(txn);
             result           = std::move(tmp);
         } catch (const std::exception &e) {
@@ -81,7 +80,7 @@ MatrixStore::getInviteMember(const std::string &room_id, const std::string &user
 
         auto membersdb = getInviteMembersDb(txn, room_id);
 
-        return db::getMemberInfo(txn, membersdb, user_id);
+        return cache::codec::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
         cache::activeLoggers().db->warn(
           "Failed to read member ({}) in invite room ({}): {}", user_id, room_id, e.what());
@@ -105,7 +104,7 @@ MatrixStore::getMembersFromInvite(const std::string &room_id,
                          len,
                          [&members](std::string_view user_id, std::string_view user_data) {
                              try {
-                                 MemberInfo tmp = db::parseMemberInfo(user_data);
+                                 MemberInfo tmp = cache::codec::parseMemberInfo(user_data);
                                  members.emplace_back(RoomMember{
                                    QString::fromStdString(std::string(user_id)),
                                    QString::fromStdString(tmp.name),

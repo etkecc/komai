@@ -13,7 +13,6 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
-#include "db/RoomInfo.h"
 
 using namespace mtx::events;
 
@@ -44,7 +43,7 @@ MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
     // Resolve avatar for 1-1 chats.
     db::forEachEntry(txn, membersdb, [&](std::string_view user_id, std::string_view member_data) {
         try {
-            MemberInfo m = db::parseMemberInfo(member_data);
+            MemberInfo m = cache::codec::parseMemberInfo(member_data);
             if (user_id == localUserId) {
                 fallback_url = m.avatar_url;
                 return true;
@@ -100,7 +99,7 @@ MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
     db::forEachEntry(
       txn, membersdb, 0, 3, [&members](std::string_view user_id, std::string_view member_data) {
           try {
-              members.emplace(user_id, db::parseMemberInfo(member_data));
+              members.emplace(user_id, cache::codec::parseMemberInfo(member_data));
           } catch (const nlohmann::json::exception &e) {
               cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
           }

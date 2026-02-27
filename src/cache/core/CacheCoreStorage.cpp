@@ -11,7 +11,9 @@
 
 #include "EventAccessors.h"
 #include "Logging.h"
-#include "db/StorageApi.h"
+#include "cache/schema/CacheSchema.h"
+#include "db/storage/Core.h"
+#include "db/storage/Open.h"
 #include "encryption/Olm.h"
 
 MatrixStore::~MatrixStore() noexcept = default;
@@ -76,92 +78,98 @@ ro_txn(db::Database &storage)
 db::Store
 MatrixStore::getEventsDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Events);
+    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Events);
 }
 
 db::Store
 MatrixStore::getEventOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventOrder);
+    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::EventOrder);
 }
 
 // inverse of EventOrderDb
 db::Store
 MatrixStore::getEventToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventToOrder);
+    return cache::schema::openRoomStore(
+      storage(), txn, room_id, cache::schema::RoomDb::EventToOrder);
 }
 
 db::Store
 MatrixStore::getMessageToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::MessageToOrder);
+    return cache::schema::openRoomStore(
+      storage(), txn, room_id, cache::schema::RoomDb::MessageToOrder);
 }
 
 db::Store
 MatrixStore::getOrderToMessageDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::OrderToMessage);
+    return cache::schema::openRoomStore(
+      storage(), txn, room_id, cache::schema::RoomDb::OrderToMessage);
 }
 
 db::Store
 MatrixStore::getPendingMessagesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Pending);
+    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Pending);
 }
 
 db::Store
 MatrixStore::getRelationsDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Related);
+    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Related);
 }
 
 db::Store
 MatrixStore::getInviteStatesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteState);
+    return cache::schema::openRoomStore(
+      storage(), txn, room_id, cache::schema::RoomDb::InviteState);
 }
 
 db::Store
 MatrixStore::getInviteMembersDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteMembers);
+    return cache::schema::openRoomStore(
+      storage(), txn, room_id, cache::schema::RoomDb::InviteMembers);
 }
 
 db::Store
 MatrixStore::getStatesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::State);
+    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::State);
 }
 
 db::Store
 MatrixStore::getStatesKeyDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::StatesKey);
+    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::StatesKey);
 }
 
 db::Store
 MatrixStore::getAccountDataDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::AccountData);
+    return cache::schema::openRoomStore(
+      storage(), txn, room_id, cache::schema::RoomDb::AccountData);
 }
 
 db::Store
 MatrixStore::getMembersDb(db::Transaction &txn, const std::string &room_id)
 {
-    return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Members);
+    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Members);
 }
 
 db::Store
 MatrixStore::getUserKeysDb(db::Transaction &txn)
 {
-    return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::UserKeys);
+    return cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::UserKeys);
 }
 
 db::Store
 MatrixStore::getVerificationDb(db::Transaction &txn)
 {
-    return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Verified);
+    return cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Verified);
 }
 
 QString

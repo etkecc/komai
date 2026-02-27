@@ -22,7 +22,6 @@
 
 #include "Utils.h"
 #include "cache/api/CacheApiContext.h"
-#include "db/Maintenance.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 template<typename T>

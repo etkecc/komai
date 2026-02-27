@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "db/StorageApi.h"
+#include "db/storage/Core.h"
 
 struct CacheDb
 {

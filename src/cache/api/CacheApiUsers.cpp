@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "cache/api/CacheApiContext.h"
 #include "cache/api/CacheApiUsers.h"
+#include "cache/api/CacheApiContext.h"
 #include "cache/core/Cache_p.h"
 
 #include <utility>

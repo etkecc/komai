@@ -12,7 +12,6 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
-#include "db/RoomInfo.h"
 
 QString
 MatrixStore::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
@@ -37,7 +36,7 @@ MatrixStore::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::St
             return true;
 
         try {
-            MemberInfo tmp  = db::parseMemberInfo(member_data);
+            MemberInfo tmp  = cache::codec::parseMemberInfo(member_data);
             memberName      = QString::fromStdString(tmp.name);
             foundMemberName = true;
             return false;
@@ -76,7 +75,7 @@ MatrixStore::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, d
             return true;
 
         try {
-            MemberInfo tmp = db::parseMemberInfo(member_data);
+            MemberInfo tmp = cache::codec::parseMemberInfo(member_data);
             avatarUrl      = QString::fromStdString(tmp.avatar_url);
             foundAvatarUrl = true;
             return false;

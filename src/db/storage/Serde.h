@@ -5,15 +5,15 @@
 
 #pragma once
 
+#include "db/Json.h"
+#include "db/Serde.h"
 #include "db/storage/Core.h"
 
-struct RO_txn
-{
-    ~RO_txn() { txn.reset(); }
-    operator db::Transaction &() noexcept { return txn; }
+namespace db::storage {
 
-    db::Transaction &txn;
-};
+using db::getJsonValue;
+using db::parseJsonValue;
+using db::putJsonValue;
+using db::toSv;
 
-RO_txn
-ro_txn(db::Database &storage);
+} // namespace db::storage

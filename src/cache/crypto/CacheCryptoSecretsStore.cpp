@@ -29,7 +29,7 @@
 
 #include "ProfileSecrets.h"
 #include "cache/api/CacheApiContext.h"
-#include "db/StorageApi.h"
+#include "cache/schema/CacheSchema.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 static QString
@@ -168,7 +168,7 @@ MatrixStore::secret(std::string_view name_, bool internal)
 
     auto txn = ro_txn(storage());
     std::string_view value;
-    if (!db::getSyncStateSecretValue(txn, db->syncState, name.toStdString(), value))
+    if (!cache::sync_state::getSecretValue(txn, db->syncState, name.toStdString(), value))
         return std::nullopt;
 
     mtx::secret_storage::AesHmacSha2EncryptedData data = nlohmann::json::parse(value);
@@ -190,7 +190,7 @@ MatrixStore::storeSecret(std::string_view name_, const std::string &secret, bool
     auto encrypted =
       mtx::crypto::encrypt(secret, mtx::crypto::to_binary_buf(pickle_secret_), name_);
 
-    db::putSyncStateSecretValue(
+    cache::sync_state::putSecretValue(
       txn, db->syncState, name.toStdString(), nlohmann::json(encrypted).dump());
     txn.commit();
     emit secretChanged(std::string(name_));
@@ -202,7 +202,7 @@ MatrixStore::deleteSecret(std::string_view name_, bool internal)
     auto name = secretName(name_, internal);
 
     auto txn = beginTxn();
-    db::removeSyncStateSecretValue(txn, db->syncState, name.toStdString());
+    cache::sync_state::removeSecretValue(txn, db->syncState, name.toStdString());
     txn.commit();
 }
 

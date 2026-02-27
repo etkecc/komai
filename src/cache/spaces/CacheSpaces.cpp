@@ -21,7 +21,6 @@
 #include <mtx/responses/common.hpp>
 
 #include "cache/api/CacheApiContext.h"
-#include "db/RoomInfo.h"
 #include "db/SyncState.h"
 
 std::vector<std::string>
@@ -119,7 +118,7 @@ MatrixStore::spaces()
         std::string_view room_data;
         if (db->rooms.get(txn, spaceId, room_data)) {
             try {
-                RoomInfo tmp = db::parseRoomInfo(room_data);
+                RoomInfo tmp = cache::codec::parseRoomInfo(room_data);
                 ret.insert(QString::fromStdString(spaceId), tmp);
             } catch (const std::exception &e) {
                 cache::activeLoggers().db->warn(

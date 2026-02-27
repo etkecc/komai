@@ -22,7 +22,6 @@
 
 #include "Utils.h"
 #include "cache/api/CacheApiContext.h"
-#include "db/Maintenance.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 void
@@ -48,7 +47,7 @@ MatrixStore::updateState(const std::string &room,
 
     {
         try {
-            if (auto previousRoomInfo = db::getRoomInfo(txn, db->rooms, room))
+            if (auto previousRoomInfo = cache::codec::getRoomInfo(txn, db->rooms, room))
                 updatedInfo = std::move(*previousRoomInfo);
         } catch (const std::exception &e) {
             cache::activeLoggers().db->warn(
@@ -64,7 +63,7 @@ MatrixStore::updateState(const std::string &room,
     updatedInfo.is_space      = getRoomIsSpace(txn, statesdb);
     updatedInfo.is_tombstoned = getRoomIsTombstoned(txn, statesdb);
 
-    db::putRoomInfo(txn, db->rooms, room, updatedInfo);
+    cache::codec::putRoomInfo(txn, db->rooms, room, updatedInfo);
     updateSpaces(txn, {room}, {room});
     txn.commit();
 }
@@ -120,7 +119,7 @@ MatrixStore::saveStateEvent(db::Transaction &txn,
               e->content.is_direct,
             };
 
-            db::putMemberInfo(txn, membersdb, e->state_key, tmp);
+            cache::codec::putMemberInfo(txn, membersdb, e->state_key, tmp);
             break;
         }
         default: {
@@ -154,7 +153,7 @@ MatrixStore::saveStateEvent(db::Transaction &txn,
                           // membership is not revoked, but names are yeeted (so we set the name
                           // to the mxid)
                           MemberInfo tmp{e.state_key, ""};
-                          db::putMemberInfo(txn, membersdb, e.state_key, tmp);
+                          cache::codec::putMemberInfo(txn, membersdb, e.state_key, tmp);
                       } else if (e.state_key.empty()) {
                           // strictly speaking some stuff in those events can be redacted, but
                           // this is close enough. Ref:

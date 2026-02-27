@@ -183,6 +183,29 @@ Database user-id component:
 - Future non-Matrix persisted state should live in `src/store` (scaffolded via `src/store/README.md`)
   and use `src/db` instead of broadening `MatrixStore` semantics.
 
+### Public Storage API Headers
+
+- Focused storage API entry points live under `src/db/storage/`:
+  - `Core.h`: backend lifecycle, IDs/capabilities, transaction helpers, core storage types
+  - `Open.h`: open-options policy and store open helpers
+  - `Scan.h`: key/value scan and dupsort iteration helpers
+  - `Timeline.h`: timeline/order index and reference helpers
+  - `State.h`: state-event index helpers
+  - `SyncState.h`: sync-state typed helper surface
+  - `Crypto.h`: OLM/Megolm/read-receipt helper surface
+  - `Serde.h`: typed JSON/value codecs (`Json`, `RoomInfo`, `MemberInfo`, `toSv`)
+- `src/db/StorageApi.h` remains a compatibility umbrella over these focused headers.
+
+### Migration Note
+
+- New callsites should prefer focused includes, for example:
+  - `#include "db/storage/Core.h"` + `#include "db/storage/Open.h"` for lifecycle/store-open code
+  - `#include "db/storage/Scan.h"` for entry iteration utilities
+  - `#include "db/storage/Timeline.h"` for timeline order/index operations
+  - `#include "db/storage/SyncState.h"` for sync-state utilities
+- Cache code should use `src/cache/schema/CacheSchema.h` for Matrix schema mapping/wrappers
+  instead of using `db::catalog::*` directly.
+
 ## Prefixes
 
 Filesystem prefixes:

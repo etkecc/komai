@@ -35,7 +35,7 @@ MatrixStore::saveInvites(db::Transaction &txn,
         updatedInfo.is_space   = getInviteRoomIsSpace(txn, statesdb);
         updatedInfo.is_invite  = true;
 
-        db::putRoomInfo(txn, db->invites, room.first, updatedInfo);
+        cache::codec::putRoomInfo(txn, db->invites, room.first, updatedInfo);
     }
 }
 
@@ -64,7 +64,7 @@ MatrixStore::saveInvite(db::Transaction &txn,
                            msg->content.reason,
                            msg->content.is_direct};
 
-            db::putMemberInfo(txn, membersdb, msg->state_key, tmp);
+            cache::codec::putMemberInfo(txn, membersdb, msg->state_key, tmp);
         } else {
             std::visit(
               [&txn, &statesdb](auto msg) {

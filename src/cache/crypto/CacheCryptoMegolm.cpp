@@ -15,8 +15,8 @@
 #include "db/Json.h"
 #include "db/MegolmIndex.h"
 #include "db/Serde.h"
-#include "db/StorageApi.h"
-#include "db/SyncState.h"
+#include "db/storage/Crypto.h"
+#include "db/storage/Serde.h"
 #include "encryption/Olm.h"
 
 //

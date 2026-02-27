@@ -85,7 +85,7 @@ try {
             if (db->rooms.get(txn, room.first, originalRoomInfoView)) {
                 originalRoomInfoDump = std::string(originalRoomInfoView);
                 try {
-                    RoomInfo tmp     = db::parseRoomInfo(originalRoomInfoDump);
+                    RoomInfo tmp     = cache::codec::parseRoomInfo(originalRoomInfoDump);
                     updatedInfo.tags = std::move(tmp.tags);
 
                     updatedInfo.approximate_last_modification_ts =
@@ -192,9 +192,9 @@ try {
             updatedInfo.approximate_last_modification_ts = mtx::accessors::origin_server_ts_ms(e);
         }
 
-        if (auto newRoomInfoDump = db::serializeRoomInfo(updatedInfo);
+        if (auto newRoomInfoDump = cache::codec::serializeRoomInfo(updatedInfo);
             newRoomInfoDump != originalRoomInfoDump) {
-            db::putRoomInfo(txn, db->rooms, room.first, updatedInfo);
+            cache::codec::putRoomInfo(txn, db->rooms, room.first, updatedInfo);
         }
 
         for (const auto &e : room.second.ephemeral.events) {

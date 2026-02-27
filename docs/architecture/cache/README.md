@@ -39,7 +39,7 @@ add a separate module/store on top of `src/db` instead of broadening `MatrixStor
 
 - `CacheApiInstance.cpp` - cache instance lifecycle and availability checks.
 - `CacheApiLifecycleOps.cpp` - setup/sync/migration and cache lifecycle wrappers.
-- `CacheApiUsersAccess.cpp` - user/presence/key/verification wrapper functions.
+- `CacheApiUsers.cpp` - user/presence/key/verification wrapper functions.
 - `CacheApiRoomsInfo.cpp` - room metadata/accessor wrappers.
 - `CacheApiRooms.cpp` - room state/member/read-status related wrappers.
 - `CacheApiTimeline.cpp` - timeline/event/pending/notification wrappers.

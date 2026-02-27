@@ -20,7 +20,8 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
-#include "db/Maintenance.h"
+#include "cache/schema/CacheSchema.h"
+#include "cache/schema/Migrations.h"
 
 //! Should be changed when a breaking change occurs in the cache format.
 //! This will reset client's data.
@@ -42,7 +43,7 @@ MatrixStore::runMigrations()
     std::string stored_version;
     {
         auto txn            = ro_txn(storage());
-        auto currentVersion = db::getCacheFormatVersion(txn, db->syncState);
+        auto currentVersion = cache::sync_state::getCacheFormatVersion(txn, db->syncState);
 
         if (!currentVersion.has_value())
             return false;
@@ -57,10 +58,10 @@ MatrixStore::runMigrations()
             auto room_ids = getRoomIds(txn);
 
             for (const auto &room : room_ids) {
-                for (const auto roomDb : db::maintenance::roomDbsForFullResync()) {
-                    const auto dbName = db::catalog::roomName(room, roomDb);
+                for (const auto roomDb : cache::migrations::fullResyncRoomDbs()) {
+                    const auto dbName = cache::schema::roomName(room, roomDb);
                     std::string error;
-                    if (!db::maintenance::tryDropNamedStore(storage(), txn, dbName, &error) &&
+                    if (!cache::migrations::tryDropNamedStore(storage(), txn, dbName, &error) &&
                         !error.empty())
                         cache::activeLoggers().db->warn("Failed to drop '{}': {}", dbName, error);
                 }
@@ -137,7 +138,7 @@ cache::CacheVersion
 MatrixStore::formatVersion()
 {
     auto txn            = ro_txn(storage());
-    auto currentVersion = db::getCacheFormatVersion(txn, db->syncState);
+    auto currentVersion = cache::sync_state::getCacheFormatVersion(txn, db->syncState);
     if (!currentVersion.has_value())
         return cache::CacheVersion::Older;
 
@@ -155,7 +156,7 @@ void
 MatrixStore::setCurrentFormat()
 {
     auto txn = beginTxn();
-    db::putCacheFormatVersion(txn, db->syncState, CURRENT_CACHE_FORMAT_VERSION);
+    cache::sync_state::putCacheFormatVersion(txn, db->syncState, CURRENT_CACHE_FORMAT_VERSION);
 
     txn.commit();
 }

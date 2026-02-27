@@ -11,11 +11,12 @@
 #include <nlohmann/json.hpp>
 
 #include "Logging.h"
+#include "cache/schema/CacheSchema.h"
 #include "db/Json.h"
 #include "db/OlmSessionIndex.h"
 #include "db/Serde.h"
-#include "db/StorageApi.h"
-#include "db/SyncState.h"
+#include "db/storage/Crypto.h"
+#include "db/storage/Serde.h"
 #include "encryption/Olm.h"
 
 void
@@ -136,7 +137,7 @@ void
 MatrixStore::saveOlmAccount(const std::string &data)
 {
     auto txn = beginTxn();
-    db::putOlmAccount(txn, db->syncState, data);
+    cache::sync_state::putOlmAccount(txn, db->syncState, data);
     txn.commit();
 }
 
@@ -144,14 +145,14 @@ std::string
 MatrixStore::restoreOlmAccount()
 {
     auto txn = ro_txn(storage());
-    return db::getOlmAccount(txn, db->syncState).value_or("");
+    return cache::sync_state::getOlmAccount(txn, db->syncState).value_or("");
 }
 
 void
 MatrixStore::saveBackupVersion(const OnlineBackupVersion &data)
 {
     auto txn = beginTxn();
-    db::putCurrentOnlineBackupVersion(txn, db->syncState, data);
+    cache::sync_state::putCurrentOnlineBackupVersion(txn, db->syncState, data);
     txn.commit();
 }
 
@@ -159,7 +160,7 @@ void
 MatrixStore::deleteBackupVersion()
 {
     auto txn = beginTxn();
-    db::removeCurrentOnlineBackupVersion(txn, db->syncState);
+    cache::sync_state::removeCurrentOnlineBackupVersion(txn, db->syncState);
     txn.commit();
 }
 
@@ -167,8 +168,9 @@ std::optional<OnlineBackupVersion>
 MatrixStore::backupVersion()
 {
     try {
-        auto txn   = ro_txn(storage());
-        auto value = db::getCurrentOnlineBackupVersion<OnlineBackupVersion>(txn, db->syncState);
+        auto txn = ro_txn(storage());
+        auto value =
+          cache::sync_state::getCurrentOnlineBackupVersion<OnlineBackupVersion>(txn, db->syncState);
         if (!value)
             return std::nullopt;
 

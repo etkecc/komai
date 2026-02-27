@@ -23,7 +23,15 @@
 #include "MatrixStateTypes.h"
 #include "cache/core/CacheVersion.h"
 #include "cache/crypto/CacheCryptoStructs.h"
-#include "db/StorageApi.h"
+#include "cache/schema/Codecs.h"
+#include "db/storage/Core.h"
+#include "db/storage/Crypto.h"
+#include "db/storage/Open.h"
+#include "db/storage/Scan.h"
+#include "db/storage/Serde.h"
+#include "db/storage/State.h"
+#include "db/storage/SyncState.h"
+#include "db/storage/Timeline.h"
 
 class MatrixStore;
 

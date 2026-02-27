@@ -19,7 +19,8 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
-#include "db/Maintenance.h"
+#include "cache/schema/CacheSchema.h"
+#include "cache/schema/Migrations.h"
 
 namespace cache::detail {
 
@@ -30,9 +31,9 @@ buildPreMigrations(MatrixStore *cache)
       {"2020.05.01",
        [cache]() {
            try {
-               auto txn = cache->beginTxn(nullptr);
-               auto pending_receipts =
-                 db::openGlobalStore(cache->storage(), txn, db::catalog::GlobalDb::PendingReceipts);
+               auto txn              = cache->beginTxn(nullptr);
+               auto pending_receipts = cache::schema::openGlobalStore(
+                 cache->storage(), txn, cache::schema::GlobalDb::PendingReceipts);
                pending_receipts.drop(txn, true);
                txn.commit();
            } catch (const db::Error &) {
@@ -52,11 +53,12 @@ buildPreMigrations(MatrixStore *cache)
 
                for (const auto &room_id : room_ids) {
                    try {
-                       auto messagesDb = db::openRoomStore(cache->storage(),
-                                                           txn,
-                                                           room_id,
-                                                           db::catalog::RoomDb::LegacyMessages,
-                                                           false);
+                       auto messagesDb =
+                         cache::schema::openRoomStore(cache->storage(),
+                                                      txn,
+                                                      room_id,
+                                                      cache::schema::RoomDb::LegacyMessages,
+                                                      false);
 
                        // keep some old messages and batch token
                        {
@@ -107,7 +109,7 @@ buildPreMigrations(MatrixStore *cache)
        [cache]() {
            try {
                auto txn = cache->beginTxn();
-               db::maintenance::migrateLegacyOlmShardsV1ToV2(cache->storage(), txn);
+               cache::migrations::migrateLegacyOlmShardsV1ToV2(cache->storage(), txn);
                txn.commit();
            } catch (const db::Error &) {
                cache::activeLoggers().db->critical("Failed to migrate olm sessions,");
@@ -128,7 +130,8 @@ buildPostMigrations(MatrixStore *cache)
        [cache]() {
            auto txn = cache->beginTxn(nullptr);
            std::string error;
-           if (!db::maintenance::migrateLegacyMegolmSessionIndexes(cache->storage(), txn, &error)) {
+           if (!cache::migrations::migrateLegacyMegolmSessionIndexes(
+                 cache->storage(), txn, &error)) {
                cache::activeLoggers().db->warn(
                  "Failed to migrate stored megolm session to have no sender key: {}", error);
                return false;
@@ -145,7 +148,7 @@ buildPostMigrations(MatrixStore *cache)
 
                for (const auto &room_id : room_ids) {
                    std::string error;
-                   if (!db::maintenance::migrateLegacyStateByKeyToStatesKey(
+                   if (!cache::migrations::migrateLegacyStateByKeyToStatesKey(
                          cache->storage(), txn, room_id, &error)) {
                        cache::activeLoggers().db->error(
                          "While migrating state events from {}, ignoring error {}", room_id, error);
@@ -166,7 +169,7 @@ buildPostMigrations(MatrixStore *cache)
            // migrate olm sessions to a single db
            try {
                auto txn = cache->beginTxn(nullptr);
-               if (db::maintenance::migrateLegacyOlmShardsV2ToUnified(
+               if (cache::migrations::migrateLegacyOlmShardsV2ToUnified(
                      cache->storage(), txn, cache->db->olmSessions))
                    txn.commit();
            } catch (const db::Error &e) {

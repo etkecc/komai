@@ -538,7 +538,7 @@ set(SRC_FILES
     src/cache/api/CacheApiLoggers.cpp
     src/cache/api/CacheApiInstance.cpp
     src/cache/api/CacheApiLifecycleOps.cpp
-    src/cache/api/CacheApiUsersAccess.cpp
+    src/cache/api/CacheApiUsers.cpp
     src/cache/api/CacheApiRoomsInfo.cpp
     src/cache/api/CacheApiSignals.cpp
     src/cache/api/CacheApiTimeline.cpp

@@ -15,7 +15,6 @@
 #include <QHash>
 
 #include "cache/api/CacheApiContext.h"
-#include "db/MemberInfo.h"
 
 bool
 MatrixStore::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
@@ -97,7 +96,7 @@ MatrixStore::getCommonRooms(const std::string &user_id)
                                                     std::string_view room_data) {
           try {
               if (getMembersDb(txn, std::string(room_id)).get(txn, user_id, member_info)) {
-                  RoomInfo tmp = db::parseRoomInfo(room_data);
+                  RoomInfo tmp = cache::codec::parseRoomInfo(room_data);
                   result.emplace(std::string(room_id), std::move(tmp));
               }
           } catch (std::exception &e) {
@@ -124,7 +123,7 @@ MatrixStore::getMember(const std::string &room_id, const std::string &user_id)
 
         auto membersdb = getMembersDb(txn, room_id);
 
-        return db::getMemberInfo(txn, membersdb, user_id);
+        return cache::codec::getMemberInfo(txn, membersdb, user_id);
     } catch (std::exception &e) {
         cache::activeLoggers().db->warn(
           "Failed to read member ({}) in room ({}): {}", user_id, room_id, e.what());
@@ -147,7 +146,7 @@ MatrixStore::getMembers(const std::string &room_id, std::size_t startIndex, std:
                          len,
                          [&members](std::string_view user_id, std::string_view user_data) {
                              try {
-                                 MemberInfo tmp = db::parseMemberInfo(user_data);
+                                 MemberInfo tmp = cache::codec::parseMemberInfo(user_data);
                                  members.emplace_back(RoomMember{
                                    QString::fromStdString(std::string(user_id)),
                                    QString::fromStdString(tmp.name),

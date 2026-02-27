@@ -15,6 +15,7 @@
 #include "MatrixClient.h"
 #include "Utils.h"
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/CacheSchema.h"
 
 crypto::Trust
 MatrixStore::roomVerificationStatus(const std::string &room_id)
@@ -44,10 +45,11 @@ MatrixStore::roomVerificationStatus(const std::string &room_id)
           });
 
         if (!keysToRequest.empty()) {
-            markUserKeysOutOfDate(txn,
-                                  keysDb,
-                                  keysToRequest,
-                                  db::getNextBatchToken(txn, this->db->syncState).value_or(""));
+            markUserKeysOutOfDate(
+              txn,
+              keysDb,
+              keysToRequest,
+              cache::sync_state::getNextBatchToken(txn, this->db->syncState).value_or(""));
         }
 
     } catch (std::exception &e) {

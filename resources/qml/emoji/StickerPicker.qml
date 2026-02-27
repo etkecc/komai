@@ -245,24 +245,22 @@ Popup {
                             }
 
                             contentItem: Item {
-                                property bool isUnicode: del.modelData.unicode != undefined
-
                                 Text {
                                     width: stickerDim
                                     height: stickerDim
-                                    visible: isUnicode
+                                    visible: del.modelData.unicode !== undefined
                                     horizontalAlignment: Text.AlignHCenter
                                     verticalAlignment: Text.AlignVCenter
                                     font.family: Settings.uiFontEmojiFamily
                                     font.pixelSize: 36
-                                    text: del.modelData.unicode.replace('\ufe0f', '')
+                                    text: del.modelData.unicode !== undefined ? del.modelData.unicode.replace('\ufe0f', '') : ""
                                 }
 
                                 Image {
                                     height: stickerDim
                                     width: stickerDim
-                                    visible: !isUnicode
-                                    source: del.modelData.url.replace("mxc://", "image://MxcImage/") + "?scale"
+                                    visible: del.modelData.unicode === undefined
+                                    source: del.modelData.url ? del.modelData.url.replace("mxc://", "image://MxcImage/") + "?scale" : ""
                                     fillMode: Image.PreserveAspectFit
                                 }
                             }

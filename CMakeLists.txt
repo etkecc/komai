@@ -500,16 +500,16 @@ set(SRC_FILES
     src/BlurhashProvider.cpp
     src/BlurhashProvider.h
     src/cache/core/Cache.cpp
-    src/cache/core/CacheCoreHelpers.cpp
+    src/cache/core/CacheCoreStorage.cpp
     src/cache/lifecycle/CacheLifecycleRooms.cpp
     src/cache/lifecycle/CacheLifecycleState.cpp
     src/cache/lifecycle/CacheLifecycleMigrations.cpp
-    src/cache/lifecycle/CacheLifecycleStateHelpers.cpp
-    src/cache/lifecycle/CacheLifecycleStateHelpersGetters.cpp
+    src/cache/lifecycle/CacheLifecycleStateWrite.cpp
+    src/cache/lifecycle/CacheLifecycleStateRead.cpp
     src/cache/lifecycle/CacheLifecycleSyncSaveState.cpp
-    src/cache/lifecycle/CacheLifecycleSyncSaveStateHelpers.cpp
-    src/cache/lifecycle/CacheLifecycleSyncHelpers.cpp
-    src/cache/lifecycle/CacheLifecycleMigrationsHelpers.cpp
+    src/cache/lifecycle/CacheLifecycleSyncPersist.cpp
+    src/cache/lifecycle/CacheLifecycleSyncAux.cpp
+    src/cache/lifecycle/CacheLifecycleMigrationSteps.cpp
     src/cache/lifecycle/CacheLifecycle.cpp
     src/cache/setup/CacheSetup.cpp
     src/cache/membership/CacheMembership.cpp
@@ -534,7 +534,7 @@ set(SRC_FILES
     src/cache/crypto/CacheCryptoOlm.cpp
     src/cache/crypto/CacheCryptoSecretsHelpers.cpp
     src/cache/crypto/CacheCryptoSecretsStoreHelpers.cpp
-    src/cache/core/CacheCoreHelpersDisplay.cpp
+    src/cache/core/CacheCoreRuntime.cpp
     src/cache/users/CacheUserProfile.cpp
     src/cache/users/CacheUserKeys.cpp
     src/cache/users/CacheUserKeysNetwork.cpp

@@ -1,0 +1,84 @@
+// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import im.nheko
+import "../../delegates"
+
+ScrollView {
+    id: pinnedMessages
+
+    required property var room
+    required property string roomId
+
+    Layout.column: 1
+    Layout.columnSpan: 9
+    Layout.fillWidth: true
+    Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 4)
+    Layout.row: 3
+    ScrollBar.horizontal.visible: false
+    clip: true
+    visible: !!room && room.pinnedMessages.length > 0 && !Settings.hiddenPins.includes(roomId)
+    contentWidth: availableWidth
+
+    ListView {
+        model: room ? room.pinnedMessages : undefined
+        spacing: Nheko.paddingSmall
+
+        delegate: RowLayout {
+            required property string modelData
+
+            height: implicitHeight
+            width: ListView.view.width
+
+            Reply {
+                id: reply
+
+                property var e: room ? room.getDump(modelData, "pins") : {}
+                property string replyUserId: (e && e.userId) ? String(e.userId) : ""
+                property bool isReplyFromCurrentUser: {
+                    const currentUser = Nheko.currentUser;
+                    const currentUserId = (currentUser && currentUser.userid)
+                            ? String(currentUser.userid)
+                            : "";
+                    return currentUserId.length > 0 && replyUserId === currentUserId;
+                }
+
+                maxWidth: pinnedMessages.width - 16
+                eventId: e.eventId ?? ""
+                userColor: isReplyFromCurrentUser
+                    ? palette.highlight
+                    : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.window)
+                roomColor: isReplyFromCurrentUser
+                    ? palette.highlight
+                    : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.base)
+
+                Connections {
+                    function onPinnedMessagesChanged() {
+                        reply.e = room.getDump(modelData, "pins");
+                    }
+
+                    target: room
+                }
+            }
+            ImageButton {
+                id: deletePinButton
+
+                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                Layout.preferredHeight: 16
+                Layout.preferredWidth: 16
+                ToolTip.text: qsTr("Unpin")
+                ToolTip.visible: hovered
+                hoverEnabled: true
+                image: ":/icons/icons/ui/dismiss.svg"
+                visible: room.permissions.canChange(MtxEvent.PinnedEvents)
+
+                onClicked: room.unpin(modelData)
+            }
+        }
+    }
+}

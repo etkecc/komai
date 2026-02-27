@@ -8,7 +8,7 @@ import QtQuick.Window 2.15
 import Qt5Compat.GraphicalEffects
 
 import "../../ui"
-import "../components"
+import "./components"
 
 import im.nheko 1.0
 

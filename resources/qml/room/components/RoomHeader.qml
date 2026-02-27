@@ -292,42 +292,12 @@ Pane {
 
                 onClicked: TimelineManager.openRoomSettings(roomId)
             }
-            ImageButton {
-                id: roomOptionsButton
-
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 9
-                Layout.preferredHeight: topBarAvatarSize
-                Layout.preferredWidth: topBarAvatarSize
-                Layout.row: 1
-                leftPadding: buttonPaddingH
-                rightPadding: buttonPaddingH
-                topPadding: buttonPaddingV
-                bottomPadding: buttonPaddingV
-                ToolTip.text: qsTr("Room options")
-                ToolTip.visible: hovered
-                image: ":/icons/icons/ui/options-circle.svg"
-                visible: !!room
-
-                onClicked: roomOptionsMenu.popup(roomOptionsButton)
-
-                Menu {
-                    id: roomOptionsMenu
-
-                    Component.onCompleted: {
-                        if (roomOptionsMenu.popupType != undefined) {
-                            roomOptionsMenu.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
-                        }
-                    }
-
-
-                    MenuItem {
-                        text: qsTr("Leave room")
-                        icon.source: "qrc:/icons/icons/ui/power-off.svg"
-
-                        onTriggered: TimelineManager.openLeaveRoomDialog(roomId)
-                    }
-                }
+            RoomOptionsButton {
+                roomAvailable: !!room
+                roomId: topBar.roomId
+                topBarAvatarSize: topBar.topBarAvatarSize
+                buttonPaddingH: topBar.buttonPaddingH
+                buttonPaddingV: topBar.buttonPaddingV
             }
             ScrollView {
                 id: pinnedMessages
@@ -615,14 +585,6 @@ Pane {
         filterNotifications = false;
     }
 
-    // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
-    Connections {
-        function onHideMenu() {
-            roomOptionsMenu.close();
-        }
-
-        target: MainWindow
-    }
     Shortcut {
         sequence: StandardKey.Find
 

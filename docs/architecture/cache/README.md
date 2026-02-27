@@ -7,6 +7,7 @@ This module stores Matrix client state on top of the generic `src/db` storage la
 - Persist Matrix sync state, room metadata, membership, timeline indices/events, account data.
 - Persist encryption-related local state (OLM/Megolm sessions and verification-related cache data).
 - Provide app-facing cache APIs and lifecycle orchestration.
+- Keep Matrix-domain persistence scoped to `MatrixStore`.
 
 ## Non-Responsibilities
 
@@ -14,6 +15,11 @@ This module stores Matrix client state on top of the generic `src/db` storage la
 - Backend-specific implementation details (LMDB internals, map sizing behavior, low-level schema helpers).
 
 Those belong to `src/db`.
+
+## Naming Scope
+
+`MatrixStore` is intentionally Matrix-specific. If Komai needs to persist unrelated app data later,
+add a separate module/store on top of `src/db` instead of broadening `MatrixStore` semantics.
 
 ## Module Layout (`src/cache/`)
 

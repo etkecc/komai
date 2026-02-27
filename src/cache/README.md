@@ -7,6 +7,8 @@ Scope:
 - Reads/writes Matrix state and cache data.
 - Depends on `src/db` storage APIs and helpers.
 - Must not expose backend-specific details to callers.
+- Keeps Matrix-domain persistence in `MatrixStore`; non-Matrix persisted state should use separate
+  store modules over `src/db`.
 
 Boundary rules:
 

@@ -11,7 +11,7 @@
 
 #include <mtx/events/power_levels.hpp>
 
-#include "cache/core/CacheStructs.h"
+#include "MatrixStateTypes.h"
 
 class MemberListBackend final : public QAbstractListModel
 {

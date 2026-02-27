@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "cache/core/CacheStructs.h"
+#include "MatrixStateTypes.h"
 #include <QAbstractListModel>
 #include <QHash>
 #include <QQmlEngine>

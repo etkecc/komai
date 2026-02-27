@@ -20,7 +20,8 @@
 
 #include "CacheStorageContext.h"
 #include "CacheTxnHelpers.h"
-#include "cache/core/CacheStructs.h"
+#include "MatrixStateTypes.h"
+#include "cache/core/CacheVersion.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "db/StorageApi.h"
 

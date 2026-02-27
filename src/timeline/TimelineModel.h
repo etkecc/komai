@@ -17,9 +17,9 @@
 
 #include "EventStore.h"
 #include "InputBar.h"
+#include "MatrixStateTypes.h"
 #include "Permissions.h"
 #include "Reaction.h"
-#include "cache/core/CacheStructs.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "ui/RoomSummary.h"
 

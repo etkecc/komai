@@ -5,8 +5,6 @@
 
 #pragma once
 
-#include "MatrixStateTypes.h"
-
 namespace cache {
 enum class CacheVersion : int
 {

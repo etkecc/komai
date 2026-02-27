@@ -17,7 +17,7 @@
 #include <mtx/events/guest_access.hpp>
 #include <mtx/events/history_visibility.hpp>
 
-#include "cache/core/CacheStructs.h"
+#include "MatrixStateTypes.h"
 
 /// Convenience class which connects events emmited from threads
 /// outside of main with the UI code.

@@ -13,7 +13,7 @@
 #include <mtx/responses.hpp>
 #include <mtx/responses/common.hpp>
 
-#include "cache/core/CacheStructs.h"
+#include "MatrixStateTypes.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 
 class TimelineModel;

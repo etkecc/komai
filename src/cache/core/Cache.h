@@ -23,7 +23,8 @@
 #include <mtxclient/crypto/types.hpp>
 #include <mtxclient/http/errors.hpp>
 
-#include "cache/core/CacheStructs.h"
+#include "MatrixStateTypes.h"
+#include "cache/core/CacheVersion.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 
 class QObject;

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "cache/core/CacheStructs.h"
+#include "MatrixStateTypes.h"
 #include <QDateTime>
 #include <QPixmap>
 #include <mtx/events.hpp>

@@ -551,7 +551,7 @@ set(SRC_FILES
     src/cache/crypto/CacheCryptoStructs.cpp
     src/cache/crypto/CacheCryptoStructsQml.cpp
     src/cache/crypto/CacheCryptoStructs.h
-    src/cache/core/CacheStructs.h
+    src/cache/core/CacheVersion.h
     src/cache/core/CacheStorageContext.h
     src/cache/core/CacheTxnHelpers.h
     src/cache/core/Cache_p.h

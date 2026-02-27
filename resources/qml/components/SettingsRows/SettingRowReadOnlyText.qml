@@ -11,15 +11,17 @@ TextEdit {
     id: root
 
     required property var model
+    property bool leftAligned: false
 
     x: 0
     width: parent ? parent.width : implicitWidth
+    height: Math.ceil(contentHeight)
     clip: true
     color: palette.text
     font.pointSize: Settings.uiFontSizePt
     text: model.value
-    horizontalAlignment: Text.AlignRight
-    wrapMode: TextEdit.NoWrap
+    horizontalAlignment: root.leftAligned ? Text.AlignLeft : Text.AlignRight
+    wrapMode: root.leftAligned ? TextEdit.WrapAnywhere : TextEdit.NoWrap
     readOnly: true
     selectByMouse: true
 }

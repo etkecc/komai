@@ -40,6 +40,7 @@ Item {
             spacing: 0
             property real contentMaxWidth: Settings.uiLayoutContentMaxWidthPx > 0 ? Settings.uiLayoutContentMaxWidthPx : Number.POSITIVE_INFINITY
             property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
+            property int settingRowStackBreakpoint: 700
             width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin
 
@@ -61,8 +62,11 @@ Item {
                     implicitHeight: row.implicitHeight
                     width: grid.width
 
-                    readonly property real controlWidth: Math.min(500, Math.max(240, grid.width - Nheko.paddingLarge * 2))
                     readonly property bool isTimelinePreviewRow: r.model.type == UserSettingsModel.TimelinePreview
+                    readonly property bool useStackedLayout: grid.width < grid.settingRowStackBreakpoint
+                    readonly property real controlWidth: r.useStackedLayout
+                        ? Math.max(0, grid.width - Nheko.paddingSmall * 2)
+                        : Math.min(500, Math.max(240, grid.width - Nheko.paddingLarge * 2))
                     readonly property bool hasInlineDescription: (r.model.type == UserSettingsModel.OptionsWithDescription
                           || r.model.type == UserSettingsModel.IntegerWithDescription
                           || r.model.type == UserSettingsModel.ToggleWithDescription)
@@ -97,7 +101,7 @@ Item {
                             label: r.model.name
                         }
 
-                        RowLayout {
+                        GridLayout {
                             id: settingRow
                             Layout.fillWidth: true
                             visible: r.model.type != UserSettingsModel.SectionTitle
@@ -105,20 +109,22 @@ Item {
                             Layout.leftMargin: Nheko.paddingSmall
                             Layout.rightMargin: Nheko.paddingSmall
                             Layout.bottomMargin: r.hasInlineDescription ? 0 : Nheko.paddingMedium
-                            spacing: r.isTimelinePreviewRow ? 0 : Nheko.paddingSmall
+                            columns: r.useStackedLayout ? 1 : 2
+                            rowSpacing: r.useStackedLayout && !r.isTimelinePreviewRow ? Nheko.paddingSmall : 0
+                            columnSpacing: r.isTimelinePreviewRow ? 0 : Nheko.paddingSmall
 
-                            TextEdit {
+                            Text {
+                                Layout.row: 0
+                                Layout.column: 0
                                 Layout.fillWidth: true
                                 Layout.minimumWidth: 0
                                 Layout.alignment: Qt.AlignTop
-                                Layout.rightMargin: Nheko.paddingSmall
+                                Layout.rightMargin: r.useStackedLayout ? 0 : Nheko.paddingSmall
                                 color: palette.text
                                 text: r.model.name
                                 textFormat: Text.AutoText
                                 font.pointSize: 1.1 * Settings.uiFontSizePt
                                 wrapMode: Text.Wrap
-                                readOnly: true
-                                selectByMouse: true
                                 visible: !r.isTimelinePreviewRow
                                 onLinkActivated: function (link) {
                                     Qt.openUrlExternally(link);
@@ -135,12 +141,20 @@ Item {
 
                             Item {
                                 id: chooserContainer
-                                Layout.alignment: Qt.AlignRight | Qt.AlignTop
-                                Layout.fillWidth: r.isTimelinePreviewRow
+                                Layout.row: r.useStackedLayout && !r.isTimelinePreviewRow ? 1 : 0
+                                Layout.column: r.useStackedLayout ? 0 : (r.isTimelinePreviewRow ? 0 : 1)
+                                Layout.alignment: (r.useStackedLayout ? Qt.AlignLeft : Qt.AlignRight) | Qt.AlignTop
+                                Layout.columnSpan: r.isTimelinePreviewRow ? settingRow.columns : 1
+                                Layout.fillWidth: r.isTimelinePreviewRow || r.useStackedLayout
                                 Layout.preferredWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
                                 Layout.maximumWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
-                                Layout.minimumWidth: r.isTimelinePreviewRow ? 0 : 140
-                                readonly property real chooserHeight: chooser.child ? chooser.child.implicitHeight : 0
+                                Layout.minimumWidth: r.isTimelinePreviewRow ? 0 : (r.useStackedLayout ? 0 : 140)
+                                readonly property real chooserHeight: chooser.child
+                                    ? Math.max(
+                                          chooser.child.implicitHeight || 0,
+                                          chooser.child.height || 0,
+                                          chooser.child.contentHeight || 0)
+                                    : 0
                                 Layout.preferredHeight: chooserHeight
                                 Layout.minimumHeight: chooserHeight
                                 Layout.rightMargin: 0
@@ -148,7 +162,8 @@ Item {
                                 Component {
                                     id: toggleDelegate
                                     SettingControlToggle {
-                                        anchors.right: parent.right
+                                        anchors.left: r.useStackedLayout ? parent.left : undefined
+                                        anchors.right: r.useStackedLayout ? undefined : parent.right
                                         value: r.model.value
                                         onToggledValue: function(value) {
                                             r.model.value = value;
@@ -160,7 +175,8 @@ Item {
                                 Component {
                                     id: optionsDelegate
                                     SettingControlCombo {
-                                        anchors.right: parent.right
+                                        anchors.left: r.useStackedLayout ? parent.left : undefined
+                                        anchors.right: r.useStackedLayout ? undefined : parent.right
                                         value: r.model.value
                                         values: r.model.values
                                         width: Math.min(implicitWidth, r.controlWidth)
@@ -175,7 +191,8 @@ Item {
                                 Component {
                                     id: integerDelegate
                                     SettingRowInteger {
-                                        anchors.right: parent.right
+                                        anchors.left: r.useStackedLayout ? parent.left : undefined
+                                        anchors.right: r.useStackedLayout ? undefined : parent.right
                                         model: r.model
                                     }
                                 }
@@ -204,15 +221,18 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.PresenceStatusMessageField
                                         SettingRowPresenceStatusMessage {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             width: r.controlWidth
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ThemeSelector
                                         SettingRowThemeSelector {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
+                                            leftAligned: r.useStackedLayout
                                         }
                                     }
                                     DelegateChoice {
@@ -226,21 +246,25 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.Double
                                         SettingRowDouble {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ReadOnlyText
                                         SettingRowReadOnlyText {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
+                                            leftAligned: r.useStackedLayout
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.Link
                                         SettingRowLink {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
                                         }
                                     }
@@ -248,7 +272,8 @@ Item {
                                         roleValue: UserSettingsModel.TextInput
                                         SettingControlTextInput {
                                             id: textSettingField
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             textValue: r.model.value
                                             onSubmitted: function (value) {
                                                 r.model.value = value;
@@ -259,38 +284,44 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.KeyStatus
                                         SettingRowKeyStatus {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.SessionKeyImportExport
                                         SettingRowSessionKeys {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.XSignKeysRequestDownload
                                         SettingRowXSignKeys {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ConfigureHiddenEvents
                                         SettingRowHiddenEvents {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ManageIgnoredUsers
                                         SettingRowIgnoredUsers {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.AccessTokenField
                                         SettingRowAccessTokenField {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
                                             width: Math.min(implicitWidth, r.controlWidth)
                                         }
@@ -298,13 +329,15 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ProfileButton
                                         SettingRowProfileButton {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                         }
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.LogoutButton
                                         SettingRowLogout {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                         }
                                     }
                                     DelegateChoice {
@@ -316,8 +349,10 @@ Item {
                                     }
                                     DelegateChoice {
                                         SettingRowReadOnlyValue {
-                                            anchors.right: parent.right
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
                                             model: r.model
+                                            leftAligned: r.useStackedLayout
                                         }
                                     }
                                 }

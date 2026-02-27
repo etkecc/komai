@@ -6,13 +6,13 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
 import im.nheko
 
 Item {
     id: root
 
     required property var model
+    property bool leftAligned: false
 
     readonly property var safeThemeVariantValues:
         (model && model.themeVariantValues !== undefined) ? model.themeVariantValues : []
@@ -24,10 +24,10 @@ Item {
     implicitWidth: row.implicitWidth
     implicitHeight: row.implicitHeight
 
-    RowLayout {
+    Row {
         id: row
-        anchors.right: parent.right
-        spacing: Nheko.paddingSmall
+        anchors.left: parent.left
+        spacing: root.leftAligned ? Math.max(1, Math.round(Nheko.paddingSmall / 2)) : Nheko.paddingSmall
 
         ComboBox {
             id: variantCombo

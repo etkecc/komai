@@ -542,8 +542,8 @@ set(SRC_FILES
     src/cache/users/CacheUserKeysVerificationHelpers.cpp
     src/cache/users/CacheUserTrust.cpp
     src/cache/api/CacheApiWrappers.cpp
-    src/cache/api/CacheApiWrappersHelpers.cpp
-    src/cache/api/CacheApiWrappersHelpersSignals.cpp
+    src/cache/api/CacheApiWrappersAccessors.cpp
+    src/cache/api/CacheApiWrappersSignals.cpp
     src/cache/api/CacheApiWrappersTimeline.cpp
     src/cache/api/CacheApiWrappersRoom.cpp
     src/cache/api/CacheApiWrappersCrypto.cpp

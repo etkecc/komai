@@ -17,7 +17,7 @@
 MatrixStore::~MatrixStore() noexcept = default;
 
 db::Database &
-Cache::storage()
+MatrixStore::storage()
 {
     if (!db || !db->storage)
         throw std::runtime_error("Storage backend is not initialized");
@@ -25,7 +25,7 @@ Cache::storage()
 }
 
 const db::Database &
-Cache::storage() const
+MatrixStore::storage() const
 {
     if (!db || !db->storage)
         throw std::runtime_error("Storage backend is not initialized");
@@ -33,7 +33,7 @@ Cache::storage() const
 }
 
 db::Transaction
-Cache::beginTxn(db::Transaction *parent, db::TransactionFlags flags)
+MatrixStore::beginTxn(db::Transaction *parent, db::TransactionFlags flags)
 {
     return db::beginTransaction(storage(),
                                 parent,
@@ -43,7 +43,7 @@ Cache::beginTxn(db::Transaction *parent, db::TransactionFlags flags)
 }
 
 bool
-Cache::isMapFullError(const std::exception &e) const noexcept
+MatrixStore::isMapFullError(const std::exception &e) const noexcept
 {
     const auto *storageError = dynamic_cast<const db::Error *>(&e);
     return storageError && storageError->kind() == db::ErrorKind::MapFull;
@@ -74,98 +74,98 @@ ro_txn(db::Database &storage)
 }
 
 db::Store
-Cache::getEventsDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getEventsDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Events);
 }
 
 db::Store
-Cache::getEventOrderDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getEventOrderDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventOrder);
 }
 
 // inverse of EventOrderDb
 db::Store
-Cache::getEventToOrderDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getEventToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::EventToOrder);
 }
 
 db::Store
-Cache::getMessageToOrderDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getMessageToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::MessageToOrder);
 }
 
 db::Store
-Cache::getOrderToMessageDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getOrderToMessageDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::OrderToMessage);
 }
 
 db::Store
-Cache::getPendingMessagesDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getPendingMessagesDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Pending);
 }
 
 db::Store
-Cache::getRelationsDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getRelationsDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Related);
 }
 
 db::Store
-Cache::getInviteStatesDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getInviteStatesDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteState);
 }
 
 db::Store
-Cache::getInviteMembersDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getInviteMembersDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::InviteMembers);
 }
 
 db::Store
-Cache::getStatesDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getStatesDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::State);
 }
 
 db::Store
-Cache::getStatesKeyDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getStatesKeyDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::StatesKey);
 }
 
 db::Store
-Cache::getAccountDataDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getAccountDataDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::AccountData);
 }
 
 db::Store
-Cache::getMembersDb(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getMembersDb(db::Transaction &txn, const std::string &room_id)
 {
     return db::openRoomStore(storage(), txn, room_id, db::catalog::RoomDb::Members);
 }
 
 db::Store
-Cache::getUserKeysDb(db::Transaction &txn)
+MatrixStore::getUserKeysDb(db::Transaction &txn)
 {
     return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::UserKeys);
 }
 
 db::Store
-Cache::getVerificationDb(db::Transaction &txn)
+MatrixStore::getVerificationDb(db::Transaction &txn)
 {
     return db::openGlobalStore(storage(), txn, db::catalog::GlobalDb::Verified);
 }
 
 QString
-Cache::getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> &event)
+MatrixStore::getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> &event)
 {
     if (!event.content.display_name.empty())
         return QString::fromStdString(event.content.display_name);

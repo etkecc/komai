@@ -58,7 +58,7 @@ cacheDirectoryName(const QString &userid, const QString &profile)
 }
 
 void
-Cache::setup()
+MatrixStore::setup()
 {
     auto settings     = UserSettings::instance();
     const auto logger = cacheDbLogger();

@@ -15,7 +15,7 @@
 #include "db/RoomInfo.h"
 
 QString
-Cache::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
+MatrixStore::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -54,7 +54,7 @@ Cache::getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
 }
 
 QString
-Cache::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
+MatrixStore::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -93,7 +93,7 @@ Cache::getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
 }
 
 QString
-Cache::getInviteRoomTopic(db::Transaction &txn, db::Store &db_)
+MatrixStore::getInviteRoomTopic(db::Transaction &txn, db::Store &db_)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -111,7 +111,7 @@ Cache::getInviteRoomTopic(db::Transaction &txn, db::Store &db_)
 }
 
 bool
-Cache::getInviteRoomIsSpace(db::Transaction &txn, db::Store &db_)
+MatrixStore::getInviteRoomIsSpace(db::Transaction &txn, db::Store &db_)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;

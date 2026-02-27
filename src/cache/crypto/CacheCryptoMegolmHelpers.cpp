@@ -24,9 +24,9 @@
 //
 
 void
-Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
-                                mtx::crypto::InboundGroupSessionPtr session,
-                                const GroupSessionData &data)
+MatrixStore::saveInboundMegolmSession(const MegolmSessionIndex &index,
+                                      mtx::crypto::InboundGroupSessionPtr session,
+                                      const GroupSessionData &data)
 {
     using namespace mtx::crypto;
     const auto pickled = pickle<InboundSessionObject>(session.get(), pickle_secret_);
@@ -78,7 +78,7 @@ Cache::saveInboundMegolmSession(const MegolmSessionIndex &index,
 }
 
 mtx::crypto::InboundGroupSessionPtr
-Cache::getInboundMegolmSession(const MegolmSessionIndex &index)
+MatrixStore::getInboundMegolmSession(const MegolmSessionIndex &index)
 {
     using namespace mtx::crypto;
 
@@ -99,7 +99,7 @@ Cache::getInboundMegolmSession(const MegolmSessionIndex &index)
 }
 
 bool
-Cache::inboundMegolmSessionExists(const MegolmSessionIndex &index)
+MatrixStore::inboundMegolmSessionExists(const MegolmSessionIndex &index)
 {
     using namespace mtx::crypto;
 
@@ -117,9 +117,9 @@ Cache::inboundMegolmSessionExists(const MegolmSessionIndex &index)
 }
 
 void
-Cache::updateOutboundMegolmSession(const std::string &room_id,
-                                   const GroupSessionData &data_,
-                                   mtx::crypto::OutboundGroupSessionPtr &ptr)
+MatrixStore::updateOutboundMegolmSession(const std::string &room_id,
+                                         const GroupSessionData &data_,
+                                         mtx::crypto::OutboundGroupSessionPtr &ptr)
 {
     using namespace mtx::crypto;
 
@@ -144,7 +144,7 @@ Cache::updateOutboundMegolmSession(const std::string &room_id,
 }
 
 void
-Cache::dropOutboundMegolmSession(const std::string &room_id)
+MatrixStore::dropOutboundMegolmSession(const std::string &room_id)
 {
     using namespace mtx::crypto;
 
@@ -160,9 +160,9 @@ Cache::dropOutboundMegolmSession(const std::string &room_id)
 }
 
 void
-Cache::saveOutboundMegolmSession(const std::string &room_id,
-                                 const GroupSessionData &data_,
-                                 mtx::crypto::OutboundGroupSessionPtr &session)
+MatrixStore::saveOutboundMegolmSession(const std::string &room_id,
+                                       const GroupSessionData &data_,
+                                       mtx::crypto::OutboundGroupSessionPtr &session)
 {
     using namespace mtx::crypto;
     const auto pickled = pickle<OutboundSessionObject>(session.get(), pickle_secret_);
@@ -184,7 +184,7 @@ Cache::saveOutboundMegolmSession(const std::string &room_id,
 }
 
 bool
-Cache::outboundMegolmSessionExists(const std::string &room_id) noexcept
+MatrixStore::outboundMegolmSessionExists(const std::string &room_id) noexcept
 {
     try {
         auto txn = ro_txn(storage());
@@ -198,7 +198,7 @@ Cache::outboundMegolmSessionExists(const std::string &room_id) noexcept
 }
 
 OutboundGroupSessionDataRef
-Cache::getOutboundMegolmSession(const std::string &room_id)
+MatrixStore::getOutboundMegolmSession(const std::string &room_id)
 {
     try {
         using namespace mtx::crypto;
@@ -231,7 +231,7 @@ Cache::getOutboundMegolmSession(const std::string &room_id)
 }
 
 std::optional<GroupSessionData>
-Cache::getMegolmSessionData(const MegolmSessionIndex &index)
+MatrixStore::getMegolmSessionData(const MegolmSessionIndex &index)
 {
     try {
         using namespace mtx::crypto;

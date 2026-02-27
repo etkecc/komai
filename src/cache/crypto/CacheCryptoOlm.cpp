@@ -19,8 +19,9 @@
 #include "encryption/Olm.h"
 
 void
-Cache::saveOlmSessions(std::vector<std::pair<std::string, mtx::crypto::OlmSessionPtr>> sessions,
-                       uint64_t timestamp)
+MatrixStore::saveOlmSessions(
+  std::vector<std::pair<std::string, mtx::crypto::OlmSessionPtr>> sessions,
+  uint64_t timestamp)
 {
     using namespace mtx::crypto;
 
@@ -41,9 +42,9 @@ Cache::saveOlmSessions(std::vector<std::pair<std::string, mtx::crypto::OlmSessio
 }
 
 void
-Cache::saveOlmSession(const std::string &curve25519,
-                      mtx::crypto::OlmSessionPtr session,
-                      uint64_t timestamp)
+MatrixStore::saveOlmSession(const std::string &curve25519,
+                            mtx::crypto::OlmSessionPtr session,
+                            uint64_t timestamp)
 {
     using namespace mtx::crypto;
 
@@ -63,7 +64,7 @@ Cache::saveOlmSession(const std::string &curve25519,
 }
 
 std::optional<mtx::crypto::OlmSessionPtr>
-Cache::getOlmSession(const std::string &curve25519, const std::string &session_id)
+MatrixStore::getOlmSession(const std::string &curve25519, const std::string &session_id)
 {
     using namespace mtx::crypto;
 
@@ -81,7 +82,7 @@ Cache::getOlmSession(const std::string &curve25519, const std::string &session_i
 }
 
 std::optional<mtx::crypto::OlmSessionPtr>
-Cache::getLatestOlmSession(const std::string &curve25519)
+MatrixStore::getLatestOlmSession(const std::string &curve25519)
 {
     using namespace mtx::crypto;
 
@@ -114,7 +115,7 @@ Cache::getLatestOlmSession(const std::string &curve25519)
 }
 
 std::vector<std::string>
-Cache::getOlmSessions(const std::string &curve25519)
+MatrixStore::getOlmSessions(const std::string &curve25519)
 {
     using namespace mtx::crypto;
 
@@ -127,7 +128,7 @@ Cache::getOlmSessions(const std::string &curve25519)
 }
 
 void
-Cache::saveOlmAccount(const std::string &data)
+MatrixStore::saveOlmAccount(const std::string &data)
 {
     auto txn = beginTxn();
     db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount, data);
@@ -135,7 +136,7 @@ Cache::saveOlmAccount(const std::string &data)
 }
 
 std::string
-Cache::restoreOlmAccount()
+MatrixStore::restoreOlmAccount()
 {
     auto txn = ro_txn(storage());
     return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount)
@@ -143,7 +144,7 @@ Cache::restoreOlmAccount()
 }
 
 void
-Cache::saveBackupVersion(const OnlineBackupVersion &data)
+MatrixStore::saveBackupVersion(const OnlineBackupVersion &data)
 {
     auto txn = beginTxn();
     db::putSyncStateJsonValue(
@@ -152,7 +153,7 @@ Cache::saveBackupVersion(const OnlineBackupVersion &data)
 }
 
 void
-Cache::deleteBackupVersion()
+MatrixStore::deleteBackupVersion()
 {
     auto txn = beginTxn();
     db::removeSyncStateValue(
@@ -161,7 +162,7 @@ Cache::deleteBackupVersion()
 }
 
 std::optional<OnlineBackupVersion>
-Cache::backupVersion()
+MatrixStore::backupVersion()
 {
     try {
         auto txn   = ro_txn(storage());

@@ -24,7 +24,7 @@
 #include "cache/api/CacheApiContext.h"
 
 std::vector<ImagePackInfo>
-Cache::getImagePacks(const std::string &room_id, std::optional<bool> stickers)
+MatrixStore::getImagePacks(const std::string &room_id, std::optional<bool> stickers)
 {
     auto txn = ro_txn(storage());
     std::vector<ImagePackInfo> infos;
@@ -127,14 +127,16 @@ Cache::getImagePacks(const std::string &room_id, std::optional<bool> stickers)
 }
 
 std::optional<mtx::events::collections::RoomAccountDataEvents>
-Cache::getAccountData(mtx::events::EventType type, const std::string &room_id)
+MatrixStore::getAccountData(mtx::events::EventType type, const std::string &room_id)
 {
     auto txn = ro_txn(storage());
     return getAccountData(txn, type, room_id);
 }
 
 std::optional<mtx::events::collections::RoomAccountDataEvents>
-Cache::getAccountData(db::Transaction &txn, mtx::events::EventType type, const std::string &room_id)
+MatrixStore::getAccountData(db::Transaction &txn,
+                            mtx::events::EventType type,
+                            const std::string &room_id)
 {
     try {
         auto db_ = getAccountDataDb(txn, room_id);

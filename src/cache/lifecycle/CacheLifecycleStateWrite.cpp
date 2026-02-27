@@ -26,7 +26,9 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 void
-Cache::updateState(const std::string &room, const mtx::responses::StateEvents &state, bool wipe)
+MatrixStore::updateState(const std::string &room,
+                         const mtx::responses::StateEvents &state,
+                         bool wipe)
 {
     auto txn         = beginTxn();
     auto statesdb    = getStatesDb(txn, room);
@@ -69,13 +71,13 @@ Cache::updateState(const std::string &room, const mtx::responses::StateEvents &s
 
 template<typename T>
 void
-Cache::saveStateEvents(db::Transaction &txn,
-                       db::Store &statesdb,
-                       db::Store &stateskeydb,
-                       db::Store &membersdb,
-                       db::Store &eventsDb,
-                       const std::string &room_id,
-                       const std::vector<T> &events)
+MatrixStore::saveStateEvents(db::Transaction &txn,
+                             db::Store &statesdb,
+                             db::Store &stateskeydb,
+                             db::Store &membersdb,
+                             db::Store &eventsDb,
+                             const std::string &room_id,
+                             const std::vector<T> &events)
 {
     for (const auto &e : events)
         saveStateEvent(txn, statesdb, stateskeydb, membersdb, eventsDb, room_id, e);
@@ -83,13 +85,13 @@ Cache::saveStateEvents(db::Transaction &txn,
 
 template<class T>
 void
-Cache::saveStateEvent(db::Transaction &txn,
-                      db::Store &statesdb,
-                      db::Store &stateskeydb,
-                      db::Store &membersdb,
-                      db::Store &eventsDb,
-                      const std::string &room_id,
-                      const T &event)
+MatrixStore::saveStateEvent(db::Transaction &txn,
+                            db::Store &statesdb,
+                            db::Store &stateskeydb,
+                            db::Store &membersdb,
+                            db::Store &eventsDb,
+                            const std::string &room_id,
+                            const T &event)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -178,20 +180,20 @@ Cache::saveStateEvent(db::Transaction &txn,
 }
 
 void
-Cache::saveStateEvent(db::Transaction &txn,
-                      db::Store &statesdb,
-                      db::Store &stateskeydb,
-                      db::Store &membersdb,
-                      db::Store &eventsDb,
-                      const std::string &room_id,
-                      const mtx::events::collections::StateEvents &event)
+MatrixStore::saveStateEvent(db::Transaction &txn,
+                            db::Store &statesdb,
+                            db::Store &stateskeydb,
+                            db::Store &membersdb,
+                            db::Store &eventsDb,
+                            const std::string &room_id,
+                            const mtx::events::collections::StateEvents &event)
 {
-    Cache::saveStateEvent<mtx::events::collections::StateEvents>(
+    MatrixStore::saveStateEvent<mtx::events::collections::StateEvents>(
       txn, statesdb, stateskeydb, membersdb, eventsDb, room_id, event);
 }
 
 template void
-Cache::saveStateEvents<mtx::events::collections::StateEvents>(
+MatrixStore::saveStateEvents<mtx::events::collections::StateEvents>(
   db::Transaction &txn,
   db::Store &statesdb,
   db::Store &stateskeydb,
@@ -201,7 +203,7 @@ Cache::saveStateEvents<mtx::events::collections::StateEvents>(
   const std::vector<mtx::events::collections::StateEvents> &events);
 
 template void
-Cache::saveStateEvents<mtx::events::collections::TimelineEvents>(
+MatrixStore::saveStateEvents<mtx::events::collections::TimelineEvents>(
   db::Transaction &txn,
   db::Store &statesdb,
   db::Store &stateskeydb,

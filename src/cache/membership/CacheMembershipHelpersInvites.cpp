@@ -18,7 +18,7 @@
 #include "db/MemberInfo.h"
 
 QHash<QString, RoomInfo>
-Cache::invites()
+MatrixStore::invites()
 {
     QHash<QString, RoomInfo> result;
 
@@ -45,7 +45,7 @@ Cache::invites()
 }
 
 std::optional<RoomInfo>
-Cache::invite(std::string_view roomid)
+MatrixStore::invite(std::string_view roomid)
 {
     std::optional<RoomInfo> result;
 
@@ -71,7 +71,7 @@ Cache::invite(std::string_view roomid)
 }
 
 std::optional<MemberInfo>
-Cache::getInviteMember(const std::string &room_id, const std::string &user_id)
+MatrixStore::getInviteMember(const std::string &room_id, const std::string &user_id)
 {
     if (user_id.empty() || !db::isOpen(storage()))
         return std::nullopt;
@@ -90,7 +90,9 @@ Cache::getInviteMember(const std::string &room_id, const std::string &user_id)
 }
 
 std::vector<RoomMember>
-Cache::getMembersFromInvite(const std::string &room_id, std::size_t startIndex, std::size_t len)
+MatrixStore::getMembersFromInvite(const std::string &room_id,
+                                  std::size_t startIndex,
+                                  std::size_t len)
 {
     try {
         auto txn = ro_txn(storage());

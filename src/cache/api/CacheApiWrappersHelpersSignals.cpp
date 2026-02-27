@@ -44,7 +44,7 @@ onReadReceiptsChanged(QObject *receiver, std::function<void()> callback)
 {
     connectWhenCacheAvailable(receiver, [receiver, callback = std::move(callback)]() {
         QObject::connect(cacheInstance().get(),
-                         &Cache::newReadReceipts,
+                         &MatrixStore::newReadReceipts,
                          receiver,
                          [callback = std::move(callback)](
                            const QString &, const std::vector<QString> &) { callback(); });
@@ -57,7 +57,7 @@ onReadReceiptsChanged(QObject *receiver,
 {
     connectWhenCacheAvailable(receiver, [receiver, callback = std::move(callback)]() {
         QObject::connect(cacheInstance().get(),
-                         &Cache::newReadReceipts,
+                         &MatrixStore::newReadReceipts,
                          receiver,
                          [callback = std::move(callback)](const QString &room_id,
                                                           const std::vector<QString> &event_ids) {
@@ -72,7 +72,7 @@ onRoomReadStatusChanged(QObject *receiver,
 {
     connectWhenCacheAvailable(receiver, [receiver, callback = std::move(callback)]() {
         QObject::connect(cacheInstance().get(),
-                         &Cache::roomReadStatus,
+                         &MatrixStore::roomReadStatus,
                          receiver,
                          [callback = std::move(callback)](const std::map<QString, bool> &status) {
                              callback(status);
@@ -98,7 +98,7 @@ onDatabaseReady(QObject *receiver, std::function<void()> callback)
         }
 
         QObject::connect(cacheInstance().get(),
-                         &Cache::databaseReady,
+                         &MatrixStore::databaseReady,
                          receiver,
                          [callback = std::move(callback)]() { callback(); });
     });
@@ -110,7 +110,7 @@ onSecretChanged(QObject *receiver, std::function<void(const std::string &)> call
     connectWhenCacheAvailable(receiver, [receiver, callback = std::move(callback)]() {
         QObject::connect(
           cacheInstance().get(),
-          &Cache::secretChanged,
+          &MatrixStore::secretChanged,
           receiver,
           [callback = std::move(callback)](const std::string &name) { callback(name); });
     });
@@ -122,7 +122,7 @@ onVerificationStatusChanged(QObject *receiver, std::function<void(const std::str
     connectWhenCacheAvailable(receiver, [receiver, callback = std::move(callback)]() {
         QObject::connect(
           cacheInstance().get(),
-          &Cache::verificationStatusChanged,
+          &MatrixStore::verificationStatusChanged,
           receiver,
           [callback = std::move(callback)](const std::string &user_id) { callback(user_id); });
     });
@@ -133,7 +133,7 @@ onSelfVerificationStatusChanged(QObject *receiver, std::function<void()> callbac
 {
     connectWhenCacheAvailable(receiver, [receiver, callback = std::move(callback)]() {
         QObject::connect(cacheInstance().get(),
-                         &Cache::selfVerificationStatusChanged,
+                         &MatrixStore::selfVerificationStatusChanged,
                          receiver,
                          [callback = std::move(callback)]() { callback(); });
     });

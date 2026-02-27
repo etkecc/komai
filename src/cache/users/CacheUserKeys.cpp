@@ -16,14 +16,14 @@
 #include "encryption/Olm.h"
 
 std::optional<UserKeyCache>
-Cache::userKeys(const std::string &user_id)
+MatrixStore::userKeys(const std::string &user_id)
 {
     auto txn = ro_txn(storage());
     return userKeys_(user_id, txn);
 }
 
 std::optional<UserKeyCache>
-Cache::userKeys_(const std::string &user_id, db::Transaction &txn)
+MatrixStore::userKeys_(const std::string &user_id, db::Transaction &txn)
 {
     try {
         auto db_ = getUserKeysDb(txn);
@@ -36,7 +36,8 @@ Cache::userKeys_(const std::string &user_id, db::Transaction &txn)
 }
 
 void
-Cache::updateUserKeys(const std::string &sync_token, const mtx::responses::QueryKeys &keyQuery)
+MatrixStore::updateUserKeys(const std::string &sync_token,
+                            const mtx::responses::QueryKeys &keyQuery)
 {
     auto txn = beginTxn();
     auto db_ = getUserKeysDb(txn);
@@ -202,7 +203,7 @@ Cache::updateUserKeys(const std::string &sync_token, const mtx::responses::Query
 }
 
 void
-Cache::markUserKeysOutOfDate(const std::vector<std::string> &user_ids)
+MatrixStore::markUserKeysOutOfDate(const std::vector<std::string> &user_ids)
 {
     auto currentBatchToken = nextBatchToken();
     auto txn               = beginTxn();

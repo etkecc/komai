@@ -17,7 +17,7 @@
 #include "cache/api/CacheApiContext.h"
 
 crypto::Trust
-Cache::roomVerificationStatus(const std::string &room_id)
+MatrixStore::roomVerificationStatus(const std::string &room_id)
 {
     crypto::Trust trust = crypto::Verified;
 
@@ -62,7 +62,7 @@ Cache::roomVerificationStatus(const std::string &room_id)
 }
 
 std::map<std::string, std::optional<UserKeyCache>>
-Cache::getMembersWithKeys(const std::string &room_id, bool verified_only)
+MatrixStore::getMembersWithKeys(const std::string &room_id, bool verified_only)
 {
     try {
         auto txn = ro_txn(storage());

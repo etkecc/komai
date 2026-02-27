@@ -15,8 +15,8 @@
 #include "cache/api/CacheApiContext.h"
 
 void
-Cache::savePendingMessage(const std::string &room_id,
-                          const mtx::events::collections::TimelineEvents &message)
+MatrixStore::savePendingMessage(const std::string &room_id,
+                                const mtx::events::collections::TimelineEvents &message)
 {
     auto txn      = beginTxn();
     auto eventsDb = getEventsDb(txn, room_id);
@@ -34,7 +34,7 @@ Cache::savePendingMessage(const std::string &room_id,
 }
 
 std::vector<std::string>
-Cache::pendingEvents(const std::string &room_id)
+MatrixStore::pendingEvents(const std::string &room_id)
 {
     auto txn     = ro_txn(storage());
     auto pending = getPendingMessagesDb(txn, room_id);
@@ -55,7 +55,7 @@ Cache::pendingEvents(const std::string &room_id)
 }
 
 std::optional<mtx::events::collections::TimelineEvents>
-Cache::firstPendingMessage(const std::string &room_id)
+MatrixStore::firstPendingMessage(const std::string &room_id)
 {
     auto txn      = beginTxn();
     auto pending  = getPendingMessagesDb(txn, room_id);
@@ -99,7 +99,7 @@ Cache::firstPendingMessage(const std::string &room_id)
 }
 
 void
-Cache::removePendingStatus(const std::string &room_id, const std::string &txn_id)
+MatrixStore::removePendingStatus(const std::string &room_id, const std::string &txn_id)
 {
     auto txn     = beginTxn();
     auto pending = getPendingMessagesDb(txn, room_id);
@@ -110,7 +110,7 @@ Cache::removePendingStatus(const std::string &room_id, const std::string &txn_id
 }
 
 void
-Cache::clearTimeline(const std::string &room_id)
+MatrixStore::clearTimeline(const std::string &room_id)
 {
     auto txn         = beginTxn();
     auto eventsDb    = getEventsDb(txn, room_id);
@@ -128,7 +128,7 @@ Cache::clearTimeline(const std::string &room_id)
 }
 
 void
-Cache::markSentNotification(const std::string &event_id)
+MatrixStore::markSentNotification(const std::string &event_id)
 {
     auto txn = beginTxn();
     db->notifications.put(txn, event_id, "");
@@ -136,7 +136,7 @@ Cache::markSentNotification(const std::string &event_id)
 }
 
 void
-Cache::removeReadNotification(const std::string &event_id)
+MatrixStore::removeReadNotification(const std::string &event_id)
 {
     auto txn = beginTxn();
 
@@ -146,7 +146,7 @@ Cache::removeReadNotification(const std::string &event_id)
 }
 
 bool
-Cache::isNotificationSent(const std::string &event_id)
+MatrixStore::isNotificationSent(const std::string &event_id)
 {
     auto txn = ro_txn(storage());
 

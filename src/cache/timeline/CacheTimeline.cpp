@@ -14,7 +14,7 @@
 #include <nlohmann/json.hpp>
 
 uint64_t
-Cache::saveOldMessages(const std::string &room_id, const mtx::responses::Messages &res)
+MatrixStore::saveOldMessages(const std::string &room_id, const mtx::responses::Messages &res)
 {
     auto txn         = beginTxn();
     auto eventsDb    = getEventsDb(txn, room_id);

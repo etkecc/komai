@@ -14,9 +14,9 @@
 #include "encryption/Olm.h"
 
 bool
-Cache::isHiddenEvent(db::Transaction &txn,
-                     mtx::events::collections::TimelineEvents e,
-                     const std::string &room_id)
+MatrixStore::isHiddenEvent(db::Transaction &txn,
+                           mtx::events::collections::TimelineEvents e,
+                           const std::string &room_id)
 {
     using namespace mtx::events;
 
@@ -77,10 +77,11 @@ MatrixStore::MatrixStore(const QString &userId, QObject *parent)
   , localUserId_{userId}
   , db(std::make_unique<CacheDb>())
 {
-    connect(this, &Cache::userKeysUpdate, this, &Cache::updateUserKeys, Qt::QueuedConnection);
+    connect(
+      this, &MatrixStore::userKeysUpdate, this, &MatrixStore::updateUserKeys, Qt::QueuedConnection);
     connect(
       this,
-      &Cache::verificationStatusChanged,
+      &MatrixStore::verificationStatusChanged,
       this,
       [this](const std::string &u) {
           if (u == localUserId_.toStdString()) {

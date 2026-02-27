@@ -25,15 +25,15 @@
 #include "db/SyncState.h"
 
 std::vector<std::string>
-Cache::getRoomIds(db::Transaction &txn)
+MatrixStore::getRoomIds(db::Transaction &txn)
 {
     return db::listUniqueKeys(txn, db->rooms);
 }
 
 void
-Cache::updateSpaces(db::Transaction &txn,
-                    const std::set<std::string> &spaces_with_updates,
-                    std::set<std::string> rooms_with_updates)
+MatrixStore::updateSpaces(db::Transaction &txn,
+                          const std::set<std::string> &spaces_with_updates,
+                          std::set<std::string> rooms_with_updates)
 {
     if (spaces_with_updates.empty() && rooms_with_updates.empty())
         return;
@@ -98,7 +98,7 @@ Cache::updateSpaces(db::Transaction &txn,
 }
 
 QMap<QString, std::optional<RoomInfo>>
-Cache::spaces()
+MatrixStore::spaces()
 {
     auto txn = ro_txn(storage());
 
@@ -136,7 +136,7 @@ Cache::spaces()
 }
 
 std::vector<std::string>
-Cache::getParentRoomIds(const std::string &room_id)
+MatrixStore::getParentRoomIds(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
@@ -151,7 +151,7 @@ Cache::getParentRoomIds(const std::string &room_id)
 }
 
 std::vector<std::string>
-Cache::getChildRoomIds(const std::string &room_id)
+MatrixStore::getChildRoomIds(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 

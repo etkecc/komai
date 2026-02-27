@@ -20,7 +20,7 @@
 #include "encryption/Olm.h"
 
 std::optional<VerificationCache>
-Cache::verificationCache(const std::string &user_id, db::Transaction &txn)
+MatrixStore::verificationCache(const std::string &user_id, db::Transaction &txn)
 {
     auto db_ = getVerificationDb(txn);
     try {
@@ -31,7 +31,7 @@ Cache::verificationCache(const std::string &user_id, db::Transaction &txn)
 }
 
 void
-Cache::markDeviceVerified(const std::string &user_id, const std::string &key)
+MatrixStore::markDeviceVerified(const std::string &user_id, const std::string &key)
 {
     auto txn = beginTxn();
     auto db_ = getVerificationDb(txn);
@@ -73,7 +73,7 @@ Cache::markDeviceVerified(const std::string &user_id, const std::string &key)
 }
 
 void
-Cache::markDeviceUnverified(const std::string &user_id, const std::string &key)
+MatrixStore::markDeviceUnverified(const std::string &user_id, const std::string &key)
 {
     auto txn = beginTxn();
     auto db_ = getVerificationDb(txn);
@@ -109,14 +109,14 @@ Cache::markDeviceUnverified(const std::string &user_id, const std::string &key)
 }
 
 VerificationStatus
-Cache::verificationStatus(const std::string &user_id)
+MatrixStore::verificationStatus(const std::string &user_id)
 {
     auto txn = ro_txn(storage());
     return verificationStatus_(user_id, txn);
 }
 
 VerificationStatus
-Cache::verificationStatus_(const std::string &user_id, db::Transaction &txn)
+MatrixStore::verificationStatus_(const std::string &user_id, db::Transaction &txn)
 {
     std::unique_lock<std::mutex> lock(verification_storage.verification_storage_mtx);
     if (verification_storage.status.count(user_id))

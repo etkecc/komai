@@ -28,9 +28,9 @@ relationTargetEventIds(const RelationCollection &relations)
 }
 
 void
-Cache::replaceEvent(const std::string &room_id,
-                    const std::string &event_id,
-                    const mtx::events::collections::TimelineEvents &event)
+MatrixStore::replaceEvent(const std::string &room_id,
+                          const std::string &event_id,
+                          const mtx::events::collections::TimelineEvents &event)
 {
     auto txn         = beginTxn();
     auto eventsDb    = getEventsDb(txn, room_id);
@@ -49,10 +49,10 @@ Cache::replaceEvent(const std::string &room_id,
 }
 
 void
-Cache::saveTimelineMessages(db::Transaction &txn,
-                            db::Store &eventsDb,
-                            const std::string &room_id,
-                            const mtx::responses::Timeline &res)
+MatrixStore::saveTimelineMessages(db::Transaction &txn,
+                                  db::Store &eventsDb,
+                                  const std::string &room_id,
+                                  const mtx::responses::Timeline &res)
 {
     if (res.events.empty())
         return;

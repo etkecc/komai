@@ -473,19 +473,20 @@ private:
 };
 
 #define KOMAI_CACHE_GET_STATE_EVENT_FORWARD(Content)                                               \
-    extern template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>( \
-      const std::string &room_id, std::string_view state_key);                                     \
+    extern template std::optional<mtx::events::StateEvent<Content>>                                \
+    MatrixStore::getStateEvent<Content>(const std::string &room_id, std::string_view state_key);   \
                                                                                                    \
     extern template std::vector<mtx::events::StateEvent<Content>>                                  \
-    Cache::getStateEventsWithType<Content>(const std::string &room_id,                             \
-                                           mtx::events::EventType type);
+    MatrixStore::getStateEventsWithType<Content>(const std::string &room_id,                       \
+                                                 mtx::events::EventType type);
 
 #define KOMAI_CACHE_GET_STATE_EVENT_TXN_FORWARD(Content)                                           \
-    extern template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>( \
+    extern template std::optional<mtx::events::StateEvent<Content>>                                \
+    MatrixStore::getStateEvent<Content>(                                                           \
       db::Transaction & txn, const std::string &room_id, std::string_view state_key);              \
                                                                                                    \
     extern template std::vector<mtx::events::StateEvent<Content>>                                  \
-    Cache::getStateEventsWithType<Content>(                                                        \
+    MatrixStore::getStateEventsWithType<Content>(                                                  \
       db::Transaction & txn, const std::string &room_id, mtx::events::EventType type);
 
 KOMAI_CACHE_GET_STATE_EVENT_FORWARD(mtx::events::state::Aliases)

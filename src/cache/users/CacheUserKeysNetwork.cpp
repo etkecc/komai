@@ -14,10 +14,10 @@
 #include "cache/api/CacheApiContext.h"
 
 void
-Cache::markUserKeysOutOfDate(db::Transaction &txn,
-                             db::Store &db_,
-                             const std::vector<std::string> &user_ids,
-                             const std::string &sync_token)
+MatrixStore::markUserKeysOutOfDate(db::Transaction &txn,
+                                   db::Store &db_,
+                                   const std::vector<std::string> &user_ids,
+                                   const std::string &sync_token)
 {
     mtx::requests::QueryKeys query;
     query.token = sync_token;
@@ -76,8 +76,8 @@ Cache::markUserKeysOutOfDate(db::Transaction &txn,
 }
 
 void
-Cache::query_keys(const std::string &user_id,
-                  std::function<void(const UserKeyCache &, mtx::http::RequestErr)> cb)
+MatrixStore::query_keys(const std::string &user_id,
+                        std::function<void(const UserKeyCache &, mtx::http::RequestErr)> cb)
 {
     if (user_id.size() > 255) {
         cache::activeLoggers().db->debug("Skipping device key query for user with invalid mxid: {}",
@@ -118,7 +118,7 @@ Cache::query_keys(const std::string &user_id,
     QObject *context{new QObject(this)};
     QObject::connect(
       this,
-      &Cache::userKeysUpdateFinalize,
+      &MatrixStore::userKeysUpdateFinalize,
       context,
       [cb, user_id, context_ = context, this](std::string updated_user) mutable {
           if (user_id == updated_user) {

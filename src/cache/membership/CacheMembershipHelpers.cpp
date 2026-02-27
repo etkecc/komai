@@ -18,9 +18,9 @@
 #include "db/MemberInfo.h"
 
 bool
-Cache::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
-                           const std::string &room_id,
-                           const std::string &user_id)
+MatrixStore::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
+                                 const std::string &room_id,
+                                 const std::string &user_id)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -53,7 +53,7 @@ Cache::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes
 }
 
 std::vector<std::string>
-Cache::roomMembers(const std::string &room_id)
+MatrixStore::roomMembers(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
@@ -68,21 +68,21 @@ Cache::roomMembers(const std::string &room_id)
 }
 
 size_t
-Cache::memberCount(const std::string &room_id)
+MatrixStore::memberCount(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
     return getMembersDb(txn, room_id).size(txn);
 }
 
 std::vector<std::string>
-Cache::joinedRooms()
+MatrixStore::joinedRooms()
 {
     auto txn = ro_txn(storage());
     return db::listUniqueKeys(txn, db->rooms);
 }
 
 std::map<std::string, RoomInfo>
-Cache::getCommonRooms(const std::string &user_id)
+MatrixStore::getCommonRooms(const std::string &user_id)
 {
     std::map<std::string, RoomInfo> result;
 
@@ -114,7 +114,7 @@ Cache::getCommonRooms(const std::string &user_id)
 }
 
 std::optional<MemberInfo>
-Cache::getMember(const std::string &room_id, const std::string &user_id)
+MatrixStore::getMember(const std::string &room_id, const std::string &user_id)
 {
     if (user_id.empty() || !db::isOpen(storage()))
         return std::nullopt;
@@ -133,7 +133,7 @@ Cache::getMember(const std::string &room_id, const std::string &user_id)
 }
 
 std::vector<RoomMember>
-Cache::getMembers(const std::string &room_id, std::size_t startIndex, std::size_t len)
+MatrixStore::getMembers(const std::string &room_id, std::size_t startIndex, std::size_t len)
 {
     try {
         auto txn = ro_txn(storage());
@@ -168,7 +168,7 @@ Cache::getMembers(const std::string &room_id, std::size_t startIndex, std::size_
 }
 
 bool
-Cache::isRoomMember(const std::string &user_id, const std::string &room_id)
+MatrixStore::isRoomMember(const std::string &user_id, const std::string &room_id)
 {
     try {
         auto txn = ro_txn(storage());

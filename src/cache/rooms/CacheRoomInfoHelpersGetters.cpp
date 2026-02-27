@@ -19,7 +19,7 @@
 #include <nlohmann/json.hpp>
 
 RoomInfo
-Cache::singleRoomInfo(const std::string &room_id)
+MatrixStore::singleRoomInfo(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
@@ -44,7 +44,7 @@ Cache::singleRoomInfo(const std::string &room_id)
 }
 
 void
-Cache::updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
+MatrixStore::updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
 {
     auto txn = beginTxn();
 
@@ -66,7 +66,7 @@ Cache::updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
 }
 
 std::map<QString, RoomInfo>
-Cache::getRoomInfo(const std::vector<std::string> &rooms)
+MatrixStore::getRoomInfo(const std::vector<std::string> &rooms)
 {
     std::map<QString, RoomInfo> room_info;
 
@@ -117,7 +117,7 @@ Cache::getRoomInfo(const std::vector<std::string> &rooms)
 }
 
 QString
-Cache::roomAvatarUrl(const std::string &room_id)
+MatrixStore::roomAvatarUrl(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
@@ -134,7 +134,7 @@ Cache::roomAvatarUrl(const std::string &room_id)
 }
 
 std::vector<QString>
-Cache::roomIds()
+MatrixStore::roomIds()
 {
     auto txn = ro_txn(storage());
 
@@ -149,7 +149,7 @@ Cache::roomIds()
 }
 
 std::string
-Cache::previousBatchToken(const std::string &room_id)
+MatrixStore::previousBatchToken(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
     try {
@@ -161,7 +161,7 @@ Cache::previousBatchToken(const std::string &room_id)
 }
 
 QMap<QString, RoomInfo>
-Cache::roomInfo(bool withInvites)
+MatrixStore::roomInfo(bool withInvites)
 {
     QMap<QString, RoomInfo> result;
 
@@ -203,7 +203,7 @@ Cache::roomInfo(bool withInvites)
 }
 
 std::vector<RoomNameAlias>
-Cache::roomNamesAndAliases()
+MatrixStore::roomNamesAndAliases()
 {
     auto txn = ro_txn(storage());
 

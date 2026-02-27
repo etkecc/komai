@@ -19,8 +19,8 @@
 #include "cache/api/CacheApiContext.h"
 
 void
-Cache::saveInvites(db::Transaction &txn,
-                   const std::map<std::string, mtx::responses::InvitedRoom> &rooms)
+MatrixStore::saveInvites(db::Transaction &txn,
+                         const std::map<std::string, mtx::responses::InvitedRoom> &rooms)
 {
     for (const auto &room : rooms) {
         auto statesdb  = getInviteStatesDb(txn, room.first);
@@ -40,10 +40,10 @@ Cache::saveInvites(db::Transaction &txn,
 }
 
 void
-Cache::saveInvite(db::Transaction &txn,
-                  db::Store &statesdb,
-                  db::Store &membersdb,
-                  const mtx::responses::InvitedRoom &room)
+MatrixStore::saveInvite(db::Transaction &txn,
+                        db::Store &statesdb,
+                        db::Store &membersdb,
+                        const mtx::responses::InvitedRoom &room)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -82,7 +82,7 @@ Cache::saveInvite(db::Transaction &txn,
 }
 
 void
-Cache::savePresence(
+MatrixStore::savePresence(
   db::Transaction &txn,
   const std::vector<mtx::events::Event<mtx::events::presence::Presence>> &presenceUpdates)
 {

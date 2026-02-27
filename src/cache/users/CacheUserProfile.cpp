@@ -15,7 +15,7 @@
 #include "cache/api/CacheApiContext.h"
 
 QString
-Cache::displayName(const QString &room_id, const QString &user_id)
+MatrixStore::displayName(const QString &room_id, const QString &user_id)
 {
     return QString::fromStdString(displayName(room_id.toStdString(), user_id.toStdString()));
 }
@@ -34,7 +34,7 @@ isDisplaynameSafe(const std::string &s)
 }
 
 std::string
-Cache::displayName(const std::string &room_id, const std::string &user_id)
+MatrixStore::displayName(const std::string &room_id, const std::string &user_id)
 {
     if (auto info = getMember(room_id, user_id); info && !isDisplaynameSafe(info->name))
         return info->name;
@@ -43,7 +43,7 @@ Cache::displayName(const std::string &room_id, const std::string &user_id)
 }
 
 QString
-Cache::avatarUrl(const QString &room_id, const QString &user_id)
+MatrixStore::avatarUrl(const QString &room_id, const QString &user_id)
 {
     if (auto info = getMember(room_id.toStdString(), user_id.toStdString());
         info && !info->avatar_url.empty())
@@ -53,7 +53,7 @@ Cache::avatarUrl(const QString &room_id, const QString &user_id)
 }
 
 mtx::events::presence::Presence
-Cache::presence(const std::string &user_id)
+MatrixStore::presence(const std::string &user_id)
 {
     mtx::events::presence::Presence presence_{};
     presence_.presence = mtx::presence::PresenceState::offline;

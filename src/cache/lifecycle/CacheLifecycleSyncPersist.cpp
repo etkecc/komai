@@ -26,7 +26,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 void
-Cache::saveState(const mtx::responses::Sync &res)
+MatrixStore::saveState(const mtx::responses::Sync &res)
 try {
     using namespace mtx::events;
     auto local_user_id = this->localUserId_.toStdString();

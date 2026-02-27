@@ -22,9 +22,9 @@
 #include "encryption/Olm.h"
 
 void
-Cache::storeEventExpirationProgress(const std::string &room,
-                                    const std::string &expirationSettings,
-                                    const std::string &stopMarker)
+MatrixStore::storeEventExpirationProgress(const std::string &room,
+                                          const std::string &expirationSettings,
+                                          const std::string &stopMarker)
 {
     nlohmann::json j;
     j["s"] = expirationSettings;
@@ -36,7 +36,8 @@ Cache::storeEventExpirationProgress(const std::string &room,
 }
 
 std::string
-Cache::loadEventExpirationProgress(const std::string &room, const std::string &expirationSettings)
+MatrixStore::loadEventExpirationProgress(const std::string &room,
+                                         const std::string &expirationSettings)
 
 {
     try {
@@ -55,7 +56,7 @@ Cache::loadEventExpirationProgress(const std::string &room, const std::string &e
 }
 
 void
-Cache::setEncryptedRoom(db::Transaction &txn, const std::string &room_id)
+MatrixStore::setEncryptedRoom(db::Transaction &txn, const std::string &room_id)
 {
     cache::activeLoggers().db->info("mark room {} as encrypted", room_id);
 
@@ -63,7 +64,7 @@ Cache::setEncryptedRoom(db::Transaction &txn, const std::string &room_id)
 }
 
 bool
-Cache::isRoomEncrypted(const std::string &room_id)
+MatrixStore::isRoomEncrypted(const std::string &room_id)
 {
     std::string_view unused;
 
@@ -74,7 +75,7 @@ Cache::isRoomEncrypted(const std::string &room_id)
 }
 
 std::optional<mtx::events::state::Encryption>
-Cache::roomEncryptionSettings(const std::string &room_id)
+MatrixStore::roomEncryptionSettings(const std::string &room_id)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -95,7 +96,7 @@ Cache::roomEncryptionSettings(const std::string &room_id)
 }
 
 mtx::crypto::ExportedSessionKeys
-Cache::exportSessionKeys()
+MatrixStore::exportSessionKeys()
 {
     using namespace mtx::crypto;
 
@@ -150,7 +151,7 @@ Cache::exportSessionKeys()
 }
 
 void
-Cache::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
+MatrixStore::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
 {
     std::size_t importCount = 0;
 

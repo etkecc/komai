@@ -18,7 +18,7 @@
 using namespace mtx::events;
 
 QString
-Cache::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
+MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events::state;
 
@@ -67,7 +67,7 @@ Cache::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &me
 }
 
 QString
-Cache::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
+MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -143,7 +143,7 @@ Cache::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &members
 }
 
 mtx::events::state::JoinRule
-Cache::getRoomJoinRule(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomJoinRule(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -160,7 +160,7 @@ Cache::getRoomJoinRule(db::Transaction &txn, db::Store &statesdb)
 }
 
 bool
-Cache::getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -177,7 +177,7 @@ Cache::getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb)
 }
 
 QString
-Cache::getRoomTopic(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomTopic(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -196,7 +196,7 @@ Cache::getRoomTopic(db::Transaction &txn, db::Store &statesdb)
 }
 
 QString
-Cache::getRoomVersion(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomVersion(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -217,7 +217,7 @@ Cache::getRoomVersion(db::Transaction &txn, db::Store &statesdb)
 }
 
 bool
-Cache::getRoomIsSpace(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomIsSpace(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
@@ -237,7 +237,7 @@ Cache::getRoomIsSpace(db::Transaction &txn, db::Store &statesdb)
 }
 
 bool
-Cache::getRoomIsTombstoned(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomIsTombstoned(db::Transaction &txn, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;

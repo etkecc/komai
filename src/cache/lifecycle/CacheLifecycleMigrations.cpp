@@ -37,7 +37,7 @@ buildPostMigrations(MatrixStore *cache);
 
 //! migrates db to the current format
 bool
-Cache::runMigrations()
+MatrixStore::runMigrations()
 {
     std::string stored_version;
     {
@@ -135,7 +135,7 @@ Cache::runMigrations()
 }
 
 cache::CacheVersion
-Cache::formatVersion()
+MatrixStore::formatVersion()
 {
     auto txn = ro_txn(storage());
     auto currentVersion =
@@ -154,7 +154,7 @@ Cache::formatVersion()
 }
 
 void
-Cache::setCurrentFormat()
+MatrixStore::setCurrentFormat()
 {
     auto txn = beginTxn();
     db::putSyncStateValue(txn,

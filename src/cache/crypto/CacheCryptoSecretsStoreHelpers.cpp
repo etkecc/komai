@@ -59,7 +59,7 @@ fatalSecretError()
 }
 
 void
-Cache::loadSecretsFromStore(
+MatrixStore::loadSecretsFromStore(
   std::vector<std::pair<std::string, bool>> toLoad,
   std::function<void(const std::string &name, bool internal, const std::string &value)> callback,
   bool databaseReadyOnFinished)
@@ -162,7 +162,7 @@ Cache::loadSecretsFromStore(
 }
 
 std::optional<std::string>
-Cache::secret(std::string_view name_, bool internal)
+MatrixStore::secret(std::string_view name_, bool internal)
 {
     auto name = secretName(name_, internal);
 
@@ -181,7 +181,7 @@ Cache::secret(std::string_view name_, bool internal)
 }
 
 void
-Cache::storeSecret(std::string_view name_, const std::string &secret, bool internal)
+MatrixStore::storeSecret(std::string_view name_, const std::string &secret, bool internal)
 {
     auto name = secretName(name_, internal);
 
@@ -197,7 +197,7 @@ Cache::storeSecret(std::string_view name_, const std::string &secret, bool inter
 }
 
 void
-Cache::deleteSecret(std::string_view name_, bool internal)
+MatrixStore::deleteSecret(std::string_view name_, bool internal)
 {
     auto name = secretName(name_, internal);
 
@@ -207,7 +207,7 @@ Cache::deleteSecret(std::string_view name_, bool internal)
 }
 
 void
-Cache::storeSecretInStore(const std::string name_, const std::string secret)
+MatrixStore::storeSecretInStore(const std::string name_, const std::string secret)
 {
     auto name         = secretName(name_, true);
     auto userSettings = UserSettings::instance();
@@ -256,7 +256,7 @@ Cache::storeSecretInStore(const std::string name_, const std::string secret)
 }
 
 void
-Cache::deleteSecretFromStore(const std::string name, bool internal)
+MatrixStore::deleteSecretFromStore(const std::string name, bool internal)
 {
     auto name_        = secretName(name, internal);
     auto userSettings = UserSettings::instance();

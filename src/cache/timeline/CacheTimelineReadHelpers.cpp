@@ -23,7 +23,7 @@ constexpr size_t MAX_RESTORED_MESSAGES =
 #endif
 
 void
-Cache::deleteOldMessages()
+MatrixStore::deleteOldMessages()
 {
     auto txn      = beginTxn();
     auto room_ids = getRoomIds(txn);
@@ -60,7 +60,7 @@ Cache::deleteOldMessages()
 }
 
 void
-Cache::deleteOldData() noexcept
+MatrixStore::deleteOldData() noexcept
 {
     try {
         deleteOldMessages();
@@ -70,7 +70,7 @@ Cache::deleteOldData() noexcept
 }
 
 std::optional<mtx::events::collections::TimelineEvents>
-Cache::getEvent(const std::string &room_id, std::string_view event_id)
+MatrixStore::getEvent(const std::string &room_id, std::string_view event_id)
 {
     auto txn      = ro_txn(storage());
     auto eventsDb = getEventsDb(txn, room_id);
@@ -84,9 +84,9 @@ Cache::getEvent(const std::string &room_id, std::string_view event_id)
 }
 
 void
-Cache::storeEvent(const std::string &room_id,
-                  const std::string &event_id,
-                  const mtx::events::collections::TimelineEvents &event)
+MatrixStore::storeEvent(const std::string &room_id,
+                        const std::string &event_id,
+                        const mtx::events::collections::TimelineEvents &event)
 {
     auto txn        = beginTxn();
     auto eventsDb   = getEventsDb(txn, room_id);
@@ -96,7 +96,7 @@ Cache::storeEvent(const std::string &room_id,
 }
 
 std::vector<std::string>
-Cache::relatedEvents(const std::string &room_id, const std::string &event_id)
+MatrixStore::relatedEvents(const std::string &room_id, const std::string &event_id)
 {
     auto txn         = ro_txn(storage());
     auto relationsDb = getRelationsDb(txn, room_id);
@@ -110,7 +110,7 @@ Cache::relatedEvents(const std::string &room_id, const std::string &event_id)
 }
 
 std::string
-Cache::getLastEventId(db::Transaction &txn, const std::string &room_id)
+MatrixStore::getLastEventId(db::Transaction &txn, const std::string &room_id)
 {
     db::Store orderDb;
     try {
@@ -124,8 +124,8 @@ Cache::getLastEventId(db::Transaction &txn, const std::string &room_id)
     return db::lastTimelineEventId(txn, orderDb).value_or("");
 }
 
-std::optional<Cache::TimelineRange>
-Cache::getTimelineRange(const std::string &room_id)
+std::optional<MatrixStore::TimelineRange>
+MatrixStore::getTimelineRange(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
     db::Store orderDb;
@@ -145,7 +145,7 @@ Cache::getTimelineRange(const std::string &room_id)
 }
 
 std::optional<uint64_t>
-Cache::getTimelineIndex(const std::string &room_id, std::string_view event_id)
+MatrixStore::getTimelineIndex(const std::string &room_id, std::string_view event_id)
 {
     if (room_id.empty() || event_id.empty())
         return {};
@@ -165,7 +165,7 @@ Cache::getTimelineIndex(const std::string &room_id, std::string_view event_id)
 }
 
 std::optional<uint64_t>
-Cache::getEventIndex(const std::string &room_id, std::string_view event_id)
+MatrixStore::getEventIndex(const std::string &room_id, std::string_view event_id)
 {
     if (room_id.empty() || event_id.empty())
         return {};
@@ -185,7 +185,7 @@ Cache::getEventIndex(const std::string &room_id, std::string_view event_id)
 }
 
 std::optional<std::pair<uint64_t, std::string>>
-Cache::lastInvisibleEventAfter(const std::string &room_id, std::string_view event_id)
+MatrixStore::lastInvisibleEventAfter(const std::string &room_id, std::string_view event_id)
 {
     if (room_id.empty() || event_id.empty())
         return {};
@@ -215,7 +215,7 @@ Cache::lastInvisibleEventAfter(const std::string &room_id, std::string_view even
 }
 
 std::optional<std::pair<uint64_t, std::string>>
-Cache::lastVisibleEvent(const std::string &room_id, std::string_view event_id)
+MatrixStore::lastVisibleEvent(const std::string &room_id, std::string_view event_id)
 {
     if (room_id.empty() || event_id.empty())
         return {};
@@ -238,7 +238,7 @@ Cache::lastVisibleEvent(const std::string &room_id, std::string_view event_id)
 }
 
 std::optional<std::string>
-Cache::getTimelineEventId(const std::string &room_id, uint64_t index)
+MatrixStore::getTimelineEventId(const std::string &room_id, uint64_t index)
 {
     auto txn = ro_txn(storage());
     db::Store orderDb;

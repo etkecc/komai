@@ -10,26 +10,27 @@
 //! Get a specific state event
 template<typename T>
 std::optional<mtx::events::StateEvent<T>>
-Cache::getStateEvent(const std::string &room_id, std::string_view state_key)
+MatrixStore::getStateEvent(const std::string &room_id, std::string_view state_key)
 {
     auto txn = beginTxn(nullptr, db::TransactionFlags::ReadOnly);
     return getStateEvent<T>(txn, room_id, state_key);
 }
 template<typename T>
 std::vector<mtx::events::StateEvent<T>>
-Cache::getStateEventsWithType(const std::string &room_id, mtx::events::EventType type)
+MatrixStore::getStateEventsWithType(const std::string &room_id, mtx::events::EventType type)
 {
     auto txn = beginTxn(nullptr, db::TransactionFlags::ReadOnly);
     return getStateEventsWithType<T>(txn, room_id, type);
 }
 
 #define KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(Content)                                            \
-    template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>(        \
+    template std::optional<mtx::events::StateEvent<Content>> MatrixStore::getStateEvent<Content>(  \
       const std::string &room_id, std::string_view state_key);
 
 #define KOMAI_CACHE_GET_STATE_EVENTS_DEFINITION(Content)                                           \
-    template std::vector<mtx::events::StateEvent<Content>> Cache::getStateEventsWithType<Content>( \
-      const std::string &room_id, mtx::events::EventType type);
+    template std::vector<mtx::events::StateEvent<Content>>                                         \
+    MatrixStore::getStateEventsWithType<Content>(const std::string &room_id,                       \
+                                                 mtx::events::EventType type);
 
 KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::msc2545::ImagePack)
 KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::state::Aliases)

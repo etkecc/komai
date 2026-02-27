@@ -27,7 +27,9 @@
 
 template<typename T>
 std::optional<mtx::events::StateEvent<T>>
-Cache::getStateEvent(db::Transaction &txn, const std::string &room_id, std::string_view state_key)
+MatrixStore::getStateEvent(db::Transaction &txn,
+                           const std::string &room_id,
+                           std::string_view state_key)
 {
     try {
         constexpr auto type = mtx::events::state_content_to_type<T>;
@@ -62,9 +64,9 @@ Cache::getStateEvent(db::Transaction &txn, const std::string &room_id, std::stri
 
 template<typename T>
 std::vector<mtx::events::StateEvent<T>>
-Cache::getStateEventsWithType(db::Transaction &txn,
-                              const std::string &room_id,
-                              mtx::events::EventType type)
+MatrixStore::getStateEventsWithType(db::Transaction &txn,
+                                    const std::string &room_id,
+                                    mtx::events::EventType type)
 
 {
     if (room_id.empty())
@@ -93,10 +95,11 @@ Cache::getStateEventsWithType(db::Transaction &txn,
 }
 
 #define KOMAI_CACHE_GET_STATE_EVENT_TXN_DEFINITION(Content)                                        \
-    template std::optional<mtx::events::StateEvent<Content>> Cache::getStateEvent<Content>(        \
+    template std::optional<mtx::events::StateEvent<Content>> MatrixStore::getStateEvent<Content>(  \
       db::Transaction & txn, const std::string &room_id, std::string_view state_key);              \
                                                                                                    \
-    template std::vector<mtx::events::StateEvent<Content>> Cache::getStateEventsWithType<Content>( \
+    template std::vector<mtx::events::StateEvent<Content>>                                         \
+    MatrixStore::getStateEventsWithType<Content>(                                                  \
       db::Transaction & txn, const std::string &room_id, mtx::events::EventType type);
 
 KOMAI_CACHE_GET_STATE_EVENT_TXN_DEFINITION(mtx::events::msc2545::ImagePack)

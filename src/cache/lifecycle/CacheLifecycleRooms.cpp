@@ -25,8 +25,8 @@
 #include "db/SyncState.h"
 
 void
-Cache::removeLeftRooms(db::Transaction &txn,
-                       const std::map<std::string, mtx::responses::LeftRoom> &rooms)
+MatrixStore::removeLeftRooms(db::Transaction &txn,
+                             const std::map<std::string, mtx::responses::LeftRoom> &rooms)
 {
     for (const auto &room : rooms) {
         removeRoom(txn, room.first);
@@ -37,7 +37,7 @@ Cache::removeLeftRooms(db::Transaction &txn,
 }
 
 void
-Cache::removeInvite(db::Transaction &txn, const std::string &room_id)
+MatrixStore::removeInvite(db::Transaction &txn, const std::string &room_id)
 {
     db->invites.del(txn, room_id);
     getInviteStatesDb(txn, room_id).drop(txn, true);
@@ -45,7 +45,7 @@ Cache::removeInvite(db::Transaction &txn, const std::string &room_id)
 }
 
 void
-Cache::removeInvite(const std::string &room_id)
+MatrixStore::removeInvite(const std::string &room_id)
 {
     auto txn = beginTxn();
     removeInvite(txn, room_id);
@@ -53,7 +53,7 @@ Cache::removeInvite(const std::string &room_id)
 }
 
 void
-Cache::removeRoom(db::Transaction &txn, const std::string &roomid)
+MatrixStore::removeRoom(db::Transaction &txn, const std::string &roomid)
 {
     db->rooms.del(txn, roomid);
     getStatesDb(txn, roomid).drop(txn, true);
@@ -62,7 +62,7 @@ Cache::removeRoom(db::Transaction &txn, const std::string &roomid)
 }
 
 void
-Cache::removeRoom(const std::string &roomid)
+MatrixStore::removeRoom(const std::string &roomid)
 {
     auto txn = beginTxn();
     db->rooms.del(txn, roomid);
@@ -70,13 +70,13 @@ Cache::removeRoom(const std::string &roomid)
 }
 
 void
-Cache::setNextBatchToken(db::Transaction &txn, const std::string &token)
+MatrixStore::setNextBatchToken(db::Transaction &txn, const std::string &token)
 {
     db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch, token);
 }
 
 bool
-Cache::isInitialized()
+MatrixStore::isInitialized()
 {
     if (!db::isOpen(storage()))
         return false;
@@ -87,7 +87,7 @@ Cache::isInitialized()
 }
 
 std::string
-Cache::nextBatchToken()
+MatrixStore::nextBatchToken()
 {
     if (!db::isOpen(storage()))
         throw std::runtime_error("Storage backend is closed");
@@ -98,7 +98,7 @@ Cache::nextBatchToken()
 }
 
 void
-Cache::deleteData()
+MatrixStore::deleteData()
 {
     if (this->databaseReady_) {
         this->databaseReady_ = false;
@@ -117,7 +117,7 @@ Cache::deleteData()
 }
 
 cache::UserReceipts
-Cache::readReceipts(const QString &event_id, const QString &room_id)
+MatrixStore::readReceipts(const QString &event_id, const QString &room_id)
 {
     cache::UserReceipts receipts;
 
@@ -147,7 +147,9 @@ Cache::readReceipts(const QString &event_id, const QString &room_id)
 }
 
 void
-Cache::updateReadReceipt(db::Transaction &txn, const std::string &room_id, const Receipts &receipts)
+MatrixStore::updateReadReceipt(db::Transaction &txn,
+                               const std::string &room_id,
+                               const Receipts &receipts)
 {
     auto user_id = this->localUserId_.toStdString();
     for (const auto &receipt : receipts) {
@@ -190,7 +192,7 @@ Cache::updateReadReceipt(db::Transaction &txn, const std::string &room_id, const
 }
 
 std::string
-Cache::getFullyReadEventId(const std::string &room_id)
+MatrixStore::getFullyReadEventId(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
 
@@ -205,7 +207,7 @@ Cache::getFullyReadEventId(const std::string &room_id)
 }
 
 void
-Cache::calculateRoomReadStatus()
+MatrixStore::calculateRoomReadStatus()
 {
     const auto joined_rooms = joinedRooms();
 
@@ -218,7 +220,7 @@ Cache::calculateRoomReadStatus()
 }
 
 bool
-Cache::calculateRoomReadStatus(const std::string &room_id)
+MatrixStore::calculateRoomReadStatus(const std::string &room_id)
 {
     std::string last_event_id_, fullyReadEventId_;
     {

@@ -14,13 +14,13 @@
 #include "cache/api/CacheApiContext.h"
 
 std::string
-Cache::pickleSecret()
+MatrixStore::pickleSecret()
 {
     return pickle_secret_;
 }
 
 std::string
-Cache::createPickleSecret()
+MatrixStore::createPickleSecret()
 {
     if (!this->pickle_secret_.empty()) {
         cache::activeLoggers().crypto->warn(

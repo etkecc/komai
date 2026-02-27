@@ -146,9 +146,8 @@ void
 Cache::saveBackupVersion(const OnlineBackupVersion &data)
 {
     auto txn = beginTxn();
-    const auto key =
-      db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
-    db::putJsonValue(txn, db->syncState, key, data);
+    db::putSyncStateJsonValue(
+      txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion, data);
     txn.commit();
 }
 
@@ -165,10 +164,9 @@ std::optional<OnlineBackupVersion>
 Cache::backupVersion()
 {
     try {
-        auto txn = ro_txn(storage());
-        const auto key =
-          db::catalog::syncStateKey(db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
-        auto value = db::getJsonValue<OnlineBackupVersion>(txn, db->syncState, key);
+        auto txn   = ro_txn(storage());
+        auto value = db::getSyncStateJsonValue<OnlineBackupVersion>(
+          txn, db->syncState, db::catalog::SyncStateKey::CurrentOnlineBackupVersion);
         if (!value)
             return std::nullopt;
 

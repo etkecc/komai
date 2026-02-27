@@ -10,6 +10,7 @@
 #include <string_view>
 
 #include "db/Catalog.h"
+#include "db/Json.h"
 
 namespace db {
 
@@ -54,5 +55,29 @@ putSyncStateSecretValue(Transaction &txn,
 
 bool
 removeSyncStateSecretValue(Transaction &txn, Store &syncStateDb, std::string_view secretName);
+
+template<typename T>
+bool
+getSyncStateJsonValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key, T &value)
+{
+    return getJsonValue(txn, syncStateDb, catalog::syncStateKey(key), value);
+}
+
+template<typename T>
+std::optional<T>
+getSyncStateJsonValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key)
+{
+    return getJsonValue<T>(txn, syncStateDb, catalog::syncStateKey(key));
+}
+
+template<typename T>
+void
+putSyncStateJsonValue(Transaction &txn,
+                      Store &syncStateDb,
+                      catalog::SyncStateKey key,
+                      const T &value)
+{
+    putJsonValue(txn, syncStateDb, catalog::syncStateKey(key), value);
+}
 
 } // namespace db

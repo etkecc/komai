@@ -100,7 +100,7 @@ Item {
         spacing: 0
         visible: room != null && !room.isSpace
 
-        TopBar {
+        TimelineRoomHeader {
             id: topBar
 
             showBackButton: timelineView.showBackButton

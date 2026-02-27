@@ -83,8 +83,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // MaxContentWidth
     { QT_TR_NOOP("Maximum content width"),
-      QT_TR_NOOP(
-        "Set the maximum width (in pixels) for app content, including timeline messages. Use 0 for uncapped; minimum effective value is 560."),
+      nullptr,
       SM::IntegerWithDescription, SM::TabLookFeel,
       getCoreIntValue<settings::core::SettingId::UiLayoutContentMaxWidthPx,
                       &UserSettings::uiLayoutContentMaxWidthPx>,

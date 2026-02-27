@@ -28,7 +28,7 @@ inline constexpr bool kDefaultNetworkHttp3Enabled               = false;
 inline constexpr double kDefaultScaleFactor                     = -1.0;
 inline constexpr double kDefaultFontSizePt                      = 13.0;
 inline constexpr int kDefaultUiLayoutContentMaxWidthPx          = 0;
-inline constexpr int kMinUiLayoutContentMaxWidthPx              = 560;
+inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx     = 500;
 inline constexpr int kDefaultScreenShareFrameRate               = 5;
 inline constexpr bool kDefaultScreenShareShowCursor             = true;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
@@ -177,10 +177,19 @@ normalizeWindowHeightPx(int value)
 [[nodiscard]] constexpr int
 normalizeUiLayoutContentMaxWidthPx(int value)
 {
-    if (value <= 0)
-        return kDefaultUiLayoutContentMaxWidthPx;
+    return value > 0 ? value : kDefaultUiLayoutContentMaxWidthPx;
+}
 
-    return value < kMinUiLayoutContentMaxWidthPx ? kMinUiLayoutContentMaxWidthPx : value;
+[[nodiscard]] constexpr int
+effectiveUiLayoutContentMaxWidthPx(int value)
+{
+    const auto normalized = normalizeUiLayoutContentMaxWidthPx(value);
+    if (normalized <= 0)
+        return normalized;
+
+    return normalized < kMinEffectiveUiLayoutContentMaxWidthPx
+             ? kMinEffectiveUiLayoutContentMaxWidthPx
+             : normalized;
 }
 
 } // namespace settings::core::definitions

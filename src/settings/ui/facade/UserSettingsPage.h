@@ -123,6 +123,10 @@ class UserSettings final : public QObject
         setPrivacyWindowFocusBlurDelaySeconds NOTIFY privacyWindowFocusBlurDelaySecondsChanged)
     Q_PROPERTY(int uiLayoutContentMaxWidthPx READ uiLayoutContentMaxWidthPx WRITE
                  setUiLayoutContentMaxWidthPx NOTIFY uiLayoutContentMaxWidthPxChanged)
+    Q_PROPERTY(int uiLayoutContentMaxWidthEffectivePx READ uiLayoutContentMaxWidthEffectivePx NOTIFY
+                 uiLayoutContentMaxWidthPxChanged)
+    Q_PROPERTY(
+      int uiLayoutContentMaxWidthMinEffectivePx READ uiLayoutContentMaxWidthMinEffectivePx CONSTANT)
     Q_PROPERTY(int sidebarsRoomListWidthPx READ sidebarsRoomListWidthPx WRITE
                  setSidebarsRoomListWidthPx NOTIFY sidebarsRoomListWidthPxChanged)
     Q_PROPERTY(int sidebarsCommunitiesWidthPx READ sidebarsCommunitiesWidthPx WRITE

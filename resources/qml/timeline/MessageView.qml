@@ -54,7 +54,7 @@ Item {
     ListView {
         id: chat
 
-        property int delegateMaxWidth: ((Settings.uiLayoutContentMaxWidthPx > 100 && Settings.uiLayoutContentMaxWidthPx < chatRoot.availableWidth) ? Settings.uiLayoutContentMaxWidthPx : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
+        property int delegateMaxWidth: ((Settings.uiLayoutContentMaxWidthEffectivePx > 0 && Settings.uiLayoutContentMaxWidthEffectivePx < chatRoot.availableWidth) ? Settings.uiLayoutContentMaxWidthEffectivePx : chatRoot.availableWidth) - chatRoot.padding * 2 - (scrollbar.interactive ? scrollbar.width : 0)
 
         ScrollBar.vertical: scrollbar
         anchors.fill: parent

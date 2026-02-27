@@ -38,7 +38,7 @@ Item {
             id: grid
 
             spacing: 0
-            property real contentMaxWidth: Settings.uiLayoutContentMaxWidthPx > 0 ? Settings.uiLayoutContentMaxWidthPx : Number.POSITIVE_INFINITY
+            property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
             property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
             property int settingRowStackBreakpoint: 700
             width: Math.max(0, scroll.width - sideMargin * 2)

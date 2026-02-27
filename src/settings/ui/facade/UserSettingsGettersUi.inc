@@ -37,3 +37,5 @@
     bool notificationsAttentionOnIncoming() const;
     bool hasNotifications() const;
     int uiLayoutContentMaxWidthPx() const;
+    int uiLayoutContentMaxWidthEffectivePx() const;
+    int uiLayoutContentMaxWidthMinEffectivePx() const;

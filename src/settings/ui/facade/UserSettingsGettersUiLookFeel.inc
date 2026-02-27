@@ -56,6 +56,19 @@ UserSettings::uiLayoutContentMaxWidthPx() const
       uiLayoutContentMaxWidthPx_);
 }
 
+int
+UserSettings::uiLayoutContentMaxWidthEffectivePx() const
+{
+    return settings::core::definitions::effectiveUiLayoutContentMaxWidthPx(
+      uiLayoutContentMaxWidthPx());
+}
+
+int
+UserSettings::uiLayoutContentMaxWidthMinEffectivePx() const
+{
+    return settings::core::definitions::kMinEffectiveUiLayoutContentMaxWidthPx;
+}
+
 bool
 UserSettings::uiLayoutCompactMode() const
 {

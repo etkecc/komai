@@ -54,7 +54,7 @@ Target `db/storage/*` groups and ownership map:
   - Backed by: `OlmSessionIndex.h/.cpp`, `MegolmIndex.h/.cpp`, `ReadReceiptIndex.h/.cpp`.
 - `db/storage/Serde.h`
   - Owns: typed value JSON serde helpers used across storage helpers.
-  - Backed by: `Json.h`, `Serde.h`, `MemberInfo.h/.cpp`, `RoomInfo.h/.cpp`.
+  - Backed by: `Json.h`, `Serde.h`.
 
 Compatibility:
 

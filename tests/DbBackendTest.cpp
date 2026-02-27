@@ -32,6 +32,7 @@
 #include "db/ReadReceiptIndex.h"
 #include "db/RoomInfo.h"
 #include "db/Scan.h"
+#include "db/Schema.h"
 #include "db/StateIndex.h"
 #include "db/SyncState.h"
 #include "db/TimelineIndex.h"
@@ -283,7 +284,7 @@ testSchemaHelpers()
 {
     bool ok = true;
 
-    const auto roomDbs = db::maintenance::roomDbsForFullResync();
+    const auto roomDbs = db::roomDbsForFullResync();
     ok &= expect(!roomDbs.empty(), "schema helper exposes non-empty full-resync room db list");
     ok &= expect(std::find(roomDbs.begin(), roomDbs.end(), db::catalog::RoomDb::Events) != roomDbs.end(),
                  "schema helper list includes RoomDb::Events");
@@ -310,7 +311,7 @@ testSchemaHelpers()
     {
         auto txn = db::beginWriteTransaction(*backend);
         std::string error;
-        ok &= expect(db::maintenance::tryDropNamedStore(*backend, txn, eventsDbi, &error),
+        ok &= expect(db::tryDropNamedStore(*backend, txn, eventsDbi, &error),
                      "schema helper drops existing named db");
         ok &= expect(error.empty(), "schema helper keeps error empty on successful drop");
         txn.commit();
@@ -319,7 +320,7 @@ testSchemaHelpers()
     {
         auto txn = db::beginWriteTransaction(*backend);
         std::string error;
-        ok &= expect(!db::maintenance::tryDropNamedStore(*backend, txn, eventsDbi, &error),
+        ok &= expect(!db::tryDropNamedStore(*backend, txn, eventsDbi, &error),
                      "schema helper reports false when named db is missing");
         ok &= expect(!error.empty(), "schema helper reports error string when drop fails");
     }
@@ -337,7 +338,7 @@ testSchemaHelpers()
         auto txn = db::beginWriteTransaction(*backend);
         std::string error;
         const bool migrated =
-          db::maintenance::migrateLegacyStateByKeyToStatesKey(*backend, txn, legacyRoom, &error);
+          db::migrateLegacyStateByKeyToStatesKey(*backend, txn, legacyRoom, &error);
         ok &= expect(migrated, "schema helper migrates legacy state-by-key db");
         ok &= expect(error.empty(), "schema helper leaves error empty on state-by-key success");
         txn.commit();
@@ -373,7 +374,7 @@ testSchemaHelpers()
     {
         auto txn = db::beginWriteTransaction(*backend);
         std::string error;
-        ok &= expect(!db::maintenance::migrateLegacyStateByKeyToStatesKey(*backend, txn, brokenRoom, &error),
+        ok &= expect(!db::migrateLegacyStateByKeyToStatesKey(*backend, txn, brokenRoom, &error),
                      "schema helper reports false for invalid state-by-key payload");
         ok &= expect(!error.empty(), "schema helper provides error text on state-by-key failure");
     }
@@ -399,7 +400,7 @@ testSchemaHelpers()
     {
         auto txn = db::beginWriteTransaction(*backend);
         std::string error;
-        ok &= expect(db::maintenance::migrateLegacyMegolmSessionIndexes(*backend, txn, &error),
+        ok &= expect(db::migrateLegacyMegolmSessionIndexes(*backend, txn, &error),
                      "schema helper migrates legacy megolm index keys");
         ok &= expect(error.empty(), "schema helper leaves error empty on megolm index migration");
         txn.commit();
@@ -435,7 +436,7 @@ testSchemaHelpers()
         ok &= expect(inbound.put(txn, "{bad-json", "pickle"),
                      "schema helper setup inserts invalid megolm key payload");
         std::string error;
-        ok &= expect(!db::maintenance::migrateLegacyMegolmSessionIndexes(*backend, txn, &error),
+        ok &= expect(!db::migrateLegacyMegolmSessionIndexes(*backend, txn, &error),
                      "schema helper reports false for invalid megolm key payload");
         ok &= expect(!error.empty(), "schema helper provides error text on megolm migration failure");
     }
@@ -468,7 +469,7 @@ testLegacyOlmMigrationHelpers()
 
     {
         auto txn = db::beginWriteTransaction(*backend);
-        db::maintenance::migrateLegacyOlmShardsV1ToV2(*backend, txn);
+        db::migrateLegacyOlmShardsV1ToV2(*backend, txn);
         txn.commit();
     }
 
@@ -493,7 +494,7 @@ testLegacyOlmMigrationHelpers()
                      "legacy olm v2 setup puts migrated-style payload");
 
         auto unified = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
-        ok &= expect(db::maintenance::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
+        ok &= expect(db::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
                      "legacy olm v2->v3 helper reports migration happened");
         txn.commit();
     }
@@ -513,7 +514,7 @@ testLegacyOlmMigrationHelpers()
     {
         auto txn     = db::beginWriteTransaction(*backend);
         auto unified = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
-        ok &= expect(!db::maintenance::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
+        ok &= expect(!db::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
                      "legacy olm v2->v3 helper reports no-op when no shards exist");
         txn.commit();
     }

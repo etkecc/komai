@@ -64,6 +64,8 @@ Database user-id component:
 - Compaction is backend-capability-driven (`Backend::supportsCompaction()`):
   enabled for `lmdb` when present, skipped for `memory`.
 - Cross-backend data copy used by compaction is implemented in `src/db/Maintenance.cpp` (`db::compact(...)`).
+- `src/db/Maintenance.*` is reserved for backend maintenance helpers (capability checks/compaction),
+  while Matrix migration orchestration belongs to `src/cache/schema/Migrations.h`.
 - Selection is delegated to `src/db/Factory.cpp`
   (`db::createDefaultBackend(...)` and `db::createConfiguredBackend(...)`),
   while backend implementations live under `src/db/`.
@@ -193,7 +195,7 @@ Database user-id component:
   - `State.h`: state-event index helpers
   - `SyncState.h`: sync-state typed helper surface
   - `Crypto.h`: OLM/Megolm/read-receipt helper surface
-  - `Serde.h`: typed JSON/value codecs (`Json`, `RoomInfo`, `MemberInfo`, `toSv`)
+  - `Serde.h`: typed JSON/value helpers (`Json`, `toSv`)
 - `src/db/StorageApi.h` remains a compatibility umbrella over these focused headers.
 
 ### Migration Note
@@ -205,6 +207,8 @@ Database user-id component:
   - `#include "db/storage/SyncState.h"` for sync-state utilities
 - Cache code should use `src/cache/schema/CacheSchema.h` for Matrix schema mapping/wrappers
   instead of using `db::catalog::*` directly.
+- Cache code should use `src/cache/schema/Codecs.h` (`cache::codec::*`) for `RoomInfo`/`MemberInfo`
+  serialization helpers instead of importing those domain codecs from `src/db/storage/Serde.h`.
 
 ## Prefixes
 

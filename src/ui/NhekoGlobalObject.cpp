@@ -152,7 +152,12 @@ int
 Nheko::listIconSize() const
 {
     QFontMetricsF fm(QGuiApplication::font());
-    return qMax(1, qCeil(fm.lineSpacing() * sidebarAvatarMultiplier()));
+    const int rawSize = qMax(1, qCeil(fm.lineSpacing() * sidebarAvatarMultiplier()));
+    // Keep icon metrics on whole-pixel circles to avoid asymmetric 1px borders
+    // in avatar-based controls when compact sizing produces odd values.
+    if (rawSize <= 1)
+        return 1;
+    return rawSize - (rawSize % 2);
 }
 
 // Shared baseline used to keep room-list and communities rows aligned with
@@ -168,10 +173,17 @@ Nheko::navigationRowHeight() const
 // Icon size for action bars (top bar, room list actions bar).
 // In compact mode, matches listIconSize so bars align with list entries.
 // In spacious mode, uses the constant avatarSize (40px).
+// Normalize to an even value to avoid half-pixel border/render artifacts in
+// composite icon controls that animate or apply layer effects.
 int
 Nheko::barIconSize() const
 {
-    return uiLayoutCompactMode() ? listIconSize() : avatarSize();
+    const int rawSize = uiLayoutCompactMode() ? listIconSize() : avatarSize();
+    // barIconSize is used by top/room action bar icon composites; forcing an
+    // even size prevents half-pixel placement with borders + transforms.
+    if (rawSize <= 1)
+        return 1;
+    return rawSize - (rawSize % 2);
 }
 
 void

@@ -37,6 +37,42 @@ removeSyncStateValue(Txn &txn, Store &syncStateDb, catalog::SyncStateKey key)
     return syncStateDb.del(txn, catalog::syncStateKey(key));
 }
 
+std::optional<std::string>
+getNextBatchToken(Txn &txn, Store &syncStateDb)
+{
+    return getSyncStateValue(txn, syncStateDb, catalog::SyncStateKey::NextBatch);
+}
+
+void
+putNextBatchToken(Txn &txn, Store &syncStateDb, std::string_view token)
+{
+    putSyncStateValue(txn, syncStateDb, catalog::SyncStateKey::NextBatch, token);
+}
+
+std::optional<std::string>
+getCacheFormatVersion(Txn &txn, Store &syncStateDb)
+{
+    return getSyncStateValue(txn, syncStateDb, catalog::SyncStateKey::CacheFormatVersion);
+}
+
+void
+putCacheFormatVersion(Txn &txn, Store &syncStateDb, std::string_view version)
+{
+    putSyncStateValue(txn, syncStateDb, catalog::SyncStateKey::CacheFormatVersion, version);
+}
+
+std::optional<std::string>
+getOlmAccount(Txn &txn, Store &syncStateDb)
+{
+    return getSyncStateValue(txn, syncStateDb, catalog::SyncStateKey::OlmAccount);
+}
+
+void
+putOlmAccount(Txn &txn, Store &syncStateDb, std::string_view account)
+{
+    putSyncStateValue(txn, syncStateDb, catalog::SyncStateKey::OlmAccount, account);
+}
+
 bool
 getSyncStateSecretValue(Txn &txn,
                         Store &syncStateDb,

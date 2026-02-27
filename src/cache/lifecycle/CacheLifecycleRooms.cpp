@@ -72,7 +72,7 @@ MatrixStore::removeRoom(const std::string &roomid)
 void
 MatrixStore::setNextBatchToken(db::Transaction &txn, const std::string &token)
 {
-    db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch, token);
+    db::putNextBatchToken(txn, db->syncState, token);
 }
 
 bool
@@ -82,8 +82,7 @@ MatrixStore::isInitialized()
         return false;
 
     auto txn = ro_txn(storage());
-    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
-      .has_value();
+    return db::getNextBatchToken(txn, db->syncState).has_value();
 }
 
 std::string
@@ -93,8 +92,7 @@ MatrixStore::nextBatchToken()
         throw std::runtime_error("Storage backend is closed");
 
     auto txn = ro_txn(storage());
-    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::NextBatch)
-      .value_or("");
+    return db::getNextBatchToken(txn, db->syncState).value_or("");
 }
 
 void

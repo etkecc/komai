@@ -44,12 +44,10 @@ MatrixStore::roomVerificationStatus(const std::string &room_id)
           });
 
         if (!keysToRequest.empty()) {
-            markUserKeysOutOfDate(
-              txn,
-              keysDb,
-              keysToRequest,
-              db::getSyncStateValue(txn, this->db->syncState, db::catalog::SyncStateKey::NextBatch)
-                .value_or(""));
+            markUserKeysOutOfDate(txn,
+                                  keysDb,
+                                  keysToRequest,
+                                  db::getNextBatchToken(txn, this->db->syncState).value_or(""));
         }
 
     } catch (std::exception &e) {

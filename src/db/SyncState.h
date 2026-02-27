@@ -38,6 +38,24 @@ putSyncStateValue(Transaction &txn,
 bool
 removeSyncStateValue(Transaction &txn, Store &syncStateDb, catalog::SyncStateKey key);
 
+std::optional<std::string>
+getNextBatchToken(Transaction &txn, Store &syncStateDb);
+
+void
+putNextBatchToken(Transaction &txn, Store &syncStateDb, std::string_view token);
+
+std::optional<std::string>
+getCacheFormatVersion(Transaction &txn, Store &syncStateDb);
+
+void
+putCacheFormatVersion(Transaction &txn, Store &syncStateDb, std::string_view version);
+
+std::optional<std::string>
+getOlmAccount(Transaction &txn, Store &syncStateDb);
+
+void
+putOlmAccount(Transaction &txn, Store &syncStateDb, std::string_view account);
+
 bool
 getSyncStateSecretValue(Transaction &txn,
                         Store &syncStateDb,

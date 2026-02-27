@@ -41,9 +41,8 @@ MatrixStore::runMigrations()
 {
     std::string stored_version;
     {
-        auto txn = ro_txn(storage());
-        auto currentVersion =
-          db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
+        auto txn            = ro_txn(storage());
+        auto currentVersion = db::getCacheFormatVersion(txn, db->syncState);
 
         if (!currentVersion.has_value())
             return false;
@@ -137,9 +136,8 @@ MatrixStore::runMigrations()
 cache::CacheVersion
 MatrixStore::formatVersion()
 {
-    auto txn = ro_txn(storage());
-    auto currentVersion =
-      db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::CacheFormatVersion);
+    auto txn            = ro_txn(storage());
+    auto currentVersion = db::getCacheFormatVersion(txn, db->syncState);
     if (!currentVersion.has_value())
         return cache::CacheVersion::Older;
 
@@ -157,10 +155,7 @@ void
 MatrixStore::setCurrentFormat()
 {
     auto txn = beginTxn();
-    db::putSyncStateValue(txn,
-                          db->syncState,
-                          db::catalog::SyncStateKey::CacheFormatVersion,
-                          CURRENT_CACHE_FORMAT_VERSION);
+    db::putCacheFormatVersion(txn, db->syncState, CURRENT_CACHE_FORMAT_VERSION);
 
     txn.commit();
 }

@@ -136,7 +136,7 @@ void
 MatrixStore::saveOlmAccount(const std::string &data)
 {
     auto txn = beginTxn();
-    db::putSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount, data);
+    db::putOlmAccount(txn, db->syncState, data);
     txn.commit();
 }
 
@@ -144,8 +144,7 @@ std::string
 MatrixStore::restoreOlmAccount()
 {
     auto txn = ro_txn(storage());
-    return db::getSyncStateValue(txn, db->syncState, db::catalog::SyncStateKey::OlmAccount)
-      .value_or("");
+    return db::getOlmAccount(txn, db->syncState).value_or("");
 }
 
 void

@@ -8,6 +8,7 @@ import QtQuick
 import QtQuick.Controls
 import im.nheko
 import "../../dialogs"
+import "../../dialogs/moderation"
 
 Button {
     text: qsTr("Manage")

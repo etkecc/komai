@@ -8,6 +8,7 @@ import "./styles/plain"
 import "../components"
 import "../ui"
 import "../dialogs"
+import "../dialogs/moderation"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2

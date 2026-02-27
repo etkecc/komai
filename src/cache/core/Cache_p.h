@@ -19,7 +19,7 @@
 #include <mtxclient/http/errors.hpp>
 
 #include "CacheStorageContext.h"
-#include "CacheTxnHelpers.h"
+#include "CacheTxn.h"
 #include "MatrixStateTypes.h"
 #include "cache/core/CacheVersion.h"
 #include "cache/crypto/CacheCryptoStructs.h"

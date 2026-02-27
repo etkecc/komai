@@ -555,7 +555,7 @@ set(SRC_FILES
     src/cache/crypto/CacheCryptoStructs.h
     src/cache/core/CacheVersion.h
     src/cache/core/CacheStorageContext.h
-    src/cache/core/CacheTxnHelpers.h
+    src/cache/core/CacheTxn.h
     src/cache/core/Cache_p.h
     src/db/InMemoryBackend.h
     src/db/LmdbBackend.h

@@ -5,8 +5,8 @@
 import QtQml
 
 QtObject {
-    readonly property string forwardCompleter: "qrc:/resources/qml/dialogs/ForwardCompleter.qml"
-    readonly property string quickSwitcher: "qrc:/resources/qml/dialogs/QuickSwitcher.qml"
+    readonly property string forwardCompleter: "qrc:/resources/qml/dialogs/navigation/ForwardCompleter.qml"
+    readonly property string quickSwitcher: "qrc:/resources/qml/dialogs/navigation/QuickSwitcher.qml"
 
     readonly property string roomAliasEditorDialog: "qrc:/resources/qml/dialogs/room/AliasEditor.qml"
     readonly property string roomAllowedRoomsSettingsDialog: "qrc:/resources/qml/dialogs/room/AllowedRoomsSettingsDialog.qml"

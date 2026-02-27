@@ -16,6 +16,7 @@ import im.nheko
 Pane {
     id: timelineRoot
     property var activeImageOverlay: null
+    property color overlayBackdropColor: Qt.rgba(0.2, 0.2, 0.2, 0.7)
 
     function adjustFontSize(step) {
         const minFontSizePt = 6;
@@ -317,12 +318,12 @@ Pane {
                         "timelineContext": timeline ?? null,
                         "timelineViewContext": timelineView ?? null,
                         "popupParent": timelineRoot,
-                        "modalOverlayColor": Qt.rgba(timelineRoot.palette.window.r, timelineRoot.palette.window.g, timelineRoot.palette.window.b, 0.7),
-                        "actionButtonColor": timelineRoot.palette.text,
-                        "actionButtonHoverColor": timelineRoot.palette.highlight,
-                        "actionBarColor": Qt.rgba(timelineRoot.palette.alternateBase.r, timelineRoot.palette.alternateBase.g, timelineRoot.palette.alternateBase.b, 0.75),
-                        "actionButtonHoverBackgroundColor": Qt.rgba(timelineRoot.palette.dark.r, timelineRoot.palette.dark.g, timelineRoot.palette.dark.b, 0.8)
-                });
+                        "modalOverlayColor": timelineRoot.overlayBackdropColor,
+                        "actionButtonColor": "white",
+                        "actionButtonHoverColor": "white",
+                        "actionBarColor": Qt.rgba(0, 0, 0, 0.35),
+                        "actionButtonHoverBackgroundColor": Qt.rgba(0, 0, 0, 0.45)
+                    });
                 timelineRoot.activeImageOverlay = dialog;
                 dialog.visibleChanged.connect(() => {
                     if (!dialog.visible && timelineRoot.activeImageOverlay === dialog)

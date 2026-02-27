@@ -50,7 +50,7 @@ Popup {
     y: Math.round(parent.height / 4)
 
     Overlay.modal: Rectangle {
-        color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.7)
+        color: timelineRoot.overlayBackdropColor
     }
     background: Rectangle {
         color: palette.alternateBase

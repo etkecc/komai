@@ -29,7 +29,7 @@ Popup {
     y: Math.round(parent.height / 4)
 
     Overlay.modal: Rectangle {
-        color: "#aa1E1E1E"
+        color: timelineRoot.overlayBackdropColor
     }
 
     onClosed: TimelineManager.focusMessageInput()

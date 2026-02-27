@@ -57,7 +57,7 @@ Popup {
     parent: Overlay.overlay
 
     Overlay.modal: Rectangle {
-        color: "#aa1E1E1E"
+        color: timelineRoot.overlayBackdropColor
     }
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     width: sidebarAvatarSize + Nheko.paddingSmall + stickersPerRow * stickerDimPad + 20 + padding * 2

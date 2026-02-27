@@ -18,8 +18,8 @@ Those belong to `src/db`.
 ## Module Layout (`src/cache/`)
 
 - `Cache.h` - public module entry header for application-facing cache APIs.
-- `api/` - compatibility wrappers and externally-facing cache entry points.
-- `core/` - core cache class/state and shared helpers.
+- `api/` - wrapper API declarations and externally-facing cache entry points.
+- `core/` - core store implementation and shared helpers (`core/Cache.h` is a compatibility shim).
 - `setup/` - cache startup/open/compaction/setup wiring.
 - `lifecycle/` - migration and sync/lifecycle orchestration.
 - `timeline/` - timeline persistence/index/read/pending flows.

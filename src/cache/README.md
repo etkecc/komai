@@ -16,6 +16,7 @@ Boundary rules:
 Public entry header:
 
 - Include `cache/Cache.h` for application-facing cache APIs.
+- Internal wrapper declaration surface lives in `cache/api/CacheApi.h`.
 
 Architecture docs:
 

@@ -13,6 +13,10 @@ Boundary rules:
 - `src/cache` may depend on `src/db`.
 - `src/db` must not depend on `src/cache` or Matrix/UI domain objects.
 
+Public entry header:
+
+- Include `cache/Cache.h` for application-facing cache APIs.
+
 Architecture docs:
 
 - [Cache Architecture](../../docs/architecture/cache/README.md)

@@ -17,4 +17,5 @@ This map documents the first-stage move from top-level `src/Cache*` files to the
 
 ## Include Policy
 
-- Internal and external project code should include `cache/*` headers directly.
+- Application-facing call sites should include `cache/Cache.h`.
+- Cache-module internals may include narrower `cache/*` submodule headers where needed.

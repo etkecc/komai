@@ -17,6 +17,7 @@ Those belong to `src/db`.
 
 ## Module Layout (`src/cache/`)
 
+- `Cache.h` - public module entry header for application-facing cache APIs.
 - `api/` - compatibility wrappers and externally-facing cache entry points.
 - `core/` - core cache class/state and shared helpers.
 - `setup/` - cache startup/open/compaction/setup wiring.

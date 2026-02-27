@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import ".."
+import "./components"
 import "../components"
 import "../dialogs/common"
 import "../dialogs/room"
@@ -634,109 +635,11 @@ Page {
             DetachedRoomWindow {
             }
         }
-        Menu {
+        RoomListContextMenu {
             id: roomContextMenu
 
-            property string roomid
-            property var tags
-
-            function show(parent, roomid_, tags_) {
-                roomid = roomid_;
-                tags = tags_;
-                popup(parent);
-            }
-
-            Component.onCompleted: {
-                if (roomContextMenu.popupType != undefined) {
-                    roomContextMenu.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
-                }
-            }
-
-            InputDialog {
-                id: newTag
-
-                prompt: qsTr("Enter the tag you want to use:")
-                title: qsTr("New tag")
-
-                onAccepted: function (text) {
-                    Rooms.toggleTag(roomContextMenu.roomid, "u." + text, true);
-                }
-            }
-            MenuItem {
-                text: qsTr("Open separately")
-
-                onTriggered: {
-                    var roomWindow = roomWindowComponent.createObject(null, {
-                            "room": Rooms.getRoomById(roomContextMenu.roomid),
-                            "roomPreview": Rooms.getRoomPreviewById(roomContextMenu.roomid)
-                        });
-                    roomWindow.showNormal();
-                    destroyOnClose(roomWindow);
-                }
-            }
-            MenuItem {
-                text: qsTr("Mark as read")
-
-                onTriggered: Rooms.getRoomById(roomContextMenu.roomid).markRoomAsRead()
-            }
-            MenuItem {
-                text: qsTr("Room settings")
-
-                onTriggered: TimelineManager.openRoomSettings(roomContextMenu.roomid)
-            }
-            MenuItem {
-                text: qsTr("Leave room")
-
-                onTriggered: TimelineManager.openLeaveRoomDialog(roomContextMenu.roomid)
-            }
-            MenuItem {
-                text: qsTr("Copy room link")
-
-                onTriggered: Rooms.copyLink(roomContextMenu.roomid)
-            }
-            Menu {
-                id: tagsMenu
-
-                title: qsTr("Tag room as:")
-
-                Instantiator {
-                    model: Communities.tagsWithDefault
-
-                    delegate: MenuItem {
-                        property string t: modelData
-
-                        checkable: true
-                        checked: roomContextMenu.tags !== undefined && roomContextMenu.tags.includes(t)
-                        text: {
-                            switch (t) {
-                            case "m.favourite":
-                                return qsTr("Favourite");
-                            case "m.lowpriority":
-                                return qsTr("Low priority");
-                            case "m.server_notice":
-                                return qsTr("Server notice");
-                            default:
-                                return t.substring(2);
-                            }
-                        }
-
-                        onTriggered: Rooms.toggleTag(roomContextMenu.roomid, t, checked)
-                    }
-
-                    onObjectAdded: (index, object) => tagsMenu.insertItem(index, object)
-                    onObjectRemoved: (index, object) => tagsMenu.removeItem(object)
-                }
-                MenuItem {
-                    text: qsTr("Create new tag...")
-
-                    onTriggered: newTag.show()
-                }
-            }
-            SpaceMenu {
-                id: rootSpaceMenu
-
-                roomid: roomContextMenu.roomid
-            }
+            timelineRoot: timelineRoot
+            roomWindowComponent: roomWindowComponent
         }
     }
 }

@@ -522,8 +522,7 @@ set(SRC_FILES
     src/cache/spaces/CacheSpaces.cpp
     src/cache/spaces/CacheSpacesImagePacks.cpp
     src/cache/timeline/CacheTimeline.cpp
-    src/cache/timeline/CacheTimelineHelpers.cpp
-    src/cache/timeline/CacheTimelineReadHelpers.cpp
+    src/cache/timeline/CacheTimelineWrite.cpp
     src/cache/timeline/CacheTimelinePending.cpp
     src/cache/timeline/CacheTimelineRead.cpp
     src/cache/api/CacheApiWrappersState.cpp

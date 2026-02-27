@@ -7,6 +7,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 1.3
 import "components"
 import "components/banners" as Banners
+import "shell" as Shell
 import "timeline" as Timeline
 import im.nheko 1.0
 
@@ -79,7 +80,7 @@ Rectangle {
                 collapsedWidth: Math.max(Nheko.navigationRowHeight, 1)
                 preferredWidth: Math.max(Settings.sidebarsRoomListWidthPx, collapsedWidth)
 
-                RoomList {
+                Shell.RoomList {
                     id: roomlist
 
                     collapsed: parent.collapsed

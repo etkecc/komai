@@ -3,10 +3,10 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./components"
-import "./dialogs"
-import "./shell"
-import "./ui"
+import ".."
+import "../components"
+import "../dialogs"
+import "../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts

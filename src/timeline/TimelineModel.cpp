@@ -33,7 +33,7 @@
 #include "RoomlistModel.h"
 #include "TimelineViewManager.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/UserProfile.h"

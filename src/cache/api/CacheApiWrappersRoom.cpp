@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include "cache/Cache.h"
 #include "cache/api/CacheApiWrappers.h"
-#include "cache/core/Cache.h"
 #include "cache/core/Cache_p.h"
 
 namespace cache {

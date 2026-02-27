@@ -18,7 +18,7 @@
 #include "MatrixClient.h"
 #include "Reaction.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 QCache<EventStore::IdIndex, olm::DecryptionResult> EventStore::decryptedEvents_{1000};

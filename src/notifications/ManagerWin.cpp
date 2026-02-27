@@ -17,7 +17,7 @@
 #include "MxcImageProvider.h"
 #include "Paths.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 using namespace WinToastLib;

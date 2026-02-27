@@ -12,7 +12,7 @@
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 
 RoomDirectoryModel::RoomDirectoryModel(QObject *parent, const std::string &server)
   : QAbstractListModel(parent)

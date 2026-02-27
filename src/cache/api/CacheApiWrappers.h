@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 
 namespace spdlog {
 class logger;

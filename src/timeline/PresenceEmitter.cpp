@@ -8,7 +8,7 @@
 #include <QCache>
 #include <Utils.h>
 
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 
 namespace {
 struct CacheEntry

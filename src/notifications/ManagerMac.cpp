@@ -12,7 +12,7 @@
 #include "EventAccessors.h"
 #include "MxcImageProvider.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 
 #include <mtx/responses/notifications.hpp>
 

@@ -26,7 +26,7 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"

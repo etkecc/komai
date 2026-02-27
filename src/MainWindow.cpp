@@ -21,7 +21,7 @@
 #include "MxcImageProvider.h"
 #include "TrayIcon.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "dock/Dock.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "settings/ui/facade/UserSettingsPage.h"

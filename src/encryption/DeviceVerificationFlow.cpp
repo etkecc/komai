@@ -17,7 +17,7 @@
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "timeline/TimelineModel.h"
 
 static constexpr int TIMEOUT = 2 * 60 * 1000; // 2 minutes

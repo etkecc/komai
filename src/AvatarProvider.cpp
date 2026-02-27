@@ -10,7 +10,7 @@
 
 #include "AvatarProvider.h"
 #include "MxcImageProvider.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 
 static QPixmapCache avatar_cache;
 

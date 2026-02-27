@@ -8,7 +8,7 @@
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "timeline/TimelineModel.h"
 
 void

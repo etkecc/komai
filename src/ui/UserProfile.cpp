@@ -14,7 +14,7 @@
 #include "MatrixClient.h"
 #include "UserProfile.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "encryption/VerificationManager.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"

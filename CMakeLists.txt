@@ -547,6 +547,7 @@ set(SRC_FILES
     src/cache/api/CacheApiWrappersTimeline.cpp
     src/cache/api/CacheApiWrappersRoom.cpp
     src/cache/api/CacheApiWrappersCrypto.cpp
+    src/cache/Cache.h
     src/cache/core/Cache.h
     src/cache/crypto/CacheCryptoStructs.cpp
     src/cache/crypto/CacheCryptoStructsQml.cpp

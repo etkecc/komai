@@ -10,7 +10,7 @@
 #include "ChatPage.h"
 #include "DeviceVerificationFlow.h"
 #include "Logging.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"

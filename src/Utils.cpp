@@ -39,7 +39,7 @@
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 static QString

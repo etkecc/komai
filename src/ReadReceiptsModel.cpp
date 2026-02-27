@@ -9,7 +9,7 @@
 
 #include "Logging.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 
 ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject *parent)
   : QAbstractListModel{parent}

@@ -32,8 +32,8 @@
 #include "CallManager.h"
 #include "ChatPage.h"
 #include "Logging.h"
+#include "cache/Cache.h"
 #include "cache/api/CacheApiWrappers.h"
-#include "cache/core/Cache.h"
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif

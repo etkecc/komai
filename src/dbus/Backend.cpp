@@ -13,7 +13,7 @@
 #include "ChatPage.h"
 #include "MainWindow.h"
 #include "MxcImageProvider.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "config/nheko.h"
 #include "settings/SettingKeys.h"
 #include "settings/ui/facade/UserSettingsPage.h"

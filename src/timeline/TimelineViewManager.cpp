@@ -33,7 +33,7 @@
 #include "TimelineModel.h"
 #include "UsersModel.h"
 #include "Utils.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "encryption/VerificationManager.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"

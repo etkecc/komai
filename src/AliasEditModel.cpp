@@ -14,7 +14,7 @@
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineModel.h"
 

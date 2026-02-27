@@ -15,7 +15,7 @@
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 
 PowerlevelsTypeListModel::PowerlevelsTypeListModel(const std::string &rid,
                                                    const mtx::events::state::PowerLevels &pl,

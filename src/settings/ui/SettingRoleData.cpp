@@ -9,7 +9,7 @@
 
 #include <mtx/secret_storage.hpp>
 
-#include "cache/core/Cache.h"
+#include "cache/Cache.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/UserSettingsModel.h"

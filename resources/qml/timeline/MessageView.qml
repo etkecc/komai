@@ -36,6 +36,7 @@ Item {
 
     Connections {
         function onScrollToIndex(index) {
+            chat.keepPinnedToBottom = false;
             chat.positionViewAtIndex(index, ListView.Center);
             chat.updateLastScroll();
         }
@@ -70,15 +71,36 @@ Item {
         spacing: 2
         verticalLayoutDirection: ListView.BottomToTop
 
-        property int lastScrollPos: 0
+        property real lastScrollPos: 0
+        property bool keepPinnedToBottom: true
 
         // Fixup the scroll position when the height changes. Without this, the view is kept around the center of the currently visible content, while we usually want to stick to the bottom.
         function updateLastScroll() {
             lastScrollPos = (contentY+height);
         }
-        onMovementEnded: updateLastScroll()
-        onModelChanged: updateLastScroll()
-        onHeightChanged: contentY = (lastScrollPos-height)
+        onMovementEnded: {
+            updateLastScroll();
+            keepPinnedToBottom = atYEnd;
+        }
+        onModelChanged: {
+            updateLastScroll();
+            keepPinnedToBottom = atYEnd;
+        }
+        onHeightChanged: {
+            contentY = (lastScrollPos-height);
+            if (keepPinnedToBottom)
+                positionViewAtBeginning();
+        }
+        onContentHeightChanged: {
+            if (keepPinnedToBottom && !moving && !flicking && !dragging) {
+                positionViewAtBeginning();
+                updateLastScroll();
+            }
+        }
+        Component.onCompleted: {
+            updateLastScroll();
+            keepPinnedToBottom = atYEnd;
+        }
 
         Component {
             id: plainMessageStyle
@@ -503,6 +525,7 @@ Item {
             sequences: [StandardKey.MoveToPreviousPage]
 
             onActivated: {
+                chat.keepPinnedToBottom = false;
                 chat.contentY = chat.contentY - chat.height * 0.9;
                 chat.returnToBounds();
             }
@@ -511,6 +534,7 @@ Item {
             sequences: [StandardKey.MoveToNextPage]
 
             onActivated: {
+                chat.keepPinnedToBottom = false;
                 chat.contentY = chat.contentY + chat.height * 0.9;
                 chat.returnToBounds();
             }
@@ -926,6 +950,7 @@ Item {
         }
 
         onClicked: function () {
+            chat.keepPinnedToBottom = true;
             chat.positionViewAtBeginning();
             TimelineManager.focusMessageInput();
             chat.updateLastScroll();

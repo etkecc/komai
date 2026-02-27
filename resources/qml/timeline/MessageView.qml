@@ -626,77 +626,8 @@ Item {
 
         roomModel: room
     }
-    RoundButton {
-        id: toEndButton
-
-        property int fullWidth: 40
-
-        flat: true
-        height: width
-        hoverEnabled: true
-        radius: width / 2
-        width: 0
-
-        background: Rectangle {
-            border.color: toEndButton.hovered ? palette.highlight : palette.buttonText
-            border.width: 1
-            color: toEndButton.down ? palette.highlight : palette.button
-            opacity: enabled ? 1 : 0.3
-            radius: toEndButton.radius
-        }
-        states: [
-            State {
-                name: ""
-
-                PropertyChanges {
-                    toEndButton.width: 0
-                }
-            },
-            State {
-                name: "shown"
-                when: !chat.atYEnd
-
-                PropertyChanges {
-                    toEndButton.width: toEndButton.fullWidth
-                }
-            }
-        ]
-        transitions: Transition {
-            from: ""
-            reversible: true
-            to: "shown"
-
-            SequentialAnimation {
-                PauseAnimation {
-                    duration: 500
-                }
-                PropertyAnimation {
-                    duration: 200
-                    easing.type: Easing.InOutQuad
-                    properties: "width"
-                    target: toEndButton
-                }
-            }
-        }
-
-        onClicked: function () {
-            chat.keepPinnedToBottom = true;
-            chat.positionViewAtBeginning();
-            TimelineManager.focusMessageInput();
-            chat.updateLastScroll();
-        }
-
-        anchors {
-            bottom: parent.bottom
-            bottomMargin: Nheko.paddingMedium + (fullWidth - width) / 2
-            right: scrollbar.left
-            rightMargin: Nheko.paddingMedium + (fullWidth - width) / 2
-        }
-        Image {
-            anchors.fill: parent
-            anchors.margins: Nheko.paddingMedium
-            fillMode: Image.PreserveAspectFit
-            source: "image://colorimage/:/icons/icons/ui/download.svg?" + (toEndButton.down ? palette.highlightedText : palette.buttonText)
-        }
+    TimelineToEndButton {
+        chatList: chat
+        scrollbarItem: scrollbar
     }
 }

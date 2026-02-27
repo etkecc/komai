@@ -179,7 +179,7 @@ Nheko::openLink(QString link) const
 {
     QUrl url(link);
     // Open externally if we couldn't handle it internally
-    if (!ChatPage::instance()->handleMatrixUri(url)) {
+    if (!ChatPage::instance()->tryHandleMatrixUri(url)) {
         static const QStringList allowedUrlSchemes = {
           QStringLiteral("http"),
           QStringLiteral("https"),

@@ -1789,14 +1789,22 @@ ChatPage::startChat(QString userid, std::optional<bool> encryptionEnabled)
 }
 
 bool
-ChatPage::handleMatrixUri(QString uri)
+ChatPage::tryHandleMatrixUri(QString uri)
 {
-    nhlog::ui()->info("Received uri! {}", uri.toStdString());
+    const QUrl parsedUri(uri);
+    const bool hasMatrixScheme = parsedUri.scheme() == QLatin1String("matrix");
+    const bool isMatrixToLink  = parsedUri.scheme() == QLatin1String("https") &&
+                                parsedUri.host() == QLatin1String("matrix.to");
+
+    if (!hasMatrixScheme && !isMatrixToLink)
+        return false;
+
+    nhlog::ui()->debug("Received matrix uri: {}", uri.toStdString());
 
     auto m = utils::parseMatrixUri(uri);
 
     if (!m) {
-        nhlog::ui()->info("failed to parse uri! {}", uri.toStdString());
+        nhlog::ui()->warn("Failed to parse matrix uri: {}", uri.toStdString());
         return false;
     }
 
@@ -1883,9 +1891,9 @@ ChatPage::sendNotificationReply(const QString &roomid, const QString &eventid, c
 }
 
 bool
-ChatPage::handleMatrixUri(const QUrl &uri)
+ChatPage::tryHandleMatrixUri(const QUrl &uri)
 {
-    return handleMatrixUri(uri.toString(QUrl::ComponentFormattingOption::FullyEncoded).toUtf8());
+    return tryHandleMatrixUri(uri.toString(QUrl::ComponentFormattingOption::FullyEncoded).toUtf8());
 }
 
 bool

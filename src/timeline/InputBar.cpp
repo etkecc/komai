@@ -1117,7 +1117,7 @@ InputBar::command(const QString &command, QString args)
             return true;
         }
         // 3 - Matrix URI handler, as if you clicked the URI
-        if (ChatPage::instance()->handleMatrixUri(args)) {
+        if (ChatPage::instance()->tryHandleMatrixUri(args)) {
             return true;
         }
         nhlog::net()->error("Could not resolve goto: {}", args.toStdString());

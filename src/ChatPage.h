@@ -78,8 +78,8 @@ public:
     void removeAllNotifications();
 
 public slots:
-    bool handleMatrixUri(QString uri);
-    bool handleMatrixUri(const QUrl &uri);
+    bool tryHandleMatrixUri(QString uri);
+    bool tryHandleMatrixUri(const QUrl &uri);
 
     void startChat(QString userid) { startChat(userid, std::nullopt); }
     void leaveRoom(const QString &room_id, const QString &reason);

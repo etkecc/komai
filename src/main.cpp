@@ -541,7 +541,7 @@ main(int argc, char *argv[])
               w.requestActivate();
           } else {
               QString m = QString::fromUtf8(message);
-              ChatPage::instance()->handleMatrixUri(m);
+              ChatPage::instance()->tryHandleMatrixUri(m);
           }
       },
       Qt::QueuedConnection);
@@ -552,12 +552,12 @@ main(int argc, char *argv[])
                                          &ChatPage::contentLoaded,
                                          ChatPage::instance(),
                                          [&uriConnection, matrixUri]() {
-                                             ChatPage::instance()->handleMatrixUri(matrixUri);
+                                             ChatPage::instance()->tryHandleMatrixUri(matrixUri);
                                              QObject::disconnect(uriConnection);
                                          });
     }
     QDesktopServices::setUrlHandler(
-      QStringLiteral("matrix"), ChatPage::instance(), "handleMatrixUri");
+      QStringLiteral("matrix"), ChatPage::instance(), "tryHandleMatrixUri");
 
 #if defined(Q_OS_MACOS)
     // Need to set up notification delegate so users can respond to messages from within the

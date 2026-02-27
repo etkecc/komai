@@ -30,13 +30,13 @@ Target `db/storage/*` groups and ownership map:
 
 - `db/storage/Core.h`
   - Owns: backend id/support checks, open/close/id/category, transaction helpers, shared storage types.
-  - Backed by: `Backend.h`, `Factory.cpp`, transaction/capability helpers in `StorageApi.h`.
+  - Backed by: `Backend.h`, `Factory.cpp`.
 - `db/storage/Catalog.h`
   - Owns: logical DB naming and key naming builders.
   - Backed by: `Catalog.h/.cpp`.
 - `db/storage/Open.h`
   - Owns: `open*Store` helpers and open-options policy (`openOptionsFor*`).
-  - Backed by: `NamePolicy.h/.cpp`, store-open helpers in `StorageApi.h`.
+  - Backed by: `NamePolicy.h/.cpp`.
 - `db/storage/Scan.h`
   - Owns: key/value listing and cursor-iteration helpers.
   - Backed by: `Scan.h/.cpp`, `DupIndex.h/.cpp`.
@@ -56,7 +56,6 @@ Target `db/storage/*` groups and ownership map:
   - Owns: typed value JSON serde helpers used across storage helpers.
   - Backed by: `Json.h`, `Serde.h`.
 
-Compatibility:
+Callsite policy:
 
-- `db/StorageApi.h` remains the compatibility umbrella during migration.
-- New/updated callsites should prefer focused `db/storage/*` headers first.
+- New/updated callsites should use focused `db/storage/*` headers.

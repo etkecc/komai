@@ -567,7 +567,6 @@ set(SRC_FILES
     src/db/DupIndex.h
     src/db/Internal.h
     src/db/LmdbHeaders.h
-    src/db/StorageApi.h
     src/db/NamePolicy.h
     src/db/OrderEntry.h
     src/db/Scan.h

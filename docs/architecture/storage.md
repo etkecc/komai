@@ -168,7 +168,7 @@ Database user-id component:
 - Cache DB open options (integer-key / dupsort / comparator) are centralized in
   `src/db/NamePolicy.cpp` (`db::openOptionsForName(...)`,
   `db::openOptionsForGlobal(...)`, `db::openOptionsForRoom(...)`) and consumed via
-  `src/db/StorageApi.h` (`db::storage::openNamedStore(...)`,
+  `src/db/storage/Open.h` (`db::storage::openNamedStore(...)`,
   `db::storage::openGlobalStore(...)`, `db::storage::openRoomStore(...)`) with
   a unified `db::StoreOpenOptions` interface.
 
@@ -190,7 +190,6 @@ Database user-id component:
   - `SyncState.h`: sync-state typed helper surface
   - `Crypto.h`: OLM/Megolm/read-receipt helper surface
   - `Serde.h`: typed JSON/value helpers (`Json`, `toSv`)
-- `src/db/StorageApi.h` remains a compatibility umbrella over these focused headers.
 
 ### Migration Note
 

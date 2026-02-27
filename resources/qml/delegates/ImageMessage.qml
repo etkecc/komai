@@ -189,7 +189,7 @@ AbstractButton {
         Image {
             id: blurhash_
 
-            source: hasValidBlurhash ? ("image://blurhash/" + blurhash) : ("image://colorimage/:/icons/icons/ui/image-failed.svg?" + palette.buttonText)
+            source: hasValidBlurhash ? ("image://blurhash/" + encodeURIComponent(blurhash)) : ("image://colorimage/:/icons/icons/ui/image-failed.svg?" + palette.buttonText)
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             sourceSize.width: hasValidBlurhash ? parent.width * Screen.devicePixelRatio : Math.min(parent.width, parent.height)

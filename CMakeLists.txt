@@ -588,6 +588,7 @@ set(SRC_FILES
     src/CompletionProxyModel.cpp
     src/CompletionProxyModel.h
     src/Config.h
+    src/MatrixStateTypes.h
     src/EventAccessors.cpp
     src/EventAccessors.h
     src/FallbackAuth.cpp

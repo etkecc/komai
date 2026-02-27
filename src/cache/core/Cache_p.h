@@ -19,7 +19,9 @@
 #include <mtxclient/http/errors.hpp>
 
 #include "CacheCryptoStructs.h"
+#include "CacheStorageContext.h"
 #include "CacheStructs.h"
+#include "CacheTxnHelpers.h"
 #include "db/StorageApi.h"
 
 class Cache;
@@ -37,38 +39,6 @@ namespace mtx::responses {
 struct Messages;
 struct StateEvents;
 }
-
-struct CacheDb
-{
-    std::unique_ptr<db::Database> storage = db::createDefaultDatabase();
-    db::Store syncState;
-    db::Store rooms;
-    db::Store spacesChildren, spacesParents;
-    db::Store invites;
-    db::Store readReceipts;
-    db::Store notifications;
-    db::Store presence;
-
-    db::Store inboundMegolmSessions;
-    db::Store outboundMegolmSessions;
-    db::Store megolmSessionsData;
-    db::Store olmSessions;
-
-    db::Store encryptedRooms_;
-
-    db::Store eventExpiryBgJob_;
-};
-
-struct RO_txn
-{
-    ~RO_txn() { txn.reset(); }
-    operator db::Transaction &() noexcept { return txn; }
-
-    db::Transaction &txn;
-};
-
-RO_txn
-ro_txn(db::Database &storage);
 
 class Cache final : public QObject
 {

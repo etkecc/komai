@@ -555,6 +555,8 @@ set(SRC_FILES
     src/cache/crypto/CacheCryptoStructsQml.cpp
     src/cache/crypto/CacheCryptoStructs.h
     src/cache/core/CacheStructs.h
+    src/cache/core/CacheStorageContext.h
+    src/cache/core/CacheTxnHelpers.h
     src/cache/core/Cache_p.h
     src/db/InMemoryBackend.h
     src/db/LmdbBackend.h

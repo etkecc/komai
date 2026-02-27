@@ -12,6 +12,7 @@ MouseArea {
 
     property var profile: Nheko.currentUser
     property int avatarButtonSize: Nheko.barIconSize
+    readonly property int effectiveButtonSize: Math.max(1, Math.round(avatarButtonSize) - (Math.round(avatarButtonSize) % 2))
     property bool motionEnabled: Settings.uiMotionAnimationsEnabled
     property real flipAngle: 0
 
@@ -58,9 +59,18 @@ MouseArea {
     }
 
     Item {
+        id: iconFrame
+
+        width: control.effectiveButtonSize
+        height: control.effectiveButtonSize
+        x: Math.floor((control.width - width) / 2)
+        y: Math.floor((control.height - height) / 2)
+    }
+
+    Item {
         id: card
 
-        anchors.fill: parent
+        anchors.fill: iconFrame
         layer.enabled: true
 
         transform: Rotation {
@@ -84,18 +94,19 @@ MouseArea {
                 id: frontAvatar
 
                 anchors.centerIn: parent
-                width: control.avatarButtonSize
-                height: control.avatarButtonSize
+                width: control.effectiveButtonSize
+                height: control.effectiveButtonSize
                 displayName: control.profile ? control.profile.displayName : ""
                 url: (control.profile ? control.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")
                 userid: control.profile ? control.profile.userid : ""
+                fallbackBorderColor: palette.highlight
                 enabled: false
             }
 
             Rectangle {
                 id: frontBadge
 
-                property int badgeSize: Math.round(control.avatarButtonSize * 0.44)
+                property int badgeSize: Math.round(control.effectiveButtonSize * 0.44)
                 property int iconSize: Math.round(badgeSize * 0.69)
 
                 anchors.bottom: frontAvatar.bottom
@@ -139,15 +150,15 @@ MouseArea {
                 id: backCard
 
                 anchors.centerIn: parent
-                width: control.avatarButtonSize
-                height: control.avatarButtonSize
-                radius: Math.round(control.avatarButtonSize * 0.26)
+                width: control.effectiveButtonSize
+                height: control.effectiveButtonSize
+                radius: Math.round(control.effectiveButtonSize * 0.26)
                 color: palette.window
                 border.width: 1
                 border.color: palette.dark
 
                 Image {
-                    property int cogSize: Math.round(control.avatarButtonSize * 0.62)
+                    property int cogSize: Math.round(control.effectiveButtonSize * 0.62)
 
                     anchors.centerIn: parent
                     source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
@@ -161,7 +172,7 @@ MouseArea {
             Rectangle {
                 id: backBadge
 
-                property int badgeSize: Math.round(control.avatarButtonSize * 0.44)
+                property int badgeSize: Math.round(control.effectiveButtonSize * 0.44)
                 property int avatarSize: Math.round(badgeSize * 0.78)
 
                 anchors.bottom: backCard.bottom
@@ -180,6 +191,7 @@ MouseArea {
                     displayName: control.profile ? control.profile.displayName : ""
                     url: (control.profile ? control.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")
                     userid: control.profile ? control.profile.userid : ""
+                    fallbackBorderColor: palette.highlight
                     enabled: false
                 }
             }

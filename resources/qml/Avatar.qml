@@ -16,7 +16,13 @@ AbstractButton {
     property alias color: bg.color
     property bool crop: true
     property string displayName
+    property color fallbackBorderColor: palette.mid
+    property int fallbackBorderWidth: 1
+    readonly property int frameWidth: Settings.uiAvatarsCircular ? Math.max(1, Math.round(width) - (Math.round(width) % 2)) : width
+    readonly property int frameHeight: Settings.uiAvatarsCircular ? Math.max(1, Math.round(height) - (Math.round(height) % 2)) : height
+    readonly property real avatarRadius: Settings.uiAvatarsCircular ? frameHeight / 2 : frameHeight / 8
     property string roomid
+    property bool showFallbackBorder: img.status != Image.Ready
     property alias textColor: label.color
     property string url
     property string userid
@@ -27,17 +33,22 @@ AbstractButton {
     background: Rectangle {
         id: bg
 
+        anchors.centerIn: parent
+        width: avatar.frameWidth
+        height: avatar.frameHeight
         color: palette.alternateBase
-        radius: Settings.uiAvatarsCircular ? height / 2 : height / 8
+        border.width: avatar.showFallbackBorder ? avatar.fallbackBorderWidth : 0
+        border.color: avatar.fallbackBorderColor
+        radius: avatar.avatarRadius
     }
 
     Label {
         id: label
 
-        anchors.fill: parent
+        anchors.fill: bg
         color: palette.text
         enabled: false
-        font.pixelSize: avatar.height / 2
+        font.pixelSize: bg.height / 2
         horizontalAlignment: Text.AlignHCenter
         text: TimelineManager.escapeEmoji(avatar.displayName ? String.fromCodePoint(avatar.displayName.codePointAt(0)) : "")
         textFormat: Text.RichText
@@ -47,13 +58,13 @@ AbstractButton {
     Item {
         id: avatarClipper
 
-        anchors.fill: parent
+        anchors.fill: bg
         layer.enabled: true
         layer.effect: OpacityMask {
             maskSource: Rectangle {
                 width: avatarClipper.width
                 height: avatarClipper.height
-                radius: Settings.uiAvatarsCircular ? height / 2 : height / 8
+                radius: avatar.avatarRadius
             }
         }
 
@@ -111,11 +122,11 @@ AbstractButton {
             }
         }
 
-        anchors.bottom: avatar.bottom
-        anchors.right: avatar.right
+        anchors.bottom: bg.bottom
+        anchors.right: bg.right
         color: updatePresence()
-        height: avatar.height / 6
-        radius: Settings.uiAvatarsCircular ? height / 2 : height / 8
+        height: bg.height / 6
+        radius: Settings.uiAvatarsCircular ? Math.floor(height / 2) : height / 8
         visible: !!avatar.userid
         width: height
 

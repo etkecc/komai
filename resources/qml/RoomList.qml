@@ -219,8 +219,8 @@ Page {
                     profile: Nheko.currentUser
                     avatarButtonSize: Nheko.barIconSize
 
-                    Layout.preferredHeight: avatarButtonSize
-                    Layout.preferredWidth: avatarButtonSize
+                    Layout.preferredHeight: Nheko.navigationRowHeight
+                    Layout.preferredWidth: effectiveButtonSize
                     onLeftClicked: {
                         if (!roomActionsBar.showActionButtons)
                             profileContextMenu.popup(userSettingsButton)

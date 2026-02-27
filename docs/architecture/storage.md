@@ -73,8 +73,6 @@ Database user-id component:
   (`db::catalog::*`) so callers don't hardcode backend-facing names
   (including legacy migration name patterns, sync-state secret key names,
   and composite value codecs such as OLM session and state-event index values).
-- Reusable schema helpers are centralized in
-  `src/db/Schema.cpp` (`db::tryDropNamedStore(...)`).
 - Reusable event-order entry parsing (including legacy raw event-id fallback) is
   centralized in `src/db/OrderEntry.cpp` (`db::parseOrderEntry(...)`).
 - Reusable timeline-index helpers are centralized in `src/db/TimelineIndex.cpp`

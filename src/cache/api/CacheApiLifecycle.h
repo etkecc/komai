@@ -43,7 +43,7 @@ saveState(const mtx::responses::Sync &res);
 void
 updateState(const std::string &room, const mtx::responses::StateEvents &state, bool wipe = false);
 
-//! returns if the format is current, older or newer
+//! returns if the format is current or needs reset
 cache::CacheVersion
 formatVersion();
 //! set the format version to the current version

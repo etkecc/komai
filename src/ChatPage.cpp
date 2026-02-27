@@ -566,27 +566,17 @@ ChatPage::bootstrap(QString userid,
                       if (cacheVersion == cache::CacheVersion::Current) {
                           loadStateFromCache();
                           return;
-                      } else if (cacheVersion == cache::CacheVersion::Older) {
+                      } else {
                           if (!cache::runMigrations()) {
                               QMessageBox::critical(
                                 nullptr,
-                                tr("Cache migration failed!"),
-                                tr("Migrating the cache to the current version failed. "
-                                   "This can have different reasons. Please open an "
-                                   "issue at https://github.com/etkecc/komai and try to use an "
-                                   "older version in the meantime. Alternatively you can try "
-                                   "deleting the cache manually."));
+                                tr("Cache reset failed!"),
+                                tr("Resetting incompatible local cache data failed. "
+                                   "Please open an issue at https://github.com/etkecc/komai "
+                                   "and try deleting cache data manually."));
                               QCoreApplication::quit();
                           }
                           loadStateFromCache();
-                          return;
-                      } else if (cacheVersion == cache::CacheVersion::Newer) {
-                          QMessageBox::critical(
-                            nullptr,
-                            tr("Incompatible cache version"),
-                            tr("The cache on your disk is newer than this version of Komai "
-                               "supports. Please update Komai or clear your cache."));
-                          QCoreApplication::quit();
                           return;
                       }
                   }

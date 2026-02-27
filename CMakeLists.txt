@@ -571,7 +571,6 @@ set(SRC_FILES
     src/db/NamePolicy.h
     src/db/OrderEntry.h
     src/db/Scan.h
-    src/db/Schema.h
     src/db/StateIndex.h
     src/ChatPage.cpp
     src/ChatPage.h
@@ -1083,7 +1082,6 @@ add_library(komai_db
     src/db/RoomInfo.cpp
     src/db/Scan.cpp
     src/db/Maintenance.cpp
-    src/db/Schema.cpp
     src/db/StateIndex.cpp
     src/db/SyncState.cpp
     src/db/TimelineIndex.cpp

@@ -32,7 +32,6 @@
 #include "db/ReadReceiptIndex.h"
 #include "db/RoomInfo.h"
 #include "db/Scan.h"
-#include "db/Schema.h"
 #include "db/StateIndex.h"
 #include "db/SyncState.h"
 #include "db/TimelineIndex.h"
@@ -244,48 +243,6 @@ testCatalog()
                  "catalog split preserves plain values with no separator");
     ok &= expect(plainEventId.empty(), "catalog split returns empty event id when separator missing");
 
-    return ok;
-}
-
-bool
-testSchemaHelpers()
-{
-    bool ok = true;
-
-    auto backend               = db::createDatabase(db::kMemoryDatabaseId);
-    db::BackendOptions options = {};
-    options.mapSizeBytes       = 1U << 20;
-    options.maxStores          = 32;
-    db::open(backend, "", options);
-
-    const auto roomId    = std::string("!room:example");
-    const auto eventsDbi = db::catalog::roomName(roomId, db::catalog::RoomDb::Events);
-
-    {
-        auto txn   = db::beginWriteTransaction(*backend);
-        auto events = db::openRoomStore(*backend, txn, roomId, db::catalog::RoomDb::Events);
-        ok &= expect(events.put(txn, "$event", "{}"), "schema helper setup creates room events db");
-        txn.commit();
-    }
-
-    {
-        auto txn = db::beginWriteTransaction(*backend);
-        std::string error;
-        ok &= expect(db::tryDropNamedStore(*backend, txn, eventsDbi, &error),
-                     "schema helper drops existing named db");
-        ok &= expect(error.empty(), "schema helper keeps error empty on successful drop");
-        txn.commit();
-    }
-
-    {
-        auto txn = db::beginWriteTransaction(*backend);
-        std::string error;
-        ok &= expect(!db::tryDropNamedStore(*backend, txn, eventsDbi, &error),
-                     "schema helper reports false when named db is missing");
-        ok &= expect(!error.empty(), "schema helper reports error string when drop fails");
-    }
-
-    db::close(backend);
     return ok;
 }
 
@@ -2850,7 +2807,6 @@ main()
 
     bool ok = true;
     ok &= testCatalog();
-    ok &= testSchemaHelpers();
     ok &= testNamePolicy();
     ok &= testOpenHelpers();
     ok &= testStateIndexHelper();

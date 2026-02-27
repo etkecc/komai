@@ -10,6 +10,5 @@ enum class CacheVersion : int
 {
     Older   = -1,
     Current = 0,
-    Newer   = 1,
 };
 }

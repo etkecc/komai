@@ -78,8 +78,6 @@ MatrixStore::formatVersion()
 
     if (stored_version < CURRENT_CACHE_FORMAT_VERSION)
         return cache::CacheVersion::Older;
-    else if (stored_version > CURRENT_CACHE_FORMAT_VERSION)
-        return cache::CacheVersion::Newer;
     else
         return cache::CacheVersion::Current;
 }

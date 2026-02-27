@@ -139,6 +139,12 @@ formatVersion()
     return cacheInstance()->formatVersion();
 }
 
+bool
+isRoomMember(const std::string &user_id, const std::string &room_id)
+{
+    return cacheInstance()->isRoomMember(user_id, room_id);
+}
+
 void
 setCurrentFormat()
 {

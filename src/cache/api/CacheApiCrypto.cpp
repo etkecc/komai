@@ -5,7 +5,6 @@
 
 #include "cache/api/CacheApiCrypto.h"
 #include "cache/api/CacheApiContext.h"
-#include "cache/api/CacheApiRooms.h"
 #include "cache/core/Cache_p.h"
 
 #include <spdlog/logger.h>
@@ -14,12 +13,6 @@
 #include <vector>
 
 namespace cache {
-
-bool
-isRoomMember(const std::string &user_id, const std::string &room_id)
-{
-    return cacheInstance()->isRoomMember(user_id, room_id);
-}
 
 //
 // Outbound Megolm Sessions

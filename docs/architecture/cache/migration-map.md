@@ -4,7 +4,7 @@ This map documents the first-stage move from top-level `src/Cache*` files to the
 
 ## Prefix Mapping
 
-- `src/CacheApiWrappers*` -> `src/cache/api/CacheApiWrappers*`
+- `src/CacheApiWrappers*` -> `src/cache/api/CacheApi*`
 - `src/CacheCore*`, `src/Cache.h`, `src/Cache_p.h`, `src/CacheStructs.h` -> `src/cache/core/*`
 - `src/CacheSetup.cpp` -> `src/cache/setup/CacheSetup.cpp`
 - `src/CacheLifecycle*` -> `src/cache/lifecycle/CacheLifecycle*`

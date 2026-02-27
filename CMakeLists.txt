@@ -523,7 +523,7 @@ set(SRC_FILES
     src/cache/timeline/CacheTimelineWrite.cpp
     src/cache/timeline/CacheTimelinePending.cpp
     src/cache/timeline/CacheTimelineRead.cpp
-    src/cache/api/CacheApiWrappersState.cpp
+    src/cache/api/CacheApiState.cpp
     src/cache/crypto/CacheCryptoMegolm.cpp
     src/cache/crypto/CacheCryptoMegolmMetadata.cpp
     src/cache/crypto/CacheCryptoOlm.cpp
@@ -535,12 +535,12 @@ set(SRC_FILES
     src/cache/users/CacheUserKeysNetwork.cpp
     src/cache/users/CacheUserKeysVerification.cpp
     src/cache/users/CacheUserTrust.cpp
-    src/cache/api/CacheApiWrappers.cpp
-    src/cache/api/CacheApiWrappersAccessors.cpp
-    src/cache/api/CacheApiWrappersSignals.cpp
-    src/cache/api/CacheApiWrappersTimeline.cpp
-    src/cache/api/CacheApiWrappersRoom.cpp
-    src/cache/api/CacheApiWrappersCrypto.cpp
+    src/cache/api/CacheApiLoggers.cpp
+    src/cache/api/CacheApiAccessors.cpp
+    src/cache/api/CacheApiSignals.cpp
+    src/cache/api/CacheApiTimeline.cpp
+    src/cache/api/CacheApiRooms.cpp
+    src/cache/api/CacheApiCrypto.cpp
     src/cache/Cache.h
     src/cache/api/CacheApi.h
     src/cache/api/CacheApiTypes.h
@@ -1215,7 +1215,7 @@ if(BUILD_TESTING)
         tests/LoggingStub.cpp
         tests/ProfileSecretsStub.cpp
         src/Paths.cpp
-        src/cache/api/CacheApiWrappers.cpp
+        src/cache/api/CacheApiLoggers.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp

@@ -523,7 +523,7 @@ set(SRC_FILES
     src/cache/timeline/CacheTimelineWrite.cpp
     src/cache/timeline/CacheTimelinePending.cpp
     src/cache/timeline/CacheTimelineRead.cpp
-    src/cache/api/CacheApiState.cpp
+    src/cache/api/CacheApiStateTemplates.cpp
     src/cache/crypto/CacheCryptoMegolm.cpp
     src/cache/crypto/CacheCryptoMegolmMetadata.cpp
     src/cache/crypto/CacheCryptoOlm.cpp

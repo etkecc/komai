@@ -45,7 +45,7 @@ add a separate module/store on top of `src/db` instead of broadening `MatrixStor
 - `CacheApiTimeline.cpp` - timeline/event/pending/notification wrappers.
 - `CacheApiCrypto.cpp` - Olm/Megolm/secrets/backup wrapper functions.
 - `CacheApiSignals.cpp` - Qt signal connection helpers for cache events.
-- `CacheApiState.cpp` - explicit state-event template instantiations for `MatrixStore`.
+- `CacheApiStateTemplates.cpp` - explicit state-event template instantiations for `MatrixStore`.
 - `CacheApiLoggers.cpp` - cache logger wiring and defaults.
 
 ## Related Docs

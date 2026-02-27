@@ -21,6 +21,16 @@ AbstractButton {
     required property string eventId
     required property int containerHeight
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
+    property int tempWidth: originalWidth < 1 ? 400 : originalWidth
+    readonly property double safeProportionalHeight: proportionalHeight > 0
+                                                   ? proportionalHeight
+                                                   : ((originalWidth > 0 && originalHeight > 0) ? (originalHeight / originalWidth) : 1.0)
+    // Bubble layout resolves width from delegates' implicitWidth. Provide explicit media sizing here
+    // so image messages don't collapse to near-zero width in bubble style.
+    implicitWidth: Math.max(1, Math.round(tempWidth * Math.min((containerHeight / divisor) / (tempWidth * safeProportionalHeight), 1)))
+    width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
+    height: Math.max(1, Math.round(width * safeProportionalHeight))
+    implicitHeight: height
 
     readonly property var roomContext: (typeof room !== "undefined") ? room : null
     property bool showImage: roomContext ? roomContext.showImage() : true

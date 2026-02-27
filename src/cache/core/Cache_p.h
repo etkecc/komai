@@ -25,14 +25,15 @@
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "db/StorageApi.h"
 
-class Cache;
+class MatrixStore;
+using Cache = MatrixStore;
 
 namespace cache {
 namespace detail {
 std::vector<std::pair<std::string, std::function<bool()>>>
-buildPreMigrations(Cache *cache);
+buildPreMigrations(MatrixStore *cache);
 std::vector<std::pair<std::string, std::function<bool()>>>
-buildPostMigrations(Cache *cache);
+buildPostMigrations(MatrixStore *cache);
 } // namespace detail
 } // namespace cache
 
@@ -41,13 +42,13 @@ struct Messages;
 struct StateEvents;
 }
 
-class Cache final : public QObject
+class MatrixStore final : public QObject
 {
     Q_OBJECT
 
 public:
-    Cache(const QString &userId, QObject *parent = nullptr);
-    ~Cache() noexcept;
+    MatrixStore(const QString &userId, QObject *parent = nullptr);
+    ~MatrixStore() noexcept;
 
     std::string displayName(const std::string &room_id, const std::string &user_id);
     QString displayName(const QString &room_id, const QString &user_id);
@@ -324,9 +325,9 @@ signals:
 
 private:
     friend std::vector<std::pair<std::string, std::function<bool()>>>
-    cache::detail::buildPreMigrations(Cache *cache);
+    cache::detail::buildPreMigrations(MatrixStore *cache);
     friend std::vector<std::pair<std::string, std::function<bool()>>>
-    cache::detail::buildPostMigrations(Cache *cache);
+    cache::detail::buildPostMigrations(MatrixStore *cache);
 
     void loadSecretsFromStore(
       std::vector<std::pair<std::string, bool>> toLoad,

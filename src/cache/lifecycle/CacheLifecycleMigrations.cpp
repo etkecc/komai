@@ -29,10 +29,10 @@ static constexpr std::string_view CURRENT_CACHE_FORMAT_VERSION{"2023.10.22"};
 namespace cache::detail {
 
 std::vector<std::pair<std::string, std::function<bool()>>>
-buildPreMigrations(Cache *cache);
+buildPreMigrations(MatrixStore *cache);
 
 std::vector<std::pair<std::string, std::function<bool()>>>
-buildPostMigrations(Cache *cache);
+buildPostMigrations(MatrixStore *cache);
 }
 
 //! migrates db to the current format

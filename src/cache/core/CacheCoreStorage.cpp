@@ -14,7 +14,7 @@
 #include "db/StorageApi.h"
 #include "encryption/Olm.h"
 
-Cache::~Cache() noexcept = default;
+MatrixStore::~MatrixStore() noexcept = default;
 
 db::Database &
 Cache::storage()

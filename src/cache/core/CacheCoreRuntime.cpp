@@ -72,7 +72,7 @@ Cache::isHiddenEvent(db::Transaction &txn,
            hiddenEvents.hidden_event_types->end();
 }
 
-Cache::Cache(const QString &userId, QObject *parent)
+MatrixStore::MatrixStore(const QString &userId, QObject *parent)
   : QObject{parent}
   , localUserId_{userId}
   , db(std::make_unique<CacheDb>())

@@ -24,7 +24,7 @@
 namespace cache::detail {
 
 std::vector<std::pair<std::string, std::function<bool()>>>
-buildPreMigrations(Cache *cache)
+buildPreMigrations(MatrixStore *cache)
 {
     return {
       {"2020.05.01",
@@ -121,7 +121,7 @@ buildPreMigrations(Cache *cache)
 }
 
 std::vector<std::pair<std::string, std::function<bool()>>>
-buildPostMigrations(Cache *cache)
+buildPostMigrations(MatrixStore *cache)
 {
     return {
       {"2022.04.08",

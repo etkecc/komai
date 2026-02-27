@@ -326,6 +326,7 @@ private:
 
     QTimer typingRefresh_;
     QTimer typingTimeout_;
+    bool typingSent_ = false;
     TimelineModel *room;
     std::deque<QString> history_;
     std::size_t history_index_ = 0;

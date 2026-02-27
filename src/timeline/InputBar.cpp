@@ -1614,19 +1614,29 @@ InputBar::uploads() const
 void
 InputBar::startTyping()
 {
+    const bool typingSendEnabled =
+      ChatPage::instance()->userSettings()->composerTypingSendEnabled();
+    if (!typingSendEnabled) {
+        typingRefresh_.stop();
+        if (typingSent_)
+            stopTyping();
+        else
+            typingTimeout_.stop();
+        return;
+    }
+
     if (!typingRefresh_.isActive()) {
         typingRefresh_.start();
-
-        if (ChatPage::instance()->userSettings()->composerTypingSendEnabled()) {
-            http::client()->start_typing(
-              room->roomId().toStdString(), 10'000, [](mtx::http::RequestErr err) {
-                  if (err) {
-                      nhlog::net()->warn("failed to send typing notification: {}",
-                                         err->matrix_error.error);
-                  }
-              });
-        }
+        typingSent_ = true;
+        http::client()->start_typing(
+          room->roomId().toStdString(), 10'000, [](mtx::http::RequestErr err) {
+              if (err) {
+                  nhlog::net()->warn("failed to send typing notification: {}",
+                                     err->matrix_error.error);
+              }
+          });
     }
+
     typingTimeout_.start();
 }
 void
@@ -1635,9 +1645,10 @@ InputBar::stopTyping()
     typingRefresh_.stop();
     typingTimeout_.stop();
 
-    if (!ChatPage::instance()->userSettings()->composerTypingSendEnabled())
+    if (!typingSent_)
         return;
 
+    typingSent_ = false;
     http::client()->stop_typing(room->roomId().toStdString(), [](mtx::http::RequestErr err) {
         if (err) {
             nhlog::net()->warn("failed to stop typing notifications: {}", err->matrix_error.error);

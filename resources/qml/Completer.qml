@@ -303,4 +303,5 @@ Control {
 
     onCompleterNameChanged: changeCompleter()
     onRoomIdChanged: changeCompleter()
+    Component.onCompleted: changeCompleter()
 }

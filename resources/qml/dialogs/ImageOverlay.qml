@@ -21,6 +21,9 @@ Window {
     required property Room room
     required property int originalWidth
     required property double proportionalHeight
+    property var timelineContext: null
+    property var timelineViewContext: null
+    property var popupParent: null
     property color modalOverlayColor: Qt.rgba(0.2, 0.2, 0.2, 0.66)
     property color actionButtonColor: "white"
     property color actionButtonHoverColor: actionButtonColor
@@ -39,6 +42,14 @@ Window {
     //visibility: Window.FullScreen
     color: modalOverlayColor
     Component.onCompleted: Nheko.setWindowRole(imageOverlay, "imageoverlay")
+    onVisibleChanged: {
+        if (visible) {
+            Qt.callLater(() => {
+                imageOverlay.requestActivate();
+                keyCatcher.forceActiveFocus();
+            });
+        }
+    }
 
     function copyCurrentMedia()
     {
@@ -56,14 +67,77 @@ Window {
             TimelineManager.saveMedia(url);
     }
 
+    function openCurrentMediaExternally()
+    {
+        if (room && eventId)
+            room.openMedia(eventId);
+        else
+            TimelineManager.openMedia(url);
+    }
+
+    function canForwardCurrentMessage()
+    {
+        return !!room && !!eventId;
+    }
+
+    function openForwardDialogForCurrentMessage()
+    {
+        if (!canForwardCurrentMessage())
+            return;
+
+        if (popupParent && popupParent.showForwardMessageDialog) {
+            popupParent.showForwardMessageDialog(room, eventId, timelineContext, timelineViewContext);
+            return;
+        }
+
+        const component = Qt.createComponent("qrc:/resources/qml/ForwardCompleter.qml");
+        if (component.status !== Component.Ready) {
+            console.error("Failed to create component: " + component.errorString());
+            return;
+        }
+
+        const host = imageOverlay;
+        const dialog = component.createObject(host, {
+                "roomSource": room,
+                "timelineSource": timelineContext,
+                "timelineViewSource": timelineViewContext,
+                "showReplyPreview": !!timelineContext && !!timelineViewContext
+            });
+        if (!dialog) {
+            console.error("Failed to create ForwardCompleter object");
+            return;
+        }
+
+        dialog.setMessageEventId(eventId);
+        dialog.open();
+        if (dialog.aboutToHide !== undefined)
+            dialog.aboutToHide.connect(() => dialog.destroy(1000));
+    }
+
     Shortcut {
-        sequences: [StandardKey.Cancel]
+        sequences: [StandardKey.Cancel, "Escape"]
+        context: Qt.ApplicationShortcut
         onActivated: imageOverlay.close()
+        onActivatedAmbiguously: imageOverlay.close()
     }
 
     Shortcut {
         sequences: [StandardKey.Copy]
         onActivated: imageOverlay.copyCurrentMedia()
+    }
+
+    Item {
+        id: keyCatcher
+
+        anchors.fill: parent
+        focus: true
+
+        Keys.onPressed: event => {
+            if (event.key === Qt.Key_Escape) {
+                event.accepted = true;
+                imageOverlay.close();
+            }
+        }
     }
 
     TapHandler {
@@ -175,12 +249,54 @@ Window {
 
         Row {
             id: actionsRow
-            property int uniformActionWidth: Math.max(copyButton.implicitWidth,
+            property int uniformActionWidth: Math.max(forwardButton.visible ? forwardButton.implicitWidth : 0,
+                                                      openButton.implicitWidth,
+                                                      copyButton.implicitWidth,
                                                       downloadButton.implicitWidth,
                                                       closeButton.implicitWidth)
 
             spacing: Nheko.paddingLarge
             anchors.centerIn: parent
+
+            ImageOverlayActionButton {
+                id: forwardButton
+                visible: imageOverlay.canForwardCurrentMessage()
+                width: visible ? actionsRow.uniformActionWidth : 0
+
+                iconSource: ":/icons/icons/ui/reply.svg"
+                iconMirror: true
+                labelText: qsTr("Forward")
+                textColor: actionButtonColor
+                hoverIconColor: actionButtonHoverColor
+                hoverTextColor: actionButtonHoverColor
+                hoverBackgroundColor: actionButtonHoverBackgroundColor
+                iconSize: actionButtonIconSize
+
+                onClicked: {
+                    imageOverlay.hide();
+                    imageOverlay.close();
+                    Qt.callLater(() => imageOverlay.openForwardDialogForCurrentMessage());
+                }
+            }
+
+            ImageOverlayActionButton {
+                id: openButton
+                width: actionsRow.uniformActionWidth
+
+                iconSource: ":/icons/icons/ui/open-externally.svg"
+                labelText: qsTr("Open")
+                textColor: actionButtonColor
+                hoverIconColor: actionButtonHoverColor
+                hoverTextColor: actionButtonHoverColor
+                hoverBackgroundColor: actionButtonHoverBackgroundColor
+                iconSize: actionButtonIconSize
+
+                onClicked: {
+                    imageOverlay.openCurrentMediaExternally();
+                    imageOverlay.hide();
+                    imageOverlay.close();
+                }
+            }
 
             ImageOverlayActionButton {
                 id: copyButton

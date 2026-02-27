@@ -7,12 +7,14 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QMimeData>
 #include <QQuickItem>
 #include <QQuickTextDocument>
 #include <QStandardPaths>
 #include <QString>
+#include <QUrl>
 
 #include "Cache.h"
 #include "ChatPage.h"
@@ -27,6 +29,7 @@
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "MemberList.h"
+#include "MxcImageProvider.h"
 #include "RoomsModel.h"
 #include "TimelineModel.h"
 #include "UsersModel.h"
@@ -439,7 +442,25 @@ TimelineViewManager::openImageOverlay(TimelineModel *room,
         return;
     }
 
-    emit showImageOverlay(room, eventId, mxcUrl, originalWidth, proportionalHeight);
+    emit showImageOverlay(
+      room, eventId, mxcUrl, originalWidth, proportionalHeight, nullptr, nullptr);
+}
+
+void
+TimelineViewManager::openImageOverlayWithContext(TimelineModel *room,
+                                                 const QString &mxcUrl,
+                                                 const QString &eventId,
+                                                 double originalWidth,
+                                                 double proportionalHeight,
+                                                 QObject *timeline,
+                                                 QObject *timelineView)
+{
+    if (mxcUrl.isEmpty()) {
+        return;
+    }
+
+    emit showImageOverlay(
+      room, eventId, mxcUrl, originalWidth, proportionalHeight, timeline, timelineView);
 }
 
 void
@@ -493,6 +514,38 @@ TimelineViewManager::saveMedia(QString mxcUrl)
                                      nhlog::ui()->warn("Error while saving file to: {}", e.what());
                                  }
                              });
+}
+
+void
+TimelineViewManager::openMedia(QString mxcUrl)
+{
+    if (mxcUrl.trimmed().isEmpty())
+        return;
+
+    if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
+        QDesktopServices::openUrl(QUrl(mxcUrl));
+        return;
+    }
+
+    const auto id = QString(mxcUrl).remove(QStringLiteral("mxc://"));
+    MxcImageProvider::download(
+      id,
+      QSize{},
+      [mxcUrl](QString, QSize, QImage, QString filePath) {
+          if (filePath.isEmpty()) {
+              nhlog::ui()->warn("Failed to resolve local file path for media '{}'",
+                                mxcUrl.toStdString());
+              return;
+          }
+
+          const auto opened = QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+          if (!opened) {
+              nhlog::ui()->warn("Failed to open media '{}' in external app",
+                                filePath.toStdString());
+          }
+      },
+      false,
+      0);
 }
 
 void

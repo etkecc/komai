@@ -17,10 +17,11 @@ AbstractButton {
 
     required property string eventId
 
-    property var room_: room
+    property var room_: (typeof room !== "undefined") ? room : null
+    property var timelineView_: (typeof timelineView !== "undefined") ? timelineView : null
 
-    property string userId: eventId ? room.dataById(eventId, Room.UserId, "") : ""
-    property string userName: eventId ? room.dataById(eventId, Room.UserName, "") : ""
+    property string userId: (eventId && room_) ? room_.dataById(eventId, Room.UserId, "") : ""
+    property string userName: (eventId && room_) ? room_.dataById(eventId, Room.UserName, "") : ""
     implicitHeight: replyContainer.height + topPadding + bottomPadding
     implicitWidth: replyContainer.implicitWidth + leftPadding + rightPadding
 
@@ -42,7 +43,8 @@ AbstractButton {
         if (link) {
             Nheko.openLink(link)
         } else {
-            room.showEvent(r.eventId)
+            if (room_)
+                room_.showEvent(r.eventId)
         }
     }
     onPressAndHold: replyContextMenu.show(timelineEvent.main.copyText, timelineEvent.main.linkAt(pressX-colorline.width, pressY - userName_.implicitHeight), r.eventId)
@@ -65,7 +67,7 @@ AbstractButton {
 
             clip: r.limitHeight
 
-            height: r.limitHeight ? Math.min( timelineEvent.main?.height, timelineView.height / 10) + usernameBtn.height : undefined
+            height: r.limitHeight ? Math.min(timelineEvent.main?.height ?? 0, (timelineView_ ? timelineView_.height : Screen.height) / 10) + usernameBtn.height : undefined
 
             // FIXME: I have no idea, why this name doesn't render in the reply popup on Qt 6.9.2
             AbstractButton {
@@ -86,7 +88,10 @@ AbstractButton {
                     textFormat: Text.RichText
                     width: timelineEvent.main?.width
                 }
-                onClicked: room.openUserProfile(r.userId)
+                onClicked: {
+                    if (room_)
+                        room_.openUserProfile(r.userId);
+                }
             }
 
             data: [

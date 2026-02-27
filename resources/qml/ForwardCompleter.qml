@@ -12,6 +12,14 @@ Popup {
     id: forwardMessagePopup
 
     property string mid: ""
+    property var roomSource: null
+    readonly property var activeRoom: roomSource
+    readonly property var room: activeRoom
+    property var timelineSource: null
+    property var timelineViewSource: null
+    readonly property var timeline: timelineSource
+    readonly property var timelineView: timelineViewSource
+    property bool showReplyPreview: true
     property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
     property int textMargin: Nheko.paddingSmall
     property string pendingRoomId: ""
@@ -24,6 +32,7 @@ Popup {
 
     padding: Nheko.paddingMedium
     modal: true
+    focus: true
 
     // Workaround palettes not inheriting for popups
     palette: timelineRoot.palette
@@ -45,7 +54,14 @@ Popup {
         pendingRoomId = "";
         pendingRoomName = "";
         roomTextInput.text = "";
-        roomTextInput.forceActiveFocus();
+        completerPopup.changeCompleter();
+        if (completerPopup.completer)
+            completerPopup.completer.searchString = "";
+        // In image-overlay flow the closing overlay window can steal focus for a tick.
+        Qt.callLater(() => {
+            forwardMessagePopup.forceActiveFocus();
+            roomTextInput.forceActiveFocus();
+        });
     }
 
     contentItem: Column {
@@ -110,15 +126,28 @@ Popup {
             wrapMode: Text.Wrap
         }
 
-        Reply {
-            id: replyPreview
+        Loader {
+            id: replyPreviewLoader
 
-            enabled: false
-            eventId: mid
-            userColor: room ? TimelineManager.roomUserColor(room.roomId, replyPreview.userId, palette.window, palette.highlight) : TimelineManager.userColor(replyPreview.userId, palette.window)
-            roomColor: room ? TimelineManager.roomUserColor(room.roomId, replyPreview.userId, palette.base, palette.highlight) : TimelineManager.userColor(replyPreview.userId, palette.base)
+            active: forwardMessagePopup.showReplyPreview
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
-            maxWidth: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
+            sourceComponent: replyPreviewComponent
+        }
+
+        Component {
+            id: replyPreviewComponent
+
+            Reply {
+                id: replyPreview
+
+                enabled: false
+                eventId: mid
+                room_: activeRoom
+                userColor: activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, palette.window, palette.highlight) : TimelineManager.userColor(replyPreview.userId, palette.window)
+                roomColor: activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, palette.base, palette.highlight) : TimelineManager.userColor(replyPreview.userId, palette.base)
+                width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
+                maxWidth: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
+            }
         }
 
         // Room search (visible when not confirming)
@@ -148,7 +177,8 @@ Popup {
                 }
             }
             onTextEdited: {
-                completerPopup.completer.searchString = text;
+                if (completerPopup.completer)
+                    completerPopup.completer.searchString = text;
             }
         }
 
@@ -192,7 +222,8 @@ Popup {
                 highlighted: true
                 text: qsTr("Forward")
                 onClicked: {
-                    room.forwardMessage(forwardMessagePopup.mid, forwardMessagePopup.pendingRoomId);
+                    if (activeRoom)
+                        activeRoom.forwardMessage(forwardMessagePopup.mid, forwardMessagePopup.pendingRoomId);
                     forwardMessagePopup.close();
                 }
 

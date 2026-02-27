@@ -13,6 +13,7 @@ AbstractButton {
 
     property string iconSource: ""
     property string labelText: ""
+    property bool iconMirror: false
     property color textColor: "white"
     property color hoverIconColor: textColor
     property color hoverTextColor: hoverIconColor
@@ -50,6 +51,7 @@ AbstractButton {
                 width: root.iconSize
                 height: root.iconSize
                 anchors.horizontalCenter: parent.horizontalCenter
+                mirror: root.iconMirror
                 source: root.iconSource !== ""
                         ? "image://colorimage/" + root.iconSource + "?" + (root.hovered ? root.hoverIconColor : root.textColor)
                         : ""

@@ -83,7 +83,15 @@ public:
                                       const QString &eventId,
                                       double originalWidth,
                                       double proportionalHeight);
+    Q_INVOKABLE void openImageOverlayWithContext(TimelineModel *room,
+                                                 const QString &mxcUrl,
+                                                 const QString &eventId,
+                                                 double originalWidth,
+                                                 double proportionalHeight,
+                                                 QObject *timeline,
+                                                 QObject *timelineView);
     Q_INVOKABLE void openImagePackSettings(QString roomid);
+    Q_INVOKABLE void openMedia(QString mxcUrl);
     Q_INVOKABLE void saveMedia(QString mxcUrl);
     Q_INVOKABLE void copyImage(const QString &mxcUrl) const;
     Q_INVOKABLE QColor userColor(QString id, QColor background);
@@ -124,7 +132,9 @@ signals:
                           QString eventId,
                           QString url,
                           double originalWidth,
-                          double proportionalHeight);
+                          double proportionalHeight,
+                          QObject *timeline,
+                          QObject *timelineView);
     void ignoredUsersChanged(const QVector<QString> &ignoredUsers);
 
 public slots:

@@ -139,7 +139,7 @@ EventDelegateChooser {
             Layout.fillWidth: true
             //Layout.maximumWidth: tempWidth
             //Layout.maximumHeight: timelineView.height / 8
-            containerHeight: timelineView.height
+            containerHeight: timelineView ? timelineView.height : Screen.height
         }
     }
     EventDelegateChoice {

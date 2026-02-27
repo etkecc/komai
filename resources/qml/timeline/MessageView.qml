@@ -815,6 +815,9 @@ Item {
         id: forwardCompleterComponent
 
         ForwardCompleter {
+            roomSource: room
+            timelineSource: timeline
+            timelineViewSource: timelineView
         }
     }
     Menu {

@@ -15,6 +15,7 @@ import im.nheko
 
 Pane {
     id: timelineRoot
+    property var activeImageOverlay: null
 
     function adjustFontSize(step) {
         const minFontSizePt = 6;
@@ -32,6 +33,29 @@ Pane {
     }
     function destroyOnClosed(obj) {
         obj.aboutToHide.connect(() => obj.destroy(1000));
+    }
+    function showForwardMessageDialog(room, eventId, timeline, timelineView) {
+        if (!room || !eventId)
+            return;
+
+        var component = Qt.createComponent("qrc:/resources/qml/ForwardCompleter.qml");
+        if (component.status == Component.Ready) {
+            var dialog = component.createObject(timelineRoot, {
+                    "roomSource": room,
+                    "timelineSource": timeline ?? null,
+                    "timelineViewSource": timelineView ?? null,
+                    "showReplyPreview": !!timeline && !!timelineView
+                });
+            if (!dialog) {
+                console.error("Failed to create ForwardCompleter object");
+                return;
+            }
+            dialog.setMessageEventId(eventId);
+            dialog.open();
+            destroyOnClose(dialog);
+        } else {
+            console.error("Failed to create component: " + component.errorString());
+        }
     }
 
     //Timer {
@@ -115,6 +139,14 @@ Pane {
         sequence: StandardKey.Quit
 
         onActivated: Qt.quit()
+    }
+    Shortcut {
+        sequences: ["Escape"]
+        context: Qt.ApplicationShortcut
+        enabled: !!timelineRoot.activeImageOverlay && timelineRoot.activeImageOverlay.visible
+
+        onActivated: timelineRoot.activeImageOverlay.close()
+        onActivatedAmbiguously: timelineRoot.activeImageOverlay.close()
     }
     Shortcut {
         sequence: "Ctrl+K"
@@ -273,7 +305,7 @@ Pane {
                 console.error("Failed to create component: " + component.errorString());
             }
         }
-        function onShowImageOverlay(room, eventId, url, originalWidth, proportionalHeight) {
+        function onShowImageOverlay(room, eventId, url, originalWidth, proportionalHeight, timeline, timelineView) {
             var component = Qt.createComponent("qrc:/resources/qml/dialogs/ImageOverlay.qml");
             if (component.status == Component.Ready) {
                 var dialog = component.createObject(timelineRoot, {
@@ -282,13 +314,23 @@ Pane {
                         "url": url,
                         "originalWidth": originalWidth ?? 0,
                         "proportionalHeight": proportionalHeight ?? 0,
+                        "timelineContext": timeline ?? null,
+                        "timelineViewContext": timelineView ?? null,
+                        "popupParent": timelineRoot,
                         "modalOverlayColor": Qt.rgba(timelineRoot.palette.window.r, timelineRoot.palette.window.g, timelineRoot.palette.window.b, 0.7),
                         "actionButtonColor": timelineRoot.palette.text,
                         "actionButtonHoverColor": timelineRoot.palette.highlight,
                         "actionBarColor": Qt.rgba(timelineRoot.palette.alternateBase.r, timelineRoot.palette.alternateBase.g, timelineRoot.palette.alternateBase.b, 0.75),
                         "actionButtonHoverBackgroundColor": Qt.rgba(timelineRoot.palette.dark.r, timelineRoot.palette.dark.g, timelineRoot.palette.dark.b, 0.8)
-                    });
+                });
+                timelineRoot.activeImageOverlay = dialog;
+                dialog.visibleChanged.connect(() => {
+                    if (!dialog.visible && timelineRoot.activeImageOverlay === dialog)
+                        timelineRoot.activeImageOverlay = null;
+                });
                 dialog.showFullScreen();
+                dialog.raise();
+                dialog.requestActivate();
                 destroyOnClose(dialog);
             } else {
                 console.error("Failed to create component: " + component.errorString());

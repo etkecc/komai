@@ -23,6 +23,28 @@ AbstractButton {
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
 
     property bool showImage: room.showImage()
+    readonly property string blurhashAlphabet: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%*+,-.:;=?@[]^_{|}~"
+    readonly property bool blurOverlayActive: !!timeline && !!timeline.windowFocusBlurOverlay && timeline.windowFocusBlurOverlay.active
+    readonly property bool hasValidBlurhash: {
+        if (!blurhash || blurhash.length < 6)
+            return false;
+
+        let sizeFlag = -1;
+        for (let i = 0; i < blurhash.length; ++i) {
+            const value = blurhashAlphabet.indexOf(blurhash.charAt(i));
+            if (value < 0)
+                return false;
+            if (i === 0)
+                sizeFlag = value;
+        }
+
+        if (sizeFlag < 0)
+            return false;
+
+        const numY = Math.floor(sizeFlag / 9) + 1;
+        const numX = (sizeFlag % 9) + 1;
+        return blurhash.length === (4 + 2 * numX * numY);
+    }
 
     EventDelegateChooser.keepAspectRatio: true
     EventDelegateChooser.maxWidth: originalWidth
@@ -32,15 +54,15 @@ AbstractButton {
     hoverEnabled: true
     enabled: !EventDelegateChooser.isReply
 
-    state: (img.status != Image.Ready || timeline.windowFocusBlurOverlay.active) ? "BlurhashVisible" : "ImageVisible"
+    state: (img.status != Image.Ready || blurOverlayActive) ? "BlurhashVisible" : "ImageVisible"
     states: [
         State {
             name: "BlurhashVisible"
 
             PropertyChanges {
                 blurhash_ {
-                    opacity: (img.status != Image.Ready) || (timeline.windowFocusBlurOverlay.active && blurhash) ? 1 : 0
-                    visible: (img.status != Image.Ready) || (timeline.windowFocusBlurOverlay.active && blurhash)
+                    opacity: (img.status != Image.Ready) || (blurOverlayActive && hasValidBlurhash) ? 1 : 0
+                    visible: (img.status != Image.Ready) || (blurOverlayActive && hasValidBlurhash)
                 }
             }
 
@@ -107,7 +129,7 @@ AbstractButton {
     property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth+4 : false
 
     onClicked: {
-        Settings.timelineMediaOpenImagesExternal ? room.openMedia(eventId) : TimelineManager.openImageOverlay(room, url, eventId, originalWidth, proportionalHeight);
+        Settings.timelineMediaOpenImagesExternal ? room.openMedia(eventId) : TimelineManager.openImageOverlayWithContext(room, url, eventId, originalWidth, proportionalHeight, timeline, timelineView);
     }
 
     Item {
@@ -153,11 +175,11 @@ AbstractButton {
         Image {
             id: blurhash_
 
-            source: blurhash ? ("image://blurhash/" + blurhash) : ("image://colorimage/:/icons/icons/ui/image-failed.svg?" + palette.buttonText)
+            source: hasValidBlurhash ? ("image://blurhash/" + blurhash) : ("image://colorimage/:/icons/icons/ui/image-failed.svg?" + palette.buttonText)
             asynchronous: true
             fillMode: Image.PreserveAspectFit
-            sourceSize.width: blurhash ? parent.width * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
-            sourceSize.height: blurhash ? parent.height * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
+            sourceSize.width: hasValidBlurhash ? parent.width * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
+            sourceSize.height: hasValidBlurhash ? parent.height * Screen.devicePixelRatio : Math.min(parent.width, parent.height)
 
             anchors.fill: parent
         }

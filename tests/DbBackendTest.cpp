@@ -931,6 +931,9 @@ testSyncStateHelper()
         auto syncStateDb = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::SyncState);
 
         db::putSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch, "batch-1");
+        db::putNextBatchToken(txn, syncStateDb, "batch-2");
+        db::putCacheFormatVersion(txn, syncStateDb, "3");
+        db::putOlmAccount(txn, syncStateDb, "olm-account-pickle");
         db::putSyncStateSecretValue(txn, syncStateDb, "pickle_secret", "encrypted-pickle");
         txn.commit();
     }
@@ -944,12 +947,34 @@ testSyncStateHelper()
         ok &= expect(db::getSyncStateValue(
                        txn, syncStateDb, db::catalog::SyncStateKey::NextBatch, nextBatch),
                      "sync state helper reads enum-keyed value");
-        ok &= expect(nextBatch == "batch-1", "sync state helper returns enum-keyed value");
+        ok &= expect(nextBatch == "batch-2", "sync state helper returns enum-keyed value");
 
         const auto nextBatchCopy =
           db::getSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch);
-        ok &= expect(nextBatchCopy.has_value() && *nextBatchCopy == "batch-1",
+        ok &= expect(nextBatchCopy.has_value() && *nextBatchCopy == "batch-2",
                      "sync state helper optional getter returns enum-keyed value");
+
+        const auto nextBatchToken = db::getNextBatchToken(txn, syncStateDb);
+        ok &= expect(nextBatchToken.has_value() && *nextBatchToken == "batch-2",
+                     "sync state helper typed getter returns next batch token");
+
+        const auto cacheFormatVersion =
+          db::getSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::CacheFormatVersion);
+        ok &= expect(cacheFormatVersion.has_value() && *cacheFormatVersion == "3",
+                     "sync state helper stores cache format version under enum key");
+
+        const auto typedCacheFormatVersion = db::getCacheFormatVersion(txn, syncStateDb);
+        ok &= expect(typedCacheFormatVersion.has_value() && *typedCacheFormatVersion == "3",
+                     "sync state helper typed getter returns cache format version");
+
+        const auto olmAccount =
+          db::getSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::OlmAccount);
+        ok &= expect(olmAccount.has_value() && *olmAccount == "olm-account-pickle",
+                     "sync state helper stores olm account under enum key");
+
+        const auto typedOlmAccount = db::getOlmAccount(txn, syncStateDb);
+        ok &= expect(typedOlmAccount.has_value() && *typedOlmAccount == "olm-account-pickle",
+                     "sync state helper typed getter returns olm account");
 
         std::string_view secretValue;
         ok &= expect(db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret", secretValue),
@@ -968,6 +993,11 @@ testSyncStateHelper()
 
         ok &= expect(db::removeSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch),
                      "sync state helper removes enum-keyed value");
+        ok &= expect(db::removeSyncStateValue(
+                       txn, syncStateDb, db::catalog::SyncStateKey::CacheFormatVersion),
+                     "sync state helper removes cache format version value");
+        ok &= expect(db::removeSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::OlmAccount),
+                     "sync state helper removes olm account value");
         ok &= expect(db::removeSyncStateSecretValue(txn, syncStateDb, "pickle_secret"),
                      "sync state helper removes secret-keyed value");
         txn.commit();
@@ -981,6 +1011,12 @@ testSyncStateHelper()
         ok &= expect(
           !db::getSyncStateValue(txn, syncStateDb, db::catalog::SyncStateKey::NextBatch).has_value(),
           "sync state helper reports missing enum-keyed value");
+        ok &= expect(!db::getNextBatchToken(txn, syncStateDb).has_value(),
+                     "sync state helper typed next batch getter reports missing value");
+        ok &= expect(!db::getCacheFormatVersion(txn, syncStateDb).has_value(),
+                     "sync state helper typed cache version getter reports missing value");
+        ok &= expect(!db::getOlmAccount(txn, syncStateDb).has_value(),
+                     "sync state helper typed olm account getter reports missing value");
         ok &= expect(!db::getSyncStateSecretValue(txn, syncStateDb, "pickle_secret").has_value(),
                      "sync state helper reports missing secret-keyed value");
     }

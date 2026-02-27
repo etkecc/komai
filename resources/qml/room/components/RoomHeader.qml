@@ -303,31 +303,9 @@ Pane {
                 room: topBar.room
                 roomId: topBar.roomId
             }
-            ScrollView {
-                id: widgets
-
-                Layout.column: 1
-                Layout.columnSpan: 9
-                Layout.fillWidth: true
-                Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 1.5)
-                Layout.row: 4
-                ScrollBar.horizontal.visible: false
-                clip: true
-                visible: !!room && room.widgetLinks.length > 0 && !Settings.hiddenWidgets.includes(roomId)
-                contentWidth: availableWidth
-
-                ListView {
-                    model: room ? room.widgetLinks : undefined
-                    spacing: Nheko.paddingSmall
-
-                    delegate: MatrixText {
-                        width: widgets.width
-                        required property var modelData
-
-                        color: palette.text
-                        text: modelData
-                    }
-                }
+            RoomWidgetsSection {
+                room: topBar.room
+                roomId: topBar.roomId
             }
             RowLayout {
                 Layout.column: 1

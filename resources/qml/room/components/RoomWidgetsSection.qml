@@ -1,0 +1,40 @@
+// SPDX-FileCopyrightText: Nheko Contributors
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import im.nheko
+import "../../ui"
+
+ScrollView {
+    id: widgets
+
+    required property var room
+    required property string roomId
+
+    Layout.column: 1
+    Layout.columnSpan: 9
+    Layout.fillWidth: true
+    Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 1.5)
+    Layout.row: 4
+    ScrollBar.horizontal.visible: false
+    clip: true
+    visible: !!room && room.widgetLinks.length > 0 && !Settings.hiddenWidgets.includes(roomId)
+    contentWidth: availableWidth
+
+    ListView {
+        model: room ? room.widgetLinks : undefined
+        spacing: Nheko.paddingSmall
+
+        delegate: MatrixText {
+            width: widgets.width
+            required property var modelData
+
+            color: palette.text
+            text: modelData
+        }
+    }
+}

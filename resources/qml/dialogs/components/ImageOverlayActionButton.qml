@@ -18,6 +18,9 @@ AbstractButton {
     property color hoverIconColor: textColor
     property color hoverTextColor: hoverIconColor
     property color hoverBackgroundColor: Qt.rgba(0, 0, 0, 0.45)
+
+    // Allow buttons anchored to a screen edge to remove top-right rounding only when highlighted.
+    property bool flatTopRightCorner: false
     property int iconSize: 24
     property int blockPadding: Nheko.paddingMedium
     property int contentSpacing: Nheko.paddingSmall
@@ -44,6 +47,17 @@ AbstractButton {
     background: Rectangle {
         radius: Nheko.paddingMedium
         color: root.hovered || root.pressed || root.visualFocus ? root.hoverBackgroundColor : "transparent"
+
+        // This overlays the rounded corner so the top-right of just this button stays square
+        // when the pointer/keyboard focus is active, matching image-overlay edge positioning.
+        Rectangle {
+            anchors.top: parent.top
+            anchors.right: parent.right
+            width: parent.radius
+            height: parent.radius
+            color: parent.color
+            visible: root.flatTopRightCorner && (root.hovered || root.pressed || root.visualFocus)
+        }
     }
 
     contentItem: Item {

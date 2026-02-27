@@ -297,6 +297,16 @@ Window {
         color: actionBarColor
         radius: Nheko.paddingMedium
 
+        // Keep only three corners rounded so the bar can remain flush against
+        // the right screen edge while retaining the original left-side shape.
+        Rectangle {
+            anchors.top: parent.top
+            anchors.right: parent.right
+            width: actionBar.radius
+            height: actionBar.radius
+            color: actionBar.color
+        }
+
         Row {
             id: actionsRow
             property int uniformActionWidth: Math.max(forwardButton.visible ? forwardButton.implicitWidth : 0,
@@ -435,6 +445,10 @@ Window {
                 width: actionsRow.uniformActionWidth
                 KeyNavigation.tab: forwardButton.visible ? forwardButton : openButton
                 KeyNavigation.backtab: downloadButton
+
+                // Keep close action flat at the screen edge so the full actions row appears
+                // as one continuous bar anchored to the right.
+                flatTopRightCorner: true
 
                 iconSource: ":/icons/icons/ui/dismiss.svg"
                 labelText: qsTr("Close")

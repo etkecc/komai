@@ -21,7 +21,7 @@ QtObject {
     readonly property string powerLevelEditorDialog: "qrc:/resources/qml/dialogs/room/PowerLevelEditor.qml"
     readonly property string powerLevelSpacesApplyDialog: "qrc:/resources/qml/dialogs/room/PowerLevelSpacesApplyDialog.qml"
     readonly property string reCaptchaDialog: "qrc:/resources/qml/dialogs/account/ReCaptchaDialog.qml"
-    readonly property string rawMessageDialog: "qrc:/resources/qml/dialogs/RawMessageDialog.qml"
+    readonly property string rawMessageDialog: "qrc:/resources/qml/dialogs/timeline/RawMessageDialog.qml"
     readonly property string roomMembersDialog: "qrc:/resources/qml/dialogs/room/RoomMembers.qml"
     readonly property string roomSettingsDialog: "qrc:/resources/qml/dialogs/room/RoomSettingsDialog.qml"
     readonly property string userProfileDialog: "qrc:/resources/qml/dialogs/user/UserProfile.qml"

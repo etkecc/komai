@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../dialogs"
+import "../dialogs/timeline"
 import "../pages"
 import "../ui"
 import "../components/encryption" as Encryption

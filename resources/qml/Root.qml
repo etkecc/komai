@@ -5,12 +5,12 @@
 
 import "./dialogs"
 import "./pages"
+import "./shell"
 import "./ui"
 import "./components/encryption" as Encryption
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import QtQuick.Dialogs
 import im.nheko
 
 Pane {
@@ -375,98 +375,9 @@ Pane {
     }
     Encryption.SelfVerificationCoordinator {
     }
-    InputDialog {
-        id: uiaPassPrompt
-
-        echoMode: TextInput.Password
-        prompt: qsTr("Please enter your login password to continue:")
-        title: UIA.title
-
-        onAccepted: t => {
-            return UIA.continuePassword(t);
-        }
-    }
-    InputDialog {
-        id: uiaEmailPrompt
-
-        prompt: qsTr("Please enter a valid email address to continue:")
-        title: UIA.title
-
-        onAccepted: t => {
-            return UIA.continueEmail(t);
-        }
-    }
-    PhoneNumberInputDialog {
-        id: uiaPhoneNumberPrompt
-
-        prompt: qsTr("Please enter a valid phone number to continue:")
-        title: UIA.title
-
-        onAccepted: (p, t) => {
-            return UIA.continuePhoneNumber(p, t);
-        }
-    }
-    InputDialog {
-        id: uiaTokenPrompt
-
-        prompt: qsTr("Please enter the token which has been sent to you:")
-        title: UIA.title
-
-        onAccepted: t => {
-            return UIA.submit3pidToken(t);
-        }
-    }
-    MessageDialog {
-        id: uiaConfirmationLinkDialog
-
-        buttons: MessageDialog.Ok
-        text: qsTr("Wait for the confirmation link to arrive, then continue.")
-
-        onAccepted: UIA.continue3pidReceived()
-    }
-    Connections {
-        function onConfirm3pidToken() {
-            uiaConfirmationLinkDialog.open();
-        }
-        function onEmail() {
-            uiaEmailPrompt.show();
-        }
-        function onFallbackAuth(fallback) {
-            var component = Qt.createComponent(componentCatalog.fallbackAuthDialog);
-            if (component.status == Component.Ready) {
-                var dialog = component.createObject(timelineRoot, {
-                        "fallback": fallback
-                    });
-                dialog.show();
-                destroyOnClose(dialog);
-            } else {
-                console.error("Failed to create component: " + component.errorString());
-            }
-        }
-        function onPassword() {
-            console.log("UIA: password needed");
-            uiaPassPrompt.show();
-        }
-        function onPhoneNumber() {
-            uiaPhoneNumberPrompt.show();
-        }
-        function onPrompt3pidToken() {
-            uiaTokenPrompt.show();
-        }
-        function onReCaptcha(recaptcha) {
-            var component = Qt.createComponent(componentCatalog.reCaptchaDialog);
-            if (component.status == Component.Ready) {
-                var dialog = component.createObject(timelineRoot, {
-                        "recaptcha": recaptcha
-                    });
-                dialog.show();
-                destroyOnClose(dialog);
-            } else {
-                console.error("Failed to create component: " + component.errorString());
-            }
-        }
-
-        target: UIA
+    UiaCoordinator {
+        timelineRoot: timelineRoot
+        componentCatalog: componentCatalog
     }
     StackView {
         id: mainWindow

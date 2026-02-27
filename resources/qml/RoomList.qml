@@ -5,7 +5,7 @@
 
 import "./components"
 import "./dialogs"
-import "./timeline" as Timeline
+import "./shell"
 import "./ui"
 import QtQuick
 import QtQuick.Controls
@@ -35,17 +35,7 @@ Page {
             clip: true
 
             function openUserProfile() {
-                Nheko.updateUserProfile();
-                var component = Qt.createComponent(componentCatalog.userProfileDialog);
-                if (component.status == Component.Ready) {
-                    var userProfile = component.createObject(timelineRoot, {
-                            "profile": Nheko.currentUser
-                        });
-                    userProfile.show();
-                    timelineRoot.destroyOnClose(userProfile);
-                } else {
-                    console.error("Failed to create component: " + component.errorString());
-                }
+                profileContextMenu.openCurrentUserProfile();
             }
 
             Layout.alignment: Qt.AlignBottom
@@ -347,111 +337,14 @@ Page {
 
         target: MainWindow
     }
-    Menu {
+    RoomListProfileMenu {
         id: profileContextMenu
 
-        function openUserProfile() {
-            Nheko.updateUserProfile();
-            var component = Qt.createComponent(componentCatalog.userProfileDialog);
-            if (component.status == Component.Ready) {
-                var userProfile = component.createObject(timelineRoot, {
-                        "profile": Nheko.currentUser
-                    });
-                userProfile.show();
-                timelineRoot.destroyOnClose(userProfile);
-            } else {
-                console.error("Failed to create component: " + component.errorString());
-            }
-        }
-
-        Component.onCompleted: {
-            if (profileContextMenu.popupType != undefined) {
-                profileContextMenu.popupType = 2;
-            }
-        }
-
-        MenuItem {
-            text: qsTr("Profile Settings")
-            icon.source: "qrc:/icons/icons/ui/person.svg"
-            onTriggered: profileContextMenu.openUserProfile()
-        }
-        MenuItem {
-            text: qsTr("Set Status Message")
-            icon.source: "qrc:/icons/icons/ui/tag.svg"
-            onTriggered: profileStatusDialog.show()
-        }
-        MenuSeparator {
-        }
-        MenuItem {
-            text: qsTr("Application Settings")
-            icon.source: "qrc:/icons/icons/ui/toggles.svg"
-            onTriggered: MainWindow.showUserSettingsPage()
-        }
-        MenuSeparator {
-        }
-        MenuItem {
-            text: qsTr("Join a room")
-            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            onTriggered: Nheko.openJoinRoomDialog()
-        }
-        MenuItem {
-            text: qsTr("Create a new room")
-            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            onTriggered: {
-                var createRoom = createRoomComponent.createObject(timelineRoot);
-                createRoom.show();
-                timelineRoot.destroyOnClose(createRoom);
-            }
-        }
-        MenuItem {
-            text: qsTr("Start a direct chat")
-            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            onTriggered: {
-                var createDirect = createDirectComponent.createObject(timelineRoot);
-                createDirect.show();
-                timelineRoot.destroyOnClose(createDirect);
-            }
-        }
-        MenuItem {
-            text: qsTr("Create a new community")
-            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            onTriggered: {
-                var createRoom = createRoomComponent.createObject(timelineRoot, {
-                        "space": true
-                    });
-                createRoom.show();
-                timelineRoot.destroyOnClose(createRoom);
-            }
-        }
-        MenuItem {
-            text: qsTr("Room directory")
-            icon.source: "qrc:/icons/icons/ui/room-directory.svg"
-            onTriggered: {
-                var win = roomDirectoryComponent.createObject(timelineRoot);
-                win.show();
-                timelineRoot.destroyOnClose(win);
-            }
-        }
-        MenuSeparator {
-        }
-        MenuItem {
-            text: qsTr("Logout")
-            icon.source: "qrc:/icons/icons/ui/power-off.svg"
-            onTriggered: Nheko.openLogoutDialog()
-        }
-    }
-
-    InputDialog {
-        id: profileStatusDialog
-
-        property var profile: Nheko.currentUser
-
-        prompt: qsTr("Enter your status message:")
-        title: qsTr("Status Message")
-        text: profile ? Presence.userStatus(profile.userid) : ""
-        onAccepted: function (text) {
-            Nheko.setStatusMessage(text);
-        }
+        timelineRoot: timelineRoot
+        componentCatalog: componentCatalog
+        createRoomComponent: createRoomComponent
+        createDirectComponent: createDirectComponent
+        roomDirectoryComponent: roomDirectoryComponent
     }
 
     Component {
@@ -762,51 +655,7 @@ Page {
         Component {
             id: roomWindowComponent
 
-            ApplicationWindow {
-                id: roomWindowW
-
-                property var room: null
-                property var roomPreview: null
-
-                color: palette.window
-                height: 650
-                minimumHeight: 150
-                minimumWidth: 150
-                title: room.plainRoomName
-                width: 420
-
-                Component.onCompleted: {
-                    MainWindow.addPerRoomWindow(room.roomId || roomPreview.roomid, roomWindowW);
-                    Nheko.setTransientParent(roomWindowW, null);
-                }
-                Component.onDestruction: MainWindow.removePerRoomWindow(room.roomId || roomPreview.roomid, roomWindowW)
-                onActiveChanged: {
-                    room.lastReadIdOnWindowFocus();
-                }
-
-                //flags: Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-                Shortcut {
-                    sequence: StandardKey.Cancel
-
-                    onActivated: roomWindowW.close()
-                }
-                Timeline.TimelineView {
-                    id: timeline
-
-                    anchors.fill: parent
-                    windowFocusBlurOverlay: windowFocusBlurOverlay
-                    room: roomWindowW.room
-                    roomPreview: roomWindowW.roomPreview.roomid ? roomWindowW.roomPreview : null
-                }
-                PrivacyScreen {
-                    id: windowFocusBlurOverlay
-
-                    anchors.fill: parent
-                    screenTimeout: Settings.privacyWindowFocusBlurDelaySeconds
-                    timelineRoot: timeline
-                    visible: Settings.privacyWindowFocusBlurEnabled
-                    windowTarget: roomWindowW
-                }
+            DetachedRoomWindow {
             }
         }
         Menu {

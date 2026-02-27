@@ -16,9 +16,6 @@
 #if KOMAI_DB_WITH_LMDB
 #include "db/LmdbBackend.h"
 #endif
-#if KOMAI_DB_WITH_ROCKSDB
-#include "db/RocksDbBackend.h"
-#endif
 
 namespace db {
 
@@ -45,31 +42,13 @@ makeLmdbBackend()
     return std::make_unique<LmdbBackend>();
 }
 #endif
-#if KOMAI_DB_WITH_ROCKSDB
-std::unique_ptr<Backend>
-makeRocksDbBackend()
-{
-    return std::make_unique<RocksDbBackend>();
-}
-#endif
 
 std::span<const BackendEntry>
 registeredBackends() noexcept
 {
-#if KOMAI_DB_WITH_ROCKSDB && KOMAI_DB_WITH_LMDB
-    static constexpr std::array<BackendEntry, 3> backends{
-      BackendEntry{kLmdbBackendId, &makeLmdbBackend},
-      BackendEntry{kRocksDbBackendId, &makeRocksDbBackend},
-      BackendEntry{kMemoryBackendId, &makeInMemoryBackend},
-    };
-#elif KOMAI_DB_WITH_LMDB
+#if KOMAI_DB_WITH_LMDB
     static constexpr std::array<BackendEntry, 2> backends{
       BackendEntry{kLmdbBackendId, &makeLmdbBackend},
-      BackendEntry{kMemoryBackendId, &makeInMemoryBackend},
-    };
-#elif KOMAI_DB_WITH_ROCKSDB
-    static constexpr std::array<BackendEntry, 2> backends{
-      BackendEntry{kRocksDbBackendId, &makeRocksDbBackend},
       BackendEntry{kMemoryBackendId, &makeInMemoryBackend},
     };
 #else

@@ -14,7 +14,7 @@ Quick jumps:
 | Kind | Location |
 | --- | --- |
 | Profile settings files | `~/.config/komai/profiles/<profile-id>/` |
-| Chat database (default backend: LMDB when built, memory fallback when no persistent backend is built) | `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/` |
+| Chat database | `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/` |
 | User themes | `~/.local/share/komai/themes/` (see [themes.md](themes.md#-user-themes)) |
 | Media cache | `~/.cache/komai/profiles/<profile-id>/media_cache/` |
 | Log file (if file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
@@ -32,7 +32,7 @@ bytes outside `[A-Za-z0-9._@+-]` are encoded as `%HH` (uppercase hex).
 
 Filesystem path patterns:
 
-- Database (default backend: LMDB in standard builds; optional RocksDB when built and selected via `KOMAI_DB_BACKEND=rocksdb`; memory fallback when no persistent backend is built): `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/`
+- Database: `~/.local/share/komai/profiles/<profile-id>/db/<encoded-user-id>/`
 - Media cache entry: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>.<ext>`
 - Media cache (media subdir): `~/.cache/komai/profiles/<profile-id>/media_cache/media/<base64url(mxc-id)>.<ext>`
 - Media thumbnails: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>_<w>x<h>_<crop|scale>_radius<r>`

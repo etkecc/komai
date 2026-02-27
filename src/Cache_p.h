@@ -40,7 +40,7 @@ struct StateEvents;
 
 struct CacheDb
 {
-    std::unique_ptr<db::Database> storage = db::createDatabaseFromEnvironment();
+    std::unique_ptr<db::Database> storage = db::createDefaultDatabase();
     db::Store syncState;
     db::Store rooms;
     db::Store spacesChildren, spacesParents;

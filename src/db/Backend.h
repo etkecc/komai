@@ -49,13 +49,11 @@ using MoveOp      = CursorOp;
 inline constexpr std::string_view kMemoryDatabaseId{"memory"};
 inline constexpr std::string_view kInMemoryDatabaseId{"in-memory"};
 inline constexpr std::string_view kLmdbDatabaseId{"lmdb"};
-inline constexpr std::string_view kRocksDbDatabaseId{"rocksdb"};
 
 // Backward-compatible backend identifiers.
 inline constexpr std::string_view kMemoryBackendId   = kMemoryDatabaseId;
 inline constexpr std::string_view kInMemoryBackendId = kInMemoryDatabaseId;
 inline constexpr std::string_view kLmdbBackendId     = kLmdbDatabaseId;
-inline constexpr std::string_view kRocksDbBackendId  = kRocksDbDatabaseId;
 
 enum class DupsortComparator
 {

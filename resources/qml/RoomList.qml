@@ -213,63 +213,22 @@ Page {
 
                 spacing: Nheko.paddingMedium
 
-                MouseArea {
+                UserSettingsFlipButton {
                     id: userSettingsButton
 
-                    property var profile: Nheko.currentUser
-                    property int avatarButtonSize: Nheko.barIconSize
+                    profile: Nheko.currentUser
+                    avatarButtonSize: Nheko.barIconSize
 
                     Layout.preferredHeight: avatarButtonSize
                     Layout.preferredWidth: avatarButtonSize
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: (profile ? profile.displayName : "") + "\n" + (profile ? profile.userid : "")
-                    ToolTip.visible: containsMouse
-
-                    onClicked: function(mouse) {
-                        if (mouse.button === Qt.RightButton || !roomActionsBar.showActionButtons)
-                            profileContextMenu.popup(roomActionsAvatar)
+                    onLeftClicked: {
+                        if (!roomActionsBar.showActionButtons)
+                            profileContextMenu.popup(userSettingsButton)
                         else
                             MainWindow.showUserSettingsPage()
                     }
 
-                    Avatar {
-                        id: roomActionsAvatar
-
-                        anchors.centerIn: parent
-                        width: userSettingsButton.avatarButtonSize
-                        height: userSettingsButton.avatarButtonSize
-                        displayName: userSettingsButton.profile ? userSettingsButton.profile.displayName : ""
-                        url: (userSettingsButton.profile ? userSettingsButton.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")
-                        userid: userSettingsButton.profile ? userSettingsButton.profile.userid : ""
-                        enabled: false
-                    }
-
-                    Rectangle {
-                        property int badgeSize: Math.round(userSettingsButton.avatarButtonSize * 0.44)
-                        property int iconSize: Math.round(badgeSize * 0.69)
-
-                        anchors.bottom: roomActionsAvatar.bottom
-                        anchors.left: roomActionsAvatar.left
-                        anchors.bottomMargin: -2
-                        anchors.leftMargin: -2
-                        width: badgeSize
-                        height: badgeSize
-                        radius: Math.round(badgeSize * 0.25)
-                        color: palette.window
-
-                        Image {
-                            anchors.centerIn: parent
-                            source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
-                            sourceSize.width: parent.iconSize
-                            sourceSize.height: parent.iconSize
-                            width: parent.iconSize
-                            height: parent.iconSize
-                        }
-                    }
+                    onRightClicked: profileContextMenu.popup(userSettingsButton)
                 }
                 Item {
                     Layout.fillWidth: true

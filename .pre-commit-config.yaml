@@ -45,6 +45,12 @@ repos:
         language: system
         files: '^src/.*\.(cpp|h)$'
         pass_filenames: false
+      - id: db-boundary
+        name: Enforce db module boundaries
+        entry: ./bin/prek/db-boundary.sh
+        language: system
+        files: '^(src/db/.*\.(cpp|h)|bin/prek/db-boundary\.sh|docs/architecture/storage\.md|docs/architecture/cache/README\.md)$'
+        pass_filenames: false
       - id: icons-audit
         name: Audit icon references and resource registration
         entry: ./bin/icons/audit.sh --strict

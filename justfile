@@ -255,6 +255,7 @@ lint:
 			settings-3-layer-mapping-check \
 			check-markdown-links \
 			no-qsettings \
+			db-boundary \
 			license-check
 
 # Runs REUSE compliance lint (skips if reuse is unavailable in this environment)

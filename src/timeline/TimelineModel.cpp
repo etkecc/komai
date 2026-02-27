@@ -1954,8 +1954,28 @@ TimelineModel::addPendingMessage(mtx::events::collections::TimelineEvents event)
 void
 TimelineModel::openMedia(const QString &eventId)
 {
-    cacheMedia(eventId, [](const QString &filename) {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(filename));
+    const auto roomIdStd  = room_id_.toStdString();
+    const auto eventIdStd = eventId.toStdString();
+    nhlog::ui()->info("Open media requested (room='{}', event='{}')", roomIdStd, eventIdStd);
+
+    cacheMedia(eventId, [roomIdStd, eventIdStd](const QString &filename) {
+        QTimer::singleShot(0, ChatPage::instance(), [roomIdStd, eventIdStd, filename] {
+            const auto filePathStd = filename.toStdString();
+            const auto opened      = QDesktopServices::openUrl(QUrl::fromLocalFile(filename));
+            if (!opened) {
+                nhlog::ui()->warn(
+                  "Failed to open media externally (room='{}', event='{}', file='{}')",
+                  roomIdStd,
+                  eventIdStd,
+                  filePathStd);
+                return;
+            }
+
+            nhlog::ui()->info("Opened media externally (room='{}', event='{}', file='{}')",
+                              roomIdStd,
+                              eventIdStd,
+                              filePathStd);
+        });
     });
 }
 
@@ -2097,8 +2117,12 @@ TimelineModel::cacheMedia(const QString &eventId,
                           const std::function<void(const QString)> &callback)
 {
     auto event = events.get(eventId.toStdString(), "");
-    if (!event)
+    if (!event) {
+        nhlog::ui()->warn("cacheMedia failed: event not found (room='{}', event='{}')",
+                          room_id_.toStdString(),
+                          eventId.toStdString());
         return;
+    }
 
     QString mxcUrl   = QString::fromStdString(mtx::accessors::url(*event));
     QString mimeType = QString::fromStdString(mtx::accessors::mimetype(*event));
@@ -2125,6 +2149,10 @@ TimelineModel::cacheMedia(const QString &eventId,
     QDir().mkpath(filename.path());
 
     if (filename.isReadable()) {
+        nhlog::ui()->info("cacheMedia hit (room='{}', event='{}', file='{}')",
+                          room_id_.toStdString(),
+                          eventId.toStdString(),
+                          filename.filePath().toStdString());
 #if defined(Q_OS_WIN)
         emit mediaCached(mxcUrl, filename.filePath());
 #else
@@ -2136,6 +2164,10 @@ TimelineModel::cacheMedia(const QString &eventId,
         return;
     }
 
+    nhlog::ui()->info("cacheMedia miss, downloading (room='{}', event='{}', mxc='{}')",
+                      room_id_.toStdString(),
+                      eventId.toStdString(),
+                      mxcUrl.toStdString());
     http::client()->download(
       url,
       [this, callback, mxcUrl, filename, url, encryptionInfo](const std::string &data,
@@ -2165,6 +2197,9 @@ TimelineModel::cacheMedia(const QString &eventId,
               file.close();
 
               if (callback) {
+                  nhlog::ui()->info("cacheMedia downloaded (mxc='{}', file='{}')",
+                                    mxcUrl.toStdString(),
+                                    filename.filePath().toStdString());
                   callback(filename.filePath());
               }
           } catch (const std::exception &e) {

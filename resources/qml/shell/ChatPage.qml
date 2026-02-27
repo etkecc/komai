@@ -60,7 +60,7 @@ Rectangle {
                                 : collapsedWidth
                 visible: Settings.sidebarsCommunitiesVisible
 
-                CommunitiesList {
+                Shell.CommunitiesList {
                     id: communitiesList
 
                     collapsed: parent.collapsed

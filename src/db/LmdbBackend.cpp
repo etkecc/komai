@@ -10,12 +10,9 @@
 #include <string_view>
 #include <vector>
 
-#include <nlohmann/json.hpp>
-
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Internal.h"
-#include "db/Json.h"
 #include "db/LmdbError.h"
 #include "db/LmdbFlags.h"
 #include "db/Scan.h"
@@ -35,32 +32,12 @@ compareStateKey(const MDB_val *a, const MDB_val *b)
     return stateKeyFromCompositeValue(a).compare(stateKeyFromCompositeValue(b));
 }
 
-std::string
-stateKeyFromLegacyJson(const MDB_val *value)
-{
-    nlohmann::json parsed;
-    const std::string_view raw(static_cast<const char *>(value->mv_data), value->mv_size);
-    if (!db::parseJsonValue(raw, parsed)) {
-        return {};
-    }
-
-    return parsed.value("key", "");
-}
-
-int
-compareLegacyStateByKeyJson(const MDB_val *a, const MDB_val *b)
-{
-    return stateKeyFromLegacyJson(a).compare(stateKeyFromLegacyJson(b));
-}
-
 MDB_cmp_func *
 dupsortComparatorFunc(db::DupsortComparator comparator)
 {
     switch (comparator) {
     case db::DupsortComparator::StateKey:
         return compareStateKey;
-    case db::DupsortComparator::LegacyStateByKeyJson:
-        return compareLegacyStateByKeyJson;
     }
 
     return compareStateKey;

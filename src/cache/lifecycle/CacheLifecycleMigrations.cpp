@@ -6,35 +6,17 @@
 #include "cache/Cache.h"
 #include "cache/core/Cache_p.h"
 
-#include <functional>
+#include <exception>
 #include <string_view>
-#include <utility>
-#include <vector>
-
-#include <QCoreApplication>
-#include <QEventLoop>
-#include <QTimer>
-
-#include <mtx/secret_storage.hpp>
 
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
-#include "cache/schema/Migrations.h"
 
 //! Should be changed when a breaking change occurs in the cache format.
-//! This will reset client's data.
-static constexpr std::string_view CURRENT_CACHE_FORMAT_VERSION{"2023.10.22"};
-
-namespace cache::detail {
-
-std::vector<std::pair<std::string, std::function<bool()>>>
-buildPreMigrations(MatrixStore *cache);
-
-std::vector<std::pair<std::string, std::function<bool()>>>
-buildPostMigrations(MatrixStore *cache);
-}
+//! Older formats are reset (no legacy migration chain retained).
+static constexpr std::string_view CURRENT_CACHE_FORMAT_VERSION{"2026.02.27"};
 
 //! migrates db to the current format
 bool
@@ -44,93 +26,43 @@ MatrixStore::runMigrations()
     {
         auto txn            = ro_txn(storage());
         auto currentVersion = cache::sync_state::getCacheFormatVersion(txn, db->syncState);
-
-        if (!currentVersion.has_value())
-            return false;
-
-        stored_version = std::move(*currentVersion);
+        stored_version      = currentVersion.value_or("");
     }
 
-    auto migrations = cache::detail::buildPreMigrations(this);
-    migrations.emplace_back("2021.08.22", [this]() {
-        try {
-            auto txn      = beginTxn(nullptr);
-            auto room_ids = getRoomIds(txn);
+    if (stored_version == CURRENT_CACHE_FORMAT_VERSION)
+        return true;
 
-            for (const auto &room : room_ids) {
-                for (const auto roomDb : cache::migrations::fullResyncRoomDbs()) {
-                    const auto dbName = cache::schema::roomName(room, roomDb);
-                    std::string error;
-                    if (!cache::migrations::tryDropNamedStore(storage(), txn, dbName, &error) &&
-                        !error.empty())
-                        cache::activeLoggers().db->warn("Failed to drop '{}': {}", dbName, error);
-                }
+    cache::activeLoggers().db->warn(
+      "Resetting incompatible cache format '{}'; target format is '{}'.",
+      stored_version.empty() ? "<unset>" : stored_version,
+      CURRENT_CACHE_FORMAT_VERSION);
+
+    try {
+        auto txn                = beginTxn(nullptr);
+        const auto syncStateDbi = db::catalog::globalName(db::catalog::GlobalDb::SyncState);
+        for (const auto &dbName : storage().listStoreNames(txn)) {
+            if (dbName == syncStateDbi)
+                continue;
+
+            try {
+                db::openNamedStore(storage(), txn, dbName, false).drop(txn, true);
+            } catch (const std::exception &e) {
+                cache::activeLoggers().db->warn(
+                  "Failed to drop '{}' while resetting incompatible cache: {}", dbName, e.what());
             }
-
-            // clear db, don't delete
-            db->rooms.drop(txn, false);
-            setNextBatchToken(txn, "");
-
-            txn.commit();
-        } catch (const db::Error &) {
-            cache::activeLoggers().db->critical("Failed to clear cache!");
-            return false;
         }
 
-        cache::activeLoggers().db->info(
-          "Successfully cleared the cache. Will do a clean sync after startup.");
-        return true;
-    });
-    migrations.emplace_back("2021.08.31", [this]() {
-        storeSecretInStore("pickle_secret", "secret");
-        this->pickle_secret_ = "secret";
-        return true;
-    });
-    migrations.emplace_back("2022.11.06", [this]() {
-        databaseReady_ = false;
-        loadSecretsFromStore(
-          {
-            {std::string(mtx::secret_storage::secrets::cross_signing_master), false},
-            {std::string(mtx::secret_storage::secrets::cross_signing_self_signing), false},
-            {std::string(mtx::secret_storage::secrets::cross_signing_user_signing), false},
-            {std::string(mtx::secret_storage::secrets::megolm_backup_v1), false},
-          },
-          [this,
-           count = 1](const std::string &name, bool internal, const std::string &value) mutable {
-              cache::activeLoggers().db->critical("Loaded secret {}", name);
-              this->storeSecret(name, value, internal);
-
-              // HACK(Nico): delay deletion to not crash because of multiple
-              // nested deletions.
-              // Since this is just migration code, this should be fine.
-
-              QTimer::singleShot(count * 2000, this, [this, name, internal] {
-                  deleteSecretFromStore(name, internal);
-              });
-              count++;
-          },
-          false);
-
-        while (!this->databaseReady_) {
-            QCoreApplication::instance()->processEvents(QEventLoop::AllEvents, 100);
-        }
-
-        return true;
-    });
-    auto postMigrations = cache::detail::buildPostMigrations(this);
-    migrations.insert(migrations.end(), postMigrations.begin(), postMigrations.end());
-
-    cache::activeLoggers().db->info("Running migrations, this may take a while!");
-    for (const auto &[target_version, migration] : migrations) {
-        if (target_version > stored_version)
-            if (!migration()) {
-                cache::activeLoggers().db->critical("migration failure!");
-                return false;
-            }
+        cache::sync_state::putNextBatchToken(txn, db->syncState, "");
+        cache::sync_state::putCacheFormatVersion(txn, db->syncState, CURRENT_CACHE_FORMAT_VERSION);
+        txn.commit();
+    } catch (const db::Error &e) {
+        cache::activeLoggers().db->critical("Failed to reset incompatible cache format '{}': {}",
+                                            stored_version.empty() ? "<unset>" : stored_version,
+                                            e.what());
+        return false;
     }
-    cache::activeLoggers().db->info("Migrations finished.");
 
-    setCurrentFormat();
+    cache::activeLoggers().db->info("Incompatible cache reset completed.");
     return true;
 }
 
@@ -147,7 +79,7 @@ MatrixStore::formatVersion()
     if (stored_version < CURRENT_CACHE_FORMAT_VERSION)
         return cache::CacheVersion::Older;
     else if (stored_version > CURRENT_CACHE_FORMAT_VERSION)
-        return cache::CacheVersion::Older;
+        return cache::CacheVersion::Newer;
     else
         return cache::CacheVersion::Current;
 }

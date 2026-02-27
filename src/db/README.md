@@ -5,7 +5,7 @@ This directory contains Komai's backend-neutral storage layer.
 Scope:
 
 - Provides database lifecycle, store access, cursor/scan helpers, typed key/value codecs, and
-  schema/migration primitives.
+  schema helpers.
 - Exposes reusable APIs for persistence consumers (`src/cache` today, future `src/store` modules).
 - Must remain project/domain-agnostic.
 

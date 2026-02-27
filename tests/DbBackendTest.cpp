@@ -185,13 +185,6 @@ testNamePolicy()
                    *stateKey.dupsortComparator == db::DupsortComparator::StateKey,
                  "name policy sets StateKey comparator for /states_key");
 
-    const auto legacyStateKey = db::openOptionsForName(
-      db::catalog::roomName("!room:example", db::catalog::RoomDb::LegacyStateByKey));
-    ok &= expect(legacyStateKey.dupsortComparator.has_value() &&
-                   *legacyStateKey.dupsortComparator ==
-                     db::DupsortComparator::LegacyStateByKeyJson,
-                 "name policy sets legacy comparator for /state_by_key");
-
     const auto topLevelSpace =
       db::openOptionsForName(db::catalog::globalName(db::catalog::GlobalDb::SpacesChildren));
     ok &= expect(db::hasFlag(topLevelSpace.flags, db::StoreFlags::DupSort),
@@ -229,31 +222,6 @@ testCatalog()
     ok &= expect(db::catalog::syncStateSecretKey("pickle_secret") == "secret.pickle_secret",
                  "catalog builds sync-state secret key names");
 
-    const auto mentionsName =
-      db::catalog::roomName("!room:example", db::catalog::RoomDb::LegacyMentions);
-    ok &= expect(mentionsName == "!room:example/mentions",
-                 "catalog builds legacy mentions room db names");
-
-    ok &= expect(db::catalog::legacyOlmSessionsPrefixV1() == "olm_sessions/",
-                 "catalog exposes legacy olm v1 prefix");
-    ok &= expect(db::catalog::legacyOlmSessionsPrefixV2() == "olm_sessions.v2/",
-                 "catalog exposes legacy olm v2 prefix");
-
-    ok &= expect(db::catalog::isLegacyOlmShardV1("olm_sessions/curve"),
-                 "catalog detects legacy olm v1 shard");
-    ok &= expect(db::catalog::isLegacyOlmShardV2("olm_sessions.v2/curve"),
-                 "catalog detects legacy olm v2 shard");
-
-    ok &= expect(db::catalog::legacyOlmShardV2NameFromV1("olm_sessions/curve") ==
-                   "olm_sessions.v2/curve",
-                 "catalog converts legacy olm v1 shard names to v2");
-
-    const auto curve = db::catalog::legacyOlmCurveFromV2Name("olm_sessions.v2/curve");
-    ok &= expect(curve.has_value() && *curve == "curve",
-                 "catalog extracts curve id from legacy olm v2 shard names");
-    ok &= expect(!db::catalog::legacyOlmCurveFromV2Name("not-olm/curve").has_value(),
-                 "catalog rejects non-olm db names for v2 curve extraction");
-
     const auto olmKey = db::catalog::olmSessionKey("curve", "session");
     ok &= expect(olmKey == std::string("curve\0session", 13),
                  "catalog builds v3 olm composite session keys");
@@ -284,18 +252,10 @@ testSchemaHelpers()
 {
     bool ok = true;
 
-    const auto roomDbs = db::roomDbsForFullResync();
-    ok &= expect(!roomDbs.empty(), "schema helper exposes non-empty full-resync room db list");
-    ok &= expect(std::find(roomDbs.begin(), roomDbs.end(), db::catalog::RoomDb::Events) != roomDbs.end(),
-                 "schema helper list includes RoomDb::Events");
-    ok &= expect(std::find(roomDbs.begin(), roomDbs.end(), db::catalog::RoomDb::LegacyStateByKey) !=
-                   roomDbs.end(),
-                 "schema helper list includes RoomDb::LegacyStateByKey");
-
     auto backend               = db::createDatabase(db::kMemoryDatabaseId);
     db::BackendOptions options = {};
     options.mapSizeBytes       = 1U << 20;
-    options.maxStores             = 128;
+    options.maxStores          = 32;
     db::open(backend, "", options);
 
     const auto roomId    = std::string("!room:example");
@@ -323,200 +283,6 @@ testSchemaHelpers()
         ok &= expect(!db::tryDropNamedStore(*backend, txn, eventsDbi, &error),
                      "schema helper reports false when named db is missing");
         ok &= expect(!error.empty(), "schema helper reports error string when drop fails");
-    }
-
-    const auto legacyRoom = std::string("!legacy:example");
-    {
-        auto txn    = db::beginWriteTransaction(*backend);
-        auto legacy = db::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::LegacyStateByKey);
-        ok &= expect(legacy.put(txn, "m.room.member", R"({"key":"@alice:example","id":"$member"})"),
-                     "schema helper setup inserts legacy state-by-key payload");
-        txn.commit();
-    }
-
-    {
-        auto txn = db::beginWriteTransaction(*backend);
-        std::string error;
-        const bool migrated =
-          db::migrateLegacyStateByKeyToStatesKey(*backend, txn, legacyRoom, &error);
-        ok &= expect(migrated, "schema helper migrates legacy state-by-key db");
-        ok &= expect(error.empty(), "schema helper leaves error empty on state-by-key success");
-        txn.commit();
-    }
-
-    {
-        auto txn = db::beginReadTransaction(*backend);
-        auto statesKey =
-          db::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::StatesKey, false);
-        std::string_view value;
-        ok &= expect(statesKey.get(txn, "m.room.member", value),
-                     "schema helper migrates state-by-key entry into states_key db");
-        const auto [stateKey, eventId] = db::catalog::splitStateEventIndexValue(value);
-        ok &= expect(stateKey == "@alice:example",
-                     "schema helper preserves migrated state key in states_key payload");
-        ok &= expect(eventId == "$member",
-                     "schema helper preserves migrated event id in states_key payload");
-
-        ok &= expectDbError(
-          [&] { db::openRoomStore(*backend, txn, legacyRoom, db::catalog::RoomDb::LegacyStateByKey, false); },
-          "schema helper drops legacy state-by-key db after migration");
-    }
-
-    const auto brokenRoom = std::string("!broken:example");
-    {
-        auto txn    = db::beginWriteTransaction(*backend);
-        auto legacy = db::openRoomStore(*backend, txn, brokenRoom, db::catalog::RoomDb::LegacyStateByKey);
-        ok &= expect(legacy.put(txn, "m.room.member", "{not-json"),
-                     "schema helper setup inserts invalid legacy payload");
-        txn.commit();
-    }
-
-    {
-        auto txn = db::beginWriteTransaction(*backend);
-        std::string error;
-        ok &= expect(!db::migrateLegacyStateByKeyToStatesKey(*backend, txn, brokenRoom, &error),
-                     "schema helper reports false for invalid state-by-key payload");
-        ok &= expect(!error.empty(), "schema helper provides error text on state-by-key failure");
-    }
-
-    const auto legacyMegolmKey = std::string(R"({"room_id":"!room:example","sender_key":"curve","session_id":"sid"})");
-    const auto migratedMegolmKey = std::string(R"({"room_id":"!room:example","session_id":"sid"})");
-    {
-        auto txn     = db::beginWriteTransaction(*backend);
-        auto inbound = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
-        auto outbound =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions);
-        auto data = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData);
-
-        ok &= expect(inbound.put(txn, legacyMegolmKey, "pickle"),
-                     "schema helper setup inserts legacy inbound megolm session");
-        ok &= expect(data.put(txn, legacyMegolmKey, R"({"ts":1})"),
-                     "schema helper setup inserts legacy megolm metadata");
-        ok &= expect(outbound.put(txn, "old", "outbound"),
-                     "schema helper setup inserts outbound megolm session");
-        txn.commit();
-    }
-
-    {
-        auto txn = db::beginWriteTransaction(*backend);
-        std::string error;
-        ok &= expect(db::migrateLegacyMegolmSessionIndexes(*backend, txn, &error),
-                     "schema helper migrates legacy megolm index keys");
-        ok &= expect(error.empty(), "schema helper leaves error empty on megolm index migration");
-        txn.commit();
-    }
-
-    {
-        auto txn      = db::beginReadTransaction(*backend);
-        auto inbound  = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions, false);
-        auto outbound =
-          db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OutboundMegolmSessions, false);
-        auto data = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::MegolmSessionsData, false);
-
-        std::string_view value;
-        ok &= expect(inbound.get(txn, migratedMegolmKey, value),
-                     "schema helper writes migrated inbound megolm session");
-        ok &= expect(value == "pickle", "schema helper preserves inbound megolm pickle payload");
-        ok &= expect(!inbound.get(txn, legacyMegolmKey, value),
-                     "schema helper removes legacy inbound megolm key shape");
-
-        ok &= expect(data.get(txn, migratedMegolmKey, value),
-                     "schema helper writes migrated megolm metadata");
-        const auto parsedData = nlohmann::json::parse(value);
-        ok &= expect(parsedData.value("sender_key", "") == "curve",
-                     "schema helper moves sender_key into megolm metadata payload");
-
-        ok &= expect(outbound.size(txn) == 0,
-                     "schema helper clears outbound megolm sessions during migration");
-    }
-
-    {
-        auto txn     = db::beginWriteTransaction(*backend);
-        auto inbound = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::InboundMegolmSessions);
-        ok &= expect(inbound.put(txn, "{bad-json", "pickle"),
-                     "schema helper setup inserts invalid megolm key payload");
-        std::string error;
-        ok &= expect(!db::migrateLegacyMegolmSessionIndexes(*backend, txn, &error),
-                     "schema helper reports false for invalid megolm key payload");
-        ok &= expect(!error.empty(), "schema helper provides error text on megolm migration failure");
-    }
-
-    db::close(backend);
-    return ok;
-}
-
-bool
-testLegacyOlmMigrationHelpers()
-{
-    bool ok = true;
-
-    auto backend               = db::createDatabase(db::kMemoryDatabaseId);
-    db::BackendOptions options = {};
-    options.mapSizeBytes       = 1U << 20;
-    options.maxStores             = 64;
-    db::open(backend, "", options);
-    const std::string v2Payload = R"({"s":"pickle-2","ts":7})";
-
-    const auto v1Name = std::string("olm_sessions/curve-1");
-    {
-        auto txn  = db::beginWriteTransaction(*backend);
-        auto oldV1 = db::openNamedStore(*backend, txn, v1Name);
-        ok &= expect(oldV1.put(txn, "sess-ok", "pickle-ok"), "legacy olm v1 setup puts printable value");
-        ok &= expect(oldV1.put(txn, "sess-bad", std::string("bad\1value", 9)),
-                     "legacy olm v1 setup puts non-printable value");
-        txn.commit();
-    }
-
-    {
-        auto txn = db::beginWriteTransaction(*backend);
-        db::migrateLegacyOlmShardsV1ToV2(*backend, txn);
-        txn.commit();
-    }
-
-    const auto v2Name = db::catalog::legacyOlmShardV2NameFromV1(v1Name);
-    {
-        auto txn    = db::beginReadTransaction(*backend);
-        auto newV2  = db::openNamedStore(*backend, txn, v2Name, false);
-        std::string_view value;
-        ok &= expect(newV2.get(txn, "sess-ok", value), "legacy olm v1->v2 migration keeps printable session");
-        ok &= expect(value.size() > 0, "legacy olm v1->v2 migration stores non-empty payload");
-        ok &= expect(!newV2.get(txn, "sess-bad", value),
-                     "legacy olm v1->v2 migration drops non-printable sessions");
-
-        ok &= expectDbError([&] { db::openNamedStore(*backend, txn, v1Name, false); },
-                            "legacy olm v1 db is dropped after migration");
-    }
-
-    {
-        auto txn     = db::beginWriteTransaction(*backend);
-        auto olmV2Db = db::openNamedStore(*backend, txn, "olm_sessions.v2/curve-2");
-        ok &= expect(olmV2Db.put(txn, "sess-2", v2Payload),
-                     "legacy olm v2 setup puts migrated-style payload");
-
-        auto unified = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
-        ok &= expect(db::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
-                     "legacy olm v2->v3 helper reports migration happened");
-        txn.commit();
-    }
-
-    {
-        auto txn      = db::beginReadTransaction(*backend);
-        auto unified  = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions, false);
-        std::string_view value;
-        ok &= expect(unified.get(txn, db::catalog::olmSessionKey("curve-2", "sess-2"), value),
-                     "legacy olm v2->v3 helper migrates into unified db");
-        ok &= expect(value.size() > 0, "legacy olm v2->v3 helper preserves non-empty payload");
-
-        ok &= expectDbError([&] { db::openNamedStore(*backend, txn, "olm_sessions.v2/curve-2", false); },
-                            "legacy olm v2 shard is dropped after migration");
-    }
-
-    {
-        auto txn     = db::beginWriteTransaction(*backend);
-        auto unified = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::OlmSessions);
-        ok &= expect(!db::migrateLegacyOlmShardsV2ToUnified(*backend, txn, unified),
-                     "legacy olm v2->v3 helper reports no-op when no shards exist");
-        txn.commit();
     }
 
     db::close(backend);
@@ -2980,14 +2746,6 @@ testInMemoryBackend()
         ok &= expect(stateKeyFromComposite(dupValue) == "alpha",
                      "memory dupsort comparator orders by state_key");
 
-        ok &= expectDbError(
-          [&] {
-              db::openStore(*backend, roDupTxn,
-                               "state_by_key",
-                               openOptions(db::StoreFlags::DupSort,
-                                           db::DupsortComparator::LegacyStateByKeyJson));
-          },
-          "memory openStore rejects comparator mismatch");
     }
 
     {
@@ -3093,7 +2851,6 @@ main()
     bool ok = true;
     ok &= testCatalog();
     ok &= testSchemaHelpers();
-    ok &= testLegacyOlmMigrationHelpers();
     ok &= testNamePolicy();
     ok &= testOpenHelpers();
     ok &= testStateIndexHelper();

@@ -58,7 +58,6 @@ inline constexpr std::string_view kLmdbBackendId     = kLmdbDatabaseId;
 enum class DupsortComparator
 {
     StateKey,
-    LegacyStateByKeyJson,
 };
 
 enum class Durability

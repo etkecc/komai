@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -48,9 +47,6 @@ enum class RoomDb
     StatesKey,
     AccountData,
     Members,
-    LegacyMessages,
-    LegacyMentions,
-    LegacyStateByKey,
 };
 
 enum class SyncStateKey
@@ -78,24 +74,6 @@ syncStateKey(SyncStateKey key) noexcept;
 
 std::string
 syncStateSecretKey(std::string_view secretName);
-
-std::string_view
-legacyOlmSessionsPrefixV1() noexcept;
-
-std::string_view
-legacyOlmSessionsPrefixV2() noexcept;
-
-bool
-isLegacyOlmShardV1(std::string_view dbName) noexcept;
-
-bool
-isLegacyOlmShardV2(std::string_view dbName) noexcept;
-
-std::string
-legacyOlmShardV2NameFromV1(std::string_view dbNameV1);
-
-std::optional<std::string_view>
-legacyOlmCurveFromV2Name(std::string_view dbNameV2) noexcept;
 
 std::string
 olmSessionKey(std::string_view curve25519, std::string_view sessionId);

@@ -509,7 +509,6 @@ set(SRC_FILES
     src/cache/lifecycle/CacheLifecycleSyncSaveState.cpp
     src/cache/lifecycle/CacheLifecycleSyncPersist.cpp
     src/cache/lifecycle/CacheLifecycleSyncAux.cpp
-    src/cache/lifecycle/CacheLifecycleMigrationSteps.cpp
     src/cache/lifecycle/CacheLifecycle.cpp
     src/cache/setup/CacheSetup.cpp
     src/cache/membership/CacheMembership.cpp

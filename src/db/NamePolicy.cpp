@@ -33,9 +33,6 @@ openOptionsForRoom(catalog::RoomDb db)
     } else if (db == catalog::RoomDb::StatesKey) {
         options.flags |= StoreFlags::DupSort;
         options.dupsortComparator = DupsortComparator::StateKey;
-    } else if (db == catalog::RoomDb::LegacyStateByKey) {
-        options.flags |= StoreFlags::DupSort;
-        options.dupsortComparator = DupsortComparator::LegacyStateByKeyJson;
     }
 
     return options;
@@ -56,8 +53,6 @@ openOptionsForName(std::string_view dbName)
         options = openOptionsForRoom(catalog::RoomDb::Related);
     else if (catalog::hasRoomSuffix(dbName, catalog::RoomDb::StatesKey))
         options = openOptionsForRoom(catalog::RoomDb::StatesKey);
-    else if (catalog::hasRoomSuffix(dbName, catalog::RoomDb::LegacyStateByKey))
-        options = openOptionsForRoom(catalog::RoomDb::LegacyStateByKey);
     else if (dbName == catalog::globalName(catalog::GlobalDb::SpacesChildren))
         options = openOptionsForGlobal(catalog::GlobalDb::SpacesChildren);
     else if (dbName == catalog::globalName(catalog::GlobalDb::SpacesParents))

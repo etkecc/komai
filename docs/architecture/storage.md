@@ -65,7 +65,7 @@ Database user-id component:
   enabled for `lmdb` when present, skipped for `memory`.
 - Cross-backend data copy used by compaction is implemented in `src/db/Maintenance.cpp` (`db::compact(...)`).
 - `src/db/Maintenance.*` is reserved for backend maintenance helpers (capability checks/compaction),
-  while Matrix migration orchestration belongs to `src/cache/schema/Migrations.h`.
+  while Matrix migration orchestration belongs to `src/cache/lifecycle/`.
 - Selection is delegated to `src/db/Factory.cpp`
   (`db::createDefaultBackend(...)` and `db::createConfiguredBackend(...)`),
   while backend implementations live under `src/db/`.
@@ -73,12 +73,8 @@ Database user-id component:
   (`db::catalog::*`) so callers don't hardcode backend-facing names
   (including legacy migration name patterns, sync-state secret key names,
   and composite value codecs such as OLM session and state-event index values).
-- Reusable schema/migration primitives (for example, full-resync room DB lists,
-  drop helpers, and legacy migration helpers) are centralized in
-  `src/db/Schema.cpp` (`db::roomDbsForFullResync(...)`,
-  `db::tryDropNamedStore(...)`, `db::migrateLegacyStateByKeyToStatesKey(...)`,
-  `db::migrateLegacyMegolmSessionIndexes(...)`, `db::migrateLegacyOlmShardsV1ToV2(...)`,
-  `db::migrateLegacyOlmShardsV2ToUnified(...)`).
+- Reusable schema helpers are centralized in
+  `src/db/Schema.cpp` (`db::tryDropNamedStore(...)`).
 - Reusable event-order entry parsing (including legacy raw event-id fallback) is
   centralized in `src/db/OrderEntry.cpp` (`db::parseOrderEntry(...)`).
 - Reusable timeline-index helpers are centralized in `src/db/TimelineIndex.cpp`

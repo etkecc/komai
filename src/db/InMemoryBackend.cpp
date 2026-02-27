@@ -16,12 +16,9 @@
 #include <utility>
 #include <vector>
 
-#include <nlohmann/json.hpp>
-
 #include "db/Catalog.h"
 #include "db/DbTypes.h"
 #include "db/Internal.h"
-#include "db/Json.h"
 
 namespace {
 
@@ -39,16 +36,6 @@ std::string_view
 stateKeyFromCompositeValue(std::string_view value)
 {
     return db::catalog::splitStateEventIndexValue(value).first;
-}
-
-std::string
-stateKeyFromLegacyJson(std::string_view value)
-{
-    nlohmann::json parsed;
-    if (!db::parseJsonValue(value, parsed))
-        return {};
-
-    return parsed.value("key", "");
 }
 
 struct KeyLess
@@ -69,8 +56,6 @@ compareDupValues(db::DupsortComparator comparator, std::string_view lhs, std::st
     switch (comparator) {
     case db::DupsortComparator::StateKey:
         return stateKeyFromCompositeValue(lhs).compare(stateKeyFromCompositeValue(rhs));
-    case db::DupsortComparator::LegacyStateByKeyJson:
-        return stateKeyFromLegacyJson(lhs).compare(stateKeyFromLegacyJson(rhs));
     }
 
     return lhs.compare(rhs);

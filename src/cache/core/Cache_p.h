@@ -35,15 +35,6 @@
 
 class MatrixStore;
 
-namespace cache {
-namespace detail {
-std::vector<std::pair<std::string, std::function<bool()>>>
-buildPreMigrations(MatrixStore *cache);
-std::vector<std::pair<std::string, std::function<bool()>>>
-buildPostMigrations(MatrixStore *cache);
-} // namespace detail
-} // namespace cache
-
 namespace mtx::responses {
 struct Messages;
 struct StateEvents;
@@ -331,11 +322,6 @@ signals:
     void databaseReady();
 
 private:
-    friend std::vector<std::pair<std::string, std::function<bool()>>>
-    cache::detail::buildPreMigrations(MatrixStore *cache);
-    friend std::vector<std::pair<std::string, std::function<bool()>>>
-    cache::detail::buildPostMigrations(MatrixStore *cache);
-
     void loadSecretsFromStore(
       std::vector<std::pair<std::string, bool>> toLoad,
       std::function<void(const std::string &name, bool internal, const std::string &value)>

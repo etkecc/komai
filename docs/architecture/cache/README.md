@@ -21,6 +21,15 @@ Those belong to `src/db`.
 `MatrixStore` is intentionally Matrix-specific. If Komai needs to persist unrelated app data later,
 add a separate module/store on top of `src/db` instead of broadening `MatrixStore` semantics.
 
+## Migration Policy
+
+- Cache format compatibility is governed by a single cache-format version key in sync-state.
+- Komai no longer carries a long legacy migration chain from pre-fork historical formats.
+- On incompatible/older cache formats, Komai resets cache DB content and continues with the
+  current format baseline.
+- Future migrations should be added only for Komai-owned format transitions that must preserve
+  local state across releases.
+
 ## Module Layout (`src/cache/`)
 
 - `Cache.h` - public module entry header for application-facing cache APIs.

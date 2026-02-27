@@ -51,9 +51,6 @@ enum class RoomDb
     StatesKey,
     AccountData,
     Members,
-    LegacyMessages,
-    LegacyMentions,
-    LegacyStateByKey,
 };
 
 enum class SyncStateKey
@@ -137,12 +134,6 @@ toDb(RoomDb db) noexcept
         return db::catalog::RoomDb::AccountData;
     case RoomDb::Members:
         return db::catalog::RoomDb::Members;
-    case RoomDb::LegacyMessages:
-        return db::catalog::RoomDb::LegacyMessages;
-    case RoomDb::LegacyMentions:
-        return db::catalog::RoomDb::LegacyMentions;
-    case RoomDb::LegacyStateByKey:
-        return db::catalog::RoomDb::LegacyStateByKey;
     default:
         return db::catalog::RoomDb::Events;
     }

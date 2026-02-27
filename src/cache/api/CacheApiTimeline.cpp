@@ -5,7 +5,6 @@
 
 #include "cache/api/CacheApiTimeline.h"
 #include "cache/api/CacheApiContext.h"
-#include "cache/api/CacheApiLifecycle.h"
 #include "cache/core/Cache_p.h"
 
 namespace cache {
@@ -121,17 +120,6 @@ isNotificationSent(const std::string &event_id)
     return cacheInstance()->isNotificationSent(event_id);
 }
 
-//! Remove old unused data.
-void
-deleteOldMessages()
-{
-    cacheInstance()->deleteOldMessages();
-}
-void
-deleteOldData() noexcept
-{
-    cacheInstance()->deleteOldData();
-}
 void
 storeEventExpirationProgress(const std::string &room,
                              const std::string &expirationSettings,

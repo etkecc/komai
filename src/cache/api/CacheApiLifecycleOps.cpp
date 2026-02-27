@@ -87,4 +87,16 @@ setCurrentFormat()
     cacheInstance()->setCurrentFormat();
 }
 
+void
+deleteOldMessages()
+{
+    cacheInstance()->deleteOldMessages();
+}
+
+void
+deleteOldData() noexcept
+{
+    cacheInstance()->deleteOldData();
+}
+
 } // namespace cache

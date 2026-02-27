@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 66
+Rows: 67
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -68,6 +68,7 @@ Naming mismatch summary:
 | `TimelineMessagesHoverHighlight` | `settings.timelineMessagesHoverHighlight()` | `TimelineMessagesHoverHighlight` | `timeline.messages.hover_highlight` |
 | `TimelineMessagesLayoutShowOwnAvatar` | `settings.timelineMessagesLayoutShowOwnAvatar()` | `TimelineMessagesLayoutShowOwnAvatar` | `timeline.messages.layout.show_own_avatar` |
 | `TimelineMessagesLayoutSmallAvatars` | `settings.timelineMessagesLayoutSmallAvatars()` | `TimelineMessagesLayoutSmallAvatars` | `timeline.messages.layout.small_avatars` |
+| `TimelineMessagesPositioning` | `static_cast<int>(settings.timelineMessagesPositioning())` | `TimelineMessagesPositioning` | `timeline.messages.positioning` |
 | `TimelineMessagesSenderUsername` | `static_cast<int>(settings.timelineMessagesSenderUsername())` | `TimelineMessagesSenderUsername` | `timeline.messages.sender_username` |
 | `TimelineMessagesStyle` | `static_cast<int>(settings.timelineMessagesStyle())` | `TimelineMessagesStyle` | `timeline.messages.style` |
 | `TimelineReadReceiptsEnabled` | `settings.timelineReadReceiptsEnabled()` | `TimelineReadReceiptsEnabled` | `timeline.read_receipts.enabled` |

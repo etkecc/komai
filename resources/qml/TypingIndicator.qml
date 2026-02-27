@@ -6,9 +6,12 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
+import im.nheko 1.0
 
 Item {
     property var room: null
+    readonly property bool alignRightByPositioning:
+        Settings.timelineMessagesPositioning === Settings.TimelineMessagesPositioning.AllRight
 
     Layout.fillWidth: true
     implicitHeight: Math.max(fontMetrics.height * 1.2, typingDisplay.height)
@@ -30,6 +33,7 @@ Item {
             anchors.right: parent.right
             anchors.rightMargin: 10
             color: palette.text
+            horizontalAlignment: alignRightByPositioning ? Text.AlignRight : Text.AlignLeft
             text: room ? room.formatTypingUsers(room.typingUsers, palette.base, palette.highlight) : ""
             textFormat: Text.RichText
         }

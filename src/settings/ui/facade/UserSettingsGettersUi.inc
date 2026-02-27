@@ -19,6 +19,7 @@
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
+    TimelineMessagesPositioning timelineMessagesPositioning() const;
     bool timelineMessagesLayoutSmallAvatars() const;
     bool composerExtrasStickersEnabled() const;
     bool timelineMessagesLayoutShowOwnAvatar() const;

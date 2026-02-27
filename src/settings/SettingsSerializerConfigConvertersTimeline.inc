@@ -17,6 +17,13 @@ constexpr std::array<std::pair<UserSettings::TimelineMessagesStyle, const char *
     {UserSettings::TimelineMessagesStyle::Bubbles, "bubbles"},
   }};
 
+constexpr std::array<std::pair<UserSettings::TimelineMessagesPositioning, const char *>, 3>
+  kTimelinePositioningTokens{{
+    {UserSettings::TimelineMessagesPositioning::OpposingBySender, "opposing_by_sender"},
+    {UserSettings::TimelineMessagesPositioning::AllLeft, "all_left"},
+    {UserSettings::TimelineMessagesPositioning::AllRight, "all_right"},
+  }};
+
 QString
 toStorageValue(UserSettings::TimelineMessageActionsActivationPolicy value)
 {
@@ -42,4 +49,18 @@ timelineMessagesStyleFromStorage(const QString &value,
                                        UserSettings::TimelineMessagesStyle fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelineStyleTokens);
+}
+
+QString
+toStorageValue(UserSettings::TimelineMessagesPositioning value)
+{
+    return valueToStorageToken(value, kTimelinePositioningTokens, "opposing_by_sender");
+}
+
+UserSettings::TimelineMessagesPositioning
+timelineMessagesPositioningFromStorage(
+  const QString &value,
+  UserSettings::TimelineMessagesPositioning fallback)
+{
+    return valueFromStorageToken(value, fallback, kTimelinePositioningTokens);
 }

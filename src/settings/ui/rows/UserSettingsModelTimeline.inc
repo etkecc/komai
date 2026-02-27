@@ -17,6 +17,15 @@
       nullptr,
       TimelineMessagesStyle,
       SettingKey::TimelineMessagesStyle),
+    // TimelineMessagesPositioning
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Horizontal positioning",
+      QT_TR_NOOP("Choose whether messages stay on one side or are positioned opposite each other by sender."),
+      SM::TabTimeline, timelineMessagesPositioning, setTimelineMessagesPositioning, UserSettings::TimelineMessagesPositioning,
+      timelineMessagesPositioningValues,
+      nullptr,
+      TimelineMessagesPositioning,
+      SettingKey::TimelineMessagesPositioning),
     // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
                            QT_TR_NOOP("Avatars are resized to fit above the message."),

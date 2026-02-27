@@ -15,6 +15,8 @@ bool composerInputMarkdownEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;
 TimelineMessagesStyle timelineMessagesStyle_ = TimelineMessagesStyle::Bubbles;
+TimelineMessagesPositioning timelineMessagesPositioning_ =
+  TimelineMessagesPositioning::OpposingBySender;
 bool timelineMessagesLayoutSmallAvatars_;
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;

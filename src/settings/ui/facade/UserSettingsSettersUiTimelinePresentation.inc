@@ -11,6 +11,21 @@ UserSettings::setTimelineMessagesStyle(TimelineMessagesStyle s)
     emit timelineMessagesStyleChanged(s);
     save();
 }
+
+void
+UserSettings::setTimelineMessagesPositioning(TimelineMessagesPositioning s)
+{
+    if (timelineMessagesPositioning_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::TimelineMessagesPositioning,
+                      static_cast<int>(s),
+                      "timeline.messages.positioning"))
+        return;
+    timelineMessagesPositioning_ = s;
+    emit timelineMessagesPositioningChanged(s);
+    save();
+}
+
 void
 UserSettings::setTimelineMessagesLayoutSmallAvatars(bool s)
 {

@@ -121,7 +121,7 @@ Item {
             }
         }
 
-        function styleDelegateFor(style) {
+        function styleDelegateFor(style, _positioning) {
             switch (style) {
             case Settings.TimelineMessagesStyle.Bubbles:
                 return bubbleMessageStyle;
@@ -131,7 +131,7 @@ Item {
             }
         }
 
-        delegate: styleDelegateFor(Settings.timelineMessagesStyle)
+        delegate: styleDelegateFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
         footer: Item {
             width: chat.delegateMaxWidth
             // hacky, but works

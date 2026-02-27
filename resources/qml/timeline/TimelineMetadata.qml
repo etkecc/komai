@@ -20,8 +20,12 @@ RowLayout {
     // Minimal style uses fixed metadata order:
     // [icons/buttons ...][timestamp][message actions button].
     property bool forceTrailingTimestampLayout: false
+    // In trailing layout, allow placing the actions toggle before timestamp/icons.
+    property bool leadingActionInTrailingLayout: false
     property bool actionBarActive: false
-    readonly property Item actionToggleButton: forceTrailingTimestampLayout ? actionToggleBtnTrailing : actionToggleBtn
+    readonly property Item actionToggleButton: forceTrailingTimestampLayout
+        ? (leadingActionInTrailingLayout ? actionToggleBtnTrailingLeading : actionToggleBtnTrailing)
+        : actionToggleBtn
 
     signal actionToggled()
 
@@ -60,6 +64,43 @@ RowLayout {
 
         }
     }
+    ImageButton {
+        id: actionToggleBtnTrailingLeading
+
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
+        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.text: qsTr("Message actions")
+        ToolTip.visible: hovered && !metadata.actionBarActive
+        buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
+        highlightColor: palette.highlight
+        changeColorOnHover: true
+        image: ":/icons/icons/ui/options-circle.svg"
+        visible: metadata.forceTrailingTimestampLayout
+            && metadata.leadingActionInTrailingLayout
+            && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
+
+        onClicked: metadata.actionToggled()
+    }
+    Label {
+        id: tsTrailingLeading
+
+        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+        Layout.preferredWidth: implicitWidth
+        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
+        ToolTip.visible: maTrailingLeading.hovered
+        color: palette.inactive.text
+        font.pointSize: Settings.uiFontSizePt * parent.scaling
+        text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
+        visible: metadata.forceTrailingTimestampLayout && metadata.leadingActionInTrailingLayout
+
+        HoverHandler {
+            id: maTrailingLeading
+        }
+    }
+
     StatusIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
@@ -190,7 +231,7 @@ RowLayout {
         color: palette.inactive.text
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
-        visible: metadata.forceTrailingTimestampLayout
+        visible: metadata.forceTrailingTimestampLayout && !metadata.leadingActionInTrailingLayout
 
         HoverHandler {
             id: maTrailing
@@ -211,6 +252,7 @@ RowLayout {
         changeColorOnHover: true
         image: ":/icons/icons/ui/options-circle.svg"
         visible: metadata.forceTrailingTimestampLayout
+            && !metadata.leadingActionInTrailingLayout
             && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
         onClicked: metadata.actionToggled()

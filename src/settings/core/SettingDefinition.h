@@ -68,6 +68,7 @@ enum class SettingId
     NetworkTlsEnableCertificateValidation,
     NetworkHttp3Enabled,
     TimelineMessagesStyle,
+    TimelineMessagesPositioning,
     TimelineMessagesLayoutSmallAvatars,
     TimelineMessagesLayoutShowOwnAvatar,
     TimelineMessagesSenderUsername,

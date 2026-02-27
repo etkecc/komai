@@ -23,6 +23,7 @@ TimelineMessageStyleBase {
 
     property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
     property int avatarMargin: (shouldShowMessageAvatar ? (Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
+    property bool avatarIsOnRight: wrapper.messageIsRightAligned
 
     property alias hovered: messageHover.hovered
 
@@ -132,7 +133,7 @@ TimelineMessageStyleBase {
             visible: wrapper.shouldShowMessageAvatar
             opacity: wrapper.startsNewMessageGroup ? 1.0 : 0.0
 
-            x: wrapper.isSender ? (wrapper.width - width) : 0
+            x: wrapper.avatarIsOnRight ? (wrapper.width - width) : 0
             y: (section.visible && section.active ? section.y + section.height : 0)
             z: 5
 
@@ -154,7 +155,7 @@ TimelineMessageStyleBase {
 
             width: wrapper.width - wrapper.avatarMargin
             implicitHeight: messageBubble.implicitHeight
-            x: wrapper.isSender ? 0 : wrapper.avatarMargin
+            x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
             y: section.visible && section.active ? section.y + section.height : 0
 
             HoverHandler {
@@ -174,9 +175,10 @@ TimelineMessageStyleBase {
             AbstractButton {
                 id: messageBubble
 
-                anchors.left: (wrapper.isStateEvent || !wrapper.isSender) ? parent.left : undefined // qmllint disable Quick.anchor-combinations
-                anchors.right: (!wrapper.isStateEvent && wrapper.isSender) ? parent.right : undefined
                 anchors.horizontalCenter: undefined
+                anchors.left: undefined
+                anchors.right: undefined
+                x: (wrapper.isStateEvent || !wrapper.messageIsRightAligned) ? 0 : (parent.width - width)
 
                 property color roomColor: wrapper.room
                     ? TimelineManager.roomUserColor(wrapper.room.roomId, wrapper.userId, palette.base, palette.highlight)
@@ -313,12 +315,11 @@ TimelineMessageStyleBase {
                 anchors.bottom: messageBubble.bottom
                 anchors.bottomMargin: messageBubble.padding - (metadataOuter.height - fontMetrics.height) / 2
 
-                // Sender: metadata to the left of the bubble
-                // Received: metadata to the right of the bubble
-                anchors.right: wrapper.isSender ? messageBubble.left : undefined // qmllint disable Quick.anchor-combinations
-                anchors.left: wrapper.isSender ? undefined : messageBubble.right
-                anchors.rightMargin: wrapper.isSender ? Nheko.paddingSmall : 0
-                anchors.leftMargin: wrapper.isSender ? 0 : Nheko.paddingSmall
+                anchors.left: undefined
+                anchors.right: undefined
+                x: wrapper.messageIsRightAligned
+                    ? (messageBubble.x - width - Nheko.paddingSmall)
+                    : (messageBubble.x + messageBubble.width + Nheko.paddingSmall)
 
                 eventId: wrapper.eventId
                 status: wrapper.status
@@ -328,7 +329,8 @@ TimelineMessageStyleBase {
                 threadId: wrapper.threadId
                 timestamp: wrapper.timestamp
                 room: wrapper.room
-                isSender: wrapper.isSender
+                // Metadata order (timestamp/status/actions) should follow the active bubble side.
+                isSender: wrapper.messageIsRightAligned
                 actionBarActive: messageActions.pinned && messageActions.attached === wrapper
             }
 
@@ -344,8 +346,8 @@ TimelineMessageStyleBase {
                 enabled: Settings.uiInputTouchSwipeGesturesEnabled
                 yAxis.enabled: false
                 xAxis.enabled: true
-                xAxis.minimum: (wrapper.isSender ? 0 : wrapper.avatarMargin) - 100
-                xAxis.maximum: wrapper.isSender ? 0 : wrapper.avatarMargin
+                xAxis.minimum: (wrapper.messageIsRightAligned ? 0 : wrapper.avatarMargin) - 100
+                xAxis.maximum: wrapper.messageIsRightAligned ? 0 : wrapper.avatarMargin
                 onActiveChanged: {
                     if (!replyDragHandler.active) {
                         if (replyDragHandler.xAxis.minimum <= replyDragHandler.xAxis.activeValue + 1) {
@@ -353,7 +355,9 @@ TimelineMessageStyleBase {
                                 wrapper.room.reply = wrapper.eventId
                             }
                         }
-                        gridContainer.x = wrapper.isSender ? 0 : wrapper.avatarMargin;
+                        gridContainer.x = Qt.binding(function () {
+                            return wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin;
+                        });
                     }
                 }
             }
@@ -387,10 +391,10 @@ TimelineMessageStyleBase {
             id: reactionRow
 
             eventId: wrapper.eventId
-            layoutDirection: (!wrapper.isStateEvent && wrapper.isSender) ? Qt.RightToLeft : Qt.LeftToRight
+            layoutDirection: (!wrapper.isStateEvent && wrapper.messageIsRightAligned) ? Qt.RightToLeft : Qt.LeftToRight
             reactions: wrapper.reactions
             width: wrapper.width - wrapper.avatarMargin
-            x: wrapper.isSender ? 0 : wrapper.avatarMargin
+            x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
 
             anchors {
                 //left: row.bubbleOnRight ? undefined : row.left

@@ -51,6 +51,11 @@ Item {
     readonly property int previewOwnMessageStatus: Settings.timelineReadReceiptsEnabled ? MtxEvent.Read : MtxEvent.Received
     readonly property var previewEventsForList: previewEvents.slice().reverse()
 
+    function previewEventsModelFor(_style, _positioning) {
+        // Re-evaluate model on style/positioning changes without a hard teardown cycle.
+        return previewEventsForList.slice();
+    }
+
     readonly property var previewEvents: [
         {
             body: root.previewAliceBody,
@@ -314,7 +319,7 @@ Item {
             boundsBehavior: Flickable.StopAtBounds
             clip: true
             interactive: contentHeight > height
-            model: root.previewEventsForList
+            model: root.previewEventsModelFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
             topMargin: Nheko.paddingSmall
             bottomMargin: Nheko.paddingSmall
             spacing: 2
@@ -351,7 +356,7 @@ Item {
                 }
             }
 
-            function styleDelegateFor(style) {
+            function styleDelegateFor(style, _positioning) {
                 switch (style) {
                 case Settings.TimelineMessagesStyle.Bubbles:
                     return bubbleMessageStyle;
@@ -361,7 +366,7 @@ Item {
                 }
             }
 
-            delegate: styleDelegateFor(Settings.timelineMessagesStyle)
+            delegate: styleDelegateFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
         }
 
         MouseArea {

@@ -23,6 +23,9 @@ TimelineMessageStyleBase {
     }
 
     property int avatarMargin: (wrapper.isStateEvent ? 0 : (Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8)) // align with avatar
+    property bool avatarIsOnRight: wrapper.messageIsRightAligned
+    property int messageContainerX: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
+    property int threadInset: wrapper.threadId ? (4 + gridContainer.spacing) : 0
 
     property alias hovered: messageHover.hovered
 
@@ -133,7 +136,7 @@ TimelineMessageStyleBase {
             visible: !wrapper.isStateEvent
             opacity: wrapper.startsNewMessageGroup ? 1.0 : 0.0
 
-            x: 0
+            x: wrapper.avatarIsOnRight ? (wrapper.width - width) : 0
             y: section.visible && section.active ? section.y + section.height : 0
             z: 5
 
@@ -153,8 +156,9 @@ TimelineMessageStyleBase {
             id: gridContainer
 
             width: wrapper.width - wrapper.avatarMargin
-            x: wrapper.avatarMargin
+            x: wrapper.messageContainerX
             y: section.visible && section.active ? section.y + section.height : 0
+            layoutDirection: wrapper.messageIsRightAligned ? Qt.RightToLeft : Qt.LeftToRight
             spacing: Nheko.paddingSmall
 
             HoverHandler {
@@ -292,15 +296,17 @@ TimelineMessageStyleBase {
                 enabled: Settings.uiInputTouchSwipeGesturesEnabled
                 yAxis.enabled: false
                 xAxis.enabled: true
-                xAxis.minimum: wrapper.avatarMargin - 100
-                xAxis.maximum: wrapper.avatarMargin
+                xAxis.minimum: wrapper.messageContainerX - 100
+                xAxis.maximum: wrapper.messageContainerX
                 onActiveChanged: {
                     if (!replyDragHandler.active) {
                         if (replyDragHandler.xAxis.minimum <= replyDragHandler.xAxis.activeValue + 1) {
                             if (wrapper.room)
                                 wrapper.room.reply = wrapper.eventId
                         }
-                        gridContainer.x = wrapper.avatarMargin;
+                        gridContainer.x = Qt.binding(function () {
+                            return wrapper.messageContainerX;
+                        });
                     }
                 }
             }
@@ -314,23 +320,25 @@ TimelineMessageStyleBase {
         },
         Rectangle {
             anchors.top: gridContainer.top
-            anchors.left: gridContainer.left
-            anchors.topMargin: -2
-            anchors.leftMargin: -2 + (stateEventSpacing.visible ? (stateEventSpacing.width + gridContainer.spacing) : 0)
+            x: gridContainer.x + contentColumn.x - 2 - (wrapper.messageIsRightAligned ? 0 : wrapper.threadInset)
+            y: gridContainer.y - 2
             color: "transparent"
             border.color: Nheko.theme.red
             border.width: wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
             radius: 8
             height: contentColumn.implicitHeight + 4
-            width: contentColumn.implicitWidth + 4 + (wrapper.threadId ? (4 + gridContainer.spacing) : 0)
+            width: contentColumn.implicitWidth + 4 + wrapper.threadInset
         },
             TimelineMetadata {
                 id: metadata
 
                 scaling: 1
                 buttonScale: 1.5
+                leadingActionInTrailingLayout: Settings.timelineMessagesPositioning === Settings.TimelineMessagesPositioning.AllRight
 
-                anchors.right: parent.right
+                anchors.left: undefined
+                anchors.right: undefined
+                x: wrapper.messageIsRightAligned ? 0 : (wrapper.width - width)
                 y: section.visible && section.active ? section.y + section.height : 0
 
                 visible: !wrapper.isStateEvent
@@ -375,8 +383,9 @@ TimelineMessageStyleBase {
 
             eventId: wrapper.eventId
             reactions: wrapper.reactions
+            layoutDirection: wrapper.messageIsRightAligned ? Qt.RightToLeft : Qt.LeftToRight
             width: wrapper.width - wrapper.avatarMargin
-            x: wrapper.avatarMargin
+            x: wrapper.messageContainerX
 
             anchors {
                 top: gridContainer.bottom

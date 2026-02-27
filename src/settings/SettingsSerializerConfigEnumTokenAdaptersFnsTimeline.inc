@@ -50,3 +50,16 @@ applyTimelineStyleFromStorage(UserSettings &settings, const QString &rawToken)
     settings.setTimelineMessagesStyle(timelineMessagesStyleFromStorage(
       rawToken, UserSettings::TimelineMessagesStyle::Bubbles));
 }
+
+QString
+timelinePositioningToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.timelineMessagesPositioning());
+}
+
+void
+applyTimelinePositioningFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setTimelineMessagesPositioning(timelineMessagesPositioningFromStorage(
+      rawToken, UserSettings::TimelineMessagesPositioning::OpposingBySender));
+}

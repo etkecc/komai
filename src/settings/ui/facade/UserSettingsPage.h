@@ -62,6 +62,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
                  setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
     Q_PROPERTY(
+      TimelineMessagesPositioning timelineMessagesPositioning READ timelineMessagesPositioning WRITE
+        setTimelineMessagesPositioning NOTIFY timelineMessagesPositioningChanged)
+    Q_PROPERTY(
       bool timelineMessagesLayoutSmallAvatars READ timelineMessagesLayoutSmallAvatars WRITE
         setTimelineMessagesLayoutSmallAvatars NOTIFY timelineMessagesLayoutSmallAvatarsChanged)
     Q_PROPERTY(bool composerExtrasStickersEnabled READ composerExtrasStickersEnabled WRITE
@@ -304,6 +307,14 @@ public:
     };
     Q_ENUM(TimelineMessagesStyle)
 
+    enum class TimelineMessagesPositioning
+    {
+        OpposingBySender,
+        AllLeft,
+        AllRight,
+    };
+    Q_ENUM(TimelineMessagesPositioning)
+
     enum class RoomSortOrder
     {
         UnreadFirst_Recent, // Unread first, then by recent activity
@@ -358,6 +369,7 @@ public:
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
+    void setTimelineMessagesPositioning(TimelineMessagesPositioning positioning);
     void setTimelineMessagesLayoutSmallAvatars(bool state);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
@@ -480,6 +492,7 @@ signals:
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
+    void timelineMessagesPositioningChanged(TimelineMessagesPositioning positioning);
     void timelineMessagesLayoutSmallAvatarsChanged(bool state);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);

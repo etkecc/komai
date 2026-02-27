@@ -49,6 +49,17 @@ TimelineEvent {
         || wrapper.showSection
         || wrapper.previousMessageIsStateEvent !== wrapper.isStateEvent
     readonly property bool hasRoom: wrapper.room !== null
+    readonly property bool messageIsRightAligned: {
+        switch (Settings.timelineMessagesPositioning) {
+        case Settings.TimelineMessagesPositioning.AllLeft:
+            return false;
+        case Settings.TimelineMessagesPositioning.AllRight:
+            return true;
+        case Settings.TimelineMessagesPositioning.OpposingBySender:
+        default:
+            return wrapper.isSender;
+        }
+    }
 
     function roleNameForPreview(role) {
         switch (role) {
@@ -124,7 +135,7 @@ TimelineEvent {
             messageActions.x = Math.max(minX, Math.min(centerX, maxX));
         } else {
             // X (hover mode): align to message side
-            messageActions.x = wrapper.isSender ? maxX : minX;
+            messageActions.x = wrapper.messageIsRightAligned ? maxX : minX;
         }
     }
 

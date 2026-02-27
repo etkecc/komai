@@ -23,6 +23,16 @@ timelineMessagesStyleValues()
 }
 
 static QVariant
+timelineMessagesPositioningValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Opposing by sender")
+           << QCoreApplication::translate("UserSettingsModel", "All left-aligned")
+           << QCoreApplication::translate("UserSettingsModel", "All right-aligned");
+    return values;
+}
+
+static QVariant
 timelineShowImageValues()
 {
     QStringList values;

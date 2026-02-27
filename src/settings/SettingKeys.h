@@ -35,6 +35,7 @@ constexpr auto SidebarsRoomListScrollbarsEnabled   = "sidebars.room_list.scrollb
 constexpr auto SidebarsRoomListSort                = "sidebars.room_list.sort";
 constexpr auto SidebarsCommunitiesVisible          = "sidebars.communities.visible";
 constexpr auto TimelineMessagesStyle               = "timeline.messages.style";
+constexpr auto TimelineMessagesPositioning         = "timeline.messages.positioning";
 constexpr auto TimelineMessagesLayoutSmallAvatars  = "timeline.messages.layout.small_avatars";
 constexpr auto TimelineMessagesLayoutShowOwnAvatar = "timeline.messages.layout.show_own_avatar";
 constexpr auto TimelineMessagesSenderUsername      = "timeline.messages.sender_username";

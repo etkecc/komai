@@ -30,6 +30,18 @@ UserSettings::timelineMessagesStyle() const
     return timelineMessagesStyle_;
 }
 
+UserSettings::TimelineMessagesPositioning
+UserSettings::timelineMessagesPositioning() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesPositioning);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::TimelineMessagesPositioning::OpposingBySender) &&
+        *value <= static_cast<int>(UserSettings::TimelineMessagesPositioning::AllRight))
+        return static_cast<UserSettings::TimelineMessagesPositioning>(*value);
+    return timelineMessagesPositioning_;
+}
+
 bool
 UserSettings::timelineMessagesLayoutSmallAvatars() const
 {

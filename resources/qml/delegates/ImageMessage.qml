@@ -22,7 +22,8 @@ AbstractButton {
     required property int containerHeight
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
 
-    property bool showImage: room.showImage()
+    readonly property var roomContext: (typeof room !== "undefined") ? room : null
+    property bool showImage: roomContext ? roomContext.showImage() : true
     readonly property string blurhashAlphabet: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%*+,-.:;=?@[]^_{|}~"
     readonly property bool blurOverlayActive: !!timeline && !!timeline.windowFocusBlurOverlay && timeline.windowFocusBlurOverlay.active
     readonly property bool hasValidBlurhash: {
@@ -129,7 +130,10 @@ AbstractButton {
     property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth+4 : false
 
     onClicked: {
-        Settings.timelineMediaOpenImagesExternal ? room.openMedia(eventId) : TimelineManager.openImageOverlayWithContext(room, url, eventId, originalWidth, proportionalHeight, timeline, timelineView);
+        if (!roomContext)
+            return;
+
+        Settings.timelineMediaOpenImagesExternal ? roomContext.openMedia(eventId) : TimelineManager.openImageOverlayWithContext(roomContext, url, eventId, originalWidth, proportionalHeight, timeline, timelineView);
     }
 
     Item {
@@ -165,7 +169,7 @@ AbstractButton {
             id: mxcimage
 
             visible: loaded
-            roomm: room
+            roomm: roomContext
             play: !Settings.timelineMediaAnimateOnHover || imageClipper.parent.hovered
             eventId: showImage ? imageClipper.parent.eventId : ""
 

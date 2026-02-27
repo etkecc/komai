@@ -80,13 +80,29 @@ Window {
         return !!room && !!eventId;
     }
 
-    function openForwardDialogForCurrentMessage()
+    function firstVisibleActionButton()
     {
-        if (!canForwardCurrentMessage())
+        return forwardButton.visible ? forwardButton : openButton;
+    }
+
+    function lastVisibleActionButton()
+    {
+        return closeButton;
+    }
+
+    function openForwardDialogForCurrentMessage(forwardRoom, forwardEventId, forwardTimeline, forwardTimelineView, forwardPopupParent)
+    {
+        const resolvedRoom = forwardRoom ?? room;
+        const resolvedEventId = forwardEventId ?? eventId;
+        const resolvedTimeline = forwardTimeline ?? timelineContext;
+        const resolvedTimelineView = forwardTimelineView ?? timelineViewContext;
+        const resolvedPopupParent = forwardPopupParent ?? popupParent;
+
+        if (!resolvedRoom || !resolvedEventId)
             return;
 
-        if (popupParent && popupParent.showForwardMessageDialog) {
-            popupParent.showForwardMessageDialog(room, eventId, timelineContext, timelineViewContext);
+        if (resolvedPopupParent && resolvedPopupParent.showForwardMessageDialog) {
+            resolvedPopupParent.showForwardMessageDialog(resolvedRoom, resolvedEventId, resolvedTimeline, resolvedTimelineView);
             return;
         }
 
@@ -98,17 +114,17 @@ Window {
 
         const host = imageOverlay;
         const dialog = component.createObject(host, {
-                "roomSource": room,
-                "timelineSource": timelineContext,
-                "timelineViewSource": timelineViewContext,
-                "showReplyPreview": !!timelineContext && !!timelineViewContext
+                "roomSource": resolvedRoom,
+                "timelineSource": resolvedTimeline,
+                "timelineViewSource": resolvedTimelineView,
+                "showReplyPreview": !!resolvedTimeline && !!resolvedTimelineView
             });
         if (!dialog) {
             console.error("Failed to create ForwardCompleter object");
             return;
         }
 
-        dialog.setMessageEventId(eventId);
+        dialog.setMessageEventId(resolvedEventId);
         dialog.open();
         if (dialog.aboutToHide !== undefined)
             dialog.aboutToHide.connect(() => dialog.destroy(1000));
@@ -136,6 +152,18 @@ Window {
             if (event.key === Qt.Key_Escape) {
                 event.accepted = true;
                 imageOverlay.close();
+                return;
+            }
+
+            const isTab = event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab;
+            const hasNavigationModifier = event.modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier);
+            if (isTab && !hasNavigationModifier && !actionsRow.containsActiveFocus) {
+                const isBacktab = event.key === Qt.Key_Backtab || ((event.modifiers & Qt.ShiftModifier) && event.key === Qt.Key_Tab);
+                const button = isBacktab ? imageOverlay.lastVisibleActionButton() : imageOverlay.firstVisibleActionButton();
+                if (button) {
+                    event.accepted = true;
+                    button.forceActiveFocus(Qt.TabFocusReason);
+                }
             }
         }
     }
@@ -262,6 +290,8 @@ Window {
                 id: forwardButton
                 visible: imageOverlay.canForwardCurrentMessage()
                 width: visible ? actionsRow.uniformActionWidth : 0
+                KeyNavigation.tab: openButton
+                KeyNavigation.backtab: closeButton
 
                 iconSource: ":/icons/icons/ui/reply.svg"
                 iconMirror: true
@@ -273,15 +303,23 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
+                    const forwardRoom = imageOverlay.room;
+                    const forwardEventId = imageOverlay.eventId;
+                    const forwardTimeline = imageOverlay.timelineContext;
+                    const forwardTimelineView = imageOverlay.timelineViewContext;
+                    const forwardPopupParent = imageOverlay.popupParent;
+
                     imageOverlay.hide();
                     imageOverlay.close();
-                    Qt.callLater(() => imageOverlay.openForwardDialogForCurrentMessage());
+                    Qt.callLater(() => imageOverlay.openForwardDialogForCurrentMessage(forwardRoom, forwardEventId, forwardTimeline, forwardTimelineView, forwardPopupParent));
                 }
             }
 
             ImageOverlayActionButton {
                 id: openButton
                 width: actionsRow.uniformActionWidth
+                KeyNavigation.tab: copyButton
+                KeyNavigation.backtab: forwardButton.visible ? forwardButton : closeButton
 
                 iconSource: ":/icons/icons/ui/open-externally.svg"
                 labelText: qsTr("Open")
@@ -301,6 +339,8 @@ Window {
             ImageOverlayActionButton {
                 id: copyButton
                 width: actionsRow.uniformActionWidth
+                KeyNavigation.tab: downloadButton
+                KeyNavigation.backtab: openButton
 
                 iconSource: ":/icons/icons/ui/copy.svg"
                 labelText: qsTr("Copy")
@@ -320,6 +360,8 @@ Window {
             ImageOverlayActionButton {
                 id: downloadButton
                 width: actionsRow.uniformActionWidth
+                KeyNavigation.tab: closeButton
+                KeyNavigation.backtab: copyButton
 
                 iconSource: ":/icons/icons/ui/download.svg"
                 labelText: qsTr("Save")
@@ -339,6 +381,8 @@ Window {
             ImageOverlayActionButton {
                 id: closeButton
                 width: actionsRow.uniformActionWidth
+                KeyNavigation.tab: forwardButton.visible ? forwardButton : openButton
+                KeyNavigation.backtab: downloadButton
 
                 iconSource: ":/icons/icons/ui/dismiss.svg"
                 labelText: qsTr("Close")

@@ -29,10 +29,21 @@ AbstractButton {
     implicitWidth: Math.max(76, contentBody.implicitWidth + leftPadding + rightPadding)
     implicitHeight: contentBody.implicitHeight + topPadding + bottomPadding
     hoverEnabled: true
+    activeFocusOnTab: true
+    focusPolicy: Qt.StrongFocus
+
+    Keys.onEnterPressed: event => {
+        event.accepted = true;
+        root.clicked();
+    }
+    Keys.onReturnPressed: event => {
+        event.accepted = true;
+        root.clicked();
+    }
 
     background: Rectangle {
         radius: Nheko.paddingMedium
-        color: root.hovered || root.pressed ? root.hoverBackgroundColor : "transparent"
+        color: root.hovered || root.pressed || root.visualFocus ? root.hoverBackgroundColor : "transparent"
     }
 
     contentItem: Item {
@@ -53,7 +64,7 @@ AbstractButton {
                 anchors.horizontalCenter: parent.horizontalCenter
                 mirror: root.iconMirror
                 source: root.iconSource !== ""
-                        ? "image://colorimage/" + root.iconSource + "?" + (root.hovered ? root.hoverIconColor : root.textColor)
+                        ? "image://colorimage/" + root.iconSource + "?" + (root.hovered || root.visualFocus ? root.hoverIconColor : root.textColor)
                         : ""
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
@@ -61,7 +72,7 @@ AbstractButton {
 
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
-                color: root.hovered || root.pressed ? root.hoverTextColor : root.textColor
+                color: root.hovered || root.pressed || root.visualFocus ? root.hoverTextColor : root.textColor
                 text: root.labelText
                 font.bold: true
             }

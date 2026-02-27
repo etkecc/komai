@@ -254,31 +254,19 @@ Page {
                         MenuItem {
                             text: qsTr("Create a new room")
 
-                            onTriggered: {
-                                var createRoom = createRoomComponent.createObject(timelineRoot);
-                                createRoom.show();
-                                timelineRoot.destroyOnClose(createRoom);
-                            }
+                            onTriggered: profileContextMenu.openCreateRoomDialog({})
                         }
                         MenuItem {
                             text: qsTr("Start a direct chat")
 
-                            onTriggered: {
-                                var createDirect = createDirectComponent.createObject(timelineRoot);
-                                createDirect.show();
-                                timelineRoot.destroyOnClose(createDirect);
-                            }
+                            onTriggered: profileContextMenu.openCreateDirectDialog()
                         }
                         MenuItem {
                             text: qsTr("Create a new community")
 
-                            onTriggered: {
-                                var createRoom = createRoomComponent.createObject(timelineRoot, {
-                                        "space": true
-                                    });
-                                createRoom.show();
-                                timelineRoot.destroyOnClose(createRoom);
-                            }
+                            onTriggered: profileContextMenu.openCreateRoomDialog({
+                                    "space": true
+                                })
                         }
                     }
                 }
@@ -292,11 +280,7 @@ Page {
                     image: ":/icons/icons/ui/room-directory.svg"
                     visible: roomActionsBar.showActionButtons
 
-                    onClicked: {
-                        var win = roomDirectoryComponent.createObject(timelineRoot);
-                        win.show();
-                        timelineRoot.destroyOnClose(win);
-                    }
+                    onClicked: profileContextMenu.openRoomDirectoryDialog()
                 }
                 ImageButton {
                     ToolTip.delay: Nheko.tooltipDelay

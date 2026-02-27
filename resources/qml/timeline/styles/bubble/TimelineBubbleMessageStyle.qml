@@ -362,13 +362,13 @@ TimelineMessageStyleBase {
 
                 // Bottom-align with the bubble content area
                 anchors.bottom: messageBubble.bottom
-                anchors.bottomMargin: Math.max(1, messageBubble.bottomPadding - (metadataOuter.height - fontMetrics.height) / 2)
+                anchors.bottomMargin: Math.round(Math.max(1, messageBubble.bottomPadding - (metadataOuter.height - fontMetrics.height) / 2))
 
                 anchors.left: undefined
                 anchors.right: undefined
-                x: wrapper.messageIsRightAligned
+                x: Math.round(wrapper.messageIsRightAligned
                     ? (messageBubble.x - width - Nheko.paddingSmall)
-                    : (messageBubble.x + messageBubble.width + Nheko.paddingSmall)
+                    : (messageBubble.x + messageBubble.width + Nheko.paddingSmall))
 
                 eventId: wrapper.eventId
                 status: wrapper.status

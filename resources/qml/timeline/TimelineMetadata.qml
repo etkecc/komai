@@ -14,7 +14,8 @@ RowLayout {
     id: metadata
 
     property int iconSize: Math.floor(fontMetrics.ascent * scaling)
-    property int buttonSize: Math.round(iconSize * buttonScale)
+    property int rawButtonSize: Math.round(iconSize * buttonScale)
+    property int buttonSize: (rawButtonSize % 2 === 0) ? rawButtonSize : (rawButtonSize + 1)
     required property double scaling
     property double buttonScale: 2
     required property bool isSender

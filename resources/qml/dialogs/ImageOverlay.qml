@@ -9,6 +9,7 @@ import QtQuick.Window 2.15
 import Qt5Compat.GraphicalEffects
 
 import ".."
+import "../ui"
 import "./components"
 
 import im.nheko 1.0
@@ -190,6 +191,10 @@ Window {
         property int imgSrcHeight: imageOverlay.proportionalHeight ? imgSrcWidth * imageOverlay.proportionalHeight : Screen.height
         property int viewportWidth: Math.max(1, imageOverlay.width - imageOverlay.imageViewportGap * 2)
         property int viewportHeight: Math.max(1, imageOverlay.height - imageOverlay.imageViewportGap * 2)
+        readonly property bool staticImageReady: img.status === Image.Ready
+        readonly property bool animatedImageReady: mxcimage.loaded
+        readonly property bool mediaReady: staticImageReady || animatedImageReady
+        readonly property bool mediaFailed: img.status === Image.Error && !animatedImageReady
 
         property double initialScale: Math.min(viewportHeight / imgSrcHeight, viewportWidth / imgSrcWidth, 1.0)
 
@@ -234,6 +239,13 @@ Window {
                 play: !Settings.timelineMediaAnimateOnHover || mouseArea.hovered
                 eventId: imageOverlay.eventId
             }
+        }
+
+        Spinner {
+            anchors.centerIn: parent
+            height: Math.max(40, Math.min(imgContainer.width, imgContainer.height) * 0.08)
+            visible: !imgContainer.mediaReady && !imgContainer.mediaFailed
+            running: visible
         }
 
         onScaleChanged: {

@@ -157,14 +157,46 @@ QColor
 TimelineViewManager::roomUserColor(QString roomId,
                                    QString userId,
                                    QColor background,
-                                   QColor accentColor)
+                                   QColor accentColor,
+                                   int colorCodingPolicy)
 {
     // Guard against empty strings (e.g. event data not yet loaded) to avoid
     // backend key-size errors from cache lookups with zero-length keys.
     if (roomId.isEmpty() || userId.isEmpty())
         return QColor();
 
-    auto selfId = QString::fromStdString(http::client()->user_id().to_string());
+    auto selfId              = QString::fromStdString(http::client()->user_id().to_string());
+    const bool isPreviewRoom = roomId.startsWith(QLatin1String("!timeline-preview:"));
+
+    const auto policy = [colorCodingPolicy]() {
+        if (colorCodingPolicy >=
+              static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize) &&
+            colorCodingPolicy <=
+              static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)) {
+            return static_cast<UserSettings::TimelineUserColorCodingPolicy>(colorCodingPolicy);
+        }
+
+        const auto settings = UserSettings::instance();
+        return settings ? settings->timelineUserColorCodingPolicy()
+                        : UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
+    }();
+
+    const auto othersColor = [accentColor]() {
+        // Hue is offset 150 degrees from the theme accent so it always contrasts
+        // with the sender's own bubble color (e.g. orange accent -> teal, blue -> magenta).
+        double accentHue = accentColor.hslHue();
+        int neutralHue   = (static_cast<int>(accentHue + 150)) % 360;
+        return QColor::fromHsl(neutralHue, 80, 130);
+    };
+
+    if (isPreviewRoom) {
+        if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
+            return userId == selfId ? accentColor : othersColor();
+
+        // Settings preview uses a synthetic room that does not exist in cache; generate stable
+        // per-member colors directly from ids so color-coding policy changes remain visible.
+        return userColor(QStringLiteral("%1|%2").arg(roomId, userId), background);
+    }
 
     // Former member: return a neutral gray regardless of room size.
     if (!cache::isRoomMember(userId.toStdString(), roomId.toStdString())) {
@@ -175,15 +207,14 @@ TimelineViewManager::roomUserColor(QString roomId,
             return QColor::fromHsl(0, 0, 100); // dark theme: medium-dark gray
     }
 
+    if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
+        return userId == selfId ? accentColor : othersColor();
+
     auto memberCount = static_cast<int>(cache::memberCount(roomId.toStdString()));
 
     // Large room (>16 members): return a uniform accent-complementary color.
-    // Hue is offset 150 degrees from the theme accent so it always contrasts
-    // with the sender's own bubble color (e.g. orange accent -> teal, blue -> magenta).
     if (memberCount > 16) {
-        double accentHue = accentColor.hslHue();
-        int neutralHue   = (static_cast<int>(accentHue + 150)) % 360;
-        return QColor::fromHsl(neutralHue, 80, 130);
+        return othersColor();
     }
 
     // Small room (<=16 members): assign unique palette colors.
@@ -270,6 +301,10 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
 
     connect(UserSettings::instance().get(),
             &UserSettings::uiThemeSlugChanged,
+            this,
+            &TimelineViewManager::updateColorPalette);
+    connect(UserSettings::instance().get(),
+            &UserSettings::timelineUserColorCodingPolicyChanged,
             this,
             &TimelineViewManager::updateColorPalette);
     connect(parent,

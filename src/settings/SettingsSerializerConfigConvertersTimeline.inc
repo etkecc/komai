@@ -24,6 +24,13 @@ constexpr std::array<std::pair<UserSettings::TimelineMessagesPositioning, const 
     {UserSettings::TimelineMessagesPositioning::AllRight, "all_right"},
   }};
 
+constexpr std::array<std::pair<UserSettings::TimelineUserColorCodingPolicy, const char *>, 2>
+  kTimelineUserColorCodingPolicyTokens{{
+    {UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize,
+     "adaptive_by_room_size"},
+    {UserSettings::TimelineUserColorCodingPolicy::MeVsOthers, "me_vs_others"},
+  }};
+
 QString
 toStorageValue(UserSettings::TimelineMessageActionsActivationPolicy value)
 {
@@ -63,4 +70,19 @@ timelineMessagesPositioningFromStorage(
   UserSettings::TimelineMessagesPositioning fallback)
 {
     return valueFromStorageToken(value, fallback, kTimelinePositioningTokens);
+}
+
+QString
+toStorageValue(UserSettings::TimelineUserColorCodingPolicy value)
+{
+    return valueToStorageToken(
+      value, kTimelineUserColorCodingPolicyTokens, "adaptive_by_room_size");
+}
+
+UserSettings::TimelineUserColorCodingPolicy
+timelineUserColorCodingPolicyFromStorage(
+  const QString &value,
+  UserSettings::TimelineUserColorCodingPolicy fallback)
+{
+    return valueFromStorageToken(value, fallback, kTimelineUserColorCodingPolicyTokens);
 }

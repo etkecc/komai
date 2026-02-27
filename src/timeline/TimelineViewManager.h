@@ -98,7 +98,8 @@ public:
     Q_INVOKABLE QColor roomUserColor(QString roomId,
                                      QString userId,
                                      QColor background,
-                                     QColor accentColor);
+                                     QColor accentColor,
+                                     int colorCodingPolicy = -1);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
 

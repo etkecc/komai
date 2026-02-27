@@ -79,6 +79,12 @@ timelineMessagesPositioningFromStorage(const QString &value,
                                        UserSettings::TimelineMessagesPositioning fallback);
 
 QString
+toStorageValue(UserSettings::TimelineUserColorCodingPolicy value);
+UserSettings::TimelineUserColorCodingPolicy
+timelineUserColorCodingPolicyFromStorage(const QString &value,
+                                         UserSettings::TimelineUserColorCodingPolicy fallback);
+
+QString
 toStorageValue(UserSettings::NotificationMessageContentPolicy value);
 UserSettings::NotificationMessageContentPolicy
 notificationsMessageContentPolicyFromStorage(

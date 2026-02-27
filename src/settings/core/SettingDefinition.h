@@ -69,6 +69,7 @@ enum class SettingId
     NetworkHttp3Enabled,
     TimelineMessagesStyle,
     TimelineMessagesPositioning,
+    TimelineUserColorCodingPolicy,
     TimelineMessagesLayoutSmallAvatars,
     TimelineMessagesLayoutShowOwnAvatar,
     TimelineMessagesSenderUsername,

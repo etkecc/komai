@@ -26,6 +26,25 @@
       nullptr,
       TimelineMessagesPositioning,
       SettingKey::TimelineMessagesPositioning),
+    // TimelineUserColorCodingPolicy
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Sender/message color coding",
+      QT_TR_NOOP("Choose how sender colors are assigned in the timeline and bubble backgrounds."),
+      SM::TabTimeline, timelineUserColorCodingPolicy, setTimelineUserColorCodingPolicy,
+      UserSettings::TimelineUserColorCodingPolicy,
+      timelineUserColorCodingPolicyValues,
+      nullptr,
+      TimelineUserColorCodingPolicy,
+      SettingKey::TimelineUserColorCodingPolicy),
+    // ShowSenderUsername
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Show sender username above messages",
+      QT_TR_NOOP("Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context."),
+      SM::TabTimeline, timelineMessagesSenderUsername, setTimelineMessagesSenderUsername, UserSettings::ShowSenderUsername,
+      timelineSenderUsernameValues,
+      nullptr,
+      TimelineMessagesSenderUsername,
+      SettingKey::TimelineMessagesSenderUsername),
     // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
                            QT_TR_NOOP("Avatars are resized to fit above the message."),
@@ -36,15 +55,6 @@
       QT_TR_NOOP(
         "When bubble layout is enabled, show your avatar next to your own messages. This improves left/right symmetry and makes authorship easier to scan."),
       SM::TabTimeline, timelineMessagesLayoutShowOwnAvatar, setTimelineMessagesLayoutShowOwnAvatar, nullptr, TimelineMessagesLayoutShowOwnAvatar, SettingKey::TimelineMessagesLayoutShowOwnAvatar),
-    // ShowSenderUsername
-    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
-      "Show sender username above messages",
-      QT_TR_NOOP("Control when sender usernames are displayed above messages. In bubble mode, your own username is always hidden. In smaller rooms, avatars and bubble colors are often enough context."),
-      SM::TabTimeline, timelineMessagesSenderUsername, setTimelineMessagesSenderUsername, UserSettings::ShowSenderUsername,
-      timelineSenderUsernameValues,
-      nullptr,
-      TimelineMessagesSenderUsername,
-      SettingKey::TimelineMessagesSenderUsername),
     // EnlargeEmojiOnlyMessages
     SIMPLE_BOOL_CONFIG_ID_SETTING("Enlarge emoji-only messages",
                         QT_TR_NOOP("Make font size larger if messages with only a few emojis are displayed."),

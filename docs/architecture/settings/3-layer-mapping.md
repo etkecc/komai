@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 67
+Rows: 68
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -73,6 +73,7 @@ Naming mismatch summary:
 | `TimelineMessagesStyle` | `static_cast<int>(settings.timelineMessagesStyle())` | `TimelineMessagesStyle` | `timeline.messages.style` |
 | `TimelineReadReceiptsEnabled` | `settings.timelineReadReceiptsEnabled()` | `TimelineReadReceiptsEnabled` | `timeline.read_receipts.enabled` |
 | `TimelineTypingShowEnabled` | `settings.timelineTypingShowEnabled()` | `TimelineTypingShowEnabled` | `timeline.typing.show.enabled` |
+| `TimelineUserColorCodingPolicy` | `static_cast<int>(settings.timelineUserColorCodingPolicy())` | `TimelineUserColorCodingPolicy` | `timeline.user_color_coding_policy` |
 | `UiAvatarsCircular` | `settings.uiAvatarsCircular()` | `UiAvatarsCircular` | `ui.avatars.circular` |
 | `UiAvatarsIdenticonFallback` | `settings.uiAvatarsIdenticonFallback()` | `UiAvatarsIdenticonFallback` | `ui.avatars.identicon_fallback` |
 | `UiFontEmojiFamily` | `settings.uiFontEmojiFamilyStorageValue().toStdString()` | `UiFontEmojiFamily` | `ui.font.emoji_family` |

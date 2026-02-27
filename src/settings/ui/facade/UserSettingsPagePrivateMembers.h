@@ -17,6 +17,8 @@ AutoReplaceEmoji composerInputAutoReplaceEmoji_;
 TimelineMessagesStyle timelineMessagesStyle_ = TimelineMessagesStyle::Bubbles;
 TimelineMessagesPositioning timelineMessagesPositioning_ =
   TimelineMessagesPositioning::OpposingBySender;
+TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =
+  TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
 bool timelineMessagesLayoutSmallAvatars_;
 bool composerExtrasStickersEnabled_;
 bool timelineMessagesLayoutShowOwnAvatar_;

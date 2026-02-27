@@ -93,7 +93,7 @@ ApplicationWindow {
 
                             ElidedLabel {
                                 fullText: model.displayName
-                                color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, palette.highlight) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
+                                color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
                                 font.pointSize: Settings.uiFontSizePt
                                 elideWidth: del.width - Nheko.paddingMedium - avatar.width
                                 Layout.fillWidth: true

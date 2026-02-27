@@ -33,6 +33,16 @@ timelineMessagesPositioningValues()
 }
 
 static QVariant
+timelineUserColorCodingPolicyValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel",
+                                          "Adaptive (per-member in small rooms)")
+           << QCoreApplication::translate("UserSettingsModel", "Me vs others");
+    return values;
+}
+
+static QVariant
 timelineShowImageValues()
 {
     QStringList values;

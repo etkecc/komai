@@ -180,8 +180,8 @@ Rectangle {
 
             width: parent.width
             eventId: room?.reply ?? ""
-            userColor: room ? TimelineManager.roomUserColor(room.roomId, modelData.userId, palette.window, palette.highlight) : TimelineManager.userColor(modelData.userId, palette.window)
-            roomColor: room ? TimelineManager.roomUserColor(room.roomId, modelData.userId, palette.base, palette.highlight) : TimelineManager.userColor(modelData.userId, palette.base)
+            userColor: room ? TimelineManager.roomUserColor(room.roomId, modelData.userId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(modelData.userId, palette.window)
+            roomColor: room ? TimelineManager.roomUserColor(room.roomId, modelData.userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(modelData.userId, palette.base)
             maxWidth: parent.width
             limitHeight: true
         }

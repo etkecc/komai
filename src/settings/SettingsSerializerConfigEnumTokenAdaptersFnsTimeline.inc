@@ -63,3 +63,16 @@ applyTimelinePositioningFromStorage(UserSettings &settings, const QString &rawTo
     settings.setTimelineMessagesPositioning(timelineMessagesPositioningFromStorage(
       rawToken, UserSettings::TimelineMessagesPositioning::OpposingBySender));
 }
+
+QString
+timelineUserColorCodingPolicyToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.timelineUserColorCodingPolicy());
+}
+
+void
+applyTimelineUserColorCodingPolicyFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setTimelineUserColorCodingPolicy(timelineUserColorCodingPolicyFromStorage(
+      rawToken, UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize));
+}

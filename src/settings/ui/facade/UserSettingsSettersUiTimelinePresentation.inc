@@ -27,6 +27,20 @@ UserSettings::setTimelineMessagesPositioning(TimelineMessagesPositioning s)
 }
 
 void
+UserSettings::setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy s)
+{
+    if (timelineUserColorCodingPolicy_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::TimelineUserColorCodingPolicy,
+                      static_cast<int>(s),
+                      "timeline.user_color_coding_policy"))
+        return;
+    timelineUserColorCodingPolicy_ = s;
+    emit timelineUserColorCodingPolicyChanged(s);
+    save();
+}
+
+void
 UserSettings::setTimelineMessagesLayoutSmallAvatars(bool s)
 {
     if (timelineMessagesLayoutSmallAvatars_ == s)

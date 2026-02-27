@@ -26,6 +26,8 @@ TimelineMessageStyleBase {
     property bool styleShowEncryptedMessageBackground: false
 
     property int messageBubblePadding: Nheko.paddingMedium
+    property int messageBubbleHorizontalPadding: messageBubblePadding
+    property int messageBubbleVerticalPadding: messageBubblePadding
     property int messageBubbleRadius: 8
     property bool messageBubbleBackgroundEnabled: true
     property bool alignMessageTextToSide: false
@@ -56,6 +58,8 @@ TimelineMessageStyleBase {
                 isSender: wrapper.isSender
                 isStateEvent: wrapper.isStateEvent
                 parentWidth: wrapper.width
+                roomRef: wrapper.roomForColorCoding
+                colorRoomId: wrapper.roomIdForColorCoding
                 previousMessageDay: wrapper.previousMessageDay
                 previousMessageTimestamp: wrapper.previousMessageTimestamp
                 previousMessageIsStateEvent: wrapper.previousMessageIsStateEvent
@@ -75,7 +79,6 @@ TimelineMessageStyleBase {
             property color threadBackgroundColor: wrapper.threadId ? Qt.tint(palette.base, Qt.hsla(threadColor.hslHue, 0.7, threadColor.hslLightness, 0.1)) : "transparent"
             color: (Settings.timelineMessagesHoverHighlight && messageHover.hovered) ? palette.alternateBase : threadBackgroundColor
 
-            // this looks better without margins
             TapHandler {
                 acceptedButtons: Qt.RightButton
                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
@@ -190,9 +193,7 @@ TimelineMessageStyleBase {
                 anchors.right: undefined
                 x: (wrapper.isStateEvent || !wrapper.messageIsRightAligned) ? 0 : (parent.width - width)
 
-                property color roomColor: wrapper.room
-                    ? TimelineManager.roomUserColor(wrapper.room.roomId, wrapper.userId, palette.base, palette.highlight)
-                    : TimelineManager.userColor(wrapper.userId, palette.base)
+                property color roomColor: wrapper.resolveUserColor(wrapper.userId, palette.base, palette.highlight)
 
                 contentItem: Item {
                     id: contentPlacementContainer
@@ -223,9 +224,7 @@ TimelineMessageStyleBase {
                             anchors.left: parent.left
                             anchors.right: parent.right
 
-                            property color userColor: wrapper.room
-                                ? TimelineManager.roomUserColor(wrapper.room.roomId, wrapper.reply?.userId ?? '', palette.base, palette.highlight)
-                                : TimelineManager.userColor(wrapper.reply?.userId ?? '', palette.base)
+                            property color userColor: wrapper.resolveUserColor(wrapper.reply?.userId ?? '', palette.base, palette.highlight)
 
                             clip: true
 
@@ -316,7 +315,10 @@ TimelineMessageStyleBase {
                     value: wrapper.messageIsRightAligned ? Text.AlignRight : Text.AlignLeft
                 }
 
-                padding: wrapper.isStateEvent ? 0 : wrapper.messageBubblePadding
+                leftPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleHorizontalPadding
+                rightPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleHorizontalPadding
+                topPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleVerticalPadding
+                bottomPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleVerticalPadding
                 background: Rectangle {
                     color: (!wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled)
                         ? (wrapper.isSender

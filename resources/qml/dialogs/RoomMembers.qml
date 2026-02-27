@@ -144,7 +144,7 @@ ApplicationWindow {
 
                             ElidedLabel {
                                 fullText: model.displayName
-                                color: Qt.darker(roomMembersRoot.room ? TimelineManager.roomUserColor(roomMembersRoot.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
+                                color: Qt.darker(roomMembersRoot.room ? TimelineManager.roomUserColor(roomMembersRoot.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
                                 font.pixelSize: fontMetrics.font.pixelSize
                                 elideWidth: del.width - Nheko.paddingMedium * 2 - avatar.width - encryptInd.width
                                 Layout.fillWidth: true

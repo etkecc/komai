@@ -65,6 +65,9 @@ class UserSettings final : public QObject
       TimelineMessagesPositioning timelineMessagesPositioning READ timelineMessagesPositioning WRITE
         setTimelineMessagesPositioning NOTIFY timelineMessagesPositioningChanged)
     Q_PROPERTY(
+      TimelineUserColorCodingPolicy timelineUserColorCodingPolicy READ timelineUserColorCodingPolicy
+        WRITE setTimelineUserColorCodingPolicy NOTIFY timelineUserColorCodingPolicyChanged)
+    Q_PROPERTY(
       bool timelineMessagesLayoutSmallAvatars READ timelineMessagesLayoutSmallAvatars WRITE
         setTimelineMessagesLayoutSmallAvatars NOTIFY timelineMessagesLayoutSmallAvatarsChanged)
     Q_PROPERTY(bool composerExtrasStickersEnabled READ composerExtrasStickersEnabled WRITE
@@ -315,6 +318,13 @@ public:
     };
     Q_ENUM(TimelineMessagesPositioning)
 
+    enum class TimelineUserColorCodingPolicy
+    {
+        AdaptiveByRoomSize,
+        MeVsOthers,
+    };
+    Q_ENUM(TimelineUserColorCodingPolicy)
+
     enum class RoomSortOrder
     {
         UnreadFirst_Recent, // Unread first, then by recent activity
@@ -370,6 +380,7 @@ public:
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesPositioning(TimelineMessagesPositioning positioning);
+    void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
     void setTimelineMessagesLayoutSmallAvatars(bool state);
     void setComposerExtrasStickersEnabled(bool state);
     void setTimelineMessagesLayoutShowOwnAvatar(bool state);
@@ -493,6 +504,7 @@ signals:
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesPositioningChanged(TimelineMessagesPositioning positioning);
+    void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);
     void timelineMessagesLayoutSmallAvatarsChanged(bool state);
     void composerExtrasStickersEnabledChanged(bool state);
     void timelineMessagesLayoutShowOwnAvatarChanged(bool state);

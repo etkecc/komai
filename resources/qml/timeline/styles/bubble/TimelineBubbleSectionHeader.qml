@@ -15,6 +15,8 @@ Column {
     required property bool isSender
     required property bool isStateEvent
     required property int parentWidth
+    required property var roomRef
+    required property string colorRoomId
     required property var previousMessageDay
     required property var previousMessageTimestamp
     required property bool previousMessageIsStateEvent
@@ -31,7 +33,10 @@ Column {
         ? true
         : Settings.timelineMessagesSenderUsername === 2
             ? false
-            : (room ? room.roomMemberCount > Settings.timelineMessagesSenderUsernameLargeRoomThreshold : false)
+            : (roomRef
+               ? roomRef.roomMemberCount
+                   > Settings.timelineMessagesSenderUsernameLargeRoomThreshold
+               : false)
 
     bottomPadding: (isSender && !showLabel) ? 0 : 2
     spacing: 8
@@ -46,9 +51,9 @@ Column {
         color: palette.text
         height: Math.round(fontMetrics.height * 1.4)
         horizontalAlignment: Text.AlignHCenter
-        text: room ? (dayChanged ? room.formatDateSeparator(timestamp) : room.formatLaterSeparator(previousMessageTimestamp, timestamp)) : ""
+        text: roomRef ? (dayChanged ? roomRef.formatDateSeparator(timestamp) : roomRef.formatLaterSeparator(previousMessageTimestamp, timestamp)) : ""
         verticalAlignment: Text.AlignVCenter
-        visible: room && showLabel
+        visible: roomRef && showLabel
         width: contentWidth * 1.2
 
         background: Rectangle {
@@ -80,7 +85,7 @@ Column {
                 sourceSize.width: width
                 sourceSize.height: height
 
-                permissions: room ? room.permissions : null
+                permissions: roomRef ? roomRef.permissions : null
                 visible: isAdmin || isModerator
             }
 
@@ -95,12 +100,12 @@ Column {
             contentItem: Label {
                 id: userName_
 
-                color: Qt.darker(room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, palette.highlight) : TimelineManager.userColor(userId, palette.base), 1.3)
+                color: Qt.darker(colorRoomId ? TimelineManager.roomUserColor(colorRoomId, userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(userId, palette.base), 1.3)
                 text: TimelineManager.escapeEmoji(userNameTextMetrics.elidedText)
                 textFormat: Text.RichText
             }
 
-            onClicked: room.openUserProfile(userId)
+            onClicked: roomRef.openUserProfile(userId)
 
             TextMetrics {
                 id: userNameTextMetrics

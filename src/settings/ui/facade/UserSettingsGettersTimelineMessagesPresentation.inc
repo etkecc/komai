@@ -42,6 +42,19 @@ UserSettings::timelineMessagesPositioning() const
     return timelineMessagesPositioning_;
 }
 
+UserSettings::TimelineUserColorCodingPolicy
+UserSettings::timelineUserColorCodingPolicy() const
+{
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::TimelineUserColorCodingPolicy);
+        value.has_value() &&
+        *value >=
+          static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize) &&
+        *value <= static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::MeVsOthers))
+        return static_cast<UserSettings::TimelineUserColorCodingPolicy>(*value);
+    return timelineUserColorCodingPolicy_;
+}
+
 bool
 UserSettings::timelineMessagesLayoutSmallAvatars() const
 {

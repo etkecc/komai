@@ -49,17 +49,38 @@ Item {
     readonly property string previewCarolBody: qsTr("I'm testing it as we speak and currently configuring how messages look..\n\nIt's quite pleasing to the eye, but also insanely fast! ⚡")
     readonly property string previewCarolFormattedBody: previewCarolBody.split("\n").join("<br>")
     readonly property int previewOwnMessageStatus: Settings.timelineReadReceiptsEnabled ? MtxEvent.Read : MtxEvent.Received
-    readonly property var previewEventsForList: previewEvents.slice().reverse()
+    readonly property date previewTsAlice: new Date(Date.now() - (9 * 60 * 1000))
+    readonly property date previewTsBob: new Date(Date.now() - (6 * 60 * 1000))
+    readonly property date previewTsYou: new Date(Date.now() - (2 * 60 * 1000))
+
+    function previewDayKey(timestamp) {
+        return timestamp.getFullYear() * 10000 + (timestamp.getMonth() + 1) * 100 + timestamp.getDate();
+    }
+
+    function previewEventsWithPrevious(eventsInDisplayOrder) {
+        const withPrevious = [];
+        for (let i = 0; i < eventsInDisplayOrder.length; i++) {
+            const current = eventsInDisplayOrder[i];
+            const previous = (i + 1 < eventsInDisplayOrder.length) ? eventsInDisplayOrder[i + 1] : null;
+            withPrevious.push(Object.assign({}, current, {
+                previousDay: previous ? previous.day : 0,
+                previousTimestamp: previous ? previous.timestamp : new Date(0),
+                previousIsStateEvent: previous ? previous.isStateEvent : true,
+                previousUserId: previous ? previous.userId : ""
+            }));
+        }
+        return withPrevious;
+    }
 
     function previewEventsModelFor(_style, _positioning) {
         // Re-evaluate model on style/positioning changes without a hard teardown cycle.
-        return previewEventsForList.slice();
+        return previewEventsWithPrevious(previewEvents.slice().reverse());
     }
 
     readonly property var previewEvents: [
         {
             body: root.previewAliceBody,
-            day: 20260225,
+            day: root.previewDayKey(root.previewTsAlice),
             eventId: "$preview-1",
             formattedBody: root.previewAliceFormattedBody,
             isOnlyEmoji: 0,
@@ -74,7 +95,7 @@ Item {
             room: previewRoom,
             status: MtxEvent.Empty,
             threadId: "",
-            timestamp: new Date(2026, 1, 25, 8, 34),
+            timestamp: root.previewTsAlice,
             trustlevel: 0,
             type: MtxEvent.TextMessage,
             avatarUrl: "qrc:/preview-avatars/alice.png",
@@ -84,7 +105,7 @@ Item {
         },
         {
             body: "🚀",
-            day: 20260225,
+            day: root.previewDayKey(root.previewTsBob),
             eventId: "$preview-2",
             formattedBody: "🚀",
             isOnlyEmoji: true,
@@ -99,7 +120,7 @@ Item {
             room: previewRoom,
             status: MtxEvent.Empty,
             threadId: "",
-            timestamp: new Date(2026, 1, 25, 8, 36),
+            timestamp: root.previewTsBob,
             trustlevel: 0,
             type: MtxEvent.TextMessage,
             avatarUrl: "qrc:/preview-avatars/bob.png",
@@ -109,7 +130,7 @@ Item {
         },
         {
             body: root.previewCarolBody,
-            day: 20260225,
+            day: root.previewDayKey(root.previewTsYou),
             eventId: "$preview-3",
             formattedBody: root.previewCarolFormattedBody,
             isOnlyEmoji: 0,
@@ -132,7 +153,7 @@ Item {
             room: previewRoom,
             status: root.previewOwnMessageStatus,
             threadId: "",
-            timestamp: new Date(2026, 1, 25, 8, 40),
+            timestamp: root.previewTsYou,
             trustlevel: 0,
             type: MtxEvent.TextMessage,
             isCurrentUser: true,

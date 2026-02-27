@@ -16,10 +16,18 @@ TimelineEvent {
     required property var day
     required property bool isSender
     required property int index
-    property var previousMessageDay: previousModelData(index + 1, Room.Day, 0)
-    property var previousMessageTimestamp: previousModelData(index + 1, Room.Timestamp, new Date(0))
-    property bool previousMessageIsStateEvent: previousModelData(index + 1, Room.IsStateEvent, true)
-    property string previousMessageUserId: previousModelData(index + 1, Room.UserId, "")
+    property var previousMessageDay: (!room && previewData && previewData.previousDay !== undefined)
+        ? previewData.previousDay
+        : previousModelData(index + 1, room ? Room.Day : "day", 0)
+    property var previousMessageTimestamp: (!room && previewData && previewData.previousTimestamp !== undefined)
+        ? previewData.previousTimestamp
+        : previousModelData(index + 1, room ? Room.Timestamp : "timestamp", new Date(0))
+    property bool previousMessageIsStateEvent: (!room && previewData && previewData.previousIsStateEvent !== undefined)
+        ? previewData.previousIsStateEvent
+        : previousModelData(index + 1, room ? Room.IsStateEvent : "isStateEvent", true)
+    property string previousMessageUserId: (!room && previewData && previewData.previousUserId !== undefined)
+        ? previewData.previousUserId
+        : previousModelData(index + 1, room ? Room.UserId : "userId", "")
 
     required property date timestamp
     required property string userId
@@ -40,6 +48,8 @@ TimelineEvent {
     required property Item messageActions
     // Optional preview payload used when no TimelineModel room is available.
     property var previewData: ({})
+    readonly property var roomForColorCoding: room ? room : ((previewData && previewData.room) ? previewData.room : null)
+    readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
 
     property var hoverDismissTimerRef: null
 
@@ -76,27 +86,65 @@ TimelineEvent {
         }
     }
 
-    function previousModelData(row, role, fallback) {
+    function roleValueForName(roleName) {
+        switch (roleName) {
+        case "day":
+            return Room.Day;
+        case "timestamp":
+            return Room.Timestamp;
+        case "isStateEvent":
+            return Room.IsStateEvent;
+        case "userId":
+            return Room.UserId;
+        default:
+            return -1;
+        }
+    }
+
+    function resolveUserColor(targetUserId, backgroundColor, accentColor) {
+        if (roomIdForColorCoding.length > 0) {
+            return TimelineManager.roomUserColor(
+                        roomIdForColorCoding,
+                        targetUserId,
+                        backgroundColor,
+                        accentColor,
+                        Settings.timelineUserColorCodingPolicy);
+        }
+
+        return TimelineManager.userColor(targetUserId, backgroundColor);
+    }
+
+    function previousModelData(row, roleOrName, fallback) {
         if (row < 0 || row >= chat.count || !chat.model)
             return fallback;
 
-        if (typeof chat.model.dataByIndex === "function")
-            return chat.model.dataByIndex(row, role);
-
-        const roleName = roleNameForPreview(role);
+        const roleName = typeof roleOrName === "string" ? roleOrName : roleNameForPreview(roleOrName);
         if (!roleName)
             return fallback;
 
+        if (typeof chat.model.dataByIndex === "function") {
+            const role = typeof roleOrName === "number" ? roleOrName : roleValueForName(roleName);
+            if (role >= 0)
+                return chat.model.dataByIndex(row, role);
+            return fallback;
+        }
+
         if (typeof chat.model.get === "function") {
             const entry = chat.model.get(row);
-            if (entry && entry[roleName] !== undefined)
-                return entry[roleName];
+            const source = (entry && entry.modelData !== undefined) ? entry.modelData
+                            : (entry && entry.model !== undefined) ? entry.model
+                            : entry;
+            if (source && source[roleName] !== undefined)
+                return source[roleName];
         }
 
         if (Array.isArray(chat.model)) {
             const entry = chat.model[row];
-            if (entry && entry[roleName] !== undefined)
-                return entry[roleName];
+            const source = (entry && entry.modelData !== undefined) ? entry.modelData
+                            : (entry && entry.model !== undefined) ? entry.model
+                            : entry;
+            if (source && source[roleName] !== undefined)
+                return source[roleName];
         }
 
         return fallback;

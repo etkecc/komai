@@ -418,8 +418,8 @@ Pane {
 
                             maxWidth: pinnedMessages.width - 16
                             eventId: e.eventId ?? ""
-                            userColor: room ? TimelineManager.roomUserColor(room.roomId, e.userId, palette.window, palette.highlight) : TimelineManager.userColor(e.userId, palette.window)
-                            roomColor: room ? TimelineManager.roomUserColor(room.roomId, e.userId, palette.base, palette.highlight) : TimelineManager.userColor(e.userId, palette.base)
+                            userColor: room ? TimelineManager.roomUserColor(room.roomId, e.userId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(e.userId, palette.window)
+                            roomColor: room ? TimelineManager.roomUserColor(room.roomId, e.userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(e.userId, palette.base)
 
                             Connections {
                                 function onPinnedMessagesChanged() {

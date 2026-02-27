@@ -2378,7 +2378,15 @@ TimelineModel::formatTypingUsers(const QStringList &users, const QColor &bg, con
         auto uncoloredUsername = utils::replaceEmoji(displayName(user_id));
         QString prefix =
           QStringLiteral("<font color=\"%1\">")
-            .arg(manager_->roomUserColor(roomId(), user_id, bg, accent).darker(130).name());
+            .arg(manager_
+                   ->roomUserColor(
+                     roomId(),
+                     user_id,
+                     bg,
+                     accent,
+                     static_cast<int>(UserSettings::instance()->timelineUserColorCodingPolicy()))
+                   .darker(130)
+                   .name());
 
         // color only parts that don't have a font already specified
         QString coloredUsername;

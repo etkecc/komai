@@ -18,6 +18,7 @@
   // timeline
   SettingId::TimelineMessagesStyle,
   SettingId::TimelineMessagesPositioning,
+  SettingId::TimelineUserColorCodingPolicy,
   SettingId::TimelineMessagesSenderUsername,
   SettingId::TimelineMessageActionsActivationPolicy,
   SettingId::TimelineMediaImageDisplay,

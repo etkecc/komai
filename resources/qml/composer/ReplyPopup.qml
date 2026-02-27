@@ -3,10 +3,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./delegates/"
+import "../delegates/"
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
+import ".."
 import im.nheko 1.0
 
 Rectangle {

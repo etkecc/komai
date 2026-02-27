@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../components"
+import "../composer" as Composer
 import "../emoji"
 import "../ui"
 import "../voip"
@@ -131,7 +132,7 @@ Item {
                         onLoaded: TimelineManager.setVideoCallItem()
                     }
                 }
-                TypingIndicator {
+                Composer.TypingIndicator {
                     id: typingIndicator
                     room: timelineView.room
                 }
@@ -147,9 +148,9 @@ Item {
             Layout.fillWidth: true
             z: 3
         }
-        UploadBox {
+        Composer.UploadBox {
         }
-        ReplyPopup {
+        Composer.ReplyPopup {
             id: replyPopup
 
             roundTopCorners: true
@@ -225,12 +226,12 @@ Item {
                 }
             }
         }
-        MessageInputWarning {
+        Composer.MessageInputWarning {
             roundTopCorners: !replyPopup.visible && (room ? room.input.mentions.length : 0) == 0
             text: qsTr("The command /%1 is not recognized and will be sent as part of your message").arg(room ? room.input.currentCommand : "")
             visible: room ? room.input.containsInvalidCommand && !room.input.containsIncompleteCommand : false
         }
-        MessageInputWarning {
+        Composer.MessageInputWarning {
             roundTopCorners: !replyPopup.visible && (room ? room.input.mentions.length : 0) == 0
             bubbleColor: Nheko.theme.orange
             text: qsTr("/%1 looks like an incomplete command. To send it anyway, add a space to the end of your message.").arg(room ? room.input.currentCommand : "")
@@ -242,7 +243,7 @@ Item {
             implicitHeight: 1
             z: 3
         }
-        MessageInput {
+        Composer.MessageInput {
         }
     }
     ColumnLayout {

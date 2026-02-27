@@ -4,8 +4,8 @@
 
 import "../../timeline/styles/bubble"
 import "../../timeline/styles/plain"
+import "../../composer" as Composer
 import ".."
-import "../.." as RootQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -577,7 +577,7 @@ Item {
             }
         }
 
-        RootQml.TypingIndicator {
+        Composer.TypingIndicator {
             id: previewTypingIndicator
 
             anchors.left: parent.left

@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "./components"
 import "../components"
 import "../ui"
 import QtQml
@@ -206,41 +207,8 @@ Page {
             }
         }
 
-        Menu {
+        CommunitiesContextMenu {
             id: communityContextMenu
-
-            property bool hidden
-            property bool muted
-            property string tagId
-
-            function show(parent, id_, hidden_, muted_) {
-                tagId = id_;
-                hidden = hidden_;
-                muted = muted_;
-                popup(parent);
-            }
-
-            Component.onCompleted: {
-                if (communityContextMenu.popupType != undefined) {
-                    communityContextMenu.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
-                }
-            }
-
-
-            MenuItem {
-                checkable: true
-                checked: communityContextMenu.muted
-                text: qsTr("Do not show notification counts for this community or tag.")
-
-                onTriggered: Communities.toggleTagMute(communityContextMenu.tagId)
-            }
-            MenuItem {
-                checkable: true
-                checked: communityContextMenu.hidden
-                text: qsTr("Hide rooms with this tag or from this community by default.")
-
-                onTriggered: Communities.toggleTagId(communityContextMenu.tagId)
-            }
         }
     }
 }

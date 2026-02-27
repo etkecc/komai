@@ -8,6 +8,8 @@
 #include <QMimeDatabase>
 #include <QStandardPaths>
 
+#include <mtx/errors.hpp>
+
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
@@ -20,6 +22,26 @@
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/UIA.h"
+
+namespace {
+QString
+requestErrorDetails(const mtx::http::ClientError &err)
+{
+    if (!err.matrix_error.error.empty())
+        return QString::fromStdString(err.matrix_error.error);
+
+    if (!err.parse_error.empty())
+        return QString::fromStdString(err.parse_error);
+
+    if (err.error_code != 0)
+        return QString::fromLatin1(err.error_code_string());
+
+    if (err.status_code != 0)
+        return QStringLiteral("HTTP %1").arg(static_cast<int>(err.status_code));
+
+    return {};
+}
+}
 
 UserProfile::UserProfile(const QString &roomid,
                          const QString &userid,
@@ -210,13 +232,36 @@ UserProfile::isSelf() const
 void
 UserProfile::signOutDevice(const QString &deviceID)
 {
+    nhlog::ui()->info(
+      "Attempting to sign out device '{}' for user '{}' (is_self={}, local_device='{}')",
+      deviceID.toStdString(),
+      userid_.toStdString(),
+      isSelf(),
+      http::client()->device_id());
     http::client()->delete_device(
       deviceID.toStdString(),
       UIA::instance()->genericHandler(tr("Sign out device %1").arg(deviceID)),
       [this, deviceID](mtx::http::RequestErr e) {
           if (e) {
-              nhlog::ui()->critical("Failure when attempting to sign out device {}",
-                                    deviceID.toStdString());
+              nhlog::ui()->critical("Failed to sign out device '{}' for user '{}' "
+                                    "(local_device='{}', status_code={}, errcode='{}', "
+                                    "matrix_error='{}', parse_error='{}', error_code={}, "
+                                    "error_code_string='{}')",
+                                    deviceID.toStdString(),
+                                    userid_.toStdString(),
+                                    http::client()->device_id(),
+                                    static_cast<int>(e->status_code),
+                                    mtx::errors::to_string(e->matrix_error.errcode),
+                                    e->matrix_error.error,
+                                    e->parse_error,
+                                    e->error_code,
+                                    e->error_code_string());
+
+              const auto details = requestErrorDetails(*e);
+              MainWindow::instance()->showNotification(
+                details.isEmpty()
+                  ? tr("Failed to sign out device \"%1\".").arg(deviceID)
+                  : tr("Failed to sign out device \"%1\": %2").arg(deviceID, details));
               return;
           }
           nhlog::ui()->info("Device {} successfully signed out!", deviceID.toStdString());

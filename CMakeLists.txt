@@ -500,14 +500,12 @@ set(SRC_FILES
     src/BlurhashProvider.cpp
     src/BlurhashProvider.h
     src/cache/core/Cache.cpp
-    src/cache/core/CacheCore.cpp
     src/cache/core/CacheCoreHelpers.cpp
     src/cache/lifecycle/CacheLifecycleRooms.cpp
     src/cache/lifecycle/CacheLifecycleState.cpp
     src/cache/lifecycle/CacheLifecycleMigrations.cpp
     src/cache/lifecycle/CacheLifecycleStateHelpers.cpp
     src/cache/lifecycle/CacheLifecycleStateHelpersGetters.cpp
-    src/cache/lifecycle/CacheLifecycleSync.cpp
     src/cache/lifecycle/CacheLifecycleSyncSaveState.cpp
     src/cache/lifecycle/CacheLifecycleSyncSaveStateHelpers.cpp
     src/cache/lifecycle/CacheLifecycleSyncHelpers.cpp
@@ -534,7 +532,6 @@ set(SRC_FILES
     src/cache/crypto/CacheCryptoMegolmHelpers.cpp
     src/cache/crypto/CacheCryptoMegolmMetadata.cpp
     src/cache/crypto/CacheCryptoOlm.cpp
-    src/cache/crypto/CacheCryptoSecrets.cpp
     src/cache/crypto/CacheCryptoSecretsHelpers.cpp
     src/cache/crypto/CacheCryptoSecretsStoreHelpers.cpp
     src/cache/core/CacheCoreHelpersDisplay.cpp

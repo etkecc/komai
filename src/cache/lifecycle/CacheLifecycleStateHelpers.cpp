@@ -209,5 +209,3 @@ Cache::saveStateEvents<mtx::events::collections::TimelineEvents>(
   db::Store &eventsDb,
   const std::string &room_id,
   const std::vector<mtx::events::collections::TimelineEvents> &events);
-
-// no-op: moved transaction-based state-event getters to CacheLifecycleStateHelpersGetters.cpp

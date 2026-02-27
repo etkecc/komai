@@ -172,5 +172,3 @@ Cache::getDisplayName(const mtx::events::StateEvent<mtx::events::state::Member> 
 
     return QString::fromStdString(event.state_key);
 }
-
-// no-op: moved remaining core helpers to CacheCoreHelpersDisplay.cpp

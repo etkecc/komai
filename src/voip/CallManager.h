@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -132,7 +134,8 @@ private:
     std::vector<mtx::events::voip::CallCandidates::Candidate> remoteICECandidates_;
     std::vector<std::string> turnURIs_;
     QTimer turnServerTimer_;
-    QMediaPlayer player_;
+    std::once_flag playerInitOnce_;
+    std::unique_ptr<QMediaPlayer> player_;
     std::vector<webrtc::ScreenShareType> screenShareTypes_;
 #ifndef Q_OS_WINDOWS
     std::vector<std::pair<QString, uint32_t>> windows_;
@@ -155,6 +158,7 @@ private:
     QStringList devices(bool isVideo) const;
     void clear(bool endAllCalls = true);
     void endCall(bool endAllCalls = true);
+    QMediaPlayer *ensurePlayerInitialized();
     void playRingtone(const QUrl &ringtone, bool repeat);
     void stopRingtone();
 };

@@ -11,6 +11,8 @@
 
 #include <QAudioOutput>
 #include <QGuiApplication>
+#include <QMetaObject>
+#include <QThread>
 #include <QUrl>
 
 #include "CallDevices.h"
@@ -209,41 +211,54 @@ CallManager::CallManager(QObject *parent)
     connect(
       &CallDevices::instance(), &CallDevices::devicesChanged, this, &CallManager::devicesChanged);
 
-    auto audioOutput = new QAudioOutput(&player_);
-    player_.setAudioOutput(audioOutput);
-
-    connect(
-      &player_, &QMediaPlayer::mediaStatusChanged, this, [](QMediaPlayer::MediaStatus status) {
-          nhlog::ui()->debug("WebRTC: ringtone status {}",
-                             QMetaEnum::fromType<QMediaPlayer::MediaStatus>().valueToKey(status));
-      });
-
-    connect(&player_,
-            &QMediaPlayer::errorOccurred,
-            this,
-            [this](QMediaPlayer::Error error, QString errorString) {
-                stopRingtone();
-                switch (error) {
-                case QMediaPlayer::FormatError:
-                case QMediaPlayer::ResourceError:
-                    nhlog::ui()->error("WebRTC: valid ringtone file not found");
-                    break;
-                case QMediaPlayer::AccessDeniedError:
-                    nhlog::ui()->error("WebRTC: access to ringtone file denied");
-                    break;
-                default:
-                    nhlog::ui()->error("WebRTC: unable to play ringtone, {}",
-                                       errorString.toStdString());
-                    break;
-                }
-            });
-
 #ifdef GSTREAMER_AVAILABLE
     connect(&ScreenCastPortal::instance(),
             &ScreenCastPortal::readyChanged,
             this,
             &CallManager::screenShareChanged);
 #endif
+}
+
+QMediaPlayer *
+CallManager::ensurePlayerInitialized()
+{
+    std::call_once(playerInitOnce_, [this]() {
+        player_ = std::make_unique<QMediaPlayer>(this);
+
+        auto audioOutput = new QAudioOutput(player_.get());
+        player_->setAudioOutput(audioOutput);
+
+        connect(player_.get(),
+                &QMediaPlayer::mediaStatusChanged,
+                this,
+                [](QMediaPlayer::MediaStatus status) {
+                    nhlog::ui()->debug(
+                      "WebRTC: ringtone status {}",
+                      QMetaEnum::fromType<QMediaPlayer::MediaStatus>().valueToKey(status));
+                });
+
+        connect(player_.get(),
+                &QMediaPlayer::errorOccurred,
+                this,
+                [this](QMediaPlayer::Error error, QString errorString) {
+                    stopRingtone();
+                    switch (error) {
+                    case QMediaPlayer::FormatError:
+                    case QMediaPlayer::ResourceError:
+                        nhlog::ui()->error("WebRTC: valid ringtone file not found");
+                        break;
+                    case QMediaPlayer::AccessDeniedError:
+                        nhlog::ui()->error("WebRTC: access to ringtone file denied");
+                        break;
+                    default:
+                        nhlog::ui()->error("WebRTC: unable to play ringtone, {}",
+                                           errorString.toStdString());
+                        break;
+                    }
+                });
+    });
+
+    return player_.get();
 }
 
 void
@@ -874,17 +889,32 @@ CallManager::retrieveTurnServer()
 void
 CallManager::playRingtone(const QUrl &ringtone, bool repeat)
 {
+    if (QThread::currentThread() != thread()) {
+        QMetaObject::invokeMethod(
+          this,
+          [this, ringtone, repeat]() { playRingtone(ringtone, repeat); },
+          Qt::QueuedConnection);
+        return;
+    }
+
+    auto *player = ensurePlayerInitialized();
     nhlog::ui()->debug("Trying to play ringtone {}", ringtone.toString().toStdString());
-    player_.setLoops(repeat ? QMediaPlayer::Infinite : 1);
-    player_.setSource(ringtone);
+    player->setLoops(repeat ? QMediaPlayer::Infinite : 1);
+    player->setSource(ringtone);
     // player_.audioOutput()->setVolume(100);
-    player_.play();
+    player->play();
 }
 
 void
 CallManager::stopRingtone()
 {
-    player_.stop();
+    if (QThread::currentThread() != thread()) {
+        QMetaObject::invokeMethod(this, [this]() { stopRingtone(); }, Qt::QueuedConnection);
+        return;
+    }
+
+    if (player_)
+        player_->stop();
 }
 
 bool

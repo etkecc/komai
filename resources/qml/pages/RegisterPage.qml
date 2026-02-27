@@ -11,7 +11,6 @@ import im.nheko 1.0
 import "onboarding" as Onboarding
 import "../components/"
 import "../ui/"
-import "../"
 
 Item {
     id: registrationPage

@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../.."
 import "../../ui"
 import "../../components"
 import QtQuick 2.15

@@ -4,8 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 pragma ComponentBehavior: Bound
-import "./components"
-import "./ui"
+import "../ui"
 import QtQuick
 import QtQuick.Controls
 import im.nheko // for cursor shape

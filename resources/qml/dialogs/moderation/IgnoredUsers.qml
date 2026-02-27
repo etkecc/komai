@@ -9,7 +9,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
 import im.nheko
-import "../.."
+import "../../components"
 
 Window {
     id: ignoredUsers

@@ -7,7 +7,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
 import im.nheko
-import "../.."
+import "../../../components"
 
 TimelineMessageStyleBase {
     id: wrapper

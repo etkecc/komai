@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import ".."
 import QtQuick
 import QtQuick.Controls
 import im.nheko

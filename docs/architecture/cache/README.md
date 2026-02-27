@@ -35,6 +35,19 @@ add a separate module/store on top of `src/db` instead of broadening `MatrixStor
 - `crypto/` - crypto/session persistence helpers and codecs.
 - `users/` - user profiles/keys/trust helpers.
 
+## API Unit Map (`src/cache/api/*.cpp`)
+
+- `CacheApiInstance.cpp` - cache instance lifecycle and availability checks.
+- `CacheApiLifecycleOps.cpp` - setup/sync/migration and cache lifecycle wrappers.
+- `CacheApiUsersAccess.cpp` - user/presence/key/verification wrapper functions.
+- `CacheApiRoomsInfo.cpp` - room metadata/accessor wrappers.
+- `CacheApiRooms.cpp` - room state/member/read-status related wrappers.
+- `CacheApiTimeline.cpp` - timeline/event/pending/notification wrappers.
+- `CacheApiCrypto.cpp` - Olm/Megolm/secrets/backup wrapper functions.
+- `CacheApiSignals.cpp` - Qt signal connection helpers for cache events.
+- `CacheApiState.cpp` - explicit state-event template instantiations for `MatrixStore`.
+- `CacheApiLoggers.cpp` - cache logger wiring and defaults.
+
 ## Related Docs
 
 - [Storage Architecture](../storage.md)

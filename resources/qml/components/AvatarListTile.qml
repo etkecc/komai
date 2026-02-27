@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import ".."
+import "../ui"
 import QtQuick
 import QtQuick.Layouts
 import im.nheko

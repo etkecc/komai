@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import ".."
+import "../../ui"
 import Qt.labs.platform 1.1 as P
 import QtQuick 2.15
 import QtQuick.Controls 2.15

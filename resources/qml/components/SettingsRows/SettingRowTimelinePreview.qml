@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../timeline"
 import "../../timeline/styles/bubble"
 import "../../timeline/styles/plain"
 import ".."

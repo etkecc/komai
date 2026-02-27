@@ -3,7 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./delegates/"
+import "../delegates/"
+import "../ui"
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import im.nheko 1.0
@@ -228,6 +229,19 @@ Popup {
             rowSpacing: forwardMessagePopup.textMargin
             visible: !forwardMessagePopup.confirming
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
+
+            onCompletionSelected: (id) => {
+                var targetRoom = Rooms.getRoomById(id);
+                forwardMessagePopup.pendingRoomId = id;
+                forwardMessagePopup.pendingRoomName = targetRoom ? targetRoom.plainRoomName : id;
+                forwardMessagePopup.confirming = true;
+                Qt.callLater(() => forwardButton.forceActiveFocus(Qt.TabFocusReason));
+            }
+            onCountChanged: {
+                if (completerPopup.count > 0
+                        && (completerPopup.currentIndex < 0 || completerPopup.currentIndex >= completerPopup.count))
+                    completerPopup.currentIndex = 0;
+            }
         }
 
         // Confirmation (visible when confirming)
@@ -291,20 +305,5 @@ Popup {
                 }
             }
         }
-    }
-    Connections {
-        function onCompletionSelected(id) {
-            var targetRoom = Rooms.getRoomById(id);
-            forwardMessagePopup.pendingRoomId = id;
-            forwardMessagePopup.pendingRoomName = targetRoom ? targetRoom.plainRoomName : id;
-            forwardMessagePopup.confirming = true;
-            Qt.callLater(() => forwardButton.forceActiveFocus(Qt.TabFocusReason));
-        }
-        function onCountChanged() {
-            if (completerPopup.count > 0 && (completerPopup.currentIndex < 0 || completerPopup.currentIndex >= completerPopup.count))
-                completerPopup.currentIndex = 0;
-        }
-
-        target: completerPopup
     }
 }

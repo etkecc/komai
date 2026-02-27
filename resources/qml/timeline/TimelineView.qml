@@ -22,6 +22,10 @@ Item {
     property bool shouldEffectsRun: false
     property bool showBackButton: false
 
+    ComponentCatalog {
+        id: componentCatalog
+    }
+
     clip: true
 
     // focus message input on key press, but not on Ctrl-C and such.
@@ -519,7 +523,7 @@ Item {
             effectsTimer.restart();
         }
         function onShowRawMessageDialog(rawMessage) {
-            var component = Qt.createComponent("qrc:/resources/qml/dialogs/RawMessageDialog.qml");
+            var component = Qt.createComponent(componentCatalog.rawMessageDialog);
             if (component.status == Component.Ready) {
                 var dialog = component.createObject(timelineRoot, {
                         "rawMessage": rawMessage

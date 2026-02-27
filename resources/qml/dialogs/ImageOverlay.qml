@@ -4,11 +4,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import Qt5Compat.GraphicalEffects
 
-import ".."
 import "../ui"
 import "./components"
 
@@ -16,6 +14,10 @@ import im.nheko 1.0
 
 Window {
     id: imageOverlay
+
+    ComponentCatalog {
+        id: componentCatalog
+    }
 
     required property string url
     required property string eventId
@@ -117,7 +119,7 @@ Window {
             return;
         }
 
-        const component = Qt.createComponent("qrc:/resources/qml/ForwardCompleter.qml");
+        const component = Qt.createComponent(componentCatalog.forwardCompleter);
         if (component.status !== Component.Ready) {
             console.error("Failed to create component: " + component.errorString());
             return;

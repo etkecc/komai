@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import ".."
+import "../ui"
 import "../components"
 import Qt.labs.platform 1.1
 import QtQuick 2.12

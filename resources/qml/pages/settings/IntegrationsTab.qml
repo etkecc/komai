@@ -16,7 +16,7 @@ SettingsContent {
             Layout.topMargin: Nheko.paddingLarge
             Layout.bottomMargin: Nheko.paddingMedium
             Layout.preferredHeight: item ? item.implicitHeight : 0
-            source: "qrc:/resources/qml/pages/settings/IntegrationsTab/BrowserCommandSetting.qml"
+            source: "IntegrationsTab/BrowserCommandSetting.qml"
         }
     }
 }

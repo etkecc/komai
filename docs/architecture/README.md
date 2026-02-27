@@ -10,6 +10,7 @@ Technical documentation for Komai internals.
 - 🧩 [Icons Architecture](icons.md) -- icon source of truth, validation, and Fluent sync workflow
 - 💾 [Storage Architecture](storage.md) -- path helpers, storage layout, and callsites
 - 🗃️ [Cache Architecture](cache/README.md) -- Matrix cache domain built on storage APIs
+- 🧩 [QML/UI Structure](qml-ui.md) -- QML layering, placement rules, and loader decoupling
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling
 

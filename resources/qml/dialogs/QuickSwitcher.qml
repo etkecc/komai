@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../ui"
 import QtQuick
 import QtQuick.Controls
 import im.nheko
@@ -138,18 +139,16 @@ Popup {
             rowSpacing: quickSwitcher.textMargin
             visible: roomTextInput.text.length > 0
             width: parent.width
-        }
-    }
-    Connections {
-        function onCompletionSelected(id) {
-            Rooms.setCurrentRoom(id);
-            quickSwitcher.close();
-        }
-        function onCountChanged() {
-            if (completerPopup.count > 0 && (completerPopup.currentIndex < 0 || completerPopup.currentIndex >= completerPopup.count))
-                completerPopup.currentIndex = 0;
-        }
 
-        target: completerPopup
+            onCompletionSelected: (id) => {
+                Rooms.setCurrentRoom(id);
+                quickSwitcher.close();
+            }
+            onCountChanged: {
+                if (completerPopup.count > 0
+                        && (completerPopup.currentIndex < 0 || completerPopup.currentIndex >= completerPopup.count))
+                    completerPopup.currentIndex = 0;
+            }
+        }
     }
 }

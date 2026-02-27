@@ -10,8 +10,8 @@ import im.nheko 1.0
 ImageButton {
     id: indicator
 
-    required property string eventId
-    required property int status
+    property string eventId: ""
+    property int status: MtxEvent.Empty
 
     ToolTip.text: {
         switch (status) {

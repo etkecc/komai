@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import ".."
+import "../ui"
 import im.nheko 1.0
 
 MatrixText {

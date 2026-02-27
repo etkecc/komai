@@ -19,6 +19,10 @@ Page {
     property int avatarSize: Nheko.listIconSize
     property bool collapsed: false
 
+    ComponentCatalog {
+        id: componentCatalog
+    }
+
     background: Rectangle {
         color: Nheko.theme.sidebarBackground
     }
@@ -32,7 +36,7 @@ Page {
 
             function openUserProfile() {
                 Nheko.updateUserProfile();
-                var component = Qt.createComponent("qrc:/resources/qml/dialogs/UserProfile.qml");
+                var component = Qt.createComponent(componentCatalog.userProfileDialog);
                 if (component.status == Component.Ready) {
                     var userProfile = component.createObject(timelineRoot, {
                             "profile": Nheko.currentUser
@@ -315,7 +319,7 @@ Page {
                     visible: roomActionsBar.showActionButtons
 
                     onClicked: {
-                        var component = Qt.createComponent("qrc:/resources/qml/QuickSwitcher.qml");
+                        var component = Qt.createComponent(componentCatalog.quickSwitcher);
                         if (component.status == Component.Ready) {
                             var quickSwitch = component.createObject(timelineRoot);
                             quickSwitch.open();
@@ -348,7 +352,7 @@ Page {
 
         function openUserProfile() {
             Nheko.updateUserProfile();
-            var component = Qt.createComponent("qrc:/resources/qml/dialogs/UserProfile.qml");
+            var component = Qt.createComponent(componentCatalog.userProfileDialog);
             if (component.status == Component.Ready) {
                 var userProfile = component.createObject(timelineRoot, {
                         "profile": Nheko.currentUser

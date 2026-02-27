@@ -14,7 +14,7 @@
 
 #include <QHash>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "db/MemberInfo.h"
 
 QHash<QString, RoomInfo>

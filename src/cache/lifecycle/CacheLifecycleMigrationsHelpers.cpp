@@ -18,7 +18,7 @@
 
 #include <spdlog/logger.h>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "db/Maintenance.h"
 
 namespace cache::detail {

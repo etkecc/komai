@@ -21,7 +21,7 @@
 
 #include <spdlog/logger.h>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 std::vector<ImagePackInfo>
 Cache::getImagePacks(const std::string &room_id, std::optional<bool> stickers)

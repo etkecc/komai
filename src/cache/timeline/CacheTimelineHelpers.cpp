@@ -12,7 +12,7 @@
 #include <limits>
 #include <nlohmann/json.hpp>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 template<typename RelationCollection>
 std::vector<std::string_view>

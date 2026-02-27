@@ -16,7 +16,7 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 void
 Cache::saveInvites(db::Transaction &txn,

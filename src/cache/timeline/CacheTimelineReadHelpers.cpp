@@ -11,7 +11,7 @@
 #include "EventAccessors.h"
 #include <spdlog/logger.h>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 constexpr size_t MAX_RESTORED_MESSAGES =
 #if Q_PROCESSOR_WORDSIZE >= 5 // 40-bit or more, up to 2^(8*WORDSIZE) words addressable.

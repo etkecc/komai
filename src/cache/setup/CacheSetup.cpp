@@ -24,7 +24,7 @@
 #include "Paths.h"
 #include "ProfileSecrets.h"
 #include "Utils.h"
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "db/Maintenance.h"
 #include "db/StorageApi.h"
 #include "settings/ui/facade/UserSettingsPage.h"

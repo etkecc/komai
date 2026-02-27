@@ -22,7 +22,7 @@
 
 #include "EventAccessors.h"
 #include "Utils.h"
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 void

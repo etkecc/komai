@@ -14,7 +14,7 @@
 
 #include "MatrixClient.h"
 #include "Utils.h"
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 crypto::Trust
 Cache::roomVerificationStatus(const std::string &room_id)

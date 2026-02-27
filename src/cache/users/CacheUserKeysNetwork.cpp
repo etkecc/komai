@@ -11,7 +11,7 @@
 #include <spdlog/logger.h>
 
 #include "MatrixClient.h"
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 void
 Cache::markUserKeysOutOfDate(db::Transaction &txn,

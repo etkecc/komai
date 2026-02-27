@@ -11,7 +11,7 @@
 
 #include <spdlog/logger.h>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 std::string
 Cache::pickleSecret()

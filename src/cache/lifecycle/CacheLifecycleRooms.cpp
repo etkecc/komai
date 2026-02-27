@@ -19,7 +19,7 @@
 #include <spdlog/logger.h>
 
 #include "Utils.h"
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "db/Json.h"
 #include "db/StorageApi.h"
 #include "db/SyncState.h"

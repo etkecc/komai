@@ -19,7 +19,7 @@
 
 #include <spdlog/logger.h>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "db/Maintenance.h"
 
 //! Should be changed when a breaking change occurs in the cache format.

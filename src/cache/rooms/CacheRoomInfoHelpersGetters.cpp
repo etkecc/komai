@@ -13,7 +13,7 @@
 #include <QMap>
 #include <spdlog/logger.h>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "db/RoomInfo.h"
 
 #include <nlohmann/json.hpp>

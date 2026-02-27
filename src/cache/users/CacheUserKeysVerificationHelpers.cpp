@@ -16,7 +16,7 @@
 
 #include "MatrixClient.h"
 #include "Utils.h"
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 #include "encryption/Olm.h"
 
 std::optional<VerificationCache>

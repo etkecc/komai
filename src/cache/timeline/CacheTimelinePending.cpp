@@ -12,7 +12,7 @@
 
 #include <spdlog/logger.h>
 
-#include "cache/api/CacheApiWrappers.h"
+#include "cache/api/CacheApiContext.h"
 
 void
 Cache::savePendingMessage(const std::string &room_id,

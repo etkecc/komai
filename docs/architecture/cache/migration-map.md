@@ -15,7 +15,6 @@ This map documents the first-stage move from top-level `src/Cache*` files to the
 - `src/CacheUser*` -> `src/cache/users/CacheUser*`
 - `src/CacheCrypto*` -> `src/cache/crypto/CacheCrypto*`
 
-## Transitional Include Policy
+## Include Policy
 
-- Legacy include entry points at `src/Cache*.h` are forwarding headers during migration.
-- Internal `src/cache/*` code should include `cache/*` headers directly.
+- Internal and external project code should include `cache/*` headers directly.

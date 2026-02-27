@@ -11,7 +11,7 @@
 
 #include <QQmlEngine>
 
-#include <CacheCryptoStructs.h>
+#include "cache/crypto/CacheCryptoStructs.h"
 
 namespace olm {
 Q_NAMESPACE

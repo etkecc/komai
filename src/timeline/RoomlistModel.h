@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <CacheStructs.h>
+#include "cache/core/CacheStructs.h"
 #include <QAbstractListModel>
 #include <QHash>
 #include <QQmlEngine>

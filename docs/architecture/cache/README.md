@@ -28,10 +28,6 @@ Those belong to `src/db`.
 - `crypto/` - crypto/session persistence helpers and codecs.
 - `users/` - user profiles/keys/trust helpers.
 
-## Transitional Compatibility
-
-Legacy include paths at `src/Cache*.h` are currently kept as thin forwarding headers during migration. New code should include headers from `src/cache/*`.
-
 ## Related Docs
 
 - [Storage Architecture](../storage.md)

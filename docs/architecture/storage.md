@@ -176,6 +176,13 @@ Database user-id component:
   `db::storage::openGlobalStore(...)`, `db::storage::openRoomStore(...)`) with
   a unified `db::StoreOpenOptions` interface.
 
+## Module Boundaries
+
+- `src/db` is the low-level storage layer and must not depend on `src/cache` or `src/store`.
+- `src/cache` (`MatrixStore`) is Matrix-domain persistence on top of `src/db`.
+- Future non-Matrix persisted state should live in `src/store` (scaffolded via `src/store/README.md`)
+  and use `src/db` instead of broadening `MatrixStore` semantics.
+
 ## Prefixes
 
 Filesystem prefixes:

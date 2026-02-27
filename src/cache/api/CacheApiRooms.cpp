@@ -5,7 +5,6 @@
 
 #include "cache/api/CacheApiRooms.h"
 #include "cache/api/CacheApiContext.h"
-#include "cache/api/CacheApiLifecycle.h"
 #include "cache/core/Cache_p.h"
 
 namespace cache {
@@ -73,82 +72,10 @@ KOMAI_CACHE_GET_STATE_EVENT_DEFINITION(mtx::events::msc2545::ImagePack)
 
 #undef KOMAI_CACHE_GET_STATE_EVENT_DEFINITION
 
-void
-saveState(const mtx::responses::Sync &res)
-{
-    cacheInstance()->saveState(res);
-}
-void
-updateState(const std::string &room, const mtx::responses::StateEvents &state, bool wipe)
-{
-    cacheInstance()->updateState(room, state, wipe);
-}
-bool
-isInitialized()
-{
-    return cacheInstance()->isInitialized();
-}
-
-std::string
-nextBatchToken()
-{
-    return cacheInstance()->nextBatchToken();
-}
-std::string
-previousBatchToken(const std::string &room_id)
-{
-    return cacheInstance()->previousBatchToken(room_id);
-}
-
-void
-deleteData()
-{
-    cacheInstance()->deleteData();
-}
-
-void
-removeInvite(const std::string &room_id)
-{
-    cacheInstance()->removeInvite(room_id);
-}
-void
-removeRoom(const std::string &roomid)
-{
-    cacheInstance()->removeRoom(roomid);
-}
-void
-removeRoom(const QString &roomid)
-{
-    cacheInstance()->removeRoom(roomid.toStdString());
-}
-void
-setup()
-{
-    cacheInstance()->setup();
-}
-
-bool
-runMigrations()
-{
-    return cacheInstance()->runMigrations();
-}
-
-cache::CacheVersion
-formatVersion()
-{
-    return cacheInstance()->formatVersion();
-}
-
 bool
 isRoomMember(const std::string &user_id, const std::string &room_id)
 {
     return cacheInstance()->isRoomMember(user_id, room_id);
-}
-
-void
-setCurrentFormat()
-{
-    cacheInstance()->setCurrentFormat();
 }
 
 std::vector<QString>

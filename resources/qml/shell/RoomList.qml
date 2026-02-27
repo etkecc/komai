@@ -190,113 +190,13 @@ Page {
             color: Nheko.theme.separator
             Layout.preferredHeight: Settings.sidebarsCommunitiesVisible ? 0 : 2
         }
-        Pane {
-            id: roomActionsBar
-
-            property int buttonSize: Math.min(30, avatarSize)
-            property bool showActionButtons: roomActionsBar.width > 160
-
+        RoomListActionsBar {
             Layout.fillWidth: true
             Layout.preferredHeight: Nheko.navigationRowHeight
-            horizontalPadding: Nheko.paddingMedium
-            verticalPadding: 0
-
-            background: Rectangle {
-                color: palette.alternateBase
-            }
-            contentItem: RowLayout {
-                id: buttonRow
-
-                spacing: Nheko.paddingMedium
-
-                UserSettingsFlipButton {
-                    id: userSettingsButton
-
-                    profile: Nheko.currentUser
-                    avatarButtonSize: Nheko.barIconSize
-
-                    Layout.preferredHeight: Nheko.navigationRowHeight
-                    Layout.preferredWidth: effectiveButtonSize
-                    onLeftClicked: {
-                        if (!roomActionsBar.showActionButtons)
-                            profileContextMenu.popup(userSettingsButton)
-                        else
-                            MainWindow.showUserSettingsPage()
-                    }
-
-                    onRightClicked: profileContextMenu.popup(userSettingsButton)
-                }
-                Item {
-                    Layout.fillWidth: true
-                    visible: roomActionsBar.showActionButtons
-                }
-                ImageButton {
-                    id: startChatButton
-
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Start a new chat")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: roomActionsBar.buttonSize
-                    Layout.preferredWidth: roomActionsBar.buttonSize
-                    hoverEnabled: true
-                    image: ":/icons/icons/ui/plus-circle.svg"
-                    visible: roomActionsBar.showActionButtons
-
-                    onClicked: roomJoinCreateMenu.popup(startChatButton)
-
-                    Menu {
-                        id: roomJoinCreateMenu
-
-                        MenuItem {
-                            text: qsTr("Join a room")
-
-                            onTriggered: Nheko.openJoinRoomDialog()
-                        }
-                        MenuItem {
-                            text: qsTr("Create a new room")
-
-                            onTriggered: profileContextMenu.openCreateRoomDialog({})
-                        }
-                        MenuItem {
-                            text: qsTr("Start a direct chat")
-
-                            onTriggered: profileContextMenu.openCreateDirectDialog()
-                        }
-                        MenuItem {
-                            text: qsTr("Create a new community")
-
-                            onTriggered: profileContextMenu.openCreateRoomDialog({
-                                    "space": true
-                                })
-                        }
-                    }
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Room directory")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: roomActionsBar.buttonSize
-                    Layout.preferredWidth: roomActionsBar.buttonSize
-                    hoverEnabled: true
-                    image: ":/icons/icons/ui/room-directory.svg"
-                    visible: roomActionsBar.showActionButtons
-
-                    onClicked: profileContextMenu.openRoomDirectoryDialog()
-                }
-                ImageButton {
-                    ToolTip.delay: Nheko.tooltipDelay
-                    ToolTip.text: qsTr("Find & switch room (Ctrl+K)")
-                    ToolTip.visible: hovered
-                    Layout.preferredHeight: roomActionsBar.buttonSize
-                    Layout.preferredWidth: roomActionsBar.buttonSize
-                    hoverEnabled: true
-                    image: ":/icons/icons/ui/search.svg"
-                    ripple: false
-                    visible: roomActionsBar.showActionButtons
-
-                    onClicked: timelineRoot.openCatalogDialog(componentCatalog.navigationQuickSwitcherDialog)
-                }
-            }
+            avatarSize: roomListPage.avatarSize
+            profileContextMenu: profileContextMenu
+            componentCatalog: componentCatalog
+            timelineRoot: timelineRoot
         }
         Rectangle {
             Layout.fillWidth: true

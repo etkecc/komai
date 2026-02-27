@@ -213,7 +213,7 @@ Item {
             y: chat.contentY
             width: chat.width
             height: chat.height
-            visible: messageActionsC.pinned
+            visible: messageActionsC.pinned && messageActionsC.positioned
             z: 9
             onClicked: messageActionsC.dismiss()
         }
@@ -224,18 +224,48 @@ Item {
             // use comma to update on scroll
             property alias model: row.model
             property bool pinned: false
+            property bool positioned: false
+            property Item anchorItem: null
 
             function dismiss() {
                 pinned = false;
                 attached = null;
+                anchorItem = null;
+                positioned = false;
+            }
+
+            function scheduleReposition() {
+                if (!visible || !attached || !anchorItem)
+                    return;
+                if (typeof attached.repositionMessageActions !== "function")
+                    return;
+
+                // Hide briefly while coordinates are recalculated, then reveal
+                // only after the new position has been committed.
+                positioned = false;
+
+                // Reposition in a later frame so we can react to late-arriving
+                // intrinsic-size/layout updates that happen after visibility flips.
+                Qt.callLater(function () {
+                    if (visible && attached && anchorItem)
+                        attached.repositionMessageActions(anchorItem, pinned, 0);
+                });
             }
 
             hoverEnabled: true
             padding: Nheko.paddingMedium
-            visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover)
+            // Keep the control in the layout pass before first placement so
+            // implicitWidth/implicitHeight can settle. Opacity gates first paint.
+            visible: Settings.timelineMessageActionsActivationPolicy !== Settings.timelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.timelineMessageActionsActivationPolicy.OnHover)
+            opacity: positioned ? 1 : 0
+            enabled: positioned
             z: 10
             parent: chat.contentItem
             // No anchors — x/y set imperatively by the message styles
+            onWidthChanged: scheduleReposition()
+            onHeightChanged: scheduleReposition()
+            onImplicitWidthChanged: scheduleReposition()
+            onImplicitHeightChanged: scheduleReposition()
 
             background: Rectangle {
                 border.color: palette.buttonText

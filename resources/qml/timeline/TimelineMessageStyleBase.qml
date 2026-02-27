@@ -160,14 +160,65 @@ TimelineEvent {
         messageActions.model = wrapper;
         messageActions.attached = wrapper;
         messageActions.pinned = pin;
+        messageActions.anchorItem = anchorItem;
+        messageActions.positioned = false;
+
+        // Positioning needs a deferred pass because message action intrinsic size is only
+        // reliable after the control becomes visible and finishes a layout pass.
+        // On first show after app startup, immediate mapToItem/implicitWidth reads can use
+        // partial geometry and place the bar outside the visible viewport.
+        Qt.callLater(function() {
+            wrapper.repositionMessageActions(anchorItem, pin, 0);
+        });
+    }
+
+    function repositionMessageActions(anchorItem, pinnedState, attempt) {
+        if (!anchorItem)
+            return;
+
+        if (attempt === undefined)
+            attempt = 0;
+
+        // Give the popup a few frames to settle before forcing coordinates.
+        if (attempt > 60)
+            return;
+
+        var nextAttempt = attempt + 1;
 
         var actionsParent = messageActions.parent ? messageActions.parent : chat.contentItem;
+        if (!actionsParent) {
+            Qt.callLater(function () { wrapper.repositionMessageActions(anchorItem, pinnedState, nextAttempt); });
+            return;
+        }
+
         var pos = anchorItem.mapToItem(actionsParent, 0, 0);
         var wrapperPos = wrapper.mapToItem(actionsParent, 0, 0);
         var barW = messageActions.implicitWidth;
+        var barH = messageActions.implicitHeight;
+        var chatWidth = chat.width;
+        var chatHeight = chat.height;
 
-        // Y: bar opens upward from anchor top
-        messageActions.y = pos.y - messageActions.implicitHeight;
+        // If intrinsic size is not ready yet, retry on the next frame.
+        // If target view metrics are still zero (e.g. very first frame), retry as well.
+        if (barW <= 0 || barH <= 0 || chatWidth <= 0 || chatHeight <= 0) {
+            // Keep retrying until the control resolves its intrinsic size; we need
+            // a stable width/height before showing to avoid a first-run clipped draw.
+            Qt.callLater(function () { wrapper.repositionMessageActions(anchorItem, pinnedState, nextAttempt); });
+            return;
+        }
+
+        // Y: bar opens upward from anchor top.
+        // Use chat.contentY/height as the source of truth for visible viewport
+        // bounds in content-item coordinates to avoid transform/sign surprises.
+        var viewportTop = actionsParent === chat.contentItem ? chat.contentY : 0;
+        var viewportBottom = viewportTop + chatHeight;
+        var targetY = pos.y - barH;
+        messageActions.y = Math.max(viewportTop, Math.min(targetY, viewportBottom - barH));
+
+        // X: compute message bounds first, then clamp final X to viewport width as a final safety.
+        // (chat coordinates are stable here because the bar stays in chat.contentItem.)
+        var viewportLeft = 0;
+        var viewportRight = chatWidth;
 
         var leftBound = wrapperPos.x + Nheko.paddingLarge;
         var rightBound = wrapperPos.x + wrapper.width - Nheko.paddingLarge;
@@ -177,7 +228,7 @@ TimelineEvent {
             minX = wrapperPos.x;
             maxX = wrapperPos.x + wrapper.width - barW;
         }
-        if (pin) {
+        if (pinnedState) {
             // X (button mode): center on anchor, clamped to delegate bounds
             var centerX = pos.x + anchorItem.width / 2 - barW / 2;
             messageActions.x = Math.max(minX, Math.min(centerX, maxX));
@@ -185,6 +236,11 @@ TimelineEvent {
             // X (hover mode): align to message side
             messageActions.x = wrapper.messageIsRightAligned ? maxX : minX;
         }
+
+        // Extra safety clamp in case width calculations drift during the first few frames.
+        messageActions.x = Math.max(viewportLeft, Math.min(messageActions.x, viewportRight - barW));
+        messageActions.positioned = true;
+
     }
 
     function isHoverActionsEnabled() {

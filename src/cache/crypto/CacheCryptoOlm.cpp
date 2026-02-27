@@ -71,9 +71,11 @@ MatrixStore::getOlmSession(const std::string &curve25519, const std::string &ses
     try {
         auto txn = ro_txn(storage());
 
-        if (auto data = db::getJsonValue<StoredOlmSession>(
-              txn, db->olmSessions, db::catalog::olmSessionKey(curve25519, session_id))) {
-            return unpickle<SessionObject>(data->pickled_session, pickle_secret_);
+        std::string_view raw;
+        if (db::getOlmSessionValue(txn, db->olmSessions, curve25519, session_id, raw)) {
+            if (auto data = db::parseJsonValue<StoredOlmSession>(raw)) {
+                return unpickle<SessionObject>(data->pickled_session, pickle_secret_);
+            }
         }
 
     } catch (...) {
@@ -96,9 +98,12 @@ MatrixStore::getLatestOlmSession(const std::string &curve25519)
           curve25519,
           [&currentNewest, &txn, this, &curve25519](std::string_view sessionId,
                                                     std::string_view /*pickled_session*/) {
-              auto data = db::getJsonValue<StoredOlmSession>(
-                txn, db->olmSessions, db::catalog::olmSessionKey(curve25519, sessionId));
-              if (!data)
+              std::string_view raw;
+              if (!db::getOlmSessionValue(txn, db->olmSessions, curve25519, sessionId, raw))
+                  return true;
+
+              auto data = db::parseJsonValue<StoredOlmSession>(raw);
+              if (!data.has_value())
                   return true;
 
               if (!currentNewest || currentNewest->last_message_ts < data->last_message_ts)

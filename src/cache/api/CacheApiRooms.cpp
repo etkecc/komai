@@ -5,6 +5,7 @@
 
 #include "cache/api/CacheApiRooms.h"
 #include "cache/api/CacheApiContext.h"
+#include "cache/api/CacheApiLifecycle.h"
 #include "cache/core/Cache_p.h"
 
 namespace cache {
@@ -25,6 +26,26 @@ size_t
 memberCount(const std::string &room_id)
 {
     return cacheInstance()->memberCount(room_id);
+}
+
+std::vector<std::string>
+roomMembers(const std::string &room_id)
+{
+    return cacheInstance()->roomMembers(room_id);
+}
+
+bool
+hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
+                    const std::string &room_id,
+                    const std::string &user_id)
+{
+    return cacheInstance()->hasEnoughPowerLevel(eventTypes, room_id, user_id);
+}
+
+cache::UserReceipts
+readReceipts(const QString &event_id, const QString &room_id)
+{
+    return cacheInstance()->readReceipts(event_id, room_id);
 }
 
 template<typename T>
@@ -76,6 +97,75 @@ bool
 isRoomMember(const std::string &user_id, const std::string &room_id)
 {
     return cacheInstance()->isRoomMember(user_id, room_id);
+}
+
+RoomInfo
+singleRoomInfo(const std::string &room_id)
+{
+    return cacheInstance()->singleRoomInfo(room_id);
+}
+
+std::map<QString, RoomInfo>
+getRoomInfo(const std::vector<std::string> &rooms)
+{
+    return cacheInstance()->getRoomInfo(rooms);
+}
+
+QString
+roomAvatarUrl(const std::string &room_id)
+{
+    if (!isDatabaseReady())
+        return {};
+
+    return cacheInstance()->roomAvatarUrl(room_id);
+}
+
+std::string
+getFullyReadEventId(const std::string &room_id)
+{
+    return cacheInstance()->getFullyReadEventId(room_id);
+}
+
+bool
+calculateRoomReadStatus(const std::string &room_id)
+{
+    return cacheInstance()->calculateRoomReadStatus(room_id);
+}
+
+void
+calculateRoomReadStatus()
+{
+    cacheInstance()->calculateRoomReadStatus();
+}
+
+void
+updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
+{
+    cacheInstance()->updateLastMessageTimestamp(room_id, ts);
+}
+
+crypto::Trust
+roomVerificationStatus(const std::string &room_id)
+{
+    return cacheInstance()->roomVerificationStatus(room_id);
+}
+
+bool
+isRoomEncrypted(const std::string &room_id)
+{
+    return cacheInstance()->isRoomEncrypted(room_id);
+}
+
+std::optional<mtx::events::state::Encryption>
+roomEncryptionSettings(const std::string &room_id)
+{
+    return cacheInstance()->roomEncryptionSettings(room_id);
+}
+
+std::map<std::string, std::optional<UserKeyCache>>
+getMembersWithKeys(const std::string &room_id, bool verified_only)
+{
+    return cacheInstance()->getMembersWithKeys(room_id, verified_only);
 }
 
 std::vector<QString>

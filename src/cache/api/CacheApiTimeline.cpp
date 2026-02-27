@@ -6,33 +6,9 @@
 #include "cache/api/CacheApiTimeline.h"
 #include "cache/api/CacheApiContext.h"
 #include "cache/api/CacheApiLifecycle.h"
-#include "cache/api/CacheApiRooms.h"
 #include "cache/core/Cache_p.h"
 
 namespace cache {
-
-//! Retrieve all the user ids from a room.
-std::vector<std::string>
-roomMembers(const std::string &room_id)
-{
-    return cacheInstance()->roomMembers(room_id);
-}
-
-//! Check if the given user has power level greater than
-//! lowest power level of the given events.
-bool
-hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
-                    const std::string &room_id,
-                    const std::string &user_id)
-{
-    return cacheInstance()->hasEnoughPowerLevel(eventTypes, room_id, user_id);
-}
-
-cache::UserReceipts
-readReceipts(const QString &event_id, const QString &room_id)
-{
-    return cacheInstance()->readReceipts(event_id, room_id);
-}
 
 std::optional<mtx::events::collections::TimelineEvents>
 getEvent(const std::string &room_id, std::string_view event_id)
@@ -127,55 +103,6 @@ lastVisibleEvent(const std::string &room_id, std::string_view event_id)
     return cacheInstance()->lastVisibleEvent(room_id, event_id);
 }
 
-RoomInfo
-singleRoomInfo(const std::string &room_id)
-{
-    return cacheInstance()->singleRoomInfo(room_id);
-}
-
-std::map<QString, RoomInfo>
-getRoomInfo(const std::vector<std::string> &rooms)
-{
-    return cacheInstance()->getRoomInfo(rooms);
-}
-
-QString
-roomAvatarUrl(const std::string &room_id)
-{
-    if (!isDatabaseReady())
-        return {};
-
-    return cacheInstance()->roomAvatarUrl(room_id);
-}
-
-//! Calculates which the read status of a room.
-//! Whether all the events in the timeline have been read.
-std::string
-getFullyReadEventId(const std::string &room_id)
-{
-    return cacheInstance()->getFullyReadEventId(room_id);
-}
-bool
-calculateRoomReadStatus(const std::string &room_id)
-{
-    return cacheInstance()->calculateRoomReadStatus(room_id);
-}
-void
-calculateRoomReadStatus()
-{
-    cacheInstance()->calculateRoomReadStatus();
-}
-void
-updateLastMessageTimestamp(const std::string &room_id, uint64_t ts)
-{
-    cacheInstance()->updateLastMessageTimestamp(room_id, ts);
-}
-crypto::Trust
-roomVerificationStatus(const std::string &room_id)
-{
-    return cacheInstance()->roomVerificationStatus(room_id);
-}
-
 void
 markSentNotification(const std::string &event_id)
 {
@@ -217,20 +144,4 @@ loadEventExpirationProgress(const std::string &room, const std::string &expirati
 {
     return cacheInstance()->loadEventExpirationProgress(room, expirationSettings);
 }
-bool
-isRoomEncrypted(const std::string &room_id)
-{
-    return cacheInstance()->isRoomEncrypted(room_id);
-}
-std::optional<mtx::events::state::Encryption>
-roomEncryptionSettings(const std::string &room_id)
-{
-    return cacheInstance()->roomEncryptionSettings(room_id);
-}
-std::map<std::string, std::optional<UserKeyCache>>
-getMembersWithKeys(const std::string &room_id, bool verified_only)
-{
-    return cacheInstance()->getMembersWithKeys(room_id, verified_only);
-}
-
 } // namespace cache

@@ -16,8 +16,8 @@
 
 #include <nlohmann/json.hpp>
 
-#include "CacheStructs.h"
-#include "CacheCryptoStructs.h"
+#include "cache/core/CacheStructs.h"
+#include "cache/crypto/CacheCryptoStructs.h"
 #include "db/Backend.h"
 #include "db/Catalog.h"
 #include "db/DbTypes.h"

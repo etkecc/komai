@@ -16,7 +16,6 @@
 #include <QString>
 #include <QUrl>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "CombinedImagePackModel.h"
 #include "CommandCompleter.h"
@@ -34,6 +33,7 @@
 #include "TimelineModel.h"
 #include "UsersModel.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "encryption/VerificationManager.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"

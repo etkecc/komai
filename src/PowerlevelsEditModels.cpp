@@ -12,10 +12,10 @@
 #include <set>
 #include <unordered_set>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
+#include "cache/core/Cache.h"
 
 PowerlevelsTypeListModel::PowerlevelsTypeListModel(const std::string &rid,
                                                    const mtx::events::state::PowerLevels &pl,

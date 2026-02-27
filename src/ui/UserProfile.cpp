@@ -8,13 +8,13 @@
 #include <QMimeDatabase>
 #include <QStandardPaths>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "UserProfile.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "encryption/VerificationManager.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"

@@ -8,7 +8,6 @@
 #include <QClipboard>
 #include <QGuiApplication>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
@@ -17,6 +16,7 @@
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "voip/CallManager.h"
 

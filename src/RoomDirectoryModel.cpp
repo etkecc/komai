@@ -9,10 +9,10 @@
 
 #include <mtx/requests.hpp>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
+#include "cache/core/Cache.h"
 
 RoomDirectoryModel::RoomDirectoryModel(QObject *parent, const std::string &server)
   : QAbstractListModel(parent)

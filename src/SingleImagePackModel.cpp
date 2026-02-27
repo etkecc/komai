@@ -16,11 +16,11 @@
 
 #include <mtx/responses/media.hpp>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineModel.h"
 

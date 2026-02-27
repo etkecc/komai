@@ -13,8 +13,8 @@
 #include <mtx/responses.hpp>
 #include <mtx/responses/common.hpp>
 
-#include "CacheCryptoStructs.h"
-#include "CacheStructs.h"
+#include "cache/core/CacheStructs.h"
+#include "cache/crypto/CacheCryptoStructs.h"
 
 class TimelineModel;
 

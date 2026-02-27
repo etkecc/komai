@@ -13,9 +13,9 @@
 #include <QStringList>
 #include <array>
 
-#include "Cache.h"
 #include "JdenticonProvider.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "config/nheko.h"
 #include "encryption/Olm.h"
 #include "settings/core/StartupConfig.h"

@@ -5,10 +5,10 @@
 
 #include "EventExpiry.h"
 
-#include "Cache.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
+#include "cache/core/Cache.h"
 #include "timeline/TimelineModel.h"
 
 void

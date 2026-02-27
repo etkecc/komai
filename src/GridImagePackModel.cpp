@@ -10,7 +10,7 @@
 
 #include <algorithm>
 
-#include "Cache.h"
+#include "cache/core/Cache.h"
 #include "emoji/Provider.h"
 
 static QString

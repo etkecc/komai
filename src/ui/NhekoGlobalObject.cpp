@@ -17,11 +17,11 @@
 
 #include <mtx/requests.hpp>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 #if XCB_AVAILABLE && QT_CONFIG(xcb)

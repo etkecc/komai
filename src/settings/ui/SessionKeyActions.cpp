@@ -14,7 +14,7 @@
 #include <QTextStream>
 #include <exception>
 
-#include "Cache.h"
+#include "cache/core/Cache.h"
 #include "encryption/Olm.h"
 
 namespace settings::ui {

@@ -29,11 +29,11 @@
 
 #include <kdsingleapplication.h>
 
-#include "Cache.h"
-#include "CacheApiWrappers.h"
 #include "CallManager.h"
 #include "ChatPage.h"
 #include "Logging.h"
+#include "cache/api/CacheApiWrappers.h"
+#include "cache/core/Cache.h"
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif

@@ -20,13 +20,13 @@
 #include <mtx/responses.hpp>
 
 #include "AvatarProvider.h"
-#include "Cache.h"
 #include "ChatPage.h"
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"

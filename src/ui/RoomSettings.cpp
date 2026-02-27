@@ -14,10 +14,10 @@
 #include <mtx/responses/media.hpp>
 #include <mtxclient/http/client.hpp>
 
-#include "Cache.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 
 using namespace mtx::events;
 

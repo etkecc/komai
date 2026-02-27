@@ -13,7 +13,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "CacheStructs.h"
+#include "cache/core/CacheStructs.h"
 #include "db/DbTypes.h"
 #include "db/Json.h"
 

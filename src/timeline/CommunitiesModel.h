@@ -16,7 +16,7 @@
 
 #include <mtx/responses/sync.hpp>
 
-#include "CacheStructs.h"
+#include "cache/core/CacheStructs.h"
 
 class CommunitiesModel;
 

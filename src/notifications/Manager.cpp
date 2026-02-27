@@ -5,9 +5,9 @@
 
 #include "notifications/Manager.h"
 
-#include "Cache.h"
 #include "EventAccessors.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 bool

@@ -10,7 +10,7 @@
 
 #include <mtxclient/crypto/client.hpp>
 
-#include "CacheCryptoStructs.h"
+#include "cache/crypto/CacheCryptoStructs.h"
 
 class QTimer;
 class TimelineModel;

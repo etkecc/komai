@@ -8,12 +8,12 @@
 #include <mtx/responses/common.hpp>
 #include <set>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Permissions.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineModel.h"
 

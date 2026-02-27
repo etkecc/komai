@@ -15,12 +15,12 @@
 #include <mtx/responses/common.hpp>
 #include <mtxclient/http/errors.hpp>
 
-#include "CacheCryptoStructs.h"
-#include "CacheStructs.h"
 #include "EventStore.h"
 #include "InputBar.h"
 #include "Permissions.h"
 #include "Reaction.h"
+#include "cache/core/CacheStructs.h"
+#include "cache/crypto/CacheCryptoStructs.h"
 #include "ui/RoomSummary.h"
 
 namespace mtx::http {

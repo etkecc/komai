@@ -34,12 +34,12 @@
 
 #include <mtx/responses/messages.hpp>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Config.h"
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
+#include "cache/core/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 static QString

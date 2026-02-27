@@ -22,7 +22,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include "Cache.h"
 #include "ChatPage.h"
 #include "Config.h"
 #include "EventAccessors.h"
@@ -34,6 +33,7 @@
 #include "RoomlistModel.h"
 #include "TimelineViewManager.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/UserProfile.h"

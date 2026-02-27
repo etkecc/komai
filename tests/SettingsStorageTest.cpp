@@ -21,7 +21,7 @@
 #include "ProfileSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "TestEnvironment.h"
 
 namespace {

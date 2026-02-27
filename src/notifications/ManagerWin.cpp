@@ -13,11 +13,11 @@
 
 #include <variant>
 
-#include "Cache.h"
 #include "EventAccessors.h"
 #include "MxcImageProvider.h"
 #include "Paths.h"
 #include "Utils.h"
+#include "cache/core/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 using namespace WinToastLib;

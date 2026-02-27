@@ -3,15 +3,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <limits>
 
 #include "EventAccessors.h"
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 
 constexpr size_t MAX_RESTORED_MESSAGES =
 #if Q_PROCESSOR_WORDSIZE >= 5 // 40-bit or more, up to 2^(8*WORDSIZE) words addressable.

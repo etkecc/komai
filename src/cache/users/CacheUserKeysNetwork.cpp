@@ -3,15 +3,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <mtx/requests.hpp>
 
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
 #include "MatrixClient.h"
+#include "cache/api/CacheApiWrappers.h"
 
 void
 Cache::markUserKeysOutOfDate(db::Transaction &txn,

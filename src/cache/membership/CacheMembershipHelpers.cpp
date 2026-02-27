@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <algorithm>
 #include <limits>
@@ -14,7 +14,7 @@
 
 #include <QHash>
 
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "db/MemberInfo.h"
 
 bool

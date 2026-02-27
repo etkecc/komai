@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <QChar>
 
@@ -12,7 +12,7 @@
 
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 
 QString
 Cache::displayName(const QString &room_id, const QString &user_id)

@@ -18,10 +18,10 @@
 #include <mtxclient/crypto/types.hpp>
 #include <mtxclient/http/errors.hpp>
 
-#include "CacheCryptoStructs.h"
 #include "CacheStorageContext.h"
-#include "CacheStructs.h"
 #include "CacheTxnHelpers.h"
+#include "cache/core/CacheStructs.h"
+#include "cache/crypto/CacheCryptoStructs.h"
 #include "db/StorageApi.h"
 
 class Cache;

@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <map>
 #include <set>
@@ -18,8 +18,8 @@
 
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
 #include "Utils.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "db/Json.h"
 #include "db/StorageApi.h"
 #include "db/SyncState.h"

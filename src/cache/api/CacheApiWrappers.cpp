@@ -10,7 +10,7 @@
 #include <utility>
 
 // Keep logger holder definition alongside this source translation unit.
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 
 namespace cache {
 

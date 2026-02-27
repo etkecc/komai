@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include "EventAccessors.h"
 #include <QDateTime>
@@ -12,7 +12,7 @@
 
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 
 void
 Cache::savePendingMessage(const std::string &room_id,

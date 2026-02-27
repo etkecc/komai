@@ -35,3 +35,4 @@ Legacy include paths at `src/Cache*.h` are currently kept as thin forwarding hea
 ## Related Docs
 
 - [Storage Architecture](../storage.md)
+- [Path Migration Map](migration-map.md)

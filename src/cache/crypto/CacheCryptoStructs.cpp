@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "CacheCryptoStructs.h"
+#include "cache/crypto/CacheCryptoStructs.h"
 
 #include <nlohmann/json.hpp>
 

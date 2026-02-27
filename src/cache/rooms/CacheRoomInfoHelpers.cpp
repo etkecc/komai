@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <map>
 #include <string_view>
@@ -12,7 +12,7 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "db/RoomInfo.h"
 
 using namespace mtx::events;

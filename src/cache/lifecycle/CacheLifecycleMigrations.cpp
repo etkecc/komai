@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <functional>
 #include <string_view>
@@ -19,7 +19,7 @@
 
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "db/Maintenance.h"
 
 //! Should be changed when a breaking change occurs in the cache format.

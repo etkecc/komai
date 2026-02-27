@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <exception>
 #include <string_view>
@@ -20,8 +20,8 @@
 #include "EventAccessors.h"
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
 #include "Utils.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "db/Maintenance.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 

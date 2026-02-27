@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <stdexcept>
 
@@ -19,12 +19,12 @@
 #include <qt6keychain/keychain.h>
 #endif
 
-#include "CacheApiWrappers.h"
 #include "ChatPage.h"
 #include "MatrixClient.h"
 #include "Paths.h"
 #include "ProfileSecrets.h"
 #include "Utils.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "db/Maintenance.h"
 #include "db/StorageApi.h"
 #include "settings/ui/facade/UserSettingsPage.h"

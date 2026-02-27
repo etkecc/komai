@@ -16,4 +16,5 @@ Boundary rules:
 Architecture docs:
 
 - [Cache Architecture](../../docs/architecture/cache/README.md)
+- [Path Migration Map](../../docs/architecture/cache/migration-map.md)
 - [Storage Architecture](../../docs/architecture/storage.md)

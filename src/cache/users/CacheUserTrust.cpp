@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <algorithm>
 #include <string_view>
@@ -12,9 +12,9 @@
 
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
 #include "MatrixClient.h"
 #include "Utils.h"
+#include "cache/api/CacheApiWrappers.h"
 
 crypto::Trust
 Cache::roomVerificationStatus(const std::string &room_id)

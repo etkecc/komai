@@ -3,8 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Cache.h"
-#include "Cache_p.h"
+#include "cache/core/Cache.h"
+#include "cache/core/Cache_p.h"
 
 #include <algorithm>
 #include <mutex>
@@ -14,9 +14,9 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
-#include "CacheApiWrappers.h"
 #include "MatrixClient.h"
 #include "Utils.h"
+#include "cache/api/CacheApiWrappers.h"
 #include "encryption/Olm.h"
 
 std::optional<VerificationCache>

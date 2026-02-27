@@ -5,6 +5,6 @@
 
 #include <QQmlEngine>
 
-#include "CacheCryptoStructs.h"
+#include "cache/crypto/CacheCryptoStructs.h"
 
 #include "moc_CacheCryptoStructs.cpp"

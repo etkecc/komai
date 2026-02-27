@@ -89,7 +89,7 @@ Item {
             uiaEmailPrompt.show();
         }
         function onFallbackAuth(fallback) {
-            root.showManagedDialog(componentCatalog.fallbackAuthDialog, {
+            root.showManagedDialog(componentCatalog.accountFallbackAuthDialog, {
                     "fallback": fallback
                 });
         }
@@ -104,7 +104,7 @@ Item {
             uiaTokenPrompt.show();
         }
         function onReCaptcha(recaptcha) {
-            root.showManagedDialog(componentCatalog.reCaptchaDialog, {
+            root.showManagedDialog(componentCatalog.accountReCaptchaDialog, {
                     "recaptcha": recaptcha
                 });
         }

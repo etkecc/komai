@@ -119,7 +119,7 @@ Window {
             return;
         }
 
-        const component = Qt.createComponent(componentCatalog.forwardCompleter);
+        const component = Qt.createComponent(componentCatalog.navigationForwardCompleterDialog);
         if (component.status !== Component.Ready) {
             console.error("Failed to create component: " + component.errorString());
             return;

@@ -70,7 +70,7 @@ Pane {
         if (!room || !eventId)
             return;
 
-        var dialog = createDialog(componentCatalog.forwardCompleter, {
+        var dialog = createDialog(componentCatalog.navigationForwardCompleterDialog, {
                 "roomSource": room,
                 "timelineSource": timeline ?? null,
                 "timelineViewSource": timelineView ?? null,
@@ -103,12 +103,12 @@ Pane {
             });
     }
     function showPLEditor(settings) {
-        showCatalogDialog(componentCatalog.powerLevelEditorDialog, {
+        showCatalogDialog(componentCatalog.roomPowerLevelEditorDialog, {
                 "roomSettings": settings
             });
     }
     function showSpacePLApplyPrompt(settings, editingModel) {
-        showCatalogDialog(componentCatalog.powerLevelSpacesApplyDialog, {
+        showCatalogDialog(componentCatalog.roomPowerLevelSpacesApplyDialog, {
                 "roomSettings": settings,
                 "editingModel": editingModel
             });
@@ -151,7 +151,7 @@ Pane {
     Shortcut {
         sequence: "Ctrl+K"
 
-        onActivated: openCatalogDialog(componentCatalog.quickSwitcher)
+        onActivated: openCatalogDialog(componentCatalog.navigationQuickSwitcherDialog)
     }
     Shortcut {
         sequences: [StandardKey.ZoomIn, "Ctrl+Plus", "Ctrl+Equal", "Ctrl+Shift+Equal"]
@@ -186,7 +186,7 @@ Pane {
             showCatalogDialog(componentCatalog.roomJoinDialog);
         }
         function onOpenLogoutDialog() {
-            openCatalogDialog(componentCatalog.logoutDialog);
+            openCatalogDialog(componentCatalog.accountLogoutDialog);
         }
         function onShowRoomJoinPrompt(summary) {
             showCatalogDialog(componentCatalog.roomConfirmJoinDialog, {
@@ -198,7 +198,7 @@ Pane {
     }
     Connections {
         function onNewDeviceVerificationRequest(flow) {
-            showCatalogDialog(componentCatalog.deviceVerificationDialog, {
+            showCatalogDialog(componentCatalog.verificationDeviceDialog, {
                     "flow": flow
                 });
         }
@@ -234,7 +234,7 @@ Pane {
                 });
         }
         function onShowImageOverlay(room, eventId, url, originalWidth, proportionalHeight, timeline, timelineView) {
-            var dialog = createDialog(componentCatalog.imageOverlayDialog, {
+            var dialog = createDialog(componentCatalog.mediaImageOverlayDialog, {
                     "room": room,
                     "eventId": eventId,
                     "url": url,
@@ -263,7 +263,7 @@ Pane {
             destroyOnClose(dialog);
         }
         function onShowImagePackSettings(room, packlist) {
-            showCatalogDialog(componentCatalog.imagePackSettingsDialog, {
+            showCatalogDialog(componentCatalog.mediaImagePackSettingsDialog, {
                     "room": room,
                     "packlist": packlist
                 });
@@ -274,7 +274,7 @@ Pane {
     Connections {
         function onNewInviteState() {
             if (CallManager.haveCallInvite && !Settings.uiInputMode && Settings.callsLegacyEnabled) {
-                openCatalogDialog(componentCatalog.callInviteDialog);
+                openCatalogDialog(componentCatalog.voipCallInviteDialog);
             }
         }
 

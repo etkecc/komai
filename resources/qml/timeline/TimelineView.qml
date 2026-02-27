@@ -507,7 +507,7 @@ Item {
             effectsTimer.restart();
         }
         function onShowRawMessageDialog(rawMessage) {
-            var component = Qt.createComponent(componentCatalog.rawMessageDialog);
+            var component = Qt.createComponent(componentCatalog.timelineRawMessageDialog);
             if (component.status == Component.Ready) {
                 var dialog = component.createObject(timelineRoot, {
                         "rawMessage": rawMessage

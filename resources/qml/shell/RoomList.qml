@@ -295,7 +295,7 @@ Page {
                     ripple: false
                     visible: roomActionsBar.showActionButtons
 
-                    onClicked: timelineRoot.openCatalogDialog(componentCatalog.quickSwitcher)
+                    onClicked: timelineRoot.openCatalogDialog(componentCatalog.navigationQuickSwitcherDialog)
                 }
             }
         }

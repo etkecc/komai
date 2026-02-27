@@ -207,7 +207,6 @@ Item {
             }
         }
 
-        Window.onActiveChanged: readTimer.running = Window.active
         onCountChanged: {
             // Mark timeline as read
             if (atYEnd && room)
@@ -306,82 +305,10 @@ Item {
                 topBar: topBar
             }
         }
-        Shortcut {
-            sequences: [StandardKey.MoveToPreviousPage]
-
-            onActivated: {
-                chat.keepPinnedToBottom = false;
-                chat.contentY = chat.contentY - chat.height * 0.9;
-                chat.returnToBounds();
-            }
-        }
-        Shortcut {
-            sequences: [StandardKey.MoveToNextPage]
-
-            onActivated: {
-                chat.keepPinnedToBottom = false;
-                chat.contentY = chat.contentY + chat.height * 0.9;
-                chat.returnToBounds();
-            }
-        }
-        Shortcut {
-            sequences: [StandardKey.Cancel]
-
-            onActivated: {
-                if (room.input.uploads.length > 0)
-                    room.input.declineUploads();
-                else if (room.reply)
-                    room.reply = undefined;
-                else if (room.edit)
-                    room.edit = undefined;
-                else
-                    room.thread = undefined;
-                TimelineManager.focusMessageInput();
-            }
-        }
-
-        // These shortcuts use the room timeline because switching to threads and out is annoying otherwise.
-        // Better solution welcome.
-        Shortcut {
-            sequence: "Alt+Up"
-
-            onActivated: room.reply = room.indexToId(room.reply ? room.idToIndex(room.reply) + 1 : 0)
-        }
-        Shortcut {
-            sequence: "Alt+Down"
-
-            onActivated: {
-                var idx = room.reply ? room.idToIndex(room.reply) - 1 : -1;
-                room.reply = idx >= 0 ? room.indexToId(idx) : null;
-            }
-        }
-        Shortcut {
-            sequence: "Alt+F"
-
-            onActivated: {
-                if (room.reply) {
-                    chatRoot.openForwardDialog(room.reply);
-                    room.reply = null;
-                }
-            }
-        }
-        Shortcut {
-            sequence: "Ctrl+E"
-
-            onActivated: {
-                room.edit = room.reply;
-            }
-        }
-        Timer {
-            id: readTimer
-
-            interval: 1000
-
-            // force current read index to update
-            onTriggered: {
-                if (room)
-                    room.setCurrentIndex(room.currentIndex);
-            }
+        TimelineKeyboardShortcuts {
+            chatList: chat
+            chatRoot: chatRoot
+            roomModel: room
         }
     }
     MessageContextMenu {

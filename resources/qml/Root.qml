@@ -281,7 +281,12 @@ Pane {
                         "eventId": eventId,
                         "url": url,
                         "originalWidth": originalWidth ?? 0,
-                        "proportionalHeight": proportionalHeight ?? 0
+                        "proportionalHeight": proportionalHeight ?? 0,
+                        "modalOverlayColor": Qt.rgba(timelineRoot.palette.window.r, timelineRoot.palette.window.g, timelineRoot.palette.window.b, 0.7),
+                        "actionButtonColor": timelineRoot.palette.text,
+                        "actionButtonHoverColor": timelineRoot.palette.highlight,
+                        "actionBarColor": Qt.rgba(timelineRoot.palette.alternateBase.r, timelineRoot.palette.alternateBase.g, timelineRoot.palette.alternateBase.b, 0.75),
+                        "actionButtonHoverBackgroundColor": Qt.rgba(timelineRoot.palette.dark.r, timelineRoot.palette.dark.g, timelineRoot.palette.dark.b, 0.8)
                     });
                 dialog.showFullScreen();
                 destroyOnClose(dialog);

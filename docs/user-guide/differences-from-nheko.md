@@ -35,6 +35,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 ## 💬 Timeline Interaction
 
 - **Click-to-toggle message actions** replace the hover-only action bar, eliminating mis-targeting on wide windows
+- **Revamped in-app image viewer** -- cleaner fullscreen media view with rounded media corners and corner-friendly controls; Close is pinned to the top-right for fast edge targeting ([Fitts's law](https://www.nngroup.com/articles/fitts-law/))
 - **Forward button** in the message action bar
 - **Pinned and recent emoji reactions** directly in the action bar
 - **Swipe-to-reply disabled** by default to prevent accidental replies on desktop

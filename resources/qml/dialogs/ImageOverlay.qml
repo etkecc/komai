@@ -4,9 +4,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import Qt5Compat.GraphicalEffects
 
 import ".."
+import "./components"
 
 import im.nheko 1.0
 
@@ -18,12 +21,40 @@ Window {
     required property Room room
     required property int originalWidth
     required property double proportionalHeight
+    property color modalOverlayColor: Qt.rgba(0.2, 0.2, 0.2, 0.66)
+    property color actionButtonColor: "white"
+    property color actionButtonHoverColor: actionButtonColor
+    property color actionBarColor: Qt.rgba(0, 0, 0, 0.35)
+    property color actionButtonHoverBackgroundColor: Qt.rgba(0, 0, 0, 0.45)
+    property int actionBarHorizontalPadding: 0
+    property int actionBarVerticalPadding: 0
+    property int actionButtonIconSize: 24
+    property int imageViewportGap: Nheko.paddingLarge * 2
+    property int imageCornerRadius: Nheko.paddingMedium
+    // Keep close reachable via top-right corner (Fitts's law).
+    property int actionBarScreenInset: 0
 
     flags: Qt.FramelessWindowHint
 
     //visibility: Window.FullScreen
-    color: Qt.rgba(0.2,0.2,0.2,0.66)
+    color: modalOverlayColor
     Component.onCompleted: Nheko.setWindowRole(imageOverlay, "imageoverlay")
+
+    function copyCurrentMedia()
+    {
+        if (room)
+            room.copyMedia(eventId);
+        else
+            TimelineManager.copyImage(url);
+    }
+
+    function saveCurrentMedia()
+    {
+        if (room)
+            room.saveMedia(eventId);
+        else
+            TimelineManager.saveMedia(url);
+    }
 
     Shortcut {
         sequences: [StandardKey.Cancel]
@@ -32,13 +63,7 @@ Window {
 
     Shortcut {
         sequences: [StandardKey.Copy]
-        onActivated: {
-            if (room) {
-                room.copyMedia(eventId);
-            } else {
-                TimelineManager.copyImage(url);
-            }
-        }
+        onActivated: imageOverlay.copyCurrentMedia()
     }
 
     TapHandler {
@@ -51,8 +76,10 @@ Window {
 
         property int imgSrcWidth: (imageOverlay.originalWidth && imageOverlay.originalWidth > 100) ? imageOverlay.originalWidth : Screen.width
         property int imgSrcHeight: imageOverlay.proportionalHeight ? imgSrcWidth * imageOverlay.proportionalHeight : Screen.height
+        property int viewportWidth: Math.max(1, imageOverlay.width - imageOverlay.imageViewportGap * 2)
+        property int viewportHeight: Math.max(1, imageOverlay.height - imageOverlay.imageViewportGap * 2)
 
-        property double initialScale: Math.min(Window.height/imgSrcHeight, Window.width/imgSrcWidth, 1.0)
+        property double initialScale: Math.min(viewportHeight / imgSrcHeight, viewportWidth / imgSrcWidth, 1.0)
 
         height: imgSrcHeight * initialScale
         width: imgSrcWidth * initialScale
@@ -60,27 +87,41 @@ Window {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
-        Image {
-            id: img
+        Item {
+            id: imageClipper
 
-            visible: !mxcimage.loaded
             anchors.fill: parent
-            source: url.replace("mxc://", "image://MxcImage/")
-            asynchronous: true
-            fillMode: Image.PreserveAspectFit
-            smooth: true
-            mipmap: true
-            property bool loaded: status == Image.Ready
-        }
+            layer.enabled: true
+            layer.effect: OpacityMask {
+                maskSource: Rectangle {
+                    width: imageClipper.width
+                    height: imageClipper.height
+                    radius: imageOverlay.imageCornerRadius
+                }
+            }
 
-        MxcAnimatedImage {
-            id: mxcimage
+            Image {
+                id: img
 
-            visible: loaded
-            anchors.fill: parent
-            roomm: imageOverlay.room
-            play: !Settings.timelineMediaAnimateOnHover || mouseArea.hovered
-            eventId: imageOverlay.eventId
+                visible: !mxcimage.loaded
+                anchors.fill: parent
+                source: url.replace("mxc://", "image://MxcImage/")
+                asynchronous: true
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+                mipmap: true
+                property bool loaded: status == Image.Ready
+            }
+
+            MxcAnimatedImage {
+                id: mxcimage
+
+                visible: loaded
+                anchors.fill: parent
+                roomm: imageOverlay.room
+                play: !Settings.timelineMediaAnimateOnHover || mouseArea.hovered
+                eventId: imageOverlay.eventId
+            }
         }
 
         onScaleChanged: {
@@ -119,64 +160,80 @@ Window {
 
 
 
-    Row {
+    Rectangle {
+        id: actionBar
+
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.margins: Nheko.paddingLarge
-        spacing: Nheko.paddingMedium
+        anchors.margins: actionBarScreenInset
+        implicitWidth: actionsRow.implicitWidth + actionBarHorizontalPadding * 2
+        implicitHeight: actionsRow.implicitHeight + actionBarVerticalPadding * 2
+        width: implicitWidth
+        height: implicitHeight
+        color: actionBarColor
+        radius: Nheko.paddingMedium
 
-        ImageButton {
-            height: 48
-            width: 48
-            hoverEnabled: true
-            image: ":/icons/icons/ui/copy.svg"
+        Row {
+            id: actionsRow
+            property int uniformActionWidth: Math.max(copyButton.implicitWidth,
+                                                      downloadButton.implicitWidth,
+                                                      closeButton.implicitWidth)
 
-            //ToolTip.visible: hovered
-            //ToolTip.delay: Nheko.tooltipDelay
-            //ToolTip.text: qsTr("Copy to clipboard")
+            spacing: Nheko.paddingLarge
+            anchors.centerIn: parent
 
-            onClicked: {
-                imageOverlay.hide();
-                if (room) {
-                    room.copyMedia(eventId);
-                } else {
-                    TimelineManager.copyImage(url);
+            ImageOverlayActionButton {
+                id: copyButton
+                width: actionsRow.uniformActionWidth
+
+                iconSource: ":/icons/icons/ui/copy.svg"
+                labelText: qsTr("Copy")
+                textColor: actionButtonColor
+                hoverIconColor: actionButtonHoverColor
+                hoverTextColor: actionButtonHoverColor
+                hoverBackgroundColor: actionButtonHoverBackgroundColor
+                iconSize: actionButtonIconSize
+
+                onClicked: {
+                    imageOverlay.copyCurrentMedia();
+                    imageOverlay.hide();
+                    imageOverlay.close();
                 }
-                imageOverlay.close();
             }
-        }
 
-        ImageButton {
-            height: 48
-            width: 48
-            hoverEnabled: true
-            image: ":/icons/icons/ui/download.svg"
+            ImageOverlayActionButton {
+                id: downloadButton
+                width: actionsRow.uniformActionWidth
 
-            //ToolTip.visible: hovered
-            //ToolTip.delay: Nheko.tooltipDelay
-            //ToolTip.text: qsTr("Download")
+                iconSource: ":/icons/icons/ui/download.svg"
+                labelText: qsTr("Save")
+                textColor: actionButtonColor
+                hoverIconColor: actionButtonHoverColor
+                hoverTextColor: actionButtonHoverColor
+                hoverBackgroundColor: actionButtonHoverBackgroundColor
+                iconSize: actionButtonIconSize
 
-            onClicked: {
-                imageOverlay.hide();
-                if (room) {
-                    room.saveMedia(eventId);
-                } else {
-                    TimelineManager.saveMedia(url);
+                onClicked: {
+                    imageOverlay.saveCurrentMedia();
+                    imageOverlay.hide();
+                    imageOverlay.close();
                 }
-                imageOverlay.close();
             }
-        }
-        ImageButton {
-            height: 48
-            width: 48
-            hoverEnabled: true
-            image: ":/icons/icons/ui/dismiss.svg"
 
-            //ToolTip.visible: hovered
-            //ToolTip.delay: Nheko.tooltipDelay
-            //ToolTip.text: qsTr("Close")
+            ImageOverlayActionButton {
+                id: closeButton
+                width: actionsRow.uniformActionWidth
 
-            onClicked: imageOverlay.close()
+                iconSource: ":/icons/icons/ui/dismiss.svg"
+                labelText: qsTr("Close")
+                textColor: actionButtonColor
+                hoverIconColor: actionButtonHoverColor
+                hoverTextColor: actionButtonHoverColor
+                hoverBackgroundColor: actionButtonHoverBackgroundColor
+                iconSize: actionButtonIconSize
+
+                onClicked: imageOverlay.close()
+            }
         }
     }
 

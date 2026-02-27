@@ -621,57 +621,10 @@ Item {
             timelineViewSource: timelineView
         }
     }
-    Menu {
+    ReplyContextMenu {
         id: replyContextMenuC
 
-        property string eventId
-        property string link
-        property string text
-
-        function show(text_, link_, eventId_) {
-            text = text_;
-            link = link_;
-            eventId = eventId_;
-
-            replyContextMenuCFilter.updateTarget();
-            popup();
-        }
-
-        Component.onCompleted: {
-            if (replyContextMenuC.popupType != undefined) {
-                replyContextMenuC.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
-            }
-        }
-
-
-        NhekoMenuVisibilityFilter on contentData {
-            id: replyContextMenuCFilter
-
-            Component {
-                MenuItem {
-                    text: qsTr("&Copy")
-                    visible: replyContextMenuC.text
-
-                    onTriggered: Clipboard.text = replyContextMenuC.text
-                }
-            }
-            Component {
-                MenuItem {
-                    text: qsTr("Copy &link location")
-                    visible: replyContextMenuC.link
-
-                    onTriggered: Clipboard.text = replyContextMenuC.link
-                }
-            }
-            Component {
-                MenuItem {
-                    text: qsTr("&Go to quoted message")
-                    visible: true
-
-                    onTriggered: room.showEvent(replyContextMenuC.eventId)
-                }
-            }
-        }
+        roomModel: room
     }
     RoundButton {
         id: toEndButton

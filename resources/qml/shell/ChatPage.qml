@@ -5,10 +5,11 @@
 
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "components"
-import "components/banners" as Banners
-import "shell" as Shell
-import "timeline" as Timeline
+import ".."
+import "../components"
+import "../components/banners" as Banners
+import "." as Shell
+import "../timeline" as Timeline
 import im.nheko 1.0
 
 // this needs to be last

@@ -148,8 +148,8 @@ Database user-id component:
   `db::getMemberInfo(...)`, `db::putMemberInfo(...)`) so callers do not
   duplicate `MemberInfo` JSON serialization/parsing and keyed reads/writes.
 - Reusable cache-crypto struct codecs are centralized in
-  `src/CacheCryptoStructs.cpp`, keeping crypto/key/cache value serialization in one
-  place instead of inline in `Cache.cpp` so callers only parse/store values through
+  `src/cache/crypto/CacheCryptoStructs.cpp`, keeping crypto/key/cache value serialization in one
+  place instead of inline in `src/cache/core/Cache.cpp` so callers only parse/store values through
   typed helpers.
 - Reusable generic JSON helpers are centralized in `src/db/Json.h` (`db::getJsonValue`,
   `db::putJsonValue`) so callers work with typed payloads without repeating
@@ -168,7 +168,7 @@ Database user-id component:
   without cursor boilerplate.
 - Cursor-level APIs are intentionally mostly confined to backend internals and
   helper modules (`Scan`, `DupIndex`) so higher-level code can stay backend-neutral.
-- `src/Cache.cpp` should use these helper modules instead of direct cursor operations.
+- `src/cache/core/Cache.cpp` should use these helper modules instead of direct cursor operations.
 - Cache DB open options (integer-key / dupsort / comparator) are centralized in
   `src/db/NamePolicy.cpp` (`db::openOptionsForName(...)`,
   `db::openOptionsForGlobal(...)`, `db::openOptionsForRoom(...)`) and consumed via
@@ -193,7 +193,7 @@ Secret-store key prefixes:
 ## Main Call Sites
 
 - `src/UserSettingsPage.cpp` (profile YAML files)
-- `src/Cache.cpp` (database base directory)
+- `src/cache/setup/CacheSetup.cpp` (database base directory)
 - `src/ui/ThemeRegistry.cpp` (external theme search directories)
 - `src/MatrixClient.cpp` (curl alt-svc cache file)
 - `src/MxcImageProvider.cpp` (media purge + media cache file paths)

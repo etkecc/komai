@@ -1,0 +1,19 @@
+# Cache Module
+
+This directory contains Komai's Matrix-specific persistence/cache layer.
+
+Scope:
+
+- Reads/writes Matrix state and cache data.
+- Depends on `src/db` storage APIs and helpers.
+- Must not expose backend-specific details to callers.
+
+Boundary rules:
+
+- `src/cache` may depend on `src/db`.
+- `src/db` must not depend on `src/cache` or Matrix/UI domain objects.
+
+Architecture docs:
+
+- [Cache Architecture](../../docs/architecture/cache/README.md)
+- [Storage Architecture](../../docs/architecture/storage.md)

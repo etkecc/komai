@@ -5,29 +5,4 @@
 
 #pragma once
 
-#include <memory>
-
-#include "Cache.h"
-
-namespace spdlog {
-class logger;
-}
-
-class Cache;
-
-namespace cache {
-std::unique_ptr<Cache> &
-cacheInstance();
-
-struct CacheLoggers
-{
-    std::shared_ptr<spdlog::logger> db;
-    std::shared_ptr<spdlog::logger> crypto;
-    std::shared_ptr<spdlog::logger> net;
-};
-
-void
-setLoggers(CacheLoggers loggers);
-const CacheLoggers &
-activeLoggers();
-}
+#include "cache/api/CacheApiWrappers.h"

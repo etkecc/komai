@@ -9,6 +9,7 @@ Technical documentation for Komai internals.
 - 🧭 [Settings 3-Layer Mapping](settings/3-layer-mapping.md) -- `SettingId` ↔ runtime getter ↔ persisted key audit report
 - 🧩 [Icons Architecture](icons.md) -- icon source of truth, validation, and Fluent sync workflow
 - 💾 [Storage Architecture](storage.md) -- path helpers, storage layout, and callsites
+- 🗃️ [Cache Architecture](cache/README.md) -- Matrix cache domain built on storage APIs
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling
 

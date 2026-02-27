@@ -499,63 +499,63 @@ set(SRC_FILES
     src/AvatarProvider.h
     src/BlurhashProvider.cpp
     src/BlurhashProvider.h
-    src/Cache.cpp
-    src/CacheCore.cpp
-    src/CacheCoreHelpers.cpp
-    src/CacheLifecycleRooms.cpp
-    src/CacheLifecycleState.cpp
-    src/CacheLifecycleMigrations.cpp
-    src/CacheLifecycleStateHelpers.cpp
-    src/CacheLifecycleStateHelpersGetters.cpp
-    src/CacheLifecycleSync.cpp
-    src/CacheLifecycleSyncSaveState.cpp
-    src/CacheLifecycleSyncSaveStateHelpers.cpp
-    src/CacheLifecycleSyncHelpers.cpp
-    src/CacheLifecycleMigrationsHelpers.cpp
-    src/CacheLifecycle.cpp
-    src/CacheSetup.cpp
-    src/CacheMembership.cpp
-    src/CacheMembershipHelpers.cpp
-    src/CacheMembershipHelpersInvites.cpp
-    src/CacheRoomInfo.cpp
-    src/CacheRoomInfoHelpersGetters.cpp
-    src/CacheRoomInfoHelpers.cpp
-    src/CacheRoomInfoHelpersInvites.cpp
-    src/CacheSpaces.cpp
-    src/CacheSpacesImagePacks.cpp
-    src/CacheTimeline.cpp
-    src/CacheTimelineHelpers.cpp
-    src/CacheTimelineReadHelpers.cpp
-    src/CacheTimelinePending.cpp
-    src/CacheTimelineRead.cpp
-    src/CacheApiWrappersState.cpp
-    src/CacheCrypto.cpp
-    src/CacheCryptoMegolm.cpp
-    src/CacheCryptoMegolmHelpers.cpp
-    src/CacheCryptoMegolmMetadata.cpp
-    src/CacheCryptoOlm.cpp
-    src/CacheCryptoSecrets.cpp
-    src/CacheCryptoSecretsHelpers.cpp
-    src/CacheCryptoSecretsStoreHelpers.cpp
-    src/CacheCoreHelpersDisplay.cpp
-    src/CacheUserProfile.cpp
-    src/CacheUserKeys.cpp
-    src/CacheUserKeysNetwork.cpp
-    src/CacheUserKeysVerification.cpp
-    src/CacheUserKeysVerificationHelpers.cpp
-    src/CacheUserTrust.cpp
-    src/CacheApiWrappers.cpp
-    src/CacheApiWrappersHelpers.cpp
-    src/CacheApiWrappersHelpersSignals.cpp
-    src/CacheApiWrappersTimeline.cpp
-    src/CacheApiWrappersRoom.cpp
-    src/CacheApiWrappersCrypto.cpp
-    src/Cache.h
-    src/CacheCryptoStructs.cpp
-    src/CacheCryptoStructsQml.cpp
-    src/CacheCryptoStructs.h
-    src/CacheStructs.h
-    src/Cache_p.h
+    src/cache/core/Cache.cpp
+    src/cache/core/CacheCore.cpp
+    src/cache/core/CacheCoreHelpers.cpp
+    src/cache/lifecycle/CacheLifecycleRooms.cpp
+    src/cache/lifecycle/CacheLifecycleState.cpp
+    src/cache/lifecycle/CacheLifecycleMigrations.cpp
+    src/cache/lifecycle/CacheLifecycleStateHelpers.cpp
+    src/cache/lifecycle/CacheLifecycleStateHelpersGetters.cpp
+    src/cache/lifecycle/CacheLifecycleSync.cpp
+    src/cache/lifecycle/CacheLifecycleSyncSaveState.cpp
+    src/cache/lifecycle/CacheLifecycleSyncSaveStateHelpers.cpp
+    src/cache/lifecycle/CacheLifecycleSyncHelpers.cpp
+    src/cache/lifecycle/CacheLifecycleMigrationsHelpers.cpp
+    src/cache/lifecycle/CacheLifecycle.cpp
+    src/cache/setup/CacheSetup.cpp
+    src/cache/membership/CacheMembership.cpp
+    src/cache/membership/CacheMembershipHelpers.cpp
+    src/cache/membership/CacheMembershipHelpersInvites.cpp
+    src/cache/rooms/CacheRoomInfo.cpp
+    src/cache/rooms/CacheRoomInfoHelpersGetters.cpp
+    src/cache/rooms/CacheRoomInfoHelpers.cpp
+    src/cache/rooms/CacheRoomInfoHelpersInvites.cpp
+    src/cache/spaces/CacheSpaces.cpp
+    src/cache/spaces/CacheSpacesImagePacks.cpp
+    src/cache/timeline/CacheTimeline.cpp
+    src/cache/timeline/CacheTimelineHelpers.cpp
+    src/cache/timeline/CacheTimelineReadHelpers.cpp
+    src/cache/timeline/CacheTimelinePending.cpp
+    src/cache/timeline/CacheTimelineRead.cpp
+    src/cache/api/CacheApiWrappersState.cpp
+    src/cache/crypto/CacheCrypto.cpp
+    src/cache/crypto/CacheCryptoMegolm.cpp
+    src/cache/crypto/CacheCryptoMegolmHelpers.cpp
+    src/cache/crypto/CacheCryptoMegolmMetadata.cpp
+    src/cache/crypto/CacheCryptoOlm.cpp
+    src/cache/crypto/CacheCryptoSecrets.cpp
+    src/cache/crypto/CacheCryptoSecretsHelpers.cpp
+    src/cache/crypto/CacheCryptoSecretsStoreHelpers.cpp
+    src/cache/core/CacheCoreHelpersDisplay.cpp
+    src/cache/users/CacheUserProfile.cpp
+    src/cache/users/CacheUserKeys.cpp
+    src/cache/users/CacheUserKeysNetwork.cpp
+    src/cache/users/CacheUserKeysVerification.cpp
+    src/cache/users/CacheUserKeysVerificationHelpers.cpp
+    src/cache/users/CacheUserTrust.cpp
+    src/cache/api/CacheApiWrappers.cpp
+    src/cache/api/CacheApiWrappersHelpers.cpp
+    src/cache/api/CacheApiWrappersHelpersSignals.cpp
+    src/cache/api/CacheApiWrappersTimeline.cpp
+    src/cache/api/CacheApiWrappersRoom.cpp
+    src/cache/api/CacheApiWrappersCrypto.cpp
+    src/cache/core/Cache.h
+    src/cache/crypto/CacheCryptoStructs.cpp
+    src/cache/crypto/CacheCryptoStructsQml.cpp
+    src/cache/crypto/CacheCryptoStructs.h
+    src/cache/core/CacheStructs.h
+    src/cache/core/Cache_p.h
     src/db/InMemoryBackend.h
     src/db/LmdbBackend.h
     src/db/Backend.h
@@ -1213,7 +1213,7 @@ if(BUILD_TESTING)
         tests/LoggingStub.cpp
         tests/ProfileSecretsStub.cpp
         src/Paths.cpp
-        src/CacheApiWrappers.cpp
+        src/cache/api/CacheApiWrappers.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp
         src/settings/SettingsPersistenceSave.cpp
@@ -1269,7 +1269,7 @@ if(BUILD_TESTING)
 
     add_executable(komai_db_backend_test
         tests/DbBackendTest.cpp
-        src/CacheCryptoStructs.cpp
+        src/cache/crypto/CacheCryptoStructs.cpp
     )
     target_include_directories(komai_db_backend_test PRIVATE src)
     target_link_libraries(komai_db_backend_test PRIVATE

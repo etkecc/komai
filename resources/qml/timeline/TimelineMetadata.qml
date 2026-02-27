@@ -17,7 +17,7 @@ RowLayout {
     required property double scaling
     property double buttonScale: 2
     required property bool isSender
-    // Minimal style uses fixed metadata order:
+    // Plain style uses fixed metadata order:
     // [icons/buttons ...][timestamp][message actions button].
     property bool forceTrailingTimestampLayout: false
     // In trailing layout, allow placing the actions toggle before timestamp/icons.

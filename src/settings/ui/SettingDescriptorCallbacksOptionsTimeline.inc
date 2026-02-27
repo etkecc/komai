@@ -17,7 +17,7 @@ static QVariant
 timelineMessagesStyleValues()
 {
     QStringList values;
-    values << QCoreApplication::translate("UserSettingsModel", "Minimal")
+    values << QCoreApplication::translate("UserSettingsModel", "Plain")
            << QCoreApplication::translate("UserSettingsModel", "Bubbles");
     return values;
 }

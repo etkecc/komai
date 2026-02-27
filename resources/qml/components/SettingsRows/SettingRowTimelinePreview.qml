@@ -4,7 +4,7 @@
 
 import "../../timeline"
 import "../../timeline/styles/bubble"
-import "../../timeline/styles/minimal"
+import "../../timeline/styles/plain"
 import ".."
 import "../.." as RootQml
 import QtQuick
@@ -331,9 +331,9 @@ Item {
             }
 
             Component {
-                id: minimalMessageStyle
+                id: plainMessageStyle
 
-                TimelineDefaultMessageStyle {
+                TimelinePlainMessageStyle {
                     required property var modelData
                     messageActions: messageActionsC
                     messageContextMenu: messageContextMenuC
@@ -360,9 +360,9 @@ Item {
                 switch (style) {
                 case Settings.TimelineMessagesStyle.Bubbles:
                     return bubbleMessageStyle;
-                case Settings.TimelineMessagesStyle.Minimal:
+                case Settings.TimelineMessagesStyle.Plain:
                 default:
-                    return minimalMessageStyle;
+                    return plainMessageStyle;
                 }
             }
 

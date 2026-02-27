@@ -13,7 +13,7 @@ constexpr std::array<std::pair<UserSettings::TimelineMessageActionsActivationPol
 
 constexpr std::array<std::pair<UserSettings::TimelineMessagesStyle, const char *>, 2>
   kTimelineStyleTokens{{
-    {UserSettings::TimelineMessagesStyle::Minimal, "minimal"},
+    {UserSettings::TimelineMessagesStyle::Plain, "plain"},
     {UserSettings::TimelineMessagesStyle::Bubbles, "bubbles"},
   }};
 

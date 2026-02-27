@@ -13,13 +13,23 @@ TimelineMessageStyleBase {
     id: wrapper
     // We return a larger size for any item but the most bottom one, if it isn't initialized yet, since otherwise Qt will create way too many items.
     // If we did that also for the first item, it would mess with the scroll location a bit, so we don't do it for that item.
-    height: Math.max((section.item?.height ?? 0) + ((gridContainer.implicitHeight < 1 && index != 0) ? 100 : gridContainer.implicitHeight) + reactionRow.implicitHeight + unreadRow.height, 10)
+    height: Math.max((section.item?.height ?? 0) + Math.max(((gridContainer.implicitHeight < 1 && index != 0) ? 100 : gridContainer.implicitHeight), (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0)) + reactionRow.implicitHeight + unreadRow.height, 10)
     //room: chatRoot.roommodel
     styleProfile: TimelineStyleProfile {
-        fileMessagePadding: 8
-        showFileMessageBackground: false
-        showEncryptedMessageBackground: false
+        fileMessagePadding: wrapper.styleFileMessagePadding
+        showFileMessageBackground: wrapper.styleShowFileMessageBackground
+        showEncryptedMessageBackground: wrapper.styleShowEncryptedMessageBackground
     }
+
+    property int styleFileMessagePadding: 8
+    property bool styleShowFileMessageBackground: false
+    property bool styleShowEncryptedMessageBackground: false
+
+    property int messageBubblePadding: Nheko.paddingMedium
+    property int messageBubbleRadius: 8
+    property bool messageBubbleBackgroundEnabled: true
+    property bool alignMessageTextToSide: false
+    property bool reserveAvatarRowHeight: false
 
     property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
     property int avatarMargin: (shouldShowMessageAvatar ? (Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
@@ -295,10 +305,25 @@ TimelineMessageStyleBase {
 
                 }
 
-                padding: wrapper.isStateEvent ? 0 : Nheko.paddingMedium
+                Binding {
+                    // Plain style can align textual delegates with the active side.
+                    target: wrapper.main
+                    property: "horizontalAlignment"
+                    when: wrapper.alignMessageTextToSide
+                          && !wrapper.isStateEvent
+                          && !!wrapper.main
+                          && typeof wrapper.main.horizontalAlignment !== "undefined"
+                    value: wrapper.messageIsRightAligned ? Text.AlignRight : Text.AlignLeft
+                }
+
+                padding: wrapper.isStateEvent ? 0 : wrapper.messageBubblePadding
                 background: Rectangle {
-                    color: !wrapper.isStateEvent ? (wrapper.isSender ? Qt.tint(palette.base, Qt.hsla(palette.highlight.hslHue, wrapper.hovered ? 0.8 : 0.6, palette.highlight.hslLightness, 0.3)) : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2))) : "transparent"
-                    radius: 8
+                    color: (!wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled)
+                        ? (wrapper.isSender
+                            ? Qt.tint(palette.base, Qt.hsla(palette.highlight.hslHue, wrapper.hovered ? 0.8 : 0.6, palette.highlight.hslLightness, 0.3))
+                            : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2)))
+                        : "transparent"
+                    radius: wrapper.messageBubbleRadius
                     border.color: Nheko.theme.red
                     border.width: wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
                 }

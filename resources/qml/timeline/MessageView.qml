@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "./styles/bubble"
-import "./styles/minimal"
+import "./styles/plain"
 import "../components"
 import "../ui"
 import "../dialogs"
@@ -81,9 +81,9 @@ Item {
         onHeightChanged: contentY = (lastScrollPos-height)
 
         Component {
-            id: minimalMessageStyle
+            id: plainMessageStyle
 
-            TimelineDefaultMessageStyle {
+            TimelinePlainMessageStyle {
                 messageActions: messageActionsC
                 messageContextMenu: messageContextMenuC
                 replyContextMenu: replyContextMenuC
@@ -125,9 +125,9 @@ Item {
             switch (style) {
             case Settings.TimelineMessagesStyle.Bubbles:
                 return bubbleMessageStyle;
-            case Settings.TimelineMessagesStyle.Minimal:
+            case Settings.TimelineMessagesStyle.Plain:
             default:
-                return minimalMessageStyle;
+                return plainMessageStyle;
             }
         }
 

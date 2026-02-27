@@ -302,7 +302,7 @@ public:
 
     enum class TimelineMessagesStyle
     {
-        Minimal,
+        Plain,
         Bubbles,
     };
     Q_ENUM(TimelineMessagesStyle)

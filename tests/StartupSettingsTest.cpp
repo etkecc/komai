@@ -617,7 +617,7 @@ testEnumSettingsPersistAsStrings()
     settings->setTimelineMessageActionsActivationPolicy(
       UserSettings::TimelineMessageActionsActivationPolicy::OnHover);
     settings->setTimelineMessagesStyle(
-      UserSettings::TimelineMessagesStyle::Minimal);
+      UserSettings::TimelineMessagesStyle::Plain);
     settings->setNotificationsMessageContentPolicy(
       UserSettings::NotificationMessageContentPolicy::Never);
     settings->setIntegrationsDbusApiAccess(IntegrationsDbusAccessReadOnly);
@@ -660,7 +660,7 @@ testEnumSettingsPersistAsStrings()
                              "message actions activation policy is persisted as string token");
     ok &= expectScalarString(configRoot,
                              SettingKey::TimelineMessagesStyle,
-                             QStringLiteral("minimal"),
+                             QStringLiteral("plain"),
                              "timeline layout style is persisted as string token");
     ok &= expectScalarString(configRoot,
                              SettingKey::NotificationsMessageContentPolicy,

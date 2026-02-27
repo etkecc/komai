@@ -24,7 +24,7 @@ UserSettings::timelineMessagesStyle() const
     if (const auto value =
           coreStore_.valueAs<int>(settings::core::SettingId::TimelineMessagesStyle);
         value.has_value() &&
-        *value >= static_cast<int>(UserSettings::TimelineMessagesStyle::Minimal) &&
+        *value >= static_cast<int>(UserSettings::TimelineMessagesStyle::Plain) &&
         *value <= static_cast<int>(UserSettings::TimelineMessagesStyle::Bubbles))
         return static_cast<UserSettings::TimelineMessagesStyle>(*value);
     return timelineMessagesStyle_;

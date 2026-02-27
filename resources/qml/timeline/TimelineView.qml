@@ -7,6 +7,7 @@ import "../components"
 import "../emoji"
 import "../ui"
 import "../voip"
+import "./components"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -50,27 +51,9 @@ Item {
 
         onActivated: Rooms.resetCurrentRoom()
     }
-    ColumnLayout {
+    TimelineEmptyState {
         anchors.centerIn: parent
-        spacing: 16
         visible: !room && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
-
-        Image {
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: Nheko.timelineLogoSize
-            Layout.preferredHeight: Nheko.timelineLogoSize
-            source: "qrc:/logos/komai.svg"
-            sourceSize.height: Nheko.timelineLogoSize * 2
-            sourceSize.width: Nheko.timelineLogoSize * 2
-            fillMode: Image.PreserveAspectFit
-        }
-
-        Label {
-            Layout.alignment: Qt.AlignHCenter
-            font.pointSize: Settings.uiFontSizePt * 1.85
-            text: qsTr("No room open")
-            color: palette.text
-        }
     }
     Spinner {
         anchors.centerIn: parent

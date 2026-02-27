@@ -524,19 +524,16 @@ set(SRC_FILES
     src/cache/timeline/CacheTimelinePending.cpp
     src/cache/timeline/CacheTimelineRead.cpp
     src/cache/api/CacheApiWrappersState.cpp
-    src/cache/crypto/CacheCrypto.cpp
     src/cache/crypto/CacheCryptoMegolm.cpp
-    src/cache/crypto/CacheCryptoMegolmHelpers.cpp
     src/cache/crypto/CacheCryptoMegolmMetadata.cpp
     src/cache/crypto/CacheCryptoOlm.cpp
-    src/cache/crypto/CacheCryptoSecretsHelpers.cpp
-    src/cache/crypto/CacheCryptoSecretsStoreHelpers.cpp
+    src/cache/crypto/CacheCryptoSecrets.cpp
+    src/cache/crypto/CacheCryptoSecretsStore.cpp
     src/cache/core/CacheCoreRuntime.cpp
     src/cache/users/CacheUserProfile.cpp
     src/cache/users/CacheUserKeys.cpp
     src/cache/users/CacheUserKeysNetwork.cpp
     src/cache/users/CacheUserKeysVerification.cpp
-    src/cache/users/CacheUserKeysVerificationHelpers.cpp
     src/cache/users/CacheUserTrust.cpp
     src/cache/api/CacheApiWrappers.cpp
     src/cache/api/CacheApiWrappersAccessors.cpp

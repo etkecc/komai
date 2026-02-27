@@ -73,7 +73,6 @@ WebRTCSession::WebRTCSession()
     //                                  QStringLiteral("Can't instantiate enum"));
 
     connect(this, &WebRTCSession::stateChanged, this, &WebRTCSession::setState);
-    init();
 }
 
 bool

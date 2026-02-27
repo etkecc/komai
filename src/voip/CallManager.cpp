@@ -86,26 +86,38 @@ CallManager::CallManager(QObject *parent)
   , turnServerTimer_(this)
 {
 #ifdef GSTREAMER_AVAILABLE
-    std::string errorMessage;
-
-    if (QGuiApplication::platformName() == QStringLiteral("windows") &&
-        session_.havePlugins(true, true, ScreenShareType::D3D11, &errorMessage)) {
-        screenShareType_ = ScreenShareType::D3D11;
-        screenShareTypes_.push_back(ScreenShareType::D3D11);
-    } else if (std::getenv("DISPLAY")) {
-        screenShareTypes_.push_back(ScreenShareType::X11);
-        if (QGuiApplication::platformName() != QStringLiteral("wayland")) {
-            // Selected by default
-            screenShareType_ = ScreenShareType::X11;
-            if (screenShareTypes_.size() >= 2)
-                std::swap(screenShareTypes_[0], screenShareTypes_[1]);
+    const auto addScreenShareType = [this](ScreenShareType type) {
+        if (std::find(screenShareTypes_.begin(), screenShareTypes_.end(), type) ==
+            screenShareTypes_.end()) {
+            screenShareTypes_.push_back(type);
         }
-    }
+    };
 
-    if (QGuiApplication::platformName() != QStringLiteral("windows") &&
-        session_.havePlugins(true, true, ScreenShareType::XDP, &errorMessage)) {
-        screenShareTypes_.push_back(ScreenShareType::XDP);
-        screenShareType_ = ScreenShareType::XDP;
+    if (QGuiApplication::platformName() == QStringLiteral("windows")) {
+        screenShareType_ = ScreenShareType::D3D11;
+        addScreenShareType(ScreenShareType::D3D11);
+    } else {
+        const bool isWayland = QGuiApplication::platformName() == QStringLiteral("wayland");
+        if (isWayland) {
+            screenShareType_ = ScreenShareType::XDP;
+            addScreenShareType(ScreenShareType::XDP);
+        }
+
+        if (std::getenv("DISPLAY")) {
+            addScreenShareType(ScreenShareType::X11);
+            if (!isWayland)
+                screenShareType_ = ScreenShareType::X11;
+        }
+
+        if (!isWayland) {
+            // Keep XDP available as an option on non-Windows platforms.
+            addScreenShareType(ScreenShareType::XDP);
+        }
+
+        if (screenShareTypes_.empty()) {
+            screenShareType_ = ScreenShareType::XDP;
+            addScreenShareType(ScreenShareType::XDP);
+        }
     }
 #endif
 

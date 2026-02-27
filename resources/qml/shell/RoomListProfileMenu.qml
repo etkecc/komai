@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../dialogs"
+import "../dialogs/common"
 import QtQuick
 import QtQuick.Controls
 import im.nheko

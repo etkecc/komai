@@ -7,7 +7,7 @@ import "./styles/bubble"
 import "./styles/plain"
 import "../components"
 import "../ui"
-import "../dialogs"
+import "../dialogs/common"
 import "../dialogs/navigation"
 import "../dialogs/moderation"
 import QtQuick 2.15

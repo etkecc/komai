@@ -5,7 +5,7 @@
 
 import ".."
 import "../components"
-import "../dialogs"
+import "../dialogs/common"
 import "../dialogs/room"
 import "../ui"
 import QtQuick

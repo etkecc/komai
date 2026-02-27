@@ -513,12 +513,10 @@ set(SRC_FILES
     src/cache/lifecycle/CacheLifecycle.cpp
     src/cache/setup/CacheSetup.cpp
     src/cache/membership/CacheMembership.cpp
-    src/cache/membership/CacheMembershipHelpers.cpp
-    src/cache/membership/CacheMembershipHelpersInvites.cpp
+    src/cache/membership/CacheMembershipInvites.cpp
     src/cache/rooms/CacheRoomInfo.cpp
-    src/cache/rooms/CacheRoomInfoHelpersGetters.cpp
-    src/cache/rooms/CacheRoomInfoHelpers.cpp
-    src/cache/rooms/CacheRoomInfoHelpersInvites.cpp
+    src/cache/rooms/CacheRoomInfoState.cpp
+    src/cache/rooms/CacheRoomInfoInvites.cpp
     src/cache/spaces/CacheSpaces.cpp
     src/cache/spaces/CacheSpacesImagePacks.cpp
     src/cache/timeline/CacheTimeline.cpp

@@ -14,7 +14,6 @@ Popup {
     property string mid: ""
     property var roomSource: null
     readonly property var activeRoom: roomSource
-    readonly property var room: activeRoom
     property var timelineSource: null
     property var timelineViewSource: null
     readonly property var timeline: timelineSource
@@ -28,6 +27,15 @@ Popup {
 
     function setMessageEventId(mid_in) {
         mid = mid_in;
+    }
+    function cancelConfirmation() {
+        confirming = false;
+        roomTextInput.forceActiveFocus();
+    }
+    function confirmForward() {
+        if (activeRoom)
+            activeRoom.forwardMessage(forwardMessagePopup.mid, forwardMessagePopup.pendingRoomId);
+        forwardMessagePopup.close();
     }
 
     padding: Nheko.paddingMedium
@@ -47,6 +55,20 @@ Popup {
     background: Rectangle {
         color: palette.alternateBase
         radius: 8
+    }
+
+    Shortcut {
+        sequences: [StandardKey.Cancel, "Escape"]
+        context: Qt.ApplicationShortcut
+        enabled: forwardMessagePopup.visible && forwardMessagePopup.confirming
+        onActivated: forwardMessagePopup.cancelConfirmation()
+    }
+
+    Shortcut {
+        sequences: [StandardKey.InsertParagraphSeparator]
+        context: Qt.ApplicationShortcut
+        enabled: forwardMessagePopup.visible && forwardMessagePopup.confirming
+        onActivated: forwardMessagePopup.confirmForward()
     }
 
     onOpened: {
@@ -219,28 +241,42 @@ Popup {
             Button {
                 id: forwardButton
 
-                highlighted: true
+                activeFocusOnTab: true
+                focusPolicy: Qt.StrongFocus
+                highlighted: activeFocus
                 text: qsTr("Forward")
-                onClicked: {
-                    if (activeRoom)
-                        activeRoom.forwardMessage(forwardMessagePopup.mid, forwardMessagePopup.pendingRoomId);
-                    forwardMessagePopup.close();
+                onClicked: forwardMessagePopup.confirmForward()
+                Keys.onEnterPressed: event => {
+                    forwardMessagePopup.confirmForward();
+                    event.accepted = true;
+                }
+                Keys.onReturnPressed: event => {
+                    forwardMessagePopup.confirmForward();
+                    event.accepted = true;
                 }
 
                 Keys.onPressed: (event) => {
                     if (event.key === Qt.Key_Escape) {
-                        forwardMessagePopup.confirming = false;
-                        roomTextInput.forceActiveFocus();
+                        forwardMessagePopup.cancelConfirmation();
                         event.accepted = true;
                     }
                 }
             }
 
             Button {
+                id: cancelButton
+
+                activeFocusOnTab: true
+                focusPolicy: Qt.StrongFocus
                 text: qsTr("Cancel")
-                onClicked: {
-                    forwardMessagePopup.confirming = false;
-                    roomTextInput.forceActiveFocus();
+                onClicked: forwardMessagePopup.cancelConfirmation()
+                Keys.onEnterPressed: event => {
+                    forwardMessagePopup.cancelConfirmation();
+                    event.accepted = true;
+                }
+                Keys.onReturnPressed: event => {
+                    forwardMessagePopup.cancelConfirmation();
+                    event.accepted = true;
                 }
             }
         }
@@ -251,7 +287,7 @@ Popup {
             forwardMessagePopup.pendingRoomId = id;
             forwardMessagePopup.pendingRoomName = targetRoom ? targetRoom.plainRoomName : id;
             forwardMessagePopup.confirming = true;
-            forwardButton.forceActiveFocus();
+            Qt.callLater(() => forwardButton.forceActiveFocus(Qt.TabFocusReason));
         }
         function onCountChanged() {
             if (completerPopup.count > 0 && (completerPopup.currentIndex < 0 || completerPopup.currentIndex >= completerPopup.count))

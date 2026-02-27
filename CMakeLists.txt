@@ -543,6 +543,13 @@ set(SRC_FILES
     src/cache/api/CacheApiWrappersCrypto.cpp
     src/cache/Cache.h
     src/cache/api/CacheApi.h
+    src/cache/api/CacheApiTypes.h
+    src/cache/api/CacheApiLifecycle.h
+    src/cache/api/CacheApiUsers.h
+    src/cache/api/CacheApiSignals.h
+    src/cache/api/CacheApiRooms.h
+    src/cache/api/CacheApiTimeline.h
+    src/cache/api/CacheApiCrypto.h
     src/cache/core/Cache.h
     src/cache/crypto/CacheCryptoStructs.cpp
     src/cache/crypto/CacheCryptoStructsQml.cpp

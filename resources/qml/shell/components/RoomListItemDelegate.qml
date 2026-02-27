@@ -18,7 +18,7 @@ ItemDelegate {
     required property bool collapsed
     readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
     required property var roomContextMenu
-    required property var scrollbar
+    required property real scrollbarReservedWidth
     required property string avatarUrl
     property color backgroundColor: palette.window
     property color bubbleBackground: palette.highlight
@@ -43,7 +43,7 @@ ItemDelegate {
     ToolTip.visible: hovered && collapsed
     height: Nheko.navigationRowHeight
     state: "normal"
-    width: ListView.view.width - ((scrollbar && scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
+    width: ListView.view.width - scrollbarReservedWidth
 
     topInset: 0
     bottomInset: 0
@@ -158,8 +158,8 @@ ItemDelegate {
             id: textContent
 
             Layout.alignment: compactMode ? Qt.AlignVCenter : Qt.AlignLeft
+            Layout.fillWidth: true
             Layout.minimumWidth: 100
-            Layout.preferredWidth: roomItem.width - avatar.width
             Layout.preferredHeight: compactMode ? -1 : avatar.height
             spacing: compactMode ? 0 : Nheko.paddingSmall
             visible: !collapsed

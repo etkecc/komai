@@ -32,6 +32,11 @@ Page {
     ListView {
         id: communitiesList
 
+        readonly property bool hasVerticalOverflow: contentHeight > height
+        readonly property real reservedScrollbarWidth: (!communitySidebar.collapsed && Settings.sidebarsRoomListScrollbarsEnabled && hasVerticalOverflow)
+            ? Math.max(scrollbar.width, scrollbar.implicitWidth)
+            : 0
+
         anchors.left: parent.left
         anchors.right: parent.right
         height: parent.height
@@ -56,7 +61,7 @@ Page {
             avatarSize: communitySidebar.avatarSize
             collapsed: communitySidebar.collapsed
             communityContextMenu: communityContextMenu
-            scrollbar: scrollbar
+            scrollbarReservedWidth: communitiesList.reservedScrollbarWidth
         }
 
         CommunitiesContextMenu {

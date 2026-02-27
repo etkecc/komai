@@ -17,7 +17,7 @@ ItemDelegate {
     required property bool collapsed
     required property var communityContextMenu
     required property var model
-    required property var scrollbar
+    required property real scrollbarReservedWidth
     readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
     readonly property real lineSpacing: Math.max(1, Math.round(baseFontPixelSize * 1.2))
 
@@ -32,7 +32,7 @@ ItemDelegate {
     ToolTip.visible: hovered && collapsed
     height: Nheko.navigationRowHeight
     state: "normal"
-    width: ListView.view.width - ((scrollbar && scrollbar.interactive && scrollbar.visible && scrollbar.parent) ? scrollbar.width : 0)
+    width: ListView.view.width - scrollbarReservedWidth
 
     topInset: 0
     bottomInset: 0

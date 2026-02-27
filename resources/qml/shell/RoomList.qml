@@ -97,6 +97,11 @@ Page {
     ListView {
         id: roomlist
 
+        readonly property bool hasVerticalOverflow: contentHeight > height
+        readonly property real reservedScrollbarWidth: (!roomListPage.collapsed && Settings.sidebarsRoomListScrollbarsEnabled && hasVerticalOverflow)
+            ? Math.max(scrollbar.width, scrollbar.implicitWidth)
+            : 0
+
         anchors.left: parent.left
         anchors.right: parent.right
         height: parent.height
@@ -123,7 +128,7 @@ Page {
             avatarSize: roomListPage.avatarSize
             collapsed: roomListPage.collapsed
             roomContextMenu: roomContextMenu
-            scrollbar: scrollbar
+            scrollbarReservedWidth: roomlist.reservedScrollbarWidth
         }
 
         Connections {

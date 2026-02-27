@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../ui"
+import "../../ui"
 import QtQuick 2.15
 import QtQuick.Window 2.13
 import QtQuick.Layouts 1.3

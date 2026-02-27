@@ -6,6 +6,7 @@
 import ".."
 import "../components"
 import "../dialogs"
+import "../dialogs/room"
 import "../ui"
 import QtQuick
 import QtQuick.Controls

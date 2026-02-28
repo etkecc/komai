@@ -31,6 +31,7 @@ RowLayout {
     Layout.column: 1
     Layout.columnSpan: 9
     Layout.fillWidth: true
+    Layout.preferredHeight: visible ? implicitHeight : 0
     Layout.row: 5
     Layout.topMargin: Nheko.paddingSmall
     spacing: Nheko.paddingSmall

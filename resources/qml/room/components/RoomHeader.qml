@@ -17,6 +17,7 @@ Pane {
     property string directChatOtherUserId: room ? room.directChatOtherUserId : ""
     property bool isDirect: room ? room.isDirect : false
     property bool isEncrypted: room ? room.isEncrypted : false
+    property var roomModel: room
     property string roomId: room ? room.roomId : ""
     property string roomName: room ? room.roomName : qsTr("No room selected")
     property string roomTopic: room ? room.roomTopic : ""
@@ -52,7 +53,7 @@ Pane {
             rowSpacing: Nheko.uiLayoutCompactMode ? 0 : Nheko.paddingSmall
 
             RoomHeaderCommunitySection {
-                room: topBar.room
+                room: topBar.roomModel
                 lineSpacing: fontMetrics.lineSpacing
             }
             RoomHeaderBackButton {
@@ -63,7 +64,7 @@ Pane {
                 showBackButton: topBar.showBackButton
             }
             RoomHeaderRoomAvatar {
-                room: topBar.room
+                room: topBar.roomModel
                 roomId: topBar.roomId
                 avatarUrl: topBar.avatarUrl
                 isDirect: topBar.isDirect
@@ -106,7 +107,7 @@ Pane {
 
                 topBarRef: topBar
                 column: 4
-                room: topBar.room
+                room: topBar.roomModel
                 roomId: topBar.roomId
             }
             RoomHeaderSearchButton {
@@ -114,7 +115,7 @@ Pane {
 
                 topBarRef: topBar
                 column: 5
-                room: topBar.room
+                room: topBar.roomModel
 
                 onSearchActiveChanged: {
                     if (searchActive) {
@@ -130,7 +131,7 @@ Pane {
 
                 topBarRef: topBar
                 column: 6
-                room: topBar.room
+                room: topBar.roomModel
             }
             RoomEncryptionStatusButton {
                 isEncrypted: topBar.isEncrypted
@@ -143,28 +144,28 @@ Pane {
             RoomHeaderSettingsButton {
                 topBarRef: topBar
                 column: 8
-                roomAvailable: !!topBar.room
+                roomAvailable: !!topBar.roomModel
                 roomId: topBar.roomId
             }
             RoomOptionsButton {
-                roomAvailable: !!room
+                roomAvailable: !!topBar.roomModel
                 roomId: topBar.roomId
                 topBarAvatarSize: topBar.topBarAvatarSize
                 buttonPaddingH: topBar.buttonPaddingH
                 buttonPaddingV: topBar.buttonPaddingV
             }
             RoomPinnedMessagesSection {
-                room: topBar.room
+                room: topBar.roomModel
                 roomId: topBar.roomId
             }
             RoomWidgetsSection {
-                room: topBar.room
+                room: topBar.roomModel
                 roomId: topBar.roomId
             }
             RoomHeaderSearchRow {
                 id: roomSearchRow
 
-                room: topBar.room
+                room: topBar.roomModel
                 filteringInProgress: topBar.filteringInProgress
                 topBarAvatarSize: topBar.topBarAvatarSize
                 searchActive: searchButton.searchActive

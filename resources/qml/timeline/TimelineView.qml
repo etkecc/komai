@@ -127,9 +127,26 @@ Item {
 
             roundTopCorners: true
         }
-        TimelineComposerWarnings {
-            roomModel: timelineView.room
-            replyPopupVisible: replyPopup.visible
+        Repeater {
+            model: room ? room.input.mentions : null
+
+            delegate: TimelineMentionWarningBar {
+                mention: modelData
+                mentionIndex: index
+                replyPopupVisible: replyPopup.visible
+                room: timelineView.room
+            }
+        }
+        Composer.MessageInputWarning {
+            roundTopCorners: !replyPopup.visible && (room ? room.input.mentions.length : 0) == 0
+            text: qsTr("The command /%1 is not recognized and will be sent as part of your message").arg(room ? room.input.currentCommand : "")
+            visible: room ? room.input.containsInvalidCommand && !room.input.containsIncompleteCommand : false
+        }
+        Composer.MessageInputWarning {
+            roundTopCorners: !replyPopup.visible && (room ? room.input.mentions.length : 0) == 0
+            bubbleColor: Nheko.theme.orange
+            text: qsTr("/%1 looks like an incomplete command. To send it anyway, add a space to the end of your message.").arg(room ? room.input.currentCommand : "")
+            visible: room ? room.input.containsIncompleteCommand : false
         }
         TimelineSeparator {
         }

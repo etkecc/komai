@@ -18,7 +18,7 @@ ScrollView {
     Layout.column: 1
     Layout.columnSpan: 9
     Layout.fillWidth: true
-    Layout.preferredHeight: Math.min(contentHeight, Nheko.avatarSize * 1.5)
+    Layout.preferredHeight: visible ? Math.min(contentHeight, Nheko.avatarSize * 1.5) : 0
     Layout.row: 4
     ScrollBar.horizontal.visible: false
     clip: true

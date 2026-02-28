@@ -13,7 +13,9 @@ Page {
     id: uploadPopup
 
     Layout.fillWidth: true
-    Layout.preferredHeight: 200
+    Layout.minimumHeight: 0
+    Layout.maximumHeight: visible ? 200 : 0
+    Layout.preferredHeight: visible ? 200 : 0
     clip: true
     padding: Nheko.paddingMedium
     visible: room && room.input.uploads.length > 0

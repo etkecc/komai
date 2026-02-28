@@ -169,20 +169,14 @@ RowLayout {
         }
     }
 
-    MessageActionsLabeledButton {
+    MessageActionsToolbarButton {
         id: reactButton
 
-        buttonTextColor: toolbar.actionButtonColor
-        hoverIconColor: toolbar.actionButtonHoverColor
-        hoverTextColor: toolbar.actionButtonHoverColor
-        hoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
-        iconSize: toolbar.actionButtonIconSize
+        toolbarRef: toolbar
         image: ":/icons/icons/ui/smile-add.svg"
         labelText: ""
         toolTipText: qsTr("React")
         visible: toolbar.canReact
-        contentHorizontalPadding: toolbar.itemHorizontalPadding
-        contentVerticalPadding: toolbar.itemVerticalPadding
 
         onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(reactButton, roomModel.roomId, function (plaintext, markdown) {
                 var eventId = toolbar.messageModel ? toolbar.messageModel.eventId : "";
@@ -206,15 +200,9 @@ RowLayout {
         }
     }
 
-    MessageActionsLabeledButton {
-        buttonTextColor: toolbar.actionButtonColor
-        hoverIconColor: toolbar.actionButtonHoverColor
-        hoverTextColor: toolbar.actionButtonHoverColor
-        hoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
-        iconSize: toolbar.actionButtonIconSize
+    MessageActionsToolbarButton {
+        toolbarRef: toolbar
         image: ":/icons/icons/ui/edit.svg"
-        contentHorizontalPadding: toolbar.itemHorizontalPadding
-        contentVerticalPadding: toolbar.itemVerticalPadding
         labelText: toolbar.showActionLabels ? qsTr("Edit") : ""
         toolTipText: qsTr("Edit")
         visible: toolbar.canEdit
@@ -226,15 +214,9 @@ RowLayout {
         }
     }
 
-    MessageActionsLabeledButton {
-        buttonTextColor: toolbar.actionButtonColor
-        hoverIconColor: toolbar.actionButtonHoverColor
-        hoverTextColor: toolbar.actionButtonHoverColor
-        hoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
-        iconSize: toolbar.actionButtonIconSize
+    MessageActionsToolbarButton {
+        toolbarRef: toolbar
         image: ":/icons/icons/ui/thread.svg"
-        contentHorizontalPadding: toolbar.itemHorizontalPadding
-        contentVerticalPadding: toolbar.itemVerticalPadding
         labelText: toolbar.showActionLabels ? toolbar.threadActionLabel() : ""
         toolTipText: toolbar.threadActionLabel()
         visible: toolbar.canSendText
@@ -245,15 +227,9 @@ RowLayout {
         }
     }
 
-    MessageActionsLabeledButton {
-        buttonTextColor: toolbar.actionButtonColor
-        hoverIconColor: toolbar.actionButtonHoverColor
-        hoverTextColor: toolbar.actionButtonHoverColor
-        hoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
-        iconSize: toolbar.actionButtonIconSize
+    MessageActionsToolbarButton {
+        toolbarRef: toolbar
         image: ":/icons/icons/ui/reply.svg"
-        contentHorizontalPadding: toolbar.itemHorizontalPadding
-        contentVerticalPadding: toolbar.itemVerticalPadding
         labelText: toolbar.showActionLabels ? qsTr("Reply") : ""
         toolTipText: qsTr("Reply")
         visible: toolbar.canSendText
@@ -264,15 +240,9 @@ RowLayout {
         }
     }
 
-    MessageActionsLabeledButton {
-        buttonTextColor: toolbar.actionButtonColor
-        hoverIconColor: toolbar.actionButtonHoverColor
-        hoverTextColor: toolbar.actionButtonHoverColor
-        hoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
-        iconSize: toolbar.actionButtonIconSize
+    MessageActionsToolbarButton {
+        toolbarRef: toolbar
         image: ":/icons/icons/ui/reply.svg"
-        contentHorizontalPadding: toolbar.itemHorizontalPadding
-        contentVerticalPadding: toolbar.itemVerticalPadding
         labelText: toolbar.showActionLabels ? qsTr("Forward") : ""
         toolTipText: qsTr("Forward")
         mirrorIcon: true
@@ -284,15 +254,9 @@ RowLayout {
         }
     }
 
-    MessageActionsLabeledButton {
-        buttonTextColor: toolbar.actionButtonColor
-        hoverIconColor: toolbar.actionButtonHoverColor
-        hoverTextColor: toolbar.actionButtonHoverColor
-        hoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
-        iconSize: toolbar.actionButtonIconSize
+    MessageActionsToolbarButton {
+        toolbarRef: toolbar
         image: ":/icons/icons/ui/go-to.svg"
-        contentHorizontalPadding: toolbar.itemHorizontalPadding
-        contentVerticalPadding: toolbar.itemVerticalPadding
         labelText: toolbar.showActionLabels ? qsTr("Go to message") : ""
         toolTipText: qsTr("Go to message")
         visible: toolbar.canGoToMessage
@@ -304,19 +268,13 @@ RowLayout {
         }
     }
 
-    MessageActionsLabeledButton {
+    MessageActionsToolbarButton {
         id: optionsButton
 
-        buttonTextColor: toolbar.actionButtonColor
-        hoverIconColor: toolbar.actionButtonHoverColor
-        hoverTextColor: toolbar.actionButtonHoverColor
-        hoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
-        iconSize: toolbar.actionButtonIconSize
+        toolbarRef: toolbar
         image: ":/icons/icons/ui/options-circle.svg"
         labelText: ""
         toolTipText: qsTr("Options")
-        contentHorizontalPadding: toolbar.itemHorizontalPadding
-        contentVerticalPadding: toolbar.itemVerticalPadding
 
         onClicked: {
             if (!toolbar.messageModel)

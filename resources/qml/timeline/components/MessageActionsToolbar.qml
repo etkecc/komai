@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../components"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -129,68 +128,17 @@ RowLayout {
         }).slice(0, 10)
         visible: toolbar.canReact
 
-        delegate: AbstractButton {
-            id: pinnedReactionButton
-
-            property color buttonTextColor: toolbar.actionButtonColor
-            property color highlightColor: toolbar.actionButtonHoverColor
-            required property string modelData
-            property bool showImage: modelData.startsWith("mxc://")
-
-            focusPolicy: Qt.NoFocus
-            leftPadding: toolbar.itemHorizontalPadding
-            rightPadding: toolbar.itemHorizontalPadding
-            topPadding: toolbar.itemVerticalPadding
-            bottomPadding: toolbar.itemVerticalPadding
-            leftInset: 0
-            rightInset: 0
-            topInset: 0
-            bottomInset: 0
-            height: toolbar.actionButtonHeight
-            implicitHeight: toolbar.actionButtonHeight
-            implicitWidth: (showImage ? toolbar.actionButtonIconSize : pinnedReactionText.implicitWidth) + 2 * toolbar.itemHorizontalPadding
-            width: implicitWidth
-
-            onClicked: {
-                if (!toolbar.messageModel)
-                    return;
-                toolbar.roomModel.input.reaction(toolbar.messageModel.eventId, modelData);
-                TimelineManager.focusMessageInput();
-                toolbar.messageActionsControl.dismiss();
-            }
-
-            Label {
-                id: pinnedReactionText
-
-                anchors.centerIn: parent
-                color: pinnedReactionButton.buttonTextColor
-                font.pixelSize: toolbar.actionButtonIconSize
-                font.family: Settings.uiFontEmojiFamily
-                horizontalAlignment: Text.AlignHCenter
-                padding: 0
-                text: TimelineManager.htmlEscape(pinnedReactionButton.modelData)
-                verticalAlignment: Text.AlignVCenter
-                visible: !pinnedReactionButton.showImage
-            }
-            Image {
-                anchors.centerIn: parent
-                width: toolbar.actionButtonIconSize
-                height: toolbar.actionButtonIconSize
-                fillMode: Image.PreserveAspectFit
-                source: pinnedReactionButton.showImage ? (pinnedReactionButton.modelData.replace("mxc://", "image://MxcImage/") + "?scale") : ""
-                sourceSize.height: height
-                sourceSize.width: width
-            }
-            NhekoCursorShape {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-            }
-            background: Rectangle {
-                radius: Nheko.paddingMedium
-                color: pinnedReactionButton.hovered || pinnedReactionButton.pressed || pinnedReactionButton.visualFocus
-                    ? toolbar.actionButtonHoverBackgroundColor
-                    : "transparent"
-            }
+        delegate: MessageActionsReactionButton {
+            reaction: modelData
+            messageModel: toolbar.messageModel
+            roomModel: toolbar.roomModel
+            messageActionsControl: toolbar.messageActionsControl
+            actionButtonColor: toolbar.actionButtonColor
+            actionButtonHoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
+            actionButtonIconSize: toolbar.actionButtonIconSize
+            actionButtonHeight: toolbar.actionButtonHeight
+            itemHorizontalPadding: toolbar.itemHorizontalPadding
+            itemVerticalPadding: toolbar.itemVerticalPadding
         }
     }
 
@@ -207,68 +155,17 @@ RowLayout {
         }).slice(0, Math.max(0, 10 - pinnedSet.length))
         visible: toolbar.canReact
 
-        delegate: AbstractButton {
-            id: recentReactionButton
-
-            property color buttonTextColor: toolbar.actionButtonColor
-            property color highlightColor: toolbar.actionButtonHoverColor
-            required property string modelData
-            property bool showImage: modelData.startsWith("mxc://")
-
-            focusPolicy: Qt.NoFocus
-            leftPadding: toolbar.itemHorizontalPadding
-            rightPadding: toolbar.itemHorizontalPadding
-            topPadding: toolbar.itemVerticalPadding
-            bottomPadding: toolbar.itemVerticalPadding
-            leftInset: 0
-            rightInset: 0
-            topInset: 0
-            bottomInset: 0
-            height: toolbar.actionButtonHeight
-            implicitHeight: toolbar.actionButtonHeight
-            implicitWidth: (showImage ? toolbar.actionButtonIconSize : recentReactionText.implicitWidth) + 2 * toolbar.itemHorizontalPadding
-            width: implicitWidth
-
-            onClicked: {
-                if (!toolbar.messageModel)
-                    return;
-                toolbar.roomModel.input.reaction(toolbar.messageModel.eventId, modelData);
-                TimelineManager.focusMessageInput();
-                toolbar.messageActionsControl.dismiss();
-            }
-
-            Label {
-                id: recentReactionText
-
-                anchors.centerIn: parent
-                color: recentReactionButton.buttonTextColor
-                font.pixelSize: toolbar.actionButtonIconSize
-                font.family: Settings.uiFontEmojiFamily
-                horizontalAlignment: Text.AlignHCenter
-                padding: 0
-                text: TimelineManager.htmlEscape(recentReactionButton.modelData)
-                verticalAlignment: Text.AlignVCenter
-                visible: !recentReactionButton.showImage
-            }
-            Image {
-                anchors.centerIn: parent
-                width: toolbar.actionButtonIconSize
-                height: toolbar.actionButtonIconSize
-                fillMode: Image.PreserveAspectFit
-                source: recentReactionButton.showImage ? (recentReactionButton.modelData.replace("mxc://", "image://MxcImage/") + "?scale") : ""
-                sourceSize.height: height
-                sourceSize.width: width
-            }
-            NhekoCursorShape {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-            }
-            background: Rectangle {
-                radius: Nheko.paddingMedium
-                color: recentReactionButton.hovered || recentReactionButton.pressed || recentReactionButton.visualFocus
-                    ? toolbar.actionButtonHoverBackgroundColor
-                    : "transparent"
-            }
+        delegate: MessageActionsReactionButton {
+            reaction: modelData
+            messageModel: toolbar.messageModel
+            roomModel: toolbar.roomModel
+            messageActionsControl: toolbar.messageActionsControl
+            actionButtonColor: toolbar.actionButtonColor
+            actionButtonHoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
+            actionButtonIconSize: toolbar.actionButtonIconSize
+            actionButtonHeight: toolbar.actionButtonHeight
+            itemHorizontalPadding: toolbar.itemHorizontalPadding
+            itemVerticalPadding: toolbar.itemVerticalPadding
         }
     }
 

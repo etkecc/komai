@@ -13,9 +13,6 @@ Menu {
 
     required property var timelineRoot
     required property var componentCatalog
-    required property var createRoomComponent
-    required property var createDirectComponent
-    required property var roomDirectoryComponent
 
     function openCurrentUserProfile() {
         Nheko.updateUserProfile();
@@ -24,19 +21,13 @@ Menu {
             });
     }
     function openCreateRoomDialog(properties) {
-        var createRoom = createRoomComponent.createObject(timelineRoot, properties || {});
-        createRoom.show();
-        timelineRoot.destroyOnClose(createRoom);
+        timelineRoot.showCatalogDialog(componentCatalog.roomCreateDialog, properties || {});
     }
     function openCreateDirectDialog() {
-        var createDirect = createDirectComponent.createObject(timelineRoot);
-        createDirect.show();
-        timelineRoot.destroyOnClose(createDirect);
+        timelineRoot.showCatalogDialog(componentCatalog.roomCreateDirectDialog);
     }
     function openRoomDirectoryDialog() {
-        var win = roomDirectoryComponent.createObject(timelineRoot);
-        win.show();
-        timelineRoot.destroyOnClose(win);
+        timelineRoot.showCatalogDialog(componentCatalog.roomDirectoryDialog);
     }
 
     Component.onCompleted: {

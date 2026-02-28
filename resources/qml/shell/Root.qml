@@ -10,7 +10,6 @@ import "./components"
 import "../components/encryption" as Encryption
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Window
 import im.nheko
 
 Pane {

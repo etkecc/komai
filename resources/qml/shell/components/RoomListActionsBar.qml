@@ -62,33 +62,11 @@ Pane {
             visible: roomActionsBar.showActionButtons
 
             onClicked: roomJoinCreateMenu.popup(startChatButton)
+        }
+        RoomJoinCreateMenu {
+            id: roomJoinCreateMenu
 
-            Menu {
-                id: roomJoinCreateMenu
-
-                MenuItem {
-                    text: qsTr("Join a room")
-
-                    onTriggered: Nheko.openJoinRoomDialog()
-                }
-                MenuItem {
-                    text: qsTr("Create a new room")
-
-                    onTriggered: profileContextMenu.openCreateRoomDialog({})
-                }
-                MenuItem {
-                    text: qsTr("Start a direct chat")
-
-                    onTriggered: profileContextMenu.openCreateDirectDialog()
-                }
-                MenuItem {
-                    text: qsTr("Create a new community")
-
-                    onTriggered: profileContextMenu.openCreateRoomDialog({
-                            "space": true
-                        })
-                }
-            }
+            profileContextMenu: roomActionsBar.profileContextMenu
         }
         ImageButton {
             ToolTip.delay: Nheko.tooltipDelay

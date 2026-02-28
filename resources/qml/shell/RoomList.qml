@@ -4,9 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "./components"
-import "../components"
-import "../dialogs/common"
-import "../dialogs/room"
 import "../ui"
 import QtQuick
 import QtQuick.Controls
@@ -72,28 +69,6 @@ Page {
 
         timelineRoot: roomListPage.timelineRoot
         componentCatalog: componentCatalog
-        createRoomComponent: createRoomComponent
-        createDirectComponent: createDirectComponent
-        roomDirectoryComponent: roomDirectoryComponent
-    }
-
-    Component {
-        id: roomDirectoryComponent
-
-        RoomDirectory {
-        }
-    }
-    Component {
-        id: createRoomComponent
-
-        CreateRoom {
-        }
-    }
-    Component {
-        id: createDirectComponent
-
-        CreateDirect {
-        }
     }
     ListView {
         id: roomlist

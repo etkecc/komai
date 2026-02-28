@@ -25,10 +25,91 @@ Popup {
     readonly property int stickerDimPad: stickerDim + Nheko.paddingSmall
     readonly property int stickersPerRow: emoji ? 7 : 3
     readonly property int sidebarAvatarSize: 32
+    readonly property int sidebarIconSize: 20
+    readonly property int sidebarRowHeight: Math.max(36, sidebarIconSize + Nheko.paddingMedium * 2)
+    readonly property int sidebarPaneWidth: Math.max(132, sidebarAvatarSize + Nheko.paddingMedium + 64)
+    readonly property int gridColumnWidth: stickersPerRow * stickerDimPad + 20 - Nheko.paddingSmall
+    readonly property var sidebarPalette: timelineRoot ? timelineRoot.palette : palette
+    readonly property color sidebarHoverBackground: sidebarPalette.dark
+    readonly property color sidebarHoverText: sidebarPalette.brightText
+    readonly property color sidebarActiveBackground: sidebarPalette.highlight
+    readonly property color sidebarActiveText: sidebarPalette.highlightedText
+    property int activeSectionIndex: -1
+    property int activeSectionFirstRow: -1
+    property string activeSectionName: ""
     property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
 
     function clamp(value, minValue, maxValue) {
         return Math.max(minValue, Math.min(value, maxValue));
+    }
+
+    function isMxcUrl(url) {
+        return typeof url === "string" && url.startsWith("mxc://");
+    }
+
+    function colorizedIconSource(url, color) {
+        if (typeof url !== "string" || url.length === 0)
+            return "";
+        if (isMxcUrl(url))
+            return url.replace("mxc://", "image://MxcImage/");
+
+        const normalized = url.startsWith("qrc:/")
+            ? url.replace("qrc:/", ":/")
+            : url;
+        return "image://colorimage/" + normalized + "?" + color;
+    }
+
+    function sectionFirstRow(sectionData) {
+        const firstRow = Number(sectionData && sectionData.firstRowWith);
+        return Number.isFinite(firstRow) ? firstRow : -1;
+    }
+
+    function sectionName(sectionData) {
+        if (typeof sectionData === "string")
+            return sectionData;
+        if (sectionData && typeof sectionData.name === "string")
+            return sectionData.name;
+        return "";
+    }
+
+    function sectionMetaByName(name) {
+        if (!gridView.model || !gridView.model.sections || !name)
+            return null;
+
+        for (let i = 0; i < gridView.model.sections.length; ++i) {
+            if (gridView.model.sections[i].name === name)
+                return gridView.model.sections[i];
+        }
+        return null;
+    }
+
+    function updateActiveSectionIndex() {
+        if (!gridView.model || !gridView.model.sections || gridView.model.sections.length === 0) {
+            activeSectionIndex = -1;
+            activeSectionFirstRow = -1;
+            activeSectionName = "";
+            return;
+        }
+
+        const probeX = Math.max(1, Math.floor(gridView.width / 2));
+        let topIndex = gridView.indexAt(probeX, gridView.contentY + 1);
+        if (topIndex < 0)
+            topIndex = gridView.indexAt(probeX, gridView.contentY + Math.max(1, Math.floor(gridView.cellHeight / 2)));
+        if (topIndex < 0)
+            return;
+
+        let resolvedIndex = 0;
+        for (let i = gridView.model.sections.length - 1; i >= 0; --i) {
+            if (topIndex >= sectionFirstRow(gridView.model.sections[i])) {
+                resolvedIndex = i;
+                break;
+            }
+        }
+
+        activeSectionIndex = resolvedIndex;
+        const resolvedSection = gridView.model.sections[resolvedIndex];
+        activeSectionFirstRow = sectionFirstRow(resolvedSection);
+        activeSectionName = sectionName(resolvedSection);
     }
 
     function show(showAt, roomid_, callback, openAbove) {
@@ -86,7 +167,8 @@ Popup {
         color: timelineRoot.overlayBackdropColor
     }
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    width: sidebarAvatarSize + Nheko.paddingSmall + stickersPerRow * stickerDimPad + 20 + padding * 2
+    onOpened: Qt.callLater(updateActiveSectionIndex)
+    width: sidebarPaneWidth + Nheko.paddingSmall + gridColumnWidth + padding * 2
     height: contentColumn.implicitHeight
 
     background: Rectangle {
@@ -159,14 +241,19 @@ Popup {
             TextField {
                 id: emojiSearch
 
-                Layout.preferredWidth: stickersPerRow * stickerDimPad + 20 - Nheko.paddingSmall
+                Layout.preferredWidth: gridColumnWidth
+                Layout.preferredHeight: implicitHeight
+                Layout.maximumHeight: implicitHeight
+                Layout.alignment: Qt.AlignVCenter
                 Layout.row: 0
                 Layout.column: 1
                 background: null
                 placeholderTextColor: palette.buttonText
                 placeholderText: qsTr("Search")
                 selectByMouse: true
-                rightPadding: clearSearch.width
+                rightPadding: clearSearch.visible
+                    ? (clearSearch.width + Nheko.paddingLarge + Nheko.paddingSmall)
+                    : Nheko.paddingSmall
                 onTextChanged: searchTimer.restart()
                 onVisibleChanged: {
                     if (visible)
@@ -187,15 +274,16 @@ Popup {
 
                     visible: emojiSearch.text !== ''
 
-                    image: ":/icons/icons/ui/round-remove-button.svg"
+                    image: ":/icons/icons/ui/dismiss.svg"
                     focusPolicy: Qt.NoFocus
                     onClicked: emojiSearch.clear()
                     hoverEnabled: true
+                    width: Math.round(emojiSearch.height * 0.68)
+                    height: width
                     anchors {
-                        top: parent.top
-                        bottom: parent.bottom
+                        verticalCenter: parent.verticalCenter
                         right: parent.right
-                        rightMargin: Nheko.paddingSmall
+                        rightMargin: Nheko.paddingLarge
                     }
                 }
             }
@@ -208,27 +296,69 @@ Popup {
                 Layout.row: 1
                 Layout.column: 1
                 Layout.preferredHeight: cellHeight * (stickersPerRow + 0.5)
-                Layout.preferredWidth: stickersPerRow * stickerDimPad + 20 - Nheko.paddingSmall
+                Layout.preferredWidth: gridColumnWidth
                 property int cellHeight: stickerDimPad
                 boundsBehavior: Flickable.StopAtBounds
                 clip: true
                 currentIndex: -1 // prevent sorting from stealing focus
+                onContentYChanged: stickerPopup.updateActiveSectionIndex()
+                onModelChanged: Qt.callLater(stickerPopup.updateActiveSectionIndex)
 
                 section.property: "packname"
                 section.criteria: ViewSection.FullString
                 section.delegate: Rectangle {
-                    width: gridView.width
-                    height: childrenRect.height
+                    required property string section
+                    readonly property var sectionMeta: stickerPopup.sectionMetaByName(section)
+                    readonly property real reservedScrollbarWidth: (emojiScroll.visible || emojiScroll.active)
+                        ? Math.max(emojiScroll.width, emojiScroll.implicitWidth, Nheko.paddingMedium)
+                        : 0
+
+                    width: Math.max(0, gridView.width - reservedScrollbarWidth - Nheko.paddingSmall)
+                    height: headerRow.implicitHeight + Nheko.paddingSmall * 2
+                    radius: Nheko.paddingSmall
                     color: palette.alternateBase
 
-                    required property string section
+                    RowLayout {
+                        id: headerRow
 
-                    Text {
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        text: parent.section
-                        font.bold: true
-			            color: palette.text
+                        anchors.fill: parent
+                        anchors.leftMargin: Nheko.paddingSmall
+                        anchors.rightMargin: Nheko.paddingSmall
+                        anchors.topMargin: Nheko.paddingSmall
+                        anchors.bottomMargin: Nheko.paddingSmall
+                        spacing: Nheko.paddingSmall
+
+                        Avatar {
+                            Layout.preferredHeight: sidebarIconSize
+                            Layout.preferredWidth: sidebarIconSize
+                            displayName: parent.parent.section
+                            roomid: parent.parent.section
+                            url: (parent.parent.sectionMeta && stickerPopup.isMxcUrl(parent.parent.sectionMeta.url))
+                                ? stickerPopup.colorizedIconSource(parent.parent.sectionMeta.url, "")
+                                : ""
+                            textColor: palette.buttonText
+                            visible: parent.parent.sectionMeta && stickerPopup.isMxcUrl(parent.parent.sectionMeta.url)
+                            enabled: false
+                        }
+
+                        Image {
+                            Layout.preferredHeight: sidebarIconSize
+                            Layout.preferredWidth: sidebarIconSize
+                            source: (!parent.parent.sectionMeta || stickerPopup.isMxcUrl(parent.parent.sectionMeta.url))
+                                ? ""
+                                : stickerPopup.colorizedIconSource(parent.parent.sectionMeta.url, palette.buttonText)
+                            sourceSize.height: sidebarIconSize
+                            sourceSize.width: sidebarIconSize
+                            visible: parent.parent.sectionMeta && !stickerPopup.isMxcUrl(parent.parent.sectionMeta.url)
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            color: palette.text
+                            elide: Text.ElideRight
+                            font.bold: true
+                            text: parent.parent.section
+                        }
                     }
                 }
                 section.labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
@@ -310,44 +440,185 @@ Popup {
             ListView {
                 Layout.row: 1
                 Layout.column: 0
-                Layout.preferredWidth: sidebarAvatarSize
+                Layout.preferredWidth: sidebarPaneWidth
                 Layout.fillHeight: true
                 Layout.rightMargin: Nheko.paddingSmall
 
                 model: gridView.model ? gridView.model.sections : null
-                spacing: Nheko.paddingSmall
+                boundsBehavior: Flickable.StopAtBounds
+                spacing: 0
                 clip: true
 
-                delegate: Avatar {
-                    height: sidebarAvatarSize
-                    width: sidebarAvatarSize
-                    url: modelData.url.replace("mxc://", "image://MxcImage/")
-                    textColor: modelData.url.startsWith("mxc://") ? palette.text : palette.buttonText
-                    displayName: modelData.name
-                    roomid: modelData.name
+                delegate: AbstractButton {
+                    id: categoryButton
 
+                    required property var modelData
+                    required property int index
+                    readonly property string sectionName: stickerPopup.sectionName(modelData)
+                    readonly property bool active: sectionName.length > 0 && sectionName === stickerPopup.activeSectionName
+                    property color backgroundColor: "transparent"
+                    property color textColor: stickerPopup.sidebarPalette.text
+
+                    width: ListView.view.width
+                    height: sidebarRowHeight
                     hoverEnabled: true
+                    leftPadding: Nheko.paddingSmall
+                    rightPadding: Nheko.paddingSmall
+                    topPadding: Nheko.paddingMedium
+                    bottomPadding: Nheko.paddingMedium
                     ToolTip.visible: hovered
                     ToolTip.delay: Nheko.tooltipDelay
                     ToolTip.text: modelData.name
-                    onClicked: gridView.positionViewAtIndex(modelData.firstRowWith, ListView.Beginning)
+
+                    onClicked: {
+                        stickerPopup.activeSectionIndex = index;
+                        stickerPopup.activeSectionFirstRow = stickerPopup.sectionFirstRow(modelData);
+                        stickerPopup.activeSectionName = sectionName;
+                        gridView.positionViewAtIndex(modelData.firstRowWith, ListView.Beginning);
+                        Qt.callLater(stickerPopup.updateActiveSectionIndex);
+                    }
+
+                    states: [
+                        State {
+                            name: "hover"
+                            when: categoryButton.hovered && !categoryButton.active
+
+                            PropertyChanges {
+                                categoryButton {
+                                    backgroundColor: stickerPopup.sidebarHoverBackground
+                                    textColor: stickerPopup.sidebarHoverText
+                                }
+                            }
+                        },
+                        State {
+                            name: "active"
+                            when: categoryButton.active
+
+                            PropertyChanges {
+                                categoryButton {
+                                    backgroundColor: stickerPopup.sidebarActiveBackground
+                                    textColor: stickerPopup.sidebarActiveText
+                                }
+                            }
+                        }
+                    ]
+
+                    background: Rectangle {
+                        radius: Nheko.paddingSmall
+                        color: categoryButton.backgroundColor
+                    }
+
+                    contentItem: RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: categoryButton.leftPadding
+                        anchors.rightMargin: categoryButton.rightPadding
+                        anchors.topMargin: categoryButton.topPadding
+                        anchors.bottomMargin: categoryButton.bottomPadding
+                        spacing: Nheko.paddingSmall
+
+                        Avatar {
+                            Layout.preferredHeight: sidebarIconSize
+                            Layout.preferredWidth: sidebarIconSize
+                            displayName: categoryButton.modelData.name
+                            roomid: categoryButton.modelData.name
+                            url: stickerPopup.isMxcUrl(categoryButton.modelData.url)
+                                ? stickerPopup.colorizedIconSource(categoryButton.modelData.url, "")
+                                : ""
+                            textColor: categoryButton.textColor
+                            visible: stickerPopup.isMxcUrl(categoryButton.modelData.url)
+                            enabled: false
+                        }
+
+                        Image {
+                            Layout.preferredHeight: sidebarIconSize
+                            Layout.preferredWidth: sidebarIconSize
+                            source: stickerPopup.isMxcUrl(categoryButton.modelData.url)
+                                ? ""
+                                : stickerPopup.colorizedIconSource(categoryButton.modelData.url, categoryButton.textColor)
+                            sourceSize.height: sidebarIconSize
+                            sourceSize.width: sidebarIconSize
+                            visible: !stickerPopup.isMxcUrl(categoryButton.modelData.url)
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignVCenter
+                            color: categoryButton.textColor
+                            elide: Text.ElideRight
+                            font.bold: categoryButton.active
+                            text: categoryButton.modelData.name
+                        }
+                    }
+                }
+
+                ScrollBar.vertical: ScrollBar {
+                    policy: ScrollBar.AsNeeded
                 }
             }
 
-            ImageButton {
+            AbstractButton {
+                id: settingsButton
+
                 Layout.row: 0
                 Layout.column: 0
-                Layout.preferredWidth: sidebarAvatarSize
-                Layout.preferredHeight: sidebarAvatarSize
+                Layout.preferredWidth: sidebarPaneWidth
+                Layout.preferredHeight: sidebarRowHeight
                 Layout.rightMargin: Nheko.paddingSmall
-
-                image: ":/icons/icons/ui/settings.svg"
-
                 hoverEnabled: true
+                property color backgroundColor: "transparent"
+                property color textColor: stickerPopup.sidebarPalette.text
+                leftPadding: Nheko.paddingSmall
+                rightPadding: Nheko.paddingSmall
+                topPadding: Nheko.paddingMedium
+                bottomPadding: Nheko.paddingMedium
                 ToolTip.visible: hovered
                 ToolTip.delay: Nheko.tooltipDelay
                 ToolTip.text: qsTr("Change what packs are enabled, remove packs, or create new ones")
                 onClicked: TimelineManager.openImagePackSettings(stickerPopup.roomid)
+
+                states: [
+                    State {
+                        name: "hover"
+                        when: settingsButton.hovered
+
+                        PropertyChanges {
+                            settingsButton {
+                                backgroundColor: stickerPopup.sidebarHoverBackground
+                                textColor: stickerPopup.sidebarHoverText
+                            }
+                        }
+                    }
+                ]
+
+                background: Rectangle {
+                    radius: Nheko.paddingSmall
+                    color: settingsButton.backgroundColor
+                }
+
+                contentItem: RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: settingsButton.leftPadding
+                    anchors.rightMargin: settingsButton.rightPadding
+                    anchors.topMargin: settingsButton.topPadding
+                    anchors.bottomMargin: settingsButton.bottomPadding
+                    spacing: Nheko.paddingSmall
+
+                    Image {
+                        Layout.preferredHeight: sidebarIconSize
+                        Layout.preferredWidth: sidebarIconSize
+                        source: stickerPopup.colorizedIconSource(":/icons/icons/ui/settings.svg", settingsButton.textColor)
+                        sourceSize.height: sidebarIconSize
+                        sourceSize.width: sidebarIconSize
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignVCenter
+                        color: settingsButton.textColor
+                        elide: Text.ElideRight
+                        text: qsTr("Settings")
+                    }
+                }
             }
             }
 

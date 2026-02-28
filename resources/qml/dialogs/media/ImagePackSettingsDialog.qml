@@ -159,7 +159,7 @@ ApplicationWindow {
 
                     MatrixText {
                         text: packinfo.packName
-                        font.pixelSize: Math.ceil(fontMetrics.pixelSize * 1.1)
+                        font.pointSize: Math.round(Settings.uiFontSizePt * 1.1)
                         horizontalAlignment: TextEdit.AlignHCenter
                         Layout.alignment: Qt.AlignHCenter
                         Layout.preferredWidth: packinfoC.width - Nheko.paddingLarge * 2
@@ -188,7 +188,7 @@ ApplicationWindow {
                         ToggleButton {
                             ToolTip.text: qsTr("Enables this pack to be used in all rooms")
                             checked: currentPack ? currentPack.isGloballyEnabled : false
-                            onCheckedChanged: currentPack.isGloballyEnabled = checked
+                            onCheckedChanged: if (currentPack) currentPack.isGloballyEnabled = checked
                             Layout.alignment: Qt.AlignRight
                         }
 
@@ -199,7 +199,7 @@ ApplicationWindow {
 
                         Button {
                             text: qsTr("Edit")
-                            enabled: currentPack.canEdit
+                            enabled: currentPack && currentPack.canEdit
                             onClicked: {
                                 var dialog = packEditor.createObject(timelineRoot, {
                                     "imagePack": currentPack
@@ -210,7 +210,7 @@ ApplicationWindow {
                         }
                         Button {
                             text: qsTr("Remove")
-                            enabled: currentPack.canEdit
+                            enabled: currentPack && currentPack.canEdit
                             onClicked: {
                                 var dialog = packDeleteDialog.createObject(timelineRoot, {
                                     "imagePack": currentPack

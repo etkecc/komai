@@ -168,7 +168,7 @@ MouseArea {
                     property int cogSize: Math.round(control.effectiveButtonSize * 0.62)
 
                     anchors.centerIn: parent
-                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
+                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.highlight
                     sourceSize.width: cogSize
                     sourceSize.height: cogSize
                     width: cogSize

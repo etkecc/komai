@@ -13,7 +13,8 @@ RoomHeaderActionButton {
 
     property bool searchActive: false
 
-    toolTipText: qsTr("Search this room")
+    alwaysShowToolTip: true
+    toolTipText: qsTr("Search within this room's messages")
     image: ":/icons/icons/ui/search.svg"
     labelText: qsTr("Search")
     showLabel: showTextLabel

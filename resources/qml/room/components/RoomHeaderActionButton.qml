@@ -16,6 +16,7 @@ AbstractButton {
     property string image: ""
     property string labelText: ""
     property bool showLabel: false
+    property bool alwaysShowToolTip: false
     property string toolTipText: labelText
     readonly property bool hasLabel: showLabel && labelText.length > 0
     readonly property int iconSize: Math.max(14, topBarRef.topBarAvatarSize - 2 * topBarRef.buttonPaddingH)
@@ -34,7 +35,7 @@ AbstractButton {
     implicitWidth: topBarRef.topBarAvatarSize + (hasLabel ? (Nheko.paddingSmall + actionLabel.implicitWidth) : 0)
     ToolTip.delay: Nheko.tooltipDelay
     ToolTip.text: toolTipText
-    ToolTip.visible: hovered && !hasLabel
+    ToolTip.visible: hovered && (alwaysShowToolTip || !hasLabel)
 
     background: Rectangle {
         radius: Nheko.paddingSmall

@@ -118,15 +118,7 @@ Item {
                 }
             }
         }
-        CallInviteBar {
-            id: callInviteBar
-
-            Layout.fillWidth: true
-            z: 3
-        }
-        ActiveCallBar {
-            Layout.fillWidth: true
-            z: 3
+        TimelineCallStatusBars {
         }
         Composer.UploadBox {
         }

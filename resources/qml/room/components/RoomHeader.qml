@@ -92,18 +92,11 @@ Pane {
                     }
                 }
             }
-            ImageButton {
+            RoomHeaderActionButton {
                 id: backToRoomsButton
 
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 0
-                Layout.preferredHeight: topBarAvatarSize
-                Layout.preferredWidth: topBarAvatarSize
-                Layout.row: 1
-                leftPadding: buttonPaddingH
-                rightPadding: buttonPaddingH
-                topPadding: buttonPaddingV
-                bottomPadding: buttonPaddingV
+                topBarRef: topBar
+                column: 0
                 ToolTip.text: qsTr("Back to room list")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/angle-arrow-left.svg"
@@ -182,20 +175,13 @@ Pane {
             //         topBar.filterNotifications = !topBar.filterNotifications
             //     }
             // }
-            ImageButton {
+            RoomHeaderActionButton {
                 id: pinButton
 
                 property bool pinsShown: !Settings.hiddenPins.includes(roomId)
 
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 4
-                Layout.preferredHeight: topBarAvatarSize
-                Layout.preferredWidth: topBarAvatarSize
-                Layout.row: 1
-                leftPadding: buttonPaddingH
-                rightPadding: buttonPaddingH
-                topPadding: buttonPaddingV
-                bottomPadding: buttonPaddingV
+                topBarRef: topBar
+                column: 4
                 ToolTip.text: qsTr("Show or hide pinned messages")
                 ToolTip.visible: hovered
                 image: pinsShown ? ":/icons/icons/ui/pin.svg" : ":/icons/icons/ui/pin-off.svg"
@@ -214,20 +200,13 @@ Pane {
                     Settings.hiddenPins = ps;
                 }
             }
-            ImageButton {
+            RoomHeaderActionButton {
                 id: searchButton
 
                 property bool searchActive: false
 
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 5
-                Layout.preferredHeight: topBarAvatarSize
-                Layout.preferredWidth: topBarAvatarSize
-                Layout.row: 1
-                leftPadding: buttonPaddingH
-                rightPadding: buttonPaddingH
-                topPadding: buttonPaddingV
-                bottomPadding: buttonPaddingV
+                topBarRef: topBar
+                column: 5
                 ToolTip.text: qsTr("Search this room")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/search.svg"
@@ -243,18 +222,11 @@ Pane {
                     }
                 }
             }
-            ImageButton {
+            RoomHeaderActionButton {
                 id: memberButton
 
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 6
-                Layout.preferredHeight: topBarAvatarSize
-                Layout.preferredWidth: topBarAvatarSize
-                Layout.row: 1
-                leftPadding: buttonPaddingH
-                rightPadding: buttonPaddingH
-                topPadding: buttonPaddingV
-                bottomPadding: buttonPaddingV
+                topBarRef: topBar
+                column: 6
                 visible: !!room
 
                 ToolTip.text: qsTr("Show room members.")
@@ -271,18 +243,11 @@ Pane {
                 buttonPaddingH: topBar.buttonPaddingH
                 buttonPaddingV: topBar.buttonPaddingV
             }
-            ImageButton {
+            RoomHeaderActionButton {
                 id: roomSettingsButton
 
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 8
-                Layout.preferredHeight: topBarAvatarSize
-                Layout.preferredWidth: topBarAvatarSize
-                Layout.row: 1
-                leftPadding: buttonPaddingH
-                rightPadding: buttonPaddingH
-                topPadding: buttonPaddingV
-                bottomPadding: buttonPaddingV
+                topBarRef: topBar
+                column: 8
                 ToolTip.text: qsTr("Room settings")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/toggles.svg"

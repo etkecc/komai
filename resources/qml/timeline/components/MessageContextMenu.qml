@@ -14,6 +14,7 @@ Menu {
     id: messageContextMenuRoot
 
     required property var chatRoot
+    required property var emojiPopup
     required property var filteredTimelineModel
     required property var roomModel
     required property var topBar
@@ -25,6 +26,18 @@ Menu {
     property string link
     property string text
     property string threadId
+    property Item popupAnchorItem: null
+    property Item lastClosedAnchorItem: null
+    property string lastClosedEventId: ""
+    property double lastClosedAtMs: 0
+    property int closedReuseIgnoreMs: 250
+
+    function wasJustClosedFor(eventId_, anchor_) {
+        if (!eventId_ || !anchor_)
+            return false;
+
+        return lastClosedEventId === eventId_ && lastClosedAnchorItem === anchor_ && (Date.now() - lastClosedAtMs) <= closedReuseIgnoreMs;
+    }
 
     function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, link_, text_, showAt_) {
         eventId = eventId_;
@@ -33,6 +46,7 @@ Menu {
         isEncrypted = isEncrypted_;
         isEditable = isEditable_;
         isSender = isSender_;
+        popupAnchorItem = showAt_ || null;
         if (text_)
             text = text_;
         else
@@ -44,10 +58,12 @@ Menu {
 
         messageActionsFilter.updateTarget();
 
-        if (showAt_)
+        if (showAt_) {
             popup(showAt_);
-        else
+        } else {
+            popupAnchorItem = null;
             popup();
+        }
     }
 
     Component {
@@ -74,9 +90,14 @@ Menu {
     }
 
     Component.onCompleted: {
-        if (messageContextMenuRoot.popupType != undefined) {
+        if (messageContextMenuRoot.popupType != undefined)
             messageContextMenuRoot.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
-        }
+    }
+    onClosed: {
+        lastClosedAtMs = Date.now();
+        lastClosedEventId = eventId;
+        lastClosedAnchorItem = popupAnchorItem;
+        popupAnchorItem = null;
     }
 
     NhekoMenuVisibilityFilter on contentData {

@@ -27,26 +27,52 @@ Popup {
     readonly property int sidebarAvatarSize: 32
     property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
 
+    function clamp(value, minValue, maxValue) {
+        return Math.max(minValue, Math.min(value, maxValue));
+    }
+
     function show(showAt, roomid_, callback, openAbove) {
         console.debug("Showing sticker picker");
         roomid = roomid_;
         stickerPopup.callback = callback;
-        if (showAt) {
+        if (showAt && stickerPopup.parent) {
+            const parentItem = stickerPopup.parent;
+            const popupWidth = Math.max(stickerPopup.width, stickerPopup.implicitWidth);
+            const popupHeight = Math.max(stickerPopup.height, stickerPopup.implicitHeight);
+            const maxX = Math.max(0, parentItem.width - popupWidth);
+            const maxY = Math.max(0, parentItem.height - popupHeight);
+
+            const anchorTopLeftGlobal = showAt.mapToGlobal(0, 0);
+            const anchorBottomRightGlobal = showAt.mapToGlobal(showAt.width, showAt.height);
+            const anchorTopLeft = parentItem.mapFromGlobal(anchorTopLeftGlobal.x, anchorTopLeftGlobal.y);
+            const anchorBottomRight = parentItem.mapFromGlobal(anchorBottomRightGlobal.x, anchorBottomRightGlobal.y);
+
+            const preferredX = anchorBottomRight.x - popupWidth;
+            const belowY = anchorBottomRight.y;
+
+            let aboveReferenceY = anchorTopLeft.y;
             if (openAbove) {
-                // Position: right-aligned with showAt, bottom edge at top of openAbove
-                var aboveGlobal = openAbove.mapToGlobal(0, 0);
-                var aboveLocal = stickerPopup.parent.mapFromGlobal(aboveGlobal.x, aboveGlobal.y);
-                var btnGlobal = showAt.mapToGlobal(showAt.width, 0);
-                var btnLocal = stickerPopup.parent.mapFromGlobal(btnGlobal.x, btnGlobal.y);
-                stickerPopup.x = btnLocal.x - stickerPopup.width;
-                stickerPopup.y = aboveLocal.y - stickerPopup.height;
-            } else {
-                // Position: right-aligned with showAt, below it
-                var global = showAt.mapToGlobal(showAt.width, showAt.height);
-                var local = stickerPopup.parent.mapFromGlobal(global.x, global.y);
-                stickerPopup.x = local.x - stickerPopup.width;
-                stickerPopup.y = local.y;
+                const aboveGlobal = openAbove.mapToGlobal(0, 0);
+                const aboveLocal = parentItem.mapFromGlobal(aboveGlobal.x, aboveGlobal.y);
+                aboveReferenceY = aboveLocal.y;
             }
+            const aboveY = aboveReferenceY - popupHeight;
+
+            const canOpenAbove = aboveY >= 0;
+            const canOpenBelow = belowY + popupHeight <= parentItem.height;
+            const visibleAreaAbove = Math.max(0, Math.min(aboveReferenceY, popupHeight));
+            const visibleAreaBelow = Math.max(0, Math.min(parentItem.height - belowY, popupHeight));
+
+            let targetY = aboveY;
+            if (!canOpenAbove) {
+                if (canOpenBelow)
+                    targetY = belowY;
+                else
+                    targetY = visibleAreaAbove >= visibleAreaBelow ? aboveY : belowY;
+            }
+
+            stickerPopup.x = clamp(preferredX, 0, maxX);
+            stickerPopup.y = clamp(targetY, 0, maxY);
         }
         stickerPopup.open();
     }

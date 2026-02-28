@@ -17,6 +17,7 @@ Page {
     id: roomListPage
     //leftPadding: Nheko.paddingSmall
     //rightPadding: Nheko.paddingSmall
+    required property var timelineRoot
     property bool compactMode: Nheko.uiLayoutCompactMode
     property int avatarSize: Nheko.listIconSize
     property bool collapsed: false
@@ -48,7 +49,7 @@ Page {
             avatarSize: roomListPage.avatarSize
             profileContextMenu: profileContextMenu
             componentCatalog: componentCatalog
-            timelineRoot: timelineRoot
+            timelineRoot: roomListPage.timelineRoot
         }
         Rectangle {
             Layout.fillWidth: true
@@ -69,7 +70,7 @@ Page {
     RoomListProfileMenu {
         id: profileContextMenu
 
-        timelineRoot: timelineRoot
+        timelineRoot: roomListPage.timelineRoot
         componentCatalog: componentCatalog
         createRoomComponent: createRoomComponent
         createDirectComponent: createDirectComponent
@@ -148,7 +149,7 @@ Page {
         RoomListContextMenu {
             id: roomContextMenu
 
-            timelineRoot: timelineRoot
+            timelineRoot: roomListPage.timelineRoot
             roomWindowComponent: roomWindowComponent
         }
     }

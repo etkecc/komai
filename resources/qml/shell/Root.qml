@@ -17,6 +17,7 @@ Pane {
     id: timelineRoot
     property var activeImageOverlay: null
     property color overlayBackdropColor: Qt.rgba(0.2, 0.2, 0.2, 0.7)
+    readonly property var rootTimeline: timelineRoot
 
     ComponentCatalog {
         id: componentCatalog
@@ -138,16 +139,16 @@ Pane {
     }
     AppShortcuts {
         componentCatalog: componentCatalog
-        timelineRoot: timelineRoot
+        timelineRoot: rootTimeline
     }
     RootEventRouter {
         componentCatalog: componentCatalog
-        timelineRoot: timelineRoot
+        timelineRoot: rootTimeline
     }
     Encryption.SelfVerificationCoordinator {
     }
     UiaCoordinator {
-        timelineRoot: timelineRoot
+        timelineRoot: rootTimeline
         componentCatalog: componentCatalog
     }
     StackView {
@@ -211,6 +212,7 @@ Pane {
         id: chatPage
 
         ChatPage {
+            timelineRoot: rootTimeline
         }
     }
     Component {

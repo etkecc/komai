@@ -43,7 +43,7 @@ Item {
         room.triggerSpecialEffects()
 
     StickerPicker {
-        id: emojiPopup
+        id: timelineEmojiPopup
 
         emoji: true
     }
@@ -123,6 +123,7 @@ Item {
                         id: messageView
                         Layout.fillWidth: true
                         implicitHeight: msgView.height - typingIndicator.height
+                        emojiPopup: timelineEmojiPopup
                         searchString: topBar.searchString
                         filterByNotifications: topBar.filterNotifications
                     }

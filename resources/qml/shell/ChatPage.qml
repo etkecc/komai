@@ -18,6 +18,7 @@ import QtQml 2.15
 Rectangle {
     id: chatPage
 
+    required property var timelineRoot
     color: palette.window
 
     ColumnLayout {
@@ -86,6 +87,7 @@ Rectangle {
 
                     collapsed: parent.collapsed
                     height: adaptiveView.height
+                    timelineRoot: chatPage.timelineRoot
                 }
                 Binding {
                     delayed: true

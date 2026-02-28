@@ -17,6 +17,7 @@ import im.nheko 1.0
 Item {
     id: chatRoot
 
+    required property var emojiPopup
     property int availableWidth: width
     property int padding: Nheko.paddingMedium
     property string searchString: ""
@@ -274,7 +275,11 @@ Item {
             }
 
             hoverEnabled: true
-            padding: Nheko.paddingMedium
+            padding: 0
+            leftInset: 0
+            rightInset: 0
+            topInset: 0
+            bottomInset: 0
             // Keep the control in the layout pass before first placement so
             // implicitWidth/implicitHeight can settle. Opacity gates first paint.
             visible: Settings.timelineMessageActionsActivationPolicy !== Settings.timelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.timelineMessageActionsActivationPolicy.OnHover)
@@ -289,14 +294,13 @@ Item {
             onImplicitHeightChanged: scheduleReposition()
 
             background: Rectangle {
-                border.color: palette.buttonText
-                border.width: 1
-                color: palette.window
-                radius: padding
+                color: messageActionsToolbar.actionBarColor
+                radius: Nheko.paddingMedium
             }
             contentItem: MessageActionsToolbar {
+                id: messageActionsToolbar
                 chatRoot: chatRoot
-                emojiPopup: emojiPopup
+                emojiPopup: chatRoot.emojiPopup
                 filteredTimeline: filteredTimeline
                 messageActionsControl: messageActionsC
                 messageContextMenu: messageContextMenuC
@@ -315,6 +319,7 @@ Item {
         id: messageContextMenuC
 
         chatRoot: chatRoot
+        emojiPopup: chatRoot.emojiPopup
         filteredTimelineModel: filteredTimeline
         roomModel: room
         topBar: topBar

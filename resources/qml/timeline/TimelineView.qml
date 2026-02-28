@@ -104,6 +104,8 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: msgView.height - typingIndicator.height
                         emojiPopup: timelineEmojiPopup
+                        dialogHost: timelineView.dialogHost
+                        componentCatalog: componentCatalog
                         searchString: topBar.searchString
                         filterByNotifications: topBar.filterNotifications
                     }

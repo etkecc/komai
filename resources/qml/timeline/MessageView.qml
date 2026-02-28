@@ -7,7 +7,6 @@ import "./styles/bubble"
 import "./styles/plain"
 import "./components"
 import "../ui"
-import "../dialogs/navigation"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import im.nheko 1.0
@@ -16,6 +15,8 @@ Item {
     id: chatRoot
 
     required property var emojiPopup
+    required property var dialogHost
+    required property var componentCatalog
     property int availableWidth: width
     property int padding: Nheko.paddingMedium
     property string searchString: ""
@@ -23,25 +24,69 @@ Item {
     readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
     property Room roommodel: room
 
+    function destroyOnClose(dialog) {
+        if (!dialog)
+            return;
+
+        if (dialogHost && dialogHost.destroyOnClose != undefined) {
+            dialogHost.destroyOnClose(dialog);
+            return;
+        }
+
+        if (dialog.closing != undefined)
+            dialog.closing.connect(() => dialog.destroy(1000));
+        else if (dialog.aboutToHide != undefined)
+            dialog.aboutToHide.connect(() => dialog.destroy(1000));
+    }
+
+    function createCatalogDialog(componentUrl, properties) {
+        if (!dialogHost || !componentUrl)
+            return null;
+
+        if (dialogHost.createDialog != undefined)
+            return dialogHost.createDialog(componentUrl, properties || {});
+
+        var component = Qt.createComponent(componentUrl);
+        if (component.status !== Component.Ready) {
+            console.error("Failed to create component: " + component.errorString());
+            return null;
+        }
+
+        var dialog = component.createObject(dialogHost, properties || {});
+        if (!dialog)
+            console.error("Failed to create dialog object for: " + componentUrl);
+        return dialog;
+    }
+
     function openForwardDialog(eventId) {
         if (!eventId)
             return null;
-        var forwardDialog = forwardCompleterComponent.createObject(timelineRoot);
+
+        if (dialogHost && dialogHost.showForwardMessageDialog != undefined)
+            return dialogHost.showForwardMessageDialog(room, eventId, timeline, timelineView);
+
+        var forwardDialog = createCatalogDialog(componentCatalog.navigationForwardCompleterDialog, {
+                "roomSource": room,
+                "timelineSource": timeline ?? null,
+                "timelineViewSource": timelineView ?? null,
+                "showReplyPreview": !!timeline && !!timelineView
+            });
         if (!forwardDialog)
             return null;
         forwardDialog.setMessageEventId(eventId);
         forwardDialog.open();
-        timelineRoot.destroyOnClose(forwardDialog);
+        destroyOnClose(forwardDialog);
         return forwardDialog;
     }
 
     function showDialogFromComponent(componentRef, properties) {
-        var dialog = componentRef.createObject(timelineRoot, properties || {});
+        var dialogParent = dialogHost || chatRoot;
+        var dialog = componentRef.createObject(dialogParent, properties || {});
         if (!dialog)
             return null;
         dialog.show();
         dialog.forceActiveFocus();
-        timelineRoot.destroyOnClose(dialog);
+        destroyOnClose(dialog);
         return dialog;
     }
 
@@ -220,15 +265,6 @@ Item {
         filteredTimelineModel: filteredTimeline
         roomModel: room
         topBar: topBar
-    }
-    Component {
-        id: forwardCompleterComponent
-
-        ForwardCompleter {
-            roomSource: room
-            timelineSource: timeline
-            timelineViewSource: timelineView
-        }
     }
     ReplyContextMenu {
         id: replyContextMenuC

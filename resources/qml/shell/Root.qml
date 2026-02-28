@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../dialogs/timeline"
 import "../pages"
 import "../ui"
 import "./components"
@@ -129,12 +128,6 @@ Pane {
     RoomDirectoryModel {
         id: publicRooms
 
-    }
-    Component {
-        id: readReceiptsDialog
-
-        ReadReceipts {
-        }
     }
     AppShortcuts {
         componentCatalog: componentCatalog

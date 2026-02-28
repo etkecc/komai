@@ -76,31 +76,13 @@ Pane {
                 topBarAvatarSize: topBar.topBarAvatarSize
                 buttonPaddingH: topBar.buttonPaddingH
             }
-            Label {
-                Layout.column: 2
-                Layout.fillWidth: true
-                Layout.row: 1
-                color: palette.text
-                elide: Text.ElideRight
-                font.bold: true
-                font.pointSize: Settings.uiFontSizePt * 1.1
-                maximumLineCount: 1
-                text: roomName
-                textFormat: Text.RichText
+            RoomHeaderRoomNameLabel {
+                roomName: topBar.roomName
             }
-            MatrixText {
-                id: roomTopicC
-
-                Layout.column: 1
-                Layout.columnSpan: 9
-                Layout.fillWidth: true
-                Layout.maximumHeight: fontMetrics.lineSpacing * 2 // show 2 lines
-                Layout.row: 2
-                clip: true
-                visible: roomTopic.length > 0 && !Nheko.uiLayoutCompactMode
-                color: topBar.palette.text
-                selectByMouse: true
-                text: roomTopic
+            RoomHeaderTopicText {
+                roomTopic: topBar.roomTopic
+                compactMode: Nheko.uiLayoutCompactMode
+                lineSpacing: fontMetrics.lineSpacing
             }
             // BROKEN: "Show only notifications" filter doesn't work properly.
             // It only filters messages already loaded in QML, not the full timeline.

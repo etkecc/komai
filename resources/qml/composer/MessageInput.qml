@@ -30,12 +30,6 @@ Rectangle {
         PlaceCall {
         }
     }
-    Component {
-        id: screenShareDialog
-
-        ScreenShare {
-        }
-    }
     RowLayout {
         id: row
 
@@ -43,17 +37,12 @@ Rectangle {
         spacing: 0
         visible: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted :  MtxEvent.TextMessage) : false
 
-        ImageButton {
+        ComposerToolbarButton {
             Layout.alignment: Qt.AlignBottom
-            Layout.margins: 8
             ToolTip.text: CallManager.isOnCall ? qsTr("Hang up") : (CallManager.isOnCallOnOtherDevice ? qsTr("Already on a call") : qsTr("Place a call"))
-            ToolTip.visible: hovered
-            Layout.preferredHeight: 32
-            hoverEnabled: true
             image: CallManager.isOnCall ? ":/icons/icons/ui/end-call.svg" : ":/icons/icons/ui/place-call.svg"
             opacity: (CallManager.haveCallInvite || CallManager.isOnCallOnOtherDevice) ? 0.3 : 1
             visible: CallManager.callsSupported && showAllButtons && Settings.callsLegacyEnabled
-            Layout.preferredWidth: 32
 
             onClicked: {
                 if (room) {
@@ -71,16 +60,11 @@ Rectangle {
                 }
             }
         }
-        ImageButton {
+        ComposerToolbarButton {
             Layout.alignment: Qt.AlignBottom
-            Layout.margins: 8
             ToolTip.text: qsTr("Send a file")
-            ToolTip.visible: hovered
-            Layout.preferredHeight: 32
-            hoverEnabled: true
             image: ":/icons/icons/ui/attach.svg"
             visible: showAllButtons
-            Layout.preferredWidth: 32
 
             onClicked: room.input.openFileSelection()
 
@@ -410,18 +394,13 @@ Rectangle {
                 }
             }
         }
-        ImageButton {
+        ComposerToolbarButton {
             id: stickerButton
 
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-            Layout.margins: 8
             ToolTip.text: qsTr("Stickers")
-            ToolTip.visible: hovered
-            Layout.preferredHeight: 32
-            hoverEnabled: true
             image: ":/icons/icons/ui/sticky-note-solid.svg"
             visible: showAllButtons && Settings.composerExtrasStickersEnabled
-            Layout.preferredWidth: 32
 
             onClicked: stickerPopup.visible ? stickerPopup.close() : stickerPopup.show(stickerButton, room.roomId, function (row) {
                     room.input.sticker(row);
@@ -434,17 +413,12 @@ Rectangle {
                 emoji: false
             }
         }
-        ImageButton {
+        ComposerToolbarButton {
             id: emojiButton
 
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-            Layout.margins: 8
             ToolTip.text: qsTr("Emoji")
-            ToolTip.visible: hovered
-            Layout.preferredHeight: 32
-            hoverEnabled: true
             image: ":/icons/icons/ui/smile.svg"
-            Layout.preferredWidth: 32
 
             onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(emojiButton, room.roomId, function (plaintext, markdown) {
                     messageInput.insert(messageInput.cursorPosition, markdown);
@@ -457,19 +431,14 @@ Rectangle {
                 emoji: true
             }
         }
-        ImageButton {
+        ComposerToolbarButton {
             id: sendButton
 
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-            Layout.margins: 8
             Layout.rightMargin: 8
             ToolTip.text: qsTr("Send")
-            ToolTip.visible: hovered
-            Layout.preferredHeight: 32
-            hoverEnabled: true
             buttonTextColor: messageInput.length > 0 ? palette.highlight : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
-            Layout.preferredWidth: 32
 
             SequentialAnimation {
                 id: shakeAnimation

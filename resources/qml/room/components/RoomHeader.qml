@@ -104,28 +104,14 @@ Pane {
 
                 onClicked: Rooms.resetCurrentRoom()
             }
-            Avatar {
-                Layout.alignment: Qt.AlignVCenter
-                Layout.column: 1
-                Layout.rightMargin: buttonPaddingH
-                Layout.row: 1
-                displayName: room ? room.plainRoomName : roomName
-                enabled: false
-                implicitHeight: topBarAvatarSize
-                implicitWidth: topBarAvatarSize
-                roomid: roomId
-                url: avatarUrl.replace("mxc://", "image://MxcImage/")
-                userid: isDirect ? directChatOtherUserId : ""
-
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-
-                    onClicked: {
-                        if (room)
-                            TimelineManager.openRoomSettings(room.roomId);
-                    }
-                }
+            RoomHeaderRoomAvatar {
+                room: topBar.room
+                roomId: topBar.roomId
+                avatarUrl: topBar.avatarUrl
+                isDirect: topBar.isDirect
+                directChatOtherUserId: topBar.directChatOtherUserId
+                topBarAvatarSize: topBar.topBarAvatarSize
+                buttonPaddingH: topBar.buttonPaddingH
             }
             Label {
                 Layout.column: 2

@@ -5,7 +5,6 @@
 
 import "../components"
 import "../emoji"
-import "../voip"
 import "../ui"
 import QtQuick 2.12
 import QtQuick.Controls 2.3
@@ -24,12 +23,6 @@ Rectangle {
     Layout.preferredHeight: row.implicitHeight
     color: palette.window
 
-    Component {
-        id: placeCallDialog
-
-        PlaceCall {
-        }
-    }
     RowLayout {
         id: row
 
@@ -37,48 +30,14 @@ Rectangle {
         spacing: 0
         visible: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted :  MtxEvent.TextMessage) : false
 
-        ComposerToolbarButton {
-            Layout.alignment: Qt.AlignBottom
-            ToolTip.text: CallManager.isOnCall ? qsTr("Hang up") : (CallManager.isOnCallOnOtherDevice ? qsTr("Already on a call") : qsTr("Place a call"))
-            image: CallManager.isOnCall ? ":/icons/icons/ui/end-call.svg" : ":/icons/icons/ui/place-call.svg"
-            opacity: (CallManager.haveCallInvite || CallManager.isOnCallOnOtherDevice) ? 0.3 : 1
-            visible: CallManager.callsSupported && showAllButtons && Settings.callsLegacyEnabled
-
-            onClicked: {
-                if (room) {
-                    if (CallManager.haveCallInvite) {
-                        return;
-                    } else if (CallManager.isOnCall) {
-                        CallManager.hangUp();
-                    } else if (CallManager.isOnCallOnOtherDevice) {
-                        return;
-                    } else {
-                        var dialog = placeCallDialog.createObject(timelineRoot);
-                        dialog.open();
-                        timelineRoot.destroyOnClose(dialog);
-                    }
-                }
-            }
+        ComposerCallButton {
+            room: room
+            timelineRoot: timelineRoot
+            showAllButtons: inputBar.showAllButtons
         }
-        ComposerToolbarButton {
-            Layout.alignment: Qt.AlignBottom
-            ToolTip.text: qsTr("Send a file")
-            image: ":/icons/icons/ui/attach.svg"
-            visible: showAllButtons
-
-            onClicked: room.input.openFileSelection()
-
-            Rectangle {
-                anchors.fill: parent
-                color: palette.window
-                visible: room && room.input.uploading
-
-                Spinner {
-                    anchors.centerIn: parent
-                    height: parent.height / 2
-                    running: parent.visible
-                }
-            }
+        ComposerAttachButton {
+            room: room
+            showAllButtons: inputBar.showAllButtons
         }
         ScrollView {
             id: textInput

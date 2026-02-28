@@ -129,128 +129,40 @@ ItemDelegate {
         anchors.margins: Nheko.paddingMedium
         spacing: Nheko.paddingMedium
 
-        Avatar {
+        RoomListItemAvatar {
             id: avatar
 
-            Layout.alignment: Qt.AlignVCenter
-            displayName: roomName
-            enabled: false
-            roomid: roomId
-            url: avatarUrl.replace("mxc://", "image://MxcImage/")
-            userid: isDirect ? directChatOtherUserId : ""
-            Layout.preferredWidth: avatarSize
-            Layout.preferredHeight: avatarSize
-
-            NotificationBubble {
-                id: collapsedNotificationBubble
-
-                anchors.bottom: parent.bottom
-                anchors.margins: -Nheko.paddingSmall
-                anchors.right: parent.right
-                bubbleBackgroundColor: roomItem.bubbleBackground
-                bubbleTextColor: roomItem.bubbleText
-                hasLoudNotification: roomItem.hasLoudNotification
-                mayBeVisible: collapsed && (isSpace ? Settings.sidebarsRoomListShowCommunityCounts : true)
-                notificationCount: roomItem.notificationCount
-            }
+            avatarSize: roomItem.avatarSize
+            roomName: roomItem.roomName
+            roomId: roomItem.roomId
+            avatarUrl: roomItem.avatarUrl
+            isDirect: roomItem.isDirect
+            directChatOtherUserId: roomItem.directChatOtherUserId
+            bubbleBackground: roomItem.bubbleBackground
+            bubbleText: roomItem.bubbleText
+            hasLoudNotification: roomItem.hasLoudNotification
+            collapsed: roomItem.collapsed
+            isSpace: roomItem.isSpace
+            notificationCount: roomItem.notificationCount
         }
-        ColumnLayout {
-            id: textContent
-
-            Layout.alignment: compactMode ? Qt.AlignVCenter : Qt.AlignLeft
-            Layout.fillWidth: true
-            Layout.minimumWidth: 100
-            Layout.preferredHeight: compactMode ? -1 : avatar.height
-            spacing: compactMode ? 0 : Nheko.paddingSmall
-            visible: !collapsed
-
-            Item {
-                id: titleRow
-
-                property bool previewsEnabled: !isSpace && (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
-
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-                Layout.preferredHeight: compactMode ? titleText.implicitHeight : subtitleText.implicitHeight
-
-                ElidedLabel {
-                    id: titleText
-
-                    anchors.left: parent.left
-                    anchors.verticalCenter: compactMode ? parent.verticalCenter : undefined
-                    color: roomItem.importantText
-                    elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0) - (inlinePreview.visible ? Nheko.paddingSmall : 0)
-                    font.bold: hasUnreadMessages
-                    fullText: TimelineManager.htmlEscape(roomName)
-                    textFormat: Text.RichText
-                }
-                ElidedLabel {
-                    id: inlinePreview
-
-                    anchors.left: titleText.right
-                    anchors.leftMargin: Nheko.paddingSmall
-                    anchors.baseline: titleText.baseline
-                    anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
-                    anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Nheko.paddingSmall : 0
-                    color: roomItem.unimportantText
-                    elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Nheko.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0)))
-                    font.pixelSize: baseFontPixelSize * 0.95
-                    fullText: TimelineManager.htmlEscape(lastMessage)
-                    textFormat: Text.RichText
-                    visible: compactMode && titleRow.previewsEnabled
-                }
-                Label {
-                    id: timestamp
-
-                    anchors.baseline: titleText.baseline
-                    anchors.right: parent.right
-                    color: roomItem.unimportantText
-                    font.pixelSize: baseFontPixelSize * 0.95
-                    text: time
-                    visible: !isInvite && !isSpace && Nheko.sidebarsRoomListShowLastMessageTime
-                }
-                NotificationBubble {
-                    id: spaceNotificationBubble
-
-                    anchors.right: parent.right
-                    bubbleBackgroundColor: roomItem.bubbleBackground
-                    bubbleTextColor: roomItem.bubbleText
-                    hasLoudNotification: roomItem.hasLoudNotification
-                    mayBeVisible: !collapsed && (isSpace ? Settings.sidebarsRoomListShowCommunityCounts : compactMode)
-                    notificationCount: roomItem.notificationCount
-                    parent: (isSpace || compactMode) ? titleRow : subtextRow
-                }
-            }
-            Item {
-                id: subtextRow
-
-                Layout.alignment: Qt.AlignBottom
-                Layout.fillWidth: true
-                Layout.preferredHeight: subtitleText.implicitHeight
-                visible: !compactMode && !isSpace && (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !isEncrypted))
-
-                ElidedLabel {
-                    id: subtitleText
-
-                    anchors.left: parent.left
-                    color: roomItem.unimportantText
-                    elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0)
-                    font.pixelSize: baseFontPixelSize * 0.95
-                    fullText: TimelineManager.htmlEscape(lastMessage)
-                    textFormat: Text.RichText
-                }
-                NotificationBubble {
-                    id: subtextNotificationBubble
-
-                    anchors.baseline: subtitleText.baseline
-                    anchors.right: parent.right
-                    bubbleBackgroundColor: roomItem.bubbleBackground
-                    bubbleTextColor: roomItem.bubbleText
-                    hasLoudNotification: roomItem.hasLoudNotification
-                    mayBeVisible: !collapsed
-                    notificationCount: roomItem.notificationCount
-                }
-            }
+        RoomListItemTextContent {
+            compactMode: roomItem.compactMode
+            collapsed: roomItem.collapsed
+            isSpace: roomItem.isSpace
+            isInvite: roomItem.isInvite
+            isEncrypted: roomItem.isEncrypted
+            hasUnreadMessages: roomItem.hasUnreadMessages
+            hasLoudNotification: roomItem.hasLoudNotification
+            notificationCount: roomItem.notificationCount
+            avatarHeight: avatar.height
+            baseFontPixelSize: roomItem.baseFontPixelSize
+            roomName: roomItem.roomName
+            lastMessage: roomItem.lastMessage
+            time: roomItem.time
+            importantText: roomItem.importantText
+            unimportantText: roomItem.unimportantText
+            bubbleBackground: roomItem.bubbleBackground
+            bubbleText: roomItem.bubbleText
         }
     }
     Rectangle {

@@ -41,6 +41,7 @@ ApplicationWindow {
         id: timeline
 
         anchors.fill: parent
+        dialogHost: roomWindowW
         windowFocusBlurOverlay: windowFocusBlurOverlay
         room: roomWindowW.room
         roomPreview: roomWindowW.roomPreview.roomid ? roomWindowW.roomPreview : null

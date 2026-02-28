@@ -19,6 +19,7 @@ Item {
     id: timelineView
 
     required property var windowFocusBlurOverlay
+    property var dialogHost: null
     property var room: null
     property var roomPreview: null
     property bool shouldEffectsRun: false
@@ -189,8 +190,7 @@ Item {
         timelineView: timelineView
         timelineEffects: timelineEffects
         effectsTimer: effectsTimer
-        readReceiptsDialog: readReceiptsDialog
-        timelineRoot: timelineRoot
+        dialogHost: timelineView.dialogHost
         componentCatalog: componentCatalog
     }
 }

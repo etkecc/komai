@@ -12,23 +12,27 @@ ComposerToolbarButton {
 
     required property var room
     required property bool showAllButtons
+    readonly property bool uploadInProgress: !!(root.room && root.room.input && root.room.input.uploading === true)
 
     Layout.alignment: Qt.AlignBottom
     ToolTip.text: qsTr("Send a file")
     image: ":/icons/icons/ui/attach.svg"
     visible: showAllButtons
 
-    onClicked: room.input.openFileSelection()
+    onClicked: {
+        if (room && room.input)
+            room.input.openFileSelection();
+    }
 
     Rectangle {
         anchors.fill: parent
         color: palette.window
-        visible: root.room && root.room.input.uploading
+        visible: root.uploadInProgress
 
         Spinner {
             anchors.centerIn: parent
             height: parent.height / 2
-            running: parent.visible
+            running: root.uploadInProgress
         }
     }
 }

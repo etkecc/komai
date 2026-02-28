@@ -118,6 +118,7 @@ Rectangle {
 
                         Layout.fillHeight: true
                         Layout.fillWidth: true
+                        dialogHost: chatPage.timelineRoot
                         windowFocusBlurOverlay: windowFocusBlurOverlay
                         room: Rooms.currentRoom
                         roomPreview: Rooms.currentRoomPreview.roomid ? Rooms.currentRoomPreview : null

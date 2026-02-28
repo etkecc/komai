@@ -12,9 +12,26 @@ Connections {
     required property var timelineView
     required property var timelineEffects
     required property var effectsTimer
-    required property var readReceiptsDialog
-    required property var timelineRoot
+    property var dialogHost: null
     required property var componentCatalog
+
+    function dialogParent() {
+        return dialogHost || timelineView;
+    }
+
+    function destroyDialogOnClose(dialog) {
+        if (!dialog)
+            return;
+        if (dialogHost && dialogHost.destroyOnClose) {
+            dialogHost.destroyOnClose(dialog);
+            return;
+        }
+        if (dialog.closing != undefined) {
+            dialog.closing.connect(() => dialog.destroy(1000));
+        } else if (dialog.aboutToHide != undefined) {
+            dialog.aboutToHide.connect(() => dialog.destroy(1000));
+        }
+    }
 
     function onConfetti() {
         if (!Settings.timelineMediaEffectsEnabled)
@@ -31,12 +48,17 @@ Connections {
     }
 
     function onOpenReadReceiptsDialog(rr) {
-        var dialog = readReceiptsDialog.createObject(timelineRoot, {
-                "readReceipts": rr,
-                "room": room
-            });
-        dialog.show();
-        timelineRoot.destroyOnClose(dialog);
+        var component = Qt.createComponent(componentCatalog.timelineReadReceiptsDialog);
+        if (component.status == Component.Ready) {
+            var dialog = component.createObject(dialogParent(), {
+                    "readReceipts": rr,
+                    "room": room
+                });
+            dialog.show();
+            destroyDialogOnClose(dialog);
+        } else {
+            console.error("Failed to create component: " + component.errorString());
+        }
     }
 
     function onRainfall() {
@@ -56,11 +78,11 @@ Connections {
     function onShowRawMessageDialog(rawMessage) {
         var component = Qt.createComponent(componentCatalog.timelineRawMessageDialog);
         if (component.status == Component.Ready) {
-            var dialog = component.createObject(timelineRoot, {
+            var dialog = component.createObject(dialogParent(), {
                     "rawMessage": rawMessage
                 });
             dialog.show();
-            timelineRoot.destroyOnClose(dialog);
+            destroyDialogOnClose(dialog);
         } else {
             console.error("Failed to create component: " + component.errorString());
         }

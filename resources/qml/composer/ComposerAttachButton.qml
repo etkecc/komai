@@ -29,10 +29,38 @@ ComposerToolbarButton {
         color: palette.window
         visible: root.uploadInProgress
 
-        Spinner {
-            anchors.centerIn: parent
-            height: parent.height / 2
-            running: root.uploadInProgress
+        Item {
+            id: uploadProgressAnimation
+
+            property real progress: 0
+            readonly property real logoSize: Math.max(12, parent.height * 0.6)
+            readonly property real travelDistance: parent.height + logoSize
+
+            anchors.fill: parent
+            clip: true
+
+            Image {
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: uploadProgressAnimation.logoSize
+                source: "qrc:/logos/komai.svg"
+                width: uploadProgressAnimation.logoSize
+                y: parent.height - uploadProgressAnimation.progress * uploadProgressAnimation.travelDistance
+            }
+            Image {
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: uploadProgressAnimation.logoSize
+                source: "qrc:/logos/komai.svg"
+                width: uploadProgressAnimation.logoSize
+                y: parent.height - ((uploadProgressAnimation.progress + 0.5) % 1) * uploadProgressAnimation.travelDistance
+            }
+
+            NumberAnimation on progress {
+                duration: 1200
+                from: 0
+                loops: Animation.Infinite
+                running: root.uploadInProgress
+                to: 1
+            }
         }
     }
 }

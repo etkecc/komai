@@ -5,8 +5,6 @@
 
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import "./components"
-import "../components"
 import "../components/banners" as Banners
 import "." as Shell
 import "../timeline" as Timeline

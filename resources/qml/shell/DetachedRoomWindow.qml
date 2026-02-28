@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./components"
 import "../timeline" as Timeline
 import QtQuick
 import QtQuick.Controls

@@ -3,9 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../pages"
-import "../ui"
-import "./components"
 import "../components/encryption" as Encryption
 import QtQuick
 import QtQuick.Controls

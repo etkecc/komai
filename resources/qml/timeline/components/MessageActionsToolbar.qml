@@ -129,6 +129,8 @@ RowLayout {
         visible: toolbar.canReact
 
         delegate: MessageActionsReactionButton {
+            required property var modelData
+
             reaction: modelData
             messageModel: toolbar.messageModel
             roomModel: toolbar.roomModel
@@ -156,6 +158,8 @@ RowLayout {
         visible: toolbar.canReact
 
         delegate: MessageActionsReactionButton {
+            required property var modelData
+
             reaction: modelData
             messageModel: toolbar.messageModel
             roomModel: toolbar.roomModel

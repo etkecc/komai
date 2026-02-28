@@ -10,7 +10,7 @@ import im.nheko
 import "../../ui"
 
 ImageButton {
-    id: roomOptionsButton
+    id: roomLeaveButton
 
     property bool roomAvailable: false
     property string roomId: ""
@@ -27,36 +27,10 @@ ImageButton {
     rightPadding: buttonPaddingH
     topPadding: buttonPaddingV
     bottomPadding: buttonPaddingV
-    ToolTip.text: qsTr("Room options")
+    ToolTip.text: qsTr("Leave room")
     ToolTip.visible: hovered
-    image: ":/icons/icons/ui/options-circle.svg"
+    image: ":/icons/icons/ui/power-off.svg"
     visible: roomAvailable
 
-    onClicked: roomOptionsMenu.popup(roomOptionsButton)
-
-    Menu {
-        id: roomOptionsMenu
-
-        Component.onCompleted: {
-            if (roomOptionsMenu.popupType != undefined) {
-                roomOptionsMenu.popupType = 2; // Popup.Native with fallback on older Qt (<6.8.0)
-            }
-        }
-
-        MenuItem {
-            text: qsTr("Leave room")
-            icon.source: "qrc:/icons/icons/ui/power-off.svg"
-
-            onTriggered: TimelineManager.openLeaveRoomDialog(roomId)
-        }
-    }
-
-    // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
-    Connections {
-        function onHideMenu() {
-            roomOptionsMenu.close();
-        }
-
-        target: MainWindow
-    }
+    onClicked: TimelineManager.openLeaveRoomDialog(roomId)
 }

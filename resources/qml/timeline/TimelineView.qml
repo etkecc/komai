@@ -56,25 +56,8 @@ Item {
         anchors.centerIn: parent
         visible: !room && !TimelineManager.waitingForFirstSync && (!roomPreview || !roomPreview.roomid)
     }
-    Spinner {
-        anchors.centerIn: parent
-        foreground: palette.mid
-        height: Nheko.timelineLogoSize
-        opacity: hh.hovered ? 0.3 : 1
-        running: TimelineManager.waitingForFirstSync
-        visible: TimelineManager.waitingForFirstSync
-        z: 3
-
-        Behavior on opacity  {
-            NumberAnimation {
-                duration: 100
-            }
-        }
-
-        HoverHandler {
-            id: hh
-
-        }
+    TimelineFirstSyncSpinner {
+        waitingForFirstSync: TimelineManager.waitingForFirstSync
     }
     ColumnLayout {
         id: timelineLayout
@@ -191,21 +174,9 @@ Item {
         roomPreview: timelineView.roomPreview
     }
 
-    ImageButton {
-        id: backToRoomsButton
-
-        ToolTip.text: qsTr("Back to room list")
-        ToolTip.visible: hovered
-        anchors.left: parent.left
-        anchors.margins: Nheko.paddingMedium
-        anchors.top: parent.top
-        enabled: visible
-        height: Nheko.avatarSize
-        image: ":/icons/icons/ui/angle-arrow-left.svg"
-        visible: (room == null || room.isSpace) && showBackButton
-        width: Nheko.avatarSize
-
-        onClicked: Rooms.resetCurrentRoom()
+    TimelineBackButton {
+        roomModel: timelineView.room
+        showBackButton: timelineView.showBackButton
     }
     TimelineEffects {
         id: timelineEffects

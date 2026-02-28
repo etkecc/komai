@@ -14,15 +14,18 @@ ScrollView {
 
     required property var room
     required property string roomId
+    readonly property bool layoutVisible: !!room && room.widgetLinks.length > 0 && !Settings.hiddenWidgets.includes(roomId)
 
     Layout.column: 1
     Layout.columnSpan: 9
     Layout.fillWidth: true
-    Layout.preferredHeight: visible ? Math.min(contentHeight, Nheko.avatarSize * 1.5) : 0
+    Layout.minimumHeight: 0
+    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Nheko.avatarSize * 1.5) : 0
+    Layout.maximumHeight: layoutVisible ? Nheko.avatarSize * 1.5 : 0
     Layout.row: 4
     ScrollBar.horizontal.visible: false
     clip: true
-    visible: !!room && room.widgetLinks.length > 0 && !Settings.hiddenWidgets.includes(roomId)
+    visible: layoutVisible
     contentWidth: availableWidth
 
     ListView {

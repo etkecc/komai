@@ -6,12 +6,14 @@ import "../../voip"
 import QtQuick.Layouts
 
 ColumnLayout {
-    readonly property bool barsVisible: callInviteBar.visible || activeCallBar.visible
+    readonly property bool layoutVisible: callInviteBar.visible || activeCallBar.visible
 
     Layout.fillWidth: true
-    Layout.preferredHeight: barsVisible ? implicitHeight : 0
+    Layout.minimumHeight: 0
+    Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+    Layout.maximumHeight: layoutVisible ? implicitHeight : 0
     spacing: 0
-    visible: barsVisible
+    visible: layoutVisible
 
     CallInviteBar {
         id: callInviteBar

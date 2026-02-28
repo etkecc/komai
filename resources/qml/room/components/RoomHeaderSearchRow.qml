@@ -15,6 +15,7 @@ RowLayout {
     required property bool filteringInProgress
     required property int topBarAvatarSize
     property bool searchActive: false
+    readonly property bool layoutVisible: searchActive
     readonly property bool searchHasFocus: searchField.focus && searchField.enabled
 
     signal searchStringCommitted(string value)
@@ -31,11 +32,13 @@ RowLayout {
     Layout.column: 1
     Layout.columnSpan: 9
     Layout.fillWidth: true
-    Layout.preferredHeight: visible ? implicitHeight : 0
+    Layout.minimumHeight: 0
+    Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+    Layout.maximumHeight: layoutVisible ? implicitHeight : 0
     Layout.row: 5
     Layout.topMargin: Nheko.paddingSmall
     spacing: Nheko.paddingSmall
-    visible: searchActive
+    visible: layoutVisible
 
     RoomSearchStatusIcon {
         room: root.room

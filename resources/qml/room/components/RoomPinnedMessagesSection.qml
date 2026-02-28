@@ -14,15 +14,18 @@ ScrollView {
 
     required property var room
     required property string roomId
+    readonly property bool layoutVisible: !!room && room.pinnedMessages.length > 0 && !Settings.hiddenPins.includes(roomId)
 
     Layout.column: 1
     Layout.columnSpan: 9
     Layout.fillWidth: true
-    Layout.preferredHeight: visible ? Math.min(contentHeight, Nheko.avatarSize * 4) : 0
+    Layout.minimumHeight: 0
+    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Nheko.avatarSize * 4) : 0
+    Layout.maximumHeight: layoutVisible ? Nheko.avatarSize * 4 : 0
     Layout.row: 3
     ScrollBar.horizontal.visible: false
     clip: true
-    visible: !!room && room.pinnedMessages.length > 0 && !Settings.hiddenPins.includes(roomId)
+    visible: layoutVisible
     contentWidth: availableWidth
 
     ListView {

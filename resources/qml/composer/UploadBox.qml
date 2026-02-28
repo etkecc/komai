@@ -12,13 +12,15 @@ import im.nheko 1.0
 Page {
     id: uploadPopup
 
+    readonly property bool layoutVisible: room && room.input.uploads.length > 0
+
     Layout.fillWidth: true
     Layout.minimumHeight: 0
-    Layout.maximumHeight: visible ? 200 : 0
-    Layout.preferredHeight: visible ? 200 : 0
+    Layout.maximumHeight: layoutVisible ? 200 : 0
+    Layout.preferredHeight: layoutVisible ? 200 : 0
     clip: true
     padding: Nheko.paddingMedium
-    visible: room && room.input.uploads.length > 0
+    visible: layoutVisible
 
     background: Rectangle {
         color: palette.base

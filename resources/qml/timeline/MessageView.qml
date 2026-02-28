@@ -177,35 +177,11 @@ Item {
         }
 
         delegate: styleDelegateFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
-        footer: Item {
-            width: chat.delegateMaxWidth
-            // hacky, but works
-            height: loadingSpinner.height + 2 * Nheko.paddingLarge
-
-            // Hold spinner visible briefly after loading stops to prevent
-            // flicker from rapid paginationInProgress toggles during search.
-            property bool isLoading: ((room && room.paginationInProgress) || chatRoot.filteringInProgress) && !chatRoot.searchString
-            visible: isLoading || spinnerHoldTimer.running
-            onIsLoadingChanged: {
-                if (isLoading)
-                    spinnerHoldTimer.stop();
-                else
-                    spinnerHoldTimer.start();
-            }
-            Timer {
-                id: spinnerHoldTimer
-                interval: 200
-            }
-
-            Spinner {
-                id: loadingSpinner
-
-                anchors.centerIn: parent
-                anchors.margins: Nheko.paddingLarge
-                foreground: palette.mid
-                running: parent.isLoading || spinnerHoldTimer.running
-                z: 3
-            }
+        footer: TimelineLoadingFooter {
+            delegateWidth: chat.delegateMaxWidth
+            roomModel: room
+            filteringInProgress: chatRoot.filteringInProgress
+            searchString: chatRoot.searchString
         }
 
         onCountChanged: {

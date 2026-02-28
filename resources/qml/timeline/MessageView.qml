@@ -10,8 +10,6 @@ import "../ui"
 import "../dialogs/navigation"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.2
-import QtQuick.Window 2.13
 import im.nheko 1.0
 
 Item {
@@ -129,7 +127,7 @@ Item {
             id: plainMessageStyle
 
             TimelinePlainMessageStyle {
-                messageActions: messageActionsC
+                messageActions: messageActionsHost.control
                 messageContextMenu: messageContextMenuC
                 replyContextMenu: replyContextMenuC
                 scrolledToThis: eventId === room.scrollTarget && (y + height > chat.y + chat.contentY && y < chat.y + chat.height + chat.contentY)
@@ -149,7 +147,7 @@ Item {
             id: bubbleMessageStyle
 
             TimelineBubbleMessageStyle {
-                messageActions: messageActionsC
+                messageActions: messageActionsHost.control
                 messageContextMenu: messageContextMenuC
                 replyContextMenu: replyContextMenuC
                 scrolledToThis: eventId === room.scrollTarget && (y + height > chat.y + chat.contentY && y < chat.y + chat.height + chat.contentY)
@@ -198,92 +196,15 @@ Item {
             filterByThread: room ? room.thread : ""
             source: room
         }
-        // Click-outside overlay: dismisses the action bar when clicking
-        // anywhere outside it.  Parented to chat.contentItem (same as
-        // the action bar) so z-ordering works: the bar at z:10 renders
-        // above the overlay at z:9, allowing button clicks and hovers
-        // to reach the bar normally.  The overlay tracks the visible
-        // viewport via chat.contentY / chat.width / chat.height.
-        MouseArea {
-            id: actionBarDismissOverlay
-            parent: chat.contentItem
-            x: 0
-            y: chat.contentY
-            width: chat.width
-            height: chat.height
-            visible: messageActionsC.pinned && messageActionsC.positioned
-            z: 9
-            onClicked: messageActionsC.dismiss()
-        }
-        Control {
-            id: messageActionsC
-
-            property Item attached: null
-            // use comma to update on scroll
-            property var model: null
-            property bool pinned: false
-            property bool positioned: false
-            property Item anchorItem: null
-
-            function dismiss() {
-                pinned = false;
-                attached = null;
-                anchorItem = null;
-                positioned = false;
-            }
-
-            function scheduleReposition() {
-                if (!visible || !attached || !anchorItem)
-                    return;
-                if (typeof attached.repositionMessageActions !== "function")
-                    return;
-
-                // Hide briefly while coordinates are recalculated, then reveal
-                // only after the new position has been committed.
-                positioned = false;
-
-                // Reposition in a later frame so we can react to late-arriving
-                // intrinsic-size/layout updates that happen after visibility flips.
-                Qt.callLater(function () {
-                    if (visible && attached && anchorItem)
-                        attached.repositionMessageActions(anchorItem, pinned, 0);
-                });
-            }
-
-            hoverEnabled: true
-            padding: 0
-            leftInset: 0
-            rightInset: 0
-            topInset: 0
-            bottomInset: 0
-            // Keep the control in the layout pass before first placement so
-            // implicitWidth/implicitHeight can settle. Opacity gates first paint.
-            visible: Settings.timelineMessageActionsActivationPolicy !== Settings.timelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.timelineMessageActionsActivationPolicy.OnHover)
-            opacity: positioned ? 1 : 0
-            enabled: positioned
-            z: 10
-            parent: chat.contentItem
-            // No anchors — x/y set imperatively by the message styles
-            onWidthChanged: scheduleReposition()
-            onHeightChanged: scheduleReposition()
-            onImplicitWidthChanged: scheduleReposition()
-            onImplicitHeightChanged: scheduleReposition()
-
-            background: Rectangle {
-                color: messageActionsToolbar.actionBarColor
-                radius: Nheko.paddingMedium
-            }
-            contentItem: MessageActionsToolbar {
-                id: messageActionsToolbar
-                chatRoot: chatRoot
-                emojiPopup: chatRoot.emojiPopup
-                filteredTimeline: filteredTimeline
-                messageActionsControl: messageActionsC
-                messageContextMenu: messageContextMenuC
-                messageModel: messageActionsC.model
-                roomModel: room
-                topBar: topBar
-            }
+        MessageActionsHost {
+            id: messageActionsHost
+            chatList: chat
+            chatRoot: chatRoot
+            emojiPopup: chatRoot.emojiPopup
+            filteredTimeline: filteredTimeline
+            roomModel: room
+            topBar: topBar
+            messageContextMenu: messageContextMenuC
         }
         TimelineKeyboardShortcuts {
             chatList: chat

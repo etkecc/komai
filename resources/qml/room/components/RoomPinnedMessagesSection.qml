@@ -17,7 +17,7 @@ ScrollView {
     readonly property bool layoutVisible: !!room && room.pinnedMessages.length > 0 && !Settings.hiddenPins.includes(roomId)
 
     Layout.column: 1
-    Layout.columnSpan: 9
+    Layout.columnSpan: 8
     Layout.fillWidth: true
     Layout.minimumHeight: 0
     Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Nheko.avatarSize * 4) : 0

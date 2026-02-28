@@ -17,7 +17,7 @@ ScrollView {
     readonly property bool layoutVisible: !!room && room.widgetLinks.length > 0 && !Settings.hiddenWidgets.includes(roomId)
 
     Layout.column: 1
-    Layout.columnSpan: 9
+    Layout.columnSpan: 8
     Layout.fillWidth: true
     Layout.minimumHeight: 0
     Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Nheko.avatarSize * 1.5) : 0

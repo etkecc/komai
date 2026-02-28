@@ -18,17 +18,24 @@ AbstractButton {
     required property int topBarAvatarSize
     required property int buttonPaddingH
     required property int buttonPaddingV
+    property bool showLabel: false
+    readonly property bool hasLabel: showLabel && encryptionShortLabel().length > 0
+    readonly property int iconSize: Math.max(14, topBarAvatarSize - 2 * buttonPaddingH)
 
     Layout.alignment: Qt.AlignVCenter
     Layout.column: 7
     Layout.preferredHeight: topBarAvatarSize
-    Layout.preferredWidth: topBarAvatarSize
+    Layout.preferredWidth: implicitWidth
     Layout.row: 1
     leftPadding: buttonPaddingH
     rightPadding: buttonPaddingH
     topPadding: buttonPaddingV
     bottomPadding: buttonPaddingV
-    background: null
+    implicitWidth: topBarAvatarSize + (hasLabel ? (Nheko.paddingSmall + labelTextItem.implicitWidth) : 0)
+    background: Rectangle {
+        radius: Nheko.paddingSmall
+        color: encryptionButton.hovered ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12) : "transparent"
+    }
     visible: roomAvailable
 
     ToolTip.delay: Nheko.tooltipDelay
@@ -63,18 +70,51 @@ AbstractButton {
         }
     }
 
-    contentItem: EncryptionIndicator {
-        ToolTip.delay: Nheko.tooltipDelay
-        ToolTip.text: encryptionButton.encryptionDialogTitle()
-        ToolTip.visible: encryptionButton.hovered
-        enabled: false
-        encrypted: isEncrypted
-        hovered: parent.hovered
-        trust: trustlevel
-        unencryptedColor: palette.buttonText
-        unencryptedHoverColor: palette.highlight
-        sourceSize.height: topBarAvatarSize - 2 * buttonPaddingH
-        sourceSize.width: topBarAvatarSize - 2 * buttonPaddingH
+    function encryptionShortLabel() {
+        if (!isEncrypted)
+            return qsTr("Unencrypted");
+        switch (trustlevel) {
+        case Crypto.Verified:
+            return qsTr("Verified");
+        case Crypto.TOFU:
+            return qsTr("Trusted");
+        default:
+            return qsTr("Warning");
+        }
+    }
+
+    contentItem: RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: encryptionButton.leftPadding
+        anchors.rightMargin: encryptionButton.rightPadding
+        anchors.topMargin: encryptionButton.topPadding
+        anchors.bottomMargin: encryptionButton.bottomPadding
+        spacing: Nheko.paddingSmall
+
+        EncryptionIndicator {
+            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.text: encryptionButton.encryptionDialogTitle()
+            ToolTip.visible: encryptionButton.hovered && !encryptionButton.hasLabel
+            enabled: false
+            encrypted: isEncrypted
+            hovered: encryptionButton.hovered
+            trust: trustlevel
+            unencryptedColor: palette.buttonText
+            unencryptedHoverColor: palette.highlight
+            Layout.preferredHeight: encryptionButton.iconSize
+            Layout.preferredWidth: encryptionButton.iconSize
+            sourceSize.height: encryptionButton.iconSize
+            sourceSize.width: encryptionButton.iconSize
+        }
+        Label {
+            id: labelTextItem
+
+            Layout.alignment: Qt.AlignVCenter
+            color: palette.text
+            font.bold: true
+            text: encryptionButton.encryptionShortLabel()
+            visible: encryptionButton.hasLabel
+        }
     }
 
     onClicked: encryptionDialog.open()

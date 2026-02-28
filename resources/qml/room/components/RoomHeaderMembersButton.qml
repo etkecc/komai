@@ -9,9 +9,13 @@ RoomHeaderActionButton {
     id: root
 
     required property var room
+    property bool showTextLabel: false
+    readonly property int memberCount: room ? room.roomMemberCount : 0
 
-    ToolTip.text: qsTr("Show room members.")
+    toolTipText: qsTr("Show room members.")
     image: ":/icons/icons/ui/people.svg"
+    labelText: qsTr("%n member(s)", "", memberCount)
+    showLabel: showTextLabel
     visible: !!room
 
     onClicked: TimelineManager.openRoomMembers(room)

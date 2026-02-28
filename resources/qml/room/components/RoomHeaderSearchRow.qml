@@ -30,7 +30,7 @@ RowLayout {
     }
 
     Layout.column: 1
-    Layout.columnSpan: 9
+    Layout.columnSpan: 8
     Layout.fillWidth: true
     Layout.minimumHeight: 0
     Layout.preferredHeight: layoutVisible ? implicitHeight : 0

@@ -9,11 +9,14 @@ RoomHeaderActionButton {
     id: root
 
     required property var room
+    property bool showTextLabel: false
 
     property bool searchActive: false
 
-    ToolTip.text: qsTr("Search this room")
+    toolTipText: qsTr("Search this room")
     image: ":/icons/icons/ui/search.svg"
+    labelText: qsTr("Search")
+    showLabel: showTextLabel
     visible: !!room
 
     onClicked: searchActive = !searchActive

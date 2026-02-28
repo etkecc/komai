@@ -10,7 +10,7 @@ RoomHeaderActionButton {
 
     required property bool showBackButton
 
-    ToolTip.text: qsTr("Back to room list")
+    toolTipText: qsTr("Back to room list")
     image: ":/icons/icons/ui/angle-arrow-left.svg"
     visible: showBackButton
 

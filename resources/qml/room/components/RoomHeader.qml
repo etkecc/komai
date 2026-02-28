@@ -30,6 +30,55 @@ Pane {
     property int topBarAvatarSize: Nheko.barIconSize
     property int buttonPaddingH: Nheko.uiLayoutCompactMode ? Nheko.paddingSmall : Nheko.paddingMedium
     property int buttonPaddingV: 0
+    property bool showActionLabels: false
+    property int actionLabelsHysteresisPx: 36
+    readonly property string membersActionLabel: qsTr("%n member(s)", "", roomModel ? roomModel.roomMemberCount : 0)
+    readonly property string encryptionActionLabel: shortEncryptionLabel()
+    readonly property real actionButtonWidth: topBarAvatarSize
+    readonly property real actionButtonLabelGap: Nheko.paddingSmall
+    readonly property int visibleActionButtonCount:
+        (pinButton.visible ? 1 : 0)
+        + (searchButton.visible ? 1 : 0)
+        + (memberButton.visible ? 1 : 0)
+        + (encryptionButton.visible ? 1 : 0)
+        + (leaveRoomButton.visible ? 1 : 0)
+    readonly property real requiredIconOnlyActionWidth: visibleActionButtonCount * actionButtonWidth
+    readonly property real requiredLabeledActionWidth: requiredIconOnlyActionWidth
+        + (pinButton.visible ? (actionButtonLabelGap + pinLabelMetrics.advanceWidth) : 0)
+        + (searchButton.visible ? (actionButtonLabelGap + searchLabelMetrics.advanceWidth) : 0)
+        + (memberButton.visible ? (actionButtonLabelGap + membersLabelMetrics.advanceWidth) : 0)
+        + (encryptionButton.visible ? (actionButtonLabelGap + encryptionLabelMetrics.advanceWidth) : 0)
+        + (leaveRoomButton.visible ? (actionButtonLabelGap + leaveLabelMetrics.advanceWidth) : 0)
+    readonly property real reservedLeadingWidth: (showBackButton ? actionButtonWidth : 0)
+        + topBarAvatarSize
+        + 220
+        + Nheko.paddingLarge * 3
+    readonly property real availableActionWidth: Math.max(0, topBar.width - reservedLeadingWidth)
+
+    function shortEncryptionLabel() {
+        if (!isEncrypted)
+            return qsTr("Unencrypted");
+        switch (trustlevel) {
+        case Crypto.Verified:
+            return qsTr("Verified");
+        case Crypto.TOFU:
+            return qsTr("Trusted");
+        default:
+            return qsTr("Warning");
+        }
+    }
+
+    function updateActionLabelVisibility() {
+        const showThreshold = requiredLabeledActionWidth + actionLabelsHysteresisPx;
+        const hideThreshold = Math.max(requiredIconOnlyActionWidth, requiredLabeledActionWidth - actionLabelsHysteresisPx);
+
+        if (showActionLabels) {
+            if (availableActionWidth < hideThreshold)
+                showActionLabels = false;
+        } else if (availableActionWidth >= showThreshold) {
+            showActionLabels = true;
+        }
+    }
 
     Layout.fillWidth: true
     Layout.minimumHeight: Nheko.uiLayoutCompactMode ? Nheko.navigationRowHeight : 0
@@ -39,6 +88,46 @@ Pane {
 
     background: Rectangle {
         color: palette.alternateBase
+    }
+    TextMetrics {
+        id: pinLabelMetrics
+
+        font: Qt.font({
+            "bold": true
+        })
+        text: qsTr("Pins")
+    }
+    TextMetrics {
+        id: searchLabelMetrics
+
+        font: Qt.font({
+            "bold": true
+        })
+        text: qsTr("Search")
+    }
+    TextMetrics {
+        id: membersLabelMetrics
+
+        font: Qt.font({
+            "bold": true
+        })
+        text: topBar.membersActionLabel
+    }
+    TextMetrics {
+        id: encryptionLabelMetrics
+
+        font: Qt.font({
+            "bold": true
+        })
+        text: topBar.encryptionActionLabel
+    }
+    TextMetrics {
+        id: leaveLabelMetrics
+
+        font: Qt.font({
+            "bold": true
+        })
+        text: qsTr("Leave")
     }
     contentItem: Item {
         GridLayout {
@@ -67,7 +156,7 @@ Pane {
             RoomHeaderRoomAvatar {
                 room: topBar.roomModel
                 roomId: topBar.roomId
-                avatarUrl: topBar.avatarUrl
+                roomAvatarUrl: topBar.avatarUrl
                 isDirect: topBar.isDirect
                 directChatOtherUserId: topBar.directChatOtherUserId
                 topBarAvatarSize: topBar.topBarAvatarSize
@@ -110,6 +199,7 @@ Pane {
                 column: 4
                 room: topBar.roomModel
                 roomId: topBar.roomId
+                showTextLabel: topBar.showActionLabels
             }
             RoomHeaderSearchButton {
                 id: searchButton
@@ -117,6 +207,7 @@ Pane {
                 topBarRef: topBar
                 column: 5
                 room: topBar.roomModel
+                showTextLabel: topBar.showActionLabels
 
                 onSearchActiveChanged: {
                     if (searchActive) {
@@ -133,27 +224,27 @@ Pane {
                 topBarRef: topBar
                 column: 6
                 room: topBar.roomModel
+                showTextLabel: topBar.showActionLabels
             }
             RoomEncryptionStatusButton {
+                id: encryptionButton
+
                 isEncrypted: topBar.isEncrypted
-                roomAvailable: !!room
+                roomAvailable: !!topBar.roomModel
                 trustlevel: topBar.trustlevel
                 topBarAvatarSize: topBar.topBarAvatarSize
                 buttonPaddingH: topBar.buttonPaddingH
                 buttonPaddingV: topBar.buttonPaddingV
+                showLabel: topBar.showActionLabels
             }
-            RoomHeaderSettingsButton {
+            RoomOptionsButton {
+                id: leaveRoomButton
+
                 topBarRef: topBar
                 column: 8
                 roomAvailable: !!topBar.roomModel
                 roomId: topBar.roomId
-            }
-            RoomOptionsButton {
-                roomAvailable: !!topBar.roomModel
-                roomId: topBar.roomId
-                topBarAvatarSize: topBar.topBarAvatarSize
-                buttonPaddingH: topBar.buttonPaddingH
-                buttonPaddingV: topBar.buttonPaddingV
+                showTextLabel: topBar.showActionLabels
             }
             RoomPinnedMessagesSection {
                 room: topBar.roomModel
@@ -184,6 +275,9 @@ Pane {
         searchButton.searchActive = false;
         filterNotifications = false;
     }
+    onAvailableActionWidthChanged: updateActionLabelVisibility()
+    onRequiredLabeledActionWidthChanged: updateActionLabelVisibility()
+    Component.onCompleted: updateActionLabelVisibility()
 
     Shortcut {
         sequence: StandardKey.Find

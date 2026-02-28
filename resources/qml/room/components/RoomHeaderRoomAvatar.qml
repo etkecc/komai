@@ -2,17 +2,15 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../components"
-import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import "../../components"
 
-Avatar {
+AvatarSettingsFlipButton {
     id: root
 
     required property var room
     required property string roomId
-    required property string avatarUrl
+    required property string roomAvatarUrl
     required property bool isDirect
     required property string directChatOtherUserId
     required property int topBarAvatarSize
@@ -21,22 +19,22 @@ Avatar {
     Layout.alignment: Qt.AlignVCenter
     Layout.column: 1
     Layout.rightMargin: buttonPaddingH
+    Layout.preferredHeight: topBarAvatarSize
+    Layout.preferredWidth: topBarAvatarSize
     Layout.row: 1
-    displayName: room ? room.plainRoomName : qsTr("No room selected")
-    enabled: false
-    implicitHeight: topBarAvatarSize
-    implicitWidth: topBarAvatarSize
-    roomid: roomId
-    url: avatarUrl.replace("mxc://", "image://MxcImage/")
-    userid: isDirect ? directChatOtherUserId : ""
+    avatarButtonSize: topBarAvatarSize
+    avatarDisplayName: room ? room.plainRoomName : qsTr("No room selected")
+    avatarRoomId: roomId
+    avatarUrl: roomAvatarUrl.replace("mxc://", "image://MxcImage/")
+    avatarUserId: isDirect ? directChatOtherUserId : ""
+    toolTipText: qsTr("Room settings")
 
-    MouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
-
-        onClicked: {
-            if (root.room)
-                TimelineManager.openRoomSettings(root.room.roomId);
-        }
+    onLeftClicked: {
+        if (root.room)
+            TimelineManager.openRoomSettings(root.room.roomId);
+    }
+    onRightClicked: {
+        if (root.room)
+            TimelineManager.openRoomSettings(root.room.roomId);
     }
 }

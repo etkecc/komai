@@ -11,11 +11,14 @@ RoomHeaderActionButton {
 
     required property var room
     required property string roomId
+    property bool showTextLabel: false
 
     property bool pinsShown: !Settings.hiddenPins.includes(roomId)
 
-    ToolTip.text: qsTr("Show or hide pinned messages")
+    toolTipText: qsTr("Show or hide pinned messages")
     image: pinsShown ? ":/icons/icons/ui/pin.svg" : ":/icons/icons/ui/pin-off.svg"
+    labelText: qsTr("Pins")
+    showLabel: showTextLabel
     visible: !!room && room.pinnedMessages.length > 0
 
     onClicked: {

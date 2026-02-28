@@ -113,16 +113,36 @@ Item {
                 }
             }
         }
+        // Keep collapsible sections collapsed at the integration boundary too,
+        // so nested component regressions do not steal timeline height.
         TimelineCallStatusBars {
+            id: callStatusBars
+
+            Layout.minimumHeight: 0
+            Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+            Layout.maximumHeight: layoutVisible ? implicitHeight : 0
         }
         Composer.UploadBox {
+            id: uploadBox
+
+            Layout.minimumHeight: 0
+            Layout.preferredHeight: layoutVisible ? 200 : 0
+            Layout.maximumHeight: layoutVisible ? 200 : 0
         }
         Composer.ReplyPopup {
             id: replyPopup
 
+            Layout.minimumHeight: 0
+            Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+            Layout.maximumHeight: layoutVisible ? implicitHeight : 0
             roundTopCorners: true
         }
         TimelineComposerWarnings {
+            id: composerWarnings
+
+            Layout.minimumHeight: 0
+            Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+            Layout.maximumHeight: layoutVisible ? implicitHeight : 0
             roomModel: timelineView.room
             replyPopupVisible: replyPopup.visible
         }

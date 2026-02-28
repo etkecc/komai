@@ -15,15 +15,19 @@ Rectangle {
 
     property bool roundTopCorners: true
     property color threadColor: room ? TimelineManager.userColor(room.thread, palette.base) : palette.buttonText
+    readonly property bool layoutVisible: room && (room.reply || room.thread || room.edit)
     property int headerTextHeight: Math.round(Qt.application.font.pixelSize * 2.4)
     property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(replyPopup.headerTextHeight * 0.45)
 
     Layout.fillWidth: true
+    Layout.minimumHeight: 0
+    Layout.preferredHeight: layoutVisible ? implicitHeight : 0
+    Layout.maximumHeight: layoutVisible ? implicitHeight : 0
     color: palette.alternateBase
     radius: replyPopup.roundTopCorners ? 8 : 0
-    implicitHeight: room && (room.reply || room.thread || room.edit) ? popupColumn.implicitHeight + Nheko.paddingMedium * 2 : 0
-    visible: room && (room.reply || room.edit || room.thread)
+    implicitHeight: layoutVisible ? popupColumn.implicitHeight + Nheko.paddingMedium * 2 : 0
+    visible: layoutVisible
     z: 3
 
     // Mask the bottom rounded corners so the popup sits flush against
@@ -40,7 +44,7 @@ Rectangle {
     Column {
         id: popupColumn
 
-        visible: room && (room.reply || room.thread || room.edit)
+        visible: replyPopup.layoutVisible
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top

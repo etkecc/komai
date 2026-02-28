@@ -51,46 +51,9 @@ Pane {
         columnSpacing: 0
             rowSpacing: Nheko.uiLayoutCompactMode ? 0 : Nheko.paddingSmall
 
-            Avatar {
-                id: communityAvatar
-
-                property string avatarUrl: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
-                property string communityId: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomid) || ""
-                property string communityName: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomName) || ""
-
-                Layout.alignment: Qt.AlignHCenter
-                Layout.column: 1
-                Layout.row: 0
-                displayName: communityName
-                enabled: false
-                implicitHeight: fontMetrics.lineSpacing
-                implicitWidth: fontMetrics.lineSpacing
-                roomid: communityId
-                url: avatarUrl.replace("mxc://", "image://MxcImage/")
-                visible: !Nheko.uiLayoutCompactMode && roomid && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentTagId)
-            }
-            Label {
-                id: communityLabel
-
-                Layout.column: 2
-                Layout.fillWidth: true
-                Layout.row: 0
-                color: palette.text
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                text: qsTr("In %1").arg(communityAvatar.displayName)
-                textFormat: Text.RichText
-                visible: communityAvatar.visible
-
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-
-                    onClicked: {
-                        if (!Communities.trySwitchToSpace(room.parentSpace.roomid))
-                            room.parentSpace.promptJoin();
-                    }
-                }
+            RoomHeaderCommunitySection {
+                room: topBar.room
+                lineSpacing: fontMetrics.lineSpacing
             }
             RoomHeaderActionButton {
                 id: backToRoomsButton

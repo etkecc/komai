@@ -47,7 +47,8 @@ ApplicationWindow {
 
             RoomSettingsHeaderSection {
                 roomSettings: roomSettingsDialog.roomSettings
-                Layout.fillWidth: true
+                dialogWidth: roomSettingsDialog.width
+                Layout.alignment: Qt.AlignHCenter
             }
 
             RoomSettingsTopicSection {

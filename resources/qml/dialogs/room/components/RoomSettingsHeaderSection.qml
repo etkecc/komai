@@ -12,6 +12,12 @@ import im.nheko 1.0
 
 ColumnLayout {
     required property var roomSettings
+    required property real dialogWidth
+
+    Layout.fillWidth: true
+    Layout.preferredWidth: dialogWidth
+    Layout.minimumWidth: dialogWidth
+    Layout.maximumWidth: dialogWidth
 
     Avatar {
         id: displayAvatar
@@ -97,7 +103,7 @@ ColumnLayout {
         color: palette.text
 
         Layout.alignment: Qt.AlignHCenter
-        Layout.maximumWidth: parent.width - (Nheko.paddingSmall + roomNameButtons.anchors.leftMargin + roomNameButtons.implicitWidth) * 2
+        Layout.maximumWidth: Math.max(0, dialogWidth - (Nheko.paddingSmall + roomNameButtons.anchors.leftMargin + roomNameButtons.implicitWidth) * 2)
         horizontalAlignment: TextEdit.AlignHCenter
         wrapMode: TextEdit.Wrap
         selectByMouse: true

@@ -55,17 +55,12 @@ Pane {
                 room: topBar.room
                 lineSpacing: fontMetrics.lineSpacing
             }
-            RoomHeaderActionButton {
+            RoomHeaderBackButton {
                 id: backToRoomsButton
 
                 topBarRef: topBar
                 column: 0
-                ToolTip.text: qsTr("Back to room list")
-                ToolTip.visible: hovered
-                image: ":/icons/icons/ui/angle-arrow-left.svg"
-                visible: showBackButton
-
-                onClicked: Rooms.resetCurrentRoom()
+                showBackButton: topBar.showBackButton
             }
             RoomHeaderRoomAvatar {
                 room: topBar.room
@@ -130,18 +125,12 @@ Pane {
                     }
                 }
             }
-            RoomHeaderActionButton {
+            RoomHeaderMembersButton {
                 id: memberButton
 
                 topBarRef: topBar
                 column: 6
-                visible: !!room
-
-                ToolTip.text: qsTr("Show room members.")
-                ToolTip.visible: hovered
-                image: ":/icons/icons/ui/people.svg"
-
-                onClicked: TimelineManager.openRoomMembers(room)
+                room: topBar.room
             }
             RoomEncryptionStatusButton {
                 isEncrypted: topBar.isEncrypted
@@ -151,17 +140,11 @@ Pane {
                 buttonPaddingH: topBar.buttonPaddingH
                 buttonPaddingV: topBar.buttonPaddingV
             }
-            RoomHeaderActionButton {
-                id: roomSettingsButton
-
+            RoomHeaderSettingsButton {
                 topBarRef: topBar
                 column: 8
-                ToolTip.text: qsTr("Room settings")
-                ToolTip.visible: hovered
-                image: ":/icons/icons/ui/toggles.svg"
-                visible: !!room
-
-                onClicked: TimelineManager.openRoomSettings(roomId)
+                roomAvailable: !!topBar.room
+                roomId: topBar.roomId
             }
             RoomOptionsButton {
                 roomAvailable: !!room

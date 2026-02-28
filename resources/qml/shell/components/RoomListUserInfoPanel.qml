@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../../components"
-import "../../dialogs/common"
 import "../../ui"
 import QtQuick
 import QtQuick.Controls
@@ -20,7 +19,7 @@ Pane {
     readonly property real lineSpacing: Math.max(1, Math.round(baseFontPixelSize * 1.2))
 
     function closeMenu() {
-        userInfoMenu.close();
+        userInfoMenuController.close();
     }
 
     function openUserProfile() {
@@ -97,72 +96,18 @@ Pane {
         }
     }
 
-    InputDialog {
-        id: statusDialog
+    RoomListUserInfoMenu {
+        id: userInfoMenuController
 
-        prompt: qsTr("Enter your status message:")
-        title: qsTr("Status Message")
-
-        text: userInfoGrid.profile ? Presence.userStatus(userInfoGrid.profile.userid) : ""
-
-        onAccepted: function (text) {
-            Nheko.setStatusMessage(text);
-        }
-    }
-    Menu {
-        id: userInfoMenu
-
-        MenuItem {
-            text: qsTr("Profile settings")
-
-            onTriggered: userInfoPanel.openUserProfile()
-        }
-        MenuItem {
-            text: qsTr("Set status message")
-
-            onTriggered: statusDialog.show()
-        }
-        MenuSeparator {
-        }
-
-        ButtonGroup {
-            id: onlineStateGroup
-        }
-        MenuItem {
-            text: qsTr("Automatic online status")
-            ButtonGroup.group: onlineStateGroup
-            checkable: true
-            checked: Settings.networkPresenceStatusPolicy == Settings.Presence.AutomaticPresence
-            onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.AutomaticPresence
-        }
-        MenuItem {
-            text: qsTr("Online")
-            ButtonGroup.group: onlineStateGroup
-            checkable: true
-            checked: Settings.networkPresenceStatusPolicy == Settings.Presence.Online
-            onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.Online
-        }
-        MenuItem {
-            text: qsTr("Unavailable")
-            ButtonGroup.group: onlineStateGroup
-            checkable: true
-            checked: Settings.networkPresenceStatusPolicy == Settings.Presence.Unavailable
-            onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.Unavailable
-        }
-        MenuItem {
-            text: qsTr("Offline")
-            ButtonGroup.group: onlineStateGroup
-            checkable: true
-            checked: Settings.networkPresenceStatusPolicy == Settings.Presence.Offline
-            onTriggered: if (checked) Settings.networkPresenceStatusPolicy = Settings.Presence.Offline
-        }
+        profileContextMenu: userInfoPanel.profileContextMenu
+        profile: userInfoGrid.profile
     }
     TapHandler {
         acceptedButtons: Qt.LeftButton
         gesturePolicy: TapHandler.ReleaseWithinBounds
         margin: -Nheko.paddingSmall
 
-        onLongPressed: userInfoMenu.popup(userInfoPanel)
+        onLongPressed: userInfoMenuController.popup(userInfoPanel)
         onSingleTapped: userInfoPanel.openUserProfile()
     }
     TapHandler {
@@ -170,6 +115,6 @@ Pane {
         gesturePolicy: TapHandler.ReleaseWithinBounds
         margin: -Nheko.paddingSmall
 
-        onSingleTapped: userInfoMenu.popup(userInfoPanel)
+        onSingleTapped: userInfoMenuController.popup(userInfoPanel)
     }
 }

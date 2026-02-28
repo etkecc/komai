@@ -8,7 +8,6 @@ import "../composer" as Composer
 import "../emoji"
 import "../room/components"
 import "../ui"
-import "../voip"
 import "./components"
 import QtQuick
 import QtQuick.Controls
@@ -109,10 +108,8 @@ Item {
                         searchString: topBar.searchString
                         filterByNotifications: topBar.filterNotifications
                     }
-                    Loader {
-                        source: CallManager.isOnCall && CallManager.callType != Voip.VOICE && Settings.callsLegacyEnabled ? (Qt.platform.os != "windows" ? "../voip/VideoCall.qml" : "../voip/VideoCallD3D11.qml") : ""
-
-                        onLoaded: TimelineManager.setVideoCallItem()
+                    TimelineVideoCallLoader {
+                        componentCatalog: componentCatalog
                     }
                 }
                 Composer.TypingIndicator {
@@ -130,26 +127,9 @@ Item {
 
             roundTopCorners: true
         }
-        Repeater {
-            model: room ? room.input.mentions : null
-
-            delegate: TimelineMentionWarningBar {
-                mention: modelData
-                mentionIndex: index
-                replyPopupVisible: replyPopup.visible
-                room: timelineView.room
-            }
-        }
-        Composer.MessageInputWarning {
-            roundTopCorners: !replyPopup.visible && (room ? room.input.mentions.length : 0) == 0
-            text: qsTr("The command /%1 is not recognized and will be sent as part of your message").arg(room ? room.input.currentCommand : "")
-            visible: room ? room.input.containsInvalidCommand && !room.input.containsIncompleteCommand : false
-        }
-        Composer.MessageInputWarning {
-            roundTopCorners: !replyPopup.visible && (room ? room.input.mentions.length : 0) == 0
-            bubbleColor: Nheko.theme.orange
-            text: qsTr("/%1 looks like an incomplete command. To send it anyway, add a space to the end of your message.").arg(room ? room.input.currentCommand : "")
-            visible: room ? room.input.containsIncompleteCommand : false
+        TimelineComposerWarnings {
+            roomModel: timelineView.room
+            replyPopupVisible: replyPopup.visible
         }
         TimelineSeparator {
         }

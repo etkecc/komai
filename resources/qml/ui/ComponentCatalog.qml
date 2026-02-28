@@ -32,4 +32,6 @@ QtObject {
 
     readonly property string verificationDeviceDialog: "qrc:/resources/qml/device-verification/DeviceVerification.qml"
     readonly property string voipCallInviteDialog: "qrc:/resources/qml/voip/CallInvite.qml"
+    readonly property string voipVideoCallComponent: "qrc:/resources/qml/voip/VideoCall.qml"
+    readonly property string voipVideoCallD3D11Component: "qrc:/resources/qml/voip/VideoCallD3D11.qml"
 }

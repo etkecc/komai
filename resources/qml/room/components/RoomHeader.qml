@@ -106,44 +106,21 @@ Pane {
             //         topBar.filterNotifications = !topBar.filterNotifications
             //     }
             // }
-            RoomHeaderActionButton {
+            RoomHeaderPinButton {
                 id: pinButton
-
-                property bool pinsShown: !Settings.hiddenPins.includes(roomId)
 
                 topBarRef: topBar
                 column: 4
-                ToolTip.text: qsTr("Show or hide pinned messages")
-                ToolTip.visible: hovered
-                image: pinsShown ? ":/icons/icons/ui/pin.svg" : ":/icons/icons/ui/pin-off.svg"
-                visible: !!room && room.pinnedMessages.length > 0
-
-                onClicked: {
-                    var ps = Settings.hiddenPins;
-                    if (pinsShown) {
-                        ps.push(roomId);
-                    } else {
-                        const index = ps.indexOf(roomId);
-                        if (index > -1) {
-                            ps.splice(index, 1);
-                        }
-                    }
-                    Settings.hiddenPins = ps;
-                }
+                room: topBar.room
+                roomId: topBar.roomId
             }
-            RoomHeaderActionButton {
+            RoomHeaderSearchButton {
                 id: searchButton
-
-                property bool searchActive: false
 
                 topBarRef: topBar
                 column: 5
-                ToolTip.text: qsTr("Search this room")
-                ToolTip.visible: hovered
-                image: ":/icons/icons/ui/search.svg"
-                visible: !!room
+                room: topBar.room
 
-                onClicked: searchActive = !searchActive
                 onSearchActiveChanged: {
                     if (searchActive) {
                         roomSearchRow.focusInput();

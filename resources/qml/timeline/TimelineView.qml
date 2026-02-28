@@ -73,11 +73,7 @@ Item {
             showBackButton: timelineView.showBackButton
             filteringInProgress: messageView.filteringInProgress
         }
-        Rectangle {
-            Layout.fillWidth: true
-            color: Nheko.theme.separator
-            implicitHeight: 1
-            z: 3
+        TimelineSeparator {
         }
         Rectangle {
             id: msgView
@@ -143,11 +139,7 @@ Item {
             roomModel: timelineView.room
             replyPopupVisible: replyPopup.visible
         }
-        Rectangle {
-            Layout.fillWidth: true
-            color: Nheko.theme.separator
-            implicitHeight: 1
-            z: 3
+        TimelineSeparator {
         }
         Composer.MessageInput {
         }

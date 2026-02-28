@@ -3,12 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../components"
 import "../composer" as Composer
-import "../emoji"
-import "../room/components"
-import "../ui"
-import "./components"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts

@@ -3,10 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "./styles/bubble"
-import "./styles/plain"
-import "./components"
-import "../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import im.nheko 1.0

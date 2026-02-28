@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../ui" as Ui
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -103,7 +102,7 @@ RowLayout {
         }
     }
 
-    Ui.StatusIndicator {
+    StatusIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
         Layout.preferredWidth: parent.iconSize
@@ -172,7 +171,7 @@ RowLayout {
         }
     }
 
-    Ui.StatusIndicator {
+    StatusIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
         Layout.preferredWidth: parent.iconSize

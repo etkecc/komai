@@ -4,9 +4,12 @@
 
 import "../../voip"
 import QtQuick.Layouts
+import im.nheko
 
 ColumnLayout {
-    readonly property bool layoutVisible: callInviteBar.visible || activeCallBar.visible
+    readonly property bool showCallInviteBar: CallManager.haveCallInvite && Settings.uiInputMode && Settings.callsLegacyEnabled
+    readonly property bool showActiveCallBar: CallManager.isOnCall && Settings.callsLegacyEnabled
+    readonly property bool layoutVisible: showCallInviteBar || showActiveCallBar
 
     Layout.fillWidth: true
     Layout.minimumHeight: 0

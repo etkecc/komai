@@ -20,7 +20,7 @@ Pane {
     property string roomId: room ? room.roomId : ""
     property string roomName: room ? room.roomName : qsTr("No room selected")
     property string roomTopic: room ? room.roomTopic : ""
-    property bool searchHasFocus: searchField.focus && searchField.enabled
+    property bool searchHasFocus: roomSearchRow.searchHasFocus
     property string searchString: ""
     property bool showBackButton: false
     property bool filteringInProgress: false
@@ -236,9 +236,9 @@ Pane {
                 onClicked: searchActive = !searchActive
                 onSearchActiveChanged: {
                     if (searchActive) {
-                        searchField.forceActiveFocus();
+                        roomSearchRow.focusInput();
                     } else {
-                        searchField.clear();
+                        roomSearchRow.clearInput();
                         topBar.searchString = "";
                     }
                 }
@@ -305,40 +305,18 @@ Pane {
                 room: topBar.room
                 roomId: topBar.roomId
             }
-            RowLayout {
-                Layout.column: 1
-                Layout.columnSpan: 9
-                Layout.fillWidth: true
-                Layout.row: 5
-                Layout.topMargin: Nheko.paddingSmall
-                spacing: Nheko.paddingSmall
-                visible: searchButton.searchActive
+            RoomHeaderSearchRow {
+                id: roomSearchRow
 
-                RoomSearchStatusIcon {
-                    room: topBar.room
-                    filteringInProgress: topBar.filteringInProgress
-                    topBarAvatarSize: topBar.topBarAvatarSize
+                room: topBar.room
+                filteringInProgress: topBar.filteringInProgress
+                topBarAvatarSize: topBar.topBarAvatarSize
+                searchActive: searchButton.searchActive
+
+                onSearchStringCommitted: function (value) {
+                    topBar.searchString = value;
                 }
-                MatrixTextField {
-                    id: searchField
-
-                    Layout.fillWidth: true
-                    enabled: searchButton.searchActive
-                    hasClear: false
-                    placeholderText: qsTr("Type to search in this room's messages")
-                    radius: Nheko.paddingSmall
-
-                    onEditingFinished: topBar.searchString = text
-                }
-                ImageButton {
-                    Layout.preferredHeight: topBarAvatarSize
-                    Layout.preferredWidth: topBarAvatarSize
-                    ToolTip.text: qsTr("Close search")
-                    ToolTip.visible: hovered
-                    image: ":/icons/icons/ui/dismiss.svg"
-
-                    onClicked: searchButton.searchActive = false
-                }
+                onRequestClose: searchButton.searchActive = false
             }
         }
     }
@@ -346,7 +324,6 @@ Pane {
     onRoomIdChanged: {
         searchString = "";
         searchButton.searchActive = false;
-        searchField.text = "";
         filterNotifications = false;
     }
 

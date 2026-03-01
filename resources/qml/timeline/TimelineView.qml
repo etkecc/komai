@@ -118,6 +118,7 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: msgView.height - typingIndicator.height
                         emojiPopup: timelineEmojiPopup
+                        suppressRoomSwitchSpinner: TimelineManager.waitingForFirstSync
                         disableTimelineList: timelineView.perfDisableTimelineList
                         dialogHost: timelineView.dialogHost
                         componentCatalog: componentCatalog

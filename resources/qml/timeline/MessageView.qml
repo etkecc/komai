@@ -18,6 +18,7 @@ Item {
     property string searchString: ""
     property bool filterByNotifications: false
     property bool disableTimelineList: false
+    property bool suppressRoomSwitchSpinner: false
     readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
     readonly property bool filteringRequested: searchString.length > 0 || filterByNotifications || (activeRoomModel && activeRoomModel.thread !== "")
     property bool perfFirstVisibleItemLogged: false
@@ -372,7 +373,9 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: palette.base
-        visible: chatRoot.roomSwitchInProgress && !chatRoot.disableTimelineList
+        visible: chatRoot.roomSwitchInProgress
+                 && !chatRoot.disableTimelineList
+                 && !chatRoot.suppressRoomSwitchSpinner
         z: 20
 
         Spinner {

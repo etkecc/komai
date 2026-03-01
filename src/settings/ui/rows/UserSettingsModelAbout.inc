@@ -23,9 +23,9 @@
     // AboutAcknowledgementsSection
     { QT_TR_NOOP("Acknowledgements"), nullptr, SM::SectionTitle, SM::TabAbout,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // AcknowledgementsNheko
+    // AcknowledgementsForkBase
     { QT_TR_NOOP("Fork base"), nullptr, SM::Link, SM::TabAbout,
-      aboutAcknowledgementNhekoProjectValue,
+      aboutAcknowledgementForkBaseProjectValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
     // AcknowledgementsFluentIcons
     { QT_TR_NOOP("Icon set"), nullptr, SM::Link, SM::TabAbout,

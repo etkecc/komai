@@ -19,7 +19,7 @@ Item {
     readonly property string komaiMeaningUrl: "https://en.wiktionary.org/wiki/%E3%81%93%E3%81%BE%E3%81%84"
     readonly property string secretsStorageDocsUrl: "https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/secret-storage.md"
     readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
-    readonly property string nhekoProjectLink: "<a href=\"https://nheko.im\">nheko</a>"
+    readonly property string forkBaseProjectLink: "<a href=\"https://nheko.im\">nheko</a>"
     readonly property string etkeProjectLink: "<a href=\"https://etke.cc/\">etke.cc</a>"
 
     Onboarding.OnboardingScrollPage {
@@ -115,7 +115,7 @@ Item {
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
                       qsTr("%1 is an opinionated UI/UX polished fork of %2, maintained by %3.")
                       .arg(root.komaiProjectLink)
-                      .arg(root.nhekoProjectLink)
+                      .arg(root.forkBaseProjectLink)
                       .arg(root.etkeProjectLink)
                 color: palette.buttonText
                 horizontalAlignment: Text.AlignHCenter

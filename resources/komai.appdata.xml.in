@@ -5,7 +5,6 @@
   <launchable type="desktop-id">@APPID@.desktop</launchable>
   <replaces>
     <id>cc.etke.komai</id>
-    <id>io.github.NhekoReborn.Nheko</id>
   </replaces>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
@@ -68,14 +67,12 @@
         <p>This release fixes a few security issues around rendering rich text messages. Otherwise it also includes a lot of minor improvements.</p>
       </description>
 
-      <url>https://github.com/Nheko-Reborn/nheko/releases/tag/v0.12.1</url>
     </release>
     <release date="2024-06-12" version="0.12.0">
       <description>
         <p>This release features a complete port to Qt6, intentional mentions, expiring messages, ignoring users, better sticker and emoji handling and much, much more!</p>
       </description>
 
-      <url>https://github.com/Nheko-Reborn/nheko/releases/tag/v0.12.0</url>
     </release>
     <release date="2023-02-23" version="0.11.3"/>
     <release date="2023-02-20" version="0.11.2"/>

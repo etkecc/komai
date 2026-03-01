@@ -20,7 +20,7 @@ aboutPlatformValue()
 }
 
 static QVariant
-aboutAcknowledgementNhekoProjectValue()
+aboutAcknowledgementForkBaseProjectValue()
 {
     return QStringLiteral("<a href=\"https://nheko.im/nheko-reborn/nheko\">nheko</a> @ ~v0.12.1 "
                           "(<a href=\"https://nheko.im/nheko-reborn/nheko/-/commit/"

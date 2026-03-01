@@ -174,7 +174,7 @@ TimelineFilter::fetchAgain()
         }
 
         // Keep fetching as long as more messages are available — from the
-        // virtual window (instant) or the server (HTTP). In original nheko
+        // virtual window (instant) or the server (HTTP). In original upstream
         // the data() hack in TimelineModel::data() drove continuous HTTP
         // pagination during filtering; with the virtual window that hack no
         // longer fires reliably, so fetchAgain drives the full loop.

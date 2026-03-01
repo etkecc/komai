@@ -729,7 +729,7 @@ DeviceVerificationFlow::startVerificationRequest()
         this->canonical_json = nlohmann::json(req).dump();
     } else if (this->type == DeviceVerificationFlow::Type::RoomMsg && model_) {
         req.relations.relations.push_back(this->relation);
-        // Set synthesized to surpress the nheko relation extensions
+        // Set synthesized to suppress legacy relation extensions.
         req.relations.synthesized = true;
         this->canonical_json      = nlohmann::json(req).dump();
     }
@@ -979,7 +979,7 @@ DeviceVerificationFlow::send(T msg)
     } else if (this->type == DeviceVerificationFlow::Type::RoomMsg && model_) {
         if constexpr (!std::is_same_v<T, mtx::events::msg::KeyVerificationRequest>) {
             msg.relations.relations.push_back(this->relation);
-            // Set synthesized to surpress the nheko relation extensions
+            // Set synthesized to suppress legacy relation extensions.
             msg.relations.synthesized = true;
         }
         (model_)->sendMessageEvent(msg, mtx::events::to_device_content_to_type<T>);

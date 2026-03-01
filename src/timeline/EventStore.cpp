@@ -574,8 +574,8 @@ EventStore::edits(const std::string &event_id)
             original_sender == mtx::accessors::sender(*related_event)) {
             auto related_ev = *related_event;
 
-            // spec does not allow changing relatings in an edit. So if we are not using the multi
-            // relation format specific to Nheko, just use the original relations + the edit...
+            // Spec does not allow changing relations in an edit. So if we are not using the legacy
+            // multi-relation format, just use the original relations + the edit...
             if (edit_rel.synthesized) {
                 auto merged_relations        = original_relations;
                 merged_relations.synthesized = true;

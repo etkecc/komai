@@ -329,7 +329,7 @@ utils::replaceEmoji(const QString &body)
                     // BUG(Nico):
                     // Workaround https://bugreports.qt.io/browse/QTBUG-97401
                     // See also https://github.com/matrix-org/matrix-react-sdk/pull/1458/files
-                    // Nheko bug: https://github.com/Nheko-Reborn/nheko/issues/439
+                    // Upstream bug: https://github.com/Nheko-Reborn/nheko/issues/439
                     continue;
                 }
             } else {

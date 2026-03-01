@@ -9,7 +9,7 @@
 #include <QDBusMetaType>
 #include <QDBusReply>
 
-namespace nheko::dbus {
+namespace komai::dbus {
 void
 init()
 {
@@ -21,12 +21,12 @@ init()
 bool
 apiVersionIsCompatible(const QVersionNumber &clientAppVersion)
 {
-    if (clientAppVersion.majorVersion() != nheko::dbus::dbusApiVersion.majorVersion())
+    if (clientAppVersion.majorVersion() != komai::dbus::dbusApiVersion.majorVersion())
         return false;
-    if (clientAppVersion.minorVersion() > nheko::dbus::dbusApiVersion.minorVersion())
+    if (clientAppVersion.minorVersion() > komai::dbus::dbusApiVersion.minorVersion())
         return false;
-    if (clientAppVersion.minorVersion() == nheko::dbus::dbusApiVersion.minorVersion() &&
-        clientAppVersion.microVersion() < nheko::dbus::dbusApiVersion.microVersion())
+    if (clientAppVersion.minorVersion() == komai::dbus::dbusApiVersion.minorVersion() &&
+        clientAppVersion.microVersion() < komai::dbus::dbusApiVersion.microVersion())
         return false;
 
     return true;
@@ -179,7 +179,7 @@ setTheme(const QString &theme)
         interface.call(QDBus::NoBlock, QStringLiteral("setTheme"), theme);
 }
 
-} // nheko::dbus
+} // komai::dbus
 
 /**
  * Automatic marshaling of a QImage for org.freedesktop.Notifications.Notify

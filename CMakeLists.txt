@@ -399,7 +399,7 @@ cmake_host_system_information(RESULT BUILD_HOST QUERY HOSTNAME)
 include(CheckSymbolExists)
 check_symbol_exists(backtrace_symbols_fd "execinfo.h" HAVE_BACKTRACE_SYMBOLS_FD)
 
-configure_file(cmake/nheko.h config/nheko.h)
+configure_file(cmake/komai.h config/komai.h)
 
 #
 # Declare source and header files.

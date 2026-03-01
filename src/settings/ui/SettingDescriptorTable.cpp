@@ -16,7 +16,7 @@
 #include "JdenticonProvider.h"
 #include "Utils.h"
 #include "cache/Cache.h"
-#include "config/nheko.h"
+#include "config/komai.h"
 #include "encryption/Olm.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptorValueAccessors.h"

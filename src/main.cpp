@@ -42,7 +42,7 @@
 #include "Paths.h"
 #include "ProfileId.h"
 #include "Utils.h"
-#include "config/nheko.h"
+#include "config/komai.h"
 #include "settings/SettingsController.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
@@ -77,7 +77,7 @@ stacktraceHandler(int signum)
 {
     std::signal(signum, SIG_DFL);
 
-    // boost::stacktrace::safe_dump_to("./nheko-backtrace.dump");
+    // boost::stacktrace::safe_dump_to("./komai-backtrace.dump");
 
     // see
     // https://stackoverflow.com/questions/77005/how-to-automatically-generate-a-stacktrace-when-my-program-crashes/77336#77336
@@ -190,7 +190,7 @@ int
 main(int argc, char *argv[])
 {
     QCoreApplication::setApplicationName(QStringLiteral("komai"));
-    QCoreApplication::setApplicationVersion(nheko::version);
+    QCoreApplication::setApplicationVersion(komai::version);
     QCoreApplication::setOrganizationName(QStringLiteral("komai"));
     const QString selectedProfile = selectedProfileFromArgs(argc, argv);
     if (const auto validationError = profile_id::validate(selectedProfile); validationError) {
@@ -565,7 +565,7 @@ main(int argc, char *argv[])
     NotificationsManager::attachToMacNotifCenter();
 #endif
 
-    nhlog::ui()->info("starting komai {}", nheko::version);
+    nhlog::ui()->info("starting komai {}", komai::version);
 
     auto returnvalue = app.exec();
 

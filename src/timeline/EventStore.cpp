@@ -363,7 +363,7 @@ EventStore::receivedSessionKey(const std::string &session_id)
 
     auto request = pending_key_requests.at(session_id);
 
-    // Don't request keys again until Nheko is restarted (for now)
+    // Don't request keys again until Komai is restarted (for now)
     pending_key_requests[session_id].events.clear();
 
     if (!request.events.empty())

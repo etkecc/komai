@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "Logging.h"
-#include "config/nheko.h"
+#include "config/komai.h"
 
 #include "spdlog/cfg/helpers.h"
 #include "spdlog/sinks/rotating_file_sink.h"
@@ -84,7 +84,7 @@ init(const QString &level, const QString &path, bool to_stderr)
     crypto_logger = std::make_shared<spdlog::logger>("crypto", std::begin(sinks), std::end(sinks));
     qml_logger    = std::make_shared<spdlog::logger>("qml", std::begin(sinks), std::end(sinks));
 
-    if (nheko::enable_debug_log) {
+    if (komai::enable_debug_log) {
         db_logger->set_level(spdlog::level::trace);
         ui_logger->set_level(spdlog::level::trace);
         crypto_logger->set_level(spdlog::level::trace);

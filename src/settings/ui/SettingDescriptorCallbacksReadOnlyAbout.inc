@@ -7,16 +7,16 @@ static QVariant
 aboutAppNameValue()
 {
     return QStringLiteral("<a href=\"https://github.com/etkecc/komai\">Komai</a> @ ") +
-           QString::fromStdString(nheko::version) +
+           QString::fromStdString(komai::version) +
            QStringLiteral(" (<a href=\"https://github.com/etkecc/komai/commit/") +
-           QString::fromStdString(nheko::commit_hash) + QStringLiteral("\">") +
-           QString::fromStdString(nheko::commit_hash) + QStringLiteral("</a>)");
+           QString::fromStdString(komai::commit_hash) + QStringLiteral("\">") +
+           QString::fromStdString(komai::commit_hash) + QStringLiteral("</a>)");
 }
 
 static QVariant
 aboutPlatformValue()
 {
-    return QString::fromStdString(nheko::build_os);
+    return QString::fromStdString(komai::build_os);
 }
 
 static QVariant
@@ -32,7 +32,7 @@ aboutAcknowledgementFluentIconsProjectValue()
 {
     return QStringLiteral(
       "<a href=\"https://github.com/microsoft/fluentui-system-icons\">Fluent UI System Icons</a> @ ") +
-           QString::fromStdString(nheko::fluent_icons_ref) +
+           QString::fromStdString(komai::fluent_icons_ref) +
            QStringLiteral(" by <a href=\"https://www.microsoft.com\">Microsoft</a> "
                           "(<a href=\"https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE\">MIT</a>)");
 }

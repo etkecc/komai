@@ -177,7 +177,7 @@ struct UserKeyCache
     std::map<std::string, mtx::crypto::DeviceKeys> device_keys;
     //! cross signing keys
     mtx::crypto::CrossSigningKeys master_keys, user_signing_keys, self_signing_keys;
-    //! Sync token when nheko last fetched the keys
+    //! Sync token when Komai last fetched the keys
     std::string updated_at;
     //! Sync token when the keys last changed. updated != last_changed means they are outdated.
     std::string last_changed;

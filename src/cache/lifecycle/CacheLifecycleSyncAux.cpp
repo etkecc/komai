@@ -88,7 +88,7 @@ MatrixStore::savePresence(
 {
     for (const auto &update : presenceUpdates) {
         auto toWrite = nlohmann::json(update.content);
-        // Nheko currently doesn't use those and it causes lots of db writes :)
+        // Komai currently doesn't use those and it causes lots of db writes :)
         toWrite.erase("currently_active");
         toWrite.erase("last_active_ago");
         auto toWriteStr = toWrite.dump();

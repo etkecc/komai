@@ -1708,7 +1708,7 @@ void
 TimelineModel::lastReadIdOnWindowFocus()
 {
     /* this stops it from removing the line when focusing another window
-     * and from removing the line when refocusing nheko */
+     * and from removing the line when refocusing Komai */
     if (ChatPage::instance()->isRoomActive(room_id_) &&
         cache::calculateRoomReadStatus(room_id_.toStdString())) {
         updateLastReadId(room_id_);

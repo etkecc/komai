@@ -216,7 +216,7 @@ private:
     void resetUI();
     void deleteConfigs();
 
-    // returns if the user had no interaction with Nheko for quite a while, which means we set our
+    // returns if the user had no interaction with Komai for quite a while, which means we set our
     // presence to unavailable if automatic presence is enabled
     bool shouldBeUnavailable() const;
     // If we should throttle sync processing to reduce CPU load, if people are spamming messages and

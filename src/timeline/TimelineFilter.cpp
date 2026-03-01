@@ -164,7 +164,7 @@ TimelineFilter::fetchAgain()
         // thread, we can stop fetching more messages In theory an event could have been edited
         // earlier in the timeline into the thread. So in theory this check is insufficient and
         // we should instead verify that all events referring to this thread are in the timeline
-        // instead of just the thread root, but only Nheko supports that atm and the check would
+        // instead of just the thread root, but only Komai supports that atm and the check would
         // be expensive.
         // TODO(Nico): check that all thread referrencing events are in the timeline by also
         // checking all edits inside the thread.

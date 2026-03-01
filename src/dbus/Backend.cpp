@@ -14,7 +14,7 @@
 #include "MainWindow.h"
 #include "MxcImageProvider.h"
 #include "cache/Cache.h"
-#include "config/nheko.h"
+#include "config/komai.h"
 #include "settings/SettingKeys.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
@@ -100,13 +100,13 @@ setMissingLoggers(DbusBackendLoggers loggers)
 QString
 DbusBackend::apiVersion() const
 {
-    return nheko::dbus::dbusApiVersion.toString();
+    return komai::dbus::dbusApiVersion.toString();
 }
 
 QString
 DbusBackend::appVersion() const
 {
-    return nheko::version;
+    return komai::version;
 }
 
 void
@@ -123,12 +123,12 @@ activeLoggers()
 
 struct RoomReplyState
 {
-    QVector<nheko::dbus::RoomInfoItem> model;
+    QVector<komai::dbus::RoomInfoItem> model;
     std::map<QString, RoomInfo> roominfos;
     std::mutex m;
 };
 
-QVector<nheko::dbus::RoomInfoItem>
+QVector<komai::dbus::RoomInfoItem>
 DbusBackend::rooms() const
 {
     if (!dbusReadAccessEnabled())
@@ -136,7 +136,7 @@ DbusBackend::rooms() const
 
     activeLoggers().ui->debug("Rooms requested over D-Bus.");
 
-    QVector<nheko::dbus::RoomInfoItem> model;
+    QVector<komai::dbus::RoomInfoItem> model;
     model.reserve((int)m_parent->roomids.size());
 
     for (const auto &roomId : m_parent->roomids) {
@@ -179,7 +179,7 @@ DbusBackend::rooms() const
             roomAvatar = cache::roomAvatarUrl(roomId.toStdString());
 
         model.push_back(
-          nheko::dbus::RoomInfoItem{roomId, alias, roomName, roomAvatar, notificationCount});
+          komai::dbus::RoomInfoItem{roomId, alias, roomName, roomAvatar, notificationCount});
     }
 
     activeLoggers().ui->debug("Sending {} rooms over D-Bus...", model.size());

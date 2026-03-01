@@ -159,7 +159,7 @@ MainWindow::refreshDbusAvailability()
 
     if (!dbusAvailable_) {
         if (QDBusConnection::sessionBus().registerService(KOMAI_DBUS_SERVICE_NAME)) {
-            nheko::dbus::init();
+            komai::dbus::init();
             nhlog::ui()->info("Initialized D-Bus");
             dbusAvailable_ = true;
         } else {

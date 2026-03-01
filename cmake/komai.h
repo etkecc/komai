@@ -1,4 +1,4 @@
-namespace nheko {
+namespace komai {
 inline constexpr auto version          = "${PROJECT_VERSION}";
 inline constexpr auto commit_hash      = "${GIT_COMMIT_HASH}";
 inline constexpr auto fluent_icons_ref = "${FLUENT_ICONS_VERSION}";

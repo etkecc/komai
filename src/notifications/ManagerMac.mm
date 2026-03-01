@@ -70,7 +70,7 @@ void NotificationsManager::objCxxPostNotification(
     const bool enableSound)
 {
     // Request permissions for alerts (the generic type of notification), sound playback,
-    // and badges (which allows the Nheko app icon to show the little red bubble with unread count).
+    // and badges (which allows the Komai app icon to show the little red bubble with unread count).
     // NOTE: Possible macOS bug... the 'Play sound for notification checkbox' doesn't appear in
     // the Notifications and Focus settings unless UNAuthorizationOptionBadges is also
     // specified

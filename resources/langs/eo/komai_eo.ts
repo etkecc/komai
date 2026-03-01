@@ -2637,7 +2637,7 @@ Ekzemplo: https://yourserver.example.com:8787</translation>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
-        <translation>Krei unikan profilon, kiu ebligos saluton al pluraj kontoj samtempe, kaj starton de pluraj nhekoj.</translation>
+        <translation>Krei unikan profilon, kiu ebligos saluton al pluraj kontoj samtempe, kaj starton de pluraj instancoj de Komai.</translation>
     </message>
     <message>
         <location line="+2"/>

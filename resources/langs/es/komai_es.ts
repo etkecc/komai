@@ -2641,7 +2641,7 @@ Ejemplo: https://suservidor.ejemplo.com:8787</translation>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
-        <translation>Cree un perfil único que le permita iniciar sesión en varias cuentas al mismo tiempo e iniciar varias instancias de nheko.</translation>
+        <translation>Cree un perfil único que le permita iniciar sesión en varias cuentas al mismo tiempo e iniciar varias instancias de Komai.</translation>
     </message>
     <message>
         <location line="+2"/>

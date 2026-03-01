@@ -2635,7 +2635,7 @@ Voorbeeld: https://jouwserver.example.com:8787</translation>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
-        <translation>Maak een uniek profiel, waardoor je tegelijk meerdere kopieën van Nheko kan draaien en zo op meerdere gebruikers tegelijk ingelogd kan zijn.</translation>
+        <translation>Maak een uniek profiel, waardoor je tegelijk meerdere kopieën van Komai kan draaien en zo op meerdere gebruikers tegelijk ingelogd kan zijn.</translation>
     </message>
     <message>
         <location line="+2"/>

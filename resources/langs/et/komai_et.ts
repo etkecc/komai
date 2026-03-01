@@ -2635,7 +2635,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
-        <translation>Loo unikaalne kasutajaprofiil, mis võimaldab samaaegselt sisse logide mitmele Matrixi kontole ja avada vastavalt mitu nheko rakenduse akent.</translation>
+        <translation>Loo unikaalne kasutajaprofiil, mis võimaldab samaaegselt sisse logide mitmele Matrixi kontole ja avada vastavalt mitu Komai rakenduse akent.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5300,7 +5300,7 @@ Samaga lülitatakse sisse või välja ka sinu kirjutamisteatiste saatmine teiste
     <message>
         <location line="+2"/>
         <source>Notify about received messages when the client is not currently focused.</source>
-        <translation>Näita saabunud sõnumi teavitust, kui Nheko ei ole parasjagu fookuses.</translation>
+        <translation>Näita saabunud sõnumi teavitust, kui Komai ei ole parasjagu fookuses.</translation>
     </message>
     <message>
         <location line="+6"/>

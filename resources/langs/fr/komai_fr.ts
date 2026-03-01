@@ -2635,7 +2635,7 @@ Exemple : https://serveur.domaine.extension:8787</translation>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
-        <translation>Créer un profile unique qui vous permettra de vous connecter sur plusieurs compte en même temps et démarrer plusieurs instances de Nheko.</translation>
+        <translation>Créer un profile unique qui vous permettra de vous connecter sur plusieurs compte en même temps et démarrer plusieurs instances de Komai.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3812,7 +3812,7 @@ Si vous choisissez de vérifier, vous aurez besoin de l'autre appareil. Si vous 
     <message>
         <location line="+158"/>
         <source>Identity key changed. This breaks E2EE, so logging out.</source>
-        <translation>La clé d'identité a changé. Cela casse le chiffrement bout-à-bout, donc Nheko va se déconnecter de votre compte.</translation>
+        <translation>La clé d'identité a changé. Cela casse le chiffrement bout-à-bout, donc Komai va se déconnecter de votre compte.</translation>
     </message>
 </context>
 <context>

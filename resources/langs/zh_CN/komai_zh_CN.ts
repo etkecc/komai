@@ -2631,7 +2631,7 @@ Example: https://yourserver.example.com:8787</source>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
-        <translation>创建一个独特的配置文件，允许你同时登录多个帐户并启动多个 Nheko 实例。</translation>
+        <translation>创建一个独特的配置文件，允许你同时登录多个帐户并启动多个 Komai 实例。</translation>
     </message>
     <message>
         <location line="+2"/>

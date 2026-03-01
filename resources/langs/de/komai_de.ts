@@ -1137,7 +1137,7 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     <message>
         <location line="+2"/>
         <source>The message couldn't be parsed.</source>
-        <translation>Nheko hat die Nachricht nach der Entschlüsselung nicht verstanden.</translation>
+        <translation>Komai hat die Nachricht nach der Entschlüsselung nicht verstanden.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2633,7 +2633,7 @@ Beispiel: https://deinserver.example.com:8787</translation>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
         <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
-        <translation>Erstelle ein separates Profil, was mehrere Instanzen von Nheko mit verschiedenen Accounts zur gleichen Zeit ermöglicht.</translation>
+        <translation>Erstelle ein separates Profil, was mehrere Instanzen von Komai mit verschiedenen Accounts zur gleichen Zeit ermöglicht.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -5332,7 +5332,7 @@ AUS - Quadratisch, AN - Kreisförmig.</translation>
     <message>
         <location line="+3"/>
         <source>Change the scale factor of the whole user interface. Requires a restart to take effect.</source>
-        <translation>Ändert den Skalierungsfaktor für das gesamte UI. Nheko muss neugestartet werden um die Änderung anzuwenden.</translation>
+        <translation>Ändert den Skalierungsfaktor für das gesamte UI. Komai muss neugestartet werden um die Änderung anzuwenden.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -5681,7 +5681,7 @@ den Fokus verliert.</translation>
 This setting will take effect upon restart.</source>
         <translation>Erlaubt anderen Anwendungen informationen über deine Matrixräume durch die D-Bus Schnittstelle zu laden. Dies kann nützlich sein, aber auch missbraucht werden. Aktivieren auf eigene Gefahr.
 
-Diese Einstellung benötigt einen Neustart von Nheko.</translation>
+Diese Einstellung benötigt einen Neustart von Komai.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -5691,7 +5691,7 @@ Diese Einstellung benötigt einen Neustart von Nheko.</translation>
     <message>
         <location line="+6"/>
         <source>Regularly redact expired events as specified in the event expiration configuration. Since this is currently not executed server side, you need to have one client running this regularly.</source>
-        <translation>Entfernt regelmäßig eigene Nachrichten, die du als abgelaufen konfiguriert hast. Dies kann aktuell nicht automatisch von deinem Server erledigt werden, weswegen du immer einen Client (z.B. Nheko) offen haben musst, damit diese Nachrichten gelöscht werden.</translation>
+        <translation>Entfernt regelmäßig eigene Nachrichten, die du als abgelaufen konfiguriert hast. Dies kann aktuell nicht automatisch von deinem Server erledigt werden, weswegen du immer einen Client (z.B. Komai) offen haben musst, damit diese Nachrichten gelöscht werden.</translation>
     </message>
     <message>
         <location line="+4"/>

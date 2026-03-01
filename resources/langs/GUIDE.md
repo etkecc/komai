@@ -14,7 +14,7 @@ Komai is a desktop Matrix chat client (fork of nheko). It's a Qt/QML application
 
 4. **Preserve escape sequences**: `\n`, `\t`, etc. must remain as-is.
 
-5. **Do not translate these terms**: "Matrix", "Komai", "nheko", "Element", room IDs (like `!abc:example.com`), user IDs (like `@user:example.com`), room aliases (like `#room:example.com`).
+5. **Do not translate these terms**: "Matrix", "Komai", "Element", room IDs (like `!abc:example.com`), user IDs (like `@user:example.com`), room aliases (like `#room:example.com`).
 
 6. **Keep translations concise**: these are UI strings with limited space. Prefer short, clear phrasing over verbose explanations.
 

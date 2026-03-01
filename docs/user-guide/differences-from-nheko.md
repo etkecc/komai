@@ -90,6 +90,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 - **Human-readable YAML settings** -- settings are stored in YAML files instead of Qt's INI format, making manual editing and backup straightforward. See [Settings](settings/README.md)
 - **Split settings by concern** -- each profile stores `config.yml` (preferences), `state.yml` (runtime/layout), `session.yml` (session metadata), and `secrets.yml` (file-mode fallback secrets), instead of one monolithic file
 - **Hierarchical key organization** -- settings are grouped in nested sections (`ui.*`, `timeline.*`, `composer.*`, etc.) rather than flat keys
+- **Hardened formatted-message HTML pipeline** -- timeline HTML is now sanitized with stricter Matrix-spec-oriented tag/attribute rules and safer linkification behavior to reduce HTML-injection risk.
 - **Profile-scoped data and cache layout** -- runtime data and caches are explicitly grouped under `~/.local/share/komai/profiles/<profile-id>/...` and `~/.cache/komai/profiles/<profile-id>/...`
 - **Centralized storage path construction** -- path logic is unified in one helper module instead of ad-hoc joins across callsites
 - **Documented sample profile files** -- canonical examples are available in [settings/examples/profile](settings/examples/profile/)

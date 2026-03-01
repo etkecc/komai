@@ -41,6 +41,7 @@
 #include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/formattedmessage/HtmlProcessor.h"
 
 static QString
 getQuoteBody(const RelatedInfo &related);
@@ -562,15 +563,7 @@ utils::humanReadableFingerprint(const std::string &ed25519_)
 QString
 utils::linkifyMessage(const QString &body)
 {
-    // Convert to valid XML.
-    auto doc = body;
-    doc.replace(conf::strings::url_regex, conf::strings::url_html);
-
-    static QRegularExpression matrixURIRegex(
-      QStringLiteral("\\b(?<![\"'])(?>(matrix:[\\S]{5,}))(?![\"'])\\b"));
-    doc.replace(matrixURIRegex, conf::strings::url_html);
-
-    return doc;
+    return timeline::formattedmessage::linkifyHtml(body);
 }
 
 QString
@@ -604,166 +597,7 @@ utils::escapeMentionMarkdown(QString input)
 QString
 utils::escapeBlacklistedHtml(const QString &rawStr)
 {
-    static const std::set<QByteArray> allowedTags = {
-      "font",       "/font",       "del",     "/del",    "h1",    "/h1",    "h2",     "/h2",
-      "h3",         "/h3",         "h4",      "/h4",     "h5",    "/h5",    "h6",     "/h6",
-      "blockquote", "/blockquote", "p",       "/p",      "a",     "/a",     "ul",     "/ul",
-      "ol",         "/ol",         "sup",     "/sup",    "sub",   "/sub",   "li",     "/li",
-      "b",          "/b",          "i",       "/i",      "u",     "/u",     "strong", "/strong",
-      "em",         "/em",         "strike",  "/strike", "code",  "/code",  "hr",     "hr/",
-      "br",         "br/",         "div",     "/div",    "table", "/table", "thead",  "/thead",
-      "tbody",      "/tbody",      "tr",      "/tr",     "th",    "/th",    "td",     "/td",
-      "caption",    "/caption",    "pre",     "/pre",    "span",  "/span",  "img",    "/img",
-      "details",    "/details",    "summary", "/summary"};
-    constexpr static const std::array tagNameEnds   = {' ', '>'};
-    constexpr static const std::array attrNameEnds  = {' ', '>', '=', '\t', '\r', '\n', '/', '\f'};
-    constexpr static const std::array attrValueEnds = {' ', '\t', '\r', '\n', '\f', '>'};
-    constexpr static const std::array spaceChars    = {' ', '\t', '\r', '\n', '\f'};
-
-    QByteArray data = rawStr.toUtf8();
-    QByteArray buffer;
-    const int length = data.size();
-    buffer.reserve(length);
-    const auto end = data.cend();
-    for (auto pos = data.cbegin(); pos < end;) {
-        auto tagStart = std::find(pos, end, '<');
-        buffer.append(pos, static_cast<int>(tagStart - pos));
-        if (tagStart == end)
-            break;
-
-        const auto tagNameStart = tagStart + 1;
-        const auto tagNameEnd =
-          std::find_first_of(tagNameStart, end, tagNameEnds.begin(), tagNameEnds.end());
-
-        const auto tagName =
-          QByteArray(tagNameStart, static_cast<int>(tagNameEnd - tagNameStart)).toLower();
-
-        if (allowedTags.find(tagName) == allowedTags.end()) {
-            // not allowed -> escape
-            buffer.append("&lt;");
-            pos = tagNameStart;
-            continue;
-        } else {
-            buffer.append(tagStart, static_cast<int>(tagNameEnd - tagStart));
-
-            pos = tagNameEnd;
-
-            if (tagNameEnd != end) {
-                auto attrStart = tagNameEnd;
-                auto attrsEnd  = std::find(attrStart, end, '>');
-                // we don't want to consume the slash of self closing tags as part of an attribute.
-                // However, obviously we don't want to move backwards, if there are no attributes.
-                if (*(attrsEnd - 1) == '/' && attrStart < attrsEnd)
-                    attrsEnd -= 1;
-
-                pos = attrsEnd;
-
-                auto consumeSpaces = [attrsEnd](auto p) {
-                    while (p < attrsEnd &&
-                           std::find(spaceChars.begin(), spaceChars.end(), *p) != spaceChars.end())
-                        p++;
-                    return p;
-                };
-
-                attrStart = consumeSpaces(attrStart);
-
-                while (attrStart < attrsEnd) {
-                    auto attrEnd = std::find_first_of(
-                      attrStart, attrsEnd, attrNameEnds.begin(), attrNameEnds.end());
-
-                    auto attrName =
-                      QByteArray(attrStart, static_cast<int>(attrEnd - attrStart)).toLower();
-
-                    auto sanitizeValue = [&attrName, tagName](QByteArray val) {
-                        if (tagName == QByteArrayLiteral("del") ||
-                            (attrName == QByteArrayLiteral("src") && !val.startsWith("mxc://")))
-                            return QByteArray();
-                        else
-                            return val;
-                    };
-
-                    attrStart = consumeSpaces(attrEnd);
-
-                    if (attrName.isEmpty()) {
-                        buffer.append(QUrl::toPercentEncoding(QString(QByteArray(attrStart, 1))));
-                        attrStart++;
-                        continue;
-                    } else if (attrStart < attrsEnd) {
-                        if (*attrStart == '=') {
-                            attrStart = consumeSpaces(attrStart + 1);
-
-                            if (attrStart < attrsEnd) {
-                                // we fall through here if the value is empty to transform attr=""
-                                // into attr, because otherwise we can't style it
-                                if (*attrStart == '"') {
-                                    attrStart += 1;
-                                    auto valueEnd = std::find(attrStart, attrsEnd, '"');
-                                    if (valueEnd == attrsEnd)
-                                        break;
-
-                                    auto val  = sanitizeValue(QByteArray(
-                                      attrStart, static_cast<int>(valueEnd - attrStart)));
-                                    attrStart = consumeSpaces(valueEnd + 1);
-                                    if (!val.isEmpty()) {
-                                        buffer.append(' ');
-                                        buffer.append(attrName);
-                                        buffer.append("=\"");
-                                        buffer.append(val);
-                                        buffer.append('"');
-                                        continue;
-                                    }
-                                } else if (*attrStart == '\'') {
-                                    attrStart += 1;
-                                    auto valueEnd = std::find(attrStart, attrsEnd, '\'');
-                                    if (valueEnd == attrsEnd)
-                                        break;
-
-                                    auto val  = sanitizeValue(QByteArray(
-                                      attrStart, static_cast<int>(valueEnd - attrStart)));
-                                    attrStart = consumeSpaces(valueEnd + 1);
-                                    if (!val.isEmpty()) {
-                                        buffer.append(' ');
-                                        buffer.append(attrName);
-                                        buffer.append("=\'");
-                                        buffer.append(val);
-                                        buffer.append('\'');
-                                        continue;
-                                    }
-                                } else {
-                                    auto valueEnd = std::find_first_of(attrStart,
-                                                                       attrsEnd,
-                                                                       attrValueEnds.begin(),
-                                                                       attrValueEnds.end());
-                                    auto val      = sanitizeValue(QByteArray(
-                                      attrStart, static_cast<int>(valueEnd - attrStart)));
-                                    attrStart     = consumeSpaces(valueEnd);
-
-                                    if (val.contains('"'))
-                                        continue;
-
-                                    buffer.append(' ');
-                                    buffer.append(attrName);
-                                    buffer.append("=\"");
-                                    buffer.append(val);
-                                    buffer.append('"');
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-
-                    // We don't really want tags on del tags and they make replacement in the
-                    // frontend more expansive
-                    if (tagName != QByteArrayLiteral("del")) {
-                        buffer.append(' ');
-                        buffer.append(attrName);
-                    }
-                }
-            }
-        }
-    }
-
-    return QString::fromUtf8(buffer);
+    return timeline::formattedmessage::sanitizeHtml(rawStr);
 }
 
 static void

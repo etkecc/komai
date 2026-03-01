@@ -25,6 +25,7 @@ Primary callsites:
 
 - `src/timeline/TimelineModel.cpp`
 - `src/Utils.cpp` (`escapeBlacklistedHtml`, `linkifyMessage`)
+- `src/timeline/formattedmessage/HtmlProcessor.cpp` (implementation for sanitization/linkification)
 - `resources/qml/ui/MatrixText.qml`
 
 ## Code Highlighting: What Uses Which Library
@@ -74,6 +75,14 @@ Current guardrails in `FormattedCodeBlockHighlighter` include:
 On guardrail breach or malformed structure, processing falls back to original HTML/block content.
 
 Code content emitted by the highlighter is HTML-escaped before span styling.
+
+For formatted-message HTML preparation:
+
+- Sanitization uses explicit allowlists for tags and tag-specific attributes.
+- `href` and `src` values are scheme-filtered (`a[href]` allows web/mail/magnet schemes; `img[src]` is restricted to `mxc://`).
+- `mx-reply` fallback blocks are stripped from formatted HTML.
+- Tag nesting depth is capped.
+- Linkification runs on HTML text segments only (not inside tag attributes or inside `<a>`, `<pre>`, `<code>` content).
 
 ## Settings
 

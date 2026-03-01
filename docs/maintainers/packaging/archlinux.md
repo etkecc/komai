@@ -20,10 +20,6 @@ The PKGBUILD is modeled after the [official nheko PKGBUILD](https://gitlab.archl
 | `build()` | `cmake -B build -DCMAKE_INSTALL_PREFIX=/usr -DMAN=OFF && cmake --build build` |
 | `package()` | `DESTDIR="$pkgdir" cmake --install build` |
 
-## Relationship with nheko
-
-The package declares `provides=('nheko')` and `conflicts=('nheko')`, so it acts as a drop-in replacement. Installing Komai will remove nheko if present, and any packages that depend on nheko will be satisfied by Komai.
-
 ## For maintainers
 
 See the [maintainer notes](../../../etc/packaging/archlinux/README.md) for details on updating the PKGBUILD for new releases and differences from the official nheko package.

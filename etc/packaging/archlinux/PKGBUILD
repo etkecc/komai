@@ -45,8 +45,6 @@ optdepends=(
 	'gst-libav: Video messages'
 	'gst-plugin-qml6: Video calls support'
 )
-provides=('nheko')
-conflicts=('nheko')
 source=("git+https://github.com/etkecc/komai.git#tag=v${pkgver}")
 sha256sums=('SKIP')
 

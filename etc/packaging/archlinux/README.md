@@ -22,7 +22,6 @@ The PKGBUILD clones the Komai git repository at a release tag (e.g., `v0.1.0`) a
 | **Man page** | Built with asciidoc | Skipped (`-DMAN=OFF`) |
 | **Binary name** | `nheko` | `komai` |
 | **Extra makedeps** | `ninja`, `asciidoc` | `python` (theme generation at build time) |
-| **`provides`/`conflicts`** | — | `provides=('nheko')`, `conflicts=('nheko')` |
 
 ### Why not Ninja?
 

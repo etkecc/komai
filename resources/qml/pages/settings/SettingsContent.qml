@@ -121,6 +121,7 @@ Item {
                                 Layout.alignment: Qt.AlignTop
                                 Layout.rightMargin: r.useStackedLayout ? 0 : Komai.paddingSmall
                                 color: palette.text
+                                linkColor: palette.highlight
                                 text: r.model.name
                                 textFormat: Text.AutoText
                                 font.pointSize: 1.1 * Settings.uiFontSizePt

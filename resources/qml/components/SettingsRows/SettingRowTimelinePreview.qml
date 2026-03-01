@@ -5,10 +5,8 @@
 import "../../timeline/styles/bubble"
 import "../../timeline/styles/plain"
 import "../../composer" as Composer
-import ".."
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
 import QtQuick.Window
 import cc.etke.komai
 
@@ -91,7 +89,7 @@ Item {
             notificationlevel: MtxEvent.Empty,
             reactions: [],
             replyTo: "",
-            room: previewRoom,
+            room: previewRuntime.room,
             status: MtxEvent.Empty,
             threadId: "",
             timestamp: root.previewTsAlice,
@@ -116,7 +114,7 @@ Item {
             notificationlevel: MtxEvent.Empty,
             reactions: [],
             replyTo: "",
-            room: previewRoom,
+            room: previewRuntime.room,
             status: MtxEvent.Empty,
             threadId: "",
             timestamp: root.previewTsBob,
@@ -149,7 +147,7 @@ Item {
                 }
             ],
             replyTo: "",
-            room: previewRoom,
+            room: previewRuntime.room,
             status: root.previewOwnMessageStatus,
             threadId: "",
             timestamp: root.previewTsYou,
@@ -163,121 +161,13 @@ Item {
         }
     ]
 
-    QtObject {
-        id: previewPermissions
+    SettingRowTimelinePreviewRuntime {
+        id: previewRuntime
 
-        function canSend(_eventType) {
-            return true;
-        }
-
-        function changeLevel(_eventType) {
-            return 100;
-        }
-
-        function redactLevel() {
-            return 50;
-        }
-
-        function defaultLevel() {
-            return 0;
-        }
-    }
-
-    QtObject {
-        id: previewInput
-
-        function reaction(_eventId, _key) {
-        }
-    }
-
-    QtObject {
-        id: previewRoom
-
-        property string edit: ""
-        property string fullyReadEventId: "$preview-2"
-        property var input: previewInput
-        property bool isEncrypted: false
-        property var permissions: previewPermissions
-        property string reply: ""
-        property string roomId: "!timeline-preview:example.org"
-        property int roomMemberCount: 8
-        property string thread: ""
-        property var typingUsers: root.previewTypingUsers
-
-        signal roomAvatarUrlChanged()
-
-        function formatDateSeparator(timestamp) {
-            return Qt.formatDate(timestamp, "ddd, MMM d");
-        }
-
-        function formatLaterSeparator(_previous, timestamp) {
-            return Qt.formatTime(timestamp, "hh:mm");
-        }
-
-        function formatTypingUsers(users, _bg, _accent) {
-            if (!users || users.length === 0)
-                return "";
-            if (users.length === 1)
-                return qsTr("%1 is typing…").arg(users[0]);
-            if (users.length === 2)
-                return qsTr("%1 and %2 are typing…").arg(users[0]).arg(users[1]);
-            return qsTr("%1, %2 and %3 others are typing…").arg(users[0]).arg(users[1]).arg(users.length - 2);
-        }
-
-        function avatarUrl(_userId) {
-            if (_userId == root.previewYouUserId || _userId == root.previewFallbackYouUserId) {
-                const profile = Komai.currentUser;
-                if (profile && profile.avatarUrl && profile.avatarUrl.length > 0)
-                    return profile.avatarUrl;
-                return root.previewFallbackAvatarUrl;
-            }
-            return "";
-        }
-
-        function openUserProfile(_userId) {
-        }
-
-        function showEvent(_eventId) {
-        }
-
-        function eventShown() {
-        }
-    }
-
-    Connections {
-        target: Komai
-
-        function onProfileChanged() {
-            previewRoom.roomAvatarUrlChanged();
-        }
-    }
-
-    Connections {
-        target: Komai.currentUser
-
-        function onAvatarUrlChanged() {
-            previewRoom.roomAvatarUrlChanged();
-        }
-    }
-
-    QtObject {
-        id: messageContextMenuC
-
-        function show(_eventId, _threadId, _type, _isSender, _isEncrypted, _isEditable, _hoveredLink, _copyText) {
-        }
-
-        function close() {
-        }
-    }
-
-    QtObject {
-        id: replyContextMenuC
-
-        function show(_copyText, _link, _replyTo) {
-        }
-
-        function close() {
-        }
+        previewFallbackAvatarUrl: root.previewFallbackAvatarUrl
+        previewFallbackYouUserId: root.previewFallbackYouUserId
+        previewTypingUsers: root.previewTypingUsers
+        previewYouUserId: root.previewYouUserId
     }
 
     Rectangle {
@@ -291,36 +181,14 @@ Item {
         implicitHeight: Math.max(root.previewFrameMinHeight, Math.min(root.previewFrameMaxHeight, root.previewFrameDesiredHeight))
         radius: Komai.paddingMedium
 
-        Rectangle {
+        SettingRowTimelinePreviewHeader {
             id: previewHeader
 
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            color: palette.alternateBase
-            implicitHeight: previewHeaderLabel.implicitHeight + 2 * Komai.paddingSmall
-            radius: timelinePreviewFrame.radius
-
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: parent.radius
-                color: parent.color
-            }
-
-            Label {
-                id: previewHeaderLabel
-
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: Komai.paddingMedium
-                anchors.rightMargin: Komai.paddingMedium
-                color: palette.text
-                font.bold: true
-                text: qsTr("Timeline preview")
-            }
+            frameRadius: timelinePreviewFrame.radius
+            text: qsTr("Timeline preview")
         }
 
         ListView {
@@ -356,9 +224,9 @@ Item {
                 TimelinePlainMessageStyle {
                     required property var modelData
                     messageActions: messageActionsC
-                    messageContextMenu: messageContextMenuC
+                    messageContextMenu: previewRuntime.messageContextMenu
                     previewData: modelData
-                    replyContextMenu: replyContextMenuC
+                    replyContextMenu: previewRuntime.replyContextMenu
                     scrolledToThis: false
                 }
             }
@@ -369,9 +237,9 @@ Item {
                 TimelineBubbleMessageStyle {
                     required property var modelData
                     messageActions: messageActionsC
-                    messageContextMenu: messageContextMenuC
+                    messageContextMenu: previewRuntime.messageContextMenu
                     previewData: modelData
-                    replyContextMenu: replyContextMenuC
+                    replyContextMenu: previewRuntime.replyContextMenu
                     scrolledToThis: false
                 }
             }
@@ -402,179 +270,10 @@ Item {
             onClicked: messageActionsC.dismiss()
         }
 
-        Control {
+        SettingRowTimelinePreviewMessageActions {
             id: messageActionsC
 
-            property Item attached: null
-            property var model: null
-            property bool pinned: false
-
-            function dismiss() {
-                pinned = false;
-                attached = null;
-            }
-
-            hoverEnabled: true
-            padding: Komai.paddingSmall
-            visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover)
-            z: 10
             parent: timelinePreviewFrame
-
-            background: Rectangle {
-                border.color: palette.buttonText
-                border.width: 1
-                color: palette.window
-                radius: messageActionsC.padding
-            }
-
-            contentItem: RowLayout {
-                id: actionRow
-
-                property int itemPadding: Math.round(messageActionsC.padding / 2)
-                property var pinnedReactions: Settings.timelineMessageActionsPinnedReactions
-                    .split(",")
-                    .map(function (s) { return s.trim(); })
-                    .filter(function (s) { return s.length > 0; })
-                    .slice(0, 10)
-
-                spacing: 0
-
-                Repeater {
-                    model: actionRow.pinnedReactions
-
-                    delegate: ToolButton {
-                        id: pinnedReactionButton
-
-                        required property string modelData
-
-                        Layout.preferredHeight: 32
-                        Layout.preferredWidth: Math.max(32, emojiLabel.implicitWidth + 2 * actionRow.itemPadding)
-                        focusPolicy: Qt.NoFocus
-                        hoverEnabled: true
-                        leftPadding: actionRow.itemPadding
-                        rightPadding: actionRow.itemPadding
-
-                        onClicked: messageActionsC.dismiss()
-                        onHoveredChanged: {
-                            if (hovered)
-                                pinnedReactionPulse.pulse();
-                        }
-
-                        contentItem: Label {
-                            id: emojiLabel
-
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: modelData
-                            font.pixelSize: 24
-                            font.family: Settings.uiFontEmojiFamily
-                        }
-
-                        HoverPulseAnimation {
-                            id: pinnedReactionPulse
-
-                            targetItem: pinnedReactionButton
-                        }
-                    }
-                }
-
-                Rectangle {
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: 1
-                    Layout.leftMargin: Komai.paddingSmall
-                    Layout.rightMargin: Komai.paddingSmall
-                    color: palette.mid
-                }
-
-                ToolButton {
-                    id: reactButton
-
-                    ToolTip.delay: Komai.tooltipDelay
-                    ToolTip.text: qsTr("React")
-                    ToolTip.visible: hovered
-                    focusPolicy: Qt.NoFocus
-                    hoverEnabled: true
-                    text: "\u263A"
-                    onClicked: messageActionsC.dismiss()
-                    onHoveredChanged: {
-                        if (hovered)
-                            reactPulse.pulse();
-                    }
-
-                    HoverPulseAnimation {
-                        id: reactPulse
-
-                        targetItem: reactButton
-                    }
-                }
-
-                ToolButton {
-                    id: editButton
-
-                    ToolTip.delay: Komai.tooltipDelay
-                    ToolTip.text: qsTr("Edit")
-                    ToolTip.visible: hovered
-                    focusPolicy: Qt.NoFocus
-                    hoverEnabled: true
-                    text: "\u270E"
-                    visible: !!messageActionsC.model && messageActionsC.model.isEditable
-                    onClicked: messageActionsC.dismiss()
-                    onHoveredChanged: {
-                        if (hovered)
-                            editPulse.pulse();
-                    }
-
-                    HoverPulseAnimation {
-                        id: editPulse
-
-                        targetItem: editButton
-                    }
-                }
-
-                ToolButton {
-                    id: replyButton
-
-                    ToolTip.delay: Komai.tooltipDelay
-                    ToolTip.text: qsTr("Reply")
-                    ToolTip.visible: hovered
-                    focusPolicy: Qt.NoFocus
-                    hoverEnabled: true
-                    text: "\u21A9"
-                    onClicked: messageActionsC.dismiss()
-                    onHoveredChanged: {
-                        if (hovered)
-                            replyPulse.pulse();
-                    }
-
-                    HoverPulseAnimation {
-                        id: replyPulse
-
-                        targetItem: replyButton
-                    }
-                }
-
-                ToolButton {
-                    id: optionsButton
-
-                    ToolTip.delay: Komai.tooltipDelay
-                    ToolTip.text: qsTr("Options")
-                    ToolTip.visible: hovered
-                    focusPolicy: Qt.NoFocus
-                    hoverEnabled: true
-                    text: "\u22EF"
-                    onClicked: messageActionsC.dismiss()
-                    onHoveredChanged: {
-                        if (hovered)
-                            optionsPulse.pulse();
-                    }
-
-                    HoverPulseAnimation {
-                        id: optionsPulse
-
-                        targetItem: optionsButton
-                    }
-                }
-            }
         }
 
         Composer.TypingIndicator {
@@ -586,42 +285,18 @@ Item {
             anchors.leftMargin: Komai.paddingMedium
             anchors.rightMargin: Komai.paddingMedium
             anchors.bottomMargin: Komai.paddingSmall
-            room: previewRoom
+            room: previewRuntime.room
             visible: Settings.timelineTypingShowEnabled
         }
 
-        Rectangle {
+        SettingRowTimelinePreviewFooter {
             id: previewFooter
 
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            color: palette.alternateBase
-            implicitHeight: previewFooterLabel.implicitHeight + 2 * Komai.paddingSmall
-            radius: timelinePreviewFrame.radius
-
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                color: parent.color
-                height: parent.radius
-            }
-
-            Label {
-                id: previewFooterLabel
-
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: Komai.paddingMedium
-                anchors.rightMargin: Komai.paddingMedium
-                color: palette.text
-                font.pointSize: 0.92 * Settings.uiFontSizePt
-                text: root.previewFooterText
-                textFormat: Text.RichText
-                wrapMode: Text.Wrap
-            }
+            frameRadius: timelinePreviewFrame.radius
+            text: root.previewFooterText
         }
     }
 

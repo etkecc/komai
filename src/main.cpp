@@ -491,7 +491,7 @@ main(int argc, char *argv[])
                            QStringLiteral(":/translations")))
         app.installTranslator(&appTranslator);
     else
-        qDebug() << "Failed to load nheko translations";
+        qDebug() << "Failed to load Komai translations";
 
     MainWindow w(nullptr);
     // QQuickView w;

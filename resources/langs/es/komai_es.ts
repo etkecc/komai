@@ -2198,7 +2198,7 @@ Ejemplo: https://suservidor.ejemplo.com:8787</translation>
     </message>
 </context>
 <context>
-    <name>Nheko</name>
+    <name>Komai</name>
     <message>
         <location filename="../../../src/ui/KomaiGlobalObject.h" line="+53"/>
         <source>A fine desktop Matrix chat app you can get to love</source>
@@ -2640,7 +2640,7 @@ Ejemplo: https://suservidor.ejemplo.com:8787</translation>
     <name>QCoreApplication</name>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
-        <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of nheko.</source>
+        <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
         <translation>Cree un perfil único que le permita iniciar sesión en varias cuentas al mismo tiempo e iniciar varias instancias de nheko.</translation>
     </message>
     <message>

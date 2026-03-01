@@ -2192,7 +2192,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     </message>
 </context>
 <context>
-    <name>Nheko</name>
+    <name>Komai</name>
     <message>
         <location filename="../../../src/ui/KomaiGlobalObject.h" line="+53"/>
         <source>A fine desktop Matrix chat app you can get to love</source>
@@ -2634,7 +2634,7 @@ Näide: https://sinuserver.domeen.com:8787</translation>
     <name>QCoreApplication</name>
     <message>
         <location filename="../../../src/main.cpp" line="+220"/>
-        <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of nheko.</source>
+        <source>Create a unique profile which allows you to log into several accounts at the same time and start multiple instances of Komai.</source>
         <translation>Loo unikaalne kasutajaprofiil, mis võimaldab samaaegselt sisse logide mitmele Matrixi kontole ja avada vastavalt mitu nheko rakenduse akent.</translation>
     </message>
     <message>

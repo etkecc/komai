@@ -22,7 +22,7 @@ if(UNIX AND NOT APPLE)
 else()
     option(MAN "Build man page" OFF)
 endif()
-option(FLATPAK "Set this only if Nheko is built as a flatpak" OFF)
+option(FLATPAK "Set this only if Komai is built as a flatpak" OFF)
 option(JSON_ImplicitConversions "Disable implicit conversions in nlohmann/json" ON)
 
 set(

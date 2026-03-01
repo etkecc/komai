@@ -37,6 +37,8 @@ ItemDelegate {
     required property string time
     required property bool isEncrypted
     readonly property bool isSelected: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
+    readonly property bool isLowPriorityRoom: !!tags && tags.indexOf && tags.indexOf("m.lowpriority") !== -1
+    readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification)
     property int hoverPrewarmDelayMs: 180
     property color unimportantText: palette.buttonText
     ToolTip.delay: Komai.tooltipDelay
@@ -57,7 +59,7 @@ ItemDelegate {
         Rectangle {
             anchors.fill: parent
             color: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
-            visible: hasUnreadMessages && roomItem.state !== "selected"
+            visible: roomItem.emphasizeUnreadState && roomItem.state !== "selected"
         }
     }
     states: [
@@ -183,7 +185,7 @@ ItemDelegate {
             isSpace: roomItem.isSpace
             isInvite: roomItem.isInvite
             isEncrypted: roomItem.isEncrypted
-            hasUnreadMessages: roomItem.hasUnreadMessages
+            hasUnreadMessages: roomItem.emphasizeUnreadState
             hasLoudNotification: roomItem.hasLoudNotification
             notificationCount: roomItem.notificationCount
             avatarHeight: avatar.height
@@ -209,7 +211,7 @@ ItemDelegate {
         anchors.verticalCenter: parent.verticalCenter
         color: palette.highlight
         height: parent.height - Komai.paddingSmall * 2
-        visible: hasUnreadMessages
+        visible: roomItem.emphasizeUnreadState
         width: 6
         radius: 3
     }

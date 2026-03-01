@@ -89,9 +89,9 @@ Access via `palette.*` in QML:
 - `palette.text` -- Primary text
 - `palette.buttonText` -- Secondary/dimmed text
 
-Access via `Nheko.theme.*`:
-- `Nheko.theme.red` -- Error/loud notification color
-- `Nheko.paddingSmall` (4px), `Nheko.paddingMedium` (8px)
+Access via `Komai.theme.*`:
+- `Komai.theme.red` -- Error/loud notification color
+- `Komai.paddingSmall` (4px), `Komai.paddingMedium` (8px)
 
 
 ## Design Philosophy

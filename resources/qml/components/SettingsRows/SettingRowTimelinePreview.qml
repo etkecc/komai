@@ -10,7 +10,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -19,11 +19,11 @@ Item {
     readonly property int previewFrameHardMaxHeight: 680
     readonly property int previewFrameSoftMaxHeight: Math.max(360, Math.floor(((Window.window ? Window.window.height : 900) * 45) / 100))
     readonly property int previewFrameMaxHeight: Math.max(previewFrameMinHeight, Math.min(previewFrameHardMaxHeight, previewFrameSoftMaxHeight))
-    readonly property int previewFrameVerticalPadding: Nheko.paddingMedium * 2
+    readonly property int previewFrameVerticalPadding: Komai.paddingMedium * 2
     readonly property var previewTypingUsers: Settings.timelineTypingShowEnabled ? [qsTr("Alice"), qsTr("Bob")] : []
-    readonly property int previewTypingIndicatorHeight: (Settings.timelineTypingShowEnabled && previewTypingUsers.length > 0) ? (previewTypingIndicator.implicitHeight + Nheko.paddingSmall) : 0
-    readonly property int previewHeaderHeight: previewHeader.implicitHeight + Nheko.paddingSmall
-    readonly property int previewFooterHeight: previewFooter.implicitHeight + Nheko.paddingSmall
+    readonly property int previewTypingIndicatorHeight: (Settings.timelineTypingShowEnabled && previewTypingUsers.length > 0) ? (previewTypingIndicator.implicitHeight + Komai.paddingSmall) : 0
+    readonly property int previewHeaderHeight: previewHeader.implicitHeight + Komai.paddingSmall
+    readonly property int previewFooterHeight: previewFooter.implicitHeight + Komai.paddingSmall
     readonly property int previewFrameDesiredHeight: Math.ceil(previewHeaderHeight + previewFooterHeight + chat.contentHeight + chat.topMargin + chat.bottomMargin + previewFrameVerticalPadding + previewTypingIndicatorHeight)
     implicitHeight: timelinePreviewFrame.implicitHeight
     implicitWidth: parent ? parent.width : 700
@@ -32,13 +32,13 @@ Item {
     readonly property string previewKomaiLabel: "Komai"
     readonly property string previewMatrixLabel: "Matrix"
     readonly property string previewFallbackYouUserId: "@you:example.com"
-    readonly property string previewYouUserId: (Nheko.currentUser && Nheko.currentUser.userid) ? Nheko.currentUser.userid : previewFallbackYouUserId
+    readonly property string previewYouUserId: (Komai.currentUser && Komai.currentUser.userid) ? Komai.currentUser.userid : previewFallbackYouUserId
     readonly property string previewFallbackAvatarUrl: "qrc:/logos/komai.svg"
     readonly property string previewLookFeelLabel: qsTr("Look & Feel")
     readonly property string previewFooterText: qsTr("This semi-functional preview shows how settings from the <b>%1</b> tab and those below affect the timeline.")
         .arg(previewLookFeelLabel)
-    readonly property string previewYouAvatarUrl: (Nheko.currentUser && Nheko.currentUser.avatarUrl && Nheko.currentUser.avatarUrl.length > 0)
-        ? Nheko.currentUser.avatarUrl
+    readonly property string previewYouAvatarUrl: (Komai.currentUser && Komai.currentUser.avatarUrl && Komai.currentUser.avatarUrl.length > 0)
+        ? Komai.currentUser.avatarUrl
         : previewFallbackAvatarUrl
     readonly property string previewAliceTemplate: qsTr("I just stumbled upon %1 - finally, a %2 chat app that I really like! 🦁")
     readonly property string previewAliceBody: previewAliceTemplate.arg(previewKomaiLabel).arg(previewMatrixLabel)
@@ -226,7 +226,7 @@ Item {
 
         function avatarUrl(_userId) {
             if (_userId == root.previewYouUserId || _userId == root.previewFallbackYouUserId) {
-                const profile = Nheko.currentUser;
+                const profile = Komai.currentUser;
                 if (profile && profile.avatarUrl && profile.avatarUrl.length > 0)
                     return profile.avatarUrl;
                 return root.previewFallbackAvatarUrl;
@@ -245,7 +245,7 @@ Item {
     }
 
     Connections {
-        target: Nheko
+        target: Komai
 
         function onProfileChanged() {
             previewRoom.roomAvatarUrlChanged();
@@ -253,7 +253,7 @@ Item {
     }
 
     Connections {
-        target: Nheko.currentUser
+        target: Komai.currentUser
 
         function onAvatarUrlChanged() {
             previewRoom.roomAvatarUrlChanged();
@@ -289,7 +289,7 @@ Item {
         border.color: palette.mid
         border.width: 1
         implicitHeight: Math.max(root.previewFrameMinHeight, Math.min(root.previewFrameMaxHeight, root.previewFrameDesiredHeight))
-        radius: Nheko.paddingMedium
+        radius: Komai.paddingMedium
 
         Rectangle {
             id: previewHeader
@@ -298,7 +298,7 @@ Item {
             anchors.right: parent.right
             anchors.top: parent.top
             color: palette.alternateBase
-            implicitHeight: previewHeaderLabel.implicitHeight + 2 * Nheko.paddingSmall
+            implicitHeight: previewHeaderLabel.implicitHeight + 2 * Komai.paddingSmall
             radius: timelinePreviewFrame.radius
 
             Rectangle {
@@ -315,8 +315,8 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: Nheko.paddingMedium
-                anchors.rightMargin: Nheko.paddingMedium
+                anchors.leftMargin: Komai.paddingMedium
+                anchors.rightMargin: Komai.paddingMedium
                 color: palette.text
                 font.bold: true
                 text: qsTr("Timeline preview")
@@ -326,22 +326,22 @@ Item {
         ListView {
             id: chat
 
-            property int delegateMaxWidth: Math.max(120, width - 2 * Nheko.paddingMedium - root.previewScrollBarWidth)
+            property int delegateMaxWidth: Math.max(120, width - 2 * Komai.paddingMedium - root.previewScrollBarWidth)
 
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: previewHeader.bottom
             anchors.bottom: previewTypingIndicator.visible ? previewTypingIndicator.top : previewFooter.top
-            anchors.leftMargin: Nheko.paddingMedium
-            anchors.rightMargin: Nheko.paddingMedium
-            anchors.topMargin: Nheko.paddingSmall
-            anchors.bottomMargin: Nheko.paddingSmall
+            anchors.leftMargin: Komai.paddingMedium
+            anchors.rightMargin: Komai.paddingMedium
+            anchors.topMargin: Komai.paddingSmall
+            anchors.bottomMargin: Komai.paddingSmall
             boundsBehavior: Flickable.StopAtBounds
             clip: true
             interactive: contentHeight > height
             model: root.previewEventsModelFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
-            topMargin: Nheko.paddingSmall
-            bottomMargin: Nheko.paddingSmall
+            topMargin: Komai.paddingSmall
+            bottomMargin: Komai.paddingSmall
             spacing: 2
             verticalLayoutDirection: ListView.BottomToTop
 
@@ -415,7 +415,7 @@ Item {
             }
 
             hoverEnabled: true
-            padding: Nheko.paddingSmall
+            padding: Komai.paddingSmall
             visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover)
             z: 10
             parent: timelinePreviewFrame
@@ -481,15 +481,15 @@ Item {
                 Rectangle {
                     Layout.fillHeight: true
                     Layout.preferredWidth: 1
-                    Layout.leftMargin: Nheko.paddingSmall
-                    Layout.rightMargin: Nheko.paddingSmall
+                    Layout.leftMargin: Komai.paddingSmall
+                    Layout.rightMargin: Komai.paddingSmall
                     color: palette.mid
                 }
 
                 ToolButton {
                     id: reactButton
 
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
                     ToolTip.text: qsTr("React")
                     ToolTip.visible: hovered
                     focusPolicy: Qt.NoFocus
@@ -511,7 +511,7 @@ Item {
                 ToolButton {
                     id: editButton
 
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
                     ToolTip.text: qsTr("Edit")
                     ToolTip.visible: hovered
                     focusPolicy: Qt.NoFocus
@@ -534,7 +534,7 @@ Item {
                 ToolButton {
                     id: replyButton
 
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
                     ToolTip.text: qsTr("Reply")
                     ToolTip.visible: hovered
                     focusPolicy: Qt.NoFocus
@@ -556,7 +556,7 @@ Item {
                 ToolButton {
                     id: optionsButton
 
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
                     ToolTip.text: qsTr("Options")
                     ToolTip.visible: hovered
                     focusPolicy: Qt.NoFocus
@@ -583,9 +583,9 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: previewFooter.top
-            anchors.leftMargin: Nheko.paddingMedium
-            anchors.rightMargin: Nheko.paddingMedium
-            anchors.bottomMargin: Nheko.paddingSmall
+            anchors.leftMargin: Komai.paddingMedium
+            anchors.rightMargin: Komai.paddingMedium
+            anchors.bottomMargin: Komai.paddingSmall
             room: previewRoom
             visible: Settings.timelineTypingShowEnabled
         }
@@ -597,7 +597,7 @@ Item {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             color: palette.alternateBase
-            implicitHeight: previewFooterLabel.implicitHeight + 2 * Nheko.paddingSmall
+            implicitHeight: previewFooterLabel.implicitHeight + 2 * Komai.paddingSmall
             radius: timelinePreviewFrame.radius
 
             Rectangle {
@@ -614,8 +614,8 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: Nheko.paddingMedium
-                anchors.rightMargin: Nheko.paddingMedium
+                anchors.leftMargin: Komai.paddingMedium
+                anchors.rightMargin: Komai.paddingMedium
                 color: palette.text
                 font.pointSize: 0.92 * Settings.uiFontSizePt
                 text: root.previewFooterText
@@ -625,5 +625,5 @@ Item {
         }
     }
 
-    readonly property int previewScrollBarWidth: previewScrollBar.visible ? ((previewScrollBar.width > 0 ? previewScrollBar.width : previewScrollBar.implicitWidth) + Nheko.paddingSmall) : 0
+    readonly property int previewScrollBarWidth: previewScrollBar.visible ? ((previewScrollBar.width > 0 ? previewScrollBar.width : previewScrollBar.implicitWidth) + Komai.paddingSmall) : 0
 }

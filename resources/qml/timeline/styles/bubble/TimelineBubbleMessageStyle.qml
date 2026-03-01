@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 import "../../../components"
 
 TimelineMessageStyleBase {
@@ -25,7 +25,7 @@ TimelineMessageStyleBase {
     property bool styleShowFileMessageBackground: false
     property bool styleShowEncryptedMessageBackground: false
 
-    property int messageBubblePadding: Nheko.paddingMedium
+    property int messageBubblePadding: Komai.paddingMedium
     property int messageBubbleHorizontalPadding: messageBubblePadding
     property int messageBubbleVerticalPadding: messageBubblePadding
     property int messageBubbleRadius: 8
@@ -34,15 +34,15 @@ TimelineMessageStyleBase {
     property bool reserveAvatarRowHeight: false
 
     property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
-    property int avatarMargin: (shouldShowMessageAvatar ? (Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
+    property int avatarMargin: (shouldShowMessageAvatar ? (Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
     property bool avatarIsOnRight: wrapper.messageIsRightAligned
 
     property alias hovered: messageHover.hovered
 
-    mainInset: threadId ? (4 + Nheko.paddingSmall) : 0
-    replyInset: mainInset + 4 + Nheko.paddingMedium + Nheko.paddingMedium
+    mainInset: threadId ? (4 + Komai.paddingSmall) : 0
+    replyInset: mainInset + 4 + Komai.paddingMedium + Komai.paddingMedium
 
-    property int bubbleMargin: Math.max(metadataOuter.width + Nheko.paddingMedium, Math.round((chat.delegateMaxWidth - avatarMargin) * 0.15))
+    property int bubbleMargin: Math.max(metadataOuter.width + Komai.paddingMedium, Math.round((chat.delegateMaxWidth - avatarMargin) * 0.15))
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - bubbleMargin
     hoverDismissTimerRef: hoverDismissTimer
@@ -134,14 +134,14 @@ TimelineMessageStyleBase {
         Avatar {
             id: messageUserAvatar
 
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: wrapper.userId
             ToolTip.visible: messageUserAvatar.hovered
             displayName: wrapper.userName
-            height: Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
+            height: Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
             url: wrapper.avatarImageUrl(wrapper.userId)
             userid: wrapper.userId
-            width: Nheko.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
+            width: Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
 
             visible: wrapper.shouldShowMessageAvatar
             opacity: wrapper.startsNewMessageGroup ? 1.0 : 0.0
@@ -207,7 +207,7 @@ TimelineMessageStyleBase {
 
                     Column {
                         id: contentColumn
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -216,10 +216,10 @@ TimelineMessageStyleBase {
                             id: replyRow
                             visible: wrapper.replyTo
 
-                            leftPadding: Nheko.paddingMedium + 4
-                            rightPadding: Nheko.paddingMedium
-                            topPadding: Nheko.paddingMedium
-                            bottomPadding: Nheko.paddingMedium
+                            leftPadding: Komai.paddingMedium + 4
+                            rightPadding: Komai.paddingMedium
+                            topPadding: Komai.paddingMedium
+                            bottomPadding: Komai.paddingMedium
 
                             anchors.left: parent.left
                             anchors.right: parent.right
@@ -235,7 +235,7 @@ TimelineMessageStyleBase {
                                 return (typeof delegateUserId === "string") ? delegateUserId : "";
                             }
                             property bool isReplyFromCurrentUser: {
-                                const currentUser = Nheko.currentUser;
+                                const currentUser = Komai.currentUser;
                                 const currentUserId = (currentUser && currentUser.userid)
                                         ? String(currentUser.userid)
                                         : "";
@@ -250,7 +250,7 @@ TimelineMessageStyleBase {
 
                             clip: true
 
-                            NhekoCursorShape {
+                            KomaiCursorShape {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                             }
@@ -286,7 +286,7 @@ TimelineMessageStyleBase {
                             background: Rectangle {
                                 //width: replyRow.implicitContentWidth
                                 color: Qt.tint(palette.base, Qt.hsla(replyRow.roomColor.hslHue, 0.5, replyRow.roomColor.hslLightness, 0.1))
-                                radius: Nheko.paddingMedium
+                                radius: Komai.paddingMedium
                                 clip: true
                                 Rectangle {
                                     anchors.top: parent.top
@@ -303,7 +303,7 @@ TimelineMessageStyleBase {
                             onClicked: {
                                 let link = wrapper.reply.hoveredLink
                                 if (link) {
-                                    Nheko.openLink(link)
+                                    Komai.openLink(link)
                                 } else {
                                     console.log("Scrolling to "+wrapper.replyTo);
                                     if (wrapper.room) {
@@ -348,7 +348,7 @@ TimelineMessageStyleBase {
                             : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2)))
                         : "transparent"
                     radius: wrapper.messageBubbleRadius
-                    border.color: Nheko.theme.red
+                    border.color: Komai.theme.red
                     border.width: wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
                 }
             }
@@ -367,8 +367,8 @@ TimelineMessageStyleBase {
                 anchors.left: undefined
                 anchors.right: undefined
                 x: Math.round(wrapper.messageIsRightAligned
-                    ? (messageBubble.x - width - Nheko.paddingSmall)
-                    : (messageBubble.x + messageBubble.width + Nheko.paddingSmall))
+                    ? (messageBubble.x - width - Komai.paddingSmall)
+                    : (messageBubble.x + messageBubble.width + Komai.paddingSmall))
 
                 eventId: wrapper.eventId
                 status: wrapper.status
@@ -455,7 +455,7 @@ TimelineMessageStyleBase {
         Item {
             id: unreadRow
 
-            height: visible ? (3 + Nheko.paddingSmall) : 0
+            height: visible ? (3 + Komai.paddingSmall) : 0
             visible: wrapper.hasRoom && (wrapper.index > 0 && (wrapper.room.fullyReadEventId == wrapper.eventId))
 
             anchors {

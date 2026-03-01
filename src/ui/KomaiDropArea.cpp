@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "NhekoDropArea.h"
+#include "KomaiDropArea.h"
 
 #include <QMimeData>
 
@@ -13,26 +13,26 @@
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 
-NhekoDropArea::NhekoDropArea(QQuickItem *parent)
+KomaiDropArea::KomaiDropArea(QQuickItem *parent)
   : QQuickItem(parent)
 {
     setFlags(ItemAcceptsDrops);
 }
 
 void
-NhekoDropArea::dragEnterEvent(QDragEnterEvent *event)
+KomaiDropArea::dragEnterEvent(QDragEnterEvent *event)
 {
     event->acceptProposedAction();
 }
 
 void
-NhekoDropArea::dragMoveEvent(QDragMoveEvent *event)
+KomaiDropArea::dragMoveEvent(QDragMoveEvent *event)
 {
     event->acceptProposedAction();
 }
 
 void
-NhekoDropArea::dropEvent(QDropEvent *event)
+KomaiDropArea::dropEvent(QDropEvent *event)
 {
     if (event) {
         auto model = ChatPage::instance()->timelineManager()->rooms()->getRoomById(roomid_);
@@ -43,4 +43,4 @@ NhekoDropArea::dropEvent(QDropEvent *event)
     }
 }
 
-#include "moc_NhekoDropArea.cpp"
+#include "moc_KomaiDropArea.cpp"

@@ -6,18 +6,18 @@
 import QtQml
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Page {
     id: communitySidebar
 
-    //leftPadding: Nheko.paddingSmall
-    //rightPadding: Nheko.paddingSmall
-    property int avatarSize: Nheko.listIconSize
+    //leftPadding: Komai.paddingSmall
+    //rightPadding: Komai.paddingSmall
+    property int avatarSize: Komai.listIconSize
     property bool collapsed: false
 
     background: Rectangle {
-        color: Nheko.theme.sidebarBackground
+        color: Komai.theme.sidebarBackground
     }
 
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu

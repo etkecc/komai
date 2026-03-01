@@ -9,7 +9,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     id: allowedDialog
@@ -31,7 +31,7 @@ ApplicationWindow {
     }
 
     ColumnLayout {
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
         spacing: 0
 
@@ -42,7 +42,7 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: false
             color: palette.text
-            Layout.bottomMargin: Nheko.paddingMedium
+            Layout.bottomMargin: Komai.paddingMedium
         }
 
         ListView {
@@ -103,8 +103,8 @@ ApplicationWindow {
                 completerName: "room"
                 bottomToTop: true
                 fullWidth: true
-                avatarHeight: Nheko.avatarSize / 2
-                avatarWidth: Nheko.avatarSize / 2
+                avatarHeight: Komai.avatarSize / 2
+                avatarWidth: Komai.avatarSize / 2
                 centerRowContent: false
                 rowMargin: 2
                 rowSpacing: 2

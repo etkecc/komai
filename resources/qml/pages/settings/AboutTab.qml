@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 SettingsContent {
     id: aboutTab
@@ -17,9 +17,9 @@ SettingsContent {
     headerContent: Component {
         ColumnLayout {
             Layout.fillWidth: true
-            Layout.topMargin: Nheko.paddingLarge
-            Layout.bottomMargin: Nheko.paddingMedium
-            spacing: Nheko.paddingSmall
+            Layout.topMargin: Komai.paddingLarge
+            Layout.bottomMargin: Komai.paddingMedium
+            spacing: Komai.paddingSmall
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
@@ -51,7 +51,7 @@ SettingsContent {
                 Layout.fillWidth: true
                 textFormat: Text.RichText
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                      Nheko.taglineTemplate.arg("<a href=\"" + aboutTab.matrixUrl + "\">" + Nheko.matrixWord + "</a>")
+                      Komai.taglineTemplate.arg("<a href=\"" + aboutTab.matrixUrl + "\">" + Komai.matrixWord + "</a>")
                 color: palette.buttonText
                 font.pointSize: Settings.uiFontSizePt * 1.2
                 wrapMode: Text.Wrap

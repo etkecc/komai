@@ -7,7 +7,7 @@ import "../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Control {
     id: popup
@@ -23,7 +23,7 @@ Control {
     property bool fullWidth: false
     property string roomId
     property int rowMargin: 0
-    property int rowSpacing: Nheko.paddingSmall
+    property int rowSpacing: Komai.paddingSmall
 
     signal completionClicked(string completion)
     signal completionSelected(string id)
@@ -154,7 +154,7 @@ Control {
 
                     RowLayout {
                         anchors.centerIn: centerRowContent ? parent : undefined
-                        spacing: Nheko.paddingSmall
+                        spacing: Komai.paddingSmall
 
                         Avatar {
                             displayName: model.displayName
@@ -179,7 +179,7 @@ Control {
 
                     RowLayout {
                         anchors.centerIn: parent
-                        spacing: Nheko.paddingSmall
+                        spacing: Komai.paddingSmall
 
                         Label {
                             color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
@@ -198,8 +198,8 @@ Control {
                             Layout.preferredWidth: popup.avatarWidth
                         }
                         Label {
-                            Layout.leftMargin: Nheko.paddingSmall
-                            Layout.rightMargin: Nheko.paddingSmall
+                            Layout.leftMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
                             color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
                             text: model.shortcode
                         }
@@ -214,7 +214,7 @@ Control {
 
                     RowLayout {
                         anchors.centerIn: parent
-                        spacing: Nheko.paddingSmall
+                        spacing: Komai.paddingSmall
 
                         Label {
                             color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
@@ -232,7 +232,7 @@ Control {
 
                     RowLayout {
                         anchors.centerIn: centerRowContent ? parent : undefined
-                        spacing: Nheko.paddingSmall
+                        spacing: Komai.paddingSmall
 
                         Avatar {
                             displayName: model.roomName
@@ -257,7 +257,7 @@ Control {
 
                     RowLayout {
                         anchors.centerIn: parent
-                        spacing: Nheko.paddingSmall
+                        spacing: Komai.paddingSmall
 
                         Avatar {
                             displayName: model.roomName
@@ -286,7 +286,7 @@ Control {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                color: Nheko.theme.separator
+                color: Komai.theme.separator
                 height: 1
                 visible: model.index < listView.count - 1
             }

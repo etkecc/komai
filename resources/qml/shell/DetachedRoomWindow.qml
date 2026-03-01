@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     id: roomWindowW
@@ -23,7 +23,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         MainWindow.addPerRoomWindow(room.roomId || roomPreview.roomid, roomWindowW);
-        Nheko.setTransientParent(roomWindowW, null);
+        Komai.setTransientParent(roomWindowW, null);
     }
     Component.onDestruction: MainWindow.removePerRoomWindow(room.roomId || roomPreview.roomid, roomWindowW)
     onActiveChanged: {

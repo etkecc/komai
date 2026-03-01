@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 import "../../delegates"
 
 ScrollView {
@@ -20,8 +20,8 @@ ScrollView {
     Layout.columnSpan: 8
     Layout.fillWidth: true
     Layout.minimumHeight: 0
-    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Nheko.avatarSize * 4) : 0
-    Layout.maximumHeight: layoutVisible ? Nheko.avatarSize * 4 : 0
+    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Komai.avatarSize * 4) : 0
+    Layout.maximumHeight: layoutVisible ? Komai.avatarSize * 4 : 0
     Layout.row: 3
     ScrollBar.horizontal.visible: false
     clip: true
@@ -30,7 +30,7 @@ ScrollView {
 
     ListView {
         model: room ? room.pinnedMessages : undefined
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         delegate: RowLayout {
             required property string modelData
@@ -44,7 +44,7 @@ ScrollView {
                 property var e: room ? room.getDump(modelData, "pins") : {}
                 property string replyUserId: (e && e.userId) ? String(e.userId) : ""
                 property bool isReplyFromCurrentUser: {
-                    const currentUser = Nheko.currentUser;
+                    const currentUser = Komai.currentUser;
                     const currentUserId = (currentUser && currentUser.userid)
                             ? String(currentUser.userid)
                             : "";

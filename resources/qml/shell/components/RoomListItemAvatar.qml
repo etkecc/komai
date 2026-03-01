@@ -4,7 +4,7 @@
 
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Avatar {
     id: root
@@ -33,7 +33,7 @@ Avatar {
 
     NotificationBubble {
         anchors.bottom: parent.bottom
-        anchors.margins: -Nheko.paddingSmall
+        anchors.margins: -Komai.paddingSmall
         anchors.right: parent.right
         bubbleBackgroundColor: root.bubbleBackground
         bubbleTextColor: root.bubbleText

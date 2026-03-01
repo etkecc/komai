@@ -7,12 +7,12 @@ import "../../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 RowLayout {
     Label {
         Layout.alignment: Qt.AlignVCenter
-        Layout.margins: Nheko.paddingSmall
+        Layout.margins: Komai.paddingSmall
         text: qsTr("Theme")
         color: palette.text
     }
@@ -51,7 +51,7 @@ RowLayout {
     }
 
     Item {
-        Layout.preferredWidth: Nheko.paddingLarge
+        Layout.preferredWidth: Komai.paddingLarge
     }
 
     ToggleButton {
@@ -63,7 +63,7 @@ RowLayout {
 
     Label {
         Layout.alignment: Qt.AlignVCenter
-        Layout.margins: Nheko.paddingSmall
+        Layout.margins: Komai.paddingSmall
         text: qsTr("Enable animations")
         color: palette.text
 
@@ -78,6 +78,6 @@ RowLayout {
         }
         ToolTip.visible: hovered.hovered
         ToolTip.text: qsTr("Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.")
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
     }
 }

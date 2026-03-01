@@ -7,7 +7,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 import "onboarding" as Onboarding
 import "../components/"
 import "../ui/"
@@ -28,7 +28,7 @@ Item {
         id: scroll
         anchors.fill: parent
         maxContentWidth: loginPage.maxExpansion
-        topSpacerHeight: Nheko.paddingLarge * 3
+        topSpacerHeight: Komai.paddingLarge * 3
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
@@ -38,10 +38,10 @@ Item {
             }
 
             Label {
-                Layout.topMargin: Nheko.paddingMedium
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
-                Layout.bottomMargin: Nheko.paddingLarge
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingLarge
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 text: qsTr("Login to your Matrix account")
@@ -52,7 +52,7 @@ Item {
             }
 
             RowLayout {
-                spacing: Nheko.paddingLarge
+                spacing: Komai.paddingLarge
 
                 Layout.fillWidth: true
                 MatrixTextField {
@@ -79,7 +79,7 @@ Item {
             MatrixText {
                 Layout.fillWidth: true
                 textFormat: Text.PlainText
-                color: Nheko.theme.error
+                color: Komai.theme.error
                 text: login.mxidError
                 visible: text
                 wrapMode: TextEdit.Wrap
@@ -140,7 +140,7 @@ Item {
             }
 
             Item {
-                Layout.preferredHeight: Nheko.avatarSize
+                Layout.preferredHeight: Komai.avatarSize
                 Layout.fillWidth: true
 
                 Spinner {
@@ -156,7 +156,7 @@ Item {
             MatrixText {
                 Layout.fillWidth: true
                 textFormat: Text.PlainText
-                color: Nheko.theme.error
+                color: Komai.theme.error
                 text: loginPage.error
                 visible: text
                 wrapMode: TextEdit.Wrap
@@ -217,9 +217,9 @@ Item {
     ImageButton {
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.margins: Nheko.paddingMedium
-        width: Nheko.avatarSize
-        height: Nheko.avatarSize
+        anchors.margins: Komai.paddingMedium
+        width: Komai.avatarSize
+        height: Komai.avatarSize
         image: ":/icons/icons/ui/angle-arrow-left.svg"
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Back")

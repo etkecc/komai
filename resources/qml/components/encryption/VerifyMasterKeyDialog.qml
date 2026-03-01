@@ -7,7 +7,7 @@ import ".." as Components
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Components.OverlayDialog {
     id: root
@@ -34,10 +34,10 @@ Components.OverlayDialog {
 
     RowLayout {
         Layout.fillWidth: true
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Button {
-            Layout.rightMargin: Nheko.paddingLarge
+            Layout.rightMargin: Komai.paddingLarge
             text: qsTr("Not now")
             onClicked: root.close()
         }

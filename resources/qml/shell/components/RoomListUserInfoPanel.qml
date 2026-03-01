@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Pane {
     id: userInfoPanel
@@ -29,7 +29,7 @@ Pane {
     Layout.alignment: Qt.AlignBottom
     Layout.fillWidth: true
     Layout.minimumHeight: 40
-    padding: Nheko.paddingMedium
+    padding: Komai.paddingMedium
 
     background: Rectangle {
         color: palette.window
@@ -37,9 +37,9 @@ Pane {
     contentItem: RowLayout {
         id: userInfoGrid
 
-        property var profile: Nheko.currentUser
+        property var profile: Komai.currentUser
 
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
 
         Avatar {
             id: headerAvatar
@@ -57,7 +57,7 @@ Pane {
 
             Layout.alignment: Qt.AlignLeft
             Layout.fillWidth: true
-            Layout.preferredWidth: parent.width - headerAvatar.width - logoutButton.width - Nheko.paddingMedium * 2
+            Layout.preferredWidth: parent.width - headerAvatar.width - logoutButton.width - Komai.paddingMedium * 2
             spacing: 0
             visible: !userInfoPanel.collapsed
 
@@ -84,13 +84,13 @@ Pane {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: userInfoPanel.lineSpacing * 2
             Layout.preferredWidth: userInfoPanel.lineSpacing * 2
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: qsTr("Logout")
             ToolTip.visible: hovered
             image: ":/icons/icons/ui/power-off.svg"
             visible: !userInfoPanel.collapsed
 
-            onClicked: Nheko.openLogoutDialog()
+            onClicked: Komai.openLogoutDialog()
         }
     }
 
@@ -103,7 +103,7 @@ Pane {
     TapHandler {
         acceptedButtons: Qt.LeftButton
         gesturePolicy: TapHandler.ReleaseWithinBounds
-        margin: -Nheko.paddingSmall
+        margin: -Komai.paddingSmall
 
         onLongPressed: userInfoMenuController.popup(userInfoPanel)
         onSingleTapped: userInfoPanel.openUserProfile()
@@ -111,7 +111,7 @@ Pane {
     TapHandler {
         acceptedButtons: Qt.RightButton
         gesturePolicy: TapHandler.ReleaseWithinBounds
-        margin: -Nheko.paddingSmall
+        margin: -Komai.paddingSmall
 
         onSingleTapped: userInfoMenuController.popup(userInfoPanel)
     }

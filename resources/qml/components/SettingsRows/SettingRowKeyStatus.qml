@@ -5,14 +5,14 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 TextEdit {
     id: root
 
     required property var model
 
-    color: model.good ? "green" : Nheko.theme.error
+    color: model.good ? "green" : Komai.theme.error
     text: model.value ? qsTr("CACHED") : qsTr("NOT CACHED")
     readOnly: true
     selectByMouse: true

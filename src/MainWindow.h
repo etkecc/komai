@@ -35,12 +35,12 @@ class InviteUsers;
 class MemberList;
 }
 
-class NhekoFixupPaletteEventFilter final : public QObject
+class KomaiFixupPaletteEventFilter final : public QObject
 {
     Q_OBJECT
 
 public:
-    NhekoFixupPaletteEventFilter(QObject *parent)
+    KomaiFixupPaletteEventFilter(QObject *parent)
       : QObject(parent)
     {
     }

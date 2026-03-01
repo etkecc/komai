@@ -52,21 +52,21 @@ WebRTCSession::WebRTCSession()
   : devices_(CallDevices::instance())
 {
     // qmlRegisterUncreatableMetaObject(webrtc::staticMetaObject,
-    //                                  "im.nheko",
+    //                                  "cc.etke.komai",
     //                                  1,
     //                                  0,
     //                                  "CallType",
     //                                  QStringLiteral("Can't instantiate enum"));
 
     // qmlRegisterUncreatableMetaObject(webrtc::staticMetaObject,
-    //                                  "im.nheko",
+    //                                  "cc.etke.komai",
     //                                  1,
     //                                  0,
     //                                  "ScreenShareType",
     //                                  QStringLiteral("Can't instantiate enum"));
 
     // qmlRegisterUncreatableMetaObject(webrtc::staticMetaObject,
-    //                                  "im.nheko",
+    //                                  "cc.etke.komai",
     //                                  1,
     //                                  0,
     //                                  "WebRTCState",

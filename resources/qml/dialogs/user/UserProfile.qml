@@ -10,7 +10,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.13
 import QtQml.Models 2.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: userProfileDialog
@@ -49,7 +49,7 @@ ApplicationWindow {
             id: contentL
 
             width: devicelist.width
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
 
             Avatar {
                 id: displayAvatar
@@ -68,8 +68,8 @@ ApplicationWindow {
                     ToolTip.text: profile.isGlobalUserProfile ? qsTr("Change avatar globally.") : qsTr("Change avatar. Will only apply to this room.")
                     anchors.left: displayAvatar.left
                     anchors.top: displayAvatar.top
-                    anchors.leftMargin: Nheko.paddingMedium
-                    anchors.topMargin: Nheko.paddingMedium
+                    anchors.leftMargin: Komai.paddingMedium
+                    anchors.topMargin: Komai.paddingMedium
                     visible: profile.isSelf
                     image: ":/icons/icons/ui/edit.svg"
                     onClicked: profile.changeAvatar()
@@ -132,7 +132,7 @@ ApplicationWindow {
                 color: Qt.darker(profile.room ? TimelineManager.roomUserColor(profile.room.roomId, profile.userid, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(profile.userid, palette.window), 1.3)
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: parent.width - (Nheko.paddingSmall * 2) - usernameChangeButton.anchors.leftMargin - (usernameChangeButton.width * 2)
+                Layout.maximumWidth: parent.width - (Komai.paddingSmall * 2) - usernameChangeButton.anchors.leftMargin - (usernameChangeButton.width * 2)
                 horizontalAlignment: TextInput.AlignHCenter
                 wrapMode: TextInput.Wrap
                 selectByMouse: true
@@ -144,7 +144,7 @@ ApplicationWindow {
                 ImageButton {
                     id: usernameChangeButton
                     visible: profile.isSelf
-                    anchors.leftMargin: Nheko.paddingSmall
+                    anchors.leftMargin: Komai.paddingSmall
                     anchors.left: displayUsername.right
                     anchors.verticalCenter: displayUsername.verticalCenter
                     hoverEnabled: true
@@ -176,8 +176,8 @@ ApplicationWindow {
                 visible: userStatus != ""
                 Layout.fillWidth: true
                 horizontalAlignment: TextEdit.AlignHCenter
-                Layout.leftMargin: Nheko.paddingMedium
-                Layout.rightMargin: Nheko.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 font.pointSize: Math.floor(Settings.uiFontSizePt * 0.9)
 
                 property string userStatus: Presence.userStatus(profile.userid)
@@ -192,7 +192,7 @@ ApplicationWindow {
             RowLayout {
                 visible: !profile.isGlobalUserProfile
                 Layout.alignment: Qt.AlignHCenter
-                spacing: Nheko.paddingSmall
+                spacing: Komai.paddingSmall
 
                 MatrixText {
                     id: displayRoomname
@@ -256,7 +256,7 @@ ApplicationWindow {
 
                 Layout.alignment: Qt.AlignHCenter
                 Layout.bottomMargin: 10
-                spacing: Nheko.paddingSmall
+                spacing: Komai.paddingSmall
 
                 ImageButton {
                     Layout.preferredHeight: 24
@@ -297,7 +297,7 @@ ApplicationWindow {
                     hoverEnabled: true
                     ToolTip.visible: hovered
                     ToolTip.text: profile.ignored ? qsTr("Unignore the user.") : qsTr("Ignore the user.")
-                    buttonTextColor: profile.ignored ? Nheko.theme.red : palette.buttonText
+                    buttonTextColor: profile.ignored ? Komai.theme.red : palette.buttonText
                     onClicked: profile.ignored = !profile.ignored
                     visible: !profile.isSelf
                 }
@@ -321,14 +321,14 @@ ApplicationWindow {
                 onCurrentIndexChanged: devicelist.selectedTab = currentIndex
 
 
-                NhekoTabButton {
+                KomaiTabButton {
                     text: qsTr("Devices")
                 }
-                NhekoTabButton {
+                KomaiTabButton {
                     text: qsTr("Shared Rooms")
                 }
 
-                Layout.bottomMargin: Nheko.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
             }
         }
 
@@ -350,8 +350,8 @@ ApplicationWindow {
                 ColumnLayout {
                     spacing: 0
 
-                    Layout.leftMargin: Nheko.paddingMedium
-                    Layout.rightMargin: Nheko.paddingMedium
+                    Layout.leftMargin: Komai.paddingMedium
+                    Layout.rightMargin: Komai.paddingMedium
                     RowLayout {
                         Text {
                             Layout.fillWidth: true
@@ -371,13 +371,13 @@ ApplicationWindow {
                             source: {
                                 switch (verificationStatus) {
                                     case VerificationStatus.VERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Nheko.theme.green;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.green;
                                     case VerificationStatus.UNVERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Nheko.theme.orange;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.orange;
                                     case VerificationStatus.SELF:
-                                    return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Nheko.theme.green;
+                                    return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.green;
                                     default:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Nheko.theme.orange;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.orange;
                                 }
                             }
                         }
@@ -454,13 +454,13 @@ ApplicationWindow {
                     source: {
                         switch (verificationStatus) {
                             case VerificationStatus.VERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Nheko.theme.green;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.green;
                             case VerificationStatus.UNVERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Nheko.theme.orange;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.orange;
                             case VerificationStatus.SELF:
-                            return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Nheko.theme.green;
+                            return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.green;
                             default:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular.svg?" + Nheko.theme.red;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular.svg?" + Komai.theme.red;
                         }
                     }
                 }
@@ -498,7 +498,7 @@ ApplicationWindow {
 
                     enabled: false
                     Layout.alignment: Qt.AlignVCenter
-                    Layout.leftMargin: Nheko.paddingMedium
+                    Layout.leftMargin: Komai.paddingMedium
 
                     property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 1.6)
                     Layout.preferredHeight: avatarSize
@@ -515,7 +515,7 @@ ApplicationWindow {
                     elideWidth: width
                     fullText: roomName
                     textFormat: Text.PlainText
-                    Layout.rightMargin: Nheko.paddingMedium
+                    Layout.rightMargin: Komai.paddingMedium
                 }
 
                 Item {

@@ -4,7 +4,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 AbstractButton {
     id: button
@@ -68,12 +68,12 @@ AbstractButton {
         sourceSize.height: height
         sourceSize.width: width
     }
-    NhekoCursorShape {
+    KomaiCursorShape {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
     }
     background: Rectangle {
-        radius: Nheko.paddingMedium
+        radius: Komai.paddingMedium
         color: button.hovered || button.pressed || button.visualFocus
             ? button.actionButtonHoverBackgroundColor
             : "transparent"

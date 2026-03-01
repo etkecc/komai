@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Image {
     required property int powerlevel

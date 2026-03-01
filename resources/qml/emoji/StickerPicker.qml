@@ -8,7 +8,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 Popup {
     id: stickerPopup
@@ -22,13 +22,13 @@ Popup {
     property real highlightSat: palette.highlight.hslSaturation
     property real highlightLight: palette.highlight.hslLightness
     readonly property int stickerDim: emoji ? 48 : 128
-    readonly property int stickerDimPad: stickerDim + Nheko.paddingSmall
+    readonly property int stickerDimPad: stickerDim + Komai.paddingSmall
     readonly property int stickersPerRow: emoji ? 7 : 3
     readonly property int sidebarAvatarSize: 32
     readonly property int sidebarIconSize: 20
-    readonly property int sidebarRowHeight: Math.max(36, sidebarIconSize + Nheko.paddingMedium * 2)
-    readonly property int sidebarPaneWidth: Math.max(132, sidebarAvatarSize + Nheko.paddingMedium + 64)
-    readonly property int gridColumnWidth: stickersPerRow * stickerDimPad + 20 - Nheko.paddingSmall
+    readonly property int sidebarRowHeight: Math.max(36, sidebarIconSize + Komai.paddingMedium * 2)
+    readonly property int sidebarPaneWidth: Math.max(132, sidebarAvatarSize + Komai.paddingMedium + 64)
+    readonly property int gridColumnWidth: stickersPerRow * stickerDimPad + 20 - Komai.paddingSmall
     readonly property var sidebarPalette: timelineRoot ? timelineRoot.palette : palette
     readonly property color sidebarHoverBackground: sidebarPalette.dark
     readonly property color sidebarHoverText: sidebarPalette.brightText
@@ -158,7 +158,7 @@ Popup {
         stickerPopup.open();
     }
 
-    padding: Nheko.paddingMedium
+    padding: Komai.paddingMedium
     modal: true
     focus: true
     parent: Overlay.overlay
@@ -168,7 +168,7 @@ Popup {
     }
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     onOpened: Qt.callLater(updateActiveSectionIndex)
-    width: sidebarPaneWidth + Nheko.paddingSmall + gridColumnWidth + padding * 2
+    width: sidebarPaneWidth + Komai.paddingSmall + gridColumnWidth + padding * 2
     height: contentColumn.implicitHeight
 
     background: Rectangle {
@@ -179,10 +179,10 @@ Popup {
     contentItem: Column {
         id: contentColumn
 
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Row {
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             width: parent.width
 
             Image {
@@ -211,7 +211,7 @@ Popup {
             ImageButton {
                 id: closeButton
 
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 anchors.verticalCenter: parent.verticalCenter
@@ -227,13 +227,13 @@ Popup {
             color: palette.window
             radius: 4
             width: parent.width
-            height: columnView.implicitHeight + Nheko.paddingSmall * 2
+            height: columnView.implicitHeight + Komai.paddingSmall * 2
 
             GridLayout {
                 id: columnView
 
                 anchors.fill: parent
-                anchors.margins: Nheko.paddingSmall
+                anchors.margins: Komai.paddingSmall
             columns: 2
             rows: 2
 
@@ -252,8 +252,8 @@ Popup {
                 placeholderText: qsTr("Search")
                 selectByMouse: true
                 rightPadding: clearSearch.visible
-                    ? (clearSearch.width + Nheko.paddingLarge + Nheko.paddingSmall)
-                    : Nheko.paddingSmall
+                    ? (clearSearch.width + Komai.paddingLarge + Komai.paddingSmall)
+                    : Komai.paddingSmall
                 onTextChanged: searchTimer.restart()
                 onVisibleChanged: {
                     if (visible)
@@ -283,7 +283,7 @@ Popup {
                     anchors {
                         verticalCenter: parent.verticalCenter
                         right: parent.right
-                        rightMargin: Nheko.paddingLarge
+                        rightMargin: Komai.paddingLarge
                     }
                 }
             }
@@ -310,23 +310,23 @@ Popup {
                     required property string section
                     readonly property var sectionMeta: stickerPopup.sectionMetaByName(section)
                     readonly property real reservedScrollbarWidth: (emojiScroll.visible || emojiScroll.active)
-                        ? Math.max(emojiScroll.width, emojiScroll.implicitWidth, Nheko.paddingMedium)
+                        ? Math.max(emojiScroll.width, emojiScroll.implicitWidth, Komai.paddingMedium)
                         : 0
 
-                    width: Math.max(0, gridView.width - reservedScrollbarWidth - Nheko.paddingSmall)
-                    height: headerRow.implicitHeight + Nheko.paddingSmall * 2
-                    radius: Nheko.paddingSmall
+                    width: Math.max(0, gridView.width - reservedScrollbarWidth - Komai.paddingSmall)
+                    height: headerRow.implicitHeight + Komai.paddingSmall * 2
+                    radius: Komai.paddingSmall
                     color: palette.alternateBase
 
                     RowLayout {
                         id: headerRow
 
                         anchors.fill: parent
-                        anchors.leftMargin: Nheko.paddingSmall
-                        anchors.rightMargin: Nheko.paddingSmall
-                        anchors.topMargin: Nheko.paddingSmall
-                        anchors.bottomMargin: Nheko.paddingSmall
-                        spacing: Nheko.paddingSmall
+                        anchors.leftMargin: Komai.paddingSmall
+                        anchors.rightMargin: Komai.paddingSmall
+                        anchors.topMargin: Komai.paddingSmall
+                        anchors.bottomMargin: Komai.paddingSmall
+                        spacing: Komai.paddingSmall
 
                         Avatar {
                             Layout.preferredHeight: sidebarIconSize
@@ -363,13 +363,13 @@ Popup {
                 }
                 section.labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
 
-                spacing: Nheko.paddingSmall
+                spacing: Komai.paddingSmall
 
                 // Individual emoji
                 delegate: Row {
                     required property var row;
 
-                    spacing: Nheko.paddingSmall
+                    spacing: Komai.paddingSmall
 
                     Repeater {
                         model: row
@@ -442,7 +442,7 @@ Popup {
                 Layout.column: 0
                 Layout.preferredWidth: sidebarPaneWidth
                 Layout.fillHeight: true
-                Layout.rightMargin: Nheko.paddingSmall
+                Layout.rightMargin: Komai.paddingSmall
 
                 model: gridView.model ? gridView.model.sections : null
                 boundsBehavior: Flickable.StopAtBounds
@@ -462,12 +462,12 @@ Popup {
                     width: ListView.view.width
                     height: sidebarRowHeight
                     hoverEnabled: true
-                    leftPadding: Nheko.paddingSmall
-                    rightPadding: Nheko.paddingSmall
-                    topPadding: Nheko.paddingMedium
-                    bottomPadding: Nheko.paddingMedium
+                    leftPadding: Komai.paddingSmall
+                    rightPadding: Komai.paddingSmall
+                    topPadding: Komai.paddingMedium
+                    bottomPadding: Komai.paddingMedium
                     ToolTip.visible: hovered
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
                     ToolTip.text: modelData.name
 
                     onClicked: {
@@ -504,7 +504,7 @@ Popup {
                     ]
 
                     background: Rectangle {
-                        radius: Nheko.paddingSmall
+                        radius: Komai.paddingSmall
                         color: categoryButton.backgroundColor
                     }
 
@@ -514,7 +514,7 @@ Popup {
                         anchors.rightMargin: categoryButton.rightPadding
                         anchors.topMargin: categoryButton.topPadding
                         anchors.bottomMargin: categoryButton.bottomPadding
-                        spacing: Nheko.paddingSmall
+                        spacing: Komai.paddingSmall
 
                         Avatar {
                             Layout.preferredHeight: sidebarIconSize
@@ -563,16 +563,16 @@ Popup {
                 Layout.column: 0
                 Layout.preferredWidth: sidebarPaneWidth
                 Layout.preferredHeight: sidebarRowHeight
-                Layout.rightMargin: Nheko.paddingSmall
+                Layout.rightMargin: Komai.paddingSmall
                 hoverEnabled: true
                 property color backgroundColor: "transparent"
                 property color textColor: stickerPopup.sidebarPalette.text
-                leftPadding: Nheko.paddingSmall
-                rightPadding: Nheko.paddingSmall
-                topPadding: Nheko.paddingMedium
-                bottomPadding: Nheko.paddingMedium
+                leftPadding: Komai.paddingSmall
+                rightPadding: Komai.paddingSmall
+                topPadding: Komai.paddingMedium
+                bottomPadding: Komai.paddingMedium
                 ToolTip.visible: hovered
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Change what packs are enabled, remove packs, or create new ones")
                 onClicked: TimelineManager.openImagePackSettings(stickerPopup.roomid)
 
@@ -591,7 +591,7 @@ Popup {
                 ]
 
                 background: Rectangle {
-                    radius: Nheko.paddingSmall
+                    radius: Komai.paddingSmall
                     color: settingsButton.backgroundColor
                 }
 
@@ -601,7 +601,7 @@ Popup {
                     anchors.rightMargin: settingsButton.rightPadding
                     anchors.topMargin: settingsButton.topPadding
                     anchors.bottomMargin: settingsButton.bottomPadding
-                    spacing: Nheko.paddingSmall
+                    spacing: Komai.paddingSmall
 
                     Image {
                         Layout.preferredHeight: sidebarIconSize

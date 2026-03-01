@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.5
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 
 TextMessage {
@@ -17,7 +17,7 @@ TextMessage {
     color: palette.buttonText
     font.pointSize: isStateEvent? 0.95*Settings.uiFontSizePt : Settings.uiFontSizePt
     horizontalAlignment: isStateEvent ? Text.AlignLeft : undefined
-    leftPadding: isStateEvent ? (stateEventIconSize + Nheko.paddingSmall) : 0
+    leftPadding: isStateEvent ? (stateEventIconSize + Komai.paddingSmall) : 0
 
     FontMetrics {
         id: stateEventFontMetrics

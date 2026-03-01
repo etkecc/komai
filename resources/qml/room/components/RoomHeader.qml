@@ -6,7 +6,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Pane {
     id: topBar
@@ -25,15 +25,15 @@ Pane {
     property bool filteringInProgress: false
     property bool filterNotifications: false
     property int trustlevel: room ? room.trustlevel : Crypto.Unverified
-    property int topBarAvatarSize: Nheko.barIconSize
-    property int buttonPaddingH: Nheko.uiLayoutCompactMode ? Nheko.paddingSmall : Nheko.paddingMedium
+    property int topBarAvatarSize: Komai.barIconSize
+    property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     property bool showActionLabels: false
     property int actionLabelsHysteresisPx: 36
     readonly property string membersActionLabel: qsTr("%n member(s)", "", roomModel ? roomModel.roomMemberCount : 0)
     readonly property string encryptionActionLabel: shortEncryptionLabel()
     readonly property real actionButtonWidth: topBarAvatarSize
-    readonly property real actionButtonLabelGap: Nheko.paddingSmall
+    readonly property real actionButtonLabelGap: Komai.paddingSmall
     readonly property int visibleActionButtonCount:
         (pinButton.visible ? 1 : 0)
         + (searchButton.visible ? 1 : 0)
@@ -50,7 +50,7 @@ Pane {
     readonly property real reservedLeadingWidth: (showBackButton ? actionButtonWidth : 0)
         + topBarAvatarSize
         + 220
-        + Nheko.paddingLarge * 3
+        + Komai.paddingLarge * 3
     readonly property real availableActionWidth: Math.max(0, topBar.width - reservedLeadingWidth)
 
     function shortEncryptionLabel() {
@@ -79,8 +79,8 @@ Pane {
     }
 
     Layout.fillWidth: true
-    Layout.minimumHeight: Nheko.uiLayoutCompactMode ? Nheko.navigationRowHeight : 0
-    implicitHeight: Math.max(topLayout.height + Nheko.paddingMedium * 2, Nheko.navigationRowHeight)
+    Layout.minimumHeight: Komai.uiLayoutCompactMode ? Komai.navigationRowHeight : 0
+    implicitHeight: Math.max(topLayout.height + Komai.paddingMedium * 2, Komai.navigationRowHeight)
     padding: 0
     z: 3
 
@@ -132,13 +132,13 @@ Pane {
             id: topLayout
 
             anchors.left: parent.left
-            anchors.leftMargin: Nheko.paddingMedium
+            anchors.leftMargin: Komai.paddingMedium
             anchors.right: parent.right
-            anchors.rightMargin: Nheko.paddingMedium
+            anchors.rightMargin: Komai.paddingMedium
             anchors.top: parent.top
-            anchors.topMargin: Nheko.paddingMedium
+            anchors.topMargin: Komai.paddingMedium
             columnSpacing: 0
-            rowSpacing: Nheko.uiLayoutCompactMode ? 0 : Nheko.paddingSmall
+            rowSpacing: Komai.uiLayoutCompactMode ? 0 : Komai.paddingSmall
 
             RoomHeaderCommunitySection {
                 room: topBar.roomModel
@@ -165,7 +165,7 @@ Pane {
             }
             RoomHeaderTopicText {
                 roomTopic: topBar.roomTopic
-                compactMode: Nheko.uiLayoutCompactMode
+                compactMode: Komai.uiLayoutCompactMode
                 lineSpacing: fontMetrics.lineSpacing
             }
             // BROKEN: "Show only notifications" filter doesn't work properly.
@@ -179,8 +179,8 @@ Pane {
             //
             //     Layout.alignment: Qt.AlignRight
             //     Layout.column: 3
-            //     Layout.preferredHeight: Nheko.avatarSize - Nheko.paddingMedium
-            //     Layout.preferredWidth: Nheko.avatarSize - Nheko.paddingMedium
+            //     Layout.preferredHeight: Komai.avatarSize - Komai.paddingMedium
+            //     Layout.preferredWidth: Komai.avatarSize - Komai.paddingMedium
             //     Layout.row: 1
             //     ToolTip.text: qsTr("Show only notifications")
             //     ToolTip.visible: hovered

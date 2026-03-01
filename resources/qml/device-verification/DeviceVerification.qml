@@ -6,7 +6,7 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.Window 2.13
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: dialog
@@ -18,8 +18,8 @@ ApplicationWindow {
     modality: Qt.NonModal
     color: palette.window
     //height: stack.currentItem.implicitHeight
-    minimumHeight: stack.currentItem.implicitHeight + 2 * Nheko.paddingLarge
-    height: stack.currentItem.implicitHeight + 2 * Nheko.paddingMedium
+    minimumHeight: stack.currentItem.implicitHeight + 2 * Komai.paddingLarge
+    height: stack.currentItem.implicitHeight + 2 * Komai.paddingMedium
     minimumWidth: 400
     width: 400
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
@@ -35,8 +35,8 @@ ApplicationWindow {
         anchors.centerIn: parent
 
         initialItem: newVerificationRequest
-        implicitWidth: dialog.width - 2* Nheko.paddingMedium
-        implicitHeight: dialog.height - 2* Nheko.paddingMedium
+        implicitWidth: dialog.width - 2* Komai.paddingMedium
+        implicitHeight: dialog.height - 2* Komai.paddingMedium
     }
 
     Component {

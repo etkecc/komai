@@ -8,14 +8,14 @@ import "../../components"
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 
 ApplicationWindow {
     id: plEditorW
 
     property var roomSettings
-    property var editingModel: Nheko.editPowerlevels(roomSettings.roomId)
+    property var editingModel: Komai.editPowerlevels(roomSettings.roomId)
 
     modality: Qt.NonModal
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
@@ -32,7 +32,7 @@ ApplicationWindow {
     //    }
 
     ColumnLayout {
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
         spacing: 0
 
@@ -43,17 +43,17 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: false
             color: palette.text
-            Layout.bottomMargin: Nheko.paddingMedium
+            Layout.bottomMargin: Komai.paddingMedium
         }
 
         TabBar {
             id: bar
             Layout.preferredWidth: parent.width
 
-            NhekoTabButton {
+            KomaiTabButton {
                 text: qsTr("Roles")
             }
-            NhekoTabButton {
+            KomaiTabButton {
                 text: qsTr("Users")
             }
         }
@@ -62,16 +62,16 @@ ApplicationWindow {
             Layout.fillHeight: true
             color: palette.alternateBase
             border.width: 1
-            border.color: Nheko.theme.separator
+            border.color: Komai.theme.separator
 
             StackLayout {
                 anchors.fill: parent
-                anchors.margins: Nheko.paddingMedium
+                anchors.margins: Komai.paddingMedium
                 currentIndex: bar.currentIndex
 
 
                 ColumnLayout {
-                    spacing: Nheko.paddingMedium
+                    spacing: Komai.paddingMedium
 
                     MatrixText {
                         text: qsTr("Move permissions between roles to change them")
@@ -169,7 +169,7 @@ ApplicationWindow {
                             color: palette.alternateBase
 
                             RowLayout {
-                                spacing: Nheko.paddingMedium
+                                spacing: Komai.paddingMedium
                                 anchors.fill: parent
 
                                 SpinBox {
@@ -208,7 +208,7 @@ ApplicationWindow {
                 }
 
                 ColumnLayout {
-                    spacing: Nheko.paddingMedium
+                    spacing: Komai.paddingMedium
 
                     MatrixText {
                         text: qsTr("Move users up or down to change their permissions")
@@ -277,8 +277,8 @@ ApplicationWindow {
                                 completerName: "user"
                                 bottomToTop: false
                                 fullWidth: true
-                                avatarHeight: Nheko.avatarSize / 2
-                                avatarWidth: Nheko.avatarSize / 2
+                                avatarHeight: Komai.avatarSize / 2
+                                avatarWidth: Komai.avatarSize / 2
                                 centerRowContent: false
                                 rowMargin: 2
                                 rowSpacing: 2
@@ -310,8 +310,8 @@ ApplicationWindow {
                             Avatar {
                                 id: avatar
 
-                                Layout.preferredHeight: Nheko.avatarSize / 2
-                                Layout.preferredWidth: Nheko.avatarSize / 2
+                                Layout.preferredHeight: Komai.avatarSize / 2
+                                Layout.preferredWidth: Komai.avatarSize / 2
                                 Layout.leftMargin: 2
                                 userid: model.mxid
                                 url: {

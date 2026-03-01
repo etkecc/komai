@@ -3381,7 +3381,7 @@ TimelineModel::widgetLinks() const
 
         // url.replace("$matrix_client_theme", theme);
         url.replace("$org.matrix.msc2873.client_theme", theme);
-        url.replace("$org.matrix.msc2873.client_id", "im.nheko");
+        url.replace("$org.matrix.msc2873.client_id", "cc.etke.komai");
 
         // compat with some widgets, i.e. FOSDEM
         url.replace("$theme", theme);

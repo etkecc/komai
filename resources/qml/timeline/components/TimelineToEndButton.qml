@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 RoundButton {
     id: toEndButton
@@ -71,13 +71,13 @@ RoundButton {
 
     anchors {
         bottom: parent.bottom
-        bottomMargin: Nheko.paddingMedium + (fullWidth - width) / 2
+        bottomMargin: Komai.paddingMedium + (fullWidth - width) / 2
         right: scrollbarItem.left
-        rightMargin: Nheko.paddingMedium + (fullWidth - width) / 2
+        rightMargin: Komai.paddingMedium + (fullWidth - width) / 2
     }
     Image {
         anchors.fill: parent
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
         fillMode: Image.PreserveAspectFit
         source: "image://colorimage/:/icons/icons/ui/download.svg?" + (toEndButton.down ? palette.highlightedText : palette.buttonText)
     }

@@ -7,7 +7,7 @@ import "../components"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Rectangle {
     visible: CallManager.haveCallInvite && Settings.uiInputMode && Settings.callsLegacyEnabled
@@ -39,8 +39,8 @@ Rectangle {
         anchors.leftMargin: 8
 
         Avatar {
-            implicitWidth: Nheko.avatarSize
-            implicitHeight: Nheko.avatarSize
+            implicitWidth: Komai.avatarSize
+            implicitHeight: Komai.avatarSize
             url: CallManager.callPartyAvatarUrl.replace("mxc://", "image://MxcImage/")
             userid: CallManager.callParty
             displayName: CallManager.callPartyDisplayName

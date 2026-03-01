@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ColumnLayout {
     id: root
@@ -14,9 +14,9 @@ ColumnLayout {
     property int dismissedStatus: SelfVerificationStatus.AllVerified
     readonly property bool shouldShow: SelfVerificationStatus.status !== SelfVerificationStatus.AllVerified
                                      && dismissedStatus !== SelfVerificationStatus.status
-    readonly property color accentColor: Nheko.theme.orange
-    readonly property int iconSize: Nheko.barIconSize
-    readonly property int targetHeight: Nheko.navigationRowHeight + 1
+    readonly property color accentColor: Komai.theme.orange
+    readonly property int iconSize: Komai.barIconSize
+    readonly property int targetHeight: Komai.navigationRowHeight + 1
     readonly property string statusText: {
         switch (SelfVerificationStatus.status) {
         case SelfVerificationStatus.NoMasterKey:
@@ -41,18 +41,18 @@ ColumnLayout {
 
         Layout.fillWidth: true
         color: Qt.rgba(root.accentColor.r, root.accentColor.g, root.accentColor.b, bannerHover.hovered ? 0.18 : 0.12)
-        implicitHeight: Math.max(contentRow.implicitHeight + 2 * Nheko.paddingSmall, root.targetHeight)
+        implicitHeight: Math.max(contentRow.implicitHeight + 2 * Komai.paddingSmall, root.targetHeight)
         Layout.minimumHeight: root.targetHeight
 
         RowLayout {
             id: contentRow
 
             anchors.fill: parent
-            anchors.leftMargin: Nheko.paddingMedium
-            anchors.rightMargin: Nheko.paddingMedium
-            anchors.topMargin: Nheko.paddingSmall
-            anchors.bottomMargin: Nheko.paddingSmall
-            spacing: Nheko.paddingMedium
+            anchors.leftMargin: Komai.paddingMedium
+            anchors.rightMargin: Komai.paddingMedium
+            anchors.topMargin: Komai.paddingSmall
+            anchors.bottomMargin: Komai.paddingSmall
+            spacing: Komai.paddingMedium
 
             Image {
                 Layout.alignment: Qt.AlignVCenter
@@ -75,7 +75,7 @@ ColumnLayout {
                 id: closeBannerButton
 
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: closeBannerButton.hovered
                 Layout.preferredHeight: root.iconSize

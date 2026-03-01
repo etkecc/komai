@@ -6,7 +6,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ColumnLayout {
     id: c
@@ -34,7 +34,7 @@ ColumnLayout {
         input.forceActiveFocus();
     }
 
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.visible: hover.hovered
     spacing: 0
 
@@ -48,7 +48,7 @@ ColumnLayout {
         onTriggered: editingFinished()
     }
     Item {
-        Layout.bottomMargin: Nheko.paddingSmall
+        Layout.bottomMargin: Komai.paddingSmall
         Layout.fillWidth: true
         Layout.margins: input.padding
         Layout.preferredHeight: labelC.contentHeight
@@ -65,7 +65,7 @@ ColumnLayout {
             font.weight: Font.DemiBold
             state: labelC.text && (input.activeFocus == true || input.text) ? "focused" : ""
             width: parent.width
-            y: contentHeight + input.padding + Nheko.paddingSmall
+            y: contentHeight + input.padding + Komai.paddingSmall
 
             states: State {
                 name: "focused"
@@ -136,7 +136,7 @@ ColumnLayout {
             anchors {
                 bottom: parent.bottom
                 right: parent.right
-                rightMargin: Nheko.paddingSmall
+                rightMargin: Komai.paddingSmall
                 top: parent.top
             }
         }

@@ -261,7 +261,7 @@ MainWindow::showUserSettingsPage()
 }
 
 bool
-NhekoFixupPaletteEventFilter::eventFilter(QObject *obj, QEvent *event)
+KomaiFixupPaletteEventFilter::eventFilter(QObject *obj, QEvent *event)
 {
     // Workaround for the QGuiApplication palette not being applied to toplevel windows for some
     // reason?!?

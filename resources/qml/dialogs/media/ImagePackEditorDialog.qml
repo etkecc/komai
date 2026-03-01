@@ -9,7 +9,7 @@ import Qt.labs.platform 1.1
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: win
@@ -18,7 +18,7 @@ ApplicationWindow {
     property SingleImagePackModel imagePack
     property int currentImageIndex: -1
     readonly property int stickerDim: 128
-    readonly property int stickerDimPad: 128 + Nheko.paddingSmall
+    readonly property int stickerDimPad: 128 + Komai.paddingSmall
 
     title: qsTr("Editing image pack")
     height: 600
@@ -66,7 +66,7 @@ ApplicationWindow {
                     Rectangle {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        height: parent.height - Nheko.paddingSmall * 2
+                        height: parent.height - Komai.paddingSmall * 2
                         width: 3
                         color: palette.highlight
                     }
@@ -127,11 +127,11 @@ ApplicationWindow {
 
                 GridLayout {
                     anchors.fill: parent
-                    anchors.margins: Nheko.paddingMedium
+                    anchors.margins: Komai.paddingMedium
                     visible: currentImageIndex == -1
                     enabled: visible
                     columns: 2
-                    rowSpacing: Nheko.paddingLarge
+                    rowSpacing: Komai.paddingLarge
 
                     Avatar {
                         Layout.columnSpan: 2
@@ -149,8 +149,8 @@ ApplicationWindow {
                             ToolTip.text: qsTr("Change the overview image for this pack")
                             anchors.left: parent.left
                             anchors.top: parent.top
-                            anchors.leftMargin: Nheko.paddingMedium
-                            anchors.topMargin: Nheko.paddingMedium
+                            anchors.leftMargin: Komai.paddingMedium
+                            anchors.topMargin: Komai.paddingMedium
                             image: ":/icons/icons/ui/edit.svg"
                             onClicked: addAvatarDialog.open()
 
@@ -228,11 +228,11 @@ ApplicationWindow {
 
                 GridLayout {
                     anchors.fill: parent
-                    anchors.margins: Nheko.paddingMedium
+                    anchors.margins: Komai.paddingMedium
                     visible: currentImageIndex >= 0
                     enabled: visible
                     columns: 2
-                    rowSpacing: Nheko.paddingLarge
+                    rowSpacing: Komai.paddingLarge
 
                     Avatar {
                         Layout.columnSpan: 2

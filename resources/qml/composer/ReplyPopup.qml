@@ -8,7 +8,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import "../components"
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Rectangle {
     id: replyPopup
@@ -26,7 +26,7 @@ Rectangle {
     Layout.maximumHeight: layoutVisible ? implicitHeight : 0
     color: palette.alternateBase
     radius: replyPopup.roundTopCorners ? 8 : 0
-    implicitHeight: layoutVisible ? popupColumn.implicitHeight + Nheko.paddingMedium * 2 : 0
+    implicitHeight: layoutVisible ? popupColumn.implicitHeight + Komai.paddingMedium * 2 : 0
     visible: layoutVisible
     z: 3
 
@@ -48,13 +48,13 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.margins: Nheko.paddingMedium
-        spacing: Nheko.paddingSmall
+        anchors.margins: Komai.paddingMedium
+        spacing: Komai.paddingSmall
 
         // ── Thread header (visible when in a thread) ──
         RowLayout {
             visible: room && room.thread
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             width: parent.width
 
             Image {
@@ -80,7 +80,7 @@ Rectangle {
             ImageButton {
                 id: closeThreadButton
 
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 Layout.alignment: Qt.AlignVCenter
@@ -96,7 +96,7 @@ Rectangle {
         // ── Reply header (visible when replying to a specific message) ──
         RowLayout {
             visible: room && room.reply
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             width: parent.width
 
             Image {
@@ -122,7 +122,7 @@ Rectangle {
             ImageButton {
                 id: closeReplyButton
 
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 Layout.alignment: Qt.AlignVCenter
@@ -138,7 +138,7 @@ Rectangle {
         // ── Edit header (visible when editing a message) ──
         RowLayout {
             visible: room && room.edit
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             width: parent.width
 
             Image {
@@ -164,7 +164,7 @@ Rectangle {
             ImageButton {
                 id: closeEditHeaderButton
 
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 Layout.alignment: Qt.AlignVCenter
@@ -188,7 +188,7 @@ Rectangle {
                 ? String(modelData.userId)
                 : ""
             property bool isReplyFromCurrentUser: {
-                const currentUser = Nheko.currentUser;
+                const currentUser = Komai.currentUser;
                 const currentUserId = (currentUser && currentUser.userid)
                         ? String(currentUser.userid)
                         : "";

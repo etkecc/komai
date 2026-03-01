@@ -7,7 +7,7 @@ import "../ui/media"
 import QtMultimedia
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 import Qt5Compat.GraphicalEffects
 
 Item {

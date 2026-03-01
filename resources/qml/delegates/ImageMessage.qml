@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 import Qt5Compat.GraphicalEffects
 
 AbstractButton {

@@ -7,7 +7,7 @@ import "../../delegates/"
 import "../../ui"
 import QtQuick 2.9
 import QtQuick.Controls 2.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Popup {
     id: forwardMessagePopup
@@ -21,7 +21,7 @@ Popup {
     readonly property var timelineView: timelineViewSource
     property bool showReplyPreview: true
     property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
-    property int textMargin: Nheko.paddingSmall
+    property int textMargin: Komai.paddingSmall
     property string pendingRoomId: ""
     property string pendingRoomName: ""
     property bool confirming: false
@@ -39,7 +39,7 @@ Popup {
         forwardMessagePopup.close();
     }
 
-    padding: Nheko.paddingMedium
+    padding: Komai.paddingMedium
     modal: true
     focus: true
 
@@ -90,10 +90,10 @@ Popup {
     contentItem: Column {
         id: forwardColumn
 
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Row {
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
 
             Image {
@@ -123,7 +123,7 @@ Popup {
             ImageButton {
                 id: closeButton
 
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 anchors.verticalCenter: parent.verticalCenter
@@ -142,9 +142,9 @@ Popup {
             color: palette.buttonText
             font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.4)
             text: qsTr("Forwarding sends this content (without revealing its sender) to another room.")
-            leftPadding: Nheko.paddingSmall
-            topPadding: Nheko.paddingMedium
-            bottomPadding: Nheko.paddingMedium
+            leftPadding: Komai.paddingSmall
+            topPadding: Komai.paddingMedium
+            bottomPadding: Komai.paddingMedium
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
             wrapMode: Text.Wrap
         }
@@ -167,7 +167,7 @@ Popup {
                 eventId: mid
                 room_: activeRoom
                 property bool isReplyFromCurrentUser: {
-                    const currentUser = Nheko.currentUser;
+                    const currentUser = Komai.currentUser;
                     const currentUserId = (currentUser && currentUser.userid)
                             ? String(currentUser.userid)
                             : "";
@@ -191,7 +191,7 @@ Popup {
             color: palette.text
             font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.6)
             placeholderText: qsTr("Room name, address or id...")
-            radius: Nheko.paddingSmall
+            radius: Komai.paddingSmall
             visible: !forwardMessagePopup.confirming
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
 
@@ -260,7 +260,7 @@ Popup {
         Row {
             id: confirmButtons
 
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
             visible: forwardMessagePopup.confirming
 
             Button {

@@ -5,7 +5,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 TabButton {
     id: control
@@ -21,7 +21,7 @@ TabButton {
     }
 
     background: Rectangle {
-        border.color: control.down ? palette.highlight : Nheko.theme.separator
+        border.color: control.down ? palette.highlight : Komai.theme.separator
         color: control.checked ? palette.highlight : palette.base
         border.width: 1
         radius: 2

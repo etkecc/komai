@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: searchIcon

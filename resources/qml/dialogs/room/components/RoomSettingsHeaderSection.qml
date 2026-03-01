@@ -8,7 +8,7 @@ import "../../../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ColumnLayout {
     required property var roomSettings
@@ -22,7 +22,7 @@ ColumnLayout {
     Avatar {
         id: displayAvatar
 
-        Layout.topMargin: Nheko.paddingMedium
+        Layout.topMargin: Komai.paddingMedium
         url: roomSettings.roomAvatarUrl.replace("mxc://", "image://MxcImage/")
         roomid: roomSettings.roomId
         displayName: roomSettings.roomName
@@ -37,8 +37,8 @@ ColumnLayout {
             ToolTip.text: qsTr("Change room avatar.")
             anchors.left: displayAvatar.left
             anchors.top: displayAvatar.top
-            anchors.leftMargin: Nheko.paddingMedium
-            anchors.topMargin: Nheko.paddingMedium
+            anchors.leftMargin: Komai.paddingMedium
+            anchors.topMargin: Komai.paddingMedium
             visible: roomSettings.canChangeAvatar
             image: ":/icons/icons/ui/edit.svg"
 
@@ -103,7 +103,7 @@ ColumnLayout {
         color: palette.text
 
         Layout.alignment: Qt.AlignHCenter
-        Layout.maximumWidth: Math.max(0, dialogWidth - (Nheko.paddingSmall + roomNameButtons.anchors.leftMargin + roomNameButtons.implicitWidth) * 2)
+        Layout.maximumWidth: Math.max(0, dialogWidth - (Komai.paddingSmall + roomNameButtons.anchors.leftMargin + roomNameButtons.implicitWidth) * 2)
         horizontalAlignment: TextEdit.AlignHCenter
         wrapMode: TextEdit.Wrap
         selectByMouse: true
@@ -120,7 +120,7 @@ ColumnLayout {
         RowLayout {
             id: roomNameButtons
 
-            anchors.leftMargin: Nheko.paddingSmall
+            anchors.leftMargin: Komai.paddingSmall
             anchors.left: roomName.right
             anchors.verticalCenter: roomName.verticalCenter
 
@@ -131,7 +131,7 @@ ColumnLayout {
                 hoverEnabled: true
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Change name of this room")
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 image: roomName.isNameEditingAllowed ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/edit.svg"
 
                 onClicked: {
@@ -160,7 +160,7 @@ ColumnLayout {
     }
 
     RowLayout {
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         Layout.alignment: Qt.AlignHCenter
 
         Label {

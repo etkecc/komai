@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import "../ui"
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 MatrixText {
     required property string typeString

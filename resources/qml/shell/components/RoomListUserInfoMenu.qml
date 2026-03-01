@@ -4,7 +4,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -32,7 +32,7 @@ Item {
         text: root.profile ? Presence.userStatus(root.profile.userid) : ""
 
         onAccepted: function (text) {
-            Nheko.setStatusMessage(text);
+            Komai.setStatusMessage(text);
         }
     }
 

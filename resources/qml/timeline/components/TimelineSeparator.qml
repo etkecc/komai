@@ -4,11 +4,11 @@
 
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Rectangle {
     Layout.fillWidth: true
-    color: Nheko.theme.separator
+    color: Komai.theme.separator
     implicitHeight: 1
     z: 3
 }

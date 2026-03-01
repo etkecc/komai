@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     id: rawMessageRoot
@@ -23,14 +23,14 @@ ApplicationWindow {
     }
 
     ScrollView {
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
-        padding: Nheko.paddingMedium
+        padding: Komai.paddingMedium
 
         TextArea {
             id: rawMessageView
 
-            font: Nheko.monospaceFont()
+            font: Komai.monospaceFont()
             color: palette.text
             readOnly: true
             textFormat: Text.PlainText

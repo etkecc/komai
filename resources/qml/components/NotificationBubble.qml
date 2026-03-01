@@ -5,7 +5,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Rectangle {
     id: bubbleRoot
@@ -20,12 +20,12 @@ Rectangle {
     baselineOffset: notificationBubbleText.baseline - bubbleRoot.top
 
     visible: mayBeVisible && notificationCount > 0
-    implicitHeight: notificationBubbleText.height + Nheko.paddingMedium
+    implicitHeight: notificationBubbleText.height + Komai.paddingMedium
     implicitWidth: Math.max(notificationBubbleText.width, height)
     radius: height / 2
-    color: hasLoudNotification ? Nheko.theme.red : bubbleBackgroundColor
+    color: hasLoudNotification ? Komai.theme.red : bubbleBackgroundColor
     ToolTip.text: notificationCount
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.visible: notificationBubbleHover.hovered && (notificationCount > 9999)
 
     Label {
@@ -34,7 +34,7 @@ Rectangle {
         anchors.centerIn: bubbleRoot
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        width: Math.max(implicitWidth + Nheko.paddingMedium, bubbleRoot.height)
+        width: Math.max(implicitWidth + Komai.paddingMedium, bubbleRoot.height)
         font.bold: true
         font.pixelSize: bubbleRoot.baseFontPixelSize * 0.8
         color: bubbleRoot.hasLoudNotification ? "white" : bubbleRoot.bubbleTextColor

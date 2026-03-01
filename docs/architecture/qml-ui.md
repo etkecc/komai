@@ -35,7 +35,7 @@ Rule: avoid adding new root-level `resources/qml/*.qml` files. Place new files i
 ## Layering Rules
 
 - `ui/` is the lowest layer. It must not depend on `shell/`, `pages/`, `dialogs/`, or `timeline/`.
-- `components/` can depend on `ui/` and model/context types from `im.nheko`.
+- `components/` can depend on `ui/` and model/context types from `cc.etke.komai`.
 - `dialogs/` can depend on `ui/`, `components/`, and domain folders they directly serve.
 - `timeline/`, `room/`, `composer/`, and `shell/` are feature layers that compose lower layers.
 - `pages/` and `shell/Root.qml` are top-level composition entry points.
@@ -60,7 +60,7 @@ Rule: every new runtime-loaded dialog/component URL must be added to `ComponentC
 
 ## Import Rules
 
-- Prefer `import im.nheko` + direct type usage over deep relative imports like `../..`.
+- Prefer `import cc.etke.komai` + direct type usage over deep relative imports like `../..`.
 - Use relative imports only when there is no stable module/type option.
 - Keep import changes mechanical and behavior-preserving; avoid mixing structural moves with functional changes.
 

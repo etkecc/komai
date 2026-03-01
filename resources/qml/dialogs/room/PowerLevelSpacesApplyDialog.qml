@@ -8,7 +8,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     id: applyDialog
@@ -31,9 +31,9 @@ ApplicationWindow {
     }
 
     ColumnLayout {
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
-        spacing: Nheko.paddingLarge
+        spacing: Komai.paddingLarge
 
 
         MatrixText {
@@ -42,7 +42,7 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: false
             color: palette.text
-            Layout.bottomMargin: Nheko.paddingMedium
+            Layout.bottomMargin: Komai.paddingMedium
         }
 
         GridLayout {

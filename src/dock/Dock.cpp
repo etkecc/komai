@@ -73,7 +73,7 @@ Dock::unitySetNotificationCount(const int count)
                                      {QStringLiteral("count"), count}};
 
         QDBusMessage message =
-          QDBusMessage::createSignal(QStringLiteral("/im/nheko/Nheko/UnityLauncher"),
+          QDBusMessage::createSignal(QStringLiteral("/cc/etke/komai/Komai/UnityLauncher"),
                                      QStringLiteral("com.canonical.Unity.LauncherEntry"),
                                      QStringLiteral("Update"));
         message.setArguments({launcherId, properties});

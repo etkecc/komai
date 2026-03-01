@@ -10,7 +10,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQml.Models
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -27,10 +27,10 @@ Item {
         anchors.right: scrollBar.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.rightMargin: Nheko.paddingSmall
+        anchors.rightMargin: Komai.paddingSmall
 
         contentWidth: width
-        contentHeight: grid.height + Nheko.paddingLarge
+        contentHeight: grid.height + Komai.paddingLarge
         clip: true
         boundsBehavior: Flickable.StopAtBounds
 
@@ -39,7 +39,7 @@ Item {
 
             spacing: 0
             property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
-            property real sideMargin: Math.max(Nheko.paddingLarge, (scroll.width - contentMaxWidth) / 2)
+            property real sideMargin: Math.max(Komai.paddingLarge, (scroll.width - contentMaxWidth) / 2)
             property int settingRowStackBreakpoint: 700
             width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin
@@ -65,8 +65,8 @@ Item {
                     readonly property bool isTimelinePreviewRow: r.model.type == UserSettingsModel.TimelinePreview
                     readonly property bool useStackedLayout: grid.width < grid.settingRowStackBreakpoint
                     readonly property real controlWidth: r.useStackedLayout
-                        ? Math.max(0, grid.width - Nheko.paddingSmall * 2)
-                        : Math.min(500, Math.max(240, grid.width - Nheko.paddingLarge * 2))
+                        ? Math.max(0, grid.width - Komai.paddingSmall * 2)
+                        : Math.min(500, Math.max(240, grid.width - Komai.paddingLarge * 2))
                     readonly property bool hasInlineDescription: (r.model.type == UserSettingsModel.OptionsWithDescription
                           || r.model.type == UserSettingsModel.IntegerWithDescription
                           || r.model.type == UserSettingsModel.ToggleWithDescription)
@@ -81,7 +81,7 @@ Item {
                     Rectangle {
                         anchors.fill: row
                         color: palette.alternateBase
-                        radius: Nheko.paddingMedium
+                        radius: Komai.paddingMedium
                         visible: settingRow.visible && rowHover.hovered
                         z: -1
                     }
@@ -90,13 +90,13 @@ Item {
                         id: row
                         width: grid.width
                         height: implicitHeight
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         SettingsSection {
                             id: sectionLabel
                             Layout.fillWidth: true
-                            Layout.topMargin: r.index === 0 ? Nheko.paddingMedium : Nheko.paddingLarge
-                            Layout.bottomMargin: Nheko.paddingSmall
+                            Layout.topMargin: r.index === 0 ? Komai.paddingMedium : Komai.paddingLarge
+                            Layout.bottomMargin: Komai.paddingSmall
                             visible: r.model.type == UserSettingsModel.SectionTitle
                             label: r.model.name
                         }
@@ -105,13 +105,13 @@ Item {
                             id: settingRow
                             Layout.fillWidth: true
                             visible: r.model.type != UserSettingsModel.SectionTitle
-                            Layout.topMargin: Nheko.paddingMedium
-                            Layout.leftMargin: Nheko.paddingSmall
-                            Layout.rightMargin: Nheko.paddingSmall
-                            Layout.bottomMargin: r.hasInlineDescription ? 0 : Nheko.paddingMedium
+                            Layout.topMargin: Komai.paddingMedium
+                            Layout.leftMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
+                            Layout.bottomMargin: r.hasInlineDescription ? 0 : Komai.paddingMedium
                             columns: r.useStackedLayout ? 1 : 2
-                            rowSpacing: r.useStackedLayout && !r.isTimelinePreviewRow ? Nheko.paddingSmall : 0
-                            columnSpacing: r.isTimelinePreviewRow ? 0 : Nheko.paddingSmall
+                            rowSpacing: r.useStackedLayout && !r.isTimelinePreviewRow ? Komai.paddingSmall : 0
+                            columnSpacing: r.isTimelinePreviewRow ? 0 : Komai.paddingSmall
 
                             Text {
                                 Layout.row: 0
@@ -119,7 +119,7 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.minimumWidth: 0
                                 Layout.alignment: Qt.AlignTop
-                                Layout.rightMargin: r.useStackedLayout ? 0 : Nheko.paddingSmall
+                                Layout.rightMargin: r.useStackedLayout ? 0 : Komai.paddingSmall
                                 color: palette.text
                                 text: r.model.name
                                 textFormat: Text.AutoText
@@ -136,7 +136,7 @@ Item {
                                 }
                                 ToolTip.visible: hovered.hovered && !!r.model.description && !r.hasInlineDescription
                                 ToolTip.text: r.model.description ?? ""
-                                ToolTip.delay: Nheko.tooltipDelay
+                                ToolTip.delay: Komai.tooltipDelay
                             }
 
                             Item {
@@ -361,8 +361,8 @@ Item {
 
                         TextEdit {
                             Layout.fillWidth: true
-                            Layout.leftMargin: Nheko.paddingSmall
-                            Layout.rightMargin: Nheko.paddingSmall
+                            Layout.leftMargin: Komai.paddingSmall
+                            Layout.rightMargin: Komai.paddingSmall
                             visible: r.hasInlineDescription
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
@@ -371,8 +371,8 @@ Item {
                             wrapMode: Text.Wrap
                             readOnly: true
                             selectByMouse: true
-                            Layout.topMargin: -Nheko.paddingSmall
-                            Layout.bottomMargin: Nheko.paddingMedium
+                            Layout.topMargin: -Komai.paddingSmall
+                            Layout.bottomMargin: Komai.paddingMedium
                             onLinkActivated: function(link) {
                                 Qt.openUrlExternally(link);
                             }

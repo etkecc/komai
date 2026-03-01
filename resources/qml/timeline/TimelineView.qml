@@ -6,7 +6,7 @@
 import "../composer" as Composer
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: timelineView
@@ -197,7 +197,7 @@ Item {
         shouldEffectsRun: timelineView.shouldEffectsRun
         visible: !timelineView.perfDisableTimelineEffects
     }
-    NhekoDropArea {
+    KomaiDropArea {
         anchors.fill: parent
         roomid: room ? room.roomId : ""
     }

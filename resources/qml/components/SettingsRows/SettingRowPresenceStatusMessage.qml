@@ -7,12 +7,12 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
 
-    property var profile: Nheko.currentUser
+    property var profile: Komai.currentUser
     property string currentUserId: profile && profile.userid ? profile.userid : ""
     property string lastSentStatusMessage: ""
 
@@ -24,7 +24,7 @@ Item {
         if (statusMessageField.activeFocus)
             return;
 
-        statusMessageField.text = Nheko.statusMessage();
+        statusMessageField.text = Komai.statusMessage();
         lastSentStatusMessage = statusMessageField.text;
     }
 
@@ -35,14 +35,14 @@ Item {
             return;
 
         lastSentStatusMessage = nextValue;
-        Nheko.setStatusMessage(nextValue);
+        Komai.setStatusMessage(nextValue);
     }
 
     RowLayout {
         id: row
 
         anchors.fill: parent
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         TextField {
             id: statusMessageField
@@ -72,7 +72,7 @@ Item {
             image: ":/icons/icons/ui/round-remove-button.svg"
             visible: statusMessageField.text !== ""
             ToolTip.visible: hovered
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: qsTr("Clear status message")
 
             onClicked: {
@@ -93,11 +93,11 @@ Item {
     }
 
     Connections {
-        target: Nheko
+        target: Komai
 
         function onProfileChanged()
         {
-            root.profile = Nheko.currentUser;
+            root.profile = Komai.currentUser;
             root.refreshFromPresence();
         }
     }

@@ -2191,7 +2191,7 @@ Example: https://yourserver.example.com:8787</source>
 <context>
     <name>Nheko</name>
     <message>
-        <location filename="../../../src/ui/NhekoGlobalObject.h" line="+53"/>
+        <location filename="../../../src/ui/KomaiGlobalObject.h" line="+53"/>
         <source>A fine desktop Matrix chat app you can get to love</source>
         <translation type="unfinished"/>
     </message>

@@ -4,12 +4,12 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 MouseArea {
     id: control
 
-    property int avatarButtonSize: Nheko.barIconSize
+    property int avatarButtonSize: Komai.barIconSize
     readonly property int effectiveButtonSize: Math.max(1, Math.round(avatarButtonSize) - (Math.round(avatarButtonSize) % 2))
     property bool motionEnabled: Settings.uiMotionAnimationsEnabled
     property real flipAngle: 0
@@ -29,7 +29,7 @@ MouseArea {
     cursorShape: Qt.PointingHandCursor
     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: resolvedToolTipText
     ToolTip.visible: containsMouse && resolvedToolTipText.length > 0
 

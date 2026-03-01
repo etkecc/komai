@@ -5,7 +5,7 @@
 
 import QtQuick 2.15
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 import "../../components/"
 
 RowLayout {
@@ -20,7 +20,7 @@ RowLayout {
 
     FlatButton {
         compact: true
-        Layout.margins: Nheko.paddingLarge
+        Layout.margins: Komai.paddingLarge
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("REGISTER")
         iconImage: "image://colorimage/:/icons/icons/ui/plus-circle.svg?" + (enabled ? palette.light : palette.buttonText)
@@ -29,7 +29,7 @@ RowLayout {
 
     FlatButton {
         compact: true
-        Layout.margins: Nheko.paddingLarge
+        Layout.margins: Komai.paddingLarge
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("LOGIN")
         iconImage: "image://colorimage/:/icons/icons/ui/arrow-right.svg?" + (enabled ? palette.light : palette.buttonText)

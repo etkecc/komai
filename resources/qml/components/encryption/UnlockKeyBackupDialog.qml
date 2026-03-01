@@ -7,7 +7,7 @@ import ".." as Components
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Components.OverlayDialog {
     id: root
@@ -29,7 +29,7 @@ Components.OverlayDialog {
 
     titleText: qsTr("Unlock key backup")
     titleIcon: ":/icons/icons/ui/key.svg"
-    titleIconColor: Nheko.theme.green
+    titleIconColor: Komai.theme.green
     onOpened: {
         completionHandled = false;
         unlockKeyInput.text = "";
@@ -68,7 +68,7 @@ Components.OverlayDialog {
 
     RowLayout {
         Layout.fillWidth: true
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Button {
             text: qsTr("Cancel")

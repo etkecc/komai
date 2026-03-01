@@ -29,7 +29,7 @@ Menu {
         }
     }
 
-    NhekoMenuVisibilityFilter on contentData {
+    KomaiMenuVisibilityFilter on contentData {
         id: replyContextMenuFilter
 
         Component {

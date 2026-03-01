@@ -10,7 +10,7 @@
 
 #include <QQuickItem>
 
-class NhekoCursorShape : public QQuickItem
+class KomaiCursorShape : public QQuickItem
 {
     Q_OBJECT
     QML_ELEMENT
@@ -18,7 +18,7 @@ class NhekoCursorShape : public QQuickItem
       Qt::CursorShape cursorShape READ cursorShape WRITE setCursorShape NOTIFY cursorShapeChanged)
 
 public:
-    explicit NhekoCursorShape(QQuickItem *parent = 0);
+    explicit KomaiCursorShape(QQuickItem *parent = 0);
 
 private:
     Qt::CursorShape cursorShape() const;

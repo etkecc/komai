@@ -7,7 +7,7 @@ import "../ui"
 import QtQuick 2.9
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Page {
     id: uploadPopup
@@ -19,7 +19,7 @@ Page {
     Layout.maximumHeight: layoutVisible ? 200 : 0
     Layout.preferredHeight: layoutVisible ? 200 : 0
     clip: true
-    padding: Nheko.paddingMedium
+    padding: Komai.paddingMedium
     visible: layoutVisible
 
     background: Rectangle {
@@ -32,7 +32,7 @@ Page {
         boundsBehavior: Flickable.StopAtBounds
         model: room ? room.input.uploads : undefined
         orientation: ListView.Horizontal
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         width: Math.min(contentWidth, parent.availableWidth)
 
         ScrollBar.horizontal: ScrollBar {
@@ -43,12 +43,12 @@ Page {
             id: pane
 
             height: uploadPopup.availableHeight - buttons.height - (scr.visible ? scr.height : 0)
-            padding: Nheko.paddingSmall
+            padding: Komai.paddingSmall
             width: uploadPopup.availableHeight - buttons.height
 
             background: Rectangle {
                 color: palette.window
-                radius: Nheko.paddingMedium
+                radius: Komai.paddingMedium
             }
             contentItem: ColumnLayout {
                 Image {

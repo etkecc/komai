@@ -6,19 +6,19 @@
 import "../../ui"
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Popup {
     id: quickSwitcher
 
     property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
-    property int textMargin: Nheko.paddingSmall
+    property int textMargin: Komai.paddingSmall
 
     background: Rectangle {
         color: palette.alternateBase
         radius: 8
     }
-    padding: Nheko.paddingMedium
+    padding: Komai.paddingMedium
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     modal: true
 
@@ -39,10 +39,10 @@ Popup {
     }
 
     contentItem: Column {
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Row {
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             width: parent.width
 
             Image {
@@ -71,7 +71,7 @@ Popup {
             ImageButton {
                 id: closeButton
 
-                ToolTip.delay: Nheko.tooltipDelay
+                ToolTip.delay: Komai.tooltipDelay
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 anchors.verticalCenter: parent.verticalCenter
@@ -90,9 +90,9 @@ Popup {
             color: palette.buttonText
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.4)
             text: qsTr("Searches among rooms you participate in, not across all rooms on Matrix.")
-            leftPadding: Nheko.paddingSmall
-            topPadding: Nheko.paddingMedium
-            bottomPadding: Nheko.paddingMedium
+            leftPadding: Komai.paddingSmall
+            topPadding: Komai.paddingMedium
+            bottomPadding: Komai.paddingMedium
             width: parent.width
             wrapMode: Text.Wrap
         }
@@ -103,7 +103,7 @@ Popup {
             color: palette.text
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
             placeholderText: qsTr("Room name, address or id...")
-            radius: Nheko.paddingSmall
+            radius: Komai.paddingSmall
             width: parent.width
 
             Keys.onPressed: event => {

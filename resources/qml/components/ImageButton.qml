@@ -7,7 +7,7 @@ pragma ComponentBehavior: Bound
 import "../ui"
 import QtQuick
 import QtQuick.Controls
-import im.nheko // for cursor shape
+import cc.etke.komai // for cursor shape
 
 AbstractButton {
     id: button
@@ -38,7 +38,7 @@ AbstractButton {
         sourceSize.height: buttonImg.height
         sourceSize.width: buttonImg.width
     }
-    NhekoCursorShape {
+    KomaiCursorShape {
         id: mouseArea
 
         anchors.fill: parent

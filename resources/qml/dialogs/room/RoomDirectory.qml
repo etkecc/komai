@@ -9,7 +9,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: roomDirectoryWindow
@@ -44,20 +44,20 @@ ApplicationWindow {
             property int avatarSize: fontMetrics.height * 3.2
 
             color: background
-            height: avatarSize + Nheko.paddingLarge
+            height: avatarSize + Komai.paddingLarge
             width: ListView.view.width
 
             RowLayout {
-                spacing: Nheko.paddingMedium
+                spacing: Komai.paddingMedium
                 anchors.fill: parent
-                anchors.margins: Nheko.paddingMedium
+                anchors.margins: Komai.paddingMedium
                 implicitHeight: textContent.implicitHeight
 
                 Avatar {
                     id: roomAvatar
 
                     Layout.alignment: Qt.AlignVCenter
-                    Layout.rightMargin: Nheko.paddingMedium
+                    Layout.rightMargin: Komai.paddingMedium
                     Layout.preferredWidth: roomDirDelegate.avatarSize
                     Layout.preferredHeight: roomDirDelegate.avatarSize
 
@@ -137,14 +137,14 @@ ApplicationWindow {
             width: parent.width
             visible: !publicRooms.reachedEndOfPagination && publicRooms.loadingMoreRooms
             // hacky but works
-            height: loadingSpinner.height + 2 * Nheko.paddingLarge
-            anchors.margins: Nheko.paddingLarge
+            height: loadingSpinner.height + 2 * Komai.paddingLarge
+            anchors.margins: Komai.paddingLarge
 
             Spinner {
                 id: loadingSpinner
 
                 anchors.centerIn: parent
-                anchors.margins: Nheko.paddingLarge
+                anchors.margins: Komai.paddingLarge
                 running: visible
                 foreground: palette.mid
             }
@@ -156,7 +156,7 @@ ApplicationWindow {
     header: RowLayout {
         id: searchBarLayout
 
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         width: parent.width
         implicitHeight: roomSearch.height
 
@@ -194,14 +194,14 @@ ApplicationWindow {
     }
 
     footer: RowLayout {
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         width: parent.width
 
         Button {
             text: qsTr("Close")
             onClicked: roomDirectoryWindow.close()
             Layout.alignment: Qt.AlignRight
-            Layout.margins: Nheko.paddingMedium
+            Layout.margins: Komai.paddingMedium
         }
     }
 

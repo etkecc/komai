@@ -6,7 +6,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ItemDelegate {
     property alias bgColor: background.color
@@ -14,22 +14,22 @@ ItemDelegate {
     property alias displayName: avatar.displayName
     property string avatarUrl
     property string roomId: ""
-    implicitHeight: layout.implicitHeight + Nheko.paddingSmall * 2
+    implicitHeight: layout.implicitHeight + Komai.paddingSmall * 2
     background: Rectangle {id: background}
     GridLayout {
         id: layout
         anchors.centerIn: parent
-        width: parent.width - Nheko.paddingSmall * 2
+        width: parent.width - Komai.paddingSmall * 2
         rows: 2
         columns: 2
-        rowSpacing: Nheko.paddingSmall
-        columnSpacing: Nheko.paddingMedium
+        rowSpacing: Komai.paddingSmall
+        columnSpacing: Komai.paddingMedium
 
         Avatar {
             id: avatar
             Layout.rowSpan: 2
-            Layout.preferredWidth: Nheko.avatarSize
-            Layout.preferredHeight: Nheko.avatarSize
+            Layout.preferredWidth: Komai.avatarSize
+            Layout.preferredHeight: Komai.avatarSize
             Layout.alignment: Qt.AlignLeft
             url: avatarUrl.replace("mxc://", "image://MxcImage/")
             enabled: false

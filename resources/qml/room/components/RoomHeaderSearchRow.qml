@@ -6,7 +6,7 @@ import "../../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 RowLayout {
     id: root
@@ -36,8 +36,8 @@ RowLayout {
     Layout.preferredHeight: layoutVisible ? implicitHeight : 0
     Layout.maximumHeight: layoutVisible ? implicitHeight : 0
     Layout.row: 5
-    Layout.topMargin: Nheko.paddingSmall
-    spacing: Nheko.paddingSmall
+    Layout.topMargin: Komai.paddingSmall
+    spacing: Komai.paddingSmall
     visible: layoutVisible
 
     RoomSearchStatusIcon {
@@ -52,7 +52,7 @@ RowLayout {
         enabled: root.searchActive
         hasClear: false
         placeholderText: qsTr("Type to search in this room's messages")
-        radius: Nheko.paddingSmall
+        radius: Komai.paddingSmall
 
         onEditingFinished: root.searchStringCommitted(text)
     }

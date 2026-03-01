@@ -7,7 +7,7 @@ import ".." as Components
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Components.OverlayDialog {
     id: root
@@ -18,7 +18,7 @@ Components.OverlayDialog {
     closePolicy: Popup.NoAutoClose
     titleText: qsTr("Save your security key and keep it private")
     titleIcon: ":/icons/icons/ui/shield-regular-checkmark.svg"
-    titleIconColor: Nheko.theme.green
+    titleIconColor: Komai.theme.green
     onOpened: recoveryKeyField.forceActiveFocus()
 
     Label {
@@ -31,7 +31,7 @@ Components.OverlayDialog {
 
     RowLayout {
         Layout.fillWidth: true
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         TextField {
             id: recoveryKeyField

@@ -7,7 +7,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 RowLayout {
     id: metadata
@@ -52,7 +52,7 @@ RowLayout {
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredWidth: implicitWidth
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
         ToolTip.visible: ma.hovered
         color: palette.inactive.text
@@ -71,7 +71,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Message actions")
         ToolTip.visible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
@@ -89,7 +89,7 @@ RowLayout {
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredWidth: implicitWidth
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
         ToolTip.visible: maTrailingLeading.hovered
         color: palette.inactive.text
@@ -114,7 +114,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
         Layout.preferredWidth: parent.iconSize
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Edited")
         ToolTip.visible: editHovered.hovered
         source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? palette.highlight : palette.buttonText)
@@ -142,7 +142,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Message actions")
         ToolTip.visible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
@@ -158,7 +158,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Part of a thread")
         ToolTip.visible: hovered
         buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
@@ -183,7 +183,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
         Layout.preferredWidth: parent.iconSize
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Edited")
         ToolTip.visible: editHoveredTrailing.hovered
         source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? palette.highlight : palette.buttonText)
@@ -209,7 +209,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Part of a thread")
         ToolTip.visible: hovered
         buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
@@ -226,7 +226,7 @@ RowLayout {
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredWidth: implicitWidth
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
         ToolTip.visible: maTrailing.hovered
         color: palette.inactive.text
@@ -245,7 +245,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Nheko.tooltipDelay
+        ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Message actions")
         ToolTip.visible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)

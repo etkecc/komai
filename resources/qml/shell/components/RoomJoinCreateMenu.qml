@@ -4,7 +4,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Menu {
     id: root
@@ -14,7 +14,7 @@ Menu {
     MenuItem {
         text: qsTr("Join a room")
 
-        onTriggered: Nheko.openJoinRoomDialog()
+        onTriggered: Komai.openJoinRoomDialog()
     }
     MenuItem {
         text: qsTr("Create a new room")

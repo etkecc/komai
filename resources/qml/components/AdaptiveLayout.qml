@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Container {
     //Component.onCompleted: {
@@ -15,7 +15,7 @@ Container {
     id: container
 
     property bool singlePageMode: width < 800
-    property int splitterGrabMargin: Nheko.paddingSmall
+    property int splitterGrabMargin: Komai.paddingSmall
     property alias pageIndex: view.currentIndex
     property Component handle
     property Component handleToucharea
@@ -59,7 +59,7 @@ Container {
 
     handle: Rectangle {
         z: 3
-        color: Nheko.theme.separator
+        color: Komai.theme.separator
         height: container.height
         width: visible ? 1 : 0
         anchors.right: parent.right
@@ -85,7 +85,7 @@ Container {
         x: parent.preferredWidth
         z: 3
 
-        NhekoCursorShape {
+        KomaiCursorShape {
             height: parent.height
             width: container.splitterGrabMargin * 2
             x: -container.splitterGrabMargin

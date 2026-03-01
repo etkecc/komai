@@ -4,7 +4,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -90,7 +90,7 @@ Item {
 
         background: Rectangle {
             color: messageActionsToolbar.actionBarColor
-            radius: Nheko.paddingMedium
+            radius: Komai.paddingMedium
         }
         contentItem: MessageActionsToolbar {
             id: messageActionsToolbar

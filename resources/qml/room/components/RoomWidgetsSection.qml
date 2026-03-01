@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 import "../../ui"
 
 ScrollView {
@@ -20,8 +20,8 @@ ScrollView {
     Layout.columnSpan: 8
     Layout.fillWidth: true
     Layout.minimumHeight: 0
-    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Nheko.avatarSize * 1.5) : 0
-    Layout.maximumHeight: layoutVisible ? Nheko.avatarSize * 1.5 : 0
+    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Komai.avatarSize * 1.5) : 0
+    Layout.maximumHeight: layoutVisible ? Komai.avatarSize * 1.5 : 0
     Layout.row: 4
     ScrollBar.horizontal.visible: false
     clip: true
@@ -30,7 +30,7 @@ ScrollView {
 
     ListView {
         model: room ? room.widgetLinks : undefined
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         delegate: MatrixText {
             width: widgets.width

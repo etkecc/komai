@@ -6,7 +6,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Dialog {
     id: root
@@ -23,7 +23,7 @@ Dialog {
     function overlayDialogWidth(dialogParent, contentImplicitWidth, dialogPadding)
     {
         const parentWidth = dialogParent ? dialogParent.width : 760;
-        const viewportMax = Math.max(240, parentWidth - Nheko.paddingLarge * 2);
+        const viewportMax = Math.max(240, parentWidth - Komai.paddingLarge * 2);
         const ratioMax = Math.max(240, Math.floor(parentWidth * overlayDialogMaxWidthRatio));
         const maxWidth = Math.min(viewportMax, ratioMax);
         const minWidth = Math.min(overlayDialogMinWidth, maxWidth);
@@ -32,7 +32,7 @@ Dialog {
     }
 
     modal: true
-    padding: Nheko.paddingMedium
+    padding: Komai.paddingMedium
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     standardButtons: Dialog.NoButton
     width: overlayDialogWidth(parent, contentItem ? contentItem.implicitWidth : 0, padding)
@@ -53,11 +53,11 @@ Dialog {
     }
 
     contentItem: ColumnLayout {
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
 
         RowLayout {
             Layout.fillWidth: true
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
 
             Image {
                 Layout.alignment: Qt.AlignVCenter
@@ -96,7 +96,7 @@ Dialog {
         ColumnLayout {
             id: bodyLayout
 
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
         }
     }
 }

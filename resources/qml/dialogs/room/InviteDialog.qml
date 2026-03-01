@@ -8,7 +8,7 @@ import "../../components"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     id: inviteDialogRoot
@@ -56,8 +56,8 @@ ApplicationWindow {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: Nheko.paddingMedium
-        spacing: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
+        spacing: Komai.paddingMedium
         Flow {
             layoutDirection: Qt.LeftToRight
             Layout.fillWidth: true
@@ -93,7 +93,7 @@ ApplicationWindow {
             color: palette.text
         }
         RowLayout {
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
 
             MatrixTextField {
                 id: inviteeEntry
@@ -182,7 +182,7 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 visible: inviteesList.visible
                 Layout.preferredWidth: 1
-                color: Nheko.theme.separator
+                color: Komai.theme.separator
             }
             ListView {
                 id: inviteesList
@@ -205,15 +205,15 @@ ApplicationWindow {
                     bgColor: del.hovered ? palette.dark : inviteDialogRoot.color
                     ImageButton {
                         anchors.right: parent.right
-                        anchors.rightMargin: Nheko.paddingSmall
+                        anchors.rightMargin: Komai.paddingSmall
                         anchors.top: parent.top
-                        anchors.topMargin: Nheko.paddingSmall
+                        anchors.topMargin: Komai.paddingSmall
                         id: removeButton
                         image: ":/icons/icons/ui/dismiss.svg"
                         onClicked: invitees.removeUser(model.mxid)
                     }
 
-                    NhekoCursorShape {
+                    KomaiCursorShape {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                     }

@@ -7,7 +7,7 @@ import "../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Popup {
     modal: true

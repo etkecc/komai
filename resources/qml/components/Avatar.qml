@@ -8,7 +8,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import Qt5Compat.GraphicalEffects
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 AbstractButton {
     id: avatar
@@ -112,9 +112,9 @@ AbstractButton {
         function updatePresence() {
             switch (Presence.userPresence(avatar.userid)) {
             case "online":
-                return Nheko.theme.online;
+                return Komai.theme.online;
             case "unavailable":
-                return Nheko.theme.unavailable;
+                return Komai.theme.unavailable;
             case "offline":
             default:
                 // return "#a82353" don't show anything if offline, since it is confusing, if presence is disabled
@@ -139,7 +139,7 @@ AbstractButton {
             target: Presence
         }
     }
-    NhekoCursorShape {
+    KomaiCursorShape {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
     }

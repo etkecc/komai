@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "NhekoGlobalObject.h"
+#include "KomaiGlobalObject.h"
 
 #include <QApplication>
 #include <QDesktopServices>
@@ -70,29 +70,29 @@ openWithBrowserCommand(const QString &command, const QUrl &url)
 
 }
 
-Nheko::Nheko()
+Komai::Komai()
 {
     connect(UserSettings::instance().get(),
             &UserSettings::uiThemeSlugChanged,
             this,
-            &Nheko::colorsChanged);
+            &Komai::colorsChanged);
     connect(UserSettings::instance().get(),
             &UserSettings::uiLayoutCompactModeChanged,
             this,
-            &Nheko::uiLayoutCompactModeChanged);
+            &Komai::uiLayoutCompactModeChanged);
     connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListShowLastMessageTimeChanged,
             this,
-            &Nheko::sidebarsRoomListShowLastMessageTimeChanged);
-    connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Nheko::updateUserProfile);
-    connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Nheko::showRoomJoinPrompt);
+            &Komai::sidebarsRoomListShowLastMessageTimeChanged);
+    connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Komai::updateUserProfile);
+    connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Komai::showRoomJoinPrompt);
     connect(
-      ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Nheko::promptUnlockKeyBackup);
-    connect(this, &Nheko::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
+      ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Komai::promptUnlockKeyBackup);
+    connect(this, &Komai::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
 }
 
 void
-Nheko::updateUserProfile()
+Komai::updateUserProfile()
 {
     if (cache::isAvailable() && cache::isInitialized())
         currentUser_.reset(new UserProfile(
@@ -103,13 +103,13 @@ Nheko::updateUserProfile()
 }
 
 QPalette
-Nheko::colors() const
+Komai::colors() const
 {
     return Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
 }
 
 QPalette
-Nheko::inactiveColors() const
+Komai::inactiveColors() const
 {
     auto p = Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
     p.setCurrentColorGroup(QPalette::ColorGroup::Inactive);
@@ -117,31 +117,31 @@ Nheko::inactiveColors() const
 }
 
 Theme
-Nheko::theme() const
+Komai::theme() const
 {
     return Theme(UserSettings::instance()->uiThemeSlug());
 }
 
 int
-Nheko::tooltipDelay() const
+Komai::tooltipDelay() const
 {
     return QApplication::style()->styleHint(QStyle::StyleHint::SH_ToolTip_WakeUpDelay);
 }
 
 bool
-Nheko::uiLayoutCompactMode() const
+Komai::uiLayoutCompactMode() const
 {
     return UserSettings::instance()->uiLayoutCompactMode();
 }
 
 bool
-Nheko::sidebarsRoomListShowLastMessageTime() const
+Komai::sidebarsRoomListShowLastMessageTime() const
 {
     return UserSettings::instance()->sidebarsRoomListShowLastMessageTime();
 }
 
 double
-Nheko::sidebarAvatarMultiplier() const
+Komai::sidebarAvatarMultiplier() const
 {
     // Spacious mode: 2.0x line spacing, Compact mode: 1.25x line spacing.
     return uiLayoutCompactMode() ? 1.25 : 2.0;
@@ -149,7 +149,7 @@ Nheko::sidebarAvatarMultiplier() const
 
 // Font-scaled icon size for list entries (room list rows, community entries).
 int
-Nheko::listIconSize() const
+Komai::listIconSize() const
 {
     QFontMetricsF fm(QGuiApplication::font());
     const int rawSize = qMax(1, qCeil(fm.lineSpacing() * sidebarAvatarMultiplier()));
@@ -165,7 +165,7 @@ Nheko::listIconSize() const
 // The value follows list icon scaling and padding, so compact mode and font size
 // adjustments keep these surfaces visually aligned.
 int
-Nheko::navigationRowHeight() const
+Komai::navigationRowHeight() const
 {
     return listIconSize() + 2 * paddingMedium();
 }
@@ -176,7 +176,7 @@ Nheko::navigationRowHeight() const
 // Normalize to an even value to avoid half-pixel border/render artifacts in
 // composite icon controls that animate or apply layer effects.
 int
-Nheko::barIconSize() const
+Komai::barIconSize() const
 {
     const int rawSize = uiLayoutCompactMode() ? listIconSize() : avatarSize();
     // barIconSize is used by top/room action bar icon composites; forcing an
@@ -187,7 +187,7 @@ Nheko::barIconSize() const
 }
 
 void
-Nheko::openLink(QString link) const
+Komai::openLink(QString link) const
 {
     QUrl url(link);
     // Open externally if we couldn't handle it internally
@@ -210,26 +210,26 @@ Nheko::openLink(QString link) const
     }
 }
 QString
-Nheko::punyLink(QString link) const
+Komai::punyLink(QString link) const
 {
     QUrl url(link);
     return url.toDisplayString(QUrl::FullyEncoded);
 }
 
 QString
-Nheko::statusMessage() const
+Komai::statusMessage() const
 {
     return ChatPage::instance()->status();
 }
 
 void
-Nheko::setStatusMessage(QString msg) const
+Komai::setStatusMessage(QString msg) const
 {
     ChatPage::instance()->setStatus(msg);
 }
 
 UserProfile *
-Nheko::currentUser() const
+Komai::currentUser() const
 {
     nhlog::ui()->debug("Profile requested");
 
@@ -237,39 +237,39 @@ Nheko::currentUser() const
 }
 
 void
-Nheko::showUserSettingsPage() const
+Komai::showUserSettingsPage() const
 {
     if (auto *window = MainWindow::instance())
         window->showUserSettingsPage();
 }
 
 void
-Nheko::logout() const
+Komai::logout() const
 {
     ChatPage::instance()->initiateLogout();
 }
 
 void
-Nheko::submitUnlockKeyBackup(QString keyOrPassphrase) const
+Komai::submitUnlockKeyBackup(QString keyOrPassphrase) const
 {
     ChatPage::instance()->submitSecretUnlockInput(keyOrPassphrase);
 }
 
 void
-Nheko::cancelUnlockKeyBackup() const
+Komai::cancelUnlockKeyBackup() const
 {
     ChatPage::instance()->cancelSecretUnlockInput();
 }
 
 void
-Nheko::setTransientParent(QWindow *window, QWindow *parentWindow) const
+Komai::setTransientParent(QWindow *window, QWindow *parentWindow) const
 {
     if (window)
         window->setTransientParent(parentWindow);
 }
 
 void
-Nheko::createRoom(bool space,
+Komai::createRoom(bool space,
                   const QString &name,
                   const QString &topic,
                   const QString &aliasLocalpart,
@@ -311,7 +311,7 @@ Nheko::createRoom(bool space,
 }
 
 void
-Nheko::setWindowRole([[maybe_unused]] QWindow *win, [[maybe_unused]] QString newRole) const
+Komai::setWindowRole([[maybe_unused]] QWindow *win, [[maybe_unused]] QString newRole) const
 {
 #if XCB_AVAILABLE && QT_CONFIG(xcb)
     const QNativeInterface::QX11Application *x11Interface =
@@ -341,4 +341,4 @@ Nheko::setWindowRole([[maybe_unused]] QWindow *win, [[maybe_unused]] QString new
 #endif
 }
 
-#include "moc_NhekoGlobalObject.cpp"
+#include "moc_KomaiGlobalObject.cpp"

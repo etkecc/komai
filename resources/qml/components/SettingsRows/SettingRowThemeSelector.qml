@@ -6,7 +6,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -27,7 +27,7 @@ Item {
     Row {
         id: row
         anchors.left: parent.left
-        spacing: root.leftAligned ? Math.max(1, Math.round(Nheko.paddingSmall / 2)) : Nheko.paddingSmall
+        spacing: root.leftAligned ? Math.max(1, Math.round(Komai.paddingSmall / 2)) : Komai.paddingSmall
 
         ComboBox {
             id: variantCombo

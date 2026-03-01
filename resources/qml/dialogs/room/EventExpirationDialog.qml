@@ -7,7 +7,7 @@ import "../../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     id: dialog
@@ -44,8 +44,8 @@ ApplicationWindow {
     }
 
     ColumnLayout {
-        spacing: Nheko.paddingMedium
-        anchors.margins: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
 
         MatrixText {
@@ -65,7 +65,7 @@ ApplicationWindow {
 
         GridLayout {
             columns: 2
-            rowSpacing: Nheko.paddingMedium
+            rowSpacing: Komai.paddingMedium
             Layout.fillWidth: true
             Layout.fillHeight: true
 

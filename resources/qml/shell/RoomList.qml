@@ -6,15 +6,15 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Page {
     id: roomListPage
-    //leftPadding: Nheko.paddingSmall
-    //rightPadding: Nheko.paddingSmall
+    //leftPadding: Komai.paddingSmall
+    //rightPadding: Komai.paddingSmall
     required property var timelineRoot
-    property bool compactMode: Nheko.uiLayoutCompactMode
-    property int avatarSize: Nheko.listIconSize
+    property bool compactMode: Komai.uiLayoutCompactMode
+    property int avatarSize: Komai.listIconSize
     property bool collapsed: false
 
     ComponentCatalog {
@@ -22,7 +22,7 @@ Page {
     }
 
     background: Rectangle {
-        color: Nheko.theme.sidebarBackground
+        color: Komai.theme.sidebarBackground
     }
     header: ColumnLayout {
         spacing: 0
@@ -35,12 +35,12 @@ Page {
         }
         Rectangle {
             Layout.fillWidth: true
-            color: Nheko.theme.separator
+            color: Komai.theme.separator
             Layout.preferredHeight: Settings.sidebarsCommunitiesVisible ? 0 : 2
         }
         RoomListActionsBar {
             Layout.fillWidth: true
-            Layout.preferredHeight: Nheko.navigationRowHeight
+            Layout.preferredHeight: Komai.navigationRowHeight
             avatarSize: roomListPage.avatarSize
             profileContextMenu: profileContextMenu
             componentCatalog: componentCatalog
@@ -48,7 +48,7 @@ Page {
         }
         Rectangle {
             Layout.fillWidth: true
-            color: Nheko.theme.separator
+            color: Komai.theme.separator
             Layout.preferredHeight: 1
         }
     }

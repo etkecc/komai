@@ -9,7 +9,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.13
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Rectangle {
     id: inputBar

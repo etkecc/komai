@@ -6,7 +6,7 @@
 import "../ui"
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Rectangle {
     id: tile
@@ -27,7 +27,7 @@ Rectangle {
     property alias userid: avatar.userid
 
     color: background
-    height: avatarSize + 2 * Nheko.paddingMedium
+    height: avatarSize + 2 * Komai.paddingMedium
     width: ListView.view.width
     state: "normal"
     states: [
@@ -68,9 +68,9 @@ Rectangle {
     }
 
     RowLayout {
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         anchors.fill: parent
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
 
         Avatar {
             id: avatar
@@ -91,7 +91,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.minimumWidth: 100
             Layout.preferredWidth: parent.width - avatar.width
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
 
             RowLayout {
                 Layout.fillWidth: true
@@ -100,7 +100,7 @@ Rectangle {
                 ElidedLabel {
                     Layout.alignment: Qt.AlignBottom
                     color: tile.importantText
-                    elideWidth: textContent.width - Nheko.paddingMedium
+                    elideWidth: textContent.width - Komai.paddingMedium
                     fullText: title
                     textFormat: Text.PlainText
                 }
@@ -118,7 +118,7 @@ Rectangle {
                 ElidedLabel {
                     color: tile.unimportantText
                     font.pixelSize: fontMetrics.font.pixelSize * 0.9
-                    elideWidth: textContent.width - Nheko.paddingSmall
+                    elideWidth: textContent.width - Komai.paddingSmall
                     fullText: subtitle
                     textFormat: Text.PlainText
                 }

@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Pane {
     id: roomActionsBar
@@ -15,30 +15,30 @@ Pane {
     required property var componentCatalog
     required property var profileContextMenu
     required property var timelineRoot
-    property int buttonSize: Nheko.barIconSize
+    property int buttonSize: Komai.barIconSize
     readonly property int actionButtonCount: 3
     readonly property string newActionLabel: qsTr("New")
     readonly property string browseActionLabel: qsTr("Browse")
     readonly property string switchActionLabel: qsTr("Switch")
     readonly property real requiredIconOnlyActionWidth: actionButtonCount * buttonSize
     readonly property real requiredLabeledActionWidth: requiredIconOnlyActionWidth
-        + (Nheko.paddingSmall + newLabelMetrics.advanceWidth)
-        + (Nheko.paddingSmall + browseLabelMetrics.advanceWidth)
-        + (Nheko.paddingSmall + switchLabelMetrics.advanceWidth)
+        + (Komai.paddingSmall + newLabelMetrics.advanceWidth)
+        + (Komai.paddingSmall + browseLabelMetrics.advanceWidth)
+        + (Komai.paddingSmall + switchLabelMetrics.advanceWidth)
     readonly property real minimumActionsVisibleWidth: horizontalPadding * 2
         + userSettingsButton.effectiveButtonSize
-        + Nheko.paddingMedium * 2
+        + Komai.paddingMedium * 2
         + requiredIconOnlyActionWidth
     readonly property real availableActionWidth: Math.max(0, width
         - horizontalPadding * 2
         - userSettingsButton.effectiveButtonSize
-        - Nheko.paddingMedium * 2)
+        - Komai.paddingMedium * 2)
     property bool showActionButtons: roomActionsBar.width > minimumActionsVisibleWidth
     property bool showActionLabels: false
     property int actionLabelsHysteresisPx: 24
     property bool actionLabelStateSeeded: false
 
-    horizontalPadding: Nheko.paddingMedium
+    horizontalPadding: Komai.paddingMedium
     verticalPadding: 0
 
     function updateActionLabelVisibility() {
@@ -93,15 +93,15 @@ Pane {
         text: roomActionsBar.switchActionLabel
     }
     contentItem: RowLayout {
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
 
         UserSettingsFlipButton {
             id: userSettingsButton
 
-            profile: Nheko.currentUser
-            avatarButtonSize: Nheko.barIconSize
+            profile: Komai.currentUser
+            avatarButtonSize: Komai.barIconSize
 
-            Layout.preferredHeight: Nheko.navigationRowHeight
+            Layout.preferredHeight: Komai.navigationRowHeight
             Layout.preferredWidth: effectiveButtonSize
             onLeftClicked: {
                 if (!roomActionsBar.showActionButtons)

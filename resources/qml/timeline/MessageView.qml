@@ -5,7 +5,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Item {
     id: chatRoot
@@ -14,7 +14,7 @@ Item {
     required property var dialogHost
     required property var componentCatalog
     property int availableWidth: width
-    property int padding: Nheko.paddingMedium
+    property int padding: Komai.paddingMedium
     property string searchString: ""
     property bool filterByNotifications: false
     property bool disableTimelineList: false
@@ -379,7 +379,7 @@ Item {
             anchors.centerIn: parent
             running: parent.visible
             visible: running
-            height: Nheko.timelineLogoSize
+            height: Komai.timelineLogoSize
             z: 3
         }
     }

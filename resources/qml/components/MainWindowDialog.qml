@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Dialog {
     default property alias inner: scroll.data
@@ -13,8 +13,8 @@ Dialog {
 
     parent: Overlay.overlay
     anchors.centerIn: parent
-    height: (Math.floor(parent.height / 2) - Nheko.paddingLarge) * 2
-    width: (Math.floor(parent.width / 2) - Nheko.paddingLarge) * 2
+    height: (Math.floor(parent.height / 2) - Komai.paddingLarge) * 2
+    width: (Math.floor(parent.width / 2) - Komai.paddingLarge) * 2
     padding: 0
     modal: true
     standardButtons: Dialog.Ok | Dialog.Cancel
@@ -32,9 +32,9 @@ Dialog {
 
     background: Rectangle {
         color: palette.window
-        border.color: Nheko.theme.separator
+        border.color: Komai.theme.separator
         border.width: 1
-        radius: Nheko.paddingSmall
+        radius: Komai.paddingSmall
     }
 
 }

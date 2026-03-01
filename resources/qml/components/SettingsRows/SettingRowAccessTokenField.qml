@@ -7,7 +7,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Loader {
     id: root
@@ -30,7 +30,7 @@ Loader {
     Component {
         id: revealedComponent
         RowLayout {
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
 
             TextField {
                 text: root.model.value

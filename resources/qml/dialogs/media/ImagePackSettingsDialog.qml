@@ -8,7 +8,7 @@ import "../../components"
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: win
@@ -19,7 +19,7 @@ ApplicationWindow {
     property SingleImagePackModel currentPack: packlist.packAt(currentPackIndex)
     property int currentPackIndex: 0
     readonly property int stickerDim: 128
-    readonly property int stickerDimPad: 128 + Nheko.paddingSmall
+    readonly property int stickerDimPad: 128 + Komai.paddingSmall
 
     title: qsTr("Image pack settings")
     height: 600
@@ -144,8 +144,8 @@ ApplicationWindow {
                     property string statekey: currentPack ? currentPack.statekey : ""
 
                     anchors.fill: parent
-                    anchors.margins: Nheko.paddingLarge
-                    spacing: Nheko.paddingLarge
+                    anchors.margins: Komai.paddingLarge
+                    spacing: Komai.paddingLarge
 
                     Avatar {
                         url: packinfo.avatarUrl.replace("mxc://", "image://MxcImage/")
@@ -162,7 +162,7 @@ ApplicationWindow {
                         font.pointSize: Math.round(Settings.uiFontSizePt * 1.1)
                         horizontalAlignment: TextEdit.AlignHCenter
                         Layout.alignment: Qt.AlignHCenter
-                        Layout.preferredWidth: packinfoC.width - Nheko.paddingLarge * 2
+                        Layout.preferredWidth: packinfoC.width - Komai.paddingLarge * 2
                         textFormat: TextEdit.PlainText
                     }
 
@@ -171,7 +171,7 @@ ApplicationWindow {
                         wrapMode: TextEdit.Wrap
                         horizontalAlignment: TextEdit.AlignHCenter
                         Layout.alignment: Qt.AlignHCenter
-                        Layout.preferredWidth: packinfoC.width - Nheko.paddingLarge * 2
+                        Layout.preferredWidth: packinfoC.width - Komai.paddingLarge * 2
                         textFormat: TextEdit.PlainText
                     }
 
@@ -179,7 +179,7 @@ ApplicationWindow {
                         Layout.alignment: Qt.AlignHCenter
                         visible: currentPack && currentPack.roomid != ""
                         columns: 2
-                        rowSpacing: Nheko.paddingMedium
+                        rowSpacing: Komai.paddingMedium
 
                         MatrixText {
                             text: qsTr("Enable globally")

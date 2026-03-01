@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 AbstractButton {
     id: r
@@ -25,15 +25,15 @@ AbstractButton {
     implicitHeight: replyContainer.height + topPadding + bottomPadding
     implicitWidth: replyContainer.implicitWidth + leftPadding + rightPadding
 
-    leftPadding: 4 + Nheko.paddingMedium
-    rightPadding: Nheko.paddingMedium
-    topPadding: Nheko.paddingMedium
-    bottomPadding: Nheko.paddingMedium
+    leftPadding: 4 + Komai.paddingMedium
+    rightPadding: Komai.paddingMedium
+    topPadding: Komai.paddingMedium
+    bottomPadding: Komai.paddingMedium
 
     required property int maxWidth
     property bool limitHeight: false
 
-    NhekoCursorShape {
+    KomaiCursorShape {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
     }
@@ -41,7 +41,7 @@ AbstractButton {
     onClicked: {
         let link = timelineEvent.main.linkAt != undefined && timelineEvent.main.linkAt(pressX-colorline.width, pressY - userName_.implicitHeight);
         if (link) {
-            Nheko.openLink(link)
+            Komai.openLink(link)
         } else {
             if (room_)
                 room_.showEvent(r.eventId)
@@ -57,7 +57,7 @@ AbstractButton {
         room: r.room_
         eventId: r.eventId
         replyTo: ""
-        mainInset: 4 + Nheko.paddingMedium
+        mainInset: 4 + Komai.paddingMedium
         maxWidth: r.maxWidth
         limitAsReply: r.limitHeight
 
@@ -108,7 +108,7 @@ AbstractButton {
         z: -1
         property color bgColor: palette.base
         color: Qt.tint(bgColor, Qt.hsla(r.roomColor.hslHue, 0.5, r.roomColor.hslLightness, 0.1))
-        radius: Nheko.paddingMedium
+        radius: Komai.paddingMedium
         clip: true
 
         Rectangle {

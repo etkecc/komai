@@ -4,7 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 Item {
     required property var componentCatalog
@@ -23,7 +23,7 @@ Item {
                 });
         }
 
-        target: Nheko
+        target: Komai
     }
     Connections {
         function onNewDeviceVerificationRequest(flow) {

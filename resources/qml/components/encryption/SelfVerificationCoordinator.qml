@@ -9,7 +9,7 @@ import Qt.labs.platform 1.1 as P
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Item {
     enabled: false
@@ -21,8 +21,8 @@ Item {
     UnlockKeyBackupDialog {
         id: unlockKeyBackupDialog
 
-        onUnlockRequested: value => Nheko.submitUnlockKeyBackup(value)
-        onCancelled: Nheko.cancelUnlockKeyBackup()
+        onUnlockRequested: value => Komai.submitUnlockKeyBackup(value)
+        onCancelled: Komai.cancelUnlockKeyBackup()
     }
 
     P.MessageDialog {
@@ -46,10 +46,10 @@ Item {
         palette: timelineRoot.palette
 
         background: Rectangle {
-            border.color: Nheko.theme.separator
+            border.color: Komai.theme.separator
             border.width: 1
             color: palette.window
-            radius: Nheko.paddingSmall
+            radius: Komai.paddingSmall
         }
 
         onAccepted: SelfVerificationStatus.setupCrosssigning(storeSecretsOnline.checked, usePassword.checked ? passwordField.text : "", encryptionBackupOnlineEnabled.checked)
@@ -66,7 +66,7 @@ Item {
             Label {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.columnSpan: 2
-                Layout.margins: Nheko.paddingMedium
+                Layout.margins: Komai.paddingMedium
                 color: palette.text
                 font.pointSize: Settings.uiFontSizePt * 2
                 text: qsTr("Setup Encryption")
@@ -75,8 +75,8 @@ Item {
             Label {
                 Layout.alignment: Qt.AlignLeft
                 Layout.columnSpan: 2
-                Layout.margins: Nheko.paddingMedium
-                Layout.maximumWidth: grid.width - Nheko.paddingMedium * 2
+                Layout.margins: Komai.paddingMedium
+                Layout.maximumWidth: grid.width - Komai.paddingMedium * 2
                 color: palette.text
                 text: qsTr("Hello and welcome to Matrix!\nIt seems like you are new. Before you can securely encrypt your messages, we need to setup a few small things. You can either press accept immediately or adjust a few basic options. We also try to explain a few of the basics. You can skip those parts, but they might prove to be helpful!")
                 wrapMode: Text.Wrap
@@ -84,8 +84,8 @@ Item {
             Label {
                 Layout.alignment: Qt.AlignLeft
                 Layout.columnSpan: 1
-                Layout.margins: Nheko.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Nheko.paddingMedium * 2
+                Layout.margins: Komai.paddingMedium
+                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
                 color: palette.text
                 text: "Store secrets online.\nYou have a few secrets to make all the encryption magic work. While you can keep them stored only locally, we recommend storing them encrypted on the server. Otherwise it will be painful to recover them. Only disable this if you are paranoid and like losing your data!"
                 wrapMode: Text.Wrap
@@ -93,7 +93,7 @@ Item {
             Item {
                 Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                 Layout.fillWidth: true
-                Layout.margins: Nheko.paddingMedium
+                Layout.margins: Komai.paddingMedium
                 Layout.preferredHeight: storeSecretsOnline.height
 
                 ToggleButton {
@@ -107,8 +107,8 @@ Item {
             Label {
                 Layout.alignment: Qt.AlignLeft
                 Layout.columnSpan: 1
-                Layout.margins: Nheko.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Nheko.paddingMedium * 2
+                Layout.margins: Komai.paddingMedium
+                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
                 Layout.rowSpan: 2
                 color: palette.text
                 text: "Set an online backup password.\nWe recommend you DON'T set a password and instead only rely on the recovery key. You will get a recovery key in any case when storing the cross-signing secrets online, but passwords are usually not very random, so they are easier to attack than a completely random recovery key. If you choose to use a password, DON'T make it the same as your login password, otherwise your server can read all your encrypted messages. (You don't want that.)"
@@ -118,10 +118,10 @@ Item {
             Item {
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 Layout.fillWidth: true
-                Layout.margins: Nheko.paddingMedium
+                Layout.margins: Komai.paddingMedium
                 Layout.preferredHeight: storeSecretsOnline.height
                 Layout.rowSpan: usePassword.checked ? 1 : 2
-                Layout.topMargin: Nheko.paddingLarge
+                Layout.topMargin: Komai.paddingLarge
                 visible: storeSecretsOnline.checked
 
                 ToggleButton {
@@ -136,16 +136,16 @@ Item {
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 Layout.columnSpan: 1
                 Layout.fillWidth: true
-                Layout.margins: Nheko.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Nheko.paddingMedium * 2
+                Layout.margins: Komai.paddingMedium
+                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
                 echoMode: TextInput.Password
                 visible: storeSecretsOnline.checked && usePassword.checked
             }
             Label {
                 Layout.alignment: Qt.AlignLeft
                 Layout.columnSpan: 1
-                Layout.margins: Nheko.paddingMedium
-                Layout.maximumWidth: Math.floor(grid.width / 2) - Nheko.paddingMedium * 2
+                Layout.margins: Komai.paddingMedium
+                Layout.maximumWidth: Math.floor(grid.width / 2) - Komai.paddingMedium * 2
                 color: palette.text
                 text: "Use online key backup.\nStore the keys for your messages securely encrypted online. In general you do want this, because it protects your messages from becoming unreadable, if you log out by accident. It does however carry a small security risk, if you ever share your recovery key by accident. Currently this also has some other weaknesses, that might allow the server to insert new keys into your backup. The server will however never be able to read your messages."
                 wrapMode: Text.Wrap
@@ -153,7 +153,7 @@ Item {
             Item {
                 Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                 Layout.fillWidth: true
-                Layout.margins: Nheko.paddingMedium
+                Layout.margins: Komai.paddingMedium
                 Layout.preferredHeight: storeSecretsOnline.height
 
                 ToggleButton {
@@ -193,7 +193,7 @@ Item {
             unlockKeyBackupDialog.open();
         }
 
-        target: Nheko
+        target: Komai
     }
     Connections {
         function onSetupCompleted() {

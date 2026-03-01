@@ -4,7 +4,7 @@
 
 import "../../voip"
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ColumnLayout {
     readonly property bool showCallInviteBar: CallManager.haveCallInvite && Settings.uiInputMode && Settings.callsLegacyEnabled

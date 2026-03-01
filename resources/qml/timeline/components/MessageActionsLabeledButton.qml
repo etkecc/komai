@@ -5,7 +5,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 AbstractButton {
     id: button
@@ -17,13 +17,13 @@ AbstractButton {
     property color hoverTextColor: hoverIconColor
     property color hoverBackgroundColor: Qt.rgba(0, 0, 0, 0.45)
     property int iconSize: 32
-    property int contentHorizontalPadding: Nheko.paddingSmall
-    property int contentVerticalPadding: Nheko.paddingSmall
+    property int contentHorizontalPadding: Komai.paddingSmall
+    property int contentVerticalPadding: Komai.paddingSmall
     property bool mirrorIcon: false
     property string toolTipText: labelText
     readonly property bool hasLabel: labelText.length > 0
 
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: toolTipText
     ToolTip.visible: hovered
     hoverEnabled: true
@@ -38,12 +38,12 @@ AbstractButton {
     topInset: 0
     bottomInset: 0
     implicitHeight: iconSize + topPadding + bottomPadding
-    implicitWidth: leftPadding + rightPadding + iconSize + (hasLabel ? (Nheko.paddingSmall + label.implicitWidth) : 0)
+    implicitWidth: leftPadding + rightPadding + iconSize + (hasLabel ? (Komai.paddingSmall + label.implicitWidth) : 0)
     Layout.preferredHeight: implicitHeight
     Layout.preferredWidth: implicitWidth
 
     background: Rectangle {
-        radius: Nheko.paddingMedium
+        radius: Komai.paddingMedium
         color: button.hovered || button.pressed || button.visualFocus ? button.hoverBackgroundColor : "transparent"
     }
 
@@ -53,7 +53,7 @@ AbstractButton {
         anchors.rightMargin: button.rightPadding
         anchors.topMargin: button.topPadding
         anchors.bottomMargin: button.bottomPadding
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Image {
             Layout.alignment: Qt.AlignVCenter
@@ -79,7 +79,7 @@ AbstractButton {
         }
     }
 
-    NhekoCursorShape {
+    KomaiCursorShape {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
     }

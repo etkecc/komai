@@ -6,7 +6,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.10
-import im.nheko
+import cc.etke.komai
 
 ColumnLayout {
     property string title: flow.sender ? qsTr("Send Verification Request") : qsTr("Received Verification Request")

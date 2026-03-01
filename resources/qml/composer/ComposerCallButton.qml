@@ -6,7 +6,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "../voip"
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ComposerToolbarButton {
     id: root

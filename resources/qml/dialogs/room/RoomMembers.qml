@@ -9,7 +9,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Window 2.13
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: roomMembersRoot
@@ -31,8 +31,8 @@ ApplicationWindow {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: Nheko.paddingMedium
-        spacing: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
+        spacing: Komai.paddingMedium
 
         Avatar {
             id: roomAvatar
@@ -51,7 +51,7 @@ ApplicationWindow {
             font.pixelSize: fontMetrics.font.pixelSize * 2
             fullText: qsTr("%n people in %1", "Summary above list of members", members.memberCount).arg(members.roomName)
             Layout.alignment: Qt.AlignHCenter
-            elideWidth: parent.width - Nheko.paddingMedium
+            elideWidth: parent.width - Komai.paddingMedium
         }
 
         Button {
@@ -72,7 +72,7 @@ ApplicationWindow {
         }
 
         RowLayout {
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
 
             Label {
                 text: qsTr("Sort by: ")
@@ -93,7 +93,7 @@ ApplicationWindow {
         }
 
         ScrollView {
-            padding: Nheko.paddingMedium
+            padding: Komai.paddingMedium
             ScrollBar.horizontal.visible: false
             Layout.fillHeight: true
             Layout.minimumHeight: 200
@@ -111,7 +111,7 @@ ApplicationWindow {
                     id: del
 
                     property bool isCurrentUser: {
-                        const currentUser = Nheko.currentUser;
+                        const currentUser = Komai.currentUser;
                         const currentUserId = (currentUser && currentUser.userid)
                                 ? String(currentUser.userid)
                                 : "";
@@ -119,9 +119,9 @@ ApplicationWindow {
                     }
 
                     onClicked: room.openUserProfile(model.mxid)
-                    padding: Nheko.paddingMedium
+                    padding: Komai.paddingMedium
                     width: ListView.view.width
-                    height: memberLayout.implicitHeight + Nheko.paddingSmall * 2
+                    height: memberLayout.implicitHeight + Komai.paddingSmall * 2
                     hoverEnabled: true
                     background: Rectangle {
                         color: del.hovered ? palette.dark : roomMembersRoot.color
@@ -130,15 +130,15 @@ ApplicationWindow {
                     RowLayout {
                         id: memberLayout
 
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
                         anchors.centerIn: parent
-                        width: parent.width - Nheko.paddingSmall * 2
+                        width: parent.width - Komai.paddingSmall * 2
 
                         Avatar {
                             id: avatar
 
-                            Layout.preferredWidth: Nheko.avatarSize
-                            Layout.preferredHeight: Nheko.avatarSize
+                            Layout.preferredWidth: Komai.avatarSize
+                            Layout.preferredHeight: Komai.avatarSize
                             userid: model.mxid
                             url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
                             displayName: model.displayName
@@ -146,7 +146,7 @@ ApplicationWindow {
                         }
 
                         ColumnLayout {
-                            spacing: Nheko.paddingSmall
+                            spacing: Komai.paddingSmall
                             Layout.fillWidth: true
 
                             ElidedLabel {
@@ -155,7 +155,7 @@ ApplicationWindow {
                                     ? palette.highlight
                                     : Qt.darker(roomMembersRoot.room ? TimelineManager.roomUserColor(roomMembersRoot.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
                                 font.pixelSize: fontMetrics.font.pixelSize
-                                elideWidth: del.width - Nheko.paddingMedium * 2 - avatar.width - encryptInd.width
+                                elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
                                 Layout.fillWidth: true
                             }
 
@@ -163,7 +163,7 @@ ApplicationWindow {
                                 fullText: model.mxid
                                 color: del.hovered ? palette.brightText : palette.buttonText
                                 font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.9)
-                                elideWidth: del.width - Nheko.paddingMedium * 2 - avatar.width - encryptInd.width
+                                elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
                                 Layout.fillWidth: true
                             }
 
@@ -206,7 +206,7 @@ ApplicationWindow {
 
                     }
 
-                    NhekoCursorShape {
+                    KomaiCursorShape {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                     }
@@ -218,7 +218,7 @@ ApplicationWindow {
                     visible: (members.numUsersLoaded < members.memberCount) && members.loadingMoreMembers
                     // use the default height if it's visible, otherwise no height at all
                     height: membersLoadingSpinner.implicitHeight
-                    anchors.margins: Nheko.paddingMedium
+                    anchors.margins: Komai.paddingMedium
 
                     Spinner {
                         id: membersLoadingSpinner

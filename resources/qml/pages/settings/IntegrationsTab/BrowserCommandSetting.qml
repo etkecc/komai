@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -19,7 +19,7 @@ Item {
         id: commandSection
         Layout.fillWidth: true
         width: parent.width
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Label {
             Layout.fillWidth: true
@@ -55,7 +55,7 @@ Item {
             placeholderText: qsTr("brave --profile-directory=\"Profile 7\" %u")
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Use %u for the URL, or leave empty to use the default browser.")
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
         }
     }
 }

@@ -6,7 +6,7 @@ import "../../components"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 RowLayout {
     id: root
@@ -17,13 +17,13 @@ RowLayout {
     readonly property string communityAvatarUrl: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomAvatarUrl) || ""
     readonly property string communityId: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomid) || ""
     readonly property string communityName: (Settings.sidebarsCommunitiesVisible && room && room.parentSpace && room.parentSpace.roomName) || ""
-    readonly property bool communityVisible: !Nheko.uiLayoutCompactMode && communityId && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentTagId)
+    readonly property bool communityVisible: !Komai.uiLayoutCompactMode && communityId && room.parentSpace.isLoaded && ("space:" + room.parentSpace.roomid != Communities.currentTagId)
 
     Layout.column: 1
     Layout.columnSpan: 2
     Layout.fillWidth: true
     Layout.row: 0
-    spacing: Nheko.paddingSmall
+    spacing: Komai.paddingSmall
 
     Avatar {
         Layout.alignment: Qt.AlignHCenter

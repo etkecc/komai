@@ -8,7 +8,7 @@ import "../../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: readReceiptsRoot
@@ -19,7 +19,7 @@ ApplicationWindow {
     height: 380
     width: 340
     minimumHeight: 380
-    minimumWidth: headerTitle.width + 2 * Nheko.paddingMedium
+    minimumWidth: headerTitle.width + 2 * Komai.paddingMedium
     color: palette.window
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
 
@@ -30,8 +30,8 @@ ApplicationWindow {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: Nheko.paddingMedium
-        spacing: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
+        spacing: Komai.paddingMedium
 
         Label {
             id: headerTitle
@@ -43,7 +43,7 @@ ApplicationWindow {
         }
 
         ScrollView {
-            padding: Nheko.paddingMedium
+            padding: Komai.paddingMedium
             ScrollBar.horizontal.visible: false
             Layout.fillHeight: true
             Layout.minimumHeight: 200
@@ -60,9 +60,9 @@ ApplicationWindow {
                     id: del
 
                     onClicked: room.openUserProfile(model.mxid)
-                    padding: Nheko.paddingMedium
+                    padding: Komai.paddingMedium
                     width: ListView.view.width
-                    height: receiptLayout.implicitHeight + Nheko.paddingSmall * 2
+                    height: receiptLayout.implicitHeight + Komai.paddingSmall * 2
                     hoverEnabled: true
                     ToolTip.visible: hovered
                     ToolTip.text: model.mxid
@@ -73,15 +73,15 @@ ApplicationWindow {
                     RowLayout {
                         id: receiptLayout
 
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
                         anchors.fill: parent
-                        anchors.margins: Nheko.paddingSmall
+                        anchors.margins: Komai.paddingSmall
 
                         Avatar {
                             id: avatar
 
-                            Layout.preferredWidth: Nheko.avatarSize
-                            Layout.preferredHeight: Nheko.avatarSize
+                            Layout.preferredWidth: Komai.avatarSize
+                            Layout.preferredHeight: Komai.avatarSize
                             userid: model.mxid
                             url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
                             displayName: model.displayName
@@ -89,14 +89,14 @@ ApplicationWindow {
                         }
 
                         ColumnLayout {
-                            spacing: Nheko.paddingSmall
+                            spacing: Komai.paddingSmall
                             Layout.fillWidth: true
 
                             ElidedLabel {
                                 fullText: model.displayName
                                 color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
                                 font.pointSize: Settings.uiFontSizePt
-                                elideWidth: del.width - Nheko.paddingMedium - avatar.width
+                                elideWidth: del.width - Komai.paddingMedium - avatar.width
                                 Layout.fillWidth: true
                             }
 
@@ -104,7 +104,7 @@ ApplicationWindow {
                                 fullText: model.timestamp
                                 color: palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt * 0.9
-                                elideWidth: del.width - Nheko.paddingMedium - avatar.width
+                                elideWidth: del.width - Komai.paddingMedium - avatar.width
                                 Layout.fillWidth: true
                             }
 
@@ -112,7 +112,7 @@ ApplicationWindow {
 
                     }
 
-                    NhekoCursorShape {
+                    KomaiCursorShape {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                     }

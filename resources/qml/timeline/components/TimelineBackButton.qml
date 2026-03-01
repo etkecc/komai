@@ -4,7 +4,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 ImageButton {
     id: root
@@ -15,13 +15,13 @@ ImageButton {
     ToolTip.text: qsTr("Back to room list")
     ToolTip.visible: hovered
     anchors.left: parent.left
-    anchors.margins: Nheko.paddingMedium
+    anchors.margins: Komai.paddingMedium
     anchors.top: parent.top
     enabled: visible
-    height: Nheko.avatarSize
+    height: Komai.avatarSize
     image: ":/icons/icons/ui/angle-arrow-left.svg"
     visible: (roomModel == null || roomModel.isSpace) && showBackButton
-    width: Nheko.avatarSize
+    width: Komai.avatarSize
 
     onClicked: Rooms.resetCurrentRoom()
 }

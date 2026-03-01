@@ -6,7 +6,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Control {
     id: r
@@ -15,25 +15,25 @@ Control {
     required property string eventId
     required property QtObject styleProfile
 
-    padding: Nheko.paddingMedium
-    implicitHeight: contents.implicitHeight + Nheko.paddingMedium * 2
+    padding: Komai.paddingMedium
+    implicitHeight: contents.implicitHeight + Komai.paddingMedium * 2
     Layout.maximumWidth: contents.Layout.maximumWidth + padding * 2
     Layout.fillWidth: true
 
     contentItem: RowLayout {
         id: contents
 
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
 
         Image {
-            source: "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Nheko.theme.error
+            source: "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.error
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
         }
 
         ColumnLayout {
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             Layout.fillWidth: true
 
             Label {
@@ -75,7 +75,7 @@ Control {
 
     background: Rectangle {
         color: palette.alternateBase
-        radius: fontMetrics.lineSpacing / 2 + 2 * Nheko.paddingMedium
+        radius: fontMetrics.lineSpacing / 2 + 2 * Komai.paddingMedium
         visible: styleProfile.showEncryptedMessageBackground
     }
 }

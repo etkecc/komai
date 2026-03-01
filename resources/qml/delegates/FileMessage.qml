@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Control {
     id: evRoot
@@ -55,7 +55,7 @@ Control {
                 gesturePolicy: TapHandler.ReleaseWithinBounds
             }
 
-            NhekoCursorShape {
+            KomaiCursorShape {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
             }
@@ -93,7 +93,7 @@ Control {
 
     background: Rectangle {
         color: palette.alternateBase
-        radius: fontMetrics.lineSpacing / 2 + 2 * Nheko.paddingSmall
+        radius: fontMetrics.lineSpacing / 2 + 2 * Komai.paddingSmall
         visible: styleProfile.showFileMessageBackground
     }
 

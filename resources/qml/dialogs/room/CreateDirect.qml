@@ -9,14 +9,14 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     id: createDirectRoot
     title: qsTr("Create Direct Chat")
     property var profile
     property bool otherUserHasE2ee: profile? profile.deviceList.rowCount() > 0 : true
-    minimumHeight: layout.implicitHeight + footer.implicitHeight + Nheko.paddingLarge*2
+    minimumHeight: layout.implicitHeight + footer.implicitHeight + Komai.paddingLarge*2
     minimumWidth: Math.max(footer.implicitWidth, layout.implicitWidth)
     modality: Qt.NonModal
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
@@ -33,20 +33,20 @@ ApplicationWindow {
     ColumnLayout {
         id: layout
         anchors.fill: parent
-        anchors.margins: Nheko.paddingLarge
+        anchors.margins: Komai.paddingLarge
         spacing: userID.height/4
 
         GridLayout {
             Layout.fillWidth: true
             rows: 2
             columns: 2
-            rowSpacing: Nheko.paddingSmall
-            columnSpacing: Nheko.paddingMedium
+            rowSpacing: Komai.paddingSmall
+            columnSpacing: Komai.paddingMedium
 
             Avatar {
                 Layout.rowSpan: 2
-                Layout.preferredWidth: Nheko.avatarSize
-                Layout.preferredHeight: Nheko.avatarSize
+                Layout.preferredWidth: Komai.avatarSize
+                Layout.preferredHeight: Komai.avatarSize
                 Layout.alignment: Qt.AlignLeft
                 userid: profile? profile.userid : ""
                 url: profile? profile.avatarUrl.replace("mxc://", "image://MxcImage/") : null

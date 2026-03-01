@@ -7,7 +7,7 @@ import "../../ui"
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: inputDialog
@@ -33,8 +33,8 @@ ApplicationWindow {
     }
 
     ColumnLayout {
-        spacing: Nheko.paddingMedium
-        anchors.margins: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
 
         Label {

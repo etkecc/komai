@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 SettingsContent {
     tabFilter: UserSettingsModel.TabIntegrations
@@ -13,8 +13,8 @@ SettingsContent {
     footerContent: Component {
         Loader {
             Layout.fillWidth: true
-            Layout.topMargin: Nheko.paddingLarge
-            Layout.bottomMargin: Nheko.paddingMedium
+            Layout.topMargin: Komai.paddingLarge
+            Layout.bottomMargin: Komai.paddingMedium
             Layout.preferredHeight: item ? item.implicitHeight : 0
             source: "IntegrationsTab/BrowserCommandSetting.qml"
         }

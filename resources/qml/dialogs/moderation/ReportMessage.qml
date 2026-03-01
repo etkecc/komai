@@ -6,23 +6,23 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ApplicationWindow {
     required property string eventId
 
     width: 400
-    height: gl.implicitHeight + 2 * Nheko.paddingMedium
+    height: gl.implicitHeight + 2 * Komai.paddingMedium
     title: qsTr("Report message")
 
     GridLayout {
         id: gl
 
-        columnSpacing: Nheko.paddingMedium
-        rowSpacing: Nheko.paddingMedium
+        columnSpacing: Komai.paddingMedium
+        rowSpacing: Komai.paddingMedium
         columns: 2
         anchors.fill: parent
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
 
         Label {
             Layout.columnSpan: 2

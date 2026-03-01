@@ -7,7 +7,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -20,7 +20,7 @@ Item {
         id: sectionLayout
         anchors.left: parent.left
         anchors.right: parent.right
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Label {
             Layout.fillWidth: true
@@ -34,7 +34,7 @@ Item {
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: Nheko.paddingLarge
+            Layout.preferredHeight: Komai.paddingLarge
 
             Rectangle {
                 anchors.verticalCenter: parent.verticalCenter

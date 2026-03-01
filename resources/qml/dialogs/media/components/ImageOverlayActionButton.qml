@@ -6,7 +6,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 AbstractButton {
     id: root
@@ -22,8 +22,8 @@ AbstractButton {
     // Allow buttons anchored to a screen edge to remove top-right rounding only when highlighted.
     property bool flatTopRightCorner: false
     property int iconSize: 24
-    property int blockPadding: Nheko.paddingMedium
-    property int contentSpacing: Nheko.paddingSmall
+    property int blockPadding: Komai.paddingMedium
+    property int contentSpacing: Komai.paddingSmall
 
     leftPadding: blockPadding
     rightPadding: blockPadding
@@ -45,7 +45,7 @@ AbstractButton {
     }
 
     background: Rectangle {
-        radius: Nheko.paddingMedium
+        radius: Komai.paddingMedium
         color: root.hovered || root.pressed || root.visualFocus ? root.hoverBackgroundColor : "transparent"
 
         // This overlays the rounded corner so the top-right of just this button stays square

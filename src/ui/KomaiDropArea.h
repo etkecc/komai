@@ -7,13 +7,13 @@
 
 #include <QQuickItem>
 
-class NhekoDropArea : public QQuickItem
+class KomaiDropArea : public QQuickItem
 {
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(QString roomid READ roomid WRITE setRoomid NOTIFY roomidChanged)
 public:
-    NhekoDropArea(QQuickItem *parent = nullptr);
+    KomaiDropArea(QQuickItem *parent = nullptr);
 
 signals:
     void roomidChanged(QString roomid);

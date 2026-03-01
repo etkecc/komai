@@ -5,14 +5,14 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 TextArea {
     id: r
 
     property int cursorShape: Qt.ArrowCursor
 
-    ToolTip.text: Nheko.punyLink(hoveredLink)
+    ToolTip.text: Komai.punyLink(hoveredLink)
     ToolTip.visible: hoveredLink || false
     background: null
     bottomInset: 0
@@ -32,17 +32,17 @@ TextArea {
     wrapMode: Text.Wrap
 
     // Setting a tooltip delay makes the hover text empty .-.
-    //ToolTip.delay: Nheko.tooltipDelay
+    //ToolTip.delay: Komai.tooltipDelay
     Component.onCompleted: {
         TimelineManager.fixImageRendering(r.textDocument, r);
     }
-    onLinkActivated: (link) => Nheko.openLink(link)
+    onLinkActivated: (link) => Komai.openLink(link)
 
     // propagate events up
     onPressAndHold: event => event.accepted = false
     onPressed: event => event.accepted = (event.button == Qt.LeftButton)
 
-    NhekoCursorShape {
+    KomaiCursorShape {
         id: cs
 
         anchors.fill: parent

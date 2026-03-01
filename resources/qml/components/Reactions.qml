@@ -5,7 +5,7 @@
 
 import QtQuick 2.6
 import QtQuick.Controls 2.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 // This class is for showing Reactions in the timeline row, not for
 // adding new reactions via the emoji picker
@@ -27,7 +27,7 @@ Flow {
         delegate: AbstractButton {
             id: reaction
 
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.visible: hovered
             hoverEnabled: true
             leftPadding: textMetrics.height / 2
@@ -113,7 +113,7 @@ Flow {
                     room.input.reaction(reactionFlow.eventId, modelData.key);
             }
 
-            NhekoCursorShape {
+            KomaiCursorShape {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
             }

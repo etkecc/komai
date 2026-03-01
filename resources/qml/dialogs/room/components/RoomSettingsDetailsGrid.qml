@@ -9,14 +9,14 @@ import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import QtQuick.Dialogs
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 GridLayout {
     required property var roomSettings
     required property var timelineRoot
                 columns: 2
-                rowSpacing: Nheko.paddingMedium
-                Layout.margins: Nheko.paddingMedium
+                rowSpacing: Komai.paddingMedium
+                Layout.margins: Komai.paddingMedium
                 Layout.fillWidth: true
 
                 Label {
@@ -25,7 +25,7 @@ GridLayout {
                     color: palette.text
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Nheko.paddingLarge
+                    Layout.topMargin: Komai.paddingLarge
                 }
 
                 Label {
@@ -53,7 +53,7 @@ GridLayout {
                     color: palette.text
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Nheko.paddingLarge
+                    Layout.topMargin: Komai.paddingLarge
                 }
 
                 Label {
@@ -157,7 +157,7 @@ GridLayout {
                     color: palette.text
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Nheko.paddingLarge
+                    Layout.topMargin: Komai.paddingLarge
                 }
 
                 Label {
@@ -166,7 +166,7 @@ GridLayout {
                     color: palette.text
                     ToolTip.text: qsTr("This is useful to see previews of the room or view it on public websites.")
                     ToolTip.visible: publicHistoryHover.hovered
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
 
                     HoverHandler {
                         id: publicHistoryHover
@@ -190,7 +190,7 @@ GridLayout {
                     Layout.alignment: Qt.AlignTop | Qt.AlignLeft
                     ToolTip.text: qsTr("How much of the history is visible to joined members. Changing this won't affect the visibility of already sent messages. It only applies to new messages.")
                     ToolTip.visible: privateHistoryHover.hovered
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
 
                     HoverHandler {
                         id: privateHistoryHover
@@ -210,7 +210,7 @@ GridLayout {
                         text: qsTr("Everything")
                         ToolTip.text: qsTr("As long as the user joined, they can see all previous messages.")
                         ToolTip.visible: hovered
-                        ToolTip.delay: Nheko.tooltipDelay
+                        ToolTip.delay: Komai.tooltipDelay
                     }
                     RadioButton {
                         id: invitedHistory
@@ -218,7 +218,7 @@ GridLayout {
                         text: qsTr("They got invited")
                         ToolTip.text: qsTr("Members can only see messages from when they got invited going forward.")
                         ToolTip.visible: hovered
-                        ToolTip.delay: Nheko.tooltipDelay
+                        ToolTip.delay: Komai.tooltipDelay
                     }
                     RadioButton {
                         id: joinedHistory
@@ -226,7 +226,7 @@ GridLayout {
                         text: qsTr("They joined")
                         ToolTip.text: qsTr("Members can only see messages since after they joined.")
                         ToolTip.visible: hovered
-                        ToolTip.delay: Nheko.tooltipDelay
+                        ToolTip.delay: Komai.tooltipDelay
                     }
                 }
 
@@ -291,7 +291,7 @@ GridLayout {
                     color: palette.text
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Nheko.paddingLarge
+                    Layout.topMargin: Komai.paddingLarge
                 }
 
                 Label {
@@ -374,7 +374,7 @@ GridLayout {
                     font.bold: true
                     color: palette.text
                     Layout.columnSpan: 2
-                    Layout.topMargin: Nheko.paddingLarge
+                    Layout.topMargin: Komai.paddingLarge
                     Layout.fillWidth: true
                 }
 

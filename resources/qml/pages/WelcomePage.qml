@@ -7,7 +7,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 import "onboarding" as Onboarding
 import "welcome" as Welcome
 
@@ -26,7 +26,7 @@ Item {
         id: scroll
         anchors.fill: parent
         maxContentWidth: root.maxExpansion
-        topSpacerHeight: Nheko.paddingLarge * 2
+        topSpacerHeight: Komai.paddingLarge * 2
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
@@ -36,9 +36,9 @@ Item {
             }
 
             Welcome.WelcomeRichText {
-                Layout.topMargin: Nheko.paddingLarge
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
+                Layout.topMargin: Komai.paddingLarge
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 text: "<style>a { color: " + palette.highlight + "; text-decoration: none; }</style>" +
@@ -50,14 +50,14 @@ Item {
             }
 
             Welcome.WelcomeRichText {
-                Layout.topMargin: Nheko.paddingSmall
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
-                Layout.bottomMargin: Nheko.paddingLarge
+                Layout.topMargin: Komai.paddingSmall
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingLarge
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                      Nheko.taglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Nheko.matrixWord + "</a>")
+                      Komai.taglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Komai.matrixWord + "</a>")
                 color: palette.buttonText
                 font.pointSize: Settings.uiFontSizePt * 1.5
                 horizontalAlignment: Text.AlignHCenter
@@ -65,17 +65,17 @@ Item {
 
             Welcome.WelcomeRichText {
                 visible: Settings.secretsProviderFallbackWarningVisible
-                Layout.topMargin: Nheko.paddingSmall
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
-                Layout.bottomMargin: Nheko.paddingLarge
+                Layout.topMargin: Komai.paddingSmall
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingLarge
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +
                       qsTr("Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.") +
                       " " +
                       "<a href=\"" + root.secretsStorageDocsUrl + "\">" + qsTr("Learn more") + "</a>"
-                color: Nheko.theme.red
+                color: Komai.theme.red
                 font.pointSize: Settings.uiFontSizePt * 1.05
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -90,8 +90,8 @@ Item {
             }
 
             Label {
-                Layout.topMargin: Nheko.paddingLarge
-                Layout.bottomMargin: Nheko.paddingSmall
+                Layout.topMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingSmall
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("An early touch of personality")
                 color: palette.buttonText
@@ -100,16 +100,16 @@ Item {
 
             Welcome.WelcomeThemeControls {
                 Layout.alignment: Qt.AlignHCenter
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
             }
 
             Welcome.WelcomeRichText {
                 Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: Nheko.paddingLarge
-                Layout.bottomMargin: Nheko.paddingLarge
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
+                Layout.topMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingLarge
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
                 Layout.fillWidth: true
                 font.pointSize: Settings.uiFontSizePt * 0.9
                 text: "<style>a { color: " + palette.highlight + "; }</style>" +

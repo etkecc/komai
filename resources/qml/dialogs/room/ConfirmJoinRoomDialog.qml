@@ -9,7 +9,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.13
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: joinRoomRoot
@@ -21,7 +21,7 @@ ApplicationWindow {
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
     color: palette.window
     width: 350
-    height: content.implicitHeight + Nheko.paddingLarge + footer.implicitHeight
+    height: content.implicitHeight + Komai.paddingLarge + footer.implicitHeight
 
     Shortcut {
         sequences: [StandardKey.Cancel]
@@ -30,12 +30,12 @@ ApplicationWindow {
 
     ColumnLayout {
         id: content
-        spacing: Nheko.paddingMedium
-        anchors.margins: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
 
         Avatar {
-            Layout.topMargin: Nheko.paddingMedium
+            Layout.topMargin: Komai.paddingMedium
             url: summary.roomAvatarUrl.replace("mxc://", "image://MxcImage/")
             roomid: summary.roomid
             displayName: summary.roomName
@@ -78,7 +78,7 @@ ApplicationWindow {
             selectByMouse: true
         }
         RowLayout {
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
             Layout.alignment: Qt.AlignHCenter
 
             MatrixText {

@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 Image {
     id: stateImg
@@ -29,7 +29,7 @@ Image {
         }
     }
     property int trust: Crypto.Unverified
-    property color unencryptedColor: Nheko.theme.error
+    property color unencryptedColor: Komai.theme.error
     property color unencryptedHoverColor: unencryptedColor
     property string unencryptedIcon: ":/icons/icons/ui/shield-regular-cross.svg"
 
@@ -54,11 +54,11 @@ Image {
         if (encrypted) {
             switch (trust) {
             case Crypto.Verified:
-                return sourceUrl + Nheko.theme.green;
+                return sourceUrl + Komai.theme.green;
             case Crypto.TOFU:
                 return sourceUrl + palette.buttonText;
             default:
-                return sourceUrl + Nheko.theme.error;
+                return sourceUrl + Komai.theme.error;
             }
         } else {
             return sourceUrl + (stateImg.hovered ? unencryptedHoverColor : unencryptedColor);

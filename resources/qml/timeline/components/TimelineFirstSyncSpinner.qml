@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 Spinner {
     id: root
@@ -12,7 +12,7 @@ Spinner {
 
     anchors.centerIn: parent
     foreground: palette.mid
-    height: Nheko.timelineLogoSize
+    height: Komai.timelineLogoSize
     opacity: hoverHandler.hovered ? 0.3 : 1
     running: waitingForFirstSync
     visible: waitingForFirstSync

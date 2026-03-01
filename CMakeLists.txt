@@ -446,14 +446,14 @@ set(SRC_FILES
     src/ui/MxcAnimatedImage.h
     src/ui/MxcMediaProxy.cpp
     src/ui/MxcMediaProxy.h
-    src/ui/NhekoCursorShape.cpp
-    src/ui/NhekoCursorShape.h
-    src/ui/NhekoDropArea.cpp
-    src/ui/NhekoDropArea.h
-    src/ui/NhekoGlobalObject.cpp
-    src/ui/NhekoGlobalObject.h
-    src/ui/NhekoMenuVisibilityFilter.h
-    src/ui/NhekoMenuVisibilityFilter.cpp
+    src/ui/KomaiCursorShape.cpp
+    src/ui/KomaiCursorShape.h
+    src/ui/KomaiDropArea.cpp
+    src/ui/KomaiDropArea.h
+    src/ui/KomaiGlobalObject.cpp
+    src/ui/KomaiGlobalObject.h
+    src/ui/KomaiMenuVisibilityFilter.h
+    src/ui/KomaiMenuVisibilityFilter.cpp
     src/ui/RoomSettings.cpp
     src/ui/RoomSettings.h
     src/ui/RoomSummary.cpp
@@ -983,7 +983,7 @@ foreach(qml_source_exclude IN LISTS QML_SOURCES_EXCLUDE)
     list(REMOVE_ITEM QML_SOURCES "${qml_source_exclude}")
 endforeach()
 qt_add_qml_module(komai
-    URI im.nheko
+    URI cc.etke.komai
     NO_RESOURCE_TARGET_PATH
     RESOURCE_PREFIX "/"
     VERSION 1.1

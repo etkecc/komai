@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "NhekoMenuVisibilityFilter.h"
+#include "KomaiMenuVisibilityFilter.h"
 
 #include <QQmlListReference>
 #include <QQuickItem>
@@ -12,22 +12,22 @@
 #include "Logging.h"
 
 QQmlListProperty<QQmlComponent>
-NhekoMenuVisibilityFilter::items()
+KomaiMenuVisibilityFilter::items()
 {
     return QQmlListProperty<QQmlComponent>(this,
                                            this,
-                                           &NhekoMenuVisibilityFilter::appendItem,
-                                           &NhekoMenuVisibilityFilter::itemCount,
-                                           &NhekoMenuVisibilityFilter::getItem,
-                                           &NhekoMenuVisibilityFilter::clearItems,
-                                           &NhekoMenuVisibilityFilter::replaceItem,
-                                           &NhekoMenuVisibilityFilter::removeLast);
+                                           &KomaiMenuVisibilityFilter::appendItem,
+                                           &KomaiMenuVisibilityFilter::itemCount,
+                                           &KomaiMenuVisibilityFilter::getItem,
+                                           &KomaiMenuVisibilityFilter::clearItems,
+                                           &KomaiMenuVisibilityFilter::replaceItem,
+                                           &KomaiMenuVisibilityFilter::removeLast);
 }
 
 void
-NhekoMenuVisibilityFilter::appendItem(QQmlListProperty<QQmlComponent> *p, QQmlComponent *c)
+KomaiMenuVisibilityFilter::appendItem(QQmlListProperty<QQmlComponent> *p, QQmlComponent *c)
 {
-    NhekoMenuVisibilityFilter *dc = static_cast<NhekoMenuVisibilityFilter *>(p->object);
+    KomaiMenuVisibilityFilter *dc = static_cast<KomaiMenuVisibilityFilter *>(p->object);
     dc->items_.append(c);
     // dc->updateTarget();
 
@@ -35,41 +35,41 @@ NhekoMenuVisibilityFilter::appendItem(QQmlListProperty<QQmlComponent> *p, QQmlCo
     // prop.connectNotifySignal(dc, SLOT(updateTarget()));
 }
 qsizetype
-NhekoMenuVisibilityFilter::itemCount(QQmlListProperty<QQmlComponent> *p)
+KomaiMenuVisibilityFilter::itemCount(QQmlListProperty<QQmlComponent> *p)
 {
-    return static_cast<NhekoMenuVisibilityFilter *>(p->object)->items_.count();
+    return static_cast<KomaiMenuVisibilityFilter *>(p->object)->items_.count();
 }
 QQmlComponent *
-NhekoMenuVisibilityFilter::getItem(QQmlListProperty<QQmlComponent> *p, qsizetype index)
+KomaiMenuVisibilityFilter::getItem(QQmlListProperty<QQmlComponent> *p, qsizetype index)
 {
-    return static_cast<NhekoMenuVisibilityFilter *>(p->object)->items_.at(index);
+    return static_cast<KomaiMenuVisibilityFilter *>(p->object)->items_.at(index);
 }
 void
-NhekoMenuVisibilityFilter::clearItems(QQmlListProperty<QQmlComponent> *p)
+KomaiMenuVisibilityFilter::clearItems(QQmlListProperty<QQmlComponent> *p)
 {
-    static_cast<NhekoMenuVisibilityFilter *>(p->object)->items_.clear();
-    // static_cast<NhekoMenuVisibilityFilter *>(p->object)->updateTarget();
+    static_cast<KomaiMenuVisibilityFilter *>(p->object)->items_.clear();
+    // static_cast<KomaiMenuVisibilityFilter *>(p->object)->updateTarget();
 }
 void
-NhekoMenuVisibilityFilter::replaceItem(QQmlListProperty<QQmlComponent> *p,
+KomaiMenuVisibilityFilter::replaceItem(QQmlListProperty<QQmlComponent> *p,
                                        qsizetype index,
                                        QQmlComponent *c)
 {
-    static_cast<NhekoMenuVisibilityFilter *>(p->object)->items_.assign(index, c);
-    // static_cast<NhekoMenuVisibilityFilter *>(p->object)->updateTarget();
+    static_cast<KomaiMenuVisibilityFilter *>(p->object)->items_.assign(index, c);
+    // static_cast<KomaiMenuVisibilityFilter *>(p->object)->updateTarget();
 }
 void
-NhekoMenuVisibilityFilter::removeLast(QQmlListProperty<QQmlComponent> *p)
+KomaiMenuVisibilityFilter::removeLast(QQmlListProperty<QQmlComponent> *p)
 {
-    static_cast<NhekoMenuVisibilityFilter *>(p->object)->items_.pop_back();
-    // static_cast<NhekoMenuVisibilityFilter *>(p->object)->updateTarget();
+    static_cast<KomaiMenuVisibilityFilter *>(p->object)->items_.pop_back();
+    // static_cast<KomaiMenuVisibilityFilter *>(p->object)->updateTarget();
 }
 
 void
-NhekoMenuVisibilityFilter::setTarget(const QQmlProperty &prop)
+KomaiMenuVisibilityFilter::setTarget(const QQmlProperty &prop)
 {
     if (prop.propertyTypeCategory() != QQmlProperty::List) {
-        nhlog::ui()->warn("Target prop of NhekoMenuVisibilityFilter set to non list property");
+        nhlog::ui()->warn("Target prop of KomaiMenuVisibilityFilter set to non list property");
         return;
     }
 
@@ -78,7 +78,7 @@ NhekoMenuVisibilityFilter::setTarget(const QQmlProperty &prop)
 }
 
 void
-NhekoMenuVisibilityFilter::updateTarget()
+KomaiMenuVisibilityFilter::updateTarget()
 {
     if (!targetProperty.isValid())
         return;
@@ -147,4 +147,4 @@ NhekoMenuVisibilityFilter::updateTarget()
     // targetProperty.write(QVariant::fromValue(std::move(newItems)));
 }
 
-#include "moc_NhekoMenuVisibilityFilter.cpp"
+#include "moc_KomaiMenuVisibilityFilter.cpp"

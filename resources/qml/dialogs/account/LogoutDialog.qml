@@ -5,7 +5,7 @@
 
 import Qt.labs.platform 1.1 as P
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 P.MessageDialog {
     id: logoutRoot
@@ -16,6 +16,6 @@ P.MessageDialog {
     flags: Qt.Tool | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
     buttons: P.MessageDialog.Ok | P.MessageDialog.Cancel
     // Broken on macos, see https://bugreports.qt.io/browse/QTBUG-102078
-    //onAccepted: Nheko.logout()
-    onOkClicked: Nheko.logout()
+    //onAccepted: Komai.logout()
+    onOkClicked: Komai.logout()
 }

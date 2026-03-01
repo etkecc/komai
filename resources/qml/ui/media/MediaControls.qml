@@ -9,7 +9,7 @@ import QtMultimedia
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Rectangle {
     id: control
@@ -74,10 +74,10 @@ Rectangle {
         anchors.left: control.left
         width: Math.max(implicitWidth, control.width)
 
-        NhekoSlider {
+        KomaiSlider {
             Layout.fillWidth: true
-            Layout.leftMargin: Nheko.paddingSmall
-            Layout.rightMargin: Nheko.paddingSmall
+            Layout.leftMargin: Komai.paddingSmall
+            Layout.rightMargin: Komai.paddingSmall
             enabled: control.mediaLoaded
             value: control.positionValue
             onMoved: control.position = value
@@ -87,8 +87,8 @@ Rectangle {
         }
 
         RowLayout {
-            Layout.margins: Nheko.paddingSmall
-            spacing: Nheko.paddingSmall
+            Layout.margins: Komai.paddingSmall
+            spacing: Komai.paddingSmall
             Layout.fillWidth: true
 
             // Cache/Play/pause button
@@ -128,7 +128,7 @@ Rectangle {
                 onClicked: control.muted = !control.muted
             }
 
-            NhekoSlider {
+            KomaiSlider {
                 id: volumeSlider
 
                 property real desiredVolume: volumeSlider.value

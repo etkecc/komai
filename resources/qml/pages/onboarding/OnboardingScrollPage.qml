@@ -6,16 +6,16 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Item {
     id: root
 
     property int maxContentWidth: 600
-    property int horizontalContentPadding: Nheko.paddingLarge * 2
-    property int topSpacerHeight: Nheko.paddingLarge * 2
-    property int bottomSpacerHeight: Nheko.paddingLarge
-    property int contentSpacing: Nheko.paddingMedium
+    property int horizontalContentPadding: Komai.paddingLarge * 2
+    property int topSpacerHeight: Komai.paddingLarge * 2
+    property int bottomSpacerHeight: Komai.paddingLarge
+    property int contentSpacing: Komai.paddingMedium
 
     default property alias pageContent: pageContentColumn.data
 

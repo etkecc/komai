@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 RoomHeaderActionButton {
     id: root

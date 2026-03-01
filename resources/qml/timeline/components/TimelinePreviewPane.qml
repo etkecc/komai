@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ColumnLayout {
     id: preview
@@ -21,9 +21,9 @@ ColumnLayout {
     property string roomTopic: room ? room.roomTopic : (roomPreview ? roomPreview.roomTopic : "")
 
     anchors.fill: parent
-    anchors.margins: Nheko.paddingLarge
+    anchors.margins: Komai.paddingLarge
     enabled: visible
-    spacing: Nheko.paddingLarge
+    spacing: Komai.paddingLarge
     visible: room != null && room.isSpace || roomPreview != null
 
     Item {
@@ -51,7 +51,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         ToolTip.text: qsTr("Settings")
         ToolTip.visible: hovered
-        Layout.bottomMargin: Nheko.paddingMedium
+        Layout.bottomMargin: Komai.paddingMedium
 
         hoverEnabled: true
         image: ":/icons/icons/ui/settings.svg"
@@ -62,7 +62,7 @@ ColumnLayout {
 
     RowLayout {
         Layout.alignment: Qt.AlignHCenter
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         visible: !!room
         Layout.fillWidth: true
 
@@ -82,8 +82,8 @@ ColumnLayout {
     ScrollView {
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        Layout.leftMargin: Nheko.paddingLarge
-        Layout.rightMargin: Nheko.paddingLarge
+        Layout.leftMargin: Komai.paddingLarge
+        Layout.rightMargin: Komai.paddingLarge
         Layout.maximumHeight: preview.height / 3
 
         MatrixText {
@@ -134,7 +134,7 @@ ColumnLayout {
     RowLayout {
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         visible: roomPreview && roomPreview.isInvite && reasonField.showReason
 
         MatrixText {
@@ -181,8 +181,8 @@ ColumnLayout {
         id: showReasonButton
 
         Layout.alignment: Qt.AlignHCenter
-        Layout.leftMargin: Nheko.paddingLarge
-        Layout.rightMargin: Nheko.paddingLarge
+        Layout.leftMargin: Komai.paddingLarge
+        Layout.rightMargin: Komai.paddingLarge
         text: reasonField.showReason ? qsTr("Hide invite reason") : qsTr("Show invite reason")
         visible: roomPreview && roomPreview.isInvite
 

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 import "../bubble"
 
@@ -17,7 +17,7 @@ TimelineBubbleMessageStyle {
 
     messageBubblePadding: 0
     messageBubbleBackgroundEnabled: false
-    messageBubbleHorizontalPadding: Nheko.paddingSmall
+    messageBubbleHorizontalPadding: Komai.paddingSmall
     messageBubbleVerticalPadding: 0
     alignMessageTextToSide: true
     reserveAvatarRowHeight: true

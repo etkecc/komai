@@ -7,7 +7,7 @@ import "./components"
 import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: roomSettingsDialog
@@ -42,7 +42,7 @@ ApplicationWindow {
             id: contentLayout1
 
             width: parent.width
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
 
             RoomSettingsHeaderSection {
                 roomSettings: roomSettingsDialog.roomSettings

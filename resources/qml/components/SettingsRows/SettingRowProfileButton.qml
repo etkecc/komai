@@ -7,7 +7,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import "../../ui"
-import im.nheko
+import cc.etke.komai
 
 Button {
     ComponentCatalog {
@@ -18,11 +18,11 @@ Button {
     icon.source: "qrc:/icons/icons/ui/person.svg"
 
     onClicked: {
-        Nheko.updateUserProfile();
+        Komai.updateUserProfile();
         var component = Qt.createComponent(componentCatalog.userProfileDialog);
         if (component.status == Component.Ready) {
             var userProfile = component.createObject(timelineRoot, {
-                "profile": Nheko.currentUser
+                "profile": Komai.currentUser
             });
             userProfile.show();
             timelineRoot.destroyOnClose(userProfile);

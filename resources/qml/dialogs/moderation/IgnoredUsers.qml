@@ -8,7 +8,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 import "../../components"
 
 Window {
@@ -24,7 +24,7 @@ Window {
     ListView {
         id: view
         anchors.fill: parent
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         footerPositioning: ListView.OverlayFooter
 
         model: TimelineManager.ignoredUsers
@@ -37,7 +37,7 @@ Window {
                 text: qsTr("Ignoring a user hides their messages (they can still see yours!).")
             }
 
-            Item { Layout.preferredHeight: Nheko.paddingLarge }
+            Item { Layout.preferredHeight: Komai.paddingLarge }
         }
         delegate: RowLayout {
             property var profile: TimelineManager.getGlobalUserProfile(modelData)

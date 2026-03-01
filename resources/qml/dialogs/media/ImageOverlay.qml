@@ -10,7 +10,7 @@ import Qt5Compat.GraphicalEffects
 import "../../ui"
 import "./components"
 
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Window {
     id: imageOverlay
@@ -35,8 +35,8 @@ Window {
     property int actionBarHorizontalPadding: 0
     property int actionBarVerticalPadding: 0
     property int actionButtonIconSize: 24
-    property int imageViewportGap: Nheko.paddingLarge * 2
-    property int imageCornerRadius: Nheko.paddingMedium
+    property int imageViewportGap: Komai.paddingLarge * 2
+    property int imageCornerRadius: Komai.paddingMedium
     // Keep close reachable via top-right corner (Fitts's law).
     property int actionBarScreenInset: 0
 
@@ -44,7 +44,7 @@ Window {
 
     //visibility: Window.FullScreen
     color: modalOverlayColor
-    Component.onCompleted: Nheko.setWindowRole(imageOverlay, "imageoverlay")
+    Component.onCompleted: Komai.setWindowRole(imageOverlay, "imageoverlay")
     onVisibleChanged: {
         if (visible) {
             Qt.callLater(() => {
@@ -297,7 +297,7 @@ Window {
         width: implicitWidth
         height: implicitHeight
         color: actionBarColor
-        radius: Nheko.paddingMedium
+        radius: Komai.paddingMedium
 
         // Keep only three corners rounded so the bar can remain flush against
         // the right screen edge while retaining the original left-side shape.
@@ -317,7 +317,7 @@ Window {
                                                       downloadButton.implicitWidth,
                                                       closeButton.implicitWidth)
 
-            spacing: Nheko.paddingLarge
+            spacing: Komai.paddingLarge
             anchors.centerIn: parent
 
             ImageOverlayActionButton {

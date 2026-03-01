@@ -9,7 +9,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 Rectangle {
     id: userSettingsDialog
@@ -19,8 +19,8 @@ Rectangle {
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
     property int sidebarWidth: 200
-    property int headerIconSize: Nheko.barIconSize
-    property int headerButtonPaddingH: Nheko.uiLayoutCompactMode ? Nheko.paddingSmall : Nheko.paddingMedium
+    property int headerIconSize: Komai.barIconSize
+    property int headerButtonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     color: palette.window
 
     // Handle Escape key to go back
@@ -47,10 +47,10 @@ Rectangle {
                 ItemDelegate {
                     id: headerBack
                     Layout.fillWidth: true
-                    Layout.preferredHeight: Nheko.navigationRowHeight
-                    padding: Nheko.paddingSmall
-                    leftPadding: Nheko.paddingSmall
-                    rightPadding: Nheko.paddingSmall
+                    Layout.preferredHeight: Komai.navigationRowHeight
+                    padding: Komai.paddingSmall
+                    leftPadding: Komai.paddingSmall
+                    rightPadding: Komai.paddingSmall
 
                     HoverHandler {
                         cursorShape: Qt.PointingHandCursor
@@ -63,7 +63,7 @@ Rectangle {
                     onClicked: mainWindow.pop()
 
                     contentItem: RowLayout {
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         Image {
                             Layout.preferredWidth: 24
@@ -86,7 +86,7 @@ Rectangle {
 
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Back to main")
-                    ToolTip.delay: Nheko.tooltipDelay
+                    ToolTip.delay: Komai.tooltipDelay
                 }
 
                 // Navigation items
@@ -128,10 +128,10 @@ Rectangle {
                         }
 
                         width: ListView.view.width
-                        height: Nheko.navigationRowHeight
-                        padding: Nheko.paddingSmall
-                        leftPadding: Nheko.paddingSmall
-                        rightPadding: Nheko.paddingSmall
+                        height: Komai.navigationRowHeight
+                        padding: Komai.paddingSmall
+                        leftPadding: Komai.paddingSmall
+                        rightPadding: Komai.paddingSmall
 
                         background: Rectangle {
                             color: navItem.backgroundColor
@@ -169,7 +169,7 @@ Rectangle {
                         }
 
                         contentItem: RowLayout {
-                            spacing: Nheko.paddingMedium
+                            spacing: Komai.paddingMedium
 
                             Image {
                                 Layout.preferredWidth: 24
@@ -194,7 +194,7 @@ Rectangle {
                         }
 
                         ToolTip.visible: hovered && !enabled && requiresSession
-                        ToolTip.delay: Nheko.tooltipDelay
+                        ToolTip.delay: Komai.tooltipDelay
                         ToolTip.text: qsTr("Available after login")
                     }
                 }
@@ -205,7 +205,7 @@ Rectangle {
         Rectangle {
             Layout.preferredWidth: 1
             Layout.fillHeight: true
-            color: Nheko.theme.separator
+            color: Komai.theme.separator
         }
 
         // Settings content area
@@ -221,9 +221,9 @@ Rectangle {
 
                 RowLayout {
                     anchors.fill: parent
-                    anchors.leftMargin: Nheko.paddingMedium
-                    anchors.rightMargin: Nheko.paddingMedium
-                    spacing: Nheko.paddingMedium
+                    anchors.leftMargin: Komai.paddingMedium
+                    anchors.rightMargin: Komai.paddingMedium
+                    spacing: Komai.paddingMedium
 
                     Image {
                         Layout.preferredWidth: userSettingsDialog.headerIconSize
@@ -253,7 +253,7 @@ Rectangle {
                         rightPadding: userSettingsDialog.headerButtonPaddingH
                         topPadding: 0
                         bottomPadding: 0
-                        ToolTip.delay: Nheko.tooltipDelay
+                        ToolTip.delay: Komai.tooltipDelay
                         ToolTip.text: qsTr("Close")
                         ToolTip.visible: hovered
                         image: ":/icons/icons/ui/dismiss.svg"
@@ -266,7 +266,7 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 1
-                color: Nheko.theme.separator
+                color: Komai.theme.separator
             }
 
             // Loader loads only the active tab

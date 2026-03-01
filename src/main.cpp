@@ -358,7 +358,7 @@ main(int argc, char *argv[])
         .arg(profileName == QLatin1String("default") ? QLatin1String("") : profileName));
 
     // This check needs to happen _after_ process(), so that we actually print help for --help when
-    // Nheko is already running.
+    // Komai is already running.
     if (!singleapp.isPrimaryInstance()) {
         auto token = qgetenv("XDG_ACTIVATION_TOKEN");
 
@@ -422,7 +422,7 @@ main(int argc, char *argv[])
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("komai"), QIcon{":/logos/komai.png"}));
 #endif
 #ifdef KOMAI_FLATPAK
-    app.setDesktopFileName(QStringLiteral("im.nheko.Nheko"));
+    app.setDesktopFileName(QStringLiteral("cc.etke.komai"));
 #else
     app.setDesktopFileName(QStringLiteral("komai"));
 #endif
@@ -443,7 +443,7 @@ main(int argc, char *argv[])
     }
 #endif
 
-    auto filter = new NhekoFixupPaletteEventFilter(&app);
+    auto filter = new KomaiFixupPaletteEventFilter(&app);
     app.installEventFilter(filter);
 
     QFont font;

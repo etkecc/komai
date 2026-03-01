@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 TimelineEvent {
     id: wrapper
@@ -219,8 +219,8 @@ TimelineEvent {
         var viewportLeft = 0;
         var viewportRight = chatWidth;
 
-        var leftBound = wrapperPos.x + Nheko.paddingLarge;
-        var rightBound = wrapperPos.x + wrapper.width - Nheko.paddingLarge;
+        var leftBound = wrapperPos.x + Komai.paddingLarge;
+        var rightBound = wrapperPos.x + wrapper.width - Komai.paddingLarge;
         var minX = leftBound;
         var maxX = rightBound - barW;
         if (maxX < minX) {
@@ -287,7 +287,7 @@ TimelineEvent {
     function resolveReplyLink(replyDelegate, x, y, quoteLineWidth, replyHeaderHeight) {
         if (!replyDelegate || !replyDelegate.linkAt)
             return "";
-        return replyDelegate.linkAt(x - quoteLineWidth - Nheko.paddingSmall, y - replyHeaderHeight);
+        return replyDelegate.linkAt(x - quoteLineWidth - Komai.paddingSmall, y - replyHeaderHeight);
     }
 
     function openReplyContextMenu(replyDelegate, replyTo, x, y, quoteLineWidth, replyHeaderHeight) {
@@ -299,7 +299,7 @@ TimelineEvent {
         if (room)
             return room.avatarUrl(userId).replace("mxc://", "image://MxcImage/");
 
-        const currentUser = Nheko.currentUser;
+        const currentUser = Komai.currentUser;
         if (currentUser && currentUser.userid == userId) {
             const currentAvatarUrl = currentUser.avatarUrl ? String(currentUser.avatarUrl) : "";
             if (currentAvatarUrl.length > 0)

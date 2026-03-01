@@ -6,18 +6,18 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ColumnLayout {
     spacing: 16
 
     Image {
         Layout.alignment: Qt.AlignHCenter
-        Layout.preferredWidth: Nheko.timelineLogoSize
-        Layout.preferredHeight: Nheko.timelineLogoSize
+        Layout.preferredWidth: Komai.timelineLogoSize
+        Layout.preferredHeight: Komai.timelineLogoSize
         source: "qrc:/logos/komai.svg"
-        sourceSize.height: Nheko.timelineLogoSize * 2
-        sourceSize.width: Nheko.timelineLogoSize * 2
+        sourceSize.height: Komai.timelineLogoSize * 2
+        sourceSize.width: Komai.timelineLogoSize * 2
         fillMode: Image.PreserveAspectFit
     }
 

@@ -7,12 +7,12 @@ import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import "../components"
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Rectangle {
     id: warningRoot
 
-    property color bubbleColor: Nheko.theme.error
+    property color bubbleColor: Komai.theme.error
     required property string text
     property bool showRemove: false
     property bool roundTopCorners: false
@@ -22,13 +22,13 @@ Rectangle {
     Layout.fillWidth: true
     color: palette.window // required to hide the timeline behind this warning
     height: implicitHeight
-    implicitHeight: visible ? warningDisplay.implicitHeight + 4 * Nheko.paddingSmall : 0
+    implicitHeight: visible ? warningDisplay.implicitHeight + 4 * Komai.paddingSmall : 0
 
     Rectangle {
         id: warningRect
 
         anchors.fill: parent
-        anchors.margins: visible ? Nheko.paddingSmall : 0
+        anchors.margins: visible ? Komai.paddingSmall : 0
         border.color: bubbleColor
         border.width: 1
         // TODO: Qt.alpha() would make more sense but it wasn't working...
@@ -51,8 +51,8 @@ Rectangle {
 
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.margins: Nheko.paddingSmall
-            anchors.rightMargin: warningRoot.showRemove ? (Nheko.paddingSmall*3 + removeButton.width) : Nheko.paddingSmall
+            anchors.margins: Komai.paddingSmall
+            anchors.rightMargin: warningRoot.showRemove ? (Komai.paddingSmall*3 + removeButton.width) : Komai.paddingSmall
             anchors.verticalCenter: parent.verticalCenter
             text: warningRoot.text
             textFormat: Text.PlainText
@@ -64,7 +64,7 @@ Rectangle {
             visible: warningRoot.showRemove
 
             anchors.right: parent.right
-            anchors.margins: Nheko.paddingSmall
+            anchors.margins: Komai.paddingSmall
             anchors.verticalCenter: parent.verticalCenter
 
             image: ":/icons/icons/ui/dismiss.svg"

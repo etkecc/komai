@@ -12,7 +12,7 @@
 #include <QQmlPropertyValueSource>
 #include <QVariantList>
 
-class NhekoMenuVisibilityFilter
+class KomaiMenuVisibilityFilter
   : public QObject
   , public QQmlPropertyValueSource
 {
@@ -25,7 +25,7 @@ class NhekoMenuVisibilityFilter
     QML_ELEMENT
 
 public:
-    NhekoMenuVisibilityFilter(QObject *parent = nullptr)
+    KomaiMenuVisibilityFilter(QObject *parent = nullptr)
       : QObject(parent)
     {
     }

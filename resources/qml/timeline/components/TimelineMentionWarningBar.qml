@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Rectangle {
     id: mentionPopup
@@ -25,7 +25,7 @@ Rectangle {
     Layout.fillWidth: true
     color: palette.alternateBase
     radius: mentionPopup.isTopMostBar ? 8 : 0
-    implicitHeight: mentionRow.implicitHeight + Nheko.paddingMedium * 2
+    implicitHeight: mentionRow.implicitHeight + Komai.paddingMedium * 2
     z: 3
 
     // Keep only top corners rounded so the bar sits flush above the composer.
@@ -44,14 +44,14 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        anchors.margins: Nheko.paddingMedium
-        spacing: Nheko.paddingSmall
+        anchors.margins: Komai.paddingMedium
+        spacing: Komai.paddingSmall
 
         Image {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: mentionPopup.headerIconSize
             Layout.preferredWidth: mentionPopup.headerIconSize
-            source: mentionPopup.isRoomMention ? "image://colorimage/:/icons/icons/ui/people.svg?" + Nheko.theme.error : "image://colorimage/:/icons/icons/ui/person.svg?" + palette.text
+            source: mentionPopup.isRoomMention ? "image://colorimage/:/icons/icons/ui/people.svg?" + Komai.theme.error : "image://colorimage/:/icons/icons/ui/person.svg?" + palette.text
         }
 
         Label {
@@ -64,7 +64,7 @@ Rectangle {
         }
 
         ImageButton {
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: qsTr("Don't mention them in this message")
             ToolTip.visible: hovered
             Layout.alignment: Qt.AlignVCenter

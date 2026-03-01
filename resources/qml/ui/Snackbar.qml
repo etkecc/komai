@@ -5,7 +5,7 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Popup {
     id: snackbar
@@ -46,7 +46,7 @@ Popup {
     opacity: 0
     y: -100
     x: (parent.width - width)/2
-    padding: Nheko.paddingLarge
+    padding: Komai.paddingLarge
 
     contentItem: Label {
         color: palette.light
@@ -56,7 +56,7 @@ Popup {
     }
 
     background: Rectangle {
-        radius: Nheko.paddingLarge
+        radius: Komai.paddingLarge
         color: palette.dark
         opacity: 0.8
     }

@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 import "../../ui"
 
 AbstractButton {
@@ -31,14 +31,14 @@ AbstractButton {
     rightPadding: buttonPaddingH
     topPadding: buttonPaddingV
     bottomPadding: buttonPaddingV
-    implicitWidth: topBarAvatarSize + (hasLabel ? (Nheko.paddingSmall + labelTextItem.implicitWidth) : 0)
+    implicitWidth: topBarAvatarSize + (hasLabel ? (Komai.paddingSmall + labelTextItem.implicitWidth) : 0)
     background: Rectangle {
-        radius: Nheko.paddingSmall
+        radius: Komai.paddingSmall
         color: encryptionButton.hovered ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12) : "transparent"
     }
     visible: roomAvailable
 
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: encryptionDialogTitle()
     ToolTip.visible: hovered
 
@@ -89,10 +89,10 @@ AbstractButton {
         anchors.rightMargin: encryptionButton.rightPadding
         anchors.topMargin: encryptionButton.topPadding
         anchors.bottomMargin: encryptionButton.bottomPadding
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         EncryptionIndicator {
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: encryptionButton.encryptionDialogTitle()
             ToolTip.visible: encryptionButton.hovered && !encryptionButton.hasLabel
             enabled: false
@@ -119,7 +119,7 @@ AbstractButton {
 
     onClicked: encryptionDialog.open()
 
-    NhekoCursorShape {
+    KomaiCursorShape {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
     }
@@ -134,11 +134,11 @@ AbstractButton {
         standardButtons: Dialog.Ok
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
         title: qsTr("Encryption status")
-        implicitWidth: Math.max(240, Math.min(520, (parent ? parent.width : 520) - Nheko.paddingLarge * 2))
-        padding: Nheko.paddingLarge
+        implicitWidth: Math.max(240, Math.min(520, (parent ? parent.width : 520) - Komai.paddingLarge * 2))
+        padding: Komai.paddingLarge
 
         contentItem: ColumnLayout {
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
 
             Label {
                 Layout.fillWidth: true

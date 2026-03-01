@@ -8,14 +8,14 @@ import "../../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 
 ApplicationWindow {
     id: aliasEditorW
 
     property var roomSettings
-    property var editingModel: Nheko.editAliases(roomSettings.roomId)
+    property var editingModel: Komai.editAliases(roomSettings.roomId)
 
     modality: Qt.NonModal
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
@@ -32,7 +32,7 @@ ApplicationWindow {
     //    }
 
     ColumnLayout {
-        anchors.margins: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
         spacing: 0
 
@@ -43,7 +43,7 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: false
             color: palette.text
-            Layout.bottomMargin: Nheko.paddingMedium
+            Layout.bottomMargin: Komai.paddingMedium
         }
 
         ListView {
@@ -66,7 +66,7 @@ ApplicationWindow {
                 Text {
                     Layout.fillWidth: true
                     text: model.name
-                    color: model.isPublished ? palette.text : Nheko.theme.error
+                    color: model.isPublished ? palette.text : Komai.theme.error
                     textFormat: Text.PlainText
                 }
 
@@ -126,7 +126,7 @@ ApplicationWindow {
         }
 
         RowLayout {
-            spacing: Nheko.paddingMedium
+            spacing: Komai.paddingMedium
             Layout.fillWidth: true
 
             MatrixTextField {

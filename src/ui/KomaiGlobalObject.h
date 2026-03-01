@@ -17,7 +17,7 @@
 #include "Theme.h"
 #include "UserProfile.h"
 
-class Nheko : public QObject
+class Komai : public QObject
 {
     Q_OBJECT
 
@@ -53,7 +53,7 @@ class Nheko : public QObject
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
 
 public:
-    Nheko();
+    Komai();
 
     QPalette colors() const;
     QPalette inactiveColors() const;

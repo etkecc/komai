@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -15,7 +15,7 @@ Item {
 
     width: delegateWidth
     // hacky, but works
-    height: loadingSpinner.height + 2 * Nheko.paddingLarge
+    height: loadingSpinner.height + 2 * Komai.paddingLarge
 
     // Hold spinner visible briefly after loading stops to prevent
     // flicker from rapid paginationInProgress toggles during search.
@@ -37,7 +37,7 @@ Item {
         id: loadingSpinner
 
         anchors.centerIn: parent
-        anchors.margins: Nheko.paddingLarge
+        anchors.margins: Komai.paddingLarge
         foreground: palette.mid
         running: root.isLoading || spinnerHoldTimer.running
         z: 3

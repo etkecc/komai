@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ItemDelegate {
     id: communityItem
@@ -25,10 +25,10 @@ ItemDelegate {
     property color importantText: palette.text
     property color unimportantText: palette.buttonText
 
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: model.tooltip
     ToolTip.visible: hovered && collapsed
-    height: Nheko.navigationRowHeight
+    height: Komai.navigationRowHeight
     state: "normal"
     width: ListView.view.width - scrollbarReservedWidth
 
@@ -90,15 +90,15 @@ ItemDelegate {
         id: row
 
         anchors.fill: parent
-        anchors.leftMargin: Nheko.paddingMedium + (collapsed ? 0 : (lineSpacing * model.depth))
-        anchors.margins: Nheko.paddingMedium
-        spacing: Nheko.paddingMedium
+        anchors.leftMargin: Komai.paddingMedium + (collapsed ? 0 : (lineSpacing * model.depth))
+        anchors.margins: Komai.paddingMedium
+        spacing: Komai.paddingMedium
 
         ImageButton {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: lineSpacing
             Layout.preferredWidth: lineSpacing
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: model.collapsed ? qsTr("Expand") : qsTr("Collapse")
             ToolTip.visible: hovered
             hoverEnabled: true
@@ -133,7 +133,7 @@ ItemDelegate {
 
             NotificationBubble {
                 anchors.bottom: avatar.bottom
-                anchors.margins: -Nheko.paddingSmall
+                anchors.margins: -Komai.paddingSmall
                 anchors.right: avatar.right
                 bubbleBackgroundColor: communityItem.bubbleBackground
                 bubbleTextColor: communityItem.bubbleText
@@ -157,7 +157,7 @@ ItemDelegate {
         }
         NotificationBubble {
             Layout.alignment: Qt.AlignRight
-            Layout.leftMargin: Nheko.paddingSmall
+            Layout.leftMargin: Komai.paddingSmall
             bubbleBackgroundColor: communityItem.bubbleBackground
             bubbleTextColor: communityItem.bubbleText
             hasLoudNotification: model.hasLoudNotification

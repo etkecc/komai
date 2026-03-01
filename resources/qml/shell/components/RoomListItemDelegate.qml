@@ -7,7 +7,7 @@ import "." as ShellComponents
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ItemDelegate {
     id: roomItem
@@ -39,10 +39,10 @@ ItemDelegate {
     readonly property bool isSelected: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
     property int hoverPrewarmDelayMs: 180
     property color unimportantText: palette.buttonText
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: roomName
     ToolTip.visible: hovered && collapsed
-    height: Nheko.navigationRowHeight
+    height: Komai.navigationRowHeight
     state: "normal"
     width: ListView.view.width - scrollbarReservedWidth
 
@@ -158,8 +158,8 @@ ItemDelegate {
     }
     RowLayout {
         anchors.fill: parent
-        anchors.margins: Nheko.paddingMedium
-        spacing: Nheko.paddingMedium
+        anchors.margins: Komai.paddingMedium
+        spacing: Komai.paddingMedium
 
         ShellComponents.RoomListItemAvatar {
             id: avatar
@@ -201,14 +201,14 @@ ItemDelegate {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        color: Nheko.theme.separator
+        color: Komai.theme.separator
         height: 1
     }
     Rectangle {
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
         color: palette.highlight
-        height: parent.height - Nheko.paddingSmall * 2
+        height: parent.height - Komai.paddingSmall * 2
         visible: hasUnreadMessages
         width: 6
         radius: 3

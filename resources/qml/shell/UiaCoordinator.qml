@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Dialogs
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root

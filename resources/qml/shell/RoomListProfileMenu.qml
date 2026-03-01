@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Menu {
     id: root
@@ -14,9 +14,9 @@ Menu {
     required property var componentCatalog
 
     function openCurrentUserProfile() {
-        Nheko.updateUserProfile();
+        Komai.updateUserProfile();
         timelineRoot.showCatalogDialog(componentCatalog.userProfileDialog, {
-                "profile": Nheko.currentUser
+                "profile": Komai.currentUser
             });
     }
     function openCreateRoomDialog(properties) {
@@ -37,13 +37,13 @@ Menu {
     InputDialog {
         id: profileStatusDialog
 
-        property var profile: Nheko.currentUser
+        property var profile: Komai.currentUser
 
         prompt: qsTr("Enter your status message:")
         title: qsTr("Status Message")
         text: profile ? Presence.userStatus(profile.userid) : ""
         onAccepted: function (text) {
-            Nheko.setStatusMessage(text);
+            Komai.setStatusMessage(text);
         }
     }
 
@@ -69,7 +69,7 @@ Menu {
     MenuItem {
         text: qsTr("Join a room")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-        onTriggered: Nheko.openJoinRoomDialog()
+        onTriggered: Komai.openJoinRoomDialog()
     }
     MenuItem {
         text: qsTr("Create a new room")
@@ -98,6 +98,6 @@ Menu {
     MenuItem {
         text: qsTr("Logout")
         icon.source: "qrc:/icons/icons/ui/power-off.svg"
-        onTriggered: Nheko.openLogoutDialog()
+        onTriggered: Komai.openLogoutDialog()
     }
 }

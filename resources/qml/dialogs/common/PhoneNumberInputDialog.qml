@@ -8,7 +8,7 @@ import "./components"
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: inputDialog
@@ -23,9 +23,9 @@ ApplicationWindow {
     height: fontMetrics.lineSpacing * 7
 
     GridLayout {
-        rowSpacing: Nheko.paddingMedium
-        columnSpacing: Nheko.paddingMedium
-        anchors.margins: Nheko.paddingMedium
+        rowSpacing: Komai.paddingMedium
+        columnSpacing: Komai.paddingMedium
+        anchors.margins: Komai.paddingMedium
         anchors.fill: parent
         columns: 2
 

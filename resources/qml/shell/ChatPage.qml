@@ -5,7 +5,7 @@
 
 import QtQuick 2.15
 import QtQuick.Layouts 1.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 // this needs to be last
 import QtQml 2.15
@@ -49,7 +49,7 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: communityListC
 
-                collapsedWidth: Math.max(Nheko.navigationRowHeight, 1)
+                collapsedWidth: Math.max(Komai.navigationRowHeight, 1)
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
                 preferredWidth: Settings.sidebarsCommunitiesWidthPx > collapsedWidth
                                 ? Settings.sidebarsCommunitiesWidthPx
@@ -74,7 +74,7 @@ Rectangle {
                 id: roomListC
 
                 maximumWidth: Math.min(500, adaptiveView.width * 0.5)
-                collapsedWidth: Math.max(Nheko.navigationRowHeight, 1)
+                collapsedWidth: Math.max(Komai.navigationRowHeight, 1)
                 preferredWidth: Math.max(Settings.sidebarsRoomListWidthPx, collapsedWidth)
 
                 RoomList {
@@ -96,7 +96,7 @@ Rectangle {
             AdaptiveLayoutElement {
                 id: timlineViewC
 
-                minimumWidth: fontMetrics.averageCharacterWidth * 40 + Nheko.avatarSize + 2 * Nheko.paddingMedium
+                minimumWidth: fontMetrics.averageCharacterWidth * 40 + Komai.avatarSize + 2 * Komai.paddingMedium
 
                 ColumnLayout {
                     anchors.fill: parent

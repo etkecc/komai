@@ -8,7 +8,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.13
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.3
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ApplicationWindow {
     id: createRoomRoot
@@ -16,7 +16,7 @@ ApplicationWindow {
     property bool space: false
 
     title: space ? qsTr("New community") : qsTr("New Room")
-    minimumWidth: Math.max(rootLayout.implicitWidth+2*rootLayout.anchors.margins, footer.implicitWidth + Nheko.paddingLarge)
+    minimumWidth: Math.max(rootLayout.implicitWidth+2*rootLayout.anchors.margins, footer.implicitWidth + Komai.paddingLarge)
     minimumHeight: rootLayout.implicitHeight+footer.implicitHeight+2*rootLayout.anchors.margins
     modality: Qt.NonModal
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
@@ -32,9 +32,9 @@ ApplicationWindow {
     GridLayout {
         id: rootLayout
         anchors.fill: parent
-        anchors.margins: Nheko.paddingLarge
+        anchors.margins: Komai.paddingLarge
         columns: 2
-        rowSpacing: Nheko.paddingMedium
+        rowSpacing: Komai.paddingMedium
 
         MatrixTextField {
             id: newRoomName
@@ -89,7 +89,7 @@ ApplicationWindow {
             }
             ToolTip.visible: privateHover.hovered
             ToolTip.text: qsTr("Public rooms can be joined by anyone; private rooms need explicit invites.")
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
         }
         ToggleButton {
             Layout.alignment: Qt.AlignRight
@@ -108,7 +108,7 @@ ApplicationWindow {
             }
             ToolTip.visible: trustedHover.hovered
             ToolTip.text: qsTr("All invitees are given the same power level as the creator")
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
         }
         ToggleButton {
             visible: !space
@@ -129,7 +129,7 @@ ApplicationWindow {
             }
             ToolTip.visible: encryptionHover.hovered
             ToolTip.text: qsTr("Caution: Encryption cannot be disabled")
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
         }
         ToggleButton {
             visible: !space
@@ -157,7 +157,7 @@ ApplicationWindow {
             else {
                 preset = isTrusted.checked ? 2 : 0;
             }
-            Nheko.createRoom(space, newRoomName.text, newRoomTopic.text, newRoomAlias.text, isEncrypted.checked, preset)
+            Komai.createRoom(space, newRoomName.text, newRoomTopic.text, newRoomAlias.text, isEncrypted.checked, preset)
             createRoomRoot.close();
         }
     }

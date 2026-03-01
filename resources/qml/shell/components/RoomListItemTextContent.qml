@@ -5,7 +5,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ColumnLayout {
     id: root
@@ -32,7 +32,7 @@ ColumnLayout {
     Layout.fillWidth: true
     Layout.minimumWidth: 100
     Layout.preferredHeight: compactMode ? -1 : avatarHeight
-    spacing: compactMode ? 0 : Nheko.paddingSmall
+    spacing: compactMode ? 0 : Komai.paddingSmall
     visible: !collapsed
 
     Item {
@@ -50,7 +50,7 @@ ColumnLayout {
             anchors.left: parent.left
             anchors.verticalCenter: root.compactMode ? parent.verticalCenter : undefined
             color: root.importantText
-            elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0) - (inlinePreview.visible ? Nheko.paddingSmall : 0)
+            elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - (inlinePreview.visible ? Komai.paddingSmall : 0)
             font.bold: root.hasUnreadMessages
             fullText: TimelineManager.htmlEscape(root.roomName)
             textFormat: Text.RichText
@@ -59,12 +59,12 @@ ColumnLayout {
             id: inlinePreview
 
             anchors.left: titleText.right
-            anchors.leftMargin: Nheko.paddingSmall
+            anchors.leftMargin: Komai.paddingSmall
             anchors.baseline: titleText.baseline
             anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
-            anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Nheko.paddingSmall : 0
+            anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Komai.paddingSmall : 0
             color: root.unimportantText
-            elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Nheko.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Nheko.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Nheko.paddingSmall : 0)))
+            elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Komai.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0)))
             font.pixelSize: root.baseFontPixelSize * 0.95
             fullText: TimelineManager.htmlEscape(root.lastMessage)
             textFormat: Text.RichText
@@ -78,7 +78,7 @@ ColumnLayout {
             color: root.unimportantText
             font.pixelSize: root.baseFontPixelSize * 0.95
             text: root.time
-            visible: !root.isInvite && !root.isSpace && Nheko.sidebarsRoomListShowLastMessageTime
+            visible: !root.isInvite && !root.isSpace && Komai.sidebarsRoomListShowLastMessageTime
         }
         NotificationBubble {
             id: spaceNotificationBubble

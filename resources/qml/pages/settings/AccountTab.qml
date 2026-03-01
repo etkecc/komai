@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Item {
     id: root
@@ -30,15 +30,15 @@ Item {
         Flickable {
             anchors.fill: parent
             contentWidth: width
-            contentHeight: container.implicitHeight + Nheko.paddingLarge * 2
+            contentHeight: container.implicitHeight + Komai.paddingLarge * 2
             clip: true
 
             ColumnLayout {
                 id: container
-                y: Nheko.paddingLarge
-                width: Math.max(0, parent.width - Nheko.paddingLarge * 2)
-                x: Nheko.paddingLarge
-                spacing: Nheko.paddingMedium
+                y: Komai.paddingLarge
+                width: Math.max(0, parent.width - Komai.paddingLarge * 2)
+                x: Komai.paddingLarge
+                spacing: Komai.paddingMedium
 
                 Label {
                     Layout.fillWidth: true

@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 import QtQuick.Effects
 
 Item {

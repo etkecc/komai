@@ -7,7 +7,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.15
-import im.nheko 1.0
+import cc.etke.komai 1.0
 import "onboarding" as Onboarding
 import "../components/"
 import "../ui/"
@@ -26,7 +26,7 @@ Item {
         id: scroll
         anchors.fill: parent
         maxContentWidth: registrationPage.maxExpansion
-        topSpacerHeight: Nheko.paddingLarge * 3
+        topSpacerHeight: Komai.paddingLarge * 3
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
@@ -36,9 +36,9 @@ Item {
             }
 
             Label {
-                Layout.topMargin: Nheko.paddingMedium
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
                 Layout.bottomMargin: 0
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
@@ -50,10 +50,10 @@ Item {
             }
 
             Label {
-                Layout.topMargin: Nheko.paddingSmall
-                Layout.leftMargin: Nheko.paddingLarge
-                Layout.rightMargin: Nheko.paddingLarge
-                Layout.bottomMargin: Nheko.paddingMedium
+                Layout.topMargin: Komai.paddingSmall
+                Layout.leftMargin: Komai.paddingLarge
+                Layout.rightMargin: Komai.paddingLarge
+                Layout.bottomMargin: Komai.paddingMedium
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 text: qsTr("But... where?")
@@ -66,24 +66,24 @@ Item {
             // Informational guide
             Rectangle {
                 Layout.fillWidth: true
-                Layout.leftMargin: Nheko.paddingMedium
-                Layout.rightMargin: Nheko.paddingMedium
-                Layout.topMargin: Nheko.paddingSmall
-                Layout.bottomMargin: Nheko.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.topMargin: Komai.paddingSmall
+                Layout.bottomMargin: Komai.paddingMedium
                 color: palette.alternateBase
                 radius: 8
-                implicitHeight: guideColumn.implicitHeight + Nheko.paddingMedium * 2
+                implicitHeight: guideColumn.implicitHeight + Komai.paddingMedium * 2
 
                 ColumnLayout {
                     id: guideColumn
                     anchors.fill: parent
-                    anchors.margins: Nheko.paddingMedium
-                    spacing: Nheko.paddingSmall
+                    anchors.margins: Komai.paddingMedium
+                    spacing: Komai.paddingSmall
 
                     // Public servers
                     RowLayout {
                         Layout.fillWidth: true
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         Image {
                             Layout.preferredHeight: 20
@@ -115,7 +115,7 @@ Item {
                     // Hosting providers
                     RowLayout {
                         Layout.fillWidth: true
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         Image {
                             Layout.preferredHeight: 20
@@ -147,7 +147,7 @@ Item {
                     // Self-hosting
                     RowLayout {
                         Layout.fillWidth: true
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         Image {
                             Layout.preferredHeight: 20
@@ -179,7 +179,7 @@ Item {
                     // Warning about migration
                     RowLayout {
                         Layout.fillWidth: true
-                        spacing: Nheko.paddingMedium
+                        spacing: Komai.paddingMedium
 
                         Image {
                             Layout.preferredHeight: 20
@@ -211,7 +211,7 @@ Item {
             }
 
             RowLayout {
-                spacing: Nheko.paddingLarge
+                spacing: Komai.paddingLarge
 
                 Layout.fillWidth: true
                 MatrixTextField {
@@ -237,14 +237,14 @@ Item {
             MatrixText {
                 Layout.fillWidth: true
                 textFormat: Text.PlainText
-                color: Nheko.theme.error
+                color: Komai.theme.error
                 text: regis.hsError
                 visible: text
                 wrapMode: TextEdit.Wrap
             }
 
             RowLayout {
-                spacing: Nheko.paddingLarge
+                spacing: Komai.paddingLarge
 
                 visible: regis.supported
 
@@ -269,7 +269,7 @@ Item {
                     Layout.preferredHeight: usernameLabel.height/2
                     Layout.preferredWidth: usernameLabel.height/2
                     Layout.alignment: Qt.AlignBottom
-                    source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?green") : ("image://colorimage/:/icons/icons/ui/dismiss.svg?"+Nheko.theme.error)
+                    source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?green") : ("image://colorimage/:/icons/icons/ui/dismiss.svg?"+Komai.theme.error)
                     visible: regis.usernameAvailable || regis.usernameUnavailable
                     ToolTip.visible: ma.hovered
                     ToolTip.text: qsTr("Back")
@@ -284,7 +284,7 @@ Item {
             MatrixText {
                 Layout.fillWidth: true
                 textFormat: Text.PlainText
-                color: Nheko.theme.error
+                color: Komai.theme.error
                 text: regis.usernameError
                 visible: text && regis.supported
                 wrapMode: TextEdit.Wrap
@@ -312,7 +312,7 @@ Item {
                 Layout.fillWidth: true
                 visible: regis.supported
                 textFormat: Text.PlainText
-                color: Nheko.theme.error
+                color: Komai.theme.error
                 text: passwordLabel.text != passwordConfirmationLabel.text ? qsTr("Your passwords do not match!") : ""
                 wrapMode: TextEdit.Wrap
             }
@@ -327,7 +327,7 @@ Item {
             }
 
             Item {
-                Layout.preferredHeight: Nheko.avatarSize
+                Layout.preferredHeight: Komai.avatarSize
                 Layout.fillWidth: true
 
                 Spinner {
@@ -343,7 +343,7 @@ Item {
             MatrixText {
                 Layout.fillWidth: true
                 textFormat: Text.PlainText
-                color: Nheko.theme.error
+                color: Komai.theme.error
                 text: registrationPage.error
                 visible: text
                 wrapMode: TextEdit.Wrap
@@ -370,9 +370,9 @@ Item {
     ImageButton {
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.margins: Nheko.paddingMedium
-        width: Nheko.avatarSize
-        height: Nheko.avatarSize
+        anchors.margins: Komai.paddingMedium
+        width: Komai.avatarSize
+        height: Komai.avatarSize
         image: ":/icons/icons/ui/angle-arrow-left.svg"
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Back")

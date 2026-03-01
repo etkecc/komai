@@ -5,7 +5,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 AbstractButton {
     id: root
@@ -16,15 +16,15 @@ AbstractButton {
     property string labelText: ""
     property bool showLabel: false
     readonly property bool hasLabel: showLabel && labelText.length > 0
-    property int buttonPaddingH: Nheko.uiLayoutCompactMode ? Nheko.paddingSmall : Nheko.paddingMedium
+    property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     readonly property int iconSize: Math.max(14, buttonSize - 2 * buttonPaddingH)
 
-    ToolTip.delay: Nheko.tooltipDelay
+    ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: toolTipText
     ToolTip.visible: hovered
     implicitHeight: buttonSize
-    implicitWidth: buttonSize + (hasLabel ? (Nheko.paddingSmall + actionLabel.implicitWidth) : 0)
+    implicitWidth: buttonSize + (hasLabel ? (Komai.paddingSmall + actionLabel.implicitWidth) : 0)
     Layout.preferredHeight: buttonSize
     Layout.preferredWidth: implicitWidth
     hoverEnabled: true
@@ -34,7 +34,7 @@ AbstractButton {
     bottomPadding: buttonPaddingV
 
     background: Rectangle {
-        radius: Nheko.paddingSmall
+        radius: Komai.paddingSmall
         color: root.hovered ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12) : "transparent"
     }
 
@@ -44,7 +44,7 @@ AbstractButton {
         anchors.rightMargin: root.rightPadding
         anchors.topMargin: root.topPadding
         anchors.bottomMargin: root.bottomPadding
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Image {
             Layout.alignment: Qt.AlignVCenter
@@ -65,7 +65,7 @@ AbstractButton {
         }
     }
 
-    NhekoCursorShape {
+    KomaiCursorShape {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
     }

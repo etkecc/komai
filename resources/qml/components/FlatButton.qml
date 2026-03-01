@@ -7,7 +7,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
-import im.nheko
+import cc.etke.komai
 
 // FIXME(Nico): Don't use hardcoded colors.
 Button {
@@ -37,7 +37,7 @@ Button {
         spacing: 0
         anchors.centerIn: parent
         Image {
-            Layout.leftMargin: Nheko.paddingMedium
+            Layout.leftMargin: Komai.paddingMedium
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             Layout.preferredHeight: fontMetrics.font.pixelSize * control.sizeScale
             Layout.preferredWidth:  fontMetrics.font.pixelSize * control.sizeScale

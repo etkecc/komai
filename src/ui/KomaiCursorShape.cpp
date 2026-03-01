@@ -3,24 +3,24 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "NhekoCursorShape.h"
+#include "KomaiCursorShape.h"
 
 #include <QCursor>
 
-NhekoCursorShape::NhekoCursorShape(QQuickItem *parent)
+KomaiCursorShape::KomaiCursorShape(QQuickItem *parent)
   : QQuickItem(parent)
   , currentShape_(Qt::CursorShape::ArrowCursor)
 {
 }
 
 Qt::CursorShape
-NhekoCursorShape::cursorShape() const
+KomaiCursorShape::cursorShape() const
 {
     return cursor().shape();
 }
 
 void
-NhekoCursorShape::setCursorShape(Qt::CursorShape cursorShape)
+KomaiCursorShape::setCursorShape(Qt::CursorShape cursorShape)
 {
     if (currentShape_ == cursorShape)
         return;
@@ -30,4 +30,4 @@ NhekoCursorShape::setCursorShape(Qt::CursorShape cursorShape)
     emit cursorShapeChanged();
 }
 
-#include "moc_NhekoCursorShape.cpp"
+#include "moc_KomaiCursorShape.cpp"

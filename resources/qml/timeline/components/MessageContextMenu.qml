@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 Menu {
     id: messageContextMenuRoot
@@ -97,7 +97,7 @@ Menu {
         popupAnchorItem = null;
     }
 
-    NhekoMenuVisibilityFilter on contentData {
+    KomaiMenuVisibilityFilter on contentData {
         id: messageActionsFilter
 
         Component {

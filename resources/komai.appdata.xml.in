@@ -4,7 +4,7 @@
   <id>cc.etke.komai</id>
   <launchable type="desktop-id">@APPID@.desktop</launchable>
   <replaces>
-    <id>im.nheko.Nheko</id>
+    <id>cc.etke.komai</id>
     <id>io.github.NhekoReborn.Nheko</id>
   </replaces>
   <metadata_license>CC0-1.0</metadata_license>

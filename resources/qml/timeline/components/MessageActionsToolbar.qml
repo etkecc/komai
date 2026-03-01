@@ -5,7 +5,7 @@
 
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 RowLayout {
     id: toolbar
@@ -18,8 +18,8 @@ RowLayout {
     required property var messageModel
     required property var roomModel
     required property var topBar
-    property int itemHorizontalPadding: Nheko.paddingMedium
-    property int itemVerticalPadding: Nheko.paddingSmall
+    property int itemHorizontalPadding: Komai.paddingMedium
+    property int itemVerticalPadding: Komai.paddingSmall
     property int actionButtonIconSize: 32
     property int actionButtonHeight: actionButtonIconSize + itemVerticalPadding * 2
     property int labelBreakpointWidth: 600
@@ -46,7 +46,7 @@ RowLayout {
     property color actionButtonColor: palette.brightText
     property color actionButtonHoverColor: palette.highlight
     property color actionButtonHoverBackgroundColor: Qt.rgba(actionButtonColor.r, actionButtonColor.g, actionButtonColor.b, 0.16)
-    readonly property int separatorSlotWidth: Nheko.paddingMedium * 2 + 1
+    readonly property int separatorSlotWidth: Komai.paddingMedium * 2 + 1
     readonly property real reactionButtonsWidth: repeaterItemsWidth(pinnedReactionsRepeater) + repeaterItemsWidth(recentReactionsRepeater)
 
     spacing: 0
@@ -78,7 +78,7 @@ RowLayout {
     }
 
     function labeledButtonWidth(labelAdvanceWidth) {
-        return iconOnlyButtonWidth() + Nheko.paddingSmall + labelAdvanceWidth;
+        return iconOnlyButtonWidth() + Komai.paddingSmall + labelAdvanceWidth;
     }
 
     TextMetrics {
@@ -188,7 +188,7 @@ RowLayout {
             })
     }
     Item {
-        Layout.preferredWidth: Nheko.paddingMedium * 2 + separator.width
+        Layout.preferredWidth: Komai.paddingMedium * 2 + separator.width
         Layout.preferredHeight: toolbar.actionButtonHeight
         visible: reactButton.visible
 
@@ -198,7 +198,7 @@ RowLayout {
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             width: 1
-            height: Math.max(1, parent.height - Nheko.paddingMedium)
+            height: Math.max(1, parent.height - Komai.paddingMedium)
             color: Qt.rgba(toolbar.actionButtonColor.r, toolbar.actionButtonColor.g, toolbar.actionButtonColor.b, 0.35)
         }
     }

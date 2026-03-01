@@ -7,7 +7,7 @@ import "../components"
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 Popup {
     modal: true
@@ -68,8 +68,8 @@ Popup {
 
             Avatar {
                 Layout.rightMargin: cameraCombo.visible ? 16 : 64
-                Layout.preferredWidth: Nheko.avatarSize
-                Layout.preferredHeight: Nheko.avatarSize
+                Layout.preferredWidth: Komai.avatarSize
+                Layout.preferredHeight: Komai.avatarSize
                 url: room.roomAvatarUrl.replace("mxc://", "image://MxcImage/")
                 displayName: room.roomName
                 roomid: room.roomId

@@ -6,7 +6,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
-import im.nheko
+import cc.etke.komai
 
 TextField {
     id: root

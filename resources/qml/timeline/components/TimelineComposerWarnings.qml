@@ -5,7 +5,7 @@
 import "../../composer" as Composer
 import QtQuick
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 ColumnLayout {
     id: root
@@ -48,7 +48,7 @@ ColumnLayout {
 
     Composer.MessageInputWarning {
         roundTopCorners: !root.replyPopupVisible && root.mentionCount == 0
-        bubbleColor: Nheko.theme.orange
+        bubbleColor: Komai.theme.orange
         text: qsTr("/%1 looks like an incomplete command. To send it anyway, add a space to the end of your message.").arg(root.roomModel ? root.roomModel.input.currentCommand : "")
         visible: root.incompleteCommandVisible
     }

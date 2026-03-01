@@ -7,14 +7,14 @@ import "../ui"
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Control {
     id: r
 
     required property string userName
 
-    padding: Nheko.paddingMedium
+    padding: Komai.paddingMedium
     //implicitHeight: contents.implicitHeight + padd * 2
     Layout.maximumWidth: contents.Layout.maximumWidth + padding * 2
     Layout.fillWidth: true
@@ -22,17 +22,17 @@ Control {
     contentItem: RowLayout {
         id: contents
 
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
 
         Image {
-            source: "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Nheko.theme.green
+            source: "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.green
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
         }
 
         ColumnLayout {
-            spacing: Nheko.paddingSmall
+            spacing: Komai.paddingSmall
             Layout.fillWidth: true
 
             MatrixText {
@@ -58,10 +58,10 @@ Control {
     }
 
     background: Rectangle {
-        radius: fontMetrics.lineSpacing / 2 + Nheko.paddingMedium
-        height: contents.implicitHeight + Nheko.paddingMedium * 2
+        radius: fontMetrics.lineSpacing / 2 + Komai.paddingMedium
+        height: contents.implicitHeight + Komai.paddingMedium * 2
         color: palette.alternateBase
-        border.color: Nheko.theme.green
+        border.color: Komai.theme.green
         border.width: 2
     }
 }

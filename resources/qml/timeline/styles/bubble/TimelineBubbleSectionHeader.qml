@@ -5,7 +5,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import im.nheko
+import cc.etke.komai
 
 import "../../../components"
 
@@ -89,7 +89,7 @@ Column {
                 visible: isAdmin || isModerator
             }
 
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: userId
             ToolTip.visible: hovered
             leftPadding: powerlevelIndicator.visible ? 16 : 0
@@ -114,7 +114,7 @@ Column {
                 elideWidth: userInfo.remainingWidth - Math.min(statusMsg.implicitWidth, userInfo.remainingWidth / 3)
                 text: userName
             }
-            NhekoCursorShape {
+            KomaiCursorShape {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
             }
@@ -124,7 +124,7 @@ Column {
 
             property string userStatus: Presence.userStatus(userId)
 
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             ToolTip.text: qsTr("%1's status message").arg(userName)
             ToolTip.visible: statusMsgHoverHandler.hovered
             anchors.baseline: userNameButton.baseline

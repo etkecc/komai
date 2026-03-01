@@ -5,7 +5,7 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import im.nheko
+import cc.etke.komai
 
 TextEdit {
     id: root

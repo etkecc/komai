@@ -6,7 +6,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import im.nheko
+import cc.etke.komai
 
 Control {
     id: msgRoot
@@ -19,7 +19,7 @@ Control {
 
     contentItem: RowLayout {
         id: redactedLayout
-        spacing: Nheko.paddingSmall
+        spacing: Komai.paddingSmall
 
         Image {
             id: trashImg
@@ -47,12 +47,12 @@ Control {
         }
     }
 
-    padding: Nheko.paddingSmall
+    padding: Komai.paddingSmall
 
     Layout.maximumWidth: redactedLayout.Layout.maximumWidth + padding * 2
 
     background: Rectangle {
         color: palette.alternateBase
-        radius: fontMetrics.lineSpacing / 2 + 2 * Nheko.paddingSmall
+        radius: fontMetrics.lineSpacing / 2 + 2 * Komai.paddingSmall
     }
 }

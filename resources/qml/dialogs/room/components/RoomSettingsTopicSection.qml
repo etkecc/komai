@@ -7,7 +7,7 @@ import "../../../components"
 import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
-import im.nheko 1.0
+import cc.etke.komai 1.0
 
 ColumnLayout {
     required property var roomSettings
@@ -28,8 +28,8 @@ ColumnLayout {
         Layout.preferredHeight: implicitHeight
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
-        Layout.leftMargin: Nheko.paddingLarge
-        Layout.rightMargin: Nheko.paddingLarge
+        Layout.leftMargin: Komai.paddingLarge
+        Layout.rightMargin: Komai.paddingLarge
 
         readOnly: !isTopicEditingAllowed
         textFormat: isTopicEditingAllowed ? TextEdit.PlainText : TextEdit.RichText
@@ -41,16 +41,16 @@ ColumnLayout {
         color: palette.text
         horizontalAlignment: TextEdit.AlignHCenter
 
-        onLinkActivated: Nheko.openLink(link)
+        onLinkActivated: Komai.openLink(link)
 
-        NhekoCursorShape {
+        KomaiCursorShape {
             anchors.fill: parent
             cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
         }
     }
 
     RowLayout {
-        spacing: Nheko.paddingMedium
+        spacing: Komai.paddingMedium
         Layout.alignment: Qt.AlignHCenter
 
         ImageButton {
@@ -60,7 +60,7 @@ ColumnLayout {
             hoverEnabled: true
             ToolTip.visible: hovered
             ToolTip.text: qsTr("Change topic of this room")
-            ToolTip.delay: Nheko.tooltipDelay
+            ToolTip.delay: Komai.tooltipDelay
             image: roomTopic.isTopicEditingAllowed ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/edit.svg"
 
             onClicked: {

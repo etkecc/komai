@@ -69,6 +69,7 @@ public:
 
     void fetchMore();
     void expandWindow();
+    void resetWindowToInitial();
     bool canExpandWindow() const;
     void handleSync(const mtx::responses::Timeline &events);
 
@@ -138,8 +139,9 @@ private:
 
     // Virtual window: dbFirst is the true lower bound in the database.
     // first is the windowed lower bound exposed to QML.
-    uint64_t dbFirst                = std::numeric_limits<uint64_t>::max();
-    static constexpr int windowSize = 200;
+    uint64_t dbFirst = std::numeric_limits<uint64_t>::max();
+    int initialWindowSize_;
+    int expandChunkSize_;
 
     static QCache<IdIndex, olm::DecryptionResult> decryptedEvents_;
     static QCache<Index, mtx::events::collections::TimelineEvents> events_;
@@ -157,4 +159,6 @@ private:
     int current_txn_error_count = 0;
     bool noMoreMessages         = false;
     bool suppressKeyRequests    = true;
+
+    void applyInitialWindowFromRange(uint64_t rangeFirst, uint64_t rangeLast);
 };

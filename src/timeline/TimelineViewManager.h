@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QElapsedTimer>
 #include <QHash>
 #include <QQmlEngine>
 
@@ -110,6 +111,9 @@ public:
     Q_INVOKABLE UserProfile *getGlobalUserProfile(QString userId);
 
     Q_INVOKABLE void focusMessageInput();
+    Q_INVOKABLE void markRoomSwitchPhase(const QString &roomId, const QString &phase);
+    Q_INVOKABLE bool roomSwitchPerfEnabled() const { return roomSwitchPerfEnabled_; }
+    Q_INVOKABLE bool perfUiFlagEnabled(const QString &flag) const;
 
     Q_INVOKABLE void fixImageRendering(QQuickTextDocument *t, QQuickItem *i);
 
@@ -162,6 +166,8 @@ public slots:
     void forwardMessageToRoom(mtx::events::collections::TimelineEvents const *e, QString roomId);
 
     RoomlistModel *rooms() { return rooms_; }
+    void markRoomSwitchRequested(const QString &roomId, const QString &reason);
+    void markRoomSwitchPhaseCpp(const QString &roomId, const QString &phase);
 
 private:
     bool waitingForFirstSync_ = true;
@@ -186,7 +192,13 @@ private:
     // 16 maximally-spaced hues for small-room palette assignment.
     static const std::vector<double> kPaletteHues;
 
+    bool roomSwitchPerfEnabled_     = false;
+    quint64 roomSwitchPerfSwitchId_ = 0;
+    QString roomSwitchPerfActiveRoomId_;
+    QElapsedTimer roomSwitchPerfTimer_;
+
     inline static TimelineViewManager *instance_ = nullptr;
 
     void processIgnoredUsers(const mtx::responses::AccountData &data);
+    void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);
 };

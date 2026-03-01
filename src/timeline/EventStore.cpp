@@ -26,21 +26,39 @@ QCache<EventStore::IdIndex, mtx::events::collections::TimelineEvents> EventStore
   1000};
 QCache<EventStore::Index, mtx::events::collections::TimelineEvents> EventStore::events_{1000};
 
+namespace {
+int
+parsePositiveIntEnv(const char *name, int fallbackValue)
+{
+    const auto value = qEnvironmentVariable(name).trimmed();
+    if (value.isEmpty())
+        return fallbackValue;
+
+    bool ok          = false;
+    const auto asInt = value.toInt(&ok);
+    if (!ok || asInt <= 0)
+        return fallbackValue;
+
+    return asInt;
+}
+
+bool
+isPerfRoomSwitchTracingEnabled()
+{
+    return qEnvironmentVariableIsSet("KOMAI_ROOM_SWITCH_PERF") ||
+           qEnvironmentVariableIsSet("KOMAI_PERF_ROOM_SWITCH");
+}
+}
+
 EventStore::EventStore(std::string room_id, QObject *)
   : room_id_(std::move(room_id))
+  , initialWindowSize_(parsePositiveIntEnv("KOMAI_TIMELINE_INITIAL_WINDOW", 12))
+  , expandChunkSize_(parsePositiveIntEnv("KOMAI_TIMELINE_EXPAND_CHUNK", 50))
 {
     auto range = cache::getTimelineRange(room_id_);
 
     if (range) {
-        this->dbFirst = range->first;
-        this->last    = range->last;
-        // Apply virtual window: only expose newest windowSize messages
-        auto fullSize = static_cast<int>(range->last - range->first) + 1;
-        if (fullSize > windowSize) {
-            this->first = range->last - static_cast<uint64_t>(windowSize) + 1;
-        } else {
-            this->first = range->first;
-        }
+        applyInitialWindowFromRange(range->first, range->last);
     }
 
     connect(
@@ -322,15 +340,7 @@ EventStore::clearTimeline()
     auto range = cache::getTimelineRange(room_id_);
     if (range) {
         nhlog::db()->info("Range {} {}", range->last, range->first);
-        this->last    = range->last;
-        this->dbFirst = range->first;
-        // Apply virtual window after clear
-        auto fullSize = static_cast<int>(range->last - range->first) + 1;
-        if (fullSize > windowSize) {
-            this->first = range->last - static_cast<uint64_t>(windowSize) + 1;
-        } else {
-            this->first = range->first;
-        }
+        applyInitialWindowFromRange(range->first, range->last);
     } else {
         this->first   = std::numeric_limits<uint64_t>::max();
         this->dbFirst = std::numeric_limits<uint64_t>::max();
@@ -454,15 +464,7 @@ EventStore::handleSync(const mtx::responses::Timeline &events)
 
     if (events.limited) {
         emit beginResetModel();
-        this->last    = range->last;
-        this->dbFirst = range->first;
-        // Apply virtual window on limited sync reset
-        auto fullSize = static_cast<int>(range->last - range->first) + 1;
-        if (fullSize > windowSize) {
-            this->first = range->last - static_cast<uint64_t>(windowSize) + 1;
-        } else {
-            this->first = range->first;
-        }
+        applyInitialWindowFromRange(range->first, range->last);
 
         decryptedEvents_.clear();
         events_.clear();
@@ -943,6 +945,31 @@ EventStore::canExpandWindow() const
 }
 
 void
+EventStore::applyInitialWindowFromRange(uint64_t rangeFirst, uint64_t rangeLast)
+{
+    this->dbFirst = rangeFirst;
+    this->last    = rangeLast;
+
+    const auto fullSize = static_cast<int>(rangeLast - rangeFirst) + 1;
+    if (fullSize > initialWindowSize_) {
+        this->first = rangeLast - static_cast<uint64_t>(initialWindowSize_) + 1;
+    } else {
+        this->first = rangeFirst;
+    }
+
+    if (isPerfRoomSwitchTracingEnabled()) {
+        nhlog::ui()->info(
+          "EventStore[{}]: initial window applied visible={} total={} configured_initial={} "
+          "expand_chunk={}",
+          room_id_,
+          this->size(),
+          fullSize,
+          initialWindowSize_,
+          expandChunkSize_);
+    }
+}
+
+void
 EventStore::expandWindow()
 {
     // Expand the virtual window to reveal more cached messages from local storage.
@@ -952,7 +979,7 @@ EventStore::expandWindow()
         return;
     }
 
-    auto expandBy = static_cast<uint64_t>(windowSize);
+    auto expandBy = static_cast<uint64_t>(expandChunkSize_);
     uint64_t newFirst;
     if (first - dbFirst > expandBy) {
         newFirst = first - expandBy;
@@ -972,6 +999,35 @@ EventStore::expandWindow()
     this->first = newFirst;
     emit endInsertRows();
     emit dataChanged(toExternalIdx(oldFirst), toExternalIdx(oldFirst));
+}
+
+void
+EventStore::resetWindowToInitial()
+{
+    // Search/filter flows may expand the virtual window dramatically.
+    // Resetting to the configured tail window keeps normal timeline browsing
+    // responsive without touching persisted cache state.
+    if (last == std::numeric_limits<uint64_t>::max() ||
+        dbFirst == std::numeric_limits<uint64_t>::max())
+        return;
+
+    const auto fullSize = static_cast<int>(last - dbFirst) + 1;
+    uint64_t newFirst   = dbFirst;
+    if (fullSize > initialWindowSize_)
+        newFirst = last - static_cast<uint64_t>(initialWindowSize_) + 1;
+
+    if (newFirst == first)
+        return;
+
+    nhlog::ui()->info("EventStore[{}]: resetting window {} -> {} (configured_initial={})",
+                      room_id_,
+                      this->size(),
+                      static_cast<int>(last - newFirst) + 1,
+                      initialWindowSize_);
+
+    emit beginResetModel();
+    first = newFirst;
+    emit endResetModel();
 }
 
 void

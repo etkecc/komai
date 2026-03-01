@@ -37,6 +37,8 @@ ItemDelegate {
     required property var tags
     required property string time
     required property bool isEncrypted
+    readonly property bool isSelected: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
+    property int hoverPrewarmDelayMs: 180
     property color unimportantText: palette.buttonText
     ToolTip.delay: Nheko.tooltipDelay
     ToolTip.text: roomName
@@ -62,7 +64,7 @@ ItemDelegate {
     states: [
         State {
             name: "highlight"
-            when: roomItem.hovered && !((Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId)
+            when: roomItem.hovered && !roomItem.isSelected
 
             PropertyChanges {
                 roomItem {
@@ -76,7 +78,7 @@ ItemDelegate {
         },
         State {
             name: "selected"
-            when: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
+            when: roomItem.isSelected
 
             PropertyChanges {
                 roomItem {
@@ -90,7 +92,28 @@ ItemDelegate {
         }
     ]
 
+    Timer {
+        id: hoverPrewarmTimer
+
+        interval: roomItem.hoverPrewarmDelayMs
+        repeat: false
+        onTriggered: Rooms.prewarmRoom(roomId, "hover")
+    }
+
+    onHoveredChanged: {
+        if (hovered && !isInvite && !isSelected) {
+            Rooms.scheduleRoomPrewarm(roomId, "hover");
+            hoverPrewarmTimer.restart();
+        } else if (hoverPrewarmTimer.running) {
+            hoverPrewarmTimer.stop();
+            Rooms.cancelRoomPrewarm(roomId, "hover", "hover_lost");
+        }
+    }
     onClicked: {
+        if (hoverPrewarmTimer.running) {
+            hoverPrewarmTimer.stop();
+            Rooms.cancelRoomPrewarm(roomId, "hover", "clicked");
+        }
         console.log("tapped " + roomId);
         if (!Rooms.currentRoom || Rooms.currentRoom.roomId !== roomId)
             Rooms.setCurrentRoom(roomId);
@@ -98,8 +121,18 @@ ItemDelegate {
             Rooms.resetCurrentRoom();
     }
     onPressAndHold: {
+        if (hoverPrewarmTimer.running) {
+            hoverPrewarmTimer.stop();
+            Rooms.cancelRoomPrewarm(roomId, "hover", "press_and_hold");
+        }
         if (!isInvite)
             roomContextMenu.show(roomItem, roomId, tags);
+    }
+    Component.onDestruction: {
+        if (hoverPrewarmTimer.running) {
+            hoverPrewarmTimer.stop();
+            Rooms.cancelRoomPrewarm(roomId, "hover", "delegate_destroyed");
+        }
     }
 
     Ripple {

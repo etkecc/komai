@@ -18,6 +18,10 @@ Item {
     property var roomPreview: null
     property bool shouldEffectsRun: false
     property bool showBackButton: false
+    readonly property bool perfDisableComposer: TimelineManager.perfUiFlagEnabled("disable_composer")
+    readonly property bool perfDisableRoomHeader: TimelineManager.perfUiFlagEnabled("disable_room_header")
+    readonly property bool perfDisableTimelineEffects: TimelineManager.perfUiFlagEnabled("disable_timeline_effects")
+    readonly property bool perfDisableTimelineList: TimelineManager.perfUiFlagEnabled("disable_timeline_list")
 
     ComponentCatalog {
         id: componentCatalog
@@ -34,8 +38,17 @@ Item {
             }
         }
     }
-    onRoomChanged: if (room != null)
-        room.triggerSpecialEffects()
+    onRoomChanged: {
+        if (room == null)
+            return;
+
+        const roomId = room.roomId;
+        TimelineManager.markRoomSwitchPhase(roomId, "qml.timeline_view.room_changed");
+        room.triggerSpecialEffects();
+        Qt.callLater(function () {
+            TimelineManager.markRoomSwitchPhase(roomId, "qml.timeline_view.next_tick");
+        });
+    }
 
     StickerPicker {
         id: timelineEmojiPopup
@@ -65,10 +78,18 @@ Item {
         RoomHeader {
             id: topBar
 
+            Layout.minimumHeight: visible ? implicitHeight : 0
+            Layout.preferredHeight: visible ? implicitHeight : 0
+            Layout.maximumHeight: visible ? implicitHeight : 0
             showBackButton: timelineView.showBackButton
             filteringInProgress: messageView.filteringInProgress
+            visible: !timelineView.perfDisableRoomHeader
         }
         TimelineSeparator {
+            Layout.minimumHeight: visible ? implicitHeight : 0
+            Layout.preferredHeight: visible ? implicitHeight : 0
+            Layout.maximumHeight: visible ? implicitHeight : 0
+            visible: !timelineView.perfDisableRoomHeader
         }
         Rectangle {
             id: msgView
@@ -98,6 +119,7 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: msgView.height - typingIndicator.height
                         emojiPopup: timelineEmojiPopup
+                        disableTimelineList: timelineView.perfDisableTimelineList
                         dialogHost: timelineView.dialogHost
                         componentCatalog: componentCatalog
                         searchString: topBar.searchString
@@ -109,7 +131,11 @@ Item {
                 }
                 Composer.TypingIndicator {
                     id: typingIndicator
+                    Layout.minimumHeight: visible ? implicitHeight : 0
+                    Layout.preferredHeight: visible ? implicitHeight : 0
+                    Layout.maximumHeight: visible ? implicitHeight : 0
                     room: timelineView.room
+                    visible: !timelineView.perfDisableComposer
                 }
             }
         }
@@ -119,36 +145,41 @@ Item {
             id: callStatusBars
 
             Layout.minimumHeight: 0
-            Layout.preferredHeight: layoutVisible ? implicitHeight : 0
-            Layout.maximumHeight: layoutVisible ? implicitHeight : 0
+            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
         }
         Composer.UploadBox {
             id: uploadBox
 
             Layout.minimumHeight: 0
-            Layout.preferredHeight: layoutVisible ? 200 : 0
-            Layout.maximumHeight: layoutVisible ? 200 : 0
+            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? 200 : 0
+            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? 200 : 0
         }
         Composer.ReplyPopup {
             id: replyPopup
 
             Layout.minimumHeight: 0
-            Layout.preferredHeight: layoutVisible ? implicitHeight : 0
-            Layout.maximumHeight: layoutVisible ? implicitHeight : 0
+            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
             roundTopCorners: true
         }
         TimelineComposerWarnings {
             id: composerWarnings
 
             Layout.minimumHeight: 0
-            Layout.preferredHeight: layoutVisible ? implicitHeight : 0
-            Layout.maximumHeight: layoutVisible ? implicitHeight : 0
+            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
             roomModel: timelineView.room
             replyPopupVisible: replyPopup.visible
         }
         TimelineSeparator {
+            Layout.minimumHeight: visible ? implicitHeight : 0
+            Layout.preferredHeight: visible ? implicitHeight : 0
+            Layout.maximumHeight: visible ? implicitHeight : 0
+            visible: !timelineView.perfDisableComposer
         }
         Composer.MessageInput {
+            visible: !timelineView.perfDisableComposer
         }
     }
     TimelinePreviewPane {
@@ -165,6 +196,7 @@ Item {
 
         anchors.fill: parent
         shouldEffectsRun: timelineView.shouldEffectsRun
+        visible: !timelineView.perfDisableTimelineEffects
     }
     NhekoDropArea {
         anchors.fill: parent

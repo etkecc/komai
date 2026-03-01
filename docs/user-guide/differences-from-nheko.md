@@ -2,6 +2,8 @@
 
 Komai is a fork of [nheko](https://nheko.im/nheko-reborn/nheko) with UX improvements focused on desktop usability. This page lists the notable user-facing changes.
 
+> 💡 This document was written in February-March 2026, around Komai's initial release period. As both Komai and nheko evolve, some details here may become outdated over time.
+
 For project background and naming context, see [🦁 Identity](identity.md).
 
 
@@ -77,7 +79,11 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 
 - **Not so eager to destroy your session** during temporary secret storage failures ([nheko#1875](https://github.com/Nheko-Reborn/nheko/issues/1875)) -- you can now close, fix your keychain, and relaunch without losing data
 - **Virtual timeline window** -- only the most recent messages are exposed to the UI at a time, enabling instant scroll-up from local cache
-- **Faster room switching** by reducing off-screen pre-rendered messages
+- ⚡ **Faster room switching** by reducing up-front timeline work during room changes. In local testing, one of our slowest rooms became about:
+  - 4x faster (about 400ms to 100ms to rendered timeline)
+  - 40-50x faster in perceived performance (about 8ms from room click to room-list update + timeline loading state)
+  - no exhaustive benchmark campaign was run, so treat these numbers with the usual benchmark grain of salt
+  - implementation details and tracing knobs: [⚡ Performance Tracing](../architecture/performance.md)
 - **Predictable profile selection** -- launching without `-p` always uses the default [profile](settings/README.md#profiles) instead of remembering the last-used one
 - **Per-profile settings** -- all settings (theme, notifications, sidebar widths, etc.) are stored per-profile, so each account can have its own look and feel. See [Settings](settings/README.md#profiles)
 - **Human-readable YAML settings** -- settings are stored in YAML files instead of Qt's INI format, making manual editing and backup straightforward. See [Settings](settings/README.md)

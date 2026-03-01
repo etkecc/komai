@@ -64,6 +64,12 @@ TimelineFilter::continueFiltering()
             // request filtering a new chunk with lower than low priority.
             QCoreApplication::postEvent(this, ev, Qt::LowEventPriority - 1);
         } else {
+            // We reached the currently available end. Mark this chunk-pass as done
+            // before trying to fetch more, so fetchAgain() can progress.
+            if (incrementalSearchIndex != std::numeric_limits<int>::max()) {
+                incrementalSearchIndex = std::numeric_limits<int>::max();
+                emit isFilteringChanged();
+            }
             // We reached the end, so fetch more!
             fetchAgain();
         }
@@ -237,6 +243,11 @@ TimelineFilter::setSource(TimelineModel *s)
 
         emit sourceChanged();
         emit isFilteringChanged();
+
+        // If filtering is already requested (search/notifications/thread), re-kick
+        // the incremental loop when attaching a new source model.
+        if (s && (!threadId.isEmpty() || !contentFilter.isEmpty() || filterByNotifications_))
+            continueFiltering();
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
         endFilterChange();

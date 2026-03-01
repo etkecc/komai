@@ -36,6 +36,7 @@
 
 #include "notifications/Manager.h"
 
+#include "timeline/Permissions.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
@@ -214,11 +215,16 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
             const auto local_user = utils::localUser().toStdString();
 
             // Desktop notifications to be sent
-            std::vector<std::tuple<QSharedPointer<TimelineModel>,
-                                   mtx::events::collections::TimelineEvents,
-                                   std::string,
-                                   std::vector<mtx::pushrules::actions::Action>>>
-              notifications;
+            struct PendingNotification
+            {
+                QString roomId;
+                QString roomName;
+                QString roomAvatarUrl;
+                mtx::events::collections::TimelineEvents event;
+                std::vector<mtx::pushrules::actions::Action> actions;
+            };
+
+            std::vector<PendingNotification> notifications;
             for (const auto &[room_id, room] : sync.rooms.join) {
                 // clear old notifications
                 for (const auto &e : room.ephemeral.events) {
@@ -262,17 +268,22 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                 if (!room.timeline.events.empty() &&
                     (room.unread_notifications.notification_count ||
                      room.unread_notifications.highlight_count)) {
-                    auto roomModel =
-                      view_manager_->rooms()->getRoomById(QString::fromStdString(room_id));
-
-                    if (!roomModel) {
-                        continue;
-                    }
+                    const auto qRoomId  = QString::fromStdString(room_id);
+                    const auto roomInfo = cache::singleRoomInfo(room_id);
+                    QString roomName    = QString::fromStdString(roomInfo.name);
+                    QString roomAvatar  = QString::fromStdString(roomInfo.avatar_url);
+                    if (roomAvatar.isEmpty())
+                        roomAvatar = cache::roomAvatarUrl(room_id);
 
                     auto currentReadMarker =
                       cache::getEventIndex(room_id, cache::getFullyReadEventId(room_id));
 
-                    auto ctx = roomModel->pushrulesRoomContext();
+                    auto ctx = mtx::pushrules::PushRuleEvaluator::RoomContext{
+                      .user_display_name =
+                        cache::displayName(room_id, http::client()->user_id().to_string()),
+                      .member_count = cache::memberCount(room_id),
+                      .power_levels = Permissions(qRoomId).powerlevelEvent(),
+                    };
                     std::vector<
                       std::pair<mtx::common::Relation, mtx::events::collections::TimelineEvents>>
                       relatedEvents;
@@ -340,11 +351,17 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                                 cache::markSentNotification(event_id);
 
                                 // Don't send a notification when the current room is opened.
-                                if (isRoomActive(roomModel->roomId()))
+                                if (isRoomActive(qRoomId))
                                     continue;
 
                                 if (userSettings_->notificationsEnabled()) {
-                                    notifications.emplace_back(roomModel, te, room_id, actions);
+                                    notifications.push_back(PendingNotification{
+                                      .roomId        = qRoomId,
+                                      .roomName      = roomName,
+                                      .roomAvatarUrl = roomAvatar,
+                                      .event         = std::move(te),
+                                      .actions       = actions,
+                                    });
                                 }
                             }
                         }
@@ -352,33 +369,39 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                 }
             }
             if (notifications.size() <= 5) {
-                for (const auto &[roomModel, te, room_id, actions] : notifications) {
-                    AvatarProvider::resolve(
-                      roomModel->roomAvatarUrl(),
-                      96,
-                      this,
-                      [this, te_ = te, room_id_ = room_id, actions_ = actions](QPixmap image) {
-                          notificationsManager->postNotification(
-                            mtx::responses::Notification{
-                              .actions     = actions_,
-                              .event       = std::move(te_),
-                              .read        = false,
-                              .profile_tag = "",
-                              .room_id     = room_id_,
-                              .ts          = 0,
-                            },
-                            image.toImage());
-                      });
+                for (const auto &notification : notifications) {
+                    AvatarProvider::resolve(notification.roomAvatarUrl,
+                                            96,
+                                            this,
+                                            [this,
+                                             te_      = notification.event,
+                                             room_id_ = notification.roomId.toStdString(),
+                                             actions_ = notification.actions](QPixmap image) {
+                                                notificationsManager->postNotification(
+                                                  mtx::responses::Notification{
+                                                    .actions     = actions_,
+                                                    .event       = std::move(te_),
+                                                    .read        = false,
+                                                    .profile_tag = "",
+                                                    .room_id     = room_id_,
+                                                    .ts          = 0,
+                                                  },
+                                                  image.toImage());
+                                            });
                 }
             } else if (!notifications.empty()) {
-                std::map<QSharedPointer<TimelineModel>, std::size_t> missedEvents;
-                for (const auto &[roomModel, te, room_id, actions] : notifications) {
-                    missedEvents[roomModel]++;
+                std::map<QString, std::size_t> missedEvents;
+                std::map<QString, QString> roomNames;
+                for (const auto &notification : notifications) {
+                    missedEvents[notification.roomId]++;
+                    if (!notification.roomName.isEmpty())
+                        roomNames[notification.roomId] = notification.roomName;
                 }
                 QString body;
-                for (const auto &[roomModel, nbNotifs] : missedEvents) {
-                    body += tr("%n unread message(s) in room %1\n", nullptr, nbNotifs)
-                              .arg(roomModel->roomName());
+                for (const auto &[roomId, nbNotifs] : missedEvents) {
+                    const auto roomName = roomNames.count(roomId) ? roomNames[roomId] : roomId;
+                    body +=
+                      tr("%n unread message(s) in room %1\n", nullptr, nbNotifs).arg(roomName);
                 }
                 emit notificationsManager->systemPostNotificationCb(
                   "", "", "New messages while away", body, QImage());
@@ -904,9 +927,12 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
                 }
 
                 for (const auto &room : roomsToReload) {
-                    if (auto model =
-                          view_manager_->rooms()->getRoomById(QString::fromStdString(room)))
+                    if (auto model = view_manager_->rooms()->getMaterializedRoomById(
+                          QString::fromStdString(room))) {
                         model->clearTimeline();
+                    } else {
+                        cache::clearTimeline(room);
+                    }
                 }
             }
         }

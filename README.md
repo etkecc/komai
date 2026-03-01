@@ -13,8 +13,8 @@ If you're curious about the origin of this project and its name, see the [🦁 I
 ## 🎯 Design Philosophy
 
 - 🖥️ **Desktop-first UX** — optimized for large screens
-- 👓 **Readable by everyone** — all visible text must be comfortably readable at default settings, including by elderly users
-- 🎨 **Subtle but effective** — [themeable](docs/user-guide/themes.md), [customizable](docs/user-guide/settings/README.md), user-first
+- 👓 **Readable and easy to use** — comfortably readable text, larger hit targets, and interaction patterns that respect [Fitts's law](https://www.nngroup.com/articles/fitts-law/) so actions are easier to hit and harder to miss
+- 🎨 **Subtle but effective** — [themeable](docs/user-guide/themes.md), [customizable](docs/user-guide/settings/README.md), user-first, insanely fast
 - 🧱 **Built on [nheko](https://nheko.im/nheko-reborn/nheko)** — inherits nheko's solid Matrix protocol support while improving the interface
 
 

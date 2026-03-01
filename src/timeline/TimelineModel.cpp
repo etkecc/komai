@@ -985,10 +985,6 @@ TimelineModel::data(const QModelIndex &index, int role) const
     if (index.row() < 0 && index.row() >= rowCount())
         return {};
 
-    // HACK(Nico): fetchMore likes to break with dynamically sized delegates and reuseItems
-    if (index.row() + 1 == rowCount() && !m_paginationInProgress)
-        const_cast<TimelineModel *>(this)->fetchMore(index);
-
     auto event = events.get(rowCount() - index.row() - 1);
 
     if (!event)
@@ -1007,10 +1003,6 @@ TimelineModel::multiData(const QModelIndex &index, QModelRoleDataSpan roleDataSp
     }
 
     // nhlog::db()->debug("MultiData called for {}", index.row());
-
-    // HACK(Nico): fetchMore likes to break with dynamically sized delegates and reuseItems
-    if (index.row() + 1 == rowCount() && !m_paginationInProgress)
-        const_cast<TimelineModel *>(this)->fetchMore(index);
 
     auto event = events.get(rowCount() - index.row() - 1);
 
@@ -1091,29 +1083,16 @@ TimelineModel::setPaginationInProgress(const bool paginationInProgress)
     emit paginationInProgressChanged(m_paginationInProgress);
 
     if (m_paginationInProgress) {
-        // Try expanding the virtual window from cached DB entries first
-        // (instant, no HTTP request needed). continueExpansion loops
-        // via deferred calls until the cache is exhausted, keeping
-        // paginationInProgress true the whole time to avoid spinner flicker.
+        // Expand cached history in chunks. Do not loop to exhaustion here:
+        // with small initial windows this can eagerly inflate to the full room
+        // during first paint and erase the performance benefit.
         if (events.canExpandWindow()) {
             events.expandWindow();
-            QTimer::singleShot(0, this, &TimelineModel::continueExpansion);
+            setPaginationInProgress(false);
+            emit fetchedMore();
             return;
         }
         events.fetchMore();
-    }
-}
-
-void
-TimelineModel::continueExpansion()
-{
-    if (events.canExpandWindow()) {
-        events.expandWindow();
-        QTimer::singleShot(0, this, &TimelineModel::continueExpansion);
-    } else {
-        // Window fully expanded — notify listeners and allow HTTP pagination.
-        setPaginationInProgress(false);
-        emit fetchedMore();
     }
 }
 
@@ -1121,6 +1100,12 @@ bool
 TimelineModel::canExpandWindow() const
 {
     return events.canExpandWindow();
+}
+
+bool
+TimelineModel::canPaginateBack() const
+{
+    return events.canExpandWindow() || canFetchMore(QModelIndex{});
 }
 
 void

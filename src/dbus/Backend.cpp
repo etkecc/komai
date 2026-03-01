@@ -136,12 +136,15 @@ DbusBackend::rooms() const
 
     activeLoggers().ui->debug("Rooms requested over D-Bus.");
 
-    const auto roomListModel = m_parent->models;
     QVector<nheko::dbus::RoomInfoItem> model;
+    model.reserve((int)m_parent->roomids.size());
 
-    for (const auto &room : roomListModel) {
+    for (const auto &roomId : m_parent->roomids) {
+        if (m_parent->invites.contains(roomId) || m_parent->previewedRooms.contains(roomId))
+            continue;
+
         const auto aliases =
-          cache::getStateEvent<mtx::events::state::CanonicalAlias>(room->roomId().toStdString());
+          cache::getStateEvent<mtx::events::state::CanonicalAlias>(roomId.toStdString());
         QString alias;
         if (aliases.has_value()) {
             const auto &val = aliases.value().content;
@@ -151,11 +154,32 @@ DbusBackend::rooms() const
                 alias = QString::fromStdString(val.alt_aliases.front());
         }
 
-        model.push_back(nheko::dbus::RoomInfoItem{room->roomId(),
-                                                  alias,
-                                                  room->plainRoomName(),
-                                                  room->roomAvatarUrl(),
-                                                  room->notificationCount()});
+        QString roomName;
+        QString roomAvatar;
+        int notificationCount = 0;
+
+        if (m_parent->models.contains(roomId)) {
+            const auto &room = m_parent->models.value(roomId);
+            if (room.isNull())
+                continue;
+
+            roomName          = room->plainRoomName();
+            roomAvatar        = room->roomAvatarUrl();
+            notificationCount = room->notificationCount();
+        } else if (m_parent->cachedJoinedRooms_.contains(roomId)) {
+            const auto roomInfo = m_parent->cachedJoinedRooms_.value(roomId);
+            roomName            = QString::fromStdString(roomInfo.name);
+            roomAvatar          = QString::fromStdString(roomInfo.avatar_url);
+            notificationCount   = static_cast<int>(roomInfo.notification_count);
+        } else {
+            continue;
+        }
+
+        if (roomAvatar.isEmpty())
+            roomAvatar = cache::roomAvatarUrl(roomId.toStdString());
+
+        model.push_back(
+          nheko::dbus::RoomInfoItem{roomId, alias, roomName, roomAvatar, notificationCount});
     }
 
     activeLoggers().ui->debug("Sending {} rooms over D-Bus...", model.size());

@@ -72,6 +72,32 @@ run *args: _ensure_just_temp_directory
 	fi
 	exec "$binary" {{ args }}
 
+# Runs Komai with room-switch performance tracing enabled
+run-with-perf-trace *args: _ensure_just_temp_directory
+	#!/usr/bin/env bash
+	set -euo pipefail
+	binary="{{ build_dir }}/komai"
+	if [[ ! -x "$binary" ]]; then
+		just --justfile {{ justfile() }} build
+	fi
+	export KOMAI_ROOM_SWITCH_PERF=1
+	if [[ -z "${KOMAI_LOG_LEVEL:-}" ]]; then
+		export KOMAI_LOG_LEVEL="info,ui=info"
+	fi
+	if [[ -z "${KOMAI_LOG_TYPE:-}" ]]; then
+		export KOMAI_LOG_TYPE="file,stderr"
+	else
+		case ",${KOMAI_LOG_TYPE}," in
+			*,file,*) ;;
+			*) export KOMAI_LOG_TYPE="${KOMAI_LOG_TYPE},file" ;;
+		esac
+		case ",${KOMAI_LOG_TYPE}," in
+			*,stderr,*) ;;
+			*) export KOMAI_LOG_TYPE="${KOMAI_LOG_TYPE},stderr" ;;
+		esac
+	fi
+	exec "$binary" {{ args }}
+
 # Regenerates ThemeDefinitions.h from resources/themes/*.yml
 generate-themes:
 	python3 {{ justfile_directory() }}/bin/theme/generate.py \
@@ -171,6 +197,14 @@ settings-3-layer-mapping-check *args:
 # Checks Markdown links for local path validity
 docs-check-links:
 	python3 {{ justfile_directory() }}/bin/docs/check-links.py
+
+# Summarizes room-switch performance markers from a log file
+perf-room-switch-report logfile:
+	python3 {{ justfile_directory() }}/bin/perf/room_switch_report.py "{{ logfile }}"
+
+# Summarizes room-switch performance markers for a profile (default: default)
+perf-room-switch-report-profile profile="default":
+	python3 {{ justfile_directory() }}/bin/perf/room_switch_report.py --profile "{{ profile }}"
 
 # Backward-compatible aliases (deprecated; prefer settings-3-layer-mapping-*)
 settings-generate-3-layer-mapping *args:

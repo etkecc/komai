@@ -107,8 +107,24 @@ Page {
 
         Connections {
             function onCurrentRoomChanged() {
-                if (Rooms.currentRoom)
-                    roomlist.positionViewAtIndex(Rooms.roomidToIndex(Rooms.currentRoom.roomId), ListView.Contain);
+                if (!Rooms.currentRoom)
+                    return;
+
+                const roomId = Rooms.currentRoom.roomId;
+                Qt.callLater(function () {
+                    if (!Rooms.currentRoom || Rooms.currentRoom.roomId !== roomId)
+                        return;
+
+                    const index = Rooms.roomidToIndex(roomId);
+                    if (index < 0)
+                        return;
+
+                    if (TimelineManager.roomSwitchPerfEnabled())
+                        TimelineManager.markRoomSwitchPhase(roomId, "qml.room_list.scroll_into_view.begin");
+                    roomlist.positionViewAtIndex(index, ListView.Contain);
+                    if (TimelineManager.roomSwitchPerfEnabled())
+                        TimelineManager.markRoomSwitchPhase(roomId, "qml.room_list.scroll_into_view.end");
+                });
             }
 
             target: Rooms

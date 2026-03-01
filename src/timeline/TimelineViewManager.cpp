@@ -45,6 +45,13 @@
 #include "voip/WebRTCSession.h"
 
 namespace {
+bool
+isTruthyEnvValue(const QByteArray &value)
+{
+    const auto normalized = value.trimmed().toLower();
+    return normalized == "1" || normalized == "true" || normalized == "yes" || normalized == "on";
+}
+
 struct nonesuch
 {
     ~nonesuch()                      = delete;
@@ -286,7 +293,15 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
   , verificationManager_(new VerificationManager(this))
   , presenceEmitter(new PresenceEmitter(this))
 {
-    instance_ = this;
+    instance_              = this;
+    roomSwitchPerfEnabled_ = isTruthyEnvValue(qgetenv("KOMAI_ROOM_SWITCH_PERF")) ||
+                             isTruthyEnvValue(qgetenv("KOMAI_PERF_ROOM_SWITCH"));
+
+    if (roomSwitchPerfEnabled_) {
+        nhlog::ui()->info("Room-switch performance tracing enabled (set by "
+                          "KOMAI_ROOM_SWITCH_PERF/KOMAI_PERF_ROOM_SWITCH).");
+        nhlog::ui()->flush();
+    }
 
     connect(this->communities_,
             &CommunitiesModel::currentTagIdChanged,
@@ -618,7 +633,7 @@ void
 TimelineViewManager::updateReadReceipts(const QString &room_id,
                                         const std::vector<QString> &event_ids)
 {
-    if (auto room = rooms_->getRoomById(room_id)) {
+    if (auto room = rooms_->getMaterializedRoomById(room_id)) {
         room->markEventsAsRead(event_ids);
     }
 }
@@ -626,7 +641,7 @@ TimelineViewManager::updateReadReceipts(const QString &room_id,
 void
 TimelineViewManager::receivedSessionKey(const std::string &room_id, const std::string &session_id)
 {
-    if (auto room = rooms_->getRoomById(QString::fromStdString(room_id))) {
+    if (auto room = rooms_->getMaterializedRoomById(QString::fromStdString(room_id))) {
         room->receivedSessionKey(session_id);
     }
 }
@@ -707,6 +722,86 @@ void
 TimelineViewManager::focusMessageInput()
 {
     emit focusInput();
+}
+
+void
+TimelineViewManager::markRoomSwitchRequested(const QString &roomId, const QString &reason)
+{
+    if (!roomSwitchPerfEnabled_ || roomId.isEmpty())
+        return;
+
+    roomSwitchPerfSwitchId_++;
+    roomSwitchPerfActiveRoomId_ = roomId;
+    roomSwitchPerfTimer_.restart();
+
+    nhlog::ui()->info("[perf][room-switch] switch_id={} room_id={} phase=request reason={}",
+                      roomSwitchPerfSwitchId_,
+                      roomId.toStdString(),
+                      reason.toStdString());
+    nhlog::ui()->flush();
+}
+
+void
+TimelineViewManager::markRoomSwitchPhaseCpp(const QString &roomId, const QString &phase)
+{
+    logRoomSwitchPhase(roomId, phase, "cpp");
+}
+
+void
+TimelineViewManager::markRoomSwitchPhase(const QString &roomId, const QString &phase)
+{
+    logRoomSwitchPhase(roomId, phase, "qml");
+}
+
+bool
+TimelineViewManager::perfUiFlagEnabled(const QString &flag) const
+{
+    if (flag == QLatin1String("disable_composer"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_COMPOSER"));
+
+    if (flag == QLatin1String("disable_room_header"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_ROOM_HEADER"));
+
+    if (flag == QLatin1String("disable_timeline_effects"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_EFFECTS"));
+
+    if (flag == QLatin1String("disable_timeline_list"))
+        return isTruthyEnvValue(qgetenv("KOMAI_PERF_DISABLE_TIMELINE_LIST"));
+
+    return false;
+}
+
+void
+TimelineViewManager::logRoomSwitchPhase(const QString &roomId,
+                                        const QString &phase,
+                                        const QString &source)
+{
+    if (!roomSwitchPerfEnabled_ || roomId.isEmpty() || phase.isEmpty())
+        return;
+
+    const qint64 elapsedMs = roomSwitchPerfTimer_.isValid() ? roomSwitchPerfTimer_.elapsed() : -1;
+    const bool activeMatch = roomId == roomSwitchPerfActiveRoomId_;
+
+    if (activeMatch) {
+        nhlog::ui()->info(
+          "[perf][room-switch] switch_id={} room_id={} phase={} source={} elapsed_ms={}",
+          roomSwitchPerfSwitchId_,
+          roomId.toStdString(),
+          phase.toStdString(),
+          source.toStdString(),
+          elapsedMs);
+        nhlog::ui()->flush();
+    } else {
+        nhlog::ui()->info("[perf][room-switch] switch_id={} room_id={} phase={} source={} "
+                          "elapsed_ms={} active_match=false active_room_id={}",
+                          roomSwitchPerfSwitchId_,
+                          roomId.toStdString(),
+                          phase.toStdString(),
+                          source.toStdString(),
+                          elapsedMs,
+                          roomSwitchPerfActiveRoomId_.toStdString());
+        nhlog::ui()->flush();
+    }
 }
 
 QAbstractItemModel *

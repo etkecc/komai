@@ -17,8 +17,70 @@ Item {
     property int padding: Nheko.paddingMedium
     property string searchString: ""
     property bool filterByNotifications: false
+    property bool disableTimelineList: false
     readonly property bool filteringInProgress: filteredTimeline.filteringInProgress
+    readonly property bool filteringRequested: searchString.length > 0 || filterByNotifications || (activeRoomModel && activeRoomModel.thread !== "")
+    property bool perfFirstVisibleItemLogged: false
     property Room roommodel: room
+    property var activeRoomModel: null
+    property var pendingRoomModel: null
+    property bool roomSwitchInProgress: false
+    property int roomSwitchBindSerial: 0
+    readonly property real listViewDisplayMargin: roomSwitchInProgress ? 0 : chat.height / 8
+    readonly property real listViewCacheBuffer: roomSwitchInProgress ? 0 : 320
+
+    function scheduleTimelineModelBinding() {
+        roomSwitchBindSerial += 1;
+        const targetRoom = roommodel;
+
+        if (!targetRoom || disableTimelineList) {
+            pendingRoomModel = null;
+            activeRoomModel = null;
+            roomSwitchInProgress = false;
+            return;
+        }
+
+        pendingRoomModel = targetRoom;
+        roomSwitchInProgress = true;
+
+        if (TimelineManager.roomSwitchPerfEnabled())
+            TimelineManager.markRoomSwitchPhase(targetRoom.roomId, "qml.message_view.bind_scheduled");
+
+        timelineBindDelay.restart();
+    }
+
+    function bindPendingTimelineModel() {
+        const targetRoom = pendingRoomModel;
+
+        if (!targetRoom || disableTimelineList || roommodel !== targetRoom)
+            return;
+
+        if (TimelineManager.roomSwitchPerfEnabled())
+            TimelineManager.markRoomSwitchPhase(targetRoom.roomId, "qml.message_view.model_bind_begin");
+
+        activeRoomModel = targetRoom;
+
+        if (TimelineManager.roomSwitchPerfEnabled())
+            TimelineManager.markRoomSwitchPhase(targetRoom.roomId, "qml.message_view.model_bound");
+
+        if (chat.count === 0)
+            roomSwitchInProgress = false;
+
+        paginationController.onBindCompleted();
+    }
+
+    onRoommodelChanged: scheduleTimelineModelBinding()
+    onDisableTimelineListChanged: scheduleTimelineModelBinding()
+
+    Component.onCompleted: scheduleTimelineModelBinding()
+
+    Timer {
+        id: timelineBindDelay
+
+        interval: 16
+        repeat: false
+        onTriggered: chatRoot.bindPendingTimelineModel()
+    }
 
     function destroyOnClose(dialog) {
         if (!dialog)
@@ -114,6 +176,19 @@ Item {
         anchors.top: parent.top
         parent: chat.parent
     }
+
+    TimelinePaginationController {
+        id: paginationController
+
+        chatList: chat
+        scrollbar: scrollbar
+        activeRoomModel: chatRoot.activeRoomModel
+        roomModel: chatRoot.roommodel
+        disableTimelineList: chatRoot.disableTimelineList
+        filteringRequested: chatRoot.filteringRequested
+        roomSwitchInProgress: chatRoot.roomSwitchInProgress
+    }
+
     ListView {
         id: chat
 
@@ -126,9 +201,14 @@ Item {
         //onModelChanged: if (room) room.sendReset()
         //reuseItems: true
         boundsBehavior: Flickable.StopAtBounds
-        displayMarginBeginning: height / 8
-        displayMarginEnd: height / 8
-        model: (filteredTimeline.filterByThread || filteredTimeline.filterByContent || filteredTimeline.filterByNotifications) ? filteredTimeline : room
+        // Keep initial room-switch render cheap by avoiding extra off-screen delegate creation
+        // until first content is visible.
+        displayMarginBeginning: chatRoot.listViewDisplayMargin
+        displayMarginEnd: chatRoot.listViewDisplayMargin
+        cacheBuffer: chatRoot.listViewCacheBuffer
+        model: chatRoot.disableTimelineList
+            ? null
+            : (chatRoot.filteringRequested ? filteredTimeline : chatRoot.activeRoomModel)
         //pixelAligned: true
         spacing: 2
         verticalLayoutDirection: ListView.BottomToTop
@@ -142,26 +222,35 @@ Item {
         }
         onMovementEnded: {
             updateLastScroll();
-            keepPinnedToBottom = atYEnd;
+            keepPinnedToBottom = !chatRoot.filteringRequested && atYEnd;
+            paginationController.onMovementEnded();
+        }
+        onMovementStarted: {
+            paginationController.onMovementStarted();
         }
         onModelChanged: {
+            chatRoot.perfFirstVisibleItemLogged = false;
             updateLastScroll();
-            keepPinnedToBottom = atYEnd;
+            keepPinnedToBottom = !chatRoot.filteringRequested && atYEnd;
+            paginationController.onTimelineModelChanged();
         }
+        onAtYBeginningChanged: paginationController.onAtYBeginningChanged(atYBeginning)
         onHeightChanged: {
             contentY = (lastScrollPos-height);
-            if (keepPinnedToBottom)
+            if (keepPinnedToBottom && !chatRoot.filteringRequested)
                 positionViewAtBeginning();
+            paginationController.scheduleNeededPagination();
         }
         onContentHeightChanged: {
-            if (keepPinnedToBottom && !moving && !flicking && !dragging) {
+            if (keepPinnedToBottom && !chatRoot.filteringRequested && !moving && !flicking && !dragging) {
                 positionViewAtBeginning();
                 updateLastScroll();
             }
+            paginationController.scheduleNeededPagination();
         }
         Component.onCompleted: {
             updateLastScroll();
-            keepPinnedToBottom = atYEnd;
+            keepPinnedToBottom = !chatRoot.filteringRequested && atYEnd;
         }
 
         Component {
@@ -218,15 +307,23 @@ Item {
         delegate: styleDelegateFor(Settings.timelineMessagesStyle, Settings.timelineMessagesPositioning)
         footer: TimelineLoadingFooter {
             delegateWidth: chat.delegateMaxWidth
-            roomModel: room
+            roomModel: chatRoot.activeRoomModel
             filteringInProgress: chatRoot.filteringInProgress
             searchString: chatRoot.searchString
         }
 
         onCountChanged: {
+            if (!chatRoot.perfFirstVisibleItemLogged && chatRoot.roomSwitchInProgress && count > 0 && roommodel) {
+                chatRoot.perfFirstVisibleItemLogged = true;
+                TimelineManager.markRoomSwitchPhase(roommodel.roomId,
+                                                    "qml.message_view.first_visible_item");
+            }
+            if (chatRoot.roomSwitchInProgress && count > 0 && chatRoot.activeRoomModel && roommodel === chatRoot.activeRoomModel)
+                chatRoot.roomSwitchInProgress = false;
             // Mark timeline as read
-            if (atYEnd && room)
+            if (atYEnd && model && room)
                 model.currentIndex = 0;
+            paginationController.onCountChanged();
         }
 
         TimelineFilter {
@@ -234,8 +331,8 @@ Item {
 
             filterByContent: chatRoot.searchString
             filterByNotifications: chatRoot.filterByNotifications
-            filterByThread: room ? room.thread : ""
-            source: room
+            filterByThread: chatRoot.activeRoomModel ? chatRoot.activeRoomModel.thread : ""
+            source: chatRoot.filteringRequested ? chatRoot.activeRoomModel : null
         }
         MessageActionsHost {
             id: messageActionsHost
@@ -270,5 +367,20 @@ Item {
     TimelineToEndButton {
         chatList: chat
         scrollbarItem: scrollbar
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: palette.base
+        visible: chatRoot.roomSwitchInProgress && !chatRoot.disableTimelineList
+        z: 20
+
+        Spinner {
+            anchors.centerIn: parent
+            running: parent.visible
+            visible: running
+            height: Nheko.timelineLogoSize
+            z: 3
+        }
     }
 }

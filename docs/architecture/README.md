@@ -13,6 +13,7 @@ Technical documentation for Komai internals.
 - 🧩 [QML/UI Structure](qml-ui.md) -- QML layering, placement rules, and loader decoupling
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling
+- ⚡ [Performance Tracing](performance.md) -- room-switch perf markers, runtime knobs, and logging controls
 
 ## Differences from nheko
 

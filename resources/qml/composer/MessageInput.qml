@@ -265,11 +265,21 @@ Rectangle {
 
                 Connections {
                     function onRoomChanged() {
+                        if (TimelineManager.perfUiFlagEnabled("disable_composer"))
+                            return;
+
                         messageInput.clear();
                         if (room)
                             messageInput.append(room.input.text);
                         completer.completerName = "";
                         messageInput.forceActiveFocus();
+                        if (room) {
+                            const roomId = room.roomId;
+                            TimelineManager.markRoomSwitchPhase(roomId, "qml.message_input.room_changed");
+                            Qt.callLater(function () {
+                                TimelineManager.markRoomSwitchPhase(roomId, "qml.message_input.next_tick");
+                            });
+                        }
                     }
 
                     target: timelineView

@@ -5,10 +5,15 @@
 
 #include "RoomlistModel.h"
 
+#include <algorithm>
+
 #include <QClipboard>
+#include <QDateTime>
 #include <QGuiApplication>
+#include <QTimer>
 
 #include "ChatPage.h"
+#include "EventAccessors.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
@@ -24,6 +29,20 @@
 #include <QDBusConnection>
 #endif
 
+namespace {
+void
+scheduleLastReadUpdate(const QSharedPointer<TimelineModel> &roomModel, const QString &roomId)
+{
+    if (roomModel.isNull() || roomId.isEmpty())
+        return;
+
+    QTimer::singleShot(0, roomModel.data(), [roomModel, roomId]() {
+        if (!roomModel.isNull())
+            roomModel->updateLastReadId(roomId);
+    });
+}
+}
+
 RoomlistModel::RoomlistModel(TimelineViewManager *parent)
   : QAbstractListModel(parent)
   , manager(parent)
@@ -37,6 +56,9 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
             [this]() {
                 auto style   = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
                 bool decrypt = (style == UserSettings::LastMessagePreview::Always);
+
+                cachedLastMessages_.clear();
+                cachedLastMessagesComputed_.clear();
                 QHash<QString, QSharedPointer<TimelineModel>>::iterator i;
                 for (i = models.begin(); i != models.end(); ++i) {
                     auto ptr = i.value();
@@ -45,6 +67,12 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
                         ptr->setDecryptDescription(decrypt);
                         ptr->updateLastMessage();
                     }
+                }
+
+                if (!roomids.empty()) {
+                    emit dataChanged(index(0),
+                                     index((int)roomids.size() - 1),
+                                     {Roles::LastMessage, Roles::Time, Roles::Timestamp});
                 }
             });
 
@@ -96,6 +124,224 @@ RoomlistModel::roleNames() const
       {DirectChatOtherUserId, "directChatOtherUserId"},
       {IsEncrypted, "isEncrypted"},
     };
+}
+
+QSharedPointer<TimelineModel>
+RoomlistModel::getRoomById(QString id) const
+{
+    return getRoomByIdWithReason(std::move(id), "cpp.getRoomById");
+}
+
+QSharedPointer<TimelineModel>
+RoomlistModel::getRoomByIdWithReason(QString id, const char *reason) const
+{
+    if (models.contains(id))
+        return models.value(id);
+
+    if (!cachedJoinedRooms_.contains(id))
+        return {};
+
+    return const_cast<RoomlistModel *>(this)->ensureRoomModel(id, true, reason);
+}
+
+QSharedPointer<TimelineModel>
+RoomlistModel::getMaterializedRoomById(QString id) const
+{
+    if (models.contains(id))
+        return models.value(id);
+
+    return {};
+}
+
+QSharedPointer<TimelineModel>
+RoomlistModel::ensureRoomModel(const QString &room_id,
+                               bool suppressInsertNotification,
+                               const char *reason)
+{
+    if (!models.contains(room_id) && cachedJoinedRooms_.contains(room_id))
+        addRoom(room_id, suppressInsertNotification, reason);
+
+    return models.value(room_id);
+}
+
+void
+RoomlistModel::refreshCachedRoomMetadata(const QString &room_id)
+{
+    cachedJoinedRooms_.insert(room_id, cache::singleRoomInfo(room_id.toStdString()));
+    cachedEncryptedRooms_.insert(room_id, cache::isRoomEncrypted(room_id.toStdString()));
+    invalidateCachedLastMessage(room_id);
+}
+
+DescInfo
+RoomlistModel::computeCachedLastMessage(const QString &room_id) const
+{
+    DescInfo result;
+
+    const auto roomId = room_id.toStdString();
+    const auto range  = cache::getTimelineRange(roomId);
+    if (!range.has_value())
+        return result;
+
+    const QString localUser = QString::fromStdString(http::client()->user_id().to_string());
+    constexpr uint64_t maxScanEvents = 200;
+
+    uint64_t scanned = 0;
+    for (uint64_t idx = range->last;; --idx) {
+        const auto eventId = cache::getTimelineEventId(roomId, idx);
+        if (!eventId.has_value())
+            break;
+
+        const auto event = cache::getEvent(roomId, *eventId);
+        if (event.has_value() && mtx::accessors::is_message(*event)) {
+            const auto sender = QString::fromStdString(mtx::accessors::sender(*event));
+            return utils::getMessageDescription(
+              *event, localUser, cache::displayName(room_id, sender));
+        }
+
+        if (idx == range->first || ++scanned >= maxScanEvents)
+            break;
+    }
+
+    return result;
+}
+
+void
+RoomlistModel::ensureCachedLastMessage(const QString &room_id)
+{
+    if (cachedLastMessagesComputed_.contains(room_id))
+        return;
+
+    cachedLastMessagesComputed_.insert(room_id);
+    cachedLastMessages_.insert(room_id, computeCachedLastMessage(room_id));
+}
+
+void
+RoomlistModel::invalidateCachedLastMessage(const QString &room_id)
+{
+    cachedLastMessagesComputed_.remove(room_id);
+    cachedLastMessages_.remove(room_id);
+}
+
+void
+RoomlistModel::logRoomPrewarm(const QString &trigger,
+                              const QString &roomid,
+                              const QString &action,
+                              const QString &reason) const
+{
+    const bool verboseInfo = manager && manager->roomSwitchPerfEnabled();
+
+    if (reason.isEmpty()) {
+        if (verboseInfo)
+            nhlog::ui()->info("[prewarm][room-list] trigger={} room_id={} action={}",
+                              trigger.toStdString(),
+                              roomid.toStdString(),
+                              action.toStdString());
+        else
+            nhlog::ui()->debug("[prewarm][room-list] trigger={} room_id={} action={}",
+                               trigger.toStdString(),
+                               roomid.toStdString(),
+                               action.toStdString());
+        return;
+    }
+
+    if (verboseInfo)
+        nhlog::ui()->info("[prewarm][room-list] trigger={} room_id={} action={} reason={}",
+                          trigger.toStdString(),
+                          roomid.toStdString(),
+                          action.toStdString(),
+                          reason.toStdString());
+    else
+        nhlog::ui()->debug("[prewarm][room-list] trigger={} room_id={} action={} reason={}",
+                           trigger.toStdString(),
+                           roomid.toStdString(),
+                           action.toStdString(),
+                           reason.toStdString());
+}
+
+void
+RoomlistModel::scheduleRoomPrewarm(const QString &roomid, const QString &trigger)
+{
+    if (roomid.isEmpty())
+        return;
+
+    if (scheduledPrewarms_.contains(roomid))
+        return;
+
+    scheduledPrewarms_.insert(roomid);
+    logRoomPrewarm(trigger, roomid, QStringLiteral("scheduled"));
+}
+
+void
+RoomlistModel::cancelRoomPrewarm(const QString &roomid,
+                                 const QString &trigger,
+                                 const QString &reason)
+{
+    if (roomid.isEmpty())
+        return;
+
+    if (!scheduledPrewarms_.contains(roomid))
+        return;
+
+    scheduledPrewarms_.remove(roomid);
+    logRoomPrewarm(trigger, roomid, QStringLiteral("cancel"), reason);
+}
+
+void
+RoomlistModel::prewarmRoom(const QString &roomid, const QString &trigger)
+{
+    if (roomid.isEmpty())
+        return;
+
+    scheduledPrewarms_.remove(roomid);
+
+    if (models.contains(roomid)) {
+        logRoomPrewarm(
+          trigger, roomid, QStringLiteral("skip"), QStringLiteral("already_materialized"));
+        return;
+    }
+
+    if (invites.contains(roomid)) {
+        logRoomPrewarm(trigger, roomid, QStringLiteral("skip"), QStringLiteral("invite"));
+        return;
+    }
+
+    if (previewedRooms.contains(roomid)) {
+        logRoomPrewarm(trigger, roomid, QStringLiteral("skip"), QStringLiteral("preview_room"));
+        return;
+    }
+
+    if (!cachedJoinedRooms_.contains(roomid)) {
+        logRoomPrewarm(
+          trigger, roomid, QStringLiteral("skip"), QStringLiteral("not_cached_joined_room"));
+        return;
+    }
+
+    if (!activePrewarms_.isEmpty()) {
+        logRoomPrewarm(
+          trigger, roomid, QStringLiteral("skip"), QStringLiteral("another_prewarm_active"));
+        return;
+    }
+
+    const qint64 now               = QDateTime::currentMSecsSinceEpoch();
+    constexpr qint64 cooldownMs    = 1200;
+    const qint64 previousAttemptMs = prewarmLastAttemptMs_.value(roomid, 0);
+    if (previousAttemptMs > 0 && (now - previousAttemptMs) < cooldownMs) {
+        logRoomPrewarm(trigger, roomid, QStringLiteral("skip"), QStringLiteral("cooldown"));
+        return;
+    }
+    prewarmLastAttemptMs_.insert(roomid, now);
+
+    activePrewarms_.insert(roomid);
+    logRoomPrewarm(trigger, roomid, QStringLiteral("start"));
+
+    auto roomModel = ensureRoomModel(roomid, true, "prewarm");
+    if (roomModel.isNull())
+        logRoomPrewarm(
+          trigger, roomid, QStringLiteral("skip"), QStringLiteral("materialization_failed"));
+    else
+        logRoomPrewarm(trigger, roomid, QStringLiteral("done"));
+
+    activePrewarms_.remove(roomid);
 }
 
 QVariant
@@ -164,6 +410,74 @@ RoomlistModel::data(const QModelIndex &index, int role) const
             }
             case Roles::IsEncrypted:
                 return room->isEncrypted();
+            default:
+                return {};
+            }
+        } else if (cachedJoinedRooms_.contains(roomid)) {
+            const auto room = cachedJoinedRooms_.value(roomid);
+            switch (role) {
+            case Roles::AvatarUrl: {
+                if (!room.avatar_url.empty())
+                    return QString::fromStdString(room.avatar_url);
+                return cache::roomAvatarUrl(roomid.toStdString());
+            }
+            case Roles::RoomName:
+                return QString::fromStdString(room.name);
+            case Roles::LastMessage: {
+                const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
+                const bool encrypted =
+                  cachedEncryptedRooms_.value(roomid, cache::isRoomEncrypted(roomid.toStdString()));
+                const bool previewsEnabled =
+                  style == UserSettings::LastMessagePreview::Always ||
+                  (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !encrypted);
+                if (!previewsEnabled)
+                    return QString();
+
+                const_cast<RoomlistModel *>(this)->ensureCachedLastMessage(roomid);
+                return cachedLastMessages_.value(roomid).body;
+            }
+            case Roles::Time: {
+                const_cast<RoomlistModel *>(this)->ensureCachedLastMessage(roomid);
+                const auto cachedDescription = cachedLastMessages_.value(roomid);
+                if (!cachedDescription.descriptiveTime.isEmpty())
+                    return cachedDescription.descriptiveTime;
+
+                if (room.approximate_last_modification_ts > 0) {
+                    return utils::descriptiveTime(QDateTime::fromMSecsSinceEpoch(
+                      static_cast<qint64>(room.approximate_last_modification_ts)));
+                }
+                return QString();
+            }
+            case Roles::Timestamp: {
+                const_cast<RoomlistModel *>(this)->ensureCachedLastMessage(roomid);
+                const auto cachedDescription = cachedLastMessages_.value(roomid);
+                const auto ts =
+                  std::max(static_cast<quint64>(room.approximate_last_modification_ts),
+                           static_cast<quint64>(cachedDescription.timestamp));
+                return QVariant{ts};
+            }
+            case Roles::HasUnreadMessages:
+                return this->roomReadStatus.count(roomid) && this->roomReadStatus.at(roomid);
+            case Roles::HasLoudNotification:
+                return room.highlight_count > 0;
+            case Roles::NotificationCount:
+                return static_cast<int>(room.notification_count);
+            case Roles::IsInvite:
+                return false;
+            case Roles::IsSpace:
+                return room.is_space;
+            case Roles::IsPreview:
+                return false;
+            case Roles::Tags: {
+                QStringList list;
+                list.reserve(static_cast<int>(room.tags.size()));
+                for (const auto &t : room.tags)
+                    list.push_back(QString::fromStdString(t));
+                return list;
+            }
+            case Roles::IsEncrypted:
+                return cachedEncryptedRooms_.value(roomid,
+                                                   cache::isRoomEncrypted(roomid.toStdString()));
             default:
                 return {};
             }
@@ -292,17 +606,45 @@ RoomlistModel::updateReadStatus(const std::map<QString, bool> &roomReadStatus_)
     }
 }
 void
-RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
+RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, const char *reason)
 {
     if (!models.contains(room_id)) {
+        if (startupMaterializationTrackingActive_ && !activePrewarms_.contains(room_id)) {
+            ++startupMaterializationCount_;
+            const bool verboseInfo = manager && manager->roomSwitchPerfEnabled();
+            if (verboseInfo) {
+                nhlog::ui()->info("[perf][room-list] startup_materialized room_id={} count={} "
+                                  "reason={}",
+                                  room_id.toStdString(),
+                                  startupMaterializationCount_,
+                                  reason ? reason : "unknown");
+            } else {
+                nhlog::ui()->debug("[perf][room-list] startup_materialized room_id={} count={} "
+                                   "reason={}",
+                                   room_id.toStdString(),
+                                   startupMaterializationCount_,
+                                   reason ? reason : "unknown");
+            }
+
+            constexpr int kStartupMaterializationWarnThreshold = 8;
+            if (!startupMaterializationWarningEmitted_ &&
+                startupMaterializationCount_ >= kStartupMaterializationWarnThreshold) {
+                startupMaterializationWarningEmitted_ = true;
+                nhlog::ui()->warn(
+                  "[perf][room-list] unexpected eager materialization during startup "
+                  "(count={} threshold={} last_room_id={} reason={})",
+                  startupMaterializationCount_,
+                  kStartupMaterializationWarnThreshold,
+                  room_id.toStdString(),
+                  reason ? reason : "unknown");
+            }
+        }
+
         QSharedPointer<TimelineModel> newRoom(new TimelineModel(manager, room_id));
+        refreshCachedRoomMetadata(room_id);
         auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
         newRoom->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
 
-        connect(this,
-                &RoomlistModel::currentRoomChanged,
-                newRoom.data(),
-                &TimelineModel::updateLastReadId);
         connect(MainWindow::instance(),
                 &MainWindow::activeChanged,
                 newRoom.data(),
@@ -380,15 +722,16 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
             }
         }
 
-        bool wasInvite  = invites.contains(room_id);
-        bool wasPreview = previewedRooms.contains(room_id);
-        if (!suppressInsertNotification && ((!wasInvite && !wasPreview) || !previewedRooms.empty()))
-            // if the old room was already in the list, don't add it. Also add all
-            // previews at the same time.
+        bool wasInvite                = invites.contains(room_id);
+        bool wasPreview               = previewedRooms.contains(room_id);
+        const bool alreadyListed      = roomidToIndex(room_id) != -1;
+        const bool insertPrimaryRow   = !alreadyListed && !wasInvite && !wasPreview;
+        const int insertedRows        = (insertPrimaryRow ? 1 : 0) + (int)previewsToAdd.size();
+        const bool shouldNotifyInsert = !suppressInsertNotification && insertedRows > 0;
+
+        if (shouldNotifyInsert)
             beginInsertRows(
-              QModelIndex(),
-              (int)roomids.size(),
-              (int)(roomids.size() + previewsToAdd.size() - ((wasInvite || wasPreview) ? 1 : 0)));
+              QModelIndex(), (int)roomids.size(), (int)(roomids.size() + insertedRows - 1));
 
         models.insert(room_id, std::move(newRoom));
         if (wasInvite) {
@@ -399,7 +742,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
             auto idx = roomidToIndex(room_id);
             previewedRooms.remove(room_id);
             emit dataChanged(index(idx), index(idx));
-        } else {
+        } else if (!alreadyListed) {
             roomids.push_back(room_id);
         }
 
@@ -408,6 +751,9 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
             currentRoomPreview_->roomid() == room_id) {
             currentRoom_ = models.value(room_id);
             currentRoomPreview_.reset();
+            if (manager)
+                manager->markRoomSwitchPhaseCpp(room_id, "cpp.room_available_from_preview");
+            scheduleLastReadUpdate(currentRoom_, room_id);
             emit currentRoomChanged(room_id);
             switchedToCurrentPreview = true;
         }
@@ -419,6 +765,9 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
             if (!switchedToCurrentPreview) {
                 currentRoom_ = models.value(room_id);
                 currentRoomPreview_.reset();
+                if (manager)
+                    manager->markRoomSwitchPhaseCpp(room_id, "cpp.pending_room_available");
+                scheduleLastReadUpdate(currentRoom_, room_id);
                 emit currentRoomChanged(room_id);
                 nhlog::ui()->debug("Switched to deferred room: {}", room_id.toStdString());
 
@@ -432,7 +781,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification)
             roomids.push_back(std::move(p));
         }
 
-        if (!suppressInsertNotification && ((!wasInvite && !wasPreview) || !previewedRooms.empty()))
+        if (shouldNotifyInsert)
             endInsertRows();
 
         emit ChatPage::instance()->newRoom(room_id);
@@ -560,44 +909,70 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
 
     for (const auto &[room_id, room] : sync_.rooms.join) {
         auto qroomid = QString::fromStdString(room_id);
+        const bool shouldMaterialize =
+          models.contains(qroomid) || pendingCurrentRoomId_ == qroomid ||
+          (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid);
 
-        // addRoom will only add the room, if it doesn't exist
-        addRoom(qroomid);
-        const auto &room_model = models.value(qroomid);
+        if (shouldMaterialize) {
+            // addRoom will only add the room, if it doesn't exist
+            addRoom(qroomid, false, "sync.materialized_room");
+            const auto &room_model = models.value(qroomid);
 
-        // WORKAROUND(Nico): This is not a lambda, but clazy on alpine currently doesn't
-        // believe us
-        connect(room_model.data(),
-                &TimelineModel::newCallEvent,
-                ChatPage::instance()->callManager(),
-                &CallManager::syncEvent,
-                Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
+            if (!room_model.isNull()) {
+                // WORKAROUND(Nico): This is not a lambda, but clazy on alpine currently doesn't
+                // believe us
+                connect(room_model.data(),
+                        &TimelineModel::newCallEvent,
+                        ChatPage::instance()->callManager(),
+                        &CallManager::syncEvent,
+                        Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
 
-        room_model->sync(room);
-        if (auto idx = roomidToIndex(qroomid); idx != -1)
-            emit dataChanged(index(idx), index(idx), {Roles::AvatarUrl});
+                room_model->sync(room);
 
-        if (ChatPage::instance()->userSettings()->timelineTypingShowEnabled()) {
-            for (const auto &ev : room.ephemeral.events) {
-                if (auto t =
-                      std::get_if<mtx::events::EphemeralEvent<mtx::events::ephemeral::Typing>>(
-                        &ev)) {
-                    QStringList typing;
-                    typing.reserve(t->content.user_ids.size());
-                    for (const auto &user : t->content.user_ids) {
-                        if (user != http::client()->user_id().to_string())
-                            typing.push_back(QString::fromStdString(user));
+                if (ChatPage::instance()->userSettings()->timelineTypingShowEnabled()) {
+                    for (const auto &ev : room.ephemeral.events) {
+                        if (auto t = std::get_if<
+                              mtx::events::EphemeralEvent<mtx::events::ephemeral::Typing>>(&ev)) {
+                            QStringList typing;
+                            typing.reserve(t->content.user_ids.size());
+                            for (const auto &user : t->content.user_ids) {
+                                if (user != http::client()->user_id().to_string())
+                                    typing.push_back(QString::fromStdString(user));
+                            }
+                            room_model->updateTypingUsers(typing);
+                        }
                     }
-                    room_model->updateTypingUsers(typing);
                 }
             }
-        }
-        for (const auto &e : room.account_data.events) {
-            if (std::holds_alternative<
-                  mtx::events::AccountDataEvent<mtx::events::account_data::Tags>>(e)) {
-                if (auto idx = roomidToIndex(qroomid); idx != -1)
-                    emit dataChanged(index(idx), index(idx), {Tags});
+        } else {
+            const int existingIdx = roomidToIndex(qroomid);
+            if (existingIdx == -1) {
+                beginInsertRows(QModelIndex(), (int)roomids.size(), (int)roomids.size());
+                roomids.push_back(qroomid);
+                endInsertRows();
             }
+
+            if (invites.contains(qroomid))
+                invites.remove(qroomid);
+            if (previewedRooms.contains(qroomid))
+                previewedRooms.remove(qroomid);
+        }
+
+        refreshCachedRoomMetadata(qroomid);
+        if (auto idx = roomidToIndex(qroomid); idx != -1) {
+            emit dataChanged(index(idx),
+                             index(idx),
+                             {Roles::AvatarUrl,
+                              Roles::RoomName,
+                              Roles::LastMessage,
+                              Roles::Time,
+                              Roles::Timestamp,
+                              Roles::NotificationCount,
+                              Roles::HasLoudNotification,
+                              Roles::IsInvite,
+                              Roles::IsSpace,
+                              Roles::Tags,
+                              Roles::IsEncrypted});
         }
     }
 
@@ -613,12 +988,21 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
         if (idx != -1) {
             beginRemoveRows(QModelIndex(), idx, idx);
             roomids.erase(roomids.begin() + idx);
-            if (models.contains(qroomid))
-                models.remove(qroomid);
-            else if (invites.contains(qroomid))
-                invites.remove(qroomid);
             endRemoveRows();
         }
+
+        models.remove(qroomid);
+        invites.remove(qroomid);
+        previewedRooms.remove(qroomid);
+        cachedJoinedRooms_.remove(qroomid);
+        cachedEncryptedRooms_.remove(qroomid);
+        scheduledPrewarms_.remove(qroomid);
+        activePrewarms_.remove(qroomid);
+        prewarmLastAttemptMs_.remove(qroomid);
+        roomReadStatus.erase(qroomid);
+        invalidateCachedLastMessage(qroomid);
+        if (pendingCurrentRoomId_ == qroomid)
+            pendingCurrentRoomId_.clear();
     }
 
     for (const auto &[room_id, room] : sync_.rooms.invite) {
@@ -647,10 +1031,22 @@ RoomlistModel::initializeRooms()
 {
     beginResetModel();
     models.clear();
+    cachedJoinedRooms_.clear();
+    cachedEncryptedRooms_.clear();
+    cachedLastMessages_.clear();
+    cachedLastMessagesComputed_.clear();
+    scheduledPrewarms_.clear();
+    activePrewarms_.clear();
+    prewarmLastAttemptMs_.clear();
+    startupMaterializationTrackingActive_ = false;
+    startupMaterializationCount_          = 0;
+    startupMaterializationWarningEmitted_ = false;
     roomids.clear();
     invites.clear();
+    previewedRooms.clear();
     pendingCurrentRoomId_.clear();
     currentRoom_ = nullptr;
+    currentRoomPreview_.reset();
 
     auto e = cache::getAccountData(mtx::events::EventType::Direct);
     if (e) {
@@ -661,15 +1057,28 @@ RoomlistModel::initializeRooms()
         }
     }
 
-    invites = cache::invites();
+    invites               = cache::invites();
+    const int inviteCount = invites.size();
     for (auto id = invites.keyBegin(); id != invites.keyEnd(); ++id) {
         roomids.push_back(*id);
     }
 
-    for (const auto &id : cache::roomIds())
-        addRoom(id, true);
+    const auto joinedRooms = cache::roomIds();
+    for (const auto &id : joinedRooms) {
+        roomids.push_back(id);
+        refreshCachedRoomMetadata(id);
+    }
 
-    nhlog::db()->info("Restored {} rooms from cache", rowCount());
+    nhlog::db()->info("Restored {} rooms from cache (invites={}, joined={}, preview_rows={}, "
+                      "models_initialized={})",
+                      rowCount(),
+                      inviteCount,
+                      joinedRooms.size(),
+                      previewedRooms.size(),
+                      models.size());
+
+    // Track unexpected eager materialization after metadata-only startup.
+    startupMaterializationTrackingActive_ = true;
 
     endResetModel();
 
@@ -712,10 +1121,23 @@ RoomlistModel::clear()
 {
     beginResetModel();
     models.clear();
+    cachedJoinedRooms_.clear();
+    cachedEncryptedRooms_.clear();
+    cachedLastMessages_.clear();
+    cachedLastMessagesComputed_.clear();
+    scheduledPrewarms_.clear();
+    activePrewarms_.clear();
+    prewarmLastAttemptMs_.clear();
+    startupMaterializationTrackingActive_ = false;
+    startupMaterializationCount_          = 0;
+    startupMaterializationWarningEmitted_ = false;
+    previewedRooms.clear();
     invites.clear();
     roomids.clear();
+    roomReadStatus.clear();
     pendingCurrentRoomId_.clear();
     currentRoom_ = nullptr;
+    currentRoomPreview_.reset();
     emit currentRoomChanged("");
     endResetModel();
 }
@@ -766,16 +1188,29 @@ RoomlistModel::leave(QString roomid, QString reason)
 {
     // We want to leave in any case, even if this is an invite or similar.
     ChatPage::instance()->leaveRoom(roomid, reason);
-    if (models.contains(roomid)) {
-        auto idx = roomidToIndex(roomid);
+    if ((currentRoom_ && currentRoom_->roomId() == roomid) ||
+        (currentRoomPreview_ && currentRoomPreview_->roomid() == roomid))
+        resetCurrentRoom();
 
-        if (idx != -1) {
-            beginRemoveRows(QModelIndex(), idx, idx);
-            roomids.erase(roomids.begin() + idx);
-            models.remove(roomid);
-            endRemoveRows();
-        }
+    auto idx = roomidToIndex(roomid);
+    if (idx != -1) {
+        beginRemoveRows(QModelIndex(), idx, idx);
+        roomids.erase(roomids.begin() + idx);
+        endRemoveRows();
     }
+
+    models.remove(roomid);
+    invites.remove(roomid);
+    previewedRooms.remove(roomid);
+    cachedJoinedRooms_.remove(roomid);
+    cachedEncryptedRooms_.remove(roomid);
+    scheduledPrewarms_.remove(roomid);
+    activePrewarms_.remove(roomid);
+    prewarmLastAttemptMs_.remove(roomid);
+    roomReadStatus.erase(roomid);
+    invalidateCachedLastMessage(roomid);
+    if (pendingCurrentRoomId_ == roomid)
+        pendingCurrentRoomId_.clear();
 }
 
 RoomPreview
@@ -828,16 +1263,33 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         return;
     }
 
+    // After the first explicit room selection, startup eager-materialization tracking
+    // is no longer meaningful.
+    startupMaterializationTrackingActive_ = false;
+
     nhlog::ui()->debug("Trying to switch to: {}", roomid.toStdString());
+    if (manager)
+        manager->markRoomSwitchRequested(roomid, "setCurrentRoom");
+
+    if (!models.contains(roomid) && cachedJoinedRooms_.contains(roomid))
+        ensureRoomModel(roomid, false, "setCurrentRoom");
+
     if (models.contains(roomid)) {
         pendingCurrentRoomId_.clear();
         currentRoom_ = models.value(roomid);
         currentRoomPreview_.reset();
+        if (manager)
+            manager->markRoomSwitchPhaseCpp(roomid, "cpp.room_model_selected");
+        scheduleLastReadUpdate(currentRoom_, currentRoom_->roomId());
         emit currentRoomChanged(currentRoom_->roomId());
+        if (manager)
+            manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_changed_emitted");
         nhlog::ui()->debug("Switched to: {}", roomid.toStdString());
 
         if (currentRoom_->isSpace()) {
             emit spaceSelected(roomid);
+            if (manager)
+                manager->markRoomSwitchPhaseCpp(roomid, "cpp.space_selected_emitted");
         }
     } else if (invites.contains(roomid) || previewedRooms.contains(roomid)) {
         pendingCurrentRoomId_.clear();
@@ -868,19 +1320,27 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
             p.roomAvatarUrl_    = QString::fromStdString(i->avatar_url);
             p.isFetched_        = true;
             currentRoomPreview_ = std::move(p);
+            if (manager)
+                manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_selected");
             nhlog::ui()->debug("Switched to (preview): {}",
                                currentRoomPreview_->roomid_.toStdString());
         } else {
             p.roomid_           = roomid;
             p.isFetched_        = false;
             currentRoomPreview_ = p;
+            if (manager)
+                manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_placeholder_selected");
             nhlog::ui()->debug("Switched to (empty): {}",
                                currentRoomPreview_->roomid_.toStdString());
         }
 
         emit currentRoomChanged("");
+        if (manager)
+            manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_preview_changed_emitted");
     } else {
         pendingCurrentRoomId_ = roomid;
+        if (manager)
+            manager->markRoomSwitchPhaseCpp(roomid, "cpp.switch_deferred_room_unavailable");
         nhlog::ui()->debug("Deferring room switch until room is available: {}",
                            roomid.toStdString());
     }
@@ -1038,7 +1498,7 @@ FilteredRoomlistModel::create(QQmlEngine *qmlEngine, QJSEngine *)
 TimelineModel *
 FilteredRoomlistModel::getRoomById(const QString &id) const
 {
-    auto r = roomlistmodel->getRoomById(id).data();
+    auto r = roomlistmodel->getRoomByIdWithReason(id, "qml.Rooms.getRoomById").data();
     QQmlEngine::setObjectOwnership(r, QQmlEngine::CppOwnership);
     return r;
 }

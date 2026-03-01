@@ -9,6 +9,7 @@
 #include <QAbstractListModel>
 #include <QHash>
 #include <QQmlEngine>
+#include <QSet>
 #include <QSharedPointer>
 #include <QSortFilterProxyModel>
 #include <QString>
@@ -93,13 +94,9 @@ public:
         return (int)roomids.size();
     }
     QVariant data(const QModelIndex &index, int role) const override;
-    QSharedPointer<TimelineModel> getRoomById(QString id) const
-    {
-        if (models.contains(id))
-            return models.value(id);
-        else
-            return {};
-    }
+    QSharedPointer<TimelineModel> getRoomById(QString id) const;
+    QSharedPointer<TimelineModel> getRoomByIdWithReason(QString id, const char *reason) const;
+    QSharedPointer<TimelineModel> getMaterializedRoomById(QString id) const;
     RoomPreview getRoomPreviewById(QString roomid) const;
 
     void refetchOnlineKeyBackupKeys();
@@ -118,6 +115,12 @@ public slots:
         return -1;
     }
     void joinPreview(const QString &roomid);
+    void
+    scheduleRoomPrewarm(const QString &roomid, const QString &trigger = QStringLiteral("manual"));
+    void cancelRoomPrewarm(const QString &roomid,
+                           const QString &trigger = QStringLiteral("manual"),
+                           const QString &reason  = QStringLiteral("unspecified"));
+    void prewarmRoom(const QString &roomid, const QString &trigger = QStringLiteral("manual"));
     void acceptInvite(QString roomid);
     void declineInvite(QString roomid);
     void leave(QString roomid, QString reason = "");
@@ -145,7 +148,20 @@ signals:
     void spaceSelected(QString roomId);
 
 private:
-    void addRoom(const QString &room_id, bool suppressInsertNotification = false);
+    void logRoomPrewarm(const QString &trigger,
+                        const QString &roomid,
+                        const QString &action,
+                        const QString &reason = QString()) const;
+    QSharedPointer<TimelineModel> ensureRoomModel(const QString &room_id,
+                                                  bool suppressInsertNotification = true,
+                                                  const char *reason              = "unknown");
+    void refreshCachedRoomMetadata(const QString &room_id);
+    DescInfo computeCachedLastMessage(const QString &room_id) const;
+    void ensureCachedLastMessage(const QString &room_id);
+    void invalidateCachedLastMessage(const QString &room_id);
+    void addRoom(const QString &room_id,
+                 bool suppressInsertNotification = false,
+                 const char *reason              = "unknown");
     void fetchPreviews(QString roomid, const std::string &from = "");
     std::set<QString> updateDMs(mtx::events::AccountDataEvent<mtx::events::account_data::Direct> e);
 
@@ -153,6 +169,16 @@ private:
     std::vector<QString> roomids;
     QHash<QString, RoomInfo> invites;
     QHash<QString, QSharedPointer<TimelineModel>> models;
+    QHash<QString, RoomInfo> cachedJoinedRooms_;
+    QHash<QString, bool> cachedEncryptedRooms_;
+    QHash<QString, DescInfo> cachedLastMessages_;
+    QSet<QString> cachedLastMessagesComputed_;
+    QSet<QString> scheduledPrewarms_;
+    QSet<QString> activePrewarms_;
+    QHash<QString, qint64> prewarmLastAttemptMs_;
+    bool startupMaterializationTrackingActive_ = false;
+    int startupMaterializationCount_           = 0;
+    bool startupMaterializationWarningEmitted_ = false;
     std::map<QString, bool> roomReadStatus;
     QHash<QString, std::optional<RoomInfo>> previewedRooms;
 
@@ -204,6 +230,20 @@ public slots:
     void leave(QString roomid, QString reason = "") { roomlistmodel->leave(roomid, reason); }
     void toggleTag(const QString &roomid, const QString &tag, bool on);
     void copyLink(QString roomid);
+    void scheduleRoomPrewarm(QString roomid, QString trigger = QStringLiteral("manual"))
+    {
+        roomlistmodel->scheduleRoomPrewarm(std::move(roomid), std::move(trigger));
+    }
+    void cancelRoomPrewarm(QString roomid,
+                           QString trigger = QStringLiteral("manual"),
+                           QString reason  = QStringLiteral("unspecified"))
+    {
+        roomlistmodel->cancelRoomPrewarm(std::move(roomid), std::move(trigger), std::move(reason));
+    }
+    void prewarmRoom(QString roomid, QString trigger = QStringLiteral("manual"))
+    {
+        roomlistmodel->prewarmRoom(std::move(roomid), std::move(trigger));
+    }
 
     TimelineModel *currentRoom() const { return roomlistmodel->currentRoom(); }
     RoomPreview currentRoomPreview() const { return roomlistmodel->currentRoomPreview(); }

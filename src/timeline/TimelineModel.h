@@ -299,7 +299,14 @@ public:
 
     bool canFetchMore(const QModelIndex &) const override;
     void fetchMore(const QModelIndex &) override;
-    bool canExpandWindow() const;
+    Q_INVOKABLE bool canExpandWindow() const;
+    Q_INVOKABLE bool canPaginateBack() const;
+    Q_INVOKABLE void requestMore() { fetchMore(QModelIndex{}); }
+    Q_INVOKABLE void resetWindowToInitial()
+    {
+        events.resetWindowToInitial();
+        updateLastMessage();
+    }
 
     static QString getBareRoomLink(const QString &);
     static QString getRoomVias(const QString &);
@@ -528,7 +535,6 @@ private:
     void readEvent(const std::string &id);
 
     void setPaginationInProgress(const bool paginationInProgress);
-    void continueExpansion();
 
     QString room_id_;
 

@@ -57,7 +57,7 @@ public slots:
     //! Sets the user's status message.
     Q_SCRIPTABLE void setStatusMessage(const QString &message);
     //! Sets the current theme. Use a valid theme slug (for example "komai-light", "komai-dark",
-    //! "classic-light") or "system".
+    //! "nheko-light") or "system".
     Q_SCRIPTABLE void setTheme(const QString &theme);
 
 private:

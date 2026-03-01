@@ -182,13 +182,13 @@ def main():
         print(f"ERROR: No .yml files found in {themes_dir}", file=sys.stderr)
         sys.exit(1)
 
-    # Sort order: komai themes first (0-99), classic themes (100-199), others alphabetically (200+)
+    # Sort order: komai themes first (0-99), nheko themes (100-199), others alphabetically (200+)
     def sort_key(slug: str) -> int:
         if slug == "komai-light":
             return 0
         elif slug == "komai-dark":
             return 1
-        elif slug.startswith("classic"):
+        elif slug.startswith("nheko"):
             return 100 + ord(slug[-1]) if slug else 100
         else:
             return 200

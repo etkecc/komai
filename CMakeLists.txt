@@ -917,7 +917,7 @@ endif()
 
 # Generate ThemeDefinitions.h from theme YAML files.
 # Re-runs automatically when any theme YAML changes.
-file(GLOB THEME_YAML_FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes/*.yml")
+file(GLOB CONFIGURE_DEPENDS THEME_YAML_FILES "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes/*.yml")
 set(THEME_DEFINITIONS_H "${CMAKE_CURRENT_SOURCE_DIR}/src/ui/ThemeDefinitions.h")
 add_custom_command(
     OUTPUT "${THEME_DEFINITIONS_H}"

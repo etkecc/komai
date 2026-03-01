@@ -173,7 +173,7 @@ Example result:
 ()
 ```
 
-`setTheme` expects a valid theme slug from Komai’s theme list (`komai-light`, `komai-dark`, `nheko-light`, ...), not a display label.
+`setTheme` expects a valid theme slug from Komai’s theme list (`komai-light`, `komai-dark`, `classic-light`, ...), not a display label.
 
 ## 🛰️ Service details
 

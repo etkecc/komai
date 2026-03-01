@@ -5,7 +5,7 @@ Komai uses a data-driven theme system. Built-in themes are defined as YAML files
 
 ## 🧰 Built-in themes
 
-Komai ships with several built-in themes (see [`resources/themes/`](../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Gruvbox, Nord, Solarized, and Tokyo Night.
+Komai ships with several built-in themes (see [`resources/themes/`](../../resources/themes/) for the current list), including Komai light/dark, Classic light/dark, and popular community themes like Catppuccin, Dracula, Gruvbox, Nord, Solarized, and Tokyo Night.
 
 A **System** option is also available, which uses your OS palette instead of a built-in theme.
 

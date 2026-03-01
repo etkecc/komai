@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <chrono>
 #include <memory>
+#include <optional>
+#include <string_view>
 #include <unordered_set>
 
 #include <nlohmann/json.hpp>
@@ -46,6 +48,24 @@ static constexpr int CHECK_CONNECTIVITY_INTERVAL = 15'000;
 static constexpr int RETRY_TIMEOUT               = 5'000;
 static constexpr size_t MAX_ONETIME_KEYS         = 50;
 static constexpr auto LOGOUT_REQUEST_TIMEOUT     = std::chrono::seconds(10);
+namespace {
+using InvitePermissionsContent = mtx::events::account_data::nheko_extensions::InvitePermissions;
+constexpr std::string_view KOMAI_INVITE_PERMISSIONS_TYPE = "cc.etke.komai.invite_permissions";
+
+std::optional<InvitePermissionsContent>
+parseInvitePermissionsFromRawAccountData(const std::string &eventJson)
+{
+    try {
+        const auto parsedEvent = nlohmann::json::parse(eventJson);
+        if (!parsedEvent.is_object() || !parsedEvent.contains("content"))
+            return std::nullopt;
+
+        return parsedEvent.at("content").get<InvitePermissionsContent>();
+    } catch (const std::exception &) {
+        return std::nullopt;
+    }
+}
+} // namespace
 
 ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
   : QObject(parent)
@@ -876,28 +896,27 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
 
         // reject forbidden invites
         if (!res.rooms.invite.empty()) {
-            if (auto ev = cache::getAccountData(mtx::events::EventType::NhekoInvitePermissions)) {
-                const auto &invitePerms = std::get<mtx::events::AccountDataEvent<
-                  mtx::events::account_data::nheko_extensions::InvitePermissions>>(*ev)
-                                            .content;
-
-                for (const auto &[roomid, invite] : res.rooms.invite) {
-                    std::string_view inviter = "";
-                    for (const auto &memberEv : invite.invite_state) {
-                        if (auto member =
-                              std::get_if<mtx::events::StrippedEvent<mtx::events::state::Member>>(
-                                &memberEv)) {
-                            if (member->content.membership ==
-                                  mtx::events::state::Membership::Invite &&
-                                member->state_key == http::client()->user_id().to_string()) {
-                                inviter = member->sender;
-                                break;
+            if (auto raw =
+                  cache::getAccountDataByType(std::string(KOMAI_INVITE_PERMISSIONS_TYPE))) {
+                if (auto invitePerms = parseInvitePermissionsFromRawAccountData(*raw)) {
+                    for (const auto &[roomid, invite] : res.rooms.invite) {
+                        std::string_view inviter = "";
+                        for (const auto &memberEv : invite.invite_state) {
+                            if (auto member = std::get_if<
+                                  mtx::events::StrippedEvent<mtx::events::state::Member>>(
+                                  &memberEv)) {
+                                if (member->content.membership ==
+                                      mtx::events::state::Membership::Invite &&
+                                    member->state_key == http::client()->user_id().to_string()) {
+                                    inviter = member->sender;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (!invitePerms.invite_allowed(roomid, inviter)) {
-                        leaveRoom(QString::fromStdString(roomid), "");
+                        if (!invitePerms->invite_allowed(roomid, inviter)) {
+                            leaveRoom(QString::fromStdString(roomid), "");
+                        }
                     }
                 }
             }

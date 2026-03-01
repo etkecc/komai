@@ -5,34 +5,53 @@
 
 #include "EventExpiry.h"
 
+#include <optional>
+#include <string_view>
+
+#include <nlohmann/json.hpp>
+
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "timeline/TimelineModel.h"
 
+namespace {
+using EventExpiryContent = mtx::events::account_data::nheko_extensions::EventExpiry;
+constexpr std::string_view KOMAI_EVENT_EXPIRY_TYPE = "cc.etke.komai.event_expiry";
+
+std::optional<EventExpiryContent>
+parseEventExpiryFromRawAccountData(const std::string &eventJson)
+{
+    try {
+        const auto parsedEvent = nlohmann::json::parse(eventJson);
+        if (!parsedEvent.is_object() || !parsedEvent.contains("content"))
+            return std::nullopt;
+
+        return parsedEvent.at("content").get<EventExpiryContent>();
+    } catch (const std::exception &) {
+        return std::nullopt;
+    }
+}
+
+void
+loadEventExpiryForRoom(const std::string &roomId, EventExpiryContent &event)
+{
+    if (auto raw = cache::getAccountDataByType(std::string(KOMAI_EVENT_EXPIRY_TYPE), roomId)) {
+        if (auto content = parseEventExpiryFromRawAccountData(*raw))
+            event = std::move(*content);
+    }
+}
+} // namespace
+
 void
 EventExpiry::load()
 {
-    using namespace mtx::events;
-
     this->event = {};
+    loadEventExpiryForRoom("", this->event);
 
-    if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoEventExpiry, "")) {
-        auto h = std::get<
-          mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::EventExpiry>>(
-          *temp);
-        this->event = std::move(h.content);
-    }
-
-    if (!roomid_.isEmpty()) {
-        if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoEventExpiry,
-                                              roomid_.toStdString())) {
-            auto h      = std::get<mtx::events::AccountDataEvent<
-                   mtx::events::account_data::nheko_extensions::EventExpiry>>(*temp);
-            this->event = std::move(h.content);
-        }
-    }
+    if (!roomid_.isEmpty())
+        loadEventExpiryForRoom(roomid_.toStdString(), this->event);
 
     emit expireEventsAfterDaysChanged();
     emit expireEventsAfterCountChanged();
@@ -44,21 +63,25 @@ void
 EventExpiry::save()
 {
     if (roomid_.isEmpty())
-        http::client()->put_account_data(event, [](mtx::http::RequestErr e) {
-            if (e) {
-                nhlog::net()->error("Failed to set hidden events: {}", *e);
-                MainWindow::instance()->showNotification(
-                  tr("Failed to set hidden events: %1")
-                    .arg(QString::fromStdString(e->matrix_error.error)));
-            }
-        });
+        http::client()->put_account_data(
+          std::string(KOMAI_EVENT_EXPIRY_TYPE), event, [](mtx::http::RequestErr e) {
+              if (e) {
+                  nhlog::net()->error("Failed to set event expiry: {}", *e);
+                  MainWindow::instance()->showNotification(
+                    tr("Failed to set event expiry: %1")
+                      .arg(QString::fromStdString(e->matrix_error.error)));
+              }
+          });
     else
         http::client()->put_room_account_data(
-          roomid_.toStdString(), event, [](mtx::http::RequestErr e) {
+          roomid_.toStdString(),
+          std::string(KOMAI_EVENT_EXPIRY_TYPE),
+          event,
+          [](mtx::http::RequestErr e) {
               if (e) {
-                  nhlog::net()->error("Failed to set hidden events: {}", *e);
+                  nhlog::net()->error("Failed to set event expiry: {}", *e);
                   MainWindow::instance()->showNotification(
-                    tr("Failed to set hidden events: %1")
+                    tr("Failed to set event expiry: %1")
                       .arg(QString::fromStdString(e->matrix_error.error)));
               }
           });

@@ -1773,14 +1773,20 @@ utils::removeExpiredEvents()
 
     auto us = http::client()->user_id().to_string();
 
-    using ExpType =
-      mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::EventExpiry>;
+    using ExpType = mtx::events::account_data::nheko_extensions::EventExpiry;
+    static constexpr std::string_view KOMAI_EVENT_EXPIRY_TYPE = "cc.etke.komai.event_expiry";
     static auto getExpEv = [](const std::string &room = "") -> std::optional<ExpType> {
-        if (auto accountEvent =
-              cache::getAccountData(mtx::events::EventType::NhekoEventExpiry, room))
-            if (auto ev = std::get_if<ExpType>(&*accountEvent);
-                ev && (ev->content.expire_after_ms || ev->content.keep_only_latest))
-                return std::optional{*ev};
+        if (auto raw = cache::getAccountDataByType(std::string(KOMAI_EVENT_EXPIRY_TYPE), room)) {
+            try {
+                const auto parsedEvent = nlohmann::json::parse(*raw);
+                if (parsedEvent.is_object() && parsedEvent.contains("content")) {
+                    auto content = parsedEvent.at("content").get<ExpType>();
+                    if (content.expire_after_ms || content.keep_only_latest)
+                        return std::optional{std::move(content)};
+                }
+            } catch (const std::exception &) {
+            }
+        }
         return std::nullopt;
     };
 
@@ -1980,10 +1986,10 @@ utils::removeExpiredEvents()
                 auto localExp = getExpEv(room);
                 if (localExp) {
                     state->currentRoom   = room;
-                    state->currentExpiry = localExp->content;
+                    state->currentExpiry = *localExp;
                 } else if (state->globalExpiry) {
                     state->currentRoom   = room;
-                    state->currentExpiry = state->globalExpiry->content;
+                    state->currentExpiry = *state->globalExpiry;
                 }
                 state->firstMessagesCall    = true;
                 state->currentRoomCount     = 0;

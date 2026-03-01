@@ -47,6 +47,14 @@ try {
                       accountDataDb.del(txn, "im.nheko.hidden_events");
                       return;
                   }
+                  if (j["type"] == "im.nheko.event_expiry") {
+                      accountDataDb.del(txn, "im.nheko.event_expiry");
+                      return;
+                  }
+                  if (j["type"] == "im.nheko.invite_permissions") {
+                      accountDataDb.del(txn, "im.nheko.invite_permissions");
+                      return;
+                  }
                   if (j["type"] == "cc.etke.komai.hidden_events") {
                       const auto contentIt = j.find("content");
                       if (contentIt == j.end() || !contentIt->contains("hidden_event_types")) {
@@ -164,6 +172,14 @@ try {
                       auto j = nlohmann::json(event);
                       if (j["type"] == "im.nheko.hidden_events") {
                           accountDataDb.del(txn, "im.nheko.hidden_events");
+                          return;
+                      }
+                      if (j["type"] == "im.nheko.event_expiry") {
+                          accountDataDb.del(txn, "im.nheko.event_expiry");
+                          return;
+                      }
+                      if (j["type"] == "im.nheko.invite_permissions") {
+                          accountDataDb.del(txn, "im.nheko.invite_permissions");
                           return;
                       }
                       if (j["type"] == "cc.etke.komai.hidden_events") {

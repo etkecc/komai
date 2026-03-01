@@ -23,6 +23,9 @@
 
 #include <fmt/format.h>
 
+#include <optional>
+#include <string_view>
+
 #include <nlohmann/json.hpp>
 
 #include <mtx/responses/common.hpp>
@@ -43,6 +46,24 @@
 #include "blurhash.hpp"
 
 static constexpr size_t INPUT_HISTORY_SIZE = 10;
+namespace {
+using InvitePermissionsContent = mtx::events::account_data::nheko_extensions::InvitePermissions;
+constexpr std::string_view KOMAI_INVITE_PERMISSIONS_TYPE = "cc.etke.komai.invite_permissions";
+
+std::optional<InvitePermissionsContent>
+parseInvitePermissionsFromRawAccountData(const std::string &eventJson)
+{
+    try {
+        const auto parsedEvent = nlohmann::json::parse(eventJson);
+        if (!parsedEvent.is_object() || !parsedEvent.contains("content"))
+            return std::nullopt;
+
+        return parsedEvent.at("content").get<InvitePermissionsContent>();
+    } catch (const std::exception &) {
+        return std::nullopt;
+    }
+}
+} // namespace
 
 std::string
 threadFallbackEventId(const std::string &room_id, const std::string &thread_id)
@@ -1168,11 +1189,10 @@ InputBar::toggleIgnore(const QString &user, const bool ignored)
 void
 InputBar::toggleInvitePermission(const QString &id, bool block)
 {
-    mtx::events::account_data::nheko_extensions::InvitePermissions permissions;
-    if (auto ev = cache::getAccountData(mtx::events::EventType::NhekoInvitePermissions)) {
-        permissions = std::get<mtx::events::AccountDataEvent<
-          mtx::events::account_data::nheko_extensions::InvitePermissions>>(*ev)
-                        .content;
+    InvitePermissionsContent permissions;
+    if (auto raw = cache::getAccountDataByType(std::string(KOMAI_INVITE_PERMISSIONS_TYPE))) {
+        if (auto content = parseInvitePermissionsFromRawAccountData(*raw))
+            permissions = std::move(*content);
     }
 
     auto idstr = id.toStdString();
@@ -1217,11 +1237,12 @@ InputBar::toggleInvitePermission(const QString &id, bool block)
         }
     }
 
-    http::client()->put_account_data(permissions, [](mtx::http::RequestErr err) {
-        if (err) {
-            nhlog::ui()->error("Failed to update invite permissions: {}", *err);
-        }
-    });
+    http::client()->put_account_data(
+      std::string(KOMAI_INVITE_PERMISSIONS_TYPE), permissions, [](mtx::http::RequestErr err) {
+          if (err) {
+              nhlog::ui()->error("Failed to update invite permissions: {}", *err);
+          }
+      });
 
     auto invites = cache::invites();
 

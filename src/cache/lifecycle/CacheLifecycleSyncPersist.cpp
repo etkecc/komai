@@ -47,12 +47,22 @@ try {
                                   AccountDataEvent<
                                     mtx::events::account_data::nheko_extensions::HiddenEvents>>) {
                       if (!event.content.hidden_event_types) {
+                          // Keep cleanup compatible across old and potential renamed namespaces.
                           accountDataDb.del(txn, "im.nheko.hidden_events");
+                          accountDataDb.del(txn, "cc.etke.komai.hidden_events");
                           return;
                       }
                   }
 
                   auto j = nlohmann::json(event);
+                  if (j["type"] == "cc.etke.komai.hidden_events") {
+                      const auto contentIt = j.find("content");
+                      if (contentIt == j.end() || !contentIt->contains("hidden_event_types")) {
+                          accountDataDb.del(txn, "im.nheko.hidden_events");
+                          accountDataDb.del(txn, "cc.etke.komai.hidden_events");
+                          return;
+                      }
+                  }
                   accountDataDb.put(txn, j["type"].get<std::string>(), j.dump());
               },
               ev);
@@ -165,11 +175,22 @@ try {
                                       AccountDataEvent<mtx::events::account_data::nheko_extensions::
                                                          HiddenEvents>>) {
                           if (!event.content.hidden_event_types) {
+                              // Keep cleanup compatible across old and potential renamed
+                              // namespaces.
                               accountDataDb.del(txn, "im.nheko.hidden_events");
+                              accountDataDb.del(txn, "cc.etke.komai.hidden_events");
                               return;
                           }
                       }
                       auto j = nlohmann::json(event);
+                      if (j["type"] == "cc.etke.komai.hidden_events") {
+                          const auto contentIt = j.find("content");
+                          if (contentIt == j.end() || !contentIt->contains("hidden_event_types")) {
+                              accountDataDb.del(txn, "im.nheko.hidden_events");
+                              accountDataDb.del(txn, "cc.etke.komai.hidden_events");
+                              return;
+                          }
+                      }
                       accountDataDb.put(txn, j["type"].get<std::string>(), j.dump());
                   },
                   evt);

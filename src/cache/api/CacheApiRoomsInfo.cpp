@@ -27,6 +27,12 @@ getAccountData(mtx::events::EventType type, const std::string &room_id)
     return cacheInstance()->getAccountData(type, room_id);
 }
 
+std::optional<std::string>
+getAccountDataByType(const std::string &type, const std::string &room_id)
+{
+    return cacheInstance()->getAccountDataByType(type, room_id);
+}
+
 std::vector<RoomNameAlias>
 roomNamesAndAliases()
 {

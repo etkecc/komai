@@ -120,6 +120,10 @@ public:
     //! pass empty room_id for global account data
     std::optional<mtx::events::collections::RoomAccountDataEvents>
     getAccountData(mtx::events::EventType type, const std::string &room_id = "");
+    //! retrieve raw JSON for a specific account_data type key
+    //! pass empty room_id for global account data
+    std::optional<std::string>
+    getAccountDataByType(const std::string &type, const std::string &room_id = "");
 
     //! Retrieve member info from a room.
     std::vector<RoomMember>
@@ -353,6 +357,8 @@ private:
     //! pass empty room_id for global account data
     std::optional<mtx::events::collections::RoomAccountDataEvents>
     getAccountData(db::Transaction &txn, mtx::events::EventType type, const std::string &room_id);
+    std::optional<std::string>
+    getAccountDataByType(db::Transaction &txn, const std::string &type, const std::string &room_id);
     bool isHiddenEvent(db::Transaction &txn,
                        mtx::events::collections::TimelineEvents e,
                        const std::string &room_id);

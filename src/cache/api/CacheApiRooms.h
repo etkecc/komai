@@ -14,6 +14,8 @@ QHash<QString, RoomInfo>
 invites();
 std::optional<mtx::events::collections::RoomAccountDataEvents>
 getAccountData(mtx::events::EventType type, const std::string &room_id = "");
+std::optional<std::string>
+getAccountDataByType(const std::string &type, const std::string &room_id = "");
 std::vector<RoomNameAlias>
 roomNamesAndAliases();
 std::vector<QString>

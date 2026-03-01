@@ -7,11 +7,37 @@
 #include "cache/core/Cache_p.h"
 
 #include <algorithm>
+#include <optional>
+#include <string_view>
 #include <vector>
+
+#include <nlohmann/json.hpp>
 
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "encryption/Olm.h"
+
+namespace {
+using HiddenEventsContent = mtx::events::account_data::nheko_extensions::HiddenEvents;
+constexpr std::string_view KOMAI_HIDDEN_EVENTS_TYPE = "cc.etke.komai.hidden_events";
+
+std::optional<HiddenEventsContent>
+parseHiddenEventsFromRawAccountData(const std::string &eventJson)
+{
+    try {
+        const auto parsedEvent = nlohmann::json::parse(eventJson);
+        if (!parsedEvent.is_object() || !parsedEvent.contains("content"))
+            return std::nullopt;
+
+        auto content = parsedEvent.at("content").get<HiddenEventsContent>();
+        if (content.hidden_event_types)
+            return content;
+    } catch (const std::exception &) {
+    }
+
+    return std::nullopt;
+}
+} // namespace
 
 bool
 MatrixStore::isHiddenEvent(db::Transaction &txn,
@@ -34,7 +60,7 @@ MatrixStore::isHiddenEvent(db::Transaction &txn,
             e = result.event.value();
     }
 
-    mtx::events::account_data::nheko_extensions::HiddenEvents hiddenEvents;
+    HiddenEventsContent hiddenEvents;
     hiddenEvents.hidden_event_types = std::vector{
       EventType::Reaction,
       EventType::CallCandidates,
@@ -51,20 +77,24 @@ MatrixStore::isHiddenEvent(db::Transaction &txn,
     if (callLocalUser_)
         hiddenEvents.hidden_event_types->push_back(EventType::CallSelectAnswer);
 
-    if (auto temp = getAccountData(txn, mtx::events::EventType::NhekoHiddenEvents, "")) {
-        auto h = std::get<
-          mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::HiddenEvents>>(
-          *temp);
-        if (h.content.hidden_event_types)
-            hiddenEvents = std::move(h.content);
-    }
-    if (auto temp = getAccountData(txn, mtx::events::EventType::NhekoHiddenEvents, room_id)) {
-        auto h = std::get<
-          mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::HiddenEvents>>(
-          *temp);
-        if (h.content.hidden_event_types)
-            hiddenEvents = std::move(h.content);
-    }
+    auto loadHiddenEventsForRoom = [this, &txn, &hiddenEvents](const std::string &roomId) {
+        if (auto raw = getAccountDataByType(txn, std::string(KOMAI_HIDDEN_EVENTS_TYPE), roomId)) {
+            if (auto content = parseHiddenEventsFromRawAccountData(*raw)) {
+                hiddenEvents = std::move(*content);
+                return;
+            }
+        }
+
+        // Fallback for older profiles that still store upstream event namespace.
+        if (auto temp = getAccountData(txn, mtx::events::EventType::NhekoHiddenEvents, roomId)) {
+            auto event = std::get<mtx::events::AccountDataEvent<HiddenEventsContent>>(*temp);
+            if (event.content.hidden_event_types)
+                hiddenEvents = std::move(event.content);
+        }
+    };
+
+    loadHiddenEventsForRoom("");
+    loadHiddenEventsForRoom(room_id);
 
     return std::find(hiddenEvents.hidden_event_types->begin(),
                      hiddenEvents.hidden_event_types->end(),

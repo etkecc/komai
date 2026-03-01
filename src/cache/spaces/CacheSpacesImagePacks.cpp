@@ -133,6 +133,13 @@ MatrixStore::getAccountData(mtx::events::EventType type, const std::string &room
     return getAccountData(txn, type, room_id);
 }
 
+std::optional<std::string>
+MatrixStore::getAccountDataByType(const std::string &type, const std::string &room_id)
+{
+    auto txn = ro_txn(storage());
+    return getAccountDataByType(txn, type, room_id);
+}
+
 std::optional<mtx::events::collections::RoomAccountDataEvents>
 MatrixStore::getAccountData(db::Transaction &txn,
                             mtx::events::EventType type,
@@ -151,6 +158,22 @@ MatrixStore::getAccountData(db::Transaction &txn,
             if (events.size() == 1)
                 return events.front();
         }
+    } catch (...) {
+    }
+    return std::nullopt;
+}
+
+std::optional<std::string>
+MatrixStore::getAccountDataByType(db::Transaction &txn,
+                                  const std::string &type,
+                                  const std::string &room_id)
+{
+    try {
+        auto db_ = getAccountDataDb(txn, room_id);
+
+        std::string_view data;
+        if (db_.get(txn, type, data))
+            return std::string(data);
     } catch (...) {
     }
     return std::nullopt;

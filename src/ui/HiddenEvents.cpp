@@ -5,17 +5,62 @@
 
 #include "HiddenEvents.h"
 
+#include <optional>
+#include <string_view>
+
+#include <nlohmann/json.hpp>
+
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "timeline/TimelineModel.h"
 
+namespace {
+using HiddenEventsContent = mtx::events::account_data::nheko_extensions::HiddenEvents;
+constexpr std::string_view KOMAI_HIDDEN_EVENTS_TYPE = "cc.etke.komai.hidden_events";
+
+std::optional<HiddenEventsContent>
+parseHiddenEventsFromRawAccountData(const std::string &eventJson)
+{
+    try {
+        const auto parsedEvent = nlohmann::json::parse(eventJson);
+        if (!parsedEvent.is_object() || !parsedEvent.contains("content"))
+            return std::nullopt;
+
+        auto content = parsedEvent.at("content").get<HiddenEventsContent>();
+        if (content.hidden_event_types)
+            return content;
+    } catch (const std::exception &) {
+    }
+
+    return std::nullopt;
+}
+
+void
+loadHiddenEventsForRoom(const std::string &roomId, HiddenEventsContent &hiddenEvents)
+{
+    if (auto raw = cache::getAccountDataByType(std::string(KOMAI_HIDDEN_EVENTS_TYPE), roomId)) {
+        if (auto content = parseHiddenEventsFromRawAccountData(*raw)) {
+            hiddenEvents = std::move(*content);
+            return;
+        }
+    }
+
+    // Fallback for older profiles that still store upstream event namespace.
+    if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoHiddenEvents, roomId)) {
+        auto event = std::get<mtx::events::AccountDataEvent<HiddenEventsContent>>(*temp);
+        if (event.content.hidden_event_types)
+            hiddenEvents = std::move(event.content);
+    }
+}
+} // namespace
+
 void
 HiddenEvents::load()
 {
     using namespace mtx::events;
-    mtx::events::account_data::nheko_extensions::HiddenEvents hiddenEvents;
+    HiddenEventsContent hiddenEvents;
     hiddenEvents.hidden_event_types = std::vector{
       EventType::Reaction,
       EventType::CallCandidates,
@@ -33,23 +78,10 @@ HiddenEvents::load()
     if (callLocalUser_)
         hiddenEvents.hidden_event_types->push_back(EventType::CallSelectAnswer);
 
-    if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoHiddenEvents, "")) {
-        auto h = std::get<
-          mtx::events::AccountDataEvent<mtx::events::account_data::nheko_extensions::HiddenEvents>>(
-          *temp);
-        if (h.content.hidden_event_types)
-            hiddenEvents = std::move(h.content);
-    }
+    loadHiddenEventsForRoom("", hiddenEvents);
 
-    if (!roomid_.isEmpty()) {
-        if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoHiddenEvents,
-                                              roomid_.toStdString())) {
-            auto h = std::get<mtx::events::AccountDataEvent<
-              mtx::events::account_data::nheko_extensions::HiddenEvents>>(*temp);
-            if (h.content.hidden_event_types)
-                hiddenEvents = std::move(h.content);
-        }
-    }
+    if (!roomid_.isEmpty())
+        loadHiddenEventsForRoom(roomid_.toStdString(), hiddenEvents);
 
     hiddenEvents_.clear();
     hiddenEvents_ = std::move(hiddenEvents.hidden_event_types.value());
@@ -81,21 +113,25 @@ HiddenEvents::hiddenEvents() const
 void
 HiddenEvents::save()
 {
-    mtx::events::account_data::nheko_extensions::HiddenEvents hiddenEvents;
+    HiddenEventsContent hiddenEvents;
     hiddenEvents.hidden_event_types = hiddenEvents_;
 
     if (roomid_.isEmpty())
-        http::client()->put_account_data(hiddenEvents, [](mtx::http::RequestErr e) {
-            if (e) {
-                nhlog::net()->error("Failed to set hidden events: {}", *e);
-                MainWindow::instance()->showNotification(
-                  tr("Failed to set hidden events: %1")
-                    .arg(QString::fromStdString(e->matrix_error.error)));
-            }
-        });
+        http::client()->put_account_data(
+          std::string(KOMAI_HIDDEN_EVENTS_TYPE), hiddenEvents, [](mtx::http::RequestErr e) {
+              if (e) {
+                  nhlog::net()->error("Failed to set hidden events: {}", *e);
+                  MainWindow::instance()->showNotification(
+                    tr("Failed to set hidden events: %1")
+                      .arg(QString::fromStdString(e->matrix_error.error)));
+              }
+          });
     else
         http::client()->put_room_account_data(
-          roomid_.toStdString(), hiddenEvents, [](mtx::http::RequestErr e) {
+          std::string(roomid_.toStdString()),
+          std::string(KOMAI_HIDDEN_EVENTS_TYPE),
+          hiddenEvents,
+          [](mtx::http::RequestErr e) {
               if (e) {
                   nhlog::net()->error("Failed to set hidden events: {}", *e);
                   MainWindow::instance()->showNotification(

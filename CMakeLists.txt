@@ -429,6 +429,8 @@ set(SRC_FILES
     src/timeline/formattedcode/HtmlRenderer.h
     src/timeline/formattedcode/LanguageResolver.cpp
     src/timeline/formattedcode/LanguageResolver.h
+    src/timeline/formattedcode/RawJsonFormatter.cpp
+    src/timeline/formattedcode/RawJsonFormatter.h
     src/timeline/formattedmessage/HtmlProcessor.cpp
     src/timeline/formattedmessage/HtmlProcessor.h
     src/timeline/Permissions.cpp
@@ -1313,6 +1315,22 @@ if(BUILD_TESTING)
     add_test(NAME komai_formatted_message_html_processor_test COMMAND komai_formatted_message_html_processor_test)
     komai_configure_test(komai_formatted_message_html_processor_test "unit;timeline")
 
+    add_executable(komai_raw_json_formatter_test
+        tests/RawJsonFormatterTest.cpp
+        src/timeline/formattedcode/RawJsonFormatter.cpp
+        src/timeline/FormattedCodeBlockHighlighter.cpp
+        src/timeline/formattedcode/HtmlRenderer.cpp
+        src/timeline/formattedcode/LanguageResolver.cpp
+    )
+    target_include_directories(komai_raw_json_formatter_test PRIVATE src)
+    target_link_libraries(komai_raw_json_formatter_test PRIVATE
+        Qt::Core
+        Qt::Gui
+        KF6::SyntaxHighlighting
+    )
+    add_test(NAME komai_raw_json_formatter_test COMMAND komai_raw_json_formatter_test)
+    komai_configure_test(komai_raw_json_formatter_test "unit;timeline")
+
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
@@ -1324,6 +1342,7 @@ if(BUILD_TESTING)
         komai_db_backend_test
         komai_formatted_code_block_highlighter_test
         komai_formatted_message_html_processor_test
+        komai_raw_json_formatter_test
     )
 endif()
 

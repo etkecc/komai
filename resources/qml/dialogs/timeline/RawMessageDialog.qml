@@ -23,6 +23,8 @@ ApplicationWindow {
     }
 
     ScrollView {
+        id: rawMessageScrollView
+
         anchors.margins: Komai.paddingMedium
         anchors.fill: parent
         padding: Komai.paddingMedium
@@ -33,9 +35,11 @@ ApplicationWindow {
             font: Komai.monospaceFont()
             color: palette.text
             readOnly: true
-            textFormat: Text.PlainText
+            textFormat: TextEdit.RichText
+            wrapMode: TextEdit.NoWrap
 
-            anchors.fill: parent
+            width: rawMessageScrollView.availableWidth
+            height: Math.max(rawMessageScrollView.availableHeight, implicitHeight)
 
             background: Rectangle {
                 color: palette.base

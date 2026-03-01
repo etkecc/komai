@@ -37,6 +37,7 @@
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/formattedcode/RawJsonFormatter.h"
 #include "ui/Theme.h"
 #include "ui/UserProfile.h"
 
@@ -1484,8 +1485,11 @@ TimelineModel::viewRawMessage(const QString &id)
     auto e = events.get(id.toStdString(), "", false);
     if (!e)
         return;
-    std::string ev = mtx::accessors::serialize_event(*e).dump(4);
-    emit showRawMessageDialog(QString::fromStdString(ev));
+
+    const auto rawJson = QString::fromStdString(mtx::accessors::serialize_event(*e).dump(4));
+    const auto timelinePalette = Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
+    emit showRawMessageDialog(
+      timeline::formattedcode::formatRawJsonForDialog(rawJson, timelinePalette));
 }
 
 void
@@ -1505,8 +1509,10 @@ TimelineModel::viewDecryptedRawMessage(const QString &id)
     if (!e)
         return;
 
-    std::string ev = mtx::accessors::serialize_event(*e).dump(4);
-    emit showRawMessageDialog(QString::fromStdString(ev));
+    const auto rawJson = QString::fromStdString(mtx::accessors::serialize_event(*e).dump(4));
+    const auto timelinePalette = Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
+    emit showRawMessageDialog(
+      timeline::formattedcode::formatRawJsonForDialog(rawJson, timelinePalette));
 }
 
 void

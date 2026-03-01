@@ -92,3 +92,11 @@ Feature toggle:
 - Config key: `timeline.messages.formatted.code_syntax_highlighting`
 - UI label: `Syntax highlight formatted code blocks`
 - UI location: Settings -> Timeline -> Presentation
+
+## Raw Message Dialog
+
+`View raw message` and `View decrypted raw message` also reuse the highlighting stack for JSON:
+
+- formatter: `src/timeline/formattedcode/RawJsonFormatter.cpp`
+- source JSON: serialized Matrix event (`dump(4)`)
+- rendering: wrapped as `language-json` code block and highlighted before showing in `RawMessageDialog.qml`

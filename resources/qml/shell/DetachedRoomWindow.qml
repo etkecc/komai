@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../timeline" as Timeline
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
@@ -36,7 +35,7 @@ ApplicationWindow {
 
         onActivated: roomWindowW.close()
     }
-    Timeline.TimelineView {
+    TimelineView {
         id: timeline
 
         anchors.fill: parent

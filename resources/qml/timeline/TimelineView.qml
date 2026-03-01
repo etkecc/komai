@@ -5,7 +5,6 @@
 
 import "../composer" as Composer
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import im.nheko
 

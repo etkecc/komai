@@ -3,8 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../components"
-import "../../ui"
+import "." as ShellComponents
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -162,7 +161,7 @@ ItemDelegate {
         anchors.margins: Nheko.paddingMedium
         spacing: Nheko.paddingMedium
 
-        RoomListItemAvatar {
+        ShellComponents.RoomListItemAvatar {
             id: avatar
 
             avatarSize: roomItem.avatarSize
@@ -178,7 +177,7 @@ ItemDelegate {
             isSpace: roomItem.isSpace
             notificationCount: roomItem.notificationCount
         }
-        RoomListItemTextContent {
+        ShellComponents.RoomListItemTextContent {
             compactMode: roomItem.compactMode
             collapsed: roomItem.collapsed
             isSpace: roomItem.isSpace

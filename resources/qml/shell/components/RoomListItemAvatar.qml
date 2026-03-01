@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../components"
 import QtQuick
 import QtQuick.Layouts
 import im.nheko
@@ -10,18 +9,18 @@ import im.nheko
 Avatar {
     id: root
 
-    required property int avatarSize
-    required property string roomName
-    required property string roomId
-    required property string avatarUrl
-    required property bool isDirect
-    required property string directChatOtherUserId
-    required property color bubbleBackground
-    required property color bubbleText
-    required property bool hasLoudNotification
-    required property bool collapsed
-    required property bool isSpace
-    required property int notificationCount
+    property int avatarSize: 0
+    property string roomName: ""
+    property string roomId: ""
+    property string avatarUrl: ""
+    property bool isDirect: false
+    property string directChatOtherUserId: ""
+    property color bubbleBackground: palette.highlight
+    property color bubbleText: palette.highlightedText
+    property bool hasLoudNotification: false
+    property bool collapsed: false
+    property bool isSpace: false
+    property int notificationCount: 0
 
     Layout.alignment: Qt.AlignVCenter
     displayName: roomName

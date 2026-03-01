@@ -43,15 +43,7 @@ loadHiddenEventsForRoom(const std::string &roomId, HiddenEventsContent &hiddenEv
     if (auto raw = cache::getAccountDataByType(std::string(KOMAI_HIDDEN_EVENTS_TYPE), roomId)) {
         if (auto content = parseHiddenEventsFromRawAccountData(*raw)) {
             hiddenEvents = std::move(*content);
-            return;
         }
-    }
-
-    // Fallback for older profiles that still store upstream event namespace.
-    if (auto temp = cache::getAccountData(mtx::events::EventType::NhekoHiddenEvents, roomId)) {
-        auto event = std::get<mtx::events::AccountDataEvent<HiddenEventsContent>>(*temp);
-        if (event.content.hidden_event_types)
-            hiddenEvents = std::move(event.content);
     }
 }
 } // namespace

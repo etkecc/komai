@@ -81,15 +81,7 @@ MatrixStore::isHiddenEvent(db::Transaction &txn,
         if (auto raw = getAccountDataByType(txn, std::string(KOMAI_HIDDEN_EVENTS_TYPE), roomId)) {
             if (auto content = parseHiddenEventsFromRawAccountData(*raw)) {
                 hiddenEvents = std::move(*content);
-                return;
             }
-        }
-
-        // Fallback for older profiles that still store upstream event namespace.
-        if (auto temp = getAccountData(txn, mtx::events::EventType::NhekoHiddenEvents, roomId)) {
-            auto event = std::get<mtx::events::AccountDataEvent<HiddenEventsContent>>(*temp);
-            if (event.content.hidden_event_types)
-                hiddenEvents = std::move(event.content);
         }
     };
 

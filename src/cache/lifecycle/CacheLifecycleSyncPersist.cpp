@@ -42,23 +42,14 @@ try {
         for (const auto &ev : res.account_data.events)
             std::visit(
               [&txn, &accountDataDb](const auto &event) {
-                  if constexpr (std::is_same_v<
-                                  std::remove_cv_t<std::remove_reference_t<decltype(event)>>,
-                                  AccountDataEvent<
-                                    mtx::events::account_data::nheko_extensions::HiddenEvents>>) {
-                      if (!event.content.hidden_event_types) {
-                          // Keep cleanup compatible across old and potential renamed namespaces.
-                          accountDataDb.del(txn, "im.nheko.hidden_events");
-                          accountDataDb.del(txn, "cc.etke.komai.hidden_events");
-                          return;
-                      }
-                  }
-
                   auto j = nlohmann::json(event);
+                  if (j["type"] == "im.nheko.hidden_events") {
+                      accountDataDb.del(txn, "im.nheko.hidden_events");
+                      return;
+                  }
                   if (j["type"] == "cc.etke.komai.hidden_events") {
                       const auto contentIt = j.find("content");
                       if (contentIt == j.end() || !contentIt->contains("hidden_event_types")) {
-                          accountDataDb.del(txn, "im.nheko.hidden_events");
                           accountDataDb.del(txn, "cc.etke.komai.hidden_events");
                           return;
                       }
@@ -170,23 +161,14 @@ try {
             for (const auto &evt : room.second.account_data.events) {
                 std::visit(
                   [&txn, &accountDataDb](const auto &event) {
-                      if constexpr (std::is_same_v<
-                                      std::remove_cv_t<std::remove_reference_t<decltype(event)>>,
-                                      AccountDataEvent<mtx::events::account_data::nheko_extensions::
-                                                         HiddenEvents>>) {
-                          if (!event.content.hidden_event_types) {
-                              // Keep cleanup compatible across old and potential renamed
-                              // namespaces.
-                              accountDataDb.del(txn, "im.nheko.hidden_events");
-                              accountDataDb.del(txn, "cc.etke.komai.hidden_events");
-                              return;
-                          }
-                      }
                       auto j = nlohmann::json(event);
+                      if (j["type"] == "im.nheko.hidden_events") {
+                          accountDataDb.del(txn, "im.nheko.hidden_events");
+                          return;
+                      }
                       if (j["type"] == "cc.etke.komai.hidden_events") {
                           const auto contentIt = j.find("content");
                           if (contentIt == j.end() || !contentIt->contains("hidden_event_types")) {
-                              accountDataDb.del(txn, "im.nheko.hidden_events");
                               accountDataDb.del(txn, "cc.etke.komai.hidden_events");
                               return;
                           }

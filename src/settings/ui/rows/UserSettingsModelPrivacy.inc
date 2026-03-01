@@ -5,7 +5,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // PrivacyWindowFocusBlur
     SIMPLE_BOOL_CONFIG_ID_SETTING("Blur on focus loss",
-                        QT_TR_NOOP("Blur the timeline when the app loses window focus."),
+                        nullptr,
                         SM::TabPrivacy, privacyWindowFocusBlurEnabled, setPrivacyWindowFocusBlurEnabled, nullptr, PrivacyWindowFocusBlurEnabled, SettingKey::PrivacyWindowFocusBlurEnabled),
     // PrivacyWindowFocusBlurDelaySeconds
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
@@ -37,6 +37,6 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // IgnoredUsers
     { QT_TR_NOOP("Ignored users"),
-      QT_TR_NOOP("Manage your ignored users."),
+      nullptr,
       SM::ManageIgnoredUsers, SM::TabPrivacy,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

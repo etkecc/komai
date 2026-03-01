@@ -67,10 +67,8 @@ Item {
                     readonly property real controlWidth: r.useStackedLayout
                         ? Math.max(0, grid.width - Komai.paddingSmall * 2)
                         : Math.min(500, Math.max(240, grid.width - Komai.paddingLarge * 2))
-                    readonly property bool hasInlineDescription: (r.model.type == UserSettingsModel.OptionsWithDescription
-                          || r.model.type == UserSettingsModel.IntegerWithDescription
-                          || r.model.type == UserSettingsModel.ToggleWithDescription)
-                         && !!r.model.description
+                    readonly property bool hasDescription: r.model.type != UserSettingsModel.SectionTitle
+                        && !!r.model.description
 
                     HoverHandler {
                         id: rowHover
@@ -108,7 +106,7 @@ Item {
                             Layout.topMargin: Komai.paddingMedium
                             Layout.leftMargin: Komai.paddingSmall
                             Layout.rightMargin: Komai.paddingSmall
-                            Layout.bottomMargin: r.hasInlineDescription ? 0 : Komai.paddingMedium
+                            Layout.bottomMargin: r.hasDescription ? 0 : Komai.paddingMedium
                             columns: r.useStackedLayout ? 1 : 2
                             rowSpacing: r.useStackedLayout && !r.isTimelinePreviewRow ? Komai.paddingSmall : 0
                             columnSpacing: r.isTimelinePreviewRow ? 0 : Komai.paddingSmall
@@ -131,13 +129,6 @@ Item {
                                     Qt.openUrlExternally(link);
                                 }
 
-                                HoverHandler {
-                                    id: hovered
-                                    enabled: !!r.model.description && !r.hasInlineDescription
-                                }
-                                ToolTip.visible: hovered.hovered && !!r.model.description && !r.hasInlineDescription
-                                ToolTip.text: r.model.description ?? ""
-                                ToolTip.delay: Komai.tooltipDelay
                             }
 
                             Item {
@@ -364,7 +355,7 @@ Item {
                             Layout.fillWidth: true
                             Layout.leftMargin: Komai.paddingSmall
                             Layout.rightMargin: Komai.paddingSmall
-                            visible: r.hasInlineDescription
+                            visible: r.hasDescription
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
                             color: palette.buttonText

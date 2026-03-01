@@ -11,7 +11,7 @@
     // TimelineMessagesStyle
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Style",
-      QT_TR_NOOP("Choose the message style used in the timeline."),
+      nullptr,
       SM::TabTimeline, timelineMessagesStyle, setTimelineMessagesStyle, UserSettings::TimelineMessagesStyle,
       timelineMessagesStyleValues,
       nullptr,
@@ -47,7 +47,7 @@
       SettingKey::TimelineMessagesSenderUsername),
     // TimelineSmallAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use small avatars",
-                           QT_TR_NOOP("Avatars are resized to fit above the message."),
+                           nullptr,
                            SM::TabTimeline, timelineMessagesLayoutSmallAvatars, setTimelineMessagesLayoutSmallAvatars, nullptr, TimelineMessagesLayoutSmallAvatars, SettingKey::TimelineMessagesLayoutSmallAvatars),
     // TimelineShowOwnAvatarInBubbleLayout
     SIMPLE_BOOL_CONFIG_ID_SETTING(
@@ -57,11 +57,11 @@
       SM::TabTimeline, timelineMessagesLayoutShowOwnAvatar, setTimelineMessagesLayoutShowOwnAvatar, nullptr, TimelineMessagesLayoutShowOwnAvatar, SettingKey::TimelineMessagesLayoutShowOwnAvatar),
     // EnlargeEmojiOnlyMessages
     SIMPLE_BOOL_CONFIG_ID_SETTING("Enlarge emoji-only messages",
-                        QT_TR_NOOP("Make font size larger if messages with only a few emojis are displayed."),
+                        nullptr,
                         SM::TabTimeline, timelineMessagesEmojiOnlyEnlarge, setTimelineMessagesEmojiOnlyEnlarge, nullptr, TimelineMessagesEmojiOnlyEnlarge, SettingKey::TimelineMessagesEmojiOnlyEnlarge),
     // MessageHoverHighlight
     SIMPLE_BOOL_CONFIG_ID_SETTING("Highlight message on hover",
-                        QT_TR_NOOP("Change the background color of messages when you hover over them."),
+                        nullptr,
                         SM::TabTimeline, timelineMessagesHoverHighlight, setTimelineMessagesHoverHighlight, nullptr, TimelineMessagesHoverHighlight, SettingKey::TimelineMessagesHoverHighlight),
     // TimelineMediaEffectsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
@@ -74,7 +74,7 @@
     // TimelineTypingShowEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show when others are typing",
-      QT_TR_NOOP("Show typing indicators from other room members."),
+      nullptr,
       SM::TabTimeline, timelineTypingShowEnabled, setTimelineTypingShowEnabled, nullptr, TimelineTypingShowEnabled, SettingKey::TimelineTypingShowEnabled),
     // TimelineReadReceiptsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
@@ -108,13 +108,12 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // AnimateImagesOnHover
     SIMPLE_BOOL_CONFIG_ID_SETTING("Play animated images only on hover",
-                        QT_TR_NOOP("Play animated media (such as GIF/WebP) only while hovering."),
+                        nullptr,
                         SM::TabTimeline, timelineMediaAnimateOnHover, setTimelineMediaAnimateOnHover, nullptr, TimelineMediaAnimateOnHover, SettingKey::TimelineMediaAnimateOnHover),
     // ShowImage
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show images automatically",
-      QT_TR_NOOP(
-        "Choose when images are displayed automatically."),
+      nullptr,
       SM::TabTimeline, timelineMediaImageDisplay, setTimelineMediaImageDisplay, UserSettings::ShowImage,
       timelineShowImageValues,
       nullptr,

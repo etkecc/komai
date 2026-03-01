@@ -17,7 +17,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Microphone
     { QT_TR_NOOP("Microphone"),
-      QT_TR_NOOP("Select the microphone used for voice and video calls."),
+      nullptr,
       SM::Options, SM::TabCalls,
       callMicrophoneValue,
       setCallMicrophoneValue,
@@ -70,15 +70,15 @@
     // CallsScreensharePictureInPicture
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Include camera picture-in-picture",
-      QT_TR_NOOP("Overlay your camera feed while sharing your screen."),
+      nullptr,
       SM::TabCalls, callsScreensharePictureInPicture, setCallsScreensharePictureInPicture, nullptr, CallsScreensharePictureInPicture, SettingKey::CallsScreensharePictureInPicture),
     // CallsScreenshareIncludeRemoteVideo
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show participant camera while screen sharing",
-      QT_TR_NOOP("Show the other participant's camera during screen sharing."),
+      nullptr,
       SM::TabCalls, callsScreenshareIncludeRemoteVideo, setCallsScreenshareIncludeRemoteVideo, nullptr, CallsScreenshareIncludeRemoteVideo, SettingKey::CallsScreenshareIncludeRemoteVideo),
     // CallsScreenshareShowCursor
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show mouse cursor",
-      QT_TR_NOOP("Include your mouse cursor in screen-sharing streams."),
+      nullptr,
       SM::TabCalls, callsScreenshareShowCursor, setCallsScreenshareShowCursor, nullptr, CallsScreenshareShowCursor, SettingKey::CallsScreenshareShowCursor),

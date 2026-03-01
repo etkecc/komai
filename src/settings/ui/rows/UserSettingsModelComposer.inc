@@ -31,12 +31,12 @@
     // ComposerTypingSendEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show others I am typing",
-      QT_TR_NOOP("Send your typing status to other room members while you type."),
+      nullptr,
       SM::TabComposer, composerTypingSendEnabled, setComposerTypingSendEnabled, nullptr, ComposerTypingSendEnabled, SettingKey::ComposerTypingSendEnabled),
     // ComposerExtrasSection
     { QT_TR_NOOP("Extras"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // EnableStickers
     SIMPLE_BOOL_CONFIG_ID_SETTING("Enable stickers",
-                        QT_TR_NOOP("Show the sticker button in the message composer, allowing you to send stickers from custom sticker packs."),
+                        nullptr,
                         SM::TabComposer, composerExtrasStickersEnabled, setComposerExtrasStickersEnabled, nullptr, ComposerExtrasStickersEnabled, SettingKey::ComposerExtrasStickersEnabled),

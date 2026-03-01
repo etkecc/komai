@@ -44,7 +44,7 @@
     // ScaleFactor
     SIMPLE_DOUBLE_CONFIG_RESTART_ID_SETTING(
       "Scale factor [restart required]",
-      QT_TR_NOOP("Change the scale factor of the whole user interface. Requires a restart to take effect."),
+      nullptr,
       SM::TabLookFeel, uiScaleFactor, setUiScaleFactor, settings::core::kMinScaleFactor,
       settings::core::kMaxScaleFactor, settings::core::kScaleFactorStep,
       UiScaleFactor, SettingKey::UiScaleFactor),
@@ -55,7 +55,7 @@
     // EnableUIAnimations
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable UI animations",
-      QT_TR_NOOP("Komai uses animations in several places around the interface. Enable or disable them here."),
+      nullptr,
       SM::TabLookFeel,
       uiMotionAnimationsEnabled,
       setUiMotionAnimationsEnabled,
@@ -108,7 +108,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CircularAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
-                        QT_TR_NOOP("Change the appearance of user avatars in chats.\nOFF - square, ON - circle."),
+                        nullptr,
                         SM::TabLookFeel, uiAvatarsCircular, setUiAvatarsCircular, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
     // IdenticonFallbackEnabled
     { QT_TR_NOOP("Use identicons"),
@@ -126,12 +126,12 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // RoomListShowLastMessageTime
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show last message timestamp",
-                        QT_TR_NOOP("Show the timestamp of the last message next to the room name."),
+                        nullptr,
                         SM::TabSidebars, sidebarsRoomListShowLastMessageTime, setSidebarsRoomListShowLastMessageTime, nullptr, SidebarsRoomListShowLastMessageTime, SettingKey::SidebarsRoomListShowLastMessageTime),
     // ShowLastMessagePreview
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show last message preview",
-      QT_TR_NOOP("Show a preview of the most recent message in each room."),
+      nullptr,
       SM::TabSidebars,
       sidebarsRoomListLastMessagePreview,
       setSidebarsRoomListLastMessagePreview,
@@ -147,12 +147,12 @@
     // RoomListScrollbarsVisible
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show scrollbars",
-      QT_TR_NOOP("Show scrollbars in the room list and communities sidebar."),
+      nullptr,
       SM::TabSidebars, sidebarsRoomListScrollbarsEnabled, setSidebarsRoomListScrollbarsEnabled, nullptr, SidebarsRoomListScrollbarsEnabled, SettingKey::SidebarsRoomListScrollbarsEnabled),
     // RoomSorting
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sorting",
-      QT_TR_NOOP("How to order rooms."),
+      nullptr,
       SM::TabSidebars,
       sidebarsRoomListSort,
       setSidebarsRoomListSort,
@@ -166,7 +166,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CommunitiesSidebarVisible
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
-                        QT_TR_NOOP("Show a column containing communities and tags."),
+                        nullptr,
                         SM::TabSidebars, sidebarsCommunitiesVisible, setSidebarsCommunitiesVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
     // IntegrationsSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,

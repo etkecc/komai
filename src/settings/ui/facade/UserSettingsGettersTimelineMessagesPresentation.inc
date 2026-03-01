@@ -18,6 +18,16 @@ UserSettings::timelineMessagesEmojiOnlyEnlarge() const
     return timelineMessagesEmojiOnlyEnlarge_;
 }
 
+bool
+UserSettings::timelineFormattedCodeSyntaxHighlighting() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::TimelineFormattedCodeSyntaxHighlighting);
+        value.has_value())
+        return *value;
+    return timelineFormattedCodeSyntaxHighlighting_;
+}
+
 UserSettings::TimelineMessagesStyle
 UserSettings::timelineMessagesStyle() const
 {

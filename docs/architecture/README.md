@@ -11,6 +11,7 @@ Technical documentation for Komai internals.
 - 💾 [Storage Architecture](storage.md) -- path helpers, storage layout, and callsites
 - 🗃️ [Cache Architecture](cache/README.md) -- Matrix cache domain built on storage APIs
 - 🧩 [QML/UI Structure](qml-ui.md) -- QML layering, placement rules, and loader decoupling
+- 🧵 [Timeline HTML Rendering](timeline-html-rendering.md) -- formatted message pipeline, sanitization, and code highlighting
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling
 - ⚡ [Performance Tracing](performance.md) -- room-switch perf markers, runtime knobs, and logging controls

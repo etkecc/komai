@@ -272,6 +272,7 @@ find_package(Qt6 6.5 COMPONENTS Core Widgets Gui LinguistTools Svg Multimedia Qm
 if (Qt6Qml_VERSION VERSION_GREATER_EQUAL "6.10.0")
     find_package(Qt6 REQUIRED COMPONENTS GuiPrivate QmlPrivate)
 endif()
+find_package(KF6SyntaxHighlighting REQUIRED)
 find_package(Qt6DBus)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
@@ -422,6 +423,12 @@ set(SRC_FILES
     src/timeline/EventDelegateChooser.h
     src/timeline/InputBar.cpp
     src/timeline/InputBar.h
+    src/timeline/FormattedCodeBlockHighlighter.cpp
+    src/timeline/FormattedCodeBlockHighlighter.h
+    src/timeline/formattedcode/HtmlRenderer.cpp
+    src/timeline/formattedcode/HtmlRenderer.h
+    src/timeline/formattedcode/LanguageResolver.cpp
+    src/timeline/formattedcode/LanguageResolver.h
     src/timeline/Permissions.cpp
     src/timeline/Permissions.h
     src/timeline/PresenceEmitter.cpp
@@ -1279,6 +1286,22 @@ if(BUILD_TESTING)
     )
     add_test(NAME komai_db_backend_test COMMAND komai_db_backend_test)
     komai_configure_test(komai_db_backend_test "integration;db")
+
+    add_executable(komai_formatted_code_block_highlighter_test
+        tests/FormattedCodeBlockHighlighterTest.cpp
+        src/timeline/FormattedCodeBlockHighlighter.cpp
+        src/timeline/formattedcode/HtmlRenderer.cpp
+        src/timeline/formattedcode/LanguageResolver.cpp
+    )
+    target_include_directories(komai_formatted_code_block_highlighter_test PRIVATE src)
+    target_link_libraries(komai_formatted_code_block_highlighter_test PRIVATE
+        Qt::Core
+        Qt::Gui
+        KF6::SyntaxHighlighting
+    )
+    add_test(NAME komai_formatted_code_block_highlighter_test COMMAND komai_formatted_code_block_highlighter_test)
+    komai_configure_test(komai_formatted_code_block_highlighter_test "unit;timeline")
+
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
@@ -1288,12 +1311,14 @@ if(BUILD_TESTING)
         komai_setting_input_validation_test
         komai_settings_serializer_core_test
         komai_db_backend_test
+        komai_formatted_code_block_highlighter_test
     )
 endif()
 
 target_link_libraries(komai PRIVATE
     ${COEURL_TARGET_NAME}
     MatrixClient::MatrixClient
+    KF6::SyntaxHighlighting
     cmark::cmark
     fmt::fmt
     spdlog::spdlog

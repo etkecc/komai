@@ -19,6 +19,16 @@ UserSettings::setTimelineMessagesEmojiOnlyEnlarge(bool s)
     save();
 }
 void
+UserSettings::setTimelineFormattedCodeSyntaxHighlighting(bool s)
+{
+    if (timelineFormattedCodeSyntaxHighlighting_ == s)
+        return;
+    timelineFormattedCodeSyntaxHighlighting_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineFormattedCodeSyntaxHighlighting, s);
+    emit timelineFormattedCodeSyntaxHighlightingChanged(s);
+    save();
+}
+void
 UserSettings::setUiInputMode(bool s)
 {
     if (uiInputMode_ == s)

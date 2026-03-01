@@ -41,6 +41,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 - **Forward button** in the message action bar
 - **Pinned and recent emoji reactions** directly in the action bar
 - **Swipe-to-reply disabled** by default to prevent accidental replies on desktop
+- **Formatted-message code block highlighting** (powered by [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html)) with MIME-assisted and heuristic language auto-detection for unlabeled fenced blocks, and a user toggle under [Settings](settings/README.md).
 
 
 ## ✏️ Composer and Replies

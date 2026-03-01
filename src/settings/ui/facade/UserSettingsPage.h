@@ -44,6 +44,10 @@ class UserSettings final : public QObject
                  setTimelineMessagesHoverHighlight NOTIFY timelineMessagesHoverHighlightChanged)
     Q_PROPERTY(bool timelineMessagesEmojiOnlyEnlarge READ timelineMessagesEmojiOnlyEnlarge WRITE
                  setTimelineMessagesEmojiOnlyEnlarge NOTIFY timelineMessagesEmojiOnlyEnlargeChanged)
+    Q_PROPERTY(
+      bool timelineFormattedCodeSyntaxHighlighting READ timelineFormattedCodeSyntaxHighlighting
+        WRITE setTimelineFormattedCodeSyntaxHighlighting NOTIFY
+          timelineFormattedCodeSyntaxHighlightingChanged)
     Q_PROPERTY(bool integrationsSystemTrayEnabled READ integrationsSystemTrayEnabled WRITE
                  setIntegrationsSystemTrayEnabled NOTIFY integrationsSystemTrayEnabledChanged)
     Q_PROPERTY(bool integrationsSystemTrayAutostart READ integrationsSystemTrayAutostart WRITE
@@ -365,6 +369,7 @@ public:
     void setUiThemeSlug(QString theme);
     void setTimelineMessagesHoverHighlight(bool state);
     void setTimelineMessagesEmojiOnlyEnlarge(bool state);
+    void setTimelineFormattedCodeSyntaxHighlighting(bool state);
     void setIntegrationsSystemTrayEnabled(bool state);
     void setIntegrationsSystemTrayAutostart(bool state);
     void setUiInputMode(bool mode);
@@ -497,6 +502,7 @@ signals:
     void uiThemeSlugChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);
+    void timelineFormattedCodeSyntaxHighlightingChanged(bool state);
     void integrationsSystemTrayEnabledChanged(bool state);
     void integrationsSystemTrayAutostartChanged(bool state);
     void composerInputMarkdownEnabledChanged(bool state);

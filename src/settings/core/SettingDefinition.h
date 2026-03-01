@@ -75,6 +75,7 @@ enum class SettingId
     TimelineMessagesSenderUsername,
     TimelineMessagesEmojiOnlyEnlarge,
     TimelineMessagesHoverHighlight,
+    TimelineFormattedCodeSyntaxHighlighting,
     TimelineTypingShowEnabled,
     TimelineReadReceiptsEnabled,
     TimelineMessageActionsActivationPolicy,

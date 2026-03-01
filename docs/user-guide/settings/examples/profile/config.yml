@@ -46,6 +46,8 @@ timeline:
     max_width_px: 0
     emoji_only_enlarge: true
     hover_highlight: false
+    formatted:
+      code_syntax_highlighting: true
     actions:
       # Supported values: on_message_hover | on_button_click | never
       activation_policy: on_button_click

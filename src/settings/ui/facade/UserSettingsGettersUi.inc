@@ -1,6 +1,7 @@
     QString uiThemeSlug() const;
     bool timelineMessagesHoverHighlight() const;
     bool timelineMessagesEmojiOnlyEnlarge() const;
+    bool timelineFormattedCodeSyntaxHighlighting() const;
     bool integrationsSystemTrayEnabled() const;
     bool integrationsSystemTrayAutostart() const;
     bool sidebarsCommunitiesVisible() const;

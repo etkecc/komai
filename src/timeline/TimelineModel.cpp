@@ -25,6 +25,7 @@
 #include "ChatPage.h"
 #include "Config.h"
 #include "EventAccessors.h"
+#include "FormattedCodeBlockHighlighter.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
@@ -36,6 +37,7 @@
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/Theme.h"
 #include "ui/UserProfile.h"
 
 namespace std {
@@ -707,6 +709,13 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
                 formattedBody_.append(QUtf8StringView(u8"🌧️"));
             }
         }
+
+        const auto timelinePalette =
+          Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
+        formattedBody_ = timeline::highlightFormattedCodeBlocks(
+          formattedBody_,
+          timelinePalette,
+          UserSettings::instance()->timelineFormattedCodeSyntaxHighlighting());
 
         return QVariant(utils::replaceEmoji(utils::linkifyMessage(formattedBody_)));
     }

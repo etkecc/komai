@@ -58,6 +58,7 @@ sudo cmake --install var/build/native
 | [LMDB](https://www.symas.com/lmdb) | | Database |
 | [lmdb++](https://github.com/hoytech/lmdbxx) | | C++ LMDB wrapper |
 | [cmark](https://github.com/commonmark/cmark) | 0.29 | Markdown rendering |
+| [KSyntaxHighlighting](https://api.kde.org/frameworks/syntax-highlighting/html/index.html) | 6.x | Timeline formatted-message code block syntax highlighting |
 | [libolm](https://gitlab.matrix.org/matrix-org/olm) | | E2EE |
 | [spdlog](https://github.com/gabime/spdlog) | | Logging |
 | [fmt](https://github.com/fmtlib/fmt) | | String formatting |
@@ -98,7 +99,7 @@ just configure -DUSE_BUNDLED_MTXCLIENT=OFF
 ```sh
 sudo pacman -S qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig \
-    coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
+    coeurl libolm lmdb lmdbxx cmark syntax-highlighting spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication
 ```
 
@@ -111,6 +112,7 @@ Install `mtxclient` only if you explicitly build against system MatrixClient
 sudo apt install -y build-essential cmake pkg-config python3 \
     libevent-dev libspdlog-dev libfmt-dev libre2-dev \
     liblmdb++-dev libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
+    libkf6syntaxhighlighting-dev \
     nlohmann-json3-dev libyaml-cpp-dev libkdsingleapplication-qt6-dev \
     qt6-base-dev qt6-tools-dev qt6-svg-dev qt6-multimedia-dev \
     qt6-declarative-dev qtkeychain-qt6-dev qt6-base-private-dev \

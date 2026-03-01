@@ -42,8 +42,10 @@ constexpr auto TimelineMessagesLayoutShowOwnAvatar = "timeline.messages.layout.s
 constexpr auto TimelineMessagesSenderUsername      = "timeline.messages.sender_username";
 constexpr auto TimelineMessagesEmojiOnlyEnlarge    = "timeline.messages.emoji_only_enlarge";
 constexpr auto TimelineMessagesHoverHighlight      = "timeline.messages.hover_highlight";
-constexpr auto TimelineTypingShowEnabled           = "timeline.typing.show.enabled";
-constexpr auto TimelineReadReceiptsEnabled         = "timeline.read_receipts.enabled";
+constexpr auto TimelineFormattedCodeSyntaxHighlighting =
+  "timeline.messages.formatted.code_syntax_highlighting";
+constexpr auto TimelineTypingShowEnabled   = "timeline.typing.show.enabled";
+constexpr auto TimelineReadReceiptsEnabled = "timeline.read_receipts.enabled";
 constexpr auto TimelineMessageActionsActivationPolicy =
   "timeline.messages.actions.activation_policy";
 constexpr auto TimelineMessageActionsPinnedReactions = "timeline.messages.actions.pinned_reactions";

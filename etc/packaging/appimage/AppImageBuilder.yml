@@ -47,6 +47,8 @@ AppDir:
     - qt6-svg-plugins
     - libqt6widgets6
     - libqt6multimedia6
+    - libkf6syntaxhighlighting6
+    - libkf6syntaxhighlighting-data
 
     # Qt6 QML modules
     - qml6-module-qtquick

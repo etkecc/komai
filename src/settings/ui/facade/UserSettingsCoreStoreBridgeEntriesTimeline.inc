@@ -6,6 +6,7 @@ X(TimelineMessagesLayoutShowOwnAvatar, settings.timelineMessagesLayoutShowOwnAva
 X(TimelineMessagesSenderUsername, static_cast<int>(settings.timelineMessagesSenderUsername()))
 X(TimelineMessagesEmojiOnlyEnlarge, settings.timelineMessagesEmojiOnlyEnlarge())
 X(TimelineMessagesHoverHighlight, settings.timelineMessagesHoverHighlight())
+X(TimelineFormattedCodeSyntaxHighlighting, settings.timelineFormattedCodeSyntaxHighlighting())
 X(TimelineTypingShowEnabled, settings.timelineTypingShowEnabled())
 X(TimelineReadReceiptsEnabled, settings.timelineReadReceiptsEnabled())
 X(TimelineMessageActionsActivationPolicy, static_cast<int>(settings.timelineMessageActionsActivationPolicy()))

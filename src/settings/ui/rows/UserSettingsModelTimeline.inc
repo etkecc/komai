@@ -63,6 +63,11 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Highlight message on hover",
                         nullptr,
                         SM::TabTimeline, timelineMessagesHoverHighlight, setTimelineMessagesHoverHighlight, nullptr, TimelineMessagesHoverHighlight, SettingKey::TimelineMessagesHoverHighlight),
+    // TimelineFormattedCodeSyntaxHighlighting
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Syntax highlight formatted code blocks",
+      QT_TR_NOOP("Apply language-aware syntax highlighting to code blocks found in formatted (HTML) timeline messages."),
+      SM::TabTimeline, timelineFormattedCodeSyntaxHighlighting, setTimelineFormattedCodeSyntaxHighlighting, nullptr, TimelineFormattedCodeSyntaxHighlighting, SettingKey::TimelineFormattedCodeSyntaxHighlighting),
     // TimelineMediaEffectsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Show message effects",

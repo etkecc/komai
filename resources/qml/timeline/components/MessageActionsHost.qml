@@ -77,7 +77,7 @@ Item {
         bottomInset: 0
         // Keep the control in the layout pass before first placement so
         // implicitWidth/implicitHeight can settle. Opacity gates first paint.
-        visible: Settings.timelineMessageActionsActivationPolicy !== Settings.timelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.timelineMessageActionsActivationPolicy.OnHover)
+        visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover)
         opacity: positioned ? 1 : 0
         enabled: positioned
         z: 10

@@ -250,6 +250,32 @@ tokenise(std::string_view str, char delim)
 
 static GstDeviceMonitor *monitor = nullptr;
 
+bool
+CallDevices::ensureInitialized(std::string *errorMessage)
+{
+    if (!gst_is_initialized()) {
+        GError *error = nullptr;
+        if (!gst_init_check(nullptr, nullptr, &error)) {
+            std::string strError("WebRTC: failed to initialise GStreamer: ");
+            if (error) {
+                strError += error->message;
+                g_error_free(error);
+            }
+            nhlog::ui()->error(strError);
+            if (errorMessage)
+                *errorMessage = strError;
+            return false;
+        }
+
+        gchar *version = gst_version_string();
+        nhlog::ui()->info("WebRTC: initialised {}", version);
+        g_free(version);
+    }
+
+    init();
+    return true;
+}
+
 void
 CallDevices::init()
 {
@@ -363,6 +389,13 @@ CallDevices::videoDevice(std::pair<int, int> &resolution, std::pair<int, int> &f
 }
 
 #else
+
+bool
+CallDevices::ensureInitialized(std::string *errorMessage)
+{
+    (void)errorMessage;
+    return false;
+}
 
 bool
 CallDevices::haveMic() const

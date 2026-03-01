@@ -82,24 +82,10 @@ WebRTCSession::init(std::string *errorMessage)
     if (initialised_)
         return true;
 
-    GError *error = nullptr;
-    if (!gst_init_check(nullptr, nullptr, &error)) {
-        std::string strError("WebRTC: failed to initialise GStreamer: ");
-        if (error) {
-            strError += error->message;
-            g_error_free(error);
-        }
-        nhlog::ui()->error(strError);
-        if (errorMessage)
-            *errorMessage = strError;
+    if (!devices_.ensureInitialized(errorMessage))
         return false;
-    }
 
-    initialised_   = true;
-    gchar *version = gst_version_string();
-    nhlog::ui()->info("WebRTC: initialised {}", version);
-    g_free(version);
-    devices_.init();
+    initialised_ = true;
     return true;
 #else
     (void)errorMessage;

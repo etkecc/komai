@@ -9,6 +9,8 @@ callMicrophoneValuesList()
     auto i = I;
     if (!i)
         return {};
+    if (!CallDevices::instance().ensureInitialized())
+        return {};
     return vecToList(CallDevices::instance().names(false, i->callsDevicesMicrophone().toStdString()));
 }
 
@@ -44,6 +46,8 @@ callCameraValuesList()
 {
     auto i = I;
     if (!i)
+        return {};
+    if (!CallDevices::instance().ensureInitialized())
         return {};
     return vecToList(CallDevices::instance().names(true, i->callsDevicesCamera().toStdString()));
 }
@@ -81,6 +85,8 @@ callCameraResolutionValuesList()
     auto i = I;
     if (!i)
         return {};
+    if (!CallDevices::instance().ensureInitialized())
+        return {};
     return vecToList(CallDevices::instance().resolutions(i->callsDevicesCamera().toStdString()));
 }
 
@@ -115,6 +121,8 @@ callCameraFrameRateValuesList()
 {
     auto i = I;
     if (!i)
+        return {};
+    if (!CallDevices::instance().ensureInitialized())
         return {};
 
     return vecToList(CallDevices::instance().frameRates(i->callsDevicesCamera().toStdString(),

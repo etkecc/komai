@@ -815,6 +815,7 @@ QStringList
 CallManager::devices(bool isVideo) const
 {
     QStringList ret;
+    (void)CallDevices::instance().ensureInitialized();
     const QString &defaultDevice = isVideo ? UserSettings::instance()->callsDevicesCamera()
                                            : UserSettings::instance()->callsDevicesMicrophone();
     std::vector<std::string> devices =

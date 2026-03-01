@@ -24,6 +24,7 @@ public:
         return instance;
     }
 
+    bool ensureInitialized(std::string *errorMessage = nullptr);
     bool haveMic() const;
     bool haveCamera() const;
     std::vector<std::string> names(bool isVideo, const std::string &defaultDevice) const;

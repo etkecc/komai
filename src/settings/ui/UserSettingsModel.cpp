@@ -9,6 +9,7 @@
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/UserSettingsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "voip/CallDevices.h"
 
 /**
  * UserSettingsModel is a UI adapter: it exposes settings metadata through roles,
@@ -89,4 +90,20 @@ UserSettingsModel::UserSettingsModel(QObject *p)
   : QAbstractListModel(p)
 {
     wireSettingConnections(UserSettings::instance().get());
+
+    connect(&CallDevices::instance(), &CallDevices::devicesChanged, this, [this]() {
+        const auto emitCallDeviceRowUpdate = [this](settings::core::SettingId id) {
+            const int row = settings::ui::rowForSettingId(id);
+            if (row < 0)
+                return;
+
+            const QModelIndex idx = index(row, 0);
+            emit dataChanged(idx, idx, {Value, Values});
+        };
+
+        emitCallDeviceRowUpdate(settings::core::SettingId::CallsDevicesMicrophone);
+        emitCallDeviceRowUpdate(settings::core::SettingId::CallsDevicesCamera);
+        emitCallDeviceRowUpdate(settings::core::SettingId::CallsDevicesCameraResolution);
+        emitCallDeviceRowUpdate(settings::core::SettingId::CallsDevicesCameraFrameRate);
+    });
 }

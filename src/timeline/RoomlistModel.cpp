@@ -450,8 +450,10 @@ RoomlistModel::prewarmRoom(const QString &roomid, const QString &trigger)
         return;
     }
 
-    const qint64 now               = QDateTime::currentMSecsSinceEpoch();
-    constexpr qint64 cooldownMs    = 1200;
+    const qint64 now = QDateTime::currentMSecsSinceEpoch();
+    // Debounce repeated prewarm attempts for the same room while keeping hover-triggered
+    // prewarm responsive during quick pointer movement in the room list.
+    constexpr qint64 cooldownMs    = 400;
     const qint64 previousAttemptMs = prewarmLastAttemptMs_.value(roomid, 0);
     if (previousAttemptMs > 0 && (now - previousAttemptMs) < cooldownMs) {
         logRoomPrewarm(trigger, roomid, QStringLiteral("skip"), QStringLiteral("cooldown"));

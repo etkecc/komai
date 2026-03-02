@@ -39,7 +39,7 @@ ItemDelegate {
     readonly property bool isSelected: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
     readonly property bool isLowPriorityRoom: !!tags && tags.indexOf && tags.indexOf("m.lowpriority") !== -1
     readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification)
-    property int hoverPrewarmDelayMs: 180
+    property int hoverPrewarmDelayMs: 100
     property color unimportantText: palette.buttonText
     ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: roomName

@@ -41,13 +41,26 @@ Components.OverlayDialog {
         }
     }
 
-    Button {
-        Layout.alignment: Qt.AlignRight
-        text: inputDialog.acceptText
-        highlighted: true
-        onClicked: {
-            inputDialog.inputAccepted(statusInput.text);
-            inputDialog.close();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: inputDialog.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: inputDialog.acceptText
+            highlighted: true
+            onClicked: {
+                inputDialog.inputAccepted(statusInput.text);
+                inputDialog.close();
+            }
         }
     }
 }

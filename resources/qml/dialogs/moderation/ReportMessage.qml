@@ -76,13 +76,26 @@ Components.OverlayDialog {
         }
     }
 
-    Button {
-        Layout.alignment: Qt.AlignRight
-        text: qsTr("Report")
-        highlighted: true
-        onClicked: {
-            room.reportEvent(root.eventId, reason.text, score.value);
-            root.close();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: root.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: qsTr("Report")
+            highlighted: true
+            onClicked: {
+                room.reportEvent(root.eventId, reason.text, score.value);
+                root.close();
+            }
         }
     }
 }

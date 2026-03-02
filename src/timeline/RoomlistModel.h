@@ -159,6 +159,8 @@ private:
     void refreshCachedRoomMetadata(const QString &room_id);
     DescInfo computeCachedLastMessage(const QString &room_id) const;
     void ensureCachedLastMessage(const QString &room_id);
+    void scheduleCurrentRoomTimelineWarmup(const QString &roomid);
+    void warmupCurrentRoomTimeline(const QString &roomid, int requestsDone = 0);
     void maybeBackfillCachedLastMessage(const QString &room_id);
     void startQueuedCachedLastMessageBackfills();
     void backfillCachedLastMessage(const QString &room_id,

@@ -37,6 +37,10 @@ constexpr int kCachedLastMessageBackfillMaxEvents = 5000;
 constexpr int kCachedLastMessageBackfillMaxRequests =
   kCachedLastMessageBackfillMaxEvents / kCachedLastMessageBackfillPageSize;
 constexpr int kCachedLastMessageBackfillMaxConcurrent = 1;
+constexpr int kCurrentRoomWarmupTargetEvents          = 100;
+constexpr int kCurrentRoomWarmupMaxRequests           = 3;
+constexpr int kCurrentRoomWarmupStartDelayMs          = 260;
+constexpr int kCurrentRoomWarmupStepDelayMs           = 80;
 
 void
 scheduleLastReadUpdate(const QSharedPointer<TimelineModel> &roomModel, const QString &roomId)
@@ -220,6 +224,63 @@ RoomlistModel::ensureCachedLastMessage(const QString &room_id)
 
     cachedLastMessagesComputed_.insert(room_id);
     cachedLastMessages_.insert(room_id, computeCachedLastMessage(room_id));
+}
+
+void
+RoomlistModel::scheduleCurrentRoomTimelineWarmup(const QString &roomid)
+{
+    if (roomid.isEmpty())
+        return;
+
+    QTimer::singleShot(kCurrentRoomWarmupStartDelayMs, this, [this, roomid]() {
+        warmupCurrentRoomTimeline(roomid);
+    });
+}
+
+void
+RoomlistModel::warmupCurrentRoomTimeline(const QString &roomid, int requestsDone)
+{
+    if (!currentRoom_ || currentRoom_->roomId() != roomid)
+        return;
+
+    if (currentRoom_->isSpace())
+        return;
+
+    if (requestsDone >= kCurrentRoomWarmupMaxRequests)
+        return;
+
+    if (currentRoom_->rowCount() >= kCurrentRoomWarmupTargetEvents)
+        return;
+
+    if (!currentRoom_->canPaginateBack())
+        return;
+
+    if (currentRoom_->paginationInProgress()) {
+        connect(
+          currentRoom_.data(),
+          &TimelineModel::fetchedMore,
+          this,
+          [this, roomid, requestsDone]() {
+              QTimer::singleShot(
+                kCurrentRoomWarmupStepDelayMs, this, [this, roomid, requestsDone]() {
+                    warmupCurrentRoomTimeline(roomid, requestsDone);
+                });
+          },
+          Qt::SingleShotConnection);
+        return;
+    }
+
+    connect(
+      currentRoom_.data(),
+      &TimelineModel::fetchedMore,
+      this,
+      [this, roomid, requestsDone]() {
+          QTimer::singleShot(kCurrentRoomWarmupStepDelayMs, this, [this, roomid, requestsDone]() {
+              warmupCurrentRoomTimeline(roomid, requestsDone + 1);
+          });
+      },
+      Qt::SingleShotConnection);
+    currentRoom_->requestMore();
 }
 
 void
@@ -888,6 +949,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
                 manager->markRoomSwitchPhaseCpp(room_id, "cpp.room_available_from_preview");
             scheduleLastReadUpdate(currentRoom_, room_id);
             emit currentRoomChanged(room_id);
+            scheduleCurrentRoomTimelineWarmup(room_id);
             switchedToCurrentPreview = true;
         }
 
@@ -902,6 +964,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
                     manager->markRoomSwitchPhaseCpp(room_id, "cpp.pending_room_available");
                 scheduleLastReadUpdate(currentRoom_, room_id);
                 emit currentRoomChanged(room_id);
+                scheduleCurrentRoomTimelineWarmup(room_id);
                 nhlog::ui()->debug("Switched to deferred room: {}", room_id.toStdString());
 
                 if (currentRoom_->isSpace())
@@ -1427,6 +1490,7 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
             manager->markRoomSwitchPhaseCpp(roomid, "cpp.room_model_selected");
         scheduleLastReadUpdate(currentRoom_, currentRoom_->roomId());
         emit currentRoomChanged(currentRoom_->roomId());
+        scheduleCurrentRoomTimelineWarmup(roomid);
         if (manager)
             manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_changed_emitted");
         nhlog::ui()->debug("Switched to: {}", roomid.toStdString());

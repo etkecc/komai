@@ -225,6 +225,7 @@ MatrixStore::roomNamesAndAliases()
                 .id              = std::string(room_id),
                 .name            = std::move(info.name),
                 .alias           = std::move(alias),
+                .avatar_url      = std::move(info.avatar_url),
                 .recent_activity = info.approximate_last_modification_ts,
                 .is_tombstoned   = info.is_tombstoned,
                 .is_space        = info.is_space,

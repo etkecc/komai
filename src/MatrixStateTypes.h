@@ -89,7 +89,7 @@ from_json(const nlohmann::json &j, RoomInfo &info);
 //! A plain struct with roomid, name and alias used for filling the room completer.
 struct RoomNameAlias
 {
-    std::string id, name, alias;
+    std::string id, name, alias, avatar_url;
     std::uint64_t recent_activity;
     bool is_tombstoned;
     bool is_space;

@@ -56,6 +56,8 @@ def generate_header(themes: list[dict]) -> str:
     lines.append("    // Semantic accent colors")
     lines.append("    QColor red, green, orange, error;")
     lines.append("")
+    lines.append('    QString source;  // "builtin" or "/full/path/to/theme.yml"')
+    lines.append("")
     lines.append("    QPalette toPalette() const {")
     lines.append(
         "        QPalette p(windowText, button, light, dark, mid, text, brightText, base, window);"
@@ -117,6 +119,7 @@ def generate_header(themes: list[dict]) -> str:
         lines.append(f"            /*green*/ {hex_to_qcolor(custom['green'])},")
         lines.append(f"            /*orange*/ {hex_to_qcolor(custom['orange'])},")
         lines.append(f"            /*error*/ {hex_to_qcolor(custom['error'])},")
+        lines.append(f'            QStringLiteral("builtin"),')
         lines.append(f"        }},")
 
     lines.append("    };")

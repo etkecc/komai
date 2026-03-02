@@ -182,6 +182,7 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     def.name      = QString::fromStdString(root["name"].as<std::string>());
     def.variant   = QString::fromStdString(variant);
     def.sortOrder = 300;
+    def.source    = path;
 
     def.window          = colors[QStringLiteral("window")];
     def.windowText      = colors[QStringLiteral("windowText")];

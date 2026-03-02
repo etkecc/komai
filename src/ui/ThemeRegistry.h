@@ -21,6 +21,7 @@ public:
     static ThemeRegistry &instance();
 
     const ThemeDef *findTheme(QStringView slug) const;
+    const std::vector<ThemeDef> &allThemes() const { return allThemes_; }
     QStringList themeNames(const QString &variant = {}) const;
     QStringList themeSlugs(const QString &variant = {}) const;
     QString themeVariant(QStringView slug) const;

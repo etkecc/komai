@@ -54,27 +54,42 @@ For storage context, see [Storage Locations](storage.md#linux-paths).
 
 ## ✨ Adding a new theme
 
-### 🌈 Importing from tinted-theming
+### 🌈 Importing from tinted-theming (CLI)
 
-The `import-theme` command fetches a [Base16](https://github.com/tinted-theming/home) theme and automatically converts it to QPalette colors:
+The `komai theme` commands let you import [Base16](https://github.com/tinted-theming/home) themes directly into your user themes directory — no rebuild needed. Browse available themes visually at the [Tinted Gallery](https://tinted-theming.github.io/tinted-gallery/).
 
 ```sh
-# Import from the tinted-theming/schemes collection
-just import-theme rose-pine
+# Search available themes
+komai theme tinted-search
+komai theme tinted-search gruvbox
 
-# List available themes to import
-just import-theme --list
+# Import a theme (writes to ~/.local/share/komai/themes/)
+komai theme tinted-import rose-pine
+
+# Import with a custom name
+komai theme tinted-import rose-pine my-rose
+
+# Override variant detection
+komai theme tinted-import rose-pine --variant light
 
 # Overwrite an existing imported theme
-just import-theme rose-pine --force
+komai theme tinted-import rose-pine --force
 
-# Rebuild — the new theme appears in the Settings dropdown
-just build
+# List all loaded themes (built-in + user)
+komai theme list
+
+# Create a starter theme for manual customisation
+komai theme create-sample light my-custom
+komai theme create-sample dark cool-dark
 ```
+
+After importing or creating a theme, restart Komai — the new theme appears in the Settings dropdown.
+
+These commands work without a display server (SSH, containers) and do not require the source tree or Python.
 
 ### ✍️ Hand-crafted themes
 
-Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all 20 palette keys and rebuild. The theme appears in Settings automatically.
+Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all 20 palette keys and rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed).
 
 
 ## 🧩 Theme YAML format

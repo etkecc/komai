@@ -42,6 +42,7 @@
 #include "Paths.h"
 #include "ProfileId.h"
 #include "Utils.h"
+#include "cli/CliDispatch.h"
 #include "config/komai.h"
 #include "settings/SettingsController.h"
 #include "settings/SettingsPersistence.h"
@@ -215,6 +216,14 @@ main(int argc, char *argv[])
     }
 #endif
 
+    // Handle CLI subcommands (e.g. "komai theme ...") before creating the GUI app.
+    // CLI commands use QCoreApplication and do not need a display server.
+    {
+        int cliResult = dispatchCliCommand(argc, argv);
+        if (cliResult >= 0)
+            return cliResult;
+    }
+
     QString matrixUri;
     for (int i = 1; i < argc; ++i) {
         QString arg{argv[i]};
@@ -226,6 +235,17 @@ main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QCommandLineParser parser;
+    parser.setApplicationDescription(
+      QObject::tr("A fine Matrix chat app you can get to love.\n"
+                  "\n"
+                  "Subcommands (run without a display server):\n"
+                  "  %1 theme tinted-import <slug> [name]   Import a Base16 theme\n"
+                  "  %1 theme tinted-search [query]         Search available Base16 themes\n"
+                  "  %1 theme list                          List all loaded themes\n"
+                  "  %1 theme create-sample <variant> <name> Create a starter theme\n"
+                  "\n"
+                  "Run '%1 theme --help' for subcommand details.")
+        .arg(QCoreApplication::applicationName()));
     parser.addHelpOption();
     parser.addVersionOption();
     QCommandLineOption debugOption(QStringLiteral("debug"),

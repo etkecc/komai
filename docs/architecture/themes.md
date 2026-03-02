@@ -10,7 +10,7 @@ For user-facing documentation, see [docs/user-guide/themes.md](../user-guide/the
 tinted-theming/schemes (Base16 YAML)
         │
         ▼
-bin/theme/import.py          ← applies Base16→QPalette mapping + contrast heuristics
+komai theme tinted-import    ← applies Base16→QPalette mapping + contrast heuristics
         │
         ▼
 resources/themes/*.yml      ← resolved QPalette-level colors (20 keys)
@@ -22,7 +22,7 @@ bin/theme/generate.py        ← reads colors as-is, generates C++ header
 src/ui/ThemeDefinitions.h    ← compiled into the binary
 ```
 
-All color derivation happens at **import time** (in `import.py`).
+All color derivation happens at **import time** (in the C++ CLI).
 The build step (`generate.py`) is a straightforward YAML→C++ transcription
 with no color logic.
 
@@ -45,7 +45,7 @@ runtime from XDG data directories via `ThemeRegistry` (`src/ui/ThemeRegistry.cpp
 tinted-theming/schemes (Base16 YAML)            │
         │                                       │
         ▼                                       │
-bin/theme/import.py                             │
+komai theme tinted-import                       │
         │                                       │
         ▼                                       │
 resources/themes/*.yml                         │
@@ -84,8 +84,8 @@ by both `generate.py` and `check.py`.
 
 ## Base16 → QPalette mapping
 
-The mapping is implemented in `bin/theme/colors.py:base16_to_palette()`.
-This function is only called by `import.py` — never at build time.
+The mapping is implemented in `src/cli/ThemeColorUtils.cpp` and applied
+at import time by `komai theme tinted-import` — never at build time.
 
 | QPalette role    | Base16 source                |
 |------------------|------------------------------|
@@ -112,7 +112,7 @@ Semantic accent colors: `red` ← base08, `green` ← base0B, `orange` ← base0
 
 ## Contrast heuristics
 
-After the initial mapping, `_ensure_contrast()` adjusts colors for readability:
+After the initial mapping, the contrast heuristics in `ThemeColorUtils.cpp` adjust colors for readability:
 
 1. **highlightedText on highlight** — if contrast < 3.0, pick the best candidate
    from light/dark palette slots. If still insufficient, adjust the highlight
@@ -127,16 +127,36 @@ These adjustments use WCAG 2.0 contrast ratios with perceptual (linear-light)
 blending.
 
 
+## Adding a new built-in theme
+
+```sh
+# Search for a theme (browse visually at https://tinted-theming.github.io/tinted-gallery/)
+komai theme tinted-search catppuccin
+
+# Import and relocate into the source tree
+just theme-tinted-import <slug>
+
+# Or create a starter theme for manual customisation
+just theme-create-sample dark my-theme
+
+# Rebuild — the new theme is now compiled in
+just build
+```
+
+See [`resources/themes/README.md`](../../resources/themes/README.md)
+for a quick reference.
+
+
 ## Re-importing with updated heuristics
 
-If the mapping or contrast logic in `colors.py` changes:
+If the mapping or contrast logic in `ThemeColorUtils.cpp` changes:
 
 ```sh
 # Re-import all community themes (those with source_base16 sections)
 for f in resources/themes/*.yml; do
     if grep -q source_base16 "$f"; then
         slug=$(basename "$f" .yml)
-        python3 bin/theme/import.py "$slug" --force
+        just theme-tinted-import "$slug"
     fi
 done
 
@@ -148,11 +168,35 @@ just generate-themes
 Hand-crafted themes (without `source_base16:`) must be updated manually.
 
 
+## C++ import pipeline (CLI)
+
+The C++ CLI commands (`komai theme tinted-import`, etc.) port the Python
+color math to C++ so end users can import themes without Python or the source tree.
+
+```
+komai theme tinted-import <slug>
+        │
+        ▼
+src/cli/ThemeCommands.cpp           ← HTTP fetch from tinted-theming
+        │
+        ▼
+src/cli/ThemeColorUtils.cpp         ← Base16→QPalette mapping + contrast heuristics
+        │                              (direct port of bin/theme/colors.py)
+        ▼
+~/.local/share/komai/themes/*.yml   ← user themes directory
+```
+
+The C++ color math in `ThemeColorUtils.cpp` is a function-for-function port of
+`colors.py` and produces identical output for the same input. Both pipelines
+use the same YAML format, so themes created by either path are interchangeable.
+
+See [CLI Architecture](cli.md) for the subcommand dispatch design.
+
+
 ## Scripts
 
 | Script | Purpose |
 |--------|---------|
-| `bin/theme/colors.py` | Shared module: YAML parser, color utilities, Base16 mapping, contrast heuristics |
-| `bin/theme/import.py` | Fetch Base16 theme, apply mapping, write resolved YAML |
+| `bin/theme/colors.py` | Shared module: YAML parser, color utilities |
 | `bin/theme/generate.py` | Read resolved YAMLs, generate C++ header |
 | `bin/theme/check.py` | Validate theme YAML files (20 palette keys, hex format) |

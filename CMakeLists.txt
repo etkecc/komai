@@ -268,7 +268,7 @@ endif()
 # Discover Qt dependencies.
 #
 
-find_package(Qt6 6.5 COMPONENTS Core Widgets Gui LinguistTools Svg Multimedia Qml QuickControls2 REQUIRED)
+find_package(Qt6 6.5 COMPONENTS Core Widgets Gui LinguistTools Svg Multimedia Qml QuickControls2 Network REQUIRED)
 if (Qt6Qml_VERSION VERSION_GREATER_EQUAL "6.10.0")
     find_package(Qt6 REQUIRED COMPONENTS GuiPrivate QmlPrivate)
 endif()
@@ -722,6 +722,14 @@ set(SRC_FILES
 
     src/jdenticoninterface.h
 
+    # CLI subcommands
+    src/cli/CliDispatch.cpp
+    src/cli/CliDispatch.h
+    src/cli/ThemeColorUtils.cpp
+    src/cli/ThemeColorUtils.h
+    src/cli/ThemeCommands.cpp
+    src/cli/ThemeCommands.h
+
     src/main.cpp
 )
 
@@ -1035,7 +1043,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)
@@ -1350,6 +1358,15 @@ if(BUILD_TESTING)
     add_test(NAME komai_raw_message_dialog_payload_test COMMAND komai_raw_message_dialog_payload_test)
     komai_configure_test(komai_raw_message_dialog_payload_test "unit;timeline")
 
+    add_executable(komai_theme_color_utils_test
+        tests/ThemeColorUtilsTest.cpp
+        src/cli/ThemeColorUtils.cpp
+    )
+    target_include_directories(komai_theme_color_utils_test PRIVATE src src/cli/)
+    target_link_libraries(komai_theme_color_utils_test PRIVATE Qt::Core)
+    add_test(NAME komai_theme_color_utils_test COMMAND komai_theme_color_utils_test)
+    komai_configure_test(komai_theme_color_utils_test "unit;theme")
+
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
@@ -1363,6 +1380,7 @@ if(BUILD_TESTING)
         komai_formatted_message_html_processor_test
         komai_raw_json_formatter_test
         komai_raw_message_dialog_payload_test
+        komai_theme_color_utils_test
     )
 endif()
 
@@ -1377,6 +1395,7 @@ target_link_libraries(komai PRIVATE
     Qt::Svg
     Qt::Gui
     Qt::Multimedia
+    Qt::Network
     Qt::Qml
     Qt::QmlPrivate
     Qt::QuickControls2

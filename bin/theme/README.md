@@ -9,20 +9,21 @@ Quick orientation:
 
 ## Why It Exists
 
-Themes are authored as readable YAML under `resources/themes/`, but runtime code needs a C++ registry. This directory provides import, validation, and code generation so themes stay consistent and easy to maintain.
+Themes are authored as readable YAML under `resources/themes/`, but runtime code needs a C++ registry. This directory provides validation and code generation so themes stay consistent and easy to maintain.
 
 ## Files
 
 - `check.py` - validates theme YAML schema and color fields.
 - `generate.py` - generates `src/ui/ThemeDefinitions.h` from theme YAML files.
-- `import.py` - imports themes from `tinted-theming/schemes` and maps Base16 -> Komai palette.
-- `colors.py` - shared parsing/mapping/color-utility module used by the scripts above.
+- `colors.py` - shared parsing and color-utility module used by the scripts above.
 
 ## Workflow
 
-- `just import-theme <slug>` (via [`just`](https://github.com/casey/just)) to pull in a new external theme.
+- `just theme-tinted-import <slug>` (via [`just`](https://github.com/casey/just)) to pull in a new external theme (wraps the C++ CLI).
 - `just generate-themes` to regenerate `ThemeDefinitions.h`.
 - `bin/theme/check.py` is also used by the `check-theme-yaml` hook in linting.
+
+Theme importing is handled by the C++ CLI (`komai theme tinted-import`). The color math lives in `src/cli/ThemeColorUtils.cpp`. See [`resources/themes/README.md`](../../resources/themes/README.md) for the full developer workflow.
 
 ## Design Intent
 
@@ -33,8 +34,7 @@ Themes are authored as readable YAML under `resources/themes/`, but runtime code
 ## Dependencies
 
 - [`python3`](https://www.python.org/)
-- Standard library only for `check.py`, `generate.py`, `import.py`, `colors.py`
-- Network access is needed only for `import.py` when fetching remote themes
+- Standard library only for `check.py`, `generate.py`, `colors.py`
 
 Tool references:
 

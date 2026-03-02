@@ -104,9 +104,33 @@ generate-themes:
 		{{ justfile_directory() }}/src/ui/ThemeDefinitions.h \
 		{{ justfile_directory() }}/resources/themes
 
-# Imports a theme from tinted-theming/schemes. Use --list to see available themes.
-import-theme *args:
-	python3 {{ justfile_directory() }}/bin/theme/import.py {{ args }}
+# Imports a tinted-theming Base16 theme into resources/themes/ (builds first if needed)
+theme-tinted-import slug *args: build
+	#!/usr/bin/env bash
+	set -euo pipefail
+	output=$(just --justfile {{ justfile() }} run theme tinted-import {{ slug }} --force {{ args }} 2>&1)
+	echo "$output"
+	saved_path=$(echo "$output" | grep -oP '(?<=Theme saved to: ).*\.yml$')
+	if [[ -z "$saved_path" || ! -f "$saved_path" ]]; then
+		echo "ERROR: Could not determine saved theme path" >&2
+		exit 1
+	fi
+	mv "$saved_path" "{{ justfile_directory() }}/resources/themes/"
+	echo "Relocated: $(basename "$saved_path") → resources/themes/"
+
+# Creates a starter theme YAML in resources/themes/ (builds first if needed)
+theme-create-sample variant name *args: build
+	#!/usr/bin/env bash
+	set -euo pipefail
+	output=$(just --justfile {{ justfile() }} run theme create-sample {{ variant }} {{ name }} {{ args }} 2>&1)
+	echo "$output"
+	saved_path=$(echo "$output" | grep -oP '(?<=Theme saved to: ).*\.yml$')
+	if [[ -z "$saved_path" || ! -f "$saved_path" ]]; then
+		echo "ERROR: Could not determine saved theme path" >&2
+		exit 1
+	fi
+	mv "$saved_path" "{{ justfile_directory() }}/resources/themes/"
+	echo "Relocated: $(basename "$saved_path") → resources/themes/"
 
 # Regenerates src/emoji/Provider.{h,cpp} from Unicode emoji data files
 emoji-generate:

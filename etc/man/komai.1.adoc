@@ -13,6 +13,14 @@ komai - Desktop client for Matrix using Qt and C++20
 
 *komai* [_OPTIONS_]
 
+*komai theme tinted-import* _<slug>_ _[name]_ [*--force*] [*--variant* _<light|dark>_]
+
+*komai theme tinted-search* _[query]_
+
+*komai theme list*
+
+*komai theme create-sample* _<light|dark>_ _<name>_ [*--force*]
+
 == DESCRIPTION
 
 The motivation behind the project is to provide a native desktop app for Matrix
@@ -61,6 +69,35 @@ default profile.
 *-C*, *--compact*::
 Allows shrinking the database, since LMDB databases don't automatically shrink
 when data is deleted. Possibly allows some recovery on database corruption.
+
+== SUBCOMMANDS
+
+=== komai theme
+
+Manage themes without a display server. All theme subcommands use
+*QCoreApplication* and work over SSH or in containers.
+
+*komai theme tinted-import* _<slug>_ _[name]_ [*--force*] [*--variant* _<light|dark>_]::
+Fetch a Base16 theme from the tinted-theming/schemes repository, apply the
+QPalette mapping and contrast heuristics, and write the result to the user
+themes directory (_~/.local/share/komai/themes/_). The optional _name_ argument
+saves the file as _{name}-{variant}.yml_ instead of _{slug}-{variant}.yml_.
+Use *--force* to overwrite an existing file. Use *--variant* to override
+automatic light/dark detection.
+
+*komai theme tinted-search* _[query]_::
+List available Base16 themes from the tinted-theming/schemes repository. If
+_query_ is given, filter by substring match.
+
+*komai theme list*::
+List all loaded themes (built-in and user) with slug, name, variant, and source.
+Source shows _builtin_ for compiled themes or the full file path for external
+themes.
+
+*komai theme create-sample* _<light|dark>_ _<name>_ [*--force*]::
+Write a starter theme YAML to the user themes directory for manual customisation.
+Both _variant_ and _name_ are required. Use *--force* to overwrite an existing
+file.
 
 == FAQ
 

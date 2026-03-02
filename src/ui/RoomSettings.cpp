@@ -721,6 +721,34 @@ RoomSettings::updateAvatar()
       });
 }
 
+void
+RoomSettings::removeAvatar()
+{
+    isLoading_ = true;
+    emit loadingChanged();
+
+    auto proxy = std::make_shared<ThreadProxy>();
+    connect(proxy.get(), &ThreadProxy::error, this, &RoomSettings::displayError);
+    connect(proxy.get(), &ThreadProxy::stopLoading, this, &RoomSettings::stopLoading);
+
+    using namespace mtx::events;
+    state::Avatar avatar_event;
+    avatar_event.url = "";
+
+    http::client()->send_state_event(
+      roomid_.toStdString(),
+      avatar_event,
+      [proxy](const mtx::responses::EventId &, mtx::http::RequestErr err) {
+          if (err) {
+              emit proxy->error(tr("Failed to remove avatar: %1")
+                                  .arg(QString::fromStdString(err->matrix_error.error)));
+              return;
+          }
+
+          emit proxy->stopLoading();
+      });
+}
+
 RoomSettingsAllowedRoomsModel::RoomSettingsAllowedRoomsModel(RoomSettings *parent)
   : QAbstractListModel(parent)
   , settings(parent)

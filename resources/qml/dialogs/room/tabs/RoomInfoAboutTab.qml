@@ -77,6 +77,23 @@ Item {
             font.pixelSize: fontMetrics.font.pixelSize
         }
 
+        Label {
+            text: qsTr("Determines which features the room supports. <a href=\"https://spec.matrix.org/v1.17/rooms/\">Learn more</a>.")
+            color: palette.buttonText
+            font.pointSize: 0.9 * Settings.uiFontSizePt
+            wrapMode: Text.Wrap
+            Layout.fillWidth: true
+            textFormat: Text.RichText
+            linkColor: palette.highlight
+            onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                acceptedButtons: Qt.NoButton
+            }
+        }
+
         Item {
             Layout.fillHeight: true
         }

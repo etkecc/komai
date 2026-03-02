@@ -36,7 +36,7 @@ Item {
 
         ElidedLabel {
             font.pixelSize: fontMetrics.font.pixelSize * 1.5
-            fullText: membersTab.members ? qsTr("%n people in %1", "Summary above list of members", membersTab.members.memberCount).arg(membersTab.members.roomName) : ""
+            fullText: membersTab.members ? qsTr("%n member(s) in %1", "Summary above list of members", membersTab.members.memberCount).arg(membersTab.members.roomName) : ""
             Layout.alignment: Qt.AlignHCenter
             elideWidth: parent.width - Komai.paddingMedium
         }
@@ -44,7 +44,7 @@ Item {
         Button {
             Layout.alignment: Qt.AlignHCenter
             icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            text: qsTr("Invite")
+            text: qsTr("Invite others")
             onClicked: {
                 if (membersTab.members)
                     TimelineManager.openInviteUsers(membersTab.members.roomId);

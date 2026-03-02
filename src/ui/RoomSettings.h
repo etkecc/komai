@@ -158,6 +158,7 @@ public:
 
     Q_INVOKABLE void enableEncryption();
     Q_INVOKABLE void updateAvatar();
+    Q_INVOKABLE void removeAvatar();
     Q_INVOKABLE void changeAccessRules(bool private_,
                                        bool guestsAllowed,
                                        bool knockingAllowed,

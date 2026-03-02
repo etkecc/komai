@@ -145,31 +145,36 @@ Components.OverlayDialog {
             }
 
             // Content area
-            Loader {
-                id: tabLoader
-
+            Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                color: palette.window
 
-                source: {
-                    switch (roomInfoDialog.currentTab) {
-                    case "settings":
-                        return "tabs/RoomInfoSettingsTab.qml";
-                    case "members":
-                        return "tabs/RoomInfoMembersTab.qml";
-                    case "notifications":
-                        return "tabs/RoomInfoNotificationsTab.qml";
-                    case "about":
-                        return "tabs/RoomInfoAboutTab.qml";
+                Loader {
+                    id: tabLoader
+
+                    anchors.fill: parent
+
+                    source: {
+                        switch (roomInfoDialog.currentTab) {
+                        case "settings":
+                            return "tabs/RoomInfoSettingsTab.qml";
+                        case "members":
+                            return "tabs/RoomInfoMembersTab.qml";
+                        case "notifications":
+                            return "tabs/RoomInfoNotificationsTab.qml";
+                        case "about":
+                            return "tabs/RoomInfoAboutTab.qml";
+                        }
                     }
-                }
 
-                onLoaded: {
-                    if (item) {
-                        item.roomSettings = roomInfoDialog.roomSettings;
-                        item.members = roomInfoDialog.members;
-                        item.room = roomInfoDialog.room;
-                        item.appRoot = roomInfoDialog.appRoot;
+                    onLoaded: {
+                        if (item) {
+                            item.roomSettings = roomInfoDialog.roomSettings;
+                            item.members = roomInfoDialog.members;
+                            item.room = roomInfoDialog.room;
+                            item.appRoot = roomInfoDialog.appRoot;
+                        }
                     }
                 }
             }

@@ -11,343 +11,486 @@ import QtQuick.Layouts 1.2
 import "../../../components" as Components
 import cc.etke.komai 1.0
 
-GridLayout {
+ColumnLayout {
+    id: detailsGrid
+
     required property var roomSettings
     required property var appRoot
-                columns: 2
-                rowSpacing: Komai.paddingMedium
-                Layout.margins: Komai.paddingMedium
+    Layout.fillWidth: true
+    spacing: 0
+
+    // --- Permissions section ---
+    Components.SettingsSection {
+        label: qsTr("Permissions")
+        Layout.fillWidth: true
+        Layout.topMargin: Komai.paddingMedium
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+    }
+
+    // Power levels & permissions
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: plRowContent.implicitHeight
+        HoverHandler { id: plRowHover; blocking: false }
+        Rectangle { anchors.fill: plRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: plRowHover.hovered; z: -1 }
+        RowLayout {
+            id: plRowContent
+            width: parent.width
+            Layout.fillWidth: true
+
+            Label {
+                text: qsTr("Power levels & permissions")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
 
-                Components.SettingsSection {
-                    label: qsTr("Entry permissions")
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingMedium
+            Button {
+                text: qsTr("Configure")
+                onClicked: detailsGrid.appRoot.showPLEditor(detailsGrid.roomSettings)
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
+
+    // Aliases
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: aliasRowContent.implicitHeight
+        HoverHandler { id: aliasRowHover; blocking: false }
+        Rectangle { anchors.fill: aliasRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: aliasRowHover.hovered; z: -1 }
+        RowLayout {
+            id: aliasRowContent
+            width: parent.width
+
+            Label {
+                text: qsTr("Aliases")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
+
+            Button {
+                text: qsTr("Configure")
+                onClicked: detailsGrid.appRoot.showAliasEditor(detailsGrid.roomSettings)
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
+
+    // Anyone can join
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: publicRowContent.implicitHeight
+        HoverHandler { id: publicRowHover; blocking: false }
+        Rectangle { anchors.fill: publicRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: publicRowHover.hovered; z: -1 }
+        RowLayout {
+            id: publicRowContent
+            width: parent.width
+
+            Label {
+                text: qsTr("Anyone can join")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
+
+            ToggleButton {
+                id: publicRoomButton
+                enabled: detailsGrid.roomSettings.canChangeJoinRules
+                checked: !detailsGrid.roomSettings.privateAccess
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
+
+    // Allow knocking
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: knockRowContent.implicitHeight
+        visible: !publicRoomButton.checked
+        HoverHandler { id: knockRowHover; blocking: false }
+        Rectangle { anchors.fill: knockRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: knockRowHover.hovered; z: -1 }
+        RowLayout {
+            id: knockRowContent
+            width: parent.width
+
+            Label {
+                text: qsTr("Allow knocking")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
+
+            ToggleButton {
+                id: knockingButton
+                enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsKnocking
+                checked: detailsGrid.roomSettings.knockingEnabled
+                onCheckedChanged: {
+                    if (checked && !detailsGrid.roomSettings.supportsKnockRestricted) restrictedButton.checked = false;
                 }
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
 
-                Label {
-                    text: qsTr("Anyone can join")
-                    Layout.fillWidth: true
-                    color: palette.text
+    // Allow joining via other rooms
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: restrictedRowContent.implicitHeight
+        visible: !publicRoomButton.checked
+        HoverHandler { id: restrictedRowHover; blocking: false }
+        Rectangle { anchors.fill: restrictedRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: restrictedRowHover.hovered; z: -1 }
+        RowLayout {
+            id: restrictedRowContent
+            width: parent.width
+
+            Label {
+                text: qsTr("Allow joining via other rooms")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
+
+            ToggleButton {
+                id: restrictedButton
+                enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsRestricted
+                checked: detailsGrid.roomSettings.restrictedEnabled
+                onCheckedChanged: {
+                    if (checked && !detailsGrid.roomSettings.supportsKnockRestricted) knockingButton.checked = false;
                 }
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
 
-                ToggleButton {
-                    id: publicRoomButton
+    // Rooms to join via
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: joinViaRowContent.implicitHeight
+        visible: restrictedButton.checked && !publicRoomButton.checked
+        HoverHandler { id: joinViaRowHover; blocking: false }
+        Rectangle { anchors.fill: joinViaRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: joinViaRowHover.hovered; z: -1 }
+        RowLayout {
+            id: joinViaRowContent
+            width: parent.width
 
-                    enabled: roomSettings.canChangeJoinRules
-                    checked: !roomSettings.privateAccess
-                    Layout.alignment: Qt.AlignRight
-                }
+            Label {
+                text: qsTr("Rooms to join via")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
 
-                Label {
-                    text: qsTr("Allow knocking")
-                    Layout.fillWidth: true
-                    color: palette.text
-                    visible: knockingButton.visible
-                }
+            Button {
+                id: allowedRoomsButton
+                enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsRestricted
+                text: qsTr("Change")
+                onClicked: detailsGrid.appRoot.showAllowedRoomsEditor(detailsGrid.roomSettings)
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
 
-                ToggleButton {
-                    id: knockingButton
+    // Allow guests to join
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: guestRowContent.implicitHeight
+        HoverHandler { id: guestRowHover; blocking: false }
+        Rectangle { anchors.fill: guestRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: guestRowHover.hovered; z: -1 }
+        RowLayout {
+            id: guestRowContent
+            width: parent.width
 
-                    visible: !publicRoomButton.checked
-                    enabled: roomSettings.canChangeJoinRules && roomSettings.supportsKnocking
-                    checked: roomSettings.knockingEnabled
-                    onCheckedChanged: {
-                        if (checked && !roomSettings.supportsKnockRestricted) restrictedButton.checked = false;
-                    }
-                    Layout.alignment: Qt.AlignRight
-                }
+            Label {
+                text: qsTr("Allow guests to join")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
 
-                Label {
-                    text: qsTr("Allow joining via other rooms")
-                    Layout.fillWidth: true
-                    color: palette.text
-                    visible: restrictedButton.visible
-                }
+            ToggleButton {
+                id: guestAccessButton
+                enabled: detailsGrid.roomSettings.canChangeJoinRules
+                checked: detailsGrid.roomSettings.guestAccess
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
 
-                ToggleButton {
-                    id: restrictedButton
+    // Apply access rules button
+    Button {
+        visible: publicRoomButton.checked == detailsGrid.roomSettings.privateAccess || knockingButton.checked != detailsGrid.roomSettings.knockingEnabled || restrictedButton.checked != detailsGrid.roomSettings.restrictedEnabled || guestAccessButton.checked != detailsGrid.roomSettings.guestAccess || detailsGrid.roomSettings.allowedRoomsModified
+        enabled: detailsGrid.roomSettings.canChangeJoinRules
+        text: qsTr("Apply access rules")
+        onClicked: detailsGrid.roomSettings.changeAccessRules(!publicRoomButton.checked, guestAccessButton.checked, knockingButton.checked, restrictedButton.checked)
+        Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+    }
 
-                    visible: !publicRoomButton.checked
-                    enabled: roomSettings.canChangeJoinRules && roomSettings.supportsRestricted
-                    checked: roomSettings.restrictedEnabled
-                    onCheckedChanged: {
-                        if (checked && !roomSettings.supportsKnockRestricted) knockingButton.checked = false;
-                    }
-                    Layout.alignment: Qt.AlignRight
-                }
+    // --- Message visibility section ---
+    Components.SettingsSection {
+        label: qsTr("Message visibility")
+        Layout.fillWidth: true
+        Layout.topMargin: Komai.paddingMedium
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+    }
 
-                Label {
-                    text: qsTr("Rooms to join via")
-                    Layout.fillWidth: true
-                    color: palette.text
-                    visible: allowedRoomsButton.visible
-                }
+    // Allow viewing history without joining
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: publicHistoryRowContent.implicitHeight
+        HoverHandler { id: publicHistoryRowHover; blocking: false }
+        Rectangle { anchors.fill: publicHistoryRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: publicHistoryRowHover.hovered; z: -1 }
+        ColumnLayout {
+            id: publicHistoryRowContent
+            width: parent.width
+            spacing: 0
 
-                Button {
-                    id: allowedRoomsButton
-
-                    visible: restrictedButton.checked && restrictedButton.visible
-                    enabled: roomSettings.canChangeJoinRules && roomSettings.supportsRestricted
-
-                    text: qsTr("Change")
-                    ToolTip.text: qsTr("Change the list of rooms users can join this room via. Usually this is the official community of this room.")
-                    onClicked: appRoot.showAllowedRoomsEditor(roomSettings)
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                Label {
-                    text: qsTr("Allow guests to join")
-                    Layout.fillWidth: true
-                    color: palette.text
-                }
-
-                ToggleButton {
-                    id: guestAccessButton
-
-                    enabled: roomSettings.canChangeJoinRules
-                    checked: roomSettings.guestAccess
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                Button {
-                    visible: publicRoomButton.checked == roomSettings.privateAccess || knockingButton.checked != roomSettings.knockingEnabled || restrictedButton.checked != roomSettings.restrictedEnabled || guestAccessButton.checked != roomSettings.guestAccess || roomSettings.allowedRoomsModified
-                    enabled: roomSettings.canChangeJoinRules
-
-                    text: qsTr("Apply access rules")
-                    onClicked: roomSettings.changeAccessRules(!publicRoomButton.checked, guestAccessButton.checked, knockingButton.checked, restrictedButton.checked)
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                }
-
-                Components.SettingsSection {
-                    label: qsTr("Message visibility")
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingMedium
-                }
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
 
                 Label {
                     text: qsTr("Allow viewing history without joining")
-                    Layout.fillWidth: true
                     color: palette.text
-                    ToolTip.text: qsTr("This is useful to see previews of the room or view it on public websites.")
-                    ToolTip.visible: publicHistoryHover.hovered
-                    ToolTip.delay: Komai.tooltipDelay
-
-                    HoverHandler {
-                        id: publicHistoryHover
-
-                    }
+                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                    Layout.fillWidth: true
                 }
 
                 ToggleButton {
                     id: publicHistoryButton
-
-                    enabled: roomSettings.canChangeHistoryVisibility
-                    checked: roomSettings.historyVisibility == RoomSettings.WorldReadable
-                    Layout.alignment: Qt.AlignRight
+                    enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
+                    checked: detailsGrid.roomSettings.historyVisibility == RoomSettings.WorldReadable
                 }
-
-                Label {
-                    visible: !publicHistoryButton.checked
-                    text: qsTr("Members can see messages since")
-                    Layout.fillWidth: true
-                    color: palette.text
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    ToolTip.text: qsTr("How much of the history is visible to joined members. Changing this won't affect the visibility of already sent messages. It only applies to new messages.")
-                    ToolTip.visible: privateHistoryHover.hovered
-                    ToolTip.delay: Komai.tooltipDelay
-
-                    HoverHandler {
-                        id: privateHistoryHover
-
-                    }
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    visible: !publicHistoryButton.checked
-                    enabled: roomSettings.canChangeHistoryVisibility
-                    Layout.alignment: Qt.AlignTop | Qt.AlignRight
-
-                    RadioButton {
-                        id: sharedHistory
-                        checked: roomSettings.historyVisibility == RoomSettings.Shared
-                        text: qsTr("Everything")
-                        ToolTip.text: qsTr("As long as the user joined, they can see all previous messages.")
-                        ToolTip.visible: hovered
-                        ToolTip.delay: Komai.tooltipDelay
-                    }
-                    RadioButton {
-                        id: invitedHistory
-                        checked: roomSettings.historyVisibility == RoomSettings.Invited
-                        text: qsTr("They got invited")
-                        ToolTip.text: qsTr("Members can only see messages from when they got invited going forward.")
-                        ToolTip.visible: hovered
-                        ToolTip.delay: Komai.tooltipDelay
-                    }
-                    RadioButton {
-                        id: joinedHistory
-                        checked: roomSettings.historyVisibility == RoomSettings.Joined || roomSettings.historyVisibility == RoomSettings.WorldReadable
-                        text: qsTr("They joined")
-                        ToolTip.text: qsTr("Members can only see messages since after they joined.")
-                        ToolTip.visible: hovered
-                        ToolTip.delay: Komai.tooltipDelay
-                    }
-                }
-
-                Button {
-                    visible: roomSettings.historyVisibility != selectedVisibility
-                    enabled: roomSettings.canChangeHistoryVisibility
-
-                    text: qsTr("Apply visibility changes")
-                    property int selectedVisibility: {
-                        if (publicHistoryButton.checked)
-                            return RoomSettings.WorldReadable;
-                        else if (sharedHistory.checked)
-                            return RoomSettings.Shared;
-                        else if (invitedHistory.checked)
-                            return RoomSettings.Invited;
-                        return RoomSettings.Joined;
-                    }
-                    onClicked: roomSettings.changeHistoryVisibility(selectedVisibility)
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                }
-
-                Label {
-                    text: qsTr("Locally hidden events")
-                    color: palette.text
-                }
-
-                HiddenEventsDialog {
-                    id: hiddenEventsDialog
-                    roomid: roomSettings.roomId
-                    roomName: roomSettings.roomName
-                }
-
-                Button {
-                    text: qsTr("Configure")
-                    ToolTip.text: qsTr("Select events to hide in this room")
-                    onClicked: hiddenEventsDialog.open()
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                Label {
-                    text: qsTr("Automatic event deletion")
-                    color: palette.text
-                }
-
-                EventExpirationDialog {
-                    id: eventExpirationDialog
-                    roomid: roomSettings.roomId
-                    roomName: roomSettings.roomName
-                }
-
-                Button {
-                    text: qsTr("Configure")
-                    ToolTip.text: qsTr("Select if your events get automatically deleted in this room.")
-                    onClicked: eventExpirationDialog.open()
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                Components.SettingsSection {
-                    label: qsTr("General settings")
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingMedium
-                }
-
-                Label {
-                    text: qsTr("Encryption")
-                    color: palette.text
-                }
-
-                ToggleButton {
-                    id: encryptionToggle
-
-                    checked: roomSettings.isEncryptionEnabled
-                    onCheckedChanged: {
-                        if (roomSettings.isEncryptionEnabled) {
-                            checked = true;
-                            return ;
-                        }
-                        if (checked === true)
-                            confirmEncryptionDialog.open();
-                    }
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                Components.OverlayDialog {
-                    id: confirmEncryptionDialog
-
-                    property bool wasAccepted: false
-
-                    title: qsTr("End-to-End Encryption")
-                    titleIcon: ":/icons/icons/ui/shield-regular.svg"
-
-                    onOpened: wasAccepted = false
-                    onClosed: {
-                        if (!wasAccepted)
-                            encryptionToggle.checked = false;
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        color: palette.text
-                        wrapMode: Text.WordWrap
-                        text: qsTr("Encryption is currently experimental and things might break unexpectedly.\nPlease take note that it can't be disabled afterwards.")
-                    }
-
-                    Button {
-                        Layout.alignment: Qt.AlignRight
-                        text: qsTr("Enable")
-                        highlighted: true
-                        onClicked: {
-                            if (!roomSettings.isEncryptionEnabled)
-                                roomSettings.enableEncryption();
-                            confirmEncryptionDialog.wasAccepted = true;
-                            confirmEncryptionDialog.close();
-                        }
-                    }
-                }
-
-                Label {
-                    text: qsTr("Permission")
-                    color: palette.text
-                }
-
-                Button {
-                    text: qsTr("Configure")
-                    ToolTip.text: qsTr("View and change the permissions in this room")
-                    onClicked: appRoot.showPLEditor(roomSettings)
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                Label {
-                    text: qsTr("Aliases")
-                    color: palette.text
-                }
-
-                Button {
-                    text: qsTr("Configure")
-                    ToolTip.text: qsTr("View and change the addresses/aliases of this room")
-                    onClicked: appRoot.showAliasEditor(roomSettings)
-                    Layout.alignment: Qt.AlignRight
-                }
-
-                Label {
-                    text: qsTr("Sticker & Emote Settings")
-                    color: palette.text
-                }
-
-                Button {
-                    text: qsTr("Change")
-                    ToolTip.text: qsTr("Change what packs are enabled, remove packs, or create new ones")
-                    onClicked: TimelineManager.openImagePackSettings(roomSettings.roomId)
-                    Layout.alignment: Qt.AlignRight
-                }
-
             }
+
+            Label {
+                text: qsTr("Useful for room previews and public websites.")
+                color: palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                wrapMode: Text.Wrap
+            }
+        }
+    }
+
+    // Members can see messages since
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: historyComboRowContent.implicitHeight
+        visible: !publicHistoryButton.checked
+        HoverHandler { id: historyComboRowHover; blocking: false }
+        Rectangle { anchors.fill: historyComboRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: historyComboRowHover.hovered; z: -1 }
+        ColumnLayout {
+            id: historyComboRowContent
+            width: parent.width
+            spacing: 0
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+
+                Label {
+                    text: qsTr("Members can see messages since")
+                    color: palette.text
+                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                    Layout.fillWidth: true
+                }
+
+                ComboBox {
+                    id: historyCombo
+                    enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
+
+                    model: [
+                        qsTr("The beginning"),
+                        qsTr("They were invited"),
+                        qsTr("They joined")
+                    ]
+
+                    property var visibilityValues: [
+                        RoomSettings.Shared,
+                        RoomSettings.Invited,
+                        RoomSettings.Joined
+                    ]
+
+                    currentIndex: {
+                        var vis = detailsGrid.roomSettings.historyVisibility;
+                        if (vis === RoomSettings.Shared) return 0;
+                        if (vis === RoomSettings.Invited) return 1;
+                        return 2;
+                    }
+                }
+            }
+
+            Label {
+                text: qsTr("Changing this won't affect already sent messages, only new ones.")
+                color: palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                wrapMode: Text.Wrap
+            }
+        }
+    }
+
+    // Apply visibility changes buttons
+    Button {
+        visible: !publicHistoryButton.checked && detailsGrid.roomSettings.historyVisibility !== historyCombo.visibilityValues[historyCombo.currentIndex]
+        enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
+        text: qsTr("Apply visibility changes")
+        property int selectedVisibility: publicHistoryButton.checked ? RoomSettings.WorldReadable : historyCombo.visibilityValues[historyCombo.currentIndex]
+        onClicked: detailsGrid.roomSettings.changeHistoryVisibility(selectedVisibility)
+        Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+    }
+
+    Button {
+        visible: publicHistoryButton.checked && detailsGrid.roomSettings.historyVisibility !== RoomSettings.WorldReadable
+        enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
+        text: qsTr("Apply visibility changes")
+        onClicked: detailsGrid.roomSettings.changeHistoryVisibility(RoomSettings.WorldReadable)
+        Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+    }
+
+    // Locally hidden events
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: hiddenEventsRowContent.implicitHeight
+        HoverHandler { id: hiddenEventsRowHover; blocking: false }
+        Rectangle { anchors.fill: hiddenEventsRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: hiddenEventsRowHover.hovered; z: -1 }
+        RowLayout {
+            id: hiddenEventsRowContent
+            width: parent.width
+
+            Label {
+                text: qsTr("Locally hidden events")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
+
+            HiddenEventsDialog {
+                id: hiddenEventsDialog
+                roomid: detailsGrid.roomSettings.roomId
+                roomName: detailsGrid.roomSettings.roomName
+            }
+
+            Button {
+                text: qsTr("Configure")
+                onClicked: hiddenEventsDialog.open()
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
+
+    // Automatic event deletion
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: eventExpRowContent.implicitHeight
+        HoverHandler { id: eventExpRowHover; blocking: false }
+        Rectangle { anchors.fill: eventExpRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: eventExpRowHover.hovered; z: -1 }
+        RowLayout {
+            id: eventExpRowContent
+            width: parent.width
+
+            Label {
+                text: qsTr("Automatic event deletion")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
+
+            EventExpirationDialog {
+                id: eventExpirationDialog
+                roomid: detailsGrid.roomSettings.roomId
+                roomName: detailsGrid.roomSettings.roomName
+            }
+
+            Button {
+                text: qsTr("Configure")
+                onClicked: eventExpirationDialog.open()
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
+
+    // --- Extra section ---
+    Components.SettingsSection {
+        label: qsTr("Extra")
+        Layout.fillWidth: true
+        Layout.topMargin: Komai.paddingMedium
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+    }
+
+    // Sticker & Emote Settings
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: stickerRowContent.implicitHeight
+        HoverHandler { id: stickerRowHover; blocking: false }
+        Rectangle { anchors.fill: stickerRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: stickerRowHover.hovered; z: -1 }
+        RowLayout {
+            id: stickerRowContent
+            width: parent.width
+
+            Label {
+                text: qsTr("Sticker & Emote Settings")
+                color: palette.text
+                font.pointSize: 1.1 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+            }
+
+            Button {
+                text: qsTr("Change")
+                onClicked: TimelineManager.openImagePackSettings(detailsGrid.roomSettings.roomId)
+                Layout.rightMargin: Komai.paddingMedium
+            }
+        }
+    }
+}

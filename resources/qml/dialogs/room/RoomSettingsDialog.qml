@@ -14,6 +14,7 @@ Components.OverlayDialog {
     id: roomSettingsDialog
 
     property var roomSettings
+    property var appRoot
 
     title: qsTr("Room Settings")
     titleIcon: ":/icons/icons/ui/toggles.svg"
@@ -56,7 +57,7 @@ Components.OverlayDialog {
 
                 RoomSettingsDetailsGrid {
                     roomSettings: roomSettingsDialog.roomSettings
-                    timelineRoot: timelineRoot
+                    appRoot: roomSettingsDialog.appRoot
                 }
             }
         }

@@ -14,6 +14,7 @@ OverlayDialog {
     id: plEditorW
 
     property var roomSettings
+    property var appRoot
     property var editingModel: Komai.editPowerlevels(roomSettings.roomId)
 
     title: qsTr("Permissions in %1").arg(roomSettings.roomName)
@@ -366,7 +367,7 @@ OverlayDialog {
             if (plEditorW.editingModel.isSpace) {
                 plEditorW.editingModel.updateSpacesModel();
                 plEditorW.close();
-                timelineRoot.showSpacePLApplyPrompt(roomSettings, plEditorW.editingModel);
+                plEditorW.appRoot.showSpacePLApplyPrompt(roomSettings, plEditorW.editingModel);
             } else {
                 plEditorW.editingModel.commit();
                 plEditorW.close();

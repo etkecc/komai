@@ -48,12 +48,13 @@ Dialog {
     x: Math.round(((parent ? parent.width : width) - width) / 2)
     y: Math.round((parent ? parent.height : 0) / 4)
 
-    // Workaround palettes not inheriting for popups
-    palette: timelineRoot.palette
+    // Workaround palettes not inheriting for popups — Overlay.overlay
+    // belongs to the Window, so its palette matches the application theme.
+    palette: parent ? parent.palette : ({})
     parent: Overlay.overlay
 
     Overlay.modal: Rectangle {
-        color: timelineRoot.overlayBackdropColor
+        color: Qt.rgba(0.2, 0.2, 0.2, 0.7)
     }
 
     background: Rectangle {

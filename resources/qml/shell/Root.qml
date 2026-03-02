@@ -100,7 +100,8 @@ Pane {
     }
     function showPLEditor(settings) {
         openCatalogDialog(componentCatalog.roomPowerLevelEditorDialog, {
-                "roomSettings": settings
+                "roomSettings": settings,
+                "appRoot": timelineRoot
             });
     }
     function showSpacePLApplyPrompt(settings, editingModel) {

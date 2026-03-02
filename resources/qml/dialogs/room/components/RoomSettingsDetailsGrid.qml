@@ -13,7 +13,7 @@ import cc.etke.komai 1.0
 
 GridLayout {
     required property var roomSettings
-    required property var timelineRoot
+    required property var appRoot
                 columns: 2
                 rowSpacing: Komai.paddingMedium
                 Layout.margins: Komai.paddingMedium
@@ -123,7 +123,7 @@ GridLayout {
 
                     text: qsTr("Change")
                     ToolTip.text: qsTr("Change the list of rooms users can join this room via. Usually this is the official community of this room.")
-                    onClicked: timelineRoot.showAllowedRoomsEditor(roomSettings)
+                    onClicked: appRoot.showAllowedRoomsEditor(roomSettings)
                     Layout.alignment: Qt.AlignRight
                 }
 
@@ -356,7 +356,7 @@ GridLayout {
                 Button {
                     text: qsTr("Configure")
                     ToolTip.text: qsTr("View and change the permissions in this room")
-                    onClicked: timelineRoot.showPLEditor(roomSettings)
+                    onClicked: appRoot.showPLEditor(roomSettings)
                     Layout.alignment: Qt.AlignRight
                 }
 
@@ -368,7 +368,7 @@ GridLayout {
                 Button {
                     text: qsTr("Configure")
                     ToolTip.text: qsTr("View and change the addresses/aliases of this room")
-                    onClicked: timelineRoot.showAliasEditor(roomSettings)
+                    onClicked: appRoot.showAliasEditor(roomSettings)
                     Layout.alignment: Qt.AlignRight
                 }
 

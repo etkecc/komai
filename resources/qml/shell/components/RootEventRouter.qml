@@ -59,7 +59,8 @@ Item {
         }
         function onOpenRoomSettingsDialog(settings) {
             timelineRoot.openCatalogDialog(componentCatalog.roomSettingsDialog, {
-                    "roomSettings": settings
+                    "roomSettings": settings,
+                    "appRoot": timelineRoot
                 });
         }
         function onShowImageOverlay(room,

@@ -238,6 +238,7 @@ public:
         IsOnlyEmoji,
         Body,
         FormattedBody,
+        HasFormattedBody,
         FormattedStateEvent,
         IsSender,
         UserId,

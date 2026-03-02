@@ -144,7 +144,8 @@ Item {
         if (!dialog)
             return null;
         dialog.show();
-        dialog.forceActiveFocus();
+        if (typeof dialog.forceActiveFocus === "function")
+            dialog.forceActiveFocus();
         destroyOnClose(dialog);
         return dialog;
     }
@@ -343,7 +344,6 @@ Item {
             filteredTimeline: filteredTimeline
             roomModel: room
             topBar: topBar
-            messageContextMenu: messageContextMenuC
         }
         TimelineKeyboardShortcuts {
             chatList: chat
@@ -359,6 +359,63 @@ Item {
         filteredTimelineModel: filteredTimeline
         roomModel: room
         topBar: topBar
+    }
+
+    Component {
+        id: removeReasonDialogComponent
+
+        InputDialog {
+            property string eventId
+
+            prompt: qsTr("Enter reason for removal or hit enter for no reason:")
+            title: qsTr("Reason for removal")
+
+            onAccepted: function (text) {
+                room.redactEvent(eventId, text);
+            }
+        }
+    }
+
+    Component {
+        id: reportMessageDialogComponent
+
+        ReportMessage {
+        }
+    }
+
+    function openMessageActionsDialog(eventId, threadId, eventType, isSender, isEncrypted, isEditable, link, text) {
+        var component = Qt.createComponent("qrc:/resources/qml/dialogs/timeline/MessageActionsDialog.qml");
+        if (component.status !== Component.Ready) {
+            console.error("MessageActionsDialog: " + component.errorString());
+            return;
+        }
+        var dialogParent = dialogHost || chatRoot;
+        var dialog = component.createObject(dialogParent, {
+            "eventId": eventId,
+            "eventType": eventType,
+            "isSender": isSender,
+            "isEncrypted": isEncrypted,
+            "link": link || "",
+            "roomModel": room,
+            "chatRoot": chatRoot
+        });
+        if (!dialog)
+            return;
+        dialog.open();
+        dialog.forceActiveFocus();
+        destroyOnClose(dialog);
+    }
+
+    function openRemoveMessageDialog(eventId) {
+        showDialogFromComponent(removeReasonDialogComponent, {
+            "eventId": eventId
+        });
+    }
+
+    function openReportMessageDialog(eventId) {
+        showDialogFromComponent(reportMessageDialogComponent, {
+            "eventId": eventId
+        });
     }
     ReplyContextMenu {
         id: replyContextMenuC

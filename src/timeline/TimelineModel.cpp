@@ -543,6 +543,7 @@ TimelineModel::roleNames() const
       {IsOnlyEmoji, "isOnlyEmoji"},
       {Body, "body"},
       {FormattedBody, "formattedBody"},
+      {HasFormattedBody, "hasFormattedBody"},
       {FormattedStateEvent, "formattedStateEvent"},
       {IsSender, "isSender"},
       {UserId, "userId"},
@@ -645,6 +646,8 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     }
     case Body:
         return QVariant(utils::replaceEmoji(QString::fromStdString(body(event)).toHtmlEscaped()));
+    case HasFormattedBody:
+        return QVariant(!formatted_body(event).empty());
     case FormattedBody: {
         const static QRegularExpression replyFallback(
           QStringLiteral("<mx-reply>.*</mx-reply>"),

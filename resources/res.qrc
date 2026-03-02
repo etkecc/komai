@@ -81,6 +81,7 @@
         <file alias="icons/ui/network-disconnected.svg">icons/fluent/assets/Plug Disconnected/SVG/ic_fluent_plug_disconnected_24_regular.svg</file>
         <file alias="icons/ui/options-circle.svg">icons/fluent/assets/More Circle/SVG/ic_fluent_more_circle_24_regular.svg</file>
         <file alias="icons/ui/open-externally.svg">icons/fluent/assets/Open/SVG/ic_fluent_open_24_regular.svg</file>
+        <file alias="icons/ui/link.svg">icons/fluent/assets/Link/SVG/ic_fluent_link_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

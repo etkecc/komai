@@ -15,7 +15,6 @@ Item {
     required property var filteredTimeline
     required property var roomModel
     required property var topBar
-    required property var messageContextMenu
     property alias control: messageActionsC
 
     // Click-outside overlay: dismisses the action bar when clicking
@@ -107,7 +106,6 @@ Item {
                 emojiPopup: root.emojiPopup
                 filteredTimeline: root.filteredTimeline
                 messageActionsControl: messageActionsC
-                messageContextMenu: root.messageContextMenu
                 messageModel: messageActionsC.model
                 roomModel: root.roomModel
                 topBar: root.topBar

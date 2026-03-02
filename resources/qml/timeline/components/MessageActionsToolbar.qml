@@ -14,7 +14,6 @@ RowLayout {
     required property var emojiPopup
     required property var filteredTimeline
     required property var messageActionsControl
-    required property var messageContextMenu
     required property var messageModel
     required property var roomModel
     required property var topBar
@@ -282,26 +281,16 @@ RowLayout {
             if (!toolbar.messageModel)
                 return;
 
-            const sameTargetVisible = messageContextMenu.visible
-                && messageContextMenu.eventId === toolbar.messageModel.eventId;
-
-            if (sameTargetVisible) {
-                messageContextMenu.close();
-                return;
-            }
-
-            if (messageContextMenu.wasJustClosedFor(toolbar.messageModel.eventId, optionsButton))
-                return;
-
-            messageContextMenu.show(toolbar.messageModel.eventId,
-                                    toolbar.messageModel.threadId,
-                                    toolbar.messageModel.type,
-                                    toolbar.messageModel.isSender,
-                                    toolbar.messageModel.isEncrypted,
-                                    toolbar.messageModel.isEditable,
-                                    "",
-                                    toolbar.messageModel.body,
-                                    optionsButton);
+            toolbar.chatRoot.openMessageActionsDialog(
+                toolbar.messageModel.eventId,
+                toolbar.messageModel.threadId,
+                toolbar.messageModel.type,
+                toolbar.messageModel.isSender,
+                toolbar.messageModel.isEncrypted,
+                toolbar.messageModel.isEditable,
+                "",
+                toolbar.messageModel.body);
+            toolbar.messageActionsControl.dismiss();
         }
     }
 }

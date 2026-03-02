@@ -86,7 +86,7 @@ Components.OverlayDialog {
             icon.source: root.copiedField === "body" ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/copy.svg"
             icon.width: 16
             icon.height: 16
-            text: root.copiedField === "body" ? qsTr("Copied") : qsTr("Copy Body")
+            text: root.copiedField === "body" ? qsTr("Copied") : qsTr("Copy `body`")
             onClicked: root.copyField("body", root.rawMessageBody)
         }
 
@@ -95,7 +95,7 @@ Components.OverlayDialog {
             icon.source: root.copiedField === "formattedBody" ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/copy.svg"
             icon.width: 16
             icon.height: 16
-            text: root.copiedField === "formattedBody" ? qsTr("Copied") : qsTr("Copy Formatted Body")
+            text: root.copiedField === "formattedBody" ? qsTr("Copied") : qsTr("Copy `formatted_body`")
             onClicked: root.copyField("formattedBody", root.rawMessageFormattedBody)
         }
 

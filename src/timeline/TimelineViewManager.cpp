@@ -380,23 +380,32 @@ TimelineViewManager::clearAll()
 void
 TimelineViewManager::openRoomMembers(TimelineModel *room)
 {
-    if (!room)
-        return;
-    MemberList *memberList = new MemberList(room->roomId());
-    QQmlEngine::setObjectOwnership(memberList, QQmlEngine::JavaScriptOwnership);
-    emit openRoomMembersDialog(memberList, room);
+    if (room)
+        openRoomInfo(room->roomId(), QStringLiteral("members"));
 }
 
 void
 TimelineViewManager::openRoomSettings(QString room_id)
 {
-    RoomSettings *settings = new RoomSettings(room_id);
-    connect(rooms_->getRoomById(room_id).data(),
-            &TimelineModel::roomAvatarUrlChanged,
-            settings,
-            &RoomSettings::avatarChanged);
+    openRoomInfo(room_id, QStringLiteral("settings"));
+}
+
+void
+TimelineViewManager::openRoomInfo(const QString &roomId, const QString &initialTab)
+{
+    auto room = rooms_->getRoomById(roomId);
+    if (!room)
+        return;
+
+    auto *settings = new RoomSettings(roomId);
+    connect(
+      room.data(), &TimelineModel::roomAvatarUrlChanged, settings, &RoomSettings::avatarChanged);
     QQmlEngine::setObjectOwnership(settings, QQmlEngine::JavaScriptOwnership);
-    emit openRoomSettingsDialog(settings);
+
+    auto *memberList = new MemberList(roomId);
+    QQmlEngine::setObjectOwnership(memberList, QQmlEngine::JavaScriptOwnership);
+
+    emit openRoomInfoDialog(settings, memberList, room.data(), initialTab);
 }
 
 void

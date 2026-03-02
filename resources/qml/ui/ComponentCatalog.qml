@@ -26,8 +26,7 @@ QtObject {
     readonly property string accountReCaptchaDialog: "qrc:/resources/qml/dialogs/account/ReCaptchaDialog.qml"
     readonly property string timelineReadReceiptsDialog: "qrc:/resources/qml/dialogs/timeline/ReadReceipts.qml"
     readonly property string timelineRawMessageDialog: "qrc:/resources/qml/dialogs/timeline/RawMessageDialog.qml"
-    readonly property string roomMembersDialog: "qrc:/resources/qml/dialogs/room/RoomMembers.qml"
-    readonly property string roomSettingsDialog: "qrc:/resources/qml/dialogs/room/RoomSettingsDialog.qml"
+    readonly property string roomInfoDialog: "qrc:/resources/qml/dialogs/room/RoomInfoDialog.qml"
     readonly property string userProfileDialog: "qrc:/resources/qml/dialogs/user/UserProfile.qml"
 
     readonly property string verificationDeviceDialog: "qrc:/resources/qml/device-verification/DeviceVerification.qml"

@@ -106,6 +106,8 @@ public:
 
     Q_INVOKABLE void openRoomMembers(TimelineModel *room);
     Q_INVOKABLE void openRoomSettings(QString room_id);
+    Q_INVOKABLE void
+    openRoomInfo(const QString &roomId, const QString &initialTab = QStringLiteral("settings"));
     Q_INVOKABLE void openInviteUsers(QString roomId);
     Q_INVOKABLE void openGlobalUserProfile(QString userId);
     Q_INVOKABLE UserProfile *getGlobalUserProfile(QString userId);
@@ -127,8 +129,10 @@ signals:
     void showRoomList();
     void narrowViewChanged();
     void focusInput();
-    void openRoomMembersDialog(MemberList *members, TimelineModel *room);
-    void openRoomSettingsDialog(RoomSettings *settings);
+    void openRoomInfoDialog(RoomSettings *settings,
+                            MemberList *members,
+                            TimelineModel *room,
+                            const QString &initialTab);
     void openInviteUsersDialog(InviteesModel *invitees);
     void openProfile(UserProfile *profile);
     void showImagePackSettings(TimelineModel *room, ImagePackListModel *packlist);

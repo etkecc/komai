@@ -58,7 +58,7 @@ Menu {
     MenuItem {
         text: qsTr("Room settings")
 
-        onTriggered: TimelineManager.openRoomSettings(root.roomid)
+        onTriggered: TimelineManager.openRoomInfo(root.roomid, "settings")
     }
     MenuItem {
         text: qsTr("Leave room")

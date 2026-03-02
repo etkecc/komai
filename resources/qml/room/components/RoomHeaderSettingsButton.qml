@@ -15,5 +15,5 @@ RoomHeaderActionButton {
     image: ":/icons/icons/ui/toggles.svg"
     visible: roomAvailable
 
-    onClicked: TimelineManager.openRoomSettings(roomId)
+    onClicked: TimelineManager.openRoomInfo(roomId, "settings")
 }

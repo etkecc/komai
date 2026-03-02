@@ -17,5 +17,5 @@ RoomHeaderActionButton {
     showLabel: showTextLabel
     visible: !!room
 
-    onClicked: TimelineManager.openRoomMembers(room)
+    onClicked: TimelineManager.openRoomInfo(room.roomId, "members")
 }

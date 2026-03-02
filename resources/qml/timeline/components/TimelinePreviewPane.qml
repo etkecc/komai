@@ -57,7 +57,7 @@ ColumnLayout {
         image: ":/icons/icons/ui/settings.svg"
         visible: !!room
 
-        onClicked: TimelineManager.openRoomSettings(room.roomId)
+        onClicked: TimelineManager.openRoomInfo(room.roomId, "settings")
     }
 
     RowLayout {
@@ -76,7 +76,7 @@ ColumnLayout {
             hoverEnabled: true
             image: ":/icons/icons/ui/people.svg"
 
-            onClicked: TimelineManager.openRoomMembers(room)
+            onClicked: TimelineManager.openRoomInfo(room.roomId, "members")
         }
     }
     ScrollView {

@@ -31,10 +31,10 @@ AvatarSettingsFlipButton {
 
     onLeftClicked: {
         if (root.room)
-            TimelineManager.openRoomSettings(root.room.roomId);
+            TimelineManager.openRoomInfo(root.room.roomId, "settings");
     }
     onRightClicked: {
         if (root.room)
-            TimelineManager.openRoomSettings(root.room.roomId);
+            TimelineManager.openRoomInfo(root.room.roomId, "settings");
     }
 }

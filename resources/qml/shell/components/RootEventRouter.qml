@@ -51,16 +51,13 @@ Item {
                     "profile": profile
                 });
         }
-        function onOpenRoomMembersDialog(members, room) {
-            timelineRoot.openCatalogDialog(componentCatalog.roomMembersDialog, {
-                    "members": members,
-                    "room": room
-                });
-        }
-        function onOpenRoomSettingsDialog(settings) {
-            timelineRoot.openCatalogDialog(componentCatalog.roomSettingsDialog, {
+        function onOpenRoomInfoDialog(settings, members, room, initialTab) {
+            timelineRoot.openCatalogDialog(componentCatalog.roomInfoDialog, {
                     "roomSettings": settings,
-                    "appRoot": timelineRoot
+                    "members": members,
+                    "room": room,
+                    "appRoot": timelineRoot,
+                    "initialTab": initialTab
                 });
         }
         function onShowImageOverlay(room,

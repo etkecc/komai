@@ -20,32 +20,6 @@ GridLayout {
                 Layout.fillWidth: true
 
                 Components.SettingsSection {
-                    label: qsTr("Notifications")
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingMedium
-                }
-
-                Label {
-                    text: qsTr("Notifications")
-                    Layout.fillWidth: true
-                    color: palette.text
-                }
-
-                ComboBox {
-                    id: notificationsCombo
-                    Layout.fillWidth: true
-                    model: [qsTr("Muted"), qsTr("Mentions only"), qsTr("All messages")]
-                    currentIndex: roomSettings.notifications
-                    onActivated: (index) => {
-                        roomSettings.changeNotifications(index);
-                    }
-
-                    // Disable built-in wheel handling unless focused
-                    wheelEnabled: activeFocus
-                }
-
-                Components.SettingsSection {
                     label: qsTr("Entry permissions")
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
@@ -374,65 +348,6 @@ GridLayout {
                     ToolTip.text: qsTr("Change what packs are enabled, remove packs, or create new ones")
                     onClicked: TimelineManager.openImagePackSettings(roomSettings.roomId)
                     Layout.alignment: Qt.AlignRight
-                }
-
-                Components.SettingsSection {
-                    label: qsTr("Info")
-                    Layout.columnSpan: 2
-                    Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingMedium
-                }
-
-                Label {
-                    text: qsTr("Internal ID")
-                    color: palette.text
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: Komai.paddingSmall
-
-                    TextField {
-                        text: roomSettings.roomId
-                        readOnly: true
-                        font.pointSize: Settings.uiFontSizePt
-                        Layout.fillWidth: true
-                    }
-
-                    ImageButton {
-                        id: copyIdBtn
-
-                        property bool copied: false
-
-                        Layout.preferredWidth: 24
-                        Layout.preferredHeight: 24
-                        image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                        ToolTip.visible: hovered
-                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
-                        onClicked: {
-                            Clipboard.text = roomSettings.roomId;
-                            copied = true;
-                            copyIdFeedbackTimer.start();
-                        }
-
-                        Timer {
-                            id: copyIdFeedbackTimer
-                            interval: 2000
-                            onTriggered: copyIdBtn.copied = false
-                        }
-                    }
-                }
-
-                Label {
-                    text: qsTr("Room Version")
-                    color: palette.text
-                }
-
-                Label {
-                    text: roomSettings.roomVersion
-                    font.pixelSize: fontMetrics.font.pixelSize
-                    Layout.alignment: Qt.AlignRight
-                    color: palette.text
                 }
 
             }

@@ -82,7 +82,7 @@ ColumnLayout {
     }
 
     Connections {
-        target: roomSettings
+        target: roomSettings ?? null
 
         function onDisplayError(errorMessage) {
             errorText.text = errorMessage;
@@ -159,21 +159,9 @@ ColumnLayout {
         }
     }
 
-    RowLayout {
-        spacing: Komai.paddingMedium
+    Label {
+        text: qsTr("%n member(s)", "", roomSettings.memberCount)
+        color: palette.text
         Layout.alignment: Qt.AlignHCenter
-
-        Label {
-            text: qsTr("%n member(s)", "", roomSettings.memberCount)
-            color: palette.text
-        }
-
-        ImageButton {
-            image: ":/icons/icons/ui/people.svg"
-            hoverEnabled: true
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("View members of %1").arg(roomSettings.roomName)
-            onClicked: TimelineManager.openRoomMembers(Rooms.getRoomById(roomSettings.roomId))
-        }
     }
 }

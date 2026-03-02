@@ -5,8 +5,8 @@ meta:
 
 ui:
   window:
-    width_px: 1280
-    height_px: 800
+    width_px: 1600
+    height_px: 900
 
 sidebars:
   room_list:

@@ -16,8 +16,8 @@ namespace settings::core::definitions {
 
 inline constexpr int kDefaultSidebarsRoomListWidthPx            = 400;
 inline constexpr int kDefaultSidebarsCommunitiesWidthPx         = 200;
-inline constexpr int kDefaultWindowWidthPx                      = 1280;
-inline constexpr int kDefaultWindowHeightPx                     = 800;
+inline constexpr int kDefaultWindowWidthPx                      = 1600;
+inline constexpr int kDefaultWindowHeightPx                     = 900;
 inline constexpr const char *kDefaultUiThemeSlug                = "komai-light";
 inline constexpr const char *kDefaultCallsAudioRingtone         = "Default";
 inline constexpr const char *kDefaultPinnedReactions            = "👍️,👎️,😀,🤣,❤️";

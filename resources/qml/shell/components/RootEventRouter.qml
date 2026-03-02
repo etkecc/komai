@@ -36,7 +36,7 @@ Item {
     }
     Connections {
         function onOpenInviteUsersDialog(invitees) {
-            timelineRoot.showCatalogDialog(componentCatalog.roomInviteDialog, {
+            timelineRoot.openCatalogDialog(componentCatalog.roomInviteDialog, {
                     "invitees": invitees
                 });
         }

@@ -3,25 +3,21 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import "../../ui"
-import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: hiddenEventsDialog
 
     property string roomid: ""
     property string roomName: ""
-    property var onAccepted: undefined
 
-    modality: Qt.NonModal
-    flags: Qt.Dialog | Qt.WindowTitleHint
-    width: 275
-    height: 220
-    minimumWidth: 250
-    minimumHeight: 220
+    title: roomid ? qsTr("Hidden events for %1").arg(roomName) : qsTr("Hidden events")
+    titleIcon: ":/icons/icons/ui/settings.svg"
 
     HiddenEvents {
         id: hiddenEvents
@@ -29,113 +25,81 @@ ApplicationWindow {
         roomid: hiddenEventsDialog.roomid
     }
 
-    title: {
-        if (roomid) {
-            return qsTr("Hidden events for %1").arg(roomName);
-        }
-        else {
-            return qsTr("Hidden events");
-        }
+    MatrixText {
+        text: roomid ? qsTr("These events will be <b>shown</b> in %1:").arg(roomName) : qsTr("These events will be <b>shown</b> in all rooms:")
+        font.pixelSize: Math.floor(fontMetrics.font.pixelSize * 1.2)
+        Layout.fillWidth: true
     }
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: dbb.rejected()
-    }
-
-    ColumnLayout {
-        spacing: Komai.paddingMedium
-        anchors.margins: Komai.paddingMedium
-        anchors.fill: parent
+    GridLayout {
+        columns: 2
+        rowSpacing: Komai.paddingMedium
+        Layout.fillWidth: true
 
         MatrixText {
-            id: promptLabel
-            text: {
-                if (roomid) {
-                    return qsTr("These events will be <b>shown</b> in %1:").arg(roomName);
-                }
-                else {
-                    return qsTr("These events will be <b>shown</b> in all rooms:");
-                }
-            }
-            font.pixelSize: Math.floor(fontMetrics.font.pixelSize * 1.2)
+            text: qsTr("User events")
+            ToolTip.text: qsTr("Joins, leaves, avatar and name changes, bans, …")
+            ToolTip.visible: hh1.hovered
             Layout.fillWidth: true
-            Layout.fillHeight: false
+
+            HoverHandler {
+                id: hh1
+            }
         }
 
-        GridLayout {
-            columns: 2
-            rowSpacing: Komai.paddingMedium
+        ToggleButton {
+            Layout.alignment: Qt.AlignRight
+            checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.Member)
+            onToggled: hiddenEvents.toggle(MtxEvent.Member)
+        }
+
+        MatrixText {
+            text: qsTr("Power level changes")
+            ToolTip.text: qsTr("Sent when a moderator is added/removed or the permissions of a room are changed.")
+            ToolTip.visible: hh2.hovered
             Layout.fillWidth: true
-            Layout.fillHeight: true
 
-            MatrixText {
-                text: qsTr("User events")
-                ToolTip.text: qsTr("Joins, leaves, avatar and name changes, bans, …")
-                ToolTip.visible: hh1.hovered
-                Layout.fillWidth: true
-
-                HoverHandler {
-                    id: hh1
-                }
+            HoverHandler {
+                id: hh2
             }
+        }
 
-            ToggleButton {
-                Layout.alignment: Qt.AlignRight
-                checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.Member)
-                onToggled: hiddenEvents.toggle(MtxEvent.Member)
-            }
+        ToggleButton {
+            Layout.alignment: Qt.AlignRight
+            checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.PowerLevels)
+            onToggled: hiddenEvents.toggle(MtxEvent.PowerLevels)
+        }
 
-            MatrixText {
-                text: qsTr("Power level changes")
-                ToolTip.text: qsTr("Sent when a moderator is added/removed or the permissions of a room are changed.")
-                ToolTip.visible: hh2.hovered
-                Layout.fillWidth: true
+        MatrixText {
+            text: qsTr("Stickers")
+            Layout.fillWidth: true
+        }
 
-                HoverHandler {
-                    id: hh2
-                }
-            }
+        ToggleButton {
+            Layout.alignment: Qt.AlignRight
+            checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.Sticker)
+            onToggled: hiddenEvents.toggle(MtxEvent.Sticker)
+        }
 
-            ToggleButton {
-                Layout.alignment: Qt.AlignRight
-                checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.PowerLevels)
-                onToggled: hiddenEvents.toggle(MtxEvent.PowerLevels)
-            }
+        MatrixText {
+            text: qsTr("Allowed server changes")
+            Layout.fillWidth: true
+        }
 
-            MatrixText {
-                text: qsTr("Stickers")
-                Layout.fillWidth: true
-            }
-
-            ToggleButton {
-                Layout.alignment: Qt.AlignRight
-                checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.Sticker)
-                onToggled: hiddenEvents.toggle(MtxEvent.Sticker)
-            }
-
-            MatrixText {
-                text: qsTr("Allowed server changes")
-                Layout.fillWidth: true
-            }
-
-            ToggleButton {
-                Layout.alignment: Qt.AlignRight
-                checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.ServerAcl)
-                onToggled: hiddenEvents.toggle(MtxEvent.ServerAcl)
-            }
+        ToggleButton {
+            Layout.alignment: Qt.AlignRight
+            checked: !hiddenEvents.hiddenEvents.includes(MtxEvent.ServerAcl)
+            onToggled: hiddenEvents.toggle(MtxEvent.ServerAcl)
         }
     }
 
-    footer: DialogButtonBox {
-        id: dbb
-
-        standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
-        onAccepted: {
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: qsTr("Save")
+        highlighted: true
+        onClicked: {
             hiddenEvents.save();
             hiddenEventsDialog.close();
         }
-        onRejected: hiddenEventsDialog.close();
     }
-
 }

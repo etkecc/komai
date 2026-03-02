@@ -13,7 +13,7 @@ Button {
     text: qsTr("Manage")
     onClicked: {
         var dialog = ignoredUsersDialog.createObject();
-        dialog.show();
+        dialog.open();
         destroyOnClose(dialog);
     }
 

@@ -3,82 +3,68 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQml
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import cc.etke.komai
 import "../../components"
+import "../../ui"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-Window {
+OverlayDialog {
     id: ignoredUsers
 
     title: qsTr("Ignored users")
-    flags: Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-    height: 650
-    width: 420
-    minimumHeight: 420
-    color: palette.window
+    titleIcon: ":/icons/icons/ui/ban.svg"
 
-    ListView {
-        id: view
-        anchors.fill: parent
-        spacing: Komai.paddingMedium
-        footerPositioning: ListView.OverlayFooter
+    Label {
+        Layout.fillWidth: true
+        wrapMode: Text.Wrap
+        color: palette.text
+        text: qsTr("Ignoring a user hides their messages (they can still see yours!).")
+    }
 
-        model: TimelineManager.ignoredUsers
-        header: ColumnLayout {
-            Text {
-                Layout.fillWidth: true
-                Layout.maximumWidth: view.width
-                wrapMode: Text.Wrap
-                color: palette.text
-                text: qsTr("Ignoring a user hides their messages (they can still see yours!).")
-            }
+    ScrollView {
+        Layout.fillWidth: true
+        Layout.preferredHeight: 300
+        ScrollBar.horizontal.visible: false
 
-            Item { Layout.preferredHeight: Komai.paddingLarge }
-        }
-        delegate: RowLayout {
-            property var profile: TimelineManager.getGlobalUserProfile(modelData)
+        ListView {
+            id: view
 
-            width: view.width
+            clip: true
+            boundsBehavior: Flickable.StopAtBounds
+            model: TimelineManager.ignoredUsers
+            spacing: Komai.paddingMedium
 
-            Avatar {
-                enabled: false
-                displayName: profile.displayName
-                userid: profile.userid
-                url: profile.avatarUrl.replace("mxc://", "image://MxcImage/")
-            }
+            delegate: RowLayout {
+                property var profile: TimelineManager.getGlobalUserProfile(modelData)
 
-            Text {
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignLeft
-                elide: Text.ElideRight
-                color: palette.text
-                text: modelData
-            }
+                width: view.width
 
-            ImageButton {
-                Layout.preferredHeight: 24
-                Layout.preferredWidth: 24
-                image: ":/icons/icons/ui/dismiss.svg"
-                hoverEnabled: true
-                ToolTip.visible: hovered
-                ToolTip.text: qsTr("Stop Ignoring.")
-                onClicked: profile.ignored = false
-            }
-        }
-        footer: DialogButtonBox {
-            z: 2
-            width: view.width
-            alignment: Qt.AlignRight
-            standardButtons: DialogButtonBox.Ok
-            onAccepted: ignoredUsers.close()
+                Avatar {
+                    enabled: false
+                    displayName: profile.displayName
+                    userid: profile.userid
+                    url: profile.avatarUrl.replace("mxc://", "image://MxcImage/")
+                }
 
-            background: Rectangle {
-                anchors.fill: parent
-                color: palette.window
+                Text {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignLeft
+                    elide: Text.ElideRight
+                    color: palette.text
+                    text: modelData
+                }
+
+                ImageButton {
+                    Layout.preferredHeight: 24
+                    Layout.preferredWidth: 24
+                    image: ":/icons/icons/ui/dismiss.svg"
+                    hoverEnabled: true
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Stop Ignoring.")
+                    onClicked: profile.ignored = false
+                }
             }
         }
     }

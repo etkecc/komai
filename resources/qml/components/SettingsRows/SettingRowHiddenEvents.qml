@@ -13,7 +13,7 @@ Button {
     text: qsTr("Configure")
     onClicked: {
         var dialog = hiddenEventsDialog.createObject();
-        dialog.show();
+        dialog.open();
         destroyOnClose(dialog);
     }
 

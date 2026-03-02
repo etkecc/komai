@@ -263,7 +263,7 @@ GridLayout {
                 Button {
                     text: qsTr("Configure")
                     ToolTip.text: qsTr("Select events to hide in this room")
-                    onClicked: hiddenEventsDialog.show()
+                    onClicked: hiddenEventsDialog.open()
                     Layout.alignment: Qt.AlignRight
                 }
 
@@ -281,7 +281,7 @@ GridLayout {
                 Button {
                     text: qsTr("Configure")
                     ToolTip.text: qsTr("Select if your events get automatically deleted in this room.")
-                    onClicked: eventExpirationDialog.show()
+                    onClicked: eventExpirationDialog.open()
                     Layout.alignment: Qt.AlignRight
                 }
 

@@ -104,7 +104,7 @@ Pane {
             });
     }
     function showSpacePLApplyPrompt(settings, editingModel) {
-        showCatalogDialog(componentCatalog.roomPowerLevelSpacesApplyDialog, {
+        openCatalogDialog(componentCatalog.roomPowerLevelSpacesApplyDialog, {
                 "roomSettings": settings,
                 "editingModel": editingModel
             });

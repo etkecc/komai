@@ -3,96 +3,79 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import "../../ui"
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import cc.etke.komai
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: applyDialog
 
     property RoomSettings roomSettings
     property PowerlevelEditingModels editingModel
 
-    minimumWidth: 340
-    minimumHeight: 450
-    width: 450
-    height: 680
-    color: palette.window
-    modality: Qt.NonModal
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
     title: qsTr("Apply permission changes")
+    titleIcon: ":/icons/icons/ui/settings.svg"
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: roomSettingsDialog.close()
+    MatrixText {
+        text: qsTr("Which of the subcommunities and rooms should these permissions be applied to?")
+        font.pixelSize: Math.floor(fontMetrics.font.pixelSize * 1.1)
+        Layout.fillWidth: true
+        color: palette.text
+        Layout.bottomMargin: Komai.paddingMedium
     }
 
-    ColumnLayout {
-        anchors.margins: Komai.paddingMedium
-        anchors.fill: parent
-        spacing: Komai.paddingLarge
+    GridLayout {
+        Layout.fillWidth: true
+        columns: 2
 
-
-        MatrixText {
-            text: qsTr("Which of the subcommunities and rooms should these permissions be applied to?")
-            font.pixelSize: Math.floor(fontMetrics.font.pixelSize * 1.1)
+        Label {
+            text: qsTr("Apply permissions recursively")
             Layout.fillWidth: true
-            Layout.fillHeight: false
             color: palette.text
-            Layout.bottomMargin: Komai.paddingMedium
         }
 
-        GridLayout {
+        ToggleButton {
+            checked: editingModel.spaces.applyToChildren
+            Layout.alignment: Qt.AlignRight
+            onCheckedChanged: editingModel.spaces.applyToChildren = checked
+        }
+
+        Label {
+            text: qsTr("Overwrite exisiting modifications in rooms")
             Layout.fillWidth: true
-            Layout.fillHeight: false
-            columns: 2
-
-                Label {
-                    text: qsTr("Apply permissions recursively")
-                    Layout.fillWidth: true
-                    color: palette.text
-                }
-
-                ToggleButton {
-                    checked: editingModel.spaces.applyToChildren
-                    Layout.alignment: Qt.AlignRight
-                    onCheckedChanged: editingModel.spaces.applyToChildren = checked
-                }
-
-                Label {
-                    text: qsTr("Overwrite exisiting modifications in rooms")
-                    Layout.fillWidth: true
-                    color: palette.text
-                }
-
-                ToggleButton {
-                    checked: editingModel.spaces.overwriteDiverged
-                    Layout.alignment: Qt.AlignRight
-                    onCheckedChanged: editingModel.spaces.overwriteDiverged = checked
-                }
+            color: palette.text
         }
+
+        ToggleButton {
+            checked: editingModel.spaces.overwriteDiverged
+            Layout.alignment: Qt.AlignRight
+            onCheckedChanged: editingModel.spaces.overwriteDiverged = checked
+        }
+    }
+
+    ScrollView {
+        Layout.fillWidth: true
+        Layout.preferredHeight: 300
+        ScrollBar.horizontal.visible: false
 
         ListView {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
             id: view
 
             clip: true
-
+            boundsBehavior: Flickable.StopAtBounds
             model: editingModel.spaces
             spacing: 4
             cacheBuffer: 50
 
             delegate: RowLayout {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                width: view.width
 
                 ColumnLayout {
                     Layout.fillWidth: true
+
                     Text {
                         Layout.fillWidth: true
                         text: model.displayName
@@ -104,10 +87,13 @@ ApplicationWindow {
                     Text {
                         Layout.fillWidth: true
                         text: {
-                            if (!model.isEditable) return qsTr("No permissions to apply the new permissions here");
-                            if (model.isAlreadyUpToDate) return qsTr("No changes needed");
-                            if (model.isDifferentFromBase) return qsTr("Existing modifications to the permissions in this room will be overwritten");
-                            return qsTr("Permissions synchronized with community")
+                            if (!model.isEditable)
+                                return qsTr("No permissions to apply the new permissions here");
+                            if (model.isAlreadyUpToDate)
+                                return qsTr("No changes needed");
+                            if (model.isDifferentFromBase)
+                                return qsTr("Existing modifications to the permissions in this room will be overwritten");
+                            return qsTr("Permissions synchronized with community");
                         }
                         elide: Text.ElideRight
                         color: palette.buttonText
@@ -123,19 +109,15 @@ ApplicationWindow {
                 }
             }
         }
-
-
     }
 
-    footer: DialogButtonBox {
-        id: dbb
-
-        standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
-        onAccepted: {
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: qsTr("Apply")
+        highlighted: true
+        onClicked: {
             editingModel.spaces.commit();
             applyDialog.close();
         }
-        onRejected: applyDialog.close()
     }
-
 }

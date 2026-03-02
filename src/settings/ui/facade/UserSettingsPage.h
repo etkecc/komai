@@ -57,8 +57,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool sidebarsRoomListScrollbarsEnabled READ sidebarsRoomListScrollbarsEnabled WRITE
         setSidebarsRoomListScrollbarsEnabled NOTIFY sidebarsRoomListScrollbarsEnabledChanged)
-    Q_PROPERTY(bool composerInputMarkdownEnabled READ composerInputMarkdownEnabled WRITE
-                 setComposerInputMarkdownEnabled NOTIFY composerInputMarkdownEnabledChanged)
+    Q_PROPERTY(
+      bool composerInputMarkdownToHtmlEnabled READ composerInputMarkdownToHtmlEnabled WRITE
+        setComposerInputMarkdownToHtmlEnabled NOTIFY composerInputMarkdownToHtmlEnabledChanged)
     Q_PROPERTY(SendMessageKey composerInputSendKey READ composerInputSendKey WRITE
                  setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
@@ -380,7 +381,7 @@ public:
     void setUiFontEmojiFamily(QString family);
     void setSidebarsCommunitiesVisible(bool state);
     void setSidebarsRoomListScrollbarsEnabled(bool state);
-    void setComposerInputMarkdownEnabled(bool state);
+    void setComposerInputMarkdownToHtmlEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
@@ -505,7 +506,7 @@ signals:
     void timelineFormattedCodeSyntaxHighlightingChanged(bool state);
     void integrationsSystemTrayEnabledChanged(bool state);
     void integrationsSystemTrayAutostartChanged(bool state);
-    void composerInputMarkdownEnabledChanged(bool state);
+    void composerInputMarkdownToHtmlEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);

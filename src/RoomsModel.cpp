@@ -49,7 +49,7 @@ RoomsModel::data(const QModelIndex &index, int role) const
         switch (role) {
         case CompletionModel::CompletionRole: {
             auto alias = QString::fromStdString(rooms[index.row()].alias);
-            if (UserSettings::instance()->composerInputMarkdownEnabled()) {
+            if (UserSettings::instance()->composerInputMarkdownToHtmlEnabled()) {
                 QString percentEncoding = QUrl::toPercentEncoding(alias);
                 return QStringLiteral("[%1](https://matrix.to/#/%2)")
                   .arg(alias.replace("[", "\\[").replace("]", "\\]").toHtmlEscaped(),

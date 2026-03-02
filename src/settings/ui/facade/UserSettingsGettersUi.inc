@@ -16,7 +16,7 @@
     bool uiMotionAnimationsEnabled() const;
     bool privacyWindowFocusBlurEnabled() const;
     int privacyWindowFocusBlurDelaySeconds() const;
-    bool composerInputMarkdownEnabled() const;
+    bool composerInputMarkdownToHtmlEnabled() const;
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
     TimelineMessagesStyle timelineMessagesStyle() const;

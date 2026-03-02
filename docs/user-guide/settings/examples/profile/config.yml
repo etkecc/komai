@@ -67,7 +67,7 @@ timeline:
 
 composer:
   input:
-    markdown:
+    markdown_to_html:
       enabled: true
     send_key: enter
     auto_replace_emoji: always

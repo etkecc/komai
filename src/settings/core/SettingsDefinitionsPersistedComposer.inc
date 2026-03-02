@@ -1,6 +1,6 @@
-  {SettingId::ComposerInputMarkdownEnabled,
+  {SettingId::ComposerInputMarkdownToHtmlEnabled,
    SettingScope::Config,
-   SettingKey::ComposerInputMarkdownEnabled,
+   SettingKey::ComposerInputMarkdownToHtmlEnabled,
    false},
   {SettingId::ComposerInputSendKey,
    SettingScope::Config,

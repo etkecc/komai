@@ -3,11 +3,11 @@
     // ComposerInputSection
     { QT_TR_NOOP("Input"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // Markdown
+    // MarkdownToHtml
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Send messages as <a href=\"https://commonmark.org/help/\">Markdown</a>",
-      QT_TR_NOOP("Send messages using Markdown formatting. When disabled, messages are sent as plain text."),
-      SM::TabComposer, composerInputMarkdownEnabled, setComposerInputMarkdownEnabled, nullptr, ComposerInputMarkdownEnabled, SettingKey::ComposerInputMarkdownEnabled),
+      "Auto-convert Markdown to HTML",
+      QT_TR_NOOP("Controls whether <a href=\"https://commonmark.org/help/\">Markdown</a> syntax is auto-converted to produce a <a href=\"https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes\">Matrix HTML</a> message with Markdown plain-text fallback."),
+      SM::TabComposer, composerInputMarkdownToHtmlEnabled, setComposerInputMarkdownToHtmlEnabled, nullptr, ComposerInputMarkdownToHtmlEnabled, SettingKey::ComposerInputMarkdownToHtmlEnabled),
     // SendMessageKey
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Send key",

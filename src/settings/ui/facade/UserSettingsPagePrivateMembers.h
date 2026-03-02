@@ -12,7 +12,7 @@ bool integrationsSystemTrayEnabled_;
 bool integrationsSystemTrayAutostart_;
 bool sidebarsCommunitiesVisible_;
 bool sidebarsRoomListScrollbarsEnabled_;
-bool composerInputMarkdownEnabled_;
+bool composerInputMarkdownToHtmlEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;
 TimelineMessagesStyle timelineMessagesStyle_ = TimelineMessagesStyle::Bubbles;

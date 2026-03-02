@@ -1,5 +1,5 @@
     // Composer
-    CONNECT_SETTING_ID(ComposerInputMarkdownEnabled, composerInputMarkdownEnabledChanged, Value);
+    CONNECT_SETTING_ID(ComposerInputMarkdownToHtmlEnabled, composerInputMarkdownToHtmlEnabledChanged, Value);
     CONNECT_SETTING_ID(ComposerInputSendKey, composerInputSendKeyChanged, Value);
     CONNECT_SETTING_ID(ComposerInputAutoReplaceEmoji, composerInputAutoReplaceEmojiChanged, Value);
     CONNECT_SETTING_ID(ComposerTypingSendEnabled, composerTypingSendEnabledChanged, Value);

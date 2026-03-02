@@ -31,7 +31,7 @@ Naming mismatch summary:
 | `CallsScreenshareShowCursor` | `settings.callsScreenshareShowCursor()` | `CallsScreenshareShowCursor` | `calls.screenshare.show_cursor` |
 | `ComposerExtrasStickersEnabled` | `settings.composerExtrasStickersEnabled()` | `ComposerExtrasStickersEnabled` | `composer.extras.stickers.enabled` |
 | `ComposerInputAutoReplaceEmoji` | `static_cast<int>(settings.composerInputAutoReplaceEmoji())` | `ComposerInputAutoReplaceEmoji` | `composer.input.auto_replace_emoji` |
-| `ComposerInputMarkdownEnabled` | `settings.composerInputMarkdownEnabled()` | `ComposerInputMarkdownEnabled` | `composer.input.markdown.enabled` |
+| `ComposerInputMarkdownToHtmlEnabled` | `settings.composerInputMarkdownToHtmlEnabled()` | `ComposerInputMarkdownToHtmlEnabled` | `composer.input.markdown_to_html.enabled` |
 | `ComposerInputSendKey` | `static_cast<int>(settings.composerInputSendKey())` | `ComposerInputSendKey` | `composer.input.send_key` |
 | `ComposerTypingSendEnabled` | `settings.composerTypingSendEnabled()` | `ComposerTypingSendEnabled` | `composer.typing.send.enabled` |
 | `EncryptionBackupOnlineEnabled` | `settings.encryptionBackupOnlineEnabled()` | `EncryptionBackupOnlineEnabled` | `encryption.backup.online.enabled` |

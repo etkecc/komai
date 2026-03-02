@@ -1207,7 +1207,7 @@ testControllerSyncsCoreStore()
     configRoot["ui"]["theme"]["slug"]                   = "komai-dark";
     configRoot["ui"]["font"]["size_pt"]                 = 15.5;
     configRoot["network"]["presence"]["status_policy"]  = "offline";
-    configRoot["composer"]["input"]["markdown"]["enabled"] = true;
+    configRoot["composer"]["input"]["markdown_to_html"]["enabled"] = true;
     if (!ctx.writeConfig(configRoot))
         return expect(false, "core store sync fixture config can be persisted");
 
@@ -1220,7 +1220,8 @@ testControllerSyncsCoreStore()
     const auto theme = store.valueAs<std::string>(settings::core::SettingId::UiThemeSlug);
     const auto fontSize = store.valueAs<double>(settings::core::SettingId::UiFontSizePt);
     const auto presence = store.valueAs<int>(settings::core::SettingId::NetworkPresenceStatusPolicy);
-    const auto markdown = store.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownEnabled);
+    const auto markdown =
+      store.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownToHtmlEnabled);
 
     bool ok = true;
     ok &= expect(theme.has_value() && *theme == settings->uiThemeSlug().toStdString(),
@@ -1230,8 +1231,8 @@ testControllerSyncsCoreStore()
     ok &= expect(presence.has_value() &&
                    *presence == static_cast<int>(settings->networkPresenceStatusPolicy()),
                  "controller sync stores presence policy in core settings store");
-    ok &= expect(markdown.has_value() && *markdown == settings->composerInputMarkdownEnabled(),
-                 "controller sync stores markdown setting in core settings store");
+    ok &= expect(markdown.has_value() && *markdown == settings->composerInputMarkdownToHtmlEnabled(),
+                 "controller sync stores markdown-to-html setting in core settings store");
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         if (!settings::ui::facade::hasCoreStoreValueMapping(definition.id)) {
             std::cerr << "FAILED: controller bridge table missing persisted setting id "

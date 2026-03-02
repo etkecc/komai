@@ -1,11 +1,11 @@
 bool
-UserSettings::composerInputMarkdownEnabled() const
+UserSettings::composerInputMarkdownToHtmlEnabled() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownEnabled);
+          coreStore_.valueAs<bool>(settings::core::SettingId::ComposerInputMarkdownToHtmlEnabled);
         value.has_value())
         return *value;
-    return composerInputMarkdownEnabled_;
+    return composerInputMarkdownToHtmlEnabled_;
 }
 
 UserSettings::SendMessageKey

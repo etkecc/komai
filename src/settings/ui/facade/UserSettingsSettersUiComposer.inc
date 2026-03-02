@@ -1,11 +1,11 @@
 void
-UserSettings::setComposerInputMarkdownEnabled(bool s)
+UserSettings::setComposerInputMarkdownToHtmlEnabled(bool s)
 {
-    if (composerInputMarkdownEnabled_ == s)
+    if (composerInputMarkdownToHtmlEnabled_ == s)
         return;
-    composerInputMarkdownEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::ComposerInputMarkdownEnabled, s);
-    emit composerInputMarkdownEnabledChanged(s);
+    composerInputMarkdownToHtmlEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputMarkdownToHtmlEnabled, s);
+    emit composerInputMarkdownToHtmlEnabledChanged(s);
     save();
 }
 void

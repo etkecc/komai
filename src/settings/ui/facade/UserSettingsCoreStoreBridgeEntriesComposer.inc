@@ -1,4 +1,4 @@
-X(ComposerInputMarkdownEnabled, settings.composerInputMarkdownEnabled())
+X(ComposerInputMarkdownToHtmlEnabled, settings.composerInputMarkdownToHtmlEnabled())
 X(ComposerInputSendKey, static_cast<int>(settings.composerInputSendKey()))
 X(ComposerInputAutoReplaceEmoji, static_cast<int>(settings.composerInputAutoReplaceEmoji()))
 X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())

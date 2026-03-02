@@ -65,7 +65,7 @@ Note:
 | Timeline | MEDIA HANDLING | Show images automatically | `settings::core::SettingId::TimelineMediaImageDisplay` | `show_image` | `timeline.media.image_display` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Open images in an external app | `settings::core::SettingId::TimelineMediaOpenImagesExternal` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Open videos in an external app | `settings::core::SettingId::TimelineMediaOpenVideosExternal` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
-| Composer | INPUT | Send messages as <a href="https://commonmark.org/help/">Markdown</a> | `settings::core::SettingId::ComposerInputMarkdownEnabled` | `markdown` | `composer.input.markdown.enabled` | config.yml | yes |
+| Composer | INPUT | Auto-convert Markdown to HTML | `settings::core::SettingId::ComposerInputMarkdownToHtmlEnabled` | `markdown` | `composer.input.markdown_to_html.enabled` | config.yml | yes |
 | Composer | INPUT | Send key | `settings::core::SettingId::ComposerInputSendKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
 | Composer | INPUT | Auto-replace emoticons with emoji | `settings::core::SettingId::ComposerInputAutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
 | Composer | INPUT | Show others I am typing | `settings::core::SettingId::ComposerTypingSendEnabled` | `typing_notifications` | `composer.typing.send.enabled` | config.yml | yes |

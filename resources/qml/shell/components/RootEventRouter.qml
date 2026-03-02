@@ -52,13 +52,13 @@ Item {
                 });
         }
         function onOpenRoomMembersDialog(members, room) {
-            timelineRoot.showCatalogDialog(componentCatalog.roomMembersDialog, {
+            timelineRoot.openCatalogDialog(componentCatalog.roomMembersDialog, {
                     "members": members,
                     "room": room
                 });
         }
         function onOpenRoomSettingsDialog(settings) {
-            timelineRoot.showCatalogDialog(componentCatalog.roomSettingsDialog, {
+            timelineRoot.openCatalogDialog(componentCatalog.roomSettingsDialog, {
                     "roomSettings": settings
                 });
         }

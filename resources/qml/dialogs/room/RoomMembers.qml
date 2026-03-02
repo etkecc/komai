@@ -5,228 +5,208 @@
 
 import "../../ui"
 import "../../components"
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Window 2.13
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+OverlayDialog {
     id: roomMembersRoot
 
     property MemberList members
     property Room room
 
     title: qsTr("Members of %1").arg(members.roomName)
-    height: 750
-    width: 600
-    minimumHeight: 420
-    color: palette.window
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
+    titleIcon: ":/icons/icons/ui/people.svg"
+    initialFocusItem: searchBar
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: roomMembersRoot.close()
+    Avatar {
+        id: roomAvatar
+
+        Layout.preferredHeight: 130
+        Layout.preferredWidth: 130
+
+        roomid: roomMembersRoot.members.roomId
+        displayName: roomMembersRoot.members.roomName
+        Layout.alignment: Qt.AlignHCenter
+        url: roomMembersRoot.members.avatarUrl.replace("mxc://", "image://MxcImage/")
+        onClicked: TimelineManager.openRoomSettings(roomMembersRoot.members.roomId)
     }
 
-    ColumnLayout {
-        anchors.fill: parent
-        anchors.margins: Komai.paddingMedium
+    ElidedLabel {
+        font.pixelSize: fontMetrics.font.pixelSize * 2
+        fullText: qsTr("%n people in %1", "Summary above list of members", roomMembersRoot.members.memberCount).arg(roomMembersRoot.members.roomName)
+        Layout.alignment: Qt.AlignHCenter
+        elideWidth: parent.width - Komai.paddingMedium
+    }
+
+    Button {
+        Layout.alignment: Qt.AlignHCenter
+        icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+        text: qsTr("Invite")
+        onClicked: TimelineManager.openInviteUsers(roomMembersRoot.members.roomId)
+    }
+
+    MatrixTextField {
+        id: searchBar
+
+        Layout.fillWidth: true
+        placeholderText: qsTr("Search...")
+        onTextChanged: roomMembersRoot.members.setFilterString(text)
+    }
+
+    RowLayout {
         spacing: Komai.paddingMedium
 
-        Avatar {
-            id: roomAvatar
-
-            Layout.preferredHeight: 130
-            Layout.preferredWidth: 130
-
-            roomid: members.roomId
-            displayName: members.roomName
-            Layout.alignment: Qt.AlignHCenter
-            url: members.avatarUrl.replace("mxc://", "image://MxcImage/")
-            onClicked: TimelineManager.openRoomSettings(members.roomId)
+        Label {
+            text: qsTr("Sort by: ")
+            color: palette.text
         }
 
-        ElidedLabel {
-            font.pixelSize: fontMetrics.font.pixelSize * 2
-            fullText: qsTr("%n people in %1", "Summary above list of members", members.memberCount).arg(members.roomName)
-            Layout.alignment: Qt.AlignHCenter
-            elideWidth: parent.width - Komai.paddingMedium
-        }
-
-        Button {
-            Layout.alignment: Qt.AlignHCenter
-            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            text: qsTr("Invite")
-            onClicked: TimelineManager.openInviteUsers(members.roomId)
-        }
-
-        MatrixTextField {
-            id: searchBar
-
-            Layout.fillWidth: true
-            placeholderText: qsTr("Search...")
-            onTextChanged: members.setFilterString(text)
-
-            Component.onCompleted: forceActiveFocus()
-        }
-
-        RowLayout {
-            spacing: Komai.paddingMedium
-
-            Label {
-                text: qsTr("Sort by: ")
-                color: palette.text
+        ComboBox {
+            model: ListModel {
+                ListElement { data: MemberList.Mxid; text: qsTr("User ID") }
+                ListElement { data: MemberList.DisplayName; text: qsTr("Display name") }
+                ListElement { data: MemberList.Powerlevel; text: qsTr("Power level") }
             }
+            textRole: "text"
+            valueRole: "data"
+            onCurrentValueChanged: roomMembersRoot.members.sortBy(currentValue)
+            Layout.fillWidth: true
+        }
+    }
 
-            ComboBox {
-                model: ListModel {
-                    ListElement { data: MemberList.Mxid; text: qsTr("User ID") }
-                    ListElement { data: MemberList.DisplayName; text: qsTr("Display name") }
-                    ListElement { data: MemberList.Powerlevel; text: qsTr("Power level") }
+    ScrollView {
+        padding: Komai.paddingMedium
+        ScrollBar.horizontal.visible: false
+        Layout.fillWidth: true
+        Layout.preferredHeight: 350
+
+        ListView {
+            id: memberList
+
+            clip: true
+            boundsBehavior: Flickable.StopAtBounds
+            model: roomMembersRoot.members
+
+            delegate: ItemDelegate {
+                id: del
+
+                property bool isCurrentUser: {
+                    const currentUser = Komai.currentUser;
+                    const currentUserId = (currentUser && currentUser.userid)
+                            ? String(currentUser.userid)
+                            : "";
+                    return currentUserId.length > 0 && model && model.mxid === currentUserId;
                 }
-                textRole: "text"
-                valueRole: "data"
-                onCurrentValueChanged: members.sortBy(currentValue)
-                Layout.fillWidth: true
-            }
-        }
 
-        ScrollView {
-            padding: Komai.paddingMedium
-            ScrollBar.horizontal.visible: false
-            Layout.fillHeight: true
-            Layout.minimumHeight: 200
-            Layout.fillWidth: true
+                onClicked: roomMembersRoot.room.openUserProfile(model.mxid)
+                padding: Komai.paddingMedium
+                width: ListView.view.width
+                height: memberLayout.implicitHeight + Komai.paddingSmall * 2
+                hoverEnabled: true
+                background: Rectangle {
+                    color: del.hovered ? palette.dark : palette.window
+                }
 
-            ListView {
-                id: memberList
+                RowLayout {
+                    id: memberLayout
 
-                clip: true
-                boundsBehavior: Flickable.StopAtBounds
-                model: members
+                    spacing: Komai.paddingMedium
+                    anchors.centerIn: parent
+                    width: parent.width - Komai.paddingSmall * 2
 
+                    Avatar {
+                        id: avatar
 
-                delegate: ItemDelegate {
-                    id: del
-
-                    property bool isCurrentUser: {
-                        const currentUser = Komai.currentUser;
-                        const currentUserId = (currentUser && currentUser.userid)
-                                ? String(currentUser.userid)
-                                : "";
-                        return currentUserId.length > 0 && model && model.mxid === currentUserId;
+                        Layout.preferredWidth: Komai.avatarSize
+                        Layout.preferredHeight: Komai.avatarSize
+                        userid: model.mxid
+                        url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
+                        displayName: model.displayName
+                        enabled: false
                     }
 
-                    onClicked: room.openUserProfile(model.mxid)
-                    padding: Komai.paddingMedium
-                    width: ListView.view.width
-                    height: memberLayout.implicitHeight + Komai.paddingSmall * 2
-                    hoverEnabled: true
-                    background: Rectangle {
-                        color: del.hovered ? palette.dark : roomMembersRoot.color
-                    }
+                    ColumnLayout {
+                        spacing: Komai.paddingSmall
+                        Layout.fillWidth: true
 
-                    RowLayout {
-                        id: memberLayout
-
-                        spacing: Komai.paddingMedium
-                        anchors.centerIn: parent
-                        width: parent.width - Komai.paddingSmall * 2
-
-                        Avatar {
-                            id: avatar
-
-                            Layout.preferredWidth: Komai.avatarSize
-                            Layout.preferredHeight: Komai.avatarSize
-                            userid: model.mxid
-                            url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                            displayName: model.displayName
-                            enabled: false
-                        }
-
-                        ColumnLayout {
-                            spacing: Komai.paddingSmall
+                        ElidedLabel {
+                            fullText: model.displayName
+                            color: del.isCurrentUser
+                                ? palette.highlight
+                                : Qt.darker(roomMembersRoot.room ? TimelineManager.roomUserColor(roomMembersRoot.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
+                            font.pixelSize: fontMetrics.font.pixelSize
+                            elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
                             Layout.fillWidth: true
-
-                            ElidedLabel {
-                                fullText: model.displayName
-                                color: del.isCurrentUser
-                                    ? palette.highlight
-                                    : Qt.darker(roomMembersRoot.room ? TimelineManager.roomUserColor(roomMembersRoot.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
-                                font.pixelSize: fontMetrics.font.pixelSize
-                                elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
-                                Layout.fillWidth: true
-                            }
-
-                            ElidedLabel {
-                                fullText: model.mxid
-                                color: del.hovered ? palette.brightText : palette.buttonText
-                                font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.9)
-                                elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
-                                Layout.fillWidth: true
-                            }
-
                         }
 
-                        PowerlevelIndicator {
-                            Layout.preferredWidth: fontMetrics.lineSpacing * 2
-                            Layout.preferredHeight: fontMetrics.lineSpacing * 2
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            powerlevel: model.powerlevel
-                            permissions: room.permissions
-                        }
-
-                        EncryptionIndicator {
-                            id: encryptInd
-
-                            Layout.preferredWidth: fontMetrics.lineSpacing * 2
-                            Layout.preferredHeight: fontMetrics.lineSpacing * 2
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            Layout.alignment: Qt.AlignRight
-                            visible: room.isEncrypted
-                            encrypted: room.isEncrypted
-                            trust: encrypted ? model.trustlevel : Crypto.Unverified
-                            ToolTip.text: {
-                                if (!encrypted)
-                                    return qsTr("This room is not encrypted!");
-
-                                switch (trust) {
-                                case Crypto.Verified:
-                                    return qsTr("This user is verified.");
-                                case Crypto.TOFU:
-                                    return qsTr("This user isn't verified, but is still using the same master key from the first time you met.");
-                                default:
-                                    return qsTr("This user has unverified devices!");
-                                }
-                            }
+                        ElidedLabel {
+                            fullText: model.mxid
+                            color: del.hovered ? palette.brightText : palette.buttonText
+                            font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.9)
+                            elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
+                            Layout.fillWidth: true
                         }
 
                     }
 
-                    KomaiCursorShape {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
+                    PowerlevelIndicator {
+                        Layout.preferredWidth: fontMetrics.lineSpacing * 2
+                        Layout.preferredHeight: fontMetrics.lineSpacing * 2
+                        sourceSize.width: width
+                        sourceSize.height: height
+                        powerlevel: model.powerlevel
+                        permissions: roomMembersRoot.room.permissions
+                    }
+
+                    EncryptionIndicator {
+                        id: encryptInd
+
+                        Layout.preferredWidth: fontMetrics.lineSpacing * 2
+                        Layout.preferredHeight: fontMetrics.lineSpacing * 2
+                        sourceSize.width: width
+                        sourceSize.height: height
+                        Layout.alignment: Qt.AlignRight
+                        visible: roomMembersRoot.room.isEncrypted
+                        encrypted: roomMembersRoot.room.isEncrypted
+                        trust: encrypted ? model.trustlevel : Crypto.Unverified
+                        ToolTip.text: {
+                            if (!encrypted)
+                                return qsTr("This room is not encrypted!");
+
+                            switch (trust) {
+                            case Crypto.Verified:
+                                return qsTr("This user is verified.");
+                            case Crypto.TOFU:
+                                return qsTr("This user isn't verified, but is still using the same master key from the first time you met.");
+                            default:
+                                return qsTr("This user has unverified devices!");
+                            }
+                        }
                     }
 
                 }
 
-                footer: Item {
-                    width: parent.width
-                    visible: (members.numUsersLoaded < members.memberCount) && members.loadingMoreMembers
-                    // use the default height if it's visible, otherwise no height at all
-                    height: membersLoadingSpinner.implicitHeight
-                    anchors.margins: Komai.paddingMedium
+                KomaiCursorShape {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                }
 
-                    Spinner {
-                        id: membersLoadingSpinner
+            }
 
-                        anchors.centerIn: parent
-                        implicitHeight: parent.visible ? 35 : 0
-                    }
+            footer: Item {
+                width: parent.width
+                visible: (roomMembersRoot.members.numUsersLoaded < roomMembersRoot.members.memberCount) && roomMembersRoot.members.loadingMoreMembers
+                // use the default height if it's visible, otherwise no height at all
+                height: membersLoadingSpinner.implicitHeight
+                anchors.margins: Komai.paddingMedium
 
+                Spinner {
+                    id: membersLoadingSpinner
+
+                    anchors.centerIn: parent
+                    implicitHeight: parent.visible ? 35 : 0
                 }
 
             }
@@ -234,10 +214,4 @@ ApplicationWindow {
         }
 
     }
-
-    footer: DialogButtonBox {
-        standardButtons: DialogButtonBox.Ok
-        onAccepted: roomMembersRoot.close()
-    }
-
 }

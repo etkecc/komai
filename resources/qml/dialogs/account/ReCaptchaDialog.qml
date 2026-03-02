@@ -3,62 +3,54 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick
-import QtQuick.Controls
-import cc.etke.komai
+import "../../components" as Components
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: recaptchaRoot
 
     required property ReCaptcha recaptcha
 
-    function accept() {
-        recaptcha.confirm();
-        recaptchaRoot.close();
-    }
+    property bool wasAccepted: false
 
-    function reject() {
-        recaptcha.cancel();
-        recaptchaRoot.close();
-    }
-
-    color: palette.window
     title: recaptcha.context
-    flags: Qt.Tool | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-    height: msg.implicitHeight + footer.implicitHeight
-    width: Math.max(msg.implicitWidth, footer.implicitWidth)
+    titleIcon: ":/icons/icons/ui/shield-regular.svg"
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: recaptchaRoot.reject()
+    onOpened: wasAccepted = false
+    onClosed: {
+        if (!wasAccepted)
+            recaptcha.cancel();
     }
 
     Label {
-        id: msg
-
-        anchors.fill: parent
-        padding: 8
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Text.WordWrap
         text: qsTr("Solve the reCAPTCHA and press the confirm button")
     }
 
-    footer: DialogButtonBox {
-        onAccepted: recaptchaRoot.accept()
-        onRejected: recaptchaRoot.reject()
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
 
         Button {
             text: qsTr("Open reCAPTCHA")
             onClicked: recaptcha.openReCaptcha()
         }
 
-        Button {
-            text: qsTr("Cancel")
-            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
-        }
+        Item { Layout.fillWidth: true }
 
         Button {
             text: qsTr("Confirm")
-            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+            highlighted: true
+            onClicked: {
+                recaptchaRoot.wasAccepted = true;
+                recaptcha.confirm();
+                recaptchaRoot.close();
+            }
         }
     }
-
 }

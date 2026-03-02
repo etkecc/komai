@@ -25,7 +25,7 @@ Item {
             if (onCreated)
                 onCreated(dialog);
             else
-                dialog.show();
+                dialog.open();
             timelineRoot.destroyOnClose(dialog);
         } else {
             console.error("Failed to create component: " + component.errorString());
@@ -63,7 +63,7 @@ Item {
         prompt: qsTr("Please enter a valid phone number to continue:")
         title: UIA.title
 
-        onAccepted: (p, t) => {
+        onPhoneNumberAccepted: (p, t) => {
             return UIA.continuePhoneNumber(p, t);
         }
     }

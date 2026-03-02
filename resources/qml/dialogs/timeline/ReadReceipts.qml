@@ -10,124 +10,87 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+OverlayDialog {
     id: readReceiptsRoot
 
     property ReadReceiptsProxy readReceipts
     property Room room
 
-    height: 380
-    width: 340
-    minimumHeight: 380
-    minimumWidth: headerTitle.width + 2 * Komai.paddingMedium
-    color: palette.window
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
+    title: qsTr("Read receipts")
+    titleIcon: ":/icons/icons/ui/eye-show.svg"
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: readReceiptsRoot.close()
-    }
+    ScrollView {
+        padding: Komai.paddingMedium
+        ScrollBar.horizontal.visible: false
+        Layout.fillWidth: true
+        Layout.preferredHeight: 300
 
-    ColumnLayout {
-        anchors.fill: parent
-        anchors.margins: Komai.paddingMedium
-        spacing: Komai.paddingMedium
+        ListView {
+            id: readReceiptsList
 
-        Label {
-            id: headerTitle
+            clip: true
+            boundsBehavior: Flickable.StopAtBounds
+            model: readReceipts
 
-            color: palette.text
-            Layout.alignment: Qt.AlignCenter
-            text: qsTr("Read receipts")
-            font.pointSize: Settings.uiFontSizePt * 1.5
-        }
+            delegate: ItemDelegate {
+                id: del
 
-        ScrollView {
-            padding: Komai.paddingMedium
-            ScrollBar.horizontal.visible: false
-            Layout.fillHeight: true
-            Layout.minimumHeight: 200
-            Layout.fillWidth: true
-
-            ListView {
-                id: readReceiptsList
-
-                clip: true
-                boundsBehavior: Flickable.StopAtBounds
-                model: readReceipts
-
-                delegate: ItemDelegate {
-                    id: del
-
-                    onClicked: room.openUserProfile(model.mxid)
-                    padding: Komai.paddingMedium
-                    width: ListView.view.width
-                    height: receiptLayout.implicitHeight + Komai.paddingSmall * 2
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: model.mxid
-                    background: Rectangle {
-                        color: del.hovered ? palette.dark : readReceiptsRoot.color
-                    }
-
-                    RowLayout {
-                        id: receiptLayout
-
-                        spacing: Komai.paddingMedium
-                        anchors.fill: parent
-                        anchors.margins: Komai.paddingSmall
-
-                        Avatar {
-                            id: avatar
-
-                            Layout.preferredWidth: Komai.avatarSize
-                            Layout.preferredHeight: Komai.avatarSize
-                            userid: model.mxid
-                            url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                            displayName: model.displayName
-                            enabled: false
-                        }
-
-                        ColumnLayout {
-                            spacing: Komai.paddingSmall
-                            Layout.fillWidth: true
-
-                            ElidedLabel {
-                                fullText: model.displayName
-                                color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
-                                font.pointSize: Settings.uiFontSizePt
-                                elideWidth: del.width - Komai.paddingMedium - avatar.width
-                                Layout.fillWidth: true
-                            }
-
-                            ElidedLabel {
-                                fullText: model.timestamp
-                                color: palette.buttonText
-                                font.pointSize: Settings.uiFontSizePt * 0.9
-                                elideWidth: del.width - Komai.paddingMedium - avatar.width
-                                Layout.fillWidth: true
-                            }
-
-                        }
-
-                    }
-
-                    KomaiCursorShape {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                    }
-
+                onClicked: room.openUserProfile(model.mxid)
+                padding: Komai.paddingMedium
+                width: ListView.view.width
+                height: receiptLayout.implicitHeight + Komai.paddingSmall * 2
+                hoverEnabled: true
+                ToolTip.visible: hovered
+                ToolTip.text: model.mxid
+                background: Rectangle {
+                    color: del.hovered ? palette.dark : palette.window
                 }
 
+                RowLayout {
+                    id: receiptLayout
+
+                    spacing: Komai.paddingMedium
+                    anchors.fill: parent
+                    anchors.margins: Komai.paddingSmall
+
+                    Avatar {
+                        id: avatar
+
+                        Layout.preferredWidth: Komai.avatarSize
+                        Layout.preferredHeight: Komai.avatarSize
+                        userid: model.mxid
+                        url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
+                        displayName: model.displayName
+                        enabled: false
+                    }
+
+                    ColumnLayout {
+                        spacing: Komai.paddingSmall
+                        Layout.fillWidth: true
+
+                        ElidedLabel {
+                            fullText: model.displayName
+                            color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
+                            font.pointSize: Settings.uiFontSizePt
+                            elideWidth: del.width - Komai.paddingMedium - avatar.width
+                            Layout.fillWidth: true
+                        }
+
+                        ElidedLabel {
+                            fullText: model.timestamp
+                            color: palette.buttonText
+                            font.pointSize: Settings.uiFontSizePt * 0.9
+                            elideWidth: del.width - Komai.paddingMedium - avatar.width
+                            Layout.fillWidth: true
+                        }
+                    }
+                }
+
+                KomaiCursorShape {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                }
             }
-
         }
-
     }
-
-    footer: DialogButtonBox {
-        standardButtons: DialogButtonBox.Ok
-        onAccepted: readReceiptsRoot.close()
-    }
-
 }

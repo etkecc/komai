@@ -3,71 +3,45 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import "../../ui"
-import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: joinRoomRoot
 
     title: qsTr("Join room")
-    modality: Qt.WindowModal
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-    color: palette.window
-    width: 350
-    height: fontMetrics.lineSpacing * 7
+    titleIcon: ":/icons/icons/ui/plus-circle.svg"
+    initialFocusItem: input
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: dbb.rejected()
+    Label {
+        text: qsTr("Room ID or alias")
+        color: palette.text
     }
 
-    ColumnLayout {
-        spacing: Komai.paddingMedium
-        anchors.margins: Komai.paddingMedium
-        anchors.fill: parent
+    MatrixTextField {
+        id: input
 
-        Label {
-            id: promptLabel
-
-            text: qsTr("Room ID or alias")
-            color: palette.text
-        }
-
-        MatrixTextField {
-            id: input
-
-            focus: true
-            Layout.fillWidth: true
-            onAccepted: {
-                if (input.text.match("#.+?:.{3,}"))
-                    dbb.accepted();
-
+        Layout.fillWidth: true
+        onAccepted: {
+            if (input.text.match("#.+?:.{3,}")) {
+                Komai.joinRoom(input.text);
+                joinRoomRoot.close();
             }
         }
-
     }
 
-    footer: DialogButtonBox {
-        id: dbb
-
-        standardButtons: DialogButtonBox.Cancel
-        onAccepted: {
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: qsTr("Join")
+        highlighted: true
+        enabled: input.text.match("#.+?:.{3,}")
+        onClicked: {
             Komai.joinRoom(input.text);
             joinRoomRoot.close();
         }
-        onRejected: {
-            joinRoomRoot.close();
-        }
-
-        Button {
-            text: qsTr("Join")
-            enabled: input.text.match("#.+?:.{3,}")
-            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
-        }
-
     }
-
 }

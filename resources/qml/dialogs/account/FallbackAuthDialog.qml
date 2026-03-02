@@ -3,62 +3,54 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick
-import QtQuick.Controls
-import cc.etke.komai
+import "../../components" as Components
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: fallbackRoot
 
     required property FallbackAuth fallback
 
-    function accept() {
-        fallback.confirm();
-        fallbackRoot.close();
-    }
+    property bool wasAccepted: false
 
-    function reject() {
-        fallback.cancel();
-        fallbackRoot.close();
-    }
-
-    color: palette.window
     title: qsTr("Fallback authentication")
-    flags: Qt.Tool | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-    height: msg.implicitHeight + footer.implicitHeight
-    width: Math.max(msg.implicitWidth, footer.implicitWidth)
+    titleIcon: ":/icons/icons/ui/key.svg"
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: fallbackRoot.reject()
+    onOpened: wasAccepted = false
+    onClosed: {
+        if (!wasAccepted)
+            fallback.cancel();
     }
 
     Label {
-        id: msg
-
-        anchors.fill: parent
-        padding: 8
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Text.WordWrap
         text: qsTr("Open the fallback, follow the steps, and confirm after completing them.")
     }
 
-    footer: DialogButtonBox {
-        onAccepted: fallbackRoot.accept()
-        onRejected: fallbackRoot.reject()
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
 
         Button {
-            text: qsTr("Open Fallback in Browser")
+            text: qsTr("Open in Browser")
             onClicked: fallback.openFallbackAuth()
         }
 
-        Button {
-            text: qsTr("Cancel")
-            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
-        }
+        Item { Layout.fillWidth: true }
 
         Button {
             text: qsTr("Confirm")
-            DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
+            highlighted: true
+            onClicked: {
+                fallbackRoot.wasAccepted = true;
+                fallback.confirm();
+                fallbackRoot.close();
+            }
         }
     }
-
 }

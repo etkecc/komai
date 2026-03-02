@@ -23,7 +23,7 @@ Menu {
         timelineRoot.showCatalogDialog(componentCatalog.roomCreateDialog, properties || {});
     }
     function openCreateDirectDialog() {
-        timelineRoot.showCatalogDialog(componentCatalog.roomCreateDirectDialog);
+        timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog);
     }
     function openRoomDirectoryDialog() {
         timelineRoot.showCatalogDialog(componentCatalog.roomDirectoryDialog);

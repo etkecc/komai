@@ -3,38 +3,36 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import "../../ui"
 import "./components"
-import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: inputDialog
 
     property alias prompt: promptLabel.text
     property alias echoMode: statusInput.echoMode
-    signal accepted(countryCode: string, text: string)
 
-    modality: Qt.NonModal
-    flags: Qt.Dialog
-    width: 350
-    height: fontMetrics.lineSpacing * 7
+    signal phoneNumberAccepted(countryCode: string, text: string)
 
-    GridLayout {
-        rowSpacing: Komai.paddingMedium
-        columnSpacing: Komai.paddingMedium
-        anchors.margins: Komai.paddingMedium
-        anchors.fill: parent
-        columns: 2
+    titleIcon: ":/icons/icons/ui/send.svg"
+    initialFocusItem: statusInput
 
-        Label {
-            id: promptLabel
+    Label {
+        id: promptLabel
 
-            Layout.columnSpan: 2
-            color: palette.text
-        }
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Text.WordWrap
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
 
         ComboBox {
             id: numberPrefix
@@ -44,32 +42,30 @@ ApplicationWindow {
             delegate: ItemDelegate {
                 text: n + " (" + p + ")"
             }
-            // taken from https://gitlab.com/whisperfish/whisperfish/-/blob/master/qml/js/countries.js
 
             //n=name,i=ISO,p=prefix -- see countries.js.md for source
             model: CountryDialCodesModel {
             }
-
         }
 
         MatrixTextField {
             id: statusInput
 
             Layout.fillWidth: true
-        }
-
-    }
-
-    footer: DialogButtonBox {
-        standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
-        onAccepted: {
-            inputDialog.accepted(numberPrefix.model.get(numberPrefix.currentIndex).i, statusInput.text);
-
-            inputDialog.close();
-        }
-        onRejected: {
-            inputDialog.close();
+            onAccepted: {
+                inputDialog.phoneNumberAccepted(numberPrefix.model.get(numberPrefix.currentIndex).i, statusInput.text);
+                inputDialog.close();
+            }
         }
     }
 
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: qsTr("Continue")
+        highlighted: true
+        onClicked: {
+            inputDialog.phoneNumberAccepted(numberPrefix.model.get(numberPrefix.currentIndex).i, statusInput.text);
+            inputDialog.close();
+        }
+    }
 }

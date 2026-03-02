@@ -52,7 +52,7 @@ Item {
             Layout.fillWidth: true
             color: palette.text
             wrapMode: Text.WordWrap
-            text: qsTr("Failed to setup encryption: %1").arg(errorMessage)
+            text: qsTr("Failed to setup encryption: %1").arg(failureDialog.errorMessage)
         }
     }
     Components.MainWindowDialog {

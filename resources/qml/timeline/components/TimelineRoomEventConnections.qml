@@ -54,7 +54,7 @@ Connections {
                     "readReceipts": rr,
                     "room": room
                 });
-            dialog.show();
+            dialog.open();
             destroyDialogOnClose(dialog);
         } else {
             console.error("Failed to create component: " + component.errorString());

@@ -12,13 +12,13 @@ Item {
 
     Connections {
         function onOpenJoinRoomDialog() {
-            timelineRoot.showCatalogDialog(componentCatalog.roomJoinDialog);
+            timelineRoot.openCatalogDialog(componentCatalog.roomJoinDialog);
         }
         function onOpenLogoutDialog() {
             timelineRoot.openCatalogDialog(componentCatalog.accountLogoutDialog);
         }
         function onShowRoomJoinPrompt(summary) {
-            timelineRoot.showCatalogDialog(componentCatalog.roomConfirmJoinDialog, {
+            timelineRoot.openCatalogDialog(componentCatalog.roomConfirmJoinDialog, {
                     "summary": summary
                 });
         }

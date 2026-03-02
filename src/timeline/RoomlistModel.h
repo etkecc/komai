@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MatrixStateTypes.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include <QAbstractListModel>
 #include <QHash>
 #include <QQmlEngine>
@@ -136,6 +137,7 @@ public slots:
         pendingCurrentRoomId_.clear();
         currentRoom_ = nullptr;
         currentRoomPreview_.reset();
+        UserSettings::instance()->setCurrentRoomId(QString());
         emit currentRoomChanged("");
     }
 

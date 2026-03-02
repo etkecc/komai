@@ -11,6 +11,7 @@ ui:
 sidebars:
   room_list:
     width_px: 320
+    current_room_id: ""
   communities:
     width_px: 220
     current_tag_id: ""

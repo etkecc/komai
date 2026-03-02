@@ -1319,6 +1319,10 @@ RoomlistModel::initializeRooms()
 
     endResetModel();
 
+    const auto savedRoomId = UserSettings::instance()->currentRoomId();
+    if (!savedRoomId.isEmpty() && cachedJoinedRooms_.contains(savedRoomId))
+        setCurrentRoom(savedRoomId);
+
 #ifdef KOMAI_DBUS_SYS
     setDbusInterfaceEnabled(MainWindow::instance()->dbusAvailable());
 #endif
@@ -1502,6 +1506,7 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         pendingCurrentRoomId_.clear();
         currentRoom_        = nullptr;
         currentRoomPreview_ = {};
+        UserSettings::instance()->setCurrentRoomId(QString());
         emit currentRoomChanged("");
         return;
     }
@@ -1525,6 +1530,7 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         if (manager)
             manager->markRoomSwitchPhaseCpp(roomid, "cpp.room_model_selected");
         scheduleLastReadUpdate(currentRoom_, currentRoom_->roomId());
+        UserSettings::instance()->setCurrentRoomId(currentRoom_->roomId());
         emit currentRoomChanged(currentRoom_->roomId());
         scheduleCurrentRoomTimelineWarmup(roomid);
         if (manager)

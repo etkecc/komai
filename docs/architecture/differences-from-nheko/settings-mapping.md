@@ -122,6 +122,7 @@ Note:
 | `room_list_width` | `sidebars.room_list.width_px` | state.yml | int | runtime sidebar width |
 | `community_list_width` | `sidebars.communities.width_px` | state.yml | int | runtime sidebar width |
 | `current_tag_id` | `sidebars.communities.current_tag_id` | state.yml | text | runtime community sidebar state |
+| `-` | `sidebars.room_list.current_room_id` | state.yml | text | last open room restored on restart |
 | `hidden_tags` | `sidebars.communities.hidden_tags` | state.yml | list(text) | runtime visibility state |
 | `muted_tags` | `sidebars.communities.muted_tags` | state.yml | list(text) | runtime visibility state |
 | `hidden_pins` | `timeline.pins.hidden` | state.yml | list(text) | runtime timeline state |

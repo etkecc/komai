@@ -435,6 +435,7 @@ public:
     void setAccessToken(QString accessToken);
     void setDeviceId(QString deviceId);
     void setCurrentTagId(QString currentTagId);
+    void setCurrentRoomId(QString currentRoomId);
     void setHomeserver(QString homeserver);
     void setNetworkTlsEnableCertificateValidation(bool enabled);
     void setHiddenTags(const QStringList &hiddenTags);

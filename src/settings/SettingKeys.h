@@ -94,6 +94,7 @@ constexpr auto StateSchemaVersion                 = SchemaVersion;
 constexpr auto UiWindowWidthPx                    = "ui.window.width_px";
 constexpr auto UiWindowHeightPx                   = "ui.window.height_px";
 constexpr auto SidebarsRoomListWidthPx            = "sidebars.room_list.width_px";
+constexpr auto SidebarsRoomListCurrentRoomId      = "sidebars.room_list.current_room_id";
 constexpr auto SidebarsCommunitiesWidthPx         = "sidebars.communities.width_px";
 constexpr auto SidebarsCommunitiesHiddenTags      = "sidebars.communities.hidden_tags";
 constexpr auto SidebarsCommunitiesMutedTags       = "sidebars.communities.muted_tags";

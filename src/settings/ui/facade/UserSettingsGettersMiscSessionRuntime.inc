@@ -24,6 +24,11 @@ UserSettings::currentTagId() const
     return currentTagId_;
 }
 QString
+UserSettings::currentRoomId() const
+{
+    return currentRoomId_;
+}
+QString
 UserSettings::homeserver() const
 {
     return homeserver_;

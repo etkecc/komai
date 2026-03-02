@@ -85,6 +85,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
   - 40-50x faster in perceived performance (about 8ms from room click to room-list update + timeline loading state)
   - no exhaustive benchmark campaign was run, so treat these numbers with the usual benchmark grain of salt
   - implementation details and tracing knobs: [⚡ Performance Tracing](../architecture/performance.md)
+- **Remembers your last open room** -- restarting the app brings you right back where you left off
 - **Predictable profile selection** -- launching without `-p` always uses the default [profile](settings/README.md#profiles) instead of remembering the last-used one
 - **Per-profile settings** -- all settings (theme, notifications, sidebar widths, etc.) are stored per-profile, so each account can have its own look and feel. See [Settings](settings/README.md#profiles)
 - **Human-readable YAML settings** -- settings are stored in YAML files instead of Qt's INI format, making manual editing and backup straightforward. See [Settings](settings/README.md)

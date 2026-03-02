@@ -77,6 +77,7 @@ QString userId_;
 QString accessToken_;
 QString deviceId_;
 QString currentTagId_;
+QString currentRoomId_;
 QString homeserver_;
 QStringList hiddenTags_;
 QStringList mutedTags_;

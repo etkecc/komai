@@ -3,6 +3,7 @@
     QString accessToken() const;
     QString deviceId() const;
     QString currentTagId() const;
+    QString currentRoomId() const;
     QString homeserver() const;
     bool networkTlsEnableCertificateValidation() const;
     QStringList hiddenTags() const;

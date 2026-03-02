@@ -72,6 +72,8 @@ loadState(UserSettings &settings, const YAML::Node &root)
                              settings::core::definitions::normalizeCommunitiesWidthPx));
     settings.setCurrentTagId(
       readString(root, SettingKey::SidebarsCommunitiesCurrentTagId, QString()));
+    settings.setCurrentRoomId(
+      readString(root, SettingKey::SidebarsRoomListCurrentRoomId, QString()));
     settings.setHiddenTags(readStringList(root, SettingKey::SidebarsCommunitiesHiddenTags));
     settings.setMutedTags(readStringList(
       root, SettingKey::SidebarsCommunitiesMutedTags, QStringList{QStringLiteral("global")}));
@@ -94,6 +96,8 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
     setNode(root, SettingKey::SidebarsCommunitiesWidthPx, settings.sidebarsCommunitiesWidthPx());
     setNode(
       root, SettingKey::SidebarsCommunitiesCurrentTagId, settings.currentTagId().toStdString());
+    setNode(
+      root, SettingKey::SidebarsRoomListCurrentRoomId, settings.currentRoomId().toStdString());
     writeStringList(root, SettingKey::SidebarsCommunitiesHiddenTags, settings.hiddenTags());
     writeStringList(root, SettingKey::SidebarsCommunitiesMutedTags, settings.mutedTags());
     writeNestedStringLists(

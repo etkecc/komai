@@ -8,6 +8,15 @@ UserSettings::setCurrentTagId(const QString currentTagId)
 }
 
 void
+UserSettings::setCurrentRoomId(const QString currentRoomId)
+{
+    if (currentRoomId == currentRoomId_)
+        return;
+    currentRoomId_ = currentRoomId;
+    save();
+}
+
+void
 UserSettings::setNetworkTlsEnableCertificateValidation(bool enabled)
 {
     if (enabled == networkTlsEnableCertificateValidation_)

@@ -3,25 +3,21 @@
 meta:
   settings_schema_version: 1
 
-app:
+ui:
   window:
-    size:
-      width: 1280
-      height: 800
+    width_px: 1280
+    height_px: 800
 
 sidebars:
   room_list:
     width_px: 320
   communities:
     width_px: 220
+    current_tag_id: ""
     hidden_tags: []
     muted_tags:
       - global
     collapsed_spaces: []
-
-session:
-  navigation:
-    current_tag_id: ""
 
 timeline:
   pins:

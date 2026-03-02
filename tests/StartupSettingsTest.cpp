@@ -1043,8 +1043,8 @@ testStateAndSessionMigrationWritebackOnLoad()
         return expect(false, "state/session migration fixture session can be persisted");
 
     YAML::Node stateRoot(YAML::NodeType::Map);
-    stateRoot["app"]["window"]["size"]["width"]  = 1440;
-    stateRoot["app"]["window"]["size"]["height"] = 900;
+    stateRoot["ui"]["window"]["width_px"]  = 1440;
+    stateRoot["ui"]["window"]["height_px"] = 900;
     if (!ctx.writeState(stateRoot))
         return expect(false, "state/session migration fixture state can be persisted");
 

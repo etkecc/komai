@@ -52,12 +52,12 @@ loadState(UserSettings &settings, const YAML::Node &root)
 {
     settings.setWindowWidth(
       readNormalizedStateInt(root,
-                             SettingKey::AppWindowSizeWidth,
+                             SettingKey::UiWindowWidthPx,
                              settings::core::definitions::kDefaultWindowWidthPx,
                              settings::core::definitions::normalizeWindowWidthPx));
     settings.setWindowHeight(
       readNormalizedStateInt(root,
-                             SettingKey::AppWindowSizeHeight,
+                             SettingKey::UiWindowHeightPx,
                              settings::core::definitions::kDefaultWindowHeightPx,
                              settings::core::definitions::normalizeWindowHeightPx));
     settings.setSidebarsRoomListWidthPx(
@@ -71,7 +71,7 @@ loadState(UserSettings &settings, const YAML::Node &root)
                              settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx,
                              settings::core::definitions::normalizeCommunitiesWidthPx));
     settings.setCurrentTagId(
-      readString(root, SettingKey::SessionNavigationCurrentTagId, QString()));
+      readString(root, SettingKey::SidebarsCommunitiesCurrentTagId, QString()));
     settings.setHiddenTags(readStringList(root, SettingKey::SidebarsCommunitiesHiddenTags));
     settings.setMutedTags(readStringList(
       root, SettingKey::SidebarsCommunitiesMutedTags, QStringList{QStringLiteral("global")}));
@@ -88,11 +88,12 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
     YAML::Node root(YAML::NodeType::Map);
     settings::migrations::stampCurrentStateSchemaVersion(root);
 
-    setNode(root, SettingKey::AppWindowSizeWidth, settings.windowWidth());
-    setNode(root, SettingKey::AppWindowSizeHeight, settings.windowHeight());
+    setNode(root, SettingKey::UiWindowWidthPx, settings.windowWidth());
+    setNode(root, SettingKey::UiWindowHeightPx, settings.windowHeight());
     setNode(root, SettingKey::SidebarsRoomListWidthPx, settings.sidebarsRoomListWidthPx());
     setNode(root, SettingKey::SidebarsCommunitiesWidthPx, settings.sidebarsCommunitiesWidthPx());
-    setNode(root, SettingKey::SessionNavigationCurrentTagId, settings.currentTagId().toStdString());
+    setNode(
+      root, SettingKey::SidebarsCommunitiesCurrentTagId, settings.currentTagId().toStdString());
     writeStringList(root, SettingKey::SidebarsCommunitiesHiddenTags, settings.hiddenTags());
     writeStringList(root, SettingKey::SidebarsCommunitiesMutedTags, settings.mutedTags());
     writeNestedStringLists(

@@ -91,14 +91,14 @@ constexpr auto SecretsProvider                       = "secrets.provider";
 
 // state.yml
 constexpr auto StateSchemaVersion                 = SchemaVersion;
-constexpr auto AppWindowSizeWidth                 = "app.window.size.width";
-constexpr auto AppWindowSizeHeight                = "app.window.size.height";
+constexpr auto UiWindowWidthPx                    = "ui.window.width_px";
+constexpr auto UiWindowHeightPx                   = "ui.window.height_px";
 constexpr auto SidebarsRoomListWidthPx            = "sidebars.room_list.width_px";
 constexpr auto SidebarsCommunitiesWidthPx         = "sidebars.communities.width_px";
 constexpr auto SidebarsCommunitiesHiddenTags      = "sidebars.communities.hidden_tags";
 constexpr auto SidebarsCommunitiesMutedTags       = "sidebars.communities.muted_tags";
 constexpr auto SidebarsCommunitiesCollapsedSpaces = "sidebars.communities.collapsed_spaces";
-constexpr auto SessionNavigationCurrentTagId      = "session.navigation.current_tag_id";
+constexpr auto SidebarsCommunitiesCurrentTagId    = "sidebars.communities.current_tag_id";
 constexpr auto TimelinePinsHidden                 = "timeline.pins.hidden";
 constexpr auto TimelineWidgetsHidden              = "timeline.widgets.hidden";
 constexpr auto ComposerReactionsRecent            = "composer.reactions.recent";

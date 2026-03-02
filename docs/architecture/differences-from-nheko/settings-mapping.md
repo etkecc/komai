@@ -117,11 +117,11 @@ Note:
 
 | nheko Flat Key | Komai YAML Key | Komai Target | Value Type | Notes |
 | --- | --- | --- | --- | --- |
-| `window_width` | `app.window.size.width` | state.yml | int | runtime window geometry |
-| `window_height` | `app.window.size.height` | state.yml | int | runtime window geometry |
+| `window_width` | `ui.window.width_px` | state.yml | int | runtime window geometry |
+| `window_height` | `ui.window.height_px` | state.yml | int | runtime window geometry |
 | `room_list_width` | `sidebars.room_list.width_px` | state.yml | int | runtime sidebar width |
 | `community_list_width` | `sidebars.communities.width_px` | state.yml | int | runtime sidebar width |
-| `current_tag_id` | `session.navigation.current_tag_id` | state.yml | text | runtime navigation state |
+| `current_tag_id` | `sidebars.communities.current_tag_id` | state.yml | text | runtime community sidebar state |
 | `hidden_tags` | `sidebars.communities.hidden_tags` | state.yml | list(text) | runtime visibility state |
 | `muted_tags` | `sidebars.communities.muted_tags` | state.yml | list(text) | runtime visibility state |
 | `hidden_pins` | `timeline.pins.hidden` | state.yml | list(text) | runtime timeline state |

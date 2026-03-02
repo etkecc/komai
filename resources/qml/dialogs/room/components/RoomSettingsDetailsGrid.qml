@@ -388,35 +388,38 @@ GridLayout {
                     color: palette.text
                 }
 
-                AbstractButton { // AbstractButton does not allow setting text color
-                    Layout.alignment: Qt.AlignRight
+                RowLayout {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: idLabel.height
-                    Label { // TextEdit does not trigger onClicked
-                        id: idLabel
+                    spacing: Komai.paddingSmall
+
+                    TextField {
                         text: roomSettings.roomId
-                        textFormat: Text.PlainText
-                        font.pixelSize: Math.floor(fontMetrics.font.pixelSize * 0.8)
-                        color: palette.text
-                        width: parent.width
-                        horizontalAlignment: Text.AlignRight
-                        wrapMode: Text.WrapAnywhere
-                        ToolTip.text: qsTr("Copied to clipboard")
-                        ToolTip.visible: toolTipTimer.running
+                        readOnly: true
+                        font.pointSize: Settings.uiFontSizePt
+                        Layout.fillWidth: true
                     }
-                    TextEdit{ // label does not allow selection
-                        id: textEdit
-                        textFormat: TextEdit.PlainText
-                        visible: false
-                        text: roomSettings.roomId
-                    }
-                    onClicked: {
-                        textEdit.selectAll()
-                        textEdit.copy()
-                        toolTipTimer.start()
-                    }
-                    Timer {
-                        id: toolTipTimer
+
+                    ImageButton {
+                        id: copyIdBtn
+
+                        property bool copied: false
+
+                        Layout.preferredWidth: 24
+                        Layout.preferredHeight: 24
+                        image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                        ToolTip.visible: hovered
+                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                        onClicked: {
+                            Clipboard.text = roomSettings.roomId;
+                            copied = true;
+                            copyIdFeedbackTimer.start();
+                        }
+
+                        Timer {
+                            id: copyIdFeedbackTimer
+                            interval: 2000
+                            onTriggered: copyIdBtn.copied = false
+                        }
                     }
                 }
 

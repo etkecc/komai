@@ -16,9 +16,17 @@ Dialog {
     property color titleIconColor: palette.text
     property bool titleIconMirror: false
     property bool showCloseButton: true
+    property Item initialFocusItem: null
     property int overlayDialogMinWidth: 520
     property real overlayDialogMaxWidthRatio: 0.8
     default property alias body: bodyLayout.data
+
+    onOpened: {
+        if (initialFocusItem)
+            initialFocusItem.forceActiveFocus();
+        else
+            root.forceActiveFocus();
+    }
 
     function overlayDialogWidth(dialogParent, contentImplicitWidth, dialogPadding)
     {

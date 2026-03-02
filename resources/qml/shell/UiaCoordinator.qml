@@ -36,8 +36,9 @@ Item {
         echoMode: TextInput.Password
         prompt: qsTr("Please enter your login password to continue:")
         title: UIA.title
+        titleIcon: ":/icons/icons/ui/key.svg"
 
-        onAccepted: t => {
+        onInputAccepted: t => {
             return UIA.continuePassword(t);
         }
     }
@@ -46,8 +47,9 @@ Item {
 
         prompt: qsTr("Please enter a valid email address to continue:")
         title: UIA.title
+        titleIcon: ":/icons/icons/ui/send.svg"
 
-        onAccepted: t => {
+        onInputAccepted: t => {
             return UIA.continueEmail(t);
         }
     }
@@ -66,8 +68,9 @@ Item {
 
         prompt: qsTr("Please enter the token which has been sent to you:")
         title: UIA.title
+        titleIcon: ":/icons/icons/ui/shield-regular.svg"
 
-        onAccepted: t => {
+        onInputAccepted: t => {
             return UIA.submit3pidToken(t);
         }
     }
@@ -84,7 +87,7 @@ Item {
             uiaConfirmationLinkDialog.open();
         }
         function onEmail() {
-            uiaEmailPrompt.show();
+            uiaEmailPrompt.open();
         }
         function onFallbackAuth(fallback) {
             root.showManagedDialog(componentCatalog.accountFallbackAuthDialog, {
@@ -93,13 +96,13 @@ Item {
         }
         function onPassword() {
             console.log("UIA: password needed");
-            uiaPassPrompt.show();
+            uiaPassPrompt.open();
         }
         function onPhoneNumber() {
-            uiaPhoneNumberPrompt.show();
+            uiaPhoneNumberPrompt.open();
         }
         function onPrompt3pidToken() {
-            uiaTokenPrompt.show();
+            uiaTokenPrompt.open();
         }
         function onReCaptcha(recaptcha) {
             root.showManagedDialog(componentCatalog.accountReCaptchaDialog, {

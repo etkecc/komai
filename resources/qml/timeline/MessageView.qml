@@ -143,9 +143,7 @@ Item {
         var dialog = componentRef.createObject(dialogParent, properties || {});
         if (!dialog)
             return null;
-        dialog.show();
-        if (typeof dialog.forceActiveFocus === "function")
-            dialog.forceActiveFocus();
+        dialog.open();
         destroyOnClose(dialog);
         return dialog;
     }
@@ -369,8 +367,9 @@ Item {
 
             prompt: qsTr("Enter reason for removal or hit enter for no reason:")
             title: qsTr("Reason for removal")
+            titleIcon: ":/icons/icons/ui/delete.svg"
 
-            onAccepted: function (text) {
+            onInputAccepted: function (text) {
                 room.redactEvent(eventId, text);
             }
         }
@@ -402,7 +401,6 @@ Item {
         if (!dialog)
             return;
         dialog.open();
-        dialog.forceActiveFocus();
         destroyOnClose(dialog);
     }
 

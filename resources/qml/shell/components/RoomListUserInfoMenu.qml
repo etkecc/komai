@@ -29,9 +29,10 @@ Item {
 
         prompt: qsTr("Enter your status message:")
         title: qsTr("Status Message")
+        titleIcon: ":/icons/icons/ui/tag.svg"
         text: root.profile ? Presence.userStatus(root.profile.userid) : ""
 
-        onAccepted: function (text) {
+        onInputAccepted: function (text) {
             Komai.setStatusMessage(text);
         }
     }
@@ -47,7 +48,7 @@ Item {
         MenuItem {
             text: qsTr("Set status message")
 
-            onTriggered: statusDialog.show()
+            onTriggered: statusDialog.open()
         }
         MenuSeparator {
         }

@@ -3,36 +3,37 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import cc.etke.komai
+import "../../components" as Components
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
+    id: root
+
     required property string eventId
 
-    width: 400
-    height: gl.implicitHeight + 2 * Komai.paddingMedium
-    title: qsTr("Report message")
+    titleText: qsTr("Report message")
+    titleIcon: ":/icons/icons/ui/alert.svg"
+    initialFocusItem: reason
+
+    Label {
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Label.WordWrap
+        text: qsTr("This message you are reporting will be sent to your server administrator for review. Please note that not all server administrators review reported content. You should also ask a room moderator to remove the content if necessary.")
+    }
 
     GridLayout {
-        id: gl
-
+        Layout.fillWidth: true
         columnSpacing: Komai.paddingMedium
         rowSpacing: Komai.paddingMedium
         columns: 2
-        anchors.fill: parent
-        anchors.margins: Komai.paddingMedium
-
-        Label {
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
-            wrapMode: Label.WordWrap
-            text: qsTr("This message you are reporting will be sent to your server administrator for review. Please note that not all server administrators review reported content. You should also ask a room moderator to remove the content if necessary.")
-        }
 
         Label {
             text: qsTr("Enter your reason for reporting:")
+            color: palette.text
         }
 
         TextField {
@@ -43,6 +44,7 @@ ApplicationWindow {
 
         Label {
             text: qsTr("How bad is the message?")
+            color: palette.text
         }
 
         Slider {
@@ -58,6 +60,7 @@ ApplicationWindow {
         Item {}
 
         Label {
+            color: palette.text
             text: {
                 if (score.value === 0)
                     return qsTr("Not bad")
@@ -71,16 +74,28 @@ ApplicationWindow {
                     return qsTr("Extremely serious")
             }
         }
+    }
 
-        DialogButtonBox {
-            Layout.columnSpan: 2
-            Layout.alignment: Qt.AlignRight
-            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
-            onAccepted: {
-                room.reportEvent(eventId, reason.text, score.value);
-                close();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: root.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: qsTr("OK")
+            highlighted: true
+            onClicked: {
+                room.reportEvent(root.eventId, reason.text, score.value);
+                root.close();
             }
-            onRejected: close()
         }
     }
 }

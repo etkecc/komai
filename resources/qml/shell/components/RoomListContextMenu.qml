@@ -31,8 +31,9 @@ Menu {
 
         prompt: qsTr("Enter the tag you want to use:")
         title: qsTr("New tag")
+        titleIcon: ":/icons/icons/ui/tag.svg"
 
-        onAccepted: function (text) {
+        onInputAccepted: function (text) {
             Rooms.toggleTag(root.roomid, "u." + text, true);
         }
     }
@@ -103,7 +104,7 @@ Menu {
         MenuItem {
             text: qsTr("Create new tag...")
 
-            onTriggered: newTag.show()
+            onTriggered: newTag.open()
         }
     }
     SpaceMenu {

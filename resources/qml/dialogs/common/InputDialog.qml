@@ -3,68 +3,64 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import "../../ui"
-import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
-ApplicationWindow {
+Components.OverlayDialog {
     id: inputDialog
 
     property alias prompt: promptLabel.text
     property alias echoMode: statusInput.echoMode
     property alias text: statusInput.text
 
-    signal accepted(text: string)
+    signal inputAccepted(text: string)
 
-    modality: Qt.NonModal
-    flags: Qt.Dialog
-    width: 350
-    height: fontMetrics.lineSpacing * 7
+    titleText: title
+    initialFocusItem: statusInput
 
-    function forceActiveFocus() {
-        statusInput.forceActiveFocus();
+    Label {
+        id: promptLabel
+
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Text.WordWrap
     }
 
-    Shortcut {
-        sequences: [StandardKey.Cancel]
-        onActivated: dbb.rejected()
-    }
+    MatrixTextField {
+        id: statusInput
 
-    ColumnLayout {
-        spacing: Komai.paddingMedium
-        anchors.margins: Komai.paddingMedium
-        anchors.fill: parent
-
-        Label {
-            id: promptLabel
-
-            color: palette.text
-        }
-
-        MatrixTextField {
-            id: statusInput
-
-            Layout.fillWidth: true
-            onAccepted: dbb.accepted()
-            focus: true
-        }
-
-    }
-
-    footer: DialogButtonBox {
-        id: dbb
-
-        standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+        Layout.fillWidth: true
+        focus: true
         onAccepted: {
-            inputDialog.accepted(statusInput.text);
-
-            inputDialog.close();
-        }
-        onRejected: {
+            inputDialog.inputAccepted(statusInput.text);
             inputDialog.close();
         }
     }
 
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: inputDialog.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: qsTr("OK")
+            highlighted: true
+            onClicked: {
+                inputDialog.inputAccepted(statusInput.text);
+                inputDialog.close();
+            }
+        }
+    }
 }

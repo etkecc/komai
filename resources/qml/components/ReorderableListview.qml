@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
+import QtQuick.Controls
 import QtQml.Models
 
 Item {
@@ -113,6 +114,10 @@ Item {
 
             spacing: 4
             cacheBuffer: 50
+
+            ScrollBar.vertical: ScrollBar {
+                policy: ScrollBar.AlwaysOn
+            }
         }
 
 

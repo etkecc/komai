@@ -75,13 +75,19 @@ Connections {
         effectsTimer.restart();
     }
 
-    function onShowRawMessageDialog(rawMessage) {
+    function onShowRawMessageDialog(renderedRawMessage, rawMessageJson, rawMessageBody, rawMessageFormattedBody) {
         var component = Qt.createComponent(componentCatalog.timelineRawMessageDialog);
         if (component.status == Component.Ready) {
             var dialog = component.createObject(dialogParent(), {
-                    "rawMessage": rawMessage
+                    "renderedRawMessage": renderedRawMessage,
+                    "rawMessageJson": rawMessageJson,
+                    "rawMessageBody": rawMessageBody,
+                    "rawMessageFormattedBody": rawMessageFormattedBody
                 });
-            dialog.show();
+            if (dialog.open != undefined)
+                dialog.open();
+            else
+                dialog.show();
             destroyDialogOnClose(dialog);
         } else {
             console.error("Failed to create component: " + component.errorString());

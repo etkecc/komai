@@ -37,7 +37,7 @@
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "timeline/formattedcode/RawJsonFormatter.h"
+#include "timeline/rawmessage/RawMessageDialogPayload.h"
 #include "ui/Theme.h"
 #include "ui/UserProfile.h"
 
@@ -1486,10 +1486,14 @@ TimelineModel::viewRawMessage(const QString &id)
     if (!e)
         return;
 
-    const auto rawJson = QString::fromStdString(mtx::accessors::serialize_event(*e).dump(4));
+    const auto eventJson       = mtx::accessors::serialize_event(*e);
     const auto timelinePalette = Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
-    emit showRawMessageDialog(
-      timeline::formattedcode::formatRawJsonForDialog(rawJson, timelinePalette));
+    const auto dialogPayload =
+      timeline::rawmessage::buildRawMessageDialogPayload(eventJson, timelinePalette);
+    emit showRawMessageDialog(dialogPayload.renderedRawMessage,
+                              dialogPayload.rawMessageJson,
+                              dialogPayload.rawMessageBody,
+                              dialogPayload.rawMessageFormattedBody);
 }
 
 void
@@ -1509,10 +1513,14 @@ TimelineModel::viewDecryptedRawMessage(const QString &id)
     if (!e)
         return;
 
-    const auto rawJson = QString::fromStdString(mtx::accessors::serialize_event(*e).dump(4));
+    const auto eventJson       = mtx::accessors::serialize_event(*e);
     const auto timelinePalette = Theme::paletteFromTheme(UserSettings::instance()->uiThemeSlug());
-    emit showRawMessageDialog(
-      timeline::formattedcode::formatRawJsonForDialog(rawJson, timelinePalette));
+    const auto dialogPayload =
+      timeline::rawmessage::buildRawMessageDialogPayload(eventJson, timelinePalette);
+    emit showRawMessageDialog(dialogPayload.renderedRawMessage,
+                              dialogPayload.rawMessageJson,
+                              dialogPayload.rawMessageBody,
+                              dialogPayload.rawMessageFormattedBody);
 }
 
 void

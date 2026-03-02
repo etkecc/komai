@@ -40,6 +40,7 @@
         <file alias="icons/ui/power-off.svg">icons/fluent/assets/Power/SVG/ic_fluent_power_28_regular.svg</file>
         <file alias="icons/ui/refresh.svg">icons/fluent/assets/Arrow Sync/SVG/ic_fluent_arrow_sync_24_regular.svg</file>
         <file alias="icons/ui/reply.svg">icons/fluent/assets/Arrow Reply/SVG/ic_fluent_arrow_reply_24_regular.svg</file>
+        <file alias="icons/ui/raw-message.svg">icons/fluent/assets/Code Block/SVG/ic_fluent_code_block_24_regular.svg</file>
         <file alias="icons/ui/ribbon.svg">icons/fluent/assets/Ribbon/SVG/ic_fluent_ribbon_24_regular.svg</file>
         <file alias="icons/ui/ribbon_star.svg">icons/fluent/assets/Ribbon Star/SVG/ic_fluent_ribbon_star_24_regular.svg</file>
         <file alias="icons/ui/integrations.svg">icons/fluent/assets/Puzzle Piece/SVG/ic_fluent_puzzle_piece_24_regular.svg</file>

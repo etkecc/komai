@@ -491,7 +491,10 @@ signals:
     void editChanged(QString reply);
     void threadChanged(QString id);
     void openReadReceiptsDialog(ReadReceiptsProxy *rr);
-    void showRawMessageDialog(QString rawMessage);
+    void showRawMessageDialog(QString renderedRawMessage,
+                              QString rawMessageJson,
+                              QString rawMessageBody,
+                              QString rawMessageFormattedBody);
     void paginationInProgressChanged(const bool);
     void newCallEvent(const mtx::events::collections::TimelineEvents &event);
     void scrollToIndex(int index);

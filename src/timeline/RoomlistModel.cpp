@@ -42,6 +42,17 @@ constexpr int kCurrentRoomWarmupMaxRequests           = 3;
 constexpr int kCurrentRoomWarmupStartDelayMs          = 260;
 constexpr int kCurrentRoomWarmupStepDelayMs           = 80;
 
+bool
+isCachedEncryptedPreview(const QString &room_id, const DescInfo &description)
+{
+    if (room_id.isEmpty() || description.event_id.isEmpty())
+        return false;
+
+    const auto event = cache::getEvent(room_id.toStdString(), description.event_id.toStdString());
+    return event.has_value() &&
+           mtx::accessors::event_type(*event) == mtx::events::EventType::RoomEncrypted;
+}
+
 void
 scheduleLastReadUpdate(const QSharedPointer<TimelineModel> &roomModel, const QString &roomId)
 {
@@ -377,7 +388,8 @@ RoomlistModel::backfillCachedLastMessage(const QString &room_id,
           self->ensureCachedLastMessage(room_id);
 
           const auto refreshedDescription = self->cachedLastMessages_.value(room_id);
-          if (!refreshedDescription.body.isEmpty()) {
+          if (!refreshedDescription.body.isEmpty() &&
+              !isCachedEncryptedPreview(room_id, refreshedDescription)) {
               if (auto idx = self->roomidToIndex(room_id); idx != -1) {
                   emit self->dataChanged(self->index(idx),
                                          self->index(idx),
@@ -628,6 +640,15 @@ RoomlistModel::data(const QModelIndex &index, int role) const
                 const auto cachedDescription = cachedLastMessages_.value(roomid);
                 if (cachedDescription.body.isEmpty())
                     const_cast<RoomlistModel *>(this)->maybeBackfillCachedLastMessage(roomid);
+                else if (style == UserSettings::LastMessagePreview::Always && encrypted &&
+                         isCachedEncryptedPreview(roomid, cachedDescription)) {
+                    auto *self = const_cast<RoomlistModel *>(this);
+                    self->scheduleRoomPrewarm(roomid, QStringLiteral("auto_preview_decrypt"));
+                    QTimer::singleShot(0, self, [self, roomid]() {
+                        if (self->scheduledPrewarms_.contains(roomid))
+                            self->prewarmRoom(roomid, QStringLiteral("auto_preview_decrypt"));
+                    });
+                }
                 return cachedDescription.body;
             }
             case Roles::Time: {
@@ -936,6 +957,20 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
             auto idx = roomidToIndex(room_id);
             previewedRooms.remove(room_id);
             emit dataChanged(index(idx), index(idx));
+        } else if (alreadyListed) {
+            auto idx = roomidToIndex(room_id);
+            emit dataChanged(index(idx),
+                             index(idx),
+                             {Roles::AvatarUrl,
+                              Roles::RoomName,
+                              Roles::LastMessage,
+                              Roles::Time,
+                              Roles::Timestamp,
+                              Roles::IsInvite,
+                              Roles::IsSpace,
+                              Roles::Tags,
+                              Roles::IsEncrypted,
+                              Qt::DisplayRole});
         } else if (!alreadyListed) {
             roomids.push_back(room_id);
         }
@@ -1486,6 +1521,7 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
         pendingCurrentRoomId_.clear();
         currentRoom_ = models.value(roomid);
         currentRoomPreview_.reset();
+        currentRoom_->updateLastMessage();
         if (manager)
             manager->markRoomSwitchPhaseCpp(roomid, "cpp.room_model_selected");
         scheduleLastReadUpdate(currentRoom_, currentRoom_->roomId());

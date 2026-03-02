@@ -461,6 +461,25 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
         nhlog::ui()->debug(
           "data changed {} to {}", events.size() - to - 1, events.size() - from - 1);
         emit dataChanged(index(events.size() - to - 1, 0), index(events.size() - from - 1, 0));
+
+        if (!decryptDescription)
+            return;
+
+        if (lastMessage_.event_id.isEmpty()) {
+            updateLastMessage();
+            return;
+        }
+
+        const auto lastMessageIdx = events.idToIndex(lastMessage_.event_id.toStdString());
+        if (!lastMessageIdx) {
+            updateLastMessage();
+            return;
+        }
+
+        const auto changedFrom = std::min(from, to);
+        const auto changedTo   = std::max(from, to);
+        if (*lastMessageIdx >= changedFrom && *lastMessageIdx <= changedTo)
+            updateLastMessage();
     });
     connect(&events, &EventStore::pinsChanged, this, &TimelineModel::pinnedMessagesChanged);
 

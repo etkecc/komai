@@ -786,7 +786,17 @@ EventStore::decryptEvent(const IdIndex &idx,
     if (encInfo)
         emit newEncryptedImage(encInfo.value());
 
-    return asCacheEntry(std::move(decryptionResult));
+    auto cachedResult = asCacheEntry(std::move(decryptionResult));
+    if (cachedResult->event) {
+        if (auto idx = cache::getTimelineIndex(room_id_, e.event_id);
+            idx && *idx >= first && *idx <= last) {
+            const auto externalIdx = toExternalIdx(*idx);
+            QTimer::singleShot(
+              0, this, [this, externalIdx]() { emit dataChanged(externalIdx, externalIdx); });
+        }
+    }
+
+    return cachedResult;
 }
 
 void

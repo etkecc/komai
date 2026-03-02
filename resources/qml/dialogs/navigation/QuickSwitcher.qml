@@ -13,6 +13,7 @@ Popup {
 
     property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
     property int textMargin: Komai.paddingSmall
+    property int roomAvatarSize: Komai.listIconSize
 
     background: Rectangle {
         color: palette.alternateBase
@@ -129,8 +130,8 @@ Popup {
         Completer {
             id: completerPopup
 
-            avatarHeight: quickSwitcher.textHeight
-            avatarWidth: quickSwitcher.textHeight
+            avatarHeight: quickSwitcher.roomAvatarSize
+            avatarWidth: quickSwitcher.roomAvatarSize
             bottomToTop: false
             centerRowContent: false
             completerName: "room"

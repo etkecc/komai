@@ -30,7 +30,13 @@ Control {
 
     function changeCompleter() {
         if (completerName) {
-            completer = TimelineManager.completerFor(completerName, completerName == "room" ? "" : popup.roomId);
+            var needsRoom = completerName !== "room" && completerName !== "roomAliases" && completerName !== "command";
+            if (needsRoom && !popup.roomId) {
+                completer = undefined;
+                currentIndex = -1;
+                return;
+            }
+            completer = TimelineManager.completerFor(completerName, needsRoom ? popup.roomId : "");
             completer.setSearchString("");
         } else {
             completer = undefined;

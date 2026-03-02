@@ -58,6 +58,25 @@ UserSettings::recentReactions() const
 {
     return recentReactions_;
 }
+const QMap<QString, QString> &
+UserSettings::composerDraftsByRoom() const
+{
+    return composerDraftsByRoom_;
+}
+
+QString
+UserSettings::composerDraftForRoom(const QString &roomId) const
+{
+    return composerDraftsByRoom_.value(roomId);
+}
+
+bool
+UserSettings::hasComposerDraftForRoom(const QString &roomId) const
+{
+    const auto it = composerDraftsByRoom_.constFind(roomId);
+    return it != composerDraftsByRoom_.constEnd() && !it.value().trimmed().isEmpty();
+}
+
 QList<QStringList>
 UserSettings::collapsedSpaces() const
 {

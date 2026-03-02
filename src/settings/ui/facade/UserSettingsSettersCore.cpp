@@ -7,6 +7,7 @@
 
 #include "Logging.h"
 #include "settings/SettingKeys.h"
+#include "settings/SettingsController.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 bool

@@ -253,6 +253,7 @@ private slots:
 
 signals:
     void textChanged(QString newText);
+    void draftTextChanged(QString newText);
     void uploadingChanged(bool value);
     void containsInvalidCommandChanged();
     void mentionsChanged();

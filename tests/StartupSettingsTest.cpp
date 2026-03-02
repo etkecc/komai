@@ -758,6 +758,54 @@ testInvalidStateDimensionsFallbackToSafeValues()
 }
 
 bool
+testComposerDraftsPersistInState()
+{
+    const QString profile = QStringLiteral("composer-drafts-state-persistence-profile");
+    StartupSettingsTestContext ctx{profile};
+    if (!ctx.isValid())
+        return expect(false, "composer drafts fixture root can be created");
+
+    YAML::Node stateRoot(YAML::NodeType::Map);
+    stateRoot["composer"]["drafts"]["by_room"]["!roomA:example.org"] = "hello from draft A";
+    stateRoot["composer"]["drafts"]["by_room"]["!roomB:example.org"] = "   ";
+    if (!ctx.writeState(stateRoot))
+        return expect(false, "composer drafts fixture can be persisted");
+
+    UserSettings::initialize(profile);
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return expect(false, "UserSettings instance is available for composer drafts test");
+
+    bool ok = true;
+    ok &= expect(settings->hasComposerDraftForRoom(QStringLiteral("!roomA:example.org")),
+                 "non-empty room draft is loaded from state");
+    ok &= expect(settings->composerDraftForRoom(QStringLiteral("!roomA:example.org")) ==
+                   QStringLiteral("hello from draft A"),
+                 "loaded room draft text matches state");
+    ok &= expect(!settings->hasComposerDraftForRoom(QStringLiteral("!roomB:example.org")),
+                 "whitespace-only draft entries are dropped on load");
+
+    settings->setPersistenceSuspended(false);
+    settings->setComposerDraftForRoom(QStringLiteral("!roomA:example.org"),
+                                      QStringLiteral("updated draft A"));
+    settings->setComposerDraftForRoom(QStringLiteral("!roomC:example.org"),
+                                      QStringLiteral("new draft C"));
+    settings->setComposerDraftForRoom(QStringLiteral("!roomC:example.org"), QStringLiteral("   "));
+
+    const auto persisted = settings::storage::loadYamlFile(ctx.stateFile(), "composer-drafts-state");
+    const auto drafts    = yaml_settings::readStringMap(persisted, SettingKey::ComposerDraftsByRoom);
+
+    ok &= expect(drafts.value(QStringLiteral("!roomA:example.org")) == QStringLiteral("updated draft A"),
+                 "state save updates existing room draft");
+    ok &= expect(!drafts.contains(QStringLiteral("!roomB:example.org")),
+                 "state save omits removed/empty room drafts");
+    ok &= expect(!drafts.contains(QStringLiteral("!roomC:example.org")),
+                 "setting whitespace-only draft clears persisted room draft");
+
+    return ok;
+}
+
+bool
 testSessionIdentityValuesAreTrimmedOnLoad()
 {
     const QString profile = QStringLiteral("session-trim-normalization-profile");
@@ -1520,6 +1568,7 @@ main()
     ok &= testEnumSettingsPersistAsStrings();
     ok &= testInvalidConfigTokensFallbackToSafeValues();
     ok &= testInvalidStateDimensionsFallbackToSafeValues();
+    ok &= testComposerDraftsPersistInState();
     ok &= testSessionIdentityValuesAreTrimmedOnLoad();
     ok &= testMalformedSessionIdentityValuesFallbackToEmpty();
     ok &= testSessionAuthStateHelpersForIncompleteLogin();

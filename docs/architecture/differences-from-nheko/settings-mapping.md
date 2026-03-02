@@ -128,6 +128,7 @@ Note:
 | `hidden_pins` | `timeline.pins.hidden` | state.yml | list(text) | runtime timeline state |
 | `hidden_widgets` | `timeline.widgets.hidden` | state.yml | list(text) | runtime timeline state |
 | `recent_reactions` | `composer.reactions.recent` | state.yml | list(text) | runtime convenience state |
+| `room_drafts` | `composer.drafts.by_room` | state.yml | map(text->text) | unsent composer drafts per room, restored across restarts |
 | `collapsed_spaces` | `sidebars.communities.collapsed_spaces` | state.yml | list(list(text)) | runtime expansion state |
 | `presence` | `network.presence.status_policy` | config.yml | enum | account-scoped preference |
 | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | int | advanced calls/screenshare pref |

@@ -443,6 +443,10 @@ public:
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setRecentReactions(QStringList recent);
+    void setComposerDraftsByRoom(const QMap<QString, QString> &draftsByRoom);
+    void setComposerDraftForRoom(const QString &roomId, const QString &draftText);
+    void clearComposerDraftForRoom(const QString &roomId);
+    void clearAllComposerDrafts();
     void setUiAvatarsIdenticonFallback(bool state);
     void setTimelineMediaOpenImagesExternal(bool state);
     void setTimelineMediaOpenVideosExternal(bool state);

@@ -22,9 +22,11 @@ using yaml_settings::readNestedStringLists;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
 using yaml_settings::readStringList;
+using yaml_settings::readStringMap;
 using yaml_settings::setNode;
 using yaml_settings::writeNestedStringLists;
 using yaml_settings::writeStringList;
+using yaml_settings::writeStringMap;
 
 namespace settings::serializer {
 
@@ -80,6 +82,7 @@ loadState(UserSettings &settings, const YAML::Node &root)
     settings.setHiddenPins(readStringList(root, SettingKey::TimelinePinsHidden));
     settings.setHiddenWidgets(readStringList(root, SettingKey::TimelineWidgetsHidden));
     settings.setRecentReactions(readStringList(root, SettingKey::ComposerReactionsRecent));
+    settings.setComposerDraftsByRoom(readStringMap(root, SettingKey::ComposerDraftsByRoom));
     settings.setCollapsedSpaces(
       readNestedStringLists(root, SettingKey::SidebarsCommunitiesCollapsedSpaces));
 }
@@ -105,6 +108,7 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
     writeStringList(root, SettingKey::TimelinePinsHidden, settings.hiddenPins());
     writeStringList(root, SettingKey::TimelineWidgetsHidden, settings.hiddenWidgets());
     writeStringList(root, SettingKey::ComposerReactionsRecent, settings.recentReactions());
+    writeStringMap(root, SettingKey::ComposerDraftsByRoom, settings.composerDraftsByRoom());
 
     if (writeYamlFile(stateFilePath, root, false)) {
         activeLoggers().ui->debug("Saved state to: {}", stateFilePath.toStdString());

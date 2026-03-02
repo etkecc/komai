@@ -32,10 +32,14 @@ settings::SettingsController::save(UserSettings &settings, SavePolicy policy)
 
     syncCoreStoreFromSettings(settings);
 
-    settings::serializer::saveConfig(
-      settings, settings.configFilePath(), settings.usesFileSecretsProvider());
-
-    if (policy == SavePolicy::Full) {
+    if (policy == SavePolicy::ConfigOnly) {
+        settings::serializer::saveConfig(
+          settings, settings.configFilePath(), settings.usesFileSecretsProvider());
+    } else if (policy == SavePolicy::StateOnly) {
+        settings::serializer::saveState(settings, settings.stateFilePath());
+    } else if (policy == SavePolicy::Full) {
+        settings::serializer::saveConfig(
+          settings, settings.configFilePath(), settings.usesFileSecretsProvider());
         settings::serializer::saveSession(settings, settings.sessionFilePath());
 
         settings::persistence::saveProfileSecrets(settings.profileId(),

@@ -103,6 +103,7 @@ constexpr auto SidebarsCommunitiesCurrentTagId    = "sidebars.communities.curren
 constexpr auto TimelinePinsHidden                 = "timeline.pins.hidden";
 constexpr auto TimelineWidgetsHidden              = "timeline.widgets.hidden";
 constexpr auto ComposerReactionsRecent            = "composer.reactions.recent";
+constexpr auto ComposerDraftsByRoom               = "composer.drafts.by_room";
 
 // session.yml
 constexpr auto SessionSchemaVersion     = SchemaVersion;

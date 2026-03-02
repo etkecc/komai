@@ -53,6 +53,10 @@ public:
          * Save only safe startup/user-facing config values (no session/state/secrets).
          */
         ConfigOnly,
+        /**
+         * Save runtime state only (state.yml), without touching config/session/secrets.
+         */
+        StateOnly,
     };
 
     /**

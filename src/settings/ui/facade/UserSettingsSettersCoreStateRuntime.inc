@@ -37,6 +37,72 @@ UserSettings::setRecentReactions(QStringList recent)
 }
 
 void
+UserSettings::setComposerDraftsByRoom(const QMap<QString, QString> &draftsByRoom)
+{
+    composerDraftsByRoom_.clear();
+    for (auto it = draftsByRoom.constBegin(); it != draftsByRoom.constEnd(); ++it) {
+        if (it.key().isEmpty() || it.value().trimmed().isEmpty())
+            continue;
+        composerDraftsByRoom_.insert(it.key(), it.value());
+    }
+    save();
+}
+
+void
+UserSettings::setComposerDraftForRoom(const QString &roomId, const QString &draftText)
+{
+    if (roomId.isEmpty())
+        return;
+
+    const auto trimmed = draftText.trimmed();
+    if (trimmed.isEmpty()) {
+        clearComposerDraftForRoom(roomId);
+        return;
+    }
+
+    const auto existing = composerDraftsByRoom_.value(roomId);
+    if (existing == draftText)
+        return;
+
+    composerDraftsByRoom_.insert(roomId, draftText);
+    if (suppressSettingsSave_)
+        return;
+
+    settings::SettingsController controller;
+    controller.save(*this, settings::SettingsController::SavePolicy::StateOnly);
+}
+
+void
+UserSettings::clearComposerDraftForRoom(const QString &roomId)
+{
+    if (roomId.isEmpty())
+        return;
+
+    if (composerDraftsByRoom_.remove(roomId) == 0)
+        return;
+
+    if (suppressSettingsSave_)
+        return;
+
+    settings::SettingsController controller;
+    controller.save(*this, settings::SettingsController::SavePolicy::StateOnly);
+}
+
+void
+UserSettings::clearAllComposerDrafts()
+{
+    if (composerDraftsByRoom_.isEmpty())
+        return;
+
+    composerDraftsByRoom_.clear();
+    if (suppressSettingsSave_)
+        return;
+
+    settings::SettingsController controller;
+    controller.save(*this, settings::SettingsController::SavePolicy::StateOnly);
+}
+
+void
 UserSettings::setCollapsedSpaces(QList<QStringList> spaces)
 {
     collapsedSpaces_ = spaces;

@@ -121,6 +121,7 @@ UserSettings::clearAuthInMemory()
     homeserver_  = QString();
     userId_      = QString();
     deviceId_    = QString();
+    composerDraftsByRoom_.clear();
     secrets_.clear();
     emitSessionAuthStateChangedIfNeeded(hadPersistedSessionIdentity, hadActiveSessionState);
 }

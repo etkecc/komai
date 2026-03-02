@@ -84,6 +84,7 @@ QStringList mutedTags_;
 QStringList hiddenPins_;
 QStringList hiddenWidgets_;
 QStringList recentReactions_;
+QMap<QString, QString> composerDraftsByRoom_;
 QList<QStringList> collapsedSpaces_;
 bool uiAvatarsIdenticonFallback_;
 bool timelineMediaOpenImagesExternal_;

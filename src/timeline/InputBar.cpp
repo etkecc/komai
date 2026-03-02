@@ -346,6 +346,7 @@ InputBar::setText(const QString &newText)
 
     updateTextContentProperties(newText, true);
     emit textChanged(newText);
+    emit draftTextChanged(newText);
 }
 void
 InputBar::updateState(int selectionStart_,
@@ -369,6 +370,7 @@ InputBar::updateState(int selectionStart_,
         updateTextContentProperties(text_, text_.size() < oldText.size());
         // disabled, as it moves the cursor to the end
         // emit textChanged(text_);
+        emit draftTextChanged(text_);
     }
 
     selectionStart = selectionStart_;

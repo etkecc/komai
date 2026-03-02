@@ -17,16 +17,19 @@ ColumnLayout {
     required property bool isEncrypted
     required property bool hasUnreadMessages
     required property bool hasLoudNotification
+    required property bool hasDraft
     required property int notificationCount
     required property real avatarHeight
     required property real baseFontPixelSize
     required property string roomName
     required property string lastMessage
+    required property string draftPreview
     required property string time
     required property color importantText
     required property color unimportantText
     required property color bubbleBackground
     required property color bubbleText
+    readonly property color draftIndicatorColor: Komai.theme.red
 
     Layout.alignment: compactMode ? Qt.AlignVCenter : Qt.AlignLeft
     Layout.fillWidth: true
@@ -50,7 +53,7 @@ ColumnLayout {
             anchors.left: parent.left
             anchors.verticalCenter: root.compactMode ? parent.verticalCenter : undefined
             color: root.importantText
-            elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - (inlinePreview.visible ? Komai.paddingSmall : 0)
+            elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - ((inlinePreview.visible || inlineDraftPreview.visible) ? Komai.paddingSmall : 0)
             font.bold: root.hasUnreadMessages
             fullText: TimelineManager.htmlEscape(root.roomName)
             textFormat: Text.RichText
@@ -68,7 +71,54 @@ ColumnLayout {
             font.pixelSize: root.baseFontPixelSize * 0.95
             fullText: TimelineManager.htmlEscape(root.lastMessage)
             textFormat: Text.RichText
-            visible: root.compactMode && titleRow.previewsEnabled
+            visible: root.compactMode && titleRow.previewsEnabled && !root.hasDraft
+        }
+        Item {
+            id: inlineDraftPreview
+
+            anchors.left: titleText.right
+            anchors.leftMargin: Komai.paddingSmall
+            anchors.right: timestamp.visible ? timestamp.left : (spaceNotificationBubble.visible ? spaceNotificationBubble.left : parent.right)
+            anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Komai.paddingSmall : 0
+            anchors.verticalCenter: titleText.verticalCenter
+            clip: true
+            height: inlineDraftText.implicitHeight
+            visible: root.compactMode && titleRow.previewsEnabled && root.hasDraft
+
+            Label {
+                id: inlineDraftPrefix
+
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                color: root.draftIndicatorColor
+                font.pixelSize: root.baseFontPixelSize * 0.95
+                text: qsTr("You:")
+            }
+            Image {
+                id: inlineDraftIcon
+
+                anchors.left: inlineDraftPrefix.right
+                anchors.leftMargin: Komai.paddingSmall
+                anchors.verticalCenter: parent.verticalCenter
+                height: Math.round(root.baseFontPixelSize * 0.9)
+                source: "image://colorimage/:/icons/icons/ui/edit.svg?" + root.draftIndicatorColor
+                sourceSize.height: height
+                sourceSize.width: width
+                width: height
+            }
+            ElidedLabel {
+                id: inlineDraftText
+
+                anchors.left: inlineDraftIcon.right
+                anchors.leftMargin: Komai.paddingSmall
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                color: root.draftIndicatorColor
+                elideWidth: Math.max(0, parent.width - inlineDraftPrefix.implicitWidth - inlineDraftIcon.width - Komai.paddingSmall * 2)
+                font.pixelSize: root.baseFontPixelSize * 0.95
+                fullText: TimelineManager.htmlEscape(root.draftPreview)
+                textFormat: Text.RichText
+            }
         }
         Label {
             id: timestamp
@@ -97,7 +147,7 @@ ColumnLayout {
 
         Layout.alignment: Qt.AlignBottom
         Layout.fillWidth: true
-        Layout.preferredHeight: subtitleText.implicitHeight
+        Layout.preferredHeight: root.hasDraft ? subtextDraftText.implicitHeight : subtitleText.implicitHeight
         visible: !root.compactMode && !root.isSpace && (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !root.isEncrypted))
 
         ElidedLabel {
@@ -109,6 +159,50 @@ ColumnLayout {
             font.pixelSize: root.baseFontPixelSize * 0.95
             fullText: TimelineManager.htmlEscape(root.lastMessage)
             textFormat: Text.RichText
+            visible: !root.hasDraft
+        }
+        Item {
+            id: subtextDraftPreview
+
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: subtextDraftText.implicitHeight
+            visible: root.hasDraft
+
+            Label {
+                id: subtextDraftPrefix
+
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                color: root.draftIndicatorColor
+                font.pixelSize: root.baseFontPixelSize * 0.95
+                text: qsTr("You:")
+            }
+            Image {
+                id: subtextDraftIcon
+
+                anchors.left: subtextDraftPrefix.right
+                anchors.leftMargin: Komai.paddingSmall
+                anchors.verticalCenter: parent.verticalCenter
+                height: Math.round(root.baseFontPixelSize * 0.9)
+                source: "image://colorimage/:/icons/icons/ui/edit.svg?" + root.draftIndicatorColor
+                sourceSize.height: height
+                sourceSize.width: width
+                width: height
+            }
+            ElidedLabel {
+                id: subtextDraftText
+
+                anchors.left: subtextDraftIcon.right
+                anchors.leftMargin: Komai.paddingSmall
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                color: root.draftIndicatorColor
+                elideWidth: Math.max(0, parent.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0) - subtextDraftPrefix.implicitWidth - subtextDraftIcon.width - Komai.paddingSmall * 2)
+                font.pixelSize: root.baseFontPixelSize * 0.95
+                fullText: TimelineManager.htmlEscape(root.draftPreview)
+                textFormat: Text.RichText
+            }
         }
         NotificationBubble {
             id: subtextNotificationBubble

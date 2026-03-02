@@ -27,5 +27,7 @@ timeline:
     hidden: []
 
 composer:
+  drafts:
+    by_room: {}
   reactions:
     recent: []

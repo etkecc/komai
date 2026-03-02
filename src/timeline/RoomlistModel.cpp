@@ -139,6 +139,8 @@ RoomlistModel::roleNames() const
       {HasUnreadMessages, "hasUnreadMessages"},
       {HasLoudNotification, "hasLoudNotification"},
       {NotificationCount, "notificationCount"},
+      {HasDraft, "hasDraft"},
+      {DraftPreview, "draftPreview"},
       {IsInvite, "isInvite"},
       {IsSpace, "isSpace"},
       {Tags, "tags"},
@@ -547,6 +549,59 @@ RoomlistModel::prewarmRoom(const QString &roomid, const QString &trigger)
     activePrewarms_.remove(roomid);
 }
 
+bool
+RoomlistModel::hasDraft(const QString &room_id) const
+{
+    if (room_id.isEmpty())
+        return false;
+
+    if (invites.contains(room_id) || previewedRooms.contains(room_id))
+        return false;
+
+    const auto settings = UserSettings::instance();
+    return settings && settings->hasComposerDraftForRoom(room_id);
+}
+
+QString
+RoomlistModel::draftPreviewText(const QString &room_id) const
+{
+    if (!hasDraft(room_id))
+        return {};
+
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return {};
+
+    auto draft = settings->composerDraftForRoom(room_id);
+    draft.replace(QChar(u'\n'), QChar(u' '));
+    draft.replace(QChar(u'\r'), QChar(u' '));
+    return draft.simplified();
+}
+
+void
+RoomlistModel::persistDraftForRoom(const QString &room_id, const QString &draftText)
+{
+    if (room_id.isEmpty())
+        return;
+
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return;
+
+    if (draftText.trimmed().isEmpty())
+        settings->clearComposerDraftForRoom(room_id);
+    else
+        settings->setComposerDraftForRoom(room_id, draftText);
+
+    const auto idx = roomidToIndex(room_id);
+    if (idx == -1)
+        return;
+
+    emit dataChanged(index(idx),
+                     index(idx),
+                     {Roles::HasDraft, Roles::DraftPreview, Roles::LastMessage, Qt::DisplayRole});
+}
+
 QVariant
 RoomlistModel::data(const QModelIndex &index, int role) const
 {
@@ -567,6 +622,10 @@ RoomlistModel::data(const QModelIndex &index, int role) const
         } else if (role == Roles::DirectChatOtherUserId) {
             return directChatToUser.count(roomid) ? directChatToUser.at(roomid).front()
                                                   : QLatin1String("");
+        } else if (role == Roles::HasDraft) {
+            return hasDraft(roomid);
+        } else if (role == Roles::DraftPreview) {
+            return draftPreviewText(roomid);
         }
 
         if (models.contains(roomid)) {
@@ -860,6 +919,18 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
         auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
         newRoom->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
 
+        connect(
+          newRoom->input(),
+          &InputBar::draftTextChanged,
+          this,
+          [room_id, this](const QString &draftText) { persistDraftForRoom(room_id, draftText); });
+
+        if (const auto settings = UserSettings::instance()) {
+            const auto restoredDraft = settings->composerDraftForRoom(room_id);
+            if (!restoredDraft.trimmed().isEmpty() && newRoom->input()->text().trimmed().isEmpty())
+                newRoom->input()->setText(restoredDraft);
+        }
+
         connect(MainWindow::instance(),
                 &MainWindow::activeChanged,
                 newRoom.data(),
@@ -966,6 +1037,8 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
                               Roles::LastMessage,
                               Roles::Time,
                               Roles::Timestamp,
+                              Roles::HasDraft,
+                              Roles::DraftPreview,
                               Roles::IsInvite,
                               Roles::IsSpace,
                               Roles::Tags,
@@ -1198,6 +1271,8 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
                               Roles::LastMessage,
                               Roles::Time,
                               Roles::Timestamp,
+                              Roles::HasDraft,
+                              Roles::DraftPreview,
                               Roles::NotificationCount,
                               Roles::HasLoudNotification,
                               Roles::IsInvite,
@@ -1235,6 +1310,8 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
         cachedLastMessageBackfillInProgress_.remove(qroomid);
         roomReadStatus.erase(qroomid);
         invalidateCachedLastMessage(qroomid);
+        if (const auto settings = UserSettings::instance())
+            settings->clearComposerDraftForRoom(qroomid);
         if (pendingCurrentRoomId_ == qroomid)
             pendingCurrentRoomId_.clear();
     }
@@ -1382,6 +1459,8 @@ RoomlistModel::clear()
     pendingCurrentRoomId_.clear();
     currentRoom_ = nullptr;
     currentRoomPreview_.reset();
+    if (const auto settings = UserSettings::instance())
+        settings->clearAllComposerDrafts();
     emit currentRoomChanged("");
     endResetModel();
 }
@@ -1456,6 +1535,8 @@ RoomlistModel::leave(QString roomid, QString reason)
     cachedLastMessageBackfillInProgress_.remove(roomid);
     roomReadStatus.erase(roomid);
     invalidateCachedLastMessage(roomid);
+    if (const auto settings = UserSettings::instance())
+        settings->clearComposerDraftForRoom(roomid);
     if (pendingCurrentRoomId_ == roomid)
         pendingCurrentRoomId_.clear();
 }
@@ -1616,11 +1697,12 @@ enum NotificationImportance : short
     Preview            = -2,
     ImportanceDisabled = -1,
     AllEventsRead      = 0,
-    NewMessage         = 1,
-    NewMentions        = 2,
-    Invite             = 3,
-    SubSpace           = 4,
-    CurrentSpace       = 5,
+    Draft              = 1,
+    NewMessage         = 2,
+    NewMentions        = 3,
+    Invite             = 4,
+    SubSpace           = 5,
+    CurrentSpace       = 6,
 };
 }
 
@@ -1652,6 +1734,8 @@ FilteredRoomlistModel::calculateImportance(const QModelIndex &idx) const
         return NewMentions;
     } else if (sourceModel()->data(idx, RoomlistModel::NotificationCount).toInt() > 0) {
         return NewMessage;
+    } else if (sourceModel()->data(idx, RoomlistModel::HasDraft).toBool()) {
+        return Draft;
     } else {
         return AllEventsRead;
     }

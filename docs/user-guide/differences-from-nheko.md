@@ -46,6 +46,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 
 ## ✏️ Composer and Replies
 
+- **Persistent per-room drafts** -- unsent composer text is restored after app restarts/crashes, and rooms with drafts are highlighted in the room list, so you won't forget to finish them
 - Text emoticons auto-replaced with emoji
 - Polished reply popup with proper background, headers, and spacing
 - Polished forward dialog with a confirmation step

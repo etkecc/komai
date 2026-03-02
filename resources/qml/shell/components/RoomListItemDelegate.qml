@@ -25,11 +25,13 @@ ItemDelegate {
     required property string directChatOtherUserId
     required property bool hasLoudNotification
     required property bool hasUnreadMessages
+    required property bool hasDraft
     property color importantText: palette.text
     required property bool isDirect
     required property bool isInvite
     required property bool isSpace
     required property string lastMessage
+    required property string draftPreview
     required property int notificationCount
     required property string roomId
     required property string roomName
@@ -39,6 +41,11 @@ ItemDelegate {
     readonly property bool isSelected: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
     readonly property bool isLowPriorityRoom: !!tags && tags.indexOf && tags.indexOf("m.lowpriority") !== -1
     readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification)
+    readonly property bool emphasizeDraftState: hasDraft && !emphasizeUnreadState
+    readonly property bool emphasizeActivityState: emphasizeUnreadState || emphasizeDraftState
+    readonly property color draftActivityBase: Qt.rgba((Komai.theme.red.r + palette.highlight.r) / 2, (Komai.theme.red.g + palette.highlight.g) / 2, (Komai.theme.red.b + palette.highlight.b) / 2, 1)
+    readonly property color draftHoverBackground: Qt.rgba((palette.dark.r * 0.7) + (draftActivityBase.r * 0.3), (palette.dark.g * 0.7) + (draftActivityBase.g * 0.3), (palette.dark.b * 0.7) + (draftActivityBase.b * 0.3), 1)
+    readonly property color draftSelectedBackground: Qt.rgba((palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25), (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25), (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1)
     property int hoverPrewarmDelayMs: 100
     property color unimportantText: palette.buttonText
     ToolTip.delay: Komai.tooltipDelay
@@ -58,8 +65,10 @@ ItemDelegate {
 
         Rectangle {
             anchors.fill: parent
-            color: Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
-            visible: roomItem.emphasizeUnreadState && roomItem.state !== "selected"
+            color: roomItem.emphasizeDraftState
+                ? Qt.rgba(Komai.theme.red.r, Komai.theme.red.g, Komai.theme.red.b, 0.12)
+                : Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
+            visible: roomItem.emphasizeActivityState && roomItem.state !== "selected"
         }
     }
     states: [
@@ -69,7 +78,7 @@ ItemDelegate {
 
             PropertyChanges {
                 roomItem {
-                    backgroundColor: palette.dark
+                    backgroundColor: roomItem.emphasizeDraftState ? roomItem.draftHoverBackground : palette.dark
                     bubbleBackground: palette.highlight
                     bubbleText: palette.highlightedText
                     importantText: palette.brightText
@@ -83,7 +92,7 @@ ItemDelegate {
 
             PropertyChanges {
                 roomItem {
-                    backgroundColor: palette.highlight
+                    backgroundColor: roomItem.emphasizeDraftState ? roomItem.draftSelectedBackground : palette.highlight
                     bubbleBackground: palette.highlightedText
                     bubbleText: palette.highlight
                     importantText: palette.highlightedText
@@ -186,12 +195,14 @@ ItemDelegate {
             isInvite: roomItem.isInvite
             isEncrypted: roomItem.isEncrypted
             hasUnreadMessages: roomItem.emphasizeUnreadState
+            hasDraft: roomItem.hasDraft
             hasLoudNotification: roomItem.hasLoudNotification
             notificationCount: roomItem.notificationCount
             avatarHeight: avatar.height
             baseFontPixelSize: roomItem.baseFontPixelSize
             roomName: roomItem.roomName
             lastMessage: roomItem.lastMessage
+            draftPreview: roomItem.draftPreview
             time: roomItem.time
             importantText: roomItem.importantText
             unimportantText: roomItem.unimportantText
@@ -209,9 +220,9 @@ ItemDelegate {
     Rectangle {
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        color: palette.highlight
+        color: roomItem.emphasizeDraftState ? Komai.theme.red : palette.highlight
         height: parent.height - Komai.paddingSmall * 2
-        visible: roomItem.emphasizeUnreadState
+        visible: roomItem.emphasizeActivityState
         width: 6
         radius: 3
     }

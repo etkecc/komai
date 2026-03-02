@@ -11,6 +11,9 @@
     QStringList hiddenPins() const;
     QStringList hiddenWidgets() const;
     QStringList recentReactions() const;
+    const QMap<QString, QString> &composerDraftsByRoom() const;
+    QString composerDraftForRoom(const QString &roomId) const;
+    bool hasComposerDraftForRoom(const QString &roomId) const;
     bool uiAvatarsIdenticonFallback() const;
     bool timelineMediaOpenImagesExternal() const;
     bool timelineMediaOpenVideosExternal() const;

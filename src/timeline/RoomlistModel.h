@@ -77,6 +77,8 @@ public:
         HasUnreadMessages,
         HasLoudNotification,
         NotificationCount,
+        HasDraft,
+        DraftPreview,
         IsInvite,
         IsSpace,
         IsPreview,
@@ -173,6 +175,9 @@ private:
     void addRoom(const QString &room_id,
                  bool suppressInsertNotification = false,
                  const char *reason              = "unknown");
+    QString draftPreviewText(const QString &room_id) const;
+    bool hasDraft(const QString &room_id) const;
+    void persistDraftForRoom(const QString &room_id, const QString &draftText);
     void fetchPreviews(QString roomid, const std::string &from = "");
     std::set<QString> updateDMs(mtx::events::AccountDataEvent<mtx::events::account_data::Direct> e);
 

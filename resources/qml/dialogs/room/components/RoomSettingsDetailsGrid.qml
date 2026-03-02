@@ -19,13 +19,11 @@ GridLayout {
                 Layout.margins: Komai.paddingMedium
                 Layout.fillWidth: true
 
-                Label {
-                    text: qsTr("NOTIFICATIONS")
-                    font.bold: true
-                    color: palette.text
+                Components.SettingsSection {
+                    label: qsTr("Notifications")
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingLarge
+                    Layout.topMargin: Komai.paddingMedium
                 }
 
                 Label {
@@ -47,13 +45,11 @@ GridLayout {
                     wheelEnabled: activeFocus
                 }
 
-                Label {
-                    text: qsTr("ENTRY PERMISSIONS")
-                    font.bold: true
-                    color: palette.text
+                Components.SettingsSection {
+                    label: qsTr("Entry permissions")
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingLarge
+                    Layout.topMargin: Komai.paddingMedium
                 }
 
                 Label {
@@ -151,13 +147,11 @@ GridLayout {
                     Layout.fillWidth: true
                 }
 
-                Label {
-                    text: qsTr("MESSAGE VISIBILITY")
-                    font.bold: true
-                    color: palette.text
+                Components.SettingsSection {
+                    label: qsTr("Message visibility")
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingLarge
+                    Layout.topMargin: Komai.paddingMedium
                 }
 
                 Label {
@@ -285,13 +279,11 @@ GridLayout {
                     Layout.alignment: Qt.AlignRight
                 }
 
-                Label {
-                    text: qsTr("GENERAL SETTINGS")
-                    font.bold: true
-                    color: palette.text
+                Components.SettingsSection {
+                    label: qsTr("General settings")
                     Layout.columnSpan: 2
                     Layout.fillWidth: true
-                    Layout.topMargin: Komai.paddingLarge
+                    Layout.topMargin: Komai.paddingMedium
                 }
 
                 Label {
@@ -384,13 +376,11 @@ GridLayout {
                     Layout.alignment: Qt.AlignRight
                 }
 
-                Label {
-                    text: qsTr("INFO")
-                    font.bold: true
-                    color: palette.text
+                Components.SettingsSection {
+                    label: qsTr("Info")
                     Layout.columnSpan: 2
-                    Layout.topMargin: Komai.paddingLarge
                     Layout.fillWidth: true
+                    Layout.topMargin: Komai.paddingMedium
                 }
 
                 Label {

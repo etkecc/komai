@@ -18,31 +18,28 @@ Components.OverlayDialog {
 
     title: qsTr("Room Settings")
     titleIcon: ":/icons/icons/ui/toggles.svg"
+    width: Math.round((parent ? parent.width : 760) * 0.8)
 
     Item {
         Layout.fillWidth: true
-        Layout.preferredHeight: 450
-        implicitWidth: parent.width
+        Layout.preferredHeight: Math.min(scrollContent.implicitHeight + Komai.paddingMedium,
+                                         roomSettingsDialog.parent ? roomSettingsDialog.parent.height * 0.85 : 600)
 
-        Flickable {
-            id: flickable
+        ScrollView {
+            id: scrollView
 
-            boundsBehavior: Flickable.StopAtBounds
             anchors.fill: parent
-            clip: true
-            flickableDirection: Flickable.VerticalFlick
-            contentWidth: flickable.width
-            contentHeight: contentLayout1.height
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
             ColumnLayout {
-                id: contentLayout1
-
-                width: parent.width
+                id: scrollContent
+                width: scrollView.availableWidth
                 spacing: Komai.paddingMedium
 
                 RoomSettingsHeaderSection {
                     roomSettings: roomSettingsDialog.roomSettings
-                    dialogWidth: flickable.width
+                    dialogWidth: scrollView.availableWidth
                     Layout.alignment: Qt.AlignHCenter
                 }
 
@@ -65,9 +62,9 @@ Components.OverlayDialog {
         Button {
             id: showMoreButton
 
-            anchors.horizontalCenter: flickable.horizontalCenter
-            y: Math.min(topicSection.y + topicSection.showMorePlaceholder.y + contentLayout1.y - flickable.contentY,
-                        flickable.height - height)
+            anchors.horizontalCenter: scrollView.horizontalCenter
+            y: Math.min(topicSection.y + topicSection.showMorePlaceholder.y - scrollView.contentItem.contentY,
+                        scrollView.height - height)
             visible: topicSection.roomTopic.cut
             text: topicSection.roomTopic.showMore ? qsTr("show less") : qsTr("show more")
 

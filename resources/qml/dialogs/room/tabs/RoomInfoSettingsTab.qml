@@ -339,7 +339,7 @@ Item {
                             onCheckedChanged: {
                                 if (roomSettings && roomSettings.isEncryptionEnabled) {
                                     checked = true;
-                                    return ;
+                                    return;
                                 }
                                 if (checked === true)
                                     confirmEncryptionDialog.open();

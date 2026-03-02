@@ -112,7 +112,9 @@ Rectangle {
                 color: palette.text
                 font.pixelSize: replyPopup.headerFontSize
                 font.bold: true
-                text: qsTr("Replying to this message")
+                text: replyPreview.replyDisplayName !== ""
+                    ? qsTr("Replying to %1").arg(replyPreview.replyDisplayName)
+                    : qsTr("Replying to this message")
             }
 
             Item {
@@ -187,6 +189,14 @@ Rectangle {
             property string replyUserId: (modelData && modelData.userId)
                 ? String(modelData.userId)
                 : ""
+            property string replyDisplayName: {
+                const userName = (modelData && modelData.userName)
+                        ? String(modelData.userName).trim()
+                        : "";
+                if (userName.length > 0)
+                    return userName;
+                return replyUserId;
+            }
             property bool isReplyFromCurrentUser: {
                 const currentUser = Komai.currentUser;
                 const currentUserId = (currentUser && currentUser.userid)

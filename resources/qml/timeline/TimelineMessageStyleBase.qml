@@ -123,8 +123,11 @@ TimelineEvent {
 
         if (typeof chat.model.dataByIndex === "function") {
             const role = typeof roleOrName === "number" ? roleOrName : roleValueForName(roleName);
-            if (role >= 0)
-                return chat.model.dataByIndex(row, role);
+            if (role >= 0) {
+                const value = chat.model.dataByIndex(row, role);
+                if (value !== undefined && value !== null)
+                    return value;
+            }
             return fallback;
         }
 

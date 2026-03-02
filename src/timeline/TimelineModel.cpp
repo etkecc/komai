@@ -17,6 +17,7 @@
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QRegularExpression>
+#include <QScreen>
 #include <QStandardPaths>
 #include <QVariant>
 
@@ -767,15 +768,41 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
                             .arg(displayName(QString::fromStdString(e.sender)))
                             .arg(QString::fromStdString(e.content.topic).toHtmlEscaped());
                   } else if constexpr (t == mtx::events::EventType::RoomAvatar) {
-                      if (e.content.url.starts_with("mxc://"))
+                      if (e.content.url.starts_with("mxc://")) {
+                          const auto compactMode = UserSettings::instance()->uiLayoutCompactMode();
+                          const auto uiFontMetrics = QFontMetricsF(QGuiApplication::font());
+                          const int inlinePreviewLogicalPx =
+                            qMax(1, qRound(uiFontMetrics.height()));
+                          int avatarThumbLogicalPx =
+                            compactMode ? qMax(1,
+                                               qCeil(uiFontMetrics.lineSpacing() * 1.25))
+                                        : 40; // matches Komai.avatarSize
+                          if (avatarThumbLogicalPx > 1)
+                              avatarThumbLogicalPx -= (avatarThumbLogicalPx % 2);
+
+                          const auto screen       = QGuiApplication::primaryScreen();
+                          const auto dpr          = screen ? screen->devicePixelRatio() : 1.0;
+                          const int avatarThumbPx = qMax(1, qRound(avatarThumbLogicalPx * dpr));
+                          // Match avatar rounding used in Avatar.qml + MxcImageProvider.
+                          const int avatarCornerRadiusPercent =
+                            UserSettings::instance()->uiAvatarsCircular() ? 100 : 25;
+
+                          auto avatarMxcUrl = QString::fromStdString(e.content.url);
+                          avatarMxcUrl.append("#room-avatar");
+                          auto avatarPreviewUrl = QString::fromStdString(e.content.url);
+                          avatarPreviewUrl.replace("mxc://", "image://MxcImage/");
+                          avatarPreviewUrl.append(QStringLiteral("?height=%1&radius=%2")
+                                                    .arg(avatarThumbPx)
+                                                    .arg(avatarCornerRadiusPercent));
+
                           return tr("%1 changed the room avatar to: %2")
                             .arg(displayName(QString::fromStdString(e.sender)))
-                            .arg(QStringLiteral("<img height=\"32\" src=\"%1\">")
-                                   .arg(QUrl::toPercentEncoding(
-                                     QString::fromStdString(e.content.url)
-                                       .replace("mxc://", "image://MxcImage/"),
-                                     ":/")));
-                      else
+                            .arg(QStringLiteral("<a href=\"%1\"><img height=\"%2\" "
+                                                "style=\"vertical-align:middle\" src=\"%3\"></a>")
+                                   .arg(avatarMxcUrl.toHtmlEscaped())
+                                   .arg(inlinePreviewLogicalPx)
+                                   .arg(QUrl::toPercentEncoding(avatarPreviewUrl, ":/?&=")));
+                      } else
                           return tr("%1 removed the room avatar.")
                             .arg(displayName(QString::fromStdString(e.sender)));
                   } else if constexpr (t == mtx::events::EventType::RoomPinnedEvents)

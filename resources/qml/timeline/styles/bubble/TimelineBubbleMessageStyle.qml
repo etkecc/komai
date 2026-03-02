@@ -359,27 +359,42 @@ TimelineMessageStyleBase {
                 scaling: 0.9
 
                 visible: !wrapper.isStateEvent
+                    || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton
 
                 // Bottom-align with the bubble content area
-                anchors.bottom: messageBubble.bottom
-                anchors.bottomMargin: Math.round(Math.max(1, messageBubble.bottomPadding - (metadataOuter.height - fontMetrics.height) / 2))
+                anchors.bottom: wrapper.isStateEvent ? undefined : messageBubble.bottom
+                anchors.bottomMargin: wrapper.isStateEvent
+                    ? 0
+                    : Math.round(Math.max(1, messageBubble.bottomPadding - (metadataOuter.height - fontMetrics.height) / 2))
+                anchors.top: wrapper.isStateEvent ? messageBubble.top : undefined
+                // State events can include taller inline payloads (e.g. avatar previews).
+                // Anchor metadata to the leading text line instead of the bottom edge.
+                anchors.topMargin: wrapper.isStateEvent
+                    ? Math.round((fontMetrics.height - metadataOuter.height) / 2)
+                    : 0
 
                 anchors.left: undefined
                 anchors.right: undefined
-                x: Math.round(wrapper.messageIsRightAligned
-                    ? (messageBubble.x - width - Komai.paddingSmall)
-                    : (messageBubble.x + messageBubble.width + Komai.paddingSmall))
+                x: {
+                    if (wrapper.isStateEvent)
+                        return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
+                    const sideX = wrapper.messageIsRightAligned
+                        ? (messageBubble.x - width - Komai.paddingSmall)
+                        : (messageBubble.x + messageBubble.width + Komai.paddingSmall);
+                    return Math.round(sideX);
+                }
 
                 eventId: wrapper.eventId
                 status: wrapper.status
                 trustlevel: wrapper.trustlevel
                 isEdited: wrapper.isEdited
                 isEncrypted: wrapper.isEncrypted
+                isStateEvent: wrapper.isStateEvent
                 threadId: wrapper.threadId
                 timestamp: wrapper.timestamp
                 room: wrapper.room
                 // Metadata order (timestamp/status/actions) should follow the active bubble side.
-                isSender: wrapper.messageIsRightAligned
+                isSender: wrapper.isStateEvent ? false : wrapper.messageIsRightAligned
                 actionBarActive: messageActions.pinned && messageActions.attached === wrapper
             }
 

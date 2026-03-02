@@ -24,6 +24,7 @@ Components.OverlayDialog {
     readonly property string messageText: (eventId && roomModel) ? String(roomModel.dataById(eventId, Room.Body, "") || "") : ""
     readonly property string formattedBodyText: (eventId && roomModel) ? String(roomModel.dataById(eventId, Room.FormattedBody, "") || "") : ""
     readonly property bool hasFormattedBody: (eventId && roomModel) ? !!roomModel.dataById(eventId, Room.HasFormattedBody, false) : false
+    readonly property bool isStateEvent: (eventId && roomModel) ? !!roomModel.dataById(eventId, Room.IsStateEvent, false) : false
 
     readonly property bool canRedact: roomModel ? roomModel.permissions.canRedact() : false
     readonly property bool canChangePinned: roomModel ? roomModel.permissions.canChange(MtxEvent.PinnedEvents) : false
@@ -87,6 +88,7 @@ Components.OverlayDialog {
         }
 
         KomaiCursorShape {
+            anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
         }
     }
@@ -188,7 +190,7 @@ Components.OverlayDialog {
                 id: copyPermalinkBtn
                 labelText: qsTr("Copy permalink")
                 iconSource: ":/icons/icons/ui/link.svg"
-                visible: root.eventId !== ""
+                visible: root.eventId !== "" && !root.isStateEvent
                 onClicked: {
                     root.close();
                     root.roomModel.copyLinkToEvent(root.eventId);
@@ -207,7 +209,7 @@ Components.OverlayDialog {
                 id: pinBtn
                 labelText: root.isPinned ? qsTr("Unpin") : qsTr("Pin")
                 iconSource: root.isPinned ? ":/icons/icons/ui/pin-off.svg" : ":/icons/icons/ui/pin.svg"
-                visible: root.canChangePinned
+                visible: root.canChangePinned && !root.isStateEvent
                 onClicked: {
                     root.close();
                     if (root.isPinned)
@@ -221,6 +223,7 @@ Components.OverlayDialog {
                 id: markReadBtn
                 labelText: qsTr("Mark as read")
                 iconSource: ":/icons/icons/ui/double-checkmark.svg"
+                visible: !root.isStateEvent
                 onClicked: {
                     root.close();
                     root.roomModel.markEventAsRead(root.eventId);
@@ -269,6 +272,7 @@ Components.OverlayDialog {
                 id: readReceiptsBtn
                 labelText: qsTr("Read receipts")
                 iconSource: ":/icons/icons/ui/eye-show.svg"
+                visible: !root.isStateEvent
                 onClicked: {
                     root.close();
                     root.roomModel.showReadReceipts(root.eventId);
@@ -319,6 +323,7 @@ Components.OverlayDialog {
                 id: reportBtn
                 labelText: qsTr("Report message")
                 iconSource: ":/icons/icons/ui/alert.svg"
+                visible: !root.isStateEvent
                 onClicked: {
                     root.close();
                     root.chatRoot.openReportMessageDialog(root.eventId);

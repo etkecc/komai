@@ -25,8 +25,9 @@ RowLayout {
     readonly property real actionHostWidth: (messageActionsControl && messageActionsControl.parent)
         ? messageActionsControl.parent.width
         : (chatRoot ? chatRoot.width : width)
-    readonly property bool canReact: roomModel ? roomModel.permissions.canSend(MtxEvent.Reaction) : false
-    readonly property bool canSendText: roomModel ? roomModel.permissions.canSend(MtxEvent.TextMessage) : false
+    readonly property bool isStateEvent: !!messageModel && messageModel.isStateEvent
+    readonly property bool canReact: !isStateEvent && (roomModel ? roomModel.permissions.canSend(MtxEvent.Reaction) : false)
+    readonly property bool canSendText: !isStateEvent && (roomModel ? roomModel.permissions.canSend(MtxEvent.TextMessage) : false)
     readonly property bool canEdit: !!messageModel && messageModel.isEditable
     readonly property bool canForward: !!messageModel && isForwardableType(messageModel.type)
     readonly property bool canGoToMessage: !!messageModel && filteredTimeline.filterByContent
@@ -118,12 +119,13 @@ RowLayout {
     Repeater {
         id: pinnedReactionsRepeater
 
-        model: Settings.timelineMessageActionsPinnedReactions.split(",").map(function (s) {
-            return s.trim();
-        }).filter(function (s) {
-            return s.length > 0;
-        }).slice(0, 10)
-        visible: toolbar.canReact
+        model: toolbar.canReact
+            ? Settings.timelineMessageActionsPinnedReactions.split(",").map(function (s) {
+                return s.trim();
+            }).filter(function (s) {
+                return s.length > 0;
+            }).slice(0, 10)
+            : []
 
         delegate: MessageActionsReactionButton {
             required property var modelData
@@ -144,15 +146,18 @@ RowLayout {
     Repeater {
         id: recentReactionsRepeater
 
-        property var pinnedSet: Settings.timelineMessageActionsPinnedReactions.split(",").map(function (s) {
-            return s.trim();
-        }).filter(function (s) {
-            return s.length > 0;
-        }).slice(0, 10)
-        model: Settings.recentReactions.filter(function (reaction) {
-            return pinnedSet.indexOf(reaction) < 0;
-        }).slice(0, Math.max(0, 10 - pinnedSet.length))
-        visible: toolbar.canReact
+        property var pinnedSet: toolbar.canReact
+            ? Settings.timelineMessageActionsPinnedReactions.split(",").map(function (s) {
+                return s.trim();
+            }).filter(function (s) {
+                return s.length > 0;
+            }).slice(0, 10)
+            : []
+        model: toolbar.canReact
+            ? Settings.recentReactions.filter(function (reaction) {
+                return pinnedSet.indexOf(reaction) < 0;
+            }).slice(0, Math.max(0, 10 - pinnedSet.length))
+            : []
 
         delegate: MessageActionsReactionButton {
             required property var modelData

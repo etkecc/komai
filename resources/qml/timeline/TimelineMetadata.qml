@@ -39,6 +39,7 @@ RowLayout {
     required property int trustlevel
     required property bool isEdited
     required property bool isEncrypted
+    required property bool isStateEvent
     required property string threadId
     required property date timestamp
     required property var room
@@ -106,7 +107,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
         Layout.preferredWidth: parent.iconSize
-        visible: !metadata.forceTrailingTimestampLayout && metadata.status != MtxEvent.Empty
+        visible: !metadata.forceTrailingTimestampLayout && !metadata.isStateEvent && metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
     }
@@ -175,7 +176,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.iconSize
         Layout.preferredWidth: parent.iconSize
-        visible: metadata.forceTrailingTimestampLayout && metadata.status != MtxEvent.Empty
+        visible: metadata.forceTrailingTimestampLayout && !metadata.isStateEvent && metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
     }

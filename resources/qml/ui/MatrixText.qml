@@ -36,7 +36,16 @@ TextArea {
     Component.onCompleted: {
         TimelineManager.fixImageRendering(r.textDocument, r);
     }
-    onLinkActivated: (link) => Komai.openLink(link)
+    onLinkActivated: (link) => {
+        if (link && link.startsWith("mxc://")) {
+            const roomAvatarPreviewSuffix = "#room-avatar";
+            const isRoomAvatarPreview = link.endsWith(roomAvatarPreviewSuffix);
+            const cleanLink = isRoomAvatarPreview ? link.slice(0, -roomAvatarPreviewSuffix.length) : link;
+            TimelineManager.openImageOverlay(null, cleanLink, "", isRoomAvatarPreview ? 512 : 0, isRoomAvatarPreview ? 1.0 : 0);
+            return;
+        }
+        Komai.openLink(link);
+    }
 
     // propagate events up
     onPressAndHold: event => event.accepted = false

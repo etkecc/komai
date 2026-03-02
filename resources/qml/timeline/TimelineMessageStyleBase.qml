@@ -280,6 +280,16 @@ TimelineEvent {
     }
 
     function togglePinnedMessageActions(anchorItem) {
+        if (wrapper.isStateEvent
+                && Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.ActionsButton) {
+            const chatRootRef = messageContextMenu && messageContextMenu.chatRoot ? messageContextMenu.chatRoot : null;
+            if (chatRootRef && typeof chatRootRef.openMessageActionsDialog === "function") {
+                const copyText = (main && main.copyText !== undefined && main.copyText !== null) ? String(main.copyText) : "";
+                chatRootRef.openMessageActionsDialog(eventId, threadId, type, isSender, isEncrypted, isEditable, "", copyText);
+                return;
+            }
+        }
+
         if (messageActions.pinned && messageActions.attached === wrapper)
             messageActions.dismiss();
         else
@@ -287,7 +297,7 @@ TimelineEvent {
     }
 
     function openMessageContextMenu(hoveredLink, copyText) {
-        messageContextMenu.show(eventId, threadId, type, isSender, isEncrypted, isEditable, hoveredLink, copyText);
+        messageContextMenu.show(eventId, threadId, type, isSender, isEncrypted, isEditable, isStateEvent, hoveredLink, copyText);
     }
 
     function resolveReplyLink(replyDelegate, x, y, quoteLineWidth, replyHeaderHeight) {

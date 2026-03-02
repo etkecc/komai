@@ -20,6 +20,7 @@ Menu {
     property bool isEditable
     property bool isEncrypted
     property bool isSender
+    property bool isStateEvent
     property string link
     property string text
     property string threadId
@@ -36,13 +37,14 @@ Menu {
         return lastClosedEventId === eventId_ && lastClosedAnchorItem === anchor_ && (Date.now() - lastClosedAtMs) <= closedReuseIgnoreMs;
     }
 
-    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, link_, text_, showAt_) {
+    function show(eventId_, threadId_, eventType_, isSender_, isEncrypted_, isEditable_, isStateEvent_, link_, text_, showAt_) {
         eventId = eventId_;
         threadId = threadId_;
         eventType = eventType_;
         isEncrypted = isEncrypted_;
         isEditable = isEditable_;
         isSender = isSender_;
+        isStateEvent = isStateEvent_;
         popupAnchorItem = showAt_ || null;
         if (text_)
             text = text_;
@@ -132,7 +134,7 @@ Menu {
                 id: reactionOption
 
                 text: qsTr("Re&act")
-                visible: roomModel ? roomModel.permissions.canSend(MtxEvent.Reaction) : false
+                visible: !messageContextMenuRoot.isStateEvent && (roomModel ? roomModel.permissions.canSend(MtxEvent.Reaction) : false)
 
                 onTriggered: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(null, roomModel.roomId, function (plaintext, markdown) {
                     roomModel.input.reaction(messageContextMenuRoot.eventId, plaintext);

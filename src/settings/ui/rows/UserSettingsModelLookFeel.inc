@@ -64,7 +64,7 @@
       SettingKey::UiMotionAnimationsEnabled),
     // InputMode
     { QT_TR_NOOP("Interaction mode"),
-      QT_TR_NOOP("Desktop keeps mouse-first interactions. Touch favors swipe and touch-oriented behavior."),
+      QT_TR_NOOP("Desktop uses mouse-first behavior. Touch mode favors swipe and touch interactions."),
       SM::Options, SM::TabLookFeel,
       lookFeelInputModeValue,
       setLookFeelInputModeValue,
@@ -76,7 +76,7 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable swipe gestures",
       QT_TR_NOOP(
-        "Enable gestures such as swiping between Rooms and Timeline, or swiping a message to reply."),
+        "Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply."),
       SM::TabLookFeel, uiInputTouchSwipeGesturesEnabled, setUiInputTouchSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
     // LookFeelLayoutSection
     { QT_TR_NOOP("Layout"), nullptr, SM::SectionTitle, SM::TabLookFeel,

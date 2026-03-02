@@ -12,7 +12,7 @@
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Send key",
       QT_TR_NOOP(
-        "Select what Enter key combination sends the message. Shift+Enter adds a new line, unless it has been selected, in which case Enter adds a new line instead.\n\nIf an emoji picker or a mention picker is open, it is always handled first."),
+        "Choose which Enter key combination sends messages. Picker selections (emoji/mentions) are always handled first."),
       SM::TabComposer, composerInputSendKey, setComposerInputSendKey, UserSettings::SendMessageKey,
       composerSendMessageKeyValues,
       nullptr,

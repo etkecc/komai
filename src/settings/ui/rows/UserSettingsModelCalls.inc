@@ -6,7 +6,7 @@
     // EnableLegacyCalls
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Enable legacy calls",
-      QT_TR_NOOP("Show the legacy call button in the composer. This older VoIP path may be unreliable."),
+      QT_TR_NOOP("Allows legacy calls (potentially unreliable & not supported everywhere) to be accepted and initiated."),
       SM::TabCalls, callsLegacyEnabled, setCallsLegacyEnabled, nullptr, CallsLegacyEnabled, SettingKey::CallsLegacyEnabled),
     // UseFallbackCallRelayServer
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use turn.matrix.org as fallback relay",
@@ -64,7 +64,7 @@
     // CallsScreenshareFrameRate
     SIMPLE_OPTIONS_INT_CONFIG_ID_SETTING(
       "Screen share frame rate",
-      QT_TR_NOOP("Target frames per second for screen-sharing streams."),
+      QT_TR_NOOP("Target frames per second for screen sharing. Lower values use less CPU and bandwidth."),
       SM::TabCalls, callsScreenshareFrameRate, setCallsScreenshareFrameRate, 1, 120, 1,
       nullptr, nullptr, CallsScreenshareFrameRate, SettingKey::CallsScreenshareFrameRate),
     // CallsScreensharePictureInPicture

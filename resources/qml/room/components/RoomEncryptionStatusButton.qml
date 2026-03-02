@@ -7,6 +7,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
+import "../../components" as Components
 import "../../ui"
 
 AbstractButton {
@@ -21,6 +22,33 @@ AbstractButton {
     property bool showLabel: false
     readonly property bool hasLabel: showLabel && encryptionShortLabel().length > 0
     readonly property int iconSize: Math.max(14, topBarAvatarSize - 2 * buttonPaddingH)
+    readonly property string encryptionIcon: {
+        if (!isEncrypted)
+            return ":/icons/icons/ui/shield-regular-cross.svg";
+        switch (trustlevel) {
+        case Crypto.Verified:
+            return ":/icons/icons/ui/shield-regular-checkmark.svg";
+        case Crypto.TOFU:
+            return ":/icons/icons/ui/shield-regular.svg";
+        case Crypto.Unverified:
+        case Crypto.MessageUnverified:
+            return ":/icons/icons/ui/shield-regular-exclamation-mark.svg";
+        default:
+            return ":/icons/icons/ui/shield-regular-cross.svg";
+        }
+    }
+    readonly property color encryptionColor: {
+        if (!isEncrypted)
+            return Komai.theme.error;
+        switch (trustlevel) {
+        case Crypto.Verified:
+            return Komai.theme.green;
+        case Crypto.TOFU:
+            return palette.buttonText;
+        default:
+            return Komai.theme.error;
+        }
+    }
 
     Layout.alignment: Qt.AlignVCenter
     Layout.column: 7
@@ -124,35 +152,26 @@ AbstractButton {
         cursorShape: Qt.PointingHandCursor
     }
 
-    Dialog {
+    Components.OverlayDialog {
         id: encryptionDialog
 
-        parent: Overlay.overlay
-        x: Math.round(((parent ? parent.width : width) - width) / 2)
-        y: Math.round(((parent ? parent.height : height) - height) / 2)
-        modal: true
-        standardButtons: Dialog.Ok
-        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
         title: qsTr("Encryption status")
-        implicitWidth: Math.max(240, Math.min(520, (parent ? parent.width : 520) - Komai.paddingLarge * 2))
-        padding: Komai.paddingLarge
+        titleIcon: encryptionButton.encryptionIcon
+        titleIconColor: encryptionButton.encryptionColor
 
-        contentItem: ColumnLayout {
-            spacing: Komai.paddingMedium
+        Label {
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+            text: encryptionButton.encryptionDialogTitle()
+            color: palette.text
+            font.bold: true
+        }
 
-            Label {
-                Layout.fillWidth: true
-                wrapMode: Text.Wrap
-                text: encryptionButton.encryptionDialogTitle()
-                color: palette.text
-                font.bold: true
-            }
-            MatrixText {
-                Layout.fillWidth: true
-                wrapMode: Text.Wrap
-                text: encryptionButton.encryptionDialogBody()
-                color: palette.buttonText
-            }
+        MatrixText {
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
+            text: encryptionButton.encryptionDialogBody()
+            color: palette.buttonText
         }
     }
 }

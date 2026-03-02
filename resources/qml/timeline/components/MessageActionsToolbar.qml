@@ -42,7 +42,6 @@ RowLayout {
         + iconOnlyButtonWidth()
     readonly property bool showActionLabels: actionHostWidth >= labelBreakpointWidth
         && actionHostWidth >= requiredLabeledWidth
-    readonly property color actionBarColor: Qt.rgba(Qt.darker(palette.base, 2.1).r, Qt.darker(palette.base, 2.1).g, Qt.darker(palette.base, 2.1).b, 0.88)
     property color actionButtonColor: palette.brightText
     property color actionButtonHoverColor: palette.highlight
     property color actionButtonHoverBackgroundColor: Qt.rgba(actionButtonColor.r, actionButtonColor.g, actionButtonColor.b, 0.16)

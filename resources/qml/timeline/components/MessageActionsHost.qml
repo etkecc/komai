@@ -88,9 +88,7 @@ Item {
         onImplicitWidthChanged: scheduleReposition()
         onImplicitHeightChanged: scheduleReposition()
 
-        background: Rectangle {
-            color: messageActionsToolbar.actionBarColor
-            radius: Komai.paddingMedium
+        background: TimelineFloatingActionBarBackground {
         }
         contentItem: MessageActionsToolbar {
             id: messageActionsToolbar

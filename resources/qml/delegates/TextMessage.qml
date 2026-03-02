@@ -33,7 +33,13 @@ MatrixText {
     text: `
     <style type="text/css">
     code { background-color: ` + palette.alternateBase + `; white-space: pre-wrap; }
-    pre { background-color: ` + palette.alternateBase + `; white-space: pre-wrap; }
+    /* Keep block code readable even when plain style right-aligns own messages. */
+    pre {
+        background-color: ` + palette.alternateBase + `;
+        white-space: pre-wrap;
+        text-align: left;
+    }
+    pre code { text-align: left; }
     table {
         border-width: 1px;
         border-collapse: collapse;

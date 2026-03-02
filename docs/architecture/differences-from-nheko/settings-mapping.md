@@ -68,7 +68,7 @@ Note:
 | Composer | INPUT | Auto-convert Markdown to HTML | `settings::core::SettingId::ComposerInputMarkdownToHtmlEnabled` | `markdown` | `composer.input.markdown_to_html.enabled` | config.yml | yes |
 | Composer | INPUT | Send key | `settings::core::SettingId::ComposerInputSendKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
 | Composer | INPUT | Auto-replace emoticons with emoji | `settings::core::SettingId::ComposerInputAutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |
-| Composer | INPUT | Show others I am typing | `settings::core::SettingId::ComposerTypingSendEnabled` | `typing_notifications` | `composer.typing.send.enabled` | config.yml | yes |
+| Composer | FEEDBACK | Show others when I'm typing | `settings::core::SettingId::ComposerTypingSendEnabled` | `typing_notifications` | `composer.typing.send.enabled` | config.yml | yes |
 | Composer | EXTRAS | Enable stickers | `settings::core::SettingId::ComposerExtrasStickersEnabled` | `enable_stickers` | `composer.extras.stickers.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Show when others are typing | `settings::core::SettingId::TimelineTypingShowEnabled` | `typing_notifications` | `timeline.typing.show.enabled` | config.yml | yes |
 | Timeline | FEEDBACK | Read receipts | `settings::core::SettingId::TimelineReadReceiptsEnabled` | `read_receipts` | `timeline.read_receipts.enabled` | config.yml | yes |

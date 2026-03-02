@@ -3,11 +3,6 @@
     // ComposerInputSection
     { QT_TR_NOOP("Input"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // MarkdownToHtml
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Auto-convert Markdown to HTML",
-      QT_TR_NOOP("Controls whether <a href=\"https://commonmark.org/help/\">Markdown</a> syntax is auto-converted to produce a <a href=\"https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes\">Matrix HTML</a> message with Markdown plain-text fallback."),
-      SM::TabComposer, composerInputMarkdownToHtmlEnabled, setComposerInputMarkdownToHtmlEnabled, nullptr, ComposerInputMarkdownToHtmlEnabled, SettingKey::ComposerInputMarkdownToHtmlEnabled),
     // SendMessageKey
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Send key",
@@ -18,6 +13,11 @@
       nullptr,
       ComposerInputSendKey,
       SettingKey::ComposerInputSendKey),
+    // MarkdownToHtml
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Auto-convert Markdown to HTML",
+      QT_TR_NOOP("Controls whether <a href=\"https://commonmark.org/help/\">Markdown</a> syntax is auto-converted to produce a <a href=\"https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes\">Matrix HTML</a> message with Markdown plain-text fallback."),
+      SM::TabComposer, composerInputMarkdownToHtmlEnabled, setComposerInputMarkdownToHtmlEnabled, nullptr, ComposerInputMarkdownToHtmlEnabled, SettingKey::ComposerInputMarkdownToHtmlEnabled),
     // AutoReplaceEmoji
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Auto-replace emoticons with emoji",
@@ -28,9 +28,12 @@
       nullptr,
       ComposerInputAutoReplaceEmoji,
       SettingKey::ComposerInputAutoReplaceEmoji),
+    // ComposerFeedbackSection
+    { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // ComposerTypingSendEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Show others I am typing",
+      "Show others when I'm typing",
       nullptr,
       SM::TabComposer, composerTypingSendEnabled, setComposerTypingSendEnabled, nullptr, ComposerTypingSendEnabled, SettingKey::ComposerTypingSendEnabled),
     // ComposerExtrasSection

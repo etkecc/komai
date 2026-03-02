@@ -224,8 +224,11 @@ TimelineEvent {
         var minX = leftBound;
         var maxX = rightBound - barW;
         if (maxX < minX) {
-            minX = wrapperPos.x;
-            maxX = wrapperPos.x + wrapper.width - barW;
+            // If the bar is wider than the message wrapper, clamping to wrapper
+            // bounds forces it to the left edge. Fall back to viewport bounds so
+            // pinned positioning still tracks the clicked action button.
+            minX = viewportLeft;
+            maxX = viewportRight - barW;
         }
         if (pinnedState) {
             // X (button mode): center on anchor, clamped to delegate bounds

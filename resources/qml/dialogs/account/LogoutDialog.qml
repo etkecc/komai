@@ -3,19 +3,32 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import Qt.labs.platform 1.1 as P
-import QtQuick
-import cc.etke.komai
+import "../../components" as Components
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-P.MessageDialog {
+Components.OverlayDialog {
     id: logoutRoot
 
     title: qsTr("Log out")
-    text: CallManager.isOnCall ? qsTr("A call is in progress. Log out?") : qsTr("Are you sure you want to log out?")
-    modality: Qt.WindowModal
-    flags: Qt.Tool | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-    buttons: P.MessageDialog.Ok | P.MessageDialog.Cancel
-    // Broken on macos, see https://bugreports.qt.io/browse/QTBUG-102078
-    //onAccepted: Komai.logout()
-    onOkClicked: Komai.logout()
+    titleIcon: ":/icons/icons/ui/power-off.svg"
+
+    Label {
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Text.WordWrap
+        text: CallManager.isOnCall ? qsTr("A call is in progress. Log out?") : qsTr("Are you sure you want to log out?")
+    }
+
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: qsTr("Log out")
+        highlighted: true
+        onClicked: {
+            Komai.logout();
+            logoutRoot.close();
+        }
+    }
 }

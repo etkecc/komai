@@ -3,9 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import ".."
+import ".." as Components
 import "../../ui"
-import Qt.labs.platform 1.1 as P
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
@@ -25,21 +24,38 @@ Item {
         onCancelled: Komai.cancelUnlockKeyBackup()
     }
 
-    P.MessageDialog {
+    Components.OverlayDialog {
         id: successDialog
 
-        buttons: P.MessageDialog.Ok
-        text: qsTr("Encryption setup successfully")
+        title: qsTr("Encryption setup complete")
+        titleIcon: ":/icons/icons/ui/shield-regular-checkmark.svg"
+        titleIconColor: Komai.theme.green
+
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            wrapMode: Text.WordWrap
+            text: qsTr("Encryption setup successfully")
+        }
     }
-    P.MessageDialog {
+
+    Components.OverlayDialog {
         id: failureDialog
 
         property string errorMessage
 
-        buttons: P.MessageDialog.Ok
-        text: qsTr("Failed to setup encryption: %1").arg(errorMessage)
+        title: qsTr("Encryption setup failed")
+        titleIcon: ":/icons/icons/ui/shield-regular-exclamation-mark.svg"
+        titleIconColor: Komai.theme.error
+
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            wrapMode: Text.WordWrap
+            text: qsTr("Failed to setup encryption: %1").arg(errorMessage)
+        }
     }
-    MainWindowDialog {
+    Components.MainWindowDialog {
         id: bootstrapCrosssigning
 
         // Workaround palettes not inheriting for popups

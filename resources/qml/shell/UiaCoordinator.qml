@@ -4,8 +4,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Dialogs
+import QtQuick.Controls
+import QtQuick.Layouts
 import cc.etke.komai
+import "../components" as Components
 
 Item {
     id: root
@@ -77,13 +79,28 @@ Item {
             return UIA.submit3pidToken(t);
         }
     }
-    MessageDialog {
+    Components.OverlayDialog {
         id: uiaConfirmationLinkDialog
 
-        buttons: MessageDialog.Ok
-        text: qsTr("Wait for the confirmation link to arrive, then continue.")
+        title: UIA.title
+        titleIcon: ":/icons/icons/ui/send.svg"
 
-        onAccepted: UIA.continue3pidReceived()
+        Label {
+            Layout.fillWidth: true
+            color: palette.text
+            wrapMode: Text.WordWrap
+            text: qsTr("Wait for the confirmation link to arrive, then continue.")
+        }
+
+        Button {
+            Layout.alignment: Qt.AlignRight
+            text: qsTr("Continue")
+            highlighted: true
+            onClicked: {
+                UIA.continue3pidReceived();
+                uiaConfirmationLinkDialog.close();
+            }
+        }
     }
     Connections {
         function onConfirm3pidToken() {

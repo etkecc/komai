@@ -3,24 +3,34 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import Qt.labs.platform 1.1 as P
-import QtQuick
-import cc.etke.komai
+import "../../components" as Components
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-P.MessageDialog {
+Components.OverlayDialog {
     id: deleteStickerPackRoot
 
     property SingleImagePackModel imagePack
 
-    text: qsTr("Are you sure you wish to delete the sticker pack '%1'?").arg(imagePack.packname)
-    modality: Qt.ApplicationModal
-    flags: Qt.Tool | Qt.WindowStaysOnTopHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
-    buttons: P.MessageDialog.Yes | P.MessageDialog.No
+    title: qsTr("Delete sticker pack")
+    titleIcon: ":/icons/icons/ui/delete.svg"
 
-    // Broken on macos, see https://bugreports.qt.io/browse/QTBUG-102078
-    //onAccepted: {
-    onOkClicked: {
-        console.info("deleting image pack " + imagePack.packname);
-        imagePack.remove()
+    Label {
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Text.WordWrap
+        text: qsTr("Are you sure you wish to delete the sticker pack '%1'?").arg(imagePack.packname)
+    }
+
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: qsTr("Delete")
+        highlighted: true
+        onClicked: {
+            imagePack.remove();
+            deleteStickerPackRoot.close();
+        }
     }
 }

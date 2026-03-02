@@ -8,7 +8,7 @@ import "../../../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
-import QtQuick.Dialogs
+import "../../../components" as Components
 import cc.etke.komai 1.0
 
 GridLayout {
@@ -314,23 +314,38 @@ GridLayout {
                     Layout.alignment: Qt.AlignRight
                 }
 
-                MessageDialog {
+                Components.OverlayDialog {
                     id: confirmEncryptionDialog
 
-                    title: qsTr("End-to-End Encryption")
-                    text: qsTr(`Encryption is currently experimental and things might break unexpectedly. <br>
-                                Please take note that it can't be disabled afterwards.`)
-                    modality: Qt.NonModal
-                    onAccepted: {
-                        if (roomSettings.isEncryptionEnabled)
-                            return ;
+                    property bool wasAccepted: false
 
-                        roomSettings.enableEncryption();
+                    title: qsTr("End-to-End Encryption")
+                    titleIcon: ":/icons/icons/ui/shield-regular.svg"
+
+                    onOpened: wasAccepted = false
+                    onClosed: {
+                        if (!wasAccepted)
+                            encryptionToggle.checked = false;
                     }
-                    onRejected: {
-                        encryptionToggle.checked = false;
+
+                    Label {
+                        Layout.fillWidth: true
+                        color: palette.text
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Encryption is currently experimental and things might break unexpectedly.\nPlease take note that it can't be disabled afterwards.")
                     }
-                    buttons: MessageDialog.Ok | MessageDialog.Cancel
+
+                    Button {
+                        Layout.alignment: Qt.AlignRight
+                        text: qsTr("Enable")
+                        highlighted: true
+                        onClicked: {
+                            if (!roomSettings.isEncryptionEnabled)
+                                roomSettings.enableEncryption();
+                            confirmEncryptionDialog.wasAccepted = true;
+                            confirmEncryptionDialog.close();
+                        }
+                    }
                 }
 
                 Label {

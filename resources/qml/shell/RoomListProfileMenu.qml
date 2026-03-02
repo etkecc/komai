@@ -20,7 +20,7 @@ Menu {
             });
     }
     function openCreateRoomDialog(properties) {
-        timelineRoot.showCatalogDialog(componentCatalog.roomCreateDialog, properties || {});
+        timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, properties || {});
     }
     function openCreateDirectDialog() {
         timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog);

@@ -89,12 +89,12 @@ Pane {
     //    repeat: true
     //}
     function showAliasEditor(settings) {
-        showCatalogDialog(componentCatalog.roomAliasEditorDialog, {
+        openCatalogDialog(componentCatalog.roomAliasEditorDialog, {
                 "roomSettings": settings
             });
     }
     function showAllowedRoomsEditor(settings) {
-        showCatalogDialog(componentCatalog.roomAllowedRoomsSettingsDialog, {
+        openCatalogDialog(componentCatalog.roomAllowedRoomsSettingsDialog, {
                 "roomSettings": settings
             });
     }

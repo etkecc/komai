@@ -266,35 +266,31 @@ Item {
                             Layout.alignment: Qt.AlignTop
                         }
 
-                        ScrollView {
+                        TextArea {
+                            id: roomTopicField
+
+                            property string lastSubmitted: ""
+                            property string serverValue: roomSettings ? roomSettings.plainRoomTopic : ""
+                            onServerValueChanged: lastSubmitted = ""
+
+                            text: serverValue
+                            readOnly: !(roomSettings && roomSettings.canChangeTopic)
+                            placeholderText: qsTr("No topic set")
+                            wrapMode: TextEdit.WordWrap
                             Layout.preferredWidth: scrollView.availableWidth * 0.5
-                            Layout.minimumHeight: roomTopicField.font.pixelSize * 4
+                            Layout.minimumHeight: font.pixelSize * 4
 
-                            TextArea {
-                                id: roomTopicField
-
-                                property string lastSubmitted: ""
-                                property string serverValue: roomSettings ? roomSettings.plainRoomTopic : ""
-                                onServerValueChanged: lastSubmitted = ""
-
-                                text: serverValue
-                                readOnly: !(roomSettings && roomSettings.canChangeTopic)
-                                placeholderText: qsTr("No topic set")
-                                wrapMode: TextEdit.WordWrap
-                                color: palette.text
-
-                                function applyTopic() {
-                                    var val = text.trim();
-                                    if (roomSettings && val !== roomSettings.plainRoomTopic && val !== lastSubmitted) {
-                                        lastSubmitted = val;
-                                        roomSettings.changeTopic(val);
-                                    }
+                            function applyTopic() {
+                                var val = text.trim();
+                                if (roomSettings && val !== roomSettings.plainRoomTopic && val !== lastSubmitted) {
+                                    lastSubmitted = val;
+                                    roomSettings.changeTopic(val);
                                 }
-
-                                onEditingFinished: applyTopic()
-                                onActiveFocusChanged: if (!activeFocus) applyTopic()
-                                Component.onDestruction: applyTopic()
                             }
+
+                            onEditingFinished: applyTopic()
+                            onActiveFocusChanged: if (!activeFocus) applyTopic()
+                            Component.onDestruction: applyTopic()
                         }
                     }
                 }

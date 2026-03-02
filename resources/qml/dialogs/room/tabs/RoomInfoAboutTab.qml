@@ -16,86 +16,141 @@ Item {
     property var room
     property var appRoot
 
-    ColumnLayout {
+    ScrollView {
+        id: scrollView
+
         anchors.fill: parent
-        anchors.margins: Komai.paddingLarge
-        spacing: Komai.paddingMedium
+        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-        Label {
-            text: qsTr("Internal ID")
-            color: palette.text
-            font.bold: true
-        }
+        ColumnLayout {
+            width: scrollView.availableWidth
+            spacing: 0
 
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: Komai.paddingSmall
-
-            TextField {
-                text: aboutTab.roomSettings ? aboutTab.roomSettings.roomId : ""
-                readOnly: true
-                font.pointSize: Settings.uiFontSizePt
+            // Internal ID row
+            Item {
                 Layout.fillWidth: true
-            }
+                Layout.topMargin: Komai.paddingMedium
+                implicitHeight: idRowContent.implicitHeight
 
-            ImageButton {
-                id: copyIdBtn
+                HoverHandler { id: idRowHover; blocking: false }
+                Rectangle {
+                    anchors.fill: idRowContent
+                    color: palette.alternateBase
+                    radius: Komai.paddingMedium
+                    visible: idRowHover.hovered
+                    z: -1
+                }
 
-                property bool copied: false
+                RowLayout {
+                    id: idRowContent
+                    width: parent.width
 
-                Layout.preferredWidth: 24
-                Layout.preferredHeight: 24
-                image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                ToolTip.visible: hovered
-                ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
-                onClicked: {
-                    if (aboutTab.roomSettings) {
-                        Clipboard.text = aboutTab.roomSettings.roomId;
-                        copied = true;
-                        copyIdFeedbackTimer.start();
+                    Label {
+                        text: qsTr("Internal ID")
+                        color: palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        Layout.fillWidth: true
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                    }
+
+                    TextField {
+                        text: aboutTab.roomSettings ? aboutTab.roomSettings.roomId : ""
+                        readOnly: true
+                        font.pointSize: Settings.uiFontSizePt
+                        Layout.preferredWidth: scrollView.availableWidth * 0.5
+                    }
+
+                    ImageButton {
+                        id: copyIdBtn
+
+                        property bool copied: false
+
+                        Layout.preferredWidth: 24
+                        Layout.preferredHeight: 24
+                        Layout.rightMargin: Komai.paddingMedium
+                        image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                        ToolTip.visible: hovered
+                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                        onClicked: {
+                            if (aboutTab.roomSettings) {
+                                Clipboard.text = aboutTab.roomSettings.roomId;
+                                copied = true;
+                                copyIdFeedbackTimer.start();
+                            }
+                        }
+
+                        Timer {
+                            id: copyIdFeedbackTimer
+                            interval: 2000
+                            onTriggered: copyIdBtn.copied = false
+                        }
                     }
                 }
+            }
 
-                Timer {
-                    id: copyIdFeedbackTimer
-                    interval: 2000
-                    onTriggered: copyIdBtn.copied = false
+            // Room Version row
+            Item {
+                Layout.fillWidth: true
+                implicitHeight: versionRowContent.implicitHeight
+
+                HoverHandler { id: versionRowHover; blocking: false }
+                Rectangle {
+                    anchors.fill: versionRowContent
+                    color: palette.alternateBase
+                    radius: Komai.paddingMedium
+                    visible: versionRowHover.hovered
+                    z: -1
+                }
+
+                ColumnLayout {
+                    id: versionRowContent
+                    width: parent.width
+                    spacing: 0
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+
+                        Label {
+                            text: qsTr("Room Version")
+                            color: palette.text
+                            font.pointSize: 1.1 * Settings.uiFontSizePt
+                            Layout.fillWidth: true
+                        }
+
+                        Label {
+                            text: aboutTab.roomSettings ? aboutTab.roomSettings.roomVersion : ""
+                            color: palette.text
+                            font.pointSize: Settings.uiFontSizePt
+                        }
+                    }
+
+                    Label {
+                        text: qsTr("Determines which features the room supports. <a href=\"https://spec.matrix.org/v1.17/rooms/\">Learn more</a>.")
+                        color: palette.buttonText
+                        font.pointSize: 0.9 * Settings.uiFontSizePt
+                        wrapMode: Text.Wrap
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        textFormat: Text.RichText
+                        linkColor: palette.highlight
+                        onLinkActivated: function(link) { Qt.openUrlExternally(link); }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            acceptedButtons: Qt.NoButton
+                        }
+                    }
                 }
             }
-        }
-
-        Label {
-            text: qsTr("Room Version")
-            color: palette.text
-            font.bold: true
-            Layout.topMargin: Komai.paddingMedium
-        }
-
-        Label {
-            text: aboutTab.roomSettings ? aboutTab.roomSettings.roomVersion : ""
-            color: palette.text
-            font.pixelSize: fontMetrics.font.pixelSize
-        }
-
-        Label {
-            text: qsTr("Determines which features the room supports. <a href=\"https://spec.matrix.org/v1.17/rooms/\">Learn more</a>.")
-            color: palette.buttonText
-            font.pointSize: 0.9 * Settings.uiFontSizePt
-            wrapMode: Text.Wrap
-            Layout.fillWidth: true
-            textFormat: Text.RichText
-            linkColor: palette.highlight
-            onLinkActivated: function(link) { Qt.openUrlExternally(link); }
-
-            MouseArea {
-                anchors.fill: parent
-                cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-                acceptedButtons: Qt.NoButton
-            }
-        }
-
-        Item {
-            Layout.fillHeight: true
         }
     }
 }

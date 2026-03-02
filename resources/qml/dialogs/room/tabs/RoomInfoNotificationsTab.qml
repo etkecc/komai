@@ -15,40 +15,76 @@ Item {
     property var room
     property var appRoot
 
-    ColumnLayout {
+    ScrollView {
+        id: scrollView
+
         anchors.fill: parent
-        anchors.margins: Komai.paddingLarge
-        spacing: Komai.paddingMedium
+        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-        Label {
-            text: qsTr("Configure how you receive notifications for this room.")
-            color: palette.text
-            wrapMode: Text.WordWrap
-            Layout.fillWidth: true
-        }
+        ColumnLayout {
+            width: scrollView.availableWidth
+            spacing: 0
 
-        Label {
-            text: qsTr("Notifications")
-            color: palette.text
-            font.bold: true
-            Layout.topMargin: Komai.paddingMedium
-        }
+            // Notifications row
+            Item {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                implicitHeight: notifRowContent.implicitHeight
 
-        ComboBox {
-            id: notificationsCombo
+                HoverHandler { id: notifRowHover; blocking: false }
+                Rectangle {
+                    anchors.fill: notifRowContent
+                    color: palette.alternateBase
+                    radius: Komai.paddingMedium
+                    visible: notifRowHover.hovered
+                    z: -1
+                }
 
-            Layout.fillWidth: true
-            model: [qsTr("Muted"), qsTr("Mentions only"), qsTr("All messages")]
-            currentIndex: notificationsTab.roomSettings ? notificationsTab.roomSettings.notifications : 0
-            onActivated: (index) => {
-                if (notificationsTab.roomSettings)
-                    notificationsTab.roomSettings.changeNotifications(index);
+                ColumnLayout {
+                    id: notifRowContent
+                    width: parent.width
+                    spacing: 0
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+
+                        Label {
+                            text: qsTr("Notifications")
+                            color: palette.text
+                            font.pointSize: 1.1 * Settings.uiFontSizePt
+                            Layout.fillWidth: true
+                        }
+
+                        ComboBox {
+                            id: notificationsCombo
+
+                            model: [qsTr("Muted"), qsTr("Mentions only"), qsTr("All messages")]
+                            currentIndex: notificationsTab.roomSettings ? notificationsTab.roomSettings.notifications : 0
+                            onActivated: (index) => {
+                                if (notificationsTab.roomSettings)
+                                    notificationsTab.roomSettings.changeNotifications(index);
+                            }
+                            wheelEnabled: activeFocus
+                        }
+                    }
+
+                    Label {
+                        text: qsTr("Configure how you receive notifications for this room.")
+                        color: palette.buttonText
+                        font.pointSize: 0.9 * Settings.uiFontSizePt
+                        Layout.fillWidth: true
+                        Layout.leftMargin: Komai.paddingMedium
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        wrapMode: Text.Wrap
+                    }
+                }
             }
-            wheelEnabled: activeFocus
-        }
-
-        Item {
-            Layout.fillHeight: true
         }
     }
 }

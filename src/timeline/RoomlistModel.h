@@ -14,6 +14,7 @@
 #include <QSortFilterProxyModel>
 #include <QString>
 #include <set>
+#include <string>
 
 #include <mtx/responses/sync.hpp>
 
@@ -158,6 +159,12 @@ private:
     void refreshCachedRoomMetadata(const QString &room_id);
     DescInfo computeCachedLastMessage(const QString &room_id) const;
     void ensureCachedLastMessage(const QString &room_id);
+    void maybeBackfillCachedLastMessage(const QString &room_id);
+    void startQueuedCachedLastMessageBackfills();
+    void backfillCachedLastMessage(const QString &room_id,
+                                   const std::string &fromToken,
+                                   int requestsDone);
+    void finalizeCachedLastMessageBackfill(const QString &room_id);
     void invalidateCachedLastMessage(const QString &room_id);
     void addRoom(const QString &room_id,
                  bool suppressInsertNotification = false,
@@ -173,6 +180,9 @@ private:
     QHash<QString, bool> cachedEncryptedRooms_;
     QHash<QString, DescInfo> cachedLastMessages_;
     QSet<QString> cachedLastMessagesComputed_;
+    QSet<QString> cachedLastMessageBackfillAttempted_;
+    QSet<QString> cachedLastMessageBackfillQueued_;
+    QSet<QString> cachedLastMessageBackfillInProgress_;
     QSet<QString> scheduledPrewarms_;
     QSet<QString> activePrewarms_;
     QHash<QString, qint64> prewarmLastAttemptMs_;

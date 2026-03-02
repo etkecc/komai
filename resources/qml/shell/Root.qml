@@ -99,7 +99,7 @@ Pane {
             });
     }
     function showPLEditor(settings) {
-        showCatalogDialog(componentCatalog.roomPowerLevelEditorDialog, {
+        openCatalogDialog(componentCatalog.roomPowerLevelEditorDialog, {
                 "roomSettings": settings
             });
     }

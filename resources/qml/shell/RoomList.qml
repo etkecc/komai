@@ -57,7 +57,7 @@ Page {
     Connections {
         function onHideMenu() {
             userInfoPanel.closeMenu();
-            roomContextMenu.close();
+            roomListContextMenu.close();
         }
 
         target: MainWindow
@@ -101,7 +101,7 @@ Page {
             compactMode: roomListPage.compactMode
             avatarSize: roomListPage.avatarSize
             collapsed: roomListPage.collapsed
-            roomContextMenu: roomContextMenu
+            roomContextMenu: roomListContextMenu
             scrollbarReservedWidth: roomlist.reservedScrollbarWidth
         }
 
@@ -136,7 +136,7 @@ Page {
             }
         }
         RoomListContextMenu {
-            id: roomContextMenu
+            id: roomListContextMenu
 
             timelineRoot: roomListPage.timelineRoot
             roomWindowComponent: roomWindowComponent

@@ -42,6 +42,7 @@ Menu {
         prompt: qsTr("Enter your status message:")
         title: qsTr("Status Message")
         titleIcon: ":/icons/icons/ui/tag.svg"
+        acceptText: qsTr("Set")
         text: profile ? Presence.userStatus(profile.userid) : ""
         onInputAccepted: function (text) {
             Komai.setStatusMessage(text);

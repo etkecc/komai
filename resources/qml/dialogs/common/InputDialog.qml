@@ -16,6 +16,7 @@ Components.OverlayDialog {
     property alias prompt: promptLabel.text
     property alias echoMode: statusInput.echoMode
     property alias text: statusInput.text
+    property string acceptText: qsTr("OK")
 
     signal inputAccepted(text: string)
 
@@ -41,26 +42,13 @@ Components.OverlayDialog {
         }
     }
 
-    RowLayout {
-        Layout.fillWidth: true
-        spacing: Komai.paddingMedium
-
-        Button {
-            text: qsTr("Cancel")
-            onClicked: inputDialog.close()
-        }
-
-        Item {
-            Layout.fillWidth: true
-        }
-
-        Button {
-            text: qsTr("OK")
-            highlighted: true
-            onClicked: {
-                inputDialog.inputAccepted(statusInput.text);
-                inputDialog.close();
-            }
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: inputDialog.acceptText
+        highlighted: true
+        onClicked: {
+            inputDialog.inputAccepted(statusInput.text);
+            inputDialog.close();
         }
     }
 }

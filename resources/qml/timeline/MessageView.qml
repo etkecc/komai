@@ -368,6 +368,7 @@ Item {
             prompt: qsTr("Enter reason for removal or hit enter for no reason:")
             title: qsTr("Reason for removal")
             titleIcon: ":/icons/icons/ui/delete.svg"
+            acceptText: qsTr("Remove")
 
             onInputAccepted: function (text) {
                 room.redactEvent(eventId, text);

@@ -30,6 +30,7 @@ Item {
         prompt: qsTr("Enter your status message:")
         title: qsTr("Status Message")
         titleIcon: ":/icons/icons/ui/tag.svg"
+        acceptText: qsTr("Set")
         text: root.profile ? Presence.userStatus(root.profile.userid) : ""
 
         onInputAccepted: function (text) {

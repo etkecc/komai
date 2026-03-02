@@ -37,6 +37,7 @@ Item {
         prompt: qsTr("Please enter your login password to continue:")
         title: UIA.title
         titleIcon: ":/icons/icons/ui/key.svg"
+        acceptText: qsTr("Continue")
 
         onInputAccepted: t => {
             return UIA.continuePassword(t);
@@ -48,6 +49,7 @@ Item {
         prompt: qsTr("Please enter a valid email address to continue:")
         title: UIA.title
         titleIcon: ":/icons/icons/ui/send.svg"
+        acceptText: qsTr("Continue")
 
         onInputAccepted: t => {
             return UIA.continueEmail(t);
@@ -69,6 +71,7 @@ Item {
         prompt: qsTr("Please enter the token which has been sent to you:")
         title: UIA.title
         titleIcon: ":/icons/icons/ui/shield-regular.svg"
+        acceptText: qsTr("Continue")
 
         onInputAccepted: t => {
             return UIA.submit3pidToken(t);

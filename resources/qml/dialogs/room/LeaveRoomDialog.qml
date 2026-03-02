@@ -3,31 +3,40 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import Qt.labs.platform 1.1 as P
-import QtQuick
-import cc.etke.komai
+import "../../components" as Components
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import cc.etke.komai 1.0
 
-P.MessageDialog {
+Components.OverlayDialog {
     id: leaveRoomRoot
 
     required property string roomId
     property string reason: ""
 
     title: qsTr("Leave room")
-    text: qsTr("Are you sure you want to leave?")
-    modality: Qt.ApplicationModal
-    buttons: P.MessageDialog.Ok | P.MessageDialog.Cancel
+    titleIcon: ":/icons/icons/ui/power-off.svg"
 
-    // Broken on macos, see https://bugreports.qt.io/browse/QTBUG-102078
-    //onAccepted: {
-    onOkClicked: {
-
-        if (CallManager.haveCallInvite) {
-            callManager.rejectInvite();
-        } else if (CallManager.isOnCall) {
-            CallManager.hangUp();
-        }
-        Rooms.leave(roomId, reason)
+    Label {
+        Layout.fillWidth: true
+        color: palette.text
+        wrapMode: Text.WordWrap
+        text: qsTr("Are you sure you want to leave?")
     }
 
+    Button {
+        Layout.alignment: Qt.AlignRight
+        text: qsTr("Leave")
+        highlighted: true
+        onClicked: {
+            if (CallManager.haveCallInvite) {
+                CallManager.rejectInvite();
+            } else if (CallManager.isOnCall) {
+                CallManager.hangUp();
+            }
+            Rooms.leave(leaveRoomRoot.roomId, leaveRoomRoot.reason);
+            leaveRoomRoot.close();
+        }
+    }
 }

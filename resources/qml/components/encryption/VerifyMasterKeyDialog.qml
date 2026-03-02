@@ -18,7 +18,7 @@ Components.OverlayDialog {
     signal unlockKeyBackup()
     signal resetIdentity()
 
-    titleText: qsTr("Activate Encryption")
+    title: qsTr("Activate Encryption")
     titleIcon: ":/icons/icons/ui/shield-regular-exclamation-mark.svg"
     titleIconColor: palette.text
 

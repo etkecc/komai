@@ -20,7 +20,6 @@ Components.OverlayDialog {
 
     signal inputAccepted(text: string)
 
-    titleText: title
     initialFocusItem: statusInput
 
     Label {

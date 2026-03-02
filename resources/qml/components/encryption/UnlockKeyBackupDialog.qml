@@ -27,7 +27,7 @@ Components.OverlayDialog {
         close();
     }
 
-    titleText: qsTr("Unlock key backup")
+    title: qsTr("Unlock key backup")
     titleIcon: ":/icons/icons/ui/key.svg"
     titleIconColor: Komai.theme.green
     onOpened: {

@@ -30,7 +30,7 @@ Components.OverlayDialog {
     overlayDialogMinWidth: 680
     overlayDialogMaxWidthRatio: 0.92
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-    titleText: qsTr("Raw message inspection")
+    title: qsTr("Raw message inspection")
     titleIcon: ":/icons/icons/ui/raw-message.svg"
     titleIconColor: palette.text
 

@@ -38,7 +38,7 @@ Components.OverlayDialog {
     readonly property bool isPinned: roomModel && roomModel.pinnedMessages.includes(eventId)
 
     width: Math.round((parent ? parent.width : 760) * 0.8)
-    titleText: qsTr("Message actions")
+    title: qsTr("Message actions")
     titleIcon: ":/icons/icons/ui/options-circle.svg"
 
     component ActionButton: AbstractButton {

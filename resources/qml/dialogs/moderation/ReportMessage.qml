@@ -14,7 +14,7 @@ Components.OverlayDialog {
 
     required property string eventId
 
-    titleText: qsTr("Report message")
+    title: qsTr("Report message")
     titleIcon: ":/icons/icons/ui/alert.svg"
     initialFocusItem: reason
 

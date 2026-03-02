@@ -11,7 +11,6 @@ import cc.etke.komai 1.0
 Dialog {
     id: root
 
-    property string titleText: ""
     property string titleIcon: ""
     property color titleIconColor: palette.text
     property bool titleIconMirror: false
@@ -39,6 +38,8 @@ Dialog {
         return Math.max(minWidth, Math.min(maxWidth, contentWidth));
     }
 
+    // Suppress Dialog's built-in header; OverlayDialog renders its own title row.
+    header: Item {}
     modal: true
     padding: Komai.paddingMedium
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
@@ -77,6 +78,7 @@ Dialog {
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
                 visible: root.titleIcon !== ""
+                Accessible.ignored: true
             }
 
             Label {
@@ -85,7 +87,7 @@ Dialog {
                 color: palette.text
                 font.bold: true
                 font.pointSize: Settings.uiFontSizePt * 1.2
-                text: root.titleText
+                text: root.title
             }
 
             ImageButton {
@@ -96,6 +98,8 @@ Dialog {
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/dismiss.svg"
                 visible: root.showCloseButton
+                Accessible.name: qsTr("Close")
+                Accessible.role: Accessible.Button
 
                 onClicked: root.close()
             }

@@ -320,6 +320,7 @@ Rectangle {
 
                         rowMargin: 2
                         rowSpacing: 0
+                        roomId: room ? room.roomId : ""
                     }
                 }
                 Connections {

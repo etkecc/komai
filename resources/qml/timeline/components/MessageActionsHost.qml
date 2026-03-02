@@ -70,11 +70,16 @@ Item {
         }
 
         hoverEnabled: true
-        padding: 0
+        leftPadding: 0
+        rightPadding: 0
+        topPadding: 0
+        bottomPadding: 0
         leftInset: 0
         rightInset: 0
         topInset: 0
         bottomInset: 0
+        implicitWidth: contentItem ? contentItem.implicitWidth : 0
+        implicitHeight: contentItem ? contentItem.implicitHeight : 0
         // Keep the control in the layout pass before first placement so
         // implicitWidth/implicitHeight can settle. Opacity gates first paint.
         visible: Settings.timelineMessageActionsActivationPolicy !== Settings.TimelineMessageActionsActivationPolicy.Never && !!attached && (pinned || Settings.timelineMessageActionsActivationPolicy === Settings.TimelineMessageActionsActivationPolicy.OnHover)
@@ -90,16 +95,23 @@ Item {
 
         background: TimelineFloatingActionBarBackground {
         }
-        contentItem: MessageActionsToolbar {
-            id: messageActionsToolbar
-            chatRoot: root.chatRoot
-            emojiPopup: root.emojiPopup
-            filteredTimeline: root.filteredTimeline
-            messageActionsControl: messageActionsC
-            messageContextMenu: root.messageContextMenu
-            messageModel: messageActionsC.model
-            roomModel: root.roomModel
-            topBar: root.topBar
+        contentItem: Item {
+            implicitWidth: messageActionsToolbar.implicitWidth
+            implicitHeight: messageActionsToolbar.implicitHeight
+
+            MessageActionsToolbar {
+                id: messageActionsToolbar
+
+                anchors.centerIn: parent
+                chatRoot: root.chatRoot
+                emojiPopup: root.emojiPopup
+                filteredTimeline: root.filteredTimeline
+                messageActionsControl: messageActionsC
+                messageContextMenu: root.messageContextMenu
+                messageModel: messageActionsC.model
+                roomModel: root.roomModel
+                topBar: root.topBar
+            }
         }
     }
 }

@@ -19,8 +19,8 @@ RowLayout {
     required property var roomModel
     required property var topBar
     property int itemHorizontalPadding: Komai.paddingMedium
-    property int itemVerticalPadding: Komai.paddingSmall
-    property int actionButtonIconSize: 32
+    property int itemVerticalPadding: Komai.paddingMedium
+    property int actionButtonIconSize: 24
     property int actionButtonHeight: actionButtonIconSize + itemVerticalPadding * 2
     property int labelBreakpointWidth: 600
     readonly property real actionHostWidth: (messageActionsControl && messageActionsControl.parent)

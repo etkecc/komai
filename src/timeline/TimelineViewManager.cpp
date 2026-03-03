@@ -172,7 +172,7 @@ TimelineViewManager::roomUserColor(QString roomId,
     if (roomId.isEmpty() || userId.isEmpty())
         return QColor();
 
-    auto selfId              = QString::fromStdString(http::client()->user_id().to_string());
+    auto selfId              = utils::localUser();
     const bool isPreviewRoom = roomId.startsWith(QLatin1String("!timeline-preview:"));
 
     const auto policy = [colorCodingPolicy]() {

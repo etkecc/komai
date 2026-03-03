@@ -285,6 +285,12 @@ utils::stripReplyFallbacks(const mtx::events::collections::TimelineEvents &event
 QString
 utils::localUser()
 {
+    if (const auto settings = UserSettings::instance()) {
+        const auto sessionUserId = settings->userId().trimmed();
+        if (!sessionUserId.isEmpty())
+            return sessionUserId;
+    }
+
     return QString::fromStdString(http::client()->user_id().to_string());
 }
 
@@ -1428,7 +1434,7 @@ utils::updateSpaceVias()
 
     auto rooms = cache::roomInfo(false);
 
-    auto us = http::client()->user_id().to_string();
+    auto us = utils::localUser().toStdString();
 
     auto weekAgo = (uint64_t)QDateTime::currentDateTime().addDays(-7).toMSecsSinceEpoch();
 
@@ -1605,7 +1611,7 @@ utils::removeExpiredEvents()
 
     auto rooms = cache::roomInfo(false);
 
-    auto us = http::client()->user_id().to_string();
+    auto us = utils::localUser().toStdString();
 
     using ExpType = mtx::events::account_data::nheko_extensions::EventExpiry;
     static constexpr std::string_view KOMAI_EVENT_EXPIRY_TYPE = "cc.etke.komai.event_expiry";
@@ -1728,7 +1734,7 @@ utils::removeExpiredEvents()
                           state->currentRoomPrevToken = msgs.end;
 
                           auto now = (uint64_t)QDateTime::currentMSecsSinceEpoch();
-                          auto us  = http::client()->user_id().to_string();
+                          auto us  = utils::localUser().toStdString();
 
                           for (const auto &e : msgs.chunk) {
                               if (std::holds_alternative<

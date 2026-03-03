@@ -148,8 +148,8 @@ timeline::media::TimelineMediaController::copyMedia(const QString &eventId) cons
     if (!event)
         return false;
 
-    QString mxcUrl = QString::fromStdString(mtx::accessors::url(*event));
-    QString mimeType = QString::fromStdString(mtx::accessors::mimetype(*event));
+    QString mxcUrl                      = QString::fromStdString(mtx::accessors::url(*event));
+    QString mimeType                    = QString::fromStdString(mtx::accessors::mimetype(*event));
     qml_mtx_events::EventType eventType = qml_mtx_events::toRoomEventType(*event);
 
     auto encryptionInfo = mtx::accessors::file(*event);
@@ -201,7 +201,8 @@ timeline::media::TimelineMediaController::copyMedia(const QString &eventId) cons
 
 void
 timeline::media::TimelineMediaController::cacheMedia(
-  const QString &eventId, const std::function<void(const QString &)> &callback) const
+  const QString &eventId,
+  const std::function<void(const QString &)> &callback) const
 {
     auto event = events_.get(eventId.toStdString(), "");
     if (!event) {
@@ -264,9 +265,9 @@ timeline::media::TimelineMediaController::cacheMedia(
     http::client()->download(
       url,
       [callback, mediaCached, mxcUrl, filename, url, encryptionInfo](const std::string &data,
-                                                                      const std::string &,
-                                                                      const std::string &,
-                                                                      mtx::http::RequestErr err) {
+                                                                     const std::string &,
+                                                                     const std::string &,
+                                                                     mtx::http::RequestErr err) {
           if (err) {
               nhlog::net()->warn("failed to retrieve image {}: {} {}",
                                  url,

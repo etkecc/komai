@@ -31,4 +31,3 @@ private:
     MediaCachedCallback mediaCached_;
 };
 }
-

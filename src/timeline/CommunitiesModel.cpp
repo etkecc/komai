@@ -449,7 +449,7 @@ void
 CommunitiesModel::sync(const mtx::responses::Sync &sync_)
 {
     bool tagsUpdated  = false;
-    const auto userid = http::client()->user_id().to_string();
+    const auto userid = utils::localUser().toStdString();
 
     for (const auto &[roomid, room] : sync_.rooms.join) {
         for (const auto &e : room.account_data.events)

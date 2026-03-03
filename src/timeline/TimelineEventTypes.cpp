@@ -369,4 +369,3 @@ qml_mtx_events::fromRoomEventType(qml_mtx_events::EventType t)
         return mtx::events::EventType::Unsupported;
     };
 }
-

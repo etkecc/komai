@@ -1072,15 +1072,12 @@ InputBar::command(const QString &command, QString args)
     } else if (command == QLatin1String("roomnick")) {
         mtx::events::state::Member member;
         member.display_name = args.toStdString();
-        member.avatar_url =
-          cache::avatarUrl(room->roomId(),
-                           QString::fromStdString(http::client()->user_id().to_string()))
-            .toStdString();
-        member.membership = mtx::events::state::Membership::Join;
+        member.avatar_url   = cache::avatarUrl(room->roomId(), utils::localUser()).toStdString();
+        member.membership   = mtx::events::state::Membership::Join;
 
         http::client()->send_state_event(
           room->roomId().toStdString(),
-          http::client()->user_id().to_string(),
+          utils::localUser().toStdString(),
           member,
           [](const mtx::responses::EventId &, mtx::http::RequestErr err) {
               if (err)
@@ -1250,7 +1247,7 @@ InputBar::toggleInvitePermission(const QString &id, bool block)
 
     for (const auto &[roomid, info] : invites.asKeyValueRange()) {
         auto roomid_ = roomid.toStdString();
-        auto self    = cache::getInviteMember(roomid_, http::client()->user_id().to_string());
+        auto self    = cache::getInviteMember(roomid_, utils::localUser().toStdString());
         if (!self->inviter.empty()) {
             if (!permissions.invite_allowed(roomid_, self->inviter)) {
                 ChatPage::instance()->leaveRoom(roomid, "");

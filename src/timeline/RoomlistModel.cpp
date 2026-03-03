@@ -207,7 +207,7 @@ RoomlistModel::computeCachedLastMessage(const QString &room_id) const
     if (!range.has_value())
         return result;
 
-    const QString localUser = QString::fromStdString(http::client()->user_id().to_string());
+    const QString localUser = utils::localUser();
 
     uint64_t scanned = 0;
     for (uint64_t idx = range->last;; --idx) {
@@ -1339,7 +1339,7 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
                             QStringList typing;
                             typing.reserve(t->content.user_ids.size());
                             for (const auto &user : t->content.user_ids) {
-                                if (user != http::client()->user_id().to_string())
+                                if (user != utils::localUser().toStdString())
                                     typing.push_back(QString::fromStdString(user));
                             }
                             room_model->updateTypingUsers(typing);
@@ -1579,7 +1579,7 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
             preview.isInvite_ = true;
 
             auto member =
-              cache::getInviteMember(roomid.toStdString(), http::client()->user_id().to_string());
+              cache::getInviteMember(roomid.toStdString(), utils::localUser().toStdString());
 
             if (member) {
                 preview.reason_ = QString::fromStdString(member->reason);
@@ -1661,7 +1661,7 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
             p.isInvite_ = true;
 
             auto member =
-              cache::getInviteMember(roomid.toStdString(), http::client()->user_id().to_string());
+              cache::getInviteMember(roomid.toStdString(), utils::localUser().toStdString());
 
             if (member) {
                 p.reason_ = QString::fromStdString(member->reason);
@@ -2132,8 +2132,7 @@ QString
 RoomPreview::inviterAvatarUrl() const
 {
     if (isInvite_) {
-        auto self =
-          cache::getInviteMember(roomid_.toStdString(), http::client()->user_id().to_string());
+        auto self = cache::getInviteMember(roomid_.toStdString(), utils::localUser().toStdString());
         if (self && !self->inviter.empty()) {
             auto other = cache::getInviteMember(roomid_.toStdString(), self->inviter);
             if (other && other->avatar_url.starts_with("mxc://")) {
@@ -2148,8 +2147,7 @@ QString
 RoomPreview::inviterDisplayName() const
 {
     if (isInvite_) {
-        auto self =
-          cache::getInviteMember(roomid_.toStdString(), http::client()->user_id().to_string());
+        auto self = cache::getInviteMember(roomid_.toStdString(), utils::localUser().toStdString());
         if (self && !self->inviter.empty()) {
             auto other = cache::getInviteMember(roomid_.toStdString(), self->inviter);
             if (other) {
@@ -2164,8 +2162,7 @@ QString
 RoomPreview::inviterUserId() const
 {
     if (isInvite_) {
-        auto self =
-          cache::getInviteMember(roomid_.toStdString(), http::client()->user_id().to_string());
+        auto self = cache::getInviteMember(roomid_.toStdString(), utils::localUser().toStdString());
         if (self && !self->inviter.empty()) {
             return QString::fromStdString(self->inviter);
         }

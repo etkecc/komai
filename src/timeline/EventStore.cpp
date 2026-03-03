@@ -611,7 +611,7 @@ EventStore::reactions(const std::string &event_id)
     std::map<std::string, TempReaction> aggregation;
     std::vector<Reaction> reactions;
 
-    auto self = http::client()->user_id().to_string();
+    auto self = utils::localUser().toStdString();
     for (const auto &id : event_ids) {
         auto related_event = get(id, event_id);
         if (!related_event)

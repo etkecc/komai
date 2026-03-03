@@ -139,9 +139,12 @@ enum NotificationLevel
 };
 Q_ENUM_NS(NotificationLevel)
 
-EventType toRoomEventType(mtx::events::EventType e);
-EventType toRoomEventType(const mtx::events::collections::TimelineEvents &event);
-QString toRoomEventTypeString(const mtx::events::collections::TimelineEvents &event);
-mtx::events::EventType fromRoomEventType(EventType t);
+EventType
+toRoomEventType(mtx::events::EventType e);
+EventType
+toRoomEventType(const mtx::events::collections::TimelineEvents &event);
+QString
+toRoomEventTypeString(const mtx::events::collections::TimelineEvents &event);
+mtx::events::EventType
+fromRoomEventType(EventType t);
 }
-

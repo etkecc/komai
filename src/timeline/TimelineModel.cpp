@@ -18,8 +18,6 @@
 #include <QScreen>
 #include <QVariant>
 
-#include <nlohmann/json.hpp>
-
 #include "ChatPage.h"
 #include "Config.h"
 #include "EventAccessors.h"
@@ -35,6 +33,7 @@
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/rawmessage/RawMessageDialogPayload.h"
+#include "timeline/send/TimelineMessageSendPipeline.h"
 #include "ui/Theme.h"
 #include "ui/UserProfile.h"
 
@@ -259,11 +258,13 @@ QVariant
 TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int role) const
 {
     using namespace mtx::accessors;
-    namespace acc = mtx::accessors;
+    namespace acc           = mtx::accessors;
+    const auto localUser    = utils::localUser();
+    const auto localUserStd = localUser.toStdString();
 
     switch (role) {
     case IsSender:
-        return {acc::sender(event) == http::client()->user_id().to_string()};
+        return {acc::sender(event) == localUserStd};
     case UserId:
         return QVariant(QString::fromStdString(acc::sender(event)));
     case UserName:
@@ -517,15 +518,15 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case State: {
         auto idstr          = event_id(event);
         auto id             = QString::fromStdString(idstr);
-        auto containsOthers = [](const auto &vec) {
+        auto containsOthers = [&localUserStd](const auto &vec) {
             for (const auto &e : vec)
-                if (e.second != http::client()->user_id().to_string())
+                if (e.second != localUserStd)
                     return true;
             return false;
         };
 
         // only show read receipts for messages not from us
-        if (acc::sender(event) != http::client()->user_id().to_string())
+        if (acc::sender(event) != localUserStd)
             return qml_mtx_events::Empty;
         else if (!id.isEmpty() && id[0] == 'm') {
             auto pending = cache::pendingEvents(this->room_id_.toStdString());
@@ -541,8 +542,7 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case IsEdited:
         return {relations(event).replaces().has_value()};
     case IsEditable:
-        return {!is_state_event(event) &&
-                mtx::accessors::sender(event) == http::client()->user_id().to_string()};
+        return {!is_state_event(event) && mtx::accessors::sender(event) == localUserStd};
     case IsEncrypted: {
         auto encrypted_event = events.get(event_id(event), "", false);
         return encrypted_event &&
@@ -571,7 +571,7 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         if (push) {
             // skip our messages
             auto sender = mtx::accessors::sender(event);
-            if (sender == http::client()->user_id().to_string())
+            if (sender == localUserStd)
                 return qml_mtx_events::NotificationLevel::Nothing;
 
             const auto &id = event_id(event);
@@ -894,6 +894,7 @@ TimelineModel::addEvents(const mtx::responses::Timeline &timeline)
     bool avatarChanged      = false;
     bool nameChanged        = false;
     bool memberCountChanged = false;
+    const auto localUserStd = utils::localUser().toStdString();
 
     for (auto e : timeline.events) {
         if (auto encryptedEvent = std::get_if<EncryptedEvent<msg::Encrypted>>(&e)) {
@@ -912,7 +913,7 @@ TimelineModel::addEvents(const mtx::responses::Timeline &timeline)
             std::holds_alternative<RoomEvent<voip::CallReject>>(e) ||
             std::holds_alternative<RoomEvent<voip::CallHangUp>>(e))
             std::visit(
-              [this](auto &event) {
+              [this, &localUserStd](auto &event) {
                   event.room_id = room_id_.toStdString();
                   if constexpr (
                     std::is_same_v<std::decay_t<decltype(event)>, RoomEvent<voip::CallAnswer>> ||
@@ -923,7 +924,7 @@ TimelineModel::addEvents(const mtx::responses::Timeline &timeline)
                     std::is_same_v<std::decay_t<decltype(event)>, RoomEvent<voip::CallHangUp>>)
                       emit newCallEvent(event);
                   else {
-                      if (event.sender != http::client()->user_id().to_string())
+                      if (event.sender != localUserStd)
                           emit newCallEvent(event);
                   }
               },
@@ -1002,7 +1003,7 @@ auto
 isYourJoin(const mtx::events::StateEvent<mtx::events::state::Member> &e, EventStore &events)
 {
     if (e.content.membership == mtx::events::state::Membership::Join &&
-        e.state_key == http::client()->user_id().to_string() &&
+        e.state_key == utils::localUser().toStdString() &&
         !e.unsigned_data.replaces_state.empty()) {
         auto tempPrevEvent = events.get(e.unsigned_data.replaces_state, e.event_id);
         if (tempPrevEvent) {
@@ -1042,15 +1043,14 @@ TimelineModel::updateLastMessage()
             continue;
 
         if (std::visit([this](const auto &e) -> bool { return isYourJoin(e, events); }, *event)) {
-            auto time   = mtx::accessors::origin_server_ts(*event);
-            uint64_t ts = time.toMSecsSinceEpoch();
-            auto description =
-              DescInfo{QString::fromStdString(mtx::accessors::event_id(*event)),
-                       QString::fromStdString(http::client()->user_id().to_string()),
-                       tr("You joined this room."),
-                       utils::descriptiveTime(time),
-                       ts,
-                       time};
+            auto time        = mtx::accessors::origin_server_ts(*event);
+            uint64_t ts      = time.toMSecsSinceEpoch();
+            auto description = DescInfo{QString::fromStdString(mtx::accessors::event_id(*event)),
+                                        utils::localUser(),
+                                        tr("You joined this room."),
+                                        utils::descriptiveTime(time),
+                                        ts,
+                                        time};
             if (description != lastMessage_) {
                 if (lastMessage_.timestamp == 0) {
                     cache::updateLastMessageTimestamp(room_id_.toStdString(),
@@ -1066,7 +1066,7 @@ TimelineModel::updateLastMessage()
 
         auto description = utils::getMessageDescription(
           *event,
-          QString::fromStdString(http::client()->user_id().to_string()),
+          utils::localUser(),
           cache::displayName(room_id_, QString::fromStdString(mtx::accessors::sender(*event))));
         if (description != lastMessage_) {
             if (lastMessage_.timestamp == 0) {
@@ -1440,205 +1440,22 @@ TimelineModel::checkAfterFetch()
     }
 }
 
-template<typename T>
-void
-TimelineModel::sendEncryptedMessage(const mtx::events::RoomEvent<T> &msg,
-                                    mtx::events::EventType eventType)
-{
-    const auto room_id = room_id_.toStdString();
-
-    using namespace mtx::events;
-
-    nlohmann::json doc = {{"type", mtx::events::to_string(eventType)},
-                          {"content", nlohmann::json(msg.content)},
-                          {"room_id", room_id}};
-
-    try {
-        mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> event;
-        event.content  = olm::encrypt_group_message(room_id, http::client()->device_id(), doc);
-        event.event_id = msg.event_id;
-        event.room_id  = room_id;
-        event.sender   = http::client()->user_id().to_string();
-        event.type     = mtx::events::EventType::RoomEncrypted;
-        event.origin_server_ts = QDateTime::currentMSecsSinceEpoch();
-
-        emit this->addPendingMessageToStore(event);
-
-        // TODO: Let the user know about the errors.
-    } catch (const mtx::crypto::olm_exception &e) {
-        nhlog::crypto()->critical(
-          "failed to open outbound megolm session ({}): {}", room_id, e.what());
-        emit ChatPage::instance()->showNotification(
-          tr("Failed to encrypt event, sending aborted!"));
-    } catch (const std::exception &e) {
-        nhlog::db()->critical("failed to open outbound megolm session ({}): {}", room_id, e.what());
-        emit ChatPage::instance()->showNotification(
-          tr("Failed to encrypt event, sending aborted!"));
-    }
-}
-
-struct SendMessageVisitor
-{
-    explicit SendMessageVisitor(TimelineModel *model)
-      : model_(model)
-    {
-    }
-
-    template<typename T, mtx::events::EventType Event>
-    void sendRoomEvent(mtx::events::RoomEvent<T> msg)
-    {
-        if (cache::isRoomEncrypted(model_->room_id_.toStdString())) {
-            auto encInfo = mtx::accessors::file(msg);
-            if (encInfo)
-                emit model_->newEncryptedImage(encInfo.value());
-
-            encInfo = mtx::accessors::thumbnail_file(msg);
-            if (encInfo)
-                emit model_->newEncryptedImage(encInfo.value());
-
-            model_->sendEncryptedMessage(msg, Event);
-        } else {
-            msg.type = Event;
-            emit model_->addPendingMessageToStore(msg);
-        }
-    }
-
-    // Do-nothing operator for all unhandled events
-    template<typename T>
-    void operator()(const mtx::events::Event<T> &)
-    {
-    }
-
-    // Operator for m.room.message events that contain a msgtype in their content
-    template<typename T,
-             std::enable_if_t<std::is_same<decltype(T::msgtype), std::string>::value, int> = 0>
-    void operator()(mtx::events::RoomEvent<T> msg)
-    {
-        sendRoomEvent<T, mtx::events::EventType::RoomMessage>(msg);
-    }
-
-    // Special operator for reactions, which are a type of m.room.message, but need to be
-    // handled distinctly for their differences from normal room messages.  Specifically,
-    // reactions need to have the relation outside of ciphertext, or synapse / the homeserver
-    // cannot handle it correctly.  See the MSC for more details:
-    // https://github.com/matrix-org/matrix-doc/blob/matthew/msc1849/proposals/1849-aggregations.md#end-to-end-encryption
-    void operator()(mtx::events::RoomEvent<mtx::events::msg::Reaction> msg)
-    {
-        msg.type = mtx::events::EventType::Reaction;
-        emit model_->addPendingMessageToStore(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::voip::CallInvite> &event)
-    {
-        sendRoomEvent<mtx::events::voip::CallInvite, mtx::events::EventType::CallInvite>(event);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::voip::CallCandidates> &event)
-    {
-        sendRoomEvent<mtx::events::voip::CallCandidates, mtx::events::EventType::CallCandidates>(
-          event);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::voip::CallAnswer> &event)
-    {
-        sendRoomEvent<mtx::events::voip::CallAnswer, mtx::events::EventType::CallAnswer>(event);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::voip::CallHangUp> &event)
-    {
-        sendRoomEvent<mtx::events::voip::CallHangUp, mtx::events::EventType::CallHangUp>(event);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::voip::CallSelectAnswer> &event)
-    {
-        sendRoomEvent<mtx::events::voip::CallSelectAnswer,
-                      mtx::events::EventType::CallSelectAnswer>(event);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::voip::CallReject> &event)
-    {
-        sendRoomEvent<mtx::events::voip::CallReject, mtx::events::EventType::CallReject>(event);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::voip::CallNegotiate> &event)
-    {
-        sendRoomEvent<mtx::events::voip::CallNegotiate, mtx::events::EventType::CallNegotiate>(
-          event);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationRequest> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationRequest,
-                      mtx::events::EventType::RoomMessage>(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationReady> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationReady,
-                      mtx::events::EventType::KeyVerificationReady>(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationStart> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationStart,
-                      mtx::events::EventType::KeyVerificationStart>(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationAccept> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationAccept,
-                      mtx::events::EventType::KeyVerificationAccept>(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationMac> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationMac,
-                      mtx::events::EventType::KeyVerificationMac>(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationKey> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationKey,
-                      mtx::events::EventType::KeyVerificationKey>(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationDone> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationDone,
-                      mtx::events::EventType::KeyVerificationDone>(msg);
-    }
-
-    void operator()(const mtx::events::RoomEvent<mtx::events::msg::KeyVerificationCancel> &msg)
-    {
-        sendRoomEvent<mtx::events::msg::KeyVerificationCancel,
-                      mtx::events::EventType::KeyVerificationCancel>(msg);
-    }
-    void operator()(mtx::events::Sticker msg)
-    {
-        msg.type = mtx::events::EventType::Sticker;
-        if (cache::isRoomEncrypted(model_->room_id_.toStdString())) {
-            model_->sendEncryptedMessage(msg, mtx::events::EventType::Sticker);
-        } else
-            emit model_->addPendingMessageToStore(msg);
-    }
-
-    TimelineModel *model_;
-};
-
 void
 TimelineModel::addPendingMessage(mtx::events::collections::TimelineEvents event)
 {
-    std::visit(
-      [](auto &msg) {
-          // gets overwritten for reactions and stickers in SendMessageVisitor
-          msg.type             = mtx::events::EventType::RoomMessage;
-          msg.event_id         = "m" + http::client()->generate_txn_id();
-          msg.sender           = http::client()->user_id().to_string();
-          msg.origin_server_ts = QDateTime::currentMSecsSinceEpoch();
+    timeline::send::sendPendingMessage(
+      room_id_,
+      std::move(event),
+      [this](mtx::events::collections::TimelineEvents pendingMessage) {
+          emit addPendingMessageToStore(std::move(pendingMessage));
       },
-      event);
-
-    std::visit(SendMessageVisitor{this}, event);
+      [this](const mtx::crypto::EncryptedFile &encryptionInfo) {
+          emit newEncryptedImage(encryptionInfo);
+      },
+      [this]() {
+          emit ChatPage::instance()->showNotification(
+            tr("Failed to encrypt event, sending aborted!"));
+      });
 
     fullyReadEventId_ = this->EventId;
     emit fullyReadEventIdChanged();
@@ -2624,7 +2441,7 @@ TimelineModel::setEdit(const QString &newEdit)
 
     if (edit_ != newEdit) {
         auto ev = events.get(newEdit.toStdString(), "");
-        if (ev && mtx::accessors::sender(*ev) == http::client()->user_id().to_string()) {
+        if (ev && mtx::accessors::sender(*ev) == utils::localUser().toStdString()) {
             auto e = *ev;
             setReply(QString::fromStdString(mtx::accessors::relations(e).reply_to().value_or("")));
             setThread(QString::fromStdString(mtx::accessors::relations(e).thread().value_or("")));
@@ -2903,7 +2720,7 @@ TimelineModel::pushrulesRoomContext() const
 {
     return mtx::pushrules::PushRuleEvaluator::RoomContext{
       .user_display_name =
-        cache::displayName(room_id_.toStdString(), http::client()->user_id().to_string()),
+        cache::displayName(room_id_.toStdString(), utils::localUser().toStdString()),
       .member_count = cache::memberCount(room_id_.toStdString()),
       .power_levels = permissions_.powerlevelEvent(),
     };

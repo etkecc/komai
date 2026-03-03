@@ -402,9 +402,6 @@ signals:
     void fetchedMore();
 
 private:
-    template<typename T>
-    void
-    sendEncryptedMessage(const mtx::events::RoomEvent<T> &msg, mtx::events::EventType eventType);
     void readEvent(const std::string &id);
 
     void setPaginationInProgress(const bool paginationInProgress);
@@ -431,8 +428,6 @@ private:
     int showEventTimerCounter = 0;
 
     DescInfo lastMessage_{};
-
-    friend struct SendMessageVisitor;
 
     uint64_t notification_count = 0, highlight_count = 0;
 

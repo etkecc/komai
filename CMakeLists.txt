@@ -652,7 +652,7 @@ set(SRC_FILES
     src/CompletionProxyModel.h
     src/Config.h
     src/MatrixStateTypes.h
-    src/EventAccessors.cpp
+    src/events/EventAccessors.cpp
     src/EventAccessors.h
     src/FallbackAuth.cpp
     src/FallbackAuth.h
@@ -664,7 +664,7 @@ set(SRC_FILES
     src/JdenticonProvider.h
     src/Logging.cpp
     src/Logging.h
-    src/LoginPage.cpp
+    src/auth/LoginPage.cpp
     src/LoginPage.h
     src/MainWindow.cpp
     src/MainWindow.h
@@ -738,7 +738,7 @@ set(SRC_FILES
     src/ReadReceiptsModel.h
     src/ReCaptcha.cpp
     src/ReCaptcha.h
-    src/RegisterPage.cpp
+    src/auth/RegisterPage.cpp
     src/RegisterPage.h
     src/RoomDirectoryModel.cpp
     src/RoomDirectoryModel.h

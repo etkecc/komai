@@ -21,6 +21,9 @@ MouseArea {
     readonly property string resolvedToolTipText: toolTipText.length > 0
         ? toolTipText
         : (avatarDisplayName + (avatarUserId.length > 0 ? ("\n" + avatarUserId) : ""))
+    readonly property bool activeState: containsMouse || pressed
+    readonly property color settingsInnerBackgroundColor: activeState ? palette.dark : palette.window
+    readonly property color settingsCogColor: activeState ? palette.brightText : palette.buttonText
 
     signal leftClicked()
     signal rightClicked()
@@ -123,11 +126,11 @@ MouseArea {
                 width: badgeSize
                 height: badgeSize
                 radius: Math.round(badgeSize * 0.25)
-                color: palette.window
+                color: control.settingsInnerBackgroundColor
 
                 Image {
                     anchors.centerIn: parent
-                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.text
+                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + control.settingsCogColor
                     sourceSize.width: parent.iconSize
                     sourceSize.height: parent.iconSize
                     width: parent.iconSize
@@ -160,7 +163,7 @@ MouseArea {
                 width: control.effectiveButtonSize
                 height: control.effectiveButtonSize
                 radius: Math.round(control.effectiveButtonSize * 0.26)
-                color: palette.window
+                color: control.settingsInnerBackgroundColor
                 border.width: 1
                 border.color: palette.dark
 
@@ -168,7 +171,7 @@ MouseArea {
                     property int cogSize: Math.round(control.effectiveButtonSize * 0.62)
 
                     anchors.centerIn: parent
-                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + palette.highlight
+                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + control.settingsCogColor
                     sourceSize.width: cogSize
                     sourceSize.height: cogSize
                     width: cogSize

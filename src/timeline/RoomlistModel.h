@@ -194,6 +194,11 @@ private:
     void syncLeftRoom(const std::string &room_id);
     void syncInvitedRoom(const std::string &room_id);
     void emitRoomRowUpdate(const QString &room_id);
+    bool isCurrentRoomSelection(const QString &roomid) const;
+    void clearCurrentRoomSelection();
+    bool trySelectCurrentMaterializedRoom(const QString &roomid);
+    bool trySelectCurrentPreviewRoom(const QString &roomid);
+    void deferCurrentRoomSelection(const QString &roomid);
     QString draftPreviewText(const QString &room_id) const;
     bool hasDraft(const QString &room_id) const;
     void persistDraftForRoom(const QString &room_id, const QString &draftText);

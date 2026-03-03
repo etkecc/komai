@@ -1635,6 +1635,8 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
             preview.isInvite_ = false;
         }
 
+        preview.isFetched_ = i.has_value();
+
         if (i) {
             preview.roomid_        = roomid;
             preview.roomName_      = QString::fromStdString(i->name);
@@ -1648,19 +1650,96 @@ RoomlistModel::getRoomPreviewById(QString roomid) const
     return preview;
 }
 
+bool
+RoomlistModel::isCurrentRoomSelection(const QString &roomid) const
+{
+    return (currentRoom_ && currentRoom_->roomId() == roomid) ||
+           (currentRoomPreview_ && currentRoomPreview_->roomid() == roomid);
+}
+
+void
+RoomlistModel::clearCurrentRoomSelection()
+{
+    pendingCurrentRoomId_.clear();
+    currentRoom_ = nullptr;
+    currentRoomPreview_.reset();
+    UserSettings::instance()->setCurrentRoomId(QString());
+    emit currentRoomChanged("");
+}
+
+bool
+RoomlistModel::trySelectCurrentMaterializedRoom(const QString &roomid)
+{
+    if (!models.contains(roomid))
+        return false;
+
+    pendingCurrentRoomId_.clear();
+    currentRoom_ = models.value(roomid);
+    currentRoomPreview_.reset();
+    currentRoom_->updateLastMessage();
+    if (manager)
+        manager->markRoomSwitchPhaseCpp(roomid, "cpp.room_model_selected");
+    scheduleLastReadUpdate(currentRoom_, currentRoom_->roomId());
+    UserSettings::instance()->setCurrentRoomId(currentRoom_->roomId());
+    emit currentRoomChanged(currentRoom_->roomId());
+    scheduleCurrentRoomTimelineWarmup(roomid);
+    if (manager)
+        manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_changed_emitted");
+    nhlog::ui()->debug("Switched to: {}", roomid.toStdString());
+
+    if (currentRoom_->isSpace()) {
+        emit spaceSelected(roomid);
+        if (manager)
+            manager->markRoomSwitchPhaseCpp(roomid, "cpp.space_selected_emitted");
+    }
+
+    return true;
+}
+
+bool
+RoomlistModel::trySelectCurrentPreviewRoom(const QString &roomid)
+{
+    if (!(invites.contains(roomid) || previewedRooms.contains(roomid)))
+        return false;
+
+    pendingCurrentRoomId_.clear();
+    currentRoom_        = nullptr;
+    currentRoomPreview_ = getRoomPreviewById(roomid);
+
+    if (currentRoomPreview_->isFetched()) {
+        if (manager)
+            manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_selected");
+        nhlog::ui()->debug("Switched to (preview): {}", currentRoomPreview_->roomid_.toStdString());
+    } else {
+        if (manager)
+            manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_placeholder_selected");
+        nhlog::ui()->debug("Switched to (empty): {}", currentRoomPreview_->roomid_.toStdString());
+    }
+
+    emit currentRoomChanged("");
+    if (manager)
+        manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_preview_changed_emitted");
+
+    return true;
+}
+
+void
+RoomlistModel::deferCurrentRoomSelection(const QString &roomid)
+{
+    pendingCurrentRoomId_ = roomid;
+    if (manager)
+        manager->markRoomSwitchPhaseCpp(roomid, "cpp.switch_deferred_room_unavailable");
+    nhlog::ui()->debug("Deferring room switch until room is available: {}", roomid.toStdString());
+}
+
 void
 RoomlistModel::setCurrentRoom(const QString &roomid)
 {
-    if ((currentRoom_ && currentRoom_->roomId() == roomid) ||
-        (currentRoomPreview_ && currentRoomPreview_->roomid() == roomid))
+    if (isCurrentRoomSelection(roomid))
         return;
 
     if (roomid.isEmpty()) {
-        pendingCurrentRoomId_.clear();
-        currentRoom_        = nullptr;
-        currentRoomPreview_ = {};
-        UserSettings::instance()->setCurrentRoomId(QString());
-        emit currentRoomChanged("");
+        clearCurrentRoomSelection();
         return;
     }
 
@@ -1675,79 +1754,13 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
     if (!models.contains(roomid) && cachedJoinedRooms_.contains(roomid))
         ensureRoomModel(roomid, false, "setCurrentRoom");
 
-    if (models.contains(roomid)) {
-        pendingCurrentRoomId_.clear();
-        currentRoom_ = models.value(roomid);
-        currentRoomPreview_.reset();
-        currentRoom_->updateLastMessage();
-        if (manager)
-            manager->markRoomSwitchPhaseCpp(roomid, "cpp.room_model_selected");
-        scheduleLastReadUpdate(currentRoom_, currentRoom_->roomId());
-        UserSettings::instance()->setCurrentRoomId(currentRoom_->roomId());
-        emit currentRoomChanged(currentRoom_->roomId());
-        scheduleCurrentRoomTimelineWarmup(roomid);
-        if (manager)
-            manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_changed_emitted");
-        nhlog::ui()->debug("Switched to: {}", roomid.toStdString());
+    if (trySelectCurrentMaterializedRoom(roomid))
+        return;
 
-        if (currentRoom_->isSpace()) {
-            emit spaceSelected(roomid);
-            if (manager)
-                manager->markRoomSwitchPhaseCpp(roomid, "cpp.space_selected_emitted");
-        }
-    } else if (invites.contains(roomid) || previewedRooms.contains(roomid)) {
-        pendingCurrentRoomId_.clear();
-        currentRoom_ = nullptr;
-        std::optional<RoomInfo> i;
+    if (trySelectCurrentPreviewRoom(roomid))
+        return;
 
-        RoomPreview p;
-
-        if (invites.contains(roomid)) {
-            i           = invites.value(roomid);
-            p.isInvite_ = true;
-
-            auto member =
-              cache::getInviteMember(roomid.toStdString(), utils::localUser().toStdString());
-
-            if (member) {
-                p.reason_ = QString::fromStdString(member->reason);
-            }
-        } else {
-            i           = previewedRooms.value(roomid);
-            p.isInvite_ = false;
-        }
-
-        if (i) {
-            p.roomid_           = roomid;
-            p.roomName_         = QString::fromStdString(i->name);
-            p.roomTopic_        = QString::fromStdString(i->topic);
-            p.roomAvatarUrl_    = QString::fromStdString(i->avatar_url);
-            p.isFetched_        = true;
-            currentRoomPreview_ = std::move(p);
-            if (manager)
-                manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_selected");
-            nhlog::ui()->debug("Switched to (preview): {}",
-                               currentRoomPreview_->roomid_.toStdString());
-        } else {
-            p.roomid_           = roomid;
-            p.isFetched_        = false;
-            currentRoomPreview_ = p;
-            if (manager)
-                manager->markRoomSwitchPhaseCpp(roomid, "cpp.preview_placeholder_selected");
-            nhlog::ui()->debug("Switched to (empty): {}",
-                               currentRoomPreview_->roomid_.toStdString());
-        }
-
-        emit currentRoomChanged("");
-        if (manager)
-            manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_preview_changed_emitted");
-    } else {
-        pendingCurrentRoomId_ = roomid;
-        if (manager)
-            manager->markRoomSwitchPhaseCpp(roomid, "cpp.switch_deferred_room_unavailable");
-        nhlog::ui()->debug("Deferring room switch until room is available: {}",
-                           roomid.toStdString());
-    }
+    deferCurrentRoomSelection(roomid);
 }
 
 void

@@ -7,9 +7,9 @@
 
 #include <QUrl>
 
-#include "CompletionModelRoles.h"
 #include "Utils.h"
 #include "cache/Cache.h"
+#include "models/CompletionModelRoles.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 RoomsModel::RoomsModel(bool showOnlyRoomWithAliases, QObject *parent)

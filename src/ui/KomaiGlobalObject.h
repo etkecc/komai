@@ -11,11 +11,11 @@
 #include <QQmlEngine>
 #include <QWindow>
 
-#include "AliasEditModel.h"
 #include "PowerlevelsEditModels.h"
 #include "RoomSummary.h"
 #include "Theme.h"
 #include "UserProfile.h"
+#include "models/AliasEditModel.h"
 
 class Komai : public QObject
 {

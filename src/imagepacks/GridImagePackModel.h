@@ -12,7 +12,7 @@
 
 #include <mtx/events/mscs/image_packs.hpp>
 
-#include "CompletionProxyModel.h"
+#include "models/CompletionProxyModel.h"
 
 struct StickerImage
 {

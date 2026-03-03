@@ -17,10 +17,7 @@
 #include <QUrl>
 
 #include "ChatPage.h"
-#include "CommandCompleter.h"
-#include "CompletionProxyModel.h"
 #include "EventAccessors.h"
-#include "InviteesModel.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
@@ -31,6 +28,9 @@
 #include "imagepacks/CombinedImagePackModel.h"
 #include "imagepacks/GridImagePackModel.h"
 #include "imagepacks/ImagePackListModel.h"
+#include "models/CommandCompleter.h"
+#include "models/CompletionProxyModel.h"
+#include "models/InviteesModel.h"
 #include "models/MemberList.h"
 #include "models/RoomsModel.h"
 #include "models/UsersModel.h"

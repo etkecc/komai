@@ -7,11 +7,11 @@
 
 #include <QQuickItem>
 
-#include "InviteesModel.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "RoomlistModel.h"
 #include "TimelineModel.h"
+#include "models/InviteesModel.h"
 #include "models/MemberList.h"
 #include "timeline/CommunitiesModel.h"
 #include "ui/RoomSettings.h"

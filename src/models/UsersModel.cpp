@@ -7,10 +7,10 @@
 
 #include <QUrl>
 
-#include "CompletionModelRoles.h"
 #include "Logging.h"
 #include "Utils.h"
 #include "cache/Cache.h"
+#include "models/CompletionModelRoles.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 UsersModel::UsersModel(const std::string &roomId, QObject *parent)

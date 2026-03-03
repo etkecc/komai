@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "AliasEditModel.h"
+#include "models/AliasEditModel.h"
 
 #include <QSharedPointer>
 

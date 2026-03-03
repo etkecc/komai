@@ -3,12 +3,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "CompletionProxyModel.h"
+#include "models/CompletionProxyModel.h"
 
 #include <QRegularExpression>
 #include <QTextBoundaryFinder>
 
-#include "CompletionModelRoles.h"
+#include "models/CompletionModelRoles.h"
 #include "Logging.h"
 
 CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,

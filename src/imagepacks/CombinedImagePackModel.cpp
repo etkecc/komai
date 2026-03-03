@@ -5,9 +5,9 @@
 
 #include "imagepacks/CombinedImagePackModel.h"
 
-#include "CompletionModelRoles.h"
 #include "cache/Cache.h"
 #include "emoji/Provider.h"
+#include "models/CompletionModelRoles.h"
 
 CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId, QObject *parent)
   : QAbstractListModel(parent)

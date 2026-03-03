@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "InviteesModel.h"
+#include "models/InviteesModel.h"
 
 #include "Logging.h"
 #include "MatrixClient.h"

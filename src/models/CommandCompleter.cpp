@@ -3,9 +3,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "CommandCompleter.h"
+#include "models/CommandCompleter.h"
 
-#include "CompletionModelRoles.h"
+#include "models/CompletionModelRoles.h"
 
 CommandCompleter::CommandCompleter(QObject *parent)
   : QAbstractListModel(parent)

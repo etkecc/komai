@@ -553,8 +553,8 @@ set(SRC_FILES
     src/dock/Dock.cpp
     src/dock/Dock.h
 
-    src/AliasEditModel.cpp
-    src/AliasEditModel.h
+    src/models/AliasEditModel.cpp
+    src/models/AliasEditModel.h
     src/providers/AvatarProvider.cpp
     src/providers/AvatarProvider.h
     src/providers/BlurhashProvider.cpp
@@ -646,11 +646,11 @@ set(SRC_FILES
     src/imagepacks/CombinedImagePackModel.h
     src/imagepacks/GridImagePackModel.cpp
     src/imagepacks/GridImagePackModel.h
-    src/CommandCompleter.cpp
-    src/CommandCompleter.h
-    src/CompletionModelRoles.h
-    src/CompletionProxyModel.cpp
-    src/CompletionProxyModel.h
+    src/models/CommandCompleter.cpp
+    src/models/CommandCompleter.h
+    src/models/CompletionModelRoles.h
+    src/models/CompletionProxyModel.cpp
+    src/models/CompletionProxyModel.h
     src/Config.h
     src/MatrixStateTypes.h
     src/events/EventAccessors.cpp
@@ -660,8 +660,8 @@ set(SRC_FILES
     src/auth/FallbackAuth.h
     src/imagepacks/ImagePackListModel.cpp
     src/imagepacks/ImagePackListModel.h
-    src/InviteesModel.cpp
-    src/InviteesModel.h
+    src/models/InviteesModel.cpp
+    src/models/InviteesModel.h
     src/providers/JdenticonProvider.cpp
     src/providers/JdenticonProvider.h
     src/Logging.cpp

@@ -4,7 +4,10 @@
     { QT_TR_NOOP("Theme"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Theme
-    { QT_TR_NOOP("Theme"), nullptr, SM::ThemeSelector, SM::TabLookFeel,
+    { QT_TR_NOOP("Theme"),
+      QT_TR_NOOP(
+        "Need more themes? Import from <a href=\"https://tinted-theming.github.io/tinted-gallery/\">Tinted Gallery</a> or <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/themes.md\">create your own</a> (restart required)."),
+      SM::ThemeSelector, SM::TabLookFeel,
       lookFeelThemeValue,
       setLookFeelThemeValue,
       {}, {}, {},

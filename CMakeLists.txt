@@ -790,6 +790,8 @@ set(SRC_FILES
     src/cli/ThemeCommands.cpp
     src/cli/ThemeCommands.h
 
+    src/app/MainApplication.cpp
+    src/app/MainApplication.h
     src/main.cpp
 )
 

@@ -3,10 +3,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "app/MainApplication.h"
+#pragma once
 
-int
-main(int argc, char *argv[])
-{
-    return app::runMainApplication(argc, argv);
+namespace app {
+int runMainApplication(int argc, char *argv[]);
 }

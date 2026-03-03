@@ -305,6 +305,48 @@ TimelineModel::senderRoleDataForEvent(const mtx::events::collections::TimelineEv
 }
 
 QVariant
+TimelineModel::messageSummaryRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
+                                              int role) const
+{
+    switch (role) {
+    case Day: {
+        QDateTime prevDate = mtx::accessors::origin_server_ts(event);
+        prevDate.setTime(QTime());
+        return QVariant(prevDate.toMSecsSinceEpoch());
+    }
+    case Timestamp:
+        return QVariant(mtx::accessors::origin_server_ts(event));
+    case Type:
+        return {qml_mtx_events::toRoomEventType(event)};
+    case TypeString:
+        return QVariant(qml_mtx_events::toRoomEventTypeString(event));
+    case IsOnlyEmoji: {
+        QString qBody = QString::fromStdString(mtx::accessors::body(event));
+
+        QVector<uint> utf32_string = qBody.toUcs4();
+        int emojiCount             = 0;
+
+        for (auto &code : utf32_string) {
+            if (utils::codepointIsEmoji(code)) {
+                emojiCount++;
+            } else {
+                return {0};
+            }
+        }
+
+        return {emojiCount};
+    }
+    case Body:
+        return QVariant(
+          utils::replaceEmoji(QString::fromStdString(mtx::accessors::body(event)).toHtmlEscaped()));
+    case HasFormattedBody:
+        return QVariant(!mtx::accessors::formatted_body(event).empty());
+    default:
+        return {};
+    }
+}
+
+QVariant
 TimelineModel::deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                      const std::string &localUserStd) const
 {
@@ -435,37 +477,14 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case UserPowerlevel:
         return senderRoleDataForEvent(event, role, localUserStd);
 
-    case Day: {
-        QDateTime prevDate = origin_server_ts(event);
-        prevDate.setTime(QTime());
-        return QVariant(prevDate.toMSecsSinceEpoch());
-    }
+    case Day:
     case Timestamp:
-        return QVariant(origin_server_ts(event));
     case Type:
-        return {qml_mtx_events::toRoomEventType(event)};
     case TypeString:
-        return QVariant(qml_mtx_events::toRoomEventTypeString(event));
-    case IsOnlyEmoji: {
-        QString qBody = QString::fromStdString(body(event));
-
-        QVector<uint> utf32_string = qBody.toUcs4();
-        int emojiCount             = 0;
-
-        for (auto &code : utf32_string) {
-            if (utils::codepointIsEmoji(code)) {
-                emojiCount++;
-            } else {
-                return {0};
-            }
-        }
-
-        return {emojiCount};
-    }
+    case IsOnlyEmoji:
     case Body:
-        return QVariant(utils::replaceEmoji(QString::fromStdString(body(event)).toHtmlEscaped()));
     case HasFormattedBody:
-        return QVariant(!formatted_body(event).empty());
+        return messageSummaryRoleDataForEvent(event, role);
     case FormattedBody:
         return QVariant(formattedBodyForEvent(event));
     case FormattedStateEvent:

@@ -425,6 +425,8 @@ set(SRC_FILES
     src/timeline/eventstore/EventStoreRelations.cpp
     src/timeline/eventstore/EventStoreAccess.cpp
     src/timeline/eventstore/EventStoreWindowing.cpp
+    src/timeline/eventstore/EventStorePending.cpp
+    src/timeline/eventstore/EventStoreKeyRequests.cpp
     src/timeline/EventDelegateChooser.cpp
     src/timeline/EventDelegateChooser.h
     src/timeline/InputBar.cpp
@@ -514,6 +516,9 @@ set(SRC_FILES
     src/ui/KomaiMenuVisibilityFilter.h
     src/ui/KomaiMenuVisibilityFilter.cpp
     src/ui/RoomSettings.cpp
+    src/ui/roomsettings/RoomSettingsAllowedRoomsModel.cpp
+    src/ui/roomsettings/RoomSettingsAvatar.cpp
+    src/ui/roomsettings/RoomSettingsAccess.cpp
     src/ui/RoomSettings.h
     src/ui/RoomSummary.cpp
     src/ui/RoomSummary.h
@@ -802,6 +807,11 @@ set(SRC_FILES
     src/cli/ThemeColorUtils.h
     src/cli/ThemeCommands.cpp
     src/cli/ThemeCommands.h
+    src/cli/theme/ThemeCommandUtils.cpp
+    src/cli/theme/ThemeCommandUtils.h
+    src/cli/theme/ThemeCommandHandlers.h
+    src/cli/theme/ThemeCommandsTinted.cpp
+    src/cli/theme/ThemeCommandsGeneral.cpp
 
     src/app/MainApplication.cpp
     src/app/MainApplication.h
@@ -1170,6 +1180,9 @@ add_library(komai_db
     src/db/DupIndex.cpp
     src/db/Factory.cpp
     src/db/InMemoryBackend.cpp
+    src/db/inmemory/InMemoryBackendInternal.h
+    src/db/inmemory/InMemoryCursor.cpp
+    src/db/inmemory/InMemoryTxn.cpp
     src/db/MegolmIndex.cpp
     src/db/MemberInfo.cpp
     src/db/NamePolicy.cpp

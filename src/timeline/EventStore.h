@@ -131,6 +131,7 @@ private:
     olm::DecryptionResult const *
     decryptEvent(const IdIndex &idx,
                  const mtx::events::EncryptedEvent<mtx::events::msg::Encrypted> &e);
+    void setupPendingPipeline();
 
     std::string room_id_;
 

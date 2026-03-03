@@ -12,11 +12,11 @@
 
 #include <mtx/secret_storage.hpp>
 
+#include "Olm.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
-#include "Olm.h"
 #include "utils/Utils.h"
 
 namespace {
@@ -48,7 +48,8 @@ DeviceVerificationFlow::handleVerificationAccept(const mtx::events::msg::KeyVeri
         this->commitment = msg.commitment;
         if (std::find(msg.short_authentication_string.begin(),
                       msg.short_authentication_string.end(),
-                      mtx::events::msg::SASMethods::Emoji) != msg.short_authentication_string.end()) {
+                      mtx::events::msg::SASMethods::Emoji) !=
+            msg.short_authentication_string.end()) {
             this->method = mtx::events::msg::SASMethods::Emoji;
         } else {
             this->method = mtx::events::msg::SASMethods::Decimal;
@@ -82,7 +83,8 @@ DeviceVerificationFlow::handleVerificationKey(const mtx::events::msg::KeyVerific
     if (state_ == Failed || state_ == Success)
         return;
 
-    nhlog::crypto()->info("verification: received key, sender {}, state {}", sender, state().toStdString());
+    nhlog::crypto()->info(
+      "verification: received key, sender {}, state {}", sender, state().toStdString());
     if (msg.transaction_id.has_value()) {
         if (msg.transaction_id.value() != this->transaction_id)
             return;
@@ -193,11 +195,13 @@ DeviceVerificationFlow::handleVerificationMac(const mtx::events::msg::KeyVerific
                     nlohmann::json j = their_keys.master_keys;
                     j.erase("signatures");
                     j.erase("unsigned");
-                    mtx::crypto::CrossSigningKeys master_key = j.get<mtx::crypto::CrossSigningKeys>();
+                    mtx::crypto::CrossSigningKeys master_key =
+                      j.get<mtx::crypto::CrossSigningKeys>();
                     master_key.signatures[utils::localUser().toStdString()]
                                          ["ed25519:" + http::client()->device_id()] =
                       olm::client()->sign_message(j.dump());
-                    req.signatures[utils::localUser().toStdString()][master_key.keys.at(mac.first)] =
+                    req
+                      .signatures[utils::localUser().toStdString()][master_key.keys.at(mac.first)] =
                       master_key;
                 } else if (mac.first == "ed25519:" + this->deviceId.toStdString()) {
                     // Sign their device key with self signing key
@@ -216,8 +220,8 @@ DeviceVerificationFlow::handleVerificationMac(const mtx::events::msg::KeyVerific
                         auto ssk = mtx::crypto::PkSigning::from_seed(*secret);
 
                         mtx::crypto::DeviceKeys dev = j.get<mtx::crypto::DeviceKeys>();
-                        dev.signatures[utils::localUser().toStdString()]["ed25519:" + ssk.public_key()] =
-                          ssk.sign(j.dump());
+                        dev.signatures[utils::localUser().toStdString()]
+                                      ["ed25519:" + ssk.public_key()] = ssk.sign(j.dump());
 
                         req.signatures[utils::localUser().toStdString()][device_id] = dev;
                     }
@@ -237,11 +241,14 @@ DeviceVerificationFlow::handleVerificationMac(const mtx::events::msg::KeyVerific
                         continue;
                     auto usk = mtx::crypto::PkSigning::from_seed(*secret);
 
-                    mtx::crypto::CrossSigningKeys master_key = j.get<mtx::crypto::CrossSigningKeys>();
-                    master_key.signatures[utils::localUser().toStdString()]["ed25519:" + usk.public_key()] =
+                    mtx::crypto::CrossSigningKeys master_key =
+                      j.get<mtx::crypto::CrossSigningKeys>();
+                    master_key
+                      .signatures[utils::localUser().toStdString()]["ed25519:" + usk.public_key()] =
                       usk.sign(j.dump());
 
-                    req.signatures[toClient.to_string()][master_key.keys.at(mac.first)] = master_key;
+                    req.signatures[toClient.to_string()][master_key.keys.at(mac.first)] =
+                      master_key;
                 }
             }
         }
@@ -249,8 +256,7 @@ DeviceVerificationFlow::handleVerificationMac(const mtx::events::msg::KeyVerific
         if (!req.signatures.empty()) {
             nhlog::crypto()->debug("Signatures to send: {}", nlohmann::json(req).dump(2));
             http::client()->keys_signatures_upload(
-              req,
-              [](const mtx::responses::KeySignaturesUpload &res, mtx::http::RequestErr err) {
+              req, [](const mtx::responses::KeySignaturesUpload &res, mtx::http::RequestErr err) {
                   if (err) {
                       nhlog::net()->error("failed to upload signatures: {},{}",
                                           mtx::errors::to_string(err->matrix_error.errcode),

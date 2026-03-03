@@ -347,6 +347,32 @@ TimelineModel::messageSummaryRoleDataForEvent(const mtx::events::collections::Ti
 }
 
 QVariant
+TimelineModel::messageStatusRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
+                                             int role,
+                                             const std::string &localUserStd) const
+{
+    switch (role) {
+    case EventId:
+        return QVariant(effectiveEventIdForEvent(event));
+    case State:
+        return deliveryStateForEvent(event, localUserStd);
+    case IsEdited:
+        return {mtx::accessors::relations(event).replaces().has_value()};
+    case IsEditable:
+        return {!mtx::accessors::is_state_event(event) &&
+                mtx::accessors::sender(event) == localUserStd};
+    case IsEncrypted:
+        return isEncryptedForEvent(event);
+    case IsStateEvent:
+        return mtx::accessors::is_state_event(event);
+    case Trustlevel:
+        return trustLevelForEvent(event);
+    default:
+        return {};
+    }
+}
+
+QVariant
 TimelineModel::deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                      const std::string &localUserStd) const
 {
@@ -501,21 +527,13 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case ProportionalHeight:
         return mediaMetadataForEvent(event, role);
     case EventId:
-        return QVariant(effectiveEventIdForEvent(event));
     case State:
-        return deliveryStateForEvent(event, localUserStd);
     case IsEdited:
-        return {relations(event).replaces().has_value()};
     case IsEditable:
-        return {!is_state_event(event) && mtx::accessors::sender(event) == localUserStd};
     case IsEncrypted:
-        return isEncryptedForEvent(event);
-    case IsStateEvent: {
-        return is_state_event(event);
-    }
-
+    case IsStateEvent:
     case Trustlevel:
-        return trustLevelForEvent(event);
+        return messageStatusRoleDataForEvent(event, role, localUserStd);
 
     case Notificationlevel:
         return notificationLevelForEvent(event, localUserStd);

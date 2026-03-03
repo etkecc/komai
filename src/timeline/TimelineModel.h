@@ -428,6 +428,9 @@ private:
                                     const std::string &localUserStd) const;
     QVariant messageSummaryRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
                                             int role) const;
+    QVariant messageStatusRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
+                                           int role,
+                                           const std::string &localUserStd) const;
     QVariant deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                    const std::string &localUserStd) const;
     QVariant notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,

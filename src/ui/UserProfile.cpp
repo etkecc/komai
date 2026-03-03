@@ -488,10 +488,8 @@ UserProfile::changeUsername(const QString &username)
         // change room username
         mtx::events::state::Member member;
         member.display_name = username.toStdString();
-        member.avatar_url =
-          cache::avatarUrl(roomid_, QString::fromStdString(http::client()->user_id().to_string()))
-            .toStdString();
-        member.membership = mtx::events::state::Membership::Join;
+        member.avatar_url   = cache::avatarUrl(roomid_, utils::localUser()).toStdString();
+        member.membership   = mtx::events::state::Membership::Join;
 
         updateRoomMemberState(std::move(member));
     }
@@ -609,7 +607,7 @@ void
 UserProfile::updateRoomMemberState(mtx::events::state::Member member)
 {
     http::client()->send_state_event(roomid_.toStdString(),
-                                     http::client()->user_id().to_string(),
+                                     utils::localUser().toStdString(),
                                      member,
                                      [](mtx::responses::EventId, mtx::http::RequestErr err) {
                                          if (err)

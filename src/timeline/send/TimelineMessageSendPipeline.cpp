@@ -78,8 +78,7 @@ struct SendMessageVisitor
             if (const auto thumbInfo = mtx::accessors::thumbnail_file(msg); thumbInfo)
                 emitEncryptedImage_(thumbInfo.value());
 
-            sendEncryptedMessage(
-              roomId_, msg, Event, addPendingMessage_, notifyEncryptionFailure_);
+            sendEncryptedMessage(roomId_, msg, Event, addPendingMessage_, notifyEncryptionFailure_);
             return;
         }
 
@@ -198,8 +197,11 @@ struct SendMessageVisitor
     {
         msg.type = mtx::events::EventType::Sticker;
         if (cache::isRoomEncrypted(roomId_.toStdString())) {
-            sendEncryptedMessage(
-              roomId_, msg, mtx::events::EventType::Sticker, addPendingMessage_, notifyEncryptionFailure_);
+            sendEncryptedMessage(roomId_,
+                                 msg,
+                                 mtx::events::EventType::Sticker,
+                                 addPendingMessage_,
+                                 notifyEncryptionFailure_);
         } else {
             addPendingMessage_(msg);
         }
@@ -230,7 +232,6 @@ timeline::send::sendPendingMessage(const QString &roomId,
       message);
 
     std::visit(
-      SendMessageVisitor{
-        roomId, addPendingMessage, emitEncryptedImage, notifyEncryptionFailure},
+      SendMessageVisitor{roomId, addPendingMessage, emitEncryptedImage, notifyEncryptionFailure},
       message);
 }

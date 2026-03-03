@@ -1392,7 +1392,13 @@ utils::roomVias(const std::string &roomid)
     {
         auto members = cache::getMembersFromInvite(roomid, 0, 100);
         if (!members.empty()) {
-            vias.push_back(http::client()->user_id().hostname());
+            try {
+                vias.push_back(
+                  mtx::identifiers::parse<mtx::identifiers::User>(localUser().toStdString())
+                    .hostname());
+            } catch (const std::exception &) {
+                vias.push_back(http::client()->user_id().hostname());
+            }
             for (const auto &m : members) {
                 if (vias.size() >= 3)
                     break;

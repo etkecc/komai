@@ -15,6 +15,7 @@
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
+#include "Utils.h"
 #include "cache/Cache.h"
 
 PowerlevelsTypeListModel::PowerlevelsTypeListModel(const std::string &rid,
@@ -811,7 +812,7 @@ PowerlevelsSpacesListModel::data(QModelIndex const &index, int role) const
     auto entry = spaces.at(row);
     switch (role) {
     case Roles::IsEditable:
-        return entry.pl.user_level(http::client()->user_id().to_string()) >=
+        return entry.pl.user_level(utils::localUser().toStdString()) >=
                entry.pl.state_level(to_string(mtx::events::EventType::RoomPowerLevels));
     case Roles::IsDifferentFromBase:
         return !samePl(entry.pl, oldPowerLevels_);

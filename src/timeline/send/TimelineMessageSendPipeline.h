@@ -17,13 +17,13 @@ struct EncryptedFile;
 namespace timeline::send {
 using AddPendingMessageFn =
   std::function<void(mtx::events::collections::TimelineEvents pendingMessage)>;
-using EmitEncryptedImageFn = std::function<void(const mtx::crypto::EncryptedFile &)>;
+using EmitEncryptedImageFn      = std::function<void(const mtx::crypto::EncryptedFile &)>;
 using NotifyEncryptionFailureFn = std::function<void()>;
 
-void sendPendingMessage(const QString &roomId,
-                        mtx::events::collections::TimelineEvents message,
-                        const AddPendingMessageFn &addPendingMessage,
-                        const EmitEncryptedImageFn &emitEncryptedImage,
-                        const NotifyEncryptionFailureFn &notifyEncryptionFailure);
+void
+sendPendingMessage(const QString &roomId,
+                   mtx::events::collections::TimelineEvents message,
+                   const AddPendingMessageFn &addPendingMessage,
+                   const EmitEncryptedImageFn &emitEncryptedImage,
+                   const NotifyEncryptionFailureFn &notifyEncryptionFailure);
 }
-

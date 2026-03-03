@@ -299,10 +299,9 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
                       cache::getEventIndex(room_id, cache::getFullyReadEventId(room_id));
 
                     auto ctx = mtx::pushrules::PushRuleEvaluator::RoomContext{
-                      .user_display_name =
-                        cache::displayName(room_id, http::client()->user_id().to_string()),
-                      .member_count = cache::memberCount(room_id),
-                      .power_levels = Permissions(qRoomId).powerlevelEvent(),
+                      .user_display_name = cache::displayName(room_id, local_user),
+                      .member_count      = cache::memberCount(room_id),
+                      .power_levels      = Permissions(qRoomId).powerlevelEvent(),
                     };
                     std::vector<
                       std::pair<mtx::common::Relation, mtx::events::collections::TimelineEvents>>
@@ -318,7 +317,7 @@ ChatPage::ChatPage(QSharedPointer<UserSettings> userSettings, QObject *parent)
 
                         // skip our messages
                         auto sender = mtx::accessors::sender(event);
-                        if (sender == http::client()->user_id().to_string())
+                        if (sender == local_user)
                             continue;
 
                         mtx::events::collections::TimelineEvents te{event};
@@ -886,7 +885,7 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
     try {
         cache::saveState(res);
         olm::handle_to_device_messages(res.to_device.events);
-        const auto localUserId = http::client()->user_id().to_string();
+        const auto localUserId = utils::localUser().toStdString();
         for (const auto &presence : res.presence) {
             if (presence.sender == localUserId) {
                 statusMessageShadow_ = QString::fromStdString(presence.content.status_msg);
@@ -907,7 +906,7 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
                                   &memberEv)) {
                                 if (member->content.membership ==
                                       mtx::events::state::Membership::Invite &&
-                                    member->state_key == http::client()->user_id().to_string()) {
+                                    member->state_key == localUserId) {
                                     inviter = member->sender;
                                     break;
                                 }

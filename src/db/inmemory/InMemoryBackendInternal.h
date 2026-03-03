@@ -21,9 +21,12 @@ namespace db::inmemory {
 
 constexpr std::size_t kIntegerKeySize = sizeof(std::uint64_t);
 
-std::uint64_t readIntegerKey(std::string_view key);
-std::string_view stateKeyFromCompositeValue(std::string_view value);
-int compareDupValues(db::DupsortComparator comparator, std::string_view lhs, std::string_view rhs);
+std::uint64_t
+readIntegerKey(std::string_view key);
+std::string_view
+stateKeyFromCompositeValue(std::string_view value);
+int
+compareDupValues(db::DupsortComparator comparator, std::string_view lhs, std::string_view rhs);
 
 struct KeyLess
 {
@@ -161,7 +164,9 @@ private:
     db::StoreFlags openFlags_;
 };
 
-InMemoryTxnImpl &requireTxn(db::detail::TxnImpl &txn);
-const InMemoryTxnImpl *maybeTxn(const db::detail::TxnImpl *txn) noexcept;
+InMemoryTxnImpl &
+requireTxn(db::detail::TxnImpl &txn);
+const InMemoryTxnImpl *
+maybeTxn(const db::detail::TxnImpl *txn) noexcept;
 
 } // namespace db::inmemory

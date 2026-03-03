@@ -433,6 +433,7 @@ set(SRC_FILES
     src/timeline/InputBar.h
     src/timeline/inputbar/InputBarCommands.cpp
     src/timeline/inputbar/InputBarMessaging.cpp
+    src/timeline/inputbar/InputBarMediaMessages.cpp
     src/timeline/inputbar/InputBarUploads.cpp
     src/timeline/FormattedCodeBlockHighlighter.cpp
     src/timeline/FormattedCodeBlockHighlighter.h
@@ -497,6 +498,8 @@ set(SRC_FILES
     src/timeline/view/TimelineViewManagerMedia.cpp
     src/timeline/view/TimelineViewManagerForwarding.cpp
     src/timeline/view/TimelineViewManagerRoomActions.cpp
+    src/timeline/view/TimelineViewManagerColors.cpp
+    src/timeline/view/TimelineViewManagerCompletions.cpp
 
     # UI components
     src/ui/HiddenEvents.cpp
@@ -536,6 +539,7 @@ set(SRC_FILES
     src/voip/CallDevices.cpp
     src/voip/CallDevices.h
     src/voip/CallManager.cpp
+    src/voip/callmanager/CallManagerScreenShare.cpp
     src/voip/CallManager.h
     src/voip/ScreenCastPortal.cpp
     src/voip/ScreenCastPortal.h
@@ -1195,6 +1199,8 @@ add_library(komai_db
     src/db/StateIndex.cpp
     src/db/SyncState.cpp
     src/db/TimelineIndex.cpp
+    src/db/timelineindex/TimelineIndexQueries.cpp
+    src/db/timelineindex/TimelineIndexCleanup.cpp
 )
 target_include_directories(komai_db PUBLIC src)
 target_link_libraries(komai_db PUBLIC

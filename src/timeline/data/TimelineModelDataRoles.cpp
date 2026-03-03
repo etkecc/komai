@@ -285,6 +285,26 @@ TimelineModel::mediaMetadataForEvent(const mtx::events::collections::TimelineEve
 }
 
 QVariant
+TimelineModel::senderRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
+                                      int role,
+                                      const std::string &localUserStd) const
+{
+    switch (role) {
+    case IsSender:
+        return {mtx::accessors::sender(event) == localUserStd};
+    case UserId:
+        return QVariant(QString::fromStdString(mtx::accessors::sender(event)));
+    case UserName:
+        return QVariant(displayName(QString::fromStdString(mtx::accessors::sender(event))));
+    case UserPowerlevel:
+        return static_cast<qlonglong>(
+          permissions_.powerlevelEvent().user_level(mtx::accessors::sender(event)));
+    default:
+        return {};
+    }
+}
+
+QVariant
 TimelineModel::deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                      const std::string &localUserStd) const
 {
@@ -405,21 +425,15 @@ QVariant
 TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int role) const
 {
     using namespace mtx::accessors;
-    namespace acc           = mtx::accessors;
     const auto localUser    = utils::localUser();
     const auto localUserStd = localUser.toStdString();
 
     switch (role) {
     case IsSender:
-        return {acc::sender(event) == localUserStd};
     case UserId:
-        return QVariant(QString::fromStdString(acc::sender(event)));
     case UserName:
-        return QVariant(displayName(QString::fromStdString(acc::sender(event))));
-    case UserPowerlevel: {
-        return static_cast<qlonglong>(
-          permissions_.powerlevelEvent().user_level(acc::sender(event)));
-    }
+    case UserPowerlevel:
+        return senderRoleDataForEvent(event, role, localUserStd);
 
     case Day: {
         QDateTime prevDate = origin_server_ts(event);

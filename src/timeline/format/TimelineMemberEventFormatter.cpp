@@ -47,8 +47,8 @@ timeline::format::formatMemberEvent(const mtx::events::collections::TimelineEven
         return utils::replaceEmoji(displayNameForUser(userId));
     };
 
-    QString user       = QString::fromStdString(memberEvent->state_key);
-    QString name       = renderName(user);
+    QString user = QString::fromStdString(memberEvent->state_key);
+    QString name = renderName(user);
     QString rendered;
     QString sender     = QString::fromStdString(memberEvent->sender);
     QString senderName = renderName(sender);
@@ -69,10 +69,9 @@ timeline::format::formatMemberEvent(const mtx::events::collections::TimelineEven
             bool avatarChanged = prevEvent->content.avatar_url != memberEvent->content.avatar_url;
 
             if (displayNameChanged && avatarChanged)
-                rendered =
-                  tr("%1 has changed their avatar and changed their "
-                     "display name to %2.")
-                    .arg(oldName, name);
+                rendered = tr("%1 has changed their avatar and changed their "
+                              "display name to %2.")
+                             .arg(oldName, name);
             else if (displayNameChanged)
                 rendered = tr("%1 has changed their display name to %2.").arg(oldName, name);
             else if (avatarChanged)

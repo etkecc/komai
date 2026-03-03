@@ -32,6 +32,7 @@
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/format/TimelineImagePackFormatter.h"
 #include "timeline/format/TimelineMemberEventFormatter.h"
 #include "timeline/format/TimelinePowerLevelFormatter.h"
 #include "timeline/rawmessage/RawMessageDialogPayload.h"
@@ -1834,65 +1835,11 @@ QString
 TimelineModel::formatImagePackEvent(
   const mtx::events::StateEvent<mtx::events::msc2545::ImagePack> &event) const
 {
-    mtx::events::StateEvent<mtx::events::msc2545::ImagePack> const *prevEvent = nullptr;
-    if (!event.unsigned_data.replaces_state.empty()) {
-        auto tempPrevEvent = events.get(event.unsigned_data.replaces_state, event.event_id);
-        if (tempPrevEvent) {
-            prevEvent =
-              std::get_if<mtx::events::StateEvent<mtx::events::msc2545::ImagePack>>(tempPrevEvent);
-        }
-    }
-
-    const auto &newImages = event.content.images;
-    const auto oldImages  = prevEvent ? prevEvent->content.images : decltype(newImages){};
-
-    auto ascent = QFontMetrics(UserSettings::instance()->uiFontFamily()).ascent();
-
-    auto calcChange = [ascent](const std::map<std::string, mtx::events::msc2545::PackImage> &newI,
-                               const std::map<std::string, mtx::events::msc2545::PackImage> &oldI) {
-        QStringList added;
-        for (const auto &[shortcode, img] : newI) {
-            if (!oldI.count(shortcode))
-                added.push_back(QStringLiteral("<img data-mx-emoticon height=%1 src=\"%2\"> (~%3)")
-                                  .arg(ascent)
-                                  .arg(QString::fromStdString(img.url)
-                                         .replace("mxc://", "image://mxcImage/")
-                                         .toHtmlEscaped(),
-                                       QString::fromStdString(shortcode)));
-        }
-        return added;
-    };
-
-    auto added   = calcChange(newImages, oldImages);
-    auto removed = calcChange(oldImages, newImages);
-
-    auto sender       = utils::replaceEmoji(displayName(QString::fromStdString(event.sender)));
-    const auto packId = [&event]() -> QString {
-        if (event.content.pack && !event.content.pack->display_name.empty()) {
-            return event.content.pack->display_name.c_str();
-        } else if (!event.state_key.empty()) {
-            return event.state_key.c_str();
-        }
-        return tr("(empty)");
-    }();
-
-    QString msg;
-
-    if (!removed.isEmpty()) {
-        msg = tr("%1 removed the following images from the pack %2:<br>%3")
-                .arg(sender, packId, removed.join(", "));
-    }
-    if (!added.isEmpty()) {
-        if (!msg.isEmpty())
-            msg += "<br>";
-        msg += tr("%1 added the following images to the pack %2:<br>%3")
-                 .arg(sender, packId, added.join(", "));
-    }
-
-    if (msg.isEmpty())
-        return tr("%1 changed the sticker and emotes in this room.").arg(sender);
-    else
-        return msg;
+    return timeline::format::formatImagePackEvent(
+      event,
+      events,
+      QFontMetrics(UserSettings::instance()->uiFontFamily()).ascent(),
+      [this](const QString &userId) { return displayName(userId); });
 }
 
 QString

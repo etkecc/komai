@@ -433,6 +433,8 @@ set(SRC_FILES
     src/timeline/formattedcode/RawJsonFormatter.h
     src/timeline/formattedmessage/HtmlProcessor.cpp
     src/timeline/formattedmessage/HtmlProcessor.h
+    src/timeline/format/TimelineImagePackFormatter.cpp
+    src/timeline/format/TimelineImagePackFormatter.h
     src/timeline/format/TimelineMemberEventFormatter.cpp
     src/timeline/format/TimelineMemberEventFormatter.h
     src/timeline/format/TimelinePowerLevelFormatter.cpp

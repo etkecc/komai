@@ -448,6 +448,7 @@ set(SRC_FILES
     src/timeline/format/TimelineRedactedEventFormatter.h
     src/timeline/media/TimelineMediaController.cpp
     src/timeline/media/TimelineMediaController.h
+    src/timeline/navigation/TimelineModelNavigation.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.h
     src/timeline/roomlist/FilteredRoomlistModel.cpp

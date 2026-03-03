@@ -14,6 +14,7 @@
 #include <QSharedPointer>
 #include <QSortFilterProxyModel>
 #include <QString>
+#include <optional>
 #include <set>
 #include <string>
 
@@ -153,6 +154,16 @@ signals:
     void spaceSelected(QString roomId);
 
 private:
+    std::optional<QVariant> commonRoomData(const QString &room_id, int role) const;
+    QVariant dataForMaterializedRoom(const QString &room_id,
+                                     const QSharedPointer<TimelineModel> &room,
+                                     int role) const;
+    QVariant dataForCachedRoom(const QString &room_id, const RoomInfo &room, int role) const;
+    QVariant dataForInviteRoom(const RoomInfo &room, int role) const;
+    QVariant dataForPreviewRoom(const RoomInfo &room, int role) const;
+    QVariant dataForUnavailablePreview(int role) const;
+    void resetRoomCollections(bool clearAllDrafts);
+    void removeRoomState(const QString &room_id, bool clearDraftForRoom = true);
     void logRoomPrewarm(const QString &trigger,
                         const QString &roomid,
                         const QString &action,
@@ -312,6 +323,15 @@ signals:
     void currentRoomChanged(QString currentRoomId);
 
 private:
+    QModelIndex sourceRowIndex(int sourceRow) const;
+    bool isPreviewRow(int sourceRow) const;
+    bool isSpaceRow(int sourceRow) const;
+    bool isDirectRow(int sourceRow) const;
+    QStringList rowTags(int sourceRow) const;
+    QStringList rowParentSpaces(int sourceRow) const;
+    bool hiddenByTags(int sourceRow, const QString &requiredTag = QString()) const;
+    bool hiddenBySpaces(int sourceRow, const QString &requiredSpace = QString()) const;
+    bool hiddenByDms(int sourceRow) const;
     short int calculateImportance(const QModelIndex &idx) const;
     RoomlistModel *roomlistmodel;
     int sidebarsRoomListSort = 0; // UserSettings::RoomSortOrder enum value

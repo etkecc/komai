@@ -426,6 +426,63 @@ RoomlistModel::invalidateCachedLastMessage(const QString &room_id)
 }
 
 void
+RoomlistModel::resetRoomCollections(bool clearAllDrafts)
+{
+    models.clear();
+    cachedJoinedRooms_.clear();
+    cachedEncryptedRooms_.clear();
+    cachedLastMessages_.clear();
+    cachedLastMessagesComputed_.clear();
+    cachedLastMessageBackfillAttempted_.clear();
+    cachedLastMessageBackfillQueued_.clear();
+    cachedLastMessageBackfillInProgress_.clear();
+    scheduledPrewarms_.clear();
+    activePrewarms_.clear();
+    prewarmLastAttemptMs_.clear();
+    startupMaterializationTrackingActive_ = false;
+    startupMaterializationCount_          = 0;
+    startupMaterializationWarningEmitted_ = false;
+    previewedRooms.clear();
+    invites.clear();
+    roomids.clear();
+    roomReadStatus.clear();
+    pendingCurrentRoomId_.clear();
+    currentRoom_ = nullptr;
+    currentRoomPreview_.reset();
+
+    if (clearAllDrafts) {
+        if (const auto settings = UserSettings::instance())
+            settings->clearAllComposerDrafts();
+    }
+}
+
+void
+RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
+{
+    models.remove(room_id);
+    invites.remove(room_id);
+    previewedRooms.remove(room_id);
+    cachedJoinedRooms_.remove(room_id);
+    cachedEncryptedRooms_.remove(room_id);
+    scheduledPrewarms_.remove(room_id);
+    activePrewarms_.remove(room_id);
+    prewarmLastAttemptMs_.remove(room_id);
+    cachedLastMessageBackfillAttempted_.remove(room_id);
+    cachedLastMessageBackfillQueued_.remove(room_id);
+    cachedLastMessageBackfillInProgress_.remove(room_id);
+    roomReadStatus.erase(room_id);
+    invalidateCachedLastMessage(room_id);
+
+    if (clearDraftForRoom) {
+        if (const auto settings = UserSettings::instance())
+            settings->clearComposerDraftForRoom(room_id);
+    }
+
+    if (pendingCurrentRoomId_ == room_id)
+        pendingCurrentRoomId_.clear();
+}
+
+void
 RoomlistModel::logRoomPrewarm(const QString &trigger,
                               const QString &roomid,
                               const QString &action,
@@ -602,260 +659,302 @@ RoomlistModel::persistDraftForRoom(const QString &room_id, const QString &draftT
                      {Roles::HasDraft, Roles::DraftPreview, Roles::LastMessage, Qt::DisplayRole});
 }
 
+std::optional<QVariant>
+RoomlistModel::commonRoomData(const QString &room_id, int role) const
+{
+    switch (role) {
+    case Roles::ParentSpaces: {
+        auto parents = cache::getParentRoomIds(room_id.toStdString());
+        QStringList list;
+        list.reserve(static_cast<int>(parents.size()));
+        for (const auto &t : parents)
+            list.push_back(QString::fromStdString(t));
+        return QVariant{list};
+    }
+    case Roles::RoomId:
+        return QVariant{room_id};
+    case Roles::IsDirect:
+        return QVariant{directChatToUser.count(room_id) > 0};
+    case Roles::DirectChatOtherUserId:
+        return QVariant{directChatToUser.count(room_id) ? directChatToUser.at(room_id).front()
+                                                        : QString{}};
+    case Roles::HasDraft:
+        return QVariant{hasDraft(room_id)};
+    case Roles::DraftPreview:
+        return QVariant{draftPreviewText(room_id)};
+    default:
+        return std::nullopt;
+    }
+}
+
+QVariant
+RoomlistModel::dataForMaterializedRoom(const QString &room_id,
+                                       const QSharedPointer<TimelineModel> &room,
+                                       int role) const
+{
+    switch (role) {
+    case Roles::AvatarUrl: {
+        const auto roomModelAvatar = room->roomAvatarUrl();
+        if (!roomModelAvatar.isEmpty())
+            return roomModelAvatar;
+
+        const auto avatarUrl = cache::roomAvatarUrl(room_id.toStdString());
+        if (!avatarUrl.isEmpty())
+            return avatarUrl;
+
+        return roomModelAvatar;
+    }
+    case Roles::RoomName:
+        return room->plainRoomName();
+    case Roles::LastMessage:
+        return room->lastMessage().body;
+    case Roles::Time:
+        return room->lastMessage().descriptiveTime;
+    case Roles::Timestamp:
+        return QVariant{static_cast<quint64>(room->lastMessageTimestamp())};
+    case Roles::HasUnreadMessages:
+        return this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
+    case Roles::HasLoudNotification:
+        return room->hasMentions();
+    case Roles::NotificationCount:
+        return room->notificationCount();
+    case Roles::IsInvite:
+        return false;
+    case Roles::IsSpace:
+        return room->isSpace();
+    case Roles::IsPreview:
+        return false;
+    case Roles::Tags: {
+        auto info = cache::singleRoomInfo(room_id.toStdString());
+        QStringList list;
+        list.reserve(static_cast<int>(info.tags.size()));
+        for (const auto &t : info.tags)
+            list.push_back(QString::fromStdString(t));
+        return list;
+    }
+    case Roles::IsEncrypted:
+        return room->isEncrypted();
+    default:
+        return {};
+    }
+}
+
+QVariant
+RoomlistModel::dataForCachedRoom(const QString &room_id, const RoomInfo &room, int role) const
+{
+    switch (role) {
+    case Roles::AvatarUrl: {
+        if (!room.avatar_url.empty())
+            return QString::fromStdString(room.avatar_url);
+        return cache::roomAvatarUrl(room_id.toStdString());
+    }
+    case Roles::RoomName:
+        return QString::fromStdString(room.name);
+    case Roles::LastMessage: {
+        const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
+        const bool encrypted =
+          cachedEncryptedRooms_.value(room_id, cache::isRoomEncrypted(room_id.toStdString()));
+        const bool previewsEnabled =
+          style == UserSettings::LastMessagePreview::Always ||
+          (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !encrypted);
+        if (!previewsEnabled)
+            return QString();
+
+        auto *self = const_cast<RoomlistModel *>(this);
+        self->ensureCachedLastMessage(room_id);
+        const auto cachedDescription = cachedLastMessages_.value(room_id);
+        if (cachedDescription.body.isEmpty())
+            self->maybeBackfillCachedLastMessage(room_id);
+        else if (style == UserSettings::LastMessagePreview::Always && encrypted &&
+                 isCachedEncryptedPreview(room_id, cachedDescription)) {
+            self->scheduleRoomPrewarm(room_id, QStringLiteral("auto_preview_decrypt"));
+            QTimer::singleShot(0, self, [self, room_id]() {
+                if (self->scheduledPrewarms_.contains(room_id))
+                    self->prewarmRoom(room_id, QStringLiteral("auto_preview_decrypt"));
+            });
+        }
+        return cachedDescription.body;
+    }
+    case Roles::Time: {
+        auto *self = const_cast<RoomlistModel *>(this);
+        self->ensureCachedLastMessage(room_id);
+        const auto cachedDescription = cachedLastMessages_.value(room_id);
+        if (!cachedDescription.descriptiveTime.isEmpty())
+            return cachedDescription.descriptiveTime;
+
+        if (room.approximate_last_modification_ts > 0) {
+            return utils::descriptiveTime(QDateTime::fromMSecsSinceEpoch(
+              static_cast<qint64>(room.approximate_last_modification_ts)));
+        }
+        return QString();
+    }
+    case Roles::Timestamp: {
+        auto *self = const_cast<RoomlistModel *>(this);
+        self->ensureCachedLastMessage(room_id);
+        const auto cachedDescription = cachedLastMessages_.value(room_id);
+        const auto ts = std::max(static_cast<quint64>(room.approximate_last_modification_ts),
+                                 static_cast<quint64>(cachedDescription.timestamp));
+        return QVariant{ts};
+    }
+    case Roles::HasUnreadMessages:
+        return this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
+    case Roles::HasLoudNotification:
+        return room.highlight_count > 0;
+    case Roles::NotificationCount:
+        return static_cast<int>(room.notification_count);
+    case Roles::IsInvite:
+        return false;
+    case Roles::IsSpace:
+        return room.is_space;
+    case Roles::IsPreview:
+        return false;
+    case Roles::Tags: {
+        QStringList list;
+        list.reserve(static_cast<int>(room.tags.size()));
+        for (const auto &t : room.tags)
+            list.push_back(QString::fromStdString(t));
+        return list;
+    }
+    case Roles::IsEncrypted:
+        return cachedEncryptedRooms_.value(room_id, cache::isRoomEncrypted(room_id.toStdString()));
+    default:
+        return {};
+    }
+}
+
+QVariant
+RoomlistModel::dataForInviteRoom(const RoomInfo &room, int role) const
+{
+    switch (role) {
+    case Roles::AvatarUrl:
+        return QString::fromStdString(room.avatar_url);
+    case Roles::RoomName:
+        return QString::fromStdString(room.name);
+    case Roles::LastMessage:
+        return tr("Pending invite.");
+    case Roles::Time:
+        return QString();
+    case Roles::Timestamp:
+        return QVariant{static_cast<quint64>(0)};
+    case Roles::HasUnreadMessages:
+    case Roles::HasLoudNotification:
+        return false;
+    case Roles::NotificationCount:
+        return 0;
+    case Roles::IsInvite:
+        return true;
+    case Roles::IsSpace:
+        return false;
+    case Roles::IsPreview:
+        return false;
+    case Roles::Tags:
+        return QStringList();
+    case Roles::IsEncrypted:
+        return false; // Invites - assume unencrypted
+    default:
+        return {};
+    }
+}
+
+QVariant
+RoomlistModel::dataForPreviewRoom(const RoomInfo &room, int role) const
+{
+    switch (role) {
+    case Roles::AvatarUrl:
+        return QString::fromStdString(room.avatar_url);
+    case Roles::RoomName:
+        return QString::fromStdString(room.name);
+    case Roles::LastMessage:
+        return tr("Previewing this room");
+    case Roles::Time:
+        return QString();
+    case Roles::Timestamp:
+        return QVariant{static_cast<quint64>(0)};
+    case Roles::HasUnreadMessages:
+    case Roles::HasLoudNotification:
+        return false;
+    case Roles::NotificationCount:
+        return 0;
+    case Roles::IsInvite:
+        return false;
+    case Roles::IsSpace:
+        return room.is_space;
+    case Roles::IsPreview:
+        return true;
+    case Roles::IsPreviewFetched:
+        return true;
+    case Roles::Tags:
+        return QStringList();
+    case Roles::IsEncrypted:
+        return false; // Previews - assume unencrypted
+    default:
+        return {};
+    }
+}
+
+QVariant
+RoomlistModel::dataForUnavailablePreview(int role) const
+{
+    if (role == Roles::IsPreview)
+        return true;
+    if (role == Roles::IsPreviewFetched)
+        return false;
+
+    switch (role) {
+    case Roles::AvatarUrl:
+        return QString();
+    case Roles::RoomName:
+        return tr("No preview available");
+    case Roles::LastMessage:
+        return tr("This room is possibly inaccessible");
+    case Roles::Time:
+        return QString();
+    case Roles::Timestamp:
+        return QVariant{static_cast<quint64>(0)};
+    case Roles::HasUnreadMessages:
+    case Roles::HasLoudNotification:
+        return false;
+    case Roles::NotificationCount:
+        return 0;
+    case Roles::IsInvite:
+        return false;
+    case Roles::IsSpace:
+        return false;
+    case Roles::Tags:
+        return QStringList();
+    case Roles::IsEncrypted:
+        return false; // Unknown rooms - assume unencrypted
+    default:
+        return {};
+    }
+}
+
 QVariant
 RoomlistModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() >= 0 && static_cast<size_t>(index.row()) < roomids.size()) {
-        auto roomid = roomids.at(index.row());
-
-        if (role == Roles::ParentSpaces) {
-            auto parents = cache::getParentRoomIds(roomid.toStdString());
-            QStringList list;
-            list.reserve(static_cast<int>(parents.size()));
-            for (const auto &t : parents)
-                list.push_back(QString::fromStdString(t));
-            return list;
-        } else if (role == Roles::RoomId) {
-            return roomid;
-        } else if (role == Roles::IsDirect) {
-            return directChatToUser.count(roomid) > 0;
-        } else if (role == Roles::DirectChatOtherUserId) {
-            return directChatToUser.count(roomid) ? directChatToUser.at(roomid).front()
-                                                  : QLatin1String("");
-        } else if (role == Roles::HasDraft) {
-            return hasDraft(roomid);
-        } else if (role == Roles::DraftPreview) {
-            return draftPreviewText(roomid);
-        }
-
-        if (models.contains(roomid)) {
-            auto room = models.value(roomid);
-            switch (role) {
-            case Roles::AvatarUrl: {
-                const auto roomModelAvatar = room->roomAvatarUrl();
-                if (!roomModelAvatar.isEmpty())
-                    return roomModelAvatar;
-
-                const auto avatarUrl = cache::roomAvatarUrl(roomid.toStdString());
-                if (!avatarUrl.isEmpty())
-                    return avatarUrl;
-
-                return roomModelAvatar;
-            }
-            case Roles::RoomName:
-                return room->plainRoomName();
-            case Roles::LastMessage:
-                return room->lastMessage().body;
-            case Roles::Time:
-                return room->lastMessage().descriptiveTime;
-            case Roles::Timestamp:
-                return QVariant{static_cast<quint64>(room->lastMessageTimestamp())};
-            case Roles::HasUnreadMessages:
-                return this->roomReadStatus.count(roomid) && this->roomReadStatus.at(roomid);
-            case Roles::HasLoudNotification:
-                return room->hasMentions();
-            case Roles::NotificationCount:
-                return room->notificationCount();
-            case Roles::IsInvite:
-                return false;
-            case Roles::IsSpace:
-                return room->isSpace();
-            case Roles::IsPreview:
-                return false;
-            case Roles::Tags: {
-                auto info = cache::singleRoomInfo(roomid.toStdString());
-                QStringList list;
-                list.reserve(static_cast<int>(info.tags.size()));
-                for (const auto &t : info.tags)
-                    list.push_back(QString::fromStdString(t));
-                return list;
-            }
-            case Roles::IsEncrypted:
-                return room->isEncrypted();
-            default:
-                return {};
-            }
-        } else if (cachedJoinedRooms_.contains(roomid)) {
-            const auto room = cachedJoinedRooms_.value(roomid);
-            switch (role) {
-            case Roles::AvatarUrl: {
-                if (!room.avatar_url.empty())
-                    return QString::fromStdString(room.avatar_url);
-                return cache::roomAvatarUrl(roomid.toStdString());
-            }
-            case Roles::RoomName:
-                return QString::fromStdString(room.name);
-            case Roles::LastMessage: {
-                const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
-                const bool encrypted =
-                  cachedEncryptedRooms_.value(roomid, cache::isRoomEncrypted(roomid.toStdString()));
-                const bool previewsEnabled =
-                  style == UserSettings::LastMessagePreview::Always ||
-                  (style == UserSettings::LastMessagePreview::OnlyUnencrypted && !encrypted);
-                if (!previewsEnabled)
-                    return QString();
-
-                const_cast<RoomlistModel *>(this)->ensureCachedLastMessage(roomid);
-                const auto cachedDescription = cachedLastMessages_.value(roomid);
-                if (cachedDescription.body.isEmpty())
-                    const_cast<RoomlistModel *>(this)->maybeBackfillCachedLastMessage(roomid);
-                else if (style == UserSettings::LastMessagePreview::Always && encrypted &&
-                         isCachedEncryptedPreview(roomid, cachedDescription)) {
-                    auto *self = const_cast<RoomlistModel *>(this);
-                    self->scheduleRoomPrewarm(roomid, QStringLiteral("auto_preview_decrypt"));
-                    QTimer::singleShot(0, self, [self, roomid]() {
-                        if (self->scheduledPrewarms_.contains(roomid))
-                            self->prewarmRoom(roomid, QStringLiteral("auto_preview_decrypt"));
-                    });
-                }
-                return cachedDescription.body;
-            }
-            case Roles::Time: {
-                const_cast<RoomlistModel *>(this)->ensureCachedLastMessage(roomid);
-                const auto cachedDescription = cachedLastMessages_.value(roomid);
-                if (!cachedDescription.descriptiveTime.isEmpty())
-                    return cachedDescription.descriptiveTime;
-
-                if (room.approximate_last_modification_ts > 0) {
-                    return utils::descriptiveTime(QDateTime::fromMSecsSinceEpoch(
-                      static_cast<qint64>(room.approximate_last_modification_ts)));
-                }
-                return QString();
-            }
-            case Roles::Timestamp: {
-                const_cast<RoomlistModel *>(this)->ensureCachedLastMessage(roomid);
-                const auto cachedDescription = cachedLastMessages_.value(roomid);
-                const auto ts =
-                  std::max(static_cast<quint64>(room.approximate_last_modification_ts),
-                           static_cast<quint64>(cachedDescription.timestamp));
-                return QVariant{ts};
-            }
-            case Roles::HasUnreadMessages:
-                return this->roomReadStatus.count(roomid) && this->roomReadStatus.at(roomid);
-            case Roles::HasLoudNotification:
-                return room.highlight_count > 0;
-            case Roles::NotificationCount:
-                return static_cast<int>(room.notification_count);
-            case Roles::IsInvite:
-                return false;
-            case Roles::IsSpace:
-                return room.is_space;
-            case Roles::IsPreview:
-                return false;
-            case Roles::Tags: {
-                QStringList list;
-                list.reserve(static_cast<int>(room.tags.size()));
-                for (const auto &t : room.tags)
-                    list.push_back(QString::fromStdString(t));
-                return list;
-            }
-            case Roles::IsEncrypted:
-                return cachedEncryptedRooms_.value(roomid,
-                                                   cache::isRoomEncrypted(roomid.toStdString()));
-            default:
-                return {};
-            }
-        } else if (invites.contains(roomid)) {
-            auto room = invites.value(roomid);
-            switch (role) {
-            case Roles::AvatarUrl:
-                return QString::fromStdString(room.avatar_url);
-            case Roles::RoomName:
-                return QString::fromStdString(room.name);
-            case Roles::LastMessage:
-                return tr("Pending invite.");
-            case Roles::Time:
-                return QString();
-            case Roles::Timestamp:
-                return QVariant{static_cast<quint64>(0)};
-            case Roles::HasUnreadMessages:
-            case Roles::HasLoudNotification:
-                return false;
-            case Roles::NotificationCount:
-                return 0;
-            case Roles::IsInvite:
-                return true;
-            case Roles::IsSpace:
-                return false;
-            case Roles::IsPreview:
-                return false;
-            case Roles::Tags:
-                return QStringList();
-            case Roles::IsEncrypted:
-                return false; // Invites - assume unencrypted
-            default:
-                return {};
-            }
-        } else if (previewedRooms.contains(roomid) && previewedRooms.value(roomid).has_value()) {
-            auto room = previewedRooms.value(roomid).value();
-            switch (role) {
-            case Roles::AvatarUrl:
-                return QString::fromStdString(room.avatar_url);
-            case Roles::RoomName:
-                return QString::fromStdString(room.name);
-            case Roles::LastMessage:
-                return tr("Previewing this room");
-            case Roles::Time:
-                return QString();
-            case Roles::Timestamp:
-                return QVariant{static_cast<quint64>(0)};
-            case Roles::HasUnreadMessages:
-            case Roles::HasLoudNotification:
-                return false;
-            case Roles::NotificationCount:
-                return 0;
-            case Roles::IsInvite:
-                return false;
-            case Roles::IsSpace:
-                return room.is_space;
-            case Roles::IsPreview:
-                return true;
-            case Roles::IsPreviewFetched:
-                return true;
-            case Roles::Tags:
-                return QStringList();
-            case Roles::IsEncrypted:
-                return false; // Previews - assume unencrypted
-            default:
-                return {};
-            }
-        } else {
-            if (role == Roles::IsPreview)
-                return true;
-            else if (role == Roles::IsPreviewFetched)
-                return false;
-
-            switch (role) {
-            case Roles::AvatarUrl:
-                return QString();
-            case Roles::RoomName:
-                return tr("No preview available");
-            case Roles::LastMessage:
-                return tr("This room is possibly inaccessible");
-            case Roles::Time:
-                return QString();
-            case Roles::Timestamp:
-                return QVariant(static_cast<quint64>(0));
-            case Roles::HasUnreadMessages:
-            case Roles::HasLoudNotification:
-                return false;
-            case Roles::NotificationCount:
-                return 0;
-            case Roles::IsInvite:
-                return false;
-            case Roles::IsSpace:
-                return false;
-            case Roles::Tags:
-                return QStringList();
-            case Roles::IsEncrypted:
-                return false; // Unknown rooms - assume unencrypted
-            default:
-                return {};
-            }
-        }
-    } else {
+    if (index.row() < 0 || static_cast<size_t>(index.row()) >= roomids.size())
         return {};
+
+    const auto room_id = roomids.at(index.row());
+
+    if (const auto value = commonRoomData(room_id, role); value.has_value())
+        return *value;
+
+    if (models.contains(room_id))
+        return dataForMaterializedRoom(room_id, models.value(room_id), role);
+
+    if (cachedJoinedRooms_.contains(room_id))
+        return dataForCachedRoom(room_id, cachedJoinedRooms_.value(room_id), role);
+
+    if (invites.contains(room_id))
+        return dataForInviteRoom(invites.value(room_id), role);
+
+    if (previewedRooms.contains(room_id)) {
+        if (const auto room = previewedRooms.value(room_id); room.has_value())
+            return dataForPreviewRoom(room.value(), role);
     }
+
+    return dataForUnavailablePreview(role);
 }
 
 void
@@ -1297,23 +1396,7 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
             endRemoveRows();
         }
 
-        models.remove(qroomid);
-        invites.remove(qroomid);
-        previewedRooms.remove(qroomid);
-        cachedJoinedRooms_.remove(qroomid);
-        cachedEncryptedRooms_.remove(qroomid);
-        scheduledPrewarms_.remove(qroomid);
-        activePrewarms_.remove(qroomid);
-        prewarmLastAttemptMs_.remove(qroomid);
-        cachedLastMessageBackfillAttempted_.remove(qroomid);
-        cachedLastMessageBackfillQueued_.remove(qroomid);
-        cachedLastMessageBackfillInProgress_.remove(qroomid);
-        roomReadStatus.erase(qroomid);
-        invalidateCachedLastMessage(qroomid);
-        if (const auto settings = UserSettings::instance())
-            settings->clearComposerDraftForRoom(qroomid);
-        if (pendingCurrentRoomId_ == qroomid)
-            pendingCurrentRoomId_.clear();
+        removeRoomState(qroomid);
     }
 
     for (const auto &[room_id, room] : sync_.rooms.invite) {
@@ -1341,26 +1424,7 @@ void
 RoomlistModel::initializeRooms()
 {
     beginResetModel();
-    models.clear();
-    cachedJoinedRooms_.clear();
-    cachedEncryptedRooms_.clear();
-    cachedLastMessages_.clear();
-    cachedLastMessagesComputed_.clear();
-    cachedLastMessageBackfillAttempted_.clear();
-    cachedLastMessageBackfillQueued_.clear();
-    cachedLastMessageBackfillInProgress_.clear();
-    scheduledPrewarms_.clear();
-    activePrewarms_.clear();
-    prewarmLastAttemptMs_.clear();
-    startupMaterializationTrackingActive_ = false;
-    startupMaterializationCount_          = 0;
-    startupMaterializationWarningEmitted_ = false;
-    roomids.clear();
-    invites.clear();
-    previewedRooms.clear();
-    pendingCurrentRoomId_.clear();
-    currentRoom_ = nullptr;
-    currentRoomPreview_.reset();
+    resetRoomCollections(false);
 
     auto e = cache::getAccountData(mtx::events::EventType::Direct);
     if (e) {
@@ -1438,29 +1502,7 @@ void
 RoomlistModel::clear()
 {
     beginResetModel();
-    models.clear();
-    cachedJoinedRooms_.clear();
-    cachedEncryptedRooms_.clear();
-    cachedLastMessages_.clear();
-    cachedLastMessagesComputed_.clear();
-    cachedLastMessageBackfillAttempted_.clear();
-    cachedLastMessageBackfillQueued_.clear();
-    cachedLastMessageBackfillInProgress_.clear();
-    scheduledPrewarms_.clear();
-    activePrewarms_.clear();
-    prewarmLastAttemptMs_.clear();
-    startupMaterializationTrackingActive_ = false;
-    startupMaterializationCount_          = 0;
-    startupMaterializationWarningEmitted_ = false;
-    previewedRooms.clear();
-    invites.clear();
-    roomids.clear();
-    roomReadStatus.clear();
-    pendingCurrentRoomId_.clear();
-    currentRoom_ = nullptr;
-    currentRoomPreview_.reset();
-    if (const auto settings = UserSettings::instance())
-        settings->clearAllComposerDrafts();
+    resetRoomCollections(true);
     emit currentRoomChanged("");
     endResetModel();
 }
@@ -1522,23 +1564,7 @@ RoomlistModel::leave(QString roomid, QString reason)
         endRemoveRows();
     }
 
-    models.remove(roomid);
-    invites.remove(roomid);
-    previewedRooms.remove(roomid);
-    cachedJoinedRooms_.remove(roomid);
-    cachedEncryptedRooms_.remove(roomid);
-    scheduledPrewarms_.remove(roomid);
-    activePrewarms_.remove(roomid);
-    prewarmLastAttemptMs_.remove(roomid);
-    cachedLastMessageBackfillAttempted_.remove(roomid);
-    cachedLastMessageBackfillQueued_.remove(roomid);
-    cachedLastMessageBackfillInProgress_.remove(roomid);
-    roomReadStatus.erase(roomid);
-    invalidateCachedLastMessage(roomid);
-    if (const auto settings = UserSettings::instance())
-        settings->clearComposerDraftForRoom(roomid);
-    if (pendingCurrentRoomId_ == roomid)
-        pendingCurrentRoomId_.clear();
+    removeRoomState(roomid);
 }
 
 RoomPreview
@@ -1866,172 +1892,130 @@ FilteredRoomlistModel::updateHiddenTagsAndSpaces()
 #endif
 }
 
+QModelIndex
+FilteredRoomlistModel::sourceRowIndex(int sourceRow) const
+{
+    return sourceModel()->index(sourceRow, 0);
+}
+
+bool
+FilteredRoomlistModel::isPreviewRow(int sourceRow) const
+{
+    return sourceModel()->data(sourceRowIndex(sourceRow), RoomlistModel::IsPreview).toBool();
+}
+
+bool
+FilteredRoomlistModel::isSpaceRow(int sourceRow) const
+{
+    return sourceModel()->data(sourceRowIndex(sourceRow), RoomlistModel::IsSpace).toBool();
+}
+
+bool
+FilteredRoomlistModel::isDirectRow(int sourceRow) const
+{
+    return sourceModel()->data(sourceRowIndex(sourceRow), RoomlistModel::IsDirect).toBool();
+}
+
+QStringList
+FilteredRoomlistModel::rowTags(int sourceRow) const
+{
+    return sourceModel()->data(sourceRowIndex(sourceRow), RoomlistModel::Tags).toStringList();
+}
+
+QStringList
+FilteredRoomlistModel::rowParentSpaces(int sourceRow) const
+{
+    return sourceModel()
+      ->data(sourceRowIndex(sourceRow), RoomlistModel::ParentSpaces)
+      .toStringList();
+}
+
+bool
+FilteredRoomlistModel::hiddenByTags(int sourceRow, const QString &requiredTag) const
+{
+    if (hiddenTags.empty())
+        return false;
+
+    const auto tags = rowTags(sourceRow);
+    for (const auto &tag : tags) {
+        if (!requiredTag.isEmpty() && tag == requiredTag)
+            continue;
+        if (hiddenTags.contains(tag))
+            return true;
+    }
+
+    return false;
+}
+
+bool
+FilteredRoomlistModel::hiddenBySpaces(int sourceRow, const QString &requiredSpace) const
+{
+    if (hiddenSpaces.empty())
+        return false;
+
+    const auto parents = rowParentSpaces(sourceRow);
+    for (const auto &space : parents) {
+        if (!requiredSpace.isEmpty() && space == requiredSpace)
+            continue;
+        if (hiddenSpaces.contains(space))
+            return true;
+    }
+
+    return false;
+}
+
+bool
+FilteredRoomlistModel::hiddenByDms(int sourceRow) const
+{
+    return hideDMs && isDirectRow(sourceRow);
+}
+
 bool
 FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) const
 {
     if (filterType == FilterBy::Nothing) {
-        if (sourceModel()
-              ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsPreview)
-              .toBool()) {
+        if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        }
-
-        if (sourceModel()
-              ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsSpace)
-              .toBool()) {
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByDms(sourceRow))
             return false;
-        }
-
-        if (!hiddenTags.empty()) {
-            auto tags = sourceModel()
-                          ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::Tags)
-                          .toStringList();
-
-            for (const auto &t : std::as_const(tags))
-                if (hiddenTags.contains(t))
-                    return false;
-        }
-
-        if (!hiddenSpaces.empty()) {
-            auto parents = sourceModel()
-                             ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::ParentSpaces)
-                             .toStringList();
-            for (const auto &t : std::as_const(parents))
-                if (hiddenSpaces.contains(t))
-                    return false;
-        }
-
-        if (hideDMs) {
-            return !sourceModel()
-                      ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsDirect)
-                      .toBool();
-        }
-
         return true;
     } else if (filterType == FilterBy::DirectChats) {
-        if (sourceModel()
-              ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsPreview)
-              .toBool()) {
+        if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        }
-
-        if (sourceModel()
-              ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsSpace)
-              .toBool()) {
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
             return false;
-        }
-
-        if (!hiddenTags.empty()) {
-            auto tags = sourceModel()
-                          ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::Tags)
-                          .toStringList();
-
-            for (const auto &t : std::as_const(tags))
-                if (hiddenTags.contains(t))
-                    return false;
-        }
-
-        if (!hiddenSpaces.empty()) {
-            auto parents = sourceModel()
-                             ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::ParentSpaces)
-                             .toStringList();
-            for (const auto &t : std::as_const(parents))
-                if (hiddenSpaces.contains(t))
-                    return false;
-        }
-
-        return sourceModel()
-          ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsDirect)
-          .toBool();
+        return isDirectRow(sourceRow);
     } else if (filterType == FilterBy::Tag) {
-        if (sourceModel()
-              ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsPreview)
-              .toBool()) {
+        if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        }
 
-        if (sourceModel()
-              ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsSpace)
-              .toBool()) {
-            return false;
-        }
-
-        auto tags = sourceModel()
-                      ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::Tags)
-                      .toStringList();
-
+        const auto tags = rowTags(sourceRow);
         if (!tags.contains(filterStr))
             return false;
-
-        if (!hiddenTags.empty()) {
-            for (const auto &t : std::as_const(tags))
-                if (t != filterStr && hiddenTags.contains(t))
-                    return false;
-        }
-
-        if (!hiddenSpaces.empty()) {
-            auto parents = sourceModel()
-                             ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::ParentSpaces)
-                             .toStringList();
-            for (const auto &t : std::as_const(parents))
-                if (hiddenSpaces.contains(t))
-                    return false;
-        }
-
-        if (hideDMs) {
-            return !sourceModel()
-                      ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsDirect)
-                      .toBool();
-        }
-
+        if (hiddenByTags(sourceRow, filterStr) || hiddenBySpaces(sourceRow) ||
+            hiddenByDms(sourceRow))
+            return false;
         return true;
     } else if (filterType == FilterBy::Space) {
-        if (filterStr == sourceModel()
-                           ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::RoomId)
-                           .toString())
+        const auto idx = sourceRowIndex(sourceRow);
+        if (filterStr == sourceModel()->data(idx, RoomlistModel::RoomId).toString())
             return true;
 
-        auto parents = sourceModel()
-                         ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::ParentSpaces)
-                         .toStringList();
-
+        const auto parents = rowParentSpaces(sourceRow);
         if (!parents.contains(filterStr))
             return false;
 
-        if (!hiddenTags.empty()) {
-            auto tags = sourceModel()
-                          ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::Tags)
-                          .toStringList();
-
-            for (const auto &t : std::as_const(tags))
-                if (hiddenTags.contains(t))
-                    return false;
-        }
-
-        if (!hiddenSpaces.empty()) {
-            for (const auto &t : std::as_const(parents))
-                if (t != filterStr && hiddenSpaces.contains(t))
-                    return false;
-        }
-
-        if (sourceModel()
-              ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsSpace)
-              .toBool() &&
-            !parents.contains(filterStr)) {
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow, filterStr) ||
+            hiddenByDms(sourceRow))
             return false;
-        }
 
-        if (hideDMs) {
-            return !sourceModel()
-                      ->data(sourceModel()->index(sourceRow, 0), RoomlistModel::IsDirect)
-                      .toBool();
-        }
+        if (isSpaceRow(sourceRow) && !parents.contains(filterStr))
+            return false;
 
         // If it is a preview but it can't be fetched, it is probably an inaccessible private room.
         // Hide it if the user isn't an admin.
-        auto index = sourceModel()->index(sourceRow, 0);
-        if (sourceModel()->data(index, RoomlistModel::IsPreview).toBool() &&
-            !sourceModel()->data(index, RoomlistModel::IsPreviewFetched).toBool() &&
+        if (isPreviewRow(sourceRow) &&
+            !sourceModel()->data(idx, RoomlistModel::IsPreviewFetched).toBool() &&
             !Permissions(filterStr).canChange(qml_mtx_events::SpaceChild)) {
             return false;
         }

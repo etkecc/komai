@@ -769,6 +769,7 @@ set(SRC_FILES
     src/Utils.h
     src/utils/UtilsRoomMaintenance.cpp
     src/utils/UtilsMarkdown.cpp
+    src/utils/UtilsTextAndUri.cpp
 
     src/jdenticoninterface.h
 

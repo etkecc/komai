@@ -11,9 +11,9 @@
 #include <stdexcept>
 #include <yaml-cpp/yaml.h>
 
-#include "JdenticonProvider.h"
 #include "Logging.h"
 #include "ProfileId.h"
+#include "providers/JdenticonProvider.h"
 #include "settings/SettingsController.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"

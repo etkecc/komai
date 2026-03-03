@@ -13,11 +13,11 @@
 #include <QStringList>
 #include <array>
 
-#include "JdenticonProvider.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "config/komai.h"
 #include "encryption/Olm.h"
+#include "providers/JdenticonProvider.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/SettingDescriptorValueAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"

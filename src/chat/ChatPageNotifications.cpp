@@ -15,13 +15,13 @@
 
 #include <mtx/responses.hpp>
 
-#include "AvatarProvider.h"
 #include "EventAccessors.h"
 #include "MainWindow.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "notifications/Manager.h"
+#include "providers/AvatarProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineViewManager.h"

@@ -21,7 +21,6 @@
 
 #include <mtx/responses.hpp>
 
-#include "AvatarProvider.h"
 #include "ChatPage.h"
 #include "EventAccessors.h"
 #include "Logging.h"
@@ -31,6 +30,7 @@
 #include "cache/Cache.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "encryption/Olm.h"
+#include "providers/AvatarProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/RoomSummary.h"
 #include "ui/UserProfile.h"

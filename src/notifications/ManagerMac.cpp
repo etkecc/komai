@@ -10,9 +10,9 @@
 #include <QTextDocumentFragment>
 
 #include "EventAccessors.h"
-#include "MxcImageProvider.h"
 #include "Utils.h"
 #include "cache/Cache.h"
+#include "providers/MxcImageProvider.h"
 
 #include <mtx/responses/notifications.hpp>
 

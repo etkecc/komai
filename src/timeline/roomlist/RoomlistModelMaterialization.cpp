@@ -8,10 +8,10 @@
 #include "ChatPage.h"
 #include "Logging.h"
 #include "MainWindow.h"
-#include "MxcImageProvider.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
+#include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 void

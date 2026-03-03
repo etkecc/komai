@@ -23,10 +23,10 @@
 
 #include "EventAccessors.h"
 #include "Logging.h"
-#include "MxcImageProvider.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "dbus/Api.h"
+#include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 NotificationsManager::NotificationsManager(QObject *parent)

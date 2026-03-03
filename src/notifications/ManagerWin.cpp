@@ -14,10 +14,10 @@
 #include <variant>
 
 #include "EventAccessors.h"
-#include "MxcImageProvider.h"
 #include "Paths.h"
 #include "Utils.h"
 #include "cache/Cache.h"
+#include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 using namespace WinToastLib;

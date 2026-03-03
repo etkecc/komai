@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "MxcImageProvider.h"
+#include "providers/MxcImageProvider.h"
 
 #include <optional>
 

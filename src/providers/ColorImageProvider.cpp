@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ColorImageProvider.h"
+#include "providers/ColorImageProvider.h"
 
 #include <QIcon>
 #include <QPainter>

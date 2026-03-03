@@ -555,10 +555,10 @@ set(SRC_FILES
 
     src/AliasEditModel.cpp
     src/AliasEditModel.h
-    src/AvatarProvider.cpp
-    src/AvatarProvider.h
-    src/BlurhashProvider.cpp
-    src/BlurhashProvider.h
+    src/providers/AvatarProvider.cpp
+    src/providers/AvatarProvider.h
+    src/providers/BlurhashProvider.cpp
+    src/providers/BlurhashProvider.h
     src/cache/core/Cache.cpp
     src/cache/core/CacheCoreStorage.cpp
     src/cache/lifecycle/CacheLifecycleRooms.cpp
@@ -640,8 +640,8 @@ set(SRC_FILES
     src/ChatPage.h
     src/Clipboard.cpp
     src/Clipboard.h
-    src/ColorImageProvider.cpp
-    src/ColorImageProvider.h
+    src/providers/ColorImageProvider.cpp
+    src/providers/ColorImageProvider.h
     src/CombinedImagePackModel.cpp
     src/CombinedImagePackModel.h
     src/GridImagePackModel.cpp
@@ -662,8 +662,8 @@ set(SRC_FILES
     src/ImagePackListModel.h
     src/InviteesModel.cpp
     src/InviteesModel.h
-    src/JdenticonProvider.cpp
-    src/JdenticonProvider.h
+    src/providers/JdenticonProvider.cpp
+    src/providers/JdenticonProvider.h
     src/Logging.cpp
     src/Logging.h
     src/auth/LoginPage.cpp
@@ -675,8 +675,8 @@ set(SRC_FILES
     src/MatrixClient.h
     src/MemberList.cpp
     src/MemberList.h
-    src/MxcImageProvider.cpp
-    src/MxcImageProvider.h
+    src/providers/MxcImageProvider.cpp
+    src/providers/MxcImageProvider.h
     src/Paths.cpp
     src/Paths.h
     src/settings/SettingKeys.h
@@ -1111,7 +1111,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)

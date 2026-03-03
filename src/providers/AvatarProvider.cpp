@@ -8,8 +8,8 @@
 #include <QPointer>
 #include <memory>
 
-#include "AvatarProvider.h"
-#include "MxcImageProvider.h"
+#include "providers/AvatarProvider.h"
+#include "providers/MxcImageProvider.h"
 #include "cache/Cache.h"
 
 static QPixmapCache avatar_cache;

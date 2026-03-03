@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "JdenticonProvider.h"
+#include "providers/JdenticonProvider.h"
 
 #include <QApplication>
 #include <QPainter>

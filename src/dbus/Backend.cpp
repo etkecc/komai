@@ -12,9 +12,9 @@
 
 #include "ChatPage.h"
 #include "MainWindow.h"
-#include "MxcImageProvider.h"
 #include "cache/Cache.h"
 #include "config/komai.h"
+#include "providers/MxcImageProvider.h"
 #include "settings/SettingKeys.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"

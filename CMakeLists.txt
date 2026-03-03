@@ -656,8 +656,8 @@ set(SRC_FILES
     src/events/EventAccessors.cpp
     src/events/EventAccessorsMedia.cpp
     src/EventAccessors.h
-    src/FallbackAuth.cpp
-    src/FallbackAuth.h
+    src/auth/FallbackAuth.cpp
+    src/auth/FallbackAuth.h
     src/ImagePackListModel.cpp
     src/ImagePackListModel.h
     src/InviteesModel.cpp
@@ -668,7 +668,7 @@ set(SRC_FILES
     src/Logging.h
     src/auth/LoginPage.cpp
     src/auth/LoginPageDiscovery.cpp
-    src/LoginPage.h
+    src/auth/LoginPage.h
     src/MainWindow.cpp
     src/MainWindow.h
     src/MatrixClient.cpp
@@ -739,16 +739,16 @@ set(SRC_FILES
     src/ProfileSecrets.h
     src/ReadReceiptsModel.cpp
     src/ReadReceiptsModel.h
-    src/ReCaptcha.cpp
-    src/ReCaptcha.h
+    src/auth/ReCaptcha.cpp
+    src/auth/ReCaptcha.h
     src/auth/RegisterPage.cpp
-    src/RegisterPage.h
+    src/auth/RegisterPage.h
     src/RoomDirectoryModel.cpp
     src/RoomDirectoryModel.h
     src/RoomsModel.cpp
     src/RoomsModel.h
-    src/SSOHandler.cpp
-    src/SSOHandler.h
+    src/auth/SSOHandler.cpp
+    src/auth/SSOHandler.h
     src/SingleImagePackModel.cpp
     src/SingleImagePackModel.h
     src/TrayIcon.cpp
@@ -1111,7 +1111,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)

@@ -32,7 +32,6 @@
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
-
 void
 utils::updateSpaceVias()
 {
@@ -203,4 +202,3 @@ utils::updateSpaceVias()
 
     ApplySpaceUpdatesState::next(std::move(asus));
 }
-

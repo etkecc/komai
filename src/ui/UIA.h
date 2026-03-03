@@ -10,8 +10,8 @@
 
 #include <mtxclient/http/client.hpp>
 
-#include "FallbackAuth.h"
-#include "ReCaptcha.h"
+#include "auth/FallbackAuth.h"
+#include "auth/ReCaptcha.h"
 
 class UIA final : public QObject
 {

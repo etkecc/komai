@@ -482,6 +482,72 @@ TimelineModel::dumpForEvent(const mtx::events::collections::TimelineEvents &even
 }
 
 QVariant
+TimelineModel::deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
+                                     const std::string &localUserStd) const
+{
+    auto idstr          = mtx::accessors::event_id(event);
+    auto id             = QString::fromStdString(idstr);
+    auto containsOthers = [&localUserStd](const auto &vec) {
+        for (const auto &e : vec)
+            if (e.second != localUserStd)
+                return true;
+        return false;
+    };
+
+    // only show read receipts for messages not from us
+    if (mtx::accessors::sender(event) != localUserStd)
+        return qml_mtx_events::Empty;
+    else if (!id.isEmpty() && id[0] == 'm') {
+        auto pending = cache::pendingEvents(this->room_id_.toStdString());
+        if (std::find(pending.begin(), pending.end(), idstr) != pending.end())
+            return qml_mtx_events::Sent;
+        else
+            return qml_mtx_events::Failed;
+    } else if (read.contains(id) || containsOthers(cache::readReceipts(id, room_id_)))
+        return qml_mtx_events::Read;
+    else
+        return qml_mtx_events::Received;
+}
+
+QVariant
+TimelineModel::notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,
+                                         const std::string &localUserStd) const
+{
+    const auto &push = ChatPage::instance()->pushruleEvaluator();
+    if (push) {
+        // skip our messages
+        auto sender = mtx::accessors::sender(event);
+        if (sender == localUserStd)
+            return qml_mtx_events::NotificationLevel::Nothing;
+
+        const auto &id = mtx::accessors::event_id(event);
+        std::vector<std::pair<mtx::common::Relation, mtx::events::collections::TimelineEvents>>
+          relatedEvents;
+        for (const auto &r : mtx::accessors::relations(event).relations) {
+            auto related = events.get(r.event_id, id);
+            if (related) {
+                relatedEvents.emplace_back(r, *related);
+            }
+        }
+
+        auto actions = push->evaluate({event}, pushrulesRoomContext(), relatedEvents);
+        if (std::find(actions.begin(),
+                      actions.end(),
+                      mtx::pushrules::actions::Action{
+                        mtx::pushrules::actions::set_tweak_highlight{}}) != actions.end()) {
+            return qml_mtx_events::NotificationLevel::Highlight;
+        }
+        if (std::find(actions.begin(),
+                      actions.end(),
+                      mtx::pushrules::actions::Action{mtx::pushrules::actions::notify{}}) !=
+            actions.end()) {
+            return qml_mtx_events::NotificationLevel::Notify;
+        }
+    }
+    return qml_mtx_events::NotificationLevel::Nothing;
+}
+
+QVariant
 TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int role) const
 {
     using namespace mtx::accessors;
@@ -569,30 +635,8 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         else
             return QVariant(QString::fromStdString(event_id(event)));
     }
-    case State: {
-        auto idstr          = event_id(event);
-        auto id             = QString::fromStdString(idstr);
-        auto containsOthers = [&localUserStd](const auto &vec) {
-            for (const auto &e : vec)
-                if (e.second != localUserStd)
-                    return true;
-            return false;
-        };
-
-        // only show read receipts for messages not from us
-        if (acc::sender(event) != localUserStd)
-            return qml_mtx_events::Empty;
-        else if (!id.isEmpty() && id[0] == 'm') {
-            auto pending = cache::pendingEvents(this->room_id_.toStdString());
-            if (std::find(pending.begin(), pending.end(), idstr) != pending.end())
-                return qml_mtx_events::Sent;
-            else
-                return qml_mtx_events::Failed;
-        } else if (read.contains(id) || containsOthers(cache::readReceipts(id, room_id_)))
-            return qml_mtx_events::Read;
-        else
-            return qml_mtx_events::Received;
-    }
+    case State:
+        return deliveryStateForEvent(event, localUserStd);
     case IsEdited:
         return {relations(event).replaces().has_value()};
     case IsEditable:
@@ -620,40 +664,8 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         return crypto::Trust::Unverified;
     }
 
-    case Notificationlevel: {
-        const auto &push = ChatPage::instance()->pushruleEvaluator();
-        if (push) {
-            // skip our messages
-            auto sender = mtx::accessors::sender(event);
-            if (sender == localUserStd)
-                return qml_mtx_events::NotificationLevel::Nothing;
-
-            const auto &id = event_id(event);
-            std::vector<std::pair<mtx::common::Relation, mtx::events::collections::TimelineEvents>>
-              relatedEvents;
-            for (const auto &r : mtx::accessors::relations(event).relations) {
-                auto related = events.get(r.event_id, id);
-                if (related) {
-                    relatedEvents.emplace_back(r, *related);
-                }
-            }
-
-            auto actions = push->evaluate({event}, pushrulesRoomContext(), relatedEvents);
-            if (std::find(actions.begin(),
-                          actions.end(),
-                          mtx::pushrules::actions::Action{
-                            mtx::pushrules::actions::set_tweak_highlight{}}) != actions.end()) {
-                return qml_mtx_events::NotificationLevel::Highlight;
-            }
-            if (std::find(actions.begin(),
-                          actions.end(),
-                          mtx::pushrules::actions::Action{mtx::pushrules::actions::notify{}}) !=
-                actions.end()) {
-                return qml_mtx_events::NotificationLevel::Notify;
-            }
-        }
-        return qml_mtx_events::NotificationLevel::Nothing;
-    }
+    case Notificationlevel:
+        return notificationLevelForEvent(event, localUserStd);
 
     case EncryptionError:
         return events.decryptionError(event_id(event));

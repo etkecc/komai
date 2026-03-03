@@ -421,6 +421,10 @@ private:
     QString
     formattedStateEventForEvent(const mtx::events::collections::TimelineEvents &event) const;
     QVariantMap dumpForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QVariant deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
+                                   const std::string &localUserStd) const;
+    QVariant notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,
+                                       const std::string &localUserStd) const;
     void populateEditMentions(const mtx::events::collections::TimelineEvents &event,
                               QStringList &mentions,
                               QStringList &mentionTexts) const;

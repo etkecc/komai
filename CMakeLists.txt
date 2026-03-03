@@ -422,6 +422,8 @@ set(SRC_FILES
     src/timeline/DelegateChooser.h
     src/timeline/EventStore.cpp
     src/timeline/EventStore.h
+    src/timeline/eventstore/EventStoreRelations.cpp
+    src/timeline/eventstore/EventStoreWindowing.cpp
     src/timeline/EventDelegateChooser.cpp
     src/timeline/EventDelegateChooser.h
     src/timeline/InputBar.cpp

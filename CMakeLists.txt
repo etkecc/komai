@@ -630,6 +630,7 @@ set(SRC_FILES
     src/db/OrderEntry.h
     src/db/Scan.h
     src/db/StateIndex.h
+    src/chat/ChatPageRoomActions.cpp
     src/ChatPage.cpp
     src/ChatPage.h
     src/Clipboard.cpp
@@ -765,6 +766,7 @@ set(SRC_FILES
     src/UsersModel.h
     src/Utils.cpp
     src/Utils.h
+    src/utils/UtilsRoomMaintenance.cpp
     src/utils/UtilsMarkdown.cpp
 
     src/jdenticoninterface.h

@@ -457,6 +457,7 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelCachedMessages.cpp
     src/timeline/roomlist/RoomlistModelPreviews.cpp
     src/timeline/roomlist/RoomlistModelPrewarm.cpp
+    src/timeline/roomlist/RoomlistModelSync.cpp
     src/timeline/state/TimelineModelRoomState.cpp
     src/timeline/send/TimelineMessageSendPipeline.cpp
     src/timeline/send/TimelineMessageSendPipeline.h

@@ -417,6 +417,10 @@ private:
     bool dispatchCallEventIfNeeded(mtx::events::collections::TimelineEvents &event,
                                    const std::string &localUserStd);
     void processSpecialEffectEvent(const mtx::events::collections::TimelineEvents &event);
+    QString formattedBodyForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QString
+    formattedStateEventForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QVariantMap dumpForEvent(const mtx::events::collections::TimelineEvents &event) const;
     void populateEditMentions(const mtx::events::collections::TimelineEvents &event,
                               QStringList &mentions,
                               QStringList &mentionTexts) const;

@@ -425,6 +425,10 @@ private:
                                    const std::string &localUserStd) const;
     QVariant notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,
                                        const std::string &localUserStd) const;
+    QString effectiveEventIdForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QString replyToForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QString threadIdForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QVariant reactionsForEvent(const mtx::events::collections::TimelineEvents &event) const;
     bool isEncryptedForEvent(const mtx::events::collections::TimelineEvents &event) const;
     crypto::Trust trustLevelForEvent(const mtx::events::collections::TimelineEvents &event) const;
     void populateEditMentions(const mtx::events::collections::TimelineEvents &event,

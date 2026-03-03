@@ -547,6 +547,34 @@ TimelineModel::notificationLevelForEvent(const mtx::events::collections::Timelin
     return qml_mtx_events::NotificationLevel::Nothing;
 }
 
+QString
+TimelineModel::effectiveEventIdForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    if (auto replaces = mtx::accessors::relations(event).replaces())
+        return QString::fromStdString(replaces.value());
+    return QString::fromStdString(mtx::accessors::event_id(event));
+}
+
+QString
+TimelineModel::replyToForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    const auto &rels = mtx::accessors::relations(event);
+    return QString::fromStdString(rels.reply_to(!rels.thread()).value_or(""));
+}
+
+QString
+TimelineModel::threadIdForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    return QString::fromStdString(mtx::accessors::relations(event).thread().value_or(""));
+}
+
+QVariant
+TimelineModel::reactionsForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    auto id = mtx::accessors::relations(event).replaces().value_or(mtx::accessors::event_id(event));
+    return QVariant::fromValue(events.reactions(id));
+}
+
 bool
 TimelineModel::isEncryptedForEvent(const mtx::events::collections::TimelineEvents &event) const
 {
@@ -652,12 +680,8 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
 
         return {prop > 0 ? prop : 1.};
     }
-    case EventId: {
-        if (auto replaces = relations(event).replaces())
-            return QVariant(QString::fromStdString(replaces.value()));
-        else
-            return QVariant(QString::fromStdString(event_id(event)));
-    }
+    case EventId:
+        return QVariant(effectiveEventIdForEvent(event));
     case State:
         return deliveryStateForEvent(event, localUserStd);
     case IsEdited:
@@ -679,16 +703,12 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case EncryptionError:
         return events.decryptionError(event_id(event));
 
-    case ReplyTo: {
-        const auto &rels = relations(event);
-        return QVariant(QString::fromStdString(rels.reply_to(!rels.thread()).value_or("")));
-    }
+    case ReplyTo:
+        return QVariant(replyToForEvent(event));
     case ThreadId:
-        return QVariant(QString::fromStdString(relations(event).thread().value_or("")));
-    case Reactions: {
-        auto id = relations(event).replaces().value_or(event_id(event));
-        return QVariant::fromValue(events.reactions(id));
-    }
+        return QVariant(threadIdForEvent(event));
+    case Reactions:
+        return reactionsForEvent(event);
     case Room:
         return QVariant::fromValue(this);
     case RoomId:

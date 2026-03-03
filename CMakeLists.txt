@@ -538,6 +538,7 @@ set(SRC_FILES
     src/voip/WebRTCSession.h
 
     src/encryption/DeviceVerificationFlow.cpp
+    src/encryption/DeviceVerificationFlowProtocol.cpp
     src/encryption/DeviceVerificationFlow.h
     src/encryption/Olm.cpp
     src/encryption/Olm.h

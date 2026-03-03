@@ -436,6 +436,8 @@ set(SRC_FILES
     src/timeline/composer/TimelineModelComposer.cpp
     src/timeline/actions/TimelineModelActions.cpp
     src/timeline/data/RoomlistModelData.cpp
+    src/timeline/data/TimelineModelDataFormatting.cpp
+    src/timeline/data/TimelineModelDataRoleHelpers.cpp
     src/timeline/data/TimelineModelDataRoles.cpp
     src/timeline/format/TimelineImagePackFormatter.cpp
     src/timeline/format/TimelineImagePackFormatter.h

@@ -6,5 +6,6 @@
 #pragma once
 
 namespace app {
-int runMainApplication(int argc, char *argv[]);
+int
+runMainApplication(int argc, char *argv[]);
 }

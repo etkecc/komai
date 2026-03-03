@@ -57,7 +57,8 @@ Components.OverlayDialog {
         activeFocusOnTab: true
         focusPolicy: Qt.StrongFocus
 
-        readonly property bool highlighted: hovered || pressed || activeFocus
+        readonly property bool activeState: hovered || pressed || activeFocus
+        readonly property color actionTextColor: activeState ? palette.brightText : palette.text
 
         contentItem: RowLayout {
             spacing: Komai.paddingMedium
@@ -68,7 +69,7 @@ Components.OverlayDialog {
                 Layout.preferredHeight: 24
                 fillMode: Image.PreserveAspectFit
                 mirror: actionBtn.mirrorIcon
-                source: actionBtn.iconSource !== "" ? "image://colorimage/" + actionBtn.iconSource + "?" + (actionBtn.highlighted ? palette.highlightedText : palette.text) : ""
+                source: actionBtn.iconSource !== "" ? "image://colorimage/" + actionBtn.iconSource + "?" + actionBtn.actionTextColor : ""
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
             }
@@ -77,14 +78,14 @@ Components.OverlayDialog {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter
                 text: actionBtn.labelText
-                color: actionBtn.highlighted ? palette.highlightedText : palette.text
+                color: actionBtn.actionTextColor
                 elide: Text.ElideRight
             }
         }
 
         background: Rectangle {
             radius: Komai.paddingMedium
-            color: actionBtn.highlighted ? palette.highlight : "transparent"
+            color: actionBtn.activeState ? palette.dark : palette.window
         }
 
         KomaiCursorShape {

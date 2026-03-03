@@ -631,6 +631,7 @@ set(SRC_FILES
     src/db/Scan.h
     src/db/StateIndex.h
     src/chat/ChatPageRoomActions.cpp
+    src/chat/ChatPageSessionLifecycle.cpp
     src/ChatPage.cpp
     src/ChatPage.h
     src/Clipboard.cpp

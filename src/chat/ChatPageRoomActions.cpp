@@ -19,15 +19,15 @@
 #include <mtx/responses.hpp>
 #include <mtxclient/crypto/client.hpp>
 
+#include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Utils.h"
-#include "Logging.h"
 #include "cache/Cache.h"
-#include "ui/RoomSummary.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/RoomSummary.h"
 
 void
 ChatPage::knockRoom(const QString &room,
@@ -207,11 +207,11 @@ ChatPage::inviteUser(const QString &room, QString userid, QString reason)
       userid.toStdString(),
       [this, userid, room](const mtx::responses::Empty &, mtx::http::RequestErr err) {
           if (err) {
-            nhlog::net()->error(
-              "Failed to invite {} to {}: {}", userid.toStdString(), room.toStdString(), *err);
-            emit showNotification(
-              tr("Failed to invite %1 to %2: %3")
-                .arg(userid, room, QString::fromStdString(err->matrix_error.error)));
+              nhlog::net()->error(
+                "Failed to invite {} to {}: {}", userid.toStdString(), room.toStdString(), *err);
+              emit showNotification(
+                tr("Failed to invite %1 to %2: %3")
+                  .arg(userid, room, QString::fromStdString(err->matrix_error.error)));
           } else
               emit showNotification(tr("Invited user: %1").arg(userid));
       },

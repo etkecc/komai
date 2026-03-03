@@ -423,6 +423,7 @@ set(SRC_FILES
     src/timeline/EventStore.cpp
     src/timeline/EventStore.h
     src/timeline/eventstore/EventStoreRelations.cpp
+    src/timeline/eventstore/EventStoreAccess.cpp
     src/timeline/eventstore/EventStoreWindowing.cpp
     src/timeline/EventDelegateChooser.cpp
     src/timeline/EventDelegateChooser.h

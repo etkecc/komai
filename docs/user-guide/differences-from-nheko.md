@@ -23,6 +23,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 - **Separator lines** between room list entries and autocomplete items
 - **Larger emoji** in the timeline by default
 - **Per-room user colors** -- unique color assignment in small rooms, accent-complementary color in large rooms
+- **Fluent Icons workflow** -- we now keep [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) easy to update and extend, with details in [Icons Architecture](../architecture/icons.md) and the full [Icon Catalog](../architecture/icons-list.md).
 
 
 ## 🧭 Navigation and Layout

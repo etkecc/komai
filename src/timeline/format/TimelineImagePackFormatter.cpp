@@ -37,27 +37,26 @@ timeline::format::formatImagePackEvent(
     const auto &newImages = event.content.images;
     const auto oldImages  = prevEvent ? prevEvent->content.images : decltype(newImages){};
 
-    auto calcChange =
-      [imageAscent](const std::map<std::string, mtx::events::msc2545::PackImage> &newI,
-                    const std::map<std::string, mtx::events::msc2545::PackImage> &oldI) {
-          QStringList added;
-          for (const auto &[shortcode, img] : newI) {
-              if (!oldI.count(shortcode))
-                  added.push_back(QStringLiteral("<img data-mx-emoticon height=%1 src=\"%2\"> (~%3)")
-                                    .arg(imageAscent)
-                                    .arg(QString::fromStdString(img.url)
-                                           .replace("mxc://", "image://mxcImage/")
-                                           .toHtmlEscaped(),
-                                         QString::fromStdString(shortcode)));
-          }
-          return added;
-      };
+    auto calcChange = [imageAscent](
+                        const std::map<std::string, mtx::events::msc2545::PackImage> &newI,
+                        const std::map<std::string, mtx::events::msc2545::PackImage> &oldI) {
+        QStringList added;
+        for (const auto &[shortcode, img] : newI) {
+            if (!oldI.count(shortcode))
+                added.push_back(QStringLiteral("<img data-mx-emoticon height=%1 src=\"%2\"> (~%3)")
+                                  .arg(imageAscent)
+                                  .arg(QString::fromStdString(img.url)
+                                         .replace("mxc://", "image://mxcImage/")
+                                         .toHtmlEscaped(),
+                                       QString::fromStdString(shortcode)));
+        }
+        return added;
+    };
 
     auto added   = calcChange(newImages, oldImages);
     auto removed = calcChange(oldImages, newImages);
 
-    auto sender =
-      utils::replaceEmoji(displayNameForUser(QString::fromStdString(event.sender)));
+    auto sender = utils::replaceEmoji(displayNameForUser(QString::fromStdString(event.sender)));
     const auto packId = [&event]() -> QString {
         if (event.content.pack && !event.content.pack->display_name.empty()) {
             return event.content.pack->display_name.c_str();

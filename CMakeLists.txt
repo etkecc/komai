@@ -437,8 +437,12 @@ set(SRC_FILES
     src/timeline/format/TimelineImagePackFormatter.h
     src/timeline/format/TimelineMemberEventFormatter.cpp
     src/timeline/format/TimelineMemberEventFormatter.h
+    src/timeline/format/TimelinePolicyRuleFormatter.cpp
+    src/timeline/format/TimelinePolicyRuleFormatter.h
     src/timeline/format/TimelinePowerLevelFormatter.cpp
     src/timeline/format/TimelinePowerLevelFormatter.h
+    src/timeline/format/TimelineRedactedEventFormatter.cpp
+    src/timeline/format/TimelineRedactedEventFormatter.h
     src/timeline/media/TimelineMediaController.cpp
     src/timeline/media/TimelineMediaController.h
     src/timeline/rawmessage/RawMessageDialogPayload.cpp

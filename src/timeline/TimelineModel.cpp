@@ -34,7 +34,9 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/format/TimelineImagePackFormatter.h"
 #include "timeline/format/TimelineMemberEventFormatter.h"
+#include "timeline/format/TimelinePolicyRuleFormatter.h"
 #include "timeline/format/TimelinePowerLevelFormatter.h"
+#include "timeline/format/TimelineRedactedEventFormatter.h"
 #include "timeline/rawmessage/RawMessageDialogPayload.h"
 #include "timeline/send/TimelineMessageSendPipeline.h"
 #include "ui/Theme.h"
@@ -1845,130 +1847,15 @@ TimelineModel::formatImagePackEvent(
 QString
 TimelineModel::formatPolicyRule(const QString &id) const
 {
-    auto idStr = id.toStdString();
-    auto e     = events.get(idStr, "");
-    if (!e)
-        return {};
-
-    auto qsHtml = [](const std::string &s) { return QString::fromStdString(s).toHtmlEscaped(); };
-    constexpr std::string_view unstable_ban = "org.matrix.mjolnir.ban";
-
-    if (auto userRule =
-          std::get_if<mtx::events::StateEvent<mtx::events::state::policy_rule::UserRule>>(e)) {
-        auto sender = utils::replaceEmoji(displayName(QString::fromStdString(userRule->sender)));
-        if (userRule->content.entity.empty() ||
-            (userRule->content.recommendation !=
-               mtx::events::state::policy_rule::recommendation::ban &&
-             userRule->content.recommendation != unstable_ban)) {
-            while (userRule->content.entity.empty() &&
-                   !userRule->unsigned_data.replaces_state.empty()) {
-                auto temp = events.get(userRule->unsigned_data.replaces_state, idStr);
-                if (!temp)
-                    break;
-                if (auto tempRule = std::get_if<
-                      mtx::events::StateEvent<mtx::events::state::policy_rule::UserRule>>(temp))
-                    userRule = tempRule;
-                else
-                    break;
-            }
-
-            return tr("%1 disabled the rule to ban users matching %2.")
-              .arg(sender, qsHtml(userRule->content.entity));
-        } else {
-            return tr("%1 added a rule to ban users matching %2 for '%3'.")
-              .arg(sender, qsHtml(userRule->content.entity), qsHtml(userRule->content.reason));
-        }
-    } else if (auto roomRule =
-                 std::get_if<mtx::events::StateEvent<mtx::events::state::policy_rule::RoomRule>>(
-                   e)) {
-        auto sender = utils::replaceEmoji(displayName(QString::fromStdString(roomRule->sender)));
-        if (roomRule->content.entity.empty() ||
-            (roomRule->content.recommendation !=
-               mtx::events::state::policy_rule::recommendation::ban &&
-             roomRule->content.recommendation != unstable_ban)) {
-            while (roomRule->content.entity.empty() &&
-                   !roomRule->unsigned_data.replaces_state.empty()) {
-                auto temp = events.get(roomRule->unsigned_data.replaces_state, idStr);
-                if (!temp)
-                    break;
-                if (auto tempRule = std::get_if<
-                      mtx::events::StateEvent<mtx::events::state::policy_rule::RoomRule>>(temp))
-                    roomRule = tempRule;
-                else
-                    break;
-            }
-            return tr("%1 disabled the rule to ban rooms matching %2.")
-              .arg(sender, qsHtml(roomRule->content.entity));
-        } else {
-            return tr("%1 added a rule to ban rooms matching %2 for '%3'.")
-              .arg(sender, qsHtml(roomRule->content.entity), qsHtml(roomRule->content.reason));
-        }
-    } else if (auto serverRule =
-                 std::get_if<mtx::events::StateEvent<mtx::events::state::policy_rule::ServerRule>>(
-                   e)) {
-        auto sender = utils::replaceEmoji(displayName(QString::fromStdString(serverRule->sender)));
-        if (serverRule->content.entity.empty() ||
-            (serverRule->content.recommendation !=
-               mtx::events::state::policy_rule::recommendation::ban &&
-             serverRule->content.recommendation != unstable_ban)) {
-            while (serverRule->content.entity.empty() &&
-                   !serverRule->unsigned_data.replaces_state.empty()) {
-                auto temp = events.get(serverRule->unsigned_data.replaces_state, idStr);
-                if (!temp)
-                    break;
-                if (auto tempRule = std::get_if<
-                      mtx::events::StateEvent<mtx::events::state::policy_rule::ServerRule>>(temp))
-                    serverRule = tempRule;
-                else
-                    break;
-            }
-            return tr("%1 disabled the rule to ban servers matching %2.")
-              .arg(sender, qsHtml(serverRule->content.entity));
-        } else {
-            return tr("%1 added a rule to ban servers matching %2 for '%3'.")
-              .arg(sender, qsHtml(serverRule->content.entity), qsHtml(serverRule->content.reason));
-        }
-    }
-
-    return {};
+    return timeline::format::formatPolicyRule(
+      id, events, [this](const QString &userId) { return displayName(userId); });
 }
 
 QVariantMap
 TimelineModel::formatRedactedEvent(const QString &id)
 {
-    QVariantMap pair{{"first", ""}, {"second", ""}};
-    auto e = events.get(id.toStdString(), "");
-    if (!e)
-        return pair;
-
-    auto event = std::get_if<mtx::events::RoomEvent<mtx::events::msg::Redacted>>(e);
-    if (!event)
-        return pair;
-
-    QString dateTime = QDateTime::fromMSecsSinceEpoch(event->origin_server_ts).toString();
-    QString reason   = QLatin1String("");
-    auto because     = event->unsigned_data.redacted_because;
-    // User info about who actually sent the redacted event.
-    QString redactedUser;
-    QString redactedName;
-
-    if (because.has_value()) {
-        redactedUser = QString::fromStdString(because->sender).toHtmlEscaped();
-        redactedName = utils::replaceEmoji(displayName(redactedUser));
-        reason       = QString::fromStdString(because->content.reason).toHtmlEscaped();
-    }
-
-    if (reason.isEmpty()) {
-        pair[QStringLiteral("first")] = tr("Removed by %1").arg(redactedName);
-        pair[QStringLiteral("second")] =
-          tr("%1 (%2) removed this message at %3").arg(redactedName, redactedUser, dateTime);
-    } else {
-        pair[QStringLiteral("first")]  = tr("Removed by %1 because: %2").arg(redactedName, reason);
-        pair[QStringLiteral("second")] = tr("%1 (%2) removed this message at %3\nReason: %4")
-                                           .arg(redactedName, redactedUser, dateTime, reason);
-    }
-
-    return pair;
+    return timeline::format::formatRedactedEvent(
+      id, events, [this](const QString &userId) { return displayName(userId); });
 }
 
 void

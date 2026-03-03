@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ProfileSecrets.h"
+#include "profile/ProfileSecrets.h"
 
 #include <QString>
 #include <QStringView>
 
-#include "ProfileId.h"
+#include "profile/ProfileId.h"
 
 namespace profile_secrets {
 

@@ -27,9 +27,9 @@
 
 #include <spdlog/logger.h>
 
-#include "ProfileSecrets.h"
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
+#include "profile/ProfileSecrets.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 static QString

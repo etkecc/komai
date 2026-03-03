@@ -677,8 +677,8 @@ set(SRC_FILES
     src/models/MemberList.h
     src/providers/MxcImageProvider.cpp
     src/providers/MxcImageProvider.h
-    src/Paths.cpp
-    src/Paths.h
+    src/profile/Paths.cpp
+    src/profile/Paths.h
     src/settings/SettingKeys.h
     src/settings/ui/SettingDescriptor.h
     src/settings/ui/SettingDescriptor.cpp
@@ -735,8 +735,8 @@ set(SRC_FILES
     src/powerlevels/PowerlevelsSpacesListModel.cpp
     src/powerlevels/PowerlevelsTypeListModel.cpp
     src/powerlevels/PowerlevelsUserListModel.cpp
-    src/ProfileSecrets.cpp
-    src/ProfileSecrets.h
+    src/profile/ProfileSecrets.cpp
+    src/profile/ProfileSecrets.h
     src/models/ReadReceiptsModel.cpp
     src/models/ReadReceiptsModel.h
     src/auth/ReCaptcha.cpp
@@ -1230,7 +1230,7 @@ if(BUILD_TESTING)
         tests/JdenticonStartupStub.cpp
         tests/OlmStartupStub.cpp
         tests/LoggingStub.cpp
-        src/Paths.cpp
+        src/profile/Paths.cpp
         src/settings/ui/facade/UserSettingsPage.cpp
         src/settings/ui/facade/UserSettingsGettersUi.cpp
         src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp
@@ -1302,7 +1302,7 @@ if(BUILD_TESTING)
         tests/SettingsStorageTest.cpp
         tests/LoggingStub.cpp
         tests/ProfileSecretsStub.cpp
-        src/Paths.cpp
+        src/profile/Paths.cpp
         src/cache/api/CacheApiLoggers.cpp
         src/settings/SettingsPersistence.cpp
         src/settings/SettingsPersistenceLoad.cpp

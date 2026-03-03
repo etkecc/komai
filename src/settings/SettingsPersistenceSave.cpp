@@ -8,8 +8,8 @@
 
 #include <spdlog/logger.h>
 
-#include "Paths.h"
-#include "ProfileSecrets.h"
+#include "profile/Paths.h"
+#include "profile/ProfileSecrets.h"
 #include "settings/SettingsStorage.h"
 #include "settings/YamlSettings.h"
 

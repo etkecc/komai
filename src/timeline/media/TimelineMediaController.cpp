@@ -24,8 +24,8 @@
 #include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Paths.h"
 #include "Utils.h"
+#include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
 

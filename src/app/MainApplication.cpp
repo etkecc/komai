@@ -37,11 +37,11 @@
 #include "dbus/Backend.h"
 #endif
 #include "MatrixClient.h"
-#include "Paths.h"
-#include "ProfileId.h"
 #include "Utils.h"
 #include "cli/CliDispatch.h"
 #include "config/komai.h"
+#include "profile/Paths.h"
+#include "profile/ProfileId.h"
 #include "settings/SettingsController.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"

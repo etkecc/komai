@@ -8,7 +8,7 @@
 
 #include <spdlog/logger.h>
 
-#include "Paths.h"
+#include "profile/Paths.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"

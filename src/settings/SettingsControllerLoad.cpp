@@ -9,7 +9,7 @@
 #include <spdlog/logger.h>
 #include <yaml-cpp/yaml.h>
 
-#include "Paths.h"
+#include "profile/Paths.h"
 #include "settings/SettingKeys.h"
 #include "settings/SettingsMigrations.h"
 #include "settings/SettingsPersistence.h"

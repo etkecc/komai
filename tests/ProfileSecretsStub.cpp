@@ -4,8 +4,8 @@
 
 #include <QString>
 
-#include "ProfileId.h"
-#include "ProfileSecrets.h"
+#include "profile/ProfileId.h"
+#include "profile/ProfileSecrets.h"
 
 namespace profile_secrets {
 

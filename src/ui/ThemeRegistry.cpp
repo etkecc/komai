@@ -16,7 +16,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "Logging.h"
-#include "Paths.h"
+#include "profile/Paths.h"
 
 static ThemeRegistry *s_instance = nullptr;
 

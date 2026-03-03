@@ -12,7 +12,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include "Logging.h"
-#include "ProfileId.h"
+#include "profile/ProfileId.h"
 #include "providers/JdenticonProvider.h"
 #include "settings/SettingsController.h"
 #include "settings/ui/facade/UserSettingsPage.h"

@@ -14,7 +14,7 @@
 #include <mtx/responses.hpp>
 
 #include "Logging.h"
-#include "Paths.h"
+#include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace http {

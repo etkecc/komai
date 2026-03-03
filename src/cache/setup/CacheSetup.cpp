@@ -21,14 +21,14 @@
 
 #include "ChatPage.h"
 #include "MatrixClient.h"
-#include "Paths.h"
-#include "ProfileSecrets.h"
 #include "Utils.h"
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
 #include "db/Maintenance.h"
 #include "db/storage/Core.h"
 #include "db/storage/Open.h"
+#include "profile/Paths.h"
+#include "profile/ProfileSecrets.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 extern bool needsCompact;

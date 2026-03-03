@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ProfileSecrets.h"
+#include "profile/ProfileSecrets.h"
 
 #include <QCoreApplication>
 #include <QEventLoop>
@@ -19,7 +19,7 @@
 #include <mtx/secret_storage.hpp>
 
 #include "Logging.h"
-#include "ProfileId.h"
+#include "profile/ProfileId.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace profile_secrets {

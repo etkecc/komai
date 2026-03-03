@@ -3,13 +3,13 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Paths.h"
+#include "profile/Paths.h"
 
 #include <QByteArray>
 #include <QSet>
 #include <QStandardPaths>
 
-#include "ProfileId.h"
+#include "profile/ProfileId.h"
 
 namespace {
 QString

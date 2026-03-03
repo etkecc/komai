@@ -10,7 +10,7 @@
 
 #include <spdlog/logger.h>
 
-#include "Paths.h"
+#include "profile/Paths.h"
 
 namespace settings::storage::detail {
 

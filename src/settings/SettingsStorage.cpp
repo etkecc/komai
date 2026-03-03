@@ -12,7 +12,7 @@
 #include <string>
 #include <string_view>
 
-#include "ProfileId.h"
+#include "profile/ProfileId.h"
 
 namespace settings::storage {
 

@@ -14,9 +14,9 @@
 #include <variant>
 
 #include "EventAccessors.h"
-#include "Paths.h"
 #include "Utils.h"
 #include "cache/Cache.h"
+#include "profile/Paths.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 

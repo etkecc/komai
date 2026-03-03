@@ -16,9 +16,9 @@
 #include <spdlog/logger.h>
 #include <spdlog/sinks/null_sink.h>
 
-#include "Paths.h"
-#include "ProfileId.h"
-#include "ProfileSecrets.h"
+#include "profile/Paths.h"
+#include "profile/ProfileId.h"
+#include "profile/ProfileSecrets.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsStorage.h"
 #include "cache/api/CacheApiContext.h"

@@ -1297,6 +1297,126 @@ RoomlistModel::updateDMs(mtx::events::AccountDataEvent<mtx::events::account_data
 }
 
 void
+RoomlistModel::emitRoomRowUpdate(const QString &room_id)
+{
+    if (auto idx = roomidToIndex(room_id); idx != -1) {
+        emit dataChanged(index(idx),
+                         index(idx),
+                         {Roles::AvatarUrl,
+                          Roles::RoomName,
+                          Roles::LastMessage,
+                          Roles::Time,
+                          Roles::Timestamp,
+                          Roles::HasDraft,
+                          Roles::DraftPreview,
+                          Roles::NotificationCount,
+                          Roles::HasLoudNotification,
+                          Roles::IsInvite,
+                          Roles::IsSpace,
+                          Roles::Tags,
+                          Roles::IsEncrypted});
+    }
+}
+
+void
+RoomlistModel::syncJoinedRoom(const std::string &room_id, const mtx::responses::JoinedRoom &room)
+{
+    auto qroomid = QString::fromStdString(room_id);
+    const bool shouldMaterialize =
+      models.contains(qroomid) || pendingCurrentRoomId_ == qroomid ||
+      (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid);
+
+    if (shouldMaterialize) {
+        // addRoom will only add the room, if it doesn't exist
+        addRoom(qroomid, false, "sync.materialized_room");
+        const auto &room_model = models.value(qroomid);
+
+        if (!room_model.isNull()) {
+            // WORKAROUND(Nico): This is not a lambda, but clazy on alpine currently doesn't
+            // believe us
+            connect(room_model.data(),
+                    &TimelineModel::newCallEvent,
+                    ChatPage::instance()->callManager(),
+                    &CallManager::syncEvent,
+                    Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
+
+            room_model->sync(room);
+
+            if (ChatPage::instance()->userSettings()->timelineTypingShowEnabled()) {
+                for (const auto &ev : room.ephemeral.events) {
+                    if (auto t =
+                          std::get_if<mtx::events::EphemeralEvent<mtx::events::ephemeral::Typing>>(
+                            &ev)) {
+                        QStringList typing;
+                        typing.reserve(t->content.user_ids.size());
+                        for (const auto &user : t->content.user_ids) {
+                            if (user != utils::localUser().toStdString())
+                                typing.push_back(QString::fromStdString(user));
+                        }
+                        room_model->updateTypingUsers(typing);
+                    }
+                }
+            }
+        }
+    } else {
+        const int existingIdx = roomidToIndex(qroomid);
+        if (existingIdx == -1) {
+            beginInsertRows(QModelIndex(), (int)roomids.size(), (int)roomids.size());
+            roomids.push_back(qroomid);
+            endInsertRows();
+        }
+
+        if (invites.contains(qroomid))
+            invites.remove(qroomid);
+        if (previewedRooms.contains(qroomid))
+            previewedRooms.remove(qroomid);
+    }
+
+    refreshCachedRoomMetadata(qroomid);
+    emitRoomRowUpdate(qroomid);
+}
+
+void
+RoomlistModel::syncLeftRoom(const std::string &room_id)
+{
+    auto qroomid = QString::fromStdString(room_id);
+
+    if ((currentRoom_ && currentRoom_->roomId() == qroomid) ||
+        (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid))
+        resetCurrentRoom();
+
+    auto idx = this->roomidToIndex(qroomid);
+    if (idx != -1) {
+        beginRemoveRows(QModelIndex(), idx, idx);
+        roomids.erase(roomids.begin() + idx);
+        endRemoveRows();
+    }
+
+    removeRoomState(qroomid);
+}
+
+void
+RoomlistModel::syncInvitedRoom(const std::string &room_id)
+{
+    auto qroomid = QString::fromStdString(room_id);
+
+    auto invite = cache::invite(room_id);
+    if (!invite)
+        return;
+
+    if (invites.contains(qroomid)) {
+        invites[qroomid] = *invite;
+        auto idx         = roomidToIndex(qroomid);
+        emit dataChanged(index(idx), index(idx));
+    } else {
+        beginInsertRows(QModelIndex(), (int)roomids.size(), (int)roomids.size());
+        invites.insert(qroomid, *invite);
+        roomids.push_back(std::move(qroomid));
+        endInsertRows();
+    }
+}
+
+void
 RoomlistModel::sync(const mtx::responses::Sync &sync_)
 {
     for (const auto &e : sync_.account_data.events) {
@@ -1311,112 +1431,17 @@ RoomlistModel::sync(const mtx::responses::Sync &sync_)
     }
 
     for (const auto &[room_id, room] : sync_.rooms.join) {
-        auto qroomid = QString::fromStdString(room_id);
-        const bool shouldMaterialize =
-          models.contains(qroomid) || pendingCurrentRoomId_ == qroomid ||
-          (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid);
-
-        if (shouldMaterialize) {
-            // addRoom will only add the room, if it doesn't exist
-            addRoom(qroomid, false, "sync.materialized_room");
-            const auto &room_model = models.value(qroomid);
-
-            if (!room_model.isNull()) {
-                // WORKAROUND(Nico): This is not a lambda, but clazy on alpine currently doesn't
-                // believe us
-                connect(room_model.data(),
-                        &TimelineModel::newCallEvent,
-                        ChatPage::instance()->callManager(),
-                        &CallManager::syncEvent,
-                        Qt::UniqueConnection); // clazy:exclude=lambda-unique-connection
-
-                room_model->sync(room);
-
-                if (ChatPage::instance()->userSettings()->timelineTypingShowEnabled()) {
-                    for (const auto &ev : room.ephemeral.events) {
-                        if (auto t = std::get_if<
-                              mtx::events::EphemeralEvent<mtx::events::ephemeral::Typing>>(&ev)) {
-                            QStringList typing;
-                            typing.reserve(t->content.user_ids.size());
-                            for (const auto &user : t->content.user_ids) {
-                                if (user != utils::localUser().toStdString())
-                                    typing.push_back(QString::fromStdString(user));
-                            }
-                            room_model->updateTypingUsers(typing);
-                        }
-                    }
-                }
-            }
-        } else {
-            const int existingIdx = roomidToIndex(qroomid);
-            if (existingIdx == -1) {
-                beginInsertRows(QModelIndex(), (int)roomids.size(), (int)roomids.size());
-                roomids.push_back(qroomid);
-                endInsertRows();
-            }
-
-            if (invites.contains(qroomid))
-                invites.remove(qroomid);
-            if (previewedRooms.contains(qroomid))
-                previewedRooms.remove(qroomid);
-        }
-
-        refreshCachedRoomMetadata(qroomid);
-        if (auto idx = roomidToIndex(qroomid); idx != -1) {
-            emit dataChanged(index(idx),
-                             index(idx),
-                             {Roles::AvatarUrl,
-                              Roles::RoomName,
-                              Roles::LastMessage,
-                              Roles::Time,
-                              Roles::Timestamp,
-                              Roles::HasDraft,
-                              Roles::DraftPreview,
-                              Roles::NotificationCount,
-                              Roles::HasLoudNotification,
-                              Roles::IsInvite,
-                              Roles::IsSpace,
-                              Roles::Tags,
-                              Roles::IsEncrypted});
-        }
+        syncJoinedRoom(room_id, room);
     }
 
     for (const auto &[room_id, room] : sync_.rooms.leave) {
         (void)room;
-        auto qroomid = QString::fromStdString(room_id);
-
-        if ((currentRoom_ && currentRoom_->roomId() == qroomid) ||
-            (currentRoomPreview_ && currentRoomPreview_->roomid() == qroomid))
-            resetCurrentRoom();
-
-        auto idx = this->roomidToIndex(qroomid);
-        if (idx != -1) {
-            beginRemoveRows(QModelIndex(), idx, idx);
-            roomids.erase(roomids.begin() + idx);
-            endRemoveRows();
-        }
-
-        removeRoomState(qroomid);
+        syncLeftRoom(room_id);
     }
 
     for (const auto &[room_id, room] : sync_.rooms.invite) {
         (void)room;
-        auto qroomid = QString::fromStdString(room_id);
-
-        auto invite = cache::invite(room_id);
-        if (!invite)
-            continue;
-
-        if (invites.contains(qroomid)) {
-            invites[qroomid] = *invite;
-            auto idx         = roomidToIndex(qroomid);
-            emit dataChanged(index(idx), index(idx));
-        } else {
-            beginInsertRows(QModelIndex(), (int)roomids.size(), (int)roomids.size());
-            invites.insert(qroomid, *invite);
-            roomids.push_back(std::move(qroomid));
-            endInsertRows();
-        }
+        syncInvitedRoom(room_id);
     }
 }
 

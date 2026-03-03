@@ -186,6 +186,10 @@ private:
     void addRoom(const QString &room_id,
                  bool suppressInsertNotification = false,
                  const char *reason              = "unknown");
+    void syncJoinedRoom(const std::string &room_id, const mtx::responses::JoinedRoom &room);
+    void syncLeftRoom(const std::string &room_id);
+    void syncInvitedRoom(const std::string &room_id);
+    void emitRoomRowUpdate(const QString &room_id);
     QString draftPreviewText(const QString &room_id) const;
     bool hasDraft(const QString &room_id) const;
     void persistDraftForRoom(const QString &room_id, const QString &draftText);

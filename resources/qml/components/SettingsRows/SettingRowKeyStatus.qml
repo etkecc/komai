@@ -12,7 +12,7 @@ TextEdit {
 
     required property var model
 
-    color: model.good ? "green" : Komai.theme.error
+    color: model.good ? Komai.theme.green : Komai.theme.error
     text: model.value ? qsTr("CACHED") : qsTr("NOT CACHED")
     readOnly: true
     selectByMouse: true

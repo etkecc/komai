@@ -22,6 +22,7 @@ AbstractButton {
     property bool showLabel: false
     readonly property bool hasLabel: showLabel && encryptionShortLabel().length > 0
     readonly property int iconSize: Math.max(14, topBarAvatarSize - 2 * buttonPaddingH)
+    readonly property bool activeState: hovered || pressed || visualFocus
     readonly property string encryptionIcon: {
         if (!isEncrypted)
             return ":/icons/icons/ui/shield-regular-cross.svg";
@@ -62,7 +63,7 @@ AbstractButton {
     implicitWidth: topBarAvatarSize + (hasLabel ? (Komai.paddingSmall + labelTextItem.implicitWidth) : 0)
     background: Rectangle {
         radius: Komai.paddingSmall
-        color: encryptionButton.hovered ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12) : "transparent"
+        color: encryptionButton.activeState ? palette.dark : "transparent"
     }
     visible: roomAvailable
 
@@ -128,7 +129,7 @@ AbstractButton {
             hovered: encryptionButton.hovered
             trust: trustlevel
             unencryptedColor: palette.buttonText
-            unencryptedHoverColor: palette.highlight
+            unencryptedHoverColor: palette.brightText
             Layout.preferredHeight: encryptionButton.iconSize
             Layout.preferredWidth: encryptionButton.iconSize
             sourceSize.height: encryptionButton.iconSize
@@ -138,7 +139,7 @@ AbstractButton {
             id: labelTextItem
 
             Layout.alignment: Qt.AlignVCenter
-            color: palette.text
+            color: encryptionButton.activeState ? palette.brightText : palette.text
             font.bold: true
             text: encryptionButton.encryptionShortLabel()
             visible: encryptionButton.hasLabel

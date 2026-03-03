@@ -19,6 +19,9 @@ AbstractButton {
     property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
     readonly property int iconSize: Math.max(14, buttonSize - 2 * buttonPaddingH)
+    readonly property bool activeState: hovered || pressed || visualFocus
+    readonly property color actionTextColor: activeState ? palette.brightText : palette.buttonText
+    readonly property color actionLabelColor: activeState ? palette.brightText : palette.text
 
     ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: toolTipText
@@ -35,7 +38,7 @@ AbstractButton {
 
     background: Rectangle {
         radius: Komai.paddingSmall
-        color: root.hovered ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12) : "transparent"
+        color: root.activeState ? palette.dark : "transparent"
     }
 
     contentItem: RowLayout {
@@ -50,7 +53,7 @@ AbstractButton {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: root.iconSize
             Layout.preferredWidth: root.iconSize
-            source: "image://colorimage/" + root.iconSource + "?" + (root.hovered ? palette.highlight : palette.buttonText)
+            source: "image://colorimage/" + root.iconSource + "?" + root.actionTextColor
             sourceSize.height: root.iconSize
             sourceSize.width: root.iconSize
         }
@@ -58,7 +61,7 @@ AbstractButton {
             id: actionLabel
 
             Layout.alignment: Qt.AlignVCenter
-            color: palette.text
+            color: root.actionLabelColor
             font.bold: true
             text: root.labelText
             visible: root.hasLabel

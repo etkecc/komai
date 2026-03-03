@@ -20,6 +20,9 @@ AbstractButton {
     property string toolTipText: labelText
     readonly property bool hasLabel: showLabel && labelText.length > 0
     readonly property int iconSize: Math.max(14, topBarRef.topBarAvatarSize - 2 * topBarRef.buttonPaddingH)
+    readonly property bool activeState: hovered || pressed || visualFocus
+    readonly property color actionTextColor: activeState ? palette.brightText : palette.buttonText
+    readonly property color actionLabelColor: activeState ? palette.brightText : palette.text
 
     Layout.alignment: Qt.AlignVCenter
     Layout.column: column
@@ -39,7 +42,7 @@ AbstractButton {
 
     background: Rectangle {
         radius: Komai.paddingSmall
-        color: button.hovered ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.12) : "transparent"
+        color: button.activeState ? palette.dark : "transparent"
     }
 
     contentItem: RowLayout {
@@ -54,7 +57,7 @@ AbstractButton {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: button.iconSize
             Layout.preferredWidth: button.iconSize
-            source: button.image !== "" ? ("image://colorimage/" + button.image + "?" + (button.hovered ? palette.highlight : palette.buttonText)) : ""
+            source: button.image !== "" ? ("image://colorimage/" + button.image + "?" + button.actionTextColor) : ""
             sourceSize.height: button.iconSize
             sourceSize.width: button.iconSize
         }
@@ -62,7 +65,7 @@ AbstractButton {
             id: actionLabel
 
             Layout.alignment: Qt.AlignVCenter
-            color: palette.text
+            color: button.actionLabelColor
             font.bold: true
             text: button.labelText
             visible: button.hasLabel

@@ -417,6 +417,14 @@ private:
     bool dispatchCallEventIfNeeded(mtx::events::collections::TimelineEvents &event,
                                    const std::string &localUserStd);
     void processSpecialEffectEvent(const mtx::events::collections::TimelineEvents &event);
+    void populateEditMentions(const mtx::events::collections::TimelineEvents &event,
+                              QStringList &mentions,
+                              QStringList &mentionTexts) const;
+    QString normalizeFormattedEditText(QString editText, const QString &quotedFormattedBody) const;
+    bool isEditableTextMessageType(mtx::events::MessageType msgType) const;
+    void applyEditedMessageText(const mtx::events::collections::TimelineEvents &event,
+                                mtx::events::MessageType msgType,
+                                const QString &editText);
 
     QString room_id_;
 

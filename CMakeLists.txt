@@ -486,6 +486,7 @@ set(SRC_FILES
     src/timeline/TimelineModel.h
     src/timeline/TimelineViewManager.cpp
     src/timeline/TimelineViewManager.h
+    src/timeline/view/TimelineViewManagerMedia.cpp
 
     # UI components
     src/ui/HiddenEvents.cpp

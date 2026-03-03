@@ -634,7 +634,8 @@ set(SRC_FILES
     src/chat/ChatPageSessionLifecycle.cpp
     src/chat/ChatPageSync.cpp
     src/chat/ChatPageNotifications.cpp
-    src/ChatPage.cpp
+    src/chat/ChatPageCore.cpp
+    src/chat/ChatPageBootstrap.cpp
     src/ChatPage.h
     src/Clipboard.cpp
     src/Clipboard.h

@@ -544,6 +544,7 @@ set(SRC_FILES
     src/encryption/Olm.cpp
     src/encryption/OlmSupport.cpp
     src/encryption/OlmToDeviceSend.cpp
+    src/encryption/OlmMegolmBackup.cpp
     src/encryption/Olm.h
     src/encryption/SelfVerificationStatus.cpp
     src/encryption/SelfVerificationStatus.h

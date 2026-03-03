@@ -72,8 +72,8 @@ PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(const std::string &room_i
                 parent->content.canonical) {
                 auto parentPl = cache::getStateEvent<mtx::events::state::PowerLevels>(s);
 
-                spaces.push_back(
-                  Entry{s, parentPl ? parentPl->content : mtx::events::state::PowerLevels{}, false});
+                spaces.push_back(Entry{
+                  s, parentPl ? parentPl->content : mtx::events::state::PowerLevels{}, false});
                 addChildren(s);
             }
         }

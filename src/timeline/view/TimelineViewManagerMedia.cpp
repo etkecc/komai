@@ -14,13 +14,13 @@
 #include <QStandardPaths>
 #include <QUrl>
 
-#include "ImagePackListModel.h"
 #include "Logging.h"
 #include "MainWindow.h"
 #include "MatrixClient.h"
 #include "RoomlistModel.h"
 #include "TimelineModel.h"
 #include "Utils.h"
+#include "imagepacks/ImagePackListModel.h"
 #include "providers/MxcImageProvider.h"
 
 void

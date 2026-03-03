@@ -3,11 +3,11 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ImagePackListModel.h"
+#include "imagepacks/ImagePackListModel.h"
 
 #include <QQmlEngine>
 
-#include "SingleImagePackModel.h"
+#include "imagepacks/SingleImagePackModel.h"
 #include "cache/Cache.h"
 
 ImagePackListModel::ImagePackListModel(const std::string &roomId, QObject *parent)

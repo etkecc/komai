@@ -9,7 +9,7 @@
 #include <QQmlEngine>
 #include <QSharedPointer>
 
-#include "SingleImagePackModel.h"
+#include "imagepacks/SingleImagePackModel.h"
 
 class ImagePackListModel : public QAbstractListModel
 {

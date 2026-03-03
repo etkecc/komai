@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "CombinedImagePackModel.h"
+#include "imagepacks/CombinedImagePackModel.h"
 
 #include "CompletionModelRoles.h"
 #include "cache/Cache.h"

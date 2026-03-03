@@ -17,12 +17,9 @@
 #include <QUrl>
 
 #include "ChatPage.h"
-#include "CombinedImagePackModel.h"
 #include "CommandCompleter.h"
 #include "CompletionProxyModel.h"
 #include "EventAccessors.h"
-#include "GridImagePackModel.h"
-#include "ImagePackListModel.h"
 #include "InviteesModel.h"
 #include "Logging.h"
 #include "MainWindow.h"
@@ -34,6 +31,9 @@
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "encryption/VerificationManager.h"
+#include "imagepacks/CombinedImagePackModel.h"
+#include "imagepacks/GridImagePackModel.h"
+#include "imagepacks/ImagePackListModel.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/CommunitiesModel.h"

@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "GridImagePackModel.h"
+#include "imagepacks/GridImagePackModel.h"
 
 #include <QCoreApplication>
 #include <QTextBoundaryFinder>

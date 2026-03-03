@@ -642,10 +642,10 @@ set(SRC_FILES
     src/Clipboard.h
     src/providers/ColorImageProvider.cpp
     src/providers/ColorImageProvider.h
-    src/CombinedImagePackModel.cpp
-    src/CombinedImagePackModel.h
-    src/GridImagePackModel.cpp
-    src/GridImagePackModel.h
+    src/imagepacks/CombinedImagePackModel.cpp
+    src/imagepacks/CombinedImagePackModel.h
+    src/imagepacks/GridImagePackModel.cpp
+    src/imagepacks/GridImagePackModel.h
     src/CommandCompleter.cpp
     src/CommandCompleter.h
     src/CompletionModelRoles.h
@@ -658,8 +658,8 @@ set(SRC_FILES
     src/EventAccessors.h
     src/auth/FallbackAuth.cpp
     src/auth/FallbackAuth.h
-    src/ImagePackListModel.cpp
-    src/ImagePackListModel.h
+    src/imagepacks/ImagePackListModel.cpp
+    src/imagepacks/ImagePackListModel.h
     src/InviteesModel.cpp
     src/InviteesModel.h
     src/providers/JdenticonProvider.cpp
@@ -749,8 +749,8 @@ set(SRC_FILES
     src/RoomsModel.h
     src/auth/SSOHandler.cpp
     src/auth/SSOHandler.h
-    src/SingleImagePackModel.cpp
-    src/SingleImagePackModel.h
+    src/imagepacks/SingleImagePackModel.cpp
+    src/imagepacks/SingleImagePackModel.h
     src/TrayIcon.cpp
     src/TrayIcon.h
     src/settings/ui/UserSettingsModel.h
@@ -1111,7 +1111,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/imagepacks/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)

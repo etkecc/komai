@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "SingleImagePackModel.h"
+#include "imagepacks/SingleImagePackModel.h"
 
 #include <QFile>
 #include <QFileInfo>

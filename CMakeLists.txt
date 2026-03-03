@@ -541,6 +541,7 @@ set(SRC_FILES
     src/encryption/DeviceVerificationFlowProtocol.cpp
     src/encryption/DeviceVerificationFlow.h
     src/encryption/Olm.cpp
+    src/encryption/OlmSupport.cpp
     src/encryption/Olm.h
     src/encryption/SelfVerificationStatus.cpp
     src/encryption/SelfVerificationStatus.h

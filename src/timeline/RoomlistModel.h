@@ -194,6 +194,7 @@ private:
     void syncLeftRoom(const std::string &room_id);
     void syncInvitedRoom(const std::string &room_id);
     void emitRoomRowUpdate(const QString &room_id);
+    static bool isCachedEncryptedPreview(const QString &room_id, const DescInfo &description);
     bool isCurrentRoomSelection(const QString &roomid) const;
     void clearCurrentRoomSelection();
     void activateMaterializedCurrentRoom(const QString &room_id, bool updateLastMessage);

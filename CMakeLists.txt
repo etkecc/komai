@@ -524,6 +524,7 @@ set(SRC_FILES
     src/ui/UIA.cpp
     src/ui/UIA.h
     src/ui/UserProfile.cpp
+    src/ui/UserProfileActions.cpp
     src/ui/UserProfileModels.cpp
     src/ui/UserProfile.h
 

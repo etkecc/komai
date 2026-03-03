@@ -373,6 +373,30 @@ TimelineModel::messageStatusRoleDataForEvent(const mtx::events::collections::Tim
 }
 
 QVariant
+TimelineModel::roomContextRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
+                                           int role) const
+{
+    switch (role) {
+    case Room:
+        return QVariant::fromValue(this);
+    case RoomId:
+        return QVariant(room_id_);
+    case RoomName:
+        return QVariant(utils::replaceEmoji(
+          QString::fromStdString(mtx::accessors::room_name(event)).toHtmlEscaped()));
+    case RoomTopic:
+        return QVariant(utils::replaceEmoji(
+          utils::linkifyMessage(QString::fromStdString(mtx::accessors::room_topic(event))
+                                  .toHtmlEscaped()
+                                  .replace(QLatin1String("\n"), QLatin1String("<br>")))));
+    case CallType:
+        return QVariant(QString::fromStdString(mtx::accessors::call_type(event)));
+    default:
+        return {};
+    }
+}
+
+QVariant
 TimelineModel::deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                      const std::string &localUserStd) const
 {
@@ -548,19 +572,11 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case Reactions:
         return reactionsForEvent(event);
     case Room:
-        return QVariant::fromValue(this);
     case RoomId:
-        return QVariant(room_id_);
     case RoomName:
-        return QVariant(
-          utils::replaceEmoji(QString::fromStdString(room_name(event)).toHtmlEscaped()));
     case RoomTopic:
-        return QVariant(utils::replaceEmoji(
-          utils::linkifyMessage(QString::fromStdString(room_topic(event))
-                                  .toHtmlEscaped()
-                                  .replace(QLatin1String("\n"), QLatin1String("<br>")))));
     case CallType:
-        return QVariant(QString::fromStdString(call_type(event)));
+        return roomContextRoleDataForEvent(event, role);
     case Dump:
         return QVariant(dumpForEvent(event));
     case RelatedEventCacheBuster:

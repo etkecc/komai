@@ -431,6 +431,8 @@ private:
     QVariant messageStatusRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
                                            int role,
                                            const std::string &localUserStd) const;
+    QVariant roomContextRoleDataForEvent(const mtx::events::collections::TimelineEvents &event,
+                                         int role) const;
     QVariant deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                    const std::string &localUserStd) const;
     QVariant notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,

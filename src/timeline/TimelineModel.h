@@ -421,6 +421,8 @@ private:
     QString
     formattedStateEventForEvent(const mtx::events::collections::TimelineEvents &event) const;
     QVariantMap dumpForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QVariant
+    mediaMetadataForEvent(const mtx::events::collections::TimelineEvents &event, int role) const;
     QVariant deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                    const std::string &localUserStd) const;
     QVariant notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,

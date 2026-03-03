@@ -248,6 +248,43 @@ TimelineModel::dumpForEvent(const mtx::events::collections::TimelineEvents &even
 }
 
 QVariant
+TimelineModel::mediaMetadataForEvent(const mtx::events::collections::TimelineEvents &event,
+                                     int role) const
+{
+    switch (role) {
+    case Url:
+        return QVariant(QString::fromStdString(mtx::accessors::url(event)));
+    case ThumbnailUrl:
+        return QVariant(QString::fromStdString(mtx::accessors::thumbnail_url(event)));
+    case Duration:
+        return QVariant(static_cast<qulonglong>(mtx::accessors::duration(event)));
+    case Blurhash:
+        return QVariant(QString::fromStdString(mtx::accessors::blurhash(event)));
+    case Filename:
+        return QVariant(QString::fromStdString(mtx::accessors::filename(event)));
+    case Filesize:
+        return QVariant(utils::humanReadableFileSize(mtx::accessors::filesize(event)));
+    case MimeType:
+        return QVariant(QString::fromStdString(mtx::accessors::mimetype(event)));
+    case OriginalHeight:
+        return QVariant(qulonglong{mtx::accessors::media_height(event)});
+    case OriginalWidth:
+        return QVariant(qulonglong{mtx::accessors::media_width(event)});
+    case ProportionalHeight: {
+        auto w = mtx::accessors::media_width(event);
+        if (w == 0)
+            w = 1;
+
+        double prop = (double)mtx::accessors::media_height(event) / (double)w;
+
+        return {prop > 0 ? prop : 1.};
+    }
+    default:
+        return {};
+    }
+}
+
+QVariant
 TimelineModel::deliveryStateForEvent(const mtx::events::collections::TimelineEvents &event,
                                      const std::string &localUserStd) const
 {
@@ -420,32 +457,16 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case FormattedStateEvent:
         return formattedStateEventForEvent(event);
     case Url:
-        return QVariant(QString::fromStdString(url(event)));
     case ThumbnailUrl:
-        return QVariant(QString::fromStdString(thumbnail_url(event)));
     case Duration:
-        return QVariant(static_cast<qulonglong>(duration(event)));
     case Blurhash:
-        return QVariant(QString::fromStdString(blurhash(event)));
     case Filename:
-        return QVariant(QString::fromStdString(filename(event)));
     case Filesize:
-        return QVariant(utils::humanReadableFileSize(filesize(event)));
     case MimeType:
-        return QVariant(QString::fromStdString(mimetype(event)));
     case OriginalHeight:
-        return QVariant(qulonglong{media_height(event)});
     case OriginalWidth:
-        return QVariant(qulonglong{media_width(event)});
-    case ProportionalHeight: {
-        auto w = media_width(event);
-        if (w == 0)
-            w = 1;
-
-        double prop = (double)media_height(event) / (double)w;
-
-        return {prop > 0 ? prop : 1.};
-    }
+    case ProportionalHeight:
+        return mediaMetadataForEvent(event, role);
     case EventId:
         return QVariant(effectiveEventIdForEvent(event));
     case State:

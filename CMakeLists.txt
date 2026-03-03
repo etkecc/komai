@@ -429,6 +429,7 @@ set(SRC_FILES
     src/timeline/EventDelegateChooser.h
     src/timeline/InputBar.cpp
     src/timeline/InputBar.h
+    src/timeline/inputbar/InputBarCommands.cpp
     src/timeline/inputbar/InputBarUploads.cpp
     src/timeline/FormattedCodeBlockHighlighter.cpp
     src/timeline/FormattedCodeBlockHighlighter.h

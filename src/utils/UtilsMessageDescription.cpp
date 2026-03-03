@@ -324,7 +324,7 @@ utils::replaceEmoji(const QString &body)
                                UserSettings::instance()->uiFontEmojiFamily() %
                                (UserSettings::instance()->timelineMessagesEmojiOnlyEnlarge()
                                   ? QStringLiteral("\" size=\"4\">")
-                                  : QStringLiteral("\">") );
+                                  : QStringLiteral("\">"));
                     insideFontBlock = true;
                 } else if (code == 0xfe0f) {
                     // BUG(Nico):

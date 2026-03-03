@@ -727,7 +727,7 @@ set(SRC_FILES
     src/settings/SettingsControllerSave.cpp
     src/settings/SettingsControllerInternal.h
     src/settings/YamlSettings.h
-    src/PowerlevelsEditModels.cpp
+    src/powerlevels/PowerlevelEditingModels.cpp
     src/PowerlevelsEditModels.h
     src/powerlevels/PowerlevelsSpacesListModel.cpp
     src/powerlevels/PowerlevelsTypeListModel.cpp

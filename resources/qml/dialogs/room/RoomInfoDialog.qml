@@ -17,22 +17,54 @@ Components.OverlayDialog {
     property var room
     property var appRoot
     property string initialTab: "settings"
+    readonly property string normalizedInitialTab: normalizeTab(initialTab)
     property string currentTab: "settings"
-    property bool deferInitialTabSwitch: initialTab !== "settings"
+    property bool deferInitialTabSwitch: normalizedInitialTab !== "settings"
+
+    function normalizeTab(tab) {
+        switch (tab) {
+        case "settings":
+        case "members":
+        case "notifications":
+        case "about":
+            return tab;
+        default:
+            return "settings";
+        }
+    }
 
     title: qsTr("Room Info")
     titleIcon: ":/icons/icons/ui/speech-bubbles.svg"
     width: Math.round((parent ? parent.width : 760) * 0.8)
 
     Component.onCompleted: {
-        if (!deferInitialTabSwitch)
-            return;
+        currentTab = "settings";
+    }
 
-        Qt.callLater(function () {
-            if (deferInitialTabSwitch)
-                roomInfoDialog.currentTab = roomInfoDialog.initialTab;
-            deferInitialTabSwitch = false;
-        });
+    onOpened: {
+        if (deferInitialTabSwitch)
+            deferredTabSwitchTimer.start();
+    }
+
+    onAboutToHide: {
+        deferInitialTabSwitch = false;
+        deferredTabSwitchTimer.stop();
+    }
+
+    Timer {
+        id: deferredTabSwitchTimer
+
+        interval: 0
+        repeat: false
+        running: false
+        onTriggered: {
+            if (!roomInfoDialog.visible)
+                return;
+
+            if (roomInfoDialog.deferInitialTabSwitch)
+                roomInfoDialog.currentTab = roomInfoDialog.normalizedInitialTab;
+            roomInfoDialog.deferInitialTabSwitch = false;
+        }
     }
 
     Item {
@@ -123,6 +155,7 @@ Components.OverlayDialog {
 
                             onClicked: {
                                 roomInfoDialog.deferInitialTabSwitch = false;
+                                deferredTabSwitchTimer.stop();
                                 roomInfoDialog.currentTab = modelData.tab;
                             }
 
@@ -169,6 +202,8 @@ Components.OverlayDialog {
                     id: tabLoader
 
                     anchors.fill: parent
+                    active: roomInfoDialog.visible
+                    asynchronous: true
 
                     source: {
                         switch (roomInfoDialog.currentTab) {
@@ -180,6 +215,8 @@ Components.OverlayDialog {
                             return "tabs/RoomInfoNotificationsTab.qml";
                         case "about":
                             return "tabs/RoomInfoAboutTab.qml";
+                        default:
+                            return "tabs/RoomInfoSettingsTab.qml";
                         }
                     }
 

@@ -405,6 +405,18 @@ private:
     void readEvent(const std::string &id);
 
     void setPaginationInProgress(const bool paginationInProgress);
+    bool applyStateEventSideEffects(const mtx::events::collections::TimelineEvents &event,
+                                    bool &avatarChanged,
+                                    bool &nameChanged,
+                                    bool &memberCountChanged);
+    bool applyStateEventSideEffects(const mtx::events::collections::StateEvents &event,
+                                    bool &avatarChanged,
+                                    bool &nameChanged,
+                                    bool &memberCountChanged);
+    void emitRoomMetadataChanges(bool avatarChanged, bool nameChanged, bool memberCountChanged);
+    bool dispatchCallEventIfNeeded(mtx::events::collections::TimelineEvents &event,
+                                   const std::string &localUserStd);
+    void processSpecialEffectEvent(const mtx::events::collections::TimelineEvents &event);
 
     QString room_id_;
 

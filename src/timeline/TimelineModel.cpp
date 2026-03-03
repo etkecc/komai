@@ -831,39 +831,112 @@ TimelineModel::sync(const mtx::responses::JoinedRoom &room)
 void
 TimelineModel::syncState(const mtx::responses::State &s)
 {
-    using namespace mtx::events;
-
     bool avatarChanged      = false;
     bool nameChanged        = false;
     bool memberCountChanged = false;
 
     for (const auto &e : s.events) {
-        if (std::holds_alternative<StateEvent<state::Avatar>>(e))
-            avatarChanged = true;
-        else if (std::holds_alternative<StateEvent<state::Name>>(e))
-            nameChanged = true;
-        else if (std::holds_alternative<StateEvent<state::Topic>>(e))
-            emit roomTopicChanged();
-        else if (std::holds_alternative<StateEvent<state::PinnedEvents>>(e))
-            emit pinnedMessagesChanged();
-        else if (std::holds_alternative<StateEvent<state::Widget>>(e))
-            emit widgetLinksChanged();
-        else if (std::holds_alternative<StateEvent<state::PowerLevels>>(e)) {
-            permissions_.invalidate();
-            emit permissionsChanged();
-        } else if (std::holds_alternative<StateEvent<state::Member>>(e)) {
-            avatarChanged      = true;
-            nameChanged        = true;
-            memberCountChanged = true;
-        } else if (std::holds_alternative<StateEvent<state::Encryption>>(e)) {
-            this->isEncrypted_ = cache::isRoomEncrypted(room_id_.toStdString());
-            emit encryptionChanged();
-        } else if (std::holds_alternative<StateEvent<state::space::Parent>>(e)) {
-            this->parentChecked = false;
-            emit parentSpaceChanged();
-        }
+        applyStateEventSideEffects(e, avatarChanged, nameChanged, memberCountChanged);
     }
 
+    emitRoomMetadataChanges(avatarChanged, nameChanged, memberCountChanged);
+}
+
+bool
+TimelineModel::applyStateEventSideEffects(const mtx::events::collections::TimelineEvents &event,
+                                          bool &avatarChanged,
+                                          bool &nameChanged,
+                                          bool &memberCountChanged)
+{
+    using namespace mtx::events;
+
+    if (std::holds_alternative<StateEvent<state::Avatar>>(event)) {
+        avatarChanged = true;
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Name>>(event)) {
+        nameChanged = true;
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Topic>>(event)) {
+        emit roomTopicChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::PinnedEvents>>(event)) {
+        emit pinnedMessagesChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Widget>>(event)) {
+        emit widgetLinksChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::PowerLevels>>(event)) {
+        permissions_.invalidate();
+        emit permissionsChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Member>>(event)) {
+        avatarChanged      = true;
+        nameChanged        = true;
+        memberCountChanged = true;
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Encryption>>(event)) {
+        this->isEncrypted_ = cache::isRoomEncrypted(room_id_.toStdString());
+        emit encryptionChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::space::Parent>>(event)) {
+        this->parentChecked = false;
+        emit parentSpaceChanged();
+        return true;
+    }
+
+    return false;
+}
+
+bool
+TimelineModel::applyStateEventSideEffects(const mtx::events::collections::StateEvents &event,
+                                          bool &avatarChanged,
+                                          bool &nameChanged,
+                                          bool &memberCountChanged)
+{
+    using namespace mtx::events;
+
+    if (std::holds_alternative<StateEvent<state::Avatar>>(event)) {
+        avatarChanged = true;
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Name>>(event)) {
+        nameChanged = true;
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Topic>>(event)) {
+        emit roomTopicChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::PinnedEvents>>(event)) {
+        emit pinnedMessagesChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Widget>>(event)) {
+        emit widgetLinksChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::PowerLevels>>(event)) {
+        permissions_.invalidate();
+        emit permissionsChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Member>>(event)) {
+        avatarChanged      = true;
+        nameChanged        = true;
+        memberCountChanged = true;
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::Encryption>>(event)) {
+        this->isEncrypted_ = cache::isRoomEncrypted(room_id_.toStdString());
+        emit encryptionChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::space::Parent>>(event)) {
+        this->parentChecked = false;
+        emit parentSpaceChanged();
+        return true;
+    }
+
+    return false;
+}
+
+void
+TimelineModel::emitRoomMetadataChanges(bool avatarChanged,
+                                       bool nameChanged,
+                                       bool memberCountChanged)
+{
     if (avatarChanged)
         emit roomAvatarUrlChanged();
     if (nameChanged)
@@ -874,6 +947,65 @@ TimelineModel::syncState(const mtx::responses::State &s)
         if (roomMemberCount() <= 2) {
             emit isDirectChanged();
             emit directChatOtherUserIdChanged();
+        }
+    }
+}
+
+bool
+TimelineModel::dispatchCallEventIfNeeded(mtx::events::collections::TimelineEvents &event,
+                                         const std::string &localUserStd)
+{
+    using namespace mtx::events;
+    if (!(std::holds_alternative<RoomEvent<voip::CallCandidates>>(event) ||
+          std::holds_alternative<RoomEvent<voip::CallNegotiate>>(event) ||
+          std::holds_alternative<RoomEvent<voip::CallInvite>>(event) ||
+          std::holds_alternative<RoomEvent<voip::CallAnswer>>(event) ||
+          std::holds_alternative<RoomEvent<voip::CallSelectAnswer>>(event) ||
+          std::holds_alternative<RoomEvent<voip::CallReject>>(event) ||
+          std::holds_alternative<RoomEvent<voip::CallHangUp>>(event)))
+        return false;
+
+    std::visit(
+      [this, &localUserStd](auto &callEvent) {
+          callEvent.room_id = room_id_.toStdString();
+          if constexpr (
+            std::is_same_v<std::decay_t<decltype(callEvent)>, RoomEvent<voip::CallAnswer>> ||
+            std::is_same_v<std::decay_t<decltype(callEvent)>, RoomEvent<voip::CallInvite>> ||
+            std::is_same_v<std::decay_t<decltype(callEvent)>, RoomEvent<voip::CallSelectAnswer>> ||
+            std::is_same_v<std::decay_t<decltype(callEvent)>, RoomEvent<voip::CallReject>> ||
+            std::is_same_v<std::decay_t<decltype(callEvent)>, RoomEvent<voip::CallHangUp>>)
+              emit newCallEvent(callEvent);
+          else if (callEvent.sender != localUserStd)
+              emit newCallEvent(callEvent);
+      },
+      event);
+
+    return true;
+}
+
+void
+TimelineModel::processSpecialEffectEvent(const mtx::events::collections::TimelineEvents &event)
+{
+    using namespace mtx::events;
+    if (auto text = std::get_if<RoomEvent<msg::Text>>(&event)) {
+        if (const auto msg = QString::fromStdString(text->content.body);
+            msg.contains("🎉") || msg.contains("🎊")) {
+            needsSpecialEffects_ = true;
+            specialEffects_.setFlag(Confetti);
+        }
+    } else if (auto unknown = std::get_if<RoomEvent<msg::Unknown>>(&event)) {
+        if (const auto msg = QString::fromStdString(unknown->content.body);
+            msg.contains("🎉") || msg.contains("🎊")) {
+            needsSpecialEffects_ = true;
+            specialEffects_.setFlag(Confetti);
+        }
+    } else if (auto effect = std::get_if<RoomEvent<msg::ElementEffect>>(&event)) {
+        if (effect->content.msgtype == "nic.custom.confetti") {
+            needsSpecialEffects_ = true;
+            specialEffects_.setFlag(Confetti);
+        } else if (effect->content.msgtype == "io.element.effect.rainfall") {
+            needsSpecialEffects_ = true;
+            specialEffects_.setFlag(Rainfall);
         }
     }
 }
@@ -905,95 +1037,19 @@ TimelineModel::addEvents(const mtx::responses::Timeline &timeline)
                 e = result.event.value();
         }
 
-        if (std::holds_alternative<RoomEvent<voip::CallCandidates>>(e) ||
-            std::holds_alternative<RoomEvent<voip::CallNegotiate>>(e) ||
-            std::holds_alternative<RoomEvent<voip::CallInvite>>(e) ||
-            std::holds_alternative<RoomEvent<voip::CallAnswer>>(e) ||
-            std::holds_alternative<RoomEvent<voip::CallSelectAnswer>>(e) ||
-            std::holds_alternative<RoomEvent<voip::CallReject>>(e) ||
-            std::holds_alternative<RoomEvent<voip::CallHangUp>>(e))
-            std::visit(
-              [this, &localUserStd](auto &event) {
-                  event.room_id = room_id_.toStdString();
-                  if constexpr (
-                    std::is_same_v<std::decay_t<decltype(event)>, RoomEvent<voip::CallAnswer>> ||
-                    std::is_same_v<std::decay_t<decltype(event)>, RoomEvent<voip::CallInvite>> ||
-                    std::is_same_v<std::decay_t<decltype(event)>,
-                                   RoomEvent<voip::CallSelectAnswer>> ||
-                    std::is_same_v<std::decay_t<decltype(event)>, RoomEvent<voip::CallReject>> ||
-                    std::is_same_v<std::decay_t<decltype(event)>, RoomEvent<voip::CallHangUp>>)
-                      emit newCallEvent(event);
-                  else {
-                      if (event.sender != localUserStd)
-                          emit newCallEvent(event);
-                  }
-              },
-              e);
-        else if (std::holds_alternative<StateEvent<state::Avatar>>(e))
-            avatarChanged = true;
-        else if (std::holds_alternative<StateEvent<state::Name>>(e))
-            nameChanged = true;
-        else if (std::holds_alternative<StateEvent<state::Topic>>(e))
-            emit roomTopicChanged();
-        else if (std::holds_alternative<StateEvent<state::PinnedEvents>>(e))
-            emit pinnedMessagesChanged();
-        else if (std::holds_alternative<StateEvent<state::Widget>>(e))
-            emit widgetLinksChanged();
-        else if (std::holds_alternative<StateEvent<state::PowerLevels>>(e)) {
-            permissions_.invalidate();
-            emit permissionsChanged();
-        } else if (std::holds_alternative<StateEvent<state::Member>>(e)) {
-            avatarChanged      = true;
-            nameChanged        = true;
-            memberCountChanged = true;
-        } else if (std::holds_alternative<StateEvent<state::Encryption>>(e)) {
-            this->isEncrypted_ = cache::isRoomEncrypted(room_id_.toStdString());
-            emit encryptionChanged();
-        } else if (std::holds_alternative<StateEvent<state::space::Parent>>(e)) {
-            this->parentChecked = false;
-            emit parentSpaceChanged();
-        } else if (std::holds_alternative<RoomEvent<mtx::events::msg::Text>>(e)) {
-            if (auto msg = QString::fromStdString(
-                  std::get<RoomEvent<mtx::events::msg::Text>>(e).content.body);
-                msg.contains("🎉") || msg.contains("🎊")) {
-                needsSpecialEffects_ = true;
-                specialEffects_.setFlag(Confetti);
-            }
-        } else if (std::holds_alternative<RoomEvent<mtx::events::msg::Unknown>>(e)) {
-            if (auto msg = QString::fromStdString(
-                  std::get<RoomEvent<mtx::events::msg::Unknown>>(e).content.body);
-                msg.contains("🎉") || msg.contains("🎊")) {
-                needsSpecialEffects_ = true;
-                specialEffects_.setFlag(Confetti);
-            }
-        } else if (std::holds_alternative<RoomEvent<mtx::events::msg::ElementEffect>>(e)) {
-            if (auto msgtype =
-                  std::get<RoomEvent<mtx::events::msg::ElementEffect>>(e).content.msgtype;
-                msgtype == "nic.custom.confetti") {
-                needsSpecialEffects_ = true;
-                specialEffects_.setFlag(Confetti);
-            } else if (msgtype == "io.element.effect.rainfall") {
-                needsSpecialEffects_ = true;
-                specialEffects_.setFlag(Rainfall);
-            }
-        }
+        if (dispatchCallEventIfNeeded(e, localUserStd))
+            continue;
+
+        if (applyStateEventSideEffects(e, avatarChanged, nameChanged, memberCountChanged))
+            continue;
+
+        processSpecialEffectEvent(e);
     }
 
     if (needsSpecialEffects_)
         triggerSpecialEffects();
 
-    if (avatarChanged)
-        emit roomAvatarUrlChanged();
-    if (nameChanged)
-        emit roomNameChanged();
-
-    if (memberCountChanged) {
-        emit roomMemberCountChanged();
-        if (roomMemberCount() <= 2) {
-            emit isDirectChanged();
-            emit directChatOtherUserIdChanged();
-        }
-    }
+    emitRoomMetadataChanges(avatarChanged, nameChanged, memberCountChanged);
 
     updateLastMessage();
 }

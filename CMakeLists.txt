@@ -779,6 +779,8 @@ set(SRC_FILES
     src/utils/UtilsColor.cpp
     src/utils/UtilsMessageDescription.cpp
     src/utils/UtilsRoomMaintenance.cpp
+    src/utils/UtilsSpaceVias.cpp
+    src/utils/UtilsEventExpiry.cpp
     src/utils/UtilsMarkdown.cpp
     src/utils/UtilsTextAndUri.cpp
 

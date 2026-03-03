@@ -32,6 +32,7 @@ TimelineMessageStyleBase {
     property bool messageBubbleBackgroundEnabled: true
     property bool alignMessageTextToSide: false
     property bool reserveAvatarRowHeight: false
+    property bool pushMetadataToEdge: false
 
     property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
     property int avatarMargin: (shouldShowMessageAvatar ? (Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
@@ -167,7 +168,7 @@ TimelineMessageStyleBase {
             id: gridContainer
 
             width: wrapper.width - wrapper.avatarMargin
-            implicitHeight: messageBubble.implicitHeight
+            implicitHeight: Math.max(messageBubble.implicitHeight, !wrapper.isStateEvent && metadataOuter.visible ? metadataOuter.height : 0)
             x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
             y: section.visible && section.active ? section.y + section.height : 0
 
@@ -192,6 +193,7 @@ TimelineMessageStyleBase {
                 anchors.left: undefined
                 anchors.right: undefined
                 x: (wrapper.isStateEvent || !wrapper.messageIsRightAligned) ? 0 : (parent.width - width)
+                anchors.bottom: parent.bottom
 
                 property color roomColor: wrapper.resolveUserColor(wrapper.userId, palette.base, palette.highlight)
 
@@ -378,6 +380,11 @@ TimelineMessageStyleBase {
                 x: {
                     if (wrapper.isStateEvent)
                         return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
+                    if (wrapper.pushMetadataToEdge) {
+                        return Math.round(wrapper.messageIsRightAligned
+                            ? 0
+                            : (gridContainer.width - width));
+                    }
                     const sideX = wrapper.messageIsRightAligned
                         ? (messageBubble.x - width - Komai.paddingSmall)
                         : (messageBubble.x + messageBubble.width + Komai.paddingSmall);

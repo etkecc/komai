@@ -21,4 +21,5 @@ TimelineBubbleMessageStyle {
     messageBubbleVerticalPadding: 0
     alignMessageTextToSide: true
     reserveAvatarRowHeight: true
+    pushMetadataToEdge: true
 }

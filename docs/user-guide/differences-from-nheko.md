@@ -79,6 +79,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 
 ## 🔧 Internal Improvements
 
+- We completed a major codebase reorganization and refactoring to make Komai easier to maintain and evolve.
 - **Not so eager to destroy your session** during temporary secret storage failures ([nheko#1875](https://github.com/Nheko-Reborn/nheko/issues/1875)) -- you can now close, fix your keychain, and relaunch without losing data
 - **Virtual timeline window** -- only the most recent messages are exposed to the UI at a time, enabling instant scroll-up from local cache
 - ⚡ **Faster room switching** by reducing up-front timeline work during room changes. In local testing, one of our slowest rooms became about:

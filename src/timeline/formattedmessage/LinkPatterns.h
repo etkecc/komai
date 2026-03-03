@@ -8,23 +8,10 @@
 #include <QRegularExpression>
 #include <QString>
 
-// clazy:excludeall=non-pod-global-static
+namespace timeline::formattedmessage::link_patterns {
 
-// Non-theme app configuration. Layouts, fonts spacing etc.
-//
-// Font sizes are in pixels.
-namespace conf {
-
-namespace modals {
-inline constexpr int WIDGET_MARGIN  = 20;
-inline constexpr int WIDGET_SPACING = 15;
-
-inline constexpr auto LABEL_MEDIUM_SIZE_RATIO = 1.3;
-}
-
-namespace strings {
-inline const QString url_html = QStringLiteral("<a href=\"\\1\">\\1</a>");
-inline const QRegularExpression url_regex(
+inline const QString urlHtml = QStringLiteral("<a href=\"\\1\">\\1</a>");
+inline const QRegularExpression urlRegex(
   // match an unquoted URL
   []() {
       const auto general_unicode = QStringLiteral(
@@ -78,18 +65,9 @@ inline const QRegularExpression url_regex(
              R"())(?!["']))";
   }(),
   QRegularExpression::UseUnicodePropertiesOption);
-// A matrix link to be converted back to markdown
+
+// A matrix link to be converted back to markdown.
 inline const QRegularExpression
   matrixToLink(QStringLiteral(R"(<a href=\"(https://matrix.to/#/.*?)\">(.*?)</a>)"));
-}
 
-// Window geometry.
-namespace window {
-inline constexpr int height = 760;
-inline constexpr int width  = 1050; // 3:2 aspect ratio
-
-inline constexpr int minHeight = 420;
-inline constexpr int minWidth  = 340;
-} // namespace window
-
-} // namespace conf
+} // namespace timeline::formattedmessage::link_patterns

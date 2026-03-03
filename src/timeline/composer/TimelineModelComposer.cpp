@@ -7,9 +7,9 @@
 
 #include <QUrl>
 
-#include "Config.h"
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
+#include "timeline/formattedmessage/LinkPatterns.h"
 #include "utils/Utils.h"
 
 void
@@ -80,7 +80,8 @@ TimelineModel::normalizeFormattedEditText(QString editText,
     if (quotedFormattedBody.isEmpty())
         return editText;
 
-    auto matches = conf::strings::matrixToLink.globalMatch(quotedFormattedBody);
+    auto matches =
+      timeline::formattedmessage::link_patterns::matrixToLink.globalMatch(quotedFormattedBody);
     std::map<QString, QString> reverseNameMapping;
     while (matches.hasNext()) {
         auto m                            = matches.next();

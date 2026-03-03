@@ -10,7 +10,7 @@
 #include <QUrl>
 #include <algorithm>
 
-#include "Config.h"
+#include "timeline/formattedmessage/LinkPatterns.h"
 
 namespace timeline::formattedmessage {
 namespace {
@@ -424,11 +424,11 @@ QString
 linkifyTextSegment(const QString &text)
 {
     auto out = text;
-    out.replace(conf::strings::url_regex, conf::strings::url_html);
+    out.replace(link_patterns::urlRegex, link_patterns::urlHtml);
 
     static const QRegularExpression matrixUriRegex(
       QStringLiteral("\\b(?<![\"'])(?>(matrix:[\\S]{5,}))(?![\"'])\\b"));
-    out.replace(matrixUriRegex, conf::strings::url_html);
+    out.replace(matrixUriRegex, link_patterns::urlHtml);
 
     return out;
 }

@@ -651,7 +651,7 @@ set(SRC_FILES
     src/models/CompletionModelRoles.h
     src/models/CompletionProxyModel.cpp
     src/models/CompletionProxyModel.h
-    src/Config.h
+    src/timeline/formattedmessage/LinkPatterns.h
     src/matrix/MatrixStateTypes.h
     src/events/EventAccessors.cpp
     src/events/EventAccessorsMedia.cpp

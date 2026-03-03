@@ -31,7 +31,6 @@
 
 #include <mtx/responses/messages.hpp>
 
-#include "Config.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"

@@ -10,7 +10,6 @@
 #include <mtx/requests.hpp>
 #include <mtx/responses/login.hpp>
 
-#include "Config.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "dock/Dock.h"
@@ -21,6 +20,7 @@
 #include "providers/ColorImageProvider.h"
 #include "providers/JdenticonProvider.h"
 #include "providers/MxcImageProvider.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
@@ -38,6 +38,11 @@
 
 MainWindow *MainWindow::instance_ = nullptr;
 
+namespace {
+constexpr int kWindowMinHeightPx = 420;
+constexpr int kWindowMinWidthPx  = 340;
+}
+
 MainWindow::MainWindow(QWindow *parent)
   : QQuickView(parent)
   , userSettings_{UserSettings::instance()}
@@ -47,8 +52,8 @@ MainWindow::MainWindow(QWindow *parent)
     MainWindow::setWindowTitle(0);
     setObjectName(QStringLiteral("MainWindow"));
     setResizeMode(QQuickView::SizeRootObjectToView);
-    setMinimumHeight(conf::window::minHeight);
-    setMinimumWidth(conf::window::minWidth);
+    setMinimumHeight(kWindowMinHeightPx);
+    setMinimumWidth(kWindowMinWidthPx);
     restoreWindowSize();
 
     chat_page_ = new ChatPage(userSettings_, this);
@@ -208,9 +213,10 @@ MainWindow::restoreWindowSize()
 
     if (savedWidth <= 0 || savedHeight <= 0) {
         nhlog::ui()->warn("Loaded invalid window size, falling back to defaults {}x{}",
-                          conf::window::width,
-                          conf::window::height);
-        resize(conf::window::width, conf::window::height);
+                          settings::core::definitions::kDefaultWindowWidthPx,
+                          settings::core::definitions::kDefaultWindowHeightPx);
+        resize(settings::core::definitions::kDefaultWindowWidthPx,
+               settings::core::definitions::kDefaultWindowHeightPx);
     } else {
         resize(savedWidth, savedHeight);
     }

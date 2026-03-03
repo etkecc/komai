@@ -449,6 +449,7 @@ set(SRC_FILES
     src/timeline/media/TimelineMediaController.h
     src/timeline/rawmessage/RawMessageDialogPayload.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.h
+    src/timeline/roomlist/RoomlistModelCachedMessages.cpp
     src/timeline/send/TimelineMessageSendPipeline.cpp
     src/timeline/send/TimelineMessageSendPipeline.h
     src/timeline/Permissions.cpp

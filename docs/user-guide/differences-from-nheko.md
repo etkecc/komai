@@ -17,6 +17,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 ## ✨ Visual Polish
 
 - **Rounded corners throughout** -- bubbles, dialogs, media, avatars, reply popups, search, and more. No sharp edges
+- **Most dialogs were redesigned as in-app overlays** -- they now match the app's look, open with more sensible default sizes, and are often usable immediately without manual resizing
 - **Rounded-rectangle avatars** by default instead of circles
 - **Bubble chat by default** with distinct sender-colored bubbles, more padding, metadata outside the bubble, and a max-width cap for readability
 - **Larger, more readable text** -- bigger default font, room list text, and timestamps

@@ -117,15 +117,14 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                         }
                     }
                     if (!receipts.empty())
-                        notificationsManager->removeNotifications(
-                          QString::fromStdString(room_id), receipts);
+                        notificationsManager->removeNotifications(QString::fromStdString(room_id),
+                                                                  receipts);
                 }
             }
 
             // calculate new notifications
-            if (!room.timeline.events.empty() &&
-                (room.unread_notifications.notification_count ||
-                 room.unread_notifications.highlight_count)) {
+            if (!room.timeline.events.empty() && (room.unread_notifications.notification_count ||
+                                                  room.unread_notifications.highlight_count)) {
                 const auto qRoomId  = QString::fromStdString(room_id);
                 const auto roomInfo = cache::singleRoomInfo(room_id);
                 QString roomName    = QString::fromStdString(roomInfo.name);
@@ -133,7 +132,8 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                 if (roomAvatar.isEmpty())
                     roomAvatar = cache::roomAvatarUrl(room_id);
 
-                auto currentReadMarker = cache::getEventIndex(room_id, cache::getFullyReadEventId(room_id));
+                auto currentReadMarker =
+                  cache::getEventIndex(room_id, cache::getFullyReadEventId(room_id));
 
                 auto ctx = mtx::pushrules::PushRuleEvaluator::RoomContext{
                   .user_display_name = cache::displayName(room_id, local_user),
@@ -148,7 +148,8 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                     auto event_id = mtx::accessors::event_id(event);
 
                     // skip already read events
-                    if (currentReadMarker && currentReadMarker > cache::getEventIndex(room_id, event_id))
+                    if (currentReadMarker &&
+                        currentReadMarker > cache::getEventIndex(room_id, event_id))
                         continue;
 
                     // skip our messages
@@ -157,7 +158,8 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                         continue;
 
                     mtx::events::collections::TimelineEvents te{event};
-                    std::visit([room_id_ = room_id](auto &event_) { event_.room_id = room_id_; }, te);
+                    std::visit([room_id_ = room_id](auto &event_) { event_.room_id = room_id_; },
+                               te);
 
                     const auto notificationsMessageContentPolicy =
                       userSettings_->notificationsMessageContentPolicy();
@@ -181,9 +183,9 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                         auto related = cache::getEvent(room_id, r.event_id);
                         if (related) {
                             relatedEvents.emplace_back(r, *related);
-                            if (auto encryptedEvent =
-                                  std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-                                    &related.value());
+                            if (auto encryptedEvent = std::get_if<
+                                  mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
+                                  &related.value());
                                 encryptedEvent && decryptEncryptedNotificationContent) {
                                 MegolmSessionIndex index(room_id, encryptedEvent->content);
 

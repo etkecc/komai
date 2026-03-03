@@ -728,6 +728,7 @@ set(SRC_FILES
     src/settings/YamlSettings.h
     src/PowerlevelsEditModels.cpp
     src/PowerlevelsEditModels.h
+    src/powerlevels/PowerlevelsSpacesListModel.cpp
     src/ProfileSecrets.cpp
     src/ProfileSecrets.h
     src/ReadReceiptsModel.cpp

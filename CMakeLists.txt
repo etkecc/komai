@@ -771,9 +771,10 @@ set(SRC_FILES
     src/settings/ui/facade/UserSettingsTheme.cpp
     src/UsersModel.cpp
     src/UsersModel.h
-    src/Utils.cpp
+    src/utils/UtilsCore.cpp
     src/Utils.h
     src/utils/UtilsColor.cpp
+    src/utils/UtilsMessageDescription.cpp
     src/utils/UtilsRoomMaintenance.cpp
     src/utils/UtilsMarkdown.cpp
     src/utils/UtilsTextAndUri.cpp

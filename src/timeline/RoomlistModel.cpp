@@ -978,6 +978,106 @@ RoomlistModel::updateReadStatus(const std::map<QString, bool> &roomReadStatus_)
                          });
     }
 }
+
+void
+RoomlistModel::connectRoomModelSignals(const QString &room_id,
+                                       const QSharedPointer<TimelineModel> &roomModel)
+{
+    connect(MainWindow::instance(),
+            &MainWindow::activeChanged,
+            roomModel.data(),
+            &TimelineModel::lastReadIdOnWindowFocus);
+    connect(roomModel.data(),
+            &TimelineModel::newEncryptedImage,
+            MainWindow::instance()->imageProvider(),
+            &MxcImageProvider::addEncryptionInfo);
+    connect(roomModel.data(),
+            &TimelineModel::forwardToRoom,
+            manager,
+            &TimelineViewManager::forwardMessageToRoom);
+    connect(roomModel.data(), &TimelineModel::lastMessageChanged, this, [room_id, this]() {
+        auto idx = this->roomidToIndex(room_id);
+        emit dataChanged(index(idx),
+                         index(idx),
+                         {
+                           Roles::HasLoudNotification,
+                           Roles::LastMessage,
+                           Roles::Time,
+                           Roles::Timestamp,
+                           Roles::NotificationCount,
+                           Qt::DisplayRole,
+                         });
+    });
+    connect(roomModel.data(), &TimelineModel::roomAvatarUrlChanged, this, [room_id, this]() {
+        auto idx = this->roomidToIndex(room_id);
+        emit dataChanged(index(idx),
+                         index(idx),
+                         {
+                           Roles::AvatarUrl,
+                         });
+    });
+    connect(roomModel.data(), &TimelineModel::roomNameChanged, this, [room_id, this]() {
+        auto idx = this->roomidToIndex(room_id);
+        emit dataChanged(index(idx),
+                         index(idx),
+                         {
+                           Roles::RoomName,
+                         });
+    });
+    connect(roomModel.data(), &TimelineModel::notificationsChanged, this, [room_id, this]() {
+        auto idx = this->roomidToIndex(room_id);
+        emit dataChanged(index(idx),
+                         index(idx),
+                         {
+                           Roles::HasLoudNotification,
+                           Roles::NotificationCount,
+                           Qt::DisplayRole,
+                         });
+
+        if (getRoomById(room_id)->isSpace())
+            return; // no need to update space notifications
+
+        int total_unread_msgs = 0;
+
+        for (const auto &room : std::as_const(models)) {
+            if (!room.isNull() && !room->isSpace())
+                total_unread_msgs += room->notificationCount();
+        }
+
+        emit totalUnreadMessageCountUpdated(total_unread_msgs);
+    });
+}
+
+void
+RoomlistModel::restoreRoomDraft(const QString &room_id,
+                                const QSharedPointer<TimelineModel> &roomModel)
+{
+    connect(roomModel->input(),
+            &InputBar::draftTextChanged,
+            this,
+            [room_id, this](const QString &draftText) { persistDraftForRoom(room_id, draftText); });
+
+    if (const auto settings = UserSettings::instance()) {
+        const auto restoredDraft = settings->composerDraftForRoom(room_id);
+        if (!restoredDraft.trimmed().isEmpty() && roomModel->input()->text().trimmed().isEmpty())
+            roomModel->input()->setText(restoredDraft);
+    }
+}
+
+QSharedPointer<TimelineModel>
+RoomlistModel::createRoomModel(const QString &room_id)
+{
+    QSharedPointer<TimelineModel> roomModel(new TimelineModel(manager, room_id));
+    refreshCachedRoomMetadata(room_id);
+    auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
+    roomModel->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
+
+    restoreRoomDraft(room_id, roomModel);
+    connectRoomModelSignals(room_id, roomModel);
+
+    return roomModel;
+}
+
 void
 RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, const char *reason)
 {
@@ -1013,86 +1113,7 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
             }
         }
 
-        QSharedPointer<TimelineModel> newRoom(new TimelineModel(manager, room_id));
-        refreshCachedRoomMetadata(room_id);
-        auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
-        newRoom->setDecryptDescription(style == UserSettings::LastMessagePreview::Always);
-
-        connect(
-          newRoom->input(),
-          &InputBar::draftTextChanged,
-          this,
-          [room_id, this](const QString &draftText) { persistDraftForRoom(room_id, draftText); });
-
-        if (const auto settings = UserSettings::instance()) {
-            const auto restoredDraft = settings->composerDraftForRoom(room_id);
-            if (!restoredDraft.trimmed().isEmpty() && newRoom->input()->text().trimmed().isEmpty())
-                newRoom->input()->setText(restoredDraft);
-        }
-
-        connect(MainWindow::instance(),
-                &MainWindow::activeChanged,
-                newRoom.data(),
-                &TimelineModel::lastReadIdOnWindowFocus);
-        connect(newRoom.data(),
-                &TimelineModel::newEncryptedImage,
-                MainWindow::instance()->imageProvider(),
-                &MxcImageProvider::addEncryptionInfo);
-        connect(newRoom.data(),
-                &TimelineModel::forwardToRoom,
-                manager,
-                &TimelineViewManager::forwardMessageToRoom);
-        connect(newRoom.data(), &TimelineModel::lastMessageChanged, this, [room_id, this]() {
-            auto idx = this->roomidToIndex(room_id);
-            emit dataChanged(index(idx),
-                             index(idx),
-                             {
-                               Roles::HasLoudNotification,
-                               Roles::LastMessage,
-                               Roles::Time,
-                               Roles::Timestamp,
-                               Roles::NotificationCount,
-                               Qt::DisplayRole,
-                             });
-        });
-        connect(newRoom.data(), &TimelineModel::roomAvatarUrlChanged, this, [room_id, this]() {
-            auto idx = this->roomidToIndex(room_id);
-            emit dataChanged(index(idx),
-                             index(idx),
-                             {
-                               Roles::AvatarUrl,
-                             });
-        });
-        connect(newRoom.data(), &TimelineModel::roomNameChanged, this, [room_id, this]() {
-            auto idx = this->roomidToIndex(room_id);
-            emit dataChanged(index(idx),
-                             index(idx),
-                             {
-                               Roles::RoomName,
-                             });
-        });
-        connect(newRoom.data(), &TimelineModel::notificationsChanged, this, [room_id, this]() {
-            auto idx = this->roomidToIndex(room_id);
-            emit dataChanged(index(idx),
-                             index(idx),
-                             {
-                               Roles::HasLoudNotification,
-                               Roles::NotificationCount,
-                               Qt::DisplayRole,
-                             });
-
-            if (getRoomById(room_id)->isSpace())
-                return; // no need to update space notifications
-
-            int total_unread_msgs = 0;
-
-            for (const auto &room : std::as_const(models)) {
-                if (!room.isNull() && !room->isSpace())
-                    total_unread_msgs += room->notificationCount();
-            }
-
-            emit totalUnreadMessageCountUpdated(total_unread_msgs);
-        });
+        auto newRoom = createRoomModel(room_id);
 
         // newRoom->updateLastMessage();
 

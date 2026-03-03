@@ -186,6 +186,10 @@ private:
     void addRoom(const QString &room_id,
                  bool suppressInsertNotification = false,
                  const char *reason              = "unknown");
+    void
+    connectRoomModelSignals(const QString &room_id, const QSharedPointer<TimelineModel> &roomModel);
+    void restoreRoomDraft(const QString &room_id, const QSharedPointer<TimelineModel> &roomModel);
+    QSharedPointer<TimelineModel> createRoomModel(const QString &room_id);
     void syncJoinedRoom(const std::string &room_id, const mtx::responses::JoinedRoom &room);
     void syncLeftRoom(const std::string &room_id);
     void syncInvitedRoom(const std::string &room_id);

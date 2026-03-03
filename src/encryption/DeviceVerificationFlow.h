@@ -179,6 +179,12 @@ private:
     }
 
     void handleStartMessage(const mtx::events::msg::KeyVerificationStart &msg, std::string);
+    void handleVerificationAccept(const mtx::events::msg::KeyVerificationAccept &msg);
+    void handleVerificationCancel(const mtx::events::msg::KeyVerificationCancel &msg);
+    void handleVerificationKey(const mtx::events::msg::KeyVerificationKey &msg);
+    void handleVerificationMac(const mtx::events::msg::KeyVerificationMac &msg);
+    void handleVerificationReady(const mtx::events::msg::KeyVerificationReady &msg);
+    void handleVerificationDone(const mtx::events::msg::KeyVerificationDone &msg);
     //! sends a verification request
     void sendVerificationRequest();
     //! accepts a verification request

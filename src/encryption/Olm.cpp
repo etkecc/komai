@@ -418,58 +418,6 @@ handle_olm_message(const OlmMessage &msg, const UserKeyCache &otherUserDeviceKey
     }
 }
 
-nlohmann::json
-handle_pre_key_olm_message(const std::string &sender,
-                           const std::string &sender_key,
-                           const mtx::events::msg::OlmCipherContent &content)
-{
-    nhlog::crypto()->info("opening olm session with {}", sender);
-
-    mtx::crypto::OlmSessionPtr inbound_session = nullptr;
-    try {
-        inbound_session = olm::client()->create_inbound_session_from(sender_key, content.body);
-
-        // We also remove the one time key used to establish that
-        // session so we'll have to update our copy of the account object.
-        auto secret = cache::pickleSecret();
-        if (!secret.empty())
-            cache::saveOlmAccount(olm::client()->save(secret));
-        else
-            nhlog::crypto()->warn("skipping OLM account save: pickle secret unavailable");
-    } catch (const mtx::crypto::olm_exception &e) {
-        nhlog::crypto()->critical("failed to create inbound session with {}: {}", sender, e.what());
-        return {};
-    }
-
-    if (!mtx::crypto::matches_inbound_session_from(
-          inbound_session.get(), sender_key, content.body)) {
-        nhlog::crypto()->warn("inbound olm session doesn't match sender's key ({})", sender);
-        return {};
-    }
-
-    mtx::crypto::BinaryBuf output;
-    try {
-        output = olm::client()->decrypt_message(inbound_session.get(), content.type, content.body);
-    } catch (const mtx::crypto::olm_exception &e) {
-        nhlog::crypto()->critical("failed to decrypt olm message {}: {}", content.body, e.what());
-        return {};
-    }
-
-    auto plaintext = nlohmann::json::parse(std::string((char *)output.data(), output.size()));
-    nhlog::crypto()->debug("decrypted message: \n {}", plaintext.dump(2));
-
-    try {
-        nhlog::crypto()->debug("New olm session: {}",
-                               mtx::crypto::session_id(inbound_session.get()));
-        cache::saveOlmSession(
-          sender_key, std::move(inbound_session), QDateTime::currentMSecsSinceEpoch());
-    } catch (const std::exception &e) {
-        nhlog::db()->warn("failed to save inbound olm session from {}: {}", sender, e.what());
-    }
-
-    return plaintext;
-}
-
 void
 request_cross_signing_keys()
 {

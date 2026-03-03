@@ -211,54 +211,6 @@ encrypt_group_message(const std::string &room_id, const std::string &device_id, 
     return data;
 }
 
-nlohmann::json
-try_olm_decryption(const std::string &sender_key, const mtx::events::msg::OlmCipherContent &msg)
-{
-    auto session_ids = cache::getOlmSessions(sender_key);
-
-    nhlog::crypto()->info("attempt to decrypt message with {} known session_ids",
-                          session_ids.size());
-
-    for (const auto &id : session_ids) {
-        auto session = cache::getOlmSession(sender_key, id);
-
-        if (!session) {
-            nhlog::crypto()->warn("Unknown olm session: {}:{}", sender_key, id);
-            continue;
-        }
-
-        mtx::crypto::BinaryBuf text;
-
-        try {
-            text = olm::client()->decrypt_message(session->get(), msg.type, msg.body);
-            nhlog::crypto()->debug("Updated olm session: {}",
-                                   mtx::crypto::session_id(session->get()));
-            cache::saveOlmSession(
-              sender_key, std::move(session.value()), QDateTime::currentMSecsSinceEpoch());
-        } catch (const mtx::crypto::olm_exception &e) {
-            nhlog::crypto()->debug("failed to decrypt olm message ({}, {}) with {}: {}",
-                                   msg.type,
-                                   sender_key,
-                                   id,
-                                   e.what());
-            continue;
-        } catch (const std::exception &e) {
-            nhlog::crypto()->critical("failed to save session: {}", e.what());
-            return {};
-        }
-
-        try {
-            return nlohmann::json::parse(std::string_view((char *)text.data(), text.size()));
-        } catch (const nlohmann::json::exception &e) {
-            nhlog::crypto()->critical("failed to parse the decrypted session msg: {} {}",
-                                      e.what(),
-                                      std::string_view((char *)text.data(), text.size()));
-        }
-    }
-
-    return {};
-}
-
 void
 create_inbound_megolm_session(const mtx::events::DeviceEvent<mtx::events::msg::RoomKey> &roomKey,
                               const std::string &sender_key,

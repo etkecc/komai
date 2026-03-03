@@ -665,6 +665,7 @@ set(SRC_FILES
     src/Logging.cpp
     src/Logging.h
     src/auth/LoginPage.cpp
+    src/auth/LoginPageDiscovery.cpp
     src/LoginPage.h
     src/MainWindow.cpp
     src/MainWindow.h

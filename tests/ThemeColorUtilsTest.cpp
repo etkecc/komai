@@ -150,9 +150,9 @@ testBase16ToCustom()
     };
 
     auto result = theme_color::base16ToCustom(base16);
-    expect(result["red"] == "f38ba8", "b16custom red = base08");
-    expect(result["green"] == "a6e3a1", "b16custom green = base0B");
-    expect(result["orange"] == "fab387", "b16custom orange = base09");
+    expect(result["attention"] == "f38ba8", "b16custom attention = base08");
+    expect(result["success"] == "a6e3a1", "b16custom success = base0B");
+    expect(result["warning"] == "fab387", "b16custom warning = base09");
     expect(result["error"] == "f38ba8", "b16custom error = base08");
 }
 

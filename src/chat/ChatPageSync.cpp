@@ -19,7 +19,6 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Utils.h"
 #include "cache/Cache.h"
@@ -29,6 +28,7 @@
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 
 namespace {
 constexpr size_t MAX_ONETIME_KEYS = 50;

@@ -11,7 +11,7 @@
 #include <QTimer>
 #include <QWindow>
 
-#include "TrayIcon.h"
+#include "ui/TrayIcon.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 MsgCountComposedIcon::MsgCountComposedIcon(const QIcon &icon)

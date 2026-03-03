@@ -15,10 +15,10 @@
 
 #include "Logging.h"
 #include "LoginPage.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "RegisterPage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 #include "ui/UIA.h"
 
 namespace {

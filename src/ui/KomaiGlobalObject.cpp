@@ -19,10 +19,10 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 #if XCB_AVAILABLE && QT_CONFIG(xcb)
 #include <xcb/xproto.h>

@@ -9,11 +9,11 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "TimelineModel.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 #include "voip/CallManager.h"
 
 std::set<QString>

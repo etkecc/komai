@@ -11,10 +11,10 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 void
 TimelineModel::setCurrentIndex(int index)

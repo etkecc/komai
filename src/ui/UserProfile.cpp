@@ -12,7 +12,6 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "UserProfile.h"
 #include "Utils.h"
@@ -21,6 +20,7 @@
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 #include "ui/UIA.h"
 
 namespace {

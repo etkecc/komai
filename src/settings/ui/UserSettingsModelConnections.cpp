@@ -7,9 +7,9 @@
 #include <array>
 
 #include "Logging.h"
-#include "MainWindow.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 using settings::ui::rowForSettingId;
 

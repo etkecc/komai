@@ -6,9 +6,9 @@
 #include "LoginPage.h"
 
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 LoginPage::LoginPage(QObject *parent)
   : QObject(parent)

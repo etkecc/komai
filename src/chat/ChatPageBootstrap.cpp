@@ -12,12 +12,12 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 #include "voip/CallManager.h"
 
 void

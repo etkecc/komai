@@ -16,7 +16,6 @@
 #include <mtx/responses.hpp>
 
 #include "EventAccessors.h"
-#include "MainWindow.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
@@ -25,6 +24,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 
 void
 ChatPage::processSyncUi(const mtx::responses::Sync &sync)

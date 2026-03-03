@@ -20,13 +20,13 @@
 #include <mtxclient/crypto/client.hpp>
 
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MainWindow.h"
 #include "ui/RoomSummary.h"
 
 void

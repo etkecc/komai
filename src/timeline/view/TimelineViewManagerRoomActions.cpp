@@ -8,12 +8,12 @@
 #include <QQuickItem>
 
 #include "Logging.h"
-#include "MainWindow.h"
 #include "RoomlistModel.h"
 #include "TimelineModel.h"
 #include "models/InviteesModel.h"
 #include "models/MemberList.h"
 #include "timeline/CommunitiesModel.h"
+#include "ui/MainWindow.h"
 #include "ui/RoomSettings.h"
 #include "ui/UserProfile.h"
 #include "voip/WebRTCSession.h"

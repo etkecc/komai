@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Clipboard.h"
+#include "ui/Clipboard.h"
 
 #include <QClipboard>
 #include <QGuiApplication>

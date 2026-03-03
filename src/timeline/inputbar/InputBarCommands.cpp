@@ -16,12 +16,12 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "Utils.h"
 #include "cache/Cache.h"
+#include "ui/MainWindow.h"
 #include "ui/UserProfile.h"
 
 namespace {

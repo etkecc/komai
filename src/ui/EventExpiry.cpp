@@ -11,10 +11,10 @@
 #include <nlohmann/json.hpp>
 
 #include "Logging.h"
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "timeline/TimelineModel.h"
+#include "ui/MainWindow.h"
 
 namespace {
 using EventExpiryContent = mtx::events::account_data::nheko_extensions::EventExpiry;

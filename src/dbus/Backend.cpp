@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "ChatPage.h"
-#include "MainWindow.h"
 #include "cache/Cache.h"
 #include "config/komai.h"
 #include "providers/MxcImageProvider.h"
@@ -19,6 +18,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
+#include "ui/MainWindow.h"
 #include <spdlog/logger.h>
 
 #include <QDBusConnection>

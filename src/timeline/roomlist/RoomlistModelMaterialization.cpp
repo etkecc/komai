@@ -7,12 +7,12 @@
 
 #include "ChatPage.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 void
 RoomlistModel::connectRoomModelSignals(const QString &room_id,

@@ -10,12 +10,12 @@
 #include "ChatPage.h"
 #include "EventAccessors.h"
 #include "Logging.h"
-#include "MainWindow.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "Utils.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/MainWindow.h"
 
 #ifdef KOMAI_DBUS_SYS
 #include <QDBusConnection>

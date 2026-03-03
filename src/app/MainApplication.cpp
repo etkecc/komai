@@ -36,7 +36,6 @@
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif
-#include "MainWindow.h"
 #include "MatrixClient.h"
 #include "Paths.h"
 #include "ProfileId.h"
@@ -48,6 +47,7 @@
 #include "settings/SettingsSerializer.h"
 #include "settings/SettingsStorage.h"
 #include "settings/StartupSettings.h"
+#include "ui/MainWindow.h"
 #include "ui/ThemeRegistry.h"
 
 #if defined(Q_OS_MACOS)

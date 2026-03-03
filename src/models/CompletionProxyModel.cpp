@@ -8,8 +8,8 @@
 #include <QRegularExpression>
 #include <QTextBoundaryFinder>
 
-#include "models/CompletionModelRoles.h"
 #include "Logging.h"
+#include "models/CompletionModelRoles.h"
 
 CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,
                                            int max_mistakes,

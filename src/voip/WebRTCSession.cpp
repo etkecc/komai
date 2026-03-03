@@ -24,7 +24,7 @@
 #include "voip/ScreenCastPortal.h"
 
 #ifdef GSTREAMER_AVAILABLE
-#include "MainWindow.h"
+#include "ui/MainWindow.h"
 extern "C"
 {
 #include "gst/gl/gstgldisplay.h"

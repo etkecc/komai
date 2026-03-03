@@ -638,8 +638,8 @@ set(SRC_FILES
     src/chat/ChatPageCore.cpp
     src/chat/ChatPageBootstrap.cpp
     src/ChatPage.h
-    src/Clipboard.cpp
-    src/Clipboard.h
+    src/ui/Clipboard.cpp
+    src/ui/Clipboard.h
     src/providers/ColorImageProvider.cpp
     src/providers/ColorImageProvider.h
     src/imagepacks/CombinedImagePackModel.cpp
@@ -669,8 +669,8 @@ set(SRC_FILES
     src/auth/LoginPage.cpp
     src/auth/LoginPageDiscovery.cpp
     src/auth/LoginPage.h
-    src/MainWindow.cpp
-    src/MainWindow.h
+    src/ui/MainWindow.cpp
+    src/ui/MainWindow.h
     src/MatrixClient.cpp
     src/MatrixClient.h
     src/models/MemberList.cpp
@@ -751,8 +751,8 @@ set(SRC_FILES
     src/auth/SSOHandler.h
     src/imagepacks/SingleImagePackModel.cpp
     src/imagepacks/SingleImagePackModel.h
-    src/TrayIcon.cpp
-    src/TrayIcon.h
+    src/ui/TrayIcon.cpp
+    src/ui/TrayIcon.h
     src/settings/ui/UserSettingsModel.h
     src/settings/ui/UserSettingsModel.cpp
     src/settings/ui/UserSettingsModelData.cpp

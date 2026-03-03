@@ -16,7 +16,7 @@ Components.OverlayDialog {
 
     title: qsTr("Reset encryption identity?")
     titleIcon: ":/icons/icons/ui/shield-regular-exclamation-mark.svg"
-    titleIconColor: Komai.theme.orange
+    titleIconColor: Komai.theme.warning
 
     TextEdit {
         Layout.fillWidth: true

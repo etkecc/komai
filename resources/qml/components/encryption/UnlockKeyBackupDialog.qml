@@ -29,7 +29,7 @@ Components.OverlayDialog {
 
     title: qsTr("Unlock key backup")
     titleIcon: ":/icons/icons/ui/key.svg"
-    titleIconColor: Komai.theme.green
+    titleIconColor: Komai.theme.success
     onOpened: {
         completionHandled = false;
         unlockKeyInput.text = "";

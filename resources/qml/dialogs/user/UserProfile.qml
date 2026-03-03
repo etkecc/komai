@@ -297,7 +297,7 @@ ApplicationWindow {
                     hoverEnabled: true
                     ToolTip.visible: hovered
                     ToolTip.text: profile.ignored ? qsTr("Unignore the user.") : qsTr("Ignore the user.")
-                    buttonTextColor: profile.ignored ? Komai.theme.red : palette.buttonText
+                    buttonTextColor: profile.ignored ? Komai.theme.attention : palette.buttonText
                     onClicked: profile.ignored = !profile.ignored
                     visible: !profile.isSelf
                 }
@@ -371,13 +371,13 @@ ApplicationWindow {
                             source: {
                                 switch (verificationStatus) {
                                     case VerificationStatus.VERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.green;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success;
                                     case VerificationStatus.UNVERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.orange;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.warning;
                                     case VerificationStatus.SELF:
-                                    return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.green;
+                                    return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success;
                                     default:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.orange;
+                                    return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.warning;
                                 }
                             }
                         }
@@ -454,13 +454,13 @@ ApplicationWindow {
                     source: {
                         switch (verificationStatus) {
                             case VerificationStatus.VERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.green;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success;
                             case VerificationStatus.UNVERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.orange;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.warning;
                             case VerificationStatus.SELF:
-                            return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.green;
+                            return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success;
                             default:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular.svg?" + Komai.theme.red;
+                            return "image://colorimage/:/icons/icons/ui/shield-regular.svg?" + Komai.theme.attention;
                         }
                     }
                 }

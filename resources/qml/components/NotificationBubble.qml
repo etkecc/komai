@@ -23,7 +23,7 @@ Rectangle {
     implicitHeight: notificationBubbleText.height + Komai.paddingMedium
     implicitWidth: Math.max(notificationBubbleText.width, height)
     radius: height / 2
-    color: hasLoudNotification ? Komai.theme.red : bubbleBackgroundColor
+    color: hasLoudNotification ? Komai.theme.attention : bubbleBackgroundColor
     ToolTip.text: notificationCount
     ToolTip.delay: Komai.tooltipDelay
     ToolTip.visible: notificationBubbleHover.hovered && (notificationCount > 9999)

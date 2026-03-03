@@ -27,9 +27,9 @@ Theme::Theme(QStringView theme)
 
     if (theme == u"system") {
         sidebarBackground_ = p.color(QPalette::AlternateBase);
-        red_               = QColor(QColorConstants::Svg::red);
-        green_             = QColor(QColorConstants::Svg::green);
-        orange_            = QColor(QColorConstants::Svg::orange);
+        attention_         = QColor(QColorConstants::Svg::red);
+        success_           = QColor(QColorConstants::Svg::green);
+        warning_           = QColor(QColorConstants::Svg::orange);
         error_             = QColor(0xdd, 0x3d, 0x3d);
         return;
     }
@@ -37,16 +37,16 @@ Theme::Theme(QStringView theme)
     const auto *def = ThemeRegistry::instance().findTheme(theme);
     if (def) {
         sidebarBackground_ = p.color(QPalette::AlternateBase);
-        red_               = def->red;
-        green_             = def->green;
-        orange_            = def->orange;
+        attention_         = def->attention;
+        success_           = def->success;
+        warning_           = def->warning;
         error_             = def->error;
     } else {
         // Unknown theme — fall back to system-like defaults
         sidebarBackground_ = p.color(QPalette::AlternateBase);
-        red_               = QColor(QColorConstants::Svg::red);
-        green_             = QColor(QColorConstants::Svg::green);
-        orange_            = QColor(QColorConstants::Svg::orange);
+        attention_         = QColor(QColorConstants::Svg::red);
+        success_           = QColor(QColorConstants::Svg::green);
+        warning_           = QColor(QColorConstants::Svg::orange);
         error_             = QColor(0xdd, 0x3d, 0x3d);
     }
 }

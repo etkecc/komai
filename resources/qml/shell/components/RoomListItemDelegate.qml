@@ -43,7 +43,7 @@ ItemDelegate {
     readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification)
     readonly property bool emphasizeDraftState: hasDraft && !emphasizeUnreadState
     readonly property bool emphasizeActivityState: emphasizeUnreadState || emphasizeDraftState
-    readonly property color draftActivityBase: Qt.rgba((Komai.theme.red.r + palette.highlight.r) / 2, (Komai.theme.red.g + palette.highlight.g) / 2, (Komai.theme.red.b + palette.highlight.b) / 2, 1)
+    readonly property color draftActivityBase: Qt.rgba((Komai.theme.attention.r + palette.highlight.r) / 2, (Komai.theme.attention.g + palette.highlight.g) / 2, (Komai.theme.attention.b + palette.highlight.b) / 2, 1)
     readonly property color draftHoverBackground: Qt.rgba((palette.dark.r * 0.7) + (draftActivityBase.r * 0.3), (palette.dark.g * 0.7) + (draftActivityBase.g * 0.3), (palette.dark.b * 0.7) + (draftActivityBase.b * 0.3), 1)
     readonly property color draftSelectedBackground: Qt.rgba((palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25), (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25), (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1)
     property int hoverPrewarmDelayMs: 100
@@ -66,7 +66,7 @@ ItemDelegate {
         Rectangle {
             anchors.fill: parent
             color: roomItem.emphasizeDraftState
-                ? Qt.rgba(Komai.theme.red.r, Komai.theme.red.g, Komai.theme.red.b, 0.12)
+                ? Qt.rgba(Komai.theme.attention.r, Komai.theme.attention.g, Komai.theme.attention.b, 0.12)
                 : Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.15)
             visible: roomItem.emphasizeActivityState && roomItem.state !== "selected"
         }
@@ -220,7 +220,7 @@ ItemDelegate {
     Rectangle {
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        color: roomItem.emphasizeDraftState ? Komai.theme.red : palette.highlight
+        color: roomItem.emphasizeDraftState ? Komai.theme.attention : palette.highlight
         height: parent.height - Komai.paddingSmall * 2
         visible: roomItem.emphasizeActivityState
         width: 6

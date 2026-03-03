@@ -29,7 +29,7 @@ Item {
 
         title: qsTr("Encryption setup complete")
         titleIcon: ":/icons/icons/ui/shield-regular-checkmark.svg"
-        titleIconColor: Komai.theme.green
+        titleIconColor: Komai.theme.success
 
         Label {
             Layout.fillWidth: true

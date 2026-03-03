@@ -48,7 +48,7 @@ ColumnLayout {
 
     Composer.MessageInputWarning {
         roundTopCorners: !root.replyPopupVisible && root.mentionCount == 0
-        bubbleColor: Komai.theme.orange
+        bubbleColor: Komai.theme.warning
         text: qsTr("/%1 looks like an incomplete command. To send it anyway, add a space to the end of your message.").arg(root.roomModel ? root.roomModel.input.currentCommand : "")
         visible: root.incompleteCommandVisible
     }

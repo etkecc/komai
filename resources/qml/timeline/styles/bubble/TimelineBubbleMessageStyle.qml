@@ -348,7 +348,7 @@ TimelineMessageStyleBase {
                             : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2)))
                         : "transparent"
                     radius: wrapper.messageBubbleRadius
-                    border.color: Komai.theme.red
+                    border.color: Komai.theme.attention
                     border.width: wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
                 }
             }

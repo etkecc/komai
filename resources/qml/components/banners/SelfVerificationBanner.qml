@@ -14,7 +14,7 @@ ColumnLayout {
     property int dismissedStatus: SelfVerificationStatus.AllVerified
     readonly property bool shouldShow: SelfVerificationStatus.status !== SelfVerificationStatus.AllVerified
                                      && dismissedStatus !== SelfVerificationStatus.status
-    readonly property color accentColor: Komai.theme.orange
+    readonly property color accentColor: Komai.theme.warning
     readonly property int iconSize: Komai.barIconSize
     readonly property int targetHeight: Komai.navigationRowHeight + 1
     readonly property string statusText: {

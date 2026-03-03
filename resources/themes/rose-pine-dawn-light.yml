@@ -18,9 +18,9 @@ palette:
   link: "907aa9"
   toolTipBase: "fffaf3"
   toolTipText: "575279"
-  red: "b4637a"
-  green: "286983"
-  orange: "ea9d34"
+  attention: "b4637a"
+  success: "286983"
+  warning: "ea9d34"
   error: "b4637a"
 source_base16:
   base00: "faf4ed"

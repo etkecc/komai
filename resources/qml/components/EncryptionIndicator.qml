@@ -54,7 +54,7 @@ Image {
         if (encrypted) {
             switch (trust) {
             case Crypto.Verified:
-                return sourceUrl + Komai.theme.green;
+                return sourceUrl + Komai.theme.success;
             case Crypto.TOFU:
                 return sourceUrl + palette.buttonText;
             default:

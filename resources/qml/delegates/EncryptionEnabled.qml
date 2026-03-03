@@ -25,7 +25,7 @@ Control {
         spacing: Komai.paddingMedium
 
         Image {
-            source: "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.green
+            source: "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
@@ -61,7 +61,7 @@ Control {
         radius: fontMetrics.lineSpacing / 2 + Komai.paddingMedium
         height: contents.implicitHeight + Komai.paddingMedium * 2
         color: palette.alternateBase
-        border.color: Komai.theme.green
+        border.color: Komai.theme.success
         border.width: 2
     }
 }

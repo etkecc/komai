@@ -27,7 +27,7 @@ PALETTE_KEYS = [
     "toolTipText",
 ]
 
-CUSTOM_KEYS = ["red", "green", "orange", "error"]
+CUSTOM_KEYS = ["attention", "success", "warning", "error"]
 
 ALL_PALETTE_KEYS = PALETTE_KEYS + CUSTOM_KEYS
 

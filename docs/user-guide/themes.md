@@ -117,9 +117,9 @@ palette:
   link: "b56e00"            # hyperlinks
   toolTipBase: "ffffff"     # tooltip background
   toolTipText: "334258"     # tooltip text
-  red: "a82353"             # error / destructive accents
-  green: "008000"           # success accents
-  orange: "f49300"          # warning accents
+  attention: "a82353"       # attention / destructive accents
+  success: "008000"         # success accents
+  warning: "f49300"         # warning accents
   error: "dd3d3d"           # error messages
 ```
 

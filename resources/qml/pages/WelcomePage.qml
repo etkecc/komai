@@ -75,7 +75,7 @@ Item {
                       qsTr("Secure secret storage (OS keychain) is not available in this environment, so Komai is using file-based secret storage for now. This is less secure.") +
                       " " +
                       "<a href=\"" + root.secretsStorageDocsUrl + "\">" + qsTr("Learn more") + "</a>"
-                color: Komai.theme.red
+                color: Komai.theme.attention
                 font.pointSize: Settings.uiFontSizePt * 1.05
                 horizontalAlignment: Text.AlignHCenter
             }

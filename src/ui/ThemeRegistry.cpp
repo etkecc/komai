@@ -37,9 +37,9 @@ static const QStringList paletteKeys = {
   QStringLiteral("link"),
   QStringLiteral("toolTipBase"),
   QStringLiteral("toolTipText"),
-  QStringLiteral("red"),
-  QStringLiteral("green"),
-  QStringLiteral("orange"),
+  QStringLiteral("attention"),
+  QStringLiteral("success"),
+  QStringLiteral("warning"),
   QStringLiteral("error"),
 };
 
@@ -200,9 +200,9 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     def.link            = colors[QStringLiteral("link")];
     def.toolTipBase     = colors[QStringLiteral("toolTipBase")];
     def.toolTipText     = colors[QStringLiteral("toolTipText")];
-    def.red             = colors[QStringLiteral("red")];
-    def.green           = colors[QStringLiteral("green")];
-    def.orange          = colors[QStringLiteral("orange")];
+    def.attention       = colors[QStringLiteral("attention")];
+    def.success         = colors[QStringLiteral("success")];
+    def.warning         = colors[QStringLiteral("warning")];
     def.error           = colors[QStringLiteral("error")];
 
     return def;

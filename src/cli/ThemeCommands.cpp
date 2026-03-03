@@ -446,7 +446,7 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
     // Distinct sample palettes (intentionally different from komai-light/komai-dark)
     theme_color::Palette palette;
     if (variant == "light") {
-        // Warm off-white + slate + teal (distinct from komai-light: pure white + orange)
+        // Warm off-white + slate + teal (distinct from komai-light: pure white + warning)
         palette = {
           {"window", "f8f6f2"},
           {"windowText", "3b4252"},
@@ -464,13 +464,13 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
           {"link", "238a8c"},
           {"toolTipBase", "f0ede8"},
           {"toolTipText", "3b4252"},
-          {"red", "bf616a"},
-          {"green", "a3be8c"},
-          {"orange", "d08770"},
+          {"attention", "bf616a"},
+          {"success", "a3be8c"},
+          {"warning", "d08770"},
           {"error", "bf616a"},
         };
     } else {
-        // Neutral dark + muted purple accent (distinct from komai-dark: orange accent)
+        // Neutral dark + muted purple accent (distinct from komai-dark: warning accent)
         palette = {
           {"window", "2e3440"},
           {"windowText", "d8dee9"},
@@ -488,9 +488,9 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
           {"link", "a098d8"},
           {"toolTipBase", "272c36"},
           {"toolTipText", "d8dee9"},
-          {"red", "bf616a"},
-          {"green", "a3be8c"},
-          {"orange", "d08770"},
+          {"attention", "bf616a"},
+          {"success", "a3be8c"},
+          {"warning", "d08770"},
           {"error", "bf616a"},
         };
     }

@@ -285,9 +285,9 @@ Palette
 base16ToCustom(const Palette &palette)
 {
     return {
-      {"red", getOr(palette, "base08", "a82353")},
-      {"green", getOr(palette, "base0B", "008000")},
-      {"orange", getOr(palette, "base09", "fcbe05")},
+      {"attention", getOr(palette, "base08", "a82353")},
+      {"success", getOr(palette, "base0B", "008000")},
+      {"warning", getOr(palette, "base09", "fcbe05")},
       {"error", getOr(palette, "base08", "dd3d3d")},
     };
 }

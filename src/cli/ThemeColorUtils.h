@@ -37,9 +37,9 @@ inline constexpr std::array<const char *, 16> PALETTE_KEYS = {
 };
 
 inline constexpr std::array<const char *, 4> CUSTOM_KEYS = {
-  "red",
-  "green",
-  "orange",
+  "attention",
+  "success",
+  "warning",
   "error",
 };
 

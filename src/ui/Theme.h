@@ -18,10 +18,10 @@ class Theme final : public QPalette
 
     Q_PROPERTY(QColor sidebarBackground READ sidebarBackground CONSTANT)
     Q_PROPERTY(QColor separator READ separator CONSTANT)
-    Q_PROPERTY(QColor red READ red CONSTANT)
-    Q_PROPERTY(QColor green READ green CONSTANT)
+    Q_PROPERTY(QColor attention READ attention CONSTANT)
+    Q_PROPERTY(QColor success READ success CONSTANT)
     Q_PROPERTY(QColor error READ error CONSTANT)
-    Q_PROPERTY(QColor orange READ orange CONSTANT)
+    Q_PROPERTY(QColor warning READ warning CONSTANT)
     Q_PROPERTY(QColor online READ online CONSTANT)
     Q_PROPERTY(QColor unavailable READ unavailable CONSTANT)
 public:
@@ -31,13 +31,13 @@ public:
 
     QColor sidebarBackground() const { return sidebarBackground_; }
     QColor separator() const { return separator_; }
-    QColor red() const { return red_; }
-    QColor green() const { return green_; }
+    QColor attention() const { return attention_; }
+    QColor success() const { return success_; }
     QColor error() const { return error_; }
-    QColor orange() const { return orange_; }
+    QColor warning() const { return warning_; }
     QColor online() const { return QColor(0x00, 0xcc, 0x66); }
     QColor unavailable() const { return QColor(0xff, 0x99, 0x33); }
 
 private:
-    QColor sidebarBackground_, separator_, red_, green_, error_, orange_;
+    QColor sidebarBackground_, separator_, attention_, success_, error_, warning_;
 };

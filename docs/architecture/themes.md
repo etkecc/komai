@@ -75,7 +75,7 @@ Theme files contain 20 palette keys directly under `palette:`:
 - **16 QPalette roles:** `window`, `windowText`, `base`, `alternateBase`, `text`,
   `brightText`, `button`, `buttonText`, `light`, `mid`, `dark`, `highlight`,
   `highlightedText`, `link`, `toolTipBase`, `toolTipText`
-- **4 semantic accent colors:** `red`, `green`, `orange`, `error`
+- **4 semantic accent colors:** `attention`, `success`, `warning`, `error`
 
 Imported themes include an optional `source_base16:` section preserving the
 original Base16 palette. This section is purely informational and is ignored
@@ -106,7 +106,7 @@ at import time by `komai theme tinted-import` — never at build time.
 | toolTipBase      | base01                       |
 | toolTipText      | base05                       |
 
-Semantic accent colors: `red` ← base08, `green` ← base0B, `orange` ← base09,
+Semantic accent colors: `attention` ← base08, `success` ← base0B, `warning` ← base09,
 `error` ← base08.
 
 

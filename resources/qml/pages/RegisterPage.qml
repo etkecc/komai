@@ -269,7 +269,7 @@ Item {
                     Layout.preferredHeight: usernameLabel.height/2
                     Layout.preferredWidth: usernameLabel.height/2
                     Layout.alignment: Qt.AlignBottom
-                    source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.green) : ("image://colorimage/:/icons/icons/ui/dismiss.svg?" + Komai.theme.error)
+                    source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success) : ("image://colorimage/:/icons/icons/ui/dismiss.svg?" + Komai.theme.error)
                     visible: regis.usernameAvailable || regis.usernameUnavailable
                     ToolTip.visible: ma.hovered
                     ToolTip.text: qsTr("Back")

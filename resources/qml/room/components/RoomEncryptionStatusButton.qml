@@ -42,7 +42,7 @@ AbstractButton {
             return Komai.theme.error;
         switch (trustlevel) {
         case Crypto.Verified:
-            return Komai.theme.green;
+            return Komai.theme.success;
         case Crypto.TOFU:
             return palette.buttonText;
         default:

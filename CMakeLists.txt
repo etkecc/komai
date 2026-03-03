@@ -451,6 +451,7 @@ set(SRC_FILES
     src/timeline/media/TimelineMediaController.h
     src/timeline/navigation/TimelineModelNavigation.cpp
     src/timeline/presentation/TimelineModelPresentation.cpp
+    src/timeline/sync/TimelineModelSync.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.cpp
     src/timeline/rawmessage/RawMessageDialogPayload.h
     src/timeline/roomlist/FilteredRoomlistModel.cpp

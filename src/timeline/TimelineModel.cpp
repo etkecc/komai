@@ -547,6 +547,29 @@ TimelineModel::notificationLevelForEvent(const mtx::events::collections::Timelin
     return qml_mtx_events::NotificationLevel::Nothing;
 }
 
+bool
+TimelineModel::isEncryptedForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    auto encrypted_event = events.get(mtx::accessors::event_id(event), "", false);
+    return encrypted_event &&
+           std::holds_alternative<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
+             *encrypted_event);
+}
+
+crypto::Trust
+TimelineModel::trustLevelForEvent(const mtx::events::collections::TimelineEvents &event) const
+{
+    auto encrypted_event = events.get(mtx::accessors::event_id(event), "", false);
+    if (encrypted_event) {
+        if (auto encrypted = std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
+              &*encrypted_event)) {
+            return olm::calculate_trust(
+              encrypted->sender, room_id_.toStdString(), encrypted->content);
+        }
+    }
+    return crypto::Trust::Unverified;
+}
+
 QVariant
 TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int role) const
 {
@@ -641,28 +664,14 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         return {relations(event).replaces().has_value()};
     case IsEditable:
         return {!is_state_event(event) && mtx::accessors::sender(event) == localUserStd};
-    case IsEncrypted: {
-        auto encrypted_event = events.get(event_id(event), "", false);
-        return encrypted_event &&
-               std::holds_alternative<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-                 *encrypted_event);
-    }
+    case IsEncrypted:
+        return isEncryptedForEvent(event);
     case IsStateEvent: {
         return is_state_event(event);
     }
 
-    case Trustlevel: {
-        auto encrypted_event = events.get(event_id(event), "", false);
-        if (encrypted_event) {
-            if (auto encrypted =
-                  std::get_if<mtx::events::EncryptedEvent<mtx::events::msg::Encrypted>>(
-                    &*encrypted_event)) {
-                return olm::calculate_trust(
-                  encrypted->sender, room_id_.toStdString(), encrypted->content);
-            }
-        }
-        return crypto::Trust::Unverified;
-    }
+    case Trustlevel:
+        return trustLevelForEvent(event);
 
     case Notificationlevel:
         return notificationLevelForEvent(event, localUserStd);

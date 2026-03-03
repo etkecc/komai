@@ -425,6 +425,8 @@ private:
                                    const std::string &localUserStd) const;
     QVariant notificationLevelForEvent(const mtx::events::collections::TimelineEvents &event,
                                        const std::string &localUserStd) const;
+    bool isEncryptedForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    crypto::Trust trustLevelForEvent(const mtx::events::collections::TimelineEvents &event) const;
     void populateEditMentions(const mtx::events::collections::TimelineEvents &event,
                               QStringList &mentions,
                               QStringList &mentionTexts) const;

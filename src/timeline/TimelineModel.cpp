@@ -11,10 +11,10 @@
 #include "ChatPage.h"
 #include "EventAccessors.h"
 #include "Logging.h"
-#include "ReadReceiptsModel.h"
 #include "TimelineViewManager.h"
 #include "Utils.h"
 #include "cache/Cache.h"
+#include "models/ReadReceiptsModel.h"
 #include "timeline/send/TimelineMessageSendPipeline.h"
 
 namespace std {

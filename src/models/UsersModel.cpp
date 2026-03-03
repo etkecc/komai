@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "UsersModel.h"
+#include "models/UsersModel.h"
 
 #include <QUrl>
 

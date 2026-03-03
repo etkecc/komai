@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "RoomDirectoryModel.h"
+#include "models/RoomDirectoryModel.h"
 
 #include <algorithm>
 

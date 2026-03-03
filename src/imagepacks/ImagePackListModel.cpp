@@ -7,8 +7,8 @@
 
 #include <QQmlEngine>
 
-#include "imagepacks/SingleImagePackModel.h"
 #include "cache/Cache.h"
+#include "imagepacks/SingleImagePackModel.h"
 
 ImagePackListModel::ImagePackListModel(const std::string &roomId, QObject *parent)
   : QAbstractListModel(parent)

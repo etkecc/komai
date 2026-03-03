@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ReadReceiptsModel.h"
+#include "models/ReadReceiptsModel.h"
 
 #include <QLocale>
 

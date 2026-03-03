@@ -673,8 +673,8 @@ set(SRC_FILES
     src/MainWindow.h
     src/MatrixClient.cpp
     src/MatrixClient.h
-    src/MemberList.cpp
-    src/MemberList.h
+    src/models/MemberList.cpp
+    src/models/MemberList.h
     src/providers/MxcImageProvider.cpp
     src/providers/MxcImageProvider.h
     src/Paths.cpp
@@ -737,16 +737,16 @@ set(SRC_FILES
     src/powerlevels/PowerlevelsUserListModel.cpp
     src/ProfileSecrets.cpp
     src/ProfileSecrets.h
-    src/ReadReceiptsModel.cpp
-    src/ReadReceiptsModel.h
+    src/models/ReadReceiptsModel.cpp
+    src/models/ReadReceiptsModel.h
     src/auth/ReCaptcha.cpp
     src/auth/ReCaptcha.h
     src/auth/RegisterPage.cpp
     src/auth/RegisterPage.h
-    src/RoomDirectoryModel.cpp
-    src/RoomDirectoryModel.h
-    src/RoomsModel.cpp
-    src/RoomsModel.h
+    src/models/RoomDirectoryModel.cpp
+    src/models/RoomDirectoryModel.h
+    src/models/RoomsModel.cpp
+    src/models/RoomsModel.h
     src/auth/SSOHandler.cpp
     src/auth/SSOHandler.h
     src/imagepacks/SingleImagePackModel.cpp
@@ -772,8 +772,8 @@ set(SRC_FILES
     src/settings/ui/facade/UserSettingsCoreStoreBridge.cpp
     src/settings/ui/facade/UserSettingsSessionSettings.cpp
     src/settings/ui/facade/UserSettingsTheme.cpp
-    src/UsersModel.cpp
-    src/UsersModel.h
+    src/models/UsersModel.cpp
+    src/models/UsersModel.h
     src/utils/UtilsCore.cpp
     src/Utils.h
     src/utils/UtilsColor.cpp
@@ -1080,8 +1080,8 @@ qt_add_qml_module(komai
     QML_FILES
     ${QML_SOURCES}
     SOURCES
-    src/UserDirectoryModel.cpp
-    src/UserDirectoryModel.h
+    src/models/UserDirectoryModel.cpp
+    src/models/UserDirectoryModel.h
 )
     #qt_target_qml_sources(komai
     #   #PREFIX "/"
@@ -1111,7 +1111,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/imagepacks/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/imagepacks/ src/models/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)

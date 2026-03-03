@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "MemberList.h"
+#include "models/MemberList.h"
 
 #include "ChatPage.h"
 #include "Logging.h"

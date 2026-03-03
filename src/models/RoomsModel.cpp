@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "RoomsModel.h"
+#include "models/RoomsModel.h"
 
 #include <QUrl>
 

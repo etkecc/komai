@@ -5,8 +5,8 @@
 
 #include "PresenceEmitter.h"
 
+#include "utils/Utils.h"
 #include <QCache>
-#include <Utils.h>
 
 #include "cache/Cache.h"
 

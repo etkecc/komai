@@ -3,12 +3,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "PowerlevelsEditModels.h"
+#include "powerlevels/PowerlevelsEditModels.h"
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 
 PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *parent)
   : QObject(parent)

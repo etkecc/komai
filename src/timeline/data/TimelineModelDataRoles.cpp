@@ -5,8 +5,8 @@
 
 #include "TimelineModel.h"
 
-#include "EventAccessors.h"
-#include "Utils.h"
+#include "events/EventAccessors.h"
+#include "utils/Utils.h"
 
 QVariant
 TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int role) const

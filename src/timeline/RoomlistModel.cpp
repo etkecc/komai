@@ -7,15 +7,15 @@
 
 #include <algorithm>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
 
 #ifdef KOMAI_DBUS_SYS
 #include <QDBusConnection>

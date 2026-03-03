@@ -10,7 +10,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "ChatPage.h"
+#include "chat/ChatPage.h"
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"

@@ -9,10 +9,10 @@
 #include <map>
 #include <set>
 
-#include "EventAccessors.h"
 #include "Reaction.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
+#include "utils/Utils.h"
 
 std::vector<mtx::events::collections::TimelineEvents>
 EventStore::edits(const std::string &event_id)

@@ -8,7 +8,7 @@
 
 #include <limits>
 
-#include "EventAccessors.h"
+#include "events/EventAccessors.h"
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"

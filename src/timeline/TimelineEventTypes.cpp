@@ -5,7 +5,7 @@
 
 #include "TimelineEventTypes.h"
 
-#include "EventAccessors.h"
+#include "events/EventAccessors.h"
 
 namespace {
 struct RoomEventType

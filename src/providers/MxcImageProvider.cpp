@@ -21,9 +21,9 @@
 
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 QHash<QString, mtx::crypto::EncryptedFile> infos;
 

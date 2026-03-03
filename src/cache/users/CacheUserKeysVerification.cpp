@@ -15,9 +15,9 @@
 #include <spdlog/logger.h>
 
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/api/CacheApiContext.h"
 #include "encryption/Olm.h"
+#include "utils/Utils.h"
 
 std::optional<VerificationCache>
 MatrixStore::verificationCache(const std::string &user_id, db::Transaction &txn)

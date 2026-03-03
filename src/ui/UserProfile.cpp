@@ -10,18 +10,18 @@
 
 #include <mtx/errors.hpp>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "UserProfile.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "encryption/VerificationManager.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "ui/UIA.h"
+#include "utils/Utils.h"
 
 namespace {
 QString

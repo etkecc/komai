@@ -13,9 +13,9 @@
 #include <spdlog/logger.h>
 
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
+#include "utils/Utils.h"
 
 crypto::Trust
 MatrixStore::roomVerificationStatus(const std::string &room_id)

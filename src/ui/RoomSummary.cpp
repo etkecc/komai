@@ -7,10 +7,10 @@
 
 #include <QMetaType>
 
-#include "ChatPage.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "utils/Utils.h"
 
 RoomSummary::RoomSummary(std::string roomIdOrAlias_,
                          std::vector<std::string> vias_,

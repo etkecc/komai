@@ -10,12 +10,11 @@
 #include <mtx/requests.hpp>
 #include <mtx/responses/login.hpp>
 
-#include "ChatPage.h"
 #include "Config.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "dock/Dock.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "providers/BlurhashProvider.h"
@@ -29,6 +28,7 @@
 #include "ui/MainWindow.h"
 #include "ui/Theme.h"
 #include "ui/TrayIcon.h"
+#include "utils/Utils.h"
 #include "voip/CallManager.h"
 #include "voip/WebRTCSession.h"
 

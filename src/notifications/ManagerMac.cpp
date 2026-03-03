@@ -9,10 +9,10 @@
 #include <QRegularExpression>
 #include <QTextDocumentFragment>
 
-#include "EventAccessors.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
 #include "providers/MxcImageProvider.h"
+#include "utils/Utils.h"
 
 #include <mtx/responses/notifications.hpp>
 

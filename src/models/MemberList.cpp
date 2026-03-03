@@ -5,9 +5,9 @@
 
 #include "models/MemberList.h"
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"

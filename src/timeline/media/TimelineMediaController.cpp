@@ -20,14 +20,14 @@
 #include <QStandardPaths>
 #include <QTimer>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"
+#include "utils/Utils.h"
 
 timeline::media::TimelineMediaController::TimelineMediaController(QString roomId,
                                                                   EventStore &events,

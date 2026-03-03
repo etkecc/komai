@@ -13,7 +13,6 @@
 #include <QStringList>
 #include <array>
 
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "config/komai.h"
 #include "encryption/Olm.h"
@@ -23,6 +22,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
 #include "ui/ThemeRegistry.h"
+#include "utils/Utils.h"
 #include "voip/CallDevices.h"
 
 namespace settings::ui {

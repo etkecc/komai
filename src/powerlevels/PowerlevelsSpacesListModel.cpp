@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "PowerlevelsEditModels.h"
+#include "powerlevels/PowerlevelsEditModels.h"
 
 #include <QCoreApplication>
 #include <QTimer>
@@ -14,11 +14,11 @@
 #include <utility>
 #include <vector>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "utils/Utils.h"
 
 static bool
 samePl(const mtx::events::state::PowerLevels &a, const mtx::events::state::PowerLevels &b)

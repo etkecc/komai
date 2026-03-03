@@ -10,18 +10,18 @@
 
 #include <QTimer>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "TimelineViewManager.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "models/ReadReceiptsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/rawmessage/RawMessageDialogPayload.h"
 #include "ui/Theme.h"
 #include "ui/UserProfile.h"
+#include "utils/Utils.h"
 
 void
 TimelineModel::viewRawMessage(const QString &id)

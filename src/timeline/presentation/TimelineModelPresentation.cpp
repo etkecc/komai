@@ -14,9 +14,9 @@
 #include <QUrl>
 
 #include "TimelineViewManager.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 QString
 TimelineModel::displayName(const QString &id) const

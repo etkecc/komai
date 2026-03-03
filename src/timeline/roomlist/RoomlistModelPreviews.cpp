@@ -5,12 +5,12 @@
 
 #include "RoomlistModel.h"
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "utils/Utils.h"
 
 void
 RoomlistModel::fetchPreviews(QString roomid_, const std::string &from)

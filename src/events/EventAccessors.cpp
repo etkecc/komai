@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "EventAccessors.h"
+#include "events/EventAccessors.h"
 
 #include <nlohmann/json.hpp>
 

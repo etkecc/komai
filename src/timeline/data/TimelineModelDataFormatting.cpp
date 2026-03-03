@@ -13,11 +13,11 @@
 #include <QUrl>
 #include <QVariant>
 
-#include "EventAccessors.h"
 #include "FormattedCodeBlockHighlighter.h"
-#include "Utils.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
+#include "utils/Utils.h"
 
 QString
 TimelineModel::formattedBodyForEvent(const mtx::events::collections::TimelineEvents &event) const

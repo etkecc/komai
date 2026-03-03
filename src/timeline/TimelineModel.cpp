@@ -8,14 +8,14 @@
 #include <algorithm>
 #include <utility>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "TimelineViewManager.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "models/ReadReceiptsModel.h"
 #include "timeline/send/TimelineMessageSendPipeline.h"
+#include "utils/Utils.h"
 
 namespace std {
 inline uint // clazy:exclude=qhash-namespace

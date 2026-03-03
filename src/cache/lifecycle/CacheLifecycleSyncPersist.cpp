@@ -20,10 +20,10 @@
 #include <QMessageBox>
 #include <spdlog/logger.h>
 
-#include "EventAccessors.h"
-#include "Utils.h"
 #include "cache/api/CacheApiContext.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 void
 MatrixStore::saveState(const mtx::responses::Sync &res)

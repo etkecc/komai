@@ -7,7 +7,7 @@
 #include "notifications/Manager.h"
 #include "notifications/NotificationManagerProxy.h"
 
-#include "ChatPage.h"
+#include "chat/ChatPage.h"
 
 #import <AppKit/NSImage.h>
 #import <Foundation/Foundation.h>

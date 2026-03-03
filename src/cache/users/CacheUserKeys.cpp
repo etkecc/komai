@@ -11,9 +11,9 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
-#include "Utils.h"
 #include "cache/api/CacheApiContext.h"
 #include "encryption/Olm.h"
+#include "utils/Utils.h"
 
 std::optional<UserKeyCache>
 MatrixStore::userKeys(const std::string &user_id)

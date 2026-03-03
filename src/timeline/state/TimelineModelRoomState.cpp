@@ -11,9 +11,9 @@
 #include <QQmlEngine>
 #include <QUrl>
 
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 QString
 TimelineModel::roomName() const

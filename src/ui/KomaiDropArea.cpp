@@ -7,7 +7,7 @@
 
 #include <QMimeData>
 
-#include "ChatPage.h"
+#include "chat/ChatPage.h"
 #include "timeline/InputBar.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"

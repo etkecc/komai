@@ -9,11 +9,11 @@
 
 #include <QTime>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "encryption/Olm.h"
+#include "events/EventAccessors.h"
+#include "utils/Utils.h"
 
 QVariant
 TimelineModel::mediaMetadataForEvent(const mtx::events::collections::TimelineEvents &event,

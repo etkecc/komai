@@ -17,12 +17,12 @@
 #include <mtxclient/utils.hpp>
 #include <nlohmann/json.hpp>
 
-#include "EventAccessors.h"
+#include "events/EventAccessors.h"
 #include <spdlog/logger.h>
 
-#include "Utils.h"
 #include "cache/api/CacheApiContext.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 template<typename T>
 std::optional<mtx::events::StateEvent<T>>

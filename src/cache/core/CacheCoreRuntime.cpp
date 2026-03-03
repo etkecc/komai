@@ -13,9 +13,9 @@
 
 #include <nlohmann/json.hpp>
 
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "encryption/Olm.h"
+#include "events/EventAccessors.h"
 
 namespace {
 using HiddenEventsContent = mtx::events::account_data::nheko_extensions::HiddenEvents;

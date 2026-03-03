@@ -637,7 +637,7 @@ set(SRC_FILES
     src/chat/ChatPageNotifications.cpp
     src/chat/ChatPageCore.cpp
     src/chat/ChatPageBootstrap.cpp
-    src/ChatPage.h
+    src/chat/ChatPage.h
     src/ui/Clipboard.cpp
     src/ui/Clipboard.h
     src/providers/ColorImageProvider.cpp
@@ -655,7 +655,7 @@ set(SRC_FILES
     src/MatrixStateTypes.h
     src/events/EventAccessors.cpp
     src/events/EventAccessorsMedia.cpp
-    src/EventAccessors.h
+    src/events/EventAccessors.h
     src/auth/FallbackAuth.cpp
     src/auth/FallbackAuth.h
     src/imagepacks/ImagePackListModel.cpp
@@ -731,7 +731,7 @@ set(SRC_FILES
     src/settings/SettingsControllerInternal.h
     src/settings/YamlSettings.h
     src/powerlevels/PowerlevelEditingModels.cpp
-    src/PowerlevelsEditModels.h
+    src/powerlevels/PowerlevelsEditModels.h
     src/powerlevels/PowerlevelsSpacesListModel.cpp
     src/powerlevels/PowerlevelsTypeListModel.cpp
     src/powerlevels/PowerlevelsUserListModel.cpp
@@ -775,7 +775,7 @@ set(SRC_FILES
     src/models/UsersModel.cpp
     src/models/UsersModel.h
     src/utils/UtilsCore.cpp
-    src/Utils.h
+    src/utils/Utils.h
     src/utils/UtilsColor.cpp
     src/utils/UtilsMessageDescription.cpp
     src/utils/UtilsRoomMaintenance.cpp
@@ -1111,7 +1111,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/imagepacks/ src/models/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)

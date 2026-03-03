@@ -8,9 +8,9 @@
 #include <QUrl>
 
 #include "Config.h"
-#include "EventAccessors.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
+#include "utils/Utils.h"
 
 void
 TimelineModel::setThread(const QString &id)

@@ -17,11 +17,10 @@
 
 #include <mtx/responses.hpp>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/Permissions.h"
@@ -29,6 +28,7 @@
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
 
 namespace {
 constexpr size_t MAX_ONETIME_KEYS = 50;

@@ -8,9 +8,9 @@
 #include <type_traits>
 
 #include "Logging.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
+#include "utils/Utils.h"
 
 bool
 TimelineModel::canFetchMore(const QModelIndex &) const

@@ -10,7 +10,7 @@
 #include <QString>
 
 #include "EventStore.h"
-#include "Utils.h"
+#include "utils/Utils.h"
 
 namespace {
 QString

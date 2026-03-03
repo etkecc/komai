@@ -10,8 +10,8 @@
 #include <string_view>
 #include <utility>
 
-#include "ChatPage.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "config/komai.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/SettingKeys.h"

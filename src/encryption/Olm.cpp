@@ -18,12 +18,12 @@
 #include <mtx/responses/common.hpp>
 #include <mtx/secret_storage.hpp>
 
-#include "ChatPage.h"
 #include "DeviceVerificationFlow.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {

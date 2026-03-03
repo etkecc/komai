@@ -7,19 +7,19 @@
 
 #include <QFontMetrics>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "RoomlistModel.h"
 #include "TimelineViewManager.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/format/TimelineImagePackFormatter.h"
 #include "timeline/format/TimelineMemberEventFormatter.h"
 #include "timeline/format/TimelinePolicyRuleFormatter.h"
 #include "timeline/format/TimelinePowerLevelFormatter.h"
 #include "timeline/format/TimelineRedactedEventFormatter.h"
+#include "utils/Utils.h"
 
 QString
 TimelineModel::formatJoinRuleEvent(

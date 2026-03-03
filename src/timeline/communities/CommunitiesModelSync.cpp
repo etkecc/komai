@@ -8,9 +8,9 @@
 #include <mtx/responses/common.hpp>
 #include <set>
 
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 namespace {
 struct temptree

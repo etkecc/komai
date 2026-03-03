@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Utils.h"
+#include "utils/Utils.h"
 
 #include <array>
 #include <cmath>
@@ -31,12 +31,12 @@
 
 #include <mtx/responses/messages.hpp>
 
-#include "ChatPage.h"
 #include "Config.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/formattedmessage/HtmlProcessor.h"
 

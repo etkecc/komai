@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Utils.h"
+#include "utils/Utils.h"
 
 #include <array>
 #include <variant>
@@ -12,8 +12,8 @@
 #include <QRegularExpression>
 #include <QStringBuilder>
 
-#include "EventAccessors.h"
 #include "MatrixClient.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {

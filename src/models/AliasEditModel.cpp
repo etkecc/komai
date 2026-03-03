@@ -11,10 +11,10 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineModel.h"
 

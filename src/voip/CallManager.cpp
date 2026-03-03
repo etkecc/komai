@@ -17,12 +17,12 @@
 
 #include "CallDevices.h"
 #include "CallManager.h"
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 #include "mtx/responses/turn_server.hpp"
 #include "voip/ScreenCastPortal.h"

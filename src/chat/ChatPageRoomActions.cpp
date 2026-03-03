@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ChatPage.h"
+#include "chat/ChatPage.h"
 
 #include <QInputDialog>
 #include <QLineEdit>
@@ -21,13 +21,13 @@
 
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
 #include "ui/RoomSummary.h"
+#include "utils/Utils.h"
 
 void
 ChatPage::knockRoom(const QString &room,

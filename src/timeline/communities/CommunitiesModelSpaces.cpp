@@ -7,13 +7,13 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Permissions.h"
 #include "TimelineEventTypes.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "utils/Utils.h"
 
 QVariantList
 CommunitiesModel::spaceChildrenListFromIndex(const QString &room, int idx) const

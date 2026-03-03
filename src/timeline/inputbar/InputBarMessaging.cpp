@@ -12,12 +12,12 @@
 
 #include <nlohmann/json.hpp>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 std::string
 threadFallbackEventId(const std::string &room_id, const std::string &thread_id)

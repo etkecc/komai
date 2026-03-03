@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "PowerlevelsEditModels.h"
+#include "powerlevels/PowerlevelsEditModels.h"
 
 #include <algorithm>
 #include <set>

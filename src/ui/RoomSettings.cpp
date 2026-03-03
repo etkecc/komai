@@ -16,8 +16,8 @@
 
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "utils/Utils.h"
 
 using namespace mtx::events;
 

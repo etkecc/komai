@@ -12,12 +12,12 @@
 #include <string>
 #include <type_traits>
 
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
+#include "events/EventAccessors.h"
+#include "utils/Utils.h"
 
 namespace timeline::send {
 template<typename T>

@@ -16,14 +16,13 @@
 #include <QString>
 #include <QUrl>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "encryption/VerificationManager.h"
+#include "events/EventAccessors.h"
 #include "imagepacks/CombinedImagePackModel.h"
 #include "imagepacks/GridImagePackModel.h"
 #include "imagepacks/ImagePackListModel.h"
@@ -41,6 +40,7 @@
 #include "ui/MainWindow.h"
 #include "ui/RoomSettings.h"
 #include "ui/UserProfile.h"
+#include "utils/Utils.h"
 #include "voip/CallManager.h"
 #include "voip/WebRTCSession.h"
 

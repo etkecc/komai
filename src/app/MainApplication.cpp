@@ -27,17 +27,16 @@
 #include <kdsingleapplication.h>
 
 #include "CallManager.h"
-#include "ChatPage.h"
 #include "Logging.h"
 #include "app/MainApplication.h"
 #include "app/MainApplicationSupport.h"
 #include "cache/Cache.h"
 #include "cache/api/CacheApiContext.h"
+#include "chat/ChatPage.h"
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cli/CliDispatch.h"
 #include "config/komai.h"
 #include "profile/Paths.h"
@@ -49,6 +48,7 @@
 #include "settings/StartupSettings.h"
 #include "ui/MainWindow.h"
 #include "ui/ThemeRegistry.h"
+#include "utils/Utils.h"
 
 #if defined(Q_OS_MACOS)
 #include "notifications/Manager.h"

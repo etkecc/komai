@@ -12,14 +12,14 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "Reaction.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 QCache<EventStore::IdIndex, olm::DecryptionResult> EventStore::decryptedEvents_{1000};
 QCache<EventStore::IdIndex, mtx::events::collections::TimelineEvents> EventStore::events_by_id_{

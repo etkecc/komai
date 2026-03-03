@@ -10,7 +10,7 @@
 #include <optional>
 #include <string_view>
 
-#include "EventAccessors.h"
+#include "events/EventAccessors.h"
 #include <nlohmann/json.hpp>
 
 uint64_t

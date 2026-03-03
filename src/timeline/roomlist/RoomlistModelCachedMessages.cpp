@@ -8,12 +8,12 @@
 #include <QPointer>
 #include <QTimer>
 
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
+#include "utils/Utils.h"
 
 namespace {
 constexpr uint64_t kCachedLastMessageScanLimit    = 200;

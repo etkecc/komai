@@ -11,9 +11,9 @@
 #include <QTimer>
 
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 std::optional<QVariant>
 RoomlistModel::commonRoomData(const QString &room_id, int role) const

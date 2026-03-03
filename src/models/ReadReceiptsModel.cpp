@@ -8,8 +8,8 @@
 #include <QLocale>
 
 #include "Logging.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "utils/Utils.h"
 
 ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject *parent)
   : QAbstractListModel{parent}

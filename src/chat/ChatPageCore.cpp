@@ -21,19 +21,19 @@
 
 #include <mtx/responses.hpp>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "encryption/DeviceVerificationFlow.h"
 #include "encryption/Olm.h"
+#include "events/EventAccessors.h"
 #include "providers/AvatarProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 #include "ui/RoomSummary.h"
 #include "ui/UserProfile.h"
+#include "utils/Utils.h"
 #include "voip/CallManager.h"
 
 #include "notifications/Manager.h"

@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ChatPage.h"
+#include "chat/ChatPage.h"
 
 #include <QCoreApplication>
 #include <QMessageBox>
@@ -22,12 +22,12 @@
 
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "utils/Utils.h"
 
 namespace {
 constexpr auto LOGOUT_REQUEST_TIMEOUT = std::chrono::seconds(10);

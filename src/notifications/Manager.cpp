@@ -5,10 +5,10 @@
 
 #include "notifications/Manager.h"
 
-#include "EventAccessors.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 bool
 NotificationsManager::allowShowingImages(const mtx::responses::Notification &notification)

@@ -14,15 +14,15 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "ui/MainWindow.h"
 #include "ui/UserProfile.h"
+#include "utils/Utils.h"
 
 namespace {
 using InvitePermissionsContent = mtx::events::account_data::nheko_extensions::InvitePermissions;

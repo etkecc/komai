@@ -13,12 +13,12 @@
 #include <fmt/ranges.h>
 #include <nlohmann/json.hpp>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "timeline/TimelineModel.h"
+#include "utils/Utils.h"
 
 static constexpr int TIMEOUT = 2 * 60 * 1000; // 2 minutes
 

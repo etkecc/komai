@@ -18,12 +18,12 @@
 
 #include <spdlog/logger.h>
 
-#include "Utils.h"
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
 #include "db/Json.h"
 #include "db/storage/Core.h"
 #include "db/storage/Crypto.h"
+#include "utils/Utils.h"
 
 void
 MatrixStore::removeLeftRooms(db::Transaction &txn,

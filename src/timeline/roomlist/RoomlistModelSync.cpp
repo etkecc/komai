@@ -7,13 +7,13 @@
 
 #include <stdexcept>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
 #include "voip/CallManager.h"
 
 std::set<QString>

@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "ChatPage.h"
+#include "chat/ChatPage.h"
 
 #include <QImage>
 #include <QPixmap>
@@ -15,16 +15,16 @@
 
 #include <mtx/responses.hpp>
 
-#include "EventAccessors.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
+#include "events/EventAccessors.h"
 #include "notifications/Manager.h"
 #include "providers/AvatarProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/Permissions.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
 
 void
 ChatPage::processSyncUi(const mtx::responses::Sync &sync)

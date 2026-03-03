@@ -7,8 +7,8 @@
 
 #include "MatrixClient.h"
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "utils/Utils.h"
 
 Permissions::Permissions(QString roomId, QObject *parent)
   : QObject(parent)

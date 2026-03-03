@@ -6,7 +6,7 @@
 #include "cache/Cache.h"
 #include "cache/core/Cache_p.h"
 
-#include "EventAccessors.h"
+#include "events/EventAccessors.h"
 #include <spdlog/logger.h>
 
 #include <limits>

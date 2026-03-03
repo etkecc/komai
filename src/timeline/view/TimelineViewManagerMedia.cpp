@@ -18,10 +18,10 @@
 #include "MatrixClient.h"
 #include "RoomlistModel.h"
 #include "TimelineModel.h"
-#include "Utils.h"
 #include "imagepacks/ImagePackListModel.h"
 #include "providers/MxcImageProvider.h"
 #include "ui/MainWindow.h"
+#include "utils/Utils.h"
 
 void
 TimelineViewManager::openImageOverlay(TimelineModel *room,

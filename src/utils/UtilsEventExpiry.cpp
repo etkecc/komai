@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Utils.h"
+#include "utils/Utils.h"
 
 #include <QDateTime>
 #include <QRegularExpression>
@@ -25,11 +25,11 @@
 
 #include <mtx/responses/messages.hpp>
 
-#include "ChatPage.h"
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "chat/ChatPage.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 std::atomic<bool> event_expiration_running = false;

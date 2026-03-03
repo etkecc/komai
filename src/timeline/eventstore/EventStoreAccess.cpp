@@ -8,11 +8,11 @@
 #include <QThread>
 #include <QTimer>
 
-#include "EventAccessors.h"
 #include "Logging.h"
 #include "MatrixClient.h"
-#include "Utils.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
+#include "utils/Utils.h"
 
 mtx::events::collections::TimelineEvents const *
 EventStore::get(int idx, bool decrypt)

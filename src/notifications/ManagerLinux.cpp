@@ -21,13 +21,13 @@
 
 #include <mtx/responses/notifications.hpp>
 
-#include "EventAccessors.h"
 #include "Logging.h"
-#include "Utils.h"
 #include "cache/Cache.h"
 #include "dbus/Api.h"
+#include "events/EventAccessors.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 
 NotificationsManager::NotificationsManager(QObject *parent)
   : QObject(parent)

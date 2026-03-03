@@ -14,11 +14,11 @@
 #include <QStandardPaths>
 #include <QTextBoundaryFinder>
 
-#include "ChatPage.h"
 #include "Logging.h"
 #include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
+#include "chat/ChatPage.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 static constexpr size_t INPUT_HISTORY_SIZE = 10;

@@ -92,4 +92,4 @@ See [Development](docs/maintainers/development.md).
 Komai is built on top of [nheko](https://nheko.im/nheko-reborn/nheko) by the Nheko-Reborn team. We're grateful for their work on the Matrix protocol implementation and the Qt/QML client foundation.
 
 - [Fluent Icons](https://github.com/microsoft/fluentui-system-icons)
-- [Base16 themes](https://github.com/tinted-theming/home)
+- [Tinted Theming (Base16)](https://github.com/tinted-theming)

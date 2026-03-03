@@ -38,7 +38,8 @@ Theme importing is handled by the C++ CLI (`komai theme tinted-import`). The col
 
 Tool references:
 
-- [Tinted Theming / Base16](https://github.com/tinted-theming/home)
+- [Tinted Gallery (Base16 preview)](https://tinted-theming.github.io/tinted-gallery/)
+- [Tinted schemes (Base16 identifiers)](https://github.com/tinted-theming/schemes/tree/spec-0.11/base16)
 
 Related docs:
 

@@ -56,7 +56,7 @@ For storage context, see [Storage Locations](storage.md#linux-paths).
 
 ### 🌈 Importing from tinted-theming (CLI)
 
-The `komai theme` commands let you import [Base16](https://github.com/tinted-theming/home) themes directly into your user themes directory — no rebuild needed. Browse available themes visually at the [Tinted Gallery](https://tinted-theming.github.io/tinted-gallery/).
+The `komai theme` commands let you import [Base16 themes](https://github.com/tinted-theming/schemes/tree/spec-0.11/base16) directly into your user themes directory — no rebuild needed. If Komai is already running, restart to load imported or changed theme files. Browse available themes visually at the [Tinted Gallery](https://tinted-theming.github.io/tinted-gallery/), and use the schemes directory for canonical theme slugs.
 
 ```sh
 # Search available themes
@@ -89,7 +89,7 @@ These commands work without a display server (SSH, containers) and do not requir
 
 ### ✍️ Hand-crafted themes
 
-Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all 20 palette keys and rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed).
+Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all 20 palette keys and rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed; Komai restart required).
 
 
 ## 🧩 Theme YAML format

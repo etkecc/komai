@@ -433,6 +433,7 @@ set(SRC_FILES
     src/timeline/formattedcode/RawJsonFormatter.h
     src/timeline/formattedmessage/HtmlProcessor.cpp
     src/timeline/formattedmessage/HtmlProcessor.h
+    src/timeline/composer/TimelineModelComposer.cpp
     src/timeline/actions/TimelineModelActions.cpp
     src/timeline/data/RoomlistModelData.cpp
     src/timeline/data/TimelineModelDataRoles.cpp

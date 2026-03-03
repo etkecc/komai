@@ -17,11 +17,23 @@ Components.OverlayDialog {
     property var room
     property var appRoot
     property string initialTab: "settings"
-    property string currentTab: initialTab
+    property string currentTab: "settings"
+    property bool deferInitialTabSwitch: initialTab !== "settings"
 
     title: qsTr("Room Info")
     titleIcon: ":/icons/icons/ui/speech-bubbles.svg"
     width: Math.round((parent ? parent.width : 760) * 0.8)
+
+    Component.onCompleted: {
+        if (!deferInitialTabSwitch)
+            return;
+
+        Qt.callLater(function () {
+            if (deferInitialTabSwitch)
+                roomInfoDialog.currentTab = roomInfoDialog.initialTab;
+            deferInitialTabSwitch = false;
+        });
+    }
 
     Item {
         Layout.fillWidth: true
@@ -109,7 +121,10 @@ Components.OverlayDialog {
                                 }
                             ]
 
-                            onClicked: roomInfoDialog.currentTab = modelData.tab
+                            onClicked: {
+                                roomInfoDialog.deferInitialTabSwitch = false;
+                                roomInfoDialog.currentTab = modelData.tab;
+                            }
 
                             contentItem: RowLayout {
                                 spacing: Komai.paddingMedium

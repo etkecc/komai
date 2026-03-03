@@ -87,13 +87,13 @@ timeline::format::formatPowerLevelEvent(
             if (number_of_affected != 0) {
                 auto true_affected_rest = number_of_affected - affected.size();
                 if (number_of_affected > 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            trn("%n member(s) can now kick room members.",
-                                                true_affected_rest));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      trn("%n member(s) can now kick room members.", true_affected_rest));
                 } else if (number_of_affected == 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            tr("%1 can now kick room members.")
-                                              .arg(renderName(affected.at(0))));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      tr("%1 can now kick room members.").arg(renderName(affected.at(0))));
                 }
             } else {
                 resultingMessage.append(default_message);
@@ -117,13 +117,13 @@ timeline::format::formatPowerLevelEvent(
             if (number_of_affected != 0) {
                 auto true_affected_rest = number_of_affected - affected.size();
                 if (number_of_affected > 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            trn("%n member(s) can now redact room messages.",
-                                                true_affected_rest));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      trn("%n member(s) can now redact room messages.", true_affected_rest));
                 } else if (number_of_affected == 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            tr("%1 can now redact room messages.")
-                                              .arg(renderName(affected.at(0))));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      tr("%1 can now redact room messages.").arg(renderName(affected.at(0))));
                 }
             } else {
                 resultingMessage.append(default_message);
@@ -147,13 +147,13 @@ timeline::format::formatPowerLevelEvent(
             if (number_of_affected != 0) {
                 auto true_affected_rest = number_of_affected - affected.size();
                 if (number_of_affected > 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            trn("%n member(s) can now ban room members.",
-                                                true_affected_rest));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      trn("%n member(s) can now ban room members.", true_affected_rest));
                 } else if (number_of_affected == 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            tr("%1 can now ban room members.")
-                                              .arg(renderName(affected.at(0))));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      tr("%1 can now ban room members.").arg(renderName(affected.at(0))));
                 }
             } else {
                 resultingMessage.append(default_message);
@@ -164,10 +164,11 @@ timeline::format::formatPowerLevelEvent(
     }
 
     if (event.content.state_default != prevEvent->content.state_default) {
-        auto default_message = tr("%1 has changed the room's state_default powerlevel from %2 to %3.")
-                                 .arg(sender_name)
-                                 .arg(prevEvent->content.state_default)
-                                 .arg(event.content.state_default);
+        auto default_message =
+          tr("%1 has changed the room's state_default powerlevel from %2 to %3.")
+            .arg(sender_name)
+            .arg(prevEvent->content.state_default)
+            .arg(event.content.state_default);
 
         // We only calculate affected users if we change to a level above the default users PL
         // to not accidentally have a DoS vector
@@ -177,13 +178,13 @@ timeline::format::formatPowerLevelEvent(
             if (number_of_affected != 0) {
                 auto true_affected_rest = number_of_affected - affected.size();
                 if (number_of_affected > 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            trn("%n member(s) can now send state events.",
-                                                true_affected_rest));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      trn("%n member(s) can now send state events.", true_affected_rest));
                 } else if (number_of_affected == 1) {
-                    resultingMessage.append(default_message + QStringLiteral(" ") +
-                                            tr("%1 can now send state events.")
-                                              .arg(renderName(affected.at(0))));
+                    resultingMessage.append(
+                      default_message + QStringLiteral(" ") +
+                      tr("%1 can now send state events.").arg(renderName(affected.at(0))));
                 }
             } else {
                 resultingMessage.append(default_message);
@@ -234,12 +235,12 @@ timeline::format::formatPowerLevelEvent(
         auto nameOfChangedUser = renderName(QString::fromStdString(mxid));
         if (prevEvent->content.user_level(mxid) != powerlevel) {
             if (powerlevel >= administrator_power_level) {
-                resultingMessage.append(
-                  tr("%1 has made %2 an administrator of this room.").arg(sender_name, nameOfChangedUser));
+                resultingMessage.append(tr("%1 has made %2 an administrator of this room.")
+                                          .arg(sender_name, nameOfChangedUser));
             } else if (powerlevel >= moderator_power_level &&
                        powerlevel > prevEvent->content.user_level(mxid)) {
-                resultingMessage.append(
-                  tr("%1 has made %2 a moderator of this room.").arg(sender_name, nameOfChangedUser));
+                resultingMessage.append(tr("%1 has made %2 a moderator of this room.")
+                                          .arg(sender_name, nameOfChangedUser));
             } else if (powerlevel >= moderator_power_level &&
                        powerlevel < prevEvent->content.user_level(mxid)) {
                 resultingMessage.append(tr("%1 has downgraded %2 to moderator of this room.")

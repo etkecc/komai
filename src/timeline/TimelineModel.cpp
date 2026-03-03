@@ -32,6 +32,7 @@
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/format/TimelineMemberEventFormatter.h"
 #include "timeline/format/TimelinePowerLevelFormatter.h"
 #include "timeline/rawmessage/RawMessageDialogPayload.h"
 #include "timeline/send/TimelineMessageSendPipeline.h"
@@ -2099,95 +2100,10 @@ QString
 TimelineModel::formatMemberEvent(
   const mtx::events::StateEvent<mtx::events::state::Member> &event) const
 {
-    mtx::events::StateEvent<mtx::events::state::Member> const *prevEvent = nullptr;
-    if (!event.unsigned_data.replaces_state.empty()) {
-        auto tempPrevEvent = events.get(event.unsigned_data.replaces_state, event.event_id);
-        if (tempPrevEvent) {
-            prevEvent =
-              std::get_if<mtx::events::StateEvent<mtx::events::state::Member>>(tempPrevEvent);
-        }
-    }
-
-    QString user = QString::fromStdString(event.state_key);
-    QString name = utils::replaceEmoji(displayName(user));
-    QString rendered;
-    QString sender     = QString::fromStdString(event.sender);
-    QString senderName = utils::replaceEmoji(displayName(sender));
-
-    // see table https://matrix.org/docs/spec/client_server/latest#m-room-member
-    using namespace mtx::events::state;
-    switch (event.content.membership) {
-    case Membership::Invite:
-        rendered = tr("%1 invited %2.").arg(senderName, name);
-        break;
-    case Membership::Join:
-        if (prevEvent && prevEvent->content.membership == Membership::Join) {
-            QString oldName = utils::replaceEmoji(
-              QString::fromStdString(prevEvent->content.display_name).toHtmlEscaped());
-
-            bool displayNameChanged = prevEvent->content.display_name != event.content.display_name;
-            bool avatarChanged      = prevEvent->content.avatar_url != event.content.avatar_url;
-
-            if (displayNameChanged && avatarChanged)
-                rendered = tr("%1 has changed their avatar and changed their "
-                              "display name to %2.")
-                             .arg(oldName, name);
-            else if (displayNameChanged)
-                rendered = tr("%1 has changed their display name to %2.").arg(oldName, name);
-            else if (avatarChanged)
-                rendered = tr("%1 changed their avatar.").arg(name);
-            else
-                rendered = tr("%1 changed some profile info.").arg(name);
-            // the case of nothing changed but join follows join shouldn't happen, so
-            // just show it as join
-        } else {
-            if (event.content.join_authorised_via_users_server.empty())
-                rendered = tr("%1 joined.").arg(name);
-            else
-                rendered =
-                  tr("%1 joined via authorisation from %2's server.")
-                    .arg(name,
-                         QString::fromStdString(event.content.join_authorised_via_users_server));
-        }
-        break;
-    case Membership::Leave:
-        if (!prevEvent || prevEvent->content.membership == Membership::Join) {
-            if (event.state_key == event.sender)
-                rendered = tr("%1 left the room.").arg(name);
-            else
-                rendered = tr("%2 kicked %1.").arg(name, senderName);
-        } else if (prevEvent->content.membership == Membership::Invite) {
-            if (event.state_key == event.sender)
-                rendered = tr("%1 rejected their invite.").arg(name);
-            else
-                rendered = tr("%2 revoked the invite to %1.").arg(name, senderName);
-        } else if (prevEvent->content.membership == Membership::Ban) {
-            rendered = tr("%2 unbanned %1.").arg(name, senderName);
-        } else if (prevEvent->content.membership == Membership::Knock) {
-            if (event.state_key == event.sender)
-                rendered = tr("%1 redacted their knock.").arg(name);
-            else
-                rendered = tr("%2 rejected the knock from %1.").arg(name, senderName);
-        } else
-            return tr("%1 left after having already left!",
-                      "This is a leave event after the user already left and shouldn't "
-                      "happen apart from state resets")
-              .arg(name);
-        break;
-
-    case Membership::Ban:
-        rendered = tr("%1 banned %2").arg(senderName, name);
-        break;
-    case Membership::Knock:
-        rendered = tr("%1 knocked.").arg(name);
-        break;
-    }
-
-    if (event.content.reason != "") {
-        rendered += " " + tr("Reason: %1").arg(QString::fromStdString(event.content.reason));
-    }
-
-    return rendered;
+    return timeline::format::formatMemberEvent(
+      mtx::events::collections::TimelineEvents{event}, events, [this](const QString &userId) {
+          return displayName(userId);
+      });
 }
 
 void

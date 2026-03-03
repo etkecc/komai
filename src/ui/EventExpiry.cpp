@@ -10,9 +10,9 @@
 
 #include <nlohmann/json.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "timeline/TimelineModel.h"
 #include "ui/MainWindow.h"
 

@@ -5,11 +5,11 @@
 
 #include "RoomlistModel.h"
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 void

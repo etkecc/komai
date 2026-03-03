@@ -5,7 +5,7 @@
 
 #include "DelegateChooser.h"
 
-#include "Logging.h"
+#include "logging/Logging.h"
 
 // uses private API, which moved between versions
 #include <QQmlEngine>

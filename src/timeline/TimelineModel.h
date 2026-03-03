@@ -17,11 +17,11 @@
 
 #include "EventStore.h"
 #include "InputBar.h"
-#include "MatrixStateTypes.h"
 #include "Permissions.h"
 #include "Reaction.h"
 #include "TimelineEventTypes.h"
 #include "cache/crypto/CacheCryptoStructs.h"
+#include "matrix/MatrixStateTypes.h"
 #include "timeline/media/TimelineMediaController.h"
 #include "ui/RoomSummary.h"
 

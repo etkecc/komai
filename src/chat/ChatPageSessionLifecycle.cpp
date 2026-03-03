@@ -20,10 +20,10 @@
 
 #include <mtx/responses.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineViewManager.h"

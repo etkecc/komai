@@ -12,7 +12,7 @@
 
 #include <mtx/events/mscs/image_packs.hpp>
 
-#include "MatrixStateTypes.h"
+#include "matrix/MatrixStateTypes.h"
 
 class SingleImagePackModel final : public QAbstractListModel
 {

@@ -8,7 +8,7 @@
 #include <QRegularExpression>
 #include <QTextBoundaryFinder>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "models/CompletionModelRoles.h"
 
 CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,

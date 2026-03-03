@@ -13,8 +13,8 @@
 
 #include <mtxclient/crypto/client.hpp>
 
-#include "Logging.h"
-#include "jdenticoninterface.h"
+#include "logging/Logging.h"
+#include "providers/jdenticoninterface.h"
 
 namespace Jdenticon {
 JdenticonInterface *

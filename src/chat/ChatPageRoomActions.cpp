@@ -19,9 +19,9 @@
 #include <mtx/responses.hpp>
 #include <mtxclient/crypto/client.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"

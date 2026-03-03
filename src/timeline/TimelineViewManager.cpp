@@ -16,8 +16,6 @@
 #include <QString>
 #include <QUrl>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
@@ -26,6 +24,8 @@
 #include "imagepacks/CombinedImagePackModel.h"
 #include "imagepacks/GridImagePackModel.h"
 #include "imagepacks/ImagePackListModel.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "models/CommandCompleter.h"
 #include "models/CompletionProxyModel.h"
 #include "models/InviteesModel.h"

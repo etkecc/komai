@@ -8,7 +8,7 @@
 #include <string_view>
 
 #include "CallDevices.h"
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 #ifdef GSTREAMER_AVAILABLE

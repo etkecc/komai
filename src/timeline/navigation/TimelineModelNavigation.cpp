@@ -9,10 +9,10 @@
 
 #include <QGuiApplication>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 

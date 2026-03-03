@@ -10,11 +10,11 @@
 
 #include <mtx/responses.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "encryption/Olm.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineViewManager.h"
 #include "ui/MainWindow.h"

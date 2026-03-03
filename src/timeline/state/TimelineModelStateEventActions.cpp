@@ -7,12 +7,12 @@
 
 #include <QFontMetrics>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "RoomlistModel.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/format/TimelineImagePackFormatter.h"
 #include "timeline/format/TimelineMemberEventFormatter.h"

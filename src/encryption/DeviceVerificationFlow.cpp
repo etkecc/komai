@@ -13,10 +13,10 @@
 #include <fmt/ranges.h>
 #include <nlohmann/json.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "timeline/TimelineModel.h"
 #include "utils/Utils.h"
 

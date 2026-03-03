@@ -17,9 +17,9 @@
 #include <utility>
 
 #include "CallDevices.h"
-#include "Logging.h"
 #include "WebRTCSession.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "voip/ScreenCastPortal.h"
 

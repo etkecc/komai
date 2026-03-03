@@ -10,12 +10,12 @@
 
 #include <mtx/errors.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "UserProfile.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "encryption/VerificationManager.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"

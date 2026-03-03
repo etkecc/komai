@@ -13,7 +13,7 @@
 #include <optional>
 #include <utility>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 
 namespace {
 static const QList<QChar> diacritics = []() {

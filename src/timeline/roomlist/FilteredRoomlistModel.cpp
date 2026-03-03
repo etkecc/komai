@@ -11,10 +11,10 @@
 #include <QClipboard>
 #include <QGuiApplication>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "Permissions.h"
 #include "TimelineModel.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {

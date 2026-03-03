@@ -7,9 +7,9 @@
 
 #include <type_traits>
 
-#include "Logging.h"
 #include "cache/Cache.h"
 #include "encryption/Olm.h"
+#include "logging/Logging.h"
 #include "utils/Utils.h"
 
 bool

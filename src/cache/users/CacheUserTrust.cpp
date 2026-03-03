@@ -12,9 +12,9 @@
 
 #include <spdlog/logger.h>
 
-#include "MatrixClient.h"
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 crypto::Trust

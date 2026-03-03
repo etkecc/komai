@@ -5,7 +5,7 @@
 
 #include "settings/ui/UserSettingsModel.h"
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/SettingInputValidation.h"
 #include "settings/ui/SettingRoleData.h"

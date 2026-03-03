@@ -19,8 +19,8 @@
 #include <QThreadPool>
 #include <QTimer>
 
-#include "Logging.h"
-#include "MatrixClient.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"

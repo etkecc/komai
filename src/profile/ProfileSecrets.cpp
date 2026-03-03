@@ -18,7 +18,7 @@
 
 #include <mtx/secret_storage.hpp>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "profile/ProfileId.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 

@@ -9,7 +9,7 @@
 #include <QFont>
 #include <QFontDatabase>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "settings/core/StartupConfig.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 

@@ -19,11 +19,11 @@
 #include <mtx/secret_storage.hpp>
 
 #include "DeviceVerificationFlow.h"
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {

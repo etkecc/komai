@@ -7,12 +7,12 @@
 
 #include <algorithm>
 
-#include "Logging.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"

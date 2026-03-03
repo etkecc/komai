@@ -9,7 +9,7 @@
 
 #include <thread>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 
 SSOHandler::SSOHandler(QObject *)
 {

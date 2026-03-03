@@ -7,12 +7,12 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "Permissions.h"
 #include "TimelineEventTypes.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 QVariantList

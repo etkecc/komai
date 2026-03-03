@@ -5,11 +5,11 @@
 
 #include "RoomlistModel.h"
 
-#include "Logging.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"

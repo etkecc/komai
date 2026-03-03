@@ -19,13 +19,13 @@
 #include <qt6keychain/keychain.h>
 #endif
 
-#include "MatrixClient.h"
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
 #include "chat/ChatPage.h"
 #include "db/Maintenance.h"
 #include "db/storage/Core.h"
 #include "db/storage/Open.h"
+#include "matrix/MatrixClient.h"
 #include "profile/Paths.h"
 #include "profile/ProfileSecrets.h"
 #include "settings/ui/facade/UserSettingsPage.h"

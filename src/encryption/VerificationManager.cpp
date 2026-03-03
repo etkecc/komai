@@ -8,9 +8,9 @@
 #include <chrono>
 
 #include "DeviceVerificationFlow.h"
-#include "Logging.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"

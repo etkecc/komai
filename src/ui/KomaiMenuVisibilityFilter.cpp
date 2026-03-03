@@ -9,7 +9,7 @@
 #include <QQuickItem>
 #include <QTimer>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 
 QQmlListProperty<QQmlComponent>
 KomaiMenuVisibilityFilter::items()

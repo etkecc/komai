@@ -20,7 +20,6 @@
 
 #include "CacheStorageContext.h"
 #include "CacheTxn.h"
-#include "MatrixStateTypes.h"
 #include "cache/core/CacheVersion.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "cache/schema/Codecs.h"
@@ -32,6 +31,7 @@
 #include "db/storage/State.h"
 #include "db/storage/SyncState.h"
 #include "db/storage/Timeline.h"
+#include "matrix/MatrixStateTypes.h"
 
 class MatrixStore;
 

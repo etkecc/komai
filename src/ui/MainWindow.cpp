@@ -11,12 +11,12 @@
 #include <mtx/responses/login.hpp>
 
 #include "Config.h"
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "dock/Dock.h"
 #include "encryption/DeviceVerificationFlow.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "providers/BlurhashProvider.h"
 #include "providers/ColorImageProvider.h"
 #include "providers/JdenticonProvider.h"

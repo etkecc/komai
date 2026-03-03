@@ -14,9 +14,9 @@
 #include <mtx/responses/media.hpp>
 #include <mtxclient/http/client.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 using namespace mtx::events;

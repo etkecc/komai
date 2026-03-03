@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "config/komai.h"
 
 #include "spdlog/cfg/helpers.h"

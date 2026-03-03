@@ -7,7 +7,7 @@
 
 #include <QApplication>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 
 #if defined(KOMAI_DBUS_SYS)
 #include <qdbusconnectioninterface.h>

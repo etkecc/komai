@@ -13,10 +13,10 @@
 #include <mtx/responses/login.hpp>
 #include <mtx/responses/version.hpp>
 
-#include "Logging.h"
 #include "LoginPage.h"
-#include "MatrixClient.h"
 #include "SSOHandler.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 using namespace mtx::identifiers;

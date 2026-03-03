@@ -8,7 +8,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#include "MatrixClient.h"
+#include "matrix/MatrixClient.h"
 
 ReCaptcha::ReCaptcha(const QString &session, const QString &context, QObject *parent)
   : QObject{parent}

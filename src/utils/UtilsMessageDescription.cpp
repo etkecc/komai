@@ -12,8 +12,8 @@
 #include <QRegularExpression>
 #include <QStringBuilder>
 
-#include "MatrixClient.h"
 #include "events/EventAccessors.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {

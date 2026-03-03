@@ -13,9 +13,9 @@
 
 #include <nlohmann/json.hpp>
 
-#include "MatrixStateTypes.h"
 #include "db/DbTypes.h"
 #include "db/Json.h"
+#include "matrix/MatrixStateTypes.h"
 
 void
 to_json(nlohmann::json &j, const RoomInfo &info)

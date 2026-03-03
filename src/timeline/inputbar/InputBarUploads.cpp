@@ -21,10 +21,10 @@
 #include <mtx/responses/media.hpp>
 #include <mtxclient/crypto/client.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 #include "blurhash.hpp"

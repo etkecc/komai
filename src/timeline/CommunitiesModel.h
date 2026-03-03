@@ -16,7 +16,7 @@
 
 #include <mtx/responses/sync.hpp>
 
-#include "MatrixStateTypes.h"
+#include "matrix/MatrixStateTypes.h"
 
 class CommunitiesModel;
 

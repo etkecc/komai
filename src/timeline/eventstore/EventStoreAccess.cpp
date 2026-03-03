@@ -8,10 +8,10 @@
 #include <QThread>
 #include <QTimer>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 mtx::events::collections::TimelineEvents const *

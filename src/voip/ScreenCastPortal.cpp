@@ -6,8 +6,8 @@
 #ifdef GSTREAMER_AVAILABLE
 
 #include "ScreenCastPortal.h"
-#include "Logging.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 #include <QDBusConnection>

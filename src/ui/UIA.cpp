@@ -13,8 +13,8 @@
 #include <mtx/requests.hpp>
 #include <mtx/responses/common.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 
 UIA *
 UIA::instance()

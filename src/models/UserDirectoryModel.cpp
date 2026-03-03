@@ -9,8 +9,8 @@
 
 #include <mtx/responses/users.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 
 UserDirectoryModel::UserDirectoryModel(QObject *parent)
   : QAbstractListModel{parent}

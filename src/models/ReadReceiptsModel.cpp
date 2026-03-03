@@ -7,8 +7,8 @@
 
 #include <QLocale>
 
-#include "Logging.h"
 #include "cache/Cache.h"
+#include "logging/Logging.h"
 #include "utils/Utils.h"
 
 ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject *parent)

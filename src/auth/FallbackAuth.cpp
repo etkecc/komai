@@ -8,7 +8,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-#include "MatrixClient.h"
+#include "matrix/MatrixClient.h"
 
 FallbackAuth::FallbackAuth(const QString &session, const QString &authType, QObject *parent)
   : QObject{parent}

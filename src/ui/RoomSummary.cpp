@@ -7,9 +7,9 @@
 
 #include <QMetaType>
 
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 RoomSummary::RoomSummary(std::string roomIdOrAlias_,

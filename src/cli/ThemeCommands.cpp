@@ -23,8 +23,8 @@
 
 #include <yaml-cpp/yaml.h>
 
-#include "Logging.h"
 #include "ThemeColorUtils.h"
+#include "logging/Logging.h"
 #include "ui/ThemeRegistry.h"
 
 // ---------------------------------------------------------------------------

@@ -14,12 +14,12 @@
 
 #include <mtx/responses/common.hpp>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "ui/MainWindow.h"
 #include "ui/UserProfile.h"
 #include "utils/Utils.h"

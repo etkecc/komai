@@ -10,8 +10,8 @@
 
 #include <spdlog/logger.h>
 
-#include "MatrixClient.h"
 #include "cache/api/CacheApiContext.h"
+#include "matrix/MatrixClient.h"
 
 void
 MatrixStore::markUserKeysOutOfDate(db::Transaction &txn,

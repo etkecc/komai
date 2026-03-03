@@ -20,10 +20,10 @@
 #include <QStandardPaths>
 #include <QTimer>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/TimelineEventTypes.h"

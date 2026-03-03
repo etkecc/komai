@@ -21,10 +21,10 @@
 
 #include <mtx/responses/notifications.hpp>
 
-#include "Logging.h"
 #include "cache/Cache.h"
 #include "dbus/Api.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"

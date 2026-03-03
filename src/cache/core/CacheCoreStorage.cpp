@@ -9,12 +9,12 @@
 #include <algorithm>
 #include <stdexcept>
 
-#include "Logging.h"
 #include "cache/schema/CacheSchema.h"
 #include "db/storage/Core.h"
 #include "db/storage/Open.h"
 #include "encryption/Olm.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
 
 MatrixStore::~MatrixStore() noexcept = default;
 

@@ -5,10 +5,10 @@
 
 #include "powerlevels/PowerlevelsEditModels.h"
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 
 PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *parent)
   : QObject(parent)

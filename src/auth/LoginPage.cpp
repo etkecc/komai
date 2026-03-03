@@ -5,8 +5,8 @@
 
 #include "LoginPage.h"
 
-#include "Logging.h"
-#include "MatrixClient.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 

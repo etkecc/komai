@@ -5,7 +5,7 @@
 
 #include <QString>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "profile/Paths.h"
 #include "settings/SettingsController.h"
 #include "settings/SettingsStorage.h"

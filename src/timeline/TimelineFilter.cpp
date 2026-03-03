@@ -8,8 +8,8 @@
 #include <QCoreApplication>
 #include <QEvent>
 
-#include "Logging.h"
 #include "TimelineModel.h"
+#include "logging/Logging.h"
 
 /// Searching currently can be done incrementally. For that we define a specific role to filter on
 /// and then process that role in chunk. This is the `FilterRole`. Of course we need to then also

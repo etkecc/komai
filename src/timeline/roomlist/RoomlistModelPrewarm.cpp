@@ -7,8 +7,8 @@
 
 #include <QDateTime>
 
-#include "Logging.h"
 #include "TimelineViewManager.h"
+#include "logging/Logging.h"
 
 void
 RoomlistModel::logRoomPrewarm(const QString &trigger,

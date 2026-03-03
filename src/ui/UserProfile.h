@@ -13,8 +13,8 @@
 #include <mtx/responses.hpp>
 #include <mtx/responses/common.hpp>
 
-#include "MatrixStateTypes.h"
 #include "cache/crypto/CacheCryptoStructs.h"
+#include "matrix/MatrixStateTypes.h"
 
 class TimelineModel;
 

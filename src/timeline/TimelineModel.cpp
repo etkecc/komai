@@ -8,11 +8,11 @@
 #include <algorithm>
 #include <utility>
 
-#include "Logging.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
 #include "models/ReadReceiptsModel.h"
 #include "timeline/send/TimelineMessageSendPipeline.h"
 #include "utils/Utils.h"

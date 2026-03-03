@@ -13,10 +13,10 @@
 #include <mtx/responses/well-known.hpp>
 #include <mtxclient/http/client.hpp>
 
-#include "Logging.h"
 #include "LoginPage.h"
-#include "MatrixClient.h"
 #include "RegisterPage.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 #include "ui/UIA.h"

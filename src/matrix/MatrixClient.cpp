@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include "MatrixClient.h"
+#include "matrix/MatrixClient.h"
 
 #include <memory>
 
@@ -13,7 +13,7 @@
 
 #include <mtx/responses.hpp>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 

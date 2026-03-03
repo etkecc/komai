@@ -10,12 +10,12 @@
 
 #include <QTimer>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "models/ReadReceiptsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/rawmessage/RawMessageDialogPayload.h"

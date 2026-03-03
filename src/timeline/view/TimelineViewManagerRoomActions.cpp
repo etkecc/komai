@@ -7,9 +7,9 @@
 
 #include <QQuickItem>
 
-#include "Logging.h"
 #include "RoomlistModel.h"
 #include "TimelineModel.h"
+#include "logging/Logging.h"
 #include "models/InviteesModel.h"
 #include "models/MemberList.h"
 #include "timeline/CommunitiesModel.h"

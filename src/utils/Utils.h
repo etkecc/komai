@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "MatrixStateTypes.h"
+#include "matrix/MatrixStateTypes.h"
 #include <QDateTime>
 #include <QPixmap>
 #include <mtx/events.hpp>

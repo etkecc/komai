@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include <yaml-cpp/yaml.h>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "profile/ProfileId.h"
 #include "providers/JdenticonProvider.h"
 #include "settings/SettingsController.h"

@@ -7,9 +7,9 @@
 
 #include <QTimer>
 
-#include "Logging.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 namespace {

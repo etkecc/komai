@@ -16,7 +16,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "MatrixStateTypes.h"
+#include "matrix/MatrixStateTypes.h"
 #include "cache/crypto/CacheCryptoStructs.h"
 #include "db/Backend.h"
 #include "db/Catalog.h"

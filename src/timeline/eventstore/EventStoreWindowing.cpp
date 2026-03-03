@@ -7,9 +7,9 @@
 
 #include <limits>
 
-#include "Logging.h"
-#include "MatrixClient.h"
 #include "cache/Cache.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 
 namespace {
 bool

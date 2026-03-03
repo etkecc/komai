@@ -6,7 +6,7 @@
 #include "EventDelegateChooser.h"
 #include "TimelineModel.h"
 
-#include "Logging.h"
+#include "logging/Logging.h"
 
 #include <QJSValue>
 #include <QQmlContext>

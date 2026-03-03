@@ -5,8 +5,8 @@
 
 #include "models/InviteesModel.h"
 
-#include "Logging.h"
-#include "MatrixClient.h"
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
 #include "mtx/responses/profile.hpp"
 #include "timeline/TimelineModel.h"
 

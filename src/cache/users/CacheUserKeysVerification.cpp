@@ -14,9 +14,9 @@
 #include <nlohmann/json.hpp>
 #include <spdlog/logger.h>
 
-#include "MatrixClient.h"
 #include "cache/api/CacheApiContext.h"
 #include "encryption/Olm.h"
+#include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
 std::optional<VerificationCache>

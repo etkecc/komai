@@ -652,7 +652,7 @@ set(SRC_FILES
     src/models/CompletionProxyModel.cpp
     src/models/CompletionProxyModel.h
     src/Config.h
-    src/MatrixStateTypes.h
+    src/matrix/MatrixStateTypes.h
     src/events/EventAccessors.cpp
     src/events/EventAccessorsMedia.cpp
     src/events/EventAccessors.h
@@ -664,15 +664,15 @@ set(SRC_FILES
     src/models/InviteesModel.h
     src/providers/JdenticonProvider.cpp
     src/providers/JdenticonProvider.h
-    src/Logging.cpp
-    src/Logging.h
+    src/logging/Logging.cpp
+    src/logging/Logging.h
     src/auth/LoginPage.cpp
     src/auth/LoginPageDiscovery.cpp
     src/auth/LoginPage.h
     src/ui/MainWindow.cpp
     src/ui/MainWindow.h
-    src/MatrixClient.cpp
-    src/MatrixClient.h
+    src/matrix/MatrixClient.cpp
+    src/matrix/MatrixClient.h
     src/models/MemberList.cpp
     src/models/MemberList.h
     src/providers/MxcImageProvider.cpp
@@ -784,7 +784,7 @@ set(SRC_FILES
     src/utils/UtilsMarkdown.cpp
     src/utils/UtilsTextAndUri.cpp
 
-    src/jdenticoninterface.h
+    src/providers/jdenticoninterface.h
 
     # CLI subcommands
     src/cli/CliDispatch.cpp
@@ -1273,7 +1273,7 @@ if(BUILD_TESTING)
         src/settings/core/StartupConfig.cpp
         src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
-        src/MatrixClient.cpp
+        src/matrix/MatrixClient.cpp
         ${THEME_DEFINITIONS_H}
     )
     target_include_directories(komai_startup_settings_test PRIVATE

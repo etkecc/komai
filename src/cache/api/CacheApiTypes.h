@@ -29,9 +29,9 @@
 #include <mtxclient/crypto/types.hpp>
 #include <mtxclient/http/errors.hpp>
 
-#include "MatrixStateTypes.h"
 #include "cache/core/CacheVersion.h"
 #include "cache/crypto/CacheCryptoStructs.h"
+#include "matrix/MatrixStateTypes.h"
 
 class QObject;
 

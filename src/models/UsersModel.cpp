@@ -7,8 +7,8 @@
 
 #include <QUrl>
 
-#include "Logging.h"
 #include "cache/Cache.h"
+#include "logging/Logging.h"
 #include "models/CompletionModelRoles.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"

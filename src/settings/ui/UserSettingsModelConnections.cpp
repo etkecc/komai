@@ -6,7 +6,7 @@
 
 #include <array>
 
-#include "Logging.h"
+#include "logging/Logging.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"

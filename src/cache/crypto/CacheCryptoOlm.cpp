@@ -10,7 +10,6 @@
 
 #include <nlohmann/json.hpp>
 
-#include "Logging.h"
 #include "cache/schema/CacheSchema.h"
 #include "db/Json.h"
 #include "db/OlmSessionIndex.h"
@@ -18,6 +17,7 @@
 #include "db/storage/Crypto.h"
 #include "db/storage/Serde.h"
 #include "encryption/Olm.h"
+#include "logging/Logging.h"
 
 void
 MatrixStore::saveOlmSessions(

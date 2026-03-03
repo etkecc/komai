@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "MatrixStateTypes.h"
+#include "matrix/MatrixStateTypes.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include <QAbstractListModel>
 #include <QHash>

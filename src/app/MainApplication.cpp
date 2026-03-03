@@ -27,18 +27,18 @@
 #include <kdsingleapplication.h>
 
 #include "CallManager.h"
-#include "Logging.h"
 #include "app/MainApplication.h"
 #include "app/MainApplicationSupport.h"
 #include "cache/Cache.h"
 #include "cache/api/CacheApiContext.h"
 #include "chat/ChatPage.h"
+#include "logging/Logging.h"
 #ifdef KOMAI_DBUS_SYS
 #include "dbus/Backend.h"
 #endif
-#include "MatrixClient.h"
 #include "cli/CliDispatch.h"
 #include "config/komai.h"
+#include "matrix/MatrixClient.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "settings/SettingsController.h"

@@ -767,6 +767,7 @@ set(SRC_FILES
     src/UsersModel.h
     src/Utils.cpp
     src/Utils.h
+    src/utils/UtilsColor.cpp
     src/utils/UtilsRoomMaintenance.cpp
     src/utils/UtilsMarkdown.cpp
     src/utils/UtilsTextAndUri.cpp

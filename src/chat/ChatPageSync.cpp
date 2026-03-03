@@ -32,7 +32,7 @@
 
 namespace {
 constexpr size_t MAX_ONETIME_KEYS = 50;
-using InvitePermissionsContent = mtx::events::account_data::nheko_extensions::InvitePermissions;
+using InvitePermissionsContent    = mtx::events::account_data::nheko_extensions::InvitePermissions;
 constexpr std::string_view KOMAI_INVITE_PERMISSIONS_TYPE = "cc.etke.komai.invite_permissions";
 
 std::optional<InvitePermissionsContent>
@@ -263,8 +263,8 @@ ChatPage::handleSyncResponse(const mtx::responses::Sync &res, const std::string 
                 }
 
                 for (const auto &room : roomsToReload) {
-                    if (auto model =
-                          view_manager_->rooms()->getMaterializedRoomById(QString::fromStdString(room))) {
+                    if (auto model = view_manager_->rooms()->getMaterializedRoomById(
+                          QString::fromStdString(room))) {
                         model->clearTimeline();
                     } else {
                         cache::clearTimeline(room);

@@ -215,6 +215,7 @@ private:
     void loadStateFromCache();
     void resetUI();
     void deleteConfigs();
+    void processSyncUi(const mtx::responses::Sync &sync);
 
     // returns if the user had no interaction with Komai for quite a while, which means we set our
     // presence to unavailable if automatic presence is enabled

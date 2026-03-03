@@ -1299,7 +1299,7 @@ if(BUILD_TESTING)
     )
     set_target_properties(komai_startup_settings_test PROPERTIES AUTOMOC ON)
     add_test(NAME komai_startup_settings_test COMMAND komai_startup_settings_test)
-    komai_configure_test(komai_startup_settings_test "unit;settings")
+    komai_configure_test(komai_startup_settings_test "integration;settings")
 
     add_executable(komai_settings_storage_test
         tests/SettingsStorageTest.cpp

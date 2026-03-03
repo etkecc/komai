@@ -12,6 +12,7 @@
 #include <QProcess>
 #include <QStyle>
 #include <QUrl>
+#include <QVariantMap>
 #include <QWindow>
 #include <QtMath>
 
@@ -20,6 +21,7 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "profile/ProfileManager.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
@@ -68,6 +70,26 @@ openWithBrowserCommand(const QString &command, const QUrl &url)
     return true;
 }
 
+QVariantMap
+toQmlProfileSummaryMap(const profile_manager::ProfileSummary &summary)
+{
+    QVariantMap item;
+    item.insert(QStringLiteral("id"), summary.id);
+    item.insert(QStringLiteral("isDefault"), summary.isDefault);
+    item.insert(QStringLiteral("isCurrent"), summary.isCurrent);
+    item.insert(QStringLiteral("userId"), summary.userId);
+    item.insert(QStringLiteral("homeserver"), summary.homeserver);
+    item.insert(QStringLiteral("themeSlug"), summary.themeSlug);
+    item.insert(QStringLiteral("secretsProvider"), summary.secretsProvider);
+    item.insert(QStringLiteral("themeAccentColor"), summary.accentColor.name(QColor::HexArgb));
+    item.insert(QStringLiteral("themeWindowColor"), summary.windowColor.name(QColor::HexArgb));
+    item.insert(QStringLiteral("themeDarkColor"), summary.darkColor.name(QColor::HexArgb));
+    item.insert(QStringLiteral("themeTextColor"), summary.textColor.name(QColor::HexArgb));
+    item.insert(QStringLiteral("themeBrightTextColor"),
+                summary.brightTextColor.name(QColor::HexArgb));
+    return item;
+}
+
 }
 
 Komai::Komai()
@@ -89,6 +111,8 @@ Komai::Komai()
     connect(
       ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Komai::promptUnlockKeyBackup);
     connect(this, &Komai::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
+
+    refreshApplicationProfiles();
 }
 
 void
@@ -226,6 +250,91 @@ void
 Komai::setStatusMessage(QString msg) const
 {
     ChatPage::instance()->setStatus(msg);
+}
+
+void
+Komai::refreshApplicationProfiles()
+{
+    QVariantList summaries;
+    const auto currentProfile = UserSettings::instance()->profile();
+
+    for (const auto &summary : profile_manager::listProfiles(currentProfile))
+        summaries.push_back(toQmlProfileSummaryMap(summary));
+
+    if (summaries == applicationProfiles_)
+        return;
+
+    applicationProfiles_ = summaries;
+    emit applicationProfilesChanged();
+}
+
+QString
+Komai::validateApplicationProfileId(QString profileId) const
+{
+    if (const auto validationError = profile_manager::validateNewProfileId(profileId.trimmed());
+        validationError) {
+        return *validationError;
+    }
+    return {};
+}
+
+QString
+Komai::createAndLaunchApplicationProfile(QString profileId) const
+{
+    const auto trimmedProfile = profileId.trimmed();
+    if (const auto validationError = profile_manager::validateNewProfileId(trimmedProfile);
+        validationError) {
+        return *validationError;
+    }
+
+    QString error;
+    if (!profile_manager::launchProfileDetached(trimmedProfile, &error))
+        return error;
+
+    return {};
+}
+
+QString
+Komai::launchApplicationProfile(QString profileId) const
+{
+    const auto trimmedProfile = profileId.trimmed();
+    if (trimmedProfile.isEmpty())
+        return tr("Profile name is required.");
+
+    QString error;
+    if (!profile_manager::launchProfileDetached(trimmedProfile, &error))
+        return error;
+
+    return {};
+}
+
+QString
+Komai::launchProfileSwitcher() const
+{
+    QString error;
+    if (!profile_manager::launchStartupSelectorDetached(&error))
+        return error;
+
+    return {};
+}
+
+QString
+Komai::deleteApplicationProfile(QString profileId, bool allowDeletingLoadedProfile)
+{
+    const auto trimmedProfile = profileId.trimmed();
+    if (trimmedProfile.isEmpty())
+        return tr("Profile name is required.");
+
+    QString error;
+    if (!profile_manager::deleteProfile(trimmedProfile,
+                                        UserSettings::instance()->profile(),
+                                        &error,
+                                        !allowDeletingLoadedProfile)) {
+        return error;
+    }
+
+    refreshApplicationProfiles();
+    return {};
 }
 
 UserProfile *

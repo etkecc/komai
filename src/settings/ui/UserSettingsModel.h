@@ -36,6 +36,7 @@ public:
         TabPrivacy,
         TabEncryption,
         TabAccount,
+        TabApplicationProfiles,
         TabIntegrations,
         TabAbout,
     };

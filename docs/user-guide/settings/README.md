@@ -5,6 +5,7 @@ Some secrets may live in your OS keychain, depending on [`secrets.provider`](#se
 
 Quick links:
 
+- 👥 [Application Profiles](../application-profiles.md)
 - 🔐 [Secret Storage](secret-storage.md)
 - 💾 [Backup and Restore](backup-and-restore.md)
 - 🔌 [Integrations](integrations/README.md)
@@ -19,7 +20,7 @@ Each profile lives at:
 
 `<profile-id>` is the profile name/identifier you pass with `-p`.
 
-💡 If a profile is not explicitly specified, the application uses the `default` profile.
+💡 If a profile is not explicitly specified, Komai opens the profile switcher unless only `default` exists.
 
 Allowed profile-id characters:
 
@@ -38,6 +39,8 @@ Files in each profile directory:
 See also: [Storage Locations](../storage.md#linux-paths).
 
 ## Profiles
+
+For UI-based profile management, see [👥 Application Profiles](../application-profiles.md).
 
 Use `-p` to run a named profile:
 

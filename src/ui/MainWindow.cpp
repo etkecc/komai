@@ -43,9 +43,10 @@ constexpr int kWindowMinHeightPx = 420;
 constexpr int kWindowMinWidthPx  = 340;
 }
 
-MainWindow::MainWindow(QWindow *parent)
+MainWindow::MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup)
   : QQuickView(parent)
   , userSettings_{UserSettings::instance()}
+  , showProfileSwitcherOnStartup_{showProfileSwitcherOnStartup}
 {
     instance_ = this;
 
@@ -96,6 +97,12 @@ MainWindow::MainWindow(QWindow *parent)
 
     // load cache on event loop
     QTimer::singleShot(0, this, [this] {
+        if (showProfileSwitcherOnStartup_) {
+            nhlog::ui()->info("Startup selector mode active, showing profile switcher page");
+            emit showProfileSwitcherPageRequested();
+            return;
+        }
+
         const auto snapshot = userSettings_->sessionSnapshot();
         nhlog::ui()->info("Startup loaded session status (has_user_id={}, has_access_token={}, "
                           "has_device_id={}, has_homeserver={}, user_id='{}', device_id='{}', "

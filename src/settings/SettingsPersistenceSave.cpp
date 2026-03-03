@@ -76,8 +76,11 @@ clearProfileSecrets(const QString &profile,
     }
 
     const auto normalizedProfile = app_paths::normalizedProfileId(profile);
+    const auto provider          = usesFileSecretsProvider
+                                     ? staged_load_plan::SecretsProvider::File
+                                     : staged_load_plan::SecretsProvider::SecretService;
     const auto allSecretsDeleted =
-      profile_secrets::deleteAllProfileSecretsFromStoreBlocking(profile);
+      profile_secrets::deleteAllProfileSecretsFromStoreBlocking(profile, provider);
     if (!allSecretsDeleted) {
         activeLoggers().ui->warn(
           "Failed to delete all profile secrets during logout for profile '{}'",

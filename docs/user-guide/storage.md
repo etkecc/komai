@@ -22,7 +22,7 @@ Quick jumps:
 
 `<profile-id>` is the `-p` profile name/identifier.
 
-💡 If a profile is not explicitly specified, the application uses the `default` profile.
+💡 If a profile is not explicitly specified, Komai opens the profile switcher unless only `default` exists.
 See [Settings](settings/README.md#profile-location) for allowed profile-id characters.
 
 `<encoded-user-id>` is the Matrix user ID escaped to a cross-platform-safe ASCII component:

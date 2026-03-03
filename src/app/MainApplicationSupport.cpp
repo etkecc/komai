@@ -83,25 +83,34 @@ stacktraceHandler(int signum)
 
 namespace app::support {
 
-QString
+SelectedProfileArg
 selectedProfileFromArgs(int argc, char *argv[])
 {
+    SelectedProfileArg result;
+
     for (int i = 1; i < argc; ++i) {
         const QString arg{argv[i]};
         if (arg == QLatin1String("-p") || arg == QLatin1String("--profile")) {
+            result.provided = true;
             if (i + 1 < argc)
-                return QString{argv[i + 1]};
-            continue;
+                result.value = QString{argv[i + 1]};
+            return result;
         }
 
-        if (arg.startsWith(QLatin1String("--profile=")))
-            return arg.sliced(QStringLiteral("--profile=").size());
+        if (arg.startsWith(QLatin1String("--profile="))) {
+            result.provided = true;
+            result.value    = arg.sliced(QStringLiteral("--profile=").size());
+            return result;
+        }
 
-        if (arg.size() > 2 && arg.startsWith(QLatin1String("-p")))
-            return arg.sliced(2);
+        if (arg.size() > 2 && arg.startsWith(QLatin1String("-p"))) {
+            result.provided = true;
+            result.value    = arg.sliced(2);
+            return result;
+        }
     }
 
-    return {};
+    return result;
 }
 
 void

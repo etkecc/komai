@@ -29,4 +29,10 @@ deleteAllProfileSecretsFromStoreBlocking(QStringView)
     return true;
 }
 
+bool
+deleteAllProfileSecretsFromStoreBlocking(QStringView, staged_load_plan::SecretsProvider)
+{
+    return true;
+}
+
 } // namespace profile_secrets

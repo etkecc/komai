@@ -55,7 +55,7 @@ class MainWindow : public QQuickView
     QML_SINGLETON
 
 public:
-    explicit MainWindow(QWindow *parent);
+    explicit MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup = false);
 
     static MainWindow *instance() { return instance_; }
     static MainWindow *create(QQmlEngine *qmlEngine, QJSEngine *)
@@ -120,6 +120,7 @@ signals:
     void switchToWelcomePage();
     void switchToLoginPage(QString error);
     void showUserSettingsPageRequested();
+    void showProfileSwitcherPageRequested();
 
 private:
     void showDialog(QWidget *dialog);
@@ -142,6 +143,7 @@ private:
     //! The main chat area.
     ChatPage *chat_page_;
     QSharedPointer<UserSettings> userSettings_;
+    bool showProfileSwitcherOnStartup_{false};
     //! Tray icon that shows the unread message count.
     TrayIcon *trayIcon_;
     Dock *dock_;

@@ -237,9 +237,18 @@ class UserSettings final : public QObject
     UserSettings();
 
 public:
+    enum class LoadPolicy
+    {
+        Full,
+        ConfigAndStateOnly,
+    };
+
     static QSharedPointer<UserSettings> instance();
-    static void initialize(std::optional<QString> profile);
-    static void initialize(std::optional<QString> profile, const YAML::Node &configRoot);
+    static void
+    initialize(std::optional<QString> profile, LoadPolicy loadPolicy = LoadPolicy::Full);
+    static void initialize(std::optional<QString> profile,
+                           const YAML::Node &configRoot,
+                           LoadPolicy loadPolicy = LoadPolicy::Full);
     static UserSettings *create(QQmlEngine *qmlEngine, QJSEngine *)
     {
         // The instance has to exist before it is used. We cannot replace it.
@@ -364,8 +373,10 @@ public:
     };
 
     void save();
-    void load(std::optional<QString> profile);
-    void load(std::optional<QString> profile, const YAML::Node &configRoot);
+    void load(std::optional<QString> profile, LoadPolicy loadPolicy = LoadPolicy::Full);
+    void load(std::optional<QString> profile,
+              const YAML::Node &configRoot,
+              LoadPolicy loadPolicy = LoadPolicy::Full);
     void applyTheme();
     void setUiThemeSlug(QString theme);
     void setTimelineMessagesHoverHighlight(bool state);

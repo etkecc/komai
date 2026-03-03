@@ -1,0 +1,56 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import "../components"
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import cc.etke.komai
+import "welcome" as Welcome
+
+Item {
+    id: root
+    readonly property string komaiProjectUrl: "https://github.com/etkecc/komai/"
+    readonly property string matrixUrl: "https://matrix.org/"
+    readonly property string profileSwitcherTaglineTemplate: qsTr("A fine %1 chat app you can get to love")
+
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: Komai.paddingLarge
+        spacing: Komai.paddingMedium
+
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: Komai.paddingMedium
+        }
+
+        Image {
+            Layout.alignment: Qt.AlignHCenter
+            source: "qrc:/logos/splash.png"
+            sourceSize.width: 160
+            sourceSize.height: 160
+            fillMode: Image.PreserveAspectFit
+            Layout.preferredWidth: 160
+            Layout.preferredHeight: 160
+        }
+
+        Welcome.WelcomeRichText {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            text: "<style>a { color: " + palette.highlight + "; }</style>"
+                + "<a href=\"" + root.komaiProjectUrl + "\">Komai</a><br/>"
+                + root.profileSwitcherTaglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Komai.matrixWord + "</a>")
+            color: palette.text
+            font.bold: true
+            font.pointSize: Settings.uiFontSizePt * 1.8
+        }
+
+        ApplicationProfilesView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            standalone: true
+        }
+    }
+}

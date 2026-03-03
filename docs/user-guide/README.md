@@ -1,6 +1,7 @@
 # 👤 User Guide
 
 - ⚙️ [Settings](settings/README.md) -- profiles, settings, secret providers, backup
+- 👥 [Application Profiles](application-profiles.md) -- profile switcher, create/launch/delete workflows
 - 🔌 [Integrations](settings/integrations/README.md) -- D-Bus and automation hooks
 - 🦁 [Identity](identity.md) -- what Komai is, project naming, and identity background
 - 💾 [Storage Locations](storage.md) -- where config/data/cache live

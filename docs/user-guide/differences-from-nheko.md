@@ -31,6 +31,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
 
 - **Room actions bar** (create, join, search) moved above the room list for a natural top-to-bottom flow
 - **User avatar button** with settings gear -- click opens Settings directly; right-click provides profile, status, and logout
+- **Application Profiles UI** -- dedicated profile switcher/manager for creating, launching, and deleting app profiles (instead of relying only on CLI `-p` usage). See [👥 Application Profiles](application-profiles.md)
 - **Compact room list** with denser entry layout
 - **Polished top bar** -- selectable topic text, hidden empty topic, dedicated settings button
 - **Avatars on the bubble side** -- received messages show the avatar on the left, yours on the right
@@ -90,7 +91,7 @@ New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-i
   - no exhaustive benchmark campaign was run, so treat these numbers with the usual benchmark grain of salt
   - implementation details and tracing knobs: [⚡ Performance Tracing](../architecture/performance.md)
 - **Remembers your last open room** -- restarting the app brings you right back where you left off
-- **Predictable profile selection** -- launching without `-p` always uses the default [profile](settings/README.md#profiles) instead of remembering the last-used one
+- **Predictable profile selection** -- launching without `-p` opens the profile switcher unless only `default` exists, instead of remembering the last-used profile. See [Application Profiles](application-profiles.md)
 - **Per-profile settings** -- all settings (theme, notifications, sidebar widths, etc.) are stored per-profile, so each account can have its own look and feel. See [Settings](settings/README.md#profiles)
 - **Human-readable YAML settings** -- settings are stored in YAML files instead of Qt's INI format, making manual editing and backup straightforward. See [Settings](settings/README.md)
 - **Split settings by concern** -- each profile stores `config.yml` (preferences), `state.yml` (runtime/layout), `session.yml` (session metadata), and `secrets.yml` (file-mode fallback secrets), instead of one monolithic file

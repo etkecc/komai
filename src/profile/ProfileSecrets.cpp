@@ -211,6 +211,20 @@ deleteEmptyProfileSecretValueBlocking(const QString &key)
 bool
 deleteAllProfileSecretsFromStoreBlocking(QStringView profile)
 {
+    auto settings       = UserSettings::instance();
+    const auto provider = (settings && settings->usesFileSecretsProvider())
+                            ? staged_load_plan::SecretsProvider::File
+                            : staged_load_plan::SecretsProvider::SecretService;
+    return deleteAllProfileSecretsFromStoreBlocking(profile, provider);
+}
+
+bool
+deleteAllProfileSecretsFromStoreBlocking(QStringView profile,
+                                         staged_load_plan::SecretsProvider provider)
+{
+    if (provider == staged_load_plan::SecretsProvider::File)
+        return true;
+
     return deleteSettingsProfileSecretsFromStoreBlocking(profile) &&
            deleteCacheProfileSecretsFromStoreBlocking(profile);
 }

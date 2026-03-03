@@ -198,6 +198,12 @@ Pane {
         }
     }
     Component {
+        id: profileSwitcherPage
+
+        ProfileSwitcherPage {
+        }
+    }
+    Component {
         id: chatPage
 
         ChatPage {
@@ -239,8 +245,14 @@ Pane {
                     "error": error
                 }, StackView.PopTransition);
         }
+        function onSwitchToWelcomePage() {
+            mainWindow.replace(null, welcomePage);
+        }
         function onShowUserSettingsPageRequested() {
             mainWindow.openUserSettingsPage();
+        }
+        function onShowProfileSwitcherPageRequested() {
+            mainWindow.replace(null, profileSwitcherPage);
         }
 
         target: MainWindow

@@ -65,21 +65,23 @@ UserSettings::instance()
 }
 
 void
-UserSettings::initialize(std::optional<QString> profile)
+UserSettings::initialize(std::optional<QString> profile, LoadPolicy loadPolicy)
 {
     instance_.reset(new UserSettings());
-    instance_->load(profile);
+    instance_->load(profile, loadPolicy);
 }
 
 void
-UserSettings::initialize(std::optional<QString> profile, const YAML::Node &configRoot)
+UserSettings::initialize(std::optional<QString> profile,
+                         const YAML::Node &configRoot,
+                         LoadPolicy loadPolicy)
 {
     instance_.reset(new UserSettings());
-    instance_->load(profile, configRoot);
+    instance_->load(profile, configRoot, loadPolicy);
 }
 
 void
-UserSettings::load(std::optional<QString> profile)
+UserSettings::load(std::optional<QString> profile, LoadPolicy loadPolicy)
 {
     if (profile) {
         if (const auto validationError = profile_id::validate(*profile); validationError) {
@@ -89,11 +91,16 @@ UserSettings::load(std::optional<QString> profile)
     }
 
     settings::SettingsController controller;
-    controller.loadAndMigrate(*this, profile);
+    const auto controllerPolicy = loadPolicy == LoadPolicy::ConfigAndStateOnly
+                                    ? settings::SettingsController::LoadPolicy::ConfigAndStateOnly
+                                    : settings::SettingsController::LoadPolicy::Full;
+    controller.loadAndMigrate(*this, profile, controllerPolicy);
 }
 
 void
-UserSettings::load(std::optional<QString> profile, const YAML::Node &configRoot)
+UserSettings::load(std::optional<QString> profile,
+                   const YAML::Node &configRoot,
+                   LoadPolicy loadPolicy)
 {
     if (profile) {
         if (const auto validationError = profile_id::validate(*profile); validationError) {
@@ -103,7 +110,10 @@ UserSettings::load(std::optional<QString> profile, const YAML::Node &configRoot)
     }
 
     settings::SettingsController controller;
-    controller.loadAndMigrate(*this, profile, configRoot);
+    const auto controllerPolicy = loadPolicy == LoadPolicy::ConfigAndStateOnly
+                                    ? settings::SettingsController::LoadPolicy::ConfigAndStateOnly
+                                    : settings::SettingsController::LoadPolicy::Full;
+    controller.loadAndMigrate(*this, profile, configRoot, controllerPolicy);
 }
 
 void

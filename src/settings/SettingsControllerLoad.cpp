@@ -100,7 +100,8 @@ void
 loadImpl(UserSettings &settings,
          std::optional<QString> profile,
          const YAML::Node &configRoot,
-         bool persistMigrationWriteback)
+         bool persistMigrationWriteback,
+         settings::SettingsController::LoadPolicy loadPolicy)
 {
     if (profile)
         settings.applyProfilePathState((*profile == QLatin1String("default")) ? QLatin1String("")
@@ -165,7 +166,11 @@ loadImpl(UserSettings &settings,
 
     settings.setUsesFileSecretsProvider(provider == staged_load_plan::SecretsProvider::File);
 
-    for (const auto stage : staged_load_plan::stagesForProvider(provider)) {
+    const auto stages = loadPolicy == settings::SettingsController::LoadPolicy::ConfigAndStateOnly
+                          ? QList<staged_load_plan::Stage>{staged_load_plan::Stage::Config,
+                                                           staged_load_plan::Stage::State}
+                          : staged_load_plan::stagesForProvider(provider);
+    for (const auto stage : stages) {
         switch (stage) {
         case staged_load_plan::Stage::Config:
             break;
@@ -207,62 +212,67 @@ loadImpl(UserSettings &settings,
         }
     }
 
-    const bool hasActiveSession            = settings.hasActiveSession();
-    const bool hasPersistedSessionIdentity = settings.hasPersistedSessionIdentity();
-    if (!hasActiveSession && !hasPersistedSessionIdentity) {
-        const bool secureAvailable   = secureBackendAvailableNow();
-        const auto preferredProvider = preferredProviderForAvailability(secureAvailable);
-        if (preferredProvider != provider) {
-            settings::activeLoggers().ui->info(
-              "Profile '{}' has no active session; switching secrets provider '{}' -> '{}' "
-              "(secure backend available={})",
-              app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-              providerToken(provider),
-              providerToken(preferredProvider),
-              secureAvailable ? "true" : "false");
-            provider = preferredProvider;
-            settings.setUsesFileSecretsProvider(provider ==
-                                                staged_load_plan::SecretsProvider::File);
-            setConfigSecretsProvider(configOutcome.migratedRoot, provider);
-
-            if (persistMigrationWriteback && !configOutcome.hadFutureVersion &&
-                !configOutcome.hadUnsupportedPath) {
-                if (!writeYamlFile(settings.configFilePath(), configOutcome.migratedRoot, false)) {
-                    settings::activeLoggers().ui->warn(
-                      "Failed to persist startup secrets provider update at: {}",
-                      settings.configFilePath().toStdString());
-                } else {
-                    settings::activeLoggers().ui->info(
-                      "Persisted startup secrets provider update at: {}",
-                      settings.configFilePath().toStdString());
-                }
-            } else if (persistMigrationWriteback &&
-                       (configOutcome.hadFutureVersion || configOutcome.hadUnsupportedPath)) {
-                settings::activeLoggers().ui->warn(
-                  "Skipped persisting startup secrets provider update for profile '{}' "
-                  "(future_version={}, unsupported_path={})",
+    if (loadPolicy == settings::SettingsController::LoadPolicy::Full) {
+        const bool hasActiveSession            = settings.hasActiveSession();
+        const bool hasPersistedSessionIdentity = settings.hasPersistedSessionIdentity();
+        if (!hasActiveSession && !hasPersistedSessionIdentity) {
+            const bool secureAvailable   = secureBackendAvailableNow();
+            const auto preferredProvider = preferredProviderForAvailability(secureAvailable);
+            if (preferredProvider != provider) {
+                settings::activeLoggers().ui->info(
+                  "Profile '{}' has no active session; switching secrets provider '{}' -> '{}' "
+                  "(secure backend available={})",
                   app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-                  configOutcome.hadFutureVersion ? "true" : "false",
-                  configOutcome.hadUnsupportedPath ? "true" : "false");
+                  providerToken(provider),
+                  providerToken(preferredProvider),
+                  secureAvailable ? "true" : "false");
+                provider = preferredProvider;
+                settings.setUsesFileSecretsProvider(provider ==
+                                                    staged_load_plan::SecretsProvider::File);
+                setConfigSecretsProvider(configOutcome.migratedRoot, provider);
+
+                if (persistMigrationWriteback && !configOutcome.hadFutureVersion &&
+                    !configOutcome.hadUnsupportedPath) {
+                    if (!writeYamlFile(
+                          settings.configFilePath(), configOutcome.migratedRoot, false)) {
+                        settings::activeLoggers().ui->warn(
+                          "Failed to persist startup secrets provider update at: {}",
+                          settings.configFilePath().toStdString());
+                    } else {
+                        settings::activeLoggers().ui->info(
+                          "Persisted startup secrets provider update at: {}",
+                          settings.configFilePath().toStdString());
+                    }
+                } else if (persistMigrationWriteback &&
+                           (configOutcome.hadFutureVersion || configOutcome.hadUnsupportedPath)) {
+                    settings::activeLoggers().ui->warn(
+                      "Skipped persisting startup secrets provider update for profile '{}' "
+                      "(future_version={}, unsupported_path={})",
+                      app_paths::normalizedProfileId(settings.profileId()).toStdString(),
+                      configOutcome.hadFutureVersion ? "true" : "false",
+                      configOutcome.hadUnsupportedPath ? "true" : "false");
+                }
+            } else {
+                settings::activeLoggers().ui->debug(
+                  "Profile '{}' has no active session; secrets provider '{}' unchanged "
+                  "(secure backend available={})",
+                  app_paths::normalizedProfileId(settings.profileId()).toStdString(),
+                  providerToken(provider),
+                  secureAvailable ? "true" : "false");
             }
+            settings.setSecretsProviderFallbackWarningVisible(
+              provider == staged_load_plan::SecretsProvider::File && !secureAvailable);
         } else {
-            settings::activeLoggers().ui->debug(
-              "Profile '{}' has no active session; secrets provider '{}' unchanged "
-              "(secure backend available={})",
-              app_paths::normalizedProfileId(settings.profileId()).toStdString(),
-              providerToken(provider),
-              secureAvailable ? "true" : "false");
+            settings.setSecretsProviderFallbackWarningVisible(false);
+            if (!hasActiveSession && hasPersistedSessionIdentity) {
+                settings::activeLoggers().ui->warn(
+                  "Profile '{}' has persisted session identity but no active session auth; "
+                  "skipping startup secrets-provider auto-switch to avoid credential loss",
+                  app_paths::normalizedProfileId(settings.profileId()).toStdString());
+            }
         }
-        settings.setSecretsProviderFallbackWarningVisible(
-          provider == staged_load_plan::SecretsProvider::File && !secureAvailable);
     } else {
         settings.setSecretsProviderFallbackWarningVisible(false);
-        if (!hasActiveSession && hasPersistedSessionIdentity) {
-            settings::activeLoggers().ui->warn(
-              "Profile '{}' has persisted session identity but no active session auth; "
-              "skipping startup secrets-provider auto-switch to avoid credential loss",
-              app_paths::normalizedProfileId(settings.profileId()).toStdString());
-        }
     }
 
     settings.applyTheme();
@@ -282,29 +292,35 @@ loadImpl(UserSettings &settings,
 } // namespace
 
 void
-settings::SettingsController::load(UserSettings &settings, std::optional<QString> profile)
+settings::SettingsController::load(UserSettings &settings,
+                                   std::optional<QString> profile,
+                                   LoadPolicy policy)
 {
-    load(settings, profile, YAML::Node{});
+    load(settings, profile, YAML::Node{}, policy);
 }
 
 void
 settings::SettingsController::load(UserSettings &settings,
                                    std::optional<QString> profile,
-                                   const YAML::Node &configRoot)
+                                   const YAML::Node &configRoot,
+                                   LoadPolicy policy)
 {
-    loadImpl(settings, profile, configRoot, false);
-}
-
-void
-settings::SettingsController::loadAndMigrate(UserSettings &settings, std::optional<QString> profile)
-{
-    loadAndMigrate(settings, profile, YAML::Node{});
+    loadImpl(settings, profile, configRoot, false, policy);
 }
 
 void
 settings::SettingsController::loadAndMigrate(UserSettings &settings,
                                              std::optional<QString> profile,
-                                             const YAML::Node &configRoot)
+                                             LoadPolicy policy)
 {
-    loadImpl(settings, profile, configRoot, true);
+    loadAndMigrate(settings, profile, YAML::Node{}, policy);
+}
+
+void
+settings::SettingsController::loadAndMigrate(UserSettings &settings,
+                                             std::optional<QString> profile,
+                                             const YAML::Node &configRoot,
+                                             LoadPolicy policy)
+{
+    loadImpl(settings, profile, configRoot, true, policy);
 }

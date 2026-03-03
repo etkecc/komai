@@ -41,6 +41,7 @@
 #include "matrix/MatrixClient.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
+#include "profile/ProfileManager.h"
 #include "settings/SettingsController.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/SettingsSerializer.h"
@@ -71,11 +72,14 @@ app::runMainApplication(int argc, char *argv[])
     QCoreApplication::setApplicationName(QStringLiteral("komai"));
     QCoreApplication::setApplicationVersion(komai::version);
     QCoreApplication::setOrganizationName(QStringLiteral("komai"));
-    const QString selectedProfile = support::selectedProfileFromArgs(argc, argv);
+    const auto selectedProfileArg = support::selectedProfileFromArgs(argc, argv);
+    const QString selectedProfile = selectedProfileArg.value;
     if (const auto validationError = profile_id::validate(selectedProfile); validationError) {
         std::cerr << "Invalid --profile value: " << validationError->toStdString() << std::endl;
         return 1;
     }
+    const bool showStartupProfileSelector =
+      profile_manager::shouldShowStartupSelector(selectedProfileArg.provided, selectedProfile);
 
     // Disable the qml disk cache by default to prevent crashes on updates. See
     // https://github.com/Nheko-Reborn/nheko/issues/1383
@@ -226,15 +230,19 @@ app::runMainApplication(int argc, char *argv[])
     } else if (!selectedProfile.isEmpty()) {
         selectedProfileSetting = selectedProfile;
     }
+    const auto startupLoadPolicy = showStartupProfileSelector
+                                     ? UserSettings::LoadPolicy::ConfigAndStateOnly
+                                     : UserSettings::LoadPolicy::Full;
 
     if (selectedProfileSetting && startupSettings.configRoot.IsDefined()) {
-        UserSettings::initialize(*selectedProfileSetting, startupSettings.configRoot);
+        UserSettings::initialize(
+          *selectedProfileSetting, startupSettings.configRoot, startupLoadPolicy);
     } else if (!selectedProfileSetting && startupSettings.configRoot.IsDefined()) {
-        UserSettings::initialize(std::nullopt, startupSettings.configRoot);
+        UserSettings::initialize(std::nullopt, startupSettings.configRoot, startupLoadPolicy);
     } else if (selectedProfileSetting) {
-        UserSettings::initialize(*selectedProfileSetting);
+        UserSettings::initialize(*selectedProfileSetting, startupLoadPolicy);
     } else {
-        UserSettings::initialize(std::nullopt);
+        UserSettings::initialize(std::nullopt, startupLoadPolicy);
     }
 
     auto settings = UserSettings::instance().toWeakRef();
@@ -251,9 +259,13 @@ app::runMainApplication(int argc, char *argv[])
                             : fontFamily.toStdString());
     }
 
+    const QString singleInstanceProfileKey =
+      showStartupProfileSelector
+        ? QStringLiteral("__profile-manager__")
+        : (profileName == QLatin1String("default") ? QLatin1String("") : profileName);
+
     KDSingleApplication singleapp(
-      QStringLiteral("im.komai.komai-%1")
-        .arg(profileName == QLatin1String("default") ? QLatin1String("") : profileName));
+      QStringLiteral("im.komai.komai-%1").arg(singleInstanceProfileKey));
 
     // This check needs to happen _after_ process(), so that we actually print help for --help when
     // Komai is already running.
@@ -382,10 +394,14 @@ app::runMainApplication(int argc, char *argv[])
     else
         qDebug() << "Failed to load Komai translations";
 
-    MainWindow w(nullptr);
+    MainWindow w(nullptr, showStartupProfileSelector);
     // QQuickView w;
 
-    QTimer::singleShot(0, []() {
+    QTimer::singleShot(0, [showStartupProfileSelector]() {
+        // In standalone selector mode keep settings persistence suspended so the helper
+        // window does not recreate/modify profile files on exit.
+        if (showStartupProfileSelector)
+            return;
         if (auto settings = UserSettings::instance())
             settings->setPersistenceSuspended(false);
     });

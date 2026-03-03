@@ -69,6 +69,17 @@ Menu {
     MenuSeparator {
     }
     MenuItem {
+        text: qsTr("Open Profile Switcher")
+        icon.source: "qrc:/icons/icons/ui/people.svg"
+        onTriggered: {
+            const error = Komai.launchProfileSwitcher();
+            if (error.length > 0)
+                console.error("Failed to launch profile switcher:", error);
+        }
+    }
+    MenuSeparator {
+    }
+    MenuItem {
         text: qsTr("Join a room")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
         onTriggered: Komai.openJoinRoomDialog()

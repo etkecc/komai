@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QPalette>
 #include <QQmlEngine>
+#include <QVariantList>
 #include <QWindow>
 
 #include "RoomSummary.h"
@@ -51,6 +52,8 @@ class Komai : public QObject
     Q_PROPERTY(QString matrixWord READ matrixWord CONSTANT)
 
     Q_PROPERTY(UserProfile *currentUser READ currentUser NOTIFY profileChanged)
+    Q_PROPERTY(
+      QVariantList applicationProfiles READ applicationProfiles NOTIFY applicationProfilesChanged)
 
 public:
     Komai();
@@ -80,6 +83,7 @@ public:
     QString tagline() const { return taglineTemplate().arg(matrixWord()); }
 
     UserProfile *currentUser() const;
+    QVariantList applicationProfiles() const { return applicationProfiles_; }
 
     Q_INVOKABLE QFont monospaceFont() const
     {
@@ -89,6 +93,13 @@ public:
     Q_INVOKABLE QString punyLink(QString link) const;
     Q_INVOKABLE QString statusMessage() const;
     Q_INVOKABLE void setStatusMessage(QString msg) const;
+    Q_INVOKABLE void refreshApplicationProfiles();
+    Q_INVOKABLE QString validateApplicationProfileId(QString profileId) const;
+    Q_INVOKABLE QString createAndLaunchApplicationProfile(QString profileId) const;
+    Q_INVOKABLE QString launchApplicationProfile(QString profileId) const;
+    Q_INVOKABLE QString launchProfileSwitcher() const;
+    Q_INVOKABLE QString deleteApplicationProfile(QString profileId,
+                                                 bool allowDeletingLoadedProfile = false);
     Q_INVOKABLE void showUserSettingsPage() const;
     Q_INVOKABLE void logout() const;
     Q_INVOKABLE void submitUnlockKeyBackup(QString keyOrPassphrase) const;
@@ -116,6 +127,7 @@ public slots:
 signals:
     void colorsChanged();
     void profileChanged();
+    void applicationProfilesChanged();
     void uiLayoutCompactModeChanged();
     void sidebarsRoomListShowLastMessageTimeChanged();
 
@@ -128,4 +140,5 @@ signals:
 
 private:
     QScopedPointer<UserProfile> currentUser_;
+    QVariantList applicationProfiles_;
 };

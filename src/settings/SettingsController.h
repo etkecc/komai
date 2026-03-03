@@ -43,6 +43,19 @@ activeLoggers();
 class SettingsController
 {
 public:
+    enum class LoadPolicy
+    {
+        /**
+         * Load full profile state: config/session/secrets/state.
+         */
+        Full,
+        /**
+         * Load startup UI/runtime state only (config + state), skipping
+         * session/secrets/auth material.
+         */
+        ConfigAndStateOnly,
+    };
+
     enum class SavePolicy
     {
         /**
@@ -63,16 +76,24 @@ public:
      * Load profile-local settings into the provided UserSettings instance.
      * This path is read-only and never writes settings files.
      */
-    void load(UserSettings &settings, std::optional<QString> profile);
-    void load(UserSettings &settings, std::optional<QString> profile, const YAML::Node &configRoot);
+    void load(UserSettings &settings,
+              std::optional<QString> profile,
+              LoadPolicy policy = LoadPolicy::Full);
+    void load(UserSettings &settings,
+              std::optional<QString> profile,
+              const YAML::Node &configRoot,
+              LoadPolicy policy = LoadPolicy::Full);
     /**
      * Load settings, apply in-memory migration steps, and persist migrated roots
      * when needed (for example version bump writeback or first-file initialization).
      */
-    void loadAndMigrate(UserSettings &settings, std::optional<QString> profile);
     void loadAndMigrate(UserSettings &settings,
                         std::optional<QString> profile,
-                        const YAML::Node &configRoot);
+                        LoadPolicy policy = LoadPolicy::Full);
+    void loadAndMigrate(UserSettings &settings,
+                        std::optional<QString> profile,
+                        const YAML::Node &configRoot,
+                        LoadPolicy policy = LoadPolicy::Full);
     /**
      * Persist the provided UserSettings instance to all backing stores.
      */

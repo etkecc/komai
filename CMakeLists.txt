@@ -697,6 +697,8 @@ set(SRC_FILES
     src/providers/MxcImageProvider.h
     src/profile/Paths.cpp
     src/profile/Paths.h
+    src/profile/ProfileManager.cpp
+    src/profile/ProfileManager.h
     src/settings/SettingKeys.h
     src/settings/ui/SettingDescriptor.h
     src/settings/ui/SettingDescriptor.cpp

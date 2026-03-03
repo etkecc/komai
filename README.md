@@ -28,10 +28,11 @@ Highlights:
 - 📞 (Legacy) Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (including custom stickers)
 - 💬 Replies, [Discord](https://discord.com/)-style threads, and message forwarding
+- 👥 Multi-account support via dedicated [application profiles](docs/user-guide/application-profiles.md)
 - 🎨 14 [built-in themes](docs/user-guide/themes.md#-built-in-themes), but also [🗂️ user-themable](docs/user-guide/themes.md#️-user-themes)
 - 🌐 30+ languages with inherited nheko translations and AI-assisted gap filling (see [Translations](docs/maintainers/translations.md))
 - 🧠 [User Interface](https://en.wikipedia.org/wiki/User_interface) that both grandma and you can use, making neither of you feel stupid or incapable
-- 🔧 Lots of [settings controls](docs/user-guide/settings/README.md) - you're in control
+- 🔧 Lots of [configuration settings](docs/user-guide/settings/README.md) - you're in control
 - 📋 Good support for hundreds of rooms and spaces
 - ⚡ Quick & lightweight native application ([C++](https://en.wikipedia.org/wiki/C%2B%2B) and [QML](https://en.wikipedia.org/wiki/QML)). No [Electron](https://www.electronjs.org/) here
 - 🕊️ Fully [Free Software](https://www.gnu.org/philosophy/free-sw.html) ([GPL-3.0-or-later](LICENSES/GPL-3.0-or-later.txt)), with no [CLA](https://en.wikipedia.org/wiki/Contributor_License_Agreement) and no contributor gatekeeping

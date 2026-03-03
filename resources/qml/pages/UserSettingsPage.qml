@@ -109,6 +109,7 @@ Rectangle {
                         { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-regular.svg", tab: UserSettingsModel.TabEncryption },
                         { text: qsTr("Account"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabAccount, requiresSession: true },
                         { text: qsTr("Integrations"), icon: "qrc:/icons/icons/ui/integrations.svg", tab: UserSettingsModel.TabIntegrations },
+                        { text: qsTr("Application Profiles"), icon: "qrc:/icons/icons/ui/people.svg", tab: UserSettingsModel.TabApplicationProfiles },
                         { text: qsTr("About"), icon: "qrc:/logos/komai.svg", tab: UserSettingsModel.TabAbout }
                     ]
 
@@ -296,6 +297,8 @@ Rectangle {
                         return "settings/EncryptionTab.qml";
                     case UserSettingsModel.TabAccount:
                         return "settings/AccountTab.qml";
+                    case UserSettingsModel.TabApplicationProfiles:
+                        return "settings/ApplicationProfilesTab.qml";
                     case UserSettingsModel.TabIntegrations:
                         return "settings/IntegrationsTab.qml";
                     case UserSettingsModel.TabAbout:

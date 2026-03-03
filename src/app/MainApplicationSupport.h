@@ -10,7 +10,13 @@
 class QApplication;
 
 namespace app::support {
-QString
+struct SelectedProfileArg
+{
+    QString value;
+    bool provided{false};
+};
+
+SelectedProfileArg
 selectedProfileFromArgs(int argc, char *argv[]);
 void
 createDirectory(const QString &dir);

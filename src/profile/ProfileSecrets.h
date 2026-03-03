@@ -11,6 +11,8 @@
 #include <array>
 #include <string_view>
 
+#include "settings/StagedLoadPlan.h"
+
 namespace profile_secrets {
 
 struct CacheSecretDescriptor
@@ -37,6 +39,17 @@ const std::array<std::string_view, 1> &
 settingsSecretNames() noexcept;
 bool
 deleteAllProfileSecretsFromStoreBlocking(QStringView profile);
+bool
+deleteAllProfileSecretsFromStoreBlocking(QStringView profile,
+                                         staged_load_plan::SecretsProvider provider);
+inline bool
+deleteAllProfileSecretsFromStoreBlocking(QStringView profile, bool usesFileSecretsProvider)
+{
+    return deleteAllProfileSecretsFromStoreBlocking(
+      profile,
+      usesFileSecretsProvider ? staged_load_plan::SecretsProvider::File
+                              : staged_load_plan::SecretsProvider::SecretService);
+}
 bool
 deleteSettingsProfileSecretsFromStoreBlocking(QStringView profile);
 bool

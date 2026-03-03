@@ -546,6 +546,7 @@ set(SRC_FILES
     src/encryption/OlmSupport.cpp
     src/encryption/OlmToDeviceSend.cpp
     src/encryption/OlmMegolmBackup.cpp
+    src/encryption/OlmKeyBackupSync.cpp
     src/encryption/OlmCrossSigningDownload.cpp
     src/encryption/OlmSessionDecrypt.cpp
     src/encryption/Olm.h

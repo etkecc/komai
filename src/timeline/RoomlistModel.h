@@ -196,6 +196,7 @@ private:
     void emitRoomRowUpdate(const QString &room_id);
     bool isCurrentRoomSelection(const QString &roomid) const;
     void clearCurrentRoomSelection();
+    void activateMaterializedCurrentRoom(const QString &room_id, bool updateLastMessage);
     bool trySelectCurrentMaterializedRoom(const QString &roomid);
     bool trySelectCurrentPreviewRoom(const QString &roomid);
     void deferCurrentRoomSelection(const QString &roomid);

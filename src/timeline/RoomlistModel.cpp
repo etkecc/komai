@@ -1171,13 +1171,9 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
         bool switchedToCurrentPreview = false;
         if ((wasInvite || wasPreview) && currentRoomPreview_ &&
             currentRoomPreview_->roomid() == room_id) {
-            currentRoom_ = models.value(room_id);
-            currentRoomPreview_.reset();
+            activateMaterializedCurrentRoom(room_id, false);
             if (manager)
                 manager->markRoomSwitchPhaseCpp(room_id, "cpp.room_available_from_preview");
-            scheduleLastReadUpdate(currentRoom_, room_id);
-            emit currentRoomChanged(room_id);
-            scheduleCurrentRoomTimelineWarmup(room_id);
             switchedToCurrentPreview = true;
         }
 
@@ -1186,13 +1182,9 @@ RoomlistModel::addRoom(const QString &room_id, bool suppressInsertNotification, 
         if (pendingCurrentRoomId_ == room_id) {
             pendingCurrentRoomId_.clear();
             if (!switchedToCurrentPreview) {
-                currentRoom_ = models.value(room_id);
-                currentRoomPreview_.reset();
+                activateMaterializedCurrentRoom(room_id, false);
                 if (manager)
                     manager->markRoomSwitchPhaseCpp(room_id, "cpp.pending_room_available");
-                scheduleLastReadUpdate(currentRoom_, room_id);
-                emit currentRoomChanged(room_id);
-                scheduleCurrentRoomTimelineWarmup(room_id);
                 nhlog::ui()->debug("Switched to deferred room: {}", room_id.toStdString());
 
                 if (currentRoom_->isSpace())
@@ -1667,6 +1659,18 @@ RoomlistModel::clearCurrentRoomSelection()
     emit currentRoomChanged("");
 }
 
+void
+RoomlistModel::activateMaterializedCurrentRoom(const QString &room_id, bool updateLastMessage)
+{
+    currentRoom_ = models.value(room_id);
+    currentRoomPreview_.reset();
+    if (updateLastMessage)
+        currentRoom_->updateLastMessage();
+    scheduleLastReadUpdate(currentRoom_, room_id);
+    emit currentRoomChanged(room_id);
+    scheduleCurrentRoomTimelineWarmup(room_id);
+}
+
 bool
 RoomlistModel::trySelectCurrentMaterializedRoom(const QString &roomid)
 {
@@ -1674,15 +1678,10 @@ RoomlistModel::trySelectCurrentMaterializedRoom(const QString &roomid)
         return false;
 
     pendingCurrentRoomId_.clear();
-    currentRoom_ = models.value(roomid);
-    currentRoomPreview_.reset();
-    currentRoom_->updateLastMessage();
+    activateMaterializedCurrentRoom(roomid, true);
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.room_model_selected");
-    scheduleLastReadUpdate(currentRoom_, currentRoom_->roomId());
-    UserSettings::instance()->setCurrentRoomId(currentRoom_->roomId());
-    emit currentRoomChanged(currentRoom_->roomId());
-    scheduleCurrentRoomTimelineWarmup(roomid);
+    UserSettings::instance()->setCurrentRoomId(roomid);
     if (manager)
         manager->markRoomSwitchPhaseCpp(roomid, "cpp.current_room_changed_emitted");
     nhlog::ui()->debug("Switched to: {}", roomid.toStdString());

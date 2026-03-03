@@ -729,6 +729,7 @@ set(SRC_FILES
     src/PowerlevelsEditModels.cpp
     src/PowerlevelsEditModels.h
     src/powerlevels/PowerlevelsSpacesListModel.cpp
+    src/powerlevels/PowerlevelsTypeListModel.cpp
     src/powerlevels/PowerlevelsUserListModel.cpp
     src/ProfileSecrets.cpp
     src/ProfileSecrets.h

@@ -455,6 +455,7 @@ set(SRC_FILES
     src/timeline/rawmessage/RawMessageDialogPayload.h
     src/timeline/roomlist/FilteredRoomlistModel.cpp
     src/timeline/roomlist/RoomlistModelCachedMessages.cpp
+    src/timeline/roomlist/RoomlistModelMaterialization.cpp
     src/timeline/roomlist/RoomlistModelPreviews.cpp
     src/timeline/roomlist/RoomlistModelPrewarm.cpp
     src/timeline/roomlist/RoomlistModelSelection.cpp

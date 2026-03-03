@@ -654,6 +654,7 @@ set(SRC_FILES
     src/Config.h
     src/MatrixStateTypes.h
     src/events/EventAccessors.cpp
+    src/events/EventAccessorsMedia.cpp
     src/EventAccessors.h
     src/FallbackAuth.cpp
     src/FallbackAuth.h

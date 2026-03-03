@@ -12,8 +12,8 @@
 
 #if defined(GSTREAMER_AVAILABLE) && (defined(Q_OS_MACOS) || defined(Q_OS_WINDOWS))
 #include <QAbstractEventDispatcher>
-#include <gst/gst.h>
 #include <cstring>
+#include <gst/gst.h>
 
 namespace {
 GMainLoop *gloop = nullptr;

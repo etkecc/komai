@@ -10,8 +10,12 @@
 class QApplication;
 
 namespace app::support {
-QString selectedProfileFromArgs(int argc, char *argv[]);
-void createDirectory(const QString &dir);
-void registerSignalHandlers();
-void initializeGstreamerEventLoopIfNeeded(QApplication &app);
+QString
+selectedProfileFromArgs(int argc, char *argv[]);
+void
+createDirectory(const QString &dir);
+void
+registerSignalHandlers();
+void
+initializeGstreamerEventLoopIfNeeded(QApplication &app);
 }

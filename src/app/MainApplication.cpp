@@ -9,15 +9,12 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDesktopServices>
-#include <QDir>
 #include <QFileInfo>
 #include <QFontDatabase>
 #include <QLabel>
 #include <QLibraryInfo>
 #include <QMessageBox>
-#include <QPoint>
 #include <QQuickView>
-#include <QScreen>
 #include <QTimer>
 #include <QTranslator>
 
@@ -33,6 +30,7 @@
 #include "ChatPage.h"
 #include "Logging.h"
 #include "app/MainApplication.h"
+#include "app/MainApplicationSupport.h"
 #include "cache/Cache.h"
 #include "cache/api/CacheApiContext.h"
 #ifdef KOMAI_DBUS_SYS
@@ -57,7 +55,6 @@
 #endif
 
 #ifdef GSTREAMER_AVAILABLE
-#include <QAbstractEventDispatcher>
 #include <gst/gst.h>
 
 #include "voip/CallDevices.h"
@@ -68,133 +65,13 @@
 QQmlTriviallyDestructibleDebuggingEnabler enabler;
 #endif
 
-#if HAVE_BACKTRACE_SYMBOLS_FD
-#include <csignal>
-#include <execinfo.h>
-#include <fcntl.h>
-#include <unistd.h>
-
-void
-stacktraceHandler(int signum)
-{
-    std::signal(signum, SIG_DFL);
-
-    // boost::stacktrace::safe_dump_to("./komai-backtrace.dump");
-
-    // see
-    // https://stackoverflow.com/questions/77005/how-to-automatically-generate-a-stacktrace-when-my-program-crashes/77336#77336
-    void *array[50];
-    int size;
-
-    // get void*'s for all entries on the stack
-    size = backtrace(array, 50);
-
-    // print out all the frames to stderr
-    fprintf(stderr, "Error: signal %d:\n", signum);
-    backtrace_symbols_fd(array, size, STDERR_FILENO);
-
-    int file = ::open("/tmp/komai-crash.dump",
-                      O_CREAT | O_WRONLY | O_TRUNC
-#if defined(S_IWUSR) && defined(S_IRUSR)
-                      ,
-                      S_IWUSR | S_IRUSR
-#elif defined(S_IWRITE) && defined(S_IREAD)
-                      ,
-                      S_IWRITE | S_IREAD
-#endif
-    );
-    if (file != -1) {
-        constexpr char header[]   = "Error: signal\n";
-        [[maybe_unused]] auto ret = write(file, header, std::size(header) - 1);
-        backtrace_symbols_fd(array, size, file);
-        close(file);
-    }
-
-    std::raise(SIGABRT);
-}
-
-void
-registerSignalHandlers()
-{
-    std::signal(SIGSEGV, &stacktraceHandler);
-    std::signal(SIGABRT, &stacktraceHandler);
-}
-
-#else
-
-// No implementation for systems with no stacktrace support.
-void
-registerSignalHandlers()
-{
-}
-
-#endif
-
-#if defined(GSTREAMER_AVAILABLE) && (defined(Q_OS_MACOS) || defined(Q_OS_WINDOWS))
-GMainLoop *gloop = 0;
-GThread *gthread = 0;
-
-extern "C"
-{
-    static gpointer glibMainLoopThreadFunc(gpointer)
-    {
-        gloop = g_main_loop_new(0, false);
-        g_main_loop_run(gloop);
-        g_main_loop_unref(gloop);
-        gloop = 0;
-        return 0;
-    }
-} // extern "C"
-#endif
-
-QPoint
-screenCenter(int width, int height)
-{
-    // Deprecated in 5.13: QRect screenGeometry = QApplication::desktop()->screenGeometry();
-    QRect screenGeometry = QGuiApplication::primaryScreen()->geometry();
-
-    int x = (screenGeometry.width() - width) / 2;
-    int y = (screenGeometry.height() - height) / 2;
-
-    return QPoint(x, y);
-}
-
-void
-createDirectory(const QString &dir)
-{
-    if (!QDir().mkpath(dir)) {
-        throw std::runtime_error(("Unable to create state directory:" + dir).toStdString().c_str());
-    }
-}
-
-QString
-selectedProfileFromArgs(int argc, char *argv[])
-{
-    for (int i = 1; i < argc; ++i) {
-        const QString arg{argv[i]};
-        if (arg == QLatin1String("-p") || arg == QLatin1String("--profile")) {
-            if (i + 1 < argc)
-                return QString{argv[i + 1]};
-            continue;
-        }
-
-        if (arg.startsWith(QLatin1String("--profile=")))
-            return arg.sliced(QStringLiteral("--profile=").size());
-
-        if (arg.size() > 2 && arg.startsWith(QLatin1String("-p")))
-            return arg.sliced(2);
-    }
-
-    return {};
-}
-
 int
 app::runMainApplication(int argc, char *argv[])
 {
     QCoreApplication::setApplicationName(QStringLiteral("komai"));
     QCoreApplication::setApplicationVersion(komai::version);
     QCoreApplication::setOrganizationName(QStringLiteral("komai"));
-    const QString selectedProfile = selectedProfileFromArgs(argc, argv);
+    const QString selectedProfile = support::selectedProfileFromArgs(argc, argv);
     if (const auto validationError = profile_id::validate(selectedProfile); validationError) {
         std::cerr << "Invalid --profile value: " << validationError->toStdString() << std::endl;
         return 1;
@@ -290,7 +167,7 @@ app::runMainApplication(int argc, char *argv[])
 
     // Initialize logging early so that UserSettings can log during init (e.g. emoji font
     // resolution on Qt < 6.9). The cache directory must exist before the file logger opens.
-    createDirectory(QFileInfo(app_paths::cache::logFile(selectedProfile)).absolutePath());
+    support::createDirectory(QFileInfo(app_paths::cache::logFile(selectedProfile)).absolutePath());
     try {
         QString level;
         if (parser.isSet(logLevel)) {
@@ -450,19 +327,10 @@ app::runMainApplication(int argc, char *argv[])
 
     http::init();
 
-    createDirectory(app_paths::data::dbRoot(selectedProfile));
+    support::createDirectory(app_paths::data::dbRoot(selectedProfile));
 
-    registerSignalHandlers();
-
-#if defined(GSTREAMER_AVAILABLE) && (defined(Q_OS_MACOS) || defined(Q_OS_WINDOWS))
-    // If the version of Qt we're running in does not use GLib, we need to
-    // start a GMainLoop so that gstreamer can dispatch events.
-    const QMetaObject *mo = QAbstractEventDispatcher::instance(qApp->thread())->metaObject();
-    if (gloop == 0 && strcmp(mo->className(), "QEventDispatcherGlib") != 0 &&
-        strcmp(mo->superClass()->className(), "QEventDispatcherGlib") != 0) {
-        gthread = g_thread_new(0, glibMainLoopThreadFunc, 0);
-    }
-#endif
+    support::registerSignalHandlers();
+    support::initializeGstreamerEventLoopIfNeeded(app);
 
     auto filter = new KomaiFixupPaletteEventFilter(&app);
     app.installEventFilter(filter);

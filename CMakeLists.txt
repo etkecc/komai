@@ -793,6 +793,8 @@ set(SRC_FILES
 
     src/app/MainApplication.cpp
     src/app/MainApplication.h
+    src/app/MainApplicationSupport.cpp
+    src/app/MainApplicationSupport.h
     src/main.cpp
 )
 

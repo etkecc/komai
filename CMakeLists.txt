@@ -415,6 +415,7 @@ set(SRC_FILES
     # Timeline
     src/timeline/CommunitiesModel.cpp
     src/timeline/CommunitiesModel.h
+    src/timeline/communities/CommunitiesModelData.cpp
     src/timeline/DelegateChooser.cpp
     src/timeline/DelegateChooser.h
     src/timeline/EventStore.cpp

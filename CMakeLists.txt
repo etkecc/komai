@@ -461,6 +461,7 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelSelection.cpp
     src/timeline/roomlist/RoomlistModelSync.cpp
     src/timeline/state/TimelineModelRoomState.cpp
+    src/timeline/state/TimelineModelStateEventActions.cpp
     src/timeline/send/TimelineMessageSendPipeline.cpp
     src/timeline/send/TimelineMessageSendPipeline.h
     src/timeline/Permissions.cpp

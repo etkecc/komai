@@ -24,6 +24,7 @@ Window {
     required property Room room
     required property int originalWidth
     required property double proportionalHeight
+    readonly property bool galleryMode: !!room && eventId !== ""
     property var timelineContext: null
     property var timelineViewContext: null
     property var popupParent: null
@@ -39,18 +40,32 @@ Window {
     property int imageCornerRadius: Komai.paddingMedium
     // Keep close reachable via top-right corner (Fitts's law).
     property int actionBarScreenInset: 0
+    // Minimum number of images to keep available in each direction before
+    // requesting backpagination from the server.
+    readonly property int galleryPrefetchReserve: 5
 
     flags: Qt.FramelessWindowHint
 
     //visibility: Window.FullScreen
     color: modalOverlayColor
-    Component.onCompleted: Komai.setWindowRole(imageOverlay, "imageoverlay")
+    Component.onCompleted: {
+        Komai.setWindowRole(imageOverlay, "imageoverlay");
+        hintTimer.start();
+        ensureGalleryReserve();
+    }
     onVisibleChanged: {
         if (visible) {
             Qt.callLater(() => {
                 imageOverlay.requestActivate();
                 keyCatcher.forceActiveFocus();
             });
+        }
+    }
+
+    Connections {
+        target: imageOverlay.room
+        function onFetchedMore() {
+            imageOverlay.ensureGalleryReserve();
         }
     }
 
@@ -101,6 +116,39 @@ Window {
     function lastVisibleActionButton()
     {
         return closeButton;
+    }
+
+    function navigateTo(imageData) {
+        if (!imageData || !imageData.eventId) return;
+        imgContainer.scale = 1.0;
+        imgContainer.x = Qt.binding(() => (imageOverlay.width - imgContainer.width) / 2);
+        imgContainer.y = Qt.binding(() => (imageOverlay.height - imgContainer.height) / 2);
+        imageOverlay.eventId = imageData.eventId;
+        imageOverlay.url = imageData.url;
+        imageOverlay.originalWidth = imageData.originalWidth ?? 0;
+        imageOverlay.proportionalHeight = imageData.proportionalHeight ?? 0;
+        ensureGalleryReserve();
+    }
+
+    function navigatePrev() {
+        if (!galleryMode) return;
+        navigateTo(room.adjacentImageEvent(eventId, -1));
+    }
+
+    function navigateNext() {
+        if (!galleryMode) return;
+        navigateTo(room.adjacentImageEvent(eventId, +1));
+    }
+
+    function ensureGalleryReserve() {
+        if (!galleryMode) return;
+        if (!room.canPaginateBack() || room.paginationInProgress) return;
+        var behind = room.countNearbyImages(eventId, -1, galleryPrefetchReserve);
+        if (behind < galleryPrefetchReserve) {
+            console.log("[ImageOverlay] gallery reserve low (backward:", behind,
+                        "/", galleryPrefetchReserve, ") — requesting backpagination");
+            room.requestMore();
+        }
     }
 
     function openForwardDialogForCurrentMessage(forwardRoom, forwardEventId, forwardTimeline, forwardTimelineView, forwardPopupParent)
@@ -166,6 +214,11 @@ Window {
                 event.accepted = true;
                 imageOverlay.close();
                 return;
+            }
+
+            if (imageOverlay.galleryMode) {
+                if (event.key === Qt.Key_Left)  { event.accepted = true; imageOverlay.navigatePrev(); return; }
+                if (event.key === Qt.Key_Right) { event.accepted = true; imageOverlay.navigateNext(); return; }
             }
 
             const isTab = event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab;
@@ -250,6 +303,12 @@ Window {
             running: visible
         }
 
+        // Absorb taps on the image so they don't propagate to the root
+        // TapHandler which closes the overlay.
+        TapHandler {
+            gesturePolicy: TapHandler.WithinBounds
+        }
+
         onScaleChanged: {
             if (scale > 10) scale = 10;
             if (scale < 0.1) scale = 0.1
@@ -285,6 +344,164 @@ Window {
     }
 
 
+
+    // One-shot hint animation timer — fires 1s after the overlay opens.
+    Timer {
+        id: hintTimer
+        interval: 1000
+        repeat: false
+        onTriggered: {
+            if (!Settings.uiMotionAnimationsEnabled)
+                return;
+            if (prevHitArea.visible)
+                prevShakeAnimation.start();
+            if (nextHitArea.visible)
+                nextShakeAnimation.start();
+            closeShakeAnimation.start();
+        }
+    }
+
+    // Left navigation hit area
+    Rectangle {
+        id: prevHitArea
+
+        visible: imageOverlay.galleryMode && hasPrev
+        anchors.left: parent.left
+        anchors.top: actionBar.bottom
+        anchors.topMargin: Komai.paddingLarge
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Komai.paddingLarge + actionBar.height
+        width: actionBar.height
+        radius: Komai.paddingMedium
+        color: "transparent"
+
+        property var prevImageData: imageOverlay.galleryMode ? room.adjacentImageEvent(imageOverlay.eventId, -1) : ({})
+        readonly property bool hasPrev: !!prevImageData && !!prevImageData.eventId
+        property bool hinting: false
+
+        SequentialAnimation {
+            id: prevShakeAnimation
+            PropertyAction  { target: prevHitArea; property: "hinting"; value: true }
+            NumberAnimation  { target: prevIcon; property: "rotation"; to: -15; duration: 50 }
+            NumberAnimation  { target: prevIcon; property: "rotation"; to: 15;  duration: 80 }
+            NumberAnimation  { target: prevIcon; property: "rotation"; to: -10; duration: 70 }
+            NumberAnimation  { target: prevIcon; property: "rotation"; to: 10;  duration: 60 }
+            NumberAnimation  { target: prevIcon; property: "rotation"; to: 0;   duration: 50 }
+            PropertyAction  { target: prevHitArea; property: "hinting"; value: false }
+        }
+
+        // Button fills the whole bar
+        Rectangle {
+            anchors.fill: parent
+            radius: parent.radius
+            color: prevMouseArea.containsMouse ? actionButtonHoverBackgroundColor : actionBarColor
+
+            // Square off the left corners so the bar sits flush against the screen edge.
+            Rectangle {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                width: prevHitArea.radius
+                height: prevHitArea.radius
+                color: parent.color
+            }
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                width: prevHitArea.radius
+                height: prevHitArea.radius
+                color: parent.color
+            }
+
+            Image {
+                id: prevIcon
+                anchors.centerIn: parent
+                width: actionButtonIconSize
+                height: actionButtonIconSize
+                source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (prevHitArea.hinting ? imageOverlay.palette.highlight : actionButtonColor)
+                sourceSize.width: width * Screen.devicePixelRatio
+                sourceSize.height: height * Screen.devicePixelRatio
+            }
+        }
+
+        MouseArea {
+            id: prevMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: imageOverlay.navigatePrev()
+        }
+    }
+
+    // Right navigation hit area
+    Rectangle {
+        id: nextHitArea
+
+        visible: imageOverlay.galleryMode && hasNext
+        anchors.right: parent.right
+        anchors.top: actionBar.bottom
+        anchors.topMargin: Komai.paddingLarge
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Komai.paddingLarge + actionBar.height
+        width: actionBar.height
+        radius: Komai.paddingMedium
+        color: "transparent"
+
+        property var nextImageData: imageOverlay.galleryMode ? room.adjacentImageEvent(imageOverlay.eventId, +1) : ({})
+        readonly property bool hasNext: !!nextImageData && !!nextImageData.eventId
+        property bool hinting: false
+
+        SequentialAnimation {
+            id: nextShakeAnimation
+            PropertyAction  { target: nextHitArea; property: "hinting"; value: true }
+            NumberAnimation  { target: nextIcon; property: "rotation"; to: -15; duration: 50 }
+            NumberAnimation  { target: nextIcon; property: "rotation"; to: 15;  duration: 80 }
+            NumberAnimation  { target: nextIcon; property: "rotation"; to: -10; duration: 70 }
+            NumberAnimation  { target: nextIcon; property: "rotation"; to: 10;  duration: 60 }
+            NumberAnimation  { target: nextIcon; property: "rotation"; to: 0;   duration: 50 }
+            PropertyAction  { target: nextHitArea; property: "hinting"; value: false }
+        }
+
+        // Button fills the whole bar
+        Rectangle {
+            anchors.fill: parent
+            radius: parent.radius
+            color: nextMouseArea.containsMouse ? actionButtonHoverBackgroundColor : actionBarColor
+
+            // Square off the right corners so the bar sits flush against the screen edge.
+            Rectangle {
+                anchors.top: parent.top
+                anchors.right: parent.right
+                width: nextHitArea.radius
+                height: nextHitArea.radius
+                color: parent.color
+            }
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                width: nextHitArea.radius
+                height: nextHitArea.radius
+                color: parent.color
+            }
+
+            Image {
+                id: nextIcon
+                anchors.centerIn: parent
+                width: actionButtonIconSize
+                height: actionButtonIconSize
+                source: "image://colorimage/:/icons/icons/ui/collapsed.svg?" + (nextHitArea.hinting ? imageOverlay.palette.highlight : actionButtonColor)
+                sourceSize.width: width * Screen.devicePixelRatio
+                sourceSize.height: height * Screen.devicePixelRatio
+            }
+        }
+
+        MouseArea {
+            id: nextMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: imageOverlay.navigateNext()
+        }
+    }
 
     Rectangle {
         id: actionBar
@@ -448,17 +665,30 @@ Window {
                 KeyNavigation.tab: forwardButton.visible ? forwardButton : openButton
                 KeyNavigation.backtab: downloadButton
 
+                property bool hinting: false
+
                 // Keep close action flat at the screen edge so the full actions row appears
                 // as one continuous bar anchored to the right.
                 flatTopRightCorner: true
 
                 iconSource: ":/icons/icons/ui/dismiss.svg"
                 labelText: qsTr("Close")
-                textColor: actionButtonColor
+                textColor: hinting ? imageOverlay.palette.highlight : actionButtonColor
                 hoverIconColor: actionButtonHoverColor
                 hoverTextColor: actionButtonHoverColor
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
                 iconSize: actionButtonIconSize
+
+                SequentialAnimation {
+                    id: closeShakeAnimation
+                    PropertyAction  { target: closeButton; property: "hinting"; value: true }
+                    NumberAnimation  { target: closeButton; property: "rotation"; to: -15; duration: 50 }
+                    NumberAnimation  { target: closeButton; property: "rotation"; to: 15;  duration: 80 }
+                    NumberAnimation  { target: closeButton; property: "rotation"; to: -10; duration: 70 }
+                    NumberAnimation  { target: closeButton; property: "rotation"; to: 10;  duration: 60 }
+                    NumberAnimation  { target: closeButton; property: "rotation"; to: 0;   duration: 50 }
+                    PropertyAction  { target: closeButton; property: "hinting"; value: false }
+                }
 
                 onClicked: imageOverlay.closeOverlaySoon()
             }

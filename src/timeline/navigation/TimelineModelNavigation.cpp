@@ -9,6 +9,8 @@
 
 #include <QGuiApplication>
 
+#include "events/EventAccessors.h"
+
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
@@ -197,6 +199,74 @@ TimelineModel::scrollTimerEvent()
         emit scrollToIndex(idToIndex(eventIdToShow));
         showEventTimerCounter++;
     }
+}
+
+QVariantMap
+TimelineModel::adjacentImageEvent(const QString &currentEventId, int direction) const
+{
+    auto currentIdx = events.idToIndex(currentEventId.toStdString());
+    if (!currentIdx)
+        return {};
+
+    const int step  = (direction >= 0) ? 1 : -1;
+    const int limit = 10000;
+
+    for (int i = 1; i <= limit; ++i) {
+        int idx     = *currentIdx + step * i;
+        auto *event = events.get(idx);
+        if (!event)
+            break;
+
+        auto type = qml_mtx_events::toRoomEventType(*event);
+        if (type != qml_mtx_events::EventType::ImageMessage &&
+            type != qml_mtx_events::EventType::Sticker)
+            continue;
+
+        auto w      = mtx::accessors::media_width(*event);
+        double prop = (w > 0) ? static_cast<double>(mtx::accessors::media_height(*event)) /
+                                  static_cast<double>(w)
+                              : 1.0;
+
+        QVariantMap result;
+        result[QStringLiteral("eventId")] =
+          QString::fromStdString(mtx::accessors::event_id(*event));
+        result[QStringLiteral("url")] = QString::fromStdString(mtx::accessors::url(*event));
+        result[QStringLiteral("originalWidth")]      = QVariant::fromValue(qulonglong{w});
+        result[QStringLiteral("proportionalHeight")] = QVariant::fromValue(prop);
+        return result;
+    }
+
+    return {};
+}
+
+int
+TimelineModel::countNearbyImages(const QString &currentEventId, int direction, int limit) const
+{
+    auto currentIdx = events.idToIndex(currentEventId.toStdString());
+    if (!currentIdx)
+        return 0;
+
+    const int step = (direction >= 0) ? 1 : -1;
+    int count      = 0;
+
+    for (int i = 1; i <= 10000 && count < limit; ++i) {
+        int idx     = *currentIdx + step * i;
+        auto *event = events.get(idx);
+        if (!event)
+            break;
+
+        auto type = qml_mtx_events::toRoomEventType(*event);
+        if (type == qml_mtx_events::EventType::ImageMessage ||
+            type == qml_mtx_events::EventType::Sticker)
+            ++count;
+    }
+
+    nhlog::ui()->info("countNearbyImages from {} dir={} limit={}: found {}",
+                      currentEventId.toStdString(),
+                      direction,
+                      limit,
+                      count);
+    return count;
 }
 
 void

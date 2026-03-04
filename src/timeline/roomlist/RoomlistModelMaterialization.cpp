@@ -5,6 +5,7 @@
 
 #include "RoomlistModel.h"
 
+#include "DirectChatResolver.h"
 #include "TimelineModel.h"
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
@@ -80,6 +81,16 @@ RoomlistModel::connectRoomModelSignals(const QString &room_id,
         }
 
         emit totalUnreadMessageCountUpdated(total_unread_msgs);
+    });
+    connect(roomModel.data(), &TimelineModel::roomMemberCountChanged, this, [room_id, this]() {
+        DirectChatResolver::instance().invalidateForRoomId(room_id);
+        auto idx = this->roomidToIndex(room_id);
+        if (idx != -1)
+            emit dataChanged(index(idx), index(idx), {IsDirect, DirectChatOtherUserId});
+        if (auto room = models.value(room_id); !room.isNull()) {
+            emit room->isDirectChanged();
+            emit room->directChatOtherUserIdChanged();
+        }
     });
 }
 

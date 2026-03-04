@@ -265,7 +265,7 @@ public:
     QString fullyReadEventId() const { return QString::fromStdString(fullyReadEventId_); }
     crypto::Trust trustlevel() const;
     int roomMemberCount() const;
-    bool isDirect() const { return roomMemberCount() <= 2; }
+    bool isDirect() const;
     QString directChatOtherUserId() const;
 
     mtx::pushrules::PushRuleEvaluator::RoomContext pushrulesRoomContext() const;

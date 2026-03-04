@@ -205,13 +205,8 @@ TimelineModel::emitRoomMetadataChanges(bool avatarChanged,
     if (nameChanged)
         emit roomNameChanged();
 
-    if (memberCountChanged) {
+    if (memberCountChanged)
         emit roomMemberCountChanged();
-        if (roomMemberCount() <= 2) {
-            emit isDirectChanged();
-            emit directChatOtherUserIdChanged();
-        }
-    }
 }
 
 bool

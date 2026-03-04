@@ -205,8 +205,6 @@ private:
     bool hasDraft(const QString &room_id) const;
     void persistDraftForRoom(const QString &room_id, const QString &draftText);
     void fetchPreviews(QString roomid, const std::string &from = "");
-    std::set<QString> updateDMs(mtx::events::AccountDataEvent<mtx::events::account_data::Direct> e);
-
     TimelineViewManager *manager = nullptr;
     std::vector<QString> roomids;
     QHash<QString, RoomInfo> invites;
@@ -232,8 +230,6 @@ private:
     // When UI requests opening a room before sync inserts it into `models`,
     // remember the target and switch once addRoom() sees it.
     QString pendingCurrentRoomId_;
-
-    std::map<QString, std::vector<QString>> directChatToUser;
 
 #ifdef KOMAI_DBUS_SYS
     DbusBackend *dbusInterface_ = nullptr;

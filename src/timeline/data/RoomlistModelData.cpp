@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include <QTimer>
 
+#include "DirectChatResolver.h"
 #include "TimelineModel.h"
 #include "cache/Cache.h"
 #include "events/EventAccessors.h"
@@ -33,10 +34,9 @@ RoomlistModel::commonRoomData(const QString &room_id, int role) const
     case Roles::RoomId:
         return QVariant{room_id};
     case Roles::IsDirect:
-        return QVariant{directChatToUser.count(room_id) > 0};
+        return QVariant{DirectChatResolver::instance().isDirectChat(room_id)};
     case Roles::DirectChatOtherUserId:
-        return QVariant{directChatToUser.count(room_id) ? directChatToUser.at(room_id).front()
-                                                        : QString{}};
+        return QVariant{DirectChatResolver::instance().directChatPartner(room_id)};
     case Roles::HasDraft:
         return QVariant{hasDraft(room_id)};
     case Roles::DraftPreview:

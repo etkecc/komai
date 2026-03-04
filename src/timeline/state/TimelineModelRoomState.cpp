@@ -11,6 +11,7 @@
 #include <QQmlEngine>
 #include <QUrl>
 
+#include "DirectChatResolver.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
@@ -159,17 +160,16 @@ TimelineModel::roomMemberCount() const
     return (int)cache::memberCount(room_id_.toStdString());
 }
 
+bool
+TimelineModel::isDirect() const
+{
+    return DirectChatResolver::instance().isDirectChat(room_id_);
+}
+
 QString
 TimelineModel::directChatOtherUserId() const
 {
-    if (roomMemberCount() < 3) {
-        QString id;
-        for (const auto &member : cache::getMembers(room_id_.toStdString()))
-            if (member.user_id != UserSettings::instance()->userId())
-                id = member.user_id;
-        return id;
-    } else
-        return {};
+    return DirectChatResolver::instance().directChatPartner(room_id_);
 }
 
 mtx::pushrules::PushRuleEvaluator::RoomContext

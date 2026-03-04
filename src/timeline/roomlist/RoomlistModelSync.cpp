@@ -5,8 +5,7 @@
 
 #include "RoomlistModel.h"
 
-#include <stdexcept>
-
+#include "DirectChatResolver.h"
 #include "TimelineModel.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
@@ -15,54 +14,6 @@
 #include "ui/MainWindow.h"
 #include "utils/Utils.h"
 #include "voip/CallManager.h"
-
-std::set<QString>
-RoomlistModel::updateDMs(mtx::events::AccountDataEvent<mtx::events::account_data::Direct> event)
-{
-    std::set<QString> roomsToUpdate;
-    std::map<QString, std::vector<QString>> directChatToUserTemp;
-
-    for (const auto &[user, rooms] : event.content.user_to_rooms) {
-        QString u = QString::fromStdString(user);
-
-        for (const auto &r : rooms) {
-            directChatToUserTemp[QString::fromStdString(r)].push_back(u);
-        }
-    }
-
-    for (auto l = directChatToUser.begin(), r = directChatToUserTemp.begin();
-         l != directChatToUser.end() && r != directChatToUserTemp.end();) {
-        if (l == directChatToUser.end()) {
-            while (r != directChatToUserTemp.end()) {
-                roomsToUpdate.insert(r->first);
-                ++r;
-            }
-        } else if (r == directChatToUserTemp.end()) {
-            while (l != directChatToUser.end()) {
-                roomsToUpdate.insert(l->first);
-                ++l;
-            }
-        } else if (l->first == r->first) {
-            if (l->second != r->second)
-                roomsToUpdate.insert(l->first);
-
-            ++l;
-            ++r;
-        } else if (l->first < r->first) {
-            roomsToUpdate.insert(l->first);
-            ++l;
-        } else if (l->first > r->first) {
-            roomsToUpdate.insert(r->first);
-            ++r;
-        } else {
-            throw std::logic_error("Infinite loop when updating DMs!");
-        }
-    }
-
-    this->directChatToUser = directChatToUserTemp;
-
-    return roomsToUpdate;
-}
 
 void
 RoomlistModel::emitRoomRowUpdate(const QString &room_id)
@@ -188,12 +139,15 @@ void
 RoomlistModel::sync(const mtx::responses::Sync &sync_)
 {
     for (const auto &e : sync_.account_data.events) {
-        if (auto event =
-              std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(&e)) {
-            auto updatedDMs = updateDMs(*event);
-            for (const auto &r : updatedDMs) {
+        if (std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(&e)) {
+            auto changedRooms = DirectChatResolver::instance().reload();
+            for (const auto &r : changedRooms) {
                 if (auto idx = roomidToIndex(r); idx != -1)
                     emit dataChanged(index(idx), index(idx), {IsDirect, DirectChatOtherUserId});
+                if (auto room = models.value(r); !room.isNull()) {
+                    emit room->isDirectChanged();
+                    emit room->directChatOtherUserIdChanged();
+                }
             }
         }
     }
@@ -219,14 +173,7 @@ RoomlistModel::initializeRooms()
     beginResetModel();
     resetRoomCollections(false);
 
-    auto e = cache::getAccountData(mtx::events::EventType::Direct);
-    if (e) {
-        if (auto event =
-              std::get_if<mtx::events::AccountDataEvent<mtx::events::account_data::Direct>>(
-                &e.value())) {
-            updateDMs(*event);
-        }
-    }
+    DirectChatResolver::instance().reload();
 
     invites               = cache::invites();
     const int inviteCount = invites.size();

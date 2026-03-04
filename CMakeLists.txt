@@ -476,6 +476,8 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelPrewarm.cpp
     src/timeline/roomlist/RoomlistModelSelection.cpp
     src/timeline/roomlist/RoomlistModelSync.cpp
+    src/timeline/DirectChatResolver.cpp
+    src/timeline/DirectChatResolver.h
     src/timeline/state/TimelineModelRoomState.cpp
     src/timeline/state/TimelineModelStateEventActions.cpp
     src/timeline/send/TimelineMessageSendPipeline.cpp

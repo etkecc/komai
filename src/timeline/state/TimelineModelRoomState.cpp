@@ -23,8 +23,7 @@ TimelineModel::roomName() const
 
     if (!info.count(room_id_))
         return {};
-    else
-        return utils::replaceEmoji(QString::fromStdString(info[room_id_].name).toHtmlEscaped());
+    return utils::replaceEmoji(QString::fromStdString(info[room_id_].name).toHtmlEscaped());
 }
 
 QString
@@ -34,8 +33,7 @@ TimelineModel::plainRoomName() const
 
     if (!info.count(room_id_))
         return {};
-    else
-        return QString::fromStdString(info[room_id_].name);
+    return QString::fromStdString(info[room_id_].name);
 }
 
 QString

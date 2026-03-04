@@ -213,4 +213,8 @@ parseMatrixUri(QString uri);
 
 void
 markFileAsFromWeb(const QString &file);
+
+//! Returns true if the user ID / display name suggest a bot or bridge service account.
+bool
+isLikelyBotUser(std::string_view userId, std::string_view displayName);
 }

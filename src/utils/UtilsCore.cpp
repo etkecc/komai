@@ -247,3 +247,50 @@ utils::isReply(const mtx::events::collections::TimelineEvents &e)
 {
     return mtx::accessors::relations(e).reply_to().has_value();
 }
+
+bool
+utils::isLikelyBotUser(std::string_view userId, std::string_view displayName)
+{
+    auto ciContains = [](std::string_view haystack, std::string_view needle) {
+        if (needle.size() > haystack.size())
+            return false;
+        for (size_t i = 0; i <= haystack.size() - needle.size(); ++i) {
+            bool match = true;
+            for (size_t j = 0; j < needle.size(); ++j) {
+                if (std::tolower(static_cast<unsigned char>(haystack[i + j])) !=
+                    std::tolower(static_cast<unsigned char>(needle[j]))) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match)
+                return true;
+        }
+        return false;
+    };
+
+    auto ciStartsWith = [](std::string_view s, std::string_view prefix) {
+        if (prefix.size() > s.size())
+            return false;
+        for (size_t i = 0; i < prefix.size(); ++i) {
+            if (std::tolower(static_cast<unsigned char>(s[i])) !=
+                std::tolower(static_cast<unsigned char>(prefix[i])))
+                return false;
+        }
+        return true;
+    };
+
+    // @bot… or @botserv:server
+    if (ciStartsWith(userId, "@bot"))
+        return true;
+
+    // @telegrambot:server, @messengerbot:server, etc.
+    if (ciContains(userId, "bot:"))
+        return true;
+
+    // "Telegram Bridge Bot", "Signal bridge bot", etc.
+    if (ciContains(displayName, "bridge bot"))
+        return true;
+
+    return false;
+}

@@ -133,17 +133,5 @@ DirectChatResolver::invalidateForRoomId(const QString &roomId)
 bool
 DirectChatResolver::isLikelyBotUser(const QString &userId, const QString &displayName)
 {
-    // @bot… or @botserv:server
-    if (userId.startsWith(QLatin1String("@bot"), Qt::CaseInsensitive))
-        return true;
-
-    // @telegrambot:server, @messengerbot:server, etc.
-    if (userId.contains(QLatin1String("bot:"), Qt::CaseInsensitive))
-        return true;
-
-    // "Telegram Bridge Bot", "Signal bridge bot", etc.
-    if (displayName.contains(QLatin1String("bridge bot"), Qt::CaseInsensitive))
-        return true;
-
-    return false;
+    return utils::isLikelyBotUser(userId.toStdString(), displayName.toStdString());
 }

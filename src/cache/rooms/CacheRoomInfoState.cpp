@@ -13,6 +13,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "utils/Utils.h"
 
 using namespace mtx::events;
 
@@ -32,15 +33,22 @@ MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
     }
 
     // We don't use an avatar for group chats.
-    if (membersdb.size(txn) > 2)
+    const auto total = membersdb.size(txn);
+    if (total > 3)
         return QString();
 
     const auto localUserId = localUserId_.toStdString();
     std::string fallback_url;
-    std::string direct_url;
-    bool foundDirectUrl = false;
 
-    // Resolve avatar for 1-1 chats.
+    // Collect non-self members (up to 2).
+    struct OtherMember
+    {
+        std::string user_id;
+        std::string avatar_url;
+        std::string name;
+    };
+    std::vector<OtherMember> others;
+
     db::forEachEntry(txn, membersdb, [&](std::string_view user_id, std::string_view member_data) {
         try {
             MemberInfo m = cache::codec::parseMemberInfo(member_data);
@@ -48,20 +56,26 @@ MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
                 fallback_url = m.avatar_url;
                 return true;
             }
-
-            direct_url     = m.avatar_url;
-            foundDirectUrl = true;
-            return false;
+            others.push_back({std::string(user_id), m.avatar_url, m.name});
         } catch (const nlohmann::json::exception &e) {
             cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
         }
         return true;
     });
 
-    if (foundDirectUrl)
-        return QString::fromStdString(direct_url);
+    if (others.size() == 1)
+        return QString::fromStdString(others[0].avatar_url);
 
-    // Default case when there is only one member.
+    if (others.size() == 2) {
+        bool bot0 = utils::isLikelyBotUser(others[0].user_id, others[0].name);
+        bool bot1 = utils::isLikelyBotUser(others[1].user_id, others[1].name);
+        if (bot0 && !bot1)
+            return QString::fromStdString(others[1].avatar_url);
+        if (bot1 && !bot0)
+            return QString::fromStdString(others[0].avatar_url);
+    }
+
+    // Self-chat or ambiguous: use local user's avatar.
     return QString::fromStdString(fallback_url);
 }
 
@@ -133,9 +147,24 @@ MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
 
     if (total == 2)
         return first_member;
-    else if (total == 3)
+    else if (total == 3) {
+        // If one of the two non-self members is a bot, show only the human's name.
+        auto localStd = localUserId_.toStdString();
+        std::vector<std::pair<std::string, std::string>> otherMembers; // {user_id, name}
+        for (const auto &m : members) {
+            if (m.first != localStd)
+                otherMembers.emplace_back(m.first, m.second.name);
+        }
+        if (otherMembers.size() == 2) {
+            bool bot0 = utils::isLikelyBotUser(otherMembers[0].first, otherMembers[0].second);
+            bool bot1 = utils::isLikelyBotUser(otherMembers[1].first, otherMembers[1].second);
+            if (bot0 && !bot1)
+                return QString::fromStdString(otherMembers[1].second);
+            if (bot1 && !bot0)
+                return QString::fromStdString(otherMembers[0].second);
+        }
         return tr("%1 and %2", "RoomName").arg(first_member, second_member);
-    else if (total > 3)
+    } else if (total > 3)
         return tr("%1 and %n other(s)", "", (int)total - 2).arg(first_member);
 
     return tr("Empty Room");

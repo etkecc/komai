@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include <QColor>
 #include <QPalette>
 #include <QQmlEngine>
@@ -24,6 +26,8 @@ class Theme final : public QPalette
     Q_PROPERTY(QColor warning READ warning CONSTANT)
     Q_PROPERTY(QColor online READ online CONSTANT)
     Q_PROPERTY(QColor unavailable READ unavailable CONSTANT)
+    Q_PROPERTY(QColor userColorSelf READ userColorSelf CONSTANT)
+    Q_PROPERTY(QList<QColor> userColorOthers READ userColorOthers CONSTANT)
 public:
     Theme() {}
     explicit Theme(QStringView theme);
@@ -37,7 +41,11 @@ public:
     QColor warning() const { return warning_; }
     QColor online() const { return QColor(0x00, 0xcc, 0x66); }
     QColor unavailable() const { return QColor(0xff, 0x99, 0x33); }
+    QColor userColorSelf() const { return userColorSelf_; }
+    QList<QColor> userColorOthers() const { return userColorOthers_; }
 
 private:
     QColor sidebarBackground_, separator_, attention_, success_, error_, warning_;
+    QColor userColorSelf_;
+    QList<QColor> userColorOthers_;
 };

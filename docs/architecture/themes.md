@@ -10,10 +10,10 @@ For user-facing documentation, see [docs/user-guide/themes.md](../user-guide/the
 tinted-theming/schemes (Base16 YAML)
         │
         ▼
-komai theme tinted-import    ← applies Base16→QPalette mapping + contrast heuristics
+komai theme tinted-import    ← applies Base16→QPalette mapping + contrast heuristics + userColors generation
         │
         ▼
-resources/themes/*.yml      ← resolved QPalette-level colors (20 keys)
+resources/themes/*.yml      ← resolved palette colors (16 Qt + 4 app) + userColors
         │
         ▼
 bin/theme/generate.py        ← reads colors as-is, generates C++ header
@@ -40,7 +40,7 @@ runtime from XDG data directories via `ThemeRegistry` (`src/ui/ThemeRegistry.cpp
                                                 │
                                                 ▼
                                         ThemeRegistry::loadExternalThemes()
-                                        ← parses YAML, validates 20 palette keys
+                                        ← parses YAML, validates palette + userColors
                                                 │
 tinted-theming/schemes (Base16 YAML)            │
         │                                       │
@@ -70,12 +70,20 @@ rather than free functions.
 
 ## YAML format
 
-Theme files contain 20 palette keys directly under `palette:`:
+Theme files contain 20 color keys under `palette:`, plus a required
+`userColors:` section:
 
-- **16 QPalette roles:** `window`, `windowText`, `base`, `alternateBase`, `text`,
+- **16 Qt palette roles:** `window`, `windowText`, `base`, `alternateBase`, `text`,
   `brightText`, `button`, `buttonText`, `light`, `mid`, `dark`, `highlight`,
   `highlightedText`, `link`, `toolTipBase`, `toolTipText`
-- **4 semantic accent colors:** `attention`, `success`, `warning`, `error`
+- **4 app-level semantic colors:** `attention`, `success`, `warning`, `error`
+- **`userColors`** — user colors (timeline, member lists, profiles, etc.):
+  - `self` — hex color for the current user and their messages
+  - `others` — list of hex colors for other users (minimum 1)
+
+When the "Adaptive" user color policy is active, `roomUserColor()` uses
+`others` directly: rooms with more members than `others.size()` get a uniform
+color; smaller rooms assign a distinct color per member from the list.
 
 Imported themes include an optional `source_base16:` section preserving the
 original Base16 palette. This section is purely informational and is ignored
@@ -181,7 +189,7 @@ src/cli/ThemeCommands.cpp           ← HTTP fetch from tinted-theming
         │
         ▼
 src/cli/ThemeColorUtils.cpp         ← Base16→QPalette mapping + contrast heuristics
-        │                              (direct port of bin/theme/colors.py)
+        │                              + userColors generation (direct port of bin/theme/colors.py)
         ▼
 ~/.local/share/komai/themes/*.yml   ← user themes directory
 ```
@@ -199,4 +207,4 @@ See [CLI Architecture](cli.md) for the subcommand dispatch design.
 |--------|---------|
 | `bin/theme/colors.py` | Shared module: YAML parser, color utilities |
 | `bin/theme/generate.py` | Read resolved YAMLs, generate C++ header |
-| `bin/theme/check.py` | Validate theme YAML files (20 palette keys, hex format) |
+| `bin/theme/check.py` | Validate theme YAML files (palette colors, userColors, hex format) |

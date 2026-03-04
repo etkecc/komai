@@ -56,6 +56,10 @@ def generate_header(themes: list[dict]) -> str:
     lines.append("    // Semantic accent colors")
     lines.append("    QColor attention, success, warning, error;")
     lines.append("")
+    lines.append("    // User colors for sender/member color coding")
+    lines.append("    QColor userColorSelf;")
+    lines.append("    std::vector<QColor> userColorOthers;")
+    lines.append("")
     lines.append('    QString source;  // "builtin" or "/full/path/to/theme.yml"')
     lines.append("")
     lines.append("    QPalette toPalette() const {")
@@ -83,6 +87,8 @@ def generate_header(themes: list[dict]) -> str:
         name = t["name"]
         variant = t["variant"]
         order = t["sort_order"]
+        user_self = t["user_color_self"]
+        user_others = t["user_color_others"]
 
         lines.append(f"        ThemeDef{{")
         lines.append(f'            QStringLiteral("{slug}"),')
@@ -119,6 +125,12 @@ def generate_header(themes: list[dict]) -> str:
         lines.append(f"            /*success*/ {hex_to_qcolor(custom['success'])},")
         lines.append(f"            /*warning*/ {hex_to_qcolor(custom['warning'])},")
         lines.append(f"            /*error*/ {hex_to_qcolor(custom['error'])},")
+        lines.append(f"            // User colors")
+        lines.append(f"            /*userColorSelf*/ {hex_to_qcolor(user_self)},")
+
+        others_items = ", ".join(hex_to_qcolor(c) for c in user_others)
+        lines.append(f"            /*userColorOthers*/ {{{others_items}}},")
+
         lines.append(f'            QStringLiteral("builtin"),')
         lines.append(f"        }},")
 
@@ -202,7 +214,7 @@ def main():
         slug = tf.stem  # filename without extension
 
         # Validate required fields
-        for field in ("name", "variant", "palette"):
+        for field in ("name", "variant", "palette", "userColors"):
             if field not in data:
                 print(f"ERROR: {tf} missing required field: {field}", file=sys.stderr)
                 sys.exit(1)
@@ -222,6 +234,18 @@ def main():
                 print(f"ERROR: {tf} missing palette key: {key}", file=sys.stderr)
                 sys.exit(1)
 
+        # Validate userColors
+        user_colors = data["userColors"]
+        if "self" not in user_colors:
+            print(f"ERROR: {tf} missing userColors.self", file=sys.stderr)
+            sys.exit(1)
+        if "others" not in user_colors or not isinstance(user_colors["others"], list):
+            print(f"ERROR: {tf} missing or invalid userColors.others", file=sys.stderr)
+            sys.exit(1)
+        if len(user_colors["others"]) < 1:
+            print(f"ERROR: {tf} userColors.others must have at least 1 entry", file=sys.stderr)
+            sys.exit(1)
+
         # Read QPalette colors directly
         palette_mapped = {key: palette[key] for key in PALETTE_KEYS}
         custom = {key: palette[key] for key in CUSTOM_KEYS}
@@ -234,6 +258,8 @@ def main():
                 "sort_order": sort_key(slug),
                 "palette_mapped": palette_mapped,
                 "custom": custom,
+                "user_color_self": user_colors["self"],
+                "user_color_others": user_colors["others"],
             }
         )
 
@@ -254,7 +280,8 @@ def main():
         cr_hw = contrast_ratio(pal["highlight"], pal["window"])
         cr_bt = contrast_ratio(pal["brightText"], pal["dark"])
         cr_dw = contrast_ratio(pal["dark"], pal["window"])
-        print(f"  {t['slug']:25s} {t['variant']:5s}  {t['name']}")
+        n_others = len(t["user_color_others"])
+        print(f"  {t['slug']:25s} {t['variant']:5s}  {t['name']}  (userColors: {n_others} others)")
         print(f"    hlText/hl={cr_ht:.1f}  hl/win={cr_hw:.1f}  "
               f"brightText/dark={cr_bt:.1f}  dark/win={cr_dw:.1f}")
 

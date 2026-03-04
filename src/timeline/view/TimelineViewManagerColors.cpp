@@ -12,6 +12,7 @@
 
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/ThemeRegistry.h"
 #include "utils/Utils.h"
 
 void
@@ -31,32 +32,10 @@ TimelineViewManager::userColor(QString id, QColor background)
     return userColors.value(idx);
 }
 
-// 16 maximally-spaced hues (in degrees) for small-room palette assignment.
-// Ordered so that adjacent slots have large hue separation (golden-angle inspired).
-const std::vector<double> TimelineViewManager::kPaletteHues = {
-  0,     // red
-  137.5, // green-cyan
-  275,   // violet
-  52.5,  // amber/yellow
-  190,   // cyan-blue
-  327.5, // magenta-pink
-  95,    // lime/chartreuse
-  232.5, // blue-indigo
-  22.5,  // orange-red
-  160,   // teal
-  297.5, // purple
-  75,    // yellow-green
-  212.5, // azure
-  350,   // rose
-  117.5, // green
-  255,   // blue-violet
-};
-
 QColor
 TimelineViewManager::roomUserColor(QString roomId,
                                    QString userId,
                                    QColor background,
-                                   QColor accentColor,
                                    int colorCodingPolicy)
 {
     // Guard against empty strings (e.g. event data not yet loaded) to avoid
@@ -80,17 +59,31 @@ TimelineViewManager::roomUserColor(QString roomId,
                         : UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
     }();
 
-    const auto othersColor = [accentColor]() {
-        // Hue is offset 150 degrees from the theme accent so it always contrasts
-        // with the sender's own bubble color (e.g. orange accent -> teal, blue -> magenta).
-        double accentHue = accentColor.hslHue();
-        int neutralHue   = (static_cast<int>(accentHue + 150)) % 360;
-        return QColor::fromHsl(neutralHue, 80, 130);
+    // Read user colors from the current theme.
+    QColor selfColor;
+    QList<QColor> othersColors;
+    const auto settings = UserSettings::instance();
+    if (settings) {
+        const auto *def = ThemeRegistry::instance().findTheme(settings->uiThemeSlug());
+        if (def) {
+            selfColor = def->userColorSelf;
+            othersColors.reserve(static_cast<qsizetype>(def->userColorOthers.size()));
+            for (const auto &c : def->userColorOthers)
+                othersColors.append(c);
+        }
+    }
+    // Fallback if no theme found
+    if (!selfColor.isValid())
+        selfColor = QColor(0xf4, 0x93, 0x00); // Komai orange
+
+    // Uniform "others" color = first color in the others list.
+    const auto othersUniform = [&othersColors]() -> QColor {
+        return othersColors.isEmpty() ? QColor::fromHsl(180, 80, 130) : othersColors.first();
     };
 
     if (isPreviewRoom) {
         if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
-            return userId == selfId ? accentColor : othersColor();
+            return userId == selfId ? selfColor : othersUniform();
 
         // Settings preview uses a synthetic room that does not exist in cache; generate stable
         // per-member colors directly from ids so color-coding policy changes remain visible.
@@ -107,16 +100,18 @@ TimelineViewManager::roomUserColor(QString roomId,
     }
 
     if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
-        return userId == selfId ? accentColor : othersColor();
+        return userId == selfId ? selfColor : othersUniform();
 
-    auto memberCount = static_cast<int>(cache::memberCount(roomId.toStdString()));
+    auto memberCount   = static_cast<int>(cache::memberCount(roomId.toStdString()));
+    int othersListSize = othersColors.size();
 
-    // Large room (>16 members): return a uniform accent-complementary color.
-    if (memberCount > 16) {
-        return othersColor();
+    // Dynamic threshold: if room has more members than the theme provides colors for,
+    // use the uniform "others" color.
+    if (othersListSize == 0 || memberCount > othersListSize) {
+        return othersUniform();
     }
 
-    // Small room (<=16 members): assign unique palette colors.
+    // Small room: assign unique palette colors from the theme's others list.
     std::pair<QString, QString> cacheKey{roomId, userId};
     if (roomUserColors_.contains(cacheKey))
         return roomUserColors_.value(cacheKey);
@@ -147,31 +142,13 @@ TimelineViewManager::roomUserColor(QString roomId,
 
     const auto &members = roomMemberCache_.value(roomId);
 
-    // Filter palette hues that are too close to the accent color (self bubble hue).
-    double accentHue                = accentColor.hslHueF() * 360.0;
-    constexpr double kExclusionZone = 30.0; // degrees on each side
-
-    std::vector<double> filteredHues;
-    filteredHues.reserve(kPaletteHues.size());
-    for (double h : kPaletteHues) {
-        double diff = std::abs(h - accentHue);
-        if (diff > 180.0)
-            diff = 360.0 - diff;
-        if (diff >= kExclusionZone)
-            filteredHues.push_back(h);
-    }
-    // Fallback: if too many hues were filtered, use the full palette.
-    if (filteredHues.size() < 8)
-        filteredHues = kPaletteHues;
-
     // Find this user's palette slot.
     auto it  = std::find(members.begin(), members.end(), userId.toStdString());
     int slot = 0;
     if (it != members.end())
         slot = static_cast<int>(std::distance(members.begin(), it));
 
-    double hue   = filteredHues[static_cast<size_t>(slot) % filteredHues.size()];
-    QColor color = QColor::fromHslF(hue / 360.0, 0.7, 0.5);
+    QColor color = othersColors[slot % othersListSize];
 
     roomUserColors_.insert(cacheKey, color);
     return color;

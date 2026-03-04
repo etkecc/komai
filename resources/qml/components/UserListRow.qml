@@ -37,7 +37,7 @@ ItemDelegate {
         Label {
             Layout.fillWidth: true
             text: displayName
-            color: Qt.darker(roomId ? TimelineManager.roomUserColor(roomId, userid, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(userid, palette.window), 1.3)
+            color: Qt.darker(roomId ? TimelineManager.roomUserColor(roomId, userid, palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(userid, palette.window), 1.3)
             font.pointSize: Settings.uiFontSizePt
         }
 

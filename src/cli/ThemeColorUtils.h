@@ -106,4 +106,17 @@ detectVariant(const Palette &palette);
 std::string
 stripVariantSuffix(const std::string &name);
 
+// Result of user color generation for themes
+struct UserColors
+{
+    std::string self;                // hex color for "our own" sender identity
+    std::vector<std::string> others; // hex colors for other members (per-member palette)
+};
+
+// Generate userColors from a highlight (accent) hex color and variant ("light"/"dark").
+// Produces self = highlightHex, and ~14 others using golden-angle hue spacing
+// with variant-aware saturation/lightness, excluding hues near the self color.
+UserColors
+generateUserColors(const std::string &highlightHex, const std::string &variant);
+
 } // namespace theme_color

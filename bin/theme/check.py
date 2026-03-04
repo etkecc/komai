@@ -2,9 +2,11 @@
 """Validate resources/themes/*.yml files.
 
 Checks:
-  - Required fields: name, variant, palette
+  - Required fields: name, variant, palette, userColors
   - variant is "light" or "dark"
   - All 20 palette keys (16 QPalette + 4 custom) are present with valid hex
+  - userColors.self is a valid hex color
+  - userColors.others is a list of valid hex colors (minimum 1)
   - source_base16 keys (if present) are valid hex
 """
 
@@ -14,7 +16,7 @@ import sys
 
 from colors import parse_yaml, ALL_PALETTE_KEYS
 
-REQUIRED_FIELDS = ("name", "variant", "palette")
+REQUIRED_FIELDS = ("name", "variant", "palette", "userColors")
 VALID_VARIANTS = ("light", "dark")
 VALID_THEME_SUFFIXES = tuple(f"-{variant}" for variant in VALID_VARIANTS)
 BASE16_SLOTS = [f"base{i:02X}" for i in range(16)]
@@ -91,6 +93,45 @@ def validate_theme(path: str) -> list[str]:
 
     elif "palette" in data:
         errors.append(f"{filename}: 'palette' must be a mapping, not a scalar")
+
+    # Check userColors — required section
+    user_colors = data.get("userColors")
+    if isinstance(user_colors, dict):
+        # Check self
+        if "self" not in user_colors:
+            errors.append(f"{filename}: Missing userColors.self")
+        else:
+            value = user_colors["self"]
+            if not isinstance(value, str) or not HEX_RE.match(value):
+                errors.append(
+                    f"{filename}: Invalid hex color for userColors.self: {value!r}"
+                )
+
+        # Check others
+        if "others" not in user_colors:
+            errors.append(f"{filename}: Missing userColors.others")
+        elif not isinstance(user_colors["others"], list):
+            errors.append(f"{filename}: userColors.others must be a list")
+        else:
+            others = user_colors["others"]
+            if len(others) < 1:
+                errors.append(
+                    f"{filename}: userColors.others must have at least 1 entry, got {len(others)}"
+                )
+            for i, value in enumerate(others):
+                if not isinstance(value, str) or not HEX_RE.match(value):
+                    errors.append(
+                        f"{filename}: Invalid hex color for userColors.others[{i}]: {value!r}"
+                    )
+
+        # Warn about unexpected userColors keys
+        valid_user_color_keys = {"self", "others"}
+        for key in user_colors:
+            if key not in valid_user_color_keys:
+                errors.append(f"{filename}: Unexpected userColors key: {key}")
+
+    elif "userColors" in data:
+        errors.append(f"{filename}: 'userColors' must be a mapping, not a scalar")
 
     # Check source_base16 (optional provenance section)
     source_base16 = data.get("source_base16")

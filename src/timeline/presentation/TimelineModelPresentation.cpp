@@ -129,7 +129,7 @@ TimelineModel::markSpecialEffectsDone()
 }
 
 QString
-TimelineModel::formatTypingUsers(const QStringList &users, const QColor &bg, const QColor &accent)
+TimelineModel::formatTypingUsers(const QStringList &users, const QColor &bg)
 {
     QString temp =
       tr("%1 and %2 are typing.",
@@ -145,7 +145,7 @@ TimelineModel::formatTypingUsers(const QStringList &users, const QColor &bg, con
 
     QStringList uidWithoutLast;
 
-    auto formatUser = [this, bg, accent](const QString &user_id) -> QString {
+    auto formatUser = [this, bg](const QString &user_id) -> QString {
         auto uncoloredUsername = utils::replaceEmoji(displayName(user_id));
         QString prefix =
           QStringLiteral("<font color=\"%1\">")
@@ -154,7 +154,6 @@ TimelineModel::formatTypingUsers(const QStringList &users, const QColor &bg, con
                      roomId(),
                      user_id,
                      bg,
-                     accent,
                      static_cast<int>(UserSettings::instance()->timelineUserColorCodingPolicy()))
                    .darker(130)
                    .name());

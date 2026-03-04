@@ -127,7 +127,11 @@ handleTintedImport(int argc, char *argv[], QCoreApplication & /*app*/)
     finalPalette.insert(mapped.begin(), mapped.end());
     finalPalette.insert(custom.begin(), custom.end());
 
-    if (!writeThemeYaml(outputFile, themeName, themeAuthor, variant, finalPalette, &rawPalette)) {
+    // Generate user colors from the highlight (accent) color
+    auto userColors = theme_color::generateUserColors(finalPalette["highlight"], variant);
+
+    if (!writeThemeYaml(
+          outputFile, themeName, themeAuthor, variant, finalPalette, userColors, &rawPalette)) {
         std::cerr << "ERROR: Failed to write " << outputFile.toStdString() << "\n";
         return 1;
     }

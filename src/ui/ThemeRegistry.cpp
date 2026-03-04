@@ -177,6 +177,56 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
         colors[key] = QColor(QStringLiteral("#") + hexStr);
     }
 
+    // Validate userColors section (required)
+    if (!root["userColors"] || !root["userColors"].IsMap()) {
+        nhlog::ui()->warn("Theme file {} missing or invalid 'userColors' map", path.toStdString());
+        return std::nullopt;
+    }
+    auto userColorsNode = root["userColors"];
+
+    if (!userColorsNode["self"] || !userColorsNode["self"].IsScalar()) {
+        nhlog::ui()->warn("Theme file {} missing userColors.self", path.toStdString());
+        return std::nullopt;
+    }
+    auto selfHex = QString::fromStdString(userColorsNode["self"].as<std::string>());
+    if (!hexRe.match(selfHex).hasMatch()) {
+        nhlog::ui()->warn("Theme file {} has invalid hex '{}' for userColors.self",
+                          path.toStdString(),
+                          selfHex.toStdString());
+        return std::nullopt;
+    }
+
+    if (!userColorsNode["others"] || !userColorsNode["others"].IsSequence()) {
+        nhlog::ui()->warn("Theme file {} missing or invalid userColors.others list",
+                          path.toStdString());
+        return std::nullopt;
+    }
+    auto othersNode = userColorsNode["others"];
+    if (othersNode.size() < 1) {
+        nhlog::ui()->warn("Theme file {} userColors.others must have at least 1 entry",
+                          path.toStdString());
+        return std::nullopt;
+    }
+
+    std::vector<QColor> userColorOthers;
+    userColorOthers.reserve(othersNode.size());
+    for (std::size_t i = 0; i < othersNode.size(); ++i) {
+        if (!othersNode[i].IsScalar()) {
+            nhlog::ui()->warn(
+              "Theme file {} userColors.others[{}] is not a string", path.toStdString(), i);
+            return std::nullopt;
+        }
+        auto otherHex = QString::fromStdString(othersNode[i].as<std::string>());
+        if (!hexRe.match(otherHex).hasMatch()) {
+            nhlog::ui()->warn("Theme file {} has invalid hex '{}' for userColors.others[{}]",
+                              path.toStdString(),
+                              otherHex.toStdString(),
+                              i);
+            return std::nullopt;
+        }
+        userColorOthers.push_back(QColor(QStringLiteral("#") + otherHex));
+    }
+
     ThemeDef def;
     def.slug      = slug;
     def.name      = QString::fromStdString(root["name"].as<std::string>());
@@ -204,6 +254,9 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     def.success         = colors[QStringLiteral("success")];
     def.warning         = colors[QStringLiteral("warning")];
     def.error           = colors[QStringLiteral("error")];
+
+    def.userColorSelf   = QColor(QStringLiteral("#") + selfHex);
+    def.userColorOthers = std::move(userColorOthers);
 
     return def;
 }

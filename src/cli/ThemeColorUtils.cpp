@@ -316,4 +316,133 @@ stripVariantSuffix(const std::string &name)
     return name;
 }
 
+// ---------------------------------------------------------------------------
+// User color generation
+// ---------------------------------------------------------------------------
+
+// 16 maximally-spaced hues (golden-angle inspired) — same ordering as the
+// former runtime kPaletteHues table, so existing visual habits are preserved.
+static constexpr std::array<double, 16> kGoldenAngleHues = {
+  0,
+  137.5,
+  275,
+  52.5,
+  190,
+  327.5,
+  95,
+  232.5,
+  22.5,
+  160,
+  297.5,
+  75,
+  212.5,
+  350,
+  117.5,
+  255,
+};
+
+// Convert HSL (h in 0-360, s/l in 0-1) to RGB hex string.
+static std::string
+hslToHex(double h, double s, double l)
+{
+    // Normalize hue to [0, 360)
+    h = std::fmod(h, 360.0);
+    if (h < 0)
+        h += 360.0;
+
+    auto hueToRgb = [](double p, double q, double t) -> double {
+        if (t < 0)
+            t += 1;
+        if (t > 1)
+            t -= 1;
+        if (t < 1.0 / 6)
+            return p + (q - p) * 6 * t;
+        if (t < 1.0 / 2)
+            return q;
+        if (t < 2.0 / 3)
+            return p + (q - p) * (2.0 / 3 - t) * 6;
+        return p;
+    };
+
+    double q     = (l < 0.5) ? l * (1 + s) : l + s - l * s;
+    double p     = 2 * l - q;
+    double hNorm = h / 360.0;
+
+    int r = std::clamp(static_cast<int>(std::round(hueToRgb(p, q, hNorm + 1.0 / 3) * 255)), 0, 255);
+    int g = std::clamp(static_cast<int>(std::round(hueToRgb(p, q, hNorm) * 255)), 0, 255);
+    int b = std::clamp(static_cast<int>(std::round(hueToRgb(p, q, hNorm - 1.0 / 3) * 255)), 0, 255);
+
+    return rgbToHex({r, g, b});
+}
+
+// Extract hue (0-360) from a hex color using HSL conversion.
+static double
+hueFromHex(const std::string &hex)
+{
+    auto [r, g, b] = parseColor(hex);
+    double rf = r / 255.0, gf = g / 255.0, bf = b / 255.0;
+    double maxC  = std::max({rf, gf, bf});
+    double minC  = std::min({rf, gf, bf});
+    double delta = maxC - minC;
+
+    if (delta < 1e-6)
+        return 0.0; // achromatic
+
+    double h = 0;
+    if (maxC == rf)
+        h = 60.0 * std::fmod((gf - bf) / delta, 6.0);
+    else if (maxC == gf)
+        h = 60.0 * ((bf - rf) / delta + 2.0);
+    else
+        h = 60.0 * ((rf - gf) / delta + 4.0);
+
+    if (h < 0)
+        h += 360.0;
+    return h;
+}
+
+UserColors
+generateUserColors(const std::string &highlightHex, const std::string &variant)
+{
+    UserColors result;
+    result.self = highlightHex;
+
+    double selfHue                  = hueFromHex(highlightHex);
+    constexpr double kExclusionZone = 30.0; // degrees on each side of self hue
+
+    // Variant-aware saturation and lightness
+    double sat, lit;
+    if (variant == "dark") {
+        sat = 0.65;
+        lit = 0.60;
+    } else {
+        sat = 0.70;
+        lit = 0.40;
+    }
+
+    // Filter hues that are too close to the self color
+    std::vector<double> filteredHues;
+    filteredHues.reserve(kGoldenAngleHues.size());
+    for (double h : kGoldenAngleHues) {
+        double diff = std::abs(h - selfHue);
+        if (diff > 180.0)
+            diff = 360.0 - diff;
+        if (diff >= kExclusionZone)
+            filteredHues.push_back(h);
+    }
+
+    // Fallback: if too many hues were filtered, use the full set
+    if (filteredHues.size() < 8) {
+        filteredHues.clear();
+        for (double h : kGoldenAngleHues)
+            filteredHues.push_back(h);
+    }
+
+    result.others.reserve(filteredHues.size());
+    for (double h : filteredHues)
+        result.others.push_back(hslToHex(h, sat, lit));
+
+    return result;
+}
+
 } // namespace theme_color

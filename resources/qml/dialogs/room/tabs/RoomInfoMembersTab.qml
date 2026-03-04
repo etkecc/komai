@@ -149,7 +149,7 @@ Item {
                                 fullText: model.displayName
                                 color: del.isCurrentUser
                                     ? palette.highlight
-                                    : Qt.darker(membersTab.room ? TimelineManager.roomUserColor(membersTab.room.roomId, model ? model.mxid : "", del.background.color, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
+                                    : Qt.darker(membersTab.room ? TimelineManager.roomUserColor(membersTab.room.roomId, model ? model.mxid : "", del.background.color, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
                                 font.pixelSize: fontMetrics.font.pixelSize
                                 elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
                                 Layout.fillWidth: true

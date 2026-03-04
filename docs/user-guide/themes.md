@@ -1,6 +1,6 @@
 # 🎨 Themes
 
-Komai uses a data-driven theme system. Built-in themes are defined as YAML files in [`resources/themes/`](../../resources/themes/) and compiled into the binary at build time. Each YAML file contains resolved QPalette-level colors directly — what you see in the YAML is what the app uses.
+Komai uses a data-driven theme system. Built-in themes are defined as YAML files in [`resources/themes/`](../../resources/themes/) and compiled into the binary at build time. Each YAML file contains resolved palette colors directly — what you see in the YAML is what the app uses.
 
 
 ## 🧰 Built-in themes
@@ -45,11 +45,11 @@ For storage context, see [Storage Locations](storage.md#linux-paths).
 - If the same slug exists in multiple directories, the first occurrence wins (user dir beats system dir)
 - External themes are sorted after all built-in themes in the dropdown
 
-**Format:** Use the same YAML format as built-in themes (see [Theme YAML format](#theme-yaml-format) below). The `author` and `source_base16` fields are optional and ignored at runtime.
+**Format:** Use the same YAML format as built-in themes (see [Theme YAML format](#theme-yaml-format) below). The `author` and `source_base16` fields are optional and ignored at runtime. The `userColors` section is required — themes without it are skipped.
 
 **No hot-reload:** Themes are loaded once at startup. Restart Komai to pick up new or changed theme files.
 
-**Graceful handling:** If a theme file has missing keys, invalid hex values, or other errors, it is skipped with a log warning. Other themes still load normally. If a previously-selected custom theme file is removed, Komai falls back to the system palette.
+**Graceful handling:** If a theme file has missing keys, invalid hex values, missing `userColors`, or other errors, it is skipped with a log warning. Other themes still load normally. If a previously-selected custom theme file is removed, Komai falls back to the system palette.
 
 
 ## ✨ Adding a new theme
@@ -89,12 +89,12 @@ These commands work without a display server (SSH, containers) and do not requir
 
 ### ✍️ Hand-crafted themes
 
-Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all 20 palette keys and rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed; Komai restart required).
+Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all palette keys and a `userColors` section, then rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed; Komai restart required).
 
 
 ## 🧩 Theme YAML format
 
-Each theme defines exactly 20 palette colors. Unknown keys are rejected by the validator to catch typos.
+Each theme defines 16 Qt palette colors and 4 app-level semantic colors under `palette:`, plus a `userColors` section for user colors. Unknown keys are rejected by the validator to catch typos.
 
 ```yaml
 name: "My Theme"
@@ -121,7 +121,21 @@ palette:
   success: "008000"         # success accents
   warning: "f49300"         # warning accents
   error: "dd3d3d"           # error messages
+userColors:
+  self: "f49300"            # color for your own messages
+  others:                   # colors for other users' messages (minimum 1)
+    - "db5757"
+    - "57db7d"
+    - "a457db"
+    - "57c5db"
 ```
+
+The `userColors` section is **required**. It controls how sender names and message bubbles are colored in the timeline:
+
+- **`self`** — the color used for your own messages and identity (bubble tint, sender name, etc.)
+- **`others`** — a list of distinct colors assigned to other users (timeline, member lists, user profiles, etc.). In small rooms (fewer members than colors), each user gets a unique color. In large rooms, all other users share the first color.
+
+When importing a theme via `komai theme tinted-import` or creating one via `komai theme create-sample`, the `userColors` section is auto-generated from the theme's highlight color and variant.
 
 Imported themes also include an optional `source_base16:` section with the original Base16 palette for reference. This section is ignored by the build.
 

@@ -195,7 +195,7 @@ TimelineMessageStyleBase {
                 x: (wrapper.isStateEvent || !wrapper.messageIsRightAligned) ? 0 : (parent.width - width)
                 anchors.bottom: parent.bottom
 
-                property color roomColor: wrapper.resolveUserColor(wrapper.userId, palette.base, palette.highlight)
+                property color roomColor: wrapper.resolveUserColor(wrapper.userId, palette.base)
 
                 contentItem: Item {
                     id: contentPlacementContainer
@@ -244,11 +244,11 @@ TimelineMessageStyleBase {
                                 return currentUserId.length > 0 && replyUserId === currentUserId;
                             }
                             property color userColor: isReplyFromCurrentUser
-                                ? palette.highlight
-                                : wrapper.resolveUserColor(replyUserId, palette.window, palette.highlight)
+                                ? Komai.theme.userColorSelf
+                                : wrapper.resolveUserColor(replyUserId, palette.window)
                             property color roomColor: isReplyFromCurrentUser
-                                ? palette.highlight
-                                : wrapper.resolveUserColor(replyUserId, palette.base, palette.highlight)
+                                ? Komai.theme.userColorSelf
+                                : wrapper.resolveUserColor(replyUserId, palette.base)
 
                             clip: true
 
@@ -346,7 +346,7 @@ TimelineMessageStyleBase {
                 background: Rectangle {
                     color: (!wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled)
                         ? (wrapper.isSender
-                            ? Qt.tint(palette.base, Qt.hsla(palette.highlight.hslHue, wrapper.hovered ? 0.8 : 0.6, palette.highlight.hslLightness, 0.3))
+                            ? Qt.tint(palette.base, Qt.hsla(Komai.theme.userColorSelf.hslHue, wrapper.hovered ? 0.8 : 0.6, Komai.theme.userColorSelf.hslLightness, 0.3))
                             : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2)))
                         : "transparent"
                     radius: wrapper.messageBubbleRadius

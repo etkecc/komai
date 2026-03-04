@@ -68,7 +68,7 @@ Item {
             return Qt.formatTime(timestamp, "hh:mm");
         }
 
-        function formatTypingUsers(users, _bg, _accent) {
+        function formatTypingUsers(users, _bg) {
             if (!users || users.length === 0)
                 return "";
             if (users.length === 1)

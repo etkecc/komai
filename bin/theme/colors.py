@@ -37,10 +37,12 @@ def parse_yaml(path: str) -> dict:
     """Minimal YAML parser for theme files.
 
     Handles flat structure: top-level scalars and one level of nested mapping
-    (palette:, source_base16:, overrides:). No external dependency.
+    (palette:, source_base16:, userColors:). Also handles YAML lists under
+    nested sections (e.g. userColors.others). No external dependency.
     """
     result = {}
     current_section = None
+    current_subsection = None  # for list items under a nested key
 
     with open(path) as f:
         for line in f:
@@ -48,13 +50,31 @@ def parse_yaml(path: str) -> dict:
             if not line or line.startswith("#"):
                 continue
 
+            # List item (4-space indent + "- ")
+            if line.startswith("    - "):
+                if current_section is not None and current_subsection is not None:
+                    m = re.match(r'    - "?([^"#]*)"?\s*(?:#.*)?$', line)
+                    if m:
+                        val = m.group(1).strip().strip('"')
+                        if val:
+                            result[current_section][current_subsection].append(val)
+                continue
+
             # Nested key (2-space indent)
             if line.startswith("  "):
+                current_subsection = None
                 if current_section is None:
                     continue
                 m = re.match(r'  (\w+):\s*"?([^"#]*)"?\s*(?:#.*)?$', line)
                 if m:
-                    result[current_section][m.group(1)] = m.group(2).strip().strip('"')
+                    key = m.group(1)
+                    value = m.group(2).strip().strip('"')
+                    if value:
+                        result[current_section][key] = value
+                    else:
+                        # Sub-section that will contain list items
+                        result[current_section][key] = []
+                        current_subsection = key
                 continue
 
             # Top-level key
@@ -62,11 +82,12 @@ def parse_yaml(path: str) -> dict:
             if m:
                 key = m.group(1)
                 value = m.group(2).strip().strip('"')
+                current_subsection = None
                 if value:
                     result[key] = value
                     current_section = None
                 else:
-                    # Section header (e.g., "palette:" or "source_base16:")
+                    # Section header (e.g., "palette:" or "userColors:")
                     result[key] = {}
                     current_section = key
 

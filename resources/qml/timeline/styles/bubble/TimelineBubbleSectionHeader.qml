@@ -100,7 +100,7 @@ Column {
             contentItem: Label {
                 id: userName_
 
-                color: Qt.darker(colorRoomId ? TimelineManager.roomUserColor(colorRoomId, userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(userId, palette.base), 1.3)
+                color: Qt.darker(colorRoomId ? TimelineManager.roomUserColor(colorRoomId, userId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(userId, palette.base), 1.3)
                 text: TimelineManager.escapeEmoji(userNameTextMetrics.elidedText)
                 textFormat: Text.RichText
             }

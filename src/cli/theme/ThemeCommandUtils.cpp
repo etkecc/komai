@@ -66,6 +66,7 @@ writeThemeYaml(const QString &path,
                const std::string &author,
                const std::string &variant,
                const theme_color::Palette &palette,
+               const theme_color::UserColors &userColors,
                const theme_color::Palette *sourceBase16)
 {
     QDir().mkpath(QFileInfo(path).absolutePath());
@@ -91,6 +92,12 @@ writeThemeYaml(const QString &path,
         if (it != palette.end())
             out << "  " << key << ": \"" << QString::fromStdString(it->second) << "\"\n";
     }
+
+    out << "userColors:\n";
+    out << "  self: \"" << QString::fromStdString(userColors.self) << "\"\n";
+    out << "  others:\n";
+    for (const auto &color : userColors.others)
+        out << "    - \"" << QString::fromStdString(color) << "\"\n";
 
     if (sourceBase16) {
         out << "source_base16:\n";

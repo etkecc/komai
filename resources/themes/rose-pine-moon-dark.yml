@@ -22,6 +22,23 @@ palette:
   success: "3e8fb0"
   warning: "f6c177"
   error: "eb6f92"
+userColors:
+  self: "c4a7e7"
+  others:
+    - "db5757"
+    - "57db7d"
+    - "dbcb57"
+    - "57c5db"
+    - "db579f"
+    - "8edb57"
+    - "5767db"
+    - "db8857"
+    - "57dbaf"
+    - "d657db"
+    - "badb57"
+    - "5793db"
+    - "db576d"
+    - "5cdb57"
 source_base16:
   base00: "232136"
   base01: "2a273f"

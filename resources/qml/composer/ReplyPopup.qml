@@ -208,11 +208,11 @@ Rectangle {
             width: parent.width
             eventId: room?.reply ?? ""
             userColor: isReplyFromCurrentUser
-                ? palette.highlight
-                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.window)
+                ? Komai.theme.userColorSelf
+                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.window)
             roomColor: isReplyFromCurrentUser
-                ? palette.highlight
-                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.base)
+                ? Komai.theme.userColorSelf
+                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.base)
             maxWidth: parent.width
             limitHeight: true
         }

@@ -22,6 +22,22 @@ palette:
   success: "286983"
   warning: "ea9d34"
   error: "b4637a"
+userColors:
+  self: "907aa9"
+  others:
+    - "ad1f1f"
+    - "1fad48"
+    - "ad9c1f"
+    - "1f96ad"
+    - "ad1f6c"
+    - "5aad1f"
+    - "1f30ad"
+    - "ad541f"
+    - "1fad7e"
+    - "8aad1f"
+    - "1f60ad"
+    - "ad1f36"
+    - "25ad1f"
 source_base16:
   base00: "faf4ed"
   base01: "fffaf3"

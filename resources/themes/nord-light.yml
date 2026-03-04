@@ -22,6 +22,22 @@ palette:
   success: "4f894c"
   warning: "ac4426"
   error: "99324b"
+userColors:
+  self: "3b6ea8"
+  others:
+    - "ad1f1f"
+    - "1fad48"
+    - "721fad"
+    - "ad9c1f"
+    - "ad1f6c"
+    - "5aad1f"
+    - "ad541f"
+    - "1fad7e"
+    - "a71fad"
+    - "8aad1f"
+    - "ad1f36"
+    - "25ad1f"
+    - "421fad"
 source_base16:
   base00: "e5e9f0"
   base01: "c2d0e7"

@@ -34,7 +34,7 @@ Item {
             anchors.rightMargin: 10
             color: palette.text
             horizontalAlignment: alignRightByPositioning ? Text.AlignRight : Text.AlignLeft
-            text: room ? room.formatTypingUsers(room.typingUsers, palette.base, palette.highlight) : ""
+            text: room ? room.formatTypingUsers(room.typingUsers, palette.base) : ""
             textFormat: Text.RichText
         }
     }

@@ -129,7 +129,7 @@ ApplicationWindow {
                 readOnly: !isUsernameEditingAllowed
                 text: profile.displayName
                 font.pixelSize: 20
-                color: Qt.darker(profile.room ? TimelineManager.roomUserColor(profile.room.roomId, profile.userid, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(profile.userid, palette.window), 1.3)
+                color: Qt.darker(profile.room ? TimelineManager.roomUserColor(profile.room.roomId, profile.userid, palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(profile.userid, palette.window), 1.3)
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter
                 Layout.maximumWidth: parent.width - (Komai.paddingSmall * 2) - usernameChangeButton.anchors.leftMargin - (usernameChangeButton.width * 2)

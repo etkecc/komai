@@ -22,6 +22,22 @@ palette:
   success: "A3BE8C"
   warning: "D08770"
   error: "BF616A"
+userColors:
+  self: "7a98b6"
+  others:
+    - "db5757"
+    - "57db7d"
+    - "a457db"
+    - "dbcb57"
+    - "db579f"
+    - "8edb57"
+    - "db8857"
+    - "57dbaf"
+    - "d657db"
+    - "badb57"
+    - "db576d"
+    - "5cdb57"
+    - "7857db"
 source_base16:
   base00: "2E3440"
   base01: "3B4252"

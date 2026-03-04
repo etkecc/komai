@@ -145,7 +145,9 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
         };
     }
 
-    if (!writeThemeYaml(outputFile, name, "", variant, palette)) {
+    auto userColors = theme_color::generateUserColors(palette["highlight"], variant);
+
+    if (!writeThemeYaml(outputFile, name, "", variant, palette, userColors)) {
         std::cerr << "ERROR: Failed to write " << outputFile.toStdString() << "\n";
         return 1;
     }

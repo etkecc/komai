@@ -128,11 +128,11 @@ Components.OverlayDialog {
                     return currentUserId.length > 0 && replyPreview.userId === currentUserId;
                 }
                 userColor: isReplyFromCurrentUser
-                    ? palette.highlight
-                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, palette.window, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.window)
+                    ? Komai.theme.userColorSelf
+                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.window)
                 roomColor: isReplyFromCurrentUser
-                    ? palette.highlight
-                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, palette.base, palette.highlight, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.base)
+                    ? Komai.theme.userColorSelf
+                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.base)
             }
 
             // --- Clipboard section ---

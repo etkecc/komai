@@ -100,13 +100,12 @@ TimelineEvent {
         }
     }
 
-    function resolveUserColor(targetUserId, backgroundColor, accentColor) {
+    function resolveUserColor(targetUserId, backgroundColor) {
         if (roomIdForColorCoding.length > 0) {
             return TimelineManager.roomUserColor(
                         roomIdForColorCoding,
                         targetUserId,
                         backgroundColor,
-                        accentColor,
                         Settings.timelineUserColorCodingPolicy);
         }
 

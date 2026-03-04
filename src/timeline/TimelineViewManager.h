@@ -99,7 +99,6 @@ public:
     Q_INVOKABLE QColor roomUserColor(QString roomId,
                                      QString userId,
                                      QColor background,
-                                     QColor accentColor,
                                      int colorCodingPolicy = -1);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
@@ -194,7 +193,6 @@ private:
     QHash<QString, std::vector<std::string>> roomMemberCache_;
 
     // 16 maximally-spaced hues for small-room palette assignment.
-    static const std::vector<double> kPaletteHues;
 
     bool roomSwitchPerfEnabled_     = false;
     quint64 roomSwitchPerfSwitchId_ = 0;

@@ -144,6 +144,25 @@ testSpanColorValidation()
 }
 
 bool
+testFontColorValidation()
+{
+    const QString input =
+      QStringLiteral("<font color=\"#112233\">x</font>"
+                     "<font color=\"orange\">x</font>"
+                     "<font color=\"not-a-color\">x</font>");
+    const QString out = timeline::formattedmessage::sanitizeHtml(input);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#112233\"")),
+                 "valid hex color is preserved");
+    ok &= expect(out.contains(QStringLiteral("color=\"orange\"")),
+                 "valid named color is preserved");
+    ok &= expect(!out.contains(QStringLiteral("not-a-color")),
+                 "invalid color is removed");
+    return ok;
+}
+
+bool
 testDepthLimit()
 {
     QString input;
@@ -214,6 +233,7 @@ main(int argc, char **argv)
     ok &= testImageSrcFiltering();
     ok &= testCodeClassFiltering();
     ok &= testSpanColorValidation();
+    ok &= testFontColorValidation();
     ok &= testDepthLimit();
     ok &= testLinkifyPlainTextAndMatrixUri();
     ok &= testLinkifySkipsAnchorAttributesAndCodeBlocks();

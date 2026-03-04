@@ -243,6 +243,29 @@ sanitizeHexColor(const QString &raw)
 }
 
 QString
+sanitizeFontColor(const QString &raw)
+{
+    static const QRegularExpression hexColor(QStringLiteral(R"(^#[0-9a-fA-F]{6}$)"));
+    const auto value = raw.trimmed();
+    if (hexColor.match(value).hasMatch())
+        return value;
+
+    static const QSet<QString> allowedColors = {
+      QStringLiteral("red"),
+      QStringLiteral("orange"),
+      QStringLiteral("yellow"),
+      QStringLiteral("green"),
+      QStringLiteral("warning"),
+      QStringLiteral("success"),
+      QStringLiteral("error"),
+    };
+    if (!allowedColors.contains(value.toLower()))
+        return {};
+
+    return value.toLower();
+}
+
+QString
 sanitizeIntegerString(const QString &raw)
 {
     static const QRegularExpression integerRegex(QStringLiteral(R"(^\d{1,5}$)"));
@@ -390,7 +413,8 @@ sanitizeAttributeValue(const QString &tagName, const ParsedAttribute &attr)
     if (tagName == QLatin1String("font")) {
         if (attr.name == QLatin1String("color") || attr.name == QLatin1String("data-mx-bg-color") ||
             attr.name == QLatin1String("data-mx-color"))
-            return sanitizeHexColor(value);
+            return attr.name == QLatin1String("color") ? sanitizeFontColor(value)
+                                                       : sanitizeHexColor(value);
         return {};
     }
 

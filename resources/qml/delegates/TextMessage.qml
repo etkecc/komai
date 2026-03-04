@@ -25,6 +25,26 @@ MatrixText {
     readonly property real enlargedEmojiPointSize: Math.min(Settings.uiFontSizePt * 3, enlargedEmojiCapPointSize)
     readonly property int emojiBottomTrim: emojiOnlyMessage ? Math.min(18, Math.round(font.pixelSize * 0.32)) : 0
 
+    readonly property string themedFormattedBody: {
+        const colorMap = {
+            red: Komai.theme.error.toString(),
+            warning: Komai.theme.attention.toString(),
+            orange: Komai.theme.attention.toString(),
+            green: Komai.theme.success.toString(),
+            success: Komai.theme.success.toString(),
+            error: Komai.theme.error.toString(),
+        };
+
+        return formatted.replace(
+            /<font\b([^>]*)\bcolor\s*=\s*(['"])([^'"]+)\2([^>]*)>/gi,
+            (match, prefix, _quote, colorName, suffix) => {
+                const mappedColor = colorMap[(colorName || "").toLowerCase()];
+                return mappedColor
+                    ? `<font${prefix} color="${mappedColor}"${suffix}>`
+                    : match;
+            });
+    }
+
     property string copyText: selectedText ? getText(selectionStart, selectionEnd) : body
     property int metadataWidth: 100
     property bool fitsMetadata: false //positionAt(width,height-4) == positionAt(width-metadataWidth-10, height-4)
@@ -57,7 +77,7 @@ MatrixText {
         background-color: ` + palette.text + `;
     }` : "") +  // TODO(Nico): Figure out how to support mobile
     `</style>
-    ` + formatted.replace(/<del>/g, "<s>").replace(/<\/del>/g, "</s>").replace(/<strike>/g, "<s>").replace(/<\/strike>/g, "</s>")
+    ` + themedFormattedBody.replace(/<del>/g, "<s>").replace(/<\/del>/g, "</s>").replace(/<strike>/g, "<s>").replace(/<\/strike>/g, "</s>")
 
     enabled: !isReply
     font.pointSize: enlargedEmojiOnly ? enlargedEmojiPointSize : Settings.uiFontSizePt

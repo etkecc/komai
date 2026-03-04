@@ -13,7 +13,7 @@
 //!
 //! Combines two data sources:
 //!   1. The m.direct account data (authoritative — if present, the room is a DM).
-//!   2. A member-count heuristic (rooms with <= 2 members are treated as DMs).
+//!   2. A member-count heuristic (rooms with <= 3 members, after bot elimination).
 //!
 //! Results are cached per room. Use reload() when m.direct changes and
 //! invalidateForRoomId() when a room's membership changes.
@@ -47,6 +47,10 @@ private:
     //! Computes the DM partner for a room (not cached — called by the
     //! public query methods on cache miss).
     QString computePartner(const QString &roomId);
+
+    //! Returns true if the user ID / display name suggest a bot or bridge
+    //! service account (e.g. @telegrambot:server, "Telegram Bridge Bot").
+    static bool isLikelyBotUser(const QString &userId, const QString &displayName);
 
     bool mdirectLoaded_ = false;
     std::map<QString, QString> mdirectMap_; // from m.direct: room_id → partner user_id

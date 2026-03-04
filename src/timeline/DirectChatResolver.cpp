@@ -5,6 +5,7 @@
 #include "DirectChatResolver.h"
 
 #include "cache/Cache.h"
+#include "matrix/MatrixStateTypes.h"
 #include "utils/Utils.h"
 
 DirectChatResolver &
@@ -47,19 +48,35 @@ DirectChatResolver::computePartner(const QString &roomId)
     if (auto it = mdirectMap_.find(roomId); it != mdirectMap_.end())
         return it->second;
 
-    // 2. Quick filter: if more than 2 members, not a direct chat.
-    if (cache::memberCount(roomId.toStdString()) > 2)
+    // 2. Quick filter: more than 3 members is never a direct chat.
+    if (cache::memberCount(roomId.toStdString()) > 3)
         return {};
 
-    // 3. Heuristic: find the non-local-user member.
+    // 3. Collect non-local members.
     const auto localUser = utils::localUser();
-    QString partner;
-    for (const auto &member : cache::getMembers(roomId.toStdString(), 0, 3)) {
+    std::vector<RoomMember> others;
+    for (const auto &member : cache::getMembers(roomId.toStdString(), 0, 4)) {
         if (member.user_id != localUser)
-            partner = member.user_id;
+            others.push_back(member);
     }
 
-    return partner;
+    // 4. Single other member — that's the partner.
+    if (others.size() == 1)
+        return others[0].user_id;
+
+    // 5. Two other members — try bot elimination.
+    if (others.size() == 2) {
+        bool bot0 = isLikelyBotUser(others[0].user_id, others[0].display_name);
+        bool bot1 = isLikelyBotUser(others[1].user_id, others[1].display_name);
+        if (bot0 && !bot1)
+            return others[1].user_id;
+        if (bot1 && !bot0)
+            return others[0].user_id;
+        // Both bots or neither — ambiguous, not a clear DM.
+        return {};
+    }
+
+    return {};
 }
 
 bool
@@ -111,4 +128,22 @@ void
 DirectChatResolver::invalidateForRoomId(const QString &roomId)
 {
     cache_.erase(roomId);
+}
+
+bool
+DirectChatResolver::isLikelyBotUser(const QString &userId, const QString &displayName)
+{
+    // @bot… or @botserv:server
+    if (userId.startsWith(QLatin1String("@bot"), Qt::CaseInsensitive))
+        return true;
+
+    // @telegrambot:server, @messengerbot:server, etc.
+    if (userId.contains(QLatin1String("bot:"), Qt::CaseInsensitive))
+        return true;
+
+    // "Telegram Bridge Bot", "Signal bridge bot", etc.
+    if (displayName.contains(QLatin1String("bridge bot"), Qt::CaseInsensitive))
+        return true;
+
+    return false;
 }

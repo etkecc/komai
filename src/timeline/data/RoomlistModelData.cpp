@@ -6,13 +6,16 @@
 #include "RoomlistModel.h"
 
 #include <algorithm>
+#include <optional>
 
 #include <QDateTime>
 #include <QTimer>
 
 #include "TimelineModel.h"
 #include "cache/Cache.h"
+#include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/roomlist/RoomlistPreviewSelection.h"
 #include "utils/Utils.h"
 
 std::optional<QVariant>
@@ -48,6 +51,59 @@ RoomlistModel::dataForMaterializedRoom(const QString &room_id,
                                        const QSharedPointer<TimelineModel> &room,
                                        int role) const
 {
+    struct ResolvedPreviewFields
+    {
+        QString lastMessage;
+        QString descriptiveTime;
+        quint64 timestamp = 0;
+    };
+
+    bool previewResolved = false;
+    ResolvedPreviewFields previewFields;
+    auto resolvePreview =
+      [this, &room_id, &room, &previewResolved, &previewFields]() -> const ResolvedPreviewFields & {
+        if (previewResolved)
+            return previewFields;
+
+        previewResolved = true;
+
+        const auto liveDescription = room->lastMessage();
+        bool hasLiveMessagePreview = false;
+        if (!liveDescription.body.isEmpty() && !liveDescription.event_id.isEmpty()) {
+            if (const auto event =
+                  cache::getEvent(room_id.toStdString(), liveDescription.event_id.toStdString());
+                event.has_value() && mtx::accessors::is_message(*event)) {
+                hasLiveMessagePreview = true;
+            }
+        }
+
+        std::optional<DescInfo> cachedDescription;
+        if (!hasLiveMessagePreview) {
+            auto *self = const_cast<RoomlistModel *>(this);
+            self->ensureCachedLastMessage(room_id);
+            cachedDescription = self->cachedLastMessages_.value(room_id);
+        }
+
+        const auto roomInfo = cachedJoinedRooms_.value(room_id);
+        const auto selected = timeline::roomlist::selectMaterializedPreviewFields(
+          liveDescription,
+          static_cast<quint64>(room->lastMessageTimestamp()),
+          hasLiveMessagePreview,
+          cachedDescription,
+          static_cast<quint64>(roomInfo.approximate_last_modification_ts));
+        previewFields.lastMessage     = selected.lastMessage;
+        previewFields.descriptiveTime = selected.descriptiveTime;
+        previewFields.timestamp       = selected.timestamp;
+
+        if (previewFields.descriptiveTime.isEmpty() &&
+            roomInfo.approximate_last_modification_ts > 0) {
+            previewFields.descriptiveTime = utils::descriptiveTime(QDateTime::fromMSecsSinceEpoch(
+              static_cast<qint64>(roomInfo.approximate_last_modification_ts)));
+        }
+
+        return previewFields;
+    };
+
     switch (role) {
     case Roles::AvatarUrl: {
         const auto roomModelAvatar = room->roomAvatarUrl();
@@ -63,11 +119,11 @@ RoomlistModel::dataForMaterializedRoom(const QString &room_id,
     case Roles::RoomName:
         return room->plainRoomName();
     case Roles::LastMessage:
-        return room->lastMessage().body;
+        return resolvePreview().lastMessage;
     case Roles::Time:
-        return room->lastMessage().descriptiveTime;
+        return resolvePreview().descriptiveTime;
     case Roles::Timestamp:
-        return QVariant{static_cast<quint64>(room->lastMessageTimestamp())};
+        return QVariant{resolvePreview().timestamp};
     case Roles::HasUnreadMessages:
         return this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
     case Roles::HasLoudNotification:

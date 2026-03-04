@@ -472,6 +472,7 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelCachedMessages.cpp
     src/timeline/roomlist/RoomlistModelMaterialization.cpp
     src/timeline/roomlist/RoomlistModelPreviews.cpp
+    src/timeline/roomlist/RoomlistPreviewSelection.cpp
     src/timeline/roomlist/RoomlistModelPrewarm.cpp
     src/timeline/roomlist/RoomlistModelSelection.cpp
     src/timeline/roomlist/RoomlistModelSync.cpp
@@ -1456,6 +1457,15 @@ if(BUILD_TESTING)
     add_test(NAME komai_raw_message_dialog_payload_test COMMAND komai_raw_message_dialog_payload_test)
     komai_configure_test(komai_raw_message_dialog_payload_test "unit;timeline")
 
+    add_executable(komai_roomlist_preview_selection_test
+        tests/RoomlistPreviewSelectionTest.cpp
+        src/timeline/roomlist/RoomlistPreviewSelection.cpp
+    )
+    target_include_directories(komai_roomlist_preview_selection_test PRIVATE src)
+    target_link_libraries(komai_roomlist_preview_selection_test PRIVATE Qt::Core)
+    add_test(NAME komai_roomlist_preview_selection_test COMMAND komai_roomlist_preview_selection_test)
+    komai_configure_test(komai_roomlist_preview_selection_test "unit;timeline")
+
     add_executable(komai_theme_color_utils_test
         tests/ThemeColorUtilsTest.cpp
         src/cli/ThemeColorUtils.cpp
@@ -1478,6 +1488,7 @@ if(BUILD_TESTING)
         komai_formatted_message_html_processor_test
         komai_raw_json_formatter_test
         komai_raw_message_dialog_payload_test
+        komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
     )
 endif()

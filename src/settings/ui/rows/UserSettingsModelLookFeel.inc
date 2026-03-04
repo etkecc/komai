@@ -113,17 +113,18 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
                         nullptr,
                         SM::TabLookFeel, uiAvatarsCircular, setUiAvatarsCircular, nullptr, UiAvatarsCircular, SettingKey::UiAvatarsCircular),
-    // IdenticonFallbackEnabled
-    { QT_TR_NOOP("Use identicons"),
-      QT_TR_NOOP("Requires the <a href=\"https://jdenticon.com/\">jdenticon</a> plugin; if unavailable in this build, this option is ignored."),
-      SM::ToggleWithDescription, SM::TabLookFeel,
-      getCoreBoolValue<settings::core::SettingId::UiAvatarsIdenticonFallback,
-                       &UserSettings::uiAvatarsIdenticonFallback>,
-      setSettingValue<&UserSettings::setUiAvatarsIdenticonFallback, bool>,
-      {}, {}, {},
+    // DefaultAvatarStyle
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Default avatar style",
+      QT_TR_NOOP("Shown for users and rooms that have no custom avatar."),
+      SM::TabLookFeel,
+      uiAvatarsDefaultAvatarStyle,
+      setUiAvatarsDefaultAvatarStyle,
+      UserSettings::DefaultAvatarStyle,
+      lookFeelDefaultAvatarStyleValues,
       nullptr,
-      identiconSettingEnabled,
-      CORE_CONFIG_ID(UiAvatarsIdenticonFallback, SettingKey::UiAvatarsIdenticonFallback) },
+      UiAvatarsDefaultAvatarStyle,
+      SettingKey::UiAvatarsDefaultAvatarStyle),
     // SidebarsRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

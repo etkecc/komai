@@ -1,0 +1,5 @@
+  {settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
+   SettingKey::UiAvatarsDefaultAvatarStyle,
+   "boring_avatars_bauhaus",
+   &defaultAvatarStyleToStorage,
+   &applyDefaultAvatarStyleFromStorage},

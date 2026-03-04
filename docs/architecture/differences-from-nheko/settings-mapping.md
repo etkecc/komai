@@ -37,7 +37,7 @@ Note:
 | Look & Feel | BEHAVIOR | Enable UI animations | `settings::core::SettingId::UiMotionAnimationsEnabled` | `reduced_motion` | `ui.motion.enable_animations` | config.yml | yes |
 | Look & Feel | LAYOUT | Maximum content width | `settings::core::SettingId::UiLayoutContentMaxWidthPx` | `max_timeline_width` | `ui.layout.content.max_width_px` | config.yml | yes |
 | Look & Feel | AVATARS | Use circular avatars | `settings::core::SettingId::UiAvatarsCircular` | `use_circular_avatars` | `ui.avatars.circular` | config.yml | yes |
-| Look & Feel | AVATARS | Use identicons | `settings::core::SettingId::UiAvatarsIdenticonFallback` | `use_identicon` | `ui.avatars.identicon_fallback` | config.yml | yes |
+| Look & Feel | AVATARS | Default avatar style | `settings::core::SettingId::UiAvatarsDefaultAvatarStyle` | _(removed)_ | `ui.avatars.default_avatar_style` | config.yml | yes |
 | Look & Feel | LAYOUT | Compact mode | `settings::core::SettingId::UiLayoutCompactMode` | `compact_room_list` | `ui.layout.compact_mode` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message timestamp | `settings::core::SettingId::SidebarsRoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message preview | `settings::core::SettingId::SidebarsRoomListLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |

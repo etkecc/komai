@@ -46,8 +46,14 @@ lookFeelThemeValues()
     return ThemeRegistry::instance().themeNames(variant);
 }
 
-static bool
-identiconSettingEnabled()
+static QVariant
+lookFeelDefaultAvatarStyleValues()
 {
-    return JdenticonProvider::isAvailable();
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Boring Avatars: Bauhaus")
+           << QCoreApplication::translate("UserSettingsModel", "Boring Avatars: Beam")
+           << QCoreApplication::translate("UserSettingsModel", "Boring Avatars: Marble")
+           << QCoreApplication::translate("UserSettingsModel", "Letter initial")
+           << QCoreApplication::translate("UserSettingsModel", "User icon");
+    return values;
 }

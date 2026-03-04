@@ -29,7 +29,7 @@ enum class SettingId
     UiInputTouchSwipeGesturesEnabled,
     UiLayoutContentMaxWidthPx,
     UiAvatarsCircular,
-    UiAvatarsIdenticonFallback,
+    UiAvatarsDefaultAvatarStyle,
     UiLayoutCompactMode,
     SidebarsRoomListShowLastMessageTime,
     SidebarsRoomListLastMessagePreview,

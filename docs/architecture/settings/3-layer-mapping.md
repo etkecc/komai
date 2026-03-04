@@ -76,7 +76,7 @@ Naming mismatch summary:
 | `TimelineTypingShowEnabled` | `settings.timelineTypingShowEnabled()` | `TimelineTypingShowEnabled` | `timeline.typing.show.enabled` |
 | `TimelineUserColorCodingPolicy` | `static_cast<int>(settings.timelineUserColorCodingPolicy())` | `TimelineUserColorCodingPolicy` | `timeline.user_color_coding_policy` |
 | `UiAvatarsCircular` | `settings.uiAvatarsCircular()` | `UiAvatarsCircular` | `ui.avatars.circular` |
-| `UiAvatarsIdenticonFallback` | `settings.uiAvatarsIdenticonFallback()` | `UiAvatarsIdenticonFallback` | `ui.avatars.identicon_fallback` |
+| `UiAvatarsDefaultAvatarStyle` | `static_cast<int>(settings.uiAvatarsDefaultAvatarStyle())` | `UiAvatarsDefaultAvatarStyle` | `ui.avatars.default_avatar_style` |
 | `UiFontEmojiFamily` | `settings.uiFontEmojiFamilyStorageValue().toStdString()` | `UiFontEmojiFamily` | `ui.font.emoji_family` |
 | `UiFontFamily` | `settings.uiFontFamily().toStdString()` | `UiFontFamily` | `ui.font.family` |
 | `UiFontSizePt` | `settings.uiFontSizePt()` | `UiFontSizePt` | `ui.font.size_pt` |

@@ -199,8 +199,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool networkTlsEnableCertificateValidation READ networkTlsEnableCertificateValidation
                  WRITE setNetworkTlsEnableCertificateValidation NOTIFY
                    networkTlsEnableCertificateValidationChanged)
-    Q_PROPERTY(bool uiAvatarsIdenticonFallback READ uiAvatarsIdenticonFallback WRITE
-                 setUiAvatarsIdenticonFallback NOTIFY uiAvatarsIdenticonFallbackChanged)
+    Q_PROPERTY(DefaultAvatarStyle uiAvatarsDefaultAvatarStyle READ uiAvatarsDefaultAvatarStyle WRITE
+                 setUiAvatarsDefaultAvatarStyle NOTIFY uiAvatarsDefaultAvatarStyleChanged)
     Q_PROPERTY(bool timelineMediaOpenImagesExternal READ timelineMediaOpenImagesExternal WRITE
                  setTimelineMediaOpenImagesExternal NOTIFY timelineMediaOpenImagesExternalChanged)
     Q_PROPERTY(bool timelineMediaOpenVideosExternal READ timelineMediaOpenVideosExternal WRITE
@@ -356,6 +356,16 @@ public:
     };
     Q_ENUM(LastMessagePreview)
 
+    enum class DefaultAvatarStyle
+    {
+        BoringAvatarsBauhaus,
+        BoringAvatarsBeam,
+        BoringAvatarsMarble,
+        LetterInitial,
+        UserIcon,
+    };
+    Q_ENUM(DefaultAvatarStyle)
+
     enum class NotificationMessageContentPolicy
     {
         Never,
@@ -458,7 +468,7 @@ public:
     void setComposerDraftForRoom(const QString &roomId, const QString &draftText);
     void clearComposerDraftForRoom(const QString &roomId);
     void clearAllComposerDrafts();
-    void setUiAvatarsIdenticonFallback(bool state);
+    void setUiAvatarsDefaultAvatarStyle(DefaultAvatarStyle style);
     void setTimelineMediaOpenImagesExternal(bool state);
     void setTimelineMediaOpenVideosExternal(bool state);
     void setIntegrationsBrowserCommand(QString command);
@@ -582,7 +592,7 @@ signals:
     void deviceIdChanged(QString deviceId);
     void homeserverChanged(QString homeserver);
     void networkTlsEnableCertificateValidationChanged(bool enabled);
-    void uiAvatarsIdenticonFallbackChanged(bool state);
+    void uiAvatarsDefaultAvatarStyleChanged(DefaultAvatarStyle style);
     void timelineMediaOpenImagesExternalChanged(bool state);
     void timelineMediaOpenVideosExternalChanged(bool state);
     void hiddenPinsChanged();

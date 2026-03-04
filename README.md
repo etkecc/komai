@@ -92,5 +92,6 @@ See [Development](docs/maintainers/development.md).
 
 Komai is built on top of [nheko](https://nheko.im/nheko-reborn/nheko) by the Nheko-Reborn team. We're grateful for their work on the Matrix protocol implementation and the Qt/QML client foundation.
 
+- [Boring Avatars](https://github.com/boringdesigners/boring-avatars) — default avatar generation algorithms (Beam, Marble, Bauhaus styles), ported from TypeScript to C++
 - [Fluent Icons](https://github.com/microsoft/fluentui-system-icons)
 - [Tinted Theming (Base16)](https://github.com/tinted-theming)

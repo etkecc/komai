@@ -17,7 +17,7 @@ ui:
     swipe_gestures: false
   avatars:
     circular: false
-    identicon_fallback: true
+    default_avatar_style: boring_avatars_bauhaus
   layout:
     content:
       max_width_px: 0

@@ -29,13 +29,16 @@ UserSettings::setNetworkTlsEnableCertificateValidation(bool enabled)
 }
 
 void
-UserSettings::setUiAvatarsIdenticonFallback(bool s)
+UserSettings::setUiAvatarsDefaultAvatarStyle(DefaultAvatarStyle s)
 {
-    if (uiAvatarsIdenticonFallback_ == s)
+    if (uiAvatarsDefaultAvatarStyle_ == s)
         return;
-    uiAvatarsIdenticonFallback_ = s;
-    (void)coreStore_.set(settings::core::SettingId::UiAvatarsIdenticonFallback, s);
-    emit uiAvatarsIdenticonFallbackChanged(s);
+    if (!setCoreValue(settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
+                      static_cast<int>(s),
+                      "ui.avatars.default_avatar_style"))
+        return;
+    uiAvatarsDefaultAvatarStyle_ = s;
+    emit uiAvatarsDefaultAvatarStyleChanged(s);
     save();
 }
 void

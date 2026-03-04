@@ -681,8 +681,16 @@ set(SRC_FILES
     src/imagepacks/ImagePackListModel.h
     src/models/InviteesModel.cpp
     src/models/InviteesModel.h
-    src/providers/JdenticonProvider.cpp
-    src/providers/JdenticonProvider.h
+    src/avatars/default/BoringAvatars.h
+    src/avatars/default/BoringAvatarsBeam.cpp
+    src/avatars/default/BoringAvatarsMarble.cpp
+    src/avatars/default/BoringAvatarsBauhaus.cpp
+    src/avatars/default/LetterInitialGenerator.h
+    src/avatars/default/LetterInitialGenerator.cpp
+    src/avatars/default/UserIconGenerator.h
+    src/avatars/default/UserIconGenerator.cpp
+    src/avatars/default/DefaultAvatarProvider.h
+    src/avatars/default/DefaultAvatarProvider.cpp
     src/logging/Logging.cpp
     src/logging/Logging.h
     src/auth/LoginPage.cpp
@@ -805,7 +813,6 @@ set(SRC_FILES
     src/utils/UtilsMarkdown.cpp
     src/utils/UtilsTextAndUri.cpp
 
-    src/providers/jdenticoninterface.h
 
     # CLI subcommands
     src/cli/CliDispatch.cpp
@@ -1137,7 +1144,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)
@@ -1258,7 +1265,6 @@ if(BUILD_TESTING)
         tests/ProfileSecretsStartupStub.cpp
         tests/UserSettingsModelStartupStub.cpp
         src/settings/ui/UserSettingsModel.h
-        tests/JdenticonStartupStub.cpp
         tests/OlmStartupStub.cpp
         tests/LoggingStub.cpp
         src/profile/Paths.cpp

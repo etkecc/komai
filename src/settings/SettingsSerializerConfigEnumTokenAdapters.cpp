@@ -17,14 +17,16 @@ namespace {
 
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsComposer.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsIntegrations.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersFnsLookFeel.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsNetwork.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsNotifications.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsSidebars.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsTimeline.inc"
 
-constexpr std::array<EnumTokenAdapter, 13> kEnumTokenAdapters{{
+constexpr std::array<EnumTokenAdapter, 14> kEnumTokenAdapters{{
 #include "SettingsSerializerConfigEnumTokenAdaptersComposer.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersIntegrations.inc"
+#include "SettingsSerializerConfigEnumTokenAdaptersLookFeel.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersNetwork.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersNotifications.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersSidebars.inc"

@@ -13,7 +13,6 @@
 
 #include "logging/Logging.h"
 #include "profile/ProfileId.h"
-#include "providers/JdenticonProvider.h"
 #include "settings/SettingsController.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/Theme.h"
@@ -143,17 +142,15 @@ UserSettings::uiFontEmojiFamily() const
     return uiFontEmojiFamily_;
 }
 
-bool
-UserSettings::uiAvatarsIdenticonFallback() const
+UserSettings::DefaultAvatarStyle
+UserSettings::uiAvatarsDefaultAvatarStyle() const
 {
-    const auto enabled = [this]() {
-        if (const auto value =
-              coreStore_.valueAs<bool>(settings::core::SettingId::UiAvatarsIdenticonFallback);
-            value.has_value())
-            return *value;
-        return uiAvatarsIdenticonFallback_;
-    }();
-    return enabled && JdenticonProvider::isAvailable();
+    if (const auto value =
+          coreStore_.valueAs<int>(settings::core::SettingId::UiAvatarsDefaultAvatarStyle);
+        value.has_value() && *value >= static_cast<int>(DefaultAvatarStyle::LetterInitial) &&
+        *value <= static_cast<int>(DefaultAvatarStyle::BoringAvatarsBauhaus))
+        return static_cast<DefaultAvatarStyle>(*value);
+    return uiAvatarsDefaultAvatarStyle_;
 }
 
 void

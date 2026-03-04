@@ -14,7 +14,7 @@
     const QMap<QString, QString> &composerDraftsByRoom() const;
     QString composerDraftForRoom(const QString &roomId) const;
     bool hasComposerDraftForRoom(const QString &roomId) const;
-    bool uiAvatarsIdenticonFallback() const;
+    DefaultAvatarStyle uiAvatarsDefaultAvatarStyle() const;
     bool timelineMediaOpenImagesExternal() const;
     bool timelineMediaOpenVideosExternal() const;
     QList<QStringList> collapsedSpaces() const;

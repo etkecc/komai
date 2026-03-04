@@ -22,9 +22,11 @@ aboutPlatformValue()
 static QVariant
 aboutAcknowledgementForkBaseProjectValue()
 {
-    return QStringLiteral("<a href=\"https://nheko.im/nheko-reborn/nheko\">nheko</a> @ ~v0.12.1 "
-                          "(<a href=\"https://nheko.im/nheko-reborn/nheko/-/commit/"
-                          "abb2325a995f936081219f402339fc8e0a661ac1\">abb2325a</a>)");
+    return QStringLiteral(
+      "<a href=\"https://nheko.im/nheko-reborn/nheko\">nheko</a> @ ~v0.12.1 / "
+      "<a href=\"https://nheko.im/nheko-reborn/nheko/-/commit/"
+      "abb2325a995f936081219f402339fc8e0a661ac1\">abb2325a</a> "
+      "(<a href=\"https://nheko.im/nheko-reborn/nheko/-/blob/master/COPYING\">GPL-3.0-or-later</a>)");
 }
 
 static QVariant
@@ -35,6 +37,15 @@ aboutAcknowledgementFluentIconsProjectValue()
            QString::fromStdString(komai::fluent_icons_ref) +
            QStringLiteral(" by <a href=\"https://www.microsoft.com\">Microsoft</a> "
                           "(<a href=\"https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE\">MIT</a>)");
+}
+
+static QVariant
+aboutAcknowledgementBoringAvatarsProjectValue()
+{
+    return QStringLiteral(
+      "<a href=\"https://github.com/boringdesigners/boring-avatars\">Boring Avatars</a>"
+      " by <a href=\"https://boringdesigners.com\">Boring Designers</a> "
+      "(<a href=\"https://github.com/boringdesigners/boring-avatars/blob/main/LICENSE.md\">MIT</a>)");
 }
 
 static QVariant

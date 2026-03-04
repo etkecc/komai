@@ -207,17 +207,6 @@ modules:
       -  -Dgst-plugins-base:gl_winsys=x11,wayland
       -  -Dgst-plugins-base:x11=enabled
       -  -Dgst-plugins-base:xshm=enabled
-  - name: qt-jdenticon
-    buildsystem: cmake-ninja
-    no-make-install: true
-    build-commands:
-      - mkdir -p /app/bin/
-      - cp libqtjdenticon.so /app/bin/
-    sources:
-      - commit: 39cde33d4b23b57aa5b94e94071d6ff18d2bd92a
-        tag: v0.3.1
-        type: git
-        url: https://github.com/Nheko-Reborn/qt-jdenticon.git
   - name: coeurl
     buildsystem: meson
     config-opts:

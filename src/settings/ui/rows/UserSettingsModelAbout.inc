@@ -31,3 +31,7 @@
     { QT_TR_NOOP("Icon set"), nullptr, SM::Link, SM::TabAbout,
       aboutAcknowledgementFluentIconsProjectValue,
       nullptr, {}, {}, {}, nullptr, nullptr },
+    // AcknowledgementsBoringAvatars
+    { QT_TR_NOOP("Default avatars (Boring Avatars)"), nullptr, SM::Link, SM::TabAbout,
+      aboutAcknowledgementBoringAvatarsProjectValue,
+      nullptr, {}, {}, {}, nullptr, nullptr },

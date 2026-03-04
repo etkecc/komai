@@ -37,7 +37,6 @@ makedepends=(
 	qt6-tools
 )
 optdepends=(
-	'qt6-jdenticon: Auto-generated profile pictures (identicons)'
 	'kimageformats: Extends the formats Komai supports for image attachments'
 	'gst-plugins-base-libs: VoIP/Video calls'
 	'gst-plugins-good: VoIP/Video calls'

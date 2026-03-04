@@ -86,7 +86,7 @@ QStringList hiddenWidgets_;
 QStringList recentReactions_;
 QMap<QString, QString> composerDraftsByRoom_;
 QList<QStringList> collapsedSpaces_;
-bool uiAvatarsIdenticonFallback_;
+DefaultAvatarStyle uiAvatarsDefaultAvatarStyle_ = DefaultAvatarStyle::BoringAvatarsBauhaus;
 bool timelineMediaOpenImagesExternal_;
 bool timelineMediaOpenVideosExternal_;
 int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;

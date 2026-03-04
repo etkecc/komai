@@ -1,3 +1,6 @@
+  // ui
+  SettingId::UiAvatarsDefaultAvatarStyle,
+
   // sidebars
   SettingId::SidebarsRoomListLastMessagePreview,
   SettingId::SidebarsRoomListSort,

@@ -10,6 +10,7 @@
 #include <mtx/requests.hpp>
 #include <mtx/responses/login.hpp>
 
+#include "avatars/default/DefaultAvatarProvider.h"
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "dock/Dock.h"
@@ -18,7 +19,6 @@
 #include "matrix/MatrixClient.h"
 #include "providers/BlurhashProvider.h"
 #include "providers/ColorImageProvider.h"
-#include "providers/JdenticonProvider.h"
 #include "providers/MxcImageProvider.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -129,8 +129,7 @@ MainWindow::registerQmlTypes()
     engine()->addImageProvider(QStringLiteral("MxcImage"), imgProvider);
     engine()->addImageProvider(QStringLiteral("colorimage"), new ColorImageProvider());
     engine()->addImageProvider(QStringLiteral("blurhash"), new BlurhashProvider());
-    if (JdenticonProvider::isAvailable())
-        engine()->addImageProvider(QStringLiteral("jdenticon"), new JdenticonProvider());
+    engine()->addImageProvider(QStringLiteral("default-avatar"), new DefaultAvatarProvider());
 
     QObject::connect(engine(), &QQmlEngine::quit, &QGuiApplication::quit);
 

@@ -23,7 +23,7 @@ AbstractButton {
     readonly property real avatarRadius: Settings.uiAvatarsCircular ? frameHeight / 2 : frameHeight / 8
     property string roomid
     property bool showFallbackBorder: img.status != Image.Ready
-    property alias textColor: label.color
+    property color textColor: palette.text
     property string url
     property string userid
 
@@ -42,19 +42,15 @@ AbstractButton {
         radius: avatar.avatarRadius
     }
 
-    Label {
-        id: label
-
-        anchors.fill: bg
-        color: palette.text
-        enabled: false
-        font.pixelSize: bg.height / 2
-        horizontalAlignment: Text.AlignHCenter
-        text: TimelineManager.escapeEmoji(avatar.displayName ? String.fromCodePoint(avatar.displayName.codePointAt(0)) : "")
-        textFormat: Text.RichText
-        verticalAlignment: Text.AlignVCenter
-        visible: img.status != Image.Ready && !Settings.uiAvatarsIdenticonFallback
+    readonly property color userColorHint: {
+        if (avatar.userid === "")
+            return palette.text
+        if (avatar.roomid !== "")
+            return TimelineManager.roomUserColor(avatar.roomid, avatar.userid,
+                       palette.base, Settings.timelineUserColorCodingPolicy)
+        return TimelineManager.userColor(avatar.userid, palette.base)
     }
+
     Item {
         id: avatarClipper
 
@@ -69,11 +65,17 @@ AbstractButton {
         }
 
         Image {
-            id: identicon
+            id: defaultAvatar
 
             anchors.fill: parent
-            source: Settings.uiAvatarsIdenticonFallback ? ("image://jdenticon/" + (avatar.userid !== "" ? avatar.userid : avatar.roomid) + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25)) : ""
-            visible: Settings.uiAvatarsIdenticonFallback && img.status != Image.Ready
+            source: "image://default-avatar/"
+                    + (avatar.userid !== "" ? avatar.userid : avatar.roomid)
+                    + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25)
+                    + "&displayName=" + encodeURIComponent(avatar.displayName || "")
+                    + "&color=" + avatar.userColorHint.toString().substring(1)
+                    + "&style=" + Settings.uiAvatarsDefaultAvatarStyle
+                    + "&_v=" + Settings.uiAvatarsDefaultAvatarStyle
+            visible: img.status != Image.Ready
         }
         Image {
             id: img
@@ -90,7 +92,7 @@ AbstractButton {
                 // Keep branded logos and bundled avatar images un-tinted.
                 return avatar.url;
             } else if (avatar.url.startsWith(':/')) {
-                return "image://colorimage/" + avatar.url + "?" + label.color;
+                return "image://colorimage/" + avatar.url + "?" + avatar.textColor;
             } else {
                 return "";
             }

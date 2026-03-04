@@ -92,6 +92,11 @@ notificationsMessageContentPolicyFromStorage(
   UserSettings::NotificationMessageContentPolicy fallback);
 
 QString
+toStorageValue(UserSettings::DefaultAvatarStyle value);
+UserSettings::DefaultAvatarStyle
+defaultAvatarStyleFromStorage(const QString &value, UserSettings::DefaultAvatarStyle fallback);
+
+QString
 dbusAccessToStorage(int value);
 int
 dbusAccessFromStorage(const QString &value, int fallback);

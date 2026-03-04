@@ -5,7 +5,7 @@
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TimelinePresentationPreview
     { QT_TR_NOOP("Timeline preview"),
-      QT_TR_NOOP("Live preview powered by the same timeline delegates used in rooms."),
+      nullptr,
       SM::TimelinePreview, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // TimelineMessagesStyle

@@ -109,6 +109,11 @@
     // LookFeelAvatarsSection
     { QT_TR_NOOP("Avatars"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // AvatarPreview
+    { QT_TR_NOOP("Avatar preview"),
+      nullptr,
+      SM::AvatarPreview, SM::TabLookFeel,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // CircularAvatarsEnabled
     SIMPLE_BOOL_CONFIG_ID_SETTING("Use circular avatars",
                         nullptr,

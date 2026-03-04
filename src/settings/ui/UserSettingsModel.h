@@ -69,6 +69,7 @@ public:
         ProfileButton,
         AccessTokenField,
         TimelinePreview,
+        AvatarPreview,
     };
     Q_ENUM(Types);
 

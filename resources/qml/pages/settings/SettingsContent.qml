@@ -62,7 +62,7 @@ Item {
                     implicitHeight: row.implicitHeight
                     width: grid.width
 
-                    readonly property bool isTimelinePreviewRow: r.model.type == UserSettingsModel.TimelinePreview
+                    readonly property bool isFullWidthPreviewRow: r.model.type == UserSettingsModel.TimelinePreview || r.model.type == UserSettingsModel.AvatarPreview
                     readonly property bool useStackedLayout: grid.width < grid.settingRowStackBreakpoint
                     readonly property real controlWidth: r.useStackedLayout
                         ? Math.max(0, grid.width - Komai.paddingSmall * 2)
@@ -108,8 +108,8 @@ Item {
                             Layout.rightMargin: Komai.paddingSmall
                             Layout.bottomMargin: r.hasDescription ? 0 : Komai.paddingMedium
                             columns: r.useStackedLayout ? 1 : 2
-                            rowSpacing: r.useStackedLayout && !r.isTimelinePreviewRow ? Komai.paddingSmall : 0
-                            columnSpacing: r.isTimelinePreviewRow ? 0 : Komai.paddingSmall
+                            rowSpacing: r.useStackedLayout && !r.isFullWidthPreviewRow ? Komai.paddingSmall : 0
+                            columnSpacing: r.isFullWidthPreviewRow ? 0 : Komai.paddingSmall
 
                             Text {
                                 Layout.row: 0
@@ -124,7 +124,7 @@ Item {
                                 textFormat: Text.AutoText
                                 font.pointSize: 1.1 * Settings.uiFontSizePt
                                 wrapMode: Text.Wrap
-                                visible: !r.isTimelinePreviewRow
+                                visible: !r.isFullWidthPreviewRow
                                 onLinkActivated: function (link) {
                                     Qt.openUrlExternally(link);
                                 }
@@ -133,14 +133,14 @@ Item {
 
                             Item {
                                 id: chooserContainer
-                                Layout.row: r.useStackedLayout && !r.isTimelinePreviewRow ? 1 : 0
-                                Layout.column: r.useStackedLayout ? 0 : (r.isTimelinePreviewRow ? 0 : 1)
+                                Layout.row: r.useStackedLayout && !r.isFullWidthPreviewRow ? 1 : 0
+                                Layout.column: r.useStackedLayout ? 0 : (r.isFullWidthPreviewRow ? 0 : 1)
                                 Layout.alignment: (r.useStackedLayout ? Qt.AlignLeft : Qt.AlignRight) | Qt.AlignTop
-                                Layout.columnSpan: r.isTimelinePreviewRow ? settingRow.columns : 1
-                                Layout.fillWidth: r.isTimelinePreviewRow || r.useStackedLayout
-                                Layout.preferredWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
-                                Layout.maximumWidth: r.isTimelinePreviewRow ? grid.width : r.controlWidth
-                                Layout.minimumWidth: r.isTimelinePreviewRow ? 0 : (r.useStackedLayout ? 0 : 140)
+                                Layout.columnSpan: r.isFullWidthPreviewRow ? settingRow.columns : 1
+                                Layout.fillWidth: r.isFullWidthPreviewRow || r.useStackedLayout
+                                Layout.preferredWidth: r.isFullWidthPreviewRow ? grid.width : r.controlWidth
+                                Layout.maximumWidth: r.isFullWidthPreviewRow ? grid.width : r.controlWidth
+                                Layout.minimumWidth: r.isFullWidthPreviewRow ? 0 : (r.useStackedLayout ? 0 : 140)
                                 readonly property real chooserHeight: chooser.child
                                     ? Math.max(
                                           chooser.child.implicitHeight || 0,
@@ -335,6 +335,13 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.TimelinePreview
                                         SettingRowTimelinePreview {
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                        }
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.AvatarPreview
+                                        SettingRowAvatarPreview {
                                             anchors.left: parent.left
                                             anchors.right: parent.right
                                         }

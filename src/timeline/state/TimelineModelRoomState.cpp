@@ -19,6 +19,10 @@
 QString
 TimelineModel::roomName() const
 {
+    auto dmName = DirectChatResolver::instance().dmRoomDisplayName(room_id_);
+    if (!dmName.isEmpty())
+        return utils::replaceEmoji(dmName.toHtmlEscaped());
+
     auto info = cache::getRoomInfo({room_id_.toStdString()});
 
     if (!info.count(room_id_))
@@ -29,6 +33,10 @@ TimelineModel::roomName() const
 QString
 TimelineModel::plainRoomName() const
 {
+    auto dmName = DirectChatResolver::instance().dmRoomDisplayName(room_id_);
+    if (!dmName.isEmpty())
+        return dmName;
+
     auto info = cache::getRoomInfo({room_id_.toStdString()});
 
     if (!info.count(room_id_))

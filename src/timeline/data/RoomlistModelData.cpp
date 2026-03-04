@@ -160,8 +160,10 @@ RoomlistModel::dataForCachedRoom(const QString &room_id, const RoomInfo &room, i
             return QString::fromStdString(room.avatar_url);
         return cache::roomAvatarUrl(room_id.toStdString());
     }
-    case Roles::RoomName:
-        return QString::fromStdString(room.name);
+    case Roles::RoomName: {
+        auto dmName = DirectChatResolver::instance().dmRoomDisplayName(room_id);
+        return dmName.isEmpty() ? QString::fromStdString(room.name) : dmName;
+    }
     case Roles::LastMessage: {
         const auto style = UserSettings::instance()->sidebarsRoomListLastMessagePreview();
         const bool encrypted =

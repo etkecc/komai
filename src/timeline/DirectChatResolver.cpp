@@ -4,6 +4,8 @@
 
 #include "DirectChatResolver.h"
 
+#include <mtx/events/collections.hpp>
+
 #include "cache/Cache.h"
 #include "matrix/MatrixStateTypes.h"
 #include "utils/Utils.h"
@@ -128,6 +130,21 @@ void
 DirectChatResolver::invalidateForRoomId(const QString &roomId)
 {
     cache_.erase(roomId);
+}
+
+QString
+DirectChatResolver::dmRoomDisplayName(const QString &roomId)
+{
+    auto partner = directChatPartner(roomId);
+    if (partner.isEmpty())
+        return {};
+
+    // Don't override if the room has an explicit m.room.name.
+    auto nameEvent = cache::getStateEvent<mtx::events::state::Name>(roomId.toStdString());
+    if (nameEvent && !nameEvent->content.name.empty())
+        return {};
+
+    return cache::displayName(roomId, partner);
 }
 
 bool

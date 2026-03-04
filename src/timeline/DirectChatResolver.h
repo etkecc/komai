@@ -38,6 +38,12 @@ public:
     //! recomputes it (e.g. after a membership change).
     void invalidateForRoomId(const QString &roomId);
 
+    //! For DM rooms without an explicit m.room.name, returns the partner's
+    //! display name. Returns empty if the room is not a DM or has an explicit
+    //! name. Presentation-layer callers can use this to override the cached
+    //! room name from the store.
+    QString dmRoomDisplayName(const QString &roomId);
+
 private:
     DirectChatResolver() = default;
 

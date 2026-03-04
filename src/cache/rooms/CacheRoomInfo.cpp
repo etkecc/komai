@@ -23,12 +23,14 @@ MatrixStore::singleRoomInfo(const std::string &room_id)
     auto txn = ro_txn(storage());
 
     try {
-        auto statesdb = getStatesDb(txn, room_id);
+        auto statesdb  = getStatesDb(txn, room_id);
+        auto membersdb = getMembersDb(txn, room_id);
         if (auto info = cache::codec::getRoomInfo(txn, db->rooms, room_id)) {
             auto tmp         = std::move(*info);
-            tmp.member_count = getMembersDb(txn, room_id).size(txn);
+            tmp.member_count = membersdb.size(txn);
             tmp.join_rule    = getRoomJoinRule(txn, statesdb);
             tmp.guest_access = getRoomGuestAccess(txn, statesdb);
+            tmp.avatar_url   = getRoomAvatarUrl(txn, statesdb, membersdb).toStdString();
             return tmp;
         }
     } catch (const db::Error &e) {

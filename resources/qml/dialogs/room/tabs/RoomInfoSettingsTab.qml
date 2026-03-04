@@ -209,16 +209,18 @@ Item {
                             id: roomNameField
 
                             property string lastSubmitted: ""
-                            property string serverValue: roomSettings ? roomSettings.plainRoomName : ""
-                            onServerValueChanged: lastSubmitted = ""
+                            property bool hasExplicitName: roomSettings ? roomSettings.isRoomNameSet : false
+                            property string explicitName: (roomSettings && hasExplicitName) ? roomSettings.plainRoomName : ""
+                            onExplicitNameChanged: lastSubmitted = ""
 
-                            text: serverValue
+                            text: explicitName
+                            placeholderText: qsTr("No name set")
                             readOnly: !(roomSettings && roomSettings.canChangeName)
                             Layout.preferredWidth: scrollView.availableWidth * 0.5
 
                             function applyName() {
                                 var val = text.trim();
-                                if (roomSettings && val !== roomSettings.plainRoomName && val !== lastSubmitted) {
+                                if (roomSettings && val !== explicitName && val !== lastSubmitted) {
                                     lastSubmitted = val;
                                     roomSettings.changeName(val);
                                 }

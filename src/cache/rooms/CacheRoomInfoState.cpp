@@ -147,24 +147,9 @@ MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
 
     if (total == 2)
         return first_member;
-    else if (total == 3) {
-        // If one of the two non-self members is a bot, show only the human's name.
-        auto localStd = localUserId_.toStdString();
-        std::vector<std::pair<std::string, std::string>> otherMembers; // {user_id, name}
-        for (const auto &m : members) {
-            if (m.first != localStd)
-                otherMembers.emplace_back(m.first, m.second.name);
-        }
-        if (otherMembers.size() == 2) {
-            bool bot0 = utils::isLikelyBotUser(otherMembers[0].first, otherMembers[0].second);
-            bool bot1 = utils::isLikelyBotUser(otherMembers[1].first, otherMembers[1].second);
-            if (bot0 && !bot1)
-                return QString::fromStdString(otherMembers[1].second);
-            if (bot1 && !bot0)
-                return QString::fromStdString(otherMembers[0].second);
-        }
+    else if (total == 3)
         return tr("%1 and %2", "RoomName").arg(first_member, second_member);
-    } else if (total > 3)
+    else if (total > 3)
         return tr("%1 and %n other(s)", "", (int)total - 2).arg(first_member);
 
     return tr("Empty Room");

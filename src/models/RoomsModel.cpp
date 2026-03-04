@@ -10,6 +10,7 @@
 #include "cache/Cache.h"
 #include "models/CompletionModelRoles.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/DirectChatResolver.h"
 #include "utils/Utils.h"
 
 RoomsModel::RoomsModel(bool showOnlyRoomWithAliases, QObject *parent)
@@ -63,8 +64,13 @@ RoomsModel::data(const QModelIndex &index, int role) const
         case Roles::RoomAlias:
             return QString::fromStdString(rooms[index.row()].alias).toHtmlEscaped();
         case CompletionModel::SearchRole2:
-        case Roles::RoomName:
+        case Roles::RoomName: {
+            auto roomId = QString::fromStdString(rooms[index.row()].id);
+            auto dmName = DirectChatResolver::instance().dmRoomDisplayName(roomId);
+            if (!dmName.isEmpty())
+                return dmName.toHtmlEscaped();
             return QString::fromStdString(rooms[index.row()].name).toHtmlEscaped();
+        }
         case CompletionModel::SearchRole3:
             return QString::fromStdString(rooms[index.row()].id);
         case Roles::AvatarUrl:

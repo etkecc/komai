@@ -1470,7 +1470,10 @@ if(BUILD_TESTING)
         src/timeline/roomlist/RoomlistPreviewSelection.cpp
     )
     target_include_directories(komai_roomlist_preview_selection_test PRIVATE src)
-    target_link_libraries(komai_roomlist_preview_selection_test PRIVATE Qt::Core)
+    target_link_libraries(komai_roomlist_preview_selection_test PRIVATE
+        Qt::Core
+        MatrixClient::MatrixClient
+    )
     add_test(NAME komai_roomlist_preview_selection_test COMMAND komai_roomlist_preview_selection_test)
     komai_configure_test(komai_roomlist_preview_selection_test "unit;timeline")
 

@@ -8,6 +8,7 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "timeline/DirectChatResolver.h"
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
@@ -33,6 +34,16 @@ MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
     } catch (const std::exception &e) {
         nhlog::db()->critical("Failed to retrieve members from cache: {}", e.what());
     }
+}
+
+// Use the DM-aware display name so the Members tab header matches the room
+// list and room header (e.g. showing "Someone" instead of "Someone and
+// Messenger bridge bot" for bridged DM rooms).
+QString
+MemberListBackend::roomName() const
+{
+    auto dmName = DirectChatResolver::instance().dmRoomDisplayName(room_id_);
+    return dmName.isEmpty() ? QString::fromStdString(info_.name) : dmName;
 }
 
 void

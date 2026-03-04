@@ -82,6 +82,8 @@ RoomSettings::isRoomNameSet() const
               .content.name.empty();
 }
 
+// Deliberately returns the raw cached name without DM-aware overrides.
+// Room settings deal with the actual m.room.name state, not presentation names.
 QString
 RoomSettings::roomName() const
 {
@@ -97,6 +99,8 @@ RoomSettings::roomTopic() const
                               .replace(QLatin1String("\n"), QLatin1String("<br>"))));
 }
 
+// Raw name for the settings text field — no DM override, so the user sees and
+// edits the actual m.room.name value (or an empty field if none is set).
 QString
 RoomSettings::plainRoomName() const
 {

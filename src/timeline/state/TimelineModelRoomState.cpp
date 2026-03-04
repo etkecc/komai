@@ -16,6 +16,8 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
+// Use the DM-aware display name so the room header shows the partner's name
+// for bridged DM rooms, consistent with the room list sidebar.
 QString
 TimelineModel::roomName() const
 {
@@ -30,6 +32,7 @@ TimelineModel::roomName() const
     return utils::replaceEmoji(QString::fromStdString(info[room_id_].name).toHtmlEscaped());
 }
 
+// Plain variant of roomName() without HTML escaping, also DM-aware.
 QString
 TimelineModel::plainRoomName() const
 {

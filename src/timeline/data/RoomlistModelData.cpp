@@ -161,6 +161,8 @@ RoomlistModel::dataForCachedRoom(const QString &room_id, const RoomInfo &room, i
         return cache::roomAvatarUrl(room_id.toStdString());
     }
     case Roles::RoomName: {
+        // Use the DM-aware display name so the room list shows the partner's
+        // name instead of computed fallbacks like "Someone and Bridge bot".
         auto dmName = DirectChatResolver::instance().dmRoomDisplayName(room_id);
         return dmName.isEmpty() ? QString::fromStdString(room.name) : dmName;
     }

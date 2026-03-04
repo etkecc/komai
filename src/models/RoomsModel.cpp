@@ -65,6 +65,8 @@ RoomsModel::data(const QModelIndex &index, int role) const
             return QString::fromStdString(rooms[index.row()].alias).toHtmlEscaped();
         case CompletionModel::SearchRole2:
         case Roles::RoomName: {
+            // Use the DM-aware display name so the Quick Switcher and Forward
+            // dialog show the same room name as the room list and header.
             auto roomId = QString::fromStdString(rooms[index.row()].id);
             auto dmName = DirectChatResolver::instance().dmRoomDisplayName(roomId);
             if (!dmName.isEmpty())
@@ -73,8 +75,15 @@ RoomsModel::data(const QModelIndex &index, int role) const
         }
         case CompletionModel::SearchRole3:
             return QString::fromStdString(rooms[index.row()].id);
-        case Roles::AvatarUrl:
-            return QString::fromStdString(rooms[index.row()].avatar_url);
+        case Roles::AvatarUrl: {
+            // The pre-computed avatar_url from roomNamesAndAliases() may be
+            // empty for DM rooms. Fall back to cache::roomAvatarUrl() which
+            // recomputes it fresh (with bot-aware partner detection).
+            auto url = QString::fromStdString(rooms[index.row()].avatar_url);
+            if (url.isEmpty())
+                url = cache::roomAvatarUrl(rooms[index.row()].id);
+            return url;
+        }
         case Roles::RoomID:
             return QString::fromStdString(rooms[index.row()].id).toHtmlEscaped();
         case Roles::RawRoomID:

@@ -44,7 +44,7 @@ public:
     }
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    QString roomName() const { return QString::fromStdString(info_.name); }
+    QString roomName() const;
     int memberCount() const { return (int)info_.member_count; }
     QString avatarUrl() const { return QString::fromStdString(info_.avatar_url); }
     QString roomId() const { return room_id_; }

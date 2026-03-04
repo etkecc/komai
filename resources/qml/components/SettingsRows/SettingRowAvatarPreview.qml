@@ -127,7 +127,7 @@ Item {
             trustlevel: 0,
             type: MtxEvent.TextMessage,
             avatarUrl: "",
-            userId: "@carol:example.org",
+            userId: "@carol:example.net",
             userName: "Carol",
             userPowerlevel: 0
         },
@@ -152,7 +152,7 @@ Item {
             trustlevel: 0,
             type: MtxEvent.TextMessage,
             avatarUrl: "",
-            userId: "@dave:example.org",
+            userId: "@dave:example.com",
             userName: "Dave",
             userPowerlevel: 0
         }

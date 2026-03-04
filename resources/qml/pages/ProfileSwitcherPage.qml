@@ -13,7 +13,6 @@ Item {
     id: root
     readonly property string komaiProjectUrl: "https://github.com/etkecc/komai/"
     readonly property string matrixUrl: "https://matrix.org/"
-    readonly property string profileSwitcherTaglineTemplate: qsTr("A fine %1 chat app you can get to love")
 
     ColumnLayout {
         anchors.fill: parent
@@ -41,7 +40,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             text: "<style>a { color: " + palette.highlight + "; }</style>"
                 + "<a href=\"" + root.komaiProjectUrl + "\">Komai</a><br/>"
-                + root.profileSwitcherTaglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Komai.matrixWord + "</a>")
+                + Komai.taglineTemplate.arg("<a href=\"" + root.matrixUrl + "\">" + Komai.matrixWord + "</a>")
             color: palette.text
             font.bold: true
             font.pointSize: Settings.uiFontSizePt * 1.8

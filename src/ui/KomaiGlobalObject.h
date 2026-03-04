@@ -78,7 +78,7 @@ public:
     int barIconSize() const;
     bool sidebarsRoomListShowLastMessageTime() const;
 
-    QString taglineTemplate() const { return tr("A fine desktop %1 chat app you can get to love"); }
+    QString taglineTemplate() const { return tr("A fine %1 chat app you can get to love"); }
     QString matrixWord() const { return tr("Matrix"); }
     QString tagline() const { return taglineTemplate().arg(matrixWord()); }
 

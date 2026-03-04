@@ -66,6 +66,12 @@ AbstractButton {
         implicitWidth: contentColumn.implicitWidth
         implicitHeight: contentColumn.implicitHeight
 
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            acceptedButtons: Qt.NoButton
+        }
+
         Column {
             id: contentColumn
 

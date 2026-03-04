@@ -354,10 +354,10 @@ Window {
             if (!Settings.uiMotionAnimationsEnabled)
                 return;
             if (prevHitArea.visible)
-                prevShakeAnimation.start();
+                prevHintAnimation.start();
             if (nextHitArea.visible)
-                nextShakeAnimation.start();
-            closeShakeAnimation.start();
+                nextHintAnimation.start();
+            closeHintAnimation.start();
         }
     }
 
@@ -380,21 +380,22 @@ Window {
         property bool hinting: false
 
         SequentialAnimation {
-            id: prevShakeAnimation
+            id: prevHintAnimation
             PropertyAction  { target: prevHitArea; property: "hinting"; value: true }
-            NumberAnimation  { target: prevIcon; property: "rotation"; to: -15; duration: 50 }
-            NumberAnimation  { target: prevIcon; property: "rotation"; to: 15;  duration: 80 }
-            NumberAnimation  { target: prevIcon; property: "rotation"; to: -10; duration: 70 }
-            NumberAnimation  { target: prevIcon; property: "rotation"; to: 10;  duration: 60 }
-            NumberAnimation  { target: prevIcon; property: "rotation"; to: 0;   duration: 50 }
+            PauseAnimation  { duration: 600 }
             PropertyAction  { target: prevHitArea; property: "hinting"; value: false }
         }
 
         // Button fills the whole bar
         Rectangle {
+            id: prevButtonBg
             anchors.fill: parent
             radius: parent.radius
-            color: prevMouseArea.containsMouse ? actionButtonHoverBackgroundColor : actionBarColor
+            color: prevHitArea.hinting ? Qt.rgba(imageOverlay.palette.highlight.r, imageOverlay.palette.highlight.g, imageOverlay.palette.highlight.b, 0.35)
+                 : prevMouseArea.containsMouse ? actionButtonHoverBackgroundColor
+                 : actionBarColor
+
+            Behavior on color { ColorAnimation { duration: 250 } }
 
             // Square off the left corners so the bar sits flush against the screen edge.
             Rectangle {
@@ -417,7 +418,7 @@ Window {
                 anchors.centerIn: parent
                 width: actionButtonIconSize
                 height: actionButtonIconSize
-                source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (prevHitArea.hinting ? imageOverlay.palette.highlight : actionButtonColor)
+                source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + actionButtonColor
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
             }
@@ -451,21 +452,22 @@ Window {
         property bool hinting: false
 
         SequentialAnimation {
-            id: nextShakeAnimation
+            id: nextHintAnimation
             PropertyAction  { target: nextHitArea; property: "hinting"; value: true }
-            NumberAnimation  { target: nextIcon; property: "rotation"; to: -15; duration: 50 }
-            NumberAnimation  { target: nextIcon; property: "rotation"; to: 15;  duration: 80 }
-            NumberAnimation  { target: nextIcon; property: "rotation"; to: -10; duration: 70 }
-            NumberAnimation  { target: nextIcon; property: "rotation"; to: 10;  duration: 60 }
-            NumberAnimation  { target: nextIcon; property: "rotation"; to: 0;   duration: 50 }
+            PauseAnimation  { duration: 600 }
             PropertyAction  { target: nextHitArea; property: "hinting"; value: false }
         }
 
         // Button fills the whole bar
         Rectangle {
+            id: nextButtonBg
             anchors.fill: parent
             radius: parent.radius
-            color: nextMouseArea.containsMouse ? actionButtonHoverBackgroundColor : actionBarColor
+            color: nextHitArea.hinting ? Qt.rgba(imageOverlay.palette.highlight.r, imageOverlay.palette.highlight.g, imageOverlay.palette.highlight.b, 0.35)
+                 : nextMouseArea.containsMouse ? actionButtonHoverBackgroundColor
+                 : actionBarColor
+
+            Behavior on color { ColorAnimation { duration: 250 } }
 
             // Square off the right corners so the bar sits flush against the screen edge.
             Rectangle {
@@ -488,7 +490,7 @@ Window {
                 anchors.centerIn: parent
                 width: actionButtonIconSize
                 height: actionButtonIconSize
-                source: "image://colorimage/:/icons/icons/ui/collapsed.svg?" + (nextHitArea.hinting ? imageOverlay.palette.highlight : actionButtonColor)
+                source: "image://colorimage/:/icons/icons/ui/collapsed.svg?" + actionButtonColor
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
             }
@@ -673,20 +675,34 @@ Window {
 
                 iconSource: ":/icons/icons/ui/dismiss.svg"
                 labelText: qsTr("Close")
-                textColor: hinting ? imageOverlay.palette.highlight : actionButtonColor
+                textColor: actionButtonColor
                 hoverIconColor: actionButtonHoverColor
                 hoverTextColor: actionButtonHoverColor
                 hoverBackgroundColor: actionButtonHoverBackgroundColor
                 iconSize: actionButtonIconSize
 
+                background: Rectangle {
+                    radius: Komai.paddingMedium
+                    color: closeButton.hinting ? Qt.rgba(imageOverlay.palette.highlight.r, imageOverlay.palette.highlight.g, imageOverlay.palette.highlight.b, 0.35)
+                         : closeButton.hovered || closeButton.pressed || closeButton.visualFocus ? closeButton.hoverBackgroundColor
+                         : "transparent"
+
+                    Behavior on color { ColorAnimation { duration: 250 } }
+
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        width: parent.radius
+                        height: parent.radius
+                        color: parent.color
+                        visible: closeButton.flatTopRightCorner && (closeButton.hinting || closeButton.hovered || closeButton.pressed || closeButton.visualFocus)
+                    }
+                }
+
                 SequentialAnimation {
-                    id: closeShakeAnimation
+                    id: closeHintAnimation
                     PropertyAction  { target: closeButton; property: "hinting"; value: true }
-                    NumberAnimation  { target: closeButton; property: "rotation"; to: -15; duration: 50 }
-                    NumberAnimation  { target: closeButton; property: "rotation"; to: 15;  duration: 80 }
-                    NumberAnimation  { target: closeButton; property: "rotation"; to: -10; duration: 70 }
-                    NumberAnimation  { target: closeButton; property: "rotation"; to: 10;  duration: 60 }
-                    NumberAnimation  { target: closeButton; property: "rotation"; to: 0;   duration: 50 }
+                    PauseAnimation  { duration: 600 }
                     PropertyAction  { target: closeButton; property: "hinting"; value: false }
                 }
 

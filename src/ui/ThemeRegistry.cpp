@@ -157,8 +157,8 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     }
     auto palette = root["palette"];
 
-    // Validate all 20 keys are present and are valid 6-char hex
-    static const QRegularExpression hexRe(QStringLiteral("^[0-9a-fA-F]{6}$"));
+    // Validate all 20 keys are present and are valid #-prefixed hex
+    static const QRegularExpression hexRe(QStringLiteral("^#[0-9a-fA-F]{6}$"));
     QMap<QString, QColor> colors;
     for (const auto &key : paletteKeys) {
         auto keyStd = key.toStdString();
@@ -174,7 +174,7 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
                               keyStd);
             return std::nullopt;
         }
-        colors[key] = QColor(QStringLiteral("#") + hexStr);
+        colors[key] = QColor(hexStr);
     }
 
     // Validate userColors section (required)
@@ -224,7 +224,7 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
                               i);
             return std::nullopt;
         }
-        userColorOthers.push_back(QColor(QStringLiteral("#") + otherHex));
+        userColorOthers.push_back(QColor(otherHex));
     }
 
     ThemeDef def;
@@ -255,7 +255,7 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     def.warning         = colors[QStringLiteral("warning")];
     def.error           = colors[QStringLiteral("error")];
 
-    def.userColorSelf   = QColor(QStringLiteral("#") + selfHex);
+    def.userColorSelf   = QColor(selfHex);
     def.userColorOthers = std::move(userColorOthers);
 
     return def;

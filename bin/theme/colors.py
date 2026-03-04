@@ -53,9 +53,10 @@ def parse_yaml(path: str) -> dict:
             # List item (4-space indent + "- ")
             if line.startswith("    - "):
                 if current_section is not None and current_subsection is not None:
-                    m = re.match(r'    - "?([^"#]*)"?\s*(?:#.*)?$', line)
+                    m = re.match(r'    - "([^"]*)"', line) or \
+                        re.match(r'    - ([^"#\s]*)\s*(?:#.*)?$', line)
                     if m:
-                        val = m.group(1).strip().strip('"')
+                        val = m.group(1).strip()
                         if val:
                             result[current_section][current_subsection].append(val)
                 continue
@@ -65,10 +66,11 @@ def parse_yaml(path: str) -> dict:
                 current_subsection = None
                 if current_section is None:
                     continue
-                m = re.match(r'  (\w+):\s*"?([^"#]*)"?\s*(?:#.*)?$', line)
+                m = re.match(r'  (\w+):\s*"([^"]*)"', line) or \
+                    re.match(r'  (\w+):\s*([^"#\s]*)\s*(?:#.*)?$', line)
                 if m:
                     key = m.group(1)
-                    value = m.group(2).strip().strip('"')
+                    value = m.group(2).strip()
                     if value:
                         result[current_section][key] = value
                     else:
@@ -78,10 +80,11 @@ def parse_yaml(path: str) -> dict:
                 continue
 
             # Top-level key
-            m = re.match(r'(\w+):\s*"?([^"#]*)"?\s*(?:#.*)?$', line)
+            m = re.match(r'(\w+):\s*"([^"]*)"', line) or \
+                re.match(r'(\w+):\s*([^"#\s]*)\s*(?:#.*)?$', line)
             if m:
                 key = m.group(1)
-                value = m.group(2).strip().strip('"')
+                value = m.group(2).strip()
                 current_subsection = None
                 if value:
                     result[key] = value

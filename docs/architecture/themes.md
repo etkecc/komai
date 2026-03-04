@@ -78,8 +78,8 @@ Theme files contain 20 color keys under `palette:`, plus a required
   `highlightedText`, `link`, `toolTipBase`, `toolTipText`
 - **4 app-level semantic colors:** `attention`, `success`, `warning`, `error`
 - **`userColors`** — user colors (timeline, member lists, profiles, etc.):
-  - `self` — hex color for the current user and their messages
-  - `others` — list of hex colors for other users (minimum 1)
+  - `self` — `#`-prefixed hex color for the current user and their messages
+  - `others` — list of `#`-prefixed hex colors for other users (minimum 1)
 
 When the "Adaptive" user color policy is active, `roomUserColor()` uses
 `others` directly: rooms with more members than `others.size()` get a uniform

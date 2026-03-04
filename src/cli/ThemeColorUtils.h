@@ -45,11 +45,11 @@ inline constexpr std::array<const char *, 4> CUSTOM_KEYS = {
 
 using Palette = std::map<std::string, std::string>;
 
-// Parse a hex color string (6 chars, no #) to Rgb
+// Parse a hex color string (with or without #) to Rgb
 Rgb
 parseColor(const std::string &hex);
 
-// Convert Rgb back to 6-char lowercase hex
+// Convert Rgb to #-prefixed 7-char lowercase hex (e.g. "#ab12ef")
 std::string
 rgbToHex(const Rgb &c);
 

@@ -139,9 +139,9 @@ parseBase16Yaml(const QByteArray &content,
             std::snprintf(slot, sizeof(slot), "base%02X", i);
             if (pal[slot] && pal[slot].IsScalar()) {
                 auto val = pal[slot].as<std::string>();
-                // Strip leading # if present
-                if (!val.empty() && val[0] == '#')
-                    val = val.substr(1);
+                // Ensure #-prefixed hex
+                if (!val.empty() && val[0] != '#')
+                    val = "#" + val;
                 outPalette[slot] = val;
             }
         }
@@ -161,10 +161,10 @@ validateBase16Palette(const theme_color::Palette &palette)
         if (it == palette.end())
             return false;
         const auto &val = it->second;
-        if (val.size() != 6)
+        if (val.size() != 7 || val[0] != '#')
             return false;
-        for (char c : val) {
-            if (!std::isxdigit(static_cast<unsigned char>(c)))
+        for (std::size_t j = 1; j < val.size(); ++j) {
+            if (!std::isxdigit(static_cast<unsigned char>(val[j])))
                 return false;
         }
     }

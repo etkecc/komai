@@ -47,10 +47,10 @@ static void
 testRgbToHex()
 {
     auto hex = theme_color::rgbToHex({0x1e, 0x1e, 0x2e});
-    expect(hex == "1e1e2e", "rgbToHex basic");
+    expect(hex == "#1e1e2e", "rgbToHex basic");
 
     auto hex2 = theme_color::rgbToHex({0xff, 0x00, 0xab});
-    expect(hex2 == "ff00ab", "rgbToHex leading zeros");
+    expect(hex2 == "#ff00ab", "rgbToHex leading zeros");
 }
 
 static void
@@ -75,10 +75,10 @@ static void
 testBlendToward()
 {
     auto noChange = theme_color::blendToward("ff8800", "000000", 0.0);
-    expect(noChange == "ff8800", "blendToward t=0 unchanged");
+    expect(noChange == "#ff8800", "blendToward t=0 unchanged");
 
     auto fullChange = theme_color::blendToward("ff8800", "000000", 1.0);
-    expect(fullChange == "000000", "blendToward t=1 is target");
+    expect(fullChange == "#000000", "blendToward t=1 is target");
 
     // Blend white toward black at 0.5 in linear space
     auto mid = theme_color::blendToward("ffffff", "000000", 0.5);
@@ -91,10 +91,10 @@ testBlendToward()
 static void
 testDetectVariant()
 {
-    theme_color::Palette dark = {{"base00", "1e1e2e"}};
+    theme_color::Palette dark = {{"base00", "#1e1e2e"}};
     expect(theme_color::detectVariant(dark) == "dark", "detectVariant dark");
 
-    theme_color::Palette light = {{"base00", "f5f5dc"}};
+    theme_color::Palette light = {{"base00", "#f5f5dc"}};
     expect(theme_color::detectVariant(light) == "light", "detectVariant light");
 }
 
@@ -115,27 +115,27 @@ testBase16ToPalette()
 {
     // catppuccin-mocha source_base16 as input
     theme_color::Palette base16 = {
-      {"base00", "1e1e2e"}, {"base01", "181825"}, {"base02", "313244"},
-      {"base03", "45475a"}, {"base04", "585b70"}, {"base05", "cdd6f4"},
-      {"base06", "f5e0dc"}, {"base07", "b4befe"}, {"base08", "f38ba8"},
-      {"base09", "fab387"}, {"base0A", "f9e2af"}, {"base0B", "a6e3a1"},
-      {"base0C", "94e2d5"}, {"base0D", "89b4fa"}, {"base0E", "cba6f7"},
-      {"base0F", "f2cdcd"},
+      {"base00", "#1e1e2e"}, {"base01", "#181825"}, {"base02", "#313244"},
+      {"base03", "#45475a"}, {"base04", "#585b70"}, {"base05", "#cdd6f4"},
+      {"base06", "#f5e0dc"}, {"base07", "#b4befe"}, {"base08", "#f38ba8"},
+      {"base09", "#fab387"}, {"base0A", "#f9e2af"}, {"base0B", "#a6e3a1"},
+      {"base0C", "#94e2d5"}, {"base0D", "#89b4fa"}, {"base0E", "#cba6f7"},
+      {"base0F", "#f2cdcd"},
     };
 
     auto result = theme_color::base16ToPalette(base16, "dark");
 
-    expect(result["window"] == "1e1e2e", "b16palette window = base00");
-    expect(result["windowText"] == "cdd6f4", "b16palette windowText = base05");
-    expect(result["base"] == "181825", "b16palette base = base01");
-    expect(result["alternateBase"] == "313244", "b16palette alternateBase = base02");
-    expect(result["text"] == "cdd6f4", "b16palette text = base05");
-    expect(result["button"] == "181825", "b16palette button = base01");
-    expect(result["buttonText"] == "585b70", "b16palette buttonText = base04");
-    expect(result["light"] == "f5e0dc", "b16palette light = base06");
-    expect(result["mid"] == "45475a", "b16palette mid = base03");
-    expect(result["toolTipBase"] == "181825", "b16palette toolTipBase = base01");
-    expect(result["toolTipText"] == "cdd6f4", "b16palette toolTipText = base05");
+    expect(result["window"] == "#1e1e2e", "b16palette window = base00");
+    expect(result["windowText"] == "#cdd6f4", "b16palette windowText = base05");
+    expect(result["base"] == "#181825", "b16palette base = base01");
+    expect(result["alternateBase"] == "#313244", "b16palette alternateBase = base02");
+    expect(result["text"] == "#cdd6f4", "b16palette text = base05");
+    expect(result["button"] == "#181825", "b16palette button = base01");
+    expect(result["buttonText"] == "#585b70", "b16palette buttonText = base04");
+    expect(result["light"] == "#f5e0dc", "b16palette light = base06");
+    expect(result["mid"] == "#45475a", "b16palette mid = base03");
+    expect(result["toolTipBase"] == "#181825", "b16palette toolTipBase = base01");
+    expect(result["toolTipText"] == "#cdd6f4", "b16palette toolTipText = base05");
 
     // Contrast check: highlightedText on highlight should be >= 3.0
     auto htCr = theme_color::contrastRatio(result["highlightedText"], result["highlight"]);
@@ -146,14 +146,14 @@ static void
 testBase16ToCustom()
 {
     theme_color::Palette base16 = {
-      {"base08", "f38ba8"}, {"base09", "fab387"}, {"base0B", "a6e3a1"},
+      {"base08", "#f38ba8"}, {"base09", "#fab387"}, {"base0B", "#a6e3a1"},
     };
 
     auto result = theme_color::base16ToCustom(base16);
-    expect(result["attention"] == "f38ba8", "b16custom attention = base08");
-    expect(result["success"] == "a6e3a1", "b16custom success = base0B");
-    expect(result["warning"] == "fab387", "b16custom warning = base09");
-    expect(result["error"] == "f38ba8", "b16custom error = base08");
+    expect(result["attention"] == "#f38ba8", "b16custom attention = base08");
+    expect(result["success"] == "#a6e3a1", "b16custom success = base0B");
+    expect(result["warning"] == "#fab387", "b16custom warning = base09");
+    expect(result["error"] == "#f38ba8", "b16custom error = base08");
 }
 
 static void
@@ -161,19 +161,19 @@ testEnsureContrast()
 {
     // Deliberately poor-contrast mapping
     theme_color::Palette mapping = {
-      {"window", "222222"},          {"windowText", "cccccc"},
-      {"base", "222222"},            {"alternateBase", "333333"},
-      {"text", "cccccc"},            {"brightText", "333333"},
-      {"button", "222222"},          {"buttonText", "888888"},
-      {"light", "cccccc"},           {"mid", "444444"},
-      {"dark", "252525"},            {"highlight", "333333"},
-      {"highlightedText", "444444"}, {"link", "333333"},
-      {"toolTipBase", "222222"},     {"toolTipText", "cccccc"},
+      {"window", "#222222"},          {"windowText", "#cccccc"},
+      {"base", "#222222"},            {"alternateBase", "#333333"},
+      {"text", "#cccccc"},            {"brightText", "#333333"},
+      {"button", "#222222"},          {"buttonText", "#888888"},
+      {"light", "#cccccc"},           {"mid", "#444444"},
+      {"dark", "#252525"},            {"highlight", "#333333"},
+      {"highlightedText", "#444444"}, {"link", "#333333"},
+      {"toolTipBase", "#222222"},     {"toolTipText", "#cccccc"},
     };
     theme_color::Palette base16 = {
-      {"base00", "222222"}, {"base01", "333333"}, {"base02", "444444"},
-      {"base03", "555555"}, {"base04", "888888"}, {"base05", "cccccc"},
-      {"base06", "dddddd"}, {"base07", "eeeeee"},
+      {"base00", "#222222"}, {"base01", "#333333"}, {"base02", "#444444"},
+      {"base03", "#555555"}, {"base04", "#888888"}, {"base05", "#cccccc"},
+      {"base06", "#dddddd"}, {"base07", "#eeeeee"},
     };
 
     auto htBefore = theme_color::contrastRatio(mapping["highlightedText"], mapping["highlight"]);
@@ -200,12 +200,12 @@ static void
 testAdjustBgForContrast()
 {
     // Already sufficient contrast
-    auto result = theme_color::adjustBgForContrast("000000", "ffffff", 4.5);
-    expect(result == "000000", "adjustBg no change when sufficient");
+    auto result = theme_color::adjustBgForContrast("#000000", "#ffffff", 4.5);
+    expect(result == "#000000", "adjustBg no change when sufficient");
 
     // Needs adjustment
-    auto result2 = theme_color::adjustBgForContrast("888888", "999999", 3.0);
-    auto cr      = theme_color::contrastRatio("999999", result2);
+    auto result2 = theme_color::adjustBgForContrast("#888888", "#999999", 3.0);
+    auto cr      = theme_color::contrastRatio("#999999", result2);
     expect(cr >= 3.0, "adjustBg achieves target contrast");
 }
 

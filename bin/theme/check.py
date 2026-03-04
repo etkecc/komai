@@ -4,10 +4,10 @@
 Checks:
   - Required fields: name, variant, palette, userColors
   - variant is "light" or "dark"
-  - All 20 palette keys (16 QPalette + 4 custom) are present with valid hex
-  - userColors.self is a valid hex color
-  - userColors.others is a list of valid hex colors (minimum 1)
-  - source_base16 keys (if present) are valid hex
+  - All 20 palette keys (16 QPalette + 4 custom) are present with valid #-prefixed hex
+  - userColors.self is a valid #-prefixed hex color
+  - userColors.others is a list of valid #-prefixed hex colors (minimum 1)
+  - source_base16 keys (if present) are valid #-prefixed hex
 """
 
 import os
@@ -21,7 +21,7 @@ VALID_VARIANTS = ("light", "dark")
 VALID_THEME_SUFFIXES = tuple(f"-{variant}" for variant in VALID_VARIANTS)
 BASE16_SLOTS = [f"base{i:02X}" for i in range(16)]
 
-HEX_RE = re.compile(r"^[0-9a-fA-F]{6}$")
+HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
 
 
 def validate_theme(path: str) -> list[str]:

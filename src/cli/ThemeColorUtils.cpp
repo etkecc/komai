@@ -46,8 +46,8 @@ parseColor(const std::string &hex)
 std::string
 rgbToHex(const Rgb &c)
 {
-    char buf[8];
-    std::snprintf(buf, sizeof(buf), "%02x%02x%02x", c.r & 0xff, c.g & 0xff, c.b & 0xff);
+    char buf[9];
+    std::snprintf(buf, sizeof(buf), "#%02x%02x%02x", c.r & 0xff, c.g & 0xff, c.b & 0xff);
     return buf;
 }
 
@@ -147,14 +147,14 @@ ensureContrast(Palette &mapping, const Palette &palette, const std::string &vari
           getOr(palette, "base07", ""),
           getOr(palette, "base06", ""),
           getOr(palette, "base05", ""),
-          "ffffff",
+          "#ffffff",
         };
     } else {
         textCandidates = {
           getOr(palette, "base00", ""),
           getOr(palette, "base01", ""),
           getOr(palette, "base02", ""),
-          "000000",
+          "#000000",
         };
     }
 
@@ -181,7 +181,7 @@ ensureContrast(Palette &mapping, const Palette &palette, const std::string &vari
     // button, and buttonText should remain readable on it.
     constexpr double MIN_TEXT_ON_HOVER  = 2.5;
     constexpr double MAX_HOVER_CONTRAST = 3.0;
-    std::string toward                  = (variant == "light") ? "000000" : "ffffff";
+    std::string toward                  = (variant == "light") ? "#000000" : "#ffffff";
 
     auto hoverDistinct = [&](const std::string &candidate) {
         return contrastRatio(candidate, mapping["window"]) >= MIN_HOVER_DISTINCT &&
@@ -258,23 +258,23 @@ base16ToPalette(const Palette &palette, const std::string &variant)
     };
 
     Palette mapping;
-    mapping["window"]        = get("base00");
-    mapping["windowText"]    = get("base05");
-    mapping["base"]          = getOr(palette, "base01", get("base00"));
-    mapping["alternateBase"] = getOr(palette, "base02", getOr(palette, "base01", get("base00")));
-    mapping["text"]          = get("base05");
-    mapping["brightText"]    = getOr(palette, "base07", getOr(palette, "base06", get("base05")));
-    mapping["button"]        = getOr(palette, "base01", get("base00"));
-    mapping["buttonText"]    = getOr(palette, "base04", getOr(palette, "base03", get("base05")));
-    mapping["light"]         = getOr(palette, "base06", getOr(palette, "base05", "ffffff"));
-    mapping["mid"]           = getOr(palette, "base03", getOr(palette, "base02", get("base01")));
-    mapping["dark"]          = getOr(palette, "base01", get("base00"));
-    mapping["highlight"]     = getOr(palette, "base0D", "38a3d8");
-    mapping["highlightedText"] =
-      (variant == "dark") ? getOr(palette, "base07", "ffffff") : getOr(palette, "base00", "ffffff");
-    mapping["link"]        = getOr(palette, "base0D", "38a3d8");
-    mapping["toolTipBase"] = getOr(palette, "base01", get("base00"));
-    mapping["toolTipText"] = get("base05");
+    mapping["window"]          = get("base00");
+    mapping["windowText"]      = get("base05");
+    mapping["base"]            = getOr(palette, "base01", get("base00"));
+    mapping["alternateBase"]   = getOr(palette, "base02", getOr(palette, "base01", get("base00")));
+    mapping["text"]            = get("base05");
+    mapping["brightText"]      = getOr(palette, "base07", getOr(palette, "base06", get("base05")));
+    mapping["button"]          = getOr(palette, "base01", get("base00"));
+    mapping["buttonText"]      = getOr(palette, "base04", getOr(palette, "base03", get("base05")));
+    mapping["light"]           = getOr(palette, "base06", getOr(palette, "base05", "#ffffff"));
+    mapping["mid"]             = getOr(palette, "base03", getOr(palette, "base02", get("base01")));
+    mapping["dark"]            = getOr(palette, "base01", get("base00"));
+    mapping["highlight"]       = getOr(palette, "base0D", "#38a3d8");
+    mapping["highlightedText"] = (variant == "dark") ? getOr(palette, "base07", "#ffffff")
+                                                     : getOr(palette, "base00", "#ffffff");
+    mapping["link"]            = getOr(palette, "base0D", "#38a3d8");
+    mapping["toolTipBase"]     = getOr(palette, "base01", get("base00"));
+    mapping["toolTipText"]     = get("base05");
 
     ensureContrast(mapping, palette, variant);
 
@@ -285,10 +285,10 @@ Palette
 base16ToCustom(const Palette &palette)
 {
     return {
-      {"attention", getOr(palette, "base08", "a82353")},
-      {"success", getOr(palette, "base0B", "008000")},
-      {"warning", getOr(palette, "base09", "fcbe05")},
-      {"error", getOr(palette, "base08", "dd3d3d")},
+      {"attention", getOr(palette, "base08", "#a82353")},
+      {"success", getOr(palette, "base0B", "#008000")},
+      {"warning", getOr(palette, "base09", "#fcbe05")},
+      {"error", getOr(palette, "base08", "#dd3d3d")},
     };
 }
 
@@ -296,7 +296,7 @@ std::string
 detectVariant(const Palette &palette)
 {
     auto it        = palette.find("base00");
-    std::string h  = (it != palette.end()) ? it->second : "000000";
+    std::string h  = (it != palette.end()) ? it->second : "#000000";
     auto [r, g, b] = parseColor(h);
     double luma    = 0.299 * r + 0.587 * g + 0.114 * b;
     return (luma > 128) ? "light" : "dark";

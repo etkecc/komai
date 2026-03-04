@@ -5,6 +5,7 @@
 //
 // Bauhaus style ported from Boring Avatars (avatar-bauhaus.tsx).
 // https://github.com/boringdesigners/boring-avatars — MIT License.
+// Uses expanded color palette for greater avatar variety.
 
 #include "BoringAvatars.h"
 
@@ -15,7 +16,7 @@ generateBauhaus(const QString &key)
 {
     constexpr int SIZE     = 80;
     constexpr int ELEMENTS = 4;
-    constexpr int range    = 5;
+    constexpr int range    = kDefaultColors.size();
 
     const uint32_t num = hashCode(key);
 

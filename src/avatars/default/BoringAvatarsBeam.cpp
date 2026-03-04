@@ -5,6 +5,7 @@
 //
 // Beam style ported from Boring Avatars (avatar-beam.tsx).
 // https://github.com/boringdesigners/boring-avatars — MIT License.
+// Uses expanded color palette for greater avatar variety.
 
 #include "BoringAvatars.h"
 
@@ -14,7 +15,7 @@ QString
 generateBeam(const QString &key)
 {
     constexpr int SIZE  = 36;
-    constexpr int range = 5;
+    constexpr int range = kDefaultColors.size();
 
     const uint32_t num          = hashCode(key);
     const char *wrapperColor    = getRandomColor(num, range);

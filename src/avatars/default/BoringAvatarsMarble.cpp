@@ -6,6 +6,7 @@
 // Marble style ported from Boring Avatars (avatar-marble.tsx).
 // https://github.com/boringdesigners/boring-avatars — MIT License.
 // Uses SVG feBlend instead of CSS mix-blend-mode for Qt compatibility.
+// Uses expanded color palette for greater avatar variety.
 
 #include "BoringAvatars.h"
 
@@ -16,7 +17,7 @@ generateMarble(const QString &key)
 {
     constexpr int SIZE     = 80;
     constexpr int ELEMENTS = 3;
-    constexpr int range    = 5;
+    constexpr int range    = kDefaultColors.size();
 
     const uint32_t num = hashCode(key);
 

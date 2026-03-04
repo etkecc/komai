@@ -5,6 +5,7 @@
 //
 // Avatar generation algorithms ported from Boring Avatars by boringdesigners.
 // https://github.com/boringdesigners/boring-avatars — MIT License.
+// Color palette expanded beyond the original 5-color default for greater variety.
 
 #pragma once
 
@@ -16,12 +17,17 @@
 
 namespace boring_avatars {
 
-constexpr std::array<const char *, 5> kDefaultColors = {
+constexpr std::array<const char *, 10> kDefaultColors = {
   "#0A0310",
   "#49007E",
   "#FF005B",
   "#FF7D10",
   "#FFB238",
+  "#1B4965",
+  "#2A9D8F",
+  "#5B8E7D",
+  "#3A86C8",
+  "#8338EC",
 };
 
 inline uint32_t

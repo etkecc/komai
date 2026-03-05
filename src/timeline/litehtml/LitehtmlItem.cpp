@@ -369,10 +369,14 @@ LitehtmlItem::mouseDoubleClickEvent(QMouseEvent *event)
     int wordStart = sp.charOffset;
     int wordEnd   = sp.charOffset;
 
-    while (wordStart > 0 && !text[wordStart - 1].isSpace())
-        --wordStart;
-    while (wordEnd < text.length() && !text[wordEnd].isSpace())
-        ++wordEnd;
+    while (wordStart > 0 && !text[wordStart - 1].isSpace()) {
+        // Step back by a whole codepoint (skip low surrogate).
+        wordStart -= (wordStart >= 2 && text[wordStart - 1].isLowSurrogate()) ? 2 : 1;
+    }
+    while (wordEnd < text.length() && !text[wordEnd].isSpace()) {
+        // Step forward by a whole codepoint (skip surrogate pair).
+        wordEnd += text[wordEnd].isHighSurrogate() ? 2 : 1;
+    }
 
     m_selStart = {sp.runIndex, wordStart};
     m_selEnd   = {sp.runIndex, wordEnd};
@@ -421,18 +425,21 @@ LitehtmlItem::hitTestTextRun(const QPoint &pos) const
         if (pos.x() < run.rect.left() || pos.x() > run.rect.right())
             continue;
 
-        // Find character offset within the run.
+        // Find character offset within the run, stepping by whole codepoints
+        // so offsets never land in the middle of a UTF-16 surrogate pair.
         QFontMetrics fm(run.font);
         int localX   = pos.x() - run.rect.x();
         int bestChar = run.text.length();
-        for (int c = 0; c < run.text.length(); ++c) {
-            int charW    = fm.horizontalAdvance(run.text.left(c + 1));
+        for (int c = 0; c < run.text.length();) {
+            int len      = run.text[c].isHighSurrogate() ? 2 : 1;
+            int charW    = fm.horizontalAdvance(run.text.left(c + len));
             int prevW    = c > 0 ? fm.horizontalAdvance(run.text.left(c)) : 0;
             int midpoint = prevW + (charW - prevW) / 2;
             if (localX < midpoint) {
                 bestChar = c;
                 break;
             }
+            c += len;
         }
         return {i, bestChar};
     }

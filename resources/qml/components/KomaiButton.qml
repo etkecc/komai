@@ -89,8 +89,6 @@ Button {
                 source: visible ? control.tintedIconSource(control.icon.source) : ""
                 sourceSize.width: control.effectiveIconSize
                 sourceSize.height: control.effectiveIconSize
-                implicitWidth: control.effectiveIconSize
-                implicitHeight: control.effectiveIconSize
                 fillMode: Image.PreserveAspectFit
             }
 

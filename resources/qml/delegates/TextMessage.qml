@@ -22,7 +22,7 @@ LitehtmlItem {
     // Collapsible large messages
     property real timelineViewportHeight: 0
     readonly property int maxCollapsedHeight: timelineViewportHeight > 0 ? Math.max(150, Math.round(timelineViewportHeight * 0.5)) : 300
-    readonly property bool collapsible: implicitHeight > maxCollapsedHeight
+    readonly property bool collapsible: !isReply && implicitHeight > maxCollapsedHeight
     property bool collapsed: true
     // Overflow to extend "Show more" bar to bubble container edges.
     // Parent chain: TextMessage → Column → contentItem → messageBubble.

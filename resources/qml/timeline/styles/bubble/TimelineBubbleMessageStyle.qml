@@ -218,6 +218,10 @@ TimelineMessageStyleBase {
                             id: replyRow
                             visible: wrapper.replyTo
 
+                            readonly property int maxReplyHeight: Math.max(80, Math.round(chat.height * 0.25))
+                            readonly property real replyContentHeight: replyCol.implicitHeight + topPadding + bottomPadding
+                            readonly property bool replyTruncated: replyContentHeight > maxReplyHeight
+
                             leftPadding: Komai.paddingMedium + 4
                             rightPadding: Komai.paddingMedium
                             topPadding: Komai.paddingMedium
@@ -225,6 +229,7 @@ TimelineMessageStyleBase {
 
                             anchors.left: parent.left
                             anchors.right: parent.right
+                            height: replyTruncated ? maxReplyHeight : undefined
 
                             property string replyUserId: {
                                 if (wrapper.room && wrapper.replyTo) {
@@ -319,6 +324,19 @@ TimelineMessageStyleBase {
                                 onSingleTapped: (eventPoint) => wrapper.openReplyContextMenu(wrapper.reply, wrapper.replyTo, eventPoint.position.x, eventPoint.position.y, replyLine.width, replyUserButton.implicitHeight)
                                 gesturePolicy: TapHandler.ReleaseWithinBounds
                                 acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
+                            }
+
+                            // Gradient fade when reply preview is truncated
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                height: 40
+                                visible: replyRow.replyTruncated
+                                gradient: Gradient {
+                                    GradientStop { position: 0.0; color: "transparent" }
+                                    GradientStop { position: 1.0; color: palette.base }
+                                }
                             }
                         }
 

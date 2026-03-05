@@ -14,12 +14,16 @@ Label {
 
     Layout.column: 2
     Layout.fillWidth: true
+    Layout.minimumWidth: 0
+    Layout.preferredWidth: 0
     Layout.row: 1
+    clip: true
     color: palette.text
     elide: Text.ElideRight
     font.bold: true
     font.pointSize: Settings.uiFontSizePt * 1.1
-    maximumLineCount: 1
+    maximumLineCount: 2
     text: roomName
     textFormat: Text.RichText
+    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 }

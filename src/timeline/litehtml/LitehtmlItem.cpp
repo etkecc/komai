@@ -19,7 +19,6 @@ LitehtmlItem::LitehtmlItem(QQuickItem *parent)
   : QQuickPaintedItem(parent)
   , m_container(new LitehtmlContainer(this))
 {
-    setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::LeftButton);
     setAntialiasing(true);
 
@@ -198,18 +197,15 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
 }
 
 void
-LitehtmlItem::hoverMoveEvent(QHoverEvent *event)
+LitehtmlItem::handleHoverMove(qreal x, qreal y)
 {
-    if (!m_document) {
-        QQuickPaintedItem::hoverMoveEvent(event);
+    if (!m_document)
         return;
-    }
 
     int padLeft = static_cast<int>(m_leftPadding);
     litehtml::position::vector redraw;
-    auto pos = event->position().toPoint();
-    int docX = pos.x() - padLeft;
-    int docY = pos.y();
+    int docX = static_cast<int>(x) - padLeft;
+    int docY = static_cast<int>(y);
 
     m_container->resetCursorState();
     m_document->on_mouse_over(docX, docY, docX, docY, redraw);
@@ -230,19 +226,16 @@ LitehtmlItem::hoverMoveEvent(QHoverEvent *event)
         m_hoveredLink = url;
         emit hoveredLinkChanged();
     }
-    setCursor(url.isEmpty() ? Qt::IBeamCursor : Qt::PointingHandCursor);
 
     if (!redraw.empty())
         update();
 }
 
 void
-LitehtmlItem::hoverLeaveEvent(QHoverEvent *event)
+LitehtmlItem::handleHoverLeave()
 {
-    if (!m_document) {
-        QQuickPaintedItem::hoverLeaveEvent(event);
+    if (!m_document)
         return;
-    }
 
     litehtml::position::vector redraw;
     m_document->on_mouse_leave(redraw);
@@ -251,7 +244,6 @@ LitehtmlItem::hoverLeaveEvent(QHoverEvent *event)
         m_hoveredLink.clear();
         emit hoveredLinkChanged();
     }
-    unsetCursor();
 
     if (!redraw.empty())
         update();

@@ -61,10 +61,11 @@ LitehtmlItem {
                         (litehtmlRoot.Window.window ? litehtmlRoot.Window.window.width : 500) * 0.5)
     }
 
-    KomaiCursorShape {
-        enabled: isReply
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
+    HoverHandler {
+        cursorShape: hoveredLink.length > 0 ? Qt.PointingHandCursor
+                   : (isReply ? Qt.PointingHandCursor : Qt.IBeamCursor)
+        onPointChanged: if (hovered) litehtmlRoot.handleHoverMove(point.position.x, point.position.y)
+        onHoveredChanged: if (!hovered) litehtmlRoot.handleHoverLeave()
     }
 
 }

@@ -66,6 +66,9 @@ public:
 
     void paint(QPainter *painter) override;
 
+    Q_INVOKABLE void handleHoverMove(qreal x, qreal y);
+    Q_INVOKABLE void handleHoverLeave();
+
 signals:
     void htmlChanged();
     void hoveredLinkChanged();
@@ -78,8 +81,6 @@ signals:
 
 protected:
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-    void hoverMoveEvent(QHoverEvent *event) override;
-    void hoverLeaveEvent(QHoverEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;

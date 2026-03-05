@@ -35,7 +35,7 @@ LitehtmlItem {
         return (bubble && typeof bubble.bottomPadding === "number") ? bubble.bottomPadding : 0;
     }
 
-    height: collapsible && collapsed ? maxCollapsedHeight : implicitHeight
+    height: collapsible ? (collapsed ? maxCollapsedHeight : implicitHeight + showMoreBar.implicitHeight) : implicitHeight
     // No QML clip — QQuickPaintedItem naturally clips paint output to its
     // bounds; omitting clip lets child overlays (gradient, "Show more" bar)
     // extend beyond with negative margins.
@@ -119,7 +119,7 @@ LitehtmlItem {
         anchors.leftMargin: -litehtmlRoot.collapseOverflowH
         anchors.rightMargin: -litehtmlRoot.collapseOverflowH
         anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
-        visible: litehtmlRoot.collapsible && litehtmlRoot.collapsed
+        visible: litehtmlRoot.collapsible
         hoverEnabled: true
         leftPadding: Komai.paddingSmall
         rightPadding: Komai.paddingSmall
@@ -144,14 +144,14 @@ LitehtmlItem {
                 spacing: Komai.paddingSmall
 
                 Image {
-                    source: "image://colorimage/:/icons/icons/ui/chevron-circle-down.svg?" + showMoreBar.foreground
+                    source: "image://colorimage/:/icons/icons/ui/" + (litehtmlRoot.collapsed ? "chevron-circle-down.svg" : "chevron-circle-up.svg") + "?" + showMoreBar.foreground
                     sourceSize.height: showMoreBar.iconSize
                     sourceSize.width: showMoreBar.iconSize
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
                 Label {
-                    text: qsTr("Show more")
+                    text: litehtmlRoot.collapsed ? qsTr("Show more") : qsTr("Show less")
                     color: showMoreBar.foreground
                     font.bold: true
                     anchors.verticalCenter: parent.verticalCenter
@@ -159,7 +159,7 @@ LitehtmlItem {
             }
         }
 
-        onClicked: litehtmlRoot.collapsed = false
+        onClicked: litehtmlRoot.collapsed = !litehtmlRoot.collapsed
 
         KomaiCursorShape {
             anchors.fill: parent

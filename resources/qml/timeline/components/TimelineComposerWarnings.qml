@@ -33,6 +33,9 @@ ColumnLayout {
         model: root.roomModel ? root.roomModel.input.mentions : null
 
         delegate: TimelineMentionWarningBar {
+            required property string modelData
+            required property int index
+
             mention: modelData
             mentionIndex: index
             replyPopupVisible: root.replyPopupVisible

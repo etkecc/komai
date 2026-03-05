@@ -89,6 +89,12 @@ generateMasterStylesheet(const QPalette &palette, const QFont &font, bool compac
              "}"
              "font[color=\"green\"], font[color=\"success\"] {"
              "  color: green;"
+             "}"
+             "img {"
+             "  vertical-align: middle;"
+             "}"
+             "span.emoji {"
+             "  font-size: 1.4em;"
              "}")
       .arg(font.family())
       .arg(font.pointSizeF())

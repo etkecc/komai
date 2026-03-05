@@ -53,10 +53,21 @@ LitehtmlContainer::create_font(const char *faceName,
 
     if (fm) {
         QFontMetrics metrics(*font);
-        fm->ascent      = metrics.ascent();
-        fm->descent     = metrics.descent();
-        fm->height      = metrics.height();
-        fm->x_height    = metrics.xHeight();
+        int defaultPx = pt_to_px(qRound(m_defaultFont.pointSizeF()));
+        if (size > defaultPx) {
+            // For enlarged fonts (e.g. emoji spans), report the default font's
+            // metrics so litehtml keeps normal line height and baseline alignment.
+            QFontMetrics dfm(m_defaultFont);
+            fm->ascent   = dfm.ascent();
+            fm->descent  = dfm.descent();
+            fm->height   = dfm.height();
+            fm->x_height = dfm.xHeight();
+        } else {
+            fm->ascent   = metrics.ascent();
+            fm->descent  = metrics.descent();
+            fm->height   = metrics.height();
+            fm->x_height = metrics.xHeight();
+        }
         fm->draw_spaces = true;
     }
 

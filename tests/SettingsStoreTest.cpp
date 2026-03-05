@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#include <iostream>
 #include <array>
+#include <iostream>
 #include <limits>
 #include <string_view>
 #include <unordered_set>
@@ -25,7 +25,7 @@ expect(bool condition, const char *message)
     return false;
 }
 
-constexpr std::array<settings::core::SettingId, 17> kExpectedConstrainedIds{{
+constexpr std::array<settings::core::SettingId, 18> kExpectedConstrainedIds{{
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
   settings::core::SettingId::UiLayoutContentMaxWidthPx,
   settings::core::SettingId::IntegrationsDbusApiAccess,
@@ -35,6 +35,7 @@ constexpr std::array<settings::core::SettingId, 17> kExpectedConstrainedIds{{
   settings::core::SettingId::ComposerInputSendKey,
   settings::core::SettingId::ComposerInputAutoReplaceEmoji,
   settings::core::SettingId::SidebarsRoomListSort,
+  settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy,
   settings::core::SettingId::SidebarsRoomListLastMessagePreview,
   settings::core::SettingId::TimelineMessagesStyle,
   settings::core::SettingId::TimelineMessagesPositioning,
@@ -56,7 +57,8 @@ testBasicSetGet()
     bool ok = true;
     ok &= expect(result.success, "set(int) succeeds");
     ok &= expect(result.changed, "set(int) reports changed");
-    ok &= expect(store.hasValue(settings::core::SettingId::UiFontSizePt), "store has value after set");
+    ok &=
+      expect(store.hasValue(settings::core::SettingId::UiFontSizePt), "store has value after set");
     ok &= expect(store.size() == 1, "store tracks value count");
     const auto asInt = store.valueAs<int>(settings::core::SettingId::UiFontSizePt);
     ok &= expect(asInt.has_value() && *asInt == 14, "valueAs<int> reads stored value");
@@ -79,7 +81,7 @@ bool
 testIdempotentSet()
 {
     settings::core::SettingsStore store;
-    const auto first = store.set(settings::core::SettingId::UiMotionAnimationsEnabled, true);
+    const auto first  = store.set(settings::core::SettingId::UiMotionAnimationsEnabled, true);
     const auto second = store.set(settings::core::SettingId::UiMotionAnimationsEnabled, true);
 
     return expect(first.success && first.changed, "first set changes value") &&
@@ -92,9 +94,10 @@ testTypeMismatchRead()
     settings::core::SettingsStore store;
     (void)store.set(settings::core::SettingId::UiLayoutContentMaxWidthPx, 1200);
 
-    const auto asDouble = store.valueAs<double>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
-    const auto asString = store.valueAs<std::string>(
-      settings::core::SettingId::UiLayoutContentMaxWidthPx);
+    const auto asDouble =
+      store.valueAs<double>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
+    const auto asString =
+      store.valueAs<std::string>(settings::core::SettingId::UiLayoutContentMaxWidthPx);
 
     return expect(!asDouble.has_value(), "valueAs<double> rejects int value") &&
            expect(!asString.has_value(), "valueAs<string> rejects int value");
@@ -109,7 +112,8 @@ testEraseAndClear()
 
     bool ok = true;
     ok &= expect(store.size() == 2, "two values inserted");
-    ok &= expect(store.erase(settings::core::SettingId::UiFontFamily), "erase existing value returns true");
+    ok &= expect(store.erase(settings::core::SettingId::UiFontFamily),
+                 "erase existing value returns true");
     ok &= expect(!store.erase(settings::core::SettingId::UiFontFamily),
                  "erase missing value returns false");
     ok &= expect(store.size() == 1, "size decreases after erase");
@@ -128,9 +132,8 @@ testStringListValue()
     settings::core::SettingsStore::StringList values{"one", "two", "three"};
     const auto setResult =
       store.set(settings::core::SettingId::TimelineMessageActionsPinnedReactions, values);
-    const auto read =
-      store.valueAs<settings::core::SettingsStore::StringList>(
-        settings::core::SettingId::TimelineMessageActionsPinnedReactions);
+    const auto read = store.valueAs<settings::core::SettingsStore::StringList>(
+      settings::core::SettingId::TimelineMessageActionsPinnedReactions);
 
     return expect(setResult.success && setResult.changed, "set string list succeeds") &&
            expect(read.has_value(), "string list can be read back") &&
@@ -143,8 +146,7 @@ testEnumValidationRejectsOutOfRange()
 {
     settings::core::SettingsStore store;
     settings::core::constraints::applyDefaultConstraints(store);
-    const auto invalid =
-      store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 99);
+    const auto invalid = store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 99);
     const bool hasRejectedValue =
       store.hasValue(settings::core::SettingId::IntegrationsDbusApiAccess);
     const auto valid = store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 2);
@@ -153,8 +155,7 @@ testEnumValidationRejectsOutOfRange()
     ok &= expect(!invalid.success, "enum/int validation rejects out-of-range values");
     ok &= expect(!invalid.changed, "invalid enum/int value does not mark changed");
     ok &= expect(!invalid.validationError.empty(), "invalid enum/int value reports error");
-    ok &= expect(!hasRejectedValue,
-                 "rejected enum/int value is not stored");
+    ok &= expect(!hasRejectedValue, "rejected enum/int value is not stored");
     ok &= expect(valid.success && valid.changed, "valid enum/int value is accepted");
 
     return ok;
@@ -165,8 +166,7 @@ testEnumValidationRejectsWrongType()
 {
     settings::core::SettingsStore store;
     settings::core::constraints::applyDefaultConstraints(store);
-    const auto invalid =
-      store.set(settings::core::SettingId::NetworkPresenceStatusPolicy, true);
+    const auto invalid = store.set(settings::core::SettingId::NetworkPresenceStatusPolicy, true);
 
     bool ok = true;
     ok &= expect(!invalid.success, "enum/int validation rejects wrong value type");
@@ -187,8 +187,8 @@ testConstraintSchemaCoverage()
                  "constraint schema size matches expected constrained setting list");
     for (const auto id : kExpectedConstrainedIds) {
         if (!settings::core::constraints::hasIntRangeConstraint(id)) {
-            std::cerr << "FAILED: missing constraint schema for SettingId "
-                      << static_cast<int>(id) << '\n';
+            std::cerr << "FAILED: missing constraint schema for SettingId " << static_cast<int>(id)
+                      << '\n';
             ok = false;
         }
     }
@@ -209,9 +209,9 @@ testConstrainedDefinitionsEnforceRanges()
 
         const int minValue = definition.intRangeConstraintMin;
         const int maxValue = definition.intRangeConstraintMax;
-        const auto setMin = store.set(definition.id, minValue);
-        const auto setMax = store.set(definition.id, maxValue);
-        const auto stored = store.valueAs<int>(definition.id);
+        const auto setMin  = store.set(definition.id, minValue);
+        const auto setMax  = store.set(definition.id, maxValue);
+        const auto stored  = store.valueAs<int>(definition.id);
 
         if (!setMin.success || !setMax.success) {
             std::cerr << "FAILED: constrained setting rejects declared bounds for SettingId "
@@ -220,8 +220,9 @@ testConstrainedDefinitionsEnforceRanges()
         }
 
         if (!stored.has_value() || *stored != maxValue) {
-            std::cerr << "FAILED: constrained setting does not persist declared max bound for SettingId "
-                      << static_cast<int>(definition.id) << '\n';
+            std::cerr
+              << "FAILED: constrained setting does not persist declared max bound for SettingId "
+              << static_cast<int>(definition.id) << '\n';
             ok = false;
         }
 
@@ -250,7 +251,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 69;
+    constexpr std::size_t expectedPersistedDefinitionCount = 70;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;
@@ -303,8 +304,7 @@ testPersistedDefinitionUniqueness()
     for (const auto &definition : settings::core::definitions::persistedDefinitions()) {
         const int idValue = static_cast<int>(definition.id);
         if (!seen.insert(idValue).second) {
-            std::cerr << "FAILED: duplicate persisted definition for SettingId " << idValue
-                      << '\n';
+            std::cerr << "FAILED: duplicate persisted definition for SettingId " << idValue << '\n';
             ok = false;
         }
     }
@@ -332,8 +332,9 @@ testConstrainedSettingsArePersisted()
     }
 
     for (const auto id : expectedConstrainedIds) {
-        std::cerr << "FAILED: expected constrained setting missing from persisted schema for SettingId "
-                  << id << '\n';
+        std::cerr
+          << "FAILED: expected constrained setting missing from persisted schema for SettingId "
+          << id << '\n';
         ok = false;
     }
 
@@ -345,7 +346,7 @@ testUnconstrainedSettingsAcceptAnyInt()
 {
     settings::core::SettingsStore store;
     const auto result = store.set(settings::core::SettingId::IntegrationsDbusApiAccess, 99);
-    const auto value = store.valueAs<int>(settings::core::SettingId::IntegrationsDbusApiAccess);
+    const auto value  = store.valueAs<int>(settings::core::SettingId::IntegrationsDbusApiAccess);
 
     return expect(result.success && result.changed, "unconstrained setting accepts raw int") &&
            expect(value.has_value() && *value == 99, "unconstrained setting stores raw int value");

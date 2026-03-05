@@ -23,6 +23,7 @@
 #include "db/Json.h"
 #include "db/storage/Core.h"
 #include "db/storage/Crypto.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
 void
@@ -209,11 +210,13 @@ void
 MatrixStore::calculateRoomReadStatus()
 {
     const auto joined_rooms = joinedRooms();
+    const int policy =
+      static_cast<int>(UserSettings::instance()->sidebarsRoomListUnreadDetectionPolicy());
 
     std::map<QString, bool> readStatus;
 
     for (const auto &room : joined_rooms)
-        readStatus.emplace(QString::fromStdString(room), calculateRoomReadStatus(room));
+        readStatus.emplace(QString::fromStdString(room), calculateRoomReadStatus(room, policy));
 
     emit roomReadStatus(readStatus);
 }
@@ -221,13 +224,23 @@ MatrixStore::calculateRoomReadStatus()
 bool
 MatrixStore::calculateRoomReadStatus(const std::string &room_id)
 {
+    const int policy =
+      static_cast<int>(UserSettings::instance()->sidebarsRoomListUnreadDetectionPolicy());
+    return calculateRoomReadStatus(room_id, policy);
+}
+
+bool
+MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
+{
     std::string last_event_id_, fullyReadEventId_;
     {
         auto txn = ro_txn(storage());
 
-        // Get last event id on the room.
-        const auto last_event_id = getLastEventId(txn, room_id);
-        const auto localUser     = utils::localUser().toStdString();
+        // Get last event id on the room, respecting the unread detection policy.
+        const auto last_event_id =
+          (policy == static_cast<int>(UserSettings::UnreadDetectionPolicy::MessagesOnly))
+            ? getLastContentEventId(txn, room_id)
+            : getLastEventId(txn, room_id);
 
         std::string fullyReadEventId = getFullyReadEventId(room_id);
 

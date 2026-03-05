@@ -23,3 +23,16 @@ applyLastMessagePreviewFromStorage(UserSettings &settings, const QString &rawTok
     settings.setSidebarsRoomListLastMessagePreview(
       lastMessagePreviewFromStorage(rawToken, UserSettings::LastMessagePreview::Always));
 }
+
+QString
+unreadDetectionPolicyToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.sidebarsRoomListUnreadDetectionPolicy());
+}
+
+void
+applyUnreadDetectionPolicyFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setSidebarsRoomListUnreadDetectionPolicy(
+      unreadDetectionPolicyFromStorage(rawToken, UserSettings::UnreadDetectionPolicy::AnyEvent));
+}

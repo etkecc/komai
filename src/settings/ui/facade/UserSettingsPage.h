@@ -98,6 +98,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(RoomSortOrder sidebarsRoomListSort READ sidebarsRoomListSort WRITE
                  setSidebarsRoomListSort NOTIFY sidebarsRoomListSortChanged)
     Q_PROPERTY(
+      UnreadDetectionPolicy sidebarsRoomListUnreadDetectionPolicy READ
+        sidebarsRoomListUnreadDetectionPolicy WRITE setSidebarsRoomListUnreadDetectionPolicy NOTIFY
+          sidebarsRoomListUnreadDetectionPolicyChanged)
+    Q_PROPERTY(
       TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy READ
         timelineMessageActionsActivationPolicy WRITE setTimelineMessageActionsActivationPolicy
           NOTIFY timelineMessageActionsActivationPolicyChanged)
@@ -356,6 +360,13 @@ public:
     };
     Q_ENUM(LastMessagePreview)
 
+    enum class UnreadDetectionPolicy
+    {
+        AnyEvent,     // Any timeline event marks a room unread
+        MessagesOnly, // Only message events mark a room unread
+    };
+    Q_ENUM(UnreadDetectionPolicy)
+
     enum class DefaultAvatarStyle
     {
         BoringAvatarsBauhaus,
@@ -418,6 +429,7 @@ public:
     void setComposerTypingSendEnabled(bool state);
     void setTimelineTypingShowEnabled(bool state);
     void setSidebarsRoomListSort(RoomSortOrder order);
+    void setSidebarsRoomListUnreadDetectionPolicy(UnreadDetectionPolicy policy);
     void setTimelineMessageActionsActivationPolicy(TimelineMessageActionsActivationPolicy policy);
     void setUiLayoutContentMaxWidthPx(int state);
     void setSidebarsCommunitiesWidthPx(int state);
@@ -526,6 +538,7 @@ signals:
     void sidebarsCommunitiesVisibleChanged(bool state);
     void sidebarsRoomListScrollbarsEnabledChanged(bool state);
     void sidebarsRoomListSortChanged(RoomSortOrder order);
+    void sidebarsRoomListUnreadDetectionPolicyChanged(UnreadDetectionPolicy policy);
     void uiThemeSlugChanged(QString state);
     void timelineMessagesHoverHighlightChanged(bool state);
     void timelineMessagesEmojiOnlyEnlargeChanged(bool state);

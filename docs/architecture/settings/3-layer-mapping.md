@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 69
+Rows: 70
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -57,6 +57,7 @@ Naming mismatch summary:
 | `SidebarsRoomListShowCommunityCounts` | `settings.sidebarsRoomListShowCommunityCounts()` | `SidebarsRoomListShowCommunityCounts` | `sidebars.room_list.show_community_notification_counts` |
 | `SidebarsRoomListShowLastMessageTime` | `settings.sidebarsRoomListShowLastMessageTime()` | `SidebarsRoomListShowLastMessageTime` | `sidebars.room_list.show_last_message_timestamp` |
 | `SidebarsRoomListSort` | `static_cast<int>(settings.sidebarsRoomListSort())` | `SidebarsRoomListSort` | `sidebars.room_list.sort` |
+| `SidebarsRoomListUnreadDetectionPolicy` | `static_cast<int>(settings.sidebarsRoomListUnreadDetectionPolicy())` | `SidebarsRoomListUnreadDetectionPolicy` | `sidebars.room_list.unread_detection_policy` |
 | `TimelineFormattedCodeSyntaxHighlighting` | `settings.timelineFormattedCodeSyntaxHighlighting()` | `TimelineFormattedCodeSyntaxHighlighting` | `timeline.messages.formatted.code_syntax_highlighting` |
 | `TimelineMediaAnimateOnHover` | `settings.timelineMediaAnimateOnHover()` | `TimelineMediaAnimateOnHover` | `timeline.media.animate_on_hover` |
 | `TimelineMediaEffectsEnabled` | `settings.timelineMediaEffectsEnabled()` | `TimelineMediaEffectsEnabled` | `timeline.media.effects.enabled` |

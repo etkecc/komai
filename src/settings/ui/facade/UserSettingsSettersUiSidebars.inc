@@ -13,6 +13,20 @@ UserSettings::setSidebarsRoomListSort(RoomSortOrder s)
 }
 
 void
+UserSettings::setSidebarsRoomListUnreadDetectionPolicy(UnreadDetectionPolicy s)
+{
+    if (sidebarsRoomListUnreadDetectionPolicy_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy,
+                      static_cast<int>(s),
+                      "sidebars.room_list.unread_detection_policy"))
+        return;
+    sidebarsRoomListUnreadDetectionPolicy_ = s;
+    emit sidebarsRoomListUnreadDetectionPolicyChanged(s);
+    save();
+}
+
+void
 UserSettings::setSidebarsCommunitiesWidthPx(int s)
 {
     setSetting(sidebarsCommunitiesWidthPx_,

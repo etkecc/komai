@@ -8,3 +8,8 @@
    "unread_first_recent",
    &roomSortOrderToStorage,
    &applyRoomSortOrderFromStorage},
+  {settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy,
+   SettingKey::SidebarsRoomListUnreadDetectionPolicy,
+   "any_event",
+   &unreadDetectionPolicyToStorage,
+   &applyUnreadDetectionPolicyFromStorage},

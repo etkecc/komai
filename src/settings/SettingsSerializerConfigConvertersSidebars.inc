@@ -40,3 +40,22 @@ lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePre
 {
     return valueFromStorageToken(value, fallback, kLastMessagePreviewTokens);
 }
+
+constexpr std::array<std::pair<UserSettings::UnreadDetectionPolicy, const char *>, 2>
+  kUnreadDetectionPolicyTokens{{
+    {UserSettings::UnreadDetectionPolicy::AnyEvent, "any_event"},
+    {UserSettings::UnreadDetectionPolicy::MessagesOnly, "messages_only"},
+  }};
+
+QString
+toStorageValue(UserSettings::UnreadDetectionPolicy value)
+{
+    return valueToStorageToken(value, kUnreadDetectionPolicyTokens, "any_event");
+}
+
+UserSettings::UnreadDetectionPolicy
+unreadDetectionPolicyFromStorage(const QString &value,
+                                 UserSettings::UnreadDetectionPolicy fallback)
+{
+    return valueFromStorageToken(value, fallback, kUnreadDetectionPolicyTokens);
+}

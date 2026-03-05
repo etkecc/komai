@@ -23,3 +23,12 @@ sidebarsRoomSortValues()
            << QCoreApplication::translate("UserSettingsModel", "Alphabetical");
     return values;
 }
+
+static QVariant
+sidebarsUnreadDetectionPolicyValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "Any")
+           << QCoreApplication::translate("UserSettingsModel", "Messages only");
+    return values;
+}

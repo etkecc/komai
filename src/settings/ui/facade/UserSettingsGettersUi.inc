@@ -32,6 +32,7 @@
     bool composerTypingSendEnabled() const;
     bool timelineTypingShowEnabled() const;
     RoomSortOrder sidebarsRoomListSort() const;
+    UnreadDetectionPolicy sidebarsRoomListUnreadDetectionPolicy() const;
     TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy() const;
     bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;

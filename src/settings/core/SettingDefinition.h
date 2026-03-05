@@ -36,6 +36,7 @@ enum class SettingId
     SidebarsRoomListShowCommunityCounts,
     SidebarsRoomListScrollbarsEnabled,
     SidebarsRoomListSort,
+    SidebarsRoomListUnreadDetectionPolicy,
     SidebarsCommunitiesVisible,
     NetworkPresenceStatusPolicy,
     PrivacyMaintenanceExpireEvents,

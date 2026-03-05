@@ -4,6 +4,7 @@
   // sidebars
   SettingId::SidebarsRoomListLastMessagePreview,
   SettingId::SidebarsRoomListSort,
+  SettingId::SidebarsRoomListUnreadDetectionPolicy,
 
   // network
   SettingId::NetworkPresenceStatusPolicy,

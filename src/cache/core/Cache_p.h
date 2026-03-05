@@ -192,6 +192,7 @@ public:
     //! Whether all the events in the timeline have been read.
     std::string getFullyReadEventId(const std::string &room_id);
     bool calculateRoomReadStatus(const std::string &room_id);
+    bool calculateRoomReadStatus(const std::string &room_id, int policy);
     void calculateRoomReadStatus();
 
     void markSentNotification(const std::string &event_id);
@@ -348,6 +349,7 @@ private:
     std::optional<MemberInfo> getMember(const std::string &room_id, const std::string &user_id);
 
     std::string getLastEventId(db::Transaction &txn, const std::string &room_id);
+    std::string getLastContentEventId(db::Transaction &txn, const std::string &room_id);
     void saveTimelineMessages(db::Transaction &txn,
                               db::Store &eventsDb,
                               const std::string &room_id,

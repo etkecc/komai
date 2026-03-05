@@ -29,6 +29,7 @@ bool timelineMediaAnimateOnHover_;
 bool composerTypingSendEnabled_;
 bool timelineTypingShowEnabled_;
 RoomSortOrder sidebarsRoomListSort_;
+UnreadDetectionPolicy sidebarsRoomListUnreadDetectionPolicy_ = UnreadDetectionPolicy::AnyEvent;
 TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy_ =
   TimelineMessageActionsActivationPolicy::ActionsButton;
 bool timelineReadReceiptsEnabled_;

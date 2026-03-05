@@ -59,3 +59,15 @@ UserSettings::sidebarsRoomListSort() const
         return static_cast<UserSettings::RoomSortOrder>(*value);
     return sidebarsRoomListSort_;
 }
+
+UserSettings::UnreadDetectionPolicy
+UserSettings::sidebarsRoomListUnreadDetectionPolicy() const
+{
+    if (const auto value = coreStore_.valueAs<int>(
+          settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::UnreadDetectionPolicy::AnyEvent) &&
+        *value <= static_cast<int>(UserSettings::UnreadDetectionPolicy::MessagesOnly))
+        return static_cast<UserSettings::UnreadDetectionPolicy>(*value);
+    return sidebarsRoomListUnreadDetectionPolicy_;
+}

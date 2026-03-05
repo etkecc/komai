@@ -60,6 +60,12 @@ UserSettings::LastMessagePreview
 lastMessagePreviewFromStorage(const QString &value, UserSettings::LastMessagePreview fallback);
 
 QString
+toStorageValue(UserSettings::UnreadDetectionPolicy value);
+UserSettings::UnreadDetectionPolicy
+unreadDetectionPolicyFromStorage(const QString &value,
+                                 UserSettings::UnreadDetectionPolicy fallback);
+
+QString
 toStorageValue(UserSettings::TimelineMessageActionsActivationPolicy value);
 UserSettings::TimelineMessageActionsActivationPolicy
 timelineMessageActionsActivationPolicyFromStorage(

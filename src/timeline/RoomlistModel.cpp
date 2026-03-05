@@ -40,6 +40,11 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
       this, [this](const std::map<QString, bool> &status) { updateReadStatus(status); });
 
     connect(UserSettings::instance().get(),
+            &UserSettings::sidebarsRoomListUnreadDetectionPolicyChanged,
+            this,
+            [](auto) { cache::calculateRoomReadStatus(); });
+
+    connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListLastMessagePreviewChanged,
             this,
             [this]() {

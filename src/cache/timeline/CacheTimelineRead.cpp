@@ -124,6 +124,48 @@ MatrixStore::getLastEventId(db::Transaction &txn, const std::string &room_id)
     return db::lastTimelineEventId(txn, orderDb).value_or("");
 }
 
+std::string
+MatrixStore::getLastContentEventId(db::Transaction &txn, const std::string &room_id)
+{
+    constexpr uint64_t kScanLimit = 200;
+
+    db::Store orderDb;
+    db::Store eventsDb;
+    try {
+        orderDb  = getOrderToMessageDb(txn, room_id);
+        eventsDb = getEventsDb(txn, room_id);
+    } catch (const db::Error &e) {
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        return {};
+    }
+
+    const auto range = db::timelineRange(txn, orderDb);
+    if (!range)
+        return {};
+
+    uint64_t scanned = 0;
+    for (uint64_t idx = range->second;; --idx) {
+        const auto eventId = db::timelineEventIdAtIndex(txn, orderDb, idx);
+        if (!eventId)
+            break;
+
+        try {
+            const auto event =
+              db::getJsonValue<mtx::events::collections::TimelineEvents>(txn, eventsDb, *eventId);
+            if (event && mtx::accessors::is_message(*event))
+                return *eventId;
+        } catch (const std::exception &) {
+            // Skip unparsable events.
+        }
+
+        if (idx == range->first || ++scanned >= kScanLimit)
+            break;
+    }
+
+    return {};
+}
+
 std::optional<MatrixStore::TimelineRange>
 MatrixStore::getTimelineRange(const std::string &room_id)
 {

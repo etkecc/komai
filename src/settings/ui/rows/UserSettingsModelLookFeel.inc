@@ -170,6 +170,18 @@
       nullptr,
       SidebarsRoomListSort,
       SettingKey::SidebarsRoomListSort),
+    // UnreadDetectionPolicy
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Show rooms unread for new events of type",
+      nullptr,
+      SM::TabSidebars,
+      sidebarsRoomListUnreadDetectionPolicy,
+      setSidebarsRoomListUnreadDetectionPolicy,
+      UserSettings::UnreadDetectionPolicy,
+      sidebarsUnreadDetectionPolicyValues,
+      nullptr,
+      SidebarsRoomListUnreadDetectionPolicy,
+      SettingKey::SidebarsRoomListUnreadDetectionPolicy),
     // LookFeelCommunitiesSidebarSection
     { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

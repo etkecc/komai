@@ -339,6 +339,13 @@ TimelineMessageStyleBase {
                     value: wrapper.messageIsRightAligned ? Text.AlignRight : Text.AlignLeft
                 }
 
+                Binding {
+                    target: wrapper.main
+                    property: "timelineViewportHeight"
+                    when: !!wrapper.main && typeof wrapper.main.timelineViewportHeight !== "undefined"
+                    value: chat.height
+                }
+
                 leftPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleHorizontalPadding
                 rightPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleHorizontalPadding
                 topPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleVerticalPadding

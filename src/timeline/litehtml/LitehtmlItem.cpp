@@ -200,6 +200,8 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
     if (m_document && qRound(newGeometry.width()) != qRound(oldGeometry.width())) {
         relayout();
         update();
+    } else if (qRound(newGeometry.height()) != qRound(oldGeometry.height())) {
+        updateTextureSize();
     }
 }
 

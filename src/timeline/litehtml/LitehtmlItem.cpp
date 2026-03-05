@@ -14,6 +14,7 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/litehtml/LitehtmlStylesheet.h"
+#include "ui/Theme.h"
 
 LitehtmlItem::LitehtmlItem(QQuickItem *parent)
   : QQuickPaintedItem(parent)
@@ -46,7 +47,13 @@ QString
 LitehtmlItem::generateMasterCss()
 {
     const auto palette = QGuiApplication::palette();
-    return timeline::litehtml::generateMasterStylesheet(palette, m_font, m_compact);
+    const Theme theme(UserSettings::instance()->uiThemeSlug());
+    return timeline::litehtml::generateMasterStylesheet(palette,
+                                                        m_font,
+                                                        m_compact,
+                                                        theme.error().name(),
+                                                        theme.attention().name(),
+                                                        theme.success().name());
 }
 
 void

@@ -7,7 +7,12 @@
 namespace timeline::litehtml {
 
 QString
-generateMasterStylesheet(const QPalette &palette, const QFont &font, bool compact)
+generateMasterStylesheet(const QPalette &palette,
+                         const QFont &font,
+                         bool compact,
+                         const QString &errorColor,
+                         const QString &attentionColor,
+                         const QString &successColor)
 {
     const auto text          = palette.color(QPalette::Text).name();
     const auto link          = palette.color(QPalette::Link).name();
@@ -84,13 +89,13 @@ generateMasterStylesheet(const QPalette &palette, const QFont &font, bool compac
              "  background-color: %3;"
              "}"
              "font[color=\"red\"], font[color=\"error\"] {"
-             "  color: red;"
+             "  color: %8;"
              "}"
              "font[color=\"orange\"], font[color=\"yellow\"], font[color=\"warning\"] {"
-             "  color: orange;"
+             "  color: %9;"
              "}"
              "font[color=\"green\"], font[color=\"success\"] {"
-             "  color: green;"
+             "  color: %10;"
              "}"
              "img {"
              "  vertical-align: middle;"
@@ -100,7 +105,8 @@ generateMasterStylesheet(const QPalette &palette, const QFont &font, bool compac
              "}")
       .arg(font.family())
       .arg(font.pointSizeF())
-      .arg(text, highlight, alternateBase, link, blockMargin);
+      .arg(text, highlight, alternateBase, link, blockMargin)
+      .arg(errorColor, attentionColor, successColor);
 }
 
 } // namespace timeline::litehtml

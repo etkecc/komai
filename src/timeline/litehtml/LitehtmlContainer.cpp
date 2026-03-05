@@ -331,18 +331,28 @@ LitehtmlContainer::draw_borders(litehtml::uint_ptr /*hdc*/,
     int w = draw_pos.width;
     int h = draw_pos.height;
 
+    // QPen strokes are centered on the line coordinates, so offset each
+    // border inward by half its width to keep the stroke inside the box.
     // Top
-    if (borders.top.width > 0)
-        drawBorderLine(QPoint(x, y), QPoint(x + w, y), borders.top);
+    if (borders.top.width > 0) {
+        int off = borders.top.width / 2;
+        drawBorderLine(QPoint(x, y + off), QPoint(x + w, y + off), borders.top);
+    }
     // Bottom
-    if (borders.bottom.width > 0)
-        drawBorderLine(QPoint(x, y + h), QPoint(x + w, y + h), borders.bottom);
+    if (borders.bottom.width > 0) {
+        int off = borders.bottom.width / 2;
+        drawBorderLine(QPoint(x, y + h - off), QPoint(x + w, y + h - off), borders.bottom);
+    }
     // Left
-    if (borders.left.width > 0)
-        drawBorderLine(QPoint(x, y), QPoint(x, y + h), borders.left);
+    if (borders.left.width > 0) {
+        int off = borders.left.width / 2;
+        drawBorderLine(QPoint(x + off, y), QPoint(x + off, y + h), borders.left);
+    }
     // Right
-    if (borders.right.width > 0)
-        drawBorderLine(QPoint(x + w, y), QPoint(x + w, y + h), borders.right);
+    if (borders.right.width > 0) {
+        int off = borders.right.width / 2;
+        drawBorderLine(QPoint(x + w - off, y), QPoint(x + w - off, y + h), borders.right);
+    }
 }
 
 // -- Clipping --

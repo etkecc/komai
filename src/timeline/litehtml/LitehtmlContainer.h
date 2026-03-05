@@ -51,6 +51,7 @@ public:
     }
     void setDefaultFont(const QFont &font) { m_defaultFont = font; }
     void setDefaultColor(const QColor &color) { m_defaultColor = color; }
+    void setEmojiFontFamily(const QString &family) { m_emojiFontFamily = family; }
     void clearImageCache() { m_imageCache.clear(); }
 
     // litehtml::document_container interface
@@ -130,6 +131,7 @@ private:
     QPainter *m_painter = nullptr;
     QFont m_defaultFont;
     QColor m_defaultColor;
+    QString m_emojiFontFamily;
     QByteArray m_defaultFontNameUtf8;
     int m_viewportWidth  = 0;
     int m_viewportHeight = 0;

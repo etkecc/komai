@@ -28,7 +28,6 @@ Item {
     readonly property string previewFooterText: qsTr("This preview shows how avatar settings affect rendering throughout the app.")
 
     readonly property date previewTsAlice: new Date(Date.now() - (12 * 60 * 1000))
-    readonly property date previewTsBob: new Date(Date.now() - (9 * 60 * 1000))
     readonly property date previewTsCarol: new Date(Date.now() - (5 * 60 * 1000))
     readonly property date previewTsDave: new Date(Date.now() - (2 * 60 * 1000))
 
@@ -82,35 +81,10 @@ Item {
             userPowerlevel: 100
         },
         {
-            body: qsTr("Welcome! Great to have you here."),
-            day: root.previewDayKey(root.previewTsBob),
-            eventId: "$avatar-preview-2",
-            formattedBody: qsTr("Welcome! Great to have you here."),
-            isOnlyEmoji: 0,
-            isEditable: false,
-            isEdited: false,
-            isEncrypted: false,
-            isSender: false,
-            isStateEvent: false,
-            notificationlevel: MtxEvent.Empty,
-            reactions: [],
-            replyTo: "",
-            room: previewRuntime.room,
-            status: MtxEvent.Empty,
-            threadId: "",
-            timestamp: root.previewTsBob,
-            trustlevel: 0,
-            type: MtxEvent.TextMessage,
-            avatarUrl: "qrc:/preview-avatars/bob.png",
-            userId: "@bob:example.org",
-            userName: "Bob",
-            userPowerlevel: 0
-        },
-        {
-            body: qsTr("Thanks! Still setting up my profile."),
+            body: qsTr("Welcome, Alice! I'm still setting up my profile."),
             day: root.previewDayKey(root.previewTsCarol),
-            eventId: "$avatar-preview-3",
-            formattedBody: qsTr("Thanks! Still setting up my profile."),
+            eventId: "$avatar-preview-2",
+            formattedBody: qsTr("Welcome, Alice! I'm still setting up my profile."),
             isOnlyEmoji: 0,
             isEditable: false,
             isEdited: false,
@@ -132,10 +106,10 @@ Item {
             userPowerlevel: 0
         },
         {
-            body: qsTr("Same here, no avatar yet!"),
+            body: qsTr("Same here, still no avatar yet."),
             day: root.previewDayKey(root.previewTsDave),
-            eventId: "$avatar-preview-4",
-            formattedBody: qsTr("Same here, no avatar yet!"),
+            eventId: "$avatar-preview-3",
+            formattedBody: qsTr("Same here, still no avatar yet."),
             isOnlyEmoji: 0,
             isEditable: false,
             isEdited: false,

@@ -33,6 +33,12 @@ LitehtmlItem::LitehtmlItem(QQuickItem *parent)
         m_masterCss = generateMasterCss();
         rebuildDocument();
     });
+    connect(this, &QQuickItem::activeFocusChanged, this, [this](bool hasFocus) {
+        if (!hasFocus) {
+            clearSelection();
+            update();
+        }
+    });
     m_masterCss = generateMasterCss();
 }
 

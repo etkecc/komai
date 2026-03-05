@@ -51,6 +51,7 @@ public:
         ReadOnlyText,
         Options,
         OptionsWithDescription,
+        SearchableOptions,
         PresenceStatusMessageField,
         Integer,
         IntegerWithDescription,

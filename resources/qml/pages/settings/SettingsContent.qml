@@ -181,6 +181,22 @@ Item {
                                 }
 
                                 Component {
+                                    id: searchableOptionsDelegate
+                                    SettingControlComboSearch {
+                                        anchors.left: r.useStackedLayout ? parent.left : undefined
+                                        anchors.right: r.useStackedLayout ? undefined : parent.right
+                                        value: r.model.value
+                                        values: r.model.values
+                                        width: Math.min(implicitWidth, r.controlWidth)
+                                        onActivatedValueChanged: function(index) {
+                                            if (index !== r.model.value) {
+                                                r.model.value = index;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Component {
                                     id: integerDelegate
                                     SettingRowInteger {
                                         anchors.left: r.useStackedLayout ? parent.left : undefined
@@ -209,6 +225,10 @@ Item {
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.OptionsWithDescription
                                         delegate: optionsDelegate
+                                    }
+                                    DelegateChoice {
+                                        roleValue: UserSettingsModel.SearchableOptions
+                                        delegate: searchableOptionsDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.PresenceStatusMessageField

@@ -18,7 +18,7 @@
     { QT_TR_NOOP("Fonts"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // Font
-    { QT_TR_NOOP("Font family"), nullptr, SM::Options, SM::TabLookFeel,
+    { QT_TR_NOOP("Font family"), nullptr, SM::SearchableOptions, SM::TabLookFeel,
       lookFeelFontFamilyValue,
       setLookFeelFontFamilyValue,
       {}, {}, {},
@@ -36,7 +36,7 @@
                                     UiFontSizePt,
                                     SettingKey::UiFontSizePt),
     // EmojiFont
-    { QT_TR_NOOP("Emoji font family"), nullptr, SM::Options, SM::TabLookFeel,
+    { QT_TR_NOOP("Emoji font family"), nullptr, SM::SearchableOptions, SM::TabLookFeel,
       lookFeelEmojiFontFamilyValue,
       setLookFeelEmojiFontFamilyValue,
       {}, {}, {},

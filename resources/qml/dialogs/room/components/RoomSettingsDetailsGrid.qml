@@ -48,7 +48,7 @@ ColumnLayout {
                 Layout.leftMargin: Komai.paddingMedium
             }
 
-            Button {
+            Components.KomaiButton {
                 text: qsTr("Configure")
                 onClicked: detailsGrid.appRoot.showPLEditor(detailsGrid.roomSettings)
                 Layout.rightMargin: Komai.paddingMedium
@@ -76,7 +76,7 @@ ColumnLayout {
                 Layout.leftMargin: Komai.paddingMedium
             }
 
-            Button {
+            Components.KomaiButton {
                 text: qsTr("Configure")
                 onClicked: detailsGrid.appRoot.showAliasEditor(detailsGrid.roomSettings)
                 Layout.rightMargin: Komai.paddingMedium
@@ -200,7 +200,7 @@ ColumnLayout {
                 Layout.leftMargin: Komai.paddingMedium
             }
 
-            Button {
+            Components.KomaiButton {
                 id: allowedRoomsButton
                 enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsRestricted
                 text: qsTr("Change")
@@ -240,7 +240,7 @@ ColumnLayout {
     }
 
     // Apply access rules button
-    Button {
+    Components.KomaiButton {
         visible: publicRoomButton.checked == detailsGrid.roomSettings.privateAccess || knockingButton.checked != detailsGrid.roomSettings.knockingEnabled || restrictedButton.checked != detailsGrid.roomSettings.restrictedEnabled || guestAccessButton.checked != detailsGrid.roomSettings.guestAccess || detailsGrid.roomSettings.allowedRoomsModified
         enabled: detailsGrid.roomSettings.canChangeJoinRules
         text: qsTr("Apply access rules")
@@ -328,7 +328,7 @@ ColumnLayout {
                     Layout.fillWidth: true
                 }
 
-                ComboBox {
+                Components.KomaiComboBox {
                     id: historyCombo
                     enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
 
@@ -367,7 +367,7 @@ ColumnLayout {
     }
 
     // Apply visibility changes buttons
-    Button {
+    Components.KomaiButton {
         visible: !publicHistoryButton.checked && detailsGrid.roomSettings.historyVisibility !== historyCombo.visibilityValues[historyCombo.currentIndex]
         enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
         text: qsTr("Apply visibility changes")
@@ -378,7 +378,7 @@ ColumnLayout {
         Layout.rightMargin: Komai.paddingMedium
     }
 
-    Button {
+    Components.KomaiButton {
         visible: publicHistoryButton.checked && detailsGrid.roomSettings.historyVisibility !== RoomSettings.WorldReadable
         enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
         text: qsTr("Apply visibility changes")
@@ -414,7 +414,7 @@ ColumnLayout {
                 roomName: detailsGrid.roomSettings.roomName
             }
 
-            Button {
+            Components.KomaiButton {
                 text: qsTr("Configure")
                 onClicked: hiddenEventsDialog.open()
                 Layout.rightMargin: Komai.paddingMedium
@@ -448,7 +448,7 @@ ColumnLayout {
                 roomName: detailsGrid.roomSettings.roomName
             }
 
-            Button {
+            Components.KomaiButton {
                 text: qsTr("Configure")
                 onClicked: eventExpirationDialog.open()
                 Layout.rightMargin: Komai.paddingMedium
@@ -485,7 +485,7 @@ ColumnLayout {
                 Layout.leftMargin: Komai.paddingMedium
             }
 
-            Button {
+            Components.KomaiButton {
                 text: qsTr("Change")
                 onClicked: TimelineManager.openImagePackSettings(detailsGrid.roomSettings.roomId)
                 Layout.rightMargin: Komai.paddingMedium

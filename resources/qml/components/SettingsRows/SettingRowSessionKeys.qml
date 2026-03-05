@@ -5,16 +5,15 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 
 RowLayout {
-    Button {
+    KomaiButton {
         text: qsTr("Import")
         onClicked: UserSettingsModel.importSessionKeys()
     }
-    Button {
+    KomaiButton {
         text: qsTr("Export")
         onClicked: UserSettingsModel.exportSessionKeys()
     }

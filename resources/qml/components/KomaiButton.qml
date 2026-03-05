@@ -1,0 +1,110 @@
+// SPDX-FileCopyrightText: Komai Contributors
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import cc.etke.komai 1.0
+
+Button {
+    id: control
+
+    readonly property color normalBackground: palette.alternateBase
+    readonly property color hoverBackground: Qt.lighter(normalBackground, 1.08)
+    readonly property color pressedBackground: Qt.darker(normalBackground, 1.08)
+    readonly property color disabledBackground: Qt.rgba(normalBackground.r,
+                                                        normalBackground.g,
+                                                        normalBackground.b,
+                                                        0.65)
+    readonly property color foregroundColor: !enabled
+        ? palette.buttonText
+        : (highlighted ? palette.highlightedText : palette.text)
+    readonly property int effectiveIconSize: Math.max(8, Math.min(14, Math.round(Settings.uiFontSizePt * 0.9)))
+
+    font.pointSize: Settings.uiFontSizePt
+    spacing: Komai.paddingSmall
+    padding: Komai.paddingSmall
+    leftPadding: Komai.paddingMedium
+    rightPadding: Komai.paddingMedium
+    icon.color: foregroundColor
+    readonly property bool hasIconSource: {
+        const src = control.icon.source;
+        if (!src)
+            return false;
+        const raw = (typeof src.toString === "function") ? src.toString() : String(src);
+        return raw.length > 0;
+    }
+
+    function tintedIconSource(source)
+    {
+        if (!source)
+            return "";
+
+        let resolved = (typeof source.toString === "function") ? source.toString() : String(source);
+        if (!resolved || resolved.length === 0)
+            return "";
+
+        if (resolved.startsWith("image://"))
+            return resolved;
+        if (resolved.startsWith("qrc:/"))
+            resolved = ":" + resolved.substring(4);
+        return "image://colorimage/" + resolved + "?" + foregroundColor;
+    }
+
+    background: Rectangle {
+        color: !control.enabled
+            ? control.disabledBackground
+            : control.down
+                ? (control.highlighted ? Qt.darker(control.palette.highlight, 1.08)
+                                       : control.pressedBackground)
+                : control.highlighted
+                    ? control.palette.highlight
+                    : control.hovered
+                        ? control.hoverBackground
+                        : control.normalBackground
+        radius: Komai.paddingSmall
+        border.color: control.activeFocus ? control.palette.highlight : Komai.theme.separator
+        border.width: control.activeFocus ? 2 : 1
+    }
+
+    contentItem: Item {
+        implicitWidth: contentRow.implicitWidth
+        implicitHeight: contentRow.implicitHeight
+
+        RowLayout {
+            id: contentRow
+
+            anchors.centerIn: parent
+            spacing: control.spacing
+
+            Image {
+                id: iconImage
+
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: control.effectiveIconSize
+                Layout.preferredHeight: control.effectiveIconSize
+                visible: control.hasIconSource &&
+                    control.display !== AbstractButton.TextOnly
+                source: visible ? control.tintedIconSource(control.icon.source) : ""
+                sourceSize.width: control.effectiveIconSize
+                sourceSize.height: control.effectiveIconSize
+                implicitWidth: control.effectiveIconSize
+                implicitHeight: control.effectiveIconSize
+                fillMode: Image.PreserveAspectFit
+            }
+
+            Text {
+                Layout.alignment: Qt.AlignVCenter
+                visible: control.text !== "" &&
+                    control.display !== AbstractButton.IconOnly
+                text: control.text
+                color: control.foregroundColor
+                font: control.font
+                elide: Text.ElideRight
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+    }
+
+}

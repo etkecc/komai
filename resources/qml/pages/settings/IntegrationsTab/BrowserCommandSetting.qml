@@ -38,7 +38,7 @@ Item {
             wrapMode: Text.Wrap
         }
 
-        TextField {
+        KomaiTextField {
             id: browserCommandTextField
             Layout.fillWidth: true
             text: Settings.integrationsBrowserCommand ? Settings.integrationsBrowserCommand : ""

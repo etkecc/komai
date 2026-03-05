@@ -5,10 +5,9 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
-TextField {
+KomaiTextField {
     id: root
 
     required property string textValue

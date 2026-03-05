@@ -19,7 +19,7 @@ Loader {
 
     Component {
         id: hiddenComponent
-        Button {
+        KomaiButton {
             anchors.right: parent.right
             font.pointSize: Settings.uiFontSizePt
             text: qsTr("Click to reveal")
@@ -32,7 +32,7 @@ Loader {
         RowLayout {
             spacing: Komai.paddingSmall
 
-            TextField {
+            KomaiTextField {
                 text: root.model.value
                 readOnly: true
                 font.pointSize: Settings.uiFontSizePt

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../../ui"
+import "../../../components" as Components
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
@@ -56,7 +56,7 @@ Item {
                         Layout.leftMargin: Komai.paddingMedium
                     }
 
-                    TextField {
+                    Components.KomaiTextField {
                         text: aboutTab.roomSettings ? aboutTab.roomSettings.roomId : ""
                         readOnly: true
                         font.pointSize: Settings.uiFontSizePt

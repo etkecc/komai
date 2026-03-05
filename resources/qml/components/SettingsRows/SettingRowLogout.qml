@@ -5,10 +5,9 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import "../../dialogs/account"
 
-Button {
+KomaiButton {
     id: logoutBtn
     text: qsTr("Logout")
     icon.source: "qrc:/icons/icons/ui/power-off.svg"

@@ -33,8 +33,8 @@ Switch {
         Rectangle {
             id: handle
 
-            border.color: "#767676"
-            color: palette.button
+            border.color: palette.buttonText
+            color: palette.light
             height: width
             radius: width / 2
             width: parent.height * 0.9
@@ -46,7 +46,7 @@ Switch {
             name: "off"
 
             PropertyChanges {
-                track.border.color: "#767676"
+                track.border.color: palette.buttonText
             }
             PropertyChanges {
                 handle.x: 0

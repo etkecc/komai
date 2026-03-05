@@ -5,10 +5,9 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
-ComboBox {
+KomaiComboBox {
     id: root
 
     required property int value
@@ -20,6 +19,4 @@ ComboBox {
     model: values
     currentIndex: value
     onActivated: activatedValueChanged(currentIndex)
-    implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-    wheelEnabled: activeFocus
 }

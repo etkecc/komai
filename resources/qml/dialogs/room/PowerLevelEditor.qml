@@ -165,7 +165,7 @@ OverlayDialog {
                                     spacing: Komai.paddingMedium
                                     anchors.fill: parent
 
-                                    SpinBox {
+                                    KomaiSpinBox {
                                         id: newPLVal
 
                                         Layout.fillWidth: true

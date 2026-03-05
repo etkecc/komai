@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../../components" as Components
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
@@ -60,7 +61,7 @@ Item {
                             Layout.fillWidth: true
                         }
 
-                        ComboBox {
+                        Components.KomaiComboBox {
                             id: notificationsCombo
 
                             model: [qsTr("Muted"), qsTr("Mentions only"), qsTr("All messages")]

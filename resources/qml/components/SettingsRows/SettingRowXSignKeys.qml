@@ -5,16 +5,15 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 
 RowLayout {
-    Button {
+    KomaiButton {
         text: qsTr("Download")
         onClicked: UserSettingsModel.downloadCrossSigningSecrets()
     }
-    Button {
+    KomaiButton {
         text: qsTr("Request")
         onClicked: UserSettingsModel.requestCrossSigningSecrets()
     }

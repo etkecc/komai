@@ -5,10 +5,9 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
-SpinBox {
+KomaiSpinBox {
     id: root
 
     required property var model

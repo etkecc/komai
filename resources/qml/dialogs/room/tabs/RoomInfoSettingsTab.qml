@@ -120,14 +120,14 @@ Item {
                             Layout.fillWidth: true
                         }
 
-                        Button {
+                        Components.KomaiButton {
                             text: qsTr("Change")
                             icon.source: "qrc:/icons/icons/ui/edit.svg"
                             visible: roomSettings && roomSettings.canChangeAvatar
                             onClicked: roomSettings.updateAvatar()
                         }
 
-                        Button {
+                        Components.KomaiButton {
                             text: qsTr("Remove")
                             icon.source: "qrc:/icons/icons/ui/delete.svg"
                             visible: roomSettings && roomSettings.canChangeAvatar && roomSettings.roomAvatarUrl !== ""
@@ -160,7 +160,7 @@ Item {
                         text: qsTr("Are you sure you want to remove the room avatar?")
                     }
 
-                    Button {
+                    Components.KomaiButton {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("Remove")
                         highlighted: true
@@ -205,7 +205,7 @@ Item {
                             Layout.fillWidth: true
                         }
 
-                        TextField {
+                        Components.KomaiTextField {
                             id: roomNameField
 
                             property string lastSubmitted: ""
@@ -268,7 +268,7 @@ Item {
                             Layout.alignment: Qt.AlignTop
                         }
 
-                        TextArea {
+                        Components.KomaiTextArea {
                             id: roomTopicField
 
                             property string lastSubmitted: ""
@@ -378,7 +378,7 @@ Item {
                         text: qsTr("Encryption is currently experimental and things might break unexpectedly.\nPlease take note that it can't be disabled afterwards.")
                     }
 
-                    Button {
+                    Components.KomaiButton {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("Enable")
                         highlighted: true

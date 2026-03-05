@@ -5,11 +5,10 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 import "../../dialogs/moderation"
 
-Button {
+KomaiButton {
     text: qsTr("Configure")
     onClicked: {
         var dialog = hiddenEventsDialog.createObject();

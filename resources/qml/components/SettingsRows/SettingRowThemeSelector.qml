@@ -29,7 +29,7 @@ Item {
         anchors.left: parent.left
         spacing: root.leftAligned ? Math.max(1, Math.round(Komai.paddingSmall / 2)) : Komai.paddingSmall
 
-        ComboBox {
+        KomaiComboBox {
             id: variantCombo
             font.pointSize: Settings.uiFontSizePt
             model: safeThemeVariantValues
@@ -44,7 +44,7 @@ Item {
             wheelEnabled: activeFocus
         }
 
-        ComboBox {
+        KomaiComboBox {
             id: themeCombo
             visible: variantCombo.currentIndex !== 2
             font.pointSize: Settings.uiFontSizePt

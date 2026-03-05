@@ -47,7 +47,7 @@ Components.OverlayDialog {
             }
         }
 
-        SpinBox {
+        Components.KomaiSpinBox {
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             from: 0
             to: 1000
@@ -68,7 +68,7 @@ Components.OverlayDialog {
             }
         }
 
-        SpinBox {
+        Components.KomaiSpinBox {
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             from: 0
             to: 1000000
@@ -89,7 +89,7 @@ Components.OverlayDialog {
             }
         }
 
-        SpinBox {
+        Components.KomaiSpinBox {
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             from: 0
             to: 1000000

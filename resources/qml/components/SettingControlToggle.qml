@@ -5,7 +5,7 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
+import "../ui"
 
 Item {
     id: root
@@ -17,7 +17,7 @@ Item {
     implicitWidth: button.implicitWidth
     implicitHeight: button.implicitHeight
 
-    Switch {
+    ToggleButton {
         id: button
 
         enabled: root.enabled

@@ -44,7 +44,7 @@ Item {
         anchors.fill: parent
         spacing: Komai.paddingSmall
 
-        TextField {
+        KomaiTextField {
             id: statusMessageField
 
             Layout.fillWidth: true

@@ -5,11 +5,10 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import "../../ui"
 import cc.etke.komai
 
-Button {
+KomaiButton {
     ComponentCatalog {
         id: componentCatalog
     }

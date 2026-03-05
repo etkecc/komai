@@ -41,7 +41,7 @@ Item {
             elideWidth: parent.width - Komai.paddingMedium
         }
 
-        Button {
+        KomaiButton {
             Layout.alignment: Qt.AlignHCenter
             icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
             text: qsTr("Invite others")
@@ -70,7 +70,7 @@ Item {
                 color: palette.text
             }
 
-            ComboBox {
+            KomaiComboBox {
                 model: ListModel {
                     ListElement { data: MemberList.Mxid; text: qsTr("User ID") }
                     ListElement { data: MemberList.DisplayName; text: qsTr("Display name") }

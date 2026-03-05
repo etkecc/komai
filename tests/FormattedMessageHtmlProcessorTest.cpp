@@ -218,6 +218,327 @@ testLinkifySkipsAnchorAttributesAndCodeBlocks()
     return ok;
 }
 
+// --- transformForPresentation tests ---
+
+const timeline::formattedmessage::PresentationColors testColors{
+  QStringLiteral("#a6a7a9"), // blockquoteBackground
+  QStringLiteral("#ff0000"), // error
+  QStringLiteral("#ffaa00"), // attention
+  QStringLiteral("#00cc00"), // success
+};
+
+bool
+testDelToS()
+{
+    const QString input = QStringLiteral("<del>text</del>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out == QStringLiteral("<s>text</s>"), "del is normalized to s");
+    return ok;
+}
+
+bool
+testStrikeToS()
+{
+    const QString input = QStringLiteral("<strike>text</strike>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out == QStringLiteral("<s>text</s>"), "strike is normalized to s");
+    return ok;
+}
+
+bool
+testMixedDelStrike()
+{
+    const QString input = QStringLiteral("<del>a</del> and <strike>b</strike>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out == QStringLiteral("<s>a</s> and <s>b</s>"), "mixed del and strike both become s");
+    return ok;
+}
+
+bool
+testFontColorRed()
+{
+    const QString input = QStringLiteral("<font color=\"red\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#ff0000\"")),
+                 "red maps to error color");
+    return ok;
+}
+
+bool
+testFontColorError()
+{
+    const QString input = QStringLiteral("<font color=\"error\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#ff0000\"")),
+                 "error maps to error color");
+    return ok;
+}
+
+bool
+testFontColorSuccess()
+{
+    const QString input = QStringLiteral("<font color=\"success\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#00cc00\"")),
+                 "success maps to success color");
+    return ok;
+}
+
+bool
+testFontColorGreen()
+{
+    const QString input = QStringLiteral("<font color=\"green\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#00cc00\"")),
+                 "green maps to success color");
+    return ok;
+}
+
+bool
+testFontColorYellow()
+{
+    const QString input = QStringLiteral("<font color=\"yellow\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#ffaa00\"")),
+                 "yellow maps to attention color");
+    return ok;
+}
+
+bool
+testFontColorWarning()
+{
+    const QString input = QStringLiteral("<font color=\"warning\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#ffaa00\"")),
+                 "warning maps to attention color");
+    return ok;
+}
+
+bool
+testFontColorOrange()
+{
+    const QString input = QStringLiteral("<font color=\"orange\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#ffaa00\"")),
+                 "orange maps to attention color");
+    return ok;
+}
+
+bool
+testFontColorHexPassthrough()
+{
+    const QString input = QStringLiteral("<font color=\"#112233\">x</font>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#112233\"")),
+                 "hex color passes through unchanged");
+    return ok;
+}
+
+bool
+testFontColorMultiple()
+{
+    const QString input = QStringLiteral(
+      "<font color=\"red\">a</font> <font color=\"green\">b</font>");
+    const QString out = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#ff0000\"")),
+                 "first font color mapped");
+    ok &= expect(out.contains(QStringLiteral("color=\"#00cc00\"")),
+                 "second font color mapped");
+    return ok;
+}
+
+bool
+testFontColorWithExtraAttrs()
+{
+    const QString input =
+      QStringLiteral("<font color=\"red\" data-mx-bg-color=\"#aabbcc\">x</font>");
+    const QString out = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("color=\"#ff0000\"")),
+                 "color value is replaced");
+    ok &= expect(out.contains(QStringLiteral("data-mx-bg-color=\"#aabbcc\"")),
+                 "other attributes preserved");
+    return ok;
+}
+
+bool
+testSimpleBlockquote()
+{
+    const QString input = QStringLiteral("<blockquote>hello</blockquote>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("background-color:#a6a7a9")),
+                 "blockquote gets background color");
+    ok &= expect(out.contains(QStringLiteral("<table")), "blockquote replaced with table");
+    ok &= expect(out.contains(QStringLiteral("hello")), "content preserved");
+    return ok;
+}
+
+bool
+testNestedBlockquotes()
+{
+    const QString input =
+      QStringLiteral("<blockquote>outer<blockquote>inner</blockquote></blockquote>");
+    const QString out = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(countOccurrences(out, QStringLiteral("background-color:#a6a7a9")) == 2,
+                 "both blockquote levels get background color");
+    ok &= expect(out.contains(QStringLiteral("outer")), "outer content preserved");
+    ok &= expect(out.contains(QStringLiteral("inner")), "inner content preserved");
+    return ok;
+}
+
+bool
+testEmptyBlockquote()
+{
+    const QString input = QStringLiteral("<blockquote></blockquote>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("background-color:#a6a7a9")),
+                 "empty blockquote gets background");
+    return ok;
+}
+
+bool
+testMultipleBlockquotes()
+{
+    const QString input =
+      QStringLiteral("<blockquote>a</blockquote>gap<blockquote>b</blockquote>");
+    const QString out = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(countOccurrences(out, QStringLiteral("background-color:#a6a7a9")) == 2,
+                 "both blockquotes get background color");
+    ok &= expect(out.contains(QStringLiteral("gap")), "gap content preserved");
+    return ok;
+}
+
+bool
+testEscapedBlockquoteNotTransformed()
+{
+    const QString input = QStringLiteral("&lt;blockquote&gt;not a tag&lt;/blockquote&gt;");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out == input, "HTML-escaped blockquote not transformed");
+    return ok;
+}
+
+bool
+testLiteralColorTextNotModified()
+{
+    const QString input = QStringLiteral("<p>The attribute is color=\"red\" in the spec.</p>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(!out.contains(testColors.error),
+                 "literal color=red outside font tag not modified");
+    return ok;
+}
+
+bool
+testNoTransformationsPassthrough()
+{
+    const QString input = QStringLiteral("<b>bold</b> and <i>italic</i>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out == input, "input without transformable elements passes through unchanged");
+    return ok;
+}
+
+bool
+testDeeplyNestedBlockquotes()
+{
+    QString input;
+    for (int i = 0; i < 10; ++i)
+        input += QStringLiteral("<blockquote>");
+    input += QStringLiteral("deep");
+    for (int i = 0; i < 10; ++i)
+        input += QStringLiteral("</blockquote>");
+
+    const QString out = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(countOccurrences(out, QStringLiteral("background-color:#a6a7a9")) == 10,
+                 "10 blockquotes each get background color");
+    ok &= expect(out.contains(QStringLiteral("deep")), "deeply nested content preserved");
+    return ok;
+}
+
+bool
+testBlockquoteInsideOtherElements()
+{
+    const QString input = QStringLiteral("<p><blockquote>quoted</blockquote></p>");
+    const QString out   = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("background-color:#a6a7a9")),
+                 "blockquote inside p gets background");
+    ok &= expect(out.contains(QStringLiteral("quoted")), "content preserved");
+    return ok;
+}
+
+bool
+testBlockquoteMultiParagraph()
+{
+    const QString input = QStringLiteral(
+      "<blockquote>\n<p>Para 1</p>\n<p>Para 2</p>\n</blockquote>");
+    const QString out = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("background-color:#a6a7a9")),
+                 "multi-paragraph blockquote gets background");
+    ok &= expect(!out.contains(QStringLiteral("<p>")), "p tags stripped inside blockquote");
+    ok &= expect(out.contains(QStringLiteral("Para 1<br>Para 2")),
+                 "paragraphs joined with br");
+    return ok;
+}
+
+bool
+testBlockquoteParagraphsOutsidePreserved()
+{
+    const QString input = QStringLiteral(
+      "<p>Before</p>\n<blockquote>\n<p>Quoted</p>\n</blockquote>\n<p>After</p>");
+    const QString out = timeline::formattedmessage::transformForPresentation(input, testColors);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("<p>Before</p>")),
+                 "paragraph before blockquote preserved");
+    ok &= expect(out.contains(QStringLiteral("<p>After</p>")),
+                 "paragraph after blockquote preserved");
+    ok &= expect(out.contains(QStringLiteral("Quoted")), "blockquote content preserved");
+    return ok;
+}
+
 } // namespace
 
 int
@@ -237,6 +558,32 @@ main(int argc, char **argv)
     ok &= testDepthLimit();
     ok &= testLinkifyPlainTextAndMatrixUri();
     ok &= testLinkifySkipsAnchorAttributesAndCodeBlocks();
+
+    // transformForPresentation tests
+    ok &= testDelToS();
+    ok &= testStrikeToS();
+    ok &= testMixedDelStrike();
+    ok &= testFontColorRed();
+    ok &= testFontColorError();
+    ok &= testFontColorSuccess();
+    ok &= testFontColorGreen();
+    ok &= testFontColorYellow();
+    ok &= testFontColorWarning();
+    ok &= testFontColorOrange();
+    ok &= testFontColorHexPassthrough();
+    ok &= testFontColorMultiple();
+    ok &= testFontColorWithExtraAttrs();
+    ok &= testSimpleBlockquote();
+    ok &= testNestedBlockquotes();
+    ok &= testEmptyBlockquote();
+    ok &= testMultipleBlockquotes();
+    ok &= testEscapedBlockquoteNotTransformed();
+    ok &= testLiteralColorTextNotModified();
+    ok &= testNoTransformationsPassthrough();
+    ok &= testDeeplyNestedBlockquotes();
+    ok &= testBlockquoteInsideOtherElements();
+    ok &= testBlockquoteMultiParagraph();
+    ok &= testBlockquoteParagraphsOutsidePreserved();
 
     return ok ? 0 : 1;
 }

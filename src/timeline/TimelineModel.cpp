@@ -14,6 +14,7 @@
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "models/ReadReceiptsModel.h"
+#include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/send/TimelineMessageSendPipeline.h"
 #include "utils/Utils.h"
 
@@ -51,6 +52,12 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
       this,
       [](const QString &msg) { emit ChatPage::instance()->showNotification(msg); },
       Qt::QueuedConnection);
+
+    connect(UserSettings::instance().get(), &UserSettings::uiThemeSlugChanged, this, [this]() {
+        if (events.size() > 0)
+            emit dataChanged(
+              index(0, 0), index(events.size() - 1, 0), {FormattedBody, FormattedStateEvent});
+    });
 
     connect(this, &TimelineModel::dataAtIdChanged, this, [this](const QString &id) {
         relatedEventCacheBuster++;

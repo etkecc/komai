@@ -608,4 +608,110 @@ linkifyHtml(const QString &html)
     return out;
 }
 
+QString
+transformForPresentation(const QString &html, const PresentationColors &colors)
+{
+    if (html.isEmpty())
+        return html;
+
+    // a) Tag normalization: <del>→<s>, <strike>→<s>
+    QString out = html;
+    out.replace(QStringLiteral("<del>"), QStringLiteral("<s>"));
+    out.replace(QStringLiteral("</del>"), QStringLiteral("</s>"));
+    out.replace(QStringLiteral("<strike>"), QStringLiteral("<s>"));
+    out.replace(QStringLiteral("</strike>"), QStringLiteral("</s>"));
+
+    // b) Font color mapping: named colors → hex from PresentationColors
+    static const QRegularExpression fontColorRegex(QStringLiteral(
+      R"re(<font\b[^>]*\bcolor="(red|orange|yellow|warning|green|success|error)"[^>]*>)re"));
+
+    auto it     = fontColorRegex.globalMatch(out);
+    int lastEnd = 0;
+    QString mapped;
+    mapped.reserve(out.size());
+
+    while (it.hasNext()) {
+        const auto match     = it.next();
+        const auto colorName = match.captured(1).toLower();
+        QString replacement;
+
+        if (colorName == QLatin1String("red") || colorName == QLatin1String("error"))
+            replacement = colors.error;
+        else if (colorName == QLatin1String("orange") || colorName == QLatin1String("yellow") ||
+                 colorName == QLatin1String("warning"))
+            replacement = colors.attention;
+        else if (colorName == QLatin1String("green") || colorName == QLatin1String("success"))
+            replacement = colors.success;
+
+        if (!replacement.isEmpty()) {
+            mapped += out.mid(lastEnd, match.capturedStart() - lastEnd);
+            auto tag = match.captured(0);
+            tag.replace(QStringLiteral("color=\"") + match.captured(1) + QStringLiteral("\""),
+                        QStringLiteral("color=\"") + replacement + QStringLiteral("\""));
+            mapped += tag;
+            lastEnd = match.capturedEnd();
+        }
+    }
+
+    if (lastEnd > 0) {
+        mapped += out.mid(lastEnd);
+        out = mapped;
+    }
+
+    // c) Blockquote: strip <p> wrappers inside and add background color.
+    //    Process innermost blockquotes first; use markers to avoid re-matching.
+    static const QRegularExpression innermostBq(
+      QStringLiteral("<blockquote>((?:(?!</?blockquote>)[\\s\\S])*?)</blockquote>"));
+    static const QRegularExpression leadP(QStringLiteral("^\\s*<p>"));
+    static const QRegularExpression trailP(QStringLiteral("</p>\\s*$"));
+    static const QRegularExpression midP(QStringLiteral("</p>\\s*<p>"));
+
+    while (true) {
+        const auto match = innermostBq.match(out);
+        if (!match.hasMatch())
+            break;
+
+        QString content = match.captured(1);
+        content.replace(leadP, QString());
+        content.replace(trailP, QString());
+        content.replace(midP, QStringLiteral("<br>"));
+
+        out.replace(match.capturedStart(),
+                    match.capturedLength(),
+                    QStringLiteral("\x01") + content + QStringLiteral("\x02"));
+    }
+
+    // Mark top-level vs nested blockquotes: \x01 at depth 0 becomes \x03.
+    {
+        int depth = 0;
+        for (int i = 0; i < out.size(); ++i) {
+            if (out[i] == QChar('\x01')) {
+                if (depth == 0)
+                    out[i] = QChar('\x03');
+                ++depth;
+            } else if (out[i] == QChar('\x02')) {
+                --depth;
+            }
+        }
+    }
+
+    const auto nestedTable =
+      QStringLiteral("<table style=\"border-style:none;border-width:0;background-color:transparent;"
+                     "margin:2px 0 2px 12px;\" cellpadding=\"4\" cellspacing=\"0\" width=\"100%\">"
+                     "<tr><td style=\"background-color:%1;border-style:none;border-width:0;\">")
+        .arg(colors.blockquoteBackground);
+    const auto topTable =
+      QStringLiteral("<table style=\"border-style:none;border-width:0;background-color:transparent;"
+                     "margin:2px 0;\" cellpadding=\"4\" cellspacing=\"0\" width=\"100%\">"
+                     "<tr><td style=\"background-color:%1;border-style:none;border-width:0;\">")
+        .arg(colors.blockquoteBackground);
+    const auto closeTable = QStringLiteral("</td></tr></table>");
+
+    out.replace(QStringLiteral("\x03"), topTable);
+    out.replace(QStringLiteral("\x01"), nestedTable);
+    out.replace(QStringLiteral("\x02"), closeTable);
+
+    return out;
+}
+
 } // namespace timeline::formattedmessage

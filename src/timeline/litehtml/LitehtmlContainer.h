@@ -12,8 +12,25 @@
 #include <QPainter>
 #include <QRect>
 #include <QString>
+#include <QVector>
 
 #include <litehtml.h>
+
+/// A single text fragment captured during paint, recording its string, font, and position.
+struct TextRun
+{
+    QString text;
+    QRect rect;
+    QFont font;
+    QString prefix; ///< Prepended to text during extraction (e.g. "- " for list items).
+};
+
+/// A list marker position captured during paint.
+struct ListMarker
+{
+    QRect rect;
+    QString prefix; ///< e.g. "- " for bullet lists
+};
 
 /// QPainter-based implementation of litehtml::document_container.
 /// Draws HTML content using QPainter and manages font/image resources.
@@ -92,6 +109,16 @@ public:
     bool isPointerCursor() const { return m_pointerCursor; }
     void resetCursorState() { m_pointerCursor = false; }
 
+    /// Text run collection for selection support.
+    void beginTextRunCollection()
+    {
+        m_textRuns.clear();
+        m_listMarkers.clear();
+        m_collectingTextRuns = true;
+    }
+    void endTextRunCollection();
+    const QVector<TextRun> &textRuns() const { return m_textRuns; }
+
 signals:
     void linkClicked(const QString &url);
     void imageLoaded();
@@ -108,7 +135,10 @@ private:
     int m_viewportHeight = 0;
     QHash<QString, QImage> m_imageCache;
     QList<QRect> m_clips;
-    bool m_hoverMode     = false;
-    bool m_pointerCursor = false;
+    bool m_hoverMode          = false;
+    bool m_pointerCursor      = false;
+    bool m_collectingTextRuns = false;
     QString m_lastHoveredUrl;
+    QVector<TextRun> m_textRuns;
+    QVector<ListMarker> m_listMarkers;
 };

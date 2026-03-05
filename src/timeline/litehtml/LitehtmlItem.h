@@ -6,6 +6,7 @@
 
 #include <QColor>
 #include <QFont>
+#include <QPoint>
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
 #include <QString>
@@ -14,6 +15,19 @@
 #include <litehtml.h>
 
 #include "timeline/litehtml/LitehtmlContainer.h"
+
+struct SelectionPoint
+{
+    int runIndex   = -1;
+    int charOffset = 0;
+
+    bool isValid() const { return runIndex >= 0; }
+    bool operator==(const SelectionPoint &o) const
+    {
+        return runIndex == o.runIndex && charOffset == o.charOffset;
+    }
+    bool operator!=(const SelectionPoint &o) const { return !(*this == o); }
+};
 
 class LitehtmlItem : public QQuickPaintedItem
 {
@@ -67,13 +81,22 @@ protected:
     void hoverMoveEvent(QHoverEvent *event) override;
     void hoverLeaveEvent(QHoverEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
     void rebuildDocument();
     void relayout();
     void updateTextureSize();
     QString generateMasterCss();
+
+    SelectionPoint hitTestTextRun(const QPoint &pos) const;
+    void resolveSelection();
+    QString extractSelectedText() const;
+    void drawSelection(QPainter *painter);
+    void clearSelection();
 
     QString m_html;
     QString m_hoveredLink;
@@ -86,4 +109,10 @@ private:
 
     LitehtmlContainer *m_container = nullptr;
     litehtml::document::ptr m_document;
+
+    bool m_selecting = false;
+    QPoint m_selectStartPos;
+    QPoint m_selectEndPos;
+    SelectionPoint m_selStart;
+    SelectionPoint m_selEnd;
 };

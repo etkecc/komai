@@ -4,6 +4,8 @@
 
 #include "timeline/litehtml/LitehtmlContainer.h"
 
+#include <algorithm>
+
 #include <QPen>
 #include <QUrl>
 #include <QtMath>
@@ -91,9 +93,51 @@ LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
     if (!font)
         return;
 
+    if (m_collectingTextRuns) {
+        TextRun run;
+        run.text = QString::fromUtf8(text);
+        run.rect = QRect(pos.x, pos.y, pos.width, pos.height);
+        run.font = *font;
+        m_textRuns.append(run);
+    }
+
     m_painter->setFont(*font);
     m_painter->setPen(toQColor(color));
     m_painter->drawText(QRect(pos.x, pos.y, pos.width, pos.height), 0, QString::fromUtf8(text));
+}
+
+void
+LitehtmlContainer::endTextRunCollection()
+{
+    m_collectingTextRuns = false;
+
+    // Sort text runs into visual order (top-to-bottom, left-to-right).
+    // litehtml draws list markers and some decorations after content text,
+    // so the raw draw order doesn't match document reading order.
+    std::sort(m_textRuns.begin(), m_textRuns.end(), [](const TextRun &a, const TextRun &b) {
+        // Group by line: treat runs as same-line if their Y ranges overlap.
+        int aMid      = a.rect.y() + a.rect.height() / 2;
+        int bMid      = b.rect.y() + b.rect.height() / 2;
+        bool sameLine = (aMid >= b.rect.top() && aMid <= b.rect.bottom()) ||
+                        (bMid >= a.rect.top() && bMid <= a.rect.bottom());
+        if (!sameLine)
+            return a.rect.y() < b.rect.y();
+        return a.rect.x() < b.rect.x();
+    });
+
+    // Match bullet list markers to text runs by Y-coordinate overlap.
+    // Bullet markers are not drawn via draw_text, so they need separate handling.
+    for (const auto &marker : m_listMarkers) {
+        int markerCenterY = marker.rect.y() + marker.rect.height() / 2;
+        for (auto &run : m_textRuns) {
+            if (!run.prefix.isEmpty())
+                continue;
+            if (markerCenterY >= run.rect.top() && markerCenterY <= run.rect.bottom()) {
+                run.prefix = marker.prefix;
+                break;
+            }
+        }
+    }
 }
 
 int
@@ -122,6 +166,19 @@ LitehtmlContainer::draw_list_marker(litehtml::uint_ptr /*hdc*/, const litehtml::
 {
     if (!m_painter)
         return;
+
+    // Collect marker positions; matched to text runs in endTextRunCollection().
+    if (m_collectingTextRuns) {
+        bool isBullet = marker.marker_type == litehtml::list_style_type_disc ||
+                        marker.marker_type == litehtml::list_style_type_circle ||
+                        marker.marker_type == litehtml::list_style_type_square;
+        if (isBullet) {
+            ListMarker lm;
+            lm.rect   = QRect(marker.pos.x, marker.pos.y, marker.pos.width, marker.pos.height);
+            lm.prefix = QStringLiteral("- ");
+            m_listMarkers.append(lm);
+        }
+    }
 
     if (!marker.image.empty()) {
         const auto key = QString::fromStdString(marker.image);

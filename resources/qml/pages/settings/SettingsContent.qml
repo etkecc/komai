@@ -205,6 +205,15 @@ Item {
                                     }
                                 }
 
+                                Component {
+                                    id: doubleDelegate
+                                    SettingRowDouble {
+                                        anchors.left: r.useStackedLayout ? parent.left : undefined
+                                        anchors.right: r.useStackedLayout ? undefined : parent.right
+                                        model: r.model
+                                    }
+                                }
+
                                 DelegateChooser {
                                     id: chooser
                                     roleValue: r.model.type
@@ -257,11 +266,7 @@ Item {
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.Double
-                                        SettingRowDouble {
-                                            anchors.left: r.useStackedLayout ? parent.left : undefined
-                                            anchors.right: r.useStackedLayout ? undefined : parent.right
-                                            model: r.model
-                                        }
+                                        delegate: doubleDelegate
                                     }
                                     DelegateChoice {
                                         roleValue: UserSettingsModel.ReadOnlyText

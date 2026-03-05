@@ -99,6 +99,15 @@ Reply previews are excluded from this mechanism (`!isReply`). Instead, the bubbl
 
 `geometryChange()` calls `updateTextureSize()` on height changes (not just width) to keep the paint buffer correctly sized after expanding.
 
+## Performance Impact
+
+The switch from Qt RichText (`Text.RichText`) to litehtml was motivated by HTML/CSS compatibility, not performance. A quick check (2 app launches per engine, rendering the same room with the same profile) confirmed no meaningful regression:
+
+- Qt RichText: `202ms`, `199ms` (avg `~200ms`) to `model_bound`.
+- litehtml: `198ms`, `207ms` (avg `~203ms`) to `model_bound`.
+
+The ~3ms average difference is within run-to-run variance. This was a quick directional check, not rigorous benchmarking.
+
 ## Code Highlighting: What Uses Which Library
 
 - Parsing/orchestration of HTML code blocks is implemented in:

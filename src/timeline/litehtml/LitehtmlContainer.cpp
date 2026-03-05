@@ -287,9 +287,21 @@ LitehtmlContainer::draw_background(litehtml::uint_ptr /*hdc*/,
 
         // Fill with background color if not transparent.
         if (bg.color.alpha > 0) {
-            m_painter->fillRect(
-              QRect(bg.border_box.x, bg.border_box.y, bg.border_box.width, bg.border_box.height),
-              toQColor(bg.color));
+            QRect rect(bg.border_box.x, bg.border_box.y, bg.border_box.width, bg.border_box.height);
+            const auto &r  = bg.border_radius;
+            bool hasRadius = r.top_left_x || r.top_right_x || r.bottom_left_x || r.bottom_right_x;
+            if (hasRadius) {
+                // Use a uniform radius (average of all corners).
+                int rx = (r.top_left_x + r.top_right_x + r.bottom_right_x + r.bottom_left_x) / 4;
+                int ry = (r.top_left_y + r.top_right_y + r.bottom_right_y + r.bottom_left_y) / 4;
+                m_painter->setRenderHint(QPainter::Antialiasing, true);
+                m_painter->setPen(Qt::NoPen);
+                m_painter->setBrush(toQColor(bg.color));
+                m_painter->drawRoundedRect(rect, rx, ry);
+                m_painter->setRenderHint(QPainter::Antialiasing, false);
+            } else {
+                m_painter->fillRect(rect, toQColor(bg.color));
+            }
         }
 
         // Draw background image if present.

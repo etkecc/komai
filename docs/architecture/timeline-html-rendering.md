@@ -87,10 +87,17 @@ Only `image://mxcImage/` URLs are accepted (security). The container's `load_ima
 
 The `compact` property (bound to `Komai.uiLayoutCompactMode` in QML) controls paragraph/block-element margins in the generated CSS. Normal mode uses `0.65em`, compact mode uses `0.15em`.
 
-### Known Limitations
+### Collapsible Long Messages
 
-- **Text selection**: Not yet implemented. litehtml does not provide built-in text selection; it would require tracking mouse drag state and walking the element tree to extract text within the selection range. Qt's reference `container_qpainter` (used in Qt Assistant) implements this and could serve as a reference.
-- **Emoji vertical alignment**: Emoji characters may appear slightly higher than surrounding text in list items due to differing font metrics between the emoji font and the text font. This is a font-level issue in litehtml's line layout.
+Messages whose `implicitHeight` exceeds 50% of the timeline viewport (min 150px, fallback 300px) are collapsed in `TextMessage.qml`. The viewport height is passed explicitly from the bubble style via a `Binding` on `timelineViewportHeight`.
+
+When collapsed, QML `height` is capped at `maxCollapsedHeight`. The `QQuickPaintedItem` paint buffer naturally clips the HTML content to the item bounds — no QML `clip` is needed, which allows child overlays (gradient fade, action bar) to extend beyond with negative anchor margins to reach the bubble container edges.
+
+A "Show more" / "Show less" action bar at the bottom toggles the `collapsed` state. When expanded, the item's `height` is `implicitHeight + barHeight` to place the bar below the content without overlapping.
+
+Reply previews are excluded from this mechanism (`!isReply`). Instead, the bubble style caps reply preview height at 25% of the timeline viewport with its own gradient fade; clicking the reply area navigates to the original message.
+
+`geometryChange()` calls `updateTextureSize()` on height changes (not just width) to keep the paint buffer correctly sized after expanding.
 
 ## Code Highlighting: What Uses Which Library
 

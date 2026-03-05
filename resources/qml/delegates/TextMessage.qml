@@ -105,11 +105,12 @@ LitehtmlItem {
         }
     }
 
-    // "Show more" action bar (styled like TimelineFloatingActionBarBackground)
+    // "Show more" action bar (styled like room header toolbar buttons)
     AbstractButton {
         id: showMoreBar
 
-        readonly property color barColor: Qt.rgba(Qt.darker(palette.base, 2.1).r, Qt.darker(palette.base, 2.1).g, Qt.darker(palette.base, 2.1).b, 0.88)
+        readonly property bool active: hovered || pressed
+        readonly property color foreground: active ? palette.brightText : palette.buttonText
         readonly property int iconSize: 12
 
         anchors.left: parent.left
@@ -120,19 +121,17 @@ LitehtmlItem {
         anchors.bottomMargin: -litehtmlRoot.collapseOverflowV
         visible: litehtmlRoot.collapsible && litehtmlRoot.collapsed
         hoverEnabled: true
-        padding: Komai.paddingSmall
+        leftPadding: Komai.paddingSmall
+        rightPadding: Komai.paddingSmall
+        topPadding: Komai.paddingMedium
+        bottomPadding: Komai.paddingMedium
         z: 1
 
-        background: Item {
-            clip: true
-
-            // Full-radius rectangle shifted up so only bottom corners are visible.
-            Rectangle {
-                anchors.fill: parent
-                anchors.topMargin: -radius
-                radius: Komai.paddingMedium
-                color: showMoreBar.hovered || showMoreBar.pressed ? Qt.lighter(showMoreBar.barColor, 1.3) : showMoreBar.barColor
-            }
+        background: Rectangle {
+            radius: Komai.paddingSmall
+            color: showMoreBar.active ? palette.dark : palette.alternateBase
+            border.color: Komai.theme.separator
+            border.width: 1
         }
 
         contentItem: Item {
@@ -145,7 +144,7 @@ LitehtmlItem {
                 spacing: Komai.paddingSmall
 
                 Image {
-                    source: "image://colorimage/:/icons/icons/ui/chevron-circle-down.svg?" + palette.brightText
+                    source: "image://colorimage/:/icons/icons/ui/chevron-circle-down.svg?" + showMoreBar.foreground
                     sourceSize.height: showMoreBar.iconSize
                     sourceSize.width: showMoreBar.iconSize
                     anchors.verticalCenter: parent.verticalCenter
@@ -153,7 +152,7 @@ LitehtmlItem {
 
                 Label {
                     text: qsTr("Show more")
-                    color: palette.brightText
+                    color: showMoreBar.foreground
                     font.bold: true
                     anchors.verticalCenter: parent.verticalCenter
                 }

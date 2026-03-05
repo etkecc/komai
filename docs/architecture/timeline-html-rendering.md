@@ -1,4 +1,4 @@
-# 🧵 Timeline HTML Rendering
+# Timeline HTML Rendering
 
 This page documents how formatted timeline message content is processed before it is rendered in QML.
 
@@ -19,14 +19,78 @@ For the `FormattedBody` role in `TimelineModel`:
 6. Apply formatted code highlighting via `timeline::highlightFormattedCodeBlocks(...)` if enabled.
 7. Run `utils::linkifyMessage(...)`.
 8. Run `utils::replaceEmoji(...)`.
-9. Render as Qt RichText in QML (`TextEdit.RichText` in `resources/qml/ui/MatrixText.qml`).
+9. Render via litehtml (`LitehtmlItem` QQuickPaintedItem) in QML for timeline message delegates (`TextMessage.qml`, `NoticeMessage.qml`). Blockquotes, tables, and other CSS-styled elements are handled natively by litehtml. Non-timeline uses (dialogs, room headers, login pages) continue to use Qt RichText via `MatrixText.qml`.
 
 Primary callsites:
 
 - `src/timeline/TimelineModel.cpp`
 - `src/Utils.cpp` (`escapeBlacklistedHtml`, `linkifyMessage`)
 - `src/timeline/formattedmessage/HtmlProcessor.cpp` (implementation for sanitization/linkification)
-- `resources/qml/ui/MatrixText.qml`
+- `src/timeline/litehtml/LitehtmlItem.cpp` (timeline message rendering via litehtml)
+- `src/timeline/litehtml/LitehtmlContainer.cpp` (QPainter-based litehtml document_container)
+- `src/timeline/litehtml/LitehtmlStylesheet.cpp` (master CSS generation from theme palette)
+- `resources/qml/ui/MatrixText.qml` (still used for non-timeline rich text)
+
+## litehtml Rendering Architecture
+
+Timeline messages use [litehtml](https://github.com/litehtml/litehtml) v0.9 (BSD-3-Clause), a lightweight C++ HTML/CSS engine with no JavaScript, no network access, and no plugins. It is fetched via CMake FetchContent and statically linked.
+
+### Component Overview
+
+```
+TextMessage.qml
+    └── LitehtmlItem (QQuickPaintedItem, QML_ELEMENT)
+            ├── LitehtmlContainer (litehtml::document_container)
+            │     ├── Font management (QFont + QFontMetrics)
+            │     ├── Drawing (QPainter: text, backgrounds, borders, list markers)
+            │     ├── Image loading (MxcImageProvider for mxc:// URLs only)
+            │     └── Link click/hover handling
+            └── LitehtmlStylesheet (generates user CSS from QPalette + settings)
+```
+
+### CSS Cascade
+
+litehtml's `document::createFromString()` takes two CSS parameters:
+
+- **master_css** (3rd param): litehtml's built-in user-agent stylesheet defining block/inline display, default margins for `<p>`, `<body>`, etc. We pass `litehtml::master_css` (the library constant).
+- **user_css** (4th param): our custom stylesheet from `generateMasterStylesheet()`, which overrides specific styles (body margin, link colors, blockquote borders, etc.).
+
+The user CSS has higher priority than the master CSS in litehtml's cascade.
+
+### Sizing Lifecycle
+
+1. `setHtml()` creates a `litehtml::document` via `createFromString()`.
+2. `relayout()` skips if `width() < 1` (no real width assigned yet).
+3. `EventDelegateChooser::updatePolish()` sets the delegate width → `geometryChange()` fires.
+4. `relayout()` runs: `document::render(width)` → `setImplicitWidth(content_width)` / `setImplicitHeight(doc_height)`.
+5. `EventDelegateChooser` reads `implicitWidth` and constrains the final width.
+6. On subsequent width changes, `geometryChange()` triggers re-layout.
+
+### Link Hover Detection
+
+litehtml's `set_cursor("pointer")` callback indicates the cursor is over a link but does not provide the URL. To obtain the URL during hover:
+
+1. `hoverMoveEvent` calls `on_mouse_over()` which triggers `set_cursor`.
+2. If cursor is "pointer", the container enters "hover mode" and a simulated `on_lbutton_down` + `on_lbutton_up` is issued at the same position.
+3. In hover mode, `on_anchor_click` captures the URL instead of emitting `linkClicked`.
+4. The URL is exposed via the `hoveredLink` property for QML ToolTip binding.
+
+### Image Loading
+
+Only `image://mxcImage/` URLs are accepted (security). The container's `load_image()` calls `MxcImageProvider::download()`, caches the resulting `QImage`, and emits `imageLoaded` to trigger re-layout and repaint.
+
+### HiDPI Rendering
+
+`LitehtmlItem` sets `setAntialiasing(true)` and adjusts `setTextureSize()` based on the window's `devicePixelRatio()` so the painted content matches physical pixel resolution.
+
+### Compact Mode
+
+The `compact` property (bound to `Komai.uiLayoutCompactMode` in QML) controls paragraph/block-element margins in the generated CSS. Normal mode uses `0.65em`, compact mode uses `0.15em`.
+
+### Known Limitations
+
+- **Text selection**: Not yet implemented. litehtml does not provide built-in text selection; it would require tracking mouse drag state and walking the element tree to extract text within the selection range. Qt's reference `container_qpainter` (used in Qt Assistant) implements this and could serve as a reference.
+- **Emoji vertical alignment**: Emoji characters may appear slightly higher than surrounding text in list items due to differing font metrics between the emoji font and the text font. This is a font-level issue in litehtml's line layout.
 
 ## Code Highlighting: What Uses Which Library
 
@@ -83,6 +147,12 @@ For formatted-message HTML preparation:
 - `mx-reply` fallback blocks are stripped from formatted HTML.
 - Tag nesting depth is capped.
 - Linkification runs on HTML text segments only (not inside tag attributes or inside `<a>`, `<pre>`, `<code>` content).
+
+For litehtml rendering:
+
+- Only `image://mxcImage/` URLs are accepted by the container's `load_image()` — all other URL schemes are rejected.
+- No external CSS loading (`import_css` is a no-op).
+- No custom element creation (`create_element` returns nullptr).
 
 ## Settings
 

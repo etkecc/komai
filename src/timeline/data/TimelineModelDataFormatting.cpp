@@ -16,7 +16,6 @@
 #include "FormattedCodeBlockHighlighter.h"
 #include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "timeline/formattedmessage/HtmlProcessor.h"
 #include "ui/Theme.h"
 #include "utils/Utils.h"
 
@@ -92,17 +91,6 @@ TimelineModel::formattedBodyForEvent(const mtx::events::collections::TimelineEve
       formattedBody_,
       timelinePalette,
       UserSettings::instance()->timelineFormattedCodeSyntaxHighlighting());
-
-    const auto themeSlug  = UserSettings::instance()->uiThemeSlug();
-    const auto theme      = Theme(themeSlug);
-    const auto presColors = timeline::formattedmessage::PresentationColors{
-      timelinePalette.color(QPalette::AlternateBase).name(),
-      theme.error().name(),
-      theme.attention().name(),
-      theme.success().name(),
-    };
-    formattedBody_ =
-      timeline::formattedmessage::transformForPresentation(formattedBody_, presColors);
 
     return utils::replaceEmoji(utils::linkifyMessage(formattedBody_));
 }

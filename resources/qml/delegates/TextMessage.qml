@@ -3,11 +3,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components"
 import "../ui"
+import QtQuick.Controls
 import QtQuick.Window
 import cc.etke.komai
 
-MatrixText {
+LitehtmlItem {
+    id: litehtmlRoot
     required property string body
     required property int isOnlyEmoji
     property bool isReply: EventDelegateChooser.isReply
@@ -23,44 +26,40 @@ MatrixText {
     readonly property int enlargedEmojiCapPixelSize: Math.max(1, Math.round(timelineAvatarSize * 0.9))
     readonly property real enlargedEmojiCapPointSize: enlargedEmojiCapPixelSize / pixelsPerPoint
     readonly property real enlargedEmojiPointSize: Math.min(Settings.uiFontSizePt * 3, enlargedEmojiCapPointSize)
-    readonly property int emojiBottomTrim: emojiOnlyMessage ? Math.min(18, Math.round(font.pixelSize * 0.32)) : 0
 
-    property string copyText: selectedText ? getText(selectionStart, selectionEnd) : body
-    property int metadataWidth: 100
-    property bool fitsMetadata: false //positionAt(width,height-4) == positionAt(width-metadataWidth-10, height-4)
+    property string copyText: selectedText.length > 0 ? selectedText : body
 
-    // table border-collapse doesn't seem to work
-    text: `
-    <style type="text/css">
-    code { background-color: ` + palette.alternateBase + `; white-space: pre-wrap; }
-    /* Keep block code readable even when plain style right-aligns own messages. */
-    pre {
-        background-color: ` + palette.alternateBase + `;
-        white-space: pre-wrap;
-        text-align: left;
-    }
-    pre code { text-align: left; }
-    table {
-        border-width: 1px;
-        border-collapse: collapse;
-        border-style: solid;
-        border-color: ` + palette.text + `;
-        background-color: ` + palette.alternateBase + `;
-    }
-    table th,
-    table td {
-        padding: ` + Math.ceil(fontMetrics.lineSpacing/2) + `px;
-    }
-    ` + (Settings.uiInputMode ? `span[data-mx-spoiler] {
-        color: transparent;
-        background-color: ` + palette.text + `;
-    }` : "") +  // TODO(Nico): Figure out how to support mobile
-    `</style>
-    ` + formatted
+    html: formatted
+    color: palette.text
+    font.pointSize: enlargedEmojiOnly ? enlargedEmojiPointSize : Settings.uiFontSizePt
+    compact: Komai.uiLayoutCompactMode
 
     enabled: !isReply
-    font.pointSize: enlargedEmojiOnly ? enlargedEmojiPointSize : Settings.uiFontSizePt
-    bottomPadding: -emojiBottomTrim
+
+    onLinkActivated: (link) => {
+        if (link && link.startsWith("mxc://")) {
+            const roomAvatarPreviewSuffix = "#room-avatar";
+            const isRoomAvatarPreview = link.endsWith(roomAvatarPreviewSuffix);
+            const cleanLink = isRoomAvatarPreview ? link.slice(0, -roomAvatarPreviewSuffix.length) : link;
+            TimelineManager.openImageOverlay(null, cleanLink, "", isRoomAvatarPreview ? 512 : 0, isRoomAvatarPreview ? 1.0 : 0);
+            return;
+        }
+        Komai.openLink(link);
+    }
+
+    TextMetrics {
+        id: linkMetrics
+        text: Komai.punyLink(hoveredLink)
+    }
+
+    KomaiToolTip {
+        text: linkMetrics.text
+        visible: hoveredLink.length > 0
+        textColor: palette.text
+        backgroundColor: palette.alternateBase
+        width: Math.min(linkMetrics.advanceWidth + leftPadding + rightPadding,
+                        (litehtmlRoot.Window.window ? litehtmlRoot.Window.window.width : 500) * 0.5)
+    }
 
     KomaiCursorShape {
         enabled: isReply

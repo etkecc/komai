@@ -445,6 +445,12 @@ set(SRC_FILES
     src/timeline/formattedcode/RawJsonFormatter.h
     src/timeline/formattedmessage/HtmlProcessor.cpp
     src/timeline/formattedmessage/HtmlProcessor.h
+    src/timeline/litehtml/LitehtmlContainer.cpp
+    src/timeline/litehtml/LitehtmlContainer.h
+    src/timeline/litehtml/LitehtmlItem.cpp
+    src/timeline/litehtml/LitehtmlItem.h
+    src/timeline/litehtml/LitehtmlStylesheet.cpp
+    src/timeline/litehtml/LitehtmlStylesheet.h
     src/timeline/composer/TimelineModelComposer.cpp
     src/timeline/actions/TimelineModelActions.cpp
     src/timeline/data/RoomlistModelData.cpp
@@ -987,6 +993,21 @@ else()
     find_package(MatrixClient 0.10.0 REQUIRED)
 endif()
 
+option(USE_BUNDLED_LITEHTML "Use the bundled version of litehtml." ON)
+
+if(USE_BUNDLED_LITEHTML)
+    include(FetchContent)
+    FetchContent_Declare(
+        litehtml
+        GIT_REPOSITORY https://github.com/litehtml/litehtml.git
+        GIT_TAG        v0.9
+    )
+    set(LITEHTML_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(litehtml)
+else()
+    find_package(litehtml REQUIRED)
+endif()
+
 if(VOIP)
     include(FindPkgConfig)
     pkg_check_modules(GSTREAMER REQUIRED IMPORTED_TARGET gstreamer-sdp-1.0>=1.18 gstreamer-webrtc-1.0>=1.18 gstreamer-gl-1.0)
@@ -1146,7 +1167,7 @@ else()
     endif()
 endif()
 
-target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/ui/ src/encryption/ src/voip/)
+target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/ui/ src/encryption/ src/voip/)
 
 if(USE_BUNDLED_CPPHTTPLIB)
     target_include_directories(komai PRIVATE third_party/cpp-httplib-0.5.12)
@@ -1523,7 +1544,8 @@ target_link_libraries(komai PRIVATE
     KDAB::kdsingleapplication
     nlohmann_json::nlohmann_json
     ${YAMLCPP_TARGET_NAME}
-    komai_db)
+    komai_db
+    litehtml)
 
 if(UNIX)
     # for wayland activation tokens

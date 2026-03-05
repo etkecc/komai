@@ -8,21 +8,10 @@
 
 namespace timeline::formattedmessage {
 
-struct PresentationColors
-{
-    QString blockquoteBackground;
-    QString error;
-    QString attention;
-    QString success;
-};
-
 QString
 sanitizeHtml(const QString &rawHtml);
 
 QString
 linkifyHtml(const QString &html);
-
-QString
-transformForPresentation(const QString &html, const PresentationColors &colors);
 
 } // namespace timeline::formattedmessage

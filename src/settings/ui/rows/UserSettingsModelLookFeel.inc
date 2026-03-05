@@ -97,7 +97,7 @@
       CORE_CONFIG_ID(UiLayoutContentMaxWidthPx, SettingKey::UiLayoutContentMaxWidthPx) },
     // CompactLayout
     { QT_TR_NOOP("Compact mode"),
-      QT_TR_NOOP("Affects navigation containers such as header bars and room/sidebar entries, including their icon sizes."),
+      QT_TR_NOOP("Affects navigation containers such as header bars and room/sidebar entries, timeline message spacing, and icon sizes."),
       SM::ToggleWithDescription, SM::TabLookFeel,
       getCoreBoolValue<settings::core::SettingId::UiLayoutCompactMode,
                        &UserSettings::uiLayoutCompactMode>,

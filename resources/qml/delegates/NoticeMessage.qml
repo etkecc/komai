@@ -16,7 +16,6 @@ TextMessage {
     font.italic: true
     color: palette.buttonText
     font.pointSize: isStateEvent? 0.95*Settings.uiFontSizePt : Settings.uiFontSizePt
-    horizontalAlignment: isStateEvent ? Text.AlignLeft : undefined
     leftPadding: isStateEvent ? (stateEventIconSize + Komai.paddingSmall) : 0
 
     FontMetrics {

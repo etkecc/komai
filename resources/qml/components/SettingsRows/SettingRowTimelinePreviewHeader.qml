@@ -33,6 +33,7 @@ Rectangle {
         anchors.leftMargin: Komai.paddingMedium
         anchors.rightMargin: Komai.paddingMedium
         color: palette.text
+        font.pointSize: Settings.uiFontSizePt
         font.bold: true
         text: root.text
     }

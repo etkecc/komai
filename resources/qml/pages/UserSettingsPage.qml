@@ -18,14 +18,51 @@ Rectangle {
     property int collapsePoint: 600
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
-    property int sidebarWidth: 200
+    property int sidebarWidth: {
+        // Read font heights to track font size changes in this binding
+        var _d1 = sidebarNavFontMetrics.height;
+        var _d2 = sidebarHeaderFontMetrics.height;
+
+        var maxWidth = sidebarHeaderFontMetrics.advanceWidth(qsTr("Back to main"));
+        for (var i = 0; i < navModel.length; i++)
+            maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
+        return Math.max(120, Math.ceil(Komai.paddingMedium + 24 + Komai.paddingMedium + maxWidth + Komai.paddingLarge));
+    }
     property int headerIconSize: Komai.barIconSize
     property int headerButtonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property var navModel: [
+        { text: qsTr("Look & Feel"), icon: "qrc:/icons/icons/ui/toggles.svg", tab: UserSettingsModel.TabLookFeel },
+        { text: qsTr("Sidebars"), icon: "qrc:/icons/icons/ui/sidebar.svg", tab: UserSettingsModel.TabSidebars },
+        { text: qsTr("Timeline"), icon: "qrc:/icons/icons/ui/speech-bubbles.svg", tab: UserSettingsModel.TabTimeline },
+        { text: qsTr("Composer"), icon: "qrc:/icons/icons/ui/edit.svg", tab: UserSettingsModel.TabComposer },
+        { text: qsTr("Notifications"), icon: "qrc:/icons/icons/ui/alert.svg", tab: UserSettingsModel.TabNotifications },
+        { text: qsTr("Calls"), icon: "qrc:/icons/icons/ui/place-call.svg", tab: UserSettingsModel.TabCalls },
+        { text: qsTr("Network"), icon: "qrc:/icons/icons/ui/world.svg", tab: UserSettingsModel.TabNetwork },
+        { text: qsTr("Privacy"), icon: "qrc:/icons/icons/ui/eye-hide.svg", tab: UserSettingsModel.TabPrivacy },
+        { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-regular.svg", tab: UserSettingsModel.TabEncryption },
+        { text: qsTr("Account"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabAccount, requiresSession: true },
+        { text: qsTr("Integrations"), icon: "qrc:/icons/icons/ui/integrations.svg", tab: UserSettingsModel.TabIntegrations },
+        { text: qsTr("Application Profiles"), icon: "qrc:/icons/icons/ui/people.svg", tab: UserSettingsModel.TabApplicationProfiles },
+        { text: qsTr("About"), icon: "qrc:/logos/komai.svg", tab: UserSettingsModel.TabAbout }
+    ]
     color: palette.window
 
     // Handle Escape key to go back
     focus: true
     Keys.onEscapePressed: mainWindow.pop()
+
+    // Font metrics for dynamic sidebar width measurement
+    FontMetrics {
+        id: sidebarNavFontMetrics
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt
+    }
+
+    FontMetrics {
+        id: sidebarHeaderFontMetrics
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt * 1.1
+    }
 
     // Sidebar + Content layout
     RowLayout {
@@ -49,8 +86,8 @@ Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Komai.navigationRowHeight
                     padding: Komai.paddingSmall
-                    leftPadding: Komai.paddingSmall
-                    rightPadding: Komai.paddingSmall
+                    leftPadding: Komai.paddingMedium
+                    rightPadding: Komai.paddingMedium
 
                     HoverHandler {
                         cursorShape: Qt.PointingHandCursor
@@ -97,21 +134,7 @@ Rectangle {
                     clip: true
                     boundsBehavior: Flickable.StopAtBounds
 
-                    model: [
-                        { text: qsTr("Look & Feel"), icon: "qrc:/icons/icons/ui/toggles.svg", tab: UserSettingsModel.TabLookFeel },
-                        { text: qsTr("Sidebars"), icon: "qrc:/icons/icons/ui/sidebar.svg", tab: UserSettingsModel.TabSidebars },
-                        { text: qsTr("Timeline"), icon: "qrc:/icons/icons/ui/speech-bubbles.svg", tab: UserSettingsModel.TabTimeline },
-                        { text: qsTr("Composer"), icon: "qrc:/icons/icons/ui/edit.svg", tab: UserSettingsModel.TabComposer },
-                        { text: qsTr("Notifications"), icon: "qrc:/icons/icons/ui/alert.svg", tab: UserSettingsModel.TabNotifications },
-                        { text: qsTr("Calls"), icon: "qrc:/icons/icons/ui/place-call.svg", tab: UserSettingsModel.TabCalls },
-                        { text: qsTr("Network"), icon: "qrc:/icons/icons/ui/world.svg", tab: UserSettingsModel.TabNetwork },
-                        { text: qsTr("Privacy"), icon: "qrc:/icons/icons/ui/eye-hide.svg", tab: UserSettingsModel.TabPrivacy },
-                        { text: qsTr("Encryption"), icon: "qrc:/icons/icons/ui/shield-regular.svg", tab: UserSettingsModel.TabEncryption },
-                        { text: qsTr("Account"), icon: "qrc:/icons/icons/ui/person.svg", tab: UserSettingsModel.TabAccount, requiresSession: true },
-                        { text: qsTr("Integrations"), icon: "qrc:/icons/icons/ui/integrations.svg", tab: UserSettingsModel.TabIntegrations },
-                        { text: qsTr("Application Profiles"), icon: "qrc:/icons/icons/ui/people.svg", tab: UserSettingsModel.TabApplicationProfiles },
-                        { text: qsTr("About"), icon: "qrc:/logos/komai.svg", tab: UserSettingsModel.TabAbout }
-                    ]
+                    model: userSettingsDialog.navModel
 
                     delegate: ItemDelegate {
                         id: navItem
@@ -131,8 +154,8 @@ Rectangle {
                         width: ListView.view.width
                         height: Komai.navigationRowHeight
                         padding: Komai.paddingSmall
-                        leftPadding: Komai.paddingSmall
-                        rightPadding: Komai.paddingSmall
+                        leftPadding: Komai.paddingMedium
+                        rightPadding: Komai.paddingMedium
 
                         background: Rectangle {
                             color: navItem.backgroundColor
@@ -189,6 +212,7 @@ Rectangle {
                                 Layout.alignment: Qt.AlignVCenter
                                 text: navItem.modelData.text
                                 color: navItem.enabled ? navItem.textColor : palette.buttonText
+                                font.pointSize: Settings.uiFontSizePt
                                 font.bold: navItem.isActive
                                 elide: Text.ElideRight
                             }

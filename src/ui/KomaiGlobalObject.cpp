@@ -101,7 +101,11 @@ Komai::Komai()
     connect(UserSettings::instance().get(),
             &UserSettings::uiLayoutCompactModeChanged,
             this,
-            &Komai::uiLayoutCompactModeChanged);
+            &Komai::layoutMetricsChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::uiFontSizePtChanged,
+            this,
+            &Komai::layoutMetricsChanged);
     connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListShowLastMessageTimeChanged,
             this,

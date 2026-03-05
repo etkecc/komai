@@ -36,15 +36,15 @@ class Komai : public QObject
     // Size of the Komai logo shown in the main timeline empty state
     // and the initial sync spinner.
     Q_PROPERTY(int timelineLogoSize READ timelineLogoSize CONSTANT)
-    Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode NOTIFY uiLayoutCompactModeChanged)
+    Q_PROPERTY(bool uiLayoutCompactMode READ uiLayoutCompactMode NOTIFY layoutMetricsChanged)
     Q_PROPERTY(
-      double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY uiLayoutCompactModeChanged)
+      double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY layoutMetricsChanged)
     // Font-scaled icon size for list entries (room list rows, community entries)
-    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY uiLayoutCompactModeChanged)
+    Q_PROPERTY(int listIconSize READ listIconSize NOTIFY layoutMetricsChanged)
     // Shared row height baseline used by navigation surfaces (room/community rows and bars).
-    Q_PROPERTY(int navigationRowHeight READ navigationRowHeight NOTIFY uiLayoutCompactModeChanged)
+    Q_PROPERTY(int navigationRowHeight READ navigationRowHeight NOTIFY layoutMetricsChanged)
     // Icon size for action bars (top bar, room list actions bar)
-    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY uiLayoutCompactModeChanged)
+    Q_PROPERTY(int barIconSize READ barIconSize NOTIFY layoutMetricsChanged)
     Q_PROPERTY(bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime
                  NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
@@ -128,7 +128,7 @@ signals:
     void colorsChanged();
     void profileChanged();
     void applicationProfilesChanged();
-    void uiLayoutCompactModeChanged();
+    void layoutMetricsChanged();
     void sidebarsRoomListShowLastMessageTimeChanged();
 
     void openLogoutDialog();

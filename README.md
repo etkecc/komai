@@ -50,6 +50,10 @@ If you're curious about the full list of changes from [nheko](https://nheko.im/n
 
 ### Building from source
 
+Komai can be built from the source code in the repository. To built it, you can use [`just`](https://github.com/casey/just) — a more modern command-runner alternative to `make`. The `just` utility executes shortcut commands (called as "recipes"). The targets of the recipes are defined in [`justfile`](./justfile).
+
+Here are the commands to build Komai with the utility:
+
 ```sh
 git clone https://github.com/etkecc/komai && cd komai
 just build

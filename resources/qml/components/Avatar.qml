@@ -81,7 +81,9 @@ AbstractButton {
             id: img
 
             anchors.fill: parent
-            asynchronous: true
+            // Bundled resource SVGs (e.g. ":/icons/icons/ui/world.svg") load
+            // synchronously so that colour changes on hover don't flicker.
+            asynchronous: !avatar.url.startsWith(':/')
             fillMode: avatar.crop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             source: if (avatar.url.startsWith('image://colorimage')) {
                 return avatar.url + "&radius=" + (Settings.uiAvatarsCircular ? 100 : 25) + ((avatar.crop) ? "" : "&scale");

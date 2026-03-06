@@ -11,7 +11,7 @@ import cc.etke.komai
 Popup {
     id: quickSwitcher
 
-    property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
+    property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int textMargin: Komai.paddingSmall
     property int roomAvatarSize: Komai.listIconSize
 

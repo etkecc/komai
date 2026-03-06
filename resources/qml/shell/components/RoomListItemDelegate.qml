@@ -15,7 +15,7 @@ ItemDelegate {
     required property bool compactMode
     required property int avatarSize
     required property bool collapsed
-    readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
+    readonly property real baseFontPixelSize: Komai.fontPixelSize
     required property var roomContextMenu
     required property real scrollbarReservedWidth
     required property string avatarUrl

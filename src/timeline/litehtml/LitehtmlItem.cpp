@@ -84,7 +84,11 @@ LitehtmlItem::setFont(const QFont &font)
     if (m_font == font)
         return;
     m_font = font;
-    m_container->setDefaultFont(font);
+    // QML font inheritance may leave the family empty; resolve to the
+    // application font so the litehtml master CSS always has a concrete name.
+    if (m_font.family().isEmpty())
+        m_font.setFamily(QGuiApplication::font().family());
+    m_container->setDefaultFont(m_font);
     emit fontChanged();
     m_masterCss = generateMasterCss();
     rebuildDocument();

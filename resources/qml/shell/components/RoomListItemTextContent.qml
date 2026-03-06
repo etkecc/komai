@@ -55,6 +55,8 @@ ColumnLayout {
             color: root.importantText
             elideWidth: parent.width - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : 0) - (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0) - ((inlinePreview.visible || inlineDraftPreview.visible) ? Komai.paddingSmall : 0)
             font.bold: root.hasUnreadMessages
+            font.pointSize: Settings.uiFontSizePt
+            font.family: Komai.fontFamily
             fullText: TimelineManager.htmlEscape(root.roomName)
             textFormat: Text.RichText
         }
@@ -68,7 +70,7 @@ ColumnLayout {
             anchors.rightMargin: (timestamp.visible || spaceNotificationBubble.visible) ? Komai.paddingSmall : 0
             color: root.unimportantText
             elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Komai.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0)))
-            font.pixelSize: root.baseFontPixelSize * 0.95
+            font.pointSize: Settings.uiFontSizePt * 0.95
             fullText: TimelineManager.htmlEscape(root.lastMessage)
             textFormat: Text.RichText
             visible: root.compactMode && titleRow.previewsEnabled && !root.hasDraft
@@ -91,7 +93,7 @@ ColumnLayout {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 color: root.draftIndicatorColor
-                font.pixelSize: root.baseFontPixelSize * 0.95
+                font.pointSize: Settings.uiFontSizePt * 0.95
                 text: qsTr("You:")
             }
             Image {
@@ -100,7 +102,7 @@ ColumnLayout {
                 anchors.left: inlineDraftPrefix.right
                 anchors.leftMargin: Komai.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
-                height: Math.round(root.baseFontPixelSize * 0.9)
+                height: Math.round(Komai.fontPixelSize * 0.9)
                 source: "image://colorimage/:/icons/icons/ui/edit.svg?" + root.draftIndicatorColor
                 sourceSize.height: height
                 sourceSize.width: width
@@ -115,7 +117,7 @@ ColumnLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 color: root.draftIndicatorColor
                 elideWidth: Math.max(0, parent.width - inlineDraftPrefix.implicitWidth - inlineDraftIcon.width - Komai.paddingSmall * 2)
-                font.pixelSize: root.baseFontPixelSize * 0.95
+                font.pointSize: Settings.uiFontSizePt * 0.95
                 fullText: TimelineManager.htmlEscape(root.draftPreview)
                 textFormat: Text.RichText
             }
@@ -126,7 +128,7 @@ ColumnLayout {
             anchors.baseline: titleText.baseline
             anchors.right: parent.right
             color: root.unimportantText
-            font.pixelSize: root.baseFontPixelSize * 0.95
+            font.pointSize: Settings.uiFontSizePt * 0.95
             text: root.time
             visible: !root.isInvite && !root.isSpace && Komai.sidebarsRoomListShowLastMessageTime
         }
@@ -156,7 +158,7 @@ ColumnLayout {
             anchors.left: parent.left
             color: root.unimportantText
             elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0)
-            font.pixelSize: root.baseFontPixelSize * 0.95
+            font.pointSize: Settings.uiFontSizePt * 0.95
             fullText: TimelineManager.htmlEscape(root.lastMessage)
             textFormat: Text.RichText
             visible: !root.hasDraft
@@ -175,7 +177,7 @@ ColumnLayout {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 color: root.draftIndicatorColor
-                font.pixelSize: root.baseFontPixelSize * 0.95
+                font.pointSize: Settings.uiFontSizePt * 0.95
                 text: qsTr("You:")
             }
             Image {
@@ -184,7 +186,7 @@ ColumnLayout {
                 anchors.left: subtextDraftPrefix.right
                 anchors.leftMargin: Komai.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
-                height: Math.round(root.baseFontPixelSize * 0.9)
+                height: Math.round(Komai.fontPixelSize * 0.9)
                 source: "image://colorimage/:/icons/icons/ui/edit.svg?" + root.draftIndicatorColor
                 sourceSize.height: height
                 sourceSize.width: width
@@ -199,7 +201,7 @@ ColumnLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 color: root.draftIndicatorColor
                 elideWidth: Math.max(0, parent.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0) - subtextDraftPrefix.implicitWidth - subtextDraftIcon.width - Komai.paddingSmall * 2)
-                font.pixelSize: root.baseFontPixelSize * 0.95
+                font.pointSize: Settings.uiFontSizePt * 0.95
                 fullText: TimelineManager.htmlEscape(root.draftPreview)
                 textFormat: Text.RichText
             }

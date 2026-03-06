@@ -20,7 +20,7 @@ Popup {
     readonly property var timeline: timelineSource
     readonly property var timelineView: timelineViewSource
     property bool showReplyPreview: true
-    property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
+    property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int textMargin: Komai.paddingSmall
     property string pendingRoomId: ""
     property string pendingRoomName: ""

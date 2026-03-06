@@ -45,6 +45,11 @@ class Komai : public QObject
     Q_PROPERTY(int navigationRowHeight READ navigationRowHeight NOTIFY layoutMetricsChanged)
     // Icon size for action bars (top bar, room list actions bar)
     Q_PROPERTY(int barIconSize READ barIconSize NOTIFY layoutMetricsChanged)
+    // Resolved pixel size of the application font (always positive, unlike
+    // Qt.application.font.pixelSize)
+    Q_PROPERTY(int fontPixelSize READ fontPixelSize NOTIFY layoutMetricsChanged)
+    // Resolved font family name (never empty, never "default")
+    Q_PROPERTY(QString fontFamily READ fontFamily NOTIFY layoutMetricsChanged)
     Q_PROPERTY(bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime
                  NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
@@ -76,6 +81,8 @@ public:
     int listIconSize() const;
     int navigationRowHeight() const;
     int barIconSize() const;
+    int fontPixelSize() const;
+    QString fontFamily() const;
     bool sidebarsRoomListShowLastMessageTime() const;
 
     QString taglineTemplate() const { return tr("A fine %1 chat app you can get to love"); }

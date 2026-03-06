@@ -37,7 +37,7 @@ Popup {
     property int activeSectionIndex: -1
     property int activeSectionFirstRow: -1
     property string activeSectionName: ""
-    property int textHeight: Math.round(Qt.application.font.pixelSize * 2.4)
+    property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
 
     function clamp(value, minValue, maxValue) {
         return Math.max(minValue, Math.min(value, maxValue));

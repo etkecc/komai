@@ -53,6 +53,7 @@ LitehtmlItem {
     html: formatted
     color: palette.text
     font.pointSize: enlargedEmojiOnly ? enlargedEmojiPointSize : Settings.uiFontSizePt
+    font.family: Komai.fontFamily
     compact: Komai.uiLayoutCompactMode
 
     enabled: !isReply

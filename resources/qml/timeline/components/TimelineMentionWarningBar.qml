@@ -18,7 +18,7 @@ Rectangle {
 
     property bool isRoomMention: mention === "@room"
     property bool isTopMostBar: !replyPopupVisible && mentionIndex === 0
-    property int headerTextHeight: Math.round(Qt.application.font.pixelSize * 2.4)
+    property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(mentionPopup.headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(mentionPopup.headerTextHeight * 0.45)
 

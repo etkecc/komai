@@ -16,7 +16,7 @@ Rectangle {
     property bool roundTopCorners: true
     property color threadColor: room ? TimelineManager.userColor(room.thread, palette.base) : palette.buttonText
     readonly property bool layoutVisible: room && (room.reply || room.thread || room.edit)
-    property int headerTextHeight: Math.round(Qt.application.font.pixelSize * 2.4)
+    property int headerTextHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int headerIconSize: Math.ceil(replyPopup.headerTextHeight * 0.5)
     property int headerFontSize: Math.ceil(replyPopup.headerTextHeight * 0.45)
 

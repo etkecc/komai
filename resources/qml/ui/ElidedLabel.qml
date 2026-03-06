@@ -24,6 +24,6 @@ Label {
         id: metrics
 
         elide: Text.ElideRight
-        font.pointSize: root.font.pointSize
+        font: root.font
     }
 }

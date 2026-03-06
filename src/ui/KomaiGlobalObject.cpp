@@ -7,6 +7,7 @@
 
 #include <QApplication>
 #include <QDesktopServices>
+#include <QFontInfo>
 #include <QFontMetricsF>
 #include <QGuiApplication>
 #include <QProcess>
@@ -107,6 +108,10 @@ Komai::Komai()
             this,
             &Komai::layoutMetricsChanged);
     connect(UserSettings::instance().get(),
+            &UserSettings::uiFontFamilyChanged,
+            this,
+            &Komai::layoutMetricsChanged);
+    connect(UserSettings::instance().get(),
             &UserSettings::sidebarsRoomListShowLastMessageTimeChanged,
             this,
             &Komai::sidebarsRoomListShowLastMessageTimeChanged);
@@ -173,6 +178,24 @@ Komai::sidebarAvatarMultiplier() const
 {
     // Spacious mode: 2.0x line spacing, Compact mode: 1.25x line spacing.
     return uiLayoutCompactMode() ? 1.25 : 2.0;
+}
+
+// Resolved pixel size of the application font.
+// Uses QFontInfo so the value is always positive even when the app font
+// was set via setPointSizeF() (which makes QFont::pixelSize() return -1).
+int
+Komai::fontPixelSize() const
+{
+    return QFontInfo(QGuiApplication::font()).pixelSize();
+}
+
+// Resolved font family name. Returns the concrete family from the application
+// font, which already reflects the user's uiFontFamily setting (or the system
+// default when the setting is empty / "default").
+QString
+Komai::fontFamily() const
+{
+    return QFontInfo(QGuiApplication::font()).family();
 }
 
 // Font-scaled icon size for list entries (room list rows, community entries).

@@ -14,7 +14,7 @@ Rectangle {
     required property bool hasLoudNotification
     required property color bubbleBackgroundColor
     required property color bubbleTextColor
-    readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
+    readonly property real baseFontPixelSize: Komai.fontPixelSize
     property bool mayBeVisible: true
     property alias font: notificationBubbleText.font
     baselineOffset: notificationBubbleText.baseline - bubbleRoot.top

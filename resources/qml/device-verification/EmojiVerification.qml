@@ -357,7 +357,7 @@ ColumnLayout {
 
             delegate: Rectangle {
                 color: "transparent"
-                implicitHeight: Qt.application.font.pixelSize * 8
+                implicitHeight: Komai.fontPixelSize * 8
                 implicitWidth: col.width
 
                 ColumnLayout {
@@ -372,7 +372,7 @@ ColumnLayout {
                         //height: font.pixelSize * 2
                         Layout.alignment: Qt.AlignHCenter
                         text: col.emoji.emoji
-                        font.pixelSize: Qt.application.font.pixelSize * 2
+                        font.pointSize: Settings.uiFontSizePt * 2
                         font.family: Settings.uiFontEmojiFamily
                         color: palette.text
                     }

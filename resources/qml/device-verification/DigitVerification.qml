@@ -6,6 +6,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.10
+import cc.etke.komai 1.0
 
 ColumnLayout {
     property string title: qsTr("Verification Code")
@@ -26,19 +27,19 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
 
         Label {
-            font.pixelSize: Qt.application.font.pixelSize * 2
+            font.pointSize: Settings.uiFontSizePt * 2
             text: flow.sasList[0]
             color: palette.text
         }
 
         Label {
-            font.pixelSize: Qt.application.font.pixelSize * 2
+            font.pointSize: Settings.uiFontSizePt * 2
             text: flow.sasList[1]
             color: palette.text
         }
 
         Label {
-            font.pixelSize: Qt.application.font.pixelSize * 2
+            font.pointSize: Settings.uiFontSizePt * 2
             text: flow.sasList[2]
             color: palette.text
         }

@@ -16,7 +16,7 @@ ItemDelegate {
     required property var communityContextMenu
     required property var model
     required property real scrollbarReservedWidth
-    readonly property real baseFontPixelSize: Qt.application.font.pixelSize > 0 ? Qt.application.font.pixelSize : 14
+    readonly property real baseFontPixelSize: Komai.fontPixelSize
     readonly property real lineSpacing: Math.max(1, Math.round(baseFontPixelSize * 1.2))
 
     property color backgroundColor: palette.window

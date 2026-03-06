@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <QPen>
+#include <QTextDocumentFragment>
 #include <QUrl>
 #include <QtMath>
 
@@ -457,10 +458,14 @@ LitehtmlContainer::on_anchor_click(const char *url, const litehtml::element::ptr
 {
     if (!url)
         return;
+    // litehtml passes the raw href attribute value which may still contain HTML entities.
+    // Decode all of them so that URLs work correctly (e.g. &amp; → &).
+    auto decoded = QTextDocumentFragment::fromHtml(QString::fromUtf8(url)).toPlainText();
+
     if (m_hoverMode)
-        m_lastHoveredUrl = QString::fromUtf8(url);
+        m_lastHoveredUrl = decoded;
     else
-        emit linkClicked(QString::fromUtf8(url));
+        emit linkClicked(decoded);
 }
 
 void

@@ -35,80 +35,30 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
             return mutedTagIds_.contains(data(index, CommunitiesModel::Roles::Id).toString());
     }
 
-    if (index.row() == kRowAllRooms) {
+    if (index.row() >= 0 && index.row() < kFixedRowCount) {
+        const auto &f = fixedFilters_[index.row()];
         switch (role) {
         case CommunitiesModel::Roles::AvatarUrl:
-            return QStringLiteral(":/icons/icons/ui/world.svg");
+            return f.icon;
         case CommunitiesModel::Roles::DisplayName:
-            return tr("All rooms");
+            return fixedFilterDisplayName(index.row());
         case CommunitiesModel::Roles::Tooltip:
-            return tr("Shows all rooms without filtering.");
+            return fixedFilterTooltip(index.row());
         case CommunitiesModel::Roles::Collapsed:
-            return false;
         case CommunitiesModel::Roles::Collapsible:
             return false;
         case CommunitiesModel::Roles::Hidden:
-            return false;
+            return f.id.isEmpty() ? false : hiddenTagIds_.contains(f.id);
         case CommunitiesModel::Roles::Parent:
-            return "";
+            return QString();
         case CommunitiesModel::Roles::Depth:
             return 0;
         case CommunitiesModel::Roles::Id:
-            return "";
+            return f.id;
         case CommunitiesModel::Roles::UnreadMessages:
-            return (int)globalUnreads.notification_count;
+            return static_cast<int>(f.unreads.notification_count);
         case CommunitiesModel::Roles::HasLoudNotification:
-            return globalUnreads.highlight_count > 0;
-        }
-    } else if (index.row() == kRowDirectChats) {
-        switch (role) {
-        case CommunitiesModel::Roles::AvatarUrl:
-            return QStringLiteral(":/icons/icons/ui/person.svg");
-        case CommunitiesModel::Roles::DisplayName:
-            return tr("Direct Chats");
-        case CommunitiesModel::Roles::Tooltip:
-            return tr("Show direct chats.");
-        case CommunitiesModel::Roles::Collapsed:
-            return false;
-        case CommunitiesModel::Roles::Collapsible:
-            return false;
-        case CommunitiesModel::Roles::Hidden:
-            return hiddenTagIds_.contains(QStringLiteral("dm"));
-        case CommunitiesModel::Roles::Parent:
-            return "";
-        case CommunitiesModel::Roles::Depth:
-            return 0;
-        case CommunitiesModel::Roles::Id:
-            return "dm";
-        case CommunitiesModel::Roles::UnreadMessages:
-            return (int)dmUnreads.notification_count;
-        case CommunitiesModel::Roles::HasLoudNotification:
-            return dmUnreads.highlight_count > 0;
-        }
-    } else if (index.row() == kRowBots) {
-        switch (role) {
-        case CommunitiesModel::Roles::AvatarUrl:
-            return QStringLiteral(":/icons/icons/ui/robot-sparkle.svg");
-        case CommunitiesModel::Roles::DisplayName:
-            return tr("Bots");
-        case CommunitiesModel::Roles::Tooltip:
-            return tr("Show direct chats with bots.");
-        case CommunitiesModel::Roles::Collapsed:
-            return false;
-        case CommunitiesModel::Roles::Collapsible:
-            return false;
-        case CommunitiesModel::Roles::Hidden:
-            return hiddenTagIds_.contains(QStringLiteral("bot"));
-        case CommunitiesModel::Roles::Parent:
-            return "";
-        case CommunitiesModel::Roles::Depth:
-            return 0;
-        case CommunitiesModel::Roles::Id:
-            return "bot";
-        case CommunitiesModel::Roles::UnreadMessages:
-            return (int)botUnreads.notification_count;
-        case CommunitiesModel::Roles::HasLoudNotification:
-            return botUnreads.highlight_count > 0;
+            return f.unreads.highlight_count > 0;
         }
     } else if (index.row() - kFixedRowCount < spaceOrder_.size()) {
         auto id = spaceOrder_.tree.at(index.row() - kFixedRowCount).id;
@@ -219,6 +169,36 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+QString
+CommunitiesModel::fixedFilterDisplayName(int row) const
+{
+    switch (row) {
+    case kRowAllRooms:
+        return tr("All rooms");
+    case kRowDirectChats:
+        return tr("Direct Chats");
+    case kRowBots:
+        return tr("Bots");
+    default:
+        return {};
+    }
+}
+
+QString
+CommunitiesModel::fixedFilterTooltip(int row) const
+{
+    switch (row) {
+    case kRowAllRooms:
+        return tr("Shows all rooms without filtering.");
+    case kRowDirectChats:
+        return tr("Show direct chats.");
+    case kRowBots:
+        return tr("Show direct chats with bots.");
+    default:
+        return {};
+    }
+}
+
 FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObject *parent)
   : QSortFilterProxyModel(parent)
 {
@@ -228,26 +208,14 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
 
     auto settings = UserSettings::instance();
     if (settings) {
-        connect(settings.get(),
-                &UserSettings::sidebarsCommunitiesFilterDirectChatsChanged,
-                this,
-                &FilteredCommunitiesModel::invalidateFilter);
-        connect(settings.get(),
-                &UserSettings::sidebarsCommunitiesFilterFavouritesChanged,
-                this,
-                &FilteredCommunitiesModel::invalidateFilter);
-        connect(settings.get(),
-                &UserSettings::sidebarsCommunitiesFilterLowPriorityChanged,
-                this,
-                &FilteredCommunitiesModel::invalidateFilter);
-        connect(settings.get(),
-                &UserSettings::sidebarsCommunitiesFilterBotsChanged,
-                this,
-                &FilteredCommunitiesModel::invalidateFilter);
-        connect(settings.get(),
-                &UserSettings::sidebarsCommunitiesFilterServerNoticesChanged,
-                this,
-                &FilteredCommunitiesModel::invalidateFilter);
+        for (auto sig : {
+               &UserSettings::sidebarsCommunitiesFilterDirectChatsChanged,
+               &UserSettings::sidebarsCommunitiesFilterFavouritesChanged,
+               &UserSettings::sidebarsCommunitiesFilterLowPriorityChanged,
+               &UserSettings::sidebarsCommunitiesFilterBotsChanged,
+               &UserSettings::sidebarsCommunitiesFilterServerNoticesChanged,
+             })
+            connect(settings.get(), sig, this, &FilteredCommunitiesModel::invalidateFilter);
     }
 }
 

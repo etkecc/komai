@@ -12,6 +12,7 @@
 #include <QString>
 #include <QStringList>
 
+#include <array>
 #include <unordered_map>
 
 #include <mtx/responses/sync.hpp>
@@ -85,6 +86,13 @@ class CommunitiesModel final : public QAbstractListModel
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
     Q_PROPERTY(QStringList tagsWithDefault READ tagsWithDefault NOTIFY tagsChanged)
     Q_PROPERTY(bool containsSubspaces READ containsSubspaces NOTIFY containsSubspacesChanged)
+
+    struct FixedFilterRow
+    {
+        QString id;
+        QString icon;
+        mtx::responses::UnreadNotifications unreads{};
+    };
 
 public:
     // Fixed row indices for the communities sidebar.
@@ -189,6 +197,8 @@ public:
         return kFixedRowCount + tags_.size() + spaceOrder_.size();
     }
     QVariant data(const QModelIndex &index, int role) const override;
+    QString fixedFilterDisplayName(int row) const;
+    QString fixedFilterTooltip(int row) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
     bool containsSubspaces() const
@@ -250,10 +260,12 @@ private:
 
     std::unordered_map<QString, mtx::responses::UnreadNotifications> roomNotificationCache;
     std::unordered_map<QString, mtx::responses::UnreadNotifications> tagNotificationCache;
-    mtx::responses::UnreadNotifications globalUnreads{};
-    mtx::responses::UnreadNotifications dmUnreads{};
-    mtx::responses::UnreadNotifications botUnreads{};
-    bool hasBotRooms_ = false;
+    std::array<FixedFilterRow, kFixedRowCount> fixedFilters_ = {{
+      {"", QStringLiteral(":/icons/icons/ui/world.svg"), {}},
+      {"dm", QStringLiteral(":/icons/icons/ui/person.svg"), {}},
+      {"bot", QStringLiteral(":/icons/icons/ui/robot-sparkle.svg"), {}},
+    }};
+    bool hasBotRooms_                                        = false;
 
     friend class FilteredCommunitiesModel;
 

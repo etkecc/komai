@@ -87,8 +87,8 @@ Development/testing override:
 
 ## What Goes Where
 
-- `config.yml`: theme, fonts, notifications, timeline behavior, network/db settings, `secrets.provider`, `network.presence.status_policy`
-- `state.yml`: window size, sidebar widths, hidden/collapsed UI state, recent reactions
+- `config.yml`: theme, fonts, notifications, timeline behavior, [communities sidebar filters](../communities-sidebar.md#-settings), network/db settings, `secrets.provider`, `network.presence.status_policy`
+- `state.yml`: window size, sidebar widths, [hidden/collapsed sidebar state](../communities-sidebar.md#-hiding-sections), recent reactions
 - `session.yml`: user id, homeserver, device id
 - `secrets.yml`: `secrets` map (only when `secrets.provider=file`)
 - Full example files: [settings/examples/profile/](examples/profile/)

@@ -15,6 +15,7 @@ Technical documentation for Komai internals.
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling
 - ⚡ [Performance Tracing](performance.md) -- room-switch perf markers, runtime knobs, and logging controls
+- 🏘️ [Communities Sidebar Filters](communities-sidebar-filters.md) -- filter architecture, tag IDs, room-level filtering, and how to add new filters
 
 ## Differences from nheko
 

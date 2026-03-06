@@ -63,10 +63,9 @@ CommunitiesModel::initializeSidebar()
     spaceOrder_.tree.clear();
     spaces_.clear();
     tagNotificationCache.clear();
-    globalUnreads.notification_count = {};
-    dmUnreads.notification_count     = {};
-    botUnreads.notification_count    = {};
-    hasBotRooms_                     = false;
+    for (auto &f : fixedFilters_)
+        f.unreads = {};
+    hasBotRooms_ = false;
 
     {
         auto e = cache::getAccountData(mtx::events::EventType::Direct);
@@ -111,19 +110,19 @@ CommunitiesModel::initializeSidebar()
         auto &e              = roomNotificationCache[it.key()];
         e.highlight_count    = it->highlight_count;
         e.notification_count = it->notification_count;
-        globalUnreads.notification_count += it->notification_count;
-        globalUnreads.highlight_count += it->highlight_count;
+        fixedFilters_[kRowAllRooms].unreads.notification_count += it->notification_count;
+        fixedFilters_[kRowAllRooms].unreads.highlight_count += it->highlight_count;
 
         if (std::find(begin(directMessages_), end(directMessages_), it.key().toStdString()) !=
             end(directMessages_)) {
-            dmUnreads.notification_count += it->notification_count;
-            dmUnreads.highlight_count += it->highlight_count;
+            fixedFilters_[kRowDirectChats].unreads.notification_count += it->notification_count;
+            fixedFilters_[kRowDirectChats].unreads.highlight_count += it->highlight_count;
         }
 
         if (DirectChatResolver::instance().isBotRoom(it.key())) {
             hasBotRooms_ = true;
-            botUnreads.notification_count += it->notification_count;
-            botUnreads.highlight_count += it->highlight_count;
+            fixedFilters_[kRowBots].unreads.notification_count += it->notification_count;
+            fixedFilters_[kRowBots].unreads.highlight_count += it->highlight_count;
         }
     }
 
@@ -226,7 +225,7 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
         };
         if (highlightCDiff || notificationCDiff) {
             // bool hidden = hiddenTagIds_.contains(roomId);
-            applyDiff(globalUnreads);
+            applyDiff(fixedFilters_[kRowAllRooms].unreads);
             emit dataChanged(index(kRowAllRooms),
                              index(kRowAllRooms),
                              {
@@ -235,7 +234,7 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
                              });
             if (std::find(begin(directMessages_), end(directMessages_), roomid) !=
                 end(directMessages_)) {
-                applyDiff(dmUnreads);
+                applyDiff(fixedFilters_[kRowDirectChats].unreads);
                 emit dataChanged(index(kRowDirectChats),
                                  index(kRowDirectChats),
                                  {
@@ -244,7 +243,7 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
                                  });
             }
             if (DirectChatResolver::instance().isBotRoom(QString::fromStdString(roomid))) {
-                applyDiff(botUnreads);
+                applyDiff(fixedFilters_[kRowBots].unreads);
                 emit dataChanged(index(kRowBots),
                                  index(kRowBots),
                                  {

@@ -36,6 +36,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Compact room list** with denser entry layout
 - **Polished top bar** -- selectable topic text, hidden empty topic, dedicated settings button
 - **Smarter direct chat detection** -- Komai combines [`m.direct`](https://spec.matrix.org/v1.17/client-server-api/#mdirect) account data with member-count heuristics to (hopefully in most cases) correctly identify direct chats, including 3-member rooms where one member is a bridge bot -- giving them the right name, avatar, and room-list placement
+- **Communities sidebar filters** -- configurable filter sections (Direct Chats, Bots, Favourites, Server Notices, Low Priority) in the communities sidebar, each with its own toggle in Settings. See [🏘️ Communities Sidebar](communities-sidebar.md)
 - **Avatars on the bubble side** -- received messages show the avatar on the left, yours on the right
 
 

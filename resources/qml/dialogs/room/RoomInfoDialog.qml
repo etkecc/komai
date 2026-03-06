@@ -20,6 +20,21 @@ Components.OverlayDialog {
     readonly property string normalizedInitialTab: normalizeTab(initialTab)
     property string currentTab: "settings"
     property bool deferInitialTabSwitch: normalizedInitialTab !== "settings"
+    property int sidebarWidth: {
+        // Read font height to track font size changes in this binding
+        var _d = sidebarNavFontMetrics.height;
+
+        var maxWidth = 0;
+        for (var i = 0; i < navModel.length; i++)
+            maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
+        return Math.max(180, Math.ceil(Komai.paddingSmall + 24 + Komai.paddingMedium + maxWidth + Komai.paddingSmall));
+    }
+    property var navModel: [
+        { text: qsTr("Settings"), icon: ":/icons/icons/ui/toggles.svg", tab: "settings" },
+        { text: qsTr("Members"), icon: ":/icons/icons/ui/people.svg", tab: "members" },
+        { text: qsTr("Notifications"), icon: ":/icons/icons/ui/alert.svg", tab: "notifications" },
+        { text: qsTr("About"), icon: ":/icons/icons/ui/options-circle.svg", tab: "about" }
+    ]
 
     function normalizeTab(tab) {
         switch (tab) {
@@ -67,6 +82,13 @@ Components.OverlayDialog {
         }
     }
 
+    FontMetrics {
+        id: sidebarNavFontMetrics
+
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt
+    }
+
     Item {
         Layout.fillWidth: true
         Layout.preferredHeight: roomInfoDialog.parent ? roomInfoDialog.parent.height * 0.85 : 600
@@ -81,7 +103,7 @@ Components.OverlayDialog {
             Rectangle {
                 id: sidebar
 
-                Layout.preferredWidth: 180
+                Layout.preferredWidth: roomInfoDialog.sidebarWidth
                 Layout.fillHeight: true
                 color: palette.alternateBase
 
@@ -98,12 +120,7 @@ Components.OverlayDialog {
                         boundsBehavior: Flickable.StopAtBounds
                         interactive: false
 
-                        model: [
-                            { text: qsTr("Settings"), icon: ":/icons/icons/ui/toggles.svg", tab: "settings" },
-                            { text: qsTr("Members"), icon: ":/icons/icons/ui/people.svg", tab: "members" },
-                            { text: qsTr("Notifications"), icon: ":/icons/icons/ui/alert.svg", tab: "notifications" },
-                            { text: qsTr("About"), icon: ":/icons/icons/ui/options-circle.svg", tab: "about" }
-                        ]
+                        model: roomInfoDialog.navModel
 
                         delegate: ItemDelegate {
                             id: navItem
@@ -176,6 +193,7 @@ Components.OverlayDialog {
                                     Layout.alignment: Qt.AlignVCenter
                                     text: navItem.modelData.text
                                     color: navItem.textColor
+                                    font.pointSize: Settings.uiFontSizePt
                                     font.bold: navItem.isActive
                                     elide: Text.ElideRight
                                 }

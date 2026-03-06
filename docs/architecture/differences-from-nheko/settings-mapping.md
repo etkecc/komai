@@ -45,6 +45,9 @@ Note:
 | Sidebars | ROOM LIST | Show scrollbars | `settings::core::SettingId::SidebarsRoomListScrollbarsEnabled` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
 | Sidebars | ROOM LIST | Sorting | `settings::core::SettingId::SidebarsRoomListSort` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `settings::core::SettingId::SidebarsCommunitiesVisible` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
+| Sidebars | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::SidebarsCommunitiesFilterDirectChats` | `-` | `sidebars.communities.filters.direct_chats` | config.yml | yes |
+| Sidebars | COMMUNITIES SIDEBAR | Show Favourites filter | `settings::core::SettingId::SidebarsCommunitiesFilterFavourites` | `-` | `sidebars.communities.filters.favourites` | config.yml | yes |
+| Sidebars | COMMUNITIES SIDEBAR | Show Low Priority filter | `settings::core::SettingId::SidebarsCommunitiesFilterLowPriority` | `-` | `sidebars.communities.filters.low_priority` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Minimize to tray | `settings::core::SettingId::IntegrationsSystemTrayEnabled` | `tray` | `integrations.system_tray.enabled` | config.yml | yes |
 | Integrations | SYSTEM TRAY | Start in tray | `settings::core::SettingId::IntegrationsSystemTrayAutostart` | `start_in_tray` | `integrations.system_tray.autostart` | config.yml | yes |
 | Integrations | D-BUS | D-Bus access | `settings::core::SettingId::IntegrationsDbusApiAccess` | `-` | `integrations.dbus.access` | config.yml | yes |

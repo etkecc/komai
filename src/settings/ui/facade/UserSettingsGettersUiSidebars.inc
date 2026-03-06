@@ -29,6 +29,36 @@ UserSettings::sidebarsRoomListShowCommunityCounts() const
 }
 
 bool
+UserSettings::sidebarsCommunitiesFilterDirectChats() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::SidebarsCommunitiesFilterDirectChats);
+        value.has_value())
+        return *value;
+    return sidebarsCommunitiesFilterDirectChats_;
+}
+
+bool
+UserSettings::sidebarsCommunitiesFilterFavourites() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::SidebarsCommunitiesFilterFavourites);
+        value.has_value())
+        return *value;
+    return sidebarsCommunitiesFilterFavourites_;
+}
+
+bool
+UserSettings::sidebarsCommunitiesFilterLowPriority() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::SidebarsCommunitiesFilterLowPriority);
+        value.has_value())
+        return *value;
+    return sidebarsCommunitiesFilterLowPriority_;
+}
+
+bool
 UserSettings::sidebarsRoomListShowLastMessageTime() const
 {
     if (const auto value =

@@ -55,6 +55,15 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool sidebarsCommunitiesVisible READ sidebarsCommunitiesVisible WRITE
                  setSidebarsCommunitiesVisible NOTIFY sidebarsCommunitiesVisibleChanged)
     Q_PROPERTY(
+      bool sidebarsCommunitiesFilterDirectChats READ sidebarsCommunitiesFilterDirectChats WRITE
+        setSidebarsCommunitiesFilterDirectChats NOTIFY sidebarsCommunitiesFilterDirectChatsChanged)
+    Q_PROPERTY(
+      bool sidebarsCommunitiesFilterFavourites READ sidebarsCommunitiesFilterFavourites WRITE
+        setSidebarsCommunitiesFilterFavourites NOTIFY sidebarsCommunitiesFilterFavouritesChanged)
+    Q_PROPERTY(
+      bool sidebarsCommunitiesFilterLowPriority READ sidebarsCommunitiesFilterLowPriority WRITE
+        setSidebarsCommunitiesFilterLowPriority NOTIFY sidebarsCommunitiesFilterLowPriorityChanged)
+    Q_PROPERTY(
       bool sidebarsRoomListScrollbarsEnabled READ sidebarsRoomListScrollbarsEnabled WRITE
         setSidebarsRoomListScrollbarsEnabled NOTIFY sidebarsRoomListScrollbarsEnabledChanged)
     Q_PROPERTY(
@@ -412,6 +421,9 @@ public:
     void setUiFontFamily(QString family);
     void setUiFontEmojiFamily(QString family);
     void setSidebarsCommunitiesVisible(bool state);
+    void setSidebarsCommunitiesFilterDirectChats(bool state);
+    void setSidebarsCommunitiesFilterFavourites(bool state);
+    void setSidebarsCommunitiesFilterLowPriority(bool state);
     void setSidebarsRoomListScrollbarsEnabled(bool state);
     void setComposerInputMarkdownToHtmlEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
@@ -536,6 +548,9 @@ public:
 
 signals:
     void sidebarsCommunitiesVisibleChanged(bool state);
+    void sidebarsCommunitiesFilterDirectChatsChanged(bool state);
+    void sidebarsCommunitiesFilterFavouritesChanged(bool state);
+    void sidebarsCommunitiesFilterLowPriorityChanged(bool state);
     void sidebarsRoomListScrollbarsEnabledChanged(bool state);
     void sidebarsRoomListSortChanged(RoomSortOrder order);
     void sidebarsRoomListUnreadDetectionPolicyChanged(UnreadDetectionPolicy policy);

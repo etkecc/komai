@@ -35,6 +35,10 @@ sidebars:
     sort: unread_first_recent
   communities:
     visible: true
+    filters:
+      direct_chats: true
+      favourites: true
+      low_priority: true
 
 timeline:
   messages:

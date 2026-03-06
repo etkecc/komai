@@ -189,6 +189,18 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
                         nullptr,
                         SM::TabSidebars, sidebarsCommunitiesVisible, setSidebarsCommunitiesVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
+    // CommunitiesFilterDirectChats
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Direct Chats filter",
+                        nullptr,
+                        SM::TabSidebars, sidebarsCommunitiesFilterDirectChats, setSidebarsCommunitiesFilterDirectChats, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterDirectChats, SettingKey::SidebarsCommunitiesFilterDirectChats),
+    // CommunitiesFilterFavourites
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Favourites filter",
+                        nullptr,
+                        SM::TabSidebars, sidebarsCommunitiesFilterFavourites, setSidebarsCommunitiesFilterFavourites, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterFavourites, SettingKey::SidebarsCommunitiesFilterFavourites),
+    // CommunitiesFilterLowPriority
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Low Priority filter",
+                        nullptr,
+                        SM::TabSidebars, sidebarsCommunitiesFilterLowPriority, setSidebarsCommunitiesFilterLowPriority, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterLowPriority, SettingKey::SidebarsCommunitiesFilterLowPriority),
     // IntegrationsSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

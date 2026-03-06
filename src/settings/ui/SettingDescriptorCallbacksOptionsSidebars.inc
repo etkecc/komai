@@ -3,6 +3,12 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+static bool
+sidebarsCommunitiesVisibleEnabled()
+{
+    return I->sidebarsCommunitiesVisible();
+}
+
 static QVariant
 sidebarsLastMessagePreviewValues()
 {

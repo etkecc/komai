@@ -5,6 +5,9 @@
     bool integrationsSystemTrayEnabled() const;
     bool integrationsSystemTrayAutostart() const;
     bool sidebarsCommunitiesVisible() const;
+    bool sidebarsCommunitiesFilterDirectChats() const;
+    bool sidebarsCommunitiesFilterFavourites() const;
+    bool sidebarsCommunitiesFilterLowPriority() const;
     bool sidebarsRoomListScrollbarsEnabled() const;
     bool uiAvatarsCircular() const;
     NotificationMessageContentPolicy notificationsMessageContentPolicy() const;

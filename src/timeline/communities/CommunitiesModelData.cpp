@@ -7,6 +7,8 @@
 
 #include <utility>
 
+#include "settings/ui/facade/UserSettingsPage.h"
+
 bool
 CommunitiesModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
@@ -198,6 +200,22 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
     setSourceModel(model);
     setDynamicSortFilter(true);
     sort(0);
+
+    auto settings = UserSettings::instance();
+    if (settings) {
+        connect(settings.get(),
+                &UserSettings::sidebarsCommunitiesFilterDirectChatsChanged,
+                this,
+                &FilteredCommunitiesModel::invalidateFilter);
+        connect(settings.get(),
+                &UserSettings::sidebarsCommunitiesFilterFavouritesChanged,
+                this,
+                &FilteredCommunitiesModel::invalidateFilter);
+        connect(settings.get(),
+                &UserSettings::sidebarsCommunitiesFilterLowPriorityChanged,
+                this,
+                &FilteredCommunitiesModel::invalidateFilter);
+    }
 }
 
 namespace {
@@ -261,6 +279,20 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
     CommunitiesModel *m = qobject_cast<CommunitiesModel *>(this->sourceModel());
     if (!m)
         return true;
+
+    // Check community filter settings for well-known filter rows
+    auto settings = UserSettings::instance();
+    if (settings) {
+        const auto tagId = m->data(m->index(sourceRow), CommunitiesModel::Roles::Id).toString();
+        if (tagId == QLatin1String("dm") && !settings->sidebarsCommunitiesFilterDirectChats())
+            return false;
+        if (tagId == QLatin1String("tag:m.favourite") &&
+            !settings->sidebarsCommunitiesFilterFavourites())
+            return false;
+        if (tagId == QLatin1String("tag:m.lowpriority") &&
+            !settings->sidebarsCommunitiesFilterLowPriority())
+            return false;
+    }
 
     if (sourceRow < 2 || sourceRow - 2 >= m->spaceOrder_.size())
         return true;

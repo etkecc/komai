@@ -5,3 +5,6 @@ X(SidebarsRoomListScrollbarsEnabled, settings.sidebarsRoomListScrollbarsEnabled(
 X(SidebarsRoomListSort, static_cast<int>(settings.sidebarsRoomListSort()))
 X(SidebarsRoomListUnreadDetectionPolicy, static_cast<int>(settings.sidebarsRoomListUnreadDetectionPolicy()))
 X(SidebarsCommunitiesVisible, settings.sidebarsCommunitiesVisible())
+X(SidebarsCommunitiesFilterDirectChats, settings.sidebarsCommunitiesFilterDirectChats())
+X(SidebarsCommunitiesFilterFavourites, settings.sidebarsCommunitiesFilterFavourites())
+X(SidebarsCommunitiesFilterLowPriority, settings.sidebarsCommunitiesFilterLowPriority())

@@ -59,6 +59,16 @@ UserSettings::sidebarsCommunitiesFilterBots() const
 }
 
 bool
+UserSettings::sidebarsCommunitiesFilterServerNotices() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::SidebarsCommunitiesFilterServerNotices);
+        value.has_value())
+        return *value;
+    return sidebarsCommunitiesFilterServerNotices_;
+}
+
+bool
 UserSettings::sidebarsCommunitiesFilterLowPriority() const
 {
     if (const auto value = coreStore_.valueAs<bool>(

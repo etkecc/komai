@@ -244,6 +244,10 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
                 &UserSettings::sidebarsCommunitiesFilterBotsChanged,
                 this,
                 &FilteredCommunitiesModel::invalidateFilter);
+        connect(settings.get(),
+                &UserSettings::sidebarsCommunitiesFilterServerNoticesChanged,
+                this,
+                &FilteredCommunitiesModel::invalidateFilter);
     }
 }
 
@@ -323,6 +327,9 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
             return false;
         if (tagId == QLatin1String("tag:m.favourite") &&
             !settings->sidebarsCommunitiesFilterFavourites())
+            return false;
+        if (tagId == QLatin1String("tag:m.server_notice") &&
+            !settings->sidebarsCommunitiesFilterServerNotices())
             return false;
         if (tagId == QLatin1String("tag:m.lowpriority") &&
             !settings->sidebarsCommunitiesFilterLowPriority())

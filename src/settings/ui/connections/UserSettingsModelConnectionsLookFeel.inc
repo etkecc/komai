@@ -22,13 +22,15 @@
     if (const int filterDC = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterDirectChats),
                  filterFav = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterFavourites),
                  filterBots = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterBots),
+                 filterSN = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterServerNotices),
                  filterLP = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterLowPriority);
-        filterDC >= 0 && filterFav >= 0 && filterBots >= 0 && filterLP >= 0) {
+        filterDC >= 0 && filterFav >= 0 && filterBots >= 0 && filterSN >= 0 && filterLP >= 0) {
         connect(settings, &UserSettings::sidebarsCommunitiesVisibleChanged, this,
-                [this, filterDC, filterFav, filterBots, filterLP]() {
+                [this, filterDC, filterFav, filterBots, filterSN, filterLP]() {
                     emit dataChanged(index(filterDC), index(filterDC), {Enabled});
                     emit dataChanged(index(filterFav), index(filterFav), {Enabled});
                     emit dataChanged(index(filterBots), index(filterBots), {Enabled});
+                    emit dataChanged(index(filterSN), index(filterSN), {Enabled});
                     emit dataChanged(index(filterLP), index(filterLP), {Enabled});
                 });
     }
@@ -38,6 +40,8 @@
       SidebarsCommunitiesFilterFavourites, sidebarsCommunitiesFilterFavouritesChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsCommunitiesFilterBots, sidebarsCommunitiesFilterBotsChanged, Value);
+    CONNECT_SETTING_ID(
+      SidebarsCommunitiesFilterServerNotices, sidebarsCommunitiesFilterServerNoticesChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsCommunitiesFilterLowPriority, sidebarsCommunitiesFilterLowPriorityChanged, Value);
     CONNECT_SETTING_ID(UiInputTouchSwipeGesturesEnabled, uiInputTouchSwipeGesturesEnabledChanged, Value);

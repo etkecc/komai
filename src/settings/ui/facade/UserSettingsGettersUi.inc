@@ -8,6 +8,7 @@
     bool sidebarsCommunitiesFilterDirectChats() const;
     bool sidebarsCommunitiesFilterFavourites() const;
     bool sidebarsCommunitiesFilterBots() const;
+    bool sidebarsCommunitiesFilterServerNotices() const;
     bool sidebarsCommunitiesFilterLowPriority() const;
     bool sidebarsRoomListScrollbarsEnabled() const;
     bool uiAvatarsCircular() const;

@@ -63,6 +63,10 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool sidebarsCommunitiesFilterBots READ sidebarsCommunitiesFilterBots WRITE
                  setSidebarsCommunitiesFilterBots NOTIFY sidebarsCommunitiesFilterBotsChanged)
     Q_PROPERTY(
+      bool sidebarsCommunitiesFilterServerNotices READ sidebarsCommunitiesFilterServerNotices WRITE
+        setSidebarsCommunitiesFilterServerNotices NOTIFY
+          sidebarsCommunitiesFilterServerNoticesChanged)
+    Q_PROPERTY(
       bool sidebarsCommunitiesFilterLowPriority READ sidebarsCommunitiesFilterLowPriority WRITE
         setSidebarsCommunitiesFilterLowPriority NOTIFY sidebarsCommunitiesFilterLowPriorityChanged)
     Q_PROPERTY(
@@ -426,6 +430,7 @@ public:
     void setSidebarsCommunitiesFilterDirectChats(bool state);
     void setSidebarsCommunitiesFilterFavourites(bool state);
     void setSidebarsCommunitiesFilterBots(bool state);
+    void setSidebarsCommunitiesFilterServerNotices(bool state);
     void setSidebarsCommunitiesFilterLowPriority(bool state);
     void setSidebarsRoomListScrollbarsEnabled(bool state);
     void setComposerInputMarkdownToHtmlEnabled(bool state);
@@ -554,6 +559,7 @@ signals:
     void sidebarsCommunitiesFilterDirectChatsChanged(bool state);
     void sidebarsCommunitiesFilterFavouritesChanged(bool state);
     void sidebarsCommunitiesFilterBotsChanged(bool state);
+    void sidebarsCommunitiesFilterServerNoticesChanged(bool state);
     void sidebarsCommunitiesFilterLowPriorityChanged(bool state);
     void sidebarsRoomListScrollbarsEnabledChanged(bool state);
     void sidebarsRoomListSortChanged(RoomSortOrder order);

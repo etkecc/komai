@@ -41,6 +41,7 @@ enum class SettingId
     SidebarsCommunitiesFilterDirectChats,
     SidebarsCommunitiesFilterFavourites,
     SidebarsCommunitiesFilterBots,
+    SidebarsCommunitiesFilterServerNotices,
     SidebarsCommunitiesFilterLowPriority,
     NetworkPresenceStatusPolicy,
     PrivacyMaintenanceExpireEvents,

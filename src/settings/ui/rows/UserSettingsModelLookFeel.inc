@@ -201,6 +201,10 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Bots filter",
                         nullptr,
                         SM::TabSidebars, sidebarsCommunitiesFilterBots, setSidebarsCommunitiesFilterBots, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterBots, SettingKey::SidebarsCommunitiesFilterBots),
+    // CommunitiesFilterServerNotices
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Server Notices filter",
+                        nullptr,
+                        SM::TabSidebars, sidebarsCommunitiesFilterServerNotices, setSidebarsCommunitiesFilterServerNotices, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterServerNotices, SettingKey::SidebarsCommunitiesFilterServerNotices),
     // CommunitiesFilterLowPriority
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Low Priority filter",
                         nullptr,

@@ -55,9 +55,6 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool sidebarsCommunitiesVisible READ sidebarsCommunitiesVisible WRITE
                  setSidebarsCommunitiesVisible NOTIFY sidebarsCommunitiesVisibleChanged)
     Q_PROPERTY(
-      bool sidebarsCommunitiesFilterDirectChats READ sidebarsCommunitiesFilterDirectChats WRITE
-        setSidebarsCommunitiesFilterDirectChats NOTIFY sidebarsCommunitiesFilterDirectChatsChanged)
-    Q_PROPERTY(
       bool sidebarsCommunitiesFilterFavourites READ sidebarsCommunitiesFilterFavourites WRITE
         setSidebarsCommunitiesFilterFavourites NOTIFY sidebarsCommunitiesFilterFavouritesChanged)
     Q_PROPERTY(bool sidebarsCommunitiesFilterPeople READ sidebarsCommunitiesFilterPeople WRITE
@@ -431,7 +428,6 @@ public:
     void setUiFontFamily(QString family);
     void setUiFontEmojiFamily(QString family);
     void setSidebarsCommunitiesVisible(bool state);
-    void setSidebarsCommunitiesFilterDirectChats(bool state);
     void setSidebarsCommunitiesFilterFavourites(bool state);
     void setSidebarsCommunitiesFilterPeople(bool state);
     void setSidebarsCommunitiesFilterBots(bool state);
@@ -562,7 +558,6 @@ public:
 
 signals:
     void sidebarsCommunitiesVisibleChanged(bool state);
-    void sidebarsCommunitiesFilterDirectChatsChanged(bool state);
     void sidebarsCommunitiesFilterFavouritesChanged(bool state);
     void sidebarsCommunitiesFilterPeopleChanged(bool state);
     void sidebarsCommunitiesFilterBotsChanged(bool state);

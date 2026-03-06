@@ -65,7 +65,6 @@ CommunitiesModel::initializeSidebar()
     tagNotificationCache.clear();
     for (auto &f : fixedFilters_)
         f.unreads = {};
-    hasDmRooms_     = false;
     hasPeopleRooms_ = false;
     hasBotRooms_    = false;
     hasGroupRooms_  = false;
@@ -122,10 +121,6 @@ CommunitiesModel::initializeSidebar()
         bool isBot = false;
 
         if (isDm) {
-            hasDmRooms_ = true;
-            fixedFilters_[kRowDirectChats].unreads.notification_count += it->notification_count;
-            fixedFilters_[kRowDirectChats].unreads.highlight_count += it->highlight_count;
-
             isBot = DirectChatResolver::instance().isBotRoom(it.key());
             if (isBot) {
                 hasBotRooms_ = true;
@@ -252,14 +247,6 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
             bool isDm = std::find(begin(directMessages_), end(directMessages_), roomid) !=
                         end(directMessages_);
             if (isDm) {
-                applyDiff(fixedFilters_[kRowDirectChats].unreads);
-                emit dataChanged(index(kRowDirectChats),
-                                 index(kRowDirectChats),
-                                 {
-                                   UnreadMessages,
-                                   HasLoudNotification,
-                                 });
-
                 if (DirectChatResolver::instance().isBotRoom(QString::fromStdString(roomid))) {
                     applyDiff(fixedFilters_[kRowBots].unreads);
                     emit dataChanged(index(kRowBots),

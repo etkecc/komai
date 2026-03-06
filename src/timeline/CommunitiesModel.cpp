@@ -120,8 +120,8 @@ CommunitiesModel::setCurrentTagId(const QString &tagId)
                 return;
             }
         }
-    } else if (tagId == QLatin1String("dm") || tagId == QLatin1String("people") ||
-               tagId == QLatin1String("bot") || tagId == QLatin1String("group")) {
+    } else if (tagId == QLatin1String("people") || tagId == QLatin1String("bot") ||
+               tagId == QLatin1String("group")) {
         this->currentTagId_ = tagId;
         UserSettings::instance()->setCurrentTagId(tagId);
         emit currentTagIdChanged(currentTagId_);
@@ -173,10 +173,12 @@ CommunitiesModel::toggleTagId(QString tagId)
         auto idx = spaceOrder_.indexOf(tagId.mid(6));
         if (idx != -1)
             emit dataChanged(index(idx + kFixedRowCount), index(idx + kFixedRowCount), {Hidden});
-    } else if (tagId == QLatin1String("dm")) {
-        emit dataChanged(index(kRowDirectChats), index(kRowDirectChats), {Hidden});
+    } else if (tagId == QLatin1String("people")) {
+        emit dataChanged(index(kRowPeople), index(kRowPeople), {Hidden});
     } else if (tagId == QLatin1String("bot")) {
         emit dataChanged(index(kRowBots), index(kRowBots), {Hidden});
+    } else if (tagId == QLatin1String("group")) {
+        emit dataChanged(index(kRowGroups), index(kRowGroups), {Hidden});
     }
 
     emit hiddenTagsChanged();
@@ -203,10 +205,12 @@ CommunitiesModel::toggleTagMute(QString tagId)
         auto idx = spaceOrder_.indexOf(tagId.mid(6));
         if (idx != -1)
             emit dataChanged(index(idx + kFixedRowCount), index(idx + kFixedRowCount));
-    } else if (tagId == QLatin1String("dm")) {
-        emit dataChanged(index(kRowDirectChats), index(kRowDirectChats));
+    } else if (tagId == QLatin1String("people")) {
+        emit dataChanged(index(kRowPeople), index(kRowPeople));
     } else if (tagId == QLatin1String("bot")) {
         emit dataChanged(index(kRowBots), index(kRowBots));
+    } else if (tagId == QLatin1String("group")) {
+        emit dataChanged(index(kRowGroups), index(kRowGroups));
     } else if (tagId == QLatin1String("global")) {
         emit dataChanged(index(kRowAllRooms), index(kRowAllRooms));
     }

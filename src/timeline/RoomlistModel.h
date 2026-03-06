@@ -314,9 +314,6 @@ public slots:
             filterType = FilterBy::Space;
             filterStr  = tagId.mid(6);
             roomlistmodel->fetchPreviews(filterStr);
-        } else if (tagId == QLatin1String("dm")) {
-            filterType = FilterBy::DirectChats;
-            filterStr.clear();
         } else if (tagId == QLatin1String("people")) {
             filterType = FilterBy::People;
             filterStr.clear();
@@ -353,7 +350,6 @@ private:
     QStringList rowParentSpaces(int sourceRow) const;
     bool hiddenByTags(int sourceRow, const QString &requiredTag = QString()) const;
     bool hiddenBySpaces(int sourceRow, const QString &requiredSpace = QString()) const;
-    bool hiddenByDms(int sourceRow) const;
     bool hiddenByPeople(int sourceRow) const;
     bool hiddenByBots(int sourceRow) const;
     bool hiddenByGroups(int sourceRow) const;
@@ -365,7 +361,6 @@ private:
     {
         Tag,
         Space,
-        DirectChats,
         People,
         Bots,
         Groups,
@@ -374,7 +369,6 @@ private:
     QString filterStr   = QLatin1String("");
     FilterBy filterType = FilterBy::Nothing;
     QStringList hiddenTags, hiddenSpaces;
-    bool hideDMs    = false;
     bool hidePeople = false;
     bool hideBots   = false;
     bool hideGroups = false;

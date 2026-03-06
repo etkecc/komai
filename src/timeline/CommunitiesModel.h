@@ -96,12 +96,11 @@ class CommunitiesModel final : public QAbstractListModel
 
 public:
     // Fixed row indices for the communities sidebar.
-    static constexpr int kRowAllRooms    = 0;
-    static constexpr int kRowDirectChats = 1;
-    static constexpr int kRowPeople      = 2;
-    static constexpr int kRowBots        = 3;
-    static constexpr int kRowGroups      = 4;
-    static constexpr int kFixedRowCount  = 5; // spaces and tags start after this
+    static constexpr int kRowAllRooms   = 0;
+    static constexpr int kRowPeople     = 1;
+    static constexpr int kRowBots       = 2;
+    static constexpr int kRowGroups     = 3;
+    static constexpr int kFixedRowCount = 4; // spaces and tags start after this
 
     enum Roles
     {
@@ -264,12 +263,10 @@ private:
     std::unordered_map<QString, mtx::responses::UnreadNotifications> tagNotificationCache;
     std::array<FixedFilterRow, kFixedRowCount> fixedFilters_ = {{
       {"", QStringLiteral(":/icons/icons/ui/world.svg"), {}},
-      {"dm", QStringLiteral(":/icons/icons/ui/person.svg"), {}},
       {"people", QStringLiteral(":/icons/icons/ui/person.svg"), {}},
       {"bot", QStringLiteral(":/icons/icons/ui/robot-sparkle.svg"), {}},
       {"group", QStringLiteral(":/icons/icons/ui/people.svg"), {}},
     }};
-    bool hasDmRooms_                                         = false;
     bool hasPeopleRooms_                                     = false;
     bool hasBotRooms_                                        = false;
     bool hasGroupRooms_                                      = false;

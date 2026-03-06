@@ -5,7 +5,6 @@
     bool integrationsSystemTrayEnabled() const;
     bool integrationsSystemTrayAutostart() const;
     bool sidebarsCommunitiesVisible() const;
-    bool sidebarsCommunitiesFilterDirectChats() const;
     bool sidebarsCommunitiesFilterFavourites() const;
     bool sidebarsCommunitiesFilterPeople() const;
     bool sidebarsCommunitiesFilterBots() const;

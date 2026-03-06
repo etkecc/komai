@@ -16,31 +16,21 @@ Shows every room you've joined, without any filtering. Always visible.
 
 Shows rooms you've marked as favourites. You can favourite a room from its context menu (right-click) or room settings.
 
-Uses the standard Matrix [`m.favourite`](https://spec.matrix.org/v1.17/client-server-api/#room-tagging) room tag -- favourites sync across all your Matrix clients. This filter only appears when you have at least one favourite room.
-
-### Direct Chats
-
-<img src="../../resources/icons/fluent/assets/Person/SVG/ic_fluent_person_24_regular.svg" width="24" height="24" alt="Direct Chats icon">
-
-Shows all your one-on-one conversations (direct messages), including chats with bots and bridge accounts.
-
-A room counts as a "direct chat" if it appears in your Matrix account's [direct messaging list](https://spec.matrix.org/v1.17/client-server-api/#direct-messaging). This filter only appears when you have at least one direct chat. Disabled by default -- most users prefer the People + Bots split.
+Uses the standard Matrix [`m.favourite`](https://spec.matrix.org/v1.17/client-server-api/#events-14) room tag -- favourites sync across all your Matrix clients. This filter only appears when you have at least one favourite room.
 
 ### People
 
 <img src="../../resources/icons/fluent/assets/Person/SVG/ic_fluent_person_24_regular.svg" width="24" height="24" alt="People icon">
 
-Shows direct chats with real people, excluding users detected as bots. This is like Direct Chats but filtered to only show conversations with humans.
+Shows direct chats with real people, excluding users detected as bots. This filter only appears when you have at least one non-bot direct chat.
 
-Bot detection uses heuristics: user ID starts with `@bot`, contains `bot:`, or display name contains "bridge bot". This filter only appears when you have at least one non-bot direct chat.
+Bot detection uses heuristics: user ID starts with `@bot`, contains `bot:`, or display name contains "bridge bot".
 
 ### Bots
 
 <img src="../../resources/icons/fluent/assets/Bot Sparkle/SVG/ic_fluent_bot_sparkle_24_regular.svg" width="24" height="24" alt="Bots icon">
 
 Shows direct chats where your conversation partner is a bot or bridge service account (e.g., a Telegram bridge bot). This filter only appears when you have at least one bot room.
-
-Bot rooms are a subset of Direct Chats -- they show up in both filters.
 
 ### Groups
 
@@ -52,13 +42,13 @@ Shows multi-participant rooms that are not direct chats. This filter only appear
 
 <img src="../../resources/icons/fluent/assets/Tag/SVG/ic_fluent_tag_32_regular.svg" width="24" height="24" alt="Server Notices icon">
 
-Shows rooms created by your homeserver administrator for important announcements and service messages. This filter only appears if your server uses the [Server Notices](https://spec.matrix.org/v1.17/client-server-api/#server-notices) feature.
+Shows rooms created by your homeserver administrator for important announcements and service messages. This filter only appears if your server uses the [Server Notices](https://spec.matrix.org/v1.17/client-server-api/#server-notices) feature. Server notice rooms are tagged with [`m.server_notice`](https://spec.matrix.org/v1.17/client-server-api/#events-14).
 
 ### Low Priority
 
 <img src="../../resources/icons/fluent/assets/Arrow Circle Down/SVG/ic_fluent_arrow_circle_down_32_regular.svg" width="24" height="24" alt="Low Priority icon">
 
-Shows rooms you've marked as low priority. Like favourites, this uses a standard Matrix [`m.lowpriority`](https://spec.matrix.org/v1.17/client-server-api/#room-tagging) room tag and syncs across clients. This filter only appears when you have at least one low-priority room.
+Shows rooms you've marked as low priority. Like favourites, this uses a standard Matrix [`m.lowpriority`](https://spec.matrix.org/v1.17/client-server-api/#events-14) room tag and syncs across clients. This filter only appears when you have at least one low-priority room.
 
 ## Settings
 
@@ -67,7 +57,6 @@ Each filter has a toggle in **Settings > Sidebars**:
 | Setting | What it controls | Default |
 |---|---|---|
 | Show Favourites filter | Favourites section | On |
-| Show Direct Chats filter | Direct Chats section | Off |
 | Show People filter | People section | On |
 | Show Bots filter | Bots section | On |
 | Show Groups filter | Groups section | On |

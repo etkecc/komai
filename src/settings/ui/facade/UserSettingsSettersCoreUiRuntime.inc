@@ -59,16 +59,6 @@ UserSettings::setSidebarsCommunitiesVisible(bool s)
     save();
 }
 void
-UserSettings::setSidebarsCommunitiesFilterDirectChats(bool s)
-{
-    if (sidebarsCommunitiesFilterDirectChats_ == s)
-        return;
-    sidebarsCommunitiesFilterDirectChats_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterDirectChats, s);
-    emit sidebarsCommunitiesFilterDirectChatsChanged(s);
-    save();
-}
-void
 UserSettings::setSidebarsCommunitiesFilterFavourites(bool s)
 {
     if (sidebarsCommunitiesFilterFavourites_ == s)

@@ -175,8 +175,6 @@ CommunitiesModel::fixedFilterDisplayName(int row) const
     switch (row) {
     case kRowAllRooms:
         return tr("All rooms");
-    case kRowDirectChats:
-        return tr("Direct Chats");
     case kRowPeople:
         return tr("People");
     case kRowBots:
@@ -194,8 +192,6 @@ CommunitiesModel::fixedFilterTooltip(int row) const
     switch (row) {
     case kRowAllRooms:
         return tr("Shows all rooms without filtering.");
-    case kRowDirectChats:
-        return tr("Show all direct chats, including bots.");
     case kRowPeople:
         return tr("Show direct chats with people, excluding bots.");
     case kRowBots:
@@ -217,7 +213,6 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
     auto settings = UserSettings::instance();
     if (settings) {
         for (auto sig : {
-               &UserSettings::sidebarsCommunitiesFilterDirectChatsChanged,
                &UserSettings::sidebarsCommunitiesFilterFavouritesChanged,
                &UserSettings::sidebarsCommunitiesFilterPeopleChanged,
                &UserSettings::sidebarsCommunitiesFilterLowPriorityChanged,
@@ -234,7 +229,6 @@ enum Categories
 {
     World,
     Favourites,
-    Direct,
     People,
     Bots,
     Groups,
@@ -249,8 +243,6 @@ tagIdToCat(const QString &tagId)
 {
     if (tagId.isEmpty())
         return World;
-    else if (tagId == QLatin1String("dm"))
-        return Direct;
     else if (tagId == QLatin1String("people"))
         return People;
     else if (tagId == QLatin1String("bot"))
@@ -305,9 +297,6 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
     auto settings = UserSettings::instance();
     if (settings) {
         const auto tagId = m->data(m->index(sourceRow), CommunitiesModel::Roles::Id).toString();
-        if (tagId == QLatin1String("dm") &&
-            (!settings->sidebarsCommunitiesFilterDirectChats() || !m->hasDmRooms_))
-            return false;
         if (tagId == QLatin1String("people") &&
             (!settings->sidebarsCommunitiesFilterPeople() || !m->hasPeopleRooms_))
             return false;

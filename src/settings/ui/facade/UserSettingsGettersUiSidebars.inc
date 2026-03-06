@@ -29,16 +29,6 @@ UserSettings::sidebarsRoomListShowCommunityCounts() const
 }
 
 bool
-UserSettings::sidebarsCommunitiesFilterDirectChats() const
-{
-    if (const auto value = coreStore_.valueAs<bool>(
-          settings::core::SettingId::SidebarsCommunitiesFilterDirectChats);
-        value.has_value())
-        return *value;
-    return sidebarsCommunitiesFilterDirectChats_;
-}
-
-bool
 UserSettings::sidebarsCommunitiesFilterFavourites() const
 {
     if (const auto value = coreStore_.valueAs<bool>(

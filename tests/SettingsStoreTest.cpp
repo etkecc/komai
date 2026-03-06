@@ -251,7 +251,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 77;
+    constexpr std::size_t expectedPersistedDefinitionCount = 76;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

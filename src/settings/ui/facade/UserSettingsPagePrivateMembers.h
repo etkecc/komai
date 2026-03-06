@@ -11,7 +11,6 @@ bool timelineFormattedCodeSyntaxHighlighting_;
 bool integrationsSystemTrayEnabled_;
 bool integrationsSystemTrayAutostart_;
 bool sidebarsCommunitiesVisible_;
-bool sidebarsCommunitiesFilterDirectChats_   = false;
 bool sidebarsCommunitiesFilterFavourites_    = true;
 bool sidebarsCommunitiesFilterPeople_        = true;
 bool sidebarsCommunitiesFilterBots_          = true;

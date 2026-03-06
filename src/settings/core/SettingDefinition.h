@@ -38,7 +38,6 @@ enum class SettingId
     SidebarsRoomListSort,
     SidebarsRoomListUnreadDetectionPolicy,
     SidebarsCommunitiesVisible,
-    SidebarsCommunitiesFilterDirectChats,
     SidebarsCommunitiesFilterFavourites,
     SidebarsCommunitiesFilterPeople,
     SidebarsCommunitiesFilterBots,

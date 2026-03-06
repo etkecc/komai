@@ -174,7 +174,6 @@ FilteredRoomlistModel::updateHiddenTagsAndSpaces()
 
     hiddenTags.clear();
     hiddenSpaces.clear();
-    hideDMs    = false;
     hidePeople = false;
     hideBots   = false;
     hideGroups = false;
@@ -185,8 +184,6 @@ FilteredRoomlistModel::updateHiddenTagsAndSpaces()
             hiddenTags.push_back(t.mid(4));
         else if (t.startsWith(u"space:"))
             hiddenSpaces.push_back(t.mid(6));
-        else if (t == QLatin1String("dm"))
-            hideDMs = true;
         else if (t == QLatin1String("people"))
             hidePeople = true;
         else if (t == QLatin1String("bot"))
@@ -281,12 +278,6 @@ FilteredRoomlistModel::hiddenBySpaces(int sourceRow, const QString &requiredSpac
 }
 
 bool
-FilteredRoomlistModel::hiddenByDms(int sourceRow) const
-{
-    return hideDMs && isDirectRow(sourceRow);
-}
-
-bool
 FilteredRoomlistModel::hiddenByPeople(int sourceRow) const
 {
     return hidePeople && isDirectRow(sourceRow) && !isBotRow(sourceRow);
@@ -310,16 +301,10 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
     if (filterType == FilterBy::Nothing) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByDms(sourceRow) ||
-            hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByPeople(sourceRow) ||
+            hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
             return false;
         return true;
-    } else if (filterType == FilterBy::DirectChats) {
-        if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
-            return false;
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
-            return false;
-        return isDirectRow(sourceRow);
     } else if (filterType == FilterBy::People) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
@@ -335,8 +320,7 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
     } else if (filterType == FilterBy::Groups) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByDms(sourceRow) ||
-            hiddenByBots(sourceRow))
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByBots(sourceRow))
             return false;
         return !isDirectRow(sourceRow);
     } else if (filterType == FilterBy::Tag) {
@@ -347,8 +331,7 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
         if (!tags.contains(filterStr))
             return false;
         if (hiddenByTags(sourceRow, filterStr) || hiddenBySpaces(sourceRow) ||
-            hiddenByDms(sourceRow) || hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) ||
-            hiddenByGroups(sourceRow))
+            hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
             return false;
         return true;
     } else if (filterType == FilterBy::Space) {
@@ -361,8 +344,7 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
             return false;
 
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow, filterStr) ||
-            hiddenByDms(sourceRow) || hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) ||
-            hiddenByGroups(sourceRow))
+            hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
             return false;
 
         if (isSpaceRow(sourceRow) && !parents.contains(filterStr))

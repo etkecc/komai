@@ -72,7 +72,7 @@ ItemDelegate {
     ]
 
     onClicked: Communities.setCurrentTagId(model.id)
-    onPressAndHold: communityContextMenu.show(communityItem, model.id, model.hidden, model.muted)
+    onPressAndHold: communityContextMenu?.show(communityItem, model.id, model.hidden, model.muted)
 
     Item {
         anchors.fill: parent
@@ -83,7 +83,7 @@ ItemDelegate {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
-            onSingleTapped: communityContextMenu.show(rth, model.id, model.hidden, model.muted)
+            onSingleTapped: communityContextMenu?.show(communityItem, model.id, model.hidden, model.muted)
         }
     }
     RowLayout {

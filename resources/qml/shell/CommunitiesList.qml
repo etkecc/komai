@@ -23,7 +23,7 @@ Page {
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
     Connections {
         function onHideMenu() {
-            communityContextMenu.close();
+            communitySidebarContextMenu.close();
         }
 
         target: MainWindow
@@ -59,12 +59,12 @@ Page {
         delegate: CommunitiesListItemDelegate {
             avatarSize: communitySidebar.avatarSize
             collapsed: communitySidebar.collapsed
-            communityContextMenu: communityContextMenu
+            communityContextMenu: communitySidebarContextMenu
             scrollbarReservedWidth: communitiesList.reservedScrollbarWidth
         }
 
         CommunitiesContextMenu {
-            id: communityContextMenu
+            id: communitySidebarContextMenu
         }
     }
 }

@@ -8,6 +8,7 @@
 #include <mtx/responses/common.hpp>
 #include <set>
 
+#include "DirectChatResolver.h"
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
@@ -64,6 +65,8 @@ CommunitiesModel::initializeSidebar()
     tagNotificationCache.clear();
     globalUnreads.notification_count = {};
     dmUnreads.notification_count     = {};
+    botUnreads.notification_count    = {};
+    hasBotRooms_                     = false;
 
     {
         auto e = cache::getAccountData(mtx::events::EventType::Direct);
@@ -115,6 +118,12 @@ CommunitiesModel::initializeSidebar()
             end(directMessages_)) {
             dmUnreads.notification_count += it->notification_count;
             dmUnreads.highlight_count += it->highlight_count;
+        }
+
+        if (DirectChatResolver::instance().isBotRoom(it.key())) {
+            hasBotRooms_ = true;
+            botUnreads.notification_count += it->notification_count;
+            botUnreads.highlight_count += it->highlight_count;
         }
     }
 
@@ -218,8 +227,8 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
         if (highlightCDiff || notificationCDiff) {
             // bool hidden = hiddenTagIds_.contains(roomId);
             applyDiff(globalUnreads);
-            emit dataChanged(index(0),
-                             index(0),
+            emit dataChanged(index(kRowAllRooms),
+                             index(kRowAllRooms),
                              {
                                UnreadMessages,
                                HasLoudNotification,
@@ -227,8 +236,17 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
             if (std::find(begin(directMessages_), end(directMessages_), roomid) !=
                 end(directMessages_)) {
                 applyDiff(dmUnreads);
-                emit dataChanged(index(1),
-                                 index(1),
+                emit dataChanged(index(kRowDirectChats),
+                                 index(kRowDirectChats),
+                                 {
+                                   UnreadMessages,
+                                   HasLoudNotification,
+                                 });
+            }
+            if (DirectChatResolver::instance().isBotRoom(QString::fromStdString(roomid))) {
+                applyDiff(botUnreads);
+                emit dataChanged(index(kRowBots),
+                                 index(kRowBots),
                                  {
                                    UnreadMessages,
                                    HasLoudNotification,
@@ -241,7 +259,7 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
             for (const auto &t : tags) {
                 auto tagId = QString::fromStdString(t);
                 applyDiff(tagNotificationCache[tagId]);
-                int idx = tags_.indexOf(tagId) + 2 + spaceOrder_.size();
+                int idx = tags_.indexOf(tagId) + kFixedRowCount + spaceOrder_.size();
                 emit dataChanged(index(idx),
                                  index(idx),
                                  {
@@ -261,8 +279,8 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
 
                     int idx = i;
                     do {
-                        emit dataChanged(index(idx + 2),
-                                         index(idx + 2),
+                        emit dataChanged(index(idx + kFixedRowCount),
+                                         index(idx + kFixedRowCount),
                                          {
                                            UnreadMessages,
                                            HasLoudNotification,

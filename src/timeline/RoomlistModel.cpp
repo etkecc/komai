@@ -118,6 +118,7 @@ RoomlistModel::roleNames() const
       {ParentSpaces, "parentSpaces"},
       {IsDirect, "isDirect"},
       {DirectChatOtherUserId, "directChatOtherUserId"},
+      {IsBotRoom, "isBotRoom"},
       {IsEncrypted, "isEncrypted"},
     };
 }

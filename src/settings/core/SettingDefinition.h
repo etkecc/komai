@@ -40,6 +40,7 @@ enum class SettingId
     SidebarsCommunitiesVisible,
     SidebarsCommunitiesFilterDirectChats,
     SidebarsCommunitiesFilterFavourites,
+    SidebarsCommunitiesFilterBots,
     SidebarsCommunitiesFilterLowPriority,
     NetworkPresenceStatusPolicy,
     PrivacyMaintenanceExpireEvents,

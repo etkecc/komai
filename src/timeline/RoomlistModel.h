@@ -88,6 +88,7 @@ public:
         ParentSpaces,
         IsDirect,
         DirectChatOtherUserId,
+        IsBotRoom,
         IsEncrypted,
     };
 
@@ -316,6 +317,9 @@ public slots:
         } else if (tagId.startsWith(QLatin1String("dm"))) {
             filterType = FilterBy::DirectChats;
             filterStr.clear();
+        } else if (tagId == QLatin1String("bot")) {
+            filterType = FilterBy::Bots;
+            filterStr.clear();
         } else {
             filterType = FilterBy::Nothing;
             filterStr.clear();
@@ -338,11 +342,13 @@ private:
     bool isPreviewRow(int sourceRow) const;
     bool isSpaceRow(int sourceRow) const;
     bool isDirectRow(int sourceRow) const;
+    bool isBotRow(int sourceRow) const;
     QStringList rowTags(int sourceRow) const;
     QStringList rowParentSpaces(int sourceRow) const;
     bool hiddenByTags(int sourceRow, const QString &requiredTag = QString()) const;
     bool hiddenBySpaces(int sourceRow, const QString &requiredSpace = QString()) const;
     bool hiddenByDms(int sourceRow) const;
+    bool hiddenByBots(int sourceRow) const;
     short int calculateImportance(const QModelIndex &idx) const;
     RoomlistModel *roomlistmodel;
     int sidebarsRoomListSort = 0; // UserSettings::RoomSortOrder enum value
@@ -352,12 +358,14 @@ private:
         Tag,
         Space,
         DirectChats,
+        Bots,
         Nothing,
     };
     QString filterStr   = QLatin1String("");
     FilterBy filterType = FilterBy::Nothing;
     QStringList hiddenTags, hiddenSpaces;
-    bool hideDMs = false;
+    bool hideDMs  = false;
+    bool hideBots = false;
 
     inline static FilteredRoomlistModel *instance_ = nullptr;
 };

@@ -148,6 +148,16 @@ DirectChatResolver::dmRoomDisplayName(const QString &roomId)
 }
 
 bool
+DirectChatResolver::isBotRoom(const QString &roomId)
+{
+    auto partner = directChatPartner(roomId);
+    if (partner.isEmpty())
+        return false;
+    auto dn = cache::displayName(roomId, partner);
+    return isLikelyBotUser(partner, dn);
+}
+
+bool
 DirectChatResolver::isLikelyBotUser(const QString &userId, const QString &displayName)
 {
     return utils::isLikelyBotUser(userId.toStdString(), displayName.toStdString());

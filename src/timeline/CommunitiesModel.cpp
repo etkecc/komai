@@ -120,7 +120,7 @@ CommunitiesModel::setCurrentTagId(const QString &tagId)
                 return;
             }
         }
-    } else if (tagId == QLatin1String("dm")) {
+    } else if (tagId == QLatin1String("dm") || tagId == QLatin1String("bot")) {
         this->currentTagId_ = tagId;
         UserSettings::instance()->setCurrentTagId(tagId);
         emit currentTagIdChanged(currentTagId_);
@@ -165,14 +165,17 @@ CommunitiesModel::toggleTagId(QString tagId)
     if (tagId.startsWith(QLatin1String("tag:"))) {
         auto idx = tags_.indexOf(tagId.mid(4));
         if (idx != -1)
-            emit dataChanged(
-              index(idx + 1 + spaceOrder_.size()), index(idx + 1 + spaceOrder_.size()), {Hidden});
+            emit dataChanged(index(idx + kFixedRowCount + spaceOrder_.size()),
+                             index(idx + kFixedRowCount + spaceOrder_.size()),
+                             {Hidden});
     } else if (tagId.startsWith(QLatin1String("space:"))) {
         auto idx = spaceOrder_.indexOf(tagId.mid(6));
         if (idx != -1)
-            emit dataChanged(index(idx + 1), index(idx + 1), {Hidden});
+            emit dataChanged(index(idx + kFixedRowCount), index(idx + kFixedRowCount), {Hidden});
     } else if (tagId == QLatin1String("dm")) {
-        emit dataChanged(index(1), index(1), {Hidden});
+        emit dataChanged(index(kRowDirectChats), index(kRowDirectChats), {Hidden});
+    } else if (tagId == QLatin1String("bot")) {
+        emit dataChanged(index(kRowBots), index(kRowBots), {Hidden});
     }
 
     emit hiddenTagsChanged();
@@ -193,16 +196,18 @@ CommunitiesModel::toggleTagMute(QString tagId)
     if (tagId.startsWith(QLatin1String("tag:"))) {
         auto idx = tags_.indexOf(tagId.mid(4));
         if (idx != -1)
-            emit dataChanged(index(idx + 2 + spaceOrder_.size()),
-                             index(idx + 2 + spaceOrder_.size()));
+            emit dataChanged(index(idx + kFixedRowCount + spaceOrder_.size()),
+                             index(idx + kFixedRowCount + spaceOrder_.size()));
     } else if (tagId.startsWith(QLatin1String("space:"))) {
         auto idx = spaceOrder_.indexOf(tagId.mid(6));
         if (idx != -1)
-            emit dataChanged(index(idx + 2), index(idx + 2));
+            emit dataChanged(index(idx + kFixedRowCount), index(idx + kFixedRowCount));
     } else if (tagId == QLatin1String("dm")) {
-        emit dataChanged(index(1), index(1));
+        emit dataChanged(index(kRowDirectChats), index(kRowDirectChats));
+    } else if (tagId == QLatin1String("bot")) {
+        emit dataChanged(index(kRowBots), index(kRowBots));
     } else if (tagId == QLatin1String("global")) {
-        emit dataChanged(index(0), index(0));
+        emit dataChanged(index(kRowAllRooms), index(kRowAllRooms));
     }
 }
 

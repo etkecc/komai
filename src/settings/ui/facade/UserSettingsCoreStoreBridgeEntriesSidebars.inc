@@ -7,4 +7,5 @@ X(SidebarsRoomListUnreadDetectionPolicy, static_cast<int>(settings.sidebarsRoomL
 X(SidebarsCommunitiesVisible, settings.sidebarsCommunitiesVisible())
 X(SidebarsCommunitiesFilterDirectChats, settings.sidebarsCommunitiesFilterDirectChats())
 X(SidebarsCommunitiesFilterFavourites, settings.sidebarsCommunitiesFilterFavourites())
+X(SidebarsCommunitiesFilterBots, settings.sidebarsCommunitiesFilterBots())
 X(SidebarsCommunitiesFilterLowPriority, settings.sidebarsCommunitiesFilterLowPriority())

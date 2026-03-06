@@ -197,6 +197,10 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Favourites filter",
                         nullptr,
                         SM::TabSidebars, sidebarsCommunitiesFilterFavourites, setSidebarsCommunitiesFilterFavourites, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterFavourites, SettingKey::SidebarsCommunitiesFilterFavourites),
+    // CommunitiesFilterBots
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Bots filter",
+                        nullptr,
+                        SM::TabSidebars, sidebarsCommunitiesFilterBots, setSidebarsCommunitiesFilterBots, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterBots, SettingKey::SidebarsCommunitiesFilterBots),
     // CommunitiesFilterLowPriority
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Low Priority filter",
                         nullptr,

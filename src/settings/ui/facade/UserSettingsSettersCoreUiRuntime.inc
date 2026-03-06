@@ -79,6 +79,16 @@ UserSettings::setSidebarsCommunitiesFilterFavourites(bool s)
     save();
 }
 void
+UserSettings::setSidebarsCommunitiesFilterBots(bool s)
+{
+    if (sidebarsCommunitiesFilterBots_ == s)
+        return;
+    sidebarsCommunitiesFilterBots_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterBots, s);
+    emit sidebarsCommunitiesFilterBotsChanged(s);
+    save();
+}
+void
 UserSettings::setSidebarsCommunitiesFilterLowPriority(bool s)
 {
     if (sidebarsCommunitiesFilterLowPriority_ == s)

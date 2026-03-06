@@ -87,6 +87,12 @@ class CommunitiesModel final : public QAbstractListModel
     Q_PROPERTY(bool containsSubspaces READ containsSubspaces NOTIFY containsSubspacesChanged)
 
 public:
+    // Fixed row indices for the communities sidebar.
+    static constexpr int kRowAllRooms    = 0;
+    static constexpr int kRowDirectChats = 1;
+    static constexpr int kRowBots        = 2;
+    static constexpr int kFixedRowCount  = 3; // spaces and tags start after this
+
     enum Roles
     {
         AvatarUrl = Qt::UserRole,
@@ -180,7 +186,7 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
         (void)parent;
-        return 2 + tags_.size() + spaceOrder_.size();
+        return kFixedRowCount + tags_.size() + spaceOrder_.size();
     }
     QVariant data(const QModelIndex &index, int role) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
@@ -246,6 +252,8 @@ private:
     std::unordered_map<QString, mtx::responses::UnreadNotifications> tagNotificationCache;
     mtx::responses::UnreadNotifications globalUnreads{};
     mtx::responses::UnreadNotifications dmUnreads{};
+    mtx::responses::UnreadNotifications botUnreads{};
+    bool hasBotRooms_ = false;
 
     friend class FilteredCommunitiesModel;
 

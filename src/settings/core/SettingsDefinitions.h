@@ -44,7 +44,7 @@ inline constexpr std::array<SettingId, 3> kNumericConstrainedConfigSettingIds{{
 #include "SettingsDefinitionsNumericConstrainedConfigSettingIds.inc"
 }};
 
-inline constexpr std::array<SettingDefinition, 73> kPersistedSettingDefinitions{{
+inline constexpr std::array<SettingDefinition, 74> kPersistedSettingDefinitions{{
 #include "SettingsDefinitionsPersistedCalls.inc"
 #include "SettingsDefinitionsPersistedComposer.inc"
 #include "SettingsDefinitionsPersistedEncryption.inc"

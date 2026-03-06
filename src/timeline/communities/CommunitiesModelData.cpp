@@ -14,11 +14,11 @@ CommunitiesModel::setData(const QModelIndex &index, const QVariant &value, int r
 {
     if (role != CommunitiesModel::Collapsed)
         return false;
-    else if (index.row() >= 2 || index.row() - 2 < spaceOrder_.size()) {
-        spaceOrder_.tree.at(index.row() - 2).collapsed = value.toBool();
+    else if (index.row() >= kFixedRowCount || index.row() - kFixedRowCount < spaceOrder_.size()) {
+        spaceOrder_.tree.at(index.row() - kFixedRowCount).collapsed = value.toBool();
 
-        const auto cindex = spaceOrder_.lastChild(index.row() - 2);
-        emit dataChanged(index, this->index(cindex + 2), {Collapsed, Qt::DisplayRole});
+        const auto cindex = spaceOrder_.lastChild(index.row() - kFixedRowCount);
+        emit dataChanged(index, this->index(cindex + kFixedRowCount), {Collapsed, Qt::DisplayRole});
         spaceOrder_.storeCollapsed();
         return true;
     } else
@@ -29,13 +29,13 @@ QVariant
 CommunitiesModel::data(const QModelIndex &index, int role) const
 {
     if (role == CommunitiesModel::Roles::Muted) {
-        if (index.row() == 0)
+        if (index.row() == kRowAllRooms)
             return mutedTagIds_.contains(QStringLiteral("global"));
         else
             return mutedTagIds_.contains(data(index, CommunitiesModel::Roles::Id).toString());
     }
 
-    if (index.row() == 0) {
+    if (index.row() == kRowAllRooms) {
         switch (role) {
         case CommunitiesModel::Roles::AvatarUrl:
             return QStringLiteral(":/icons/icons/ui/world.svg");
@@ -60,7 +60,7 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
         case CommunitiesModel::Roles::HasLoudNotification:
             return globalUnreads.highlight_count > 0;
         }
-    } else if (index.row() == 1) {
+    } else if (index.row() == kRowDirectChats) {
         switch (role) {
         case CommunitiesModel::Roles::AvatarUrl:
             return QStringLiteral(":/icons/icons/ui/person.svg");
@@ -85,8 +85,33 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
         case CommunitiesModel::Roles::HasLoudNotification:
             return dmUnreads.highlight_count > 0;
         }
-    } else if (index.row() - 2 < spaceOrder_.size()) {
-        auto id = spaceOrder_.tree.at(index.row() - 2).id;
+    } else if (index.row() == kRowBots) {
+        switch (role) {
+        case CommunitiesModel::Roles::AvatarUrl:
+            return QStringLiteral(":/icons/icons/ui/robot-sparkle.svg");
+        case CommunitiesModel::Roles::DisplayName:
+            return tr("Bots");
+        case CommunitiesModel::Roles::Tooltip:
+            return tr("Show direct chats with bots.");
+        case CommunitiesModel::Roles::Collapsed:
+            return false;
+        case CommunitiesModel::Roles::Collapsible:
+            return false;
+        case CommunitiesModel::Roles::Hidden:
+            return hiddenTagIds_.contains(QStringLiteral("bot"));
+        case CommunitiesModel::Roles::Parent:
+            return "";
+        case CommunitiesModel::Roles::Depth:
+            return 0;
+        case CommunitiesModel::Roles::Id:
+            return "bot";
+        case CommunitiesModel::Roles::UnreadMessages:
+            return (int)botUnreads.notification_count;
+        case CommunitiesModel::Roles::HasLoudNotification:
+            return botUnreads.highlight_count > 0;
+        }
+    } else if (index.row() - kFixedRowCount < spaceOrder_.size()) {
+        auto id = spaceOrder_.tree.at(index.row() - kFixedRowCount).id;
         switch (role) {
         case CommunitiesModel::Roles::AvatarUrl:
             return QString::fromStdString(spaces_.at(id).avatar_url);
@@ -94,41 +119,41 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
         case CommunitiesModel::Roles::Tooltip:
             return QString::fromStdString(spaces_.at(id).name);
         case CommunitiesModel::Roles::Collapsed:
-            return spaceOrder_.tree.at(index.row() - 2).collapsed;
+            return spaceOrder_.tree.at(index.row() - kFixedRowCount).collapsed;
         case CommunitiesModel::Roles::Collapsible: {
-            auto idx = index.row() - 2;
+            auto idx = index.row() - kFixedRowCount;
             return idx != spaceOrder_.lastChild(idx);
         }
         case CommunitiesModel::Roles::Hidden:
             return hiddenTagIds_.contains("space:" + id);
         case CommunitiesModel::Roles::Parent: {
-            if (auto p = spaceOrder_.parent(index.row() - 2); p >= 0)
+            if (auto p = spaceOrder_.parent(index.row() - kFixedRowCount); p >= 0)
                 return spaceOrder_.tree[p].id;
 
             return "";
         }
         case CommunitiesModel::Roles::Depth:
-            return spaceOrder_.tree.at(index.row() - 2).depth;
+            return spaceOrder_.tree.at(index.row() - kFixedRowCount).depth;
         case CommunitiesModel::Roles::Id:
             return "space:" + id;
         case CommunitiesModel::Roles::UnreadMessages: {
             int count = 0;
-            auto end  = spaceOrder_.lastChild(index.row() - 2);
-            for (int i = index.row() - 2; i <= end; i++)
+            auto end  = spaceOrder_.lastChild(index.row() - kFixedRowCount);
+            for (int i = index.row() - kFixedRowCount; i <= end; i++)
                 count +=
                   static_cast<int>(spaceOrder_.tree[i].notificationCounts.notification_count);
             return count;
         }
         case CommunitiesModel::Roles::HasLoudNotification: {
-            auto end = spaceOrder_.lastChild(index.row() - 2);
-            for (int i = index.row() - 2; i <= end; i++)
+            auto end = spaceOrder_.lastChild(index.row() - kFixedRowCount);
+            for (int i = index.row() - kFixedRowCount; i <= end; i++)
                 if (spaceOrder_.tree[i].notificationCounts.highlight_count > 0)
                     return true;
             return false;
         }
         }
-    } else if (index.row() - 2 < tags_.size() + spaceOrder_.size()) {
-        auto tag = tags_.at(index.row() - 2 - spaceOrder_.size());
+    } else if (index.row() - kFixedRowCount < tags_.size() + spaceOrder_.size()) {
+        auto tag = tags_.at(index.row() - kFixedRowCount - spaceOrder_.size());
         if (tag == QLatin1String("m.favourite")) {
             switch (role) {
             case CommunitiesModel::Roles::AvatarUrl:
@@ -215,6 +240,10 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
                 &UserSettings::sidebarsCommunitiesFilterLowPriorityChanged,
                 this,
                 &FilteredCommunitiesModel::invalidateFilter);
+        connect(settings.get(),
+                &UserSettings::sidebarsCommunitiesFilterBotsChanged,
+                this,
+                &FilteredCommunitiesModel::invalidateFilter);
     }
 }
 
@@ -224,6 +253,7 @@ enum Categories
     World,
     Direct,
     Favourites,
+    Bots,
     Server,
     LowPrio,
     Space,
@@ -237,6 +267,8 @@ tagIdToCat(const QString &tagId)
         return World;
     else if (tagId == QLatin1String("dm"))
         return Direct;
+    else if (tagId == QLatin1String("bot"))
+        return Bots;
     else if (tagId == QLatin1String("tag:m.favourite"))
         return Favourites;
     else if (tagId == QLatin1String("tag:m.server_notice"))
@@ -286,6 +318,9 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
         const auto tagId = m->data(m->index(sourceRow), CommunitiesModel::Roles::Id).toString();
         if (tagId == QLatin1String("dm") && !settings->sidebarsCommunitiesFilterDirectChats())
             return false;
+        if (tagId == QLatin1String("bot") &&
+            (!settings->sidebarsCommunitiesFilterBots() || !m->hasBotRooms_))
+            return false;
         if (tagId == QLatin1String("tag:m.favourite") &&
             !settings->sidebarsCommunitiesFilterFavourites())
             return false;
@@ -294,10 +329,11 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
             return false;
     }
 
-    if (sourceRow < 2 || sourceRow - 2 >= m->spaceOrder_.size())
+    if (sourceRow < CommunitiesModel::kFixedRowCount ||
+        sourceRow - CommunitiesModel::kFixedRowCount >= m->spaceOrder_.size())
         return true;
 
-    auto idx = sourceRow - 2;
+    auto idx = sourceRow - CommunitiesModel::kFixedRowCount;
 
     while (idx >= 0 && m->spaceOrder_.tree[idx].depth > 0) {
         idx = m->spaceOrder_.parent(idx);

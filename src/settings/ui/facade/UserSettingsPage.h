@@ -60,6 +60,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool sidebarsCommunitiesFilterFavourites READ sidebarsCommunitiesFilterFavourites WRITE
         setSidebarsCommunitiesFilterFavourites NOTIFY sidebarsCommunitiesFilterFavouritesChanged)
+    Q_PROPERTY(bool sidebarsCommunitiesFilterBots READ sidebarsCommunitiesFilterBots WRITE
+                 setSidebarsCommunitiesFilterBots NOTIFY sidebarsCommunitiesFilterBotsChanged)
     Q_PROPERTY(
       bool sidebarsCommunitiesFilterLowPriority READ sidebarsCommunitiesFilterLowPriority WRITE
         setSidebarsCommunitiesFilterLowPriority NOTIFY sidebarsCommunitiesFilterLowPriorityChanged)
@@ -423,6 +425,7 @@ public:
     void setSidebarsCommunitiesVisible(bool state);
     void setSidebarsCommunitiesFilterDirectChats(bool state);
     void setSidebarsCommunitiesFilterFavourites(bool state);
+    void setSidebarsCommunitiesFilterBots(bool state);
     void setSidebarsCommunitiesFilterLowPriority(bool state);
     void setSidebarsRoomListScrollbarsEnabled(bool state);
     void setComposerInputMarkdownToHtmlEnabled(bool state);
@@ -550,6 +553,7 @@ signals:
     void sidebarsCommunitiesVisibleChanged(bool state);
     void sidebarsCommunitiesFilterDirectChatsChanged(bool state);
     void sidebarsCommunitiesFilterFavouritesChanged(bool state);
+    void sidebarsCommunitiesFilterBotsChanged(bool state);
     void sidebarsCommunitiesFilterLowPriorityChanged(bool state);
     void sidebarsRoomListScrollbarsEnabledChanged(bool state);
     void sidebarsRoomListSortChanged(RoomSortOrder order);

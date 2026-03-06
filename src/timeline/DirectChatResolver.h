@@ -28,6 +28,9 @@ public:
     //! Returns the other user's ID in a direct chat, or empty if not a DM.
     QString directChatPartner(const QString &roomId);
 
+    //! Returns true if the room is a direct chat whose partner is a likely bot.
+    bool isBotRoom(const QString &roomId);
+
     //! Re-reads m.direct account data, clears all cached results, and returns
     //! the set of room IDs whose m.direct mapping changed (symmetric difference
     //! of old vs new). Callers should emit dataChanged / signal updates for

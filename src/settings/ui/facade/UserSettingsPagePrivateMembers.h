@@ -13,6 +13,7 @@ bool integrationsSystemTrayAutostart_;
 bool sidebarsCommunitiesVisible_;
 bool sidebarsCommunitiesFilterDirectChats_ = true;
 bool sidebarsCommunitiesFilterFavourites_  = true;
+bool sidebarsCommunitiesFilterBots_        = true;
 bool sidebarsCommunitiesFilterLowPriority_ = true;
 bool sidebarsRoomListScrollbarsEnabled_;
 bool composerInputMarkdownToHtmlEnabled_;

@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 73
+Rows: 74
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -51,6 +51,7 @@ Naming mismatch summary:
 | `PrivacyMaintenanceUpdateSpaceVias` | `settings.privacyMaintenanceUpdateSpaceVias()` | `PrivacyMaintenanceUpdateSpaceVias` | `privacy.maintenance.update_space_vias` |
 | `PrivacyWindowFocusBlurDelaySeconds` | `settings.privacyWindowFocusBlurDelaySeconds()` | `PrivacyWindowFocusBlurDelaySeconds` | `privacy.window_focus_blur.delay_seconds` |
 | `PrivacyWindowFocusBlurEnabled` | `settings.privacyWindowFocusBlurEnabled()` | `PrivacyWindowFocusBlurEnabled` | `privacy.window_focus_blur.enabled` |
+| `SidebarsCommunitiesFilterBots` | `settings.sidebarsCommunitiesFilterBots()` | `SidebarsCommunitiesFilterBots` | `sidebars.communities.filters.bots` |
 | `SidebarsCommunitiesFilterDirectChats` | `settings.sidebarsCommunitiesFilterDirectChats()` | `SidebarsCommunitiesFilterDirectChats` | `sidebars.communities.filters.direct_chats` |
 | `SidebarsCommunitiesFilterFavourites` | `settings.sidebarsCommunitiesFilterFavourites()` | `SidebarsCommunitiesFilterFavourites` | `sidebars.communities.filters.favourites` |
 | `SidebarsCommunitiesFilterLowPriority` | `settings.sidebarsCommunitiesFilterLowPriority()` | `SidebarsCommunitiesFilterLowPriority` | `sidebars.communities.filters.low_priority` |

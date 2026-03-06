@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 75
+Rows: 77
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -54,7 +54,9 @@ Naming mismatch summary:
 | `SidebarsCommunitiesFilterBots` | `settings.sidebarsCommunitiesFilterBots()` | `SidebarsCommunitiesFilterBots` | `sidebars.communities.filters.bots` |
 | `SidebarsCommunitiesFilterDirectChats` | `settings.sidebarsCommunitiesFilterDirectChats()` | `SidebarsCommunitiesFilterDirectChats` | `sidebars.communities.filters.direct_chats` |
 | `SidebarsCommunitiesFilterFavourites` | `settings.sidebarsCommunitiesFilterFavourites()` | `SidebarsCommunitiesFilterFavourites` | `sidebars.communities.filters.favourites` |
+| `SidebarsCommunitiesFilterGroups` | `settings.sidebarsCommunitiesFilterGroups()` | `SidebarsCommunitiesFilterGroups` | `sidebars.communities.filters.groups` |
 | `SidebarsCommunitiesFilterLowPriority` | `settings.sidebarsCommunitiesFilterLowPriority()` | `SidebarsCommunitiesFilterLowPriority` | `sidebars.communities.filters.low_priority` |
+| `SidebarsCommunitiesFilterPeople` | `settings.sidebarsCommunitiesFilterPeople()` | `SidebarsCommunitiesFilterPeople` | `sidebars.communities.filters.people` |
 | `SidebarsCommunitiesFilterServerNotices` | `settings.sidebarsCommunitiesFilterServerNotices()` | `SidebarsCommunitiesFilterServerNotices` | `sidebars.communities.filters.server_notices` |
 | `SidebarsCommunitiesVisible` | `settings.sidebarsCommunitiesVisible()` | `SidebarsCommunitiesVisible` | `sidebars.communities.visible` |
 | `SidebarsRoomListLastMessagePreview` | `static_cast<int>(settings.sidebarsRoomListLastMessagePreview())` | `SidebarsRoomListLastMessagePreview` | `sidebars.room_list.last_message_preview` |

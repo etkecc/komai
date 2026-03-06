@@ -7,6 +7,8 @@ X(SidebarsRoomListUnreadDetectionPolicy, static_cast<int>(settings.sidebarsRoomL
 X(SidebarsCommunitiesVisible, settings.sidebarsCommunitiesVisible())
 X(SidebarsCommunitiesFilterDirectChats, settings.sidebarsCommunitiesFilterDirectChats())
 X(SidebarsCommunitiesFilterFavourites, settings.sidebarsCommunitiesFilterFavourites())
+X(SidebarsCommunitiesFilterPeople, settings.sidebarsCommunitiesFilterPeople())
 X(SidebarsCommunitiesFilterBots, settings.sidebarsCommunitiesFilterBots())
+X(SidebarsCommunitiesFilterGroups, settings.sidebarsCommunitiesFilterGroups())
 X(SidebarsCommunitiesFilterServerNotices, settings.sidebarsCommunitiesFilterServerNotices())
 X(SidebarsCommunitiesFilterLowPriority, settings.sidebarsCommunitiesFilterLowPriority())

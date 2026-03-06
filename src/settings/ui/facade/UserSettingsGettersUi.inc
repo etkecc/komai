@@ -7,7 +7,9 @@
     bool sidebarsCommunitiesVisible() const;
     bool sidebarsCommunitiesFilterDirectChats() const;
     bool sidebarsCommunitiesFilterFavourites() const;
+    bool sidebarsCommunitiesFilterPeople() const;
     bool sidebarsCommunitiesFilterBots() const;
+    bool sidebarsCommunitiesFilterGroups() const;
     bool sidebarsCommunitiesFilterServerNotices() const;
     bool sidebarsCommunitiesFilterLowPriority() const;
     bool sidebarsRoomListScrollbarsEnabled() const;

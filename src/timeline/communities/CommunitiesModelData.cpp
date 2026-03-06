@@ -177,8 +177,12 @@ CommunitiesModel::fixedFilterDisplayName(int row) const
         return tr("All rooms");
     case kRowDirectChats:
         return tr("Direct Chats");
+    case kRowPeople:
+        return tr("People");
     case kRowBots:
         return tr("Bots");
+    case kRowGroups:
+        return tr("Groups");
     default:
         return {};
     }
@@ -191,9 +195,13 @@ CommunitiesModel::fixedFilterTooltip(int row) const
     case kRowAllRooms:
         return tr("Shows all rooms without filtering.");
     case kRowDirectChats:
-        return tr("Show direct chats.");
+        return tr("Show all direct chats, including bots.");
+    case kRowPeople:
+        return tr("Show direct chats with people, excluding bots.");
     case kRowBots:
         return tr("Show direct chats with bots.");
+    case kRowGroups:
+        return tr("Show group rooms (non-direct chats).");
     default:
         return {};
     }
@@ -211,8 +219,10 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
         for (auto sig : {
                &UserSettings::sidebarsCommunitiesFilterDirectChatsChanged,
                &UserSettings::sidebarsCommunitiesFilterFavouritesChanged,
+               &UserSettings::sidebarsCommunitiesFilterPeopleChanged,
                &UserSettings::sidebarsCommunitiesFilterLowPriorityChanged,
                &UserSettings::sidebarsCommunitiesFilterBotsChanged,
+               &UserSettings::sidebarsCommunitiesFilterGroupsChanged,
                &UserSettings::sidebarsCommunitiesFilterServerNoticesChanged,
              })
             connect(settings.get(), sig, this, &FilteredCommunitiesModel::invalidateFilter);
@@ -223,9 +233,11 @@ namespace {
 enum Categories
 {
     World,
-    Direct,
     Favourites,
+    Direct,
+    People,
     Bots,
+    Groups,
     Server,
     LowPrio,
     Space,
@@ -239,8 +251,12 @@ tagIdToCat(const QString &tagId)
         return World;
     else if (tagId == QLatin1String("dm"))
         return Direct;
+    else if (tagId == QLatin1String("people"))
+        return People;
     else if (tagId == QLatin1String("bot"))
         return Bots;
+    else if (tagId == QLatin1String("group"))
+        return Groups;
     else if (tagId == QLatin1String("tag:m.favourite"))
         return Favourites;
     else if (tagId == QLatin1String("tag:m.server_notice"))
@@ -284,14 +300,22 @@ FilteredCommunitiesModel::filterAcceptsRow(int sourceRow, const QModelIndex &) c
     if (!m)
         return true;
 
-    // Check community filter settings for well-known filter rows
+    // Check community filter settings for well-known filter rows.
+    // Each filter is hidden when its setting is off OR when no rooms match.
     auto settings = UserSettings::instance();
     if (settings) {
         const auto tagId = m->data(m->index(sourceRow), CommunitiesModel::Roles::Id).toString();
-        if (tagId == QLatin1String("dm") && !settings->sidebarsCommunitiesFilterDirectChats())
+        if (tagId == QLatin1String("dm") &&
+            (!settings->sidebarsCommunitiesFilterDirectChats() || !m->hasDmRooms_))
+            return false;
+        if (tagId == QLatin1String("people") &&
+            (!settings->sidebarsCommunitiesFilterPeople() || !m->hasPeopleRooms_))
             return false;
         if (tagId == QLatin1String("bot") &&
             (!settings->sidebarsCommunitiesFilterBots() || !m->hasBotRooms_))
+            return false;
+        if (tagId == QLatin1String("group") &&
+            (!settings->sidebarsCommunitiesFilterGroups() || !m->hasGroupRooms_))
             return false;
         if (tagId == QLatin1String("tag:m.favourite") &&
             !settings->sidebarsCommunitiesFilterFavourites())

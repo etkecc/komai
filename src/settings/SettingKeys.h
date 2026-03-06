@@ -37,7 +37,9 @@ constexpr auto SidebarsRoomListUnreadDetectionPolicy = "sidebars.room_list.unrea
 constexpr auto SidebarsCommunitiesVisible            = "sidebars.communities.visible";
 constexpr auto SidebarsCommunitiesFilterDirectChats  = "sidebars.communities.filters.direct_chats";
 constexpr auto SidebarsCommunitiesFilterFavourites   = "sidebars.communities.filters.favourites";
+constexpr auto SidebarsCommunitiesFilterPeople       = "sidebars.communities.filters.people";
 constexpr auto SidebarsCommunitiesFilterBots         = "sidebars.communities.filters.bots";
+constexpr auto SidebarsCommunitiesFilterGroups       = "sidebars.communities.filters.groups";
 constexpr auto SidebarsCommunitiesFilterServerNotices =
   "sidebars.communities.filters.server_notices";
 constexpr auto SidebarsCommunitiesFilterLowPriority = "sidebars.communities.filters.low_priority";

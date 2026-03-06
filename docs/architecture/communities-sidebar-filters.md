@@ -16,7 +16,7 @@ Each fixed filter row is defined in `CommunitiesModel::fixedFilters_`, a `std::a
 
 ```cpp
 struct FixedFilterRow {
-    QString id;    // tag ID used by filtering ("", "dm", "bot")
+    QString id;    // tag ID used by filtering ("", "dm", "people", "bot", "group")
     QString icon;  // sidebar icon path
     mtx::responses::UnreadNotifications unreads{};
 };
@@ -29,12 +29,16 @@ The `data()` method in `CommunitiesModelData.cpp` serves all fixed rows from a s
 The `Categories` enum in `CommunitiesModelData.cpp` defines sidebar ordering:
 
 ```
-World → Direct → Bots → Favourites → Server → LowPrio → Space → UserTag
+World → Favourites → Direct → People → Bots → Groups → Server → LowPrio → Space → UserTag
 ```
 
 ### Unread tracking
 
 Each fixed filter row tracks its own `unreads` counter. During `initializeSidebar()` and `sync()`, notification diffs are applied to `fixedFilters_[row].unreads`. Tag-based filters (Favourites, Server Notices, Low Priority) use `tagNotificationCache` instead.
+
+### Visibility ("has rooms" check)
+
+All fixed filter rows (except All Rooms) are hidden when no rooms match the filter criteria. The `has*Rooms_` boolean flags are computed during `initializeSidebar()` and checked in `FilteredCommunitiesModel::filterAcceptsRow()`. Tag-based filters (Favourites, Server Notices, Low Priority) are implicitly hidden when no rooms have the tag, because `tags_` only contains tags from existing rooms.
 
 ## Filter reference
 
@@ -50,6 +54,22 @@ Each fixed filter row tracks its own `unreads` counter. During `initializeSideba
 | Setting | always shown |
 | Room filter | `FilterBy::Nothing` — shows everything except previews, spaces, and hidden items |
 
+### Favourites
+
+<img src="../../resources/icons/fluent/assets/Star/SVG/ic_fluent_star_28_regular.svg" width="24" height="24" alt="Favourites icon">
+
+| Property | Value |
+|---|---|
+| Tag ID | `"tag:m.favourite"` |
+| Icon | `star.svg` |
+| Setting key | `sidebars.communities.filters.favourites` |
+| Setting ID | `SidebarsCommunitiesFilterFavourites` |
+| Default | enabled |
+| Room filter | `FilterBy::Tag` with `filterStr = "m.favourite"` |
+| Visibility | only shown when at least one room has the `m.favourite` tag |
+
+Rooms tagged with `m.favourite` via the Matrix [room tagging API](https://spec.matrix.org/v1.17/client-server-api/#room-tagging).
+
 ### Direct Chats
 
 <img src="../../resources/icons/fluent/assets/Person/SVG/ic_fluent_person_24_regular.svg" width="24" height="24" alt="Direct Chats icon">
@@ -61,10 +81,28 @@ Each fixed filter row tracks its own `unreads` counter. During `initializeSideba
 | Icon | `person.svg` |
 | Setting key | `sidebars.communities.filters.direct_chats` |
 | Setting ID | `SidebarsCommunitiesFilterDirectChats` |
-| Default | enabled |
+| Default | disabled |
 | Room filter | `FilterBy::DirectChats` — accepts rooms where `RoomlistModel::IsDirect` is true |
+| Visibility | only shown when `hasDmRooms_` is true (at least one direct chat exists) |
 
-A room is a direct chat if it appears in the user's `m.direct` account data. `DirectChatResolver` resolves the DM partner.
+A room is a direct chat if it appears in the user's `m.direct` account data. `DirectChatResolver` resolves the DM partner. This filter shows all DMs including bot conversations.
+
+### People
+
+<img src="../../resources/icons/fluent/assets/Person/SVG/ic_fluent_person_24_regular.svg" width="24" height="24" alt="People icon">
+
+| Property | Value |
+|---|---|
+| Tag ID | `"people"` |
+| Row constant | `kRowPeople` (2) |
+| Icon | `person.svg` |
+| Setting key | `sidebars.communities.filters.people` |
+| Setting ID | `SidebarsCommunitiesFilterPeople` |
+| Default | enabled |
+| Room filter | `FilterBy::People` — accepts rooms where `IsDirect` is true AND `IsBotRoom` is false |
+| Visibility | only shown when `hasPeopleRooms_` is true (at least one non-bot DM exists) |
+
+Like Direct Chats but excludes users categorized as bots. Bot detection uses the heuristic in `isLikelyBotUser()` (see Bots section below).
 
 ### Bots
 
@@ -73,7 +111,7 @@ A room is a direct chat if it appears in the user's `m.direct` account data. `Di
 | Property | Value |
 |---|---|
 | Tag ID | `"bot"` |
-| Row constant | `kRowBots` (2) |
+| Row constant | `kRowBots` (3) |
 | Icon | `robot-sparkle.svg` |
 | Setting key | `sidebars.communities.filters.bots` |
 | Setting ID | `SidebarsCommunitiesFilterBots` |
@@ -89,20 +127,22 @@ Bot rooms are a strict subset of direct chats. A room is a bot room when its DM 
 
 `DirectChatResolver::isBotRoom()` is the single entry point — it resolves the DM partner, then checks the heuristic.
 
-### Favourites
+### Groups
 
-<img src="../../resources/icons/fluent/assets/Star/SVG/ic_fluent_star_28_regular.svg" width="24" height="24" alt="Favourites icon">
+<img src="../../resources/icons/fluent/assets/People/SVG/ic_fluent_people_24_regular.svg" width="24" height="24" alt="Groups icon">
 
 | Property | Value |
 |---|---|
-| Tag ID | `"tag:m.favourite"` |
-| Icon | `star.svg` |
-| Setting key | `sidebars.communities.filters.favourites` |
-| Setting ID | `SidebarsCommunitiesFilterFavourites` |
+| Tag ID | `"group"` |
+| Row constant | `kRowGroups` (4) |
+| Icon | `people.svg` |
+| Setting key | `sidebars.communities.filters.groups` |
+| Setting ID | `SidebarsCommunitiesFilterGroups` |
 | Default | enabled |
-| Room filter | `FilterBy::Tag` with `filterStr = "m.favourite"` |
+| Room filter | `FilterBy::Groups` — accepts rooms where `IsDirect` is false |
+| Visibility | only shown when `hasGroupRooms_` is true (at least one non-DM, non-space room exists) |
 
-Rooms tagged with `m.favourite` via the Matrix [room tagging API](https://spec.matrix.org/latest/client-server-api/#room-tagging).
+Multi-participant rooms that are not direct chats. Spaces are excluded from this filter.
 
 ### Server Notices
 
@@ -116,8 +156,9 @@ Rooms tagged with `m.favourite` via the Matrix [room tagging API](https://spec.m
 | Setting ID | `SidebarsCommunitiesFilterServerNotices` |
 | Default | enabled |
 | Room filter | `FilterBy::Tag` with `filterStr = "m.server_notice"` |
+| Visibility | only shown when at least one room has the `m.server_notice` tag |
 
-Rooms tagged with `m.server_notice` by the homeserver. See the Matrix spec [Server Notices module](https://spec.matrix.org/latest/client-server-api/#server-notices).
+Rooms tagged with `m.server_notice` by the homeserver. See the Matrix spec [Server Notices module](https://spec.matrix.org/v1.17/client-server-api/#server-notices).
 
 ### Low Priority
 
@@ -131,31 +172,40 @@ Rooms tagged with `m.server_notice` by the homeserver. See the Matrix spec [Serv
 | Setting ID | `SidebarsCommunitiesFilterLowPriority` |
 | Default | enabled |
 | Room filter | `FilterBy::Tag` with `filterStr = "m.lowpriority"` |
+| Visibility | only shown when at least one room has the `m.lowpriority` tag |
 
-Rooms tagged with `m.lowpriority` via the Matrix [room tagging API](https://spec.matrix.org/latest/client-server-api/#room-tagging).
+Rooms tagged with `m.lowpriority` via the Matrix [room tagging API](https://spec.matrix.org/v1.17/client-server-api/#room-tagging).
 
 ## Adding a new filter
 
 Touch points for a new fixed-row filter:
 
-1. **`CommunitiesModel.h`** — add `kRow` constant, bump `kFixedRowCount`, add entry to `fixedFilters_` initializer
+1. **`CommunitiesModel.h`** — add `kRow` constant, bump `kFixedRowCount`, add entry to `fixedFilters_` initializer, add `has*Rooms_` flag
 2. **`CommunitiesModelData.cpp`** — add cases in `fixedFilterDisplayName()` and `fixedFilterTooltip()`; add `Categories` enum value and `tagIdToCat()` entry; add `filterAcceptsRow()` check; add signal connection
-3. **`CommunitiesModelSync.cpp`** — accumulate unreads during init and sync
+3. **`CommunitiesModelSync.cpp`** — accumulate unreads during init and sync, set `has*Rooms_` flag
 4. **`RoomlistModel.h`** — add `FilterBy` enum value and `updateFilterTag()` mapping
 5. **`FilteredRoomlistModel.cpp`** — add `filterAcceptsRow()` branch for room-level filtering
-6. **Settings layer** — add setting key, definition, schema descriptor, facade property, getter, setter, UI row (see `SettingKeys.h`, `.inc` files, `UserSettingsPage.h`)
+6. **Settings layer** — add setting key, definition, schema descriptor, facade property, getter, setter, core store bridge entry, UI row (see `SettingKeys.h`, `.inc` files, `UserSettingsPage.h`)
 
 For tag-based filters (backed by Matrix room tags), unread tracking uses `tagNotificationCache` instead of `fixedFilters_[].unreads`, so step 3 is not needed.
 
 ## Hidden tags mechanism
 
-Users can hide individual sidebar sections via context menu. Hidden tag IDs are stored in `state.yml` at `sidebars.communities.hidden_tags`. The `FilteredRoomlistModel` parses these to populate `hiddenTags`, `hiddenSpaces`, `hideDMs`, and `hideBots` flags, which suppress matching rooms from the room list when the section is hidden.
+Users can hide individual sidebar sections via context menu. Hidden tag IDs are stored in `state.yml` at `sidebars.communities.hidden_tags`. The `FilteredRoomlistModel` parses these to populate `hiddenTags`, `hiddenSpaces`, `hideDMs`, `hidePeople`, `hideBots`, and `hideGroups` flags, which suppress matching rooms from the room list when the section is hidden.
 
 ## Design decisions
 
+### People vs Direct Chats
+
+"Direct Chats" shows all DMs including bot ones. "People" shows only non-bot DMs. "People" is enabled by default; "Direct Chats" is disabled by default, as most users prefer the People + Bots split over a combined view.
+
 ### Bots as subset of Direct Chats
 
-"Direct Chats" shows all DMs including bot ones. "Bots" shows only bot DMs. This avoids a behavioral change for users who filter by Direct Chats expecting to see all their conversations. The `hideBots` mechanism lets users opt into hiding bot rooms from other views independently.
+Bot rooms are a strict subset of Direct Chats. They show up in both the Direct Chats and Bots filters. The `hideBots` mechanism lets users opt into hiding bot rooms from other views independently.
+
+### Groups as complement of Direct Chats
+
+"Groups" shows all rooms that are not direct chats (and not spaces). This provides a way to filter down to multi-participant rooms.
 
 ### Conservative bot heuristic
 

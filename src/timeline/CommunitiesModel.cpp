@@ -120,7 +120,8 @@ CommunitiesModel::setCurrentTagId(const QString &tagId)
                 return;
             }
         }
-    } else if (tagId == QLatin1String("dm") || tagId == QLatin1String("bot")) {
+    } else if (tagId == QLatin1String("dm") || tagId == QLatin1String("people") ||
+               tagId == QLatin1String("bot") || tagId == QLatin1String("group")) {
         this->currentTagId_ = tagId;
         UserSettings::instance()->setCurrentTagId(tagId);
         emit currentTagIdChanged(currentTagId_);

@@ -189,25 +189,33 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
                         nullptr,
                         SM::TabSidebars, sidebarsCommunitiesVisible, setSidebarsCommunitiesVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
-    // CommunitiesFilterDirectChats
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Direct Chats filter",
-                        nullptr,
-                        SM::TabSidebars, sidebarsCommunitiesFilterDirectChats, setSidebarsCommunitiesFilterDirectChats, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterDirectChats, SettingKey::SidebarsCommunitiesFilterDirectChats),
     // CommunitiesFilterFavourites
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Favourites filter",
-                        nullptr,
+                        QT_TR_NOOP("Rooms tagged with m.favourite via the Matrix room tagging API."),
                         SM::TabSidebars, sidebarsCommunitiesFilterFavourites, setSidebarsCommunitiesFilterFavourites, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterFavourites, SettingKey::SidebarsCommunitiesFilterFavourites),
+    // CommunitiesFilterDirectChats
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Direct Chats filter",
+                        QT_TR_NOOP("All one-on-one conversations, including chats with bots and bridges."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterDirectChats, setSidebarsCommunitiesFilterDirectChats, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterDirectChats, SettingKey::SidebarsCommunitiesFilterDirectChats),
+    // CommunitiesFilterPeople
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show People filter",
+                        QT_TR_NOOP("Direct chats with real people, excluding users detected as bots by heuristics (user ID starts with @bot, contains bot:, or display name contains \"bridge bot\")."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterPeople, setSidebarsCommunitiesFilterPeople, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterPeople, SettingKey::SidebarsCommunitiesFilterPeople),
     // CommunitiesFilterBots
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Bots filter",
-                        nullptr,
+                        QT_TR_NOOP("Direct chats where the conversation partner is detected as a bot or bridge service account."),
                         SM::TabSidebars, sidebarsCommunitiesFilterBots, setSidebarsCommunitiesFilterBots, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterBots, SettingKey::SidebarsCommunitiesFilterBots),
+    // CommunitiesFilterGroups
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Groups filter",
+                        QT_TR_NOOP("Multi-participant rooms that are not direct chats."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterGroups, setSidebarsCommunitiesFilterGroups, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterGroups, SettingKey::SidebarsCommunitiesFilterGroups),
     // CommunitiesFilterServerNotices
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Server Notices filter",
-                        nullptr,
+                        QT_TR_NOOP("Rooms tagged m.server_notice by the homeserver for administrative messages. See the Server Notices module in the Matrix spec."),
                         SM::TabSidebars, sidebarsCommunitiesFilterServerNotices, setSidebarsCommunitiesFilterServerNotices, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterServerNotices, SettingKey::SidebarsCommunitiesFilterServerNotices),
     // CommunitiesFilterLowPriority
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Low Priority filter",
-                        nullptr,
+                        QT_TR_NOOP("Rooms tagged with m.lowpriority via the Matrix room tagging API."),
                         SM::TabSidebars, sidebarsCommunitiesFilterLowPriority, setSidebarsCommunitiesFilterLowPriority, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterLowPriority, SettingKey::SidebarsCommunitiesFilterLowPriority),
     // IntegrationsSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,

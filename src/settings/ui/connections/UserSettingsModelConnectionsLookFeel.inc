@@ -19,27 +19,36 @@
     CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, sidebarsCommunitiesVisibleChanged, Value);
     // When communities sidebar visibility changes, update Enabled state on filter rows
-    if (const int filterDC = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterDirectChats),
-                 filterFav = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterFavourites),
+    if (const int filterFav = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterFavourites),
+                 filterDC = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterDirectChats),
+                 filterPeople = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterPeople),
                  filterBots = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterBots),
+                 filterGroups = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterGroups),
                  filterSN = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterServerNotices),
                  filterLP = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterLowPriority);
-        filterDC >= 0 && filterFav >= 0 && filterBots >= 0 && filterSN >= 0 && filterLP >= 0) {
+        filterFav >= 0 && filterDC >= 0 && filterPeople >= 0 && filterBots >= 0 &&
+        filterGroups >= 0 && filterSN >= 0 && filterLP >= 0) {
         connect(settings, &UserSettings::sidebarsCommunitiesVisibleChanged, this,
-                [this, filterDC, filterFav, filterBots, filterSN, filterLP]() {
-                    emit dataChanged(index(filterDC), index(filterDC), {Enabled});
+                [this, filterFav, filterDC, filterPeople, filterBots, filterGroups, filterSN, filterLP]() {
                     emit dataChanged(index(filterFav), index(filterFav), {Enabled});
+                    emit dataChanged(index(filterDC), index(filterDC), {Enabled});
+                    emit dataChanged(index(filterPeople), index(filterPeople), {Enabled});
                     emit dataChanged(index(filterBots), index(filterBots), {Enabled});
+                    emit dataChanged(index(filterGroups), index(filterGroups), {Enabled});
                     emit dataChanged(index(filterSN), index(filterSN), {Enabled});
                     emit dataChanged(index(filterLP), index(filterLP), {Enabled});
                 });
     }
     CONNECT_SETTING_ID(
-      SidebarsCommunitiesFilterDirectChats, sidebarsCommunitiesFilterDirectChatsChanged, Value);
-    CONNECT_SETTING_ID(
       SidebarsCommunitiesFilterFavourites, sidebarsCommunitiesFilterFavouritesChanged, Value);
     CONNECT_SETTING_ID(
+      SidebarsCommunitiesFilterDirectChats, sidebarsCommunitiesFilterDirectChatsChanged, Value);
+    CONNECT_SETTING_ID(
+      SidebarsCommunitiesFilterPeople, sidebarsCommunitiesFilterPeopleChanged, Value);
+    CONNECT_SETTING_ID(
       SidebarsCommunitiesFilterBots, sidebarsCommunitiesFilterBotsChanged, Value);
+    CONNECT_SETTING_ID(
+      SidebarsCommunitiesFilterGroups, sidebarsCommunitiesFilterGroupsChanged, Value);
     CONNECT_SETTING_ID(
       SidebarsCommunitiesFilterServerNotices, sidebarsCommunitiesFilterServerNoticesChanged, Value);
     CONNECT_SETTING_ID(

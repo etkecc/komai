@@ -49,6 +49,16 @@ UserSettings::sidebarsCommunitiesFilterFavourites() const
 }
 
 bool
+UserSettings::sidebarsCommunitiesFilterPeople() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::SidebarsCommunitiesFilterPeople);
+        value.has_value())
+        return *value;
+    return sidebarsCommunitiesFilterPeople_;
+}
+
+bool
 UserSettings::sidebarsCommunitiesFilterBots() const
 {
     if (const auto value = coreStore_.valueAs<bool>(
@@ -56,6 +66,16 @@ UserSettings::sidebarsCommunitiesFilterBots() const
         value.has_value())
         return *value;
     return sidebarsCommunitiesFilterBots_;
+}
+
+bool
+UserSettings::sidebarsCommunitiesFilterGroups() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::SidebarsCommunitiesFilterGroups);
+        value.has_value())
+        return *value;
+    return sidebarsCommunitiesFilterGroups_;
 }
 
 bool

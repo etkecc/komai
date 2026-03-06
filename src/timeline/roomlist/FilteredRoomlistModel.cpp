@@ -174,8 +174,10 @@ FilteredRoomlistModel::updateHiddenTagsAndSpaces()
 
     hiddenTags.clear();
     hiddenSpaces.clear();
-    hideDMs  = false;
-    hideBots = false;
+    hideDMs    = false;
+    hidePeople = false;
+    hideBots   = false;
+    hideGroups = false;
 
     auto hidden = UserSettings::instance()->hiddenTags();
     for (const auto &t : std::as_const(hidden)) {
@@ -185,8 +187,12 @@ FilteredRoomlistModel::updateHiddenTagsAndSpaces()
             hiddenSpaces.push_back(t.mid(6));
         else if (t == QLatin1String("dm"))
             hideDMs = true;
+        else if (t == QLatin1String("people"))
+            hidePeople = true;
         else if (t == QLatin1String("bot"))
             hideBots = true;
+        else if (t == QLatin1String("group"))
+            hideGroups = true;
     }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
@@ -281,9 +287,21 @@ FilteredRoomlistModel::hiddenByDms(int sourceRow) const
 }
 
 bool
+FilteredRoomlistModel::hiddenByPeople(int sourceRow) const
+{
+    return hidePeople && isDirectRow(sourceRow) && !isBotRow(sourceRow);
+}
+
+bool
 FilteredRoomlistModel::hiddenByBots(int sourceRow) const
 {
     return hideBots && isBotRow(sourceRow);
+}
+
+bool
+FilteredRoomlistModel::hiddenByGroups(int sourceRow) const
+{
+    return hideGroups && !isDirectRow(sourceRow);
 }
 
 bool
@@ -293,7 +311,7 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByDms(sourceRow) ||
-            hiddenByBots(sourceRow))
+            hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
             return false;
         return true;
     } else if (filterType == FilterBy::DirectChats) {
@@ -302,12 +320,25 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
             return false;
         return isDirectRow(sourceRow);
+    } else if (filterType == FilterBy::People) {
+        if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
+            return false;
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
+            return false;
+        return isDirectRow(sourceRow) && !isBotRow(sourceRow);
     } else if (filterType == FilterBy::Bots) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
             return false;
         return isBotRow(sourceRow);
+    } else if (filterType == FilterBy::Groups) {
+        if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
+            return false;
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByDms(sourceRow) ||
+            hiddenByBots(sourceRow))
+            return false;
+        return !isDirectRow(sourceRow);
     } else if (filterType == FilterBy::Tag) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
@@ -316,7 +347,8 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
         if (!tags.contains(filterStr))
             return false;
         if (hiddenByTags(sourceRow, filterStr) || hiddenBySpaces(sourceRow) ||
-            hiddenByDms(sourceRow) || hiddenByBots(sourceRow))
+            hiddenByDms(sourceRow) || hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) ||
+            hiddenByGroups(sourceRow))
             return false;
         return true;
     } else if (filterType == FilterBy::Space) {
@@ -329,7 +361,8 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
             return false;
 
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow, filterStr) ||
-            hiddenByDms(sourceRow) || hiddenByBots(sourceRow))
+            hiddenByDms(sourceRow) || hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) ||
+            hiddenByGroups(sourceRow))
             return false;
 
         if (isSpaceRow(sourceRow) && !parents.contains(filterStr))

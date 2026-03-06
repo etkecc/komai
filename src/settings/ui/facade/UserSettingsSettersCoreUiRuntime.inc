@@ -79,6 +79,16 @@ UserSettings::setSidebarsCommunitiesFilterFavourites(bool s)
     save();
 }
 void
+UserSettings::setSidebarsCommunitiesFilterPeople(bool s)
+{
+    if (sidebarsCommunitiesFilterPeople_ == s)
+        return;
+    sidebarsCommunitiesFilterPeople_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterPeople, s);
+    emit sidebarsCommunitiesFilterPeopleChanged(s);
+    save();
+}
+void
 UserSettings::setSidebarsCommunitiesFilterBots(bool s)
 {
     if (sidebarsCommunitiesFilterBots_ == s)
@@ -86,6 +96,16 @@ UserSettings::setSidebarsCommunitiesFilterBots(bool s)
     sidebarsCommunitiesFilterBots_ = s;
     (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterBots, s);
     emit sidebarsCommunitiesFilterBotsChanged(s);
+    save();
+}
+void
+UserSettings::setSidebarsCommunitiesFilterGroups(bool s)
+{
+    if (sidebarsCommunitiesFilterGroups_ == s)
+        return;
+    sidebarsCommunitiesFilterGroups_ = s;
+    (void)coreStore_.set(settings::core::SettingId::SidebarsCommunitiesFilterGroups, s);
+    emit sidebarsCommunitiesFilterGroupsChanged(s);
     save();
 }
 void

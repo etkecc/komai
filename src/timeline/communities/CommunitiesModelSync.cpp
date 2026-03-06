@@ -65,7 +65,10 @@ CommunitiesModel::initializeSidebar()
     tagNotificationCache.clear();
     for (auto &f : fixedFilters_)
         f.unreads = {};
-    hasBotRooms_ = false;
+    hasDmRooms_     = false;
+    hasPeopleRooms_ = false;
+    hasBotRooms_    = false;
+    hasGroupRooms_  = false;
 
     {
         auto e = cache::getAccountData(mtx::events::EventType::Direct);
@@ -113,16 +116,30 @@ CommunitiesModel::initializeSidebar()
         fixedFilters_[kRowAllRooms].unreads.notification_count += it->notification_count;
         fixedFilters_[kRowAllRooms].unreads.highlight_count += it->highlight_count;
 
-        if (std::find(begin(directMessages_), end(directMessages_), it.key().toStdString()) !=
-            end(directMessages_)) {
+        bool isDm =
+          std::find(begin(directMessages_), end(directMessages_), it.key().toStdString()) !=
+          end(directMessages_);
+        bool isBot = false;
+
+        if (isDm) {
+            hasDmRooms_ = true;
             fixedFilters_[kRowDirectChats].unreads.notification_count += it->notification_count;
             fixedFilters_[kRowDirectChats].unreads.highlight_count += it->highlight_count;
-        }
 
-        if (DirectChatResolver::instance().isBotRoom(it.key())) {
-            hasBotRooms_ = true;
-            fixedFilters_[kRowBots].unreads.notification_count += it->notification_count;
-            fixedFilters_[kRowBots].unreads.highlight_count += it->highlight_count;
+            isBot = DirectChatResolver::instance().isBotRoom(it.key());
+            if (isBot) {
+                hasBotRooms_ = true;
+                fixedFilters_[kRowBots].unreads.notification_count += it->notification_count;
+                fixedFilters_[kRowBots].unreads.highlight_count += it->highlight_count;
+            } else {
+                hasPeopleRooms_ = true;
+                fixedFilters_[kRowPeople].unreads.notification_count += it->notification_count;
+                fixedFilters_[kRowPeople].unreads.highlight_count += it->highlight_count;
+            }
+        } else if (!it.value().is_space) {
+            hasGroupRooms_ = true;
+            fixedFilters_[kRowGroups].unreads.notification_count += it->notification_count;
+            fixedFilters_[kRowGroups].unreads.highlight_count += it->highlight_count;
         }
     }
 
@@ -232,8 +249,9 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
                                UnreadMessages,
                                HasLoudNotification,
                              });
-            if (std::find(begin(directMessages_), end(directMessages_), roomid) !=
-                end(directMessages_)) {
+            bool isDm = std::find(begin(directMessages_), end(directMessages_), roomid) !=
+                        end(directMessages_);
+            if (isDm) {
                 applyDiff(fixedFilters_[kRowDirectChats].unreads);
                 emit dataChanged(index(kRowDirectChats),
                                  index(kRowDirectChats),
@@ -241,11 +259,28 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
                                    UnreadMessages,
                                    HasLoudNotification,
                                  });
-            }
-            if (DirectChatResolver::instance().isBotRoom(QString::fromStdString(roomid))) {
-                applyDiff(fixedFilters_[kRowBots].unreads);
-                emit dataChanged(index(kRowBots),
-                                 index(kRowBots),
+
+                if (DirectChatResolver::instance().isBotRoom(QString::fromStdString(roomid))) {
+                    applyDiff(fixedFilters_[kRowBots].unreads);
+                    emit dataChanged(index(kRowBots),
+                                     index(kRowBots),
+                                     {
+                                       UnreadMessages,
+                                       HasLoudNotification,
+                                     });
+                } else {
+                    applyDiff(fixedFilters_[kRowPeople].unreads);
+                    emit dataChanged(index(kRowPeople),
+                                     index(kRowPeople),
+                                     {
+                                       UnreadMessages,
+                                       HasLoudNotification,
+                                     });
+                }
+            } else {
+                applyDiff(fixedFilters_[kRowGroups].unreads);
+                emit dataChanged(index(kRowGroups),
+                                 index(kRowGroups),
                                  {
                                    UnreadMessages,
                                    HasLoudNotification,

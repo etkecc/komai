@@ -60,12 +60,16 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool sidebarsCommunitiesFilterFavourites READ sidebarsCommunitiesFilterFavourites WRITE
         setSidebarsCommunitiesFilterFavourites NOTIFY sidebarsCommunitiesFilterFavouritesChanged)
+    Q_PROPERTY(bool sidebarsCommunitiesFilterPeople READ sidebarsCommunitiesFilterPeople WRITE
+                 setSidebarsCommunitiesFilterPeople NOTIFY sidebarsCommunitiesFilterPeopleChanged)
     Q_PROPERTY(bool sidebarsCommunitiesFilterBots READ sidebarsCommunitiesFilterBots WRITE
                  setSidebarsCommunitiesFilterBots NOTIFY sidebarsCommunitiesFilterBotsChanged)
     Q_PROPERTY(
       bool sidebarsCommunitiesFilterServerNotices READ sidebarsCommunitiesFilterServerNotices WRITE
         setSidebarsCommunitiesFilterServerNotices NOTIFY
           sidebarsCommunitiesFilterServerNoticesChanged)
+    Q_PROPERTY(bool sidebarsCommunitiesFilterGroups READ sidebarsCommunitiesFilterGroups WRITE
+                 setSidebarsCommunitiesFilterGroups NOTIFY sidebarsCommunitiesFilterGroupsChanged)
     Q_PROPERTY(
       bool sidebarsCommunitiesFilterLowPriority READ sidebarsCommunitiesFilterLowPriority WRITE
         setSidebarsCommunitiesFilterLowPriority NOTIFY sidebarsCommunitiesFilterLowPriorityChanged)
@@ -429,7 +433,9 @@ public:
     void setSidebarsCommunitiesVisible(bool state);
     void setSidebarsCommunitiesFilterDirectChats(bool state);
     void setSidebarsCommunitiesFilterFavourites(bool state);
+    void setSidebarsCommunitiesFilterPeople(bool state);
     void setSidebarsCommunitiesFilterBots(bool state);
+    void setSidebarsCommunitiesFilterGroups(bool state);
     void setSidebarsCommunitiesFilterServerNotices(bool state);
     void setSidebarsCommunitiesFilterLowPriority(bool state);
     void setSidebarsRoomListScrollbarsEnabled(bool state);
@@ -558,7 +564,9 @@ signals:
     void sidebarsCommunitiesVisibleChanged(bool state);
     void sidebarsCommunitiesFilterDirectChatsChanged(bool state);
     void sidebarsCommunitiesFilterFavouritesChanged(bool state);
+    void sidebarsCommunitiesFilterPeopleChanged(bool state);
     void sidebarsCommunitiesFilterBotsChanged(bool state);
+    void sidebarsCommunitiesFilterGroupsChanged(bool state);
     void sidebarsCommunitiesFilterServerNoticesChanged(bool state);
     void sidebarsCommunitiesFilterLowPriorityChanged(bool state);
     void sidebarsRoomListScrollbarsEnabledChanged(bool state);

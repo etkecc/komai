@@ -35,6 +35,22 @@
      enabled_cb,                                                                                   \
      CORE_CONFIG_ID(id, key)}
 
+#define SIMPLE_BOOL_CONFIG_ID_SETTING_WITH_ICON(                                                    \
+  name, desc, tab, getter, setter, enabled_cb, id, key, icon_path)                                 \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::Toggle,                                                                                   \
+     tab,                                                                                          \
+     getCoreBoolValue<settings::core::SettingId::id, &UserSettings::getter>,                       \
+     setSettingValue<&UserSettings::setter, bool>,                                                 \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key),                                                                      \
+     icon_path}
+
 #define SIMPLE_READ_ONLY_TEXT(name, desc, tab, getter)                                             \
     {QT_TR_NOOP(name),                                                                             \
      desc,                                                                                         \

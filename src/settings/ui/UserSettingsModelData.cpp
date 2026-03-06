@@ -37,6 +37,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         if (!m.description)
             return QVariant{};
         return tr(m.description);
+    case Icon:
+        return m.icon ? QVariant{QString::fromUtf8(m.icon)} : QVariant{};
     case Type:
         return m.type;
     case Tab:

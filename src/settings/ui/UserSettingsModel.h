@@ -78,6 +78,7 @@ public:
     {
         Name,
         Description,
+        Icon,
         Value,
         Type,
         ValueLowerBound,

@@ -64,6 +64,16 @@ Item {
 
                     readonly property bool isFullWidthPreviewRow: r.model.type == UserSettingsModel.TimelinePreview || r.model.type == UserSettingsModel.AvatarPreview
                     readonly property bool useStackedLayout: grid.width < grid.settingRowStackBreakpoint
+                    readonly property bool hasSettingIcon: !r.isFullWidthPreviewRow && !!r.model.icon
+                    readonly property string settingIconSource: {
+                        if (!r.hasSettingIcon) {
+                            return "";
+                        }
+                        if (r.model.icon.startsWith("image://colorimage/")) {
+                            return r.model.icon;
+                        }
+                        return "image://colorimage/" + r.model.icon + "?" + palette.buttonText;
+                    }
                     readonly property real controlWidth: r.useStackedLayout
                         ? Math.max(0, grid.width - Komai.paddingSmall * 2)
                         : Math.min(500, Math.max(240, grid.width - Komai.paddingLarge * 2))
@@ -111,24 +121,44 @@ Item {
                             rowSpacing: r.useStackedLayout && !r.isFullWidthPreviewRow ? Komai.paddingSmall : 0
                             columnSpacing: r.isFullWidthPreviewRow ? 0 : Komai.paddingSmall
 
-                            Text {
+                            RowLayout {
                                 Layout.row: 0
                                 Layout.column: 0
                                 Layout.fillWidth: true
                                 Layout.minimumWidth: 0
                                 Layout.alignment: Qt.AlignTop
                                 Layout.rightMargin: r.useStackedLayout ? 0 : Komai.paddingSmall
-                                color: palette.text
-                                linkColor: palette.highlight
-                                text: r.model.name
-                                textFormat: Text.AutoText
-                                font.pointSize: 1.1 * Settings.uiFontSizePt
-                                wrapMode: Text.Wrap
                                 visible: !r.isFullWidthPreviewRow
-                                onLinkActivated: function (link) {
-                                    Qt.openUrlExternally(link);
+                                readonly property int labelPixelSize: settingLabel.fontInfo.pixelSize > 0
+                                    ? settingLabel.fontInfo.pixelSize
+                                    : Math.round(1.1 * Settings.uiFontSizePt)
+                                readonly property int iconPixelSize: Math.max(10, Math.round(labelPixelSize * 0.7))
+
+                                Image {
+                                    Layout.alignment: Qt.AlignTop
+                                    Layout.topMargin: 2
+                                    visible: r.hasSettingIcon
+                                    source: r.settingIconSource
+                                    sourceSize.width: parent.iconPixelSize
+                                    sourceSize.height: parent.iconPixelSize
+                                    fillMode: Image.PreserveAspectFit
+                                    smooth: true
                                 }
 
+                                Text {
+                                    id: settingLabel
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: palette.text
+                                    linkColor: palette.highlight
+                                    text: r.model.name
+                                    textFormat: Text.AutoText
+                                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                                    wrapMode: Text.Wrap
+                                    onLinkActivated: function (link) {
+                                        Qt.openUrlExternally(link);
+                                    }
+                                }
                             }
 
                             Item {

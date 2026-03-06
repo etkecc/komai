@@ -25,6 +25,7 @@ UserSettingsModel::roleNames() const
     static QHash<int, QByteArray> roles{
       {Name, "name"},
       {Description, "description"},
+      {Icon, "icon"},
       {Value, "value"},
       {Type, "type"},
       {ValueLowerBound, "valueLowerBound"},

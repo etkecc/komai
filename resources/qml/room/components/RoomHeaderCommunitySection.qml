@@ -24,6 +24,7 @@ RowLayout {
     Layout.fillWidth: true
     Layout.row: 0
     spacing: Komai.paddingSmall
+    visible: communityVisible
 
     Avatar {
         Layout.alignment: Qt.AlignHCenter
@@ -33,7 +34,6 @@ RowLayout {
         implicitWidth: root.lineSpacing
         roomid: root.communityId
         url: root.communityAvatarUrl.replace("mxc://", "image://MxcImage/")
-        visible: root.communityVisible
     }
     Label {
         Layout.fillWidth: true
@@ -42,7 +42,6 @@ RowLayout {
         maximumLineCount: 1
         text: qsTr("In %1").arg(root.communityName)
         textFormat: Text.RichText
-        visible: root.communityVisible
 
         MouseArea {
             anchors.fill: parent

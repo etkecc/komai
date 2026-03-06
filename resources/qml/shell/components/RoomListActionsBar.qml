@@ -99,7 +99,7 @@ Pane {
             id: userSettingsButton
 
             profile: Komai.currentUser
-            avatarButtonSize: Komai.barIconSize
+            avatarButtonSize: roomActionsBar.avatarSize
 
             Layout.preferredHeight: Komai.navigationRowHeight
             Layout.preferredWidth: effectiveButtonSize

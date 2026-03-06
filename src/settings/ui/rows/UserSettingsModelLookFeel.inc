@@ -195,15 +195,15 @@
                         SM::TabSidebars, sidebarsCommunitiesFilterFavourites, setSidebarsCommunitiesFilterFavourites, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterFavourites, SettingKey::SidebarsCommunitiesFilterFavourites),
     // CommunitiesFilterPeople
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show People filter",
-                        QT_TR_NOOP("Direct chats with real people, excluding users detected as bots by heuristics (user ID starts with @bot, contains bot:, or display name contains \"bridge bot\")."),
+                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) with real people, excluding users detected as bots by heuristics (user ID starts with @bot, contains bot:, or display name contains \"bridge bot\")."),
                         SM::TabSidebars, sidebarsCommunitiesFilterPeople, setSidebarsCommunitiesFilterPeople, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterPeople, SettingKey::SidebarsCommunitiesFilterPeople),
     // CommunitiesFilterBots
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Bots filter",
-                        QT_TR_NOOP("Direct chats where the conversation partner is detected as a bot or bridge service account."),
+                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) where the conversation partner is detected as a bot or bridge service account."),
                         SM::TabSidebars, sidebarsCommunitiesFilterBots, setSidebarsCommunitiesFilterBots, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterBots, SettingKey::SidebarsCommunitiesFilterBots),
     // CommunitiesFilterGroups
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Groups filter",
-                        QT_TR_NOOP("Multi-participant rooms that are not direct chats."),
+                        QT_TR_NOOP("Multi-participant rooms that are not direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others)."),
                         SM::TabSidebars, sidebarsCommunitiesFilterGroups, setSidebarsCommunitiesFilterGroups, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterGroups, SettingKey::SidebarsCommunitiesFilterGroups),
     // CommunitiesFilterServerNotices
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Server Notices filter",

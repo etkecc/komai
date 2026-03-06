@@ -130,6 +130,37 @@
       nullptr,
       UiAvatarsDefaultAvatarStyle,
       SettingKey::UiAvatarsDefaultAvatarStyle),
+    // LookFeelCommunitiesSidebarSection
+    { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabSidebars,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // CommunitiesSidebarVisible
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
+                        nullptr,
+                        SM::TabSidebars, sidebarsCommunitiesVisible, setSidebarsCommunitiesVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
+    // CommunitiesFilterFavourites
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Favourites filter",
+                        QT_TR_NOOP("Rooms tagged with <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.favourite</a> via the Matrix room tagging API."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterFavourites, setSidebarsCommunitiesFilterFavourites, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterFavourites, SettingKey::SidebarsCommunitiesFilterFavourites),
+    // CommunitiesFilterPeople
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show People filter",
+                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) with real people, excluding users detected as bots by heuristics (user ID starts with @bot or @_, localpart ends with bridge, user ID contains bot:, or display name starts/ends with \"bot\" or contains \"bridge bot\")."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterPeople, setSidebarsCommunitiesFilterPeople, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterPeople, SettingKey::SidebarsCommunitiesFilterPeople),
+    // CommunitiesFilterBots
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Bots filter",
+                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) where the conversation partner is detected as a bot or bridge service account."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterBots, setSidebarsCommunitiesFilterBots, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterBots, SettingKey::SidebarsCommunitiesFilterBots),
+    // CommunitiesFilterGroups
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Groups filter",
+                        QT_TR_NOOP("Multi-participant rooms that are not direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others)."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterGroups, setSidebarsCommunitiesFilterGroups, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterGroups, SettingKey::SidebarsCommunitiesFilterGroups),
+    // CommunitiesFilterServerNotices
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Server Notices filter",
+                        QT_TR_NOOP("Rooms tagged <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.server_notice</a> by the homeserver for administrative messages. See the <a href=\"https://spec.matrix.org/v1.17/client-server-api/#server-notices\">Server Notices</a> module in the Matrix spec."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterServerNotices, setSidebarsCommunitiesFilterServerNotices, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterServerNotices, SettingKey::SidebarsCommunitiesFilterServerNotices),
+    // CommunitiesFilterLowPriority
+    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Low Priority filter",
+                        QT_TR_NOOP("Rooms tagged with <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.lowpriority</a> via the Matrix room tagging API."),
+                        SM::TabSidebars, sidebarsCommunitiesFilterLowPriority, setSidebarsCommunitiesFilterLowPriority, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterLowPriority, SettingKey::SidebarsCommunitiesFilterLowPriority),
     // SidebarsRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -182,37 +213,6 @@
       nullptr,
       SidebarsRoomListUnreadDetectionPolicy,
       SettingKey::SidebarsRoomListUnreadDetectionPolicy),
-    // LookFeelCommunitiesSidebarSection
-    { QT_TR_NOOP("Communities sidebar"), nullptr, SM::SectionTitle, SM::TabSidebars,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // CommunitiesSidebarVisible
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
-                        nullptr,
-                        SM::TabSidebars, sidebarsCommunitiesVisible, setSidebarsCommunitiesVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
-    // CommunitiesFilterFavourites
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Favourites filter",
-                        QT_TR_NOOP("Rooms tagged with <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.favourite</a> via the Matrix room tagging API."),
-                        SM::TabSidebars, sidebarsCommunitiesFilterFavourites, setSidebarsCommunitiesFilterFavourites, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterFavourites, SettingKey::SidebarsCommunitiesFilterFavourites),
-    // CommunitiesFilterPeople
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show People filter",
-                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) with real people, excluding users detected as bots by heuristics (user ID starts with @bot or @_, localpart ends with bridge, user ID contains bot:, or display name starts/ends with \"bot\" or contains \"bridge bot\")."),
-                        SM::TabSidebars, sidebarsCommunitiesFilterPeople, setSidebarsCommunitiesFilterPeople, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterPeople, SettingKey::SidebarsCommunitiesFilterPeople),
-    // CommunitiesFilterBots
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Bots filter",
-                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) where the conversation partner is detected as a bot or bridge service account."),
-                        SM::TabSidebars, sidebarsCommunitiesFilterBots, setSidebarsCommunitiesFilterBots, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterBots, SettingKey::SidebarsCommunitiesFilterBots),
-    // CommunitiesFilterGroups
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Groups filter",
-                        QT_TR_NOOP("Multi-participant rooms that are not direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others)."),
-                        SM::TabSidebars, sidebarsCommunitiesFilterGroups, setSidebarsCommunitiesFilterGroups, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterGroups, SettingKey::SidebarsCommunitiesFilterGroups),
-    // CommunitiesFilterServerNotices
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Server Notices filter",
-                        QT_TR_NOOP("Rooms tagged <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.server_notice</a> by the homeserver for administrative messages. See the <a href=\"https://spec.matrix.org/v1.17/client-server-api/#server-notices\">Server Notices</a> module in the Matrix spec."),
-                        SM::TabSidebars, sidebarsCommunitiesFilterServerNotices, setSidebarsCommunitiesFilterServerNotices, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterServerNotices, SettingKey::SidebarsCommunitiesFilterServerNotices),
-    // CommunitiesFilterLowPriority
-    SIMPLE_BOOL_CONFIG_ID_SETTING("Show Low Priority filter",
-                        QT_TR_NOOP("Rooms tagged with <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.lowpriority</a> via the Matrix room tagging API."),
-                        SM::TabSidebars, sidebarsCommunitiesFilterLowPriority, setSidebarsCommunitiesFilterLowPriority, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterLowPriority, SettingKey::SidebarsCommunitiesFilterLowPriority),
     // IntegrationsSystemTraySection
     { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

@@ -104,8 +104,10 @@ Direct chats with real people, excluding users categorized as bots. A room is a 
 
 Bot rooms are a strict subset of direct chats. A room is a bot room when its DM partner matches the bot heuristic in `isLikelyBotUser()` (`src/utils/UtilsCore.cpp`):
 
-- User ID starts with `@bot` (case-insensitive)
-- User ID contains `bot:`
+- User ID starts with `@bot` (case-insensitive), e.g. `@botserv:example.com`
+- User ID starts with `@_`, e.g. `@_webhooks_something:example.com`
+- User ID contains `bot:`, e.g. `@telegrambot:example.com`
+- User ID localpart ends with `bridge`, e.g. `@heisenbridge:example.com`
 - Display name contains `bridge bot`
 
 `DirectChatResolver::isBotRoom()` is the single entry point -- it resolves the DM partner, then checks the heuristic.

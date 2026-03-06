@@ -280,12 +280,32 @@ utils::isLikelyBotUser(std::string_view userId, std::string_view displayName)
         return true;
     };
 
+    auto ciEndsWith = [](std::string_view s, std::string_view suffix) {
+        if (suffix.size() > s.size())
+            return false;
+        for (size_t i = 0; i < suffix.size(); ++i) {
+            if (std::tolower(static_cast<unsigned char>(s[s.size() - suffix.size() + i])) !=
+                std::tolower(static_cast<unsigned char>(suffix[i])))
+                return false;
+        }
+        return true;
+    };
+
     // @bot… or @botserv:server
     if (ciStartsWith(userId, "@bot"))
         return true;
 
+    // @_webhooks_something:server, @_irc_user:server, etc.
+    if (ciStartsWith(userId, "@_"))
+        return true;
+
     // @telegrambot:server, @messengerbot:server, etc.
     if (ciContains(userId, "bot:"))
+        return true;
+
+    // @heisenbridge:server, @telegrambridge:server, etc.
+    auto colon = userId.find(':');
+    if (colon != std::string_view::npos && ciEndsWith(userId.substr(0, colon), "bridge"))
         return true;
 
     // "Telegram Bridge Bot", "Signal bridge bot", etc.

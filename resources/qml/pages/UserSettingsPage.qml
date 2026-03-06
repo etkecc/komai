@@ -103,12 +103,12 @@ Rectangle {
                         spacing: Komai.paddingMedium
 
                         Image {
-                            Layout.preferredWidth: 24
-                            Layout.preferredHeight: 24
+                            Layout.preferredWidth: userSettingsDialog.headerIconSize
+                            Layout.preferredHeight: userSettingsDialog.headerIconSize
                             Layout.alignment: Qt.AlignVCenter
                             source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerBack.hovered ? palette.brightText : palette.text)
-                            sourceSize.width: 24
-                            sourceSize.height: 24
+                            sourceSize.width: userSettingsDialog.headerIconSize
+                            sourceSize.height: userSettingsDialog.headerIconSize
                         }
 
                         Label {

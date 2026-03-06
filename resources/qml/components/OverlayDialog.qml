@@ -18,6 +18,7 @@ Dialog {
     property Item initialFocusItem: null
     property int overlayDialogMinWidth: 520
     property real overlayDialogMaxWidthRatio: 0.8
+    readonly property int headerIconSize: Math.max(16, Math.ceil(headerFontMetrics.height))
     default property alias body: bodyLayout.data
 
     onOpened: {
@@ -65,14 +66,21 @@ Dialog {
     contentItem: ColumnLayout {
         spacing: Komai.paddingMedium
 
+        FontMetrics {
+            id: headerFontMetrics
+
+            font.bold: true
+            font.pointSize: Settings.uiFontSizePt * 1.2
+        }
+
         RowLayout {
             Layout.fillWidth: true
             spacing: Komai.paddingSmall
 
             Image {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: visible ? 24 : 0
-                Layout.preferredHeight: visible ? 24 : 0
+                Layout.preferredWidth: visible ? root.headerIconSize : 0
+                Layout.preferredHeight: visible ? root.headerIconSize : 0
                 fillMode: Image.PreserveAspectFit
                 mirror: root.titleIconMirror
                 source: root.titleIcon !== "" ? "image://colorimage/" + root.titleIcon + "?" + root.titleIconColor : ""
@@ -93,8 +101,8 @@ Dialog {
 
             ImageButton {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: 20
-                Layout.preferredHeight: 20
+                Layout.preferredWidth: root.headerIconSize
+                Layout.preferredHeight: root.headerIconSize
                 ToolTip.text: qsTr("Close")
                 ToolTip.visible: hovered
                 image: ":/icons/icons/ui/dismiss.svg"

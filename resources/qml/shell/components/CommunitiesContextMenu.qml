@@ -13,11 +13,29 @@ Menu {
     property bool hidden
     property bool muted
     property string tagId
+    property string displayName
 
-    function show(menuParent, id_, hidden_, muted_) {
+    signal hideFilterRequested()
+
+    readonly property bool isHideableFilter: {
+        switch (tagId) {
+        case "people":
+        case "bot":
+        case "group":
+        case "tag:m.favourite":
+        case "tag:m.server_notice":
+        case "tag:m.lowpriority":
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    function show(menuParent, id_, hidden_, muted_, displayName_) {
         tagId = id_;
         hidden = hidden_;
         muted = muted_;
+        displayName = displayName_ ?? "";
         popup(menuParent);
     }
 
@@ -39,5 +57,11 @@ Menu {
         text: qsTr("Hide rooms with this tag or from this community by default.")
 
         onTriggered: Communities.toggleTagId(root.tagId)
+    }
+    MenuItem {
+        text: qsTr("Hide this filter")
+        visible: root.isHideableFilter
+
+        onTriggered: root.hideFilterRequested()
     }
 }

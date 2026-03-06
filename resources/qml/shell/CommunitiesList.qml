@@ -65,6 +65,16 @@ Page {
 
         CommunitiesContextMenu {
             id: communitySidebarContextMenu
+
+            onHideFilterRequested: {
+                hideFilterDialog.tagId = communitySidebarContextMenu.tagId;
+                hideFilterDialog.filterName = communitySidebarContextMenu.displayName;
+                hideFilterDialog.open();
+            }
         }
+    }
+
+    HideFilterDialog {
+        id: hideFilterDialog
     }
 }

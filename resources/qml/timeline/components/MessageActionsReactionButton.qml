@@ -14,6 +14,7 @@ AbstractButton {
     required property var roomModel
     required property var messageActionsControl
     required property color actionButtonColor
+    required property color actionButtonActiveColor
     required property color actionButtonHoverBackgroundColor
     required property int actionButtonIconSize
     required property int actionButtonHeight
@@ -21,6 +22,7 @@ AbstractButton {
     required property int itemVerticalPadding
     readonly property string normalizedReaction: reaction !== undefined && reaction !== null ? String(reaction) : ""
     readonly property bool showImage: normalizedReaction.startsWith("mxc://")
+    readonly property bool activeState: hovered || pressed || visualFocus
 
     focusPolicy: Qt.NoFocus
     leftPadding: itemHorizontalPadding
@@ -31,8 +33,9 @@ AbstractButton {
     rightInset: 0
     topInset: 0
     bottomInset: 0
-    height: actionButtonHeight
-    implicitHeight: actionButtonHeight
+    implicitHeight: Math.max(actionButtonHeight,
+                             (showImage ? actionButtonIconSize : reactionLabel.implicitHeight) + topPadding + bottomPadding)
+    height: implicitHeight
     implicitWidth: (showImage ? actionButtonIconSize : reactionLabel.implicitWidth) + 2 * itemHorizontalPadding
     width: implicitWidth
 
@@ -50,7 +53,7 @@ AbstractButton {
         id: reactionLabel
 
         anchors.centerIn: parent
-        color: button.actionButtonColor
+        color: button.activeState ? button.actionButtonActiveColor : button.actionButtonColor
         font.pixelSize: button.actionButtonIconSize
         font.family: Settings.uiFontEmojiFamily
         horizontalAlignment: Text.AlignHCenter
@@ -73,8 +76,8 @@ AbstractButton {
         cursorShape: Qt.PointingHandCursor
     }
     background: Rectangle {
-        radius: Komai.paddingMedium
-        color: button.hovered || button.pressed || button.visualFocus
+        radius: Komai.paddingSmall
+        color: button.activeState
             ? button.actionButtonHoverBackgroundColor
             : "transparent"
     }

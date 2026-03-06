@@ -93,6 +93,10 @@ Item {
         onImplicitHeightChanged: scheduleReposition()
 
         background: TimelineFloatingActionBarBackground {
+            barColor: palette.alternateBase
+            barRadius: Komai.paddingSmall
+            barBorderColor: Komai.theme.separator
+            barBorderWidth: 1
         }
         contentItem: Item {
             implicitWidth: messageActionsToolbar.implicitWidth

@@ -17,10 +17,10 @@ RowLayout {
     required property var messageModel
     required property var roomModel
     required property var topBar
-    property int itemHorizontalPadding: Komai.paddingMedium
-    property int itemVerticalPadding: Komai.paddingMedium
-    property int actionButtonIconSize: 24
-    property int actionButtonHeight: actionButtonIconSize + itemVerticalPadding * 2
+    property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int itemVerticalPadding: 0
+    property int actionButtonHeight: Komai.listIconSize
+    property int actionButtonIconSize: Math.max(14, actionButtonHeight - 2 * itemHorizontalPadding)
     property int labelBreakpointWidth: 600
     readonly property real actionHostWidth: (messageActionsControl && messageActionsControl.parent)
         ? messageActionsControl.parent.width
@@ -42,9 +42,9 @@ RowLayout {
         + iconOnlyButtonWidth()
     readonly property bool showActionLabels: actionHostWidth >= labelBreakpointWidth
         && actionHostWidth >= requiredLabeledWidth
-    property color actionButtonColor: palette.brightText
-    property color actionButtonHoverColor: palette.highlight
-    property color actionButtonHoverBackgroundColor: Qt.rgba(actionButtonColor.r, actionButtonColor.g, actionButtonColor.b, 0.16)
+    property color actionButtonColor: palette.buttonText
+    property color actionButtonActiveColor: palette.brightText
+    property color actionButtonHoverBackgroundColor: palette.dark
     readonly property int separatorSlotWidth: Komai.paddingMedium * 2 + 1
     readonly property real reactionButtonsWidth: repeaterItemsWidth(pinnedReactionsRepeater) + repeaterItemsWidth(recentReactionsRepeater)
 
@@ -135,6 +135,7 @@ RowLayout {
             roomModel: toolbar.roomModel
             messageActionsControl: toolbar.messageActionsControl
             actionButtonColor: toolbar.actionButtonColor
+            actionButtonActiveColor: toolbar.actionButtonActiveColor
             actionButtonHoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
             actionButtonIconSize: toolbar.actionButtonIconSize
             actionButtonHeight: toolbar.actionButtonHeight
@@ -167,6 +168,7 @@ RowLayout {
             roomModel: toolbar.roomModel
             messageActionsControl: toolbar.messageActionsControl
             actionButtonColor: toolbar.actionButtonColor
+            actionButtonActiveColor: toolbar.actionButtonActiveColor
             actionButtonHoverBackgroundColor: toolbar.actionButtonHoverBackgroundColor
             actionButtonIconSize: toolbar.actionButtonIconSize
             actionButtonHeight: toolbar.actionButtonHeight

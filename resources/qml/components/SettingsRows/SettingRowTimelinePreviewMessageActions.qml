@@ -18,10 +18,10 @@ Control {
     property bool pinned: false
     property bool positioned: false
     readonly property bool canEdit: !!root.model && root.model.isEditable
-    property int itemHorizontalPadding: Komai.paddingMedium
-    property int itemVerticalPadding: Komai.paddingMedium
-    property int actionButtonIconSize: 24
-    property int actionButtonHeight: actionButtonIconSize + itemVerticalPadding * 2
+    property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+    property int itemVerticalPadding: 0
+    property int actionButtonHeight: Komai.listIconSize
+    property int actionButtonIconSize: Math.max(14, actionButtonHeight - 2 * itemHorizontalPadding)
     property int labelBreakpointWidth: 600
     readonly property real actionHostWidth: (root.parent && root.parent.width > 0) ? root.parent.width : width
     readonly property int separatorSlotWidth: Komai.paddingMedium * 2 + 1
@@ -34,8 +34,9 @@ Control {
         + iconOnlyButtonWidth()
     readonly property bool showActionLabels: actionHostWidth >= labelBreakpointWidth
         && actionHostWidth >= requiredLabeledWidth
-    readonly property color actionButtonColor: palette.brightText
-    readonly property color actionButtonHoverBackgroundColor: Qt.rgba(actionButtonColor.r, actionButtonColor.g, actionButtonColor.b, 0.16)
+    readonly property color actionButtonColor: palette.buttonText
+    readonly property color actionButtonActiveColor: palette.brightText
+    readonly property color actionButtonHoverBackgroundColor: palette.dark
 
     function repeaterItemsWidth(repeater) {
         if (!repeater || repeater.count <= 0)
@@ -79,6 +80,10 @@ Control {
     z: 10
 
     background: TimelineComponents.TimelineFloatingActionBarBackground {
+        barColor: palette.alternateBase
+        barRadius: Komai.paddingSmall
+        barBorderColor: Komai.theme.separator
+        barBorderWidth: 1
     }
 
     TextMetrics {
@@ -122,7 +127,7 @@ Control {
                 required property string modelData
 
                 Layout.preferredHeight: root.actionButtonHeight
-                Layout.preferredWidth: Math.max(32, emojiLabel.implicitWidth + 2 * actionRow.itemPadding)
+                Layout.preferredWidth: Math.max(root.actionButtonIconSize + 2 * actionRow.itemPadding, emojiLabel.implicitWidth + 2 * actionRow.itemPadding)
                 focusPolicy: Qt.NoFocus
                 hoverEnabled: true
                 leftPadding: actionRow.itemPadding
@@ -138,14 +143,17 @@ Control {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: modelData
-                    font.pixelSize: 24
+                    color: pinnedReactionButton.hovered || pinnedReactionButton.pressed || pinnedReactionButton.visualFocus
+                        ? root.actionButtonActiveColor
+                        : root.actionButtonColor
+                    font.pixelSize: root.actionButtonIconSize
                     font.family: Settings.uiFontEmojiFamily
                 }
                 background: Rectangle {
                     color: pinnedReactionButton.hovered || pinnedReactionButton.pressed || pinnedReactionButton.visualFocus
                         ? root.actionButtonHoverBackgroundColor
                         : "transparent"
-                    radius: Komai.paddingMedium
+                    radius: Komai.paddingSmall
                 }
             }
         }
@@ -154,9 +162,12 @@ Control {
             id: reactButton
 
             buttonTextColor: root.actionButtonColor
+            hoverIconColor: root.actionButtonActiveColor
+            hoverTextColor: root.actionButtonActiveColor
             contentHorizontalPadding: root.itemHorizontalPadding
             contentVerticalPadding: root.itemVerticalPadding
             hoverBackgroundColor: root.actionButtonHoverBackgroundColor
+            buttonHeight: root.actionButtonHeight
             iconSize: root.actionButtonIconSize
             image: ":/icons/icons/ui/smile-add.svg"
             labelText: ""
@@ -181,9 +192,12 @@ Control {
             id: editButton
 
             buttonTextColor: root.actionButtonColor
+            hoverIconColor: root.actionButtonActiveColor
+            hoverTextColor: root.actionButtonActiveColor
             contentHorizontalPadding: root.itemHorizontalPadding
             contentVerticalPadding: root.itemVerticalPadding
             hoverBackgroundColor: root.actionButtonHoverBackgroundColor
+            buttonHeight: root.actionButtonHeight
             iconSize: root.actionButtonIconSize
             image: ":/icons/icons/ui/edit.svg"
             labelText: root.showActionLabels ? qsTr("Edit") : ""
@@ -196,9 +210,12 @@ Control {
             id: replyButton
 
             buttonTextColor: root.actionButtonColor
+            hoverIconColor: root.actionButtonActiveColor
+            hoverTextColor: root.actionButtonActiveColor
             contentHorizontalPadding: root.itemHorizontalPadding
             contentVerticalPadding: root.itemVerticalPadding
             hoverBackgroundColor: root.actionButtonHoverBackgroundColor
+            buttonHeight: root.actionButtonHeight
             iconSize: root.actionButtonIconSize
             image: ":/icons/icons/ui/reply.svg"
             labelText: root.showActionLabels ? qsTr("Reply") : ""
@@ -210,9 +227,12 @@ Control {
             id: optionsButton
 
             buttonTextColor: root.actionButtonColor
+            hoverIconColor: root.actionButtonActiveColor
+            hoverTextColor: root.actionButtonActiveColor
             contentHorizontalPadding: root.itemHorizontalPadding
             contentVerticalPadding: root.itemVerticalPadding
             hoverBackgroundColor: root.actionButtonHoverBackgroundColor
+            buttonHeight: root.actionButtonHeight
             iconSize: root.actionButtonIconSize
             image: ":/icons/icons/ui/options-circle.svg"
             labelText: ""

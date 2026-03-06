@@ -5,6 +5,7 @@
 
 #include "CommunitiesModel.h"
 
+#include <algorithm>
 #include <mtx/responses/common.hpp>
 #include <set>
 
@@ -26,11 +27,37 @@ struct temptree
         t->children[child];
     }
 
-    void flatten(CommunitiesModel::FlatTree &to, int i = 0) const
+    void flatten(CommunitiesModel::FlatTree &to,
+                 const std::map<QString, RoomInfo> &spaces,
+                 int depth = 0) const
     {
-        for (const auto &[child, subtree] : children) {
-            to.tree.push_back({QString::fromStdString(child), i, {}, false});
-            subtree.flatten(to, i + 1);
+        std::vector<std::pair<std::string, const temptree *>> sorted;
+        sorted.reserve(children.size());
+        for (const auto &[child, subtree] : children)
+            sorted.emplace_back(child, &subtree);
+
+        std::sort(sorted.begin(), sorted.end(), [&spaces](const auto &a, const auto &b) {
+            auto aId = QString::fromStdString(a.first);
+            auto bId = QString::fromStdString(b.first);
+            auto aIt = spaces.find(aId);
+            auto bIt = spaces.find(bId);
+
+            QString aName = (aIt != spaces.end() && !aIt->second.name.empty())
+                              ? QString::fromStdString(aIt->second.name)
+                              : aId;
+            QString bName = (bIt != spaces.end() && !bIt->second.name.empty())
+                              ? QString::fromStdString(bIt->second.name)
+                              : bId;
+
+            int cmp = aName.compare(bName, Qt::CaseInsensitive);
+            if (cmp != 0)
+                return cmp < 0;
+            return a.first < b.first;
+        });
+
+        for (const auto &[child, subtree] : sorted) {
+            to.tree.push_back({QString::fromStdString(child), depth, {}, false});
+            subtree->flatten(to, spaces, depth + 1);
         }
     }
 };
@@ -164,7 +191,7 @@ CommunitiesModel::initializeSidebar()
     }
 
     // NOTE(Nico): This flattens the tree into a list, preserving the depth at each element.
-    spacetree.flatten(spaceOrder_);
+    spacetree.flatten(spaceOrder_, spaces_);
 
     for (const auto &t : ts)
         tags_.push_back(QString::fromStdString(t));

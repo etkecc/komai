@@ -68,6 +68,12 @@ DirectChatResolver::computePartner(const QString &roomId)
         return others[0].user_id;
 
     // 5. Two other members — try bot elimination.
+    //    Common bridge pattern: you + bridge bot + puppet of a real person.
+    //    If exactly one is a bot, the other is the DM partner.
+    //    If both are bots (e.g. @hookshot:example.com + @_webhooks_watchdog:example.com),
+    //    treat the room as a bot room — pick either as the nominal partner so that
+    //    isDirectChat() returns true and isBotRoom() classifies it under Bots.
+    //    If neither looks like a bot, it's ambiguous — not a clear DM.
     if (others.size() == 2) {
         bool bot0 = isLikelyBotUser(others[0].user_id, others[0].display_name);
         bool bot1 = isLikelyBotUser(others[1].user_id, others[1].display_name);
@@ -75,7 +81,8 @@ DirectChatResolver::computePartner(const QString &roomId)
             return others[1].user_id;
         if (bot1 && !bot0)
             return others[0].user_id;
-        // Both bots or neither — ambiguous, not a clear DM.
+        if (bot0 && bot1)
+            return others[0].user_id;
         return {};
     }
 

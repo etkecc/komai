@@ -24,7 +24,7 @@ Uses the standard Matrix [`m.favourite`](https://spec.matrix.org/v1.17/client-se
 
 Shows direct chats with real people, excluding users detected as bots. This filter only appears when you have at least one non-bot direct chat.
 
-Bot detection uses heuristics: user ID starts with `@bot` or `@_`, localpart ends with `bridge` (e.g. `@heisenbridge:example.com`), user ID contains `bot:`, or display name contains "bridge bot".
+Bot detection uses heuristics: user ID starts with `@bot` or `@_`, localpart ends with `bridge` (e.g. `@heisenbridge:example.com`), user ID contains `bot:`, display name starts or ends with "bot" (e.g. "Hookshot Bot"), or display name contains "bridge bot". User IDs containing `puppet` are excluded (bridge puppets representing real users).
 
 ### Bots
 

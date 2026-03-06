@@ -76,5 +76,17 @@ utils::isLikelyBotUser(std::string_view userId, std::string_view displayName)
     if (ciContains(displayName, "bridge bot"))
         return true;
 
+    auto isAlpha = [](char c) { return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'); };
+
+    // "Hookshot Bot", "My Bot", etc. — display name ends with "bot" as a word.
+    // Must not be part of a larger word (e.g. "robot" should not match).
+    if (ciEndsWith(displayName, "bot") &&
+        (displayName.size() == 3 || !isAlpha(displayName[displayName.size() - 4])))
+        return true;
+
+    // "Bot Service", "bot helper", etc. — display name starts with "bot" as a word.
+    if (ciStartsWith(displayName, "bot") && (displayName.size() == 3 || !isAlpha(displayName[3])))
+        return true;
+
     return false;
 }

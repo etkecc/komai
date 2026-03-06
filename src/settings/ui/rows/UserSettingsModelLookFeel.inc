@@ -195,7 +195,7 @@
                         SM::TabSidebars, sidebarsCommunitiesFilterFavourites, setSidebarsCommunitiesFilterFavourites, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterFavourites, SettingKey::SidebarsCommunitiesFilterFavourites),
     // CommunitiesFilterPeople
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show People filter",
-                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) with real people, excluding users detected as bots by heuristics (user ID starts with @bot or @_, localpart ends with bridge, user ID contains bot:, or display name contains \"bridge bot\")."),
+                        QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) with real people, excluding users detected as bots by heuristics (user ID starts with @bot or @_, localpart ends with bridge, user ID contains bot:, or display name starts/ends with \"bot\" or contains \"bridge bot\")."),
                         SM::TabSidebars, sidebarsCommunitiesFilterPeople, setSidebarsCommunitiesFilterPeople, sidebarsCommunitiesVisibleEnabled, SidebarsCommunitiesFilterPeople, SettingKey::SidebarsCommunitiesFilterPeople),
     // CommunitiesFilterBots
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show Bots filter",

@@ -52,6 +52,16 @@ main()
     expectBot("@someuser:example.com", "Telegram Bridge Bot", "display name bridge bot");
     expectBot("@someuser:example.com", "signal bridge bot", "display name bridge bot lower");
 
+    // ── Display name ends with "bot" ────────────────────────────────────
+    expectBot("@hookshot:example.com", "Hookshot Bot", "display name ends with Bot");
+    expectBot("@someuser:example.com", "my bot", "display name ends with bot lower");
+
+    // ── Display name starts with "bot" ──────────────────────────────────
+    expectBot("@someuser:example.com", "Bot Service", "display name starts with Bot");
+    expectBot("@someuser:example.com", "bot helper", "display name starts with bot lower");
+    expectBot("@someuser:example.com", "Bot", "display name is exactly Bot");
+    expectBot("@hookshot:example.com", "Hookshot Bot", "hookshot with Bot display name");
+
     // ── Puppet escape (contains puppet → human) ─────────────────────────
     expectHuman("@_discordpuppet__123456789:example.com", "", "discord puppet");
     expectHuman("@_puppet_user:example.com", "", "generic puppet");
@@ -62,8 +72,10 @@ main()
     // ── Normal humans ───────────────────────────────────────────────────
     expectHuman("@alice:example.com", "", "normal user");
     expectHuman("@alice:example.com", "Alice", "normal user with displayname");
-    expectHuman("@robert:example.com", "", "name containing bot substring");
-    expectHuman("@bridget:example.com", "", "name containing bridge substring");
+    expectHuman("@robert:example.com", "", "userId containing bot substring");
+    expectHuman("@bridget:example.com", "", "userId containing bridge substring");
+    expectHuman("@someuser:example.com", "Robert", "display name containing bot mid-word");
+    expectHuman("@someuser:example.com", "robot", "display name robot != bot");
 
     if (failures > 0) {
         std::cerr << failures << " test(s) failed\n";

@@ -8,6 +8,7 @@
 
 #include "cache/Cache.h"
 #include "matrix/MatrixStateTypes.h"
+#include "utils/BotDetection.h"
 #include "utils/Utils.h"
 
 DirectChatResolver &

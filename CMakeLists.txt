@@ -811,6 +811,7 @@ set(SRC_FILES
     src/settings/ui/facade/UserSettingsTheme.cpp
     src/models/UsersModel.cpp
     src/models/UsersModel.h
+    src/utils/BotDetection.cpp
     src/utils/UtilsCore.cpp
     src/utils/Utils.h
     src/utils/UtilsColor.cpp
@@ -1507,6 +1508,14 @@ if(BUILD_TESTING)
     add_test(NAME komai_theme_color_utils_test COMMAND komai_theme_color_utils_test)
     komai_configure_test(komai_theme_color_utils_test "unit;theme")
 
+    add_executable(komai_bot_detection_test
+        tests/BotDetectionTest.cpp
+        src/utils/BotDetection.cpp
+    )
+    target_include_directories(komai_bot_detection_test PRIVATE src)
+    add_test(NAME komai_bot_detection_test COMMAND komai_bot_detection_test)
+    komai_configure_test(komai_bot_detection_test "unit;utils")
+
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
@@ -1522,6 +1531,7 @@ if(BUILD_TESTING)
         komai_raw_message_dialog_payload_test
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
+        komai_bot_detection_test
     )
 endif()
 

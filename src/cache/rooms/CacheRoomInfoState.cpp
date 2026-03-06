@@ -13,6 +13,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "utils/BotDetection.h"
 #include "utils/Utils.h"
 
 using namespace mtx::events;

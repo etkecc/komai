@@ -25,18 +25,31 @@ Components.OverlayDialog {
         text: qsTr("Are you sure you want to leave?")
     }
 
-    Button {
-        Layout.alignment: Qt.AlignRight
-        text: qsTr("Leave")
-        highlighted: true
-        onClicked: {
-            if (CallManager.haveCallInvite) {
-                CallManager.rejectInvite();
-            } else if (CallManager.isOnCall) {
-                CallManager.hangUp();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: leaveRoomRoot.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: qsTr("Leave")
+            highlighted: true
+            onClicked: {
+                if (CallManager.haveCallInvite) {
+                    CallManager.rejectInvite();
+                } else if (CallManager.isOnCall) {
+                    CallManager.hangUp();
+                }
+                Rooms.leave(leaveRoomRoot.roomId, leaveRoomRoot.reason);
+                leaveRoomRoot.close();
             }
-            Rooms.leave(leaveRoomRoot.roomId, leaveRoomRoot.reason);
-            leaveRoomRoot.close();
         }
     }
 }

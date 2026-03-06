@@ -107,14 +107,27 @@ OverlayDialog {
         text: joinRoomRoot.summary.reason
     }
 
-    Button {
-        Layout.alignment: Qt.AlignRight
-        text: summary.isKnockOnly ? qsTr("Knock") : qsTr("Join")
-        highlighted: true
-        onClicked: {
-            summary.reason = reason.text;
-            summary.join();
-            joinRoomRoot.close();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: joinRoomRoot.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: summary.isKnockOnly ? qsTr("Knock") : qsTr("Join")
+            highlighted: true
+            onClicked: {
+                summary.reason = reason.text;
+                summary.join();
+                joinRoomRoot.close();
+            }
         }
     }
 }

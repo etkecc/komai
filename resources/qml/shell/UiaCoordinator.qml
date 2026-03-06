@@ -92,13 +92,26 @@ Item {
             text: qsTr("Wait for the confirmation link to arrive, then continue.")
         }
 
-        Button {
-            Layout.alignment: Qt.AlignRight
-            text: qsTr("Continue")
-            highlighted: true
-            onClicked: {
-                UIA.continue3pidReceived();
-                uiaConfirmationLinkDialog.close();
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Komai.paddingMedium
+
+            Button {
+                text: qsTr("Cancel")
+                onClicked: uiaConfirmationLinkDialog.close()
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            Button {
+                text: qsTr("Continue")
+                highlighted: true
+                onClicked: {
+                    UIA.continue3pidReceived();
+                    uiaConfirmationLinkDialog.close();
+                }
             }
         }
     }

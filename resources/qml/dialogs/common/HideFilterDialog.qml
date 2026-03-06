@@ -39,13 +39,26 @@ Components.OverlayDialog {
         text: qsTr("To show this filter again, go to Application Settings → Sidebars → Communities Sidebar and enable the \"Show %1 filter\" toggle.").arg(hideFilterRoot.filterName)
     }
 
-    Button {
-        Layout.alignment: Qt.AlignRight
-        text: qsTr("Hide")
-        highlighted: true
-        onClicked: {
-            hideFilterRoot.hideFilter(hideFilterRoot.tagId);
-            hideFilterRoot.close();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: hideFilterRoot.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: qsTr("Hide")
+            highlighted: true
+            onClicked: {
+                hideFilterRoot.hideFilter(hideFilterRoot.tagId);
+                hideFilterRoot.close();
+            }
         }
     }
 

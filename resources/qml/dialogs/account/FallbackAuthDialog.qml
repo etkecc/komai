@@ -37,6 +37,11 @@ Components.OverlayDialog {
         spacing: Komai.paddingMedium
 
         Button {
+            text: qsTr("Cancel")
+            onClicked: fallbackRoot.close()
+        }
+
+        Button {
             text: qsTr("Open in Browser")
             onClicked: fallback.openFallbackAuth()
         }

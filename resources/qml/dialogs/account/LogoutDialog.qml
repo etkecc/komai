@@ -22,13 +22,26 @@ Components.OverlayDialog {
         text: CallManager.isOnCall ? qsTr("A call is in progress. Log out?") : qsTr("Are you sure you want to log out?")
     }
 
-    Button {
-        Layout.alignment: Qt.AlignRight
-        text: qsTr("Log out")
-        highlighted: true
-        onClicked: {
-            Komai.logout();
-            logoutRoot.close();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: logoutRoot.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: qsTr("Log out")
+            highlighted: true
+            onClicked: {
+                Komai.logout();
+                logoutRoot.close();
+            }
         }
     }
 }

@@ -160,13 +160,26 @@ Item {
                         text: qsTr("Are you sure you want to remove the room avatar?")
                     }
 
-                    Components.KomaiButton {
-                        Layout.alignment: Qt.AlignRight
-                        text: qsTr("Remove")
-                        highlighted: true
-                        onClicked: {
-                            roomSettings.removeAvatar();
-                            confirmRemoveAvatarDialog.close();
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingMedium
+
+                        Components.KomaiButton {
+                            text: qsTr("Cancel")
+                            onClicked: confirmRemoveAvatarDialog.close()
+                        }
+
+                        Item {
+                            Layout.fillWidth: true
+                        }
+
+                        Components.KomaiButton {
+                            text: qsTr("Remove")
+                            highlighted: true
+                            onClicked: {
+                                roomSettings.removeAvatar();
+                                confirmRemoveAvatarDialog.close();
+                            }
                         }
                     }
                 }
@@ -378,15 +391,28 @@ Item {
                         text: qsTr("Encryption is currently experimental and things might break unexpectedly.\nPlease take note that it can't be disabled afterwards.")
                     }
 
-                    Components.KomaiButton {
-                        Layout.alignment: Qt.AlignRight
-                        text: qsTr("Enable")
-                        highlighted: true
-                        onClicked: {
-                            if (roomSettings && !roomSettings.isEncryptionEnabled)
-                                roomSettings.enableEncryption();
-                            confirmEncryptionDialog.wasAccepted = true;
-                            confirmEncryptionDialog.close();
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingMedium
+
+                        Components.KomaiButton {
+                            text: qsTr("Cancel")
+                            onClicked: confirmEncryptionDialog.close()
+                        }
+
+                        Item {
+                            Layout.fillWidth: true
+                        }
+
+                        Components.KomaiButton {
+                            text: qsTr("Enable")
+                            highlighted: true
+                            onClicked: {
+                                if (roomSettings && !roomSettings.isEncryptionEnabled)
+                                    roomSettings.enableEncryption();
+                                confirmEncryptionDialog.wasAccepted = true;
+                                confirmEncryptionDialog.close();
+                            }
                         }
                     }
                 }

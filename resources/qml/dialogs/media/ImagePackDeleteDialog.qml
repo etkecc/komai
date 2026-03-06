@@ -24,13 +24,26 @@ Components.OverlayDialog {
         text: qsTr("Are you sure you wish to delete the sticker pack '%1'?").arg(imagePack.packname)
     }
 
-    Button {
-        Layout.alignment: Qt.AlignRight
-        text: qsTr("Delete")
-        highlighted: true
-        onClicked: {
-            imagePack.remove();
-            deleteStickerPackRoot.close();
+    RowLayout {
+        Layout.fillWidth: true
+        spacing: Komai.paddingMedium
+
+        Button {
+            text: qsTr("Cancel")
+            onClicked: deleteStickerPackRoot.close()
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: qsTr("Delete")
+            highlighted: true
+            onClicked: {
+                imagePack.remove();
+                deleteStickerPackRoot.close();
+            }
         }
     }
 }

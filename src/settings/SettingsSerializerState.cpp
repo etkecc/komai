@@ -79,7 +79,7 @@ loadState(UserSettings &settings, const YAML::Node &root)
     settings.setBadgesHiddenFilters(
       readStringList(root,
                      SettingKey::SidebarsCommunitiesFilteringBadgesHidden,
-                     QStringList{QStringLiteral("global")}));
+                     QStringList{QStringLiteral("global"), QStringLiteral("tag:m.lowpriority")}));
     settings.setHiddenPins(readStringList(root, SettingKey::TimelinePinsHidden));
     settings.setHiddenWidgets(readStringList(root, SettingKey::TimelineWidgetsHidden));
     settings.setRecentReactions(readStringList(root, SettingKey::ComposerReactionsRecent));

@@ -57,8 +57,10 @@ Each filter has up to three options, configurable in **Settings > Sidebars > Com
 | Option | What it does | Default |
 |---|---|---|
 | <img src="../../resources/icons/fluent/assets/Eye/SVG/ic_fluent_eye_24_regular.svg" width="16" height="16"> **Show** | Whether the filter button appears in the sidebar | On |
-| <img src="../../resources/icons/fluent/assets/Counter/SVG/ic_fluent_counter_24_regular.svg" width="16" height="16"> **Attention badges** | Show attention badges (unread messages and unsent drafts) for this filter | On |
+| <img src="../../resources/icons/fluent/assets/Counter/SVG/ic_fluent_counter_24_regular.svg" width="16" height="16"> **Attention badges** | Show attention badges (unread messages and unsent drafts) for this filter | On for most filters\* |
 | <img src="../../resources/icons/fluent/assets/Globe/SVG/ic_fluent_globe_24_regular.svg" width="16" height="16"> **Include in 'All rooms'** | Include this filter's rooms in the "All rooms" view | On |
+
+\*Attention badges are **off** by default for **All Rooms** and **Low Priority**.
 
 The "All rooms" filter only has the **Attention badges** option (it is always shown and cannot exclude from itself).
 

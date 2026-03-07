@@ -19,6 +19,7 @@ sidebars:
       global_excludes: []
       badges_hidden:
         - global
+        - "tag:m.lowpriority"
       collapsed_spaces: []
 
 timeline:

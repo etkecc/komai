@@ -1,5 +1,6 @@
 X(ComposerInputMarkdownToHtmlEnabled, settings.composerInputMarkdownToHtmlEnabled())
 X(ComposerInputSendKey, static_cast<int>(settings.composerInputSendKey()))
 X(ComposerInputAutoReplaceEmoji, static_cast<int>(settings.composerInputAutoReplaceEmoji()))
+X(ComposerInputInlineEmojiPickerEnabled, settings.composerInputInlineEmojiPickerEnabled())
 X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())
 X(ComposerExtrasStickersEnabled, settings.composerExtrasStickersEnabled())

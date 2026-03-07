@@ -28,6 +28,11 @@
       nullptr,
       ComposerInputAutoReplaceEmoji,
       SettingKey::ComposerInputAutoReplaceEmoji),
+    // InlineEmojiPicker
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Inline emoji picker",
+      QT_TR_NOOP("Show an inline emoji picker when you type a colon (:) in the message input."),
+      SM::TabComposer, composerInputInlineEmojiPickerEnabled, setComposerInputInlineEmojiPickerEnabled, nullptr, ComposerInputInlineEmojiPickerEnabled, SettingKey::ComposerInputInlineEmojiPickerEnabled),
     // ComposerFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

@@ -25,6 +25,7 @@
     bool composerInputMarkdownToHtmlEnabled() const;
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
+    bool composerInputInlineEmojiPickerEnabled() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
     TimelineMessagesPositioning timelineMessagesPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;

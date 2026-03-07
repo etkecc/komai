@@ -35,6 +35,16 @@ UserSettings::setComposerInputAutoReplaceEmoji(AutoReplaceEmoji s)
     save();
 }
 void
+UserSettings::setComposerInputInlineEmojiPickerEnabled(bool s)
+{
+    if (composerInputInlineEmojiPickerEnabled_ == s)
+        return;
+    composerInputInlineEmojiPickerEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputInlineEmojiPickerEnabled, s);
+    emit composerInputInlineEmojiPickerEnabledChanged(s);
+    save();
+}
+void
 UserSettings::setComposerExtrasStickersEnabled(bool s)
 {
     if (composerExtrasStickersEnabled_ == s)

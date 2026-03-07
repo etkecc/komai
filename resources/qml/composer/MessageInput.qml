@@ -256,7 +256,7 @@ Rectangle {
                         lastChar = '';
                     if (lastChar == '@') {
                         messageInput.openCompleter(selectionStart - 1, "user");
-                    } else if (lastChar == ':') {
+                    } else if (lastChar == ':' && Settings.composerInputInlineEmojiPickerEnabled) {
                         messageInput.openCompleter(selectionStart - 1, "emoji");
                     } else if (lastChar == '#') {
                         messageInput.openCompleter(selectionStart - 1, "roomAliases");

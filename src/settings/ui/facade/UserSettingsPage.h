@@ -80,6 +80,9 @@ class UserSettings final : public QObject
                  setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
                  WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
+    Q_PROPERTY(bool composerInputInlineEmojiPickerEnabled READ composerInputInlineEmojiPickerEnabled
+                 WRITE setComposerInputInlineEmojiPickerEnabled NOTIFY
+                   composerInputInlineEmojiPickerEnabledChanged)
     Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
                  setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
     Q_PROPERTY(
@@ -440,6 +443,7 @@ public:
     void setComposerInputMarkdownToHtmlEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
+    void setComposerInputInlineEmojiPickerEnabled(bool state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesPositioning(TimelineMessagesPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
@@ -579,6 +583,7 @@ signals:
     void composerInputMarkdownToHtmlEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
+    void composerInputInlineEmojiPickerEnabledChanged(bool state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesPositioningChanged(TimelineMessagesPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);

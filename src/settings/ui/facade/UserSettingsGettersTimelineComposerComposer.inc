@@ -30,6 +30,16 @@ UserSettings::composerInputAutoReplaceEmoji() const
 }
 
 bool
+UserSettings::composerInputInlineEmojiPickerEnabled() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::ComposerInputInlineEmojiPickerEnabled);
+        value.has_value())
+        return *value;
+    return composerInputInlineEmojiPickerEnabled_;
+}
+
+bool
 UserSettings::composerExtrasStickersEnabled() const
 {
     if (const auto value =

@@ -65,6 +65,7 @@ constexpr auto TimelineMediaOpenVideosExternal       = "timeline.media.open_vide
 constexpr auto ComposerInputMarkdownToHtmlEnabled    = "composer.input.markdown_to_html.enabled";
 constexpr auto ComposerInputSendKey                  = "composer.input.send_key";
 constexpr auto ComposerInputAutoReplaceEmoji         = "composer.input.auto_replace_emoji";
+constexpr auto ComposerInputInlineEmojiPickerEnabled = "composer.input.inline_emoji_picker.enabled";
 constexpr auto ComposerTypingSendEnabled             = "composer.typing.send.enabled";
 constexpr auto ComposerExtrasStickersEnabled         = "composer.extras.stickers.enabled";
 constexpr auto NotificationsEnabled                  = "notifications.enabled";

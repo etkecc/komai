@@ -43,6 +43,8 @@ UserSettingsModel::data(const QModelIndex &index, int role) const
         return m.type;
     case Tab:
         return m.tab;
+    case TagId:
+        return m.tagId ? QVariant{QString::fromUtf8(m.tagId)} : QVariant{};
     case Value:
         return m.getValue ? m.getValue() : QVariant{};
     case Enabled:

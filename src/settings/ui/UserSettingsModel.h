@@ -71,6 +71,7 @@ public:
         AccessTokenField,
         TimelinePreview,
         AvatarPreview,
+        CommunityFilterRow,
     };
     Q_ENUM(Types);
 
@@ -90,6 +91,7 @@ public:
         ThemeVariantValue,
         ThemeVariantValues,
         Tab,
+        TagId,
     };
 
     UserSettingsModel(QObject *parent = nullptr);

@@ -1,6 +1,6 @@
 # Communities Sidebar
 
-The communities sidebar is a panel on the left side of Komai that lets you quickly filter your room list by category. Each filter section can be toggled on or off in **Settings > Sidebars**.
+The communities sidebar is a panel on the left side of Komai that lets you quickly filter your room list by category. Each filter can be configured in **Settings > Sidebars**.
 
 ## Filter Sections
 
@@ -8,7 +8,7 @@ The communities sidebar is a panel on the left side of Komai that lets you quick
 
 <img src="../../resources/icons/fluent/assets/Globe/SVG/ic_fluent_globe_32_regular.svg" width="24" height="24" alt="All Rooms icon">
 
-Shows every room you've joined, without any filtering. Always visible.
+Shows every room you've joined, except rooms belonging to filters that have been [excluded](#per-filter-options). Always visible in the sidebar.
 
 ### Favourites
 
@@ -22,21 +22,19 @@ Uses the standard Matrix [`m.favourite`](https://spec.matrix.org/v1.17/client-se
 
 <img src="../../resources/icons/fluent/assets/Person/SVG/ic_fluent_person_24_regular.svg" width="24" height="24" alt="People icon">
 
-Shows direct chats with real people, excluding users detected as bots. This filter only appears when you have at least one non-bot direct chat.
-
-Bot detection uses heuristics: user ID starts with `@bot` or `@_`, localpart ends with `bridge` (e.g. `@heisenbridge:example.com`), user ID contains `bot:`, display name starts or ends with "bot" (e.g. "Hookshot Bot"), or display name contains "bridge bot". User IDs containing `puppet` are excluded (bridge puppets representing real users).
+Shows [direct chats](#direct-chat-detection) with real people, excluding users [detected as bots](#bot-detection-heuristics). This filter only appears when you have at least one non-bot direct chat.
 
 ### Bots
 
 <img src="../../resources/icons/fluent/assets/Bot Sparkle/SVG/ic_fluent_bot_sparkle_24_regular.svg" width="24" height="24" alt="Bots icon">
 
-Shows direct chats where your conversation partner is a bot or bridge service account (e.g., a Telegram bridge bot). This filter only appears when you have at least one bot room.
+Shows [direct chats](#direct-chat-detection) where the conversation partner is [detected as a bot](#bot-detection-heuristics) or bridge service account. This filter only appears when you have at least one bot room.
 
 ### Groups
 
 <img src="../../resources/icons/fluent/assets/People/SVG/ic_fluent_people_24_regular.svg" width="24" height="24" alt="Groups icon">
 
-Shows multi-participant rooms that are not direct chats. This filter only appears when you have at least one group room.
+Shows multi-participant rooms that are not [direct chats](#direct-chat-detection). This filter only appears when you have at least one group room.
 
 ### Server Notices
 
@@ -52,24 +50,52 @@ Shows rooms you've marked as low priority. Like favourites, this uses a standard
 
 ## Settings
 
-Each filter has a toggle in **Settings > Sidebars**:
+Each filter has up to three options, configurable in **Settings > Sidebars > Communities Sidebar** or via right-click context menu on the filter button:
 
-| Setting | What it controls | Default |
+### Per-filter options
+
+| Option | What it does | Default |
 |---|---|---|
-| Show Favourites filter | Favourites section | On |
-| Show People filter | People section | On |
-| Show Bots filter | Bots section | On |
-| Show Groups filter | Groups section | On |
-| Show Server Notices filter | Server Notices section | On |
-| Show Low Priority filter | Low Priority section | On |
+| <img src="../../resources/icons/fluent/assets/Eye/SVG/ic_fluent_eye_24_regular.svg" width="16" height="16"> **Show** | Whether the filter button appears in the sidebar | On |
+| <img src="../../resources/icons/fluent/assets/Speaker Mute/SVG/ic_fluent_speaker_mute_28_regular.svg" width="16" height="16"> **Mute** | Suppress notification counts for this filter | Off |
+| <img src="../../resources/icons/fluent/assets/Globe Prohibited/SVG/ic_fluent_globe_prohibited_24_regular.svg" width="16" height="16"> **Exclude from 'All rooms'** | Hide this filter's rooms from the "All rooms" view | Off |
 
-These toggles are only active when the communities sidebar itself is visible.
+The "All rooms" filter only has the **Mute** option (it is always shown and cannot exclude from itself).
 
-## Hiding Sections
+These options are only active when the communities sidebar itself is visible.
 
-You can also temporarily hide individual sections by right-clicking them in the sidebar and choosing **Hide**. This is different from disabling the filter in settings -- hidden sections can be restored from the sidebar context menu without going into settings.
+### Hiding from the context menu
 
-When a section is hidden, its rooms are also hidden from the room list.
+You can also hide a filter by right-clicking it in the sidebar and choosing **Hide this filter**. This is equivalent to turning off the **Show** toggle in Settings.
+
+## Direct Chat Detection
+
+Komai determines whether a room is a direct chat using two methods:
+
+1. **m.direct account data** — if a room appears in your [m.direct](https://spec.matrix.org/v1.17/client-server-api/#direct-messaging) account data, it is definitively a direct chat. This is the authoritative source and syncs across Matrix clients.
+
+2. **Member-count heuristic** — rooms not listed in m.direct are auto-detected as direct chats if they have 2-3 members. In 3-member rooms (common with bridges), Komai checks whether one member is a bot to identify the real conversation partner.
+
+## Bot Detection Heuristics
+
+Komai uses [heuristics](../../src/utils/BotDetection.cpp) to classify users as bots or bridge service accounts. This classification determines whether a direct chat appears in the **People** or **Bots** filter. All checks are case-insensitive.
+
+A user is considered a bot if any of the following match. Checks are applied in the order listed -- this matters for the puppet escape hatch below.
+
+| # | Heuristic | Example | Result |
+|---|---|---|---|
+| 1 | User ID starts with `@bot` | `@botserv:example.com` | Bot |
+| 2 | User ID contains `bot:` | `@telegrambot:example.com` | Bot |
+| 3 | Localpart contains `puppet` (**escape**) | `@_discordpuppet__123:example.com` | **Human** |
+| 4 | User ID starts with `@_` | `@_irc_user:example.com` | Bot |
+| 5 | Localpart ends with `bridge` | `@heisenbridge:example.com` | Bot |
+| 6 | Display name contains "bridge bot" | "Telegram Bridge Bot" | Bot |
+| 7 | Display name ends with "bot" (as a word) | "Hookshot Bot" | Bot |
+| 8 | Display name starts with "bot" (as a word) | "Bot Service" | Bot |
+
+The puppet escape (rule 3) exists because bridge puppets represent real people on other platforms. Since it is checked *after* rules 1-2, a puppet whose user ID also starts with `@bot` or contains `bot:` is still classified as a bot (e.g. `@botpuppet:example.com`).
+
+Words like "robot" or "Robert" do not trigger the "bot" display name rules, because they require "bot" to appear as a standalone word (not part of a larger word).
 
 ## Spaces
 

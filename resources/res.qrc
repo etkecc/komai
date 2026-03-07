@@ -85,6 +85,7 @@
         <file alias="icons/ui/chevron-circle-down.svg">icons/fluent/assets/Chevron Circle Down/SVG/ic_fluent_chevron_circle_down_24_regular.svg</file>
         <file alias="icons/ui/chevron-circle-up.svg">icons/fluent/assets/Chevron Circle Up/SVG/ic_fluent_chevron_circle_up_24_regular.svg</file>
         <file alias="icons/ui/robot-sparkle.svg">icons/fluent/assets/Bot Sparkle/SVG/ic_fluent_bot_sparkle_24_regular.svg</file>
+        <file alias="icons/ui/globe-prohibited.svg">icons/fluent/assets/Globe Prohibited/SVG/ic_fluent_globe_prohibited_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

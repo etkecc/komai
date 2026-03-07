@@ -137,9 +137,24 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show communities sidebar",
                         nullptr,
                         SM::TabSidebars, sidebarsCommunitiesVisible, setSidebarsCommunitiesVisible, nullptr, SidebarsCommunitiesVisible, SettingKey::SidebarsCommunitiesVisible),
+    // CommunitiesFilterAllRooms (Show/Exclude disabled, Mute enabled)
+    {QT_TR_NOOP("All rooms"),
+     QT_TR_NOOP("Shows all your rooms in one view. Rooms belonging to filters marked as excluded below will be hidden from this list."),
+     SM::CommunityFilterRow,
+     SM::TabSidebars,
+     nullptr,
+     nullptr,
+     {},
+     {},
+     {},
+     nullptr,
+     sidebarsCommunitiesVisibleEnabled,
+     settings::core::SettingId::Unknown,
+     ":/icons/icons/ui/world.svg",
+     ""},
     // CommunitiesFilterFavourites
-    SIMPLE_BOOL_CONFIG_ID_SETTING_WITH_ICON(
-      "Show Favourites filter",
+    COMMUNITY_FILTER_ROW(
+      "Favourites",
       QT_TR_NOOP("Rooms tagged with <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.favourite</a> via the Matrix room tagging API."),
       SM::TabSidebars,
       sidebarsCommunitiesFilterFavourites,
@@ -147,32 +162,35 @@
       sidebarsCommunitiesVisibleEnabled,
       SidebarsCommunitiesFilterFavourites,
       SettingKey::SidebarsCommunitiesFilterFavourites,
-      ":/icons/icons/ui/star.svg"),
+      ":/icons/icons/ui/star.svg",
+      "tag:m.favourite"),
     // CommunitiesFilterPeople
-    SIMPLE_BOOL_CONFIG_ID_SETTING_WITH_ICON(
-      "Show People filter",
-      QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) with real people, excluding users detected as bots by heuristics (user ID starts with @bot or @_, localpart ends with bridge, user ID contains bot:, or display name starts/ends with \"bot\" or contains \"bridge bot\")."),
+    COMMUNITY_FILTER_ROW(
+      "People",
+      QT_TR_NOOP("Direct chats with real people, excluding users <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics\">detected</a> as bots by heuristics."),
       SM::TabSidebars,
       sidebarsCommunitiesFilterPeople,
       setSidebarsCommunitiesFilterPeople,
       sidebarsCommunitiesVisibleEnabled,
       SidebarsCommunitiesFilterPeople,
       SettingKey::SidebarsCommunitiesFilterPeople,
-      ":/icons/icons/ui/person.svg"),
+      ":/icons/icons/ui/person.svg",
+      "people"),
     // CommunitiesFilterBots
-    SIMPLE_BOOL_CONFIG_ID_SETTING_WITH_ICON(
-      "Show Bots filter",
-      QT_TR_NOOP("Direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others) where the conversation partner is detected as a bot or bridge service account."),
+    COMMUNITY_FILTER_ROW(
+      "Bots",
+      QT_TR_NOOP("Direct chats where the conversation partner is <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/communities-sidebar.md#bot-detection-heuristics\">detected</a> as a bot or bridge service account."),
       SM::TabSidebars,
       sidebarsCommunitiesFilterBots,
       setSidebarsCommunitiesFilterBots,
       sidebarsCommunitiesVisibleEnabled,
       SidebarsCommunitiesFilterBots,
       SettingKey::SidebarsCommunitiesFilterBots,
-      ":/icons/icons/ui/robot-sparkle.svg"),
+      ":/icons/icons/ui/robot-sparkle.svg",
+      "bot"),
     // CommunitiesFilterGroups
-    SIMPLE_BOOL_CONFIG_ID_SETTING_WITH_ICON(
-      "Show Groups filter",
+    COMMUNITY_FILTER_ROW(
+      "Groups",
       QT_TR_NOOP("Multi-participant rooms that are not direct chats (<a href=\"https://spec.matrix.org/v1.17/client-server-api/#direct-messaging\">m.direct</a> and others)."),
       SM::TabSidebars,
       sidebarsCommunitiesFilterGroups,
@@ -180,10 +198,11 @@
       sidebarsCommunitiesVisibleEnabled,
       SidebarsCommunitiesFilterGroups,
       SettingKey::SidebarsCommunitiesFilterGroups,
-      ":/icons/icons/ui/people.svg"),
+      ":/icons/icons/ui/people.svg",
+      "group"),
     // CommunitiesFilterServerNotices
-    SIMPLE_BOOL_CONFIG_ID_SETTING_WITH_ICON(
-      "Show Server Notices filter",
+    COMMUNITY_FILTER_ROW(
+      "Server Notices",
       QT_TR_NOOP("Rooms tagged <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.server_notice</a> by the homeserver for administrative messages. See the <a href=\"https://spec.matrix.org/v1.17/client-server-api/#server-notices\">Server Notices</a> module in the Matrix spec."),
       SM::TabSidebars,
       sidebarsCommunitiesFilterServerNotices,
@@ -191,10 +210,11 @@
       sidebarsCommunitiesVisibleEnabled,
       SidebarsCommunitiesFilterServerNotices,
       SettingKey::SidebarsCommunitiesFilterServerNotices,
-      ":/icons/icons/ui/tag.svg"),
+      ":/icons/icons/ui/tag.svg",
+      "tag:m.server_notice"),
     // CommunitiesFilterLowPriority
-    SIMPLE_BOOL_CONFIG_ID_SETTING_WITH_ICON(
-      "Show Low Priority filter",
+    COMMUNITY_FILTER_ROW(
+      "Low Priority",
       QT_TR_NOOP("Rooms tagged with <a href=\"https://spec.matrix.org/v1.17/client-server-api/#events-14\">m.lowpriority</a> via the Matrix room tagging API."),
       SM::TabSidebars,
       sidebarsCommunitiesFilterLowPriority,
@@ -202,7 +222,8 @@
       sidebarsCommunitiesVisibleEnabled,
       SidebarsCommunitiesFilterLowPriority,
       SettingKey::SidebarsCommunitiesFilterLowPriority,
-      ":/icons/icons/ui/lowprio.svg"),
+      ":/icons/icons/ui/lowprio.svg",
+      "tag:m.lowpriority"),
     // SidebarsRoomListSection
     { QT_TR_NOOP("Room list"), nullptr, SM::SectionTitle, SM::TabSidebars,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

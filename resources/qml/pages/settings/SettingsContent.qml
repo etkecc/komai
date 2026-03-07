@@ -402,6 +402,15 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
+                                        roleValue: UserSettingsModel.CommunityFilterRow
+                                        SettingRowCommunityFilter {
+                                            anchors.left: r.useStackedLayout ? parent.left : undefined
+                                            anchors.right: r.useStackedLayout ? undefined : parent.right
+                                            model: r.model
+                                            useStackedLayout: r.useStackedLayout
+                                        }
+                                    }
+                                    DelegateChoice {
                                         SettingRowReadOnlyValue {
                                             anchors.left: r.useStackedLayout ? parent.left : undefined
                                             anchors.right: r.useStackedLayout ? undefined : parent.right

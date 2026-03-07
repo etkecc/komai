@@ -127,6 +127,38 @@
     SIMPLE_TEXT_SETTING_CORE(                                                                      \
       name, desc, tab, getter, setter, enabled_cb, settings::core::SettingId::Unknown)
 
+#define COMMUNITY_FILTER_ROW(name, desc, tab, getter, setter, enabled_cb, id, key, icon_path, tag) \
+    {QT_TR_NOOP(name),                                                                             \
+     desc,                                                                                         \
+     SM::CommunityFilterRow,                                                                       \
+     tab,                                                                                          \
+     getCoreBoolValue<settings::core::SettingId::id, &UserSettings::getter>,                       \
+     setSettingValue<&UserSettings::setter, bool>,                                                 \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb,                                                                                   \
+     CORE_CONFIG_ID(id, key),                                                                      \
+     icon_path,                                                                                    \
+     tag}
+
+#define COMMUNITY_FILTER_ROW_FIXED(name, tab, enabled_cb, icon_path, tag)                          \
+    {QT_TR_NOOP(name),                                                                             \
+     nullptr,                                                                                      \
+     SM::CommunityFilterRow,                                                                       \
+     tab,                                                                                          \
+     nullptr,                                                                                      \
+     nullptr,                                                                                      \
+     {},                                                                                           \
+     {},                                                                                           \
+     {},                                                                                           \
+     nullptr,                                                                                      \
+     enabled_cb,                                                                                   \
+     settings::core::SettingId::Unknown,                                                           \
+     icon_path,                                                                                    \
+     tag}
+
 #define SIMPLE_TEXT_CONFIG_ID_SETTING(name, desc, tab, getter, setter, enabled_cb, id, key)        \
     {QT_TR_NOOP(name),                                                                             \
      desc,                                                                                         \

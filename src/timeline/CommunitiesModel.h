@@ -242,11 +242,15 @@ public slots:
     void toggleTagId(QString tagId);
     void toggleTagMute(QString tagId);
 
+    Q_INVOKABLE bool isTagMuted(const QString &tagId) const;
+    Q_INVOKABLE bool isTagHidden(const QString &tagId) const;
+
     FilteredCommunitiesModel *filtered() { return new FilteredCommunitiesModel(this, this); }
 
 signals:
     void currentTagIdChanged(QString tagId);
     void hiddenTagsChanged();
+    void mutedTagsChanged();
     void tagsChanged();
     void containsSubspacesChanged();
 

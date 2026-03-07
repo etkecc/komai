@@ -14,29 +14,24 @@ Components.OverlayDialog {
     property string tagId
     property string filterName
 
-    title: qsTr("Hide filter")
+    title: qsTr("Hide the \"%1\" filter?").arg(hideFilterRoot.filterName)
     titleIcon: ":/icons/icons/ui/eye-hide.svg"
 
     Label {
         Layout.fillWidth: true
         color: palette.text
         wrapMode: Text.WordWrap
-        text: qsTr("Are you sure you want to hide the \"%1\" filter?").arg(hideFilterRoot.filterName)
+        text: qsTr("To show this filter again, go to Application Settings → Sidebars → Communities Sidebar and enable the \"Show\" toggle for \"%1\".").arg(hideFilterRoot.filterName)
     }
 
     Label {
         Layout.fillWidth: true
         Layout.topMargin: Komai.paddingMedium
-        color: palette.text
+        color: Communities.isTagHidden(hideFilterRoot.tagId) ? Komai.theme.warning : palette.text
         wrapMode: Text.WordWrap
-        text: qsTr("You'll still be able to always find rooms that belonged to it in \"All rooms\".")
-    }
-
-    Label {
-        Layout.fillWidth: true
-        color: palette.text
-        wrapMode: Text.WordWrap
-        text: qsTr("To show this filter again, go to Application Settings → Sidebars → Communities Sidebar and enable the \"Show %1 filter\" toggle.").arg(hideFilterRoot.filterName)
+        text: Communities.isTagHidden(hideFilterRoot.tagId)
+            ? qsTr("This filter is currently excluded from \"All rooms\", so its rooms won't appear there either. You can change this in Application Settings → Sidebars.")
+            : qsTr("You'll still be able to find rooms that belonged to it in \"All rooms\".")
     }
 
     RowLayout {

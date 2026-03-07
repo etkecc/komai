@@ -46,22 +46,27 @@ Menu {
 
     MenuItem {
         checkable: true
+        checked: true
+        visible: root.isHideableFilter
+        icon.source: "qrc:/icons/icons/ui/eye-show.svg"
+        text: qsTr("Show")
+
+        onTriggered: root.hideFilterRequested()
+    }
+    MenuItem {
+        checkable: true
         checked: root.muted
-        text: qsTr("Do not show notification counts for this community or tag.")
+        icon.source: "qrc:/icons/icons/ui/volume-off-indicator.svg"
+        text: qsTr("Mute (hide notification counts)")
 
         onTriggered: Communities.toggleTagMute(root.tagId)
     }
     MenuItem {
         checkable: true
         checked: root.hidden
-        text: qsTr("Hide rooms with this tag or from this community by default.")
+        icon.source: "qrc:/icons/icons/ui/globe-prohibited.svg"
+        text: qsTr("Exclude from 'All rooms'")
 
         onTriggered: Communities.toggleTagId(root.tagId)
-    }
-    MenuItem {
-        text: qsTr("Hide this filter")
-        visible: root.isHideableFilter
-
-        onTriggered: root.hideFilterRequested()
     }
 }

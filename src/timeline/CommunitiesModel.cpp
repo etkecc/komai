@@ -214,6 +214,22 @@ CommunitiesModel::toggleTagMute(QString tagId)
     } else if (tagId == QLatin1String("global")) {
         emit dataChanged(index(kRowAllRooms), index(kRowAllRooms));
     }
+
+    emit mutedTagsChanged();
+}
+
+bool
+CommunitiesModel::isTagMuted(const QString &tagId) const
+{
+    if (tagId.isEmpty())
+        return mutedTagIds_.contains(QStringLiteral("global"));
+    return mutedTagIds_.contains(tagId);
+}
+
+bool
+CommunitiesModel::isTagHidden(const QString &tagId) const
+{
+    return hiddenTagIds_.contains(tagId);
 }
 
 #include "moc_CommunitiesModel.cpp"

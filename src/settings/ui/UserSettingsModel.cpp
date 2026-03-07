@@ -37,6 +37,7 @@ UserSettingsModel::roleNames() const
       {ThemeVariantValue, "themeVariantValue"},
       {ThemeVariantValues, "themeVariantValues"},
       {Tab, "tab"},
+      {TagId, "tagId"},
     };
 
     return roles;

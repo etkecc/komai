@@ -19,22 +19,14 @@
     CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, sidebarsCommunitiesVisibleChanged, Value);
     // When communities sidebar visibility changes, update Enabled state on filter rows
+    // The "All rooms" row is immediately before the first filter row (filterFav - 1).
     if (const int filterFav = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterFavourites),
-                 filterPeople = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterPeople),
-                 filterBots = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterBots),
-                 filterGroups = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterGroups),
-                 filterSN = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterServerNotices),
                  filterLP = rowForSettingId(settings::core::SettingId::SidebarsCommunitiesFilterLowPriority);
-        filterFav >= 0 && filterPeople >= 0 && filterBots >= 0 &&
-        filterGroups >= 0 && filterSN >= 0 && filterLP >= 0) {
+        filterFav > 0 && filterLP >= filterFav) {
+        const int filterAllRooms = filterFav - 1;
         connect(settings, &UserSettings::sidebarsCommunitiesVisibleChanged, this,
-                [this, filterFav, filterPeople, filterBots, filterGroups, filterSN, filterLP]() {
-                    emit dataChanged(index(filterFav), index(filterFav), {Enabled});
-                    emit dataChanged(index(filterPeople), index(filterPeople), {Enabled});
-                    emit dataChanged(index(filterBots), index(filterBots), {Enabled});
-                    emit dataChanged(index(filterGroups), index(filterGroups), {Enabled});
-                    emit dataChanged(index(filterSN), index(filterSN), {Enabled});
-                    emit dataChanged(index(filterLP), index(filterLP), {Enabled});
+                [this, filterAllRooms, filterLP]() {
+                    emit dataChanged(index(filterAllRooms), index(filterLP), {Enabled});
                 });
     }
     CONNECT_SETTING_ID(

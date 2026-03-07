@@ -222,7 +222,6 @@ Popup {
             avatarHeight: forwardMessagePopup.textHeight
             avatarWidth: forwardMessagePopup.textHeight
             bottomToTop: false
-            centerRowContent: false
             completerName: "room"
             fullWidth: true
             rowMargin: Math.round(forwardMessagePopup.textMargin / 2)

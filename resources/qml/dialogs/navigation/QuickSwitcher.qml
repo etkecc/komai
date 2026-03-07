@@ -133,7 +133,6 @@ Popup {
             avatarHeight: quickSwitcher.roomAvatarSize
             avatarWidth: quickSwitcher.roomAvatarSize
             bottomToTop: false
-            centerRowContent: false
             completerName: "room"
             fullWidth: true
             rowMargin: Math.round(quickSwitcher.textMargin / 2)

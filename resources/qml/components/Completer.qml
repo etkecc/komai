@@ -16,7 +16,6 @@ Control {
     property int avatarHeight: 24
     property int avatarWidth: 24
     property bool bottomToTop: true
-    property bool centerRowContent: true
     property var completer
     property string completerName
     property alias count: listView.count
@@ -383,20 +382,24 @@ Control {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.leftMargin: Komai.paddingSmall
-                            anchors.rightMargin: Komai.paddingSmall
-                            spacing: Komai.paddingSmall
+                            anchors.leftMargin: Komai.paddingMedium
+                            anchors.rightMargin: Komai.paddingMedium
+                            spacing: Komai.paddingMedium
 
                             Avatar {
                                 displayName: model.roomName
                                 enabled: false
                                 Layout.preferredHeight: popup.avatarHeight
+                                Layout.preferredWidth: popup.avatarWidth
+                                Layout.minimumWidth: popup.avatarWidth
+                                Layout.maximumWidth: popup.avatarWidth
                                 roomid: model.roomid
                                 url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                                Layout.preferredWidth: popup.avatarWidth
                             }
                             Label {
+                                Layout.fillWidth: true
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                elide: Text.ElideRight
                                 font.italic: model.isTombstoned
                                 font.bold: model.isSpace
                                 font.pixelSize: popup.avatarHeight * 0.5

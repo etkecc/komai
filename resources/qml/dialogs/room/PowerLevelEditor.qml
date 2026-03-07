@@ -264,7 +264,6 @@ OverlayDialog {
                                     fullWidth: true
                                     avatarHeight: Komai.avatarSize / 2
                                     avatarWidth: Komai.avatarSize / 2
-                                    centerRowContent: false
                                     rowMargin: 2
                                     rowSpacing: 2
                                 }

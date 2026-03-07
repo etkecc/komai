@@ -7,6 +7,7 @@ import "../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
 import cc.etke.komai 1.0
 
 Control {
@@ -27,6 +28,7 @@ Control {
 
     signal completionClicked(string completion)
     signal completionSelected(string id)
+    signal dismissed()
 
     function changeCompleter() {
         if (completerName) {
@@ -42,6 +44,7 @@ Control {
             completer = undefined;
         }
         currentIndex = -1;
+        listView.maxContentWidth = 20;
     }
     function currentCompletion() {
         if (currentIndex > -1 && currentIndex < listView.count)
@@ -95,215 +98,334 @@ Control {
 
     background: Rectangle {
         border.color: palette.mid
-        color: palette.base
+        color: palette.window
+        radius: Komai.paddingSmall
     }
-    contentItem: ListView {
-        id: listView
+    contentItem: ColumnLayout {
+        spacing: 0
 
-        clip: true
-        displayMarginBeginning: height / 2
-        displayMarginEnd: height / 2
-        highlightFollowsCurrentItem: true
+        // Header row (shown for emoji/customEmoji completers)
+        Rectangle {
+            id: headerBackground
 
-        // If we have fewer than 7 items, just use the list view's content height.
-        // Otherwise, we want to show 7 items.  Each item consists of row spacing between rows, row margins
-        // on each side of a row, 1px of padding above the first item and below the last item, and nominally
-        // some kind of content height.  avatarHeight is used for just about every delegate, so we're using
-        // that until we find something better.  Put is all together and you have the formula below!
-        implicitHeight: Math.min(contentHeight, 6 * rowSpacing + 7 * (popup.avatarHeight + 2 * rowMargin))
+            Layout.fillWidth: true
+            color: palette.alternateBase
+            implicitHeight: headerRow.implicitHeight + 2 * Komai.paddingSmall
+            radius: Komai.paddingSmall
+            visible: popup.completerName === "emoji" || popup.completerName === "customEmoji"
 
-        // Broken, see https://bugreports.qt.io/browse/QTBUG-102811
-        //reuseItems: true
-        implicitWidth: Math.max(listView.contentItem.childrenRect.width, 20)
-        model: completer
-        pixelAligned: true
-        spacing: rowSpacing
-        verticalLayoutDirection: popup.bottomToTop ? ListView.BottomToTop : ListView.TopToBottom
-
-        delegate: Rectangle {
-            property variant modelData: model
-
-            ListView.delayRemove: true
-            color: model.index == popup.currentIndex ? palette.highlight : palette.base
-            height: (chooser.child?.implicitHeight ?? 0) + 2 * popup.rowMargin
-            implicitWidth: popup.fullWidth ? listView.width : chooser.child.implicitWidth + 4
-
-            MouseArea {
-                id: mouseArea
-
-                anchors.fill: parent
-                hoverEnabled: true
-
-                onClicked: {
-                    popup.completionClicked(completer.completionAt(model.index));
-                    if (popup.completerName == "room")
-                        popup.completionSelected(model.roomid);
-                    else if (popup.completerName == "user")
-                        popup.completionSelected(model.userid);
-                }
-                onPositionChanged: if (!listView.moving && !deadTimer.running)
-                    popup.currentIndex = model.index
-            }
-            Ripple {
-                color: Qt.rgba(palette.base.r, palette.base.g, palette.base.b, 0.5)
-            }
-            DelegateChooser {
-                id: chooser
-
-                anchors.fill: parent
-                anchors.margins: popup.rowMargin
-                enabled: false
-                roleValue: popup.completerName
-
-                DelegateChoice {
-                    roleValue: "user"
-
-                    RowLayout {
-                        anchors.centerIn: centerRowContent ? parent : undefined
-                        spacing: Komai.paddingSmall
-
-                        Avatar {
-                            displayName: model.displayName
-                            enabled: false
-                            Layout.preferredHeight: popup.avatarHeight
-                            Layout.preferredWidth: popup.avatarWidth
-                            url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                            userid: model.userid
-                        }
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                            text: model.displayName
-                        }
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                            text: "(" + model.userid + ")"
-                        }
-                    }
-                }
-                DelegateChoice {
-                    roleValue: "emoji"
-
-                    RowLayout {
-                        anchors.centerIn: parent
-                        spacing: Komai.paddingSmall
-
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                            font.family: Settings.uiFontEmojiFamily
-                            text: model.unicode
-                            visible: !!model.unicode
-                        }
-                        Avatar {
-                            crop: false
-                            displayName: model.shortcode
-                            enabled: false
-                            Layout.preferredHeight: popup.avatarHeight
-                            //userid: model.shortcode
-                            url: (model.url ? model.url : "").replace("mxc://", "image://MxcImage/")
-                            visible: !model.unicode
-                            Layout.preferredWidth: popup.avatarWidth
-                        }
-                        Label {
-                            Layout.leftMargin: Komai.paddingSmall
-                            Layout.rightMargin: Komai.paddingSmall
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                            text: model.shortcode
-                        }
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                            text: "(" + model.packname + ")"
-                        }
-                    }
-                }
-                DelegateChoice {
-                    roleValue: "command"
-
-                    RowLayout {
-                        anchors.centerIn: parent
-                        spacing: Komai.paddingSmall
-
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                            font.bold: true
-                            text: model.name
-                        }
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                            text: model.description
-                        }
-                    }
-                }
-                DelegateChoice {
-                    roleValue: "room"
-
-                    RowLayout {
-                        anchors.centerIn: centerRowContent ? parent : undefined
-                        spacing: Komai.paddingSmall
-
-                        Avatar {
-                            displayName: model.roomName
-                            enabled: false
-                            Layout.preferredHeight: popup.avatarHeight
-                            roomid: model.roomid
-                            url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                            Layout.preferredWidth: popup.avatarWidth
-                        }
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                            font.italic: model.isTombstoned
-                            font.bold: model.isSpace
-                            font.pixelSize: popup.avatarHeight * 0.5
-                            text: model.roomName
-                            textFormat: Text.RichText
-                        }
-                    }
-                }
-                DelegateChoice {
-                    roleValue: "roomAliases"
-
-                    RowLayout {
-                        anchors.centerIn: parent
-                        spacing: Komai.paddingSmall
-
-                        Avatar {
-                            displayName: model.roomName
-                            enabled: false
-                            Layout.preferredHeight: popup.avatarHeight
-                            roomid: model.roomid
-                            url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                            Layout.preferredWidth: popup.avatarWidth
-                        }
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                            font.italic: model.isTombstoned
-                            font.bold: model.isSpace
-                            text: model.roomName
-                            textFormat: Text.RichText
-                        }
-                        Label {
-                            color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                            text: "(" + model.roomAlias + ")"
-                            textFormat: Text.RichText
-                        }
-                    }
-                }
-            }
+            // Square off bottom corners by overlaying a rect at the bottom
             Rectangle {
-                anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                color: Komai.theme.separator
-                height: 1
-                visible: model.index < listView.count - 1
+                anchors.bottom: parent.bottom
+                height: parent.radius
+                color: parent.color
+            }
+
+            RowLayout {
+                id: headerRow
+
+                anchors.fill: parent
+                anchors.leftMargin: Komai.paddingMedium
+                anchors.rightMargin: Komai.paddingSmall
+                anchors.topMargin: Komai.paddingSmall
+                anchors.bottomMargin: Komai.paddingSmall
+                spacing: Komai.paddingSmall
+
+                Image {
+                    Layout.preferredWidth: headerTitle.font.pixelSize
+                    Layout.preferredHeight: headerTitle.font.pixelSize
+                    Layout.alignment: Qt.AlignVCenter
+                    source: "image://colorimage/:/icons/icons/ui/smile.svg?" + palette.text
+                    sourceSize.width: headerTitle.font.pixelSize
+                    sourceSize.height: headerTitle.font.pixelSize
+                }
+
+                Label {
+                    id: headerTitle
+
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Emojis")
+                    font.bold: true
+                    color: palette.text
+                }
+
+                ImageButton {
+                    Layout.preferredWidth: headerTitle.font.pixelSize
+                    Layout.preferredHeight: headerTitle.font.pixelSize
+                    Layout.alignment: Qt.AlignVCenter
+                    ToolTip.delay: Komai.tooltipDelay
+                    ToolTip.text: qsTr("Close")
+                    ToolTip.visible: hovered
+                    hoverEnabled: true
+                    image: ":/icons/icons/ui/dismiss.svg"
+                    onClicked: popup.dismissed()
+                }
             }
         }
 
-        onContentYChanged: deadTimer.restart()
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 1
+            color: Komai.theme.separator
+            visible: headerBackground.visible
+        }
 
-        Timer {
-            id: deadTimer
+        ListView {
+            id: listView
 
-            interval: 50
+            // Track the widest delegate content to size the popup without binding loops.
+            // Delegates report their content width here; the ListView uses it for implicitWidth.
+            // Delegate width then binds to listView.width (from parent layout), not childrenRect.
+            property real maxContentWidth: 20
+
+            Layout.fillWidth: true
+            clip: true
+            displayMarginBeginning: height / 2
+            displayMarginEnd: height / 2
+            highlightFollowsCurrentItem: true
+
+            implicitHeight: Math.min(contentHeight, Window.height / 2)
+            implicitWidth: maxContentWidth + (scrollBar.visible ? scrollBar.width : 0)
+
+            // Broken, see https://bugreports.qt.io/browse/QTBUG-102811
+            //reuseItems: true
+            model: completer
+            pixelAligned: true
+            spacing: rowSpacing
+            verticalLayoutDirection: popup.bottomToTop ? ListView.BottomToTop : ListView.TopToBottom
+
+            ScrollBar.vertical: ScrollBar {
+                id: scrollBar
+
+                policy: listView.contentHeight > listView.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            }
+
+            delegate: Rectangle {
+                property variant modelData: model
+                property real contentWidth: (chooser.child ? chooser.child.implicitWidth : 0) + 4 + 2 * Komai.paddingSmall
+
+                ListView.delayRemove: true
+                color: model.index == popup.currentIndex ? palette.highlight : palette.window
+                height: (chooser.child?.implicitHeight ?? 0) + 2 * popup.rowMargin
+                width: listView.width - (scrollBar.visible ? scrollBar.width : 0)
+
+                onContentWidthChanged: {
+                    if (contentWidth > listView.maxContentWidth)
+                        listView.maxContentWidth = contentWidth;
+                }
+                Component.onCompleted: {
+                    if (contentWidth > listView.maxContentWidth)
+                        listView.maxContentWidth = contentWidth;
+                }
+
+                MouseArea {
+                    id: mouseArea
+
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    onClicked: {
+                        popup.completionClicked(completer.completionAt(model.index));
+                        if (popup.completerName == "room")
+                            popup.completionSelected(model.roomid);
+                        else if (popup.completerName == "user")
+                            popup.completionSelected(model.userid);
+                    }
+                    onPositionChanged: if (!listView.moving && !deadTimer.running)
+                        popup.currentIndex = model.index
+                }
+                Ripple {
+                    color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5)
+                }
+                DelegateChooser {
+                    id: chooser
+
+                    anchors.fill: parent
+                    anchors.margins: popup.rowMargin
+                    enabled: false
+                    roleValue: popup.completerName
+
+                    DelegateChoice {
+                        roleValue: "user"
+
+                        RowLayout {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Komai.paddingSmall
+                            anchors.rightMargin: Komai.paddingSmall
+                            spacing: Komai.paddingSmall
+
+                            Avatar {
+                                displayName: model.displayName
+                                enabled: false
+                                Layout.preferredHeight: popup.avatarHeight
+                                Layout.preferredWidth: popup.avatarWidth
+                                url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
+                                userid: model.userid
+                            }
+                            Label {
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                text: model.displayName
+                            }
+                            Label {
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                text: "(" + model.userid + ")"
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: "emoji"
+
+                        RowLayout {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Komai.paddingSmall
+                            anchors.rightMargin: Komai.paddingSmall
+                            spacing: Komai.paddingSmall
+
+                            Label {
+                                Layout.preferredWidth: Math.ceil(font.pixelSize * 1.5)
+                                Layout.alignment: Qt.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                font.family: Settings.uiFontEmojiFamily
+                                font.pointSize: Settings.uiFontSizePt * 2.2
+                                text: model.unicode
+                                visible: !!model.unicode
+                            }
+                            Avatar {
+                                crop: false
+                                displayName: model.shortcode
+                                enabled: false
+                                Layout.preferredHeight: Math.ceil(Settings.uiFontSizePt * 3)
+                                //userid: model.shortcode
+                                url: (model.url ? model.url : "").replace("mxc://", "image://MxcImage/")
+                                visible: !model.unicode
+                                Layout.preferredWidth: Layout.preferredHeight
+                            }
+                            Label {
+                                Layout.leftMargin: Komai.paddingSmall
+                                Layout.alignment: Qt.AlignVCenter
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                text: model.shortcode
+                            }
+                            Item {
+                                Layout.fillWidth: true
+                            }
+                            Label {
+                                Layout.alignment: Qt.AlignVCenter
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                text: model.packname
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: "command"
+
+                        RowLayout {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Komai.paddingSmall
+                            anchors.rightMargin: Komai.paddingSmall
+                            spacing: Komai.paddingSmall
+
+                            Label {
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                font.bold: true
+                                text: model.name
+                            }
+                            Label {
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                text: model.description
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: "room"
+
+                        RowLayout {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Komai.paddingSmall
+                            anchors.rightMargin: Komai.paddingSmall
+                            spacing: Komai.paddingSmall
+
+                            Avatar {
+                                displayName: model.roomName
+                                enabled: false
+                                Layout.preferredHeight: popup.avatarHeight
+                                roomid: model.roomid
+                                url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
+                                Layout.preferredWidth: popup.avatarWidth
+                            }
+                            Label {
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                font.italic: model.isTombstoned
+                                font.bold: model.isSpace
+                                font.pixelSize: popup.avatarHeight * 0.5
+                                text: model.roomName
+                                textFormat: Text.RichText
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        roleValue: "roomAliases"
+
+                        RowLayout {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Komai.paddingSmall
+                            anchors.rightMargin: Komai.paddingSmall
+                            spacing: Komai.paddingSmall
+
+                            Avatar {
+                                displayName: model.roomName
+                                enabled: false
+                                Layout.preferredHeight: popup.avatarHeight
+                                roomid: model.roomid
+                                url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
+                                Layout.preferredWidth: popup.avatarWidth
+                            }
+                            Label {
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                font.italic: model.isTombstoned
+                                font.bold: model.isSpace
+                                text: model.roomName
+                                textFormat: Text.RichText
+                            }
+                            Label {
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                text: "(" + model.roomAlias + ")"
+                                textFormat: Text.RichText
+                            }
+                        }
+                    }
+                }
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    color: Komai.theme.separator
+                    height: 1
+                    visible: model.index < listView.count - 1
+                }
+            }
+
+            onContentYChanged: deadTimer.restart()
+
+            Timer {
+                id: deadTimer
+
+                interval: 50
+            }
         }
     }
 

@@ -290,6 +290,10 @@ Rectangle {
                     function onCompletionClicked(completion) {
                         messageInput.insertCompletion(completion);
                     }
+                    function onDismissed() {
+                        completer.completerName = "";
+                        popup.close();
+                    }
 
                     target: completer
                 }

@@ -36,7 +36,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Compact room list** with denser entry layout
 - **Polished top bar** -- selectable topic text, hidden empty topic, dedicated settings button
 - **Smarter direct chat detection** -- Komai combines [`m.direct`](https://spec.matrix.org/v1.17/client-server-api/#mdirect) account data with member-count heuristics to (hopefully in most cases) correctly identify direct chats, including 3-member rooms where one member is a bridge bot -- giving them the right name, avatar, and room-list placement
-- **Communities sidebar filters** -- configurable filter sections (Direct Chats, Bots, Favourites, Server Notices, Low Priority) in the communities sidebar, each with its own toggle in Settings. See [🏘️ Communities Sidebar](communities-sidebar.md)
+- **Revamped communities sidebar** -- configurable [filter sections](communities-sidebar.md#filter-sections) (People, Bots, Groups, Favourites, Server Notices, Low Priority) with local attention counting (unread messages and unsent drafts) that works even when notifications are disabled at the homeserver level. Every filter can be [hidden, badged, or excluded from "All rooms"](communities-sidebar.md#per-filter-options) via Settings > Sidebars or right-click. See [🏘️ Communities Sidebar](communities-sidebar.md)
 - **Avatars on the bubble side** -- received messages show the avatar on the left, yours on the right
 
 
@@ -81,6 +81,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **All user-facing settings are surfaced in the UI** -- unlike upstream nheko, Komai exposes every supported user-facing setting through Application Settings (internal tuning keys such as low-level DB limits remain config-only)
 - **Improved text accessibility controls** -- UI text follows the configured font size more consistently, and you can adjust font size quickly with keyboard shortcuts (`Ctrl` + `+` and `Ctrl` + `-`)
 - **Profile and Logout buttons** easily accessible in the Session tab
+- **Account notifications toggle** -- control your homeserver's master push rule directly from Settings > Notifications, letting you mute notifications across all clients/devices without leaving Komai
 - **Configurable browser command for links** -- allows opening links through a custom command (for a specific browser/profile or script workflow), while still supporting system defaults when not set.
 - **Revamped settings storage** -- Komai uses per-profile, human-readable YAML files (`config.yml`, `state.yml`, `session.yml`, `secrets.yml`) instead of one monolithic Qt settings store.
 

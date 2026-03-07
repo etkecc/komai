@@ -26,14 +26,18 @@ Rectangle {
         anchors.margins: Komai.paddingMedium
         spacing: Komai.paddingMedium
 
-        Avatar {
+        AvatarSettingsFlipButton {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: root.avatarSize
             Layout.preferredHeight: root.avatarSize
-            displayName: root.spaceRoom ? root.spaceRoom.roomName : ""
-            roomid: root.spaceId
-            url: root.spaceRoom ? root.spaceRoom.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
-            enabled: false
+            avatarButtonSize: root.avatarSize
+            avatarDisplayName: root.spaceRoom ? root.spaceRoom.roomName : ""
+            avatarRoomId: root.spaceId
+            avatarUrl: root.spaceRoom ? root.spaceRoom.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
+            toolTipText: qsTr("Space settings")
+
+            onLeftClicked: TimelineManager.openRoomInfo(root.spaceId, "settings")
+            onRightClicked: TimelineManager.openRoomInfo(root.spaceId, "settings")
         }
 
         Label {
@@ -45,6 +49,62 @@ Rectangle {
             elide: Text.ElideRight
             color: palette.text
             visible: !root.collapsed
+        }
+
+        AbstractButton {
+            id: leaveButton
+
+            readonly property int iconSize: Math.max(14, root.avatarSize / 2)
+            readonly property bool activeState: hovered || pressed
+            readonly property color actionTextColor: activeState ? palette.brightText : palette.buttonText
+            readonly property color actionLabelColor: activeState ? palette.brightText : palette.text
+            readonly property bool hasRoom: leaveLabel.implicitWidth + iconSize + Komai.paddingSmall + Komai.paddingSmall * 2 < root.width * 0.4
+
+            Layout.alignment: Qt.AlignVCenter
+            Layout.preferredHeight: root.avatarSize
+            implicitWidth: root.avatarSize + (hasRoom ? (Komai.paddingSmall + leaveLabel.implicitWidth) : 0)
+            hoverEnabled: true
+            leftPadding: Komai.paddingSmall
+            rightPadding: Komai.paddingSmall
+            visible: !root.collapsed
+
+            ToolTip.delay: Komai.tooltipDelay
+            ToolTip.text: qsTr("Leave space")
+            ToolTip.visible: hovered && !hasRoom
+
+            background: Rectangle {
+                radius: Komai.paddingSmall
+                color: leaveButton.activeState ? palette.dark : "transparent"
+            }
+
+            contentItem: RowLayout {
+                spacing: Komai.paddingSmall
+
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredHeight: leaveButton.iconSize
+                    Layout.preferredWidth: leaveButton.iconSize
+                    source: "image://colorimage/:/icons/icons/ui/power-off.svg?" + leaveButton.actionTextColor
+                    sourceSize.height: leaveButton.iconSize
+                    sourceSize.width: leaveButton.iconSize
+                }
+                Label {
+                    id: leaveLabel
+
+                    Layout.alignment: Qt.AlignVCenter
+                    color: leaveButton.actionLabelColor
+                    font.bold: true
+                    text: qsTr("Leave")
+                    visible: leaveButton.hasRoom
+                }
+            }
+
+            KomaiCursorShape {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+
+            onClicked: TimelineManager.openLeaveRoomDialog(root.spaceId)
         }
     }
 

@@ -73,7 +73,6 @@ Page {
         spacing: 0
 
         RoomListSpaceHeader {
-            id: spaceHeader
             Layout.fillWidth: true
             collapsed: roomListPage.collapsed
             avatarSize: roomListPage.avatarSize

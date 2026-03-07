@@ -130,8 +130,14 @@ void
 UserSettings::emitSessionAuthStateChangedIfNeeded(bool hadPersistedSessionIdentity,
                                                   bool hadActiveSessionState)
 {
-    if (hadPersistedSessionIdentity != hasPersistedSessionIdentity() ||
-        hadActiveSessionState != hasActiveSession()) {
+    const bool hasSessionStateChanged = hadPersistedSessionIdentity != hasPersistedSessionIdentity() ||
+                                        hadActiveSessionState != hasActiveSession();
+    if (hasSessionStateChanged) {
+        notificationsAccountEnabledLoaded_   = false;
+        notificationsAccountEnabledInFlight_ = false;
+    }
+
+    if (hasSessionStateChanged) {
         emit sessionAuthStateChanged();
     }
 }

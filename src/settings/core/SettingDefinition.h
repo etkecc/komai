@@ -58,6 +58,7 @@ enum class SettingId
     ComposerInputAutoReplaceEmoji,
     ComposerTypingSendEnabled,
     ComposerExtrasStickersEnabled,
+    NotificationsAccountEnabled,
     NotificationsEnabled,
     NotificationsAttentionOnIncoming,
     NotificationsMessageContentPolicy,

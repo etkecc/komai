@@ -125,6 +125,8 @@ class UserSettings final : public QObject
                  setTimelineReadReceiptsEnabled NOTIFY timelineReadReceiptsEnabledChanged)
     Q_PROPERTY(bool notificationsEnabled READ notificationsEnabled WRITE setNotificationsEnabled
                  NOTIFY notificationsEnabledChanged)
+    Q_PROPERTY(bool notificationsAccountEnabled READ notificationsAccountEnabled WRITE
+                 setNotificationsAccountEnabled NOTIFY notificationsAccountEnabledChanged)
     Q_PROPERTY(bool notificationsAttentionOnIncoming READ notificationsAttentionOnIncoming WRITE
                  setNotificationsAttentionOnIncoming NOTIFY notificationsAttentionOnIncomingChanged)
     Q_PROPERTY(bool uiAvatarsCircular READ uiAvatarsCircular WRITE setUiAvatarsCircular NOTIFY
@@ -456,6 +458,7 @@ public:
     void setUiLayoutContentMaxWidthPx(int state);
     void setSidebarsCommunitiesWidthPx(int state);
     void setSidebarsRoomListWidthPx(int state);
+    void setNotificationsAccountEnabled(bool state);
     void setNotificationsEnabled(bool state);
     void setNotificationsAttentionOnIncoming(bool state);
     void setUiAvatarsCircular(bool state);
@@ -648,6 +651,7 @@ signals:
     void dbMaxSizeBytesChanged(qulonglong size);
     void dbMaxStoresChanged(uint count);
     void networkHttp3EnabledChanged(bool state);
+    void notificationsAccountEnabledChanged(bool state);
     void secretsProviderFallbackWarningVisibleChanged(bool visible);
     void sessionAuthStateChanged();
 

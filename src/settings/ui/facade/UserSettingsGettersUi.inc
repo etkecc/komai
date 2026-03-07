@@ -43,8 +43,11 @@
     bool uiInputMode() const;
     bool uiInputTouchSwipeGesturesEnabled() const;
     bool timelineReadReceiptsEnabled() const;
+    bool notificationsAccountEnabled() const;
     bool notificationsEnabled() const;
     bool notificationsAttentionOnIncoming() const;
+    bool notificationsAccountToggleEnabled() const;
+    void refreshNotificationsAccountEnabled();
     bool hasNotifications() const;
     int uiLayoutContentMaxWidthPx() const;
     int uiLayoutContentMaxWidthEffectivePx() const;

@@ -13,6 +13,8 @@ Item {
     id: root
 
     required property string label
+    property string helperText: ""
+    property color helperColor: palette.buttonText
     implicitWidth: sectionLayout.implicitWidth
     implicitHeight: sectionLayout.implicitHeight
 
@@ -43,6 +45,18 @@ Item {
                 color: palette.buttonText
                 height: 1
             }
+        }
+
+        Text {
+            Layout.fillWidth: true
+            Layout.leftMargin: Komai.paddingSmall
+            Layout.rightMargin: Komai.paddingSmall
+            visible: root.helperText.length > 0
+            color: root.helperColor
+            text: root.helperText
+            textFormat: Text.AutoText
+            font.pointSize: Settings.uiFontSizePt
+            wrapMode: Text.Wrap
         }
     }
 }

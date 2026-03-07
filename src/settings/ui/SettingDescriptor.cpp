@@ -19,6 +19,7 @@ bool
 isRuntimeStatusSettingId(settings::core::SettingId id)
 {
     switch (id) {
+    case settings::core::SettingId::NotificationsAccountEnabled:
     case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
     case settings::core::SettingId::EncryptionSelfSigningKeyStatus:
     case settings::core::SettingId::EncryptionUserSigningKeyStatus:

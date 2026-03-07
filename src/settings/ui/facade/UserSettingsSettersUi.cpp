@@ -5,4 +5,7 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 
+#include "logging/Logging.h"
+#include "matrix/MatrixClient.h"
+
 #include "UserSettingsSettersUi.inc"

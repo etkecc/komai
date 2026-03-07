@@ -12,3 +12,51 @@ notificationsMessageContentPolicyValues()
            << QCoreApplication::translate("UserSettingsModel", "Whenever available");
     return values;
 }
+
+static QVariant
+notificationsAccountEnabledValue()
+{
+    if (const auto settings = UserSettings::instance()) {
+        settings->refreshNotificationsAccountEnabled();
+        return settings->notificationsAccountEnabled();
+    }
+
+    return true;
+}
+
+static bool
+setNotificationsAccountEnabledValue(const QVariant &value)
+{
+    bool enabled = true;
+    if (!readSettingValue(value, enabled))
+        return false;
+
+    if (const auto settings = UserSettings::instance()) {
+        settings->setNotificationsAccountEnabled(enabled);
+        return true;
+    }
+
+    return false;
+}
+
+static bool
+notificationsAccountEnabledSettingEnabled()
+{
+    if (const auto settings = UserSettings::instance())
+        return settings->notificationsAccountToggleEnabled();
+
+    return false;
+}
+
+static bool
+notificationsSystemSettingsEnabled()
+{
+    if (const auto settings = UserSettings::instance()) {
+        if (!settings->hasActiveSession())
+            return true;
+
+        return settings->notificationsAccountEnabled();
+    }
+
+    return false;
+}

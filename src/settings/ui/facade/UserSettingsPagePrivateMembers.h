@@ -39,6 +39,9 @@ UnreadDetectionPolicy sidebarsRoomListUnreadDetectionPolicy_ = UnreadDetectionPo
 TimelineMessageActionsActivationPolicy timelineMessageActionsActivationPolicy_ =
   TimelineMessageActionsActivationPolicy::ActionsButton;
 bool timelineReadReceiptsEnabled_;
+bool notificationsAccountEnabled_         = true;
+bool notificationsAccountEnabledLoaded_   = false;
+bool notificationsAccountEnabledInFlight_ = false;
 bool notificationsEnabled_;
 bool notificationsAttentionOnIncoming_;
 bool uiAvatarsCircular_;

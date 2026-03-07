@@ -44,7 +44,8 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
     // in this edge case, that's probably a non-issue.
     // TODO: Replace this once we have proper pushrules support. This is a horrible hack
     if (prevNotificationCount < notificationCount) {
-        if (userSettings_->notificationsAttentionOnIncoming())
+        if (userSettings_->notificationsAttentionOnIncoming() &&
+            userSettings_->notificationsAccountEnabled())
             MainWindow::instance()->alert(0);
     }
     prevNotificationCount = notificationCount;
@@ -209,7 +210,8 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                             if (isRoomActive(qRoomId))
                                 continue;
 
-                            if (userSettings_->notificationsEnabled()) {
+                            if (userSettings_->notificationsEnabled() &&
+                                userSettings_->notificationsAccountEnabled()) {
                                 notifications.push_back(PendingNotification{
                                   .roomId        = qRoomId,
                                   .roomName      = roomName,

@@ -107,6 +107,19 @@ Item {
                             Layout.bottomMargin: Komai.paddingSmall
                             visible: r.model.type == UserSettingsModel.SectionTitle
                             label: r.model.name
+                            helperText: {
+                                if (r.model.tagId === "notifications-system-section"
+                                        && Settings.hasActiveSession
+                                        && !Settings.notificationsAccountEnabled) {
+                                    return qsTr("Options below have no effect because account notifications are disabled above.");
+                                }
+                                return "";
+                            }
+                            helperColor: r.model.tagId === "notifications-system-section"
+                                && Settings.hasActiveSession
+                                && !Settings.notificationsAccountEnabled
+                                ? Komai.theme.attention
+                                : palette.buttonText
                         }
 
                         GridLayout {

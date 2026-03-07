@@ -99,6 +99,12 @@ RoomlistModel::warmupCurrentRoomTimeline(const QString &roomid, int requestsDone
     if (!currentRoom_->canPaginateBack())
         return;
 
+    // If the virtual window can still expand from cached DB entries, the room
+    // already has enough messages locally. Skip warmup expansion to avoid
+    // unnecessary re-renders — the pagination controller will expand on demand.
+    if (currentRoom_->canExpandWindow())
+        return;
+
     if (currentRoom_->paginationInProgress()) {
         connect(
           currentRoom_.data(),

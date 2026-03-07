@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 77
+Rows: 79
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -32,6 +32,8 @@ Naming mismatch summary:
 | `ComposerExtrasStickersEnabled` | `settings.composerExtrasStickersEnabled()` | `ComposerExtrasStickersEnabled` | `composer.extras.stickers.enabled` |
 | `ComposerInputAutoReplaceEmoji` | `static_cast<int>(settings.composerInputAutoReplaceEmoji())` | `ComposerInputAutoReplaceEmoji` | `composer.input.auto_replace_emoji` |
 | `ComposerInputInlineEmojiPickerEnabled` | `settings.composerInputInlineEmojiPickerEnabled()` | `ComposerInputInlineEmojiPickerEnabled` | `composer.input.inline_emoji_picker.enabled` |
+| `ComposerInputInlineRoomPickerEnabled` | `settings.composerInputInlineRoomPickerEnabled()` | `ComposerInputInlineRoomPickerEnabled` | `composer.input.inline_room_picker.enabled` |
+| `ComposerInputInlineUserPickerEnabled` | `settings.composerInputInlineUserPickerEnabled()` | `ComposerInputInlineUserPickerEnabled` | `composer.input.inline_user_picker.enabled` |
 | `ComposerInputMarkdownToHtmlEnabled` | `settings.composerInputMarkdownToHtmlEnabled()` | `ComposerInputMarkdownToHtmlEnabled` | `composer.input.markdown_to_html.enabled` |
 | `ComposerInputSendKey` | `static_cast<int>(settings.composerInputSendKey())` | `ComposerInputSendKey` | `composer.input.send_key` |
 | `ComposerTypingSendEnabled` | `settings.composerTypingSendEnabled()` | `ComposerTypingSendEnabled` | `composer.typing.send.enabled` |

@@ -83,6 +83,12 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool composerInputInlineEmojiPickerEnabled READ composerInputInlineEmojiPickerEnabled
                  WRITE setComposerInputInlineEmojiPickerEnabled NOTIFY
                    composerInputInlineEmojiPickerEnabledChanged)
+    Q_PROPERTY(
+      bool composerInputInlineRoomPickerEnabled READ composerInputInlineRoomPickerEnabled WRITE
+        setComposerInputInlineRoomPickerEnabled NOTIFY composerInputInlineRoomPickerEnabledChanged)
+    Q_PROPERTY(
+      bool composerInputInlineUserPickerEnabled READ composerInputInlineUserPickerEnabled WRITE
+        setComposerInputInlineUserPickerEnabled NOTIFY composerInputInlineUserPickerEnabledChanged)
     Q_PROPERTY(TimelineMessagesStyle timelineMessagesStyle READ timelineMessagesStyle WRITE
                  setTimelineMessagesStyle NOTIFY timelineMessagesStyleChanged)
     Q_PROPERTY(
@@ -444,6 +450,8 @@ public:
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
     void setComposerInputInlineEmojiPickerEnabled(bool state);
+    void setComposerInputInlineRoomPickerEnabled(bool state);
+    void setComposerInputInlineUserPickerEnabled(bool state);
     void setTimelineMessagesStyle(TimelineMessagesStyle style);
     void setTimelineMessagesPositioning(TimelineMessagesPositioning positioning);
     void setTimelineUserColorCodingPolicy(TimelineUserColorCodingPolicy policy);
@@ -584,6 +592,8 @@ signals:
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
     void composerInputInlineEmojiPickerEnabledChanged(bool state);
+    void composerInputInlineRoomPickerEnabledChanged(bool state);
+    void composerInputInlineUserPickerEnabledChanged(bool state);
     void timelineMessagesStyleChanged(TimelineMessagesStyle style);
     void timelineMessagesPositioningChanged(TimelineMessagesPositioning positioning);
     void timelineUserColorCodingPolicyChanged(TimelineUserColorCodingPolicy policy);

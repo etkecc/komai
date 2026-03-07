@@ -33,6 +33,16 @@
       "Inline emoji picker",
       QT_TR_NOOP("Show an inline emoji picker when you type a colon (:) in the message input."),
       SM::TabComposer, composerInputInlineEmojiPickerEnabled, setComposerInputInlineEmojiPickerEnabled, nullptr, ComposerInputInlineEmojiPickerEnabled, SettingKey::ComposerInputInlineEmojiPickerEnabled),
+    // InlineRoomPicker
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Inline room picker",
+      QT_TR_NOOP("Show an inline room picker when you type a hash (#) in the message input."),
+      SM::TabComposer, composerInputInlineRoomPickerEnabled, setComposerInputInlineRoomPickerEnabled, nullptr, ComposerInputInlineRoomPickerEnabled, SettingKey::ComposerInputInlineRoomPickerEnabled),
+    // InlineUserPicker
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Inline user picker",
+      QT_TR_NOOP("Show an inline user picker when you type an at sign (@) in the message input."),
+      SM::TabComposer, composerInputInlineUserPickerEnabled, setComposerInputInlineUserPickerEnabled, nullptr, ComposerInputInlineUserPickerEnabled, SettingKey::ComposerInputInlineUserPickerEnabled),
     // ComposerFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

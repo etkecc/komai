@@ -22,6 +22,8 @@ bool composerInputMarkdownToHtmlEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;
 bool composerInputInlineEmojiPickerEnabled_  = true;
+bool composerInputInlineRoomPickerEnabled_   = true;
+bool composerInputInlineUserPickerEnabled_   = true;
 TimelineMessagesStyle timelineMessagesStyle_ = TimelineMessagesStyle::Bubbles;
 TimelineMessagesPositioning timelineMessagesPositioning_ =
   TimelineMessagesPositioning::OpposingBySender;

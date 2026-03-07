@@ -57,6 +57,8 @@ enum class SettingId
     ComposerInputSendKey,
     ComposerInputAutoReplaceEmoji,
     ComposerInputInlineEmojiPickerEnabled,
+    ComposerInputInlineRoomPickerEnabled,
+    ComposerInputInlineUserPickerEnabled,
     ComposerTypingSendEnabled,
     ComposerExtrasStickersEnabled,
     NotificationsAccountEnabled,

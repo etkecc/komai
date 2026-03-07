@@ -57,6 +57,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Text emoticons auto-replaced with emoji** (enabled by default, configurable in Settings)
 - **Emoji picker doesn't block sending** -- typing `:)`, `:D`, `:P`, etc. and pressing Enter sends the message immediately instead of requiring a second Enter to dismiss the picker first
 - **Revamped inline emoji picker** -- larger emoji previews, full-width rows, a header with a close button, rounded corners, and a scrollbar for long result lists
+- **Inline pickers individually toggleable** -- the inline emoji (`:`), room (`#`), and user (`@`) pickers can each be enabled or disabled in Settings (all enabled by default)
 - Polished reply popup with proper background, headers, and spacing
 - Polished forward dialog with a confirmation step
 - Legacy VoIP call UI and sticker button hidden for a cleaner look

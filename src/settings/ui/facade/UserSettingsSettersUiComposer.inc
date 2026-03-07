@@ -45,6 +45,26 @@ UserSettings::setComposerInputInlineEmojiPickerEnabled(bool s)
     save();
 }
 void
+UserSettings::setComposerInputInlineRoomPickerEnabled(bool s)
+{
+    if (composerInputInlineRoomPickerEnabled_ == s)
+        return;
+    composerInputInlineRoomPickerEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputInlineRoomPickerEnabled, s);
+    emit composerInputInlineRoomPickerEnabledChanged(s);
+    save();
+}
+void
+UserSettings::setComposerInputInlineUserPickerEnabled(bool s)
+{
+    if (composerInputInlineUserPickerEnabled_ == s)
+        return;
+    composerInputInlineUserPickerEnabled_ = s;
+    (void)coreStore_.set(settings::core::SettingId::ComposerInputInlineUserPickerEnabled, s);
+    emit composerInputInlineUserPickerEnabledChanged(s);
+    save();
+}
+void
 UserSettings::setComposerExtrasStickersEnabled(bool s)
 {
     if (composerExtrasStickersEnabled_ == s)

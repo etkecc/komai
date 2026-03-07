@@ -254,11 +254,11 @@ Rectangle {
                         lastChar = text.charAt(cursorPosition - 1);
                     else
                         lastChar = '';
-                    if (lastChar == '@') {
+                    if (lastChar == '@' && Settings.composerInputInlineUserPickerEnabled) {
                         messageInput.openCompleter(selectionStart - 1, "user");
                     } else if (lastChar == ':' && Settings.composerInputInlineEmojiPickerEnabled) {
                         messageInput.openCompleter(selectionStart - 1, "emoji");
-                    } else if (lastChar == '#') {
+                    } else if (lastChar == '#' && Settings.composerInputInlineRoomPickerEnabled) {
                         messageInput.openCompleter(selectionStart - 1, "roomAliases");
                     } else if (lastChar == "/" && cursorPosition == 1) {
                         messageInput.openCompleter(selectionStart - 1, "command");

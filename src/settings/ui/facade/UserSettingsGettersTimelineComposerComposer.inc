@@ -40,6 +40,26 @@ UserSettings::composerInputInlineEmojiPickerEnabled() const
 }
 
 bool
+UserSettings::composerInputInlineRoomPickerEnabled() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::ComposerInputInlineRoomPickerEnabled);
+        value.has_value())
+        return *value;
+    return composerInputInlineRoomPickerEnabled_;
+}
+
+bool
+UserSettings::composerInputInlineUserPickerEnabled() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(
+          settings::core::SettingId::ComposerInputInlineUserPickerEnabled);
+        value.has_value())
+        return *value;
+    return composerInputInlineUserPickerEnabled_;
+}
+
+bool
 UserSettings::composerExtrasStickersEnabled() const
 {
     if (const auto value =

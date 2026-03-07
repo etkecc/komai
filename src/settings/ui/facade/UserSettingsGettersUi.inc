@@ -26,6 +26,8 @@
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
     bool composerInputInlineEmojiPickerEnabled() const;
+    bool composerInputInlineRoomPickerEnabled() const;
+    bool composerInputInlineUserPickerEnabled() const;
     TimelineMessagesStyle timelineMessagesStyle() const;
     TimelineMessagesPositioning timelineMessagesPositioning() const;
     TimelineUserColorCodingPolicy timelineUserColorCodingPolicy() const;

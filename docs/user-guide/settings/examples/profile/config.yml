@@ -75,6 +75,12 @@ composer:
       enabled: true
     send_key: enter
     auto_replace_emoji: always
+    inline_emoji_picker:
+      enabled: true
+    inline_room_picker:
+      enabled: true
+    inline_user_picker:
+      enabled: true
   typing:
     send:
       enabled: true

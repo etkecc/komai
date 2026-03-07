@@ -2,5 +2,7 @@ X(ComposerInputMarkdownToHtmlEnabled, settings.composerInputMarkdownToHtmlEnable
 X(ComposerInputSendKey, static_cast<int>(settings.composerInputSendKey()))
 X(ComposerInputAutoReplaceEmoji, static_cast<int>(settings.composerInputAutoReplaceEmoji()))
 X(ComposerInputInlineEmojiPickerEnabled, settings.composerInputInlineEmojiPickerEnabled())
+X(ComposerInputInlineRoomPickerEnabled, settings.composerInputInlineRoomPickerEnabled())
+X(ComposerInputInlineUserPickerEnabled, settings.composerInputInlineUserPickerEnabled())
 X(ComposerTypingSendEnabled, settings.composerTypingSendEnabled())
 X(ComposerExtrasStickersEnabled, settings.composerExtrasStickersEnabled())

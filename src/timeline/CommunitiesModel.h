@@ -91,7 +91,8 @@ class CommunitiesModel final : public QAbstractListModel
     {
         QString id;
         QString icon;
-        mtx::responses::UnreadNotifications unreads{};
+        int unreadRoomCount = 0;
+        bool hasHighlight   = false;
     };
 
 public:
@@ -126,7 +127,8 @@ public:
             QString id;
             int depth = 0;
 
-            mtx::responses::UnreadNotifications notificationCounts = {0, 0};
+            int unreadRoomCount = 0;
+            bool hasHighlight   = false;
 
             bool collapsed = false;
         };
@@ -263,8 +265,15 @@ private:
     std::map<QString, RoomInfo> spaces_;
     std::vector<std::string> directMessages_;
 
-    std::unordered_map<QString, mtx::responses::UnreadNotifications> roomNotificationCache;
-    std::unordered_map<QString, mtx::responses::UnreadNotifications> tagNotificationCache;
+    struct BadgeCounts
+    {
+        int unreadRoomCount = 0;
+        bool hasHighlight   = false;
+    };
+    std::unordered_map<QString, BadgeCounts> tagBadgeCache;
+
+    void computeFilterBadges();
+    void recomputeFilterBadges();
     std::array<FixedFilterRow, kFixedRowCount> fixedFilters_ = {{
       {"", QStringLiteral(":/icons/icons/ui/world.svg"), {}},
       {"people", QStringLiteral(":/icons/icons/ui/person.svg"), {}},

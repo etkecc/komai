@@ -56,9 +56,9 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
         case CommunitiesModel::Roles::Id:
             return f.id;
         case CommunitiesModel::Roles::UnreadMessages:
-            return static_cast<int>(f.unreads.notification_count);
+            return f.unreadRoomCount;
         case CommunitiesModel::Roles::HasLoudNotification:
-            return f.unreads.highlight_count > 0;
+            return f.hasHighlight;
         }
     } else if (index.row() - kFixedRowCount < spaceOrder_.size()) {
         auto id = spaceOrder_.tree.at(index.row() - kFixedRowCount).id;
@@ -90,14 +90,13 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
             int count = 0;
             auto end  = spaceOrder_.lastChild(index.row() - kFixedRowCount);
             for (int i = index.row() - kFixedRowCount; i <= end; i++)
-                count +=
-                  static_cast<int>(spaceOrder_.tree[i].notificationCounts.notification_count);
+                count += spaceOrder_.tree[i].unreadRoomCount;
             return count;
         }
         case CommunitiesModel::Roles::HasLoudNotification: {
             auto end = spaceOrder_.lastChild(index.row() - kFixedRowCount);
             for (int i = index.row() - kFixedRowCount; i <= end; i++)
-                if (spaceOrder_.tree[i].notificationCounts.highlight_count > 0)
+                if (spaceOrder_.tree[i].hasHighlight)
                     return true;
             return false;
         }
@@ -155,15 +154,15 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
         case CommunitiesModel::Roles::Id:
             return "tag:" + tag;
         case CommunitiesModel::Roles::UnreadMessages:
-            if (auto it = tagNotificationCache.find(tag); it != tagNotificationCache.end())
-                return (int)it->second.notification_count;
+            if (auto it = tagBadgeCache.find(tag); it != tagBadgeCache.end())
+                return it->second.unreadRoomCount;
             else
                 return 0;
         case CommunitiesModel::Roles::HasLoudNotification:
-            if (auto it = tagNotificationCache.find(tag); it != tagNotificationCache.end())
-                return it->second.highlight_count > 0;
+            if (auto it = tagBadgeCache.find(tag); it != tagBadgeCache.end())
+                return it->second.hasHighlight;
             else
-                return 0;
+                return false;
         }
     }
     return QVariant();

@@ -134,6 +134,10 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
             this,
             &FilteredRoomlistModel::currentRoomChanged);
 
+    // Eagerly populate hidden tags/spaces from settings so that badge
+    // computation during the first initializeSidebar() already sees them.
+    updateHiddenTagsAndSpaces();
+
     sort(0);
 }
 
@@ -296,65 +300,65 @@ FilteredRoomlistModel::hiddenByGroups(int sourceRow) const
 }
 
 bool
-FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) const
+FilteredRoomlistModel::acceptsForFilter(int sourceRow, FilterBy type, const QString &str) const
 {
-    if (filterType == FilterBy::Nothing) {
+    if (type == FilterBy::Nothing) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByPeople(sourceRow) ||
             hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
             return false;
         return true;
-    } else if (filterType == FilterBy::People) {
+    } else if (type == FilterBy::People) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
             return false;
         return isDirectRow(sourceRow) && !isBotRow(sourceRow);
-    } else if (filterType == FilterBy::Bots) {
+    } else if (type == FilterBy::Bots) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
             return false;
         return isBotRow(sourceRow);
-    } else if (filterType == FilterBy::Groups) {
+    } else if (type == FilterBy::Groups) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
         if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByBots(sourceRow))
             return false;
         return !isDirectRow(sourceRow);
-    } else if (filterType == FilterBy::Tag) {
+    } else if (type == FilterBy::Tag) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
 
         const auto tags = rowTags(sourceRow);
-        if (!tags.contains(filterStr))
+        if (!tags.contains(str))
             return false;
-        if (hiddenByTags(sourceRow, filterStr) || hiddenBySpaces(sourceRow) ||
+        if (hiddenByTags(sourceRow, str) || hiddenBySpaces(sourceRow) ||
             hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
             return false;
         return true;
-    } else if (filterType == FilterBy::Space) {
+    } else if (type == FilterBy::Space) {
         const auto idx = sourceRowIndex(sourceRow);
-        if (filterStr == sourceModel()->data(idx, RoomlistModel::RoomId).toString())
+        if (str == sourceModel()->data(idx, RoomlistModel::RoomId).toString())
             return true;
 
         const auto parents = rowParentSpaces(sourceRow);
-        if (!parents.contains(filterStr))
+        if (!parents.contains(str))
             return false;
 
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow, filterStr) ||
+        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow, str) ||
             hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
             return false;
 
-        if (isSpaceRow(sourceRow) && !parents.contains(filterStr))
+        if (isSpaceRow(sourceRow) && !parents.contains(str))
             return false;
 
         // If it is a preview but it can't be fetched, it is probably an inaccessible private room.
         // Hide it if the user isn't an admin.
         if (isPreviewRow(sourceRow) &&
             !sourceModel()->data(idx, RoomlistModel::IsPreviewFetched).toBool() &&
-            !Permissions(filterStr).canChange(qml_mtx_events::SpaceChild)) {
+            !Permissions(str).canChange(qml_mtx_events::SpaceChild)) {
             return false;
         }
 
@@ -362,6 +366,123 @@ FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) cons
     } else {
         return true;
     }
+}
+
+bool
+FilteredRoomlistModel::filterAcceptsRow(int sourceRow, const QModelIndex &) const
+{
+    return acceptsForFilter(sourceRow, filterType, filterStr);
+}
+
+QHash<QString, FilteredRoomlistModel::FilterBadge>
+FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) const
+{
+    QHash<QString, FilterBadge> result;
+
+    // Parse each community ID into FilterBy + filterStr, same as updateFilterTag().
+    struct ParsedFilter
+    {
+        QString id;
+        FilterBy type;
+        QString str;
+    };
+    std::vector<ParsedFilter> filters;
+    filters.reserve(communityIds.size());
+    for (const auto &cid : communityIds) {
+        ParsedFilter f;
+        f.id = cid;
+        if (cid.startsWith(QLatin1String("tag:"))) {
+            f.type = FilterBy::Tag;
+            f.str  = cid.mid(4);
+        } else if (cid.startsWith(QLatin1String("space:"))) {
+            f.type = FilterBy::Space;
+            f.str  = cid.mid(6);
+        } else if (cid == QLatin1String("people")) {
+            f.type = FilterBy::People;
+        } else if (cid == QLatin1String("bot")) {
+            f.type = FilterBy::Bots;
+        } else if (cid == QLatin1String("group")) {
+            f.type = FilterBy::Groups;
+        } else {
+            f.type = FilterBy::Nothing;
+        }
+        filters.push_back(std::move(f));
+        result[cid] = {};
+    }
+
+    const int rows = sourceModel()->rowCount();
+    for (int row = 0; row < rows; row++) {
+        const auto idx = sourceModel()->index(row, 0);
+
+        // Space rooms are structural — don't count them toward any badge.
+        if (sourceModel()->data(idx, RoomlistModel::IsSpace).toBool())
+            continue;
+
+        // Match the visual "emphasizeUnreadState" logic from the QML delegate:
+        // low-priority rooms are only considered unread when they have a loud notification.
+        bool hasUnread    = sourceModel()->data(idx, RoomlistModel::HasUnreadMessages).toBool();
+        bool hasDraft     = sourceModel()->data(idx, RoomlistModel::HasDraft).toBool();
+        bool hasHighlight = sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool();
+
+        bool isLowPriority = false;
+        if (hasUnread && !hasHighlight) {
+            const auto tags = sourceModel()->data(idx, RoomlistModel::Tags).toStringList();
+            if (tags.contains(QStringLiteral("m.lowpriority")))
+                isLowPriority = true;
+        }
+
+        bool active           = hasUnread || hasDraft;
+        bool suppressedActive = (isLowPriority ? (hasDraft || hasHighlight) : active);
+        if (!active && !hasHighlight)
+            continue;
+
+        for (const auto &f : filters) {
+            if (acceptsForFilter(row, f.type, f.str)) {
+                // For the m.lowpriority tag filter itself, count all unread rooms.
+                // For other filters, suppress low-priority rooms without highlights.
+                bool isLowPriorityFilter =
+                  (f.type == FilterBy::Tag && f.str == QStringLiteral("m.lowpriority"));
+                bool countActive = isLowPriorityFilter ? active : suppressedActive;
+
+                auto &badge = result[f.id];
+                if (countActive)
+                    badge.unreadCount++;
+                if (hasHighlight)
+                    badge.hasHighlight = true;
+            }
+        }
+    }
+
+    // Space rooms are skipped above (structural, not regular rooms) but should
+    // still count toward the "All rooms" badge — unless the space itself is excluded.
+    if (result.contains(QString())) {
+        for (int row = 0; row < rows; row++) {
+            const auto idx = sourceModel()->index(row, 0);
+            if (!sourceModel()->data(idx, RoomlistModel::IsSpace).toBool())
+                continue;
+
+            // Respect the per-space Exclude setting.
+            auto roomId = sourceModel()->data(idx, RoomlistModel::RoomId).toString();
+            if (hiddenSpaces.contains(roomId))
+                continue;
+
+            bool hasUnread = sourceModel()->data(idx, RoomlistModel::HasUnreadMessages).toBool();
+            bool hasDraft  = sourceModel()->data(idx, RoomlistModel::HasDraft).toBool();
+            bool hasHighlight =
+              sourceModel()->data(idx, RoomlistModel::HasLoudNotification).toBool();
+            bool active = hasUnread || hasDraft;
+            if (!active && !hasHighlight)
+                continue;
+
+            auto &badge = result[QString()];
+            if (active)
+                badge.unreadCount++;
+            if (hasHighlight)
+                badge.hasHighlight = true;
+        }
+    }
+
+    return result;
 }
 
 void

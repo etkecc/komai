@@ -5,6 +5,8 @@
 
 #include "CommunitiesModel.h"
 
+#include "RoomlistModel.h"
+#include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
 CommunitiesModel::CommunitiesModel(QObject *parent)
@@ -13,6 +15,12 @@ CommunitiesModel::CommunitiesModel(QObject *parent)
   , mutedTagIds_{UserSettings::instance()->mutedTags()}
 {
     instance_ = this;
+
+    cache::onRoomReadStatusChanged(
+      this, [this](const std::map<QString, bool> &) { recomputeFilterBadges(); });
+
+    connect(
+      this, &CommunitiesModel::hiddenTagsChanged, this, [this]() { recomputeFilterBadges(); });
 }
 
 QHash<int, QByteArray>
@@ -81,6 +89,67 @@ CommunitiesModel::FlatTree::restoreCollapsed()
         if (elements.contains(current))
             e.collapsed = true;
     }
+}
+
+void
+CommunitiesModel::computeFilterBadges()
+{
+    for (auto &f : fixedFilters_) {
+        f.unreadRoomCount = 0;
+        f.hasHighlight    = false;
+    }
+    for (auto &space : spaceOrder_.tree) {
+        space.unreadRoomCount = 0;
+        space.hasHighlight    = false;
+    }
+    tagBadgeCache.clear();
+
+    auto *filtered = FilteredRoomlistModel::instance();
+    if (!filtered)
+        return;
+
+    // Build list of all community filter IDs and ask FilteredRoomlistModel
+    // to compute badges using its own filterAcceptsRow logic — no duplication.
+    QStringList communityIds;
+    for (const auto &f : fixedFilters_)
+        communityIds.append(f.id);
+    for (const auto &s : spaceOrder_.tree)
+        communityIds.append(QStringLiteral("space:") + s.id);
+    for (const auto &t : std::as_const(tags_))
+        communityIds.append(QStringLiteral("tag:") + t);
+
+    const auto badges = filtered->computeFilterBadges(communityIds);
+
+    // Distribute results to fixed filters.
+    for (int i = 0; i < kFixedRowCount; i++) {
+        if (auto it = badges.find(fixedFilters_[i].id); it != badges.end()) {
+            fixedFilters_[i].unreadRoomCount = it->unreadCount;
+            fixedFilters_[i].hasHighlight    = it->hasHighlight;
+        }
+    }
+
+    // Distribute results to spaces.
+    for (auto &space : spaceOrder_.tree) {
+        if (auto it = badges.find(QStringLiteral("space:") + space.id); it != badges.end()) {
+            space.unreadRoomCount = it->unreadCount;
+            space.hasHighlight    = it->hasHighlight;
+        }
+    }
+
+    // Distribute results to tags.
+    for (const auto &t : std::as_const(tags_)) {
+        if (auto it = badges.find(QStringLiteral("tag:") + t); it != badges.end()) {
+            tagBadgeCache[t] = {it->unreadCount, it->hasHighlight};
+        }
+    }
+}
+
+void
+CommunitiesModel::recomputeFilterBadges()
+{
+    computeFilterBadges();
+    if (rowCount() > 0)
+        emit dataChanged(index(0), index(rowCount() - 1), {UnreadMessages, HasLoudNotification});
 }
 
 void

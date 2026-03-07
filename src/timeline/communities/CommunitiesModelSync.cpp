@@ -56,7 +56,7 @@ struct temptree
         });
 
         for (const auto &[child, subtree] : sorted) {
-            to.tree.push_back({QString::fromStdString(child), depth, {}, false});
+            to.tree.push_back({QString::fromStdString(child), depth, 0, false, false});
             subtree->flatten(to, spaces, depth + 1);
         }
     }
@@ -89,9 +89,11 @@ CommunitiesModel::initializeSidebar()
     tags_.clear();
     spaceOrder_.tree.clear();
     spaces_.clear();
-    tagNotificationCache.clear();
-    for (auto &f : fixedFilters_)
-        f.unreads = {};
+    tagBadgeCache.clear();
+    for (auto &f : fixedFilters_) {
+        f.unreadRoomCount = 0;
+        f.hasHighlight    = false;
+    }
     hasPeopleRooms_ = false;
     hasBotRooms_    = false;
     hasGroupRooms_  = false;
@@ -129,40 +131,15 @@ CommunitiesModel::initializeSidebar()
             }
         }
 
-        for (const auto &t : it->tags) {
-            auto tagId = QString::fromStdString(t);
-            auto &tNs  = tagNotificationCache[tagId];
-            tNs.notification_count += it->notification_count;
-            tNs.highlight_count += it->highlight_count;
-        }
+        bool isBot    = DirectChatResolver::instance().isBotRoom(it.key());
+        bool isDirect = DirectChatResolver::instance().isDirectChat(it.key());
 
-        auto &e              = roomNotificationCache[it.key()];
-        e.highlight_count    = it->highlight_count;
-        e.notification_count = it->notification_count;
-        fixedFilters_[kRowAllRooms].unreads.notification_count += it->notification_count;
-        fixedFilters_[kRowAllRooms].unreads.highlight_count += it->highlight_count;
-
-        bool isDm =
-          std::find(begin(directMessages_), end(directMessages_), it.key().toStdString()) !=
-          end(directMessages_);
-        bool isBot = false;
-
-        if (isDm) {
-            isBot = DirectChatResolver::instance().isBotRoom(it.key());
-            if (isBot) {
-                hasBotRooms_ = true;
-                fixedFilters_[kRowBots].unreads.notification_count += it->notification_count;
-                fixedFilters_[kRowBots].unreads.highlight_count += it->highlight_count;
-            } else {
-                hasPeopleRooms_ = true;
-                fixedFilters_[kRowPeople].unreads.notification_count += it->notification_count;
-                fixedFilters_[kRowPeople].unreads.highlight_count += it->highlight_count;
-            }
-        } else if (!it.value().is_space) {
+        if (isBot)
+            hasBotRooms_ = true;
+        else if (isDirect)
+            hasPeopleRooms_ = true;
+        else if (!it.value().is_space)
             hasGroupRooms_ = true;
-            fixedFilters_[kRowGroups].unreads.notification_count += it->notification_count;
-            fixedFilters_[kRowGroups].unreads.highlight_count += it->highlight_count;
-        }
     }
 
     // NOTE(Nico): We build a forrest from the Directed Cyclic(!) Graph of spaces. To do that we
@@ -198,13 +175,7 @@ CommunitiesModel::initializeSidebar()
 
     spaceOrder_.restoreCollapsed();
 
-    for (auto &space : spaceOrder_.tree) {
-        for (const auto &c : cache::getChildRoomIds(space.id.toStdString())) {
-            const auto &counts = roomNotificationCache[QString::fromStdString(c)];
-            space.notificationCounts.highlight_count += counts.highlight_count;
-            space.notificationCounts.notification_count += counts.notification_count;
-        }
-    }
+    computeFilterBadges();
 
     endResetModel();
 
@@ -249,97 +220,6 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
                 ev && ev->state_key == userid)
                 tagsUpdated = true;
         }
-
-        auto roomId            = QString::fromStdString(roomid);
-        auto &oldUnreads       = roomNotificationCache[roomId];
-        auto notificationCDiff = -static_cast<int64_t>(oldUnreads.notification_count) +
-                                 static_cast<int64_t>(room.unread_notifications.notification_count);
-        auto highlightCDiff = -static_cast<int64_t>(oldUnreads.highlight_count) +
-                              static_cast<int64_t>(room.unread_notifications.highlight_count);
-
-        auto applyDiff = [notificationCDiff,
-                          highlightCDiff](mtx::responses::UnreadNotifications &n) {
-            n.highlight_count    = static_cast<int64_t>(n.highlight_count) + highlightCDiff;
-            n.notification_count = static_cast<int64_t>(n.notification_count) + notificationCDiff;
-        };
-        if (highlightCDiff || notificationCDiff) {
-            // bool hidden = hiddenTagIds_.contains(roomId);
-            applyDiff(fixedFilters_[kRowAllRooms].unreads);
-            emit dataChanged(index(kRowAllRooms),
-                             index(kRowAllRooms),
-                             {
-                               UnreadMessages,
-                               HasLoudNotification,
-                             });
-            bool isDm = std::find(begin(directMessages_), end(directMessages_), roomid) !=
-                        end(directMessages_);
-            if (isDm) {
-                if (DirectChatResolver::instance().isBotRoom(QString::fromStdString(roomid))) {
-                    applyDiff(fixedFilters_[kRowBots].unreads);
-                    emit dataChanged(index(kRowBots),
-                                     index(kRowBots),
-                                     {
-                                       UnreadMessages,
-                                       HasLoudNotification,
-                                     });
-                } else {
-                    applyDiff(fixedFilters_[kRowPeople].unreads);
-                    emit dataChanged(index(kRowPeople),
-                                     index(kRowPeople),
-                                     {
-                                       UnreadMessages,
-                                       HasLoudNotification,
-                                     });
-                }
-            } else {
-                applyDiff(fixedFilters_[kRowGroups].unreads);
-                emit dataChanged(index(kRowGroups),
-                                 index(kRowGroups),
-                                 {
-                                   UnreadMessages,
-                                   HasLoudNotification,
-                                 });
-            }
-
-            auto spaces = cache::getParentRoomIds(roomid);
-            auto tags   = cache::singleRoomInfo(roomid).tags;
-
-            for (const auto &t : tags) {
-                auto tagId = QString::fromStdString(t);
-                applyDiff(tagNotificationCache[tagId]);
-                int idx = tags_.indexOf(tagId) + kFixedRowCount + spaceOrder_.size();
-                emit dataChanged(index(idx),
-                                 index(idx),
-                                 {
-                                   UnreadMessages,
-                                   HasLoudNotification,
-                                 });
-            }
-
-            for (const auto &s : spaces) {
-                auto spaceId = QString::fromStdString(s);
-
-                for (int i = 0; i < spaceOrder_.size(); i++) {
-                    if (spaceOrder_.tree[i].id != spaceId)
-                        continue;
-
-                    applyDiff(spaceOrder_.tree[i].notificationCounts);
-
-                    int idx = i;
-                    do {
-                        emit dataChanged(index(idx + kFixedRowCount),
-                                         index(idx + kFixedRowCount),
-                                         {
-                                           UnreadMessages,
-                                           HasLoudNotification,
-                                         });
-                        idx = spaceOrder_.parent(idx);
-                    } while (idx != -1);
-                }
-            }
-        }
-
-        roomNotificationCache[roomId] = room.unread_notifications;
     }
     for (const auto &[roomid, room] : sync_.rooms.leave) {
         (void)room;

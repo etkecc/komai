@@ -261,6 +261,13 @@ public:
     bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterAcceptsRow(int sourceRow, const QModelIndex &) const override;
 
+    struct FilterBadge
+    {
+        int unreadCount   = 0;
+        bool hasHighlight = false;
+    };
+    QHash<QString, FilterBadge> computeFilterBadges(const QStringList &communityIds) const;
+
 public slots:
     int roomidToIndex(QString roomid)
     {
@@ -366,6 +373,7 @@ private:
         Groups,
         Nothing,
     };
+    bool acceptsForFilter(int sourceRow, FilterBy type, const QString &str) const;
     QString filterStr   = QLatin1String("");
     FilterBy filterType = FilterBy::Nothing;
     QStringList hiddenTags, hiddenSpaces;

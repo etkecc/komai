@@ -340,8 +340,11 @@ FilteredRoomlistModel::acceptsForFilter(int sourceRow, FilterBy type, const QStr
         return true;
     } else if (type == FilterBy::Space) {
         const auto idx = sourceRowIndex(sourceRow);
+
+        // The space room itself is rendered as a separate header above the
+        // room list — don't include it as a regular list entry.
         if (str == sourceModel()->data(idx, RoomlistModel::RoomId).toString())
-            return true;
+            return false;
 
         const auto parents = rowParentSpaces(sourceRow);
         if (!parents.contains(str))

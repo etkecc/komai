@@ -68,17 +68,27 @@ Page {
         timelineRoot: roomListPage.timelineRoot
         componentCatalog: componentCatalog
     }
-    ListView {
-        id: roomlist
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
 
-        readonly property bool hasVerticalOverflow: contentHeight > height
-        readonly property real reservedScrollbarWidth: (!roomListPage.collapsed && Settings.sidebarsRoomListScrollbarsEnabled && hasVerticalOverflow)
-            ? Math.max(scrollbar.width, scrollbar.implicitWidth)
-            : 0
+        RoomListSpaceHeader {
+            id: spaceHeader
+            Layout.fillWidth: true
+            collapsed: roomListPage.collapsed
+            avatarSize: roomListPage.avatarSize
+        }
 
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: parent.height
+        ListView {
+            id: roomlist
+
+            readonly property bool hasVerticalOverflow: contentHeight > height
+            readonly property real reservedScrollbarWidth: (!roomListPage.collapsed && Settings.sidebarsRoomListScrollbarsEnabled && hasVerticalOverflow)
+                ? Math.max(scrollbar.width, scrollbar.implicitWidth)
+                : 0
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         model: Rooms
         boundsBehavior: Flickable.StopAtBounds
 
@@ -140,6 +150,7 @@ Page {
 
             timelineRoot: roomListPage.timelineRoot
             roomWindowComponent: roomWindowComponent
+        }
         }
     }
 }

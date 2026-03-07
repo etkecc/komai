@@ -14,15 +14,14 @@ Control {
     required property var scrollbarItem
     property int fullWidth: Math.round(jumpButton.implicitWidth)
     property int fullHeight: Math.round(jumpButton.implicitHeight)
-    readonly property color actionButtonColor: palette.brightText
-    readonly property color actionButtonHoverColor: palette.highlight
-    readonly property color actionButtonHoverBackgroundColor: Qt.rgba(actionButtonColor.r, actionButtonColor.g, actionButtonColor.b, 0.16)
+    readonly property color actionButtonColor: palette.buttonText
+    readonly property color actionButtonHoverBackgroundColor: palette.dark
 
     QtObject {
         id: toolbarStyle
 
         readonly property color actionButtonColor: toEndButton.actionButtonColor
-        readonly property color actionButtonHoverColor: toEndButton.actionButtonHoverColor
+        readonly property color actionButtonActiveColor: palette.brightText
         readonly property color actionButtonHoverBackgroundColor: toEndButton.actionButtonHoverBackgroundColor
         readonly property int actionButtonIconSize: 24
         readonly property int itemHorizontalPadding: Komai.paddingMedium
@@ -39,6 +38,10 @@ Control {
     width: 0
 
     background: TimelineFloatingActionBarBackground {
+        barColor: palette.alternateBase
+        barRadius: Komai.paddingSmall
+        barBorderColor: Komai.theme.separator
+        barBorderWidth: 1
     }
 
     states: [

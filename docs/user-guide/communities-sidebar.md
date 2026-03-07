@@ -57,10 +57,10 @@ Each filter has up to three options, configurable in **Settings > Sidebars > Com
 | Option | What it does | Default |
 |---|---|---|
 | <img src="../../resources/icons/fluent/assets/Eye/SVG/ic_fluent_eye_24_regular.svg" width="16" height="16"> **Show** | Whether the filter button appears in the sidebar | On |
-| <img src="../../resources/icons/fluent/assets/Speaker Mute/SVG/ic_fluent_speaker_mute_28_regular.svg" width="16" height="16"> **Mute** | Suppress notification counts for this filter | Off |
-| <img src="../../resources/icons/fluent/assets/Globe Prohibited/SVG/ic_fluent_globe_prohibited_24_regular.svg" width="16" height="16"> **Exclude from 'All rooms'** | Hide this filter's rooms from the "All rooms" view | Off |
+| <img src="../../resources/icons/fluent/assets/Counter/SVG/ic_fluent_counter_24_regular.svg" width="16" height="16"> **Attention badges** | Show attention badges (unread messages and unsent drafts) for this filter | On |
+| <img src="../../resources/icons/fluent/assets/Globe/SVG/ic_fluent_globe_24_regular.svg" width="16" height="16"> **Include in 'All rooms'** | Include this filter's rooms in the "All rooms" view | On |
 
-The "All rooms" filter only has the **Mute** option (it is always shown and cannot exclude from itself).
+The "All rooms" filter only has the **Attention badges** option (it is always shown and cannot exclude from itself).
 
 These options are only active when the communities sidebar itself is visible.
 

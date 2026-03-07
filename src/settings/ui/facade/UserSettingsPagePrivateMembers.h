@@ -87,7 +87,7 @@ QString currentTagId_;
 QString currentRoomId_;
 QString homeserver_;
 QStringList hiddenTags_;
-QStringList mutedTags_;
+QStringList badgesHiddenTags_;
 QStringList hiddenPins_;
 QStringList hiddenWidgets_;
 QStringList recentReactions_;

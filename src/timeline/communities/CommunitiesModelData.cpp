@@ -28,11 +28,12 @@ CommunitiesModel::setData(const QModelIndex &index, const QVariant &value, int r
 QVariant
 CommunitiesModel::data(const QModelIndex &index, int role) const
 {
-    if (role == CommunitiesModel::Roles::Muted) {
+    if (role == CommunitiesModel::Roles::BadgesHidden) {
         if (index.row() == kRowAllRooms)
-            return mutedTagIds_.contains(QStringLiteral("global"));
+            return badgesHiddenTagIds_.contains(QStringLiteral("global"));
         else
-            return mutedTagIds_.contains(data(index, CommunitiesModel::Roles::Id).toString());
+            return badgesHiddenTagIds_.contains(
+              data(index, CommunitiesModel::Roles::Id).toString());
     }
 
     if (index.row() >= 0 && index.row() < kFixedRowCount) {

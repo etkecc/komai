@@ -12,7 +12,7 @@
 CommunitiesModel::CommunitiesModel(QObject *parent)
   : QAbstractListModel(parent)
   , hiddenTagIds_{UserSettings::instance()->hiddenTags()}
-  , mutedTagIds_{UserSettings::instance()->mutedTags()}
+  , badgesHiddenTagIds_{UserSettings::instance()->badgesHiddenTags()}
 {
     instance_ = this;
 
@@ -37,7 +37,7 @@ CommunitiesModel::roleNames() const
       {Id, "id"},
       {UnreadMessages, "unreadMessages"},
       {HasLoudNotification, "hasLoudNotification"},
-      {Muted, "muted"},
+      {BadgesHidden, "badgesHidden"},
     };
 }
 
@@ -254,16 +254,16 @@ CommunitiesModel::toggleTagId(QString tagId)
 }
 
 void
-CommunitiesModel::toggleTagMute(QString tagId)
+CommunitiesModel::toggleTagBadges(QString tagId)
 {
     if (tagId.isEmpty())
         tagId = QStringLiteral("global");
 
-    if (mutedTagIds_.contains(tagId))
-        mutedTagIds_.removeOne(tagId);
+    if (badgesHiddenTagIds_.contains(tagId))
+        badgesHiddenTagIds_.removeOne(tagId);
     else
-        mutedTagIds_.push_back(tagId);
-    UserSettings::instance()->setMutedTags(mutedTagIds_);
+        badgesHiddenTagIds_.push_back(tagId);
+    UserSettings::instance()->setBadgesHiddenTags(badgesHiddenTagIds_);
 
     if (tagId.startsWith(QLatin1String("tag:"))) {
         auto idx = tags_.indexOf(tagId.mid(4));
@@ -284,15 +284,15 @@ CommunitiesModel::toggleTagMute(QString tagId)
         emit dataChanged(index(kRowAllRooms), index(kRowAllRooms));
     }
 
-    emit mutedTagsChanged();
+    emit badgesHiddenTagsChanged();
 }
 
 bool
-CommunitiesModel::isTagMuted(const QString &tagId) const
+CommunitiesModel::areTagBadgesHidden(const QString &tagId) const
 {
     if (tagId.isEmpty())
-        return mutedTagIds_.contains(QStringLiteral("global"));
-    return mutedTagIds_.contains(tagId);
+        return badgesHiddenTagIds_.contains(QStringLiteral("global"));
+    return badgesHiddenTagIds_.contains(tagId);
 }
 
 bool

@@ -11,7 +11,7 @@ Menu {
     id: root
 
     property bool hidden
-    property bool muted
+    property bool badgesHidden
     property string tagId
     property string displayName
 
@@ -31,10 +31,10 @@ Menu {
         }
     }
 
-    function show(menuParent, id_, hidden_, muted_, displayName_) {
+    function show(menuParent, id_, hidden_, badgesHidden_, displayName_) {
         tagId = id_;
         hidden = hidden_;
-        muted = muted_;
+        badgesHidden = badgesHidden_;
         displayName = displayName_ ?? "";
         popup(menuParent);
     }
@@ -55,17 +55,17 @@ Menu {
     }
     MenuItem {
         checkable: true
-        checked: root.muted
-        icon.source: "qrc:/icons/icons/ui/volume-off-indicator.svg"
-        text: qsTr("Mute (hide notification counts)")
+        checked: !root.badgesHidden
+        icon.source: "qrc:/icons/icons/ui/counter.svg"
+        text: qsTr("Show attention badges")
 
-        onTriggered: Communities.toggleTagMute(root.tagId)
+        onTriggered: Communities.toggleTagBadges(root.tagId)
     }
     MenuItem {
         checkable: true
-        checked: root.hidden
-        icon.source: "qrc:/icons/icons/ui/globe-prohibited.svg"
-        text: qsTr("Exclude from 'All rooms'")
+        checked: !root.hidden
+        icon.source: "qrc:/icons/icons/ui/globe.svg"
+        text: qsTr("Include in 'All rooms'")
 
         onTriggered: Communities.toggleTagId(root.tagId)
     }

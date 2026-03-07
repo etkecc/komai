@@ -98,20 +98,20 @@ constexpr auto IntegrationsBrowserCommand            = "integrations.browser.com
 constexpr auto SecretsProvider                       = "secrets.provider";
 
 // state.yml
-constexpr auto StateSchemaVersion                 = SchemaVersion;
-constexpr auto UiWindowWidthPx                    = "ui.window.width_px";
-constexpr auto UiWindowHeightPx                   = "ui.window.height_px";
-constexpr auto SidebarsRoomListWidthPx            = "sidebars.room_list.width_px";
-constexpr auto SidebarsRoomListCurrentRoomId      = "sidebars.room_list.current_room_id";
-constexpr auto SidebarsCommunitiesWidthPx         = "sidebars.communities.width_px";
-constexpr auto SidebarsCommunitiesHiddenTags      = "sidebars.communities.hidden_tags";
-constexpr auto SidebarsCommunitiesMutedTags       = "sidebars.communities.muted_tags";
-constexpr auto SidebarsCommunitiesCollapsedSpaces = "sidebars.communities.collapsed_spaces";
-constexpr auto SidebarsCommunitiesCurrentTagId    = "sidebars.communities.current_tag_id";
-constexpr auto TimelinePinsHidden                 = "timeline.pins.hidden";
-constexpr auto TimelineWidgetsHidden              = "timeline.widgets.hidden";
-constexpr auto ComposerReactionsRecent            = "composer.reactions.recent";
-constexpr auto ComposerDraftsByRoom               = "composer.drafts.by_room";
+constexpr auto StateSchemaVersion                  = SchemaVersion;
+constexpr auto UiWindowWidthPx                     = "ui.window.width_px";
+constexpr auto UiWindowHeightPx                    = "ui.window.height_px";
+constexpr auto SidebarsRoomListWidthPx             = "sidebars.room_list.width_px";
+constexpr auto SidebarsRoomListCurrentRoomId       = "sidebars.room_list.current_room_id";
+constexpr auto SidebarsCommunitiesWidthPx          = "sidebars.communities.width_px";
+constexpr auto SidebarsCommunitiesHiddenTags       = "sidebars.communities.hidden_tags";
+constexpr auto SidebarsCommunitiesBadgesHiddenTags = "sidebars.communities.badges_hidden_tags";
+constexpr auto SidebarsCommunitiesCollapsedSpaces  = "sidebars.communities.collapsed_spaces";
+constexpr auto SidebarsCommunitiesCurrentTagId     = "sidebars.communities.current_tag_id";
+constexpr auto TimelinePinsHidden                  = "timeline.pins.hidden";
+constexpr auto TimelineWidgetsHidden               = "timeline.widgets.hidden";
+constexpr auto ComposerReactionsRecent             = "composer.reactions.recent";
+constexpr auto ComposerDraftsByRoom                = "composer.drafts.by_room";
 
 // session.yml
 constexpr auto SessionSchemaVersion     = SchemaVersion;

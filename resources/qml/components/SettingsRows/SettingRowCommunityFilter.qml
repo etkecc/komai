@@ -19,14 +19,14 @@ RowLayout {
     readonly property bool isAllRooms: root.tagId === ""
     readonly property bool hasShowToggle: !root.isAllRooms
     readonly property bool hasExcludeToggle: !root.isAllRooms
-    property int _mutedRevision: 0
+    property int _badgesHiddenRevision: 0
     property int _hiddenRevision: 0
 
     spacing: Komai.paddingSmall
 
     Connections {
         target: Communities
-        function onMutedTagsChanged() { root._mutedRevision++; }
+        function onBadgesHiddenTagsChanged() { root._badgesHiddenRevision++; }
         function onHiddenTagsChanged() { root._hiddenRevision++; }
     }
 
@@ -94,26 +94,26 @@ RowLayout {
         }
     }
 
-    // --- Mute toggle ---
+    // --- Attention badges toggle ---
     FilterToggleGroup {
-        label: qsTr("Mute")
-        iconSource: "image://colorimage/:/icons/icons/ui/volume-off-indicator.svg?" + palette.buttonText
-        iconTooltip: qsTr("Do not show notification counts")
+        label: qsTr("Attention badges")
+        iconSource: "image://colorimage/:/icons/icons/ui/counter.svg?" + palette.buttonText
+        iconTooltip: qsTr("Badges indicate unread messages and unsent drafts")
 
-        toggle.checked: { void(root._mutedRevision); return Communities.isTagMuted(root.tagId); }
+        toggle.checked: { void(root._badgesHiddenRevision); return !Communities.areTagBadgesHidden(root.tagId); }
         toggle.onToggled: {
-            Communities.toggleTagMute(root.tagId);
+            Communities.toggleTagBadges(root.tagId);
         }
     }
 
-    // --- Exclude toggle ---
+    // --- Include in 'All rooms' toggle ---
     FilterToggleGroup {
         visible: root.hasExcludeToggle
-        label: qsTr("Exclude from 'All rooms'")
-        iconSource: "image://colorimage/:/icons/icons/ui/globe-prohibited.svg?" + palette.buttonText
-        iconTooltip: qsTr("Exclude from 'All rooms'")
+        label: qsTr("Include in 'All rooms'")
+        iconSource: "image://colorimage/:/icons/icons/ui/globe.svg?" + palette.buttonText
+        iconTooltip: qsTr("Include in 'All rooms'")
 
-        toggle.checked: { void(root._hiddenRevision); return Communities.isTagHidden(root.tagId); }
+        toggle.checked: { void(root._hiddenRevision); return !Communities.isTagHidden(root.tagId); }
         toggle.onToggled: {
             Communities.toggleTagId(root.tagId);
         }

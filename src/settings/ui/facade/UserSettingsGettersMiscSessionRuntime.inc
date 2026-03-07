@@ -39,9 +39,9 @@ UserSettings::hiddenTags() const
     return hiddenTags_;
 }
 QStringList
-UserSettings::mutedTags() const
+UserSettings::badgesHiddenTags() const
 {
-    return mutedTags_;
+    return badgesHiddenTags_;
 }
 QStringList
 UserSettings::hiddenPins() const

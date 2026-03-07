@@ -77,8 +77,9 @@ loadState(UserSettings &settings, const YAML::Node &root)
     settings.setCurrentRoomId(
       readString(root, SettingKey::SidebarsRoomListCurrentRoomId, QString()));
     settings.setHiddenTags(readStringList(root, SettingKey::SidebarsCommunitiesHiddenTags));
-    settings.setMutedTags(readStringList(
-      root, SettingKey::SidebarsCommunitiesMutedTags, QStringList{QStringLiteral("global")}));
+    settings.setBadgesHiddenTags(readStringList(root,
+                                                SettingKey::SidebarsCommunitiesBadgesHiddenTags,
+                                                QStringList{QStringLiteral("global")}));
     settings.setHiddenPins(readStringList(root, SettingKey::TimelinePinsHidden));
     settings.setHiddenWidgets(readStringList(root, SettingKey::TimelineWidgetsHidden));
     settings.setRecentReactions(readStringList(root, SettingKey::ComposerReactionsRecent));
@@ -102,7 +103,8 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
     setNode(
       root, SettingKey::SidebarsRoomListCurrentRoomId, settings.currentRoomId().toStdString());
     writeStringList(root, SettingKey::SidebarsCommunitiesHiddenTags, settings.hiddenTags());
-    writeStringList(root, SettingKey::SidebarsCommunitiesMutedTags, settings.mutedTags());
+    writeStringList(
+      root, SettingKey::SidebarsCommunitiesBadgesHiddenTags, settings.badgesHiddenTags());
     writeNestedStringLists(
       root, SettingKey::SidebarsCommunitiesCollapsedSpaces, settings.collapsedSpaces());
     writeStringList(root, SettingKey::TimelinePinsHidden, settings.hiddenPins());

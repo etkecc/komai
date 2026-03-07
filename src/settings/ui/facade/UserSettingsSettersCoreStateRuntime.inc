@@ -6,9 +6,9 @@ UserSettings::setHiddenTags(const QStringList &hiddenTags)
 }
 
 void
-UserSettings::setMutedTags(const QStringList &mutedTags)
+UserSettings::setBadgesHiddenTags(const QStringList &badgesHiddenTags)
 {
-    mutedTags_ = mutedTags;
+    badgesHiddenTags_ = badgesHiddenTags;
     save();
 }
 

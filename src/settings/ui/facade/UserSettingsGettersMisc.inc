@@ -7,7 +7,7 @@
     QString homeserver() const;
     bool networkTlsEnableCertificateValidation() const;
     QStringList hiddenTags() const;
-    QStringList mutedTags() const;
+    QStringList badgesHiddenTags() const;
     QStringList hiddenPins() const;
     QStringList hiddenWidgets() const;
     QStringList recentReactions() const;

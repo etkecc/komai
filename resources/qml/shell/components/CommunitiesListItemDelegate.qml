@@ -72,7 +72,7 @@ ItemDelegate {
     ]
 
     onClicked: Communities.setCurrentTagId(model.id)
-    onPressAndHold: communityContextMenu?.show(communityItem, model.id, model.hidden, model.muted, model.displayName)
+    onPressAndHold: communityContextMenu?.show(communityItem, model.id, model.hidden, model.badgesHidden, model.displayName)
 
     Item {
         anchors.fill: parent
@@ -83,7 +83,7 @@ ItemDelegate {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.Stylus | PointerDevice.TouchPad
             gesturePolicy: TapHandler.ReleaseWithinBounds
 
-            onSingleTapped: communityContextMenu?.show(communityItem, model.id, model.hidden, model.muted, model.displayName)
+            onSingleTapped: communityContextMenu?.show(communityItem, model.id, model.hidden, model.badgesHidden, model.displayName)
         }
     }
     RowLayout {
@@ -139,7 +139,7 @@ ItemDelegate {
                 bubbleTextColor: communityItem.bubbleText
                 font.pixelSize: baseFontPixelSize * 0.6
                 hasLoudNotification: model.hasLoudNotification
-                mayBeVisible: collapsed && !model.muted && Settings.sidebarsRoomListShowCommunityCounts
+                mayBeVisible: collapsed && !model.badgesHidden && Settings.sidebarsRoomListShowCommunityCounts
                 notificationCount: model.unreadMessages
             }
         }
@@ -161,7 +161,7 @@ ItemDelegate {
             bubbleBackgroundColor: communityItem.bubbleBackground
             bubbleTextColor: communityItem.bubbleText
             hasLoudNotification: model.hasLoudNotification
-            mayBeVisible: !collapsed && !model.muted && Settings.sidebarsRoomListShowCommunityCounts
+            mayBeVisible: !collapsed && !model.badgesHidden && Settings.sidebarsRoomListShowCommunityCounts
             notificationCount: model.unreadMessages
         }
     }

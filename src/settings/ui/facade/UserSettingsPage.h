@@ -494,7 +494,7 @@ public:
     void setHomeserver(QString homeserver);
     void setNetworkTlsEnableCertificateValidation(bool enabled);
     void setHiddenTags(const QStringList &hiddenTags);
-    void setMutedTags(const QStringList &mutedTags);
+    void setBadgesHiddenTags(const QStringList &badgesHiddenTags);
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setRecentReactions(QStringList recent);

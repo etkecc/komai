@@ -116,7 +116,7 @@ public:
         Id,
         UnreadMessages,
         HasLoudNotification,
-        Muted,
+        BadgesHidden,
         IsDirect,
     };
 
@@ -242,9 +242,9 @@ public slots:
         return tagsWD;
     }
     void toggleTagId(QString tagId);
-    void toggleTagMute(QString tagId);
+    void toggleTagBadges(QString tagId);
 
-    Q_INVOKABLE bool isTagMuted(const QString &tagId) const;
+    Q_INVOKABLE bool areTagBadgesHidden(const QString &tagId) const;
     Q_INVOKABLE bool isTagHidden(const QString &tagId) const;
 
     FilteredCommunitiesModel *filtered() { return new FilteredCommunitiesModel(this, this); }
@@ -252,7 +252,7 @@ public slots:
 signals:
     void currentTagIdChanged(QString tagId);
     void hiddenTagsChanged();
-    void mutedTagsChanged();
+    void badgesHiddenTagsChanged();
     void tagsChanged();
     void containsSubspacesChanged();
 
@@ -260,7 +260,7 @@ private:
     QStringList tags_;
     QString currentTagId_;
     QStringList hiddenTagIds_;
-    QStringList mutedTagIds_;
+    QStringList badgesHiddenTagIds_;
     FlatTree spaceOrder_;
     std::map<QString, RoomInfo> spaces_;
     std::vector<std::string> directMessages_;

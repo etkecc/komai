@@ -51,7 +51,7 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: mentionPopup.headerIconSize
             Layout.preferredWidth: mentionPopup.headerIconSize
-            source: mentionPopup.isRoomMention ? "image://colorimage/:/icons/icons/ui/people.svg?" + Komai.theme.error : "image://colorimage/:/icons/icons/ui/person.svg?" + palette.text
+            source: mentionPopup.isRoomMention ? "image://colorimage/:/icons/icons/ui/mention.svg?" + Komai.theme.error : "image://colorimage/:/icons/icons/ui/person.svg?" + palette.text
         }
 
         Label {

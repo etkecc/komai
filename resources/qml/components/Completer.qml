@@ -287,7 +287,7 @@ Control {
                                 Layout.preferredHeight: parent.pickerAvatarSize
                                 Layout.preferredWidth: parent.pickerAvatarSize
                                 url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                                userid: model.userid
+                                userid: model.userid === "@room" ? "" : model.userid
                             }
                             Label {
                                 Layout.alignment: Qt.AlignVCenter
@@ -295,10 +295,18 @@ Control {
                                 font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.displayName
                             }
+                            Label {
+                                visible: model.userid === "@room"
+                                Layout.alignment: Qt.AlignVCenter
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                font.pointSize: Settings.uiFontSizePt * 1.1
+                                text: qsTr("Notify the whole room")
+                            }
                             Item {
                                 Layout.fillWidth: true
                             }
                             Label {
+                                visible: model.userid !== "@room"
                                 Layout.alignment: Qt.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt * 1.1

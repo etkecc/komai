@@ -13,6 +13,8 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
+#include <mtx/events/power_levels.hpp>
+
 UsersModel::UsersModel(const std::string &roomId, QObject *parent)
   : QAbstractListModel(parent)
   , room_id(roomId)
@@ -38,6 +40,18 @@ UsersModel::UsersModel(const std::string &roomId, QObject *parent)
         }
     } else {
         const auto start_at = std::chrono::steady_clock::now();
+
+        // Prepend @room entry if the user has permission to ping the room
+        auto pl = cache::getStateEvent<mtx::events::state::PowerLevels>(roomId)
+                    .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
+                    .content;
+        if (pl.user_level(utils::localUser().toStdString()) >=
+            pl.notification_level(mtx::events::state::notification_keys::room)) {
+            displayNames.push_back(QStringLiteral("@room"));
+            userids.push_back(QStringLiteral("@room"));
+            avatarUrls.push_back(QStringLiteral(":/icons/icons/ui/mention.svg"));
+        }
+
         for (const auto &m : cache::getMembers(roomId, 0, -1)) {
             displayNames.push_back(m.display_name);
             userids.push_back(m.user_id);
@@ -68,6 +82,8 @@ UsersModel::data(const QModelIndex &index, int role) const
     if (hasIndex(index.row(), index.column(), index.parent())) {
         switch (role) {
         case CompletionModel::CompletionRole:
+            if (userids[index.row()] == QStringLiteral("@room"))
+                return QStringLiteral("@room");
             if (UserSettings::instance()->composerInputMarkdownToHtmlEnabled())
                 return QStringLiteral("[%1](https://matrix.to/#/%2)")
                   .arg(utils::escapeMentionMarkdown(QString(displayNames[index.row()])),

@@ -71,7 +71,7 @@ ItemDelegate {
         }
     ]
 
-    onClicked: Communities.setCurrentTagId(model.id)
+    onClicked: Communities.setCurrentFilterId(model.id)
     onPressAndHold: communityContextMenu?.show(communityItem, model.id, model.hidden, model.badgesHidden, model.displayName)
 
     Item {

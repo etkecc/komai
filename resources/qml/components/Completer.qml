@@ -104,15 +104,20 @@ Control {
     contentItem: ColumnLayout {
         spacing: 0
 
-        // Header row (shown for emoji/customEmoji completers)
+        // Header row (shown for completers with a heading)
         Rectangle {
             id: headerBackground
+
+            readonly property bool hasHeader: popup.completerName === "emoji"
+                || popup.completerName === "customEmoji"
+                || popup.completerName === "user"
+                || popup.completerName === "roomAliases"
 
             Layout.fillWidth: true
             color: palette.alternateBase
             implicitHeight: headerRow.implicitHeight + 2 * Komai.paddingSmall
             radius: Komai.paddingSmall
-            visible: popup.completerName === "emoji" || popup.completerName === "customEmoji"
+            visible: hasHeader
 
             // Square off bottom corners by overlaying a rect at the bottom
             Rectangle {
@@ -137,7 +142,16 @@ Control {
                     Layout.preferredWidth: headerTitle.font.pixelSize
                     Layout.preferredHeight: headerTitle.font.pixelSize
                     Layout.alignment: Qt.AlignVCenter
-                    source: "image://colorimage/:/icons/icons/ui/smile.svg?" + palette.text
+                    source: {
+                        var icon;
+                        if (popup.completerName === "emoji" || popup.completerName === "customEmoji")
+                            icon = "smile.svg";
+                        else if (popup.completerName === "user")
+                            icon = "person.svg";
+                        else
+                            icon = "link.svg";
+                        return "image://colorimage/:/icons/icons/ui/" + icon + "?" + palette.text;
+                    }
                     sourceSize.width: headerTitle.font.pixelSize
                     sourceSize.height: headerTitle.font.pixelSize
                 }
@@ -147,7 +161,14 @@ Control {
 
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Emojis")
+                    text: {
+                        if (popup.completerName === "emoji" || popup.completerName === "customEmoji")
+                            return qsTr("Pick an emoji");
+                        else if (popup.completerName === "user")
+                            return qsTr("Pick a user to mention");
+                        else
+                            return qsTr("Pick a room to link to");
+                    }
                     font.bold: true
                     color: palette.text
                 }
@@ -252,28 +273,37 @@ Control {
                         roleValue: "user"
 
                         RowLayout {
+                            property int pickerAvatarSize: Komai.listIconSize
+
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.leftMargin: Komai.paddingSmall
-                            anchors.rightMargin: Komai.paddingSmall
-                            spacing: Komai.paddingSmall
+                            anchors.leftMargin: Komai.paddingMedium
+                            anchors.rightMargin: Komai.paddingMedium
+                            spacing: Komai.paddingMedium
 
                             Avatar {
                                 displayName: model.displayName
                                 enabled: false
-                                Layout.preferredHeight: popup.avatarHeight
-                                Layout.preferredWidth: popup.avatarWidth
+                                Layout.preferredHeight: parent.pickerAvatarSize
+                                Layout.preferredWidth: parent.pickerAvatarSize
                                 url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
                                 userid: model.userid
                             }
                             Label {
+                                Layout.alignment: Qt.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.displayName
                             }
+                            Item {
+                                Layout.fillWidth: true
+                            }
                             Label {
+                                Layout.alignment: Qt.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                                text: "(" + model.userid + ")"
+                                font.pointSize: Settings.uiFontSizePt * 1.1
+                                text: model.userid
                             }
                         }
                     }
@@ -379,32 +409,40 @@ Control {
                         roleValue: "roomAliases"
 
                         RowLayout {
+                            property int pickerAvatarSize: Komai.listIconSize
+
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.leftMargin: Komai.paddingSmall
-                            anchors.rightMargin: Komai.paddingSmall
-                            spacing: Komai.paddingSmall
+                            anchors.leftMargin: Komai.paddingMedium
+                            anchors.rightMargin: Komai.paddingMedium
+                            spacing: Komai.paddingMedium
 
                             Avatar {
                                 displayName: model.roomName
                                 enabled: false
-                                Layout.preferredHeight: popup.avatarHeight
+                                Layout.preferredHeight: parent.pickerAvatarSize
+                                Layout.preferredWidth: parent.pickerAvatarSize
                                 roomid: model.roomid
                                 url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                                Layout.preferredWidth: popup.avatarWidth
                             }
                             Label {
+                                Layout.alignment: Qt.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
                                 font.italic: model.isTombstoned
                                 font.bold: model.isSpace
+                                font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.roomName
                                 textFormat: Text.RichText
                             }
+                            Item {
+                                Layout.fillWidth: true
+                            }
                             Label {
+                                Layout.alignment: Qt.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                                text: "(" + model.roomAlias + ")"
-                                textFormat: Text.RichText
+                                font.pointSize: Settings.uiFontSizePt * 1.1
+                                text: model.roomAlias
                             }
                         }
                     }

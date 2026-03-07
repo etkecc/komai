@@ -40,7 +40,7 @@ ItemDelegate {
     required property bool isEncrypted
     readonly property bool isSelected: (Rooms.currentRoom && roomId == Rooms.currentRoom.roomId) || Rooms.currentRoomPreview.roomid == roomId
     readonly property bool isLowPriorityRoom: !!tags && tags.indexOf && tags.indexOf("m.lowpriority") !== -1
-    readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification || Communities.currentTagId === "tag:m.lowpriority")
+    readonly property bool emphasizeUnreadState: hasUnreadMessages && (!isLowPriorityRoom || hasLoudNotification || Communities.currentFilterId === "tag:m.lowpriority")
     readonly property bool emphasizeDraftState: hasDraft && !emphasizeUnreadState
     readonly property bool emphasizeActivityState: emphasizeUnreadState || emphasizeDraftState
     readonly property color draftActivityBase: Qt.rgba((Komai.theme.attention.r + palette.highlight.r) / 2, (Komai.theme.attention.g + palette.highlight.g) / 2, (Komai.theme.attention.b + palette.highlight.b) / 2, 1)

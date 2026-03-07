@@ -489,12 +489,12 @@ public:
     void setUserId(QString userId);
     void setAccessToken(QString accessToken);
     void setDeviceId(QString deviceId);
-    void setCurrentTagId(QString currentTagId);
+    void setCurrentFilterId(QString currentFilterId);
     void setCurrentRoomId(QString currentRoomId);
     void setHomeserver(QString homeserver);
     void setNetworkTlsEnableCertificateValidation(bool enabled);
-    void setHiddenTags(const QStringList &hiddenTags);
-    void setBadgesHiddenTags(const QStringList &badgesHiddenTags);
+    void setGlobalExcludes(const QStringList &globalExcludes);
+    void setBadgesHiddenFilters(const QStringList &badgesHiddenFilters);
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
     void setRecentReactions(QStringList recent);
@@ -506,7 +506,7 @@ public:
     void setTimelineMediaOpenImagesExternal(bool state);
     void setTimelineMediaOpenVideosExternal(bool state);
     void setIntegrationsBrowserCommand(QString command);
-    void setCollapsedSpaces(QList<QStringList> spaces);
+    void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
     void setPrivacyMaintenanceUpdateSpaceVias(bool state);
     void setPrivacyMaintenanceExpireEvents(bool state);

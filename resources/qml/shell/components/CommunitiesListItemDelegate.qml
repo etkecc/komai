@@ -43,7 +43,7 @@ ItemDelegate {
     states: [
         State {
             name: "highlight"
-            when: (communityItem.hovered || model.hidden) && !(Communities.currentTagId === model.id)
+            when: (communityItem.hovered || model.hidden) && !(Communities.currentFilterId === model.id)
 
             PropertyChanges {
                 communityItem {
@@ -57,7 +57,7 @@ ItemDelegate {
         },
         State {
             name: "selected"
-            when: Communities.currentTagId == model.id
+            when: Communities.currentFilterId == model.id
 
             PropertyChanges {
                 communityItem {

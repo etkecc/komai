@@ -19,9 +19,9 @@ UserSettings::deviceId() const
     return deviceId_;
 }
 QString
-UserSettings::currentTagId() const
+UserSettings::currentFilterId() const
 {
-    return currentTagId_;
+    return currentFilterId_;
 }
 QString
 UserSettings::currentRoomId() const
@@ -34,14 +34,14 @@ UserSettings::homeserver() const
     return homeserver_;
 }
 QStringList
-UserSettings::hiddenTags() const
+UserSettings::globalExcludes() const
 {
-    return hiddenTags_;
+    return globalExcludes_;
 }
 QStringList
-UserSettings::badgesHiddenTags() const
+UserSettings::badgesHiddenFilters() const
 {
-    return badgesHiddenTags_;
+    return badgesHiddenFilters_;
 }
 QStringList
 UserSettings::hiddenPins() const
@@ -77,7 +77,7 @@ UserSettings::hasComposerDraftForRoom(const QString &roomId) const
     return it != composerDraftsByRoom_.constEnd() && !it.value().trimmed().isEmpty();
 }
 
-QList<QStringList>
+QStringList
 UserSettings::collapsedSpaces() const
 {
     return collapsedSpaces_;

@@ -53,13 +53,13 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
     }
 
     connect(this->communities_,
-            &CommunitiesModel::currentTagIdChanged,
+            &CommunitiesModel::currentFilterIdChanged,
             frooms_,
             &FilteredRoomlistModel::updateFilterTag);
     connect(this->communities_,
-            &CommunitiesModel::hiddenTagsChanged,
+            &CommunitiesModel::globalExcludesChanged,
             frooms_,
-            &FilteredRoomlistModel::updateHiddenTagsAndSpaces);
+            &FilteredRoomlistModel::updateGlobalExcludes);
 
     updateColorPalette();
 
@@ -96,7 +96,7 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
         emit isConnectedChanged(true);
     });
     connect(rooms_, &RoomlistModel::spaceSelected, communities_, [this](QString roomId) {
-        communities_->setCurrentTagId("space:" + roomId);
+        communities_->setCurrentFilterId("space:" + roomId);
     });
 }
 

@@ -27,9 +27,9 @@ Components.OverlayDialog {
     Label {
         Layout.fillWidth: true
         Layout.topMargin: Komai.paddingMedium
-        color: Communities.isTagHidden(hideFilterRoot.tagId) ? Komai.theme.warning : palette.text
+        color: Communities.isGlobalExcluded(hideFilterRoot.tagId) ? Komai.theme.warning : palette.text
         wrapMode: Text.WordWrap
-        text: Communities.isTagHidden(hideFilterRoot.tagId)
+        text: Communities.isGlobalExcluded(hideFilterRoot.tagId)
             ? qsTr("This filter is currently excluded from \"All rooms\", so its rooms won't appear there either. You can change this in Application Settings → Sidebars.")
             : qsTr("You'll still be able to find rooms that belonged to it in \"All rooms\".")
     }

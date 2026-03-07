@@ -1,9 +1,9 @@
 void
-UserSettings::setCurrentTagId(const QString currentTagId)
+UserSettings::setCurrentFilterId(const QString currentFilterId)
 {
-    if (currentTagId == currentTagId_)
+    if (currentFilterId == currentFilterId_)
         return;
-    currentTagId_ = currentTagId;
+    currentFilterId_ = currentFilterId;
     save();
 }
 

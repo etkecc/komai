@@ -2,12 +2,12 @@
     QString userId() const;
     QString accessToken() const;
     QString deviceId() const;
-    QString currentTagId() const;
+    QString currentFilterId() const;
     QString currentRoomId() const;
     QString homeserver() const;
     bool networkTlsEnableCertificateValidation() const;
-    QStringList hiddenTags() const;
-    QStringList badgesHiddenTags() const;
+    QStringList globalExcludes() const;
+    QStringList badgesHiddenFilters() const;
     QStringList hiddenPins() const;
     QStringList hiddenWidgets() const;
     QStringList recentReactions() const;
@@ -17,7 +17,7 @@
     DefaultAvatarStyle uiAvatarsDefaultAvatarStyle() const;
     bool timelineMediaOpenImagesExternal() const;
     bool timelineMediaOpenVideosExternal() const;
-    QList<QStringList> collapsedSpaces() const;
+    QStringList collapsedSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
     bool privacyMaintenanceUpdateSpaceVias() const;

@@ -14,11 +14,12 @@ sidebars:
     current_room_id: ""
   communities:
     width_px: 220
-    current_tag_id: ""
-    hidden_tags: []
-    muted_tags:
-      - global
-    collapsed_spaces: []
+    filtering:
+      current: ""
+      global_excludes: []
+      badges_hidden:
+        - global
+      collapsed_spaces: []
 
 timeline:
   pins:

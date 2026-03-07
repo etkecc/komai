@@ -98,16 +98,19 @@ constexpr auto IntegrationsBrowserCommand            = "integrations.browser.com
 constexpr auto SecretsProvider                       = "secrets.provider";
 
 // state.yml
-constexpr auto StateSchemaVersion                  = SchemaVersion;
-constexpr auto UiWindowWidthPx                     = "ui.window.width_px";
-constexpr auto UiWindowHeightPx                    = "ui.window.height_px";
-constexpr auto SidebarsRoomListWidthPx             = "sidebars.room_list.width_px";
-constexpr auto SidebarsRoomListCurrentRoomId       = "sidebars.room_list.current_room_id";
-constexpr auto SidebarsCommunitiesWidthPx          = "sidebars.communities.width_px";
-constexpr auto SidebarsCommunitiesHiddenTags       = "sidebars.communities.hidden_tags";
-constexpr auto SidebarsCommunitiesBadgesHiddenTags = "sidebars.communities.badges_hidden_tags";
-constexpr auto SidebarsCommunitiesCollapsedSpaces  = "sidebars.communities.collapsed_spaces";
-constexpr auto SidebarsCommunitiesCurrentTagId     = "sidebars.communities.current_tag_id";
+constexpr auto StateSchemaVersion            = SchemaVersion;
+constexpr auto UiWindowWidthPx               = "ui.window.width_px";
+constexpr auto UiWindowHeightPx              = "ui.window.height_px";
+constexpr auto SidebarsRoomListWidthPx       = "sidebars.room_list.width_px";
+constexpr auto SidebarsRoomListCurrentRoomId = "sidebars.room_list.current_room_id";
+constexpr auto SidebarsCommunitiesWidthPx    = "sidebars.communities.width_px";
+constexpr auto SidebarsCommunitiesFilteringGlobalExcludes =
+  "sidebars.communities.filtering.global_excludes";
+constexpr auto SidebarsCommunitiesFilteringBadgesHidden =
+  "sidebars.communities.filtering.badges_hidden";
+constexpr auto SidebarsCommunitiesFilteringCollapsedSpaces =
+  "sidebars.communities.filtering.collapsed_spaces";
+constexpr auto SidebarsCommunitiesFilteringCurrent = "sidebars.communities.filtering.current";
 constexpr auto TimelinePinsHidden                  = "timeline.pins.hidden";
 constexpr auto TimelineWidgetsHidden               = "timeline.widgets.hidden";
 constexpr auto ComposerReactionsRecent             = "composer.reactions.recent";

@@ -59,7 +59,7 @@ Menu {
         icon.source: "qrc:/icons/icons/ui/counter.svg"
         text: qsTr("Show attention badges")
 
-        onTriggered: Communities.toggleTagBadges(root.tagId)
+        onTriggered: Communities.toggleFilterBadges(root.tagId)
     }
     MenuItem {
         checkable: true
@@ -67,6 +67,6 @@ Menu {
         icon.source: "qrc:/icons/icons/ui/globe.svg"
         text: qsTr("Include in 'All rooms'")
 
-        onTriggered: Communities.toggleTagId(root.tagId)
+        onTriggered: Communities.toggleGlobalExclude(root.tagId)
     }
 }

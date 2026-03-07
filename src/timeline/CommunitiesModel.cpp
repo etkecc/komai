@@ -11,8 +11,8 @@
 
 CommunitiesModel::CommunitiesModel(QObject *parent)
   : QAbstractListModel(parent)
-  , hiddenTagIds_{UserSettings::instance()->hiddenTags()}
-  , badgesHiddenTagIds_{UserSettings::instance()->badgesHiddenTags()}
+  , globalExcludedFilterIds_{UserSettings::instance()->globalExcludes()}
+  , badgesHiddenFilterIds_{UserSettings::instance()->badgesHiddenFilters()}
 {
     instance_ = this;
 
@@ -20,7 +20,7 @@ CommunitiesModel::CommunitiesModel(QObject *parent)
       this, [this](const std::map<QString, bool> &) { recomputeFilterBadges(); });
 
     connect(
-      this, &CommunitiesModel::hiddenTagsChanged, this, [this]() { recomputeFilterBadges(); });
+      this, &CommunitiesModel::globalExcludesChanged, this, [this]() { recomputeFilterBadges(); });
 }
 
 QHash<int, QByteArray>
@@ -44,49 +44,23 @@ CommunitiesModel::roleNames() const
 void
 CommunitiesModel::FlatTree::storeCollapsed()
 {
-    QList<QStringList> elements;
-
-    int depth = -1;
-
-    QStringList current;
-    elements.reserve(static_cast<int>(tree.size()));
+    QStringList ids;
+    ids.reserve(static_cast<int>(tree.size()));
 
     for (const auto &e : tree) {
-        if (e.depth > depth) {
-            current.push_back(e.id);
-        } else if (e.depth == depth) {
-            current.back() = e.id;
-        } else {
-            current.pop_back();
-            current.back() = e.id;
-        }
-
         if (e.collapsed)
-            elements.push_back(current);
+            ids.push_back(e.id);
     }
 
-    UserSettings::instance()->setCollapsedSpaces(elements);
+    UserSettings::instance()->setCollapsedSpaces(ids);
 }
 void
 CommunitiesModel::FlatTree::restoreCollapsed()
 {
-    QList<QStringList> elements = UserSettings::instance()->collapsedSpaces();
-
-    int depth = -1;
-
-    QStringList current;
+    const QStringList ids = UserSettings::instance()->collapsedSpaces();
 
     for (auto &e : tree) {
-        if (e.depth > depth) {
-            current.push_back(e.id);
-        } else if (e.depth == depth) {
-            current.back() = e.id;
-        } else {
-            current.pop_back();
-            current.back() = e.id;
-        }
-
-        if (elements.contains(current))
+        if (ids.contains(e.id))
             e.collapsed = true;
     }
 }
@@ -158,48 +132,48 @@ CommunitiesModel::clear()
     beginResetModel();
     tags_.clear();
     endResetModel();
-    resetCurrentTagId();
+    resetCurrentFilterId();
 
     emit tagsChanged();
 }
 
 void
-CommunitiesModel::setCurrentTagId(const QString &tagId)
+CommunitiesModel::setCurrentFilterId(const QString &filterId)
 {
-    if (currentTagId_ == tagId)
+    if (currentFilterId_ == filterId)
         return;
 
-    if (tagId.startsWith(QLatin1String("tag:"))) {
-        auto tag = tagId.mid(4);
+    if (filterId.startsWith(QLatin1String("tag:"))) {
+        auto tag = filterId.mid(4);
         for (const auto &t : std::as_const(tags_)) {
             if (t == tag) {
-                this->currentTagId_ = tagId;
-                UserSettings::instance()->setCurrentTagId(tagId);
-                emit currentTagIdChanged(currentTagId_);
+                this->currentFilterId_ = filterId;
+                UserSettings::instance()->setCurrentFilterId(filterId);
+                emit currentFilterIdChanged(currentFilterId_);
                 return;
             }
         }
-    } else if (tagId.startsWith(QLatin1String("space:"))) {
-        auto tag = tagId.mid(6);
+    } else if (filterId.startsWith(QLatin1String("space:"))) {
+        auto tag = filterId.mid(6);
         for (const auto &t : spaceOrder_.tree) {
             if (t.id == tag) {
-                this->currentTagId_ = tagId;
-                UserSettings::instance()->setCurrentTagId(tagId);
-                emit currentTagIdChanged(currentTagId_);
+                this->currentFilterId_ = filterId;
+                UserSettings::instance()->setCurrentFilterId(filterId);
+                emit currentFilterIdChanged(currentFilterId_);
                 return;
             }
         }
-    } else if (tagId == QLatin1String("people") || tagId == QLatin1String("bot") ||
-               tagId == QLatin1String("group")) {
-        this->currentTagId_ = tagId;
-        UserSettings::instance()->setCurrentTagId(tagId);
-        emit currentTagIdChanged(currentTagId_);
+    } else if (filterId == QLatin1String("people") || filterId == QLatin1String("bot") ||
+               filterId == QLatin1String("group")) {
+        this->currentFilterId_ = filterId;
+        UserSettings::instance()->setCurrentFilterId(filterId);
+        emit currentFilterIdChanged(currentFilterId_);
         return;
     }
 
-    this->currentTagId_ = QLatin1String("");
-    UserSettings::instance()->setCurrentTagId(tagId);
-    emit currentTagIdChanged(currentTagId_);
+    this->currentFilterId_ = QLatin1String("");
+    UserSettings::instance()->setCurrentFilterId(filterId);
+    emit currentFilterIdChanged(currentFilterId_);
 }
 
 bool
@@ -207,9 +181,9 @@ CommunitiesModel::trySwitchToSpace(const QString &tag)
 {
     for (const auto &t : spaceOrder_.tree) {
         if (t.id == tag) {
-            this->currentTagId_ = "space:" + tag;
-            UserSettings::instance()->setCurrentTagId(tag);
-            emit currentTagIdChanged(currentTagId_);
+            this->currentFilterId_ = "space:" + tag;
+            UserSettings::instance()->setCurrentFilterId(tag);
+            emit currentFilterIdChanged(currentFilterId_);
             return true;
         }
     }
@@ -218,87 +192,87 @@ CommunitiesModel::trySwitchToSpace(const QString &tag)
 }
 
 void
-CommunitiesModel::toggleTagId(QString tagId)
+CommunitiesModel::toggleGlobalExclude(QString filterId)
 {
-    if (hiddenTagIds_.contains(tagId))
-        hiddenTagIds_.removeOne(tagId);
+    if (globalExcludedFilterIds_.contains(filterId))
+        globalExcludedFilterIds_.removeOne(filterId);
     else
-        hiddenTagIds_.push_back(tagId);
+        globalExcludedFilterIds_.push_back(filterId);
 
     // sanity check to remove stale spaces
-    hiddenTagIds_.removeIf([this](const QString &value) {
+    globalExcludedFilterIds_.removeIf([this](const QString &value) {
         return value.startsWith("space:") && !spaces_.contains(value.mid(6));
     });
 
-    UserSettings::instance()->setHiddenTags(hiddenTagIds_);
+    UserSettings::instance()->setGlobalExcludes(globalExcludedFilterIds_);
 
-    if (tagId.startsWith(QLatin1String("tag:"))) {
-        auto idx = tags_.indexOf(tagId.mid(4));
+    if (filterId.startsWith(QLatin1String("tag:"))) {
+        auto idx = tags_.indexOf(filterId.mid(4));
         if (idx != -1)
             emit dataChanged(index(idx + kFixedRowCount + spaceOrder_.size()),
                              index(idx + kFixedRowCount + spaceOrder_.size()),
                              {Hidden});
-    } else if (tagId.startsWith(QLatin1String("space:"))) {
-        auto idx = spaceOrder_.indexOf(tagId.mid(6));
+    } else if (filterId.startsWith(QLatin1String("space:"))) {
+        auto idx = spaceOrder_.indexOf(filterId.mid(6));
         if (idx != -1)
             emit dataChanged(index(idx + kFixedRowCount), index(idx + kFixedRowCount), {Hidden});
-    } else if (tagId == QLatin1String("people")) {
+    } else if (filterId == QLatin1String("people")) {
         emit dataChanged(index(kRowPeople), index(kRowPeople), {Hidden});
-    } else if (tagId == QLatin1String("bot")) {
+    } else if (filterId == QLatin1String("bot")) {
         emit dataChanged(index(kRowBots), index(kRowBots), {Hidden});
-    } else if (tagId == QLatin1String("group")) {
+    } else if (filterId == QLatin1String("group")) {
         emit dataChanged(index(kRowGroups), index(kRowGroups), {Hidden});
     }
 
-    emit hiddenTagsChanged();
+    emit globalExcludesChanged();
 }
 
 void
-CommunitiesModel::toggleTagBadges(QString tagId)
+CommunitiesModel::toggleFilterBadges(QString filterId)
 {
-    if (tagId.isEmpty())
-        tagId = QStringLiteral("global");
+    if (filterId.isEmpty())
+        filterId = QStringLiteral("global");
 
-    if (badgesHiddenTagIds_.contains(tagId))
-        badgesHiddenTagIds_.removeOne(tagId);
+    if (badgesHiddenFilterIds_.contains(filterId))
+        badgesHiddenFilterIds_.removeOne(filterId);
     else
-        badgesHiddenTagIds_.push_back(tagId);
-    UserSettings::instance()->setBadgesHiddenTags(badgesHiddenTagIds_);
+        badgesHiddenFilterIds_.push_back(filterId);
+    UserSettings::instance()->setBadgesHiddenFilters(badgesHiddenFilterIds_);
 
-    if (tagId.startsWith(QLatin1String("tag:"))) {
-        auto idx = tags_.indexOf(tagId.mid(4));
+    if (filterId.startsWith(QLatin1String("tag:"))) {
+        auto idx = tags_.indexOf(filterId.mid(4));
         if (idx != -1)
             emit dataChanged(index(idx + kFixedRowCount + spaceOrder_.size()),
                              index(idx + kFixedRowCount + spaceOrder_.size()));
-    } else if (tagId.startsWith(QLatin1String("space:"))) {
-        auto idx = spaceOrder_.indexOf(tagId.mid(6));
+    } else if (filterId.startsWith(QLatin1String("space:"))) {
+        auto idx = spaceOrder_.indexOf(filterId.mid(6));
         if (idx != -1)
             emit dataChanged(index(idx + kFixedRowCount), index(idx + kFixedRowCount));
-    } else if (tagId == QLatin1String("people")) {
+    } else if (filterId == QLatin1String("people")) {
         emit dataChanged(index(kRowPeople), index(kRowPeople));
-    } else if (tagId == QLatin1String("bot")) {
+    } else if (filterId == QLatin1String("bot")) {
         emit dataChanged(index(kRowBots), index(kRowBots));
-    } else if (tagId == QLatin1String("group")) {
+    } else if (filterId == QLatin1String("group")) {
         emit dataChanged(index(kRowGroups), index(kRowGroups));
-    } else if (tagId == QLatin1String("global")) {
+    } else if (filterId == QLatin1String("global")) {
         emit dataChanged(index(kRowAllRooms), index(kRowAllRooms));
     }
 
-    emit badgesHiddenTagsChanged();
+    emit badgesHiddenFiltersChanged();
 }
 
 bool
-CommunitiesModel::areTagBadgesHidden(const QString &tagId) const
+CommunitiesModel::areFilterBadgesHidden(const QString &filterId) const
 {
-    if (tagId.isEmpty())
-        return badgesHiddenTagIds_.contains(QStringLiteral("global"));
-    return badgesHiddenTagIds_.contains(tagId);
+    if (filterId.isEmpty())
+        return badgesHiddenFilterIds_.contains(QStringLiteral("global"));
+    return badgesHiddenFilterIds_.contains(filterId);
 }
 
 bool
-CommunitiesModel::isTagHidden(const QString &tagId) const
+CommunitiesModel::isGlobalExcluded(const QString &filterId) const
 {
-    return hiddenTagIds_.contains(tagId);
+    return globalExcludedFilterIds_.contains(filterId);
 }
 
 #include "moc_CommunitiesModel.cpp"

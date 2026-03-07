@@ -30,9 +30,9 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
 {
     if (role == CommunitiesModel::Roles::BadgesHidden) {
         if (index.row() == kRowAllRooms)
-            return badgesHiddenTagIds_.contains(QStringLiteral("global"));
+            return badgesHiddenFilterIds_.contains(QStringLiteral("global"));
         else
-            return badgesHiddenTagIds_.contains(
+            return badgesHiddenFilterIds_.contains(
               data(index, CommunitiesModel::Roles::Id).toString());
     }
 
@@ -49,7 +49,7 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
         case CommunitiesModel::Roles::Collapsible:
             return false;
         case CommunitiesModel::Roles::Hidden:
-            return f.id.isEmpty() ? false : hiddenTagIds_.contains(f.id);
+            return f.id.isEmpty() ? false : globalExcludedFilterIds_.contains(f.id);
         case CommunitiesModel::Roles::Parent:
             return QString();
         case CommunitiesModel::Roles::Depth:
@@ -76,7 +76,7 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
             return idx != spaceOrder_.lastChild(idx);
         }
         case CommunitiesModel::Roles::Hidden:
-            return hiddenTagIds_.contains("space:" + id);
+            return globalExcludedFilterIds_.contains("space:" + id);
         case CommunitiesModel::Roles::Parent: {
             if (auto p = spaceOrder_.parent(index.row() - kFixedRowCount); p >= 0)
                 return spaceOrder_.tree[p].id;
@@ -143,7 +143,7 @@ CommunitiesModel::data(const QModelIndex &index, int role) const
 
         switch (role) {
         case CommunitiesModel::Roles::Hidden:
-            return hiddenTagIds_.contains("tag:" + tag);
+            return globalExcludedFilterIds_.contains("tag:" + tag);
         case CommunitiesModel::Roles::Collapsed:
             return true;
         case CommunitiesModel::Roles::Collapsible:
@@ -227,7 +227,7 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
 namespace {
 enum Categories
 {
-    World,
+    Global,
     Favourites,
     People,
     Bots,
@@ -242,7 +242,7 @@ Categories
 tagIdToCat(const QString &tagId)
 {
     if (tagId.isEmpty())
-        return World;
+        return Global;
     else if (tagId == QLatin1String("people"))
         return People;
     else if (tagId == QLatin1String("bot"))

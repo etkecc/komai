@@ -1,14 +1,14 @@
 void
-UserSettings::setHiddenTags(const QStringList &hiddenTags)
+UserSettings::setGlobalExcludes(const QStringList &globalExcludes)
 {
-    hiddenTags_ = hiddenTags;
+    globalExcludes_ = globalExcludes;
     save();
 }
 
 void
-UserSettings::setBadgesHiddenTags(const QStringList &badgesHiddenTags)
+UserSettings::setBadgesHiddenFilters(const QStringList &badgesHiddenFilters)
 {
-    badgesHiddenTags_ = badgesHiddenTags;
+    badgesHiddenFilters_ = badgesHiddenFilters;
     save();
 }
 
@@ -103,7 +103,7 @@ UserSettings::clearAllComposerDrafts()
 }
 
 void
-UserSettings::setCollapsedSpaces(QList<QStringList> spaces)
+UserSettings::setCollapsedSpaces(QStringList spaces)
 {
     collapsedSpaces_ = spaces;
     save();

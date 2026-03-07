@@ -81,8 +81,8 @@ class CommunitiesModel final : public QAbstractListModel
     QML_NAMED_ELEMENT(Communities)
     QML_SINGLETON
 
-    Q_PROPERTY(QString currentTagId READ currentTagId WRITE setCurrentTagId NOTIFY
-                 currentTagIdChanged RESET resetCurrentTagId)
+    Q_PROPERTY(QString currentFilterId READ currentFilterId WRITE setCurrentFilterId NOTIFY
+                 currentFilterIdChanged RESET resetCurrentFilterId)
     Q_PROPERTY(QStringList tags READ tags NOTIFY tagsChanged)
     Q_PROPERTY(QStringList tagsWithDefault READ tagsWithDefault NOTIFY tagsChanged)
     Q_PROPERTY(bool containsSubspaces READ containsSubspaces NOTIFY containsSubspacesChanged)
@@ -223,13 +223,13 @@ public slots:
     void initializeSidebar();
     void sync(const mtx::responses::Sync &sync_);
     void clear();
-    QString currentTagId() const { return currentTagId_; }
-    void setCurrentTagId(const QString &tagId);
+    QString currentFilterId() const { return currentFilterId_; }
+    void setCurrentFilterId(const QString &filterId);
     bool trySwitchToSpace(const QString &spaceId);
-    void resetCurrentTagId()
+    void resetCurrentFilterId()
     {
-        currentTagId_.clear();
-        emit currentTagIdChanged(currentTagId_);
+        currentFilterId_.clear();
+        emit currentFilterIdChanged(currentFilterId_);
     }
     QStringList tags() const { return tags_; }
     QStringList tagsWithDefault() const
@@ -241,26 +241,26 @@ public slots:
         tagsWD.removeDuplicates();
         return tagsWD;
     }
-    void toggleTagId(QString tagId);
-    void toggleTagBadges(QString tagId);
+    void toggleGlobalExclude(QString filterId);
+    void toggleFilterBadges(QString filterId);
 
-    Q_INVOKABLE bool areTagBadgesHidden(const QString &tagId) const;
-    Q_INVOKABLE bool isTagHidden(const QString &tagId) const;
+    Q_INVOKABLE bool areFilterBadgesHidden(const QString &filterId) const;
+    Q_INVOKABLE bool isGlobalExcluded(const QString &filterId) const;
 
     FilteredCommunitiesModel *filtered() { return new FilteredCommunitiesModel(this, this); }
 
 signals:
-    void currentTagIdChanged(QString tagId);
-    void hiddenTagsChanged();
-    void badgesHiddenTagsChanged();
+    void currentFilterIdChanged(QString filterId);
+    void globalExcludesChanged();
+    void badgesHiddenFiltersChanged();
     void tagsChanged();
     void containsSubspacesChanged();
 
 private:
     QStringList tags_;
-    QString currentTagId_;
-    QStringList hiddenTagIds_;
-    QStringList badgesHiddenTagIds_;
+    QString currentFilterId_;
+    QStringList globalExcludedFilterIds_;
+    QStringList badgesHiddenFilterIds_;
     FlatTree spaceOrder_;
     std::map<QString, RoomInfo> spaces_;
     std::vector<std::string> directMessages_;

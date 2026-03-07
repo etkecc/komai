@@ -18,13 +18,11 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 
 using settings::storage::writeYamlFile;
-using yaml_settings::readNestedStringLists;
 using yaml_settings::readScalar;
 using yaml_settings::readString;
 using yaml_settings::readStringList;
 using yaml_settings::readStringMap;
 using yaml_settings::setNode;
-using yaml_settings::writeNestedStringLists;
 using yaml_settings::writeStringList;
 using yaml_settings::writeStringMap;
 
@@ -72,20 +70,22 @@ loadState(UserSettings &settings, const YAML::Node &root)
                              SettingKey::SidebarsCommunitiesWidthPx,
                              settings::core::definitions::kDefaultSidebarsCommunitiesWidthPx,
                              settings::core::definitions::normalizeCommunitiesWidthPx));
-    settings.setCurrentTagId(
-      readString(root, SettingKey::SidebarsCommunitiesCurrentTagId, QString()));
+    settings.setCurrentFilterId(
+      readString(root, SettingKey::SidebarsCommunitiesFilteringCurrent, QString()));
     settings.setCurrentRoomId(
       readString(root, SettingKey::SidebarsRoomListCurrentRoomId, QString()));
-    settings.setHiddenTags(readStringList(root, SettingKey::SidebarsCommunitiesHiddenTags));
-    settings.setBadgesHiddenTags(readStringList(root,
-                                                SettingKey::SidebarsCommunitiesBadgesHiddenTags,
-                                                QStringList{QStringLiteral("global")}));
+    settings.setGlobalExcludes(
+      readStringList(root, SettingKey::SidebarsCommunitiesFilteringGlobalExcludes));
+    settings.setBadgesHiddenFilters(
+      readStringList(root,
+                     SettingKey::SidebarsCommunitiesFilteringBadgesHidden,
+                     QStringList{QStringLiteral("global")}));
     settings.setHiddenPins(readStringList(root, SettingKey::TimelinePinsHidden));
     settings.setHiddenWidgets(readStringList(root, SettingKey::TimelineWidgetsHidden));
     settings.setRecentReactions(readStringList(root, SettingKey::ComposerReactionsRecent));
     settings.setComposerDraftsByRoom(readStringMap(root, SettingKey::ComposerDraftsByRoom));
     settings.setCollapsedSpaces(
-      readNestedStringLists(root, SettingKey::SidebarsCommunitiesCollapsedSpaces));
+      readStringList(root, SettingKey::SidebarsCommunitiesFilteringCollapsedSpaces));
 }
 
 void
@@ -98,15 +98,17 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
     setNode(root, SettingKey::UiWindowHeightPx, settings.windowHeight());
     setNode(root, SettingKey::SidebarsRoomListWidthPx, settings.sidebarsRoomListWidthPx());
     setNode(root, SettingKey::SidebarsCommunitiesWidthPx, settings.sidebarsCommunitiesWidthPx());
-    setNode(
-      root, SettingKey::SidebarsCommunitiesCurrentTagId, settings.currentTagId().toStdString());
+    setNode(root,
+            SettingKey::SidebarsCommunitiesFilteringCurrent,
+            settings.currentFilterId().toStdString());
     setNode(
       root, SettingKey::SidebarsRoomListCurrentRoomId, settings.currentRoomId().toStdString());
-    writeStringList(root, SettingKey::SidebarsCommunitiesHiddenTags, settings.hiddenTags());
     writeStringList(
-      root, SettingKey::SidebarsCommunitiesBadgesHiddenTags, settings.badgesHiddenTags());
-    writeNestedStringLists(
-      root, SettingKey::SidebarsCommunitiesCollapsedSpaces, settings.collapsedSpaces());
+      root, SettingKey::SidebarsCommunitiesFilteringGlobalExcludes, settings.globalExcludes());
+    writeStringList(
+      root, SettingKey::SidebarsCommunitiesFilteringBadgesHidden, settings.badgesHiddenFilters());
+    writeStringList(
+      root, SettingKey::SidebarsCommunitiesFilteringCollapsedSpaces, settings.collapsedSpaces());
     writeStringList(root, SettingKey::TimelinePinsHidden, settings.hiddenPins());
     writeStringList(root, SettingKey::TimelineWidgetsHidden, settings.hiddenWidgets());
     writeStringList(root, SettingKey::ComposerReactionsRecent, settings.recentReactions());

@@ -124,15 +124,15 @@ Note:
 | `window_height` | `ui.window.height_px` | state.yml | int | runtime window geometry |
 | `room_list_width` | `sidebars.room_list.width_px` | state.yml | int | runtime sidebar width |
 | `community_list_width` | `sidebars.communities.width_px` | state.yml | int | runtime sidebar width |
-| `current_tag_id` | `sidebars.communities.current_tag_id` | state.yml | text | runtime community sidebar state |
+| `current_tag_id` | `sidebars.communities.filtering.current` | state.yml | text | runtime community sidebar state |
 | `-` | `sidebars.room_list.current_room_id` | state.yml | text | last open room restored on restart |
-| `hidden_tags` | `sidebars.communities.hidden_tags` | state.yml | list(text) | runtime visibility state |
-| `muted_tags` | `sidebars.communities.badges_hidden_tags` | state.yml | list(text) | runtime visibility state |
+| `hidden_tags` | `sidebars.communities.filtering.global_excludes` | state.yml | list(text) | filters excluded from "All rooms" |
+| `muted_tags` | `sidebars.communities.filtering.badges_hidden` | state.yml | list(text) | filters with attention badges hidden |
 | `hidden_pins` | `timeline.pins.hidden` | state.yml | list(text) | runtime timeline state |
 | `hidden_widgets` | `timeline.widgets.hidden` | state.yml | list(text) | runtime timeline state |
 | `recent_reactions` | `composer.reactions.recent` | state.yml | list(text) | runtime convenience state |
 | `room_drafts` | `composer.drafts.by_room` | state.yml | map(text->text) | unsent composer drafts per room, restored across restarts |
-| `collapsed_spaces` | `sidebars.communities.collapsed_spaces` | state.yml | list(list(text)) | runtime expansion state |
+| `collapsed_spaces` | `sidebars.communities.filtering.collapsed_spaces` | state.yml | list(text) | runtime expansion state |
 | `presence` | `network.presence.status_policy` | config.yml | enum | account-scoped preference |
 | `screen_share_frame_rate` | `calls.screenshare.frame_rate` | config.yml | int | advanced calls/screenshare pref |
 | `screen_share_pip` | `calls.screenshare.picture_in_picture` | config.yml | bool | advanced calls/screenshare pref |

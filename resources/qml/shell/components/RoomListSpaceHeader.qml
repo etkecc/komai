@@ -13,8 +13,8 @@ Rectangle {
     required property bool collapsed
     required property int avatarSize
 
-    readonly property bool active: Communities.currentTagId.startsWith("space:")
-    readonly property string spaceId: active ? Communities.currentTagId.substring(6) : ""
+    readonly property bool active: Communities.currentFilterId.startsWith("space:")
+    readonly property string spaceId: active ? Communities.currentFilterId.substring(6) : ""
     readonly property var spaceRoom: active ? Rooms.getRoomById(spaceId) : null
 
     visible: active

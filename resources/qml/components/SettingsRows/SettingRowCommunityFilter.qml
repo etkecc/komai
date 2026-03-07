@@ -26,8 +26,8 @@ RowLayout {
 
     Connections {
         target: Communities
-        function onBadgesHiddenTagsChanged() { root._badgesHiddenRevision++; }
-        function onHiddenTagsChanged() { root._hiddenRevision++; }
+        function onBadgesHiddenFiltersChanged() { root._badgesHiddenRevision++; }
+        function onGlobalExcludesChanged() { root._hiddenRevision++; }
     }
 
     component FilterToggleGroup: Rectangle {
@@ -100,9 +100,9 @@ RowLayout {
         iconSource: "image://colorimage/:/icons/icons/ui/counter.svg?" + palette.buttonText
         iconTooltip: qsTr("Badges indicate unread messages and unsent drafts")
 
-        toggle.checked: { void(root._badgesHiddenRevision); return !Communities.areTagBadgesHidden(root.tagId); }
+        toggle.checked: { void(root._badgesHiddenRevision); return !Communities.areFilterBadgesHidden(root.tagId); }
         toggle.onToggled: {
-            Communities.toggleTagBadges(root.tagId);
+            Communities.toggleFilterBadges(root.tagId);
         }
     }
 
@@ -113,9 +113,9 @@ RowLayout {
         iconSource: "image://colorimage/:/icons/icons/ui/globe.svg?" + palette.buttonText
         iconTooltip: qsTr("Include in 'All rooms'")
 
-        toggle.checked: { void(root._hiddenRevision); return !Communities.isTagHidden(root.tagId); }
+        toggle.checked: { void(root._hiddenRevision); return !Communities.isGlobalExcluded(root.tagId); }
         toggle.onToggled: {
-            Communities.toggleTagId(root.tagId);
+            Communities.toggleGlobalExclude(root.tagId);
         }
     }
 }

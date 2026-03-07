@@ -136,7 +136,7 @@ FilteredRoomlistModel::FilteredRoomlistModel(RoomlistModel *model, QObject *pare
 
     // Eagerly populate hidden tags/spaces from settings so that badge
     // computation during the first initializeSidebar() already sees them.
-    updateHiddenTagsAndSpaces();
+    updateGlobalExcludes();
 
     sort(0);
 }
@@ -170,30 +170,30 @@ FilteredRoomlistModel::getRoomById(const QString &id) const
 }
 
 void
-FilteredRoomlistModel::updateHiddenTagsAndSpaces()
+FilteredRoomlistModel::updateGlobalExcludes()
 {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
     beginFilterChange();
 #endif
 
-    hiddenTags.clear();
-    hiddenSpaces.clear();
-    hidePeople = false;
-    hideBots   = false;
-    hideGroups = false;
+    globalExcludedTags.clear();
+    globalExcludedSpaces.clear();
+    excludePeople = false;
+    excludeBots   = false;
+    excludeGroups = false;
 
-    auto hidden = UserSettings::instance()->hiddenTags();
-    for (const auto &t : std::as_const(hidden)) {
+    auto excluded = UserSettings::instance()->globalExcludes();
+    for (const auto &t : std::as_const(excluded)) {
         if (t.startsWith(u"tag:"))
-            hiddenTags.push_back(t.mid(4));
+            globalExcludedTags.push_back(t.mid(4));
         else if (t.startsWith(u"space:"))
-            hiddenSpaces.push_back(t.mid(6));
+            globalExcludedSpaces.push_back(t.mid(6));
         else if (t == QLatin1String("people"))
-            hidePeople = true;
+            excludePeople = true;
         else if (t == QLatin1String("bot"))
-            hideBots = true;
+            excludeBots = true;
         else if (t == QLatin1String("group"))
-            hideGroups = true;
+            excludeGroups = true;
     }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
@@ -248,16 +248,16 @@ FilteredRoomlistModel::rowParentSpaces(int sourceRow) const
 }
 
 bool
-FilteredRoomlistModel::hiddenByTags(int sourceRow, const QString &requiredTag) const
+FilteredRoomlistModel::excludedByTags(int sourceRow, const QString &requiredTag) const
 {
-    if (hiddenTags.empty())
+    if (globalExcludedTags.empty())
         return false;
 
     const auto tags = rowTags(sourceRow);
     for (const auto &tag : tags) {
         if (!requiredTag.isEmpty() && tag == requiredTag)
             continue;
-        if (hiddenTags.contains(tag))
+        if (globalExcludedTags.contains(tag))
             return true;
     }
 
@@ -265,16 +265,16 @@ FilteredRoomlistModel::hiddenByTags(int sourceRow, const QString &requiredTag) c
 }
 
 bool
-FilteredRoomlistModel::hiddenBySpaces(int sourceRow, const QString &requiredSpace) const
+FilteredRoomlistModel::excludedBySpaces(int sourceRow, const QString &requiredSpace) const
 {
-    if (hiddenSpaces.empty())
+    if (globalExcludedSpaces.empty())
         return false;
 
     const auto parents = rowParentSpaces(sourceRow);
     for (const auto &space : parents) {
         if (!requiredSpace.isEmpty() && space == requiredSpace)
             continue;
-        if (hiddenSpaces.contains(space))
+        if (globalExcludedSpaces.contains(space))
             return true;
     }
 
@@ -282,21 +282,21 @@ FilteredRoomlistModel::hiddenBySpaces(int sourceRow, const QString &requiredSpac
 }
 
 bool
-FilteredRoomlistModel::hiddenByPeople(int sourceRow) const
+FilteredRoomlistModel::excludedByPeople(int sourceRow) const
 {
-    return hidePeople && isDirectRow(sourceRow) && !isBotRow(sourceRow);
+    return excludePeople && isDirectRow(sourceRow) && !isBotRow(sourceRow);
 }
 
 bool
-FilteredRoomlistModel::hiddenByBots(int sourceRow) const
+FilteredRoomlistModel::excludedByBots(int sourceRow) const
 {
-    return hideBots && isBotRow(sourceRow);
+    return excludeBots && isBotRow(sourceRow);
 }
 
 bool
-FilteredRoomlistModel::hiddenByGroups(int sourceRow) const
+FilteredRoomlistModel::excludedByGroups(int sourceRow) const
 {
-    return hideGroups && !isDirectRow(sourceRow);
+    return excludeGroups && !isDirectRow(sourceRow);
 }
 
 bool
@@ -305,26 +305,26 @@ FilteredRoomlistModel::acceptsForFilter(int sourceRow, FilterBy type, const QStr
     if (type == FilterBy::Nothing) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByPeople(sourceRow) ||
-            hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
+        if (excludedByTags(sourceRow) || excludedBySpaces(sourceRow) ||
+            excludedByPeople(sourceRow) || excludedByBots(sourceRow) || excludedByGroups(sourceRow))
             return false;
         return true;
     } else if (type == FilterBy::People) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
+        if (excludedByTags(sourceRow) || excludedBySpaces(sourceRow))
             return false;
         return isDirectRow(sourceRow) && !isBotRow(sourceRow);
     } else if (type == FilterBy::Bots) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow))
+        if (excludedByTags(sourceRow) || excludedBySpaces(sourceRow))
             return false;
         return isBotRow(sourceRow);
     } else if (type == FilterBy::Groups) {
         if (isPreviewRow(sourceRow) || isSpaceRow(sourceRow))
             return false;
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow) || hiddenByBots(sourceRow))
+        if (excludedByTags(sourceRow) || excludedBySpaces(sourceRow) || excludedByBots(sourceRow))
             return false;
         return !isDirectRow(sourceRow);
     } else if (type == FilterBy::Tag) {
@@ -334,8 +334,8 @@ FilteredRoomlistModel::acceptsForFilter(int sourceRow, FilterBy type, const QStr
         const auto tags = rowTags(sourceRow);
         if (!tags.contains(str))
             return false;
-        if (hiddenByTags(sourceRow, str) || hiddenBySpaces(sourceRow) ||
-            hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
+        if (excludedByTags(sourceRow, str) || excludedBySpaces(sourceRow) ||
+            excludedByPeople(sourceRow) || excludedByBots(sourceRow) || excludedByGroups(sourceRow))
             return false;
         return true;
     } else if (type == FilterBy::Space) {
@@ -350,8 +350,8 @@ FilteredRoomlistModel::acceptsForFilter(int sourceRow, FilterBy type, const QStr
         if (!parents.contains(str))
             return false;
 
-        if (hiddenByTags(sourceRow) || hiddenBySpaces(sourceRow, str) ||
-            hiddenByPeople(sourceRow) || hiddenByBots(sourceRow) || hiddenByGroups(sourceRow))
+        if (excludedByTags(sourceRow) || excludedBySpaces(sourceRow, str) ||
+            excludedByPeople(sourceRow) || excludedByBots(sourceRow) || excludedByGroups(sourceRow))
             return false;
 
         if (isSpaceRow(sourceRow) && !parents.contains(str))
@@ -466,7 +466,7 @@ FilteredRoomlistModel::computeFilterBadges(const QStringList &communityIds) cons
 
             // Respect the per-space Exclude setting.
             auto roomId = sourceModel()->data(idx, RoomlistModel::RoomId).toString();
-            if (hiddenSpaces.contains(roomId))
+            if (globalExcludedSpaces.contains(roomId))
                 continue;
 
             bool hasUnread = sourceModel()->data(idx, RoomlistModel::HasUnreadMessages).toBool();

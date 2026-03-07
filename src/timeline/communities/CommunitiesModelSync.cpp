@@ -180,10 +180,10 @@ CommunitiesModel::initializeSidebar()
     endResetModel();
 
     emit tagsChanged();
-    emit hiddenTagsChanged();
+    emit globalExcludesChanged();
     emit containsSubspacesChanged();
 
-    setCurrentTagId(UserSettings::instance()->currentTagId());
+    setCurrentFilterId(UserSettings::instance()->currentFilterId());
 }
 
 void
@@ -225,9 +225,9 @@ CommunitiesModel::sync(const mtx::responses::Sync &sync_)
         (void)room;
         if (spaces_.count(QString::fromStdString(roomid)))
             tagsUpdated = true;
-        if (hiddenTagIds_.contains(QString::fromStdString("space:" + roomid))) {
-            hiddenTagIds_.removeAll(QString::fromStdString("space:" + roomid));
-            UserSettings::instance()->setHiddenTags(hiddenTagIds_);
+        if (globalExcludedFilterIds_.contains(QString::fromStdString("space:" + roomid))) {
+            globalExcludedFilterIds_.removeAll(QString::fromStdString("space:" + roomid));
+            UserSettings::instance()->setGlobalExcludes(globalExcludedFilterIds_);
             tagsUpdated = true;
         }
     }

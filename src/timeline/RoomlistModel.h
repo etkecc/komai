@@ -342,7 +342,7 @@ public slots:
 #endif
     }
 
-    void updateHiddenTagsAndSpaces();
+    void updateGlobalExcludes();
 
 signals:
     void currentRoomChanged(QString currentRoomId);
@@ -355,11 +355,11 @@ private:
     bool isBotRow(int sourceRow) const;
     QStringList rowTags(int sourceRow) const;
     QStringList rowParentSpaces(int sourceRow) const;
-    bool hiddenByTags(int sourceRow, const QString &requiredTag = QString()) const;
-    bool hiddenBySpaces(int sourceRow, const QString &requiredSpace = QString()) const;
-    bool hiddenByPeople(int sourceRow) const;
-    bool hiddenByBots(int sourceRow) const;
-    bool hiddenByGroups(int sourceRow) const;
+    bool excludedByTags(int sourceRow, const QString &requiredTag = QString()) const;
+    bool excludedBySpaces(int sourceRow, const QString &requiredSpace = QString()) const;
+    bool excludedByPeople(int sourceRow) const;
+    bool excludedByBots(int sourceRow) const;
+    bool excludedByGroups(int sourceRow) const;
     short int calculateImportance(const QModelIndex &idx) const;
     RoomlistModel *roomlistmodel;
     int sidebarsRoomListSort = 0; // UserSettings::RoomSortOrder enum value
@@ -376,10 +376,10 @@ private:
     bool acceptsForFilter(int sourceRow, FilterBy type, const QString &str) const;
     QString filterStr   = QLatin1String("");
     FilterBy filterType = FilterBy::Nothing;
-    QStringList hiddenTags, hiddenSpaces;
-    bool hidePeople = false;
-    bool hideBots   = false;
-    bool hideGroups = false;
+    QStringList globalExcludedTags, globalExcludedSpaces;
+    bool excludePeople = false;
+    bool excludeBots   = false;
+    bool excludeGroups = false;
 
     inline static FilteredRoomlistModel *instance_ = nullptr;
 };

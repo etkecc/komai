@@ -29,7 +29,7 @@ The `data()` method in `CommunitiesModelData.cpp` serves all fixed rows from a s
 The `Categories` enum in `CommunitiesModelData.cpp` defines sidebar ordering:
 
 ```
-World -> Favourites -> People -> Bots -> Groups -> Server -> LowPrio -> Space -> UserTag
+Global -> Favourites -> People -> Bots -> Groups -> Server -> LowPrio -> Space -> UserTag
 ```
 
 ### Unread tracking
@@ -176,9 +176,9 @@ Touch points for a new fixed-row filter:
 
 For tag-based filters (backed by Matrix room tags), unread tracking uses `tagNotificationCache` instead of `fixedFilters_[].unreads`, so step 3 is not needed.
 
-## Hidden tags mechanism
+## Global excludes mechanism
 
-Users can hide individual sidebar sections via context menu. Hidden tag IDs are stored in `state.yml` at `sidebars.communities.hidden_tags`. The `FilteredRoomlistModel` parses these to populate `hiddenTags`, `hiddenSpaces`, `hidePeople`, `hideBots`, and `hideGroups` flags, which suppress matching rooms from the room list when the section is hidden.
+Users can exclude individual sidebar sections from the "All rooms" filter via context menu. Excluded filter IDs are stored in `state.yml` at `sidebars.communities.filtering.global_excludes`. The `FilteredRoomlistModel` parses these to populate `globalExcludedTags`, `globalExcludedSpaces`, `hidePeople`, `hideBots`, and `hideGroups` flags, which suppress matching rooms from the room list when the section is excluded.
 
 ## Design decisions
 

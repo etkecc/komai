@@ -7,7 +7,7 @@
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Send key",
       QT_TR_NOOP(
-        "Choose which Enter key combination sends messages. Picker selections (emoji/mentions) are always handled first."),
+        "Choose which Enter key combination sends messages."),
       SM::TabComposer, composerInputSendKey, setComposerInputSendKey, UserSettings::SendMessageKey,
       composerSendMessageKeyValues,
       nullptr,

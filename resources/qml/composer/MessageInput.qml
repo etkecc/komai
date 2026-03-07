@@ -115,7 +115,7 @@ Rectangle {
                         completer.completerName = "";
                         popup.close();
                     } else if (event.key == Qt.Key_Enter || event.key == Qt.Key_Return) {
-                        // Handling popup takes priority over newline and sending message.
+                        // If popup is open and user has selected a completion, insert it.
                         if (popup.opened &&
                             (event.modifiers == Qt.NoModifier
                             || event.modifiers == Qt.ShiftModifier
@@ -133,21 +133,24 @@ Rectangle {
                                     console.log(userid);
                                     room.input.addMention(userid, currentCompletion);
                                 }
+                                event.accepted = true;
                             }
-                            event.accepted = true;
+                            // Nothing selected: popup closed, fall through to send/newline.
                         }
                         // Send message Enter key combination event.
-                        else if (Settings.composerInputSendKey == 0 && event.modifiers == Qt.NoModifier
+                        if (!event.accepted && (
+                            Settings.composerInputSendKey == 0 && event.modifiers == Qt.NoModifier
                               || Settings.composerInputSendKey == 1 && event.modifiers == Qt.ShiftModifier
-                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier
+                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ControlModifier)
                         ) {
                             room.input.send();
                             event.accepted = true;
                         }
                         // Add newline Enter key combination event.
-                        else if (Settings.composerInputSendKey == 0 && event.modifiers == Qt.ShiftModifier
+                        else if (!event.accepted && (
+                            Settings.composerInputSendKey == 0 && event.modifiers == Qt.ShiftModifier
                               || Settings.composerInputSendKey == 1 && event.modifiers == Qt.NoModifier
-                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ShiftModifier
+                              || Settings.composerInputSendKey == 2 && event.modifiers == Qt.ShiftModifier)
                         ) {
                             messageInput.insert(messageInput.cursorPosition, "\n");
                             event.accepted = true;

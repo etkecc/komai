@@ -14,15 +14,26 @@ Components.OverlayDialog {
 
     required property string roomId
     property string reason: ""
+    readonly property var room: Rooms.getRoomById(roomId)
+    readonly property bool isSpace: room && room.isSpace
+    readonly property string roomName: room ? room.roomName : ""
 
-    title: qsTr("Leave room")
+    title: {
+        if (roomName) {
+            return isSpace
+                ? qsTr("Leave the %1 space?").arg(roomName)
+                : qsTr("Leave the %1 room?").arg(roomName);
+        }
+        return isSpace ? qsTr("Leave this space?") : qsTr("Leave this room?");
+    }
     titleIcon: ":/icons/icons/ui/power-off.svg"
 
     Label {
         Layout.fillWidth: true
         color: palette.text
         wrapMode: Text.WordWrap
-        text: qsTr("Are you sure you want to leave?")
+        text: qsTr("You will remain in any rooms you joined through it.")
+        visible: leaveRoomRoot.isSpace
     }
 
     RowLayout {

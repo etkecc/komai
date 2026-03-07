@@ -88,6 +88,7 @@ Page {
 
             Layout.fillWidth: true
             Layout.fillHeight: true
+        clip: true
         model: Rooms
         boundsBehavior: Flickable.StopAtBounds
 

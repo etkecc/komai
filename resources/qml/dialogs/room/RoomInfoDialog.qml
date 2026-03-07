@@ -48,7 +48,7 @@ Components.OverlayDialog {
         }
     }
 
-    title: qsTr("Room Info")
+    title: room && room.isSpace ? qsTr("Space Info") : qsTr("Room Info")
     titleIcon: ":/icons/icons/ui/speech-bubbles.svg"
     width: Math.round((parent ? parent.width : 760) * 0.8)
 

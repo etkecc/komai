@@ -368,30 +368,10 @@ def supported_komai_locales(repo_root: pathlib.Path) -> list[str]:
     return locales
 
 
-def parse_shortcode_overrides(path: pathlib.Path) -> dict[str, str]:
-    if not path.is_file():
-        return {}
-
-    overrides: dict[str, str] = {}
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"):
-            continue
-        if ":" not in line:
-            continue
-        key, value = line.split(":", 1)
-        key = key.strip()
-        value = value.strip()
-        if key and value:
-            overrides[key] = value
-    return overrides
-
-
 def parse_emoji_test_files(
     *,
     unicode_file: pathlib.Path,
     extra_file: pathlib.Path,
-    shortcode_overrides: dict[str, str],
 ) -> list[CoreEmoji]:
     entries: list[CoreEmoji] = []
 
@@ -433,7 +413,7 @@ def parse_emoji_test_files(
                 continue
 
             emoji_id = "-".join(codepoints)
-            short_name = shortcode_overrides.get(codes, slugify_name(unicode_name))
+            short_name = slugify_name(unicode_name)
 
             tone_modifiers = [cp for cp in codepoints if cp in SKIN_TONE_MODIFIERS]
             if not tone_modifiers:
@@ -852,11 +832,9 @@ def generate_runtime_data(
         locale_ann_paths[locale] = (ann, der)
         cldr_meta[locale] = source_locale
 
-    shortcodes = parse_shortcode_overrides(repo_root / "resources" / "shortcodes.txt")
     core_entries = parse_emoji_test_files(
         unicode_file=unicode_file,
         extra_file=repo_root / "resources" / "extra_emoji.txt",
-        shortcode_overrides=shortcodes,
     )
 
     overrides = load_overrides(repo_root)

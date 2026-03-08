@@ -18,6 +18,8 @@ Tracked configuration and tooling:
 - `bin/emoji/pipeline.py`: fetch/build/check/add-token pipeline tool.
 - `resources/emoji/overrides/global.yml`: optional global overrides.
 - `resources/emoji/overrides/locale/*.yml`: optional locale-specific overrides.
+- Legacy `resources/shortcodes.txt` is retired; baseline aliases now live in
+  `resources/emoji/overrides/locale/en.yml`.
 
 Not tracked (generated/cache):
 

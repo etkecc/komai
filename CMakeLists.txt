@@ -1120,7 +1120,6 @@ add_custom_command(
         "${CMAKE_CURRENT_SOURCE_DIR}/bin/emoji/pipeline.py"
         "${CMAKE_CURRENT_SOURCE_DIR}/bin/emoji/sources.lock.yml"
         "${CMAKE_CURRENT_SOURCE_DIR}/resources/extra_emoji.txt"
-        "${CMAKE_CURRENT_SOURCE_DIR}/resources/shortcodes.txt"
         ${EMOJI_OVERRIDE_FILES}
     COMMENT "Generating runtime emoji data"
     VERBATIM

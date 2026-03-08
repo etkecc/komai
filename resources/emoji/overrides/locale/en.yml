@@ -48,3 +48,178 @@ emoji:
   locale: en
   tokens_add:
   - nheko
+- id: 1F605
+  preview: 😅
+  locale: en
+  tokens_add:
+  - sweat_smile
+- id: 1F917
+  preview: 🤗
+  locale: en
+  tokens_add:
+  - hugging_face
+- id: 203C-FE0F
+  preview: ‼️
+  locale: en
+  tokens_add:
+  - bangbang
+- id: 2049-FE0F
+  preview: ⁉️
+  locale: en
+  tokens_add:
+  - interrobang
+- id: 2754
+  preview: ❔
+  locale: en
+  tokens_add:
+  - white_question
+- id: 2755
+  preview: ❕
+  locale: en
+  tokens_add:
+  - white_exclamation
+- id: 1F520
+  preview: 🔠
+  locale: en
+  tokens_add:
+  - big_abcd
+- id: 1F60D
+  preview: 😍
+  locale: en
+  tokens_add:
+  - heart_eyes
+- id: 1F972
+  preview: 🥲
+  locale: en
+  tokens_add:
+  - cry_smile
+- id: 1F608
+  preview: 😈
+  locale: en
+  tokens_add:
+  - smiling_imp
+- id: 1F63A
+  preview: 😺
+  locale: en
+  tokens_add:
+  - smiley_cat
+- id: 1F638
+  preview: 😸
+  locale: en
+  tokens_add:
+  - smile_cat
+- id: 1F639
+  preview: 😹
+  locale: en
+  tokens_add:
+  - joy_cat
+- id: 1F63B
+  preview: 😻
+  locale: en
+  tokens_add:
+  - heart_eyes_cat
+- id: 1F63C
+  preview: 😼
+  locale: en
+  tokens_add:
+  - smirk_cat
+- id: 1F640
+  preview: 🙀
+  locale: en
+  tokens_add:
+  - scream_cat
+- id: 1F448
+  preview: 👈
+  locale: en
+  tokens_add:
+  - point_left
+- id: 1F449
+  preview: 👉
+  locale: en
+  tokens_add:
+  - point_right
+- id: 1F446
+  preview: 👆
+  locale: en
+  tokens_add:
+  - point_up_2
+- id: 1F447
+  preview: 👇
+  locale: en
+  tokens_add:
+  - point_down
+- id: 261D-FE0F
+  preview: ☝️
+  locale: en
+  tokens_add:
+  - point_up
+- id: 1FAF5
+  preview: 🫵
+  locale: en
+  tokens_add:
+  - point_you
+- id: 0023-FE0F-20E3
+  preview: "#️⃣"
+  locale: en
+  tokens_add:
+  - hash
+- id: 002A-FE0F-20E3
+  preview: "*️⃣"
+  locale: en
+  tokens_add:
+  - asterisk
+- id: 0030-FE0F-20E3
+  preview: 0️⃣
+  locale: en
+  tokens_add:
+  - zero
+- id: 0031-FE0F-20E3
+  preview: 1️⃣
+  locale: en
+  tokens_add:
+  - one
+- id: 0032-FE0F-20E3
+  preview: 2️⃣
+  locale: en
+  tokens_add:
+  - two
+- id: 0033-FE0F-20E3
+  preview: 3️⃣
+  locale: en
+  tokens_add:
+  - three
+- id: 0034-FE0F-20E3
+  preview: 4️⃣
+  locale: en
+  tokens_add:
+  - four
+- id: 0035-FE0F-20E3
+  preview: 5️⃣
+  locale: en
+  tokens_add:
+  - five
+- id: 0036-FE0F-20E3
+  preview: 6️⃣
+  locale: en
+  tokens_add:
+  - six
+- id: 0037-FE0F-20E3
+  preview: 7️⃣
+  locale: en
+  tokens_add:
+  - seven
+- id: 0038-FE0F-20E3
+  preview: 8️⃣
+  locale: en
+  tokens_add:
+  - eight
+- id: 0039-FE0F-20E3
+  preview: 9️⃣
+  locale: en
+  tokens_add:
+  - nine
+- id: 1F51F
+  preview: 🔟
+  locale: en
+  tokens_add:
+  - ten

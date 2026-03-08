@@ -18,6 +18,19 @@
       "Auto-convert Markdown to HTML",
       QT_TR_NOOP("Controls whether <a href=\"https://commonmark.org/help/\">Markdown</a> syntax is auto-converted to produce a <a href=\"https://spec.matrix.org/v1.17/client-server-api/#mroommessage-msgtypes\">Matrix HTML</a> message with Markdown plain-text fallback."),
       SM::TabComposer, composerInputMarkdownToHtmlEnabled, setComposerInputMarkdownToHtmlEnabled, nullptr, ComposerInputMarkdownToHtmlEnabled, SettingKey::ComposerInputMarkdownToHtmlEnabled),
+    // InlineRoomPicker
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Inline room picker",
+      QT_TR_NOOP("Show an inline room picker when you type a hash (#) in the message input."),
+      SM::TabComposer, composerInputInlineRoomPickerEnabled, setComposerInputInlineRoomPickerEnabled, nullptr, ComposerInputInlineRoomPickerEnabled, SettingKey::ComposerInputInlineRoomPickerEnabled),
+    // InlineUserPicker
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Inline user picker",
+      QT_TR_NOOP("Show an inline user picker when you type an at sign (@) in the message input."),
+      SM::TabComposer, composerInputInlineUserPickerEnabled, setComposerInputInlineUserPickerEnabled, nullptr, ComposerInputInlineUserPickerEnabled, SettingKey::ComposerInputInlineUserPickerEnabled),
+    // ComposerEmojiSection
+    { QT_TR_NOOP("Emoji"), nullptr, SM::SectionTitle, SM::TabComposer,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // AutoReplaceEmoji
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Auto-replace emoticons with emoji",
@@ -33,16 +46,6 @@
       "Inline emoji picker",
       QT_TR_NOOP("Show an inline emoji picker when you type a colon (:) in the message input."),
       SM::TabComposer, composerInputInlineEmojiPickerEnabled, setComposerInputInlineEmojiPickerEnabled, nullptr, ComposerInputInlineEmojiPickerEnabled, SettingKey::ComposerInputInlineEmojiPickerEnabled),
-    // InlineRoomPicker
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Inline room picker",
-      QT_TR_NOOP("Show an inline room picker when you type a hash (#) in the message input."),
-      SM::TabComposer, composerInputInlineRoomPickerEnabled, setComposerInputInlineRoomPickerEnabled, nullptr, ComposerInputInlineRoomPickerEnabled, SettingKey::ComposerInputInlineRoomPickerEnabled),
-    // InlineUserPicker
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Inline user picker",
-      QT_TR_NOOP("Show an inline user picker when you type an at sign (@) in the message input."),
-      SM::TabComposer, composerInputInlineUserPickerEnabled, setComposerInputInlineUserPickerEnabled, nullptr, ComposerInputInlineUserPickerEnabled, SettingKey::ComposerInputInlineUserPickerEnabled),
     // ComposerFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

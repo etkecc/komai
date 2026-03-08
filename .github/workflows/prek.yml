@@ -26,13 +26,19 @@ jobs:
 
       - name: Install dependencies
         run: |
+          # Keep Arch package resolution non-interactive in CI by pinning
+          # concrete providers for virtual deps that otherwise trigger prompts:
+          # - qt6-multimedia-backend -> qt6-multimedia-ffmpeg
+          # - org.freedesktop.secrets -> kwallet
+          # - jack -> pipewire-jack (pulled transitively via ffmpeg)
+          # Also install python-yaml because the emoji pipeline requires PyYAML.
           pacman -S --noconfirm --needed \
             cmake just python python-yaml mise reuse \
-            qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
+            qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
             syntax-highlighting \
             coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
             nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication \
-            curl libevent libsecret
+            curl libevent libsecret kwallet pipewire-jack
 
       - name: Run prek on all files
         run: |

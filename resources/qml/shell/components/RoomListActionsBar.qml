@@ -123,7 +123,7 @@ Pane {
             }
             RoomListActionButton {
                 buttonSize: roomActionsBar.buttonSize
-                toolTipText: qsTr("Find & Switch room")
+                toolTipText: qsTr("Find & Switch room [Ctrl+K]")
                 iconSource: ":/icons/icons/ui/globe-search.svg"
                 labelText: roomActionsBar.switchActionLabel
                 showLabel: roomActionsBar.showActionLabels

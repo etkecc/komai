@@ -502,6 +502,8 @@ set(SRC_FILES
     src/timeline/TimelineEventTypes.h
     src/timeline/TimelineModel.cpp
     src/timeline/TimelineModel.h
+    src/timeline/NavigationHistory.cpp
+    src/timeline/NavigationHistory.h
     src/timeline/TimelineViewManager.cpp
     src/timeline/TimelineViewManager.h
     src/timeline/view/TimelineViewManagerMedia.cpp
@@ -1611,6 +1613,19 @@ if(BUILD_TESTING)
         COMMAND komai_emoji_completion_search_test --locale ja)
     komai_configure_test(komai_emoji_completion_search_test_ja "unit;emoji")
 
+    add_executable(komai_navigation_history_test
+        tests/NavigationHistoryTest.cpp
+        tests/LoggingStub.cpp
+        src/timeline/NavigationHistory.cpp
+    )
+    target_include_directories(komai_navigation_history_test PRIVATE src)
+    target_link_libraries(komai_navigation_history_test PRIVATE
+        Qt::Core
+        spdlog::spdlog
+    )
+    add_test(NAME komai_navigation_history_test COMMAND komai_navigation_history_test)
+    komai_configure_test(komai_navigation_history_test "unit;timeline")
+
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
@@ -1628,6 +1643,7 @@ if(BUILD_TESTING)
         komai_theme_color_utils_test
         komai_bot_detection_test
         komai_emoji_completion_search_test
+        komai_navigation_history_test
     )
 endif()
 

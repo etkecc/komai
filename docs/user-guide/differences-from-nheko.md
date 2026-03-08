@@ -38,6 +38,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Smarter direct chat detection** -- Komai combines [`m.direct`](https://spec.matrix.org/v1.17/client-server-api/#mdirect) account data with member-count heuristics to (hopefully in most cases) correctly identify direct chats, including 3-member rooms where one member is a bridge bot -- giving them the right name, avatar, and room-list placement
 - **Revamped communities sidebar** -- configurable [filter sections](communities-sidebar.md#filter-sections) (People, Bots, Groups, Favourites, Server Notices, Low Priority) with local attention counting (unread messages and unsent drafts) that works even when notifications are disabled at the homeserver level. Every filter can be [hidden, badged, or excluded from "All rooms"](communities-sidebar.md#per-filter-options) via Settings > Sidebars or right-click. See [🏘️ Communities Sidebar](communities-sidebar.md)
 - **Avatars on the bubble side** -- received messages show the avatar on the left, yours on the right
+- **Mouse back/forward navigation** -- use mouse back/forward buttons to navigate through your room and filter history, like a browser. Filter-only intermediate steps are skipped automatically so back always jumps to a meaningfully different state
 
 
 ## 💬 Timeline Interaction

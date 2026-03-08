@@ -98,6 +98,26 @@ TimelineViewManager::TimelineViewManager(CallManager *, ChatPage *parent)
     connect(rooms_, &RoomlistModel::spaceSelected, communities_, [this](QString roomId) {
         communities_->setCurrentFilterId("space:" + roomId);
     });
+
+    // Seed navigation history with the initial state (no room open).
+    navHistory_.push(communities_->currentFilterId(), QString());
+
+    // Navigation history: record filter and room changes.
+    // Filter changes capture the current room too (the full state), but are marked as
+    // filter-only so the skip logic in back()/forward() can skip intermediate entries
+    // where only the filter changed (same room was still displayed).
+    connect(
+      communities_, &CommunitiesModel::currentFilterIdChanged, this, [this](QString filterId) {
+          if (navigating_)
+              return;
+          auto room = rooms_->currentRoom();
+          navHistory_.push(filterId, room ? room->roomId() : QString(), true);
+      });
+    connect(rooms_, &RoomlistModel::currentRoomChanged, this, [this](QString roomId) {
+        if (navigating_)
+            return;
+        navHistory_.push(communities_->currentFilterId(), roomId);
+    });
 }
 
 TimelineViewManager *
@@ -224,6 +244,48 @@ TimelineViewManager::logRoomSwitchPhase(const QString &roomId,
                           roomSwitchPerfActiveRoomId_.toStdString());
         nhlog::ui()->flush();
     }
+}
+
+void
+TimelineViewManager::navigateBack()
+{
+    nhlog::ui()->info("[nav-history] navigateBack called");
+    auto currentRoom = rooms_->currentRoom();
+    auto entry       = navHistory_.back(communities_->currentFilterId(),
+                                  currentRoom ? currentRoom->roomId() : QString());
+    if (!entry) {
+        nhlog::ui()->info("[nav-history] navigateBack: no entry to restore");
+        return;
+    }
+
+    nhlog::ui()->info("[nav-history] navigateBack restoring filter='{}' room='{}'",
+                      entry->filterId.toStdString(),
+                      entry->roomId.toStdString());
+    navigating_ = true;
+    communities_->setCurrentFilterId(entry->filterId);
+    rooms_->setCurrentRoom(entry->roomId);
+    navigating_ = false;
+}
+
+void
+TimelineViewManager::navigateForward()
+{
+    nhlog::ui()->info("[nav-history] navigateForward called");
+    auto currentRoom = rooms_->currentRoom();
+    auto entry       = navHistory_.forward(communities_->currentFilterId(),
+                                     currentRoom ? currentRoom->roomId() : QString());
+    if (!entry) {
+        nhlog::ui()->info("[nav-history] navigateForward: no entry to restore");
+        return;
+    }
+
+    nhlog::ui()->info("[nav-history] navigateForward restoring filter='{}' room='{}'",
+                      entry->filterId.toStdString(),
+                      entry->roomId.toStdString());
+    navigating_ = true;
+    communities_->setCurrentFilterId(entry->filterId);
+    rooms_->setCurrentRoom(entry->roomId);
+    navigating_ = false;
 }
 
 #include "moc_TimelineViewManager.cpp"

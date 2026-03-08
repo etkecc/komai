@@ -17,6 +17,7 @@ Technical documentation for Komai internals.
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling
 - ⚡ [Performance Tracing](performance.md) -- room-switch perf markers, runtime knobs, and logging controls
 - 🏘️ [Communities Sidebar Filters](communities-sidebar-filters.md) -- filter architecture, tag IDs, room-level filtering, and how to add new filters
+- 🔙 [Navigation History](navigation-history.md) -- back/forward navigation via mouse buttons, in-memory history stack
 
 ## Differences from nheko
 

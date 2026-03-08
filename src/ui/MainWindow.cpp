@@ -206,6 +206,22 @@ MainWindow::mousePressEvent(QMouseEvent *event)
         emit hideMenu();
     }
 #endif
+
+    if (event->button() == Qt::BackButton) {
+        nhlog::ui()->info("[nav-history] mouse BackButton pressed");
+        if (auto *mgr = ChatPage::instance()->timelineManager())
+            mgr->navigateBack();
+        event->accept();
+        return;
+    }
+    if (event->button() == Qt::ForwardButton) {
+        nhlog::ui()->info("[nav-history] mouse ForwardButton pressed");
+        if (auto *mgr = ChatPage::instance()->timelineManager())
+            mgr->navigateForward();
+        event->accept();
+        return;
+    }
+
     return QQuickView::mousePressEvent(event);
 }
 

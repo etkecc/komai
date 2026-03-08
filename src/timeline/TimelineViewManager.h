@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "NavigationHistory.h"
+
 class QQuickItem;
 class QQuickTextDocument;
 
@@ -118,6 +120,9 @@ public:
 
     Q_INVOKABLE void fixImageRendering(QQuickTextDocument *t, QQuickItem *i);
 
+    Q_INVOKABLE void navigateBack();
+    Q_INVOKABLE void navigateForward();
+
 signals:
     void activeTimelineChanged(TimelineModel *timeline);
     void waitingForFirstSyncChanged(bool waitingForFirstSync);
@@ -200,6 +205,9 @@ private:
     QElapsedTimer roomSwitchPerfTimer_;
 
     inline static TimelineViewManager *instance_ = nullptr;
+
+    NavigationHistory navHistory_;
+    bool navigating_ = false;
 
     void processIgnoredUsers(const mtx::responses::AccountData &data);
     void logRoomSwitchPhase(const QString &roomId, const QString &phase, const QString &source);

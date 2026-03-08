@@ -80,22 +80,24 @@ Menu {
     MenuSeparator {
     }
     MenuItem {
-        text: qsTr("Join a room")
+        text: qsTr("Join room")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
         onTriggered: Komai.openJoinRoomDialog()
     }
+    MenuSeparator {}
     MenuItem {
-        text: qsTr("Create a new room")
+        text: qsTr("New room")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
         onTriggered: root.openCreateRoomDialog({})
     }
     MenuItem {
-        text: qsTr("Start a direct chat")
+        text: qsTr("New direct chat")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
         onTriggered: root.openCreateDirectDialog()
     }
+    MenuSeparator {}
     MenuItem {
-        text: qsTr("Create a new community")
+        text: qsTr("New space")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
         onTriggered: root.openCreateRoomDialog({
                 "space": true

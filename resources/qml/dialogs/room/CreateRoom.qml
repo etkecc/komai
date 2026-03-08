@@ -15,7 +15,7 @@ Components.OverlayDialog {
 
     property bool space: false
 
-    title: space ? qsTr("New community") : qsTr("New Room")
+    title: space ? qsTr("New space") : qsTr("New room")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
     initialFocusItem: newRoomName
     overlayDialogMinWidth: 620
@@ -213,7 +213,7 @@ Components.OverlayDialog {
 
     Button {
         Layout.alignment: Qt.AlignRight
-        text: createRoomRoot.space ? qsTr("Create Community") : qsTr("Create Room")
+        text: createRoomRoot.space ? qsTr("Create space") : qsTr("Create room")
         highlighted: true
         onClicked: {
             var preset = 0;

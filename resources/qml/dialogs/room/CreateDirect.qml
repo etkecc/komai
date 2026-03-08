@@ -16,7 +16,7 @@ OverlayDialog {
     property var profile
     property bool otherUserHasE2ee: profile ? profile.deviceList.rowCount() > 0 : true
 
-    title: qsTr("Create Direct Chat")
+    title: qsTr("New direct chat")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
     initialFocusItem: userID
     overlayDialogMinWidth: 560

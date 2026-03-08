@@ -12,22 +12,24 @@ Menu {
     required property var profileContextMenu
 
     MenuItem {
-        text: qsTr("Join a room")
+        text: qsTr("Join room")
 
         onTriggered: Komai.openJoinRoomDialog()
     }
+    MenuSeparator {}
     MenuItem {
-        text: qsTr("Create a new room")
+        text: qsTr("New room")
 
         onTriggered: root.profileContextMenu.openCreateRoomDialog({})
     }
     MenuItem {
-        text: qsTr("Start a direct chat")
+        text: qsTr("New direct chat")
 
         onTriggered: root.profileContextMenu.openCreateDirectDialog()
     }
+    MenuSeparator {}
     MenuItem {
-        text: qsTr("Create a new community")
+        text: qsTr("New space")
 
         onTriggered: root.profileContextMenu.openCreateRoomDialog({
                 "space": true

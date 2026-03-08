@@ -1,8 +1,6 @@
 # 😀 Emoji Search and Picker
 
-Komai has a localized emoji picker with strong search and completion support.
-
-Emojis are sourced from [🧾 multiple Data Sources](#-data-sources) and Komai can find them by common words, localized keywords, and project-specific aliases. We can add more of our own aliases over time.
+Komai has a localized emoji picker with strong search and completion support. You can [✍️ trigger it](#%EF%B8%8F-how-to-trigger-it) from the composer, [🔎 search](#-what-you-can-search-by) by common words, localized keywords, and project-specific aliases, and fine-tune results with [🎛️ emoji preferences](#%EF%B8%8F-emoji-preferences) for gender and skin tone. Komai also supports [🖼️ custom emojis and stickers](#%EF%B8%8F-custom-emojis-and-stickers) via Matrix image packs.
 
 
 ## ✍️ How to Trigger It

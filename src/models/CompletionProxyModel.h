@@ -199,4 +199,5 @@ private:
     std::vector<int> mapping;
     int maxMistakes_;
     size_t max_completions_;
+    bool hasEmojiProviderIndexRole_ = false;
 };

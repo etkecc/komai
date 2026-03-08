@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 79
+Rows: 81
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -31,6 +31,8 @@ Naming mismatch summary:
 | `CallsScreenshareShowCursor` | `settings.callsScreenshareShowCursor()` | `CallsScreenshareShowCursor` | `calls.screenshare.show_cursor` |
 | `ComposerExtrasStickersEnabled` | `settings.composerExtrasStickersEnabled()` | `ComposerExtrasStickersEnabled` | `composer.extras.stickers.enabled` |
 | `ComposerInputAutoReplaceEmoji` | `static_cast<int>(settings.composerInputAutoReplaceEmoji())` | `ComposerInputAutoReplaceEmoji` | `composer.input.auto_replace_emoji` |
+| `ComposerInputEmojiPreferredGender` | `static_cast<int>(settings.composerInputEmojiPreferredGender())` | `ComposerInputEmojiPreferredGender` | `composer.input.emoji.preferred_gender` |
+| `ComposerInputEmojiPreferredSkinTone` | `static_cast<int>(settings.composerInputEmojiPreferredSkinTone())` | `ComposerInputEmojiPreferredSkinTone` | `composer.input.emoji.preferred_skin_tone` |
 | `ComposerInputInlineEmojiPickerEnabled` | `settings.composerInputInlineEmojiPickerEnabled()` | `ComposerInputInlineEmojiPickerEnabled` | `composer.input.inline_emoji_picker.enabled` |
 | `ComposerInputInlineRoomPickerEnabled` | `settings.composerInputInlineRoomPickerEnabled()` | `ComposerInputInlineRoomPickerEnabled` | `composer.input.inline_room_picker.enabled` |
 | `ComposerInputInlineUserPickerEnabled` | `settings.composerInputInlineUserPickerEnabled()` | `ComposerInputInlineUserPickerEnabled` | `composer.input.inline_user_picker.enabled` |

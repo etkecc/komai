@@ -5,6 +5,7 @@
 
 #include "settings/ui/facade/UserSettingsPage.h"
 
+#include "emoji/Provider.h"
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
 

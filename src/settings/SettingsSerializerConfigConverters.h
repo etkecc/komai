@@ -45,6 +45,17 @@ UserSettings::AutoReplaceEmoji
 autoReplaceEmojiFromStorage(const QString &value, UserSettings::AutoReplaceEmoji fallback);
 
 QString
+toStorageValue(UserSettings::EmojiPreferredGender value);
+UserSettings::EmojiPreferredGender
+emojiPreferredGenderFromStorage(const QString &value, UserSettings::EmojiPreferredGender fallback);
+
+QString
+toStorageValue(UserSettings::EmojiPreferredSkinTone value);
+UserSettings::EmojiPreferredSkinTone
+emojiPreferredSkinToneFromStorage(const QString &value,
+                                  UserSettings::EmojiPreferredSkinTone fallback);
+
+QString
 toStorageValue(UserSettings::SendMessageKey value);
 UserSettings::SendMessageKey
 sendMessageKeyFromStorage(const QString &value, UserSettings::SendMessageKey fallback);

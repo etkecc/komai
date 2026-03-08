@@ -12,6 +12,32 @@ applyAutoReplaceEmojiFromStorage(UserSettings &settings, const QString &rawToken
 }
 
 QString
+emojiPreferredGenderToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.composerInputEmojiPreferredGender());
+}
+
+void
+applyEmojiPreferredGenderFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setComposerInputEmojiPreferredGender(emojiPreferredGenderFromStorage(
+      rawToken, UserSettings::EmojiPreferredGender::NoPreference));
+}
+
+QString
+emojiPreferredSkinToneToStorage(const UserSettings &settings)
+{
+    return toStorageValue(settings.composerInputEmojiPreferredSkinTone());
+}
+
+void
+applyEmojiPreferredSkinToneFromStorage(UserSettings &settings, const QString &rawToken)
+{
+    settings.setComposerInputEmojiPreferredSkinTone(emojiPreferredSkinToneFromStorage(
+      rawToken, UserSettings::EmojiPreferredSkinTone::NoPreference));
+}
+
+QString
 sendMessageKeyToStorage(const UserSettings &settings)
 {
     return toStorageValue(settings.composerInputSendKey());

@@ -10,6 +10,8 @@
 #include <QObject>
 #include <QString>
 
+#include <cstddef>
+
 #include <mtx/events/mscs/image_packs.hpp>
 
 #include "models/CompletionProxyModel.h"

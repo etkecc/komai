@@ -138,6 +138,27 @@ queryResults(CompletionProxyModel &proxy, const QString &query)
     return out;
 }
 
+std::vector<ExpectedResult>
+queryProviderResults(const emoji::Provider::Query &query)
+{
+    std::vector<ExpectedResult> out;
+    const auto &allEmoji = emoji::Provider::emoji();
+    out.reserve(allEmoji.size());
+
+    for (std::size_t i = 0; i < allEmoji.size(); ++i) {
+        if (!emoji::Provider::matchesQuery(i, query))
+            continue;
+
+        const auto &entry = allEmoji[i];
+        out.push_back(ExpectedResult{
+          .unicode   = entry.unicode(),
+          .shortName = entry.shortName(),
+        });
+    }
+
+    return out;
+}
+
 std::string
 toPrintableList(const std::vector<CompletionResult> &results)
 {
@@ -184,6 +205,35 @@ expectExactResults(const std::vector<CompletionResult> &actual,
     for (std::size_t i = 0; i < expected.size(); ++i) {
         if (actual[i].unicode != expected[i].unicode || actual[i].shortName != expected[i].shortName) {
             std::cerr << "FAILED: query '" << query.toStdString()
+                      << "' returned unexpected ordered results.\n"
+                      << "  expected: [" << toPrintableList(expected) << "]\n"
+                      << "  actual:   [" << toPrintableList(actual) << "]\n"
+                      << "  hint: " << hint << '\n';
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool
+expectExactProviderResults(const std::vector<ExpectedResult> &actual,
+                           const std::vector<ExpectedResult> &expected,
+                           const QString &query,
+                           std::string_view hint)
+{
+    if (actual.size() != expected.size()) {
+        std::cerr << "FAILED: provider query '" << query.toStdString() << "' returned "
+                  << actual.size() << " results, expected " << expected.size() << ".\n"
+                  << "  expected: [" << toPrintableList(expected) << "]\n"
+                  << "  actual:   [" << toPrintableList(actual) << "]\n"
+                  << "  hint: " << hint << '\n';
+        return false;
+    }
+
+    for (std::size_t i = 0; i < expected.size(); ++i) {
+        if (actual[i].unicode != expected[i].unicode || actual[i].shortName != expected[i].shortName) {
+            std::cerr << "FAILED: provider query '" << query.toStdString()
                       << "' returned unexpected ordered results.\n"
                       << "  expected: [" << toPrintableList(expected) << "]\n"
                       << "  actual:   [" << toPrintableList(actual) << "]\n"
@@ -356,6 +406,143 @@ testJapanese(EmojiCompletionSourceModel &model, CompletionProxyModel &proxy)
     return ok;
 }
 
+bool
+testPreferenceFiltering()
+{
+    bool ok = true;
+
+    const emoji::Provider::Query baseline{
+      .keyword                 = QStringLiteral("beard"),
+      .preferredSkinToneClass  = {},
+      .preferredGender         = {},
+      .includeSkinToneVariants = true,
+      .applyKeywordMatch       = true,
+    };
+    ok &= expectExactProviderResults(
+      queryProviderResults(baseline),
+      {
+        {QStringLiteral("🧔"), QStringLiteral("bearded_person")},
+        {QStringLiteral("🧔🏻"), QStringLiteral("person_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼"), QStringLiteral("person_medium_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏽"), QStringLiteral("person_medium_skin_tone_beard")},
+        {QStringLiteral("🧔🏾"), QStringLiteral("person_medium_dark_skin_tone_beard")},
+        {QStringLiteral("🧔🏿"), QStringLiteral("person_dark_skin_tone_beard")},
+        {QStringLiteral("🧔‍♂️"), QStringLiteral("bearded_man")},
+        {QStringLiteral("🧔🏻‍♂️"), QStringLiteral("man_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼‍♂️"), QStringLiteral("man_medium_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏽‍♂️"), QStringLiteral("man_medium_skin_tone_beard")},
+        {QStringLiteral("🧔🏾‍♂️"), QStringLiteral("man_medium_dark_skin_tone_beard")},
+        {QStringLiteral("🧔🏿‍♂️"), QStringLiteral("man_dark_skin_tone_beard")},
+        {QStringLiteral("🧔‍♀️"), QStringLiteral("bearded_woman")},
+        {QStringLiteral("🧔🏻‍♀️"), QStringLiteral("woman_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼‍♀️"), QStringLiteral("woman_medium_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏽‍♀️"), QStringLiteral("woman_medium_skin_tone_beard")},
+        {QStringLiteral("🧔🏾‍♀️"), QStringLiteral("woman_medium_dark_skin_tone_beard")},
+        {QStringLiteral("🧔🏿‍♀️"), QStringLiteral("woman_dark_skin_tone_beard")},
+      },
+      QStringLiteral("beard"),
+      "Baseline beard query should include all gender/skin-tone variants when no preference is set.");
+
+    const emoji::Provider::Query preferredMan{
+      .keyword                 = QStringLiteral("beard"),
+      .preferredSkinToneClass  = {},
+      .preferredGender         = QStringLiteral("man"),
+      .includeSkinToneVariants = true,
+      .applyKeywordMatch       = true,
+    };
+    ok &= expectExactProviderResults(
+      queryProviderResults(preferredMan),
+      {
+        {QStringLiteral("🧔"), QStringLiteral("bearded_person")},
+        {QStringLiteral("🧔🏻"), QStringLiteral("person_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼"), QStringLiteral("person_medium_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏽"), QStringLiteral("person_medium_skin_tone_beard")},
+        {QStringLiteral("🧔🏾"), QStringLiteral("person_medium_dark_skin_tone_beard")},
+        {QStringLiteral("🧔🏿"), QStringLiteral("person_dark_skin_tone_beard")},
+        {QStringLiteral("🧔‍♂️"), QStringLiteral("bearded_man")},
+        {QStringLiteral("🧔🏻‍♂️"), QStringLiteral("man_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼‍♂️"), QStringLiteral("man_medium_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏽‍♂️"), QStringLiteral("man_medium_skin_tone_beard")},
+        {QStringLiteral("🧔🏾‍♂️"), QStringLiteral("man_medium_dark_skin_tone_beard")},
+        {QStringLiteral("🧔🏿‍♂️"), QStringLiteral("man_dark_skin_tone_beard")},
+      },
+      QStringLiteral("beard"),
+      "Preferred gender 'man' should keep neutral + man variants, and hide woman variants.");
+
+    const emoji::Provider::Query preferredDarkSkinTone{
+      .keyword                 = QStringLiteral("beard"),
+      .preferredSkinToneClass  = QStringLiteral("single_dark"),
+      .preferredGender         = {},
+      .includeSkinToneVariants = true,
+      .applyKeywordMatch       = true,
+    };
+    ok &= expectExactProviderResults(
+      queryProviderResults(preferredDarkSkinTone),
+      {
+        {QStringLiteral("🧔"), QStringLiteral("bearded_person")},
+        {QStringLiteral("🧔🏿"), QStringLiteral("person_dark_skin_tone_beard")},
+        {QStringLiteral("🧔‍♂️"), QStringLiteral("bearded_man")},
+        {QStringLiteral("🧔🏿‍♂️"), QStringLiteral("man_dark_skin_tone_beard")},
+        {QStringLiteral("🧔‍♀️"), QStringLiteral("bearded_woman")},
+        {QStringLiteral("🧔🏿‍♀️"), QStringLiteral("woman_dark_skin_tone_beard")},
+      },
+      QStringLiteral("beard"),
+      "Preferred dark skin tone should keep base + dark variants only.");
+
+    const emoji::Provider::Query preferredManAndDarkSkinTone{
+      .keyword                 = QStringLiteral("beard"),
+      .preferredSkinToneClass  = QStringLiteral("single_dark"),
+      .preferredGender         = QStringLiteral("man"),
+      .includeSkinToneVariants = true,
+      .applyKeywordMatch       = true,
+    };
+    ok &= expectExactProviderResults(
+      queryProviderResults(preferredManAndDarkSkinTone),
+      {
+        {QStringLiteral("🧔"), QStringLiteral("bearded_person")},
+        {QStringLiteral("🧔🏿"), QStringLiteral("person_dark_skin_tone_beard")},
+        {QStringLiteral("🧔‍♂️"), QStringLiteral("bearded_man")},
+        {QStringLiteral("🧔🏿‍♂️"), QStringLiteral("man_dark_skin_tone_beard")},
+      },
+      QStringLiteral("beard"),
+      "Gender and skin-tone preferences should stack.");
+
+    const emoji::Provider::Query explicitWomanQuery{
+      .keyword                 = QStringLiteral("bearded woman"),
+      .preferredSkinToneClass  = {},
+      .preferredGender         = QStringLiteral("man"),
+      .includeSkinToneVariants = true,
+      .applyKeywordMatch       = true,
+    };
+    ok &= expectExactProviderResults(
+      queryProviderResults(explicitWomanQuery),
+      {{QStringLiteral("🧔‍♀️"), QStringLiteral("bearded_woman")}},
+      QStringLiteral("bearded woman"),
+      "Explicitly searching for the opposite gender should bypass preferred-gender filtering.");
+
+    const emoji::Provider::Query explicitLightQuery{
+      .keyword                 = QStringLiteral("light skin tone beard"),
+      .preferredSkinToneClass  = QStringLiteral("single_dark"),
+      .preferredGender         = {},
+      .includeSkinToneVariants = true,
+      .applyKeywordMatch       = true,
+    };
+    ok &= expectExactProviderResults(
+      queryProviderResults(explicitLightQuery),
+      {
+        {QStringLiteral("🧔🏻"), QStringLiteral("person_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼"), QStringLiteral("person_medium_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏻‍♂️"), QStringLiteral("man_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼‍♂️"), QStringLiteral("man_medium_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏻‍♀️"), QStringLiteral("woman_light_skin_tone_beard")},
+        {QStringLiteral("🧔🏼‍♀️"), QStringLiteral("woman_medium_light_skin_tone_beard")},
+      },
+      QStringLiteral("light skin tone beard"),
+      "Explicitly searching for a different skin tone should bypass preferred skin-tone filtering.");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -383,6 +570,7 @@ main(int argc, char **argv)
         ok &= testJapanese(sourceModel, proxy);
     } else if (locale.startsWith(QStringLiteral("en"))) {
         ok &= testEnglish(sourceModel, proxy);
+        ok &= testPreferenceFiltering();
     } else {
         std::cerr << "FAILED: unsupported test locale '" << locale.toStdString()
                   << "'. Use --locale en or --locale ja.\n";

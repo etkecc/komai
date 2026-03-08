@@ -8,7 +8,7 @@ This document describes how Komai obtains emoji metadata, builds localized searc
 - Avoid tracking large upstream emoji datasets in git.
 - Support localized emoji completion/search tokens per UI locale.
 - Allow small tracked per-locale overrides for custom tokens.
-- Preserve future flexibility for skin tone filtering/preference features.
+- Support skin-tone and gender preference filtering in emoji search.
 
 ## Source of Truth
 
@@ -67,6 +67,7 @@ Core file (`core.json`):
   - `short_name` and `unicode_name`
   - category/subgroup/order
   - skin tone metadata: `skin_tone_class`, `base_id`, `has_skin_tone_variants`
+  - codepoint sequence (`codepoints`) used to derive runtime gender classification
 
 Locale file (`locale/<locale>.json`):
 

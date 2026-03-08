@@ -75,6 +75,9 @@ composer:
       enabled: true
     send_key: enter
     auto_replace_emoji: always
+    emoji:
+      preferred_gender: no_preference
+      preferred_skin_tone: no_preference
     inline_emoji_picker:
       enabled: true
     inline_room_picker:

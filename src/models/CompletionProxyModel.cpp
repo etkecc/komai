@@ -8,6 +8,7 @@
 #include <QRegularExpression>
 #include <QTextBoundaryFinder>
 
+#include "emoji/Provider.h"
 #include "logging/Logging.h"
 #include "models/CompletionModelRoles.h"
 
@@ -41,6 +42,60 @@ effectiveMaxEditDistance(const QVector<uint> &key, std::size_t configured)
         return std::min<std::size_t>(configured, 1);
     return configured;
 }
+
+emoji::Provider::Query
+providerQueryFromPreferences(const QString &keyword)
+{
+    emoji::Provider::Query query{
+      .keyword                 = keyword,
+      .preferredSkinToneClass  = emoji::Provider::preferredSkinToneClass(),
+      .preferredGender         = emoji::Provider::preferredGender(),
+      .includeSkinToneVariants = true,
+      .applyKeywordMatch       = false,
+    };
+    return query;
+}
+
+bool
+hasActiveEmojiPreference(const emoji::Provider::Query &query)
+{
+    return !query.preferredGender.isEmpty() || !query.preferredSkinToneClass.isEmpty();
+}
+
+bool
+shouldKeepSourceRowForEmojiPreferences(QAbstractItemModel *source,
+                                       int sourceRow,
+                                       const emoji::Provider::Query &query)
+{
+    const auto sourceIndex = source->index(sourceRow, 0);
+    const auto value       = source->data(sourceIndex, CompletionModel::EmojiProviderIndexRole);
+    if (!value.isValid())
+        return true;
+
+    bool ok            = false;
+    const int emojiIdx = value.toInt(&ok);
+    if (!ok || emojiIdx < 0)
+        return true;
+
+    return emoji::Provider::matchesQuery(static_cast<std::size_t>(emojiIdx), query);
+}
+
+void
+filterRowsByEmojiPreferences(QAbstractItemModel *source,
+                             std::vector<int> &rows,
+                             const emoji::Provider::Query &query)
+{
+    if (!hasActiveEmojiPreference(query))
+        return;
+
+    rows.erase(std::remove_if(rows.begin(),
+                              rows.end(),
+                              [source, &query](int sourceRow) {
+                                  return !shouldKeepSourceRowForEmojiPreferences(
+                                    source, sourceRow, query);
+                              }),
+               rows.end());
+}
 } // namespace
 
 CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,
@@ -52,6 +107,8 @@ CompletionProxyModel::CompletionProxyModel(QAbstractItemModel *model,
   , max_completions_(max_completions)
 {
     setSourceModel(model);
+    hasEmojiProviderIndexRole_ =
+      sourceModel()->roleNames().contains(CompletionModel::EmojiProviderIndexRole);
 
     auto insertParts = [this](const QString &str, int id) {
         QTextBoundaryFinder finder(QTextBoundaryFinder::BoundaryType::Word, str);
@@ -141,11 +198,22 @@ CompletionProxyModel::invalidate()
         const auto configuredMistakes =
           maxMistakes_ > 0 ? static_cast<std::size_t>(maxMistakes_) : std::size_t{0};
         const auto mistakes = effectiveMaxEditDistance(key, configuredMistakes);
+        const auto searchResultLimit =
+          hasEmojiProviderIndexRole_ ? std::max<std::size_t>(max_completions_ * 6, max_completions_)
+                                     : max_completions_;
 
         // Prefer exact/prefix hits. Only fall back to fuzzy search when there are no exact hits.
-        mapping = trie_.search(key, max_completions_, 0);
+        mapping = trie_.search(key, searchResultLimit, 0);
         if (mapping.empty() && mistakes > 0)
-            mapping = trie_.search(key, max_completions_, mistakes);
+            mapping = trie_.search(key, searchResultLimit, mistakes);
+
+        if (hasEmojiProviderIndexRole_ && !mapping.empty()) {
+            auto query = providerQueryFromPreferences(searchString_);
+            filterRowsByEmojiPreferences(sourceModel(), mapping, query);
+        }
+
+        if (mapping.size() > max_completions_)
+            mapping.resize(max_completions_);
     }
     endResetModel();
 }

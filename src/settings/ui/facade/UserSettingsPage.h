@@ -80,6 +80,12 @@ class UserSettings final : public QObject
                  setComposerInputSendKey NOTIFY composerInputSendKeyChanged)
     Q_PROPERTY(AutoReplaceEmoji composerInputAutoReplaceEmoji READ composerInputAutoReplaceEmoji
                  WRITE setComposerInputAutoReplaceEmoji NOTIFY composerInputAutoReplaceEmojiChanged)
+    Q_PROPERTY(
+      EmojiPreferredGender composerInputEmojiPreferredGender READ composerInputEmojiPreferredGender
+        WRITE setComposerInputEmojiPreferredGender NOTIFY composerInputEmojiPreferredGenderChanged)
+    Q_PROPERTY(EmojiPreferredSkinTone composerInputEmojiPreferredSkinTone READ
+                 composerInputEmojiPreferredSkinTone WRITE setComposerInputEmojiPreferredSkinTone
+                   NOTIFY composerInputEmojiPreferredSkinToneChanged)
     Q_PROPERTY(bool composerInputInlineEmojiPickerEnabled READ composerInputInlineEmojiPickerEnabled
                  WRITE setComposerInputInlineEmojiPickerEnabled NOTIFY
                    composerInputInlineEmojiPickerEnabledChanged)
@@ -332,6 +338,25 @@ public:
     };
     Q_ENUM(AutoReplaceEmoji)
 
+    enum class EmojiPreferredGender
+    {
+        NoPreference,
+        Man,
+        Woman,
+    };
+    Q_ENUM(EmojiPreferredGender)
+
+    enum class EmojiPreferredSkinTone
+    {
+        NoPreference,
+        Light,
+        MediumLight,
+        Medium,
+        MediumDark,
+        Dark,
+    };
+    Q_ENUM(EmojiPreferredSkinTone)
+
     enum class SendMessageKey
     {
         Enter,
@@ -449,6 +474,8 @@ public:
     void setComposerInputMarkdownToHtmlEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
+    void setComposerInputEmojiPreferredGender(EmojiPreferredGender state);
+    void setComposerInputEmojiPreferredSkinTone(EmojiPreferredSkinTone state);
     void setComposerInputInlineEmojiPickerEnabled(bool state);
     void setComposerInputInlineRoomPickerEnabled(bool state);
     void setComposerInputInlineUserPickerEnabled(bool state);
@@ -591,6 +618,8 @@ signals:
     void composerInputMarkdownToHtmlEnabledChanged(bool state);
     void composerInputSendKeyChanged(SendMessageKey key);
     void composerInputAutoReplaceEmojiChanged(AutoReplaceEmoji state);
+    void composerInputEmojiPreferredGenderChanged(EmojiPreferredGender state);
+    void composerInputEmojiPreferredSkinToneChanged(EmojiPreferredSkinTone state);
     void composerInputInlineEmojiPickerEnabledChanged(bool state);
     void composerInputInlineRoomPickerEnabledChanged(bool state);
     void composerInputInlineUserPickerEnabledChanged(bool state);

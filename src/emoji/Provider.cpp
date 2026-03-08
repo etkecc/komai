@@ -21,6 +21,9 @@ namespace {
 std::vector<emoji::Emoji> loadedEmoji;
 std::vector<emoji::Provider::QueryData> loadedQueryData;
 std::once_flag loadOnce;
+std::mutex preferenceMutex;
+QString preferredSkinToneClassValue;
+QString preferredGenderValue;
 const emoji::Provider::QueryData emptyQueryData{};
 
 emoji::Emoji::Category
@@ -139,7 +142,180 @@ dedupeTokens(const QStringList &tokens)
 QString
 normalizeForMatch(const QString &value)
 {
-    return value.normalized(QString::NormalizationForm_KD).toCaseFolded().simplified();
+    auto normalized = value.normalized(QString::NormalizationForm_KD).toCaseFolded();
+    normalized.replace(QLatin1Char('_'), QLatin1Char(' '));
+    normalized.replace(QLatin1Char('-'), QLatin1Char(' '));
+    normalized.replace(QLatin1Char(':'), QLatin1Char(' '));
+    normalized.replace(QLatin1Char(','), QLatin1Char(' '));
+    normalized.replace(QChar(0xFF1A), QLatin1Char(' ')); // full-width colon
+    return normalized.simplified();
+}
+
+QStringList
+tokenizeForMatch(const QString &value)
+{
+    const auto normalized = normalizeForMatch(value);
+    if (normalized.isEmpty())
+        return {};
+
+    return normalized.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+}
+
+bool
+containsAllNeedleTokens(const QString &haystack, const QString &needle)
+{
+    const auto normalizedHaystack = normalizeForMatch(haystack);
+    const auto needleTokens       = tokenizeForMatch(needle);
+    for (const auto &token : needleTokens) {
+        if (!normalizedHaystack.contains(token))
+            return false;
+    }
+    return !needleTokens.isEmpty();
+}
+
+bool
+hasToken(const QStringList &tokens, QStringView value)
+{
+    return std::ranges::any_of(tokens, [value](const QString &token) { return token == value; });
+}
+
+bool
+hasTokenSequence(const QStringList &tokens, QStringView first, QStringView second)
+{
+    if (tokens.size() < 2)
+        return false;
+
+    for (int i = 0; i < tokens.size() - 1; ++i) {
+        if (tokens[i] == first && tokens[i + 1] == second)
+            return true;
+    }
+
+    return false;
+}
+
+QString
+normalizedPreferredGender(const QString &value)
+{
+    const auto normalized = normalizeForMatch(value);
+    if (normalized == QLatin1String("man"))
+        return QStringLiteral("man");
+    if (normalized == QLatin1String("woman"))
+        return QStringLiteral("woman");
+    return {};
+}
+
+QString
+normalizedPreferredSkinToneClass(const QString &value)
+{
+    const auto normalized = normalizeForMatch(value);
+    if (normalized.isEmpty() || normalized == QLatin1String("no preference") ||
+        normalized == QLatin1String("no_preference"))
+        return {};
+    if (normalized == QLatin1String("single light") || normalized == QLatin1String("light"))
+        return QStringLiteral("single_light");
+    if (normalized == QLatin1String("single medium light") ||
+        normalized == QLatin1String("medium light") || normalized == QLatin1String("medium-light"))
+        return QStringLiteral("single_medium_light");
+    if (normalized == QLatin1String("single medium") || normalized == QLatin1String("medium"))
+        return QStringLiteral("single_medium");
+    if (normalized == QLatin1String("single medium dark") ||
+        normalized == QLatin1String("medium dark") || normalized == QLatin1String("medium-dark"))
+        return QStringLiteral("single_medium_dark");
+    if (normalized == QLatin1String("single dark") || normalized == QLatin1String("dark"))
+        return QStringLiteral("single_dark");
+    if (normalized == QLatin1String("multi"))
+        return QStringLiteral("multi");
+    return {};
+}
+
+bool
+queryRequestsOppositeGender(const QString &keyword, const QString &preferredGender)
+{
+    const auto tokens = tokenizeForMatch(keyword);
+    if (tokens.isEmpty())
+        return false;
+
+    const bool wantsMan = hasToken(tokens, QStringLiteral("man")) ||
+                          hasToken(tokens, QStringLiteral("male")) ||
+                          hasToken(tokens, QStringLiteral("men"));
+    const bool wantsWoman = hasToken(tokens, QStringLiteral("woman")) ||
+                            hasToken(tokens, QStringLiteral("female")) ||
+                            hasToken(tokens, QStringLiteral("women"));
+
+    if (preferredGender == QLatin1String("man"))
+        return wantsWoman;
+    if (preferredGender == QLatin1String("woman"))
+        return wantsMan;
+    return false;
+}
+
+QString
+queryRequestedSkinToneClass(const QString &keyword)
+{
+    const auto tokens = tokenizeForMatch(keyword);
+    if (tokens.isEmpty())
+        return {};
+
+    if (hasTokenSequence(tokens, QStringLiteral("medium"), QStringLiteral("dark")))
+        return QStringLiteral("single_medium_dark");
+    if (hasTokenSequence(tokens, QStringLiteral("medium"), QStringLiteral("light")))
+        return QStringLiteral("single_medium_light");
+    if (hasToken(tokens, QStringLiteral("dark")))
+        return QStringLiteral("single_dark");
+    if (hasToken(tokens, QStringLiteral("medium")))
+        return QStringLiteral("single_medium");
+    if (hasToken(tokens, QStringLiteral("light")))
+        return QStringLiteral("single_light");
+
+    return {};
+}
+
+QString
+effectivePreferredGender(const emoji::Provider::Query &query)
+{
+    const auto preferredGender = normalizedPreferredGender(query.preferredGender);
+    if (preferredGender.isEmpty())
+        return {};
+    if (queryRequestsOppositeGender(query.keyword, preferredGender))
+        return {};
+    return preferredGender;
+}
+
+QString
+effectivePreferredSkinToneClass(const emoji::Provider::Query &query)
+{
+    const auto preferredSkinToneClass =
+      normalizedPreferredSkinToneClass(query.preferredSkinToneClass);
+    if (preferredSkinToneClass.isEmpty())
+        return {};
+
+    const auto requestedSkinToneClass = queryRequestedSkinToneClass(query.keyword);
+    if (!requestedSkinToneClass.isEmpty() && requestedSkinToneClass != preferredSkinToneClass)
+        return {};
+
+    return preferredSkinToneClass;
+}
+
+QString
+genderClassFromEmojiMetadata(const QString &shortName, const QJsonArray &codepoints)
+{
+    for (const auto &cp : codepoints) {
+        if (!cp.isString())
+            continue;
+        const auto value = cp.toString().trimmed().toUpper();
+        if (value == QLatin1String("2642"))
+            return QStringLiteral("man");
+        if (value == QLatin1String("2640"))
+            return QStringLiteral("woman");
+    }
+
+    const auto paddedShortName = QLatin1Char('_') + shortName.toCaseFolded() + QLatin1Char('_');
+    if (paddedShortName.contains(QStringLiteral("_woman_")))
+        return QStringLiteral("woman");
+    if (paddedShortName.contains(QStringLiteral("_man_")))
+        return QStringLiteral("man");
+
+    return QStringLiteral("none");
 }
 
 void
@@ -170,7 +346,9 @@ loadCoreAndLocale()
         auto unicodeName   = obj.value(QStringLiteral("unicode_name")).toString();
         auto shortName     = obj.value(QStringLiteral("short_name")).toString();
         auto category      = categoryFromString(obj.value(QStringLiteral("category")).toString());
+        auto codepoints    = obj.value(QStringLiteral("codepoints")).toArray();
         auto skinToneClass = obj.value(QStringLiteral("skin_tone_class")).toString();
+        auto genderClass   = genderClassFromEmojiMetadata(shortName, codepoints);
         auto baseId        = obj.value(QStringLiteral("base_id")).toString();
         const bool hasSkinToneVariants =
           obj.value(QStringLiteral("has_skin_tone_variants")).toBool(false);
@@ -179,6 +357,7 @@ loadCoreAndLocale()
         loadedQueryData.push_back(emoji::Provider::QueryData{
           .searchText          = {},
           .skinToneClass       = skinToneClass,
+          .genderClass         = genderClass,
           .baseId              = baseId,
           .hasSkinToneVariants = hasSkinToneVariants,
         });
@@ -267,23 +446,54 @@ emoji::Provider::matchesQuery(std::size_t index, const Query &query)
     if (data.searchText.isEmpty())
         return false;
 
+    const auto preferredGender        = effectivePreferredGender(query);
+    const auto preferredSkinToneClass = effectivePreferredSkinToneClass(query);
+
     if (!query.includeSkinToneVariants && data.skinToneClass != QLatin1String("none"))
         return false;
 
-    if (!query.preferredSkinToneClass.isEmpty() && data.skinToneClass != QLatin1String("none") &&
-        data.skinToneClass != query.preferredSkinToneClass)
+    if (!preferredSkinToneClass.isEmpty() && data.skinToneClass != QLatin1String("none") &&
+        data.skinToneClass != preferredSkinToneClass)
         return false;
 
-    if (!query.keyword.trimmed().isEmpty()) {
-        const auto haystack = normalizeForMatch(data.searchText);
-        const auto needle   = normalizeForMatch(query.keyword);
-        if (!haystack.contains(needle))
+    if (!preferredGender.isEmpty() && data.genderClass != QLatin1String("none") &&
+        data.genderClass != preferredGender)
+        return false;
+
+    if (query.applyKeywordMatch && !query.keyword.trimmed().isEmpty()) {
+        if (!containsAllNeedleTokens(data.searchText, query.keyword))
             return false;
     }
 
-    // Placeholder for future preference support when we have normalized gender metadata.
-    (void)query.preferredGender;
     return true;
+}
+
+void
+emoji::Provider::setPreferredSkinToneClass(const QString &preferredSkinToneClass)
+{
+    std::lock_guard<std::mutex> lock(preferenceMutex);
+    preferredSkinToneClassValue = preferredSkinToneClass;
+}
+
+void
+emoji::Provider::setPreferredGender(const QString &preferredGender)
+{
+    std::lock_guard<std::mutex> lock(preferenceMutex);
+    preferredGenderValue = preferredGender;
+}
+
+QString
+emoji::Provider::preferredSkinToneClass()
+{
+    std::lock_guard<std::mutex> lock(preferenceMutex);
+    return preferredSkinToneClassValue;
+}
+
+QString
+emoji::Provider::preferredGender()
+{
+    std::lock_guard<std::mutex> lock(preferenceMutex);
+    return preferredGenderValue;
 }
 
 QString

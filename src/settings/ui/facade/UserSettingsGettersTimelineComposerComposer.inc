@@ -29,6 +29,30 @@ UserSettings::composerInputAutoReplaceEmoji() const
     return composerInputAutoReplaceEmoji_;
 }
 
+UserSettings::EmojiPreferredGender
+UserSettings::composerInputEmojiPreferredGender() const
+{
+    if (const auto value = coreStore_.valueAs<int>(
+          settings::core::SettingId::ComposerInputEmojiPreferredGender);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::EmojiPreferredGender::NoPreference) &&
+        *value <= static_cast<int>(UserSettings::EmojiPreferredGender::Woman))
+        return static_cast<UserSettings::EmojiPreferredGender>(*value);
+    return composerInputEmojiPreferredGender_;
+}
+
+UserSettings::EmojiPreferredSkinTone
+UserSettings::composerInputEmojiPreferredSkinTone() const
+{
+    if (const auto value = coreStore_.valueAs<int>(
+          settings::core::SettingId::ComposerInputEmojiPreferredSkinTone);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::EmojiPreferredSkinTone::NoPreference) &&
+        *value <= static_cast<int>(UserSettings::EmojiPreferredSkinTone::Dark))
+        return static_cast<UserSettings::EmojiPreferredSkinTone>(*value);
+    return composerInputEmojiPreferredSkinTone_;
+}
+
 bool
 UserSettings::composerInputInlineEmojiPickerEnabled() const
 {

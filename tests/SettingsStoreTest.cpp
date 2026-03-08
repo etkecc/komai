@@ -25,7 +25,7 @@ expect(bool condition, const char *message)
     return false;
 }
 
-constexpr std::array<settings::core::SettingId, 18> kExpectedConstrainedIds{{
+constexpr std::array<settings::core::SettingId, 20> kExpectedConstrainedIds{{
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
   settings::core::SettingId::UiLayoutContentMaxWidthPx,
   settings::core::SettingId::IntegrationsDbusApiAccess,
@@ -34,6 +34,8 @@ constexpr std::array<settings::core::SettingId, 18> kExpectedConstrainedIds{{
   settings::core::SettingId::NotificationsMessageContentPolicy,
   settings::core::SettingId::ComposerInputSendKey,
   settings::core::SettingId::ComposerInputAutoReplaceEmoji,
+  settings::core::SettingId::ComposerInputEmojiPreferredGender,
+  settings::core::SettingId::ComposerInputEmojiPreferredSkinTone,
   settings::core::SettingId::SidebarsRoomListSort,
   settings::core::SettingId::SidebarsRoomListUnreadDetectionPolicy,
   settings::core::SettingId::SidebarsRoomListLastMessagePreview,
@@ -251,7 +253,7 @@ testConstrainedDefinitionsEnforceRanges()
 bool
 testPersistedDefinitionCoverage()
 {
-    constexpr std::size_t expectedPersistedDefinitionCount = 79;
+    constexpr std::size_t expectedPersistedDefinitionCount = 81;
     const auto definitions = settings::core::definitions::persistedDefinitions();
 
     bool ok = true;

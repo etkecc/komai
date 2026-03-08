@@ -611,6 +611,9 @@ testEnumSettingsPersistAsStrings()
     settings->setTimelineMediaImageDisplay(UserSettings::ShowImage::Never);
     settings->setTimelineMessagesSenderUsername(UserSettings::ShowSenderUsername::Always);
     settings->setComposerInputAutoReplaceEmoji(UserSettings::AutoReplaceEmoji::Never);
+    settings->setComposerInputEmojiPreferredGender(UserSettings::EmojiPreferredGender::Woman);
+    settings->setComposerInputEmojiPreferredSkinTone(
+      UserSettings::EmojiPreferredSkinTone::MediumDark);
     settings->setComposerInputSendKey(UserSettings::SendMessageKey::CtrlEnter);
     settings->setSidebarsRoomListSort(UserSettings::RoomSortOrder::Alphabetical);
     settings->setSidebarsRoomListLastMessagePreview(UserSettings::LastMessagePreview::Never);
@@ -642,6 +645,14 @@ testEnumSettingsPersistAsStrings()
                              SettingKey::ComposerInputAutoReplaceEmoji,
                              QStringLiteral("never"),
                              "auto-replace emoji policy is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::ComposerInputEmojiPreferredGender,
+                             QStringLiteral("woman"),
+                             "emoji preferred gender is persisted as string token");
+    ok &= expectScalarString(configRoot,
+                             SettingKey::ComposerInputEmojiPreferredSkinTone,
+                             QStringLiteral("medium_dark"),
+                             "emoji preferred skin tone is persisted as string token");
     ok &= expectScalarString(configRoot,
                              SettingKey::ComposerInputSendKey,
                              QStringLiteral("ctrl_enter"),

@@ -1,3 +1,41 @@
+namespace {
+QString
+providerPreferredGender(UserSettings::EmojiPreferredGender gender)
+{
+    switch (gender) {
+    case UserSettings::EmojiPreferredGender::Man:
+        return QStringLiteral("man");
+    case UserSettings::EmojiPreferredGender::Woman:
+        return QStringLiteral("woman");
+    case UserSettings::EmojiPreferredGender::NoPreference:
+        return {};
+    }
+
+    return {};
+}
+
+QString
+providerPreferredSkinToneClass(UserSettings::EmojiPreferredSkinTone skinTone)
+{
+    switch (skinTone) {
+    case UserSettings::EmojiPreferredSkinTone::Light:
+        return QStringLiteral("single_light");
+    case UserSettings::EmojiPreferredSkinTone::MediumLight:
+        return QStringLiteral("single_medium_light");
+    case UserSettings::EmojiPreferredSkinTone::Medium:
+        return QStringLiteral("single_medium");
+    case UserSettings::EmojiPreferredSkinTone::MediumDark:
+        return QStringLiteral("single_medium_dark");
+    case UserSettings::EmojiPreferredSkinTone::Dark:
+        return QStringLiteral("single_dark");
+    case UserSettings::EmojiPreferredSkinTone::NoPreference:
+        return {};
+    }
+
+    return {};
+}
+} // namespace
+
 void
 UserSettings::setComposerInputMarkdownToHtmlEnabled(bool s)
 {
@@ -32,6 +70,36 @@ UserSettings::setComposerInputAutoReplaceEmoji(AutoReplaceEmoji s)
         return;
     composerInputAutoReplaceEmoji_ = s;
     emit composerInputAutoReplaceEmojiChanged(s);
+    save();
+}
+void
+UserSettings::setComposerInputEmojiPreferredGender(EmojiPreferredGender s)
+{
+    emoji::Provider::setPreferredGender(providerPreferredGender(s));
+
+    if (composerInputEmojiPreferredGender_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::ComposerInputEmojiPreferredGender,
+                      static_cast<int>(s),
+                      "composer.input.emoji.preferred_gender"))
+        return;
+    composerInputEmojiPreferredGender_ = s;
+    emit composerInputEmojiPreferredGenderChanged(s);
+    save();
+}
+void
+UserSettings::setComposerInputEmojiPreferredSkinTone(EmojiPreferredSkinTone s)
+{
+    emoji::Provider::setPreferredSkinToneClass(providerPreferredSkinToneClass(s));
+
+    if (composerInputEmojiPreferredSkinTone_ == s)
+        return;
+    if (!setCoreValue(settings::core::SettingId::ComposerInputEmojiPreferredSkinTone,
+                      static_cast<int>(s),
+                      "composer.input.emoji.preferred_skin_tone"))
+        return;
+    composerInputEmojiPreferredSkinTone_ = s;
+    emit composerInputEmojiPreferredSkinToneChanged(s);
     save();
 }
 void

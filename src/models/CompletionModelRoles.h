@@ -17,5 +17,6 @@ enum Roles
     SearchRole,                        // String completer uses for search
     SearchRole2,                       // Secondary string completer uses for search
     SearchRole3,                       // Tertiary string completer uses for search
+    EmojiProviderIndexRole,            // Emoji provider index for preference-aware filtering
 };
 }

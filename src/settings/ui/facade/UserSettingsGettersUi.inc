@@ -25,6 +25,8 @@
     bool composerInputMarkdownToHtmlEnabled() const;
     SendMessageKey composerInputSendKey() const;
     AutoReplaceEmoji composerInputAutoReplaceEmoji() const;
+    EmojiPreferredGender composerInputEmojiPreferredGender() const;
+    EmojiPreferredSkinTone composerInputEmojiPreferredSkinTone() const;
     bool composerInputInlineEmojiPickerEnabled() const;
     bool composerInputInlineRoomPickerEnabled() const;
     bool composerInputInlineUserPickerEnabled() const;

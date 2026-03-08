@@ -21,10 +21,12 @@ bool sidebarsRoomListScrollbarsEnabled_;
 bool composerInputMarkdownToHtmlEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;
-bool composerInputInlineEmojiPickerEnabled_  = true;
-bool composerInputInlineRoomPickerEnabled_   = true;
-bool composerInputInlineUserPickerEnabled_   = true;
-TimelineMessagesStyle timelineMessagesStyle_ = TimelineMessagesStyle::Bubbles;
+EmojiPreferredGender composerInputEmojiPreferredGender_     = EmojiPreferredGender::NoPreference;
+EmojiPreferredSkinTone composerInputEmojiPreferredSkinTone_ = EmojiPreferredSkinTone::NoPreference;
+bool composerInputInlineEmojiPickerEnabled_                 = true;
+bool composerInputInlineRoomPickerEnabled_                  = true;
+bool composerInputInlineUserPickerEnabled_                  = true;
+TimelineMessagesStyle timelineMessagesStyle_                = TimelineMessagesStyle::Bubbles;
 TimelineMessagesPositioning timelineMessagesPositioning_ =
   TimelineMessagesPositioning::OpposingBySender;
 TimelineUserColorCodingPolicy timelineUserColorCodingPolicy_ =

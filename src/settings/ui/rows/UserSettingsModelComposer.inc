@@ -46,6 +46,26 @@
       "Inline emoji picker",
       QT_TR_NOOP("Show an inline emoji picker when you type a colon (:) in the message input."),
       SM::TabComposer, composerInputInlineEmojiPickerEnabled, setComposerInputInlineEmojiPickerEnabled, nullptr, ComposerInputInlineEmojiPickerEnabled, SettingKey::ComposerInputInlineEmojiPickerEnabled),
+    // PreferredEmojiGender
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Preferred gender",
+      QT_TR_NOOP(
+        "Inline emoji picker only: prefer Unicode-defined gender variants (man/woman) when available. Searching explicitly for the other gender still works. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences\">Learn more</a>."),
+      SM::TabComposer, composerInputEmojiPreferredGender, setComposerInputEmojiPreferredGender, UserSettings::EmojiPreferredGender,
+      composerEmojiPreferredGenderValues,
+      nullptr,
+      ComposerInputEmojiPreferredGender,
+      SettingKey::ComposerInputEmojiPreferredGender),
+    // PreferredEmojiSkinTone
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Preferred skin tone",
+      QT_TR_NOOP(
+        "Inline emoji picker only: prefer one skin-tone variant when available. Searching explicitly for another skin tone still works. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/emojis.md#-emoji-preferences\">Learn more</a>."),
+      SM::TabComposer, composerInputEmojiPreferredSkinTone, setComposerInputEmojiPreferredSkinTone, UserSettings::EmojiPreferredSkinTone,
+      composerEmojiPreferredSkinToneValues,
+      nullptr,
+      ComposerInputEmojiPreferredSkinTone,
+      SettingKey::ComposerInputEmojiPreferredSkinTone),
     // ComposerFeedbackSection
     { QT_TR_NOOP("Feedback"), nullptr, SM::SectionTitle, SM::TabComposer,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

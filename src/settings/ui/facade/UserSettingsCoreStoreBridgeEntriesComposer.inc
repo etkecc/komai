@@ -1,6 +1,9 @@
 X(ComposerInputMarkdownToHtmlEnabled, settings.composerInputMarkdownToHtmlEnabled())
 X(ComposerInputSendKey, static_cast<int>(settings.composerInputSendKey()))
 X(ComposerInputAutoReplaceEmoji, static_cast<int>(settings.composerInputAutoReplaceEmoji()))
+X(ComposerInputEmojiPreferredGender, static_cast<int>(settings.composerInputEmojiPreferredGender()))
+X(ComposerInputEmojiPreferredSkinTone,
+  static_cast<int>(settings.composerInputEmojiPreferredSkinTone()))
 X(ComposerInputInlineEmojiPickerEnabled, settings.composerInputInlineEmojiPickerEnabled())
 X(ComposerInputInlineRoomPickerEnabled, settings.composerInputInlineRoomPickerEnabled())
 X(ComposerInputInlineUserPickerEnabled, settings.composerInputInlineUserPickerEnabled())

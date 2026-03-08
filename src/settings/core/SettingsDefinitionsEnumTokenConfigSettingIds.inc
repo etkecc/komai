@@ -15,6 +15,8 @@
   // composer
   SettingId::ComposerInputSendKey,
   SettingId::ComposerInputAutoReplaceEmoji,
+  SettingId::ComposerInputEmojiPreferredGender,
+  SettingId::ComposerInputEmojiPreferredSkinTone,
 
   // notifications
   SettingId::NotificationsMessageContentPolicy,

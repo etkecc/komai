@@ -56,6 +56,8 @@ enum class SettingId
     ComposerInputMarkdownToHtmlEnabled,
     ComposerInputSendKey,
     ComposerInputAutoReplaceEmoji,
+    ComposerInputEmojiPreferredGender,
+    ComposerInputEmojiPreferredSkinTone,
     ComposerInputInlineEmojiPickerEnabled,
     ComposerInputInlineRoomPickerEnabled,
     ComposerInputInlineUserPickerEnabled,

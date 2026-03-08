@@ -43,6 +43,7 @@ CombinedImagePackModel::roleNames() const
       {CompletionModel::SearchRole, "searchRole"},
       {CompletionModel::SearchRole2, "searchRole2"},
       {CompletionModel::SearchRole3, "searchRole3"},
+      {CompletionModel::EmojiProviderIndexRole, "emojiProviderIndex"},
       {Roles::Url, "url"},
       {Roles::ShortCode, "shortcode"},
       {Roles::Body, "body"},
@@ -73,6 +74,8 @@ CombinedImagePackModel::data(const QModelIndex &index, int role) const
                 return emojiData[index.row()].shortName();
             case CompletionModel::SearchRole3:
                 return emoji::Provider::searchText(static_cast<std::size_t>(index.row()));
+            case CompletionModel::EmojiProviderIndexRole:
+                return index.row();
             case Roles::PackName:
                 return emoji::categoryToName(emojiData[index.row()].category);
             default:
@@ -100,6 +103,8 @@ CombinedImagePackModel::data(const QModelIndex &index, int role) const
                 return images[row].packname;
             case Roles::Unicode:
                 return QString();
+            case CompletionModel::EmojiProviderIndexRole:
+                return -1;
             default:
                 return {};
             }

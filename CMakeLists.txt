@@ -1400,6 +1400,7 @@ if(BUILD_TESTING)
         src/settings/core/StartupConfig.cpp
         src/settings/core/SettingsSerializer.cpp
         src/settings/core/SettingsStore.cpp
+        src/emoji/Provider.cpp
         src/matrix/MatrixClient.cpp
         ${THEME_DEFINITIONS_H}
     )

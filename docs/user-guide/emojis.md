@@ -70,6 +70,65 @@ Komai prioritizes exact/prefix matches first, then falls back to fuzzy matching 
 Very short queries are intentionally stricter to avoid unrelated results.
 
 
+## 🎛️ Emoji Preferences
+
+In **Application Settings → Composer → Emoji**, Komai provides two optional filters for the
+inline emoji picker (the `:` / `：` completer in the message input):
+
+- **Preferred gender**: `No preference`, `👨 Man`, `👩 Woman`
+- **Preferred skin tone**: `No preference`, `👍🏻 Light`, `👍🏼 Medium-light`, `👍🏽 Medium`, `👍🏾 Medium-dark`, `👍🏿 Dark`
+
+Gender note: this setting follows the Unicode emoji dataset and only applies to Unicode-defined
+gender variants (`man` / `woman`).
+
+Scope note: these preferences intentionally affect inline emoji completion only, and do not filter the full emoji
+picker opened from the composer button.
+
+Stored config values:
+
+- `composer.input.emoji.preferred_gender`: `no_preference`, `man`, `woman`
+- `composer.input.emoji.preferred_skin_tone`: `no_preference`, `light`, `medium_light`, `medium`, `medium_dark`, `dark`
+
+Behavior:
+
+- `No preference`: default search behavior (all matching variants can appear)
+- gender/skin-tone preferences: matching generic entries still appear, while non-preferred variants are filtered out
+- explicit searches for the other gender or another skin tone override the preference for that query
+
+✨ Examples:
+
+- `Preferred gender = 👨 Man`, `Preferred skin tone = No preference`, query `:beard`:
+  - 🧔 `bearded_person`
+  - 🧔🏻 `person_light_skin_tone_beard`
+  - 🧔🏼 `person_medium_light_skin_tone_beard`
+  - 🧔🏽 `person_medium_skin_tone_beard`
+  - 🧔🏾 `person_medium_dark_skin_tone_beard`
+  - 🧔🏿 `person_dark_skin_tone_beard`
+  - 🧔‍♂️ `bearded_man`
+  - 🧔🏻‍♂️ `man_light_skin_tone_beard`
+  - 🧔🏼‍♂️ `man_medium_light_skin_tone_beard`
+  - 🧔🏽‍♂️ `man_medium_skin_tone_beard`
+  - 🧔🏾‍♂️ `man_medium_dark_skin_tone_beard`
+  - 🧔🏿‍♂️ `man_dark_skin_tone_beard`
+
+- `Preferred gender = 👨 Man`, `Preferred skin tone = 👍🏿 Dark`, query `:beard`:
+  - 🧔 `bearded_person`
+  - 🧔🏿 `person_dark_skin_tone_beard`
+  - 🧔‍♂️ `bearded_man`
+  - 🧔🏿‍♂️ `man_dark_skin_tone_beard`
+
+- `Preferred gender = 👨 Man`, `Preferred skin tone = No preference`, query `:bearded woman`:
+  - 🧔‍♀️ `bearded_woman`
+
+- `Preferred gender = No preference`, `Preferred skin tone = 👍🏿 Dark`, query `:light skin tone beard`:
+  - 🧔🏻 `person_light_skin_tone_beard`
+  - 🧔🏼 `person_medium_light_skin_tone_beard`
+  - 🧔🏻‍♂️ `man_light_skin_tone_beard`
+  - 🧔🏼‍♂️ `man_medium_light_skin_tone_beard`
+  - 🧔🏻‍♀️ `woman_light_skin_tone_beard`
+  - 🧔🏼‍♀️ `woman_medium_light_skin_tone_beard`
+
+
 ## 🧾 Data Sources
 
 Komai builds emoji search data from:

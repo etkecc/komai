@@ -22,3 +22,26 @@ composerAutoReplaceEmojiValues()
            << QCoreApplication::translate("UserSettingsModel", "Never");
     return values;
 }
+
+static QVariant
+composerEmojiPreferredGenderValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "No preference")
+           << QCoreApplication::translate("UserSettingsModel", "👨 Man")
+           << QCoreApplication::translate("UserSettingsModel", "👩 Woman");
+    return values;
+}
+
+static QVariant
+composerEmojiPreferredSkinToneValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "No preference")
+           << QCoreApplication::translate("UserSettingsModel", "👍🏻 Light")
+           << QCoreApplication::translate("UserSettingsModel", "👍🏼 Medium-light")
+           << QCoreApplication::translate("UserSettingsModel", "👍🏽 Medium")
+           << QCoreApplication::translate("UserSettingsModel", "👍🏾 Medium-dark")
+           << QCoreApplication::translate("UserSettingsModel", "👍🏿 Dark");
+    return values;
+}

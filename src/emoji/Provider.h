@@ -22,12 +22,14 @@ public:
         QString preferredSkinToneClass;
         QString preferredGender;
         bool includeSkinToneVariants = true;
+        bool applyKeywordMatch       = true;
     };
 
     struct QueryData
     {
         QString searchText;
         QString skinToneClass;
+        QString genderClass;
         QString baseId;
         bool hasSkinToneVariants = false;
     };
@@ -42,6 +44,12 @@ public:
     // Returns whether emoji entry at index matches query instructions. This is designed to be
     // extensible for future user preferences (for example skin tone and gender preferences).
     static bool matchesQuery(std::size_t index, const Query &query);
+
+    // Runtime user preference values consumed by query filtering.
+    static void setPreferredSkinToneClass(const QString &preferredSkinToneClass);
+    static void setPreferredGender(const QString &preferredGender);
+    static QString preferredSkinToneClass();
+    static QString preferredGender();
 
     // Backward-compatible helper for existing callers. Prefer queryData(index).searchText.
     static QString searchText(std::size_t index);

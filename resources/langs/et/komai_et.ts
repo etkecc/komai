@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
+        <source>#new-alias:example.com</source>
         <translation>#uus-alias:server.tippdomeen</translation>
     </message>
     <message>
@@ -953,7 +953,7 @@ Kui soovid, siis võid lisada ka selgituse, miks peaks sinu koputusele reageerim
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
+        <source>@user:example.com</source>
         <translation>@kasutaja:koduserver.tippdomeen</translation>
     </message>
     <message>

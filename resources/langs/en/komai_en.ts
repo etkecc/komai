@@ -90,8 +90,8 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
-        <translation>#new-alias:server.tld</translation>
+        <source>#new-alias:example.com</source>
+        <translation>#new-alias:example.com</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -953,8 +953,8 @@ You may optionally provide a reason for others to accept your knock:</translatio
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
-        <translation>@user:server.tld</translation>
+        <source>@user:example.com</source>
+        <translation>@user:example.com</translation>
     </message>
     <message>
         <location line="+15"/>

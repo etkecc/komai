@@ -90,8 +90,8 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
-        <translation>#new-alias:server.tld</translation>
+        <source>#new-alias:example.com</source>
+        <translation>#new-alias:example.com</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -951,7 +951,7 @@ If the problem persists, you can log out and sign in again, but this will delete
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
+        <source>@user:example.com</source>
         <translation type="unfinished"/>
     </message>
     <message>

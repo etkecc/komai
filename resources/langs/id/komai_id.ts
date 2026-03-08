@@ -90,8 +90,8 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
-        <translation>#alias-baru:server.tld</translation>
+        <source>#new-alias:example.com</source>
+        <translation>#alias-baru:example.com</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -949,8 +949,8 @@ Kamu dapat memberikan alasan untuk orang lain untuk menerima ketukanmu:</transla
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
-        <translation>@pengguna:server.tld</translation>
+        <source>@user:example.com</source>
+        <translation>@pengguna:example.com</translation>
     </message>
     <message>
         <location line="+15"/>

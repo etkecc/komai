@@ -90,8 +90,8 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
-        <translation>#neuer-alias:server.tld</translation>
+        <source>#new-alias:example.com</source>
+        <translation>#neuer-alias:example.com</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -951,8 +951,8 @@ Du kannst zusätzlich einen Grund angeben, warum die anderen dein Anklopfen anne
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
-        <translation>@nutzer:server.tld</translation>
+        <source>@user:example.com</source>
+        <translation>@nutzer:example.com</translation>
     </message>
     <message>
         <location line="+15"/>

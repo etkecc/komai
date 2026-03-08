@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
+        <source>#new-alias:example.com</source>
         <translation>#nouvel-alias:serveur.domaine</translation>
     </message>
     <message>
@@ -953,7 +953,7 @@ Eventuellement, vous pouvez fournir une explication de votre demande aux autres 
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
+        <source>@user:example.com</source>
         <translation>@utilisateur:serveur.tld</translation>
     </message>
     <message>

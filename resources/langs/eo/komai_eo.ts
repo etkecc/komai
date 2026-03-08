@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
+        <source>#new-alias:example.com</source>
         <translation>#nova-kromnomo:servilo.tld</translation>
     </message>
     <message>
@@ -954,7 +954,7 @@ Vi povas aldoni noton, pri kial oni akceptu vian frapadon:</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
+        <source>@user:example.com</source>
         <translation>@uzanto:servilo.retnomo</translation>
     </message>
     <message>

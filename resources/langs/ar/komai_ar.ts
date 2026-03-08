@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
+        <source>#new-alias:example.com</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -962,7 +962,7 @@ You may optionally provide a reason for others to accept your knock:</source>
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
+        <source>@user:example.com</source>
         <translation type="unfinished"/>
     </message>
     <message>

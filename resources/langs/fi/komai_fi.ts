@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
+        <source>#new-alias:example.com</source>
         <translation>#uusi-alias:palvelin.tld</translation>
     </message>
     <message>
@@ -953,7 +953,7 @@ Voit antaa valinnaisen syyn muiden hyväksyäkseen koputuksesi:</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
+        <source>@user:example.com</source>
         <translation>@käyttäjä:palvelin.tld</translation>
     </message>
     <message>

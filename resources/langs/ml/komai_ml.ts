@@ -90,7 +90,7 @@
     </message>
     <message>
         <location line="+19"/>
-        <source>#new-alias:server.tld</source>
+        <source>#new-alias:example.com</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -950,7 +950,7 @@ You can close Komai, make sure your secret storage is unlocked, and relaunch. Yo
     </message>
     <message>
         <location line="+1"/>
-        <source>@user:server.tld</source>
+        <source>@user:example.com</source>
         <translation type="unfinished"/>
     </message>
     <message>

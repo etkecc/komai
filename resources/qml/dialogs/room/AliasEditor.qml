@@ -119,7 +119,7 @@ Components.OverlayDialog {
             selectByMouse: true
             font.pixelSize: fontMetrics.font.pixelSize
             color: palette.text
-            placeholderText: qsTr("#new-alias:server.tld")
+            placeholderText: qsTr("#new-alias:example.com")
 
             Keys.onPressed: {
                 if (event.matches(StandardKey.InsertParagraphSeparator)) {

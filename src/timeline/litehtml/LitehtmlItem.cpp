@@ -15,6 +15,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/litehtml/LitehtmlStylesheet.h"
 #include "ui/Theme.h"
+#include "utils/Utils.h"
 
 LitehtmlItem::LitehtmlItem(QQuickItem *parent)
   : QQuickPaintedItem(parent)
@@ -133,7 +134,7 @@ LitehtmlItem::rebuildDocument()
 
     m_container->setDefaultFont(m_font);
     m_container->setDefaultColor(m_color);
-    m_container->setEmojiFontFamily(UserSettings::instance()->uiFontEmojiFamily());
+    m_container->setEmojiFontFamily(utils::effectiveEmojiFontFamily());
 
     m_document = litehtml::document::createFromString(m_html.toUtf8().constData(),
                                                       m_container,

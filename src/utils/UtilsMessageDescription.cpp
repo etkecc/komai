@@ -9,6 +9,8 @@
 #include <variant>
 
 #include <QCoreApplication>
+#include <QFont>
+#include <QFontInfo>
 #include <QRegularExpression>
 #include <QStringBuilder>
 
@@ -300,6 +302,18 @@ utils::codepointIsEmoji(uint code)
 }
 
 QString
+utils::effectiveEmojiFontFamily()
+{
+    QString configured = UserSettings::instance()->uiFontEmojiFamily();
+    if (!configured.isEmpty())
+        return configured;
+
+    // Resolve the system's default emoji font via QFontInfo.
+    static const QString resolved = QFontInfo(QFont(QStringLiteral("emoji"))).family();
+    return resolved;
+}
+
+QString
 utils::replaceEmoji(const QString &body)
 {
     QString fmtBody;
@@ -318,7 +332,7 @@ utils::replaceEmoji(const QString &body)
         if (!insideTag && utils::codepointIsEmoji(code)) {
             if (!insideEmojiSpan) {
                 fmtBody += QStringLiteral("<span class=\"emoji\" style=\"font-family: '") %
-                           UserSettings::instance()->uiFontEmojiFamily() % QStringLiteral("'\">");
+                           utils::effectiveEmojiFontFamily() % QStringLiteral("'\">");
                 insideEmojiSpan = true;
             } else if (code == 0xfe0f) {
                 // BUG(Nico):

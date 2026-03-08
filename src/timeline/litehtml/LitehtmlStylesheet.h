@@ -10,6 +10,10 @@
 
 namespace timeline::litehtml {
 
+/// Scale factor for emoji glyphs relative to the surrounding text.
+/// Used in the CSS stylesheet (font-size) and in the font metrics override.
+constexpr double emojiScaleFactor = 1.4;
+
 QString
 generateMasterStylesheet(const QPalette &palette,
                          const QFont &font,

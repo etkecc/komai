@@ -12,6 +12,7 @@
 #include <QtMath>
 
 #include "providers/MxcImageProvider.h"
+#include "timeline/litehtml/LitehtmlStylesheet.h"
 
 LitehtmlContainer::LitehtmlContainer(QObject *parent)
   : QObject(parent)
@@ -54,16 +55,35 @@ LitehtmlContainer::create_font(const char *faceName,
 
     if (fm) {
         QFontMetrics metrics(*font);
-        bool isEmojiFont = !m_emojiFontFamily.isEmpty() && faceName &&
-                           QString::fromUtf8(faceName) == m_emojiFontFamily;
+        QString faceStr = faceName ? QString::fromUtf8(faceName) : QString();
+        // litehtml passes CSS font-family values which may include quotes
+        // (e.g. "'Noto Color Emoji'" from font-family: 'Noto Color Emoji').
+        // Strip surrounding quotes for comparison.
+        QString faceStripped = faceStr;
+        if (faceStripped.startsWith(QLatin1Char('\'')) && faceStripped.endsWith(QLatin1Char('\'')))
+            faceStripped = faceStripped.mid(1, faceStripped.size() - 2);
+        bool isEmojiFont = !m_emojiFontFamily.isEmpty() && !faceStripped.isEmpty() &&
+                           faceStripped == m_emojiFontFamily;
         if (isEmojiFont) {
-            // For emoji spans, report the default font's metrics so litehtml
-            // keeps normal line height and baseline alignment.
-            QFontMetrics dfm(m_defaultFont);
-            fm->ascent   = dfm.ascent();
-            fm->descent  = dfm.descent();
-            fm->height   = dfm.height();
-            fm->x_height = dfm.xHeight();
+            // Report text font metrics instead of the emoji font's inflated
+            // metrics.  Body emojis use emojiScaleFactor (CSS font-size), so
+            // dividing by that factor recovers the base text size; use default
+            // font metrics to keep normal line height.  Heading emojis are 1em,
+            // so their size doesn't match the scaled body size; use text font
+            // metrics at that size so the line box is tall enough.
+            using timeline::litehtml::emojiScaleFactor;
+            int defaultPx    = pt_to_px(qRound(m_defaultFont.pointSizeF()));
+            int unscaledPx   = qRound(size / emojiScaleFactor);
+            bool isBodyEmoji = (unscaledPx == defaultPx);
+            QFontMetrics dfm = isBodyEmoji ? QFontMetrics(m_defaultFont) : QFontMetrics([&] {
+                QFont f(m_defaultFont);
+                f.setPixelSize(size);
+                return f;
+            }());
+            fm->ascent       = dfm.ascent();
+            fm->descent      = dfm.descent();
+            fm->height       = dfm.height();
+            fm->x_height     = dfm.xHeight();
         } else {
             fm->ascent   = metrics.ascent();
             fm->descent  = metrics.descent();
@@ -116,6 +136,7 @@ LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
 
     m_painter->setFont(*font);
     m_painter->setPen(toQColor(color));
+
     m_painter->drawText(QRect(pos.x, pos.y, pos.width, pos.height), 0, QString::fromUtf8(text));
 }
 

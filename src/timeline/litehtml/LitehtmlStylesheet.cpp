@@ -101,12 +101,17 @@ generateMasterStylesheet(const QPalette &palette,
              "  vertical-align: middle;"
              "}"
              "span.emoji {"
-             "  font-size: 1.4em;"
+             "  font-size: %11em;"
+             "}"
+             "h1 span.emoji, h2 span.emoji, h3 span.emoji,"
+             "h4 span.emoji, h5 span.emoji, h6 span.emoji {"
+             "  font-size: 1em;"
              "}")
       .arg(font.family())
       .arg(font.pointSizeF())
       .arg(text, highlight, alternateBase, link, blockMargin)
-      .arg(errorColor, attentionColor, successColor);
+      .arg(errorColor, attentionColor, successColor)
+      .arg(emojiScaleFactor);
 }
 
 } // namespace timeline::litehtml

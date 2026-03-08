@@ -54,6 +54,11 @@ stripReplyFallbacks(const mtx::events::collections::TimelineEvents &event,
 bool
 codepointIsEmoji(uint code);
 
+/// Resolved emoji font family name. Returns the user's configured emoji font,
+/// or the system's default emoji font resolved via QFontInfo.
+QString
+effectiveEmojiFontFamily();
+
 QString
 replaceEmoji(const QString &body);
 

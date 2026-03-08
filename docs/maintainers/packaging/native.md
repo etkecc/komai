@@ -5,7 +5,7 @@ Build and install Komai directly on your system using CMake.
 ## Prerequisites
 
 - [just](https://github.com/casey/just) command runner (optional but recommended)
-- **Python 3** (for theme generation at build time)
+- **Python 3 + PyYAML** (for theme generation and emoji data generation at build time)
 - **CMake** 3.15+
 - **C++20 compiler**: GCC 11.3+, Clang 16+, or MSVC 19.13+
 
@@ -98,7 +98,7 @@ just configure -DUSE_BUNDLED_MTXCLIENT=OFF
 
 ```sh
 sudo pacman -S qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
-    cmake gcc fontconfig \
+    cmake gcc fontconfig python python-yaml \
     coeurl libolm lmdb lmdbxx cmark syntax-highlighting spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication
 ```
@@ -109,7 +109,7 @@ Install `mtxclient` only if you explicitly build against system MatrixClient
 ### Debian 13+ / Ubuntu 24.04+
 
 ```sh
-sudo apt install -y build-essential cmake pkg-config python3 \
+sudo apt install -y build-essential cmake pkg-config python3 python3-yaml \
     libevent-dev libspdlog-dev libfmt-dev libre2-dev \
     liblmdb++-dev libcurl4-openssl-dev libssl-dev libolm-dev libcmark-dev \
     libkf6syntaxhighlighting-dev \

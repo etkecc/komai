@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           pacman -S --noconfirm --needed \
-            cmake just python mise reuse \
+            cmake just python python-yaml mise reuse \
             qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
             syntax-highlighting \
             coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \

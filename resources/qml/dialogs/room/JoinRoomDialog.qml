@@ -14,7 +14,7 @@ Components.OverlayDialog {
     id: joinRoomRoot
 
     title: qsTr("Join room")
-    titleIcon: ":/icons/icons/ui/plus-circle.svg"
+    titleIcon: ":/icons/icons/ui/arrow-join.svg"
     initialFocusItem: input
 
     Label {

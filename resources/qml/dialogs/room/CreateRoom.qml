@@ -16,7 +16,7 @@ Components.OverlayDialog {
     property bool space: false
 
     title: space ? qsTr("New space") : qsTr("New room")
-    titleIcon: ":/icons/icons/ui/plus-circle.svg"
+    titleIcon: space ? ":/icons/icons/ui/squares-nested.svg" : ":/icons/icons/ui/people-community.svg"
     initialFocusItem: newRoomName
     overlayDialogMinWidth: 620
 

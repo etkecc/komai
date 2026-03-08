@@ -17,9 +17,9 @@ OverlayDialog {
     property bool otherUserHasE2ee: profile ? profile.deviceList.rowCount() > 0 : true
 
     title: qsTr("New direct chat")
-    titleIcon: ":/icons/icons/ui/plus-circle.svg"
+    titleIcon: ":/icons/icons/ui/person.svg"
     initialFocusItem: userID
-    overlayDialogMinWidth: 560
+    overlayDialogMinWidth: 620
 
     GridLayout {
         Layout.fillWidth: true

@@ -90,6 +90,9 @@
         <file alias="icons/ui/mention.svg">icons/fluent/assets/Mention/SVG/ic_fluent_mention_20_regular.svg</file>
         <file alias="icons/ui/people-community.svg">icons/fluent/assets/People Community/SVG/ic_fluent_people_community_24_regular.svg</file>
         <file alias="icons/ui/lock-closed.svg">icons/fluent/assets/Lock Closed/SVG/ic_fluent_lock_closed_24_regular.svg</file>
+        <file alias="icons/ui/squares-nested.svg">icons/fluent/assets/Squares Nested/SVG/ic_fluent_squares_nested_20_regular.svg</file>
+        <file alias="icons/ui/globe-search.svg">icons/fluent/assets/Globe Search/SVG/ic_fluent_globe_search_24_regular.svg</file>
+        <file alias="icons/ui/arrow-join.svg">icons/fluent/assets/Arrow Join/SVG/ic_fluent_arrow_join_20_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

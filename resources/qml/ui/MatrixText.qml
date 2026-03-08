@@ -15,6 +15,7 @@ TextArea {
     ToolTip.text: Komai.punyLink(hoveredLink)
     ToolTip.visible: hoveredLink || false
     background: null
+    font.pointSize: Settings.uiFontSizePt
     bottomInset: 0
     bottomPadding: 0
     // this always has to be enabled, otherwise you can't click links anymore!

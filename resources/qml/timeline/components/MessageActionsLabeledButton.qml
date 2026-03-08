@@ -30,6 +30,7 @@ AbstractButton {
     ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: toolTipText
     ToolTip.visible: hovered
+    font.pointSize: Settings.uiFontSizePt
     hoverEnabled: true
     activeFocusOnTab: true
     focusPolicy: Qt.StrongFocus

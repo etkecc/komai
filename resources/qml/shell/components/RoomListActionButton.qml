@@ -26,6 +26,7 @@ AbstractButton {
     ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: toolTipText
     ToolTip.visible: hovered
+    font.pointSize: Settings.uiFontSizePt
     implicitHeight: buttonSize
     implicitWidth: buttonSize + (hasLabel ? (Komai.paddingSmall + actionLabel.implicitWidth) : 0)
     Layout.preferredHeight: buttonSize

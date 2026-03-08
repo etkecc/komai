@@ -29,6 +29,7 @@ AbstractButton {
     Layout.preferredHeight: topBarRef.topBarAvatarSize
     Layout.preferredWidth: implicitWidth
     Layout.row: row
+    font.pointSize: Settings.uiFontSizePt
     hoverEnabled: true
     leftPadding: topBarRef.buttonPaddingH
     rightPadding: topBarRef.buttonPaddingH

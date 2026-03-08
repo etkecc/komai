@@ -122,6 +122,7 @@ Rectangle {
                 focus: true
                 leftPadding: inputBar.showAllButtons ? 0 : 8
                 padding: 0
+                font.pointSize: Settings.uiFontSizePt
                 placeholderText: qsTr("Write a message...")
                 placeholderTextColor: palette.buttonText
                 selectByMouse: true

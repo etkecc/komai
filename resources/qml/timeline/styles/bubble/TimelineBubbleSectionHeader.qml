@@ -101,6 +101,7 @@ Column {
                 id: userName_
 
                 color: Qt.darker(colorRoomId ? TimelineManager.roomUserColor(colorRoomId, userId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(userId, palette.base), 1.3)
+                font.pointSize: Settings.uiFontSizePt
                 text: TimelineManager.escapeEmoji(userNameTextMetrics.elidedText)
                 textFormat: Text.RichText
             }

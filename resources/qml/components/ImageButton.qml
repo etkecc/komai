@@ -21,6 +21,7 @@ AbstractButton {
     property bool hoverPulse: false
 
     focusPolicy: Qt.NoFocus
+    font.pointSize: Settings.uiFontSizePt
     height: 16
     width: 16
 

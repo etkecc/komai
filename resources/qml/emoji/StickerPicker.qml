@@ -27,7 +27,20 @@ Popup {
     readonly property int sidebarAvatarSize: 32
     readonly property int sidebarIconSize: 20
     readonly property int sidebarRowHeight: Math.max(36, sidebarIconSize + Komai.paddingMedium * 2)
-    readonly property int sidebarPaneWidth: Math.max(132, sidebarAvatarSize + Komai.paddingMedium + 64)
+    readonly property int sidebarPaneWidth: {
+        // Read font height to track font size changes in this binding
+        var _d = sidebarCategoryFontMetrics.height;
+        var sections = gridView.model ? gridView.model.sections : null;
+        var maxWidth = sidebarCategoryFontMetrics.advanceWidth(qsTr("Settings"));
+        if (sections) {
+            for (var i = 0; i < sections.length; ++i) {
+                var name = stickerPopup.sectionName(sections[i]);
+                if (name)
+                    maxWidth = Math.max(maxWidth, sidebarCategoryFontMetrics.advanceWidth(name));
+            }
+        }
+        return Math.max(132, Math.ceil(Komai.paddingSmall + sidebarIconSize + Komai.paddingSmall + maxWidth + Komai.paddingMedium));
+    }
     readonly property int gridColumnWidth: stickersPerRow * stickerDimPad + 20 - Komai.paddingSmall
     readonly property var sidebarPalette: timelineRoot ? timelineRoot.palette : palette
     readonly property color sidebarHoverBackground: sidebarPalette.dark
@@ -38,6 +51,13 @@ Popup {
     property int activeSectionFirstRow: -1
     property string activeSectionName: ""
     property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
+
+    FontMetrics {
+        id: sidebarCategoryFontMetrics
+
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt
+    }
 
     function clamp(value, minValue, maxValue) {
         return Math.max(minValue, Math.min(value, maxValue));
@@ -248,6 +268,7 @@ Popup {
                 Layout.row: 0
                 Layout.column: 1
                 background: null
+                font.pointSize: Settings.uiFontSizePt
                 placeholderTextColor: palette.buttonText
                 placeholderText: qsTr("Search")
                 selectByMouse: true
@@ -357,6 +378,7 @@ Popup {
                             color: palette.text
                             elide: Text.ElideRight
                             font.bold: true
+                            font.pointSize: Settings.uiFontSizePt
                             text: parent.parent.section
                         }
                     }
@@ -546,6 +568,7 @@ Popup {
                             color: categoryButton.textColor
                             elide: Text.ElideRight
                             font.bold: categoryButton.active
+                            font.pointSize: Settings.uiFontSizePt
                             text: categoryButton.modelData.name
                         }
                     }
@@ -616,6 +639,7 @@ Popup {
                         Layout.alignment: Qt.AlignVCenter
                         color: settingsButton.textColor
                         elide: Text.ElideRight
+                        font.pointSize: Settings.uiFontSizePt
                         text: qsTr("Settings")
                     }
                 }

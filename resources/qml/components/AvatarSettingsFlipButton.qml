@@ -34,6 +34,7 @@ MouseArea {
 
     ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: resolvedToolTipText
+    ToolTip.toolTip.font.pointSize: Settings.uiFontSizePt
     ToolTip.visible: containsMouse && resolvedToolTipText.length > 0
 
     onClicked: function (mouse) {

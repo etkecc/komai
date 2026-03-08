@@ -28,10 +28,12 @@ Pane {
     property int topBarAvatarSize: Komai.listIconSize
     property int buttonPaddingH: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int buttonPaddingV: 0
+    property bool isPublic: room ? room.isPublic : true
     property bool showActionLabels: false
     property int actionLabelsHysteresisPx: 36
     readonly property string membersActionLabel: qsTr("%n member(s)", "", roomModel ? roomModel.roomMemberCount : 0)
     readonly property string encryptionActionLabel: shortEncryptionLabel()
+    readonly property string visibilityActionLabel: isPublic ? qsTr("Public") : qsTr("Private")
     readonly property real actionButtonWidth: topBarAvatarSize
     readonly property real actionButtonLabelGap: Komai.paddingSmall
     readonly property int visibleActionButtonCount:
@@ -162,6 +164,8 @@ Pane {
             }
             RoomHeaderRoomNameLabel {
                 roomName: topBar.roomName
+                room: topBar.roomModel
+                showVisibilityLabel: topBar.showActionLabels
             }
             RoomHeaderTopicText {
                 roomTopic: topBar.roomTopic

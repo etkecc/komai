@@ -42,6 +42,7 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
 
     auto roomInfo            = cache::singleRoomInfo(room_id_.toStdString());
     this->isSpace_           = roomInfo.is_space;
+    this->isPublic_          = roomInfo.join_rule == mtx::events::state::JoinRule::Public;
     this->notification_count = roomInfo.notification_count;
     this->highlight_count    = roomInfo.highlight_count;
     lastMessage_.timestamp   = roomInfo.approximate_last_modification_ts;

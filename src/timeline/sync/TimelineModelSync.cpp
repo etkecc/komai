@@ -141,6 +141,14 @@ TimelineModel::applyStateEventSideEffects(const mtx::events::collections::Timeli
         this->isEncrypted_ = cache::isRoomEncrypted(room_id_.toStdString());
         emit encryptionChanged();
         return true;
+    } else if (std::holds_alternative<StateEvent<state::JoinRules>>(event)) {
+        auto newPublic = std::get<StateEvent<state::JoinRules>>(event).content.join_rule ==
+                         state::JoinRule::Public;
+        if (this->isPublic_ != newPublic) {
+            this->isPublic_ = newPublic;
+            emit joinRuleChanged();
+        }
+        return true;
     } else if (std::holds_alternative<StateEvent<state::space::Parent>>(event)) {
         this->parentChecked = false;
         emit parentSpaceChanged();
@@ -185,6 +193,14 @@ TimelineModel::applyStateEventSideEffects(const mtx::events::collections::StateE
     } else if (std::holds_alternative<StateEvent<state::Encryption>>(event)) {
         this->isEncrypted_ = cache::isRoomEncrypted(room_id_.toStdString());
         emit encryptionChanged();
+        return true;
+    } else if (std::holds_alternative<StateEvent<state::JoinRules>>(event)) {
+        auto newPublic = std::get<StateEvent<state::JoinRules>>(event).content.join_rule ==
+                         state::JoinRule::Public;
+        if (this->isPublic_ != newPublic) {
+            this->isPublic_ = newPublic;
+            emit joinRuleChanged();
+        }
         return true;
     } else if (std::holds_alternative<StateEvent<state::space::Parent>>(event)) {
         this->parentChecked = false;

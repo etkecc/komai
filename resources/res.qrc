@@ -88,6 +88,8 @@
         <file alias="icons/ui/counter.svg">icons/fluent/assets/Counter/SVG/ic_fluent_counter_24_regular.svg</file>
         <file alias="icons/ui/globe.svg">icons/fluent/assets/Globe/SVG/ic_fluent_globe_24_regular.svg</file>
         <file alias="icons/ui/mention.svg">icons/fluent/assets/Mention/SVG/ic_fluent_mention_20_regular.svg</file>
+        <file alias="icons/ui/people-community.svg">icons/fluent/assets/People Community/SVG/ic_fluent_people_community_24_regular.svg</file>
+        <file alias="icons/ui/lock-closed.svg">icons/fluent/assets/Lock Closed/SVG/ic_fluent_lock_closed_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

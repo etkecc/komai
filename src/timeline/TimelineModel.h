@@ -85,6 +85,7 @@ class TimelineModel final : public QAbstractListModel
     Q_PROPERTY(QStringList widgetLinks READ widgetLinks NOTIFY widgetLinksChanged)
     Q_PROPERTY(int roomMemberCount READ roomMemberCount NOTIFY roomMemberCountChanged)
     Q_PROPERTY(bool isEncrypted READ isEncrypted NOTIFY encryptionChanged)
+    Q_PROPERTY(bool isPublic READ isPublic NOTIFY joinRuleChanged)
     Q_PROPERTY(QString fullyReadEventId READ fullyReadEventId NOTIFY fullyReadEventIdChanged)
     Q_PROPERTY(bool isSpace READ isSpace CONSTANT)
     Q_PROPERTY(int trustlevel READ trustlevel NOTIFY trustlevelChanged)
@@ -262,6 +263,7 @@ public:
 
     bool isSpace() const { return isSpace_; }
     bool isEncrypted() const { return isEncrypted_; }
+    bool isPublic() const { return isPublic_; }
     QString fullyReadEventId() const { return QString::fromStdString(fullyReadEventId_); }
     crypto::Trust trustlevel() const;
     int roomMemberCount() const;
@@ -385,6 +387,7 @@ signals:
 
     void parentSpaceChanged();
     void encryptionChanged();
+    void joinRuleChanged();
     void fullyReadEventIdChanged();
     void trustlevelChanged();
     void roomNameChanged();
@@ -484,6 +487,7 @@ private:
     bool m_paginationInProgress = false;
     bool isSpace_               = false;
     bool isEncrypted_           = false;
+    bool isPublic_              = true;
     std::string last_event_id;
     std::string fullyReadEventId_;
 

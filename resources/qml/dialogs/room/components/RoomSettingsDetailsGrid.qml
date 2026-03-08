@@ -95,7 +95,7 @@ ColumnLayout {
             width: parent.width
 
             Label {
-                text: qsTr("Anyone can join")
+                text: qsTr("Anyone can join (public)")
                 color: palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true

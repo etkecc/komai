@@ -19,6 +19,7 @@ OverlayDialog {
     title: qsTr("Create Direct Chat")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
     initialFocusItem: userID
+    overlayDialogMinWidth: 560
 
     GridLayout {
         Layout.fillWidth: true
@@ -70,21 +71,49 @@ OverlayDialog {
         }
     }
 
-    RowLayout {
+    // Encryption
+    Item {
         Layout.fillWidth: true
+        implicitHeight: encryptionRowContent.implicitHeight
+        HoverHandler { id: encryptionRowHover; blocking: false }
+        Rectangle { anchors.fill: encryptionRowContent; color: palette.window; radius: Komai.paddingMedium; visible: encryptionRowHover.hovered; z: -1 }
+        ColumnLayout {
+            id: encryptionRowContent
+            width: parent.width
+            spacing: 0
 
-        Label {
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignLeft
-            text: qsTr("Encryption")
-            color: palette.text
-        }
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingSmall
 
-        ToggleButton {
-            id: encryption
+                Label {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignLeft
+                    text: qsTr("Encryption")
+                    color: palette.text
+                }
 
-            Layout.alignment: Qt.AlignRight
-            checked: createDirectRoot.otherUserHasE2ee
+                ToggleButton {
+                    id: encryption
+
+                    Layout.alignment: Qt.AlignRight
+                    checked: createDirectRoot.otherUserHasE2ee
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                text: qsTr("End-to-end encryption protects messages so only you and the recipient can read them.")
+                color: palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                wrapMode: Text.Wrap
+            }
         }
     }
 

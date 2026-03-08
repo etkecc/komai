@@ -18,6 +18,7 @@ Components.OverlayDialog {
     title: space ? qsTr("New community") : qsTr("New Room")
     titleIcon: ":/icons/icons/ui/plus-circle.svg"
     initialFocusItem: newRoomName
+    overlayDialogMinWidth: 620
 
     MatrixTextField {
         id: newRoomName
@@ -59,76 +60,160 @@ Components.OverlayDialog {
         }
     }
 
-    GridLayout {
+    // Public
+    Item {
         Layout.fillWidth: true
-        columns: 2
+        implicitHeight: publicRowContent.implicitHeight
+        HoverHandler { id: publicRowHover; blocking: false }
+        Rectangle { anchors.fill: publicRowContent; color: palette.window; radius: Komai.paddingMedium; visible: publicRowHover.hovered; z: -1 }
+        ColumnLayout {
+            id: publicRowContent
+            width: parent.width
+            spacing: 0
 
-        Label {
-            Layout.fillWidth: true
-            text: qsTr("Public")
-            color: palette.text
-            HoverHandler {
-                id: privateHover
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingSmall
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Public")
+                    color: palette.text
+                }
+
+                ToggleButton {
+                    id: isPublic
+
+                    Layout.alignment: Qt.AlignRight
+                    checked: false
+                }
             }
-            ToolTip.visible: privateHover.hovered
-            ToolTip.text: qsTr("Public rooms can be joined by anyone; private rooms need explicit invites.")
-            ToolTip.delay: Komai.tooltipDelay
-        }
 
-        ToggleButton {
-            id: isPublic
-
-            Layout.alignment: Qt.AlignRight
-            checked: false
-        }
-
-        Label {
-            visible: !createRoomRoot.space
-            Layout.fillWidth: true
-            text: qsTr("Trusted")
-            color: palette.text
-            HoverHandler {
-                id: trustedHover
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                text: createRoomRoot.space ? qsTr("Anyone can join a public space. Private spaces require an invite.") : qsTr("Anyone can join a public room. Private rooms require an invite.")
+                color: palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                wrapMode: Text.Wrap
             }
-            ToolTip.visible: trustedHover.hovered
-            ToolTip.text: qsTr("All invitees are given the same power level as the creator")
-            ToolTip.delay: Komai.tooltipDelay
         }
+    }
 
-        ToggleButton {
-            id: isTrusted
+    // Trusted
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: trustedRowContent.implicitHeight
+        visible: !createRoomRoot.space
+        HoverHandler { id: trustedRowHover; blocking: false }
+        Rectangle { anchors.fill: trustedRowContent; color: palette.window; radius: Komai.paddingMedium; visible: trustedRowHover.hovered; z: -1 }
+        ColumnLayout {
+            id: trustedRowContent
+            width: parent.width
+            spacing: 0
 
-            visible: !createRoomRoot.space
-            Layout.alignment: Qt.AlignRight
-            checked: false
-            enabled: !isPublic.checked
-        }
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingSmall
 
-        Label {
-            visible: !createRoomRoot.space
-            Layout.fillWidth: true
-            text: qsTr("Encryption")
-            color: palette.text
-            HoverHandler {
-                id: encryptionHover
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Trusted")
+                    color: palette.text
+                }
+
+                ToggleButton {
+                    id: isTrusted
+
+                    Layout.alignment: Qt.AlignRight
+                    checked: false
+                    enabled: !isPublic.checked
+                }
             }
-            ToolTip.visible: encryptionHover.hovered
-            ToolTip.text: qsTr("Caution: Encryption cannot be disabled")
-            ToolTip.delay: Komai.tooltipDelay
-        }
 
-        ToggleButton {
-            id: isEncrypted
-
-            visible: !createRoomRoot.space
-            Layout.alignment: Qt.AlignRight
-            checked: false
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                text: qsTr("Invitees get the same power level as the room creator.")
+                color: palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                wrapMode: Text.Wrap
+            }
         }
+    }
+
+    // Encryption
+    Item {
+        Layout.fillWidth: true
+        implicitHeight: encryptionRowContent.implicitHeight
+        visible: !createRoomRoot.space
+        HoverHandler { id: encryptionRowHover; blocking: false }
+        Rectangle { anchors.fill: encryptionRowContent; color: palette.window; radius: Komai.paddingMedium; visible: encryptionRowHover.hovered; z: -1 }
+        ColumnLayout {
+            id: encryptionRowContent
+            width: parent.width
+            spacing: 0
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingSmall
+
+                Label {
+                    Layout.fillWidth: true
+                    text: qsTr("Encryption")
+                    color: palette.text
+                }
+
+                ToggleButton {
+                    id: isEncrypted
+
+                    Layout.alignment: Qt.AlignRight
+                    checked: false
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                text: qsTr("Only participants can read messages. Cannot be disabled once enabled.")
+                color: palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                wrapMode: Text.Wrap
+            }
+        }
+    }
+
+    // Warning: public + encrypted
+    Label {
+        Layout.fillWidth: true
+        Layout.preferredWidth: 0
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
+        visible: isPublic.checked && isEncrypted.checked && !createRoomRoot.space
+        text: qsTr("Encryption has a high cost in public rooms with many participants.")
+        color: Komai.theme.attention
+        font.pointSize: 0.9 * Settings.uiFontSizePt
+        wrapMode: Text.Wrap
     }
 
     Button {
         Layout.alignment: Qt.AlignRight
-        text: qsTr("Create Room")
+        text: createRoomRoot.space ? qsTr("Create Community") : qsTr("Create Room")
         highlighted: true
         onClicked: {
             var preset = 0;

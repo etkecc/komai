@@ -179,6 +179,8 @@ Item {
             visible: !timelineView.perfDisableComposer
         }
         Composer.MessageInput {
+            room: timelineView.room
+            timelineRoot: timelineView.dialogHost
             visible: !timelineView.perfDisableComposer
         }
     }

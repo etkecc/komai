@@ -14,6 +14,8 @@ import cc.etke.komai 1.0
 Rectangle {
     id: inputBar
 
+    required property var room
+    required property var timelineRoot
     property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
     readonly property string text: messageInput.text
 
@@ -30,12 +32,12 @@ Rectangle {
         visible: room ? room.permissions.canSend(room.isEncrypted ? MtxEvent.Encrypted :  MtxEvent.TextMessage) : false
 
         ComposerCallButton {
-            room: room
-            timelineRoot: timelineRoot
+            room: inputBar.room
+            timelineRoot: inputBar.timelineRoot
             showAllButtons: inputBar.showAllButtons
         }
         ComposerAttachButton {
-            room: room
+            room: inputBar.room
             showAllButtons: inputBar.showAllButtons
         }
         ScrollView {

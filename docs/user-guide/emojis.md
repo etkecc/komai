@@ -1,6 +1,10 @@
 # 😀 Emoji Search and Picker
 
-Komai has a localized emoji picker with strong search and completion support. You can [✍️ trigger it](#%EF%B8%8F-how-to-trigger-it) from the composer, [🔎 search](#-what-you-can-search-by) by common words, localized keywords, and project-specific aliases, and fine-tune results with [🎛️ emoji preferences](#%EF%B8%8F-emoji-preferences) for gender and skin tone. Komai also supports [🖼️ custom emojis and stickers](#%EF%B8%8F-custom-emojis-and-stickers) via Matrix image packs.
+Komai has a localized emoji picker with strong search and completion support.
+
+You can [✍️ trigger it](#%EF%B8%8F-how-to-trigger-it) from the composer, [🔎 search](#-search) by common words, localized keywords, and project-specific aliases from [🧾 multiple data sources](#-data-sources), and fine-tune results with [🎛️ emoji preferences](#%EF%B8%8F-emoji-preferences) for gender and skin tone.
+
+Komai also supports [🖼️ custom emojis and stickers](#%EF%B8%8F-custom-emojis-and-stickers) via Matrix image packs.
 
 
 ## ✍️ How to Trigger It
@@ -10,21 +14,20 @@ In the message composer, start with a colon, then type your emoji keyword.
 Komai accepts both the standard ASCII colon `:` and the full-width colon `：` used by some IMEs
 (for example Japanese input).
 
-For concrete query examples and locale scope, see [✨ Examples](#-examples).
 
+## 🔎 Search
 
-## 🔎 What You Can Search By
-
-Komai searches emoji using multiple keyword [sources](#-data-sources):
+Komai searches emoji using multiple keyword sources:
 
 - Unicode short names (for example `:tumbler_glass`)
 - common CLDR keywords (for example `:whiskey`, `:tea`, `:酒`)
 - Komai-specific aliases (for example tea aliases like `:houjicha`)
 
 Search is case-insensitive where relevant, and supports localized terms.
+Komai prioritizes exact/prefix matches first, then falls back to fuzzy matching when needed.
+Very short queries are intentionally stricter to avoid unrelated results.
 
-
-## 🌍 Language Behavior
+### Language and locale
 
 Komai uses your current app locale for emoji keyword data.
 
@@ -47,8 +50,7 @@ Why `:酒` differs:
 - English locale does not normally include Japanese CLDR keywords for all emoji
 - if you want a non-English term to work everywhere, add it as a Komai alias override
 
-
-## ✨ Examples
+### Examples
 
 | Query | Result | Works in |
 | --- | --- | --- |
@@ -60,12 +62,6 @@ Why `:酒` differs:
 | `:nihonshu` | 🍶 ([Sake](https://en.wikipedia.org/wiki/Sake)) | 🌐 all locales |
 | `:酒` | 🍶, 🍷, 🍺, 🥃 and other alcohol-related ones | 🇯🇵 `ja` locale |
 | `:komai` | 🦁 ([🦁 Komai Identity](identity.md)) | 🌐 all locales |
-
-
-## 🧠 Matching Notes
-
-Komai prioritizes exact/prefix matches first, then falls back to fuzzy matching when needed.
-Very short queries are intentionally stricter to avoid unrelated results.
 
 
 ## 🎛️ Emoji Preferences
@@ -127,16 +123,6 @@ Behavior:
   - 🧔🏼‍♀️ `woman_medium_light_skin_tone_beard`
 
 
-## 🧾 Data Sources
-
-Komai builds emoji search data from:
-
-- Unicode emoji data: [emoji-test.txt](https://unicode.org/Public/emoji/latest/emoji-test.txt)
-- Unicode CLDR annotations (localized keywords): [CLDR project](https://cldr.unicode.org/) and [cldr-json](https://github.com/unicode-org/cldr-json)
-
-Komai then applies small project-specific alias overrides on top.
-
-
 ## 🖼️ Custom Emojis and Stickers
 
 Beyond standard Unicode emojis, Matrix supports **custom image emojis** and **stickers** via
@@ -163,6 +149,16 @@ Matrix clients that support MSC2545 will render them inline.
 
 Open the emoji picker (by clicking the icon from the Composer) and click the settings icon to manage packs: create new ones, add or remove
 images, toggle emoji/sticker usage, and enable packs globally.
+
+
+## 🧾 Data Sources
+
+Komai builds emoji search data from:
+
+- Unicode emoji data: [emoji-test.txt](https://unicode.org/Public/emoji/latest/emoji-test.txt)
+- Unicode CLDR annotations (localized keywords): [CLDR project](https://cldr.unicode.org/) and [cldr-json](https://github.com/unicode-org/cldr-json)
+
+Komai then applies small project-specific alias overrides on top.
 
 
 ## 🔗 More Details

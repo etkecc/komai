@@ -32,7 +32,7 @@ CombinedImagePackModel::CombinedImagePackModel(const std::string &roomId, QObjec
 int
 CombinedImagePackModel::rowCount(const QModelIndex &) const
 {
-    return (int)(emoji::Provider::emoji.size() + images.size());
+    return static_cast<int>(emoji::Provider::emoji().size() + images.size());
 }
 
 QHash<int, QByteArray>
@@ -42,6 +42,7 @@ CombinedImagePackModel::roleNames() const
       {CompletionModel::CompletionRole, "completionRole"},
       {CompletionModel::SearchRole, "searchRole"},
       {CompletionModel::SearchRole2, "searchRole2"},
+      {CompletionModel::SearchRole3, "searchRole3"},
       {Roles::Url, "url"},
       {Roles::ShortCode, "shortcode"},
       {Roles::Body, "body"},
@@ -53,30 +54,32 @@ CombinedImagePackModel::roleNames() const
 QVariant
 CombinedImagePackModel::data(const QModelIndex &index, int role) const
 {
-    using emoji::Provider;
+    const auto &emojiData = emoji::Provider::emoji();
     if (hasIndex(index.row(), index.column(), index.parent())) {
-        if (index.row() < (int)emoji::Provider::emoji.size()) {
+        if (index.row() < (int)emojiData.size()) {
             switch (role) {
             case CompletionModel::CompletionRole:
             case Roles::Unicode:
-                return emoji::Provider::emoji[index.row()].unicode();
+                return emojiData[index.row()].unicode();
 
             case Qt::ToolTipRole:
-                return Provider::emoji[index.row()].shortName() + ", " +
-                       Provider::emoji[index.row()].unicodeName();
+                return emojiData[index.row()].shortName() + ", " +
+                       emojiData[index.row()].unicodeName();
             case CompletionModel::SearchRole2:
             case Roles::Body:
-                return Provider::emoji[index.row()].unicodeName();
+                return emojiData[index.row()].unicodeName();
             case CompletionModel::SearchRole:
             case Roles::ShortCode:
-                return Provider::emoji[index.row()].shortName();
+                return emojiData[index.row()].shortName();
+            case CompletionModel::SearchRole3:
+                return emoji::Provider::searchText(static_cast<std::size_t>(index.row()));
             case Roles::PackName:
-                return emoji::categoryToName(Provider::emoji[index.row()].category);
+                return emoji::categoryToName(emojiData[index.row()].category);
             default:
                 return {};
             }
         } else {
-            int row = index.row() - static_cast<int>(emoji::Provider::emoji.size());
+            int row = index.row() - static_cast<int>(emojiData.size());
             switch (role) {
             case CompletionModel::CompletionRole:
                 return QStringLiteral(

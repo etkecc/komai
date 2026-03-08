@@ -24,6 +24,9 @@ Control {
     property string roomId
     property int rowMargin: 0
     property int rowSpacing: Komai.paddingSmall
+    readonly property int emptyStateMinWidth: Math.max(Math.ceil(Settings.uiFontSizePt * 22), 280)
+    implicitWidth: Math.max(emptyStateMinWidth, contentColumn.implicitWidth || 0)
+    implicitHeight: contentColumn.implicitHeight || 0
 
     signal completionClicked(string completion)
     signal completionSelected(string id)
@@ -101,6 +104,14 @@ Control {
         radius: Komai.paddingSmall
     }
     contentItem: ColumnLayout {
+        id: contentColumn
+
+        implicitWidth: Math.max(
+            popup.emptyStateMinWidth,
+            emptyState.implicitWidth || 0,
+            listView.implicitWidth || 0,
+            headerBackground.visible ? (headerRow.implicitWidth || 0) + 2 * Komai.paddingMedium : 0
+        )
         spacing: 0
 
         // Header row (shown for completers with a heading)
@@ -111,6 +122,7 @@ Control {
                 || popup.completerName === "customEmoji"
                 || popup.completerName === "user"
                 || popup.completerName === "roomAliases"
+            readonly property int headerIconSize: Math.max(Math.ceil(Settings.uiFontSizePt * 1.35), Math.round(Komai.listIconSize * 0.8))
 
             Layout.fillWidth: true
             color: palette.alternateBase
@@ -138,21 +150,23 @@ Control {
                 spacing: Komai.paddingSmall
 
                 Image {
-                    Layout.preferredWidth: headerTitle.font.pixelSize
-                    Layout.preferredHeight: headerTitle.font.pixelSize
+                    Layout.preferredWidth: headerBackground.headerIconSize
+                    Layout.preferredHeight: headerBackground.headerIconSize
                     Layout.alignment: Qt.AlignVCenter
                     source: {
                         var icon;
                         if (popup.completerName === "emoji" || popup.completerName === "customEmoji")
                             icon = "smile.svg";
                         else if (popup.completerName === "user")
-                            icon = "person.svg";
+                            icon = "mention.svg";
+                        else if (popup.completerName === "roomAliases")
+                            icon = "tag.svg";
                         else
                             icon = "link.svg";
                         return "image://colorimage/:/icons/icons/ui/" + icon + "?" + palette.text;
                     }
-                    sourceSize.width: headerTitle.font.pixelSize
-                    sourceSize.height: headerTitle.font.pixelSize
+                    sourceSize.width: headerBackground.headerIconSize
+                    sourceSize.height: headerBackground.headerIconSize
                 }
 
                 Label {
@@ -169,12 +183,13 @@ Control {
                             return qsTr("Pick a room to link to");
                     }
                     font.bold: true
+                    font.pointSize: Settings.uiFontSizePt * 1.1
                     color: palette.text
                 }
 
                 ImageButton {
-                    Layout.preferredWidth: headerTitle.font.pixelSize
-                    Layout.preferredHeight: headerTitle.font.pixelSize
+                    Layout.preferredWidth: headerBackground.headerIconSize
+                    Layout.preferredHeight: headerBackground.headerIconSize
                     Layout.alignment: Qt.AlignVCenter
                     ToolTip.delay: Komai.tooltipDelay
                     ToolTip.text: qsTr("Close")
@@ -191,6 +206,26 @@ Control {
             Layout.preferredHeight: 1
             color: Komai.theme.separator
             visible: headerBackground.visible
+        }
+
+        Item {
+            id: emptyState
+
+            Layout.fillWidth: true
+            Layout.preferredHeight: Math.ceil(Settings.uiFontSizePt * 4)
+            implicitWidth: noMatchesLabel.implicitWidth + 2 * Komai.paddingLarge
+            visible: !!completer
+                && !!completer.searchString
+                && completer.searchString.length > 0
+                && listView.count === 0
+
+            Label {
+                id: noMatchesLabel
+
+                anchors.centerIn: parent
+                color: palette.buttonText
+                text: qsTr("No matches found.")
+            }
         }
 
         ListView {
@@ -216,6 +251,7 @@ Control {
             pixelAligned: true
             spacing: rowSpacing
             verticalLayoutDirection: popup.bottomToTop ? ListView.BottomToTop : ListView.TopToBottom
+            visible: !emptyState.visible
 
             ScrollBar.vertical: ScrollBar {
                 id: scrollBar
@@ -318,20 +354,24 @@ Control {
                         roleValue: "emoji"
 
                         RowLayout {
+                            property int pickerIconSize: Komai.listIconSize
+
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.leftMargin: Komai.paddingSmall
-                            anchors.rightMargin: Komai.paddingSmall
-                            spacing: Komai.paddingSmall
+                            anchors.leftMargin: Komai.paddingMedium
+                            anchors.rightMargin: Komai.paddingMedium
+                            spacing: Komai.paddingMedium
 
                             Label {
-                                Layout.preferredWidth: Math.ceil(font.pixelSize * 1.5)
+                                Layout.preferredWidth: parent.pickerIconSize
+                                Layout.preferredHeight: parent.pickerIconSize
                                 Layout.alignment: Qt.AlignVCenter
                                 horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
                                 font.family: Settings.uiFontEmojiFamily
-                                font.pointSize: Settings.uiFontSizePt * 2.2
+                                font.pixelSize: Math.round(parent.pickerIconSize * 0.9)
                                 text: model.unicode
                                 visible: !!model.unicode
                             }
@@ -339,16 +379,16 @@ Control {
                                 crop: false
                                 displayName: model.shortcode
                                 enabled: false
-                                Layout.preferredHeight: Math.ceil(Settings.uiFontSizePt * 3)
+                                Layout.preferredHeight: parent.pickerIconSize
                                 //userid: model.shortcode
                                 url: (model.url ? model.url : "").replace("mxc://", "image://MxcImage/")
                                 visible: !model.unicode
-                                Layout.preferredWidth: Layout.preferredHeight
+                                Layout.preferredWidth: parent.pickerIconSize
                             }
                             Label {
-                                Layout.leftMargin: Komai.paddingSmall
                                 Layout.alignment: Qt.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.shortcode
                             }
                             Item {
@@ -357,6 +397,7 @@ Control {
                             Label {
                                 Layout.alignment: Qt.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                font.pointSize: Settings.uiFontSizePt * 1.05
                                 text: model.packname
                             }
                         }

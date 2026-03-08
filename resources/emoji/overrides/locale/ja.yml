@@ -1,0 +1,22 @@
+version: 1
+emoji:
+- id: 1F375
+  preview: 🍵
+  locale: ja
+  tokens_add:
+  - ほうじ茶
+  - ほうじちゃ
+  - 焙じ茶
+  - 抹茶
+  - 煎茶
+  - 玄米茶
+  - houjicha
+  - hojicha
+  - genmaicha
+  - sencha
+  - matcha
+- id: 1F943
+  preview: 🥃
+  locale: ja
+  tokens_add:
+  - 酒

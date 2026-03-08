@@ -132,9 +132,25 @@ theme-create-sample variant name *args: build
 	mv "$saved_path" "{{ justfile_directory() }}/resources/themes/"
 	echo "Relocated: $(basename "$saved_path") → resources/themes/"
 
-# Regenerates src/emoji/Provider.{h,cpp} from Unicode emoji data files
+# Fetches pinned Unicode/CLDR emoji sources into var/emoji/cache/
+emoji-fetch:
+	python3 {{ justfile_directory() }}/bin/emoji/pipeline.py fetch --repo-root {{ justfile_directory() }}
+
+# Builds runtime emoji JSON data from cached/fetched sources
+emoji-build:
+	python3 {{ justfile_directory() }}/bin/emoji/pipeline.py build --repo-root {{ justfile_directory() }}
+
+# Validates emoji lock/overrides and cache-based reproducibility
+emoji-check:
+	python3 {{ justfile_directory() }}/bin/emoji/pipeline.py check --repo-root {{ justfile_directory() }}
+
+# Adds one locale-specific emoji search token override entry
+emoji-add-token emoji locale token:
+	python3 {{ justfile_directory() }}/bin/emoji/pipeline.py add-token "{{ emoji }}" "{{ locale }}" "{{ token }}" --repo-root {{ justfile_directory() }}
+
+# Backward-compatible alias (deprecated; prefer emoji-build)
 emoji-generate:
-	{{ justfile_directory() }}/bin/emoji/generate.sh
+	just --justfile {{ justfile() }} emoji-build
 
 # Audits icon references vs resources/res.qrc and files on disk
 icons-audit *args:
@@ -307,6 +323,7 @@ lint:
 		check-theme-yaml \
 		check-ts-normalized \
 		qmllint \
+		emoji-check \
 		icons-audit \
 		icons-list-check \
 			icons-derived-check \

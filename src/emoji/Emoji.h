@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QObject>
+#include <QString>
 
 namespace emoji {
 Q_NAMESPACE
@@ -31,54 +32,44 @@ public:
     Q_PROPERTY(QString unicode READ unicode CONSTANT)
     Q_PROPERTY(QString shortName READ shortName CONSTANT)
     Q_PROPERTY(QString unicodeName READ unicodeName CONSTANT)
+    Q_PROPERTY(QString id READ id CONSTANT)
     Q_PROPERTY(emoji::Emoji::Category category MEMBER category)
 
 public:
-    constexpr Emoji(std::u16string_view unicode,
-                    std::u16string_view shortName,
-                    std::u16string_view unicodeName,
-                    Category cat)
+    Emoji(QString unicode, QString shortName, QString unicodeName, Category cat, QString id = {})
       : unicode_(unicode)
       , shortName_(shortName)
       , unicodeName_(unicodeName)
+      , id_(id)
       , category(cat)
     {
     }
 
-    constexpr Emoji()
-      : unicode_(u"", 0)
-      , shortName_(u"", 0)
-      , unicodeName_(u"", 0)
+    Emoji()
+      : unicode_()
+      , shortName_()
+      , unicodeName_()
+      , id_()
       , category(Category::Search)
     {
     }
 
-    constexpr Emoji(const Emoji &) = default;
-    constexpr Emoji(Emoji &&)      = default;
+    Emoji(const Emoji &) = default;
+    Emoji(Emoji &&)      = default;
 
-    constexpr Emoji &operator=(const Emoji &) = default;
-    constexpr Emoji &operator=(Emoji &&)      = default;
+    Emoji &operator=(const Emoji &) = default;
+    Emoji &operator=(Emoji &&)      = default;
 
-    QString unicode() const
-    {
-        return QString::fromRawData(reinterpret_cast<const QChar *>(unicode_.data()),
-                                    unicode_.size());
-    }
-    QString shortName() const
-    {
-        return QString::fromRawData(reinterpret_cast<const QChar *>(shortName_.data()),
-                                    shortName_.size());
-    }
-    QString unicodeName() const
-    {
-        return QString::fromRawData(reinterpret_cast<const QChar *>(unicodeName_.data()),
-                                    unicodeName_.size());
-    }
+    QString unicode() const { return unicode_; }
+    QString shortName() const { return shortName_; }
+    QString unicodeName() const { return unicodeName_; }
+    QString id() const { return id_; }
 
 private:
-    std::u16string_view unicode_;
-    std::u16string_view shortName_;
-    std::u16string_view unicodeName_;
+    QString unicode_;
+    QString shortName_;
+    QString unicodeName_;
+    QString id_;
 
 public:
     Category category;

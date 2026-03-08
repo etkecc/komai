@@ -1079,6 +1079,65 @@ add_custom_command(
     VERBATIM
 )
 
+# Generate runtime emoji data JSON files from pinned upstream cache/sources.
+file(GLOB EMOJI_LANG_DIRS
+    CONFIGURE_DEPENDS
+    RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/resources/langs"
+    "${CMAKE_CURRENT_SOURCE_DIR}/resources/langs/*"
+)
+set(EMOJI_LOCALES "")
+foreach(_emoji_lang IN LISTS EMOJI_LANG_DIRS)
+    if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/resources/langs/${_emoji_lang}")
+        list(APPEND EMOJI_LOCALES "${_emoji_lang}")
+    endif()
+endforeach()
+list(SORT EMOJI_LOCALES)
+
+set(EMOJI_DATA_DIR "${CMAKE_CURRENT_BINARY_DIR}/emoji-data")
+set(EMOJI_CORE_JSON "${EMOJI_DATA_DIR}/core.json")
+set(EMOJI_MANIFEST_JSON "${EMOJI_DATA_DIR}/manifest.json")
+set(EMOJI_LOCALE_JSONS "")
+foreach(_emoji_locale IN LISTS EMOJI_LOCALES)
+    list(APPEND EMOJI_LOCALE_JSONS "${EMOJI_DATA_DIR}/locale/${_emoji_locale}.json")
+endforeach()
+
+file(GLOB_RECURSE EMOJI_OVERRIDE_FILES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/resources/emoji/overrides/*.yml"
+)
+
+add_custom_command(
+    OUTPUT
+        "${EMOJI_CORE_JSON}"
+        "${EMOJI_MANIFEST_JSON}"
+        ${EMOJI_LOCALE_JSONS}
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${EMOJI_DATA_DIR}/locale"
+    COMMAND Python3::Interpreter
+        "${CMAKE_CURRENT_SOURCE_DIR}/bin/emoji/pipeline.py"
+        build
+        --repo-root "${CMAKE_CURRENT_SOURCE_DIR}"
+        --out-dir "${EMOJI_DATA_DIR}"
+    DEPENDS
+        "${CMAKE_CURRENT_SOURCE_DIR}/bin/emoji/pipeline.py"
+        "${CMAKE_CURRENT_SOURCE_DIR}/bin/emoji/sources.lock.yml"
+        "${CMAKE_CURRENT_SOURCE_DIR}/resources/extra_emoji.txt"
+        "${CMAKE_CURRENT_SOURCE_DIR}/resources/shortcodes.txt"
+        ${EMOJI_OVERRIDE_FILES}
+    COMMENT "Generating runtime emoji data"
+    VERBATIM
+)
+add_custom_target(emoji_runtime_data
+    DEPENDS
+        "${EMOJI_CORE_JSON}"
+        "${EMOJI_MANIFEST_JSON}"
+        ${EMOJI_LOCALE_JSONS}
+)
+set_source_files_properties(
+    "${EMOJI_CORE_JSON}"
+    "${EMOJI_MANIFEST_JSON}"
+    ${EMOJI_LOCALE_JSONS}
+    PROPERTIES GENERATED TRUE
+)
+
 set(KOMAI_DEPS
     ${SRC_FILES}
     ${QRC}
@@ -1110,6 +1169,14 @@ set_target_properties(komai
         CMAKE_SKIP_INSTALL_RPATH TRUE
         AUTOMOC ON)
 target_compile_definitions(komai PRIVATE KOMAI_WITH_QML=1)
+add_dependencies(komai emoji_runtime_data)
+qt_add_resources(komai emoji_runtime_resources
+    PREFIX "/emoji"
+    BASE "${EMOJI_DATA_DIR}"
+    FILES
+        "${EMOJI_CORE_JSON}"
+        ${EMOJI_LOCALE_JSONS}
+)
 
 #
 # Add qml files
@@ -1516,6 +1583,34 @@ if(BUILD_TESTING)
     add_test(NAME komai_bot_detection_test COMMAND komai_bot_detection_test)
     komai_configure_test(komai_bot_detection_test "unit;utils")
 
+    add_executable(komai_emoji_completion_search_test
+        tests/EmojiCompletionSearchTest.cpp
+        tests/LoggingStub.cpp
+        src/models/CompletionProxyModel.cpp
+        src/emoji/Provider.cpp
+        src/emoji/Emoji.cpp
+    )
+    target_include_directories(komai_emoji_completion_search_test PRIVATE src)
+    target_link_libraries(komai_emoji_completion_search_test PRIVATE
+        Qt::Core
+        spdlog::spdlog
+    )
+    set_target_properties(komai_emoji_completion_search_test PROPERTIES AUTOMOC ON)
+    add_dependencies(komai_emoji_completion_search_test emoji_runtime_data)
+    qt_add_resources(komai_emoji_completion_search_test emoji_runtime_resources_test
+        PREFIX "/emoji"
+        BASE "${EMOJI_DATA_DIR}"
+        FILES
+            "${EMOJI_CORE_JSON}"
+            ${EMOJI_LOCALE_JSONS}
+    )
+    add_test(NAME komai_emoji_completion_search_test_en
+        COMMAND komai_emoji_completion_search_test --locale en)
+    komai_configure_test(komai_emoji_completion_search_test_en "unit;emoji")
+    add_test(NAME komai_emoji_completion_search_test_ja
+        COMMAND komai_emoji_completion_search_test --locale ja)
+    komai_configure_test(komai_emoji_completion_search_test_ja "unit;emoji")
+
     add_custom_target(komai_tests DEPENDS
         komai_yaml_settings_test
         komai_staged_load_plan_test
@@ -1532,6 +1627,7 @@ if(BUILD_TESTING)
         komai_roomlist_preview_selection_test
         komai_theme_color_utils_test
         komai_bot_detection_test
+        komai_emoji_completion_search_test
     )
 endif()
 

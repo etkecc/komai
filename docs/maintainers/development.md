@@ -98,7 +98,10 @@ Notes:
 
 ## 🧩 Maintenance Helpers
 
-- `just emoji-generate` - regenerate `src/emoji/Provider.{h,cpp}` from emoji data files
+- `just emoji-fetch` - fetch/update pinned Unicode + CLDR emoji source cache into `var/emoji/`
+- `just emoji-build` - generate runtime emoji data artifacts from cache/sources
+- `just emoji-check` - validate emoji lock/overrides and cache-based build reproducibility
+- `just emoji-add-token <EMOJI> <LOCALE> <TOKEN>` - add a locale token override (for example `just emoji-add-token "🥃" bg "уиски"`)
 - `just icons-audit` - check icon reference/qrc/files consistency
 - `just icons-generate-list` - regenerate `docs/architecture/icons-list.md` icon catalog
 - `just icons-generate-derived` - regenerate derived local icons from Fluent sources (for example `ui/double-checkmark.svg`)

@@ -1,49 +1,30 @@
-# Emoji Provider Generation 🙂
+# Emoji Data Pipeline 🙂
 
-This directory builds Komai's compiled emoji provider source files from upstream Unicode data plus Komai-specific overrides; start with [`docs/maintainers/development.md`](../../docs/maintainers/development.md) and Unicode emoji data at [`unicode.org/Public/emoji`](https://unicode.org/Public/emoji/).
+This directory hosts the emoji data pipeline for Komai.
 
-Quick orientation:
+Data sources are fetched into `var/emoji/` from pinned upstream refs in
+[`sources.lock.yml`](./sources.lock.yml), then transformed into compact runtime
+JSON embedded into the app binary via Qt resources.
 
-- Use `just emoji-generate` for normal development.
-- Edit source data files, not generated C++ output.
+## Commands
 
-## Why It Exists
-
-The app needs a fast, static emoji catalog in C++ for QML/UI usage. Instead of hand-editing large generated files, we regenerate them from canonical data inputs.
+- `just emoji-fetch` -> fetch/refresh upstream cache in `var/emoji/cache/<lock-hash>/`
+- `just emoji-build` -> generate runtime emoji JSON files in `var/emoji/generated/<lock-hash>/`
+- `just emoji-check` -> validate lock + overrides and run an offline cache-based build check
+- `just emoji-add-token "<emoji>" <locale> "<token>"` -> append a token override entry
 
 ## Files
 
-- `generate.sh` - orchestrates the generation pipeline.
-- `codegen.py` - parses emoji data and shortcodes, then renders C++ header/implementation output.
+- `pipeline.py` - fetch/build/check helper script.
+- `sources.lock.yml` - pinned upstream source configuration.
+- `../../resources/emoji/overrides/` - tracked local overrides (YAML).
 
-## Inputs and Outputs
+## Upstream Sources
 
-Inputs:
-
-- `resources/emoji-test.txt` (Unicode emoji data)
-- `resources/extra_emoji.txt` (extra entries not in upstream set)
-- `resources/shortcodes.txt` (shortcode overrides)
-- `resources/provider-head.txt` (static C++ prelude)
-
-Generated outputs:
-
-- `src/emoji/Provider.cpp`
-- `src/emoji/Provider.h`
-- `resources/complete-emoji.txt` (intermediate merged input)
-
-## Typical Workflow
-
-- Run `just emoji-generate` after updating emoji inputs.
-- Review generated diffs in `src/emoji/Provider.{h,cpp}`.
-- Commit both input and generated output changes together.
-
-## Dependencies
-
-- [`python3`](https://www.python.org/)
-- Python packages used by `codegen.py`:
-  - [`jinja2`](https://palletsprojects.com/p/jinja/)
-  - [`unidecode`](https://pypi.org/project/Unidecode/)
-- Unicode test data format source: [`emoji-test.txt`](https://unicode.org/Public/emoji/)
+- Unicode emoji test data:
+  - https://unicode.org/Public/emoji/
+- CLDR annotations:
+  - https://github.com/unicode-org/cldr-json
 
 Related docs:
 

@@ -1,0 +1,50 @@
+version: 1
+emoji:
+- id: 1F943
+  preview: 🥃
+  locale: en
+  tokens_add:
+  - whiskey
+  - drink
+  - alcohol
+  - bourbon
+  - whisky
+  - scotch
+  - liquor
+  - spirit
+  - spirits
+- id: 1F375
+  preview: 🍵
+  locale: en
+  tokens_add:
+  - houjicha
+  - hojicha
+  - genmaicha
+  - sencha
+  - matcha
+  - ほうじ茶
+  - ほうじちゃ
+  - 焙じ茶
+  - 抹茶
+  - 煎茶
+  - 玄米茶
+- id: 1F376
+  preview: 🍶
+  locale: en
+  tokens_add:
+  - nihonshu
+- id: 1F1EF-1F1F5
+  preview: 🇯🇵
+  locale: en
+  tokens_add:
+  - nihon
+- id: 1F981
+  preview: 🦁
+  locale: en
+  tokens_add:
+  - komai
+- id: 1F431
+  preview: 🐱
+  locale: en
+  tokens_add:
+  - nheko

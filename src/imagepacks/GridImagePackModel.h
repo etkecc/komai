@@ -74,6 +74,7 @@ public:
     QString unicode;
     QString unicodeName;
     QString shortcode;
+    QString searchText;
 };
 
 class GridImagePackModel final : public QAbstractListModel

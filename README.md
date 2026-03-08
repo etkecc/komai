@@ -27,6 +27,7 @@ Highlights:
 - 💬 [Matrix](https://matrix.org/) messaging with end-to-end encryption support (powered by [mtxclient](https://github.com/Nheko-Reborn/mtxclient) and [olm](https://gitlab.matrix.org/matrix-org/olm))
 - 📞 (Legacy) Voice & video calls (no [Element Call](https://github.com/element-hq/element-call) support yet)
 - 📎 File, image, audio & emoji messages (including custom stickers), with a built-in image gallery viewer
+- 😀 Richer emoji discovery via localized [Unicode CLDR](https://cldr.unicode.org/) keywords (for example, `:whiskey` finds 🥃) -- see [Emoji Search and Picker](docs/user-guide/emojis.md)
 - 💬 Replies, [Discord](https://discord.com/)-style threads, and message forwarding
 - 👥 Multi-account support via dedicated [application profiles](docs/user-guide/application-profiles.md)
 - 🎨 14 [built-in themes](docs/user-guide/themes.md#-built-in-themes), but also [🗂️ user-themable](docs/user-guide/themes.md#️-user-themes)

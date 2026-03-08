@@ -54,6 +54,7 @@ Rectangle {
 
                 property int completerTriggeredAt: 0
                 property string lastChar
+                property int previousTextLength: 0
 
                 function insertCompletion(completion) {
                     messageInput.remove(completerTriggeredAt, cursorPosition);
@@ -64,18 +65,55 @@ Rectangle {
                     }
                 }
                 function openCompleter(pos, type) {
-                    if (popup.opened)
-                        return;
                     completerTriggeredAt = pos;
                     completer.completerName = type;
-                    popup.open();
+                    if (!popup.opened)
+                        popup.open();
                     completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
+                }
+                function completerTypeForTrigger(trigger, tokenStart) {
+                    if ((trigger === '@' || trigger === '＠') && Settings.composerInputInlineUserPickerEnabled)
+                        return "user";
+                    if ((trigger === ':' || trigger === '：') && Settings.composerInputInlineEmojiPickerEnabled)
+                        return "emoji";
+                    if ((trigger === '#' || trigger === '＃') && Settings.composerInputInlineRoomPickerEnabled)
+                        return "roomAliases";
+                    if (trigger === '~' || trigger === '～')
+                        return "customEmoji";
+                    if ((trigger === '/' || trigger === '／') && tokenStart === 0)
+                        return "command";
+                    return "";
                 }
                 function positionCursorAtEnd() {
                     cursorPosition = messageInput.length;
                 }
                 function positionCursorAtStart() {
                     cursorPosition = 0;
+                }
+                function maybeOpenCompleterForTrailingTokenAfterBulkInsert() {
+                    if (popup.opened || cursorPosition !== text.length)
+                        return;
+
+                    var tokenStart = cursorPosition - 1;
+                    while (tokenStart >= 0) {
+                        const c = text.charAt(tokenStart);
+                        if (c === ' ' || c === '\t' || c === '\n')
+                            break;
+                        tokenStart = tokenStart - 1;
+                    }
+                    tokenStart = tokenStart + 1;
+
+                    if (tokenStart < 0 || tokenStart >= cursorPosition)
+                        return;
+
+                    const tokenLength = cursorPosition - tokenStart;
+                    if (tokenLength < 2)
+                        return;
+
+                    const trigger = text.charAt(tokenStart);
+                    const type = messageInput.completerTypeForTrigger(trigger, tokenStart);
+                    if (type !== "")
+                        messageInput.openCompleter(tokenStart, type);
                 }
 
                 background: null
@@ -168,17 +206,12 @@ Rectangle {
                             while (pos > -1) {
                                 var t = messageInput.getText(pos, pos + 1);
                                 console.log('"' + t + '"');
-                                if (t == '@') {
-                                    messageInput.openCompleter(pos, "user");
+                                const type = messageInput.completerTypeForTrigger(t, pos);
+                                if (type !== "") {
+                                    messageInput.openCompleter(pos, type);
                                     return;
                                 } else if (t == ' ' || t == '\t') {
                                     messageInput.openCompleter(pos + 1, "user");
-                                    return;
-                                } else if (t == ':') {
-                                    messageInput.openCompleter(pos, "emoji");
-                                    return;
-                                } else if (t == '~') {
-                                    messageInput.openCompleter(pos, "customEmoji");
                                     return;
                                 }
                                 pos = pos - 1;
@@ -247,6 +280,7 @@ Rectangle {
                 onSelectionEndChanged: room.input.updateState(selectionStart, selectionEnd, cursorPosition, text)
                 onSelectionStartChanged: room.input.updateState(selectionStart, selectionEnd, cursorPosition, text)
                 onTextChanged: {
+                    const insertedLength = text.length - previousTextLength;
                     if (room)
                         room.input.updateState(selectionStart, selectionEnd, cursorPosition, text);
                     forceActiveFocus();
@@ -254,15 +288,14 @@ Rectangle {
                         lastChar = text.charAt(cursorPosition - 1);
                     else
                         lastChar = '';
-                    if (lastChar == '@' && Settings.composerInputInlineUserPickerEnabled) {
-                        messageInput.openCompleter(selectionStart - 1, "user");
-                    } else if (lastChar == ':' && Settings.composerInputInlineEmojiPickerEnabled) {
-                        messageInput.openCompleter(selectionStart - 1, "emoji");
-                    } else if (lastChar == '#' && Settings.composerInputInlineRoomPickerEnabled) {
-                        messageInput.openCompleter(selectionStart - 1, "roomAliases");
-                    } else if (lastChar == "/" && cursorPosition == 1) {
-                        messageInput.openCompleter(selectionStart - 1, "command");
+                    const triggerPos = selectionStart - 1;
+                    const type = messageInput.completerTypeForTrigger(lastChar, triggerPos);
+                    if (type !== "") {
+                        messageInput.openCompleter(triggerPos, type);
+                    } else if (insertedLength > 1) {
+                        messageInput.maybeOpenCompleterForTrailingTokenAfterBulkInsert();
                     }
+                    previousTextLength = text.length;
                 }
 
                 Connections {

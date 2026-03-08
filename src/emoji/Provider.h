@@ -3,17 +3,47 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// DO NOT EDIT Provider.h DIRECTLY! EDIT IT IN bin/emoji/codegen.py AND RUN just emoji-generate!
-
 #pragma once
+
+#include <QString>
+
+#include <cstddef>
+#include <vector>
+
 #include "Emoji.h"
-#include <array>
 
 namespace emoji {
 class Provider
 {
 public:
-    // all emoji for QML purposes
-    static const std::array<Emoji, 3799> emoji;
+    struct Query
+    {
+        QString keyword;
+        QString preferredSkinToneClass;
+        QString preferredGender;
+        bool includeSkinToneVariants = true;
+    };
+
+    struct QueryData
+    {
+        QString searchText;
+        QString skinToneClass;
+        QString baseId;
+        bool hasSkinToneVariants = false;
+    };
+
+    // Returns the lazily loaded emoji catalog from embedded runtime JSON resources.
+    static const std::vector<Emoji> &emoji();
+
+    // Returns query-relevant metadata for emoji entry at index. Empty/default data when out of
+    // bounds.
+    static const QueryData &queryData(std::size_t index);
+
+    // Returns whether emoji entry at index matches query instructions. This is designed to be
+    // extensible for future user preferences (for example skin tone and gender preferences).
+    static bool matchesQuery(std::size_t index, const Query &query);
+
+    // Backward-compatible helper for existing callers. Prefer queryData(index).searchText.
+    static QString searchText(std::size_t index);
 };
 } // namespace emoji

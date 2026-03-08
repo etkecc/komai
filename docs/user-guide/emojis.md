@@ -139,6 +139,34 @@ Komai builds emoji search data from:
 Komai then applies small project-specific alias overrides on top.
 
 
+## 🖼️ Custom Emojis and Stickers
+
+Beyond standard Unicode emojis, Matrix supports **custom image emojis** and **stickers** via
+[MSC2545 (Image Packs)](https://github.com/matrix-org/matrix-spec-proposals/pull/2545).
+
+Custom emojis are small images (hosted on your homeserver) that can be used inline in messages,
+just like regular emojis. Stickers are larger standalone images sent as their own message.
+
+### Where packs come from
+
+- **Your account**: a personal pack only you can use
+- **Rooms**: packs defined in room state, available to everyone in that room
+- **Spaces**: packs from parent spaces are inherited by child rooms
+
+You can also globally enable packs from any room you're in, making them available everywhere.
+
+### Using custom emojis
+
+Custom emojis appear alongside Unicode emojis in the picker and inline completer (`:shortcode`).
+When sent, they are embedded in the message HTML as `<img>` tags with `mxc://` URLs, so other
+Matrix clients that support MSC2545 will render them inline.
+
+### Managing packs
+
+Open the emoji picker (by clicking the icon from the Composer) and click the settings icon to manage packs: create new ones, add or remove
+images, toggle emoji/sticker usage, and enable packs globally.
+
+
 ## 🔗 More Details
 
 - User-facing summary in [Differences from nheko](differences-from-nheko.md#-composer-and-replies)

@@ -161,6 +161,89 @@ This policy is applied in both:
 - inline completion proxy (`src/models/CompletionProxyModel.cpp`)
 - emoji/sticker grid search (`src/imagepacks/GridImagePackModel.cpp`)
 
+## Custom Emojis and Stickers (MSC2545 Image Packs)
+
+In addition to the Unicode emoji pipeline above, Komai supports custom image emojis and stickers
+via [MSC2545](https://github.com/matrix-org/matrix-spec-proposals/pull/2545).
+
+### Storage
+
+Custom emojis/stickers are stored as Matrix events:
+
+- `m.image_pack` (room state): room-specific packs, keyed by state key
+- `m.image_pack` (account data): user's personal pack
+- `m.image_pack.rooms` (account data): tracks which room packs are globally enabled
+
+Each pack contains a map of shortcodes to images:
+
+```json
+{
+  "images": {
+    "catjam": {
+      "url": "mxc://example.com/abc123",
+      "body": "Cat Jam",
+      "usage": ["emoticon"]
+    }
+  },
+  "pack": {
+    "display_name": "My Pack",
+    "usage": ["emoticon", "sticker"]
+  }
+}
+```
+
+The `usage` field distinguishes emojis (`emoticon`) from stickers (`sticker`). A single image can
+be both.
+
+### Pack discovery hierarchy
+
+`CacheSpacesImagePacks.cpp` resolves packs from multiple sources in priority order:
+
+1. User's account data pack
+2. Globally enabled room packs (via `m.image_pack.rooms`)
+3. Current room's state events
+4. Parent space packs (recursive)
+
+### Wire format: how custom emojis appear in messages
+
+When a user picks a custom emoji, it is inserted into the composer as an HTML `<img>` tag:
+
+```html
+<img data-mx-emoticon height="32" src="mxc://example.com/abc123" alt=":catjam:" title=":catjam:">
+```
+
+The resulting Matrix event has both a plain-text fallback and HTML body:
+
+```json
+{
+  "msgtype": "m.text",
+  "body": "Hello :catjam:",
+  "format": "org.matrix.custom.html",
+  "formatted_body": "Hello <img data-mx-emoticon height=\"32\" src=\"mxc://example.com/abc123\" alt=\":catjam:\" title=\":catjam:\">"
+}
+```
+
+The `data-mx-emoticon` attribute signals to receiving clients that the image should be rendered
+inline at text size rather than as a full image. When rendering, Komai scales these images to 2×
+the font ascent (`TimelineModelDataFormatting.cpp`).
+
+Clients that do not support MSC2545 fall back to displaying the plain `body` field.
+
+### Models
+
+- `ImagePackListModel`: lists all available packs for a room, supports creating new packs
+- `SingleImagePackModel`: represents one pack with editing (shortcodes, images, usage flags)
+- `CombinedImagePackModel`: merges Unicode emojis with custom image packs for inline completion
+- `GridImagePackModel`: grid view for the emoji/sticker picker with trie-based search
+
+Source: `src/imagepacks/`
+
+### UI
+
+- `resources/qml/emoji/StickerPicker.qml`: picker grid (dual mode: emoji or sticker)
+- `resources/qml/dialogs/media/ImagePackSettingsDialog.qml`: pack management
+- `resources/qml/dialogs/media/ImagePackEditorDialog.qml`: pack editor
+
 ## Packaging and Repository Size
 
 - Upstream Unicode/CLDR payloads are not vendored in git.

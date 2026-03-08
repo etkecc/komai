@@ -55,6 +55,7 @@ class MediaUpload final : public QObject
     Q_PROPERTY(QUrl thumbnail READ thumbnailDataUrl NOTIFY thumbnailChanged)
     //    Q_PROPERTY(QString humanSize READ humanSize NOTIFY huSizeChanged)
     Q_PROPERTY(QString filename READ filename WRITE setFilename NOTIFY filenameChanged)
+    Q_PROPERTY(QString mimetype READ mimetype CONSTANT)
 
     // thumbnail video
     // https://stackoverflow.com/questions/26229633/display-on-screen-using-qabstractvideosurface
@@ -167,6 +168,7 @@ class InputBar final : public QObject
     Q_PROPERTY(QStringList mentions READ mentions NOTIFY mentionsChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
     Q_PROPERTY(QVariantList uploads READ uploads NOTIFY uploadsChanged)
+    Q_PROPERTY(bool allUploadsAreImages READ allUploadsAreImages NOTIFY uploadsChanged)
 
 public:
     explicit InputBar(TimelineModel *parent)
@@ -182,6 +184,7 @@ public:
     }
 
     QVariantList uploads() const;
+    bool allUploadsAreImages() const;
 
 public slots:
     [[nodiscard]] QString text() const;
@@ -243,6 +246,7 @@ public slots:
 
     void acceptUploads();
     void declineUploads();
+    Q_INVOKABLE void removeUpload(int index);
 
 private slots:
     void startTyping();
@@ -278,18 +282,21 @@ private:
                const QString &thumbnailUrl,
                uint64_t thumbnailSize,
                const QSize &thumbnailDimensions,
-               const QString &blurhash);
+               const QString &blurhash,
+               const QString &caption = {});
     void file(const QString &filename,
               const std::optional<mtx::crypto::EncryptedFile> &encryptedFile,
               const QString &url,
               const QString &mime,
-              uint64_t dsize);
+              uint64_t dsize,
+              const QString &caption = {});
     void audio(const QString &filename,
                const std::optional<mtx::crypto::EncryptedFile> &file,
                const QString &url,
                const QString &mime,
                uint64_t dsize,
-               uint64_t duration);
+               uint64_t duration,
+               const QString &caption = {});
     void video(const QString &filename,
                const std::optional<mtx::crypto::EncryptedFile> &file,
                const QString &url,
@@ -301,7 +308,8 @@ private:
                const QString &thumbnailUrl,
                uint64_t thumbnailSize,
                const QSize &thumbnailDimensions,
-               const QString &blurhash);
+               const QString &blurhash,
+               const QString &caption = {});
 
     QPair<QString, QString> getCommandAndArgs() const { return getCommandAndArgs(text()); }
     QPair<QString, QString> getCommandAndArgs(const QString &currentText) const;
@@ -342,6 +350,8 @@ private:
     QStringList mentionsBefore, mentionTextsBefore;
     QString textBeforeEdit;
     bool containsAtRoomBefore = false;
+
+    QString caption_;
 
     using UploadHandle = std::unique_ptr<MediaUpload, DeleteLaterDeleter>;
     std::vector<UploadHandle> unconfirmedUploads;

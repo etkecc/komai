@@ -352,10 +352,25 @@ InputBar::send()
 {
     QInputMethod *im = QGuiApplication::inputMethod();
     im->commit();
-    if (text().trimmed().isEmpty()) {
+
+    bool hasUploads = !unconfirmedUploads.empty();
+    bool hasText    = !text().trimmed().isEmpty();
+
+    if (hasUploads) {
+        if (hasText && allUploadsAreImages())
+            caption_ = text().trimmed();
+
         acceptUploads();
+
+        if (hasText) {
+            history_.push_front(QLatin1String(""));
+            setText(QLatin1String(""));
+        }
         return;
     }
+
+    if (!hasText)
+        return;
 
     nhlog::ui()->debug("Send: {}", text().toStdString());
 

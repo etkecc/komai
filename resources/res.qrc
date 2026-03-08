@@ -93,6 +93,12 @@
         <file alias="icons/ui/squares-nested.svg">icons/fluent/assets/Squares Nested/SVG/ic_fluent_squares_nested_20_regular.svg</file>
         <file alias="icons/ui/globe-search.svg">icons/fluent/assets/Globe Search/SVG/ic_fluent_globe_search_24_regular.svg</file>
         <file alias="icons/ui/arrow-join.svg">icons/fluent/assets/Arrow Join/SVG/ic_fluent_arrow_join_20_regular.svg</file>
+        <file alias="icons/ui/document-data.svg">icons/fluent/assets/Document Data/SVG/ic_fluent_document_data_24_regular.svg</file>
+        <file alias="icons/ui/document-pdf.svg">icons/fluent/assets/Document PDF/SVG/ic_fluent_document_pdf_24_regular.svg</file>
+        <file alias="icons/ui/document-text.svg">icons/fluent/assets/Document Text/SVG/ic_fluent_document_text_24_regular.svg</file>
+        <file alias="icons/ui/code.svg">icons/fluent/assets/Code/SVG/ic_fluent_code_24_regular.svg</file>
+        <file alias="icons/ui/slide-content.svg">icons/fluent/assets/Slide Content/SVG/ic_fluent_slide_content_24_regular.svg</file>
+        <file alias="icons/ui/table-simple.svg">icons/fluent/assets/Table Simple/SVG/ic_fluent_table_simple_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

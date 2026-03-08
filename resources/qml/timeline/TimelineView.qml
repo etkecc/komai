@@ -152,8 +152,8 @@ Item {
             id: uploadBox
 
             Layout.minimumHeight: 0
-            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? 200 : 0
-            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? 200 : 0
+            Layout.preferredHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
+            Layout.maximumHeight: !timelineView.perfDisableComposer && layoutVisible ? implicitHeight : 0
         }
         Composer.ReplyPopup {
             id: replyPopup

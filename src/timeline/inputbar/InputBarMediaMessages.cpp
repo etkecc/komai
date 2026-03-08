@@ -19,13 +19,14 @@ InputBar::image(const QString &filename,
                 const QString &thumbnailUrl,
                 uint64_t thumbnailSize,
                 const QSize &thumbnailDimensions,
-                const QString &blurhash)
+                const QString &blurhash,
+                const QString &caption)
 {
     mtx::events::msg::Image image;
     image.info.mimetype = mime.toStdString();
     image.info.size     = dsize;
     image.info.blurhash = blurhash.toStdString();
-    image.body          = filename.toStdString();
+    image.body          = caption.isEmpty() ? filename.toStdString() : caption.toStdString();
     image.info.h        = dimensions.height();
     image.info.w        = dimensions.width();
 
@@ -57,12 +58,19 @@ InputBar::file(const QString &filename,
                const std::optional<mtx::crypto::EncryptedFile> &encryptedFile,
                const QString &url,
                const QString &mime,
-               uint64_t dsize)
+               uint64_t dsize,
+               const QString &caption)
 {
     mtx::events::msg::File file;
     file.info.mimetype = mime.toStdString();
     file.info.size     = dsize;
-    file.body          = filename.toStdString();
+
+    if (!caption.isEmpty()) {
+        file.body     = caption.toStdString();
+        file.filename = filename.toStdString();
+    } else {
+        file.body = filename.toStdString();
+    }
 
     if (encryptedFile)
         file.file = encryptedFile;
@@ -81,12 +89,13 @@ InputBar::audio(const QString &filename,
                 const QString &url,
                 const QString &mime,
                 uint64_t dsize,
-                uint64_t duration)
+                uint64_t duration,
+                const QString &caption)
 {
     mtx::events::msg::Audio audio;
     audio.info.mimetype = mime.toStdString();
     audio.info.size     = dsize;
-    audio.body          = filename.toStdString();
+    audio.body          = caption.isEmpty() ? filename.toStdString() : caption.toStdString();
     audio.url           = url.toStdString();
 
     if (duration > 0)
@@ -115,13 +124,14 @@ InputBar::video(const QString &filename,
                 const QString &thumbnailUrl,
                 uint64_t thumbnailSize,
                 const QSize &thumbnailDimensions,
-                const QString &blurhash)
+                const QString &blurhash,
+                const QString &caption)
 {
     mtx::events::msg::Video video;
     video.info.mimetype = mime.toStdString();
     video.info.size     = dsize;
     video.info.blurhash = blurhash.toStdString();
-    video.body          = filename.toStdString();
+    video.body          = caption.isEmpty() ? filename.toStdString() : caption.toStdString();
 
     if (duration > 0)
         video.info.duration = duration;

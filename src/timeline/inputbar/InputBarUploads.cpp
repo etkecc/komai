@@ -263,6 +263,7 @@ InputBar::finalizeUpload(MediaUpload *upload, const QString &url)
     auto mimeClass     = upload->mimeClass();
     auto size          = upload->size();
     auto encryptedFile = upload->encryptedFile_();
+    auto caption       = caption_;
     if (mimeClass == u"image")
         image(filename,
               encryptedFile,
@@ -274,9 +275,10 @@ InputBar::finalizeUpload(MediaUpload *upload, const QString &url)
               upload->thumbnailUrl(),
               upload->thumbnailSize(),
               upload->thumbnailImg().size(),
-              upload->blurhash());
+              upload->blurhash(),
+              caption);
     else if (mimeClass == u"audio")
-        audio(filename, encryptedFile, url, mime, size, upload->duration());
+        audio(filename, encryptedFile, url, mime, size, upload->duration(), caption);
     else if (mimeClass == u"video")
         video(filename,
               encryptedFile,
@@ -289,9 +291,10 @@ InputBar::finalizeUpload(MediaUpload *upload, const QString &url)
               upload->thumbnailUrl(),
               upload->thumbnailSize(),
               upload->thumbnailImg().size(),
-              upload->blurhash());
+              upload->blurhash(),
+              caption);
     else
-        file(filename, encryptedFile, url, mime, size);
+        file(filename, encryptedFile, url, mime, size, caption);
 
     removeRunUpload(upload);
 }
@@ -305,10 +308,12 @@ InputBar::removeRunUpload(MediaUpload *upload)
     if (it != runningUploads.end())
         runningUploads.erase(it);
 
-    if (runningUploads.empty())
+    if (runningUploads.empty()) {
         setUploading(false);
-    else
+        caption_.clear();
+    } else {
         runningUploads.front()->startUpload();
+    }
 }
 
 void
@@ -403,4 +408,25 @@ InputBar::uploads() const
     for (auto &e : unconfirmedUploads)
         l.push_back(QVariant::fromValue(e.get()));
     return l;
+}
+
+bool
+InputBar::allUploadsAreImages() const
+{
+    if (unconfirmedUploads.empty())
+        return false;
+
+    return std::all_of(unconfirmedUploads.begin(),
+                       unconfirmedUploads.end(),
+                       [](const UploadHandle &h) { return h->mimeClass_ == u"image"; });
+}
+
+void
+InputBar::removeUpload(int index)
+{
+    if (index < 0 || index >= static_cast<int>(unconfirmedUploads.size()))
+        return;
+
+    unconfirmedUploads.erase(unconfirmedUploads.begin() + index);
+    emit uploadsChanged();
 }

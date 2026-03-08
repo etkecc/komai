@@ -18,6 +18,10 @@ Rectangle {
     required property var timelineRoot
     property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
     readonly property string text: messageInput.text
+    readonly property bool hasUploads: room && room.input.uploads.length > 0
+    readonly property bool uploadsAreAllImages: hasUploads && room.input.allUploadsAreImages
+    readonly property bool showComposerText: !hasUploads || uploadsAreAllImages
+    readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
 
     Layout.fillWidth: true
     Layout.minimumHeight: 48
@@ -46,10 +50,11 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.maximumHeight: Window.height / 4
-            Layout.minimumHeight: fontMetrics.lineSpacing
-            Layout.preferredHeight: contentHeight
+            Layout.minimumHeight: visible ? fontMetrics.lineSpacing : 0
+            Layout.preferredHeight: visible ? contentHeight : 0
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             contentWidth: availableWidth
+            visible: inputBar.showComposerText
 
             TextArea {
                 id: messageInput
@@ -125,7 +130,14 @@ Rectangle {
                 leftPadding: inputBar.showAllButtons ? 0 : 8
                 padding: 0
                 font.pointSize: Settings.uiFontSizePt
-                placeholderText: qsTr("Write a message...")
+                placeholderText: {
+                    if (inputBar.hasUploads && inputBar.uploadsAreAllImages) {
+                        return room.input.uploads.length > 1
+                            ? qsTr("Add a caption (replaces file names)...")
+                            : qsTr("Add a caption (replaces file name)...");
+                    }
+                    return qsTr("Write a message...");
+                }
                 placeholderTextColor: palette.buttonText
                 selectByMouse: true
                 topPadding: 8
@@ -431,6 +443,7 @@ Rectangle {
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
             ToolTip.text: qsTr("Emoji")
             image: ":/icons/icons/ui/smile.svg"
+            visible: inputBar.showComposerText
 
             onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(emojiButton, room.roomId, function (plaintext, markdown) {
                     messageInput.insert(messageInput.cursorPosition, markdown);
@@ -449,7 +462,7 @@ Rectangle {
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
             Layout.rightMargin: 8
             ToolTip.text: qsTr("Send")
-            buttonTextColor: messageInput.length > 0 ? palette.highlight : palette.buttonText
+            buttonTextColor: inputBar.hasSendableContent ? palette.highlight : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
 
             SequentialAnimation {
@@ -468,7 +481,7 @@ Rectangle {
                 interval: 500
                 repeat: false
                 onTriggered: {
-                    if (messageInput.length > 0 && Settings.uiMotionAnimationsEnabled)
+                    if (inputBar.hasSendableContent && Settings.uiMotionAnimationsEnabled)
                         shakeAnimation.start();
                 }
             }
@@ -480,6 +493,15 @@ Rectangle {
                         shakeTimer.restart();
                     else
                         shakeTimer.stop();
+                }
+            }
+
+            Connections {
+                target: room ? room.input : null
+                ignoreUnknownSignals: true
+                function onUploadsChanged() {
+                    if (inputBar.hasUploads && Settings.uiMotionAnimationsEnabled)
+                        shakeTimer.restart();
                 }
             }
 

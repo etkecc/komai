@@ -136,6 +136,9 @@ AbstractButton {
         }
     ]
 
+    // A non-empty body that doesn't look like a filename is treated as a real caption
+    readonly property bool hasCaption: body.length > 0 && !body.match(/\.\w{2,5}$/)
+
     property int metadataWidth
     property bool fitsMetadata: parent != null ? (parent.width - width) > metadataWidth+4 : false
 
@@ -203,7 +206,7 @@ AbstractButton {
 
             anchors.fill: parent
 
-            visible: imageClipper.parent.hovered
+            visible: hasCaption || imageClipper.parent.hovered
 
             Rectangle {
                 id: container
@@ -223,7 +226,7 @@ AbstractButton {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 // See this MSC: https://github.com/matrix-org/matrix-doc/pull/2530
-                text: filename ? filename : body
+                text: hasCaption ? body : filename
                 color: palette.text
             }
 

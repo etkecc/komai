@@ -12,6 +12,9 @@
 
 #include "timeline/formattedmessage/LinkPatterns.h"
 
+// matrix.to URL prefix for detecting pill-eligible links.
+static const QLatin1String kMatrixToPrefix("https://matrix.to/#/");
+
 namespace timeline::formattedmessage {
 namespace {
 
@@ -600,6 +603,128 @@ linkifyHtml(const QString &html)
                 updateDepth(tag, tagName, preDepth);
             else if (tagName == QLatin1String("code"))
                 updateDepth(tag, tagName, codeDepth);
+        }
+
+        pos = tag.end;
+    }
+
+    return out;
+}
+
+namespace {
+
+/// Extract the Matrix ID from a matrix.to href value.
+/// Returns the decoded ID (e.g. "@user:server", "#room:server", "!roomid:server")
+/// or empty string if the href is not a matrix.to URL.
+QString
+matrixIdFromHref(const QString &href)
+{
+    if (!href.startsWith(kMatrixToPrefix))
+        return {};
+
+    // The ID is everything after "https://matrix.to/#/", possibly percent-encoded.
+    // Strip any query string or extra fragment path segments (e.g. "/$eventid").
+    auto fragment = href.mid(kMatrixToPrefix.size());
+
+    // Remove query string if present.
+    const int queryPos = fragment.indexOf(QLatin1Char('?'));
+    if (queryPos >= 0)
+        fragment = fragment.left(queryPos);
+
+    // For event links like "!room:server/$event:server", keep only the first segment.
+    const int slashPos = fragment.indexOf(QLatin1Char('/'));
+    if (slashPos >= 0)
+        fragment = fragment.left(slashPos);
+
+    return QUrl::fromPercentEncoding(fragment.toUtf8());
+}
+
+/// Determine the pill CSS class suffix from a Matrix ID sigil.
+/// Returns "user", "room", or empty for unrecognized sigils.
+QString
+pillClassForId(const QString &matrixId)
+{
+    if (matrixId.isEmpty())
+        return {};
+
+    const auto sigil = matrixId.at(0);
+    if (sigil == QLatin1Char('@'))
+        return QStringLiteral("user");
+    if (sigil == QLatin1Char('#') || sigil == QLatin1Char('!'))
+        return QStringLiteral("room");
+
+    return {};
+}
+
+} // namespace
+
+QString
+decorateMatrixPills(const QString &html, const PillAvatarResolver &avatarResolver)
+{
+    if (html.isEmpty())
+        return html;
+
+    QString out;
+    out.reserve(html.size() + html.size() / 4);
+
+    int pos = 0;
+
+    while (pos < html.size()) {
+        const int nextLt = html.indexOf(QLatin1Char('<'), pos);
+        if (nextLt < 0) {
+            out += html.mid(pos);
+            break;
+        }
+
+        out += html.mid(pos, nextLt - pos);
+
+        const auto tag = parseTag(html, nextLt);
+        if (!tag.valid) {
+            out += QLatin1Char('<');
+            pos = nextLt + 1;
+            continue;
+        }
+
+        const auto tagName = tagNameLower(html, tag);
+
+        // Only process opening <a> tags with matrix.to hrefs.
+        if (tagName != QLatin1String("a") || tag.isEnd || tag.selfClosing) {
+            out += html.mid(tag.start, tag.end - tag.start);
+            pos = tag.end;
+            continue;
+        }
+
+        const auto attrs = parseAttributes(html, tag);
+        QString href;
+        for (const auto &attr : attrs) {
+            if (attr.name == QLatin1String("href")) {
+                href = attr.value;
+                break;
+            }
+        }
+
+        const auto matrixId = matrixIdFromHref(href);
+        const auto pillType = pillClassForId(matrixId);
+
+        if (pillType.isEmpty()) {
+            // Not a pill-eligible link — emit as-is.
+            out += html.mid(tag.start, tag.end - tag.start);
+            pos = tag.end;
+            continue;
+        }
+
+        // Rebuild the <a> tag with pill class.
+        out += QStringLiteral("<a href=\"%1\" class=\"pill pill-%2\">")
+                 .arg(href.toHtmlEscaped(), pillType);
+
+        // Inject avatar image if the resolver provides one.
+        // Display size is controlled by CSS (img.pill-avatar { height: 1.4em }).
+        if (avatarResolver) {
+            const auto avatarSrc = avatarResolver(matrixId);
+            if (!avatarSrc.isEmpty()) {
+                out += QStringLiteral("<img class=\"pill-avatar\" src=\"%1\"/>")
+                         .arg(avatarSrc.toHtmlEscaped());
+            }
         }
 
         pos = tag.end;

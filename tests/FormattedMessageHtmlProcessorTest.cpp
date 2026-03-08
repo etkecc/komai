@@ -218,6 +218,172 @@ testLinkifySkipsAnchorAttributesAndCodeBlocks()
     return ok;
 }
 
+bool
+testPillDecoratesUserMention()
+{
+    const QString input = QStringLiteral(
+      "hello <a href=\"https://matrix.to/#/%40slavi%3Adevture.com\">Slavi</a> world");
+
+    auto stubResolver = [](const QString &matrixId) -> QString {
+        if (matrixId == QStringLiteral("@slavi:devture.com"))
+            return QStringLiteral("image://mxcImage/devture.com/abc123?scale&height=32&radius=100");
+        return {};
+    };
+
+    const QString out = timeline::formattedmessage::decorateMatrixPills(input, stubResolver);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("class=\"pill pill-user\"")),
+                 "user pill has pill-user class");
+    ok &= expect(out.contains(QStringLiteral("<img class=\"pill-avatar\"")),
+                 "user pill has avatar img");
+    ok &= expect(out.contains(QStringLiteral("src=\"image://mxcImage/devture.com/abc123")),
+                 "avatar img has correct src from resolver");
+    ok &= expect(out.contains(QStringLiteral("Slavi")),
+                 "display name text is preserved");
+    ok &= expect(out.contains(QStringLiteral("hello ")),
+                 "text before pill is preserved");
+    ok &= expect(out.contains(QStringLiteral(" world")),
+                 "text after pill is preserved");
+    return ok;
+}
+
+bool
+testPillDecoratesRoomMention()
+{
+    const QString input = QStringLiteral(
+      "<a href=\"https://matrix.to/#/%23room%3Aexample.org\">#room:example.org</a>");
+
+    auto stubResolver = [](const QString &matrixId) -> QString {
+        if (matrixId == QStringLiteral("#room:example.org"))
+            return QStringLiteral("image://mxcImage/example.org/roomavatar");
+        return {};
+    };
+
+    const QString out = timeline::formattedmessage::decorateMatrixPills(input, stubResolver);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("class=\"pill pill-room\"")),
+                 "room pill has pill-room class");
+    ok &= expect(out.contains(QStringLiteral("<img class=\"pill-avatar\"")),
+                 "room pill has avatar img");
+    ok &= expect(out.contains(QStringLiteral("#room:example.org")),
+                 "room name text is preserved");
+    return ok;
+}
+
+bool
+testPillDecoratesRoomIdMention()
+{
+    const QString input = QStringLiteral(
+      "<a href=\"https://matrix.to/#/!abc123%3Aexample.org\">My Room</a>");
+
+    auto stubResolver = [](const QString &) -> QString { return {}; };
+
+    const QString out = timeline::formattedmessage::decorateMatrixPills(input, stubResolver);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("class=\"pill pill-room\"")),
+                 "room ID pill has pill-room class");
+    ok &= expect(!out.contains(QStringLiteral("<img class=\"pill-avatar\"")),
+                 "no avatar img when resolver returns empty");
+    ok &= expect(out.contains(QStringLiteral("My Room")),
+                 "display text is preserved");
+    return ok;
+}
+
+bool
+testPillSkipsNonMatrixToLinks()
+{
+    const QString input = QStringLiteral(
+      "<a href=\"https://example.org\">Example</a>");
+
+    auto stubResolver = [](const QString &) -> QString {
+        return QStringLiteral("should-not-appear");
+    };
+
+    const QString out = timeline::formattedmessage::decorateMatrixPills(input, stubResolver);
+
+    bool ok = true;
+    ok &= expect(!out.contains(QStringLiteral("pill")),
+                 "non-matrix.to link is not decorated");
+    ok &= expect(out == input, "non-matrix.to link is unchanged");
+    return ok;
+}
+
+bool
+testPillPreservesMultipleLinks()
+{
+    const QString input = QStringLiteral(
+      "<a href=\"https://matrix.to/#/%40alice%3Aexample.org\">Alice</a> and "
+      "<a href=\"https://matrix.to/#/%40bob%3Aexample.org\">Bob</a>");
+
+    auto stubResolver = [](const QString &matrixId) -> QString {
+        if (matrixId == QStringLiteral("@alice:example.org"))
+            return QStringLiteral("image://mxcImage/example.org/alice");
+        if (matrixId == QStringLiteral("@bob:example.org"))
+            return QStringLiteral("image://mxcImage/example.org/bob");
+        return {};
+    };
+
+    const QString out = timeline::formattedmessage::decorateMatrixPills(input, stubResolver);
+
+    bool ok = true;
+    ok &= expect(countOccurrences(out, QStringLiteral("class=\"pill pill-user\"")) == 2,
+                 "both user links are decorated");
+    ok &= expect(out.contains(QStringLiteral("example.org/alice")),
+                 "first avatar is present");
+    ok &= expect(out.contains(QStringLiteral("example.org/bob")),
+                 "second avatar is present");
+    ok &= expect(out.contains(QStringLiteral("Alice")),
+                 "first display name is preserved");
+    ok &= expect(out.contains(QStringLiteral(" and ")),
+                 "text between pills is preserved");
+    ok &= expect(out.contains(QStringLiteral("Bob")),
+                 "second display name is preserved");
+    return ok;
+}
+
+bool
+testPillWithNullResolver()
+{
+    const QString input = QStringLiteral(
+      "<a href=\"https://matrix.to/#/%40user%3Aexample.org\">User</a>");
+
+    const QString out =
+      timeline::formattedmessage::decorateMatrixPills(input, nullptr);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("class=\"pill pill-user\"")),
+                 "pill class is added even without resolver");
+    ok &= expect(!out.contains(QStringLiteral("<img")),
+                 "no img tag when resolver is null");
+    return ok;
+}
+
+bool
+testPillWithEventLink()
+{
+    // matrix.to link to a specific event: https://matrix.to/#/!room:server/$event:server
+    const QString input = QStringLiteral(
+      "<a href=\"https://matrix.to/#/!room%3Aserver/%24event%3Aserver\">link</a>");
+
+    auto stubResolver = [](const QString &matrixId) -> QString {
+        if (matrixId == QStringLiteral("!room:server"))
+            return QStringLiteral("image://mxcImage/server/roomavatar");
+        return {};
+    };
+
+    const QString out = timeline::formattedmessage::decorateMatrixPills(input, stubResolver);
+
+    bool ok = true;
+    ok &= expect(out.contains(QStringLiteral("class=\"pill pill-room\"")),
+                 "event link is decorated as room pill");
+    ok &= expect(out.contains(QStringLiteral("image://mxcImage/server/roomavatar")),
+                 "room avatar is resolved from room ID portion");
+    return ok;
+}
+
 } // namespace
 
 int
@@ -237,6 +403,13 @@ main(int argc, char **argv)
     ok &= testDepthLimit();
     ok &= testLinkifyPlainTextAndMatrixUri();
     ok &= testLinkifySkipsAnchorAttributesAndCodeBlocks();
+    ok &= testPillDecoratesUserMention();
+    ok &= testPillDecoratesRoomMention();
+    ok &= testPillDecoratesRoomIdMention();
+    ok &= testPillSkipsNonMatrixToLinks();
+    ok &= testPillPreservesMultipleLinks();
+    ok &= testPillWithNullResolver();
+    ok &= testPillWithEventLink();
 
     return ok ? 0 : 1;
 }

@@ -106,6 +106,24 @@ generateMasterStylesheet(const QPalette &palette,
              "h1 span.emoji, h2 span.emoji, h3 span.emoji,"
              "h4 span.emoji, h5 span.emoji, h6 span.emoji {"
              "  font-size: 1em;"
+             "}"
+             "a.pill {"
+             "  display: inline-block;"
+             "  background-color: %5;"
+             "  border-radius: 4px;"
+             "  padding: 0 5px 0 4px;"
+             "  text-decoration: none;"
+             "  white-space: nowrap;"
+             // Match the avatar/emoji scale so all pills (with or without
+             // an avatar image) stretch to the same height.
+             "  height: %11em;"
+             "  line-height: %11em;"
+             "}"
+             "img.pill-avatar {"
+             "  height: 100%;"
+             "  vertical-align: top;"
+             "  margin-left: -4px;"
+             "  margin-right: 4px;"
              "}")
       .arg(font.family())
       .arg(font.pointSizeF())

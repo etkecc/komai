@@ -251,7 +251,7 @@ LitehtmlContainer::draw_list_marker(litehtml::uint_ptr /*hdc*/, const litehtml::
 // -- Image loading --
 
 void
-LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool redraw_on_ready)
+LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*redraw_on_ready*/)
 {
     const auto srcUrl = QString::fromUtf8(src);
 
@@ -262,22 +262,43 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool re
     if (m_imageCache.contains(srcUrl))
         return;
 
-    // Extract the ID portion after the provider prefix.
-    const auto id = srcUrl.mid(QStringLiteral("image://mxcImage/").length());
+    // Extract the ID portion after the provider prefix and parse query params.
+    auto id       = srcUrl.mid(QStringLiteral("image://mxcImage/").length());
+    bool crop     = false;
+    double radius = 0;
+    QSize size;
+
+    const auto queryStart = id.lastIndexOf(QLatin1Char('?'));
+    if (queryStart != -1) {
+        const auto query     = QStringView(id).mid(queryStart + 1);
+        const auto queryBits = query.split(QLatin1Char('&'));
+        id                   = id.left(queryStart);
+
+        for (const auto &b : queryBits) {
+            if (b == QStringView(u"scale")) {
+                crop = false;
+            } else if (b == QStringView(u"crop")) {
+                crop = true;
+            } else if (b.startsWith(QStringView(u"radius="))) {
+                radius = b.mid(7).toDouble();
+            } else if (b.startsWith(QStringView(u"height="))) {
+                size.setHeight(b.mid(7).toInt());
+                size.setWidth(0);
+            }
+        }
+    }
 
     MxcImageProvider::download(
       id,
-      QSize(),
-      [this, srcUrl, redraw_on_ready](
-        const QString &, const QSize &, const QImage &image, const QString &error) {
-          if (error.isEmpty() && !image.isNull()) {
+      size,
+      [this, srcUrl](const QString &, const QSize &, const QImage &image, const QString &) {
+          if (!image.isNull()) {
               m_imageCache.insert(srcUrl, image);
-              if (redraw_on_ready)
-                  emit imageLoaded();
+              emit imageLoaded();
           }
       },
-      false, // crop
-      0);    // radius
+      crop,
+      radius);
 }
 
 void

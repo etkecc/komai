@@ -14,8 +14,12 @@
 #include <QVariant>
 
 #include "FormattedCodeBlockHighlighter.h"
+#include "cache/api/CacheApiRooms.h"
+#include "cache/api/CacheApiUsers.h"
 #include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/formattedmessage/HtmlProcessor.h"
+#include "timeline/litehtml/LitehtmlStylesheet.h"
 #include "ui/Theme.h"
 #include "utils/Utils.h"
 
@@ -92,7 +96,50 @@ TimelineModel::formattedBodyForEvent(const mtx::events::collections::TimelineEve
       timelinePalette,
       UserSettings::instance()->timelineFormattedCodeSyntaxHighlighting());
 
-    return utils::replaceEmoji(utils::linkifyMessage(formattedBody_));
+    formattedBody_ = utils::linkifyMessage(formattedBody_);
+
+    // Decorate matrix.to links as styled pills with avatars.
+    // Avatar display size is set by CSS (1.4em); thumbnail request uses DPR scaling.
+    const auto roomId     = room_id_;
+    const auto screen     = QGuiApplication::primaryScreen();
+    const auto dpr        = screen ? screen->devicePixelRatio() : 1.0;
+    const int pillThumbPx = qMax(1, qRound(ascent * timeline::litehtml::emojiScaleFactor * dpr));
+    // Lazy alias→roomId map, built on first #alias mention.
+    QHash<QString, std::string> aliasToRoomId;
+    bool aliasMapBuilt = false;
+
+    formattedBody_ = timeline::formattedmessage::decorateMatrixPills(
+      formattedBody_,
+      [&roomId, pillThumbPx, &aliasToRoomId, &aliasMapBuilt](const QString &matrixId) -> QString {
+          QString mxcUrl;
+          if (matrixId.startsWith(QLatin1Char('@'))) {
+              mxcUrl = cache::avatarUrl(roomId, matrixId);
+          } else if (matrixId.startsWith(QLatin1Char('!'))) {
+              mxcUrl = cache::roomAvatarUrl(matrixId.toStdString());
+          } else if (matrixId.startsWith(QLatin1Char('#'))) {
+              // Resolve room alias to room ID via the local room list.
+              if (!aliasMapBuilt) {
+                  for (const auto &r : cache::roomNamesAndAliases()) {
+                      if (!r.alias.empty())
+                          aliasToRoomId.insert(QString::fromStdString(r.alias), r.id);
+                  }
+                  aliasMapBuilt = true;
+              }
+              auto it = aliasToRoomId.constFind(matrixId);
+              if (it != aliasToRoomId.cend())
+                  mxcUrl = cache::roomAvatarUrl(it.value());
+          }
+          if (mxcUrl.isEmpty() || !mxcUrl.startsWith(QLatin1String("mxc://")))
+              return {};
+
+          // Convert mxc:// to image://mxcImage/ with thumbnail sizing params.
+          auto src = mxcUrl;
+          src.replace(QLatin1String("mxc://"), QLatin1String("image://mxcImage/"));
+          src.append(QStringLiteral("?scale&height=%1&radius=25").arg(pillThumbPx));
+          return src;
+      });
+
+    return utils::replaceEmoji(formattedBody_);
 }
 
 QString

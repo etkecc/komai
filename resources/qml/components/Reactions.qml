@@ -40,7 +40,7 @@ Flow {
                 color: reaction.hovered ? palette.highlight : (modelData.selfReactedEvent !== '' ? gentleHighlight : palette.window)
                 implicitHeight: reaction.implicitHeight
                 implicitWidth: reaction.implicitWidth
-                radius: reaction.height / 2
+                radius: Komai.paddingMedium
             }
             contentItem: Row {
                 spacing: textMetrics.height / 4
@@ -59,7 +59,7 @@ Flow {
                     anchors.baseline: reactionCounter.baseline
                     color: reaction.hovered ? palette.highlightedText : palette.text
                     font.family: Settings.uiFontEmojiFamily
-                    font.pixelSize: 20
+                    font.pixelSize: 24
                     textFormat: TextEdit.RichText
                     maximumLineCount: 1
                     text: {

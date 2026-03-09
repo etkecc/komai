@@ -132,17 +132,20 @@ TimelineMessageStyleBase {
                 }
             }
         },
-        Avatar {
+        AvatarUserFlipButton {
             id: messageUserAvatar
 
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: wrapper.userId
-            ToolTip.visible: messageUserAvatar.hovered
-            displayName: wrapper.userName
-            height: Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
-            url: wrapper.avatarImageUrl(wrapper.userId)
-            userid: wrapper.userId
-            width: Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1)
+            property int avatarSide: Math.round(Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1))
+
+            avatarButtonSize: avatarSide
+            cleanFront: true
+            avatarDisplayName: wrapper.userName
+            avatarUrl: wrapper.avatarImageUrl(wrapper.userId)
+            avatarUserId: wrapper.userId
+            avatarRoomId: wrapper.roomIdForColorCoding
+            toolTipText: wrapper.userId
+            width: avatarSide
+            height: avatarSide
 
             visible: wrapper.shouldShowMessageAvatar
             opacity: wrapper.startsNewMessageGroup ? 1.0 : 0.0
@@ -151,7 +154,7 @@ TimelineMessageStyleBase {
             y: (section.visible && section.active ? section.y + section.height : 0)
             z: 5
 
-            onClicked: {
+            onLeftClicked: {
                 if (wrapper.room) {
                     wrapper.room.openUserProfile(wrapper.userId)
                 }
@@ -159,7 +162,7 @@ TimelineMessageStyleBase {
 
             Connections {
                 function onRoomAvatarUrlChanged() {
-                    messageUserAvatar.url = wrapper.avatarImageUrl(wrapper.userId);
+                    messageUserAvatar.avatarUrl = wrapper.avatarImageUrl(wrapper.userId);
                 }
                 target: wrapper.room
             }

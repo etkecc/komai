@@ -14,6 +14,7 @@ OverlayDialog {
     id: createDirectRoot
 
     property var profile: null
+    property string selectedMxid: ""
     property bool otherUserHasE2ee: profile ? profile.deviceList.rowCount() > 0 : true
 
     title: qsTr("New direct chat")
@@ -21,25 +22,44 @@ OverlayDialog {
     initialFocusItem: userID
     overlayDialogMinWidth: 720
 
+    onOpened: {
+        userDirectory.setSearchString("");
+    }
+    onClosed: {
+        userID.clear();
+        clearSelection();
+        userDirectory.setSearchString("");
+    }
+
+    function selectUser(mxid, displayName, avatarUrl) {
+        selectedMxid = mxid;
+        profile = TimelineManager.getGlobalUserProfile(mxid);
+    }
+
+    function clearSelection() {
+        selectedMxid = "";
+        profile = null;
+        userID.forceActiveFocus();
+        if (userID.text.trim().length > 0)
+            userDirectory.setSearchString(userID.text.trim());
+    }
+
+    // Search field — large, rounded, like ForwardCompleter
     MatrixTextField {
         id: userID
 
-        // Extract the homeserver from the logged-in user's ID (e.g. "@me:example.com" -> "example.com")
         readonly property string localHomeserver: {
             var uid = Settings.userId;
             var colonIdx = uid.indexOf(":");
             return colonIdx >= 0 ? uid.substring(colonIdx + 1) : "";
         }
 
-        // Normalize input: allow short forms like "baibot" or "@baibot" for same-homeserver users
         function normalizedMxid(input) {
             var t = input.trim();
             if (t.length === 0)
                 return "";
-            // Ensure @ prefix
             if (t.charAt(0) !== '@')
                 t = "@" + t;
-            // Append local homeserver if no server part
             if (t.indexOf(":") < 0 && localHomeserver.length > 0)
                 t = t + ":" + localHomeserver;
             return t;
@@ -48,60 +68,201 @@ OverlayDialog {
         property string resolvedMxid: normalizedMxid(text)
         property bool isValidMxid: resolvedMxid.match("@.+?:.{3,}")
 
+        visible: !createDirectRoot.selectedMxid
         Layout.fillWidth: true
-        label: qsTr("User to invite")
-        placeholderText: qsTr("@user:example.com")
+        placeholderText: qsTr("Search by name or @user:example.com")
+        radius: Komai.paddingSmall
+        font.pixelSize: Math.ceil(Komai.fontPixelSize * 1.2)
         onTextChanged: {
-            var mxid = normalizedMxid(text);
-            if (mxid.match("@.+?:.{3,}"))
-                profile = TimelineManager.getGlobalUserProfile(mxid);
+            if (text.trim().length === 0)
+                userDirectory.setSearchString("");
             else
-                profile = null;
+                searchTimer.restart();
+        }
+
+        Timer {
+            id: searchTimer
+
+            interval: 350
+            onTriggered: {
+                if (userID.text.trim().length > 0)
+                    userDirectory.setSearchString(userID.text.trim());
+            }
         }
     }
 
-    Item {
+    // Search results — fixed height to prevent dialog jumping
+    ListView {
+        id: searchResults
+
+        visible: !createDirectRoot.selectedMxid
         Layout.fillWidth: true
-        implicitHeight: userPreviewRow.implicitHeight
-        visible: createDirectRoot.profile !== null
+        Layout.preferredHeight: 250
+        model: userDirectory
+        clip: true
 
-        HoverHandler { id: userPreviewHover; blocking: false; cursorShape: Qt.PointingHandCursor }
-        Rectangle { anchors.fill: userPreviewRow; color: palette.window; radius: Komai.paddingMedium; visible: userPreviewHover.hovered; z: -1 }
-        TapHandler { onTapped: TimelineManager.openGlobalUserProfile(userID.resolvedMxid) }
+        delegate: AbstractButton {
+            id: resultDelegate
 
-        GridLayout {
-            id: userPreviewRow
-            width: parent.width
-            rows: 2
-            columns: 2
-            rowSpacing: Komai.paddingSmall
-            columnSpacing: Komai.paddingMedium
+            width: ListView.view.width
+            implicitHeight: resultRow.implicitHeight + Komai.paddingSmall * 2
+            hoverEnabled: true
+            onClicked: createDirectRoot.selectUser(model.userid, model.displayName, model.avatarUrl)
 
-            Avatar {
-                Layout.rowSpan: 2
-                Layout.preferredWidth: Komai.avatarSize
-                Layout.preferredHeight: Komai.avatarSize
-                Layout.alignment: Qt.AlignLeft
-                Layout.leftMargin: Komai.paddingMedium
-                userid: profile ? profile.userid : ""
-                url: profile ? profile.avatarUrl.replace("mxc://", "image://MxcImage/") : null
-                displayName: profile ? profile.displayName : ""
-                enabled: false
+            readonly property bool activeState: hovered || pressed
+
+            background: Rectangle {
+                radius: Komai.paddingMedium
+                color: resultDelegate.activeState ? palette.dark : "transparent"
             }
 
-            Label {
-                Layout.fillWidth: true
-                text: profile ? profile.displayName : ""
-                color: TimelineManager.userColor(userID.resolvedMxid, palette.window)
-                font.pointSize: Settings.uiFontSizePt
+            contentItem: RowLayout {
+                id: resultRow
+                spacing: Komai.paddingMedium
+
+                Avatar {
+                    Layout.preferredWidth: Komai.avatarSize
+                    Layout.preferredHeight: Komai.avatarSize
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.leftMargin: Komai.paddingMedium
+                    userid: model.userid
+                    url: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
+                    displayName: model.displayName
+                    enabled: false
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: model.displayName || qsTr("Unknown display name")
+                        color: resultDelegate.activeState ? palette.brightText : (model.displayName ? palette.text : palette.buttonText)
+                        font.pointSize: Settings.uiFontSizePt
+                        font.italic: !model.displayName
+                        elide: Text.ElideRight
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: model.userid
+                        color: resultDelegate.activeState ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt * 0.9
+                        elide: Text.ElideRight
+                    }
+                }
             }
 
-            Label {
-                Layout.fillWidth: true
-                text: userID.resolvedMxid
-                color: palette.buttonText
-                font.pointSize: Settings.uiFontSizePt * 0.9
+            KomaiCursorShape {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
             }
+        }
+
+        // Empty state: prompt when no query entered
+        Label {
+            anchors.centerIn: parent
+            visible: searchResults.count === 0 && userID.text.trim().length === 0
+            text: qsTr("Type a search query. Results will appear here.")
+            color: palette.buttonText
+            font.pointSize: Settings.uiFontSizePt * 0.9
+        }
+
+        // No results (only shown when search is fully complete)
+        Label {
+            anchors.centerIn: parent
+            visible: searchResults.count === 0 && userID.text.trim().length > 0 && !searchTimer.running && !userDirectory.searchingUsers
+            text: userID.isValidMxid ? qsTr("No results found. Press Enter to use this ID directly.") : qsTr("No results found")
+            color: palette.buttonText
+            font.pointSize: Settings.uiFontSizePt * 0.9
+        }
+
+        // Pulsing Komai logo spinner while searching
+        Spinner {
+            anchors.centerIn: parent
+            height: 48
+            running: searchResults.count === 0 && userID.text.trim().length > 0 && (searchTimer.running || userDirectory.searchingUsers)
+            visible: running
+        }
+    }
+
+    // Enter key: select first result or use typed MXID directly
+    Connections {
+        target: userID
+        function onAccepted() {
+            if (userID.isValidMxid) {
+                createDirectRoot.selectUser(userID.resolvedMxid, "", "");
+            } else if (searchResults.count > 0) {
+                var item = searchResults.itemAtIndex(0);
+                if (item)
+                    createDirectRoot.selectUser(item.userid, "", "");
+            }
+        }
+    }
+
+    // Selected user preview — UploadBox-style row: [flip avatar] [info] [remove button]
+    RowLayout {
+        visible: createDirectRoot.selectedMxid !== ""
+        Layout.fillWidth: true
+        spacing: Komai.paddingSmall
+
+        Item {
+            Layout.fillWidth: true
+            implicitHeight: userPreviewGrid.implicitHeight
+
+            HoverHandler { id: userPreviewHover; blocking: false; cursorShape: Qt.PointingHandCursor }
+            Rectangle { anchors.fill: userPreviewGrid; color: palette.window; radius: Komai.paddingMedium; visible: userPreviewHover.hovered; z: -1 }
+            TapHandler { onTapped: TimelineManager.openGlobalUserProfile(createDirectRoot.selectedMxid) }
+
+            GridLayout {
+                id: userPreviewGrid
+                width: parent.width
+                rows: 2
+                columns: 2
+                rowSpacing: Komai.paddingSmall
+                columnSpacing: Komai.paddingMedium
+
+                AvatarSettingsFlipButton {
+                    Layout.rowSpan: 2
+                    Layout.preferredWidth: Komai.avatarSize
+                    Layout.preferredHeight: Komai.avatarSize
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.leftMargin: Komai.paddingMedium
+                    avatarButtonSize: Komai.avatarSize
+                    avatarUserId: profile ? profile.userid : ""
+                    avatarUrl: profile ? profile.avatarUrl.replace("mxc://", "image://MxcImage/") : ""
+                    avatarDisplayName: profile ? profile.displayName : ""
+                    badgeIconSource: ":/icons/icons/ui/person.svg"
+                    toolTipText: ""
+                    onLeftClicked: TimelineManager.openGlobalUserProfile(createDirectRoot.selectedMxid)
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: (profile && profile.displayName) ? profile.displayName : qsTr("Unknown display name")
+                    color: (profile && profile.displayName) ? palette.text : palette.buttonText
+                    font.pointSize: Settings.uiFontSizePt
+                    font.italic: !(profile && profile.displayName)
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    text: createDirectRoot.selectedMxid
+                    color: palette.buttonText
+                    font.pointSize: Settings.uiFontSizePt * 0.9
+                }
+            }
+        }
+
+        KomaiButton {
+            Layout.alignment: Qt.AlignVCenter
+            text: qsTr("Remove")
+            icon.source: "qrc:/icons/icons/ui/delete.svg"
+            ToolTip.delay: Komai.tooltipDelay
+            ToolTip.text: qsTr("Remove selected user")
+            ToolTip.visible: hovered && text === ""
+            onClicked: createDirectRoot.clearSelection()
         }
     }
 
@@ -109,6 +270,7 @@ OverlayDialog {
     Item {
         Layout.fillWidth: true
         implicitHeight: encryptionRowContent.implicitHeight
+        visible: createDirectRoot.selectedMxid !== ""
         HoverHandler { id: encryptionRowHover; blocking: false }
         Rectangle { anchors.fill: encryptionRowContent; color: palette.window; radius: Komai.paddingMedium; visible: encryptionRowHover.hovered; z: -1 }
         ColumnLayout {
@@ -155,7 +317,7 @@ OverlayDialog {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Start")
         highlighted: true
-        enabled: userID.isValidMxid && createDirectRoot.profile
+        enabled: createDirectRoot.selectedMxid !== "" && createDirectRoot.profile
         onClicked: {
             createDirectRoot.profile.startChat(encryption.checked);
             createDirectRoot.close();

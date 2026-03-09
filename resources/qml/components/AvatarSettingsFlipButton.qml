@@ -18,6 +18,7 @@ MouseArea {
     property string avatarUserId: ""
     property string avatarRoomId: ""
     property string toolTipText: ""
+    property string badgeIconSource: ":/icons/icons/ui/settings.svg"
     readonly property string resolvedToolTipText: toolTipText.length > 0
         ? toolTipText
         : (avatarDisplayName + (avatarUserId.length > 0 ? ("\n" + avatarUserId) : ""))
@@ -131,7 +132,7 @@ MouseArea {
 
                 Image {
                     anchors.centerIn: parent
-                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + control.settingsCogColor
+                    source: "image://colorimage/" + control.badgeIconSource + "?" + control.settingsCogColor
                     sourceSize.width: parent.iconSize
                     sourceSize.height: parent.iconSize
                     width: parent.iconSize
@@ -172,7 +173,7 @@ MouseArea {
                     property int cogSize: Math.round(control.effectiveButtonSize * 0.62)
 
                     anchors.centerIn: parent
-                    source: "image://colorimage/:/icons/icons/ui/settings.svg?" + control.settingsCogColor
+                    source: "image://colorimage/" + control.badgeIconSource + "?" + control.settingsCogColor
                     sourceSize.width: cogSize
                     sourceSize.height: cogSize
                     width: cogSize

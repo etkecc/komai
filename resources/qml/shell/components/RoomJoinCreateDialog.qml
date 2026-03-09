@@ -133,7 +133,7 @@ Components.OverlayDialog {
         ActionButton {
             labelText: qsTr("Explore public rooms")
             descriptionText: qsTr("Browse the public room directory")
-            iconSource: ":/icons/icons/ui/search.svg"
+            iconSource: ":/icons/icons/ui/compass-northwest.svg"
             shortcutSequence: "Alt+E"
             shortcutDisplayText: qsTr("Alt+E")
             onClicked: {

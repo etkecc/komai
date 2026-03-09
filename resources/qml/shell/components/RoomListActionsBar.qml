@@ -66,6 +66,14 @@ Pane {
     background: Rectangle {
         color: palette.alternateBase
     }
+    Shortcut {
+        // Some focused text inputs can steal Ctrl+N; keep a fallback.
+        sequences: ["Ctrl+N", "Ctrl+Shift+N"]
+        context: Qt.ApplicationShortcut
+
+        onActivated: roomJoinCreateDialog.open()
+        onActivatedAmbiguously: roomJoinCreateDialog.open()
+    }
     TextMetrics {
         id: newLabelMetrics
 
@@ -114,7 +122,7 @@ Pane {
                 id: startChatButton
 
                 buttonSize: roomActionsBar.buttonSize
-                toolTipText: qsTr("Join or create a new chat or space")
+                toolTipText: qsTr("Join or create a new chat or space [Ctrl+N]")
                 iconSource: ":/icons/icons/ui/plus-circle.svg"
                 labelText: roomActionsBar.newActionLabel
                 showLabel: roomActionsBar.showActionLabels

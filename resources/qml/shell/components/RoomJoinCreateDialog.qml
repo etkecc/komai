@@ -24,6 +24,8 @@ Components.OverlayDialog {
         required property string labelText
         required property string descriptionText
         required property string iconSource
+        property string shortcutSequence: ""
+        property string shortcutDisplayText: ""
 
         Layout.fillWidth: true
         implicitHeight: contentColumn.implicitHeight + topPadding + bottomPadding
@@ -38,6 +40,15 @@ Components.OverlayDialog {
         readonly property bool activeState: hovered || pressed || activeFocus
         readonly property color actionTextColor: activeState ? palette.brightText : palette.text
         readonly property color descriptionColor: activeState ? palette.brightText : palette.buttonText
+        readonly property real actionIconSize: Math.round(Settings.uiFontSizePt * 2)
+
+        Shortcut {
+            enabled: root.visible && actionBtn.shortcutSequence !== ""
+            sequence: actionBtn.shortcutSequence
+            context: Qt.ApplicationShortcut
+
+            onActivated: actionBtn.clicked()
+        }
 
         contentItem: RowLayout {
             id: contentColumn
@@ -46,8 +57,8 @@ Components.OverlayDialog {
 
             Image {
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: 24
-                Layout.preferredHeight: 24
+                Layout.preferredWidth: actionBtn.actionIconSize
+                Layout.preferredHeight: actionBtn.actionIconSize
                 fillMode: Image.PreserveAspectFit
                 source: actionBtn.iconSource !== "" ? "image://colorimage/" + actionBtn.iconSource + "?" + actionBtn.actionTextColor : ""
                 sourceSize.width: width * Screen.devicePixelRatio
@@ -74,6 +85,15 @@ Components.OverlayDialog {
                     wrapMode: Text.WordWrap
                     visible: text !== ""
                 }
+            }
+
+            Components.ShortcutKeyBadge {
+                Layout.alignment: Qt.AlignVCenter
+                text: actionBtn.shortcutDisplayText
+                highlighted: actionBtn.activeState
+                showKeyboardIcon: true
+                liveModifierHighlight: true
+                keyTextColor: actionBtn.descriptionColor
             }
         }
 
@@ -102,6 +122,8 @@ Components.OverlayDialog {
             labelText: qsTr("Join room")
             descriptionText: qsTr("Enter a room address or alias to join")
             iconSource: ":/icons/icons/ui/arrow-join.svg"
+            shortcutSequence: "Alt+J"
+            shortcutDisplayText: qsTr("Alt+J")
             onClicked: {
                 root.close();
                 Komai.openJoinRoomDialog();
@@ -112,6 +134,8 @@ Components.OverlayDialog {
             labelText: qsTr("Explore public rooms")
             descriptionText: qsTr("Browse the public room directory")
             iconSource: ":/icons/icons/ui/search.svg"
+            shortcutSequence: "Alt+E"
+            shortcutDisplayText: qsTr("Alt+E")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openRoomDirectoryDialog();
@@ -129,6 +153,8 @@ Components.OverlayDialog {
             labelText: qsTr("New direct chat")
             descriptionText: qsTr("A 1-on-1 conversation with another user. Members get the same power level.")
             iconSource: ":/icons/icons/ui/person.svg"
+            shortcutSequence: "Alt+D"
+            shortcutDisplayText: qsTr("Alt+D")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openCreateDirectDialog();
@@ -139,6 +165,8 @@ Components.OverlayDialog {
             labelText: qsTr("New room")
             descriptionText: qsTr("A public or private room for group conversations")
             iconSource: ":/icons/icons/ui/people-community.svg"
+            shortcutSequence: "Alt+R"
+            shortcutDisplayText: qsTr("Alt+R")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openCreateRoomDialog({});
@@ -149,6 +177,8 @@ Components.OverlayDialog {
             labelText: qsTr("New space")
             descriptionText: qsTr("Create a new public or private collection of rooms")
             iconSource: ":/icons/icons/ui/squares-nested.svg"
+            shortcutSequence: "Alt+S"
+            shortcutDisplayText: qsTr("Alt+S")
             onClicked: {
                 root.close();
                 root.profileContextMenu.openCreateRoomDialog({

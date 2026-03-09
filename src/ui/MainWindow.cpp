@@ -4,6 +4,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
+#include <QGuiApplication>
+#include <QKeyEvent>
 #include <QMessageBox>
 
 #include <mtx/events/collections.hpp>
@@ -223,6 +225,43 @@ MainWindow::mousePressEvent(QMouseEvent *event)
     }
 
     return QQuickView::mousePressEvent(event);
+}
+
+void
+MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_AltGr)
+        updateAltPressedState(true);
+    else if (event->modifiers() & Qt::AltModifier)
+        updateAltPressedState(true);
+    QQuickView::keyPressEvent(event);
+}
+
+void
+MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Alt || event->key() == Qt::Key_AltGr)
+        updateAltPressedState(false);
+    else
+        updateAltPressedState((event->modifiers() & Qt::AltModifier) != 0);
+    QQuickView::keyReleaseEvent(event);
+}
+
+void
+MainWindow::focusOutEvent(QFocusEvent *event)
+{
+    updateAltPressedState(false);
+    QQuickView::focusOutEvent(event);
+}
+
+void
+MainWindow::updateAltPressedState(bool altPressed)
+{
+    if (altPressed_ == altPressed)
+        return;
+
+    altPressed_ = altPressed;
+    emit altPressedChanged();
 }
 
 void

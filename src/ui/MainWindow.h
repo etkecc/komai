@@ -18,6 +18,8 @@
 class ChatPage;
 class RegisterPage;
 class WelcomePage;
+class QFocusEvent;
+class QKeyEvent;
 
 class TrayIcon;
 class UserSettings;
@@ -53,6 +55,7 @@ class MainWindow : public QQuickView
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
+    Q_PROPERTY(bool altPressed READ altPressed NOTIFY altPressedChanged)
 
 public:
     explicit MainWindow(QWindow *parent, bool showProfileSwitcherOnStartup = false);
@@ -82,6 +85,7 @@ public:
     void openJoinRoomDialog(std::function<void(const QString &room_id)> callback);
 
     MxcImageProvider *imageProvider() { return imgProvider; }
+    bool altPressed() const { return altPressed_; }
 
     //! Show the chat page using the currently persisted session snapshot.
     void showChatPage(bool hadSessionIdentity);
@@ -101,6 +105,9 @@ protected:
     void closeEvent(QCloseEvent *event) override;
     // HACK: https://bugreports.qt.io/browse/QTBUG-83972, qtwayland cannot auto hide menu
     void mousePressEvent(QMouseEvent *) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+    void focusOutEvent(QFocusEvent *event) override;
 
 private slots:
     //! Handle interaction with the tray icon.
@@ -115,6 +122,7 @@ signals:
     void secretsChanged();
 
     void showNotification(QString msg);
+    void altPressedChanged();
 
     void switchToChatPage();
     void switchToWelcomePage();
@@ -130,6 +138,7 @@ private:
     bool pageSupportsTray() const;
 
     void registerQmlTypes();
+    void updateAltPressedState(bool altPressed);
 #ifdef KOMAI_DBUS_SYS
     void refreshDbusAvailability();
 #endif
@@ -155,4 +164,5 @@ private:
 #ifdef KOMAI_DBUS_SYS
     bool dbusAvailable_{false};
 #endif
+    bool altPressed_{false};
 };

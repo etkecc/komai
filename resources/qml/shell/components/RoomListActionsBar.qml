@@ -18,7 +18,7 @@ Pane {
     property int buttonSize: Komai.barIconSize
     readonly property int actionButtonCount: 2
     readonly property string newActionLabel: qsTr("New")
-    readonly property string switchActionLabel: qsTr("Switch room")
+    readonly property string switchActionLabel: qsTr("Switch")
     readonly property real requiredIconOnlyActionWidth: actionButtonCount * buttonSize
     readonly property real requiredLabeledActionWidth: requiredIconOnlyActionWidth
         + (Komai.paddingSmall + newLabelMetrics.advanceWidth)
@@ -123,7 +123,7 @@ Pane {
             }
             RoomListActionButton {
                 buttonSize: roomActionsBar.buttonSize
-                toolTipText: qsTr("Find & Switch room [Ctrl+K]")
+                toolTipText: qsTr("Find & switch room or space [Ctrl+K]")
                 iconSource: ":/icons/icons/ui/globe-search.svg"
                 labelText: roomActionsBar.switchActionLabel
                 showLabel: roomActionsBar.showActionLabels

@@ -58,7 +58,7 @@ Popup {
             Label {
                 id: headerLabel
 
-                text: qsTr("Find & switch room")
+                text: qsTr("Find & switch room or space")
                 color: palette.text
                 font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
                 font.bold: true
@@ -90,7 +90,7 @@ Popup {
 
             color: palette.buttonText
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.4)
-            text: qsTr("Searches among rooms you participate in, not across all rooms on Matrix.")
+            text: qsTr("Searches among rooms and spaces you participate in, not across all rooms on Matrix.")
             leftPadding: Komai.paddingSmall
             topPadding: Komai.paddingMedium
             bottomPadding: Komai.paddingMedium
@@ -103,7 +103,7 @@ Popup {
 
             color: palette.text
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
-            placeholderText: qsTr("Room name, address or id...")
+            placeholderText: qsTr("Room or space name, address or id...")
             radius: Komai.paddingSmall
             width: parent.width
 
@@ -141,7 +141,12 @@ Popup {
             width: parent.width
 
             onCompletionSelected: (id) => {
-                Rooms.setCurrentRoom(id);
+                if (completerPopup.lastCompletionWasSpace
+                        && Settings.sidebarsCommunitiesVisible) {
+                    Communities.setCurrentFilterId("space:" + id);
+                } else {
+                    Rooms.setCurrentRoom(id);
+                }
                 quickSwitcher.close();
             }
             onCountChanged: {

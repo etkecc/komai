@@ -73,11 +73,17 @@ Control {
             currentIndex = -1;
     }
     function finishCompletion() {
-        if (popup.completerName == "room")
-            popup.completionSelected(listView.itemAtIndex(currentIndex).modelData.rawroomid);
-        else if (popup.completerName == "user")
+        if (popup.completerName == "room") {
+            var item = listView.itemAtIndex(currentIndex);
+            lastCompletionWasSpace = item && item.modelData && item.modelData.isSpace;
+            popup.completionSelected(item.modelData.rawroomid);
+        } else if (popup.completerName == "user") {
+            lastCompletionWasSpace = false;
             popup.completionSelected(listView.itemAtIndex(currentIndex).modelData.userid);
+        }
     }
+    // Tracks whether the last finishCompletion() was for a space room.
+    property bool lastCompletionWasSpace: false
     function up() {
         if (bottomToTop)
             down_();
@@ -285,10 +291,13 @@ Control {
 
                     onClicked: {
                         popup.completionClicked(completer.completionAt(model.index));
-                        if (popup.completerName == "room")
+                        if (popup.completerName == "room") {
+                            lastCompletionWasSpace = model.isSpace;
                             popup.completionSelected(model.roomid);
-                        else if (popup.completerName == "user")
+                        } else if (popup.completerName == "user") {
+                            lastCompletionWasSpace = false;
                             popup.completionSelected(model.userid);
+                        }
                     }
                     onPositionChanged: if (!listView.moving && !deadTimer.running)
                         popup.currentIndex = model.index
@@ -450,10 +459,16 @@ Control {
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
                                 elide: Text.ElideRight
                                 font.italic: model.isTombstoned
-                                font.bold: model.isSpace
                                 font.pixelSize: popup.avatarHeight * 0.5
                                 text: model.roomName
                                 textFormat: Text.RichText
+                            }
+                            Label {
+                                visible: model.isSpace
+                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                opacity: model.index == popup.currentIndex ? 0.6 : 1.0
+                                font.pixelSize: popup.avatarHeight * 0.5
+                                text: qsTr("(Space)")
                             }
                         }
                     }

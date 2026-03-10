@@ -20,7 +20,7 @@ Button {
     readonly property color foregroundColor: !enabled
         ? palette.buttonText
         : (highlighted ? palette.highlightedText : palette.text)
-    readonly property int effectiveIconSize: Math.max(8, Math.min(14, Math.round(Settings.uiFontSizePt * 0.9)))
+    readonly property int effectiveIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.4))
 
     font.pointSize: Settings.uiFontSizePt
     spacing: Komai.paddingSmall

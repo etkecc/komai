@@ -155,6 +155,8 @@ class UserProfile final : public QObject
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
     Q_PROPERTY(QString userid READ userid CONSTANT)
     Q_PROPERTY(QString avatarUrl READ avatarUrl NOTIFY avatarUrlChanged)
+    Q_PROPERTY(QString globalDisplayName READ globalDisplayNameProp NOTIFY globalDisplayNameChanged)
+    Q_PROPERTY(QString globalAvatarUrl READ globalAvatarUrlProp NOTIFY globalAvatarUrlChanged)
     Q_PROPERTY(DeviceInfoModel *deviceList READ deviceList NOTIFY devicesChanged)
     Q_PROPERTY(RoomInfoModel *sharedRooms READ sharedRooms CONSTANT)
     Q_PROPERTY(bool isGlobalUserProfile READ isGlobalUserProfile CONSTANT)
@@ -182,6 +184,8 @@ public:
     bool isSelf() const;
     bool isLoading() const;
     TimelineModel *room() const { return model; }
+    QString globalDisplayNameProp() const { return globalUsername; }
+    QString globalAvatarUrlProp() const { return globalAvatarUrl; }
 
     Q_INVOKABLE void verify(QString device = QLatin1String(""));
     Q_INVOKABLE void unverify(const QString &device = QLatin1String(""));
@@ -206,6 +210,8 @@ signals:
     void loadingChanged();
     void displayNameChanged();
     void avatarUrlChanged();
+    void globalDisplayNameChanged();
+    void globalAvatarUrlChanged();
     void displayError(const QString &errorMessage);
     void globalUsernameRetrieved(const QString &globalUser);
     void devicesChanged();

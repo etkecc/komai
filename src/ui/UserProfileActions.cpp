@@ -167,10 +167,10 @@ void
 UserProfile::removeAvatar()
 {
     if (!isGlobalUserProfile()) {
-        // For room profiles, set the avatar URL to empty via room member state
+        // For room profiles, reset to the global avatar instead of clearing
         mtx::events::state::Member member;
         member.display_name = cache::displayName(roomid_, userid_).toStdString();
-        member.avatar_url   = "";
+        member.avatar_url   = globalAvatarUrl.toStdString();
         member.membership   = mtx::events::state::Membership::Join;
         updateRoomMemberState(std::move(member));
         return;

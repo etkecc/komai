@@ -6,7 +6,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQml.Models
 import "../../components" as Components
 import "../../ui" as UI
 import cc.etke.komai
@@ -395,6 +394,40 @@ Item {
 
                                         Item { Layout.preferredWidth: Komai.paddingSmall }
 
+                                        // "This device" verification badge
+                                        Rectangle {
+                                            Layout.alignment: Qt.AlignVCenter
+                                            Layout.topMargin: Komai.paddingMedium
+                                            Layout.bottomMargin: Komai.paddingMedium
+                                            implicitWidth: currentDeviceBadgeRow.implicitWidth + Komai.paddingSmall * 2
+                                            implicitHeight: currentDeviceBadgeRow.implicitHeight + Komai.paddingSmall
+                                            radius: Komai.paddingSmall
+                                            color: Qt.rgba(Komai.theme.success.r, Komai.theme.success.g, Komai.theme.success.b, 0.15)
+                                            border.color: Komai.theme.success
+                                            border.width: 1
+
+                                            RowLayout {
+                                                id: currentDeviceBadgeRow
+                                                anchors.centerIn: parent
+                                                spacing: Komai.paddingSmall
+
+                                                Image {
+                                                    readonly property int badgeIconSize: Math.max(8, Math.round(Settings.uiFontSizePt * 0.9))
+                                                    Layout.preferredHeight: badgeIconSize
+                                                    Layout.preferredWidth: badgeIconSize
+                                                    sourceSize.height: height
+                                                    sourceSize.width: width
+                                                    source: "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success
+                                                }
+
+                                                Label {
+                                                    text: qsTr("This device")
+                                                    color: Komai.theme.success
+                                                    font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
+                                                }
+                                            }
+                                        }
+
                                         Label {
                                             text: Settings.deviceId
                                             font.bold: true
@@ -733,25 +766,89 @@ Item {
 
                                             Item { Layout.preferredWidth: Komai.paddingSmall }
 
-                                            Image {
-                                                Layout.preferredHeight: 16
-                                                Layout.preferredWidth: 16
+                                            // Verification status badge
+                                            Rectangle {
+                                                Layout.alignment: Qt.AlignVCenter
                                                 Layout.topMargin: Komai.paddingMedium
                                                 Layout.bottomMargin: Komai.paddingMedium
-                                                Layout.alignment: Qt.AlignVCenter
                                                 visible: deviceDelegate.verificationStatus != VerificationStatus.NOT_APPLICABLE
-                                                sourceSize.height: height
-                                                sourceSize.width: width
-                                                source: {
+                                                implicitWidth: otherDeviceBadgeRow.implicitWidth + Komai.paddingSmall * 2
+                                                implicitHeight: otherDeviceBadgeRow.implicitHeight + Komai.paddingSmall
+                                                radius: Komai.paddingSmall
+                                                color: {
                                                     switch (deviceDelegate.verificationStatus) {
                                                     case VerificationStatus.VERIFIED:
-                                                        return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success;
-                                                    case VerificationStatus.UNVERIFIED:
-                                                        return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.warning;
                                                     case VerificationStatus.SELF:
-                                                        return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success;
+                                                        return Qt.rgba(Komai.theme.success.r, Komai.theme.success.g, Komai.theme.success.b, 0.15);
+                                                    case VerificationStatus.UNVERIFIED:
+                                                        return Qt.rgba(Komai.theme.warning.r, Komai.theme.warning.g, Komai.theme.warning.b, 0.15);
                                                     default:
-                                                        return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.warning;
+                                                        return Qt.rgba(Komai.theme.error.r, Komai.theme.error.g, Komai.theme.error.b, 0.15);
+                                                    }
+                                                }
+                                                border.color: {
+                                                    switch (deviceDelegate.verificationStatus) {
+                                                    case VerificationStatus.VERIFIED:
+                                                    case VerificationStatus.SELF:
+                                                        return Komai.theme.success;
+                                                    case VerificationStatus.UNVERIFIED:
+                                                        return Komai.theme.warning;
+                                                    default:
+                                                        return Komai.theme.error;
+                                                    }
+                                                }
+                                                border.width: 1
+
+                                                RowLayout {
+                                                    id: otherDeviceBadgeRow
+                                                    anchors.centerIn: parent
+                                                    spacing: Komai.paddingSmall
+
+                                                    Image {
+                                                        readonly property int badgeIconSize: Math.max(8, Math.round(Settings.uiFontSizePt * 0.9))
+                                                        Layout.preferredHeight: badgeIconSize
+                                                        Layout.preferredWidth: badgeIconSize
+                                                        sourceSize.height: height
+                                                        sourceSize.width: width
+                                                        source: {
+                                                            switch (deviceDelegate.verificationStatus) {
+                                                            case VerificationStatus.VERIFIED:
+                                                                return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success;
+                                                            case VerificationStatus.UNVERIFIED:
+                                                                return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.warning;
+                                                            case VerificationStatus.SELF:
+                                                                return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success;
+                                                            default:
+                                                                return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.error;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    Label {
+                                                        text: {
+                                                            switch (deviceDelegate.verificationStatus) {
+                                                            case VerificationStatus.VERIFIED:
+                                                                return qsTr("Verified");
+                                                            case VerificationStatus.UNVERIFIED:
+                                                                return qsTr("Unverified");
+                                                            case VerificationStatus.SELF:
+                                                                return qsTr("This device");
+                                                            default:
+                                                                return qsTr("Blocked");
+                                                            }
+                                                        }
+                                                        color: {
+                                                            switch (deviceDelegate.verificationStatus) {
+                                                            case VerificationStatus.VERIFIED:
+                                                            case VerificationStatus.SELF:
+                                                                return Komai.theme.success;
+                                                            case VerificationStatus.UNVERIFIED:
+                                                                return Komai.theme.warning;
+                                                            default:
+                                                                return Komai.theme.error;
+                                                            }
+                                                        }
+                                                        font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
                                                     }
                                                 }
                                             }

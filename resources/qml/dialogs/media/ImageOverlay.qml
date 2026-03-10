@@ -318,6 +318,12 @@ Window {
     Item {
         anchors.fill: parent
 
+        // Close overlay when tapping on empty space (outside the image).
+        // This must live inside this Item because it covers the entire window
+        // and would otherwise block the root-level TapHandler.
+        TapHandler {
+            onSingleTapped: imageOverlay.close()
+        }
 
         PinchHandler {
             target: imgContainer

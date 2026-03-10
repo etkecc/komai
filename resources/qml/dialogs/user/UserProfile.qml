@@ -3,94 +3,134 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../ui"
-import "../../components"
+import "../../components" as Components
+import "../../ui" as UI
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.2
-import QtQuick.Window 2.13
-import QtQml.Models 2.2
+import QtQuick.Layouts 1.3
+
 import cc.etke.komai 1.0
 
-ApplicationWindow {
-    id: userProfileDialog
+Components.OverlayDialog {
+    id: root
 
     property var profile
 
-    height: 650
-    width: 420
-    minimumWidth: 150
-    minimumHeight: 150
-    color: palette.window
-    title: profile.isGlobalUserProfile ? qsTr("Global User Profile") : qsTr("Room User Profile")
-    modality: Qt.NonModal
-    flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
+    readonly property bool isRoomProfile: !profile.isGlobalUserProfile
+    readonly property bool hasCustomRoomName: isRoomProfile
+        && profile.globalDisplayName !== ""
+        && profile.displayName !== profile.globalDisplayName
+    readonly property bool hasCustomRoomAvatar: isRoomProfile
+        && profile.globalAvatarUrl !== ""
+        && profile.avatarUrl !== profile.globalAvatarUrl
+    readonly property int copyButtonSize: Math.max(20, Math.round(Settings.uiFontSizePt * 1.6))
+
+    width: Math.round((parent ? parent.width : 760) * 0.8)
+    title: isRoomProfile ? qsTr("Room member profile") : qsTr("User profile")
+    titleIcon: ":/icons/icons/ui/person.svg"
+
+    component ActionButton: AbstractButton {
+        id: actionBtn
+
+        required property string labelText
+        required property string iconSource
+
+        Layout.fillWidth: true
+        implicitHeight: 40
+        leftPadding: Komai.paddingMedium
+        rightPadding: Komai.paddingMedium
+        hoverEnabled: true
+        activeFocusOnTab: true
+        focusPolicy: Qt.StrongFocus
+
+        readonly property bool activeState: hovered || pressed || activeFocus
+        readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+
+        contentItem: RowLayout {
+            spacing: Komai.paddingMedium
+
+            Image {
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 24
+                Layout.preferredHeight: 24
+                fillMode: Image.PreserveAspectFit
+                source: actionBtn.iconSource !== "" ? "image://colorimage/" + actionBtn.iconSource + "?" + actionBtn.actionTextColor : ""
+                sourceSize.width: width * Screen.devicePixelRatio
+                sourceSize.height: height * Screen.devicePixelRatio
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignVCenter
+                text: actionBtn.labelText
+                color: actionBtn.actionTextColor
+                elide: Text.ElideRight
+            }
+        }
+
+        background: Rectangle {
+            radius: Komai.paddingMedium
+            color: actionBtn.activeState ? palette.dark : palette.window
+        }
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+        }
+    }
 
     Shortcut {
         sequences: [StandardKey.Cancel]
-        onActivated: userProfileDialog.close()
+        onActivated: root.close()
     }
 
-    ListView {
-        id: devicelist
-
-        property int selectedTab: 0
-
-        Layout.fillHeight: true
+    // Body background: alternateBase. Sections override with window/transparent as needed.
+    Rectangle {
         Layout.fillWidth: true
-        clip: true
-        spacing: 8
-        boundsBehavior: Flickable.StopAtBounds
-        anchors.fill: parent
-        anchors.margins: 10
-        footerPositioning: ListView.OverlayFooter
+        Layout.fillHeight: true
+        Layout.preferredHeight: root.parent ? root.parent.height * 0.85 : 600
+        color: palette.alternateBase
+        radius: Komai.paddingSmall
 
-        header: ColumnLayout {
-            id: contentL
+        ScrollView {
+            id: scrollView
 
-            width: devicelist.width
-            spacing: Komai.paddingMedium
+            anchors.fill: parent
+            anchors.margins: Komai.paddingMedium
+            ScrollBar.vertical.policy: ScrollBar.AsNeeded
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-            Avatar {
-                id: displayAvatar
+            ColumnLayout {
+                id: scrollContent
 
-                url: profile.avatarUrl.replace("mxc://", "image://MxcImage/")
-                Layout.preferredHeight: 130
-                Layout.preferredWidth: 130
-                displayName: profile.displayName
-                userid: profile.userid
-                Layout.alignment: Qt.AlignHCenter
-                onClicked: TimelineManager.openImageOverlay(null, profile.avatarUrl, "", 0, 0)
+                width: scrollView.availableWidth
+                spacing: Komai.paddingSmall
 
-                ImageButton {
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: profile.isGlobalUserProfile ? qsTr("Change avatar globally.") : qsTr("Change avatar. Will only apply to this room.")
-                    anchors.left: displayAvatar.left
-                    anchors.top: displayAvatar.top
-                    anchors.leftMargin: Komai.paddingMedium
-                    anchors.topMargin: Komai.paddingMedium
-                    visible: profile.isSelf
-                    image: ":/icons/icons/ui/edit.svg"
-                    onClicked: profile.changeAvatar()
-                }
-
+            // ---- Profile section ----
+            Components.SettingsSection {
+                label: qsTr("Profile")
+                Layout.fillWidth: true
             }
 
-            Spinner {
+            // Loading spinner
+            UI.Spinner {
                 Layout.alignment: Qt.AlignHCenter
                 running: profile.isLoading
                 visible: profile.isLoading
                 foreground: palette.mid
             }
 
+            // Error toast
             Text {
                 id: errorText
 
-                color: "red"
+                color: Komai.theme.error
                 visible: opacity > 0
                 opacity: 0
                 Layout.alignment: Qt.AlignHCenter
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                wrapMode: Text.Wrap
             }
 
             SequentialAnimation {
@@ -104,11 +144,10 @@ ApplicationWindow {
 
                 NumberAnimation {
                     target: errorText
-                    property: 'opacity'
+                    property: "opacity"
                     to: 0
                     duration: 1000
                 }
-
             }
 
             Connections {
@@ -121,423 +160,918 @@ ApplicationWindow {
                 target: profile
             }
 
-            TextInput {
-                id: displayUsername
-
-                property bool isUsernameEditingAllowed
-
-                readOnly: !isUsernameEditingAllowed
-                text: profile.displayName
-                font.pixelSize: 20
-                color: Qt.darker(profile.room ? TimelineManager.roomUserColor(profile.room.roomId, profile.userid, palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(profile.userid, palette.window), 1.3)
-                font.bold: true
-                Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: parent.width - (Komai.paddingSmall * 2) - usernameChangeButton.anchors.leftMargin - (usernameChangeButton.width * 2)
-                horizontalAlignment: TextInput.AlignHCenter
-                wrapMode: TextInput.Wrap
-                selectByMouse: true
-                onAccepted: {
-                    profile.changeUsername(displayUsername.text);
-                    displayUsername.isUsernameEditingAllowed = false;
-                }
-
-                ImageButton {
-                    id: usernameChangeButton
-                    visible: profile.isSelf
-                    anchors.leftMargin: Komai.paddingSmall
-                    anchors.left: displayUsername.right
-                    anchors.verticalCenter: displayUsername.verticalCenter
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: profile.isGlobalUserProfile ? qsTr("Change display name globally.") : qsTr("Change display name. Will only apply to this room.")
-                    image: displayUsername.isUsernameEditingAllowed ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/edit.svg"
-                    onClicked: {
-                        if (displayUsername.isUsernameEditingAllowed) {
-                            profile.changeUsername(displayUsername.text);
-                            displayUsername.isUsernameEditingAllowed = false;
-                        } else {
-                            displayUsername.isUsernameEditingAllowed = true;
-                            displayUsername.focus = true;
-                            displayUsername.selectAll();
-                        }
-                    }
-                }
-
-            }
-
-            MatrixText {
-                text: profile.userid
-                Layout.alignment: Qt.AlignHCenter
-            }
-
-            MatrixText {
-                id: statusMsg
-                text: qsTr("<i><b>Status:</b> %1</i>").arg(userStatus)
-                visible: userStatus != ""
+            // Avatar row: label | [buttons] [avatar]
+            Item {
+                id: avatarRowItem
                 Layout.fillWidth: true
-                horizontalAlignment: TextEdit.AlignHCenter
-                Layout.leftMargin: Komai.paddingMedium
-                Layout.rightMargin: Komai.paddingMedium
-                font.pointSize: Math.floor(Settings.uiFontSizePt * 0.9)
+                implicitHeight: avatarRowColumn.implicitHeight
 
-                property string userStatus: Presence.userStatus(profile.userid)
-                Connections {
-                    target: Presence
-                    function onPresenceChanged(id) {
-                        if (id == profile.userid) statusMsg.userStatus = Presence.userStatus(profile.userid);
-                    }
+                HoverHandler { id: avatarRowHover; blocking: false }
+                readonly property bool rowHovered: avatarRowHover.hovered
+                Rectangle {
+                    anchors.fill: avatarRowColumn
+                    color: parent.rowHovered ? palette.dark : palette.window
+                    radius: Komai.paddingMedium
+                    z: -1
                 }
-            }
-
-            RowLayout {
-                visible: !profile.isGlobalUserProfile
-                Layout.alignment: Qt.AlignHCenter
-                spacing: Komai.paddingSmall
-
-                MatrixText {
-                    id: displayRoomname
-
-                    text: qsTr("Room: %1").arg(profile.room ? profile.room.roomName : "")
-                    ToolTip.text: qsTr("This is a room-specific profile. The user's name and avatar may be different from their global versions.")
-                    ToolTip.visible: ma.hovered
-                    Layout.maximumWidth: parent.parent.width - (parent.spacing * 3) - 16
-                    horizontalAlignment: TextEdit.AlignHCenter
-
-                    HoverHandler {
-                        id: ma
-                    }
-
-                }
-
-                ImageButton {
-                    image: ":/icons/icons/ui/world.svg"
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Open the global profile for this user.")
-                    onClicked: profile.openGlobalProfile()
-                }
-
-            }
-
-            Button {
-                id: verifyUserButton
-
-                text: qsTr("Verify")
-                Layout.alignment: Qt.AlignHCenter
-                enabled: profile.userVerified != Crypto.Verified
-                visible: profile.userVerified != Crypto.Verified && !profile.isSelf && profile.userVerificationEnabled
-                onClicked: profile.verify()
-            }
-
-            EncryptionIndicator {
-                Layout.preferredHeight: 32
-                Layout.preferredWidth: 32
-                sourceSize.width: width
-                sourceSize.height: height
-                encrypted: profile.userVerificationEnabled
-                trust: profile.userVerified
-                Layout.alignment: Qt.AlignHCenter
-                ToolTip.visible: false
-            }
-
-            RowLayout {
-                // ImageButton{
-                //     image:":/icons/icons/ui/volume-off-indicator.svg"
-                //     Layout.margins: {
-                //         left: 5
-                //         right: 5
-                //     }
-                //     ToolTip.visible: hovered
-                //     ToolTip.text: qsTr("Ignore messages from this user.")
-                //     onClicked : {
-                //         profile.ignoreUser()
-                //     }
-                // }
-
-                Layout.alignment: Qt.AlignHCenter
-                Layout.bottomMargin: 10
-                spacing: Komai.paddingSmall
-
-                ImageButton {
-                    Layout.preferredHeight: 24
-                    Layout.preferredWidth: 24
-                    image: ":/icons/icons/ui/chat.svg"
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Start a private chat.")
-                    onClicked: profile.startChat()
-                }
-
-                ImageButton {
-                    Layout.preferredHeight: 24
-                    Layout.preferredWidth: 24
-                    image: ":/icons/icons/ui/round-remove-button.svg"
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Kick the user.")
-                    onClicked: profile.kickUser()
-                    visible: !profile.isGlobalUserProfile && profile.room.permissions.canKick()
-                }
-
-                ImageButton {
-                    Layout.preferredHeight: 24
-                    Layout.preferredWidth: 24
-                    image: ":/icons/icons/ui/ban.svg"
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Ban the user.")
-                    onClicked: profile.banUser()
-                    visible: !profile.isGlobalUserProfile && profile.room.permissions.canBan()
-                }
-
-                ImageButton {
-                    Layout.preferredHeight: 24
-                    Layout.preferredWidth: 24
-                    image: ":/icons/icons/ui/volume-off-indicator.svg"
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: profile.ignored ? qsTr("Unignore the user.") : qsTr("Ignore the user.")
-                    buttonTextColor: profile.ignored ? Komai.theme.attention : palette.buttonText
-                    onClicked: profile.ignored = !profile.ignored
-                    visible: !profile.isSelf
-                }
-
-                ImageButton {
-                    Layout.preferredHeight: 24
-                    Layout.preferredWidth: 24
-                    image: ":/icons/icons/ui/refresh.svg"
-                    hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Refresh device list.")
-                    onClicked: profile.refreshDevices()
-                }
-            }
-
-            TabBar {
-                id: tabbar
-                visible: !profile.isSelf
-                Layout.fillWidth: true
-
-                onCurrentIndexChanged: devicelist.selectedTab = currentIndex
-
-
-                KomaiTabButton {
-                    text: qsTr("Devices")
-                }
-                KomaiTabButton {
-                    text: qsTr("Shared Rooms")
-                }
-
-                Layout.bottomMargin: Komai.paddingMedium
-            }
-        }
-
-        model: (selectedTab == 0) ? devicesModel : sharedRoomsModel
-
-        DelegateModel {
-            id: devicesModel
-            model: profile.deviceList
-            delegate: RowLayout {
-                required property int verificationStatus
-                required property string deviceId
-                required property string deviceName
-                required property string lastIp
-                required property var lastTs
-
-                width: devicelist.width
-                spacing: 4
 
                 ColumnLayout {
+                    id: avatarRowColumn
+                    width: parent.width
                     spacing: 0
 
-                    Layout.leftMargin: Komai.paddingMedium
-                    Layout.rightMargin: Komai.paddingMedium
                     RowLayout {
-                        Text {
-                            Layout.fillWidth: true
-                            Layout.alignment: Qt.AlignLeft
-                            elide: Text.ElideRight
-                            font.bold: true
-                            color: palette.text
-                            text: deviceId
-                        }
-
-                        Image {
-                            Layout.preferredHeight: 16
-                            Layout.preferredWidth: 16
-                            visible: profile.isSelf && verificationStatus != VerificationStatus.NOT_APPLICABLE
-                            sourceSize.height: height
-                            sourceSize.width: width
-                            source: {
-                                switch (verificationStatus) {
-                                    case VerificationStatus.VERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success;
-                                    case VerificationStatus.UNVERIFIED:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.warning;
-                                    case VerificationStatus.SELF:
-                                    return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success;
-                                    default:
-                                    return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.warning;
-                                }
-                            }
-                        }
-
-                        ImageButton {
-                            Layout.alignment: Qt.AlignTop
-                            image: ":/icons/icons/ui/power-off.svg"
-                            hoverEnabled: true
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Sign out this device.")
-                            onClicked: profile.signOutDevice(deviceId)
-                            visible: profile.isSelf
-                        }
-
-                    }
-
-                    RowLayout {
-                        id: deviceNameRow
-
-                        property bool isEditingAllowed
-
-                        TextInput {
-                            id: deviceNameField
-
-                            readOnly: !deviceNameRow.isEditingAllowed
-                            text: deviceName
-                            color: palette.text
-                            Layout.alignment: Qt.AlignLeft
-                            Layout.fillWidth: true
-                            selectByMouse: true
-                            onAccepted: {
-                                profile.changeDeviceName(deviceId, deviceNameField.text);
-                                deviceNameRow.isEditingAllowed = false;
-                            }
-                        }
-
-                        ImageButton {
-                            visible: profile.isSelf
-                            hoverEnabled: true
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Change device name.")
-                            image: deviceNameRow.isEditingAllowed ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/edit.svg"
-                            onClicked: {
-                                if (deviceNameRow.isEditingAllowed) {
-                                    profile.changeDeviceName(deviceId, deviceNameField.text);
-                                    deviceNameRow.isEditingAllowed = false;
-                                } else {
-                                    deviceNameRow.isEditingAllowed = true;
-                                    deviceNameField.focus = true;
-                                    deviceNameField.selectAll();
-                                }
-                            }
-                        }
-
-                    }
-
-                    Text {
-                        visible: profile.isSelf
+                        id: avatarRowContent
                         Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignLeft
-                        elide: Text.ElideRight
-                        color: palette.text
-                        text: qsTr("Last seen %1 from %2").arg(new Date(lastTs).toLocaleString(Locale.ShortFormat)).arg(lastIp ? lastIp : "???")
+                        spacing: Komai.paddingMedium
+
+                        Label {
+                            text: qsTr("Avatar")
+                            color: avatarRowItem.rowHovered ? palette.brightText : palette.text
+                            font.pointSize: 1.1 * Settings.uiFontSizePt
+                            Layout.alignment: Qt.AlignTop
+                            Layout.topMargin: Komai.paddingMedium
+                            Layout.bottomMargin: Komai.paddingMedium
+                            Layout.leftMargin: Komai.paddingMedium
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        // Avatar action buttons (self only)
+                        Components.KomaiButton {
+                            visible: profile.isSelf
+                            text: root.isRoomProfile ? qsTr("Change avatar for this room") : qsTr("Change")
+                            icon.source: "qrc:/icons/icons/ui/edit.svg"
+                            onClicked: profile.changeAvatar()
+                        }
+
+                        Components.KomaiButton {
+                            visible: profile.isSelf && root.isRoomProfile && root.hasCustomRoomAvatar
+                            text: qsTr("Reset to global avatar")
+                            icon.source: "qrc:/icons/icons/ui/delete.svg"
+                            onClicked: profile.removeAvatar()
+                        }
+
+                        Components.KomaiButton {
+                            visible: profile.isSelf && !root.isRoomProfile && profile.avatarUrl !== ""
+                            text: qsTr("Remove")
+                            icon.source: "qrc:/icons/icons/ui/delete.svg"
+                            onClicked: profile.removeAvatar()
+                        }
+
+                        Components.Avatar {
+                            id: avatarImage
+
+                            url: profile.avatarUrl.replace("mxc://", "image://MxcImage/")
+                            displayName: profile.displayName
+                            userid: profile.userid
+                            Layout.preferredHeight: 72
+                            Layout.preferredWidth: 72
+                            Layout.rightMargin: Komai.paddingMedium
+                            Layout.topMargin: Komai.paddingMedium
+                            Layout.bottomMargin: Komai.paddingMedium
+                            onClicked: {
+                                if (profile.avatarUrl !== "")
+                                    TimelineManager.openImageOverlay(null, profile.avatarUrl, "", 0, 0);
+                            }
+                        }
                     }
 
+                    // Note about different global avatar (right-aligned, below avatar)
+                    Label {
+                        visible: root.hasCustomRoomAvatar
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        text: profile.isSelf
+                            ? qsTr("You have a different global avatar.")
+                            : qsTr("This user has a different global avatar.")
+                        color: avatarRowItem.rowHovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
+                        font.italic: true
+                    }
+                }
+            }
+
+            // Display name row: label | [field or value + copy]
+            Item {
+                id: displayNameRowItem
+                Layout.fillWidth: true
+                implicitHeight: displayNameRowContent.implicitHeight
+
+                HoverHandler { id: displayNameRowHover; blocking: false }
+                readonly property bool rowHovered: displayNameRowHover.hovered
+                Rectangle {
+                    anchors.fill: displayNameRowContent
+                    color: parent.rowHovered ? palette.dark : palette.window
+                    radius: Komai.paddingMedium
+                    z: -1
                 }
 
-                Image {
-                    Layout.preferredHeight: 16
-                    Layout.preferredWidth: 16
-                    sourceSize.height: height
-                    sourceSize.width: width
-                    visible: !profile.isSelf && verificationStatus != VerificationStatus.NOT_APPLICABLE
-                    source: {
-                        switch (verificationStatus) {
-                            case VerificationStatus.VERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success;
-                            case VerificationStatus.UNVERIFIED:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.warning;
-                            case VerificationStatus.SELF:
-                            return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success;
-                            default:
-                            return "image://colorimage/:/icons/icons/ui/shield-regular.svg?" + Komai.theme.attention;
+                RowLayout {
+                    id: displayNameRowContent
+                    width: parent.width
+                    spacing: Komai.paddingMedium
+
+                    Label {
+                        text: qsTr("Display name")
+                        color: displayNameRowItem.rowHovered ? palette.brightText : palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    // Self: editable text field (auto-persist like AccountTab)
+                    ColumnLayout {
+                        visible: profile.isSelf
+                        Layout.preferredWidth: scrollView.availableWidth * 0.4
+                        Layout.maximumWidth: scrollView.availableWidth * 0.4
+                        Layout.minimumWidth: 150
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        spacing: 2
+
+                        Components.KomaiTextField {
+                            id: displayNameField
+
+                            Layout.fillWidth: true
+
+                            property bool hasPendingSubmit: false
+                            property var lastSubmitted: null
+                            // For room profiles, displayName falls back to user_id when
+                            // no room override is set. Treat that as empty so the field
+                            // shows the placeholder instead of the raw user ID.
+                            property string serverValue: {
+                                var dn = profile.displayName;
+                                if (root.isRoomProfile && dn === profile.userid)
+                                    return "";
+                                return dn;
+                            }
+                            onServerValueChanged: {
+                                if (!hasPendingSubmit && text !== serverValue)
+                                    text = serverValue;
+                                hasPendingSubmit = false;
+                            }
+
+                            text: serverValue
+                            placeholderText: root.isRoomProfile ? profile.globalDisplayName : ""
+
+                            function applyName() {
+                                var val = text.trim();
+                                // For room profiles, clearing means "reset to global name".
+                                if (root.isRoomProfile && val.length === 0)
+                                    val = profile.globalDisplayName;
+                                if (val === serverValue || val === lastSubmitted)
+                                    return;
+                                // For global profiles, empty is not allowed.
+                                if (val.length === 0)
+                                    return;
+                                lastSubmitted = val;
+                                hasPendingSubmit = true;
+                                profile.changeUsername(val);
+                            }
+
+                            onEditingFinished: applyName()
+                            onActiveFocusChanged: if (!activeFocus) applyName()
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            visible: root.isRoomProfile
+                            text: qsTr("Leave empty to use your global name: %1").arg(profile.globalDisplayName)
+                            color: displayNameRowItem.rowHovered ? palette.brightText : palette.buttonText
+                            font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
+                            wrapMode: Text.Wrap
+                        }
+                    }
+
+                    // Others: read-only display name + copy button
+                    Label {
+                        visible: !profile.isSelf
+                        text: profile.displayName
+                        color: displayNameRowItem.rowHovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        Layout.rightMargin: copyNameBtn.visible ? 0 : Komai.paddingMedium
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        elide: Text.ElideRight
+                        Layout.maximumWidth: scrollView.availableWidth * 0.5
+                    }
+
+                    Components.ImageButton {
+                        id: copyNameBtn
+
+                        property bool copied: false
+
+                        visible: !profile.isSelf
+                        Layout.preferredWidth: root.copyButtonSize
+                        Layout.preferredHeight: root.copyButtonSize
+                        buttonTextColor: displayNameRowItem.rowHovered ? palette.brightText : palette.buttonText
+                        image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                        hoverEnabled: true
+                        ToolTip.visible: hovered
+                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy display name")
+                        Layout.rightMargin: Komai.paddingMedium
+                        onClicked: {
+                            Clipboard.text = profile.displayName;
+                            copied = true;
+                            copyNameTimer.restart();
+                        }
+
+                        Timer {
+                            id: copyNameTimer
+                            interval: 2000
+                            onTriggered: copyNameBtn.copied = false
                         }
                     }
                 }
+            }
 
-                Button {
-                    id: verifyButton
+            // User ID row: label | [value + copy]
+            Item {
+                id: userIdRowItem
+                Layout.fillWidth: true
+                implicitHeight: userIdRowContent.implicitHeight
 
-                    visible: verificationStatus == VerificationStatus.UNVERIFIED && (profile.isSelf || !profile.userVerificationEnabled)
-                    text: (verificationStatus != VerificationStatus.VERIFIED) ? qsTr("Verify") : qsTr("Unverify")
+                HoverHandler { id: userIdRowHover; blocking: false }
+                readonly property bool rowHovered: userIdRowHover.hovered
+                Rectangle {
+                    anchors.fill: userIdRowContent
+                    color: parent.rowHovered ? palette.dark : palette.window
+                    radius: Komai.paddingMedium
+                    z: -1
+                }
+
+                RowLayout {
+                    id: userIdRowContent
+                    width: parent.width
+                    spacing: Komai.paddingMedium
+
+                    Label {
+                        text: qsTr("User ID")
+                        color: userIdRowItem.rowHovered ? palette.brightText : palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    Label {
+                        text: profile.userid
+                        color: userIdRowItem.rowHovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        elide: Text.ElideRight
+                        Layout.maximumWidth: scrollView.availableWidth * 0.5
+                    }
+
+                    Components.ImageButton {
+                        id: copyIdBtn
+
+                        property bool copied: false
+
+                        Layout.preferredWidth: root.copyButtonSize
+                        Layout.preferredHeight: root.copyButtonSize
+                        buttonTextColor: userIdRowItem.rowHovered ? palette.brightText : palette.buttonText
+                        image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                        hoverEnabled: true
+                        ToolTip.visible: hovered
+                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy user ID")
+                        Layout.rightMargin: Komai.paddingMedium
+                        onClicked: {
+                            Clipboard.text = profile.userid;
+                            copied = true;
+                            copyIdTimer.restart();
+                        }
+
+                        Timer {
+                            id: copyIdTimer
+                            interval: 2000
+                            onTriggered: copyIdBtn.copied = false
+                        }
+                    }
+                }
+            }
+
+            // Presence status row: label | [value]
+            Item {
+                id: presenceRowItem
+                Layout.fillWidth: true
+                implicitHeight: presenceRowContent.implicitHeight
+                visible: statusMsg.userStatus !== ""
+
+                HoverHandler { id: presenceRowHover; blocking: false }
+                readonly property bool rowHovered: presenceRowHover.hovered
+                Rectangle {
+                    anchors.fill: presenceRowContent
+                    color: parent.rowHovered ? palette.dark : palette.window
+                    radius: Komai.paddingMedium
+                    z: -1
+                }
+
+                RowLayout {
+                    id: presenceRowContent
+                    width: parent.width
+                    spacing: Komai.paddingMedium
+
+                    Label {
+                        text: qsTr("Status")
+                        color: presenceRowItem.rowHovered ? palette.brightText : palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    Label {
+                        id: statusMsg
+
+                        property string userStatus: Presence.userStatus(profile.userid)
+
+                        text: userStatus
+                        color: presenceRowItem.rowHovered ? palette.brightText : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        font.italic: true
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        elide: Text.ElideRight
+                        Layout.maximumWidth: scrollView.availableWidth * 0.5
+
+                        Connections {
+                            target: Presence
+                            function onPresenceChanged(id) {
+                                if (id === profile.userid)
+                                    statusMsg.userStatus = Presence.userStatus(profile.userid);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Verification row: label | [badge]
+            Item {
+                id: verificationRowItem
+                Layout.fillWidth: true
+                implicitHeight: verificationRowContent.implicitHeight
+                visible: profile.userVerificationEnabled
+
+                HoverHandler { id: verificationRowHover; blocking: false }
+                readonly property bool rowHovered: verificationRowHover.hovered
+                Rectangle {
+                    anchors.fill: verificationRowContent
+                    color: parent.rowHovered ? palette.dark : palette.window
+                    radius: Komai.paddingMedium
+                    z: -1
+                }
+
+                RowLayout {
+                    id: verificationRowContent
+                    width: parent.width
+                    spacing: Komai.paddingMedium
+
+                    Label {
+                        text: qsTr("Verification")
+                        color: verificationRowItem.rowHovered ? palette.brightText : palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.leftMargin: Komai.paddingMedium
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    // Verification status badge + help text
+                    ColumnLayout {
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.rightMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.paddingMedium
+                        spacing: Komai.paddingSmall
+
+                        // Badge (opaque colors so hover background doesn't bleed through)
+                        Rectangle {
+                            id: verificationBadge
+
+                            readonly property color badgeBase: {
+                                switch (profile.userVerified) {
+                                case Crypto.Verified:
+                                    return Komai.theme.success;
+                                case Crypto.TOFU:
+                                    return Komai.theme.warning;
+                                default:
+                                    return Komai.theme.error;
+                                }
+                            }
+
+                            Layout.alignment: Qt.AlignRight
+                            implicitWidth: verificationBadgeRow.implicitWidth + Komai.paddingMedium * 2
+                            implicitHeight: verificationBadgeRow.implicitHeight + Komai.paddingMedium
+                            radius: Komai.paddingSmall
+                            color: Qt.rgba(
+                                palette.window.r * 0.85 + badgeBase.r * 0.15,
+                                palette.window.g * 0.85 + badgeBase.g * 0.15,
+                                palette.window.b * 0.85 + badgeBase.b * 0.15,
+                                1.0)
+                            border.color: badgeBase
+                            border.width: 1
+
+                            RowLayout {
+                                id: verificationBadgeRow
+                                anchors.centerIn: parent
+                                spacing: Komai.paddingSmall
+
+                                Image {
+                                    readonly property int badgeIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.4))
+                                    Layout.preferredHeight: badgeIconSize
+                                    Layout.preferredWidth: badgeIconSize
+                                    sourceSize.height: height
+                                    sourceSize.width: width
+                                    source: {
+                                        switch (profile.userVerified) {
+                                        case Crypto.Verified:
+                                            return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + verificationBadge.badgeBase;
+                                        case Crypto.TOFU:
+                                            return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + verificationBadge.badgeBase;
+                                        default:
+                                            return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + verificationBadge.badgeBase;
+                                        }
+                                    }
+                                }
+
+                                Label {
+                                    text: {
+                                        switch (profile.userVerified) {
+                                        case Crypto.Verified:
+                                            return qsTr("Verified");
+                                        case Crypto.TOFU:
+                                            return qsTr("Implicitly trusted");
+                                        default:
+                                            return qsTr("Unverified");
+                                        }
+                                    }
+                                    color: verificationBadge.badgeBase
+                                    font.pointSize: Settings.uiFontSizePt
+                                }
+                            }
+                        }
+
+                        // Help text explaining the verification status
+                        Label {
+                            Layout.alignment: Qt.AlignRight
+                            Layout.maximumWidth: scrollView.availableWidth * 0.5
+                            visible: profile.userVerified !== Crypto.Verified
+                            text: {
+                                switch (profile.userVerified) {
+                                case Crypto.TOFU:
+                                    return qsTr("Accepted on first use, not explicitly verified.");
+                                default:
+                                    return qsTr("Identity keys changed or never seen. Consider verifying.");
+                                }
+                            }
+                            color: verificationRowItem.rowHovered ? palette.brightText : palette.buttonText
+                            font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
+                            font.italic: true
+                            wrapMode: Text.Wrap
+                        }
+                    }
+                }
+            }
+
+            // Global display name note (when room-specific name differs)
+            Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                visible: root.hasCustomRoomName
+                text: qsTr("Global display name: %1").arg(profile.globalDisplayName)
+                color: palette.buttonText
+                font.pointSize: Math.floor(Settings.uiFontSizePt * 0.9)
+                font.italic: true
+                wrapMode: Text.Wrap
+            }
+
+            // ---- Actions section ----
+            Components.SettingsSection {
+                label: qsTr("Actions")
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                visible: !profile.isSelf
+            }
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                spacing: Komai.paddingSmall
+                visible: !profile.isSelf
+
+                // Opens an existing direct chat or creates a new one
+                ActionButton {
+                    labelText: qsTr("Start direct chat")
+                    iconSource: ":/icons/icons/ui/person.svg"
                     onClicked: {
-                        if (verificationStatus == VerificationStatus.VERIFIED)
-                        profile.unverify(deviceId);
-                        else
-                        profile.verify(deviceId);
+                        root.close();
+                        profile.startChat();
                     }
                 }
 
-            }
-        }
-
-        DelegateModel {
-            id: sharedRoomsModel
-            model: profile.sharedRooms
-            delegate: RowLayout {
-                required property string roomId
-                required property string roomName
-                required property string avatarUrl
-
-                width: devicelist.width
-                spacing: 4
-
-
-                Avatar {
-                    id: avatar
-
-                    enabled: false
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.leftMargin: Komai.paddingMedium
-
-                    property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 1.6)
-                    Layout.preferredHeight: avatarSize
-                    Layout.preferredWidth: avatarSize
-                    url: avatarUrl.replace("mxc://", "image://MxcImage/")
-                    roomid: roomId
-                    displayName: roomName
+                ActionButton {
+                    visible: profile.userVerificationEnabled && profile.userVerified !== Crypto.Verified
+                    labelText: qsTr("Verify user")
+                    iconSource: ":/icons/icons/ui/shield-regular-checkmark.svg"
+                    onClicked: profile.verify()
                 }
 
-                ElidedLabel {
-                    Layout.alignment: Qt.AlignVCenter
-                    color: palette.text
+                ActionButton {
+                    id: ignoreBtn
+                    labelText: profile.ignored ? qsTr("Unignore user") : qsTr("Ignore user")
+                    iconSource: ":/icons/icons/ui/volume-off-indicator.svg"
+                    onClicked: {
+                        ignoreBtn.focus = false;
+                        var dialog = confirmIgnoreDialogComponent.createObject(root.parent);
+                        dialog.open();
+                        dialog.closed.connect(function() { dialog.destroy(); });
+                    }
+                }
+
+                ActionButton {
+                    visible: root.isRoomProfile && profile.room && profile.room.permissions.canKick()
+                    labelText: qsTr("Kick from room")
+                    iconSource: ":/icons/icons/ui/round-remove-button.svg"
+                    onClicked: {
+                        root.close();
+                        profile.kickUser();
+                    }
+                }
+
+                ActionButton {
+                    visible: root.isRoomProfile && profile.room && profile.room.permissions.canBan()
+                    labelText: qsTr("Ban from room")
+                    iconSource: ":/icons/icons/ui/ban.svg"
+                    onClicked: {
+                        root.close();
+                        profile.banUser();
+                    }
+                }
+            }
+
+            // Ignore confirmation dialog (OverlayDialog, same pattern as LeaveRoomDialog)
+            Component {
+                id: confirmIgnoreDialogComponent
+
+                Components.OverlayDialog {
+                    id: confirmIgnoreDialog
+
+                    title: profile.ignored
+                        ? qsTr("Unignore %1?").arg(profile.userid)
+                        : qsTr("Ignore %1?").arg(profile.userid)
+                    titleIcon: ":/icons/icons/ui/volume-off-indicator.svg"
+
+                    Label {
+                        Layout.fillWidth: true
+                        color: palette.text
+                        wrapMode: Text.WordWrap
+                        text: profile.ignored
+                            ? qsTr("You will see their messages again.")
+                            : qsTr("After ignoring, you will no longer see their messages.")
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingMedium
+
+                        Button {
+                            text: qsTr("Cancel")
+                            onClicked: confirmIgnoreDialog.close()
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Button {
+                            text: profile.ignored ? qsTr("Unignore") : qsTr("Ignore")
+                            highlighted: true
+                            onClicked: {
+                                profile.ignored = !profile.ignored;
+                                confirmIgnoreDialog.close();
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ---- Rooms in common section ----
+            Components.SettingsSection {
+                label: qsTr("Rooms in common")
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                visible: !profile.isSelf && profile.sharedRooms && profile.sharedRooms.rowCount() > 0
+            }
+
+            Repeater {
+                model: (!profile.isSelf && profile.sharedRooms) ? profile.sharedRooms : null
+
+                delegate: AbstractButton {
+                    id: roomDelegate
+
+                    required property string roomId
+                    required property string roomName
+                    required property string avatarUrl
+
                     Layout.fillWidth: true
-                    elideWidth: width
-                    fullText: roomName
-                    textFormat: Text.PlainText
+                    Layout.leftMargin: Komai.paddingMedium
                     Layout.rightMargin: Komai.paddingMedium
+                    implicitHeight: 40
+                    leftPadding: Komai.paddingMedium
+                    rightPadding: Komai.paddingMedium
+                    hoverEnabled: true
+                    activeFocusOnTab: true
+                    focusPolicy: Qt.StrongFocus
+
+                    readonly property bool activeState: hovered || pressed || activeFocus
+                    readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+
+                    onClicked: {
+                        root.close();
+                        Rooms.setCurrentRoom(roomDelegate.roomId);
+                    }
+
+                    contentItem: RowLayout {
+                        spacing: Komai.paddingMedium
+
+                        Components.Avatar {
+                            id: roomAvatar
+
+                            property int avatarSize: Math.ceil(fontMetrics.lineSpacing * 1.6)
+
+                            Layout.preferredHeight: avatarSize
+                            Layout.preferredWidth: avatarSize
+                            Layout.alignment: Qt.AlignVCenter
+                            url: roomDelegate.avatarUrl.replace("mxc://", "image://MxcImage/")
+                            roomid: roomDelegate.roomId
+                            displayName: roomDelegate.roomName
+                            enabled: false
+
+                            FontMetrics {
+                                id: fontMetrics
+                            }
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignVCenter
+                            text: roomDelegate.roomName
+                            color: roomDelegate.actionTextColor
+                            elide: Text.ElideRight
+                        }
+                    }
+
+                    background: Rectangle {
+                        radius: Komai.paddingMedium
+                        color: roomDelegate.activeState ? palette.dark : palette.window
+                    }
+
+                    KomaiCursorShape {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                }
+            }
+
+            // ---- Devices (sessions) section ----
+            // Section heading with inline Refresh button (matching AccountTab pattern)
+            ColumnLayout {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                spacing: Komai.paddingSmall
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        text: qsTr("Devices (sessions)")
+                        color: palette.text
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        font.capitalization: Font.AllUppercase
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    Components.KomaiButton {
+                        id: refreshBtn
+
+                        property bool refreshed: false
+
+                        visible: !profile.isSelf
+                        Layout.rightMargin: Komai.paddingMedium
+                        text: refreshed ? qsTr("Refreshed") : qsTr("Refresh")
+                        icon.source: refreshed ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/refresh.svg"
+                        onClicked: {
+                            profile.refreshDevices();
+                            refreshed = true;
+                            refreshTimer.restart();
+                        }
+
+                        Timer {
+                            id: refreshTimer
+
+                            interval: 1200
+                            onTriggered: refreshBtn.refreshed = false
+                        }
+                    }
                 }
 
                 Item {
                     Layout.fillWidth: true
+                    Layout.preferredHeight: Komai.paddingLarge
+
+                    Rectangle {
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        color: palette.buttonText
+                        height: 1
+                    }
                 }
             }
-        }
 
-        footer: DialogButtonBox {
-            z: 2
-            width: devicelist.width
-            alignment: Qt.AlignRight
-            standardButtons: DialogButtonBox.Ok
-            onAccepted: userProfileDialog.close()
-
-            background: Rectangle {
-                anchors.fill: parent
-                color: palette.window
+            // Self: redirect to Account settings
+            ActionButton {
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+                visible: profile.isSelf
+                labelText: qsTr("Manage")
+                iconSource: ":/icons/icons/ui/person.svg"
+                onClicked: {
+                    root.close();
+                    MainWindow.showUserSettingsPage(UserSettingsModel.TabAccount);
+                }
             }
 
+            // Others: device list
+            Repeater {
+                model: profile.isSelf ? null : profile.deviceList
+
+                delegate: Rectangle {
+                    id: deviceCard
+
+                    required property int verificationStatus
+                    required property string deviceId
+                    required property string deviceName
+
+                    Layout.fillWidth: true
+                    Layout.leftMargin: Komai.paddingMedium
+                    Layout.rightMargin: Komai.paddingMedium
+                    implicitHeight: deviceContent.implicitHeight + Komai.paddingMedium * 2
+                    color: palette.window
+                    border.color: Komai.theme.separator
+                    border.width: 1
+                    radius: Komai.paddingSmall
+
+                    ColumnLayout {
+                        id: deviceContent
+
+                        anchors.fill: parent
+                        anchors.margins: Komai.paddingMedium
+                        spacing: Komai.paddingSmall
+
+                        // Top row: verification badge + device ID
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: Komai.paddingSmall
+
+                            // Verification status badge
+                            Rectangle {
+                                visible: deviceCard.verificationStatus !== VerificationStatus.NOT_APPLICABLE
+                                implicitWidth: badgeRow.implicitWidth + Komai.paddingSmall * 2
+                                implicitHeight: badgeRow.implicitHeight + Komai.paddingSmall
+                                radius: Komai.paddingSmall
+                                color: {
+                                    switch (deviceCard.verificationStatus) {
+                                    case VerificationStatus.VERIFIED:
+                                    case VerificationStatus.SELF:
+                                        return Qt.rgba(Komai.theme.success.r, Komai.theme.success.g, Komai.theme.success.b, 0.15);
+                                    case VerificationStatus.UNVERIFIED:
+                                        return Qt.rgba(Komai.theme.warning.r, Komai.theme.warning.g, Komai.theme.warning.b, 0.15);
+                                    default:
+                                        return Qt.rgba(Komai.theme.error.r, Komai.theme.error.g, Komai.theme.error.b, 0.15);
+                                    }
+                                }
+                                border.color: {
+                                    switch (deviceCard.verificationStatus) {
+                                    case VerificationStatus.VERIFIED:
+                                    case VerificationStatus.SELF:
+                                        return Komai.theme.success;
+                                    case VerificationStatus.UNVERIFIED:
+                                        return Komai.theme.warning;
+                                    default:
+                                        return Komai.theme.error;
+                                    }
+                                }
+                                border.width: 1
+
+                                RowLayout {
+                                    id: badgeRow
+
+                                    anchors.centerIn: parent
+                                    spacing: Komai.paddingSmall
+
+                                    Image {
+                                        readonly property int badgeIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.4))
+                                        Layout.preferredHeight: badgeIconSize
+                                        Layout.preferredWidth: badgeIconSize
+                                        sourceSize.height: height
+                                        sourceSize.width: width
+                                        source: {
+                                            switch (deviceCard.verificationStatus) {
+                                            case VerificationStatus.VERIFIED:
+                                                return "image://colorimage/:/icons/icons/ui/shield-regular-checkmark.svg?" + Komai.theme.success;
+                                            case VerificationStatus.UNVERIFIED:
+                                                return "image://colorimage/:/icons/icons/ui/shield-regular-exclamation-mark.svg?" + Komai.theme.warning;
+                                            case VerificationStatus.SELF:
+                                                return "image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success;
+                                            default:
+                                                return "image://colorimage/:/icons/icons/ui/shield-regular-cross.svg?" + Komai.theme.error;
+                                            }
+                                        }
+                                    }
+
+                                    Label {
+                                        text: {
+                                            switch (deviceCard.verificationStatus) {
+                                            case VerificationStatus.VERIFIED:
+                                                return qsTr("Verified");
+                                            case VerificationStatus.UNVERIFIED:
+                                                return qsTr("Unverified");
+                                            case VerificationStatus.SELF:
+                                                return qsTr("This device");
+                                            default:
+                                                return qsTr("Blocked");
+                                            }
+                                        }
+                                        color: {
+                                            switch (deviceCard.verificationStatus) {
+                                            case VerificationStatus.VERIFIED:
+                                            case VerificationStatus.SELF:
+                                                return Komai.theme.success;
+                                            case VerificationStatus.UNVERIFIED:
+                                                return Komai.theme.warning;
+                                            default:
+                                                return Komai.theme.error;
+                                            }
+                                        }
+                                        font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
+                                    }
+                                }
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                text: deviceCard.deviceId
+                                font.bold: true
+                                color: palette.text
+                                elide: Text.ElideRight
+                            }
+
+                            Components.KomaiButton {
+                                visible: deviceCard.verificationStatus === VerificationStatus.UNVERIFIED && !profile.userVerificationEnabled
+                                text: qsTr("Verify")
+                                icon.source: ":/icons/icons/ui/shield-regular-checkmark.svg"
+                                onClicked: profile.verify(deviceCard.deviceId)
+                            }
+                        }
+
+                        // Device name (second row)
+                        Label {
+                            Layout.fillWidth: true
+                            visible: deviceCard.deviceName !== ""
+                            text: deviceCard.deviceName
+                            color: palette.buttonText
+                            font.pointSize: Settings.uiFontSizePt
+                            elide: Text.ElideRight
+                        }
+                    }
+                }
+            }
+
+            // Bottom spacer
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Komai.paddingMedium
+            }
         }
-
+        }
     }
-
 }

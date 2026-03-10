@@ -59,9 +59,7 @@ UserProfile::UserProfile(const QString &roomid,
             &UserProfile::updateVerificationStatus,
             Qt::QueuedConnection);
 
-    if (isGlobalUserProfile()) {
-        getGlobalProfileData();
-    }
+    getGlobalProfileData();
 
     if (!cache::isDatabaseReady() || !ChatPage::instance()->timelineManager())
         return;
@@ -370,7 +368,9 @@ void
 UserProfile::setGlobalUsername(const QString &globalUser)
 {
     globalUsername = globalUser;
-    emit displayNameChanged();
+    if (isGlobalUserProfile())
+        emit displayNameChanged();
+    emit globalDisplayNameChanged();
 }
 
 void
@@ -398,7 +398,9 @@ UserProfile::getGlobalProfileData()
             [this](const mtx::responses::Profile &res) {
                 emit globalUsernameRetrieved(QString::fromStdString(res.display_name));
                 globalAvatarUrl = QString::fromStdString(res.avatar_url);
-                emit avatarUrlChanged();
+                if (isGlobalUserProfile())
+                    emit avatarUrlChanged();
+                emit globalAvatarUrlChanged();
             });
 
     connect(profProx.get(),

@@ -47,7 +47,7 @@ Item {
                 });
         }
         function onOpenProfile(profile) {
-            timelineRoot.showCatalogDialog(componentCatalog.userProfileDialog, {
+            timelineRoot.openCatalogDialog(componentCatalog.userProfileDialog, {
                     "profile": profile
                 });
         }

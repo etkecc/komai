@@ -25,20 +25,21 @@ Item {
 
         ColumnLayout {
             width: scrollView.availableWidth
-            spacing: 0
+            spacing: Komai.paddingSmall
 
             // Notifications row
             Item {
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 implicitHeight: notifRowContent.implicitHeight
 
                 HoverHandler { id: notifRowHover; blocking: false }
                 Rectangle {
                     anchors.fill: notifRowContent
-                    color: palette.alternateBase
+                    color: notifRowHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
-                    visible: notifRowHover.hovered
                     z: -1
                 }
 
@@ -56,7 +57,7 @@ Item {
 
                         Label {
                             text: qsTr("Notifications")
-                            color: palette.text
+                            color: notifRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
                             Layout.fillWidth: true
                         }
@@ -76,7 +77,7 @@ Item {
 
                     Label {
                         text: qsTr("Configure how you receive notifications for this room.")
-                        color: palette.buttonText
+                        color: notifRowHover.hovered ? palette.brightText : palette.buttonText
                         font.pointSize: 0.9 * Settings.uiFontSizePt
                         Layout.fillWidth: true
                         Layout.leftMargin: Komai.paddingMedium

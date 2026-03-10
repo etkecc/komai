@@ -214,7 +214,7 @@ Components.OverlayDialog {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                color: palette.window
+                color: palette.alternateBase
 
                 Loader {
                     id: tabLoader

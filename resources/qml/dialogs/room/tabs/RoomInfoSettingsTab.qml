@@ -29,7 +29,7 @@ Item {
             id: scrollContent
 
             width: scrollView.availableWidth
-            spacing: 0
+            spacing: Komai.paddingSmall
 
             // Loading spinner
             Spinner {
@@ -90,14 +90,15 @@ Item {
             // Avatar row
             Item {
                 Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 implicitHeight: avatarRowContent.implicitHeight
 
                 HoverHandler { id: avatarRowHover; blocking: false }
                 Rectangle {
                     anchors.fill: avatarRowContent
-                    color: palette.alternateBase
+                    color: avatarRowHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
-                    visible: avatarRowHover.hovered
                     z: -1
                 }
 
@@ -115,7 +116,7 @@ Item {
 
                         Label {
                             text: qsTr("Avatar")
-                            color: palette.text
+                            color: avatarRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
                             Layout.fillWidth: true
                         }
@@ -188,14 +189,15 @@ Item {
             // Name row
             Item {
                 Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 implicitHeight: nameRowContent.implicitHeight
 
                 HoverHandler { id: nameRowHover; blocking: false }
                 Rectangle {
                     anchors.fill: nameRowContent
-                    color: palette.alternateBase
+                    color: nameRowHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
-                    visible: nameRowHover.hovered
                     z: -1
                 }
 
@@ -213,7 +215,7 @@ Item {
 
                         Label {
                             text: qsTr("Name")
-                            color: palette.text
+                            color: nameRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
                             Layout.fillWidth: true
                         }
@@ -250,14 +252,15 @@ Item {
             // Topic row
             Item {
                 Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 implicitHeight: topicRowContent.implicitHeight
 
                 HoverHandler { id: topicRowHover; blocking: false }
                 Rectangle {
                     anchors.fill: topicRowContent
-                    color: palette.alternateBase
+                    color: topicRowHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
-                    visible: topicRowHover.hovered
                     z: -1
                 }
 
@@ -275,7 +278,7 @@ Item {
 
                         Label {
                             text: qsTr("Topic")
-                            color: palette.text
+                            color: topicRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignTop
@@ -314,14 +317,15 @@ Item {
             // Encryption row
             Item {
                 Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 implicitHeight: encryptionRowContent.implicitHeight
 
                 HoverHandler { id: encryptionRowHover; blocking: false }
                 Rectangle {
                     anchors.fill: encryptionRowContent
-                    color: palette.alternateBase
+                    color: encryptionRowHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
-                    visible: encryptionRowHover.hovered
                     z: -1
                 }
 
@@ -338,7 +342,7 @@ Item {
 
                         Label {
                             text: qsTr("Encryption")
-                            color: palette.text
+                            color: encryptionRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
                             Layout.fillWidth: true
                         }
@@ -360,7 +364,7 @@ Item {
 
                     Label {
                         text: qsTr("Once enabled, encryption cannot be disabled.")
-                        color: palette.buttonText
+                        color: encryptionRowHover.hovered ? palette.brightText : palette.buttonText
                         font.pointSize: 0.9 * Settings.uiFontSizePt
                         Layout.fillWidth: true
                         Layout.leftMargin: Komai.paddingMedium

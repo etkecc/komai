@@ -25,20 +25,21 @@ Item {
 
         ColumnLayout {
             width: scrollView.availableWidth
-            spacing: 0
+            spacing: Komai.paddingSmall
 
             // Internal ID row
             Item {
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 implicitHeight: idRowContent.implicitHeight
 
                 HoverHandler { id: idRowHover; blocking: false }
                 Rectangle {
                     anchors.fill: idRowContent
-                    color: palette.alternateBase
+                    color: idRowHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
-                    visible: idRowHover.hovered
                     z: -1
                 }
 
@@ -48,7 +49,7 @@ Item {
 
                     Label {
                         text: qsTr("Internal ID")
-                        color: palette.text
+                        color: idRowHover.hovered ? palette.brightText : palette.text
                         font.pointSize: 1.1 * Settings.uiFontSizePt
                         Layout.fillWidth: true
                         Layout.topMargin: Komai.paddingMedium
@@ -94,14 +95,15 @@ Item {
             // Room Version row
             Item {
                 Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
                 implicitHeight: versionRowContent.implicitHeight
 
                 HoverHandler { id: versionRowHover; blocking: false }
                 Rectangle {
                     anchors.fill: versionRowContent
-                    color: palette.alternateBase
+                    color: versionRowHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
-                    visible: versionRowHover.hovered
                     z: -1
                 }
 
@@ -118,21 +120,21 @@ Item {
 
                         Label {
                             text: qsTr("Room Version")
-                            color: palette.text
+                            color: versionRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
                             Layout.fillWidth: true
                         }
 
                         Label {
                             text: aboutTab.roomSettings ? aboutTab.roomSettings.roomVersion : ""
-                            color: palette.text
+                            color: versionRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: Settings.uiFontSizePt
                         }
                     }
 
                     Label {
                         text: qsTr("Determines which features the room supports. <a href=\"https://spec.matrix.org/v1.17/rooms/\">Learn more</a>.")
-                        color: palette.buttonText
+                        color: versionRowHover.hovered ? palette.brightText : palette.buttonText
                         font.pointSize: 0.9 * Settings.uiFontSizePt
                         wrapMode: Text.Wrap
                         Layout.fillWidth: true

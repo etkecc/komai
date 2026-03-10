@@ -17,7 +17,7 @@ ColumnLayout {
     required property var roomSettings
     required property var appRoot
     Layout.fillWidth: true
-    spacing: 0
+    spacing: Komai.paddingSmall
 
     // --- Permissions section ---
     Components.SettingsSection {
@@ -31,16 +31,18 @@ ColumnLayout {
     // Power levels & permissions
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: plRowContent.implicitHeight
         HoverHandler { id: plRowHover; blocking: false }
-        Rectangle { anchors.fill: plRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: plRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: plRowContent; color: plRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: plRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Power levels & permissions")
-                color: palette.text
+                color: plRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -59,16 +61,18 @@ ColumnLayout {
     // Aliases
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: aliasRowContent.implicitHeight
         HoverHandler { id: aliasRowHover; blocking: false }
-        Rectangle { anchors.fill: aliasRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: aliasRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: aliasRowContent; color: aliasRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: aliasRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Aliases")
-                color: palette.text
+                color: aliasRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -87,16 +91,18 @@ ColumnLayout {
     // Anyone can join
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: publicRowContent.implicitHeight
         HoverHandler { id: publicRowHover; blocking: false }
-        Rectangle { anchors.fill: publicRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: publicRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: publicRowContent; color: publicRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: publicRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Anyone can join (public)")
-                color: palette.text
+                color: publicRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -116,17 +122,19 @@ ColumnLayout {
     // Allow knocking
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: knockRowContent.implicitHeight
         visible: !publicRoomButton.checked
         HoverHandler { id: knockRowHover; blocking: false }
-        Rectangle { anchors.fill: knockRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: knockRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: knockRowContent; color: knockRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: knockRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Allow knocking")
-                color: palette.text
+                color: knockRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -149,17 +157,19 @@ ColumnLayout {
     // Allow joining via other rooms
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: restrictedRowContent.implicitHeight
         visible: !publicRoomButton.checked
         HoverHandler { id: restrictedRowHover; blocking: false }
-        Rectangle { anchors.fill: restrictedRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: restrictedRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: restrictedRowContent; color: restrictedRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: restrictedRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Allow joining via other rooms")
-                color: palette.text
+                color: restrictedRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -182,17 +192,19 @@ ColumnLayout {
     // Rooms to join via
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: joinViaRowContent.implicitHeight
         visible: restrictedButton.checked && !publicRoomButton.checked
         HoverHandler { id: joinViaRowHover; blocking: false }
-        Rectangle { anchors.fill: joinViaRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: joinViaRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: joinViaRowContent; color: joinViaRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: joinViaRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Rooms to join via")
-                color: palette.text
+                color: joinViaRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -213,16 +225,18 @@ ColumnLayout {
     // Allow guests to join
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: guestRowContent.implicitHeight
         HoverHandler { id: guestRowHover; blocking: false }
-        Rectangle { anchors.fill: guestRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: guestRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: guestRowContent; color: guestRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: guestRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Allow guests to join")
-                color: palette.text
+                color: guestRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -262,9 +276,11 @@ ColumnLayout {
     // Allow viewing history without joining
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: publicHistoryRowContent.implicitHeight
         HoverHandler { id: publicHistoryRowHover; blocking: false }
-        Rectangle { anchors.fill: publicHistoryRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: publicHistoryRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: publicHistoryRowContent; color: publicHistoryRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         ColumnLayout {
             id: publicHistoryRowContent
             width: parent.width
@@ -278,7 +294,7 @@ ColumnLayout {
 
                 Label {
                     text: qsTr("Allow viewing history without joining")
-                    color: palette.text
+                    color: publicHistoryRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
                     Layout.fillWidth: true
                 }
@@ -292,7 +308,7 @@ ColumnLayout {
 
             Label {
                 text: qsTr("Useful for room previews and public websites.")
-                color: palette.buttonText
+                color: publicHistoryRowHover.hovered ? palette.brightText : palette.buttonText
                 font.pointSize: 0.9 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
@@ -306,10 +322,12 @@ ColumnLayout {
     // Members can see messages since
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: historyComboRowContent.implicitHeight
         visible: !publicHistoryButton.checked
         HoverHandler { id: historyComboRowHover; blocking: false }
-        Rectangle { anchors.fill: historyComboRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: historyComboRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: historyComboRowContent; color: historyComboRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         ColumnLayout {
             id: historyComboRowContent
             width: parent.width
@@ -323,7 +341,7 @@ ColumnLayout {
 
                 Label {
                     text: qsTr("Members can see messages since")
-                    color: palette.text
+                    color: historyComboRowHover.hovered ? palette.brightText : palette.text
                     font.pointSize: 1.1 * Settings.uiFontSizePt
                     Layout.fillWidth: true
                 }
@@ -355,7 +373,7 @@ ColumnLayout {
 
             Label {
                 text: qsTr("Changing this won't affect already sent messages, only new ones.")
-                color: palette.buttonText
+                color: historyComboRowHover.hovered ? palette.brightText : palette.buttonText
                 font.pointSize: 0.9 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.leftMargin: Komai.paddingMedium
@@ -391,16 +409,18 @@ ColumnLayout {
     // Locally hidden events
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: hiddenEventsRowContent.implicitHeight
         HoverHandler { id: hiddenEventsRowHover; blocking: false }
-        Rectangle { anchors.fill: hiddenEventsRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: hiddenEventsRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: hiddenEventsRowContent; color: hiddenEventsRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: hiddenEventsRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Locally hidden events")
-                color: palette.text
+                color: hiddenEventsRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -425,16 +445,18 @@ ColumnLayout {
     // Automatic event deletion
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: eventExpRowContent.implicitHeight
         HoverHandler { id: eventExpRowHover; blocking: false }
-        Rectangle { anchors.fill: eventExpRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: eventExpRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: eventExpRowContent; color: eventExpRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: eventExpRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Automatic event deletion")
-                color: palette.text
+                color: eventExpRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
@@ -468,16 +490,18 @@ ColumnLayout {
     // Sticker & Emote Settings
     Item {
         Layout.fillWidth: true
+        Layout.leftMargin: Komai.paddingMedium
+        Layout.rightMargin: Komai.paddingMedium
         implicitHeight: stickerRowContent.implicitHeight
         HoverHandler { id: stickerRowHover; blocking: false }
-        Rectangle { anchors.fill: stickerRowContent; color: palette.alternateBase; radius: Komai.paddingMedium; visible: stickerRowHover.hovered; z: -1 }
+        Rectangle { anchors.fill: stickerRowContent; color: stickerRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
             id: stickerRowContent
             width: parent.width
 
             Label {
                 text: qsTr("Sticker & Emote Settings")
-                color: palette.text
+                color: stickerRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium

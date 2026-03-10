@@ -153,7 +153,7 @@ Item {
                     return s.trim();
                 }).filter(function (s) {
                     return s.length > 0;
-                }).slice(0, 10)
+                }).slice(0, 8)
                 : []
 
             delegate: MessageActionsReactionButton {
@@ -181,12 +181,12 @@ Item {
                     return s.trim();
                 }).filter(function (s) {
                     return s.length > 0;
-                }).slice(0, 10)
+                }).slice(0, 8)
                 : []
             model: toolbar.canReact
                 ? Settings.recentReactions.filter(function (reaction) {
                     return pinnedSet.indexOf(reaction) < 0;
-                }).slice(0, Math.max(0, 10 - pinnedSet.length))
+                }).slice(0, Math.max(0, 8 - pinnedSet.length))
                 : []
 
             delegate: MessageActionsReactionButton {

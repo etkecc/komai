@@ -101,7 +101,7 @@
     // PinnedReactions
     SIMPLE_TEXT_CONFIG_ID_SETTING(
       "Pinned reactions",
-      QT_TR_NOOP("Comma-separated list of reactions always shown in the timeline hover bar (max 10). Your recent reactions fill the remaining slots up to 10 total."),
+      QT_TR_NOOP("Comma-separated list of reactions always shown in the action bar. Remaining slots (up to 8 total) are filled by your recent reactions."),
       SM::TabTimeline,
       timelineMessageActionsPinnedReactions,
       setTimelineMessageActionsPinnedReactions,

@@ -51,6 +51,21 @@ Components.OverlayDialog {
         property string shortcutSequence: ""
         property string shortcutDisplayText: ""
 
+        property bool _showingFeedback: false
+        property string _feedbackText: ""
+
+        function showFeedback(text) {
+            _feedbackText = text;
+            _showingFeedback = true;
+            _feedbackTimer.restart();
+        }
+
+        Timer {
+            id: _feedbackTimer
+            interval: 1500
+            onTriggered: actionBtn._showingFeedback = false
+        }
+
         Layout.fillWidth: true
         implicitHeight: 40
         leftPadding: Komai.paddingMedium
@@ -78,8 +93,11 @@ Components.OverlayDialog {
                 Layout.preferredWidth: 24
                 Layout.preferredHeight: 24
                 fillMode: Image.PreserveAspectFit
-                mirror: actionBtn.mirrorIcon
-                source: actionBtn.iconSource !== "" ? "image://colorimage/" + actionBtn.iconSource + "?" + actionBtn.actionTextColor : ""
+                mirror: actionBtn._showingFeedback ? false : actionBtn.mirrorIcon
+                source: {
+                    var icon = actionBtn._showingFeedback ? ":/icons/icons/ui/checkmark.svg" : actionBtn.iconSource;
+                    return icon !== "" ? "image://colorimage/" + icon + "?" + actionBtn.actionTextColor : "";
+                }
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
             }
@@ -87,7 +105,7 @@ Components.OverlayDialog {
             Label {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter
-                text: actionBtn.labelText
+                text: actionBtn._showingFeedback ? actionBtn._feedbackText : actionBtn.labelText
                 color: actionBtn.actionTextColor
                 elide: Text.ElideRight
             }
@@ -99,6 +117,7 @@ Components.OverlayDialog {
                 showKeyboardIcon: true
                 liveModifierHighlight: true
                 keyTextColor: actionBtn.actionTextColor
+                visible: !actionBtn._showingFeedback
             }
         }
 
@@ -170,8 +189,8 @@ Components.OverlayDialog {
                 shortcutDisplayText: qsTr("Alt+C")
                 visible: root.isTextType && root.messageText !== ""
                 onClicked: {
-                    root.close();
                     Clipboard.text = root.messageText;
+                    showFeedback(qsTr("Copied!"));
                 }
             }
 
@@ -183,8 +202,8 @@ Components.OverlayDialog {
                 shortcutDisplayText: qsTr("Alt+H")
                 visible: root.isTextType && root.hasFormattedBody
                 onClicked: {
-                    root.close();
                     Clipboard.text = root.formattedBodyText;
+                    showFeedback(qsTr("Copied!"));
                 }
             }
 
@@ -196,8 +215,8 @@ Components.OverlayDialog {
                 shortcutDisplayText: qsTr("Alt+C")
                 visible: root.isMediaType
                 onClicked: {
-                    root.close();
                     root.roomModel.copyMedia(root.eventId);
+                    showFeedback(qsTr("Copied!"));
                 }
             }
 
@@ -209,8 +228,8 @@ Components.OverlayDialog {
                 shortcutDisplayText: qsTr("Alt+L")
                 visible: root.link !== ""
                 onClicked: {
-                    root.close();
                     Clipboard.text = root.link;
+                    showFeedback(qsTr("Copied!"));
                 }
             }
 
@@ -222,8 +241,8 @@ Components.OverlayDialog {
                 shortcutDisplayText: qsTr("Alt+K")
                 visible: root.eventId !== "" && !root.isStateEvent
                 onClicked: {
-                    root.close();
                     root.roomModel.copyLinkToEvent(root.eventId);
+                    showFeedback(qsTr("Copied!"));
                 }
             }
 
@@ -243,11 +262,11 @@ Components.OverlayDialog {
                 shortcutDisplayText: qsTr("Alt+P")
                 visible: root.canChangePinned && !root.isStateEvent
                 onClicked: {
-                    root.close();
                     if (root.isPinned)
                         root.roomModel.unpin(root.eventId);
                     else
                         root.roomModel.pin(root.eventId);
+                    showFeedback(root.isPinned ? qsTr("Unpinned!") : qsTr("Pinned!"));
                 }
             }
 
@@ -259,8 +278,8 @@ Components.OverlayDialog {
                 shortcutDisplayText: qsTr("Alt+M")
                 visible: !root.isStateEvent
                 onClicked: {
-                    root.close();
                     root.roomModel.markEventAsRead(root.eventId);
+                    showFeedback(qsTr("Done!"));
                 }
             }
 

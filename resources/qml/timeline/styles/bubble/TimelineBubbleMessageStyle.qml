@@ -171,7 +171,7 @@ TimelineMessageStyleBase {
             id: gridContainer
 
             width: wrapper.width - wrapper.avatarMargin
-            implicitHeight: Math.max(messageBubble.implicitHeight, !wrapper.isStateEvent && metadataOuter.visible ? metadataOuter.height : 0)
+            implicitHeight: Math.max(messageBubble.implicitHeight, metadataOuter.visible ? metadataOuter.height : 0)
             x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
             y: section.visible && section.active ? section.y + section.height : 0
 

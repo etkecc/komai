@@ -43,7 +43,7 @@ ItemDelegate {
     states: [
         State {
             name: "highlight"
-            when: (communityItem.hovered || model.hidden) && !(Communities.currentFilterId === model.id)
+            when: (communityItem.hovered || (model.hidden ?? false)) && !(Communities.currentFilterId === model.id)
 
             PropertyChanges {
                 communityItem {

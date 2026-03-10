@@ -1007,6 +1007,10 @@ if(USE_BUNDLED_LITEHTML)
     )
     set(LITEHTML_BUILD_TESTING OFF CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(litehtml)
+
+    # Suppress compiler warnings from litehtml's own sources
+    target_compile_options(litehtml PRIVATE -w)
+    target_compile_options(gumbo PRIVATE -w)
 else()
     find_package(litehtml REQUIRED)
 endif()

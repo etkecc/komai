@@ -106,6 +106,63 @@ Components.OverlayDialog {
                 width: scrollView.availableWidth
                 spacing: Komai.paddingSmall
 
+            // ---- Room section (room profiles only) ----
+            Components.SettingsSection {
+                visible: root.isRoomProfile && profile.room
+                label: qsTr("Room")
+                Layout.fillWidth: true
+            }
+
+            Item {
+                visible: root.isRoomProfile && profile.room
+                Layout.fillWidth: true
+                implicitHeight: roomRowDelegate.implicitHeight
+
+                ItemDelegate {
+                    id: roomRowDelegate
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: {
+                        if (profile.room)
+                            TimelineManager.openRoomInfo(profile.room.roomId);
+                    }
+                    background: Rectangle {
+                        color: roomRowDelegate.hovered ? palette.dark : palette.window
+                        radius: Komai.paddingMedium
+                    }
+
+                    contentItem: RowLayout {
+                        id: roomRowContent
+                        spacing: Komai.paddingMedium
+
+                        Components.Avatar {
+                            Layout.preferredHeight: 48
+                            Layout.preferredWidth: 48
+                            Layout.leftMargin: Komai.paddingMedium
+                            Layout.topMargin: Komai.paddingMedium
+                            Layout.bottomMargin: Komai.paddingMedium
+                            roomid: profile.room ? profile.room.roomId : ""
+                            displayName: profile.room ? profile.room.plainRoomName : ""
+                            url: profile.room ? profile.room.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
+                            enabled: false
+                        }
+
+                        Components.ElidedLabel {
+                            fullText: profile.room ? profile.room.plainRoomName : ""
+                            color: roomRowDelegate.hovered ? palette.brightText : palette.text
+                            font.pointSize: 1.1 * Settings.uiFontSizePt
+                            Layout.fillWidth: true
+                            elideWidth: roomRowContent.width - Komai.paddingMedium * 4 - 48
+                        }
+                    }
+                }
+
+                Components.KomaiCursorShape {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                }
+            }
+
             // ---- Profile section ----
             Components.SettingsSection {
                 label: qsTr("Profile")

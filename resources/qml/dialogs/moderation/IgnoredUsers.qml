@@ -3,18 +3,20 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import "../../components"
+import "../../components" as Components
 import "../../ui"
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.3
-import cc.etke.komai 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import cc.etke.komai
 
-OverlayDialog {
+Components.OverlayDialog {
     id: ignoredUsers
 
     title: qsTr("Ignored users")
     titleIcon: ":/icons/icons/ui/ban.svg"
+
+    width: Math.round((parent ? parent.width : 500) * 0.6)
 
     Label {
         Layout.fillWidth: true
@@ -24,47 +26,118 @@ OverlayDialog {
     }
 
     ScrollView {
+        id: userListScrollView
+
         Layout.fillWidth: true
-        Layout.preferredHeight: 300
-        ScrollBar.horizontal.visible: false
+        Layout.preferredHeight: Math.min(
+            userListContent.implicitHeight,
+            ignoredUsers.parent ? ignoredUsers.parent.height * 0.6 : 400)
+        ScrollBar.vertical.policy: ScrollBar.AsNeeded
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-        ListView {
-            id: view
+        ColumnLayout {
+            id: userListContent
 
-            clip: true
-            boundsBehavior: Flickable.StopAtBounds
-            model: TimelineManager.ignoredUsers
-            spacing: Komai.paddingMedium
+            width: userListScrollView.availableWidth
+            spacing: Komai.paddingSmall
 
-            delegate: RowLayout {
-                property var profile: TimelineManager.getGlobalUserProfile(modelData)
+            Repeater {
+                model: TimelineManager.ignoredUsers
 
-                width: view.width
+                delegate: AbstractButton {
+                    id: userRow
 
-                Avatar {
-                    enabled: false
-                    displayName: profile.displayName
-                    userid: profile.userid
-                    url: profile.avatarUrl.replace("mxc://", "image://MxcImage/")
-                }
+                    required property string modelData
 
-                Text {
+                    property var profile: TimelineManager.getGlobalUserProfile(modelData)
+                    readonly property bool activeState: hovered || pressed || activeFocus
+
                     Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignLeft
-                    elide: Text.ElideRight
-                    color: palette.text
-                    text: modelData
-                }
-
-                ImageButton {
-                    Layout.preferredHeight: 24
-                    Layout.preferredWidth: 24
-                    image: ":/icons/icons/ui/dismiss.svg"
+                    implicitHeight: userRowContent.implicitHeight + topPadding + bottomPadding
+                    leftPadding: Komai.paddingMedium
+                    rightPadding: Komai.paddingMedium
+                    topPadding: Komai.paddingSmall
+                    bottomPadding: Komai.paddingSmall
                     hoverEnabled: true
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Stop Ignoring.")
-                    onClicked: profile.ignored = false
+                    activeFocusOnTab: true
+                    focusPolicy: Qt.StrongFocus
+
+                    onClicked: TimelineManager.openGlobalUserProfile(modelData)
+
+                    background: Rectangle {
+                        radius: Komai.paddingMedium
+                        color: userRow.activeState ? palette.dark : palette.window
+                    }
+
+                    Components.KomaiCursorShape {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                    }
+
+                    contentItem: RowLayout {
+                        id: userRowContent
+
+                        spacing: Komai.paddingMedium
+
+                        Components.AvatarUserFlipButton {
+                            id: avatarFlip
+
+                            Layout.preferredWidth: avatarSide
+                            Layout.preferredHeight: avatarSide
+                            Layout.alignment: Qt.AlignVCenter
+
+                            property int avatarSide: Komai.avatarSize
+
+                            avatarButtonSize: avatarSide
+                            cleanFront: true
+                            avatarDisplayName: userRow.profile ? userRow.profile.displayName : ""
+                            avatarUrl: userRow.profile ? userRow.profile.avatarUrl.replace("mxc://", "image://MxcImage/") : ""
+                            avatarUserId: userRow.modelData
+
+                            onLeftClicked: TimelineManager.openGlobalUserProfile(userRow.modelData)
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignVCenter
+                            spacing: 2
+
+                            Label {
+                                Layout.fillWidth: true
+                                text: userRow.profile ? userRow.profile.displayName : userRow.modelData
+                                color: userRow.activeState ? palette.brightText : palette.text
+                                elide: Text.ElideRight
+                                font.pointSize: Settings.uiFontSizePt
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                text: userRow.modelData
+                                color: userRow.activeState ? palette.brightText : palette.buttonText
+                                elide: Text.ElideRight
+                                font.pointSize: Math.round(Settings.uiFontSizePt * 0.9)
+                                visible: userRow.profile && userRow.profile.displayName !== userRow.modelData
+                            }
+                        }
+
+                        Components.KomaiButton {
+                            text: qsTr("Unignore")
+                            icon.source: "qrc:/icons/icons/ui/dismiss.svg"
+                            onClicked: userRow.profile.ignored = false
+                        }
+                    }
                 }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                visible: TimelineManager.ignoredUsers.length === 0
+                text: qsTr("You are not ignoring anyone.")
+                color: palette.text
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
             }
         }
     }

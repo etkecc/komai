@@ -30,7 +30,6 @@ Page {
         RoomListUserInfoPanel {
             id: userInfoPanel
             collapsed: roomListPage.collapsed
-            profileContextMenu: profileContextMenu
             Layout.fillWidth: true
         }
         Rectangle {

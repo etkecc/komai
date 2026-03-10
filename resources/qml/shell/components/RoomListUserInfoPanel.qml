@@ -12,7 +12,6 @@ Pane {
     id: userInfoPanel
 
     required property bool collapsed
-    required property var profileContextMenu
     readonly property real baseFontPixelSize: Komai.fontPixelSize
     readonly property real lineSpacing: Math.max(1, Math.round(baseFontPixelSize * 1.2))
 
@@ -21,7 +20,7 @@ Pane {
     }
 
     function openUserProfile() {
-        profileContextMenu.openCurrentUserProfile();
+        MainWindow.showUserSettingsPage(UserSettingsModel.TabAccount);
     }
 
     Layout.maximumHeight: Settings.sidebarsCommunitiesVisible ? 0 : -1
@@ -97,7 +96,6 @@ Pane {
     RoomListUserInfoMenu {
         id: userInfoMenuController
 
-        profileContextMenu: userInfoPanel.profileContextMenu
         profile: userInfoGrid.profile
     }
     TapHandler {

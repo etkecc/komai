@@ -9,7 +9,6 @@ import cc.etke.komai
 Item {
     id: root
 
-    required property var profileContextMenu
     required property var profile
 
     function close() {
@@ -21,7 +20,7 @@ Item {
     }
 
     function openUserProfile() {
-        profileContextMenu.openCurrentUserProfile();
+        MainWindow.showUserSettingsPage(UserSettingsModel.TabAccount);
     }
 
     InputDialog {

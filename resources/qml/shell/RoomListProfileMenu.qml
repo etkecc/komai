@@ -13,12 +13,6 @@ Menu {
     required property var timelineRoot
     required property var componentCatalog
 
-    function openCurrentUserProfile() {
-        Komai.updateUserProfile();
-        timelineRoot.showCatalogDialog(componentCatalog.userProfileDialog, {
-                "profile": Komai.currentUser
-            });
-    }
     function openCreateRoomDialog(properties) {
         timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, properties || {});
     }

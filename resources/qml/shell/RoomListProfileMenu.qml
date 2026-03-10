@@ -52,7 +52,7 @@ Menu {
     MenuItem {
         text: qsTr("Profile Settings")
         icon.source: "qrc:/icons/icons/ui/person.svg"
-        onTriggered: root.openCurrentUserProfile()
+        onTriggered: MainWindow.showUserSettingsPage(UserSettingsModel.TabAccount)
     }
     MenuItem {
         text: qsTr("Set Status Message")

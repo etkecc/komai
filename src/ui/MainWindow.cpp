@@ -327,6 +327,12 @@ MainWindow::showUserSettingsPage()
     emit showUserSettingsPageRequested();
 }
 
+void
+MainWindow::showUserSettingsPage(int initialTab)
+{
+    emit showUserSettingsPageWithTabRequested(initialTab);
+}
+
 bool
 KomaiFixupPaletteEventFilter::eventFilter(QObject *obj, QEvent *event)
 {

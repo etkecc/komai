@@ -77,6 +77,12 @@ UserSettingsModel::downloadCrossSigningSecrets()
 {
 }
 
+QString
+UserSettingsModel::deviceFingerprint() const
+{
+    return {};
+}
+
 namespace settings::ui {
 
 const SettingMeta settingsTable[] = {

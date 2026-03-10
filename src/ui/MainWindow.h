@@ -91,6 +91,7 @@ public:
     void showChatPage(bool hadSessionIdentity);
     //! Request showing the user settings page from any app page/state.
     Q_INVOKABLE void showUserSettingsPage();
+    Q_INVOKABLE void showUserSettingsPage(int initialTab);
 
 #ifdef KOMAI_DBUS_SYS
     bool dbusAvailable() const { return dbusAvailable_; }
@@ -128,6 +129,7 @@ signals:
     void switchToWelcomePage();
     void switchToLoginPage(QString error);
     void showUserSettingsPageRequested();
+    void showUserSettingsPageWithTabRequested(int initialTab);
     void showProfileSwitcherPageRequested();
 
 private:

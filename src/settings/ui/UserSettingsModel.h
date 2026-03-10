@@ -105,6 +105,7 @@ public:
     Q_INVOKABLE void exportSessionKeys();
     Q_INVOKABLE void requestCrossSigningSecrets();
     Q_INVOKABLE void downloadCrossSigningSecrets();
+    Q_INVOKABLE QString deviceFingerprint() const;
 
 private:
     void wireSettingConnections(UserSettings *settings);

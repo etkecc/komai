@@ -161,10 +161,16 @@ Pane {
             replaceExit = Settings.uiMotionAnimationsEnabled ? replaceExitOrg : reducedMotionNoopTransition;
         }
 
-        function openUserSettingsPage() {
-            if (mainWindow.currentItem && mainWindow.currentItem.objectName === "userSettingsPage")
+        function openUserSettingsPage(initialTab) {
+            if (mainWindow.currentItem && mainWindow.currentItem.objectName === "userSettingsPage") {
+                if (initialTab !== undefined)
+                    mainWindow.currentItem.currentTab = initialTab;
                 return;
-            mainWindow.push(userSettingsPage);
+            }
+            if (initialTab !== undefined)
+                mainWindow.push(userSettingsPage, { "currentTab": initialTab });
+            else
+                mainWindow.push(userSettingsPage);
         }
 
         anchors.fill: parent
@@ -250,6 +256,9 @@ Pane {
         }
         function onShowUserSettingsPageRequested() {
             mainWindow.openUserSettingsPage();
+        }
+        function onShowUserSettingsPageWithTabRequested(initialTab) {
+            mainWindow.openUserSettingsPage(initialTab);
         }
         function onShowProfileSwitcherPageRequested() {
             mainWindow.replace(null, profileSwitcherPage);

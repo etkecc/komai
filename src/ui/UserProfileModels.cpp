@@ -5,6 +5,7 @@
 
 #include "UserProfile.h"
 
+#include <algorithm>
 #include <utility>
 
 QHash<int, QByteArray>
@@ -46,6 +47,9 @@ DeviceInfoModel::reset(const std::vector<DeviceInfo> &deviceList)
 {
     beginResetModel();
     this->deviceList_ = std::move(deviceList);
+    std::sort(this->deviceList_.begin(),
+              this->deviceList_.end(),
+              [](const DeviceInfo &a, const DeviceInfo &b) { return a.lastTs > b.lastTs; });
     endResetModel();
 }
 

@@ -5,10 +5,12 @@
 
 #include <QSortFilterProxyModel>
 
+#include "encryption/Olm.h"
 #include "settings/ui/SessionKeyActions.h"
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/UserSettingsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "utils/Utils.h"
 #include "voip/CallDevices.h"
 
 /**
@@ -86,6 +88,14 @@ void
 UserSettingsModel::downloadCrossSigningSecrets()
 {
     settings::ui::downloadCrossSigningSecrets();
+}
+
+QString
+UserSettingsModel::deviceFingerprint() const
+{
+    auto fingerprint = utils::humanReadableFingerprint(olm::client()->identity_keys().ed25519);
+    fingerprint.replace(u'\n', u' ');
+    return fingerprint.simplified();
 }
 
 UserSettingsModel::UserSettingsModel(QObject *p)

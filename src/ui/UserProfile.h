@@ -195,6 +195,7 @@ public:
     Q_INVOKABLE void changeUsername(const QString &username);
     Q_INVOKABLE void changeDeviceName(const QString &deviceID, const QString &deviceName);
     Q_INVOKABLE void changeAvatar();
+    Q_INVOKABLE void removeAvatar();
     Q_INVOKABLE void openGlobalProfile();
 
     void setIgnored(bool ignored);

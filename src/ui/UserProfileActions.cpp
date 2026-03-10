@@ -164,6 +164,35 @@ UserProfile::changeAvatar()
 }
 
 void
+UserProfile::removeAvatar()
+{
+    if (!isGlobalUserProfile()) {
+        // For room profiles, set the avatar URL to empty via room member state
+        mtx::events::state::Member member;
+        member.display_name = cache::displayName(roomid_, userid_).toStdString();
+        member.avatar_url   = "";
+        member.membership   = mtx::events::state::Membership::Join;
+        updateRoomMemberState(std::move(member));
+        return;
+    }
+
+    isLoading_ = true;
+    emit loadingChanged();
+
+    http::client()->set_avatar_url("", [this](mtx::http::RequestErr err) {
+        if (err) {
+            nhlog::ui()->error("Failed to remove user avatar: {}", *err);
+            emit displayError(tr("Failed to remove avatar: %1")
+                                .arg(QString::fromStdString(err->matrix_error.error)));
+        }
+
+        isLoading_ = false;
+        emit loadingChanged();
+        getGlobalProfileData();
+    });
+}
+
+void
 UserProfile::updateRoomMemberState(mtx::events::state::Member member)
 {
     http::client()->send_state_event(roomid_.toStdString(),

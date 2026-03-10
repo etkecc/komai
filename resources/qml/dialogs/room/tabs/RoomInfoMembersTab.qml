@@ -41,13 +41,29 @@ Item {
             elideWidth: parent.width - Komai.paddingMedium
         }
 
-        KomaiButton {
+        RowLayout {
             Layout.alignment: Qt.AlignHCenter
-            icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-            text: qsTr("Invite others")
-            onClicked: {
-                if (membersTab.members)
-                    TimelineManager.openInviteUsers(membersTab.members.roomId);
+            spacing: Komai.paddingMedium
+
+            KomaiButton {
+                icon.source: "qrc:/icons/icons/ui/person.svg"
+                text: qsTr("My profile here")
+                onClicked: {
+                    if (membersTab.room) {
+                        const currentUser = Komai.currentUser;
+                        if (currentUser && currentUser.userid)
+                            membersTab.room.openUserProfile(currentUser.userid);
+                    }
+                }
+            }
+
+            KomaiButton {
+                icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+                text: qsTr("Invite others")
+                onClicked: {
+                    if (membersTab.members)
+                        TimelineManager.openInviteUsers(membersTab.members.roomId);
+                }
             }
         }
 

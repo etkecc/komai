@@ -103,7 +103,7 @@ Components.OverlayDialog {
             ColumnLayout {
                 id: scrollContent
 
-                width: scrollView.availableWidth
+                width: scrollView.availableWidth - (scrollView.ScrollBar.vertical.visible ? Komai.paddingSmall : 0)
                 spacing: Komai.paddingSmall
 
             // ---- Room section (room profiles only) ----

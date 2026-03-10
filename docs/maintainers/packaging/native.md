@@ -97,7 +97,7 @@ just configure -DUSE_BUNDLED_MTXCLIENT=OFF
 ### Arch Linux
 
 ```sh
-sudo pacman -S --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
+sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig python python-yaml \
     coeurl libolm lmdb lmdbxx cmark syntax-highlighting spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication

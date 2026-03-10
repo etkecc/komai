@@ -24,6 +24,7 @@ Control {
     property string roomId
     property int rowMargin: 0
     property int rowSpacing: Komai.paddingSmall
+    readonly property int secondaryTextMaxWidth: Math.max(180, Math.ceil(Settings.uiFontSizePt * 18))
     readonly property int emptyStateMinWidth: Math.max(Math.ceil(Settings.uiFontSizePt * 22), 280)
     implicitWidth: Math.max(emptyStateMinWidth, contentColumn.implicitWidth || 0)
     implicitHeight: contentColumn.implicitHeight || 0
@@ -128,7 +129,8 @@ Control {
                 || popup.completerName === "customEmoji"
                 || popup.completerName === "user"
                 || popup.completerName === "roomAliases"
-            readonly property int headerIconSize: Math.max(Math.ceil(Settings.uiFontSizePt * 1.35), Math.round(Komai.listIconSize * 0.8))
+            readonly property int headerGlyphSize: Math.max(14, Math.ceil(Settings.uiFontSizePt * 1.05), Math.round(Komai.listIconSize * 0.62))
+            readonly property int headerButtonSize: headerGlyphSize + Komai.paddingSmall
 
             Layout.fillWidth: true
             color: palette.alternateBase
@@ -156,8 +158,8 @@ Control {
                 spacing: Komai.paddingSmall
 
                 Image {
-                    Layout.preferredWidth: headerBackground.headerIconSize
-                    Layout.preferredHeight: headerBackground.headerIconSize
+                    Layout.preferredWidth: headerBackground.headerGlyphSize
+                    Layout.preferredHeight: headerBackground.headerGlyphSize
                     Layout.alignment: Qt.AlignVCenter
                     source: {
                         var icon;
@@ -171,8 +173,8 @@ Control {
                             icon = "link.svg";
                         return "image://colorimage/:/icons/icons/ui/" + icon + "?" + palette.text;
                     }
-                    sourceSize.width: headerBackground.headerIconSize
-                    sourceSize.height: headerBackground.headerIconSize
+                    sourceSize.width: headerBackground.headerGlyphSize
+                    sourceSize.height: headerBackground.headerGlyphSize
                 }
 
                 Label {
@@ -194,13 +196,17 @@ Control {
                 }
 
                 ImageButton {
-                    Layout.preferredWidth: headerBackground.headerIconSize
-                    Layout.preferredHeight: headerBackground.headerIconSize
+                    Layout.preferredWidth: headerBackground.headerButtonSize
+                    Layout.preferredHeight: headerBackground.headerButtonSize
                     Layout.alignment: Qt.AlignVCenter
                     ToolTip.delay: Komai.tooltipDelay
                     ToolTip.text: qsTr("Close")
                     ToolTip.visible: hovered
                     hoverEnabled: true
+                    leftPadding: Math.ceil(Komai.paddingSmall / 2)
+                    rightPadding: Math.ceil(Komai.paddingSmall / 2)
+                    topPadding: Math.ceil(Komai.paddingSmall / 2)
+                    bottomPadding: Math.ceil(Komai.paddingSmall / 2)
                     image: ":/icons/icons/ui/dismiss.svg"
                     onClicked: popup.dismissed()
                 }
@@ -241,6 +247,12 @@ Control {
             // Delegates report their content width here; the ListView uses it for implicitWidth.
             // Delegate width then binds to listView.width (from parent layout), not childrenRect.
             property real maxContentWidth: 20
+            property int hoveredIndex: -1
+
+            function syncHoverIndex() {
+                if (!moving && hoveredIndex >= 0 && hoveredIndex < count)
+                    popup.currentIndex = hoveredIndex;
+            }
 
             Layout.fillWidth: true
             clip: true
@@ -258,6 +270,10 @@ Control {
             spacing: rowSpacing
             verticalLayoutDirection: popup.bottomToTop ? ListView.BottomToTop : ListView.TopToBottom
             visible: !emptyState.visible
+            onMovingChanged: {
+                if (!moving)
+                    syncHoverIndex();
+            }
 
             ScrollBar.vertical: ScrollBar {
                 id: scrollBar
@@ -287,7 +303,7 @@ Control {
                     id: mouseArea
 
                     anchors.fill: parent
-                    hoverEnabled: true
+                    hoverEnabled: false
 
                     onClicked: {
                         popup.completionClicked(completer.completionAt(model.index));
@@ -299,8 +315,20 @@ Control {
                             popup.completionSelected(model.userid);
                         }
                     }
-                    onPositionChanged: if (!listView.moving && !deadTimer.running)
-                        popup.currentIndex = model.index
+                }
+                HoverHandler {
+                    id: rowHoverHandler
+
+                    acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+
+                    onHoveredChanged: {
+                        if (hovered) {
+                            listView.hoveredIndex = model.index;
+                            listView.syncHoverIndex();
+                        } else if (listView.hoveredIndex === model.index) {
+                            listView.hoveredIndex = -1;
+                        }
+                    }
                 }
                 Ripple {
                     color: Qt.rgba(palette.window.r, palette.window.g, palette.window.b, 0.5)
@@ -329,36 +357,35 @@ Control {
                             Avatar {
                                 displayName: model.displayName
                                 enabled: false
+                                Layout.alignment: Qt.AlignTop
                                 Layout.preferredHeight: parent.pickerAvatarSize
                                 Layout.preferredWidth: parent.pickerAvatarSize
                                 url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
                                 userid: model.userid === "@room" ? "" : model.userid
                             }
-                            Label {
+                            ColumnLayout {
                                 Layout.alignment: Qt.AlignVCenter
                                 Layout.fillWidth: true
                                 Layout.minimumWidth: 0
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                                elide: Text.ElideRight
-                                font.pointSize: Settings.uiFontSizePt * 1.1
-                                text: model.displayName
-                            }
-                            Label {
-                                visible: model.userid === "@room"
-                                Layout.alignment: Qt.AlignVCenter
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                                font.pointSize: Settings.uiFontSizePt * 1.1
-                                text: qsTr("Notify the whole room")
-                            }
-                            Label {
-                                visible: model.userid !== "@room"
-                                Layout.alignment: Qt.AlignVCenter
-                                Layout.maximumWidth: Math.round(listView.width * 0.42)
-                                Layout.minimumWidth: 0
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                                elide: Text.ElideRight
-                                font.pointSize: Settings.uiFontSizePt * 1.1
-                                text: model.userid
+                                spacing: 1
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                    elide: Text.ElideRight
+                                    font.pointSize: Settings.uiFontSizePt * 1.1
+                                    text: model.displayName
+                                }
+                                Label {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                    elide: Text.ElideRight
+                                    font.pointSize: Settings.uiFontSizePt
+                                    text: model.userid === "@room" ? qsTr("Notify the whole room") : model.userid
+                                    textFormat: Text.PlainText
+                                }
                             }
                         }
                     }
@@ -378,7 +405,7 @@ Control {
                             Label {
                                 Layout.preferredWidth: parent.pickerIconSize
                                 Layout.preferredHeight: parent.pickerIconSize
-                                Layout.alignment: Qt.AlignVCenter
+                                Layout.alignment: Qt.AlignTop
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
@@ -391,29 +418,42 @@ Control {
                                 crop: false
                                 displayName: model.shortcode
                                 enabled: false
+                                Layout.alignment: Qt.AlignTop
                                 Layout.preferredHeight: parent.pickerIconSize
                                 //userid: model.shortcode
                                 url: (model.url ? model.url : "").replace("mxc://", "image://MxcImage/")
                                 visible: !model.unicode
                                 Layout.preferredWidth: parent.pickerIconSize
                             }
-                            Label {
+                            ColumnLayout {
                                 Layout.alignment: Qt.AlignVCenter
                                 Layout.fillWidth: true
                                 Layout.minimumWidth: 0
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                                elide: Text.ElideRight
-                                font.pointSize: Settings.uiFontSizePt * 1.1
-                                text: model.shortcode
-                            }
-                            Label {
-                                Layout.alignment: Qt.AlignVCenter
-                                Layout.maximumWidth: Math.round(listView.width * 0.38)
-                                Layout.minimumWidth: 0
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                                elide: Text.ElideRight
-                                font.pointSize: Settings.uiFontSizePt * 1.05
-                                text: model.packname
+                                spacing: 1
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                    elide: Text.ElideRight
+                                    font.pointSize: Settings.uiFontSizePt * 1.1
+                                    text: popup.completerName === "emoji"
+                                        ? (model.body || model.shortcode)
+                                        : model.shortcode
+                                }
+                                Label {
+                                    readonly property string secondaryText: popup.completerName === "emoji"
+                                        ? (model.shortcode ? ":" + model.shortcode + ":" : "")
+                                        : (model.body || model.packname)
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                    elide: Text.ElideRight
+                                    font.pointSize: Settings.uiFontSizePt
+                                    text: secondaryText
+                                    textFormat: Text.PlainText
+                                    visible: secondaryText.length > 0
+                                }
                             }
                         }
                     }
@@ -494,31 +534,55 @@ Control {
                             Avatar {
                                 displayName: model.roomName
                                 enabled: false
+                                Layout.alignment: Qt.AlignTop
                                 Layout.preferredHeight: parent.pickerAvatarSize
                                 Layout.preferredWidth: parent.pickerAvatarSize
                                 roomid: model.roomid
                                 url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
                             }
-                            Label {
+                            ColumnLayout {
                                 Layout.alignment: Qt.AlignVCenter
                                 Layout.fillWidth: true
                                 Layout.minimumWidth: 0
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
-                                elide: Text.ElideRight
-                                font.italic: model.isTombstoned
-                                font.bold: model.isSpace
-                                font.pointSize: Settings.uiFontSizePt * 1.1
-                                text: model.roomName
-                                textFormat: Text.RichText
-                            }
-                            Label {
-                                Layout.alignment: Qt.AlignVCenter
-                                Layout.maximumWidth: Math.round(listView.width * 0.42)
-                                Layout.minimumWidth: 0
-                                color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
-                                elide: Text.ElideRight
-                                font.pointSize: Settings.uiFontSizePt * 1.1
-                                text: model.roomAlias
+                                spacing: 1
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    spacing: Komai.paddingSmall
+
+                                    Label {
+                                        Layout.alignment: Qt.AlignVCenter
+                                        Layout.fillWidth: true
+                                        Layout.minimumWidth: 0
+                                        color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                        elide: Text.ElideRight
+                                        font.italic: model.isTombstoned
+                                        font.bold: model.isSpace
+                                        font.pointSize: Settings.uiFontSizePt * 1.1
+                                        text: model.roomName
+                                        textFormat: Text.RichText
+                                    }
+                                    Label {
+                                        visible: model.isSpace
+                                        Layout.alignment: Qt.AlignVCenter
+                                        color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                        opacity: model.index == popup.currentIndex ? 0.6 : 1.0
+                                        font.pointSize: Settings.uiFontSizePt
+                                        text: qsTr("(Space)")
+                                    }
+                                }
+
+                                Label {
+                                    visible: !!model.roomAlias
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 0
+                                    color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                    elide: Text.ElideRight
+                                    font.pointSize: Settings.uiFontSizePt
+                                    text: model.roomAlias
+                                    textFormat: Text.PlainText
+                                }
                             }
                         }
                     }
@@ -531,14 +595,6 @@ Control {
                     height: 1
                     visible: model.index < listView.count - 1
                 }
-            }
-
-            onContentYChanged: deadTimer.restart()
-
-            Timer {
-                id: deadTimer
-
-                interval: 50
             }
         }
     }

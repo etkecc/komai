@@ -348,26 +348,45 @@ Rectangle {
                 Popup {
                     id: popup
 
-                    readonly property var overlayItem: Overlay.overlay
                     readonly property real popupMargin: Komai.paddingSmall
 
                     function clamp(value, minValue, maxValue) {
                         return Math.max(minValue, Math.min(value, maxValue));
                     }
                     function inputBarRectInOverlay() {
-                        if (!overlayItem)
+                        if (!popup.parent)
                             return Qt.rect(0, 0, inputBar.width, inputBar.height);
 
-                        const topLeft = inputBar.mapToItem(overlayItem, 0, 0);
+                        const topLeft = inputBar.mapToItem(popup.parent, 0, 0);
                         return Qt.rect(topLeft.x, topLeft.y, inputBar.width, inputBar.height);
                     }
                     function anchorRectInOverlay() {
                         const cursorRect = messageInput.positionToRectangle(messageInput.completerTriggeredAt);
-                        if (!overlayItem)
+                        if (!popup.parent)
                             return cursorRect;
 
-                        const topLeft = messageInput.mapToItem(overlayItem, cursorRect.x, cursorRect.y);
+                        const topLeft = messageInput.mapToItem(popup.parent, cursorRect.x, cursorRect.y);
                         return Qt.rect(topLeft.x, topLeft.y, cursorRect.width, cursorRect.height);
+                    }
+                    function preferredInlineWidth(availableWidth) {
+                        const minWidth = completer.emptyStateMinWidth;
+                        switch (completer.completerName) {
+                        case "roomAliases":
+                            return availableWidth;
+                        case "user":
+                            if (availableWidth <= Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 40)))
+                                return availableWidth;
+                            return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 34));
+                        case "emoji":
+                        case "customEmoji":
+                            if (availableWidth <= Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 40)))
+                                return availableWidth;
+                            return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 30));
+                        case "command":
+                            return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 28));
+                        default:
+                            return Math.max(minWidth, Math.ceil(Settings.uiFontSizePt * 30));
+                        }
                     }
 
                     background: null
@@ -376,7 +395,8 @@ Rectangle {
                     width: {
                         const containerRect = popup.inputBarRectInOverlay();
                         const availableWidth = Math.max(0, containerRect.width - popup.popupMargin * 2);
-                        return availableWidth > 0 ? Math.min(completer.implicitWidth, availableWidth) : completer.implicitWidth;
+                        const preferredWidth = popup.preferredInlineWidth(availableWidth);
+                        return availableWidth > 0 ? Math.min(preferredWidth, availableWidth) : preferredWidth;
                     }
                     x: {
                         const containerRect = popup.inputBarRectInOverlay();
@@ -388,7 +408,7 @@ Rectangle {
                     y: {
                         const anchorRect = popup.anchorRectInOverlay();
                         const popupHeight = Math.max(popup.height, popup.implicitHeight);
-                        const overlayHeight = popup.overlayItem ? popup.overlayItem.height : textInput.Window.height;
+                        const overlayHeight = popup.parent ? popup.parent.height : textInput.Window.height;
                         const minY = popup.popupMargin;
                         const maxY = Math.max(minY, overlayHeight - popupHeight - popup.popupMargin);
                         const aboveY = anchorRect.y - popupHeight;

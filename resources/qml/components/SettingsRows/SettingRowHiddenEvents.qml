@@ -11,7 +11,7 @@ import "../../dialogs/moderation"
 KomaiButton {
     text: qsTr("Configure")
     onClicked: {
-        var dialog = hiddenEventsDialog.createObject();
+        var dialog = hiddenEventsDialog.createObject(this);
         dialog.open();
         destroyOnClose(dialog);
     }

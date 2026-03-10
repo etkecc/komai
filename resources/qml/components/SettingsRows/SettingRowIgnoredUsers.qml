@@ -11,7 +11,7 @@ import "../../dialogs/moderation"
 KomaiButton {
     text: qsTr("Manage")
     onClicked: {
-        var dialog = ignoredUsersDialog.createObject();
+        var dialog = ignoredUsersDialog.createObject(this);
         dialog.open();
         destroyOnClose(dialog);
     }

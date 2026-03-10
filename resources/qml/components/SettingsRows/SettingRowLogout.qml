@@ -13,7 +13,7 @@ KomaiButton {
     icon.source: "qrc:/icons/icons/ui/power-off.svg"
 
     onClicked: {
-        var dialog = logoutDialog.createObject();
+        var dialog = logoutDialog.createObject(logoutBtn);
         dialog.open();
         destroyOnClose(dialog);
     }

@@ -348,10 +348,59 @@ Rectangle {
                 Popup {
                     id: popup
 
+                    readonly property var overlayItem: Overlay.overlay
+                    readonly property real popupMargin: Komai.paddingSmall
+
+                    function clamp(value, minValue, maxValue) {
+                        return Math.max(minValue, Math.min(value, maxValue));
+                    }
+                    function inputBarRectInOverlay() {
+                        if (!overlayItem)
+                            return Qt.rect(0, 0, inputBar.width, inputBar.height);
+
+                        const topLeft = inputBar.mapToItem(overlayItem, 0, 0);
+                        return Qt.rect(topLeft.x, topLeft.y, inputBar.width, inputBar.height);
+                    }
+                    function anchorRectInOverlay() {
+                        const cursorRect = messageInput.positionToRectangle(messageInput.completerTriggeredAt);
+                        if (!overlayItem)
+                            return cursorRect;
+
+                        const topLeft = messageInput.mapToItem(overlayItem, cursorRect.x, cursorRect.y);
+                        return Qt.rect(topLeft.x, topLeft.y, cursorRect.width, cursorRect.height);
+                    }
+
                     background: null
                     padding: 0
-                    x: messageInput.positionToRectangle(messageInput.completerTriggeredAt).x
-                    y: messageInput.positionToRectangle(messageInput.completerTriggeredAt).y - height
+                    parent: Overlay.overlay
+                    width: {
+                        const containerRect = popup.inputBarRectInOverlay();
+                        const availableWidth = Math.max(0, containerRect.width - popup.popupMargin * 2);
+                        return availableWidth > 0 ? Math.min(completer.implicitWidth, availableWidth) : completer.implicitWidth;
+                    }
+                    x: {
+                        const containerRect = popup.inputBarRectInOverlay();
+                        const anchorRect = popup.anchorRectInOverlay();
+                        const minX = containerRect.x + popup.popupMargin;
+                        const maxX = containerRect.x + containerRect.width - popup.popupMargin - popup.width;
+                        return Math.round(popup.clamp(anchorRect.x, minX, Math.max(minX, maxX)));
+                    }
+                    y: {
+                        const anchorRect = popup.anchorRectInOverlay();
+                        const popupHeight = Math.max(popup.height, popup.implicitHeight);
+                        const overlayHeight = popup.overlayItem ? popup.overlayItem.height : textInput.Window.height;
+                        const minY = popup.popupMargin;
+                        const maxY = Math.max(minY, overlayHeight - popupHeight - popup.popupMargin);
+                        const aboveY = anchorRect.y - popupHeight;
+                        const belowY = anchorRect.y + anchorRect.height;
+                        const canOpenAbove = aboveY >= minY;
+                        const canOpenBelow = belowY + popupHeight <= overlayHeight - popup.popupMargin;
+
+                        if (!canOpenAbove && canOpenBelow)
+                            return Math.round(belowY);
+
+                        return Math.round(popup.clamp(aboveY, minY, maxY));
+                    }
 
                     enter: Transition {
                         NumberAnimation {

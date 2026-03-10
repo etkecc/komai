@@ -336,7 +336,10 @@ Control {
                             }
                             Label {
                                 Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: 0
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                elide: Text.ElideRight
                                 font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.displayName
                             }
@@ -347,13 +350,13 @@ Control {
                                 font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: qsTr("Notify the whole room")
                             }
-                            Item {
-                                Layout.fillWidth: true
-                            }
                             Label {
                                 visible: model.userid !== "@room"
                                 Layout.alignment: Qt.AlignVCenter
+                                Layout.maximumWidth: Math.round(listView.width * 0.42)
+                                Layout.minimumWidth: 0
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                elide: Text.ElideRight
                                 font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.userid
                             }
@@ -396,16 +399,19 @@ Control {
                             }
                             Label {
                                 Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: 0
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                elide: Text.ElideRight
                                 font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.shortcode
                             }
-                            Item {
-                                Layout.fillWidth: true
-                            }
                             Label {
                                 Layout.alignment: Qt.AlignVCenter
+                                Layout.maximumWidth: Math.round(listView.width * 0.38)
+                                Layout.minimumWidth: 0
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                elide: Text.ElideRight
                                 font.pointSize: Settings.uiFontSizePt * 1.05
                                 text: model.packname
                             }
@@ -495,19 +501,22 @@ Control {
                             }
                             Label {
                                 Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                                Layout.minimumWidth: 0
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
+                                elide: Text.ElideRight
                                 font.italic: model.isTombstoned
                                 font.bold: model.isSpace
                                 font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.roomName
                                 textFormat: Text.RichText
                             }
-                            Item {
-                                Layout.fillWidth: true
-                            }
                             Label {
                                 Layout.alignment: Qt.AlignVCenter
+                                Layout.maximumWidth: Math.round(listView.width * 0.42)
+                                Layout.minimumWidth: 0
                                 color: model.index == popup.currentIndex ? palette.highlightedText : palette.buttonText
+                                elide: Text.ElideRight
                                 font.pointSize: Settings.uiFontSizePt * 1.1
                                 text: model.roomAlias
                             }

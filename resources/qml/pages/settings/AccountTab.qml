@@ -67,7 +67,7 @@ Item {
                 ColumnLayout {
                     id: scrollContent
                     width: scrollView.availableWidth
-                    spacing: 0
+                    spacing: Komai.paddingSmall
 
                     property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
                     property real sideMargin: Math.max(Komai.paddingLarge, (scrollView.availableWidth - contentMaxWidth) / 2)
@@ -93,9 +93,8 @@ Item {
                         HoverHandler { id: avatarRowHover; blocking: false }
                         Rectangle {
                             anchors.fill: avatarRowContent
-                            color: palette.alternateBase
+                            color: avatarRowHover.hovered ? palette.dark : palette.window
                             radius: Komai.paddingMedium
-                            visible: avatarRowHover.hovered
                             z: -1
                         }
 
@@ -117,7 +116,7 @@ Item {
                                 Label {
                                     id: avatarLabel
                                     text: qsTr("Avatar")
-                                    color: palette.text
+                                    color: avatarRowHover.hovered ? palette.brightText : palette.text
                                     font.pointSize: 1.1 * Settings.uiFontSizePt
                                 }
                             }
@@ -197,9 +196,8 @@ Item {
                         HoverHandler { id: displayNameRowHover; blocking: false }
                         Rectangle {
                             anchors.fill: displayNameRowContent
-                            color: palette.alternateBase
+                            color: displayNameRowHover.hovered ? palette.dark : palette.window
                             radius: Komai.paddingMedium
-                            visible: displayNameRowHover.hovered
                             z: -1
                         }
 
@@ -218,7 +216,7 @@ Item {
                                 Label {
                                     id: displayNameLabel
                                     text: qsTr("Display name")
-                                    color: palette.text
+                                    color: displayNameRowHover.hovered ? palette.brightText : palette.text
                                     font.pointSize: 1.1 * Settings.uiFontSizePt
                                 }
                             }
@@ -267,9 +265,8 @@ Item {
                         HoverHandler { id: userIdRowHover; blocking: false }
                         Rectangle {
                             anchors.fill: userIdRowContent
-                            color: palette.alternateBase
+                            color: userIdRowHover.hovered ? palette.dark : palette.window
                             radius: Komai.paddingMedium
-                            visible: userIdRowHover.hovered
                             z: -1
                         }
 
@@ -280,7 +277,7 @@ Item {
 
                             Label {
                                 text: qsTr("User ID")
-                                color: palette.text
+                                color: userIdRowHover.hovered ? palette.brightText : palette.text
                                 font.pointSize: 1.1 * Settings.uiFontSizePt
                                 Layout.topMargin: Komai.paddingMedium
                                 Layout.bottomMargin: Komai.paddingMedium
@@ -291,7 +288,7 @@ Item {
 
                             Label {
                                 text: Settings.userId
-                                color: palette.buttonText
+                                color: userIdRowHover.hovered ? palette.brightText : palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt
                                 Layout.rightMargin: Komai.paddingMedium
                                 Layout.topMargin: Komai.paddingMedium
@@ -312,9 +309,8 @@ Item {
                         HoverHandler { id: homeserverRowHover; blocking: false }
                         Rectangle {
                             anchors.fill: homeserverRowContent
-                            color: palette.alternateBase
+                            color: homeserverRowHover.hovered ? palette.dark : palette.window
                             radius: Komai.paddingMedium
-                            visible: homeserverRowHover.hovered
                             z: -1
                         }
 
@@ -325,7 +321,7 @@ Item {
 
                             Label {
                                 text: qsTr("Homeserver")
-                                color: palette.text
+                                color: homeserverRowHover.hovered ? palette.brightText : palette.text
                                 font.pointSize: 1.1 * Settings.uiFontSizePt
                                 Layout.topMargin: Komai.paddingMedium
                                 Layout.bottomMargin: Komai.paddingMedium
@@ -336,7 +332,7 @@ Item {
 
                             Label {
                                 text: Settings.homeserver
-                                color: palette.buttonText
+                                color: homeserverRowHover.hovered ? palette.brightText : palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt
                                 Layout.rightMargin: Komai.paddingMedium
                                 Layout.topMargin: Komai.paddingMedium
@@ -368,7 +364,7 @@ Item {
                             id: currentDeviceCard
                             width: parent.width
                             implicitHeight: currentDeviceCardContent.implicitHeight
-                            color: "transparent"
+                            color: palette.window
                             radius: Komai.paddingMedium
                             border.width: 1
                             border.color: Komai.theme.separator
@@ -384,8 +380,16 @@ Item {
                                 // Header: [device ID] [Copy] ... [Logout]
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    implicitHeight: currentDeviceHeaderRow.implicitHeight
-                                    color: palette.alternateBase
+                                    implicitHeight: currentDeviceHeaderRow.implicitHeight + 1
+                                    color: palette.window
+
+                                    Rectangle {
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.bottom: parent.bottom
+                                        height: 1
+                                        color: Komai.theme.separator
+                                    }
 
                                     RowLayout {
                                         id: currentDeviceHeaderRow
@@ -740,7 +744,7 @@ Item {
                                 id: deviceCard
                                 width: parent.width
                                 implicitHeight: deviceDelegateContent.implicitHeight
-                                color: "transparent"
+                                color: palette.window
                                 radius: Komai.paddingMedium
                                 border.width: 1
                                 border.color: Komai.theme.separator
@@ -756,8 +760,16 @@ Item {
                                     // Header: [shield] [device ID] [Copy] ... [Logout]
                                     Rectangle {
                                         Layout.fillWidth: true
-                                        implicitHeight: deviceHeaderRow.implicitHeight
-                                        color: palette.alternateBase
+                                        implicitHeight: deviceHeaderRow.implicitHeight + 1
+                                        color: palette.window
+
+                                        Rectangle {
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                            anchors.bottom: parent.bottom
+                                            height: 1
+                                            color: Komai.theme.separator
+                                        }
 
                                         RowLayout {
                                             id: deviceHeaderRow
@@ -994,8 +1006,16 @@ Item {
                                     // Footer: Last seen timestamp
                                     Rectangle {
                                         Layout.fillWidth: true
-                                        implicitHeight: lastSeenLabel.implicitHeight + Komai.paddingSmall * 2
-                                        color: palette.alternateBase
+                                        implicitHeight: lastSeenLabel.implicitHeight + Komai.paddingSmall * 2 + 1
+                                        color: palette.window
+
+                                        Rectangle {
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                            anchors.top: parent.top
+                                            height: 1
+                                            color: Komai.theme.separator
+                                        }
 
                                         Label {
                                             id: lastSeenLabel

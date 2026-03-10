@@ -15,6 +15,14 @@ Item {
     implicitHeight: commandSection.implicitHeight
     implicitWidth: commandSection.implicitWidth
 
+    HoverHandler { id: rowHover; blocking: false }
+    Rectangle {
+        anchors.fill: commandSection
+        color: rowHover.hovered ? palette.dark : palette.window
+        radius: Komai.paddingMedium
+        z: -1
+    }
+
     ColumnLayout {
         id: commandSection
         Layout.fillWidth: true
@@ -23,7 +31,10 @@ Item {
 
         Label {
             Layout.fillWidth: true
-            color: palette.text
+            Layout.topMargin: Komai.paddingMedium
+            Layout.leftMargin: Komai.paddingMedium
+            Layout.rightMargin: Komai.paddingMedium
+            color: rowHover.hovered ? palette.brightText : palette.text
             text: qsTr("Link browser command")
             textFormat: Text.AutoText
             font.pointSize: 1.1 * Settings.uiFontSizePt
@@ -32,7 +43,9 @@ Item {
 
         Label {
             Layout.fillWidth: true
-            color: palette.buttonText
+            Layout.leftMargin: Komai.paddingMedium
+            Layout.rightMargin: Komai.paddingMedium
+            color: rowHover.hovered ? palette.brightText : palette.buttonText
             text: qsTr("Use this command to launch links; use %u where the link URL should be inserted.")
             font.pointSize: 0.9 * Settings.uiFontSizePt
             wrapMode: Text.Wrap
@@ -41,6 +54,9 @@ Item {
         KomaiTextField {
             id: browserCommandTextField
             Layout.fillWidth: true
+            Layout.leftMargin: Komai.paddingMedium
+            Layout.rightMargin: Komai.paddingMedium
+            Layout.bottomMargin: Komai.paddingMedium
             text: Settings.integrationsBrowserCommand ? Settings.integrationsBrowserCommand : ""
             selectByMouse: true
             wrapMode: TextInput.NoWrap

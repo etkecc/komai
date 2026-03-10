@@ -299,6 +299,12 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
+                Rectangle {
+                    anchors.fill: parent
+                    color: palette.alternateBase
+                    z: -1
+                }
+
                 source: {
                     switch (userSettingsDialog.currentTab) {
                     case UserSettingsModel.TabLookFeel:

@@ -121,6 +121,7 @@ Components.OverlayDialog {
                 ItemDelegate {
                     id: roomRowDelegate
                     anchors.fill: parent
+                    padding: 0
                     hoverEnabled: true
                     onClicked: {
                         if (profile.room)
@@ -728,8 +729,6 @@ Components.OverlayDialog {
 
             ColumnLayout {
                 Layout.fillWidth: true
-                Layout.leftMargin: Komai.paddingMedium
-                Layout.rightMargin: Komai.paddingMedium
                 spacing: Komai.paddingSmall
                 visible: !profile.isSelf
 
@@ -846,8 +845,6 @@ Components.OverlayDialog {
                     required property string avatarUrl
 
                     Layout.fillWidth: true
-                    Layout.leftMargin: Komai.paddingMedium
-                    Layout.rightMargin: Komai.paddingMedium
                     implicitHeight: 40
                     leftPadding: Komai.paddingMedium
                     rightPadding: Komai.paddingMedium
@@ -932,7 +929,6 @@ Components.OverlayDialog {
                         property bool refreshed: false
 
                         visible: !profile.isSelf
-                        Layout.rightMargin: Komai.paddingMedium
                         text: refreshed ? qsTr("Refreshed") : qsTr("Refresh")
                         icon.source: refreshed ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/refresh.svg"
                         onClicked: {
@@ -966,8 +962,6 @@ Components.OverlayDialog {
 
             // Self: redirect to Account settings
             ActionButton {
-                Layout.leftMargin: Komai.paddingMedium
-                Layout.rightMargin: Komai.paddingMedium
                 visible: profile.isSelf
                 labelText: qsTr("Manage")
                 iconSource: ":/icons/icons/ui/person.svg"
@@ -989,8 +983,6 @@ Components.OverlayDialog {
                     required property string deviceName
 
                     Layout.fillWidth: true
-                    Layout.leftMargin: Komai.paddingMedium
-                    Layout.rightMargin: Komai.paddingMedium
                     implicitHeight: deviceContent.implicitHeight + Komai.paddingMedium * 2
                     color: palette.window
                     border.color: Komai.theme.separator

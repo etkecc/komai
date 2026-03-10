@@ -37,9 +37,9 @@ Item {
         ColumnLayout {
             id: grid
 
-            spacing: 0
+            spacing: Komai.paddingSmall
             property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
-            property real sideMargin: Math.max(Komai.paddingLarge, (scroll.width - contentMaxWidth) / 2)
+            property real sideMargin: Math.max(Komai.paddingMedium, (scroll.width - contentMaxWidth) / 2)
             property int settingRowStackBreakpoint: 700
             width: Math.max(0, scroll.width - sideMargin * 2)
             x: sideMargin
@@ -72,7 +72,7 @@ Item {
                         if (r.model.icon.startsWith("image://colorimage/")) {
                             return r.model.icon;
                         }
-                        return "image://colorimage/" + r.model.icon + "?" + palette.buttonText;
+                        return "image://colorimage/" + r.model.icon + "?" + (rowHover.hovered ? palette.brightText : palette.buttonText);
                     }
                     readonly property real controlWidth: r.useStackedLayout
                         ? Math.max(0, grid.width - Komai.paddingSmall * 2)
@@ -88,9 +88,9 @@ Item {
 
                     Rectangle {
                         anchors.fill: row
-                        color: palette.alternateBase
+                        color: settingRow.visible && rowHover.hovered && !r.isFullWidthPreviewRow ? palette.dark : palette.window
                         radius: Komai.paddingMedium
-                        visible: settingRow.visible && rowHover.hovered
+                        visible: settingRow.visible
                         z: -1
                     }
 
@@ -162,7 +162,7 @@ Item {
                                     id: settingLabel
                                     Layout.fillWidth: true
                                     Layout.minimumWidth: 0
-                                    color: palette.text
+                                    color: rowHover.hovered ? palette.brightText : palette.text
                                     linkColor: palette.highlight
                                     text: r.model.name
                                     textFormat: Text.AutoText
@@ -442,7 +442,7 @@ Item {
                             visible: r.hasDescription
                             text: r.model.description ?? ""
                             textFormat: Text.RichText
-                            color: palette.buttonText
+                            color: rowHover.hovered ? palette.brightText : palette.buttonText
                             font.pointSize: 0.9 * Settings.uiFontSizePt
                             wrapMode: Text.Wrap
                             readOnly: true

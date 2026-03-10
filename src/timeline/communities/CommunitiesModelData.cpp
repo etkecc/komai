@@ -220,7 +220,14 @@ FilteredCommunitiesModel::FilteredCommunitiesModel(CommunitiesModel *model, QObj
                &UserSettings::sidebarsCommunitiesFilterGroupsChanged,
                &UserSettings::sidebarsCommunitiesFilterServerNoticesChanged,
              })
-            connect(settings.get(), sig, this, &FilteredCommunitiesModel::invalidateFilter);
+            connect(settings.get(), sig, this, [this] {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+                beginFilterChange();
+                endFilterChange();
+#else
+                invalidateFilter();
+#endif
+            });
     }
 }
 

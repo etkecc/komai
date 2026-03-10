@@ -1008,9 +1008,13 @@ if(USE_BUNDLED_LITEHTML)
     set(LITEHTML_BUILD_TESTING OFF CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(litehtml)
 
-    # Suppress compiler warnings from litehtml's own sources
+    # Suppress compiler warnings from litehtml's own sources and headers
     target_compile_options(litehtml PRIVATE -w)
     target_compile_options(gumbo PRIVATE -w)
+    get_target_property(_litehtml_inc litehtml INTERFACE_INCLUDE_DIRECTORIES)
+    if(_litehtml_inc)
+        set_target_properties(litehtml PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${_litehtml_inc}")
+    endif()
 else()
     find_package(litehtml REQUIRED)
 endif()

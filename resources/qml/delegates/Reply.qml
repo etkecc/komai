@@ -59,7 +59,7 @@ AbstractButton {
         replyTo: ""
         mainInset: 4 + Komai.paddingMedium
         maxWidth: r.maxWidth
-        limitAsReply: r.limitHeight
+        limitAsReply: true
 
         data: Column {
             id: replyContainer

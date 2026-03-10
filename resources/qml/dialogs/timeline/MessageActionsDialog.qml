@@ -151,7 +151,7 @@ Components.OverlayDialog {
                 id: replyPreview
 
                 Layout.fillWidth: true
-                Layout.maximumHeight: root.parent ? root.parent.height * 0.4 : 300
+                Layout.maximumHeight: Math.min(root.parent ? root.parent.height * 0.4 : 300, 300)
                 clip: true
                 enabled: false
                 eventId: root.eventId
@@ -171,6 +171,19 @@ Components.OverlayDialog {
                 roomColor: isReplyFromCurrentUser
                     ? Komai.theme.userColorSelf
                     : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.base)
+
+                // Gradient fade when preview is clipped by maximumHeight
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    height: 60
+                    visible: replyPreview.implicitHeight > replyPreview.height
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "transparent" }
+                        GradientStop { position: 1.0; color: palette.base }
+                    }
+                }
             }
 
             // --- Clipboard section ---

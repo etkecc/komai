@@ -23,7 +23,7 @@ Item {
         onActivatedAmbiguously: timelineRoot.activeImageOverlay.close()
     }
     Shortcut {
-        sequence: "Ctrl+K"
+        sequences: ["Ctrl+K", "Ctrl+P"]
 
         onActivated: timelineRoot.openCatalogDialog(componentCatalog.navigationQuickSwitcherDialog)
     }

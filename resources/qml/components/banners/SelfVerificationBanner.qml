@@ -21,13 +21,13 @@ ColumnLayout {
         switch (SelfVerificationStatus.status) {
         case SelfVerificationStatus.NoMasterKey:
             //: Cross-signing setup has not run yet.
-            return qsTr("To prevent losing access to encrypted messages, click to set up encryption secrets backup.");
+            return qsTr("To prevent losing access to encrypted messages, set up encryption secrets backup.");
         case SelfVerificationStatus.UnverifiedMasterKey:
             //: The user just signed in with this device and hasn't verified their master key.
-            return qsTr("This account already has encryption keys, but this login is not verified yet. Click to verify this device and unlock encrypted messages.");
+            return qsTr("This account already has encryption keys, but this device is not verified. Verify it to unlock encrypted messages.");
         case SelfVerificationStatus.UnverifiedDevices:
             //: There are unverified devices signed in to this account.
-            return qsTr("This device is verified, but some of your other logged-in devices are not. Click to review and verify them.");
+            return qsTr("This device is verified, but some of your other logged-in devices are not. Review and verify them.");
         default:
             return "";
         }

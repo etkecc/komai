@@ -12,11 +12,7 @@ MatrixText {
     property bool compactMode: false
     property real lineSpacing: 0
 
-    Layout.column: 1
-    Layout.columnSpan: 8
-    Layout.fillWidth: true
     Layout.maximumHeight: lineSpacing * 2 // show 2 lines
-    Layout.row: 2
     clip: true
     color: palette.text
     selectByMouse: true

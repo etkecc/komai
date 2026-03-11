@@ -30,7 +30,7 @@ Pane {
     property int buttonPaddingV: 0
     property bool isPublic: room ? room.isPublic : true
     property bool showActionLabels: false
-    property int actionLabelsHysteresisPx: 36
+    property int actionLabelsHysteresisPx: 8
     readonly property string membersActionLabel: qsTr("%n member(s)", "", roomModel ? roomModel.roomMemberCount : 0)
     readonly property string encryptionActionLabel: shortEncryptionLabel()
     readonly property string visibilityActionLabel: isPublic ? qsTr("Public") : qsTr("Private")
@@ -49,11 +49,12 @@ Pane {
         + (memberButton.visible ? (actionButtonLabelGap + membersLabelMetrics.advanceWidth) : 0)
         + (encryptionButton.visible ? (actionButtonLabelGap + encryptionLabelMetrics.advanceWidth) : 0)
         + (leaveRoomButton.visible ? (actionButtonLabelGap + leaveLabelMetrics.advanceWidth) : 0)
-    readonly property real reservedLeadingWidth: (showBackButton ? actionButtonWidth : 0)
-        + topBarAvatarSize
-        + Math.max(350, roomNameLabel.nameImplicitWidth)
-        + Komai.paddingLarge * 3
-    readonly property real availableActionWidth: Math.max(0, topBar.width - reservedLeadingWidth)
+    readonly property real fixedOverhead:
+        Komai.paddingMedium * 2
+        + (showBackButton ? actionButtonWidth : 0)
+        + topBarAvatarSize + buttonPaddingH
+    readonly property real nameSpaceNeeded: roomNameLabel.nameImplicitWidth + roomNameLabel.visibilityFullWidth
+    readonly property real minWidthForLabels: fixedOverhead + nameSpaceNeeded + requiredLabeledActionWidth
 
     function shortEncryptionLabel() {
         if (!isEncrypted)
@@ -69,14 +70,12 @@ Pane {
     }
 
     function updateActionLabelVisibility() {
-        const showThreshold = requiredLabeledActionWidth + actionLabelsHysteresisPx;
-        const hideThreshold = Math.max(requiredIconOnlyActionWidth, requiredLabeledActionWidth - actionLabelsHysteresisPx);
-
         if (showActionLabels) {
-            if (availableActionWidth < hideThreshold)
+            if (topBar.width < minWidthForLabels - actionLabelsHysteresisPx)
                 showActionLabels = false;
-        } else if (availableActionWidth >= showThreshold) {
-            showActionLabels = true;
+        } else {
+            if (topBar.width >= minWidthForLabels + actionLabelsHysteresisPx)
+                showActionLabels = true;
         }
     }
 
@@ -93,7 +92,8 @@ Pane {
         id: pinLabelMetrics
 
         font: Qt.font({
-            "bold": true
+            "bold": true,
+            "pointSize": Settings.uiFontSizePt
         })
         text: qsTr("Pins")
     }
@@ -101,7 +101,8 @@ Pane {
         id: searchLabelMetrics
 
         font: Qt.font({
-            "bold": true
+            "bold": true,
+            "pointSize": Settings.uiFontSizePt
         })
         text: qsTr("Search")
     }
@@ -109,7 +110,8 @@ Pane {
         id: membersLabelMetrics
 
         font: Qt.font({
-            "bold": true
+            "bold": true,
+            "pointSize": Settings.uiFontSizePt
         })
         text: topBar.membersActionLabel
     }
@@ -117,7 +119,8 @@ Pane {
         id: encryptionLabelMetrics
 
         font: Qt.font({
-            "bold": true
+            "bold": true,
+            "pointSize": Settings.uiFontSizePt
         })
         text: topBar.encryptionActionLabel
     }
@@ -125,12 +128,13 @@ Pane {
         id: leaveLabelMetrics
 
         font: Qt.font({
-            "bold": true
+            "bold": true,
+            "pointSize": Settings.uiFontSizePt
         })
         text: qsTr("Leave")
     }
     contentItem: Item {
-        GridLayout {
+        ColumnLayout {
             id: topLayout
 
             anchors.left: parent.left
@@ -139,128 +143,140 @@ Pane {
             anchors.rightMargin: Komai.paddingMedium
             anchors.top: parent.top
             anchors.topMargin: Komai.paddingMedium
-            columnSpacing: 0
-            rowSpacing: Komai.uiLayoutCompactMode ? 0 : Komai.paddingSmall
+            spacing: Komai.uiLayoutCompactMode ? 0 : Komai.paddingSmall
 
-            RoomHeaderCommunitySection {
-                room: topBar.roomModel
-                lineSpacing: fontMetrics.lineSpacing
-            }
-            RoomHeaderBackButton {
-                id: backToRoomsButton
+            GridLayout {
+                id: topGrid
 
-                topBarRef: topBar
-                column: 0
-                showBackButton: topBar.showBackButton
-            }
-            RoomHeaderRoomAvatar {
-                room: topBar.roomModel
-                roomId: topBar.roomId
-                roomAvatarUrl: topBar.avatarUrl
-                isDirect: topBar.isDirect
-                directChatOtherUserId: topBar.directChatOtherUserId
-                topBarAvatarSize: topBar.topBarAvatarSize
-                buttonPaddingH: topBar.buttonPaddingH
-            }
-            RoomHeaderRoomNameLabel {
-                id: roomNameLabel
+                Layout.fillWidth: true
+                columnSpacing: 0
+                rowSpacing: Komai.uiLayoutCompactMode ? 0 : Komai.paddingSmall
 
-                roomName: topBar.roomName
-                room: topBar.roomModel
-                showVisibilityLabel: topBar.showActionLabels
+                RoomHeaderCommunitySection {
+                    room: topBar.roomModel
+                    lineSpacing: fontMetrics.lineSpacing
+                }
+                RoomHeaderBackButton {
+                    id: backToRoomsButton
+
+                    topBarRef: topBar
+                    column: 0
+                    showBackButton: topBar.showBackButton
+                }
+                RoomHeaderRoomAvatar {
+                    room: topBar.roomModel
+                    roomId: topBar.roomId
+                    roomAvatarUrl: topBar.avatarUrl
+                    isDirect: topBar.isDirect
+                    directChatOtherUserId: topBar.directChatOtherUserId
+                    topBarAvatarSize: topBar.topBarAvatarSize
+                    buttonPaddingH: topBar.buttonPaddingH
+                }
+                RoomHeaderRoomNameLabel {
+                    id: roomNameLabel
+
+                    roomName: topBar.roomName
+                    room: topBar.roomModel
+                    showVisibilityLabel: topBar.showActionLabels
+                }
+                // BROKEN: "Show only notifications" filter doesn't work properly.
+                // It only filters messages already loaded in QML, not the full timeline.
+                // The virtual timeline window (commit 5b47f5c6) makes this worse by capping
+                // exposed messages to 200, but the feature was broken even before that.
+                // Fixing would likely require scanning the database for highlighted messages.
+                // Hiding for now until we can revisit this feature.
+                // ImageButton {
+                //     id: notificationsButton
+                //
+                //     Layout.alignment: Qt.AlignRight
+                //     Layout.column: 3
+                //     Layout.preferredHeight: Komai.avatarSize - Komai.paddingMedium
+                //     Layout.preferredWidth: Komai.avatarSize - Komai.paddingMedium
+                //     Layout.row: 1
+                //     ToolTip.text: qsTr("Show only notifications")
+                //     ToolTip.visible: hovered
+                //     image: ":/icons/icons/ui/alert.svg"
+                //
+                //     onClicked: {
+                //         topBar.filterNotifications = !topBar.filterNotifications
+                //     }
+                // }
+                RoomHeaderPinButton {
+                    id: pinButton
+
+                    topBarRef: topBar
+                    column: 4
+                    room: topBar.roomModel
+                    roomId: topBar.roomId
+                    showTextLabel: topBar.showActionLabels
+                }
+                RoomHeaderSearchButton {
+                    id: searchButton
+
+                    topBarRef: topBar
+                    column: 5
+                    room: topBar.roomModel
+                    showTextLabel: topBar.showActionLabels
+
+                    onSearchActiveChanged: {
+                        if (searchActive) {
+                            roomSearchRow.focusInput();
+                        } else {
+                            roomSearchRow.clearInput();
+                            topBar.searchString = "";
+                        }
+                    }
+                }
+                RoomHeaderMembersButton {
+                    id: memberButton
+
+                    topBarRef: topBar
+                    column: 6
+                    room: topBar.roomModel
+                    showTextLabel: topBar.showActionLabels
+                }
+                RoomEncryptionStatusButton {
+                    id: encryptionButton
+
+                    isEncrypted: topBar.isEncrypted
+                    roomAvailable: !!topBar.roomModel
+                    trustlevel: topBar.trustlevel
+                    topBarAvatarSize: topBar.topBarAvatarSize
+                    buttonPaddingH: topBar.buttonPaddingH
+                    buttonPaddingV: topBar.buttonPaddingV
+                    showLabel: topBar.showActionLabels
+                }
+                RoomOptionsButton {
+                    id: leaveRoomButton
+
+                    topBarRef: topBar
+                    column: 8
+                    roomAvailable: !!topBar.roomModel
+                    roomId: topBar.roomId
+                    showTextLabel: topBar.showActionLabels
+                }
             }
+
             RoomHeaderTopicText {
+                Layout.fillWidth: true
                 roomTopic: topBar.roomTopic
                 compactMode: Komai.uiLayoutCompactMode
                 lineSpacing: fontMetrics.lineSpacing
             }
-            // BROKEN: "Show only notifications" filter doesn't work properly.
-            // It only filters messages already loaded in QML, not the full timeline.
-            // The virtual timeline window (commit 5b47f5c6) makes this worse by capping
-            // exposed messages to 200, but the feature was broken even before that.
-            // Fixing would likely require scanning the database for highlighted messages.
-            // Hiding for now until we can revisit this feature.
-            // ImageButton {
-            //     id: notificationsButton
-            //
-            //     Layout.alignment: Qt.AlignRight
-            //     Layout.column: 3
-            //     Layout.preferredHeight: Komai.avatarSize - Komai.paddingMedium
-            //     Layout.preferredWidth: Komai.avatarSize - Komai.paddingMedium
-            //     Layout.row: 1
-            //     ToolTip.text: qsTr("Show only notifications")
-            //     ToolTip.visible: hovered
-            //     image: ":/icons/icons/ui/alert.svg"
-            //
-            //     onClicked: {
-            //         topBar.filterNotifications = !topBar.filterNotifications
-            //     }
-            // }
-            RoomHeaderPinButton {
-                id: pinButton
-
-                topBarRef: topBar
-                column: 4
-                room: topBar.roomModel
-                roomId: topBar.roomId
-                showTextLabel: topBar.showActionLabels
-            }
-            RoomHeaderSearchButton {
-                id: searchButton
-
-                topBarRef: topBar
-                column: 5
-                room: topBar.roomModel
-                showTextLabel: topBar.showActionLabels
-
-                onSearchActiveChanged: {
-                    if (searchActive) {
-                        roomSearchRow.focusInput();
-                    } else {
-                        roomSearchRow.clearInput();
-                        topBar.searchString = "";
-                    }
-                }
-            }
-            RoomHeaderMembersButton {
-                id: memberButton
-
-                topBarRef: topBar
-                column: 6
-                room: topBar.roomModel
-                showTextLabel: topBar.showActionLabels
-            }
-            RoomEncryptionStatusButton {
-                id: encryptionButton
-
-                isEncrypted: topBar.isEncrypted
-                roomAvailable: !!topBar.roomModel
-                trustlevel: topBar.trustlevel
-                topBarAvatarSize: topBar.topBarAvatarSize
-                buttonPaddingH: topBar.buttonPaddingH
-                buttonPaddingV: topBar.buttonPaddingV
-                showLabel: topBar.showActionLabels
-            }
-            RoomOptionsButton {
-                id: leaveRoomButton
-
-                topBarRef: topBar
-                column: 8
-                roomAvailable: !!topBar.roomModel
-                roomId: topBar.roomId
-                showTextLabel: topBar.showActionLabels
-            }
             RoomPinnedMessagesSection {
+                Layout.fillWidth: true
                 room: topBar.roomModel
                 roomId: topBar.roomId
             }
             RoomWidgetsSection {
+                Layout.fillWidth: true
                 room: topBar.roomModel
                 roomId: topBar.roomId
             }
             RoomHeaderSearchRow {
                 id: roomSearchRow
 
+                Layout.fillWidth: true
                 room: topBar.roomModel
                 filteringInProgress: topBar.filteringInProgress
                 topBarAvatarSize: topBar.topBarAvatarSize
@@ -279,8 +295,8 @@ Pane {
         searchButton.searchActive = false;
         filterNotifications = false;
     }
-    onAvailableActionWidthChanged: updateActionLabelVisibility()
-    onRequiredLabeledActionWidthChanged: updateActionLabelVisibility()
+    onWidthChanged: updateActionLabelVisibility()
+    onMinWidthForLabelsChanged: updateActionLabelVisibility()
     Component.onCompleted: updateActionLabelVisibility()
 
     Shortcut {

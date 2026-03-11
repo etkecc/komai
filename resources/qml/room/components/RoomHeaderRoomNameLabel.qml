@@ -14,7 +14,8 @@ Item {
     property var room: null
     property bool showVisibilityLabel: false
     readonly property bool isPublic: room ? room.isPublic : true
-    readonly property real nameImplicitWidth: nameLabel.implicitWidth
+    readonly property real nameImplicitWidth: nameWidthHelper.implicitWidth
+    readonly property real visibilityFullWidth: row.spacing + visibilityIcon.width + visibilityRow.spacing + visibilityLabel.implicitWidth
 
     Layout.column: 2
     Layout.fillWidth: true
@@ -24,6 +25,20 @@ Item {
     implicitHeight: row.implicitHeight
     clip: true
 
+    // Hidden helper to measure true single-line width of the room name.
+    // The visible label's implicitWidth is unreliable with RichText + wrapMode:
+    // once text wraps, Qt reports the longest wrapped line width instead of
+    // the natural unwrapped width, creating a feedback loop that keeps the
+    // label narrow even when space is available.
+    Text {
+        id: nameWidthHelper
+
+        visible: false
+        font: nameLabel.font
+        text: nameLabel.text
+        textFormat: Text.RichText
+    }
+
     Row {
         id: row
 
@@ -32,7 +47,7 @@ Item {
         Label {
             id: nameLabel
 
-            width: Math.min(implicitWidth, Math.max(0, root.width - (visibilityItem.visible ? (row.spacing + visibilityItem.implicitWidth) : 0)))
+            width: Math.min(nameWidthHelper.implicitWidth, Math.max(0, root.width - (visibilityItem.visible ? (row.spacing + visibilityItem.implicitWidth) : 0)))
             color: palette.text
             elide: Text.ElideRight
             font.bold: true

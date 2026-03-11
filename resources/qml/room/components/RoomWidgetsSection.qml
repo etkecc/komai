@@ -16,13 +16,9 @@ ScrollView {
     required property string roomId
     readonly property bool layoutVisible: !!room && room.widgetLinks.length > 0 && !Settings.hiddenWidgets.includes(roomId)
 
-    Layout.column: 1
-    Layout.columnSpan: 8
-    Layout.fillWidth: true
     Layout.minimumHeight: 0
     Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Komai.avatarSize * 1.5) : 0
     Layout.maximumHeight: layoutVisible ? Komai.avatarSize * 1.5 : 0
-    Layout.row: 4
     ScrollBar.horizontal.visible: false
     clip: true
     visible: layoutVisible

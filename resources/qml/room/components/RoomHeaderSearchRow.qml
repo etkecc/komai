@@ -29,13 +29,9 @@ RowLayout {
         searchField.clear();
     }
 
-    Layout.column: 1
-    Layout.columnSpan: 8
-    Layout.fillWidth: true
     Layout.minimumHeight: 0
     Layout.preferredHeight: layoutVisible ? implicitHeight : 0
     Layout.maximumHeight: layoutVisible ? implicitHeight : 0
-    Layout.row: 5
     Layout.topMargin: Komai.paddingSmall
     spacing: Komai.paddingSmall
     visible: layoutVisible

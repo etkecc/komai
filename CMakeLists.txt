@@ -1507,6 +1507,95 @@ if(BUILD_TESTING)
     add_test(NAME komai_db_backend_test COMMAND komai_db_backend_test)
     komai_configure_test(komai_db_backend_test "integration;db")
 
+    add_executable(komai_matrix_store_test
+        tests/MatrixStoreIntegrationTest.cpp
+        tests/MatrixStoreHarnessStubs.cpp
+        tests/OlmCacheStub.cpp
+        tests/ProfileSecretsCacheStub.cpp
+        tests/UtilsLocalUserStub.cpp
+        tests/UserSettingsModelStartupStub.cpp
+        src/settings/ui/UserSettingsModel.h
+        tests/LoggingStub.cpp
+        src/profile/Paths.cpp
+        src/events/EventAccessors.cpp
+        src/settings/ui/facade/UserSettingsPage.cpp
+        src/settings/ui/facade/UserSettingsGettersUi.cpp
+        src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp
+        src/settings/ui/facade/UserSettingsGettersLayout.cpp
+        src/settings/ui/facade/UserSettingsGettersCalls.cpp
+        src/settings/ui/facade/UserSettingsGettersEncryption.cpp
+        src/settings/ui/facade/UserSettingsGettersMisc.cpp
+        src/settings/ui/facade/UserSettingsSessionSettings.cpp
+        src/settings/ui/facade/UserSettingsSettersCore.cpp
+        src/settings/ui/facade/UserSettingsSettersLayout.cpp
+        src/settings/ui/facade/UserSettingsSettersUi.cpp
+        src/settings/ui/facade/UserSettingsSettersMisc.cpp
+        src/settings/ui/facade/UserSettingsCoreStoreBridge.cpp
+        src/settings/ui/facade/UserSettingsTheme.cpp
+        src/ui/Theme.cpp
+        src/ui/ThemeRegistry.cpp
+        src/settings/StartupSettings.cpp
+        src/settings/SettingsController.cpp
+        src/settings/SettingsControllerLoad.cpp
+        src/settings/SettingsControllerSave.cpp
+        src/settings/SettingsMigrations.cpp
+        src/settings/SettingsPersistence.cpp
+        src/settings/SettingsPersistenceLoad.cpp
+        src/settings/SettingsPersistenceSave.cpp
+        src/settings/SettingsSerializerConfig.cpp
+        src/settings/SettingsSerializerConfigLoad.cpp
+        src/settings/SettingsSerializerConfigSave.cpp
+        src/settings/SettingsSerializerConfigConverters.cpp
+        src/settings/SettingsSerializerConfigEnumTokenAdapters.cpp
+        src/settings/SettingsSerializerConfigSchema.cpp
+        src/settings/SettingsSerializerConfigSchemaValidation.cpp
+        src/settings/SettingsSerializerSession.cpp
+        src/settings/SettingsSerializerState.cpp
+        src/settings/SettingsStorage.cpp
+        src/settings/SettingsStoragePathApi.cpp
+        src/settings/SettingsStorageReaderWriterFilesystem.cpp
+        src/settings/SettingsStorageReaderWriterInMemory.cpp
+        src/settings/SettingsStorageSecureBackend.cpp
+        src/settings/SettingsStorageSecretsCodec.cpp
+        src/settings/core/StartupConfig.cpp
+        src/settings/core/SettingsSerializer.cpp
+        src/settings/core/SettingsStore.cpp
+        src/emoji/Provider.cpp
+        src/matrix/MatrixClient.cpp
+        src/cache/core/Cache.cpp
+        src/cache/core/CacheCoreStorage.cpp
+        src/cache/core/CacheCoreRuntime.cpp
+        src/cache/setup/CacheSetup.cpp
+        src/cache/lifecycle/CacheLifecycleRooms.cpp
+        src/cache/lifecycle/CacheLifecycleMigrations.cpp
+        src/cache/timeline/CacheTimelineRead.cpp
+        src/cache/crypto/CacheCryptoSecretsStore.cpp
+        src/cache/api/CacheApiLoggers.cpp
+        ${THEME_DEFINITIONS_H}
+    )
+    target_include_directories(komai_matrix_store_test PRIVATE
+        src
+        ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    target_link_libraries(komai_matrix_store_test PRIVATE
+        komai_db
+        Qt::Core
+        Qt::Qml
+        Qt::Gui
+        Qt::Widgets
+        Qt::Quick
+        ${YAMLCPP_TARGET_NAME}
+    )
+    target_link_libraries(komai_matrix_store_test PRIVATE
+        MatrixClient::MatrixClient
+        qt6keychain
+        spdlog::spdlog
+        fmt::fmt
+    )
+    set_target_properties(komai_matrix_store_test PROPERTIES AUTOMOC ON)
+    add_test(NAME komai_matrix_store_test COMMAND komai_matrix_store_test)
+    komai_configure_test(komai_matrix_store_test "integration;cache")
+
     add_executable(komai_formatted_code_block_highlighter_test
         tests/FormattedCodeBlockHighlighterTest.cpp
         src/timeline/FormattedCodeBlockHighlighter.cpp
@@ -1643,6 +1732,7 @@ if(BUILD_TESTING)
         komai_setting_input_validation_test
         komai_settings_serializer_core_test
         komai_db_backend_test
+        komai_matrix_store_test
         komai_formatted_code_block_highlighter_test
         komai_formatted_message_html_processor_test
         komai_raw_json_formatter_test

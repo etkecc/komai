@@ -466,7 +466,7 @@ Item {
                         Layout.rightMargin: Komai.paddingMedium
                         Layout.topMargin: 2
                         Layout.bottomMargin: Komai.paddingMedium
-                        text: qsTr("To purge: log out &amp; log back in. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/storage.md#database-compaction\">Compaction</a> is also supported via CLI.")
+                        text: qsTr("To purge: log out &amp; log back in. <a href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/storage.md#database-compaction\">Compaction</a> can be done via CLI.")
                         textColor: Komai.theme.attention
                     }
                 }

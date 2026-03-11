@@ -27,6 +27,8 @@ Item {
 
             property var profile: Komai.currentUser
             property string currentDeviceName: ""
+            property int otherDevicesCount: 0
+            property bool otherDevicesExpanded: false
 
             function lookupCurrentDeviceName() {
                 if (!profile || !profile.deviceList)
@@ -42,12 +44,39 @@ Item {
                 }
             }
 
-            Component.onCompleted: Komai.updateUserProfile()
+            function updateOtherDevicesCount() {
+                if (!profile || !profile.deviceList) {
+                    otherDevicesCount = 0;
+                    otherDevicesExpanded = false;
+                    return;
+                }
+
+                var roleDeviceId = 0; // DeviceInfoModel::DeviceId
+                var count = 0;
+                for (var i = 0; i < profile.deviceList.rowCount(); i++) {
+                    var idx = profile.deviceList.index(i, 0);
+                    if (profile.deviceList.data(idx, roleDeviceId) !== Settings.deviceId)
+                        count++;
+                }
+
+                otherDevicesCount = count;
+                if (count === 0)
+                    otherDevicesExpanded = false;
+            }
+
+            Component.onCompleted: {
+                Komai.updateUserProfile();
+                accountView.updateOtherDevicesCount();
+            }
 
             Connections {
                 target: Komai
                 function onProfileChanged() {
                     accountView.profile = Komai.currentUser;
+                    accountView.currentDeviceName = "";
+                    accountView.otherDevicesExpanded = false;
+                    accountView.lookupCurrentDeviceName();
+                    accountView.updateOtherDevicesCount();
                 }
             }
 
@@ -55,6 +84,7 @@ Item {
                 target: accountView.profile ? accountView.profile : null
                 function onDevicesChanged() {
                     accountView.lookupCurrentDeviceName();
+                    accountView.updateOtherDevicesCount();
                 }
             }
 
@@ -640,7 +670,7 @@ Item {
                                     Layout.leftMargin: Komai.paddingMedium
                                     Layout.rightMargin: Komai.paddingMedium
                                     Layout.bottomMargin: Komai.paddingMedium
-                                    text: qsTr("Your access token gives full access to your account. Do not share it with anyone.")
+                                    text: qsTr("Your access token gives full access to your account. Keep it private!")
                                     color: Komai.theme.attention
                                     font.pointSize: Settings.uiFontSizePt
                                     wrapMode: Text.Wrap
@@ -655,13 +685,36 @@ Item {
 
                     // ── Other devices (sessions) section ─────────────────────────
 
-                    // Other devices section heading with Refresh button
-                    ColumnLayout {
+                    RowLayout {
                         Layout.fillWidth: true
                         Layout.topMargin: Komai.paddingLarge
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
+                        visible: accountView.otherDevicesCount > 0
+
+                        Item { Layout.fillWidth: true }
+
+                        Components.KomaiButton {
+                            text: accountView.otherDevicesExpanded
+                                ? qsTr("Hide other devices")
+                                : qsTr("Show all (%1) devices").arg(accountView.otherDevicesCount)
+                            icon.source: accountView.otherDevicesExpanded
+                                ? "qrc:/icons/icons/ui/chevron-circle-up.svg"
+                                : "qrc:/icons/icons/ui/chevron-circle-down.svg"
+                            onClicked: accountView.otherDevicesExpanded = !accountView.otherDevicesExpanded
+                        }
+
+                        Item { Layout.fillWidth: true }
+                    }
+
+                    // Other devices section heading with Refresh button
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.topMargin: Komai.paddingMedium
+                        Layout.leftMargin: scrollContent.sideMargin
+                        Layout.rightMargin: scrollContent.sideMargin
                         spacing: Komai.paddingSmall
+                        visible: accountView.otherDevicesExpanded
 
                         RowLayout {
                             Layout.fillWidth: true
@@ -718,8 +771,8 @@ Item {
                     UI.Spinner {
                         Layout.alignment: Qt.AlignHCenter
                         Layout.topMargin: Komai.paddingMedium
-                        running: accountView.profile && accountView.profile.isLoading
-                        visible: accountView.profile && accountView.profile.isLoading
+                        running: accountView.otherDevicesExpanded && accountView.profile && accountView.profile.isLoading
+                        visible: accountView.otherDevicesExpanded && accountView.profile && accountView.profile.isLoading
                         foreground: palette.mid
                     }
 
@@ -737,7 +790,7 @@ Item {
                             required property var lastTs
 
                             // Skip current device
-                            visible: deviceId !== Settings.deviceId
+                            visible: accountView.otherDevicesExpanded && deviceId !== Settings.deviceId
                             Layout.fillWidth: true
                             Layout.leftMargin: scrollContent.sideMargin
                             Layout.rightMargin: scrollContent.sideMargin

@@ -15,6 +15,10 @@
 #include <QEventLoop>
 #include <QTimer>
 
+#include <mtx/events/messages/text.hpp>
+#include <mtx/events/power_levels.hpp>
+#include <mtx/events/spaces.hpp>
+#include <mtx/responses/common.hpp>
 #include <nlohmann/json.hpp>
 
 #define private public
@@ -26,6 +30,7 @@
 #include "db/Catalog.h"
 #include "db/ReadReceiptIndex.h"
 #include "db/Scan.h"
+#include "db/TimelineIndex.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/ThemeRegistry.h"
 #include "TestEnvironment.h"
@@ -86,6 +91,73 @@ serializeReceipt(std::string_view eventId, std::uint64_t timestamp, std::uint64_
     value["timestamp"]   = timestamp;
     value["event_index"] = eventIndex;
     return value.dump();
+}
+
+mtx::events::RoomEvent<mtx::events::msg::Text>
+makeTextEvent(const std::string &roomId,
+              const std::string &eventId,
+              const std::string &body,
+              std::initializer_list<std::string_view> relationTargets = {})
+{
+    mtx::events::RoomEvent<mtx::events::msg::Text> event;
+    event.type             = mtx::events::EventType::RoomMessage;
+    event.sender           = "@tester:example.org";
+    event.room_id          = roomId;
+    event.event_id         = eventId;
+    event.origin_server_ts = 1;
+    event.content.body     = body;
+    event.content.msgtype  = "m.text";
+
+    for (const auto &target : relationTargets) {
+        event.content.relations.relations.push_back(mtx::common::Relation{
+          .rel_type = mtx::common::RelationType::Reference,
+          .event_id = std::string(target),
+        });
+    }
+
+    return event;
+}
+
+mtx::events::StateEvent<mtx::events::state::PowerLevels>
+makePowerLevelsEvent(const std::string &roomId, const std::string &eventId)
+{
+    mtx::events::StateEvent<mtx::events::state::PowerLevels> event;
+    event.type             = mtx::events::EventType::RoomPowerLevels;
+    event.sender           = "@tester:example.org";
+    event.room_id          = roomId;
+    event.event_id         = eventId;
+    event.origin_server_ts = 1;
+    event.state_key        = "";
+    event.content.users[event.sender] = mtx::events::state::Admin;
+    return event;
+}
+
+mtx::events::StateEvent<mtx::events::state::space::Parent>
+makeParentEvent(const std::string &roomId, const std::string &eventId, const std::string &parentSpaceId)
+{
+    mtx::events::StateEvent<mtx::events::state::space::Parent> event;
+    event.type             = mtx::events::EventType::SpaceParent;
+    event.sender           = "@tester:example.org";
+    event.room_id          = roomId;
+    event.event_id         = eventId;
+    event.origin_server_ts = 1;
+    event.state_key        = parentSpaceId;
+    event.content.via      = std::vector<std::string>{"example.org"};
+    return event;
+}
+
+mtx::events::StateEvent<mtx::events::state::space::Child>
+makeChildEvent(const std::string &spaceId, const std::string &eventId, const std::string &childRoomId)
+{
+    mtx::events::StateEvent<mtx::events::state::space::Child> event;
+    event.type             = mtx::events::EventType::SpaceChild;
+    event.sender           = "@tester:example.org";
+    event.room_id          = spaceId;
+    event.event_id         = eventId;
+    event.origin_server_ts = 1;
+    event.state_key        = childRoomId;
+    event.content.via      = std::vector<std::string>{"example.org"};
+    return event;
 }
 
 std::unique_ptr<MatrixStore>
@@ -328,6 +400,200 @@ testReadReceiptsAdvanceAsCurrentState(MatrixStore &store)
     return ok;
 }
 
+bool
+testLimitedSyncCleanupPreservesCurrentStatePayloads(MatrixStore &store)
+{
+    const std::string roomId             = "!limited:example.org";
+    const std::string powerLevelsEventId = "$power-levels";
+    const std::string parentEventId      = "$parent";
+    const std::string parentSpaceId      = "!space:example.org";
+    const std::string oldEventId         = "$old";
+    const std::string oldRelatedEventId  = "$old-related";
+    const std::string oldTargetEventId   = "$old-target";
+    const std::string newEventId         = "$new";
+
+    {
+        auto txn          = store.beginTxn();
+        auto eventsDb     = store.getEventsDb(txn, roomId);
+        auto relationsDb  = store.getRelationsDb(txn, roomId);
+        auto orderDb      = store.getEventOrderDb(txn, roomId);
+        auto evToOrderDb  = store.getEventToOrderDb(txn, roomId);
+        auto msg2orderDb  = store.getMessageToOrderDb(txn, roomId);
+        auto order2msgDb  = store.getOrderToMessageDb(txn, roomId);
+        auto pendingDb    = store.getPendingMessagesDb(txn, roomId);
+        auto statesDb     = store.getStatesDb(txn, roomId);
+        auto statesKeyDb  = store.getStatesKeyDb(txn, roomId);
+        auto membersDb    = store.getMembersDb(txn, roomId);
+        auto powerLevels  = makePowerLevelsEvent(roomId, powerLevelsEventId);
+        auto parentEvent  = makeParentEvent(roomId, parentEventId, parentSpaceId);
+        auto oldEvent     = makeTextEvent(roomId, oldEventId, "old timeline event");
+        const std::string relationTarget = oldTargetEventId;
+        auto oldRelated =
+          makeTextEvent(roomId, oldRelatedEventId, "old related event", {relationTarget});
+
+        cache::codec::putRoomInfo(txn, store.db->rooms, roomId, RoomInfo{});
+        store.saveStateEvent(txn,
+                             statesDb,
+                             statesKeyDb,
+                             membersDb,
+                             eventsDb,
+                             roomId,
+                             mtx::events::collections::StateEvents{powerLevels});
+        store.saveStateEvent(txn,
+                             statesDb,
+                             statesKeyDb,
+                             membersDb,
+                             eventsDb,
+                             roomId,
+                             mtx::events::collections::StateEvents{parentEvent});
+
+        std::uint64_t eventIndex   = 10;
+        std::uint64_t messageIndex = 10;
+        db::appendEventOrderEntry(
+          txn, orderDb, evToOrderDb, eventIndex, oldEventId, db::serializeOrderEntry(oldEventId));
+        db::appendMessageOrderEntry(txn, order2msgDb, msg2orderDb, messageIndex, oldEventId);
+        db::appendEventOrderEntry(txn,
+                                  orderDb,
+                                  evToOrderDb,
+                                  eventIndex,
+                                  oldRelatedEventId,
+                                  db::serializeOrderEntry(oldRelatedEventId));
+        db::appendMessageOrderEntry(txn, order2msgDb, msg2orderDb, messageIndex, oldRelatedEventId);
+
+        eventsDb.put(txn, oldEventId, nlohmann::json(oldEvent).dump());
+        eventsDb.put(txn, oldRelatedEventId, nlohmann::json(oldRelated).dump());
+        relationsDb.put(txn, relationTarget, oldRelatedEventId);
+        pendingDb.put(txn, "1", "txn-old");
+
+        txn.commit();
+    }
+
+    mtx::responses::Timeline limited;
+    limited.limited    = true;
+    limited.prev_batch = "fresh-batch";
+    limited.events.push_back(
+      mtx::events::collections::TimelineEvents{makeTextEvent(roomId, newEventId, "new event")});
+
+    {
+        auto txn      = store.beginTxn();
+        auto eventsDb = store.getEventsDb(txn, roomId);
+        store.saveTimelineMessages(txn, eventsDb, roomId, limited);
+        txn.commit();
+    }
+
+    bool ok = true;
+    auto txn = store.beginTxn(nullptr, db::TransactionFlags::ReadOnly);
+
+    auto eventsDb    = store.getEventsDb(txn, roomId);
+    auto relationsDb = store.getRelationsDb(txn, roomId);
+    auto orderDb     = store.getEventOrderDb(txn, roomId);
+    auto pendingDb   = store.getPendingMessagesDb(txn, roomId);
+
+    std::string_view raw;
+    ok &= expect(eventsDb.get(txn, powerLevelsEventId, raw),
+                 "limited sync preserves empty-state-key event payloads in eventsDb");
+    ok &= expect(eventsDb.get(txn, parentEventId, raw),
+                 "limited sync preserves keyed state event payloads in eventsDb");
+    ok &= expect(!eventsDb.get(txn, oldEventId, raw),
+                 "limited sync deletes stale non-state event payloads");
+    ok &= expect(!eventsDb.get(txn, oldRelatedEventId, raw),
+                 "limited sync deletes stale related-event payloads");
+    ok &= expect(eventsDb.get(txn, newEventId, raw),
+                 "limited sync stores the new timeline event payload");
+
+    ok &= expect(db::listOrderEntryEventIds(txn, orderDb) == std::vector<std::string>{newEventId},
+                 "limited sync rebuilds the timeline order index from the new batch only");
+    ok &= expect(db::listDupValues(txn, relationsDb, oldTargetEventId).empty(),
+                 "limited sync clears stale relation rows");
+    ok &= expect(pendingDb.size(txn) == 0,
+                 "limited sync clears stale pending-event entries");
+
+    const auto powerLevels = store.getStateEvent<mtx::events::state::PowerLevels>(txn, roomId, "");
+    ok &= expect(powerLevels && powerLevels->event_id == powerLevelsEventId,
+                 "limited sync keeps current power-level state readable");
+
+    const auto parentEvent =
+      store.getStateEvent<mtx::events::state::space::Parent>(txn, roomId, parentSpaceId);
+    ok &= expect(parentEvent && parentEvent->event_id == parentEventId,
+                 "limited sync keeps keyed state readable through states_key indexes");
+
+    return ok;
+}
+
+bool
+testSpaceEdgesRebuildAcrossRoomAndSpaceRefreshes(MatrixStore &store)
+{
+    const std::string roomId        = "!space-room:example.org";
+    const std::string spaceAId      = "!space-a:example.org";
+    const std::string spaceBId      = "!space-b:example.org";
+    const auto hasParent            = [&store, &roomId](std::string_view parentSpaceId) {
+        const auto parents = store.getParentRoomIds(roomId);
+        return containsName(parents, parentSpaceId);
+    };
+    const auto hasChild             = [&store, &roomId](const std::string &spaceId) {
+        const auto children = store.getChildRoomIds(spaceId);
+        return containsName(children, roomId);
+    };
+
+    mtx::responses::StateEvents state;
+
+    state.events = {
+      mtx::events::collections::StateEvents{makePowerLevelsEvent(spaceAId, "$space-a-pl")},
+      mtx::events::collections::StateEvents{makeChildEvent(spaceAId, "$space-a-child", roomId)},
+    };
+    store.updateState(spaceAId, state, true);
+
+    state.events = {
+      mtx::events::collections::StateEvents{makePowerLevelsEvent(spaceBId, "$space-b-pl")},
+    };
+    store.updateState(spaceBId, state, true);
+
+    state.events = {
+      mtx::events::collections::StateEvents{makeParentEvent(roomId, "$room-parent-a", spaceAId)},
+    };
+    store.updateState(roomId, state, true);
+
+    bool ok = true;
+    ok &= expect(hasParent(spaceAId), "room update adds the authorized parent edge");
+    ok &= expect(hasChild(spaceAId), "space child state adds the reverse child edge");
+
+    state.events.clear();
+    store.updateState(roomId, state, true);
+
+    ok &= expect(hasParent(spaceAId),
+                 "room wipe keeps the edge when a valid child link from the parent space remains");
+    ok &= expect(hasChild(spaceAId),
+                 "room wipe does not remove the reverse child edge that still comes from m.space.child");
+
+    state.events = {
+      mtx::events::collections::StateEvents{makeParentEvent(roomId, "$room-parent-b", spaceBId)},
+    };
+    store.updateState(roomId, state, true);
+
+    ok &= expect(hasParent(spaceAId),
+                 "reparenting keeps the existing child-derived edge until the parent space drops it");
+    ok &= expect(hasParent(spaceBId),
+                 "reparenting adds the newly authorized room-parent edge");
+    ok &= expect(hasChild(spaceBId),
+                 "reparenting updates the reverse child edge for the new parent space");
+
+    state.events = {
+      mtx::events::collections::StateEvents{makePowerLevelsEvent(spaceAId, "$space-a-pl-2")},
+    };
+    store.updateState(spaceAId, state, true);
+
+    ok &= expect(!hasParent(spaceAId),
+                 "space refresh removes the stale old parent edge once the child link is gone");
+    ok &= expect(!hasChild(spaceAId),
+                 "space refresh removes the reverse child edge once the child state is gone");
+    ok &= expect(hasParent(spaceBId),
+                 "space refresh leaves the new parent edge intact");
+    ok &= expect(hasChild(spaceBId),
+                 "space refresh leaves the new reverse child edge intact");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -360,5 +626,7 @@ main(int argc, char **argv)
     ok &= testIncompatibleCacheResetReopensCoreStores(*store);
     ok &= testRoomRemovalDropsRoomScopedCache(*store);
     ok &= testReadReceiptsAdvanceAsCurrentState(*store);
+    ok &= testLimitedSyncCleanupPreservesCurrentStatePayloads(*store);
+    ok &= testSpaceEdgesRebuildAcrossRoomAndSpaceRefreshes(*store);
     return ok ? 0 : 1;
 }

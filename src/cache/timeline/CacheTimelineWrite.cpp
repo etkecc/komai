@@ -12,8 +12,12 @@
 #include <limits>
 #include <nlohmann/json.hpp>
 #include <set>
+#include <unordered_set>
 
 #include "cache/api/CacheApiContext.h"
+#include "db/Catalog.h"
+#include "db/Scan.h"
+#include "db/TimelineIndex.h"
 
 template<typename RelationCollection>
 std::vector<std::string_view>
@@ -26,6 +30,64 @@ relationTargetEventIds(const RelationCollection &relations)
             targets.emplace_back(relation.event_id);
     }
     return targets;
+}
+
+std::unordered_set<std::string>
+currentStateEventIds(db::Transaction &txn, db::Store &statesDb, db::Store &statesKeyDb)
+{
+    std::unordered_set<std::string> eventIds;
+
+    db::forEachEntry(
+      txn, statesDb, [&eventIds](std::string_view /*eventType*/, std::string_view stateEventJson) {
+          try {
+              const auto event = nlohmann::json::parse(stateEventJson);
+              if (const auto eventId = event.value("event_id", std::string{}); !eventId.empty())
+                  eventIds.insert(eventId);
+          } catch (const std::exception &e) {
+              cache::activeLoggers().db->warn(
+                "Failed to parse current state event during limited-sync cleanup: {}", e.what());
+          }
+
+          return true;
+      });
+
+    db::forEachEntry(
+      txn, statesKeyDb, [&eventIds](std::string_view /*eventType*/, std::string_view indexValue) {
+          const auto eventId = db::catalog::splitStateEventIndexValue(indexValue).second;
+          if (!eventId.empty())
+              eventIds.emplace(eventId);
+          return true;
+      });
+
+    return eventIds;
+}
+
+void
+cleanupLimitedTimeline(db::Transaction &txn,
+                       db::Store &eventsDb,
+                       db::Store &relationsDb,
+                       db::Store &eventOrderDb,
+                       db::Store &eventToOrderDb,
+                       db::Store &messageToOrderDb,
+                       db::Store &orderToMessageDb,
+                       db::Store &pendingDb,
+                       db::Store &statesDb,
+                       db::Store &statesKeyDb)
+{
+    const auto protectedEventIds     = currentStateEventIds(txn, statesDb, statesKeyDb);
+    const auto staleTimelineEventIds = db::listOrderEntryEventIds(txn, eventOrderDb);
+
+    eventOrderDb.drop(txn, false);
+    eventToOrderDb.drop(txn, false);
+    messageToOrderDb.drop(txn, false);
+    orderToMessageDb.drop(txn, false);
+    relationsDb.drop(txn, false);
+    pendingDb.drop(txn, false);
+
+    for (const auto &eventId : staleTimelineEventIds) {
+        if (!protectedEventIds.contains(eventId))
+            eventsDb.del(txn, eventId);
+    }
 }
 
 void
@@ -67,11 +129,18 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
     auto pending     = getPendingMessagesDb(txn, room_id);
 
     if (res.limited) {
-        orderDb.drop(txn, false);
-        evToOrderDb.drop(txn, false);
-        msg2orderDb.drop(txn, false);
-        order2msgDb.drop(txn, false);
-        pending.drop(txn, true);
+        auto statesDb    = getStatesDb(txn, room_id);
+        auto statesKeyDb = getStatesKeyDb(txn, room_id);
+        cleanupLimitedTimeline(txn,
+                               eventsDb,
+                               relationsDb,
+                               orderDb,
+                               evToOrderDb,
+                               msg2orderDb,
+                               order2msgDb,
+                               pending,
+                               statesDb,
+                               statesKeyDb);
     }
 
     using namespace mtx::events;

@@ -4,12 +4,51 @@
 
 #include "cache/core/Cache_p.h"
 
-#include "db/Scan.h"
-
 std::optional<mtx::events::collections::RoomAccountDataEvents>
 MatrixStore::getAccountData(db::Transaction &, mtx::events::EventType, const std::string &)
 {
     return std::nullopt;
+}
+
+QString
+MatrixStore::getRoomName(db::Transaction &, db::Store &, db::Store &)
+{
+    return {};
+}
+
+QString
+MatrixStore::getRoomTopic(db::Transaction &, db::Store &)
+{
+    return {};
+}
+
+QString
+MatrixStore::getRoomAvatarUrl(db::Transaction &, db::Store &, db::Store &)
+{
+    return {};
+}
+
+QString
+MatrixStore::getRoomVersion(db::Transaction &, db::Store &)
+{
+    return {};
+}
+
+bool
+MatrixStore::getRoomIsSpace(db::Transaction &, db::Store &)
+{
+    return false;
+}
+
+bool
+MatrixStore::getRoomIsTombstoned(db::Transaction &, db::Store &)
+{
+    return false;
+}
+
+void
+MatrixStore::setEncryptedRoom(db::Transaction &, const std::string &)
+{
 }
 
 std::optional<std::string>
@@ -47,15 +86,4 @@ MatrixStore::markUserKeysOutOfDate(db::Transaction &,
                                    const std::vector<std::string> &,
                                    const std::string &)
 {
-}
-
-std::vector<std::string>
-MatrixStore::getRoomIds(db::Transaction &txn)
-{
-    std::vector<std::string> rooms;
-    db::forEachUniqueKey(txn, db->rooms, [&rooms](std::string_view roomId) {
-        rooms.emplace_back(roomId);
-        return true;
-    });
-    return rooms;
 }

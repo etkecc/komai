@@ -70,7 +70,12 @@ size_t
 MatrixStore::memberCount(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
-    return getMembersDb(txn, room_id).size(txn);
+    try {
+        return getMembersDb(txn, room_id).size(txn);
+    } catch (const db::Error &) {
+        // Invite-only rooms have no members store; the read-only txn cannot create it.
+        return 0;
+    }
 }
 
 std::vector<std::string>

@@ -42,7 +42,7 @@ MatrixStore::replaceEvent(const std::string &room_id,
         eventsDb.put(txn, event_id, event_json);
         const auto relationTargets =
           relationTargetEventIds(mtx::accessors::relations(event).relations);
-        db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
+        db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
     }
 
     txn.commit();
@@ -101,7 +101,8 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
           event_id_val,
           first && !res.prev_batch.empty() ? std::optional<std::string_view>(res.prev_batch)
                                            : std::nullopt);
-        const auto eventJson = event.dump();
+        const auto eventJson       = event.dump();
+        const auto relationTargets = relationTargetEventIds(mtx::accessors::relations(e).relations);
 
         if (!txn_id.empty() && db::replaceTimelineEventId(txn,
                                                           eventsDb,
@@ -113,9 +114,8 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
                                                           event_id,
                                                           eventJson,
                                                           orderEntry)) {
-            auto relations             = mtx::accessors::relations(e);
-            const auto relationTargets = relationTargetEventIds(relations.relations);
-            db::replaceDupValueForKeys(txn, relationsDb, relationTargets, txn_id, event_id);
+            db::removeRelationSourceReferences(txn, relationsDb, txn_id);
+            db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
 
             db::removePendingEntriesByTxnId(txn, pending, txn_id);
         } else if (auto redaction =
@@ -185,7 +185,8 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
             // is already in the DB, we skip putting it (again) in ordered DBs, and only
             // update the event itself and its relations.
             std::string_view unused_read;
-            if (!evToOrderDb.get(txn, event_id, unused_read)) {
+            const bool hasExistingEvent = evToOrderDb.get(txn, event_id, unused_read);
+            if (!hasExistingEvent) {
                 first = false;
                 cache::activeLoggers().db->debug("saving '{}'", orderEntry);
 
@@ -199,10 +200,11 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
                 cache::activeLoggers().db->warn("duplicate event '{}'", orderEntry);
             }
             eventsDb.put(txn, event_id, eventJson);
-
-            auto relations             = mtx::accessors::relations(e);
-            const auto relationTargets = relationTargetEventIds(relations.relations);
-            db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
+            if (hasExistingEvent) {
+                db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
+            } else {
+                db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
+            }
         }
     }
 }

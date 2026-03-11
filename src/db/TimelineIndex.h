@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <functional>
 #include <optional>
+#include <span>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -152,6 +153,17 @@ setOrderEntryPrevBatch(Transaction &txn,
 
 std::size_t
 removePendingEntriesByTxnId(Transaction &txn, Store &pendingDb, std::string_view txnId);
+
+std::size_t
+removeRelationSourceReferences(Transaction &txn,
+                               Store &relationsDb,
+                               std::string_view sourceEventId);
+
+std::size_t
+rewriteRelationSourceReferences(Transaction &txn,
+                                Store &relationsDb,
+                                std::string_view sourceEventId,
+                                std::span<const std::string_view> targetEventIds);
 
 std::vector<std::pair<std::string, std::string>>
 listOrderEntriesAfterPrevBatchMarker(Transaction &txn, Store &eventOrderDb);

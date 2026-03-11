@@ -48,12 +48,20 @@ MatrixStore::saveOldMessages(const std::string &room_id, const mtx::responses::M
         auto event                = mtx::accessors::serialize_event(e);
         event_id_val              = event["event_id"].get<std::string>();
         std::string_view event_id = event_id_val;
+        std::vector<std::string_view> relationTargets;
+        const auto relations = mtx::accessors::relations(e);
+        relationTargets.reserve(relations.relations.size());
+        for (const auto &relation : relations.relations) {
+            if (!relation.event_id.empty())
+                relationTargets.emplace_back(relation.event_id);
+        }
 
         // This check protects against duplicates in the timeline. If the event_id is
         // already in the DB, we skip putting it (again) in ordered DBs, and only update the
         // event itself and its relations.
         std::string_view unused_read;
-        if (!evToOrderDb.get(txn, event_id, unused_read)) {
+        const bool hasExistingEvent = evToOrderDb.get(txn, event_id, unused_read);
+        if (!hasExistingEvent) {
             db::prependEventOrderEntry(
               txn, orderDb, evToOrderDb, index, event_id, db::serializeOrderEntry(event_id));
 
@@ -63,15 +71,11 @@ MatrixStore::saveOldMessages(const std::string &room_id, const mtx::responses::M
             }
         }
         eventsDb.put(txn, event_id, event.dump());
-
-        auto relations = mtx::accessors::relations(e);
-        std::vector<std::string_view> relationTargets;
-        relationTargets.reserve(relations.relations.size());
-        for (const auto &relation : relations.relations) {
-            if (!relation.event_id.empty())
-                relationTargets.emplace_back(relation.event_id);
+        if (hasExistingEvent) {
+            db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
+        } else {
+            db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
         }
-        db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
     }
 
     if (!event_id_val.empty()) {

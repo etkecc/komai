@@ -5,6 +5,7 @@
 
 #include "db/TimelineIndex.h"
 
+#include "db/DupIndex.h"
 #include <unordered_set>
 
 #include "db/DbTypes.h"
@@ -38,6 +39,34 @@ removeMessageOrderMappingsNotInOrderEntries(Txn &txn,
         removeMessageOrderMapping(txn, messageToOrderDb, orderToMessageDb, eventId);
 
     return staleEventIds.size();
+}
+
+std::size_t
+removeRelationSourceReferences(Txn &txn, Store &relationsDb, std::string_view sourceEventId)
+{
+    if (sourceEventId.empty())
+        return 0;
+
+    return eraseEntriesIf(
+      txn,
+      relationsDb,
+      [sourceEventId](std::string_view /*targetEventId*/, std::string_view relatedEventId) {
+          return relatedEventId == sourceEventId;
+      });
+}
+
+std::size_t
+rewriteRelationSourceReferences(Txn &txn,
+                                Store &relationsDb,
+                                std::string_view sourceEventId,
+                                std::span<const std::string_view> targetEventIds)
+{
+    if (sourceEventId.empty())
+        return 0;
+
+    const auto removed = removeRelationSourceReferences(txn, relationsDb, sourceEventId);
+    const auto written = putDupValueForKeys(txn, relationsDb, targetEventIds, sourceEventId);
+    return removed + written;
 }
 
 void
@@ -183,6 +212,7 @@ removeTimelineEventReferences(Txn &txn,
 {
     eventToOrderDb.del(txn, eventId);
     eventsDb.del(txn, eventId);
+    removeRelationSourceReferences(txn, relationsDb, eventId);
     relationsDb.del(txn, eventId);
     removeMessageOrderMapping(txn, messageToOrderDb, orderToMessageDb, eventId);
 }

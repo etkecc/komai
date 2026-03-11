@@ -1711,6 +1711,10 @@ testTimelineIndexHelper()
                      "timeline index helper setup writes relation key mapping #2");
         ok &= expect(relationsDb.put(txn, "$other", "$event"),
                      "timeline index helper setup writes non-target relation mapping");
+        ok &= expect(relationsDb.put(txn, "$rewrite-a", "$rewrite-source"),
+                     "timeline index helper setup writes relation rewrite source mapping #1");
+        ok &= expect(relationsDb.put(txn, "$rewrite-b", "$rewrite-source"),
+                     "timeline index helper setup writes relation rewrite source mapping #2");
         ok &= expect(eventToOrderDb.put(txn, "$event", integerKey(42)),
                      "timeline index helper setup writes event_to_order mapping");
 
@@ -1816,6 +1820,20 @@ testTimelineIndexHelper()
         ok &= expect(remappedOrderEntry.eventId.has_value() &&
                        remappedOrderEntry.eventId.value_or("") == "$event-remapped",
                      "timeline index helper replaceTimelineEventId stores remapped order-entry event id");
+
+        const std::vector<std::string_view> rewrittenTargets{"$rewrite-b", "$rewrite-c"};
+        ok &= expect(db::rewriteRelationSourceReferences(
+                       txn, relationsDb, "$rewrite-source", rewrittenTargets)
+                       == 4,
+                     "timeline index helper rewriteRelationSourceReferences rewrites source-side relation targets");
+        ok &= expect(db::listDupValues(txn, relationsDb, "$rewrite-a").empty(),
+                     "timeline index helper rewriteRelationSourceReferences removes stale relation target");
+        const auto rewriteBValues = db::listDupValues(txn, relationsDb, "$rewrite-b");
+        ok &= expect(rewriteBValues.size() == 1 && rewriteBValues.front() == "$rewrite-source",
+                     "timeline index helper rewriteRelationSourceReferences preserves retained target");
+        const auto rewriteCValues = db::listDupValues(txn, relationsDb, "$rewrite-c");
+        ok &= expect(rewriteCValues.size() == 1 && rewriteCValues.front() == "$rewrite-source",
+                     "timeline index helper rewriteRelationSourceReferences adds new target");
 
         db::putEventOrderMapping(
           txn, eventOrderDb, eventToOrderDb, 55, "$event-helper", db::serializeOrderEntry("$event-helper"));
@@ -1960,8 +1978,8 @@ testTimelineIndexHelper()
                      "timeline index helper removes relation entries keyed by event id");
 
         const auto unrelatedRelations = db::listDupValues(txn, relationsDb, "$other");
-        ok &= expect(unrelatedRelations.size() == 1 && unrelatedRelations.front() == "$event",
-                     "timeline index helper keeps unrelated relation keys");
+        ok &= expect(unrelatedRelations.empty(),
+                     "timeline index helper removes stale relation values where event is the source");
     }
 
     {
@@ -2277,6 +2295,8 @@ testTimelineIndexHelper()
                      "timeline index helper order cleanup setup writes relation #1");
         ok &= expect(relationsDb.put(txn, "$e2", "$r2"),
                      "timeline index helper order cleanup setup writes relation #2");
+        ok &= expect(relationsDb.put(txn, "$target", "$e2"),
+                     "timeline index helper order cleanup setup writes source-side relation reference");
 
         std::string_view entryTwoValue;
         ok &= expect(eventOrderDb.get(txn, integerKey(2), entryTwoValue),
@@ -2351,6 +2371,8 @@ testTimelineIndexHelper()
         ok &= expect(db::listDupValues(txn, relationsDb, "$e1").empty() &&
                        db::listDupValues(txn, relationsDb, "$e2").empty(),
                      "timeline index helper order cleanup removes relation values for cleaned entries");
+        ok &= expect(db::listDupValues(txn, relationsDb, "$target").empty(),
+                     "timeline index helper order cleanup removes stale source-side relation references");
     }
 
     {
@@ -2447,6 +2469,8 @@ testTimelineIndexHelper()
                          "timeline index helper trim-oldest setup writes event payload");
             ok &= expect(relationsDb.put(txn, eventId, "$rel"),
                          "timeline index helper trim-oldest setup writes relation value");
+            ok &= expect(relationsDb.put(txn, "$trim-shared-target", eventId),
+                         "timeline index helper trim-oldest setup writes source-side relation reference");
         }
 
         const auto removed = db::trimOldestOrderEntriesWithReferences(txn,
@@ -2471,6 +2495,7 @@ testTimelineIndexHelper()
         auto orderToMessageDb =
           db::openStore(*backend, txn, "trim_oldest_o2m", openOptions(db::StoreFlags::IntegerKey));
         auto eventsDb = db::openStore(*backend, txn, "trim_oldest_events");
+        auto relationsDb = db::openStore(*backend, txn, "trim_oldest_relations");
 
         std::string_view value;
         ok &= expect(eventOrderDb.size(txn) == 2,
@@ -2484,6 +2509,10 @@ testTimelineIndexHelper()
                      "timeline index helper trimOldestOrderEntriesWithReferences preserves later order_to_message mapping");
         ok &= expect(!eventsDb.get(txn, "$trim-1", value) && !eventsDb.get(txn, "$trim-2", value),
                      "timeline index helper trimOldestOrderEntriesWithReferences removes early event payloads");
+        const auto remainingTrimRelations = db::listDupValues(txn, relationsDb, "$trim-shared-target");
+        ok &= expect(remainingTrimRelations.size() == 2 && remainingTrimRelations[0] == "$trim-3" &&
+                       remainingTrimRelations[1] == "$trim-4",
+                     "timeline index helper trimOldestOrderEntriesWithReferences removes stale source-side relation references");
     }
 
     {
@@ -2523,6 +2552,8 @@ testTimelineIndexHelper()
                          "timeline index helper clear-before-marker setup writes event payload");
             ok &= expect(relationsDb.put(txn, eventId, "$rel"),
                          "timeline index helper clear-before-marker setup writes relation value");
+            ok &= expect(relationsDb.put(txn, "$marker-shared-target", eventId),
+                         "timeline index helper clear-before-marker setup writes source-side relation reference");
         }
 
         ok &= expect(messageToOrderDb.put(txn, "$stale-marker", integerKey(999)),
@@ -2551,6 +2582,7 @@ testTimelineIndexHelper()
           "clear_before_marker_o2m",
           openOptions(db::StoreFlags::IntegerKey));
         auto eventsDb = db::openStore(*backend, txn, "clear_before_marker_events");
+        auto relationsDb = db::openStore(*backend, txn, "clear_before_marker_relations");
 
         std::string_view value;
         ok &= expect(eventOrderDb.size(txn) == 3,
@@ -2567,6 +2599,13 @@ testTimelineIndexHelper()
         ok &= expect(eventsDb.get(txn, "$marker-3", value) && eventsDb.get(txn, "$marker-4", value) &&
                        eventsDb.get(txn, "$marker-5", value),
                      "timeline index helper cleanupTimelineBeforePrevBatchMarker keeps marker and newer payloads");
+        const auto remainingMarkerRelations =
+          db::listDupValues(txn, relationsDb, "$marker-shared-target");
+        ok &= expect(remainingMarkerRelations.size() == 3 &&
+                       remainingMarkerRelations[0] == "$marker-3" &&
+                       remainingMarkerRelations[1] == "$marker-4" &&
+                       remainingMarkerRelations[2] == "$marker-5",
+                     "timeline index helper cleanupTimelineBeforePrevBatchMarker removes stale source-side relation references");
     }
 
     db::close(backend);

@@ -670,10 +670,11 @@ Item {
                                     Layout.leftMargin: Komai.paddingMedium
                                     Layout.rightMargin: Komai.paddingMedium
                                     Layout.bottomMargin: Komai.paddingMedium
-                                    text: qsTr("Your access token gives full access to your account. Keep it private!")
+                                    text: qsTr("Access tokens grant full account access. Keep private!")
                                     color: Komai.theme.attention
                                     font.pointSize: Settings.uiFontSizePt
-                                    wrapMode: Text.Wrap
+                                    wrapMode: Text.NoWrap
+                                    elide: Text.ElideRight
                                     horizontalAlignment: Text.AlignRight
                                     Layout.alignment: Qt.AlignRight
                                     Layout.preferredWidth: currentDeviceCardContent.controlWidth

@@ -101,7 +101,7 @@
     // PinnedReactions
     SIMPLE_TEXT_CONFIG_ID_SETTING(
       "Pinned reactions",
-      QT_TR_NOOP("Comma-separated list of reactions always shown in the action bar. Remaining slots (up to 8 total) are filled by your recent reactions."),
+      QT_TR_NOOP("Comma-separated list of reactions pinned to the action bar. Remaining slots are filled with your most-used reactions per room."),
       SM::TabTimeline,
       timelineMessageActionsPinnedReactions,
       setTimelineMessageActionsPinnedReactions,

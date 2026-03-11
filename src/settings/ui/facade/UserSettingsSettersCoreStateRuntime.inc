@@ -29,14 +29,6 @@ UserSettings::setHiddenWidgets(const QStringList &hiddenTags)
 }
 
 void
-UserSettings::setRecentReactions(QStringList recent)
-{
-    recentReactions_ = recent;
-    save();
-    emit recentReactionsChanged();
-}
-
-void
 UserSettings::setComposerDraftsByRoom(const QMap<QString, QString> &draftsByRoom)
 {
     composerDraftsByRoom_.clear();

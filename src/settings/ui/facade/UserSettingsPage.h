@@ -251,8 +251,6 @@ class UserSettings final : public QObject
                  setIntegrationsDbusApiAccess NOTIFY integrationsDbusApiAccessChanged)
 
     Q_PROPERTY(QStringList hiddenPins READ hiddenPins WRITE setHiddenPins NOTIFY hiddenPinsChanged)
-    Q_PROPERTY(QStringList recentReactions READ recentReactions WRITE setRecentReactions NOTIFY
-                 recentReactionsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
     Q_PROPERTY(bool privacyMaintenanceExpireEvents READ privacyMaintenanceExpireEvents WRITE
@@ -540,7 +538,6 @@ public:
     void setBadgesHiddenFilters(const QStringList &badgesHiddenFilters);
     void setHiddenPins(const QStringList &hiddenTags);
     void setHiddenWidgets(const QStringList &hiddenTags);
-    void setRecentReactions(QStringList recent);
     void setComposerDraftsByRoom(const QMap<QString, QString> &draftsByRoom);
     void setComposerDraftForRoom(const QString &roomId, const QString &draftText);
     void clearComposerDraftForRoom(const QString &roomId);
@@ -686,7 +683,6 @@ signals:
     void timelineMediaOpenVideosExternalChanged(bool state);
     void hiddenPinsChanged();
     void hiddenWidgetsChanged();
-    void recentReactionsChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
     void privacyMaintenanceExpireEventsChanged(bool state);

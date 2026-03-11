@@ -68,4 +68,6 @@ storeEventExpirationProgress(const std::string &room,
                              const std::string &event_id);
 std::string
 loadEventExpirationProgress(const std::string &room, const std::string &expirationSettings);
+std::vector<std::string>
+topUserReactions(const std::string &room_id, int lookbackDays, int maxResults);
 } // namespace cache

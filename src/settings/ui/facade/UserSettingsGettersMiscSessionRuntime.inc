@@ -53,11 +53,6 @@ UserSettings::hiddenWidgets() const
 {
     return hiddenWidgets_;
 }
-QStringList
-UserSettings::recentReactions() const
-{
-    return recentReactions_;
-}
 const QMap<QString, QString> &
 UserSettings::composerDraftsByRoom() const
 {

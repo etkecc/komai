@@ -6,6 +6,7 @@
 #pragma once
 
 #include <array>
+#include <cstdint>
 #include <optional>
 #include <span>
 
@@ -22,6 +23,10 @@ inline constexpr const char *kDefaultUiThemeSlug                = "komai-light";
 inline constexpr const char *kDefaultCallsAudioRingtone         = "Default";
 inline constexpr const char *kDefaultPinnedReactions            = "👍️,👎️,😀,❤️";
 inline constexpr bool kDefaultUiMotionAnimationsEnabled         = true;
+inline constexpr int kMaxQuickReactionSlots                     = 8;
+inline constexpr int kReactionFrequencyLookbackDays             = 30;
+inline constexpr int kReactionFrequencyCacheDurationMs          = 60'000;
+inline constexpr uint64_t kMaxReactionScanEvents                = 5000;
 inline constexpr bool kDefaultUiInputMode                       = false;
 inline constexpr bool kDefaultCertificateValidationEnabled      = true;
 inline constexpr bool kDefaultNetworkHttp3Enabled               = false;

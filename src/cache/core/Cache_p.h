@@ -211,6 +211,9 @@ public:
     //! Check if we have sent a desktop notification for the given event id.
     bool isNotificationSent(const std::string &event_id);
 
+    std::vector<std::string>
+    topUserReactions(const std::string &room_id, int lookbackDays, int maxResults);
+
     std::optional<mtx::events::collections::TimelineEvents>
     getEvent(const std::string &room_id, std::string_view event_id);
     void storeEvent(const std::string &room_id,

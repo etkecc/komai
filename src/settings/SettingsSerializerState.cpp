@@ -82,7 +82,6 @@ loadState(UserSettings &settings, const YAML::Node &root)
                      QStringList{QStringLiteral("global"), QStringLiteral("tag:m.lowpriority")}));
     settings.setHiddenPins(readStringList(root, SettingKey::TimelinePinsHidden));
     settings.setHiddenWidgets(readStringList(root, SettingKey::TimelineWidgetsHidden));
-    settings.setRecentReactions(readStringList(root, SettingKey::ComposerReactionsRecent));
     settings.setComposerDraftsByRoom(readStringMap(root, SettingKey::ComposerDraftsByRoom));
     settings.setCollapsedSpaces(
       readStringList(root, SettingKey::SidebarsCommunitiesFilteringCollapsedSpaces));
@@ -111,7 +110,6 @@ saveState(const UserSettings &settings, const QString &stateFilePath)
       root, SettingKey::SidebarsCommunitiesFilteringCollapsedSpaces, settings.collapsedSpaces());
     writeStringList(root, SettingKey::TimelinePinsHidden, settings.hiddenPins());
     writeStringList(root, SettingKey::TimelineWidgetsHidden, settings.hiddenWidgets());
-    writeStringList(root, SettingKey::ComposerReactionsRecent, settings.recentReactions());
     writeStringMap(root, SettingKey::ComposerDraftsByRoom, settings.composerDraftsByRoom());
 
     if (writeYamlFile(stateFilePath, root, false)) {

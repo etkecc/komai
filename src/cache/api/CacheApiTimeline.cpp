@@ -120,6 +120,12 @@ isNotificationSent(const std::string &event_id)
     return cacheInstance()->isNotificationSent(event_id);
 }
 
+std::vector<std::string>
+topUserReactions(const std::string &room_id, int lookbackDays, int maxResults)
+{
+    return cacheInstance()->topUserReactions(room_id, lookbackDays, maxResults);
+}
+
 void
 storeEventExpirationProgress(const std::string &room,
                              const std::string &expirationSettings,

@@ -8,12 +8,16 @@
 #include <algorithm>
 #include <utility>
 
+#include <QDateTime>
+
 #include "TimelineViewManager.h"
 #include "cache/Cache.h"
+#include "cache/api/CacheApiTimeline.h"
 #include "chat/ChatPage.h"
 #include "events/EventAccessors.h"
 #include "logging/Logging.h"
 #include "models/ReadReceiptsModel.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/send/TimelineMessageSendPipeline.h"
 #include "utils/Utils.h"
@@ -82,6 +86,7 @@ TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObj
 
     connect(&events, &EventStore::dataChanged, this, [this](int from, int to) {
         relatedEventCacheBuster++;
+        invalidateFrequentReactionsCache();
         nhlog::ui()->debug(
           "data changed {} to {}", events.size() - to - 1, events.size() - from - 1);
         emit dataChanged(index(events.size() - to - 1, 0), index(events.size() - from - 1, 0));
@@ -373,6 +378,38 @@ void
 TimelineModel::cacheMedia(const QString &eventId)
 {
     cacheMedia(eventId, nullptr);
+}
+
+QStringList
+TimelineModel::frequentReactions() const
+{
+    const auto now = QDateTime::currentMSecsSinceEpoch();
+    if (frequentReactionsCache_.has_value() &&
+        (now - frequentReactionsCacheTimestamp_) <
+          settings::core::definitions::kReactionFrequencyCacheDurationMs) {
+        return *frequentReactionsCache_;
+    }
+
+    auto result =
+      cache::topUserReactions(room_id_.toStdString(),
+                              settings::core::definitions::kReactionFrequencyLookbackDays,
+                              settings::core::definitions::kMaxQuickReactionSlots);
+
+    QStringList list;
+    list.reserve(static_cast<int>(result.size()));
+    for (const auto &r : result)
+        list.append(QString::fromStdString(r));
+
+    frequentReactionsCache_          = list;
+    frequentReactionsCacheTimestamp_ = now;
+    return list;
+}
+
+void
+TimelineModel::invalidateFrequentReactionsCache()
+{
+    frequentReactionsCache_.reset();
+    emit frequentReactionsChanged();
 }
 
 #include "moc_TimelineModel.cpp"

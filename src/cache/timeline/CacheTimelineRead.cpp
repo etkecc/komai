@@ -6,9 +6,12 @@
 #include "cache/Cache.h"
 #include "cache/core/Cache_p.h"
 
+#include <algorithm>
 #include <limits>
+#include <unordered_map>
 
 #include "events/EventAccessors.h"
+#include "settings/core/SettingsDefinitions.h"
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
@@ -304,4 +307,95 @@ MatrixStore::getTimelineEventId(const std::string &room_id, uint64_t index)
     }
 
     return room_timeline::timelineEventIdAtIndex(txn, orderDb, room_id, index);
+}
+
+std::vector<std::string>
+MatrixStore::topUserReactions(const std::string &room_id, int lookbackDays, int maxResults)
+{
+    auto txn = ro_txn(storage());
+
+    db::Store eventOrderDb;
+    db::Store eventsDb;
+    try {
+        eventOrderDb = getEventOrderDb(txn, room_id);
+        eventsDb     = getEventsDb(txn, room_id);
+    } catch (const db::Error &e) {
+        cache::activeLoggers().db->error(
+          "Can't open db for room '{}', probably doesn't exist yet. ({})", room_id, e.what());
+        return {};
+    }
+
+    const auto lastOrder = room_timeline::detail::lastOrderedEntry(
+      txn, eventOrderDb, cache::schema::RoomDb::EventOrder, room_id);
+    if (!lastOrder)
+        return {};
+
+    const auto localUser = localUserId_.toStdString();
+    const auto cutoffMs =
+      static_cast<uint64_t>(QDateTime::currentMSecsSinceEpoch() - lookbackDays * 86400000LL);
+
+    std::unordered_map<std::string, int> frequency;
+    uint64_t scanned   = 0;
+    bool reachedCutoff = false;
+
+    room_timeline::detail::forEachOrderedEntryFrom(
+      txn,
+      eventOrderDb,
+      cache::schema::RoomDb::EventOrder,
+      room_id,
+      lastOrder->first,
+      db::ScanDirection::Backward,
+      [&](std::uint64_t /*index*/, std::string_view orderValue) {
+          if (++scanned > settings::core::definitions::kMaxReactionScanEvents) {
+              reachedCutoff = true;
+              return false;
+          }
+
+          const auto entry = db::parseOrderEntry(orderValue);
+          if (!entry.eventId)
+              return true;
+
+          try {
+              const auto event = db::getJsonValue<mtx::events::collections::TimelineEvents>(
+                txn,
+                eventsDb,
+                room_store::key(cache::schema::RoomDb::Events, room_id, *entry.eventId));
+              if (!event)
+                  return true;
+
+              const auto ts = mtx::accessors::origin_server_ts_ms(*event);
+              if (ts < cutoffMs) {
+                  reachedCutoff = true;
+                  return false;
+              }
+
+              if (auto *reaction =
+                    std::get_if<mtx::events::RoomEvent<mtx::events::msg::Reaction>>(&*event);
+                  reaction && reaction->sender == localUser &&
+                  reaction->content.relations.annotates() &&
+                  reaction->content.relations.annotates()->key) {
+                  ++frequency[reaction->content.relations.annotates()->key.value()];
+              }
+          } catch (const std::exception &) {
+              // Skip unparsable events.
+          }
+
+          return true;
+      });
+
+    // Sort by frequency descending, return top N keys.
+    std::vector<std::pair<std::string, int>> sorted(frequency.begin(), frequency.end());
+    std::sort(sorted.begin(), sorted.end(), [](const auto &a, const auto &b) {
+        return a.second > b.second;
+    });
+
+    std::vector<std::string> result;
+    result.reserve(static_cast<size_t>(maxResults));
+    for (const auto &[key, count] : sorted) {
+        result.push_back(key);
+        if (static_cast<int>(result.size()) >= maxResults)
+            break;
+    }
+
+    return result;
 }

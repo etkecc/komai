@@ -183,8 +183,8 @@ Item {
                     return s.length > 0;
                 }).slice(0, 8)
                 : []
-            model: toolbar.canReact
-                ? Settings.recentReactions.filter(function (reaction) {
+            model: toolbar.canReact && toolbar.roomModel
+                ? toolbar.roomModel.frequentReactions.filter(function (reaction) {
                     return pinnedSet.indexOf(reaction) < 0;
                 }).slice(0, Math.max(0, 8 - pinnedSet.length))
                 : []

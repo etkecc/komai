@@ -11,7 +11,6 @@
     QStringList badgesHiddenFilters() const;
     QStringList hiddenPins() const;
     QStringList hiddenWidgets() const;
-    QStringList recentReactions() const;
     const QMap<QString, QString> &composerDraftsByRoom() const;
     QString composerDraftForRoom(const QString &roomId) const;
     bool hasComposerDraftForRoom(const QString &roomId) const;

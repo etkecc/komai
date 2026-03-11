@@ -31,5 +31,3 @@ timeline:
 composer:
   drafts:
     by_room: {}
-  reactions:
-    recent: []

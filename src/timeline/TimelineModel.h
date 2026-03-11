@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <optional>
+
 #include <QAbstractListModel>
 #include <QColor>
 #include <QDate>
@@ -86,6 +88,7 @@ class TimelineModel final : public QAbstractListModel
     Q_PROPERTY(bool isEncrypted READ isEncrypted NOTIFY encryptionChanged)
     Q_PROPERTY(bool isPublic READ isPublic NOTIFY joinRuleChanged)
     Q_PROPERTY(QString fullyReadEventId READ fullyReadEventId NOTIFY fullyReadEventIdChanged)
+    Q_PROPERTY(QStringList frequentReactions READ frequentReactions NOTIFY frequentReactionsChanged)
     Q_PROPERTY(bool isSpace READ isSpace CONSTANT)
     Q_PROPERTY(int trustlevel READ trustlevel NOTIFY trustlevelChanged)
     Q_PROPERTY(bool isDirect READ isDirect NOTIFY isDirectChanged)
@@ -161,6 +164,8 @@ public:
     void
     multiData(const QString &id, const QString &relatedTo, QModelRoleDataSpan roleDataSpan) const;
     QVariant data(const mtx::events::collections::TimelineEvents &event, int role) const;
+    QStringList frequentReactions() const;
+    void invalidateFrequentReactionsCache();
     Q_INVOKABLE QVariant dataById(const QString &id, int role, const QString &relatedTo);
     Q_INVOKABLE QVariant dataByIndex(int i, int role = Qt::DisplayRole) const
     {
@@ -401,6 +406,7 @@ signals:
     void forwardToRoom(mtx::events::collections::TimelineEvents const *e, QString roomId);
 
     void scrollTargetChanged();
+    void frequentReactionsChanged();
 
     void fetchedMore();
 
@@ -485,6 +491,9 @@ private:
     bool isSpace_               = false;
     bool isEncrypted_           = false;
     bool isPublic_              = true;
+
+    mutable std::optional<QStringList> frequentReactionsCache_;
+    mutable qint64 frequentReactionsCacheTimestamp_ = 0;
     std::string last_event_id;
     std::string fullyReadEventId_;
 

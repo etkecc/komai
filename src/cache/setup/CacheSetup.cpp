@@ -60,6 +60,41 @@ cacheDirectoryName(const QString &userid, const QString &profile)
 }
 
 void
+MatrixStore::openCoreStores(db::Transaction &txn)
+{
+    db->syncState =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SyncState);
+    db->rooms = cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Rooms);
+    db->spacesChildren =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SpacesChildren);
+    db->spacesParents =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SpacesParents);
+    db->invites = cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Invites);
+    db->readReceipts =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::ReadReceipts);
+    db->notifications =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Notifications);
+    db->presence =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Presence);
+
+    db->inboundMegolmSessions = cache::schema::openGlobalStore(
+      storage(), txn, cache::schema::GlobalDb::InboundMegolmSessions);
+    db->outboundMegolmSessions = cache::schema::openGlobalStore(
+      storage(), txn, cache::schema::GlobalDb::OutboundMegolmSessions);
+    db->megolmSessionsData =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::MegolmSessionsData);
+    db->olmSessions =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::OlmSessions);
+    db->encryptedRooms_ =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::EncryptedRooms);
+    db->eventExpiryBgJob_ =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::EventExpirationBgJob);
+
+    [[maybe_unused]] auto verificationDb = getVerificationDb(txn);
+    [[maybe_unused]] auto userKeysDb     = getUserKeysDb(txn);
+}
+
+void
 MatrixStore::setup()
 {
     auto settings     = UserSettings::instance();
@@ -201,41 +236,7 @@ MatrixStore::setup()
     }
 
     auto txn = beginTxn();
-    db->syncState =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SyncState);
-    db->rooms = cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Rooms);
-    db->spacesChildren =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SpacesChildren);
-    db->spacesParents =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SpacesParents);
-    db->invites = cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Invites);
-    db->readReceipts =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::ReadReceipts);
-    db->notifications =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Notifications);
-    db->presence =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Presence);
-
-    // Session management
-    db->inboundMegolmSessions = cache::schema::openGlobalStore(
-      storage(), txn, cache::schema::GlobalDb::InboundMegolmSessions);
-    db->outboundMegolmSessions = cache::schema::openGlobalStore(
-      storage(), txn, cache::schema::GlobalDb::OutboundMegolmSessions);
-    db->megolmSessionsData =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::MegolmSessionsData);
-
-    db->olmSessions =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::OlmSessions);
-
-    // What rooms are encrypted
-    db->encryptedRooms_ =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::EncryptedRooms);
-    db->eventExpiryBgJob_ =
-      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::EventExpirationBgJob);
-
-    [[maybe_unused]] auto verificationDb = getVerificationDb(txn);
-    [[maybe_unused]] auto userKeysDb     = getUserKeysDb(txn);
-
+    openCoreStores(txn);
     txn.commit();
 
     loadSecretsFromStore(

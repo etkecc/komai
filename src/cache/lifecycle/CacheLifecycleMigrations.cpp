@@ -54,6 +54,7 @@ MatrixStore::runMigrations()
 
         cache::sync_state::putNextBatchToken(txn, db->syncState, "");
         cache::sync_state::putCacheFormatVersion(txn, db->syncState, CURRENT_CACHE_FORMAT_VERSION);
+        openCoreStores(txn);
         txn.commit();
     } catch (const db::Error &e) {
         cache::activeLoggers().db->critical("Failed to reset incompatible cache format '{}': {}",

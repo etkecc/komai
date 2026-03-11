@@ -332,6 +332,7 @@ private:
       std::function<void(const std::string &name, bool internal, const std::string &value)>
         callback,
       bool databaseReadyOnFinished = false);
+    void openCoreStores(db::Transaction &txn);
     void storeSecretInStore(const std::string name, const std::string secret);
     void deleteSecretFromStore(const std::string name, bool internal);
 

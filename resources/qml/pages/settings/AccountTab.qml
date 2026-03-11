@@ -644,6 +644,10 @@ Item {
                                     color: Komai.theme.attention
                                     font.pointSize: Settings.uiFontSizePt
                                     wrapMode: Text.Wrap
+                                    horizontalAlignment: Text.AlignRight
+                                    Layout.alignment: Qt.AlignRight
+                                    Layout.preferredWidth: currentDeviceCardContent.controlWidth
+                                    Layout.maximumWidth: currentDeviceCardContent.controlWidth
                                 }
                             }
                         }

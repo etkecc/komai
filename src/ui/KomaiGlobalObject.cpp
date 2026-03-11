@@ -5,8 +5,13 @@
 
 #include "KomaiGlobalObject.h"
 
+#include <algorithm>
+
 #include <QApplication>
 #include <QDesktopServices>
+#include <QDir>
+#include <QDirIterator>
+#include <QFileInfo>
 #include <QFontInfo>
 #include <QFontMetricsF>
 #include <QGuiApplication>
@@ -22,6 +27,7 @@
 #include "cache/Cache.h"
 #include "chat/ChatPage.h"
 #include "logging/Logging.h"
+#include "profile/Paths.h"
 #include "profile/ProfileManager.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/MainWindow.h"
@@ -91,6 +97,53 @@ toQmlProfileSummaryMap(const profile_manager::ProfileSummary &summary)
     return item;
 }
 
+uint64_t
+directorySizeBytes(const QString &path)
+{
+    const QFileInfo info(path);
+    if (!info.exists())
+        return 0;
+    if (info.isFile())
+        return static_cast<uint64_t>(std::max<qint64>(0, info.size()));
+
+    uint64_t total = 0;
+    QDirIterator it(path,
+                    QDir::Files | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot,
+                    QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        it.next();
+        total += static_cast<uint64_t>(std::max<qint64>(0, it.fileInfo().size()));
+    }
+
+    return total;
+}
+
+QString
+backendDisplayName(std::string_view backendId)
+{
+    if (backendId == "lmdb")
+        return QStringLiteral("LMDB");
+    if (backendId == "memory" || backendId == "in-memory")
+        return QObject::tr("In-memory");
+
+    return QString::fromStdString(std::string(backendId));
+}
+
+QString
+cacheFormatDisplay(cache::CacheVersion version)
+{
+    switch (version) {
+    case cache::CacheVersion::Current:
+        return QObject::tr("Current");
+    case cache::CacheVersion::Older:
+        return QObject::tr("Older / incompatible");
+    case cache::CacheVersion::Newer:
+        return QObject::tr("Newer / incompatible");
+    }
+
+    return QObject::tr("Unknown");
+}
+
 }
 
 Komai::Komai()
@@ -115,11 +168,24 @@ Komai::Komai()
             &UserSettings::sidebarsRoomListShowLastMessageTimeChanged,
             this,
             &Komai::sidebarsRoomListShowLastMessageTimeChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::profileChanged,
+            this,
+            &Komai::localCacheInfoChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::userIdChanged,
+            this,
+            &Komai::localCacheInfoChanged);
+    connect(UserSettings::instance().get(),
+            &UserSettings::sessionAuthStateChanged,
+            this,
+            &Komai::localCacheInfoChanged);
     connect(ChatPage::instance(), &ChatPage::contentLoaded, this, &Komai::updateUserProfile);
     connect(ChatPage::instance(), &ChatPage::showRoomJoinPrompt, this, &Komai::showRoomJoinPrompt);
     connect(
       ChatPage::instance(), &ChatPage::promptUnlockKeyBackup, this, &Komai::promptUnlockKeyBackup);
     connect(this, &Komai::joinRoom, ChatPage::instance(), &ChatPage::joinRoom);
+    cache::onDatabaseReady(this, [this] { emit localCacheInfoChanged(); });
 
     refreshApplicationProfiles();
 }
@@ -342,6 +408,138 @@ Komai::launchProfileSwitcher() const
     if (!profile_manager::launchStartupSelectorDetached(&error))
         return error;
 
+    return {};
+}
+
+QVariantMap
+Komai::localCacheInfo() const
+{
+    QVariantMap info;
+
+    const auto *settings   = UserSettings::instance().get();
+    const auto profileId   = settings->profile();
+    const auto userId      = settings->userId().trimmed();
+    const bool hasUserId   = !userId.isEmpty();
+    const bool cacheReady  = cache::isAvailable() && cache::isDatabaseReady();
+    const bool initialized = cacheReady && cache::isInitialized();
+
+    const QString databasePath =
+      hasUserId ? app_paths::data::databaseDirectory(userId, profileId) : QString{};
+    const QString mediaCachePath = app_paths::cache::mediaDirectory(profileId);
+
+    const QFileInfo databaseInfo(databasePath);
+    const QFileInfo mediaInfo(mediaCachePath);
+
+    info.insert(QStringLiteral("profileId"), profileId);
+    info.insert(QStringLiteral("hasUserId"), hasUserId);
+    info.insert(QStringLiteral("databasePath"), databasePath);
+    info.insert(QStringLiteral("databasePathExists"), databaseInfo.exists());
+    info.insert(QStringLiteral("mediaCachePath"), mediaCachePath);
+    info.insert(QStringLiteral("mediaCachePathExists"), mediaInfo.exists());
+
+    const auto databaseSizeBytes = directorySizeBytes(databasePath);
+    const auto mediaSizeBytes    = directorySizeBytes(mediaCachePath);
+    info.insert(QStringLiteral("databaseSizeBytes"), static_cast<qulonglong>(databaseSizeBytes));
+    info.insert(QStringLiteral("databaseSizeHuman"),
+                databasePath.isEmpty() ? tr("Unavailable")
+                                       : utils::humanReadableFileSize(databaseSizeBytes));
+    info.insert(QStringLiteral("mediaCacheSizeBytes"), static_cast<qulonglong>(mediaSizeBytes));
+    info.insert(QStringLiteral("mediaCacheSizeHuman"),
+                utils::humanReadableFileSize(mediaSizeBytes));
+
+    if (!cache::isAvailable()) {
+        info.insert(QStringLiteral("statusKind"), QStringLiteral("unavailable"));
+        info.insert(QStringLiteral("statusLabel"), tr("Unavailable"));
+        info.insert(QStringLiteral("statusDetails"), tr("Sign in to inspect this profile."));
+        return info;
+    }
+
+    info.insert(QStringLiteral("backend"), backendDisplayName(cache::storageBackendId()));
+    info.insert(QStringLiteral("compactionSupported"), cache::storageSupportsCompaction());
+
+    if (const auto mapSizeBytes = cache::storageMapSizeBytes(); mapSizeBytes.has_value()) {
+        info.insert(QStringLiteral("mapSizeKnown"), true);
+        info.insert(QStringLiteral("mapSizeBytes"), static_cast<qulonglong>(*mapSizeBytes));
+        info.insert(QStringLiteral("mapSizeHuman"), utils::humanReadableFileSize(*mapSizeBytes));
+    } else {
+        info.insert(QStringLiteral("mapSizeKnown"), false);
+        info.insert(QStringLiteral("mapSizeBytes"), qulonglong{0});
+        info.insert(QStringLiteral("mapSizeHuman"), tr("Unavailable"));
+    }
+
+    if (!cache::isDatabaseReady()) {
+        info.insert(QStringLiteral("statusKind"), QStringLiteral("loading"));
+        info.insert(QStringLiteral("statusLabel"), tr("Loading"));
+        info.insert(QStringLiteral("statusDetails"), tr("Opening local cache."));
+        return info;
+    }
+
+    if (!initialized) {
+        info.insert(QStringLiteral("statusKind"), QStringLiteral("empty"));
+        info.insert(QStringLiteral("statusLabel"), tr("Not synced"));
+        info.insert(QStringLiteral("statusDetails"), tr("No synced local data yet."));
+        info.insert(QStringLiteral("cacheFormat"), tr("Not synced"));
+        info.insert(QStringLiteral("joinedRoomsKnown"), false);
+        info.insert(QStringLiteral("invitesKnown"), false);
+        info.insert(QStringLiteral("namedStoresKnown"), false);
+        return info;
+    }
+
+    try {
+        const auto formatVersion = cache::formatVersion();
+        info.insert(QStringLiteral("cacheFormat"), cacheFormatDisplay(formatVersion));
+        info.insert(QStringLiteral("joinedRoomsKnown"), true);
+        info.insert(QStringLiteral("joinedRooms"), static_cast<int>(cache::joinedRooms().size()));
+        info.insert(QStringLiteral("invitesKnown"), true);
+        info.insert(QStringLiteral("invites"), static_cast<int>(cache::invites().size()));
+        info.insert(QStringLiteral("namedStoresKnown"), true);
+        info.insert(QStringLiteral("namedStores"), static_cast<int>(cache::namedStoreCount()));
+        if (formatVersion == cache::CacheVersion::Current) {
+            info.insert(QStringLiteral("statusKind"), QStringLiteral("ready"));
+            info.insert(QStringLiteral("statusLabel"), tr("Ready"));
+            info.insert(QStringLiteral("statusDetails"), QString{});
+        } else {
+            info.insert(QStringLiteral("statusKind"), QStringLiteral("reset_required"));
+            info.insert(QStringLiteral("statusLabel"), tr("Reset needed"));
+            info.insert(QStringLiteral("statusDetails"), tr("Rebuilt on next start."));
+        }
+    } catch (const std::exception &e) {
+        nhlog::ui()->warn("Failed to gather local cache info: {}", e.what());
+        info.insert(QStringLiteral("statusKind"), QStringLiteral("error"));
+        info.insert(QStringLiteral("statusLabel"), tr("Error"));
+        info.insert(QStringLiteral("statusDetails"), tr("Could not inspect local cache."));
+        info.insert(QStringLiteral("joinedRoomsKnown"), false);
+        info.insert(QStringLiteral("invitesKnown"), false);
+        info.insert(QStringLiteral("namedStoresKnown"), false);
+    }
+
+    return info;
+}
+
+bool
+Komai::openLocalPath(QString path) const
+{
+    const auto trimmedPath = path.trimmed();
+    if (trimmedPath.isEmpty())
+        return false;
+
+    return QDesktopServices::openUrl(QUrl::fromLocalFile(trimmedPath));
+}
+
+QString
+Komai::purgeMediaCache()
+{
+    const QString mediaCachePath =
+      app_paths::cache::mediaDirectory(UserSettings::instance()->profile());
+    const QFileInfo info(mediaCachePath);
+
+    if (info.exists() && !QDir(mediaCachePath).removeRecursively())
+        return tr("Could not remove some files.");
+
+    if (!QDir().mkpath(mediaCachePath))
+        return tr("Could not recreate the cache folder.");
+
+    emit localCacheInfoChanged();
     return {};
 }
 

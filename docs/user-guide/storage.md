@@ -20,7 +20,11 @@ Quick jumps:
 | Log file (if file logging enabled) | `~/.cache/komai/profiles/<profile-id>/komai.log` |
 | HTTP alt-svc cache (HTTP/3 enabled) | `~/.cache/komai/profiles/<profile-id>/curl_alt_svc_cache.txt` |
 
-`<profile-id>` is the `-p` profile name/identifier.
+`<profile-id>` is the `-p` [Application Profile](application-profiles.md) name/identifier.
+
+Komai normally stores chat data in
+[LMDB](https://en.wikipedia.org/wiki/Lightning_Memory-Mapped_Database)
+(Lightning Memory-Mapped Database).
 
 💡 If a profile is not explicitly specified, Komai opens the profile switcher unless only `default` exists.
 See [Settings](settings/README.md#profile-location) for allowed profile-id characters.
@@ -54,6 +58,27 @@ Inside `~/.config/komai/profiles/<profile-id>/`:
 - `secrets.yml` - only used when `secrets.provider=file`
 
 See [Settings](settings/README.md#what-goes-where) for semantics and examples.
+
+## Database Compaction
+
+Komai can compact the local chat database from the CLI.
+
+Use this when you want to rewrite the LMDB files into a denser layout after heavy cache churn.
+This is local maintenance only. It does not affect server-side Matrix data.
+
+Before running it:
+- **Quit Komai for the target [Application Profile](application-profiles.md) first**.
+- Be explicit about the [Application Profile](application-profiles.md) name.
+
+Example:
+
+```bash
+komai -p default --compact
+```
+
+Notes:
+
+- `-p default` is recommended even if `default` is your only profile.
 
 ## Secrets & Providers
 

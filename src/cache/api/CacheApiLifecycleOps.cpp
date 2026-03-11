@@ -28,6 +28,42 @@ isInitialized()
 }
 
 std::string
+storageBackendId()
+{
+    if (!cacheInstance())
+        return {};
+
+    return cacheInstance()->storageBackendId();
+}
+
+bool
+storageSupportsCompaction() noexcept
+{
+    if (!cacheInstance())
+        return false;
+
+    return cacheInstance()->storageSupportsCompaction();
+}
+
+std::optional<std::size_t>
+storageMapSizeBytes() noexcept
+{
+    if (!cacheInstance())
+        return std::nullopt;
+
+    return cacheInstance()->storageMapSizeBytes();
+}
+
+std::size_t
+namedStoreCount()
+{
+    if (!cacheInstance())
+        return 0;
+
+    return cacheInstance()->namedStoreCount();
+}
+
+std::string
 nextBatchToken()
 {
     return cacheInstance()->nextBatchToken();

@@ -148,6 +148,10 @@ public:
     bool isInitialized();
     bool isDatabaseReady() { return databaseReady_ && isInitialized(); }
     bool isMapFullError(const std::exception &e) const noexcept;
+    std::string storageBackendId() const;
+    bool storageSupportsCompaction() const noexcept;
+    std::optional<std::size_t> storageMapSizeBytes() const noexcept;
+    std::size_t namedStoreCount();
 
     std::string nextBatchToken();
 

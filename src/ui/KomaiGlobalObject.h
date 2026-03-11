@@ -107,6 +107,9 @@ public:
     Q_INVOKABLE QString launchProfileSwitcher() const;
     Q_INVOKABLE QString deleteApplicationProfile(QString profileId,
                                                  bool allowDeletingLoadedProfile = false);
+    Q_INVOKABLE QVariantMap localCacheInfo() const;
+    Q_INVOKABLE bool openLocalPath(QString path) const;
+    Q_INVOKABLE QString purgeMediaCache();
     Q_INVOKABLE void showUserSettingsPage() const;
     Q_INVOKABLE void logout() const;
     Q_INVOKABLE void submitUnlockKeyBackup(QString keyOrPassphrase) const;
@@ -135,6 +138,7 @@ signals:
     void colorsChanged();
     void profileChanged();
     void applicationProfilesChanged();
+    void localCacheInfoChanged();
     void layoutMetricsChanged();
     void sidebarsRoomListShowLastMessageTimeChanged();
 

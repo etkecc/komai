@@ -59,6 +59,34 @@ cacheDirectoryName(const QString &userid, const QString &profile)
     return app_paths::data::databaseDirectory(userid, profile);
 }
 
+std::string
+MatrixStore::storageBackendId() const
+{
+    return std::string(db::id(storage()));
+}
+
+bool
+MatrixStore::storageSupportsCompaction() const noexcept
+{
+    return storage().supportsCompaction();
+}
+
+std::optional<std::size_t>
+MatrixStore::storageMapSizeBytes() const noexcept
+{
+    return db::mapSizeBytes(storage());
+}
+
+std::size_t
+MatrixStore::namedStoreCount()
+{
+    if (!db::isOpen(storage()))
+        return 0;
+
+    auto txn = ro_txn(storage());
+    return storage().listStoreNames(txn).size();
+}
+
 void
 MatrixStore::openCoreStores(db::Transaction &txn)
 {

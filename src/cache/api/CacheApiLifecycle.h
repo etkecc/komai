@@ -23,6 +23,15 @@ bool
 isInitialized();
 
 std::string
+storageBackendId();
+bool
+storageSupportsCompaction() noexcept;
+std::optional<std::size_t>
+storageMapSizeBytes() noexcept;
+std::size_t
+namedStoreCount();
+
+std::string
 nextBatchToken();
 std::string
 previousBatchToken(const std::string &room_id);

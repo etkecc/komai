@@ -2,7 +2,7 @@
 
 Date: 2026-03-11
 
-Status: in progress
+Status: complete
 
 Scope:
 - Review Komai's persisted cache/storage layout before first release.
@@ -56,7 +56,7 @@ Concrete implementation work:
 - [x] Decide the shared-store grouping/key-encoding plan so ordered scans and dupsort semantics stay efficient.
 - [x] Start the shared-room-store rewrite with the non-timeline room stores.
 - [x] Reassess post-rewrite `maxStores` headroom and replace the stale room-count auto-grow heuristic.
-- [ ] Design cache maintenance / statistics UI after the storage rewrite settles.
+- [x] Add a first local-cache statistics UI after the storage rewrite settles.
 
 Documentation follow-up:
 - [x] Update `docs/user-guide/differences-from-nheko.md` with a short user-facing summary of the storage/cache behavior changes that matter at launch.
@@ -156,6 +156,20 @@ Documentation follow-up:
   - `DbsFull` recovery now simply doubles the current configured value, with a floor at the default target
 - Refreshed user-facing storage docs:
   - `docs/user-guide/differences-from-nheko.md` now explains that the LMDB layout uses shared room stores, removing the old per-room named-store choke point
+- Added a first local-cache settings surface:
+  - Privacy now ends with a separate `Local cache` section after `Users`
+  - the section is read-only on purpose and shows the current profile's:
+    - cache status
+    - storage backend and cache-format compatibility
+    - joined-room / invite counts
+    - named-store count and map-size headroom
+    - database and media-cache paths / sizes
+  - the only actions are safe local helpers:
+    - copy database/media-cache path
+    - open those folders in the desktop file manager
+    - manually refresh the displayed stats
+  - reset/compaction actions remain intentionally out of scope because their current semantics are
+    still restart-/session-sensitive, not harmless local maintenance
 
 ## Checks Run
 
@@ -228,6 +242,12 @@ Documentation follow-up:
   - `just test`
   - `just lint`
   - Result: passed
+- After the local-cache Privacy UI patch:
+  - `just build`
+  - `ctest --test-dir var/build/native --output-on-failure -R 'komai_(db_backend_test|matrix_store_test)'`
+  - `just test`
+  - `just lint`
+  - Result: passed
 
 ## Test Coverage Gaps Observed
 
@@ -249,19 +269,19 @@ Implication:
 - The green suite now protects the main reset, teardown, read-receipt, limited-sync cleanup, and derived-space-edge paths that drove this storage review.
 - The next meaningful coverage work should follow the shared-store rewrite rather than trying to grow the current layout-specific test surface much further.
 
-## Next Implementation Track
+## Follow-up Ideas
 
-If continuing this work after a restart, the next preferred order is:
+If this area gets revisited later, the highest-value follow-ups are separate from the storage
+rewrite itself:
 
-1. Decide whether any extra rewrite-specific coverage is still missing after living with the new layout for a bit.
-2. Then start the cache stats / maintenance UI work.
+1. Decide whether `Local cache` should eventually grow a safe media-cache clear action.
+2. Design restart-aware flows if Komai should expose cache compaction or full reset in the UI.
+3. Add any extra rewrite-specific coverage only if real usage exposes a concrete gap.
 
 ## Restart Handoff
 
-If this work gets restarted in a fresh session, pick it up in this order:
-
-1. Add any extra rewrite-specific coverage only if a concrete gap appears.
-2. Then move on to cache maintenance / statistics UX work.
+If this note is reopened in a fresh session, treat the storage refactor itself as complete.
+Only pick up follow-up work if one of the optional maintenance/UI items above is explicitly chosen.
 
 Current code checkpoint:
 - Latest storage/integration commit before the shared-store rewrite: `3658fe86a` (`Cover limited sync and space cache integration paths`)
@@ -289,6 +309,8 @@ What the next session should remember:
   - limited sync clearing stale timeline indexes / relations without deleting still-live state payloads
   - derived space-edge rebuild / reparenting behavior across room and space refreshes
 - The structural shared-store rewrite is now in place; the next work is post-rewrite assessment rather than another schema rewrite.
+- The first local-cache UI is now in place under `Privacy -> Local cache`; it is intentionally
+  read-only apart from copy/open/refresh helpers.
 - Shared-room-store rewrite status:
   - chunk 1 committed:
     - `state`

@@ -61,7 +61,6 @@ public:
         KeyStatus,
         SessionKeyImportExport,
         XSignKeysRequestDownload,
-        ConfigureHiddenEvents,
         ManageIgnoredUsers,
         Link,
         ThemeSelector,

@@ -3,8 +3,18 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import QtQuick
+import QtQuick.Layouts
 import cc.etke.komai
 
 SettingsContent {
     tabFilter: UserSettingsModel.TabTimeline
+
+    footerContent: Component {
+        Loader {
+            Layout.fillWidth: true
+            Layout.preferredHeight: item ? item.implicitHeight : 0
+            source: "TimelineTab/StateEventsSection.qml"
+        }
+    }
 }

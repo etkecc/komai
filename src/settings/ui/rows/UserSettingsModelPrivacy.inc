@@ -22,11 +22,6 @@
       "Delete expired events periodically",
       QT_TR_NOOP("Regularly redact expired events based on room expiration rules. Because homeservers may not do this automatically, at least one of your clients should keep this enabled."),
       SM::TabPrivacy, privacyMaintenanceExpireEvents, setPrivacyMaintenanceExpireEvents, nullptr, PrivacyMaintenanceExpireEvents, SettingKey::PrivacyMaintenanceExpireEvents),
-    // HiddenTimelineEvents
-    { QT_TR_NOOP("Hidden events"),
-      QT_TR_NOOP("Configure whether to show or hide certain events like room joins."),
-      SM::ConfigureHiddenEvents, SM::TabPrivacy,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // UpdateSpaceVias
     SIMPLE_BOOL_CONFIG_ID_SETTING(
       "Update community routing info periodically",

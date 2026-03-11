@@ -364,13 +364,6 @@ Item {
                                         }
                                     }
                                     DelegateChoice {
-                                        roleValue: UserSettingsModel.ConfigureHiddenEvents
-                                        SettingRowHiddenEvents {
-                                            anchors.left: r.useStackedLayout ? parent.left : undefined
-                                            anchors.right: r.useStackedLayout ? undefined : parent.right
-                                        }
-                                    }
-                                    DelegateChoice {
                                         roleValue: UserSettingsModel.ManageIgnoredUsers
                                         SettingRowIgnoredUsers {
                                             anchors.left: r.useStackedLayout ? parent.left : undefined

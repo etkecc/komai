@@ -1038,6 +1038,11 @@ Item {
                         }
                     }
 
+                    LocalCacheSection {
+                        Layout.leftMargin: scrollContent.sideMargin
+                        Layout.rightMargin: scrollContent.sideMargin
+                    }
+
                     // Bottom spacer
                     Item { Layout.preferredHeight: Komai.paddingLarge }
                 }

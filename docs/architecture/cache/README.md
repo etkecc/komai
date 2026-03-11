@@ -60,4 +60,5 @@ add a separate module/store on top of `src/db` instead of broadening `MatrixStor
 ## Related Docs
 
 - [Storage Architecture](../storage.md)
+- [Cache Storage Invariants](storage-invariants.md)
 - [Path Migration Map](migration-map.md)

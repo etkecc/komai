@@ -110,6 +110,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Hierarchical key organization** -- settings are grouped in nested sections (`ui.*`, `timeline.*`, `composer.*`, etc.) rather than flat keys
 - **Hardened formatted-message HTML pipeline** -- timeline HTML is now sanitized with stricter Matrix-spec-oriented tag/attribute rules and safer linkification behavior to reduce HTML-injection risk.
 - **Profile-scoped data and cache layout** -- runtime data and caches are explicitly grouped under `~/.local/share/komai/profiles/<profile-id>/...` and `~/.cache/komai/profiles/<profile-id>/...`
+- **More resilient local cache behavior** -- Komai cleans room-local cache data more aggressively when you leave rooms, uses a larger LMDB store budget by default for large accounts, and treats incompatible cache formats as a rebuild of local cache instead of a full profile wipe.
 - **Centralized storage path construction** -- path logic is unified in one helper module instead of ad-hoc joins across callsites
 - **Documented sample profile files** -- canonical examples are available in [settings/examples/profile](settings/examples/profile/)
 

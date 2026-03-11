@@ -11,6 +11,7 @@
 
 #include <limits>
 #include <nlohmann/json.hpp>
+#include <set>
 
 #include "cache/api/CacheApiContext.h"
 
@@ -142,10 +143,18 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
             try {
                 auto te = nlohmann::json::parse(std::string_view(oldEvent.data(), oldEvent.size()))
                             .get<mtx::events::collections::TimelineEvents>();
+                std::set<std::string> redactedSpacesWithUpdates;
+                std::set<std::string> redactedRoomsWithUpdates;
 
                 // overwrite the content and add redation data
                 std::visit(
-                  [&redaction, &room_id, &txn, &eventsDb, this](auto &ev) {
+                  [&redaction,
+                   &room_id,
+                   &txn,
+                   &eventsDb,
+                   &redactedSpacesWithUpdates,
+                   &redactedRoomsWithUpdates,
+                   this](auto &ev) {
                       ev.unsigned_data.redacted_because = *redaction;
                       ev.unsigned_data.redacted_by      = redaction->event_id;
 
@@ -167,9 +176,18 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
                                          eventsDb,
                                          room_id,
                                          mtx::events::collections::StateEvents{redactedEvent});
+
+                          if (ev.type == mtx::events::EventType::SpaceChild)
+                              redactedSpacesWithUpdates.insert(room_id);
+                          else if (ev.type == mtx::events::EventType::SpaceParent)
+                              redactedRoomsWithUpdates.insert(room_id);
                       }
                   },
                   te);
+                if (!redactedSpacesWithUpdates.empty() || !redactedRoomsWithUpdates.empty()) {
+                    updateSpaces(
+                      txn, redactedSpacesWithUpdates, std::move(redactedRoomsWithUpdates));
+                }
                 event = mtx::accessors::serialize_event(te);
                 event["content"].clear();
 

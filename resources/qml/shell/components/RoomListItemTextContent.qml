@@ -71,8 +71,7 @@ ColumnLayout {
             color: root.unimportantText
             elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Komai.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0)))
             font.pointSize: Settings.uiFontSizePt * 0.95
-            fullText: TimelineManager.htmlEscape(root.lastMessage)
-            textFormat: Text.RichText
+            fullText: root.lastMessage
             visible: root.compactMode && titleRow.previewsEnabled && !root.hasDraft
         }
         Item {
@@ -118,8 +117,7 @@ ColumnLayout {
                 color: root.draftIndicatorColor
                 elideWidth: Math.max(0, parent.width - inlineDraftPrefix.implicitWidth - inlineDraftIcon.width - Komai.paddingSmall * 2)
                 font.pointSize: Settings.uiFontSizePt * 0.95
-                fullText: TimelineManager.htmlEscape(root.draftPreview)
-                textFormat: Text.RichText
+                fullText: root.draftPreview
             }
         }
         Label {
@@ -156,11 +154,12 @@ ColumnLayout {
             id: subtitleText
 
             anchors.left: parent.left
+            anchors.right: subtextNotificationBubble.visible ? subtextNotificationBubble.left : parent.right
+            anchors.rightMargin: subtextNotificationBubble.visible ? Komai.paddingSmall : 0
             color: root.unimportantText
-            elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0)
+            elideWidth: subtextRow.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth + Komai.paddingSmall : 0)
             font.pointSize: Settings.uiFontSizePt * 0.95
-            fullText: TimelineManager.htmlEscape(root.lastMessage)
-            textFormat: Text.RichText
+            fullText: root.lastMessage
             visible: !root.hasDraft
         }
         Item {
@@ -202,8 +201,7 @@ ColumnLayout {
                 color: root.draftIndicatorColor
                 elideWidth: Math.max(0, parent.width - (subtextNotificationBubble.visible ? subtextNotificationBubble.implicitWidth : 0) - subtextDraftPrefix.implicitWidth - subtextDraftIcon.width - Komai.paddingSmall * 2)
                 font.pointSize: Settings.uiFontSizePt * 0.95
-                fullText: TimelineManager.htmlEscape(root.draftPreview)
-                textFormat: Text.RichText
+                fullText: root.draftPreview
             }
         }
         NotificationBubble {

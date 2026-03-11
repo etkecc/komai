@@ -129,7 +129,7 @@ utils::roomVias(const std::string &roomid)
                     allowedServers.push_back(globToRegexp(s));
                 deniedServers.reserve(acls->content.deny.size());
                 for (const auto &s : acls->content.deny)
-                    allowedServers.push_back(globToRegexp(s));
+                    deniedServers.push_back(globToRegexp(s));
             }
 
             auto isHostAllowed = [&acls, &allowedServers, &deniedServers](const std::string &host) {

@@ -40,9 +40,6 @@ Target `db/storage/*` groups and ownership map:
 - `db/storage/Scan.h`
   - Owns: key/value listing and cursor-iteration helpers.
   - Backed by: `Scan.h/.cpp`, `DupIndex.h/.cpp`.
-- `db/storage/Timeline.h`
-  - Owns: timeline/order/index/reference helpers.
-  - Backed by: `TimelineIndex.h/.cpp`, `OrderEntry.h/.cpp`.
 - `db/storage/State.h`
   - Owns: state-event index helpers.
   - Backed by: `StateIndex.h/.cpp`.

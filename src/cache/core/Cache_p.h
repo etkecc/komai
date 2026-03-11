@@ -30,7 +30,6 @@
 #include "db/storage/Serde.h"
 #include "db/storage/State.h"
 #include "db/storage/SyncState.h"
-#include "db/storage/Timeline.h"
 #include "matrix/MatrixStateTypes.h"
 
 class MatrixStore;

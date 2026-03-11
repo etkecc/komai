@@ -1308,9 +1308,6 @@ add_library(komai_db STATIC
     src/db/Maintenance.cpp
     src/db/StateIndex.cpp
     src/db/SyncState.cpp
-    src/db/TimelineIndex.cpp
-    src/db/timelineindex/TimelineIndexQueries.cpp
-    src/db/timelineindex/TimelineIndexCleanup.cpp
 )
 target_include_directories(komai_db PUBLIC src)
 target_link_libraries(komai_db PUBLIC

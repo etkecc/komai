@@ -75,41 +75,6 @@ Database user-id component:
   and composite value codecs such as OLM session and state-event index values).
 - Reusable event-order entry parsing (including legacy raw event-id fallback) is
   centralized in `src/db/OrderEntry.cpp` (`db::parseOrderEntry(...)`).
-- Reusable timeline-index helpers are centralized in `src/db/TimelineIndex.cpp`
-  (`db::removeMessageOrderMapping(...)`,
-  `db::replaceTimelineEventId(...)`,
-  `db::putEventOrderMapping(...)`,
-  `db::putOrderEntry(...)`,
-  `db::putEventOrderMappingForEvent(...)`,
-  `db::putMessageOrderMapping(...)`,
-  `db::appendEventOrderEntry(...)`,
-  `db::prependEventOrderEntry(...)`,
-  `db::appendMessageOrderEntry(...)`,
-  `db::prependMessageOrderEntry(...)`,
-  `db::lastInvisibleEventAfter(...)`,
-  `db::lastVisibleEvent(...)`,
-  `db::lastTimelineEventId(...)`,
-  `db::timelineRange(...)`,
-  `db::timelineIndexForEvent(...)`,
-  `db::eventIndexForEvent(...)`,
-  `db::timelineEventIdAtIndex(...)`,
-  `db::firstOrderedIndex(...)`,
-  `db::lastOrderedIndex(...)`,
-  `db::firstPrevBatchToken(...)`,
-  `db::setOrderEntryPrevBatch(...)`,
-  `db::removePendingEntriesByTxnId(...)`,
-  `db::listOrderEntriesAfterPrevBatchMarker(...)`,
-  `db::listOrderEntryEventIds(...)`,
-  `db::removeMessageOrderMappingsNotInOrderEntries(...)`,
-  `db::removeOrderEntryReferences(...)`,
-  `db::removeOrderEntryWithReferences(...)`,
-  `db::eraseOrderEntriesWithReferencesIf(...)`,
-  `db::trimOldestOrderEntriesWithReferences(...)`,
-  `db::cleanupTimelineBeforePrevBatchMarker(...)`,
-  `db::removeTimelineEventReferences(...)`) so callers do not duplicate
-  cross-index logic (`message_to_order`, `order_to_message`,
-  `event_to_order`, event payload/relation deletion, and visible/invisible
-  timeline lookups).
 - Reusable state-index query helpers are centralized in `src/db/StateIndex.cpp`
   (`db::findStateEventId(...)`, `db::listStateEventIds(...)`, `db::putStateEventId(...)`,
   `db::removeStateEventId(...)`) so callers do not need
@@ -185,7 +150,6 @@ Database user-id component:
   - `Core.h`: backend lifecycle, IDs/capabilities, transaction helpers, core storage types
   - `Open.h`: open-options policy and store open helpers
   - `Scan.h`: key/value scan and dupsort iteration helpers
-  - `Timeline.h`: timeline/order index and reference helpers
   - `State.h`: state-event index helpers
   - `SyncState.h`: sync-state typed helper surface
   - `Crypto.h`: OLM/Megolm/read-receipt helper surface
@@ -196,7 +160,6 @@ Database user-id component:
 - New callsites should prefer focused includes, for example:
   - `#include "db/storage/Core.h"` + `#include "db/storage/Open.h"` for lifecycle/store-open code
   - `#include "db/storage/Scan.h"` for entry iteration utilities
-  - `#include "db/storage/Timeline.h"` for timeline order/index operations
   - `#include "db/storage/SyncState.h"` for sync-state utilities
 - Cache code should use `src/cache/schema/CacheSchema.h` for Matrix schema mapping/wrappers
   instead of using `db::catalog::*` directly.

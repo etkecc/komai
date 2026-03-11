@@ -110,6 +110,7 @@ modules:
     buildsystem: cmake-ninja
     sources:
       - commit: 7e0c8277032e40308987257b711b38af8d77cc69
+        disable-lfs: true
         disable-shallow-clone: true
         tag: 3.2.16
         type: git
@@ -123,6 +124,7 @@ modules:
       - -Dintrospection=false
     sources:
       - commit: 0936f740c02b60f02657729cd99f581db4517a41
+        disable-lfs: true
         tag: 0.21.7
         type: git
         url: https://gitlab.gnome.org/GNOME/libsecret.git
@@ -135,6 +137,7 @@ modules:
     buildsystem: cmake-ninja
     sources:
       - commit: ad7344c45a86a4f66cbafc4b081b5f7b876cb0b7
+        disable-lfs: true
         tag: 0.15.0
         type: git
         url: https://github.com/frankosterfeld/qtkeychain.git
@@ -190,6 +193,7 @@ modules:
     buildsystem: meson
     sources:
       - commit: bfdc62185e243d3633aa916187a566d03a587792
+        disable-lfs: true
         tag: 1.26.10
         type: git
         url: https://gitlab.freedesktop.org/gstreamer/gstreamer.git
@@ -213,6 +217,7 @@ modules:
       - -Ddefault_library=static
     sources:
       - commit: f49993e6ad3b2f4fa6503f46d547351fa276ac84
+        disable-lfs: true
         tag: v0.3.1
         type: git
         url: https://nheko.im/Nheko-Reborn/coeurl.git
@@ -235,17 +240,24 @@ modules:
           - .git
           - var
           - etc
+      # The emoji pipeline fetches Unicode/CLDR inputs into var/emoji/cache on the host.
+      # Copy that cache into the sandbox so the build-time generation step stays offline.
+      - path: ../../../var/emoji/cache
+        dest: var/emoji/cache
+        type: dir
       - dest: .deps/lmdbxx
         sha256: 5e12eb3aefe9050068af7df2c663edabc977ef34c9e7ba7b9d2c43e0ad47d8df
         type: archive
         url: https://github.com/hoytech/lmdbxx/archive/1.0.0.tar.gz
       - dest: .deps/mtxclient
         commit: 15b43844f4ec27faa5f2ec92c4ded313206763aa
+        disable-lfs: true
         tag: v0.10.1
         type: git
         url: https://github.com/Nheko-Reborn/mtxclient.git
       - dest: .deps/litehtml
         commit: 6ca1ab0419e770e6d35a1ef690238773a1dafcee
+        disable-lfs: true
         tag: v0.9
         type: git
         url: https://github.com/litehtml/litehtml.git

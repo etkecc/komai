@@ -38,6 +38,11 @@ pre-fetches those sources as `.deps/mtxclient` and `.deps/litehtml`, then points
 there via `-DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient` and
 `-DFETCHCONTENT_SOURCE_DIR_LITEHTML=.deps/litehtml` so builds stay offline-friendly.
 
+Komai also generates runtime emoji JSON during the build. Since the Flatpak build sandbox
+has no network access, `just flatpak-build` runs `just emoji-fetch` first on the host and
+the manifest copies `var/emoji/cache/` into the source tree so the in-sandbox generation
+step uses the pre-fetched Unicode/CLDR cache instead of downloading anything itself.
+
 The `flatpak-builder` tool caches each module, so subsequent builds only rebuild what changed. The cache lives at `var/build/flatpak/.flatpak-builder/`.
 
 ## App ID
@@ -48,4 +53,5 @@ The Flatpak uses app ID `cc.etke.komai`, matching the desktop file, appdata, and
 
 - The first build downloads the KDE SDK/runtime (~1.5 GB) and builds all dependencies from source. Subsequent builds are much faster due to caching.
 - The `just flatpak-build` recipe automatically adds the Flathub remote at the user level if it's missing.
+- The `just flatpak-build` recipe also refreshes the local emoji cache before invoking `flatpak-builder`.
 - The Flatpak is installed per-user (`--user`), not system-wide.

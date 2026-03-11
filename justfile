@@ -264,6 +264,10 @@ flatpak-build: _ensure_just_temp_directory
 		flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	fi
 
+	# Flatpak builds are sandboxed, so pre-populate the emoji cache on the host
+	# and let flatpak-builder copy it into the source tree.
+	just --justfile {{ justfile() }} emoji-fetch
+
 	mkdir -p "{{ flatpak_build_dir }}"
 	flatpak-builder \
 		--install-deps-from=flathub \

@@ -92,19 +92,19 @@ ChatPage::bootstrap(QString userid,
                       if (cacheVersion == cache::CacheVersion::Current) {
                           loadStateFromCache();
                           return;
-                      } else {
-                          if (!cache::runMigrations()) {
-                              QMessageBox::critical(
-                                nullptr,
-                                tr("Cache reset failed!"),
-                                tr("Resetting incompatible local cache data failed. "
-                                   "Please open an issue at https://github.com/etkecc/komai "
-                                   "and try deleting cache data manually."));
-                              QCoreApplication::quit();
-                          }
-                          loadStateFromCache();
-                          return;
                       }
+
+                      if (!cache::runMigrations()) {
+                          QMessageBox::critical(
+                            nullptr,
+                            tr("Cache reset failed!"),
+                            tr("Resetting incompatible local cache data failed. "
+                               "Please open an issue at https://github.com/etkecc/komai "
+                               "and try deleting cache data manually."));
+                          QCoreApplication::quit();
+                      }
+                      loadStateFromCache();
+                      return;
                   }
 
                   // It's the first time syncing with this device

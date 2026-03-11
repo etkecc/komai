@@ -973,6 +973,7 @@ Components.OverlayDialog {
 
             // Others: device list
             Repeater {
+                id: deviceRepeater
                 model: profile.isSelf ? null : profile.deviceList
 
                 delegate: Rectangle {
@@ -1113,6 +1114,16 @@ Components.OverlayDialog {
                         }
                     }
                 }
+            }
+
+            // Empty device list state
+            Label {
+                Layout.fillWidth: true
+                Layout.topMargin: Komai.paddingMedium
+                visible: !profile.isSelf && deviceRepeater.count === 0
+                text: qsTr("Nothing found.")
+                color: palette.buttonText
+                horizontalAlignment: Text.AlignHCenter
             }
 
             // Bottom spacer

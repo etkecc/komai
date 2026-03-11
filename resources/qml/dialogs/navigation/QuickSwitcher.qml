@@ -90,7 +90,7 @@ Popup {
 
             color: palette.buttonText
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.4)
-            text: qsTr("Searches among rooms and spaces you participate in, not across all rooms on Matrix.")
+            text: qsTr("Searches among rooms and spaces you participate in, not across all of Matrix.")
             leftPadding: Komai.paddingSmall
             topPadding: Komai.paddingMedium
             bottomPadding: Komai.paddingMedium

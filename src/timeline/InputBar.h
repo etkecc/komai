@@ -247,6 +247,7 @@ public slots:
     void acceptUploads();
     void declineUploads();
     Q_INVOKABLE void removeUpload(int index);
+    Q_INVOKABLE QString clipboardText() const;
 
 private slots:
     void startTyping();

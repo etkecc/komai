@@ -146,7 +146,14 @@ Rectangle {
                 wrapMode: TextEdit.Wrap
 
                 Keys.onPressed: event => {
-                    if (event.matches(StandardKey.Paste)) {
+                    if (event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier) && event.key === Qt.Key_V) {
+                        // Ctrl+Shift+V: paste as plain text (Qt doesn't handle this natively,
+                        // and the unhandled key event produces a control character / tofu square)
+                        var clipText = room.input.clipboardText();
+                        if (clipText)
+                            messageInput.insert(messageInput.cursorPosition, clipText);
+                        event.accepted = true;
+                    } else if (event.matches(StandardKey.Paste)) {
                         event.accepted = room.input.tryPasteAttachment(false);
                     } else if (event.key == Qt.Key_Space) {
                         // close popup if user enters space after colon

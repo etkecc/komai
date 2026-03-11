@@ -37,6 +37,12 @@ MediaUpload::thumbnailDataUrl() const
     return QStringLiteral("data:image/png;base64,") + base64;
 }
 
+QString
+InputBar::clipboardText() const
+{
+    return QGuiApplication::clipboard()->text();
+}
+
 bool
 InputBar::tryPasteAttachment(bool fromMouse)
 {

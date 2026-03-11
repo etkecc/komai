@@ -15,6 +15,7 @@
 #include <unordered_set>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 #include "db/Catalog.h"
 #include "db/Scan.h"
 #include "db/TimelineIndex.h"
@@ -33,12 +34,19 @@ relationTargetEventIds(const RelationCollection &relations)
 }
 
 std::unordered_set<std::string>
-currentStateEventIds(db::Transaction &txn, db::Store &statesDb, db::Store &statesKeyDb)
+currentStateEventIds(db::Transaction &txn,
+                     const std::string &roomId,
+                     db::Store &statesDb,
+                     db::Store &statesKeyDb)
 {
     std::unordered_set<std::string> eventIds;
 
-    db::forEachEntry(
-      txn, statesDb, [&eventIds](std::string_view /*eventType*/, std::string_view stateEventJson) {
+    cache::room_store::forEachEntry(
+      txn,
+      statesDb,
+      cache::schema::RoomDb::State,
+      roomId,
+      [&eventIds](std::string_view /*eventType*/, std::string_view stateEventJson) {
           try {
               const auto event = nlohmann::json::parse(stateEventJson);
               if (const auto eventId = event.value("event_id", std::string{}); !eventId.empty())
@@ -51,8 +59,12 @@ currentStateEventIds(db::Transaction &txn, db::Store &statesDb, db::Store &state
           return true;
       });
 
-    db::forEachEntry(
-      txn, statesKeyDb, [&eventIds](std::string_view /*eventType*/, std::string_view indexValue) {
+    cache::room_store::forEachEntry(
+      txn,
+      statesKeyDb,
+      cache::schema::RoomDb::StatesKey,
+      roomId,
+      [&eventIds](std::string_view /*eventType*/, std::string_view indexValue) {
           const auto eventId = db::catalog::splitStateEventIndexValue(indexValue).second;
           if (!eventId.empty())
               eventIds.emplace(eventId);
@@ -72,9 +84,10 @@ cleanupLimitedTimeline(db::Transaction &txn,
                        db::Store &orderToMessageDb,
                        db::Store &pendingDb,
                        db::Store &statesDb,
-                       db::Store &statesKeyDb)
+                       db::Store &statesKeyDb,
+                       const std::string &roomId)
 {
-    const auto protectedEventIds     = currentStateEventIds(txn, statesDb, statesKeyDb);
+    const auto protectedEventIds     = currentStateEventIds(txn, roomId, statesDb, statesKeyDb);
     const auto staleTimelineEventIds = db::listOrderEntryEventIds(txn, eventOrderDb);
 
     eventOrderDb.drop(txn, false);
@@ -140,7 +153,8 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
                                order2msgDb,
                                pending,
                                statesDb,
-                               statesKeyDb);
+                               statesKeyDb,
+                               room_id);
     }
 
     using namespace mtx::events;

@@ -19,6 +19,9 @@ enum class GlobalDb
 {
     Rooms,
     Invites,
+    SharedRoomPlain,
+    SharedRoomOrdered,
+    SharedRoomDupsort,
     SpacesParents,
     SpacesChildren,
     SyncState,
@@ -68,6 +71,12 @@ toDb(GlobalDb db) noexcept
         return db::catalog::GlobalDb::Rooms;
     case GlobalDb::Invites:
         return db::catalog::GlobalDb::Invites;
+    case GlobalDb::SharedRoomPlain:
+        return db::catalog::GlobalDb::SharedRoomPlain;
+    case GlobalDb::SharedRoomOrdered:
+        return db::catalog::GlobalDb::SharedRoomOrdered;
+    case GlobalDb::SharedRoomDupsort:
+        return db::catalog::GlobalDb::SharedRoomDupsort;
     case GlobalDb::SpacesParents:
         return db::catalog::GlobalDb::SpacesParents;
     case GlobalDb::SpacesChildren:

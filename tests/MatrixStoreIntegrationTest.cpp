@@ -27,6 +27,7 @@
 
 #include "cache/schema/CacheSchema.h"
 #include "cache/schema/Codecs.h"
+#include "cache/schema/RoomStore.h"
 #include "db/Catalog.h"
 #include "db/ReadReceiptIndex.h"
 #include "db/Scan.h"
@@ -283,6 +284,45 @@ testRoomRemovalDropsRoomScopedCache(MatrixStore &store)
         store.getAccountDataDb(txn, roomId);
         store.getMembersDb(txn, roomId);
 
+        room_store::put(
+          txn, store.db->sharedRoomPlain, cache::schema::RoomDb::State, roomId, "m.room.name", "{}");
+        db::putStateEventId(txn,
+                            store.db->sharedRoomDupsort,
+                            room_store::key(
+                              cache::schema::RoomDb::StatesKey, roomId, "m.room.member"),
+                            "@alice:example.org",
+                            "$state");
+        room_store::put(txn,
+                        store.db->sharedRoomPlain,
+                        cache::schema::RoomDb::Members,
+                        roomId,
+                        "@alice:example.org",
+                        cache::codec::serializeMemberInfo(MemberInfo{"Alice", ""}));
+        room_store::put(txn,
+                        store.db->sharedRoomPlain,
+                        cache::schema::RoomDb::InviteState,
+                        roomId,
+                        "m.room.topic",
+                        "{}");
+        room_store::put(txn,
+                        store.db->sharedRoomPlain,
+                        cache::schema::RoomDb::InviteMembers,
+                        roomId,
+                        "@bob:example.org",
+                        cache::codec::serializeMemberInfo(MemberInfo{"Bob", ""}));
+        room_store::put(txn,
+                        store.db->sharedRoomPlain,
+                        cache::schema::RoomDb::AccountData,
+                        roomId,
+                        "m.tag",
+                        "{}");
+        room_store::put(txn,
+                        store.db->sharedRoomPlain,
+                        cache::schema::RoomDb::AccountData,
+                        "",
+                        "global.keep",
+                        R"({"type":"global.keep"})");
+
         txn.commit();
     }
 
@@ -314,6 +354,37 @@ testRoomRemovalDropsRoomScopedCache(MatrixStore &store)
                  "removeRoom deletes room event notifications");
     ok &= expect(!db::getReadReceiptValue(txn, store.db->readReceipts, roomId, receiptUserId, raw),
                  "removeRoom deletes room read receipts");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomPlain, cache::schema::RoomDb::State, roomId) == 0,
+                 "removeRoom deletes shared room state entries");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomDupsort, cache::schema::RoomDb::StatesKey, roomId) ==
+                   0,
+                 "removeRoom deletes shared room states_key entries");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomPlain, cache::schema::RoomDb::Members, roomId) == 0,
+                 "removeRoom deletes shared room member entries");
+    ok &= expect(room_store::countEntries(
+                   txn,
+                   store.db->sharedRoomPlain,
+                   cache::schema::RoomDb::InviteState,
+                   roomId) == 0,
+                 "removeRoom deletes shared invite-state entries");
+    ok &= expect(room_store::countEntries(
+                   txn,
+                   store.db->sharedRoomPlain,
+                   cache::schema::RoomDb::InviteMembers,
+                   roomId) == 0,
+                 "removeRoom deletes shared invite-member entries");
+    ok &= expect(room_store::countEntries(
+                   txn,
+                   store.db->sharedRoomPlain,
+                   cache::schema::RoomDb::AccountData,
+                   roomId) == 0,
+                 "removeRoom deletes room-scoped shared account data entries");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomPlain, cache::schema::RoomDb::AccountData, "") == 1,
+                 "removeRoom preserves global shared account data entries");
 
     ok &= expect(db::listDupValues(txn, store.db->spacesParents, roomId).empty(),
                  "removeRoom clears parent-space links for the removed room");

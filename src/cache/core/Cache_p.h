@@ -85,20 +85,27 @@ public:
     QString roomAvatarUrl(const std::string &room_id);
 
     //! Calculate & return the name of the room.
-    QString getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
+    QString getRoomName(db::Transaction &txn,
+                        const std::string &room_id,
+                        db::Store &statesdb,
+                        db::Store &membersdb);
     //! Get room join rules
-    mtx::events::state::JoinRule getRoomJoinRule(db::Transaction &txn, db::Store &statesdb);
-    bool getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb);
+    mtx::events::state::JoinRule
+    getRoomJoinRule(db::Transaction &txn, const std::string &room_id, db::Store &statesdb);
+    bool getRoomGuestAccess(db::Transaction &txn, const std::string &room_id, db::Store &statesdb);
     //! Retrieve the topic of the room if any.
-    QString getRoomTopic(db::Transaction &txn, db::Store &statesdb);
+    QString getRoomTopic(db::Transaction &txn, const std::string &room_id, db::Store &statesdb);
     //! Retrieve the room avatar's url if any.
-    QString getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
+    QString getRoomAvatarUrl(db::Transaction &txn,
+                             const std::string &room_id,
+                             db::Store &statesdb,
+                             db::Store &membersdb);
     //! Retrieve the version of the room if any.
-    QString getRoomVersion(db::Transaction &txn, db::Store &statesdb);
+    QString getRoomVersion(db::Transaction &txn, const std::string &room_id, db::Store &statesdb);
     //! Retrieve if the room is a space
-    bool getRoomIsSpace(db::Transaction &txn, db::Store &statesdb);
+    bool getRoomIsSpace(db::Transaction &txn, const std::string &room_id, db::Store &statesdb);
     //! Retrieve if the room is tombstoned (closed or replaced by a different room)
-    bool getRoomIsTombstoned(db::Transaction &txn, db::Store &statesdb);
+    bool getRoomIsTombstoned(db::Transaction &txn, const std::string &room_id, db::Store &statesdb);
 
     // for the event expiry background job
     void storeEventExpirationProgress(const std::string &room,
@@ -338,14 +345,22 @@ private:
 
     //! Save an invited room.
     void saveInvite(db::Transaction &txn,
+                    const std::string &room_id,
                     db::Store &statesdb,
                     db::Store &membersdb,
                     const mtx::responses::InvitedRoom &room);
 
-    QString getInviteRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
-    QString getInviteRoomTopic(db::Transaction &txn, db::Store &statesdb);
-    QString getInviteRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb);
-    bool getInviteRoomIsSpace(db::Transaction &txn, db::Store &db);
+    QString getInviteRoomName(db::Transaction &txn,
+                              const std::string &room_id,
+                              db::Store &statesdb,
+                              db::Store &membersdb);
+    QString
+    getInviteRoomTopic(db::Transaction &txn, const std::string &room_id, db::Store &statesdb);
+    QString getInviteRoomAvatarUrl(db::Transaction &txn,
+                                   const std::string &room_id,
+                                   db::Store &statesdb,
+                                   db::Store &membersdb);
+    bool getInviteRoomIsSpace(db::Transaction &txn, const std::string &room_id, db::Store &db);
 
     std::optional<MemberInfo> getMember(const std::string &room_id, const std::string &user_id);
 

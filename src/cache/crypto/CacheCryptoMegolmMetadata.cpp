@@ -14,6 +14,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 #include "db/Json.h"
 #include "db/MegolmIndex.h"
 #include "db/Serde.h"
@@ -85,7 +86,11 @@ MatrixStore::roomEncryptionSettings(const std::string &room_id)
         auto txn      = ro_txn(storage());
         auto statesdb = getStatesDb(txn, room_id);
         if (auto msg = db::getJsonValue<StateEvent<Encryption>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomEncryption))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomEncryption)))) {
             return msg->content;
         }
     } catch (db::Error &) {

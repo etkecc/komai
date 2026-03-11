@@ -16,6 +16,9 @@ struct CacheDb
     db::Store rooms;
     db::Store spacesChildren, spacesParents;
     db::Store invites;
+    db::Store sharedRoomPlain;
+    db::Store sharedRoomOrdered;
+    db::Store sharedRoomDupsort;
     db::Store readReceipts;
     db::Store notifications;
     db::Store presence;

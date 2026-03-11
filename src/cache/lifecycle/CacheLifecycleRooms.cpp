@@ -21,6 +21,7 @@
 
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
+#include "cache/schema/RoomStore.h"
 #include "db/Json.h"
 #include "db/storage/Core.h"
 #include "db/storage/Crypto.h"
@@ -107,8 +108,9 @@ void
 MatrixStore::removeInvite(db::Transaction &txn, const std::string &room_id)
 {
     db->invites.del(txn, room_id);
-    getInviteStatesDb(txn, room_id).drop(txn, true);
-    getInviteMembersDb(txn, room_id).drop(txn, true);
+    room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::InviteState, room_id);
+    room_store::eraseEntries(
+      txn, db->sharedRoomPlain, cache::schema::RoomDb::InviteMembers, room_id);
 }
 
 void
@@ -162,6 +164,14 @@ MatrixStore::removeRoom(db::Transaction &txn, const std::string &roomid)
     db->encryptedRooms_.del(txn, roomid);
     db->eventExpiryBgJob_.del(txn, roomid);
     db->outboundMegolmSessions.del(txn, roomid);
+
+    room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::State, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomDupsort, cache::schema::RoomDb::StatesKey, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::Members, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::InviteState, roomid);
+    room_store::eraseEntries(
+      txn, db->sharedRoomPlain, cache::schema::RoomDb::InviteMembers, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::AccountData, roomid);
 
     const auto roomPrefix = roomid + "/";
     for (const auto &dbName : storage().listStoreNames(txn)) {

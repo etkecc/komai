@@ -17,6 +17,7 @@
 #include <mtx/responses/common.hpp>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 
 void
 MatrixStore::saveInvites(db::Transaction &txn,
@@ -26,14 +27,15 @@ MatrixStore::saveInvites(db::Transaction &txn,
         auto statesdb  = getInviteStatesDb(txn, room.first);
         auto membersdb = getInviteMembersDb(txn, room.first);
 
-        saveInvite(txn, statesdb, membersdb, room.second);
+        saveInvite(txn, room.first, statesdb, membersdb, room.second);
 
         RoomInfo updatedInfo;
-        updatedInfo.name       = getInviteRoomName(txn, statesdb, membersdb).toStdString();
-        updatedInfo.topic      = getInviteRoomTopic(txn, statesdb).toStdString();
-        updatedInfo.avatar_url = getInviteRoomAvatarUrl(txn, statesdb, membersdb).toStdString();
-        updatedInfo.is_space   = getInviteRoomIsSpace(txn, statesdb);
-        updatedInfo.is_invite  = true;
+        updatedInfo.name  = getInviteRoomName(txn, room.first, statesdb, membersdb).toStdString();
+        updatedInfo.topic = getInviteRoomTopic(txn, room.first, statesdb).toStdString();
+        updatedInfo.avatar_url =
+          getInviteRoomAvatarUrl(txn, room.first, statesdb, membersdb).toStdString();
+        updatedInfo.is_space  = getInviteRoomIsSpace(txn, room.first, statesdb);
+        updatedInfo.is_invite = true;
 
         cache::codec::putRoomInfo(txn, db->invites, room.first, updatedInfo);
     }
@@ -41,6 +43,7 @@ MatrixStore::saveInvites(db::Transaction &txn,
 
 void
 MatrixStore::saveInvite(db::Transaction &txn,
+                        const std::string &room_id,
                         db::Store &statesdb,
                         db::Store &membersdb,
                         const mtx::responses::InvitedRoom &room)
@@ -64,12 +67,22 @@ MatrixStore::saveInvite(db::Transaction &txn,
                            msg->content.reason,
                            msg->content.is_direct};
 
-            cache::codec::putMemberInfo(txn, membersdb, msg->state_key, tmp);
+            room_store::put(txn,
+                            membersdb,
+                            cache::schema::RoomDb::InviteMembers,
+                            room_id,
+                            msg->state_key,
+                            cache::codec::serializeMemberInfo(tmp));
         } else {
             std::visit(
-              [&txn, &statesdb](auto msg) {
+              [&txn, &statesdb, &room_id](auto msg) {
                   auto j   = nlohmann::json(msg);
-                  bool res = statesdb.put(txn, j["type"].get<std::string>(), j.dump());
+                  bool res = room_store::put(txn,
+                                             statesdb,
+                                             cache::schema::RoomDb::InviteState,
+                                             room_id,
+                                             j["type"].get<std::string>(),
+                                             j.dump());
 
                   if (!res) {
                       cache::activeLoggers().db->warn("couldn't save data: {}",

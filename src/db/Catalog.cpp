@@ -15,6 +15,12 @@ globalName(GlobalDb db) noexcept
         return "rooms";
     case GlobalDb::Invites:
         return "invites";
+    case GlobalDb::SharedRoomPlain:
+        return "shared_room_plain";
+    case GlobalDb::SharedRoomOrdered:
+        return "shared_room_ordered";
+    case GlobalDb::SharedRoomDupsort:
+        return "shared_room_dupsort";
     case GlobalDb::SpacesParents:
         return "space_parents";
     case GlobalDb::SpacesChildren:

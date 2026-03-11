@@ -13,19 +13,27 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 #include "utils/BotDetection.h"
 #include "utils/Utils.h"
 
 using namespace mtx::events;
 
 QString
-MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
+MatrixStore::getRoomAvatarUrl(db::Transaction &txn,
+                              const std::string &room_id,
+                              db::Store &statesdb,
+                              db::Store &membersdb)
 {
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<Avatar>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomAvatar))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomAvatar)))) {
             if (!msg->content.url.empty())
                 return QString::fromStdString(msg->content.url);
         }
@@ -34,7 +42,8 @@ MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
     }
 
     // We don't use an avatar for group chats.
-    const auto total = membersdb.size(txn);
+    const auto total =
+      room_store::countEntries(txn, membersdb, cache::schema::RoomDb::Members, room_id);
     if (total > 3)
         return QString();
 
@@ -50,19 +59,24 @@ MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
     };
     std::vector<OtherMember> others;
 
-    db::forEachEntry(txn, membersdb, [&](std::string_view user_id, std::string_view member_data) {
-        try {
-            MemberInfo m = cache::codec::parseMemberInfo(member_data);
-            if (user_id == localUserId) {
-                fallback_url = m.avatar_url;
-                return true;
-            }
-            others.push_back({std::string(user_id), m.avatar_url, m.name});
-        } catch (const nlohmann::json::exception &e) {
-            cache::activeLoggers().db->warn("failed to parse member info: {}", e.what());
-        }
-        return true;
-    });
+    room_store::forEachEntry(txn,
+                             membersdb,
+                             cache::schema::RoomDb::Members,
+                             room_id,
+                             [&](std::string_view user_id, std::string_view member_data) {
+                                 try {
+                                     MemberInfo m = cache::codec::parseMemberInfo(member_data);
+                                     if (user_id == localUserId) {
+                                         fallback_url = m.avatar_url;
+                                         return true;
+                                     }
+                                     others.push_back({std::string(user_id), m.avatar_url, m.name});
+                                 } catch (const nlohmann::json::exception &e) {
+                                     cache::activeLoggers().db->warn(
+                                       "failed to parse member info: {}", e.what());
+                                 }
+                                 return true;
+                             });
 
     if (others.size() == 1)
         return QString::fromStdString(others[0].avatar_url);
@@ -81,14 +95,21 @@ MatrixStore::getRoomAvatarUrl(db::Transaction &txn, db::Store &statesdb, db::Sto
 }
 
 QString
-MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &membersdb)
+MatrixStore::getRoomName(db::Transaction &txn,
+                         const std::string &room_id,
+                         db::Store &statesdb,
+                         db::Store &membersdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<Name>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomName))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomName)))) {
             if (!msg->content.name.empty())
                 return QString::fromStdString(msg->content.name);
         }
@@ -98,7 +119,11 @@ MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<CanonicalAlias>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomCanonicalAlias))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomCanonicalAlias)))) {
             if (!msg->content.alias.empty())
                 return QString::fromStdString(msg->content.alias);
         }
@@ -107,12 +132,19 @@ MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
                                         e.what());
     }
 
-    const auto total = membersdb.size(txn);
+    const auto total =
+      room_store::countEntries(txn, membersdb, cache::schema::RoomDb::Members, room_id);
 
     std::map<std::string, MemberInfo> members;
 
-    db::forEachEntry(
-      txn, membersdb, 0, 3, [&members](std::string_view user_id, std::string_view member_data) {
+    room_store::forEachEntry(
+      txn,
+      membersdb,
+      cache::schema::RoomDb::Members,
+      room_id,
+      0,
+      3,
+      [&members](std::string_view user_id, std::string_view member_data) {
           try {
               members.emplace(user_id, cache::codec::parseMemberInfo(member_data));
           } catch (const nlohmann::json::exception &e) {
@@ -157,14 +189,18 @@ MatrixStore::getRoomName(db::Transaction &txn, db::Store &statesdb, db::Store &m
 }
 
 mtx::events::state::JoinRule
-MatrixStore::getRoomJoinRule(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomJoinRule(db::Transaction &txn, const std::string &room_id, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<state::JoinRules>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomJoinRules))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomJoinRules)))) {
             return msg->content.join_rule;
         }
     } catch (const nlohmann::json::exception &e) {
@@ -174,14 +210,20 @@ MatrixStore::getRoomJoinRule(db::Transaction &txn, db::Store &statesdb)
 }
 
 bool
-MatrixStore::getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomGuestAccess(db::Transaction &txn,
+                                const std::string &room_id,
+                                db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<GuestAccess>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomGuestAccess))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomGuestAccess)))) {
             return msg->content.guest_access == AccessState::CanJoin;
         }
     } catch (const nlohmann::json::exception &e) {
@@ -191,14 +233,18 @@ MatrixStore::getRoomGuestAccess(db::Transaction &txn, db::Store &statesdb)
 }
 
 QString
-MatrixStore::getRoomTopic(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomTopic(db::Transaction &txn, const std::string &room_id, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<Topic>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomTopic))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomTopic)))) {
             if (!msg->content.topic.empty())
                 return QString::fromStdString(msg->content.topic);
         }
@@ -210,14 +256,18 @@ MatrixStore::getRoomTopic(db::Transaction &txn, db::Store &statesdb)
 }
 
 QString
-MatrixStore::getRoomVersion(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomVersion(db::Transaction &txn, const std::string &room_id, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<Create>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomCreate)))) {
             if (!msg->content.room_version.empty())
                 return QString::fromStdString(msg->content.room_version);
         }
@@ -231,14 +281,18 @@ MatrixStore::getRoomVersion(db::Transaction &txn, db::Store &statesdb)
 }
 
 bool
-MatrixStore::getRoomIsSpace(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomIsSpace(db::Transaction &txn, const std::string &room_id, db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<Create>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomCreate)))) {
             return msg->content.type == mtx::events::state::room_type::space;
         }
     } catch (const nlohmann::json::exception &e) {
@@ -251,14 +305,20 @@ MatrixStore::getRoomIsSpace(db::Transaction &txn, db::Store &statesdb)
 }
 
 bool
-MatrixStore::getRoomIsTombstoned(db::Transaction &txn, db::Store &statesdb)
+MatrixStore::getRoomIsTombstoned(db::Transaction &txn,
+                                 const std::string &room_id,
+                                 db::Store &statesdb)
 {
     using namespace mtx::events;
     using namespace mtx::events::state;
 
     try {
         if (auto msg = db::getJsonValue<StateEvent<Tombstone>>(
-              txn, statesdb, to_string(mtx::events::EventType::RoomCreate))) {
+              txn,
+              statesdb,
+              room_store::key(cache::schema::RoomDb::State,
+                              room_id,
+                              to_string(mtx::events::EventType::RoomCreate)))) {
             return true;
         }
     } catch (const nlohmann::json::exception &e) {

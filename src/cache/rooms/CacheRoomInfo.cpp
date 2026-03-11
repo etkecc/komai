@@ -14,6 +14,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 
 #include <nlohmann/json.hpp>
 
@@ -26,11 +27,12 @@ MatrixStore::singleRoomInfo(const std::string &room_id)
         auto statesdb  = getStatesDb(txn, room_id);
         auto membersdb = getMembersDb(txn, room_id);
         if (auto info = cache::codec::getRoomInfo(txn, db->rooms, room_id)) {
-            auto tmp         = std::move(*info);
-            tmp.member_count = membersdb.size(txn);
-            tmp.join_rule    = getRoomJoinRule(txn, statesdb);
-            tmp.guest_access = getRoomGuestAccess(txn, statesdb);
-            tmp.avatar_url   = getRoomAvatarUrl(txn, statesdb, membersdb).toStdString();
+            auto tmp = std::move(*info);
+            tmp.member_count =
+              room_store::countEntries(txn, membersdb, cache::schema::RoomDb::Members, room_id);
+            tmp.join_rule    = getRoomJoinRule(txn, room_id, statesdb);
+            tmp.guest_access = getRoomGuestAccess(txn, room_id, statesdb);
+            tmp.avatar_url   = getRoomAvatarUrl(txn, room_id, statesdb, membersdb).toStdString();
             return tmp;
         }
     } catch (const db::Error &e) {
@@ -81,10 +83,12 @@ MatrixStore::getRoomInfo(const std::vector<std::string> &rooms)
         // Check if the room is joined.
         if (db->rooms.get(txn, room, data)) {
             try {
-                RoomInfo tmp     = cache::codec::parseRoomInfo(data);
-                tmp.member_count = getMembersDb(txn, room).size(txn);
-                tmp.join_rule    = getRoomJoinRule(txn, statesdb);
-                tmp.guest_access = getRoomGuestAccess(txn, statesdb);
+                RoomInfo tmp   = cache::codec::parseRoomInfo(data);
+                auto membersDb = getMembersDb(txn, room);
+                tmp.member_count =
+                  room_store::countEntries(txn, membersDb, cache::schema::RoomDb::Members, room);
+                tmp.join_rule    = getRoomJoinRule(txn, room, statesdb);
+                tmp.guest_access = getRoomGuestAccess(txn, room, statesdb);
 
                 room_info.emplace(QString::fromStdString(room), std::move(tmp));
             } catch (const std::exception &e) {
@@ -97,8 +101,10 @@ MatrixStore::getRoomInfo(const std::vector<std::string> &rooms)
             // Check if the room is an invite.
             if (db->invites.get(txn, room, data)) {
                 try {
-                    RoomInfo tmp     = cache::codec::parseRoomInfo(data);
-                    tmp.member_count = getInviteMembersDb(txn, room).size(txn);
+                    RoomInfo tmp         = cache::codec::parseRoomInfo(data);
+                    auto inviteMembersDb = getInviteMembersDb(txn, room);
+                    tmp.member_count     = room_store::countEntries(
+                      txn, inviteMembersDb, cache::schema::RoomDb::InviteMembers, room);
 
                     room_info.emplace(QString::fromStdString(room), std::move(tmp));
                 } catch (const std::exception &e) {
@@ -125,7 +131,7 @@ MatrixStore::roomAvatarUrl(const std::string &room_id)
     try {
         auto statesdb  = getStatesDb(txn, room_id);
         auto membersdb = getMembersDb(txn, room_id);
-        return getRoomAvatarUrl(txn, statesdb, membersdb);
+        return getRoomAvatarUrl(txn, room_id, statesdb, membersdb);
     } catch (const std::exception &e) {
         cache::activeLoggers().db->warn(
           "failed to get room avatar url for room '{}': {}", room_id, e.what());
@@ -172,8 +178,10 @@ MatrixStore::roomInfo(bool withInvites)
     db::forEachEntry(
       txn, db->rooms, [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
           try {
-              RoomInfo tmp     = cache::codec::parseRoomInfo(room_data);
-              tmp.member_count = getMembersDb(txn, std::string(room_id)).size(txn);
+              RoomInfo tmp   = cache::codec::parseRoomInfo(room_data);
+              auto membersDb = getMembersDb(txn, std::string(room_id));
+              tmp.member_count =
+                room_store::countEntries(txn, membersDb, cache::schema::RoomDb::Members, room_id);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
           } catch (const std::exception &e) {
               cache::activeLoggers().db->warn(
@@ -189,8 +197,10 @@ MatrixStore::roomInfo(bool withInvites)
           db->invites,
           [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
               try {
-                  RoomInfo tmp     = cache::codec::parseRoomInfo(room_data);
-                  tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
+                  RoomInfo tmp         = cache::codec::parseRoomInfo(room_data);
+                  auto inviteMembersDb = getInviteMembersDb(txn, std::string(room_id));
+                  tmp.member_count     = room_store::countEntries(
+                    txn, inviteMembersDb, cache::schema::RoomDb::InviteMembers, room_id);
                   result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
               } catch (const std::exception &e) {
                   cache::activeLoggers().db->warn(

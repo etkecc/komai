@@ -21,6 +21,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
@@ -41,12 +42,17 @@ MatrixStore::getStateEvent(db::Transaction &txn,
 
         if (state_key.empty()) {
             auto db_ = getStatesDb(txn, room_id);
-            return db::getJsonValue<mtx::events::StateEvent<T>>(txn, db_, typeStr);
+            return db::getJsonValue<mtx::events::StateEvent<T>>(
+              txn, db_, room_store::key(cache::schema::RoomDb::State, room_id, typeStr));
         } else {
             try {
                 auto statesKeyDb = getStatesKeyDb(txn, room_id);
                 auto eventsDb    = getEventsDb(txn, room_id);
-                auto eventId     = db::findStateEventId(txn, statesKeyDb, typeStr, state_key);
+                auto eventId     = db::findStateEventId(
+                  txn,
+                  statesKeyDb,
+                  room_store::key(cache::schema::RoomDb::StatesKey, room_id, typeStr),
+                  state_key);
                 if (!eventId) {
                     return std::nullopt;
                 }
@@ -79,7 +85,10 @@ MatrixStore::getStateEventsWithType(db::Transaction &txn,
         const auto typeStr = to_string(type);
         std::string_view value;
 
-        for (const auto &eventId : db::listStateEventIds(txn, statesKeyDb, typeStr)) {
+        for (const auto &eventId : db::listStateEventIds(
+               txn,
+               statesKeyDb,
+               room_store::key(cache::schema::RoomDb::StatesKey, room_id, typeStr))) {
             try {
                 if (auto event =
                       db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))

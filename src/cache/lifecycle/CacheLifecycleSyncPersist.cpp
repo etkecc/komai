@@ -21,6 +21,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 #include "events/EventAccessors.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
@@ -46,11 +47,20 @@ try {
                   if (j["type"] == "cc.etke.komai.hidden_events") {
                       const auto contentIt = j.find("content");
                       if (contentIt == j.end() || !contentIt->contains("hidden_event_types")) {
-                          accountDataDb.del(txn, "cc.etke.komai.hidden_events");
+                          room_store::del(txn,
+                                          accountDataDb,
+                                          cache::schema::RoomDb::AccountData,
+                                          "",
+                                          "cc.etke.komai.hidden_events");
                           return;
                       }
                   }
-                  accountDataDb.put(txn, j["type"].get<std::string>(), j.dump());
+                  room_store::put(txn,
+                                  accountDataDb,
+                                  cache::schema::RoomDb::AccountData,
+                                  "",
+                                  j["type"].get<std::string>(),
+                                  j.dump());
               },
               ev);
     }
@@ -97,11 +107,12 @@ try {
             }
         }
 
-        updatedInfo.name       = getRoomName(txn, statesdb, membersdb).toStdString();
-        updatedInfo.topic      = getRoomTopic(txn, statesdb).toStdString();
-        updatedInfo.avatar_url = getRoomAvatarUrl(txn, statesdb, membersdb).toStdString();
-        updatedInfo.version    = getRoomVersion(txn, statesdb).toStdString();
-        updatedInfo.is_space   = getRoomIsSpace(txn, statesdb);
+        updatedInfo.name  = getRoomName(txn, room.first, statesdb, membersdb).toStdString();
+        updatedInfo.topic = getRoomTopic(txn, room.first, statesdb).toStdString();
+        updatedInfo.avatar_url =
+          getRoomAvatarUrl(txn, room.first, statesdb, membersdb).toStdString();
+        updatedInfo.version  = getRoomVersion(txn, room.first, statesdb).toStdString();
+        updatedInfo.is_space = getRoomIsSpace(txn, room.first, statesdb);
 
         updatedInfo.notification_count = room.second.unread_notifications.notification_count;
         updatedInfo.highlight_count    = room.second.unread_notifications.highlight_count;
@@ -156,16 +167,25 @@ try {
 
             for (const auto &evt : room.second.account_data.events) {
                 std::visit(
-                  [&txn, &accountDataDb](const auto &event) {
+                  [&txn, &accountDataDb, &room](const auto &event) {
                       auto j = nlohmann::json(event);
                       if (j["type"] == "cc.etke.komai.hidden_events") {
                           const auto contentIt = j.find("content");
                           if (contentIt == j.end() || !contentIt->contains("hidden_event_types")) {
-                              accountDataDb.del(txn, "cc.etke.komai.hidden_events");
+                              room_store::del(txn,
+                                              accountDataDb,
+                                              cache::schema::RoomDb::AccountData,
+                                              room.first,
+                                              "cc.etke.komai.hidden_events");
                               return;
                           }
                       }
-                      accountDataDb.put(txn, j["type"].get<std::string>(), j.dump());
+                      room_store::put(txn,
+                                      accountDataDb,
+                                      cache::schema::RoomDb::AccountData,
+                                      room.first,
+                                      j["type"].get<std::string>(),
+                                      j.dump());
                   },
                   evt);
 

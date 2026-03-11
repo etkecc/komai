@@ -124,40 +124,49 @@ MatrixStore::getRelationsDb(db::Transaction &txn, const std::string &room_id)
 db::Store
 MatrixStore::getInviteStatesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(
-      storage(), txn, room_id, cache::schema::RoomDb::InviteState);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store
 MatrixStore::getInviteMembersDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(
-      storage(), txn, room_id, cache::schema::RoomDb::InviteMembers);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store
 MatrixStore::getStatesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::State);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store
 MatrixStore::getStatesKeyDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::StatesKey);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomDupsort;
 }
 
 db::Store
 MatrixStore::getAccountDataDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(
-      storage(), txn, room_id, cache::schema::RoomDb::AccountData);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store
 MatrixStore::getMembersDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Members);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store

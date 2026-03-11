@@ -22,6 +22,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 
 std::vector<ImagePackInfo>
 MatrixStore::getImagePacks(const std::string &room_id, std::optional<bool> stickers)
@@ -149,7 +150,8 @@ MatrixStore::getAccountData(db::Transaction &txn,
         auto db_ = getAccountDataDb(txn, room_id);
 
         std::string_view data;
-        if (db_.get(txn, to_string(type), data)) {
+        if (room_store::get(
+              txn, db_, cache::schema::RoomDb::AccountData, room_id, to_string(type), data)) {
             mtx::responses::utils::RoomAccountDataEvents events;
             nlohmann::json j = nlohmann::json::array({
               nlohmann::json::parse(data),
@@ -172,7 +174,7 @@ MatrixStore::getAccountDataByType(db::Transaction &txn,
         auto db_ = getAccountDataDb(txn, room_id);
 
         std::string_view data;
-        if (db_.get(txn, type, data))
+        if (room_store::get(txn, db_, cache::schema::RoomDb::AccountData, room_id, type, data))
             return std::string(data);
     } catch (...) {
     }

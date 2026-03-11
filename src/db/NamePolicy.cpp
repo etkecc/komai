@@ -15,6 +15,10 @@ openOptionsForGlobal(catalog::GlobalDb db)
 
     if (db == catalog::GlobalDb::SpacesChildren || db == catalog::GlobalDb::SpacesParents)
         options.flags |= StoreFlags::DupSort;
+    else if (db == catalog::GlobalDb::SharedRoomDupsort) {
+        options.flags |= StoreFlags::DupSort;
+        options.dupsortComparator = DupsortComparator::StateKey;
+    }
 
     return options;
 }
@@ -57,6 +61,8 @@ openOptionsForName(std::string_view dbName)
         options = openOptionsForGlobal(catalog::GlobalDb::SpacesChildren);
     else if (dbName == catalog::globalName(catalog::GlobalDb::SpacesParents))
         options = openOptionsForGlobal(catalog::GlobalDb::SpacesParents);
+    else if (dbName == catalog::globalName(catalog::GlobalDb::SharedRoomDupsort))
+        options = openOptionsForGlobal(catalog::GlobalDb::SharedRoomDupsort);
 
     return options;
 }

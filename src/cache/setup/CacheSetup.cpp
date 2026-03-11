@@ -70,6 +70,12 @@ MatrixStore::openCoreStores(db::Transaction &txn)
     db->spacesParents =
       cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SpacesParents);
     db->invites = cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::Invites);
+    db->sharedRoomPlain =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SharedRoomPlain);
+    db->sharedRoomOrdered =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SharedRoomOrdered);
+    db->sharedRoomDupsort =
+      cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::SharedRoomDupsort);
     db->readReceipts =
       cache::schema::openGlobalStore(storage(), txn, cache::schema::GlobalDb::ReadReceipts);
     db->notifications =

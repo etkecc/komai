@@ -11,37 +11,40 @@ MatrixStore::getAccountData(db::Transaction &, mtx::events::EventType, const std
 }
 
 QString
-MatrixStore::getRoomName(db::Transaction &, db::Store &, db::Store &)
+MatrixStore::getRoomName(db::Transaction &, const std::string &, db::Store &, db::Store &)
 {
     return {};
 }
 
 QString
-MatrixStore::getRoomTopic(db::Transaction &, db::Store &)
+MatrixStore::getRoomTopic(db::Transaction &, const std::string &, db::Store &)
 {
     return {};
 }
 
 QString
-MatrixStore::getRoomAvatarUrl(db::Transaction &, db::Store &, db::Store &)
+MatrixStore::getRoomAvatarUrl(db::Transaction &,
+                              const std::string &,
+                              db::Store &,
+                              db::Store &)
 {
     return {};
 }
 
 QString
-MatrixStore::getRoomVersion(db::Transaction &, db::Store &)
+MatrixStore::getRoomVersion(db::Transaction &, const std::string &, db::Store &)
 {
     return {};
 }
 
 bool
-MatrixStore::getRoomIsSpace(db::Transaction &, db::Store &)
+MatrixStore::getRoomIsSpace(db::Transaction &, const std::string &, db::Store &)
 {
     return false;
 }
 
 bool
-MatrixStore::getRoomIsTombstoned(db::Transaction &, db::Store &)
+MatrixStore::getRoomIsTombstoned(db::Transaction &, const std::string &, db::Store &)
 {
     return false;
 }

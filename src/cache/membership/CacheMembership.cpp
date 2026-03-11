@@ -15,6 +15,7 @@
 #include <QHash>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 
 bool
 MatrixStore::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
@@ -33,7 +34,11 @@ MatrixStore::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &even
 
         try {
             if (auto msg = db::getJsonValue<StateEvent<PowerLevels>>(
-                  txn, db_, to_string(EventType::RoomPowerLevels))) {
+                  txn,
+                  db_,
+                  room_store::key(cache::schema::RoomDb::State,
+                                  room_id,
+                                  to_string(EventType::RoomPowerLevels)))) {
                 user_level = msg->content.user_level(user_id);
 
                 for (const auto &ty : eventTypes)
@@ -58,7 +63,7 @@ MatrixStore::roomMembers(const std::string &room_id)
 
     try {
         auto db_ = getMembersDb(txn, room_id);
-        return db::listUniqueKeys(txn, db_);
+        return room_store::listKeys(txn, db_, cache::schema::RoomDb::Members, room_id);
     } catch (const db::Error &e) {
         cache::activeLoggers().db->error(
           "Failed to retrieve members from db in room {}: {}", room_id, e.what());
@@ -71,7 +76,8 @@ MatrixStore::memberCount(const std::string &room_id)
 {
     auto txn = ro_txn(storage());
     try {
-        return getMembersDb(txn, room_id).size(txn);
+        auto membersDb = getMembersDb(txn, room_id);
+        return room_store::countEntries(txn, membersDb, cache::schema::RoomDb::Members, room_id);
     } catch (const db::Error &) {
         // Invite-only rooms have no members store; the read-only txn cannot create it.
         return 0;
@@ -94,25 +100,30 @@ MatrixStore::getCommonRooms(const std::string &user_id)
 
     std::string_view member_info;
 
-    db::forEachEntry(
-      txn,
-      db->rooms,
-      [this, &txn, &result, &user_id, &member_info](std::string_view room_id,
-                                                    std::string_view room_data) {
-          try {
-              if (getMembersDb(txn, std::string(room_id)).get(txn, user_id, member_info)) {
-                  RoomInfo tmp = cache::codec::parseRoomInfo(room_data);
-                  result.emplace(std::string(room_id), std::move(tmp));
-              }
-          } catch (std::exception &e) {
-              cache::activeLoggers().db->warn(
-                "Failed to read common room for member ({}) in room ({}): {}",
-                user_id,
-                room_id,
-                e.what());
-          }
-          return true;
-      });
+    db::forEachEntry(txn,
+                     db->rooms,
+                     [this, &txn, &result, &user_id, &member_info](std::string_view room_id,
+                                                                   std::string_view room_data) {
+                         try {
+                             auto membersDb = getMembersDb(txn, std::string(room_id));
+                             if (room_store::get(txn,
+                                                 membersDb,
+                                                 cache::schema::RoomDb::Members,
+                                                 room_id,
+                                                 user_id,
+                                                 member_info)) {
+                                 RoomInfo tmp = cache::codec::parseRoomInfo(room_data);
+                                 result.emplace(std::string(room_id), std::move(tmp));
+                             }
+                         } catch (std::exception &e) {
+                             cache::activeLoggers().db->warn(
+                               "Failed to read common room for member ({}) in room ({}): {}",
+                               user_id,
+                               room_id,
+                               e.what());
+                         }
+                         return true;
+                     });
 
     return result;
 }
@@ -127,8 +138,11 @@ MatrixStore::getMember(const std::string &room_id, const std::string &user_id)
         auto txn = ro_txn(storage());
 
         auto membersdb = getMembersDb(txn, room_id);
+        std::string_view raw;
+        if (!room_store::get(txn, membersdb, cache::schema::RoomDb::Members, room_id, user_id, raw))
+            return std::nullopt;
 
-        return cache::codec::getMemberInfo(txn, membersdb, user_id);
+        return cache::codec::parseMemberInfo(raw);
     } catch (std::exception &e) {
         cache::activeLoggers().db->warn(
           "Failed to read member ({}) in room ({}): {}", user_id, room_id, e.what());
@@ -145,23 +159,25 @@ MatrixStore::getMembers(const std::string &room_id, std::size_t startIndex, std:
 
         std::vector<RoomMember> members;
 
-        db::forEachEntry(txn,
-                         db_,
-                         startIndex,
-                         len,
-                         [&members](std::string_view user_id, std::string_view user_data) {
-                             try {
-                                 MemberInfo tmp = cache::codec::parseMemberInfo(user_data);
-                                 members.emplace_back(RoomMember{
-                                   QString::fromStdString(std::string(user_id)),
-                                   QString::fromStdString(tmp.name),
-                                   QString::fromStdString(tmp.avatar_url),
+        room_store::forEachEntry(txn,
+                                 db_,
+                                 cache::schema::RoomDb::Members,
+                                 room_id,
+                                 startIndex,
+                                 len,
+                                 [&members](std::string_view user_id, std::string_view user_data) {
+                                     try {
+                                         MemberInfo tmp = cache::codec::parseMemberInfo(user_data);
+                                         members.emplace_back(RoomMember{
+                                           QString::fromStdString(std::string(user_id)),
+                                           QString::fromStdString(tmp.name),
+                                           QString::fromStdString(tmp.avatar_url),
+                                         });
+                                     } catch (const nlohmann::json::exception &e) {
+                                         cache::activeLoggers().db->warn("{}", e.what());
+                                     }
+                                     return true;
                                  });
-                             } catch (const nlohmann::json::exception &e) {
-                                 cache::activeLoggers().db->warn("{}", e.what());
-                             }
-                             return true;
-                         });
 
         return members;
     } catch (const db::Error &e) {
@@ -179,7 +195,8 @@ MatrixStore::isRoomMember(const std::string &user_id, const std::string &room_id
         auto db_ = getMembersDb(txn, room_id);
 
         std::string_view value;
-        bool res = db_.get(txn, user_id, value);
+        bool res =
+          room_store::get(txn, db_, cache::schema::RoomDb::Members, room_id, user_id, value);
 
         return res;
     } catch (std::exception &e) {

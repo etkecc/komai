@@ -15,6 +15,7 @@
 #include <QHash>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 
 QHash<QString, RoomInfo>
 MatrixStore::invites()
@@ -28,7 +29,9 @@ MatrixStore::invites()
       [this, &txn, &result](std::string_view room_id, std::string_view room_data) {
           try {
               RoomInfo tmp     = cache::codec::parseRoomInfo(room_data);
-              tmp.member_count = getInviteMembersDb(txn, std::string(room_id)).size(txn);
+              auto membersDb   = getInviteMembersDb(txn, std::string(room_id));
+              tmp.member_count = room_store::countEntries(
+                txn, membersDb, cache::schema::RoomDb::InviteMembers, room_id);
               result.insert(QString::fromStdString(std::string(room_id)), std::move(tmp));
           } catch (const std::exception &e) {
               cache::activeLoggers().db->warn("failed to parse room info for invite: "
@@ -55,8 +58,10 @@ MatrixStore::invite(std::string_view roomid)
     if (db->invites.get(txn, roomid, room_data)) {
         try {
             RoomInfo tmp     = cache::codec::parseRoomInfo(room_data);
-            tmp.member_count = getInviteMembersDb(txn, std::string(roomid)).size(txn);
-            result           = std::move(tmp);
+            auto membersDb   = getInviteMembersDb(txn, std::string(roomid));
+            tmp.member_count = room_store::countEntries(
+              txn, membersDb, cache::schema::RoomDb::InviteMembers, roomid);
+            result = std::move(tmp);
         } catch (const std::exception &e) {
             cache::activeLoggers().db->warn("failed to parse room info for invite: "
                                             "room_id ({}), {}: {}",
@@ -79,8 +84,12 @@ MatrixStore::getInviteMember(const std::string &room_id, const std::string &user
         auto txn = ro_txn(storage());
 
         auto membersdb = getInviteMembersDb(txn, room_id);
+        std::string_view raw;
+        if (!room_store::get(
+              txn, membersdb, cache::schema::RoomDb::InviteMembers, room_id, user_id, raw))
+            return std::nullopt;
 
-        return cache::codec::getMemberInfo(txn, membersdb, user_id);
+        return cache::codec::parseMemberInfo(raw);
     } catch (std::exception &e) {
         cache::activeLoggers().db->warn(
           "Failed to read member ({}) in invite room ({}): {}", user_id, room_id, e.what());
@@ -98,24 +107,26 @@ MatrixStore::getMembersFromInvite(const std::string &room_id,
         std::vector<RoomMember> members;
 
         auto db_ = getInviteMembersDb(txn, room_id);
-        db::forEachEntry(txn,
-                         db_,
-                         startIndex,
-                         len,
-                         [&members](std::string_view user_id, std::string_view user_data) {
-                             try {
-                                 MemberInfo tmp = cache::codec::parseMemberInfo(user_data);
-                                 members.emplace_back(RoomMember{
-                                   QString::fromStdString(std::string(user_id)),
-                                   QString::fromStdString(tmp.name),
-                                   QString::fromStdString(tmp.avatar_url),
-                                   tmp.is_direct,
+        room_store::forEachEntry(txn,
+                                 db_,
+                                 cache::schema::RoomDb::InviteMembers,
+                                 room_id,
+                                 startIndex,
+                                 len,
+                                 [&members](std::string_view user_id, std::string_view user_data) {
+                                     try {
+                                         MemberInfo tmp = cache::codec::parseMemberInfo(user_data);
+                                         members.emplace_back(RoomMember{
+                                           QString::fromStdString(std::string(user_id)),
+                                           QString::fromStdString(tmp.name),
+                                           QString::fromStdString(tmp.avatar_url),
+                                           tmp.is_direct,
+                                         });
+                                     } catch (const nlohmann::json::exception &e) {
+                                         cache::activeLoggers().db->warn("{}", e.what());
+                                     }
+                                     return true;
                                  });
-                             } catch (const nlohmann::json::exception &e) {
-                                 cache::activeLoggers().db->warn("{}", e.what());
-                             }
-                             return true;
-                         });
 
         return members;
     } catch (const db::Error &e) {

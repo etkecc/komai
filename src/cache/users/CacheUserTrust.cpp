@@ -14,6 +14,7 @@
 
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
+#include "cache/schema/RoomStore.h"
 #include "matrix/MatrixClient.h"
 #include "utils/Utils.h"
 
@@ -29,8 +30,12 @@ MatrixStore::roomVerificationStatus(const std::string &room_id)
         auto keysDb = getUserKeysDb(txn);
         std::vector<std::string> keysToRequest;
 
-        db::forEachUniqueKey(
-          txn, db_, [&keysToRequest, &trust, &txn, this](std::string_view user_id) {
+        room_store::forEachEntry(
+          txn,
+          db_,
+          cache::schema::RoomDb::Members,
+          room_id,
+          [&keysToRequest, &trust, &txn, this](std::string_view user_id, std::string_view) {
               const auto userId = std::string(user_id);
               auto verif        = verificationStatus_(userId, txn);
               if (verif.unverified_device_count) {
@@ -71,8 +76,13 @@ MatrixStore::getMembersWithKeys(const std::string &room_id, bool verified_only)
         auto db_    = getMembersDb(txn, room_id);
         auto keysDb = getUserKeysDb(txn);
 
-        db::forEachUniqueKey(
-          txn, db_, [&members, &keysDb, &txn, verified_only, this](std::string_view user_id) {
+        room_store::forEachEntry(
+          txn,
+          db_,
+          cache::schema::RoomDb::Members,
+          room_id,
+          [&members, &keysDb, &txn, verified_only, this](std::string_view user_id,
+                                                         std::string_view) {
               const auto userId = std::string(user_id);
               if (auto k = db::getJsonValue<UserKeyCache>(txn, keysDb, userId)) {
                   if (verified_only) {

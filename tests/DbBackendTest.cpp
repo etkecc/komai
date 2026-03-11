@@ -166,6 +166,14 @@ testNamePolicy()
     ok &= expect(db::hasFlag(globalSpaces.flags, db::StoreFlags::DupSort),
                  "typed name policy sets DupSort for GlobalDb::SpacesChildren");
 
+    const auto sharedRoomDupsort =
+      db::openOptionsForGlobal(db::catalog::GlobalDb::SharedRoomDupsort);
+    ok &= expect(db::hasFlag(sharedRoomDupsort.flags, db::StoreFlags::DupSort),
+                 "typed name policy sets DupSort for GlobalDb::SharedRoomDupsort");
+    ok &= expect(sharedRoomDupsort.dupsortComparator.has_value() &&
+                   *sharedRoomDupsort.dupsortComparator == db::DupsortComparator::StateKey,
+                 "typed name policy sets StateKey comparator for GlobalDb::SharedRoomDupsort");
+
     const auto roomOrder =
       db::openOptionsForName(db::catalog::roomName("!room:example", db::catalog::RoomDb::EventOrder));
     ok &= expect(db::hasFlag(roomOrder.flags, db::StoreFlags::IntegerKey),
@@ -189,6 +197,14 @@ testNamePolicy()
     ok &= expect(db::hasFlag(topLevelSpace.flags, db::StoreFlags::DupSort),
                  "name policy sets DupSort for top-level space_children");
 
+    const auto sharedRoomDupsortByName =
+      db::openOptionsForName(db::catalog::globalName(db::catalog::GlobalDb::SharedRoomDupsort));
+    ok &= expect(db::hasFlag(sharedRoomDupsortByName.flags, db::StoreFlags::DupSort),
+                 "name policy sets DupSort for shared_room_dupsort");
+    ok &= expect(sharedRoomDupsortByName.dupsortComparator.has_value() &&
+                   *sharedRoomDupsortByName.dupsortComparator == db::DupsortComparator::StateKey,
+                 "name policy sets StateKey comparator for shared_room_dupsort");
+
     const auto simple = db::openOptionsForName(db::catalog::globalName(db::catalog::GlobalDb::Rooms));
     ok &= expect(simple.flags == db::StoreFlags::None && !simple.dupsortComparator.has_value(),
                  "name policy leaves simple db names unflagged");
@@ -208,6 +224,15 @@ testCatalog()
 
     ok &= expect(db::catalog::globalName(db::catalog::GlobalDb::Rooms) == "rooms",
                  "catalog returns rooms global name");
+    ok &= expect(db::catalog::globalName(db::catalog::GlobalDb::SharedRoomPlain) ==
+                   "shared_room_plain",
+                 "catalog returns shared_room_plain global name");
+    ok &= expect(db::catalog::globalName(db::catalog::GlobalDb::SharedRoomOrdered) ==
+                   "shared_room_ordered",
+                 "catalog returns shared_room_ordered global name");
+    ok &= expect(db::catalog::globalName(db::catalog::GlobalDb::SharedRoomDupsort) ==
+                   "shared_room_dupsort",
+                 "catalog returns shared_room_dupsort global name");
 
     const auto eventsName = db::catalog::roomName("!room:example", db::catalog::RoomDb::Events);
     ok &= expect(eventsName == "!room:example/events", "catalog builds room db names");

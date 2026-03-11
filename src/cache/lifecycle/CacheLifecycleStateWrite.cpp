@@ -21,6 +21,7 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
@@ -36,9 +37,9 @@ MatrixStore::updateState(const std::string &room,
     auto eventsDb    = getEventsDb(txn, room);
 
     if (wipe) {
-        membersdb.drop(txn);
-        statesdb.drop(txn);
-        stateskeydb.drop(txn);
+        room_store::eraseEntries(txn, membersdb, cache::schema::RoomDb::Members, room);
+        room_store::eraseEntries(txn, statesdb, cache::schema::RoomDb::State, room);
+        room_store::eraseEntries(txn, stateskeydb, cache::schema::RoomDb::StatesKey, room);
     }
 
     saveStateEvents(txn, statesdb, stateskeydb, membersdb, eventsDb, room, state.events);
@@ -55,13 +56,13 @@ MatrixStore::updateState(const std::string &room,
         }
     }
 
-    updatedInfo.name       = getRoomName(txn, statesdb, membersdb).toStdString();
-    updatedInfo.topic      = getRoomTopic(txn, statesdb).toStdString();
-    updatedInfo.avatar_url = getRoomAvatarUrl(txn, statesdb, membersdb).toStdString();
-    updatedInfo.version    = getRoomVersion(txn, statesdb).toStdString();
+    updatedInfo.name       = getRoomName(txn, room, statesdb, membersdb).toStdString();
+    updatedInfo.topic      = getRoomTopic(txn, room, statesdb).toStdString();
+    updatedInfo.avatar_url = getRoomAvatarUrl(txn, room, statesdb, membersdb).toStdString();
+    updatedInfo.version    = getRoomVersion(txn, room, statesdb).toStdString();
 
-    updatedInfo.is_space      = getRoomIsSpace(txn, statesdb);
-    updatedInfo.is_tombstoned = getRoomIsTombstoned(txn, statesdb);
+    updatedInfo.is_space      = getRoomIsSpace(txn, room, statesdb);
+    updatedInfo.is_tombstoned = getRoomIsTombstoned(txn, room, statesdb);
 
     cache::codec::putRoomInfo(txn, db->rooms, room, updatedInfo);
     updateSpaces(txn, {room}, {room});
@@ -119,11 +120,16 @@ MatrixStore::saveStateEvent(db::Transaction &txn,
               e->content.is_direct,
             };
 
-            cache::codec::putMemberInfo(txn, membersdb, e->state_key, tmp);
+            room_store::put(txn,
+                            membersdb,
+                            cache::schema::RoomDb::Members,
+                            room_id,
+                            e->state_key,
+                            cache::codec::serializeMemberInfo(tmp));
             break;
         }
         default: {
-            membersdb.del(txn, e->state_key, "");
+            room_store::del(txn, membersdb, cache::schema::RoomDb::Members, room_id, e->state_key);
             break;
         }
         }
@@ -135,13 +141,14 @@ MatrixStore::saveStateEvent(db::Transaction &txn,
 
         std::string_view temp;
         // ensure we don't replace the event in the db
-        if (statesdb.get(txn, to_string(encr->type), temp)) {
+        if (room_store::get(
+              txn, statesdb, cache::schema::RoomDb::State, room_id, to_string(encr->type), temp)) {
             return;
         }
     }
 
     std::visit(
-      [&txn, &statesdb, &stateskeydb, &eventsDb, &membersdb](const auto &e) {
+      [&txn, &statesdb, &stateskeydb, &eventsDb, &membersdb, &room_id](const auto &e) {
           if constexpr (isStateEvent_<decltype(e)>) {
               eventsDb.put(txn, e.event_id, nlohmann::json(e).dump());
 
@@ -153,7 +160,12 @@ MatrixStore::saveStateEvent(db::Transaction &txn,
                           // membership is not revoked, but names are yeeted (so we set the name
                           // to the mxid)
                           MemberInfo tmp{e.state_key, ""};
-                          cache::codec::putMemberInfo(txn, membersdb, e.state_key, tmp);
+                          room_store::put(txn,
+                                          membersdb,
+                                          cache::schema::RoomDb::Members,
+                                          room_id,
+                                          e.state_key,
+                                          cache::codec::serializeMemberInfo(tmp));
                       } else if (e.state_key.empty()) {
                           // strictly speaking some stuff in those events can be redacted, but
                           // this is close enough. Ref:
@@ -162,15 +174,34 @@ MatrixStore::saveStateEvent(db::Transaction &txn,
                               e.type != EventType::RoomJoinRules &&
                               e.type != EventType::RoomPowerLevels &&
                               e.type != EventType::RoomHistoryVisibility)
-                              statesdb.del(txn, to_string(e.type));
+                              room_store::del(txn,
+                                              statesdb,
+                                              cache::schema::RoomDb::State,
+                                              room_id,
+                                              to_string(e.type));
                       } else
-                          db::removeStateEventId(
-                            txn, stateskeydb, to_string(e.type), e.state_key, e.event_id);
+                          db::removeStateEventId(txn,
+                                                 stateskeydb,
+                                                 room_store::key(cache::schema::RoomDb::StatesKey,
+                                                                 room_id,
+                                                                 to_string(e.type)),
+                                                 e.state_key,
+                                                 e.event_id);
                   } else if (e.state_key.empty()) {
-                      statesdb.put(txn, to_string(e.type), nlohmann::json(e).dump());
+                      room_store::put(txn,
+                                      statesdb,
+                                      cache::schema::RoomDb::State,
+                                      room_id,
+                                      to_string(e.type),
+                                      nlohmann::json(e).dump());
                   } else {
-                      db::putStateEventId(
-                        txn, stateskeydb, to_string(e.type), e.state_key, e.event_id);
+                      db::putStateEventId(txn,
+                                          stateskeydb,
+                                          room_store::key(cache::schema::RoomDb::StatesKey,
+                                                          room_id,
+                                                          to_string(e.type)),
+                                          e.state_key,
+                                          e.event_id);
                   }
               }
           }

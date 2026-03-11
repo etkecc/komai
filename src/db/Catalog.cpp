@@ -43,8 +43,6 @@ globalName(GlobalDb db) noexcept
         return "user_key";
     case GlobalDb::Verified:
         return "verified";
-    case GlobalDb::PendingReceipts:
-        return "pending_receipts";
     }
 
     return {};

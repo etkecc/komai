@@ -33,7 +33,6 @@ enum class GlobalDb
     OlmSessions,
     UserKeys,
     Verified,
-    PendingReceipts,
 };
 
 enum class RoomDb
@@ -97,8 +96,6 @@ toDb(GlobalDb db) noexcept
         return db::catalog::GlobalDb::UserKeys;
     case GlobalDb::Verified:
         return db::catalog::GlobalDb::Verified;
-    case GlobalDb::PendingReceipts:
-        return db::catalog::GlobalDb::PendingReceipts;
     default:
         return db::catalog::GlobalDb::Rooms;
     }

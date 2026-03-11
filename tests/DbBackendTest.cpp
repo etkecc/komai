@@ -1645,13 +1645,13 @@ testOrderEntryHelper()
     ok &= expect(emptyEventId.prevBatch.has_value() && *emptyEventId.prevBatch == "batch",
                  "order-entry helper preserves prev_batch string with empty event_id");
 
-    const auto legacy = db::parseOrderEntry("$legacy-event");
-    ok &= expect(legacy.eventId.has_value() && *legacy.eventId == "$legacy-event",
-                 "order-entry helper falls back to legacy raw event-id format");
-    ok &= expect(!legacy.hasPrevBatch,
-                 "order-entry helper legacy fallback has no prev_batch");
-    ok &= expect(!legacy.prevBatch.has_value(),
-                 "order-entry helper legacy fallback has no prev_batch value");
+    const auto invalid = db::parseOrderEntry("$legacy-event");
+    ok &= expect(!invalid.eventId.has_value(),
+                 "order-entry helper ignores non-JSON legacy raw event-id data");
+    ok &= expect(!invalid.hasPrevBatch,
+                 "order-entry helper invalid input has no prev_batch");
+    ok &= expect(!invalid.prevBatch.has_value(),
+                 "order-entry helper invalid input has no prev_batch value");
 
     const auto serialized = db::serializeOrderEntry("$new-event", "next-batch");
     const auto roundtrip  = db::parseOrderEntry(serialized);

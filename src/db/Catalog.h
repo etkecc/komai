@@ -29,7 +29,6 @@ enum class GlobalDb
     OlmSessions,
     UserKeys,
     Verified,
-    PendingReceipts,
 };
 
 enum class RoomDb

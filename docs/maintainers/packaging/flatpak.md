@@ -33,9 +33,10 @@ The Flatpak manifest at [`etc/packaging/flatpak/cc.etke.komai.yaml`](../../../et
 3. Builds Komai itself from the local source tree
 4. Packages everything into a Flatpak bundle
 
-Komai uses bundled `mtxclient` by default. For Flatpak, the manifest pre-fetches the
-`mtxclient` source as `.deps/mtxclient` and points CMake there via
-`-DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient` so builds stay offline-friendly.
+Komai uses bundled `mtxclient` and `litehtml` by default. For Flatpak, the manifest
+pre-fetches those sources as `.deps/mtxclient` and `.deps/litehtml`, then points CMake
+there via `-DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient` and
+`-DFETCHCONTENT_SOURCE_DIR_LITEHTML=.deps/litehtml` so builds stay offline-friendly.
 
 The `flatpak-builder` tool caches each module, so subsequent builds only rebuild what changed. The cache lives at `var/build/flatpak/.flatpak-builder/`.
 

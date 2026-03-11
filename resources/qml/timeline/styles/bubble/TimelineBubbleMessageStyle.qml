@@ -380,6 +380,43 @@ TimelineMessageStyleBase {
                     radius: wrapper.messageBubbleRadius
                     border.color: Komai.theme.attention
                     border.width: wrapper.notificationlevel == MtxEvent.Highlight ? 1 : 0
+
+                    Canvas {
+                        id: dashedBorderCanvas
+                        anchors.fill: parent
+                        visible: !wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled && wrapper.status === MtxEvent.Sent
+
+                        property real dashOffset
+                        property color borderColor: wrapper.isSender
+                            ? Qt.hsla(Komai.theme.userColorSelf.hslHue, 0.7, Komai.theme.userColorSelf.hslLightness, 0.6)
+                            : Qt.hsla(messageBubble.roomColor.hslHue, 0.6, messageBubble.roomColor.hslLightness, 0.5)
+
+                        NumberAnimation on dashOffset {
+                            from: 0
+                            to: 16
+                            duration: 800
+                            loops: Animation.Infinite
+                        }
+
+                        onDashOffsetChanged: requestPaint()
+                        onWidthChanged: requestPaint()
+                        onHeightChanged: requestPaint()
+                        onBorderColorChanged: requestPaint()
+
+                        onPaint: {
+                            var ctx = getContext("2d");
+                            ctx.clearRect(0, 0, width, height);
+                            ctx.strokeStyle = borderColor;
+                            ctx.lineWidth = 1.5;
+                            ctx.setLineDash([6, 10]);
+                            ctx.lineDashOffset = -dashOffset;
+                            var r = wrapper.messageBubbleRadius;
+                            var inset = 0.75;
+                            ctx.beginPath();
+                            ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
+                            ctx.stroke();
+                        }
+                    }
                 }
             }
 

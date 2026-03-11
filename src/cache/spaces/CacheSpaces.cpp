@@ -64,9 +64,39 @@ MatrixStore::updateSpaces(db::Transaction &txn,
         }
     }
 
-    const auto space_event_type = to_string(mtx::events::EventType::SpaceChild);
+    const auto space_event_type       = to_string(mtx::events::EventType::SpaceChild);
+    const auto hasValidSpaceChildLink = [this, &txn](const std::string &spaceId,
+                                                     const std::string &roomId) {
+        const auto child = getStateEvent<mtx::events::state::space::Child>(txn, spaceId, roomId);
+        return child && child->content.via.has_value() && child->state_key.size() > 3 &&
+               child->state_key.at(0) == '!';
+    };
+    const auto removeStaleRoomSpaceParents =
+      [this, &txn, &space_event_type, &hasValidSpaceChildLink](const std::string &roomId) {
+          const auto parentSpaces = db::listDupValues(txn, db->spacesParents, roomId);
+          for (const auto &parentSpace : parentSpaces) {
+              if (hasValidSpaceChildLink(parentSpace, roomId))
+                  continue;
+
+              const auto parent =
+                getStateEvent<mtx::events::state::space::Parent>(txn, roomId, parentSpace);
+              if (parent && parent->content.via.has_value() && parent->state_key.size() > 3 &&
+                  parent->state_key.at(0) == '!') {
+                  const auto pls = getStateEvent<mtx::events::state::PowerLevels>(txn, parentSpace);
+                  if (pls && pls->content.user_level(parent->sender) >=
+                               pls->content.state_level(space_event_type)) {
+                      continue;
+                  }
+              }
+
+              db->spacesChildren.del(txn, parentSpace, roomId);
+              db->spacesParents.del(txn, roomId, parentSpace);
+          }
+      };
 
     for (const auto &room : rooms_with_updates) {
+        removeStaleRoomSpaceParents(room);
+
         for (const auto &event :
              getStateEventsWithType<mtx::events::state::space::Parent>(txn, room)) {
             if (event.content.via.has_value() && event.state_key.size() > 3 &&

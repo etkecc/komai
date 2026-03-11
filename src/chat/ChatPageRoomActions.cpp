@@ -173,10 +173,9 @@ ChatPage::leaveRoom(const QString &room_id, const QString &reason)
 
               if (err->status_code == 404 &&
                   err->matrix_error.errcode == mtx::errors::ErrorCode::M_UNKNOWN) {
-                  nhlog::db()->debug(
-                    "Removing invite and room for {}, even though we couldn't leave.",
-                    room_id.toStdString());
-                  cache::removeInvite(room_id.toStdString());
+                  nhlog::db()->debug("Removing room-local cache for {}, even though we couldn't "
+                                     "leave.",
+                                     room_id.toStdString());
                   cache::removeRoom(room_id.toStdString());
               }
               return;

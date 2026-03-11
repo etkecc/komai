@@ -9,6 +9,7 @@
 #include <map>
 #include <set>
 #include <string_view>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 
@@ -23,19 +24,32 @@
 #include "db/Json.h"
 #include "db/storage/Core.h"
 #include "db/storage/Crypto.h"
+#include "db/storage/Scan.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
+
+namespace {
+
+bool
+jsonKeyMatchesRoom(std::string_view key, std::string_view roomId)
+{
+    nlohmann::json parsed;
+    if (!db::parseJsonValue(key, parsed))
+        return false;
+
+    const auto roomIt = parsed.find("room_id");
+    return roomIt != parsed.end() && roomIt->is_string() &&
+           roomIt->get_ref<const std::string &>() == roomId;
+}
+
+} // namespace
 
 void
 MatrixStore::removeLeftRooms(db::Transaction &txn,
                              const std::map<std::string, mtx::responses::LeftRoom> &rooms)
 {
-    for (const auto &room : rooms) {
+    for (const auto &room : rooms)
         removeRoom(txn, room.first);
-
-        // Clean up leftover invites.
-        removeInvite(txn, room.first);
-    }
 }
 
 void
@@ -57,17 +71,56 @@ MatrixStore::removeInvite(const std::string &room_id)
 void
 MatrixStore::removeRoom(db::Transaction &txn, const std::string &roomid)
 {
+    try {
+        auto eventsDb = cache::schema::openRoomStore(
+          storage(), txn, roomid, cache::schema::RoomDb::Events, false);
+        for (const auto &eventId : db::listKeys(txn, eventsDb))
+            db->notifications.del(txn, eventId);
+    } catch (const std::exception &) {
+    }
+
+    const auto parentSpaces = db::listDupValues(txn, db->spacesParents, roomid);
+    for (const auto &parentSpace : parentSpaces)
+        db->spacesChildren.del(txn, parentSpace, roomid);
+    db->spacesParents.del(txn, roomid);
+
+    const auto childRooms = db::listDupValues(txn, db->spacesChildren, roomid);
+    for (const auto &childRoom : childRooms)
+        db->spacesParents.del(txn, childRoom, roomid);
+    db->spacesChildren.del(txn, roomid);
+
+    db::eraseEntriesIf(txn, db->readReceipts, [&roomid](std::string_view key, std::string_view) {
+        return jsonKeyMatchesRoom(key, roomid);
+    });
+    db::eraseEntriesIf(
+      txn, db->inboundMegolmSessions, [&roomid](std::string_view key, std::string_view) {
+          return jsonKeyMatchesRoom(key, roomid);
+      });
+    db::eraseEntriesIf(
+      txn, db->megolmSessionsData, [&roomid](std::string_view key, std::string_view) {
+          return jsonKeyMatchesRoom(key, roomid);
+      });
+
     db->rooms.del(txn, roomid);
-    getStatesDb(txn, roomid).drop(txn, true);
-    getAccountDataDb(txn, roomid).drop(txn, true);
-    getMembersDb(txn, roomid).drop(txn, true);
+    db->invites.del(txn, roomid);
+    db->encryptedRooms_.del(txn, roomid);
+    db->eventExpiryBgJob_.del(txn, roomid);
+    db->outboundMegolmSessions.del(txn, roomid);
+
+    const auto roomPrefix = roomid + "/";
+    for (const auto &dbName : storage().listStoreNames(txn)) {
+        if (!std::string_view(dbName).starts_with(roomPrefix))
+            continue;
+
+        db::openNamedStore(storage(), txn, dbName, false).drop(txn, true);
+    }
 }
 
 void
 MatrixStore::removeRoom(const std::string &roomid)
 {
     auto txn = beginTxn();
-    db->rooms.del(txn, roomid);
+    removeRoom(txn, roomid);
     txn.commit();
 }
 

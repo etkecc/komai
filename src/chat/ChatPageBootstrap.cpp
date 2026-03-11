@@ -209,7 +209,6 @@ ChatPage::removeRoom(const QString &room_id)
 {
     try {
         cache::removeRoom(room_id);
-        cache::removeInvite(room_id.toStdString());
     } catch (const std::exception &e) {
         nhlog::db()->critical("failure while removing room: {}", e.what());
         // TODO: Notify the user.

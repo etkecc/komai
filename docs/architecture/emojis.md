@@ -15,7 +15,8 @@ This document describes how Komai obtains emoji metadata, builds localized searc
 Tracked configuration and tooling:
 
 - `bin/emoji/sources.lock.yml`: pinned upstream source configuration (URLs/ref/checksum).
-- `bin/emoji/pipeline.py`: fetch/build/check/add-token pipeline tool.
+- `bin/emoji/pipeline.py`: fetch/build/check/add-token pipeline tool, including a small
+  built-in YAML parser for the repo-owned lock/override files so builds do not need PyYAML.
 - `resources/emoji/overrides/global.yml`: optional global overrides.
 - `resources/emoji/overrides/locale/*.yml`: optional locale-specific overrides.
 - Legacy `resources/shortcodes.txt` is retired; baseline aliases now live in

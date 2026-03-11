@@ -22,11 +22,6 @@ import typing as t
 import urllib.error
 import urllib.request
 
-try:
-    import yaml
-except ModuleNotFoundError:  # pragma: no cover - depends on local env
-    yaml = None
-
 
 CATEGORY_ORDER = [
     "People",
@@ -77,36 +72,379 @@ class CoreEmoji:
     has_skin_tone_variants: bool = False
 
 
+@dataclasses.dataclass(frozen=True)
+class YamlLine:
+    lineno: int
+    indent: int
+    content: str
+
+
 def repo_root_from_arg(value: str | None) -> pathlib.Path:
     if value:
         return pathlib.Path(value).resolve()
     return pathlib.Path(__file__).resolve().parents[2]
 
 
-def require_yaml() -> None:
-    if yaml is None:
-        raise SystemExit(
-            "PyYAML is required for emoji pipeline scripts. "
-            "Install `python3-yaml` (or pip install pyyaml)."
-        )
+_YAML_PLAIN_STRING_RE = re.compile(r"^[0-9A-Za-z_./:+-]+$")
 
 
-def load_yaml(path: pathlib.Path) -> dict[str, t.Any]:
-    require_yaml()
-    with path.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-    if data is None:
+def yaml_error(source: pathlib.Path, lineno: int, message: str) -> ValueError:
+    return ValueError(f"{source}:{lineno}: {message}")
+
+
+def strip_yaml_comment(line: str) -> str:
+    in_single = False
+    in_double = False
+    escaped = False
+
+    for idx, ch in enumerate(line):
+        if ch == "\\" and in_double:
+            escaped = not escaped
+            continue
+
+        if ch == "'" and not in_double:
+            in_single = not in_single
+        elif ch == '"' and not in_single and not escaped:
+            in_double = not in_double
+        elif ch == "#" and not in_single and not in_double:
+            if idx == 0 or line[idx - 1].isspace():
+                return line[:idx].rstrip()
+
+        escaped = False
+
+    return line.rstrip()
+
+
+def split_yaml_key_value(content: str) -> tuple[str, str] | None:
+    in_single = False
+    in_double = False
+    escaped = False
+    flow_depth = 0
+
+    for idx, ch in enumerate(content):
+        if ch == "\\" and in_double:
+            escaped = not escaped
+            continue
+
+        if ch == "'" and not in_double:
+            in_single = not in_single
+        elif ch == '"' and not in_single and not escaped:
+            in_double = not in_double
+        elif not in_single and not in_double:
+            if ch in "[{":
+                flow_depth += 1
+            elif ch in "]}":
+                flow_depth = max(0, flow_depth - 1)
+            elif ch == ":" and flow_depth == 0:
+                key = content[:idx].strip()
+                if not key:
+                    return None
+                return key, content[idx + 1 :].lstrip()
+
+        escaped = False
+
+    return None
+
+
+def parse_yaml_scalar(text: str) -> t.Any:
+    value = text.strip()
+
+    if value == "[]":
+        return []
+    if value == "{}":
         return {}
+    if value.startswith("[") and value.endswith("]"):
+        return parse_yaml_flow_list(value)
+    if value.startswith('"') and value.endswith('"'):
+        return json.loads(value)
+    if value.startswith("'") and value.endswith("'"):
+        return value[1:-1].replace("''", "'")
+    if value in {"true", "True"}:
+        return True
+    if value in {"false", "False"}:
+        return False
+    if value in {"null", "Null", "NULL", "~"}:
+        return None
+    if re.fullmatch(r"-?\d+", value):
+        return int(value)
+    if re.fullmatch(r"-?\d+\.\d+", value):
+        return float(value)
+    return value
+
+
+def parse_yaml_flow_list(text: str) -> list[t.Any]:
+    inner = text[1:-1].strip()
+    if not inner:
+        return []
+
+    items: list[str] = []
+    current: list[str] = []
+    in_single = False
+    in_double = False
+    escaped = False
+    flow_depth = 0
+
+    for ch in inner:
+        if ch == "\\" and in_double:
+            current.append(ch)
+            escaped = not escaped
+            continue
+
+        if ch == "'" and not in_double:
+            in_single = not in_single
+        elif ch == '"' and not in_single and not escaped:
+            in_double = not in_double
+        elif not in_single and not in_double:
+            if ch in "[{":
+                flow_depth += 1
+            elif ch in "]}":
+                flow_depth = max(0, flow_depth - 1)
+            elif ch == "," and flow_depth == 0:
+                items.append("".join(current).strip())
+                current = []
+                escaped = False
+                continue
+
+        current.append(ch)
+        escaped = False
+
+    items.append("".join(current).strip())
+    return [parse_yaml_scalar(item) for item in items if item]
+
+
+def parse_yaml_lines(path: pathlib.Path) -> list[YamlLine]:
+    lines: list[YamlLine] = []
+    for lineno, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        indent_part = raw_line[: len(raw_line) - len(raw_line.lstrip(" \t"))]
+        if "\t" in indent_part:
+            raise yaml_error(path, lineno, "tabs are not supported in emoji YAML files")
+
+        stripped = strip_yaml_comment(raw_line)
+        if not stripped.strip():
+            continue
+
+        indent = len(stripped) - len(stripped.lstrip(" "))
+        if indent % 2 != 0:
+            raise yaml_error(
+                path,
+                lineno,
+                "emoji YAML files must use 2-space indentation for the built-in parser",
+            )
+
+        lines.append(YamlLine(lineno=lineno, indent=indent, content=stripped[indent:]))
+
+    return lines
+
+
+def parse_yaml_node(
+    lines: list[YamlLine],
+    index: int,
+    indent: int,
+    source: pathlib.Path,
+) -> tuple[t.Any, int]:
+    if index >= len(lines):
+        raise yaml_error(source, 1, "unexpected end of file")
+    if lines[index].indent != indent:
+        raise yaml_error(source, lines[index].lineno, "unexpected indentation")
+
+    if lines[index].content.startswith("- "):
+        return parse_yaml_list(lines, index, indent, source)
+    return parse_yaml_mapping(lines, index, indent, source)
+
+
+def parse_yaml_mapping(
+    lines: list[YamlLine],
+    index: int,
+    indent: int,
+    source: pathlib.Path,
+) -> tuple[dict[str, t.Any], int]:
+    result: dict[str, t.Any] = {}
+
+    while index < len(lines):
+        line = lines[index]
+        if line.indent < indent:
+            break
+        if line.indent > indent:
+            raise yaml_error(source, line.lineno, "unexpected indentation inside mapping")
+        if line.content.startswith("- "):
+            break
+
+        pair = split_yaml_key_value(line.content)
+        if pair is None:
+            raise yaml_error(source, line.lineno, "expected 'key: value' mapping entry")
+
+        key, rest = pair
+        if rest:
+            result[key] = parse_yaml_scalar(rest)
+            index += 1
+            continue
+
+        index += 1
+        if index >= len(lines):
+            raise yaml_error(source, line.lineno, f"mapping key '{key}' is missing a value")
+
+        next_line = lines[index]
+        if next_line.indent < indent or (
+            next_line.indent == indent and not next_line.content.startswith("- ")
+        ):
+            raise yaml_error(source, line.lineno, f"mapping key '{key}' is missing a value")
+
+        child, index = parse_yaml_node(lines, index, lines[index].indent, source)
+        result[key] = child
+
+    return result, index
+
+
+def parse_yaml_list(
+    lines: list[YamlLine],
+    index: int,
+    indent: int,
+    source: pathlib.Path,
+) -> tuple[list[t.Any], int]:
+    result: list[t.Any] = []
+
+    while index < len(lines):
+        line = lines[index]
+        if line.indent < indent:
+            break
+        if line.indent > indent:
+            raise yaml_error(source, line.lineno, "unexpected indentation inside list")
+        if not line.content.startswith("- "):
+            break
+
+        item = line.content[2:].strip()
+        if not item:
+            index += 1
+            if index >= len(lines) or lines[index].indent <= indent:
+                raise yaml_error(source, line.lineno, "list item is missing a value")
+            child, index = parse_yaml_node(lines, index, lines[index].indent, source)
+            result.append(child)
+            continue
+
+        pair = split_yaml_key_value(item)
+        if pair is None:
+            result.append(parse_yaml_scalar(item))
+            index += 1
+            continue
+
+        key, rest = pair
+        mapping: dict[str, t.Any] = {}
+        index += 1
+
+        if rest:
+            mapping[key] = parse_yaml_scalar(rest)
+        else:
+            if index >= len(lines) or lines[index].indent <= indent:
+                raise yaml_error(source, line.lineno, f"list item key '{key}' is missing a value")
+            child, index = parse_yaml_node(lines, index, lines[index].indent, source)
+            mapping[key] = child
+
+        if index < len(lines) and lines[index].indent > indent:
+            extra, index = parse_yaml_mapping(lines, index, lines[index].indent, source)
+            mapping.update(extra)
+
+        result.append(mapping)
+
+    return result, index
+
+
+# This is intentionally not a general-purpose YAML parser. The emoji pipeline only
+# reads/writes a tiny, repo-owned YAML subset (the lock file and override files), and
+# keeping that subset in-tree avoids a PyYAML runtime dependency in packaging/build
+# environments like Flatpak and AppImage where an extra Python module is awkward.
+def load_yaml(path: pathlib.Path) -> dict[str, t.Any]:
+    lines = parse_yaml_lines(path)
+    if not lines:
+        return {}
+
+    data, index = parse_yaml_node(lines, 0, lines[0].indent, path)
+    if index != len(lines):
+        raise yaml_error(path, lines[index].lineno, "unexpected trailing YAML content")
     if not isinstance(data, dict):
         raise ValueError(f"{path} must contain a YAML mapping at top level")
     return data
 
 
+def yaml_scalar_repr(value: t.Any) -> str:
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return str(value)
+
+    text = str(value)
+    if text and _YAML_PLAIN_STRING_RE.fullmatch(text) and text not in {"null", "true", "false"}:
+        return text
+    return json.dumps(text, ensure_ascii=False)
+
+
+def write_yaml_mapping_entry(f: t.TextIO, key: str, value: t.Any, indent: int) -> None:
+    prefix = " " * indent
+
+    if isinstance(value, dict):
+        if not value:
+            f.write(f"{prefix}{key}: {{}}\n")
+            return
+        f.write(f"{prefix}{key}:\n")
+        write_yaml_mapping(f, value, indent + 2)
+        return
+
+    if isinstance(value, list):
+        if not value:
+            f.write(f"{prefix}{key}: []\n")
+            return
+        f.write(f"{prefix}{key}:\n")
+        write_yaml_list(f, value, indent + 2)
+        return
+
+    f.write(f"{prefix}{key}: {yaml_scalar_repr(value)}\n")
+
+
+def write_yaml_list(f: t.TextIO, items: list[t.Any], indent: int) -> None:
+    prefix = " " * indent
+
+    for item in items:
+        if isinstance(item, dict):
+            if not item:
+                f.write(f"{prefix}- {{}}\n")
+                continue
+
+            iterator = iter(item.items())
+            first_key, first_value = next(iterator)
+            if isinstance(first_value, (dict, list)):
+                f.write(f"{prefix}- {first_key}:\n")
+                if isinstance(first_value, dict):
+                    write_yaml_mapping(f, first_value, indent + 4)
+                else:
+                    write_yaml_list(f, first_value, indent + 4)
+            else:
+                f.write(f"{prefix}- {first_key}: {yaml_scalar_repr(first_value)}\n")
+
+            for key, value in iterator:
+                write_yaml_mapping_entry(f, key, value, indent + 2)
+            continue
+
+        if isinstance(item, list):
+            if not item:
+                f.write(f"{prefix}- []\n")
+                continue
+            f.write(f"{prefix}-\n")
+            write_yaml_list(f, item, indent + 2)
+            continue
+
+        f.write(f"{prefix}- {yaml_scalar_repr(item)}\n")
+
+
+def write_yaml_mapping(f: t.TextIO, data: dict[str, t.Any], indent: int) -> None:
+    for key, value in data.items():
+        write_yaml_mapping_entry(f, key, value, indent)
+
+
 def dump_yaml(path: pathlib.Path, data: dict[str, t.Any]) -> None:
-    require_yaml()
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:
-        yaml.safe_dump(data, f, allow_unicode=True, sort_keys=False)
+        write_yaml_mapping(f, data, 0)
 
 
 def sha256_bytes(data: bytes) -> str:

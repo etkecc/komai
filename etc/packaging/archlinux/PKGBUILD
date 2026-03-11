@@ -34,7 +34,6 @@ makedepends=(
 	lmdbxx
 	nlohmann-json
 	python
-	python-yaml
 	qt6-tools
 )
 optdepends=(

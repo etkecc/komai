@@ -1288,7 +1288,7 @@ else()
     set(YAMLCPP_TARGET_NAME PkgConfig::yaml-cpp)
 endif()
 
-add_library(komai_db
+add_library(komai_db STATIC
     src/db/Catalog.cpp
     src/db/DbTypes.cpp
     src/db/DupIndex.cpp

@@ -650,6 +650,120 @@ testLimitedSyncCleanupPreservesCurrentStatePayloads(MatrixStore &store)
 }
 
 bool
+testSharedTimelineReplacementKeepsOrderedIndexesConsistent(MatrixStore &store)
+{
+    const std::string roomId      = "!shared-replace:example.org";
+    const std::string pendingId   = "mshared-replace";
+    const std::string sentEventId = "$shared-replace";
+
+    const std::uint64_t eventIndex   = 42;
+    const std::uint64_t messageIndex = 24;
+
+    {
+        auto txn            = store.beginTxn();
+        auto eventsDb       = store.getEventsDb(txn, roomId);
+        auto eventOrderDb   = store.getEventOrderDb(txn, roomId);
+        auto eventToOrderDb = store.getEventToOrderDb(txn, roomId);
+        auto messageToOrder = store.getMessageToOrderDb(txn, roomId);
+        auto orderToMessage = store.getOrderToMessageDb(txn, roomId);
+
+        cache::codec::putRoomInfo(txn, store.db->rooms, roomId, RoomInfo{});
+
+        const auto pendingEvent = makeTextEvent(roomId, pendingId, "pending event");
+        room_store::put(txn,
+                        eventsDb,
+                        cache::schema::RoomDb::Events,
+                        roomId,
+                        pendingId,
+                        nlohmann::json(pendingEvent).dump());
+        room_timeline::putEventOrderMapping(txn,
+                                            eventOrderDb,
+                                            eventToOrderDb,
+                                            roomId,
+                                            eventIndex,
+                                            pendingId,
+                                            db::serializeOrderEntry(pendingId));
+        room_timeline::putMessageOrderMapping(
+          txn, orderToMessage, messageToOrder, roomId, messageIndex, pendingId);
+
+        const auto sentEvent = makeTextEvent(roomId, sentEventId, "sent event");
+        const auto replaced  = room_timeline::replaceTimelineEventId(txn,
+                                                                    eventsDb,
+                                                                    eventOrderDb,
+                                                                    eventToOrderDb,
+                                                                    messageToOrder,
+                                                                    orderToMessage,
+                                                                    roomId,
+                                                                    pendingId,
+                                                                    sentEventId,
+                                                                    nlohmann::json(sentEvent).dump(),
+                                                                    db::serializeOrderEntry(sentEventId));
+        txn.commit();
+
+        if (!replaced) {
+            std::cerr << "FAILED: shared timeline replacement updates pending event id\n";
+            return false;
+        }
+    }
+
+    bool ok = true;
+    ok &= expect(store.getEvent(roomId, sentEventId).has_value(),
+                 "shared timeline replacement keeps sent event readable via MatrixStore");
+    ok &= expect(!store.getEvent(roomId, pendingId).has_value(),
+                 "shared timeline replacement removes pending event from MatrixStore lookup");
+    ok &= expect(store.getTimelineIndex(roomId, sentEventId) == std::optional<std::uint64_t>{messageIndex},
+                 "shared timeline replacement keeps message-order lookup on the sent event");
+    ok &= expect(!store.getTimelineIndex(roomId, pendingId).has_value(),
+                 "shared timeline replacement removes message-order lookup for the pending event");
+    ok &= expect(store.getEventIndex(roomId, sentEventId) == std::optional<std::uint64_t>{eventIndex},
+                 "shared timeline replacement keeps event-order lookup on the sent event");
+    ok &= expect(!store.getEventIndex(roomId, pendingId).has_value(),
+                 "shared timeline replacement removes event-order lookup for the pending event");
+
+    {
+        auto txn = store.beginTxn(nullptr, db::TransactionFlags::ReadOnly);
+
+        auto eventsDb       = store.getEventsDb(txn, roomId);
+        auto eventOrderDb   = store.getEventOrderDb(txn, roomId);
+        auto orderToMessage = store.getOrderToMessageDb(txn, roomId);
+
+        std::string_view raw;
+        ok &= expect(!room_store::get(
+                       txn, eventsDb, cache::schema::RoomDb::Events, roomId, pendingId, raw),
+                     "shared timeline replacement removes pending event payload");
+        ok &= expect(room_store::get(
+                       txn, eventsDb, cache::schema::RoomDb::Events, roomId, sentEventId, raw),
+                     "shared timeline replacement stores sent event payload");
+        ok &= expect(room_timeline::timelineEventIdAtIndex(txn, orderToMessage, roomId, messageIndex) ==
+                       std::optional<std::string>{sentEventId},
+                     "shared timeline replacement rewrites the visible timeline slot");
+        ok &= expect(room_timeline::listOrderEntryEventIds(txn, eventOrderDb, roomId) ==
+                       std::vector<std::string>{sentEventId},
+                     "shared timeline replacement rewrites the event-order entry");
+
+        const auto legacyMessageKey =
+          room_store::key(cache::schema::RoomDb::OrderToMessage, roomId, db::toSv(messageIndex));
+        const auto correctMessageKey =
+          room_store::orderedIndexKey(cache::schema::RoomDb::OrderToMessage, roomId, messageIndex);
+        if (legacyMessageKey != correctMessageKey) {
+            ok &= expect(!orderToMessage.get(txn, legacyMessageKey, raw),
+                         "shared timeline replacement does not leave behind a legacy order_to_message key");
+        }
+
+        const auto legacyEventKey =
+          room_store::key(cache::schema::RoomDb::EventOrder, roomId, db::toSv(eventIndex));
+        const auto correctEventKey =
+          room_store::orderedIndexKey(cache::schema::RoomDb::EventOrder, roomId, eventIndex);
+        if (legacyEventKey != correctEventKey) {
+            ok &= expect(!eventOrderDb.get(txn, legacyEventKey, raw),
+                         "shared timeline replacement does not leave behind a legacy event_order key");
+        }
+    }
+
+    return ok;
+}
+
+bool
 testSpaceEdgesRebuildAcrossRoomAndSpaceRefreshes(MatrixStore &store)
 {
     const std::string roomId        = "!space-room:example.org";
@@ -756,6 +870,7 @@ main(int argc, char **argv)
     ok &= testRoomRemovalDropsRoomScopedCache(*store);
     ok &= testReadReceiptsAdvanceAsCurrentState(*store);
     ok &= testLimitedSyncCleanupPreservesCurrentStatePayloads(*store);
+    ok &= testSharedTimelineReplacementKeepsOrderedIndexesConsistent(*store);
     ok &= testSpaceEdgesRebuildAcrossRoomAndSpaceRefreshes(*store);
     return ok ? 0 : 1;
 }

@@ -46,6 +46,33 @@ sanitizeOrderedPutFlags(db::PutFlags flags)
     return flags == db::PutFlags::Append ? db::PutFlags::None : flags;
 }
 
+inline std::optional<std::uint64_t>
+storedOrderedIndex(std::string_view storedIndex)
+{
+    if (storedIndex.size() != sizeof(std::uint64_t))
+        return std::nullopt;
+
+    return db::fromSv<std::uint64_t>(storedIndex);
+}
+
+inline std::string
+legacyOrderedKey(cache::schema::RoomDb db, std::string_view roomId, std::string_view storedIndex)
+{
+    return room_store::key(db, roomId, storedIndex);
+}
+
+inline std::optional<std::string>
+orderedKeyFromStoredIndex(cache::schema::RoomDb db,
+                          std::string_view roomId,
+                          std::string_view storedIndex)
+{
+    const auto index = storedOrderedIndex(storedIndex);
+    if (!index)
+        return std::nullopt;
+
+    return room_store::orderedIndexKey(db, roomId, *index);
+}
+
 inline std::string
 orderedUpperBound(cache::schema::RoomDb db, std::string_view roomId)
 {
@@ -264,8 +291,18 @@ removeMessageOrderMapping(db::Transaction &txn,
         return false;
     }
 
-    orderToMessageDb.del(
-      txn, room_store::key(cache::schema::RoomDb::OrderToMessage, roomId, messageOrder));
+    const auto legacyKey =
+      detail::legacyOrderedKey(cache::schema::RoomDb::OrderToMessage, roomId, messageOrder);
+    if (const auto orderedKey = detail::orderedKeyFromStoredIndex(
+          cache::schema::RoomDb::OrderToMessage, roomId, messageOrder);
+        orderedKey) {
+        orderToMessageDb.del(txn, *orderedKey);
+        if (*orderedKey != legacyKey)
+            orderToMessageDb.del(txn, legacyKey);
+    } else {
+        orderToMessageDb.del(txn, legacyKey);
+    }
+
     room_store::del(txn, messageToOrderDb, cache::schema::RoomDb::MessageToOrder, roomId, eventId);
     return true;
 }
@@ -295,13 +332,22 @@ replaceTimelineEventId(db::Transaction &txn,
                          eventOrder)) {
         return false;
     }
+    const std::string eventOrderValue(eventOrder);
 
     if (oldEventId == newEventId) {
         room_store::put(
           txn, eventsDb, cache::schema::RoomDb::Events, roomId, newEventId, eventJson);
-        eventOrderDb.put(txn,
-                         room_store::key(cache::schema::RoomDb::EventOrder, roomId, eventOrder),
-                         orderEntryValue);
+        const auto legacyKey =
+          detail::legacyOrderedKey(cache::schema::RoomDb::EventOrder, roomId, eventOrderValue);
+        if (const auto orderedKey = detail::orderedKeyFromStoredIndex(
+              cache::schema::RoomDb::EventOrder, roomId, eventOrderValue);
+            orderedKey) {
+            eventOrderDb.put(txn, *orderedKey, orderEntryValue);
+            if (*orderedKey != legacyKey)
+                eventOrderDb.del(txn, legacyKey);
+        } else {
+            eventOrderDb.put(txn, legacyKey, orderEntryValue);
+        }
         return true;
     }
 
@@ -315,24 +361,47 @@ replaceTimelineEventId(db::Transaction &txn,
                         roomId,
                         oldEventId,
                         messageOrder)) {
-        orderToMessageDb.put(
-          txn,
-          room_store::key(cache::schema::RoomDb::OrderToMessage, roomId, messageOrder),
-          newEventId);
+        const std::string messageOrderValue(messageOrder);
+        const auto legacyKey = detail::legacyOrderedKey(
+          cache::schema::RoomDb::OrderToMessage, roomId, messageOrderValue);
+        if (const auto orderedKey = detail::orderedKeyFromStoredIndex(
+              cache::schema::RoomDb::OrderToMessage, roomId, messageOrderValue);
+            orderedKey) {
+            orderToMessageDb.put(txn, *orderedKey, newEventId);
+            if (*orderedKey != legacyKey)
+                orderToMessageDb.del(txn, legacyKey);
+        } else {
+            orderToMessageDb.put(txn, legacyKey, newEventId);
+        }
+
         room_store::put(txn,
                         messageToOrderDb,
                         cache::schema::RoomDb::MessageToOrder,
                         roomId,
                         newEventId,
-                        messageOrder);
+                        messageOrderValue);
         room_store::del(
           txn, messageToOrderDb, cache::schema::RoomDb::MessageToOrder, roomId, oldEventId);
     }
 
-    eventOrderDb.put(
-      txn, room_store::key(cache::schema::RoomDb::EventOrder, roomId, eventOrder), orderEntryValue);
-    room_store::put(
-      txn, eventToOrderDb, cache::schema::RoomDb::EventToOrder, roomId, newEventId, eventOrder);
+    const auto legacyKey =
+      detail::legacyOrderedKey(cache::schema::RoomDb::EventOrder, roomId, eventOrderValue);
+    if (const auto orderedKey = detail::orderedKeyFromStoredIndex(
+          cache::schema::RoomDb::EventOrder, roomId, eventOrderValue);
+        orderedKey) {
+        eventOrderDb.put(txn, *orderedKey, orderEntryValue);
+        if (*orderedKey != legacyKey)
+            eventOrderDb.del(txn, legacyKey);
+    } else {
+        eventOrderDb.put(txn, legacyKey, orderEntryValue);
+    }
+
+    room_store::put(txn,
+                    eventToOrderDb,
+                    cache::schema::RoomDb::EventToOrder,
+                    roomId,
+                    newEventId,
+                    eventOrderValue);
     room_store::del(txn, eventToOrderDb, cache::schema::RoomDb::EventToOrder, roomId, oldEventId);
     return true;
 }

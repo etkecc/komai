@@ -1,4 +1,14 @@
 bool
+UserSettings::networkSpacesMaintainJoinMetadata() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::NetworkSpacesMaintainJoinMetadata);
+        value.has_value())
+        return *value;
+    return networkSpacesMaintainJoinMetadata_;
+}
+
+bool
 UserSettings::networkTlsEnableCertificateValidation() const
 {
     if (const auto value = coreStore_.valueAs<bool>(

@@ -48,12 +48,12 @@ Naming mismatch summary:
 | `IntegrationsSystemTrayEnabled` | `settings.integrationsSystemTrayEnabled()` | `IntegrationsSystemTrayEnabled` | `integrations.system_tray.enabled` |
 | `NetworkHttp3Enabled` | `settings.networkHttp3Enabled()` | `NetworkHttp3Enabled` | `network.http3.enabled` |
 | `NetworkPresenceStatusPolicy` | `static_cast<int>(settings.networkPresenceStatusPolicy())` | `NetworkPresenceStatusPolicy` | `network.presence.status_policy` |
+| `NetworkSpacesMaintainJoinMetadata` | `settings.networkSpacesMaintainJoinMetadata()` | `NetworkSpacesMaintainJoinMetadata` | `network.spaces.maintain_join_metadata` |
 | `NetworkTlsEnableCertificateValidation` | `settings.networkTlsEnableCertificateValidation()` | `NetworkTlsEnableCertificateValidation` | `network.tls.enable_certificate_validation` |
 | `NotificationsAttentionOnIncoming` | `settings.notificationsAttentionOnIncoming()` | `NotificationsAttentionOnIncoming` | `notifications.attention_on_incoming` |
 | `NotificationsEnabled` | `settings.notificationsEnabled()` | `NotificationsEnabled` | `notifications.enabled` |
 | `NotificationsMessageContentPolicy` | `static_cast<int>(settings.notificationsMessageContentPolicy())` | `NotificationsMessageContentPolicy` | `notifications.message_content_policy` |
 | `PrivacyMaintenanceExpireEvents` | `settings.privacyMaintenanceExpireEvents()` | `PrivacyMaintenanceExpireEvents` | `privacy.maintenance.expire_events` |
-| `PrivacyMaintenanceUpdateSpaceVias` | `settings.privacyMaintenanceUpdateSpaceVias()` | `PrivacyMaintenanceUpdateSpaceVias` | `privacy.maintenance.update_space_vias` |
 | `PrivacyWindowFocusBlurDelaySeconds` | `settings.privacyWindowFocusBlurDelaySeconds()` | `PrivacyWindowFocusBlurDelaySeconds` | `privacy.window_focus_blur.delay_seconds` |
 | `PrivacyWindowFocusBlurEnabled` | `settings.privacyWindowFocusBlurEnabled()` | `PrivacyWindowFocusBlurEnabled` | `privacy.window_focus_blur.enabled` |
 | `SidebarsCommunitiesFilterBots` | `settings.sidebarsCommunitiesFilterBots()` | `SidebarsCommunitiesFilterBots` | `sidebars.communities.filters.bots` |

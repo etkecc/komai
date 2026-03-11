@@ -5,6 +5,7 @@
     QString currentFilterId() const;
     QString currentRoomId() const;
     QString homeserver() const;
+    bool networkSpacesMaintainJoinMetadata() const;
     bool networkTlsEnableCertificateValidation() const;
     QStringList globalExcludes() const;
     QStringList badgesHiddenFilters() const;
@@ -20,7 +21,6 @@
     QStringList collapsedSpaces() const;
     int integrationsDbusApiAccess() const;
     QString integrationsBrowserCommand() const;
-    bool privacyMaintenanceUpdateSpaceVias() const;
     bool privacyMaintenanceExpireEvents() const;
     int windowWidth() const;
     int windowHeight() const;

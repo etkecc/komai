@@ -120,7 +120,6 @@ privacy:
     delay_seconds: 0
   maintenance:
     expire_events: false
-    update_space_vias: true
 
 encryption:
   key_sharing:
@@ -133,6 +132,8 @@ encryption:
 network:
   presence:
     status_policy: automatic_presence
+  spaces:
+    maintain_join_metadata: true
   http3:
     enabled: false
   tls:

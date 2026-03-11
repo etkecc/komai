@@ -106,7 +106,7 @@ bool timelineMediaOpenImagesExternal_;
 bool timelineMediaOpenVideosExternal_;
 int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
 QString integrationsBrowserCommand_;
-bool privacyMaintenanceUpdateSpaceVias_;
+bool networkSpacesMaintainJoinMetadata_;
 bool privacyMaintenanceExpireEvents_;
 int windowWidth_                            = settings::core::definitions::kDefaultWindowWidthPx;
 int windowHeight_                           = settings::core::definitions::kDefaultWindowHeightPx;

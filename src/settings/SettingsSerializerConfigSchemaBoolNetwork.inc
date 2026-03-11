@@ -1,3 +1,7 @@
+BoolSettingDescriptor{SettingKey::NetworkSpacesMaintainJoinMetadata,
+                      true,
+                      &UserSettings::networkSpacesMaintainJoinMetadata,
+                      &UserSettings::setNetworkSpacesMaintainJoinMetadata},
 BoolSettingDescriptor{SettingKey::NetworkTlsEnableCertificateValidation,
                       kDefaultCertificateValidationEnabled,
                       &UserSettings::networkTlsEnableCertificateValidation,

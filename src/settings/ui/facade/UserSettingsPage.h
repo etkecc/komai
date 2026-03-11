@@ -233,6 +233,9 @@ class UserSettings final : public QObject
     Q_PROPERTY(bool hasActiveSession READ hasActiveSession NOTIFY sessionAuthStateChanged)
     Q_PROPERTY(bool secretsProviderFallbackWarningVisible READ secretsProviderFallbackWarningVisible
                  NOTIFY secretsProviderFallbackWarningVisibleChanged)
+    Q_PROPERTY(
+      bool networkSpacesMaintainJoinMetadata READ networkSpacesMaintainJoinMetadata WRITE
+        setNetworkSpacesMaintainJoinMetadata NOTIFY networkSpacesMaintainJoinMetadataChanged)
     Q_PROPERTY(bool networkTlsEnableCertificateValidation READ networkTlsEnableCertificateValidation
                  WRITE setNetworkTlsEnableCertificateValidation NOTIFY
                    networkTlsEnableCertificateValidationChanged)
@@ -252,9 +255,6 @@ class UserSettings final : public QObject
                  recentReactionsChanged)
     Q_PROPERTY(QStringList hiddenWidgets READ hiddenWidgets WRITE setHiddenWidgets NOTIFY
                  hiddenWidgetsChanged)
-    Q_PROPERTY(
-      bool privacyMaintenanceUpdateSpaceVias READ privacyMaintenanceUpdateSpaceVias WRITE
-        setPrivacyMaintenanceUpdateSpaceVias NOTIFY privacyMaintenanceUpdateSpaceViasChanged)
     Q_PROPERTY(bool privacyMaintenanceExpireEvents READ privacyMaintenanceExpireEvents WRITE
                  setPrivacyMaintenanceExpireEvents NOTIFY privacyMaintenanceExpireEventsChanged)
 
@@ -534,6 +534,7 @@ public:
     void setCurrentFilterId(QString currentFilterId);
     void setCurrentRoomId(QString currentRoomId);
     void setHomeserver(QString homeserver);
+    void setNetworkSpacesMaintainJoinMetadata(bool state);
     void setNetworkTlsEnableCertificateValidation(bool enabled);
     void setGlobalExcludes(const QStringList &globalExcludes);
     void setBadgesHiddenFilters(const QStringList &badgesHiddenFilters);
@@ -550,7 +551,6 @@ public:
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
-    void setPrivacyMaintenanceUpdateSpaceVias(bool state);
     void setPrivacyMaintenanceExpireEvents(bool state);
     void setWindowWidth(int width);
     void setWindowHeight(int height);
@@ -679,6 +679,7 @@ signals:
     void accessTokenChanged(QString accessToken);
     void deviceIdChanged(QString deviceId);
     void homeserverChanged(QString homeserver);
+    void networkSpacesMaintainJoinMetadataChanged(bool state);
     void networkTlsEnableCertificateValidationChanged(bool enabled);
     void uiAvatarsDefaultAvatarStyleChanged(DefaultAvatarStyle style);
     void timelineMediaOpenImagesExternalChanged(bool state);
@@ -688,7 +689,6 @@ signals:
     void recentReactionsChanged();
     void integrationsDbusApiAccessChanged(int state);
     void integrationsBrowserCommandChanged(QString command);
-    void privacyMaintenanceUpdateSpaceViasChanged(bool state);
     void privacyMaintenanceExpireEventsChanged(bool state);
     void windowWidthChanged(int width);
     void windowHeightChanged(int height);

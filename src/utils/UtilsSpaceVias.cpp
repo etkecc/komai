@@ -35,7 +35,7 @@
 void
 utils::updateSpaceVias()
 {
-    if (!UserSettings::instance()->privacyMaintenanceUpdateSpaceVias())
+    if (!UserSettings::instance()->networkSpacesMaintainJoinMetadata())
         return;
 
     nhlog::net()->info("update space vias called");

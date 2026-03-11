@@ -12,4 +12,3 @@
     });
     CONNECT_SETTING_ID(PrivacyWindowFocusBlurDelaySeconds, privacyWindowFocusBlurDelaySecondsChanged, Value);
     CONNECT_SETTING_ID(PrivacyMaintenanceExpireEvents, privacyMaintenanceExpireEventsChanged, Value);
-    CONNECT_SETTING_ID(PrivacyMaintenanceUpdateSpaceVias, privacyMaintenanceUpdateSpaceViasChanged, Value);

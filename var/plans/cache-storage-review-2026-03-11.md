@@ -52,8 +52,8 @@ Concrete implementation work:
 - [x] Fix relation cleanup so stale downstream IDs do not survive.
 - [x] Fix additive room-parent space cleanup so parent unlinks and full-state refreshes stop leaving stale edges behind.
 - [x] Rebuild derived space edges when redacted parent/child state removes raw state without a live replacement event.
-- [ ] Replace most per-room named DBs with a fixed set of shared room stores keyed by `room_id + subkey`.
-- [ ] Decide the shared-store grouping/key-encoding plan so ordered scans and dupsort semantics stay efficient.
+- [x] Replace most per-room named DBs with a fixed set of shared room stores keyed by `room_id + subkey`.
+- [x] Decide the shared-store grouping/key-encoding plan so ordered scans and dupsort semantics stay efficient.
 - [x] Start the shared-room-store rewrite with the non-timeline room stores.
 - [ ] Design cache maintenance / statistics UI after the storage rewrite settles.
 
@@ -120,6 +120,35 @@ Documentation follow-up:
   - after a format reset, MatrixStore now recreates/reopens its core named stores before restore code runs
   - this avoids using dropped LMDB DB handles and avoids read-only opens of missing stores on the first launch after reset
   - this bug was observed in a real manual run where the first launch after reset dropped to login and the second launch succeeded
+- Committed shared room-store chunk 1:
+  - commit: `76f06ee9d` (`cache: share room state and membership stores`)
+  - non-timeline room-local stores now live in the fixed shared stores:
+    - `state`
+    - `states_key`
+    - `members`
+    - `invite_state`
+    - `invite_members`
+    - `account_data`
+- Prepared and verified shared room-store chunk 2:
+  - room-local timeline stores now also live in the fixed shared stores:
+    - `events`
+    - `event_order`
+    - `event2order`
+    - `msg2order`
+    - `order2msg`
+    - `pending`
+    - `related`
+  - added a cache-layer room-scoped timeline helper layer so the db module stays room-agnostic while shared stores still preserve:
+    - ordered scans by event/message index
+    - txn-id remaps
+    - relation rewrites / cleanup
+    - limited-sync trimming and prev-batch cleanup
+  - authoritative room cleanup now erases all shared timeline rows and room-owned notifications
+  - read-receipt index lookups now read `event2order` through shared composite keys
+  - shared ordered stores no longer rely on LMDB `Append` puts:
+    - the old hint was safe for room-local integer-key DBs
+    - it is not globally safe once multiple rooms share one ordered store
+    - the shared rewrite keeps the cursor semantics but writes ordered rows with normal puts
 
 ## Checks Run
 
@@ -175,6 +204,17 @@ Documentation follow-up:
   - `ctest --output-on-failure -R komai_matrix_store_test`
   - `just test`
   - Result: passed
+- After shared room-store chunk 1:
+  - `just build`
+  - `ctest --test-dir var/build/native --output-on-failure -R 'komai_(db_backend_test|matrix_store_test)'`
+  - `just test`
+  - Result: passed
+- After shared room-store chunk 2:
+  - `just build`
+  - `ctest --test-dir var/build/native --output-on-failure -R 'komai_(db_backend_test|matrix_store_test)'`
+  - `just test`
+  - `just lint`
+  - Result: passed
 
 ## Test Coverage Gaps Observed
 
@@ -200,35 +240,34 @@ Implication:
 
 If continuing this work after a restart, the next preferred order is:
 
-1. Replace room-local named stores with a fixed set of shared room stores.
-2. Reassess `maxStores` pressure and cleanup complexity after the shared-store rewrite lands.
-3. Add rewrite-specific integration coverage if the new layout introduces new failure modes.
-4. Only then start the cache stats / maintenance UI work.
+1. Reassess `maxStores` pressure and cleanup complexity now that the shared-store rewrite is in place.
+2. Decide whether any extra rewrite-specific coverage is still missing after living with the new layout for a bit.
+3. Then start the cache stats / maintenance UI work.
 
 ## Restart Handoff
 
 If this work gets restarted in a fresh session, pick it up in this order:
 
-1. Start the shared-room-store rewrite.
-2. Reassess `maxStores` pressure and cleanup complexity on top of the new layout.
-3. Add any rewrite-specific coverage that the new key layout needs.
+1. Reassess `maxStores` pressure and cleanup complexity on top of the shared-store layout.
+2. Add any extra rewrite-specific coverage only if a concrete gap appears.
+3. Then move on to cache maintenance / statistics UX work.
 
 Current code checkpoint:
-- Latest storage/integration commit: `3658fe86a` (`Cover limited sync and space cache integration paths`)
+- Latest storage/integration commit before the shared-store rewrite: `3658fe86a` (`Cover limited sync and space cache integration paths`)
+- Shared-store chunk 1 commit: `76f06ee9d` (`cache: share room state and membership stores`)
 - Earlier harness foundation commit: `801495c20` (`Add MatrixStore cache integration tests`)
-- The tree was green after the latest patch with:
+- The shared-store rewrite is green with:
   - `just build`
-  - `ctest --output-on-failure -R komai_matrix_store_test`
+  - `ctest --test-dir var/build/native --output-on-failure -R 'komai_(db_backend_test|matrix_store_test)'`
   - `just test`
   - `just lint`
 
 Key files for the next steps:
+- `var/plans/cache-storage-review-2026-03-11.md`
+- `src/cache/schema/RoomStore.h`
+- `src/cache/schema/RoomTimelineIndex.h`
+- `src/cache/lifecycle/CacheLifecycleRooms.cpp`
 - `tests/MatrixStoreIntegrationTest.cpp`
-- `tests/MatrixStoreHarnessStubs.cpp`
-- `src/cache/timeline/CacheTimelineWrite.cpp`
-- `src/db/timelineindex/TimelineIndexCleanup.cpp`
-- `src/cache/spaces/CacheSpaces.cpp`
-- `src/cache/lifecycle/CacheLifecycleStateWrite.cpp`
 
 What the next session should remember:
 - The harness uses `ScopedTestHome`, so it writes to a temporary XDG tree under `/tmp`, not the real profile directories.
@@ -238,16 +277,16 @@ What the next session should remember:
   - advancing read receipts under the chosen "read up to here" semantics
   - limited sync clearing stale timeline indexes / relations without deleting still-live state payloads
   - derived space-edge rebuild / reparenting behavior across room and space refreshes
-- The next major task is no longer another narrow cleanup fix. It is the structural shared-store rewrite that removes linear room-to-DB-slot growth.
+- The structural shared-store rewrite is now in place; the next work is post-rewrite assessment rather than another schema rewrite.
 - Shared-room-store rewrite status:
-  - chunk 1 is in place and green for:
+  - chunk 1 committed:
     - `state`
     - `states_key`
     - `members`
     - `invite_state`
     - `invite_members`
     - `account_data`
-  - chunk 2 still pending:
+  - chunk 2 implemented and green:
     - `events`
     - `event_order`
     - `event2order`
@@ -255,6 +294,8 @@ What the next session should remember:
     - `order2msg`
     - `pending`
     - `related`
+  - current format string: `2026.03.11.2`
+  - the shared ordered stores intentionally do not use LMDB `Append` writes anymore
 
 ## Shared Room Store Rewrite Plan
 
@@ -355,9 +396,51 @@ Chunk 1 checks:
 - `just test`
   - Result: passed
 
+Chunk 2 details:
+
+- Moved the timeline room-local stores onto shared composite-key storage:
+  - `events`
+  - `event_order`
+  - `event2order`
+  - `msg2order`
+  - `order2msg`
+  - `pending`
+  - `related`
+- Added room-scoped shared timeline helpers for:
+  - ordered first/last/range scans by room prefix
+  - event/message index lookups
+  - txn-id remaps
+  - pending cleanup
+  - relation-source rewrites and cleanup
+  - limited-sync / prev-batch cleanup paths
+- Switched the remaining cache paths that still depended on raw room-local event keys:
+  - timeline read/write/pending paths
+  - room cleanup / notification cleanup
+  - read-receipt event-index lookups
+  - state-event payload reads/writes through the shared `events` store
+- Bumped the cache format again to force a hard reset onto the fully shared room-store layout:
+  - current format string: `2026.03.11.2`
+- Added / extended integration coverage for the new chunk-2 invariants:
+  - `MatrixStoreIntegrationTest` now seeds and verifies shared timeline entries in `removeRoom()`
+  - limited-sync integration coverage now seeds and checks the shared timeline/event/relation/pending stores directly
+- Important implementation note:
+  - shared ordered stores no longer pass LMDB `Append` put flags because that optimization is not
+    globally valid once multiple rooms share the same ordered DB
+
+Chunk 2 checks:
+
+- `just build`
+  - Result: passed
+- `ctest --test-dir var/build/native --output-on-failure -R 'komai_(db_backend_test|matrix_store_test)'`
+  - Result: passed
+- `just test`
+  - Result: passed
+- `just lint`
+  - Result: passed
+
 Verification commands for the next steps:
 - `just build`
-- `ctest --output-on-failure -R komai_matrix_store_test`
+- `ctest --test-dir var/build/native --output-on-failure -R 'komai_(db_backend_test|matrix_store_test)'`
 - `just test`
 - `just lint` for docs-only or mixed patches when appropriate
 

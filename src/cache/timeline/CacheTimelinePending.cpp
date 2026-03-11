@@ -13,6 +13,8 @@
 #include <spdlog/logger.h>
 
 #include "cache/api/CacheApiContext.h"
+#include "cache/schema/RoomStore.h"
+#include "cache/schema/RoomTimelineIndex.h"
 
 void
 MatrixStore::savePendingMessage(const std::string &room_id,
@@ -28,7 +30,10 @@ MatrixStore::savePendingMessage(const std::string &room_id,
     auto pending = getPendingMessagesDb(txn, room_id);
 
     int64_t now = QDateTime::currentMSecsSinceEpoch();
-    pending.put(txn, db::toSv(now), mtx::accessors::event_id(message));
+    pending.put(txn,
+                room_store::orderedIndexKey(
+                  cache::schema::RoomDb::Pending, room_id, static_cast<std::uint64_t>(now)),
+                mtx::accessors::event_id(message));
 
     txn.commit();
 }
@@ -42,11 +47,14 @@ MatrixStore::pendingEvents(const std::string &room_id)
     std::vector<std::string> pending_ids;
 
     try {
-        db::forEachEntry(
-          txn, pending, [&pending_ids](std::string_view /*ignored*/, std::string_view pendingTxn) {
-              pending_ids.emplace_back(pendingTxn);
-              return true;
-          });
+        room_store::forEachEntry(txn,
+                                 pending,
+                                 cache::schema::RoomDb::Pending,
+                                 room_id,
+                                 [&pending_ids](std::string_view, std::string_view pendingTxn) {
+                                     pending_ids.emplace_back(pendingTxn);
+                                     return true;
+                                 });
     } catch (const db::Error &e) {
         cache::activeLoggers().db->error("pending events error: {}", e.what());
     }
@@ -65,14 +73,18 @@ MatrixStore::firstPendingMessage(const std::string &room_id)
     std::vector<std::pair<std::string, std::string>> staleEntries;
 
     try {
-        db::forEachEntry(
+        room_store::forEachEntry(
           txn,
           pending,
-          [&eventsDb, &txn, &firstValid, &staleEntries](std::string_view timestamp,
-                                                        std::string_view pendingTxn) {
+          cache::schema::RoomDb::Pending,
+          room_id,
+          [&eventsDb, &txn, &room_id, &firstValid, &staleEntries](std::string_view timestamp,
+                                                                  std::string_view pendingTxn) {
               try {
                   if (auto event = db::getJsonValue<mtx::events::collections::TimelineEvents>(
-                        txn, eventsDb, pendingTxn)) {
+                        txn,
+                        eventsDb,
+                        room_store::key(cache::schema::RoomDb::Events, room_id, pendingTxn))) {
                       firstValid = std::move(*event);
                       return false;
                   }
@@ -91,7 +103,8 @@ MatrixStore::firstPendingMessage(const std::string &room_id)
 
     if (!staleEntries.empty()) {
         for (const auto &[timestamp, pendingTxn] : staleEntries)
-            pending.del(txn, timestamp, pendingTxn);
+            room_store::del(
+              txn, pending, cache::schema::RoomDb::Pending, room_id, timestamp, pendingTxn);
         txn.commit();
     }
 
@@ -104,7 +117,7 @@ MatrixStore::removePendingStatus(const std::string &room_id, const std::string &
     auto txn     = beginTxn();
     auto pending = getPendingMessagesDb(txn, room_id);
 
-    db::removePendingEntriesByTxnId(txn, pending, txn_id);
+    room_timeline::removePendingEntriesByTxnId(txn, pending, room_id, txn_id);
 
     txn.commit();
 }
@@ -121,8 +134,8 @@ MatrixStore::clearTimeline(const std::string &room_id)
     auto msg2orderDb = getMessageToOrderDb(txn, room_id);
     auto order2msgDb = getOrderToMessageDb(txn, room_id);
 
-    db::cleanupTimelineBeforePrevBatchMarker(
-      txn, orderDb, eventsDb, relationsDb, evToOrderDb, msg2orderDb, order2msgDb);
+    room_timeline::cleanupTimelineBeforePrevBatchMarker(
+      txn, orderDb, eventsDb, relationsDb, evToOrderDb, msg2orderDb, order2msgDb, room_id);
 
     txn.commit();
 }

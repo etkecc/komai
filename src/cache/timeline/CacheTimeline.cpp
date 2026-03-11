@@ -10,6 +10,8 @@
 #include <optional>
 #include <string_view>
 
+#include "cache/schema/RoomStore.h"
+#include "cache/schema/RoomTimelineIndex.h"
 #include "events/EventAccessors.h"
 #include <nlohmann/json.hpp>
 
@@ -26,15 +28,19 @@ MatrixStore::saveOldMessages(const std::string &room_id, const mtx::responses::M
     auto order2msgDb = getOrderToMessageDb(txn, room_id);
 
     uint64_t index = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto firstOrder = db::firstOrderedIndex(txn, orderDb); firstOrder)
+    if (const auto firstOrder = room_timeline::firstOrderedIndex(
+          txn, orderDb, cache::schema::RoomDb::EventOrder, room_id);
+        firstOrder)
         index = *firstOrder;
 
     uint64_t msgIndex = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto firstMessage = db::firstOrderedIndex(txn, order2msgDb); firstMessage)
+    if (const auto firstMessage = room_timeline::firstOrderedIndex(
+          txn, order2msgDb, cache::schema::RoomDb::OrderToMessage, room_id);
+        firstMessage)
         msgIndex = *firstMessage;
 
     if (res.chunk.empty()) {
-        if (db::setOrderEntryPrevBatch(txn, orderDb, index, res.end)) {
+        if (room_timeline::setOrderEntryPrevBatch(txn, orderDb, room_id, index, res.end)) {
             txn.commit();
         }
         return msgIndex;
@@ -60,26 +66,42 @@ MatrixStore::saveOldMessages(const std::string &room_id, const mtx::responses::M
         // already in the DB, we skip putting it (again) in ordered DBs, and only update the
         // event itself and its relations.
         std::string_view unused_read;
-        const bool hasExistingEvent = evToOrderDb.get(txn, event_id, unused_read);
+        const bool hasExistingEvent = room_store::get(
+          txn, evToOrderDb, cache::schema::RoomDb::EventToOrder, room_id, event_id, unused_read);
         if (!hasExistingEvent) {
-            db::prependEventOrderEntry(
-              txn, orderDb, evToOrderDb, index, event_id, db::serializeOrderEntry(event_id));
+            room_timeline::prependEventOrderEntry(txn,
+                                                  orderDb,
+                                                  evToOrderDb,
+                                                  room_id,
+                                                  index,
+                                                  event_id,
+                                                  db::serializeOrderEntry(event_id));
 
             // TODO(Nico): Allow blacklisting more event types in UI
             if (!isHiddenEvent(txn, e, room_id)) {
-                db::prependMessageOrderEntry(txn, order2msgDb, msg2orderDb, msgIndex, event_id);
+                room_timeline::prependMessageOrderEntry(
+                  txn, order2msgDb, msg2orderDb, room_id, msgIndex, event_id);
             }
         }
-        eventsDb.put(txn, event_id, event.dump());
+        room_store::put(
+          txn, eventsDb, cache::schema::RoomDb::Events, room_id, event_id, event.dump());
         if (hasExistingEvent) {
-            db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
+            room_timeline::rewriteRelationSourceReferences(
+              txn, relationsDb, room_id, event_id, relationTargets);
         } else {
-            db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
+            for (const auto &targetEventId : relationTargets) {
+                if (targetEventId.empty())
+                    continue;
+                relationsDb.put(
+                  txn,
+                  room_store::key(cache::schema::RoomDb::Related, room_id, targetEventId),
+                  event_id);
+            }
         }
     }
 
     if (!event_id_val.empty()) {
-        db::putOrderEntry(txn, orderDb, index, event_id_val, res.end);
+        room_timeline::putOrderEntry(txn, orderDb, room_id, index, event_id_val, res.end);
     } else if (!res.chunk.empty()) {
         // to not break pagination, even if all events are redactions we try to persist something in
         // the batch.
@@ -87,13 +109,14 @@ MatrixStore::saveOldMessages(const std::string &room_id, const mtx::responses::M
         event_id_val = mtx::accessors::event_id(res.chunk.back());
 
         auto event = mtx::accessors::serialize_event(res.chunk.back()).dump();
-        eventsDb.put(txn, event_id_val, event);
-        db::prependEventOrderEntry(txn,
-                                   orderDb,
-                                   evToOrderDb,
-                                   index,
-                                   event_id_val,
-                                   db::serializeOrderEntry(event_id_val, res.end));
+        room_store::put(txn, eventsDb, cache::schema::RoomDb::Events, room_id, event_id_val, event);
+        room_timeline::prependEventOrderEntry(txn,
+                                              orderDb,
+                                              evToOrderDb,
+                                              room_id,
+                                              index,
+                                              event_id_val,
+                                              db::serializeOrderEntry(event_id_val, res.end));
     }
 
     txn.commit();

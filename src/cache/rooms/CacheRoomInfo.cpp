@@ -15,6 +15,7 @@
 
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/RoomStore.h"
+#include "cache/schema/RoomTimelineIndex.h"
 
 #include <nlohmann/json.hpp>
 
@@ -161,7 +162,7 @@ MatrixStore::previousBatchToken(const std::string &room_id)
     auto txn = ro_txn(storage());
     try {
         auto orderDb = getEventOrderDb(txn, room_id);
-        return db::firstPrevBatchToken(txn, orderDb).value_or("");
+        return room_timeline::firstPrevBatchToken(txn, orderDb, room_id).value_or("");
     } catch (...) {
         return "";
     }

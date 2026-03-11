@@ -78,47 +78,58 @@ ro_txn(db::Database &storage)
 db::Store
 MatrixStore::getEventsDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Events);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store
 MatrixStore::getEventOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::EventOrder);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomOrdered;
 }
 
 // inverse of EventOrderDb
 db::Store
 MatrixStore::getEventToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(
-      storage(), txn, room_id, cache::schema::RoomDb::EventToOrder);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store
 MatrixStore::getMessageToOrderDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(
-      storage(), txn, room_id, cache::schema::RoomDb::MessageToOrder);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomPlain;
 }
 
 db::Store
 MatrixStore::getOrderToMessageDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(
-      storage(), txn, room_id, cache::schema::RoomDb::OrderToMessage);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomOrdered;
 }
 
 db::Store
 MatrixStore::getPendingMessagesDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Pending);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomOrdered;
 }
 
 db::Store
 MatrixStore::getRelationsDb(db::Transaction &txn, const std::string &room_id)
 {
-    return cache::schema::openRoomStore(storage(), txn, room_id, cache::schema::RoomDb::Related);
+    (void)txn;
+    (void)room_id;
+    return db->sharedRoomDupsort;
 }
 
 db::Store

@@ -16,7 +16,7 @@
 
 //! Should be changed when a breaking change occurs in the cache format.
 //! Older formats are reset (no legacy migration chain retained).
-static constexpr std::string_view CURRENT_CACHE_FORMAT_VERSION{"2026.03.11.1"};
+static constexpr std::string_view CURRENT_CACHE_FORMAT_VERSION{"2026.03.11.2"};
 
 //! migrates db to the current format
 bool

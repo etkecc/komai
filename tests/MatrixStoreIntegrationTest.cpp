@@ -28,10 +28,10 @@
 #include "cache/schema/CacheSchema.h"
 #include "cache/schema/Codecs.h"
 #include "cache/schema/RoomStore.h"
+#include "cache/schema/RoomTimelineIndex.h"
 #include "db/Catalog.h"
 #include "db/ReadReceiptIndex.h"
 #include "db/Scan.h"
-#include "db/TimelineIndex.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "ui/ThemeRegistry.h"
 #include "TestEnvironment.h"
@@ -59,14 +59,6 @@ expectNoThrow(Fn &&fn, std::string_view message)
         std::cerr << "FAILED: " << message << " (" << e.what() << ")\n";
         return false;
     }
-}
-
-std::string
-integerKey(std::uint64_t value)
-{
-    std::string key(sizeof(value), '\0');
-    std::memcpy(key.data(), &value, sizeof(value));
-    return key;
 }
 
 bool
@@ -268,15 +260,16 @@ testRoomRemovalDropsRoomScopedCache(MatrixStore &store)
         store.db->megolmSessionsData.put(txn, inboundKey, "value");
 
         auto eventsDb = store.getEventsDb(txn, roomId);
-        eventsDb.put(txn, notificationEvent, "{}");
+        room_store::put(
+          txn, eventsDb, cache::schema::RoomDb::Events, roomId, notificationEvent, "{}");
         store.db->notifications.put(txn, notificationEvent, "1");
 
-        store.getEventOrderDb(txn, roomId);
-        store.getEventToOrderDb(txn, roomId);
-        store.getMessageToOrderDb(txn, roomId);
-        store.getOrderToMessageDb(txn, roomId);
-        store.getPendingMessagesDb(txn, roomId);
-        store.getRelationsDb(txn, roomId);
+        auto eventOrderDb = store.getEventOrderDb(txn, roomId);
+        auto eventToOrder = store.getEventToOrderDb(txn, roomId);
+        auto messageToOrder = store.getMessageToOrderDb(txn, roomId);
+        auto orderToMessage = store.getOrderToMessageDb(txn, roomId);
+        auto pendingDb = store.getPendingMessagesDb(txn, roomId);
+        auto relationsDb = store.getRelationsDb(txn, roomId);
         store.getInviteStatesDb(txn, roomId);
         store.getInviteMembersDb(txn, roomId);
         store.getStatesDb(txn, roomId);
@@ -322,6 +315,19 @@ testRoomRemovalDropsRoomScopedCache(MatrixStore &store)
                         "",
                         "global.keep",
                         R"({"type":"global.keep"})");
+        room_timeline::putEventOrderMapping(txn,
+                                            eventOrderDb,
+                                            eventToOrder,
+                                            roomId,
+                                            10,
+                                            notificationEvent,
+                                            db::serializeOrderEntry(notificationEvent));
+        room_timeline::putMessageOrderMapping(
+          txn, orderToMessage, messageToOrder, roomId, 20, notificationEvent);
+        pendingDb.put(
+          txn, room_store::orderedIndexKey(cache::schema::RoomDb::Pending, roomId, 30), "txn-pending");
+        relationsDb.put(
+          txn, room_store::key(cache::schema::RoomDb::Related, roomId, "$target"), notificationEvent);
 
         txn.commit();
     }
@@ -383,6 +389,33 @@ testRoomRemovalDropsRoomScopedCache(MatrixStore &store)
                    roomId) == 0,
                  "removeRoom deletes room-scoped shared account data entries");
     ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomPlain, cache::schema::RoomDb::Events, roomId) == 0,
+                 "removeRoom deletes shared room event payload entries");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomPlain, cache::schema::RoomDb::EventToOrder, roomId) == 0,
+                 "removeRoom deletes shared room event-to-order entries");
+    ok &= expect(room_store::countEntries(
+                   txn,
+                   store.db->sharedRoomPlain,
+                   cache::schema::RoomDb::MessageToOrder,
+                   roomId) == 0,
+                 "removeRoom deletes shared room message-to-order entries");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomOrdered, cache::schema::RoomDb::EventOrder, roomId) == 0,
+                 "removeRoom deletes shared room event-order entries");
+    ok &= expect(room_store::countEntries(
+                   txn,
+                   store.db->sharedRoomOrdered,
+                   cache::schema::RoomDb::OrderToMessage,
+                   roomId) == 0,
+                 "removeRoom deletes shared room order-to-message entries");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomOrdered, cache::schema::RoomDb::Pending, roomId) == 0,
+                 "removeRoom deletes shared room pending entries");
+    ok &= expect(room_store::countEntries(
+                   txn, store.db->sharedRoomDupsort, cache::schema::RoomDb::Related, roomId) == 0,
+                 "removeRoom deletes shared room relation entries");
+    ok &= expect(room_store::countEntries(
                    txn, store.db->sharedRoomPlain, cache::schema::RoomDb::AccountData, "") == 1,
                  "removeRoom preserves global shared account data entries");
 
@@ -415,9 +448,12 @@ testReadReceiptsAdvanceAsCurrentState(MatrixStore &store)
     {
         auto txn          = store.beginTxn();
         auto eventToOrder = store.getEventToOrderDb(txn, roomId);
-        eventToOrder.put(txn, oldEventId, integerKey(10));
-        eventToOrder.put(txn, newEventId, integerKey(20));
-        eventToOrder.put(txn, nextEventId, integerKey(30));
+        room_store::put(
+          txn, eventToOrder, cache::schema::RoomDb::EventToOrder, roomId, oldEventId, db::toSv(10ULL));
+        room_store::put(
+          txn, eventToOrder, cache::schema::RoomDb::EventToOrder, roomId, newEventId, db::toSv(20ULL));
+        room_store::put(
+          txn, eventToOrder, cache::schema::RoomDb::EventToOrder, roomId, nextEventId, db::toSv(30ULL));
         txn.commit();
     }
 
@@ -520,21 +556,33 @@ testLimitedSyncCleanupPreservesCurrentStatePayloads(MatrixStore &store)
 
         std::uint64_t eventIndex   = 10;
         std::uint64_t messageIndex = 10;
-        db::appendEventOrderEntry(
-          txn, orderDb, evToOrderDb, eventIndex, oldEventId, db::serializeOrderEntry(oldEventId));
-        db::appendMessageOrderEntry(txn, order2msgDb, msg2orderDb, messageIndex, oldEventId);
-        db::appendEventOrderEntry(txn,
-                                  orderDb,
-                                  evToOrderDb,
-                                  eventIndex,
-                                  oldRelatedEventId,
-                                  db::serializeOrderEntry(oldRelatedEventId));
-        db::appendMessageOrderEntry(txn, order2msgDb, msg2orderDb, messageIndex, oldRelatedEventId);
+        room_timeline::appendEventOrderEntry(
+          txn, orderDb, evToOrderDb, roomId, eventIndex, oldEventId, db::serializeOrderEntry(oldEventId));
+        room_timeline::appendMessageOrderEntry(
+          txn, order2msgDb, msg2orderDb, roomId, messageIndex, oldEventId);
+        room_timeline::appendEventOrderEntry(txn,
+                                             orderDb,
+                                             evToOrderDb,
+                                             roomId,
+                                             eventIndex,
+                                             oldRelatedEventId,
+                                             db::serializeOrderEntry(oldRelatedEventId));
+        room_timeline::appendMessageOrderEntry(
+          txn, order2msgDb, msg2orderDb, roomId, messageIndex, oldRelatedEventId);
 
-        eventsDb.put(txn, oldEventId, nlohmann::json(oldEvent).dump());
-        eventsDb.put(txn, oldRelatedEventId, nlohmann::json(oldRelated).dump());
-        relationsDb.put(txn, relationTarget, oldRelatedEventId);
-        pendingDb.put(txn, "1", "txn-old");
+        room_store::put(
+          txn, eventsDb, cache::schema::RoomDb::Events, roomId, oldEventId, nlohmann::json(oldEvent).dump());
+        room_store::put(txn,
+                        eventsDb,
+                        cache::schema::RoomDb::Events,
+                        roomId,
+                        oldRelatedEventId,
+                        nlohmann::json(oldRelated).dump());
+        relationsDb.put(
+          txn, room_store::key(cache::schema::RoomDb::Related, roomId, relationTarget), oldRelatedEventId);
+        pendingDb.put(txn,
+                      room_store::orderedIndexKey(cache::schema::RoomDb::Pending, roomId, 1),
+                      "txn-old");
 
         txn.commit();
     }
@@ -561,22 +609,32 @@ testLimitedSyncCleanupPreservesCurrentStatePayloads(MatrixStore &store)
     auto pendingDb   = store.getPendingMessagesDb(txn, roomId);
 
     std::string_view raw;
-    ok &= expect(eventsDb.get(txn, powerLevelsEventId, raw),
+    ok &= expect(room_store::get(
+                   txn, eventsDb, cache::schema::RoomDb::Events, roomId, powerLevelsEventId, raw),
                  "limited sync preserves empty-state-key event payloads in eventsDb");
-    ok &= expect(eventsDb.get(txn, parentEventId, raw),
+    ok &= expect(
+                   room_store::get(txn, eventsDb, cache::schema::RoomDb::Events, roomId, parentEventId, raw),
                  "limited sync preserves keyed state event payloads in eventsDb");
-    ok &= expect(!eventsDb.get(txn, oldEventId, raw),
+    ok &= expect(
+                   !room_store::get(txn, eventsDb, cache::schema::RoomDb::Events, roomId, oldEventId, raw),
                  "limited sync deletes stale non-state event payloads");
-    ok &= expect(!eventsDb.get(txn, oldRelatedEventId, raw),
+    ok &= expect(!room_store::get(
+                   txn, eventsDb, cache::schema::RoomDb::Events, roomId, oldRelatedEventId, raw),
                  "limited sync deletes stale related-event payloads");
-    ok &= expect(eventsDb.get(txn, newEventId, raw),
+    ok &= expect(room_store::get(
+                   txn, eventsDb, cache::schema::RoomDb::Events, roomId, newEventId, raw),
                  "limited sync stores the new timeline event payload");
 
-    ok &= expect(db::listOrderEntryEventIds(txn, orderDb) == std::vector<std::string>{newEventId},
+    ok &= expect(room_timeline::listOrderEntryEventIds(txn, orderDb, roomId) ==
+                   std::vector<std::string>{newEventId},
                  "limited sync rebuilds the timeline order index from the new batch only");
-    ok &= expect(db::listDupValues(txn, relationsDb, oldTargetEventId).empty(),
+    ok &= expect(
+                   db::listDupValues(
+                     txn, relationsDb, room_store::key(cache::schema::RoomDb::Related, roomId, oldTargetEventId))
+                     .empty(),
                  "limited sync clears stale relation rows");
-    ok &= expect(pendingDb.size(txn) == 0,
+    ok &= expect(room_store::countEntries(
+                   txn, pendingDb, cache::schema::RoomDb::Pending, roomId) == 0,
                  "limited sync clears stale pending-event entries");
 
     const auto powerLevels = store.getStateEvent<mtx::events::state::PowerLevels>(txn, roomId, "");

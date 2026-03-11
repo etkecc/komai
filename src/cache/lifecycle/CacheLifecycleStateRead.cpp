@@ -56,7 +56,8 @@ MatrixStore::getStateEvent(db::Transaction &txn,
                 if (!eventId) {
                     return std::nullopt;
                 }
-                return db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, *eventId);
+                return db::getJsonValue<mtx::events::StateEvent<T>>(
+                  txn, eventsDb, room_store::key(cache::schema::RoomDb::Events, room_id, *eventId));
 
             } catch (std::exception &) {
                 return std::nullopt;
@@ -90,8 +91,10 @@ MatrixStore::getStateEventsWithType(db::Transaction &txn,
                statesKeyDb,
                room_store::key(cache::schema::RoomDb::StatesKey, room_id, typeStr))) {
             try {
-                if (auto event =
-                      db::getJsonValue<mtx::events::StateEvent<T>>(txn, eventsDb, eventId))
+                if (auto event = db::getJsonValue<mtx::events::StateEvent<T>>(
+                      txn,
+                      eventsDb,
+                      room_store::key(cache::schema::RoomDb::Events, room_id, eventId)))
                     events.push_back(std::move(*event));
             } catch (std::exception &e) {
                 cache::activeLoggers().db->warn("Failed to parse state event: {}", e.what());

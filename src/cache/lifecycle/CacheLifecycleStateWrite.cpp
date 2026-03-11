@@ -150,7 +150,12 @@ MatrixStore::saveStateEvent(db::Transaction &txn,
     std::visit(
       [&txn, &statesdb, &stateskeydb, &eventsDb, &membersdb, &room_id](const auto &e) {
           if constexpr (isStateEvent_<decltype(e)>) {
-              eventsDb.put(txn, e.event_id, nlohmann::json(e).dump());
+              room_store::put(txn,
+                              eventsDb,
+                              cache::schema::RoomDb::Events,
+                              room_id,
+                              e.event_id,
+                              nlohmann::json(e).dump());
 
               if (e.type != EventType::Unsupported) {
                   if (std::is_same_v<std::remove_cv_t<std::remove_reference_t<decltype(e)>>,

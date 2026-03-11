@@ -16,9 +16,9 @@
 
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/RoomStore.h"
+#include "cache/schema/RoomTimelineIndex.h"
 #include "db/Catalog.h"
 #include "db/Scan.h"
-#include "db/TimelineIndex.h"
 
 template<typename RelationCollection>
 std::vector<std::string_view>
@@ -87,19 +87,20 @@ cleanupLimitedTimeline(db::Transaction &txn,
                        db::Store &statesKeyDb,
                        const std::string &roomId)
 {
-    const auto protectedEventIds     = currentStateEventIds(txn, roomId, statesDb, statesKeyDb);
-    const auto staleTimelineEventIds = db::listOrderEntryEventIds(txn, eventOrderDb);
+    const auto protectedEventIds = currentStateEventIds(txn, roomId, statesDb, statesKeyDb);
+    const auto staleTimelineEventIds =
+      room_timeline::listOrderEntryEventIds(txn, eventOrderDb, roomId);
 
-    eventOrderDb.drop(txn, false);
-    eventToOrderDb.drop(txn, false);
-    messageToOrderDb.drop(txn, false);
-    orderToMessageDb.drop(txn, false);
-    relationsDb.drop(txn, false);
-    pendingDb.drop(txn, false);
+    room_store::eraseEntries(txn, eventOrderDb, cache::schema::RoomDb::EventOrder, roomId);
+    room_store::eraseEntries(txn, eventToOrderDb, cache::schema::RoomDb::EventToOrder, roomId);
+    room_store::eraseEntries(txn, messageToOrderDb, cache::schema::RoomDb::MessageToOrder, roomId);
+    room_store::eraseEntries(txn, orderToMessageDb, cache::schema::RoomDb::OrderToMessage, roomId);
+    room_store::eraseEntries(txn, relationsDb, cache::schema::RoomDb::Related, roomId);
+    room_store::eraseEntries(txn, pendingDb, cache::schema::RoomDb::Pending, roomId);
 
     for (const auto &eventId : staleTimelineEventIds) {
         if (!protectedEventIds.contains(eventId))
-            eventsDb.del(txn, eventId);
+            room_store::del(txn, eventsDb, cache::schema::RoomDb::Events, roomId, eventId);
     }
 }
 
@@ -114,11 +115,13 @@ MatrixStore::replaceEvent(const std::string &room_id,
     auto event_json  = mtx::accessors::serialize_event(event).dump();
 
     {
-        eventsDb.del(txn, event_id);
-        eventsDb.put(txn, event_id, event_json);
+        room_store::del(txn, eventsDb, cache::schema::RoomDb::Events, room_id, event_id);
+        room_store::put(
+          txn, eventsDb, cache::schema::RoomDb::Events, room_id, event_id, event_json);
         const auto relationTargets =
           relationTargetEventIds(mtx::accessors::relations(event).relations);
-        db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
+        room_timeline::rewriteRelationSourceReferences(
+          txn, relationsDb, room_id, event_id, relationTargets);
     }
 
     txn.commit();
@@ -161,11 +164,15 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
     using namespace mtx::events::state;
 
     uint64_t index = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto lastOrder = db::lastOrderedIndex(txn, orderDb); lastOrder)
+    if (const auto lastOrder =
+          room_timeline::lastOrderedIndex(txn, orderDb, cache::schema::RoomDb::EventOrder, room_id);
+        lastOrder)
         index = *lastOrder;
 
     uint64_t msgIndex = std::numeric_limits<uint64_t>::max() / 2;
-    if (const auto lastMessage = db::lastOrderedIndex(txn, order2msgDb); lastMessage)
+    if (const auto lastMessage = room_timeline::lastOrderedIndex(
+          txn, order2msgDb, cache::schema::RoomDb::OrderToMessage, room_id);
+        lastMessage)
         msgIndex = *lastMessage;
 
     bool first = true;
@@ -188,20 +195,22 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
         const auto eventJson       = event.dump();
         const auto relationTargets = relationTargetEventIds(mtx::accessors::relations(e).relations);
 
-        if (!txn_id.empty() && db::replaceTimelineEventId(txn,
-                                                          eventsDb,
-                                                          orderDb,
-                                                          evToOrderDb,
-                                                          msg2orderDb,
-                                                          order2msgDb,
-                                                          txn_id,
-                                                          event_id,
-                                                          eventJson,
-                                                          orderEntry)) {
-            db::removeRelationSourceReferences(txn, relationsDb, txn_id);
-            db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
+        if (!txn_id.empty() && room_timeline::replaceTimelineEventId(txn,
+                                                                     eventsDb,
+                                                                     orderDb,
+                                                                     evToOrderDb,
+                                                                     msg2orderDb,
+                                                                     order2msgDb,
+                                                                     room_id,
+                                                                     txn_id,
+                                                                     event_id,
+                                                                     eventJson,
+                                                                     orderEntry)) {
+            room_timeline::removeRelationSourceReferences(txn, relationsDb, room_id, txn_id);
+            room_timeline::rewriteRelationSourceReferences(
+              txn, relationsDb, room_id, event_id, relationTargets);
 
-            db::removePendingEntriesByTxnId(txn, pending, txn_id);
+            room_timeline::removePendingEntriesByTxnId(txn, pending, room_id, txn_id);
         } else if (auto redaction =
                      std::get_if<mtx::events::RedactionEvent<mtx::events::msg::Redaction>>(&e)) {
             if (redaction->redacts.empty())
@@ -214,12 +223,15 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
 
                 cache::activeLoggers().db->debug("saving redaction '{}'", orderEntry);
 
-                db::appendEventOrderEntry(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
-                eventsDb.put(txn, event_id, event.dump());
+                room_timeline::appendEventOrderEntry(
+                  txn, orderDb, evToOrderDb, room_id, index, event_id, orderEntry);
+                room_store::put(
+                  txn, eventsDb, cache::schema::RoomDb::Events, room_id, event_id, event.dump());
             }
 
             std::string_view oldEvent;
-            bool success = eventsDb.get(txn, redaction->redacts, oldEvent);
+            bool success = room_store::get(
+              txn, eventsDb, cache::schema::RoomDb::Events, room_id, redaction->redacts, oldEvent);
             if (!success)
                 continue;
 
@@ -279,32 +291,58 @@ MatrixStore::saveTimelineMessages(db::Transaction &txn,
                 continue;
             }
 
-            eventsDb.put(txn, redaction->redacts, event.dump());
-            eventsDb.put(txn, redaction->event_id, nlohmann::json(*redaction).dump());
+            room_store::put(txn,
+                            eventsDb,
+                            cache::schema::RoomDb::Events,
+                            room_id,
+                            redaction->redacts,
+                            event.dump());
+            room_store::put(txn,
+                            eventsDb,
+                            cache::schema::RoomDb::Events,
+                            room_id,
+                            redaction->event_id,
+                            nlohmann::json(*redaction).dump());
         } else {
             // This check protects against duplicates in the timeline. If the event_id
             // is already in the DB, we skip putting it (again) in ordered DBs, and only
             // update the event itself and its relations.
             std::string_view unused_read;
-            const bool hasExistingEvent = evToOrderDb.get(txn, event_id, unused_read);
+            const bool hasExistingEvent = room_store::get(txn,
+                                                          evToOrderDb,
+                                                          cache::schema::RoomDb::EventToOrder,
+                                                          room_id,
+                                                          event_id,
+                                                          unused_read);
             if (!hasExistingEvent) {
                 first = false;
                 cache::activeLoggers().db->debug("saving '{}'", orderEntry);
 
-                db::appendEventOrderEntry(txn, orderDb, evToOrderDb, index, event_id, orderEntry);
+                room_timeline::appendEventOrderEntry(
+                  txn, orderDb, evToOrderDb, room_id, index, event_id, orderEntry);
 
                 // TODO(Nico): Allow blacklisting more event types in UI
                 if (!isHiddenEvent(txn, e, room_id)) {
-                    db::appendMessageOrderEntry(txn, order2msgDb, msg2orderDb, msgIndex, event_id);
+                    room_timeline::appendMessageOrderEntry(
+                      txn, order2msgDb, msg2orderDb, room_id, msgIndex, event_id);
                 }
             } else {
                 cache::activeLoggers().db->warn("duplicate event '{}'", orderEntry);
             }
-            eventsDb.put(txn, event_id, eventJson);
+            room_store::put(
+              txn, eventsDb, cache::schema::RoomDb::Events, room_id, event_id, eventJson);
             if (hasExistingEvent) {
-                db::rewriteRelationSourceReferences(txn, relationsDb, event_id, relationTargets);
+                room_timeline::rewriteRelationSourceReferences(
+                  txn, relationsDb, room_id, event_id, relationTargets);
             } else {
-                db::putDupValueForKeys(txn, relationsDb, relationTargets, event_id);
+                for (const auto &targetEventId : relationTargets) {
+                    if (targetEventId.empty())
+                        continue;
+                    relationsDb.put(
+                      txn,
+                      room_store::key(cache::schema::RoomDb::Related, room_id, targetEventId),
+                      event_id);
+                }
             }
         }
     }

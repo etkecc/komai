@@ -272,15 +272,34 @@ eraseEntries(db::Transaction &txn, db::Store &store, schema::RoomDb db, std::str
 }
 
 inline std::string
-orderedIndexKey(schema::RoomDb db, std::string_view roomId, std::uint64_t index)
+orderedIndexSubkey(std::uint64_t index)
 {
-    auto composite = prefix(db, roomId);
-    composite.resize(composite.size() + sizeof(index));
+    std::string subkey(sizeof(index), '\0');
     for (std::size_t i = 0; i < sizeof(index); ++i) {
         const auto shift = static_cast<unsigned>((sizeof(index) - 1 - i) * 8);
-        composite[composite.size() - sizeof(index) + i] =
-          static_cast<char>((index >> shift) & 0xffU);
+        subkey[i]        = static_cast<char>((index >> shift) & 0xffU);
     }
+    return subkey;
+}
+
+inline std::optional<std::uint64_t>
+orderedIndexFromSubkey(std::string_view rawIndex)
+{
+    if (rawIndex.size() != sizeof(std::uint64_t))
+        return std::nullopt;
+
+    std::uint64_t index = 0;
+    for (unsigned char byte : rawIndex)
+        index = (index << 8U) | byte;
+
+    return index;
+}
+
+inline std::string
+orderedIndexKey(schema::RoomDb db, std::string_view roomId, std::uint64_t index)
+{
+    std::string composite = prefix(db, roomId);
+    composite.append(orderedIndexSubkey(index));
     return composite;
 }
 
@@ -291,15 +310,7 @@ orderedIndexFromKey(schema::RoomDb db, std::string_view roomId, std::string_view
     if (!compositeKey.starts_with(keyPrefix))
         return std::nullopt;
 
-    const auto rawIndex = compositeKey.substr(keyPrefix.size());
-    if (rawIndex.size() != sizeof(std::uint64_t))
-        return std::nullopt;
-
-    std::uint64_t index = 0;
-    for (unsigned char byte : rawIndex)
-        index = (index << 8U) | byte;
-
-    return index;
+    return orderedIndexFromSubkey(compositeKey.substr(keyPrefix.size()));
 }
 
 inline std::size_t

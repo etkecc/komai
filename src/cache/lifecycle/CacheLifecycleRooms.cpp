@@ -22,6 +22,7 @@
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/CacheSchema.h"
 #include "cache/schema/RoomStore.h"
+#include "cache/schema/RoomTimelineIndex.h"
 #include "db/Json.h"
 #include "db/storage/Core.h"
 #include "db/storage/Crypto.h"
@@ -85,13 +86,12 @@ serializeStoredReadReceipt(const StoredReadReceipt &receipt)
 }
 
 std::optional<uint64_t>
-eventIndexForReceipt(db::Transaction &txn, db::Store &eventToOrderDb, std::string_view eventId)
+eventIndexForReceipt(db::Transaction &txn,
+                     db::Store &eventToOrderDb,
+                     std::string_view roomId,
+                     std::string_view eventId)
 {
-    std::string_view rawEventIndex;
-    if (!eventToOrderDb.get(txn, eventId, rawEventIndex))
-        return std::nullopt;
-
-    return db::fromSv<uint64_t>(rawEventIndex);
+    return room_timeline::eventIndexForEvent(txn, eventToOrderDb, roomId, eventId);
 }
 
 } // namespace
@@ -125,9 +125,8 @@ void
 MatrixStore::removeRoom(db::Transaction &txn, const std::string &roomid)
 {
     try {
-        auto eventsDb = cache::schema::openRoomStore(
-          storage(), txn, roomid, cache::schema::RoomDb::Events, false);
-        for (const auto &eventId : db::listKeys(txn, eventsDb))
+        for (const auto &eventId :
+             room_store::listKeys(txn, db->sharedRoomPlain, cache::schema::RoomDb::Events, roomid))
             db->notifications.del(txn, eventId);
     } catch (const std::exception &) {
     }
@@ -172,6 +171,15 @@ MatrixStore::removeRoom(db::Transaction &txn, const std::string &roomid)
     room_store::eraseEntries(
       txn, db->sharedRoomPlain, cache::schema::RoomDb::InviteMembers, roomid);
     room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::AccountData, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::Events, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomPlain, cache::schema::RoomDb::EventToOrder, roomid);
+    room_store::eraseEntries(
+      txn, db->sharedRoomPlain, cache::schema::RoomDb::MessageToOrder, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomOrdered, cache::schema::RoomDb::EventOrder, roomid);
+    room_store::eraseEntries(
+      txn, db->sharedRoomOrdered, cache::schema::RoomDb::OrderToMessage, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomOrdered, cache::schema::RoomDb::Pending, roomid);
+    room_store::eraseEntries(txn, db->sharedRoomDupsort, cache::schema::RoomDb::Related, roomid);
 
     const auto roomPrefix = roomid + "/";
     for (const auto &dbName : storage().listStoreNames(txn)) {
@@ -246,7 +254,7 @@ MatrixStore::readReceipts(const QString &event_id, const QString &room_id)
 
         auto eventToOrderDb = getEventToOrderDb(txn, roomId);
         const auto targetEventIndex =
-          eventIndexForReceipt(txn, eventToOrderDb, event_id.toStdString());
+          eventIndexForReceipt(txn, eventToOrderDb, roomId, event_id.toStdString());
         if (!targetEventIndex)
             return receipts;
 
@@ -278,7 +286,7 @@ MatrixStore::updateReadReceipt(db::Transaction &txn,
     std::map<std::string, StoredReadReceipt> latestReceiptsByUser;
 
     for (const auto &[eventId, eventReceipts] : receipts) {
-        const auto eventIndex = eventIndexForReceipt(txn, eventToOrderDb, eventId);
+        const auto eventIndex = eventIndexForReceipt(txn, eventToOrderDb, room_id, eventId);
         if (!eventIndex) {
             cache::activeLoggers().db->warn(
               "Skipping read receipt for uncached event '{}' in room '{}'.", eventId, room_id);

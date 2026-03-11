@@ -32,9 +32,12 @@ inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx     = 500;
 inline constexpr int kDefaultScreenShareFrameRate               = 5;
 inline constexpr bool kDefaultScreenShareShowCursor             = true;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
-inline constexpr unsigned int kDefaultMaxStores                 = 131072;
-inline constexpr unsigned long long kDefaultMaxDbSizeBytes      = 0;
-inline constexpr int kDefaultIntegrationsDbusApiAccess          = 0;
+// Room-scoped cache data now shares a fixed set of LMDB stores, so named-DB pressure no longer
+// scales with room count. Keep a generous floor above today's footprint without carrying the old
+// 131072-slot over-allocation.
+inline constexpr unsigned int kDefaultMaxStores            = 8192;
+inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
+inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
 
 inline constexpr std::array<SettingId, 17> kEnumTokenConfigSettingIds{{
 #include "SettingsDefinitionsEnumTokenConfigSettingIds.inc"

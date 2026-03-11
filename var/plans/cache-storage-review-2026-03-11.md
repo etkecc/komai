@@ -19,7 +19,7 @@ Scope:
   - Prefer simple reset/rebuild over adding migration code.
   - If possible, rely on the existing incompatible-cache reset path so beta testers do not need to wipe full profiles manually.
   - If that stops being clean/simple, manual fresh-start instructions are acceptable.
-- [x] Default `maxStores` target: `131072`.
+- [x] Default `maxStores` target after the shared-store rewrite: `8192`.
 - [x] Read-receipt UI semantics: "read up to here".
   - Storage direction is clear: stop using append-only per-event blobs as the source of truth.
   - For an older message, the UI should answer "whose current receipt is at or after this message?"
@@ -42,7 +42,7 @@ Concrete implementation work:
 - [x] Fix room teardown so it drops all room-local stores, not just `rooms/state/account_data/members`.
 - [x] Implement the aggressive cleanup policy for room-keyed global state on room leave/removal.
 - [x] Redesign read receipt storage around current-state semantics.
-- [x] Raise the default `maxStores` headroom to `131072`.
+- [x] Retune the default `maxStores` headroom as the storage rewrite changed named-store pressure.
 - [x] Make cache compatibility exact-match only.
 - [x] Remove dead cache-schema baggage (`PendingReceipts`, any no-longer-needed legacy shims).
 - [x] Build a small MatrixStore-focused integration test harness so cache lifecycle/reset behavior can be tested without manual launches.
@@ -55,6 +55,7 @@ Concrete implementation work:
 - [x] Replace most per-room named DBs with a fixed set of shared room stores keyed by `room_id + subkey`.
 - [x] Decide the shared-store grouping/key-encoding plan so ordered scans and dupsort semantics stay efficient.
 - [x] Start the shared-room-store rewrite with the non-timeline room stores.
+- [x] Reassess post-rewrite `maxStores` headroom and replace the stale room-count auto-grow heuristic.
 - [ ] Design cache maintenance / statistics UI after the storage rewrite settles.
 
 Documentation follow-up:
@@ -77,7 +78,7 @@ Documentation follow-up:
 - Confirmed that backend `drop(..., true)` semantics are intended to delete named stores, not just clear contents.
 - Ran the local test suite to make sure the current tree is green while reviewing.
 - Committed foundation storage changes:
-  - default `maxStores` now targets `131072`
+  - `maxStores` headroom was raised early to protect large accounts before the shared-store rewrite landed
   - cache format compatibility is exact-match only
 - Committed authoritative room cleanup changes:
   - room removal now drops all room-local named stores by room-prefix
@@ -149,6 +150,12 @@ Documentation follow-up:
     - the old hint was safe for room-local integer-key DBs
     - it is not globally safe once multiple rooms share one ordered store
     - the shared rewrite keeps the cursor semantics but writes ordered rows with normal puts
+- Reassessed `maxStores` after the shared-store rewrite:
+  - the default target is now `8192`, not `131072`
+  - the old `rooms * 20` `DbsFull` recovery heuristic was removed because named DB count no longer scales with room count
+  - `DbsFull` recovery now simply doubles the current configured value, with a floor at the default target
+- Refreshed user-facing storage docs:
+  - `docs/user-guide/differences-from-nheko.md` now explains that the LMDB layout uses shared room stores, removing the old per-room named-store choke point
 
 ## Checks Run
 
@@ -215,6 +222,12 @@ Documentation follow-up:
   - `just test`
   - `just lint`
   - Result: passed
+- After the post-rewrite `maxStores` retune:
+  - `just build`
+  - `ctest --test-dir var/build/native --output-on-failure -R 'komai_(db_backend_test|matrix_store_test)'`
+  - `just test`
+  - `just lint`
+  - Result: passed
 
 ## Test Coverage Gaps Observed
 
@@ -240,17 +253,15 @@ Implication:
 
 If continuing this work after a restart, the next preferred order is:
 
-1. Reassess `maxStores` pressure and cleanup complexity now that the shared-store rewrite is in place.
-2. Decide whether any extra rewrite-specific coverage is still missing after living with the new layout for a bit.
-3. Then start the cache stats / maintenance UI work.
+1. Decide whether any extra rewrite-specific coverage is still missing after living with the new layout for a bit.
+2. Then start the cache stats / maintenance UI work.
 
 ## Restart Handoff
 
 If this work gets restarted in a fresh session, pick it up in this order:
 
-1. Reassess `maxStores` pressure and cleanup complexity on top of the shared-store layout.
-2. Add any extra rewrite-specific coverage only if a concrete gap appears.
-3. Then move on to cache maintenance / statistics UX work.
+1. Add any extra rewrite-specific coverage only if a concrete gap appears.
+2. Then move on to cache maintenance / statistics UX work.
 
 Current code checkpoint:
 - Latest storage/integration commit before the shared-store rewrite: `3658fe86a` (`Cover limited sync and space cache integration paths`)
@@ -529,6 +540,11 @@ Practical implication:
 
 ### 2. `max_dbs` exhaustion is structural, not just a tuning issue
 
+Historical note:
+- This section describes the pre-shared-store layout that motivated the rewrite.
+- The current layout no longer spends roughly 10-11 named LMDB DBs per active room.
+- The final post-rewrite decision is the one recorded above in "Decision Log" and "Progress So Far": default `maxStores` is now `8192`, with fixed shared room stores and simple doubling on `DbsFull`.
+
 Severity: high
 
 Relevant code:
@@ -608,8 +624,8 @@ Current understanding:
   - each `mdb_dbi_open()` does a linear search across opened slots
 - Komai's own code comment already treats values around one million as suspiciously expensive.
 
-Interpretation for Komai:
-- Move from `32384` to `131072` by default.
+Interpretation for Komai at that stage:
+- Move from `32384` to `131072` by default as a temporary pressure valve.
 - That should give large-account users substantial headroom and avoid restart pain for room counts around `3000`.
 - Still avoid extreme defaults like `1 << 20` without measurement.
 - A larger default looks good as a short-term user-facing fix, but not as the only fix.

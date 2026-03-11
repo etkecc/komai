@@ -33,7 +33,7 @@
 
 extern bool needsCompact;
 
-static constexpr auto MAX_DBS_DEFAULT = 131072U;
+static constexpr auto MAX_DBS_DEFAULT = 8192U;
 
 #if Q_PROCESSOR_WORDSIZE >= 5 // 40-bit or more, up to 2^(8*WORDSIZE) words addressable.
 static constexpr auto DB_SIZE_DEFAULT = 32ULL * 1024ULL * 1024ULL * 1024ULL; // 32 GB

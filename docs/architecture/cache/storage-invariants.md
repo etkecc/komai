@@ -11,8 +11,9 @@ This document records the current on-disk cache rules that other cache changes s
 
 ## LMDB Headroom
 
-- The default `maxStores` target is `131072`.
-- This is intentional headroom for large accounts and room churn under the current named-store layout.
+- The default `maxStores` target is `8192`.
+- Room-scoped cache data now lives in a small fixed set of shared stores, so named-store pressure no longer scales roughly linearly with room count.
+- On `DbsFull`, Komai doubles the configured value, with a floor at the default target, and asks for a restart.
 - Higher headroom is a guardrail, not the primary cleanup strategy. Room removal must still free room-owned storage.
 
 ## Room Cleanup

@@ -6,6 +6,7 @@
 #include "cache/Cache.h"
 #include "cache/core/Cache_p.h"
 
+#include <algorithm>
 #include <map>
 #include <set>
 #include <string_view>
@@ -23,8 +24,23 @@
 #include "cache/api/CacheApiContext.h"
 #include "cache/schema/RoomStore.h"
 #include "events/EventAccessors.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
+
+namespace {
+
+constexpr unsigned kMaxConfiguredDbStores = 1u << 20;
+
+unsigned
+nextDbMaxStores(uint current)
+{
+    const auto effective =
+      std::max<unsigned>(current, settings::core::definitions::kDefaultMaxStores);
+    return effective >= (kMaxConfiguredDbStores / 2) ? kMaxConfiguredDbStores : effective * 2;
+}
+
+} // namespace
 
 void
 MatrixStore::saveState(const mtx::responses::Sync &res)
@@ -286,13 +302,7 @@ try {
     if (errorKind == db::ErrorKind::DbsFull || errorKind == db::ErrorKind::MapFull) {
         if (errorKind == db::ErrorKind::DbsFull) {
             auto settings = UserSettings::instance();
-
-            unsigned roomDbCount =
-              static_cast<unsigned>((res.rooms.invite.size() + res.rooms.join.size() +
-                                     res.rooms.knock.size() + res.rooms.leave.size()) *
-                                    20);
-
-            settings->setDbMaxStores(std::max(settings->dbMaxStores() * 2, roomDbCount));
+            settings->setDbMaxStores(nextDbMaxStores(settings->dbMaxStores()));
         } else if (errorKind == db::ErrorKind::MapFull) {
             auto settings = UserSettings::instance();
 
@@ -304,7 +314,7 @@ try {
         QMessageBox::warning(
           nullptr,
           tr("Database limit reached"),
-          tr("Your account is larger than our default database limit. We have "
+          tr("Komai hit the current database capacity setting. We have "
              "increased the capacity automatically, however you will need to "
              "restart to apply this change. Komai will now close automatically."),
           QMessageBox::StandardButton::Close);

@@ -849,7 +849,11 @@ testReadReceiptIndexHelper()
         auto txn  = db::beginWriteTransaction(*backend);
         auto dbi  = db::openGlobalStore(*backend, txn, db::catalog::GlobalDb::ReadReceipts);
         db::putReadReceiptValue(
-          txn, dbi, "$event-1", "!room:example", R"({"@alice:example.org":123})");
+          txn,
+          dbi,
+          "!room:example",
+          "@alice:example.org",
+          R"({"event_id":"$event-1","timestamp":123,"event_index":456})");
         txn.commit();
     }
 
@@ -859,21 +863,38 @@ testReadReceiptIndexHelper()
 
         std::string_view value;
         ok &= expect(
-          db::getReadReceiptValue(txn, dbi, "$event-1", "!room:example", value),
-          "read receipt helper reads event+room keyed payload");
-        ok &= expect(value == R"({"@alice:example.org":123})",
-                     "read receipt helper returns event+room keyed payload");
+          db::getReadReceiptValue(txn, dbi, "!room:example", "@alice:example.org", value),
+          "read receipt helper reads room+user keyed payload");
+        ok &= expect(value == R"({"event_id":"$event-1","timestamp":123,"event_index":456})",
+                     "read receipt helper returns room+user keyed payload");
 
         ok &= expect(
-          !db::getReadReceiptValue(txn, dbi, "$event-2", "!room:example", value),
-          "read receipt helper reports missing event+room key");
+          !db::getReadReceiptValue(txn, dbi, "!room:example", "@bob:example.org", value),
+          "read receipt helper reports missing room+user key");
+
+        std::size_t iterated = 0;
+        db::forEachReadReceiptInRoom(
+          txn,
+          dbi,
+          "!room:example",
+          [&ok, &iterated](std::string_view userId, std::string_view payload) {
+              iterated += 1;
+              ok &= expect(userId == "@alice:example.org",
+                           "read receipt helper iterates room-scoped user ids");
+              ok &= expect(payload == R"({"event_id":"$event-1","timestamp":123,"event_index":456})",
+                           "read receipt helper iterates room-scoped payloads");
+              return true;
+          });
+        ok &= expect(iterated == 1, "read receipt helper iterates room-scoped entries");
     }
 
     {
-        const auto key = db::readReceiptKey("$event-1", "!room:example");
-        ok &= expect(key.find("\"event_id\":\"$event-1\"") != std::string::npos &&
-                       key.find("\"room_id\":\"!room:example\"") != std::string::npos,
-                     "read receipt helper serializes event/room key fields");
+        const auto key       = db::readReceiptKey("!room:example", "@alice:example.org");
+        const auto separator = key.find('\0');
+        ok &= expect(separator != std::string::npos &&
+                       std::string_view(key).substr(0, separator) == "!room:example" &&
+                       std::string_view(key).substr(separator + 1) == "@alice:example.org",
+                     "read receipt helper serializes room/user key fields");
     }
 
     db::close(backend);

@@ -89,18 +89,14 @@ TimelineModel::indexToId(int index) const
     return id ? QString::fromStdString(*id) : QLatin1String("");
 }
 
-// Note: this will only be called for our messages
+// Read receipts can move between events, so refresh the visible room timeline from cache.
 void
-TimelineModel::markEventsAsRead(const std::vector<QString> &event_ids)
+TimelineModel::markEventsAsRead(const std::vector<QString> &)
 {
-    for (const auto &id : event_ids) {
-        read.insert(id);
-        int idx = idToIndex(id);
-        if (idx < 0) {
-            return;
-        }
-        emit dataChanged(index(idx, 0), index(idx, 0));
-    }
+    if (rowCount() == 0)
+        return;
+
+    emit dataChanged(index(0, 0), index(rowCount() - 1, 0));
 }
 
 void

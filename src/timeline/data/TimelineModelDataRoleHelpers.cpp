@@ -186,7 +186,7 @@ TimelineModel::deliveryStateForEvent(const mtx::events::collections::TimelineEve
             return qml_mtx_events::Sent;
         else
             return qml_mtx_events::Failed;
-    } else if (read.contains(id) || containsOthers(cache::readReceipts(id, room_id_)))
+    } else if (containsOthers(cache::readReceipts(id, room_id_)))
         return qml_mtx_events::Read;
     else
         return qml_mtx_events::Received;

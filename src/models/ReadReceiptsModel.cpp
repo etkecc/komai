@@ -17,7 +17,7 @@ ReadReceiptsModel::ReadReceiptsModel(QString event_id, QString room_id, QObject 
   , room_id_{room_id}
 {
     try {
-        addUsers(cache::readReceipts(event_id_, room_id_));
+        setUsers(cache::readReceipts(event_id_, room_id_));
     } catch (const std::exception &) {
         nhlog::db()->warn("failed to retrieve read receipts for {} {}",
                           event_id_.toStdString(),
@@ -33,7 +33,7 @@ void
 ReadReceiptsModel::update()
 {
     try {
-        addUsers(cache::readReceipts(event_id_, room_id_));
+        setUsers(cache::readReceipts(event_id_, room_id_));
     } catch (const std::exception &) {
         nhlog::db()->warn("failed to retrieve read receipts for {} {}",
                           event_id_.toStdString(),
@@ -78,25 +78,22 @@ ReadReceiptsModel::data(const QModelIndex &index, int role) const
 }
 
 void
-ReadReceiptsModel::addUsers(
+ReadReceiptsModel::setUsers(
   const std::multimap<uint64_t, std::string, std::greater<uint64_t>> &users)
 {
-    auto newReceipts = users.size() - readReceipts_.size();
+    QVector<QPair<QString, QDateTime>> updatedReceipts;
+    updatedReceipts.reserve(static_cast<qsizetype>(users.size()));
 
-    if (newReceipts > 0) {
-        beginInsertRows(QModelIndex{},
-                        static_cast<int>(readReceipts_.size()),
-                        static_cast<int>(readReceipts_.size() + newReceipts - 1));
+    for (const auto &user : users)
+        updatedReceipts.push_back(
+          {QString::fromStdString(user.second), QDateTime::fromMSecsSinceEpoch(user.first)});
 
-        for (const auto &user : users) {
-            QPair<QString, QDateTime> item = {QString::fromStdString(user.second),
-                                              QDateTime::fromMSecsSinceEpoch(user.first)};
-            if (!readReceipts_.contains(item))
-                readReceipts_.push_back(item);
-        }
+    if (updatedReceipts == readReceipts_)
+        return;
 
-        endInsertRows();
-    }
+    beginResetModel();
+    readReceipts_ = std::move(updatedReceipts);
+    endResetModel();
 }
 
 QString

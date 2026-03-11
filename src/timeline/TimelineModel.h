@@ -8,7 +8,6 @@
 #include <QAbstractListModel>
 #include <QColor>
 #include <QDate>
-#include <QSet>
 #include <QTimer>
 #include <QVariant>
 
@@ -457,8 +456,6 @@ private:
                                 const QString &editText);
 
     QString room_id_;
-
-    QSet<QString> read;
 
     mutable EventStore events;
     timeline::media::TimelineMediaController mediaController_;

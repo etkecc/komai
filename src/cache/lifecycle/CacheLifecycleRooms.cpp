@@ -25,13 +25,21 @@
 #include "db/storage/Core.h"
 #include "db/storage/Crypto.h"
 #include "db/storage/Scan.h"
+#include "db/storage/Serde.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
 namespace {
 
+struct StoredReadReceipt
+{
+    std::string eventId;
+    uint64_t timestamp  = 0;
+    uint64_t eventIndex = 0;
+};
+
 bool
-jsonKeyMatchesRoom(std::string_view key, std::string_view roomId)
+jsonCompositeKeyMatchesRoom(std::string_view key, std::string_view roomId)
 {
     nlohmann::json parsed;
     if (!db::parseJsonValue(key, parsed))
@@ -40,6 +48,49 @@ jsonKeyMatchesRoom(std::string_view key, std::string_view roomId)
     const auto roomIt = parsed.find("room_id");
     return roomIt != parsed.end() && roomIt->is_string() &&
            roomIt->get_ref<const std::string &>() == roomId;
+}
+
+std::optional<StoredReadReceipt>
+parseStoredReadReceipt(std::string_view value)
+{
+    nlohmann::json parsed;
+    if (!db::parseJsonValue(value, parsed))
+        return std::nullopt;
+
+    const auto eventIdIt    = parsed.find("event_id");
+    const auto timestampIt  = parsed.find("timestamp");
+    const auto eventIndexIt = parsed.find("event_index");
+    if (eventIdIt == parsed.end() || timestampIt == parsed.end() || eventIndexIt == parsed.end() ||
+        !eventIdIt->is_string() || !timestampIt->is_number_unsigned() ||
+        !eventIndexIt->is_number_unsigned()) {
+        return std::nullopt;
+    }
+
+    return StoredReadReceipt{
+      .eventId    = eventIdIt->get<std::string>(),
+      .timestamp  = timestampIt->get<uint64_t>(),
+      .eventIndex = eventIndexIt->get<uint64_t>(),
+    };
+}
+
+std::string
+serializeStoredReadReceipt(const StoredReadReceipt &receipt)
+{
+    nlohmann::json serialized;
+    serialized["event_id"]    = receipt.eventId;
+    serialized["timestamp"]   = receipt.timestamp;
+    serialized["event_index"] = receipt.eventIndex;
+    return serialized.dump();
+}
+
+std::optional<uint64_t>
+eventIndexForReceipt(db::Transaction &txn, db::Store &eventToOrderDb, std::string_view eventId)
+{
+    std::string_view rawEventIndex;
+    if (!eventToOrderDb.get(txn, eventId, rawEventIndex))
+        return std::nullopt;
+
+    return db::fromSv<uint64_t>(rawEventIndex);
 }
 
 } // namespace
@@ -89,16 +140,21 @@ MatrixStore::removeRoom(db::Transaction &txn, const std::string &roomid)
         db->spacesParents.del(txn, childRoom, roomid);
     db->spacesChildren.del(txn, roomid);
 
-    db::eraseEntriesIf(txn, db->readReceipts, [&roomid](std::string_view key, std::string_view) {
-        return jsonKeyMatchesRoom(key, roomid);
-    });
+    std::vector<std::string> receiptUsers;
+    db::forEachReadReceiptInRoom(
+      txn, db->readReceipts, roomid, [&receiptUsers](std::string_view userId, std::string_view) {
+          receiptUsers.emplace_back(userId);
+          return true;
+      });
+    for (const auto &userId : receiptUsers)
+        db->readReceipts.del(txn, db::readReceiptKey(roomid, userId));
     db::eraseEntriesIf(
       txn, db->inboundMegolmSessions, [&roomid](std::string_view key, std::string_view) {
-          return jsonKeyMatchesRoom(key, roomid);
+          return jsonCompositeKeyMatchesRoom(key, roomid);
       });
     db::eraseEntriesIf(
       txn, db->megolmSessionsData, [&roomid](std::string_view key, std::string_view) {
-          return jsonKeyMatchesRoom(key, roomid);
+          return jsonCompositeKeyMatchesRoom(key, roomid);
       });
 
     db->rooms.del(txn, roomid);
@@ -175,24 +231,28 @@ MatrixStore::readReceipts(const QString &event_id, const QString &room_id)
     cache::UserReceipts receipts;
 
     try {
-        auto txn = ro_txn(storage());
+        auto txn          = ro_txn(storage());
+        const auto roomId = room_id.toStdString();
 
-        std::string_view value;
+        auto eventToOrderDb = getEventToOrderDb(txn, roomId);
+        const auto targetEventIndex =
+          eventIndexForReceipt(txn, eventToOrderDb, event_id.toStdString());
+        if (!targetEventIndex)
+            return receipts;
 
-        bool res = db::getReadReceiptValue(
-          txn, db->readReceipts, event_id.toStdString(), room_id.toStdString(), value);
+        db::forEachReadReceiptInRoom(
+          txn,
+          db->readReceipts,
+          roomId,
+          [&receipts, targetEventIndex](std::string_view userId, std::string_view value) {
+              const auto receipt = parseStoredReadReceipt(value);
+              if (!receipt || receipt->eventIndex < *targetEventIndex)
+                  return true;
 
-        if (res) {
-            auto json_response =
-              nlohmann::json::parse(std::string_view(value.data(), value.size()));
-            auto values = json_response.get<std::map<std::string, uint64_t>>();
-
-            for (const auto &v : values)
-                // timestamp, user_id
-                receipts.emplace(v.second, v.first);
-        }
-
-    } catch (const db::Error &e) {
+              receipts.emplace(receipt->timestamp, std::string(userId));
+              return true;
+          });
+    } catch (const std::exception &e) {
         cache::activeLoggers().db->critical("readReceipts: {}", e.what());
     }
 
@@ -204,44 +264,37 @@ MatrixStore::updateReadReceipt(db::Transaction &txn,
                                const std::string &room_id,
                                const Receipts &receipts)
 {
-    auto user_id = this->localUserId_.toStdString();
-    for (const auto &receipt : receipts) {
-        const auto event_id = receipt.first;
-        auto event_receipts = receipt.second;
+    auto eventToOrderDb = getEventToOrderDb(txn, room_id);
+    std::map<std::string, StoredReadReceipt> latestReceiptsByUser;
 
-        try {
-            std::string_view prev_value;
+    for (const auto &[eventId, eventReceipts] : receipts) {
+        const auto eventIndex = eventIndexForReceipt(txn, eventToOrderDb, eventId);
+        if (!eventIndex) {
+            cache::activeLoggers().db->warn(
+              "Skipping read receipt for uncached event '{}' in room '{}'.", eventId, room_id);
+            continue;
+        }
 
-            bool exists =
-              db::getReadReceiptValue(txn, db->readReceipts, event_id, room_id, prev_value);
+        for (const auto &[readBy, timestamp] : eventReceipts) {
+            StoredReadReceipt candidate{
+              .eventId    = eventId,
+              .timestamp  = timestamp,
+              .eventIndex = *eventIndex,
+            };
 
-            std::map<std::string, uint64_t> saved_receipts;
-
-            // If an entry for the event id already exists, we would
-            // merge the existing receipts with the new ones.
-            if (exists) {
-                auto json_value =
-                  nlohmann::json::parse(std::string_view(prev_value.data(), prev_value.size()));
-
-                // Retrieve the saved receipts.
-                saved_receipts = json_value.get<std::map<std::string, uint64_t>>();
+            auto existing = latestReceiptsByUser.find(readBy);
+            if (existing == latestReceiptsByUser.end() ||
+                candidate.eventIndex > existing->second.eventIndex ||
+                (candidate.eventIndex == existing->second.eventIndex &&
+                 candidate.timestamp > existing->second.timestamp)) {
+                latestReceiptsByUser[readBy] = std::move(candidate);
             }
-
-            // Append the new ones.
-            for (const auto &[read_by, timestamp] : event_receipts) {
-                saved_receipts.emplace(read_by, timestamp);
-            }
-
-            // Save back the merged (or only the new) receipts.
-            nlohmann::json json_updated_value = saved_receipts;
-            std::string merged_receipts       = json_updated_value.dump();
-
-            db::putReadReceiptValue(txn, db->readReceipts, event_id, room_id, merged_receipts);
-
-        } catch (const db::Error &e) {
-            cache::activeLoggers().db->critical("updateReadReceipts: {}", e.what());
         }
     }
+
+    for (const auto &[readBy, receipt] : latestReceiptsByUser)
+        db::putReadReceiptValue(
+          txn, db->readReceipts, room_id, readBy, serializeStoredReadReceipt(receipt));
 }
 
 std::string

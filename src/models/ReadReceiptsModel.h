@@ -40,7 +40,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
 public slots:
-    void addUsers(const std::multimap<uint64_t, std::string, std::greater<uint64_t>> &users);
+    void setUsers(const std::multimap<uint64_t, std::string, std::greater<uint64_t>> &users);
     void update();
 
 private:

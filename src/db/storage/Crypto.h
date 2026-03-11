@@ -13,6 +13,7 @@
 namespace db::storage {
 
 using db::forEachOlmSessionForCurve;
+using db::forEachReadReceiptInRoom;
 using db::getInboundMegolmSessionValue;
 using db::getMegolmSessionDataValue;
 using db::getOlmSessionValue;

@@ -320,11 +320,36 @@ Item {
                                 text: Settings.userId
                                 color: userIdRowHover.hovered ? palette.brightText : palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt
-                                Layout.rightMargin: Komai.paddingMedium
                                 Layout.topMargin: Komai.paddingMedium
                                 Layout.bottomMargin: Komai.paddingMedium
                                 elide: Text.ElideRight
                                 Layout.maximumWidth: scrollView.availableWidth * 0.5
+                            }
+
+                            Components.ImageButton {
+                                id: copyUserIdBtn
+
+                                property bool copied: false
+
+                                Layout.preferredWidth: 24
+                                Layout.preferredHeight: 24
+                                Layout.rightMargin: Komai.paddingMedium
+                                buttonTextColor: userIdRowHover.hovered ? palette.brightText : palette.buttonText
+                                image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                                hoverEnabled: true
+                                ToolTip.visible: hovered
+                                ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy user ID")
+                                onClicked: {
+                                    Clipboard.text = Settings.userId;
+                                    copied = true;
+                                    copyUserIdTimer.restart();
+                                }
+
+                                Timer {
+                                    id: copyUserIdTimer
+                                    interval: 2000
+                                    onTriggered: copyUserIdBtn.copied = false
+                                }
                             }
                         }
                     }
@@ -364,11 +389,36 @@ Item {
                                 text: Settings.homeserver
                                 color: homeserverRowHover.hovered ? palette.brightText : palette.buttonText
                                 font.pointSize: Settings.uiFontSizePt
-                                Layout.rightMargin: Komai.paddingMedium
                                 Layout.topMargin: Komai.paddingMedium
                                 Layout.bottomMargin: Komai.paddingMedium
                                 elide: Text.ElideRight
                                 Layout.maximumWidth: scrollView.availableWidth * 0.5
+                            }
+
+                            Components.ImageButton {
+                                id: copyHomeserverBtn
+
+                                property bool copied: false
+
+                                Layout.preferredWidth: 24
+                                Layout.preferredHeight: 24
+                                Layout.rightMargin: Komai.paddingMedium
+                                buttonTextColor: homeserverRowHover.hovered ? palette.brightText : palette.buttonText
+                                image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
+                                hoverEnabled: true
+                                ToolTip.visible: hovered
+                                ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy homeserver")
+                                onClicked: {
+                                    Clipboard.text = Settings.homeserver;
+                                    copied = true;
+                                    copyHomeserverTimer.restart();
+                                }
+
+                                Timer {
+                                    id: copyHomeserverTimer
+                                    interval: 2000
+                                    onTriggered: copyHomeserverBtn.copied = false
+                                }
                             }
                         }
                     }

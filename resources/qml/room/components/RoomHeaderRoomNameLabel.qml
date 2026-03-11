@@ -14,6 +14,7 @@ Item {
     property var room: null
     property bool showVisibilityLabel: false
     readonly property bool isPublic: room ? room.isPublic : true
+    readonly property real nameImplicitWidth: nameLabel.implicitWidth
 
     Layout.column: 2
     Layout.fillWidth: true

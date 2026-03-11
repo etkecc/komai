@@ -51,7 +51,7 @@ Pane {
         + (leaveRoomButton.visible ? (actionButtonLabelGap + leaveLabelMetrics.advanceWidth) : 0)
     readonly property real reservedLeadingWidth: (showBackButton ? actionButtonWidth : 0)
         + topBarAvatarSize
-        + 220
+        + Math.max(350, roomNameLabel.nameImplicitWidth)
         + Komai.paddingLarge * 3
     readonly property real availableActionWidth: Math.max(0, topBar.width - reservedLeadingWidth)
 
@@ -163,6 +163,8 @@ Pane {
                 buttonPaddingH: topBar.buttonPaddingH
             }
             RoomHeaderRoomNameLabel {
+                id: roomNameLabel
+
                 roomName: topBar.roomName
                 room: topBar.roomModel
                 showVisibilityLabel: topBar.showActionLabels

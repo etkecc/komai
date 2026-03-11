@@ -72,6 +72,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Room search** -- rounded, with room-ID search support and keyboard hints
 - **Room members** -- wider dialog with a full "Invite" button
 - **Welcome, Login, and Registration pages** prettified with consistent layout and branding
+- **Polished SSO completion page** -- the browser page shown after Single Sign-On uses the Komai logo, the current theme's color palette, and translated status messages instead of a plain-text response
 
 
 ## 🔐 Encryption Setup and Recovery

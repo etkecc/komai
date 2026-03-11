@@ -26,6 +26,9 @@ signals:
     void ssoFailed();
 
 private:
+    static std::string loadSvgLogo();
+    static std::string pageHtml(bool success);
+
     httplib::Server svr;
     int port = 0;
 };

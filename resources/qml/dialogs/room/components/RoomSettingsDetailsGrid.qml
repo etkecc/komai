@@ -442,7 +442,7 @@ ColumnLayout {
         }
     }
 
-    // Automatic event deletion
+    // Event expiration
     Item {
         Layout.fillWidth: true
         Layout.leftMargin: Komai.paddingMedium
@@ -455,7 +455,7 @@ ColumnLayout {
             width: parent.width
 
             Label {
-                text: qsTr("Automatic event deletion")
+                text: qsTr("Event expiration")
                 color: eventExpRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true

@@ -117,6 +117,13 @@ Components.OverlayDialog {
         }
     }
 
+    MatrixText {
+        visible: !Settings.privacyMaintenanceExpireEvents
+        text: qsTr("Enable event expiration in Settings -> Privacy, or these rules will not run.")
+        color: Komai.theme.attention
+        Layout.fillWidth: true
+    }
+
     Button {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Save")

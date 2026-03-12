@@ -6,33 +6,64 @@
 #pragma once
 
 #include <QObject>
+#include <QQmlEngine>
 
 #include <mtx/events/create.hpp>
 #include <mtx/events/power_levels.hpp>
 
 class TimelineModel;
 
-class Permissions final : public QObject
+class AbstractPermissions : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("Only to be used to refer to C++ values")
+
+public:
+    explicit AbstractPermissions(QObject *parent = nullptr)
+      : QObject(parent)
+    {
+    }
+
+    virtual ~AbstractPermissions() = default;
+
+    Q_INVOKABLE virtual bool canInvite()               = 0;
+    Q_INVOKABLE virtual bool canBan()                  = 0;
+    Q_INVOKABLE virtual bool canKick()                 = 0;
+    Q_INVOKABLE virtual bool canRedact()               = 0;
+    Q_INVOKABLE virtual bool canChange(int eventType)  = 0;
+    Q_INVOKABLE virtual bool canSend(int eventType)    = 0;
+    Q_INVOKABLE virtual int defaultLevel()             = 0;
+    Q_INVOKABLE virtual int redactLevel()              = 0;
+    Q_INVOKABLE virtual int changeLevel(int eventType) = 0;
+    Q_INVOKABLE virtual int sendLevel(int eventType)   = 0;
+    Q_INVOKABLE virtual qint64 creatorLevel() const    = 0;
+    Q_INVOKABLE virtual bool canPingRoom()             = 0;
+};
+
+class Permissions final : public AbstractPermissions
+{
+    Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("Only to be used to refer to C++ values")
 
 public:
     Permissions(QString roomId, QObject *parent = nullptr);
 
-    Q_INVOKABLE bool canInvite();
-    Q_INVOKABLE bool canBan();
-    Q_INVOKABLE bool canKick();
+    bool canInvite() override;
+    bool canBan() override;
+    bool canKick() override;
 
-    Q_INVOKABLE bool canRedact();
-    Q_INVOKABLE bool canChange(int eventType);
-    Q_INVOKABLE bool canSend(int eventType);
-    Q_INVOKABLE int defaultLevel();
-    Q_INVOKABLE int redactLevel();
-    Q_INVOKABLE int changeLevel(int eventType);
-    Q_INVOKABLE int sendLevel(int eventType);
-    Q_INVOKABLE qint64 creatorLevel() const { return mtx::events::state::Creator; }
+    bool canRedact() override;
+    bool canChange(int eventType) override;
+    bool canSend(int eventType) override;
+    int defaultLevel() override;
+    int redactLevel() override;
+    int changeLevel(int eventType) override;
+    int sendLevel(int eventType) override;
+    qint64 creatorLevel() const override { return mtx::events::state::Creator; }
 
-    Q_INVOKABLE bool canPingRoom();
+    bool canPingRoom() override;
 
     void invalidate();
 
@@ -46,4 +77,31 @@ private:
     QString roomId_;
     mtx::events::state::PowerLevels pl;
     mtx::events::StateEvent<mtx::events::state::Create> create;
+};
+
+class PreviewPermissions : public AbstractPermissions
+{
+    Q_OBJECT
+    QML_ELEMENT
+
+public:
+    explicit PreviewPermissions(QObject *parent = nullptr)
+      : AbstractPermissions(parent)
+    {
+    }
+
+    bool canInvite() override { return true; }
+    bool canBan() override { return true; }
+    bool canKick() override { return true; }
+
+    bool canRedact() override { return true; }
+    bool canChange(int) override { return true; }
+    bool canSend(int) override { return true; }
+    int defaultLevel() override { return 0; }
+    int redactLevel() override { return 50; }
+    int changeLevel(int) override { return 100; }
+    int sendLevel(int) override { return 0; }
+    qint64 creatorLevel() const override { return mtx::events::state::Creator; }
+
+    bool canPingRoom() override { return true; }
 };

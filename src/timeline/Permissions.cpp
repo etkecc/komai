@@ -11,7 +11,7 @@
 #include "utils/Utils.h"
 
 Permissions::Permissions(QString roomId, QObject *parent)
-  : QObject(parent)
+  : AbstractPermissions(parent)
   , roomId_(std::move(roomId))
 {
     invalidate();

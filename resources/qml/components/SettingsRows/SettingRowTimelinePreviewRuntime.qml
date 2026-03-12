@@ -17,24 +17,8 @@ Item {
     readonly property var messageContextMenu: messageContextMenuC
     readonly property var replyContextMenu: replyContextMenuC
 
-    QtObject {
+    PreviewPermissions {
         id: previewPermissions
-
-        function canSend(_eventType) {
-            return true;
-        }
-
-        function changeLevel(_eventType) {
-            return 100;
-        }
-
-        function redactLevel() {
-            return 50;
-        }
-
-        function defaultLevel() {
-            return 0;
-        }
     }
 
     QtObject {
@@ -51,7 +35,7 @@ Item {
         property string fullyReadEventId: "$preview-2"
         property var input: previewInput
         property bool isEncrypted: false
-        property var permissions: previewPermissions
+        property AbstractPermissions permissions: previewPermissions
         property string reply: ""
         property string roomId: "!timeline-preview:example.org"
         property int roomMemberCount: 8

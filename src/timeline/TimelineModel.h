@@ -95,7 +95,7 @@ class TimelineModel final : public QAbstractListModel
     Q_PROPERTY(
       QString directChatOtherUserId READ directChatOtherUserId NOTIFY directChatOtherUserIdChanged)
     Q_PROPERTY(InputBar *input READ input CONSTANT)
-    Q_PROPERTY(Permissions *permissions READ permissions NOTIFY permissionsChanged)
+    Q_PROPERTY(AbstractPermissions *permissions READ permissions NOTIFY permissionsChanged)
     Q_PROPERTY(RoomSummary *parentSpace READ parentSpace NOTIFY parentSpaceChanged)
 
 public:
@@ -340,7 +340,7 @@ public slots:
     QStringList pinnedMessages() const;
     QStringList widgetLinks() const;
     InputBar *input() { return &input_; }
-    Permissions *permissions() { return &permissions_; }
+    AbstractPermissions *permissions() { return &permissions_; }
     QString roomAvatarUrl() const;
     QString roomId() const { return room_id_; }
     RoomSummary *parentSpace();

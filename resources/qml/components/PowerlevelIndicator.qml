@@ -9,7 +9,7 @@ import cc.etke.komai
 
 Image {
     required property var powerlevel
-    required property var permissions
+    required property AbstractPermissions permissions
 
     readonly property bool isV12Creator: permissions ? permissions.creatorLevel() == powerlevel : false
     readonly property bool isAdmin: permissions ? permissions.changeLevel(MtxEvent.PowerLevels) <= powerlevel : false

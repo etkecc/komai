@@ -11,6 +11,7 @@ Item {
     id: root
 
     property string text: ""
+    property string toolTipText: qsTr("Press these keyboard keys to trigger this action.")
     property bool highlighted: false
     property bool showKeyboardIcon: false
     property bool liveModifierHighlight: false
@@ -22,6 +23,10 @@ Item {
     implicitWidth: contentRow.implicitWidth
     implicitHeight: contentRow.implicitHeight
     visible: text !== ""
+
+    ToolTip.delay: Komai.tooltipDelay
+    ToolTip.text: root.toolTipText
+    ToolTip.visible: root.visible && badgeHover.hovered && root.toolTipText !== ""
 
     function isHeldModifierToken(token) {
         return altModifierHeld && token.toLowerCase() === "alt";
@@ -45,6 +50,10 @@ Item {
 
     function tokenTextColor(token) {
         return isHeldModifierToken(token) ? palette.brightText : keyTextColor;
+    }
+
+    HoverHandler {
+        id: badgeHover
     }
 
     RowLayout {

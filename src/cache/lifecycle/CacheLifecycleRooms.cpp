@@ -368,7 +368,12 @@ MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
 
         std::string fullyReadEventId = getFullyReadEventId(room_id);
 
-        if (last_event_id.empty() || fullyReadEventId.empty())
+        // No events found locally → nothing to mark as unread.
+        if (last_event_id.empty())
+            return false;
+
+        // Have events but no read marker → unread (room was never opened).
+        if (fullyReadEventId.empty())
             return true;
 
         if (last_event_id == fullyReadEventId)
@@ -378,6 +383,5 @@ MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
         fullyReadEventId_ = std::string(fullyReadEventId);
     }
 
-    // Retrieve all read receipts for that event.
     return getEventIndex(room_id, last_event_id_) > getEventIndex(room_id, fullyReadEventId_);
 }

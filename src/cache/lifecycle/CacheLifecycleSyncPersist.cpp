@@ -127,8 +127,9 @@ try {
         updatedInfo.topic = getRoomTopic(txn, room.first, statesdb).toStdString();
         updatedInfo.avatar_url =
           getRoomAvatarUrl(txn, room.first, statesdb, membersdb).toStdString();
-        updatedInfo.version  = getRoomVersion(txn, room.first, statesdb).toStdString();
-        updatedInfo.is_space = getRoomIsSpace(txn, room.first, statesdb);
+        updatedInfo.version       = getRoomVersion(txn, room.first, statesdb).toStdString();
+        updatedInfo.is_space      = getRoomIsSpace(txn, room.first, statesdb);
+        updatedInfo.is_tombstoned = getRoomIsTombstoned(txn, room.first, statesdb);
 
         updatedInfo.notification_count = room.second.unread_notifications.notification_count;
         updatedInfo.highlight_count    = room.second.unread_notifications.highlight_count;

@@ -24,9 +24,9 @@ Button {
 
     font.pointSize: Settings.uiFontSizePt
     spacing: Komai.paddingSmall
-    padding: Komai.paddingSmall
-    leftPadding: Komai.paddingMedium
-    rightPadding: Komai.paddingMedium
+    padding: Komai.paddingSmall + 2
+    leftPadding: Komai.paddingMedium + 2
+    rightPadding: Komai.paddingMedium + 2
     icon.color: foregroundColor
     readonly property bool hasIconSource: {
         const src = control.icon.source;

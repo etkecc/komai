@@ -318,7 +318,7 @@ MatrixStore::getRoomIsTombstoned(db::Transaction &txn,
               statesdb,
               room_store::key(cache::schema::RoomDb::State,
                               room_id,
-                              to_string(mtx::events::EventType::RoomCreate)))) {
+                              to_string(mtx::events::EventType::RoomTombstone)))) {
             return true;
         }
     } catch (const nlohmann::json::exception &e) {

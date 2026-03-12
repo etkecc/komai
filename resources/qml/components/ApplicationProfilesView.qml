@@ -105,7 +105,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
 
-            Button {
+            KomaiButton {
                 text: qsTr("Cancel")
                 onClicked: createProfileDialog.close()
             }
@@ -114,7 +114,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Button {
+            KomaiButton {
                 id: createProfileButton
 
                 highlighted: true
@@ -154,7 +154,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
 
-            Button {
+            KomaiButton {
                 text: qsTr("Cancel")
                 onClicked: deleteProfileDialog.close()
             }
@@ -163,7 +163,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Button {
+            KomaiButton {
                 highlighted: true
                 text: qsTr("Delete")
                 icon.source: "qrc:/icons/icons/ui/delete.svg"
@@ -211,7 +211,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
 
-            Button {
+            KomaiButton {
                 id: refreshProfilesButton
 
                 property bool refreshed: false
@@ -237,8 +237,8 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Button {
-                text: qsTr("Create new")
+            KomaiButton {
+                text: qsTr("New")
                 icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
                 onClicked: {
                     root.clearStatus();
@@ -426,7 +426,7 @@ Item {
                             Layout.fillWidth: true
                         }
 
-                        Button {
+                        KomaiButton {
                             text: qsTr("Delete")
                             display: row.width >= 500 ? AbstractButton.TextBesideIcon : AbstractButton.IconOnly
                             icon.source: "qrc:/icons/icons/ui/delete.svg"

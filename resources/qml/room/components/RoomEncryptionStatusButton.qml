@@ -157,6 +157,7 @@ AbstractButton {
     Components.OverlayDialog {
         id: encryptionDialog
 
+        overlayDialogMinWidth: 640
         title: qsTr("Encryption status")
         titleIcon: encryptionButton.encryptionIcon
         titleIconColor: encryptionButton.encryptionColor

@@ -40,7 +40,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Cancel")
             onClicked: leaveRoomRoot.close()
         }
@@ -49,7 +49,7 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Leave")
             highlighted: true
             onClicked: {

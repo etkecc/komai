@@ -191,9 +191,9 @@ public:
     Q_INVOKABLE void unverify(const QString &device = QLatin1String(""));
     Q_INVOKABLE void fetchDeviceList(const QString &userID);
     Q_INVOKABLE void refreshDevices();
-    Q_INVOKABLE void banUser();
+    Q_INVOKABLE void banUser(const QString &reason = QLatin1String(""));
     Q_INVOKABLE void signOutDevice(const QString &deviceID);
-    Q_INVOKABLE void kickUser();
+    Q_INVOKABLE void kickUser(const QString &reason = QLatin1String(""));
     Q_INVOKABLE void startChat();
     Q_INVOKABLE void startChat(bool encryptionEnabled);
     Q_INVOKABLE void changeUsername(const QString &username);

@@ -219,19 +219,6 @@ ChatPage::inviteUser(const QString &room, QString userid, QString reason)
 void
 ChatPage::kickUser(const QString &room, QString userid, QString reason)
 {
-    bool confirmed;
-    reason = QInputDialog::getText(
-      nullptr,
-      tr("Reason for the kick"),
-      tr("Enter reason for kicking %1 (%2) or hit enter for no reason:")
-        .arg(cache::displayName(room, userid).toHtmlEscaped(), userid.toHtmlEscaped()),
-      QLineEdit::Normal,
-      reason,
-      &confirmed);
-    if (!confirmed) {
-        return;
-    }
-
     http::client()->kick_user(
       room.toStdString(),
       userid.toStdString(),
@@ -249,19 +236,6 @@ ChatPage::kickUser(const QString &room, QString userid, QString reason)
 void
 ChatPage::banUser(const QString &room, QString userid, QString reason)
 {
-    bool confirmed;
-    reason = QInputDialog::getText(
-      nullptr,
-      tr("Reason for the ban"),
-      tr("Enter reason for banning %1 (%2) or hit enter for no reason:")
-        .arg(cache::displayName(room, userid).toHtmlEscaped(), userid.toHtmlEscaped()),
-      QLineEdit::Normal,
-      reason,
-      &confirmed);
-    if (!confirmed) {
-        return;
-    }
-
     http::client()->ban_user(
       room.toStdString(),
       userid.toStdString(),

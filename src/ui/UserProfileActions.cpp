@@ -17,15 +17,15 @@
 #include "utils/Utils.h"
 
 void
-UserProfile::banUser()
+UserProfile::banUser(const QString &reason)
 {
-    ChatPage::instance()->banUser(roomid_, this->userid_, QLatin1String(""));
+    ChatPage::instance()->banUser(roomid_, this->userid_, reason);
 }
 
 void
-UserProfile::kickUser()
+UserProfile::kickUser(const QString &reason)
 {
-    ChatPage::instance()->kickUser(roomid_, this->userid_, QLatin1String(""));
+    ChatPage::instance()->kickUser(roomid_, this->userid_, reason);
 }
 
 void

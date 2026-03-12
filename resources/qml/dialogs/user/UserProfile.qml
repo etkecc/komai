@@ -15,8 +15,10 @@ Components.OverlayDialog {
     id: root
 
     property var profile
+    property string moderationAction: ""
 
     readonly property bool isRoomProfile: !profile.isGlobalUserProfile
+    readonly property bool showingModerationPrompt: moderationAction !== ""
     readonly property bool hasCustomRoomName: isRoomProfile
         && profile.globalDisplayName !== ""
         && profile.displayName !== profile.globalDisplayName
@@ -26,8 +28,56 @@ Components.OverlayDialog {
     readonly property int copyButtonSize: Math.max(20, Math.round(Settings.uiFontSizePt * 1.6))
 
     width: Math.round((parent ? parent.width : 760) * 0.8)
-    title: isRoomProfile ? qsTr("Room member profile") : qsTr("User profile")
-    titleIcon: ":/icons/icons/ui/person.svg"
+    title: {
+        if (showingModerationPrompt) {
+            return moderationAction === "kick"
+                ? qsTr("Kick %1 from room?").arg(profile.userid)
+                : qsTr("Ban %1 from room?").arg(profile.userid);
+        }
+
+        return isRoomProfile ? qsTr("Room member profile") : qsTr("User profile");
+    }
+    titleIcon: showingModerationPrompt
+        ? (moderationAction === "kick"
+            ? ":/icons/icons/ui/round-remove-button.svg"
+            : ":/icons/icons/ui/ban.svg")
+        : ":/icons/icons/ui/person.svg"
+
+    function closeDialogSoon()
+    {
+        // Defer closing so the dialog is not destroyed from inside an active
+        // button signal handler.
+        Qt.callLater(() => root.close());
+    }
+
+    function openModerationPrompt(action)
+    {
+        moderationAction = action;
+        moderationReasonInput.text = "";
+        Qt.callLater(() => moderationReasonInput.forceActiveFocus());
+    }
+
+    function closeModerationPrompt()
+    {
+        moderationAction = "";
+        moderationReasonInput.text = "";
+    }
+
+    function submitModerationPrompt()
+    {
+        const targetProfile = profile;
+        const reason = moderationReasonInput.text;
+        const action = moderationAction;
+
+        closeModerationPrompt();
+
+        if (action === "kick")
+            targetProfile.kickUser(reason);
+        else if (action === "ban")
+            targetProfile.banUser(reason);
+
+        closeDialogSoon();
+    }
 
     component ActionButton: AbstractButton {
         id: actionBtn
@@ -81,14 +131,21 @@ Components.OverlayDialog {
 
     Shortcut {
         sequences: [StandardKey.Cancel]
-        onActivated: root.close()
+        onActivated: {
+            if (root.showingModerationPrompt)
+                root.closeModerationPrompt();
+            else
+                root.closeDialogSoon();
+        }
     }
 
     // Body background: alternateBase. Sections override with window/transparent as needed.
     Rectangle {
         Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.preferredHeight: root.parent ? root.parent.height * 0.85 : 600
+        Layout.fillHeight: !root.showingModerationPrompt
+        Layout.preferredHeight: root.showingModerationPrompt
+            ? moderationPromptLayout.implicitHeight + Komai.paddingMedium * 2
+            : (root.parent ? root.parent.height * 0.85 : 600)
         color: palette.alternateBase
         radius: Komai.paddingSmall
 
@@ -97,6 +154,7 @@ Components.OverlayDialog {
 
             anchors.fill: parent
             anchors.margins: Komai.paddingMedium
+            visible: !root.showingModerationPrompt
             ScrollBar.vertical.policy: ScrollBar.AsNeeded
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
@@ -737,7 +795,7 @@ Components.OverlayDialog {
                     labelText: qsTr("Start direct chat")
                     iconSource: ":/icons/icons/ui/person.svg"
                     onClicked: {
-                        root.close();
+                        root.closeDialogSoon();
                         profile.startChat();
                     }
                 }
@@ -757,7 +815,7 @@ Components.OverlayDialog {
                         ignoreBtn.focus = false;
                         var dialog = confirmIgnoreDialogComponent.createObject(root.parent);
                         dialog.open();
-                        dialog.closed.connect(function() { dialog.destroy(); });
+                        dialog.closed.connect(function() { Qt.callLater(() => dialog.destroy()); });
                     }
                 }
 
@@ -765,20 +823,14 @@ Components.OverlayDialog {
                     visible: root.isRoomProfile && profile.room && profile.room.permissions.canKick()
                     labelText: qsTr("Kick from room")
                     iconSource: ":/icons/icons/ui/round-remove-button.svg"
-                    onClicked: {
-                        root.close();
-                        profile.kickUser();
-                    }
+                    onClicked: root.openModerationPrompt("kick")
                 }
 
                 ActionButton {
                     visible: root.isRoomProfile && profile.room && profile.room.permissions.canBan()
                     labelText: qsTr("Ban from room")
                     iconSource: ":/icons/icons/ui/ban.svg"
-                    onClicked: {
-                        root.close();
-                        profile.banUser();
-                    }
+                    onClicked: root.openModerationPrompt("ban")
                 }
             }
 
@@ -856,7 +908,7 @@ Components.OverlayDialog {
                     readonly property color actionTextColor: activeState ? palette.brightText : palette.text
 
                     onClicked: {
-                        root.close();
+                        root.closeDialogSoon();
                         Rooms.setCurrentRoom(roomDelegate.roomId);
                     }
 
@@ -966,7 +1018,7 @@ Components.OverlayDialog {
                 labelText: qsTr("Manage")
                 iconSource: ":/icons/icons/ui/person.svg"
                 onClicked: {
-                    root.close();
+                    root.closeDialogSoon();
                     MainWindow.showUserSettingsPage(UserSettingsModel.TabAccount);
                 }
             }
@@ -1133,5 +1185,44 @@ Components.OverlayDialog {
             }
         }
         }
+
+        ColumnLayout {
+            id: moderationPromptLayout
+
+            anchors.fill: parent
+            anchors.margins: Komai.paddingMedium
+            spacing: Komai.paddingMedium
+            visible: root.showingModerationPrompt
+
+            Components.KomaiTextField {
+                id: moderationReasonInput
+
+                Layout.fillWidth: true
+                placeholderText: root.moderationAction === "kick"
+                    ? qsTr("Add optional reason for kicking %1").arg(profile.userid)
+                    : qsTr("Add optional reason for banning %1").arg(profile.userid)
+                onAccepted: root.submitModerationPrompt()
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: Komai.paddingMedium
+
+                Components.KomaiButton {
+                    text: qsTr("Cancel")
+                    onClicked: root.closeModerationPrompt()
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Components.KomaiButton {
+                    text: root.moderationAction === "kick" ? qsTr("Kick") : qsTr("Ban")
+                    highlighted: true
+                    onClicked: root.submitModerationPrompt()
+                }
+            }
+        }
+        }
     }
-}

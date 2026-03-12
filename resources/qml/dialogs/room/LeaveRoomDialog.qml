@@ -16,7 +16,19 @@ Components.OverlayDialog {
     property string reason: ""
     readonly property var room: Rooms.getRoomById(roomId)
     readonly property bool isSpace: room && room.isSpace
+    readonly property bool hasVisibilityInfo: !!room
+    readonly property bool isPublic: room ? room.isPublic : false
     readonly property string roomName: room ? room.roomName : ""
+    readonly property color leaveHintColor: isPublic ? Komai.theme.success : Komai.theme.attention
+    readonly property string leaveHintText: {
+        if (isPublic) {
+            return isSpace ? qsTr("This is a public space, so re-joining later should be easy.")
+                           : qsTr("This is a public room, so re-joining later should be easy.");
+        }
+
+        return isSpace ? qsTr("This is a private space, so you may need an invitation to re-join.")
+                       : qsTr("This is a private room, so you may need an invitation to re-join.");
+    }
 
     title: {
         if (roomName) {
@@ -28,12 +40,49 @@ Components.OverlayDialog {
     }
     titleIcon: ":/icons/icons/ui/power-off.svg"
 
+    RowLayout {
+        Layout.fillWidth: true
+        visible: leaveRoomRoot.hasVisibilityInfo
+        spacing: Komai.paddingMedium
+
+        Image {
+            Layout.alignment: Qt.AlignTop
+            Layout.preferredHeight: 20
+            Layout.preferredWidth: 20
+            fillMode: Image.PreserveAspectFit
+            source: "image://colorimage/:/icons/icons/ui/"
+                + (leaveRoomRoot.isPublic ? "people-community.svg" : "lock-closed.svg")
+                + "?"
+                + leaveRoomRoot.leaveHintColor
+        }
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: Komai.paddingSmall
+
+            Label {
+                Layout.fillWidth: true
+                color: leaveRoomRoot.leaveHintColor
+                text: leaveRoomRoot.leaveHintText
+                wrapMode: Text.WordWrap
+            }
+
+            Label {
+                Layout.fillWidth: true
+                color: palette.text
+                text: qsTr("You will remain in any rooms you joined through it.")
+                visible: leaveRoomRoot.isSpace
+                wrapMode: Text.WordWrap
+            }
+        }
+    }
+
     Label {
         Layout.fillWidth: true
-        color: palette.text
+        color: palette.buttonText
         wrapMode: Text.WordWrap
-        text: qsTr("You will remain in any rooms you joined through it.")
-        visible: leaveRoomRoot.isSpace
+        text: qsTr("Re-joining may require an invitation depending on its join rules.")
+        visible: !leaveRoomRoot.hasVisibilityInfo
     }
 
     RowLayout {

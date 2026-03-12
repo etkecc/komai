@@ -6,10 +6,12 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import cc.etke.komai 1.0
+import "../ui"
 
 Item {
     id: control
 
+    property int cursor: Qt.PointingHandCursor
     property var model: []
     property int currentIndex: -1
     readonly property string displayText: currentIndex >= 0 && currentIndex < model.length
@@ -67,6 +69,7 @@ Item {
 
     MouseArea {
         anchors.fill: parent
+        enabled: control.enabled
         onPressed: {
             if (popup.visible) {
                 popup.close();
@@ -74,6 +77,11 @@ Item {
                 popup.open();
             }
         }
+    }
+
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: control.enabled ? control.cursor : Qt.ArrowCursor
     }
 
     // Guard against close-then-immediately-reopen: when the popup closes because

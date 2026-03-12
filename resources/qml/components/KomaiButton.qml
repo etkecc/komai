@@ -6,20 +6,27 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import cc.etke.komai 1.0
+import "../ui"
 
 Button {
     id: control
 
+    property int cursor: Qt.PointingHandCursor
+    readonly property bool activeState: hovered || visualFocus
     readonly property color normalBackground: palette.alternateBase
-    readonly property color hoverBackground: Qt.lighter(normalBackground, 1.08)
-    readonly property color pressedBackground: Qt.darker(normalBackground, 1.08)
+    readonly property color hoverBackground: palette.dark
+    readonly property color highlightHoverBackground: Qt.darker(palette.highlight, 1.06)
+    readonly property color pressedBackground: highlighted
+        ? Qt.darker(palette.highlight, 1.12)
+        : Qt.darker(palette.dark, 1.08)
     readonly property color disabledBackground: Qt.rgba(normalBackground.r,
                                                         normalBackground.g,
                                                         normalBackground.b,
                                                         0.65)
     readonly property color foregroundColor: !enabled
         ? palette.buttonText
-        : (highlighted ? palette.highlightedText : palette.text)
+        : (highlighted ? palette.highlightedText
+                       : ((activeState || down) ? palette.brightText : palette.text))
     readonly property int effectiveIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.4))
 
     font.pointSize: Settings.uiFontSizePt
@@ -56,11 +63,11 @@ Button {
         color: !control.enabled
             ? control.disabledBackground
             : control.down
-                ? (control.highlighted ? Qt.darker(control.palette.highlight, 1.08)
-                                       : control.pressedBackground)
+                ? control.pressedBackground
                 : control.highlighted
-                    ? control.palette.highlight
-                    : control.hovered
+                    ? (control.activeState ? control.highlightHoverBackground
+                                           : control.palette.highlight)
+                    : control.activeState
                         ? control.hoverBackground
                         : control.normalBackground
         radius: Komai.paddingSmall
@@ -103,6 +110,11 @@ Button {
                 verticalAlignment: Text.AlignVCenter
             }
         }
+    }
+
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: control.enabled ? control.cursor : Qt.ArrowCursor
     }
 
 }

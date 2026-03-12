@@ -5,9 +5,12 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import cc.etke.komai 1.0
+import "../ui"
 
 ComboBox {
     id: control
+
+    property int cursor: Qt.PointingHandCursor
 
     FontMetrics {
         id: comboFontMetrics
@@ -86,6 +89,11 @@ ComboBox {
         radius: Komai.paddingSmall
         border.color: control.activeFocus ? control.palette.highlight : Komai.theme.separator
         border.width: control.activeFocus ? 2 : 1
+    }
+
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: control.enabled ? control.cursor : Qt.ArrowCursor
     }
 
     popup: Popup {

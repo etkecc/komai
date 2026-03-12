@@ -103,7 +103,7 @@ Popup {
 
             color: palette.text
             font.pixelSize: Math.ceil(quickSwitcher.textHeight * 0.6)
-            placeholderText: qsTr("Room or space name, address or id...")
+            placeholderText: qsTr("Room or space name, #address or !id...")
             radius: Komai.paddingSmall
             width: parent.width
 

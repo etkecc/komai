@@ -14,7 +14,7 @@ ComposerToolbarButton {
     readonly property bool uploadInProgress: !!(root.room && root.room.input && root.room.input.uploading === true)
 
     Layout.alignment: Qt.AlignBottom
-    ToolTip.text: qsTr("Send a file")
+    ToolTip.text: qsTr("Attach an image or file")
     image: ":/icons/icons/ui/attach.svg"
     visible: showAllButtons
 

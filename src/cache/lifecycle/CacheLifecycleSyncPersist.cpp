@@ -218,11 +218,22 @@ try {
             }
         }
 
+        uint64_t newestTimelineEventTs = 0;
         for (const auto &e : room.second.timeline.events) {
+            const auto eventTs    = mtx::accessors::origin_server_ts_ms(e);
+            newestTimelineEventTs = std::max(newestTimelineEventTs, eventTs);
+
             if (!mtx::accessors::is_message(e))
                 continue;
-            updatedInfo.approximate_last_modification_ts = mtx::accessors::origin_server_ts_ms(e);
+
+            updatedInfo.approximate_last_modification_ts = eventTs;
         }
+
+        // Rooms with no messages yet should still sort near their creation/join activity,
+        // but once a room has an established recency timestamp we keep ignoring state-only
+        // updates to avoid bumping rooms on every membership or settings change.
+        if (updatedInfo.approximate_last_modification_ts == 0 && newestTimelineEventTs > 0)
+            updatedInfo.approximate_last_modification_ts = newestTimelineEventTs;
 
         if (auto newRoomInfoDump = cache::codec::serializeRoomInfo(updatedInfo);
             newRoomInfoDump != originalRoomInfoDump) {

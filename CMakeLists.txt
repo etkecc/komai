@@ -1537,8 +1537,11 @@ if(BUILD_TESTING)
         src/cache/setup/CacheSetup.cpp
         src/cache/lifecycle/CacheLifecycleRooms.cpp
         src/cache/lifecycle/CacheLifecycleMigrations.cpp
+        src/cache/lifecycle/CacheLifecycleSyncAux.cpp
+        src/cache/lifecycle/CacheLifecycleSyncPersist.cpp
         src/cache/lifecycle/CacheLifecycleStateWrite.cpp
         src/cache/lifecycle/CacheLifecycleStateRead.cpp
+        src/cache/rooms/CacheRoomInfoInvites.cpp
         src/cache/spaces/CacheSpaces.cpp
         src/cache/timeline/CacheTimelineWrite.cpp
         src/cache/timeline/CacheTimelineRead.cpp

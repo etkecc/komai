@@ -76,6 +76,16 @@ hasRoomStorePrefix(const std::vector<std::string> &names, std::string_view roomI
     });
 }
 
+RoomInfo
+storedRoomInfo(MatrixStore &store, const std::string &roomId)
+{
+    auto txn = store.beginTxn(nullptr, db::TransactionFlags::ReadOnly);
+    if (auto info = cache::codec::getRoomInfo(txn, store.db->rooms, roomId))
+        return *info;
+
+    return {};
+}
+
 std::string
 serializeReceipt(std::string_view eventId, std::uint64_t timestamp, std::uint64_t eventIndex)
 {
@@ -122,6 +132,14 @@ makePowerLevelsEvent(const std::string &roomId, const std::string &eventId)
     event.origin_server_ts = 1;
     event.state_key        = "";
     event.content.users[event.sender] = mtx::events::state::Admin;
+    return event;
+}
+
+mtx::events::StateEvent<mtx::events::state::PowerLevels>
+makePowerLevelsEventAtTs(const std::string &roomId, const std::string &eventId, std::uint64_t ts)
+{
+    auto event             = makePowerLevelsEvent(roomId, eventId);
+    event.origin_server_ts = ts;
     return event;
 }
 
@@ -837,6 +855,58 @@ testSpaceEdgesRebuildAcrossRoomAndSpaceRefreshes(MatrixStore &store)
     return ok;
 }
 
+bool
+testStateOnlyTimelineSeedsInitialRoomRecencyWithoutLaterStateBumps(MatrixStore &store)
+{
+    const std::string roomId = "!state-only-recency:example.org";
+    constexpr std::uint64_t initialStateTsA = 1700000000100ULL;
+    constexpr std::uint64_t initialStateTsB = 1700000000150ULL;
+    constexpr std::uint64_t followupStateTs = 1700000000200ULL;
+    constexpr std::uint64_t messageTs       = 1700000000250ULL;
+
+    mtx::responses::Sync initialSync;
+    initialSync.next_batch = "state-only-initial";
+    initialSync.rooms.join[roomId].timeline.events = {
+      mtx::events::collections::TimelineEvents{
+        makePowerLevelsEventAtTs(roomId, "$state-initial-1", initialStateTsA)},
+      mtx::events::collections::TimelineEvents{
+        makePowerLevelsEventAtTs(roomId, "$state-initial-2", initialStateTsB)},
+    };
+
+    store.saveState(initialSync);
+
+    bool ok = true;
+    ok &= expect(storedRoomInfo(store, roomId).approximate_last_modification_ts == initialStateTsB,
+                 "state-only timeline seeds initial room recency from the newest timeline event");
+
+    mtx::responses::Sync followupStateOnlySync;
+    followupStateOnlySync.next_batch = "state-only-followup";
+    followupStateOnlySync.rooms.join[roomId].timeline.events = {
+      mtx::events::collections::TimelineEvents{
+        makePowerLevelsEventAtTs(roomId, "$state-followup", followupStateTs)},
+    };
+
+    store.saveState(followupStateOnlySync);
+
+    ok &= expect(storedRoomInfo(store, roomId).approximate_last_modification_ts == initialStateTsB,
+                 "later state-only syncs do not bump established room recency");
+
+    mtx::responses::Sync messageSync;
+    messageSync.next_batch = "state-only-message";
+    auto messageEvent      = makeTextEvent(roomId, "$message", "hello");
+    messageEvent.origin_server_ts = messageTs;
+    messageSync.rooms.join[roomId].timeline.events = {
+      mtx::events::collections::TimelineEvents{messageEvent},
+    };
+
+    store.saveState(messageSync);
+
+    ok &= expect(storedRoomInfo(store, roomId).approximate_last_modification_ts == messageTs,
+                 "message timeline events still advance room recency");
+
+    return ok;
+}
+
 } // namespace
 
 int
@@ -872,5 +942,6 @@ main(int argc, char **argv)
     ok &= testLimitedSyncCleanupPreservesCurrentStatePayloads(*store);
     ok &= testSharedTimelineReplacementKeepsOrderedIndexesConsistent(*store);
     ok &= testSpaceEdgesRebuildAcrossRoomAndSpaceRefreshes(*store);
+    ok &= testStateOnlyTimelineSeedsInitialRoomRecencyWithoutLaterStateBumps(*store);
     return ok ? 0 : 1;
 }

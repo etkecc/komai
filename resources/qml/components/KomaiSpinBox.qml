@@ -18,7 +18,7 @@ SpinBox {
     readonly property int indicatorWidth: 22 + indicatorHorizontalPadding * 2
     readonly property int minimumFieldWidth: Math.max(72,
                                                       Math.round(spinFontMetrics.averageCharacterWidth * 9))
-    readonly property int controlHeight: Math.max(34, Math.round(Settings.uiFontSizePt * 2.5))
+    readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
     readonly property int outerBorderWidth: activeFocus ? 2 : 1
 
     font.pointSize: Settings.uiFontSizePt

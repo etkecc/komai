@@ -13,6 +13,7 @@ Button {
 
     property int cursor: Qt.PointingHandCursor
     readonly property bool activeState: hovered || visualFocus
+    readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
     readonly property color normalBackground: palette.alternateBase
     readonly property color hoverBackground: palette.dark
     readonly property color highlightHoverBackground: Qt.darker(palette.highlight, 1.06)
@@ -30,6 +31,8 @@ Button {
     readonly property int effectiveIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.4))
 
     font.pointSize: Settings.uiFontSizePt
+    implicitHeight: Math.max(controlHeight,
+                             (contentItem ? contentItem.implicitHeight : 0) + topPadding + bottomPadding)
     spacing: Komai.paddingSmall
     padding: Komai.paddingSmall + 2
     leftPadding: Komai.paddingMedium + 2

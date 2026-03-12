@@ -19,7 +19,7 @@ ComboBox {
 
     readonly property int minimumTextWidth: Math.max(72,
                                                      Math.round(comboFontMetrics.averageCharacterWidth * 9))
-    readonly property int controlHeight: Math.max(34, Math.round(Settings.uiFontSizePt * 2.5))
+    readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
 
     font.pointSize: Settings.uiFontSizePt
     implicitWidth: Math.max(minimumTextWidth + leftPadding + rightPadding,
@@ -27,10 +27,10 @@ ComboBox {
     implicitHeight: controlHeight
     wheelEnabled: activeFocus
     implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-    leftPadding: Komai.paddingMedium
-    rightPadding: indicator.implicitWidth + Komai.paddingMedium * 2
-    topPadding: Math.max(2, Komai.paddingSmall)
-    bottomPadding: Math.max(2, Komai.paddingSmall)
+    leftPadding: Komai.paddingMedium + 2
+    rightPadding: indicator.implicitWidth + Komai.paddingMedium * 2 + 2
+    topPadding: Math.max(2, Komai.paddingSmall + 2)
+    bottomPadding: Math.max(2, Komai.paddingSmall + 2)
 
     delegate: ItemDelegate {
         id: delegateItem

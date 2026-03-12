@@ -24,7 +24,7 @@ Item {
         font: buttonLabel.font
     }
 
-    readonly property int controlHeight: Math.max(34, Math.round(Settings.uiFontSizePt * 2.5))
+    readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
 
     implicitWidth: Math.max(Math.round(comboFontMetrics.averageCharacterWidth * 25)
                                 + Komai.paddingMedium * 2 + 16 + Komai.paddingMedium,

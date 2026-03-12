@@ -151,7 +151,7 @@ Components.OverlayDialog {
 
         ActionButton {
             labelText: qsTr("New direct chat")
-            descriptionText: qsTr("A 1-on-1 conversation with another user. Members get the same power level.")
+            descriptionText: qsTr("A 1-on-1 conversation with another user where you both get the same power level")
             iconSource: ":/icons/icons/ui/person.svg"
             shortcutSequence: "Alt+D"
             shortcutDisplayText: qsTr("Alt+D")

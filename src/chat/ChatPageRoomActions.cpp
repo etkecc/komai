@@ -154,7 +154,6 @@ ChatPage::createRoom(const mtx::requests::CreateRoom &req)
                                       }});
           }
 
-          emit showNotification(tr("Room %1 created.").arg(newRoomId));
           emit newRoom(newRoomId);
           emit changeToRoom(newRoomId);
       });

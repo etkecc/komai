@@ -588,7 +588,7 @@ Rectangle {
     }
     Label {
         anchors.centerIn: parent
-        color: palette.placeholderText
+        color: Komai.theme.warning
         text: qsTr("You don't have permission to send messages in this room")
         visible: room ? (!room.permissions.canSend(MtxEvent.TextMessage)) : false
     }

@@ -172,14 +172,6 @@ modules:
       - sha256: ff4ae6a4620beed1cdb3e6a9b78a17d7d1dae7139c3d4746d4856b7547d42c38
         type: archive
         url: https://github.com/KDAB/KDSingleApplication/releases/download/v1.2.0/kdsingleapplication-1.2.0.tar.gz
-  - name: abseil-cpp
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-    sources:
-      - type: archive
-        url: https://github.com/abseil/abseil-cpp/releases/download/20250127.1/abseil-cpp-20250127.1.tar.gz
-        sha256: b396401fd29e2e679cace77867481d388c807671dc2acc602a0259eeb79b7811
   - name: re2
     buildsystem: simple
     build-commands:

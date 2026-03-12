@@ -306,8 +306,8 @@ Item {
                                 font.bold: true
                                 font.pointSize: Settings.uiFontSizePt
                                 Layout.alignment: Qt.AlignVCenter
-                                Layout.topMargin: Komai.paddingMedium
-                                Layout.bottomMargin: Komai.paddingMedium
+                                Layout.topMargin: Komai.paddingMedium + 2
+                                Layout.bottomMargin: Komai.paddingMedium + 2
                             }
 
                             StatusBadge {
@@ -315,8 +315,8 @@ Item {
                                 text: localCacheSection.cacheInfo.statusLabel || qsTr("Unknown")
                                 tone: localCacheSection.statusTone(localCacheSection.cacheInfo.statusKind || "")
                                 Layout.alignment: Qt.AlignVCenter
-                                Layout.topMargin: Komai.paddingMedium
-                                Layout.bottomMargin: Komai.paddingMedium
+                                Layout.topMargin: Komai.paddingMedium + 2
+                                Layout.bottomMargin: Komai.paddingMedium + 2
                             }
 
                             Item {
@@ -522,8 +522,8 @@ Item {
                                 font.bold: true
                                 font.pointSize: Settings.uiFontSizePt
                                 Layout.alignment: Qt.AlignVCenter
-                                Layout.topMargin: Komai.paddingMedium
-                                Layout.bottomMargin: Komai.paddingMedium
+                                Layout.topMargin: Komai.paddingMedium + 2
+                                Layout.bottomMargin: Komai.paddingMedium + 2
                             }
 
                             Item {
@@ -537,6 +537,8 @@ Item {
 
                                 text: purged ? qsTr("Purged") : qsTr("Purge")
                                 icon.source: purged ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/delete.svg"
+                                Layout.topMargin: Komai.paddingMedium + 2
+                                Layout.bottomMargin: Komai.paddingMedium + 2
                                 Layout.rightMargin: Komai.paddingSmall
                                 onClicked: localCacheSection.purgeMediaCache()
                             }

@@ -481,8 +481,8 @@ Item {
                                         // "This device" verification badge
                                         Rectangle {
                                             Layout.alignment: Qt.AlignVCenter
-                                            Layout.topMargin: Komai.paddingMedium
-                                            Layout.bottomMargin: Komai.paddingMedium
+                                            Layout.topMargin: Komai.paddingMedium + 2
+                                            Layout.bottomMargin: Komai.paddingMedium + 2
                                             implicitWidth: currentDeviceBadgeRow.implicitWidth + Komai.paddingSmall * 2
                                             implicitHeight: currentDeviceBadgeRow.implicitHeight + Komai.paddingSmall
                                             radius: Komai.paddingSmall
@@ -517,14 +517,16 @@ Item {
                                             font.bold: true
                                             color: palette.text
                                             Layout.alignment: Qt.AlignVCenter
-                                            Layout.topMargin: Komai.paddingMedium
-                                            Layout.bottomMargin: Komai.paddingMedium
+                                            Layout.topMargin: Komai.paddingMedium + 2
+                                            Layout.bottomMargin: Komai.paddingMedium + 2
                                             elide: Text.ElideRight
                                         }
 
                                         Components.ImageButton {
                                             id: copyDeviceIdBtn
                                             property bool copied: false
+                                            Layout.topMargin: Komai.paddingMedium + 2
+                                            Layout.bottomMargin: Komai.paddingMedium + 2
                                             Layout.preferredWidth: 24
                                             Layout.preferredHeight: 24
                                             image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
@@ -547,6 +549,8 @@ Item {
                                         Components.KomaiButton {
                                             text: qsTr("Logout")
                                             icon.source: "qrc:/icons/icons/ui/power-off.svg"
+                                            Layout.topMargin: Komai.paddingMedium + 2
+                                            Layout.bottomMargin: Komai.paddingMedium + 2
                                             Layout.rightMargin: Komai.paddingSmall
                                             onClicked: Komai.openLogoutDialog()
                                         }
@@ -889,8 +893,8 @@ Item {
                                             // Verification status badge
                                             Rectangle {
                                                 Layout.alignment: Qt.AlignVCenter
-                                                Layout.topMargin: Komai.paddingMedium
-                                                Layout.bottomMargin: Komai.paddingMedium
+                                                Layout.topMargin: Komai.paddingMedium + 2
+                                                Layout.bottomMargin: Komai.paddingMedium + 2
                                                 visible: deviceDelegate.verificationStatus != VerificationStatus.NOT_APPLICABLE
                                                 implicitWidth: otherDeviceBadgeRow.implicitWidth + Komai.paddingSmall * 2
                                                 implicitHeight: otherDeviceBadgeRow.implicitHeight + Komai.paddingSmall
@@ -978,14 +982,16 @@ Item {
                                                 font.bold: true
                                                 color: palette.text
                                                 Layout.alignment: Qt.AlignVCenter
-                                                Layout.topMargin: Komai.paddingMedium
-                                                Layout.bottomMargin: Komai.paddingMedium
+                                                Layout.topMargin: Komai.paddingMedium + 2
+                                                Layout.bottomMargin: Komai.paddingMedium + 2
                                                 elide: Text.ElideRight
                                             }
 
                                             Components.ImageButton {
                                                 id: copyOtherDeviceIdBtn
                                                 property bool copied: false
+                                                Layout.topMargin: Komai.paddingMedium + 2
+                                                Layout.bottomMargin: Komai.paddingMedium + 2
                                                 Layout.preferredWidth: 24
                                                 Layout.preferredHeight: 24
                                                 image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
@@ -1008,6 +1014,8 @@ Item {
                                             Components.KomaiButton {
                                                 text: qsTr("Logout")
                                                 icon.source: "qrc:/icons/icons/ui/power-off.svg"
+                                                Layout.topMargin: Komai.paddingMedium + 2
+                                                Layout.bottomMargin: Komai.paddingMedium + 2
                                                 Layout.rightMargin: Komai.paddingSmall
                                                 onClicked: {
                                                     if (accountView.profile)

@@ -93,6 +93,10 @@ EventStore::setupPendingPipeline()
                   nhlog::ui()->debug("failing txn id '{}'", txn_id);
                   cache::removePendingStatus(room_id_, txn_id);
                   current_txn_error_count = 0;
+
+                  auto idx = idToIndex(txn_id);
+                  if (idx)
+                      emit dataChanged(*idx, *idx);
               }
           }
           QTimer::singleShot(1000, this, [this]() {

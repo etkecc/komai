@@ -35,12 +35,6 @@ roomMembers(const std::string &room_id)
 }
 
 bool
-isV12Creator(const std::string &room_id, const std::string &user_id)
-{
-    return cacheInstance()->isV12Creator(room_id, user_id);
-}
-
-bool
 hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
                     const std::string &room_id,
                     const std::string &user_id)

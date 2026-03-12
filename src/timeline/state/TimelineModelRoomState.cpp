@@ -189,6 +189,7 @@ TimelineModel::pushrulesRoomContext() const
         cache::displayName(room_id_.toStdString(), utils::localUser().toStdString()),
       .member_count = cache::memberCount(room_id_.toStdString()),
       .power_levels = permissions_.powerlevelEvent(),
+      .create       = permissions_.createEvent(),
     };
 }
 

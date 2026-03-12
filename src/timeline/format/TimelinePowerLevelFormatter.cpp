@@ -28,6 +28,7 @@ trn(const char *source, int count)
 QString
 timeline::format::formatPowerLevelEvent(
   const mtx::events::StateEvent<mtx::events::state::PowerLevels> &event,
+  const mtx::events::StateEvent<mtx::events::state::Create> &create,
   EventStore &eventStore,
   const DisplayNameForUserFn &displayNameForUser)
 {
@@ -53,15 +54,15 @@ timeline::format::formatPowerLevelEvent(
     if (!prevEvent)
         return tr("%1 has changed the room's permissions.").arg(sender_name);
 
-    auto calc_affected = [&event,
-                          &prevEvent](int64_t newPowerlevelSetting) -> std::pair<QStringList, int> {
+    auto calc_affected =
+      [&event, &prevEvent, &create](int64_t newPowerlevelSetting) -> std::pair<QStringList, int> {
         QStringList affected{};
         auto numberOfAffected = 0;
         // We do only compare to people with explicit PL. Usually others are not going to be
         // affected either way and this is cheaper to iterate over.
         for (auto const &[mxid, currentPowerlevel] : event.content.users) {
             if (currentPowerlevel == newPowerlevelSetting &&
-                prevEvent->content.user_level(mxid) < newPowerlevelSetting) {
+                prevEvent->content.user_level(mxid, create) < newPowerlevelSetting) {
                 numberOfAffected++;
                 if (numberOfAffected <= 2) {
                     affected.push_back(QString::fromStdString(mxid));
@@ -233,24 +234,25 @@ timeline::format::formatPowerLevelEvent(
     // Compare if a Powerlevel of a user changed
     for (auto const &[mxid, powerlevel] : event.content.users) {
         auto nameOfChangedUser = renderName(QString::fromStdString(mxid));
-        if (prevEvent->content.user_level(mxid) != powerlevel) {
+        if (prevEvent->content.user_level(mxid, create) != powerlevel) {
             if (powerlevel >= administrator_power_level) {
                 resultingMessage.append(tr("%1 has made %2 an administrator of this room.")
                                           .arg(sender_name, nameOfChangedUser));
             } else if (powerlevel >= moderator_power_level &&
-                       powerlevel > prevEvent->content.user_level(mxid)) {
+                       powerlevel > prevEvent->content.user_level(mxid, create)) {
                 resultingMessage.append(tr("%1 has made %2 a moderator of this room.")
                                           .arg(sender_name, nameOfChangedUser));
             } else if (powerlevel >= moderator_power_level &&
-                       powerlevel < prevEvent->content.user_level(mxid)) {
+                       powerlevel < prevEvent->content.user_level(mxid, create)) {
                 resultingMessage.append(tr("%1 has downgraded %2 to moderator of this room.")
                                           .arg(sender_name, nameOfChangedUser));
             } else {
-                resultingMessage.append(tr("%1 has changed the powerlevel of %2 from %3 to %4.")
-                                          .arg(sender_name,
-                                               nameOfChangedUser,
-                                               QString::number(prevEvent->content.user_level(mxid)),
-                                               QString::number(powerlevel)));
+                resultingMessage.append(
+                  tr("%1 has changed the powerlevel of %2 from %3 to %4.")
+                    .arg(sender_name,
+                         nameOfChangedUser,
+                         QString::number(prevEvent->content.user_level(mxid, create)),
+                         QString::number(powerlevel)));
             }
         }
     }

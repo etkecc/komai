@@ -134,11 +134,14 @@ utils::updateSpaceVias()
             continue;
 
         auto spaceid = roomid.toStdString();
+        auto create  = cache::getStateEvent<mtx::events::state::Create>(spaceid).value_or(
+          mtx::events::StateEvent<mtx::events::state::Create>{});
 
         if (auto pl = cache::getStateEvent<mtx::events::state::PowerLevels>(spaceid)
                         .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                         .content;
-            pl.user_level(us) < pl.state_level(to_string(mtx::events::EventType::SpaceChild)))
+            pl.user_level(us, create) <
+            pl.state_level(to_string(mtx::events::EventType::SpaceChild)))
             continue;
 
         auto children = cache::getChildRoomIds(spaceid);
@@ -175,11 +178,14 @@ utils::updateSpaceVias()
                 parent->origin_server_ts < weekAgo &&
                 // ignore unset spaces
                 (parent->content.via && !parent->content.via->empty())) {
+                auto childCreate =
+                  cache::getStateEvent<mtx::events::state::Create>(childid).value_or(
+                    mtx::events::StateEvent<mtx::events::state::Create>{});
                 if (auto pl =
                       cache::getStateEvent<mtx::events::state::PowerLevels>(childid)
                         .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                         .content;
-                    pl.user_level(us) <
+                    pl.user_level(us, childCreate) <
                     pl.state_level(to_string(mtx::events::EventType::SpaceParent)))
                     continue;
 

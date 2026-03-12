@@ -83,7 +83,10 @@ MatrixStore::updateSpaces(db::Transaction &txn,
               if (parent && parent->content.via.has_value() && parent->state_key.size() > 3 &&
                   parent->state_key.at(0) == '!') {
                   const auto pls = getStateEvent<mtx::events::state::PowerLevels>(txn, parentSpace);
-                  if (pls && pls->content.user_level(parent->sender) >=
+                  const auto create =
+                    getStateEvent<mtx::events::state::Create>(txn, parentSpace)
+                      .value_or(mtx::events::StateEvent<mtx::events::state::Create>{});
+                  if (pls && pls->content.user_level(parent->sender, create) >=
                                pls->content.state_level(space_event_type)) {
                       continue;
                   }
@@ -103,12 +106,14 @@ MatrixStore::updateSpaces(db::Transaction &txn,
                 event.state_key.at(0) == '!') {
                 const std::string &space = event.state_key;
 
-                auto pls = getStateEvent<mtx::events::state::PowerLevels>(txn, space);
+                auto pls    = getStateEvent<mtx::events::state::PowerLevels>(txn, space);
+                auto create = getStateEvent<mtx::events::state::Create>(txn, space)
+                                .value_or(mtx::events::StateEvent<mtx::events::state::Create>{});
 
                 if (!pls)
                     continue;
 
-                if (pls->content.user_level(event.sender) >=
+                if (pls->content.user_level(event.sender, create) >=
                     pls->content.state_level(space_event_type)) {
                     db->spacesChildren.put(txn, space, room);
                     db->spacesParents.put(txn, room, space);
@@ -118,7 +123,7 @@ MatrixStore::updateSpaces(db::Transaction &txn,
                       room,
                       space,
                       event.sender,
-                      pls->content.user_level(event.sender),
+                      pls->content.user_level(event.sender, create),
                       pls->content.state_level(space_event_type));
                 }
             }

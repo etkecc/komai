@@ -78,7 +78,7 @@ sudo cmake --install var/build/native
 
 ### Bundling dependencies
 
-`mtxclient` is bundled by default (with local patching from `third_party/mtxclient-patches/`).
+`mtxclient` is bundled by default.
 Other dependencies can still be bundled selectively:
 
 ```sh
@@ -88,7 +88,7 @@ just configure -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF
 # Bundle specific libraries
 just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_LMDBXX=ON
 
-# Build against system MatrixClient instead of bundled+patched
+# Build against system MatrixClient instead of bundled MatrixClient
 just configure -DUSE_BUNDLED_MTXCLIENT=OFF
 ```
 

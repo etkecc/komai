@@ -73,7 +73,6 @@ Column {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
 
-                isV12Creator: room ? room.isV12Creator(userId) : false
                 powerlevel: userPowerlevel
                 height: fontMetrics.ascent
                 width: height
@@ -82,7 +81,7 @@ Column {
                 sourceSize.height: height
 
                 permissions: room ? room.permissions : null
-                visible: isAdmin || isModerator || isV12Creator
+                visible: isAdmin || isModerator
             }
 
             ToolTip.delay: Komai.tooltipDelay

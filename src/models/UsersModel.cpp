@@ -45,7 +45,9 @@ UsersModel::UsersModel(const std::string &roomId, QObject *parent)
         auto pl = cache::getStateEvent<mtx::events::state::PowerLevels>(roomId)
                     .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                     .content;
-        if (pl.user_level(utils::localUser().toStdString()) >=
+        auto create = cache::getStateEvent<mtx::events::state::Create>(roomId).value_or(
+          mtx::events::StateEvent<mtx::events::state::Create>{});
+        if (pl.user_level(utils::localUser().toStdString(), create) >=
             pl.notification_level(mtx::events::state::notification_keys::room)) {
             displayNames.push_back(QStringLiteral("@room"));
             userids.push_back(QStringLiteral("@room"));

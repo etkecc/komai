@@ -18,45 +18,6 @@
 #include "cache/schema/RoomStore.h"
 
 bool
-MatrixStore::isV12Creator(const std::string &room_id, const std::string &user_id)
-{
-    auto txn = ro_txn(storage());
-    try {
-        auto statesdb = getStatesDb(txn, room_id);
-        return isV12Creator(txn, room_id, statesdb, user_id);
-    } catch (...) {
-        return false;
-    }
-}
-
-bool
-MatrixStore::isV12Creator(db::Transaction &txn,
-                          const std::string &room_id,
-                          db::Store &statesdb,
-                          const std::string &user_id)
-{
-    using namespace mtx::events;
-    using namespace mtx::events::state;
-
-    bool ok               = false;
-    const int roomVersion = getRoomVersion(txn, room_id, statesdb).toInt(&ok);
-    if (!ok || roomVersion < 12)
-        return false;
-
-    const auto create = getStateEvent<Create>(txn, room_id);
-    if (!create)
-        return false;
-
-    if (create->sender == user_id)
-        return true;
-
-    const auto &additionalCreators = create->content.additional_creators;
-    return additionalCreators &&
-           std::find(additionalCreators->begin(), additionalCreators->end(), user_id) !=
-             additionalCreators->end();
-}
-
-bool
 MatrixStore::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &eventTypes,
                                  const std::string &room_id,
                                  const std::string &user_id)
@@ -66,27 +27,18 @@ MatrixStore::hasEnoughPowerLevel(const std::vector<mtx::events::EventType> &even
 
     auto txn = ro_txn(storage());
     try {
-        auto db_ = getStatesDb(txn, room_id);
-
-        if (isV12Creator(txn, room_id, db_, user_id))
-            return true;
-
         int64_t min_event_level = std::numeric_limits<int64_t>::max();
         int64_t user_level      = std::numeric_limits<int64_t>::min();
 
         try {
-            if (auto msg = db::getJsonValue<StateEvent<PowerLevels>>(
-                  txn,
-                  db_,
-                  room_store::key(cache::schema::RoomDb::State,
-                                  room_id,
-                                  to_string(EventType::RoomPowerLevels)))) {
-                user_level = msg->content.user_level(user_id);
+            const auto create = getStateEvent<Create>(txn, room_id).value_or(StateEvent<Create>{});
+            const auto pls =
+              getStateEvent<PowerLevels>(txn, room_id).value_or(StateEvent<PowerLevels>{});
 
-                for (const auto &ty : eventTypes)
-                    min_event_level =
-                      std::min(min_event_level, msg->content.state_level(to_string(ty)));
-            }
+            user_level = pls.content.user_level(user_id, create);
+
+            for (const auto &ty : eventTypes)
+                min_event_level = std::min(min_event_level, pls.content.state_level(to_string(ty)));
         } catch (const nlohmann::json::exception &e) {
             cache::activeLoggers().db->warn("failed to parse m.room.power_levels event: {}",
                                             e.what());

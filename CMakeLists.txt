@@ -69,9 +69,9 @@ option(USE_BUNDLED_GTEST "Use the bundled version of Google Test." ${HUNTER_ENAB
 option(USE_BUNDLED_CMARK "Use the bundled version of cmark." ${HUNTER_ENABLED})
 option(USE_BUNDLED_JSON "Use the bundled version of nlohmann json." ${HUNTER_ENABLED})
 option(USE_BUNDLED_OPENSSL "Use the bundled version of OpenSSL." OFF)
-# Default to bundled mtxclient because the room-v12 creator support work still
-# depends on bundled MatrixClient changes, while we also keep a local
-# compatibility patch for the key-backup public_key fix from upstream PR #113.
+# Default to bundled mtxclient because Komai currently depends on newer
+# upstream MatrixClient room-v12 creator support and the upstream key-backup
+# public_key fix from PR #113.
 option(USE_BUNDLED_MTXCLIENT "Use the bundled version of the Matrix Client library." ON)
 option(USE_BUNDLED_LMDB "Use the bundled version of lmdb." ${HUNTER_ENABLED})
 option(USE_BUNDLED_LMDBXX "Use the bundled version of lmdb++." ${HUNTER_ENABLED})
@@ -951,47 +951,14 @@ endif()
 
 if(USE_BUNDLED_MTXCLIENT)
     include(FetchContent)
-    set(MTXCLIENT_PATCH_FILE
-        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mtxclient-patches/0001-fix-online-backup-public-key-double-encoding.patch)
     FetchContent_Declare(
         MatrixClient
             GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
-            GIT_TAG        d6f10427d1c5e5b1a45f426274f8d2e8dd0b64be
+            GIT_TAG        f5766cb53c244a808b7e512c7b83b3942fb67834
     )
     set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
     set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
     FetchContent_MakeAvailable(MatrixClient)
-
-    # Apply the local compatibility patch for bundled MatrixClient sources.
-    # Upstream PR: https://github.com/Nheko-Reborn/mtxclient/pull/113
-    # Drop this local patch once a released mtxclient tag includes that fix.
-    # This handles both normal FetchContent checkouts and external source dirs
-    # (for example via FETCHCONTENT_SOURCE_DIR_MATRIXCLIENT in Flatpak builds).
-    execute_process(
-        COMMAND git apply --whitespace=nowarn --check ${MTXCLIENT_PATCH_FILE}
-        WORKING_DIRECTORY ${matrixclient_SOURCE_DIR}
-        RESULT_VARIABLE MTXCLIENT_PATCH_CHECK_RESULT
-        OUTPUT_QUIET
-        ERROR_QUIET)
-    if(MTXCLIENT_PATCH_CHECK_RESULT EQUAL 0)
-        execute_process(
-            COMMAND git apply --whitespace=nowarn ${MTXCLIENT_PATCH_FILE}
-            WORKING_DIRECTORY ${matrixclient_SOURCE_DIR}
-            RESULT_VARIABLE MTXCLIENT_PATCH_APPLY_RESULT)
-        if(NOT MTXCLIENT_PATCH_APPLY_RESULT EQUAL 0)
-            message(FATAL_ERROR "Failed to apply MatrixClient compatibility patch.")
-        endif()
-    else()
-        execute_process(
-            COMMAND git apply -R --check ${MTXCLIENT_PATCH_FILE}
-            WORKING_DIRECTORY ${matrixclient_SOURCE_DIR}
-            RESULT_VARIABLE MTXCLIENT_PATCH_REVERSE_CHECK_RESULT
-            OUTPUT_QUIET
-            ERROR_QUIET)
-        if(NOT MTXCLIENT_PATCH_REVERSE_CHECK_RESULT EQUAL 0)
-            message(FATAL_ERROR "MatrixClient sources have unexpected state; local compatibility patch cannot be applied.")
-        endif()
-    endif()
 else()
     find_package(MatrixClient 0.10.0 REQUIRED)
 endif()

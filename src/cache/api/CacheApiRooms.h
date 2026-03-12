@@ -50,10 +50,6 @@ getStateEventsWithType(const std::string &room_id,
 std::vector<std::string>
 roomMembers(const std::string &room_id);
 
-//! Check if the given user is treated as a room-v12 creator.
-bool
-isV12Creator(const std::string &room_id, const std::string &user_id);
-
 //! Check if the given user has power level greater than than
 //! lowest power level of the given events.
 bool

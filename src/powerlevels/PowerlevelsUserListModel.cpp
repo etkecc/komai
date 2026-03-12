@@ -10,12 +10,15 @@
 
 #include "cache/Cache.h"
 
-PowerlevelsUserListModel::PowerlevelsUserListModel(const std::string &rid,
-                                                   const mtx::events::state::PowerLevels &pl,
-                                                   QObject *parent)
+PowerlevelsUserListModel::PowerlevelsUserListModel(
+  const std::string &rid,
+  const mtx::events::state::PowerLevels &pl,
+  const mtx::events::StateEvent<mtx::events::state::Create> &create,
+  QObject *parent)
   : QAbstractListModel(parent)
   , room_id(rid)
   , powerLevels_(pl)
+  , create_(create)
 {
     std::set<mtx::events::state::power_level_t> seen_levels;
     for (const auto &[user, level] : powerLevels_.users) {
@@ -48,6 +51,14 @@ PowerlevelsUserListModel::PowerlevelsUserListModel(const std::string &rid,
             seen_levels.insert(level);
         }
     }
+    if (create_.content.room_version_creators_with_infinite_power()) {
+        users.push_back(Entry{"", mtx::events::state::Creator});
+        seen_levels.insert(mtx::events::state::Creator);
+
+        users.push_back(Entry{create_.sender, mtx::events::state::Creator});
+        for (const auto &user : create_.content.additional_creators)
+            users.push_back(Entry{user, mtx::events::state::Creator});
+    }
 
     users.push_back(Entry{"default", powerLevels_.users_default});
 
@@ -64,7 +75,7 @@ PowerlevelsUserListModel::toUsers() const
 {
     std::map<std::string, mtx::events::state::power_level_t, std::less<>> m;
     for (const auto &[key, pl] : std::as_const(users))
-        if (key.size() > 0 && key.at(0) == '@')
+        if (key.size() > 0 && key.at(0) == '@' && pl != mtx::events::state::Creator)
             m[key] = pl;
     return m;
 }
@@ -116,7 +127,7 @@ PowerlevelsUserListModel::data(const QModelIndex &index, int role) const
     case IsUser:
         return !user.mxid.empty();
     case Moveable:
-        return !user.mxid.empty();
+        return !user.mxid.empty() && user.pl != mtx::events::state::Creator;
     case Removeable:
         return !user.mxid.empty() && user.mxid.find('.') != std::string::npos;
     }
@@ -210,8 +221,16 @@ PowerlevelsUserListModel::moveRows(const QModelIndex &,
 
     if (users.at(sourceRow).mxid.empty())
         return false;
+    if (users.at(sourceRow).pl == mtx::events::state::Creator)
+        return false;
+    if (destinationChild < users.size() &&
+        users.at(destinationChild).pl == mtx::events::state::Creator)
+        return false;
 
-    auto pl         = users.at(destinationChild > 0 ? destinationChild - 1 : 0).pl;
+    auto pl = users.at(destinationChild > 0 ? destinationChild - 1 : 0).pl;
+    if (pl == mtx::events::state::Creator)
+        return false;
+
     auto sourceItem = users.takeAt(sourceRow);
     sourceItem.pl   = pl;
 

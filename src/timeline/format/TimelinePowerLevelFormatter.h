@@ -8,6 +8,7 @@
 #include <QString>
 
 #include <mtx/events/collections.hpp>
+#include <mtx/events/create.hpp>
 #include <mtx/events/power_levels.hpp>
 
 #include <functional>
@@ -19,6 +20,7 @@ using DisplayNameForUserFn = std::function<QString(const QString &)>;
 
 QString
 formatPowerLevelEvent(const mtx::events::StateEvent<mtx::events::state::PowerLevels> &event,
+                      const mtx::events::StateEvent<mtx::events::state::Create> &create,
                       EventStore &eventStore,
                       const DisplayNameForUserFn &displayNameForUser);
 }

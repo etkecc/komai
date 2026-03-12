@@ -250,9 +250,8 @@ modules:
         type: archive
         url: https://github.com/hoytech/lmdbxx/archive/1.0.0.tar.gz
       - dest: .deps/mtxclient
-        commit: 15b43844f4ec27faa5f2ec92c4ded313206763aa
+        commit: f5766cb53c244a808b7e512c7b83b3942fb67834
         disable-lfs: true
-        tag: v0.10.1
         type: git
         url: https://github.com/Nheko-Reborn/mtxclient.git
       - dest: .deps/litehtml

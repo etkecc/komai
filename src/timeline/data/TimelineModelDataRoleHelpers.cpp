@@ -65,8 +65,8 @@ TimelineModel::senderRoleDataForEvent(const mtx::events::collections::TimelineEv
     case UserName:
         return QVariant(displayName(QString::fromStdString(mtx::accessors::sender(event))));
     case UserPowerlevel:
-        return static_cast<qlonglong>(
-          permissions_.powerlevelEvent().user_level(mtx::accessors::sender(event)));
+        return static_cast<qlonglong>(permissions_.powerlevelEvent().user_level(
+          mtx::accessors::sender(event), permissions_.createEvent()));
     default:
         return {};
     }

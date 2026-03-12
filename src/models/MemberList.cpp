@@ -19,6 +19,8 @@ MemberListBackend::MemberListBackend(const QString &room_id, QObject *parent)
   , powerLevels_{cache::getStateEvent<mtx::events::state::PowerLevels>(room_id_.toStdString())
                    .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                    .content}
+  , create_{cache::getStateEvent<mtx::events::state::Create>(room_id_.toStdString())
+              .value_or(mtx::events::StateEvent<mtx::events::state::Create>{})}
 {
     try {
         info_ = cache::singleRoomInfo(room_id_.toStdString());
@@ -102,7 +104,7 @@ MemberListBackend::data(const QModelIndex &index, int role) const
     }
     case Powerlevel:
         return static_cast<qlonglong>(
-          powerLevels_.user_level(m_memberList[index.row()].first.user_id.toStdString()));
+          powerLevels_.user_level(m_memberList[index.row()].first.user_id.toStdString(), create_));
     default:
         return {};
     }
@@ -180,25 +182,6 @@ MemberList::filterAcceptsRow(int source_row, const QModelIndex &) const
                                                                    Qt::CaseInsensitive) ||
            m_model.m_memberList[source_row].first.display_name.contains(filterString,
                                                                         Qt::CaseInsensitive);
-}
-
-bool
-MemberList::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
-{
-    if (sortRole() != MemberSortRoles::Powerlevel)
-        return QSortFilterProxyModel::lessThan(source_left, source_right);
-
-    const QString left   = m_model.data(source_left, MemberListBackend::Roles::Mxid).toString();
-    const QString right  = m_model.data(source_right, MemberListBackend::Roles::Mxid).toString();
-    const auto roomIdStd = this->roomId().toStdString();
-
-    if (cache::isV12Creator(roomIdStd, left.toStdString())) {
-        if (!cache::isV12Creator(roomIdStd, right.toStdString()))
-            return false;
-        return left < right;
-    }
-
-    return QSortFilterProxyModel::lessThan(source_left, source_right);
 }
 
 #include "moc_MemberList.cpp"

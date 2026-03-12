@@ -8,12 +8,15 @@
 #include <algorithm>
 #include <set>
 
-PowerlevelsTypeListModel::PowerlevelsTypeListModel(const std::string &rid,
-                                                   const mtx::events::state::PowerLevels &pl,
-                                                   QObject *parent)
+PowerlevelsTypeListModel::PowerlevelsTypeListModel(
+  const std::string &rid,
+  const mtx::events::state::PowerLevels &pl,
+  const mtx::events::StateEvent<mtx::events::state::Create> &create,
+  QObject *parent)
   : QAbstractListModel(parent)
   , room_id(rid)
   , powerLevels_(pl)
+  , create_(create)
 {
     std::set<mtx::events::state::power_level_t> seen_levels;
     for (const auto &[type, level] : powerLevels_.events) {
@@ -45,6 +48,9 @@ PowerlevelsTypeListModel::PowerlevelsTypeListModel(const std::string &rid,
             types.push_back(Entry{"", level});
             seen_levels.insert(level);
         }
+    }
+    if (create_.content.room_version_creators_with_infinite_power()) {
+        seen_levels.insert(mtx::events::state::Creator);
     }
 
     types.push_back(Entry{"zdefault_states", powerLevels_.state_default});

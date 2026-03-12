@@ -301,11 +301,14 @@ utils::removeExpiredEvents()
 
         if (!asus->globalExpiry && !getExpEv(roomid))
             continue;
+        auto create = cache::getStateEvent<mtx::events::state::Create>(roomid).value_or(
+          mtx::events::StateEvent<mtx::events::state::Create>{});
 
         if (auto pl = cache::getStateEvent<mtx::events::state::PowerLevels>(roomid)
                         .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                         .content;
-            pl.user_level(us) < pl.event_level(to_string(mtx::events::EventType::RoomRedaction))) {
+            pl.user_level(us, create) <
+            pl.event_level(to_string(mtx::events::EventType::RoomRedaction))) {
             nhlog::net()->warn("Can't react events in {}, not running expiration.", roomid);
             continue;
         }

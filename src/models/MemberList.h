@@ -9,6 +9,7 @@
 #include <QQmlEngine>
 #include <QSortFilterProxyModel>
 
+#include <mtx/events/create.hpp>
 #include <mtx/events/power_levels.hpp>
 
 #include "matrix/MatrixStateTypes.h"
@@ -74,6 +75,7 @@ private:
     bool loadingMoreMembers_{false};
 
     mtx::events::state::PowerLevels powerLevels_;
+    mtx::events::StateEvent<mtx::events::state::Create> create_;
 
     friend class MemberList;
 };
@@ -123,7 +125,6 @@ public slots:
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
-    bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
 
 private:
     QString filterString;

@@ -109,6 +109,8 @@ utils::roomVias(const std::string &roomid)
             auto powerlevels =
               cache::getStateEvent<mtx::events::state::PowerLevels>(roomid).value_or(
                 mtx::events::StateEvent<mtx::events::state::PowerLevels>{});
+            auto create = cache::getStateEvent<mtx::events::state::Create>(roomid).value_or(
+              mtx::events::StateEvent<mtx::events::state::Create>{});
             auto acls = cache::getStateEvent<mtx::events::state::ServerAcl>(roomid);
 
             std::vector<QRegularExpression> allowedServers;
@@ -157,6 +159,18 @@ utils::roomVias(const std::string &roomid)
             std::set<std::string> users_with_high_pl_in_room;
             // we should pick PL > 50, but imo that is broken, so we just pick users who have admins
             // perm
+            if (create.content.room_version_creators_with_infinite_power()) {
+                auto user = create.sender;
+                auto host = mtx::identifiers::parse<mtx::identifiers::User>(user).hostname();
+                if (isHostAllowed(host))
+                    users_with_high_pl.insert(user);
+
+                for (const auto &user : create.content.additional_creators) {
+                    auto host = mtx::identifiers::parse<mtx::identifiers::User>(user).hostname();
+                    if (isHostAllowed(host))
+                        users_with_high_pl.insert(user);
+                }
+            }
             for (const auto &user : powerlevels.content.users) {
                 if (user.second >= powerlevels.content.events_default &&
                     user.second >= powerlevels.content.state_default) {
@@ -181,12 +195,13 @@ utils::roomVias(const std::string &roomid)
             });
 
             // add the highest powerlevel user
-            auto max_pl_user = std::max_element(
-              users_with_high_pl_in_room.begin(),
-              users_with_high_pl_in_room.end(),
-              [&pl_content = powerlevels.content](const std::string &a, const std::string &b) {
-                  return pl_content.user_level(a) < pl_content.user_level(b);
-              });
+            auto max_pl_user = std::max_element(users_with_high_pl_in_room.begin(),
+                                                users_with_high_pl_in_room.end(),
+                                                [&pl_content = powerlevels.content, &create](
+                                                  const std::string &a, const std::string &b) {
+                                                    return pl_content.user_level(a, create) <
+                                                           pl_content.user_level(b, create);
+                                                });
             if (max_pl_user != users_with_high_pl_in_room.end()) {
                 auto host =
                   mtx::identifiers::parse<mtx::identifiers::User>(*max_pl_user).hostname();

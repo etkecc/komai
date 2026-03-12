@@ -97,7 +97,9 @@ TimelineModel::formatPowerLevelEvent(
   const mtx::events::StateEvent<mtx::events::state::PowerLevels> &event) const
 {
     return timeline::format::formatPowerLevelEvent(
-      event, events, [this](const QString &userId) { return displayName(userId); });
+      event, permissions_.createEvent(), events, [this](const QString &userId) {
+          return displayName(userId);
+      });
 }
 
 QString

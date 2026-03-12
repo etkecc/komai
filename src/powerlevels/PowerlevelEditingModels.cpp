@@ -15,9 +15,11 @@ PowerlevelEditingModels::PowerlevelEditingModels(QString room_id, QObject *paren
   , powerLevels_(cache::getStateEvent<mtx::events::state::PowerLevels>(room_id.toStdString())
                    .value_or(mtx::events::StateEvent<mtx::events::state::PowerLevels>{})
                    .content)
-  , types_(room_id.toStdString(), powerLevels_, this)
-  , users_(room_id.toStdString(), powerLevels_, this)
-  , spaces_(room_id.toStdString(), powerLevels_, this)
+  , create_(cache::getStateEvent<mtx::events::state::Create>(room_id.toStdString())
+              .value_or(mtx::events::StateEvent<mtx::events::state::Create>{}))
+  , types_(room_id.toStdString(), powerLevels_, create_, this)
+  , users_(room_id.toStdString(), powerLevels_, create_, this)
+  , spaces_(room_id.toStdString(), powerLevels_, create_, this)
   , room_id_(room_id.toStdString())
 {
     connect(&types_,

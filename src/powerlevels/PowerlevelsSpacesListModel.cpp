@@ -46,16 +46,18 @@ samePl(const mtx::events::state::PowerLevels &a, const mtx::events::state::Power
                                           b.redact);
 }
 
-PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(const std::string &room_id_,
-                                                       const mtx::events::state::PowerLevels &pl,
-                                                       QObject *parent)
+PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(
+  const std::string &room_id_,
+  const mtx::events::state::PowerLevels &pl,
+  const mtx::events::StateEvent<mtx::events::state::Create> &create,
+  QObject *parent)
   : QAbstractListModel(parent)
   , room_id(std::move(room_id_))
   , oldPowerLevels_(std::move(pl))
 {
     beginResetModel();
 
-    spaces.push_back(Entry{room_id, oldPowerLevels_, true});
+    spaces.push_back(Entry{room_id, oldPowerLevels_, create, true});
 
     std::unordered_set<std::string> visited;
 
@@ -70,10 +72,15 @@ PowerlevelsSpacesListModel::PowerlevelsSpacesListModel(const std::string &room_i
             auto parent = cache::getStateEvent<mtx::events::state::space::Parent>(s, space);
             if (parent && parent->content.via && !parent->content.via->empty() &&
                 parent->content.canonical) {
-                auto parentPl = cache::getStateEvent<mtx::events::state::PowerLevels>(s);
+                auto childPl     = cache::getStateEvent<mtx::events::state::PowerLevels>(s);
+                auto childCreate = cache::getStateEvent<mtx::events::state::Create>(s).value_or(
+                  mtx::events::StateEvent<mtx::events::state::Create>{});
 
-                spaces.push_back(Entry{
-                  s, parentPl ? parentPl->content : mtx::events::state::PowerLevels{}, false});
+                spaces.push_back(
+                  Entry{s,
+                        childPl ? childPl->content : mtx::events::state::PowerLevels{},
+                        childCreate,
+                        false});
                 addChildren(s);
             }
         }
@@ -180,7 +187,7 @@ PowerlevelsSpacesListModel::data(QModelIndex const &index, int role) const
     auto entry = spaces.at(row);
     switch (role) {
     case Roles::IsEditable:
-        return entry.pl.user_level(utils::localUser().toStdString()) >=
+        return entry.pl.user_level(utils::localUser().toStdString(), entry.create) >=
                entry.pl.state_level(to_string(mtx::events::EventType::RoomPowerLevels));
     case Roles::IsDifferentFromBase:
         return !samePl(entry.pl, oldPowerLevels_);

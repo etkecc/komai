@@ -90,14 +90,17 @@ OverlayDialog {
                                     Text {
                                         visible: !model.isType
                                         text: {
+                                            let pl = model.powerlevel.toLocaleString(Qt.locale(), "f", 0);
+                                            if (plEditorW.editingModel.creatorLevel == model.powerlevel)
+                                                return qsTr("Creator");
                                             if (plEditorW.editingModel.adminLevel == model.powerlevel)
-                                                return qsTr("Administrator (%1)").arg(model.powerlevel);
+                                                return qsTr("Administrator (%1)").arg(pl);
                                             else if (plEditorW.editingModel.moderatorLevel == model.powerlevel)
-                                                return qsTr("Moderator (%1)").arg(model.powerlevel);
+                                                return qsTr("Moderator (%1)").arg(pl);
                                             else if (plEditorW.editingModel.defaultUserLevel == model.powerlevel)
-                                                return qsTr("User (%1)").arg(model.powerlevel);
+                                                return qsTr("User (%1)").arg(pl);
                                             else
-                                                return qsTr("Custom (%1)").arg(model.powerlevel);
+                                                return qsTr("Custom (%1)").arg(pl);
                                         }
                                         color: palette.text
                                     }
@@ -134,7 +137,7 @@ OverlayDialog {
                                 visible: false
                                 color: palette.text
 
-                                Keys.onPressed: {
+                                Keys.onPressed: event => {
                                     if (typeEntry.text.includes('.') && event.matches(StandardKey.InsertParagraphSeparator)) {
                                         plEditorW.editingModel.types.add(typeEntry.index, typeEntry.text);
                                         typeEntry.visible = false;
@@ -300,6 +303,8 @@ OverlayDialog {
                                     url: {
                                         if (model.isUser)
                                             return model.avatarUrl.replace("mxc://", "image://MxcImage/");
+                                        else if (plEditorW.editingModel.creatorLevel == model.powerlevel)
+                                            return "image://colorimage/:/icons/icons/ui/ribbon_star.svg?" + palette.buttonText;
                                         else if (plEditorW.editingModel.adminLevel >= model.powerlevel)
                                             return "image://colorimage/:/icons/icons/ui/ribbon_star.svg?" + palette.buttonText;
                                         else if (plEditorW.editingModel.moderatorLevel >= model.powerlevel)
@@ -329,12 +334,17 @@ OverlayDialog {
                                     Text {
                                         visible: !model.isUser
                                         text: {
+                                            let pl = model.powerlevel.toLocaleString(Qt.locale(), "f", 0);
+                                            if (plEditorW.editingModel.creatorLevel == model.powerlevel)
+                                                return qsTr("Creator");
                                             if (plEditorW.editingModel.adminLevel == model.powerlevel)
-                                                return qsTr("Administrator (%1)").arg(model.powerlevel);
+                                                return qsTr("Administrator (%1)").arg(pl);
                                             else if (plEditorW.editingModel.moderatorLevel == model.powerlevel)
-                                                return qsTr("Moderator (%1)").arg(model.powerlevel);
+                                                return qsTr("Moderator (%1)").arg(pl);
+                                            else if (plEditorW.editingModel.defaultUserLevel == model.powerlevel)
+                                                return qsTr("User (%1)").arg(pl);
                                             else
-                                                return qsTr("Custom (%1)").arg(model.powerlevel);
+                                                return qsTr("Custom (%1)").arg(pl);
                                         }
                                         color: palette.text
                                     }
@@ -344,7 +354,7 @@ OverlayDialog {
                                     Layout.alignment: Qt.AlignRight
                                     Layout.rightMargin: 2
                                     image: model.isUser ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/plus-circle.svg"
-                                    visible: !model.isUser || model.removeable
+                                    visible: (!model.isUser || model.removeable) && model.powerlevel != plEditorW.editingModel.creatorLevel
                                     hoverEnabled: true
                                     ToolTip.visible: hovered
                                     ToolTip.text: model.isUser ? qsTr("Remove user") : qsTr("Add user")

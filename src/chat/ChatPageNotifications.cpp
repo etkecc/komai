@@ -130,6 +130,7 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                 const auto roomInfo = cache::singleRoomInfo(room_id);
                 QString roomName    = QString::fromStdString(roomInfo.name);
                 QString roomAvatar  = QString::fromStdString(roomInfo.avatar_url);
+                const Permissions permissions(qRoomId);
                 if (roomAvatar.isEmpty())
                     roomAvatar = cache::roomAvatarUrl(room_id);
 
@@ -139,7 +140,8 @@ ChatPage::processSyncUi(const mtx::responses::Sync &sync)
                 auto ctx = mtx::pushrules::PushRuleEvaluator::RoomContext{
                   .user_display_name = cache::displayName(room_id, local_user),
                   .member_count      = cache::memberCount(room_id),
-                  .power_levels      = Permissions(qRoomId).powerlevelEvent(),
+                  .power_levels      = permissions.powerlevelEvent(),
+                  .create            = permissions.createEvent(),
                 };
                 std::vector<
                   std::pair<mtx::common::Relation, mtx::events::collections::TimelineEvents>>

@@ -179,6 +179,7 @@ Popup {
                 roomColor: isReplyFromCurrentUser
                     ? Komai.theme.userColorSelf
                     : activeRoom ? TimelineManager.roomUserColor(activeRoom.roomId, replyPreview.userId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.base)
+                limitHeight: true
                 width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
                 maxWidth: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
             }

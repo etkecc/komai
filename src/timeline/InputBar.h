@@ -54,6 +54,7 @@ class MediaUpload final : public QObject
     // https://stackoverflow.com/questions/33422265/pass-qimage-to-qml/68554646#68554646
     Q_PROPERTY(QUrl thumbnail READ thumbnailDataUrl NOTIFY thumbnailChanged)
     //    Q_PROPERTY(QString humanSize READ humanSize NOTIFY huSizeChanged)
+    Q_PROPERTY(QString body READ body WRITE setBody NOTIFY bodyChanged)
     Q_PROPERTY(QString filename READ filename WRITE setFilename NOTIFY filenameChanged)
     Q_PROPERTY(QString mimetype READ mimetype CONSTANT)
 
@@ -90,6 +91,7 @@ public:
     [[nodiscard]] QString url() const { return url_; }
     [[nodiscard]] QString mimetype() const { return mimetype_; }
     [[nodiscard]] QString mimeClass() const { return mimeClass_; }
+    [[nodiscard]] QString body() const { return body_; }
     [[nodiscard]] QString filename() const { return originalFilename_; }
     [[nodiscard]] QString blurhash() const { return blurhash_; }
     [[nodiscard]] uint64_t size() const { return size_; }
@@ -109,6 +111,14 @@ public:
     QUrl thumbnailDataUrl() const;
     [[nodiscard]] uint64_t thumbnailSize() const { return thumbnailSize_; }
 
+    void setBody(QString body)
+    {
+        if (body != body_) {
+            body_ = std::move(body);
+            emit bodyChanged();
+        }
+    }
+
     void setFilename(QString fn)
     {
         if (fn != originalFilename_) {
@@ -120,6 +130,7 @@ public:
 signals:
     void uploadComplete(MediaUpload *self, QString url);
     void uploadFailed(MediaUpload *self);
+    void bodyChanged();
     void filenameChanged();
     void thumbnailChanged();
     void mediaTypeChanged();
@@ -141,6 +152,7 @@ public:
     QByteArray data;
     QString mimetype_;
     QString mimeClass_;
+    QString body_;
     QString originalFilename_;
     QString blurhash_;
     QString thumbnailUrl_;
@@ -284,20 +296,20 @@ private:
                uint64_t thumbnailSize,
                const QSize &thumbnailDimensions,
                const QString &blurhash,
-               const QString &caption = {});
+               const QString &body = {});
     void file(const QString &filename,
               const std::optional<mtx::crypto::EncryptedFile> &encryptedFile,
               const QString &url,
               const QString &mime,
               uint64_t dsize,
-              const QString &caption = {});
+              const QString &body = {});
     void audio(const QString &filename,
                const std::optional<mtx::crypto::EncryptedFile> &file,
                const QString &url,
                const QString &mime,
                uint64_t dsize,
                uint64_t duration,
-               const QString &caption = {});
+               const QString &body = {});
     void video(const QString &filename,
                const std::optional<mtx::crypto::EncryptedFile> &file,
                const QString &url,
@@ -310,7 +322,7 @@ private:
                uint64_t thumbnailSize,
                const QSize &thumbnailDimensions,
                const QString &blurhash,
-               const QString &caption = {});
+               const QString &body = {});
 
     QPair<QString, QString> getCommandAndArgs() const { return getCommandAndArgs(text()); }
     QPair<QString, QString> getCommandAndArgs(const QString &currentText) const;
@@ -351,8 +363,6 @@ private:
     QStringList mentionsBefore, mentionTextsBefore;
     QString textBeforeEdit;
     bool containsAtRoomBefore = false;
-
-    QString caption_;
 
     using UploadHandle = std::unique_ptr<MediaUpload, DeleteLaterDeleter>;
     std::vector<UploadHandle> unconfirmedUploads;

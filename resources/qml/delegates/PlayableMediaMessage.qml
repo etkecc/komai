@@ -21,9 +21,13 @@ Item {
     required property string eventId
     required property string url
     required property string body
+    required property string filename
     required property string filesize
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
     property int tempWidth: originalWidth < 1? 400: originalWidth
+    readonly property string mediaLabel: body.length > 0 && filename.length > 0 && body !== filename
+        ? body + " (" + filename + ")"
+        : (filename.length > 0 ? filename : body)
     implicitWidth: type == MtxEvent.VideoMessage ? Math.round(tempWidth*Math.min((timelineView.height/divisor)/(tempWidth*proportionalHeight), 1)) : 500
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
     height: (type == MtxEvent.VideoMessage ? width*proportionalHeight : mediaControls.height) + fileInfoLabel.height
@@ -107,7 +111,7 @@ Item {
         id: fileInfoLabel
 
         anchors.top: videoContainer.bottom
-        text: content.body + " [" + filesize + "]"
+        text: content.mediaLabel + " [" + filesize + "]"
         textFormat: Text.RichText
         elide: Text.ElideRight
         color: palette.text

@@ -118,17 +118,20 @@ struct EventFilename
     }
     std::string operator()(const mtx::events::RoomEvent<mtx::events::msg::Audio> &e)
     {
-        // body may be the original filename
+        if (!e.content.filename.empty())
+            return e.content.filename;
         return e.content.body;
     }
     std::string operator()(const mtx::events::RoomEvent<mtx::events::msg::Video> &e)
     {
-        // body may be the original filename
+        if (!e.content.filename.empty())
+            return e.content.filename;
         return e.content.body;
     }
     std::string operator()(const mtx::events::RoomEvent<mtx::events::msg::Image> &e)
     {
-        // body may be the original filename
+        if (!e.content.filename.empty())
+            return e.content.filename;
         return e.content.body;
     }
     std::string operator()(const mtx::events::RoomEvent<mtx::events::msg::File> &e)

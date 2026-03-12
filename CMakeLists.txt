@@ -960,6 +960,9 @@ if(USE_BUNDLED_MTXCLIENT)
         MatrixClient
             GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
             GIT_TAG        f5766cb53c244a808b7e512c7b83b3942fb67834
+            PATCH_COMMAND  git apply --whitespace=nowarn
+                ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mtxclient-patches/0001-add-filename-to-media-messages.patch
+            UPDATE_DISCONNECTED 1
     )
     set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
     set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")

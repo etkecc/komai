@@ -1,0 +1,288 @@
+From 04a2d8953dde8fcd05f15b244c3f725020958971 Mon Sep 17 00:00:00 2001
+From: Slavi Pantaleev <slavi@devture.com>
+Date: Thu, 12 Mar 2026 12:13:23 +0200
+Subject: [PATCH] Add optional `filename` field to image, audio, and video
+ messages
+
+Matrix media-caption semantics use the `filename` field to distinguish
+between a caption in `body` and the original upload filename.
+
+This was already supported for `m.file`, but missing from `m.image`, `m.audio` and `m.video`.
+
+This patch adds `filename` to all three message types, matching the existing `m.file` implementation:
+- parsed when present
+- serialized only when non-empty
+
+All related field comments were updatd to reflect the current Matrix media-caption semantics.
+---
+ include/mtx/events/messages/audio.hpp |  8 +++-
+ include/mtx/events/messages/image.hpp |  9 ++--
+ include/mtx/events/messages/video.hpp |  8 +++-
+ lib/structs/events/messages/audio.cpp |  6 +++
+ lib/structs/events/messages/image.cpp |  6 +++
+ lib/structs/events/messages/video.cpp |  6 +++
+ tests/messages.cpp                    | 67 +++++++++++++++++++++++++++
+ 7 files changed, 103 insertions(+), 7 deletions(-)
+
+diff --git a/include/mtx/events/messages/audio.hpp b/include/mtx/events/messages/audio.hpp
+index 7013fe2..8eb474d 100644
+--- a/include/mtx/events/messages/audio.hpp
++++ b/include/mtx/events/messages/audio.hpp
+@@ -22,9 +22,13 @@ namespace msg {
+ //! Content of `m.room.message` with msgtype `m.audio`.
+ struct Audio
+ {
+-    /// @brief A description of the audio or some kind of content description
+-    /// for accessibility.
++    //! The audio caption or original filename.
++    //!
++    //! If `filename` is unset or identical, this is the original filename of the upload.
++    //! Otherwise, this is a caption for the audio.
+     std::string body;
++    //! The optional original filename of the uploaded audio clip.
++    std::string filename;
+     //! Must be 'm.audio'.
+     std::string msgtype;
+     //! The matrix URL of the audio clip.
+diff --git a/include/mtx/events/messages/image.hpp b/include/mtx/events/messages/image.hpp
+index 4976c6a..9123955 100644
+--- a/include/mtx/events/messages/image.hpp
++++ b/include/mtx/events/messages/image.hpp
+@@ -22,10 +22,13 @@ namespace msg {
+ //! Content of `m.room.message` with msgtype `m.image`.
+ struct Image
+ {
+-    //! A textual representation of the image. This could be
+-    //! the alt text of the image, the filename of the image,
+-    //! or some kind of content description for accessibility e.g. 'image attachment
++    //! The image caption or original filename.
++    //!
++    //! If `filename` is unset or identical, this is the original filename of the upload.
++    //! Otherwise, this is a caption for the image.
+     std::string body;
++    //! The optional original filename of the uploaded image.
++    std::string filename;
+     //! Must be 'm.image'.
+     std::string msgtype;
+     //! The Matrix URL to the image.
+diff --git a/include/mtx/events/messages/video.hpp b/include/mtx/events/messages/video.hpp
+index 0b81039..fbb22d8 100644
+--- a/include/mtx/events/messages/video.hpp
++++ b/include/mtx/events/messages/video.hpp
+@@ -22,9 +22,13 @@ namespace msg {
+ //! Content of `m.room.message` with msgtype `m.video`.
+ struct Video
+ {
+-    /// @brief A description of the video or some kind of content description
+-    /// for accessibility.
++    //! The video caption or original filename.
++    //!
++    //! If `filename` is unset or identical, this is the original filename of the upload.
++    //! Otherwise, this is a caption for the video.
+     std::string body;
++    //! The optional original filename of the uploaded video.
++    std::string filename;
+     //! Must be 'm.video'.
+     std::string msgtype;
+     //! The matrix URL of the video clip.
+diff --git a/lib/structs/events/messages/audio.cpp b/lib/structs/events/messages/audio.cpp
+index 3bc5b60..0bbd42f 100644
+--- a/lib/structs/events/messages/audio.cpp
++++ b/lib/structs/events/messages/audio.cpp
+@@ -20,6 +20,9 @@ from_json(const json &obj, Audio &content)
+     if (obj.find("url") != obj.end())
+         content.url = obj.at("url").get<std::string>();
+
++    if (obj.find("filename") != obj.end())
++        content.filename = obj.at("filename").get<std::string>();
++
+     if (obj.find("info") != obj.end())
+         content.info = obj.at("info").get<common::AudioInfo>();
+
+@@ -37,6 +40,9 @@ to_json(json &obj, const Audio &content)
+     obj["body"]    = content.body;
+     obj["info"]    = content.info;
+
++    if (!content.filename.empty())
++        obj["filename"] = content.filename;
++
+     if (content.file)
+         obj["file"] = content.file.value();
+     else
+diff --git a/lib/structs/events/messages/image.cpp b/lib/structs/events/messages/image.cpp
+index 1c1ca65..7bd1493 100644
+--- a/lib/structs/events/messages/image.cpp
++++ b/lib/structs/events/messages/image.cpp
+@@ -19,6 +19,9 @@ from_json(const json &obj, Image &content)
+
+     content.url = obj.value("url", "");
+
++    if (obj.find("filename") != obj.end())
++        content.filename = obj.at("filename").get<std::string>();
++
+     if (obj.find("info") != obj.end())
+         content.info = obj.at("info").get<common::ImageInfo>();
+
+@@ -36,6 +39,9 @@ to_json(json &obj, const Image &content)
+     obj["body"]    = content.body;
+     obj["info"]    = content.info;
+
++    if (!content.filename.empty())
++        obj["filename"] = content.filename;
++
+     if (content.file)
+         obj["file"] = content.file.value();
+     else
+diff --git a/lib/structs/events/messages/video.cpp b/lib/structs/events/messages/video.cpp
+index 83c08b7..94569e7 100644
+--- a/lib/structs/events/messages/video.cpp
++++ b/lib/structs/events/messages/video.cpp
+@@ -21,6 +21,9 @@ from_json(const json &obj, Video &content)
+     if (obj.find("url") != obj.end())
+         content.url = obj.at("url").get<std::string>();
+
++    if (obj.find("filename") != obj.end())
++        content.filename = obj.at("filename").get<std::string>();
++
+     if (obj.find("info") != obj.end())
+         content.info = obj.at("info").get<common::VideoInfo>();
+
+@@ -38,6 +41,9 @@ to_json(json &obj, const Video &content)
+     obj["body"]    = content.body;
+     obj["info"]    = content.info;
+
++    if (!content.filename.empty())
++        obj["filename"] = content.filename;
++
+     if (content.file)
+         obj["file"] = content.file.value();
+     else
+diff --git a/tests/messages.cpp b/tests/messages.cpp
+index 2c21fe1..ec633d2 100644
+--- a/tests/messages.cpp
++++ b/tests/messages.cpp
+@@ -78,6 +78,7 @@ TEST(RoomEvents, AudioMessage)
+ 	  },
+           "content": {
+               "body": "Bee Gees - Stayin' Alive",
++              "filename": "bee-gees-stayin-alive.mp3",
+               "info": {
+                   "duration": 2140786,
+                   "mimetype": "audio/mpeg",
+@@ -108,6 +109,7 @@ TEST(RoomEvents, AudioMessage)
+     EXPECT_EQ(event.unsigned_data.age, 146);
+
+     EXPECT_EQ(event.content.body, "Bee Gees - Stayin' Alive");
++    EXPECT_EQ(event.content.filename, "bee-gees-stayin-alive.mp3");
+     EXPECT_EQ(event.content.msgtype, "m.audio");
+     EXPECT_EQ(event.content.url, "mxc://localhost/ffed755USFFxlgbQYZGtryd");
+     EXPECT_EQ(event.content.info.mimetype, "audio/mpeg");
+@@ -117,6 +119,12 @@ TEST(RoomEvents, AudioMessage)
+               "$6GKhAfJOcwNd69lgSizdcTob8z2pWQgBOZPrnsWMA1E");
+     EXPECT_EQ(event.content.relations.relations.at(0).rel_type,
+               mtx::common::RelationType::InReplyTo);
++
++    EXPECT_EQ(data.dump(), json(event).dump());
++
++    event.content.filename.clear();
++    json withoutFilename = event;
++    EXPECT_EQ(withoutFilename["content"].count("filename"), 0);
+ }
+
+ TEST(RoomEvents, ElementEffectMessage)
+@@ -421,6 +429,7 @@ TEST(RoomEvents, ImageMessage)
+     EXPECT_EQ(event.unsigned_data.age, 738977);
+
+     EXPECT_EQ(event.content.body, "image.png");
++    EXPECT_TRUE(event.content.filename.empty());
+     EXPECT_EQ(event.content.info.mimetype, "image/png");
+     EXPECT_EQ(event.content.info.h, 302);
+     EXPECT_EQ(event.content.info.w, 474);
+@@ -503,6 +512,56 @@ TEST(RoomEvents, ImageMessage)
+               mtx::common::RelationType::InReplyTo);
+ }
+
++TEST(RoomEvents, ImageMessageFilename)
++{
++    json data = R"({
++          "origin_server_ts": 1510504294993,
++          "sender": "@max:kamax.io",
++          "event_id": "$15105042942524OGmZm:kamax.io",
++          "unsigned": {
++            "age": 738977
++          },
++          "content": {
++            "body": "Image caption",
++            "filename": "image.png",
++            "info": {
++              "mimetype": "image/png",
++              "h": 302,
++              "w": 474,
++              "size": 32573
++            },
++            "msgtype": "m.image",
++            "url": "mxc://kamax.io/ewDDLHYnysbHYCPViZwAEIjT",
++              "m.relates_to": {
++                  "m.in_reply_to": {
++                       "event_id": "$6GKhAfJOcwNd69lgSizdcTob8z2pWQgBOZPrnsWMA1E"
++                  }
++              }
++          },
++          "type": "m.room.message",
++          "room_id": "!cURbafjkfsMDVwdRDQ:matrix.org"
++        })"_json;
++
++    RoomEvent<msg::Image> event = data.get<RoomEvent<msg::Image>>();
++
++    EXPECT_EQ(event.content.body, "Image caption");
++    EXPECT_EQ(event.content.filename, "image.png");
++    EXPECT_EQ(event.content.msgtype, "m.image");
++    EXPECT_EQ(event.content.url, "mxc://kamax.io/ewDDLHYnysbHYCPViZwAEIjT");
++    EXPECT_EQ(event.content.info.mimetype, "image/png");
++    EXPECT_EQ(event.content.info.h, 302);
++    EXPECT_EQ(event.content.info.w, 474);
++    EXPECT_EQ(event.content.info.size, 32573);
++    EXPECT_EQ(event.content.relations.reply_to().value(),
++              "$6GKhAfJOcwNd69lgSizdcTob8z2pWQgBOZPrnsWMA1E");
++
++    EXPECT_EQ(data.dump(), json(event).dump());
++
++    event.content.filename.clear();
++    json withoutFilename = event;
++    EXPECT_EQ(withoutFilename["content"].count("filename"), 0);
++}
++
+ TEST(RoomEvents, LocationMessage)
+ {
+     json data                      = R"({
+@@ -692,6 +751,7 @@ TEST(RoomEvents, VideoMessage)
+ 	  },
+           "content": {
+               "body": "Gangnam Style",
++              "filename": "gangnam-style.mp4",
+               "info": {
+                   "duration": 2140786,
+                   "mimetype": "video/mp4",
+@@ -731,6 +791,7 @@ TEST(RoomEvents, VideoMessage)
+     EXPECT_EQ(event.unsigned_data.age, 146);
+
+     EXPECT_EQ(event.content.body, "Gangnam Style");
++    EXPECT_EQ(event.content.filename, "gangnam-style.mp4");
+     EXPECT_EQ(event.content.msgtype, "m.video");
+     EXPECT_EQ(event.content.url, "mxc://localhost/ffed755USFFxlgbQYZGtryd");
+     EXPECT_EQ(event.content.info.mimetype, "video/mp4");
+@@ -745,6 +806,12 @@ TEST(RoomEvents, VideoMessage)
+               "$6GKhAfJOcwNd69lgSizdcTob8z2pWQgBOZPrnsWMA1E");
+     EXPECT_EQ(event.content.relations.relations.at(0).rel_type,
+               mtx::common::RelationType::InReplyTo);
++
++    EXPECT_EQ(data.dump(), json(event).dump());
++
++    event.content.filename.clear();
++    json withoutFilename = event;
++    EXPECT_EQ(withoutFilename["content"].count("filename"), 0);
+ }
+
+ TEST(RoomEvents, Sticker)
+--
+2.53.0

@@ -19,8 +19,7 @@ Rectangle {
     property bool showAllButtons: width > 450 || (messageInput.length == 0 && !messageInput.inputMethodComposing)
     readonly property string text: messageInput.text
     readonly property bool hasUploads: room && room.input.uploads.length > 0
-    readonly property bool uploadsAreAllImages: hasUploads && room.input.allUploadsAreImages
-    readonly property bool showComposerText: !hasUploads || uploadsAreAllImages
+    readonly property bool composerEnabled: !hasUploads
     readonly property bool hasSendableContent: messageInput.length > 0 || hasUploads
 
     Layout.fillWidth: true
@@ -54,7 +53,6 @@ Rectangle {
             Layout.preferredHeight: visible ? contentHeight : 0
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             contentWidth: availableWidth
-            visible: inputBar.showComposerText
 
             TextArea {
                 id: messageInput
@@ -126,18 +124,12 @@ Rectangle {
                 background: null
                 bottomPadding: 8
                 color: palette.text
+                enabled: inputBar.composerEnabled
                 focus: true
                 leftPadding: inputBar.showAllButtons ? 0 : 8
                 padding: 0
                 font.pointSize: Settings.uiFontSizePt
-                placeholderText: {
-                    if (inputBar.hasUploads && inputBar.uploadsAreAllImages) {
-                        return room.input.uploads.length > 1
-                            ? qsTr("Add a caption (replaces file names)...")
-                            : qsTr("Add a caption (replaces file name)...");
-                    }
-                    return qsTr("Write a message...");
-                }
+                placeholderText: qsTr("Write a message...")
                 placeholderTextColor: palette.buttonText
                 selectByMouse: true
                 topPadding: 8
@@ -519,7 +511,7 @@ Rectangle {
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
             ToolTip.text: qsTr("Emoji")
             image: ":/icons/icons/ui/smile.svg"
-            visible: inputBar.showComposerText
+            visible: inputBar.composerEnabled
 
             onClicked: emojiPopup.visible ? emojiPopup.close() : emojiPopup.show(emojiButton, room.roomId, function (plaintext, markdown) {
                     messageInput.insert(messageInput.cursorPosition, markdown);

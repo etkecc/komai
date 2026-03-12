@@ -259,11 +259,11 @@ void
 InputBar::finalizeUpload(MediaUpload *upload, const QString &url)
 {
     auto mime          = upload->mimetype();
+    auto body          = upload->body();
     auto filename      = upload->filename();
     auto mimeClass     = upload->mimeClass();
     auto size          = upload->size();
     auto encryptedFile = upload->encryptedFile_();
-    auto caption       = caption_;
     if (mimeClass == u"image")
         image(filename,
               encryptedFile,
@@ -276,9 +276,9 @@ InputBar::finalizeUpload(MediaUpload *upload, const QString &url)
               upload->thumbnailSize(),
               upload->thumbnailImg().size(),
               upload->blurhash(),
-              caption);
+              body);
     else if (mimeClass == u"audio")
-        audio(filename, encryptedFile, url, mime, size, upload->duration(), caption);
+        audio(filename, encryptedFile, url, mime, size, upload->duration(), body);
     else if (mimeClass == u"video")
         video(filename,
               encryptedFile,
@@ -292,9 +292,9 @@ InputBar::finalizeUpload(MediaUpload *upload, const QString &url)
               upload->thumbnailSize(),
               upload->thumbnailImg().size(),
               upload->blurhash(),
-              caption);
+              body);
     else
-        file(filename, encryptedFile, url, mime, size, caption);
+        file(filename, encryptedFile, url, mime, size, body);
 
     removeRunUpload(upload);
 }
@@ -310,7 +310,6 @@ InputBar::removeRunUpload(MediaUpload *upload)
 
     if (runningUploads.empty()) {
         setUploading(false);
-        caption_.clear();
     } else {
         runningUploads.front()->startUpload();
     }

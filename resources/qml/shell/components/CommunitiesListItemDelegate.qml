@@ -74,6 +74,11 @@ ItemDelegate {
     onClicked: Communities.setCurrentFilterId(model.id)
     onPressAndHold: communityContextMenu?.show(communityItem, model.id, model.hidden, model.badgesHidden, model.displayName)
 
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: communityItem.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
     Item {
         anchors.fill: parent
 

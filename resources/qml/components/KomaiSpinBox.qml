@@ -5,6 +5,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import cc.etke.komai 1.0
+import "../ui"
 
 SpinBox {
     id: control
@@ -76,6 +77,11 @@ SpinBox {
             width: 1
             color: Komai.theme.separator
         }
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: control.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+        }
     }
 
     down.indicator: Rectangle {
@@ -101,6 +107,11 @@ SpinBox {
             anchors.bottom: parent.bottom
             width: 1
             color: Komai.theme.separator
+        }
+
+        KomaiCursorShape {
+            anchors.fill: parent
+            cursorShape: control.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         }
     }
 

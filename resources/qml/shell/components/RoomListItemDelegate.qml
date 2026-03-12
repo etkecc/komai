@@ -149,6 +149,11 @@ ItemDelegate {
         color: Qt.rgba(palette.dark.r, palette.dark.g, palette.dark.b, 0.5)
     }
 
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: roomItem.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
     // NOTE(Nico): We want to prevent the touch areas from overlapping. For some reason we need to add 1px of padding for that...
     Item {
         anchors.fill: parent

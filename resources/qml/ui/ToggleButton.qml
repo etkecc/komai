@@ -6,11 +6,13 @@
 import QtQuick 2.5
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import cc.etke.komai 1.0
 
 Switch {
     id: toggleButton
 
     implicitWidth: indicatorItem.width
+    property int cursor: Qt.PointingHandCursor
     state: checked ? "on" : "off"
 
     indicator: Item {
@@ -83,4 +85,9 @@ Switch {
             }
         }
     ]
+
+    KomaiCursorShape {
+        anchors.fill: parent
+        cursorShape: toggleButton.enabled ? toggleButton.cursor : Qt.ArrowCursor
+    }
 }

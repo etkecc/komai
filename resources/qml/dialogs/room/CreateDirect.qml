@@ -201,42 +201,37 @@ OverlayDialog {
         }
     }
 
-    // Selected user preview — UploadBox-style row: [flip avatar] [info] [remove button]
-    RowLayout {
+    Rectangle {
         visible: createDirectRoot.selectedMxid !== ""
         Layout.fillWidth: true
-        spacing: Komai.paddingSmall
+        implicitHeight: selectedUserRow.implicitHeight + Komai.paddingSmall * 2
+        color: palette.window
+        radius: Komai.paddingMedium
+        border.color: Komai.theme.separator
+        border.width: 1
 
-        Item {
-            Layout.fillWidth: true
-            implicitHeight: userPreviewGrid.implicitHeight
+        RowLayout {
+            id: selectedUserRow
 
-            HoverHandler { id: userPreviewHover; blocking: false; cursorShape: Qt.PointingHandCursor }
-            Rectangle { anchors.fill: userPreviewGrid; color: palette.window; radius: Komai.paddingMedium; visible: userPreviewHover.hovered; z: -1 }
-            TapHandler { onTapped: TimelineManager.openGlobalUserProfile(createDirectRoot.selectedMxid) }
+            anchors.fill: parent
+            anchors.margins: Komai.paddingSmall
+            spacing: Komai.paddingMedium
 
-            GridLayout {
-                id: userPreviewGrid
-                width: parent.width
-                rows: 2
-                columns: 2
-                rowSpacing: Komai.paddingSmall
-                columnSpacing: Komai.paddingMedium
+            AvatarUserFlipButton {
+                Layout.preferredWidth: Komai.avatarSize
+                Layout.preferredHeight: Komai.avatarSize
+                Layout.alignment: Qt.AlignVCenter
+                avatarButtonSize: Komai.avatarSize
+                cleanFront: true
+                avatarUserId: profile ? profile.userid : ""
+                avatarUrl: profile ? profile.avatarUrl.replace("mxc://", "image://MxcImage/") : ""
+                avatarDisplayName: profile ? profile.displayName : ""
+                onLeftClicked: TimelineManager.openGlobalUserProfile(createDirectRoot.selectedMxid)
+            }
 
-                AvatarSettingsFlipButton {
-                    Layout.rowSpan: 2
-                    Layout.preferredWidth: Komai.avatarSize
-                    Layout.preferredHeight: Komai.avatarSize
-                    Layout.alignment: Qt.AlignLeft
-                    Layout.leftMargin: Komai.paddingMedium
-                    avatarButtonSize: Komai.avatarSize
-                    avatarUserId: profile ? profile.userid : ""
-                    avatarUrl: profile ? profile.avatarUrl.replace("mxc://", "image://MxcImage/") : ""
-                    avatarDisplayName: profile ? profile.displayName : ""
-                    badgeIconSource: ":/icons/icons/ui/person.svg"
-                    toolTipText: ""
-                    onLeftClicked: TimelineManager.openGlobalUserProfile(createDirectRoot.selectedMxid)
-                }
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: Komai.paddingSmall
 
                 Label {
                     Layout.fillWidth: true
@@ -244,6 +239,7 @@ OverlayDialog {
                     color: (profile && profile.displayName) ? palette.text : palette.buttonText
                     font.pointSize: Settings.uiFontSizePt
                     font.italic: !(profile && profile.displayName)
+                    elide: Text.ElideRight
                 }
 
                 Label {
@@ -251,18 +247,19 @@ OverlayDialog {
                     text: createDirectRoot.selectedMxid
                     color: palette.buttonText
                     font.pointSize: Settings.uiFontSizePt * 0.9
+                    elide: Text.ElideRight
                 }
             }
-        }
 
-        KomaiButton {
-            Layout.alignment: Qt.AlignVCenter
-            text: qsTr("Remove")
-            icon.source: "qrc:/icons/icons/ui/delete.svg"
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: qsTr("Remove selected user")
-            ToolTip.visible: hovered && text === ""
-            onClicked: createDirectRoot.clearSelection()
+            KomaiButton {
+                Layout.alignment: Qt.AlignVCenter
+                text: qsTr("Remove")
+                icon.source: "qrc:/icons/icons/ui/delete.svg"
+                ToolTip.delay: Komai.tooltipDelay
+                ToolTip.text: qsTr("Remove selected user")
+                ToolTip.visible: hovered && text === ""
+                onClicked: createDirectRoot.clearSelection()
+            }
         }
     }
 
@@ -313,9 +310,9 @@ OverlayDialog {
         }
     }
 
-    Button {
+    KomaiButton {
         Layout.alignment: Qt.AlignRight
-        text: qsTr("Start")
+        text: qsTr("Create")
         highlighted: true
         enabled: createDirectRoot.selectedMxid !== "" && createDirectRoot.profile
         onClicked: {

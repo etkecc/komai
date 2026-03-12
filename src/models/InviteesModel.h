@@ -54,6 +54,7 @@ public:
     TimelineModel *room() const { return room_; }
 
     Q_INVOKABLE void addUser(QString mxid, QString displayName = "", QString avatarUrl = "");
+    Q_INVOKABLE bool containsUser(const QString &mxid) const;
     Q_INVOKABLE void removeUser(QString mxid);
 
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;

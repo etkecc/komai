@@ -14,27 +14,63 @@ OverlayDialog {
     id: inviteDialogRoot
 
     property InviteesModel invitees
-    property var friendsCompleter
-    property var profile
+    readonly property int selectedCount: invitees ? invitees.count : 0
 
     title: qsTr("Invite users to %1").arg(invitees.room.plainRoomName)
-    titleIcon: ":/icons/icons/ui/people.svg"
+    titleIcon: ":/icons/icons/ui/plus-circle.svg"
     initialFocusItem: inviteeEntry
+    overlayDialogMinWidth: 760
 
-    Component.onCompleted: {
-        friendsCompleter = TimelineManager.completerFor("user", "friends");
+    onOpened: {
+        userDirectory.setSearchString("");
+    }
+    onClosed: {
+        inviteeEntry.clear();
+        userDirectory.setSearchString("");
     }
 
-    function addInvite(mxid, displayName, avatarUrl) {
-        if (mxid.match("@.+?:.{3,}"))
-            invitees.addUser(mxid, displayName, avatarUrl);
-        else
-            console.log("invalid mxid: " + mxid);
+    function resetSearch()
+    {
+        inviteeEntry.clear();
+        userDirectory.setSearchString("");
+        inviteeEntry.forceActiveFocus();
+    }
+
+    function addInvite(mxid, displayName, avatarUrl)
+    {
+        const trimmedMxid = (mxid || "").trim();
+        if (!trimmedMxid.match("@.+?:.{3,}")) {
+            console.log("invalid mxid: " + trimmedMxid);
+            return false;
+        }
+        if (invitees.containsUser(trimmedMxid))
+            return false;
+
+        invitees.addUser(trimmedMxid, displayName || "", avatarUrl || "");
+        resetSearch();
+        return true;
+    }
+
+    function addCurrentInvite()
+    {
+        if (inviteeEntry.isValidMxid)
+            return addInvite(inviteeEntry.resolvedMxid, "", "");
+
+        if (searchResults.count > 0) {
+            const firstResult = searchResults.itemAtIndex(0);
+            if (firstResult && firstResult.enabled)
+                return addInvite(firstResult.userIdText,
+                                 firstResult.displayNameText,
+                                 firstResult.avatarUrlText);
+        }
+
+        return false;
     }
 
     function cleanUpAndClose() {
-        if (inviteeEntry.isValidMxid)
-            addInvite(inviteeEntry.text, "", "");
+        addCurrentInvite();
+        if (invitees.count === 0)
+            return;
         invitees.accept();
         close();
     }
@@ -44,188 +80,289 @@ OverlayDialog {
         onActivated: inviteDialogRoot.cleanUpAndClose()
     }
 
-    Flow {
-        layoutDirection: Qt.LeftToRight
+    Label {
         Layout.fillWidth: true
-        Layout.preferredHeight: implicitHeight
-        spacing: 4
-        visible: !inviteesList.visible
+        text: qsTr("Selected users")
+        color: palette.text
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt * 1.1
+    }
 
-        Repeater {
-            model: inviteDialogRoot.invitees
+    ListView {
+        id: selectedInvitees
 
-            delegate: ItemDelegate {
-                id: inviteeButton
+        Layout.fillWidth: true
+        Layout.preferredHeight: inviteDialogRoot.selectedCount > 0
+            ? Math.min(220,
+                       Math.max(Komai.avatarSize + Komai.paddingMedium * 2,
+                                selectedInvitees.contentHeight + Komai.paddingSmall * 2))
+            : 0
+        visible: inviteDialogRoot.selectedCount > 0
+        clip: true
+        model: inviteDialogRoot.invitees
+        spacing: Komai.paddingSmall
 
-                onClicked: inviteDialogRoot.invitees.removeUser(model.mxid)
+        delegate: Rectangle {
+            width: ListView.view.width
+            implicitHeight: selectedInviteeRow.implicitHeight + Komai.paddingSmall * 2
+            color: palette.window
+            radius: Komai.paddingMedium
+            border.color: Komai.theme.separator
+            border.width: 1
 
-                contentItem: Label {
-                    anchors.centerIn: parent
-                    text: model.displayName != "" ? model.displayName : model.userid
-                    color: inviteeButton.hovered ? palette.highlightedText : palette.text
-                    maximumLineCount: 1
+            RowLayout {
+                id: selectedInviteeRow
+
+                anchors.fill: parent
+                anchors.margins: Komai.paddingSmall
+                spacing: Komai.paddingMedium
+
+                AvatarUserFlipButton {
+                    Layout.preferredWidth: Komai.avatarSize
+                    Layout.preferredHeight: Komai.avatarSize
+                    Layout.alignment: Qt.AlignVCenter
+                    avatarButtonSize: Komai.avatarSize
+                    cleanFront: true
+                    avatarDisplayName: model.displayName
+                    avatarUrl: (model.avatarUrl || "").replace("mxc://", "image://MxcImage/")
+                    avatarUserId: model.mxid
+                    badgeIconSource: ":/icons/icons/ui/person.svg"
+                    onLeftClicked: TimelineManager.openGlobalUserProfile(model.mxid)
                 }
 
-                background: Rectangle {
-                    border.color: palette.text
-                    color: inviteeButton.hovered ? palette.highlight : palette.window
-                    border.width: 1
-                    radius: inviteeButton.height / 2
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: model.displayName || qsTr("Unknown display name")
+                        color: model.displayName ? palette.text : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        font.italic: !model.displayName
+                        elide: Text.ElideRight
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: model.mxid
+                        color: palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt * 0.9
+                        elide: Text.ElideRight
+                    }
+                }
+
+                KomaiButton {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Remove")
+                    icon.source: "qrc:/icons/icons/ui/delete.svg"
+                    onClicked: inviteDialogRoot.invitees.removeUser(model.mxid)
                 }
             }
+        }
+    }
+
+    Item {
+        Layout.fillWidth: true
+        Layout.preferredHeight: visible ? emptySelectedState.implicitHeight + Komai.paddingSmall * 2 : 0
+        visible: inviteDialogRoot.selectedCount === 0
+
+        Label {
+            id: emptySelectedState
+
+            anchors.centerIn: parent
+            width: parent.width - Komai.paddingLarge * 2
+            text: qsTr("No one is selected yet.")
+            color: palette.buttonText
+            font.pointSize: Settings.uiFontSizePt * 0.95
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
         }
     }
 
     Label {
-        text: qsTr("Search user")
         Layout.fillWidth: true
+        Layout.topMargin: Komai.paddingSmall
+        text: qsTr("Search")
         color: palette.text
+        font.bold: true
+        font.pointSize: Settings.uiFontSizePt * 1.1
     }
 
-    RowLayout {
-        spacing: Komai.paddingMedium
+    MatrixTextField {
+        id: inviteeEntry
+
+        readonly property string localHomeserver: {
+            const uid = Settings.userId;
+            const colonIdx = uid.indexOf(":");
+            return colonIdx >= 0 ? uid.substring(colonIdx + 1) : "";
+        }
+
+        function normalizedMxid(input) {
+            var t = input.trim();
+            if (t.length === 0)
+                return "";
+            if (t.charAt(0) !== "@")
+                t = "@" + t;
+            if (t.indexOf(":") < 0 && localHomeserver.length > 0)
+                t = t + ":" + localHomeserver;
+            return t;
+        }
+
+        property string resolvedMxid: normalizedMxid(text)
+        property bool isValidMxid: resolvedMxid.match("@.+?:.{3,}")
+
         Layout.fillWidth: true
-
-        MatrixTextField {
-            id: inviteeEntry
-
-            property bool isValidMxid: text.match("@.+?:.{3,}")
-
-            backgroundColor: palette.window
-            placeholderText: qsTr("@user:yourserver.example.com", "Example user id. The name 'user' can be localized however you want.")
-            Layout.fillWidth: true
-            onAccepted: {
-                if (isValidMxid) {
-                    inviteDialogRoot.addInvite(text, "", "");
-                    clear();
-                } else if (userSearch.count > 0) {
-                    inviteDialogRoot.addInvite(userSearch.itemAtIndex(0).userid, userSearch.itemAtIndex(0).displayName, userSearch.itemAtIndex(0).avatarUrl);
-                    clear();
-                }
-            }
-            Keys.onShortcutOverride: event.accepted = ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier))
-            Keys.onPressed: {
-                if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers === Qt.ControlModifier))
-                    inviteDialogRoot.cleanUpAndClose();
-            }
-            onTextChanged: {
+        placeholderText: qsTr("Search by name or @user:example.com")
+        radius: Komai.paddingSmall
+        font.pixelSize: Math.ceil(Komai.fontPixelSize * 1.2)
+        onAccepted: inviteDialogRoot.addCurrentInvite()
+        Keys.onShortcutOverride: event.accepted = ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier))
+        Keys.onPressed: {
+            if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && (event.modifiers & Qt.ControlModifier))
+                inviteDialogRoot.cleanUpAndClose();
+        }
+        onTextChanged: {
+            if (text.trim().length === 0)
+                userDirectory.setSearchString("");
+            else
                 searchTimer.restart();
-                if (isValidMxid)
-                    inviteDialogRoot.profile = TimelineManager.getGlobalUserProfile(text);
-                else
-                    inviteDialogRoot.profile = null;
-            }
-
-            Timer {
-                id: searchTimer
-
-                interval: 350
-                onTriggered: {
-                    userSearch.model.setSearchString(parent.text);
-                }
-            }
         }
 
-        ToggleButton {
-            id: searchOnServer
+        Timer {
+            id: searchTimer
 
-            checked: false
-            onClicked: userSearch.model.setSearchString(inviteeEntry.text)
-        }
-
-        MatrixText {
-            text: qsTr("Search on Server")
+            interval: 350
+            onTriggered: {
+                if (inviteeEntry.text.trim().length > 0)
+                    userDirectory.setSearchString(inviteeEntry.text.trim());
+            }
         }
     }
 
-    RowLayout {
+    ListView {
+        id: searchResults
+
         Layout.fillWidth: true
-        Layout.preferredHeight: 250
+        Layout.preferredHeight: 280
+        model: userDirectory
+        clip: true
 
-        UserListRow {
-            id: del3
+        delegate: AbstractButton {
+            id: resultDelegate
 
-            visible: inviteeEntry.isValidMxid
-            Layout.preferredWidth: inviteDialogRoot.width / 2
-            Layout.alignment: Qt.AlignTop
-            Layout.preferredHeight: implicitHeight
-            displayName: inviteDialogRoot.profile ? inviteDialogRoot.profile.displayName : ""
-            avatarUrl: inviteDialogRoot.profile ? inviteDialogRoot.profile.avatarUrl : ""
-            userid: inviteeEntry.text
-            onClicked: inviteDialogRoot.addInvite(inviteeEntry.text, displayName, avatarUrl)
-            bgColor: del3.hovered ? palette.dark : palette.window
-        }
+            readonly property bool activeState: hovered || pressed
+            readonly property bool alreadySelected: inviteDialogRoot.selectedCount >= 0
+                && inviteDialogRoot.invitees.containsUser(model.userid)
+            property string userIdText: model.userid
+            property string displayNameText: model.displayName
+            property string avatarUrlText: model.avatarUrl
 
-        ListView {
-            id: userSearch
+            width: ListView.view.width
+            implicitHeight: resultRow.implicitHeight + Komai.paddingSmall * 2
+            hoverEnabled: !alreadySelected
+            enabled: !alreadySelected
+            opacity: alreadySelected ? 0.7 : 1
+            onClicked: inviteDialogRoot.addInvite(userIdText, displayNameText, avatarUrlText)
 
-            visible: !inviteeEntry.isValidMxid
-            model: searchOnServer.checked ? userDirectory : inviteDialogRoot.friendsCompleter
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
+            background: Rectangle {
+                radius: Komai.paddingMedium
+                color: resultDelegate.alreadySelected
+                    ? palette.window
+                    : resultDelegate.activeState ? palette.dark : "transparent"
+                border.color: resultDelegate.alreadySelected ? Komai.theme.separator : "transparent"
+                border.width: resultDelegate.alreadySelected ? 1 : 0
+            }
 
-            delegate: UserListRow {
-                id: del2
+            contentItem: RowLayout {
+                id: resultRow
 
-                width: ListView.view.width
-                height: implicitHeight
-                displayName: model.displayName
-                userid: model.userid
-                avatarUrl: model.avatarUrl
-                onClicked: inviteDialogRoot.addInvite(userid, displayName, avatarUrl)
-                bgColor: del2.hovered ? palette.dark : palette.window
+                spacing: Komai.paddingMedium
+
+                Avatar {
+                    Layout.preferredWidth: Komai.avatarSize
+                    Layout.preferredHeight: Komai.avatarSize
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.leftMargin: Komai.paddingMedium
+                    userid: resultDelegate.userIdText
+                    url: (resultDelegate.avatarUrlText || "").replace("mxc://", "image://MxcImage/")
+                    displayName: resultDelegate.displayNameText
+                    enabled: false
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: Komai.paddingSmall
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: resultDelegate.displayNameText || qsTr("Unknown display name")
+                        color: resultDelegate.displayNameText ? palette.text : palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt
+                        font.italic: !resultDelegate.displayNameText
+                        elide: Text.ElideRight
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        text: resultDelegate.userIdText
+                        color: palette.buttonText
+                        font.pointSize: Settings.uiFontSizePt * 0.9
+                        elide: Text.ElideRight
+                    }
+                }
+
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredWidth: visible ? 18 : 0
+                    Layout.preferredHeight: visible ? 18 : 0
+                    Layout.rightMargin: Komai.paddingMedium
+                    visible: resultDelegate.alreadySelected
+                    fillMode: Image.PreserveAspectFit
+                    source: visible
+                        ? "image://colorimage/:/icons/icons/ui/double-checkmark.svg?" + palette.buttonText
+                        : ""
+                }
+            }
+
+            KomaiCursorShape {
+                anchors.fill: parent
+                cursorShape: resultDelegate.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
             }
         }
 
-        Rectangle {
-            Layout.fillHeight: true
-            visible: inviteesList.visible
-            Layout.preferredWidth: 1
-            color: Komai.theme.separator
+        Label {
+            anchors.centerIn: parent
+            visible: searchResults.count === 0 && inviteeEntry.text.trim().length === 0
+            text: qsTr("Type a search query. Results will appear here.")
+            color: palette.buttonText
+            font.pointSize: Settings.uiFontSizePt * 0.9
         }
 
-        ListView {
-            id: inviteesList
+        Label {
+            anchors.centerIn: parent
+            visible: searchResults.count === 0
+                && inviteeEntry.text.trim().length > 0
+                && !searchTimer.running
+                && !userDirectory.searchingUsers
+            text: inviteeEntry.isValidMxid
+                ? qsTr("No results found. Press Enter to use this ID directly.")
+                : qsTr("No results found")
+            color: palette.buttonText
+            font.pointSize: Settings.uiFontSizePt * 0.9
+        }
 
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            model: inviteDialogRoot.invitees
-            clip: true
-            visible: inviteDialogRoot.width >= 500
-
-            delegate: UserListRow {
-                id: del
-
-                hoverEnabled: true
-                width: ListView.view.width
-                height: implicitHeight
-                onClicked: TimelineManager.openGlobalUserProfile(model.mxid)
-                userid: model.mxid
-                avatarUrl: model.avatarUrl
-                displayName: model.displayName
-                bgColor: del.hovered ? palette.dark : palette.window
-
-                ImageButton {
-                    id: removeButton
-
-                    anchors.right: parent.right
-                    anchors.rightMargin: Komai.paddingSmall
-                    anchors.top: parent.top
-                    anchors.topMargin: Komai.paddingSmall
-                    image: ":/icons/icons/ui/dismiss.svg"
-                    onClicked: inviteDialogRoot.invitees.removeUser(model.mxid)
-                }
-
-                KomaiCursorShape {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                }
-            }
+        Spinner {
+            anchors.centerIn: parent
+            height: 48
+            running: searchResults.count === 0
+                && inviteeEntry.text.trim().length > 0
+                && (searchTimer.running || userDirectory.searchingUsers)
+            visible: running
         }
     }
 
-    Button {
+    KomaiButton {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Invite")
         highlighted: true

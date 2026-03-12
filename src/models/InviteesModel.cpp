@@ -51,6 +51,16 @@ InviteesModel::removeUser(QString mxid)
     }
 }
 
+bool
+InviteesModel::containsUser(const QString &mxid) const
+{
+    for (const auto &invitee : invitees_)
+        if (invitee->mxid_ == mxid)
+            return true;
+
+    return false;
+}
+
 QHash<int, QByteArray>
 InviteesModel::roleNames() const
 {

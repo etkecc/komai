@@ -12,17 +12,19 @@ MouseArea {
     property int avatarButtonSize: Komai.barIconSize
     readonly property int effectiveButtonSize: Math.max(1, Math.round(avatarButtonSize) - (Math.round(avatarButtonSize) % 2))
     property bool motionEnabled: Settings.uiMotionAnimationsEnabled
-    property real flipAngle: 0
     property string avatarDisplayName: ""
     property string avatarUrl: ""
     property string avatarUserId: ""
     property string avatarRoomId: ""
     property string toolTipText: ""
     property string badgeIconSource: ":/icons/icons/ui/settings.svg"
+    property bool suppressHoverUntilExit: false
     readonly property string resolvedToolTipText: toolTipText.length > 0
         ? toolTipText
         : (avatarDisplayName + (avatarUserId.length > 0 ? ("\n" + avatarUserId) : ""))
-    readonly property bool activeState: containsMouse || pressed
+    readonly property bool hoverActive: containsMouse && !suppressHoverUntilExit
+    property real flipAngle: (motionEnabled && hoverActive) ? 180 : 0
+    readonly property bool activeState: hoverActive || pressed
     readonly property color settingsInnerBackgroundColor: activeState ? palette.dark : palette.window
     readonly property color settingsCogColor: activeState ? palette.brightText : palette.buttonText
 
@@ -36,29 +38,20 @@ MouseArea {
     ToolTip.delay: Komai.tooltipDelay
     ToolTip.text: resolvedToolTipText
     ToolTip.toolTip.font.pointSize: Settings.uiFontSizePt
-    ToolTip.visible: containsMouse && resolvedToolTipText.length > 0
+    ToolTip.visible: hoverActive && resolvedToolTipText.length > 0
 
     onClicked: function (mouse) {
+        suppressHoverUntilExit = true;
         if (mouse.button === Qt.RightButton)
             control.rightClicked();
         else
             control.leftClicked();
     }
-
-    onContainsMouseChanged: updateFlipAngle()
-    onMotionEnabledChanged: {
-        if (!motionEnabled) {
-            flipAngle = 0;
-            return;
-        }
-        updateFlipAngle();
+    onPositionChanged: function (mouse) {
+        if (suppressHoverUntilExit && !pressed)
+            suppressHoverUntilExit = false;
     }
-
-    Component.onCompleted: updateFlipAngle()
-
-    function updateFlipAngle() {
-        flipAngle = (motionEnabled && containsMouse) ? 180 : 0;
-    }
+    onExited: suppressHoverUntilExit = false
 
     Behavior on flipAngle {
         enabled: control.motionEnabled

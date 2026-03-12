@@ -211,9 +211,9 @@ Components.OverlayDialog {
         wrapMode: Text.Wrap
     }
 
-    Button {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignRight
-        text: createRoomRoot.space ? qsTr("Create space") : qsTr("Create room")
+        text: qsTr("Create")
         highlighted: true
         onClicked: {
             var preset = 0;

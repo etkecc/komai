@@ -182,4 +182,23 @@ MemberList::filterAcceptsRow(int source_row, const QModelIndex &) const
                                                                         Qt::CaseInsensitive);
 }
 
+bool
+MemberList::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
+{
+    if (sortRole() != MemberSortRoles::Powerlevel)
+        return QSortFilterProxyModel::lessThan(source_left, source_right);
+
+    const QString left   = m_model.data(source_left, MemberListBackend::Roles::Mxid).toString();
+    const QString right  = m_model.data(source_right, MemberListBackend::Roles::Mxid).toString();
+    const auto roomIdStd = this->roomId().toStdString();
+
+    if (cache::isV12Creator(roomIdStd, left.toStdString())) {
+        if (!cache::isV12Creator(roomIdStd, right.toStdString()))
+            return false;
+        return left < right;
+    }
+
+    return QSortFilterProxyModel::lessThan(source_left, source_right);
+}
+
 #include "moc_MemberList.cpp"

@@ -69,9 +69,9 @@ option(USE_BUNDLED_GTEST "Use the bundled version of Google Test." ${HUNTER_ENAB
 option(USE_BUNDLED_CMARK "Use the bundled version of cmark." ${HUNTER_ENABLED})
 option(USE_BUNDLED_JSON "Use the bundled version of nlohmann json." ${HUNTER_ENABLED})
 option(USE_BUNDLED_OPENSSL "Use the bundled version of OpenSSL." OFF)
-# Default to bundled mtxclient because v0.10.1 has a key-backup public_key
-# double-encoding issue that we patch locally in third_party/mtxclient-patches.
-# Upstream PR: https://github.com/Nheko-Reborn/mtxclient/pull/113
+# Default to bundled mtxclient because the room-v12 creator support work still
+# depends on bundled MatrixClient changes, while we also keep a local
+# compatibility patch for the key-backup public_key fix from upstream PR #113.
 option(USE_BUNDLED_MTXCLIENT "Use the bundled version of the Matrix Client library." ON)
 option(USE_BUNDLED_LMDB "Use the bundled version of lmdb." ${HUNTER_ENABLED})
 option(USE_BUNDLED_LMDBXX "Use the bundled version of lmdb++." ${HUNTER_ENABLED})
@@ -956,7 +956,7 @@ if(USE_BUNDLED_MTXCLIENT)
     FetchContent_Declare(
         MatrixClient
             GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
-            GIT_TAG        v0.10.1
+            GIT_TAG        d6f10427d1c5e5b1a45f426274f8d2e8dd0b64be
     )
     set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
     set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")

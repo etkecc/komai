@@ -18,6 +18,12 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
+bool
+TimelineModel::isV12Creator(const QString &id) const
+{
+    return cache::isV12Creator(roomId().toStdString(), id.toStdString());
+}
+
 QString
 TimelineModel::displayName(const QString &id) const
 {

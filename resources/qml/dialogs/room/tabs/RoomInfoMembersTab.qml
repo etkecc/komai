@@ -187,6 +187,7 @@ Item {
                             sourceSize.height: height
                             powerlevel: model.powerlevel
                             permissions: membersTab.room ? membersTab.room.permissions : null
+                            isV12Creator: membersTab.room ? membersTab.room.isV12Creator(model.mxid) : false
                         }
 
                         EncryptionIndicator {

@@ -793,6 +793,8 @@ set(SRC_FILES
     src/models/RoomsModel.h
     src/auth/SSOHandler.cpp
     src/auth/SSOHandler.h
+    src/ui/MediaProxyServer.cpp
+    src/ui/MediaProxyServer.h
     src/imagepacks/SingleImagePackModel.cpp
     src/imagepacks/SingleImagePackModel.h
     src/ui/TrayIcon.cpp
@@ -1757,6 +1759,13 @@ if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")
         <string>
         <algorithm>
     )
+endif()
+
+# libcurl for MediaProxyServer (direct curl_easy_* usage for streaming)
+if(USE_BUNDLED_LIBCURL)
+    target_link_libraries(komai PRIVATE CURL::libcurl)
+else()
+    target_link_libraries(komai PRIVATE PkgConfig::libcurl)
 endif()
 
 if(TARGET PkgConfig::GSTREAMER)

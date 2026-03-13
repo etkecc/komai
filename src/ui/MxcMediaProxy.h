@@ -53,7 +53,7 @@ public:
             buffer.close();
     }
 
-    bool loaded() const { return buffer.size() > 0; }
+    bool loaded() const { return buffer.size() > 0 || streaming_; }
     bool isEncrypted() const { return encrypted_; }
     QString eventId() const { return eventId_; }
     TimelineModel *room() const { return room_; }
@@ -113,4 +113,5 @@ private:
     float volume_   = 1.f;
     bool muted_     = false;
     bool encrypted_ = false;
+    bool streaming_ = false;
 };

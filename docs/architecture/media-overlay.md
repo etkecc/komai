@@ -70,24 +70,75 @@ The play button overlay starts download/playback on click.
 
 ### Streaming vs. buffered playback
 
-`MxcMediaProxy::startDownload()` currently downloads the full file before playback begins:
+`MxcMediaProxy::startDownload()` handles three cases:
 
-1. **Cached media**: loaded directly from disk into a `QBuffer`.
-2. **Unencrypted remote media**: downloaded via `http::client()->download()`, saved to cache, loaded into `QBuffer`.
-3. **Encrypted remote media**: downloaded, decrypted via `mtx::crypto::decrypt_file`, loaded into `QBuffer`.
+1. **Cached media**: loaded directly from disk into a `QBuffer`, then `setSourceDevice(&buffer)`.
+2. **Unencrypted remote media**: streamed via the local media proxy (see below). `QMediaPlayer::setSource()` receives a `http://localhost:PORT/m/{token}.ext` URL, enabling HTTP buffering and seeking without downloading the full file first.
+3. **Encrypted remote media**: full download, decrypted via `mtx::crypto::decrypt_file`, loaded into `QBuffer`, then `setSourceDevice(&buffer)`. Streaming is not possible because AES-256-CTR + HMAC-SHA256 requires the complete ciphertext for HMAC verification.
 
-All paths call `setSourceDevice(&buffer)` once the data is ready.
+The `encrypted` Q_PROPERTY lets QML distinguish encrypted from unencrypted media (e.g. for progress indicators).
 
-The `encrypted` Q_PROPERTY lets QML distinguish encrypted from unencrypted media (e.g. for future progress indicators).
+### Local media proxy (`MediaProxyServer`)
 
-### Future: HTTP streaming
+`QMediaPlayer::setSource(QUrl)` uses Qt's internal `QNetworkAccessManager` for HTTP URLs and provides no API to inject custom HTTP headers. The Matrix authenticated media endpoint (`/_matrix/client/v1/media/download/`) requires an `Authorization: Bearer` header. To bridge this gap, `MediaProxyServer` runs a local HTTP server.
 
-HTTP streaming for unencrypted media is not yet possible because `QMediaPlayer::setSource(QUrl)` cannot set custom HTTP headers, and the Matrix authenticated media endpoint (`/_matrix/client/v1/media/download/`) requires an `Authorization: Bearer` header. The `?access_token=` query parameter fallback is not supported by all servers. See the project memory for alternative approaches (streaming `QIODevice`, local proxy, GStreamer pipeline, or mtxclient patch).
+**Architecture:**
+
+```
+Any consumer ──HTTP GET──> localhost:PORT/m/{per-media-token}.ext
+(QMediaPlayer,                      │
+ VLC, mpv, etc.)            MediaProxyServer
+                                    │  looks up token → (server, media_id)
+                                    │
+                     ┌──────────────┼──────────────┐
+                     │  Adds Authorization header  │
+                     │  Streams to consumer        │
+                     └──────────────┼──────────────┘
+                                    │
+                          Homeserver ──> media data
+```
+
+**Binding and network safety**: The server binds to `localhost`, which resolves to the loopback interface only — `::1` (IPv6) or `127.0.0.1` (IPv4) depending on the system. This means the proxy is never reachable from the network. URLs also use `localhost` so client and server resolve consistently. httplib uses `getaddrinfo` internally, so both IPv4 and IPv6 loopback work transparently.
+
+**URL scheme**: Each `urlForMxc()` call generates a random token and stores a `token → (server, media_id)` mapping. The proxy URL is `http://localhost:PORT/m/{random-token}.ext` — the mxc URL components never appear in the proxy URL. When a MIME type is provided, the corresponding file extension is appended (e.g. `.mp4`, `.webm`) so that the OS can identify the media type; the extension is cosmetic and ignored by the route handler.
+
+**Token eviction policy: never evict.** Evicting after first use would break seeking (QMediaPlayer makes multiple Range requests) and external players that reconnect. Evicting on overlay close would break external players that outlive the overlay. Tokens accumulate for the session but the memory cost is negligible (a few hundred entries at most). The map resets on logout/exit with the rest of the proxy.
+
+**Lifecycle**: The proxy starts lazily on first media request and runs for the entire logged-in session. It stops on logout / app exit. External players (VLC, mpv) may hold the URL long after the overlay closes, so idle-timeout or stop-on-close would break them.
+
+**Upstream streaming**: Uses `libcurl` directly (`curl_easy_*`) for the upstream HTTPS fetch. For full GET requests, a HEAD request first determines Content-Length; the body is then streamed chunk-by-chunk via httplib's `set_content_provider` (known size, enables seeking) or `set_chunked_content_provider` (unknown size).
+
+**Request handling — multi-layer cache**: Every request (Range or full GET) checks caches before touching the network:
+
+1. **In-memory cache** (per-token `cachedBody` in the token map) — fastest path
+2. **Disk cache** (same cache used by `MxcMediaProxy` for in-overlay playback, looked up via `app_paths::cache::mediaMediaFileForMxc`) — avoids re-downloading files already on disk
+3. **Upstream fetch** — only when both caches miss
+
+**Range requests**: The proxy forwards the client's `Range` header to upstream. If the server returns **206** (supports Range), the partial content is served directly via a chunked content provider — bypassing httplib's built-in Range processing which would double-process the header and produce 416. If the server returns **200** (no Range support, common on Matrix homeservers), the download is **aborted immediately** and the proxy returns **416** to the client. This signals "Range not satisfiable" so the client falls back to a plain GET (streaming without seeking). The `noRangeSupport` flag is cached per-token so subsequent Range requests return 416 immediately without probing upstream again.
+
+**Streaming GET**: Used for plain GET requests (including client fallback after 416). A HEAD request first determines Content-Length and Content-Type; the body is then streamed chunk-by-chunk via httplib's `set_content_provider` (known size) or `set_chunked_content_provider` (unknown size). This lets `QMediaPlayer` start playback before the full file is downloaded.
+
+**External player Range probe**: Before launching an external player, `openInExternalPlayer()` sends a `Range: bytes=0-0` probe to upstream. If the server responds with **206**, Range is supported and the player is launched with the proxy URL — seeking works. If the server responds with anything else (typically **200**), Range is not supported. In that case, `openInExternalPlayer()` returns `false` and the caller falls back to download-to-cache → open local file. This fallback is necessary because MP4 files (and most container formats) store the moov atom at the end of the file; without Range/seek support, external players cannot read the file index and refuse to play.
+
+**Opening in external players**: `QDesktopServices::openUrl(http://...)` opens the browser because `xdg-open` dispatches on the `http://` scheme.  To open media in the correct application, `openInExternalPlayer()` uses a multi-step approach on Linux/FreeBSD:
+
+1. `xdg-mime query default <mimetype>` — finds the `.desktop` file for the default handler (e.g. `vlc.desktop`).  This is the freedesktop.org-standard query and respects KDE/GNOME/etc. default application settings via `mimeapps.list`.
+2. `gio launch <full-desktop-path> <proxy-url>` — preferred launcher.  `gio` is part of `glib2`, which is a near-universal dependency (Qt/KDE apps depend on it transitively).
+3. `gtk-launch <desktop-name> <proxy-url>` — fallback.  Part of `gtk3`, which may not be installed on KDE-only systems.
+4. `.m3u` playlist — last resort.  Writes a temp `.m3u` file containing the proxy URL and opens it via `QDesktopServices::openUrl(file://...)`.  Downside: `.m3u` is associated with audio playlists on most systems, so it may open an audio player instead of a video player.
+
+**Images skip the proxy**: Images don't benefit from streaming and `.m3u`/player-launch would open the wrong application. When `openMedia()` is called for an image, it bypasses the proxy entirely and uses the download-to-cache → `QDesktopServices::openUrl(file://...)` path, which lets the OS open the default image viewer.
+
+**Key files:**
+- `src/ui/MediaProxyServer.h/.cpp` — proxy server implementation
+- `src/ui/MxcMediaProxy.cpp` — uses proxy for unencrypted streaming
+- `src/timeline/media/TimelineMediaController.cpp` — uses proxy for external player "open"
+- `src/timeline/view/TimelineViewManagerMedia.cpp` — uses proxy for `openMedia(mxcUrl)` path
 
 ### Timeline video delegate
 
 `PlayableMediaMessage.qml` shows a thumbnail with a dark scrim and a large centered play button for videos.
-Tapping opens the media overlay rather than playing inline (audio messages still play inline).
+Tapping checks the `timelineMediaOpenVideosExternal` setting: if enabled, opens directly in the external player via `room.openMedia(eventId)`; otherwise, opens the media overlay.  Audio messages use the same setting to choose between external player and inline controls.
 The existing `MxcMedia` + `VideoOutput` remain in the delegate for potential future inline playback.
 
 ## Signal flow
@@ -95,31 +146,37 @@ The existing `MxcMedia` + `VideoOutput` remain in the delegate for potential fut
 ```
 User clicks video in timeline
     │
-    ▼
-PlayableMediaMessage.TapHandler
-    │ calls TimelineManager.openMediaOverlayWithContext(room, url, eventId, width, height, type, duration, thumbnailUrl, timeline, timelineView)
+    ├─ Settings.timelineMediaOpenVideosExternal == true
+    │      │ calls room.openMedia(eventId)
+    │      │ → TimelineMediaController::openMedia()
+    │      │ → images: download to cache, open local file
+    │      │ → video/audio: MediaProxyServer::openInExternalPlayer()
+    │      │     → xdg-mime → gio launch / gtk-launch / .m3u fallback
     │
-    ▼
-TimelineViewManager::openMediaOverlayWithContext()  (C++)
-    │ emits showMediaOverlay signal
-    │
-    ▼
-RootEventRouter.onShowMediaOverlay()  (QML)
-    │ creates ImageOverlay window via ComponentCatalog
-    │ sets mediaType, mediaDuration, thumbnailUrl properties
-    │
-    ▼
-ImageOverlay opens full-screen
-    │ isVideo == true → shows video thumbnail + play button
-    │ User clicks play → overlayMediaPlayer.startDownload()
-    │ MxcMediaProxy streams or buffers depending on encryption
-    │ VideoOutput renders frames, MediaControls show progress
-    │
-    ▼
-Gallery navigation:
-    room.adjacentMediaEvent(eventId, ±1) → walks event store
-    returns QVariantMap with type/duration/thumbnailUrl
-    navigateTo() stops current video, switches display mode
+    └─ Settings.timelineMediaOpenVideosExternal == false (default)
+           │ calls TimelineManager.openMediaOverlayWithContext(...)
+           │
+           ▼
+    TimelineViewManager::openMediaOverlayWithContext()  (C++)
+           │ emits showMediaOverlay signal
+           │
+           ▼
+    RootEventRouter.onShowMediaOverlay()  (QML)
+           │ creates ImageOverlay window via ComponentCatalog
+           │ sets mediaType, mediaDuration, thumbnailUrl properties
+           │
+           ▼
+    ImageOverlay opens full-screen
+           │ isVideo == true → shows video thumbnail + play button
+           │ User clicks play → overlayMediaPlayer.startDownload()
+           │ MxcMediaProxy streams or buffers depending on encryption
+           │ VideoOutput renders frames, MediaControls show progress
+           │
+           ▼
+    Gallery navigation:
+        room.adjacentMediaEvent(eventId, ±1) → walks event store
+        returns QVariantMap with type/duration/thumbnailUrl
+        navigateTo() stops current video, switches display mode
 ```
 
 ## Future: minimize/collapse (picture-in-picture)

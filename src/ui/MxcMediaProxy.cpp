@@ -22,15 +22,16 @@
 #include "timeline/RoomlistModel.h"
 #include "timeline/TimelineModel.h"
 #include "timeline/TimelineViewManager.h"
+#include "ui/MediaProxyServer.h"
 
 MxcMediaProxy::MxcMediaProxy(QObject *parent)
   : QMediaPlayer(parent)
 {
     connect(
       this, &QMediaPlayer::errorOccurred, this, [](QMediaPlayer::Error error, QString errorString) {
-          nhlog::ui()->debug("Media player error {} and errorStr {}",
-                             static_cast<int>(error),
-                             errorString.toStdString());
+          nhlog::ui()->warn("Media player error {} and errorStr {}",
+                            static_cast<int>(error),
+                            errorString.toStdString());
       });
     connect(
       this, &MxcMediaProxy::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
@@ -43,7 +44,7 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
           // We only set the output when starting the playback because otherwise the audio device
           // lookup takes about 500ms, which causes a lot of stutter...
           if (status == QMediaPlayer::PlayingState && !audioOutput()) {
-              nhlog::ui()->debug("Set audio output");
+              nhlog::ui()->info("Set audio output");
               auto newOut = new QAudioOutput(this);
               newOut->setMuted(muted_);
               newOut->setVolume(QAudio::convertVolume(
@@ -65,7 +66,7 @@ MxcMediaProxy::orientation() const
     // nhlog::ui()->debug("metadata: {}",
     // availableMetaData().join(QStringLiteral(",")).toStdString());
     auto orientation = metaData().value(QMediaMetaData::Orientation).toInt();
-    nhlog::ui()->debug("Video orientation: {}", orientation);
+    nhlog::ui()->info("Video orientation: {}", orientation);
     return orientation;
 }
 
@@ -149,11 +150,23 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (onlyCached)
         return;
 
-    // NOTE: HTTP streaming for unencrypted media is not yet possible because
-    // QMediaPlayer cannot set custom HTTP headers and the authenticated media
-    // endpoint requires an Authorization header. See the streaming auth task
-    // in memory for future approaches (streaming QIODevice, local proxy, etc.).
+    if (!encryptionInfo) {
+        // Unencrypted media: stream via the local media proxy.
+        // The proxy injects the Authorization header and streams from the homeserver,
+        // enabling QMediaPlayer to seek and buffer without downloading the full file.
+        auto proxyUrl = MediaProxyServer::instance()->urlForMxc(mxcUrl, mimeType);
+        nhlog::ui()->info("Streaming unencrypted media via proxy: {}",
+                          proxyUrl.toString().toStdString());
+        streaming_ = true;
+        QTimer::singleShot(0, this, [this, proxyUrl] {
+            this->setSource(proxyUrl);
+            emit loadedChanged();
+        });
+        return;
+    }
 
+    // Encrypted media: full download + decrypt (streaming not possible because
+    // AES-256-CTR + HMAC-SHA256 requires the complete ciphertext for verification).
     http::client()->download(url,
                              [filename, url, processBuffer](const std::string &data,
                                                             const std::string &,
@@ -192,7 +205,7 @@ MxcMediaProxy::ensureAudioReady()
     if (audioOutput())
         return;
 
-    nhlog::ui()->debug("Eagerly creating audio output");
+    nhlog::ui()->info("Eagerly creating audio output");
     auto newOut = new QAudioOutput(this);
     newOut->setMuted(muted_);
     newOut->setVolume(

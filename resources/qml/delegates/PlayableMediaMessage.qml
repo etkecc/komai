@@ -77,11 +77,15 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                TimelineManager.openMediaOverlayWithContext(
-                    room, content.url, content.eventId,
-                    content.originalWidth, content.proportionalHeight,
-                    content.type, content.duration, content.thumbnailUrl,
-                    timeline, timelineView);
+                if (Settings.timelineMediaOpenVideosExternal) {
+                    room.openMedia(content.eventId);
+                } else {
+                    TimelineManager.openMediaOverlayWithContext(
+                        room, content.url, content.eventId,
+                        content.originalWidth, content.proportionalHeight,
+                        content.type, content.duration, content.thumbnailUrl,
+                        timeline, timelineView);
+                }
             }
         }
 

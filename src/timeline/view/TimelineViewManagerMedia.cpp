@@ -21,6 +21,7 @@
 #include "matrix/MatrixClient.h"
 #include "providers/MxcImageProvider.h"
 #include "ui/MainWindow.h"
+#include "ui/MediaProxyServer.h"
 #include "utils/Utils.h"
 
 void
@@ -177,6 +178,13 @@ TimelineViewManager::openMedia(QString mxcUrl)
         return;
     }
 
+    // When the media proxy is running and upstream supports Range,
+    // open via proxy so the player can stream with auth.
+    auto *proxy = MediaProxyServer::instance();
+    if (proxy->port() > 0 && proxy->openInExternalPlayer(mxcUrl))
+        return;
+
+    // Fallback: download to temp file and open locally.
     const auto id = QString(mxcUrl).remove(QStringLiteral("mxc://"));
     MxcImageProvider::download(
       id,

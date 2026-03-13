@@ -458,10 +458,9 @@ Item {
                                 readonly property real controlWidth: Math.min(500, Math.max(240, width - Komai.paddingLarge * 2))
 
                                 // Header: [device ID] [Copy] ... [Logout]
-                                Rectangle {
+                                Item {
                                     Layout.fillWidth: true
                                     implicitHeight: currentDeviceHeaderRow.implicitHeight + 1
-                                    color: palette.window
 
                                     Rectangle {
                                         anchors.left: parent.left
@@ -719,20 +718,35 @@ Item {
                                 }
 
                                 // Access token warning
-                                Text {
+                                Item {
                                     Layout.fillWidth: true
                                     Layout.leftMargin: Komai.paddingMedium
                                     Layout.rightMargin: Komai.paddingMedium
+                                    Layout.topMargin: 2
                                     Layout.bottomMargin: Komai.paddingMedium
-                                    text: qsTr("Access tokens grant full account access. Keep private!")
-                                    color: Komai.theme.attention
-                                    font.pointSize: Settings.uiFontSizePt
-                                    wrapMode: Text.NoWrap
-                                    elide: Text.ElideRight
-                                    horizontalAlignment: Text.AlignRight
-                                    Layout.alignment: Qt.AlignRight
-                                    Layout.preferredWidth: currentDeviceCardContent.controlWidth
-                                    Layout.maximumWidth: currentDeviceCardContent.controlWidth
+                                    implicitHeight: accessTokenWarningLabel.implicitHeight
+
+                                    RowLayout {
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        spacing: 0
+
+                                        Item {
+                                            Layout.fillWidth: true
+                                        }
+
+                                        Text {
+                                            id: accessTokenWarningLabel
+
+                                            text: qsTr("Access tokens grant full account access. Keep private!")
+                                            color: Komai.theme.attention
+                                            font.pointSize: Settings.uiFontSizePt
+                                            wrapMode: Text.Wrap
+                                            horizontalAlignment: Text.AlignRight
+                                            Layout.preferredWidth: currentDeviceCardContent.controlWidth
+                                            Layout.maximumWidth: currentDeviceCardContent.controlWidth
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -870,10 +884,9 @@ Item {
                                     spacing: 0
 
                                     // Header: [shield] [device ID] [Copy] ... [Logout]
-                                    Rectangle {
+                                    Item {
                                         Layout.fillWidth: true
                                         implicitHeight: deviceHeaderRow.implicitHeight + 1
-                                        color: palette.window
 
                                         Rectangle {
                                             anchors.left: parent.left
@@ -1120,10 +1133,9 @@ Item {
                                     }
 
                                     // Footer: Last seen timestamp
-                                    Rectangle {
+                                    Item {
                                         Layout.fillWidth: true
                                         implicitHeight: lastSeenLabel.implicitHeight + Komai.paddingSmall * 2 + 1
-                                        color: palette.window
 
                                         Rectangle {
                                             anchors.left: parent.left

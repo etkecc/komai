@@ -152,7 +152,7 @@ OverlayDialog {
                             }
                         }
 
-                        Button {
+                        KomaiButton {
                             Layout.fillWidth: true
                             text: qsTr("Add new role")
                             onClicked: newPLLay.visible = true
@@ -185,7 +185,7 @@ OverlayDialog {
                                         }
                                     }
 
-                                    Button {
+                                    KomaiButton {
                                         text: qsTr("Add")
                                         Layout.preferredWidth: 100
                                         onClicked: {
@@ -375,7 +375,7 @@ OverlayDialog {
                 }
             }
 
-            Button {
+            KomaiButton {
                 Layout.alignment: Qt.AlignRight
                 text: qsTr("Save")
                 highlighted: true

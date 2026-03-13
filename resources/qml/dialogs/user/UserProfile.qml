@@ -859,14 +859,14 @@ Components.OverlayDialog {
                         Layout.fillWidth: true
                         spacing: Komai.paddingMedium
 
-                        Button {
+                        Components.KomaiButton {
                             text: qsTr("Cancel")
                             onClicked: confirmIgnoreDialog.close()
                         }
 
                         Item { Layout.fillWidth: true }
 
-                        Button {
+                        Components.KomaiButton {
                             text: profile.ignored ? qsTr("Unignore") : qsTr("Ignore")
                             highlighted: true
                             onClicked: {

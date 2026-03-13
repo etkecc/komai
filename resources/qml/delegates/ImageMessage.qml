@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components" as Components
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
@@ -239,7 +240,7 @@ AbstractButton {
         }
     }
 
-    Button {
+    Components.KomaiButton {
         anchors.centerIn: parent
         visible: !showImage && !parent.EventDelegateChooser.isReply
         enabled: visible

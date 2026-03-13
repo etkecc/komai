@@ -45,7 +45,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Cancel")
             onClicked: inputDialog.close()
         }
@@ -54,7 +54,7 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             text: inputDialog.acceptText
             highlighted: true
             onClicked: {

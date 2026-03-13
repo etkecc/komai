@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components" as Components
 import "../ui"
 import QtQuick 2.3
 import QtQuick.Controls 2.3
@@ -43,7 +44,7 @@ ColumnLayout {
     Item { Layout.fillHeight: true; }
 
     RowLayout {
-        Button {
+        Components.KomaiButton {
             Layout.alignment: Qt.AlignLeft
             text: qsTr("Cancel")
             onClicked: {

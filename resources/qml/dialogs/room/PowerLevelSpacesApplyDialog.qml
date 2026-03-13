@@ -111,7 +111,7 @@ Components.OverlayDialog {
         }
     }
 
-    Button {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Apply")
         highlighted: true

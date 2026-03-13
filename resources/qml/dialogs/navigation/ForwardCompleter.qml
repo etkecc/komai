@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import "../../delegates/"
 import "../../ui"
 import QtQuick 2.9
@@ -263,7 +264,7 @@ Popup {
             spacing: Komai.paddingMedium
             visible: forwardMessagePopup.confirming
 
-            Button {
+            Components.KomaiButton {
                 id: forwardButton
 
                 activeFocusOnTab: true
@@ -288,7 +289,7 @@ Popup {
                 }
             }
 
-            Button {
+            Components.KomaiButton {
                 id: cancelButton
 
                 activeFocusOnTab: true

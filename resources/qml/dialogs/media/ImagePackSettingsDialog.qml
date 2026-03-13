@@ -63,7 +63,7 @@ ApplicationWindow {
 
 
                 footer: ColumnLayout {
-                    Button {
+                    KomaiButton {
                         onClicked: {
                             var dialog = packEditor.createObject(timelineRoot, {
                                 "imagePack": packlist.newPack(false)
@@ -76,7 +76,7 @@ ApplicationWindow {
                         text: qsTr("Create account pack")
                     }
 
-                    Button {
+                    KomaiButton {
                         onClicked: {
                             var dialog = packEditor.createObject(timelineRoot, {
                                 "imagePack": packlist.newPack(true)
@@ -197,7 +197,7 @@ ApplicationWindow {
                     RowLayout {
                         Layout.alignment: Qt.AlignHCenter
 
-                        Button {
+                        KomaiButton {
                             text: qsTr("Edit")
                             enabled: currentPack && currentPack.canEdit
                             onClicked: {
@@ -208,7 +208,7 @@ ApplicationWindow {
                                 timelineRoot.destroyOnClose(dialog);
                             }
                         }
-                        Button {
+                        KomaiButton {
                             text: qsTr("Remove")
                             enabled: currentPack && currentPack.canEdit
                             onClicked: {
@@ -269,7 +269,7 @@ ApplicationWindow {
     footer: DialogButtonBox {
         id: buttons
 
-        Button {
+        KomaiButton {
             text: qsTr("Close")
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
             onClicked: win.close()

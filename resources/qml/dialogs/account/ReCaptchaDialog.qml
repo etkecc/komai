@@ -36,19 +36,19 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Cancel")
             onClicked: recaptchaRoot.close()
         }
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Open reCAPTCHA")
             onClicked: recaptcha.openReCaptcha()
         }
 
         Item { Layout.fillWidth: true }
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Confirm")
             highlighted: true
             onClicked: {

@@ -96,7 +96,7 @@ Item {
             Layout.fillWidth: true
             spacing: Komai.paddingMedium
 
-            Button {
+            Components.KomaiButton {
                 text: qsTr("Cancel")
                 onClicked: uiaConfirmationLinkDialog.close()
             }
@@ -105,7 +105,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Button {
+            Components.KomaiButton {
                 text: qsTr("Continue")
                 highlighted: true
                 onClicked: {

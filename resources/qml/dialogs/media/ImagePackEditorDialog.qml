@@ -306,7 +306,7 @@ ApplicationWindow {
                         text: qsTr("Remove from pack")
                     }
 
-                    Button {
+                    KomaiButton {
                         text: qsTr("Remove")
                         onClicked: {
                             let temp = currentImageIndex;

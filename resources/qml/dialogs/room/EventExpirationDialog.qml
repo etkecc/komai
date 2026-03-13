@@ -124,7 +124,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
     }
 
-    Button {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Save")
         highlighted: true

@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components" as Components
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.2
@@ -215,7 +216,7 @@ EventDelegateChooser {
                 isStateEvent: true
                 keepFullText: true
             }
-            Button {
+            Components.KomaiButton {
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("Allow them in")
                 visible: member.hasKnockAction
@@ -248,7 +249,7 @@ EventDelegateChooser {
                 isStateEvent: true
                 keepFullText: true
             }
-            Button {
+            Components.KomaiButton {
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("Go to replacement room")
 

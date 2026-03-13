@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components" as Components
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
@@ -63,7 +64,7 @@ Control {
                 Layout.maximumWidth: implicitWidth + 1
             }
 
-            Button {
+            Components.KomaiButton {
                 visible: r.encryptionError == Olm.MissingSession || encryptionError == Olm.MissingSessionIndex
                 text: qsTr("Request key")
                 onClicked: room.requestKeyForEvent(eventId)

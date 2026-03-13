@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components" as Components
 import QtQuick 2.3
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.10
@@ -30,7 +31,7 @@ ColumnLayout {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             Layout.alignment: Qt.AlignRight
             text: qsTr("Close")
             onClicked: dialog.close()

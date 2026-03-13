@@ -38,7 +38,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Cancel")
             onClicked: hideFilterRoot.close()
         }
@@ -47,7 +47,7 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Hide")
             highlighted: true
             onClicked: {

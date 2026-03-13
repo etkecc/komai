@@ -87,7 +87,7 @@ Rectangle {
             }
         }
 
-        Button {
+        KomaiButton {
             Layout.rightMargin: 4
             icon.source: CallManager.callType == Voip.VIDEO ? "qrc:/icons/icons/ui/video.svg" : "qrc:/icons/icons/ui/place-call.svg"
             text: qsTr("Accept")
@@ -122,7 +122,7 @@ Rectangle {
             }
         }
 
-        Button {
+        KomaiButton {
             Layout.rightMargin: 16
             icon.source: "qrc:/icons/icons/ui/end-call.svg"
             text: qsTr("Decline")

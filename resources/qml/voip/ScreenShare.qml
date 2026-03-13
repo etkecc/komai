@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components"
 import "../ui"
 import QtQuick
 import QtQuick.Controls
@@ -71,7 +72,7 @@ Popup {
                 model: CallManager.windowList()
             }
 
-            Button {
+            KomaiButton {
                 visible: CallManager.screenShareType == Voip.XDP
                 highlighted: !CallManager.screenShareReady
                 text: qsTr("Request screencast")
@@ -155,7 +156,7 @@ Popup {
                 Layout.fillWidth: true
             }
 
-            Button {
+            KomaiButton {
                 visible: CallManager.screenShareReady
                 text: qsTr("Share")
                 icon.source: "qrc:/icons/icons/ui/screen-share.svg"
@@ -171,7 +172,7 @@ Popup {
                 }
             }
 
-            Button {
+            KomaiButton {
                 visible: CallManager.screenShareReady
                 text: qsTr("Preview")
                 onClicked: {
@@ -179,7 +180,7 @@ Popup {
                 }
             }
 
-            Button {
+            KomaiButton {
                 text: qsTr("Cancel")
                 onClicked: {
                     close();

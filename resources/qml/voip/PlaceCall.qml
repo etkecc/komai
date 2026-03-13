@@ -76,7 +76,7 @@ Popup {
                 onClicked: TimelineManager.openMediaOverlay(room, room.avatarUrl(userid), room.data.eventId)
             }
 
-            Button {
+            KomaiButton {
                 text: qsTr("Voice")
                 icon.source: "qrc:/icons/icons/ui/place-call.svg"
                 onClicked: {
@@ -88,7 +88,7 @@ Popup {
                 }
             }
 
-            Button {
+            KomaiButton {
                 visible: CallManager.cameras.length > 0
                 text: qsTr("Video")
                 icon.source: "qrc:/icons/icons/ui/video.svg"
@@ -102,7 +102,7 @@ Popup {
                 }
             }
 
-            Button {
+            KomaiButton {
                 text: qsTr("Screen")
                 icon.source: "qrc:/icons/icons/ui/screen-share.svg"
                 onClicked: {
@@ -118,7 +118,7 @@ Popup {
                 }
             }
 
-            Button {
+            KomaiButton {
                 text: qsTr("Cancel")
                 onClicked: {
                     close();

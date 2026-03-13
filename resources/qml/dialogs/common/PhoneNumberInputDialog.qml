@@ -59,7 +59,7 @@ Components.OverlayDialog {
         }
     }
 
-    Button {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Continue")
         highlighted: true

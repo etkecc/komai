@@ -109,7 +109,7 @@ ApplicationWindow {
                         text: model.numMembers.toString()
                     }
 
-                    Button {
+                    KomaiButton {
                         Layout.row: 1
                         Layout.column: 1
                         id: joinRoomButton
@@ -197,7 +197,7 @@ ApplicationWindow {
         spacing: Komai.paddingMedium
         width: parent.width
 
-        Button {
+        KomaiButton {
             text: qsTr("Close")
             onClicked: roomDirectoryWindow.close()
             Layout.alignment: Qt.AlignRight

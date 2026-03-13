@@ -28,7 +28,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Cancel")
             onClicked: deleteStickerPackRoot.close()
         }
@@ -37,7 +37,7 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Delete")
             highlighted: true
             onClicked: {

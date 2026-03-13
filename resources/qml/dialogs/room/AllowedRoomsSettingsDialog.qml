@@ -134,7 +134,7 @@ OverlayDialog {
         target: roomCompleter
     }
 
-    Button {
+    KomaiButton {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Save")
         highlighted: true

@@ -129,7 +129,7 @@ Components.OverlayDialog {
             }
         }
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Add")
             Layout.preferredWidth: 100
             onClicked: {
@@ -139,7 +139,7 @@ Components.OverlayDialog {
         }
     }
 
-    Button {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignRight
         text: qsTr("Save")
         highlighted: true

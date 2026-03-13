@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components" as Components
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -177,7 +178,7 @@ ColumnLayout {
             wrapMode: TextEdit.WordWrap
         }
     }
-    Button {
+    Components.KomaiButton {
         id: showReasonButton
 
         Layout.alignment: Qt.AlignHCenter

@@ -111,7 +111,7 @@ OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
 
-        Button {
+        KomaiButton {
             text: qsTr("Cancel")
             onClicked: joinRoomRoot.close()
         }
@@ -120,7 +120,7 @@ OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        KomaiButton {
             text: summary.isKnockOnly ? qsTr("Knock") : qsTr("Join")
             highlighted: true
             onClicked: {

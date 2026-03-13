@@ -126,11 +126,11 @@
       SettingKey::TimelineMediaImageDisplay),
     // OpenImagesInExternalApp
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Open images in an external app",
-      QT_TR_NOOP("Open images in an external app when clicking the image.\nNote that when this option is ON, opened files are left unencrypted on disk and must be manually deleted."),
+      "Open images in an external app (default viewer)",
+      QT_TR_NOOP("Encrypted images are <a href=\"komai://media-cache\">cached</a> decrypted on disk (auto-purged periodically)."),
       SM::TabTimeline, timelineMediaOpenImagesExternal, setTimelineMediaOpenImagesExternal, nullptr, TimelineMediaOpenImagesExternal, SettingKey::TimelineMediaOpenImagesExternal),
     // OpenVideosInExternalApp
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Open videos in an external app",
-      QT_TR_NOOP("Open videos in an external app when clicking the video.\nNote that when this option is ON, opened files are left unencrypted on disk and must be manually deleted."),
+      "Open videos in an external app (default player)",
+      QT_TR_NOOP("Streams when possible; encrypted or non-seekable videos are <a href=\"komai://media-cache\">cached</a> on disk (auto-purged periodically)."),
       SM::TabTimeline, timelineMediaOpenVideosExternal, setTimelineMediaOpenVideosExternal, nullptr, TimelineMediaOpenVideosExternal, SettingKey::TimelineMediaOpenVideosExternal),

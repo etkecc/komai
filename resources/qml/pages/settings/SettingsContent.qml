@@ -443,7 +443,13 @@ Item {
                             Layout.topMargin: -Komai.paddingSmall
                             Layout.bottomMargin: Komai.paddingMedium
                             onLinkActivated: function(link) {
-                                Qt.openUrlExternally(link);
+                                if (link === "komai://media-cache") {
+                                    var info = Komai.localCacheInfo();
+                                    if (info.mediaCachePathExists)
+                                        Komai.openLocalPath(info.mediaCachePath);
+                                } else {
+                                    Qt.openUrlExternally(link);
+                                }
                             }
                         }
                     }

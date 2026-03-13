@@ -153,12 +153,12 @@ Pane {
         property Transition replaceExitOrg
 
         function updateTrans() {
-            pushEnter = Settings.uiMotionAnimationsEnabled ? pushEnterOrg : reducedMotionNoopTransition;
-            pushExit = Settings.uiMotionAnimationsEnabled ? pushExitOrg : reducedMotionNoopTransition;
-            popEnter = Settings.uiMotionAnimationsEnabled ? popEnterOrg : reducedMotionNoopTransition;
-            popExit = Settings.uiMotionAnimationsEnabled ? popExitOrg : reducedMotionNoopTransition;
-            replaceEnter = Settings.uiMotionAnimationsEnabled ? replaceEnterOrg : reducedMotionNoopTransition;
-            replaceExit = Settings.uiMotionAnimationsEnabled ? replaceExitOrg : reducedMotionNoopTransition;
+            pushEnter = Settings.uiMotionAnimationsEnabled ? pushEnterOrg : noopEnterTransition;
+            pushExit = Settings.uiMotionAnimationsEnabled ? pushExitOrg : noopExitTransition;
+            popEnter = Settings.uiMotionAnimationsEnabled ? popEnterOrg : noopEnterTransition;
+            popExit = Settings.uiMotionAnimationsEnabled ? popExitOrg : noopExitTransition;
+            replaceEnter = Settings.uiMotionAnimationsEnabled ? replaceEnterOrg : noopEnterTransition;
+            replaceExit = Settings.uiMotionAnimationsEnabled ? replaceExitOrg : noopExitTransition;
         }
 
         function openUserSettingsPage(initialTab) {
@@ -187,7 +187,12 @@ Pane {
         }
 
         Transition {
-            id: reducedMotionNoopTransition
+            id: noopEnterTransition
+            PropertyAnimation { property: "opacity"; to: 1; duration: 0 }
+        }
+        Transition {
+            id: noopExitTransition
+            PropertyAnimation { property: "opacity"; to: 0; duration: 0 }
         }
         Connections {
             function onUiMotionAnimationsEnabledChanged() {

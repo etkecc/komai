@@ -173,14 +173,14 @@ Item {
                 wrapMode: TextEdit.Wrap
             }
 
-            FlatButton {
+            KomaiButton {
                 id: pwBtn
-                compact: true
                 visible: login.passwordSupported
                 enabled: loginPage.loginEnabled
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("LOGIN")
-                iconImage: "image://colorimage/:/icons/icons/ui/arrow-right.svg?" + (enabled ? palette.light : palette.buttonText)
+                text: qsTr("Login")
+                icon.source: "qrc:/icons/icons/ui/arrow-right.svg"
+                highlighted: true
                 function pwLogin() {
                     login.onLoginButtonClicked(Login.Password, matrixIdLabel.text, passwordLabel.text, deviceNameLabel.text)
                 }
@@ -195,14 +195,13 @@ Item {
 
                 model: login.identityProviders
 
-                delegate: FlatButton {
+                delegate: KomaiButton {
                     id: ssoBtn
-                    compact: true
                     visible: login.ssoSupported
                     enabled: loginPage.loginEnabled
                     Layout.alignment: Qt.AlignHCenter
                     text: modelData.name
-                    iconImage: modelData.avatarUrl.replace("mxc://", "image://MxcImage/")
+                    icon.source: modelData.avatarUrl.replace("mxc://", "image://MxcImage/")
                     function ssoLogin() {
                         login.onLoginButtonClicked(Login.SSO, matrixIdLabel.text, modelData.id, deviceNameLabel.text)
                     }

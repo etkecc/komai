@@ -18,21 +18,21 @@ RowLayout {
         Layout.fillWidth: true
     }
 
-    FlatButton {
-        compact: true
+    KomaiButton {
         Layout.margins: Komai.paddingLarge
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("REGISTER")
-        iconImage: "image://colorimage/:/icons/icons/ui/plus-circle.svg?" + (enabled ? palette.light : palette.buttonText)
+        text: qsTr("Register")
+        icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+        highlighted: true
         onClicked: actions.registerRequested()
     }
 
-    FlatButton {
-        compact: true
+    KomaiButton {
         Layout.margins: Komai.paddingLarge
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("LOGIN")
-        iconImage: "image://colorimage/:/icons/icons/ui/arrow-right.svg?" + (enabled ? palette.light : palette.buttonText)
+        text: qsTr("Login")
+        icon.source: "qrc:/icons/icons/ui/arrow-right.svg"
+        highlighted: true
         onClicked: actions.loginRequested()
     }
 

@@ -349,14 +349,14 @@ Item {
                 wrapMode: TextEdit.Wrap
             }
 
-            FlatButton {
+            KomaiButton {
                 id: regisBtn
-                compact: true
                 visible: regis.supported
                 enabled: usernameLabel.text && passwordLabel.text && passwordLabel.text == passwordConfirmationLabel.text
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("REGISTER")
-                iconImage: "image://colorimage/:/icons/icons/ui/plus-circle.svg?" + (enabled ? palette.light : palette.buttonText)
+                text: qsTr("Register")
+                icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+                highlighted: true
                 function register() {
                     regis.startRegistration(usernameLabel.text, passwordLabel.text, deviceNameLabel.text)
                 }

@@ -94,30 +94,32 @@ ColumnLayout {
             textFormat: TextEdit.RichText
         }
     }
-    FlatButton {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("join the conversation")
+        text: qsTr("Join the conversation")
+        highlighted: true
         visible: roomPreview && !roomPreview.isInvite
 
         onClicked: Rooms.joinPreview(roomPreview.roomid)
     }
-    FlatButton {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("accept invite")
+        text: qsTr("Accept invite")
+        highlighted: true
         visible: roomPreview && roomPreview.isInvite
 
         onClicked: Rooms.acceptInvite(roomPreview.roomid)
     }
-    FlatButton {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("decline invite")
+        text: qsTr("Decline invite")
         visible: roomPreview && roomPreview.isInvite
 
         onClicked: Rooms.declineInvite(roomPreview.roomid)
     }
-    FlatButton {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("decline invite and ignore user")
+        text: qsTr("Decline invite and ignore user")
         visible: roomPreview && roomPreview.isInvite
 
         onClicked: {
@@ -125,9 +127,9 @@ ColumnLayout {
             inviter.ignored = true
         }
     }
-    FlatButton {
+    Components.KomaiButton {
         Layout.alignment: Qt.AlignHCenter
-        text: qsTr("leave")
+        text: qsTr("Leave")
         visible: !!room
 
         onClicked: TimelineManager.openLeaveRoomDialog(room.roomId)

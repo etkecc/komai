@@ -56,6 +56,7 @@ Components.OverlayDialog {
         Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/shield-regular-checkmark.svg"
             text: qsTr("Verify with another device")
+            highlighted: true
             // Keep this visible-but-disabled when no candidates exist:
             // verification with another device is still a valid route in principle, but
             // currently unavailable (e.g. no other signed-in verifiable device found).
@@ -69,6 +70,7 @@ Components.OverlayDialog {
         Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/key.svg"
             text: qsTr("Unlock key backup")
+            highlighted: true
             // Hide completely when backup unlock is fundamentally unavailable in this state.
             visible: root.hasSSSS
 

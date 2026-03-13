@@ -39,9 +39,9 @@ repos:
         entry: ./bin/prek/qml/qmllint.sh
         language: system
         files: '^resources/qml/.*\.qml$'
-      - id: no-bare-button
-        name: Forbid bare Button in QML (use KomaiButton)
-        entry: ./bin/prek/qml/no-bare-button.sh
+      - id: no-bare-controls
+        name: Forbid bare Qt controls in QML (use Komai variants)
+        entry: ./bin/prek/qml/no-bare-controls.sh
         language: system
         files: '^resources/qml/.*\.qml$'
         pass_filenames: false

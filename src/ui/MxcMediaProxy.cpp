@@ -27,12 +27,26 @@
 MxcMediaProxy::MxcMediaProxy(QObject *parent)
   : QMediaPlayer(parent)
 {
-    connect(
-      this, &QMediaPlayer::errorOccurred, this, [](QMediaPlayer::Error error, QString errorString) {
-          nhlog::ui()->warn("Media player error {} and errorStr {}",
-                            static_cast<int>(error),
-                            errorString.toStdString());
-      });
+    connect(this,
+            &QMediaPlayer::errorOccurred,
+            this,
+            [this](QMediaPlayer::Error error, QString errorString) {
+                nhlog::ui()->warn("Media player error {} and errorStr {}",
+                                  static_cast<int>(error),
+                                  errorString.toStdString());
+
+                // When streaming via the proxy fails (e.g. upstream doesn't support Range,
+                // proxy returns 416, QMediaPlayer/FFmpeg can't recover), fall back to
+                // downloading the full file and playing from a local buffer.
+                if (streaming_ && !streamingFallbackAttempted_) {
+                    nhlog::ui()->info("Streaming failed, falling back to full download");
+                    streamingFallbackAttempted_ = true;
+                    streaming_                  = false;
+                    stop();
+                    setSource(QUrl());
+                    startDownload(false);
+                }
+            });
     connect(
       this, &MxcMediaProxy::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
           nhlog::ui()->info("Media player status {} and error {}",
@@ -150,7 +164,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (onlyCached)
         return;
 
-    if (!encryptionInfo) {
+    if (!encryptionInfo && !streamingFallbackAttempted_) {
         // Unencrypted media: stream via the local media proxy.
         // The proxy injects the Authorization header and streams from the homeserver,
         // enabling QMediaPlayer to seek and buffer without downloading the full file.
@@ -165,8 +179,11 @@ MxcMediaProxy::startDownload(bool onlyCached)
         return;
     }
 
-    // Encrypted media: full download + decrypt (streaming not possible because
-    // AES-256-CTR + HMAC-SHA256 requires the complete ciphertext for verification).
+    // Full download path — used for:
+    // 1. Encrypted media (streaming not possible: AES-256-CTR + HMAC-SHA256 requires
+    //    the complete ciphertext for verification).
+    // 2. Streaming fallback (upstream doesn't support Range → proxy returned 416 →
+    //    QMediaPlayer failed → retry with full download).
     http::client()->download(url,
                              [filename, url, processBuffer](const std::string &data,
                                                             const std::string &,

@@ -51,6 +51,8 @@ public:
         setSourceDevice(nullptr);
         if (buffer.isOpen())
             buffer.close();
+        streaming_                  = false;
+        streamingFallbackAttempted_ = false;
     }
 
     bool loaded() const { return buffer.size() > 0 || streaming_; }
@@ -110,8 +112,9 @@ private:
     QString eventId_;
     QString filename_;
     QBuffer buffer;
-    float volume_   = 1.f;
-    bool muted_     = false;
-    bool encrypted_ = false;
-    bool streaming_ = false;
+    float volume_                    = 1.f;
+    bool muted_                      = false;
+    bool encrypted_                  = false;
+    bool streaming_                  = false;
+    bool streamingFallbackAttempted_ = false;
 };

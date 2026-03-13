@@ -649,8 +649,7 @@ MediaProxyServer::handleMediaRequest(const httplib::Request &req, httplib::Respo
 
         if (statusCode == 200) {
             nhlog::net()->info(
-              "media-proxy [{}]: upstream returned 200 for Range (no Range support), "
-              "returning 416",
+              "media-proxy [{}]: upstream returned 200 for Range (no Range support), returning 416",
               shortToken);
             // Remember so subsequent Range requests skip the probe entirely.
             {

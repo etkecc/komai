@@ -16,16 +16,17 @@ Button {
     readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
     readonly property color normalBackground: palette.alternateBase
     readonly property color hoverBackground: palette.dark
-    readonly property color highlightHoverBackground: Qt.darker(palette.highlight, 1.06)
+    readonly property color highlightHoverBackground: Qt.darker(palette.highlight, 1.15)
     readonly property color pressedBackground: highlighted
         ? Qt.darker(palette.highlight, 1.12)
         : Qt.darker(palette.dark, 1.08)
-    readonly property color disabledBackground: Qt.rgba(normalBackground.r,
-                                                        normalBackground.g,
-                                                        normalBackground.b,
-                                                        0.65)
+    readonly property color disabledBackground: highlighted
+        ? Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, 0.45)
+        : Qt.rgba(normalBackground.r, normalBackground.g, normalBackground.b, 0.65)
     readonly property color foregroundColor: !enabled
-        ? palette.buttonText
+        ? (highlighted ? Qt.rgba(palette.highlightedText.r, palette.highlightedText.g,
+                                  palette.highlightedText.b, 0.6)
+                       : palette.buttonText)
         : (highlighted ? palette.highlightedText
                        : ((activeState || down) ? palette.brightText : palette.text))
     readonly property int effectiveIconSize: Math.max(14, Math.round(Settings.uiFontSizePt * 1.4))

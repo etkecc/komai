@@ -23,6 +23,7 @@ RowLayout {
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("Register")
         icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
+        font.pointSize: Settings.uiFontSizePt * 1.5
         highlighted: true
         onClicked: actions.registerRequested()
     }
@@ -32,6 +33,7 @@ RowLayout {
         Layout.alignment: Qt.AlignHCenter
         text: qsTr("Login")
         icon.source: "qrc:/icons/icons/ui/arrow-right.svg"
+        font.pointSize: Settings.uiFontSizePt * 1.5
         highlighted: true
         onClicked: actions.loginRequested()
     }

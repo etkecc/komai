@@ -383,5 +383,22 @@ MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
         fullyReadEventId_ = std::string(fullyReadEventId);
     }
 
-    return getEventIndex(room_id, last_event_id_) > getEventIndex(room_id, fullyReadEventId_);
+    const auto lastIdx      = getEventIndex(room_id, last_event_id_);
+    const auto fullyReadIdx = getEventIndex(room_id, fullyReadEventId_);
+
+    // When the fully-read marker points to an event not in the local cache (e.g. after a
+    // gapped/limited sync or when another client advanced the read marker to an event we
+    // haven't stored), the index lookup returns nullopt.  Comparing optional(x) > nullopt
+    // is always true in C++, which would incorrectly mark the room as unread.
+    // Fall back to the server's notification_count which is authoritative for cross-device
+    // read status.
+    if (!fullyReadIdx) {
+        auto txn = ro_txn(storage());
+        if (auto info = cache::codec::getRoomInfo(txn, db->rooms, room_id))
+            return info->notification_count > 0;
+        // No room info available — assume unread to be safe.
+        return true;
+    }
+
+    return lastIdx > fullyReadIdx;
 }

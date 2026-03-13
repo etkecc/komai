@@ -69,8 +69,8 @@ MxcAnimatedImage::startDownload()
 
     const auto url  = mxcUrl.toStdString();
     const auto name = QString(mxcUrl).remove(QStringLiteral("mxc://"));
-    QFileInfo filename(
-      app_paths::cache::mediaMediaFileForMxc(UserSettings::instance()->profile(), name, suffix));
+    QFileInfo filename(app_paths::cache::mediaFileForMxc(
+      UserSettings::instance()->profile(), name, suffix, room_->roomId()));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
         nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", url);
         return;

@@ -78,7 +78,7 @@ Item {
 
             anchors.fill: parent
             source: videoContent.thumbnailUrl
-                ? videoContent.thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale"
+                ? videoContent.thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale&room=" + videoContent.room.roomId
                 : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit

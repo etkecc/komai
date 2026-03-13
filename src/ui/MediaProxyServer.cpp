@@ -89,7 +89,7 @@ MediaProxyServer::stop()
 // ── URL generation ───────────────────────────────────────────────────────────
 
 QUrl
-MediaProxyServer::urlForMxc(const QString &mxcUrl, const QString &mimeType)
+MediaProxyServer::urlForMxc(const QString &mxcUrl, const QString &mimeType, const QString &roomId)
 {
     // mxc://server/media_id → server, media_id
     auto stripped = mxcUrl;
@@ -116,7 +116,8 @@ MediaProxyServer::urlForMxc(const QString &mxcUrl, const QString &mimeType)
 
     {
         std::lock_guard lock(mapMutex_);
-        tokenMap_[token] = {server, mediaId, suffix.toStdString(), false, nullptr, {}};
+        tokenMap_[token] = {
+          server, mediaId, suffix.toStdString(), roomId.toStdString(), false, nullptr, {}};
     }
 
     QString urlSuffix = suffix.isEmpty() ? QString{} : (u'.' + suffix);
@@ -130,7 +131,9 @@ MediaProxyServer::urlForMxc(const QString &mxcUrl, const QString &mimeType)
 // ── external player ──────────────────────────────────────────────────────────
 
 bool
-MediaProxyServer::openInExternalPlayer(const QString &mxcUrl, const QString &mimeType)
+MediaProxyServer::openInExternalPlayer(const QString &mxcUrl,
+                                       const QString &mimeType,
+                                       const QString &roomId)
 {
     // Extract server/mediaId to probe Range support before launching player.
     auto stripped = QString(mxcUrl).remove(QStringLiteral("mxc://"));
@@ -153,7 +156,7 @@ MediaProxyServer::openInExternalPlayer(const QString &mxcUrl, const QString &mim
         return false;
     }
 
-    auto proxyUrl = urlForMxc(mxcUrl, mimeType);
+    auto proxyUrl = urlForMxc(mxcUrl, mimeType, roomId);
     if (proxyUrl.isEmpty())
         return false;
 
@@ -429,7 +432,7 @@ MediaProxyServer::handleMediaRequest(const httplib::Request &req, httplib::Respo
     std::string token      = req.matches[1];
     std::string shortToken = token.substr(0, 8);
 
-    std::string server, mediaId, suffix;
+    std::string server, mediaId, suffix, roomId;
     std::shared_ptr<std::string> memoryCachedBody;
     std::string memoryCachedCT;
     {
@@ -444,6 +447,7 @@ MediaProxyServer::handleMediaRequest(const httplib::Request &req, httplib::Respo
         server  = it->second.server;
         mediaId = it->second.mediaId;
         suffix  = it->second.suffix;
+        roomId  = it->second.roomId;
         if (it->second.cachedBody) {
             memoryCachedBody = it->second.cachedBody;
             memoryCachedCT   = it->second.cachedContentType;
@@ -470,8 +474,10 @@ MediaProxyServer::handleMediaRequest(const httplib::Request &req, httplib::Respo
     // ── 2. Serve from disk cache ─────────────────────────────────────────
     if (!suffix.empty()) {
         QString mxcId     = QString::fromStdString(server + "/" + mediaId);
-        QString cachePath = app_paths::cache::mediaMediaFileForMxc(
-          UserSettings::instance()->profile(), mxcId, QString::fromStdString(suffix));
+        QString cachePath = app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(),
+                                                              mxcId,
+                                                              QString::fromStdString(suffix),
+                                                              QString::fromStdString(roomId));
         QFileInfo fi(cachePath);
         if (fi.isReadable()) {
             QFile f(cachePath);

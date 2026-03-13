@@ -59,7 +59,7 @@ timeline::media::TimelineMediaController::openMedia(const QString &eventId) cons
                 if (mxcUrl.startsWith(QLatin1String("mxc://"))) {
                     nhlog::ui()->info(
                       "Opening media via proxy (room='{}', event='{}')", roomIdStd, eventIdStd);
-                    if (proxy->openInExternalPlayer(mxcUrl, mimeType))
+                    if (proxy->openInExternalPlayer(mxcUrl, mimeType, roomId_))
                         return;
                     // Range not supported upstream — fall through to download-to-cache.
                     nhlog::ui()->info(
@@ -256,8 +256,8 @@ timeline::media::TimelineMediaController::cacheMedia(
     const auto url       = mxcUrl.toStdString();
     const auto roomIdStd = roomId_.toStdString();
     const auto name      = QString(mxcUrl).remove(QStringLiteral("mxc://"));
-    QFileInfo filename(
-      app_paths::cache::mediaFileForMxc(UserSettings::instance()->profile(), name, suffix));
+    QFileInfo filename(app_paths::cache::mediaFileForMxc(
+      UserSettings::instance()->profile(), name, suffix, roomId_));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
         nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", url);
         return;

@@ -425,7 +425,7 @@ Komai::localCacheInfo() const
 
     const QString databasePath =
       hasUserId ? app_paths::data::databaseDirectory(userId, profileId) : QString{};
-    const QString mediaCachePath = app_paths::cache::mediaDirectory(profileId);
+    const QString mediaCachePath = app_paths::cache::mediaRoot(profileId);
 
     const QFileInfo databaseInfo(databasePath);
     const QFileInfo mediaInfo(mediaCachePath);
@@ -529,8 +529,7 @@ Komai::openLocalPath(QString path) const
 QString
 Komai::purgeMediaCache()
 {
-    const QString mediaCachePath =
-      app_paths::cache::mediaDirectory(UserSettings::instance()->profile());
+    const QString mediaCachePath = app_paths::cache::mediaRoot(UserSettings::instance()->profile());
     const QFileInfo info(mediaCachePath);
 
     if (info.exists() && !QDir(mediaCachePath).removeRecursively())

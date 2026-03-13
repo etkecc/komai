@@ -25,11 +25,16 @@ signals:
     void error(QString error);
 
 public:
-    MxcImageRunnable(const QString &id, bool crop, double radius, const QSize &requestedSize)
+    MxcImageRunnable(const QString &id,
+                     bool crop,
+                     double radius,
+                     const QSize &requestedSize,
+                     const QString &roomId = {})
       : m_id(id)
       , m_requestedSize(requestedSize)
       , m_crop(crop)
       , m_radius(radius)
+      , m_roomId(roomId)
     {
     }
 
@@ -39,14 +44,19 @@ public:
     QSize m_requestedSize;
     bool m_crop;
     double m_radius;
+    QString m_roomId;
 };
 class MxcImageResponse final : public QQuickImageResponse
 {
 public:
-    MxcImageResponse(const QString &id, bool crop, double radius, const QSize &requestedSize)
+    MxcImageResponse(const QString &id,
+                     bool crop,
+                     double radius,
+                     const QSize &requestedSize,
+                     const QString &roomId = {})
 
     {
-        auto runnable = new MxcImageRunnable(id, crop, radius, requestedSize);
+        auto runnable = new MxcImageRunnable(id, crop, radius, requestedSize, roomId);
         connect(runnable, &MxcImageRunnable::done, this, &MxcImageResponse::handleDone);
         connect(runnable, &MxcImageRunnable::error, this, &MxcImageResponse::handleError);
         runnable->run();
@@ -88,6 +98,7 @@ public slots:
     static void download(const QString &id,
                          const QSize &requestedSize,
                          std::function<void(QString, QSize, QImage, QString)> then,
-                         bool crop     = true,
-                         double radius = 0);
+                         bool crop             = true,
+                         double radius         = 0,
+                         const QString &roomId = {});
 };

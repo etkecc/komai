@@ -267,6 +267,7 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
     bool crop     = false;
     double radius = 0;
     QSize size;
+    QString roomId;
 
     const auto queryStart = id.lastIndexOf(QLatin1Char('?'));
     if (queryStart != -1) {
@@ -284,6 +285,8 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
             } else if (b.startsWith(QStringView(u"height="))) {
                 size.setHeight(b.mid(7).toInt());
                 size.setWidth(0);
+            } else if (b.startsWith(QStringView(u"room="))) {
+                roomId = b.mid(5).toString();
             }
         }
     }
@@ -298,7 +301,8 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
           }
       },
       crop,
-      radius);
+      radius,
+      roomId);
 }
 
 void

@@ -41,23 +41,52 @@ themeSearchDirectories();
 
 namespace cache {
 QString
-mediaDirectory(QStringView profileId);
+root();
+
+/// Profile-specific cache directory root.
 QString
-mediaMediaDirectory(QStringView profileId);
+profileDirectory(QStringView profileId);
+
+/// Root of all cached media for a profile (for stats, total purge).
 QString
-mediaFileForMxc(QStringView profileId, QStringView mxcId, QStringView suffix);
+mediaRoot(QStringView profileId);
+
+/// Per-room media cache directory.
 QString
-mediaMediaFileForMxc(QStringView profileId, QStringView mxcId, QStringView suffix);
+roomMediaDirectory(QStringView profileId, QStringView roomId);
+
+/// Shared (cross-room) media cache directory (avatars, stickers, etc.).
+QString
+sharedMediaDirectory(QStringView profileId);
+
+/// Cache path for a downloaded media file.
+/// If roomId is non-empty the file is placed under the room's directory,
+/// otherwise under the shared directory.
+QString
+mediaFileForMxc(QStringView profileId,
+                QStringView mxcId,
+                QStringView suffix,
+                QStringView roomId = {});
+
+/// Cache path for a thumbnail.
 QString
 mediaThumbnailFileForMxc(QStringView profileId,
                          QStringView mxcId,
                          const QSize &requestedSize,
                          bool crop,
-                         double radius);
+                         double radius,
+                         QStringView roomId = {});
+
 QString
 roomNotificationAvatarFile(QStringView profileId, QStringView roomId);
+
+QString
+logDirectory(QStringView profileId);
 QString
 logFile(QStringView profileId);
+
+QString
+httpCacheDirectory(QStringView profileId);
 QString
 altSvcCacheFile(QStringView profileId);
 } // namespace cache

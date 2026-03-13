@@ -101,7 +101,7 @@ Item {
             id: videoThumb
             anchors.fill: parent
             visible: content.type == MtxEvent.VideoMessage
-            source: content.thumbnailUrl ? thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale" : "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.windowText
+            source: content.thumbnailUrl ? (thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale&room=" + room.roomId) : "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.windowText
             asynchronous: true
             fillMode: Image.PreserveAspectFit
 

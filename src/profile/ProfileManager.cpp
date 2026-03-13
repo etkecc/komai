@@ -271,8 +271,7 @@ deleteProfile(QStringView profileId,
       QFileInfo(app_paths::config::profileConfigFile(normalizedTargetProfile)).absolutePath();
     const auto dataProfileDir =
       QFileInfo(app_paths::data::dbRoot(normalizedTargetProfile)).absolutePath();
-    const auto cacheProfileDir =
-      QFileInfo(app_paths::cache::logFile(normalizedTargetProfile)).absolutePath();
+    const auto cacheProfileDir = app_paths::cache::profileDirectory(normalizedTargetProfile);
 
     const bool configRemoved = removeDirectoryRecursively(configProfileDir);
     const bool dataRemoved   = removeDirectoryRecursively(dataProfileDir);

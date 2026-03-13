@@ -164,30 +164,43 @@ root()
 }
 
 QString
-mediaDirectory(QStringView profileId)
+profileDirectory(QStringView profileId)
 {
-    return root() + QStringLiteral("/profiles/") + normalizedProfileId(profileId) +
-           QStringLiteral("/media_cache");
+    return root() + QStringLiteral("/profiles/") + normalizedProfileId(profileId);
 }
 
 QString
-mediaMediaDirectory(QStringView profileId)
+mediaRoot(QStringView profileId)
 {
-    return mediaDirectory(profileId) + QStringLiteral("/media");
+    return profileDirectory(profileId) + QStringLiteral("/media");
 }
 
 QString
-mediaFileForMxc(QStringView profileId, QStringView mxcId, QStringView suffix)
+roomMediaDirectory(QStringView profileId, QStringView roomId)
 {
-    return QStringLiteral("%1/%2.%3")
-      .arg(mediaDirectory(profileId), encodedIdComponent(mxcId), suffix.toString());
+    return mediaRoot(profileId) + QStringLiteral("/rooms/") + encodedIdComponent(roomId);
 }
 
 QString
-mediaMediaFileForMxc(QStringView profileId, QStringView mxcId, QStringView suffix)
+sharedMediaDirectory(QStringView profileId)
 {
-    return QStringLiteral("%1/%2.%3")
-      .arg(mediaMediaDirectory(profileId), encodedIdComponent(mxcId), suffix.toString());
+    return mediaRoot(profileId) + QStringLiteral("/shared");
+}
+
+static QString
+mediaDirectoryForContext(QStringView profileId, QStringView roomId)
+{
+    if (roomId.isEmpty())
+        return sharedMediaDirectory(profileId);
+    return roomMediaDirectory(profileId, roomId);
+}
+
+QString
+mediaFileForMxc(QStringView profileId, QStringView mxcId, QStringView suffix, QStringView roomId)
+{
+    return QStringLiteral("%1/full/%2.%3")
+      .arg(
+        mediaDirectoryForContext(profileId, roomId), encodedIdComponent(mxcId), suffix.toString());
 }
 
 QString
@@ -195,10 +208,11 @@ mediaThumbnailFileForMxc(QStringView profileId,
                          QStringView mxcId,
                          const QSize &requestedSize,
                          bool crop,
-                         double radius)
+                         double radius,
+                         QStringView roomId)
 {
-    return QStringLiteral("%1/%2_%3x%4_%5_radius%6")
-      .arg(mediaDirectory(profileId),
+    return QStringLiteral("%1/thumbnails/%2_%3x%4_%5_radius%6")
+      .arg(mediaDirectoryForContext(profileId, roomId),
            encodedIdComponent(mxcId),
            QString::number(requestedSize.width()),
            QString::number(requestedSize.height()),
@@ -210,22 +224,31 @@ QString
 roomNotificationAvatarFile(QStringView profileId, QStringView roomId)
 {
     return QStringLiteral("%1/notifications/room-avatar-%2.png")
-      .arg(root() + QStringLiteral("/profiles/") + normalizedProfileId(profileId),
-           encodedIdComponent(roomId));
+      .arg(profileDirectory(profileId), encodedIdComponent(roomId));
+}
+
+QString
+logDirectory(QStringView profileId)
+{
+    return profileDirectory(profileId) + QStringLiteral("/logs");
 }
 
 QString
 logFile(QStringView profileId)
 {
-    return root() + QStringLiteral("/profiles/") + normalizedProfileId(profileId) +
-           QStringLiteral("/komai.log");
+    return logDirectory(profileId) + QStringLiteral("/komai.log");
+}
+
+QString
+httpCacheDirectory(QStringView profileId)
+{
+    return profileDirectory(profileId) + QStringLiteral("/http");
 }
 
 QString
 altSvcCacheFile(QStringView profileId)
 {
-    return root() + QStringLiteral("/profiles/") + normalizedProfileId(profileId) +
-           QStringLiteral("/curl_alt_svc_cache.txt");
+    return httpCacheDirectory(profileId) + QStringLiteral("/alt_svc_cache.txt");
 }
 
 } // namespace cache

@@ -28,7 +28,7 @@ public:
     /// @param mimeType  Optional MIME type (e.g. "video/mp4").  When provided, the proxy
     ///                   URL path ends with the corresponding file extension so that the
     ///                   OS picks the right application to open it.
-    QUrl urlForMxc(const QString &mxcUrl, const QString &mimeType = {});
+    QUrl urlForMxc(const QString &mxcUrl, const QString &mimeType = {}, const QString &roomId = {});
 
     /// Opens media in an external player via the proxy URL.
     ///
@@ -40,7 +40,9 @@ public:
     ///
     /// When Range IS supported, launches the player via xdg-mime + gio/gtk-launch
     /// (Linux/FreeBSD) or QDesktopServices (other platforms).
-    bool openInExternalPlayer(const QString &mxcUrl, const QString &mimeType = {});
+    bool openInExternalPlayer(const QString &mxcUrl,
+                              const QString &mimeType = {},
+                              const QString &roomId   = {});
 
     /// Stops the server.  Called on logout / app exit.
     void stop();
@@ -97,6 +99,7 @@ private:
         std::string server;
         std::string mediaId;
         std::string suffix; // file extension from MIME type (e.g. "mp4"), for disk cache lookup
+        std::string roomId; // room ID for per-room media cache lookup (may be empty)
 
         // Set to true when upstream returns 200 for a Range request.
         // Subsequent Range requests skip the upstream probe and go straight

@@ -52,7 +52,7 @@ Item {
 
             visible: !mxcimage.loaded
             anchors.fill: parent
-            source: imageContent.visible ? imageContent.url.replace("mxc://", "image://MxcImage/") : ""
+            source: imageContent.visible ? (imageContent.url.replace("mxc://", "image://MxcImage/") + "?room=" + imageContent.room.roomId) : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             smooth: true

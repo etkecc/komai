@@ -105,8 +105,8 @@ MxcMediaProxy::startDownload(bool onlyCached)
 
     const auto url  = mxcUrl.toStdString();
     const auto name = QString(mxcUrl).remove(QStringLiteral("mxc://"));
-    QFileInfo filename(
-      app_paths::cache::mediaMediaFileForMxc(UserSettings::instance()->profile(), name, suffix));
+    QFileInfo filename(app_paths::cache::mediaFileForMxc(
+      UserSettings::instance()->profile(), name, suffix, room_->roomId()));
     if (QDir::cleanPath(filename.filePath()) != filename.filePath()) {
         nhlog::net()->warn("mxcUrl '{}' is not safe, not downloading file", url);
         return;
@@ -154,7 +154,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
         // Unencrypted media: stream via the local media proxy.
         // The proxy injects the Authorization header and streams from the homeserver,
         // enabling QMediaPlayer to seek and buffer without downloading the full file.
-        auto proxyUrl = MediaProxyServer::instance()->urlForMxc(mxcUrl, mimeType);
+        auto proxyUrl = MediaProxyServer::instance()->urlForMxc(mxcUrl, mimeType, room_->roomId());
         nhlog::ui()->info("Streaming unencrypted media via proxy: {}",
                           proxyUrl.toString().toStdString());
         streaming_ = true;

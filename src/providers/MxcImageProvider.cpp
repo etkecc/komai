@@ -34,6 +34,27 @@ currentProfileId()
     auto settings = UserSettings::instance();
     return settings ? settings->profile() : QStringLiteral("default");
 }
+
+void
+purgeFilesInDir(const QString &dirPath)
+{
+    QDir dir(dirPath,
+             "",
+             QDir::SortFlags(QDir::Name | QDir::IgnoreCase),
+             QDir::Filter::Writable | QDir::Filter::NoDotAndDotDot | QDir::Filter::Files);
+
+    for (const auto &fileInfo : dir.entryInfoList()) {
+        if (fileInfo.fileTime(QFile::FileTime::FileAccessTime)
+              .daysTo(QDateTime::currentDateTime()) > 14) {
+            if (QFile::remove(fileInfo.absoluteFilePath()))
+                nhlog::net()->debug("Deleted stale media '{}'",
+                                    fileInfo.absoluteFilePath().toStdString());
+            else
+                nhlog::net()->warn("Failed to delete stale media '{}'",
+                                   fileInfo.absoluteFilePath().toStdString());
+        }
+    }
+}
 }
 
 MxcImageProvider::MxcImageProvider()
@@ -43,41 +64,28 @@ MxcImageProvider::MxcImageProvider()
     timer->setInterval(std::chrono::hours(1));
     connect(timer, &QTimer::timeout, this, [] {
         QThreadPool::globalInstance()->start([] {
-            nhlog::net()->debug("Running media purge");
-            QDir dir(app_paths::cache::mediaDirectory(currentProfileId()),
-                     "",
-                     QDir::SortFlags(QDir::Name | QDir::IgnoreCase),
-                     QDir::Filter::Writable | QDir::Filter::NoDotAndDotDot | QDir::Filter::Files |
-                       QDir::Filter::Dirs);
+            nhlog::net()->info("Running media purge");
+            const auto profile = currentProfileId();
 
-            auto handleFile = [](const QFileInfo &fileInfo) {
-                if (fileInfo.fileTime(QFile::FileTime::FileAccessTime)
-                      .daysTo(QDateTime::currentDateTime()) > 14) {
-                    if (QFile::remove(fileInfo.absoluteFilePath()))
-                        nhlog::net()->debug("Deleted stale media '{}'",
-                                            fileInfo.absoluteFilePath().toStdString());
-                    else
-                        nhlog::net()->warn("Failed to delete stale media '{}'",
-                                           fileInfo.absoluteFilePath().toStdString());
-                }
+            auto purgeMediaDir = [](const QString &baseDir) {
+                purgeFilesInDir(baseDir + QStringLiteral("/thumbnails"));
+                purgeFilesInDir(baseDir + QStringLiteral("/full"));
             };
 
-            auto files = dir.entryInfoList();
-            for (const auto &fileInfo : std::as_const(files)) {
-                if (fileInfo.isDir()) {
-                    // handle one level of legacy directories
-                    auto nestedDir = QDir(fileInfo.absoluteFilePath(),
-                                          "",
-                                          QDir::SortFlags(QDir::Name | QDir::IgnoreCase),
-                                          QDir::Filter::Writable | QDir::Filter::NoDotAndDotDot |
-                                            QDir::Filter::Files)
-                                       .entryInfoList();
-                    for (const auto &nestedFile : std::as_const(nestedDir)) {
-                        handleFile(nestedFile);
-                    }
-                } else {
-                    handleFile(fileInfo);
-                }
+            // Purge shared media
+            purgeMediaDir(app_paths::cache::sharedMediaDirectory(profile));
+
+            // Purge per-room media and remove empty room directories
+            const auto roomsRoot = app_paths::cache::mediaRoot(profile) + QStringLiteral("/rooms");
+            QDir roomsDir(roomsRoot,
+                          "",
+                          QDir::SortFlags(QDir::Name | QDir::IgnoreCase),
+                          QDir::Filter::NoDotAndDotDot | QDir::Filter::Dirs);
+            for (const auto &roomDirInfo : roomsDir.entryInfoList()) {
+                purgeMediaDir(roomDirInfo.absoluteFilePath());
+                QDir roomDir(roomDirInfo.absoluteFilePath());
+                if (roomDir.isEmpty())
+                    roomDir.removeRecursively();
             }
         });
     });
@@ -91,6 +99,7 @@ MxcImageProvider::requestImageResponse(const QString &id, const QSize &requested
     bool crop     = true;
     double radius = 0;
     auto size     = requestedSize;
+    QString roomId;
 
     if (requestedSize.width() == 0 && requestedSize.height() == 0)
         size = QSize();
@@ -109,11 +118,13 @@ MxcImageProvider::requestImageResponse(const QString &id, const QSize &requested
             } else if (b.startsWith(u"height=")) {
                 size.setHeight(b.mid(7).toInt());
                 size.setWidth(0);
+            } else if (b.startsWith(QStringView(u"room="))) {
+                roomId = b.mid(5).toString();
             }
         }
     }
 
-    return new MxcImageResponse(id_, crop, radius, size);
+    return new MxcImageResponse(id_, crop, radius, size, roomId);
 }
 
 void
@@ -136,7 +147,8 @@ MxcImageRunnable::run()
           this->deleteLater();
       },
       m_crop,
-      m_radius);
+      m_radius,
+      m_roomId);
 }
 
 static QImage
@@ -181,7 +193,8 @@ MxcImageProvider::download(const QString &id,
                            const QSize &requestedSize,
                            std::function<void(QString, QSize, QImage, QString)> then,
                            bool crop,
-                           double radius)
+                           double radius,
+                           const QString &roomId)
 {
     if (id.isEmpty()) {
         nhlog::net()->warn("Attempted to download image with empty ID");
@@ -206,7 +219,7 @@ MxcImageProvider::download(const QString &id,
         // https://github.com/matrix-org/synapse/issues/5302
         && requestedSize.height() <= 600 && requestedSize.width() <= 800) {
         QFileInfo fileInfo(app_paths::cache::mediaThumbnailFileForMxc(
-          currentProfileId(), id, requestedSize, crop, radius));
+          currentProfileId(), id, requestedSize, crop, radius, roomId));
         QDir().mkpath(fileInfo.absolutePath());
 
         if (fileInfo.exists()) {
@@ -248,10 +261,10 @@ MxcImageProvider::download(const QString &id,
         opts.method = crop ? "crop" : "scale";
         http::client()->get_thumbnail(
           opts,
-          [fileInfo, requestedSize, radius, then, id, crop, cropLocally](
+          [fileInfo, requestedSize, radius, then, id, crop, cropLocally, roomId](
             const std::string &res, mtx::http::RequestErr err) {
               if (err || res.empty()) {
-                  download(id, QSize(), then, crop, radius);
+                  download(id, QSize(), then, crop, radius, roomId);
                   return;
               }
 
@@ -293,7 +306,7 @@ MxcImageProvider::download(const QString &id,
     } else {
         try {
             QFileInfo fileInfo(app_paths::cache::mediaThumbnailFileForMxc(
-              currentProfileId(), id, requestedSize, crop, radius));
+              currentProfileId(), id, requestedSize, crop, radius, roomId));
             QDir().mkpath(fileInfo.absolutePath());
             QFile f(fileInfo.absoluteFilePath());
 

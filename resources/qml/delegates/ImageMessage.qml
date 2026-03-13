@@ -173,7 +173,7 @@ AbstractButton {
 
             visible: !mxcimage.loaded
             anchors.fill: parent
-            source: (url != "" && showImage) ? (url.replace("mxc://", "image://MxcImage/") + "?scale") : ""
+            source: (url != "" && showImage) ? (url.replace("mxc://", "image://MxcImage/") + "?scale" + (roomContext ? "&room=" + roomContext.roomId : "")) : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             horizontalAlignment: Image.AlignLeft

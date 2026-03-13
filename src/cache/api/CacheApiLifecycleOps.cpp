@@ -7,6 +7,11 @@
 #include "cache/api/CacheApiLifecycle.h"
 #include "cache/core/Cache_p.h"
 
+#include <QDir>
+
+#include "profile/Paths.h"
+#include "settings/ui/facade/UserSettingsPage.h"
+
 namespace cache {
 
 void
@@ -97,6 +102,11 @@ void
 removeRoom(const QString &roomid)
 {
     cacheInstance()->removeRoom(roomid.toStdString());
+
+    // Also remove the room's media cache directory.
+    const auto profileId    = UserSettings::instance()->profile();
+    const auto roomCacheDir = app_paths::cache::roomMediaDirectory(profileId, roomid);
+    QDir(roomCacheDir).removeRecursively();
 }
 
 void

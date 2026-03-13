@@ -1777,6 +1777,16 @@ if(TARGET PkgConfig::XCB)
     target_compile_definitions(komai PRIVATE XCB_AVAILABLE)
 endif()
 
+if(APPLE)
+    # CoreServices for Launch Services API (external media player lookup by MIME type)
+    target_link_libraries(komai PRIVATE "-framework CoreServices")
+endif()
+
+if(WIN32)
+    # shlwapi for AssocQueryString (external media player lookup by file extension)
+    target_link_libraries(komai PRIVATE shlwapi)
+endif()
+
 if(MSVC)
     target_link_libraries(komai PRIVATE ntdll)
 endif()

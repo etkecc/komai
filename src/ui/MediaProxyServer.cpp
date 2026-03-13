@@ -23,6 +23,12 @@
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
 
+#if defined(Q_OS_MACOS)
+#include <CoreServices/CoreServices.h>
+#elif defined(Q_OS_WIN)
+#include <shlwapi.h>
+#endif
+
 // ── singleton ────────────────────────────────────────────────────────────────
 
 MediaProxyServer *
@@ -193,33 +199,98 @@ MediaProxyServer::openInExternalPlayer(const QString &mxcUrl, const QString &mim
             if (QProcess::startDetached(QStringLiteral("gtk-launch"), {desktopFile, proxyUrlStr})) {
                 return true;
             }
-            nhlog::ui()->warn("gtk-launch failed for '{}', falling back to .m3u",
-                              desktopFile.toStdString());
+            nhlog::ui()->warn("gtk-launch failed for '{}'", desktopFile.toStdString());
         }
     }
 
-    // Fallback: .m3u playlist — works when gtk-launch/gio are unavailable.
-    QString tmpDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    QString playlistPath =
-      tmpDir + QStringLiteral("/komai-media-%1.m3u")
-                 .arg(QUuid::createUuid().toString(QUuid::WithoutBraces).remove(u'-'));
+    // Fallback: open in browser (better than nothing).
+    nhlog::ui()->info("Opening media in browser (fallback): {}", proxyUrlStr.toStdString());
+    return QDesktopServices::openUrl(proxyUrl);
 
-    QFile f(playlistPath);
-    if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        nhlog::ui()->warn("media-proxy: failed to write playlist file: {}",
-                          playlistPath.toStdString());
-        return false;
+#elif defined(Q_OS_MACOS)
+    // On macOS, QDesktopServices::openUrl() with http:// opens the browser.
+    // Instead, query Launch Services for the default app for the MIME type's
+    // UTI (Uniform Type Identifier) and launch it directly with `open -a`.
+    {
+        QString effectiveMime = mimeType.isEmpty() ? QStringLiteral("video/mp4") : mimeType;
+
+        // MIME → UTI (e.g. "video/mp4" → "public.mpeg-4")
+        QT_WARNING_PUSH
+        QT_WARNING_DISABLE_DEPRECATED
+        CFStringRef mimeRef = effectiveMime.toCFString();
+        CFStringRef uti =
+          UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeRef, nullptr);
+        CFRelease(mimeRef);
+        QT_WARNING_POP
+
+        if (uti) {
+            // Find the default application for this content type.
+            CFURLRef appUrl =
+              LSCopyDefaultApplicationURLForContentType(uti, kLSRolesViewer, nullptr);
+            CFRelease(uti);
+
+            if (appUrl) {
+                QUrl appQUrl = QUrl::fromCFURL(appUrl);
+                CFRelease(appUrl);
+                QString appPath = appQUrl.toLocalFile();
+
+                if (!appPath.isEmpty()) {
+                    nhlog::ui()->info("Opening media via '{}' (MIME '{}')",
+                                      appPath.toStdString(),
+                                      effectiveMime.toStdString());
+                    if (QProcess::startDetached(QStringLiteral("open"),
+                                                {QStringLiteral("-a"), appPath, proxyUrlStr})) {
+                        return true;
+                    }
+                    nhlog::ui()->warn("open -a '{}' failed", appPath.toStdString());
+                }
+            }
+        }
     }
-    f.write(proxyUrlStr.toUtf8());
-    f.write("\n");
-    f.close();
 
-    nhlog::ui()->info("Opening media via .m3u playlist: {}", playlistPath.toStdString());
-    return QDesktopServices::openUrl(QUrl::fromLocalFile(playlistPath));
+    // Fallback: open in browser.
+    nhlog::ui()->info("Opening media in browser (fallback): {}", proxyUrlStr.toStdString());
+    return QDesktopServices::openUrl(proxyUrl);
+
+#elif defined(Q_OS_WIN)
+    // On Windows, QDesktopServices::openUrl() with http:// opens the browser.
+    // Instead, query the default application for the file extension (e.g. ".mp4")
+    // via AssocQueryString and launch it directly with the proxy URL.
+    {
+        QString effectiveMime = mimeType.isEmpty() ? QStringLiteral("video/mp4") : mimeType;
+        QString suffix        = QMimeDatabase().mimeTypeForName(effectiveMime).preferredSuffix();
+
+        if (!suffix.isEmpty()) {
+            QString ext = QStringLiteral(".") + suffix;
+
+            WCHAR exePath[MAX_PATH] = {};
+            DWORD exePathLen        = MAX_PATH;
+            HRESULT hr              = AssocQueryStringW(ASSOCF_NONE,
+                                           ASSOCSTR_EXECUTABLE,
+                                           ext.toStdWString().c_str(),
+                                           L"open",
+                                           exePath,
+                                           &exePathLen);
+            if (SUCCEEDED(hr)) {
+                QString playerPath =
+                  QString::fromWCharArray(exePath, static_cast<int>(exePathLen) - 1);
+                nhlog::ui()->info(
+                  "Opening media via '{}' (ext '{}')", playerPath.toStdString(), ext.toStdString());
+                if (QProcess::startDetached(playerPath, {proxyUrlStr})) {
+                    return true;
+                }
+                nhlog::ui()->warn("Failed to launch '{}'", playerPath.toStdString());
+            }
+        }
+    }
+
+    // Fallback: open in browser.
+    nhlog::ui()->info("Opening media in browser (fallback): {}", proxyUrlStr.toStdString());
+    return QDesktopServices::openUrl(proxyUrl);
+
 #else
-    // On macOS/Windows, QDesktopServices handles http:// URLs appropriately
-    // for media types (macOS opens QuickTime, Windows uses the default player).
-    nhlog::ui()->info("Opening media via system handler: {}", proxyUrlStr.toStdString());
+    // Unknown platform: open in browser.
+    nhlog::ui()->info("Opening media in browser: {}", proxyUrlStr.toStdString());
     return QDesktopServices::openUrl(proxyUrl);
 #endif
 }

@@ -36,7 +36,7 @@ repos:
         pass_filenames: false
       - id: qmllint
         name: Lint QML files
-        entry: ./bin/prek/qmllint.sh
+        entry: ./bin/prek/qml/qmllint.sh
         language: system
         files: '^resources/qml/.*\.qml$'
       - id: no-qsettings

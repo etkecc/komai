@@ -100,7 +100,7 @@ Item {
                     spacing: Komai.paddingSmall
 
                     property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
-                    property real sideMargin: Math.max(Komai.paddingLarge, (scrollView.availableWidth - contentMaxWidth) / 2)
+                    property real sideMargin: Math.max(Komai.paddingMedium, (scrollView.availableWidth - contentMaxWidth) / 2)
 
                     Item { Layout.preferredHeight: Komai.paddingMedium }
 

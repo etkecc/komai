@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../../components"
 import "../../ui"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
@@ -20,18 +21,16 @@ ColumnLayout {
             color: palette.text
         }
 
-        ComboBox {
+        KomaiComboBox {
             id: variantCombo
             model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
             currentIndex: Settings.themeVariantIndex()
             onActivated: function(index) {
                 Settings.setThemeVariantByIndex(index)
             }
-            implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-            wheelEnabled: activeFocus
         }
 
-        ComboBox {
+        KomaiComboBox {
             id: themeCombo
             visible: variantCombo.currentIndex !== 2
             model: Settings.themeNamesForCurrentVariant()
@@ -39,8 +38,6 @@ ColumnLayout {
             onActivated: function(index) {
                 Settings.setThemeByVariantIndex(index)
             }
-            implicitContentWidthPolicy: ComboBox.WidestTextWhenCompleted
-            wheelEnabled: activeFocus
         }
 
         Item {
@@ -83,7 +80,7 @@ ColumnLayout {
             color: palette.text
         }
 
-        ComboBox {
+        KomaiComboBox {
             id: preferredGenderCombo
             model: [
                 qsTr("Any gender"),
@@ -97,10 +94,9 @@ ColumnLayout {
             Layout.minimumWidth: 150
             implicitContentWidthPolicy: ComboBox.WidestText
             popup.width: Math.max(width, implicitContentWidth + leftPadding + rightPadding + 24)
-            wheelEnabled: activeFocus
         }
 
-        ComboBox {
+        KomaiComboBox {
             id: preferredSkinToneCombo
             model: [
                 qsTr("Any skin tone"),
@@ -117,7 +113,6 @@ ColumnLayout {
             Layout.minimumWidth: 210
             implicitContentWidthPolicy: ComboBox.WidestText
             popup.width: Math.max(width, implicitContentWidth + leftPadding + rightPadding + 24)
-            wheelEnabled: activeFocus
         }
     }
 

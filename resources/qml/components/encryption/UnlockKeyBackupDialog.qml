@@ -56,7 +56,7 @@ Components.OverlayDialog {
         wrapMode: Text.Wrap
     }
 
-    TextField {
+    Components.KomaiTextField {
         id: unlockKeyInput
 
         Layout.fillWidth: true

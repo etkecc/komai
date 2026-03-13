@@ -34,7 +34,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingMedium
 
-        ComboBox {
+        Components.KomaiComboBox {
             id: numberPrefix
 
             editable: false

@@ -44,7 +44,7 @@ Popup {
             color: palette.windowText
             }
 
-          ComboBox {
+          KomaiComboBox {
             id: screenshareType
 
             Layout.fillWidth: true
@@ -64,7 +64,7 @@ Popup {
                 color: palette.windowText
             }
 
-            ComboBox {
+            KomaiComboBox {
                 visible: CallManager.screenShareType == Voip.X11 || CallManager.screenShareType == Voip.D3D11
                 id: windowCombo
 
@@ -95,7 +95,7 @@ Popup {
                 color: palette.windowText
             }
 
-            ComboBox {
+            KomaiComboBox {
                 id: frameRateCombo
 
                 Layout.fillWidth: true

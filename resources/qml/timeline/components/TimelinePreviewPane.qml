@@ -170,11 +170,10 @@ ColumnLayout {
         Layout.fillWidth: true
         visible: preview.reason !== "" && showReason
 
-        TextArea {
+        Components.KomaiTextArea {
             background: null
             horizontalAlignment: TextEdit.AlignHCenter
             readOnly: true
-            selectByMouse: true
             text: TimelineManager.escapeEmoji(preview.reason)
             textFormat: TextEdit.RichText
             wrapMode: TextEdit.WordWrap

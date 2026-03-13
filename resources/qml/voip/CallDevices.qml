@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components"
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
@@ -34,7 +35,7 @@ Popup {
                     source: "image://colorimage/:/icons/icons/ui/microphone-unmute.svg?" + palette.windowText
                 }
 
-                ComboBox {
+                KomaiComboBox {
                     id: micCombo
 
                     Layout.fillWidth: true
@@ -52,7 +53,7 @@ Popup {
                     source: "image://colorimage/:/icons/icons/ui/video.svg?" + palette.windowText
                 }
 
-                ComboBox {
+                KomaiComboBox {
                     id: cameraCombo
 
                     Layout.fillWidth: true

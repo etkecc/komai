@@ -33,7 +33,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingSmall
 
-        TextField {
+        Components.KomaiTextField {
             id: recoveryKeyField
 
             Layout.fillWidth: true

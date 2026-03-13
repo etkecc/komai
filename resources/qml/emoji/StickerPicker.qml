@@ -258,7 +258,7 @@ Popup {
             rows: 2
 
             // Search field
-            TextField {
+            KomaiTextField {
                 id: emojiSearch
 
                 Layout.preferredWidth: gridColumnWidth
@@ -268,10 +268,7 @@ Popup {
                 Layout.row: 0
                 Layout.column: 1
                 background: null
-                font.pointSize: Settings.uiFontSizePt
-                placeholderTextColor: palette.buttonText
                 placeholderText: qsTr("Search")
-                selectByMouse: true
                 rightPadding: clearSearch.visible
                     ? (clearSearch.width + Komai.paddingLarge + Komai.paddingSmall)
                     : Komai.paddingSmall

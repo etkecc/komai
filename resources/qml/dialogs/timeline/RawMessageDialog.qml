@@ -48,13 +48,11 @@ Components.OverlayDialog {
         Layout.preferredHeight: 440
         padding: Komai.paddingSmall
 
-        TextArea {
+        Components.KomaiTextArea {
             id: rawMessageView
 
             font: Komai.monospaceFont()
-            color: palette.text
             readOnly: true
-            selectByMouse: true
             text: root.renderedRawMessage
             textFormat: TextEdit.RichText
             wrapMode: TextEdit.NoWrap

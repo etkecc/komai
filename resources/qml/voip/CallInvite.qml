@@ -97,7 +97,7 @@ Popup {
                     source: "image://colorimage/:/icons/icons/ui/microphone-unmute.svg?" + palette.windowText
                 }
 
-                ComboBox {
+                KomaiComboBox {
                     id: micCombo
 
                     Layout.fillWidth: true
@@ -116,7 +116,7 @@ Popup {
                     source: "image://colorimage/:/icons/icons/ui/video.svg?" + palette.windowText
                 }
 
-                ComboBox {
+                KomaiComboBox {
                     id: cameraCombo
 
                     Layout.fillWidth: true

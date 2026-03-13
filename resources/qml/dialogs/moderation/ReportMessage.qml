@@ -36,7 +36,7 @@ Components.OverlayDialog {
             color: palette.text
         }
 
-        TextField {
+        Components.KomaiTextField {
             id: reason
 
             Layout.fillWidth: true

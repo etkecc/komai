@@ -43,7 +43,7 @@ Components.OverlayDialog {
             KeyNavigation.tab: copyRecoveryKeyButton
         }
 
-        Button {
+        Components.KomaiButton {
             id: copyRecoveryKeyButton
 
             activeFocusOnTab: true
@@ -51,8 +51,6 @@ Components.OverlayDialog {
             KeyNavigation.tab: confirmRecoveryKeyButton
             KeyNavigation.backtab: recoveryKeyField
             icon.source: root.copied ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/copy.svg"
-            icon.width: 16
-            icon.height: 16
             text: root.copied ? qsTr("Copied") : qsTr("Copy")
 
             function activateCopy()
@@ -87,12 +85,10 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             id: confirmRecoveryKeyButton
 
             icon.source: "qrc:/icons/icons/ui/checkmark.svg"
-            icon.width: 18
-            icon.height: 18
             KeyNavigation.backtab: copyRecoveryKeyButton
             text: qsTr("OK, I saved my security key")
             highlighted: true

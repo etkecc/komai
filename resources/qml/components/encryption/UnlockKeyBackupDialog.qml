@@ -70,7 +70,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingSmall
 
-        Button {
+        Components.KomaiButton {
             text: qsTr("Cancel")
             onClicked: root.close()
         }
@@ -79,10 +79,8 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/key.svg"
-            icon.width: 18
-            icon.height: 18
             text: qsTr("Unlock")
             enabled: unlockKeyInput.text.length > 0
             highlighted: true

@@ -32,7 +32,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingSmall
 
-        Button {
+        Components.KomaiButton {
             Layout.rightMargin: Komai.paddingLarge
             text: qsTr("Not now")
             onClicked: root.close()
@@ -42,10 +42,8 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/refresh.svg"
-            icon.width: 18
-            icon.height: 18
             text: qsTr("Reset")
             highlighted: true
 

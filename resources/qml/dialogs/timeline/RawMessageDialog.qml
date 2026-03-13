@@ -73,28 +73,22 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingSmall
 
-        Button {
+        Components.KomaiButton {
             icon.source: root.copiedField === "all" ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/copy.svg"
-            icon.width: 16
-            icon.height: 16
             text: root.copiedField === "all" ? qsTr("Copied") : qsTr("Copy All")
             onClicked: root.copyField("all", root.rawMessageJson)
         }
 
-        Button {
+        Components.KomaiButton {
             visible: root.hasRawMessageBody
             icon.source: root.copiedField === "body" ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/copy.svg"
-            icon.width: 16
-            icon.height: 16
             text: root.copiedField === "body" ? qsTr("Copied") : qsTr("Copy `body`")
             onClicked: root.copyField("body", root.rawMessageBody)
         }
 
-        Button {
+        Components.KomaiButton {
             visible: root.hasRawMessageFormattedBody
             icon.source: root.copiedField === "formattedBody" ? "qrc:/icons/icons/ui/checkmark.svg" : "qrc:/icons/icons/ui/copy.svg"
-            icon.width: 16
-            icon.height: 16
             text: root.copiedField === "formattedBody" ? qsTr("Copied") : qsTr("Copy `formatted_body`")
             onClicked: root.copyField("formattedBody", root.rawMessageFormattedBody)
         }
@@ -103,10 +97,8 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/checkmark.svg"
-            icon.width: 18
-            icon.height: 18
             text: qsTr("OK")
             highlighted: true
             onClicked: root.close()

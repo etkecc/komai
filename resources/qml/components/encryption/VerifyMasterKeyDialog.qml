@@ -36,7 +36,7 @@ Components.OverlayDialog {
         Layout.fillWidth: true
         spacing: Komai.paddingSmall
 
-        Button {
+        Components.KomaiButton {
             Layout.rightMargin: Komai.paddingLarge
             text: qsTr("Not now")
             onClicked: root.close()
@@ -46,19 +46,15 @@ Components.OverlayDialog {
             Layout.fillWidth: true
         }
 
-        Button {
+        Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/refresh.svg"
-            icon.width: 18
-            icon.height: 18
             text: qsTr("Reset identity")
 
             onClicked: resetIdentity()
         }
 
-        Button {
+        Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/shield-regular-checkmark.svg"
-            icon.width: 18
-            icon.height: 18
             text: qsTr("Verify with another device")
             // Keep this visible-but-disabled when no candidates exist:
             // verification with another device is still a valid route in principle, but
@@ -70,10 +66,8 @@ Components.OverlayDialog {
             onClicked: verifyWithAnotherDevice()
         }
 
-        Button {
+        Components.KomaiButton {
             icon.source: "qrc:/icons/icons/ui/key.svg"
-            icon.width: 18
-            icon.height: 18
             text: qsTr("Unlock key backup")
             // Hide completely when backup unlock is fundamentally unavailable in this state.
             visible: root.hasSSSS

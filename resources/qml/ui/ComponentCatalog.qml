@@ -15,7 +15,7 @@ QtObject {
     readonly property string roomCreateDirectDialog: "qrc:/resources/qml/dialogs/room/CreateDirect.qml"
     readonly property string roomDirectoryDialog: "qrc:/resources/qml/dialogs/room/RoomDirectory.qml"
     readonly property string accountFallbackAuthDialog: "qrc:/resources/qml/dialogs/account/FallbackAuthDialog.qml"
-    readonly property string mediaImageOverlayDialog: "qrc:/resources/qml/dialogs/media/ImageOverlay.qml"
+    readonly property string mediaOverlayDialog: "qrc:/resources/qml/dialogs/media/MediaOverlay.qml"
     readonly property string mediaImagePackSettingsDialog: "qrc:/resources/qml/dialogs/media/ImagePackSettingsDialog.qml"
     readonly property string roomInviteDialog: "qrc:/resources/qml/dialogs/room/InviteDialog.qml"
     readonly property string roomJoinDialog: "qrc:/resources/qml/dialogs/room/JoinRoomDialog.qml"

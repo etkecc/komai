@@ -65,6 +65,12 @@ AbstractButton {
     hoverEnabled: true
     enabled: !EventDelegateChooser.isReply
 
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        acceptedButtons: Qt.NoButton
+    }
+
     state: (img.status != Image.Ready || blurOverlayActive) ? "BlurhashVisible" : "ImageVisible"
     states: [
         State {
@@ -146,7 +152,7 @@ AbstractButton {
         if (!roomContext)
             return;
 
-        Settings.timelineMediaOpenImagesExternal ? roomContext.openMedia(eventId) : TimelineManager.openImageOverlayWithContext(roomContext, url, eventId, originalWidth, proportionalHeight, timeline, timelineView);
+        Settings.timelineMediaOpenImagesExternal ? roomContext.openMedia(eventId) : TimelineManager.openMediaOverlayWithContext(roomContext, url, eventId, originalWidth, proportionalHeight, timeline, timelineView);
     }
 
     Item {

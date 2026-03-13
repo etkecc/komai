@@ -44,7 +44,15 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 ## 💬 Timeline Interaction
 
 - **Click-to-toggle message actions** replace the hover-only action bar, eliminating mis-targeting on wide windows
-- **Revamped in-app image viewer** -- a proper gallery with prev/next navigation (click the side bars or press Left/Right arrow keys), cleaner fullscreen media view with rounded media corners, corner-friendly controls (see [Fitts's law](https://www.nngroup.com/articles/fitts-law/)), and extra actions like **Forward Message** and **Open** (in an external program); older images are prefetched automatically as you browse
+- **Revamped in-app media viewer** -- replaces nheko's basic image popup with a proper media overlay:
+  - **Unified gallery for images and videos** -- prev/next navigation browses all media in the room chronologically, with automatic prefetching so navigation stays responsive
+  - **Video playback** -- videos play directly in the media viewer with full playback controls (play/pause, seek, volume, mute), so you no longer need to squint at tiny timeline thumbnails or download files to watch them. In unencrypted rooms, videos stream directly without requiring a full download first
+  - **Maximized, not fullscreen** -- the overlay fills the screen but keeps the taskbar accessible, so you can adjust system volume, switch apps, or check notifications without dismissing the viewer
+  - **Rounded media corners** and a clean backdrop for a polished look
+  - **Edge-friendly controls** -- the action bar (Forward, Open, Copy, Save, Close) sits in the top-right corner and the prev/next bars span the full left/right screen edges, all reachable with a quick flick (see [Fitts's law](https://www.nngroup.com/articles/fitts-law/))
+  - **Extra actions** -- **Forward Message** and **Open** (in an external program) alongside the standard Copy, Save, and Close
+  - **Keyboard-friendly** -- Left/Right arrows navigate, Space toggles video playback, Escape closes
+  - **Timeline video thumbnails** -- videos in the timeline show a thumbnail with a play button overlay and hover effects; clicking opens the media viewer directly
 - **Forward button** in the message action bar
 - **Pinned and recent emoji reactions** directly in the action bar
 - **Swipe-to-reply disabled** by default to prevent accidental replies on desktop

@@ -60,19 +60,17 @@ Item {
                     "initialTab": initialTab
                 });
         }
-        function onShowImageOverlay(room,
-                                    eventId,
-                                    url,
-                                    originalWidth,
-                                    proportionalHeight,
-                                    timeline,
-                                    timelineView) {
-            var dialog = timelineRoot.createDialog(componentCatalog.mediaImageOverlayDialog, {
+        function onShowMediaOverlay(room, eventId, url, originalWidth, proportionalHeight,
+                                    mediaType, duration, thumbnailUrl, timeline, timelineView) {
+            var dialog = timelineRoot.createDialog(componentCatalog.mediaOverlayDialog, {
                     "room": room,
                     "eventId": eventId,
                     "url": url,
                     "originalWidth": originalWidth ?? 0,
                     "proportionalHeight": proportionalHeight ?? 0,
+                    "mediaType": mediaType ?? -1,
+                    "mediaDuration": duration ?? 0,
+                    "thumbnailUrl": thumbnailUrl ?? "",
                     "timelineContext": timeline ?? null,
                     "timelineViewContext": timelineView ?? null,
                     "popupParent": timelineRoot,
@@ -85,12 +83,15 @@ Item {
             if (!dialog)
                 return;
 
-            timelineRoot.activeImageOverlay = dialog;
+            timelineRoot.activeMediaOverlay = dialog;
             dialog.visibleChanged.connect(() => {
-                if (!dialog.visible && timelineRoot.activeImageOverlay === dialog)
-                    timelineRoot.activeImageOverlay = null;
+                if (!dialog.visible && timelineRoot.activeMediaOverlay === dialog)
+                    timelineRoot.activeMediaOverlay = null;
             });
-            dialog.showFullScreen();
+            // Use maximized mode: fills the screen but leaves the taskbar
+            // visible so the user can access system volume controls.
+            // Explicit x/y positioning is unreliable on Wayland.
+            dialog.showMaximized();
             dialog.raise();
             dialog.requestActivate();
             timelineRoot.destroyOnClose(dialog);

@@ -24,7 +24,7 @@
 #include "utils/Utils.h"
 
 void
-TimelineViewManager::openImageOverlay(TimelineModel *room,
+TimelineViewManager::openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
                                       double originalWidth,
@@ -34,12 +34,12 @@ TimelineViewManager::openImageOverlay(TimelineModel *room,
         return;
     }
 
-    emit showImageOverlay(
-      room, eventId, mxcUrl, originalWidth, proportionalHeight, nullptr, nullptr);
+    emit showMediaOverlay(
+      room, eventId, mxcUrl, originalWidth, proportionalHeight, -1, 0, QString{}, nullptr, nullptr);
 }
 
 void
-TimelineViewManager::openImageOverlayWithContext(TimelineModel *room,
+TimelineViewManager::openMediaOverlayWithContext(TimelineModel *room,
                                                  const QString &mxcUrl,
                                                  const QString &eventId,
                                                  double originalWidth,
@@ -51,8 +51,66 @@ TimelineViewManager::openImageOverlayWithContext(TimelineModel *room,
         return;
     }
 
-    emit showImageOverlay(
-      room, eventId, mxcUrl, originalWidth, proportionalHeight, timeline, timelineView);
+    emit showMediaOverlay(room,
+                          eventId,
+                          mxcUrl,
+                          originalWidth,
+                          proportionalHeight,
+                          -1,
+                          0,
+                          QString{},
+                          timeline,
+                          timelineView);
+}
+
+void
+TimelineViewManager::openMediaOverlay(TimelineModel *room,
+                                      const QString &mxcUrl,
+                                      const QString &eventId,
+                                      double originalWidth,
+                                      double proportionalHeight,
+                                      int mediaType,
+                                      int duration,
+                                      const QString &thumbnailUrl)
+{
+    if (mxcUrl.isEmpty())
+        return;
+    emit showMediaOverlay(room,
+                          eventId,
+                          mxcUrl,
+                          originalWidth,
+                          proportionalHeight,
+                          mediaType,
+                          duration,
+                          thumbnailUrl,
+                          nullptr,
+                          nullptr);
+}
+
+void
+TimelineViewManager::openMediaOverlayWithContext(TimelineModel *room,
+                                                 const QString &mxcUrl,
+                                                 const QString &eventId,
+                                                 double originalWidth,
+                                                 double proportionalHeight,
+                                                 int mediaType,
+                                                 int duration,
+                                                 const QString &thumbnailUrl,
+                                                 QObject *timeline,
+                                                 QObject *timelineView)
+{
+    if (mxcUrl.isEmpty())
+        return;
+    emit showMediaOverlay(room,
+                          eventId,
+                          mxcUrl,
+                          originalWidth,
+                          proportionalHeight,
+                          mediaType,
+                          duration,
+                          thumbnailUrl,
+                          timeline,
+                          timelineView);
 }
 
 void

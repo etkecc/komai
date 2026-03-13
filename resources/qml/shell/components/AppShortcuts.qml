@@ -17,10 +17,10 @@ Item {
     Shortcut {
         sequences: ["Escape"]
         context: Qt.ApplicationShortcut
-        enabled: !!timelineRoot.activeImageOverlay && timelineRoot.activeImageOverlay.visible
+        enabled: !!timelineRoot.activeMediaOverlay && timelineRoot.activeMediaOverlay.visible
 
-        onActivated: timelineRoot.activeImageOverlay.close()
-        onActivatedAmbiguously: timelineRoot.activeImageOverlay.close()
+        onActivated: timelineRoot.activeMediaOverlay.close()
+        onActivatedAmbiguously: timelineRoot.activeMediaOverlay.close()
     }
     Shortcut {
         sequences: ["Ctrl+K", "Ctrl+P"]

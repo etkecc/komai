@@ -27,6 +27,7 @@ class MxcMediaProxy : public QMediaPlayer
     Q_PROPERTY(TimelineModel *roomm READ room WRITE setRoom NOTIFY roomChanged REQUIRED)
     Q_PROPERTY(QString eventId READ eventId WRITE setEventId NOTIFY eventIdChanged)
     Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
+    Q_PROPERTY(bool encrypted READ isEncrypted NOTIFY encryptedChanged)
     Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
@@ -35,11 +36,25 @@ public:
     MxcMediaProxy(QObject *parent = nullptr);
     ~MxcMediaProxy()
     {
-        stop();
+        killPlayback();
         this->setSourceDevice(nullptr);
     }
 
+    // Immediately silence and stop playback — no lingering audio.
+    Q_INVOKABLE void killPlayback()
+    {
+        if (auto output = audioOutput())
+            output->setMuted(true);
+        stop();
+        // Detach the old buffer so a subsequent startDownload() can
+        // write new data without the "QBuffer::setData: Buffer is open" warning.
+        setSourceDevice(nullptr);
+        if (buffer.isOpen())
+            buffer.close();
+    }
+
     bool loaded() const { return buffer.size() > 0; }
+    bool isEncrypted() const { return encrypted_; }
     QString eventId() const { return eventId_; }
     TimelineModel *room() const { return room_; }
     void setEventId(QString newEventId)
@@ -81,18 +96,21 @@ signals:
     void newBuffer(QUrl, QIODevice *buf);
 
     void orientationChanged();
+    void encryptedChanged();
 
     void volumeChanged();
     void mutedChanged();
 
 public slots:
     void startDownload(bool onlyCached = false);
+    void ensureAudioReady();
 
 private:
     TimelineModel *room_ = nullptr;
     QString eventId_;
     QString filename_;
     QBuffer buffer;
-    float volume_ = 1.f;
-    bool muted_   = false;
+    float volume_   = 1.f;
+    bool muted_     = false;
+    bool encrypted_ = false;
 };

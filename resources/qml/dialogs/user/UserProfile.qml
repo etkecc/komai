@@ -348,7 +348,7 @@ Components.OverlayDialog {
                             Layout.bottomMargin: Komai.paddingMedium
                             onClicked: {
                                 if (profile.avatarUrl !== "")
-                                    TimelineManager.openImageOverlay(null, profile.avatarUrl, "", 0, 0);
+                                    TimelineManager.openMediaOverlay(null, profile.avatarUrl, "", 0, 0);
                             }
                         }
                     }

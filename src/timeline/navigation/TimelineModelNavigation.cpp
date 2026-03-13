@@ -198,7 +198,7 @@ TimelineModel::scrollTimerEvent()
 }
 
 QVariantMap
-TimelineModel::adjacentImageEvent(const QString &currentEventId, int direction) const
+TimelineModel::adjacentMediaEvent(const QString &currentEventId, int direction) const
 {
     auto currentIdx = events.idToIndex(currentEventId.toStdString());
     if (!currentIdx)
@@ -215,7 +215,8 @@ TimelineModel::adjacentImageEvent(const QString &currentEventId, int direction) 
 
         auto type = qml_mtx_events::toRoomEventType(*event);
         if (type != qml_mtx_events::EventType::ImageMessage &&
-            type != qml_mtx_events::EventType::Sticker)
+            type != qml_mtx_events::EventType::Sticker &&
+            type != qml_mtx_events::EventType::VideoMessage)
             continue;
 
         auto w      = mtx::accessors::media_width(*event);
@@ -229,6 +230,11 @@ TimelineModel::adjacentImageEvent(const QString &currentEventId, int direction) 
         result[QStringLiteral("url")] = QString::fromStdString(mtx::accessors::url(*event));
         result[QStringLiteral("originalWidth")]      = QVariant::fromValue(qulonglong{w});
         result[QStringLiteral("proportionalHeight")] = QVariant::fromValue(prop);
+        result[QStringLiteral("type")]               = static_cast<int>(type);
+        result[QStringLiteral("duration")] =
+          QVariant::fromValue(qulonglong{mtx::accessors::duration(*event)});
+        result[QStringLiteral("thumbnailUrl")] =
+          QString::fromStdString(mtx::accessors::thumbnail_url(*event));
         return result;
     }
 
@@ -236,7 +242,7 @@ TimelineModel::adjacentImageEvent(const QString &currentEventId, int direction) 
 }
 
 int
-TimelineModel::countNearbyImages(const QString &currentEventId, int direction, int limit) const
+TimelineModel::countNearbyMedia(const QString &currentEventId, int direction, int limit) const
 {
     auto currentIdx = events.idToIndex(currentEventId.toStdString());
     if (!currentIdx)
@@ -253,11 +259,12 @@ TimelineModel::countNearbyImages(const QString &currentEventId, int direction, i
 
         auto type = qml_mtx_events::toRoomEventType(*event);
         if (type == qml_mtx_events::EventType::ImageMessage ||
-            type == qml_mtx_events::EventType::Sticker)
+            type == qml_mtx_events::EventType::Sticker ||
+            type == qml_mtx_events::EventType::VideoMessage)
             ++count;
     }
 
-    nhlog::ui()->info("countNearbyImages from {} dir={} limit={}: found {}",
+    nhlog::ui()->info("countNearbyMedia from {} dir={} limit={}: found {}",
                       currentEventId.toStdString(),
                       direction,
                       limit,

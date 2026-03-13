@@ -5,15 +5,16 @@
 
 import QtQuick 2.15
 import QtQuick.Window 2.15
-import Qt5Compat.GraphicalEffects
+import QtMultimedia
 
 import "../../ui"
+import "../../ui/media"
 import "./components"
 
 import cc.etke.komai 1.0
 
 Window {
-    id: imageOverlay
+    id: mediaOverlay
 
     ComponentCatalog {
         id: componentCatalog
@@ -24,6 +25,10 @@ Window {
     required property Room room
     required property int originalWidth
     required property double proportionalHeight
+    property int mediaType: -1
+    property int mediaDuration: 0
+    property string thumbnailUrl: ""
+    readonly property bool isVideo: mediaType === MtxEvent.VideoMessage
     readonly property bool galleryMode: !!room && eventId !== ""
     property var timelineContext: null
     property var timelineViewContext: null
@@ -46,26 +51,34 @@ Window {
 
     flags: Qt.FramelessWindowHint
 
-    //visibility: Window.FullScreen
     color: modalOverlayColor
     Component.onCompleted: {
-        Komai.setWindowRole(imageOverlay, "imageoverlay");
+        Komai.setWindowRole(mediaOverlay, "imageoverlay");
         hintTimer.start();
         ensureGalleryReserve();
+        if (mediaOverlay.isVideo)
+            videoContent.startDownload();
+    }
+    Component.onDestruction: {
+        videoContent.stopPlayback();
     }
     onVisibleChanged: {
         if (visible) {
             Qt.callLater(() => {
-                imageOverlay.requestActivate();
+                mediaOverlay.requestActivate();
                 keyCatcher.forceActiveFocus();
             });
+        } else {
+            // Immediately kill video playback when the overlay hides,
+            // regardless of which code path triggered the close.
+            videoContent.stopPlayback();
         }
     }
 
     Connections {
-        target: imageOverlay.room
+        target: mediaOverlay.room
         function onFetchedMore() {
-            imageOverlay.ensureGalleryReserve();
+            mediaOverlay.ensureGalleryReserve();
         }
     }
 
@@ -100,11 +113,11 @@ Window {
 
     function closeOverlaySoon()
     {
-        // Defer closing to the next tick so we don't destroy the overlay from inside
-        // an active button signal handler (Qt can fatal in nested event-loop paths).
+        if (mediaOverlay.isVideo)
+            videoContent.stopPlayback();
         Qt.callLater(() => {
-            imageOverlay.hide();
-            imageOverlay.close();
+            mediaOverlay.hide();
+            mediaOverlay.close();
         });
     }
 
@@ -118,32 +131,51 @@ Window {
         return closeButton;
     }
 
-    function navigateTo(imageData) {
-        if (!imageData || !imageData.eventId) return;
+    function navigateTo(mediaData) {
+        if (!mediaData || !mediaData.eventId) return;
+        var wasVideo = mediaOverlay.isVideo;
+        // Update mediaType FIRST so isVideo is correct before we stop the
+        // player — otherwise auto-play handlers see the old type.
+        mediaOverlay.mediaType = mediaData.type ?? -1;
+        if (wasVideo)
+            videoContent.stopPlayback();
         imgContainer.scale = 1.0;
-        imgContainer.x = Qt.binding(() => (imageOverlay.width - imgContainer.width) / 2);
-        imgContainer.y = Qt.binding(() => (imageOverlay.height - imgContainer.height) / 2);
-        imageOverlay.eventId = imageData.eventId;
-        imageOverlay.url = imageData.url;
-        imageOverlay.originalWidth = imageData.originalWidth ?? 0;
-        imageOverlay.proportionalHeight = imageData.proportionalHeight ?? 0;
+        imgContainer.x = Qt.binding(() => (mediaOverlay.width - imgContainer.width) / 2);
+        imgContainer.y = Qt.binding(() => (mediaOverlay.height - imgContainer.height) / 2);
+        mediaOverlay.eventId = mediaData.eventId;
+        mediaOverlay.url = mediaData.url;
+        mediaOverlay.originalWidth = mediaData.originalWidth ?? 0;
+        mediaOverlay.proportionalHeight = mediaData.proportionalHeight ?? 0;
+        mediaOverlay.mediaDuration = mediaData.duration ?? 0;
+        mediaOverlay.thumbnailUrl = mediaData.thumbnailUrl ?? "";
         ensureGalleryReserve();
+        // Start download for newly navigated-to video
+        if (mediaOverlay.isVideo)
+            videoContent.startDownload();
     }
 
     function navigatePrev() {
         if (!galleryMode) return;
-        navigateTo(room.adjacentImageEvent(eventId, -1));
+        var data = room.adjacentMediaEvent(eventId, -1);
+        if (data && data.eventId)
+            navigateTo(data);
+        else
+            prevShakeAnimation.start();
     }
 
     function navigateNext() {
         if (!galleryMode) return;
-        navigateTo(room.adjacentImageEvent(eventId, +1));
+        var data = room.adjacentMediaEvent(eventId, +1);
+        if (data && data.eventId)
+            navigateTo(data);
+        else
+            nextShakeAnimation.start();
     }
 
     function ensureGalleryReserve() {
         if (!galleryMode) return;
         if (!room.canPaginateBack() || room.paginationInProgress) return;
-        var behind = room.countNearbyImages(eventId, -1, galleryPrefetchReserve);
+        var behind = room.countNearbyMedia(eventId, -1, galleryPrefetchReserve);
         if (behind < galleryPrefetchReserve) {
             console.log("[ImageOverlay] gallery reserve low (backward:", behind,
                         "/", galleryPrefetchReserve, ") — requesting backpagination");
@@ -173,7 +205,7 @@ Window {
             return;
         }
 
-        const host = imageOverlay;
+        const host = mediaOverlay;
         const dialog = component.createObject(host, {
                 "roomSource": resolvedRoom,
                 "timelineSource": resolvedTimeline,
@@ -194,14 +226,26 @@ Window {
     Shortcut {
         sequences: [StandardKey.Cancel, "Escape"]
         context: Qt.ApplicationShortcut
-        onActivated: imageOverlay.close()
-        onActivatedAmbiguously: imageOverlay.close()
+        onActivated: mediaOverlay.closeOverlaySoon()
+        onActivatedAmbiguously: mediaOverlay.closeOverlaySoon()
     }
 
     Shortcut {
         sequences: [StandardKey.Copy]
-        onActivated: imageOverlay.copyCurrentMedia()
+        onActivated: mediaOverlay.copyCurrentMedia()
     }
+
+    // --- Visual tree ---
+    // Stacking order (bottom to top):
+    //   1. keyCatcher (focus/key handling, no visuals)
+    //   2. closeMouseArea (behind everything, closes on click)
+    //   3. imgContainer (media content — image or video)
+    //   4. nav buttons (prev/next, on top for click handling)
+    //   5. action bar (Forward/Open/Copy/Save/Close)
+    //
+    // Each content component (ImageContent, VideoContent) has its own
+    // MouseArea that absorbs clicks within its bounds. This prevents
+    // closeMouseArea from firing when clicking on the media.
 
     Item {
         id: keyCatcher
@@ -212,20 +256,26 @@ Window {
         Keys.onPressed: event => {
             if (event.key === Qt.Key_Escape) {
                 event.accepted = true;
-                imageOverlay.close();
+                mediaOverlay.closeOverlaySoon();
                 return;
             }
 
-            if (imageOverlay.galleryMode) {
-                if (event.key === Qt.Key_Left)  { event.accepted = true; imageOverlay.navigatePrev(); return; }
-                if (event.key === Qt.Key_Right) { event.accepted = true; imageOverlay.navigateNext(); return; }
+            if (event.key === Qt.Key_Space && mediaOverlay.isVideo) {
+                event.accepted = true;
+                videoContent.togglePlayback();
+                return;
+            }
+
+            if (mediaOverlay.galleryMode) {
+                if (event.key === Qt.Key_Left)  { event.accepted = true; mediaOverlay.navigatePrev(); return; }
+                if (event.key === Qt.Key_Right) { event.accepted = true; mediaOverlay.navigateNext(); return; }
             }
 
             const isTab = event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab;
             const hasNavigationModifier = event.modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier);
             if (isTab && !hasNavigationModifier && !actionsRow.containsActiveFocus) {
                 const isBacktab = event.key === Qt.Key_Backtab || ((event.modifiers & Qt.ShiftModifier) && event.key === Qt.Key_Tab);
-                const button = isBacktab ? imageOverlay.lastVisibleActionButton() : imageOverlay.firstVisibleActionButton();
+                const button = isBacktab ? mediaOverlay.lastVisibleActionButton() : mediaOverlay.firstVisibleActionButton();
                 if (button) {
                     event.accepted = true;
                     button.forceActiveFocus(Qt.TabFocusReason);
@@ -234,22 +284,22 @@ Window {
         }
     }
 
-    TapHandler {
-        onSingleTapped: imageOverlay.close();
+    // Close overlay when clicking empty space (outside media content).
+    // Content components absorb their own clicks so this only fires
+    // for clicks on the dark backdrop.
+    MouseArea {
+        anchors.fill: parent
+        onClicked: mediaOverlay.closeOverlaySoon()
     }
-
 
     Item {
         id: imgContainer
 
-        property int imgSrcWidth: (imageOverlay.originalWidth && imageOverlay.originalWidth > 100) ? imageOverlay.originalWidth : Screen.width
-        property int imgSrcHeight: imageOverlay.proportionalHeight ? imgSrcWidth * imageOverlay.proportionalHeight : Screen.height
-        property int viewportWidth: Math.max(1, imageOverlay.width - imageOverlay.imageViewportGap * 2)
-        property int viewportHeight: Math.max(1, imageOverlay.height - imageOverlay.imageViewportGap * 2)
-        readonly property bool staticImageReady: img.status === Image.Ready
-        readonly property bool animatedImageReady: mxcimage.loaded
-        readonly property bool mediaReady: staticImageReady || animatedImageReady
-        readonly property bool mediaFailed: img.status === Image.Error && !animatedImageReady
+        property int imgSrcWidth: (mediaOverlay.originalWidth && mediaOverlay.originalWidth > 100) ? mediaOverlay.originalWidth : Screen.width
+        property int imgSrcHeight: mediaOverlay.proportionalHeight ? imgSrcWidth * mediaOverlay.proportionalHeight : Screen.height
+        property int viewportWidth: Math.max(1, mediaOverlay.width - mediaOverlay.imageViewportGap * 2)
+        // Reserve space for the action bar at the top so media doesn't appear behind it.
+        property int viewportHeight: Math.max(1, mediaOverlay.height - mediaOverlay.imageViewportGap * 2 - actionBar.height)
 
         property double initialScale: Math.min(viewportHeight / imgSrcHeight, viewportWidth / imgSrcWidth, 1.0)
 
@@ -259,54 +309,58 @@ Window {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
-        Item {
-            id: imageClipper
+        // --- Content components ---
+        // Only one is visible at a time. Each owns its input handling.
 
+        ImageOverlayImageContent {
+            id: imageContent
+
+            visible: !mediaOverlay.isVideo
             anchors.fill: parent
-            layer.enabled: true
-            layer.effect: OpacityMask {
-                maskSource: Rectangle {
-                    width: imageClipper.width
-                    height: imageClipper.height
-                    radius: imageOverlay.imageCornerRadius
-                }
-            }
-
-            Image {
-                id: img
-
-                visible: !mxcimage.loaded
-                anchors.fill: parent
-                source: url.replace("mxc://", "image://MxcImage/")
-                asynchronous: true
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-                mipmap: true
-                property bool loaded: status == Image.Ready
-            }
-
-            MxcAnimatedImage {
-                id: mxcimage
-
-                visible: loaded
-                anchors.fill: parent
-                roomm: imageOverlay.room
-                play: !Settings.timelineMediaAnimateOnHover || mouseArea.hovered
-                eventId: imageOverlay.eventId
-            }
+            url: mediaOverlay.url
+            eventId: mediaOverlay.eventId
+            room: mediaOverlay.room
+            cornerRadius: mediaOverlay.imageCornerRadius
+            animateOnHover: Settings.timelineMediaAnimateOnHover
+            hovered: mouseArea.hovered
         }
 
-        Spinner {
-            anchors.centerIn: parent
-            height: Math.max(40, Math.min(imgContainer.width, imgContainer.height) * 0.08)
-            visible: !imgContainer.mediaReady && !imgContainer.mediaFailed
-            running: visible
+        ImageOverlayVideoContent {
+            id: videoContent
+
+            visible: mediaOverlay.isVideo
+            anchors.fill: parent
+            room: mediaOverlay.room
+            eventId: mediaOverlay.isVideo ? mediaOverlay.eventId : ""
+            thumbnailUrl: mediaOverlay.thumbnailUrl
+            mediaDuration: mediaOverlay.mediaDuration
+            cornerRadius: mediaOverlay.imageCornerRadius
         }
 
-        // Absorb taps on the image so they don't propagate to the root
-        // TapHandler which closes the overlay.
-        TapHandler {
-            gesturePolicy: TapHandler.WithinBounds
+        // Image zoom handlers — only active for images.
+        // Placed directly in imgContainer (targeting itself) so there's
+        // no interaction layer blocking input to content components.
+        PinchHandler {
+            target: imgContainer
+            maximumScale: 10
+            minimumScale: 0.1
+            enabled: !mediaOverlay.isVideo
+        }
+
+        WheelHandler {
+            property: "scale"
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+            target: imgContainer
+            enabled: !mediaOverlay.isVideo
+        }
+
+        DragHandler {
+            target: imgContainer
+            enabled: !mediaOverlay.isVideo
+        }
+
+        HoverHandler {
+            id: mouseArea
         }
 
         onScaleChanged: {
@@ -315,46 +369,10 @@ Window {
         }
     }
 
-    Item {
-        anchors.fill: parent
-
-        // Close overlay when tapping on empty space (outside the image).
-        // This must live inside this Item because it covers the entire window
-        // and would otherwise block the root-level TapHandler.
-        TapHandler {
-            onSingleTapped: imageOverlay.close()
-        }
-
-        PinchHandler {
-            target: imgContainer
-            maximumScale: 10
-            minimumScale: 0.1
-        }
-
-        WheelHandler {
-            property: "scale"
-            // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
-            // Magic Mouse pretends to be a trackpad but doesn't work with PinchHandler
-            // and we don't yet distinguish mice and trackpads on Wayland either
-            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-            target: imgContainer
-        }
-
-        DragHandler {
-            target: imgContainer
-        }
-
-        HoverHandler {
-            id: mouseArea
-        }
-    }
-
-
-
     // One-shot hint animation timer — fires 1s after the overlay opens.
     Timer {
         id: hintTimer
-        interval: 1000
+        interval: 400
         repeat: false
         onTriggered: {
             if (!Settings.uiMotionAnimationsEnabled)
@@ -367,11 +385,12 @@ Window {
         }
     }
 
-    // Left navigation hit area
+    // Left navigation hit area — always visible in gallery mode.
+    // Shows a chevron when there's a previous item, prohibited icon at the edge.
     Rectangle {
         id: prevHitArea
 
-        visible: imageOverlay.galleryMode && hasPrev
+        visible: mediaOverlay.galleryMode
         anchors.left: parent.left
         anchors.top: actionBar.bottom
         anchors.topMargin: Komai.paddingLarge
@@ -381,7 +400,7 @@ Window {
         radius: Komai.paddingMedium
         color: "transparent"
 
-        property var prevImageData: imageOverlay.galleryMode ? room.adjacentImageEvent(imageOverlay.eventId, -1) : ({})
+        property var prevImageData: mediaOverlay.galleryMode ? room.adjacentMediaEvent(mediaOverlay.eventId, -1) : ({})
         readonly property bool hasPrev: !!prevImageData && !!prevImageData.eventId
         property bool hinting: false
 
@@ -397,8 +416,8 @@ Window {
             id: prevButtonBg
             anchors.fill: parent
             radius: parent.radius
-            color: prevHitArea.hinting ? Qt.rgba(imageOverlay.palette.highlight.r, imageOverlay.palette.highlight.g, imageOverlay.palette.highlight.b, 0.35)
-                 : prevMouseArea.containsMouse ? actionButtonHoverBackgroundColor
+            color: prevHitArea.hinting ? Qt.rgba(mediaOverlay.palette.highlight.r, mediaOverlay.palette.highlight.g, mediaOverlay.palette.highlight.b, 0.35)
+                 : prevMouseArea.containsMouse && prevHitArea.hasPrev ? actionButtonHoverBackgroundColor
                  : actionBarColor
 
             Behavior on color { ColorAnimation { duration: 250 } }
@@ -419,14 +438,31 @@ Window {
                 color: parent.color
             }
 
-            Image {
-                id: prevIcon
+            Item {
                 anchors.centerIn: parent
                 width: actionButtonIconSize
                 height: actionButtonIconSize
-                source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + actionButtonColor
-                sourceSize.width: width * Screen.devicePixelRatio
-                sourceSize.height: height * Screen.devicePixelRatio
+                clip: false
+
+                Image {
+                    id: prevIcon
+                    width: parent.width
+                    height: parent.height
+                    source: prevHitArea.hasPrev
+                        ? "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + actionButtonColor
+                        : "image://colorimage/:/icons/icons/ui/prohibited.svg?" + actionButtonColor
+                    sourceSize.width: width * Screen.devicePixelRatio
+                    sourceSize.height: height * Screen.devicePixelRatio
+                    opacity: prevHitArea.hasPrev ? 1.0 : 0.4
+
+                    SequentialAnimation {
+                        id: prevShakeAnimation
+                        NumberAnimation { target: prevIcon; property: "x"; to: -4; duration: 40 }
+                        NumberAnimation { target: prevIcon; property: "x"; to: 4; duration: 70 }
+                        NumberAnimation { target: prevIcon; property: "x"; to: -3; duration: 60 }
+                        NumberAnimation { target: prevIcon; property: "x"; to: 0; duration: 50 }
+                    }
+                }
             }
         }
 
@@ -434,16 +470,22 @@ Window {
             id: prevMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: imageOverlay.navigatePrev()
+            cursorShape: prevHitArea.hasPrev ? Qt.PointingHandCursor : Qt.ArrowCursor
+            onClicked: {
+                if (prevHitArea.hasPrev)
+                    mediaOverlay.navigatePrev();
+                else
+                    prevShakeAnimation.start();
+            }
         }
     }
 
-    // Right navigation hit area
+    // Right navigation hit area — always visible in gallery mode.
+    // Shows a chevron when there's a next item, prohibited icon at the edge.
     Rectangle {
         id: nextHitArea
 
-        visible: imageOverlay.galleryMode && hasNext
+        visible: mediaOverlay.galleryMode
         anchors.right: parent.right
         anchors.top: actionBar.bottom
         anchors.topMargin: Komai.paddingLarge
@@ -453,7 +495,7 @@ Window {
         radius: Komai.paddingMedium
         color: "transparent"
 
-        property var nextImageData: imageOverlay.galleryMode ? room.adjacentImageEvent(imageOverlay.eventId, +1) : ({})
+        property var nextImageData: mediaOverlay.galleryMode ? room.adjacentMediaEvent(mediaOverlay.eventId, +1) : ({})
         readonly property bool hasNext: !!nextImageData && !!nextImageData.eventId
         property bool hinting: false
 
@@ -469,8 +511,8 @@ Window {
             id: nextButtonBg
             anchors.fill: parent
             radius: parent.radius
-            color: nextHitArea.hinting ? Qt.rgba(imageOverlay.palette.highlight.r, imageOverlay.palette.highlight.g, imageOverlay.palette.highlight.b, 0.35)
-                 : nextMouseArea.containsMouse ? actionButtonHoverBackgroundColor
+            color: nextHitArea.hinting ? Qt.rgba(mediaOverlay.palette.highlight.r, mediaOverlay.palette.highlight.g, mediaOverlay.palette.highlight.b, 0.35)
+                 : nextMouseArea.containsMouse && nextHitArea.hasNext ? actionButtonHoverBackgroundColor
                  : actionBarColor
 
             Behavior on color { ColorAnimation { duration: 250 } }
@@ -491,14 +533,31 @@ Window {
                 color: parent.color
             }
 
-            Image {
-                id: nextIcon
+            Item {
                 anchors.centerIn: parent
                 width: actionButtonIconSize
                 height: actionButtonIconSize
-                source: "image://colorimage/:/icons/icons/ui/collapsed.svg?" + actionButtonColor
-                sourceSize.width: width * Screen.devicePixelRatio
-                sourceSize.height: height * Screen.devicePixelRatio
+                clip: false
+
+                Image {
+                    id: nextIcon
+                    width: parent.width
+                    height: parent.height
+                    source: nextHitArea.hasNext
+                        ? "image://colorimage/:/icons/icons/ui/collapsed.svg?" + actionButtonColor
+                        : "image://colorimage/:/icons/icons/ui/prohibited.svg?" + actionButtonColor
+                    sourceSize.width: width * Screen.devicePixelRatio
+                    sourceSize.height: height * Screen.devicePixelRatio
+                    opacity: nextHitArea.hasNext ? 1.0 : 0.4
+
+                    SequentialAnimation {
+                        id: nextShakeAnimation
+                        NumberAnimation { target: nextIcon; property: "x"; to: 4; duration: 40 }
+                        NumberAnimation { target: nextIcon; property: "x"; to: -4; duration: 70 }
+                        NumberAnimation { target: nextIcon; property: "x"; to: 3; duration: 60 }
+                        NumberAnimation { target: nextIcon; property: "x"; to: 0; duration: 50 }
+                    }
+                }
             }
         }
 
@@ -506,8 +565,13 @@ Window {
             id: nextMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: imageOverlay.navigateNext()
+            cursorShape: nextHitArea.hasNext ? Qt.PointingHandCursor : Qt.ArrowCursor
+            onClicked: {
+                if (nextHitArea.hasNext)
+                    mediaOverlay.navigateNext();
+                else
+                    nextShakeAnimation.start();
+            }
         }
     }
 
@@ -547,7 +611,7 @@ Window {
 
             ImageOverlayActionButton {
                 id: forwardButton
-                visible: imageOverlay.canForwardCurrentMessage()
+                visible: mediaOverlay.canForwardCurrentMessage()
                 width: visible ? actionsRow.uniformActionWidth : 0
                 KeyNavigation.tab: openButton
                 KeyNavigation.backtab: closeButton
@@ -562,15 +626,15 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
-                    const forwardRoom = imageOverlay.room;
-                    const forwardEventId = imageOverlay.eventId;
-                    const forwardTimeline = imageOverlay.timelineContext;
-                    const forwardTimelineView = imageOverlay.timelineViewContext;
-                    const forwardPopupParent = imageOverlay.popupParent;
+                    const forwardRoom = mediaOverlay.room;
+                    const forwardEventId = mediaOverlay.eventId;
+                    const forwardTimeline = mediaOverlay.timelineContext;
+                    const forwardTimelineView = mediaOverlay.timelineViewContext;
+                    const forwardPopupParent = mediaOverlay.popupParent;
 
-                    imageOverlay.hide();
-                    imageOverlay.close();
-                    Qt.callLater(() => imageOverlay.openForwardDialogForCurrentMessage(forwardRoom, forwardEventId, forwardTimeline, forwardTimelineView, forwardPopupParent));
+                    mediaOverlay.hide();
+                    mediaOverlay.close();
+                    Qt.callLater(() => mediaOverlay.openForwardDialogForCurrentMessage(forwardRoom, forwardEventId, forwardTimeline, forwardTimelineView, forwardPopupParent));
                 }
             }
 
@@ -589,13 +653,11 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
-                    const roomRef = imageOverlay.room;
-                    const eventRef = imageOverlay.eventId;
-                    const urlRef = imageOverlay.url;
+                    const roomRef = mediaOverlay.room;
+                    const eventRef = mediaOverlay.eventId;
+                    const urlRef = mediaOverlay.url;
 
-                    // Run external-open after the overlay is queued to close so this handler
-                    // returns quickly and does not keep UI objects alive across nested loops.
-                    imageOverlay.closeOverlaySoon();
+                    mediaOverlay.closeOverlaySoon();
                     Qt.callLater(() => {
                         if (roomRef && eventRef)
                             roomRef.openMedia(eventRef);
@@ -620,13 +682,11 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
-                    const roomRef = imageOverlay.room;
-                    const eventRef = imageOverlay.eventId;
-                    const urlRef = imageOverlay.url;
+                    const roomRef = mediaOverlay.room;
+                    const eventRef = mediaOverlay.eventId;
+                    const urlRef = mediaOverlay.url;
 
-                    // Keep copy action out of the immediate click handler for the same
-                    // lifetime-safety reason as other actions.
-                    imageOverlay.closeOverlaySoon();
+                    mediaOverlay.closeOverlaySoon();
                     Qt.callLater(() => {
                         if (roomRef && eventRef)
                             roomRef.copyMedia(eventRef);
@@ -651,13 +711,11 @@ Window {
                 iconSize: actionButtonIconSize
 
                 onClicked: {
-                    const roomRef = imageOverlay.room;
-                    const eventRef = imageOverlay.eventId;
-                    const urlRef = imageOverlay.url;
+                    const roomRef = mediaOverlay.room;
+                    const eventRef = mediaOverlay.eventId;
+                    const urlRef = mediaOverlay.url;
 
-                    // Save opens a blocking native file dialog; defer it until after this
-                    // click handler unwinds to avoid "destroyed while handler in progress".
-                    imageOverlay.closeOverlaySoon();
+                    mediaOverlay.closeOverlaySoon();
                     Qt.callLater(() => {
                         if (roomRef && eventRef)
                             roomRef.saveMedia(eventRef);
@@ -675,8 +733,6 @@ Window {
 
                 property bool hinting: false
 
-                // Keep close action flat at the screen edge so the full actions row appears
-                // as one continuous bar anchored to the right.
                 flatTopRightCorner: true
 
                 iconSource: ":/icons/icons/ui/dismiss.svg"
@@ -689,7 +745,7 @@ Window {
 
                 background: Rectangle {
                     radius: Komai.paddingMedium
-                    color: closeButton.hinting ? Qt.rgba(imageOverlay.palette.highlight.r, imageOverlay.palette.highlight.g, imageOverlay.palette.highlight.b, 0.35)
+                    color: closeButton.hinting ? Qt.rgba(mediaOverlay.palette.highlight.r, mediaOverlay.palette.highlight.g, mediaOverlay.palette.highlight.b, 0.35)
                          : closeButton.hovered || closeButton.pressed || closeButton.visualFocus ? closeButton.hoverBackgroundColor
                          : "transparent"
 
@@ -712,7 +768,7 @@ Window {
                     PropertyAction  { target: closeButton; property: "hinting"; value: false }
                 }
 
-                onClicked: imageOverlay.closeOverlaySoon()
+                onClicked: mediaOverlay.closeOverlaySoon()
             }
         }
     }

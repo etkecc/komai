@@ -63,7 +63,7 @@ LitehtmlItem {
             const roomAvatarPreviewSuffix = "#room-avatar";
             const isRoomAvatarPreview = link.endsWith(roomAvatarPreviewSuffix);
             const cleanLink = isRoomAvatarPreview ? link.slice(0, -roomAvatarPreviewSuffix.length) : link;
-            TimelineManager.openImageOverlay(null, cleanLink, "", isRoomAvatarPreview ? 512 : 0, isRoomAvatarPreview ? 1.0 : 0);
+            TimelineManager.openMediaOverlay(null, cleanLink, "", isRoomAvatarPreview ? 512 : 0, isRoomAvatarPreview ? 1.0 : 0);
             return;
         }
         Komai.openLink(link);

@@ -228,9 +228,8 @@ public:
     Q_INVOKABLE void cacheMedia(const QString &eventId);
     Q_INVOKABLE bool saveMedia(const QString &eventId) const;
     Q_INVOKABLE bool copyMedia(const QString &eventId) const;
-    Q_INVOKABLE QVariantMap adjacentImageEvent(const QString &currentEventId, int direction) const;
-    Q_INVOKABLE int
-    countNearbyImages(const QString &currentEventId, int direction, int limit) const;
+    Q_INVOKABLE QVariantMap adjacentMediaEvent(const QString &currentEventId, int direction) const;
+    Q_INVOKABLE int countNearbyMedia(const QString &currentEventId, int direction, int limit) const;
     Q_INVOKABLE void showEvent(QString eventId);
     Q_INVOKABLE void copyLinkToEvent(const QString &eventId) const;
 

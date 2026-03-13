@@ -81,16 +81,34 @@ public:
 
     Q_INVOKABLE bool waitingForFirstSync() const { return waitingForFirstSync_; }
     bool isConnected() const { return isConnected_; }
-    Q_INVOKABLE void openImageOverlay(TimelineModel *room,
+    Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
                                       double originalWidth,
                                       double proportionalHeight);
-    Q_INVOKABLE void openImageOverlayWithContext(TimelineModel *room,
+    Q_INVOKABLE void openMediaOverlayWithContext(TimelineModel *room,
                                                  const QString &mxcUrl,
                                                  const QString &eventId,
                                                  double originalWidth,
                                                  double proportionalHeight,
+                                                 QObject *timeline,
+                                                 QObject *timelineView);
+    Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
+                                      const QString &mxcUrl,
+                                      const QString &eventId,
+                                      double originalWidth,
+                                      double proportionalHeight,
+                                      int mediaType,
+                                      int duration,
+                                      const QString &thumbnailUrl);
+    Q_INVOKABLE void openMediaOverlayWithContext(TimelineModel *room,
+                                                 const QString &mxcUrl,
+                                                 const QString &eventId,
+                                                 double originalWidth,
+                                                 double proportionalHeight,
+                                                 int mediaType,
+                                                 int duration,
+                                                 const QString &thumbnailUrl,
                                                  QObject *timeline,
                                                  QObject *timelineView);
     Q_INVOKABLE void openImagePackSettings(QString roomid);
@@ -141,11 +159,14 @@ signals:
     void openProfile(UserProfile *profile);
     void showImagePackSettings(TimelineModel *room, ImagePackListModel *packlist);
     void openLeaveRoomDialog(QString roomid, QString reason = "");
-    void showImageOverlay(TimelineModel *room,
+    void showMediaOverlay(TimelineModel *room,
                           QString eventId,
                           QString url,
                           double originalWidth,
                           double proportionalHeight,
+                          int mediaType,
+                          int duration,
+                          QString thumbnailUrl,
                           QObject *timeline,
                           QObject *timelineView);
     void ignoredUsersChanged(const QVector<QString> &ignoredUsers);

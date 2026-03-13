@@ -89,6 +89,12 @@ MxcMediaProxy::startDownload(bool onlyCached)
 
     auto encryptionInfo = mtx::accessors::file(*event);
 
+    bool isEnc = encryptionInfo.has_value();
+    if (isEnc != encrypted_) {
+        encrypted_ = isEnc;
+        emit encryptedChanged();
+    }
+
     // If the message is a link to a non mxcUrl, don't download it
     if (!mxcUrl.startsWith(QLatin1String("mxc://"))) {
         return;
@@ -143,6 +149,11 @@ MxcMediaProxy::startDownload(bool onlyCached)
     if (onlyCached)
         return;
 
+    // NOTE: HTTP streaming for unencrypted media is not yet possible because
+    // QMediaPlayer cannot set custom HTTP headers and the authenticated media
+    // endpoint requires an Authorization header. See the streaming auth task
+    // in memory for future approaches (streaming QIODevice, local proxy, etc.).
+
     http::client()->download(url,
                              [filename, url, processBuffer](const std::string &data,
                                                             const std::string &,
@@ -173,6 +184,20 @@ MxcMediaProxy::startDownload(bool onlyCached)
                                      nhlog::ui()->warn("Error while saving file to: {}", e.what());
                                  }
                              });
+}
+
+void
+MxcMediaProxy::ensureAudioReady()
+{
+    if (audioOutput())
+        return;
+
+    nhlog::ui()->debug("Eagerly creating audio output");
+    auto newOut = new QAudioOutput(this);
+    newOut->setMuted(muted_);
+    newOut->setVolume(
+      QAudio::convertVolume(volume_, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale));
+    setAudioOutput(newOut);
 }
 
 #include "moc_MxcMediaProxy.cpp"

@@ -17,7 +17,7 @@ Item {
     width: parent ? parent.width : 0
 
     property var cacheInfo: ({})
-    property string mediaHint: qsTr("Files can be purged freely. The cache regenerates over time.")
+    property string mediaHint: qsTr("Automatically cleaned after %1 days. Safe to purge manually anytime.").arg(Komai.mediaPurgeAgeDays)
     property color mediaHintColor: Komai.theme.success
     readonly property real controlWidth: Math.min(500, Math.max(240, width - Komai.paddingLarge * 2))
     readonly property real directoryControlWidth: Math.min(880, Math.max(360, width - 320))
@@ -67,7 +67,7 @@ Item {
             return;
         }
 
-        mediaHint = qsTr("Files can be purged freely. The cache regenerates over time.");
+        mediaHint = qsTr("Automatically cleaned after %1 days. Safe to purge manually anytime.").arg(Komai.mediaPurgeAgeDays);
         mediaHintColor = Komai.theme.success;
         purgeMediaButton.purged = true;
         purgeMediaFeedbackTimer.restart();
@@ -229,7 +229,7 @@ Item {
         target: Settings
 
         function onProfileChanged() {
-            localCacheSection.mediaHint = qsTr("Files can be purged freely. The cache regenerates over time.");
+            localCacheSection.mediaHint = qsTr("Automatically cleaned after %1 days. Safe to purge manually anytime.").arg(Komai.mediaPurgeAgeDays);
             localCacheSection.mediaHintColor = Komai.theme.success;
             localCacheSection.refreshLocalCacheInfo();
         }

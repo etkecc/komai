@@ -526,6 +526,12 @@ Komai::openLocalPath(QString path) const
     return QDesktopServices::openUrl(QUrl::fromLocalFile(trimmedPath));
 }
 
+int
+Komai::mediaPurgeAgeDays() const
+{
+    return app_paths::cache::mediaPurgeAgeDays;
+}
+
 QString
 Komai::purgeMediaCache()
 {

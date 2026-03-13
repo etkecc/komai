@@ -45,10 +45,10 @@ purgeFilesInDir(const QString &dirPath)
 
     for (const auto &fileInfo : dir.entryInfoList()) {
         if (fileInfo.fileTime(QFile::FileTime::FileAccessTime)
-              .daysTo(QDateTime::currentDateTime()) > 14) {
+              .daysTo(QDateTime::currentDateTime()) > app_paths::cache::mediaPurgeAgeDays) {
             if (QFile::remove(fileInfo.absoluteFilePath()))
-                nhlog::net()->debug("Deleted stale media '{}'",
-                                    fileInfo.absoluteFilePath().toStdString());
+                nhlog::net()->info("Deleted stale media '{}'",
+                                   fileInfo.absoluteFilePath().toStdString());
             else
                 nhlog::net()->warn("Failed to delete stale media '{}'",
                                    fileInfo.absoluteFilePath().toStdString());

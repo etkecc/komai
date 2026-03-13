@@ -40,6 +40,11 @@ themeSearchDirectories();
 } // namespace data
 
 namespace cache {
+
+/// Maximum age (in days since last access) before cached media files
+/// are eligible for automatic removal by the hourly purge timer.
+inline constexpr int mediaPurgeAgeDays = 14;
+
 QString
 root();
 

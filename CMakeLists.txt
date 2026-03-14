@@ -842,7 +842,7 @@ elseif(WIN32)
     CPMAddPackage(
         NAME WinToast
         GIT_REPOSITORY https://github.com/mohabouje/WinToast.git
-        GIT_TAG v1.3.0
+        GIT_TAG v1.3.2
         DOWNLOAD_ONLY YES
     )
     target_include_directories(komai PRIVATE ${WinToast_SOURCE_DIR}/include)

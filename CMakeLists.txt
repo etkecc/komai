@@ -737,7 +737,7 @@ CPMAddPackage(
 CPMAddPackage(
     NAME cmark
     GIT_REPOSITORY https://github.com/commonmark/cmark.git
-    GIT_TAG 0.31.1
+    GIT_TAG 0.31.2
     OPTIONS "BUILD_TESTING OFF"
 )
 if(NOT TARGET cmark::cmark)

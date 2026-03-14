@@ -102,6 +102,7 @@
         <file alias="icons/ui/keyboard-shortcut.svg">icons/fluent/assets/Keyboard/SVG/ic_fluent_keyboard_24_regular.svg</file>
         <file alias="icons/ui/compass-northwest.svg">icons/fluent/assets/Compass Northwest/SVG/ic_fluent_compass_northwest_24_regular.svg</file>
         <file alias="icons/ui/prohibited.svg">icons/fluent/assets/Prohibited/SVG/ic_fluent_prohibited_24_regular.svg</file>
+        <file alias="icons/ui/upload.svg">icons/fluent/assets/Arrow Upload/SVG/ic_fluent_arrow_upload_24_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

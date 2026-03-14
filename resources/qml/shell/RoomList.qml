@@ -150,6 +150,11 @@ Page {
             timelineRoot: roomListPage.timelineRoot
             roomWindowComponent: roomWindowComponent
         }
+        RoomListToTopButton {
+            roomList: roomlist
+            scrollbarItem: scrollbar
+            collapsed: roomListPage.collapsed
+        }
         }
     }
 }

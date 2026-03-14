@@ -37,8 +37,24 @@ jobs:
             qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-multimedia-ffmpeg qt6-svg \
             syntax-highlighting \
             coeurl libolm lmdb lmdbxx cmark spdlog fmt re2 openssl \
-            nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication \
+            nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication litehtml \
             curl libevent libsecret kwallet pipewire-jack
+
+      - name: Configure
+        run: |
+          # Use system packages where available (same approach as PKGBUILD).
+          # Only mtxclient, cpp-httplib, and blurhash are downloaded by CPM.
+          # VoIP is disabled to avoid installing GStreamer dependencies.
+          just configure \
+            -DCPM_USE_LOCAL_PACKAGES=ON \
+            -DCPM_MatrixClient_USE_LOCAL=OFF \
+            -DVOIP=OFF
+
+      # Build explicitly so it gets its own step with visible output.
+      # The prek tests hook would trigger a build anyway, but buried
+      # inside "Run prek on all files" with no progress indication.
+      - name: Build
+        run: just build
 
       - name: Run prek on all files
         run: |
@@ -46,6 +62,4 @@ jobs:
           # git (/usr/sbin/git), which is separate from the pacman-installed
           # git (/usr/bin/git) that prek uses.
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          # VoIP is disabled to avoid installing GStreamer dependencies.
-          just configure -DVOIP=OFF
           just prek-run-on-all

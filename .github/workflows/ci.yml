@@ -1,4 +1,4 @@
-name: Prek
+name: CI
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  prek:
+  build-and-lint:
     runs-on: self-hosted
     container:
       image: docker.io/archlinux:base-devel
@@ -52,11 +52,11 @@ jobs:
 
       # Build explicitly so it gets its own step with visible output.
       # The prek tests hook would trigger a build anyway, but buried
-      # inside "Run prek on all files" with no progress indication.
+      # inside "Lint & test" with no progress indication.
       - name: Build
         run: just build
 
-      - name: Run prek on all files
+      - name: Lint & test
         run: |
           # The checkout action sets safe.directory using its own bundled
           # git (/usr/sbin/git), which is separate from the pacman-installed

@@ -254,7 +254,7 @@ settings-check-3-layer-mapping *args:
 	just --justfile {{ justfile() }} settings-3-layer-mapping-check {{ args }}
 
 # Builds a Flatpak bundle from the local source tree
-flatpak-build: _ensure_just_temp_directory
+flatpak-build: _ensure_just_temp_directory emoji-fetch
 	#!/usr/bin/env bash
 	set -euo pipefail
 
@@ -263,10 +263,6 @@ flatpak-build: _ensure_just_temp_directory
 		echo "Adding flathub user remote..."
 		flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	fi
-
-	# Flatpak builds are sandboxed, so pre-populate the emoji cache on the host
-	# and let flatpak-builder copy it into the source tree.
-	just --justfile {{ justfile() }} emoji-fetch
 
 	mkdir -p "{{ flatpak_build_dir }}"
 	flatpak-builder \
@@ -298,11 +294,11 @@ flatpak-clean:
 	rm -rf "{{ flatpak_build_dir }}"
 
 # Builds an AppImage bundle inside a Docker container (works on any distro)
-appimage-build-docker:
+appimage-build-docker: emoji-fetch
 	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-docker "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
 
 # Builds an AppImage bundle natively (requires Ubuntu 25.04+ with appimage-builder installed)
-appimage-build-native:
+appimage-build-native: emoji-fetch
 	{{ justfile_directory() }}/etc/packaging/appimage/bin/build-native "{{ justfile_directory() }}" "{{ appimage_build_dir }}"
 
 # Removes the AppImage build directory (uses Docker if needed for root-owned files)

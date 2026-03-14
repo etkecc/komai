@@ -1,0 +1,116 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "CPM dependencies (GitHub) in CMakeLists.txt",
+      "fileMatch": ["^CMakeLists\\.txt$"],
+      "matchStrings": [
+        "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git\\s+GIT_TAG\\s+(?<currentValue>(?![0-9a-f]{40}\\b)\\S+)"
+      ],
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "CPM dependencies (non-GitHub) in CMakeLists.txt",
+      "fileMatch": ["^CMakeLists\\.txt$"],
+      "matchStrings": [
+        "GIT_REPOSITORY\\s+(?<packageName>https://(?!github\\.com)\\S+\\.git)\\s+GIT_TAG\\s+(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "git-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "WinToast raw.githubusercontent.com downloads in CMakeLists.txt",
+      "fileMatch": ["^CMakeLists\\.txt$"],
+      "matchStrings": [
+        "raw\\.githubusercontent\\.com/(?<depName>[^/]+/[^/]+)/(?<currentValue>[^/]+)/"
+      ],
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "Flatpak GitHub git sources (tag before url)",
+      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
+      "matchStrings": [
+        "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git"
+      ],
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "Flatpak GitHub git sources (url before tag)",
+      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
+      "matchStrings": [
+        "url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git\\n\\s+tag:\\s+(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "Flatpak non-GitHub git sources (tag before url)",
+      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
+      "matchStrings": [
+        "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+(?<packageName>https://(?!github\\.com)\\S+\\.git)"
+      ],
+      "datasourceTemplate": "git-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "Flatpak GitHub archive/release sources",
+      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
+      "matchStringsStrategy": "any",
+      "matchStrings": [
+        "url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)/archive/(?<currentValue>[^/\\s]+)\\.tar\\.gz",
+        "url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/"
+      ],
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "Fluent UI System Icons version pin",
+      "fileMatch": ["^bin/icons/FLUENT_VERSION_REF$"],
+      "matchStrings": ["(?<currentValue>\\d+\\.\\d+\\.\\d+)"],
+      "depNameTemplate": "microsoft/fluentui-system-icons",
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "CLDR JSON version for emoji pipeline",
+      "fileMatch": ["^bin/emoji/sources\\.lock\\.yml$"],
+      "matchStrings": ["ref:\\s+\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "unicode-org/cldr-json",
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "AppImage Docker base image",
+      "fileMatch": ["^etc/packaging/appimage/builder-image$"],
+      "matchStrings": ["(?:docker\\.io/)?(?<depName>[^:\\s]+):(?<currentValue>\\S+)"],
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "yaml-cpp uses 'yaml-cpp-X.Y.Z' tag format",
+      "matchPackageNames": ["jbeder/yaml-cpp"],
+      "extractVersion": "^yaml-cpp-(?<version>.*)$"
+    },
+    {
+      "description": "libevent uses 'release-X.Y.Z-stable' tag format",
+      "matchPackageNames": ["libevent/libevent"],
+      "extractVersion": "^release-(?<version>[\\d.]+)-stable$"
+    },
+    {
+      "description": "re2 uses YYYY-MM-DD date-based tags",
+      "matchPackageNames": ["google/re2"],
+      "versioning": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$"
+    },
+    {
+      "description": "Ubuntu Docker image — only consider XX.YY version tags",
+      "matchPackageNames": ["ubuntu"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)$"
+    }
+  ]
+}

@@ -839,17 +839,15 @@ if(APPLE)
         set_source_files_properties( src/notifications/NotificationManagerProxy.h src/notifications/MacNotificationDelegate.h src/notifications/MacNotificationDelegate.mm src/notifications/ManagerMac.mm PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
     endif()
 elseif(WIN32)
-    file(DOWNLOAD
-        "https://raw.githubusercontent.com/mohabouje/WinToast/v1.3.0/src/wintoastlib.cpp"
-        ${PROJECT_SOURCE_DIR}/src/wintoastlib.cpp
-        EXPECTED_HASH SHA256=1ddf8ee2604e1757d383a2f60d4d597c4f5d9496369e6a22586cedf4af77ca8f)
+    CPMAddPackage(
+        NAME WinToast
+        GIT_REPOSITORY https://github.com/mohabouje/WinToast.git
+        GIT_TAG v1.3.0
+        DOWNLOAD_ONLY YES
+    )
+    target_include_directories(komai PRIVATE ${WinToast_SOURCE_DIR}/include)
 
-    file(DOWNLOAD
-        "https://raw.githubusercontent.com/mohabouje/WinToast/v1.3.0/include/wintoastlib.h"
-        ${PROJECT_SOURCE_DIR}/src/wintoastlib.h
-        EXPECTED_HASH SHA256=08cb30d28db9c851d3d4259ae6108ce7dafa966957df6735a06cd55e0716fded)
-
-    set(SRC_FILES ${SRC_FILES} src/notifications/ManagerWin.cpp src/wintoastlib.cpp src/wintoastlib.h)
+    set(SRC_FILES ${SRC_FILES} src/notifications/ManagerWin.cpp ${WinToast_SOURCE_DIR}/src/wintoastlib.cpp)
 else()
     set(SRC_FILES ${SRC_FILES}
         src/dbus/Api.h

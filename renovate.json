@@ -22,15 +22,6 @@
     },
     {
       "customType": "regex",
-      "description": "WinToast raw.githubusercontent.com downloads in CMakeLists.txt",
-      "fileMatch": ["^CMakeLists\\.txt$"],
-      "matchStrings": [
-        "raw\\.githubusercontent\\.com/(?<depName>[^/]+/[^/]+)/(?<currentValue>[^/]+)/"
-      ],
-      "datasourceTemplate": "github-tags"
-    },
-    {
-      "customType": "regex",
       "description": "Flatpak GitHub git sources (tag before url)",
       "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
       "matchStrings": [

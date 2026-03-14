@@ -71,7 +71,7 @@
       "customType": "regex",
       "description": "Fluent UI System Icons version pin",
       "fileMatch": ["^bin/icons/FLUENT_VERSION_REF$"],
-      "matchStrings": ["(?<currentValue>\\d+\\.\\d+\\.\\d+)"],
+      "matchStrings": ["^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
       "depNameTemplate": "microsoft/fluentui-system-icons",
       "datasourceTemplate": "github-tags"
     },

@@ -383,26 +383,15 @@ MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
         fullyReadEventId_ = std::string(fullyReadEventId);
     }
 
-    // The server's notification_count is authoritative for cross-device read status.
-    // The local m.fully_read marker can lag behind the last event for legitimate reasons
-    // (e.g. the last event is the user's own message, a state event, or another client
-    // didn't advance m.fully_read all the way).  It can also point to an uncached event
-    // after a gapped/limited sync, where the std::optional comparison would always
-    // evaluate to "unread".  In both cases, notification_count == 0 means the server
-    // considers the room fully read.
-    {
-        auto txn = ro_txn(storage());
-        if (auto info = cache::codec::getRoomInfo(txn, db->rooms, room_id)) {
-            if (info->notification_count == 0)
-                return false;
-        }
-    }
-
     const auto lastIdx      = getEventIndex(room_id, last_event_id_);
     const auto fullyReadIdx = getEventIndex(room_id, fullyReadEventId_);
 
+    // When either index can't be resolved (event trimmed from local DB, gapped sync,
+    // or cross-device read marker pointing to an event we never cached), we can't
+    // compare positions.  Since m.fully_read *is* set, the user has read the room at
+    // some point — treat it as read rather than stuck-unread.
     if (!lastIdx || !fullyReadIdx)
-        return true;
+        return false;
 
     return lastIdx > fullyReadIdx;
 }

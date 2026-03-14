@@ -7,7 +7,7 @@
       "description": "CPM dependencies (GitHub) in CMakeLists.txt",
       "fileMatch": ["^CMakeLists\\.txt$"],
       "matchStrings": [
-        "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git\\s+GIT_TAG\\s+(?<currentValue>(?![0-9a-f]{40}\\b)\\S+)"
+        "GIT_REPOSITORY\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)\\.git\\s+GIT_TAG\\s+(?<currentValue>\\S*\\.\\S+)"
       ],
       "datasourceTemplate": "github-tags"
     },
@@ -16,7 +16,7 @@
       "description": "CPM dependencies (non-GitHub) in CMakeLists.txt",
       "fileMatch": ["^CMakeLists\\.txt$"],
       "matchStrings": [
-        "GIT_REPOSITORY\\s+(?<packageName>https://(?!github\\.com)\\S+\\.git)\\s+GIT_TAG\\s+(?<currentValue>\\S+)"
+        "GIT_REPOSITORY\\s+(?<packageName>https://nheko\\.im/\\S+\\.git)\\s+GIT_TAG\\s+(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "git-tags"
     },
@@ -52,7 +52,7 @@
       "description": "Flatpak non-GitHub git sources (tag before url)",
       "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
       "matchStrings": [
-        "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+(?<packageName>https://(?!github\\.com)\\S+\\.git)"
+        "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+(?<packageName>https://(?:nheko\\.im|gitlab\\.matrix\\.org|gitlab\\.freedesktop\\.org)/\\S+\\.git)"
       ],
       "datasourceTemplate": "git-tags"
     },

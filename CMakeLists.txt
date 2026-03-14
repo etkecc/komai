@@ -729,8 +729,8 @@ CPMAddPackage(
     GIT_REPOSITORY https://gitlab.matrix.org/matrix-org/olm.git
     GIT_TAG 3.2.16
     PATCH_COMMAND git apply --whitespace=nowarn
-        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0001-fix-list-const-ptr.patch
-        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0002-fix-cmake-cmp0148.patch
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/olm/0001-fix-list-const-ptr.patch
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/olm/0002-fix-cmake-cmp0148.patch
     UPDATE_DISCONNECTED 1
 )
 
@@ -783,7 +783,7 @@ CPMAddPackage(
     GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
     GIT_TAG f5766cb53c244a808b7e512c7b83b3942fb67834
     PATCH_COMMAND git apply --whitespace=nowarn
-        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mtxclient-patches/0001-add-filename-to-media-messages.patch
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/mtxclient/0001-add-filename-to-media-messages.patch
     UPDATE_DISCONNECTED 1
 )
 

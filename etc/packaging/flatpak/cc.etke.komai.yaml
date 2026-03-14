@@ -225,7 +225,7 @@ modules:
         type: git
         url: https://github.com/Nheko-Reborn/mtxclient.git
       - type: patch
-        path: ../../../third_party/mtxclient-patches/0001-add-filename-to-media-messages.patch
+        path: ../../../cmake/patches/mtxclient/0001-add-filename-to-media-messages.patch
         options:
           - --directory=.deps/mtxclient
       - dest: .deps/litehtml

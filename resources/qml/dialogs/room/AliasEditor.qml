@@ -21,7 +21,7 @@ Components.OverlayDialog {
     initialFocusItem: newAliasVal
 
     MatrixText {
-        text: qsTr("List of aliases to this room. Usually you can only add aliases on your server. You can have one canonical alias and many alternate aliases.")
+        text: qsTr("Alternative addresses for this room. You can usually only add aliases on your own server. One alias can be marked as primary.")
         font.pixelSize: Math.floor(fontMetrics.font.pixelSize * 1.1)
         Layout.fillWidth: true
         color: palette.text
@@ -75,7 +75,7 @@ Components.OverlayDialog {
                     highlightColor: aliasEditorW.editingModel.canAdvertize ? palette.highlight : buttonTextColor
 
                     ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Advertise as an alias in this room")
+                    ToolTip.text: qsTr("Show this alias in the room's details")
 
                     onClicked: aliasEditorW.editingModel.toggleAdvertize(model.index)
                 }

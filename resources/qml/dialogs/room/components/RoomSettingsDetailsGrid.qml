@@ -66,24 +66,41 @@ ColumnLayout {
         implicitHeight: aliasRowContent.implicitHeight
         HoverHandler { id: aliasRowHover; blocking: false }
         Rectangle { anchors.fill: aliasRowContent; color: aliasRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-        RowLayout {
+        ColumnLayout {
             id: aliasRowContent
             width: parent.width
+            spacing: 0
 
-            Label {
-                text: qsTr("Aliases")
-                color: aliasRowHover.hovered ? palette.brightText : palette.text
-                font.pointSize: 1.1 * Settings.uiFontSizePt
+            RowLayout {
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
-                Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+
+                Label {
+                    text: qsTr("Aliases")
+                    color: aliasRowHover.hovered ? palette.brightText : palette.text
+                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                    Layout.fillWidth: true
+                }
+
+                Components.KomaiButton {
+                    text: qsTr("Configure")
+                    onClicked: detailsGrid.appRoot.showAliasEditor(detailsGrid.roomSettings)
+                }
             }
 
-            Components.KomaiButton {
-                text: qsTr("Configure")
-                onClicked: detailsGrid.appRoot.showAliasEditor(detailsGrid.roomSettings)
+            Label {
+                text: qsTr("<a href='https://spec.matrix.org/v1.17/client-server-api/#room-aliases'>Aliases</a> are alternative addresses (like #room:example.com) that people can use to find this room.")
+                color: aliasRowHover.hovered ? palette.brightText : palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                wrapMode: Text.Wrap
+                textFormat: Text.RichText
+                onLinkActivated: function(link) { Qt.openUrlExternally(link); }
             }
         }
     }

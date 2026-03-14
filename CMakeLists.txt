@@ -779,6 +779,10 @@ endif()
 
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
+# mtxclient checks USE_BUNDLED_COEURL to decide how to find coeurl.
+# When ON, it calls FetchContent_MakeAvailable(coeurl) which is a no-op
+# since CPM already populated coeurl above.
+set(USE_BUNDLED_COEURL ON CACHE INTERNAL "")
 CPMAddPackage(
     NAME MatrixClient
     GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git

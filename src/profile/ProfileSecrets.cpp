@@ -19,6 +19,7 @@
 #include <mtx/secret_storage.hpp>
 
 #include "logging/Logging.h"
+#include "profile/KeyringEnvironment.h"
 #include "profile/ProfileId.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 
@@ -263,14 +264,14 @@ normalizedProfileId(QStringView profile)
 QString
 settingsSecretStoreKey(QStringView profile, QStringView keyName)
 {
-    return QStringLiteral("komai.") + normalizedProfileId(profile) + QStringLiteral(".settings.") +
-           keyName.toString();
+    return keyring_environment::prefix() + normalizedProfileId(profile) +
+           QStringLiteral(".settings.") + keyName.toString();
 }
 
 QString
 cacheSecretStoreKey(QStringView profile, std::string_view keyName, bool internal)
 {
-    return QStringLiteral("komai.") + normalizedProfileId(profile) + QStringLiteral(".") +
+    return keyring_environment::prefix() + normalizedProfileId(profile) + QStringLiteral(".") +
            (internal ? QStringLiteral("local_crypto.") : QStringLiteral("matrix.")) +
            QString::fromUtf8(keyName.data(), static_cast<int>(keyName.size()));
 }

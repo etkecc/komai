@@ -174,11 +174,14 @@ Filesystem prefixes:
 - data root: `~/.local/share/komai/profiles/`
 - cache root: `~/.cache/komai/profiles/`
 
-Secret-store key prefixes:
+Secret-store key prefixes.
+`<env-tag>` isolates secrets across packaging formats depending on the filesystem
+config paths they use, so that each unique filesystem path produces a unique keyring prefix
+(`native`, `flatpak`, `snap`, or a 6-char hex hash):
 
-- `komai.<profile-id>.settings.`
-- `komai.<profile-id>.local_crypto.`
-- `komai.<profile-id>.matrix.`
+- `komai.<env-tag>.<profile-id>.settings.`
+- `komai.<env-tag>.<profile-id>.local_crypto.`
+- `komai.<env-tag>.<profile-id>.matrix.`
 
 ## Main Call Sites
 

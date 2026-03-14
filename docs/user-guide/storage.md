@@ -42,11 +42,14 @@ Filesystem path patterns:
 - Media thumbnails: `~/.cache/komai/profiles/<profile-id>/media_cache/<base64url(mxc-id)>_<w>x<h>_<crop|scale>_radius<r>`
 - Windows room-avatar cache: `~/.cache/komai/profiles/<profile-id>/notifications/room-avatar-<base64url(room-id)>.png`
 
-Secret-store key prefixes (for `secret_service` and `file` fallback map keys):
+Secret-store key prefixes (for `secret_service` and `file` fallback map keys).
+`<env-tag>` isolates secrets across packaging formats depending on the filesystem
+config paths they use, so that each unique filesystem path produces a unique keyring prefix
+(`native`, `flatpak`, `snap`, or a 6-char hex hash for exotic environments):
 
-- `komai.<profile-id>.settings.`
-- `komai.<profile-id>.local_crypto.`
-- `komai.<profile-id>.matrix.`
+- `komai.<env-tag>.<profile-id>.settings.`
+- `komai.<env-tag>.<profile-id>.local_crypto.`
+- `komai.<env-tag>.<profile-id>.matrix.`
 
 ## Profile File Split
 

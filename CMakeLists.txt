@@ -719,6 +719,8 @@ set(SRC_FILES
     src/models/MemberList.h
     src/providers/MxcImageProvider.cpp
     src/providers/MxcImageProvider.h
+    src/profile/KeyringEnvironment.cpp
+    src/profile/KeyringEnvironment.h
     src/profile/Paths.cpp
     src/profile/Paths.h
     src/profile/ProfileManager.cpp
@@ -1340,6 +1342,7 @@ if(BUILD_TESTING)
         tests/UserSettingsModelStartupStub.cpp
         src/settings/ui/UserSettingsModel.h
         tests/OlmStartupStub.cpp
+        src/profile/KeyringEnvironment.cpp
         tests/LoggingStub.cpp
         src/profile/Paths.cpp
         src/settings/ui/facade/UserSettingsPage.cpp
@@ -1414,6 +1417,7 @@ if(BUILD_TESTING)
         tests/SettingsStorageTest.cpp
         tests/LoggingStub.cpp
         tests/ProfileSecretsStub.cpp
+        src/profile/KeyringEnvironment.cpp
         src/profile/Paths.cpp
         src/cache/api/CacheApiLoggers.cpp
         src/settings/SettingsPersistence.cpp
@@ -1490,6 +1494,7 @@ if(BUILD_TESTING)
         tests/UserSettingsModelStartupStub.cpp
         src/settings/ui/UserSettingsModel.h
         tests/LoggingStub.cpp
+        src/profile/KeyringEnvironment.cpp
         src/profile/Paths.cpp
         src/events/EventAccessors.cpp
         src/settings/ui/facade/UserSettingsPage.cpp

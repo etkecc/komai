@@ -19,6 +19,16 @@ In both modes, secret identity names are profile-scoped and deterministic.
 
 ## Secret ID Format
 
+Environment tag:
+
+`<env-tag>` isolates secrets across packaging formats depending on the filesystem
+config paths they use, so that each unique filesystem path produces a unique keyring prefix.
+
+- `native` — standard (non-sandboxed) builds on any platform, including AppImage (config root ends in `/.config/komai`, `/Library/Preferences/komai`, or `/AppData/Local/komai`)
+- `flatpak` — config root ends in `/.var/app/cc.etke.komai/config/komai`
+- `snap` — config root contains `/snap/` and ends in `/.config/komai`
+- 6-char hex hash — any other config root path
+
 Profile id:
 
 - `normalized_profile_id`: empty/default -> `default`
@@ -27,9 +37,9 @@ Profile id:
 
 Namespaces:
 
-- `komai.<profile-id>.settings.<key>`
-- `komai.<profile-id>.local_crypto.<key>`
-- `komai.<profile-id>.matrix.<key>`
+- `komai.<env-tag>.<profile-id>.settings.<key>`
+- `komai.<env-tag>.<profile-id>.local_crypto.<key>`
+- `komai.<env-tag>.<profile-id>.matrix.<key>`
 
 ## Behavior by Provider
 

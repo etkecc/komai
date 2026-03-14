@@ -279,16 +279,27 @@ Profile id:
 
 - `normalized_profile_id`: empty/default -> `default`, otherwise profile id string
 
+Environment tag:
+
+`<env-tag>` isolates secrets across packaging formats depending on the filesystem
+config paths they use, so that each unique filesystem path produces a unique keyring prefix.
+
+- `native` — standard (non-sandboxed) builds on any platform, including AppImage (config root ends in `/.config/komai`, `/Library/Preferences/komai`, or `/AppData/Local/komai`)
+- `flatpak` — config root ends in `/.var/app/cc.etke.komai/config/komai`
+- `snap` — config root contains `/snap/` and ends in `/.config/komai`
+- 6-char hex hash — any other config root path
+
 Namespaces:
 
-- settings secrets: `komai.<profile-id>.settings.<key>`
-- local crypto secrets: `komai.<profile-id>.local_crypto.<key>`
-- matrix secrets: `komai.<profile-id>.matrix.<key>`
+- settings secrets: `komai.<env-tag>.<profile-id>.settings.<key>`
+- local crypto secrets: `komai.<env-tag>.<profile-id>.local_crypto.<key>`
+- matrix secrets: `komai.<env-tag>.<profile-id>.matrix.<key>`
 
 Examples:
 
-- `komai.<profile-id>.settings.session.secrets`
-- `komai.<profile-id>.local_crypto.pickle_secret`
+- `komai.native.default.settings.session.secrets`
+- `komai.flatpak.default.local_crypto.pickle_secret`
+- `komai.snap.work.matrix.cross_signing_master`
 
 ## File-Provider Secret Format
 
@@ -296,7 +307,7 @@ When `secrets.provider=file`, `secrets.yml` includes:
 
 - `secrets:` map with:
   - internal `__session.access_token` for session auth
-  - full secret IDs (`komai.<profile-id>.<scope>.<name>`) for regular secrets
+  - full secret IDs (`komai.<env-tag>.<profile-id>.<scope>.<name>`) for regular secrets
 
 This keeps fallback and secure-backend key identity consistent.
 

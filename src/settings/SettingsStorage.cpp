@@ -12,6 +12,7 @@
 #include <string>
 #include <string_view>
 
+#include "profile/KeyringEnvironment.h"
 #include "profile/ProfileId.h"
 
 namespace settings::storage {
@@ -68,8 +69,8 @@ currentReaderWriter()
 QString
 detail::settingsSecretStoreKey(QStringView profile, QStringView keyName)
 {
-    return QStringLiteral("komai.") + normalizedProfileId(profile) + QStringLiteral(".settings.") +
-           keyName.toString();
+    return keyring_environment::prefix() + normalizedProfileId(profile) +
+           QStringLiteral(".settings.") + keyName.toString();
 }
 
 ReaderWriter &

@@ -4,6 +4,7 @@
 
 #include <QString>
 
+#include "profile/KeyringEnvironment.h"
 #include "profile/ProfileId.h"
 #include "profile/ProfileSecrets.h"
 
@@ -18,7 +19,7 @@ normalizedProfileId(QStringView profile)
 QString
 settingsSecretStoreKey(QStringView profile, QStringView keyName)
 {
-    return QStringLiteral("komai.") + normalizedProfileId(profile) +
+    return keyring_environment::prefix() + normalizedProfileId(profile) +
            QStringLiteral(".settings.") + keyName.toString();
 }
 

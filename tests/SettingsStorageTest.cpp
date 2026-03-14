@@ -16,6 +16,7 @@
 #include <spdlog/logger.h>
 #include <spdlog/sinks/null_sink.h>
 
+#include "profile/KeyringEnvironment.h"
 #include "profile/Paths.h"
 #include "profile/ProfileId.h"
 #include "profile/ProfileSecrets.h"
@@ -162,11 +163,12 @@ testProfileIdNormalizationAndSecretKeyIds()
     const auto customProfileKey =
       settings::storage::secureStoreKey(QStringLiteral("etke"), "session.secrets");
 
-    ok &= expect(emptyProfileKey == QStringLiteral("komai.default.settings.session.secrets"),
+    const auto &kp = keyring_environment::prefix();
+    ok &= expect(emptyProfileKey == kp + QStringLiteral("default.settings.session.secrets"),
                  "secure key for empty profile uses normalized default id");
-    ok &= expect(defaultProfileKey == QStringLiteral("komai.default.settings.session.secrets"),
+    ok &= expect(defaultProfileKey == kp + QStringLiteral("default.settings.session.secrets"),
                  "secure key for explicit default uses normalized default id");
-    ok &= expect(customProfileKey == QStringLiteral("komai.etke.settings.session.secrets"),
+    ok &= expect(customProfileKey == kp + QStringLiteral("etke.settings.session.secrets"),
                  "secure key uses custom normalized profile id");
     ok &= expect(customProfileKey ==
                    profile_secrets::settingsSecretStoreKey(QStringLiteral("etke"),
@@ -301,6 +303,75 @@ testInMemoryReaderWriterOverride()
 }
 
 bool
+testKeyringEnvironmentTagResolution()
+{
+    bool ok = true;
+
+    // Native (non-sandboxed) Linux path produces "native" tag
+    ok &= expect(keyring_environment::tagForConfigRoot(
+                   QStringLiteral("/home/user/.config/komai")) == QStringLiteral("native"),
+                 "native config path produces 'native' tag");
+
+    // Flatpak-sandboxed path produces "flatpak" tag
+    ok &= expect(keyring_environment::tagForConfigRoot(
+                   QStringLiteral("/home/user/.var/app/cc.etke.komai/config/komai")) ==
+                   QStringLiteral("flatpak"),
+                 "flatpak config path produces 'flatpak' tag");
+
+    // Snap path produces "snap" tag (contains /snap/ and ends with /.config/komai)
+    ok &= expect(keyring_environment::tagForConfigRoot(
+                   QStringLiteral("/home/user/snap/komai/current/.config/komai")) ==
+                   QStringLiteral("snap"),
+                 "snap config path produces 'snap' tag");
+    ok &= expect(keyring_environment::tagForConfigRoot(
+                   QStringLiteral("/home/user/snap/komai/42/.config/komai")) ==
+                   QStringLiteral("snap"),
+                 "snap config path with numeric revision produces 'snap' tag");
+
+    // macOS native path produces "native" tag
+    ok &= expect(keyring_environment::tagForConfigRoot(
+                   QStringLiteral("/Users/user/Library/Preferences/komai")) ==
+                   QStringLiteral("native"),
+                 "macOS config path produces 'native' tag");
+
+    // Windows native path produces "native" tag
+    ok &= expect(keyring_environment::tagForConfigRoot(
+                   QStringLiteral("C:/Users/user/AppData/Local/komai")) ==
+                   QStringLiteral("native"),
+                 "Windows config path produces 'native' tag");
+
+    // Unknown path produces a 6-char hex hash
+    const auto unknownTag =
+      keyring_environment::tagForConfigRoot(QStringLiteral("/some/unusual/path/komai"));
+    ok &= expect(unknownTag.length() == 6, "unknown config path produces 6-char tag");
+    ok &= expect(
+      std::all_of(unknownTag.cbegin(),
+                  unknownTag.cend(),
+                  [](QChar c) {
+                      return (c >= QLatin1Char('0') && c <= QLatin1Char('9')) ||
+                             (c >= QLatin1Char('a') && c <= QLatin1Char('f'));
+                  }),
+      "unknown config path tag is lowercase hex");
+
+    // Same input produces same hash
+    const auto repeatTag =
+      keyring_environment::tagForConfigRoot(QStringLiteral("/some/unusual/path/komai"));
+    ok &= expect(unknownTag == repeatTag, "hash is deterministic for same path");
+
+    // Different unknown paths produce different hashes
+    const auto otherTag =
+      keyring_environment::tagForConfigRoot(QStringLiteral("/other/path/komai"));
+    ok &= expect(unknownTag != otherTag, "different paths produce different hashes");
+
+    // prefix() and tag() return consistent values
+    ok &= expect(keyring_environment::prefix() ==
+                   QStringLiteral("komai.") + keyring_environment::tag() + QStringLiteral("."),
+                 "prefix() is 'komai.<tag>.'");
+
+    return ok;
+}
+
+bool
 testProviderSelectionHonorsConfigAndOverrides()
 {
     YAML::Node root(YAML::NodeType::Map);
@@ -339,6 +410,7 @@ main()
     ok &= testSecretsMapSerialization();
     ok &= testPathHelpers();
     ok &= testProfileIdNormalizationAndSecretKeyIds();
+    ok &= testKeyringEnvironmentTagResolution();
     ok &= testProfileIdValidation();
     ok &= testLoggerInjectionNullAndInjectedLoggers();
     ok &= testCacheLoggerInjection();

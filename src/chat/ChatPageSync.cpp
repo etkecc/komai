@@ -390,11 +390,17 @@ ChatPage::currentPresence() const
 void
 ChatPage::verifyOneTimeKeyCountAfterStartup()
 {
+    nhlog::crypto()->info("verifyOneTimeKeyCountAfterStartup: device_id={}",
+                          http::client()->device_id());
+
     http::client()->upload_keys(
       olm::client()->create_upload_keys_request(),
       [this](const mtx::responses::UploadKeys &res, mtx::http::RequestErr err) {
           if (err) {
-              nhlog::crypto()->warn("failed to update one-time keys: {}", err);
+              nhlog::crypto()->warn("failed to update one-time keys: {} "
+                                    "(device_id={})",
+                                    err,
+                                    http::client()->device_id());
 
               if (err->status_code < 400 || err->status_code >= 500)
                   return;
@@ -450,7 +456,10 @@ ChatPage::ensureOneTimeKeyCount(const std::map<std::string_view, uint16_t> &coun
               [replace_fallback_key, this](const mtx::responses::UploadKeys &,
                                            mtx::http::RequestErr err) {
                   if (err) {
-                      nhlog::crypto()->warn("failed to update one-time keys: {}", err);
+                      nhlog::crypto()->warn("failed to update one-time keys: {} "
+                                            "(device_id={})",
+                                            err,
+                                            http::client()->device_id());
 
                       if (err->status_code < 400 || err->status_code >= 500)
                           return;

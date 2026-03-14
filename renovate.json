@@ -52,20 +52,9 @@
       "description": "Flatpak non-GitHub git sources (tag before url)",
       "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
       "matchStrings": [
-        "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+(?<packageName>https://(?:nheko\\.im|gitlab\\.matrix\\.org|gitlab\\.freedesktop\\.org)/\\S+\\.git)"
+        "tag:\\s+(?<currentValue>\\S+)\\n(?:\\s+[\\w-]+:[^\\n]*\\n)*?\\s+url:\\s+(?<packageName>https://(?:nheko\\.im|gitlab\\.matrix\\.org|gitlab\\.freedesktop\\.org|git\\.openldap\\.org)/\\S+\\.git)"
       ],
       "datasourceTemplate": "git-tags"
-    },
-    {
-      "customType": "regex",
-      "description": "Flatpak GitHub archive/release sources",
-      "fileMatch": ["^etc/packaging/flatpak/cc\\.etke\\.komai\\.yaml$"],
-      "matchStringsStrategy": "any",
-      "matchStrings": [
-        "url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)/archive/(?<currentValue>[^/\\s]+)\\.tar\\.gz",
-        "url:\\s+https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/"
-      ],
-      "datasourceTemplate": "github-tags"
     },
     {
       "customType": "regex",
@@ -106,6 +95,11 @@
       "description": "re2 uses YYYY-MM-DD date-based tags",
       "matchPackageNames": ["google/re2"],
       "versioning": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$"
+    },
+    {
+      "description": "lmdb uses 'LMDB_X.Y.Z' tag format (OpenLDAP repo)",
+      "matchPackageNames": ["https://git.openldap.org/openldap/openldap.git"],
+      "extractVersion": "^LMDB_(?<version>.*)$"
     },
     {
       "description": "Ubuntu Docker image — only consider XX.YY version tags",

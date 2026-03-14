@@ -48,9 +48,10 @@ modules:
   #
   - name: lmdb
     sources:
-      - sha256: 0d090c6a7c85a4f31a2ab0d734554c21097f24752393a190b0e51996b08f48c4
-        type: archive
-        url: https://git.openldap.org/openldap/openldap/-/archive/LMDB_0.9.35/openldap-LMDB_0.9.35.tar.gz
+      - disable-lfs: true
+        tag: LMDB_0.9.35
+        type: git
+        url: https://git.openldap.org/openldap/openldap.git
     make-install-args:
       - prefix=/app
     no-autogen: true
@@ -68,9 +69,10 @@ modules:
       - -DEVENT__DISABLE_SAMPLES=ON
       - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
     sources:
-      - sha256: 92e6de1be9ec176428fd2367677e61ceffc2ee1cb119035037a27d346b0403bb
-        type: archive
-        url: https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
+      - disable-lfs: true
+        tag: release-2.1.12-stable
+        type: git
+        url: https://github.com/libevent/libevent.git
     no-autogen: true
   - name: spdlog
     buildsystem: cmake-ninja
@@ -82,27 +84,28 @@ modules:
       - -DSPDLOG_BUILD_EXAMPLE=OFF
       - -DSPDLOG_FMT_EXTERNAL=ON
     sources:
-      - sha256: d8862955c6d74e5846b3f580b1605d2428b11d97a410d86e2fb13e857cd3a744
-        type: archive
-        url: https://github.com/gabime/spdlog/archive/v1.17.0.tar.gz
+      - disable-lfs: true
+        tag: v1.17.0
+        type: git
+        url: https://github.com/gabime/spdlog.git
   - name: re2
     buildsystem: simple
     build-commands:
       - make CXXFLAGS="${CXXFLAGS} -fPIC" static
       - make prefix=/app static-install
     sources:
-      - sha256: 87f6029d2f6de8aa023654240a03ada90e876ce9a4676e258dd01ea4c26ffd67
-        type: archive
-        url: https://github.com/google/re2/releases/download/2025-11-05/re2-2025-11-05.tar.gz
+      - disable-lfs: true
+        tag: 2025-11-05
+        type: git
+        url: https://github.com/google/re2.git
   - name: gstreamer
     buildsystem: meson
     sources:
-      - commit: bfdc62185e243d3633aa916187a566d03a587792
-        disable-lfs: true
+      - disable-lfs: true
+        disable-submodules: true
         tag: 1.26.10
         type: git
         url: https://gitlab.freedesktop.org/gstreamer/gstreamer.git
-        disable-submodules: true
     config-opts:
       - --auto-features=disabled
       -  -Dgood=enabled
@@ -123,8 +126,7 @@ modules:
     config-opts:
       - -Ddefault_library=static
     sources:
-      - commit: 1c3a9029581a08749874226b68bb40c196ed21bb
-        disable-lfs: true
+      - disable-lfs: true
         tag: v0.3.2
         type: git
         url: https://nheko.im/Nheko-Reborn/coeurl.git
@@ -169,23 +171,21 @@ modules:
         type: dir
       # Pre-fetched CPM dependency sources (no network in sandbox)
       - dest: .deps/coeurl
-        commit: 1c3a9029581a08749874226b68bb40c196ed21bb
         disable-lfs: true
         tag: v0.3.2
         type: git
         url: https://nheko.im/Nheko-Reborn/coeurl.git
       - dest: .deps/qtkeychain
-        commit: ad7344c45a86a4f66cbafc4b081b5f7b876cb0b7
         disable-lfs: true
         tag: 0.15.0
         type: git
         url: https://github.com/frankosterfeld/qtkeychain.git
       - dest: .deps/kdsingleapplication
-        sha256: ff4ae6a4620beed1cdb3e6a9b78a17d7d1dae7139c3d4746d4856b7547d42c38
-        type: archive
-        url: https://github.com/KDAB/KDSingleApplication/releases/download/v1.2.0/kdsingleapplication-1.2.0.tar.gz
+        disable-lfs: true
+        tag: v1.2.0
+        type: git
+        url: https://github.com/KDAB/KDSingleApplication.git
       - dest: .deps/olm
-        commit: 7e0c8277032e40308987257b711b38af8d77cc69
         disable-lfs: true
         disable-shallow-clone: true
         tag: 3.2.16
@@ -200,13 +200,15 @@ modules:
         options:
           - --directory=.deps/olm
       - dest: .deps/cmark
-        sha256: 3da93db5469c30588cfeb283d9d62edfc6ded9eb0edc10a4f5bbfb7d722ea802
-        type: archive
-        url: https://github.com/commonmark/cmark/archive/0.31.1.tar.gz
+        disable-lfs: true
+        tag: 0.31.1
+        type: git
+        url: https://github.com/commonmark/cmark.git
       - dest: .deps/nlohmann_json
-        sha256: 4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187
-        type: archive
-        url: https://github.com/nlohmann/json/archive/v3.12.0.tar.gz
+        disable-lfs: true
+        tag: v3.12.0
+        type: git
+        url: https://github.com/nlohmann/json.git
       - dest: .deps/yaml-cpp
         type: git
         url: https://github.com/jbeder/yaml-cpp.git
@@ -226,7 +228,6 @@ modules:
         options:
           - --directory=.deps/mtxclient
       - dest: .deps/litehtml
-        commit: 6ca1ab0419e770e6d35a1ef690238773a1dafcee
         disable-lfs: true
         tag: v0.9
         type: git

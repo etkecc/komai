@@ -102,9 +102,9 @@
       "extractVersion": "^LMDB_(?<version>.*)$"
     },
     {
-      "description": "Ubuntu Docker image — only consider XX.YY version tags",
+      "description": "Ubuntu Docker image — only LTS releases (XX.04)",
       "matchPackageNames": ["ubuntu"],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)$"
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>04)$"
     }
   ]
 }

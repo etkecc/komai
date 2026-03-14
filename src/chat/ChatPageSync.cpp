@@ -321,10 +321,14 @@ ChatPage::trySync()
               }
 
               nhlog::net()->error("sync error: {}", *err);
+              if (isConnected_)
+                  emit connectionLost();
               emit tryDelayedSyncCb();
               return;
           }
 
+          if (!isConnected_)
+              emit connectionRestored();
           emit newSyncResponse(res, since);
       });
 }

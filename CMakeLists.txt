@@ -35,57 +35,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL "Require C++ standard to be suppor
 set(CMAKE_POSITION_INDEPENDENT_CODE ON CACHE BOOL "compile as PIC by default")
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "macos deployment target")
 
-option(HUNTER_ENABLED "Enable Hunter package manager" OFF)
-include("cmake/HunterGate.cmake")
-HunterGate(
-    URL "https://github.com/cpp-pm/hunter/archive/v0.26.6.tar.gz"
-    SHA1 "e70c29f878f5d5f5cdf1b9ccd628fb872e8624a8"
-    LOCAL
-)
-
-macro(hunter_add_package_safe)
-    set(pkg_temp_backup_libdir "$ENV{PKG_CONFIG_LIBDIR}")
-    set(pkg_temp_backup_path "$ENV{PKG_CONFIG_PATH}")
-    hunter_add_package(${ARGV})
-    if("${pkg_temp_backup_path}" STREQUAL "")
-        unset(ENV{PKG_CONFIG_PATH})
-    else()
-        set(ENV{PKG_CONFIG_PATH} "${pkg_temp_backup_path}")
-    endif()
-    if("${pkg_temp_backup_libdir}" STREQUAL "")
-        unset(ENV{PKG_CONFIG_LIBDIR})
-    else()
-        set(ENV{PKG_CONFIG_LIBDIR} "${pkg_temp_backup_libdir}")
-    endif()
-    message("pkg_conf_path: '$ENV{PKG_CONFIG_PATH}', pkg_conf_libdir: '$ENV{PKG_CONFIG_LIBDIR}'")
-endmacro()
+include(cmake/CPM.cmake)
 
 project(komai LANGUAGES CXX C)
 
-option(USE_BUNDLED_SPDLOG "Use the bundled version of spdlog." ${HUNTER_ENABLED})
-option(USE_BUNDLED_FMT "Use the bundled version of {fmt}." ${HUNTER_ENABLED})
-option(USE_BUNDLED_OLM "Use the bundled version of libolm." ${HUNTER_ENABLED})
-option(USE_BUNDLED_GTEST "Use the bundled version of Google Test." ${HUNTER_ENABLED})
-option(USE_BUNDLED_CMARK "Use the bundled version of cmark." ${HUNTER_ENABLED})
-option(USE_BUNDLED_JSON "Use the bundled version of nlohmann json." ${HUNTER_ENABLED})
-option(USE_BUNDLED_OPENSSL "Use the bundled version of OpenSSL." OFF)
-# Default to bundled mtxclient because Komai currently depends on newer
-# upstream MatrixClient room-v12 creator support and the upstream key-backup
-# public_key fix from PR #113.
-option(USE_BUNDLED_MTXCLIENT "Use the bundled version of the Matrix Client library." ON)
-option(USE_BUNDLED_LMDB "Use the bundled version of lmdb." ${HUNTER_ENABLED})
-option(USE_BUNDLED_LMDBXX "Use the bundled version of lmdb++." ${HUNTER_ENABLED})
-option(USE_BUNDLED_QTKEYCHAIN "Use the bundled version of Qt6Keychain." ${HUNTER_ENABLED})
-option(USE_BUNDLED_COEURL "Use a bundled version of the Curl wrapper"
-    ${HUNTER_ENABLED})
-option(USE_BUNDLED_LIBEVENT "Use the bundled version of libevent." ${HUNTER_ENABLED})
-option(USE_BUNDLED_LIBCURL "Use the bundled version of libcurl." ${HUNTER_ENABLED})
-option(USE_BUNDLED_ZLIB "Use the bundled version of zlib (for curl)." ${HUNTER_ENABLED})
-option(USE_BUNDLED_RE2 "Use the bundled version of re2." ${HUNTER_ENABLED})
-option(USE_BUNDLED_KDSINGLEAPPLICATION "Use the bundled version of KDSingleApplication." ${HUNTER_ENABLED})
-option(USE_BUNDLED_CPPHTTPLIB "Use the bundled version of cpp-httplib." ON)
-option(USE_BUNDLED_BLURHASH "Use the bundled version of blurhash." ON)
-option(USE_BUNDLED_YAMLCPP "Use the bundled version of yaml-cpp." ${HUNTER_ENABLED})
 option(KOMAI_DB_ENABLE_LMDB_BACKEND "Build LMDB database backend support." ON)
 
 include(CMakeDependentOption)
@@ -102,30 +55,6 @@ option(X11 "Whether to enable X11 specific features (screenshare, window roles).
 cmake_dependent_option(SCREENSHARE_XDP "Whether to enable screenshare support using xdg-desktop-portal." ON "VOIP" OFF)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
-if(${CMAKE_VERSION} VERSION_LESS "3.14.0")
-    message("Adding FetchContent_MakeAvailable")
-    # from cmakes sources
-    macro(FetchContent_MakeAvailable)
-        foreach(contentName IN ITEMS ${ARGV})
-            string(TOLOWER ${contentName} contentNameLower)
-            FetchContent_GetProperties(${contentName})
-            if(NOT ${contentNameLower}_POPULATED)
-                FetchContent_Populate(${contentName})
-
-                # Only try to call add_subdirectory() if the populated content
-                # can be treated that way. Protecting the call with the check
-                # allows this function to be used for projects that just want
-                # to ensure the content exists, such as to provide content at
-                # a known location.
-                if(EXISTS ${${contentNameLower}_SOURCE_DIR}/CMakeLists.txt)
-                    add_subdirectory(${${contentNameLower}_SOURCE_DIR}
-                        ${${contentNameLower}_BINARY_DIR})
-                endif()
-            endif()
-        endforeach()
-    endmacro()
-endif()
 
 # Include Qt basic functions
 include(QtCommon)
@@ -176,97 +105,45 @@ if(BUILD_DOCS)
 endif()
 
 #
-## coeurl
+# Dependencies managed by CPM
 #
-## Need to repeat all libevent deps?!?
-if(USE_BUNDLED_LIBEVENT)
-    hunter_add_package_safe(Libevent)
-    find_package(Libevent CONFIG REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+
+# libevent (needed by coeurl)
+pkg_check_modules(libevent_core REQUIRED IMPORTED_TARGET libevent_core)
+if(WIN32)
+    pkg_check_modules(libevent_windows REQUIRED IMPORTED_TARGET libevent_windows)
 else()
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(libevent_core REQUIRED IMPORTED_TARGET libevent_core)
-    if(WIN32)
-        pkg_check_modules(libevent_windows REQUIRED IMPORTED_TARGET libevent_windows)
-    else()
-        pkg_check_modules(libevent_pthreads REQUIRED IMPORTED_TARGET libevent_pthreads)
-    endif()
+    pkg_check_modules(libevent_pthreads REQUIRED IMPORTED_TARGET libevent_pthreads)
 endif()
 
 # curl
-if(USE_BUNDLED_ZLIB)
-    hunter_add_package_safe(ZLIB)
-    find_package(ZLIB CONFIG)
-endif()
-if(USE_BUNDLED_LIBCURL)
-    hunter_add_package_safe(CURL)
-    find_package(CURL CONFIG REQUIRED)
-else()
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
-endif()
+pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
 
 # fmt
-if(USE_BUNDLED_FMT)
-    hunter_add_package_safe(fmt)
-endif()
 find_package(fmt 8.0.0 CONFIG REQUIRED)
 
 # spdlog
-if(USE_BUNDLED_SPDLOG)
-    hunter_add_package_safe(spdlog)
-endif()
 find_package(spdlog 1.0.0 CONFIG REQUIRED)
 
-if(USE_BUNDLED_COEURL)
-    include(FetchContent)
-    FetchContent_Declare(
-        coeurl
-        GIT_REPOSITORY https://nheko.im/Nheko-Reborn/coeurl.git
-        GIT_TAG        v0.3.2
-    )
-    FetchContent_MakeAvailable(coeurl)
-    set(COEURL_TARGET_NAME coeurl::coeurl)
-else()
-    find_package(PkgConfig)
-    pkg_check_modules(coeurl IMPORTED_TARGET coeurl>=0.3.0)
-    if(TARGET PkgConfig::coeurl)
-        set(COEURL_TARGET_NAME PkgConfig::coeurl)
-    endif()
-endif()
+# coeurl
+CPMAddPackage(
+    NAME coeurl
+    GIT_REPOSITORY https://nheko.im/Nheko-Reborn/coeurl.git
+    GIT_TAG v0.3.2
+)
+set(COEURL_TARGET_NAME coeurl::coeurl)
 
-if(NOT TARGET PkgConfig::coeurl)
-    find_package(coeurl 0.2.1 CONFIG)
-    if(TARGET coeurl::coeurl)
-        set(COEURL_TARGET_NAME coeurl::coeurl)
-    endif()
-endif()
-
-if(NOT COEURL_TARGET_NAME)
-    message(ERROR "Couldn't find coeurl")
-endif()
-
-if(USE_BUNDLED_RE2)
-    hunter_add_package(re2)
-    find_package(re2 CONFIG REQUIRED)
-else()
-    find_package(PkgConfig REQUIRED)
+# re2
+find_package(re2 CONFIG QUIET)
+if(NOT re2_FOUND)
     pkg_check_modules(re2 REQUIRED IMPORTED_TARGET re2)
 endif()
 
-#
 # LMDB
-#
-#include(LMDB)
 if(KOMAI_DB_ENABLE_LMDB_BACKEND)
-    if(USE_BUNDLED_LMDB)
-        hunter_add_package_safe(lmdb)
-        find_package(liblmdb CONFIG REQUIRED)
-
-        target_include_directories(liblmdb::lmdb INTERFACE
-            "${HUNTER_INSTALL_PREFIX}/include/lmdb")
-    else()
-        find_package(LMDB REQUIRED)
-    endif()
+    find_package(LMDB REQUIRED)
 endif()
 
 #
@@ -281,33 +158,21 @@ find_package(KF6SyntaxHighlighting REQUIRED)
 find_package(Qt6DBus)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
-if(USE_BUNDLED_QTKEYCHAIN)
-    include(FetchContent)
-    set(BUILD_WITH_QT6 ON)
-    FetchContent_Declare(
-        qt6keychain
-        GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
-        GIT_TAG        v0.14.0
-    )
-    set(BUILD_TEST_APPLICATION OFF CACHE INTERNAL "")
-    FetchContent_MakeAvailable(qt6keychain)
-else()
-    find_package(Qt6Keychain REQUIRED)
-endif()
+set(BUILD_WITH_QT6 ON)
+set(BUILD_TEST_APPLICATION OFF CACHE INTERNAL "")
+CPMAddPackage(
+    NAME qt6keychain
+    GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
+    GIT_TAG v0.14.0
+)
 
-if(USE_BUNDLED_KDSINGLEAPPLICATION)
-    include(FetchContent)
-    set(KDSingleApplication_QT6 ON CACHE BOOL INTERNAL)
-    set(KDSingleApplication_EXAMPLES OFF CACHE BOOL INTERNAL)
-    FetchContent_Declare(
-        kdsingleapplication
-        GIT_REPOSITORY https://github.com/KDAB/KDSingleApplication.git
-        GIT_TAG        v1.0.0
-    )
-    FetchContent_MakeAvailable(kdsingleapplication)
-else()
-    find_package(KDSingleApplication-qt6 REQUIRED)
-endif()
+set(KDSingleApplication_QT6 ON CACHE BOOL INTERNAL)
+set(KDSingleApplication_EXAMPLES OFF CACHE BOOL INTERNAL)
+CPMAddPackage(
+    NAME kdsingleapplication
+    GIT_REPOSITORY https://github.com/KDAB/KDSingleApplication.git
+    GIT_TAG v1.0.0
+)
 
 if(Qt6Widgets_FOUND)
     if(Qt6Widgets_VERSION VERSION_LESS 6.5.0)
@@ -856,137 +721,79 @@ set(SRC_FILES
 
 include(FeatureSummary)
 
-if(USE_BUNDLED_OPENSSL)
-    hunter_add_package_safe(OpenSSL)
-endif()
 find_package(OpenSSL 1.1.0 REQUIRED)
-if(USE_BUNDLED_OLM)
-    include(FetchContent)
-    FetchContent_Declare(
-        Olm
-        GIT_REPOSITORY https://gitlab.matrix.org/matrix-org/olm.git
-        GIT_TAG        3.2.16
-        PATCH_COMMAND  git apply --whitespace=nowarn
-            ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0001-fix-list-const-ptr.patch
-            ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0002-fix-cmake-cmp0148.patch
-        UPDATE_DISCONNECTED 1
-    )
-    set(OLM_TESTS OFF CACHE INTERNAL "")
-    FetchContent_MakeAvailable(Olm)
-else()
-    find_package(Olm 3.2.7 REQUIRED)
-    set_package_properties(Olm PROPERTIES
-        DESCRIPTION "An implementation of the Double Ratchet cryptographic ratchet"
-        URL "https://git.matrix.org/git/olm/about/"
-        TYPE REQUIRED
-    )
-endif()
-if(USE_BUNDLED_SPDLOG)
-    hunter_add_package_safe(spdlog)
-endif()
-find_package(spdlog 1.0.0 CONFIG REQUIRED)
 
-if(USE_BUNDLED_CMARK)
-    include(FetchContent)
-    FetchContent_Declare(
-        cmark
-        GIT_REPOSITORY https://github.com/commonmark/cmark.git
-        GIT_TAG        0.31.1
-        CMAKE_ARGS     "BUILD_TESTING=OFF"
-    )
-    FetchContent_MakeAvailable(cmark)
-    if (NOT TARGET cmark::cmark)
-        add_library(cmark::cmark ALIAS cmark)
-    endif()
-else()
-    find_package(cmark REQUIRED 0.29.0)
-endif()
-
-if(USE_BUNDLED_JSON)
-    hunter_add_package_safe(nlohmann_json)
-endif()
-find_package(nlohmann_json 3.2.0)
-set_package_properties(nlohmann_json PROPERTIES
-    DESCRIPTION "JSON for Modern C++, a C++11 header-only JSON class"
-    URL "https://nlohmann.github.io/json/"
-    TYPE REQUIRED
+set(OLM_TESTS OFF CACHE INTERNAL "")
+CPMAddPackage(
+    NAME Olm
+    GIT_REPOSITORY https://gitlab.matrix.org/matrix-org/olm.git
+    GIT_TAG 3.2.16
+    PATCH_COMMAND git apply --whitespace=nowarn
+        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0001-fix-list-const-ptr.patch
+        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/olm-patches/0002-fix-cmake-cmp0148.patch
+    UPDATE_DISCONNECTED 1
 )
 
-# yaml-cpp for YAML config files
-if(USE_BUNDLED_YAMLCPP)
-    include(FetchContent)
-    FetchContent_Declare(
-        yaml-cpp
-        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-        GIT_TAG        0.8.0
-    )
-    set(YAML_CPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-    set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "" FORCE)
-    set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "" FORCE)
-    FetchContent_MakeAvailable(yaml-cpp)
-else()
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(yaml-cpp REQUIRED IMPORTED_TARGET yaml-cpp>=0.6.0)
+CPMAddPackage(
+    NAME cmark
+    GIT_REPOSITORY https://github.com/commonmark/cmark.git
+    GIT_TAG 0.31.1
+    OPTIONS "BUILD_TESTING OFF"
+)
+if(NOT TARGET cmark::cmark)
+    add_library(cmark::cmark ALIAS cmark)
 endif()
 
+CPMAddPackage(
+    NAME nlohmann_json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.12.0
+    OPTIONS "JSON_BuildTests OFF" "JSON_MultipleHeaders ON" "JSON_Install ON"
+)
+
+# yaml-cpp
+CPMAddPackage(
+    NAME yaml-cpp
+    GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+    GIT_TAG yaml-cpp-0.9.0
+    OPTIONS
+        "YAML_CPP_BUILD_TESTS OFF"
+        "YAML_CPP_BUILD_TOOLS OFF"
+        "YAML_CPP_BUILD_CONTRIB OFF"
+)
+
 if(KOMAI_DB_ENABLE_LMDB_BACKEND)
-    if(USE_BUNDLED_LMDBXX)
-        include(FetchContent)
-        FetchContent_Declare(
-            lmdbxx
-            URL "https://raw.githubusercontent.com/hoytech/lmdbxx/1.0.0/lmdb++.h"
-            DOWNLOAD_NO_EXTRACT TRUE
-            CONFIGURE_COMMAND ""
-            BUILD_COMMAND ""
-        )
-        FetchContent_Populate(lmdbxx)
+    CPMAddPackage(
+        NAME lmdbxx
+        URL "https://raw.githubusercontent.com/hoytech/lmdbxx/1.0.0/lmdb++.h"
+        DOWNLOAD_NO_EXTRACT TRUE
+        DOWNLOAD_ONLY YES
+    )
+    if(lmdbxx_ADDED)
         add_library(lmdbxx INTERFACE)
         target_include_directories(lmdbxx INTERFACE ${lmdbxx_SOURCE_DIR})
         add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
-    else()
-        if(NOT LMDBXX_INCLUDE_DIR)
-            find_path(LMDBXX_INCLUDE_DIR
-                NAMES lmdb++.h
-                PATHS /usr/include
-                /usr/local/include
-                $ENV{LIB_DIR}/include
-                $ENV{LIB_DIR}/include/lmdbxx)
-        endif()
-        add_library(lmdbxx INTERFACE)
-        target_include_directories(lmdbxx INTERFACE ${LMDBXX_INCLUDE_DIR})
-        add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
     endif()
 endif()
 
-if(USE_BUNDLED_MTXCLIENT)
-    include(FetchContent)
-    FetchContent_Declare(
-        MatrixClient
-            GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
-            GIT_TAG        f5766cb53c244a808b7e512c7b83b3942fb67834
-            PATCH_COMMAND  git apply --whitespace=nowarn
-                ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mtxclient-patches/0001-add-filename-to-media-messages.patch
-            UPDATE_DISCONNECTED 1
-    )
-    set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
-    set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
-    FetchContent_MakeAvailable(MatrixClient)
-else()
-    find_package(MatrixClient 0.10.0 REQUIRED)
-endif()
+set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
+set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
+CPMAddPackage(
+    NAME MatrixClient
+    GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
+    GIT_TAG f5766cb53c244a808b7e512c7b83b3942fb67834
+    PATCH_COMMAND git apply --whitespace=nowarn
+        ${CMAKE_CURRENT_SOURCE_DIR}/third_party/mtxclient-patches/0001-add-filename-to-media-messages.patch
+    UPDATE_DISCONNECTED 1
+)
 
-option(USE_BUNDLED_LITEHTML "Use the bundled version of litehtml." ON)
-
-if(USE_BUNDLED_LITEHTML)
-    include(FetchContent)
-    FetchContent_Declare(
-        litehtml
-        GIT_REPOSITORY https://github.com/litehtml/litehtml.git
-        GIT_TAG        v0.9
-    )
-    set(LITEHTML_BUILD_TESTING OFF CACHE BOOL "" FORCE)
-    FetchContent_MakeAvailable(litehtml)
-
+CPMAddPackage(
+    NAME litehtml
+    GIT_REPOSITORY https://github.com/litehtml/litehtml.git
+    GIT_TAG v0.9
+    OPTIONS "LITEHTML_BUILD_TESTING OFF"
+)
+if(litehtml_ADDED)
     # Suppress compiler warnings from litehtml's own sources and headers
     target_compile_options(litehtml PRIVATE -w)
     target_compile_options(gumbo PRIVATE -w)
@@ -994,8 +801,6 @@ if(USE_BUNDLED_LITEHTML)
     if(_litehtml_inc)
         set_target_properties(litehtml PROPERTIES INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${_litehtml_inc}")
     endif()
-else()
-    find_package(litehtml REQUIRED)
 endif()
 
 if(VOIP)
@@ -1225,34 +1030,34 @@ endif()
 
 target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/ui/ src/encryption/ src/voip/)
 
-if(USE_BUNDLED_CPPHTTPLIB)
-    target_include_directories(komai PRIVATE third_party/cpp-httplib-0.37.2)
-    target_sources(komai PRIVATE third_party/cpp-httplib-0.37.2/httplib.h)
-else()
-    find_package(httplib REQUIRED)
-    target_link_libraries(komai PRIVATE httplib::httplib)
+CPMAddPackage(
+    NAME cpp-httplib
+    GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
+    GIT_TAG v0.37.2
+    DOWNLOAD_ONLY YES
+)
+if(cpp-httplib_ADDED)
+    target_include_directories(komai PRIVATE ${cpp-httplib_SOURCE_DIR})
 endif()
 
-if(USE_BUNDLED_BLURHASH)
-    target_include_directories(komai PRIVATE third_party/blurhash)
-    set(BLURHASH_SRC_FILES
-        third_party/blurhash/blurhash.cpp
-        third_party/blurhash/blurhash.hpp
+# blurhash
+CPMAddPackage(
+    NAME blurhash
+    GIT_REPOSITORY https://github.com/Nheko-Reborn/blurhash.git
+    GIT_TAG v0.2.0
+    DOWNLOAD_ONLY YES
+)
+if(blurhash_ADDED)
+    target_include_directories(komai PRIVATE ${blurhash_SOURCE_DIR})
+    target_sources(komai PRIVATE
+        ${blurhash_SOURCE_DIR}/blurhash.cpp
+        ${blurhash_SOURCE_DIR}/blurhash.hpp
     )
-    target_sources(komai PRIVATE ${BLURHASH_SRC_FILES})
-else()
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(blurhash REQUIRED IMPORTED_TARGET blurhash)
-    target_link_libraries(komai PRIVATE PkgConfig::blurhash)
 endif()
 
-# Fixup bundled keychain include dirs
-if(USE_BUNDLED_QTKEYCHAIN)
-    target_include_directories(komai PRIVATE ${qt6keychain_SOURCE_DIR} ${qt6keychain_BINARY_DIR})
-endif()
-if(USE_BUNDLED_KDSINGLEAPPLICATION)
-    target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
-endif()
+# Fixup bundled keychain/kdsingleapplication include dirs
+target_include_directories(komai PRIVATE ${qt6keychain_SOURCE_DIR} ${qt6keychain_BINARY_DIR})
+target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
 
 if(NOT JSON_ImplicitConversions)
     set_target_properties(nlohmann_json::nlohmann_json PROPERTIES
@@ -1261,11 +1066,7 @@ if(NOT JSON_ImplicitConversions)
     target_compile_definitions(komai PUBLIC JSON_USE_IMPLICIT_CONVERSIONS=0)
 endif()
 
-if(USE_BUNDLED_YAMLCPP)
-    set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
-else()
-    set(YAMLCPP_TARGET_NAME PkgConfig::yaml-cpp)
-endif()
+set(YAMLCPP_TARGET_NAME yaml-cpp::yaml-cpp)
 
 add_library(komai_db STATIC
     src/db/Catalog.cpp
@@ -1767,11 +1568,7 @@ if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.16.0")
 endif()
 
 # libcurl for MediaProxyServer (direct curl_easy_* usage for streaming)
-if(USE_BUNDLED_LIBCURL)
-    target_link_libraries(komai PRIVATE CURL::libcurl)
-else()
-    target_link_libraries(komai PRIVATE PkgConfig::libcurl)
-endif()
+target_link_libraries(komai PRIVATE PkgConfig::libcurl)
 
 if(TARGET PkgConfig::GSTREAMER)
     target_link_libraries(komai PRIVATE PkgConfig::GSTREAMER)

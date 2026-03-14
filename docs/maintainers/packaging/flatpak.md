@@ -33,9 +33,10 @@ The Flatpak manifest at [`etc/packaging/flatpak/cc.etke.komai.yaml`](../../../et
 3. Builds Komai itself from the local source tree
 4. Packages everything into a Flatpak bundle
 
-Komai uses bundled `mtxclient` and `litehtml` by default. For Flatpak, the manifest
-pre-fetches those sources as `.deps/mtxclient` and `.deps/litehtml`, then points CMake
-there via `-DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient` and
+Komai uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) to download most C++
+dependencies. For Flatpak, the manifest pre-fetches `mtxclient` and `litehtml` sources
+as `.deps/mtxclient` and `.deps/litehtml`, then points CMake there via
+`-DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient` and
 `-DFETCHCONTENT_SOURCE_DIR_LITEHTML=.deps/litehtml` so builds stay offline-friendly.
 
 Komai also generates runtime emoji JSON during the build. Since the Flatpak build sandbox

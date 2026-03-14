@@ -53,7 +53,7 @@ sudo cmake --install var/build/native
 | [Qt6](https://www.qt.io/) | 6.5 | Base, Declarative, Multimedia, SVG, Tools |
 | [CMake](https://cmake.org/) | 3.15 | |
 | [Python 3](https://www.python.org/) | | Theme generation and emoji data generation at build time |
-| [mtxclient](https://github.com/Nheko-Reborn/mtxclient) | | Optional when building against system MatrixClient (`-DUSE_BUNDLED_MTXCLIENT=OFF`) |
+| [mtxclient](https://github.com/Nheko-Reborn/mtxclient) | | Bundled by default via CPM (system packages are typically outdated) |
 | [coeurl](https://nheko.im/Nheko-Reborn/coeurl) | | HTTP library |
 | [LMDB](https://www.symas.com/lmdb) | | Database |
 | [lmdb++](https://github.com/hoytech/lmdbxx) | | C++ LMDB wrapper |
@@ -76,21 +76,24 @@ sudo cmake --install var/build/native
 | [GStreamer](https://gitlab.freedesktop.org/gstreamer) 1.20+ | VoIP (voice & video calls) | `-DVOIP=OFF` |
 | XCB, XCB-EWMH | X11 screensharing | `-DSCREENSHARE_X11=OFF` |
 
-### Bundling dependencies
+### System packages vs CPM downloads
 
-`mtxclient` is bundled by default.
-Other dependencies can still be bundled selectively:
+By default, most dependencies are downloaded and built by
+[CPM.cmake](https://github.com/cpm-cmake/CPM.cmake).
+Distro packagers can use system packages instead:
 
 ```sh
-# Bundle everything
-just configure -DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF
+# Use system packages for all dependencies
+just configure -DCPM_USE_LOCAL_PACKAGES=ON
 
-# Bundle specific libraries
-just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_LMDBXX=ON
+# Use system packages for everything except a specific library
+just configure -DCPM_USE_LOCAL_PACKAGES=ON -DCPM_MatrixClient_USE_LOCAL=OFF
 
-# Build against system MatrixClient instead of bundled MatrixClient
-just configure -DUSE_BUNDLED_MTXCLIENT=OFF
+# Use a system package for a single library
+just configure -DCPM_Qt6Keychain_USE_LOCAL=ON
 ```
+
+See [CPM.cmake options](https://github.com/cpm-cmake/CPM.cmake#options) for details.
 
 ## Distro-specific package lists
 
@@ -102,9 +105,6 @@ sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimed
     coeurl libolm lmdb lmdbxx cmark syntax-highlighting spdlog fmt re2 openssl \
     nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication
 ```
-
-Install `mtxclient` only if you explicitly build against system MatrixClient
-(`-DUSE_BUNDLED_MTXCLIENT=OFF`).
 
 ### Debian 13+ / Ubuntu 24.04+
 
@@ -119,11 +119,8 @@ sudo apt install -y build-essential cmake pkg-config python3 \
     qt6-declarative-private-dev
 ```
 
-Some dependencies may need bundling on Debian/Ubuntu:
-
-```sh
-just configure -DUSE_BUNDLED_COEURL=ON -DUSE_BUNDLED_LMDBXX=ON
-```
+Dependencies like coeurl, lmdbxx, and mtxclient are downloaded automatically by
+CPM. Pass `-DCPM_USE_LOCAL_PACKAGES=ON` to use system packages instead.
 
 ## Debug builds
 

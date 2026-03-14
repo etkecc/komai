@@ -67,12 +67,7 @@ cmake -GNinja -H"$src_dir" -B"$build_dir" \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DMAN=OFF \
-    -DFETCHCONTENT_QUIET=OFF \
-    -DUSE_BUNDLED_LMDBXX=ON \
-    -DUSE_BUNDLED_KDSINGLEAPPLICATION=ON \
-    -DUSE_BUNDLED_COEURL=ON \
-    -DUSE_BUNDLED_CPPHTTPLIB=ON \
-    -DUSE_BUNDLED_BLURHASH=ON
+    -DFETCHCONTENT_QUIET=OFF
 cmake --build "$build_dir" --parallel "$(nproc)"
 
 echo "=== Creating AppImage ==="

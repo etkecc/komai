@@ -16,9 +16,12 @@ Dialog {
     property bool titleIconMirror: false
     property bool showCloseButton: true
     property Item initialFocusItem: null
+    property Item overlayViewport: null
     property int overlayDialogMinWidth: 520
     property real overlayDialogMaxWidthRatio: 0.8
+    readonly property Item overlayDialogViewport: overlayViewport ? overlayViewport : parent
     readonly property int headerIconSize: Math.max(16, Math.ceil(headerFontMetrics.height))
+    readonly property int overlayDialogChromeHeight: padding * 2 + contentItem.spacing + headerRow.implicitHeight
     default property alias body: bodyLayout.data
 
     onOpened: {
@@ -45,9 +48,9 @@ Dialog {
     padding: Komai.paddingMedium
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     standardButtons: Dialog.NoButton
-    width: overlayDialogWidth(parent, contentItem ? contentItem.implicitWidth : 0, padding)
-    x: Math.round(((parent ? parent.width : width) - width) / 2)
-    y: Math.round((parent ? parent.height : 0) / 4)
+    width: overlayDialogWidth(overlayDialogViewport, contentItem ? contentItem.implicitWidth : 0, padding)
+    x: Math.round(((overlayDialogViewport ? overlayDialogViewport.width : width) - width) / 2)
+    y: Math.round((overlayDialogViewport ? overlayDialogViewport.height : 0) / 4)
 
     // Workaround palettes not inheriting for popups — Overlay.overlay
     // belongs to the Window, so its palette matches the application theme.
@@ -74,6 +77,8 @@ Dialog {
         }
 
         RowLayout {
+            id: headerRow
+
             Layout.fillWidth: true
             spacing: Komai.paddingSmall
 

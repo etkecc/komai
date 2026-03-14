@@ -20,6 +20,17 @@ Components.OverlayDialog {
     readonly property string normalizedInitialTab: normalizeTab(initialTab)
     property string currentTab: "settings"
     property bool deferInitialTabSwitch: normalizedInitialTab !== "settings"
+    overlayViewport: appRoot
+    readonly property int dialogViewportWidth: overlayDialogViewport ? overlayDialogViewport.width : 760
+    readonly property int dialogViewportHeight: overlayDialogViewport ? overlayDialogViewport.height : 600
+    readonly property int roomInfoDialogWidth: Math.min(
+        Math.max(240, dialogViewportWidth - Komai.paddingLarge * 2),
+        Math.max(240, Math.floor(dialogViewportWidth * overlayDialogMaxWidthRatio))
+    )
+    readonly property int roomInfoBodyHeight: Math.max(
+        160,
+        dialogViewportHeight - overlayDialogChromeHeight - Komai.paddingLarge * 2
+    )
     property int sidebarWidth: {
         // Read font height to track font size changes in this binding
         var _d = sidebarNavFontMetrics.height;
@@ -50,7 +61,9 @@ Components.OverlayDialog {
 
     title: room && room.isSpace ? qsTr("Space Info") : qsTr("Room Info")
     titleIcon: ":/icons/icons/ui/speech-bubbles.svg"
-    width: Math.round((parent ? parent.width : 760) * 0.8)
+    width: roomInfoDialogWidth
+    x: Math.round((dialogViewportWidth - width) / 2)
+    y: Math.max(Komai.paddingLarge, Math.round((dialogViewportHeight - height) / 2))
 
     Component.onCompleted: {
         currentTab = "settings";
@@ -91,7 +104,7 @@ Components.OverlayDialog {
 
     Item {
         Layout.fillWidth: true
-        Layout.preferredHeight: roomInfoDialog.parent ? roomInfoDialog.parent.height * 0.85 : 600
+        Layout.preferredHeight: roomInfoDialog.roomInfoBodyHeight
 
         RowLayout {
             id: contentRow

@@ -88,7 +88,7 @@ ColumnLayout {
         }
     }
 
-    // Anyone can join
+    // Room access
     Item {
         Layout.fillWidth: true
         Layout.leftMargin: Komai.paddingMedium
@@ -101,7 +101,7 @@ ColumnLayout {
             width: parent.width
 
             Label {
-                text: qsTr("Anyone can join (public)")
+                text: qsTr("Room access")
                 color: publicRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
                 Layout.fillWidth: true
@@ -110,10 +110,19 @@ ColumnLayout {
                 Layout.leftMargin: Komai.paddingMedium
             }
 
-            ToggleButton {
-                id: publicRoomButton
+            Components.KomaiComboBox {
+                id: accessCombo
                 enabled: detailsGrid.roomSettings.canChangeJoinRules
-                checked: !detailsGrid.roomSettings.privateAccess
+
+                readonly property bool isPrivate: currentIndex === 1
+
+                model: [
+                    qsTr("Public (anyone can join)"),
+                    qsTr("Private (invite only)")
+                ]
+
+                currentIndex: detailsGrid.roomSettings.privateAccess ? 1 : 0
+
                 Layout.rightMargin: Komai.paddingMedium
             }
         }
@@ -125,66 +134,100 @@ ColumnLayout {
         Layout.leftMargin: Komai.paddingMedium
         Layout.rightMargin: Komai.paddingMedium
         implicitHeight: knockRowContent.implicitHeight
-        visible: !publicRoomButton.checked
+        visible: accessCombo.isPrivate
         HoverHandler { id: knockRowHover; blocking: false }
         Rectangle { anchors.fill: knockRowContent; color: knockRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-        RowLayout {
+        ColumnLayout {
             id: knockRowContent
             width: parent.width
+            spacing: 0
 
-            Label {
-                text: qsTr("Allow knocking")
-                color: knockRowHover.hovered ? palette.brightText : palette.text
-                font.pointSize: 1.1 * Settings.uiFontSizePt
+            RowLayout {
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
-                Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+
+                Label {
+                    text: qsTr("Allow knocking")
+                    color: knockRowHover.hovered ? palette.brightText : palette.text
+                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                    Layout.fillWidth: true
+                }
+
+                ToggleButton {
+                    id: knockingButton
+                    enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsKnocking
+                    checked: detailsGrid.roomSettings.knockingEnabled
+                    onCheckedChanged: {
+                        if (checked && !detailsGrid.roomSettings.supportsKnockRestricted) restrictedButton.checked = false;
+                    }
+                }
             }
 
-            ToggleButton {
-                id: knockingButton
-                enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsKnocking
-                checked: detailsGrid.roomSettings.knockingEnabled
-                onCheckedChanged: {
-                    if (checked && !detailsGrid.roomSettings.supportsKnockRestricted) restrictedButton.checked = false;
-                }
+            Label {
+                text: qsTr("Non-members can <a href='https://spec.matrix.org/v1.17/client-server-api/#knocking-on-rooms'>request to join</a>. Users with invite permission can accept.")
+                color: knockRowHover.hovered ? palette.brightText : palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                wrapMode: Text.Wrap
+                textFormat: Text.RichText
+                onLinkActivated: function(link) { Qt.openUrlExternally(link); }
             }
         }
     }
 
-    // Allow joining via other rooms
+    // Allow joining from Spaces
     Item {
         Layout.fillWidth: true
         Layout.leftMargin: Komai.paddingMedium
         Layout.rightMargin: Komai.paddingMedium
         implicitHeight: restrictedRowContent.implicitHeight
-        visible: !publicRoomButton.checked
+        visible: accessCombo.isPrivate
         HoverHandler { id: restrictedRowHover; blocking: false }
         Rectangle { anchors.fill: restrictedRowContent; color: restrictedRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-        RowLayout {
+        ColumnLayout {
             id: restrictedRowContent
             width: parent.width
+            spacing: 0
 
-            Label {
-                text: qsTr("Allow joining via other rooms")
-                color: restrictedRowHover.hovered ? palette.brightText : palette.text
-                font.pointSize: 1.1 * Settings.uiFontSizePt
+            RowLayout {
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
-                Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+
+                Label {
+                    text: qsTr("Allow joining from Spaces")
+                    color: restrictedRowHover.hovered ? palette.brightText : palette.text
+                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                    Layout.fillWidth: true
+                }
+
+                ToggleButton {
+                    id: restrictedButton
+                    enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsRestricted
+                    checked: detailsGrid.roomSettings.restrictedEnabled
+                    onCheckedChanged: {
+                        if (checked && !detailsGrid.roomSettings.supportsKnockRestricted) knockingButton.checked = false;
+                    }
+                }
             }
 
-            ToggleButton {
-                id: restrictedButton
-                enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsRestricted
-                checked: detailsGrid.roomSettings.restrictedEnabled
-                onCheckedChanged: {
-                    if (checked && !detailsGrid.roomSettings.supportsKnockRestricted) knockingButton.checked = false;
-                }
+            Label {
+                text: qsTr("Members of selected Spaces can <a href='https://spec.matrix.org/v1.17/client-server-api/#restricted-rooms'>join without an invitation</a>.")
+                color: restrictedRowHover.hovered ? palette.brightText : palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                wrapMode: Text.Wrap
+                textFormat: Text.RichText
+                onLinkActivated: function(link) { Qt.openUrlExternally(link); }
             }
         }
     }
@@ -195,7 +238,7 @@ ColumnLayout {
         Layout.leftMargin: Komai.paddingMedium
         Layout.rightMargin: Komai.paddingMedium
         implicitHeight: joinViaRowContent.implicitHeight
-        visible: restrictedButton.checked && !publicRoomButton.checked
+        visible: restrictedButton.checked && accessCombo.isPrivate
         HoverHandler { id: joinViaRowHover; blocking: false }
         Rectangle { anchors.fill: joinViaRowContent; color: joinViaRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
         RowLayout {
@@ -230,35 +273,52 @@ ColumnLayout {
         implicitHeight: guestRowContent.implicitHeight
         HoverHandler { id: guestRowHover; blocking: false }
         Rectangle { anchors.fill: guestRowContent; color: guestRowHover.hovered ? palette.dark : palette.window; radius: Komai.paddingMedium; z: -1 }
-        RowLayout {
+        ColumnLayout {
             id: guestRowContent
             width: parent.width
+            spacing: 0
 
-            Label {
-                text: qsTr("Allow guests to join")
-                color: guestRowHover.hovered ? palette.brightText : palette.text
-                font.pointSize: 1.1 * Settings.uiFontSizePt
+            RowLayout {
                 Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
-                Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
+                Layout.rightMargin: Komai.paddingMedium
+
+                Label {
+                    text: qsTr("Allow guests to join")
+                    color: guestRowHover.hovered ? palette.brightText : palette.text
+                    font.pointSize: 1.1 * Settings.uiFontSizePt
+                    Layout.fillWidth: true
+                }
+
+                ToggleButton {
+                    id: guestAccessButton
+                    enabled: detailsGrid.roomSettings.canChangeJoinRules
+                    checked: detailsGrid.roomSettings.guestAccess
+                }
             }
 
-            ToggleButton {
-                id: guestAccessButton
-                enabled: detailsGrid.roomSettings.canChangeJoinRules
-                checked: detailsGrid.roomSettings.guestAccess
+            Label {
+                text: qsTr("Lets <a href='https://spec.matrix.org/v1.17/client-server-api/#guest-access'>temporary accounts</a> without full registration join the room.")
+                color: guestRowHover.hovered ? palette.brightText : palette.buttonText
+                font.pointSize: 0.9 * Settings.uiFontSizePt
+                Layout.fillWidth: true
+                Layout.leftMargin: Komai.paddingMedium
                 Layout.rightMargin: Komai.paddingMedium
+                Layout.bottomMargin: Komai.paddingMedium
+                wrapMode: Text.Wrap
+                textFormat: Text.RichText
+                onLinkActivated: function(link) { Qt.openUrlExternally(link); }
             }
         }
     }
 
     // Apply access rules button
     Components.KomaiButton {
-        visible: publicRoomButton.checked == detailsGrid.roomSettings.privateAccess || knockingButton.checked != detailsGrid.roomSettings.knockingEnabled || restrictedButton.checked != detailsGrid.roomSettings.restrictedEnabled || guestAccessButton.checked != detailsGrid.roomSettings.guestAccess || detailsGrid.roomSettings.allowedRoomsModified
+        visible: accessCombo.isPrivate != detailsGrid.roomSettings.privateAccess || knockingButton.checked != detailsGrid.roomSettings.knockingEnabled || restrictedButton.checked != detailsGrid.roomSettings.restrictedEnabled || guestAccessButton.checked != detailsGrid.roomSettings.guestAccess || detailsGrid.roomSettings.allowedRoomsModified
         enabled: detailsGrid.roomSettings.canChangeJoinRules
         text: qsTr("Apply access rules")
-        onClicked: detailsGrid.roomSettings.changeAccessRules(!publicRoomButton.checked, guestAccessButton.checked, knockingButton.checked, restrictedButton.checked)
+        onClicked: detailsGrid.roomSettings.changeAccessRules(accessCombo.isPrivate, guestAccessButton.checked, knockingButton.checked, restrictedButton.checked)
         Layout.fillWidth: true
         Layout.leftMargin: Komai.paddingMedium
         Layout.rightMargin: Komai.paddingMedium

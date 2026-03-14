@@ -103,7 +103,7 @@ See [CPM.cmake options](https://github.com/cpm-cmake/CPM.cmake#options) for deta
 sudo pacman -S --needed --asdeps qt6-base qt6-declarative qt6-tools qt6-multimedia qt6-svg \
     cmake gcc fontconfig python \
     coeurl libolm lmdb lmdbxx cmark syntax-highlighting spdlog fmt re2 openssl \
-    nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication
+    nlohmann-json yaml-cpp qtkeychain-qt6 kdsingleapplication litehtml
 ```
 
 ### Debian 13+ / Ubuntu 24.04+
@@ -119,8 +119,10 @@ sudo apt install -y build-essential cmake pkg-config python3 \
     qt6-declarative-private-dev
 ```
 
-Dependencies like coeurl, lmdbxx, and mtxclient are downloaded automatically by
-CPM. Pass `-DCPM_USE_LOCAL_PACKAGES=ON` to use system packages instead.
+By default, CPM downloads and builds all non-system dependencies (mtxclient,
+litehtml, blurhash, cpp-httplib, etc.). Pass `-DCPM_USE_LOCAL_PACKAGES=ON` to
+prefer system packages instead, with `-DCPM_MatrixClient_USE_LOCAL=OFF` to keep
+bundling mtxclient (distro packages are typically outdated and lack our patches).
 
 ## Debug builds
 

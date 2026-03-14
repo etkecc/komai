@@ -13,8 +13,8 @@
 #include <QDir>
 #include <QFile>
 
-#if __has_include(<keychain.h>)
-#include <keychain.h>
+#if __has_include(<qtkeychain/keychain.h>)
+#include <qtkeychain/keychain.h>
 #else
 #include <qt6keychain/keychain.h>
 #endif

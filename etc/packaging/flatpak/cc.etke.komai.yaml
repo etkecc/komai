@@ -42,6 +42,10 @@ cleanup:
   - /lib/gstreamer-1.0/validate/
   - /lib/libgst*
 modules:
+  #
+  # System dependencies (not managed by CPM — found via find_package/pkg-config)
+  # fmt, OpenSSL, libcurl are provided by the KDE Platform runtime.
+  #
   - name: lmdb
     sources:
       - sha256: 0d090c6a7c85a4f31a2ab0d734554c21097f24752393a190b0e51996b08f48c4
@@ -68,18 +72,6 @@ modules:
         type: archive
         url: https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
     no-autogen: true
-  - name: cmark
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMARK_TESTS=OFF
-      - -DBUILD_TESTING=OFF
-      - -DBUILD_SHARED_LIBS=OFF
-    sources:
-      - sha256: f9bc5ca38bcb0b727f0056100fac4d743e768872e3bacec7746de28f5700d697
-        type: archive
-        url: https://github.com/commonmark/cmark/archive/0.31.2.tar.gz
   - name: spdlog
     buildsystem: cmake-ninja
     config-opts:
@@ -93,63 +85,6 @@ modules:
       - sha256: d8862955c6d74e5846b3f580b1605d2428b11d97a410d86e2fb13e857cd3a744
         type: archive
         url: https://github.com/gabime/spdlog/archive/v1.17.0.tar.gz
-  - name: olm
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-      - -DOLM_TESTS=OFF
-    buildsystem: cmake-ninja
-    sources:
-      - commit: 7e0c8277032e40308987257b711b38af8d77cc69
-        disable-lfs: true
-        disable-shallow-clone: true
-        tag: 3.2.16
-        type: git
-        url: https://gitlab.matrix.org/matrix-org/olm.git
-  - name: QtKeychain
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DBUILD_WITH_QT6=ON
-      - -DBUILD_TEST_APPLICATION=OFF
-      - -DBUILD_SHARED_LIBS=OFF
-    buildsystem: cmake-ninja
-    sources:
-      - commit: ad7344c45a86a4f66cbafc4b081b5f7b876cb0b7
-        disable-lfs: true
-        tag: 0.15.0
-        type: git
-        url: https://github.com/frankosterfeld/qtkeychain.git
-  - name: nlohmann
-    config-opts:
-      - -DJSON_BuildTests=OFF
-    buildsystem: cmake-ninja
-    sources:
-      - sha256: 4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187
-        type: archive
-        url: https://github.com/nlohmann/json/archive/v3.12.0.tar.gz
-  - name: yaml-cpp
-    config-opts:
-      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-      - -DYAML_CPP_BUILD_TESTS=OFF
-      - -DYAML_CPP_BUILD_TOOLS=OFF
-      - -DYAML_CPP_BUILD_CONTRIB=OFF
-      - -DYAML_BUILD_SHARED_LIBS=OFF
-    buildsystem: cmake-ninja
-    sources:
-      - sha256: fbe74bbdcee21d656715688706da3c8becfd946d92cd44705cc6098bb23b3a16
-        type: archive
-        url: https://github.com/jbeder/yaml-cpp/archive/refs/tags/0.8.0.tar.gz
-      - type: patch
-        path: patches/0001-yaml-cpp-include-cstdint-for-gcc15.patch
-  - name: kdsingleapplication
-    config-opts:
-      - -DKDSingleApplication_EXAMPLES=OFF
-      - -DKDSingleApplication_QT6=ON
-    buildsystem: cmake-ninja
-    sources:
-      - sha256: ff4ae6a4620beed1cdb3e6a9b78a17d7d1dae7139c3d4746d4856b7547d42c38
-        type: archive
-        url: https://github.com/KDAB/KDSingleApplication/releases/download/v1.2.0/kdsingleapplication-1.2.0.tar.gz
   - name: re2
     buildsystem: simple
     build-commands:
@@ -181,6 +116,8 @@ modules:
       -  -Dgst-plugins-base:gl_winsys=x11,wayland
       -  -Dgst-plugins-base:x11=enabled
       -  -Dgst-plugins-base:xshm=enabled
+  # coeurl must be a separate module (not pre-fetched) because mtxclient
+  # looks for it via pkg-config, which requires an installed .pc file.
   - name: coeurl
     buildsystem: meson
     config-opts:
@@ -191,17 +128,32 @@ modules:
         tag: v0.3.2
         type: git
         url: https://nheko.im/Nheko-Reborn/coeurl.git
+  #
+  # Komai — CPM-managed deps are pre-fetched as .deps/ source trees below.
+  # The Flatpak sandbox has no network access, so FETCHCONTENT_SOURCE_DIR_*
+  # tells CPM to use these instead of downloading.
+  #
   - name: komai
+    builddir: true
     config-opts:
       - -DCMAKE_BUILD_TYPE=Release
-      - -DLMDBXX_INCLUDE_DIR=.deps/lmdbxx
       - -DCOMPILE_QML=ON
       - -DMAN=OFF
       - -DFLATPAK=ON
-      - -DFORCE_IN_SOURCE_BUILDS=ON
-      # Keep bundled FetchContent dependencies in local pre-fetched source trees.
-      - -DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=.deps/mtxclient
-      - -DFETCHCONTENT_SOURCE_DIR_LITEHTML=.deps/litehtml
+      # Pre-fetched CPM dependency sources — absolute paths required with builddir: true.
+      # /run/build/komai is where flatpak-builder places the komai source tree.
+      - -DFETCHCONTENT_SOURCE_DIR_COEURL=/run/build/komai/.deps/coeurl
+      - -DFETCHCONTENT_SOURCE_DIR_QT6KEYCHAIN=/run/build/komai/.deps/qtkeychain
+      - -DFETCHCONTENT_SOURCE_DIR_KDSINGLEAPPLICATION=/run/build/komai/.deps/kdsingleapplication
+      - -DFETCHCONTENT_SOURCE_DIR_OLM=/run/build/komai/.deps/olm
+      - -DFETCHCONTENT_SOURCE_DIR_CMARK=/run/build/komai/.deps/cmark
+      - -DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON=/run/build/komai/.deps/nlohmann_json
+      - -DFETCHCONTENT_SOURCE_DIR_YAML-CPP=/run/build/komai/.deps/yaml-cpp
+      - -DLMDBXX_INCLUDE_DIR=/run/build/komai/.deps/lmdbxx
+      - -DFETCHCONTENT_SOURCE_DIR_MATRIXCLIENT=/run/build/komai/.deps/mtxclient
+      - -DFETCHCONTENT_SOURCE_DIR_LITEHTML=/run/build/komai/.deps/litehtml
+      - -DBLURHASH_SOURCE_DIR=/run/build/komai/.deps/blurhash
+      - -DCPP_HTTPLIB_INCLUDE_DIR=/run/build/komai/.deps/cpp-httplib
     buildsystem: cmake-ninja
     sources:
       - path: ../../..
@@ -215,10 +167,55 @@ modules:
       - path: ../../../var/emoji/cache
         dest: var/emoji/cache
         type: dir
-      - dest: .deps/lmdbxx
-        sha256: 5e12eb3aefe9050068af7df2c663edabc977ef34c9e7ba7b9d2c43e0ad47d8df
+      # Pre-fetched CPM dependency sources (no network in sandbox)
+      - dest: .deps/coeurl
+        commit: 1c3a9029581a08749874226b68bb40c196ed21bb
+        disable-lfs: true
+        tag: v0.3.2
+        type: git
+        url: https://nheko.im/Nheko-Reborn/coeurl.git
+      - dest: .deps/qtkeychain
+        commit: ad7344c45a86a4f66cbafc4b081b5f7b876cb0b7
+        disable-lfs: true
+        tag: 0.15.0
+        type: git
+        url: https://github.com/frankosterfeld/qtkeychain.git
+      - dest: .deps/kdsingleapplication
+        sha256: ff4ae6a4620beed1cdb3e6a9b78a17d7d1dae7139c3d4746d4856b7547d42c38
         type: archive
-        url: https://github.com/hoytech/lmdbxx/archive/1.0.0.tar.gz
+        url: https://github.com/KDAB/KDSingleApplication/releases/download/v1.2.0/kdsingleapplication-1.2.0.tar.gz
+      - dest: .deps/olm
+        commit: 7e0c8277032e40308987257b711b38af8d77cc69
+        disable-lfs: true
+        disable-shallow-clone: true
+        tag: 3.2.16
+        type: git
+        url: https://gitlab.matrix.org/matrix-org/olm.git
+      - type: patch
+        path: ../../../cmake/patches/olm/0001-fix-list-const-ptr.patch
+        options:
+          - --directory=.deps/olm
+      - type: patch
+        path: ../../../cmake/patches/olm/0002-fix-cmake-cmp0148.patch
+        options:
+          - --directory=.deps/olm
+      - dest: .deps/cmark
+        sha256: 3da93db5469c30588cfeb283d9d62edfc6ded9eb0edc10a4f5bbfb7d722ea802
+        type: archive
+        url: https://github.com/commonmark/cmark/archive/0.31.1.tar.gz
+      - dest: .deps/nlohmann_json
+        sha256: 4b92eb0c06d10683f7447ce9406cb97cd4b453be18d7279320f7b2f025c10187
+        type: archive
+        url: https://github.com/nlohmann/json/archive/v3.12.0.tar.gz
+      - dest: .deps/yaml-cpp
+        type: git
+        url: https://github.com/jbeder/yaml-cpp.git
+        tag: yaml-cpp-0.9.0
+      - dest: .deps/lmdbxx
+        disable-lfs: true
+        tag: 1.0.0
+        type: git
+        url: https://github.com/hoytech/lmdbxx.git
       - dest: .deps/mtxclient
         commit: f5766cb53c244a808b7e512c7b83b3942fb67834
         disable-lfs: true
@@ -234,3 +231,13 @@ modules:
         tag: v0.9
         type: git
         url: https://github.com/litehtml/litehtml.git
+      - dest: .deps/blurhash
+        disable-lfs: true
+        tag: v0.2.0
+        type: git
+        url: https://github.com/Nheko-Reborn/blurhash.git
+      - dest: .deps/cpp-httplib
+        disable-lfs: true
+        tag: v0.37.2
+        type: git
+        url: https://github.com/yhirose/cpp-httplib.git

@@ -163,7 +163,7 @@ set(BUILD_TEST_APPLICATION OFF CACHE INTERNAL "")
 CPMAddPackage(
     NAME qt6keychain
     GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
-    GIT_TAG v0.14.0
+    GIT_TAG 0.15.0
 )
 
 set(KDSingleApplication_QT6 ON CACHE BOOL INTERNAL)
@@ -171,7 +171,7 @@ set(KDSingleApplication_EXAMPLES OFF CACHE BOOL INTERNAL)
 CPMAddPackage(
     NAME kdsingleapplication
     GIT_REPOSITORY https://github.com/KDAB/KDSingleApplication.git
-    GIT_TAG v1.0.0
+    GIT_TAG v1.2.0
 )
 
 if(Qt6Widgets_FOUND)
@@ -763,17 +763,18 @@ CPMAddPackage(
 )
 
 if(KOMAI_DB_ENABLE_LMDB_BACKEND)
-    CPMAddPackage(
-        NAME lmdbxx
-        URL "https://raw.githubusercontent.com/hoytech/lmdbxx/1.0.0/lmdb++.h"
-        DOWNLOAD_NO_EXTRACT TRUE
-        DOWNLOAD_ONLY YES
-    )
-    if(lmdbxx_ADDED)
-        add_library(lmdbxx INTERFACE)
-        target_include_directories(lmdbxx INTERFACE ${lmdbxx_SOURCE_DIR})
-        add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
+    if(NOT LMDBXX_INCLUDE_DIR)
+        CPMAddPackage(
+            NAME lmdbxx
+            GIT_REPOSITORY https://github.com/hoytech/lmdbxx.git
+            GIT_TAG 1.0.0
+            DOWNLOAD_ONLY YES
+        )
+        set(LMDBXX_INCLUDE_DIR ${lmdbxx_SOURCE_DIR})
     endif()
+    add_library(lmdbxx INTERFACE)
+    target_include_directories(lmdbxx INTERFACE ${LMDBXX_INCLUDE_DIR})
+    add_library(lmdbxx::lmdbxx ALIAS lmdbxx)
 endif()
 
 set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
@@ -1030,33 +1031,34 @@ endif()
 
 target_include_directories(komai PRIVATE src src/auth/ src/providers/ src/avatars/default/ src/imagepacks/ src/models/ src/powerlevels/ src/cli/ src/timeline/ src/timeline/litehtml/ src/ui/ src/encryption/ src/voip/)
 
-CPMAddPackage(
-    NAME cpp-httplib
-    GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
-    GIT_TAG v0.37.2
-    DOWNLOAD_ONLY YES
-)
-if(cpp-httplib_ADDED)
-    target_include_directories(komai PRIVATE ${cpp-httplib_SOURCE_DIR})
+if(NOT CPP_HTTPLIB_INCLUDE_DIR)
+    CPMAddPackage(
+        NAME cpp-httplib
+        GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
+        GIT_TAG v0.37.2
+        DOWNLOAD_ONLY YES
+    )
+    set(CPP_HTTPLIB_INCLUDE_DIR ${cpp-httplib_SOURCE_DIR})
 endif()
+target_include_directories(komai PRIVATE ${CPP_HTTPLIB_INCLUDE_DIR})
 
 # blurhash
-CPMAddPackage(
-    NAME blurhash
-    GIT_REPOSITORY https://github.com/Nheko-Reborn/blurhash.git
-    GIT_TAG v0.2.0
-    DOWNLOAD_ONLY YES
-)
-if(blurhash_ADDED)
-    target_include_directories(komai PRIVATE ${blurhash_SOURCE_DIR})
-    target_sources(komai PRIVATE
-        ${blurhash_SOURCE_DIR}/blurhash.cpp
-        ${blurhash_SOURCE_DIR}/blurhash.hpp
+if(NOT BLURHASH_SOURCE_DIR)
+    CPMAddPackage(
+        NAME blurhash
+        GIT_REPOSITORY https://github.com/Nheko-Reborn/blurhash.git
+        GIT_TAG v0.2.0
+        DOWNLOAD_ONLY YES
     )
+    set(BLURHASH_SOURCE_DIR ${blurhash_SOURCE_DIR})
 endif()
+target_include_directories(komai PRIVATE ${BLURHASH_SOURCE_DIR})
+target_sources(komai PRIVATE
+    ${BLURHASH_SOURCE_DIR}/blurhash.cpp
+    ${BLURHASH_SOURCE_DIR}/blurhash.hpp
+)
 
-# Fixup bundled keychain/kdsingleapplication include dirs
-target_include_directories(komai PRIVATE ${qt6keychain_SOURCE_DIR} ${qt6keychain_BINARY_DIR})
+# Fixup bundled kdsingleapplication include dirs
 target_include_directories(komai PRIVATE ${kdsingleapplication_SOURCE_DIR} ${kdsingleapplication_BINARY_DIR})
 
 if(NOT JSON_ImplicitConversions)
@@ -1436,6 +1438,7 @@ if(BUILD_TESTING)
         Qt::Core
         Qt::Gui
         KF6::SyntaxHighlighting
+        nlohmann_json::nlohmann_json
     )
     add_test(NAME komai_raw_message_dialog_payload_test COMMAND komai_raw_message_dialog_payload_test)
     komai_configure_test(komai_raw_message_dialog_payload_test "unit;timeline")

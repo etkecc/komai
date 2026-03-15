@@ -124,6 +124,7 @@ public:
         Blurhash,
         Filename,
         Filesize,
+        FilesizeBytes,
         MimeType,
         OriginalHeight,
         OriginalWidth,

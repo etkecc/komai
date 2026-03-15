@@ -98,6 +98,7 @@ enum class SettingId
     TimelineMediaImageDisplay,
     TimelineMediaOpenImagesExternal,
     TimelineMediaOpenVideosExternal,
+    TimelineMediaAutoplayGifVideos,
     TimelineMediaOpenAudioExternal,
     TimelineMediaDefaultAudioPlaybackSpeed,
     EncryptionKeySharingOnlyVerifiedUsers,

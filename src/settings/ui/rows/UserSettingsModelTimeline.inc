@@ -137,6 +137,11 @@
       "Open in an external player",
       QT_TR_NOOP("Streams when possible; encrypted or non-seekable videos are <a href=\"komai://media-cache\">cached</a> on disk (auto-purged periodically)."),
       SM::TabTimeline, timelineMediaOpenVideosExternal, setTimelineMediaOpenVideosExternal, nullptr, TimelineMediaOpenVideosExternal, SettingKey::TimelineMediaOpenVideosExternal),
+    // AutoplayGifVideos
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Inline auto-play of GIF videos",
+      nullptr,
+      SM::TabTimeline, timelineMediaAutoplayGifVideos, setTimelineMediaAutoplayGifVideos, nullptr, TimelineMediaAutoplayGifVideos, SettingKey::TimelineMediaAutoplayGifVideos),
     // TimelineAudioSection
     { QT_TR_NOOP("Audio handling"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

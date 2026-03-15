@@ -17,6 +17,7 @@
     DefaultAvatarStyle uiAvatarsDefaultAvatarStyle() const;
     bool timelineMediaOpenImagesExternal() const;
     bool timelineMediaOpenVideosExternal() const;
+    bool timelineMediaAutoplayGifVideos() const;
     bool timelineMediaOpenAudioExternal() const;
     double timelineMediaDefaultAudioPlaybackSpeed() const;
     QStringList collapsedSpaces() const;

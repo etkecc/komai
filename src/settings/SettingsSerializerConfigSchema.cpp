@@ -15,7 +15,7 @@ namespace settings::serializer::config {
 
 namespace {
 
-const std::array<BoolSettingDescriptor, 48> BoolSettings{
+const std::array<BoolSettingDescriptor, 49> BoolSettings{
 #include "SettingsSerializerConfigSchemaBoolCalls.inc"
 #include "SettingsSerializerConfigSchemaBoolComposer.inc"
 #include "SettingsSerializerConfigSchemaBoolEncryption.inc"

@@ -53,6 +53,11 @@ class Komai : public QObject
     Q_PROPERTY(QString fontFamily READ fontFamily NOTIFY layoutMetricsChanged)
     Q_PROPERTY(bool sidebarsRoomListShowLastMessageTime READ sidebarsRoomListShowLastMessageTime
                  NOTIFY sidebarsRoomListShowLastMessageTimeChanged)
+    // Maximum file size in bytes for a video to be considered a GIF-like video (1 MB).
+    Q_PROPERTY(int gifVideoMaxSizeBytes READ gifVideoMaxSizeBytes CONSTANT)
+    // Maximum duration in milliseconds for a video to be considered a GIF-like video (3 seconds).
+    Q_PROPERTY(int gifVideoMaxDurationMs READ gifVideoMaxDurationMs CONSTANT)
+
     Q_PROPERTY(QString tagline READ tagline CONSTANT)
     Q_PROPERTY(QString taglineTemplate READ taglineTemplate CONSTANT)
     Q_PROPERTY(QString matrixWord READ matrixWord CONSTANT)
@@ -77,6 +82,11 @@ public:
 
     int tooltipDelay() const;
     int timelineLogoSize() const { return 128; }
+    int gifVideoMaxSizeBytes() const { return kGifVideoMaxSizeBytes; }
+    int gifVideoMaxDurationMs() const { return kGifVideoMaxDurationMs; }
+
+    static constexpr int kGifVideoMaxSizeBytes  = 1048576; // 1 MB
+    static constexpr int kGifVideoMaxDurationMs = 3000;    // 3 seconds
 
     bool uiLayoutCompactMode() const;
     double sidebarAvatarMultiplier() const;

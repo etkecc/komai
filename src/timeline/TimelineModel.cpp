@@ -205,6 +205,7 @@ TimelineModel::roleNames() const
       {Blurhash, "blurhash"},
       {Filename, "filename"},
       {Filesize, "filesize"},
+      {FilesizeBytes, "filesizeBytes"},
       {MimeType, "mimetype"},
       {OriginalHeight, "originalHeight"},
       {OriginalWidth, "originalWidth"},

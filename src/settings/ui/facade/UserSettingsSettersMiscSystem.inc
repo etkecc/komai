@@ -62,6 +62,16 @@ UserSettings::setTimelineMediaOpenVideosExternal(bool s)
     save();
 }
 void
+UserSettings::setTimelineMediaAutoplayGifVideos(bool s)
+{
+    if (timelineMediaAutoplayGifVideos_ == s)
+        return;
+    timelineMediaAutoplayGifVideos_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaAutoplayGifVideos, s);
+    emit timelineMediaAutoplayGifVideosChanged(s);
+    save();
+}
+void
 UserSettings::setTimelineMediaDefaultAudioPlaybackSpeed(double speed)
 {
     const auto minRate = settings::core::definitions::kMinTimelineMediaAudioPlaybackSpeed;

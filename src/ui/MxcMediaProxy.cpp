@@ -61,7 +61,8 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
       this, &MxcMediaProxy::playbackStateChanged, this, [this](QMediaPlayer::PlaybackState status) {
           if (status == QMediaPlayer::PlayingState) {
               pausedAudioOutputReleaseTimer_.stop();
-              createAudioOutputIfNeeded();
+              if (!skipAudioOutput_)
+                  createAudioOutputIfNeeded();
           } else if (status == QMediaPlayer::PausedState) {
               pausedAudioOutputReleaseTimer_.start();
           } else {

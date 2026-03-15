@@ -40,6 +40,7 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
     case Blurhash:
     case Filename:
     case Filesize:
+    case FilesizeBytes:
     case MimeType:
     case OriginalHeight:
     case OriginalWidth:

@@ -32,6 +32,8 @@ TimelineModel::mediaMetadataForEvent(const mtx::events::collections::TimelineEve
         return QVariant(QString::fromStdString(mtx::accessors::filename(event)));
     case Filesize:
         return QVariant(utils::humanReadableFileSize(mtx::accessors::filesize(event)));
+    case FilesizeBytes:
+        return QVariant(static_cast<qulonglong>(mtx::accessors::filesize(event)));
     case MimeType:
         return QVariant(QString::fromStdString(mtx::accessors::mimetype(event)));
     case OriginalHeight:

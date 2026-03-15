@@ -18,6 +18,16 @@ UserSettings::timelineMediaOpenVideosExternal() const
     return timelineMediaOpenVideosExternal_;
 }
 
+bool
+UserSettings::timelineMediaAutoplayGifVideos() const
+{
+    if (const auto value =
+          coreStore_.valueAs<bool>(settings::core::SettingId::TimelineMediaAutoplayGifVideos);
+        value.has_value())
+        return *value;
+    return timelineMediaAutoplayGifVideos_;
+}
+
 double
 UserSettings::timelineMediaDefaultAudioPlaybackSpeed() const
 {

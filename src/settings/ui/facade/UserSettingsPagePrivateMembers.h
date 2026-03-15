@@ -103,6 +103,7 @@ QStringList collapsedSpaces_;
 DefaultAvatarStyle uiAvatarsDefaultAvatarStyle_ = DefaultAvatarStyle::BoringAvatarsBauhaus;
 bool timelineMediaOpenImagesExternal_;
 bool timelineMediaOpenVideosExternal_;
+bool timelineMediaAutoplayGifVideos_ = true;
 bool timelineMediaOpenAudioExternal_;
 double timelineMediaDefaultAudioPlaybackSpeed_ =
   settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed;

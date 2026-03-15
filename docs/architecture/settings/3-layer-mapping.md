@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 83
+Rows: 84
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -71,6 +71,7 @@ Naming mismatch summary:
 | `SidebarsRoomListUnreadDetectionPolicy` | `static_cast<int>(settings.sidebarsRoomListUnreadDetectionPolicy())` | `SidebarsRoomListUnreadDetectionPolicy` | `sidebars.room_list.unread_detection_policy` |
 | `TimelineFormattedCodeSyntaxHighlighting` | `settings.timelineFormattedCodeSyntaxHighlighting()` | `TimelineFormattedCodeSyntaxHighlighting` | `timeline.messages.formatted.code_syntax_highlighting` |
 | `TimelineMediaAnimateOnHover` | `settings.timelineMediaAnimateOnHover()` | `TimelineMediaAnimateOnHover` | `timeline.media.animate_on_hover` |
+| `TimelineMediaAutoplayGifVideos` | `settings.timelineMediaAutoplayGifVideos()` | `TimelineMediaAutoplayGifVideos` | `timeline.media.autoplay_gif_videos` |
 | `TimelineMediaDefaultAudioPlaybackSpeed` | `settings.timelineMediaDefaultAudioPlaybackSpeed()` | `TimelineMediaDefaultAudioPlaybackSpeed` | `timeline.media.default_audio_playback_speed` |
 | `TimelineMediaEffectsEnabled` | `settings.timelineMediaEffectsEnabled()` | `TimelineMediaEffectsEnabled` | `timeline.media.effects.enabled` |
 | `TimelineMediaImageDisplay` | `static_cast<int>(settings.timelineMediaImageDisplay())` | `TimelineMediaImageDisplay` | `timeline.media.image_display` |

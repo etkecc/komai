@@ -62,6 +62,7 @@ constexpr auto TimelineMediaAnimateOnHover           = "timeline.media.animate_o
 constexpr auto TimelineMediaImageDisplay             = "timeline.media.image_display";
 constexpr auto TimelineMediaOpenImagesExternal       = "timeline.media.open_images_external";
 constexpr auto TimelineMediaOpenVideosExternal       = "timeline.media.open_videos_external";
+constexpr auto TimelineMediaAutoplayGifVideos        = "timeline.media.autoplay_gif_videos";
 constexpr auto TimelineMediaOpenAudioExternal        = "timeline.media.open_audio_external";
 constexpr auto TimelineMediaDefaultAudioPlaybackSpeed =
   "timeline.media.default_audio_playback_speed";

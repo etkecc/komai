@@ -14,6 +14,7 @@
 #include "settings/ui/SettingDescriptor.h"
 #include "settings/ui/UserSettingsModel.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/KomaiGlobalObject.h"
 #include "ui/ThemeRegistry.h"
 
 namespace settings::ui {
@@ -106,6 +107,26 @@ uiLayoutContentMaxWidthDescriptionRoleData(int role)
 }
 
 QVariant
+autoplayGifVideosDescriptionRoleData(int role)
+{
+    if (role != UserSettingsModel::Description)
+        return {};
+
+    constexpr auto maxSizeMB    = Komai::kGifVideoMaxSizeBytes / (1024 * 1024);
+    constexpr auto maxDurationS = Komai::kGifVideoMaxDurationMs / 1000;
+
+    return QCoreApplication::translate(
+             "UserSettingsModel",
+             "Plays small video clips (under %1 MB or %2 s) inline, muted and looped. "
+             "<a "
+             "href=\"https://github.com/etkecc/komai/blob/main/docs/user-guide/"
+             "media-playback.md#%EF%B8%8F-inline-gif-video-playback\">"
+             "Learn more</a>.")
+      .arg(maxSizeMB)
+      .arg(maxDurationS);
+}
+
+QVariant
 keyStatusRoleData(int role, bool good)
 {
     if (role == UserSettingsModel::Good)
@@ -126,6 +147,8 @@ roleDataForSetting(settings::core::SettingId id, int role)
         return uiLayoutContentMaxWidthDescriptionRoleData(role);
     case settings::core::SettingId::NetworkPresenceStatusPolicy:
         return presenceStatusDescriptionRoleData(role);
+    case settings::core::SettingId::TimelineMediaAutoplayGifVideos:
+        return autoplayGifVideosDescriptionRoleData(role);
     case settings::core::SettingId::EncryptionOnlineBackupKeyStatus:
         return keyStatusRoleData(
           role, cache::secret(mtx::secret_storage::secrets::megolm_backup_v1).has_value());

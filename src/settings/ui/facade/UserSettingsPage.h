@@ -245,6 +245,8 @@ class UserSettings final : public QObject
                  setTimelineMediaOpenImagesExternal NOTIFY timelineMediaOpenImagesExternalChanged)
     Q_PROPERTY(bool timelineMediaOpenVideosExternal READ timelineMediaOpenVideosExternal WRITE
                  setTimelineMediaOpenVideosExternal NOTIFY timelineMediaOpenVideosExternalChanged)
+    Q_PROPERTY(bool timelineMediaAutoplayGifVideos READ timelineMediaAutoplayGifVideos WRITE
+                 setTimelineMediaAutoplayGifVideos NOTIFY timelineMediaAutoplayGifVideosChanged)
     Q_PROPERTY(bool timelineMediaOpenAudioExternal READ timelineMediaOpenAudioExternal WRITE
                  setTimelineMediaOpenAudioExternal NOTIFY timelineMediaOpenAudioExternalChanged)
     Q_PROPERTY(
@@ -551,6 +553,7 @@ public:
     void setUiAvatarsDefaultAvatarStyle(DefaultAvatarStyle style);
     void setTimelineMediaOpenImagesExternal(bool state);
     void setTimelineMediaOpenVideosExternal(bool state);
+    void setTimelineMediaAutoplayGifVideos(bool state);
     void setTimelineMediaOpenAudioExternal(bool state);
     void setTimelineMediaDefaultAudioPlaybackSpeed(double speed);
     void setIntegrationsBrowserCommand(QString command);
@@ -689,6 +692,7 @@ signals:
     void uiAvatarsDefaultAvatarStyleChanged(DefaultAvatarStyle style);
     void timelineMediaOpenImagesExternalChanged(bool state);
     void timelineMediaOpenVideosExternalChanged(bool state);
+    void timelineMediaAutoplayGifVideosChanged(bool state);
     void timelineMediaOpenAudioExternalChanged(bool state);
     void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void hiddenPinsChanged();

@@ -34,6 +34,9 @@ class MxcMediaProxy : public QMediaPlayer
     Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
+    // When true, audio output is never created — suitable for muted GIF-like video playback.
+    Q_PROPERTY(bool skipAudioOutput READ skipAudioOutput WRITE setSkipAudioOutput NOTIFY
+                 skipAudioOutputChanged)
 
 public:
     MxcMediaProxy(QObject *parent = nullptr);
@@ -98,6 +101,15 @@ public:
         emit mutedChanged();
     }
 
+    bool skipAudioOutput() const { return skipAudioOutput_; }
+    void setSkipAudioOutput(bool val)
+    {
+        if (skipAudioOutput_ == val)
+            return;
+        skipAudioOutput_ = val;
+        emit skipAudioOutputChanged();
+    }
+
 signals:
     void roomChanged();
     void eventIdChanged();
@@ -110,6 +122,7 @@ signals:
 
     void volumeChanged();
     void mutedChanged();
+    void skipAudioOutputChanged();
 
 public slots:
     void startDownload(bool onlyCached = false);
@@ -132,6 +145,7 @@ private:
     QBuffer buffer;
     float volume_                         = 1.f;
     bool muted_                           = false;
+    bool skipAudioOutput_                 = false;
     bool encrypted_                       = false;
     bool streaming_                       = false;
     bool streamingFallbackAttempted_      = false;

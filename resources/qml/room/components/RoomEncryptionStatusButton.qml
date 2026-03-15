@@ -91,13 +91,13 @@ AbstractButton {
             return qsTr("Encryption is a room setting that can be enabled in Room Info.");
         switch (trustlevel) {
         case Crypto.Verified:
-            return qsTr("Messages are end-to-end encrypted and all devices are verified. See the Members list for device details.");
+            return qsTr("Messages are end-to-end encrypted and all devices are verified.");
         case Crypto.TOFU:
-            return qsTr("Messages are end-to-end encrypted. Some devices are verified, others are trusted by first use. See the Members list for device details.");
+            return qsTr("Messages are end-to-end encrypted. Some devices are verified, others are trusted by first use.");
         case Crypto.MessageUnverified:
-            return qsTr("Messages are end-to-end encrypted, but the key is from an untrusted source. See the Members list for device details.");
+            return qsTr("Messages are end-to-end encrypted, but the key is from an untrusted source.");
         default:
-            return qsTr("Messages are end-to-end encrypted, but some devices are unverified. See the Members list for device details.");
+            return qsTr("Messages are end-to-end encrypted, but some devices are unverified.");
         }
     }
 
@@ -188,6 +188,19 @@ AbstractButton {
             onClicked: {
                 encryptionDialog.close();
                 TimelineManager.openRoomInfo(encryptionButton.roomId, "settings");
+            }
+        }
+
+        Components.KomaiButton {
+            Layout.alignment: Qt.AlignRight
+            visible: encryptionButton.isEncrypted
+            highlighted: true
+            icon.source: "qrc:/icons/icons/ui/people.svg"
+            text: qsTr("See Members")
+
+            onClicked: {
+                encryptionDialog.close();
+                TimelineManager.openRoomInfo(encryptionButton.roomId, "members");
             }
         }
     }

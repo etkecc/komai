@@ -367,6 +367,17 @@ TimelineMessageStyleBase {
                     value: chat.height
                 }
 
+                Binding {
+                    target: wrapper.main
+                    property: "bubbleBackgroundColor"
+                    when: !!wrapper.main && typeof wrapper.main.bubbleBackgroundColor !== "undefined"
+                    value: (!wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled)
+                        ? (wrapper.isSender
+                            ? Qt.tint(palette.base, Qt.hsla(Komai.theme.userColorSelf.hslHue, wrapper.hovered ? 0.8 : 0.6, Komai.theme.userColorSelf.hslLightness, 0.3))
+                            : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2)))
+                        : palette.window
+                }
+
                 leftPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleHorizontalPadding
                 rightPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleHorizontalPadding
                 topPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleVerticalPadding

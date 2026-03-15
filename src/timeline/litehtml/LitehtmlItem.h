@@ -6,6 +6,7 @@
 
 #include <QColor>
 #include <QFont>
+#include <QImage>
 #include <QPoint>
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
@@ -37,6 +38,8 @@ class LitehtmlItem : public QQuickPaintedItem
     Q_PROPERTY(QString html READ html WRITE setHtml NOTIFY htmlChanged)
     Q_PROPERTY(QString hoveredLink READ hoveredLink NOTIFY hoveredLinkChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY
+                 backgroundColorChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(QString selectedText READ selectedText NOTIFY selectedTextChanged)
     Q_PROPERTY(qreal leftPadding READ leftPadding WRITE setLeftPadding NOTIFY leftPaddingChanged)
@@ -52,6 +55,9 @@ public:
 
     QColor color() const { return m_color; }
     void setColor(const QColor &color);
+
+    QColor backgroundColor() const { return m_backgroundColor; }
+    void setBackgroundColor(const QColor &color);
 
     QFont font() const { return m_font; }
     void setFont(const QFont &font);
@@ -73,6 +79,7 @@ signals:
     void htmlChanged();
     void hoveredLinkChanged();
     void colorChanged();
+    void backgroundColorChanged();
     void fontChanged();
     void selectedTextChanged();
     void leftPaddingChanged();
@@ -100,10 +107,13 @@ private:
     void clearSelection();
 
     bool needsTextRunCollection() const;
+    void invalidatePaintCache();
+    void renderToCache();
 
     QString m_html;
     QString m_hoveredLink;
     QColor m_color;
+    QColor m_backgroundColor;
     QFont m_font;
     QString m_selectedText;
     qreal m_leftPadding = 0;
@@ -121,4 +131,10 @@ private:
 
     // Hover throttling: last document-space position passed to on_mouse_over.
     QPoint m_lastHoverDocPos{-1, -1};
+
+    // Paint cache: litehtml output rendered to a QImage with opaque background, blitted on
+    // subsequent paint() calls. The opaque background enables sub-pixel text antialiasing.
+    QImage m_paintCache;
+    bool m_paintCacheDirty       = true;
+    bool m_paintCacheHasTextRuns = false;
 };

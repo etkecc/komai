@@ -8,6 +8,7 @@ import "../../delegates/"
 import "../../ui"
 import QtQuick 2.9
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
 Popup {
@@ -258,18 +259,40 @@ Popup {
             wrapMode: Text.Wrap
         }
 
-        Row {
+        RowLayout {
             id: confirmButtons
 
             spacing: Komai.paddingMedium
             visible: forwardMessagePopup.confirming
+            width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
+
+            Components.KomaiButton {
+                id: cancelButton
+
+                activeFocusOnTab: true
+                focusPolicy: Qt.StrongFocus
+                text: qsTr("Cancel")
+                onClicked: forwardMessagePopup.cancelConfirmation()
+                Keys.onEnterPressed: event => {
+                    forwardMessagePopup.cancelConfirmation();
+                    event.accepted = true;
+                }
+                Keys.onReturnPressed: event => {
+                    forwardMessagePopup.cancelConfirmation();
+                    event.accepted = true;
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
 
             Components.KomaiButton {
                 id: forwardButton
 
                 activeFocusOnTab: true
                 focusPolicy: Qt.StrongFocus
-                highlighted: activeFocus
+                highlighted: true
                 text: qsTr("Forward")
                 onClicked: forwardMessagePopup.confirmForward()
                 Keys.onEnterPressed: event => {
@@ -286,23 +309,6 @@ Popup {
                         forwardMessagePopup.cancelConfirmation();
                         event.accepted = true;
                     }
-                }
-            }
-
-            Components.KomaiButton {
-                id: cancelButton
-
-                activeFocusOnTab: true
-                focusPolicy: Qt.StrongFocus
-                text: qsTr("Cancel")
-                onClicked: forwardMessagePopup.cancelConfirmation()
-                Keys.onEnterPressed: event => {
-                    forwardMessagePopup.cancelConfirmation();
-                    event.accepted = true;
-                }
-                Keys.onReturnPressed: event => {
-                    forwardMessagePopup.cancelConfirmation();
-                    event.accepted = true;
                 }
             }
         }

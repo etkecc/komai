@@ -171,6 +171,7 @@ Item {
     ScrollBar {
         id: scrollbar
 
+        policy: ScrollBar.AlwaysOn
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.top: parent.top
@@ -201,6 +202,25 @@ Item {
         //onModelChanged: if (room) room.sendReset()
         //reuseItems: true
         boundsBehavior: Flickable.StopAtBounds
+
+        // Boost mouse-wheel scroll speed: Qt Quick's default Flickable wheel
+        // handling scrolls ~60px per notch, which is too sluggish for a
+        // timeline with large message delegates. This WheelHandler intercepts
+        // wheel events and applies a larger per-notch delta directly.
+        WheelHandler {
+            orientation: Qt.Vertical
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+
+            property real _prevRotation: 0
+            onRotationChanged: {
+                let delta = rotation - _prevRotation;
+                _prevRotation = rotation;
+                // Each wheel notch ≈ 15° of rotation.
+                // Scale to ~150px per notch for comfortable timeline scrolling.
+                chat.contentY -= delta * 5;
+                chat.returnToBounds();
+            }
+        }
         // Keep initial room-switch render cheap by avoiding extra off-screen delegate creation
         // until first content is visible.
         displayMarginBeginning: chatRoot.listViewDisplayMargin

@@ -35,9 +35,9 @@ Flow {
 
             background: Rectangle {
                 anchors.centerIn: parent
-                border.color: reaction.hovered ? palette.text : (modelData.selfReactedEvent !== '' ? palette.highlight : gentleText)
+                border.color: reaction.hovered ? palette.dark : (modelData.selfReactedEvent !== '' ? palette.highlight : gentleText)
                 border.width: 1
-                color: reaction.hovered ? palette.highlight : (modelData.selfReactedEvent !== '' ? gentleHighlight : palette.window)
+                color: reaction.hovered ? palette.dark : (modelData.selfReactedEvent !== '' ? gentleHighlight : palette.window)
                 implicitHeight: reaction.implicitHeight
                 implicitWidth: reaction.implicitWidth
                 radius: Komai.paddingMedium
@@ -57,7 +57,7 @@ Flow {
                     id: reactionText
 
                     anchors.baseline: reactionCounter.baseline
-                    color: reaction.hovered ? palette.highlightedText : palette.text
+                    color: reaction.hovered ? palette.brightText : palette.text
                     font.family: Settings.uiFontEmojiFamily
                     font.pixelSize: 24
                     textFormat: TextEdit.RichText
@@ -85,7 +85,7 @@ Flow {
                 Rectangle {
                     id: divider
 
-                    color: reaction.hovered ? palette.text : gentleText
+                    color: reaction.hovered ? palette.brightText : gentleText
                     height: Math.floor(reactionCounter.implicitHeight * 1.4)
                     width: 1
                 }
@@ -93,7 +93,7 @@ Flow {
                     id: reactionCounter
 
                     anchors.verticalCenter: divider.verticalCenter
-                    color: reaction.hovered ? palette.highlightedText : palette.windowText
+                    color: reaction.hovered ? palette.brightText : palette.windowText
                     font: reaction.font
                     text: modelData.count
                 }

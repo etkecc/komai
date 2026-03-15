@@ -60,7 +60,7 @@ Flow {
                     color: reaction.hovered ? palette.brightText : palette.text
                     font.family: Settings.uiFontEmojiFamily
                     font.pixelSize: 24
-                    textFormat: TextEdit.RichText
+                    textFormat: Text.StyledText
                     maximumLineCount: 1
                     text: {
                         // When an emoji font is selected that doesn't have …, it is dropped from elidedText. So we add it back.

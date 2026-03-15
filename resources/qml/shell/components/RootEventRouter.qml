@@ -48,7 +48,8 @@ Item {
         }
         function onOpenProfile(profile) {
             timelineRoot.openCatalogDialog(componentCatalog.userProfileDialog, {
-                    "profile": profile
+                    "profile": profile,
+                    "appRoot": timelineRoot
                 });
         }
         function onOpenRoomInfoDialog(settings, members, room, initialTab) {

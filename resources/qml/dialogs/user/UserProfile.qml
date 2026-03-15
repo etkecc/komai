@@ -16,6 +16,11 @@ Components.OverlayDialog {
 
     property var profile
     property string moderationAction: ""
+    property var appRoot
+
+    overlayViewport: appRoot
+    readonly property int dialogViewportWidth: overlayDialogViewport ? overlayDialogViewport.width : 760
+    readonly property int dialogViewportHeight: overlayDialogViewport ? overlayDialogViewport.height : 600
 
     readonly property bool isRoomProfile: !profile.isGlobalUserProfile
     readonly property bool showingModerationPrompt: moderationAction !== ""
@@ -27,7 +32,12 @@ Components.OverlayDialog {
         && profile.avatarUrl !== profile.globalAvatarUrl
     readonly property int copyButtonSize: Math.max(20, Math.round(Settings.uiFontSizePt * 1.6))
 
-    width: Math.round((parent ? parent.width : 760) * 0.8)
+    width: Math.min(
+        Math.max(240, dialogViewportWidth - Komai.paddingLarge * 2),
+        Math.max(240, Math.floor(dialogViewportWidth * overlayDialogMaxWidthRatio))
+    )
+    x: Math.round((dialogViewportWidth - width) / 2)
+    y: Math.max(Komai.paddingLarge, Math.round((dialogViewportHeight - height) / 2))
     title: {
         if (showingModerationPrompt) {
             return moderationAction === "kick"

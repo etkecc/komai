@@ -99,6 +99,7 @@ generateMasterStylesheet(const QPalette &palette,
              "}"
              "img {"
              "  vertical-align: middle;"
+             "  max-width: 100%;"
              "}"
              "span.emoji {"
              "  font-size: %11em;"

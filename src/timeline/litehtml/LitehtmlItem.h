@@ -6,6 +6,7 @@
 
 #include <QColor>
 #include <QFont>
+#include <QImage>
 #include <QPoint>
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
@@ -100,6 +101,8 @@ private:
     void clearSelection();
 
     bool needsTextRunCollection() const;
+    void invalidatePaintCache();
+    void renderToCache();
 
     QString m_html;
     QString m_hoveredLink;
@@ -121,4 +124,9 @@ private:
 
     // Hover throttling: last document-space position passed to on_mouse_over.
     QPoint m_lastHoverDocPos{-1, -1};
+
+    // Paint cache: litehtml output rendered to a QImage, blitted on subsequent paint() calls.
+    QImage m_paintCache;
+    bool m_paintCacheDirty       = true;
+    bool m_paintCacheHasTextRuns = false;
 };

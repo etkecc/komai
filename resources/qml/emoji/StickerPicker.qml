@@ -189,7 +189,7 @@ Popup {
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
     onOpened: Qt.callLater(updateActiveSectionIndex)
     width: sidebarPaneWidth + Komai.paddingSmall + gridColumnWidth + padding * 2
-    height: contentColumn.implicitHeight
+    height: contentColumn.implicitHeight + topPadding + bottomPadding
 
     background: Rectangle {
         color: palette.alternateBase

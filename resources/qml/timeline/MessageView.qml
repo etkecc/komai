@@ -198,9 +198,9 @@ Item {
         ScrollBar.vertical: scrollbar
         anchors.fill: parent
         anchors.rightMargin: scrollbar.interactive ? scrollbar.width : 0
-        // reuseItems still has a few bugs, see https://bugreports.qt.io/browse/QTBUG-95105 https://bugreports.qt.io/browse/QTBUG-95107
-        //onModelChanged: if (room) room.sendReset()
-        //reuseItems: true
+        // reuseItems had bugs in older Qt (QTBUG-95105, QTBUG-95107).
+        // Re-enabled experimentally on Qt 6.10+ to reduce delegate churn and memory fragmentation.
+        reuseItems: true
         boundsBehavior: Flickable.StopAtBounds
 
         // Boost mouse-wheel scroll speed: Qt Quick's default Flickable wheel

@@ -207,7 +207,13 @@ TimelineMessageStyleBase {
                     property real replyContentWidth: wrapper.reply?.implicitWidth ?? 0
                     property real mainContentWidth: wrapper.main?.implicitWidth ?? 0
 
-                    implicitWidth: Math.max(replyContentWidth + wrapper.replyInset, mainContentWidth + wrapper.mainInset)
+                    // Cap implicit width to maxWidth so the bubble never overflows
+                    // its container when litehtml content_width exceeds the render
+                    // constraint (e.g. <pre> blocks with long lines).
+                    implicitWidth: Math.min(
+                        Math.max(replyContentWidth + wrapper.replyInset, mainContentWidth + wrapper.mainInset),
+                        wrapper.maxWidth
+                    )
                     implicitHeight: contentColumn.implicitHeight
 
                     Column {

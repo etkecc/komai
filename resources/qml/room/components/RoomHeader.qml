@@ -238,6 +238,7 @@ Pane {
                 RoomEncryptionStatusButton {
                     id: encryptionButton
 
+                    roomId: topBar.roomModel ? topBar.roomModel.roomId : ""
                     isEncrypted: topBar.isEncrypted
                     roomAvailable: !!topBar.roomModel
                     trustlevel: topBar.trustlevel

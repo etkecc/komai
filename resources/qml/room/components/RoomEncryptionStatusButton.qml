@@ -13,6 +13,7 @@ import "../../ui"
 AbstractButton {
     id: encryptionButton
 
+    required property string roomId
     required property bool isEncrypted
     required property bool roomAvailable
     required property int trustlevel
@@ -74,7 +75,7 @@ AbstractButton {
 
     function encryptionDialogTitle() {
         if (!isEncrypted)
-            return qsTr("This room is not encrypted.");
+            return qsTr("Messages in this room are not end-to-end encrypted.");
         switch (trustlevel) {
         case Crypto.Verified:
             return qsTr("This room contains only verified devices.");
@@ -87,7 +88,7 @@ AbstractButton {
 
     function encryptionDialogBody() {
         if (!isEncrypted)
-            return qsTr("Messages in this room are not end-to-end encrypted. See the Members list for device details.");
+            return qsTr("Encryption is a room setting that can be enabled in Room Info.");
         switch (trustlevel) {
         case Crypto.Verified:
             return qsTr("Messages are end-to-end encrypted and all devices are verified. See the Members list for device details.");
@@ -175,6 +176,19 @@ AbstractButton {
             wrapMode: Text.Wrap
             text: encryptionButton.encryptionDialogBody()
             color: palette.buttonText
+        }
+
+        Components.KomaiButton {
+            Layout.alignment: Qt.AlignRight
+            visible: !encryptionButton.isEncrypted
+            highlighted: true
+            icon.source: "qrc:/icons/icons/ui/settings.svg"
+            text: qsTr("See Room Settings")
+
+            onClicked: {
+                encryptionDialog.close();
+                TimelineManager.openRoomInfo(encryptionButton.roomId, "settings");
+            }
         }
     }
 }

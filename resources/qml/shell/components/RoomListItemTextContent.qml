@@ -29,7 +29,7 @@ ColumnLayout {
     required property color unimportantText
     required property color bubbleBackground
     required property color bubbleText
-    readonly property color draftIndicatorColor: Komai.theme.attention
+    required property color draftIndicatorColor
 
     Layout.alignment: compactMode ? Qt.AlignVCenter : Qt.AlignLeft
     Layout.fillWidth: true

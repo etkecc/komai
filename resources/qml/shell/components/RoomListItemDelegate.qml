@@ -26,6 +26,7 @@ ItemDelegate {
     required property bool hasLoudNotification
     required property bool hasUnreadMessages
     required property bool hasDraft
+    property color draftIndicatorColor: Komai.theme.attention
     property color importantText: palette.text
     required property bool isDirect
     required property bool isInvite
@@ -81,6 +82,7 @@ ItemDelegate {
                     backgroundColor: roomItem.emphasizeDraftState ? roomItem.draftHoverBackground : palette.dark
                     bubbleBackground: palette.highlight
                     bubbleText: palette.highlightedText
+                    draftIndicatorColor: palette.brightText
                     importantText: palette.brightText
                     unimportantText: palette.brightText
                 }
@@ -95,6 +97,7 @@ ItemDelegate {
                     backgroundColor: roomItem.emphasizeDraftState ? roomItem.draftSelectedBackground : palette.highlight
                     bubbleBackground: palette.highlightedText
                     bubbleText: palette.highlight
+                    draftIndicatorColor: palette.highlightedText
                     importantText: palette.highlightedText
                     unimportantText: palette.highlightedText
                 }
@@ -214,6 +217,7 @@ ItemDelegate {
             lastMessage: roomItem.lastMessage
             draftPreview: roomItem.draftPreview
             time: roomItem.time
+            draftIndicatorColor: roomItem.draftIndicatorColor
             importantText: roomItem.importantText
             unimportantText: roomItem.unimportantText
             bubbleBackground: roomItem.bubbleBackground
@@ -231,7 +235,7 @@ ItemDelegate {
         anchors.left: parent.left
         anchors.leftMargin: Komai.paddingSmall / 2
         anchors.verticalCenter: parent.verticalCenter
-        color: roomItem.emphasizeDraftState ? Komai.theme.attention : palette.highlight
+        color: roomItem.emphasizeDraftState ? roomItem.draftIndicatorColor : palette.highlight
         height: parent.height - Komai.paddingMedium * 2
         visible: roomItem.emphasizeActivityState
         width: 6

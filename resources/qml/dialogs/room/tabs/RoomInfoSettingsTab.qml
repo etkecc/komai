@@ -141,8 +141,8 @@ Item {
                             url: roomSettings ? roomSettings.roomAvatarUrl.replace("mxc://", "image://MxcImage/") : ""
                             roomid: roomSettings ? roomSettings.roomId : ""
                             displayName: roomSettings ? roomSettings.roomName : ""
-                            Layout.preferredHeight: 72
-                            Layout.preferredWidth: 72
+                            Layout.preferredHeight: Komai.listIconSize
+                            Layout.preferredWidth: Komai.listIconSize
                             enabled: false
                         }
                     }

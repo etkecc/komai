@@ -327,7 +327,7 @@ Item {
             }
 
             Item {
-                Layout.preferredHeight: Komai.avatarSize
+                Layout.preferredHeight: Komai.listIconSize
                 Layout.fillWidth: true
 
                 Spinner {
@@ -371,8 +371,8 @@ Item {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.margins: Komai.paddingMedium
-        width: Komai.avatarSize
-        height: Komai.avatarSize
+        width: Komai.listIconSize
+        height: Komai.listIconSize
         image: ":/icons/icons/ui/angle-arrow-left.svg"
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Back")

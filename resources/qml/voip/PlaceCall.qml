@@ -68,8 +68,8 @@ Popup {
 
             Avatar {
                 Layout.rightMargin: cameraCombo.visible ? 16 : 64
-                Layout.preferredWidth: Komai.avatarSize
-                Layout.preferredHeight: Komai.avatarSize
+                Layout.preferredWidth: Komai.listIconSize
+                Layout.preferredHeight: Komai.listIconSize
                 url: room.roomAvatarUrl.replace("mxc://", "image://MxcImage/")
                 displayName: room.roomName
                 roomid: room.roomId

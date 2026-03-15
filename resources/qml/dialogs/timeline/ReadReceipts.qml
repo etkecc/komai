@@ -56,8 +56,8 @@ OverlayDialog {
                     Avatar {
                         id: avatar
 
-                        Layout.preferredWidth: Komai.avatarSize
-                        Layout.preferredHeight: Komai.avatarSize
+                        Layout.preferredWidth: Komai.listIconSize
+                        Layout.preferredHeight: Komai.listIconSize
                         userid: model.mxid
                         url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
                         displayName: model.displayName

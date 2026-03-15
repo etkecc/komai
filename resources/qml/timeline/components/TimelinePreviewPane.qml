@@ -157,11 +157,11 @@ ColumnLayout {
             Layout.alignment: Qt.AlignHCenter
             displayName: roomPreview?.inviterDisplayName ?? ""
             enabled: true
-            implicitHeight: 48
+            implicitHeight: Komai.listIconSize
             roomid: preview.roomId
             url: (roomPreview?.inviterAvatarUrl ?? "").replace("mxc://", "image://MxcImage/")
             userid: roomPreview?.inviterUserId ?? ""
-            implicitWidth: 48
+            implicitWidth: Komai.listIconSize
 
             onClicked: TimelineManager.openGlobalUserProfile(roomPreview.inviterUserId)
         }

@@ -171,8 +171,8 @@ Item {
                                 url: accountView.profile ? accountView.profile.avatarUrl.replace("mxc://", "image://MxcImage/") : ""
                                 displayName: accountView.profile ? accountView.profile.displayName : ""
                                 userid: accountView.profile ? accountView.profile.userid : ""
-                                Layout.preferredHeight: 72
-                                Layout.preferredWidth: 72
+                                Layout.preferredHeight: Komai.listIconSize
+                                Layout.preferredWidth: Komai.listIconSize
                                 Layout.rightMargin: Komai.paddingMedium
                                 Layout.topMargin: Komai.paddingMedium
                                 Layout.bottomMargin: Komai.paddingMedium

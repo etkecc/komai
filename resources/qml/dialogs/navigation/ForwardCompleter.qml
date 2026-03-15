@@ -222,8 +222,8 @@ Popup {
         Completer {
             id: completerPopup
 
-            avatarHeight: forwardMessagePopup.textHeight
-            avatarWidth: forwardMessagePopup.textHeight
+            avatarHeight: Komai.listIconSize
+            avatarWidth: Komai.listIconSize
             bottomToTop: false
             completerName: "room"
             fullWidth: true

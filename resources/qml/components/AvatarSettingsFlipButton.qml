@@ -178,7 +178,7 @@ MouseArea {
                 id: backBadge
 
                 property int badgeSize: Math.round(control.effectiveButtonSize * 0.44)
-                property int avatarSize: Math.round(badgeSize * 0.78)
+                property real badgeAvatarScale: badgeSize > 0 ? (Math.round(badgeSize * 0.78) / control.effectiveButtonSize) : 1
 
                 anchors.bottom: backCard.bottom
                 anchors.left: backCard.left
@@ -191,8 +191,9 @@ MouseArea {
 
                 Avatar {
                     anchors.centerIn: parent
-                    width: backBadge.avatarSize
-                    height: backBadge.avatarSize
+                    width: control.effectiveButtonSize
+                    height: control.effectiveButtonSize
+                    scale: backBadge.badgeAvatarScale
                     displayName: control.avatarDisplayName
                     url: control.avatarUrl
                     userid: control.avatarUserId

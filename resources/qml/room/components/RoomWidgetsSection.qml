@@ -17,8 +17,8 @@ ScrollView {
     readonly property bool layoutVisible: !!room && room.widgetLinks.length > 0 && !Settings.hiddenWidgets.includes(roomId)
 
     Layout.minimumHeight: 0
-    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Komai.avatarSize * 1.5) : 0
-    Layout.maximumHeight: layoutVisible ? Komai.avatarSize * 1.5 : 0
+    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Komai.listIconSize * 1.5) : 0
+    Layout.maximumHeight: layoutVisible ? Komai.listIconSize * 1.5 : 0
     ScrollBar.horizontal.visible: false
     clip: true
     visible: layoutVisible

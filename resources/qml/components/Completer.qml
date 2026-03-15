@@ -13,8 +13,8 @@ import cc.etke.komai 1.0
 Control {
     id: popup
 
-    property int avatarHeight: 24
-    property int avatarWidth: 24
+    property int avatarHeight: Komai.listIconSize
+    property int avatarWidth: Komai.listIconSize
     property bool bottomToTop: true
     property var completer
     property string completerName

@@ -28,7 +28,6 @@ class Komai : public QObject
     Q_PROPERTY(QPalette colors READ colors NOTIFY colorsChanged)
     Q_PROPERTY(QPalette inactiveColors READ inactiveColors NOTIFY colorsChanged)
     Q_PROPERTY(Theme theme READ theme NOTIFY colorsChanged)
-    Q_PROPERTY(int avatarSize READ avatarSize CONSTANT)
     Q_PROPERTY(int mediaPurgeAgeDays READ mediaPurgeAgeDays CONSTANT)
     Q_PROPERTY(int paddingSmall READ paddingSmall CONSTANT)
     Q_PROPERTY(int paddingMedium READ paddingMedium CONSTANT)
@@ -73,7 +72,6 @@ public:
     QPalette inactiveColors() const;
     Theme theme() const;
 
-    int avatarSize() const { return 40; }
     int mediaPurgeAgeDays() const;
 
     int paddingSmall() const { return 4; }

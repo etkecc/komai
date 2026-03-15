@@ -190,8 +190,8 @@ Pane {
                 //
                 //     Layout.alignment: Qt.AlignRight
                 //     Layout.column: 3
-                //     Layout.preferredHeight: Komai.avatarSize - Komai.paddingMedium
-                //     Layout.preferredWidth: Komai.avatarSize - Komai.paddingMedium
+                //     Layout.preferredHeight: Komai.listIconSize - Komai.paddingMedium
+                //     Layout.preferredWidth: Komai.listIconSize - Komai.paddingMedium
                 //     Layout.row: 1
                 //     ToolTip.text: qsTr("Show only notifications")
                 //     ToolTip.visible: hovered

@@ -121,8 +121,8 @@ OverlayDialog {
                 spacing: Komai.paddingMedium
 
                 Avatar {
-                    Layout.preferredWidth: Komai.avatarSize
-                    Layout.preferredHeight: Komai.avatarSize
+                    Layout.preferredWidth: Komai.listIconSize
+                    Layout.preferredHeight: Komai.listIconSize
                     Layout.alignment: Qt.AlignVCenter
                     Layout.leftMargin: Komai.paddingMedium
                     userid: model.userid
@@ -218,10 +218,10 @@ OverlayDialog {
             spacing: Komai.paddingMedium
 
             AvatarUserFlipButton {
-                Layout.preferredWidth: Komai.avatarSize
-                Layout.preferredHeight: Komai.avatarSize
+                Layout.preferredWidth: Komai.listIconSize
+                Layout.preferredHeight: Komai.listIconSize
                 Layout.alignment: Qt.AlignVCenter
-                avatarButtonSize: Komai.avatarSize
+                avatarButtonSize: Komai.listIconSize
                 cleanFront: true
                 avatarUserId: profile ? profile.userid : ""
                 avatarUrl: profile ? profile.avatarUrl.replace("mxc://", "image://MxcImage/") : ""

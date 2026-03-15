@@ -27,7 +27,7 @@ Pane {
     clip: true
     Layout.alignment: Qt.AlignBottom
     Layout.fillWidth: true
-    Layout.minimumHeight: 40
+    Layout.minimumHeight: Komai.listIconSize + padding * 2
     padding: Komai.paddingMedium
 
     background: Rectangle {
@@ -44,8 +44,8 @@ Pane {
             id: headerAvatar
 
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredHeight: userInfoPanel.lineSpacing * 2
-            Layout.preferredWidth: userInfoPanel.lineSpacing * 2
+            Layout.preferredHeight: Komai.listIconSize
+            Layout.preferredWidth: Komai.listIconSize
             displayName: userInfoGrid.profile ? userInfoGrid.profile.displayName : ""
             enabled: false
             url: (userInfoGrid.profile ? userInfoGrid.profile.avatarUrl : "").replace("mxc://", "image://MxcImage/")

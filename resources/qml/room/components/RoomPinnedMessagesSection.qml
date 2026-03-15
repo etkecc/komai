@@ -17,8 +17,8 @@ ScrollView {
     readonly property bool layoutVisible: !!room && room.pinnedMessages.length > 0 && !Settings.hiddenPins.includes(roomId)
 
     Layout.minimumHeight: 0
-    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Komai.avatarSize * 4) : 0
-    Layout.maximumHeight: layoutVisible ? Komai.avatarSize * 4 : 0
+    Layout.preferredHeight: layoutVisible ? Math.min(contentHeight, Komai.listIconSize * 4) : 0
+    Layout.maximumHeight: layoutVisible ? Komai.listIconSize * 4 : 0
     ScrollBar.horizontal.visible: false
     clip: true
     visible: layoutVisible

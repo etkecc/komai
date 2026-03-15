@@ -275,10 +275,10 @@ Item {
                         spacing: Komai.paddingMedium
 
                         AvatarUserFlipButton {
-                            Layout.preferredWidth: Komai.avatarSize
-                            Layout.preferredHeight: Komai.avatarSize
+                            Layout.preferredWidth: Komai.listIconSize
+                            Layout.preferredHeight: Komai.listIconSize
                             Layout.alignment: Qt.AlignVCenter
-                            avatarButtonSize: Komai.avatarSize
+                            avatarButtonSize: Komai.listIconSize
                             cleanFront: true
                             avatarDisplayName: model.displayName
                             avatarUrl: model.avatarUrl.replace("mxc://", "image://MxcImage/")
@@ -304,7 +304,7 @@ Item {
                                         ? palette.brightText
                                         : (del.isCurrentUser ? palette.highlight : palette.text)
                                     font.pixelSize: fontMetrics.font.pixelSize
-                                    elideWidth: del.width - Komai.paddingMedium * 4 - Komai.avatarSize - plBadge.width - encryptInd.width
+                                    elideWidth: del.width - Komai.paddingMedium * 4 - Komai.listIconSize - plBadge.width - encryptInd.width
                                     Layout.fillWidth: true
                                 }
 
@@ -349,7 +349,7 @@ Item {
                                 fullText: model.mxid
                                 color: delHover.hovered ? palette.brightText : palette.buttonText
                                 font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.9)
-                                elideWidth: del.width - Komai.paddingMedium * 4 - Komai.avatarSize - encryptInd.width
+                                elideWidth: del.width - Komai.paddingMedium * 4 - Komai.listIconSize - encryptInd.width
                                 Layout.fillWidth: true
                             }
                         }

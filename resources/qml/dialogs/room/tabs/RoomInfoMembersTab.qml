@@ -199,7 +199,7 @@ Item {
                                     implicitWidth: plBadgeRow.implicitWidth + Komai.paddingSmall * 2
                                     implicitHeight: plBadgeRow.implicitHeight + Komai.paddingSmall
                                     radius: Komai.paddingSmall
-                                    color: delHover.hovered ? palette.mid : palette.button
+                                    color: delHover.hovered ? "transparent" : palette.button
                                     visible: true
 
                                     RowLayout {
@@ -217,6 +217,7 @@ Item {
                                             sourceSize.height: height
                                             powerlevel: model.powerlevel
                                             permissions: membersTab.room ? membersTab.room.permissions : null
+                                            iconColor: delHover.hovered ? palette.brightText : palette.buttonText
                                         }
 
                                         Label {

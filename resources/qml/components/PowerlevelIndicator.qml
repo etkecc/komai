@@ -10,6 +10,7 @@ import cc.etke.komai
 Image {
     required property var powerlevel
     required property AbstractPermissions permissions
+    property color iconColor: palette.buttonText
 
     readonly property bool isV12Creator: permissions ? permissions.creatorLevel() == powerlevel : false
     readonly property bool isAdmin: permissions ? permissions.changeLevel(MtxEvent.PowerLevels) <= powerlevel : false
@@ -37,7 +38,7 @@ Image {
             return "image://colorimage/:/icons/icons/ui/person.svg?";
     }
 
-    source: sourceUrl + (ma.hovered ? palette.highlight : palette.buttonText)
+    source: sourceUrl + (ma.hovered ? palette.highlight : iconColor)
     ToolTip.visible: ma.hovered
     ToolTip.text: {
         let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);

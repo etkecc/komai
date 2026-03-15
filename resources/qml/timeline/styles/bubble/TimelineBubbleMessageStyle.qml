@@ -375,9 +375,7 @@ TimelineMessageStyleBase {
                         ? (wrapper.isSender
                             ? Qt.tint(palette.base, Qt.hsla(Komai.theme.userColorSelf.hslHue, wrapper.hovered ? 0.8 : 0.6, Komai.theme.userColorSelf.hslLightness, 0.3))
                             : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2)))
-                        : (Settings.timelineMessagesHoverHighlight && wrapper.hovered)
-                            ? palette.alternateBase
-                            : palette.window
+                        : palette.window
                 }
 
                 leftPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleHorizontalPadding

@@ -124,6 +124,8 @@ LitehtmlItem::rebuildDocument()
 {
     clearSelection();
 
+    m_container->clearImageCache();
+
     if (m_html.isEmpty()) {
         m_document.reset();
         setImplicitWidth(0);

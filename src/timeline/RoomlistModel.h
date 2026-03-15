@@ -14,6 +14,7 @@
 #include <QSharedPointer>
 #include <QSortFilterProxyModel>
 #include <QString>
+#include <QTimer>
 #include <optional>
 #include <set>
 #include <string>
@@ -143,6 +144,7 @@ public slots:
         currentRoomPreview_.reset();
         UserSettings::instance()->setCurrentRoomId(QString());
         emit currentRoomChanged("");
+        scheduleLruEviction();
     }
 
 private slots:
@@ -206,6 +208,11 @@ private:
     bool hasDraft(const QString &room_id) const;
     void persistDraftForRoom(const QString &room_id, const QString &draftText);
     void fetchPreviews(QString roomid, const std::string &from = "");
+    void initLruEviction();
+    void touchRoomLru(const QString &room_id);
+    void scheduleLruEviction();
+    void performLruEviction();
+    void evictRoomModel(const QString &room_id);
     TimelineViewManager *manager = nullptr;
     std::vector<QString> roomids;
     QHash<QString, RoomInfo> invites;
@@ -220,6 +227,10 @@ private:
     QSet<QString> scheduledPrewarms_;
     QSet<QString> activePrewarms_;
     QHash<QString, qint64> prewarmLastAttemptMs_;
+    QHash<QString, qint64> roomLruAccessMs_;
+    QTimer *lruEvictionTimer_                  = nullptr;
+    int lruCapacity_                           = 0;
+    int lruGracePeriodMs_                      = 0;
     bool startupMaterializationTrackingActive_ = false;
     int startupMaterializationCount_           = 0;
     bool startupMaterializationWarningEmitted_ = false;

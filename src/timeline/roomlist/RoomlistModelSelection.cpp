@@ -41,6 +41,7 @@ RoomlistModel::clearCurrentRoomSelection()
     currentRoomPreview_.reset();
     UserSettings::instance()->setCurrentRoomId(QString());
     emit currentRoomChanged("");
+    scheduleLruEviction();
 }
 
 void
@@ -131,6 +132,9 @@ RoomlistModel::setCurrentRoom(const QString &roomid)
 
     if (!models.contains(roomid) && cachedJoinedRooms_.contains(roomid))
         ensureRoomModel(roomid, false, "setCurrentRoom");
+
+    touchRoomLru(roomid);
+    scheduleLruEviction();
 
     if (trySelectCurrentMaterializedRoom(roomid))
         return;

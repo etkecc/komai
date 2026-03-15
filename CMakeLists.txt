@@ -350,6 +350,7 @@ set(SRC_FILES
     src/timeline/roomlist/RoomlistModelPreviews.cpp
     src/timeline/roomlist/RoomlistPreviewSelection.cpp
     src/timeline/roomlist/RoomlistModelPrewarm.cpp
+    src/timeline/roomlist/RoomlistModelEviction.cpp
     src/timeline/roomlist/RoomlistModelSelection.cpp
     src/timeline/roomlist/RoomlistModelSync.cpp
     src/timeline/DirectChatResolver.cpp

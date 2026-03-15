@@ -95,6 +95,8 @@ RoomlistModel::RoomlistModel(TimelineViewManager *parent)
           }
       },
       Qt::QueuedConnection);
+
+    initLruEviction();
 }
 
 QHash<int, QByteArray>
@@ -183,6 +185,9 @@ RoomlistModel::resetRoomCollections(bool clearAllDrafts)
     scheduledPrewarms_.clear();
     activePrewarms_.clear();
     prewarmLastAttemptMs_.clear();
+    roomLruAccessMs_.clear();
+    if (lruEvictionTimer_)
+        lruEvictionTimer_->stop();
     startupMaterializationTrackingActive_ = false;
     startupMaterializationCount_          = 0;
     startupMaterializationWarningEmitted_ = false;
@@ -211,6 +216,7 @@ RoomlistModel::removeRoomState(const QString &room_id, bool clearDraftForRoom)
     scheduledPrewarms_.remove(room_id);
     activePrewarms_.remove(room_id);
     prewarmLastAttemptMs_.remove(room_id);
+    roomLruAccessMs_.remove(room_id);
     cachedLastMessageBackfillAttempted_.remove(room_id);
     cachedLastMessageBackfillQueued_.remove(room_id);
     cachedLastMessageBackfillInProgress_.remove(room_id);

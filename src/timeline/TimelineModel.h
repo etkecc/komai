@@ -99,6 +99,7 @@ class TimelineModel final : public QAbstractListModel
     Q_PROPERTY(RoomSummary *parentSpace READ parentSpace NOTIFY parentSpaceChanged)
 
 public:
+    ~TimelineModel() override;
     explicit TimelineModel(TimelineViewManager *manager,
                            QString room_id,
                            QObject *parent = nullptr);

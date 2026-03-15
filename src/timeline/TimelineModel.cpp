@@ -30,6 +30,11 @@ qHash(const std::string &key, uint seed = 0)
 }
 }
 
+TimelineModel::~TimelineModel()
+{
+    nhlog::ui()->info("[lru] ~TimelineModel room_id={}", room_id_.toStdString());
+}
+
 TimelineModel::TimelineModel(TimelineViewManager *manager, QString room_id, QObject *parent)
   : QAbstractListModel(parent)
   , room_id_(std::move(room_id))

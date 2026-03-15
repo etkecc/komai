@@ -16,6 +16,18 @@ Image {
     readonly property bool isModerator: permissions ? permissions.redactLevel() <= powerlevel : false
     readonly property bool isDefault: permissions ? permissions.defaultLevel() <= powerlevel : false
 
+    readonly property string roleName: {
+        let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);
+        if (isV12Creator)
+            return qsTr("Creator");
+        else if (isAdmin)
+            return qsTr("Administrator");
+        else if (isModerator)
+            return qsTr("Moderator");
+        else
+            return qsTr("User");
+    }
+
     readonly property string sourceUrl: {
         if (isAdmin || isV12Creator)
              return "image://colorimage/:/icons/icons/ui/ribbon_star.svg?";

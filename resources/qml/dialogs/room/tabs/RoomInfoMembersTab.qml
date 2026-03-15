@@ -88,9 +88,10 @@ Item {
 
             KomaiComboBox {
                 model: ListModel {
-                    ListElement { data: MemberList.Mxid; text: qsTr("User ID") }
-                    ListElement { data: MemberList.DisplayName; text: qsTr("Display name") }
+                    ListElement { data: MemberList.PowerlevelThenName; text: qsTr("Power level, then name") }
                     ListElement { data: MemberList.Powerlevel; text: qsTr("Power level") }
+                    ListElement { data: MemberList.DisplayName; text: qsTr("Display name, alphabetical") }
+                    ListElement { data: MemberList.Mxid; text: qsTr("User ID, alphabetical") }
                 }
                 textRole: "text"
                 valueRole: "data"
@@ -114,9 +115,10 @@ Item {
 
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
+                spacing: Komai.paddingSmall
                 model: membersTab.members
 
-                delegate: ItemDelegate {
+                delegate: Rectangle {
                     id: del
 
                     property bool isCurrentUser: {
@@ -127,66 +129,107 @@ Item {
                         return currentUserId.length > 0 && model && model.mxid === currentUserId;
                     }
 
-                    onClicked: {
-                        if (membersTab.room)
-                            membersTab.room.openUserProfile(model.mxid);
-                    }
-                    padding: Komai.paddingMedium
                     width: ListView.view.width
-                    height: memberLayout.implicitHeight + Komai.paddingSmall * 2
-                    hoverEnabled: true
-                    background: Rectangle {
-                        color: del.hovered ? palette.dark : palette.window
+                    implicitHeight: memberLayout.implicitHeight + Komai.paddingSmall * 2
+                    color: palette.window
+                    radius: Komai.paddingMedium
+                    border.color: Komai.theme.separator
+                    border.width: 1
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        acceptedButtons: Qt.LeftButton
+                        onClicked: {
+                            if (membersTab.room)
+                                membersTab.room.openUserProfile(model.mxid);
+                        }
                     }
 
                     RowLayout {
                         id: memberLayout
 
+                        anchors.fill: parent
+                        anchors.margins: Komai.paddingSmall
                         spacing: Komai.paddingMedium
-                        anchors.centerIn: parent
-                        width: parent.width - Komai.paddingSmall * 2
 
-                        Avatar {
-                            id: avatar
-
+                        AvatarUserFlipButton {
                             Layout.preferredWidth: Komai.avatarSize
                             Layout.preferredHeight: Komai.avatarSize
-                            userid: model.mxid
-                            url: model.avatarUrl.replace("mxc://", "image://MxcImage/")
-                            displayName: model.displayName
-                            enabled: false
+                            Layout.alignment: Qt.AlignVCenter
+                            avatarButtonSize: Komai.avatarSize
+                            cleanFront: true
+                            avatarDisplayName: model.displayName
+                            avatarUrl: model.avatarUrl.replace("mxc://", "image://MxcImage/")
+                            avatarUserId: model.mxid
+                            badgeIconSource: ":/icons/icons/ui/person.svg"
+                            onLeftClicked: {
+                                if (membersTab.room)
+                                    membersTab.room.openUserProfile(model.mxid);
+                            }
                         }
 
                         ColumnLayout {
                             spacing: Komai.paddingSmall
                             Layout.fillWidth: true
 
-                            ElidedLabel {
-                                fullText: model.displayName
-                                color: del.isCurrentUser
-                                    ? palette.highlight
-                                    : Qt.darker(membersTab.room ? TimelineManager.roomUserColor(membersTab.room.roomId, model ? model.mxid : "", del.background.color, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", del.background.color), 1.3)
-                                font.pixelSize: fontMetrics.font.pixelSize
-                                elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
+                            RowLayout {
+                                spacing: Komai.paddingSmall
                                 Layout.fillWidth: true
+
+                                ElidedLabel {
+                                    fullText: model.displayName
+                                    color: del.isCurrentUser
+                                        ? palette.highlight
+                                        : palette.text
+                                    font.pixelSize: fontMetrics.font.pixelSize
+                                    elideWidth: del.width - Komai.paddingMedium * 4 - Komai.avatarSize - plBadge.width - encryptInd.width
+                                    Layout.fillWidth: true
+                                }
+
+                                Rectangle {
+                                    id: plBadge
+
+                                    Layout.alignment: Qt.AlignVCenter
+                                    implicitWidth: plBadgeRow.implicitWidth + Komai.paddingSmall * 2
+                                    implicitHeight: plBadgeRow.implicitHeight + Komai.paddingSmall
+                                    radius: Komai.paddingSmall
+                                    color: palette.button
+                                    visible: true
+
+                                    RowLayout {
+                                        id: plBadgeRow
+
+                                        anchors.centerIn: parent
+                                        spacing: 2
+
+                                        PowerlevelIndicator {
+                                            id: plIcon
+
+                                            Layout.preferredWidth: Math.ceil(fontMetrics.font.pixelSize * 0.9)
+                                            Layout.preferredHeight: Math.ceil(fontMetrics.font.pixelSize * 0.9)
+                                            sourceSize.width: width
+                                            sourceSize.height: height
+                                            powerlevel: model.powerlevel
+                                            permissions: membersTab.room ? membersTab.room.permissions : null
+                                        }
+
+                                        Label {
+                                            text: plIcon.roleName
+                                            color: palette.buttonText
+                                            font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.8)
+                                        }
+                                    }
+                                }
                             }
 
                             ElidedLabel {
                                 fullText: model.mxid
-                                color: del.hovered ? palette.brightText : palette.buttonText
+                                color: palette.buttonText
                                 font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.9)
-                                elideWidth: del.width - Komai.paddingMedium * 2 - avatar.width - encryptInd.width
+                                elideWidth: del.width - Komai.paddingMedium * 4 - Komai.avatarSize - encryptInd.width
                                 Layout.fillWidth: true
                             }
-                        }
-
-                        PowerlevelIndicator {
-                            Layout.preferredWidth: fontMetrics.lineSpacing * 2
-                            Layout.preferredHeight: fontMetrics.lineSpacing * 2
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            powerlevel: model.powerlevel
-                            permissions: membersTab.room ? membersTab.room.permissions : null
                         }
 
                         EncryptionIndicator {
@@ -216,10 +259,6 @@ Item {
                         }
                     }
 
-                    KomaiCursorShape {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                    }
                 }
 
                 footer: Item {

@@ -99,6 +99,7 @@ public:
         Mxid        = MemberListBackend::Roles::Mxid,
         DisplayName = MemberListBackend::Roles::DisplayName,
         Powerlevel  = MemberListBackend::Roles::Powerlevel,
+        PowerlevelThenName,
     };
     Q_ENUM(MemberSortRoles)
 
@@ -125,8 +126,10 @@ public slots:
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+    bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
 
 private:
+    MemberSortRoles currentSortRole_{PowerlevelThenName};
     QString filterString;
     MemberListBackend m_model;
 };

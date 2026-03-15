@@ -154,8 +154,8 @@ MemberList::MemberList(const QString &room_id, QObject *parent)
             &MemberList::loadingMoreMembersChanged);
 
     setSourceModel(&m_model);
-    setSortRole(MemberSortRoles::Mxid);
-    sort(0, Qt::AscendingOrder);
+    setSortRole(MemberSortRoles::PowerlevelThenName);
+    sort(0, Qt::DescendingOrder);
     setDynamicSortFilter(true);
     setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
@@ -170,9 +170,38 @@ MemberList::setFilterString(const QString &text)
 void
 MemberList::sortBy(const MemberSortRoles role)
 {
-    setSortRole(role);
-    // Unfortunately, Qt doesn't provide a "setSortOrder" function.
-    sort(0, role == MemberSortRoles::Powerlevel ? Qt::DescendingOrder : Qt::AscendingOrder);
+    currentSortRole_ = role;
+    setSortRole(role == MemberSortRoles::PowerlevelThenName ? MemberSortRoles::Powerlevel : role);
+    const bool descending =
+      (role == MemberSortRoles::Powerlevel || role == MemberSortRoles::PowerlevelThenName);
+    sort(0, descending ? Qt::DescendingOrder : Qt::AscendingOrder);
+}
+
+bool
+MemberList::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
+{
+    if (currentSortRole_ == MemberSortRoles::PowerlevelThenName) {
+        const auto plLeft =
+          sourceModel()->data(source_left, MemberListBackend::Powerlevel).toLongLong();
+        const auto plRight =
+          sourceModel()->data(source_right, MemberListBackend::Powerlevel).toLongLong();
+        if (plLeft != plRight)
+            return plLeft < plRight; // DescendingOrder reverses this, so higher PL comes first
+        // Same power level: sort by display name ascending, then by mxid.
+        // Since Qt applies DescendingOrder, we reverse the comparisons here.
+        const auto nameLeft =
+          sourceModel()->data(source_left, MemberListBackend::DisplayName).toString().toLower();
+        const auto nameRight =
+          sourceModel()->data(source_right, MemberListBackend::DisplayName).toString().toLower();
+        if (nameLeft != nameRight)
+            return nameLeft > nameRight; // reversed because DescendingOrder
+        const auto mxidLeft =
+          sourceModel()->data(source_left, MemberListBackend::Mxid).toString().toLower();
+        const auto mxidRight =
+          sourceModel()->data(source_right, MemberListBackend::Mxid).toString().toLower();
+        return mxidLeft > mxidRight; // reversed because DescendingOrder
+    }
+    return QSortFilterProxyModel::lessThan(source_left, source_right);
 }
 
 bool

@@ -41,65 +41,174 @@ Item {
             elideWidth: parent.width - Komai.paddingMedium
         }
 
-        RowLayout {
-            Layout.alignment: Qt.AlignHCenter
-            spacing: Komai.paddingMedium
-
-            KomaiButton {
-                icon.source: "qrc:/icons/icons/ui/person.svg"
-                text: qsTr("My profile here")
-                onClicked: {
-                    if (membersTab.room) {
-                        const currentUser = Komai.currentUser;
-                        if (currentUser && currentUser.userid)
-                            membersTab.room.openUserProfile(currentUser.userid);
-                    }
-                }
-            }
-
-            KomaiButton {
-                icon.source: "qrc:/icons/icons/ui/plus-circle.svg"
-                text: qsTr("Invite others")
-                onClicked: {
-                    if (membersTab.members)
-                        TimelineManager.openInviteUsers(membersTab.members.roomId);
-                }
-            }
+        SettingsSection {
+            label: qsTr("Actions")
+            Layout.fillWidth: true
         }
 
-        MatrixTextField {
-            id: searchBar
+        AbstractButton {
+            id: myProfileBtn
 
             Layout.fillWidth: true
-            placeholderText: qsTr("Search...")
-            onTextChanged: {
-                if (membersTab.members)
-                    membersTab.members.setFilterString(text);
+            implicitHeight: 40
+            leftPadding: Komai.paddingMedium
+            rightPadding: Komai.paddingMedium
+            hoverEnabled: true
+
+            readonly property bool activeState: hovered || pressed || activeFocus
+            readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+
+            onClicked: {
+                if (membersTab.room) {
+                    const currentUser = Komai.currentUser;
+                    if (currentUser && currentUser.userid)
+                        membersTab.room.openUserProfile(currentUser.userid);
+                }
+            }
+
+            contentItem: RowLayout {
+                spacing: Komai.paddingMedium
+
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredWidth: 24
+                    Layout.preferredHeight: 24
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://colorimage/:/icons/icons/ui/person.svg?" + myProfileBtn.actionTextColor
+                    sourceSize.width: width * Screen.devicePixelRatio
+                    sourceSize.height: height * Screen.devicePixelRatio
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Manage my profile in this room")
+                    color: myProfileBtn.actionTextColor
+                    elide: Text.ElideRight
+                }
+            }
+
+            background: Rectangle {
+                radius: Komai.paddingMedium
+                color: myProfileBtn.activeState ? palette.dark : palette.window
+            }
+
+            KomaiCursorShape {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
             }
         }
 
-        RowLayout {
-            spacing: Komai.paddingMedium
+        AbstractButton {
+            id: inviteBtn
 
-            Label {
-                text: qsTr("Sort by: ")
-                color: palette.text
+            Layout.fillWidth: true
+            implicitHeight: 40
+            leftPadding: Komai.paddingMedium
+            rightPadding: Komai.paddingMedium
+            hoverEnabled: true
+
+            readonly property bool activeState: hovered || pressed || activeFocus
+            readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+
+            onClicked: {
+                if (membersTab.members)
+                    TimelineManager.openInviteUsers(membersTab.members.roomId);
             }
 
-            KomaiComboBox {
-                model: ListModel {
-                    ListElement { data: MemberList.PowerlevelThenName; text: qsTr("Power level, then name") }
-                    ListElement { data: MemberList.Powerlevel; text: qsTr("Power level") }
-                    ListElement { data: MemberList.DisplayName; text: qsTr("Display name, alphabetical") }
-                    ListElement { data: MemberList.Mxid; text: qsTr("User ID, alphabetical") }
+            contentItem: RowLayout {
+                spacing: Komai.paddingMedium
+
+                Image {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredWidth: 24
+                    Layout.preferredHeight: 24
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://colorimage/:/icons/icons/ui/plus-circle.svg?" + inviteBtn.actionTextColor
+                    sourceSize.width: width * Screen.devicePixelRatio
+                    sourceSize.height: height * Screen.devicePixelRatio
                 }
-                textRole: "text"
-                valueRole: "data"
-                onCurrentValueChanged: {
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Invite others")
+                    color: inviteBtn.actionTextColor
+                    elide: Text.ElideRight
+                }
+            }
+
+            background: Rectangle {
+                radius: Komai.paddingMedium
+                color: inviteBtn.activeState ? palette.dark : palette.window
+            }
+
+            KomaiCursorShape {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: Komai.paddingLarge
+
+            Rectangle {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.right: parent.right
+                color: palette.buttonText
+                height: 1
+            }
+        }
+
+        Flow {
+            id: filterFlow
+
+            Layout.fillWidth: true
+            spacing: Komai.paddingMedium
+
+            KomaiTextField {
+                id: searchBar
+
+                width: filterFlow.width >= 500
+                    ? filterFlow.width - sortRow.width - filterFlow.spacing
+                    : filterFlow.width
+                placeholderText: qsTr("Search...")
+                onTextChanged: {
                     if (membersTab.members)
-                        membersTab.members.sortBy(currentValue);
+                        membersTab.members.setFilterString(text);
                 }
-                Layout.fillWidth: true
+            }
+
+            RowLayout {
+                id: sortRow
+
+                width: filterFlow.width >= 500
+                    ? implicitWidth
+                    : filterFlow.width
+                spacing: Komai.paddingMedium
+
+                Label {
+                    text: qsTr("Sort by: ")
+                    color: palette.text
+                }
+
+                KomaiComboBox {
+                    model: ListModel {
+                        ListElement { data: MemberList.PowerlevelThenName; text: qsTr("Power level, then name") }
+                        ListElement { data: MemberList.Powerlevel; text: qsTr("Power level") }
+                        ListElement { data: MemberList.DisplayName; text: qsTr("Display name, alphabetical") }
+                        ListElement { data: MemberList.Mxid; text: qsTr("User ID, alphabetical") }
+                    }
+                    textRole: "text"
+                    valueRole: "data"
+                    onCurrentValueChanged: {
+                        if (membersTab.members)
+                            membersTab.members.sortBy(currentValue);
+                    }
+                    Layout.fillWidth: true
+                }
             }
         }
 
@@ -107,11 +216,12 @@ Item {
             padding: Komai.paddingMedium
             rightPadding: Komai.paddingMedium + Komai.paddingSmall
             ScrollBar.horizontal.visible: false
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            ScrollBar.vertical.policy: ScrollBar.AsNeeded
             ScrollBar.vertical.contentItem: Rectangle {
                 implicitWidth: 6
                 radius: 3
                 color: palette.dark
+                opacity: memberList.contentHeight > memberList.height ? 1 : 0
             }
             Layout.fillWidth: true
             Layout.fillHeight: true

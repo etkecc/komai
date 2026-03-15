@@ -37,10 +37,17 @@ LitehtmlContainer::create_font(const char *faceName,
 {
     auto *font = new QFont();
 
-    if (faceName && *faceName)
-        font->setFamily(QString::fromUtf8(faceName));
-    else
+    if (faceName && *faceName) {
+        // litehtml may pass CSS font-family values with surrounding quotes
+        // (e.g. "'Noto Sans'" from font-family: 'Noto Sans'). Strip them
+        // so Qt can match the actual font name.
+        QString family = QString::fromUtf8(faceName);
+        if (family.startsWith(QLatin1Char('\'')) && family.endsWith(QLatin1Char('\'')))
+            family = family.mid(1, family.size() - 2);
+        font->setFamily(family);
+    } else {
         font->setFamily(m_defaultFont.family());
+    }
 
     font->setPixelSize(size);
 

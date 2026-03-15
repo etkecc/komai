@@ -38,6 +38,11 @@ emoji:
   locale: en
   tokens_add:
   - nihon
+- id: 26E9-FE0F
+  preview: ⛩️
+  locale: en
+  tokens_add:
+  - jinja
 - id: 1F981
   preview: 🦁
   locale: en

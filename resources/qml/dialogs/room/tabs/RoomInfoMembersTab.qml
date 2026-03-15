@@ -105,8 +105,14 @@ Item {
 
         ScrollView {
             padding: Komai.paddingMedium
+            rightPadding: Komai.paddingMedium + Komai.paddingSmall
             ScrollBar.horizontal.visible: false
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            ScrollBar.vertical.contentItem: Rectangle {
+                implicitWidth: 6
+                radius: 3
+                color: palette.dark
+            }
             Layout.fillWidth: true
             Layout.fillHeight: true
 

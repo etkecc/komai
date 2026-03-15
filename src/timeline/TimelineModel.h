@@ -156,6 +156,7 @@ public:
     {
         Confetti,
         Rainfall,
+        KomaiLogo,
     };
     Q_DECLARE_FLAGS(SpecialEffects, SpecialEffect)
 
@@ -380,6 +381,8 @@ signals:
     void confettiDone();
     void rainfall();
     void rainfallDone();
+    void komaiLogo();
+    void komaiLogoDone();
 
     void lastMessageChanged();
     void notificationsChanged();

@@ -113,6 +113,10 @@ TimelineModel::triggerSpecialEffects()
             QTimer::singleShot(1, this, [this] { emit rainfall(); });
             specialEffects_.setFlag(Rainfall, false);
         }
+        if (specialEffects_.testFlag(KomaiLogo)) {
+            QTimer::singleShot(1, this, [this] { emit komaiLogo(); });
+            specialEffects_.setFlag(KomaiLogo, false);
+        }
         needsSpecialEffects_ = false;
     }
 }
@@ -123,9 +127,11 @@ TimelineModel::markSpecialEffectsDone()
     needsSpecialEffects_ = false;
     emit confettiDone();
     emit rainfallDone();
+    emit komaiLogoDone();
 
     specialEffects_.setFlag(Confetti, false);
     specialEffects_.setFlag(Rainfall, false);
+    specialEffects_.setFlag(KomaiLogo, false);
 }
 
 QString

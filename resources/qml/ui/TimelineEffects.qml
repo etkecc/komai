@@ -8,7 +8,7 @@ import QtQuick.Particles 2.15
 
 Item {
     id: effectRoot
-    readonly property int maxLifespan: Math.max(confettiEmitter.lifeSpan, rainfallEmitter.lifeSpan)
+    readonly property int maxLifespan: Math.max(confettiEmitter.lifeSpan, Math.max(rainfallEmitter.lifeSpan, komaiEmitter.lifeSpan))
     required property bool shouldEffectsRun
     visible: effectRoot.shouldEffectsRun
 
@@ -20,6 +20,11 @@ Item {
     function pulseRainfall()
     {
         rainfallEmitter.pulse(effectRoot.height * 3.3)
+    }
+
+    function pulseKomaiLogo()
+    {
+        komaiEmitter.pulse(effectRoot.height * 3.3)
     }
 
     function removeParticles()
@@ -140,4 +145,55 @@ Item {
                 }
             }
         }
+
+    Emitter {
+        id: komaiEmitter
+
+        group: "komai"
+        width: effectRoot.width
+        enabled: false
+        anchors.horizontalCenter: effectRoot.horizontalCenter
+        y: -60
+        emitRate: effectRoot.width / 100
+        lifeSpan: 7000
+        system: particleSystem
+        size: 28
+        sizeVariation: 3
+        velocity: PointDirection {
+            x: 0
+            y: 350
+            xVariation: 100
+            yVariation: 60
+        }
+    }
+
+    ImageParticle {
+        system: particleSystem
+        groups: ["komai"]
+        source: "qrc:/logos/komai.svg"
+        rotationVelocity: 0
+        rotationVelocityVariation: 90
+        colorVariation: 0
+        color: "white"
+        entryEffect: ImageParticle.None
+        xVector: PointDirection {
+            x: 1
+            y: 0
+            xVariation: 0.2
+            yVariation: 0.2
+        }
+        yVector: PointDirection {
+            x: 0
+            y: 1
+            xVariation: 0.2
+            yVariation: 0.2
+        }
+    }
+
+    Turbulence {
+        system: particleSystem
+        groups: ["komai"]
+        anchors.fill: effectRoot
+        strength: 300
+    }
     }

@@ -47,6 +47,20 @@ Connections {
         effectsTimer.restart();
     }
 
+    function onKomaiLogo() {
+        if (!Settings.timelineMediaEffectsEnabled)
+            return;
+        timelineView.shouldEffectsRun = true;
+        timelineEffects.pulseKomaiLogo();
+        room.markSpecialEffectsDone();
+    }
+
+    function onKomaiLogoDone() {
+        if (!Settings.timelineMediaEffectsEnabled)
+            return;
+        effectsTimer.restart();
+    }
+
     function onOpenReadReceiptsDialog(rr) {
         var component = Qt.createComponent(componentCatalog.timelineReadReceiptsDialog);
         if (component.status == Component.Ready) {

@@ -267,11 +267,21 @@ TimelineModel::processSpecialEffectEvent(const mtx::events::collections::Timelin
             needsSpecialEffects_ = true;
             specialEffects_.setFlag(Confetti);
         }
+        if (const auto msg = QString::fromStdString(text->content.body);
+            msg.contains(QString::fromUtf8(u8"🦁")) || msg.contains(QString::fromUtf8(u8"⛩️"))) {
+            needsSpecialEffects_ = true;
+            specialEffects_.setFlag(KomaiLogo);
+        }
     } else if (auto unknown = std::get_if<RoomEvent<msg::Unknown>>(&event)) {
         if (const auto msg = QString::fromStdString(unknown->content.body);
             msg.contains("🎉") || msg.contains("🎊")) {
             needsSpecialEffects_ = true;
             specialEffects_.setFlag(Confetti);
+        }
+        if (const auto msg = QString::fromStdString(unknown->content.body);
+            msg.contains(QString::fromUtf8(u8"🦁")) || msg.contains(QString::fromUtf8(u8"⛩️"))) {
+            needsSpecialEffects_ = true;
+            specialEffects_.setFlag(KomaiLogo);
         }
     } else if (auto effect = std::get_if<RoomEvent<msg::ElementEffect>>(&event)) {
         if (effect->content.msgtype == "nic.custom.confetti") {

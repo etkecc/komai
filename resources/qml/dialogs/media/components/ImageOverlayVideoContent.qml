@@ -6,7 +6,6 @@ import QtQuick 2.15
 import QtMultimedia
 import Qt5Compat.GraphicalEffects
 
-import "../../../ui"
 import "../../../ui/media"
 
 import cc.etke.komai 1.0

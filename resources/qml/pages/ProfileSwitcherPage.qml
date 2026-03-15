@@ -4,7 +4,6 @@
 
 import "../components"
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 import "welcome" as Welcome

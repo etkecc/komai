@@ -584,8 +584,8 @@ Rectangle {
 
             ImageButton {
                 Layout.alignment: Qt.AlignVCenter
-                width: 18
-                height: 18
+                Layout.preferredWidth: 18
+                Layout.preferredHeight: 18
                 enabled: root.inlinePlaybackEnabled
                 opacity: enabled ? 1.0 : 0.55
                 buttonTextColor: palette.text

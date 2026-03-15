@@ -5,7 +5,6 @@
 
 import ".." as Components
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 

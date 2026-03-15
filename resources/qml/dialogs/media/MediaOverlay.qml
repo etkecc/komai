@@ -5,10 +5,8 @@
 
 import QtQuick 2.15
 import QtQuick.Window 2.15
-import QtMultimedia
 
 import "../../ui"
-import "../../ui/media"
 import "./components"
 
 import cc.etke.komai 1.0

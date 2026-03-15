@@ -18,10 +18,10 @@ ImageButton {
     anchors.margins: Komai.paddingMedium
     anchors.top: parent.top
     enabled: visible
-    height: Komai.avatarSize
+    height: Komai.listIconSize
     image: ":/icons/icons/ui/angle-arrow-left.svg"
     visible: (roomModel == null || roomModel.isSpace) && showBackButton
-    width: Komai.avatarSize
+    width: Komai.listIconSize
 
     onClicked: Rooms.resetCurrentRoom()
 }

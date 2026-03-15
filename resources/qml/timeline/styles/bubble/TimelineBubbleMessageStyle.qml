@@ -31,11 +31,11 @@ TimelineMessageStyleBase {
     property int messageBubbleRadius: 8
     property bool messageBubbleBackgroundEnabled: true
     property bool alignMessageTextToSide: false
-    property bool reserveAvatarRowHeight: false
+    property bool reserveAvatarRowHeight: true
     property bool pushMetadataToEdge: false
 
     property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
-    property int avatarMargin: (shouldShowMessageAvatar ? (Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
+    property int avatarMargin: (shouldShowMessageAvatar ? (Komai.listIconSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
     property bool avatarIsOnRight: wrapper.messageIsRightAligned
 
     property alias hovered: messageHover.hovered
@@ -136,7 +136,7 @@ TimelineMessageStyleBase {
         AvatarUserFlipButton {
             id: messageUserAvatar
 
-            property int avatarSide: Math.round(Komai.avatarSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1))
+            property int avatarSide: Math.round(Komai.listIconSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1))
 
             avatarButtonSize: avatarSide
             cleanFront: true

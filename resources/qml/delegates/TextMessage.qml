@@ -41,7 +41,7 @@ LitehtmlItem {
     // Cap enlarged emoji-only messages against the default timeline avatar size.
     // We intentionally ignore the "small avatars" toggle here: otherwise the cap gets too low and
     // "enlarged" emojis can end up near regular text size, which defeats the feature.
-    readonly property real timelineAvatarSize: Komai.avatarSize
+    readonly property real timelineAvatarSize: Komai.listIconSize
     readonly property real pixelsPerPoint: Math.max(0.01, Screen.pixelDensity * 25.4 / 72)
     readonly property int enlargedEmojiCapPixelSize: Math.max(1, Math.round(timelineAvatarSize * 0.9))
     readonly property real enlargedEmojiCapPointSize: enlargedEmojiCapPixelSize / pixelsPerPoint

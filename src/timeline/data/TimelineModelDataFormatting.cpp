@@ -173,13 +173,17 @@ TimelineModel::formattedStateEventForEvent(
                     .arg(QString::fromStdString(e.content.topic).toHtmlEscaped());
           } else if constexpr (t == mtx::events::EventType::RoomAvatar) {
               if (e.content.url.starts_with("mxc://")) {
-                  const auto compactMode   = UserSettings::instance()->uiLayoutCompactMode();
-                  const auto uiFontMetrics = QFontMetricsF(QGuiApplication::font());
+                  const auto compactMode = UserSettings::instance()->uiLayoutCompactMode();
+                  const auto hasPreview =
+                    UserSettings::instance()->sidebarsRoomListLastMessagePreview() !=
+                    UserSettings::LastMessagePreview::Never;
+                  const auto uiFontMetrics         = QFontMetricsF(QGuiApplication::font());
                   const int inlinePreviewLogicalPx = qMax(1, qRound(uiFontMetrics.height()));
-                  int avatarThumbLogicalPx         = compactMode
-                                                       ? qMax(1,
-                                                      qCeil(uiFontMetrics.lineSpacing() * 1.25))
-                                                       : 40; // matches Komai.avatarSize
+                  // Match Komai::listIconSize() logic
+                  const double avatarMultiplier =
+                    (compactMode ? (hasPreview ? 2.0 : 1.0) : (hasPreview ? 2.0 : 1.25));
+                  int avatarThumbLogicalPx =
+                    qMax(1, qCeil(uiFontMetrics.lineSpacing() * avatarMultiplier));
                   if (avatarThumbLogicalPx > 1)
                       avatarThumbLogicalPx -= (avatarThumbLogicalPx % 2);
 

@@ -991,6 +991,10 @@ list(SORT QML_SOURCES)
 foreach(qml_source_exclude IN LISTS QML_SOURCES_EXCLUDE)
     list(REMOVE_ITEM QML_SOURCES "${qml_source_exclude}")
 endforeach()
+set_source_files_properties(
+    resources/qml/ui/media/InlineAudioPlaybackRegistry.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE
+)
 qt_add_qml_module(komai
     URI cc.etke.komai
     NO_RESOURCE_TARGET_PATH

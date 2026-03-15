@@ -53,6 +53,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
   - **Extra actions** -- **Forward Message** and **Open** (in an external program) alongside the standard Copy, Save, and Close
   - **Keyboard-friendly** -- Left/Right arrows navigate, Space toggles video playback, Escape closes
   - **Timeline video thumbnails** -- videos in the timeline show a thumbnail with a play button overlay and hover effects; clicking opens the media viewer directly
+- **Revamped inline audio player** -- audio clips stay in the timeline, play without a separate Download step, and support adjustable playback speed
 - **Forward button** in the message action bar
 - **Pinned and recent emoji reactions** directly in the action bar
 - **Swipe-to-reply disabled** by default to prevent accidental replies on desktop
@@ -94,6 +95,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 
 - **Tabbed Settings panel** -- settings grouped into logical tabs instead of one long scrollable list
 - **All user-facing settings are surfaced in the UI** -- unlike upstream nheko, Komai exposes every supported user-facing setting through Application Settings (internal tuning keys such as low-level DB limits remain config-only)
+- **Audio media handling controls** -- Timeline settings now distinguish image, video, and audio external-open behavior, and let you choose the default inline playback speed
 - **Improved text accessibility controls** -- UI text follows the configured font size more consistently, and you can adjust font size quickly with keyboard shortcuts (`Ctrl` + `+` and `Ctrl` + `-`)
 - **Profile and Logout buttons** easily accessible in the Session tab
 - **Account notifications toggle** -- control your homeserver's master push rule directly from Settings > Notifications, letting you mute notifications across all clients/devices without leaving Komai

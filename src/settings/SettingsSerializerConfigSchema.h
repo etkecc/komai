@@ -89,6 +89,8 @@ inline constexpr bool kDefaultNetworkHttp3Enabled =
   settings::core::definitions::kDefaultNetworkHttp3Enabled;
 inline constexpr double kDefaultScaleFactor = settings::core::definitions::kDefaultScaleFactor;
 inline constexpr double kDefaultFontSizePt  = settings::core::definitions::kDefaultFontSizePt;
+inline constexpr double kDefaultTimelineMediaAudioPlaybackSpeed =
+  settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed;
 inline constexpr int kDefaultScreenShareFrameRate =
   settings::core::definitions::kDefaultScreenShareFrameRate;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds =

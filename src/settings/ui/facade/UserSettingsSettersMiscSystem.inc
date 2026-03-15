@@ -61,3 +61,30 @@ UserSettings::setTimelineMediaOpenVideosExternal(bool s)
     emit timelineMediaOpenVideosExternalChanged(s);
     save();
 }
+void
+UserSettings::setTimelineMediaDefaultAudioPlaybackSpeed(double speed)
+{
+    const auto minRate = settings::core::definitions::kMinTimelineMediaAudioPlaybackSpeed;
+    const auto maxRate = settings::core::definitions::kMaxTimelineMediaAudioPlaybackSpeed;
+    const auto step    = settings::core::definitions::kTimelineMediaAudioPlaybackSpeedStep;
+    const auto clamped = std::clamp(speed, minRate, maxRate);
+    const auto rounded = std::round(clamped / step) * step;
+
+    if (timelineMediaDefaultAudioPlaybackSpeed_ == rounded)
+        return;
+    timelineMediaDefaultAudioPlaybackSpeed_ = rounded;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaDefaultAudioPlaybackSpeed,
+                         rounded);
+    emit timelineMediaDefaultAudioPlaybackSpeedChanged(rounded);
+    save();
+}
+void
+UserSettings::setTimelineMediaOpenAudioExternal(bool s)
+{
+    if (timelineMediaOpenAudioExternal_ == s)
+        return;
+    timelineMediaOpenAudioExternal_ = s;
+    (void)coreStore_.set(settings::core::SettingId::TimelineMediaOpenAudioExternal, s);
+    emit timelineMediaOpenAudioExternalChanged(s);
+    save();
+}

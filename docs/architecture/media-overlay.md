@@ -2,6 +2,7 @@
 
 The media overlay is a full-screen viewer for images and videos opened from the timeline.
 It replaces an earlier image-only overlay with a unified viewer that handles all visual media types.
+Audio intentionally stays inline in the timeline; see [Audio Playback](audio-playback.md).
 
 ## Overview
 
@@ -15,11 +16,11 @@ Gallery navigation walks through **all** visual media in the room (images, stick
 
 | File | Role |
 |------|------|
-| `resources/qml/dialogs/media/ImageOverlay.qml` | Main overlay window. Handles both images and videos via the `isVideo` property. |
+| `resources/qml/dialogs/media/MediaOverlay.qml` | Main overlay window. Handles both images and videos via the `isVideo` property. |
 | `resources/qml/dialogs/media/components/ImageOverlayActionButton.qml` | Reusable action button for the action bar. |
-| `resources/qml/delegates/PlayableMediaMessage.qml` | Timeline delegate for video/audio messages. Tapping a video opens the media overlay; tapping audio keeps inline playback. |
+| `resources/qml/delegates/VideoMessage.qml` | Timeline delegate for videos. Tapping a video opens the media overlay or the external player, depending on settings. |
 | `resources/qml/delegates/ImageMessage.qml` | Timeline delegate for images. Opens the overlay via `openImageOverlayWithContext`. |
-| `resources/qml/ui/media/MediaControls.qml` | Shared playback controls (seek bar, play/pause, volume, time display). Used both in the overlay and in-timeline for audio. |
+| `resources/qml/ui/media/MediaControls.qml` | Playback controls used by the overlay video player. |
 | `resources/qml/shell/components/RootEventRouter.qml` | Routes `showImageOverlay` and `showMediaOverlay` signals to overlay window creation. |
 
 ### C++ layer
@@ -151,9 +152,12 @@ Any consumer ──HTTP GET──> localhost:PORT/m/{per-media-token}.ext
 
 ### Timeline video delegate
 
-`PlayableMediaMessage.qml` shows a thumbnail with a dark scrim and a large centered play button for videos.
-Tapping checks the `timelineMediaOpenVideosExternal` setting: if enabled, opens directly in the external player via `room.openMedia(eventId)`; otherwise, opens the media overlay.  Audio messages use the same setting to choose between external player and inline controls.
+`VideoMessage.qml` shows a thumbnail with a dark scrim and a large centered play button for videos.
+Tapping checks the `timelineMediaOpenVideosExternal` setting: if enabled, opens directly in the external player via `room.openMedia(eventId)`; otherwise, opens the media overlay.
 The existing `MxcMedia` + `VideoOutput` remain in the delegate for potential future inline playback.
+
+Audio messages are handled separately by the inline audio player and do not enter the overlay path.
+See [Audio Playback](audio-playback.md).
 
 ## Signal flow
 
@@ -164,7 +168,7 @@ User clicks video in timeline
     │      │ calls room.openMedia(eventId)
     │      │ → TimelineMediaController::openMedia()
     │      │ → images: download to cache, open local file
-    │      │ → video/audio: MediaProxyServer::openInExternalPlayer()
+    │      │ → video: MediaProxyServer::openInExternalPlayer()
     │      │     → platform-specific player launch (see above) / browser fallback
     │
     └─ Settings.timelineMediaOpenVideosExternal == false (default)
@@ -180,7 +184,7 @@ User clicks video in timeline
            │ sets mediaType, mediaDuration, thumbnailUrl properties
            │
            ▼
-    ImageOverlay opens full-screen
+    MediaOverlay opens full-screen
            │ isVideo == true → shows video thumbnail + play button
            │ User clicks play → overlayMediaPlayer.startDownload()
            │ MxcMediaProxy streams or buffers depending on encryption

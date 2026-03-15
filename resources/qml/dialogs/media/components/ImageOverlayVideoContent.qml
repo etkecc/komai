@@ -33,8 +33,10 @@ Item {
             mediaPlayer.startDownload();
         else if (mediaPlayer.playbackState === MediaPlayer.PlayingState)
             mediaPlayer.pause();
-        else
+        else {
+            mediaPlayer.ensureAudioReady();
             mediaPlayer.play();
+        }
     }
 
     function stopPlayback() {
@@ -154,6 +156,7 @@ Item {
                 && playbackState === MediaPlayer.StoppedState
                 && videoContent.visible) {
                 mediaPlayer.position = 0;
+                mediaPlayer.ensureAudioReady();
                 mediaPlayer.play();
             }
         }
@@ -171,7 +174,14 @@ Item {
         mediaLoaded: mediaPlayer.loaded
         mediaState: mediaPlayer.playbackState
         onPositionChanged: mediaPlayer.position = position
-        onPlayPauseActivated: mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.pause() : mediaPlayer.play()
+        onPlayPauseActivated: {
+            if (mediaPlayer.playbackState == MediaPlayer.PlayingState) {
+                mediaPlayer.pause();
+            } else {
+                mediaPlayer.ensureAudioReady();
+                mediaPlayer.play();
+            }
+        }
         onLoadActivated: mediaPlayer.startDownload()
     }
 

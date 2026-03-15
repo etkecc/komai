@@ -47,12 +47,12 @@ timeline::media::TimelineMediaController::openMedia(const QString &eventId) cons
     nhlog::ui()->info("Open media requested (room='{}', event='{}')", roomIdStd, eventIdStd);
 
     // For unencrypted video/audio, open via the local media proxy so external
-    // players (VLC, mpv, etc.) can stream with auth handled transparently.
-    // Images don't benefit from streaming — they use the download-to-cache path.
+    // players can stream with auth handled transparently.
     auto event = events_.get(eventIdStd, "");
     if (event && !mtx::accessors::file(*event).has_value()) {
         QString mimeType = QString::fromStdString(mtx::accessors::mimetype(*event));
-        if (!mimeType.startsWith(QLatin1String("image/"))) {
+        if (mimeType.startsWith(QLatin1String("video/")) ||
+            mimeType.startsWith(QLatin1String("audio/"))) {
             auto *proxy = MediaProxyServer::instance();
             if (proxy->port() > 0) {
                 QString mxcUrl = QString::fromStdString(mtx::accessors::url(*event));

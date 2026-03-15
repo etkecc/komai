@@ -103,6 +103,9 @@ QStringList collapsedSpaces_;
 DefaultAvatarStyle uiAvatarsDefaultAvatarStyle_ = DefaultAvatarStyle::BoringAvatarsBauhaus;
 bool timelineMediaOpenImagesExternal_;
 bool timelineMediaOpenVideosExternal_;
+bool timelineMediaOpenAudioExternal_;
+double timelineMediaDefaultAudioPlaybackSpeed_ =
+  settings::core::definitions::kDefaultTimelineMediaAudioPlaybackSpeed;
 int integrationsDbusApiAccess_ = settings::core::definitions::kDefaultIntegrationsDbusApiAccess;
 QString integrationsBrowserCommand_;
 bool networkSpacesMaintainJoinMetadata_;

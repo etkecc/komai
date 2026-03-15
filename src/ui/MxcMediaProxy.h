@@ -12,6 +12,7 @@
 #include <QPointer>
 #include <QQuickItem>
 #include <QString>
+#include <QTimer>
 #include <QUrl>
 #include <QVideoSink>
 
@@ -28,6 +29,8 @@ class MxcMediaProxy : public QMediaPlayer
     Q_PROPERTY(QString eventId READ eventId WRITE setEventId NOTIFY eventIdChanged)
     Q_PROPERTY(bool loaded READ loaded NOTIFY loadedChanged)
     Q_PROPERTY(bool encrypted READ isEncrypted NOTIFY encryptedChanged)
+    Q_PROPERTY(bool recoveringFromStreamingFallback READ recoveringFromStreamingFallback NOTIFY
+                 recoveringFromStreamingFallbackChanged)
     Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
@@ -43,9 +46,11 @@ public:
     // Immediately silence and stop playback — no lingering audio.
     Q_INVOKABLE void killPlayback()
     {
+        pausedAudioOutputReleaseTimer_.stop();
         if (auto output = audioOutput())
             output->setMuted(true);
         stop();
+        releaseAudioOutput();
         // Detach the old buffer so a subsequent startDownload() can
         // write new data without the "QBuffer::setData: Buffer is open" warning.
         setSourceDevice(nullptr);
@@ -53,10 +58,12 @@ public:
             buffer.close();
         streaming_                  = false;
         streamingFallbackAttempted_ = false;
+        setRecoveringFromStreamingFallback(false);
     }
 
     bool loaded() const { return buffer.size() > 0 || streaming_; }
     bool isEncrypted() const { return encrypted_; }
+    bool recoveringFromStreamingFallback() const { return recoveringFromStreamingFallback_; }
     QString eventId() const { return eventId_; }
     TimelineModel *room() const { return room_; }
     void setEventId(QString newEventId)
@@ -99,6 +106,7 @@ signals:
 
     void orientationChanged();
     void encryptedChanged();
+    void recoveringFromStreamingFallbackChanged();
 
     void volumeChanged();
     void mutedChanged();
@@ -108,13 +116,25 @@ public slots:
     void ensureAudioReady();
 
 private:
+    void createAudioOutputIfNeeded();
+    void releaseAudioOutput();
+    void setRecoveringFromStreamingFallback(bool recovering)
+    {
+        if (recoveringFromStreamingFallback_ == recovering)
+            return;
+        recoveringFromStreamingFallback_ = recovering;
+        emit recoveringFromStreamingFallbackChanged();
+    }
+
     TimelineModel *room_ = nullptr;
     QString eventId_;
     QString filename_;
     QBuffer buffer;
-    float volume_                    = 1.f;
-    bool muted_                      = false;
-    bool encrypted_                  = false;
-    bool streaming_                  = false;
-    bool streamingFallbackAttempted_ = false;
+    float volume_                         = 1.f;
+    bool muted_                           = false;
+    bool encrypted_                       = false;
+    bool streaming_                       = false;
+    bool streamingFallbackAttempted_      = false;
+    bool recoveringFromStreamingFallback_ = false;
+    QTimer pausedAudioOutputReleaseTimer_{this};
 };

@@ -62,6 +62,9 @@ constexpr auto TimelineMediaAnimateOnHover           = "timeline.media.animate_o
 constexpr auto TimelineMediaImageDisplay             = "timeline.media.image_display";
 constexpr auto TimelineMediaOpenImagesExternal       = "timeline.media.open_images_external";
 constexpr auto TimelineMediaOpenVideosExternal       = "timeline.media.open_videos_external";
+constexpr auto TimelineMediaOpenAudioExternal        = "timeline.media.open_audio_external";
+constexpr auto TimelineMediaDefaultAudioPlaybackSpeed =
+  "timeline.media.default_audio_playback_speed";
 constexpr auto ComposerInputMarkdownToHtmlEnabled    = "composer.input.markdown_to_html.enabled";
 constexpr auto ComposerInputSendKey                  = "composer.input.send_key";
 constexpr auto ComposerInputAutoReplaceEmoji         = "composer.input.auto_replace_emoji";

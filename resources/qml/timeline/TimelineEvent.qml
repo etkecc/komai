@@ -156,9 +156,19 @@ EventDelegateChooser {
         }
     }
     EventDelegateChoice {
-        roleValues: [MtxEvent.VideoMessage, MtxEvent.AudioMessage,]
+        roleValues: [MtxEvent.VideoMessage,]
 
-        PlayableMediaMessage {
+        VideoMessage {
+            required property string userId
+            required property string userName
+
+            Layout.fillWidth: true
+        }
+    }
+    EventDelegateChoice {
+        roleValues: [MtxEvent.AudioMessage,]
+
+        AudioMessage {
             required property string userId
             required property string userName
 

@@ -81,13 +81,18 @@ ColumnLayout {
         }
     }
     ScrollView {
+        id: topicScroll
+
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
+        Layout.minimumWidth: 0
         Layout.leftMargin: Komai.paddingLarge
         Layout.rightMargin: Komai.paddingLarge
         Layout.maximumHeight: preview.height / 3
+        contentWidth: availableWidth
 
         MatrixText {
+            width: topicScroll.availableWidth
             background: null
             horizontalAlignment: TextEdit.AlignHCenter
             text: (room || (roomPreview?.isFetched ?? false)) ? TimelineManager.escapeEmoji(preview.roomTopic) : qsTr("This room is possibly inaccessible. If this room is private, you should remove it from this community.")
@@ -168,9 +173,12 @@ ColumnLayout {
 
         Layout.alignment: Qt.AlignHCenter
         Layout.fillWidth: true
+        Layout.minimumWidth: 0
         visible: preview.reason !== "" && showReason
+        contentWidth: availableWidth
 
         Components.KomaiTextArea {
+            width: reasonField.availableWidth
             background: null
             horizontalAlignment: TextEdit.AlignHCenter
             readOnly: true

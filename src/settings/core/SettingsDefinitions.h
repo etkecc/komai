@@ -32,6 +32,10 @@ inline constexpr bool kDefaultCertificateValidationEnabled      = true;
 inline constexpr bool kDefaultNetworkHttp3Enabled               = false;
 inline constexpr double kDefaultScaleFactor                     = -1.0;
 inline constexpr double kDefaultFontSizePt                      = 13.0;
+inline constexpr double kDefaultTimelineMediaAudioPlaybackSpeed = 1.0;
+inline constexpr double kMinTimelineMediaAudioPlaybackSpeed     = 0.5;
+inline constexpr double kMaxTimelineMediaAudioPlaybackSpeed     = 3.0;
+inline constexpr double kTimelineMediaAudioPlaybackSpeedStep    = 0.5;
 inline constexpr int kDefaultUiLayoutContentMaxWidthPx          = 0;
 inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx     = 500;
 inline constexpr int kDefaultScreenShareFrameRate               = 5;
@@ -52,7 +56,7 @@ inline constexpr std::array<SettingId, 3> kNumericConstrainedConfigSettingIds{{
 #include "SettingsDefinitionsNumericConstrainedConfigSettingIds.inc"
 }};
 
-inline constexpr std::array<SettingDefinition, 81> kPersistedSettingDefinitions{{
+inline constexpr std::array<SettingDefinition, 83> kPersistedSettingDefinitions{{
 #include "SettingsDefinitionsPersistedCalls.inc"
 #include "SettingsDefinitionsPersistedComposer.inc"
 #include "SettingsDefinitionsPersistedEncryption.inc"

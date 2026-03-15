@@ -66,8 +66,10 @@ Note:
 | Timeline | ACTIONS | Pinned reactions | `settings::core::SettingId::TimelineMessageActionsPinnedReactions` | `pinned_reactions` | `timeline.messages.actions.pinned_reactions` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Play animated images only on hover | `settings::core::SettingId::TimelineMediaAnimateOnHover` | `animate_images_on_hover` | `timeline.media.animate_on_hover` | config.yml | yes |
 | Timeline | MEDIA HANDLING | Show images automatically | `settings::core::SettingId::TimelineMediaImageDisplay` | `show_image` | `timeline.media.image_display` | config.yml | yes |
-| Timeline | MEDIA HANDLING | Open images in an external app | `settings::core::SettingId::TimelineMediaOpenImagesExternal` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
-| Timeline | MEDIA HANDLING | Open videos in an external app | `settings::core::SettingId::TimelineMediaOpenVideosExternal` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Open in an external viewer | `settings::core::SettingId::TimelineMediaOpenImagesExternal` | `open_images_in_external_app` | `timeline.media.open_images_external` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Open in an external player | `settings::core::SettingId::TimelineMediaOpenVideosExternal` | `open_videos_in_external_app` | `timeline.media.open_videos_external` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Open in an external player | `settings::core::SettingId::TimelineMediaOpenAudioExternal` | *(new)* | `timeline.media.open_audio_external` | config.yml | yes |
+| Timeline | MEDIA HANDLING | Default playback speed | `settings::core::SettingId::TimelineMediaDefaultAudioPlaybackSpeed` | *(new)* | `timeline.media.default_audio_playback_speed` | config.yml | yes |
 | Composer | INPUT | Auto-convert Markdown to HTML | `settings::core::SettingId::ComposerInputMarkdownToHtmlEnabled` | `markdown` | `composer.input.markdown_to_html.enabled` | config.yml | yes |
 | Composer | INPUT | Send key | `settings::core::SettingId::ComposerInputSendKey` | `send_message_key` | `composer.input.send_key` | config.yml | yes |
 | Composer | INPUT | Auto-replace emoticons with emoji | `settings::core::SettingId::ComposerInputAutoReplaceEmoji` | `auto_replace_emoji` | `composer.input.auto_replace_emoji` | config.yml | yes |

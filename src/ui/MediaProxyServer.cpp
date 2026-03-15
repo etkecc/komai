@@ -206,9 +206,9 @@ MediaProxyServer::openInExternalPlayer(const QString &mxcUrl,
         }
     }
 
-    // Fallback: open in browser (better than nothing).
-    nhlog::ui()->info("Opening media in browser (fallback): {}", proxyUrlStr.toStdString());
-    return QDesktopServices::openUrl(proxyUrl);
+    nhlog::ui()->info("No direct MIME handler launch succeeded for '{}'; falling back to caller",
+                      proxyUrlStr.toStdString());
+    return false;
 
 #elif defined(Q_OS_MACOS)
     // On macOS, QDesktopServices::openUrl() with http:// opens the browser.
@@ -251,9 +251,9 @@ MediaProxyServer::openInExternalPlayer(const QString &mxcUrl,
         }
     }
 
-    // Fallback: open in browser.
-    nhlog::ui()->info("Opening media in browser (fallback): {}", proxyUrlStr.toStdString());
-    return QDesktopServices::openUrl(proxyUrl);
+    nhlog::ui()->info("No direct MIME handler launch succeeded for '{}'; falling back to caller",
+                      proxyUrlStr.toStdString());
+    return false;
 
 #elif defined(Q_OS_WIN)
     // On Windows, QDesktopServices::openUrl() with http:// opens the browser.
@@ -287,14 +287,15 @@ MediaProxyServer::openInExternalPlayer(const QString &mxcUrl,
         }
     }
 
-    // Fallback: open in browser.
-    nhlog::ui()->info("Opening media in browser (fallback): {}", proxyUrlStr.toStdString());
-    return QDesktopServices::openUrl(proxyUrl);
+    nhlog::ui()->info("No direct MIME handler launch succeeded for '{}'; falling back to caller",
+                      proxyUrlStr.toStdString());
+    return false;
 
 #else
-    // Unknown platform: open in browser.
-    nhlog::ui()->info("Opening media in browser: {}", proxyUrlStr.toStdString());
-    return QDesktopServices::openUrl(proxyUrl);
+    nhlog::ui()->info(
+      "No direct MIME handler launch path is implemented for '{}'; falling back to caller",
+      proxyUrlStr.toStdString());
+    return false;
 #endif
 }
 

@@ -108,8 +108,8 @@
       nullptr,
       TimelineMessageActionsPinnedReactions,
       SettingKey::TimelineMessageActionsPinnedReactions),
-    // TimelineMediaSection
-    { QT_TR_NOOP("Media handling"), nullptr, SM::SectionTitle, SM::TabTimeline,
+    // TimelineImagesSection
+    { QT_TR_NOOP("Images handling"), nullptr, SM::SectionTitle, SM::TabTimeline,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // AnimateImagesOnHover
     SIMPLE_BOOL_CONFIG_ID_SETTING("Play animated images only on hover",
@@ -126,11 +126,30 @@
       SettingKey::TimelineMediaImageDisplay),
     // OpenImagesInExternalApp
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Open images in an external app (default viewer)",
+      "Open in an external viewer",
       QT_TR_NOOP("Encrypted images are <a href=\"komai://media-cache\">cached</a> decrypted on disk (auto-purged periodically)."),
       SM::TabTimeline, timelineMediaOpenImagesExternal, setTimelineMediaOpenImagesExternal, nullptr, TimelineMediaOpenImagesExternal, SettingKey::TimelineMediaOpenImagesExternal),
+    // TimelineVideosSection
+    { QT_TR_NOOP("Video handling"), nullptr, SM::SectionTitle, SM::TabTimeline,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
     // OpenVideosInExternalApp
     SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Open videos in an external app (default player)",
+      "Open in an external player",
       QT_TR_NOOP("Streams when possible; encrypted or non-seekable videos are <a href=\"komai://media-cache\">cached</a> on disk (auto-purged periodically)."),
       SM::TabTimeline, timelineMediaOpenVideosExternal, setTimelineMediaOpenVideosExternal, nullptr, TimelineMediaOpenVideosExternal, SettingKey::TimelineMediaOpenVideosExternal),
+    // TimelineAudioSection
+    { QT_TR_NOOP("Audio handling"), nullptr, SM::SectionTitle, SM::TabTimeline,
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+    // OpenAudioInExternalApp
+    SIMPLE_BOOL_CONFIG_ID_SETTING(
+      "Open in an external player",
+      QT_TR_NOOP("Streams when possible; encrypted or non-seekable audio is <a href=\"komai://media-cache\">cached</a> on disk (auto-purged periodically)."),
+      SM::TabTimeline, timelineMediaOpenAudioExternal, setTimelineMediaOpenAudioExternal, nullptr, TimelineMediaOpenAudioExternal, SettingKey::TimelineMediaOpenAudioExternal),
+    // DefaultAudioPlaybackSpeed
+    SIMPLE_DOUBLE_CONFIG_ID_SETTING(
+      "Default playback speed",
+      QT_TR_NOOP("Applied to inline audio players."),
+      SM::TabTimeline, timelineMediaDefaultAudioPlaybackSpeed, setTimelineMediaDefaultAudioPlaybackSpeed,
+      0.5, 3.0, 0.5,
+      TimelineMediaDefaultAudioPlaybackSpeed,
+      SettingKey::TimelineMediaDefaultAudioPlaybackSpeed),

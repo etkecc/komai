@@ -23,3 +23,5 @@
     CONNECT_SETTING_ID(TimelineMediaImageDisplay, timelineMediaImageDisplayChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaOpenImagesExternal, timelineMediaOpenImagesExternalChanged, Value);
     CONNECT_SETTING_ID(TimelineMediaOpenVideosExternal, timelineMediaOpenVideosExternalChanged, Value);
+    CONNECT_SETTING_ID(TimelineMediaOpenAudioExternal, timelineMediaOpenAudioExternalChanged, Value);
+    CONNECT_SETTING_ID(TimelineMediaDefaultAudioPlaybackSpeed, timelineMediaDefaultAudioPlaybackSpeedChanged, Value);

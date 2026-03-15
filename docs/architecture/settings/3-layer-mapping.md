@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 81
+Rows: 83
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -71,8 +71,10 @@ Naming mismatch summary:
 | `SidebarsRoomListUnreadDetectionPolicy` | `static_cast<int>(settings.sidebarsRoomListUnreadDetectionPolicy())` | `SidebarsRoomListUnreadDetectionPolicy` | `sidebars.room_list.unread_detection_policy` |
 | `TimelineFormattedCodeSyntaxHighlighting` | `settings.timelineFormattedCodeSyntaxHighlighting()` | `TimelineFormattedCodeSyntaxHighlighting` | `timeline.messages.formatted.code_syntax_highlighting` |
 | `TimelineMediaAnimateOnHover` | `settings.timelineMediaAnimateOnHover()` | `TimelineMediaAnimateOnHover` | `timeline.media.animate_on_hover` |
+| `TimelineMediaDefaultAudioPlaybackSpeed` | `settings.timelineMediaDefaultAudioPlaybackSpeed()` | `TimelineMediaDefaultAudioPlaybackSpeed` | `timeline.media.default_audio_playback_speed` |
 | `TimelineMediaEffectsEnabled` | `settings.timelineMediaEffectsEnabled()` | `TimelineMediaEffectsEnabled` | `timeline.media.effects.enabled` |
 | `TimelineMediaImageDisplay` | `static_cast<int>(settings.timelineMediaImageDisplay())` | `TimelineMediaImageDisplay` | `timeline.media.image_display` |
+| `TimelineMediaOpenAudioExternal` | `settings.timelineMediaOpenAudioExternal()` | `TimelineMediaOpenAudioExternal` | `timeline.media.open_audio_external` |
 | `TimelineMediaOpenImagesExternal` | `settings.timelineMediaOpenImagesExternal()` | `TimelineMediaOpenImagesExternal` | `timeline.media.open_images_external` |
 | `TimelineMediaOpenVideosExternal` | `settings.timelineMediaOpenVideosExternal()` | `TimelineMediaOpenVideosExternal` | `timeline.media.open_videos_external` |
 | `TimelineMessageActionsActivationPolicy` | `static_cast<int>(settings.timelineMessageActionsActivationPolicy())` | `TimelineMessageActionsActivationPolicy` | `timeline.messages.actions.activation_policy` |

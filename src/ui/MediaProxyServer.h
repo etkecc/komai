@@ -38,8 +38,11 @@ public:
     /// (MP4 files with moov atom at the end require Range/seek support;
     /// streaming without it is not possible.)
     ///
-    /// When Range IS supported, launches the player via xdg-mime + gio/gtk-launch
-    /// (Linux/FreeBSD) or QDesktopServices (other platforms).
+    /// When Range IS supported, tries to launch the platform's default player
+    /// for the media MIME type via platform-specific app lookup.
+    ///
+    /// Returns false if no suitable direct launch method succeeds, so the caller
+    /// can fall back to download-to-cache and open the local file instead.
     bool openInExternalPlayer(const QString &mxcUrl,
                               const QString &mimeType = {},
                               const QString &roomId   = {});

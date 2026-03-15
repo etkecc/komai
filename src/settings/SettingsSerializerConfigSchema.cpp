@@ -15,7 +15,7 @@ namespace settings::serializer::config {
 
 namespace {
 
-const std::array<BoolSettingDescriptor, 47> BoolSettings{
+const std::array<BoolSettingDescriptor, 48> BoolSettings{
 #include "SettingsSerializerConfigSchemaBoolCalls.inc"
 #include "SettingsSerializerConfigSchemaBoolComposer.inc"
 #include "SettingsSerializerConfigSchemaBoolEncryption.inc"
@@ -48,11 +48,15 @@ const std::array<ULongLongSettingDescriptor, 1> ULongLongSettings{
                              &UserSettings::setDbMaxSizeBytes},
 };
 
-const std::array<DoubleSettingDescriptor, 1> DoubleSettings{
+const std::array<DoubleSettingDescriptor, 2> DoubleSettings{
   DoubleSettingDescriptor{SettingKey::UiFontSizePt,
                           kDefaultFontSizePt,
                           &UserSettings::uiFontSizePt,
                           &UserSettings::setUiFontSizePt},
+  DoubleSettingDescriptor{SettingKey::TimelineMediaDefaultAudioPlaybackSpeed,
+                          kDefaultTimelineMediaAudioPlaybackSpeed,
+                          &UserSettings::timelineMediaDefaultAudioPlaybackSpeed,
+                          &UserSettings::setTimelineMediaDefaultAudioPlaybackSpeed},
 };
 
 const std::array<StringSettingDescriptor, 9> StringSettings{

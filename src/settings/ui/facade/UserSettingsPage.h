@@ -245,6 +245,12 @@ class UserSettings final : public QObject
                  setTimelineMediaOpenImagesExternal NOTIFY timelineMediaOpenImagesExternalChanged)
     Q_PROPERTY(bool timelineMediaOpenVideosExternal READ timelineMediaOpenVideosExternal WRITE
                  setTimelineMediaOpenVideosExternal NOTIFY timelineMediaOpenVideosExternalChanged)
+    Q_PROPERTY(bool timelineMediaOpenAudioExternal READ timelineMediaOpenAudioExternal WRITE
+                 setTimelineMediaOpenAudioExternal NOTIFY timelineMediaOpenAudioExternalChanged)
+    Q_PROPERTY(
+      double timelineMediaDefaultAudioPlaybackSpeed READ timelineMediaDefaultAudioPlaybackSpeed
+        WRITE setTimelineMediaDefaultAudioPlaybackSpeed NOTIFY
+          timelineMediaDefaultAudioPlaybackSpeedChanged)
     Q_PROPERTY(QString integrationsBrowserCommand READ integrationsBrowserCommand WRITE
                  setIntegrationsBrowserCommand NOTIFY integrationsBrowserCommandChanged)
     Q_PROPERTY(int integrationsDbusApiAccess READ integrationsDbusApiAccess WRITE
@@ -545,6 +551,8 @@ public:
     void setUiAvatarsDefaultAvatarStyle(DefaultAvatarStyle style);
     void setTimelineMediaOpenImagesExternal(bool state);
     void setTimelineMediaOpenVideosExternal(bool state);
+    void setTimelineMediaOpenAudioExternal(bool state);
+    void setTimelineMediaDefaultAudioPlaybackSpeed(double speed);
     void setIntegrationsBrowserCommand(QString command);
     void setCollapsedSpaces(QStringList spaces);
     void setIntegrationsDbusApiAccess(int access);
@@ -681,6 +689,8 @@ signals:
     void uiAvatarsDefaultAvatarStyleChanged(DefaultAvatarStyle style);
     void timelineMediaOpenImagesExternalChanged(bool state);
     void timelineMediaOpenVideosExternalChanged(bool state);
+    void timelineMediaOpenAudioExternalChanged(bool state);
+    void timelineMediaDefaultAudioPlaybackSpeedChanged(double speed);
     void hiddenPinsChanged();
     void hiddenWidgetsChanged();
     void integrationsDbusApiAccessChanged(int state);

@@ -27,6 +27,9 @@
 MxcMediaProxy::MxcMediaProxy(QObject *parent)
   : QMediaPlayer(parent)
 {
+    pausedAudioOutputReleaseTimer_.setSingleShot(true);
+    pausedAudioOutputReleaseTimer_.setInterval(1500);
+
     connect(this,
             &QMediaPlayer::errorOccurred,
             this,
@@ -42,6 +45,7 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
                     nhlog::ui()->info("Streaming failed, falling back to full download");
                     streamingFallbackAttempted_ = true;
                     streaming_                  = false;
+                    setRecoveringFromStreamingFallback(true);
                     stop();
                     setSource(QUrl());
                     startDownload(false);
@@ -55,17 +59,23 @@ MxcMediaProxy::MxcMediaProxy(QObject *parent)
       });
     connect(
       this, &MxcMediaProxy::playbackStateChanged, this, [this](QMediaPlayer::PlaybackState status) {
-          // We only set the output when starting the playback because otherwise the audio device
-          // lookup takes about 500ms, which causes a lot of stutter...
-          if (status == QMediaPlayer::PlayingState && !audioOutput()) {
-              nhlog::ui()->info("Set audio output");
-              auto newOut = new QAudioOutput(this);
-              newOut->setMuted(muted_);
-              newOut->setVolume(QAudio::convertVolume(
-                volume_, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale));
-              setAudioOutput(newOut);
+          if (status == QMediaPlayer::PlayingState) {
+              pausedAudioOutputReleaseTimer_.stop();
+              createAudioOutputIfNeeded();
+          } else if (status == QMediaPlayer::PausedState) {
+              pausedAudioOutputReleaseTimer_.start();
+          } else {
+              pausedAudioOutputReleaseTimer_.stop();
+              releaseAudioOutput();
           }
       });
+    connect(&pausedAudioOutputReleaseTimer_, &QTimer::timeout, this, [this] {
+        if (playbackState() != QMediaPlayer::PausedState)
+            return;
+
+        nhlog::ui()->info("Releasing paused audio output after idle timeout");
+        releaseAudioOutput();
+    });
     connect(this, &MxcMediaProxy::metaDataChanged, [this]() { emit orientationChanged(); });
 
     connect(ChatPage::instance()->timelineManager()->rooms(),
@@ -79,9 +89,35 @@ MxcMediaProxy::orientation() const
 {
     // nhlog::ui()->debug("metadata: {}",
     // availableMetaData().join(QStringLiteral(",")).toStdString());
-    auto orientation = metaData().value(QMediaMetaData::Orientation).toInt();
-    nhlog::ui()->info("Video orientation: {}", orientation);
-    return orientation;
+    return metaData().value(QMediaMetaData::Orientation).toInt();
+}
+
+void
+MxcMediaProxy::createAudioOutputIfNeeded()
+{
+    // We only set the output when playback is needed because otherwise the audio device lookup
+    // takes about 500ms, which causes a lot of stutter.
+    if (audioOutput())
+        return;
+
+    nhlog::ui()->info("Set audio output");
+    auto newOut = new QAudioOutput(this);
+    newOut->setMuted(muted_);
+    newOut->setVolume(
+      QAudio::convertVolume(volume_, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale));
+    setAudioOutput(newOut);
+}
+
+void
+MxcMediaProxy::releaseAudioOutput()
+{
+    auto *output = audioOutput();
+    if (!output)
+        return;
+
+    output->setMuted(true);
+    setAudioOutput(nullptr);
+    output->deleteLater();
 }
 
 void
@@ -148,6 +184,7 @@ MxcMediaProxy::startDownload(bool onlyCached)
         QTimer::singleShot(0, this, [this, filename] {
             nhlog::ui()->info(
               "Playing buffer with size: {}, {}", buffer.bytesAvailable(), buffer.isOpen());
+            setRecoveringFromStreamingFallback(false);
             this->setSourceDevice(&buffer, QUrl(filename.fileName()));
             emit loadedChanged();
         });
@@ -185,11 +222,13 @@ MxcMediaProxy::startDownload(bool onlyCached)
     // 2. Streaming fallback (upstream doesn't support Range → proxy returned 416 →
     //    QMediaPlayer failed → retry with full download).
     http::client()->download(url,
-                             [filename, url, processBuffer](const std::string &data,
-                                                            const std::string &,
-                                                            const std::string &,
-                                                            mtx::http::RequestErr err) {
+                             [filename, url, processBuffer, self](const std::string &data,
+                                                                  const std::string &,
+                                                                  const std::string &,
+                                                                  mtx::http::RequestErr err) {
                                  if (err) {
+                                     if (self)
+                                         self->setRecoveringFromStreamingFallback(false);
                                      nhlog::net()->warn("failed to retrieve media {}: {} {}",
                                                         url,
                                                         err->matrix_error.error,
@@ -219,15 +258,9 @@ MxcMediaProxy::startDownload(bool onlyCached)
 void
 MxcMediaProxy::ensureAudioReady()
 {
-    if (audioOutput())
-        return;
-
+    pausedAudioOutputReleaseTimer_.stop();
     nhlog::ui()->info("Eagerly creating audio output");
-    auto newOut = new QAudioOutput(this);
-    newOut->setMuted(muted_);
-    newOut->setVolume(
-      QAudio::convertVolume(volume_, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale));
-    setAudioOutput(newOut);
+    createAudioOutputIfNeeded();
 }
 
 #include "moc_MxcMediaProxy.cpp"

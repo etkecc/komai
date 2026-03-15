@@ -6,7 +6,6 @@
 import "../ui/media"
 import QtMultimedia
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 import Qt5Compat.GraphicalEffects
 
@@ -14,7 +13,6 @@ Item {
     id: content
 
     required property double proportionalHeight
-    required property int type
     required property int originalWidth
     required property int duration
     required property string thumbnailUrl
@@ -23,43 +21,36 @@ Item {
     required property string body
     required property string filename
     required property string filesize
+
     property double divisor: EventDelegateChooser.isReply ? 10 : 4
-    property int tempWidth: originalWidth < 1? 400: originalWidth
+    property int tempWidth: originalWidth < 1 ? 400 : originalWidth
     readonly property string mediaLabel: body.length > 0 && filename.length > 0 && body !== filename
         ? body + " (" + filename + ")"
         : (filename.length > 0 ? filename : body)
-    implicitWidth: type == MtxEvent.VideoMessage ? Math.round(tempWidth*Math.min((timelineView.height/divisor)/(tempWidth*proportionalHeight), 1)) : 500
+
+    implicitWidth: Math.round(tempWidth * Math.min((timelineView.height / divisor) / (tempWidth * proportionalHeight), 1))
     width: Math.min(parent?.width ?? implicitWidth, implicitWidth)
-    height: type == MtxEvent.VideoMessage ? width*proportionalHeight : (mediaControls.height + audioInfoLabel.height)
-    //implicitHeight: height
+    height: width * proportionalHeight
 
     property int metadataWidth
-    property bool fitsMetadata: parent != null ? ((parent.width - (type == MtxEvent.VideoMessage ? width : audioInfoLabel.width)) > metadataWidth+4) : false
-
-    // Only preload cached audio — videos play in the media overlay instead.
-    Component.onCompleted: {
-        if (content.type !== MtxEvent.VideoMessage)
-            mxcmedia.startDownload(true);
-    }
+    property bool fitsMetadata: parent != null ? ((parent.width - width) > metadataWidth + 4) : false
 
     MxcMedia {
-        id: mxcmedia
+        id: videoMedia
 
-        // TODO: Show error in overlay or so?
         roomm: room
         eventId: content.eventId
         videoOutput: videoOutput
-
-        muted: mediaControls.muted
-        volume: mediaControls.desiredVolume
+        muted: true
+        volume: 1.0
     }
 
     Rectangle {
         id: videoContainer
 
-        color: content.type == MtxEvent.VideoMessage ? palette.window : "transparent"
+        color: palette.window
         width: parent.width
-        height: content.type == MtxEvent.VideoMessage ? parent.height : (parent.height - audioInfoLabel.height)
+        height: parent.height
         radius: 8
         layer.enabled: true
         layer.effect: OpacityMask {
@@ -73,7 +64,6 @@ Item {
         MouseArea {
             id: videoMouseArea
             anchors.fill: parent
-            visible: content.type == MtxEvent.VideoMessage
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
@@ -83,44 +73,35 @@ Item {
                     TimelineManager.openMediaOverlayWithContext(
                         room, content.url, content.eventId,
                         content.originalWidth, content.proportionalHeight,
-                        content.type, content.duration, content.thumbnailUrl,
+                        MtxEvent.VideoMessage, content.duration, content.thumbnailUrl,
                         timeline, timelineView);
                 }
-            }
-        }
-
-        TapHandler {
-            enabled: content.type != MtxEvent.VideoMessage
-            onTapped: {
-                // Audio: keep existing behavior
-                Settings.timelineMediaOpenVideosExternal ? room.openMedia(eventId) : mediaControls.showControls();
             }
         }
 
         Image {
             id: videoThumb
             anchors.fill: parent
-            visible: content.type == MtxEvent.VideoMessage
-            source: content.thumbnailUrl ? (thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale&room=" + room.roomId) : "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.windowText
+            source: content.thumbnailUrl
+                ? (thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale&room=" + room.roomId)
+                : "image://colorimage/:/icons/icons/ui/video-file.svg?" + palette.windowText
             asynchronous: true
             fillMode: Image.PreserveAspectFit
 
             VideoOutput {
                 id: videoOutput
 
-                visible: content.type == MtxEvent.VideoMessage
+                visible: true
                 clip: true
                 anchors.fill: parent
                 fillMode: VideoOutput.PreserveAspectFit
-                orientation: mxcmedia.orientation
+                orientation: videoMedia.orientation
             }
         }
 
-        // Play button overlay for video — always visible since tap opens the overlay
         Rectangle {
             anchors.fill: parent
             color: Qt.rgba(0, 0, 0, 0.3)
-            visible: content.type == MtxEvent.VideoMessage
 
             Rectangle {
                 id: playButton
@@ -145,11 +126,9 @@ Item {
             }
         }
 
-        // Caption/filename overlay — matches image style (bottom overlay inside the media)
         Item {
             id: videoInfoOverlay
             anchors.fill: parent
-            visible: content.type == MtxEvent.VideoMessage
 
             Rectangle {
                 width: parent.width
@@ -181,40 +160,5 @@ Item {
                 }
             }
         }
-
-        MediaControls {
-            id: mediaControls
-
-            // Hide for video — videos open in the media overlay instead
-            visible: content.type !== MtxEvent.VideoMessage
-            anchors.left: videoContainer.left
-            anchors.right: videoContainer.right
-            anchors.bottom: videoContainer.bottom
-            playingVideo: content.type == MtxEvent.VideoMessage
-            positionValue: mxcmedia.position
-            duration: mediaLoaded ? mxcmedia.duration : content.duration
-            mediaLoaded: mxcmedia.loaded
-            mediaState: mxcmedia.playbackState
-            onPositionChanged: mxcmedia.position = position
-            onPlayPauseActivated: mxcmedia.playbackState == MediaPlayer.PlayingState ? mxcmedia.pause() : mxcmedia.play()
-            onLoadActivated: mxcmedia.startDownload()
-        }
     }
-
-    // File info label for audio messages (below the controls)
-    Label {
-        id: audioInfoLabel
-
-        visible: content.type !== MtxEvent.VideoMessage
-        anchors.top: videoContainer.bottom
-        text: content.mediaLabel + " [" + content.filesize + "]"
-        textFormat: Text.RichText
-        elide: Text.ElideRight
-        color: palette.text
-
-        background: Rectangle {
-            color: palette.base
-        }
-    }
-
 }

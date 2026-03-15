@@ -20,6 +20,7 @@ Technical documentation for Komai internals.
 - 🏘️ [Communities Sidebar Filters](communities-sidebar-filters.md) -- filter architecture, tag IDs, room-level filtering, and how to add new filters
 - 🔙 [Navigation History](navigation-history.md) -- back/forward navigation via mouse buttons, in-memory history stack
 - 🎬 [Media Overlay](media-overlay.md) -- full-screen image/video viewer, gallery navigation, and streaming playback
+- 🎵 [Audio Playback](audio-playback.md) -- inline audio player behavior, playback-rate controls, and room-local v1 limitations
 
 ## Differences from nheko
 

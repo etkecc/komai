@@ -194,9 +194,14 @@ LitehtmlItem::paint(QPainter *painter)
     clip.width  = static_cast<int>(width());
     clip.height = static_cast<int>(height());
 
-    m_container->beginTextRunCollection();
+    // Only collect text runs when selection is active or in progress — this avoids
+    // rebuilding the text run vectors on every paint frame during normal scrolling.
+    bool collectRuns = needsTextRunCollection();
+    if (collectRuns)
+        m_container->beginTextRunCollection();
     m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, 0, &clip);
-    m_container->endTextRunCollection();
+    if (collectRuns)
+        m_container->endTextRunCollection();
 
     if (m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd)
         drawSelection(painter);
@@ -217,6 +222,12 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
     }
 }
 
+bool
+LitehtmlItem::needsTextRunCollection() const
+{
+    return m_selecting || m_selStart.isValid();
+}
+
 void
 LitehtmlItem::handleHoverMove(qreal x, qreal y)
 {
@@ -224,9 +235,16 @@ LitehtmlItem::handleHoverMove(qreal x, qreal y)
         return;
 
     int padLeft = static_cast<int>(m_leftPadding);
+    int docX    = static_cast<int>(x) - padLeft;
+    int docY    = static_cast<int>(y);
+
+    // Skip if the document-space position hasn't moved since the last call.
+    QPoint docPos(docX, docY);
+    if (docPos == m_lastHoverDocPos)
+        return;
+    m_lastHoverDocPos = docPos;
+
     litehtml::position::vector redraw;
-    int docX = static_cast<int>(x) - padLeft;
-    int docY = static_cast<int>(y);
 
     m_container->resetCursorState();
     m_document->on_mouse_over(docX, docY, docX, docY, redraw);
@@ -257,6 +275,8 @@ LitehtmlItem::handleHoverLeave()
 {
     if (!m_document)
         return;
+
+    m_lastHoverDocPos = QPoint(-1, -1);
 
     litehtml::position::vector redraw;
     m_document->on_mouse_leave(redraw);

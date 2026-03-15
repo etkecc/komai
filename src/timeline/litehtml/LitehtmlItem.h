@@ -99,6 +99,8 @@ private:
     void drawSelection(QPainter *painter);
     void clearSelection();
 
+    bool needsTextRunCollection() const;
+
     QString m_html;
     QString m_hoveredLink;
     QColor m_color;
@@ -116,4 +118,7 @@ private:
     QPoint m_selectEndPos;
     SelectionPoint m_selStart;
     SelectionPoint m_selEnd;
+
+    // Hover throttling: last document-space position passed to on_mouse_over.
+    QPoint m_lastHoverDocPos{-1, -1};
 };

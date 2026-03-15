@@ -54,11 +54,11 @@ Image {
         if (encrypted) {
             switch (trust) {
             case Crypto.Verified:
-                return sourceUrl + Komai.theme.success;
+                return sourceUrl + (stateImg.hovered ? palette.brightText : Komai.theme.success);
             case Crypto.TOFU:
-                return sourceUrl + palette.buttonText;
+                return sourceUrl + (stateImg.hovered ? palette.brightText : palette.buttonText);
             default:
-                return sourceUrl + Komai.theme.error;
+                return sourceUrl + (stateImg.hovered ? palette.brightText : Komai.theme.error);
             }
         } else {
             return sourceUrl + (stateImg.hovered ? unencryptedHoverColor : unencryptedColor);

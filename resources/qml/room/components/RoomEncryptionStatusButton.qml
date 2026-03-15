@@ -132,6 +132,7 @@ AbstractButton {
             trust: trustlevel
             unencryptedColor: palette.buttonText
             unencryptedHoverColor: palette.brightText
+            encryptedHoverEnabled: true
             Layout.preferredHeight: encryptionButton.iconSize
             Layout.preferredWidth: encryptionButton.iconSize
             sourceSize.height: encryptionButton.iconSize

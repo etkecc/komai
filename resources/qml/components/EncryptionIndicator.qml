@@ -31,6 +31,8 @@ Image {
     property int trust: Crypto.Unverified
     property color unencryptedColor: Komai.theme.error
     property color unencryptedHoverColor: unencryptedColor
+    property color encryptedHoverColor: palette.brightText
+    property bool encryptedHoverEnabled: false
     property string unencryptedIcon: ":/icons/icons/ui/shield-regular-cross.svg"
 
     ToolTip.text: {
@@ -52,13 +54,14 @@ Image {
     height: 16
     source: {
         if (encrypted) {
+            const useHover = stateImg.hovered && encryptedHoverEnabled;
             switch (trust) {
             case Crypto.Verified:
-                return sourceUrl + (stateImg.hovered ? palette.brightText : Komai.theme.success);
+                return sourceUrl + (useHover ? encryptedHoverColor : Komai.theme.success);
             case Crypto.TOFU:
-                return sourceUrl + (stateImg.hovered ? palette.brightText : palette.buttonText);
+                return sourceUrl + (useHover ? encryptedHoverColor : palette.buttonText);
             default:
-                return sourceUrl + (stateImg.hovered ? palette.brightText : Komai.theme.error);
+                return sourceUrl + (useHover ? encryptedHoverColor : Komai.theme.error);
             }
         } else {
             return sourceUrl + (stateImg.hovered ? unencryptedHoverColor : unencryptedColor);

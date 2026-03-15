@@ -363,6 +363,7 @@ Item {
                             sourceSize.height: height
                             Layout.alignment: Qt.AlignRight
                             hovered: delHover.hovered
+                            encryptedHoverEnabled: true
                             visible: membersTab.room ? membersTab.room.isEncrypted : false
                             encrypted: membersTab.room ? membersTab.room.isEncrypted : false
                             trust: encrypted ? model.trustlevel : Crypto.Unverified

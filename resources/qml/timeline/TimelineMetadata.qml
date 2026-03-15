@@ -129,11 +129,11 @@ RowLayout {
     }
     EncryptionIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.iconSize
-        Layout.preferredWidth: parent.iconSize
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
         encrypted: metadata.isEncrypted
-        sourceSize.height: parent.iconSize
-        sourceSize.width: parent.iconSize
+        sourceSize.height: parent.buttonSize
+        sourceSize.width: parent.buttonSize
         trust: metadata.trustlevel
         visible: !metadata.forceTrailingTimestampLayout && metadata.roomIsEncrypted
     }
@@ -198,11 +198,11 @@ RowLayout {
     }
     EncryptionIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.iconSize
-        Layout.preferredWidth: parent.iconSize
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
         encrypted: metadata.isEncrypted
-        sourceSize.height: parent.iconSize
-        sourceSize.width: parent.iconSize
+        sourceSize.height: parent.buttonSize
+        sourceSize.width: parent.buttonSize
         trust: metadata.trustlevel
         visible: metadata.forceTrailingTimestampLayout && metadata.roomIsEncrypted
     }

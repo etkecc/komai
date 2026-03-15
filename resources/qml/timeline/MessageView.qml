@@ -417,7 +417,8 @@ Item {
             "isEncrypted": isEncrypted,
             "link": link || "",
             "roomModel": room,
-            "chatRoot": chatRoot
+            "chatRoot": chatRoot,
+            "appRoot": dialogParent
         });
         if (!dialog)
             return;

@@ -17,6 +17,7 @@ Components.OverlayDialog {
     property bool isSender
     property bool isEncrypted
     property string link
+    property var appRoot
 
     required property var roomModel
     required property var chatRoot
@@ -38,7 +39,16 @@ Components.OverlayDialog {
         || eventType == MtxEvent.NoticeMessage
     readonly property bool isPinned: roomModel && roomModel.pinnedMessages.includes(eventId)
 
-    width: Math.round((parent ? parent.width : 760) * 0.8)
+    overlayViewport: appRoot
+    readonly property int dialogViewportWidth: overlayDialogViewport ? overlayDialogViewport.width : 760
+    readonly property int dialogViewportHeight: overlayDialogViewport ? overlayDialogViewport.height : 600
+
+    width: Math.min(
+        Math.max(240, dialogViewportWidth - Komai.paddingLarge * 2),
+        Math.max(240, Math.floor(dialogViewportWidth * overlayDialogMaxWidthRatio))
+    )
+    x: Math.round((dialogViewportWidth - width) / 2)
+    y: Math.max(Komai.paddingLarge, Math.round((dialogViewportHeight - height) / 2))
     title: qsTr("Message actions")
     titleIcon: ":/icons/icons/ui/options-circle.svg"
 

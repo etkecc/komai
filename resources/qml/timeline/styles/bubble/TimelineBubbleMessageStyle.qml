@@ -25,7 +25,7 @@ TimelineMessageStyleBase {
     property bool styleShowFileMessageBackground: false
     property bool styleShowEncryptedMessageBackground: false
 
-    property int messageBubblePadding: Komai.paddingMedium
+    property int messageBubblePadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int messageBubbleHorizontalPadding: messageBubblePadding
     property int messageBubbleVerticalPadding: messageBubblePadding
     property int messageBubbleRadius: 8

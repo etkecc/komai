@@ -109,8 +109,8 @@ Item {
 
                     RowLayout {
                         Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingMedium
-                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                        Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium
 
@@ -208,8 +208,8 @@ Item {
 
                     RowLayout {
                         Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingMedium
-                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                        Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium
 
@@ -271,8 +271,8 @@ Item {
 
                     RowLayout {
                         Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingMedium
-                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
+                        Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium
 
@@ -336,7 +336,7 @@ Item {
 
                     RowLayout {
                         Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingMedium
+                        Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium
 
@@ -369,7 +369,7 @@ Item {
                         Layout.fillWidth: true
                         Layout.leftMargin: Komai.paddingMedium
                         Layout.rightMargin: Komai.paddingMedium
-                        Layout.bottomMargin: Komai.paddingMedium
+                        Layout.bottomMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
                         wrapMode: Text.Wrap
                     }
                 }

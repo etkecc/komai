@@ -126,10 +126,10 @@ Item {
                             id: settingRow
                             Layout.fillWidth: true
                             visible: r.model.type != UserSettingsModel.SectionTitle
-                            Layout.topMargin: Komai.paddingMedium
+                            Layout.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
                             Layout.leftMargin: Komai.paddingSmall
                             Layout.rightMargin: Komai.paddingSmall
-                            Layout.bottomMargin: r.hasDescription ? 0 : Komai.paddingMedium
+                            Layout.bottomMargin: r.hasDescription ? 0 : (Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium)
                             columns: r.useStackedLayout ? 1 : 2
                             rowSpacing: r.useStackedLayout && !r.isFullWidthPreviewRow ? Komai.paddingSmall : 0
                             columnSpacing: r.isFullWidthPreviewRow ? 0 : Komai.paddingSmall

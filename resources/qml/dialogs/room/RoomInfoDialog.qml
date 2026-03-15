@@ -145,7 +145,8 @@ Components.OverlayDialog {
 
                             width: ListView.view.width
                             height: Komai.navigationRowHeight
-                            padding: Komai.paddingSmall
+                            topPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingSmall
+                            bottomPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingSmall
                             leftPadding: Komai.paddingSmall
                             rightPadding: Komai.paddingSmall
 

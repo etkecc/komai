@@ -105,22 +105,22 @@ RowLayout {
 
     StatusIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.iconSize
-        Layout.preferredWidth: parent.iconSize
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
         visible: !metadata.forceTrailingTimestampLayout && !metadata.isStateEvent && metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
     }
     Image {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.iconSize
-        Layout.preferredWidth: parent.iconSize
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Edited")
         ToolTip.visible: editHovered.hovered
         source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? palette.highlight : palette.buttonText)
-        sourceSize.height: parent.iconSize
-        sourceSize.width: parent.iconSize
+        sourceSize.height: parent.buttonSize
+        sourceSize.width: parent.buttonSize
         visible: !metadata.forceTrailingTimestampLayout && (metadata.isEdited || metadata.eventId == metadata.roomEditEventId)
         HoverHandler {
             id: editHovered
@@ -174,22 +174,22 @@ RowLayout {
 
     StatusIndicator {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.iconSize
-        Layout.preferredWidth: parent.iconSize
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
         visible: metadata.forceTrailingTimestampLayout && !metadata.isStateEvent && metadata.status != MtxEvent.Empty
         eventId: metadata.eventId
         status: metadata.status
     }
     Image {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-        Layout.preferredHeight: parent.iconSize
-        Layout.preferredWidth: parent.iconSize
+        Layout.preferredHeight: parent.buttonSize
+        Layout.preferredWidth: parent.buttonSize
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Edited")
         ToolTip.visible: editHoveredTrailing.hovered
         source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? palette.highlight : palette.buttonText)
-        sourceSize.height: parent.iconSize
-        sourceSize.width: parent.iconSize
+        sourceSize.height: parent.buttonSize
+        sourceSize.width: parent.buttonSize
         visible: metadata.forceTrailingTimestampLayout && (metadata.isEdited || metadata.eventId == metadata.roomEditEventId)
         HoverHandler {
             id: editHoveredTrailing

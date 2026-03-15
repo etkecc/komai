@@ -1042,7 +1042,7 @@ if(NOT CPP_HTTPLIB_INCLUDE_DIR)
     CPMAddPackage(
         NAME cpp-httplib
         GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
-        GIT_TAG v0.37.2
+        GIT_TAG v0.38.0
         DOWNLOAD_ONLY YES
     )
     set(CPP_HTTPLIB_INCLUDE_DIR ${cpp-httplib_SOURCE_DIR})

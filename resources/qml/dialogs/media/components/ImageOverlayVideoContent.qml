@@ -143,6 +143,7 @@ Item {
         roomm: videoContent.room
         eventId: videoContent.eventId
         videoOutput: videoOutput
+        loops: MediaPlayer.Infinite
         muted: controls.muted
         volume: controls.desiredVolume
 

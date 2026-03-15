@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
 RoomListActionButton {
@@ -21,6 +20,8 @@ RoomListActionButton {
     labelText: qsTr("Scroll to top")
     showLabel: !collapsed && labeledWidth <= (roomList.width - roomList.reservedScrollbarWidth) / 2
     opacity: 0
+    visible: opacity > 0
+    enabled: visible
 
     TextMetrics {
         id: labelMetrics

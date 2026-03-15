@@ -90,8 +90,8 @@ Control {
             anchors.centerIn: parent
             toolbarRef: toolbarStyle
             image: ":/icons/icons/ui/download.svg"
-            labelText: qsTr("Jump to latest")
-            toolTipText: qsTr("Jump to latest")
+            labelText: qsTr("Scroll to bottom")
+            toolTipText: qsTr("Scroll to bottom")
 
             onClicked: function () {
                 chatList.keepPinnedToBottom = true;

@@ -28,7 +28,6 @@ LitehtmlItem::LitehtmlItem(QQuickItem *parent)
     connect(m_container, &LitehtmlContainer::imageLoaded, this, [this]() {
         if (m_document) {
             relayout();
-            invalidatePaintCache();
             update();
         }
     });
@@ -76,10 +75,8 @@ LitehtmlItem::setColor(const QColor &color)
     m_color = color;
     m_container->setDefaultColor(color);
     emit colorChanged();
-    if (m_document) {
-        invalidatePaintCache();
+    if (m_document)
         update();
-    }
 }
 
 void
@@ -107,7 +104,6 @@ LitehtmlItem::setLeftPadding(qreal padding)
     emit leftPaddingChanged();
     if (m_document) {
         relayout();
-        invalidatePaintCache();
         update();
     }
 }
@@ -130,7 +126,6 @@ LitehtmlItem::rebuildDocument()
 
     if (m_html.isEmpty()) {
         m_document.reset();
-        m_paintCache = QImage();
         setImplicitWidth(0);
         setImplicitHeight(0);
         update();
@@ -147,7 +142,6 @@ LitehtmlItem::rebuildDocument()
                                                       m_masterCss.toUtf8().constData());
 
     relayout();
-    invalidatePaintCache();
     update();
 }
 
@@ -185,32 +179,13 @@ LitehtmlItem::updateTextureSize()
 }
 
 void
-LitehtmlItem::invalidatePaintCache()
+LitehtmlItem::paint(QPainter *painter)
 {
-    m_paintCacheDirty = true;
-}
-
-void
-LitehtmlItem::renderToCache()
-{
-    auto *w   = window();
-    qreal dpr = w ? w->devicePixelRatio() : 1.0;
-    int pxW   = qCeil(width() * dpr);
-    int pxH   = qCeil(height() * dpr);
-    QSize needed(qMax(1, pxW), qMax(1, pxH));
-
-    if (m_paintCache.size() != needed) {
-        m_paintCache = QImage(needed, QImage::Format_ARGB32_Premultiplied);
-        m_paintCache.setDevicePixelRatio(dpr);
-    }
-    m_paintCache.fill(Qt::transparent);
-
-    QPainter cachePainter(&m_paintCache);
-    cachePainter.setRenderHint(QPainter::Antialiasing, true);
-    cachePainter.setRenderHint(QPainter::TextAntialiasing, true);
+    if (!m_document || !painter)
+        return;
 
     int padLeft = static_cast<int>(m_leftPadding);
-    m_container->setPainter(&cachePainter);
+    m_container->setPainter(painter);
     m_container->setViewportSize(static_cast<int>(width()) - padLeft, static_cast<int>(height()));
 
     litehtml::position clip;
@@ -224,35 +199,14 @@ LitehtmlItem::renderToCache()
     bool collectRuns = needsTextRunCollection();
     if (collectRuns)
         m_container->beginTextRunCollection();
-    m_document->draw(reinterpret_cast<litehtml::uint_ptr>(&cachePainter), padLeft, 0, &clip);
+    m_document->draw(reinterpret_cast<litehtml::uint_ptr>(painter), padLeft, 0, &clip);
     if (collectRuns)
         m_container->endTextRunCollection();
 
-    m_container->setPainter(nullptr);
-    cachePainter.end();
-
-    m_paintCacheDirty       = false;
-    m_paintCacheHasTextRuns = collectRuns;
-}
-
-void
-LitehtmlItem::paint(QPainter *painter)
-{
-    if (!m_document || !painter)
-        return;
-
-    // If selection just started, the cache was rendered without text runs —
-    // force a re-render so hitTestTextRun() has data to work with.
-    if (needsTextRunCollection() && !m_paintCacheHasTextRuns)
-        invalidatePaintCache();
-
-    if (m_paintCacheDirty)
-        renderToCache();
-
-    painter->drawImage(0, 0, m_paintCache);
-
     if (m_selStart.isValid() && m_selEnd.isValid() && m_selStart != m_selEnd)
         drawSelection(painter);
+
+    m_container->setPainter(nullptr);
 }
 
 void
@@ -262,7 +216,6 @@ LitehtmlItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometr
 
     if (m_document && qRound(newGeometry.width()) != qRound(oldGeometry.width())) {
         relayout();
-        invalidatePaintCache();
         update();
     } else if (qRound(newGeometry.height()) != qRound(oldGeometry.height())) {
         updateTextureSize();
@@ -313,10 +266,8 @@ LitehtmlItem::handleHoverMove(qreal x, qreal y)
         emit hoveredLinkChanged();
     }
 
-    if (!redraw.empty()) {
-        invalidatePaintCache();
+    if (!redraw.empty())
         update();
-    }
 }
 
 void
@@ -335,10 +286,8 @@ LitehtmlItem::handleHoverLeave()
         emit hoveredLinkChanged();
     }
 
-    if (!redraw.empty()) {
-        invalidatePaintCache();
+    if (!redraw.empty())
         update();
-    }
 }
 
 void
@@ -365,8 +314,6 @@ LitehtmlItem::mousePressEvent(QMouseEvent *event)
     litehtml::position::vector redraw;
     m_document->on_lbutton_down(docX, docY, docX, docY, redraw);
 
-    if (!redraw.empty())
-        invalidatePaintCache();
     if (hadSelection || !redraw.empty())
         update();
 
@@ -422,10 +369,8 @@ LitehtmlItem::mouseReleaseEvent(QMouseEvent *event)
     if (!hasSelection) {
         litehtml::position::vector redraw;
         m_document->on_lbutton_up(docX, docY, docX, docY, redraw);
-        if (!redraw.empty()) {
-            invalidatePaintCache();
+        if (!redraw.empty())
             update();
-        }
     }
 
     event->accept();

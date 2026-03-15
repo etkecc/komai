@@ -50,14 +50,8 @@ LitehtmlItem {
 
     property string copyText: selectedText.length > 0 ? selectedText : body
 
-    // backgroundColor is bound by the message style (bubble/plain) to the resolved
-    // bubble background color. This enables the QImage paint cache to use an opaque
-    // fill, which allows sub-pixel text antialiasing instead of grayscale fallback.
-    property color bubbleBackgroundColor: palette.window
-
     html: formatted
     color: palette.text
-    backgroundColor: bubbleBackgroundColor
     font.pointSize: enlargedEmojiOnly ? enlargedEmojiPointSize : Settings.uiFontSizePt
     font.family: Komai.fontFamily
     compact: Komai.uiLayoutCompactMode

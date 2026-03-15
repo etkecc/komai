@@ -116,22 +116,24 @@ Several optimizations reduce per-frame work during normal scrolling and interact
 
 **Hover deduplication.** `handleHoverMove()` tracks the last document-space integer position (`m_lastHoverDocPos`) and returns early when the position hasn't changed. Without this, sub-pixel mouse movements fire `on_mouse_over()` plus the simulated click cycle for link URL extraction on every event. The position resets to `(-1, -1)` on `handleHoverLeave()`.
 
-**QImage paint cache.** Each `LitehtmlItem` renders its `document::draw()` output to a DPR-aware `QImage` cache and blits it on subsequent `paint()` calls, only re-rendering when content changes. This avoids the full litehtml document tree walk on unchanged frames.
+### Approaches Tried and Abandoned
 
-Two details are critical for crisp text rendering:
+**`QQuickPaintedItem::FramebufferObject` render target.** Setting `setRenderTarget(FramebufferObject)` in the constructor makes Qt cache paint output in a GPU texture and only re-render on explicit `update()` calls. This caused crashes and made link-only messages illegible — likely due to interactions with our HiDPI `setTextureSize()` logic and small/transparent items. Reverted.
 
-- **Opaque background fill.** The cache is filled with the bubble background color (via the `backgroundColor` property) before rendering. This enables sub-pixel (LCD) text antialiasing — QPainter falls back to grayscale AA on transparent surfaces because there is no known background to blend against. The background color is bound from QML: the bubble message style passes the resolved `Qt.tint(palette.base, ...)` color (which varies by sender, hover state, and theme) via a `Binding` on `bubbleBackgroundColor` in `TextMessage.qml`. For the plain message style (no bubble background), it defaults to `palette.window`.
-- **Disabled `SmoothPixmapTransform` during blit.** The cache image has `devicePixelRatio` set to match the window's DPR, so Qt handles coordinate mapping correctly. However, `SmoothPixmapTransform` (bilinear filtering) must be disabled when blitting the cache to the backing store — even sub-pixel rounding differences between the cache size and the painter's DPR scale transform cause bilinear interpolation to soften text edges.
+**QImage paint cache.** Each `LitehtmlItem` rendered its `document::draw()` output to a `QImage` and blitted it on subsequent `paint()` calls, only re-rendering when content changed. This avoided the full litehtml document tree walk on unchanged frames. The implementation required:
 
-Cache invalidation is triggered on all content-changing paths: `rebuildDocument`, `setColor`, `setBackgroundColor`, `setLeftPadding`, hover/mouse redraws, `imageLoaded`, and geometry changes. Text run collection state is tracked (`m_paintCacheHasTextRuns`) so the cache re-renders with runs when selection starts. Selection overlay is drawn live on top of the cached image.
+- Cache invalidation on all content-changing paths (`rebuildDocument`, `relayout`, `setColor`, hover/mouse redraw, `imageLoaded`, geometry changes).
+- Tracking whether text runs were collected during the cached render (`m_paintCacheHasTextRuns`), since text run collection is skipped when no selection is active. When selection started and the cache lacked text runs, it had to be invalidated to force a re-render with collection enabled.
+- Height-change invalidation for collapsible "Show more" / "Show less" messages.
 
-### Abandoned Paint Optimization Approaches
+The cache worked correctly but introduced visible text blurriness that could not be eliminated. Investigated causes:
 
-**`QQuickPaintedItem::FramebufferObject` render target.** Setting `setRenderTarget(FramebufferObject)` makes Qt cache paint output in a GPU texture and only re-render on explicit `update()` calls. This caused crashes and made link-only messages illegible — likely due to interactions with our HiDPI `setTextureSize()` logic and small/transparent items.
+- **Double alpha compositing**: anti-aliased text edges rendered to a transparent `QImage` (premultiplied alpha) get composited again onto `QQuickPaintedItem`'s internal surface, washing out semi-transparent edge pixels. Tried `QPainter::CompositionMode_Source` to copy pixels directly — reduced the effect but did not fully eliminate it.
+- **Bilinear filtering**: the default `SmoothPixmapTransform` interpolates if cache and surface sizes differ by even a sub-pixel. Disabling it (`SmoothPixmapTransform = false`) eliminated blur but made text visibly jagged.
+- **Sub-pixel text antialiasing**: rendering to a transparent `QImage` prevents LCD/sub-pixel AA since there is no known background color to blend against — QPainter falls back to grayscale AA. Tried filling the cache with an opaque `backgroundColor` property (bound to `palette.base` from QML), which enabled sub-pixel AA but made the background rectangle visible since it doesn't match the actual bubble color (which varies by sender, hover state, and theme).
+- **DPR transform bypass**: tried `painter->resetTransform()` to blit at physical pixel coordinates, avoiding the HiDPI scaling transform. This caused text to render at the wrong size because `QImage::devicePixelRatio` still affects `drawImage` size interpretation even with an identity transform.
 
-**Transparent-background QImage cache.** Filling the cache with `Qt::transparent` instead of the bubble background color prevented sub-pixel text AA (QPainter fell back to grayscale AA), and caused double alpha compositing — anti-aliased text edges got composited twice (once onto the transparent cache, once onto the backing store), washing out edge pixels.
-
-**Raw pixel blit via `resetTransform()`.** Attempted to bypass DPR scaling entirely by resetting the painter's transform and drawing the cache at physical pixel coordinates. This produced correctly crisp text but at the wrong size — the paint device's DPR still affects coordinate mapping independently of the user transform.
+Since the two shipped optimizations (conditional text run collection and hover deduplication) already provided a significant perceived improvement, the cache was reverted to preserve text rendering quality. If revisited, the most promising direction would be finding a way to supply the correct opaque background color to the cache (accounting for bubble tinting, hover state, and theme) to enable proper sub-pixel AA.
 
 ## Code Highlighting: What Uses Which Library
 

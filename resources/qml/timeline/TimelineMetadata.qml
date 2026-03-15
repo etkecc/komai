@@ -160,7 +160,7 @@ RowLayout {
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
         ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Part of a thread")
+        ToolTip.text: qsTr("Reply in this thread")
         ToolTip.visible: hovered
         buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
         image: ":/icons/icons/ui/thread.svg"
@@ -211,7 +211,7 @@ RowLayout {
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
         ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Part of a thread")
+        ToolTip.text: qsTr("Reply in this thread")
         ToolTip.visible: hovered
         buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
         image: ":/icons/icons/ui/thread.svg"

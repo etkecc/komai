@@ -43,7 +43,7 @@ TimelineMessageStyleBase {
     mainInset: threadId ? (4 + Komai.paddingSmall) : 0
     replyInset: mainInset + 4 + Komai.paddingMedium + Komai.paddingMedium
 
-    property int bubbleMargin: Math.max(metadataOuter.width + Komai.paddingMedium, Math.round((chat.delegateMaxWidth - avatarMargin) * 0.15))
+    property int bubbleMargin: Math.max(metadataOuter.width + Komai.paddingSmall + (wrapper.isStateEvent ? 0 : 2 * messageBubbleHorizontalPadding), Math.round((chat.delegateMaxWidth - avatarMargin) * 0.15))
 
     maxWidth: chat.delegateMaxWidth - avatarMargin - bubbleMargin
     hoverDismissTimerRef: hoverDismissTimer
@@ -74,6 +74,7 @@ TimelineMessageStyleBase {
             z: 4
         },
         Rectangle {
+            id: threadBackground
             anchors.fill: gridContainer
             radius: 8
             property color threadColor: TimelineManager.userColor(wrapper.threadId, palette.base)
@@ -458,9 +459,10 @@ TimelineMessageStyleBase {
                     if (wrapper.isStateEvent)
                         return Math.round(messageBubble.x + messageBubble.width + Komai.paddingSmall);
                     if (wrapper.pushMetadataToEdge) {
+                        var threadInset = wrapper.threadId ? Komai.paddingSmall : 0;
                         return Math.round(wrapper.messageIsRightAligned
-                            ? 0
-                            : (gridContainer.width - width));
+                            ? threadInset
+                            : (gridContainer.width - width - threadInset));
                     }
                     const sideX = wrapper.messageIsRightAligned
                         ? (messageBubble.x - width - Komai.paddingSmall)
@@ -533,6 +535,32 @@ TimelineMessageStyleBase {
                 onSingleTapped: (event) => {
                     wrapper.openMessageContextMenu(wrapper.main.hoveredLink, wrapper.main.copyText);
                 }
+            }
+        },
+        Canvas {
+            id: threadBorderCanvas
+            anchors.fill: gridContainer
+            z: 2
+            visible: !!wrapper.threadId && !wrapper.isStateEvent
+
+            property color borderColor: threadBackground.threadColor
+
+            onWidthChanged: requestPaint()
+            onHeightChanged: requestPaint()
+            onBorderColorChanged: requestPaint()
+            onVisibleChanged: requestPaint()
+
+            onPaint: {
+                var ctx = getContext("2d");
+                ctx.clearRect(0, 0, width, height);
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([6, 10]);
+                var r = 8;
+                var inset = 0.75;
+                ctx.beginPath();
+                ctx.roundedRect(inset, inset, width - 2 * inset, height - 2 * inset, r, r);
+                ctx.stroke();
             }
         },
         Reactions {

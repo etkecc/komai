@@ -197,7 +197,8 @@ TimelineMessageStyleBase {
                 anchors.left: undefined
                 anchors.right: undefined
                 x: (wrapper.isStateEvent || !wrapper.messageIsRightAligned) ? 0 : (parent.width - width)
-                anchors.bottom: parent.bottom
+                anchors.bottom: wrapper.isStateEvent ? undefined : parent.bottom
+                anchors.verticalCenter: wrapper.isStateEvent ? parent.verticalCenter : undefined
 
                 property color roomColor: wrapper.resolveUserColor(wrapper.userId, palette.base)
 
@@ -446,12 +447,7 @@ TimelineMessageStyleBase {
                 anchors.bottomMargin: wrapper.isStateEvent
                     ? 0
                     : Math.round(Math.max(1, messageBubble.bottomPadding - (metadataOuter.height - fontMetrics.height) / 2))
-                anchors.top: wrapper.isStateEvent ? messageBubble.top : undefined
-                // State events can include taller inline payloads (e.g. avatar previews).
-                // Anchor metadata to the leading text line instead of the bottom edge.
-                anchors.topMargin: wrapper.isStateEvent
-                    ? Math.round((fontMetrics.height - metadataOuter.height) / 2)
-                    : 0
+                anchors.verticalCenter: wrapper.isStateEvent ? gridContainer.verticalCenter : undefined
 
                 anchors.left: undefined
                 anchors.right: undefined

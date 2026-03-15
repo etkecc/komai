@@ -41,7 +41,7 @@
   {SettingId::TimelineMessagesHoverHighlight,
    SettingScope::Config,
    SettingKey::TimelineMessagesHoverHighlight,
-   false},
+   true},
   {SettingId::TimelineFormattedCodeSyntaxHighlighting,
    SettingScope::Config,
    SettingKey::TimelineFormattedCodeSyntaxHighlighting,

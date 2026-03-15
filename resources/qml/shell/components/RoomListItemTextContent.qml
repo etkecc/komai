@@ -45,7 +45,7 @@ ColumnLayout {
 
         Layout.alignment: Qt.AlignTop
         Layout.fillWidth: true
-        Layout.preferredHeight: root.compactMode ? titleText.implicitHeight : subtitleText.implicitHeight
+        Layout.preferredHeight: titleText.implicitHeight
 
         ElidedLabel {
             id: titleText
@@ -72,7 +72,7 @@ ColumnLayout {
             elideWidth: Math.max(0, parent.width - titleText.implicitWidth - Komai.paddingSmall - (timestamp.visible ? timestamp.implicitWidth + Komai.paddingSmall : (spaceNotificationBubble.visible ? spaceNotificationBubble.implicitWidth + Komai.paddingSmall : 0)))
             font.pointSize: Settings.uiFontSizePt * 0.95
             fullText: root.lastMessage
-            visible: root.compactMode && titleRow.previewsEnabled && !root.hasDraft
+            visible: false
         }
         Item {
             id: inlineDraftPreview
@@ -84,7 +84,7 @@ ColumnLayout {
             anchors.verticalCenter: titleText.verticalCenter
             clip: true
             height: inlineDraftText.implicitHeight
-            visible: root.compactMode && titleRow.previewsEnabled && root.hasDraft
+            visible: false
 
             Label {
                 id: inlineDraftPrefix
@@ -137,9 +137,9 @@ ColumnLayout {
             bubbleBackgroundColor: root.bubbleBackground
             bubbleTextColor: root.bubbleText
             hasLoudNotification: root.hasLoudNotification
-            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.sidebarsRoomListShowCommunityCounts : root.compactMode)
+            mayBeVisible: !root.collapsed && (root.isSpace ? Settings.sidebarsRoomListShowCommunityCounts : !subtextRow.visible)
             notificationCount: root.notificationCount
-            parent: (root.isSpace || root.compactMode) ? titleRow : subtextRow
+            parent: (root.isSpace || !subtextRow.visible) ? titleRow : subtextRow
         }
     }
     Item {
@@ -148,7 +148,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignBottom
         Layout.fillWidth: true
         Layout.preferredHeight: root.hasDraft ? subtextDraftText.implicitHeight : subtitleText.implicitHeight
-        visible: !root.compactMode && !root.isSpace && (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.Always || (Settings.sidebarsRoomListLastMessagePreview === Settings.LastMessagePreview.OnlyUnencrypted && !root.isEncrypted))
+        visible: titleRow.previewsEnabled
 
         ElidedLabel {
             id: subtitleText

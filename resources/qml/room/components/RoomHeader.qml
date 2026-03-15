@@ -81,7 +81,7 @@ Pane {
 
     Layout.fillWidth: true
     Layout.minimumHeight: Komai.uiLayoutCompactMode ? Komai.navigationRowHeight : 0
-    implicitHeight: Math.max(topLayout.height + Komai.paddingMedium * 2, Komai.navigationRowHeight)
+    implicitHeight: Math.max(topLayout.height + (Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium) * 2, Komai.navigationRowHeight)
     padding: 0
     z: 3
 
@@ -142,7 +142,7 @@ Pane {
             anchors.right: parent.right
             anchors.rightMargin: Komai.paddingMedium
             anchors.top: parent.top
-            anchors.topMargin: Komai.paddingMedium
+            anchors.topMargin: Komai.uiLayoutCompactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
             spacing: Komai.uiLayoutCompactMode ? 0 : Komai.paddingSmall
 
             GridLayout {

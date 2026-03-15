@@ -162,6 +162,8 @@ signals:
     void showRoomJoinPrompt(RoomSummary *summary);
 
 private:
+    bool hasPreviewLayout() const;
+
     QScopedPointer<UserProfile> currentUser_;
     QVariantList applicationProfiles_;
 };

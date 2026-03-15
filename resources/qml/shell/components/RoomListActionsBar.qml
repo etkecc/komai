@@ -36,7 +36,8 @@ Pane {
     property int actionLabelsHysteresisPx: 24
     property bool actionLabelStateSeeded: false
 
-    horizontalPadding: Komai.paddingMedium
+    leftPadding: Komai.paddingMedium + Komai.paddingSmall
+    rightPadding: Komai.paddingMedium + Komai.paddingSmall
     verticalPadding: 0
 
     function updateActionLabelVisibility() {

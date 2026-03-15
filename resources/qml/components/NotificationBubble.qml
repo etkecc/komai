@@ -20,7 +20,7 @@ Rectangle {
     baselineOffset: notificationBubbleText.baseline - bubbleRoot.top
 
     visible: mayBeVisible && notificationCount > 0
-    implicitHeight: notificationBubbleText.height + Komai.paddingMedium
+    implicitHeight: notificationBubbleText.height + Komai.paddingSmall
     implicitWidth: Math.max(notificationBubbleText.width, height)
     radius: height / 2
     color: hasLoudNotification ? Komai.theme.attention : bubbleBackgroundColor
@@ -34,7 +34,7 @@ Rectangle {
         anchors.centerIn: bubbleRoot
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        width: Math.max(implicitWidth + Komai.paddingMedium, bubbleRoot.height)
+        width: Math.max(implicitWidth + Komai.paddingSmall, bubbleRoot.height)
         font.bold: true
         font.pixelSize: bubbleRoot.baseFontPixelSize * 0.8
         color: bubbleRoot.hasLoudNotification ? "white" : bubbleRoot.bubbleTextColor

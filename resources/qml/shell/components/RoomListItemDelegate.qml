@@ -173,8 +173,13 @@ ItemDelegate {
         }
     }
     RowLayout {
+        id: mainContent
+
         anchors.fill: parent
-        anchors.margins: Komai.paddingMedium
+        anchors.leftMargin: Komai.paddingMedium + Komai.paddingSmall
+        anchors.rightMargin: Komai.paddingMedium + Komai.paddingSmall
+        anchors.topMargin: compactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
+        anchors.bottomMargin: compactMode ? Komai.paddingSmall / 2 : Komai.paddingMedium
         spacing: Komai.paddingMedium
 
         ShellComponents.RoomListItemAvatar {
@@ -224,9 +229,10 @@ ItemDelegate {
     }
     Rectangle {
         anchors.left: parent.left
+        anchors.leftMargin: Komai.paddingSmall / 2
         anchors.verticalCenter: parent.verticalCenter
         color: roomItem.emphasizeDraftState ? Komai.theme.attention : palette.highlight
-        height: parent.height - Komai.paddingSmall * 2
+        height: parent.height - Komai.paddingMedium * 2
         visible: roomItem.emphasizeActivityState
         width: 6
         radius: 3

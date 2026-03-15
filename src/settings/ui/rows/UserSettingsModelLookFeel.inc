@@ -97,7 +97,7 @@
       CORE_CONFIG_ID(UiLayoutContentMaxWidthPx, SettingKey::UiLayoutContentMaxWidthPx) },
     // CompactLayout
     { QT_TR_NOOP("Compact mode"),
-      QT_TR_NOOP("Affects navigation containers such as header bars and room/sidebar entries, timeline message spacing, and icon sizes."),
+      QT_TR_NOOP("Affects spacing and icon sizes."),
       SM::ToggleWithDescription, SM::TabLookFeel,
       getCoreBoolValue<settings::core::SettingId::UiLayoutCompactMode,
                        &UserSettings::uiLayoutCompactMode>,
@@ -234,7 +234,7 @@
     // ShowLastMessagePreview
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Show last message preview",
-      nullptr,
+      QT_TR_NOOP("Adds a preview line to room list entries, influencing overall bar and avatar sizing."),
       SM::TabSidebars,
       sidebarsRoomListLastMessagePreview,
       setSidebarsRoomListLastMessagePreview,

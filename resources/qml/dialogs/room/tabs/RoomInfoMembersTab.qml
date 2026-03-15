@@ -131,10 +131,15 @@ Item {
 
                     width: ListView.view.width
                     implicitHeight: memberLayout.implicitHeight + Komai.paddingSmall * 2
-                    color: palette.window
+                    color: delHover.hovered ? palette.dark : palette.window
                     radius: Komai.paddingMedium
                     border.color: Komai.theme.separator
                     border.width: 1
+
+                    HoverHandler {
+                        id: delHover
+                        blocking: false
+                    }
 
                     MouseArea {
                         anchors.fill: parent
@@ -179,9 +184,9 @@ Item {
 
                                 ElidedLabel {
                                     fullText: model.displayName
-                                    color: del.isCurrentUser
-                                        ? palette.highlight
-                                        : palette.text
+                                    color: delHover.hovered
+                                        ? palette.brightText
+                                        : (del.isCurrentUser ? palette.highlight : palette.text)
                                     font.pixelSize: fontMetrics.font.pixelSize
                                     elideWidth: del.width - Komai.paddingMedium * 4 - Komai.avatarSize - plBadge.width - encryptInd.width
                                     Layout.fillWidth: true
@@ -194,7 +199,7 @@ Item {
                                     implicitWidth: plBadgeRow.implicitWidth + Komai.paddingSmall * 2
                                     implicitHeight: plBadgeRow.implicitHeight + Komai.paddingSmall
                                     radius: Komai.paddingSmall
-                                    color: palette.button
+                                    color: delHover.hovered ? palette.mid : palette.button
                                     visible: true
 
                                     RowLayout {
@@ -216,7 +221,7 @@ Item {
 
                                         Label {
                                             text: plIcon.roleName
-                                            color: palette.buttonText
+                                            color: delHover.hovered ? palette.brightText : palette.buttonText
                                             font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.8)
                                         }
                                     }
@@ -225,7 +230,7 @@ Item {
 
                             ElidedLabel {
                                 fullText: model.mxid
-                                color: palette.buttonText
+                                color: delHover.hovered ? palette.brightText : palette.buttonText
                                 font.pixelSize: Math.ceil(fontMetrics.font.pixelSize * 0.9)
                                 elideWidth: del.width - Komai.paddingMedium * 4 - Komai.avatarSize - encryptInd.width
                                 Layout.fillWidth: true

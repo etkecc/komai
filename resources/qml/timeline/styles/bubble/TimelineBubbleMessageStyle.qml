@@ -402,12 +402,18 @@ TimelineMessageStyleBase {
                             to: 16
                             duration: 800
                             loops: Animation.Infinite
+                            running: dashedBorderCanvas.visible
                         }
 
                         onDashOffsetChanged: requestPaint()
                         onWidthChanged: requestPaint()
                         onHeightChanged: requestPaint()
                         onBorderColorChanged: requestPaint()
+                        onVisibleChanged: {
+                            if (!visible)
+                                dashOffset = 0;
+                            requestPaint();
+                        }
 
                         onPaint: {
                             var ctx = getContext("2d");

@@ -5,6 +5,7 @@
 
 #include "TimelineModel.h"
 
+#include "TimelineEventTypes.h"
 #include "events/EventAccessors.h"
 #include "utils/Utils.h"
 
@@ -79,6 +80,15 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         return QVariant(dumpForEvent(event));
     case RelatedEventCacheBuster:
         return relatedEventCacheBuster;
+    case IsHiddenEvent: {
+        auto eventType = std::visit([](const auto &ev) { return ev.type; }, event);
+        auto hidden    = qml_mtx_events::defaultHiddenEventTypes();
+        if (std::find(hidden.begin(), hidden.end(), eventType) != hidden.end())
+            return true;
+        if (mtx::accessors::relations(event).replaces())
+            return true;
+        return false;
+    }
     default:
         return {};
     }

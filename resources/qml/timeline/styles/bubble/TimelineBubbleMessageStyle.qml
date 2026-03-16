@@ -13,7 +13,10 @@ TimelineMessageStyleBase {
     id: wrapper
     // We return a larger size for any item but the most bottom one, if it isn't initialized yet, since otherwise Qt will create way too many items.
     // If we did that also for the first item, it would mess with the scroll location a bit, so we don't do it for that item.
-    height: Math.max((section.item?.height ?? 0) + Math.max(((gridContainer.implicitHeight < 1 && index != 0) ? 100 : gridContainer.implicitHeight), (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0)) + reactionRow.implicitHeight + unreadRow.height, 10)
+    // Events that slipped into the message index (e.g. encrypted events whose keys
+    // arrived late and turned out to be reactions, edits, etc.) must be collapsed.
+    visible: !isHiddenEvent
+    height: isHiddenEvent ? 0 : Math.max((section.item?.height ?? 0) + Math.max(((gridContainer.implicitHeight < 1 && index != 0) ? 100 : gridContainer.implicitHeight), (reserveAvatarRowHeight && messageUserAvatar.visible ? messageUserAvatar.height : 0)) + reactionRow.implicitHeight + unreadRow.height, 10)
     //room: chatRoot.roommodel
     styleProfile: TimelineStyleProfile {
         fileMessagePadding: wrapper.styleFileMessagePadding

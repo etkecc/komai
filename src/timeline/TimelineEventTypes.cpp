@@ -227,6 +227,19 @@ qml_mtx_events::toRoomEventTypeString(const mtx::events::collections::TimelineEv
     return QString::fromStdString(to_string(mtx::accessors::event_type(event)));
 }
 
+std::vector<mtx::events::EventType>
+qml_mtx_events::defaultHiddenEventTypes()
+{
+    using mtx::events::EventType;
+    return {
+      EventType::Reaction,
+      EventType::CallCandidates,
+      EventType::CallNegotiate,
+      EventType::Unsupported,
+      EventType::CallSelectAnswer,
+    };
+}
+
 mtx::events::EventType
 qml_mtx_events::fromRoomEventType(qml_mtx_events::EventType t)
 {

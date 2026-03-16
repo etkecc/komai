@@ -235,6 +235,7 @@ TimelineModel::roleNames() const
       {CallType, "callType"},
       {Dump, "dump"},
       {RelatedEventCacheBuster, "relatedEventCacheBuster"},
+      {IsHiddenEvent, "isHiddenEvent"},
     };
 
     return roles;

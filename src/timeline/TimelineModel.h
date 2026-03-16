@@ -150,6 +150,7 @@ public:
         CallType,
         Dump,
         RelatedEventCacheBuster,
+        IsHiddenEvent,
     };
     Q_ENUM(Roles);
 

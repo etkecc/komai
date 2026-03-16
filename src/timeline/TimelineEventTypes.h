@@ -147,4 +147,12 @@ QString
 toRoomEventTypeString(const mtx::events::collections::TimelineEvents &event);
 mtx::events::EventType
 fromRoomEventType(EventType t);
+
+/// Event types that should never appear as standalone timeline items.
+/// These have their own rendering paths (e.g. reactions as emoji pills,
+/// edits merged into the original message) or carry no user-visible content.
+/// Used by both the cache layer (to keep them out of the message index)
+/// and the UI layer (as the default hidden-events list).
+std::vector<mtx::events::EventType>
+defaultHiddenEventTypes();
 }

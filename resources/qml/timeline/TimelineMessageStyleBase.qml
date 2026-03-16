@@ -41,6 +41,7 @@ TimelineEvent {
     required property int notificationlevel
     required property int type
     required property bool isEditable
+    required property bool isHiddenEvent
 
     required property QtObject messageContextMenu
     required property QtObject replyContextMenu

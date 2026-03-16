@@ -1307,6 +1307,7 @@ if(BUILD_TESTING)
         src/profile/KeyringEnvironment.cpp
         src/profile/Paths.cpp
         src/events/EventAccessors.cpp
+        src/timeline/TimelineEventTypes.cpp
         src/settings/ui/facade/UserSettingsPage.cpp
         src/settings/ui/facade/UserSettingsGettersUi.cpp
         src/settings/ui/facade/UserSettingsGettersTimelineComposer.cpp

@@ -50,9 +50,9 @@ Components.OverlayDialog {
             Layout.preferredHeight: 20
             Layout.preferredWidth: 20
             fillMode: Image.PreserveAspectFit
-            source: "image://colorimage/:/icons/icons/ui/"
-                + (leaveRoomRoot.isPublic ? "people-community.svg" : "lock-closed.svg")
-                + "?"
+            source: (leaveRoomRoot.isPublic
+                    ? "image://colorimage/:/icons/icons/ui/people-community.svg?"
+                    : "image://colorimage/:/icons/icons/ui/lock-closed.svg?")
                 + leaveRoomRoot.leaveHintColor
         }
 

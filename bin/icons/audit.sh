@@ -36,9 +36,15 @@ fluent_files_file="$tmpdir/fluent-files.txt"
 qrc_fluent_targets_file="$tmpdir/qrc-fluent-targets.txt"
 
 extract_refs() {
-    grep -RhoE --binary-files=without-match \
-        "icons/(ui|emoji-categories)/[A-Za-z0-9._-]+\\.svg" src resources/qml 2>/dev/null \
-        || true
+    {
+        grep -RhoE --binary-files=without-match \
+            "icons/(ui|emoji-categories)/[A-Za-z0-9._-]+\\.svg" src resources/qml 2>/dev/null
+
+        grep -RhE --binary-files=without-match \
+            'icons/(icons/)?ui/.*\\.svg' src resources/qml 2>/dev/null \
+            | grep -oE '[A-Za-z0-9._-]+\.svg' \
+            | sed 's#^#icons/ui/#'
+    } || true
 }
 
 list_svgs() {

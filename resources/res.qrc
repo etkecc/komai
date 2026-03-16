@@ -6,7 +6,6 @@
         <file alias="icons/ui/attach.svg">icons/fluent/assets/Attach/SVG/ic_fluent_attach_24_regular.svg</file>
         <file alias="icons/ui/ban.svg">icons/fluent/assets/Prohibited/SVG/ic_fluent_prohibited_28_regular.svg</file>
         <file alias="icons/ui/building-shop.svg">icons/fluent/assets/Building Shop/SVG/ic_fluent_building_shop_24_regular.svg</file>
-        <file alias="icons/ui/chat.svg">icons/fluent/assets/Chat/SVG/ic_fluent_chat_32_regular.svg</file>
         <file alias="icons/ui/checkmark.svg">icons/fluent/assets/Checkmark/SVG/ic_fluent_checkmark_32_regular.svg</file>
         <file alias="icons/ui/clock.svg">icons/fluent/assets/Clock/SVG/ic_fluent_clock_32_regular.svg</file>
         <file alias="icons/ui/collapsed.svg">icons/fluent/assets/Chevron Right/SVG/ic_fluent_chevron_right_24_regular.svg</file>
@@ -22,7 +21,6 @@
         <file alias="icons/ui/eye-show.svg">icons/fluent/assets/Eye/SVG/ic_fluent_eye_24_regular.svg</file>
         <file alias="icons/ui/go-to.svg">icons/fluent/assets/Target Arrow/SVG/ic_fluent_target_arrow_24_regular.svg</file>
         <file alias="icons/ui/image-failed.svg">icons/fluent/assets/Image Prohibited/SVG/ic_fluent_image_prohibited_24_regular.svg</file>
-        <file alias="icons/ui/image.svg">icons/fluent/assets/Image/SVG/ic_fluent_image_24_regular.svg</file>
         <file alias="icons/ui/key.svg">icons/fluent/assets/Key/SVG/ic_fluent_key_24_regular.svg</file>
         <file alias="icons/ui/lowprio.svg">icons/fluent/assets/Arrow Circle Down/SVG/ic_fluent_arrow_circle_down_32_regular.svg</file>
         <file alias="icons/ui/microphone-mute.svg">icons/fluent/assets/Mic Off/SVG/ic_fluent_mic_off_28_regular.svg</file>
@@ -62,7 +60,6 @@
         <file alias="icons/ui/volume-off-indicator.svg">icons/fluent/assets/Speaker Mute/SVG/ic_fluent_speaker_mute_28_regular.svg</file>
         <file alias="icons/ui/volume-up.svg">icons/fluent/assets/Speaker 2/SVG/ic_fluent_speaker_2_32_regular.svg</file>
         <file alias="icons/ui/world.svg">icons/fluent/assets/Globe/SVG/ic_fluent_globe_32_regular.svg</file>
-        <file alias="icons/ui/zip.svg">icons/fluent/assets/Folder Zip/SVG/ic_fluent_folder_zip_24_regular.svg</file>
         <file alias="icons/emoji-categories/activity.svg">icons/fluent/assets/Sport American Football/SVG/ic_fluent_sport_american_football_24_regular.svg</file>
         <file alias="icons/emoji-categories/flags.svg">icons/fluent/assets/Flag/SVG/ic_fluent_flag_28_regular.svg</file>
         <file alias="icons/emoji-categories/foods.svg">icons/fluent/assets/Food Apple/SVG/ic_fluent_food_apple_24_regular.svg</file>
@@ -93,12 +90,6 @@
         <file alias="icons/ui/squares-nested.svg">icons/fluent/assets/Squares Nested/SVG/ic_fluent_squares_nested_20_regular.svg</file>
         <file alias="icons/ui/globe-search.svg">icons/fluent/assets/Globe Search/SVG/ic_fluent_globe_search_24_regular.svg</file>
         <file alias="icons/ui/arrow-join.svg">icons/fluent/assets/Arrow Join/SVG/ic_fluent_arrow_join_20_regular.svg</file>
-        <file alias="icons/ui/document-data.svg">icons/fluent/assets/Document Data/SVG/ic_fluent_document_data_24_regular.svg</file>
-        <file alias="icons/ui/document-pdf.svg">icons/fluent/assets/Document PDF/SVG/ic_fluent_document_pdf_24_regular.svg</file>
-        <file alias="icons/ui/document-text.svg">icons/fluent/assets/Document Text/SVG/ic_fluent_document_text_24_regular.svg</file>
-        <file alias="icons/ui/code.svg">icons/fluent/assets/Code/SVG/ic_fluent_code_24_regular.svg</file>
-        <file alias="icons/ui/slide-content.svg">icons/fluent/assets/Slide Content/SVG/ic_fluent_slide_content_24_regular.svg</file>
-        <file alias="icons/ui/table-simple.svg">icons/fluent/assets/Table Simple/SVG/ic_fluent_table_simple_24_regular.svg</file>
         <file alias="icons/ui/keyboard-shortcut.svg">icons/fluent/assets/Keyboard/SVG/ic_fluent_keyboard_24_regular.svg</file>
         <file alias="icons/ui/compass-northwest.svg">icons/fluent/assets/Compass Northwest/SVG/ic_fluent_compass_northwest_24_regular.svg</file>
         <file alias="icons/ui/prohibited.svg">icons/fluent/assets/Prohibited/SVG/ic_fluent_prohibited_24_regular.svg</file>

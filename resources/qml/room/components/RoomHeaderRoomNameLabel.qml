@@ -83,7 +83,10 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     height: visibilityFontMetrics.height
                     width: visibilityFontMetrics.height
-                    source: "image://colorimage/:/icons/icons/ui/" + (root.isPublic ? "people-community.svg" : "lock-closed.svg") + "?" + palette.buttonText
+                    source: (root.isPublic
+                            ? "image://colorimage/:/icons/icons/ui/people-community.svg?"
+                            : "image://colorimage/:/icons/icons/ui/lock-closed.svg?")
+                        + palette.buttonText
                     sourceSize.height: visibilityFontMetrics.height
                     sourceSize.width: visibilityFontMetrics.height
 

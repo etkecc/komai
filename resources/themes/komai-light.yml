@@ -11,7 +11,7 @@ palette:
   button: "#ffffff"
   buttonText: "#555459"
   light: "#efefef"
-  mid: "#dcdcdc"
+  mid: "#bbbbbb"
   dark: "#334258"
   highlight: "#f49300"
   highlightedText: "#ffffff"

@@ -124,6 +124,7 @@ signals:
 public slots:
     void addPending(const mtx::events::collections::TimelineEvents &event);
     void receivedSessionKey(const std::string &session_id);
+    void clearDecryptionErrors();
     void clearTimeline();
     void enableKeyRequests(bool suppressKeyRequests_);
 

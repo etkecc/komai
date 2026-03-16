@@ -174,6 +174,7 @@ signals:
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
     void receivedSessionKey(const std::string &room_id, const std::string &session_id);
+    void clearDecryptionErrors();
     void initializeRoomlist();
 
     void showEvent(const QString &room_id, const QString &event_id);

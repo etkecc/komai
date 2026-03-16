@@ -102,9 +102,15 @@ ChatPage::getBackupVersion()
                   data.version   = res.version;
                   cache::saveBackupVersion(data);
 
-                  if (!oldBackupVersion || oldBackupVersion->version != data.version) {
-                      view_manager_->rooms()->refetchOnlineKeyBackupKeys();
-                  }
+                  // Download all backed-up keys so that encrypted messages
+                  // can be decrypted without waiting for individual per-session
+                  // lookups.  On fresh login this runs after SSSS unlock makes
+                  // the backup key available; on relaunch it covers sessions
+                  // whose individual lookup_keybackup() raced with the backup
+                  // version not being saved yet on a prior run.
+                  // importSessionKeys() skips sessions we already have, so this
+                  // is safe to call unconditionally.
+                  olm::download_full_keybackup();
               } else {
                   nhlog::crypto()->info("Unsupported key backup algorithm: {}", res.algorithm);
                   cache::deleteBackupVersion();

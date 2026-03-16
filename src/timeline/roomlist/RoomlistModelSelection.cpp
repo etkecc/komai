@@ -156,3 +156,15 @@ RoomlistModel::refetchOnlineKeyBackupKeys()
         }
     }
 }
+
+void
+RoomlistModel::clearDecryptionErrors()
+{
+    for (auto i = models.begin(); i != models.end(); ++i) {
+        auto ptr = i.value();
+
+        if (!ptr.isNull()) {
+            ptr->clearDecryptionErrors();
+        }
+    }
+}

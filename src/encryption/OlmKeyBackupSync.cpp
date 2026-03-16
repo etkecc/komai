@@ -15,6 +15,7 @@
 #include "logging/Logging.h"
 #include "matrix/MatrixClient.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "timeline/TimelineViewManager.h"
 
 namespace olm {
 
@@ -100,6 +101,11 @@ download_full_keybackup()
               try {
                   cache::importSessionKeys(keys);
                   nhlog::crypto()->debug("Storing full online key backup completed.");
+
+                  // Force already-open rooms to re-decrypt events that were
+                  // previously missing session keys.
+                  if (auto *cp = ChatPage::instance())
+                      cp->timelineManager()->clearDecryptionErrors();
               } catch (const std::exception &e) {
                   nhlog::crypto()->critical("failed to save inbound megolm session: {}", e.what());
               }

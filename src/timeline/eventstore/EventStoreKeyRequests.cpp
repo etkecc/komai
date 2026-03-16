@@ -47,6 +47,19 @@ EventStore::receivedSessionKey(const std::string &session_id)
 }
 
 void
+EventStore::clearDecryptionErrors()
+{
+    auto keys = decryptedEvents_.keys();
+    for (const auto &key : std::as_const(keys)) {
+        if (key.room == this->room_id_)
+            decryptedEvents_.remove(key);
+    }
+
+    if (size() > 0)
+        emit dataChanged(0, size() - 1);
+}
+
+void
 EventStore::refetchOnlineKeyBackupKeys()
 {
     for (const auto &[session_id, request] : this->pending_key_requests) {

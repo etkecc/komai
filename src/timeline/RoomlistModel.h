@@ -107,6 +107,7 @@ public:
     RoomPreview getRoomPreviewById(QString roomid) const;
 
     void refetchOnlineKeyBackupKeys();
+    void clearDecryptionErrors();
 
 public slots:
     void initializeRooms();

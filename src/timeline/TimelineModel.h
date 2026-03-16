@@ -289,6 +289,7 @@ public:
     }
 
     void refetchOnlineKeyBackupKeys() { events.refetchOnlineKeyBackupKeys(); };
+    void clearDecryptionErrors() { events.clearDecryptionErrors(); };
 
 public slots:
     void setCurrentIndex(int index);

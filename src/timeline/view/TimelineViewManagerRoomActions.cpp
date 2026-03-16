@@ -129,6 +129,12 @@ TimelineViewManager::receivedSessionKey(const std::string &room_id, const std::s
 }
 
 void
+TimelineViewManager::clearDecryptionErrors()
+{
+    rooms_->clearDecryptionErrors();
+}
+
+void
 TimelineViewManager::initializeRoomlist()
 {
     rooms_->initializeRooms();

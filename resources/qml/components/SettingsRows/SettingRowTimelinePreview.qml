@@ -223,6 +223,7 @@ Item {
 
                 TimelinePlainMessageStyle {
                     required property var modelData
+                    isHiddenEvent: modelData && modelData.isHiddenEvent !== undefined ? modelData.isHiddenEvent : false
                     messageActions: messageActionsC
                     messageContextMenu: previewRuntime.messageContextMenu
                     previewData: modelData
@@ -236,6 +237,7 @@ Item {
 
                 TimelineBubbleMessageStyle {
                     required property var modelData
+                    isHiddenEvent: modelData && modelData.isHiddenEvent !== undefined ? modelData.isHiddenEvent : false
                     messageActions: messageActionsC
                     messageContextMenu: previewRuntime.messageContextMenu
                     previewData: modelData

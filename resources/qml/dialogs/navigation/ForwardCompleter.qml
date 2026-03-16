@@ -228,6 +228,7 @@ Popup {
             avatarWidth: Komai.listIconSize
             bottomToTop: false
             completerName: "room"
+            backendCompleterName: "forwardRoom"
             fullWidth: true
             rowMargin: Math.round(forwardMessagePopup.textMargin / 2)
             rowSpacing: forwardMessagePopup.textMargin

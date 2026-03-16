@@ -72,7 +72,7 @@ Theme authors can also define exact user color palettes in the theme itself, ins
 - **Inline pickers individually toggleable** -- the inline emoji (`:`), room (`#`), and user (`@`) pickers can each be enabled or disabled in Settings (all enabled by default)
 - **Revamped file/image attachment staging area** -- file uploads now show in a compact vertical list with an "Attachments" header bar, per-file remove buttons, file-type-specific icons, HiDPI-aware rounded image previews, and caption support for image uploads (each image can be captioned individually via its filename field, or a shared caption can be typed in the composer)
 - Polished reply popup with proper background, headers, and spacing
-- Polished forward dialog with a confirmation step
+- Polished forward dialog with a confirmation step and a more relevant default set of rooms (excluding "Low Priority" or rooms you haven't interacted in recently)
 - Legacy VoIP call UI and sticker button hidden for a cleaner look
 
 

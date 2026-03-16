@@ -52,6 +52,11 @@ TimelineViewManager::completerFor(const QString &completerName, const QString &r
         auto proxy     = new CompletionProxyModel(roomModel, 4);
         roomModel->setParent(proxy);
         return proxy;
+    } else if (completerName == QLatin1String("forwardRoom")) {
+        auto roomModel = new RoomsModel(false, true);
+        auto proxy     = new CompletionProxyModel(roomModel, 4);
+        roomModel->setParent(proxy);
+        return proxy;
     } else if (completerName == QLatin1String("roomAliases")) {
         auto roomModel = new RoomsModel(true);
         auto proxy     = new CompletionProxyModel(roomModel);

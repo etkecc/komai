@@ -234,6 +234,9 @@ MatrixStore::roomNamesAndAliases()
                   alias = aliases->content.alias;
               }
 
+              const bool lowPrio =
+                std::find(info.tags.begin(), info.tags.end(), "m.lowpriority") != info.tags.end();
+
               result.push_back(RoomNameAlias{
                 .id              = std::string(room_id),
                 .name            = std::move(info.name),
@@ -242,6 +245,7 @@ MatrixStore::roomNamesAndAliases()
                 .recent_activity = info.approximate_last_modification_ts,
                 .is_tombstoned   = info.is_tombstoned,
                 .is_space        = info.is_space,
+                .is_low_priority = lowPrio,
               });
           } catch (std::exception &e) {
               cache::activeLoggers().db->warn(

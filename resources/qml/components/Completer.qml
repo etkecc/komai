@@ -18,6 +18,7 @@ Control {
     property bool bottomToTop: true
     property var completer
     property string completerName
+    property string backendCompleterName: completerName
     property alias count: listView.count
     property alias currentIndex: listView.currentIndex
     property bool fullWidth: false
@@ -35,13 +36,14 @@ Control {
 
     function changeCompleter() {
         if (completerName) {
+            var backend = backendCompleterName || completerName;
             var needsRoom = completerName !== "room" && completerName !== "roomAliases" && completerName !== "command";
             if (needsRoom && !popup.roomId) {
                 completer = undefined;
                 currentIndex = -1;
                 return;
             }
-            completer = TimelineManager.completerFor(completerName, needsRoom ? popup.roomId : "");
+            completer = TimelineManager.completerFor(backend, needsRoom ? popup.roomId : "");
             completer.setSearchString("");
         } else {
             completer = undefined;

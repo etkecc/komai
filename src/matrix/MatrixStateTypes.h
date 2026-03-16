@@ -93,6 +93,7 @@ struct RoomNameAlias
     std::uint64_t recent_activity;
     bool is_tombstoned;
     bool is_space;
+    bool is_low_priority;
 };
 
 //! Basic information per member.

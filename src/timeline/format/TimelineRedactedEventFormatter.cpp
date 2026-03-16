@@ -30,9 +30,15 @@ timeline::format::formatRedactedEvent(const QString &id,
     if (!e)
         return pair;
 
+    // Try RoomEvent first, then StateEvent (e.g. redacted m.room.member).
+    // StateEvent inherits from RoomEvent, but std::get_if requires the exact variant type.
     auto event = std::get_if<mtx::events::RoomEvent<mtx::events::msg::Redacted>>(e);
-    if (!event)
-        return pair;
+    if (!event) {
+        auto stateEvent = std::get_if<mtx::events::StateEvent<mtx::events::msg::Redacted>>(e);
+        if (!stateEvent)
+            return pair;
+        event = stateEvent; // StateEvent* implicitly converts to RoomEvent*
+    }
 
     QString dateTime = QDateTime::fromMSecsSinceEpoch(event->origin_server_ts).toString();
     QString reason   = QLatin1String("");

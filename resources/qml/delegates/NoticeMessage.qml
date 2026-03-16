@@ -11,6 +11,7 @@ TextMessage {
     id: root
 
     property bool isStateEvent
+    property string stateEventIconSource: ":/icons/icons/ui/state-event.svg"
     readonly property int stateEventIconSize: Math.max(12, Math.round(stateEventFontMetrics.height * 0.85))
 
     font.italic: true
@@ -33,6 +34,6 @@ TextMessage {
         height: root.stateEventIconSize
         width: root.stateEventIconSize
         fillMode: Image.PreserveAspectFit
-        source: "image://colorimage/:/icons/icons/ui/state-event.svg?" + root.color
+        source: "image://colorimage/" + root.stateEventIconSource + "?" + root.color
     }
 }

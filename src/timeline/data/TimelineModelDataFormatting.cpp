@@ -251,6 +251,85 @@ TimelineModel::formattedStateEventForEvent(
       event);
 }
 
+QString
+TimelineModel::stateEventIconSourceForEvent(
+  const mtx::events::collections::TimelineEvents &event) const
+{
+    if (!mtx::accessors::is_state_event(event))
+        return {};
+
+    auto icon = [](const char *ref) { return QStringLiteral(":/%1").arg(QLatin1String(ref)); };
+
+    return std::visit(
+      [this, &icon](const auto &e) -> QString {
+          constexpr auto t = mtx::events::state_content_to_type<decltype(e.content)>;
+
+          if constexpr (t == mtx::events::EventType::RoomName)
+              return icon("icons/icons/ui/state-room-name.svg");
+          else if constexpr (t == mtx::events::EventType::RoomTopic)
+              return icon("icons/icons/ui/state-room-topic.svg");
+          else if constexpr (t == mtx::events::EventType::RoomAvatar)
+              return icon("icons/icons/ui/state-room-avatar.svg");
+          else if constexpr (t == mtx::events::EventType::RoomPinnedEvents)
+              return icon(e.content.pinned.empty() ? "icons/icons/ui/state-room-pinned-off.svg"
+                                                   : "icons/icons/ui/state-room-pinned.svg");
+          else if constexpr (t == mtx::events::EventType::RoomPowerLevels)
+              return icon("icons/icons/ui/state-room-permissions.svg");
+          else if constexpr (t == mtx::events::EventType::RoomMember) {
+              using namespace mtx::events::state;
+
+              const mtx::events::StateEvent<Member> *prevEvent = nullptr;
+              if (!e.unsigned_data.replaces_state.empty()) {
+                  auto tempPrevEvent = events.get(e.unsigned_data.replaces_state, e.event_id);
+                  if (tempPrevEvent) {
+                      prevEvent = std::get_if<mtx::events::StateEvent<Member>>(tempPrevEvent);
+                  }
+              }
+
+              switch (e.content.membership) {
+              case Membership::Invite:
+                  return icon("icons/icons/ui/state-member-invite.svg");
+              case Membership::Join:
+                  if (prevEvent && prevEvent->content.membership == Membership::Join) {
+                      const bool displayNameChanged =
+                        prevEvent->content.display_name != e.content.display_name;
+                      const bool avatarChanged =
+                        prevEvent->content.avatar_url != e.content.avatar_url;
+
+                      if (avatarChanged)
+                          return icon("icons/icons/ui/state-member-avatar.svg");
+                      if (displayNameChanged)
+                          return icon("icons/icons/ui/state-member-display-name.svg");
+                  }
+                  return icon("icons/icons/ui/state-member-join.svg");
+              case Membership::Leave:
+                  if (!prevEvent || prevEvent->content.membership == Membership::Join) {
+                      return icon(e.state_key == e.sender ? "icons/icons/ui/state-member-leave.svg"
+                                                          : "icons/icons/ui/state-member-kick.svg");
+                  } else if (prevEvent->content.membership == Membership::Invite) {
+                      return icon(e.state_key == e.sender ? "icons/icons/ui/state-member-leave.svg"
+                                                          : "icons/icons/ui/state-member-kick.svg");
+                  } else if (prevEvent->content.membership == Membership::Ban) {
+                      return icon("icons/icons/ui/state-member-ban.svg");
+                  } else if (prevEvent->content.membership == Membership::Knock) {
+                      return icon(e.state_key == e.sender ? "icons/icons/ui/state-member-knock.svg"
+                                                          : "icons/icons/ui/state-member-kick.svg");
+                  }
+                  return icon("icons/icons/ui/state-event.svg");
+              case Membership::Ban:
+                  return icon("icons/icons/ui/state-member-ban.svg");
+              case Membership::Knock:
+                  return icon("icons/icons/ui/state-member-knock.svg");
+              }
+
+              return icon("icons/icons/ui/state-event.svg");
+          }
+
+          return icon("icons/icons/ui/state-event.svg");
+      },
+      event);
+}
+
 QVariantMap
 TimelineModel::dumpForEvent(const mtx::events::collections::TimelineEvents &event) const
 {
@@ -262,6 +341,7 @@ TimelineModel::dumpForEvent(const mtx::events::collections::TimelineEvents &even
     m.insert(names[IsOnlyEmoji], data(event, static_cast<int>(IsOnlyEmoji)));
     m.insert(names[Body], data(event, static_cast<int>(Body)));
     m.insert(names[FormattedBody], data(event, static_cast<int>(FormattedBody)));
+    m.insert(names[StateEventIconSource], data(event, static_cast<int>(StateEventIconSource)));
     m.insert(names[IsSender], data(event, static_cast<int>(IsSender)));
     m.insert(names[UserId], data(event, static_cast<int>(UserId)));
     m.insert(names[UserName], data(event, static_cast<int>(UserName)));

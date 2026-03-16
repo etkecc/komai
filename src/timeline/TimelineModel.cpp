@@ -198,6 +198,7 @@ TimelineModel::roleNames() const
       {FormattedBody, "formattedBody"},
       {HasFormattedBody, "hasFormattedBody"},
       {FormattedStateEvent, "formattedStateEvent"},
+      {StateEventIconSource, "stateEventIconSource"},
       {IsSender, "isSender"},
       {UserId, "userId"},
       {UserName, "userName"},

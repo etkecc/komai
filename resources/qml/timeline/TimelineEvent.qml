@@ -60,6 +60,7 @@ EventDelegateChooser {
 
         NoticeMessage {
             required property string formattedStateEvent
+            required property string stateEventIconSource
             required property string userId
             required property string userName
 
@@ -211,6 +212,7 @@ EventDelegateChooser {
             id: member
 
             required property string formattedStateEvent
+            required property string stateEventIconSource
             required property Room room
             required property string userId
             required property string userName
@@ -223,6 +225,7 @@ EventDelegateChooser {
                 isOnlyEmoji: 0
                 isReply: EventDelegateChooser.isReply
                 isStateEvent: true
+                stateEventIconSource: member.stateEventIconSource
                 keepFullText: true
             }
             Components.KomaiButton {

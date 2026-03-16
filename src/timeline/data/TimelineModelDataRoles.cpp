@@ -34,6 +34,8 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         return QVariant(formattedBodyForEvent(event));
     case FormattedStateEvent:
         return formattedStateEventForEvent(event);
+    case StateEventIconSource:
+        return stateEventIconSourceForEvent(event);
     case Url:
     case ThumbnailUrl:
     case Duration:

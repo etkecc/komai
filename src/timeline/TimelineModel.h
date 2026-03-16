@@ -113,6 +113,7 @@ public:
         FormattedBody,
         HasFormattedBody,
         FormattedStateEvent,
+        StateEventIconSource,
         IsSender,
         UserId,
         UserName,
@@ -433,6 +434,8 @@ private:
     QString formattedBodyForEvent(const mtx::events::collections::TimelineEvents &event) const;
     QString
     formattedStateEventForEvent(const mtx::events::collections::TimelineEvents &event) const;
+    QString
+    stateEventIconSourceForEvent(const mtx::events::collections::TimelineEvents &event) const;
     QVariantMap dumpForEvent(const mtx::events::collections::TimelineEvents &event) const;
     QVariant
     mediaMetadataForEvent(const mtx::events::collections::TimelineEvents &event, int role) const;

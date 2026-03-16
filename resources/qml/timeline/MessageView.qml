@@ -219,6 +219,10 @@ Item {
                 // Scale to ~150px per notch for comfortable timeline scrolling.
                 chat.contentY -= delta * 5;
                 chat.returnToBounds();
+                // WheelHandler bypasses ListView's movement lifecycle, so
+                // keepPinnedToBottom must be maintained manually here.
+                chat.updateLastScroll();
+                chat.keepPinnedToBottom = !chatRoot.filteringRequested && chat.atYEnd;
             }
         }
         // Keep initial room-switch render cheap by avoiding extra off-screen delegate creation

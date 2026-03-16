@@ -96,7 +96,9 @@ Page {
             id: scrollbar
 
             parent: roomlist
-            policy: !collapsed && Settings.sidebarsRoomListScrollbarsEnabled ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+            policy: !collapsed && Settings.sidebarsRoomListScrollbarsEnabled && roomlist.hasVerticalOverflow
+                ? ScrollBar.AlwaysOn
+                : ScrollBar.AlwaysOff
             palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
             palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
 

@@ -971,7 +971,7 @@ Components.OverlayDialog {
             }
 
             // Self: redirect to Account settings
-            ActionButton {
+            Components.KomaiActionRowButton {
                 visible: profile.isSelf
                 labelText: qsTr("Manage")
                 iconSource: ":/icons/icons/ui/person.svg"

@@ -16,6 +16,7 @@
 #include <QFontMetricsF>
 #include <QGuiApplication>
 #include <QProcess>
+#include <QScreen>
 #include <QStyle>
 #include <QUrl>
 #include <QVariantMap>
@@ -176,6 +177,7 @@ Komai::Komai()
             &UserSettings::profileChanged,
             this,
             &Komai::localCacheInfoChanged);
+
     connect(UserSettings::instance().get(),
             &UserSettings::userIdChanged,
             this,
@@ -286,11 +288,48 @@ Komai::listIconSize() const
 {
     QFontMetricsF fm(QGuiApplication::font());
     const int rawSize = qMax(1, qCeil(fm.lineSpacing() * sidebarAvatarMultiplier()));
-    // Keep icon metrics on whole-pixel circles to avoid asymmetric 1px borders
-    // in avatar-based controls when compact sizing produces odd values.
+    // Round up to the nearest multiple of 4 so the value multiplies cleanly
+    // by common DPR values (1.5 → ×4=integer, 2 → ×4=integer, 3 → same).
+    // Also keeps avatar circles symmetric (divisible by 2).
     if (rawSize <= 1)
-        return 1;
-    return rawSize - (rawSize % 2);
+        return 4;
+    return (rawSize + 3) & ~3;
+}
+
+// listIconSize in physical pixels, using QScreen DPR for HiDPI crispness.
+int
+Komai::listIconSizePhysical() const
+{
+    double dpr = 1.0;
+    for (const auto *s : QGuiApplication::screens())
+        dpr = qMax(dpr, s->devicePixelRatio());
+    return qMax(1, qRound(listIconSize() * dpr));
+}
+
+// Single authoritative physical avatar thumbnail size.  Computed from font
+// metrics + screen DPR, callable without a Komai instance.
+// Used by MxcImageProvider and LitehtmlContainer to ensure all avatar
+// requests produce the same cache key regardless of per-surface DPR.
+int
+Komai::avatarThumbnailPhysicalSize()
+{
+    // Duplicate listIconSize() logic to avoid needing an instance.
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return 0;
+    const bool compact = settings->uiLayoutCompactMode();
+    const bool preview =
+      settings->sidebarsRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
+    const double mul = compact ? (preview ? 2.0 : 1.0) : (preview ? 2.0 : 1.25);
+    const QFontMetricsF fm(QGuiApplication::font());
+    int logical = qMax(1, qCeil(fm.lineSpacing() * mul));
+    logical     = logical <= 1 ? 4 : ((logical + 3) & ~3);
+    // Use QScreen::devicePixelRatio (integer DPR, e.g. 2) for crisp HiDPI
+    // rendering.  This is a stable value that doesn't vary per-surface.
+    double dpr = 1.0;
+    for (const auto *s : QGuiApplication::screens())
+        dpr = qMax(dpr, s->devicePixelRatio());
+    return qMax(1, qRound(logical * dpr));
 }
 
 // Shared baseline used to keep room-list and communities rows aligned with

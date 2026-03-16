@@ -6,13 +6,16 @@
 
 #include <algorithm>
 
+#include <QGuiApplication>
 #include <QPen>
+#include <QScreen>
 #include <QTextDocumentFragment>
 #include <QUrl>
 #include <QtMath>
 
 #include "providers/MxcImageProvider.h"
 #include "timeline/litehtml/LitehtmlStylesheet.h"
+#include "ui/KomaiGlobalObject.h"
 
 LitehtmlContainer::LitehtmlContainer(QObject *parent)
   : QObject(parent)
@@ -289,6 +292,14 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
                 crop = true;
             } else if (b.startsWith(QStringView(u"radius="))) {
                 radius = b.mid(7).toDouble();
+            } else if (b.startsWith(QStringView(u"avatarSize="))) {
+                // Logical avatar size — apply QScreen DPR to get physical size.
+                double dpr = 1.0;
+                for (const auto *s : QGuiApplication::screens())
+                    dpr = qMax(dpr, s->devicePixelRatio());
+                int side = qMax(1, qRound(b.mid(11).toInt() * dpr));
+                size     = QSize(side, side);
+                crop     = true; // match Avatar.qml's default crop mode
             } else if (b.startsWith(QStringView(u"height="))) {
                 size.setHeight(b.mid(7).toInt());
                 size.setWidth(0);

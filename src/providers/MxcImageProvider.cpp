@@ -14,8 +14,10 @@
 #include <QCache>
 #include <QDir>
 #include <QFileInfo>
+#include <QGuiApplication>
 #include <QPainter>
 #include <QPainterPath>
+#include <QScreen>
 #include <QThreadPool>
 #include <QTimer>
 
@@ -23,6 +25,7 @@
 #include "matrix/MatrixClient.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/KomaiGlobalObject.h"
 #include "utils/Utils.h"
 
 QHash<QString, mtx::crypto::EncryptedFile> infos;
@@ -115,6 +118,16 @@ MxcImageProvider::requestImageResponse(const QString &id, const QSize &requested
                 crop = false;
             } else if (b.startsWith(QStringView(u"radius="))) {
                 radius = b.mid(7).toDouble();
+            } else if (b.startsWith(u"avatarSize=")) {
+                // Logical avatar size from QML.  Apply QScreen DPR to get the
+                // physical thumbnail size.  This avoids per-surface DPR variance
+                // on Wayland fractional scaling (Qt may scale sourceSize by
+                // different DPR values for the main window vs overlay dialogs).
+                double dpr = 1.0;
+                for (const auto *s : QGuiApplication::screens())
+                    dpr = qMax(dpr, s->devicePixelRatio());
+                int side = qMax(1, qRound(b.mid(11).toInt() * dpr));
+                size     = QSize(side, side);
             } else if (b.startsWith(u"height=")) {
                 size.setHeight(b.mid(7).toInt());
                 size.setWidth(0);

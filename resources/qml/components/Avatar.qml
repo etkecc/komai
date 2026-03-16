@@ -27,6 +27,12 @@ AbstractButton {
     property string url
     property string userid
 
+    // Logical thumbnail side-length for the MxcImage fetch.
+    // max(displaySize, listIconSize) so small avatars reuse the standard cache
+    // entry and large avatars get full resolution.  DPR scaling is handled
+    // entirely in C++ (MxcImageProvider applies QScreen DPR).
+    readonly property int _mxcThumbSidePx: Math.max(Math.max(Math.round(width), Math.round(height)), Komai.listIconSize)
+
     height: 48
     width: 48
 
@@ -88,7 +94,9 @@ AbstractButton {
             source: if (avatar.url.startsWith('image://colorimage')) {
                 return avatar.url + "&radius=" + (Settings.uiAvatarsCircular ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
             } else if (avatar.url.startsWith('image://')) {
-                return avatar.url + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25) + ((avatar.crop) ? "" : "&scale");
+                return avatar.url + "?radius=" + (Settings.uiAvatarsCircular ? 100 : 25)
+                    + ((avatar.crop) ? "" : "&scale")
+                    + "&avatarSize=" + avatar._mxcThumbSidePx;
             } else if (avatar.url.startsWith(':/logos/') || avatar.url.startsWith('qrc:/logos/')
                        || avatar.url.startsWith(':/preview-avatars/') || avatar.url.startsWith('qrc:/preview-avatars/')) {
                 // Keep branded logos and bundled avatar images un-tinted.
@@ -98,16 +106,9 @@ AbstractButton {
             } else {
                 return "";
             }
-            sourceSize.height: if (!avatar.url.startsWith('image://MxcImage/') && avatar.url.endsWith('.svg')){
-                return avatar.height
-            } else {
-                return avatar.height * Screen.devicePixelRatio
-            }
-            sourceSize.width: if (!avatar.url.startsWith('image://MxcImage/') && avatar.url.endsWith('.svg')){
-                return avatar.width
-            } else {
-                return avatar.width * Screen.devicePixelRatio
-            }
+            // Always use the standard thumbnail size to avoid binding races
+            // between source and sourceSize when avatar.url changes.
+            sourceSize: Qt.size(avatar._mxcThumbSidePx, avatar._mxcThumbSidePx)
         }
     }
     Rectangle {

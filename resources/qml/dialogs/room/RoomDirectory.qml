@@ -41,7 +41,7 @@ ApplicationWindow {
             property color background: palette.window
             property color importantText: palette.text
             property color unimportantText: palette.buttonText
-            property int avatarSize: fontMetrics.height * 3.2
+            property int avatarSize: Komai.listIconSize
 
             color: background
             height: avatarSize + Komai.paddingLarge

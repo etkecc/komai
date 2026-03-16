@@ -24,8 +24,8 @@ OverlayDialog {
         url: summary.roomAvatarUrl.replace("mxc://", "image://MxcImage/")
         roomid: summary.roomid
         displayName: summary.roomName
-        Layout.preferredHeight: 130
-        Layout.preferredWidth: 130
+        Layout.preferredHeight: Komai.listIconSize
+        Layout.preferredWidth: Komai.listIconSize
         Layout.alignment: Qt.AlignHCenter
     }
 

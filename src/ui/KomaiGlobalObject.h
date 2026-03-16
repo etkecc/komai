@@ -41,6 +41,11 @@ class Komai : public QObject
       double sidebarAvatarMultiplier READ sidebarAvatarMultiplier NOTIFY layoutMetricsChanged)
     // Font-scaled icon size for list entries (room list rows, community entries)
     Q_PROPERTY(int listIconSize READ listIconSize NOTIFY layoutMetricsChanged)
+    // listIconSize in physical pixels (pre-multiplied by screen DPR).
+    // The DPR comes from QML (Screen.devicePixelRatio) via setScreenDpr()
+    // because C++ QScreen::devicePixelRatio() may report 1.0 on Wayland
+    // with fractional scaling while the real scale is only visible in QML.
+    Q_PROPERTY(int listIconSizePhysical READ listIconSizePhysical NOTIFY layoutMetricsChanged)
     // Shared row height baseline used by navigation surfaces (room/community rows and bars).
     Q_PROPERTY(int navigationRowHeight READ navigationRowHeight NOTIFY layoutMetricsChanged)
     // Icon size for action bars (top bar, room list actions bar)
@@ -89,6 +94,11 @@ public:
     bool uiLayoutCompactMode() const;
     double sidebarAvatarMultiplier() const;
     int listIconSize() const;
+    int listIconSizePhysical() const;
+    // Single authoritative physical avatar thumbnail size for cache/download.
+    // Computed from font metrics + QScreen DPR. Used by MxcImageProvider and
+    // LitehtmlContainer to ensure all avatar requests produce the same cache key.
+    static int avatarThumbnailPhysicalSize();
     int navigationRowHeight() const;
     int barIconSize() const;
     int fontPixelSize() const;

@@ -20,6 +20,7 @@
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "timeline/formattedmessage/HtmlProcessor.h"
 #include "timeline/litehtml/LitehtmlStylesheet.h"
+#include "ui/KomaiGlobalObject.h"
 #include "ui/Theme.h"
 #include "utils/Utils.h"
 
@@ -99,18 +100,30 @@ TimelineModel::formattedBodyForEvent(const mtx::events::collections::TimelineEve
     formattedBody_ = utils::linkifyMessage(formattedBody_);
 
     // Decorate matrix.to links as styled pills with avatars.
-    // Avatar display size is set by CSS (1.4em); thumbnail request uses DPR scaling.
-    const auto roomId     = room_id_;
-    const auto screen     = QGuiApplication::primaryScreen();
-    const auto dpr        = screen ? screen->devicePixelRatio() : 1.0;
-    const int pillThumbPx = qMax(1, qRound(ascent * timeline::litehtml::emojiScaleFactor * dpr));
+    // Use the same standard avatar thumbnail size as Avatar.qml so that pill
+    // avatars share the same cache entry and avoid extra server thumbnail hits.
+    const auto roomId = room_id_;
+    // Pill avatar URL carries the logical listIconSize.  The image loader
+    // (MxcImageProvider / LitehtmlContainer) applies QScreen DPR to get the
+    // physical thumbnail size.
+    const int pillThumbSourcePx = [&] {
+        const auto settings    = UserSettings::instance();
+        const bool compactMode = settings->uiLayoutCompactMode();
+        const bool hasPreview =
+          settings->sidebarsRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
+        const double avatarMul = compactMode ? (hasPreview ? 2.0 : 1.0) : (hasPreview ? 2.0 : 1.25);
+        const QFontMetricsF fm(QGuiApplication::font());
+        int stdLogical = qMax(1, qCeil(fm.lineSpacing() * avatarMul));
+        return stdLogical <= 1 ? 4 : ((stdLogical + 3) & ~3);
+    }();
     // Lazy alias→roomId map, built on first #alias mention.
     QHash<QString, std::string> aliasToRoomId;
     bool aliasMapBuilt = false;
 
     formattedBody_ = timeline::formattedmessage::decorateMatrixPills(
       formattedBody_,
-      [&roomId, pillThumbPx, &aliasToRoomId, &aliasMapBuilt](const QString &matrixId) -> QString {
+      [&roomId, pillThumbSourcePx, &aliasToRoomId, &aliasMapBuilt](
+        const QString &matrixId) -> QString {
           QString mxcUrl;
           if (matrixId.startsWith(QLatin1Char('@'))) {
               mxcUrl = cache::avatarUrl(roomId, matrixId);
@@ -135,7 +148,7 @@ TimelineModel::formattedBodyForEvent(const mtx::events::collections::TimelineEve
           // Convert mxc:// to image://mxcImage/ with thumbnail sizing params.
           auto src = mxcUrl;
           src.replace(QLatin1String("mxc://"), QLatin1String("image://mxcImage/"));
-          src.append(QStringLiteral("?scale&height=%1&radius=25").arg(pillThumbPx));
+          src.append(QStringLiteral("?avatarSize=%1&radius=25").arg(pillThumbSourcePx));
           return src;
       });
 
@@ -182,14 +195,7 @@ TimelineModel::formattedStateEventForEvent(
                   // Match Komai::listIconSize() logic
                   const double avatarMultiplier =
                     (compactMode ? (hasPreview ? 2.0 : 1.0) : (hasPreview ? 2.0 : 1.25));
-                  int avatarThumbLogicalPx =
-                    qMax(1, qCeil(uiFontMetrics.lineSpacing() * avatarMultiplier));
-                  if (avatarThumbLogicalPx > 1)
-                      avatarThumbLogicalPx -= (avatarThumbLogicalPx % 2);
-
-                  const auto screen       = QGuiApplication::primaryScreen();
-                  const auto dpr          = screen ? screen->devicePixelRatio() : 1.0;
-                  const int avatarThumbPx = qMax(1, qRound(avatarThumbLogicalPx * dpr));
+                  const int avatarThumbPx = Komai::avatarThumbnailPhysicalSize();
                   // Match avatar rounding used in Avatar.qml + MxcImageProvider.
                   const int avatarCornerRadiusPercent =
                     UserSettings::instance()->uiAvatarsCircular() ? 100 : 25;

@@ -296,16 +296,6 @@ Komai::listIconSize() const
     return (rawSize + 3) & ~3;
 }
 
-// listIconSize in physical pixels, using QScreen DPR for HiDPI crispness.
-int
-Komai::listIconSizePhysical() const
-{
-    double dpr = 1.0;
-    for (const auto *s : QGuiApplication::screens())
-        dpr = qMax(dpr, s->devicePixelRatio());
-    return qMax(1, qRound(listIconSize() * dpr));
-}
-
 // Single authoritative physical avatar thumbnail size.  Computed from font
 // metrics + screen DPR, callable without a Komai instance.
 // Used by MxcImageProvider and LitehtmlContainer to ensure all avatar

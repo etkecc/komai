@@ -16,7 +16,6 @@
 
 #include "providers/MxcImageProvider.h"
 #include "timeline/litehtml/LitehtmlStylesheet.h"
-#include "ui/KomaiGlobalObject.h"
 
 LitehtmlContainer::LitehtmlContainer(QObject *parent)
   : QObject(parent)

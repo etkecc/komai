@@ -25,7 +25,6 @@
 #include "matrix/MatrixClient.h"
 #include "profile/Paths.h"
 #include "settings/ui/facade/UserSettingsPage.h"
-#include "ui/KomaiGlobalObject.h"
 #include "utils/Utils.h"
 
 QHash<QString, mtx::crypto::EncryptedFile> infos;

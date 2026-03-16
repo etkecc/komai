@@ -9,7 +9,6 @@
 #include <QFontMetrics>
 #include <QGuiApplication>
 #include <QRegularExpression>
-#include <QScreen>
 #include <QUrl>
 #include <QVariant>
 

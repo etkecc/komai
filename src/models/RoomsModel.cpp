@@ -110,16 +110,13 @@ RoomsModel::RoomsModel(bool showOnlyRoomWithAliases, bool forwardMode, QObject *
 
         // Stable-partition: preferred rooms first, deprioritised rooms last.
         // Within each partition the existing recent_activity order is preserved.
-        auto it = std::stable_partition(rooms.begin(), rooms.end(), [&](const RoomNameAlias &r) {
+        std::stable_partition(rooms.begin(), rooms.end(), [&](const RoomNameAlias &r) {
             if (r.is_low_priority)
                 return false;
             if (r.is_space)
                 return false;
             return activeRooms.contains(r.id);
         });
-        preferredCount_ = static_cast<int>(std::distance(rooms.begin(), it));
-    } else {
-        preferredCount_ = static_cast<int>(rooms.size());
     }
 }
 

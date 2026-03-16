@@ -35,12 +35,7 @@ public:
     }
     QVariant data(const QModelIndex &index, int role) const override;
 
-    //! Number of "preferred" rooms (not low-priority, with recent own activity).
-    //! Only meaningful when forwardMode is true; otherwise equals rooms.size().
-    int preferredCount() const { return preferredCount_; }
-
 private:
     std::vector<RoomNameAlias> rooms;
     bool showOnlyRoomWithAliases_;
-    int preferredCount_ = 0;
 };

@@ -5,24 +5,18 @@
 # 2) icon aliases/targets registered in resources/res.qrc,
 # 3) icon files present under resources/icons/.
 #
-# The script reports set differences between those lists so drift is visible.
-# In --strict mode it exits non-zero on blocking mismatches:
+# The script reports set differences between those lists and exits non-zero on any mismatch:
 # - referenced by code but missing in qrc,
 # - qrc alias target missing on disk,
+# - qrc alias present but not referenced by code,
 # - ui/emoji-categories files present on disk but missing in qrc.
 # - mirrored Fluent files present on disk but unreferenced by qrc targets.
-# qrc-only entries are warnings.
 
 set -eu
 export LC_ALL=C
 
 repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 cd "$repo_root"
-
-strict=0
-if [ "${1:-}" = "--strict" ]; then
-    strict=1
-fi
 
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT INT TERM
@@ -145,29 +139,17 @@ print_section "Present on disk (ui/emoji-categories) but missing in res.qrc" "$f
 print_section "Mirrored Fluent SVGs on disk but unreferenced in res.qrc" "$fluent_orphans" 1
 
 hard_fail=0
-if [ -s "$missing_qrc" ] || [ -s "$missing_targets" ] || [ -s "$files_not_qrc" ]; then
+if [ -s "$missing_qrc" ] || [ -s "$missing_targets" ] || [ -s "$qrc_only" ] || [ -s "$files_not_qrc" ]; then
     hard_fail=1
 fi
 if [ -s "$fluent_orphans" ]; then
     hard_fail=1
 fi
 
-soft_warn=0
-if [ -s "$qrc_only" ]; then
-    soft_warn=1
-fi
-
-if [ "$strict" -eq 1 ] && [ "$hard_fail" -eq 1 ]; then
-    echo
-    echo "❌ Icon audit failed (strict mode)."
-    exit 1
-fi
-
 echo
-if [ "$hard_fail" -eq 0 ] && [ "$soft_warn" -eq 0 ]; then
+if [ "$hard_fail" -eq 0 ]; then
     echo "✅ Icon audit clean."
-elif [ "$hard_fail" -eq 0 ]; then
-    echo "🟡 Icon audit passed with warnings (qrc-only entries)."
 else
-    echo "🟠 Icon audit found blocking mismatches (non-strict mode)."
+    echo "❌ Icon audit failed."
+    exit 1
 fi

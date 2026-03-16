@@ -51,7 +51,7 @@ Popup {
     parent: Overlay.overlay
     width: timelineRoot.width * 0.8
     x: Math.round(parent.width / 2 - width / 2)
-    y: Math.round(parent.height / 4)
+    y: Math.max(Komai.paddingLarge, Math.round((parent.height - height) / 2))
 
     Overlay.modal: Rectangle {
         color: timelineRoot.overlayBackdropColor

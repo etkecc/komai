@@ -12,7 +12,8 @@ TextMessage {
 
     property bool isStateEvent
     property string stateEventIconSource: ":/icons/icons/ui/state-event.svg"
-    readonly property int stateEventIconSize: Math.max(12, Math.round(stateEventFontMetrics.height * 0.85))
+    readonly property int rawStateEventIconSize: Math.round(Math.floor(stateEventFontMetrics.ascent * 0.9) * 2)
+    readonly property int stateEventIconSize: Math.max(12, (rawStateEventIconSize % 2 === 0) ? rawStateEventIconSize : (rawStateEventIconSize + 1))
 
     font.italic: true
     color: palette.buttonText
@@ -29,11 +30,12 @@ TextMessage {
 
         visible: root.isStateEvent
         anchors.left: root.left
-        anchors.top: root.top
-        anchors.topMargin: Math.max(0, Math.round((stateEventFontMetrics.lineSpacing - height) / 2))
+        y: Math.round((stateEventFontMetrics.height - height) / 2)
         height: root.stateEventIconSize
         width: root.stateEventIconSize
         fillMode: Image.PreserveAspectFit
         source: "image://colorimage/" + root.stateEventIconSource + "?" + root.color
+        sourceSize.height: root.stateEventIconSize
+        sourceSize.width: root.stateEventIconSize
     }
 }

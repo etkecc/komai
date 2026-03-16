@@ -47,7 +47,7 @@ MatrixStore::saveInboundMegolmSession(const MegolmSessionIndex &index,
               txn, db->megolmSessionsData, db::megolmSessionKey(index.room_id, index.session_id))) {
             auto oldData = std::move(*data);
             if (oldData.trusted && newIndex >= oldIndex) {
-                cache::activeLoggers().crypto->warn(
+                cache::activeLoggers().crypto->info(
                   "Not storing inbound session of lesser trust or bigger index.");
                 return;
             }

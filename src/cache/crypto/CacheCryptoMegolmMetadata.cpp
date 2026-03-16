@@ -160,6 +160,7 @@ void
 MatrixStore::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
 {
     std::size_t importCount = 0;
+    std::size_t skipCount   = 0;
 
     auto txn = beginTxn();
     for (const auto &s : keys.sessions) {
@@ -189,8 +190,7 @@ MatrixStore::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
                   unpickle<InboundSessionObject>(std::string(value), pickle_secret_);
                 if (olm_inbound_group_session_first_known_index(exported_session.get()) >=
                     olm_inbound_group_session_first_known_index(oldSession.get())) {
-                    cache::activeLoggers().crypto->warn(
-                      "Not storing inbound session with newer or equal first known index");
+                    skipCount++;
                     continue;
                 }
             }
@@ -217,6 +217,8 @@ MatrixStore::importSessionKeys(const mtx::crypto::ExportedSessionKeys &keys)
     }
     txn.commit();
 
-    cache::activeLoggers().crypto->info(
-      "Imported {} out of {} keys", importCount, keys.sessions.size());
+    cache::activeLoggers().crypto->info("Imported {} out of {} keys ({} skipped, already known)",
+                                        importCount,
+                                        keys.sessions.size(),
+                                        skipCount);
 }

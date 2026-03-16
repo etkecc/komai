@@ -52,12 +52,9 @@ Components.OverlayDialog {
     title: qsTr("Message actions")
     titleIcon: ":/icons/icons/ui/options-circle.svg"
 
-    component ActionButton: AbstractButton {
+    component ActionButton: Components.KomaiActionRowButton {
         id: actionBtn
 
-        required property string labelText
-        required property string iconSource
-        property bool mirrorIcon: false
         property string shortcutSequence: ""
         property string shortcutDisplayText: ""
 
@@ -76,16 +73,9 @@ Components.OverlayDialog {
             onTriggered: actionBtn._showingFeedback = false
         }
 
-        Layout.fillWidth: true
-        implicitHeight: 40
-        leftPadding: Komai.paddingMedium
-        rightPadding: Komai.paddingMedium
-        hoverEnabled: true
-        activeFocusOnTab: true
-        focusPolicy: Qt.StrongFocus
-
-        readonly property bool activeState: hovered || pressed || activeFocus
-        readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+        displayLabelText: actionBtn._showingFeedback ? actionBtn._feedbackText : actionBtn.labelText
+        displayIconSource: actionBtn._showingFeedback ? ":/icons/icons/ui/checkmark.svg" : actionBtn.iconSource
+        displayMirrorIcon: actionBtn._showingFeedback ? false : actionBtn.mirrorIcon
 
         Shortcut {
             enabled: root.visible && actionBtn.visible && actionBtn.shortcutSequence !== ""
@@ -95,50 +85,13 @@ Components.OverlayDialog {
             onActivated: actionBtn.clicked()
         }
 
-        contentItem: RowLayout {
-            spacing: Komai.paddingMedium
-
-            Image {
-                Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: 24
-                Layout.preferredHeight: 24
-                fillMode: Image.PreserveAspectFit
-                mirror: actionBtn._showingFeedback ? false : actionBtn.mirrorIcon
-                source: {
-                    var icon = actionBtn._showingFeedback ? ":/icons/icons/ui/checkmark.svg" : actionBtn.iconSource;
-                    return icon !== "" ? "image://colorimage/" + icon + "?" + actionBtn.actionTextColor : "";
-                }
-                sourceSize.width: width * Screen.devicePixelRatio
-                sourceSize.height: height * Screen.devicePixelRatio
-            }
-
-            Label {
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignVCenter
-                text: actionBtn._showingFeedback ? actionBtn._feedbackText : actionBtn.labelText
-                color: actionBtn.actionTextColor
-                elide: Text.ElideRight
-            }
-
-            Components.ShortcutKeyBadge {
-                Layout.alignment: Qt.AlignVCenter
-                text: actionBtn.shortcutDisplayText
-                highlighted: actionBtn.activeState
-                showKeyboardIcon: true
-                liveModifierHighlight: true
-                keyTextColor: actionBtn.actionTextColor
-                visible: !actionBtn._showingFeedback
-            }
-        }
-
-        background: Rectangle {
-            radius: Komai.paddingMedium
-            color: actionBtn.activeState ? palette.dark : palette.window
-        }
-
-        KomaiCursorShape {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
+        trailingContent: Components.ShortcutKeyBadge {
+            text: actionBtn.shortcutDisplayText
+            highlighted: actionBtn.activeState
+            showKeyboardIcon: true
+            liveModifierHighlight: true
+            keyTextColor: actionBtn.foregroundColor
+            visible: !actionBtn._showingFeedback
         }
     }
 

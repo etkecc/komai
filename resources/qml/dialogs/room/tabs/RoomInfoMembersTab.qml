@@ -46,17 +46,12 @@ Item {
             Layout.fillWidth: true
         }
 
-        AbstractButton {
+        KomaiActionRowButton {
             id: myProfileBtn
 
             Layout.fillWidth: true
-            implicitHeight: 40
-            leftPadding: Komai.paddingMedium
-            rightPadding: Komai.paddingMedium
-            hoverEnabled: true
-
-            readonly property bool activeState: hovered || pressed || activeFocus
-            readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+            labelText: qsTr("Manage my profile in this room")
+            iconSource: ":/icons/icons/ui/person.svg"
 
             onClicked: {
                 if (membersTab.room) {
@@ -66,86 +61,18 @@ Item {
                 }
             }
 
-            contentItem: RowLayout {
-                spacing: Komai.paddingMedium
-
-                Image {
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.preferredWidth: 24
-                    Layout.preferredHeight: 24
-                    fillMode: Image.PreserveAspectFit
-                    source: "image://colorimage/:/icons/icons/ui/person.svg?" + myProfileBtn.actionTextColor
-                    sourceSize.width: width * Screen.devicePixelRatio
-                    sourceSize.height: height * Screen.devicePixelRatio
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Manage my profile in this room")
-                    color: myProfileBtn.actionTextColor
-                    elide: Text.ElideRight
-                }
-            }
-
-            background: Rectangle {
-                radius: Komai.paddingMedium
-                color: myProfileBtn.activeState ? palette.dark : palette.window
-            }
-
-            KomaiCursorShape {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-            }
         }
 
-        AbstractButton {
+        KomaiActionRowButton {
             id: inviteBtn
 
             Layout.fillWidth: true
-            implicitHeight: 40
-            leftPadding: Komai.paddingMedium
-            rightPadding: Komai.paddingMedium
-            hoverEnabled: true
-
-            readonly property bool activeState: hovered || pressed || activeFocus
-            readonly property color actionTextColor: activeState ? palette.brightText : palette.text
+            labelText: qsTr("Invite others")
+            iconSource: ":/icons/icons/ui/plus-circle.svg"
 
             onClicked: {
                 if (membersTab.members)
                     TimelineManager.openInviteUsers(membersTab.members.roomId);
-            }
-
-            contentItem: RowLayout {
-                spacing: Komai.paddingMedium
-
-                Image {
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.preferredWidth: 24
-                    Layout.preferredHeight: 24
-                    fillMode: Image.PreserveAspectFit
-                    source: "image://colorimage/:/icons/icons/ui/plus-circle.svg?" + inviteBtn.actionTextColor
-                    sourceSize.width: width * Screen.devicePixelRatio
-                    sourceSize.height: height * Screen.devicePixelRatio
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Invite others")
-                    color: inviteBtn.actionTextColor
-                    elide: Text.ElideRight
-                }
-            }
-
-            background: Rectangle {
-                radius: Komai.paddingMedium
-                color: inviteBtn.activeState ? palette.dark : palette.window
-            }
-
-            KomaiCursorShape {
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
             }
         }
 

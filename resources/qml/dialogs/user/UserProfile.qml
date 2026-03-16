@@ -89,56 +89,6 @@ Components.OverlayDialog {
         closeDialogSoon();
     }
 
-    component ActionButton: AbstractButton {
-        id: actionBtn
-
-        required property string labelText
-        required property string iconSource
-
-        Layout.fillWidth: true
-        implicitHeight: 40
-        leftPadding: Komai.paddingMedium
-        rightPadding: Komai.paddingMedium
-        hoverEnabled: true
-        activeFocusOnTab: true
-        focusPolicy: Qt.StrongFocus
-
-        readonly property bool activeState: hovered || pressed || activeFocus
-        readonly property color actionTextColor: activeState ? palette.brightText : palette.text
-
-        contentItem: RowLayout {
-            spacing: Komai.paddingMedium
-
-            Image {
-                Layout.alignment: Qt.AlignVCenter
-                Layout.preferredWidth: 24
-                Layout.preferredHeight: 24
-                fillMode: Image.PreserveAspectFit
-                source: actionBtn.iconSource !== "" ? "image://colorimage/" + actionBtn.iconSource + "?" + actionBtn.actionTextColor : ""
-                sourceSize.width: width * Screen.devicePixelRatio
-                sourceSize.height: height * Screen.devicePixelRatio
-            }
-
-            Label {
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignVCenter
-                text: actionBtn.labelText
-                color: actionBtn.actionTextColor
-                elide: Text.ElideRight
-            }
-        }
-
-        background: Rectangle {
-            radius: Komai.paddingMedium
-            color: actionBtn.activeState ? palette.dark : palette.window
-        }
-
-        KomaiCursorShape {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-        }
-    }
-
     Shortcut {
         sequences: [StandardKey.Cancel]
         onActivated: {
@@ -801,7 +751,7 @@ Components.OverlayDialog {
                 visible: !profile.isSelf
 
                 // Opens an existing direct chat or creates a new one
-                ActionButton {
+                Components.KomaiActionRowButton {
                     labelText: qsTr("Start direct chat")
                     iconSource: ":/icons/icons/ui/person.svg"
                     onClicked: {
@@ -810,14 +760,14 @@ Components.OverlayDialog {
                     }
                 }
 
-                ActionButton {
+                Components.KomaiActionRowButton {
                     visible: profile.userVerificationEnabled && profile.userVerified !== Crypto.Verified
                     labelText: qsTr("Verify user")
                     iconSource: ":/icons/icons/ui/shield-regular-checkmark.svg"
                     onClicked: profile.verify()
                 }
 
-                ActionButton {
+                Components.KomaiActionRowButton {
                     id: ignoreBtn
                     labelText: profile.ignored ? qsTr("Unignore user") : qsTr("Ignore user")
                     iconSource: ":/icons/icons/ui/volume-off-indicator.svg"
@@ -829,14 +779,14 @@ Components.OverlayDialog {
                     }
                 }
 
-                ActionButton {
+                Components.KomaiActionRowButton {
                     visible: root.isRoomProfile && profile.room && profile.room.permissions.canKick()
                     labelText: qsTr("Kick from room")
                     iconSource: ":/icons/icons/ui/round-remove-button.svg"
                     onClicked: root.openModerationPrompt("kick")
                 }
 
-                ActionButton {
+                Components.KomaiActionRowButton {
                     visible: root.isRoomProfile && profile.room && profile.room.permissions.canBan()
                     labelText: qsTr("Ban from room")
                     iconSource: ":/icons/icons/ui/ban.svg"

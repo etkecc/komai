@@ -239,7 +239,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             width: 1
             height: Math.max(1, parent.height - Komai.paddingMedium)
-            color: Qt.rgba(toolbar.actionButtonColor.r, toolbar.actionButtonColor.g, toolbar.actionButtonColor.b, 0.35)
+            color: Komai.theme.separator
         }
     }
 

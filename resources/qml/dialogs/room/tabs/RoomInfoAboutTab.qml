@@ -72,6 +72,7 @@ Item {
                         Layout.preferredWidth: 24
                         Layout.preferredHeight: 24
                         Layout.rightMargin: Komai.paddingMedium
+                        buttonTextColor: idRowHover.hovered ? palette.brightText : palette.buttonText
                         image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
                         ToolTip.visible: hovered
                         ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")

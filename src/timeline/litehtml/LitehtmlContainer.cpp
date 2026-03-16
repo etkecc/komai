@@ -8,6 +8,7 @@
 
 #include <QGuiApplication>
 #include <QPen>
+#include <QPointer>
 #include <QScreen>
 #include <QTextDocumentFragment>
 #include <QUrl>
@@ -309,14 +310,24 @@ LitehtmlContainer::load_image(const char *src, const char * /*baseurl*/, bool /*
         }
     }
 
+    QPointer<LitehtmlContainer> guard(this);
     MxcImageProvider::download(
       id,
       size,
-      [this, srcUrl](const QString &, const QSize &, const QImage &image, const QString &) {
-          if (!image.isNull()) {
-              m_imageCache.insert(srcUrl, image);
-              emit imageLoaded();
-          }
+      [guard, srcUrl](const QString &, const QSize &, const QImage &image, const QString &) {
+          if (image.isNull())
+              return;
+          // The callback fires on the coeurl network thread; marshal to the main
+          // thread so the QPointer check and QObject access are thread-safe.
+          QMetaObject::invokeMethod(
+            QCoreApplication::instance(),
+            [guard, srcUrl, image]() {
+                if (!guard)
+                    return;
+                guard->m_imageCache.insert(srcUrl, image);
+                emit guard->imageLoaded();
+            },
+            Qt::QueuedConnection);
       },
       crop,
       radius,

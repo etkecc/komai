@@ -17,8 +17,8 @@ Control {
     property int avatarWidth: Komai.listIconSize
     property bool bottomToTop: true
     property var completer
-    property string completerName
-    property string backendCompleterName: completerName
+    property string completerType
+    property string backendModel: completerType
     property alias count: listView.count
     property alias currentIndex: listView.currentIndex
     property bool fullWidth: false
@@ -35,9 +35,9 @@ Control {
     signal dismissed()
 
     function changeCompleter() {
-        if (completerName) {
-            var backend = backendCompleterName || completerName;
-            var needsRoom = completerName !== "room" && completerName !== "roomAliases" && completerName !== "command";
+        if (completerType) {
+            var backend = backendModel || completerType;
+            var needsRoom = completerType !== "room" && completerType !== "roomAliases" && completerType !== "command";
             if (needsRoom && !popup.roomId) {
                 completer = undefined;
                 currentIndex = -1;
@@ -58,7 +58,7 @@ Control {
             return null;
     }
     function currentUserid() {
-        if (popup.completerName == "user") {
+        if (popup.completerType == "user") {
             return listView.itemAtIndex(currentIndex).modelData.userid;
         } else {
             return "";
@@ -76,11 +76,11 @@ Control {
             currentIndex = -1;
     }
     function finishCompletion() {
-        if (popup.completerName == "room") {
+        if (popup.completerType == "room") {
             var item = listView.itemAtIndex(currentIndex);
             lastCompletionWasSpace = item && item.modelData && item.modelData.isSpace;
             popup.completionSelected(item.modelData.rawroomid);
-        } else if (popup.completerName == "user") {
+        } else if (popup.completerType == "user") {
             lastCompletionWasSpace = false;
             popup.completionSelected(listView.itemAtIndex(currentIndex).modelData.userid);
         }
@@ -127,10 +127,10 @@ Control {
         Rectangle {
             id: headerBackground
 
-            readonly property bool hasHeader: popup.completerName === "emoji"
-                || popup.completerName === "customEmoji"
-                || popup.completerName === "user"
-                || popup.completerName === "roomAliases"
+            readonly property bool hasHeader: popup.completerType === "emoji"
+                || popup.completerType === "customEmoji"
+                || popup.completerType === "user"
+                || popup.completerType === "roomAliases"
             readonly property int headerGlyphSize: Math.max(14, Math.ceil(Settings.uiFontSizePt * 1.05), Math.round(Komai.listIconSize * 0.62))
             readonly property int headerButtonSize: headerGlyphSize + Komai.paddingSmall
 
@@ -165,11 +165,11 @@ Control {
                     Layout.alignment: Qt.AlignVCenter
                     source: {
                         var icon;
-                        if (popup.completerName === "emoji" || popup.completerName === "customEmoji")
+                        if (popup.completerType === "emoji" || popup.completerType === "customEmoji")
                             icon = "smile.svg";
-                        else if (popup.completerName === "user")
+                        else if (popup.completerType === "user")
                             icon = "mention.svg";
-                        else if (popup.completerName === "roomAliases")
+                        else if (popup.completerType === "roomAliases")
                             icon = "tag.svg";
                         else
                             icon = "link.svg";
@@ -185,9 +185,9 @@ Control {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignVCenter
                     text: {
-                        if (popup.completerName === "emoji" || popup.completerName === "customEmoji")
+                        if (popup.completerType === "emoji" || popup.completerType === "customEmoji")
                             return qsTr("Pick an emoji");
-                        else if (popup.completerName === "user")
+                        else if (popup.completerType === "user")
                             return qsTr("Pick a user to mention");
                         else
                             return qsTr("Pick a room to link to");
@@ -309,10 +309,10 @@ Control {
 
                     onClicked: {
                         popup.completionClicked(completer.completionAt(model.index));
-                        if (popup.completerName == "room") {
+                        if (popup.completerType == "room") {
                             lastCompletionWasSpace = model.isSpace;
                             popup.completionSelected(model.roomid);
-                        } else if (popup.completerName == "user") {
+                        } else if (popup.completerType == "user") {
                             lastCompletionWasSpace = false;
                             popup.completionSelected(model.userid);
                         }
@@ -341,7 +341,7 @@ Control {
                     anchors.fill: parent
                     anchors.margins: popup.rowMargin
                     enabled: false
-                    roleValue: popup.completerName
+                    roleValue: popup.completerType
 
                     DelegateChoice {
                         roleValue: "user"
@@ -439,12 +439,12 @@ Control {
                                     color: model.index == popup.currentIndex ? palette.highlightedText : palette.text
                                     elide: Text.ElideRight
                                     font.pointSize: Settings.uiFontSizePt * 1.1
-                                    text: popup.completerName === "emoji"
+                                    text: popup.completerType === "emoji"
                                         ? (model.body || model.shortcode)
                                         : model.shortcode
                                 }
                                 Label {
-                                    readonly property string secondaryText: popup.completerName === "emoji"
+                                    readonly property string secondaryText: popup.completerType === "emoji"
                                         ? (model.shortcode ? ":" + model.shortcode + ":" : "")
                                         : (model.body || model.packname)
                                     Layout.fillWidth: true
@@ -601,7 +601,7 @@ Control {
         }
     }
 
-    onCompleterNameChanged: changeCompleter()
+    onCompleterTypeChanged: changeCompleter()
     onRoomIdChanged: changeCompleter()
     Component.onCompleted: changeCompleter()
 }

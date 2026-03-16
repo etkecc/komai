@@ -83,7 +83,7 @@ OverlayDialog {
             visible: roomEntry.text.length > 0
             width: parent.width
             roomId: allowedDialog.roomSettings.roomId
-            completerName: "room"
+            completerType: "room"
             bottomToTop: true
             fullWidth: true
             avatarHeight: Komai.listIconSize / 2

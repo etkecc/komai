@@ -71,7 +71,7 @@ Rectangle {
                 }
                 function openCompleter(pos, type) {
                     completerTriggeredAt = pos;
-                    completer.completerName = type;
+                    completer.completerType = type;
                     if (!popup.opened)
                         popup.open();
                     completer.completer.setSearchString(messageInput.getText(completerTriggeredAt, cursorPosition) + messageInput.preeditText);
@@ -160,11 +160,11 @@ Rectangle {
                     } else if (event.modifiers == Qt.ControlModifier && event.key == Qt.Key_N) {
                         messageInput.text = room.input.nextText();
                     } else if (event.key == Qt.Key_Escape && popup.opened) {
-                        completer.completerName = "";
+                        completer.completerType = "";
                         popup.close();
                         event.accepted = true;
                     } else if (event.matches(StandardKey.SelectAll) && popup.opened) {
-                        completer.completerName = "";
+                        completer.completerType = "";
                         popup.close();
                     } else if (event.key == Qt.Key_Enter || event.key == Qt.Key_Return) {
                         // If popup is open and user has selected a completion, insert it.
@@ -176,7 +176,7 @@ Rectangle {
                             var currentCompletion = completer.currentCompletion();
                             let userid = completer.currentUserid();
 
-                            completer.completerName = "";
+                            completer.completerType = "";
                             popup.close();
 
                             if (currentCompletion) {
@@ -320,7 +320,7 @@ Rectangle {
                         messageInput.clear();
                         if (room)
                             messageInput.append(room.input.text);
-                        completer.completerName = "";
+                        completer.completerType = "";
                         messageInput.forceActiveFocus();
                         if (room) {
                             const roomId = room.roomId;
@@ -338,7 +338,7 @@ Rectangle {
                         messageInput.insertCompletion(completion);
                     }
                     function onDismissed() {
-                        completer.completerName = "";
+                        completer.completerType = "";
                         popup.close();
                     }
 
@@ -369,7 +369,7 @@ Rectangle {
                     }
                     function preferredInlineWidth(availableWidth) {
                         const minWidth = completer.emptyStateMinWidth;
-                        switch (completer.completerName) {
+                        switch (completer.completerType) {
                         case "roomAliases":
                             return availableWidth;
                         case "user":

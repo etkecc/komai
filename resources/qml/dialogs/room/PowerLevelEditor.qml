@@ -262,7 +262,7 @@ OverlayDialog {
                                     visible: userEntry.text.length > 0
                                     width: parent.width
                                     roomId: plEditorW.roomSettings.roomId
-                                    completerName: "user"
+                                    completerType: "user"
                                     bottomToTop: false
                                     fullWidth: true
                                     avatarHeight: Komai.listIconSize / 2

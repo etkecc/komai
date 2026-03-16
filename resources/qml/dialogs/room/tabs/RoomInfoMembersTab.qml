@@ -315,7 +315,7 @@ Item {
                                     implicitWidth: plBadgeRow.implicitWidth + Komai.paddingSmall * 2
                                     implicitHeight: plBadgeRow.implicitHeight + Komai.paddingSmall
                                     radius: Komai.paddingSmall
-                                    color: delHover.hovered ? "transparent" : palette.button
+                                    color: "transparent"
                                     visible: true
 
                                     RowLayout {

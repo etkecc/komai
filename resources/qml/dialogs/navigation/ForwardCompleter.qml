@@ -26,6 +26,7 @@ Popup {
     property int textMargin: Komai.paddingSmall
     property string pendingRoomId: ""
     property string pendingRoomName: ""
+    property string pendingRoomAvatarUrl: ""
     property bool confirming: false
 
     function setMessageEventId(mid_in) {
@@ -78,6 +79,7 @@ Popup {
         confirming = false;
         pendingRoomId = "";
         pendingRoomName = "";
+        pendingRoomAvatarUrl = "";
         roomTextInput.text = "";
         completerPopup.changeCompleter();
         if (completerPopup.completer)
@@ -236,6 +238,7 @@ Popup {
                 var targetRoom = Rooms.getRoomById(id);
                 forwardMessagePopup.pendingRoomId = id;
                 forwardMessagePopup.pendingRoomName = targetRoom ? targetRoom.plainRoomName : id;
+                forwardMessagePopup.pendingRoomAvatarUrl = targetRoom ? targetRoom.roomAvatarUrl : "";
                 forwardMessagePopup.confirming = true;
                 Qt.callLater(() => forwardButton.forceActiveFocus(Qt.TabFocusReason));
             }
@@ -247,16 +250,36 @@ Popup {
         }
 
         // Confirmation (visible when confirming)
-        Label {
-            id: confirmLabel
+        Row {
+            id: confirmRow
 
-            color: palette.text
-            font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.5)
-            text: qsTr("Forward to <b>%1</b>?").arg(forwardMessagePopup.pendingRoomName)
-            textFormat: Text.StyledText
+            spacing: Komai.paddingSmall
             visible: forwardMessagePopup.confirming
             width: forwardMessagePopup.width - forwardMessagePopup.leftPadding * 2
-            wrapMode: Text.Wrap
+
+            Components.Avatar {
+                id: confirmAvatar
+
+                anchors.verticalCenter: parent.verticalCenter
+                height: Komai.listIconSize
+                width: Komai.listIconSize
+                displayName: forwardMessagePopup.pendingRoomName
+                roomid: forwardMessagePopup.pendingRoomId
+                url: forwardMessagePopup.pendingRoomAvatarUrl.replace("mxc://", "image://MxcImage/")
+                enabled: false
+            }
+
+            Label {
+                id: confirmLabel
+
+                anchors.verticalCenter: parent.verticalCenter
+                color: palette.text
+                font.pixelSize: Math.ceil(forwardMessagePopup.textHeight * 0.5)
+                text: qsTr("Forward to <b>%1</b>?").arg(forwardMessagePopup.pendingRoomName)
+                textFormat: Text.StyledText
+                width: confirmRow.width - confirmAvatar.width - confirmRow.spacing
+                wrapMode: Text.Wrap
+            }
         }
 
         RowLayout {

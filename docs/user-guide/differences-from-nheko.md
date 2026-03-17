@@ -9,7 +9,7 @@ For project background and naming context, see [🦁 Identity](identity.md).
 
 ## 🎨 Theming
 
-Komai ships 12 built-in color themes (light and dark variants): Komai, Nord, Catppuccin, Dracula, Rosé Pine, Tokyo Night, and more.
+Komai ships multiple built-in color themes (light and dark variants): Komai, Nord, Catppuccin, Dracula, Rosé Pine, Tokyo Night, and more.
 
 New themes are easy to add (see [🎨 Themes](themes.md)) so they become built-in ones, but you don't have to -- Komai also supports [🗂️ User themes](themes.md#-user-themes).
 Theme authors can also define exact user color palettes in the theme itself, instead of relying on automatic color derivation, for more predictable and intentional results.

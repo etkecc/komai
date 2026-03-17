@@ -15,6 +15,7 @@ Technical documentation for Komai internals.
 - 🧩 [QML/UI Structure](qml-ui.md) -- QML layering, placement rules, and loader decoupling
 - 🧵 [Timeline HTML Rendering](timeline-html-rendering.md) -- formatted message pipeline, sanitization, and code highlighting
 - 🎨 [Themes Architecture](themes.md) -- theme sources, generation, and runtime mapping
+- 🎯 [Theme Design Guide](theme-design-guide.md) -- palette role semantics, contrast targets, and authoring guardrails
 - 🌐 [Translations Architecture](translations.md) -- TS update/normalize flow and tooling
 - ⚡ [Performance Tracing](performance.md) -- room-switch perf markers, runtime knobs, and logging controls
 - 🏘️ [Communities Sidebar Filters](communities-sidebar-filters.md) -- filter architecture, tag IDs, room-level filtering, and how to add new filters

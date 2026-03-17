@@ -20,7 +20,7 @@ palette:
   toolTipText: "#E5E9F0"
   attention: "#BF616A"
   success: "#A3BE8C"
-  warning: "#D08770"
+  warning: "#e0a590"
   error: "#BF616A"
 userColors:
   self: "#7a98b6"

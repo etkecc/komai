@@ -451,6 +451,8 @@ Rectangle {
                         }
                     }
 
+                    onClosed: completer.completerType = ""
+
                     contentItem: Completer {
                         id: completer
 

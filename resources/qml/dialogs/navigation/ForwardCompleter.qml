@@ -28,6 +28,10 @@ Popup {
     property string pendingRoomName: ""
     property string pendingRoomAvatarUrl: ""
     property bool confirming: false
+    readonly property bool darkPopupChrome: palette.window.hslLightness < 0.5
+    readonly property color popupOutlineColor: Qt.tint(
+        palette.mid,
+        Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, darkPopupChrome ? 0.22 : 0.32))
 
     function setMessageEventId(mid_in) {
         mid = mid_in;
@@ -59,6 +63,8 @@ Popup {
     background: Rectangle {
         color: palette.alternateBase
         radius: 8
+        border.color: forwardMessagePopup.popupOutlineColor
+        border.width: 2
     }
 
     Shortcut {

@@ -10,7 +10,7 @@ import cc.etke.komai
 Pane {
     id: timelineRoot
     property var activeMediaOverlay: null
-    property color overlayBackdropColor: Qt.rgba(0.2, 0.2, 0.2, 0.7)
+    property color overlayBackdropColor: Qt.rgba(0, 0, 0, palette.window.hslLightness < 0.5 ? 0.76 : 0.68)
     readonly property var rootTimeline: timelineRoot
 
     ComponentCatalog {

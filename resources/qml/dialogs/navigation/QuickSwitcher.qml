@@ -14,10 +14,16 @@ Popup {
     property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
     property int textMargin: Komai.paddingSmall
     property int roomAvatarSize: Komai.listIconSize
+    readonly property bool darkPopupChrome: palette.window.hslLightness < 0.5
+    readonly property color popupOutlineColor: Qt.tint(
+        palette.mid,
+        Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, darkPopupChrome ? 0.22 : 0.32))
 
     background: Rectangle {
         color: palette.alternateBase
         radius: 8
+        border.color: quickSwitcher.popupOutlineColor
+        border.width: 2
     }
     padding: Komai.paddingMedium
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside

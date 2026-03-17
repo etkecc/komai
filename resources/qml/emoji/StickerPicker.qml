@@ -51,6 +51,10 @@ Popup {
     property int activeSectionFirstRow: -1
     property string activeSectionName: ""
     property int textHeight: Math.round(Komai.fontPixelSize * 2.4)
+    readonly property bool darkPopupChrome: palette.window.hslLightness < 0.5
+    readonly property color popupOutlineColor: Qt.tint(
+        palette.mid,
+        Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, darkPopupChrome ? 0.22 : 0.32))
 
     FontMetrics {
         id: sidebarCategoryFontMetrics
@@ -181,6 +185,9 @@ Popup {
     padding: Komai.paddingMedium
     modal: true
     focus: true
+
+    // Workaround palettes not inheriting for popups
+    palette: timelineRoot.palette
     parent: Overlay.overlay
 
     Overlay.modal: Rectangle {
@@ -194,6 +201,8 @@ Popup {
     background: Rectangle {
         color: palette.alternateBase
         radius: 8
+        border.color: stickerPopup.popupOutlineColor
+        border.width: 2
     }
 
     contentItem: Column {

@@ -22,6 +22,11 @@ Dialog {
     readonly property Item overlayDialogViewport: overlayViewport ? overlayViewport : parent
     readonly property int headerIconSize: Math.max(16, Math.ceil(headerFontMetrics.height))
     readonly property int overlayDialogChromeHeight: padding * 2 + contentItem.spacing + headerRow.implicitHeight
+    readonly property bool darkDialogChrome: palette.window.hslLightness < 0.5
+    readonly property color modalOverlayColor: Qt.rgba(0, 0, 0, darkDialogChrome ? 0.76 : 0.68)
+    readonly property color dialogOutlineColor: Qt.tint(
+        palette.mid,
+        Qt.rgba(palette.highlight.r, palette.highlight.g, palette.highlight.b, darkDialogChrome ? 0.22 : 0.32))
     default property alias body: bodyLayout.data
 
     onOpened: {
@@ -58,12 +63,14 @@ Dialog {
     parent: Overlay.overlay
 
     Overlay.modal: Rectangle {
-        color: Qt.rgba(0.2, 0.2, 0.2, 0.7)
+        color: root.modalOverlayColor
     }
 
     background: Rectangle {
         color: palette.alternateBase
         radius: 8
+        border.color: root.dialogOutlineColor
+        border.width: 2
     }
 
     contentItem: ColumnLayout {

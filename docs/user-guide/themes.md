@@ -102,7 +102,7 @@ palette:
   window: "#ffffff"          # main window background
   windowText: "#334258"      # main window text
   base: "#ffffff"            # input field / list background
-  alternateBase: "#eeeeee"   # alternating row background
+  alternateBase: "#e8e8e8"   # alternating row background
   text: "#334258"            # input field / list text
   brightText: "#f2f5f8"      # bright text (hover states)
   button: "#ffffff"          # button background
@@ -111,8 +111,8 @@ palette:
   mid: "#dcdcdc"             # between button and dark (3D border)
   dark: "#334258"            # darker than button (hover bg, 3D border)
   highlight: "#f49300"       # selection / focus highlight
-  highlightedText: "#ffffff" # text on highlight
-  link: "#b56e00"            # hyperlinks
+  highlightedText: "#243040" # text on highlight
+  link: "#8f5200"            # hyperlinks
   toolTipBase: "#ffffff"     # tooltip background
   toolTipText: "#334258"     # tooltip text
   attention: "#a82353"       # attention / destructive accents
@@ -130,8 +130,10 @@ userColors:
 
 The `userColors` section is **required**. It controls how sender names and message bubbles are colored in the timeline:
 
-- **`self`** — the color used for your own messages and identity (bubble tint, sender name, etc.)
-- **`others`** — a list of distinct colors assigned to other users (timeline, member lists, user profiles, etc.). In small rooms (fewer members than colors), each user gets a unique color. In large rooms, all other users share the first color.
+- **`self`** — the literal color used for your own message bubble surfaces and identity accents
+- **`others`** — a list of literal colors assigned to other users. In small rooms (fewer members than colors), each user gets a unique color. In large rooms, all other users share the first color.
+
+Komai may still derive a darker/lighter text color from these values where needed so names and inline accents remain readable, but the bubble fill itself uses the theme color directly.
 
 When importing a theme via `komai theme tinted-import` or creating one via `komai theme create-sample`, the `userColors` section is auto-generated from the theme's highlight color and variant.
 

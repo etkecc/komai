@@ -70,7 +70,10 @@ OverlayDialog {
 
                         ElidedLabel {
                             fullText: model.displayName
-                            color: Qt.darker(readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(model ? model.mxid : "", palette.window), 1.3)
+                            color: Komai.readableAccentTextColor(
+                                readReceiptsRoot.room ? TimelineManager.roomUserColor(readReceiptsRoot.room.roomId, model ? model.mxid : "", palette.window, Settings.timelineUserColorCodingPolicy)
+                                                      : TimelineManager.userColor(model ? model.mxid : "", palette.window),
+                                palette.window)
                             font.pointSize: Settings.uiFontSizePt
                             elideWidth: del.width - Komai.paddingMedium - avatar.width
                             Layout.fillWidth: true

@@ -287,7 +287,7 @@ TimelineMessageStyleBase {
                                         contentItem: Label {
                                             id: userName_
                                             text: wrapper.reply?.userName ?? 'missing name'
-                                            color: Qt.darker(replyRow.userColor, 1.3)
+                                            color: Komai.readableAccentTextColor(replyRow.userColor, replyRow.roomColor)
                                             textFormat: Text.RichText
                                             width: wrapper.maxWidth
                                             //elideWidth: wrapper.maxWidth
@@ -306,7 +306,7 @@ TimelineMessageStyleBase {
 
                             background: Rectangle {
                                 //width: replyRow.implicitContentWidth
-                                color: Qt.tint(palette.base, Qt.hsla(replyRow.roomColor.hslHue, 0.5, replyRow.roomColor.hslLightness, 0.1))
+                                color: replyRow.roomColor
                                 radius: Komai.paddingMedium
                                 clip: true
                                 Rectangle {
@@ -385,8 +385,8 @@ TimelineMessageStyleBase {
                 background: Rectangle {
                     color: (!wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled)
                         ? (wrapper.isSender
-                            ? Qt.tint(palette.base, Qt.hsla(Komai.theme.userColorSelf.hslHue, wrapper.hovered ? 0.8 : 0.6, Komai.theme.userColorSelf.hslLightness, 0.3))
-                            : Qt.tint(palette.base, Qt.hsla(messageBubble.roomColor.hslHue, wrapper.hovered ? 0.8 : 0.5, messageBubble.roomColor.hslLightness, 0.2)))
+                            ? Komai.theme.userColorSelf
+                            : messageBubble.roomColor)
                         : "transparent"
                     radius: wrapper.messageBubbleRadius
                     border.color: Komai.theme.attention
@@ -399,8 +399,8 @@ TimelineMessageStyleBase {
 
                         property real dashOffset
                         property color borderColor: wrapper.isSender
-                            ? Qt.hsla(Komai.theme.userColorSelf.hslHue, 0.7, Komai.theme.userColorSelf.hslLightness, 0.6)
-                            : Qt.hsla(messageBubble.roomColor.hslHue, 0.6, messageBubble.roomColor.hslLightness, 0.5)
+                            ? Komai.theme.userColorSelf
+                            : messageBubble.roomColor
 
                         NumberAnimation on dashOffset {
                             from: 0

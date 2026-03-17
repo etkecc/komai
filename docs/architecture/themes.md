@@ -171,6 +171,8 @@ done
 
 # Verify output
 python3 bin/theme/check.py
+just theme-check-contrast
+just theme-check-contrast-strict komai-light
 just generate-themes
 ```
 
@@ -207,5 +209,6 @@ See [CLI Architecture](cli.md) for the subcommand dispatch design.
 | Script | Purpose |
 |--------|---------|
 | `bin/theme/colors.py` | Shared module: YAML parser, color utilities |
+| `bin/theme/contrast.py` | Report practical contrast ratios for palette roles and bubble/user colors |
 | `bin/theme/generate.py` | Read resolved YAMLs, generate C++ header |
 | `bin/theme/check.py` | Validate theme YAML files (palette colors, userColors, hex format) |

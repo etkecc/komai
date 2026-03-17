@@ -131,6 +131,68 @@ utils::generateContrastingHexColor(const QString &input, const QColor &backgroun
     return colorHex;
 }
 
+QColor
+utils::deriveReadableAccentTextColor(const QColor &accentColor,
+                                     const QColor &backgroundColor,
+                                     qreal minContrast)
+{
+    if (!accentColor.isValid())
+        return accentColor;
+    if (!backgroundColor.isValid() || minContrast <= 0.0)
+        return accentColor;
+
+    const auto backgroundLum = luminance(backgroundColor);
+    const auto contrastFor   = [&](const QColor &candidate) {
+        return computeContrast(luminance(candidate), backgroundLum);
+    };
+
+    const auto initialContrast = contrastFor(accentColor);
+    if (initialContrast >= minContrast)
+        return accentColor;
+
+    const bool preferDarker = backgroundLum > 0.5;
+
+    QColor bestColor;
+    int bestDistance   = std::numeric_limits<int>::max();
+    qreal bestContrast = initialContrast;
+
+    const auto consider = [&](const QColor &candidate, int distance) {
+        if (!candidate.isValid())
+            return;
+
+        const auto candidateContrast = contrastFor(candidate);
+        if (candidateContrast < minContrast)
+            return;
+
+        if (!bestColor.isValid() || distance < bestDistance ||
+            (distance == bestDistance && candidateContrast > bestContrast)) {
+            bestColor    = candidate;
+            bestDistance = distance;
+            bestContrast = candidateContrast;
+        }
+    };
+
+    for (int factor = 105; factor <= 400; factor += 5) {
+        if (preferDarker) {
+            consider(accentColor.darker(factor), factor - 100);
+            consider(accentColor.lighter(factor), factor - 100);
+        } else {
+            consider(accentColor.lighter(factor), factor - 100);
+            consider(accentColor.darker(factor), factor - 100);
+        }
+
+        if (bestColor.isValid() && bestDistance == 5)
+            break;
+    }
+
+    if (bestColor.isValid())
+        return bestColor;
+
+    const QColor black(Qt::black);
+    const QColor white(Qt::white);
+    return contrastFor(black) >= contrastFor(white) ? black : white;
+}
+
 qreal
 utils::computeContrast(const qreal &one, const qreal &two)
 {

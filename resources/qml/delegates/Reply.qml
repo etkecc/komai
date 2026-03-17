@@ -85,7 +85,7 @@ AbstractButton {
                     // never be empty, since it falls back to the mxid, but if
                     // we have no text there, Qt culls the item before we fill it.
                     text: r.userName || "."
-                    color: Qt.darker(r.userColor, 1.3)
+                    color: Komai.readableAccentTextColor(r.userColor, r.roomColor)
                     textFormat: Text.RichText
                     width: timelineEvent.main?.width
                 }
@@ -107,8 +107,7 @@ AbstractButton {
         id: backgroundItem
 
         z: -1
-        property color bgColor: palette.base
-        color: Qt.tint(bgColor, Qt.hsla(r.roomColor.hslHue, 0.5, r.roomColor.hslLightness, 0.1))
+        color: r.roomColor
         radius: Komai.paddingMedium
         clip: true
 

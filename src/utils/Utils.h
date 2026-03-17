@@ -160,6 +160,12 @@ hashQString(const QString &input);
 QColor
 generateContrastingHexColor(const QString &input, const QColor &background);
 
+//! Adjust an accent color into a readable text color on top of a given background.
+QColor
+deriveReadableAccentTextColor(const QColor &accentColor,
+                              const QColor &backgroundColor,
+                              qreal minContrast = 4.5);
+
 //! Given two luminance values, compute the contrast ratio between them.
 qreal
 computeContrast(const qreal &one, const qreal &two);

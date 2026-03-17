@@ -47,9 +47,10 @@ EventDelegateChooser {
             Layout.fillWidth: true
             //Layout.maximumWidth: implicitWidth
 
-            color: Qt.darker(room
-                ? TimelineManager.roomUserColor(room.roomId, userId, palette.active.base, Settings.timelineUserColorCodingPolicy)
-                : TimelineManager.userColor(userId, palette.active.base), 1.3)
+            color: Komai.readableAccentTextColor(
+                room ? TimelineManager.roomUserColor(room.roomId, userId, palette.active.base, Settings.timelineUserColorCodingPolicy)
+                     : TimelineManager.userColor(userId, palette.active.base),
+                palette.active.base)
             font.italic: true
             formatted: TimelineManager.escapeEmoji(userName) + " " + formattedBody
             keepFullText: true

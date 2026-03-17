@@ -95,7 +95,10 @@ Column {
             contentItem: Label {
                 id: userName_
 
-                color: Qt.darker(room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(userId, palette.base), 1.3)
+                color: Komai.readableAccentTextColor(
+                    room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
+                         : TimelineManager.userColor(userId, palette.base),
+                    palette.base)
                 font.pointSize: Settings.uiFontSizePt
                 text: TimelineManager.escapeEmoji(userNameTextMetrics.elidedText)
                 textFormat: Text.RichText

@@ -153,16 +153,13 @@ TimelineModel::formatTypingUsers(const QStringList &users, const QColor &bg)
 
     auto formatUser = [this, bg](const QString &user_id) -> QString {
         auto uncoloredUsername = utils::replaceEmoji(displayName(user_id));
-        QString prefix =
-          QStringLiteral("<font color=\"%1\">")
-            .arg(manager_
-                   ->roomUserColor(
-                     roomId(),
-                     user_id,
-                     bg,
-                     static_cast<int>(UserSettings::instance()->timelineUserColorCodingPolicy()))
-                   .darker(130)
-                   .name());
+        const auto accentColor = manager_->roomUserColor(
+          roomId(),
+          user_id,
+          bg,
+          static_cast<int>(UserSettings::instance()->timelineUserColorCodingPolicy()));
+        QString prefix = QStringLiteral("<font color=\"%1\">")
+                           .arg(utils::deriveReadableAccentTextColor(accentColor, bg).name());
 
         // color only parts that don't have a font already specified
         QString coloredUsername;

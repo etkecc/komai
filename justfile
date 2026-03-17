@@ -104,6 +104,14 @@ generate-themes:
 		{{ justfile_directory() }}/src/ui/ThemeDefinitions.h \
 		{{ justfile_directory() }}/resources/themes
 
+# Reports theme contrast ratios (all themes by default, or pass one/more slugs)
+theme-check-contrast *themes:
+	python3 {{ justfile_directory() }}/bin/theme/contrast.py {{ themes }}
+
+# Same as theme-check-contrast, but exits non-zero on hard AA failures
+theme-check-contrast-strict *themes:
+	python3 {{ justfile_directory() }}/bin/theme/contrast.py --fail-aa {{ themes }}
+
 # Imports a tinted-theming Base16 theme into resources/themes/ (builds first if needed)
 theme-tinted-import slug *args: build
 	#!/usr/bin/env bash

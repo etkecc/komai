@@ -227,6 +227,12 @@ Komai::theme() const
     return Theme(UserSettings::instance()->uiThemeSlug());
 }
 
+QColor
+Komai::readableAccentTextColor(QColor accentColor, QColor backgroundColor) const
+{
+    return utils::deriveReadableAccentTextColor(accentColor, backgroundColor);
+}
+
 int
 Komai::tooltipDelay() const
 {

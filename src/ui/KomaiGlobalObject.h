@@ -110,6 +110,7 @@ public:
     {
         return QFontDatabase::systemFont(QFontDatabase::FixedFont);
     }
+    Q_INVOKABLE QColor readableAccentTextColor(QColor accentColor, QColor backgroundColor) const;
     Q_INVOKABLE void openLink(QString link) const;
     Q_INVOKABLE QString punyLink(QString link) const;
     Q_INVOKABLE QString statusMessage() const;

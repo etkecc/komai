@@ -143,7 +143,10 @@ Item {
                             displayName: roomSettings ? roomSettings.roomName : ""
                             Layout.preferredHeight: Komai.listIconSize
                             Layout.preferredWidth: Komai.listIconSize
-                            enabled: false
+                            onClicked: {
+                                if (roomSettings && roomSettings.roomAvatarUrl !== "")
+                                    TimelineManager.openMediaOverlay(null, roomSettings.roomAvatarUrl, "", 0, 0);
+                            }
                         }
                     }
                 }

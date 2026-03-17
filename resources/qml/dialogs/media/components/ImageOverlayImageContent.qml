@@ -26,6 +26,10 @@ Item {
     readonly property bool mediaFailed: img.status === Image.Error && !animatedImageReady
     readonly property bool staticImageReady: img.status === Image.Ready
     readonly property bool animatedImageReady: mxcimage.loaded
+    // Natural dimensions of the loaded image, used by the overlay to size
+    // the container when the caller did not provide original dimensions.
+    readonly property int sourceWidth: mxcimage.loaded ? mxcimage.implicitWidth : img.implicitWidth
+    readonly property int sourceHeight: mxcimage.loaded ? mxcimage.implicitHeight : img.implicitHeight
 
     // Absorb clicks so they don't propagate to the close handler behind us.
     // Clicking an image in the overlay does nothing.

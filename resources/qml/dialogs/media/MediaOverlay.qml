@@ -293,8 +293,10 @@ Window {
     Item {
         id: imgContainer
 
-        property int imgSrcWidth: (mediaOverlay.originalWidth && mediaOverlay.originalWidth > 100) ? mediaOverlay.originalWidth : Screen.width
-        property int imgSrcHeight: mediaOverlay.proportionalHeight ? imgSrcWidth * mediaOverlay.proportionalHeight : Screen.height
+        property int imgSrcWidth: (mediaOverlay.originalWidth && mediaOverlay.originalWidth > 100) ? mediaOverlay.originalWidth
+                                 : (imageContent.sourceWidth > 0 ? imageContent.sourceWidth : Screen.width)
+        property int imgSrcHeight: mediaOverlay.proportionalHeight ? imgSrcWidth * mediaOverlay.proportionalHeight
+                                 : (imageContent.sourceHeight > 0 ? imageContent.sourceHeight : Screen.height)
         property int viewportWidth: Math.max(1, mediaOverlay.width - mediaOverlay.imageViewportGap * 2)
         // Reserve space for the action bar at the top so media doesn't appear behind it.
         property int viewportHeight: Math.max(1, mediaOverlay.height - mediaOverlay.imageViewportGap * 2 - actionBar.height)

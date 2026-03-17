@@ -171,7 +171,19 @@ Item {
     ScrollBar {
         id: scrollbar
 
-        policy: ScrollBar.AlwaysOn
+        readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+        readonly property bool scrollbarVisible: {
+            switch (scrollbarPolicy) {
+            case Settings.ScrollbarPolicy.Always:
+                return true;
+            case Settings.ScrollbarPolicy.Never:
+                return false;
+            case Settings.ScrollbarPolicy.WhenNeeded:
+            default:
+                return chat.contentHeight > chat.height;
+            }
+        }
+        policy: scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.top: parent.top

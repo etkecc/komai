@@ -81,7 +81,21 @@ Page {
             id: roomlist
 
             readonly property bool hasVerticalOverflow: contentHeight > height
-            readonly property real reservedScrollbarWidth: (!roomListPage.collapsed && Settings.sidebarsRoomListScrollbarsEnabled && hasVerticalOverflow)
+            readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+            readonly property bool scrollbarVisible: {
+                if (roomListPage.collapsed)
+                    return false;
+                switch (scrollbarPolicy) {
+                case Settings.ScrollbarPolicy.Always:
+                    return true;
+                case Settings.ScrollbarPolicy.Never:
+                    return false;
+                case Settings.ScrollbarPolicy.WhenNeeded:
+                default:
+                    return hasVerticalOverflow;
+                }
+            }
+            readonly property real reservedScrollbarWidth: scrollbarVisible
                 ? Math.max(scrollbar.width, scrollbar.implicitWidth)
                 : 0
 
@@ -96,9 +110,7 @@ Page {
             id: scrollbar
 
             parent: roomlist
-            policy: !collapsed && Settings.sidebarsRoomListScrollbarsEnabled && roomlist.hasVerticalOverflow
-                ? ScrollBar.AlwaysOn
-                : ScrollBar.AlwaysOff
+            policy: roomlist.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
             palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
 

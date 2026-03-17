@@ -64,7 +64,6 @@ Naming mismatch summary:
 | `SidebarsCommunitiesFilterServerNotices` | `settings.sidebarsCommunitiesFilterServerNotices()` | `SidebarsCommunitiesFilterServerNotices` | `sidebars.communities.filters.server_notices` |
 | `SidebarsCommunitiesVisible` | `settings.sidebarsCommunitiesVisible()` | `SidebarsCommunitiesVisible` | `sidebars.communities.visible` |
 | `SidebarsRoomListLastMessagePreview` | `static_cast<int>(settings.sidebarsRoomListLastMessagePreview())` | `SidebarsRoomListLastMessagePreview` | `sidebars.room_list.last_message_preview` |
-| `SidebarsRoomListScrollbarsEnabled` | `settings.sidebarsRoomListScrollbarsEnabled()` | `SidebarsRoomListScrollbarsEnabled` | `sidebars.room_list.scrollbars.visible` |
 | `SidebarsRoomListShowCommunityCounts` | `settings.sidebarsRoomListShowCommunityCounts()` | `SidebarsRoomListShowCommunityCounts` | `sidebars.room_list.show_community_notification_counts` |
 | `SidebarsRoomListShowLastMessageTime` | `settings.sidebarsRoomListShowLastMessageTime()` | `SidebarsRoomListShowLastMessageTime` | `sidebars.room_list.show_last_message_timestamp` |
 | `SidebarsRoomListSort` | `static_cast<int>(settings.sidebarsRoomListSort())` | `SidebarsRoomListSort` | `sidebars.room_list.sort` |
@@ -101,4 +100,5 @@ Naming mismatch summary:
 | `UiLayoutContentMaxWidthPx` | `settings.uiLayoutContentMaxWidthPx()` | `UiLayoutContentMaxWidthPx` | `ui.layout.content.max_width_px` |
 | `UiMotionAnimationsEnabled` | `settings.uiMotionAnimationsEnabled()` | `UiMotionAnimationsEnabled` | `ui.motion.enable_animations` |
 | `UiScaleFactor` | `settings.uiScaleFactor()` | `UiScaleFactor` | `ui.scale.factor` |
+| `UiScrollbarPolicy` | `static_cast<int>(settings.uiScrollbarPolicy())` | `UiScrollbarPolicy` | `ui.scrollbar_policy` |
 | `UiThemeSlug` | `settings.uiThemeSlug().toStdString()` | `UiThemeSlug` | `ui.theme.slug` |

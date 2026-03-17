@@ -48,7 +48,7 @@ inline constexpr unsigned int kDefaultMaxStores            = 8192;
 inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
 
-inline constexpr std::array<SettingId, 17> kEnumTokenConfigSettingIds{{
+inline constexpr std::array<SettingId, 18> kEnumTokenConfigSettingIds{{
 #include "SettingsDefinitionsEnumTokenConfigSettingIds.inc"
 }};
 

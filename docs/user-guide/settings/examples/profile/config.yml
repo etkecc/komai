@@ -21,6 +21,8 @@ ui:
   layout:
     content:
       max_width_px: 0
+  # Supported values: when_needed | never | always
+  scrollbar_policy: when_needed
   scale:
     factor: 1.0
 
@@ -30,8 +32,6 @@ sidebars:
     show_last_message_timestamp: true
     last_message_preview: always
     show_community_notification_counts: true
-    scrollbars:
-      visible: true
     sort: unread_first_recent
   communities:
     visible: true

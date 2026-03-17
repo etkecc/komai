@@ -25,7 +25,8 @@ expect(bool condition, const char *message)
     return false;
 }
 
-constexpr std::array<settings::core::SettingId, 20> kExpectedConstrainedIds{{
+constexpr std::array<settings::core::SettingId, 21> kExpectedConstrainedIds{{
+  settings::core::SettingId::UiScrollbarPolicy,
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
   settings::core::SettingId::UiLayoutContentMaxWidthPx,
   settings::core::SettingId::IntegrationsDbusApiAccess,

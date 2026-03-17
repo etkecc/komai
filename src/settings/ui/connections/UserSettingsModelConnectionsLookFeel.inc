@@ -14,8 +14,7 @@
       SidebarsRoomListShowCommunityCounts, sidebarsRoomListShowCommunityCountsChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsCircular, uiAvatarsCircularChanged, Value);
     CONNECT_SETTING_ID(UiAvatarsDefaultAvatarStyle, uiAvatarsDefaultAvatarStyleChanged, Value);
-    CONNECT_SETTING_ID(
-      SidebarsRoomListScrollbarsEnabled, sidebarsRoomListScrollbarsEnabledChanged, Value);
+    CONNECT_SETTING_ID(UiScrollbarPolicy, uiScrollbarPolicyChanged, Value);
     CONNECT_SETTING_ID(SidebarsRoomListSort, sidebarsRoomListSortChanged, Value);
     CONNECT_SETTING_ID(SidebarsCommunitiesVisible, sidebarsCommunitiesVisibleChanged, Value);
     // When communities sidebar visibility changes, update Enabled state on filter rows

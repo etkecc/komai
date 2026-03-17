@@ -70,9 +70,8 @@ class UserSettings final : public QObject
     Q_PROPERTY(
       bool sidebarsCommunitiesFilterLowPriority READ sidebarsCommunitiesFilterLowPriority WRITE
         setSidebarsCommunitiesFilterLowPriority NOTIFY sidebarsCommunitiesFilterLowPriorityChanged)
-    Q_PROPERTY(
-      bool sidebarsRoomListScrollbarsEnabled READ sidebarsRoomListScrollbarsEnabled WRITE
-        setSidebarsRoomListScrollbarsEnabled NOTIFY sidebarsRoomListScrollbarsEnabledChanged)
+    Q_PROPERTY(ScrollbarPolicy uiScrollbarPolicy READ uiScrollbarPolicy WRITE setUiScrollbarPolicy
+                 NOTIFY uiScrollbarPolicyChanged)
     Q_PROPERTY(
       bool composerInputMarkdownToHtmlEnabled READ composerInputMarkdownToHtmlEnabled WRITE
         setComposerInputMarkdownToHtmlEnabled NOTIFY composerInputMarkdownToHtmlEnabledChanged)
@@ -425,6 +424,14 @@ public:
     };
     Q_ENUM(UnreadDetectionPolicy)
 
+    enum class ScrollbarPolicy
+    {
+        WhenNeeded, // Show scrollbars only when content overflows
+        Never,      // Never show scrollbars
+        Always,     // Always show scrollbars
+    };
+    Q_ENUM(ScrollbarPolicy)
+
     enum class DefaultAvatarStyle
     {
         BoringAvatarsBauhaus,
@@ -476,7 +483,7 @@ public:
     void setSidebarsCommunitiesFilterGroups(bool state);
     void setSidebarsCommunitiesFilterServerNotices(bool state);
     void setSidebarsCommunitiesFilterLowPriority(bool state);
-    void setSidebarsRoomListScrollbarsEnabled(bool state);
+    void setUiScrollbarPolicy(ScrollbarPolicy policy);
     void setComposerInputMarkdownToHtmlEnabled(bool state);
     void setComposerInputSendKey(SendMessageKey key);
     void setComposerInputAutoReplaceEmoji(AutoReplaceEmoji state);
@@ -614,7 +621,7 @@ signals:
     void sidebarsCommunitiesFilterGroupsChanged(bool state);
     void sidebarsCommunitiesFilterServerNoticesChanged(bool state);
     void sidebarsCommunitiesFilterLowPriorityChanged(bool state);
-    void sidebarsRoomListScrollbarsEnabledChanged(bool state);
+    void uiScrollbarPolicyChanged(ScrollbarPolicy policy);
     void sidebarsRoomListSortChanged(RoomSortOrder order);
     void sidebarsRoomListUnreadDetectionPolicyChanged(UnreadDetectionPolicy policy);
     void uiThemeSlugChanged(QString state);

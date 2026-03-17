@@ -17,7 +17,7 @@ bool sidebarsCommunitiesFilterBots_          = true;
 bool sidebarsCommunitiesFilterGroups_        = true;
 bool sidebarsCommunitiesFilterServerNotices_ = true;
 bool sidebarsCommunitiesFilterLowPriority_   = true;
-bool sidebarsRoomListScrollbarsEnabled_;
+ScrollbarPolicy uiScrollbarPolicy_           = ScrollbarPolicy::WhenNeeded;
 bool composerInputMarkdownToHtmlEnabled_;
 SendMessageKey composerInputSendKey_;
 AutoReplaceEmoji composerInputAutoReplaceEmoji_;

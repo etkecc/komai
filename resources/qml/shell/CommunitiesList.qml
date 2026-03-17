@@ -32,7 +32,21 @@ Page {
         id: communitiesList
 
         readonly property bool hasVerticalOverflow: contentHeight > height
-        readonly property real reservedScrollbarWidth: (!communitySidebar.collapsed && Settings.sidebarsRoomListScrollbarsEnabled && hasVerticalOverflow)
+        readonly property int scrollbarPolicy: Settings.uiScrollbarPolicy
+        readonly property bool scrollbarVisible: {
+            if (communitySidebar.collapsed)
+                return false;
+            switch (scrollbarPolicy) {
+            case Settings.ScrollbarPolicy.Always:
+                return true;
+            case Settings.ScrollbarPolicy.Never:
+                return false;
+            case Settings.ScrollbarPolicy.WhenNeeded:
+            default:
+                return hasVerticalOverflow;
+            }
+        }
+        readonly property real reservedScrollbarWidth: scrollbarVisible
             ? Math.max(scrollbar.width, scrollbar.implicitWidth)
             : 0
 
@@ -46,9 +60,7 @@ Page {
             id: scrollbar
 
             parent: communitiesList
-            policy: !collapsed && Settings.sidebarsRoomListScrollbarsEnabled && communitiesList.hasVerticalOverflow
-                ? ScrollBar.AlwaysOn
-                : ScrollBar.AlwaysOff
+            policy: communitiesList.scrollbarVisible ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             palette.dark: Qt.darker(parent.palette.alternateBase, 1.5)
             palette.mid: Qt.darker(parent.palette.alternateBase, 1.3)
 

@@ -42,7 +42,7 @@ Note:
 | Sidebars | ROOM LIST | Show last message timestamp | `settings::core::SettingId::SidebarsRoomListShowLastMessageTime` | `show_room_list_time` | `sidebars.room_list.show_last_message_timestamp` | config.yml | yes |
 | Sidebars | ROOM LIST | Show last message preview | `settings::core::SettingId::SidebarsRoomListLastMessagePreview` | `show_last_message_preview` | `sidebars.room_list.last_message_preview` | config.yml | yes |
 | Sidebars | ROOM LIST | Show notification counts | `settings::core::SettingId::SidebarsRoomListShowCommunityCounts` | `show_community_notification_counts` | `sidebars.room_list.show_community_notification_counts` | config.yml | yes |
-| Sidebars | ROOM LIST | Show scrollbars | `settings::core::SettingId::SidebarsRoomListScrollbarsEnabled` | `scrollbars_in_roomlist` | `sidebars.room_list.scrollbars.visible` | config.yml | yes |
+| Look & Feel | BEHAVIOR | Scrollbar visibility | `settings::core::SettingId::UiScrollbarPolicy` | `scrollbars_in_roomlist` | `ui.scrollbar_policy` | config.yml | yes |
 | Sidebars | ROOM LIST | Sorting | `settings::core::SettingId::SidebarsRoomListSort` | `room_sort_order` | `sidebars.room_list.sort` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show communities sidebar | `settings::core::SettingId::SidebarsCommunitiesVisible` | `show_communities_sidebar` | `sidebars.communities.visible` | config.yml | yes |
 | Sidebars | COMMUNITIES SIDEBAR | Show Direct Chats filter | `settings::core::SettingId::SidebarsCommunitiesFilterDirectChats` | `-` | `sidebars.communities.filters.direct_chats` | config.yml | yes |

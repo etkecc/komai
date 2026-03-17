@@ -1,4 +1,5 @@
   // ui
+  SettingId::UiScrollbarPolicy,
   SettingId::UiAvatarsDefaultAvatarStyle,
 
   // sidebars

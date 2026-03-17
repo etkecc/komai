@@ -81,6 +81,18 @@
       QT_TR_NOOP(
         "Enable gestures such as swiping between Room List and Timeline, and swiping a message to reply."),
       SM::TabLookFeel, uiInputTouchSwipeGesturesEnabled, setUiInputTouchSwipeGesturesEnabled, nullptr, UiInputTouchSwipeGesturesEnabled, SettingKey::UiInputTouchSwipeGesturesEnabled),
+    // ScrollbarPolicy
+    SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
+      "Scrollbar visibility",
+      QT_TR_NOOP("Controls when scrollbars are shown across the app."),
+      SM::TabLookFeel,
+      uiScrollbarPolicy,
+      setUiScrollbarPolicy,
+      UserSettings::ScrollbarPolicy,
+      lookFeelScrollbarPolicyValues,
+      nullptr,
+      UiScrollbarPolicy,
+      SettingKey::UiScrollbarPolicy),
     // LookFeelLayoutSection
     { QT_TR_NOOP("Layout"), nullptr, SM::SectionTitle, SM::TabLookFeel,
       nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
@@ -247,11 +259,6 @@
     SIMPLE_BOOL_CONFIG_ID_SETTING("Show notification counts",
                         QT_TR_NOOP("Show total notification counts for communities and tags."),
                         SM::TabSidebars, sidebarsRoomListShowCommunityCounts, setSidebarsRoomListShowCommunityCounts, nullptr, SidebarsRoomListShowCommunityCounts, SettingKey::SidebarsRoomListShowCommunityCounts),
-    // RoomListScrollbarsVisible
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Show scrollbars",
-      nullptr,
-      SM::TabSidebars, sidebarsRoomListScrollbarsEnabled, setSidebarsRoomListScrollbarsEnabled, nullptr, SidebarsRoomListScrollbarsEnabled, SettingKey::SidebarsRoomListScrollbarsEnabled),
     // RoomSorting
     SIMPLE_OPTIONS_ENUM_CONFIG_ID_SETTING(
       "Sorting",

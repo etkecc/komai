@@ -2,6 +2,25 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+constexpr std::array<std::pair<UserSettings::ScrollbarPolicy, const char *>, 3>
+  kScrollbarPolicyTokens{{
+    {UserSettings::ScrollbarPolicy::WhenNeeded, "when_needed"},
+    {UserSettings::ScrollbarPolicy::Never, "never"},
+    {UserSettings::ScrollbarPolicy::Always, "always"},
+  }};
+
+QString
+toStorageValue(UserSettings::ScrollbarPolicy value)
+{
+    return valueToStorageToken(value, kScrollbarPolicyTokens, "when_needed");
+}
+
+UserSettings::ScrollbarPolicy
+scrollbarPolicyFromStorage(const QString &value, UserSettings::ScrollbarPolicy fallback)
+{
+    return valueFromStorageToken(value, fallback, kScrollbarPolicyTokens);
+}
+
 constexpr std::array<std::pair<UserSettings::DefaultAvatarStyle, const char *>, 5>
   kDefaultAvatarStyleTokens{{
     {UserSettings::DefaultAvatarStyle::BoringAvatarsBauhaus, "boring_avatars_bauhaus"},

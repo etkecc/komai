@@ -1,3 +1,8 @@
+  {settings::core::SettingId::UiScrollbarPolicy,
+   SettingKey::UiScrollbarPolicy,
+   "when_needed",
+   &scrollbarPolicyToStorage,
+   &applyScrollbarPolicyFromStorage},
   {settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
    SettingKey::UiAvatarsDefaultAvatarStyle,
    "boring_avatars_bauhaus",

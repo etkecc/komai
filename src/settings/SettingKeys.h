@@ -31,7 +31,7 @@ constexpr auto SidebarsRoomListShowLastMessageTime =
 constexpr auto SidebarsRoomListLastMessagePreview = "sidebars.room_list.last_message_preview";
 constexpr auto SidebarsRoomListShowCommunityCounts =
   "sidebars.room_list.show_community_notification_counts";
-constexpr auto SidebarsRoomListScrollbarsEnabled     = "sidebars.room_list.scrollbars.visible";
+constexpr auto UiScrollbarPolicy                     = "ui.scrollbar_policy";
 constexpr auto SidebarsRoomListSort                  = "sidebars.room_list.sort";
 constexpr auto SidebarsRoomListUnreadDetectionPolicy = "sidebars.room_list.unread_detection_policy";
 constexpr auto SidebarsCommunitiesVisible            = "sidebars.communities.visible";

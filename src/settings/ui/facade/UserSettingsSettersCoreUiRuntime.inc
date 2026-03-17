@@ -119,12 +119,15 @@ UserSettings::setSidebarsCommunitiesFilterLowPriority(bool s)
     save();
 }
 void
-UserSettings::setSidebarsRoomListScrollbarsEnabled(bool s)
+UserSettings::setUiScrollbarPolicy(ScrollbarPolicy s)
 {
-    if (sidebarsRoomListScrollbarsEnabled_ == s)
+    if (uiScrollbarPolicy_ == s)
         return;
-    sidebarsRoomListScrollbarsEnabled_ = s;
-    (void)coreStore_.set(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled, s);
-    emit sidebarsRoomListScrollbarsEnabledChanged(s);
+    if (!setCoreValue(settings::core::SettingId::UiScrollbarPolicy,
+                      static_cast<int>(s),
+                      "ui.scrollbar_policy"))
+        return;
+    uiScrollbarPolicy_ = s;
+    emit uiScrollbarPolicyChanged(s);
     save();
 }

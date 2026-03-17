@@ -8,14 +8,16 @@ UserSettings::sidebarsCommunitiesVisible() const
     return sidebarsCommunitiesVisible_;
 }
 
-bool
-UserSettings::sidebarsRoomListScrollbarsEnabled() const
+UserSettings::ScrollbarPolicy
+UserSettings::uiScrollbarPolicy() const
 {
     if (const auto value =
-          coreStore_.valueAs<bool>(settings::core::SettingId::SidebarsRoomListScrollbarsEnabled);
-        value.has_value())
-        return *value;
-    return sidebarsRoomListScrollbarsEnabled_;
+          coreStore_.valueAs<int>(settings::core::SettingId::UiScrollbarPolicy);
+        value.has_value() &&
+        *value >= static_cast<int>(UserSettings::ScrollbarPolicy::WhenNeeded) &&
+        *value <= static_cast<int>(UserSettings::ScrollbarPolicy::Always))
+        return static_cast<UserSettings::ScrollbarPolicy>(*value);
+    return uiScrollbarPolicy_;
 }
 
 bool

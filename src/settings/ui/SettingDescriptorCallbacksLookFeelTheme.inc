@@ -47,6 +47,16 @@ lookFeelThemeValues()
 }
 
 static QVariant
+lookFeelScrollbarPolicyValues()
+{
+    QStringList values;
+    values << QCoreApplication::translate("UserSettingsModel", "When needed")
+           << QCoreApplication::translate("UserSettingsModel", "Never")
+           << QCoreApplication::translate("UserSettingsModel", "Always");
+    return values;
+}
+
+static QVariant
 lookFeelDefaultAvatarStyleValues()
 {
     QStringList values;

@@ -1,7 +1,6 @@
 X(SidebarsRoomListShowLastMessageTime, settings.sidebarsRoomListShowLastMessageTime())
 X(SidebarsRoomListLastMessagePreview, static_cast<int>(settings.sidebarsRoomListLastMessagePreview()))
 X(SidebarsRoomListShowCommunityCounts, settings.sidebarsRoomListShowCommunityCounts())
-X(SidebarsRoomListScrollbarsEnabled, settings.sidebarsRoomListScrollbarsEnabled())
 X(SidebarsRoomListSort, static_cast<int>(settings.sidebarsRoomListSort()))
 X(SidebarsRoomListUnreadDetectionPolicy, static_cast<int>(settings.sidebarsRoomListUnreadDetectionPolicy()))
 X(SidebarsCommunitiesVisible, settings.sidebarsCommunitiesVisible())

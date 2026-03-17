@@ -109,6 +109,11 @@ notificationsMessageContentPolicyFromStorage(
   UserSettings::NotificationMessageContentPolicy fallback);
 
 QString
+toStorageValue(UserSettings::ScrollbarPolicy value);
+UserSettings::ScrollbarPolicy
+scrollbarPolicyFromStorage(const QString &value, UserSettings::ScrollbarPolicy fallback);
+
+QString
 toStorageValue(UserSettings::DefaultAvatarStyle value);
 UserSettings::DefaultAvatarStyle
 defaultAvatarStyleFromStorage(const QString &value, UserSettings::DefaultAvatarStyle fallback);

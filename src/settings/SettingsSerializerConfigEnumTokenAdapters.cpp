@@ -23,7 +23,7 @@ namespace {
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsSidebars.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsTimeline.inc"
 
-constexpr std::array<EnumTokenAdapter, 17> kEnumTokenAdapters{{
+constexpr std::array<EnumTokenAdapter, 18> kEnumTokenAdapters{{
 #include "SettingsSerializerConfigEnumTokenAdaptersComposer.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersIntegrations.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersLookFeel.inc"

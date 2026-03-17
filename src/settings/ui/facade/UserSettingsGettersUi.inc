@@ -11,7 +11,7 @@
     bool sidebarsCommunitiesFilterGroups() const;
     bool sidebarsCommunitiesFilterServerNotices() const;
     bool sidebarsCommunitiesFilterLowPriority() const;
-    bool sidebarsRoomListScrollbarsEnabled() const;
+    ScrollbarPolicy uiScrollbarPolicy() const;
     bool uiAvatarsCircular() const;
     NotificationMessageContentPolicy notificationsMessageContentPolicy() const;
     bool sidebarsRoomListShowCommunityCounts() const;

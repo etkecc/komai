@@ -34,7 +34,7 @@ enum class SettingId
     SidebarsRoomListShowLastMessageTime,
     SidebarsRoomListLastMessagePreview,
     SidebarsRoomListShowCommunityCounts,
-    SidebarsRoomListScrollbarsEnabled,
+    UiScrollbarPolicy,
     SidebarsRoomListSort,
     SidebarsRoomListUnreadDetectionPolicy,
     SidebarsCommunitiesVisible,

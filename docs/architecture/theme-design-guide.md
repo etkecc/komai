@@ -87,6 +87,7 @@ These pairings are particularly important because they appear in common screens:
 - Do not assume a Qt role name matches how Komai uses it. For example, `alternateBase` is not a niche table-row color here.
 - Treat `mid` as a real UI border/separator color, not a leftover palette slot.
 - Treat `userColors` as the actual bubble-fill colors in bubble style. If text on top of them needs help, derive the text color instead of silently mutating the fill.
+- Imported/generated `userColors` should already be the final bubble-fill values written to YAML. If a theme needs softer bubbles, soften the authored/imported color itself instead of adding runtime tinting back into QML.
 - For imported themes, prefer minimal tuning, but do tune when a role is used in a clearly different way in Komai than in the upstream source.
 - When a role would need heavy distortion to satisfy Komai requirements, prefer adding a Komai-specific theme or a component-level fallback instead of aggressively mutating a known upstream theme.
 

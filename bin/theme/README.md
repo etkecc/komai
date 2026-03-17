@@ -16,7 +16,7 @@ Themes are authored as readable YAML under `resources/themes/`, but runtime code
 - `check.py` - validates theme YAML schema and color fields.
 - `contrast.py` - reports practical contrast ratios for palette roles and bubble/user colors.
 - `generate.py` - generates `src/ui/ThemeDefinitions.h` from theme YAML files.
-- `colors.py` - shared parsing and color-utility module used by the scripts above.
+- `colors.py` - shared parsing and color-utility module used by the Python build/audit scripts above.
 
 ## Workflow
 
@@ -27,7 +27,7 @@ Themes are authored as readable YAML under `resources/themes/`, but runtime code
 - `just generate-themes` to regenerate `ThemeDefinitions.h`.
 - `bin/theme/check.py` is also used by the `check-theme-yaml` hook in linting.
 
-Theme importing is handled by the C++ CLI (`komai theme tinted-import`). The color math lives in `src/cli/ThemeColorUtils.cpp`. See [`resources/themes/README.md`](../../resources/themes/README.md) for the full developer workflow.
+Theme importing is handled by the C++ CLI (`komai theme tinted-import`). The import-time color math and auto-generated `userColors` logic live in `src/cli/ThemeColorUtils.cpp`. The Python scripts here are for validation, contrast auditing, preview/build support, and header generation. See [`resources/themes/README.md`](../../resources/themes/README.md) for the full developer workflow.
 
 ## Design Intent
 

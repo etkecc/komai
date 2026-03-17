@@ -135,7 +135,7 @@ The `userColors` section is **required**. It controls how sender names and messa
 
 Komai may still derive a darker/lighter text color from these values where needed so names and inline accents remain readable, but the bubble fill itself uses the theme color directly.
 
-When importing a theme via `komai theme tinted-import` or creating one via `komai theme create-sample`, the `userColors` section is auto-generated from the theme's highlight color and variant.
+When importing a theme via `komai theme tinted-import` or creating one via `komai theme create-sample`, the `userColors` section is auto-generated from the theme's highlight color, base surface, and variant. The generated values are already softened for direct bubble use, so the YAML stores the final literal bubble colors rather than raw accent colors.
 
 Imported themes also include an optional `source_base16:` section with the original Base16 palette for reference. This section is ignored by the build.
 

@@ -128,7 +128,8 @@ handleTintedImport(int argc, char *argv[], QCoreApplication & /*app*/)
     finalPalette.insert(custom.begin(), custom.end());
 
     // Generate user colors from the highlight (accent) color
-    auto userColors = theme_color::generateUserColors(finalPalette["highlight"], variant);
+    auto userColors =
+      theme_color::generateUserColors(finalPalette["highlight"], finalPalette["base"], variant);
 
     if (!writeThemeYaml(
           outputFile, themeName, themeAuthor, variant, finalPalette, userColors, &rawPalette)) {

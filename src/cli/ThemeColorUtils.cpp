@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
-// Direct port of bin/theme/colors.py — color math and Base16→QPalette mapping.
+// Theme import color math and Base16→QPalette mapping.
 
 #include "ThemeColorUtils.h"
 
@@ -401,11 +401,29 @@ hueFromHex(const std::string &hex)
     return h;
 }
 
-UserColors
-generateUserColors(const std::string &highlightHex, const std::string &variant)
+static std::string
+alphaBlendSrgb(const std::string &backgroundHex, const std::string &foregroundHex, double alpha)
 {
+    auto [br, bg, bb] = parseColor(backgroundHex);
+    auto [fr, fg, fb] = parseColor(foregroundHex);
+
+    auto blendChannel = [alpha](int background, int foreground) {
+        return std::clamp(
+          static_cast<int>(std::round(background * (1.0 - alpha) + foreground * alpha)), 0, 255);
+    };
+
+    return rgbToHex({blendChannel(br, fr), blendChannel(bg, fg), blendChannel(bb, fb)});
+}
+
+UserColors
+generateUserColors(const std::string &highlightHex,
+                   const std::string &baseHex,
+                   const std::string &variant)
+{
+    constexpr double kSelfAlpha  = 0.30;
+    constexpr double kOtherAlpha = 0.20;
     UserColors result;
-    result.self = highlightHex;
+    result.self = alphaBlendSrgb(baseHex, highlightHex, kSelfAlpha);
 
     double selfHue                  = hueFromHex(highlightHex);
     constexpr double kExclusionZone = 30.0; // degrees on each side of self hue
@@ -440,7 +458,7 @@ generateUserColors(const std::string &highlightHex, const std::string &variant)
 
     result.others.reserve(filteredHues.size());
     for (double h : filteredHues)
-        result.others.push_back(hslToHex(h, sat, lit));
+        result.others.push_back(alphaBlendSrgb(baseHex, hslToHex(h, sat, lit), kOtherAlpha));
 
     return result;
 }

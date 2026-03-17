@@ -113,10 +113,11 @@ struct UserColors
     std::vector<std::string> others; // hex colors for other members (per-member palette)
 };
 
-// Generate userColors from a highlight (accent) hex color and variant ("light"/"dark").
-// Produces self = highlightHex, and ~14 others using golden-angle hue spacing
-// with variant-aware saturation/lightness, excluding hues near the self color.
+// Generate literal bubble-fill userColors from a highlight (accent), base surface,
+// and variant. The returned values are already softened for direct bubble use.
 UserColors
-generateUserColors(const std::string &highlightHex, const std::string &variant);
+generateUserColors(const std::string &highlightHex,
+                   const std::string &baseHex,
+                   const std::string &variant);
 
 } // namespace theme_color

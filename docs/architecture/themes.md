@@ -26,6 +26,8 @@ src/ui/ThemeDefinitions.h    ← compiled into the binary
 All color derivation happens at **import time** (in the C++ CLI).
 The build step (`generate.py`) is a straightforward YAML→C++ transcription
 with no color logic.
+Python theme scripts may reuse similar parsing and contrast helpers for audit
+and generation tasks, but they do not define the import behavior.
 
 
 ## Runtime theme loading
@@ -90,6 +92,11 @@ Imported themes include an optional `source_base16:` section preserving the
 original Base16 palette. This section is purely informational and is ignored
 by both `generate.py` and `check.py`.
 
+Auto-generated themes also get `userColors` written as final literal bubble
+fill colors. `komai theme tinted-import` and `komai theme create-sample`
+soften them against `palette.base` before writing YAML, so runtime QML can use
+them directly without extra tinting logic.
+
 
 ## Base16 → QPalette mapping
 
@@ -134,6 +141,19 @@ After the initial mapping, the contrast heuristics in `ThemeColorUtils.cpp` adju
 
 These adjustments use WCAG 2.0 contrast ratios with perceptual (linear-light)
 blending.
+
+
+## Auto-generated userColors
+
+Imported themes and sample themes generate `userColors` in `ThemeColorUtils.cpp`.
+
+- `self` starts from `highlight` and is blended over `base` at `0.30`
+- each `others` color starts from a vivid generated accent and is blended over
+  `base` at `0.20`
+
+The important contract is that the stored YAML value is already the final
+literal bubble-fill color. Komai may still derive text colors from it for
+readability, but it does not further soften the bubble fill at runtime.
 
 
 ## Adding a new built-in theme
@@ -196,7 +216,8 @@ generated `themes.json` step anymore.
 
 ## Re-importing with updated heuristics
 
-If the mapping or contrast logic in `ThemeColorUtils.cpp` changes:
+If the mapping, contrast logic, or auto-generated `userColors` logic in
+`ThemeColorUtils.cpp` changes:
 
 ```sh
 # Re-import all community themes (those with source_base16 sections)
@@ -219,8 +240,9 @@ Hand-crafted themes (without `source_base16:`) must be updated manually.
 
 ## C++ import pipeline (CLI)
 
-The C++ CLI commands (`komai theme tinted-import`, etc.) port the Python
-color math to C++ so end users can import themes without Python or the source tree.
+The C++ CLI commands (`komai theme tinted-import`, etc.) are the canonical
+theme import path. They own Base16 mapping, contrast heuristics, and
+auto-generated `userColors` for imported/sample themes.
 
 ```
 komai theme tinted-import <slug>
@@ -230,14 +252,15 @@ src/cli/ThemeCommands.cpp           ← HTTP fetch from tinted-theming
         │
         ▼
 src/cli/ThemeColorUtils.cpp         ← Base16→QPalette mapping + contrast heuristics
-        │                              + userColors generation (direct port of bin/theme/colors.py)
+        │                              + softened literal userColors generation
         ▼
 ~/.local/share/komai/themes/*.yml   ← user themes directory
 ```
 
-The C++ color math in `ThemeColorUtils.cpp` is a function-for-function port of
-`colors.py` and produces identical output for the same input. Both pipelines
-use the same YAML format, so themes created by either path are interchangeable.
+The Python scripts under `bin/theme/` are build/audit tools around that YAML:
+header generation, validation, contrast reporting, and preview support. They
+share some color/contrast helpers, but they are not the source of truth for
+theme import behavior.
 
 See [CLI Architecture](cli.md) for the subcommand dispatch design.
 
@@ -246,7 +269,7 @@ See [CLI Architecture](cli.md) for the subcommand dispatch design.
 
 | Script | Purpose |
 |--------|---------|
-| `bin/theme/colors.py` | Shared module: YAML parser, color utilities |
+| `bin/theme/colors.py` | Shared module for Python-side YAML parsing and color/contrast helpers |
 | `bin/theme/contrast.py` | Report practical contrast ratios for palette roles and bubble/user colors |
 | `bin/theme/generate.py` | Read resolved YAMLs, generate C++ header |
 | `bin/theme/check.py` | Validate theme YAML files (palette colors, userColors, hex format) |

@@ -19,11 +19,10 @@ Rectangle {
     property bool collapsed: width < collapsePoint
     property int currentTab: UserSettingsModel.TabLookFeel
     property int sidebarWidth: {
-        // Read font heights to track font size changes in this binding
+        // Read font height to track font size changes in this binding
         var _d1 = sidebarNavFontMetrics.height;
-        var _d2 = sidebarHeaderFontMetrics.height;
 
-        var maxWidth = sidebarHeaderFontMetrics.advanceWidth(qsTr("Back to main"));
+        var maxWidth = sidebarNavFontMetrics.advanceWidth(qsTr("Back to main"));
         for (var i = 0; i < navModel.length; i++)
             maxWidth = Math.max(maxWidth, sidebarNavFontMetrics.advanceWidth(navModel[i].text));
         return Math.max(120, Math.ceil(Komai.paddingMedium + 24 + Komai.paddingMedium + maxWidth + Komai.paddingLarge));
@@ -56,12 +55,6 @@ Rectangle {
         id: sidebarNavFontMetrics
         font.bold: true
         font.pointSize: Settings.uiFontSizePt
-    }
-
-    FontMetrics {
-        id: sidebarHeaderFontMetrics
-        font.bold: true
-        font.pointSize: Settings.uiFontSizePt * 1.1
     }
 
     // Sidebar + Content layout
@@ -104,19 +97,19 @@ Rectangle {
                         spacing: Komai.paddingMedium
 
                         Image {
-                            Layout.preferredWidth: userSettingsDialog.headerIconSize
-                            Layout.preferredHeight: userSettingsDialog.headerIconSize
+                            Layout.preferredWidth: 24
+                            Layout.preferredHeight: 24
                             Layout.alignment: Qt.AlignVCenter
                             source: "image://colorimage/:/icons/icons/ui/angle-arrow-left.svg?" + (headerBack.hovered ? palette.brightText : palette.text)
-                            sourceSize.width: userSettingsDialog.headerIconSize
-                            sourceSize.height: userSettingsDialog.headerIconSize
+                            sourceSize.width: 24
+                            sourceSize.height: 24
                         }
 
                         Label {
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
                             text: qsTr("Back to main")
-                            font.pointSize: Settings.uiFontSizePt * 1.1
+                            font.pointSize: Settings.uiFontSizePt
                             font.bold: true
                             color: headerBack.hovered ? palette.brightText : palette.text
                         }

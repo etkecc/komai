@@ -25,8 +25,18 @@ palette:
 userColors:
   self:
     background: "#0b3518"
+    text: "#d8ffe0"
+    secondaryText: "#8fcf9f"
   others:
-    - background: "#111512"
-    - background: "#0d2a22"
-    - background: "#1d2a12"
-    - background: "#2a2210"
+    - background: "#181918"
+      text: "#d2d5d2"
+      secondaryText: "#949993"
+    - background: "#0b302a"
+      text: "#b6f3ea"
+      secondaryText: "#71c3b4"
+    - background: "#23310f"
+      text: "#e4efb6"
+      secondaryText: "#a8bb73"
+    - background: "#33280b"
+      text: "#f6e3a1"
+      secondaryText: "#d0af65"

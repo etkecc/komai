@@ -285,14 +285,14 @@ Components.OverlayDialog {
                             visible: profile.isSelf && root.isRoomProfile && root.hasCustomRoomAvatar
                             text: qsTr("Reset to global avatar")
                             icon.source: "qrc:/icons/icons/ui/delete.svg"
-                            onClicked: profile.removeAvatar()
+                            onClicked: confirmResetRoomAvatarDialog.open()
                         }
 
                         Components.KomaiButton {
                             visible: profile.isSelf && !root.isRoomProfile && profile.avatarUrl !== ""
                             text: qsTr("Remove")
                             icon.source: "qrc:/icons/icons/ui/delete.svg"
-                            onClicked: profile.removeAvatar()
+                            onClicked: confirmRemoveAvatarDialog.open()
                         }
 
                         Components.Avatar {
@@ -325,6 +325,74 @@ Components.OverlayDialog {
                         color: avatarRowItem.rowHovered ? palette.brightText : palette.buttonText
                         font.pointSize: Math.floor(Settings.uiFontSizePt * 0.85)
                         font.italic: true
+                    }
+                }
+
+                Components.OverlayDialog {
+                    id: confirmResetRoomAvatarDialog
+                    title: qsTr("Reset avatar")
+                    titleIcon: ":/icons/icons/ui/delete.svg"
+
+                    Label {
+                        Layout.fillWidth: true
+                        color: palette.text
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Are you sure you want to reset your avatar for this room to the global one?")
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingMedium
+
+                        Components.KomaiButton {
+                            text: qsTr("Cancel")
+                            onClicked: confirmResetRoomAvatarDialog.close()
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Components.KomaiButton {
+                            text: qsTr("Reset")
+                            highlighted: true
+                            onClicked: {
+                                profile.removeAvatar();
+                                confirmResetRoomAvatarDialog.close();
+                            }
+                        }
+                    }
+                }
+
+                Components.OverlayDialog {
+                    id: confirmRemoveAvatarDialog
+                    title: qsTr("Remove avatar")
+                    titleIcon: ":/icons/icons/ui/delete.svg"
+
+                    Label {
+                        Layout.fillWidth: true
+                        color: palette.text
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Are you sure you want to remove your avatar?")
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Komai.paddingMedium
+
+                        Components.KomaiButton {
+                            text: qsTr("Cancel")
+                            onClicked: confirmRemoveAvatarDialog.close()
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Components.KomaiButton {
+                            text: qsTr("Remove")
+                            highlighted: true
+                            onClicked: {
+                                profile.removeAvatar();
+                                confirmRemoveAvatarDialog.close();
+                            }
+                        }
                     }
                 }
             }

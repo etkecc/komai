@@ -317,8 +317,8 @@ MxcImageProvider::download(const QString &id,
           });
     } else {
         try {
-            QFileInfo fileInfo(app_paths::cache::mediaThumbnailFileForMxc(
-              currentProfileId(), id, requestedSize, crop, radius, roomId));
+            QFileInfo fileInfo(
+              app_paths::cache::mediaFullFileForMxc(currentProfileId(), id, roomId));
             QDir().mkpath(fileInfo.absolutePath());
             QFile f(fileInfo.absoluteFilePath());
 

@@ -73,6 +73,10 @@ mediaFileForMxc(QStringView profileId,
                 QStringView suffix,
                 QStringView roomId = {});
 
+/// Cache path for a full download when the file suffix is unknown.
+QString
+mediaFullFileForMxc(QStringView profileId, QStringView mxcId, QStringView roomId = {});
+
 /// Cache path for a thumbnail.
 QString
 mediaThumbnailFileForMxc(QStringView profileId,

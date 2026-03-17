@@ -204,6 +204,13 @@ mediaFileForMxc(QStringView profileId, QStringView mxcId, QStringView suffix, QS
 }
 
 QString
+mediaFullFileForMxc(QStringView profileId, QStringView mxcId, QStringView roomId)
+{
+    return QStringLiteral("%1/full/%2")
+      .arg(mediaDirectoryForContext(profileId, roomId), encodedIdComponent(mxcId));
+}
+
+QString
 mediaThumbnailFileForMxc(QStringView profileId,
                          QStringView mxcId,
                          const QSize &requestedSize,

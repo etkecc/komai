@@ -125,7 +125,7 @@ userColors:
   self:
     background: "#fbdaa7"      # required bubble background for your own messages
     text: "#334258"            # optional bubble body text override
-    secondaryText: "#555459"   # optional bubble metadata/timestamp override
+    secondaryText: "#555459"   # optional bubble secondary/inactive text override
     link: "#8f5200"            # optional bubble link override
   others:                      # other-user bubble slots (minimum 1)
     - background: "#d3e1e5"
@@ -146,7 +146,7 @@ Each bubble slot has:
 
 - **`background`** — required literal bubble fill color
 - **`text`** — optional bubble body text color
-- **`secondaryText`** — optional bubble metadata color (timestamps, edited markers, helper text)
+- **`secondaryText`** — optional bubble secondary/inactive text color (notice text, collapsed-message controls, reply helper text)
 - **`link`** — optional bubble hyperlink color
 
 Fallbacks are straightforward:
@@ -158,6 +158,8 @@ Fallbacks are straightforward:
 The bubble fill itself uses the authored `background` directly. Komai does not add extra runtime tinting on top of it.
 
 When importing a theme via `komai theme tinted-import` or creating one via `komai theme create-sample`, the `userColors` section is auto-generated from the theme's highlight color, base surface, and variant. The generated values are already softened for direct bubble use, and the commands may also emit explicit per-bubble `text`, `secondaryText`, and `link` overrides when the global palette would not be good enough on those bubble backgrounds.
+
+Outer timeline metadata such as the timestamp beside a bubble uses the normal timeline palette, not the bubble slot overrides.
 
 Imported themes also include an optional `source_base16:` section with the original Base16 palette for reference. This section is ignored by the build.
 

@@ -508,7 +508,6 @@ TimelineMessageStyleBase {
                 // Metadata order (timestamp/status/actions) should follow the active bubble side.
                 isSender: wrapper.isStateEvent ? false : wrapper.messageIsRightAligned
                 actionBarActive: messageActions.pinned && messageActions.attached === wrapper
-                contentPalette: messageBubble.palette
             }
 
             Connections {

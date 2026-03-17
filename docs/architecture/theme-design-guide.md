@@ -88,6 +88,7 @@ These pairings are particularly important because they appear in common screens:
 - Do not assume a Qt role name matches how Komai uses it. For example, `alternateBase` is not a niche table-row color here.
 - Treat `mid` as a real UI border/separator color, not a leftover palette slot.
 - Treat `userColors` as the actual bubble slot values in bubble style. `background` should be literal. Only add per-slot `text`, `secondaryText`, or `link` when the global palette is not good enough on that bubble.
+- Treat `secondaryText` as an advanced in-bubble secondary/inactive role. Outer timeline metadata should follow the normal timeline palette unless a component explicitly chooses otherwise.
 - Imported/generated `userColors` should already be the final bubble-fill values written to YAML. If a theme needs softer bubbles, soften the authored/imported color itself instead of adding runtime tinting back into QML.
 - Keep the fallback model simple: slot `text` falls back to `palette.text`, slot `secondaryText` to `palette.buttonText`, and slot `link` to `palette.link`.
 - For imported themes, prefer minimal tuning, but do tune when a role is used in a clearly different way in Komai than in the upstream source.

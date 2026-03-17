@@ -218,7 +218,7 @@ alphabetically by slug within each variant group. Each frame includes:
 - communities sidebar preview
 - room list preview with idle, hover, selected, unread, and draft states
 - timeline preview with all `userColors.others`, `userColors.self`, bubble text,
-  bubble metadata, and link text
+  bubble secondary text, and link text
 - composer/footer chrome
 - client-side upload/drop support for extra theme YAML files without editing the repo
 
@@ -252,6 +252,10 @@ Fallbacks are intentionally simple:
 - missing slot `text` -> `palette.text`
 - missing slot `secondaryText` -> `palette.buttonText`
 - missing slot `link` -> `palette.link`
+
+`secondaryText` is intended for in-bubble secondary/inactive content. Outer
+timeline metadata should normally use the regular timeline palette instead of
+inheriting bubble-specific overrides.
 
 `theme-preview-run` serves `etc/tools/theme-preview/` using a containerized static
 web server and mounts `resources/themes/` into the served tree, so there is no

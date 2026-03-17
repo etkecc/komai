@@ -33,7 +33,7 @@ Column {
             ? false
             : (room ? room.roomMemberCount > Settings.timelineMessagesSenderUsernameLargeRoomThreshold : false)
 
-    bottomPadding: 3
+    bottomPadding: showLabel ? Komai.paddingMedium : 3
     spacing: 8
     topPadding: userName_.visible ? 4 : 0
     visible: (previousMessageUserId !== userId || showLabel || isStateEvent !== previousMessageIsStateEvent)

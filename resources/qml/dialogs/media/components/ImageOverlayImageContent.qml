@@ -17,7 +17,7 @@ Item {
 
     required property string url
     required property string eventId
-    required property Room room
+    property Room room
     required property int cornerRadius
     property bool animateOnHover: false
     property bool hovered: false
@@ -52,7 +52,7 @@ Item {
 
             visible: !mxcimage.loaded
             anchors.fill: parent
-            source: imageContent.visible ? (imageContent.url.replace("mxc://", "image://MxcImage/") + "?room=" + imageContent.room.roomId) : ""
+            source: imageContent.visible ? (imageContent.url.replace("mxc://", "image://MxcImage/") + (imageContent.room ? "?room=" + imageContent.room.roomId : "")) : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             smooth: true

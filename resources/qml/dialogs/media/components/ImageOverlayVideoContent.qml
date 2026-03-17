@@ -16,7 +16,7 @@ import cc.etke.komai 1.0
 Item {
     id: videoContent
 
-    required property Room room
+    property Room room
     required property string eventId
     required property string thumbnailUrl
     required property int mediaDuration
@@ -79,7 +79,7 @@ Item {
 
             anchors.fill: parent
             source: videoContent.thumbnailUrl
-                ? videoContent.thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale&room=" + videoContent.room.roomId
+                ? videoContent.thumbnailUrl.replace("mxc://", "image://MxcImage/") + "?scale" + (videoContent.room ? "&room=" + videoContent.room.roomId : "")
                 : ""
             asynchronous: true
             fillMode: Image.PreserveAspectFit

@@ -20,7 +20,7 @@ Window {
 
     required property string url
     required property string eventId
-    required property Room room
+    property Room room
     required property int originalWidth
     required property double proportionalHeight
     property int mediaType: -1

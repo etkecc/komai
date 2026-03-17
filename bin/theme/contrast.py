@@ -10,12 +10,10 @@ Usage examples:
 from __future__ import annotations
 
 import argparse
-import colorsys
 import os
-import sys
 from dataclasses import dataclass
 
-from colors import contrast_ratio, parse_color, parse_yaml
+from colors import contrast_ratio, derive_readable_accent_text_color, parse_yaml
 
 
 @dataclass(frozen=True)
@@ -30,75 +28,6 @@ class CheckResult:
         if self.ratio >= self.target:
             return "OK"
         return "FAIL" if self.hard else "WARN"
-
-
-def rgb_to_hex(rgb: tuple[int, int, int]) -> str:
-    return "#{:02x}{:02x}{:02x}".format(*rgb)
-
-
-def qcolor_darker(hex_str: str, factor: int) -> str:
-    r, g, b = parse_color(hex_str)
-    h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
-    v = max(0.0, min(1.0, v * 100.0 / factor))
-    rr, gg, bb = colorsys.hsv_to_rgb(h, s, v)
-    return rgb_to_hex((round(rr * 255), round(gg * 255), round(bb * 255)))
-
-
-def qcolor_lighter(hex_str: str, factor: int) -> str:
-    r, g, b = parse_color(hex_str)
-    h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
-    v = max(0.0, min(1.0, v * factor / 100.0))
-    rr, gg, bb = colorsys.hsv_to_rgb(h, s, v)
-    return rgb_to_hex((round(rr * 255), round(gg * 255), round(bb * 255)))
-
-
-def derive_readable_accent_text_color(
-    accent_color: str, background_color: str, min_contrast: float = 4.5
-) -> str:
-    if contrast_ratio(accent_color, background_color) >= min_contrast:
-        return accent_color
-
-    prefer_darker = contrast_ratio("#000000", background_color) >= contrast_ratio(
-        "#ffffff", background_color
-    )
-    best_color: str | None = None
-    best_distance = sys.maxsize
-    best_contrast = 0.0
-
-    def consider(candidate: str, distance: int) -> None:
-        nonlocal best_color, best_distance, best_contrast
-        ratio = contrast_ratio(candidate, background_color)
-        if ratio < min_contrast:
-            return
-        if (
-            best_color is None
-            or distance < best_distance
-            or (distance == best_distance and ratio > best_contrast)
-        ):
-            best_color = candidate
-            best_distance = distance
-            best_contrast = ratio
-
-    for factor in range(105, 401, 5):
-        if prefer_darker:
-            consider(qcolor_darker(accent_color, factor), factor - 100)
-            consider(qcolor_lighter(accent_color, factor), factor - 100)
-        else:
-            consider(qcolor_lighter(accent_color, factor), factor - 100)
-            consider(qcolor_darker(accent_color, factor), factor - 100)
-        if best_color is not None and best_distance == 5:
-            break
-
-    if best_color is not None:
-        return best_color
-
-    return (
-        "#000000"
-        if contrast_ratio("#000000", background_color)
-        >= contrast_ratio("#ffffff", background_color)
-        else "#ffffff"
-    )
-
 
 def build_core_checks(palette: dict[str, str]) -> list[CheckResult]:
     return [

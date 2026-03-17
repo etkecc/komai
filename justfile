@@ -4,6 +4,7 @@ set tempdir := "var/tmp/just"
 build_dir := justfile_directory() / "var/build/native"
 flatpak_build_dir := justfile_directory() / "var/build/flatpak"
 appimage_build_dir := justfile_directory() / "var/build/appimage"
+static_web_server_container_image := "ghcr.io/static-web-server/static-web-server:2.41.0"
 
 # mise (dev tool version manager)
 mise_data_dir := env("MISE_DATA_DIR", justfile_directory() / "var/mise")
@@ -111,6 +112,30 @@ theme-check-contrast *themes:
 # Same as theme-check-contrast, but exits non-zero on hard AA failures
 theme-check-contrast-strict *themes:
 	python3 {{ justfile_directory() }}/bin/theme/contrast.py --fail-aa {{ themes }}
+
+# No build step is required; the preview reads theme YAML files directly in the browser.
+theme-preview-build:
+	@echo "No build step required. Run 'just theme-preview-run'."
+
+# Serves the theme preview SPA with built-in themes mounted at /resources/themes/
+theme-preview-run port='20680':
+	#!/usr/bin/env bash
+	set -euo pipefail
+	echo "Starting theme preview: http://127.0.0.1:{{ port }}"
+	/usr/bin/env docker run \
+		-it \
+		--user="$(id -u):$(id -g)" \
+		--read-only \
+		--cap-drop=ALL \
+		--rm \
+		-e SERVER_PORT=8080 \
+		-e SERVER_ROOT=/srv \
+		-e SERVER_DIRECTORY_LISTING=true \
+		-e SERVER_DIRECTORY_LISTING_FORMAT=json \
+		-p 127.0.0.1:{{ port }}:8080 \
+		--mount type=bind,src={{ justfile_directory() }}/etc/tools/theme-preview,dst=/srv,ro \
+		--mount type=bind,src={{ justfile_directory() }}/resources/themes,dst=/srv/resources/themes,ro \
+		{{ static_web_server_container_image }}
 
 # Imports a tinted-theming Base16 theme into resources/themes/ (builds first if needed)
 theme-tinted-import slug *args: build

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Komai Theme Preview</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="page-header">
+    <div class="page-header__copy">
+      <p class="eyebrow">Komai Theme Tooling</p>
+      <h1>Built-in Theme Preview</h1>
+      <p class="lede">
+        This page reads <code>resources/themes/*.yml</code> directly from the mounted theme directory.
+        Drop another theme YAML anywhere on the page, or use the upload button, to preview it alongside the built-ins.
+      </p>
+    </div>
+    <div class="page-header__actions">
+      <button id="upload-button" class="upload-button" type="button">Add Theme YAML</button>
+      <input id="upload-input" type="file" accept=".yml,.yaml" multiple hidden>
+      <div class="command-card">
+        <p>Workflow</p>
+        <code>just theme-preview-run</code>
+        <span>Built-ins load live from <code>/resources/themes/</code>.</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-status">
+    <div id="status-message" class="status-message">Loading built-in themes…</div>
+  </section>
+
+  <nav class="theme-index" aria-label="Theme index">
+    <div id="theme-index"></div>
+  </nav>
+
+  <main id="theme-gallery" class="theme-gallery" aria-live="polite"></main>
+
+  <div id="drop-overlay" class="drop-overlay" hidden>
+    <div class="drop-overlay__panel">
+      <strong>Drop theme YAML files</strong>
+      <span>They will be added to the gallery and scrolled into view.</span>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

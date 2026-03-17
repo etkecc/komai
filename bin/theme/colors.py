@@ -1,10 +1,12 @@
 """Shared color utilities for theme scripts.
 
 Contains YAML parsing, color utilities, and the canonical list of palette
-keys. Used by check.py and generate.py.
+keys. Used by check.py, contrast.py, and generate.py.
 """
 
+import colorsys
 import re
+import sys
 
 # -- Canonical palette key lists -----------------------------------------------
 
@@ -130,3 +132,73 @@ def contrast_ratio(hex1, hex2):
     l1, l2 = luminance(hex1), luminance(hex2)
     lighter, darker = max(l1, l2), min(l1, l2)
     return (lighter + 0.05) / (darker + 0.05)
+
+
+def rgb_to_hex(rgb):
+    """Convert (r, g, b) ints to a #rrggbb string."""
+    return "#{:02x}{:02x}{:02x}".format(*rgb)
+
+
+def qcolor_darker(hex_str, factor):
+    """Approximate QColor::darker(factor) for a hex color string."""
+    r, g, b = parse_color(hex_str)
+    h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
+    v = max(0.0, min(1.0, v * 100.0 / factor))
+    rr, gg, bb = colorsys.hsv_to_rgb(h, s, v)
+    return rgb_to_hex((round(rr * 255), round(gg * 255), round(bb * 255)))
+
+
+def qcolor_lighter(hex_str, factor):
+    """Approximate QColor::lighter(factor) for a hex color string."""
+    r, g, b = parse_color(hex_str)
+    h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
+    v = max(0.0, min(1.0, v * factor / 100.0))
+    rr, gg, bb = colorsys.hsv_to_rgb(h, s, v)
+    return rgb_to_hex((round(rr * 255), round(gg * 255), round(bb * 255)))
+
+
+def derive_readable_accent_text_color(accent_color, background_color, min_contrast=4.5):
+    """Adjust an accent toward readability on a background with minimal drift."""
+    if contrast_ratio(accent_color, background_color) >= min_contrast:
+        return accent_color
+
+    prefer_darker = contrast_ratio("#000000", background_color) >= contrast_ratio(
+        "#ffffff", background_color
+    )
+    best_color = None
+    best_distance = sys.maxsize
+    best_contrast = 0.0
+
+    def consider(candidate, distance):
+        nonlocal best_color, best_distance, best_contrast
+        ratio = contrast_ratio(candidate, background_color)
+        if ratio < min_contrast:
+            return
+        if (
+            best_color is None
+            or distance < best_distance
+            or (distance == best_distance and ratio > best_contrast)
+        ):
+            best_color = candidate
+            best_distance = distance
+            best_contrast = ratio
+
+    for factor in range(105, 401, 5):
+        if prefer_darker:
+            consider(qcolor_darker(accent_color, factor), factor - 100)
+            consider(qcolor_lighter(accent_color, factor), factor - 100)
+        else:
+            consider(qcolor_lighter(accent_color, factor), factor - 100)
+            consider(qcolor_darker(accent_color, factor), factor - 100)
+        if best_color is not None and best_distance == 5:
+            break
+
+    if best_color is not None:
+        return best_color
+
+    return (
+        "#000000"
+        if contrast_ratio("#000000", background_color)
+        >= contrast_ratio("#ffffff", background_color)
+        else "#ffffff"
+    )

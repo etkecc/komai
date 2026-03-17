@@ -156,6 +156,44 @@ See [`resources/themes/README.md`](../../resources/themes/README.md)
 for a quick reference.
 
 
+## Preview gallery
+
+For fast visual review of built-in themes, Komai also has a generated static
+preview SPA.
+
+```
+etc/tools/theme-preview/*     ← tracked HTML/CSS/JS source for the SPA
+        ▲
+        │
+        ├────────── loads built-in themes directly from ──────────┐
+        │                                                         │
+        ▼                                                         ▼
+browser runtime                                           resources/themes/*.yml
+        ▲
+        │
+just theme-preview-run      ← serves the SPA root and mounts resources/themes/
+```
+
+The preview renders one frame per built-in theme, sorted light-first and then
+alphabetically by slug within each variant group. Each frame includes:
+
+- communities sidebar preview
+- room list preview with idle, hover, selected, unread, and draft states
+- timeline preview with all `userColors.others`, `userColors.self`, and link text
+- composer/footer chrome
+- client-side upload/drop support for extra theme YAML files without editing the repo
+
+Useful commands:
+
+```sh
+just theme-preview-run
+```
+
+`theme-preview-run` serves `etc/tools/theme-preview/` using a containerized static
+web server and mounts `resources/themes/` into the served tree, so there is no
+generated `themes.json` step anymore.
+
+
 ## Re-importing with updated heuristics
 
 If the mapping or contrast logic in `ThemeColorUtils.cpp` changes:

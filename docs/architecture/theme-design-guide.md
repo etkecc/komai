@@ -105,9 +105,10 @@ Theme files alone are not enough.
 When changing a built-in theme:
 
 1. Check the common text/surface pairs above, not only the raw palette.
-2. Verify the affected components in room list, settings, dialogs, and auth/onboarding.
-3. Re-check hand-crafted external themes if the change is really a component-level safeguard.
-4. Run `just lint`.
+2. Run the theme preview SPA and scroll the affected screens across all built-in themes.
+3. Verify the affected components in room list, settings, dialogs, and auth/onboarding.
+4. Re-check hand-crafted external themes if the change is really a component-level safeguard.
+5. Run `just lint`.
 
 Useful local checks:
 
@@ -115,5 +116,6 @@ Useful local checks:
 python3 bin/theme/check.py
 python3 bin/theme/contrast.py komai-light
 just theme-check-contrast komai-light
+just theme-preview-run
 just lint
 ```

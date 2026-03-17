@@ -23,6 +23,7 @@ Themes are authored as readable YAML under `resources/themes/`, but runtime code
 - `just theme-tinted-import <slug>` (via [`just`](https://github.com/casey/just)) to pull in a new external theme (wraps the C++ CLI).
 - `just theme-check-contrast [slug ...]` to audit theme contrast ratios.
 - `just theme-check-contrast-strict [slug ...]` to fail on hard AA-style misses.
+- `just theme-preview-run` to serve the static preview SPA in `etc/tools/theme-preview/` with `resources/themes/` mounted live.
 - `just generate-themes` to regenerate `ThemeDefinitions.h`.
 - `bin/theme/check.py` is also used by the `check-theme-yaml` hook in linting.
 

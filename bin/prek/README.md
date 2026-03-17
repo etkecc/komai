@@ -16,6 +16,7 @@ Some checks need project-specific logic that is too complex for a plain pre-comm
 
 - `qmllint.sh` - finds a Qt6 `qmllint`, runs it, and treats warnings as failures.
 - `no-qsettings.sh` - blocks direct `QSettings` usage in `src/` to enforce Komai's YAML-backed settings architecture.
+- `theme-contrast-aa.sh` - fails if the built-in theme set drops below the strict WCAG AA contrast audit.
 - `tests.sh` - delegates to `just test` for the C++ test suite.
 
 ## How It Fits Together
@@ -28,6 +29,7 @@ Some checks need project-specific logic that is too complex for a plain pre-comm
 
 - `qmllint.sh`: Qt6 tooling (`qmake6` and/or `qmllint` linked against Qt6)
 - `no-qsettings.sh`: standard `grep`
+- `theme-contrast-aa.sh`: `python3`
 - `tests.sh`: `just`, build dependencies for test targets
 
 Tool references:

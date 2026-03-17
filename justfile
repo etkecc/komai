@@ -354,6 +354,7 @@ lint:
 		check-json \
 		clang-format \
 		check-theme-yaml \
+		builtin-theme-wcag-aa \
 		check-ts-normalized \
 		qmllint \
 		emoji-check \

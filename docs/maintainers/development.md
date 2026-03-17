@@ -74,7 +74,7 @@ just prek-run-on-staged
 just prek-run-on-all
 ```
 
-The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), Markdown link checks, theme checks, translation normalization checks, QML linting, and C++ unit tests (run on C++/header/QML changes).
+The hook set includes formatting (`clang-format`), syntax checks (`yaml/json`), Markdown link checks, theme checks, built-in theme [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) enforcement, translation normalization checks, QML linting, and C++ unit tests (run on C++/header/QML changes).
 
 Note: QML linting expects Qt6 `qmllint`. If unavailable, it is skipped with a message.
 

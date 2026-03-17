@@ -28,6 +28,12 @@ repos:
         language: system
         files: '(resources/themes/.*\.yml$|bin/theme/)'
         pass_filenames: false
+      - id: builtin-theme-wcag-aa
+        name: Enforce Built-in Theme WCAG AA Contrast
+        entry: ./bin/prek/theme-contrast-aa.sh
+        language: system
+        files: '^(resources/themes/.*\.yml|bin/theme/contrast\.py|bin/theme/colors\.py|bin/prek/theme-contrast-aa\.sh)$'
+        pass_filenames: false
       - id: check-ts-normalized
         name: Check Translation Files Normalized
         entry: python3 bin/translations/check-normalized.py

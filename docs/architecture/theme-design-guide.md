@@ -46,7 +46,7 @@ Because Komai uses `brightText` and `highlightedText` for ordinary UI labels and
 
 ## Contrast Targets
 
-Use WCAG contrast ratios as the baseline.
+Use WCAG contrast ratios as the baseline. For the standard itself, see the W3C explanation of [WCAG 2.2 Success Criterion 1.4.3, Contrast (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html).
 
 - `text` on `window`, `base`, `alternateBase`: target `>= 4.5`
 - `buttonText` on `window`, `base`, `alternateBase`: target `>= 4.5`
@@ -65,6 +65,7 @@ Notes:
 
 - `3.0` is acceptable for large text, but Komai often uses these colors for ordinary labels and previews.
 - A theme can still feel subtle without pushing `window` and `alternateBase` far apart, but dialogs and hover/selection states need explicit separation somewhere, whether from fill, border, shadow, or all three.
+- Built-in themes are expected to pass the strict AA audit for the common text pairs above. This is enforced in `prek` via the built-in theme contrast hook.
 
 
 ## Current UI Pairings To Protect

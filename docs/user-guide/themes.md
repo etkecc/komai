@@ -5,7 +5,7 @@ Komai uses a data-driven theme system. Built-in themes are defined as YAML files
 
 ## 🧰 Built-in themes
 
-Komai ships with several built-in themes (see [`resources/themes/`](../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Nord, Rosé Pine, and Tokyo Night.
+Komai ships with several built-in themes (see [`resources/themes/`](../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Nord, Rosé Pine, and Tokyo Night. The built-in set is maintained to meet [WCAG AA contrast](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) for Komai's common UI text pairs.
 
 
 ## ⚙️ Where Your Current Theme Choice Is Stored
@@ -88,6 +88,8 @@ These commands work without a display server (SSH, containers) and do not requir
 ### ✍️ Hand-crafted themes
 
 Drop a `.yml` file into [`resources/themes/`](../../resources/themes/) with all palette keys and a `userColors` section, then rebuild for a built-in theme. Or drop it into `~/.local/share/komai/themes/` for a user theme (no rebuild needed; Komai restart required).
+
+Built-in themes are held to a stricter bar than ad-hoc user themes: they should pass Komai's WCAG AA audit for the common text pairings used throughout the app. For the baseline accessibility requirement, see [WCAG 2.2 Contrast (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html).
 
 
 ## 🧩 Theme YAML format

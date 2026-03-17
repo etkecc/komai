@@ -204,15 +204,22 @@ Rectangle {
                         : "";
                 return currentUserId.length > 0 && replyUserId === currentUserId;
             }
+            readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
+                ? Komai.colors.window
+                : palette.window
+            readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
+                ? Komai.colors.base
+                : palette.base
 
             width: parent.width
             eventId: room?.reply ?? ""
+            bubblePalette: room ? TimelineManager.roomUserBubblePalette(room.roomId, replyUserId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyUserId, roomColor)
             userColor: isReplyFromCurrentUser
                 ? Komai.theme.userColorSelf
-                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.window)
+                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, previewWindowColor)
             roomColor: isReplyFromCurrentUser
                 ? Komai.theme.userColorSelf
-                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, palette.base)
+                : room ? TimelineManager.roomUserColor(room.roomId, replyUserId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyUserId, previewBaseColor)
             maxWidth: parent.width
             limitHeight: true
         }

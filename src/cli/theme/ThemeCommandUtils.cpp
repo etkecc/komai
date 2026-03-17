@@ -21,6 +21,20 @@
 
 namespace theme_command {
 
+static void
+writeUserColorSlot(QTextStream &out, const QString &indent, const theme_color::UserColorSlot &slot)
+{
+    out << indent << "background: \"" << QString::fromStdString(slot.background) << "\"\n";
+    if (!slot.text.empty())
+        out << indent << "text: \"" << QString::fromStdString(slot.text) << "\"\n";
+    if (!slot.secondaryText.empty()) {
+        out << indent << "secondaryText: \"" << QString::fromStdString(slot.secondaryText)
+            << "\"\n";
+    }
+    if (!slot.link.empty())
+        out << indent << "link: \"" << QString::fromStdString(slot.link) << "\"\n";
+}
+
 QString
 userThemesDir()
 {
@@ -94,10 +108,20 @@ writeThemeYaml(const QString &path,
     }
 
     out << "userColors:\n";
-    out << "  self: \"" << QString::fromStdString(userColors.self) << "\"\n";
+    out << "  self:\n";
+    writeUserColorSlot(out, QStringLiteral("    "), userColors.self);
     out << "  others:\n";
-    for (const auto &color : userColors.others)
-        out << "    - \"" << QString::fromStdString(color) << "\"\n";
+    for (const auto &slot : userColors.others) {
+        out << "    - background: \"" << QString::fromStdString(slot.background) << "\"\n";
+        if (!slot.text.empty())
+            out << "      text: \"" << QString::fromStdString(slot.text) << "\"\n";
+        if (!slot.secondaryText.empty()) {
+            out << "      secondaryText: \"" << QString::fromStdString(slot.secondaryText)
+                << "\"\n";
+        }
+        if (!slot.link.empty())
+            out << "      link: \"" << QString::fromStdString(slot.link) << "\"\n";
+    }
 
     if (sourceBase16) {
         out << "source_base16:\n";

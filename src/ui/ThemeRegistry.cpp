@@ -43,6 +43,84 @@ static const QStringList paletteKeys = {
   QStringLiteral("error"),
 };
 
+static std::optional<ThemeUserColorSlot>
+parseUserColorSlot(const YAML::Node &slotNode,
+                   const QString &path,
+                   QStringView label,
+                   const QRegularExpression &hexRe)
+{
+    const auto labelString = label.toString();
+
+    if (!slotNode || !slotNode.IsMap()) {
+        nhlog::ui()->warn(
+          "Theme file {} {} must be a mapping", path.toStdString(), labelString.toStdString());
+        return std::nullopt;
+    }
+
+    ThemeUserColorSlot slot;
+    const auto readOptionalColor = [&](QStringView key, QColor &target) -> bool {
+        const auto keyStd = key.toString().toStdString();
+        if (!slotNode[keyStd])
+            return true;
+        if (!slotNode[keyStd].IsScalar()) {
+            nhlog::ui()->warn("Theme file {} {}.{} must be a string",
+                              path.toStdString(),
+                              labelString.toStdString(),
+                              key.toString().toStdString());
+            return false;
+        }
+
+        const auto hex = QString::fromStdString(slotNode[keyStd].as<std::string>());
+        if (!hexRe.match(hex).hasMatch()) {
+            nhlog::ui()->warn("Theme file {} has invalid hex '{}' for {}.{}",
+                              path.toStdString(),
+                              hex.toStdString(),
+                              labelString.toStdString(),
+                              key.toString().toStdString());
+            return false;
+        }
+
+        target = QColor(hex);
+        return true;
+    };
+
+    if (!slotNode["background"] || !slotNode["background"].IsScalar()) {
+        nhlog::ui()->warn(
+          "Theme file {} missing {}.background", path.toStdString(), labelString.toStdString());
+        return std::nullopt;
+    }
+
+    const auto backgroundHex = QString::fromStdString(slotNode["background"].as<std::string>());
+    if (!hexRe.match(backgroundHex).hasMatch()) {
+        nhlog::ui()->warn("Theme file {} has invalid hex '{}' for {}.background",
+                          path.toStdString(),
+                          backgroundHex.toStdString(),
+                          labelString.toStdString());
+        return std::nullopt;
+    }
+    slot.background = QColor(backgroundHex);
+
+    if (!readOptionalColor(QStringLiteral("text"), slot.text) ||
+        !readOptionalColor(QStringLiteral("secondaryText"), slot.secondaryText) ||
+        !readOptionalColor(QStringLiteral("link"), slot.link)) {
+        return std::nullopt;
+    }
+
+    for (auto it = slotNode.begin(); it != slotNode.end(); ++it) {
+        const auto key = QString::fromStdString(it->first.as<std::string>());
+        if (key != QLatin1String("background") && key != QLatin1String("text") &&
+            key != QLatin1String("secondaryText") && key != QLatin1String("link")) {
+            nhlog::ui()->warn("Theme file {} has unexpected key '{}' in {}",
+                              path.toStdString(),
+                              key.toStdString(),
+                              labelString.toStdString());
+            return std::nullopt;
+        }
+    }
+
+    return slot;
+}
+
 void
 ThemeRegistry::initialize()
 {
@@ -184,17 +262,10 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     }
     auto userColorsNode = root["userColors"];
 
-    if (!userColorsNode["self"] || !userColorsNode["self"].IsScalar()) {
-        nhlog::ui()->warn("Theme file {} missing userColors.self", path.toStdString());
+    auto selfSlot =
+      parseUserColorSlot(userColorsNode["self"], path, QStringLiteral("userColors.self"), hexRe);
+    if (!selfSlot)
         return std::nullopt;
-    }
-    auto selfHex = QString::fromStdString(userColorsNode["self"].as<std::string>());
-    if (!hexRe.match(selfHex).hasMatch()) {
-        nhlog::ui()->warn("Theme file {} has invalid hex '{}' for userColors.self",
-                          path.toStdString(),
-                          selfHex.toStdString());
-        return std::nullopt;
-    }
 
     if (!userColorsNode["others"] || !userColorsNode["others"].IsSequence()) {
         nhlog::ui()->warn("Theme file {} missing or invalid userColors.others list",
@@ -208,23 +279,14 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
         return std::nullopt;
     }
 
-    std::vector<QColor> userColorOthers;
+    std::vector<ThemeUserColorSlot> userColorOthers;
     userColorOthers.reserve(othersNode.size());
     for (std::size_t i = 0; i < othersNode.size(); ++i) {
-        if (!othersNode[i].IsScalar()) {
-            nhlog::ui()->warn(
-              "Theme file {} userColors.others[{}] is not a string", path.toStdString(), i);
+        auto otherSlot = parseUserColorSlot(
+          othersNode[i], path, QStringLiteral("userColors.others[%1]").arg(i), hexRe);
+        if (!otherSlot)
             return std::nullopt;
-        }
-        auto otherHex = QString::fromStdString(othersNode[i].as<std::string>());
-        if (!hexRe.match(otherHex).hasMatch()) {
-            nhlog::ui()->warn("Theme file {} has invalid hex '{}' for userColors.others[{}]",
-                              path.toStdString(),
-                              otherHex.toStdString(),
-                              i);
-            return std::nullopt;
-        }
-        userColorOthers.push_back(QColor(otherHex));
+        userColorOthers.push_back(*otherSlot);
     }
 
     ThemeDef def;
@@ -255,7 +317,7 @@ ThemeRegistry::parseThemeFile(const QString &path, const QString &slug)
     def.warning         = colors[QStringLiteral("warning")];
     def.error           = colors[QStringLiteral("error")];
 
-    def.userColorSelf   = QColor(selfHex);
+    def.userColorSelf   = *selfSlot;
     def.userColorOthers = std::move(userColorOthers);
 
     return def;

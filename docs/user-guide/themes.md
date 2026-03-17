@@ -94,7 +94,7 @@ Built-in themes are held to a stricter bar than ad-hoc user themes: they should 
 
 ## 🧩 Theme YAML format
 
-Each theme defines 16 Qt palette colors and 4 app-level semantic colors under `palette:`, plus a `userColors` section for user colors. Unknown keys are rejected by the validator to catch typos.
+Each theme defines 16 Qt palette colors and 4 app-level semantic colors under `palette:`, plus a `userColors` section for message-bubble/user colors. Unknown keys are rejected by the validator to catch typos.
 
 ```yaml
 name: "My Theme"
@@ -122,22 +122,42 @@ palette:
   warning: "#f49300"         # warning accents
   error: "#dd3d3d"           # error messages
 userColors:
-  self: "#f49300"            # color for your own messages
-  others:                    # colors for other users' messages (minimum 1)
-    - "#db5757"
-    - "#57db7d"
-    - "#a457db"
-    - "#57c5db"
+  self:
+    background: "#fbdaa7"      # required bubble background for your own messages
+    text: "#334258"            # optional bubble body text override
+    secondaryText: "#555459"   # optional bubble metadata/timestamp override
+    link: "#8f5200"            # optional bubble link override
+  others:                      # other-user bubble slots (minimum 1)
+    - background: "#d3e1e5"
+      text: "#334258"
+      secondaryText: "#555459"
+      link: "#8f5200"
+    - background: "#bfe8cb"
+    - background: "#e7d9f1"
+    - background: "#c5e4ea"
 ```
 
 The `userColors` section is **required**. It controls how sender names and message bubbles are colored in the timeline:
 
-- **`self`** — the literal color used for your own message bubble surfaces and identity accents
-- **`others`** — a list of literal colors assigned to other users. In small rooms (fewer members than colors), each user gets a unique color. In large rooms, all other users share the first color.
+- **`self`** — a bubble slot for your own messages
+- **`others`** — a list of bubble slots assigned to other users. In small rooms (fewer members than slots), each user gets a distinct slot. In large rooms, all other users share the first slot.
 
-Komai may still derive a darker/lighter text color from these values where needed so names and inline accents remain readable, but the bubble fill itself uses the theme color directly.
+Each bubble slot has:
 
-When importing a theme via `komai theme tinted-import` or creating one via `komai theme create-sample`, the `userColors` section is auto-generated from the theme's highlight color, base surface, and variant. The generated values are already softened for direct bubble use, so the YAML stores the final literal bubble colors rather than raw accent colors.
+- **`background`** — required literal bubble fill color
+- **`text`** — optional bubble body text color
+- **`secondaryText`** — optional bubble metadata color (timestamps, edited markers, helper text)
+- **`link`** — optional bubble hyperlink color
+
+Fallbacks are straightforward:
+
+- missing `text` falls back to `palette.text`
+- missing `secondaryText` falls back to `palette.buttonText`
+- missing `link` falls back to `palette.link`
+
+The bubble fill itself uses the authored `background` directly. Komai does not add extra runtime tinting on top of it.
+
+When importing a theme via `komai theme tinted-import` or creating one via `komai theme create-sample`, the `userColors` section is auto-generated from the theme's highlight color, base surface, and variant. The generated values are already softened for direct bubble use, and the commands may also emit explicit per-bubble `text`, `secondaryText`, and `link` overrides when the global palette would not be good enough on those bubble backgrounds.
 
 Imported themes also include an optional `source_base16:` section with the original Base16 palette for reference. This section is ignored by the build.
 

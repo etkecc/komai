@@ -203,7 +203,28 @@ TimelineMessageStyleBase {
                 anchors.bottom: wrapper.isStateEvent ? undefined : parent.bottom
                 anchors.verticalCenter: wrapper.isStateEvent ? parent.verticalCenter : undefined
 
-                property color roomColor: wrapper.resolveUserColor(wrapper.userId, palette.base)
+                property color roomColor: wrapper.resolveUserColor(wrapper.userId, wrapper.themeBaseColor)
+                property var roomBubblePalette: wrapper.resolveUserBubblePalette(wrapper.userId, roomColor)
+
+                palette.window: roomBubblePalette.window
+                palette.windowText: roomBubblePalette.windowText
+                palette.base: roomBubblePalette.base
+                palette.alternateBase: roomBubblePalette.alternateBase
+                palette.text: roomBubblePalette.text
+                palette.brightText: roomBubblePalette.brightText
+                palette.button: roomBubblePalette.button
+                palette.buttonText: roomBubblePalette.buttonText
+                palette.light: roomBubblePalette.light
+                palette.mid: roomBubblePalette.mid
+                palette.dark: roomBubblePalette.dark
+                palette.highlight: roomBubblePalette.highlight
+                palette.highlightedText: roomBubblePalette.highlightedText
+                palette.link: roomBubblePalette.link
+                palette.toolTipBase: roomBubblePalette.toolTipBase
+                palette.toolTipText: roomBubblePalette.toolTipText
+                palette.inactive.text: roomBubblePalette.buttonText
+                palette.inactive.windowText: roomBubblePalette.buttonText
+                palette.inactive.buttonText: roomBubblePalette.buttonText
 
                 contentItem: Item {
                     id: contentPlacementContainer
@@ -255,19 +276,29 @@ TimelineMessageStyleBase {
                                 const delegateUserId = wrapper.reply?.userId;
                                 return (typeof delegateUserId === "string") ? delegateUserId : "";
                             }
-                            property bool isReplyFromCurrentUser: {
-                                const currentUser = Komai.currentUser;
-                                const currentUserId = (currentUser && currentUser.userid)
-                                        ? String(currentUser.userid)
-                                        : "";
-                                return currentUserId.length > 0 && replyUserId === currentUserId;
-                            }
-                            property color userColor: isReplyFromCurrentUser
-                                ? Komai.theme.userColorSelf
-                                : wrapper.resolveUserColor(replyUserId, palette.window)
-                            property color roomColor: isReplyFromCurrentUser
-                                ? Komai.theme.userColorSelf
-                                : wrapper.resolveUserColor(replyUserId, palette.base)
+                            property color userColor: wrapper.resolveUserColor(replyUserId, wrapper.themeWindowColor)
+                            property color roomColor: wrapper.resolveUserColor(replyUserId, wrapper.themeBaseColor)
+                            property var replyBubblePalette: wrapper.resolveUserBubblePalette(replyUserId, roomColor)
+
+                            palette.window: replyBubblePalette.window
+                            palette.windowText: replyBubblePalette.windowText
+                            palette.base: replyBubblePalette.base
+                            palette.alternateBase: replyBubblePalette.alternateBase
+                            palette.text: replyBubblePalette.text
+                            palette.brightText: replyBubblePalette.brightText
+                            palette.button: replyBubblePalette.button
+                            palette.buttonText: replyBubblePalette.buttonText
+                            palette.light: replyBubblePalette.light
+                            palette.mid: replyBubblePalette.mid
+                            palette.dark: replyBubblePalette.dark
+                            palette.highlight: replyBubblePalette.highlight
+                            palette.highlightedText: replyBubblePalette.highlightedText
+                            palette.link: replyBubblePalette.link
+                            palette.toolTipBase: replyBubblePalette.toolTipBase
+                            palette.toolTipText: replyBubblePalette.toolTipText
+                            palette.inactive.text: replyBubblePalette.buttonText
+                            palette.inactive.windowText: replyBubblePalette.buttonText
+                            palette.inactive.buttonText: replyBubblePalette.buttonText
 
                             clip: true
 
@@ -349,7 +380,7 @@ TimelineMessageStyleBase {
                                 visible: replyRow.replyTruncated
                                 gradient: Gradient {
                                     GradientStop { position: 0.0; color: "transparent" }
-                                    GradientStop { position: 1.0; color: palette.base }
+                                    GradientStop { position: 1.0; color: replyRow.palette.base }
                                 }
                             }
                         }
@@ -384,9 +415,7 @@ TimelineMessageStyleBase {
                 bottomPadding: wrapper.isStateEvent ? 0 : wrapper.messageBubbleVerticalPadding
                 background: Rectangle {
                     color: (!wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled)
-                        ? (wrapper.isSender
-                            ? Komai.theme.userColorSelf
-                            : messageBubble.roomColor)
+                        ? messageBubble.roomColor
                         : "transparent"
                     radius: wrapper.messageBubbleRadius
                     border.color: Komai.theme.attention
@@ -398,9 +427,7 @@ TimelineMessageStyleBase {
                         visible: !wrapper.isStateEvent && wrapper.messageBubbleBackgroundEnabled && wrapper.status === MtxEvent.Sent
 
                         property real dashOffset
-                        property color borderColor: wrapper.isSender
-                            ? Komai.theme.userColorSelf
-                            : messageBubble.roomColor
+                        property color borderColor: messageBubble.roomColor
 
                         NumberAnimation on dashOffset {
                             from: 0
@@ -481,6 +508,7 @@ TimelineMessageStyleBase {
                 // Metadata order (timestamp/status/actions) should follow the active bubble side.
                 isSender: wrapper.isStateEvent ? false : wrapper.messageIsRightAligned
                 actionBarActive: messageActions.pinned && messageActions.attached === wrapper
+                contentPalette: messageBubble.palette
             }
 
             Connections {

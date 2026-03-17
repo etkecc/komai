@@ -80,22 +80,29 @@ Theme files contain 20 color keys under `palette:`, plus a required
   `brightText`, `button`, `buttonText`, `light`, `mid`, `dark`, `highlight`,
   `highlightedText`, `link`, `toolTipBase`, `toolTipText`
 - **4 app-level semantic colors:** `attention`, `success`, `warning`, `error`
-- **`userColors`** — user colors (timeline, member lists, profiles, etc.):
-  - `self` — `#`-prefixed hex color for the current user and their messages
-  - `others` — list of `#`-prefixed hex colors for other users (minimum 1)
+- **`userColors`** — bubble/user color slots (timeline, member lists, profiles, etc.):
+  - `self` — mapping with required `background` and optional `text`,
+    `secondaryText`, `link`
+  - `others` — list of mappings in the same shape (minimum 1)
 
 When the "Adaptive" user color policy is active, `roomUserColor()` uses
-`others` directly: rooms with more members than `others.size()` get a uniform
-color; smaller rooms assign a distinct color per member from the list.
+the `others` slots directly: rooms with more members than `others.size()` get a
+uniform first slot; smaller rooms assign a distinct slot per member from the
+list. At runtime, `TimelineViewManager::userBubblePalette()` and
+`TimelineViewManager::roomUserBubblePalette()` resolve the effective bubble
+palette for each slot, falling back to the global theme palette when optional
+slot foregrounds are absent.
 
 Imported themes include an optional `source_base16:` section preserving the
 original Base16 palette. This section is purely informational and is ignored
 by both `generate.py` and `check.py`.
 
 Auto-generated themes also get `userColors` written as final literal bubble
-fill colors. `komai theme tinted-import` and `komai theme create-sample`
-soften them against `palette.base` before writing YAML, so runtime QML can use
-them directly without extra tinting logic.
+slot values. `komai theme tinted-import` and `komai theme create-sample`
+soften bubble `background` values against `palette.base` before writing YAML,
+so runtime QML can use them directly without extra tinting logic. Those
+commands may also write explicit bubble `text`, `secondaryText`, and `link`
+overrides when they are needed for readability on the generated bubble fills.
 
 
 ## Base16 → QPalette mapping
@@ -152,13 +159,16 @@ blending.
 
 Imported themes and sample themes generate `userColors` in `ThemeColorUtils.cpp`.
 
-- `self` starts from `highlight` and is blended over `base` at `0.30`
-- each `others` color starts from a vivid generated accent and is blended over
-  `base` at `0.20`
+- `self.background` starts from `highlight` and is blended over `base`
+- each `others[*].background` starts from a vivid generated accent and is
+  blended over `base`
+- optional `text`, `secondaryText`, and `link` fields are then populated from
+  the global palette with per-bubble contrast fixes when needed
 
-The important contract is that the stored YAML value is already the final
-literal bubble-fill color. Komai may still derive text colors from it for
-readability, but it does not further soften the bubble fill at runtime.
+The important contract is that the stored YAML `background` value is already
+the final literal bubble-fill color. Runtime code uses it directly. If a theme
+needs bubble-specific foregrounds, those are authored or imported explicitly in
+the slot.
 
 After `userColors` are generated, the import/create-sample commands also re-check
 `palette.link` against the neutral surfaces and generated bubble fills, so message
@@ -187,8 +197,7 @@ for a quick reference.
 
 ## Preview gallery
 
-For fast visual review of built-in themes, Komai also has a generated static
-preview SPA.
+For fast visual review of built-in themes, Komai also has a static preview SPA.
 
 ```
 etc/tools/theme-preview/*     ← tracked HTML/CSS/JS source for the SPA
@@ -208,7 +217,8 @@ alphabetically by slug within each variant group. Each frame includes:
 
 - communities sidebar preview
 - room list preview with idle, hover, selected, unread, and draft states
-- timeline preview with all `userColors.others`, `userColors.self`, and link text
+- timeline preview with all `userColors.others`, `userColors.self`, bubble text,
+  bubble metadata, and link text
 - composer/footer chrome
 - client-side upload/drop support for extra theme YAML files without editing the repo
 
@@ -217,6 +227,31 @@ Useful commands:
 ```sh
 just theme-preview-run
 ```
+
+
+## Bubble Slot Schema Example
+
+```yaml
+userColors:
+  self:
+    background: "#0b3518"
+    text: "#9adca8"
+    secondaryText: "#6fa17c"
+    link: "#68ffc8"
+  others:
+    - background: "#111512"
+      text: "#9adca8"
+      secondaryText: "#6fa17c"
+      link: "#68ffc8"
+    - background: "#0d2a22"
+      link: "#7ee7ff"
+```
+
+Fallbacks are intentionally simple:
+
+- missing slot `text` -> `palette.text`
+- missing slot `secondaryText` -> `palette.buttonText`
+- missing slot `link` -> `palette.link`
 
 `theme-preview-run` serves `etc/tools/theme-preview/` using a containerized static
 web server and mounts `resources/themes/` into the served tree, so there is no

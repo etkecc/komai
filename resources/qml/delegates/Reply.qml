@@ -13,6 +13,7 @@ AbstractButton {
 
     property color userColor: "red"
     property color roomColor: userColor
+    required property var bubblePalette
     property bool keepFullText: false
 
     required property string eventId
@@ -29,6 +30,26 @@ AbstractButton {
     rightPadding: Komai.paddingMedium
     topPadding: Komai.paddingMedium
     bottomPadding: Komai.paddingMedium
+
+    palette.window: bubblePalette.window
+    palette.windowText: bubblePalette.windowText
+    palette.base: bubblePalette.base
+    palette.alternateBase: bubblePalette.alternateBase
+    palette.text: bubblePalette.text
+    palette.brightText: bubblePalette.brightText
+    palette.button: bubblePalette.button
+    palette.buttonText: bubblePalette.buttonText
+    palette.light: bubblePalette.light
+    palette.mid: bubblePalette.mid
+    palette.dark: bubblePalette.dark
+    palette.highlight: bubblePalette.highlight
+    palette.highlightedText: bubblePalette.highlightedText
+    palette.link: bubblePalette.link
+    palette.toolTipBase: bubblePalette.toolTipBase
+    palette.toolTipText: bubblePalette.toolTipText
+    palette.inactive.text: bubblePalette.buttonText
+    palette.inactive.windowText: bubblePalette.buttonText
+    palette.inactive.buttonText: bubblePalette.buttonText
 
     required property int maxWidth
     property bool limitHeight: false

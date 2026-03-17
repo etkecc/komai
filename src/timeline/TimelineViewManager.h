@@ -7,6 +7,7 @@
 
 #include <QElapsedTimer>
 #include <QHash>
+#include <QPalette>
 #include <QQmlEngine>
 
 #include <algorithm>
@@ -116,10 +117,15 @@ public:
     Q_INVOKABLE void saveMedia(QString mxcUrl);
     Q_INVOKABLE void copyImage(const QString &mxcUrl) const;
     Q_INVOKABLE QColor userColor(QString id, QColor background);
+    Q_INVOKABLE QPalette userBubblePalette(QString id, QColor background);
     Q_INVOKABLE QColor roomUserColor(QString roomId,
                                      QString userId,
                                      QColor background,
                                      int colorCodingPolicy = -1);
+    Q_INVOKABLE QPalette roomUserBubblePalette(QString roomId,
+                                               QString userId,
+                                               QColor background,
+                                               int colorCodingPolicy = -1);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
 
@@ -216,6 +222,9 @@ private:
     // Per-room color cache: (roomId, userId) -> QColor
     // Invalidated when theme changes or room membership changes.
     QHash<std::pair<QString, QString>, QColor> roomUserColors_;
+    // Per-room slot assignment cache: (roomId, userId) -> slot index into the
+    // theme's `userColors.others` list.
+    QHash<std::pair<QString, QString>, int> roomUserColorSlots_;
     // Cached sorted member lists per room (excluding self) for palette slot assignment.
     QHash<QString, std::vector<std::string>> roomMemberCache_;
 

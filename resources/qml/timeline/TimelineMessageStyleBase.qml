@@ -52,6 +52,12 @@ TimelineEvent {
     readonly property string roomIdForColorCoding: (roomForColorCoding && roomForColorCoding.roomId) ? String(roomForColorCoding.roomId) : ""
 
     property var hoverDismissTimerRef: null
+    readonly property color themeWindowColor: (Komai.colors && Komai.colors.window !== undefined)
+        ? Komai.colors.window
+        : palette.window
+    readonly property color themeBaseColor: (Komai.colors && Komai.colors.base !== undefined)
+        ? Komai.colors.base
+        : palette.base
 
     property int oneHour: 60 * 60 * 1000
     property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour
@@ -101,16 +107,38 @@ TimelineEvent {
         }
     }
 
+    function effectiveBackgroundColor(backgroundColor, fallbackColor) {
+        if (backgroundColor !== undefined && backgroundColor !== null)
+            return backgroundColor;
+        if (fallbackColor !== undefined && fallbackColor !== null)
+            return fallbackColor;
+        return themeBaseColor;
+    }
+
     function resolveUserColor(targetUserId, backgroundColor) {
+        const resolvedBackgroundColor = effectiveBackgroundColor(backgroundColor, themeBaseColor);
         if (roomIdForColorCoding.length > 0) {
             return TimelineManager.roomUserColor(
                         roomIdForColorCoding,
                         targetUserId,
-                        backgroundColor,
+                        resolvedBackgroundColor,
                         Settings.timelineUserColorCodingPolicy);
         }
 
-        return TimelineManager.userColor(targetUserId, backgroundColor);
+        return TimelineManager.userColor(targetUserId, resolvedBackgroundColor);
+    }
+
+    function resolveUserBubblePalette(targetUserId, backgroundColor) {
+        const resolvedBackgroundColor = effectiveBackgroundColor(backgroundColor, themeBaseColor);
+        if (roomIdForColorCoding.length > 0) {
+            return TimelineManager.roomUserBubblePalette(
+                        roomIdForColorCoding,
+                        targetUserId,
+                        resolvedBackgroundColor,
+                        Settings.timelineUserColorCodingPolicy);
+        }
+
+        return TimelineManager.userBubblePalette(targetUserId, resolvedBackgroundColor);
     }
 
     function previousModelData(row, roleOrName, fallback) {

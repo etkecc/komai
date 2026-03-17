@@ -35,7 +35,7 @@ These are the roles that matter most in the current QML, based on common usage:
 - `highlightedText`:
   text shown on `highlight`
 - `userColors`:
-  literal user/bubble accent fills; text shown on top of them may be derived for readability
+  literal user/bubble slots; bubble `background` is authored directly, while optional per-slot `text`, `secondaryText`, and `link` can override the global palette for that bubble only
 - `mid`:
   separator/border tone via `Komai.theme.separator`
 - semantic colors `attention`, `warning`, `success`, `error`:
@@ -54,7 +54,7 @@ Use WCAG contrast ratios as the baseline. For the standard itself, see the W3C e
 - `brightText` on `dark`: target `>= 4.5`
 - semantic text colors used as actual text on neutral backgrounds: target `>= 4.5`
 - links on neutral backgrounds: target `>= 4.5`
-- text derived from `userColors` on bubble fills: target `>= 4.5`
+- bubble `text` / `secondaryText` / `link` on bubble `background`: target `>= 4.5`
 
 For non-text surface separation:
 
@@ -87,8 +87,9 @@ These pairings are particularly important because they appear in common screens:
 - Do not assume white text works on a bright accent color. Check it.
 - Do not assume a Qt role name matches how Komai uses it. For example, `alternateBase` is not a niche table-row color here.
 - Treat `mid` as a real UI border/separator color, not a leftover palette slot.
-- Treat `userColors` as the actual bubble-fill colors in bubble style. If text on top of them needs help, derive the text color instead of silently mutating the fill.
+- Treat `userColors` as the actual bubble slot values in bubble style. `background` should be literal. Only add per-slot `text`, `secondaryText`, or `link` when the global palette is not good enough on that bubble.
 - Imported/generated `userColors` should already be the final bubble-fill values written to YAML. If a theme needs softer bubbles, soften the authored/imported color itself instead of adding runtime tinting back into QML.
+- Keep the fallback model simple: slot `text` falls back to `palette.text`, slot `secondaryText` to `palette.buttonText`, and slot `link` to `palette.link`.
 - For imported themes, prefer minimal tuning, but do tune when a role is used in a clearly different way in Komai than in the upstream source.
 - When a role would need heavy distortion to satisfy Komai requirements, prefer adding a Komai-specific theme or a component-level fallback instead of aggressively mutating a known upstream theme.
 

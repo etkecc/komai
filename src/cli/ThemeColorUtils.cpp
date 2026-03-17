@@ -519,7 +519,7 @@ generateUserColors(const std::string &highlightHex,
     constexpr double kSelfAlpha  = 0.30;
     constexpr double kOtherAlpha = 0.20;
     UserColors result;
-    result.self = alphaBlendSrgb(baseHex, highlightHex, kSelfAlpha);
+    result.self.background = alphaBlendSrgb(baseHex, highlightHex, kSelfAlpha);
 
     double selfHue                  = hueFromHex(highlightHex);
     constexpr double kExclusionZone = 30.0; // degrees on each side of self hue
@@ -553,10 +553,33 @@ generateUserColors(const std::string &highlightHex,
     }
 
     result.others.reserve(filteredHues.size());
-    for (double h : filteredHues)
-        result.others.push_back(alphaBlendSrgb(baseHex, hslToHex(h, sat, lit), kOtherAlpha));
+    for (double h : filteredHues) {
+        UserColorSlot slot;
+        slot.background = alphaBlendSrgb(baseHex, hslToHex(h, sat, lit), kOtherAlpha);
+        result.others.push_back(slot);
+    }
 
     return result;
+}
+
+void
+populateUserColorForegrounds(UserColors &userColors,
+                             const Palette &palette,
+                             const std::string &variant)
+{
+    auto populate = [&](UserColorSlot &slot) {
+        const std::vector<std::string> backgrounds = {slot.background};
+        slot.text =
+          adjustFgForBackgrounds(getOr(palette, "text", "#000000"), backgrounds, variant, 4.5);
+        slot.secondaryText = adjustFgForBackgrounds(
+          getOr(palette, "buttonText", slot.text), backgrounds, variant, 4.5);
+        slot.link =
+          adjustFgForBackgrounds(getOr(palette, "link", slot.text), backgrounds, variant, 4.5);
+    };
+
+    populate(userColors.self);
+    for (auto &slot : userColors.others)
+        populate(slot);
 }
 
 } // namespace theme_color

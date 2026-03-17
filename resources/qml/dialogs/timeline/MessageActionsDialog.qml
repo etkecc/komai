@@ -128,12 +128,19 @@ Components.OverlayDialog {
                             : "";
                     return currentUserId.length > 0 && replyPreview.userId === currentUserId;
                 }
+                readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
+                    ? Komai.colors.window
+                    : palette.window
+                readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
+                    ? Komai.colors.base
+                    : palette.base
+                bubblePalette: root.roomModel ? TimelineManager.roomUserBubblePalette(root.roomModel.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
                 userColor: isReplyFromCurrentUser
                     ? Komai.theme.userColorSelf
-                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, palette.window, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.window)
+                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewWindowColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewWindowColor)
                 roomColor: isReplyFromCurrentUser
                     ? Komai.theme.userColorSelf
-                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, palette.base, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, palette.base)
+                    : root.roomModel ? TimelineManager.roomUserColor(root.roomModel.roomId, replyPreview.userId, previewBaseColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userColor(replyPreview.userId, previewBaseColor)
 
                 // Gradient fade when preview is clipped by maximumHeight
                 Rectangle {

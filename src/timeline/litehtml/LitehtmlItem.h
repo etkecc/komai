@@ -37,6 +37,9 @@ class LitehtmlItem : public QQuickPaintedItem
     Q_PROPERTY(QString html READ html WRITE setHtml NOTIFY htmlChanged)
     Q_PROPERTY(QString hoveredLink READ hoveredLink NOTIFY hoveredLinkChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(QColor linkColor READ linkColor WRITE setLinkColor NOTIFY linkColorChanged)
+    Q_PROPERTY(
+      QColor surfaceColor READ surfaceColor WRITE setSurfaceColor NOTIFY surfaceColorChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
     Q_PROPERTY(QString selectedText READ selectedText NOTIFY selectedTextChanged)
     Q_PROPERTY(qreal leftPadding READ leftPadding WRITE setLeftPadding NOTIFY leftPaddingChanged)
@@ -52,6 +55,12 @@ public:
 
     QColor color() const { return m_color; }
     void setColor(const QColor &color);
+
+    QColor linkColor() const { return m_linkColor; }
+    void setLinkColor(const QColor &color);
+
+    QColor surfaceColor() const { return m_surfaceColor; }
+    void setSurfaceColor(const QColor &color);
 
     QFont font() const { return m_font; }
     void setFont(const QFont &font);
@@ -73,6 +82,8 @@ signals:
     void htmlChanged();
     void hoveredLinkChanged();
     void colorChanged();
+    void linkColorChanged();
+    void surfaceColorChanged();
     void fontChanged();
     void selectedTextChanged();
     void leftPaddingChanged();
@@ -104,6 +115,8 @@ private:
     QString m_html;
     QString m_hoveredLink;
     QColor m_color;
+    QColor m_linkColor;
+    QColor m_surfaceColor;
     QFont m_font;
     QString m_selectedText;
     qreal m_leftPadding = 0;

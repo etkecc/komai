@@ -113,11 +113,21 @@ detectVariant(const Palette &palette);
 std::string
 stripVariantSuffix(const std::string &name);
 
+// Theme-defined colors for a bubble slot. `background` is required; the rest
+// are optional overrides that fall back to the global palette roles.
+struct UserColorSlot
+{
+    std::string background;
+    std::string text;
+    std::string secondaryText;
+    std::string link;
+};
+
 // Result of user color generation for themes
 struct UserColors
 {
-    std::string self;                // hex color for "our own" sender identity
-    std::vector<std::string> others; // hex colors for other members (per-member palette)
+    UserColorSlot self;                // colors for "our own" bubble slot
+    std::vector<UserColorSlot> others; // colors for other members (per-member palette)
 };
 
 // Generate literal bubble-fill userColors from a highlight (accent), base surface,
@@ -126,5 +136,12 @@ UserColors
 generateUserColors(const std::string &highlightHex,
                    const std::string &baseHex,
                    const std::string &variant);
+
+// Populate explicit per-bubble foreground overrides using the theme palette as
+// the default source and adjusting each role against each bubble background.
+void
+populateUserColorForegrounds(UserColors &userColors,
+                             const Palette &palette,
+                             const std::string &variant);
 
 } // namespace theme_color

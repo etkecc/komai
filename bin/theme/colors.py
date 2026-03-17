@@ -1,7 +1,7 @@
 """Shared color utilities for theme scripts.
 
-Contains YAML parsing, color utilities, and the canonical list of palette
-keys. Used by check.py, contrast.py, and generate.py.
+Contains a tiny YAML parser, color utilities, and helpers for the theme
+schema. Used by check.py, contrast.py, generate.py, and preview support.
 """
 
 import colorsys
@@ -32,71 +32,192 @@ PALETTE_KEYS = [
 CUSTOM_KEYS = ["attention", "success", "warning", "error"]
 
 ALL_PALETTE_KEYS = PALETTE_KEYS + CUSTOM_KEYS
+USER_COLOR_SLOT_KEYS = ["background", "text", "secondaryText", "link"]
+HEX_COLOR_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
 
 # -- Minimal YAML parser -------------------------------------------------------
 
 def parse_yaml(path: str) -> dict:
-    """Minimal YAML parser for theme files.
+    """Parse the small subset of YAML used by theme files.
 
-    Handles flat structure: top-level scalars and one level of nested mapping
-    (palette:, source_base16:, userColors:). Also handles YAML lists under
-    nested sections (e.g. userColors.others). No external dependency.
+    Supported constructs:
+      - mappings
+      - lists
+      - quoted and unquoted scalars
+      - list items that start with an inline mapping pair
     """
-    result = {}
-    current_section = None
-    current_subsection = None  # for list items under a nested key
 
-    with open(path) as f:
-        for line in f:
-            line = line.rstrip()
-            if not line or line.startswith("#"):
+    def strip_comments(line: str) -> str:
+        in_quotes = False
+        escaped = False
+        result = []
+        for char in line:
+            if char == '"' and not escaped:
+                in_quotes = not in_quotes
+            if char == "#" and not in_quotes:
+                break
+            result.append(char)
+            escaped = char == "\\" and not escaped
+        return "".join(result).rstrip()
+
+    def parse_scalar(value: str):
+        value = value.strip()
+        if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
+            return value[1:-1]
+        return value
+
+    def split_key_value(text: str):
+        in_quotes = False
+        escaped = False
+        for index, char in enumerate(text):
+            if char == '"' and not escaped:
+                in_quotes = not in_quotes
+            elif char == ":" and not in_quotes:
+                return text[:index].strip(), text[index + 1 :].strip()
+            escaped = char == "\\" and not escaped
+        return None, None
+
+    lines = []
+    with open(path, encoding="utf-8") as handle:
+        for raw_line in handle:
+            stripped = strip_comments(raw_line.rstrip("\n"))
+            if not stripped.strip():
+                continue
+            indent = len(stripped) - len(stripped.lstrip(" "))
+            lines.append((indent, stripped.lstrip(" ")))
+
+    def parse_block(index: int, indent: int):
+        if index >= len(lines):
+            return {}, index
+        current_indent, text = lines[index]
+        if current_indent != indent:
+            raise ValueError(
+                f"Unexpected indentation at line {index + 1}: {current_indent}, expected {indent}"
+            )
+        if text.startswith("- "):
+            return parse_sequence(index, indent)
+        return parse_mapping(index, indent)
+
+    def parse_mapping(index: int, indent: int):
+        mapping = {}
+        while index < len(lines):
+            current_indent, text = lines[index]
+            if current_indent < indent:
+                break
+            if current_indent > indent:
+                raise ValueError(f"Unexpected nested mapping line {index + 1}: {text}")
+            if text.startswith("- "):
+                raise ValueError(f"Unexpected sequence item line {index + 1}: {text}")
+
+            key, rest = split_key_value(text)
+            if key is None:
+                raise ValueError(f"Invalid mapping line {index + 1}: {text}")
+
+            index += 1
+            if rest:
+                mapping[key] = parse_scalar(rest)
                 continue
 
-            # List item (4-space indent + "- ")
-            if line.startswith("    - "):
-                if current_section is not None and current_subsection is not None:
-                    m = re.match(r'    - "([^"]*)"', line) or \
-                        re.match(r'    - ([^"#\s]*)\s*(?:#.*)?$', line)
-                    if m:
-                        val = m.group(1).strip()
-                        if val:
-                            result[current_section][current_subsection].append(val)
+            if index >= len(lines) or lines[index][0] <= indent:
+                mapping[key] = {}
                 continue
 
-            # Nested key (2-space indent)
-            if line.startswith("  "):
-                current_subsection = None
-                if current_section is None:
+            value, index = parse_block(index, lines[index][0])
+            mapping[key] = value
+
+        return mapping, index
+
+    def parse_sequence(index: int, indent: int):
+        items = []
+        while index < len(lines):
+            current_indent, text = lines[index]
+            if current_indent < indent:
+                break
+            if current_indent != indent or not text.startswith("- "):
+                break
+
+            rest = text[2:].strip()
+            index += 1
+
+            if not rest:
+                if index >= len(lines) or lines[index][0] <= indent:
+                    items.append(None)
                     continue
-                m = re.match(r'  (\w+):\s*"([^"]*)"', line) or \
-                    re.match(r'  (\w+):\s*([^"#\s]*)\s*(?:#.*)?$', line)
-                if m:
-                    key = m.group(1)
-                    value = m.group(2).strip()
-                    if value:
-                        result[current_section][key] = value
-                    else:
-                        # Sub-section that will contain list items
-                        result[current_section][key] = []
-                        current_subsection = key
+                value, index = parse_block(index, lines[index][0])
+                items.append(value)
                 continue
 
-            # Top-level key
-            m = re.match(r'(\w+):\s*"([^"]*)"', line) or \
-                re.match(r'(\w+):\s*([^"#\s]*)\s*(?:#.*)?$', line)
-            if m:
-                key = m.group(1)
-                value = m.group(2).strip()
-                current_subsection = None
+            key, value = split_key_value(rest)
+            if key is not None:
+                item = {}
                 if value:
-                    result[key] = value
-                    current_section = None
+                    item[key] = parse_scalar(value)
+                elif index >= len(lines) or lines[index][0] <= indent:
+                    item[key] = {}
                 else:
-                    # Section header (e.g., "palette:" or "userColors:")
-                    result[key] = {}
-                    current_section = key
+                    nested_value, index = parse_block(index, lines[index][0])
+                    item[key] = nested_value
 
+                while index < len(lines):
+                    next_indent, next_text = lines[index]
+                    if next_indent <= indent:
+                        break
+                    if next_indent != indent + 2:
+                        raise ValueError(
+                            f"Unexpected indentation in sequence item at line {index + 1}: {next_text}"
+                        )
+                    extra_key, extra_value = split_key_value(next_text)
+                    if extra_key is None:
+                        raise ValueError(
+                            f"Invalid sequence mapping line {index + 1}: {next_text}"
+                        )
+                    index += 1
+                    if extra_value:
+                        item[extra_key] = parse_scalar(extra_value)
+                    elif index >= len(lines) or lines[index][0] <= next_indent:
+                        item[extra_key] = {}
+                    else:
+                        nested_value, index = parse_block(index, lines[index][0])
+                        item[extra_key] = nested_value
+
+                items.append(item)
+                continue
+
+            items.append(parse_scalar(rest))
+
+        return items, index
+
+    if not lines:
+        return {}
+
+    result, final_index = parse_block(0, lines[0][0])
+    if final_index != len(lines):
+        raise ValueError("Failed to parse the complete YAML document")
     return result
+
+
+def normalize_user_color_slot(slot, label: str) -> dict:
+    """Validate and normalize a theme userColors slot mapping."""
+    if not isinstance(slot, dict):
+        raise ValueError(f"{label} must be a mapping")
+
+    normalized = {}
+    for key in USER_COLOR_SLOT_KEYS:
+        value = slot.get(key, "")
+        if value in ("", None):
+            continue
+        if not isinstance(value, str) or not HEX_COLOR_RE.match(value):
+            raise ValueError(f"{label}.{key} must be a #-prefixed hex color")
+        normalized[key] = value
+
+    if "background" not in normalized:
+        raise ValueError(f"{label}.background is required")
+
+    for key in slot:
+        if key not in USER_COLOR_SLOT_KEYS:
+            raise ValueError(f"{label}: unexpected key {key!r}")
+
+    return normalized
 
 
 # -- Color utilities -----------------------------------------------------------

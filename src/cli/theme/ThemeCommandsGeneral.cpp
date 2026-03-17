@@ -151,12 +151,13 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
       palette["window"],
       palette["base"],
       palette["alternateBase"],
-      userColors.self,
+      userColors.self.background,
     };
-    linkBackgrounds.insert(
-      linkBackgrounds.end(), userColors.others.begin(), userColors.others.end());
+    for (const auto &slot : userColors.others)
+        linkBackgrounds.push_back(slot.background);
     palette["link"] =
       theme_color::adjustFgForBackgrounds(palette["link"], linkBackgrounds, variant, 4.5);
+    theme_color::populateUserColorForegrounds(userColors, palette, variant);
 
     if (!writeThemeYaml(outputFile, name, "", variant, palette, userColors)) {
         std::cerr << "ERROR: Failed to write " << outputFile.toStdString() << "\n";

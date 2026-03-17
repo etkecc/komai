@@ -27,7 +27,7 @@ Themes are authored as readable YAML under `resources/themes/`, but runtime code
 - `just generate-themes` to regenerate `ThemeDefinitions.h`.
 - `bin/theme/check.py` is also used by the `check-theme-yaml` hook in linting.
 
-Theme importing is handled by the C++ CLI (`komai theme tinted-import`). The import-time color math and auto-generated `userColors` logic live in `src/cli/ThemeColorUtils.cpp`. The Python scripts here are for validation, contrast auditing, preview/build support, and header generation. See [`resources/themes/README.md`](../../resources/themes/README.md) for the full developer workflow.
+Theme importing is handled by the C++ CLI (`komai theme tinted-import`). The import-time color math and auto-generated `userColors` logic live in `src/cli/ThemeColorUtils.cpp`. That includes generating explicit bubble slots with required `background` and optional `text`, `secondaryText`, and `link` when needed for readability. The Python scripts here are for validation, contrast auditing, preview/build support, and header generation. See [`resources/themes/README.md`](../../resources/themes/README.md) for the full developer workflow.
 
 ## Design Intent
 

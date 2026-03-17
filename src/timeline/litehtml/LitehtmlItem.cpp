@@ -47,8 +47,12 @@ LitehtmlItem::LitehtmlItem(QQuickItem *parent)
 QString
 LitehtmlItem::generateMasterCss()
 {
-    const auto palette = QGuiApplication::palette();
+    auto palette = QGuiApplication::palette();
     const Theme theme(UserSettings::instance()->uiThemeSlug());
+    if (m_linkColor.isValid())
+        palette.setColor(QPalette::Link, m_linkColor);
+    if (m_surfaceColor.isValid())
+        palette.setColor(QPalette::AlternateBase, m_surfaceColor);
     return timeline::litehtml::generateMasterStylesheet(palette,
                                                         m_font,
                                                         m_compact,
@@ -77,6 +81,28 @@ LitehtmlItem::setColor(const QColor &color)
     emit colorChanged();
     if (m_document)
         update();
+}
+
+void
+LitehtmlItem::setLinkColor(const QColor &color)
+{
+    if (m_linkColor == color)
+        return;
+    m_linkColor = color;
+    emit linkColorChanged();
+    m_masterCss = generateMasterCss();
+    rebuildDocument();
+}
+
+void
+LitehtmlItem::setSurfaceColor(const QColor &color)
+{
+    if (m_surfaceColor == color)
+        return;
+    m_surfaceColor = color;
+    emit surfaceColorChanged();
+    m_masterCss = generateMasterCss();
+    rebuildDocument();
 }
 
 void

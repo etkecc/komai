@@ -23,9 +23,10 @@ palette:
   warning: "#ffd166"
   error: "#ff7a7a"
 userColors:
-  self: "#0b3518"
+  self:
+    background: "#0b3518"
   others:
-    - "#111512"
-    - "#0d2a22"
-    - "#1d2a12"
-    - "#2a2210"
+    - background: "#111512"
+    - background: "#0d2a22"
+    - background: "#1d2a12"
+    - background: "#2a2210"

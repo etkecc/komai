@@ -114,6 +114,7 @@ const SELF_MESSAGE_TEMPLATES = [
 ];
 
 const REQUIRED_FIELDS = ["name", "variant", "palette", "userColors"];
+const USER_COLOR_SLOT_KEYS = ["background", "text", "secondaryText", "link"];
 const THEME_CACHE_BUSTER = `${Date.now()}`;
 const state = {
   themes: [],
@@ -313,65 +314,212 @@ function deriveReadableAccentTextColor(accentColor, backgroundColor, minContrast
 }
 
 function parseYaml(text) {
-  const result = {};
-  let currentSection = null;
-  let currentSubsection = null;
+  function stripComments(line) {
+    let inQuotes = false;
+    let escaped = false;
+    let result = "";
 
-  for (const rawLine of text.split(/\r?\n/u)) {
-    const line = rawLine.replace(/\s+$/u, "");
-    if (!line || /^\s*#/u.test(line)) {
-      continue;
-    }
-
-    let match;
-    if (line.startsWith("    - ")) {
-      if (currentSection && currentSubsection) {
-        match = line.match(/^    - "([^"]*)"$/u) || line.match(/^    - ([^"#\s]+)\s*(?:#.*)?$/u);
-        if (match) {
-          const value = match[1].trim();
-          if (value) {
-            result[currentSection][currentSubsection].push(value);
-          }
-        }
+    for (const char of line) {
+      if (char === "\"" && !escaped) {
+        inQuotes = !inQuotes;
       }
-      continue;
+      if (char === "#" && !inQuotes) {
+        break;
+      }
+      result += char;
+      escaped = char === "\\" && !escaped;
     }
 
-    if (line.startsWith("  ")) {
-      currentSubsection = null;
-      if (!currentSection) {
+    return result.trimEnd();
+  }
+
+  function parseScalar(value) {
+    const trimmed = value.trim();
+    if (trimmed.startsWith("\"") && trimmed.endsWith("\"")) {
+      return trimmed.slice(1, -1);
+    }
+    return trimmed;
+  }
+
+  function splitKeyValue(textLine) {
+    let inQuotes = false;
+    let escaped = false;
+
+    for (let index = 0; index < textLine.length; index += 1) {
+      const char = textLine[index];
+      if (char === "\"" && !escaped) {
+        inQuotes = !inQuotes;
+      } else if (char === ":" && !inQuotes) {
+        return [textLine.slice(0, index).trim(), textLine.slice(index + 1).trim()];
+      }
+      escaped = char === "\\" && !escaped;
+    }
+
+    return [null, null];
+  }
+
+  const lines = text
+    .split(/\r?\n/u)
+    .map((line) => stripComments(line))
+    .filter((line) => line.trim().length > 0)
+    .map((line) => ({
+      indent: line.length - line.trimStart().length,
+      text: line.trimStart(),
+    }));
+
+  function parseBlock(index, indent) {
+    if (lines[index].indent !== indent) {
+      throw new Error(`Unexpected indentation at line ${index + 1}`);
+    }
+    return lines[index].text.startsWith("- ")
+      ? parseSequence(index, indent)
+      : parseMapping(index, indent);
+  }
+
+  function parseMapping(index, indent) {
+    const mapping = {};
+
+    while (index < lines.length) {
+      const current = lines[index];
+      if (current.indent < indent) {
+        break;
+      }
+      if (current.indent > indent || current.text.startsWith("- ")) {
+        throw new Error(`Invalid mapping line ${index + 1}: ${current.text}`);
+      }
+
+      const [key, rest] = splitKeyValue(current.text);
+      if (!key) {
+        throw new Error(`Invalid mapping line ${index + 1}: ${current.text}`);
+      }
+
+      index += 1;
+      if (rest) {
+        mapping[key] = parseScalar(rest);
         continue;
       }
-      match = line.match(/^  (\w+):\s*"([^"]*)"$/u) || line.match(/^  (\w+):\s*([^"#\s]*)\s*(?:#.*)?$/u);
-      if (match) {
-        const [, key, rawValue] = match;
-        const value = rawValue.trim();
-        if (value) {
-          result[currentSection][key] = value;
-        } else {
-          result[currentSection][key] = [];
-          currentSubsection = key;
-        }
+
+      if (index >= lines.length || lines[index].indent <= indent) {
+        mapping[key] = {};
+        continue;
       }
-      continue;
+
+      const [value, nextIndex] = parseBlock(index, lines[index].indent);
+      mapping[key] = value;
+      index = nextIndex;
     }
 
-    match = line.match(/^(\w+):\s*"([^"]*)"$/u) || line.match(/^(\w+):\s*([^"#\s]*)\s*(?:#.*)?$/u);
-    if (match) {
-      const [, key, rawValue] = match;
-      const value = rawValue.trim();
-      currentSubsection = null;
-      if (value) {
-        result[key] = value;
-        currentSection = null;
-      } else {
-        result[key] = {};
-        currentSection = key;
+    return [mapping, index];
+  }
+
+  function parseSequence(index, indent) {
+    const items = [];
+
+    while (index < lines.length) {
+      const current = lines[index];
+      if (current.indent < indent || current.indent !== indent || !current.text.startsWith("- ")) {
+        break;
       }
+
+      const rest = current.text.slice(2).trim();
+      index += 1;
+
+      if (!rest) {
+        if (index >= lines.length || lines[index].indent <= indent) {
+          items.push(null);
+          continue;
+        }
+        const [value, nextIndex] = parseBlock(index, lines[index].indent);
+        items.push(value);
+        index = nextIndex;
+        continue;
+      }
+
+      const [key, value] = splitKeyValue(rest);
+      if (!key) {
+        items.push(parseScalar(rest));
+        continue;
+      }
+
+      const item = {};
+      if (value) {
+        item[key] = parseScalar(value);
+      } else if (index >= lines.length || lines[index].indent <= indent) {
+        item[key] = {};
+      } else {
+        const [nestedValue, nextIndex] = parseBlock(index, lines[index].indent);
+        item[key] = nestedValue;
+        index = nextIndex;
+      }
+
+      while (index < lines.length && lines[index].indent > indent) {
+        if (lines[index].indent !== indent + 2) {
+          throw new Error(`Unexpected sequence indentation at line ${index + 1}`);
+        }
+        const [extraKey, extraValue] = splitKeyValue(lines[index].text);
+        if (!extraKey) {
+          throw new Error(`Invalid sequence mapping line ${index + 1}: ${lines[index].text}`);
+        }
+        index += 1;
+        if (extraValue) {
+          item[extraKey] = parseScalar(extraValue);
+        } else if (index >= lines.length || lines[index].indent <= indent + 2) {
+          item[extraKey] = {};
+        } else {
+          const [nestedValue, nextIndex] = parseBlock(index, lines[index].indent);
+          item[extraKey] = nestedValue;
+          index = nextIndex;
+        }
+      }
+
+      items.push(item);
+    }
+
+    return [items, index];
+  }
+
+  if (lines.length === 0) {
+    return {};
+  }
+
+  const [result] = parseBlock(0, lines[0].indent);
+  return result;
+}
+
+function normalizeUserColorSlot(slot, sourceLabel) {
+  if (typeof slot !== "object" || slot === null || Array.isArray(slot)) {
+    throw new Error(`${sourceLabel} must be a mapping`);
+  }
+
+  const normalized = {};
+  for (const key of USER_COLOR_SLOT_KEYS) {
+    if (!(key in slot) || slot[key] === "" || slot[key] === null || slot[key] === undefined) {
+      continue;
+    }
+    parseColor(slot[key]);
+    normalized[key] = slot[key];
+  }
+
+  if (!normalized.background) {
+    throw new Error(`${sourceLabel}.background is required`);
+  }
+
+  for (const key of Object.keys(slot)) {
+    if (!USER_COLOR_SLOT_KEYS.includes(key)) {
+      throw new Error(`${sourceLabel}: unexpected key '${key}'`);
     }
   }
 
-  return result;
+  return normalized;
+}
+
+function resolveUserColorSlot(slot, palette) {
+  return {
+    background: slot.background,
+    text: slot.text || palette.text,
+    secondaryText: slot.secondaryText || palette.buttonText,
+    link: slot.link || palette.link,
+  };
 }
 
 function validateTheme(rawTheme, sourceName) {
@@ -403,18 +551,14 @@ function validateTheme(rawTheme, sourceName) {
   if (!("self" in rawTheme.userColors)) {
     throw new Error(`${sourceName}: missing userColors.self`);
   }
-  parseColor(rawTheme.userColors.self);
+  normalizeUserColorSlot(rawTheme.userColors.self, `${sourceName}: userColors.self`);
 
   if (!Array.isArray(rawTheme.userColors.others) || rawTheme.userColors.others.length < 1) {
     throw new Error(`${sourceName}: userColors.others must contain at least one color`);
   }
 
-  rawTheme.userColors.others.forEach((color, index) => {
-    try {
-      parseColor(color);
-    } catch (error) {
-      throw new Error(`${sourceName}: invalid userColors.others[${index}]`);
-    }
+  rawTheme.userColors.others.forEach((slot, index) => {
+    normalizeUserColorSlot(slot, `${sourceName}: userColors.others[${index}]`);
   });
 }
 
@@ -429,8 +573,13 @@ function buildThemeModel(rawTheme, options) {
   const slug = uniqueSlug(baseSlug, existingSlugs);
   const palette = { ...rawTheme.palette };
   const userColors = {
-    self: rawTheme.userColors.self,
-    others: [...rawTheme.userColors.others],
+    self: normalizeUserColorSlot(rawTheme.userColors.self, `${sourceName}: userColors.self`),
+    others: rawTheme.userColors.others.map((slot, index) =>
+      normalizeUserColorSlot(slot, `${sourceName}: userColors.others[${index}]`)),
+  };
+  const resolvedBubbleSlots = {
+    self: resolveUserColorSlot(userColors.self, palette),
+    others: userColors.others.map((slot) => resolveUserColorSlot(slot, palette)),
   };
 
   return {
@@ -444,8 +593,12 @@ function buildThemeModel(rawTheme, options) {
     sourceName,
     preview: {
       senderTextOnBase: {
-        self: deriveReadableAccentTextColor(userColors.self, palette.base),
-        others: userColors.others.map((color) => deriveReadableAccentTextColor(color, palette.base)),
+        self: deriveReadableAccentTextColor(userColors.self.background, palette.base),
+        others: userColors.others.map((slot) => deriveReadableAccentTextColor(slot.background, palette.base)),
+      },
+      bubbleSlots: {
+        self: resolvedBubbleSlots.self,
+        others: resolvedBubbleSlots.others,
       },
       ratios: {
         windowText: contrastRatio(palette.window, palette.text).toFixed(2),
@@ -583,15 +736,18 @@ function renderRoomItem(item) {
 
 function buildMessages(theme) {
   const messages = [];
-  const others = theme.userColors.others;
+  const others = theme.preview.bubbleSlots.others;
   const senderText = theme.preview.senderTextOnBase.others;
 
-  others.forEach((bubbleColor, index) => {
+  others.forEach((slot, index) => {
     if (index === 3) {
       messages.push({
         type: "self",
         sender: "You",
-        bubbleColor: theme.userColors.self,
+        bubbleColor: theme.userColors.self.background,
+        bubbleTextColor: theme.preview.bubbleSlots.self.text,
+        bubbleLinkColor: theme.preview.bubbleSlots.self.link,
+        bubbleMetaColor: theme.preview.bubbleSlots.self.secondaryText,
         senderColor: theme.preview.senderTextOnBase.self,
         time: "16:03",
         text: SELF_MESSAGE_TEMPLATES[0],
@@ -601,7 +757,10 @@ function buildMessages(theme) {
     messages.push({
       type: "other",
       sender: OTHER_SENDERS[index % OTHER_SENDERS.length],
-      bubbleColor,
+      bubbleColor: slot.background,
+      bubbleTextColor: slot.text,
+      bubbleLinkColor: slot.link,
+      bubbleMetaColor: slot.secondaryText,
       senderColor: senderText[index % senderText.length],
       time: `16:${String(4 + index).padStart(2, "0")}`,
       text: OTHER_MESSAGE_TEMPLATES[index % OTHER_MESSAGE_TEMPLATES.length],
@@ -617,7 +776,10 @@ function buildMessages(theme) {
   messages.push({
     type: "self",
     sender: "You",
-    bubbleColor: theme.userColors.self,
+    bubbleColor: theme.userColors.self.background,
+    bubbleTextColor: theme.preview.bubbleSlots.self.text,
+    bubbleLinkColor: theme.preview.bubbleSlots.self.link,
+    bubbleMetaColor: theme.preview.bubbleSlots.self.secondaryText,
     senderColor: theme.preview.senderTextOnBase.self,
     time: "16:20",
     text: SELF_MESSAGE_TEMPLATES[1],
@@ -641,7 +803,7 @@ function renderMessage(message) {
   return `
     <article class="${sideClass}">
       <div class="message__sender" style="color: ${escapeHtml(message.senderColor)}">${escapeHtml(message.sender)}</div>
-      <div class="bubble" style="--bubble-color: ${escapeHtml(message.bubbleColor)}">
+      <div class="bubble" style="--bubble-color: ${escapeHtml(message.bubbleColor)}; --bubble-text-color: ${escapeHtml(message.bubbleTextColor || "")}; --bubble-link-color: ${escapeHtml(message.bubbleLinkColor || "")}; --bubble-meta-color: ${escapeHtml(message.bubbleMetaColor || "")}">
         ${replyHtml}
         <p>${message.text}</p>
       </div>

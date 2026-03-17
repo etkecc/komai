@@ -2,7 +2,7 @@
 
 This directory contains the built-in theme YAML files that are compiled into the Komai binary at build time.
 
-Each `.yml` file defines 16 Qt palette colors and 4 app-level semantic colors, plus a required `userColors` section for user colors. At build time, `bin/theme/generate.py` reads these files and generates `src/ui/ThemeDefinitions.h`.
+Each `.yml` file defines 16 Qt palette colors and 4 app-level semantic colors, plus a required `userColors` section for bubble/user colors. Each `userColors` slot is a mapping with required `background` and optional `text`, `secondaryText`, and `link`. At build time, `bin/theme/generate.py` reads these files and generates `src/ui/ThemeDefinitions.h`.
 
 To import a tinted-theming theme: `just theme-tinted-import <slug>` — see [Architecture: Themes](../../docs/architecture/themes.md#adding-a-new-built-in-theme) for details.
 

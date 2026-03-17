@@ -685,7 +685,7 @@ input {
   border-radius: 0.85rem;
   background: var(--bubble-color);
   border: 1px solid var(--mid);
-  color: var(--text);
+  color: var(--bubble-text-color, var(--text));
 }
 
 .bubble p {
@@ -694,7 +694,7 @@ input {
 }
 
 .bubble a {
-  color: var(--link);
+  color: var(--bubble-link-color, var(--link));
   text-underline-offset: 0.15em;
 }
 
@@ -713,7 +713,7 @@ input {
 }
 
 .bubble__reply span {
-  color: var(--button-text);
+  color: var(--bubble-meta-color, var(--button-text));
   font-size: 0.82rem;
 }
 

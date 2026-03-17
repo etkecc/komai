@@ -5,24 +5,25 @@ Checks:
   - Required fields: name, variant, palette, userColors
   - variant is "light" or "dark"
   - All 20 palette keys (16 QPalette + 4 custom) are present with valid #-prefixed hex
-  - userColors.self is a valid #-prefixed hex color
-  - userColors.others is a list of valid #-prefixed hex colors (minimum 1)
+  - userColors.self is a mapping with required background and optional text roles
+  - userColors.others is a list of such mappings (minimum 1)
   - source_base16 keys (if present) are valid #-prefixed hex
 """
 
 import os
-import re
 import sys
 
-from colors import parse_yaml, ALL_PALETTE_KEYS
+from colors import (
+    parse_yaml,
+    ALL_PALETTE_KEYS,
+    HEX_COLOR_RE,
+    normalize_user_color_slot,
+)
 
 REQUIRED_FIELDS = ("name", "variant", "palette", "userColors")
 VALID_VARIANTS = ("light", "dark")
 VALID_THEME_SUFFIXES = tuple(f"-{variant}" for variant in VALID_VARIANTS)
 BASE16_SLOTS = [f"base{i:02X}" for i in range(16)]
-
-HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
-
 
 def validate_theme(path: str) -> list[str]:
     """Validate a single theme YAML file. Returns list of error messages."""
@@ -80,7 +81,7 @@ def validate_theme(path: str) -> list[str]:
                 errors.append(f"{filename}: Missing palette key: {key}")
             else:
                 value = palette[key]
-                if not HEX_RE.match(value):
+                if not HEX_COLOR_RE.match(value):
                     errors.append(
                         f"{filename}: Invalid hex color for {key}: {value!r}"
                     )
@@ -101,11 +102,10 @@ def validate_theme(path: str) -> list[str]:
         if "self" not in user_colors:
             errors.append(f"{filename}: Missing userColors.self")
         else:
-            value = user_colors["self"]
-            if not isinstance(value, str) or not HEX_RE.match(value):
-                errors.append(
-                    f"{filename}: Invalid hex color for userColors.self: {value!r}"
-                )
+            try:
+                normalize_user_color_slot(user_colors["self"], "userColors.self")
+            except ValueError as exc:
+                errors.append(f"{filename}: {exc}")
 
         # Check others
         if "others" not in user_colors:
@@ -119,10 +119,10 @@ def validate_theme(path: str) -> list[str]:
                     f"{filename}: userColors.others must have at least 1 entry, got {len(others)}"
                 )
             for i, value in enumerate(others):
-                if not isinstance(value, str) or not HEX_RE.match(value):
-                    errors.append(
-                        f"{filename}: Invalid hex color for userColors.others[{i}]: {value!r}"
-                    )
+                try:
+                    normalize_user_color_slot(value, f"userColors.others[{i}]")
+                except ValueError as exc:
+                    errors.append(f"{filename}: {exc}")
 
         # Warn about unexpected userColors keys
         valid_user_color_keys = {"self", "others"}
@@ -139,7 +139,7 @@ def validate_theme(path: str) -> list[str]:
         for key, value in source_base16.items():
             if key not in BASE16_SLOTS:
                 errors.append(f"{filename}: Unexpected source_base16 key: {key}")
-            elif not HEX_RE.match(value):
+            elif not HEX_COLOR_RE.match(value):
                 errors.append(
                     f"{filename}: Invalid hex color for source_base16 {key}: {value!r}"
                 )

@@ -134,12 +134,13 @@ handleTintedImport(int argc, char *argv[], QCoreApplication & /*app*/)
       finalPalette["window"],
       finalPalette["base"],
       finalPalette["alternateBase"],
-      userColors.self,
+      userColors.self.background,
     };
-    linkBackgrounds.insert(
-      linkBackgrounds.end(), userColors.others.begin(), userColors.others.end());
+    for (const auto &slot : userColors.others)
+        linkBackgrounds.push_back(slot.background);
     finalPalette["link"] =
       theme_color::adjustFgForBackgrounds(finalPalette["link"], linkBackgrounds, variant, 4.5);
+    theme_color::populateUserColorForegrounds(userColors, finalPalette, variant);
 
     if (!writeThemeYaml(
           outputFile, themeName, themeAuthor, variant, finalPalette, userColors, &rawPalette)) {

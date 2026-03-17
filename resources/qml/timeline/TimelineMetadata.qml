@@ -11,6 +11,8 @@ import cc.etke.komai
 
 RowLayout {
     id: metadata
+    property var contentPalette: null
+    readonly property var effectivePalette: contentPalette ? contentPalette : palette
 
     property int iconSize: Math.floor(fontMetrics.ascent * scaling)
     property int rawButtonSize: Math.round(iconSize * buttonScale)
@@ -58,7 +60,7 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
         ToolTip.visible: ma.hovered
-        color: palette.inactive.text
+        color: effectivePalette.inactive.text
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
         visible: !metadata.forceTrailingTimestampLayout
@@ -77,8 +79,8 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Message actions")
         ToolTip.visible: hovered && !metadata.actionBarActive
-        buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
-        highlightColor: palette.highlight
+        buttonTextColor: metadata.actionBarActive ? effectivePalette.highlight : Qt.rgba(effectivePalette.inactive.text.r, effectivePalette.inactive.text.g, effectivePalette.inactive.text.b, 0.35)
+        highlightColor: effectivePalette.highlight
         changeColorOnHover: true
         image: ":/icons/icons/ui/options-circle.svg"
         visible: metadata.forceTrailingTimestampLayout
@@ -95,7 +97,7 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
         ToolTip.visible: maTrailingLeading.hovered
-        color: palette.inactive.text
+        color: effectivePalette.inactive.text
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
         visible: metadata.forceTrailingTimestampLayout && metadata.leadingActionInTrailingLayout
@@ -120,7 +122,7 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Edited")
         ToolTip.visible: editHovered.hovered
-        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? palette.highlight : palette.buttonText)
+        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectivePalette.highlight : effectivePalette.buttonText)
         sourceSize.height: parent.indicatorSize
         sourceSize.width: parent.indicatorSize
         visible: !metadata.forceTrailingTimestampLayout && (metadata.isEdited || metadata.eventId == metadata.roomEditEventId)
@@ -148,8 +150,8 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Message actions")
         ToolTip.visible: hovered && !metadata.actionBarActive
-        buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
-        highlightColor: palette.highlight
+        buttonTextColor: metadata.actionBarActive ? effectivePalette.highlight : Qt.rgba(effectivePalette.inactive.text.r, effectivePalette.inactive.text.g, effectivePalette.inactive.text.b, 0.35)
+        highlightColor: effectivePalette.highlight
         changeColorOnHover: true
         image: ":/icons/icons/ui/options-circle.svg"
         visible: !metadata.forceTrailingTimestampLayout
@@ -164,7 +166,7 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Reply in this thread")
         ToolTip.visible: hovered
-        buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
+        buttonTextColor: TimelineManager.userColor(metadata.threadId, effectivePalette.base)
         image: ":/icons/icons/ui/thread.svg"
         visible: !metadata.forceTrailingTimestampLayout && metadata.threadId
 
@@ -189,7 +191,7 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Edited")
         ToolTip.visible: editHoveredTrailing.hovered
-        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? palette.highlight : palette.buttonText)
+        source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectivePalette.highlight : effectivePalette.buttonText)
         sourceSize.height: parent.indicatorSize
         sourceSize.width: parent.indicatorSize
         visible: metadata.forceTrailingTimestampLayout && (metadata.isEdited || metadata.eventId == metadata.roomEditEventId)
@@ -215,7 +217,7 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Reply in this thread")
         ToolTip.visible: hovered
-        buttonTextColor: TimelineManager.userColor(metadata.threadId, palette.base)
+        buttonTextColor: TimelineManager.userColor(metadata.threadId, effectivePalette.base)
         image: ":/icons/icons/ui/thread.svg"
         visible: metadata.forceTrailingTimestampLayout && metadata.threadId
 
@@ -232,7 +234,7 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
         ToolTip.visible: maTrailing.hovered
-        color: palette.inactive.text
+        color: effectivePalette.inactive.text
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
         visible: metadata.forceTrailingTimestampLayout && !metadata.leadingActionInTrailingLayout
@@ -251,8 +253,8 @@ RowLayout {
         ToolTip.delay: Komai.tooltipDelay
         ToolTip.text: qsTr("Message actions")
         ToolTip.visible: hovered && !metadata.actionBarActive
-        buttonTextColor: metadata.actionBarActive ? palette.highlight : Qt.rgba(palette.inactive.text.r, palette.inactive.text.g, palette.inactive.text.b, 0.35)
-        highlightColor: palette.highlight
+        buttonTextColor: metadata.actionBarActive ? effectivePalette.highlight : Qt.rgba(effectivePalette.inactive.text.r, effectivePalette.inactive.text.g, effectivePalette.inactive.text.b, 0.35)
+        highlightColor: effectivePalette.highlight
         changeColorOnHover: true
         image: ":/icons/icons/ui/options-circle.svg"
         visible: metadata.forceTrailingTimestampLayout

@@ -15,13 +15,12 @@ from pathlib import Path
 
 from colors import (
     parse_yaml,
-    parse_color,
     hex_to_qcolor,
     contrast_ratio,
-    luminance,
     ALL_PALETTE_KEYS,
     PALETTE_KEYS,
     CUSTOM_KEYS,
+    normalize_user_color_slot,
 )
 
 
@@ -38,6 +37,13 @@ def generate_header(themes: list[dict]) -> str:
     lines.append("#include <QString>")
     lines.append("#include <QStringList>")
     lines.append("#include <vector>")
+    lines.append("")
+    lines.append("struct ThemeUserColorSlot {")
+    lines.append("    QColor background;")
+    lines.append("    QColor text;")
+    lines.append("    QColor secondaryText;")
+    lines.append("    QColor link;")
+    lines.append("};")
     lines.append("")
     lines.append("struct ThemeDef {")
     lines.append("    QString slug;")
@@ -57,8 +63,8 @@ def generate_header(themes: list[dict]) -> str:
     lines.append("    QColor attention, success, warning, error;")
     lines.append("")
     lines.append("    // User colors for sender/member color coding")
-    lines.append("    QColor userColorSelf;")
-    lines.append("    std::vector<QColor> userColorOthers;")
+    lines.append("    ThemeUserColorSlot userColorSelf;")
+    lines.append("    std::vector<ThemeUserColorSlot> userColorOthers;")
     lines.append("")
     lines.append('    QString source;  // "builtin" or "/full/path/to/theme.yml"')
     lines.append("")
@@ -126,9 +132,24 @@ def generate_header(themes: list[dict]) -> str:
         lines.append(f"            /*warning*/ {hex_to_qcolor(custom['warning'])},")
         lines.append(f"            /*error*/ {hex_to_qcolor(custom['error'])},")
         lines.append(f"            // User colors")
-        lines.append(f"            /*userColorSelf*/ {hex_to_qcolor(user_self)},")
+        lines.append(
+            "            /*userColorSelf*/ ThemeUserColorSlot{"
+            f"{hex_to_qcolor(user_self['background'])}, "
+            f"{hex_to_qcolor(user_self.get('text')) if user_self.get('text') else 'QColor()'}, "
+            f"{hex_to_qcolor(user_self.get('secondaryText')) if user_self.get('secondaryText') else 'QColor()'}, "
+            f"{hex_to_qcolor(user_self.get('link')) if user_self.get('link') else 'QColor()'}"
+            "},"
+        )
 
-        others_items = ", ".join(hex_to_qcolor(c) for c in user_others)
+        others_items = ", ".join(
+            "ThemeUserColorSlot{"
+            f"{hex_to_qcolor(slot['background'])}, "
+            f"{hex_to_qcolor(slot.get('text')) if slot.get('text') else 'QColor()'}, "
+            f"{hex_to_qcolor(slot.get('secondaryText')) if slot.get('secondaryText') else 'QColor()'}, "
+            f"{hex_to_qcolor(slot.get('link')) if slot.get('link') else 'QColor()'}"
+            "}"
+            for slot in user_others
+        )
         lines.append(f"            /*userColorOthers*/ {{{others_items}}},")
 
         lines.append(f'            QStringLiteral("builtin"),')
@@ -243,6 +264,15 @@ def main():
         if len(user_colors["others"]) < 1:
             print(f"ERROR: {tf} userColors.others must have at least 1 entry", file=sys.stderr)
             sys.exit(1)
+        try:
+            user_self = normalize_user_color_slot(user_colors["self"], "userColors.self")
+            user_others = [
+                normalize_user_color_slot(slot, f"userColors.others[{index}]")
+                for index, slot in enumerate(user_colors["others"])
+            ]
+        except ValueError as exc:
+            print(f"ERROR: {tf} {exc}", file=sys.stderr)
+            sys.exit(1)
 
         # Read QPalette colors directly
         palette_mapped = {key: palette[key] for key in PALETTE_KEYS}
@@ -256,8 +286,8 @@ def main():
                 "sort_order": sort_key(slug),
                 "palette_mapped": palette_mapped,
                 "custom": custom,
-                "user_color_self": user_colors["self"],
-                "user_color_others": user_colors["others"],
+                "user_color_self": user_self,
+                "user_color_others": user_others,
             }
         )
 

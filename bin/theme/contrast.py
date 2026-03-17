@@ -14,7 +14,12 @@ import os
 import sys
 from dataclasses import dataclass
 
-from colors import contrast_ratio, derive_readable_accent_text_color, parse_yaml
+from colors import (
+    contrast_ratio,
+    derive_readable_accent_text_color,
+    normalize_user_color_slot,
+    parse_yaml,
+)
 
 
 @dataclass(frozen=True)
@@ -93,50 +98,81 @@ def build_surface_checks(palette: dict[str, str]) -> list[CheckResult]:
     ]
 
 
+def resolve_slot(slot: dict[str, str], palette: dict[str, str]) -> dict[str, str]:
+    return {
+        "background": slot["background"],
+        "text": slot.get("text", palette["text"]),
+        "secondaryText": slot.get("secondaryText", palette["buttonText"]),
+        "link": slot.get("link", palette["link"]),
+    }
+
+
 def build_bubble_summary_checks(
-    palette: dict[str, str], user_colors: dict[str, str | list[str]]
+    palette: dict[str, str], user_colors: dict[str, dict | list[dict]]
 ) -> list[CheckResult]:
-    others = list(user_colors["others"])
-    self_color = str(user_colors["self"])
-    derived_self = derive_readable_accent_text_color(self_color, self_color)
-    derived_others = [derive_readable_accent_text_color(color, color) for color in others]
+    self_slot = resolve_slot(normalize_user_color_slot(user_colors["self"], "userColors.self"), palette)
+    other_slots = [
+        resolve_slot(normalize_user_color_slot(slot, f"userColors.others[{index}]"), palette)
+        for index, slot in enumerate(user_colors["others"])
+    ]
+    derived_self = derive_readable_accent_text_color(self_slot["background"], self_slot["background"])
+    derived_others = [
+        derive_readable_accent_text_color(slot["background"], slot["background"])
+        for slot in other_slots
+    ]
 
     return [
-        CheckResult("bubble:self/text", contrast_ratio(self_color, palette["text"]), 4.5, True),
+        CheckResult(
+            "bubble:self/text",
+            contrast_ratio(self_slot["background"], self_slot["text"]),
+            4.5,
+            True,
+        ),
         CheckResult(
             "bubble:self/buttonText",
-            contrast_ratio(self_color, palette["buttonText"]),
+            contrast_ratio(self_slot["background"], self_slot["secondaryText"]),
             4.5,
             False,
         ),
-        CheckResult("bubble:self/link", contrast_ratio(self_color, palette["link"]), 4.5, True),
+        CheckResult(
+            "bubble:self/link",
+            contrast_ratio(self_slot["background"], self_slot["link"]),
+            4.5,
+            True,
+        ),
         CheckResult(
             "bubble:self/derivedText",
-            contrast_ratio(self_color, derived_self),
+            contrast_ratio(self_slot["background"], derived_self),
             4.5,
             True,
         ),
         CheckResult(
             "bubble:others/text min",
-            min(contrast_ratio(color, palette["text"]) for color in others),
+            min(contrast_ratio(slot["background"], slot["text"]) for slot in other_slots),
             4.5,
             True,
         ),
         CheckResult(
             "bubble:others/buttonText min",
-            min(contrast_ratio(color, palette["buttonText"]) for color in others),
+            min(
+                contrast_ratio(slot["background"], slot["secondaryText"])
+                for slot in other_slots
+            ),
             4.5,
             False,
         ),
         CheckResult(
             "bubble:others/link min",
-            min(contrast_ratio(color, palette["link"]) for color in others),
+            min(contrast_ratio(slot["background"], slot["link"]) for slot in other_slots),
             4.5,
             True,
         ),
         CheckResult(
             "bubble:others/derivedText min",
-            min(contrast_ratio(color, derived) for color, derived in zip(others, derived_others)),
+            min(
+                contrast_ratio(slot["background"], derived)
+                for slot, derived in zip(other_slots, derived_others)
+            ),
             4.5,
             True,
         ),
@@ -144,23 +180,27 @@ def build_bubble_summary_checks(
 
 
 def build_user_color_detail_rows(
-    palette: dict[str, str], user_colors: dict[str, str | list[str]]
+    palette: dict[str, str], user_colors: dict[str, dict | list[dict]]
 ) -> list[list[str]]:
     rows = []
-    all_colors = [("self", str(user_colors["self"]))] + [
-        (f"others[{index}]", color) for index, color in enumerate(user_colors["others"])
+    all_slots = [("self", resolve_slot(normalize_user_color_slot(user_colors["self"], "userColors.self"), palette))] + [
+        (
+            f"others[{index}]",
+            resolve_slot(normalize_user_color_slot(slot, f"userColors.others[{index}]"), palette),
+        )
+        for index, slot in enumerate(user_colors["others"])
     ]
-    for label, color in all_colors:
-        derived = derive_readable_accent_text_color(color, color)
+    for label, slot in all_slots:
+        derived = derive_readable_accent_text_color(slot["background"], slot["background"])
         rows.append(
             [
                 label,
-                color,
-                f"{contrast_ratio(color, palette['text']):.2f}",
-                f"{contrast_ratio(color, palette['buttonText']):.2f}",
-                f"{contrast_ratio(color, palette['link']):.2f}",
+                slot["background"],
+                f"{contrast_ratio(slot['background'], slot['text']):.2f}",
+                f"{contrast_ratio(slot['background'], slot['secondaryText']):.2f}",
+                f"{contrast_ratio(slot['background'], slot['link']):.2f}",
                 derived,
-                f"{contrast_ratio(color, derived):.2f}",
+                f"{contrast_ratio(slot['background'], derived):.2f}",
             ]
         )
     return rows

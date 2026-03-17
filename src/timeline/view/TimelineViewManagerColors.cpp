@@ -10,16 +10,134 @@
 #include <utility>
 #include <vector>
 
+#include <QGuiApplication>
+
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
+#include "ui/Theme.h"
 #include "ui/ThemeRegistry.h"
 #include "utils/Utils.h"
+
+namespace {
+
+QColor
+blendColor(const QColor &background, const QColor &foreground, qreal alpha)
+{
+    return QColor::fromRgbF(background.redF() * (1.0 - alpha) + foreground.redF() * alpha,
+                            background.greenF() * (1.0 - alpha) + foreground.greenF() * alpha,
+                            background.blueF() * (1.0 - alpha) + foreground.blueF() * alpha,
+                            1.0);
+}
+
+ThemeUserColorSlot
+resolveBubbleSlot(const ThemeUserColorSlot &slot,
+                  const QPalette &themePalette,
+                  const QColor &background)
+{
+    ThemeUserColorSlot resolved = slot;
+
+    if (!resolved.background.isValid())
+        resolved.background = background;
+    if (!resolved.text.isValid())
+        resolved.text = themePalette.color(QPalette::Active, QPalette::Text);
+    if (!resolved.secondaryText.isValid())
+        resolved.secondaryText = themePalette.color(QPalette::Active, QPalette::ButtonText);
+    if (!resolved.link.isValid())
+        resolved.link = themePalette.color(QPalette::Active, QPalette::Link);
+
+    return resolved;
+}
+
+QPalette
+buildBubblePalette(const ThemeUserColorSlot &slot,
+                   const QPalette &themePalette,
+                   const QColor &background)
+{
+    const auto resolved = resolveBubbleSlot(slot, themePalette, background);
+
+    const QColor alternateSurface =
+      blendColor(resolved.background, themePalette.color(QPalette::AlternateBase), 0.35);
+    const QColor hoverSurface =
+      blendColor(resolved.background, themePalette.color(QPalette::Dark), 0.55);
+    const QColor midSurface =
+      blendColor(resolved.background, themePalette.color(QPalette::Mid), 0.5);
+    const QColor lightSurface =
+      blendColor(resolved.background, themePalette.color(QPalette::Light), 0.25);
+
+    QPalette bubblePalette = themePalette;
+    for (const auto group : {QPalette::Active, QPalette::Inactive, QPalette::Disabled}) {
+        bubblePalette.setColor(group, QPalette::Window, resolved.background);
+        bubblePalette.setColor(group, QPalette::Base, resolved.background);
+        bubblePalette.setColor(group, QPalette::Button, resolved.background);
+        bubblePalette.setColor(group, QPalette::AlternateBase, alternateSurface);
+        bubblePalette.setColor(group, QPalette::Dark, hoverSurface);
+        bubblePalette.setColor(group, QPalette::Mid, midSurface);
+        bubblePalette.setColor(group, QPalette::Light, lightSurface);
+        bubblePalette.setColor(group,
+                               QPalette::Text,
+                               group == QPalette::Inactive ? resolved.secondaryText
+                                                           : resolved.text);
+        bubblePalette.setColor(group,
+                               QPalette::WindowText,
+                               group == QPalette::Inactive ? resolved.secondaryText
+                                                           : resolved.text);
+        bubblePalette.setColor(group, QPalette::BrightText, resolved.text);
+        bubblePalette.setColor(group, QPalette::ButtonText, resolved.secondaryText);
+        bubblePalette.setColor(group, QPalette::Link, resolved.link);
+        bubblePalette.setColor(group, QPalette::ToolTipBase, alternateSurface);
+        bubblePalette.setColor(group, QPalette::ToolTipText, resolved.text);
+    }
+
+    return bubblePalette;
+}
+
+UserSettings::TimelineUserColorCodingPolicy
+resolveColorCodingPolicy(int colorCodingPolicy)
+{
+    if (colorCodingPolicy >=
+          static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize) &&
+        colorCodingPolicy <=
+          static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)) {
+        return static_cast<UserSettings::TimelineUserColorCodingPolicy>(colorCodingPolicy);
+    }
+
+    const auto settings = UserSettings::instance();
+    return settings ? settings->timelineUserColorCodingPolicy()
+                    : UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
+}
+
+QPalette
+currentThemePalette()
+{
+    const auto settings = UserSettings::instance();
+    return settings ? Theme::paletteFromTheme(settings->uiThemeSlug()) : QGuiApplication::palette();
+}
+
+const ThemeDef *
+currentThemeDef()
+{
+    const auto settings = UserSettings::instance();
+    return settings ? ThemeRegistry::instance().findTheme(settings->uiThemeSlug()) : nullptr;
+}
+
+QColor
+formerMemberColor(const QColor &background)
+{
+    auto bgLightness = background.lightnessF();
+    if (bgLightness > 0.5)
+        return QColor::fromHsl(0, 0, 180); // light theme: medium-light gray
+    else
+        return QColor::fromHsl(0, 0, 100); // dark theme: medium-dark gray
+}
+
+} // namespace
 
 void
 TimelineViewManager::updateColorPalette()
 {
     userColors.clear();
     roomUserColors_.clear();
+    roomUserColorSlots_.clear();
     roomMemberCache_.clear();
 }
 
@@ -30,6 +148,26 @@ TimelineViewManager::userColor(QString id, QColor background)
     if (!userColors.contains(idx))
         userColors.insert(idx, QColor(utils::generateContrastingHexColor(id, background)));
     return userColors.value(idx);
+}
+
+QPalette
+TimelineViewManager::userBubblePalette(QString id, QColor background)
+{
+    auto themePalette    = currentThemePalette();
+    const auto *themeDef = currentThemeDef();
+
+    if (themeDef && id == utils::localUser())
+        return buildBubblePalette(
+          themeDef->userColorSelf, themePalette, themeDef->userColorSelf.background);
+
+    if (themeDef && !themeDef->userColorOthers.empty()) {
+        const auto &slot = themeDef->userColorOthers.front();
+        return buildBubblePalette(slot, themePalette, slot.background);
+    }
+
+    ThemeUserColorSlot slot;
+    slot.background = userColor(id, background);
+    return buildBubblePalette(slot, themePalette, slot.background);
 }
 
 QColor
@@ -46,31 +184,16 @@ TimelineViewManager::roomUserColor(QString roomId,
     auto selfId              = utils::localUser();
     const bool isPreviewRoom = roomId.startsWith(QLatin1String("!timeline-preview:"));
 
-    const auto policy = [colorCodingPolicy]() {
-        if (colorCodingPolicy >=
-              static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize) &&
-            colorCodingPolicy <=
-              static_cast<int>(UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)) {
-            return static_cast<UserSettings::TimelineUserColorCodingPolicy>(colorCodingPolicy);
-        }
-
-        const auto settings = UserSettings::instance();
-        return settings ? settings->timelineUserColorCodingPolicy()
-                        : UserSettings::TimelineUserColorCodingPolicy::AdaptiveByRoomSize;
-    }();
+    const auto policy = resolveColorCodingPolicy(colorCodingPolicy);
 
     // Read user colors from the current theme.
     QColor selfColor;
     QList<QColor> othersColors;
-    const auto settings = UserSettings::instance();
-    if (settings) {
-        const auto *def = ThemeRegistry::instance().findTheme(settings->uiThemeSlug());
-        if (def) {
-            selfColor = def->userColorSelf;
-            othersColors.reserve(static_cast<qsizetype>(def->userColorOthers.size()));
-            for (const auto &c : def->userColorOthers)
-                othersColors.append(c);
-        }
+    if (const auto *def = currentThemeDef()) {
+        selfColor = def->userColorSelf.background;
+        othersColors.reserve(static_cast<qsizetype>(def->userColorOthers.size()));
+        for (const auto &slot : def->userColorOthers)
+            othersColors.append(slot.background);
     }
     // Fallback if no theme found
     if (!selfColor.isValid())
@@ -91,13 +214,8 @@ TimelineViewManager::roomUserColor(QString roomId,
     }
 
     // Former member: return a neutral gray regardless of room size.
-    if (!cache::isRoomMember(userId.toStdString(), roomId.toStdString())) {
-        auto bgLightness = background.lightnessF();
-        if (bgLightness > 0.5)
-            return QColor::fromHsl(0, 0, 180); // light theme: medium-light gray
-        else
-            return QColor::fromHsl(0, 0, 100); // dark theme: medium-dark gray
-    }
+    if (!cache::isRoomMember(userId.toStdString(), roomId.toStdString()))
+        return formerMemberColor(background);
 
     if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
         return userId == selfId ? selfColor : othersUniform();
@@ -132,6 +250,13 @@ TimelineViewManager::roomUserColor(QString roomId,
             else
                 ++it;
         }
+        auto slotIt = roomUserColorSlots_.begin();
+        while (slotIt != roomUserColorSlots_.end()) {
+            if (slotIt.key().first == roomId)
+                slotIt = roomUserColorSlots_.erase(slotIt);
+            else
+                ++slotIt;
+        }
 
         auto members = cache::roomMembers(roomId.toStdString());
         members.erase(std::remove(members.begin(), members.end(), selfId.toStdString()),
@@ -151,5 +276,72 @@ TimelineViewManager::roomUserColor(QString roomId,
     QColor color = othersColors[slot % othersListSize];
 
     roomUserColors_.insert(cacheKey, color);
+    roomUserColorSlots_.insert(cacheKey, slot);
     return color;
+}
+
+QPalette
+TimelineViewManager::roomUserBubblePalette(QString roomId,
+                                           QString userId,
+                                           QColor background,
+                                           int colorCodingPolicy)
+{
+    const auto themePalette  = currentThemePalette();
+    const auto *def          = currentThemeDef();
+    const auto policy        = resolveColorCodingPolicy(colorCodingPolicy);
+    const auto selfId        = utils::localUser();
+    const bool isPreviewRoom = roomId.startsWith(QLatin1String("!timeline-preview:"));
+
+    if (!def)
+        return userBubblePalette(userId, background);
+
+    if (roomId.isEmpty() || userId.isEmpty())
+        return buildBubblePalette(def->userColorSelf, themePalette, def->userColorSelf.background);
+
+    if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
+        return userId == selfId ? buildBubblePalette(
+                                    def->userColorSelf, themePalette, def->userColorSelf.background)
+                                : buildBubblePalette(
+                                    def->userColorOthers.empty() ? ThemeUserColorSlot{}
+                                                                 : def->userColorOthers.front(),
+                                    themePalette,
+                                    def->userColorOthers.empty()
+                                      ? roomUserColor(roomId, userId, background, colorCodingPolicy)
+                                      : def->userColorOthers.front().background);
+
+    if (isPreviewRoom) {
+        const auto previewBackground = roomUserColor(roomId, userId, background, colorCodingPolicy);
+        ThemeUserColorSlot slot;
+        slot.background = previewBackground;
+        return buildBubblePalette(slot, themePalette, previewBackground);
+    }
+
+    if (!cache::isRoomMember(userId.toStdString(), roomId.toStdString())) {
+        ThemeUserColorSlot slot;
+        slot.background = formerMemberColor(background);
+        return buildBubblePalette(slot, themePalette, slot.background);
+    }
+
+    if (userId == selfId)
+        return buildBubblePalette(def->userColorSelf, themePalette, def->userColorSelf.background);
+
+    if (def->userColorOthers.empty()) {
+        ThemeUserColorSlot slot;
+        slot.background = roomUserColor(roomId, userId, background, colorCodingPolicy);
+        return buildBubblePalette(slot, themePalette, slot.background);
+    }
+
+    auto memberCount         = static_cast<int>(cache::memberCount(roomId.toStdString()));
+    const int othersListSize = static_cast<int>(def->userColorOthers.size());
+    if (memberCount > othersListSize)
+        return buildBubblePalette(
+          def->userColorOthers.front(), themePalette, def->userColorOthers.front().background);
+
+    std::pair<QString, QString> cacheKey{roomId, userId};
+    if (!roomUserColorSlots_.contains(cacheKey))
+        (void)roomUserColor(roomId, userId, background, colorCodingPolicy);
+
+    const int slotIndex = roomUserColorSlots_.value(cacheKey, 0);
+    const auto &slot    = def->userColorOthers[slotIndex % othersListSize];
+    return buildBubblePalette(slot, themePalette, slot.background);
 }

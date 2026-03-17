@@ -51,6 +51,8 @@ LitehtmlItem {
 
     html: formatted
     color: palette.text
+    linkColor: palette.link
+    surfaceColor: palette.alternateBase
     font.pointSize: enlargedEmojiOnly ? enlargedEmojiPointSize : Settings.uiFontSizePt
     font.family: Komai.fontFamily
     compact: Komai.uiLayoutCompactMode

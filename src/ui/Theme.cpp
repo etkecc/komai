@@ -51,11 +51,11 @@ Theme::Theme(QStringView theme)
         success_           = def->success;
         warning_           = def->warning;
         error_             = def->error;
-        userColorSelf_     = def->userColorSelf;
+        userColorSelf_     = def->userColorSelf.background;
         userColorOthers_.clear();
         userColorOthers_.reserve(static_cast<qsizetype>(def->userColorOthers.size()));
-        for (const auto &c : def->userColorOthers)
-            userColorOthers_.append(c);
+        for (const auto &slot : def->userColorOthers)
+            userColorOthers_.append(slot.background);
     } else {
         // Unknown theme — fall back to palette-derived defaults
         sidebarBackground_ = p.color(QPalette::AlternateBase);

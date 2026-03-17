@@ -76,6 +76,8 @@ roomAvatarUrl(const std::string &room_id);
 //! Whether all the events in the timeline have been read.
 std::string
 getFullyReadEventId(const std::string &room_id);
+void
+markRoomReadLocally(const std::string &room_id, const std::string &event_id);
 bool
 calculateRoomReadStatus(const std::string &room_id);
 void

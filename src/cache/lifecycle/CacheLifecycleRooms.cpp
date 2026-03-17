@@ -28,6 +28,7 @@
 #include "db/storage/Crypto.h"
 #include "db/storage/Scan.h"
 #include "db/storage/Serde.h"
+#include "logging/Logging.h"
 #include "settings/ui/facade/UserSettingsPage.h"
 #include "utils/Utils.h"
 
@@ -331,6 +332,36 @@ MatrixStore::getFullyReadEventId(const std::string &room_id)
 }
 
 void
+MatrixStore::markRoomReadLocally(const std::string &room_id, const std::string &event_id)
+{
+    if (room_id.empty() || event_id.empty())
+        return;
+
+    auto txn = beginTxn();
+
+    auto accountDataDb = getAccountDataDb(txn, room_id);
+    auto roomInfo      = cache::codec::getRoomInfo(txn, db->rooms, room_id);
+
+    room_store::put(
+      txn,
+      accountDataDb,
+      cache::schema::RoomDb::AccountData,
+      room_id,
+      to_string(mtx::events::EventType::FullyRead),
+      nlohmann::json{{"type", "m.fully_read"}, {"content", {{"event_id", event_id}}}}.dump());
+
+    if (roomInfo) {
+        roomInfo->notification_count = 0;
+        roomInfo->highlight_count    = 0;
+        cache::codec::putRoomInfo(txn, db->rooms, room_id, *roomInfo);
+    }
+
+    txn.commit();
+
+    emit roomReadStatus({{QString::fromStdString(room_id), calculateRoomReadStatus(room_id)}});
+}
+
+void
 MatrixStore::calculateRoomReadStatus()
 {
     const auto joined_rooms = joinedRooms();
@@ -357,8 +388,15 @@ bool
 MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
 {
     std::string last_event_id_, fullyReadEventId_;
+    uint64_t notificationCount = 0;
+    uint64_t highlightCount    = 0;
     {
         auto txn = ro_txn(storage());
+
+        if (const auto roomInfo = cache::codec::getRoomInfo(txn, db->rooms, room_id)) {
+            notificationCount = roomInfo->notification_count;
+            highlightCount    = roomInfo->highlight_count;
+        }
 
         // Get last event id on the room, respecting the unread detection policy.
         const auto last_event_id =
@@ -376,8 +414,20 @@ MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
         if (fullyReadEventId.empty())
             return true;
 
-        if (last_event_id == fullyReadEventId)
+        if (last_event_id == fullyReadEventId) {
+            if (notificationCount > 0 || highlightCount > 0) {
+                nhlog::ui()->warn(
+                  "[unread-cache] cached notification mismatch room_id={} last_event_id={} "
+                  "fully_read_event_id={} notification_count={} highlight_count={} policy={}",
+                  room_id,
+                  last_event_id,
+                  fullyReadEventId,
+                  notificationCount,
+                  highlightCount,
+                  policy);
+            }
             return false;
+        }
 
         last_event_id_    = std::string(last_event_id);
         fullyReadEventId_ = std::string(fullyReadEventId);
@@ -390,8 +440,39 @@ MatrixStore::calculateRoomReadStatus(const std::string &room_id, int policy)
     // or cross-device read marker pointing to an event we never cached), we can't
     // compare positions.  Since m.fully_read *is* set, the user has read the room at
     // some point — treat it as read rather than stuck-unread.
-    if (!lastIdx || !fullyReadIdx)
+    if (!lastIdx || !fullyReadIdx) {
+        if (notificationCount > 0 || highlightCount > 0) {
+            nhlog::ui()->warn(
+              "[unread-cache] unresolved event index for room_id={} last_event_id={} "
+              "fully_read_event_id={} last_idx={} fully_read_idx={} notification_count={} "
+              "highlight_count={} policy={}",
+              room_id,
+              last_event_id_,
+              fullyReadEventId_,
+              lastIdx ? std::to_string(*lastIdx) : "missing",
+              fullyReadIdx ? std::to_string(*fullyReadIdx) : "missing",
+              notificationCount,
+              highlightCount,
+              policy);
+        }
         return false;
+    }
 
-    return lastIdx > fullyReadIdx;
+    const bool unread = lastIdx > fullyReadIdx;
+    if (!unread && (notificationCount > 0 || highlightCount > 0)) {
+        nhlog::ui()->warn(
+          "[unread-cache] read room still has cached notifications room_id={} last_event_id={} "
+          "fully_read_event_id={} last_idx={} fully_read_idx={} notification_count={} "
+          "highlight_count={} policy={}",
+          room_id,
+          last_event_id_,
+          fullyReadEventId_,
+          *lastIdx,
+          *fullyReadIdx,
+          notificationCount,
+          highlightCount,
+          policy);
+    }
+
+    return unread;
 }

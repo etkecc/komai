@@ -130,8 +130,12 @@ RoomlistModel::dataForMaterializedRoom(const QString &room_id,
         return this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
     case Roles::HasLoudNotification:
         return room->hasMentions();
-    case Roles::NotificationCount:
-        return room->notificationCount();
+    case Roles::NotificationCount: {
+        const bool hasUnread =
+          this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
+        const int notificationCount = room->notificationCount();
+        return (hasUnread || room->hasMentions()) ? notificationCount : 0;
+    }
     case Roles::IsInvite:
         return false;
     case Roles::IsSpace:
@@ -218,8 +222,12 @@ RoomlistModel::dataForCachedRoom(const QString &room_id, const RoomInfo &room, i
         return this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
     case Roles::HasLoudNotification:
         return room.highlight_count > 0;
-    case Roles::NotificationCount:
-        return static_cast<int>(room.notification_count);
+    case Roles::NotificationCount: {
+        const bool hasUnread =
+          this->roomReadStatus.count(room_id) && this->roomReadStatus.at(room_id);
+        const int notificationCount = static_cast<int>(room.notification_count);
+        return (hasUnread || room.highlight_count > 0) ? notificationCount : 0;
+    }
     case Roles::IsInvite:
         return false;
     case Roles::IsSpace:

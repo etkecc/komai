@@ -64,6 +64,20 @@ TimelineModel::readEvent(const std::string &id)
                   if (currentReadId.toStdString() == newId)
                       this->currentReadId = oldId;
               });
+          } else {
+              ChatPage::instance()->callFunctionOnGuiThread([this, newId] {
+                  cache::markRoomReadLocally(room_id_.toStdString(), newId);
+
+                  const auto previousNotificationCount = notification_count;
+                  const auto previousHighlightCount    = highlight_count;
+                  notification_count                   = 0;
+                  highlight_count                      = 0;
+                  fullyReadEventId_                    = newId;
+                  emit fullyReadEventIdChanged();
+
+                  if (previousNotificationCount != 0 || previousHighlightCount != 0)
+                      emit notificationsChanged();
+              });
           }
       },
       !UserSettings::instance()->timelineReadReceiptsEnabled());

@@ -126,6 +126,12 @@ getFullyReadEventId(const std::string &room_id)
     return cacheInstance()->getFullyReadEventId(room_id);
 }
 
+void
+markRoomReadLocally(const std::string &room_id, const std::string &event_id)
+{
+    cacheInstance()->markRoomReadLocally(room_id, event_id);
+}
+
 bool
 calculateRoomReadStatus(const std::string &room_id)
 {

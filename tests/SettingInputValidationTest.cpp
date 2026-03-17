@@ -120,8 +120,8 @@ testRoleValidation()
            expect(settings::ui::validateRoleInput(
                     settings::core::SettingId::UiThemeSlug,
                     UserSettingsModel::ThemeVariantValue,
-                    QVariant{2}),
-                  "theme role accepts system variant index") &&
+                    QVariant{1}),
+                  "theme role accepts dark variant index") &&
            expect(!settings::ui::validateRoleInput(
                     settings::core::SettingId::UiThemeSlug,
                     UserSettingsModel::ThemeVariantValue,
@@ -130,7 +130,7 @@ testRoleValidation()
            expect(!settings::ui::validateRoleInput(
                     settings::core::SettingId::UiThemeSlug,
                     UserSettingsModel::ThemeVariantValue,
-                    QVariant{3}),
+                    QVariant{2}),
                   "theme role rejects out-of-range variant index") &&
            expect(!settings::ui::validateRoleInput(
                     settings::core::SettingId::UiThemeSlug,

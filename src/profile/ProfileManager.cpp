@@ -21,6 +21,7 @@
 #include "settings/SettingKeys.h"
 #include "settings/SettingsPersistence.h"
 #include "settings/YamlSettings.h"
+#include "settings/core/SettingsDefinitions.h"
 #include "ui/Theme.h"
 
 namespace {
@@ -163,10 +164,13 @@ listProfiles(QStringView currentProfile)
         const auto sessionRoot =
           loadYamlMapIfExists(app_paths::config::profileSessionFile(profileId));
 
-        summary.themeSlug =
-          yaml_settings::readString(configRoot, SettingKey::UiThemeSlug, QStringLiteral("system"));
+        summary.themeSlug = yaml_settings::readString(
+          configRoot,
+          SettingKey::UiThemeSlug,
+          QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug));
         if (summary.themeSlug.trimmed().isEmpty())
-            summary.themeSlug = QStringLiteral("system");
+            summary.themeSlug =
+              QString::fromLatin1(settings::core::definitions::kDefaultUiThemeSlug);
 
         summary.secretsProvider =
           yaml_settings::readString(configRoot, SettingKey::SecretsProvider, QString());

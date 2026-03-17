@@ -23,7 +23,7 @@ ColumnLayout {
 
         KomaiComboBox {
             id: variantCombo
-            model: [qsTr("Light"), qsTr("Dark"), qsTr("System")]
+            model: [qsTr("Light"), qsTr("Dark")]
             currentIndex: Settings.themeVariantIndex()
             onActivated: function(index) {
                 Settings.setThemeVariantByIndex(index)
@@ -32,7 +32,6 @@ ColumnLayout {
 
         KomaiComboBox {
             id: themeCombo
-            visible: variantCombo.currentIndex !== 2
             model: Settings.themeNamesForCurrentVariant()
             currentIndex: Settings.themeIndexInCurrentVariant()
             onActivated: function(index) {

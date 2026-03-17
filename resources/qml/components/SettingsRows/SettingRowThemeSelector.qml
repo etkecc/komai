@@ -46,7 +46,6 @@ Item {
 
         KomaiComboBox {
             id: themeCombo
-            visible: variantCombo.currentIndex !== 2
             font.pointSize: Settings.uiFontSizePt
             model: safeValues
             currentIndex: safeValue

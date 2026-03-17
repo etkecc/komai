@@ -29,19 +29,13 @@ themeRoleData(int role)
         return {};
 
     if (role == UserSettingsModel::ThemeVariantValue) {
-        const auto variant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
-        if (variant == u"light")
-            return 0;
-        if (variant == u"dark")
-            return 1;
-        return 2;
+        return ThemeRegistry::instance().themeVariant(i->uiThemeSlug()) == u"dark" ? 1 : 0;
     }
 
     if (role == UserSettingsModel::ThemeVariantValues) {
         return QStringList{
           QCoreApplication::translate("UserSettingsModel", "Light"),
           QCoreApplication::translate("UserSettingsModel", "Dark"),
-          QCoreApplication::translate("UserSettingsModel", "System"),
         };
     }
 
@@ -61,16 +55,14 @@ setThemeRoleData(int role, const QVariant &value)
     int variantIdx = 0;
     if (!readSettingValue(value, variantIdx))
         return false;
-    if (variantIdx < 0 || variantIdx > 2)
+    if (variantIdx < 0 || variantIdx > 1)
         return false;
 
     QString newVariant;
     if (variantIdx == 0)
         newVariant = QStringLiteral("light");
-    else if (variantIdx == 1)
-        newVariant = QStringLiteral("dark");
     else
-        newVariant = QStringLiteral("system");
+        newVariant = QStringLiteral("dark");
 
     const auto currentVariant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
     if (newVariant == currentVariant)

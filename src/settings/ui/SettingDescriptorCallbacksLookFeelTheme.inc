@@ -11,9 +11,6 @@ lookFeelThemeValue()
         return -1;
 
     auto variant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
-    if (variant == u"system")
-        return -1;
-
     return ThemeRegistry::instance().themeSlugs(variant).indexOf(i->uiThemeSlug());
 }
 
@@ -25,9 +22,6 @@ setLookFeelThemeValue(const QVariant &v)
         return false;
 
     auto variant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
-    if (variant == u"system")
-        return false;
-
     auto slugs = ThemeRegistry::instance().themeSlugs(variant);
     return applyStringListSelection(v, slugs, [i](const QString &slug) { i->setUiThemeSlug(slug); });
 }
@@ -39,11 +33,7 @@ lookFeelThemeValues()
     if (!i)
         return QStringList{};
 
-    auto variant = ThemeRegistry::instance().themeVariant(i->uiThemeSlug());
-    if (variant == u"system")
-        return QStringList{};
-
-    return ThemeRegistry::instance().themeNames(variant);
+    return ThemeRegistry::instance().themeNames(ThemeRegistry::instance().themeVariant(i->uiThemeSlug()));
 }
 
 static QVariant

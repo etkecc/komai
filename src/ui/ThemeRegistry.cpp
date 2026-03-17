@@ -296,8 +296,6 @@ ThemeRegistry::themeSlugs(const QString &variant) const
 QString
 ThemeRegistry::themeVariant(QStringView slug) const
 {
-    if (slug == u"system")
-        return QStringLiteral("system");
     const auto *def = findTheme(slug);
     return def ? def->variant : QStringLiteral("light");
 }
@@ -305,8 +303,6 @@ ThemeRegistry::themeVariant(QStringView slug) const
 QString
 ThemeRegistry::defaultThemeSlug(QStringView variant) const
 {
-    if (variant == u"system")
-        return QStringLiteral("system");
     for (const auto &t : allThemes_) {
         if (t.variant == variant)
             return t.slug;

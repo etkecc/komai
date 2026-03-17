@@ -10,9 +10,6 @@ Theme::paletteFromTheme(QStringView theme)
 {
     static QPalette original;
 
-    if (theme == u"system")
-        return original;
-
     const auto *def = ThemeRegistry::instance().findTheme(theme);
     if (def)
         return def->toPalette();
@@ -25,7 +22,7 @@ Theme::Theme(QStringView theme)
     auto p     = paletteFromTheme(theme);
     separator_ = p.mid().color();
 
-    // Hardcoded fallback user colors for system/unknown themes
+    // Hardcoded fallback user colors for unknown themes
     auto applyDefaultUserColors = [this, &p]() {
         userColorSelf_ = p.color(QPalette::Highlight);
         // Golden-angle-spaced hues at S=0.7, L=0.5 (neutral defaults)
@@ -47,16 +44,6 @@ Theme::Theme(QStringView theme)
         };
     };
 
-    if (theme == u"system") {
-        sidebarBackground_ = p.color(QPalette::AlternateBase);
-        attention_         = QColor(QColorConstants::Svg::red);
-        success_           = QColor(QColorConstants::Svg::green);
-        warning_           = QColor(QColorConstants::Svg::orange);
-        error_             = QColor(0xdd, 0x3d, 0x3d);
-        applyDefaultUserColors();
-        return;
-    }
-
     const auto *def = ThemeRegistry::instance().findTheme(theme);
     if (def) {
         sidebarBackground_ = p.color(QPalette::AlternateBase);
@@ -70,7 +57,7 @@ Theme::Theme(QStringView theme)
         for (const auto &c : def->userColorOthers)
             userColorOthers_.append(c);
     } else {
-        // Unknown theme — fall back to system-like defaults
+        // Unknown theme — fall back to palette-derived defaults
         sidebarBackground_ = p.color(QPalette::AlternateBase);
         attention_         = QColor(QColorConstants::Svg::red);
         success_           = QColor(QColorConstants::Svg::green);

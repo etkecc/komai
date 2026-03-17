@@ -7,8 +7,6 @@ Komai uses a data-driven theme system. Built-in themes are defined as YAML files
 
 Komai ships with several built-in themes (see [`resources/themes/`](../../resources/themes/) for the current list), including Komai light/dark, nheko light/dark, and popular community themes like Catppuccin, Dracula, Nord, Rosé Pine, and Tokyo Night.
 
-A **System** option is also available, which uses your OS palette instead of a built-in theme.
-
 
 ## ⚙️ Where Your Current Theme Choice Is Stored
 
@@ -49,7 +47,7 @@ For storage context, see [Storage Locations](storage.md#linux-paths).
 
 **No hot-reload:** Themes are loaded once at startup. Restart Komai to pick up new or changed theme files.
 
-**Graceful handling:** If a theme file has missing keys, invalid hex values, missing `userColors`, or other errors, it is skipped with a log warning. Other themes still load normally. If a previously-selected custom theme file is removed, Komai falls back to the system palette.
+**Graceful handling:** If a theme file has missing keys, invalid hex values, missing `userColors`, or other errors, it is skipped with a log warning. Other themes still load normally. If a previously-selected custom theme file is removed, Komai falls back to the default built-in theme.
 
 
 ## ✨ Adding a new theme

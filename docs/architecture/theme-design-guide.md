@@ -91,7 +91,7 @@ These pairings are particularly important because they appear in common screens:
 
 Theme files alone are not enough.
 
-- System theme mode bypasses built-in import heuristics, so theme-sensitive controls should have runtime contrast guardrails where necessary.
+- Theme-sensitive controls should still have runtime contrast guardrails where necessary, especially when user-supplied themes bypass Komai's import heuristics.
 - Dialogs should not rely only on `window` vs `alternateBase` fill contrast. They should also have a visible outline and/or shadow.
 - Focus and selection indicators should remain perceivable even in light themes with warm accent colors.
 
@@ -102,7 +102,7 @@ When changing a built-in theme:
 
 1. Check the common text/surface pairs above, not only the raw palette.
 2. Verify the affected components in room list, settings, dialogs, and auth/onboarding.
-3. Re-check system theme mode if the change is really a component-level safeguard.
+3. Re-check hand-crafted external themes if the change is really a component-level safeguard.
 4. Run `just lint`.
 
 Useful local checks:

@@ -87,7 +87,7 @@ statusMessage();
 void
 setStatusMessage(const QString &message);
 //! Sets the current theme. Use a valid theme slug (for example "komai-light", "komai-dark",
-//! "nheko-light") or "system".
+//! "nheko-light").
 void
 setTheme(const QString &theme);
 

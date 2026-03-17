@@ -16,9 +16,7 @@ namespace {
 static QStringList
 validThemeSlugs()
 {
-    auto slugs = ThemeRegistry::instance().themeSlugs();
-    slugs.append(QStringLiteral("system"));
-    return slugs;
+    return ThemeRegistry::instance().themeSlugs();
 }
 
 } // namespace
@@ -38,13 +36,7 @@ UserSettings::setUiThemeSlug(QString theme)
 int
 UserSettings::themeVariantIndex() const
 {
-    auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
-    if (variant == u"light")
-        return 0;
-    else if (variant == u"dark")
-        return 1;
-    else
-        return 2; // system
+    return ThemeRegistry::instance().themeVariant(uiThemeSlug()) == u"dark" ? 1 : 0;
 }
 
 void
@@ -56,7 +48,7 @@ UserSettings::setThemeVariantByIndex(int index)
     else if (index == 1)
         newVariant = QStringLiteral("dark");
     else
-        newVariant = QStringLiteral("system");
+        return;
 
     auto currentVariant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
     if (newVariant == currentVariant)
@@ -67,19 +59,15 @@ UserSettings::setThemeVariantByIndex(int index)
 QStringList
 UserSettings::themeNamesForCurrentVariant() const
 {
-    auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
-    if (variant == u"system")
-        return {};
-    return ThemeRegistry::instance().themeNames(variant);
+    return ThemeRegistry::instance().themeNames(
+      ThemeRegistry::instance().themeVariant(uiThemeSlug()));
 }
 
 int
 UserSettings::themeIndexInCurrentVariant() const
 {
     auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
-    if (variant == u"system")
-        return -1;
-    auto slugs = ThemeRegistry::instance().themeSlugs(variant);
+    auto slugs   = ThemeRegistry::instance().themeSlugs(variant);
     return slugs.indexOf(uiThemeSlug());
 }
 
@@ -87,9 +75,7 @@ void
 UserSettings::setThemeByVariantIndex(int index)
 {
     auto variant = ThemeRegistry::instance().themeVariant(uiThemeSlug());
-    if (variant == u"system")
-        return;
-    auto slugs = ThemeRegistry::instance().themeSlugs(variant);
+    auto slugs   = ThemeRegistry::instance().themeSlugs(variant);
     if (index >= 0 && index < slugs.size())
         setUiThemeSlug(slugs.at(index));
 }

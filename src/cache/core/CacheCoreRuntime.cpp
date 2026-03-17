@@ -48,7 +48,10 @@ MatrixStore::isHiddenEvent(db::Transaction &txn,
 {
     using namespace mtx::events;
 
-    // Always hide edits
+    // Edit events should not get their own message index entry — they are resolved into the
+    // original message by EventStore::get(). In encrypted rooms this check may be bypassed
+    // (the event is still encrypted at index time), so the UI layer has a complementary check
+    // in TimelineModel::data(QModelIndex, IsHiddenEvent) to catch those.
     if (mtx::accessors::relations(e).replaces())
         return true;
 

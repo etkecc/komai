@@ -35,6 +35,10 @@ EventStore::get(int idx, bool decrypt)
         if (edits_.empty())
             event = cache::getEvent(room_id_, *event_id);
         else
+            // Resolve the original message to its latest edit. Note: the returned event will
+            // have a different event_id than *event_id (the indexed one). The UI's IsHiddenEvent
+            // check relies on this mismatch to distinguish resolved edits from edit events that
+            // wrongly got their own index (encrypted rooms).
             event = mtx::events::collections::TimelineEvents{edits_.back()};
 
         if (!event)

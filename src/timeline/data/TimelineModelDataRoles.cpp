@@ -85,8 +85,6 @@ TimelineModel::data(const mtx::events::collections::TimelineEvents &event, int r
         auto hidden    = qml_mtx_events::defaultHiddenEventTypes();
         if (std::find(hidden.begin(), hidden.end(), eventType) != hidden.end())
             return true;
-        if (mtx::accessors::relations(event).replaces())
-            return true;
         return false;
     }
     default:
@@ -100,10 +98,28 @@ TimelineModel::data(const QModelIndex &index, int role) const
     if (index.row() < 0 && index.row() >= rowCount())
         return {};
 
-    auto event = events.get(rowCount() - index.row() - 1);
+    auto idx   = rowCount() - index.row() - 1;
+    auto event = events.get(idx);
 
     if (!event)
         return "";
+
+    if (role == IsHiddenEvent) {
+        auto result = data(*event, static_cast<int>(IsHiddenEvent));
+        if (result.toBool())
+            return result;
+
+        // Hide edit events that have their own timeline index (e.g. encrypted rooms where the
+        // event was indexed before decryption revealed it was an edit). Don't hide edit events
+        // that are serving as content replacements for the original message.
+        if (mtx::accessors::relations(*event).replaces()) {
+            auto indexedId = events.indexToId(idx);
+            if (indexedId && *indexedId == mtx::accessors::event_id(*event))
+                return true;
+        }
+
+        return false;
+    }
 
     return data(*event, role);
 }
@@ -119,7 +135,8 @@ TimelineModel::multiData(const QModelIndex &index, QModelRoleDataSpan roleDataSp
 
     // nhlog::db()->debug("MultiData called for {}", index.row());
 
-    auto event = events.get(rowCount() - index.row() - 1);
+    auto idx   = rowCount() - index.row() - 1;
+    auto event = events.get(idx);
 
     if (!event) {
         for (QModelRoleData &roleData : roleDataSpan)
@@ -128,7 +145,10 @@ TimelineModel::multiData(const QModelIndex &index, QModelRoleDataSpan roleDataSp
     }
 
     for (QModelRoleData &roleData : roleDataSpan) {
-        roleData.setData(data(*event, roleData.role()));
+        if (roleData.role() == IsHiddenEvent)
+            roleData.setData(data(index, roleData.role()));
+        else
+            roleData.setData(data(*event, roleData.role()));
     }
 }
 

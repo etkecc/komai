@@ -37,7 +37,7 @@ inline constexpr double kMaxTimelineMediaAudioPlaybackSpeed     = 3.0;
 inline constexpr double kTimelineMediaAudioPlaybackSpeedStep    = 0.5;
 inline constexpr int kDefaultUiLayoutContentMaxWidthPx          = 0;
 inline constexpr int kMinEffectiveUiLayoutContentMaxWidthPx     = 500;
-inline constexpr int kDefaultScreenShareFrameRate               = 5;
+inline constexpr int kDefaultScreenShareFrameRate               = 30;
 inline constexpr bool kDefaultScreenShareShowCursor             = true;
 inline constexpr int kDefaultPrivacyWindowFocusBlurDelaySeconds = 0;
 // Room-scoped cache data now shares a fixed set of LMDB stores, so named-DB pressure no longer

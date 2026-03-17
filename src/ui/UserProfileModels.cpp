@@ -58,6 +58,9 @@ RoomInfoModel::RoomInfoModel(const std::map<std::string, RoomInfo> &raw, QObject
 {
     for (const auto &e : raw)
         roomInfos_.push_back(e);
+
+    std::ranges::sort(roomInfos_,
+                      [](const auto &a, const auto &b) { return a.second.name < b.second.name; });
 }
 
 QHash<int, QByteArray>

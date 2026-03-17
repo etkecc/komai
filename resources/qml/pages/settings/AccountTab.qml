@@ -151,6 +151,10 @@ Item {
                                 }
                             }
 
+                            Components.SyncedToMatrixBadge {
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+
                             Item { Layout.fillWidth: true }
 
                             Components.KomaiButton {
@@ -249,6 +253,10 @@ Item {
                                     color: displayNameRowHover.hovered ? palette.brightText : palette.text
                                     font.pointSize: 1.1 * Settings.uiFontSizePt
                                 }
+                            }
+
+                            Components.SyncedToMatrixBadge {
+                                Layout.alignment: Qt.AlignVCenter
                             }
 
                             Item { Layout.fillWidth: true }
@@ -568,8 +576,13 @@ Item {
                                         text: qsTr("Name")
                                         color: palette.text
                                         font.pointSize: 1.1 * Settings.uiFontSizePt
-                                        Layout.fillWidth: true
                                     }
+
+                                    Components.SyncedToMatrixBadge {
+                                        Layout.alignment: Qt.AlignVCenter
+                                    }
+
+                                    Item { Layout.fillWidth: true }
 
                                     Components.KomaiTextField {
                                         id: currentDeviceNameField
@@ -1050,8 +1063,13 @@ Item {
                                             text: qsTr("Name")
                                             color: palette.text
                                             font.pointSize: 1.1 * Settings.uiFontSizePt
-                                            Layout.fillWidth: true
                                         }
+
+                                        Components.SyncedToMatrixBadge {
+                                            Layout.alignment: Qt.AlignVCenter
+                                        }
+
+                                        Item { Layout.fillWidth: true }
 
                                         Components.KomaiTextField {
                                             id: deviceNameEditField

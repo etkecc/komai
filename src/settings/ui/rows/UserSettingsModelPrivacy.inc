@@ -29,4 +29,8 @@
     { QT_TR_NOOP("Ignored users"),
       nullptr,
       SM::ManageIgnoredUsers, SM::TabPrivacy,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
+      settings::core::SettingId::Unknown,
+      nullptr,  // icon
+      nullptr,  // tagId
+      true },   // syncedToMatrix

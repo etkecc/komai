@@ -91,6 +91,7 @@ public:
         ThemeVariantValues,
         Tab,
         TagId,
+        SyncedToMatrix,
     };
 
     UserSettingsModel(QObject *parent = nullptr);

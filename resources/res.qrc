@@ -108,6 +108,7 @@
         <file alias="icons/ui/state-room-pinned.svg">icons/fluent/assets/People Lock/SVG/ic_fluent_people_lock_20_regular.svg</file>
         <file alias="icons/ui/state-room-pinned-off.svg">icons/fluent/assets/Pin Off/SVG/ic_fluent_pin_off_20_regular.svg</file>
         <file alias="icons/ui/state-room-permissions.svg">icons/fluent/assets/People Lock/SVG/ic_fluent_people_lock_20_regular.svg</file>
+        <file alias="icons/ui/cloud-arrow-up.svg">icons/fluent/assets/Cloud Arrow Up/SVG/ic_fluent_cloud_arrow_up_20_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
         <file>komai.png</file>

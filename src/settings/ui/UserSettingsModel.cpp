@@ -40,6 +40,7 @@ UserSettingsModel::roleNames() const
       {ThemeVariantValues, "themeVariantValues"},
       {Tab, "tab"},
       {TagId, "tagId"},
+      {SyncedToMatrix, "syncedToMatrix"},
     };
 
     return roles;

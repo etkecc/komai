@@ -17,7 +17,11 @@
     { QT_TR_NOOP("Status message"),
       nullptr,
       SM::PresenceStatusMessageField, SM::TabNetwork,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
+      nullptr, nullptr, {}, {}, {}, nullptr, nullptr,
+      settings::core::SettingId::Unknown,
+      nullptr,  // icon
+      nullptr,  // tagId
+      true },   // syncedToMatrix
 
     // NetworkSpacesSection
     { QT_TR_NOOP("Spaces"), nullptr, SM::SectionTitle, SM::TabNetwork,

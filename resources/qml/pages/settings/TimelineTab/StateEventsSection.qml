@@ -81,13 +81,24 @@ Item {
                 rowSpacing: root.useStackedLayout ? Komai.paddingSmall : 0
                 columnSpacing: Komai.paddingSmall
 
-                Text {
+                RowLayout {
                     Layout.fillWidth: true
                     Layout.minimumWidth: 0
-                    color: rowHover.hovered ? palette.brightText : palette.text
-                    text: rowRoot.label
-                    font.pointSize: 1.1 * Settings.uiFontSizePt
-                    wrapMode: Text.Wrap
+                    spacing: Komai.paddingSmall
+
+                    Text {
+                        Layout.minimumWidth: 0
+                        color: rowHover.hovered ? palette.brightText : palette.text
+                        text: rowRoot.label
+                        font.pointSize: 1.1 * Settings.uiFontSizePt
+                        wrapMode: Text.Wrap
+                    }
+
+                    Components.SyncedToMatrixBadge {
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+
+                    Item { Layout.fillWidth: true }
                 }
 
                 Components.SettingControlToggle {
@@ -109,7 +120,6 @@ Item {
                 Layout.leftMargin: Komai.paddingSmall
                 Layout.rightMargin: Komai.paddingSmall
                 Layout.topMargin: -Komai.paddingSmall
-                Layout.bottomMargin: Komai.paddingMedium
                 color: rowHover.hovered ? palette.brightText : palette.buttonText
                 text: rowRoot.description
                 font.pointSize: 0.9 * Settings.uiFontSizePt

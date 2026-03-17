@@ -499,11 +499,16 @@ ColumnLayout {
                 text: qsTr("Locally hidden events")
                 color: hiddenEventsRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
                 Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
             }
+
+            Components.SyncedToMatrixBadge {
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Item { Layout.fillWidth: true }
 
             HiddenEventsDialog {
                 id: hiddenEventsDialog
@@ -535,11 +540,16 @@ ColumnLayout {
                 text: qsTr("Event expiration")
                 color: eventExpRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
                 Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
             }
+
+            Components.SyncedToMatrixBadge {
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Item { Layout.fillWidth: true }
 
             EventExpirationDialog {
                 id: eventExpirationDialog

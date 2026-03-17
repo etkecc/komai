@@ -77,6 +77,8 @@ Item {
                     readonly property real controlWidth: r.useStackedLayout
                         ? Math.max(0, grid.width - Komai.paddingSmall * 2)
                         : Math.min(500, Math.max(240, grid.width - Komai.paddingLarge * 2))
+                    readonly property bool hasSyncedToMatrix: r.model.type != UserSettingsModel.SectionTitle
+                        && !!r.model.syncedToMatrix
                     readonly property bool hasDescription: r.model.type != UserSettingsModel.SectionTitle
                         && !!r.model.description
 
@@ -160,7 +162,7 @@ Item {
 
                                 Text {
                                     id: settingLabel
-                                    Layout.fillWidth: true
+                                    Layout.fillWidth: !r.hasSyncedToMatrix
                                     Layout.minimumWidth: 0
                                     color: rowHover.hovered ? palette.brightText : palette.text
                                     linkColor: palette.highlight
@@ -171,6 +173,16 @@ Item {
                                     onLinkActivated: function (link) {
                                         Qt.openUrlExternally(link);
                                     }
+                                }
+
+                                SyncedToMatrixBadge {
+                                    Layout.alignment: Qt.AlignVCenter
+                                    visible: r.hasSyncedToMatrix
+                                }
+
+                                Item {
+                                    Layout.fillWidth: true
+                                    visible: r.hasSyncedToMatrix
                                 }
                             }
 

@@ -15,7 +15,10 @@
       {},
       nullptr,
       notificationsAccountEnabledSettingEnabled,
-      CORE_RUNTIME_ID(NotificationsAccountEnabled) },
+      CORE_RUNTIME_ID(NotificationsAccountEnabled),
+      nullptr,  // icon
+      nullptr,  // tagId
+      true },   // syncedToMatrix
 
     // NotificationsSystemNotificationsSection
     { QT_TR_NOOP("System notifications"),

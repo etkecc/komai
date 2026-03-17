@@ -31,6 +31,10 @@ Components.OverlayDialog {
         Layout.fillWidth: true
     }
 
+    Components.SyncedToMatrixBadge {
+        Layout.fillWidth: true
+    }
+
     GridLayout {
         columns: 2
         rowSpacing: Komai.paddingMedium

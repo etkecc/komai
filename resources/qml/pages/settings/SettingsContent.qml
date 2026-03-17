@@ -27,7 +27,6 @@ Item {
         anchors.right: scrollBar.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.rightMargin: Komai.paddingSmall
 
         contentWidth: width
         contentHeight: grid.height + Komai.paddingLarge

@@ -88,19 +88,25 @@ Item {
                 }
             }
 
-            ScrollView {
-                id: scrollView
-                anchors.fill: parent
-                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            Flickable {
+                id: scroll
+                anchors.left: parent.left
+                anchors.right: scrollBar.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+
+                contentWidth: width
+                contentHeight: scrollContent.height + Komai.paddingLarge
+                clip: true
+                boundsBehavior: Flickable.StopAtBounds
 
                 ColumnLayout {
                     id: scrollContent
-                    width: scrollView.availableWidth
+                    width: scroll.width
                     spacing: Komai.paddingSmall
 
                     property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
-                    property real sideMargin: Math.max(Komai.paddingMedium, (scrollView.availableWidth - contentMaxWidth) / 2)
+                    property real sideMargin: Math.max(Komai.paddingMedium, (scroll.width - contentMaxWidth) / 2)
 
                     Item { Layout.preferredHeight: Komai.paddingMedium }
 
@@ -767,36 +773,13 @@ Item {
 
                     // ── Other devices (sessions) section ─────────────────────────
 
-                    RowLayout {
+                    ColumnLayout {
                         Layout.fillWidth: true
                         Layout.topMargin: Komai.paddingLarge
                         Layout.leftMargin: scrollContent.sideMargin
                         Layout.rightMargin: scrollContent.sideMargin
-                        visible: accountView.otherDevicesCount > 0
-
-                        Item { Layout.fillWidth: true }
-
-                        Components.KomaiButton {
-                            text: accountView.otherDevicesExpanded
-                                ? qsTr("Hide other devices")
-                                : qsTr("Show all (%1) devices").arg(accountView.otherDevicesCount)
-                            icon.source: accountView.otherDevicesExpanded
-                                ? "qrc:/icons/icons/ui/chevron-circle-up.svg"
-                                : "qrc:/icons/icons/ui/chevron-circle-down.svg"
-                            onClicked: accountView.otherDevicesExpanded = !accountView.otherDevicesExpanded
-                        }
-
-                        Item { Layout.fillWidth: true }
-                    }
-
-                    // Other devices section heading with Refresh button
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        Layout.topMargin: Komai.paddingMedium
-                        Layout.leftMargin: scrollContent.sideMargin
-                        Layout.rightMargin: scrollContent.sideMargin
                         spacing: Komai.paddingSmall
-                        visible: accountView.otherDevicesExpanded
+                        visible: accountView.otherDevicesCount > 0
 
                         RowLayout {
                             Layout.fillWidth: true
@@ -846,6 +829,16 @@ Item {
                                 color: palette.buttonText
                                 height: 1
                             }
+                        }
+
+                        Components.KomaiActionRowButton {
+                            labelText: accountView.otherDevicesExpanded
+                                ? qsTr("Hide other devices")
+                                : qsTr("Show all (%1) devices").arg(accountView.otherDevicesCount)
+                            iconSource: accountView.otherDevicesExpanded
+                                ? ":/icons/icons/ui/chevron-circle-up.svg"
+                                : ":/icons/icons/ui/chevron-circle-down.svg"
+                            onClicked: accountView.otherDevicesExpanded = !accountView.otherDevicesExpanded
                         }
                     }
 
@@ -1187,6 +1180,21 @@ Item {
 
                     // Bottom spacer
                     Item { Layout.preferredHeight: Komai.paddingLarge }
+                }
+            }
+
+            ScrollBar {
+                id: scrollBar
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                policy: ScrollBar.AlwaysOn
+                size: scroll.contentHeight > 0 ? scroll.height / scroll.contentHeight : 1
+                position: scroll.visibleArea.yPosition
+                visible: scroll.contentHeight > 0
+                onPositionChanged: {
+                    if (active)
+                        scroll.contentY = position * scroll.contentHeight
                 }
             }
         }

@@ -207,6 +207,8 @@ TimelineViewManager::roomUserColor(QString roomId,
     if (isPreviewRoom) {
         if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
             return userId == selfId ? selfColor : othersUniform();
+        if (userId == selfId)
+            return selfColor;
 
         // Settings preview uses a synthetic room that does not exist in cache; generate stable
         // per-member colors directly from ids so color-coding policy changes remain visible.
@@ -217,15 +219,19 @@ TimelineViewManager::roomUserColor(QString roomId,
     if (!cache::isRoomMember(userId.toStdString(), roomId.toStdString()))
         return formerMemberColor(background);
 
-    if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
-        return userId == selfId ? selfColor : othersUniform();
+    if (userId == selfId)
+        return selfColor;
 
-    auto memberCount   = static_cast<int>(cache::memberCount(roomId.toStdString()));
-    int othersListSize = othersColors.size();
+    if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
+        return othersUniform();
+
+    auto memberCount           = static_cast<int>(cache::memberCount(roomId.toStdString()));
+    const int otherMemberCount = std::max(0, memberCount - 1);
+    int othersListSize         = othersColors.size();
 
     // Dynamic threshold: if room has more members than the theme provides colors for,
     // use the uniform "others" color.
-    if (othersListSize == 0 || memberCount > othersListSize) {
+    if (othersListSize == 0 || otherMemberCount > othersListSize) {
         return othersUniform();
     }
 
@@ -331,9 +337,10 @@ TimelineViewManager::roomUserBubblePalette(QString roomId,
         return buildBubblePalette(slot, themePalette, slot.background);
     }
 
-    auto memberCount         = static_cast<int>(cache::memberCount(roomId.toStdString()));
-    const int othersListSize = static_cast<int>(def->userColorOthers.size());
-    if (memberCount > othersListSize)
+    auto memberCount           = static_cast<int>(cache::memberCount(roomId.toStdString()));
+    const int otherMemberCount = std::max(0, memberCount - 1);
+    const int othersListSize   = static_cast<int>(def->userColorOthers.size());
+    if (otherMemberCount > othersListSize)
         return buildBubblePalette(
           def->userColorOthers.front(), themePalette, def->userColorOthers.front().background);
 

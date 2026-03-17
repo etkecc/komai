@@ -5,8 +5,6 @@
 
 #include "SettingsSerializerConfigConverters.h"
 
-#include <array>
-
 #include "settings/SettingKeys.h"
 #include "settings/core/SettingsDefinitions.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -23,7 +21,7 @@ namespace {
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsSidebars.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersFnsTimeline.inc"
 
-constexpr std::array<EnumTokenAdapter, 18> kEnumTokenAdapters{{
+constexpr EnumTokenAdapter kEnumTokenAdapters[] = {
 #include "SettingsSerializerConfigEnumTokenAdaptersComposer.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersIntegrations.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersLookFeel.inc"
@@ -31,13 +29,13 @@ constexpr std::array<EnumTokenAdapter, 18> kEnumTokenAdapters{{
 #include "SettingsSerializerConfigEnumTokenAdaptersNotifications.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersSidebars.inc"
 #include "SettingsSerializerConfigEnumTokenAdaptersTimeline.inc"
-}};
+};
 
 constexpr bool
 hasUniqueEnumTokenAdapterIds()
 {
-    for (std::size_t i = 0; i < kEnumTokenAdapters.size(); ++i) {
-        for (std::size_t j = i + 1; j < kEnumTokenAdapters.size(); ++j) {
+    for (std::size_t i = 0; i < std::size(kEnumTokenAdapters); ++i) {
+        for (std::size_t j = i + 1; j < std::size(kEnumTokenAdapters); ++j) {
             if (kEnumTokenAdapters[i].id == kEnumTokenAdapters[j].id)
                 return false;
         }

@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include <array>
 #include <cstdint>
 #include <optional>
 #include <span>
@@ -48,15 +47,15 @@ inline constexpr unsigned int kDefaultMaxStores            = 8192;
 inline constexpr unsigned long long kDefaultMaxDbSizeBytes = 0;
 inline constexpr int kDefaultIntegrationsDbusApiAccess     = 0;
 
-inline constexpr std::array<SettingId, 18> kEnumTokenConfigSettingIds{{
+inline constexpr SettingId kEnumTokenConfigSettingIds[] = {
 #include "SettingsDefinitionsEnumTokenConfigSettingIds.inc"
-}};
+};
 
-inline constexpr std::array<SettingId, 3> kNumericConstrainedConfigSettingIds{{
+inline constexpr SettingId kNumericConstrainedConfigSettingIds[] = {
 #include "SettingsDefinitionsNumericConstrainedConfigSettingIds.inc"
-}};
+};
 
-inline constexpr std::array<SettingDefinition, 84> kPersistedSettingDefinitions{{
+inline constexpr SettingDefinition kPersistedSettingDefinitions[] = {
 #include "SettingsDefinitionsPersistedCalls.inc"
 #include "SettingsDefinitionsPersistedComposer.inc"
 #include "SettingsDefinitionsPersistedEncryption.inc"
@@ -67,7 +66,7 @@ inline constexpr std::array<SettingDefinition, 84> kPersistedSettingDefinitions{
 #include "SettingsDefinitionsPersistedSidebars.inc"
 #include "SettingsDefinitionsPersistedTimeline.inc"
 #include "SettingsDefinitionsPersistedUi.inc"
-}};
+};
 
 [[nodiscard]] constexpr std::span<const SettingDefinition>
 persistedDefinitions()
@@ -95,8 +94,8 @@ hasPersistedDefinition(SettingId id)
 [[nodiscard]] constexpr bool
 hasUniquePersistedDefinitionIds()
 {
-    for (std::size_t i = 0; i < kPersistedSettingDefinitions.size(); ++i) {
-        for (std::size_t j = i + 1; j < kPersistedSettingDefinitions.size(); ++j) {
+    for (std::size_t i = 0; i < std::size(kPersistedSettingDefinitions); ++i) {
+        for (std::size_t j = i + 1; j < std::size(kPersistedSettingDefinitions); ++j) {
             if (kPersistedSettingDefinitions[i].id == kPersistedSettingDefinitions[j].id)
                 return false;
         }

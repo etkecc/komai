@@ -25,7 +25,7 @@ expect(bool condition, const char *message)
     return false;
 }
 
-constexpr std::array<settings::core::SettingId, 21> kExpectedConstrainedIds{{
+constexpr settings::core::SettingId kExpectedConstrainedIds[] = {
   settings::core::SettingId::UiScrollbarPolicy,
   settings::core::SettingId::UiAvatarsDefaultAvatarStyle,
   settings::core::SettingId::UiLayoutContentMaxWidthPx,
@@ -47,7 +47,7 @@ constexpr std::array<settings::core::SettingId, 21> kExpectedConstrainedIds{{
   settings::core::SettingId::TimelineMediaImageDisplay,
   settings::core::SettingId::TimelineMessageActionsActivationPolicy,
   settings::core::SettingId::PrivacyWindowFocusBlurDelaySeconds,
-}};
+};
 
 constexpr std::string_view kLegacyEnabledSuffix{"_enabled"};
 
@@ -186,7 +186,7 @@ testConstraintSchemaCoverage()
 {
     bool ok = true;
     ok &= expect(settings::core::constraints::intRangeConstraintCount() ==
-                   kExpectedConstrainedIds.size(),
+                   std::size(kExpectedConstrainedIds),
                  "constraint schema size matches expected constrained setting list");
     for (const auto id : kExpectedConstrainedIds) {
         if (!settings::core::constraints::hasIntRangeConstraint(id)) {

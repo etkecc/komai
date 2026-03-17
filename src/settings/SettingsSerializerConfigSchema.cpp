@@ -5,8 +5,6 @@
 
 #include "SettingsSerializerConfigSchema.h"
 
-#include <array>
-
 #include <QString>
 
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -15,7 +13,7 @@ namespace settings::serializer::config {
 
 namespace {
 
-const std::array<BoolSettingDescriptor, 48> BoolSettings{
+const BoolSettingDescriptor BoolSettings[] = {
 #include "SettingsSerializerConfigSchemaBoolCalls.inc"
 #include "SettingsSerializerConfigSchemaBoolComposer.inc"
 #include "SettingsSerializerConfigSchemaBoolEncryption.inc"
@@ -28,27 +26,27 @@ const std::array<BoolSettingDescriptor, 48> BoolSettings{
 #include "SettingsSerializerConfigSchemaBoolTimeline.inc"
 };
 
-const std::array<IntSettingDescriptor, 3> IntSettings{
+const IntSettingDescriptor IntSettings[] = {
 #include "SettingsSerializerConfigSchemaIntCalls.inc"
 #include "SettingsSerializerConfigSchemaIntLookFeel.inc"
 #include "SettingsSerializerConfigSchemaIntPrivacy.inc"
 };
 
-const std::array<UintSettingDescriptor, 1> UintSettings{
+const UintSettingDescriptor UintSettings[] = {
   UintSettingDescriptor{SettingKey::DbMaxStores,
                         kDefaultMaxStores,
                         &UserSettings::dbMaxStores,
                         &UserSettings::setDbMaxStores},
 };
 
-const std::array<ULongLongSettingDescriptor, 1> ULongLongSettings{
+const ULongLongSettingDescriptor ULongLongSettings[] = {
   ULongLongSettingDescriptor{SettingKey::DbMaxSizeBytes,
                              kDefaultMaxDbSizeBytes,
                              &UserSettings::dbMaxSizeBytes,
                              &UserSettings::setDbMaxSizeBytes},
 };
 
-const std::array<DoubleSettingDescriptor, 2> DoubleSettings{
+const DoubleSettingDescriptor DoubleSettings[] = {
   DoubleSettingDescriptor{SettingKey::UiFontSizePt,
                           kDefaultFontSizePt,
                           &UserSettings::uiFontSizePt,
@@ -59,7 +57,7 @@ const std::array<DoubleSettingDescriptor, 2> DoubleSettings{
                           &UserSettings::setTimelineMediaDefaultAudioPlaybackSpeed},
 };
 
-const std::array<StringSettingDescriptor, 9> StringSettings{
+const StringSettingDescriptor StringSettings[] = {
 #include "SettingsSerializerConfigSchemaStringCalls.inc"
 #include "SettingsSerializerConfigSchemaStringIntegrations.inc"
 #include "SettingsSerializerConfigSchemaStringLookFeel.inc"

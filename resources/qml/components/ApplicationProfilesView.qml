@@ -140,15 +140,14 @@ Item {
     OverlayDialog {
         id: deleteProfileDialog
 
-        title: qsTr("Delete Application Profile")
+        title: qsTr("Delete Application Profile '%1'?").arg(root.pendingDeleteProfileId)
         titleIcon: ":/icons/icons/ui/delete.svg"
 
         Label {
             Layout.fillWidth: true
             wrapMode: Text.Wrap
             color: palette.text
-            text: qsTr("Delete profile '%1'? This removes its config, cache, local database, and stored secrets.")
-                .arg(root.pendingDeleteProfileId)
+            text: qsTr("This removes its config, cache, local database, and stored secrets.")
         }
 
         RowLayout {

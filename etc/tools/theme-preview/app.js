@@ -114,6 +114,7 @@ const SELF_MESSAGE_TEMPLATES = [
 ];
 
 const REQUIRED_FIELDS = ["name", "variant", "palette", "userColors"];
+const THEME_CACHE_BUSTER = `${Date.now()}`;
 const state = {
   themes: [],
   dragDepth: 0,
@@ -465,8 +466,14 @@ function sortThemes(themes) {
   });
 }
 
+function themeUrl(path) {
+  const url = new URL(path, window.location.href);
+  url.searchParams.set("v", THEME_CACHE_BUSTER);
+  return url.toString();
+}
+
 async function loadBuiltinThemes() {
-  const listingResponse = await fetch("resources/themes/");
+  const listingResponse = await fetch(themeUrl("resources/themes/"), { cache: "no-store" });
   if (!listingResponse.ok) {
     throw new Error(`Failed to list themes: HTTP ${listingResponse.status}`);
   }
@@ -484,7 +491,10 @@ async function loadBuiltinThemes() {
 
   const themes = await Promise.all(
     files.map(async (fileName) => {
-      const response = await fetch(`resources/themes/${encodeURIComponent(fileName)}`);
+      const response = await fetch(
+        themeUrl(`resources/themes/${encodeURIComponent(fileName)}`),
+        { cache: "no-store" },
+      );
       if (!response.ok) {
         throw new Error(`Failed to load ${fileName}: HTTP ${response.status}`);
       }

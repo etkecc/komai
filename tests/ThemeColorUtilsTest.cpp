@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "cli/ThemeColorUtils.h"
 
@@ -131,15 +132,19 @@ testBase16ToPalette()
     expect(result["alternateBase"] == "#313244", "b16palette alternateBase = base02");
     expect(result["text"] == "#cdd6f4", "b16palette text = base05");
     expect(result["button"] == "#181825", "b16palette button = base01");
-    expect(result["buttonText"] == "#585b70", "b16palette buttonText = base04");
     expect(result["light"] == "#f5e0dc", "b16palette light = base06");
     expect(result["mid"] == "#45475a", "b16palette mid = base03");
     expect(result["toolTipBase"] == "#181825", "b16palette toolTipBase = base01");
     expect(result["toolTipText"] == "#cdd6f4", "b16palette toolTipText = base05");
 
-    // Contrast check: highlightedText on highlight should be >= 3.0
+    expect(theme_color::contrastRatio(result["buttonText"], result["alternateBase"]) >= 4.5,
+           "b16palette buttonText readable on alternateBase");
+    expect(theme_color::contrastRatio(result["link"], result["alternateBase"]) >= 4.5,
+           "b16palette link readable on alternateBase");
+
+    // Contrast check: highlightedText on highlight should be >= 4.5
     auto htCr = theme_color::contrastRatio(result["highlightedText"], result["highlight"]);
-    expect(htCr >= 3.0, "b16palette highlightedText/highlight contrast >= 3.0");
+    expect(htCr >= 4.5, "b16palette highlightedText/highlight contrast >= 4.5");
 }
 
 static void
@@ -182,6 +187,13 @@ testEnsureContrast()
 
     auto htAfter = theme_color::contrastRatio(mapping["highlightedText"], mapping["highlight"]);
     expect(htAfter >= htBefore, "ensureContrast improves or maintains contrast");
+    expect(htAfter >= 4.5, "ensureContrast highlightedText/highlight >= 4.5");
+    expect(theme_color::contrastRatio(mapping["brightText"], mapping["dark"]) >= 4.5,
+           "ensureContrast brightText/dark >= 4.5");
+    expect(theme_color::contrastRatio(mapping["buttonText"], mapping["alternateBase"]) >= 4.5,
+           "ensureContrast buttonText readable on alternateBase");
+    expect(theme_color::contrastRatio(mapping["link"], mapping["alternateBase"]) >= 4.5,
+           "ensureContrast link readable on alternateBase");
 }
 
 static void
@@ -209,6 +221,25 @@ testAdjustBgForContrast()
     expect(cr >= 3.0, "adjustBg achieves target contrast");
 }
 
+static void
+testAdjustFgForBackgrounds()
+{
+    std::vector<std::string> backgrounds = {
+      "#1e1e2e",
+      "#181825",
+      "#313244",
+      "#333e59",
+      "#3f252f",
+    };
+    auto result =
+      theme_color::adjustFgForBackgrounds("#7296d1", backgrounds, "dark", 4.5);
+
+    for (const auto &background : backgrounds) {
+        expect(theme_color::contrastRatio(result, background) >= 4.5,
+               "adjustFgForBackgrounds achieves target contrast");
+    }
+}
+
 int
 main()
 {
@@ -224,6 +255,7 @@ main()
     testEnsureContrast();
     testLinearizeDelinearizeRoundTrip();
     testAdjustBgForContrast();
+    testAdjustFgForBackgrounds();
 
     if (failures == 0) {
         std::cout << "All tests passed.\n";

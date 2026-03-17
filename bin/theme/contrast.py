@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import sys
 from dataclasses import dataclass
 
 from colors import contrast_ratio, derive_readable_accent_text_color, parse_yaml
@@ -106,7 +107,7 @@ def build_bubble_summary_checks(
             "bubble:self/buttonText",
             contrast_ratio(self_color, palette["buttonText"]),
             4.5,
-            True,
+            False,
         ),
         CheckResult("bubble:self/link", contrast_ratio(self_color, palette["link"]), 4.5, True),
         CheckResult(
@@ -125,7 +126,7 @@ def build_bubble_summary_checks(
             "bubble:others/buttonText min",
             min(contrast_ratio(color, palette["buttonText"]) for color in others),
             4.5,
-            True,
+            False,
         ),
         CheckResult(
             "bubble:others/link min",

@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <limits>
 #include <stdexcept>
 
 namespace theme_color {
@@ -110,6 +111,48 @@ bestFgCandidate(const std::string &bgHex, const std::vector<std::string> &candid
     return best;
 }
 
+static int
+colorDistanceSquared(const std::string &leftHex, const std::string &rightHex)
+{
+    auto [lr, lg, lb] = parseColor(leftHex);
+    auto [rr, rg, rb] = parseColor(rightHex);
+    const int dr      = lr - rr;
+    const int dg      = lg - rg;
+    const int db      = lb - rb;
+    return dr * dr + dg * dg + db * db;
+}
+
+static FgCandidate
+bestReadableFgCandidate(const std::string &bgHex,
+                        const std::vector<std::string> &candidates,
+                        const std::string &preferredHex,
+                        double target)
+{
+    FgCandidate best{"", 0.0};
+    int bestDistance = std::numeric_limits<int>::max();
+    bool foundTarget = false;
+
+    for (const auto &candidate : candidates) {
+        if (candidate.empty())
+            continue;
+
+        const double ratio = contrastRatio(candidate, bgHex);
+        if (ratio >= target) {
+            const int distance = colorDistanceSquared(candidate, preferredHex);
+            if (!foundTarget || distance < bestDistance ||
+                (distance == bestDistance && ratio > best.ratio)) {
+                best         = {candidate, ratio};
+                bestDistance = distance;
+                foundTarget  = true;
+            }
+        } else if (!foundTarget && ratio > best.ratio) {
+            best = {candidate, ratio};
+        }
+    }
+
+    return best;
+}
+
 std::string
 adjustBgForContrast(const std::string &bgHex, const std::string &fgHex, double target)
 {
@@ -131,6 +174,38 @@ adjustBgForContrast(const std::string &bgHex, const std::string &fgHex, double t
     return blendToward(bgHex, toward, hi);
 }
 
+std::string
+adjustFgForBackgrounds(const std::string &fgHex,
+                       const std::vector<std::string> &backgrounds,
+                       const std::string &variant,
+                       double target)
+{
+    if (backgrounds.empty())
+        return fgHex;
+
+    const auto meetsTarget = [&](const std::string &candidate) {
+        return std::all_of(backgrounds.begin(), backgrounds.end(), [&](const auto &bg) {
+            return contrastRatio(candidate, bg) >= target;
+        });
+    };
+
+    if (meetsTarget(fgHex))
+        return fgHex;
+
+    const std::string toward = (variant == "light") ? "#000000" : "#ffffff";
+
+    double lo = 0.0, hi = 1.0;
+    for (int i = 0; i < 30; ++i) {
+        const double mid = (lo + hi) / 2;
+        if (meetsTarget(blendToward(fgHex, toward, mid)))
+            hi = mid;
+        else
+            lo = mid;
+    }
+
+    return blendToward(fgHex, toward, hi);
+}
+
 // ---------------------------------------------------------------------------
 // Contrast fixing (port of _ensure_contrast)
 // ---------------------------------------------------------------------------
@@ -138,29 +213,26 @@ adjustBgForContrast(const std::string &bgHex, const std::string &fgHex, double t
 void
 ensureContrast(Palette &mapping, const Palette &palette, const std::string &variant)
 {
-    constexpr double MIN_TEXT_ON_ACCENT = 3.0;
+    constexpr double MIN_TEXT_ON_ACCENT = 4.5;
     constexpr double MIN_HOVER_DISTINCT = 1.5;
 
-    std::vector<std::string> textCandidates;
-    if (variant == "dark") {
-        textCandidates = {
-          getOr(palette, "base07", ""),
-          getOr(palette, "base06", ""),
-          getOr(palette, "base05", ""),
-          "#ffffff",
-        };
-    } else {
-        textCandidates = {
-          getOr(palette, "base00", ""),
-          getOr(palette, "base01", ""),
-          getOr(palette, "base02", ""),
-          "#000000",
-        };
-    }
+    const std::vector<std::string> textCandidates = {
+      mapping["text"],
+      mapping["windowText"],
+      mapping["toolTipText"],
+      mapping["base"],
+      mapping["window"],
+      mapping["buttonText"],
+      mapping["light"],
+      mapping["brightText"],
+      "#000000",
+      "#ffffff",
+    };
 
     // highlightedText on highlight (selected items)
     if (contrastRatio(mapping["highlightedText"], mapping["highlight"]) < MIN_TEXT_ON_ACCENT) {
-        auto [bestHt, bestRatio] = bestFgCandidate(mapping["highlight"], textCandidates);
+        auto [bestHt, bestRatio] = bestReadableFgCandidate(
+          mapping["highlight"], textCandidates, mapping["highlightedText"], MIN_TEXT_ON_ACCENT);
         if (!bestHt.empty())
             mapping["highlightedText"] = bestHt;
         if (bestRatio < MIN_TEXT_ON_ACCENT) {
@@ -172,7 +244,8 @@ ensureContrast(Palette &mapping, const Palette &palette, const std::string &vari
 
     // brightText on dark (hover states)
     if (contrastRatio(mapping["brightText"], mapping["dark"]) < MIN_TEXT_ON_ACCENT) {
-        auto [bestBt, _] = bestFgCandidate(mapping["dark"], textCandidates);
+        auto [bestBt, _] = bestReadableFgCandidate(
+          mapping["dark"], textCandidates, mapping["brightText"], MIN_TEXT_ON_ACCENT);
         if (!bestBt.empty())
             mapping["brightText"] = bestBt;
     }
@@ -242,6 +315,29 @@ ensureContrast(Palette &mapping, const Palette &palette, const std::string &vari
             }
         }
         mapping["dark"] = bestDark;
+    }
+
+    const std::vector<std::string> neutralSurfaces = {
+      mapping["window"],
+      mapping["base"],
+      mapping["alternateBase"],
+    };
+
+    auto minContrastAcross = [](const std::string &fg,
+                                const std::vector<std::string> &backgrounds) {
+        double best = std::numeric_limits<double>::infinity();
+        for (const auto &bg : backgrounds)
+            best = std::min(best, contrastRatio(fg, bg));
+        return best;
+    };
+
+    if (minContrastAcross(mapping["buttonText"], neutralSurfaces) < 4.5) {
+        mapping["buttonText"] =
+          adjustFgForBackgrounds(mapping["buttonText"], neutralSurfaces, variant, 4.5);
+    }
+
+    if (minContrastAcross(mapping["link"], neutralSurfaces) < 4.5) {
+        mapping["link"] = adjustFgForBackgrounds(mapping["link"], neutralSurfaces, variant, 4.5);
     }
 }
 

@@ -147,6 +147,16 @@ handleCreateSample(int argc, char *argv[], QCoreApplication & /*app*/)
 
     auto userColors =
       theme_color::generateUserColors(palette["highlight"], palette["base"], variant);
+    std::vector<std::string> linkBackgrounds = {
+      palette["window"],
+      palette["base"],
+      palette["alternateBase"],
+      userColors.self,
+    };
+    linkBackgrounds.insert(
+      linkBackgrounds.end(), userColors.others.begin(), userColors.others.end());
+    palette["link"] =
+      theme_color::adjustFgForBackgrounds(palette["link"], linkBackgrounds, variant, 4.5);
 
     if (!writeThemeYaml(outputFile, name, "", variant, palette, userColors)) {
         std::cerr << "ERROR: Failed to write " << outputFile.toStdString() << "\n";

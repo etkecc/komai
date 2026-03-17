@@ -130,11 +130,16 @@ Semantic accent colors: `attention` ← base08, `success` ← base0B, `warning` 
 
 After the initial mapping, the contrast heuristics in `ThemeColorUtils.cpp` adjust colors for readability:
 
-1. **highlightedText on highlight** — if contrast < 3.0, pick the best candidate
-   from light/dark palette slots. If still insufficient, adjust the highlight
-   background.
-2. **brightText on dark** — if contrast < 3.0, pick a better candidate.
-3. **dark (hover bg)** — must be distinguishable from both `window` and `button`
+1. **highlightedText on highlight** — if contrast < 4.5, pick the closest readable
+   candidate from mapped text/surface roles plus black/white. If still insufficient,
+   adjust the highlight background.
+2. **brightText on dark** — if contrast < 4.5, pick a closer readable candidate.
+3. **buttonText on neutral surfaces** — if `window`, `base`, or `alternateBase`
+   would drop below 4.5, push `buttonText` toward black (light themes) or white
+   (dark themes) until it clears the floor.
+4. **link on neutral surfaces** — same treatment as `buttonText`, so imported links
+   stay readable on Komai's ordinary backgrounds.
+5. **dark (hover bg)** — must be distinguishable from both `window` and `button`
    (contrast >= 1.5). Derived by blending `button` toward black (light themes)
    or white (dark themes). If `buttonText` is hard to read on the result, push
    further but cap at 3.0 contrast from `window` to avoid overly dramatic hovers.
@@ -154,6 +159,10 @@ Imported themes and sample themes generate `userColors` in `ThemeColorUtils.cpp`
 The important contract is that the stored YAML value is already the final
 literal bubble-fill color. Komai may still derive text colors from it for
 readability, but it does not further soften the bubble fill at runtime.
+
+After `userColors` are generated, the import/create-sample commands also re-check
+`palette.link` against the neutral surfaces and generated bubble fills, so message
+links remain readable without hand-tuning every imported theme.
 
 
 ## Adding a new built-in theme

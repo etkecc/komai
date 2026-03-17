@@ -130,6 +130,16 @@ handleTintedImport(int argc, char *argv[], QCoreApplication & /*app*/)
     // Generate user colors from the highlight (accent) color
     auto userColors =
       theme_color::generateUserColors(finalPalette["highlight"], finalPalette["base"], variant);
+    std::vector<std::string> linkBackgrounds = {
+      finalPalette["window"],
+      finalPalette["base"],
+      finalPalette["alternateBase"],
+      userColors.self,
+    };
+    linkBackgrounds.insert(
+      linkBackgrounds.end(), userColors.others.begin(), userColors.others.end());
+    finalPalette["link"] =
+      theme_color::adjustFgForBackgrounds(finalPalette["link"], linkBackgrounds, variant, 4.5);
 
     if (!writeThemeYaml(
           outputFile, themeName, themeAuthor, variant, finalPalette, userColors, &rawPalette)) {

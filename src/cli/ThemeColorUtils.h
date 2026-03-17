@@ -86,6 +86,13 @@ bestFgCandidate(const std::string &bgHex, const std::vector<std::string> &candid
 std::string
 adjustBgForContrast(const std::string &bgHex, const std::string &fgHex, double target);
 
+// Darken/lighten a foreground until it reaches target contrast across all backgrounds.
+std::string
+adjustFgForBackgrounds(const std::string &fgHex,
+                       const std::vector<std::string> &backgrounds,
+                       const std::string &variant,
+                       double target);
+
 // Fix poor contrast in automatic Base16 mapping
 void
 ensureContrast(Palette &mapping, const Palette &palette, const std::string &variant);

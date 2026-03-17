@@ -337,6 +337,19 @@ Rectangle {
                     function onCompletionClicked(completion) {
                         messageInput.insertCompletion(completion);
                     }
+                    function onCountChanged() {
+                        // When the async search settles with zero results and the
+                        // typed text already contains a space, close the popup.
+                        // This handles the race where the Space key handler fires
+                        // before the search has updated (Qt::QueuedConnection),
+                        // while still allowing multi-word searches that DO produce
+                        // results (e.g. ":bearded woman").
+                        if (popup.opened && completer.count <= 0) {
+                            var raw = messageInput.getText(messageInput.completerTriggeredAt, messageInput.cursorPosition);
+                            if (raw.indexOf(' ') >= 0)
+                                popup.close();
+                        }
+                    }
                     function onDismissed() {
                         completer.completerType = "";
                         popup.close();

@@ -45,7 +45,7 @@ AbstractButton {
         gapY: Komai.paddingMedium
         text: button.toolTipText
         delay: 0
-        requestedVisible: button.hovered && button.toolTipText.length > 0
+        requestedVisible: button.hovered && button.toolTipText.length > 0 && !button.hasLabel
         width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
                         (button.Window.window ? button.Window.window.width : 500) * 0.5)
     }

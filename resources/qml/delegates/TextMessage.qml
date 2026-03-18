@@ -15,6 +15,7 @@ LitehtmlItem {
     property bool isReply: EventDelegateChooser.isReply
     required property bool keepFullText
     required property string formatted
+    property point hoverPoint: Qt.point(0, 0)
     readonly property bool emojiOnlyMessage: isOnlyEmoji > 0 && isOnlyEmoji < 4
     readonly property bool enlargedEmojiOnly: Settings.timelineMessagesEmojiOnlyEnlarge && emojiOnlyMessage
 
@@ -76,8 +77,13 @@ LitehtmlItem {
     }
 
     KomaiToolTip {
+        anchorItem: litehtmlRoot
+        anchorX: hoverPoint.x
+        anchorY: hoverPoint.y
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
         text: linkMetrics.text
-        visible: hoveredLink.length > 0
+        requestedVisible: hoveredLink.length > 0
         width: Math.min(linkMetrics.advanceWidth + leftPadding + rightPadding,
                         (litehtmlRoot.Window.window ? litehtmlRoot.Window.window.width : 500) * 0.5)
     }
@@ -85,7 +91,10 @@ LitehtmlItem {
     HoverHandler {
         cursorShape: hoveredLink.length > 0 ? Qt.PointingHandCursor
                    : (isReply ? Qt.PointingHandCursor : Qt.IBeamCursor)
-        onPointChanged: if (hovered) litehtmlRoot.handleHoverMove(point.position.x, point.position.y)
+        onPointChanged: if (hovered) {
+            hoverPoint = Qt.point(point.position.x, point.position.y);
+            litehtmlRoot.handleHoverMove(point.position.x, point.position.y)
+        }
         onHoveredChanged: if (!hovered) litehtmlRoot.handleHoverLeave()
     }
 

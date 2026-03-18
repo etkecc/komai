@@ -262,6 +262,8 @@ TimelineViewManager::updateColorPalette()
     roomUserColors_.clear();
     roomUserColorSlots_.clear();
     roomMemberCache_.clear();
+    colorRevision_++;
+    emit colorRevisionChanged();
 }
 
 QColor

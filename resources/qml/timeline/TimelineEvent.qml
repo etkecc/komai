@@ -13,6 +13,7 @@ EventDelegateChooser {
     id: wrapper
 
     required property bool isStateEvent
+    readonly property int colorRevision: TimelineManager.colorRevision
     property bool scrolledToThis: false
     property QtObject styleProfile: TimelineStyleProfile {}
     property QtObject resolvedStyleProfile: styleProfile
@@ -80,8 +81,11 @@ EventDelegateChooser {
             readonly property color chooserReplySurfaceColor: (parent && parent.replyMessageSurfaceColor !== undefined && parent.replyMessageSurfaceColor !== null) ? parent.replyMessageSurfaceColor : palette.alternateBase
 
             color: Komai.readableAccentTextColor(
-                room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
-                     : TimelineManager.userColor(userId, palette.base),
+                (function() {
+                    const _revision = wrapper.colorRevision;
+                    return room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
+                                : TimelineManager.userColor(userId, palette.base);
+                })(),
                 palette.base)
             linkColor: EventDelegateChooser.isReply
                        ? chooserReplyLinkColor

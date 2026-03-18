@@ -65,6 +65,7 @@ class TimelineViewManager final : public QObject
                  waitingForFirstSyncChanged)
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY isConnectedChanged)
     Q_PROPERTY(QVector<QString> ignoredUsers READ getIgnoredUsers NOTIFY ignoredUsersChanged)
+    Q_PROPERTY(int colorRevision READ colorRevision NOTIFY colorRevisionChanged)
 
 public:
     TimelineViewManager(CallManager *callManager, ChatPage *parent = nullptr);
@@ -83,6 +84,7 @@ public:
 
     Q_INVOKABLE bool waitingForFirstSync() const { return waitingForFirstSync_; }
     bool isConnected() const { return isConnected_; }
+    int colorRevision() const { return colorRevision_; }
     Q_INVOKABLE void openMediaOverlay(TimelineModel *room,
                                       const QString &mxcUrl,
                                       const QString &eventId,
@@ -187,6 +189,7 @@ signals:
                           QObject *timeline,
                           QObject *timelineView);
     void ignoredUsersChanged(const QVector<QString> &ignoredUsers);
+    void colorRevisionChanged();
 
 public slots:
     void updateReadReceipts(const QString &room_id, const std::vector<QString> &event_ids);
@@ -238,6 +241,7 @@ private:
     QHash<std::pair<QString, QString>, int> roomUserColorSlots_;
     // Cached sorted member lists per room (excluding self) for palette slot assignment.
     QHash<QString, std::vector<std::string>> roomMemberCache_;
+    int colorRevision_ = 0;
 
     // 16 maximally-spaced hues for small-room palette assignment.
 

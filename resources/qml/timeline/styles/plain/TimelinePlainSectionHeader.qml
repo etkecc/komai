@@ -10,6 +10,7 @@ import cc.etke.komai
 import "../../../components"
 
 Column {
+    readonly property int colorRevision: TimelineManager.colorRevision
 
     required property var day
     required property bool isSender
@@ -96,8 +97,11 @@ Column {
                 id: userName_
 
                 color: Komai.readableAccentTextColor(
-                    room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
-                         : TimelineManager.userColor(userId, palette.base),
+                    (function() {
+                        const _revision = colorRevision;
+                        return room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
+                                    : TimelineManager.userColor(userId, palette.base);
+                    })(),
                     palette.base)
                 font.pointSize: Settings.uiFontSizePt
                 text: TimelineManager.escapeEmoji(userNameTextMetrics.elidedText)

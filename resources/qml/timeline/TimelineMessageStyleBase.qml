@@ -58,6 +58,7 @@ TimelineEvent {
     readonly property color themeBaseColor: (Komai.colors && Komai.colors.base !== undefined)
         ? Komai.colors.base
         : palette.base
+    readonly property int timelineColorRevision: TimelineManager.colorRevision
 
     property int oneHour: 60 * 60 * 1000
     property bool showSection: wrapper.previousMessageDay !== wrapper.day || wrapper.timestamp - wrapper.previousMessageTimestamp > oneHour
@@ -116,6 +117,7 @@ TimelineEvent {
     }
 
     function resolveUserColor(targetUserId, backgroundColor) {
+        const _revision = timelineColorRevision;
         const resolvedBackgroundColor = effectiveBackgroundColor(backgroundColor, themeBaseColor);
         if (roomIdForColorCoding.length > 0) {
             if (roomIdForColorCoding.startsWith("!timeline-preview:")
@@ -139,6 +141,7 @@ TimelineEvent {
     }
 
     function resolveUserBubblePalette(targetUserId, backgroundColor) {
+        const _revision = timelineColorRevision;
         const resolvedBackgroundColor = effectiveBackgroundColor(backgroundColor, themeBaseColor);
         if (roomIdForColorCoding.length > 0) {
             if (roomIdForColorCoding.startsWith("!timeline-preview:")

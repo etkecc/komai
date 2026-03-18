@@ -140,8 +140,18 @@ AbstractButton {
             id: colorline
             color: r.roomColor
             width: 4
-            radius: parent.radius
         }
+    }
+
+    // Border overlay drawn on top of content so rounded
+    // corners are not hidden by the content item.
+    Rectangle {
+        anchors.fill: parent
+        z: 10
+        color: "transparent"
+        radius: Komai.paddingMedium
+        border.width: 1
+        border.color: Qt.darker(r.roomColor, 1.3)
     }
 
 }

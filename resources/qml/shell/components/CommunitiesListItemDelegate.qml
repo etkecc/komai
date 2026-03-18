@@ -17,6 +17,7 @@ ItemDelegate {
     required property var model
     required property real scrollbarReservedWidth
     readonly property real baseFontPixelSize: Komai.fontPixelSize
+    readonly property real depthAvatarSize: Math.max(avatarSize * 0.5, Math.round(avatarSize * Math.pow(0.85, model.depth)))
     readonly property real lineSpacing: Math.max(1, Math.round(baseFontPixelSize * 1.2))
 
     property color backgroundColor: palette.window
@@ -125,7 +126,7 @@ ItemDelegate {
             color: communityItem.backgroundColor
             displayName: model.displayName
             enabled: false
-            Layout.preferredHeight: avatarSize
+            Layout.preferredHeight: depthAvatarSize
             roomid: model.id
             textColor: model.avatarUrl?.startsWith(":/") == true ? communityItem.unimportantText : communityItem.importantText
             url: {
@@ -136,7 +137,7 @@ ItemDelegate {
                 else
                     return "";
             }
-            Layout.preferredWidth: avatarSize
+            Layout.preferredWidth: depthAvatarSize
 
             NotificationBubble {
                 anchors.bottom: avatar.bottom

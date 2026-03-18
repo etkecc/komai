@@ -50,6 +50,13 @@ SpinBox {
         readOnly: !control.editable
         validator: control.validator
         inputMethodHints: control.inputMethodHints
+
+        TapHandler {
+            onDoubleTapped: {
+                parent.selectAll();
+                parent.forceActiveFocus();
+            }
+        }
     }
 
     up.indicator: Rectangle {

@@ -9,6 +9,7 @@ Technical documentation for Komai internals.
 - 🧭 [Settings 3-Layer Mapping](settings/3-layer-mapping.md) -- `SettingId` ↔ runtime getter ↔ persisted key audit report
 - 🧩 [Icons Architecture](icons.md) -- icon source of truth, validation, and Fluent sync workflow
 - 😀 [Emoji Architecture](emojis.md) -- upstream sources, localization pipeline, overrides, and runtime loading
+- 📦 [Binary Size Notes](binary-size.md) -- why local build-tree binaries are larger than packaged installs
 - 💾 [Storage Architecture](storage.md) -- path helpers, storage layout, and callsites
 - 🗃️ [Cache Architecture](cache/README.md) -- Matrix cache domain built on storage APIs
 - 🧾 [Cache Storage Invariants](cache/storage-invariants.md) -- cache reset rules, room cleanup, read-receipt semantics, and derived-edge invariants

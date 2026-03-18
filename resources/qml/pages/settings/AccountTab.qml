@@ -89,7 +89,8 @@ Item {
             }
 
             Flickable {
-                id: scroll
+                id: scrollView
+                property real availableWidth: width
                 anchors.left: parent.left
                 anchors.right: scrollBar.left
                 anchors.top: parent.top
@@ -102,11 +103,11 @@ Item {
 
                 ColumnLayout {
                     id: scrollContent
-                    width: scroll.width
+                width: scrollView.width
                     spacing: Komai.paddingSmall
 
                     property real contentMaxWidth: Settings.uiLayoutContentMaxWidthEffectivePx > 0 ? Settings.uiLayoutContentMaxWidthEffectivePx : Number.POSITIVE_INFINITY
-                    property real sideMargin: Math.max(Komai.paddingMedium, (scroll.width - contentMaxWidth) / 2)
+                    property real sideMargin: Math.max(Komai.paddingMedium, (scrollView.width - contentMaxWidth) / 2)
 
                     Item { Layout.preferredHeight: Komai.paddingMedium }
 
@@ -1189,12 +1190,12 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 policy: ScrollBar.AlwaysOn
-                size: scroll.contentHeight > 0 ? scroll.height / scroll.contentHeight : 1
-                position: scroll.visibleArea.yPosition
-                visible: scroll.contentHeight > 0
+                size: scrollView.contentHeight > 0 ? scrollView.height / scrollView.contentHeight : 1
+                position: scrollView.visibleArea.yPosition
+                visible: scrollView.contentHeight > 0
                 onPositionChanged: {
                     if (active)
-                        scroll.contentY = position * scroll.contentHeight
+                        scrollView.contentY = position * scrollView.contentHeight
                 }
             }
         }

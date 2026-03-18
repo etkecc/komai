@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import QtQuick.Controls
 import cc.etke.komai
 
 RoomHeaderActionButton {
@@ -11,7 +10,7 @@ RoomHeaderActionButton {
     required property bool roomAvailable
     required property string roomId
 
-    ToolTip.text: qsTr("Room settings")
+    toolTipText: qsTr("Room settings")
     image: ":/icons/icons/ui/toggles.svg"
     visible: roomAvailable
 

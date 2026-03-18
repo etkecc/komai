@@ -5,7 +5,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import cc.etke.komai
+import "../../components"
 
 AbstractButton {
     id: button
@@ -23,13 +25,31 @@ AbstractButton {
     property int contentVerticalPadding: Komai.paddingSmall
     property bool mirrorIcon: false
     property string toolTipText: labelText
+    property real toolTipAnchorX: width / 2
     readonly property bool hasLabel: labelText.length > 0
     readonly property bool activeState: hovered || pressed || visualFocus
     readonly property int labelHeight: hasLabel ? label.implicitHeight : 0
 
-    ToolTip.delay: Komai.tooltipDelay
-    ToolTip.text: toolTipText
-    ToolTip.visible: hovered
+    TextMetrics {
+        id: toolTipMetrics
+
+        font: button.font
+        text: button.toolTipText
+    }
+
+    KomaiToolTip {
+        anchorItem: button
+        anchorX: button.toolTipAnchorX
+        anchorY: button.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: button.toolTipText
+        delay: 0
+        requestedVisible: button.hovered && button.toolTipText.length > 0
+        width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
+                        (button.Window.window ? button.Window.window.width : 500) * 0.5)
+    }
+
     font.pointSize: Settings.uiFontSizePt
     hoverEnabled: true
     activeFocusOnTab: true
@@ -46,6 +66,11 @@ AbstractButton {
     implicitWidth: leftPadding + rightPadding + iconSize + (hasLabel ? (Komai.paddingSmall + label.implicitWidth) : 0)
     Layout.preferredHeight: implicitHeight
     Layout.preferredWidth: implicitWidth
+
+    HoverHandler {
+        onPointChanged: if (hovered)
+            button.toolTipAnchorX = point.position.x
+    }
 
     background: Rectangle {
         radius: Komai.paddingSmall

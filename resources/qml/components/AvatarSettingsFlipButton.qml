@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
 MouseArea {
@@ -19,6 +18,7 @@ MouseArea {
     property string toolTipText: ""
     property string badgeIconSource: ":/icons/icons/ui/settings.svg"
     property bool suppressHoverUntilExit: false
+    property real toolTipAnchorX: width / 2
     readonly property string resolvedToolTipText: toolTipText.length > 0
         ? toolTipText
         : (avatarDisplayName + (avatarUserId.length > 0 ? ("\n" + avatarUserId) : ""))
@@ -35,10 +35,16 @@ MouseArea {
     cursorShape: Qt.PointingHandCursor
     acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-    ToolTip.delay: Komai.tooltipDelay
-    ToolTip.text: resolvedToolTipText
-    ToolTip.toolTip.font.pointSize: Settings.uiFontSizePt
-    ToolTip.visible: hoverActive && resolvedToolTipText.length > 0
+    KomaiToolTip {
+        anchorItem: control
+        anchorX: control.toolTipAnchorX
+        anchorY: control.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: control.resolvedToolTipText
+        delay: 0
+        requestedVisible: control.hoverActive && control.resolvedToolTipText.length > 0
+    }
 
     onClicked: function (mouse) {
         suppressHoverUntilExit = true;
@@ -48,6 +54,7 @@ MouseArea {
             control.leftClicked();
     }
     onPositionChanged: function (mouse) {
+        toolTipAnchorX = mouse.x;
         if (suppressHoverUntilExit && !pressed)
             suppressHoverUntilExit = false;
     }

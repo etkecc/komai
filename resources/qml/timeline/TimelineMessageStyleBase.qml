@@ -118,6 +118,16 @@ TimelineEvent {
     function resolveUserColor(targetUserId, backgroundColor) {
         const resolvedBackgroundColor = effectiveBackgroundColor(backgroundColor, themeBaseColor);
         if (roomIdForColorCoding.length > 0) {
+            if (roomIdForColorCoding.startsWith("!timeline-preview:")
+                    && roomForColorCoding
+                    && roomForColorCoding.roomMemberCount !== undefined) {
+                return TimelineManager.previewRoomUserColor(
+                            roomIdForColorCoding,
+                            targetUserId,
+                            resolvedBackgroundColor,
+                            Number(roomForColorCoding.roomMemberCount),
+                            Settings.timelineUserColorCodingPolicy);
+            }
             return TimelineManager.roomUserColor(
                         roomIdForColorCoding,
                         targetUserId,
@@ -131,6 +141,16 @@ TimelineEvent {
     function resolveUserBubblePalette(targetUserId, backgroundColor) {
         const resolvedBackgroundColor = effectiveBackgroundColor(backgroundColor, themeBaseColor);
         if (roomIdForColorCoding.length > 0) {
+            if (roomIdForColorCoding.startsWith("!timeline-preview:")
+                    && roomForColorCoding
+                    && roomForColorCoding.roomMemberCount !== undefined) {
+                return TimelineManager.previewRoomUserBubblePalette(
+                            roomIdForColorCoding,
+                            targetUserId,
+                            resolvedBackgroundColor,
+                            Number(roomForColorCoding.roomMemberCount),
+                            Settings.timelineUserColorCodingPolicy);
+            }
             return TimelineManager.roomUserBubblePalette(
                         roomIdForColorCoding,
                         targetUserId,

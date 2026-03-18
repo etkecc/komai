@@ -123,10 +123,20 @@ public:
                                      QString userId,
                                      QColor background,
                                      int colorCodingPolicy = -1);
+    Q_INVOKABLE QColor previewRoomUserColor(QString roomId,
+                                            QString userId,
+                                            QColor background,
+                                            int roomMemberCount,
+                                            int colorCodingPolicy = -1);
     Q_INVOKABLE QVariantMap roomUserBubblePalette(QString roomId,
                                                   QString userId,
                                                   QColor background,
                                                   int colorCodingPolicy = -1);
+    Q_INVOKABLE QVariantMap previewRoomUserBubblePalette(QString roomId,
+                                                         QString userId,
+                                                         QColor background,
+                                                         int roomMemberCount,
+                                                         int colorCodingPolicy = -1);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
 

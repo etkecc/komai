@@ -11,6 +11,7 @@
 #include <vector>
 
 #include <QGuiApplication>
+#include <QSet>
 #include <QVariantMap>
 
 #include "cache/Cache.h"
@@ -117,6 +118,100 @@ buildBubblePalette(const ThemeUserColorSlot &slot,
     }
 
     return bubblePalette;
+}
+
+int
+assignPreviewBubbleSlot(QHash<std::pair<QString, QString>, int> &slotCache,
+                        const QString &roomId,
+                        const QString &userId,
+                        int slotCount)
+{
+    if (slotCount <= 0)
+        return 0;
+
+    const std::pair<QString, QString> cacheKey{roomId, userId};
+    if (slotCache.contains(cacheKey))
+        return slotCache.value(cacheKey);
+
+    QSet<int> usedSlots;
+    for (auto it = slotCache.cbegin(); it != slotCache.cend(); ++it) {
+        if (it.key().first == roomId)
+            usedSlots.insert(it.value() % slotCount);
+    }
+
+    const int start = static_cast<int>(qHash(QStringLiteral("%1|%2").arg(roomId, userId)) %
+                                       static_cast<uint>(slotCount));
+    for (int offset = 0; offset < slotCount; ++offset) {
+        const int candidate = (start + offset) % slotCount;
+        if (!usedSlots.contains(candidate)) {
+            slotCache.insert(cacheKey, candidate);
+            return candidate;
+        }
+    }
+
+    slotCache.insert(cacheKey, start);
+    return start;
+}
+
+ThemeUserColorSlot
+previewThemeSlot(const ThemeDef *def,
+                 const QString &roomId,
+                 const QString &userId,
+                 const QString &selfId,
+                 int roomMemberCount,
+                 bool respectRoomSize,
+                 UserSettings::TimelineUserColorCodingPolicy policy,
+                 QHash<std::pair<QString, QString>, int> &slotCache,
+                 QColor fallbackBackground)
+{
+    ThemeUserColorSlot fallbackSlot;
+    fallbackSlot.background = fallbackBackground;
+
+    if (!def)
+        return fallbackSlot;
+
+    const auto selfSlot = [&def, fallbackBackground]() {
+        auto slot = def->userColorSelf;
+        if (!slot.background.isValid())
+            slot.background =
+              fallbackBackground.isValid() ? fallbackBackground : QColor(0xf4, 0x93, 0x00);
+        return slot;
+    };
+
+    const auto otherSlotAt = [&def, fallbackBackground](int index) {
+        if (def->userColorOthers.empty()) {
+            ThemeUserColorSlot slot;
+            slot.background = fallbackBackground;
+            return slot;
+        }
+
+        auto slot = def->userColorOthers[static_cast<size_t>(
+          index % static_cast<int>(def->userColorOthers.size()))];
+        if (!slot.background.isValid())
+            slot.background = fallbackBackground.isValid()
+                                ? fallbackBackground
+                                : def->userColorOthers.front().background;
+        return slot;
+    };
+
+    if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
+        return userId == selfId ? selfSlot() : otherSlotAt(0);
+
+    if (userId == selfId)
+        return selfSlot();
+
+    const int othersListSize = static_cast<int>(def->userColorOthers.size());
+    if (othersListSize <= 0)
+        return fallbackSlot;
+
+    if (respectRoomSize) {
+        const int otherMemberCount = std::max(0, roomMemberCount - 1);
+        if (otherMemberCount > othersListSize)
+            return otherSlotAt(0);
+    }
+
+    const int slotIndex = assignPreviewBubbleSlot(slotCache, roomId, userId, othersListSize);
+    return otherSlotAt(slotIndex);
 }
 
 UserSettings::TimelineUserColorCodingPolicy
@@ -237,14 +332,16 @@ TimelineViewManager::roomUserColor(QString roomId,
     };
 
     if (isPreviewRoom) {
-        if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
-            return userId == selfId ? selfColor : othersUniform();
-        if (userId == selfId)
-            return selfColor;
-
-        // Settings preview uses a synthetic room that does not exist in cache; generate stable
-        // per-member colors directly from ids so color-coding policy changes remain visible.
-        return userColor(QStringLiteral("%1|%2").arg(roomId, userId), background);
+        const auto slot = previewThemeSlot(currentThemeDef(),
+                                           roomId,
+                                           userId,
+                                           selfId,
+                                           -1,
+                                           false,
+                                           policy,
+                                           roomUserColorSlots_,
+                                           background);
+        return resolveBubbleSlot(slot, currentThemePalette(), background).background;
     }
 
     // Former member: return a neutral gray regardless of room size.
@@ -358,10 +455,9 @@ TimelineViewManager::roomUserBubblePalette(QString roomId,
     }
 
     if (isPreviewRoom) {
-        const auto previewBackground = roomUserColor(roomId, userId, background, colorCodingPolicy);
-        ThemeUserColorSlot slot;
-        slot.background    = previewBackground;
-        const auto palette = buildBubblePalette(slot, themePalette, previewBackground);
+        const auto slot = previewThemeSlot(
+          def, roomId, userId, selfId, -1, false, policy, roomUserColorSlots_, background);
+        const auto palette = buildBubblePalette(slot, themePalette, background);
         return bubblePaletteMap(palette);
     }
 
@@ -401,5 +497,55 @@ TimelineViewManager::roomUserBubblePalette(QString roomId,
     const int slotIndex = roomUserColorSlots_.value(cacheKey, 0);
     const auto &slot    = def->userColorOthers[slotIndex % othersListSize];
     const auto palette  = buildBubblePalette(slot, themePalette, slot.background);
+    return bubblePaletteMap(palette);
+}
+
+QColor
+TimelineViewManager::previewRoomUserColor(QString roomId,
+                                          QString userId,
+                                          QColor background,
+                                          int roomMemberCount,
+                                          int colorCodingPolicy)
+{
+    if (roomId.isEmpty() || userId.isEmpty())
+        return QColor();
+
+    const auto themePalette = currentThemePalette();
+    const auto slot         = previewThemeSlot(currentThemeDef(),
+                                       roomId,
+                                       userId,
+                                       utils::localUser(),
+                                       roomMemberCount,
+                                       true,
+                                       resolveColorCodingPolicy(colorCodingPolicy),
+                                       roomUserColorSlots_,
+                                       background);
+    return resolveBubbleSlot(slot, themePalette, background).background;
+}
+
+QVariantMap
+TimelineViewManager::previewRoomUserBubblePalette(QString roomId,
+                                                  QString userId,
+                                                  QColor background,
+                                                  int roomMemberCount,
+                                                  int colorCodingPolicy)
+{
+    const auto themePalette = currentThemePalette();
+    const auto *def         = currentThemeDef();
+    const auto policy       = resolveColorCodingPolicy(colorCodingPolicy);
+
+    if (!def)
+        return userBubblePalette(userId, background);
+
+    const auto slot    = previewThemeSlot(def,
+                                       roomId,
+                                       userId,
+                                       utils::localUser(),
+                                       roomMemberCount,
+                                       true,
+                                       policy,
+                                       roomUserColorSlots_,
+                                       background);
+    const auto palette = buildBubblePalette(slot, themePalette, background);
     return bubblePaletteMap(palette);
 }

@@ -89,6 +89,9 @@ public:
     bool uiLayoutCompactMode() const;
     double sidebarAvatarMultiplier() const;
     int listIconSize() const;
+    // Single authoritative logical list/avatar size. Use this from C++ code
+    // that needs the same sizing as the QML Komai.listIconSize property.
+    static int listIconLogicalSize();
     // Single authoritative physical avatar thumbnail size for cache/download.
     // Computed from font metrics + QScreen DPR. Used by MxcImageProvider and
     // LitehtmlContainer to ensure all avatar requests produce the same cache key.

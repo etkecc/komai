@@ -84,41 +84,37 @@ Item {
                 enabled: index != 0 || model.moveable == undefined || model.moveable
                 anchors { fill: parent; margins: 8 }
 
-                onEntered: (drag)=> {
-                    visualModel.model.move(drag.source.index, dragArea.index)
-                    }
-                }
+                onEntered: visualModel.model.move(drag.source.index, dragArea.index)
 
             }
         }
-
-
-        DelegateModel {
-            id: visualModel
-
-            delegate: dragDelegate
-        }
-
-        ListView {
-            id: view
-
-            clip: true
-
-            anchors { fill: parent; margins: 2 }
-
-            model: visualModel
-
-            highlightRangeMode: ListView.ApplyRange
-            preferredHighlightBegin: 0.2 * height
-            preferredHighlightEnd: 0.8 * height
-
-            spacing: 4
-            cacheBuffer: 50
-
-            ScrollBar.vertical: ScrollBar {
-                policy: ScrollBar.AlwaysOn
-            }
-        }
-
-
     }
+
+    DelegateModel {
+        id: visualModel
+
+        delegate: dragDelegate
+    }
+
+    ListView {
+        id: view
+
+        clip: true
+
+        anchors { fill: parent; margins: 2 }
+
+        model: visualModel
+
+        highlightRangeMode: ListView.ApplyRange
+        preferredHighlightBegin: 0.2 * height
+        preferredHighlightEnd: 0.8 * height
+
+        spacing: 4
+        cacheBuffer: 50
+
+        ScrollBar.vertical: ScrollBar {
+            policy: ScrollBar.AlwaysOn
+        }
+    }
+
+}

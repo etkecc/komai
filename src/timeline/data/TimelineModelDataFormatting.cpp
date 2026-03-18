@@ -105,16 +105,7 @@ TimelineModel::formattedBodyForEvent(const mtx::events::collections::TimelineEve
     // Pill avatar URL carries the logical listIconSize.  The image loader
     // (MxcImageProvider / LitehtmlContainer) applies QScreen DPR to get the
     // physical thumbnail size.
-    const int pillThumbSourcePx = [&] {
-        const auto settings    = UserSettings::instance();
-        const bool compactMode = settings->uiLayoutCompactMode();
-        const bool hasPreview =
-          settings->sidebarsRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
-        const double avatarMul = compactMode ? (hasPreview ? 2.0 : 1.0) : (hasPreview ? 2.0 : 1.25);
-        const QFontMetricsF fm(QGuiApplication::font());
-        int stdLogical = qMax(1, qCeil(fm.lineSpacing() * avatarMul));
-        return stdLogical <= 1 ? 4 : ((stdLogical + 3) & ~3);
-    }();
+    const int pillThumbSourcePx = Komai::listIconLogicalSize();
     // Lazy alias→roomId map, built on first #alias mention.
     QHash<QString, std::string> aliasToRoomId;
     bool aliasMapBuilt = false;
@@ -185,16 +176,8 @@ TimelineModel::formattedStateEventForEvent(
                     .arg(QString::fromStdString(e.content.topic).toHtmlEscaped());
           } else if constexpr (t == mtx::events::EventType::RoomAvatar) {
               if (e.content.url.starts_with("mxc://")) {
-                  const auto compactMode = UserSettings::instance()->uiLayoutCompactMode();
-                  const auto hasPreview =
-                    UserSettings::instance()->sidebarsRoomListLastMessagePreview() !=
-                    UserSettings::LastMessagePreview::Never;
-                  const auto uiFontMetrics         = QFontMetricsF(QGuiApplication::font());
-                  const int inlinePreviewLogicalPx = qMax(1, qRound(uiFontMetrics.height()));
-                  // Match Komai::listIconSize() logic
-                  const double avatarMultiplier =
-                    (compactMode ? (hasPreview ? 2.0 : 1.0) : (hasPreview ? 2.0 : 1.25));
-                  const int avatarThumbPx = Komai::avatarThumbnailPhysicalSize();
+                  const int inlinePreviewLogicalPx = Komai::listIconLogicalSize();
+                  const int avatarThumbPx          = Komai::avatarThumbnailPhysicalSize();
                   // Match avatar rounding used in Avatar.qml + MxcImageProvider.
                   const int avatarCornerRadiusPercent =
                     UserSettings::instance()->uiAvatarsCircular() ? 100 : 25;

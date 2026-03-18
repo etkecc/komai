@@ -292,8 +292,22 @@ Komai::fontFamily() const
 int
 Komai::listIconSize() const
 {
-    QFontMetricsF fm(QGuiApplication::font());
-    const int rawSize = qMax(1, qCeil(fm.lineSpacing() * sidebarAvatarMultiplier()));
+    return listIconLogicalSize();
+}
+
+int
+Komai::listIconLogicalSize()
+{
+    const auto settings = UserSettings::instance();
+    if (!settings)
+        return 4;
+
+    const bool compact = settings->uiLayoutCompactMode();
+    const bool preview =
+      settings->sidebarsRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
+    const double avatarMultiplier = compact ? (preview ? 2.0 : 1.0) : (preview ? 2.0 : 1.25);
+    const QFontMetricsF fm(QGuiApplication::font());
+    const int rawSize = qMax(1, qCeil(fm.lineSpacing() * avatarMultiplier));
     // Round up to the nearest multiple of 4 so the value multiplies cleanly
     // by common DPR values (1.5 → ×4=integer, 2 → ×4=integer, 3 → same).
     // Also keeps avatar circles symmetric (divisible by 2).
@@ -309,17 +323,7 @@ Komai::listIconSize() const
 int
 Komai::avatarThumbnailPhysicalSize()
 {
-    // Duplicate listIconSize() logic to avoid needing an instance.
-    const auto settings = UserSettings::instance();
-    if (!settings)
-        return 0;
-    const bool compact = settings->uiLayoutCompactMode();
-    const bool preview =
-      settings->sidebarsRoomListLastMessagePreview() != UserSettings::LastMessagePreview::Never;
-    const double mul = compact ? (preview ? 2.0 : 1.0) : (preview ? 2.0 : 1.25);
-    const QFontMetricsF fm(QGuiApplication::font());
-    int logical = qMax(1, qCeil(fm.lineSpacing() * mul));
-    logical     = logical <= 1 ? 4 : ((logical + 3) & ~3);
+    const int logical = listIconLogicalSize();
     // Use QScreen::devicePixelRatio (integer DPR, e.g. 2) for crisp HiDPI
     // rendering.  This is a stable value that doesn't vary per-surface.
     double dpr = 1.0;

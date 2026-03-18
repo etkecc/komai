@@ -9,8 +9,12 @@ import cc.etke.komai 1.0
 ToolTip {
     id: control
 
-    property color textColor
-    property color backgroundColor
+    property color textColor: (Komai.colors && Komai.colors.toolTipText !== undefined)
+        ? Komai.colors.toolTipText
+        : palette.toolTipText
+    property color backgroundColor: (Komai.colors && Komai.colors.toolTipBase !== undefined)
+        ? Komai.colors.toolTipBase
+        : palette.toolTipBase
 
     font.pointSize: Settings.uiFontSizePt
     padding: Komai.paddingSmall

@@ -78,8 +78,6 @@ LitehtmlItem {
     KomaiToolTip {
         text: linkMetrics.text
         visible: hoveredLink.length > 0
-        textColor: palette.text
-        backgroundColor: palette.alternateBase
         width: Math.min(linkMetrics.advanceWidth + leftPadding + rightPadding,
                         (litehtmlRoot.Window.window ? litehtmlRoot.Window.window.width : 500) * 0.5)
     }

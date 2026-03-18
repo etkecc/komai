@@ -169,6 +169,8 @@ RowLayout {
         status: metadata.status
     }
     Image {
+        id: editedMarker
+
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.indicatorSize
         Layout.preferredWidth: parent.indicatorSize
@@ -182,8 +184,8 @@ RowLayout {
         }
 
         KomaiToolTip {
-            anchorItem: parent
-            anchorX: parent.width / 2
+            anchorItem: editedMarker
+            anchorX: editedMarker.width / 2
             anchorY: 0
             text: qsTr("Edited")
             delay: Komai.tooltipDelay
@@ -247,6 +249,8 @@ RowLayout {
         status: metadata.status
     }
     Image {
+        id: editedMarkerTrailing
+
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.indicatorSize
         Layout.preferredWidth: parent.indicatorSize
@@ -260,8 +264,8 @@ RowLayout {
         }
 
         KomaiToolTip {
-            anchorItem: parent
-            anchorX: parent.width / 2
+            anchorItem: editedMarkerTrailing
+            anchorX: editedMarkerTrailing.width / 2
             anchorY: 0
             text: qsTr("Edited")
             delay: Komai.tooltipDelay

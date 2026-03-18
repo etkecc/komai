@@ -51,6 +51,8 @@ ColumnLayout {
         }
 
         Label {
+            id: animationsLabel
+
             Layout.alignment: Qt.AlignVCenter
             Layout.margins: Komai.paddingSmall
             text: qsTr("Enable animations")
@@ -67,8 +69,8 @@ ColumnLayout {
             }
 
             KomaiToolTip {
-                anchorItem: parent
-                anchorX: parent.width / 2
+                anchorItem: animationsLabel
+                anchorX: animationsLabel.width / 2
                 anchorY: 0
                 text: qsTr("Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.")
                 delay: Komai.tooltipDelay

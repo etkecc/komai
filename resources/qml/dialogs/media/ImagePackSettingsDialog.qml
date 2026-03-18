@@ -186,18 +186,20 @@ ApplicationWindow {
                         }
 
                         ToggleButton {
+                            id: enableGloballyToggle
+
                             checked: currentPack ? currentPack.isGloballyEnabled : false
                             onCheckedChanged: if (currentPack) currentPack.isGloballyEnabled = checked
                             Layout.alignment: Qt.AlignRight
 
                             KomaiToolTip {
-                                anchorItem: parent
-                                anchorX: parent.width / 2
-                                anchorY: parent.height
+                                anchorItem: enableGloballyToggle
+                                anchorX: enableGloballyToggle.width / 2
+                                anchorY: enableGloballyToggle.height
                                 gapX: Komai.paddingMedium
                                 gapY: Komai.paddingMedium
                                 text: qsTr("Enables this pack to be used in all rooms")
-                                requestedVisible: parent.hovered
+                                requestedVisible: enableGloballyToggle.hovered
                             }
                         }
 

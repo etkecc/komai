@@ -266,17 +266,29 @@ Item {
                 }
 
                 Image {
+                    id: usernameAvailabilityIcon
+
+                    readonly property string statusToolTipText: regis.usernameAvailable
+                        ? qsTr("Username is available")
+                        : qsTr("Username is unavailable")
+
                     Layout.preferredHeight: usernameLabel.height/2
                     Layout.preferredWidth: usernameLabel.height/2
                     Layout.alignment: Qt.AlignBottom
                     source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success) : ("image://colorimage/:/icons/icons/ui/dismiss.svg?" + Komai.theme.error)
                     visible: regis.usernameAvailable || regis.usernameUnavailable
-                    toolTipVisible: ma.hovered
-                    toolTipText: qsTr("Back")
                     sourceSize.height: height
                     sourceSize.width: width
                     HoverHandler {
                         id: ma
+                    }
+
+                    KomaiToolTip {
+                        anchorItem: usernameAvailabilityIcon
+                        anchorX: usernameAvailabilityIcon.width / 2
+                        anchorY: 0
+                        text: usernameAvailabilityIcon.statusToolTipText
+                        requestedVisible: ma.hovered && usernameAvailabilityIcon.visible
                     }
                 }
             }

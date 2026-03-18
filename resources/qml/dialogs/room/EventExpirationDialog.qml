@@ -40,6 +40,8 @@ Components.OverlayDialog {
         Layout.fillWidth: true
 
         MatrixText {
+            id: expireAfterDaysLabel
+
             text: qsTr("Expire events after X days")
             Layout.fillWidth: true
 
@@ -48,8 +50,8 @@ Components.OverlayDialog {
             }
 
             Components.KomaiToolTip {
-                anchorItem: parent
-                anchorX: parent.width / 2
+                anchorItem: expireAfterDaysLabel
+                anchorX: expireAfterDaysLabel.width / 2
                 anchorY: 0
                 text: qsTr("Automatically redacts messages after X days, unless otherwise protected. Set to 0 to disable.")
                 requestedVisible: hh1.hovered
@@ -67,6 +69,8 @@ Components.OverlayDialog {
         }
 
         MatrixText {
+            id: keepLatestLabel
+
             text: qsTr("Only keep latest X events")
             Layout.fillWidth: true
 
@@ -75,8 +79,8 @@ Components.OverlayDialog {
             }
 
             Components.KomaiToolTip {
-                anchorItem: parent
-                anchorX: parent.width / 2
+                anchorItem: keepLatestLabel
+                anchorX: keepLatestLabel.width / 2
                 anchorY: 0
                 text: qsTr("Deletes your events in this room if there are more than X newer messages unless otherwise protected. Set to 0 to disable.")
                 requestedVisible: hh2.hovered
@@ -94,6 +98,8 @@ Components.OverlayDialog {
         }
 
         MatrixText {
+            id: protectLatestLabel
+
             text: qsTr("Always keep latest X events")
             Layout.fillWidth: true
 
@@ -102,8 +108,8 @@ Components.OverlayDialog {
             }
 
             Components.KomaiToolTip {
-                anchorItem: parent
-                anchorX: parent.width / 2
+                anchorItem: protectLatestLabel
+                anchorX: protectLatestLabel.width / 2
                 anchorY: 0
                 text: qsTr("This prevents events to be deleted by the above 2 settings if they are the latest X messages from you in the room.")
                 requestedVisible: hh3.hovered
@@ -121,6 +127,8 @@ Components.OverlayDialog {
         }
 
         MatrixText {
+            id: includeStateEventsLabel
+
             text: qsTr("Include state events")
             Layout.fillWidth: true
 
@@ -129,8 +137,8 @@ Components.OverlayDialog {
             }
 
             Components.KomaiToolTip {
-                anchorItem: parent
-                anchorX: parent.width / 2
+                anchorItem: includeStateEventsLabel
+                anchorX: includeStateEventsLabel.width / 2
                 anchorY: 0
                 text: qsTr("If this is turned on, old state events also get redacted. The latest state event of any type+key combination is excluded from redaction to not remove the room name and similar state by accident.")
                 requestedVisible: hh4.hovered

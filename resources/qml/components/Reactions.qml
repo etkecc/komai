@@ -27,7 +27,8 @@ Flow {
         delegate: AbstractButton {
             id: reaction
 
-            readonly property string toolTipText: textMetrics.elidedText === textMetrics.text
+            readonly property bool reactionDisplayKeyElided: textMetrics.advanceWidth > textMetrics.elideWidth
+            readonly property string reactionToolTipText: reactionDisplayKeyElided
                 ? modelData.users
                 : (modelData.displayKey + "\n" + modelData.users)
             hoverEnabled: true
@@ -38,9 +39,9 @@ Flow {
                 anchorItem: reaction
                 anchorX: reaction.width / 2
                 anchorY: 0
-                text: reaction.toolTipText
+                text: reaction.reactionToolTipText
                 delay: Komai.tooltipDelay
-                requestedVisible: reaction.hovered && reaction.toolTipText.length > 0
+                requestedVisible: reaction.hovered && reaction.reactionToolTipText.length > 0
             }
 
             background: Rectangle {

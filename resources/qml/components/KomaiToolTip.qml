@@ -34,6 +34,11 @@ Item {
     property int viewportMargin: 6
     property bool showing: false
     readonly property point anchorPoint: {
+        if (anchorItem && anchorItem.mapToGlobal && parent && parent.mapFromGlobal) {
+            const globalPoint = anchorItem.mapToGlobal(anchorX, anchorY);
+            return parent.mapFromGlobal(globalPoint.x, globalPoint.y);
+        }
+
         if (anchorItem && anchorItem.mapToItem && parent)
             return anchorItem.mapToItem(parent, anchorX, anchorY);
 

@@ -40,6 +40,8 @@ Components.OverlayDialog {
         Layout.fillWidth: true
 
         MatrixText {
+            id: userEventsLabel
+
             text: qsTr("User events")
             Layout.fillWidth: true
 
@@ -48,8 +50,8 @@ Components.OverlayDialog {
             }
 
             Components.KomaiToolTip {
-                anchorItem: parent
-                anchorX: parent.width / 2
+                anchorItem: userEventsLabel
+                anchorX: userEventsLabel.width / 2
                 anchorY: 0
                 text: qsTr("Joins, leaves, avatar and name changes, bans, …")
                 requestedVisible: hh1.hovered
@@ -63,6 +65,8 @@ Components.OverlayDialog {
         }
 
         MatrixText {
+            id: powerLevelChangesLabel
+
             text: qsTr("Power level changes")
             Layout.fillWidth: true
 
@@ -71,8 +75,8 @@ Components.OverlayDialog {
             }
 
             Components.KomaiToolTip {
-                anchorItem: parent
-                anchorX: parent.width / 2
+                anchorItem: powerLevelChangesLabel
+                anchorX: powerLevelChangesLabel.width / 2
                 anchorY: 0
                 text: qsTr("Sent when a moderator is added/removed or the permissions of a room are changed.")
                 requestedVisible: hh2.hovered

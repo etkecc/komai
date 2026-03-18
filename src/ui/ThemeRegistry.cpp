@@ -43,6 +43,42 @@ static const QStringList paletteKeys = {
   QStringLiteral("error"),
 };
 
+static int
+variantRank(QStringView variant)
+{
+    if (variant == QLatin1String("light"))
+        return 0;
+    if (variant == QLatin1String("dark"))
+        return 1;
+    return 2;
+}
+
+static bool
+isPinnedKomaiTheme(const ThemeDef &theme)
+{
+    return theme.slug.startsWith(QLatin1String("komai-"));
+}
+
+static bool
+themeDisplayLess(const ThemeDef &a, const ThemeDef &b)
+{
+    const auto aVariantRank = variantRank(a.variant);
+    const auto bVariantRank = variantRank(b.variant);
+    if (aVariantRank != bVariantRank)
+        return aVariantRank < bVariantRank;
+
+    const bool aPinned = isPinnedKomaiTheme(a);
+    const bool bPinned = isPinnedKomaiTheme(b);
+    if (aPinned != bPinned)
+        return aPinned;
+
+    const int nameCompare = QString::compare(a.name, b.name, Qt::CaseInsensitive);
+    if (nameCompare != 0)
+        return nameCompare < 0;
+
+    return QString::compare(a.slug, b.slug, Qt::CaseInsensitive) < 0;
+}
+
 static std::optional<ThemeUserColorSlot>
 parseUserColorSlot(const YAML::Node &slotNode,
                    const QString &path,
@@ -142,12 +178,7 @@ ThemeRegistry::ThemeRegistry()
 
     loadExternalThemes();
 
-    // Sort by (sortOrder, name)
-    std::sort(allThemes_.begin(), allThemes_.end(), [](const ThemeDef &a, const ThemeDef &b) {
-        if (a.sortOrder != b.sortOrder)
-            return a.sortOrder < b.sortOrder;
-        return a.name.compare(b.name, Qt::CaseInsensitive) < 0;
-    });
+    std::sort(allThemes_.begin(), allThemes_.end(), themeDisplayLess);
 }
 
 void

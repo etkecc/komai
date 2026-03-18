@@ -34,9 +34,9 @@ TimelineMessageStyleBase {
     property int messageBubbleRadius: 8
     property bool messageBubbleBackgroundEnabled: true
     property bool alignMessageTextToSide: false
-    property bool reserveAvatarRowHeight: true
+    property bool reserveAvatarRowHeight: startsNewMessageGroup
     property bool pushMetadataToEdge: false
-    property bool alignBubbleToTop: false
+    property bool alignBubbleToTop: true
 
     property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
     property int avatarMargin: (shouldShowMessageAvatar ? (Komai.listIconSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
@@ -203,7 +203,7 @@ TimelineMessageStyleBase {
             id: gridContainer
 
             width: wrapper.width - wrapper.avatarMargin
-            implicitHeight: Math.max(messageBubble.implicitHeight, metadataOuter.visible ? metadataOuter.height : 0, (wrapper.reserveAvatarRowHeight && messageUserAvatar.visible) ? messageUserAvatar.height : 0)
+            implicitHeight: Math.max(messageBubble.implicitHeight, metadataOuter.visible ? metadataOuter.height : 0)
             x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
             y: section.visible && section.active ? section.y + section.height : 0
 

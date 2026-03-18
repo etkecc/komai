@@ -16,7 +16,6 @@ Item {
     required property var messageActionsControl
     required property var messageModel
     required property var roomModel
-    required property var topBar
     property int itemHorizontalPadding: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Komai.paddingMedium
     property int itemVerticalPadding: 0
     property int actionButtonHeight: Komai.listIconSize
@@ -30,7 +29,10 @@ Item {
     readonly property bool canSendText: !isStateEvent && (roomModel ? roomModel.permissions.canSend(MtxEvent.TextMessage) : false)
     readonly property bool canEdit: !!messageModel && messageModel.isEditable
     readonly property bool canForward: !!messageModel && isForwardableType(messageModel.type)
-    readonly property bool canGoToMessage: !!messageModel && filteredTimeline.filterByContent
+    readonly property bool canGoToMessage: !!messageModel
+        && !!messageModel.eventId
+        && !!filteredTimeline
+        && !!filteredTimeline.filterByContent
     readonly property real requiredLabeledWidth: reactionButtonsWidth
         + (canReact ? iconOnlyButtonWidth() : 0)
         + (canReact ? separatorSlotWidth : 0)
@@ -314,8 +316,12 @@ Item {
             visible: toolbar.canGoToMessage
 
             onClicked: {
-                topBar.searchString = "";
-                roomModel.showEvent(toolbar.messageModel.eventId);
+                const eventId = toolbar.messageModel ? toolbar.messageModel.eventId : "";
+                if (!eventId)
+                    return;
+
+                toolbar.chatRoot.clearSearch();
+                roomModel.showEvent(eventId);
                 toolbar.messageActionsControl.dismiss();
             }
         }

@@ -138,6 +138,15 @@ Item {
         return forwardDialog;
     }
 
+    function clearSearch() {
+        if (typeof topBar !== "undefined" && topBar) {
+            topBar.searchString = "";
+            return;
+        }
+
+        searchString = "";
+    }
+
     function showDialogFromComponent(componentRef, properties) {
         var dialogParent = dialogHost || chatRoot;
         var dialog = componentRef.createObject(dialogParent, properties || {});
@@ -377,7 +386,6 @@ Item {
             emojiPopup: chatRoot.emojiPopup
             filteredTimeline: filteredTimeline
             roomModel: room
-            topBar: topBar
         }
         TimelineKeyboardShortcuts {
             chatList: chat
@@ -392,7 +400,6 @@ Item {
         emojiPopup: chatRoot.emojiPopup
         filteredTimelineModel: filteredTimeline
         roomModel: room
-        topBar: topBar
     }
 
     Component {

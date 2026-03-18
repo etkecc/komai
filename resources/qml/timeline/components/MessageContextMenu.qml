@@ -14,7 +14,6 @@ Menu {
     required property var emojiPopup
     required property var filteredTimelineModel
     required property var roomModel
-    required property var topBar
     property string eventId
     property int eventType
     property bool isEditable
@@ -105,10 +104,13 @@ Menu {
         Component {
             MenuItem {
                 text: qsTr("Go to &message")
-                visible: filteredTimelineModel.filterByContent
+                visible: filteredTimelineModel && filteredTimelineModel.filterByContent
 
                 onTriggered: function () {
-                    topBar.searchString = "";
+                    if (!messageContextMenuRoot.eventId)
+                        return;
+
+                    chatRoot.clearSearch();
                     roomModel.showEvent(messageContextMenuRoot.eventId);
                 }
             }

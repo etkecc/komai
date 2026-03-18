@@ -294,7 +294,7 @@ Item {
                             visible: membersTab.room ? membersTab.room.isEncrypted : false
                             encrypted: membersTab.room ? membersTab.room.isEncrypted : false
                             trust: encrypted ? model.trustlevel : Crypto.Unverified
-                            ToolTip.text: {
+                            toolTipText: {
                                 if (!encrypted)
                                     return qsTr("This room is not encrypted!");
 

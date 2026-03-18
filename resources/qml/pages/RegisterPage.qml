@@ -220,7 +220,7 @@ Item {
                     placeholderText: qsTr("your.server")
                     onEditingFinished: regis.setServer(text)
 
-                    ToolTip.text: qsTr("The server address where you want to create your account")
+                    toolTipText: qsTr("The server address where you want to create your account")
                 }
 
 
@@ -253,7 +253,7 @@ Item {
                     id: usernameLabel
                     Layout.fillWidth: true
                     label: qsTr("Username")
-                    ToolTip.text: qsTr("The username must not be empty, and must contain only the characters a-z, 0-9, ., _, =, -, and /.")
+                    toolTipText: qsTr("The username must not be empty, and must contain only the characters a-z, 0-9, ., _, =, -, and /.")
                     onEditingFinished: regis.checkUsername(text)
                 }
                 Spinner {
@@ -271,8 +271,8 @@ Item {
                     Layout.alignment: Qt.AlignBottom
                     source: regis.usernameAvailable ? ("image://colorimage/:/icons/icons/ui/checkmark.svg?" + Komai.theme.success) : ("image://colorimage/:/icons/icons/ui/dismiss.svg?" + Komai.theme.error)
                     visible: regis.usernameAvailable || regis.usernameUnavailable
-                    ToolTip.visible: ma.hovered
-                    ToolTip.text: qsTr("Back")
+                    toolTipVisible: ma.hovered
+                    toolTipText: qsTr("Back")
                     sourceSize.height: height
                     sourceSize.width: width
                     HoverHandler {
@@ -297,7 +297,7 @@ Item {
                 Layout.fillWidth: true
                 label: qsTr("Password")
                 echoMode: TextInput.Password
-                ToolTip.text: qsTr("Please choose a secure password. The exact requirements for password strength may depend on your server.")
+                toolTipText: qsTr("Please choose a secure password. The exact requirements for password strength may depend on your server.")
             }
 
             MatrixTextField {
@@ -323,7 +323,7 @@ Item {
                 Layout.fillWidth: true
                 label: qsTr("Device name")
                 placeholderText: regis.initialDeviceName()
-                ToolTip.text: qsTr("A name for this device which will be shown to others when verifying your devices. If nothing is provided a default is used.")
+                toolTipText: qsTr("A name for this device which will be shown to others when verifying your devices. If nothing is provided a default is used.")
             }
 
             Item {
@@ -374,8 +374,8 @@ Item {
         width: Komai.listIconSize
         height: Komai.listIconSize
         image: ":/icons/icons/ui/angle-arrow-left.svg"
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Back")
+        toolTipVisible: hovered
+        toolTipText: qsTr("Back")
         onClicked: mainWindow.pop()
     }
 }

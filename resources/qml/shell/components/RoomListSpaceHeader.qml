@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
+import "../../components"
 
 Rectangle {
     id: root
@@ -68,9 +69,16 @@ Rectangle {
             rightPadding: Komai.paddingSmall
             visible: !root.collapsed
 
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: qsTr("Leave space")
-            ToolTip.visible: hovered && !hasRoom
+            KomaiToolTip {
+                anchorItem: leaveButton
+                anchorX: leaveButton.width / 2
+                anchorY: leaveButton.height
+                gapX: Komai.paddingMedium
+                gapY: Komai.paddingMedium
+                text: qsTr("Leave space")
+                delay: Komai.tooltipDelay
+                requestedVisible: leaveButton.hovered && !leaveButton.hasRoom
+            }
 
             background: Rectangle {
                 radius: Komai.paddingSmall

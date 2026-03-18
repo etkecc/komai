@@ -69,9 +69,9 @@ Item {
             onActiveFocusChanged: if (!activeFocus) applyCommand()
             Component.onDestruction: applyCommand()
             placeholderText: qsTr("brave --profile-directory=\"Profile 7\" %u")
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Use %u for the URL, or leave empty to use the default browser.")
-            ToolTip.delay: Komai.tooltipDelay
+            toolTipVisible: hovered
+            toolTipText: qsTr("Use %u for the URL, or leave empty to use the default browser.")
+            toolTipDelay: Komai.tooltipDelay
         }
     }
 }

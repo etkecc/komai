@@ -115,9 +115,16 @@ Rectangle {
                         }
                     }
 
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Back to main")
-                    ToolTip.delay: Komai.tooltipDelay
+                    KomaiToolTip {
+                        anchorItem: headerBack
+                        anchorX: headerBack.width / 2
+                        anchorY: headerBack.height
+                        gapX: Komai.paddingMedium
+                        gapY: Komai.paddingMedium
+                        text: qsTr("Back to main")
+                        delay: Komai.tooltipDelay
+                        requestedVisible: headerBack.hovered
+                    }
                 }
 
                 // Navigation items
@@ -213,9 +220,16 @@ Rectangle {
                             }
                         }
 
-                        ToolTip.visible: hovered && !enabled && requiresSession
-                        ToolTip.delay: Komai.tooltipDelay
-                        ToolTip.text: qsTr("Available after login")
+                        KomaiToolTip {
+                            anchorItem: navItem
+                            anchorX: navItem.width / 2
+                            anchorY: navItem.height
+                            gapX: Komai.paddingMedium
+                            gapY: Komai.paddingMedium
+                            text: qsTr("Available after login")
+                            delay: Komai.tooltipDelay
+                            requestedVisible: navItem.hovered && !navItem.enabled && navItem.requiresSession
+                        }
                     }
                 }
             }
@@ -273,9 +287,9 @@ Rectangle {
                         rightPadding: userSettingsDialog.headerButtonPaddingH
                         topPadding: 0
                         bottomPadding: 0
-                        ToolTip.delay: Komai.tooltipDelay
-                        ToolTip.text: qsTr("Close")
-                        ToolTip.visible: hovered
+                        toolTipDelay: Komai.tooltipDelay
+                        toolTipText: qsTr("Close")
+                        toolTipVisible: hovered
                         image: ":/icons/icons/ui/dismiss.svg"
 
                         onClicked: mainWindow.pop()

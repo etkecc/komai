@@ -85,13 +85,19 @@ Column {
                 visible: isAdmin || isModerator
             }
 
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: userId
-            ToolTip.visible: hovered
             leftPadding: powerlevelIndicator.visible ? 16 : 0
             leftInset: 0
             rightInset: 0
             rightPadding: 0
+
+            KomaiToolTip {
+                anchorItem: userNameButton
+                anchorX: userNameButton.width / 2
+                anchorY: 0
+                text: userId
+                delay: Komai.tooltipDelay
+                requestedVisible: userNameButton.hovered
+            }
 
             contentItem: Label {
                 id: userName_
@@ -127,9 +133,6 @@ Column {
 
             property string userStatus: Presence.userStatus(userId)
 
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: qsTr("%1's status message").arg(userName)
-            ToolTip.visible: statusMsgHoverHandler.hovered
             anchors.baseline: userNameButton.baseline
             color: palette.buttonText
             elide: Text.ElideRight
@@ -141,6 +144,15 @@ Column {
 
             HoverHandler {
                 id: statusMsgHoverHandler
+            }
+
+            KomaiToolTip {
+                anchorItem: statusMsg
+                anchorX: statusMsg.width / 2
+                anchorY: 0
+                text: qsTr("%1's status message").arg(userName)
+                delay: Komai.tooltipDelay
+                requestedVisible: statusMsgHoverHandler.hovered
             }
             Connections {
                 function onPresenceChanged(id) {

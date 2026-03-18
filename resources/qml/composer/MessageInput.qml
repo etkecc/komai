@@ -505,7 +505,7 @@ Rectangle {
             id: stickerButton
 
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-            ToolTip.text: qsTr("Stickers")
+            toolTipText: qsTr("Stickers")
             image: ":/icons/icons/ui/sticky-note-solid.svg"
             visible: showAllButtons && Settings.composerExtrasStickersEnabled
 
@@ -524,7 +524,7 @@ Rectangle {
             id: emojiButton
 
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-            ToolTip.text: qsTr("Emoji")
+            toolTipText: qsTr("Emoji")
             image: ":/icons/icons/ui/smile.svg"
             visible: inputBar.composerEnabled
 
@@ -544,7 +544,7 @@ Rectangle {
 
             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
             Layout.rightMargin: 8
-            ToolTip.text: qsTr("Send")
+            toolTipText: qsTr("Send")
             buttonTextColor: inputBar.hasSendableContent ? palette.highlight : palette.buttonText
             image: ":/icons/icons/ui/send.svg"
 

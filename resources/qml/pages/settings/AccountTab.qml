@@ -351,8 +351,8 @@ Item {
                                 buttonTextColor: userIdRowHover.hovered ? palette.brightText : palette.buttonText
                                 image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
                                 hoverEnabled: true
-                                ToolTip.visible: hovered
-                                ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy user ID")
+                                toolTipVisible: hovered
+                                toolTipText: copied ? qsTr("Copied!") : qsTr("Copy user ID")
                                 onClicked: {
                                     Clipboard.text = Settings.userId;
                                     copied = true;
@@ -420,8 +420,8 @@ Item {
                                 buttonTextColor: homeserverRowHover.hovered ? palette.brightText : palette.buttonText
                                 image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
                                 hoverEnabled: true
-                                ToolTip.visible: hovered
-                                ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy homeserver")
+                                toolTipVisible: hovered
+                                toolTipText: copied ? qsTr("Copied!") : qsTr("Copy homeserver")
                                 onClicked: {
                                     Clipboard.text = Settings.homeserver;
                                     copied = true;
@@ -543,8 +543,8 @@ Item {
                                             Layout.preferredWidth: 24
                                             Layout.preferredHeight: 24
                                             image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                                            ToolTip.visible: hovered
-                                            ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                                            toolTipVisible: hovered
+                                            toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
                                             onClicked: {
                                                 Clipboard.text = Settings.deviceId;
                                                 copied = true;
@@ -652,8 +652,8 @@ Item {
                                         Layout.preferredWidth: 24
                                         Layout.preferredHeight: 24
                                         image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                                        ToolTip.visible: hovered
-                                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                                        toolTipVisible: hovered
+                                        toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
                                         onClicked: {
                                             Clipboard.text = UserSettingsModel.deviceFingerprint();
                                             copied = true;
@@ -720,8 +720,8 @@ Item {
                                         Layout.preferredWidth: 24
                                         Layout.preferredHeight: 24
                                         image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                                        ToolTip.visible: hovered
-                                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                                        toolTipVisible: hovered
+                                        toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
                                         onClicked: {
                                             Clipboard.text = Settings.accessToken;
                                             copied = true;
@@ -1014,8 +1014,8 @@ Item {
                                                 Layout.preferredWidth: 24
                                                 Layout.preferredHeight: 24
                                                 image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                                                ToolTip.visible: hovered
-                                                ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                                                toolTipVisible: hovered
+                                                toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
                                                 onClicked: {
                                                     Clipboard.text = deviceDelegate.deviceId;
                                                     copied = true;
@@ -1127,8 +1127,8 @@ Item {
                                             Layout.preferredWidth: 24
                                             Layout.preferredHeight: 24
                                             image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                                            ToolTip.visible: hovered
-                                            ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                                            toolTipVisible: hovered
+                                            toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
                                             onClicked: {
                                                 Clipboard.text = deviceIpField.text;
                                                 copied = true;

@@ -65,9 +65,15 @@ ColumnLayout {
             HoverHandler {
                 id: hovered
             }
-            ToolTip.visible: hovered.hovered
-            ToolTip.text: qsTr("Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.")
-            ToolTip.delay: Komai.tooltipDelay
+
+            KomaiToolTip {
+                anchorItem: parent
+                anchorX: parent.width / 2
+                anchorY: 0
+                text: qsTr("Komai uses animations in several places to improve visual feedback. Disable them if they make you feel unwell.")
+                delay: Komai.tooltipDelay
+                requestedVisible: hovered.hovered
+            }
         }
     }
 

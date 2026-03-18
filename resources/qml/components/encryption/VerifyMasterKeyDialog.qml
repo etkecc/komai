@@ -5,7 +5,6 @@
 
 import ".." as Components
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
@@ -61,8 +60,8 @@ Components.OverlayDialog {
             // verification with another device is still a valid route in principle, but
             // currently unavailable (e.g. no other signed-in verifiable device found).
             enabled: root.canVerifyWithAnotherDevice
-            ToolTip.text: qsTr("No other signed-in device is currently available for verification.")
-            ToolTip.visible: hovered && !enabled
+            toolTipText: qsTr("No other signed-in device is currently available for verification.")
+            toolTipVisible: hovered && !enabled
 
             onClicked: verifyWithAnotherDevice()
         }

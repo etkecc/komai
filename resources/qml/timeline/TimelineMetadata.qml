@@ -98,9 +98,6 @@ RowLayout {
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredWidth: implicitWidth
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
-        ToolTip.visible: ma.hovered
         color: effectiveInactiveTextColor
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
@@ -110,6 +107,15 @@ RowLayout {
             id: ma
 
         }
+
+        KomaiToolTip {
+            anchorItem: ts
+            anchorX: ts.width / 2
+            anchorY: 0
+            text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
+            delay: Komai.tooltipDelay
+            requestedVisible: ma.hovered
+        }
     }
     ImageButton {
         id: actionToggleBtnTrailingLeading
@@ -117,9 +123,9 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Message actions")
-        ToolTip.visible: hovered && !metadata.actionBarActive
+        toolTipDelay: Komai.tooltipDelay
+        toolTipText: qsTr("Message actions")
+        toolTipVisible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
         highlightColor: effectiveHighlightColor
         changeColorOnHover: true
@@ -135,9 +141,6 @@ RowLayout {
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredWidth: implicitWidth
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
-        ToolTip.visible: maTrailingLeading.hovered
         color: effectiveInactiveTextColor
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
@@ -145,6 +148,15 @@ RowLayout {
 
         HoverHandler {
             id: maTrailingLeading
+        }
+
+        KomaiToolTip {
+            anchorItem: tsTrailingLeading
+            anchorX: tsTrailingLeading.width / 2
+            anchorY: 0
+            text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
+            delay: Komai.tooltipDelay
+            requestedVisible: maTrailingLeading.hovered
         }
     }
 
@@ -160,9 +172,6 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.indicatorSize
         Layout.preferredWidth: parent.indicatorSize
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Edited")
-        ToolTip.visible: editHovered.hovered
         source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor)
         sourceSize.height: parent.indicatorSize
         sourceSize.width: parent.indicatorSize
@@ -170,6 +179,15 @@ RowLayout {
         HoverHandler {
             id: editHovered
 
+        }
+
+        KomaiToolTip {
+            anchorItem: parent
+            anchorX: parent.width / 2
+            anchorY: 0
+            text: qsTr("Edited")
+            delay: Komai.tooltipDelay
+            requestedVisible: editHovered.hovered
         }
     }
     EncryptionIndicator {
@@ -188,9 +206,9 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Message actions")
-        ToolTip.visible: hovered && !metadata.actionBarActive
+        toolTipDelay: Komai.tooltipDelay
+        toolTipText: qsTr("Message actions")
+        toolTipVisible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
         highlightColor: effectiveHighlightColor
         changeColorOnHover: true
@@ -204,9 +222,9 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Reply in this thread")
-        ToolTip.visible: hovered
+        toolTipDelay: Komai.tooltipDelay
+        toolTipText: qsTr("Reply in this thread")
+        toolTipVisible: hovered
         buttonTextColor: {
             const _revision = colorRevision;
             return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
@@ -232,9 +250,6 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.indicatorSize
         Layout.preferredWidth: parent.indicatorSize
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Edited")
-        ToolTip.visible: editHoveredTrailing.hovered
         source: "image://colorimage/:/icons/icons/ui/edit.svg?" + ((metadata.eventId == metadata.roomEditEventId) ? effectiveHighlightColor : effectiveSecondaryTextColor)
         sourceSize.height: parent.indicatorSize
         sourceSize.width: parent.indicatorSize
@@ -242,6 +257,15 @@ RowLayout {
         HoverHandler {
             id: editHoveredTrailing
 
+        }
+
+        KomaiToolTip {
+            anchorItem: parent
+            anchorX: parent.width / 2
+            anchorY: 0
+            text: qsTr("Edited")
+            delay: Komai.tooltipDelay
+            requestedVisible: editHoveredTrailing.hovered
         }
     }
     EncryptionIndicator {
@@ -258,9 +282,9 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Reply in this thread")
-        ToolTip.visible: hovered
+        toolTipDelay: Komai.tooltipDelay
+        toolTipText: qsTr("Reply in this thread")
+        toolTipVisible: hovered
         buttonTextColor: {
             const _revision = colorRevision;
             return TimelineManager.userColor(metadata.threadId, effectiveBaseColor);
@@ -278,9 +302,6 @@ RowLayout {
 
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredWidth: implicitWidth
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
-        ToolTip.visible: maTrailing.hovered
         color: effectiveInactiveTextColor
         font.pointSize: Settings.uiFontSizePt * parent.scaling
         text: metadata.timestamp.toLocaleTimeString(Locale.ShortFormat)
@@ -290,6 +311,15 @@ RowLayout {
             id: maTrailing
 
         }
+
+        KomaiToolTip {
+            anchorItem: tsTrailing
+            anchorX: tsTrailing.width / 2
+            anchorY: 0
+            text: Qt.formatDateTime(metadata.timestamp, Qt.DefaultLocaleLongDate)
+            delay: Komai.tooltipDelay
+            requestedVisible: maTrailing.hovered
+        }
     }
     ImageButton {
         id: actionToggleBtnTrailing
@@ -297,9 +327,9 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        ToolTip.delay: Komai.tooltipDelay
-        ToolTip.text: qsTr("Message actions")
-        ToolTip.visible: hovered && !metadata.actionBarActive
+        toolTipDelay: Komai.tooltipDelay
+        toolTipText: qsTr("Message actions")
+        toolTipVisible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
         highlightColor: effectiveHighlightColor
         changeColorOnHover: true

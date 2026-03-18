@@ -80,9 +80,9 @@ Rectangle {
             ImageButton {
                 id: closeThreadButton
 
-                ToolTip.delay: Komai.tooltipDelay
-                ToolTip.text: qsTr("Close")
-                ToolTip.visible: hovered
+                toolTipDelay: Komai.tooltipDelay
+                toolTipText: qsTr("Close")
+                toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredHeight: replyPopup.headerIconSize
                 Layout.preferredWidth: replyPopup.headerIconSize
@@ -124,9 +124,9 @@ Rectangle {
             ImageButton {
                 id: closeReplyButton
 
-                ToolTip.delay: Komai.tooltipDelay
-                ToolTip.text: qsTr("Close")
-                ToolTip.visible: hovered
+                toolTipDelay: Komai.tooltipDelay
+                toolTipText: qsTr("Close")
+                toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredHeight: replyPopup.headerIconSize
                 Layout.preferredWidth: replyPopup.headerIconSize
@@ -166,9 +166,9 @@ Rectangle {
             ImageButton {
                 id: closeEditHeaderButton
 
-                ToolTip.delay: Komai.tooltipDelay
-                ToolTip.text: qsTr("Close")
-                ToolTip.visible: hovered
+                toolTipDelay: Komai.tooltipDelay
+                toolTipText: qsTr("Close")
+                toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredHeight: replyPopup.headerIconSize
                 Layout.preferredWidth: replyPopup.headerIconSize

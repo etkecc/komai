@@ -61,7 +61,7 @@ Item {
                     placeholderText: qsTr("e.g @user:yourserver.example.com")
                     onEditingFinished: login.mxid = text
 
-                    ToolTip.text: qsTr("Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.\nYou can also put your homeserver address there if your server doesn't support .well-known lookup.\nExample: @user:yourserver.example.com\nIf Komai fails to discover your homeserver, it will show you a field to enter the server manually.")
+                    toolTipText: qsTr("Your login name. A mxid should start with @ followed by the user ID. After the user ID you need to include your server name after a :.\nYou can also put your homeserver address there if your server doesn't support .well-known lookup.\nExample: @user:yourserver.example.com\nIf Komai fails to discover your homeserver, it will show you a field to enter the server manually.")
                     Keys.forwardTo: [pwBtn, ssoRepeater]
                 }
 
@@ -91,7 +91,7 @@ Item {
                     Layout.fillWidth: true
                     label: qsTr("Password")
                     echoMode: TextInput.Password
-                    ToolTip.text: qsTr("Your password.")
+                    toolTipText: qsTr("Your password.")
                     visible: login.passwordSupported
                     Keys.forwardTo: [pwBtn, ssoRepeater]
                 }
@@ -103,8 +103,8 @@ Item {
                     visible: login.passwordSupported
                     Layout.alignment: Qt.AlignBottom
                     image: passwordLabel.echoMode === TextInput.Password ? ":/icons/icons/ui/eye-show.svg" : ":/icons/icons/ui/eye-hide.svg"
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Show/Hide Password")
+                    toolTipVisible: hovered
+                    toolTipText: qsTr("Show/Hide Password")
                     onClicked: {
                         if (passwordLabel.echoMode === TextInput.Normal) {
                             passwordLabel.echoMode = TextInput.Password
@@ -121,7 +121,7 @@ Item {
                 Layout.fillWidth: true
                 label: qsTr("Device name")
                 placeholderText: login.initialDeviceName()
-                ToolTip.text: qsTr("A name for this device which will be shown to others when verifying your devices. If nothing is provided, a default is used.")
+                toolTipText: qsTr("A name for this device which will be shown to others when verifying your devices. If nothing is provided, a default is used.")
                 Keys.forwardTo: [pwBtn, ssoRepeater]
             }
 
@@ -135,7 +135,7 @@ Item {
                 placeholderText: qsTr("yourserver.example.com:8787")
                 text: login.homeserver
                 onEditingFinished: login.homeserver = text
-                ToolTip.text: qsTr("The address that can be used to contact your homeserver's client API.\nExample: https://yourserver.example.com:8787")
+                toolTipText: qsTr("The address that can be used to contact your homeserver's client API.\nExample: https://yourserver.example.com:8787")
                 Keys.forwardTo: [pwBtn, ssoRepeater]
             }
 
@@ -220,8 +220,8 @@ Item {
         width: Komai.listIconSize
         height: Komai.listIconSize
         image: ":/icons/icons/ui/angle-arrow-left.svg"
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Back")
+        toolTipVisible: hovered
+        toolTipText: qsTr("Back")
         onClicked: mainWindow.pop()
     }
 }

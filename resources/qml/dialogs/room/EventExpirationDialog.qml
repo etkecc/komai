@@ -6,7 +6,6 @@
 import "../../components" as Components
 import "../../ui"
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
@@ -42,12 +41,18 @@ Components.OverlayDialog {
 
         MatrixText {
             text: qsTr("Expire events after X days")
-            ToolTip.text: qsTr("Automatically redacts messages after X days, unless otherwise protected. Set to 0 to disable.")
-            ToolTip.visible: hh1.hovered
             Layout.fillWidth: true
 
             HoverHandler {
                 id: hh1
+            }
+
+            Components.KomaiToolTip {
+                anchorItem: parent
+                anchorX: parent.width / 2
+                anchorY: 0
+                text: qsTr("Automatically redacts messages after X days, unless otherwise protected. Set to 0 to disable.")
+                requestedVisible: hh1.hovered
             }
         }
 
@@ -63,12 +68,18 @@ Components.OverlayDialog {
 
         MatrixText {
             text: qsTr("Only keep latest X events")
-            ToolTip.text: qsTr("Deletes your events in this room if there are more than X newer messages unless otherwise protected. Set to 0 to disable.")
-            ToolTip.visible: hh2.hovered
             Layout.fillWidth: true
 
             HoverHandler {
                 id: hh2
+            }
+
+            Components.KomaiToolTip {
+                anchorItem: parent
+                anchorX: parent.width / 2
+                anchorY: 0
+                text: qsTr("Deletes your events in this room if there are more than X newer messages unless otherwise protected. Set to 0 to disable.")
+                requestedVisible: hh2.hovered
             }
         }
 
@@ -84,12 +95,18 @@ Components.OverlayDialog {
 
         MatrixText {
             text: qsTr("Always keep latest X events")
-            ToolTip.text: qsTr("This prevents events to be deleted by the above 2 settings if they are the latest X messages from you in the room.")
-            ToolTip.visible: hh3.hovered
             Layout.fillWidth: true
 
             HoverHandler {
                 id: hh3
+            }
+
+            Components.KomaiToolTip {
+                anchorItem: parent
+                anchorX: parent.width / 2
+                anchorY: 0
+                text: qsTr("This prevents events to be deleted by the above 2 settings if they are the latest X messages from you in the room.")
+                requestedVisible: hh3.hovered
             }
         }
 
@@ -105,12 +122,18 @@ Components.OverlayDialog {
 
         MatrixText {
             text: qsTr("Include state events")
-            ToolTip.text: qsTr("If this is turned on, old state events also get redacted. The latest state event of any type+key combination is excluded from redaction to not remove the room name and similar state by accident.")
-            ToolTip.visible: hh4.hovered
             Layout.fillWidth: true
 
             HoverHandler {
                 id: hh4
+            }
+
+            Components.KomaiToolTip {
+                anchorItem: parent
+                anchorX: parent.width / 2
+                anchorY: 0
+                text: qsTr("If this is turned on, old state events also get redacted. The latest state event of any type+key combination is excluded from redaction to not remove the room name and similar state by accident.")
+                requestedVisible: hh4.hovered
             }
         }
 

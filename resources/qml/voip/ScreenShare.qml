@@ -123,8 +123,8 @@ Popup {
 
             MatrixText {
                 text: qsTr("Request remote camera")
-                ToolTip.text: qsTr("View your callee's camera like a regular video call")
-                ToolTip.visible: hovered
+                toolTipText: qsTr("View your callee's camera like a regular video call")
+                toolTipVisible: hovered
             }
 
             ToggleButton {
@@ -132,8 +132,8 @@ Popup {
 
                 Layout.alignment: Qt.AlignRight
                 checked: Settings.callsScreenshareIncludeRemoteVideo
-                ToolTip.text: qsTr("View your callee's camera like a regular video call")
-                ToolTip.visible: hovered
+                toolTipText: qsTr("View your callee's camera like a regular video call")
+                toolTipVisible: hovered
             }
 
             MatrixText {

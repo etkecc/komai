@@ -7,6 +7,7 @@ pragma ComponentBehavior: Bound
 import "../ui"
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Window
 import cc.etke.komai // for cursor shape
 
 AbstractButton {
@@ -19,11 +20,35 @@ AbstractButton {
     property string image: undefined
     property bool ripple: true
     property bool hoverPulse: false
+    property string toolTipText: ""
+    property bool toolTipVisible: hovered && toolTipText.length > 0
+    property int toolTipDelay: 0
+    property real toolTipAnchorX: width / 2
 
     focusPolicy: Qt.NoFocus
     font.pointSize: Settings.uiFontSizePt
     height: 16
     width: 16
+
+    TextMetrics {
+        id: toolTipMetrics
+
+        font: button.font
+        text: button.toolTipText
+    }
+
+    KomaiToolTip {
+        anchorItem: button
+        anchorX: button.toolTipAnchorX
+        anchorY: button.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: button.toolTipText
+        delay: button.toolTipDelay
+        requestedVisible: button.toolTipVisible
+        width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
+                        (button.Window.window ? button.Window.window.width : 500) * 0.5)
+    }
 
     Image {
         id: buttonImg
@@ -57,5 +82,9 @@ AbstractButton {
     onHoveredChanged: {
         if (hovered && hoverPulse)
             hoverPulseAnim.pulse();
+    }
+    HoverHandler {
+        onPointChanged: if (hovered)
+            button.toolTipAnchorX = point.position.x
     }
 }

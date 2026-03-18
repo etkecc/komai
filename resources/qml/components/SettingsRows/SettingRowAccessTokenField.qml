@@ -5,7 +5,6 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 
@@ -45,8 +44,8 @@ Loader {
                 Layout.preferredWidth: 24
                 Layout.preferredHeight: 24
                 image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
-                ToolTip.visible: hovered
-                ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
+                toolTipVisible: hovered
+                toolTipText: copied ? qsTr("Copied!") : qsTr("Copy to clipboard")
                 onClicked: {
                     Clipboard.text = root.model.value;
                     copied = true;

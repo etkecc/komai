@@ -60,8 +60,8 @@ Components.OverlayDialog {
                     buttonTextColor: model.isCanonical ? palette.highlight : palette.text
                     highlightColor: aliasEditorW.editingModel.canAdvertize ? palette.highlight : buttonTextColor
 
-                    ToolTip.visible: hovered
-                    ToolTip.text: model.isCanonical ? qsTr("Primary alias") : qsTr("Make primary alias")
+                    toolTipVisible: hovered
+                    toolTipText: model.isCanonical ? qsTr("Primary alias") : qsTr("Make primary alias")
 
                     onClicked: aliasEditorW.editingModel.makeCanonical(model.index)
                 }
@@ -74,8 +74,8 @@ Components.OverlayDialog {
                     buttonTextColor: model.isAdvertized ? palette.highlight : palette.text
                     highlightColor: aliasEditorW.editingModel.canAdvertize ? palette.highlight : buttonTextColor
 
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Show this alias in the room's details")
+                    toolTipVisible: hovered
+                    toolTipText: qsTr("Show this alias in the room's details")
 
                     onClicked: aliasEditorW.editingModel.toggleAdvertize(model.index)
                 }
@@ -87,8 +87,8 @@ Components.OverlayDialog {
                     hoverEnabled: true
                     buttonTextColor: model.isPublished ? palette.highlight : palette.text
 
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Publish in room directory")
+                    toolTipVisible: hovered
+                    toolTipText: qsTr("Publish in room directory")
 
                     onClicked: aliasEditorW.editingModel.togglePublish(model.index)
                 }
@@ -99,8 +99,8 @@ Components.OverlayDialog {
                     image: ":/icons/icons/ui/dismiss.svg"
                     hoverEnabled: true
 
-                    ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Remove this alias")
+                    toolTipVisible: hovered
+                    toolTipText: qsTr("Remove this alias")
 
                     onClicked: aliasEditorW.editingModel.deleteAlias(model.index)
                 }

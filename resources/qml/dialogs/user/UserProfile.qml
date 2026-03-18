@@ -518,8 +518,8 @@ Components.OverlayDialog {
                         buttonTextColor: displayNameRowItem.rowHovered ? palette.brightText : palette.buttonText
                         image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
                         hoverEnabled: true
-                        ToolTip.visible: hovered
-                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy display name")
+                        toolTipVisible: hovered
+                        toolTipText: copied ? qsTr("Copied!") : qsTr("Copy display name")
                         Layout.rightMargin: Komai.paddingMedium
                         onClicked: {
                             Clipboard.text = profile.displayName;
@@ -587,8 +587,8 @@ Components.OverlayDialog {
                         buttonTextColor: userIdRowItem.rowHovered ? palette.brightText : palette.buttonText
                         image: copied ? ":/icons/icons/ui/checkmark.svg" : ":/icons/icons/ui/copy.svg"
                         hoverEnabled: true
-                        ToolTip.visible: hovered
-                        ToolTip.text: copied ? qsTr("Copied!") : qsTr("Copy user ID")
+                        toolTipVisible: hovered
+                        toolTipText: copied ? qsTr("Copied!") : qsTr("Copy user ID")
                         Layout.rightMargin: Komai.paddingMedium
                         onClicked: {
                             Clipboard.text = profile.userid;

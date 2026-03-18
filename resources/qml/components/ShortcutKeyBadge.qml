@@ -24,9 +24,16 @@ Item {
     implicitHeight: contentRow.implicitHeight
     visible: text !== ""
 
-    ToolTip.delay: Komai.tooltipDelay
-    ToolTip.text: root.toolTipText
-    ToolTip.visible: root.visible && badgeHover.hovered && root.toolTipText !== ""
+    KomaiToolTip {
+        anchorItem: root
+        anchorX: root.width / 2
+        anchorY: root.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: root.toolTipText
+        delay: Komai.tooltipDelay
+        requestedVisible: root.visible && badgeHover.hovered && root.toolTipText !== ""
+    }
 
     function isHeldModifierToken(token) {
         return altModifierHeld && token.toLowerCase() === "alt";

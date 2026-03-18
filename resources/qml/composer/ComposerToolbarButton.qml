@@ -4,7 +4,6 @@
 
 import "../components"
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 
 ImageButton {
@@ -12,5 +11,5 @@ ImageButton {
     Layout.preferredHeight: 32
     Layout.preferredWidth: 32
     hoverEnabled: true
-    ToolTip.visible: hovered
+    toolTipVisible: hovered
 }

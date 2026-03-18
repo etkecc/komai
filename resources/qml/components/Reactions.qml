@@ -27,11 +27,21 @@ Flow {
         delegate: AbstractButton {
             id: reaction
 
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.visible: hovered
+            readonly property string toolTipText: textMetrics.elidedText === textMetrics.text
+                ? modelData.users
+                : (modelData.displayKey + "\n" + modelData.users)
             hoverEnabled: true
             leftPadding: textMetrics.height / 2
             rightPadding: textMetrics.height / 2
+
+            KomaiToolTip {
+                anchorItem: reaction
+                anchorX: reaction.width / 2
+                anchorY: 0
+                text: reaction.toolTipText
+                delay: Komai.tooltipDelay
+                requestedVisible: reaction.hovered && reaction.toolTipText.length > 0
+            }
 
             background: Rectangle {
                 anchors.centerIn: parent
@@ -99,14 +109,6 @@ Flow {
                 }
             }
 
-            Component.onCompleted: {
-                ToolTip.text = Qt.binding(function () {
-                        if (textMetrics.elidedText === textMetrics.text) {
-                            return modelData.users;
-                        }
-                        return modelData.displayKey + "\n" + modelData.users;
-                    });
-            }
             onClicked: {
                 console.debug("Picked " + modelData.key + "in response to " + reactionFlow.eventId + ". selfReactedEvent: " + modelData.selfReactedEvent);
                 if (room && room.input)

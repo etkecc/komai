@@ -255,9 +255,9 @@ OverlayDialog {
                 Layout.alignment: Qt.AlignVCenter
                 text: qsTr("Remove")
                 icon.source: "qrc:/icons/icons/ui/delete.svg"
-                ToolTip.delay: Komai.tooltipDelay
-                ToolTip.text: qsTr("Remove selected user")
-                ToolTip.visible: hovered && text === ""
+                toolTipDelay: Komai.tooltipDelay
+                toolTipText: qsTr("Remove selected user")
+                toolTipVisible: hovered && text === ""
                 onClicked: createDirectRoot.clearSelection()
             }
         }

@@ -64,9 +64,9 @@ Rectangle {
         }
 
         ImageButton {
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: qsTr("Don't mention them in this message")
-            ToolTip.visible: hovered
+            toolTipDelay: Komai.tooltipDelay
+            toolTipText: qsTr("Don't mention them in this message")
+            toolTipVisible: hovered
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: mentionPopup.headerIconSize
             Layout.preferredWidth: mentionPopup.headerIconSize

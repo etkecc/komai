@@ -68,9 +68,16 @@ Item {
             width: implicitWidth
             visible: !!root.room
 
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: root.isPublic ? qsTr("This room is public. Anyone can join.") : qsTr("This room is private. Invitation required.")
-            ToolTip.visible: visibilityMouse.containsMouse
+            KomaiToolTip {
+                anchorItem: visibilityItem
+                anchorX: visibilityItem.width / 2
+                anchorY: visibilityItem.height
+                gapX: Komai.paddingMedium
+                gapY: Komai.paddingMedium
+                text: root.isPublic ? qsTr("This room is public. Anyone can join.") : qsTr("This room is private. Invitation required.")
+                delay: Komai.tooltipDelay
+                requestedVisible: visibilityMouse.containsMouse
+            }
 
             Row {
                 id: visibilityRow

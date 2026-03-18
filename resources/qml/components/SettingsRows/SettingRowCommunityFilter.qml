@@ -7,6 +7,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
+import ".." as Components
 import "../../ui" as Ui
 
 RowLayout {
@@ -58,12 +59,17 @@ RowLayout {
 
                 property string toolTipText
 
-                ToolTip.visible: iconHover.hovered
-                ToolTip.text: iconImg.toolTipText
-                ToolTip.delay: 500
-
                 HoverHandler {
                     id: iconHover
+                }
+
+                Components.KomaiToolTip {
+                    anchorItem: iconImg
+                    anchorX: iconImg.width / 2
+                    anchorY: 0
+                    text: iconImg.toolTipText
+                    delay: 500
+                    requestedVisible: iconHover.hovered && iconImg.toolTipText.length > 0
                 }
             }
 

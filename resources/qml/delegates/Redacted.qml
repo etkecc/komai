@@ -39,10 +39,16 @@ Control {
             color: palette.text
             wrapMode: Label.WordWrap
 
-            ToolTip.text: redactedPair["second"]
-            ToolTip.visible: hh.hovered
             HoverHandler {
                 id: hh
+            }
+
+            KomaiToolTip {
+                anchorItem: redactedLabel
+                anchorX: redactedLabel.width / 2
+                anchorY: 0
+                text: redactedLabel.redactedPair["second"]
+                requestedVisible: hh.hovered && redactedLabel.redactedPair["second"].length > 0
             }
         }
     }

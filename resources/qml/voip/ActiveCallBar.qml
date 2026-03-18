@@ -208,8 +208,8 @@ Rectangle {
             buttonTextColor: "#000000"
             image: ":/icons/icons/ui/picture-in-picture.svg"
             hoverEnabled: true
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Hide/Show Picture-in-Picture")
+            toolTipVisible: hovered
+            toolTipText: qsTr("Hide/Show Picture-in-Picture")
             onClicked: CallManager.toggleLocalPiP()
         }
 
@@ -221,8 +221,8 @@ Rectangle {
             buttonTextColor: "#000000"
             image: CallManager.isMicMuted ? ":/icons/icons/ui/microphone-unmute.svg" : ":/icons/icons/ui/microphone-mute.svg"
             hoverEnabled: true
-            ToolTip.visible: hovered
-            ToolTip.text: CallManager.isMicMuted ? qsTr("Unmute Mic") : qsTr("Mute Mic")
+            toolTipVisible: hovered
+            toolTipText: CallManager.isMicMuted ? qsTr("Unmute Mic") : qsTr("Mute Mic")
             onClicked: CallManager.toggleMicMute()
         }
 

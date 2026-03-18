@@ -89,9 +89,9 @@ Rectangle {
             }
 
             ImageButton {
-                ToolTip.delay: Komai.tooltipDelay
-                ToolTip.text: qsTr("Detach all attachments")
-                ToolTip.visible: hovered
+                toolTipDelay: Komai.tooltipDelay
+                toolTipText: qsTr("Detach all attachments")
+                toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredHeight: uploadPopup.headerIconSize
                 Layout.preferredWidth: uploadPopup.headerIconSize
@@ -212,9 +212,9 @@ Rectangle {
                     Layout.alignment: Qt.AlignTop
                     text: uploadPopup.showRemoveLabel ? qsTr("Detach") : ""
                     icon.source: "qrc:/icons/icons/ui/dismiss.svg"
-                    ToolTip.delay: Komai.tooltipDelay
-                    ToolTip.text: qsTr("Detach")
-                    ToolTip.visible: hovered && !uploadPopup.showRemoveLabel
+                    toolTipDelay: Komai.tooltipDelay
+                    toolTipText: qsTr("Detach")
+                    toolTipVisible: hovered && !uploadPopup.showRemoveLabel
 
                     onClicked: room.input.removeUpload(index)
                 }

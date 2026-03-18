@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick 2.5
-import QtQuick.Controls 2.1
 import cc.etke.komai 1.0
 
 ImageButton {
@@ -13,7 +12,7 @@ ImageButton {
     property string eventId: ""
     property int status: MtxEvent.Empty
 
-    ToolTip.text: {
+    toolTipText: {
         switch (status) {
         case MtxEvent.Failed:
             return qsTr("Failed");
@@ -27,7 +26,7 @@ ImageButton {
             return "";
         }
     }
-    ToolTip.visible: hovered && status != MtxEvent.Empty
+    toolTipVisible: hovered && status != MtxEvent.Empty
     changeColorOnHover: (status == MtxEvent.Read)
     cursor: (status == MtxEvent.Read) ? Qt.PointingHandCursor : Qt.ArrowCursor
     height: 16

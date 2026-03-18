@@ -5,7 +5,6 @@
 
 pragma ComponentBehavior: Bound
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 
@@ -71,9 +70,9 @@ Item {
             Layout.preferredHeight: 20
             image: ":/icons/icons/ui/round-remove-button.svg"
             visible: statusMessageField.text !== ""
-            ToolTip.visible: hovered
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: qsTr("Clear status message")
+            toolTipVisible: hovered
+            toolTipDelay: Komai.tooltipDelay
+            toolTipText: qsTr("Clear status message")
 
             onClicked: {
                 statusMessageField.text = "";

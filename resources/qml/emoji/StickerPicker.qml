@@ -240,9 +240,9 @@ Popup {
             ImageButton {
                 id: closeButton
 
-                ToolTip.delay: Komai.tooltipDelay
-                ToolTip.text: qsTr("Close")
-                ToolTip.visible: hovered
+                toolTipDelay: Komai.tooltipDelay
+                toolTipText: qsTr("Close")
+                toolTipVisible: hovered
                 anchors.verticalCenter: parent.verticalCenter
                 height: headerLabel.font.pixelSize
                 width: height
@@ -410,8 +410,16 @@ Popup {
                             width: stickerDim
                             height: stickerDim
                             hoverEnabled: true
-                            ToolTip.text: ":" + modelData.shortcode + ": - " + (modelData.unicode ? modelData.unicodeName : modelData.body)
-                            ToolTip.visible: hovered
+
+                            KomaiToolTip {
+                                anchorItem: del
+                                anchorX: del.width / 2
+                                anchorY: 0
+                                text: ":" + del.modelData.shortcode + ": - " + (del.modelData.unicode ? del.modelData.unicodeName : del.modelData.body)
+                                delay: Komai.tooltipDelay
+                                requestedVisible: del.hovered
+                            }
+
                             // TODO: maybe add favorites at some point?
                             onClicked: {
                                 console.debug("Picked " + modelData);
@@ -494,9 +502,17 @@ Popup {
                     rightPadding: Komai.paddingSmall
                     topPadding: Komai.paddingMedium
                     bottomPadding: Komai.paddingMedium
-                    ToolTip.visible: hovered
-                    ToolTip.delay: Komai.tooltipDelay
-                    ToolTip.text: modelData.name
+
+                    KomaiToolTip {
+                        anchorItem: categoryButton
+                        anchorX: categoryButton.width / 2
+                        anchorY: categoryButton.height
+                        gapX: Komai.paddingMedium
+                        gapY: Komai.paddingMedium
+                        text: categoryButton.modelData.name
+                        delay: Komai.tooltipDelay
+                        requestedVisible: categoryButton.hovered
+                    }
 
                     onClicked: {
                         stickerPopup.activeSectionIndex = index;
@@ -600,9 +616,18 @@ Popup {
                 rightPadding: Komai.paddingSmall
                 topPadding: Komai.paddingMedium
                 bottomPadding: Komai.paddingMedium
-                ToolTip.visible: hovered
-                ToolTip.delay: Komai.tooltipDelay
-                ToolTip.text: qsTr("Change what packs are enabled, remove packs, or create new ones")
+
+                KomaiToolTip {
+                    anchorItem: settingsButton
+                    anchorX: settingsButton.width / 2
+                    anchorY: settingsButton.height
+                    gapX: Komai.paddingMedium
+                    gapY: Komai.paddingMedium
+                    text: qsTr("Change what packs are enabled, remove packs, or create new ones")
+                    delay: Komai.tooltipDelay
+                    requestedVisible: settingsButton.hovered
+                }
+
                 onClicked: TimelineManager.openImagePackSettings(stickerPopup.roomid)
 
                 states: [

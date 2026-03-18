@@ -69,8 +69,8 @@ Rectangle {
 
             image: ":/icons/icons/ui/dismiss.svg"
             hoverEnabled: true
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Don't mention them in this message")
+            toolTipVisible: hovered
+            toolTipText: qsTr("Don't mention them in this message")
             onClicked: {
                 warningRoot.removeClicked();
             }

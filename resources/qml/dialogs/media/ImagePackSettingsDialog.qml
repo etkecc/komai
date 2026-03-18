@@ -186,10 +186,19 @@ ApplicationWindow {
                         }
 
                         ToggleButton {
-                            ToolTip.text: qsTr("Enables this pack to be used in all rooms")
                             checked: currentPack ? currentPack.isGloballyEnabled : false
                             onCheckedChanged: if (currentPack) currentPack.isGloballyEnabled = checked
                             Layout.alignment: Qt.AlignRight
+
+                            KomaiToolTip {
+                                anchorItem: parent
+                                anchorX: parent.width / 2
+                                anchorY: parent.height
+                                gapX: Komai.paddingMedium
+                                gapY: Komai.paddingMedium
+                                text: qsTr("Enables this pack to be used in all rooms")
+                                requestedVisible: parent.hovered
+                            }
                         }
 
                     }
@@ -235,11 +244,19 @@ ApplicationWindow {
 
                         // Individual emoji
                         delegate: AbstractButton {
+                            id: imageButton
+
                             width: stickerDim
                             height: stickerDim
                             hoverEnabled: true
-                            ToolTip.text: ":" + model.shortCode + ": - " + model.body
-                            ToolTip.visible: hovered
+
+                            KomaiToolTip {
+                                anchorItem: imageButton
+                                anchorX: imageButton.width / 2
+                                anchorY: 0
+                                text: ":" + model.shortCode + ": - " + model.body
+                                requestedVisible: imageButton.hovered
+                            }
 
                             contentItem: Image {
                                 height: stickerDim

@@ -115,8 +115,8 @@ Dialog {
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredWidth: root.headerIconSize
                 Layout.preferredHeight: root.headerIconSize
-                ToolTip.text: qsTr("Close")
-                ToolTip.visible: hovered
+                toolTipText: qsTr("Close")
+                toolTipVisible: hovered
                 image: ":/icons/icons/ui/dismiss.svg"
                 visible: root.showCloseButton
                 Accessible.name: qsTr("Close")

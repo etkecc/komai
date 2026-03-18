@@ -4,10 +4,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
 Image {
+    id: root
+
     required property var powerlevel
     required property AbstractPermissions permissions
     property color iconColor: palette.buttonText
@@ -39,8 +40,7 @@ Image {
     }
 
     source: sourceUrl + (ma.hovered ? palette.highlight : iconColor)
-    ToolTip.visible: ma.hovered
-    ToolTip.text: {
+    readonly property string toolTipText: {
         let pl = powerlevel.toLocaleString(Qt.locale(), "f", 0);
         if (isV12Creator)
             return qsTr("Creator");
@@ -50,6 +50,16 @@ Image {
             return qsTr("Moderator: %1").arg(pl);
         else
             return qsTr("User: %1").arg(pl);
+    }
+
+    KomaiToolTip {
+        anchorItem: root
+        anchorX: root.width / 2
+        anchorY: root.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: root.toolTipText
+        requestedVisible: ma.hovered && root.toolTipText.length > 0
     }
 
     HoverHandler {

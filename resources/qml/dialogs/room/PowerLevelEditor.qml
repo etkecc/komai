@@ -112,8 +112,8 @@ OverlayDialog {
                                     image: model.isType ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/plus-circle.svg"
                                     visible: !model.isType || model.removeable
                                     hoverEnabled: true
-                                    ToolTip.visible: hovered
-                                    ToolTip.text: model.isType ? qsTr("Remove event type") : qsTr("Add event type")
+                                    toolTipVisible: hovered
+                                    toolTipText: model.isType ? qsTr("Remove event type") : qsTr("Add event type")
                                     onClicked: {
                                         if (model.isType) {
                                             plEditorW.editingModel.types.remove(index);
@@ -356,8 +356,8 @@ OverlayDialog {
                                     image: model.isUser ? ":/icons/icons/ui/dismiss.svg" : ":/icons/icons/ui/plus-circle.svg"
                                     visible: (!model.isUser || model.removeable) && model.powerlevel != plEditorW.editingModel.creatorLevel
                                     hoverEnabled: true
-                                    ToolTip.visible: hovered
-                                    ToolTip.text: model.isUser ? qsTr("Remove user") : qsTr("Add user")
+                                    toolTipVisible: hovered
+                                    toolTipText: model.isUser ? qsTr("Remove user") : qsTr("Add user")
                                     onClicked: {
                                         if (model.isUser) {
                                             plEditorW.editingModel.users.remove(index);

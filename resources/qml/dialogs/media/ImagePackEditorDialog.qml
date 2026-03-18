@@ -145,8 +145,8 @@ ApplicationWindow {
 
                         ImageButton {
                             hoverEnabled: true
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Change the overview image for this pack")
+                            toolTipText: qsTr("Change the overview image for this pack")
+                            toolTipVisible: hovered
                             anchors.left: parent.left
                             anchors.top: parent.top
                             anchors.leftMargin: Komai.paddingMedium

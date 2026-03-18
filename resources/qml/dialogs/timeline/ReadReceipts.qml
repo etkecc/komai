@@ -40,10 +40,18 @@ OverlayDialog {
                 width: ListView.view.width
                 height: receiptLayout.implicitHeight + Komai.paddingSmall * 2
                 hoverEnabled: true
-                ToolTip.visible: hovered
-                ToolTip.text: model.mxid
                 background: Rectangle {
                     color: del.hovered ? palette.dark : palette.window
+                }
+
+                KomaiToolTip {
+                    anchorItem: del
+                    anchorX: del.width / 2
+                    anchorY: del.height
+                    gapX: Komai.paddingMedium
+                    gapY: Komai.paddingMedium
+                    text: model.mxid
+                    requestedVisible: del.hovered
                 }
 
                 RowLayout {

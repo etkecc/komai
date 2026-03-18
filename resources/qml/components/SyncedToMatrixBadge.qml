@@ -20,9 +20,16 @@ Rectangle {
     border.color: palette.mid
     border.width: 1
 
-    ToolTip.text: qsTr("This setting is stored on your Matrix account and applies across all your devices which support it.")
-    ToolTip.visible: badgeHover.hovered
-    ToolTip.delay: 500
+    KomaiToolTip {
+        anchorItem: root
+        anchorX: root.width / 2
+        anchorY: root.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: qsTr("This setting is stored on your Matrix account and applies across all your devices which support it.")
+        delay: 500
+        requestedVisible: badgeHover.hovered
+    }
 
     HoverHandler {
         id: badgeHover

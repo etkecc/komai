@@ -78,8 +78,8 @@ Rectangle {
             buttonTextColor: "#000000"
             image: ":/icons/icons/ui/settings.svg"
             hoverEnabled: true
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Devices")
+            toolTipVisible: hovered
+            toolTipText: qsTr("Devices")
             onClicked: {
                 var dialog = devicesDialog.createObject(timelineRoot);
                 dialog.open();

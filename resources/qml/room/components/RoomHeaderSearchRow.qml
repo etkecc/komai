@@ -4,7 +4,6 @@
 
 import "../../ui"
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import cc.etke.komai
 
@@ -55,8 +54,8 @@ RowLayout {
     ImageButton {
         Layout.preferredHeight: root.topBarAvatarSize
         Layout.preferredWidth: root.topBarAvatarSize
-        ToolTip.text: qsTr("Close search")
-        ToolTip.visible: hovered
+        toolTipText: qsTr("Close search")
+        toolTipVisible: hovered
         image: ":/icons/icons/ui/dismiss.svg"
 
         onClicked: root.requestClose()

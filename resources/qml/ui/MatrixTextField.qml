@@ -7,6 +7,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import cc.etke.komai 1.0
+import "../components"
 
 ColumnLayout {
     id: c
@@ -22,6 +23,9 @@ ColumnLayout {
     property alias text: input.text
     property alias textPadding: input.padding
     property real radius: 0
+    property string toolTipText: ""
+    property bool toolTipVisible: hover.hovered && toolTipText.length > 0
+    property int toolTipDelay: Komai.tooltipDelay
 
     signal accepted
     signal editingFinished
@@ -34,9 +38,18 @@ ColumnLayout {
         input.forceActiveFocus();
     }
 
-    ToolTip.delay: Komai.tooltipDelay
-    ToolTip.visible: hover.hovered
     spacing: 0
+
+    KomaiToolTip {
+        anchorItem: c
+        anchorX: hover.point.position.x
+        anchorY: c.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: c.toolTipText
+        delay: c.toolTipDelay
+        requestedVisible: c.toolTipVisible
+    }
 
     onTextChanged: timer.restart()
 
@@ -184,6 +197,6 @@ ColumnLayout {
     HoverHandler {
         id: hover
 
-        enabled: c.ToolTip.text
+        enabled: c.toolTipText !== ""
     }
 }

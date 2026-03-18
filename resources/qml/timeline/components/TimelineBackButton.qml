@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Controls
 import cc.etke.komai
 
 ImageButton {
@@ -12,8 +11,8 @@ ImageButton {
     required property var roomModel
     required property bool showBackButton
 
-    ToolTip.text: qsTr("Back to room list")
-    ToolTip.visible: hovered
+    toolTipText: qsTr("Back to room list")
+    toolTipVisible: hovered
     anchors.left: parent.left
     anchors.margins: Komai.paddingMedium
     anchors.top: parent.top

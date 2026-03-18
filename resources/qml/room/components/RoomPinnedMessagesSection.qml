@@ -77,8 +77,8 @@ ScrollView {
                 Layout.alignment: Qt.AlignTop | Qt.AlignRight
                 Layout.preferredHeight: 16
                 Layout.preferredWidth: 16
-                ToolTip.text: qsTr("Unpin")
-                ToolTip.visible: hovered
+                toolTipText: qsTr("Unpin")
+                toolTipVisible: hovered
                 hoverEnabled: true
                 image: ":/icons/icons/ui/dismiss.svg"
                 visible: room.permissions.canChange(MtxEvent.PinnedEvents)

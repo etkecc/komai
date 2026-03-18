@@ -50,8 +50,8 @@ ColumnLayout {
     }
     ImageButton {
         Layout.alignment: Qt.AlignHCenter
-        ToolTip.text: qsTr("Settings")
-        ToolTip.visible: hovered
+        toolTipText: qsTr("Settings")
+        toolTipVisible: hovered
         Layout.bottomMargin: Komai.paddingMedium
 
         hoverEnabled: true
@@ -72,8 +72,8 @@ ColumnLayout {
             text: qsTr("%n member(s)", "", room ? room.roomMemberCount : 0)
         }
         ImageButton {
-            ToolTip.text: qsTr("View members of %1").arg(room ? room.roomName : "")
-            ToolTip.visible: hovered
+            toolTipText: qsTr("View members of %1").arg(room ? room.roomName : "")
+            toolTipVisible: hovered
             hoverEnabled: true
             image: ":/icons/icons/ui/people.svg"
 

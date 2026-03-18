@@ -6,7 +6,6 @@
 import "../../components" as Components
 import "../../ui"
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import cc.etke.komai 1.0
 
@@ -42,12 +41,18 @@ Components.OverlayDialog {
 
         MatrixText {
             text: qsTr("User events")
-            ToolTip.text: qsTr("Joins, leaves, avatar and name changes, bans, …")
-            ToolTip.visible: hh1.hovered
             Layout.fillWidth: true
 
             HoverHandler {
                 id: hh1
+            }
+
+            Components.KomaiToolTip {
+                anchorItem: parent
+                anchorX: parent.width / 2
+                anchorY: 0
+                text: qsTr("Joins, leaves, avatar and name changes, bans, …")
+                requestedVisible: hh1.hovered
             }
         }
 
@@ -59,12 +64,18 @@ Components.OverlayDialog {
 
         MatrixText {
             text: qsTr("Power level changes")
-            ToolTip.text: qsTr("Sent when a moderator is added/removed or the permissions of a room are changed.")
-            ToolTip.visible: hh2.hovered
             Layout.fillWidth: true
 
             HoverHandler {
                 id: hh2
+            }
+
+            Components.KomaiToolTip {
+                anchorItem: parent
+                anchorX: parent.width / 2
+                anchorY: 0
+                text: qsTr("Sent when a moderator is added/removed or the permissions of a room are changed.")
+                requestedVisible: hh2.hovered
             }
         }
 

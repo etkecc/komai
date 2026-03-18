@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 
 ComposerToolbarButton {
@@ -14,7 +13,7 @@ ComposerToolbarButton {
     readonly property bool uploadInProgress: !!(root.room && root.room.input && root.room.input.uploading === true)
 
     Layout.alignment: Qt.AlignBottom
-    ToolTip.text: qsTr("Attach an image or file")
+    toolTipText: qsTr("Attach an image or file")
     image: ":/icons/icons/ui/attach.svg"
     visible: showAllButtons
 

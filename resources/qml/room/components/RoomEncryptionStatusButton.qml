@@ -58,6 +58,7 @@ AbstractButton {
     Layout.preferredWidth: implicitWidth
     Layout.row: 1
     font.pointSize: Settings.uiFontSizePt
+    hoverEnabled: true
     leftPadding: buttonPaddingH
     rightPadding: buttonPaddingH
     topPadding: buttonPaddingV
@@ -69,9 +70,25 @@ AbstractButton {
     }
     visible: roomAvailable
 
-    ToolTip.delay: Komai.tooltipDelay
-    ToolTip.text: encryptionDialogTitle()
-    ToolTip.visible: hovered
+    TextMetrics {
+        id: toolTipMetrics
+
+        font: encryptionButton.font
+        text: encryptionButton.encryptionDialogTitle()
+    }
+
+    Components.KomaiToolTip {
+        anchorItem: encryptionButton
+        anchorX: encryptionButton.width / 2
+        anchorY: encryptionButton.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: encryptionButton.encryptionDialogTitle()
+        delay: Komai.tooltipDelay
+        requestedVisible: encryptionButton.hovered
+        width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
+                        (encryptionButton.Window.window ? encryptionButton.Window.window.width : 500) * 0.5)
+    }
 
     function encryptionDialogTitle() {
         if (!isEncrypted)
@@ -123,13 +140,11 @@ AbstractButton {
         spacing: Komai.paddingSmall
 
         EncryptionIndicator {
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: encryptionButton.encryptionDialogTitle()
-            ToolTip.visible: encryptionButton.hovered && !encryptionButton.hasLabel
             enabled: false
             encrypted: isEncrypted
             hovered: encryptionButton.hovered
             trust: trustlevel
+            toolTipText: ""
             unencryptedColor: palette.buttonText
             unencryptedHoverColor: palette.brightText
             encryptedHoverEnabled: true

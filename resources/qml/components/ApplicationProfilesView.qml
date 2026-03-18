@@ -430,9 +430,9 @@ Item {
                             display: row.width >= 500 ? AbstractButton.TextBesideIcon : AbstractButton.IconOnly
                             icon.source: "qrc:/icons/icons/ui/delete.svg"
                             enabled: row.canDelete
-                            ToolTip.delay: Komai.tooltipDelay
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Delete")
+                            toolTipDelay: Komai.tooltipDelay
+                            toolTipVisible: hovered
+                            toolTipText: qsTr("Delete")
                             onClicked: {
                                 root.clearStatus();
                                 root.pendingDeleteProfileId = row.modelData.id;

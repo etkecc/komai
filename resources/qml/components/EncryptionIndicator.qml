@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Window
 import cc.etke.komai
 
@@ -35,7 +34,7 @@ Image {
     property bool encryptedHoverEnabled: false
     property string unencryptedIcon: ":/icons/icons/ui/shield-regular-cross.svg"
 
-    ToolTip.text: {
+    property string toolTipText: {
         if (!encrypted)
             return qsTr("This message is not encrypted!");
         switch (trust) {
@@ -49,7 +48,16 @@ Image {
             return qsTr("Encrypted by an unverified device.");
         }
     }
-    ToolTip.visible: stateImg.hovered
+
+    KomaiToolTip {
+        anchorItem: stateImg
+        anchorX: stateImg.width / 2
+        anchorY: stateImg.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: stateImg.toolTipText
+        requestedVisible: stateImg.hovered && stateImg.toolTipText.length > 0
+    }
     fillMode: Image.PreserveAspectFit
     height: 16
     source: {

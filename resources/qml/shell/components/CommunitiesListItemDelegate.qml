@@ -26,9 +26,17 @@ ItemDelegate {
     property color importantText: palette.text
     property color unimportantText: palette.buttonText
 
-    ToolTip.delay: Komai.tooltipDelay
-    ToolTip.text: model.tooltip
-    ToolTip.visible: hovered && collapsed
+    KomaiToolTip {
+        anchorItem: communityItem
+        anchorX: communityItem.width / 2
+        anchorY: communityItem.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: communityItem.model.tooltip
+        delay: Komai.tooltipDelay
+        requestedVisible: communityItem.hovered && communityItem.collapsed
+    }
+
     height: Komai.navigationRowHeight
     state: "normal"
     width: ListView.view.width - scrollbarReservedWidth
@@ -106,9 +114,9 @@ ItemDelegate {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: lineSpacing
             Layout.preferredWidth: lineSpacing
-            ToolTip.delay: Komai.tooltipDelay
-            ToolTip.text: model.collapsed ? qsTr("Expand") : qsTr("Collapse")
-            ToolTip.visible: hovered
+            toolTipDelay: Komai.tooltipDelay
+            toolTipText: model.collapsed ? qsTr("Expand") : qsTr("Collapse")
+            toolTipVisible: hovered
             hoverEnabled: true
             image: model.collapsed ? ":/icons/icons/ui/collapsed.svg" : ":/icons/icons/ui/expanded.svg"
             visible: !collapsed && model.collapsible

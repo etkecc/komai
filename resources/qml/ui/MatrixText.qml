@@ -3,6 +3,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import "../components"
 import QtQuick
 import QtQuick.Controls
 import cc.etke.komai
@@ -11,9 +12,8 @@ TextArea {
     id: r
 
     property int cursorShape: Qt.ArrowCursor
+    property point hoverPoint: Qt.point(width / 2, height)
 
-    ToolTip.text: Komai.punyLink(hoveredLink)
-    ToolTip.visible: hoveredLink || false
     background: null
     font.pointSize: Settings.uiFontSizePt
     bottomInset: 0
@@ -31,6 +31,25 @@ TextArea {
     topInset: 0
     topPadding: 0
     wrapMode: Text.Wrap
+
+    TextMetrics {
+        id: linkToolTipMetrics
+
+        font: r.font
+        text: Komai.punyLink(r.hoveredLink)
+    }
+
+    KomaiToolTip {
+        anchorItem: r
+        anchorX: r.hoverPoint.x
+        anchorY: r.hoverPoint.y
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: linkToolTipMetrics.text
+        requestedVisible: r.hoveredLink.length > 0
+        width: Math.min(linkToolTipMetrics.advanceWidth + leftPadding + rightPadding,
+                        (r.Window.window ? r.Window.window.width : 500) * 0.5)
+    }
 
     // Setting a tooltip delay makes the hover text empty .-.
     //ToolTip.delay: Komai.tooltipDelay
@@ -57,5 +76,10 @@ TextArea {
 
         anchors.fill: parent
         cursorShape: hoveredLink ? Qt.PointingHandCursor : r.cursorShape
+    }
+
+    HoverHandler {
+        onPointChanged: if (hovered)
+            r.hoverPoint = Qt.point(point.position.x, point.position.y)
     }
 }

@@ -5,12 +5,17 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
 import cc.etke.komai 1.0
 
 Button {
     id: control
 
     property int cursor: Qt.PointingHandCursor
+    property string toolTipText: ""
+    property bool toolTipVisible: hovered && toolTipText.length > 0
+    property int toolTipDelay: 0
+    property real toolTipAnchorX: width / 2
     readonly property bool activeState: hovered || visualFocus
     readonly property int controlHeight: Math.max(36, Math.round(Settings.uiFontSizePt * 2.7))
     readonly property color normalBackground: palette.alternateBase
@@ -60,6 +65,26 @@ Button {
         if (resolved.startsWith("qrc:/"))
             resolved = ":" + resolved.substring(4);
         return "image://colorimage/" + resolved + "?" + foregroundColor;
+    }
+
+    TextMetrics {
+        id: toolTipMetrics
+
+        font: control.font
+        text: control.toolTipText
+    }
+
+    KomaiToolTip {
+        anchorItem: control
+        anchorX: control.toolTipAnchorX
+        anchorY: control.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: control.toolTipText
+        delay: control.toolTipDelay
+        requestedVisible: control.toolTipVisible
+        width: Math.min(toolTipMetrics.advanceWidth + leftPadding + rightPadding,
+                        (control.Window.window ? control.Window.window.width : 500) * 0.5)
     }
 
     background: Rectangle {
@@ -118,6 +143,11 @@ Button {
     KomaiCursorShape {
         anchors.fill: parent
         cursorShape: control.enabled ? control.cursor : Qt.ArrowCursor
+    }
+
+    HoverHandler {
+        onPointChanged: if (hovered)
+            control.toolTipAnchorX = point.position.x
     }
 
 }

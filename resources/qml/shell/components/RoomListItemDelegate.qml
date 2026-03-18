@@ -49,9 +49,18 @@ ItemDelegate {
     readonly property color draftSelectedBackground: Qt.rgba((palette.highlight.r * 0.75) + (draftActivityBase.r * 0.25), (palette.highlight.g * 0.75) + (draftActivityBase.g * 0.25), (palette.highlight.b * 0.75) + (draftActivityBase.b * 0.25), 1)
     property int hoverPrewarmDelayMs: 100
     property color unimportantText: palette.buttonText
-    ToolTip.delay: Komai.tooltipDelay
-    ToolTip.text: roomName
-    ToolTip.visible: hovered && collapsed
+
+    KomaiToolTip {
+        anchorItem: roomItem
+        anchorX: roomItem.width / 2
+        anchorY: roomItem.height
+        gapX: Komai.paddingMedium
+        gapY: Komai.paddingMedium
+        text: roomItem.roomName
+        delay: Komai.tooltipDelay
+        requestedVisible: roomItem.hovered && roomItem.collapsed
+    }
+
     height: Komai.navigationRowHeight
     state: "normal"
     width: ListView.view.width - scrollbarReservedWidth

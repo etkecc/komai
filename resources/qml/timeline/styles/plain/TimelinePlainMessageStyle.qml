@@ -20,6 +20,7 @@ TimelineBubbleMessageStyle {
     messageBubbleHorizontalPadding: Komai.paddingSmall
     messageBubbleVerticalPadding: 0
     alignMessageTextToSide: true
-    reserveAvatarRowHeight: true
+    reserveAvatarRowHeight: startsNewMessageGroup
     pushMetadataToEdge: true
+    alignBubbleToTop: true
 }

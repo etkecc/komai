@@ -36,6 +36,7 @@ TimelineMessageStyleBase {
     property bool alignMessageTextToSide: false
     property bool reserveAvatarRowHeight: true
     property bool pushMetadataToEdge: false
+    property bool alignBubbleToTop: false
 
     property bool shouldShowMessageAvatar: !wrapper.isStateEvent && (!wrapper.isSender || Settings.timelineMessagesLayoutShowOwnAvatar)
     property int avatarMargin: (shouldShowMessageAvatar ? (Komai.listIconSize * (Settings.timelineMessagesLayoutSmallAvatars ? 0.5 : 1) + 8) : 0) // align with avatar
@@ -202,7 +203,7 @@ TimelineMessageStyleBase {
             id: gridContainer
 
             width: wrapper.width - wrapper.avatarMargin
-            implicitHeight: Math.max(messageBubble.implicitHeight, metadataOuter.visible ? metadataOuter.height : 0)
+            implicitHeight: Math.max(messageBubble.implicitHeight, metadataOuter.visible ? metadataOuter.height : 0, (wrapper.reserveAvatarRowHeight && messageUserAvatar.visible) ? messageUserAvatar.height : 0)
             x: wrapper.avatarIsOnRight ? 0 : wrapper.avatarMargin
             y: section.visible && section.active ? section.y + section.height : 0
 
@@ -227,8 +228,9 @@ TimelineMessageStyleBase {
                 anchors.left: undefined
                 anchors.right: undefined
                 x: (wrapper.isStateEvent || !wrapper.messageIsRightAligned) ? 0 : (parent.width - width)
-                anchors.bottom: wrapper.isStateEvent ? undefined : parent.bottom
-                anchors.verticalCenter: wrapper.isStateEvent ? parent.verticalCenter : undefined
+                y: wrapper.isStateEvent
+                    ? Math.round((parent.height - height) / 2)
+                    : (wrapper.alignBubbleToTop ? 0 : (parent.height - height))
 
                 property color roomColor: wrapper.resolveUserColor(wrapper.userId, wrapper.themeBaseColor)
                 property var roomBubblePalette: wrapper.resolveUserBubblePalette(wrapper.userId, roomColor)

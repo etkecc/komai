@@ -246,7 +246,7 @@ Item {
             ? null
             : (chatRoot.filteringRequested ? filteredTimeline : chatRoot.activeRoomModel)
         //pixelAligned: true
-        spacing: Komai.uiLayoutCompactMode ? Komai.paddingSmall : Math.round(1.5 * Komai.paddingSmall)
+        spacing: Komai.uiLayoutCompactMode ? 2 : Math.round(1.5 * Komai.paddingSmall)
         verticalLayoutDirection: ListView.BottomToTop
 
         property real lastScrollPos: 0

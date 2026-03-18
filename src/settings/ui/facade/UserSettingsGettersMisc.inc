@@ -30,6 +30,8 @@
     uint dbMaxStores() const;
     bool usesFileSecretsProvider() const;
     bool secretsProviderFallbackWarningVisible() const;
+    bool networkMrsEnabled() const;
+    QString networkMrsServerName() const;
     bool networkHttp3Enabled() const;
     settings::core::SettingsStore &mutableCoreStore();
     const settings::core::SettingsStore &coreStore() const;

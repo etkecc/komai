@@ -19,6 +19,25 @@ UserSettings::networkTlsEnableCertificateValidation() const
 }
 
 bool
+UserSettings::networkMrsEnabled() const
+{
+    if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::NetworkMrsEnabled);
+        value.has_value())
+        return *value;
+    return networkMrsEnabled_;
+}
+
+QString
+UserSettings::networkMrsServerName() const
+{
+    if (const auto value =
+          coreStore_.valueAs<std::string>(settings::core::SettingId::NetworkMrsServerName);
+        value.has_value())
+        return QString::fromStdString(*value);
+    return networkMrsServerName_;
+}
+
+bool
 UserSettings::networkHttp3Enabled() const
 {
     if (const auto value = coreStore_.valueAs<bool>(settings::core::SettingId::NetworkHttp3Enabled);

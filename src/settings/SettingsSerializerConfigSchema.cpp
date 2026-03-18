@@ -61,6 +61,7 @@ const StringSettingDescriptor StringSettings[] = {
 #include "SettingsSerializerConfigSchemaStringCalls.inc"
 #include "SettingsSerializerConfigSchemaStringIntegrations.inc"
 #include "SettingsSerializerConfigSchemaStringLookFeel.inc"
+#include "SettingsSerializerConfigSchemaStringNetwork.inc"
 #include "SettingsSerializerConfigSchemaStringTimeline.inc"
 };
 

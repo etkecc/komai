@@ -20,7 +20,7 @@ Item {
     readonly property string secretsStorageDocsUrl: "https://github.com/etkecc/komai/blob/main/docs/user-guide/settings/secret-storage.md"
     readonly property string komaiProjectLink: "<a href=\"https://github.com/etkecc/komai\">Komai</a>"
     readonly property string forkBaseProjectLink: "<a href=\"https://nheko.im\">nheko</a>"
-    readonly property string etkeProjectLink: "<a href=\"https://etke.cc/\">etke.cc</a>"
+    readonly property string etkeProjectLink: "<a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=welcome\">etke.cc</a>"
 
     Onboarding.OnboardingScrollPage {
         id: scroll

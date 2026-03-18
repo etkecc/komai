@@ -14,3 +14,5 @@
    SettingKey::NetworkTlsEnableCertificateValidation,
    false},
   {SettingId::NetworkHttp3Enabled, SettingScope::Config, SettingKey::NetworkHttp3Enabled, false},
+  {SettingId::NetworkMrsEnabled, SettingScope::Config, SettingKey::NetworkMrsEnabled, false},
+  {SettingId::NetworkMrsServerName, SettingScope::Config, SettingKey::NetworkMrsServerName, false},

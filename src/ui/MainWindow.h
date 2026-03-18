@@ -92,6 +92,7 @@ public:
     //! Request showing the user settings page from any app page/state.
     Q_INVOKABLE void showUserSettingsPage();
     Q_INVOKABLE void showUserSettingsPage(int initialTab);
+    Q_INVOKABLE void openRoomDirectory() { emit openRoomDirectoryRequested(); }
 
 #ifdef KOMAI_DBUS_SYS
     bool dbusAvailable() const { return dbusAvailable_; }
@@ -131,6 +132,7 @@ signals:
     void showUserSettingsPageRequested();
     void showUserSettingsPageWithTabRequested(int initialTab);
     void showProfileSwitcherPageRequested();
+    void openRoomDirectoryRequested();
 
 private:
     void showDialog(QWidget *dialog);

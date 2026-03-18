@@ -80,6 +80,8 @@ enum class SettingId
     CallsScreenshareShowCursor,
     NetworkTlsEnableCertificateValidation,
     NetworkHttp3Enabled,
+    NetworkMrsEnabled,
+    NetworkMrsServerName,
     TimelineMessagesStyle,
     TimelineMessagesPositioning,
     TimelineUserColorCodingPolicy,

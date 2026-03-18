@@ -272,6 +272,12 @@ class UserSettings final : public QObject
                  dbMaxSizeBytesChanged)
     Q_PROPERTY(uint dbMaxStores READ dbMaxStores WRITE setDbMaxStores NOTIFY dbMaxStoresChanged)
 
+    // Matrix Rooms Search
+    Q_PROPERTY(bool networkMrsEnabled READ networkMrsEnabled WRITE setNetworkMrsEnabled NOTIFY
+                 networkMrsEnabledChanged)
+    Q_PROPERTY(QString networkMrsServerName READ networkMrsServerName WRITE setNetworkMrsServerName
+                 NOTIFY networkMrsServerNameChanged)
+
     // Experimental features
     Q_PROPERTY(bool networkHttp3Enabled READ networkHttp3Enabled WRITE setNetworkHttp3Enabled NOTIFY
                  networkHttp3EnabledChanged)
@@ -571,6 +577,8 @@ public:
     void setWindowHeight(int height);
     void setDbMaxSizeBytes(qulonglong size);
     void setDbMaxStores(uint count);
+    void setNetworkMrsEnabled(bool state);
+    void setNetworkMrsServerName(QString serverName);
     void setNetworkHttp3Enabled(bool state);
     void clearAuth();
     bool hasPersistedSessionIdentity() const;
@@ -711,6 +719,8 @@ signals:
     void windowHeightChanged(int height);
     void dbMaxSizeBytesChanged(qulonglong size);
     void dbMaxStoresChanged(uint count);
+    void networkMrsEnabledChanged(bool state);
+    void networkMrsServerNameChanged(QString serverName);
     void networkHttp3EnabledChanged(bool state);
     void notificationsAccountEnabledChanged(bool state);
     void secretsProviderFallbackWarningVisibleChanged(bool visible);

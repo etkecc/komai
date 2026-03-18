@@ -7,7 +7,9 @@
 
 #include <QAbstractListModel>
 #include <QQmlEngine>
+#include <QSet>
 #include <QString>
+#include <QStringList>
 #include <string>
 #include <vector>
 
@@ -28,7 +30,12 @@ signals:
                            const std::string &next_batch,
                            const std::string &search_term,
                            const std::string &server,
-                           const std::string &since);
+                           const std::string &since,
+                           int totalRoomCountEstimate);
+    void fetchError(const QString &errorMessage,
+                    const std::string &search_term,
+                    const std::string &server,
+                    const std::string &since);
 };
 
 class RoomDirectoryModel : public QAbstractListModel
@@ -39,6 +46,11 @@ class RoomDirectoryModel : public QAbstractListModel
     Q_PROPERTY(bool loadingMoreRooms READ loadingMoreRooms NOTIFY loadingMoreRoomsChanged)
     Q_PROPERTY(
       bool reachedEndOfPagination READ reachedEndOfPagination NOTIFY reachedEndOfPaginationChanged)
+    Q_PROPERTY(QString errorString READ errorString NOTIFY errorStringChanged)
+    Q_PROPERTY(QString server READ server NOTIFY serverChanged)
+    Q_PROPERTY(bool hasResults READ hasResults NOTIFY hasResultsChanged)
+    Q_PROPERTY(
+      int totalRoomCountEstimate READ totalRoomCountEstimate NOTIFY totalRoomCountEstimateChanged)
 
 public:
     explicit RoomDirectoryModel(QObject *parent = nullptr, const std::string &server = "");
@@ -69,13 +81,26 @@ public:
 
     bool reachedEndOfPagination() const { return reachedEndOfPagination_; }
 
+    QString errorString() const { return errorString_; }
+
+    QString server() const { return QString::fromStdString(server_); }
+
+    bool hasResults() const { return !publicRoomsData_.empty(); }
+
+    int totalRoomCountEstimate() const { return totalRoomCountEstimate_; }
+
     void fetchMore(const QModelIndex &) override;
 
     Q_INVOKABLE void joinRoom(const int &index = -1);
+    Q_INVOKABLE QStringList knownServers(const QString &prefix) const;
 
 signals:
     void loadingMoreRoomsChanged();
     void reachedEndOfPaginationChanged();
+    void errorStringChanged();
+    void serverChanged();
+    void hasResultsChanged();
+    void totalRoomCountEstimateChanged();
 
 public slots:
     void setMatrixServer(const QString &s = QLatin1String(""));
@@ -87,7 +112,13 @@ private slots:
                       const std::string &next_batch,
                       const std::string &search_term,
                       const std::string &server,
-                      const std::string &since);
+                      const std::string &since,
+                      int totalRoomCountEstimate);
+
+    void handleFetchError(const QString &errorMessage,
+                          const std::string &search_term,
+                          const std::string &server,
+                          const std::string &since);
 
 private:
     bool canJoinRoom(const QString &room) const;
@@ -102,6 +133,10 @@ private:
     bool loadingMoreRooms_{false};
     bool reachedEndOfPagination_{false};
     std::vector<mtx::responses::PublicRoomsChunk> publicRoomsData_;
+    QString errorString_;
+    int totalRoomCountEstimate_{-1};
+    mutable QStringList cachedKnownServers_;
+    mutable bool knownServersCached_{false};
 
     std::vector<std::string> getViasForRoom(const std::vector<std::string> &room);
     void resetDisplayedData();

@@ -1,4 +1,6 @@
 X(NetworkPresenceStatusPolicy, static_cast<int>(settings.networkPresenceStatusPolicy()))
 X(NetworkSpacesMaintainJoinMetadata, settings.networkSpacesMaintainJoinMetadata())
 X(NetworkTlsEnableCertificateValidation, settings.networkTlsEnableCertificateValidation())
+X(NetworkMrsEnabled, settings.networkMrsEnabled())
+X(NetworkMrsServerName, settings.networkMrsServerName().toStdString())
 X(NetworkHttp3Enabled, settings.networkHttp3Enabled())

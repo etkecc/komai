@@ -117,6 +117,9 @@ qulonglong dbMaxSizeBytes_                  = settings::core::definitions::kDefa
 uint dbMaxStores_                           = settings::core::definitions::kDefaultMaxStores;
 bool usesFileSecretsProvider_               = false;
 bool secretsProviderFallbackWarningVisible_ = false;
+bool networkMrsEnabled_ = settings::core::definitions::kDefaultNetworkMrsEnabled;
+QString networkMrsServerName_ =
+  QString::fromLatin1(settings::core::definitions::kDefaultNetworkMrsServerName);
 bool networkHttp3Enabled_ = settings::core::definitions::kDefaultNetworkHttp3Enabled;
 QMap<QString, QString> secrets_;
 settings::core::SettingsStore coreStore_;

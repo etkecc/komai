@@ -87,6 +87,10 @@ inline constexpr bool kDefaultCertificateValidationEnabled =
   settings::core::definitions::kDefaultCertificateValidationEnabled;
 inline constexpr bool kDefaultNetworkHttp3Enabled =
   settings::core::definitions::kDefaultNetworkHttp3Enabled;
+inline constexpr bool kDefaultNetworkMrsEnabled =
+  settings::core::definitions::kDefaultNetworkMrsEnabled;
+inline constexpr const char *kDefaultNetworkMrsServerName =
+  settings::core::definitions::kDefaultNetworkMrsServerName;
 inline constexpr double kDefaultScaleFactor = settings::core::definitions::kDefaultScaleFactor;
 inline constexpr double kDefaultFontSizePt  = settings::core::definitions::kDefaultFontSizePt;
 inline constexpr double kDefaultTimelineMediaAudioPlaybackSpeed =

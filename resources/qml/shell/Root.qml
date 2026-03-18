@@ -126,6 +126,21 @@ Pane {
         id: publicRooms
 
     }
+
+    Loader {
+        id: roomDirectoryLoader
+
+        active: false
+        source: "qrc:/resources/qml/dialogs/room/RoomDirectory.qml"
+        onLoaded: item.appRoot = timelineRoot
+    }
+
+    function openRoomDirectory() {
+        if (!roomDirectoryLoader.active)
+            roomDirectoryLoader.active = true;
+        if (roomDirectoryLoader.item)
+            roomDirectoryLoader.item.open();
+    }
     AppShortcuts {
         componentCatalog: componentCatalog
         timelineRoot: rootTimeline
@@ -267,6 +282,9 @@ Pane {
         }
         function onShowProfileSwitcherPageRequested() {
             mainWindow.replace(null, profileSwitcherPage);
+        }
+        function onOpenRoomDirectoryRequested() {
+            timelineRoot.openRoomDirectory();
         }
 
         target: MainWindow

@@ -9,7 +9,7 @@ Generated from:
 - `src/settings/ui/facade/UserSettingsCoreStoreBridgeEntries*.inc`
 - `src/settings/SettingKeys.h`
 
-Rows: 84
+Rows: 86
 
 Naming mismatch summary:
 - Total hard mismatches (heuristic `lcfirst(SettingId)` vs runtime getter name): 0
@@ -47,6 +47,8 @@ Naming mismatch summary:
 | `IntegrationsSystemTrayAutostart` | `settings.integrationsSystemTrayAutostart()` | `IntegrationsSystemTrayAutostart` | `integrations.system_tray.autostart` |
 | `IntegrationsSystemTrayEnabled` | `settings.integrationsSystemTrayEnabled()` | `IntegrationsSystemTrayEnabled` | `integrations.system_tray.enabled` |
 | `NetworkHttp3Enabled` | `settings.networkHttp3Enabled()` | `NetworkHttp3Enabled` | `network.http3.enabled` |
+| `NetworkMrsEnabled` | `settings.networkMrsEnabled()` | `NetworkMrsEnabled` | `network.mrs.enabled` |
+| `NetworkMrsServerName` | `settings.networkMrsServerName().toStdString()` | `NetworkMrsServerName` | `network.mrs.server_name` |
 | `NetworkPresenceStatusPolicy` | `static_cast<int>(settings.networkPresenceStatusPolicy())` | `NetworkPresenceStatusPolicy` | `network.presence.status_policy` |
 | `NetworkSpacesMaintainJoinMetadata` | `settings.networkSpacesMaintainJoinMetadata()` | `NetworkSpacesMaintainJoinMetadata` | `network.spaces.maintain_join_metadata` |
 | `NetworkTlsEnableCertificateValidation` | `settings.networkTlsEnableCertificateValidation()` | `NetworkTlsEnableCertificateValidation` | `network.tls.enable_certificate_validation` |

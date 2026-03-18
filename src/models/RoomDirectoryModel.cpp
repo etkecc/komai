@@ -58,6 +58,10 @@ RoomDirectoryModel::resetDisplayedData()
     publicRoomsData_.clear();
 
     endResetModel();
+
+    totalRoomCountEstimate_ = -1;
+    emit totalRoomCountEstimateChanged();
+    emit hasResultsChanged();
 }
 
 void
@@ -65,7 +69,11 @@ RoomDirectoryModel::setMatrixServer(const QString &s)
 {
     server_ = s.toStdString();
 
-    nhlog::ui()->debug("Received matrix server: {}", server_);
+    nhlog::ui()->info("Received matrix server: {}", server_);
+
+    errorString_.clear();
+    emit errorStringChanged();
+    emit serverChanged();
 
     resetDisplayedData();
 }
@@ -75,7 +83,10 @@ RoomDirectoryModel::setSearchTerm(const QString &f)
 {
     userSearchString_ = f.toStdString();
 
-    nhlog::ui()->debug("Received user query: {}", userSearchString_);
+    nhlog::ui()->info("Received user query: {}", userSearchString_);
+
+    errorString_.clear();
+    emit errorStringChanged();
 
     resetDisplayedData();
 }
@@ -114,7 +125,7 @@ RoomDirectoryModel::joinRoom(const int &index)
 {
     if (index >= 0 && static_cast<size_t>(index) < publicRoomsData_.size()) {
         const auto &chunk = publicRoomsData_[index];
-        nhlog::ui()->debug("'Joining room {}", chunk.room_id);
+        nhlog::ui()->info("Joining room {}", chunk.room_id);
         ChatPage::instance()->joinRoomVia(chunk.room_id, getViasForRoom(chunk.aliases));
     }
 }
@@ -150,7 +161,7 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
     if (!canFetchMore_)
         return;
 
-    nhlog::net()->debug("Fetching more rooms from mtxclient...");
+    nhlog::net()->info("Fetching more rooms from mtxclient...");
 
     mtx::requests::PublicRooms req;
     req.limit                      = limit_;
@@ -170,6 +181,10 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
             &FetchRoomsChunkFromDirectoryJob::fetchedRoomsBatch,
             this,
             &RoomDirectoryModel::displayRooms);
+    connect(job.data(),
+            &FetchRoomsChunkFromDirectoryJob::fetchError,
+            this,
+            &RoomDirectoryModel::handleFetchError);
 
     http::client()->post_public_rooms(
       req,
@@ -180,13 +195,27 @@ RoomDirectoryModel::fetchMore(const QModelIndex &)
                                   mtx::errors::to_string(err->matrix_error.errcode),
                                   err->matrix_error.error,
                                   err->parse_error);
+              QString errorMsg;
+              if (!err->matrix_error.error.empty())
+                  errorMsg = QString::fromStdString(err->matrix_error.error);
+              else if (!err->parse_error.empty())
+                  errorMsg = QString::fromStdString(err->parse_error);
+              else
+                  errorMsg =
+                    QString::fromStdString(mtx::errors::to_string(err->matrix_error.errcode));
+              emit job->fetchError(
+                errorMsg, req.filter.generic_search_term, requested_server, req.since);
           } else {
-              nhlog::net()->debug("signalling chunk to GUI thread");
-              emit job->fetchedRoomsBatch(res.chunk,
-                                          res.next_batch,
-                                          req.filter.generic_search_term,
-                                          requested_server,
-                                          req.since);
+              nhlog::net()->info("signalling chunk to GUI thread");
+              emit job->fetchedRoomsBatch(
+                res.chunk,
+                res.next_batch,
+                req.filter.generic_search_term,
+                requested_server,
+                req.since,
+                res.total_room_count_estimate.has_value()
+                  ? static_cast<int>(res.total_room_count_estimate.value())
+                  : -1);
           }
       },
       requested_server);
@@ -197,7 +226,8 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
                                  const std::string &next_batch,
                                  const std::string &search_term,
                                  const std::string &server,
-                                 const std::string &since)
+                                 const std::string &since,
+                                 int totalRoomCountEstimate)
 {
     if (search_term != this->userSearchString_ || since != this->prevBatch_ ||
         server != this->server_) {
@@ -207,10 +237,19 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
     loadingMoreRooms_ = false;
     emit loadingMoreRoomsChanged();
 
-    nhlog::net()->debug("Prev batch: {} | Next batch: {}", prevBatch_, next_batch);
+    if (totalRoomCountEstimate != totalRoomCountEstimate_) {
+        totalRoomCountEstimate_ = totalRoomCountEstimate;
+        emit totalRoomCountEstimateChanged();
+    }
+
+    nhlog::net()->info("Prev batch: {} | Next batch: {}", prevBatch_, next_batch);
 
     if (fetched_rooms.empty()) {
-        nhlog::net()->error("mtxclient helper thread yielded empty chunk!");
+        nhlog::net()->info("mtxclient helper thread yielded empty chunk!");
+        canFetchMore_           = false;
+        reachedEndOfPagination_ = true;
+        emit reachedEndOfPaginationChanged();
+        emit hasResultsChanged();
         return;
     }
 
@@ -221,6 +260,8 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
       this->publicRoomsData_.end(), fetched_rooms.begin(), fetched_rooms.end());
     endInsertRows();
 
+    emit hasResultsChanged();
+
     if (next_batch.empty()) {
         canFetchMore_           = false;
         reachedEndOfPagination_ = true;
@@ -229,7 +270,57 @@ RoomDirectoryModel::displayRooms(std::vector<mtx::responses::PublicRoomsChunk> f
 
     prevBatch_ = next_batch;
 
-    nhlog::ui()->debug("Finished loading rooms");
+    nhlog::ui()->info("Finished loading rooms");
+}
+
+void
+RoomDirectoryModel::handleFetchError(const QString &errorMessage,
+                                     const std::string &search_term,
+                                     const std::string &server,
+                                     const std::string &since)
+{
+    if (search_term != this->userSearchString_ || since != this->prevBatch_ ||
+        server != this->server_) {
+        return;
+    }
+
+    loadingMoreRooms_ = false;
+    emit loadingMoreRoomsChanged();
+
+    canFetchMore_           = false;
+    reachedEndOfPagination_ = true;
+    emit reachedEndOfPaginationChanged();
+
+    errorString_ = errorMessage;
+    emit errorStringChanged();
+}
+
+QStringList
+RoomDirectoryModel::knownServers(const QString &prefix) const
+{
+    if (!knownServersCached_) {
+        QSet<QString> serverSet;
+        auto rooms = cache::roomNamesAndAliases();
+        for (const auto &room : rooms) {
+            auto colonPos = room.id.find(':');
+            if (colonPos != std::string::npos && colonPos + 1 < room.id.size()) {
+                serverSet.insert(QString::fromStdString(room.id.substr(colonPos + 1)));
+            }
+        }
+        cachedKnownServers_ = serverSet.values();
+        cachedKnownServers_.sort(Qt::CaseInsensitive);
+        knownServersCached_ = true;
+    }
+
+    if (prefix.isEmpty())
+        return cachedKnownServers_;
+
+    QStringList filtered;
+    for (const auto &s : cachedKnownServers_) {
+        if (s.startsWith(prefix, Qt::CaseInsensitive))
+            filtered.append(s);
+    }
+    return filtered;
 }
 
 #include "moc_RoomDirectoryModel.cpp"

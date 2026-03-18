@@ -20,7 +20,7 @@ Menu {
         timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog);
     }
     function openRoomDirectoryDialog() {
-        timelineRoot.showCatalogDialog(componentCatalog.roomDirectoryDialog);
+        timelineRoot.openRoomDirectory();
     }
 
     Component.onCompleted: {
@@ -98,7 +98,7 @@ Menu {
             })
     }
     MenuItem {
-        text: qsTr("Room directory")
+        text: qsTr("Explore public rooms")
         icon.source: "qrc:/icons/icons/ui/room-directory.svg"
         onTriggered: root.openRoomDirectoryDialog()
     }

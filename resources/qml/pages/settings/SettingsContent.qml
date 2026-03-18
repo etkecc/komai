@@ -459,6 +459,8 @@ Item {
                                     var info = Komai.localCacheInfo();
                                     if (info.mediaCachePathExists)
                                         Komai.openLocalPath(info.mediaCachePath);
+                                } else if (link === "komai://rooms-directory") {
+                                    MainWindow.openRoomDirectory();
                                 } else {
                                     Qt.openUrlExternally(link);
                                 }

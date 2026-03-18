@@ -132,7 +132,7 @@ Item {
                             wrapMode: Text.Wrap
                             font.pointSize: Settings.uiFontSizePt * 0.95
                             text: "<style>a { color: " + palette.highlight + "; }</style>" +
-                                  qsTr("<a href=\"https://matrix.org/ecosystem/hosting/\">Hosting providers</a> exist, including the makers of this app — <a href=\"https://etke.cc/\">etke.cc</a>")
+                                  qsTr("<a href=\"https://matrix.org/ecosystem/hosting/\">Hosting providers</a> exist, including the makers of this app — <a href=\"https://etke.cc/?utm_source=komai&utm_medium=app&utm_campaign=register\">etke.cc</a>")
                             color: palette.text
                             onLinkActivated: function(link) { Qt.openUrlExternally(link); }
 

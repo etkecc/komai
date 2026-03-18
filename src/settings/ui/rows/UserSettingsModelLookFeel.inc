@@ -283,34 +283,3 @@
       nullptr,
       SidebarsRoomListUnreadDetectionPolicy,
       SettingKey::SidebarsRoomListUnreadDetectionPolicy),
-    // IntegrationsSystemTraySection
-    { QT_TR_NOOP("System tray"), nullptr, SM::SectionTitle, SM::TabIntegrations,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // IntegrationsTray
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Minimize to tray",
-      QT_TR_NOOP("Keep the application running in the background after closing the client window."),
-      SM::TabIntegrations, integrationsSystemTrayEnabled, setIntegrationsSystemTrayEnabled, nullptr, IntegrationsSystemTrayEnabled, SettingKey::IntegrationsSystemTrayEnabled),
-    // IntegrationsStartInTray
-    SIMPLE_BOOL_CONFIG_ID_SETTING(
-      "Start in tray",
-      QT_TR_NOOP("Start the application in the background without showing the client window."),
-      SM::TabIntegrations, integrationsSystemTrayAutostart, setIntegrationsSystemTrayAutostart, nullptr, IntegrationsSystemTrayAutostart, SettingKey::IntegrationsSystemTrayAutostart),
-#ifdef KOMAI_DBUS_SYS
-    // IntegrationsDbusSection
-    { QT_TR_NOOP("D-Bus"), nullptr, SM::SectionTitle, SM::TabIntegrations,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },
-    // IntegrationsDbusApiAccess
-    { QT_TR_NOOP("D-Bus access"),
-      QT_TR_NOOP("Choose how much D-Bus access Komai exposes to local callers."),
-      SM::Options, SM::TabIntegrations,
-      integrationsDbusApiAccessValue,
-      setIntegrationsDbusApiAccessValue,
-      {}, {}, {},
-      integrationsDbusApiAccessValues,
-      nullptr,
-      CORE_CONFIG_ID(IntegrationsDbusApiAccess, SettingKey::IntegrationsDbusApiAccess) },
-#endif
-    // IntegrationsBrowserSection
-    { QT_TR_NOOP("Browser"), nullptr, SM::SectionTitle, SM::TabIntegrations,
-      nullptr, nullptr, {}, {}, {}, nullptr, nullptr },

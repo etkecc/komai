@@ -709,7 +709,6 @@ def supported_komai_locales(repo_root: pathlib.Path) -> list[str]:
 def parse_emoji_test_files(
     *,
     unicode_file: pathlib.Path,
-    extra_file: pathlib.Path,
 ) -> list[CoreEmoji]:
     entries: list[CoreEmoji] = []
 
@@ -781,12 +780,11 @@ def parse_emoji_test_files(
             order += 1
         return order
 
-    next_order = parse_file(extra_file, 0)
-    parse_file(unicode_file, next_order)
+    parse_file(unicode_file, 0)
 
     deduped: dict[str, CoreEmoji] = {}
     for entry in entries:
-        # Keep first occurrence (extra_emoji first, then upstream)
+        # Keep first occurrence.
         if entry.id not in deduped:
             deduped[entry.id] = entry
 
@@ -1170,10 +1168,7 @@ def generate_runtime_data(
         locale_ann_paths[locale] = (ann, der)
         cldr_meta[locale] = source_locale
 
-    core_entries = parse_emoji_test_files(
-        unicode_file=unicode_file,
-        extra_file=repo_root / "resources" / "extra_emoji.txt",
-    )
+    core_entries = parse_emoji_test_files(unicode_file=unicode_file)
 
     overrides = load_overrides(repo_root)
     validate_overrides(

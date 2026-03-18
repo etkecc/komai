@@ -25,7 +25,7 @@ Item {
 
         Image {
             Layout.alignment: Qt.AlignHCenter
-            source: "qrc:/logos/splash.png"
+            source: "qrc:/logos/komai.svg"
             sourceSize.width: 160
             sourceSize.height: 160
             fillMode: Image.PreserveAspectFit

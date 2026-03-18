@@ -23,7 +23,7 @@ SettingsContent {
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/logos/splash.png"
+                source: "qrc:/logos/komai.svg"
                 Layout.preferredHeight: 128
                 Layout.preferredWidth: 128
             }

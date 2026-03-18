@@ -30,7 +30,7 @@ Item {
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/logos/splash.png"
+                source: "qrc:/logos/komai.svg"
                 Layout.preferredHeight: 256
                 Layout.preferredWidth: 256
             }

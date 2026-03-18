@@ -329,7 +329,7 @@ app::runMainApplication(int argc, char *argv[])
     }
 
 #if !defined(Q_OS_MACOS)
-    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("komai"), QIcon{":/logos/komai.png"}));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("komai"), QIcon{":/logos/komai.svg"}));
 #endif
 #ifdef KOMAI_FLATPAK
     app.setDesktopFileName(QStringLiteral("cc.etke.komai"));

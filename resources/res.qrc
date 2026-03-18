@@ -111,20 +111,7 @@
         <file alias="icons/ui/cloud-arrow-up.svg">icons/fluent/assets/Cloud Arrow Up/SVG/ic_fluent_cloud_arrow_up_20_regular.svg</file>
     </qresource>
     <qresource prefix="/logos">
-        <file>komai.png</file>
         <file>komai.svg</file>
-        <file>splash.png</file>
-        <file>splash@2x.png</file>
-        <file>register.png</file>
-        <file>register@2x.png</file>
-        <file>login.png</file>
-        <file>login@2x.png</file>
-        <file>komai-512.png</file>
-        <file>komai-256.png</file>
-        <file>komai-128.png</file>
-        <file>komai-64.png</file>
-        <file>komai-32.png</file>
-        <file>komai-16.png</file>
     </qresource>
     <qresource prefix="/preview-avatars">
         <file alias="alice.png">preview-avatars/alice.png</file>

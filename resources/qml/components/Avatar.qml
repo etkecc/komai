@@ -32,6 +32,14 @@ AbstractButton {
     // entry and large avatars get full resolution.  DPR scaling is handled
     // entirely in C++ (MxcImageProvider applies QScreen DPR).
     readonly property int _mxcThumbSidePx: Math.max(Math.max(Math.round(width), Math.round(height)), Komai.listIconSize)
+    readonly property real _devicePixelRatio: {
+        if (Window.window && Window.window.screen)
+            return Window.window.screen.devicePixelRatio || 1;
+        return Screen.devicePixelRatio || 1;
+    }
+    readonly property bool _isBundledRasterAvatar: avatar.url.startsWith(':/preview-avatars/')
+        || avatar.url.startsWith('qrc:/preview-avatars/')
+    readonly property int _rasterThumbSidePx: Math.max(1, Math.round(avatar._mxcThumbSidePx * avatar._devicePixelRatio))
 
     height: 48
     width: 48
@@ -106,9 +114,10 @@ AbstractButton {
             } else {
                 return "";
             }
-            // Always use the standard thumbnail size to avoid binding races
-            // between source and sourceSize when avatar.url changes.
-            sourceSize: Qt.size(avatar._mxcThumbSidePx, avatar._mxcThumbSidePx)
+            // Request DPR-aware source pixels for bundled raster avatars. MxcImage
+            // already applies device-pixel-ratio handling in C++.
+            sourceSize: Qt.size(avatar._isBundledRasterAvatar ? avatar._rasterThumbSidePx : avatar._mxcThumbSidePx,
+                                avatar._isBundledRasterAvatar ? avatar._rasterThumbSidePx : avatar._mxcThumbSidePx)
         }
     }
     Rectangle {

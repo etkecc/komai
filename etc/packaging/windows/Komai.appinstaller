@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Inactive Windows packaging template kept for future revival. -->
 <AppInstaller Uri="https://github.com/etkecc/komai/releases/latest/download/Komai.appinstaller" Version="0.0.0.1" xmlns="http://schemas.microsoft.com/appx/appinstaller/2018">
   <MainPackage Name="cc.etke.komai" Version="0.12.1.0" Publisher="CN=Nicolas Werner, O=Nicolas Werner, L=Munich, S=Bavaria, C=DE" Uri="https://github.com/etkecc/komai/releases/latest/download/komai.msix" ProcessorArchitecture="x64" />
   <UpdateSettings>

@@ -594,11 +594,16 @@ ColumnLayout {
                 text: qsTr("Sticker & Emote Settings")
                 color: stickerRowHover.hovered ? palette.brightText : palette.text
                 font.pointSize: 1.1 * Settings.uiFontSizePt
-                Layout.fillWidth: true
                 Layout.topMargin: Komai.paddingMedium
                 Layout.bottomMargin: Komai.paddingMedium
                 Layout.leftMargin: Komai.paddingMedium
             }
+
+            Components.SyncedToMatrixBadge {
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Item { Layout.fillWidth: true }
 
             Components.KomaiButton {
                 text: qsTr("Change")

@@ -59,8 +59,13 @@ Item {
                             text: qsTr("Notifications")
                             color: notifRowHover.hovered ? palette.brightText : palette.text
                             font.pointSize: 1.1 * Settings.uiFontSizePt
-                            Layout.fillWidth: true
                         }
+
+                        Components.SyncedToMatrixBadge {
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Item { Layout.fillWidth: true }
 
                         Components.KomaiComboBox {
                             id: notificationsCombo

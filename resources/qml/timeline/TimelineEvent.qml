@@ -16,6 +16,14 @@ EventDelegateChooser {
     property bool scrolledToThis: false
     property QtObject styleProfile: TimelineStyleProfile {}
     property QtObject resolvedStyleProfile: styleProfile
+    property color mainMessageTextColor: palette.text
+    property color mainMessageSecondaryTextColor: palette.buttonText
+    property color mainMessageLinkColor: palette.link
+    property color mainMessageSurfaceColor: palette.alternateBase
+    property color replyMessageTextColor: palette.text
+    property color replyMessageSecondaryTextColor: palette.buttonText
+    property color replyMessageLinkColor: palette.link
+    property color replyMessageSurfaceColor: palette.alternateBase
 
     // qmllint disable required
     EventDelegateChoice {
@@ -29,8 +37,28 @@ EventDelegateChooser {
 
             Layout.fillWidth: true
             //Layout.maximumWidth: implicitWidth
+            readonly property color chooserMainTextColor: (parent && parent.mainMessageTextColor !== undefined && parent.mainMessageTextColor !== null) ? parent.mainMessageTextColor : palette.text
+            readonly property color chooserMainSecondaryTextColor: (parent && parent.mainMessageSecondaryTextColor !== undefined && parent.mainMessageSecondaryTextColor !== null) ? parent.mainMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
+            readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
+            readonly property color chooserReplyTextColor: (parent && parent.replyMessageTextColor !== undefined && parent.replyMessageTextColor !== null) ? parent.replyMessageTextColor : palette.text
+            readonly property color chooserReplySecondaryTextColor: (parent && parent.replyMessageSecondaryTextColor !== undefined && parent.replyMessageSecondaryTextColor !== null) ? parent.replyMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserReplyLinkColor: (parent && parent.replyMessageLinkColor !== undefined && parent.replyMessageLinkColor !== null) ? parent.replyMessageLinkColor : palette.link
+            readonly property color chooserReplySurfaceColor: (parent && parent.replyMessageSurfaceColor !== undefined && parent.replyMessageSurfaceColor !== null) ? parent.replyMessageSurfaceColor : palette.alternateBase
 
-            color: type == MtxEvent.NoticeMessage ? palette.active.buttonText : palette.active.text
+            color: type == MtxEvent.NoticeMessage
+                   ? (EventDelegateChooser.isReply
+                      ? chooserReplySecondaryTextColor
+                      : chooserMainSecondaryTextColor)
+                   : (EventDelegateChooser.isReply
+                      ? chooserReplyTextColor
+                      : chooserMainTextColor)
+            linkColor: EventDelegateChooser.isReply
+                       ? chooserReplyLinkColor
+                       : chooserMainLinkColor
+            surfaceColor: EventDelegateChooser.isReply
+                          ? chooserReplySurfaceColor
+                          : chooserMainSurfaceColor
             font.italic: type == MtxEvent.NoticeMessage
             formatted: formattedBody
             keepFullText: true
@@ -46,11 +74,21 @@ EventDelegateChooser {
 
             Layout.fillWidth: true
             //Layout.maximumWidth: implicitWidth
+            readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
+            readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
+            readonly property color chooserReplyLinkColor: (parent && parent.replyMessageLinkColor !== undefined && parent.replyMessageLinkColor !== null) ? parent.replyMessageLinkColor : palette.link
+            readonly property color chooserReplySurfaceColor: (parent && parent.replyMessageSurfaceColor !== undefined && parent.replyMessageSurfaceColor !== null) ? parent.replyMessageSurfaceColor : palette.alternateBase
 
             color: Komai.readableAccentTextColor(
-                room ? TimelineManager.roomUserColor(room.roomId, userId, palette.active.base, Settings.timelineUserColorCodingPolicy)
-                     : TimelineManager.userColor(userId, palette.active.base),
-                palette.active.base)
+                room ? TimelineManager.roomUserColor(room.roomId, userId, palette.base, Settings.timelineUserColorCodingPolicy)
+                     : TimelineManager.userColor(userId, palette.base),
+                palette.base)
+            linkColor: EventDelegateChooser.isReply
+                       ? chooserReplyLinkColor
+                       : chooserMainLinkColor
+            surfaceColor: EventDelegateChooser.isReply
+                          ? chooserReplySurfaceColor
+                          : chooserMainSurfaceColor
             font.italic: true
             formatted: TimelineManager.escapeEmoji(userName) + " " + formattedBody
             keepFullText: true
@@ -71,6 +109,21 @@ EventDelegateChooser {
             isOnlyEmoji: 0
             isReply: EventDelegateChooser.isReply
             isStateEvent: true
+            readonly property color chooserMainSecondaryTextColor: (parent && parent.mainMessageSecondaryTextColor !== undefined && parent.mainMessageSecondaryTextColor !== null) ? parent.mainMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
+            readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
+            readonly property color chooserReplySecondaryTextColor: (parent && parent.replyMessageSecondaryTextColor !== undefined && parent.replyMessageSecondaryTextColor !== null) ? parent.replyMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserReplyLinkColor: (parent && parent.replyMessageLinkColor !== undefined && parent.replyMessageLinkColor !== null) ? parent.replyMessageLinkColor : palette.link
+            readonly property color chooserReplySurfaceColor: (parent && parent.replyMessageSurfaceColor !== undefined && parent.replyMessageSurfaceColor !== null) ? parent.replyMessageSurfaceColor : palette.alternateBase
+            color: EventDelegateChooser.isReply
+                   ? chooserReplySecondaryTextColor
+                   : chooserMainSecondaryTextColor
+            linkColor: EventDelegateChooser.isReply
+                       ? chooserReplyLinkColor
+                       : chooserMainLinkColor
+            surfaceColor: EventDelegateChooser.isReply
+                          ? chooserReplySurfaceColor
+                          : chooserMainSurfaceColor
             keepFullText: true
         }
     }
@@ -84,7 +137,21 @@ EventDelegateChooser {
 
             Layout.fillWidth: true
             body: formatted
-            color: palette.active.buttonText
+            readonly property color chooserMainSecondaryTextColor: (parent && parent.mainMessageSecondaryTextColor !== undefined && parent.mainMessageSecondaryTextColor !== null) ? parent.mainMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
+            readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
+            readonly property color chooserReplySecondaryTextColor: (parent && parent.replyMessageSecondaryTextColor !== undefined && parent.replyMessageSecondaryTextColor !== null) ? parent.replyMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserReplyLinkColor: (parent && parent.replyMessageLinkColor !== undefined && parent.replyMessageLinkColor !== null) ? parent.replyMessageLinkColor : palette.link
+            readonly property color chooserReplySurfaceColor: (parent && parent.replyMessageSurfaceColor !== undefined && parent.replyMessageSurfaceColor !== null) ? parent.replyMessageSurfaceColor : palette.alternateBase
+            color: EventDelegateChooser.isReply
+                   ? chooserReplySecondaryTextColor
+                   : chooserMainSecondaryTextColor
+            linkColor: EventDelegateChooser.isReply
+                       ? chooserReplyLinkColor
+                       : chooserMainLinkColor
+            surfaceColor: EventDelegateChooser.isReply
+                          ? chooserReplySurfaceColor
+                          : chooserMainSurfaceColor
             font.italic: true
             formatted: {
                 switch (callType) {
@@ -110,7 +177,21 @@ EventDelegateChooser {
 
             Layout.fillWidth: true
             body: formatted
-            color: palette.active.buttonText
+            readonly property color chooserMainSecondaryTextColor: (parent && parent.mainMessageSecondaryTextColor !== undefined && parent.mainMessageSecondaryTextColor !== null) ? parent.mainMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserMainLinkColor: (parent && parent.mainMessageLinkColor !== undefined && parent.mainMessageLinkColor !== null) ? parent.mainMessageLinkColor : palette.link
+            readonly property color chooserMainSurfaceColor: (parent && parent.mainMessageSurfaceColor !== undefined && parent.mainMessageSurfaceColor !== null) ? parent.mainMessageSurfaceColor : palette.alternateBase
+            readonly property color chooserReplySecondaryTextColor: (parent && parent.replyMessageSecondaryTextColor !== undefined && parent.replyMessageSecondaryTextColor !== null) ? parent.replyMessageSecondaryTextColor : palette.buttonText
+            readonly property color chooserReplyLinkColor: (parent && parent.replyMessageLinkColor !== undefined && parent.replyMessageLinkColor !== null) ? parent.replyMessageLinkColor : palette.link
+            readonly property color chooserReplySurfaceColor: (parent && parent.replyMessageSurfaceColor !== undefined && parent.replyMessageSurfaceColor !== null) ? parent.replyMessageSurfaceColor : palette.alternateBase
+            color: EventDelegateChooser.isReply
+                   ? chooserReplySecondaryTextColor
+                   : chooserMainSecondaryTextColor
+            linkColor: EventDelegateChooser.isReply
+                       ? chooserReplyLinkColor
+                       : chooserMainLinkColor
+            surfaceColor: EventDelegateChooser.isReply
+                          ? chooserReplySurfaceColor
+                          : chooserMainSurfaceColor
             font.italic: true
             formatted: {
                 switch (type) {

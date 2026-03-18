@@ -130,10 +130,10 @@ Components.OverlayDialog {
                 }
                 readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
                     ? Komai.colors.window
-                    : palette.window
+                    : root.palette.window
                 readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
                     ? Komai.colors.base
-                    : palette.base
+                    : root.palette.base
                 bubblePalette: root.roomModel ? TimelineManager.roomUserBubblePalette(root.roomModel.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
                 userColor: isReplyFromCurrentUser
                     ? Komai.theme.userColorSelf

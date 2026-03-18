@@ -11,6 +11,7 @@
 #include <vector>
 
 #include <QGuiApplication>
+#include <QVariantMap>
 
 #include "cache/Cache.h"
 #include "settings/ui/facade/UserSettingsPage.h"
@@ -19,6 +20,33 @@
 #include "utils/Utils.h"
 
 namespace {
+
+QVariantMap
+bubblePaletteMap(const QPalette &palette)
+{
+    QVariantMap map;
+    const auto color = [&palette](QPalette::ColorRole role) {
+        return palette.color(QPalette::Active, role);
+    };
+
+    map.insert(QStringLiteral("window"), color(QPalette::Window));
+    map.insert(QStringLiteral("windowText"), color(QPalette::WindowText));
+    map.insert(QStringLiteral("base"), color(QPalette::Base));
+    map.insert(QStringLiteral("alternateBase"), color(QPalette::AlternateBase));
+    map.insert(QStringLiteral("text"), color(QPalette::Text));
+    map.insert(QStringLiteral("brightText"), color(QPalette::BrightText));
+    map.insert(QStringLiteral("button"), color(QPalette::Button));
+    map.insert(QStringLiteral("buttonText"), color(QPalette::ButtonText));
+    map.insert(QStringLiteral("light"), color(QPalette::Light));
+    map.insert(QStringLiteral("mid"), color(QPalette::Mid));
+    map.insert(QStringLiteral("dark"), color(QPalette::Dark));
+    map.insert(QStringLiteral("highlight"), color(QPalette::Highlight));
+    map.insert(QStringLiteral("highlightedText"), color(QPalette::HighlightedText));
+    map.insert(QStringLiteral("link"), color(QPalette::Link));
+    map.insert(QStringLiteral("toolTipBase"), color(QPalette::ToolTipBase));
+    map.insert(QStringLiteral("toolTipText"), color(QPalette::ToolTipText));
+    return map;
+}
 
 QColor
 blendColor(const QColor &background, const QColor &foreground, qreal alpha)
@@ -150,24 +178,28 @@ TimelineViewManager::userColor(QString id, QColor background)
     return userColors.value(idx);
 }
 
-QPalette
+QVariantMap
 TimelineViewManager::userBubblePalette(QString id, QColor background)
 {
     auto themePalette    = currentThemePalette();
     const auto *themeDef = currentThemeDef();
 
-    if (themeDef && id == utils::localUser())
-        return buildBubblePalette(
+    if (themeDef && id == utils::localUser()) {
+        const auto palette = buildBubblePalette(
           themeDef->userColorSelf, themePalette, themeDef->userColorSelf.background);
+        return bubblePaletteMap(palette);
+    }
 
     if (themeDef && !themeDef->userColorOthers.empty()) {
-        const auto &slot = themeDef->userColorOthers.front();
-        return buildBubblePalette(slot, themePalette, slot.background);
+        const auto &slot   = themeDef->userColorOthers.front();
+        const auto palette = buildBubblePalette(slot, themePalette, slot.background);
+        return bubblePaletteMap(palette);
     }
 
     ThemeUserColorSlot slot;
-    slot.background = userColor(id, background);
-    return buildBubblePalette(slot, themePalette, slot.background);
+    slot.background    = userColor(id, background);
+    const auto palette = buildBubblePalette(slot, themePalette, slot.background);
+    return bubblePaletteMap(palette);
 }
 
 QColor
@@ -286,7 +318,7 @@ TimelineViewManager::roomUserColor(QString roomId,
     return color;
 }
 
-QPalette
+QVariantMap
 TimelineViewManager::roomUserBubblePalette(QString roomId,
                                            QString userId,
                                            QColor background,
@@ -301,48 +333,66 @@ TimelineViewManager::roomUserBubblePalette(QString roomId,
     if (!def)
         return userBubblePalette(userId, background);
 
-    if (roomId.isEmpty() || userId.isEmpty())
-        return buildBubblePalette(def->userColorSelf, themePalette, def->userColorSelf.background);
+    if (roomId.isEmpty() || userId.isEmpty()) {
+        const auto palette =
+          buildBubblePalette(def->userColorSelf, themePalette, def->userColorSelf.background);
+        return bubblePaletteMap(palette);
+    }
 
-    if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers)
-        return userId == selfId ? buildBubblePalette(
-                                    def->userColorSelf, themePalette, def->userColorSelf.background)
-                                : buildBubblePalette(
-                                    def->userColorOthers.empty() ? ThemeUserColorSlot{}
-                                                                 : def->userColorOthers.front(),
-                                    themePalette,
-                                    def->userColorOthers.empty()
-                                      ? roomUserColor(roomId, userId, background, colorCodingPolicy)
-                                      : def->userColorOthers.front().background);
+    if (policy == UserSettings::TimelineUserColorCodingPolicy::MeVsOthers) {
+        if (userId == selfId) {
+            const auto palette =
+              buildBubblePalette(def->userColorSelf, themePalette, def->userColorSelf.background);
+            return bubblePaletteMap(palette);
+        }
+
+        const auto slot =
+          def->userColorOthers.empty() ? ThemeUserColorSlot{} : def->userColorOthers.front();
+        const auto palette =
+          buildBubblePalette(slot,
+                             themePalette,
+                             def->userColorOthers.empty()
+                               ? roomUserColor(roomId, userId, background, colorCodingPolicy)
+                               : def->userColorOthers.front().background);
+        return bubblePaletteMap(palette);
+    }
 
     if (isPreviewRoom) {
         const auto previewBackground = roomUserColor(roomId, userId, background, colorCodingPolicy);
         ThemeUserColorSlot slot;
-        slot.background = previewBackground;
-        return buildBubblePalette(slot, themePalette, previewBackground);
+        slot.background    = previewBackground;
+        const auto palette = buildBubblePalette(slot, themePalette, previewBackground);
+        return bubblePaletteMap(palette);
     }
 
     if (!cache::isRoomMember(userId.toStdString(), roomId.toStdString())) {
         ThemeUserColorSlot slot;
-        slot.background = formerMemberColor(background);
-        return buildBubblePalette(slot, themePalette, slot.background);
+        slot.background    = formerMemberColor(background);
+        const auto palette = buildBubblePalette(slot, themePalette, slot.background);
+        return bubblePaletteMap(palette);
     }
 
-    if (userId == selfId)
-        return buildBubblePalette(def->userColorSelf, themePalette, def->userColorSelf.background);
+    if (userId == selfId) {
+        const auto palette =
+          buildBubblePalette(def->userColorSelf, themePalette, def->userColorSelf.background);
+        return bubblePaletteMap(palette);
+    }
 
     if (def->userColorOthers.empty()) {
         ThemeUserColorSlot slot;
-        slot.background = roomUserColor(roomId, userId, background, colorCodingPolicy);
-        return buildBubblePalette(slot, themePalette, slot.background);
+        slot.background    = roomUserColor(roomId, userId, background, colorCodingPolicy);
+        const auto palette = buildBubblePalette(slot, themePalette, slot.background);
+        return bubblePaletteMap(palette);
     }
 
     auto memberCount           = static_cast<int>(cache::memberCount(roomId.toStdString()));
     const int otherMemberCount = std::max(0, memberCount - 1);
     const int othersListSize   = static_cast<int>(def->userColorOthers.size());
-    if (otherMemberCount > othersListSize)
-        return buildBubblePalette(
+    if (otherMemberCount > othersListSize) {
+        const auto palette = buildBubblePalette(
           def->userColorOthers.front(), themePalette, def->userColorOthers.front().background);
+        return bubblePaletteMap(palette);
+    }
 
     std::pair<QString, QString> cacheKey{roomId, userId};
     if (!roomUserColorSlots_.contains(cacheKey))
@@ -350,5 +400,6 @@ TimelineViewManager::roomUserBubblePalette(QString roomId,
 
     const int slotIndex = roomUserColorSlots_.value(cacheKey, 0);
     const auto &slot    = def->userColorOthers[slotIndex % othersListSize];
-    return buildBubblePalette(slot, themePalette, slot.background);
+    const auto palette  = buildBubblePalette(slot, themePalette, slot.background);
+    return bubblePaletteMap(palette);
 }

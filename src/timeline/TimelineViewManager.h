@@ -9,6 +9,7 @@
 #include <QHash>
 #include <QPalette>
 #include <QQmlEngine>
+#include <QVariantMap>
 
 #include <algorithm>
 #include <unordered_map>
@@ -117,15 +118,15 @@ public:
     Q_INVOKABLE void saveMedia(QString mxcUrl);
     Q_INVOKABLE void copyImage(const QString &mxcUrl) const;
     Q_INVOKABLE QColor userColor(QString id, QColor background);
-    Q_INVOKABLE QPalette userBubblePalette(QString id, QColor background);
+    Q_INVOKABLE QVariantMap userBubblePalette(QString id, QColor background);
     Q_INVOKABLE QColor roomUserColor(QString roomId,
                                      QString userId,
                                      QColor background,
                                      int colorCodingPolicy = -1);
-    Q_INVOKABLE QPalette roomUserBubblePalette(QString roomId,
-                                               QString userId,
-                                               QColor background,
-                                               int colorCodingPolicy = -1);
+    Q_INVOKABLE QVariantMap roomUserBubblePalette(QString roomId,
+                                                  QString userId,
+                                                  QColor background,
+                                                  int colorCodingPolicy = -1);
     Q_INVOKABLE QString escapeEmoji(QString str) const;
     Q_INVOKABLE QString htmlEscape(QString str) const { return str.toHtmlEscaped(); }
 

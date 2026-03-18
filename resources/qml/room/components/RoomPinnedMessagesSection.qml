@@ -48,10 +48,10 @@ ScrollView {
                 }
                 readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
                     ? Komai.colors.window
-                    : palette.window
+                    : pinnedMessages.palette.window
                 readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
                     ? Komai.colors.base
-                    : palette.base
+                    : pinnedMessages.palette.base
 
                 maxWidth: pinnedMessages.width - 16
                 eventId: e.eventId ?? ""

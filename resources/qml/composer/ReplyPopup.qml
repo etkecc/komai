@@ -206,10 +206,10 @@ Rectangle {
             }
             readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
                 ? Komai.colors.window
-                : palette.window
+                : replyPopup.palette.window
             readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
                 ? Komai.colors.base
-                : palette.base
+                : replyPopup.palette.base
 
             width: parent.width
             eventId: room?.reply ?? ""

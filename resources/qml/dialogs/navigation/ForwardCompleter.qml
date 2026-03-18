@@ -185,10 +185,10 @@ Popup {
                 }
                 readonly property color previewWindowColor: (Komai.colors && Komai.colors.window !== undefined)
                     ? Komai.colors.window
-                    : palette.window
+                    : forwardMessagePopup.palette.window
                 readonly property color previewBaseColor: (Komai.colors && Komai.colors.base !== undefined)
                     ? Komai.colors.base
-                    : palette.base
+                    : forwardMessagePopup.palette.base
                 bubblePalette: activeRoom ? TimelineManager.roomUserBubblePalette(activeRoom.roomId, replyPreview.userId, roomColor, Settings.timelineUserColorCodingPolicy) : TimelineManager.userBubblePalette(replyPreview.userId, roomColor)
                 userColor: isReplyFromCurrentUser
                     ? Komai.theme.userColorSelf

@@ -49,6 +49,8 @@ LitehtmlItem::generateMasterCss()
 {
     auto palette = QGuiApplication::palette();
     const Theme theme(UserSettings::instance()->uiThemeSlug());
+    if (m_color.isValid())
+        palette.setColor(QPalette::Text, m_color);
     if (m_linkColor.isValid())
         palette.setColor(QPalette::Link, m_linkColor);
     if (m_surfaceColor.isValid())
@@ -79,8 +81,8 @@ LitehtmlItem::setColor(const QColor &color)
     m_color = color;
     m_container->setDefaultColor(color);
     emit colorChanged();
-    if (m_document)
-        update();
+    m_masterCss = generateMasterCss();
+    rebuildDocument();
 }
 
 void

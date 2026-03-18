@@ -42,6 +42,30 @@ TimelineMessageStyleBase {
     property bool avatarIsOnRight: wrapper.messageIsRightAligned
 
     property alias hovered: messageHover.hovered
+    mainMessageTextColor: (messageBubble && messageBubble.roomBubblePalette && messageBubble.roomBubblePalette.text !== undefined)
+                          ? messageBubble.roomBubblePalette.text
+                          : palette.text
+    mainMessageSecondaryTextColor: (messageBubble && messageBubble.roomBubblePalette && messageBubble.roomBubblePalette.buttonText !== undefined)
+                                   ? messageBubble.roomBubblePalette.buttonText
+                                   : palette.buttonText
+    mainMessageLinkColor: (messageBubble && messageBubble.roomBubblePalette && messageBubble.roomBubblePalette.link !== undefined)
+                          ? messageBubble.roomBubblePalette.link
+                          : palette.link
+    mainMessageSurfaceColor: (messageBubble && messageBubble.roomBubblePalette && messageBubble.roomBubblePalette.alternateBase !== undefined)
+                             ? messageBubble.roomBubblePalette.alternateBase
+                             : palette.alternateBase
+    replyMessageTextColor: (replyRow && replyRow.replyBubblePalette && replyRow.replyBubblePalette.text !== undefined)
+                           ? replyRow.replyBubblePalette.text
+                           : palette.text
+    replyMessageSecondaryTextColor: (replyRow && replyRow.replyBubblePalette && replyRow.replyBubblePalette.buttonText !== undefined)
+                                    ? replyRow.replyBubblePalette.buttonText
+                                    : palette.buttonText
+    replyMessageLinkColor: (replyRow && replyRow.replyBubblePalette && replyRow.replyBubblePalette.link !== undefined)
+                           ? replyRow.replyBubblePalette.link
+                           : palette.link
+    replyMessageSurfaceColor: (replyRow && replyRow.replyBubblePalette && replyRow.replyBubblePalette.alternateBase !== undefined)
+                              ? replyRow.replyBubblePalette.alternateBase
+                              : palette.alternateBase
 
     mainInset: threadId ? (4 + Komai.paddingSmall) : 0
     replyInset: mainInset + 4 + Komai.paddingMedium + Komai.paddingMedium
@@ -389,6 +413,104 @@ TimelineMessageStyleBase {
                     }
 
 
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.window"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.window
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.windowText"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.windowText
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.base"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.base
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.alternateBase"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.alternateBase
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.text"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.text
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.brightText"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.brightText
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.buttonText"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.buttonText
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.dark"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.dark
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.highlight"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.highlight
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.highlightedText"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.highlightedText
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.link"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.link
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.inactive.text"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.buttonText
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.inactive.windowText"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.buttonText
+                }
+
+                Binding {
+                    target: wrapper.main
+                    property: "palette.inactive.buttonText"
+                    when: !!wrapper.main
+                    value: messageBubble.palette.buttonText
                 }
 
                 Binding {

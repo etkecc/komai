@@ -17,6 +17,12 @@ just build
 just run
 ```
 
+The build generates derived logo assets from `resources/komai.svg` into
+`var/build/native/logo-assets/`. This intentionally uses a small Qt helper
+target instead of external tools like ImageMagick or `rsvg-convert`, so normal
+Linux builds, distro packaging, and CI do not need extra raster conversion
+dependencies beyond the existing Qt build stack.
+
 ## Justfile recipes
 
 | Recipe | What it does |
@@ -123,6 +129,10 @@ By default, CPM downloads and builds all non-system dependencies (mtxclient,
 litehtml, blurhash, cpp-httplib, etc.). Pass `-DCPM_USE_LOCAL_PACKAGES=ON` to
 prefer system packages instead, with `-DCPM_MatrixClient_USE_LOCAL=OFF` to keep
 bundling mtxclient (distro packages are typically outdated and lack our patches).
+
+Note: macOS bundle builds also need the Qt installation used for the build to
+include ICNS imageformat support, because the app bundle icon is generated from
+`resources/komai.svg` during the build.
 
 ## Debug builds
 

@@ -69,6 +69,14 @@ set(PROJECT_VERSION_MAJOR ${CPACK_PACKAGE_VERSION_MAJOR})
 set(PROJECT_VERSION_MINOR ${CPACK_PACKAGE_VERSION_MINOR})
 set(PROJECT_VERSION_PATCH ${CPACK_PACKAGE_VERSION_PATCH})
 
+set(KOMAI_LOGO_SOURCE_SVG "${CMAKE_CURRENT_SOURCE_DIR}/resources/komai.svg")
+set(KOMAI_LOGO_ASSET_DIR "${CMAKE_CURRENT_BINARY_DIR}/logo-assets")
+set(RESOURCE_FOLDER "${KOMAI_LOGO_ASSET_DIR}")
+set(KOMAI_LOGO_GENERATED_META_FILES
+    "${KOMAI_LOGO_ASSET_DIR}/komai.ico"
+    "${KOMAI_LOGO_ASSET_DIR}/komai.icns")
+set_source_files_properties(${KOMAI_LOGO_GENERATED_META_FILES} PROPERTIES GENERATED TRUE)
+
 # Set PROJECT_VERSION_PATCH & PROJECT_VERSION_TWEAK to 0 if not present
 # Needed by add_project_meta.
 fix_project_version()
@@ -160,6 +168,30 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
 set(BUILD_WITH_QT6 ON)
 set(BUILD_TEST_APPLICATION OFF CACHE INTERNAL "")
+
+set(KOMAI_LOGO_GENERATED_FILES
+    "${KOMAI_LOGO_ASSET_DIR}/komai-16.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-32.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-44.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-48.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-64.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-128.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-150.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-256.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai-512.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai.png"
+    "${KOMAI_LOGO_ASSET_DIR}/komai.svg.sha256")
+set(KOMAI_LOGO_GENERATOR_ARGS
+    --input "${KOMAI_LOGO_SOURCE_SVG}"
+    --output-dir "${KOMAI_LOGO_ASSET_DIR}")
+if(WIN32)
+    list(APPEND KOMAI_LOGO_GENERATED_FILES "${KOMAI_LOGO_ASSET_DIR}/komai.ico")
+    list(APPEND KOMAI_LOGO_GENERATOR_ARGS --with-ico)
+endif()
+if(APPLE)
+    list(APPEND KOMAI_LOGO_GENERATED_FILES "${KOMAI_LOGO_ASSET_DIR}/komai.icns")
+    list(APPEND KOMAI_LOGO_GENERATOR_ARGS --with-icns)
+endif()
 CPMAddPackage(
     NAME qt6keychain
     GIT_REPOSITORY https://github.com/frankosterfeld/qtkeychain.git
@@ -859,6 +891,24 @@ else()
     )
 endif()
 
+# Generate derived logo assets with a tiny Qt-based helper instead of external
+# tools like ImageMagick/rsvg-convert. This keeps the normal build,
+# distro packaging, and CI environments free of extra raster-tool deps.
+add_executable(komai_logo_asset_generator tools/LogoAssetGenerator.cpp)
+target_link_libraries(komai_logo_asset_generator PRIVATE Qt::Core Qt::Gui Qt::Svg)
+
+add_custom_command(
+    OUTPUT ${KOMAI_LOGO_GENERATED_FILES}
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${KOMAI_LOGO_ASSET_DIR}"
+    COMMAND $<TARGET_FILE:komai_logo_asset_generator> ${KOMAI_LOGO_GENERATOR_ARGS}
+    DEPENDS
+        komai_logo_asset_generator
+        "${KOMAI_LOGO_SOURCE_SVG}"
+    COMMENT "Generating logo assets"
+    VERBATIM
+)
+add_custom_target(logo_assets ALL DEPENDS ${KOMAI_LOGO_GENERATED_FILES})
+
 # Generate ThemeDefinitions.h from theme YAML files.
 # Re-runs automatically when any theme YAML changes.
 file(GLOB THEME_YAML_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/resources/themes/*.yml")
@@ -967,6 +1017,7 @@ set_target_properties(komai
         AUTOMOC ON)
 target_compile_definitions(komai PRIVATE KOMAI_WITH_QML=1)
 add_dependencies(komai emoji_runtime_data)
+add_dependencies(komai logo_assets)
 qt_add_resources(komai emoji_runtime_resources
     PREFIX "/emoji"
     BASE "${EMOJI_DATA_DIR}"
@@ -1649,14 +1700,14 @@ if(UNIX AND NOT APPLE)
     endif()
 
     install(TARGETS komai RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
-    install(FILES "resources/komai-16.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/16x16/apps" RENAME "${APPID}.png")
-    install(FILES "resources/komai-32.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/32x32/apps" RENAME "${APPID}.png")
-    install(FILES "resources/komai-48.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/48x48/apps" RENAME "${APPID}.png")
-    install(FILES "resources/komai-64.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/64x64/apps" RENAME "${APPID}.png")
-    install(FILES "resources/komai-128.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/128x128/apps" RENAME "${APPID}.png")
-    install(FILES "resources/komai-256.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/256x256/apps" RENAME "${APPID}.png")
-    install(FILES "resources/komai-512.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/512x512/apps" RENAME "${APPID}.png")
-    install(FILES "resources/komai.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" RENAME "${APPID}.svg")
+    install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-16.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/16x16/apps" RENAME "${APPID}.png")
+    install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-32.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/32x32/apps" RENAME "${APPID}.png")
+    install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-48.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/48x48/apps" RENAME "${APPID}.png")
+    install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-64.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/64x64/apps" RENAME "${APPID}.png")
+    install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-128.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/128x128/apps" RENAME "${APPID}.png")
+    install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-256.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/256x256/apps" RENAME "${APPID}.png")
+    install(FILES "${KOMAI_LOGO_ASSET_DIR}/komai-512.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/512x512/apps" RENAME "${APPID}.png")
+    install(FILES "${KOMAI_LOGO_SOURCE_SVG}" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" RENAME "${APPID}.svg")
     install(FILES "resources/_komai" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/zsh/site-functions")
 
     configure_file("resources/komai.desktop.in" "resources/komai.desktop" @ONLY)

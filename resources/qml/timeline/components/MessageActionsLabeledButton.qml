@@ -40,7 +40,7 @@ AbstractButton {
     KomaiToolTip {
         anchorItem: button
         anchorX: button.toolTipAnchorX
-        anchorY: button.height
+        anchorY: 0
         gapX: Komai.paddingMedium
         gapY: Komai.paddingMedium
         text: button.toolTipText

@@ -41,11 +41,10 @@ excludes="
 "
 
 # Match bare control types as QML object declarations (type followed by {).
-pattern='^\s+(Button|ComboBox|SpinBox|TextField|TextArea|TabButton)\s*\{'
+control_pattern='^\s+(Button|ComboBox|SpinBox|TextField|TextArea|TabButton)\s*\{'
+control_matches="$(grep -R -n --color=never $excludes -P "$control_pattern" "$target_dir" 2>/dev/null || true)"
 
-matches="$(grep -R -n --color=never $excludes -P "$pattern" "$target_dir" 2>/dev/null || true)"
-
-if [ -n "$matches" ]; then
+if [ -n "$control_matches" ]; then
     echo "Bare Qt control usage found in QML files."
     echo "Use the Komai equivalent instead for theme-aware styling:"
     echo "  Button    → KomaiButton"
@@ -55,7 +54,18 @@ if [ -n "$matches" ]; then
     echo "  TextArea  → KomaiTextArea"
     echo "  TabButton → KomaiTabButton"
     echo
-    echo "$matches"
+    echo "$control_matches"
+    exit 1
+fi
+
+tooltip_pattern='^\s+ToolTip(\.|\s*\{)'
+tooltip_matches="$(grep -R -n --color=never $excludes -P "$tooltip_pattern" "$target_dir" 2>/dev/null || true)"
+
+if [ -n "$tooltip_matches" ]; then
+    echo "Bare Qt ToolTip usage found in QML files."
+    echo "Use KomaiToolTip or a Komai wrapper that already exposes themed tooltips."
+    echo
+    echo "$tooltip_matches"
     exit 1
 fi
 

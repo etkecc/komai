@@ -147,7 +147,32 @@ LitehtmlContainer::draw_text(litehtml::uint_ptr /*hdc*/,
     m_painter->setFont(*font);
     m_painter->setPen(toQColor(color));
 
-    m_painter->drawText(QRect(pos.x, pos.y, pos.width, pos.height), 0, QString::fromUtf8(text));
+    // Emoji fonts need vertical position adjustment because we report
+    // text-font metrics in create_font to keep line heights uniform,
+    // but the actual emoji glyph uses the emoji font's (larger) metrics.
+    // litehtml positions the text run assuming our fake ascent, so the
+    // rendered baseline (pos.y + realAscent) ends up wrong.  Shift the
+    // draw rect so that the real baseline aligns with the expected one.
+    QString str = QString::fromUtf8(text);
+    if (!m_emojiFontFamily.isEmpty() && font->family() == m_emojiFontFamily) {
+        QFontMetrics realMetrics(*font);
+
+        // Recompute the fake ascent we reported in create_font.
+        using timeline::litehtml::emojiScaleFactor;
+        int defaultPx            = pt_to_px(qRound(m_defaultFont.pointSizeF()));
+        int unscaledPx           = qRound(font->pixelSize() / emojiScaleFactor);
+        bool isBodyEmoji         = (unscaledPx == defaultPx);
+        QFontMetrics fakeMetrics = isBodyEmoji ? QFontMetrics(m_defaultFont) : QFontMetrics([&] {
+            QFont f(m_defaultFont);
+            f.setPixelSize(font->pixelSize());
+            return f;
+        }());
+
+        int yOffset = fakeMetrics.ascent() - realMetrics.ascent();
+        m_painter->drawText(QRect(pos.x, pos.y + yOffset, pos.width, realMetrics.height()), 0, str);
+    } else {
+        m_painter->drawText(QRect(pos.x, pos.y, pos.width, pos.height), 0, str);
+    }
 }
 
 void

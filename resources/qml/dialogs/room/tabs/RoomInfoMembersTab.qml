@@ -143,7 +143,7 @@ Item {
             padding: Komai.paddingMedium
             rightPadding: Komai.paddingMedium + Komai.paddingSmall
             ScrollBar.horizontal.visible: false
-            ScrollBar.vertical.policy: ScrollBar.AsNeeded
+            ScrollBar.vertical.policy: Settings.uiScrollbarPolicy === Settings.ScrollbarPolicy.Always ? ScrollBar.AlwaysOn : Settings.uiScrollbarPolicy === Settings.ScrollbarPolicy.Never ? ScrollBar.AlwaysOff : ScrollBar.AsNeeded
             ScrollBar.vertical.contentItem: Rectangle {
                 implicitWidth: 6
                 radius: 3

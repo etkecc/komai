@@ -22,7 +22,7 @@ Item {
         id: scrollView
 
         anchors.fill: parent
-        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        ScrollBar.vertical.policy: Settings.uiScrollbarPolicy === Settings.ScrollbarPolicy.Always ? ScrollBar.AlwaysOn : Settings.uiScrollbarPolicy === Settings.ScrollbarPolicy.Never ? ScrollBar.AlwaysOff : ScrollBar.AsNeeded
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
         ColumnLayout {

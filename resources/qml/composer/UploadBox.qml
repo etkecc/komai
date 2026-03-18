@@ -89,7 +89,6 @@ Rectangle {
             }
 
             ImageButton {
-                toolTipDelay: Komai.tooltipDelay
                 toolTipText: qsTr("Detach all attachments")
                 toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter
@@ -212,7 +211,6 @@ Rectangle {
                     Layout.alignment: Qt.AlignTop
                     text: uploadPopup.showRemoveLabel ? qsTr("Detach") : ""
                     icon.source: "qrc:/icons/icons/ui/dismiss.svg"
-                    toolTipDelay: Komai.tooltipDelay
                     toolTipText: qsTr("Detach")
                     toolTipVisible: hovered && !uploadPopup.showRemoveLabel
 

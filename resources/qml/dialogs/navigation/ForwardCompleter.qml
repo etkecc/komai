@@ -133,7 +133,6 @@ Popup {
             ImageButton {
                 id: closeButton
 
-                toolTipDelay: Komai.tooltipDelay
                 toolTipText: qsTr("Close")
                 toolTipVisible: hovered
                 anchors.verticalCenter: parent.verticalCenter

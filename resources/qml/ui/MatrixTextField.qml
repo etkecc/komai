@@ -25,7 +25,7 @@ ColumnLayout {
     property real radius: 0
     property string toolTipText: ""
     property bool toolTipVisible: hover.hovered && toolTipText.length > 0
-    property int toolTipDelay: Komai.tooltipDelay
+    property int toolTipDelay: 0
 
     signal accepted
     signal editingFinished

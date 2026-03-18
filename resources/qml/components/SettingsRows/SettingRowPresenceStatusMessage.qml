@@ -71,7 +71,6 @@ Item {
             image: ":/icons/icons/ui/round-remove-button.svg"
             visible: statusMessageField.text !== ""
             toolTipVisible: hovered
-            toolTipDelay: Komai.tooltipDelay
             toolTipText: qsTr("Clear status message")
 
             onClicked: {

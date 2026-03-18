@@ -75,7 +75,6 @@ ColumnLayout {
                 id: closeBannerButton
 
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                toolTipDelay: Komai.tooltipDelay
                 toolTipText: qsTr("Close")
                 toolTipVisible: closeBannerButton.hovered
                 Layout.preferredHeight: root.iconSize

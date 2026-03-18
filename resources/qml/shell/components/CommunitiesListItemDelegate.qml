@@ -114,7 +114,6 @@ ItemDelegate {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: lineSpacing
             Layout.preferredWidth: lineSpacing
-            toolTipDelay: Komai.tooltipDelay
             toolTipText: model.collapsed ? qsTr("Expand") : qsTr("Collapse")
             toolTipVisible: hovered
             hoverEnabled: true

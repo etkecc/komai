@@ -430,7 +430,6 @@ Item {
                             display: row.width >= 500 ? AbstractButton.TextBesideIcon : AbstractButton.IconOnly
                             icon.source: "qrc:/icons/icons/ui/delete.svg"
                             enabled: row.canDelete
-                            toolTipDelay: Komai.tooltipDelay
                             toolTipVisible: hovered
                             toolTipText: qsTr("Delete")
                             onClicked: {

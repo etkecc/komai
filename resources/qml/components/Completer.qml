@@ -201,7 +201,6 @@ Control {
                     Layout.preferredWidth: headerBackground.headerButtonSize
                     Layout.preferredHeight: headerBackground.headerButtonSize
                     Layout.alignment: Qt.AlignVCenter
-                    toolTipDelay: Komai.tooltipDelay
                     toolTipText: qsTr("Close")
                     toolTipVisible: hovered
                     hoverEnabled: true

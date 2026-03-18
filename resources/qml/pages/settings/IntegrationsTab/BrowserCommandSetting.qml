@@ -71,7 +71,6 @@ Item {
             placeholderText: qsTr("brave --profile-directory=\"Profile 7\" %u")
             toolTipVisible: hovered
             toolTipText: qsTr("Use %u for the URL, or leave empty to use the default browser.")
-            toolTipDelay: Komai.tooltipDelay
         }
     }
 }

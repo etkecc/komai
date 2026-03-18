@@ -80,7 +80,6 @@ Rectangle {
             ImageButton {
                 id: closeThreadButton
 
-                toolTipDelay: Komai.tooltipDelay
                 toolTipText: qsTr("Close")
                 toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter
@@ -124,7 +123,6 @@ Rectangle {
             ImageButton {
                 id: closeReplyButton
 
-                toolTipDelay: Komai.tooltipDelay
                 toolTipText: qsTr("Close")
                 toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter
@@ -166,7 +164,6 @@ Rectangle {
             ImageButton {
                 id: closeEditHeaderButton
 
-                toolTipDelay: Komai.tooltipDelay
                 toolTipText: qsTr("Close")
                 toolTipVisible: hovered
                 Layout.alignment: Qt.AlignVCenter

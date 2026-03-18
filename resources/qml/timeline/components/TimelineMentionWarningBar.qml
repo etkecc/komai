@@ -64,7 +64,6 @@ Rectangle {
         }
 
         ImageButton {
-            toolTipDelay: Komai.tooltipDelay
             toolTipText: qsTr("Don't mention them in this message")
             toolTipVisible: hovered
             Layout.alignment: Qt.AlignVCenter

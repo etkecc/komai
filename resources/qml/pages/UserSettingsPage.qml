@@ -287,7 +287,6 @@ Rectangle {
                         rightPadding: userSettingsDialog.headerButtonPaddingH
                         topPadding: 0
                         bottomPadding: 0
-                        toolTipDelay: Komai.tooltipDelay
                         toolTipText: qsTr("Close")
                         toolTipVisible: hovered
                         image: ":/icons/icons/ui/dismiss.svg"

@@ -123,7 +123,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: Komai.tooltipDelay
+        toolTipDelay: 0
         toolTipText: qsTr("Message actions")
         toolTipVisible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
@@ -208,7 +208,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: Komai.tooltipDelay
+        toolTipDelay: 0
         toolTipText: qsTr("Message actions")
         toolTipVisible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)
@@ -224,7 +224,6 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: Komai.tooltipDelay
         toolTipText: qsTr("Reply in this thread")
         toolTipVisible: hovered
         buttonTextColor: {
@@ -286,7 +285,6 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: Komai.tooltipDelay
         toolTipText: qsTr("Reply in this thread")
         toolTipVisible: hovered
         buttonTextColor: {
@@ -331,7 +329,7 @@ RowLayout {
         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
         Layout.preferredHeight: parent.buttonSize
         Layout.preferredWidth: parent.buttonSize
-        toolTipDelay: Komai.tooltipDelay
+        toolTipDelay: 0
         toolTipText: qsTr("Message actions")
         toolTipVisible: hovered && !metadata.actionBarActive
         buttonTextColor: metadata.actionBarActive ? effectiveHighlightColor : Qt.rgba(effectiveInactiveTextColor.r, effectiveInactiveTextColor.g, effectiveInactiveTextColor.b, 0.35)

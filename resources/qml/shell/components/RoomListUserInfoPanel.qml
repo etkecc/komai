@@ -83,7 +83,6 @@ Pane {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: userInfoPanel.lineSpacing * 2
             Layout.preferredWidth: userInfoPanel.lineSpacing * 2
-            toolTipDelay: Komai.tooltipDelay
             toolTipText: qsTr("Logout")
             toolTipVisible: hovered
             image: ":/icons/icons/ui/power-off.svg"

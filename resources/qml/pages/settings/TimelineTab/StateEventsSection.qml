@@ -108,6 +108,7 @@ Item {
                     Layout.column: root.useStackedLayout ? 0 : 1
                     Layout.alignment: (root.useStackedLayout ? Qt.AlignLeft : Qt.AlignRight) | Qt.AlignTop
                     value: root.isEventShown(rowRoot.eventType)
+                    textColor: rowHover.hovered ? palette.brightText : palette.buttonText
                     enabled: Settings.hasActiveSession
                     onToggledValue: function(value) {
                         root.setEventShown(rowRoot.eventType, value);

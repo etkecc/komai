@@ -211,6 +211,7 @@ Item {
                                         anchors.left: r.useStackedLayout ? parent.left : undefined
                                         anchors.right: r.useStackedLayout ? undefined : parent.right
                                         value: r.model.value
+                                        textColor: rowHover.hovered ? palette.brightText : palette.buttonText
                                         onToggledValue: function(value) {
                                             r.model.value = value;
                                         }

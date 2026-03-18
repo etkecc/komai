@@ -174,6 +174,7 @@ ColumnLayout {
 
                 ToggleButton {
                     id: knockingButton
+                    textColor: knockRowHover.hovered ? palette.brightText : palette.buttonText
                     enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsKnocking
                     checked: detailsGrid.roomSettings.knockingEnabled
                     onCheckedChanged: {
@@ -226,6 +227,7 @@ ColumnLayout {
 
                 ToggleButton {
                     id: restrictedButton
+                    textColor: restrictedRowHover.hovered ? palette.brightText : palette.buttonText
                     enabled: detailsGrid.roomSettings.canChangeJoinRules && detailsGrid.roomSettings.supportsRestricted
                     checked: detailsGrid.roomSettings.restrictedEnabled
                     onCheckedChanged: {
@@ -310,6 +312,7 @@ ColumnLayout {
 
                 ToggleButton {
                     id: guestAccessButton
+                    textColor: guestRowHover.hovered ? palette.brightText : palette.buttonText
                     enabled: detailsGrid.roomSettings.canChangeJoinRules
                     checked: detailsGrid.roomSettings.guestAccess
                 }
@@ -378,6 +381,7 @@ ColumnLayout {
 
                 ToggleButton {
                     id: publicHistoryButton
+                    textColor: publicHistoryRowHover.hovered ? palette.brightText : palette.buttonText
                     enabled: detailsGrid.roomSettings.canChangeHistoryVisibility
                     checked: detailsGrid.roomSettings.historyVisibility == RoomSettings.WorldReadable
                 }

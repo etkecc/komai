@@ -352,6 +352,7 @@ Item {
 
                         ToggleButton {
                             id: encryptionToggle
+                            textColor: encryptionRowHover.hovered ? palette.brightText : palette.buttonText
 
                             checked: roomSettings ? roomSettings.isEncryptionEnabled : false
                             onCheckedChanged: {

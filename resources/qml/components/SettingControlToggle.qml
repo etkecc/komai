@@ -11,6 +11,7 @@ Item {
     id: root
 
     required property bool value
+    property color textColor: palette.buttonText
 
     signal toggledValue(bool value)
 
@@ -22,6 +23,7 @@ Item {
 
         enabled: root.enabled
         checked: root.value
+        textColor: root.textColor
         onToggled: {
             root.toggledValue(checked);
         }

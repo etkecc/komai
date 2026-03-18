@@ -349,7 +349,7 @@ Item {
                                             onSubmitted: function (value) {
                                                 r.model.value = value;
                                             }
-                                            width: Math.min(implicitWidth, r.controlWidth)
+                                            width: r.controlWidth
                                         }
                                     }
                                     DelegateChoice {

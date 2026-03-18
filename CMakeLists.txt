@@ -894,7 +894,7 @@ endif()
 # Generate derived logo assets with a tiny Qt-based helper instead of external
 # tools like ImageMagick/rsvg-convert. This keeps the normal build,
 # distro packaging, and CI environments free of extra raster-tool deps.
-add_executable(komai_logo_asset_generator tools/LogoAssetGenerator.cpp)
+add_executable(komai_logo_asset_generator etc/tools/logo-assets/LogoAssetGenerator.cpp)
 target_link_libraries(komai_logo_asset_generator PRIVATE Qt::Core Qt::Gui Qt::Svg)
 
 add_custom_command(

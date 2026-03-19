@@ -99,9 +99,9 @@ UserDirectoryModel::displaySearchResults(std::vector<mtx::responses::User> resul
         nhlog::net()->debug("mtxclient helper thread yielded no results!");
         return;
     }
-    beginInsertRows(QModelIndex(), 0, static_cast<int>(results.size()) - 1);
+    beginResetModel();
     results_ = results;
-    endInsertRows();
+    endResetModel();
     canFetchMore_ = false;
 }
 

@@ -16,6 +16,7 @@ Page {
     property bool compactMode: Komai.uiLayoutCompactMode
     property int avatarSize: Komai.listIconSize
     property bool collapsed: false
+    readonly property var profileMenu: profileContextMenu
 
     ComponentCatalog {
         id: componentCatalog
@@ -169,12 +170,21 @@ Page {
             scrollbarItem: scrollbar
             collapsed: roomListPage.collapsed
         }
-        }
 
-        RoomListExploreFooter {
-            Layout.fillWidth: true
-            collapsed: roomListPage.collapsed
-            timelineRoot: roomListPage.timelineRoot
+        footer: Column {
+            width: roomlist.width
+
+            RoomListExploreFooter {
+                width: parent.width
+                collapsed: roomListPage.collapsed
+                timelineRoot: roomListPage.timelineRoot
+            }
+            RoomListBotChatFooter {
+                width: parent.width
+                collapsed: roomListPage.collapsed
+                profileContextMenu: roomListPage.profileMenu
+            }
+        }
         }
     }
 }

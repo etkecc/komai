@@ -16,8 +16,8 @@ Menu {
     function openCreateRoomDialog(properties) {
         timelineRoot.openCatalogDialog(componentCatalog.roomCreateDialog, properties || {});
     }
-    function openCreateDirectDialog() {
-        timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog);
+    function openCreateDirectDialog(properties) {
+        timelineRoot.openCatalogDialog(componentCatalog.roomCreateDirectDialog, properties || {});
     }
     function openRoomDirectoryDialog() {
         timelineRoot.openRoomDirectory();

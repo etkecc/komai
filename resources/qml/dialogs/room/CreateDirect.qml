@@ -16,6 +16,7 @@ OverlayDialog {
     property var profile: null
     property string selectedMxid: ""
     property bool otherUserHasE2ee: profile ? profile.deviceList.rowCount() > 0 : true
+    property string initialSearchText: ""
 
     title: qsTr("New direct chat")
     titleIcon: ":/icons/icons/ui/person.svg"
@@ -23,7 +24,14 @@ OverlayDialog {
     overlayDialogMinWidth: 720
 
     onOpened: {
-        userDirectory.setSearchString("");
+        if (initialSearchText.length > 0) {
+            userID.text = initialSearchText;
+            searchTimer.stop();
+            userDirectory.setSearchString(initialSearchText);
+            initialSearchText = "";
+        } else {
+            userDirectory.setSearchString("");
+        }
     }
     onClosed: {
         userID.clear();

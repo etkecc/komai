@@ -35,6 +35,7 @@ Control {
     signal dismissed()
 
     function changeCompleter() {
+        listView.mouseActivated = false;
         if (completerType) {
             var backend = backendModel || completerType;
             var needsRoom = completerType !== "room" && completerType !== "roomAliases" && completerType !== "command";
@@ -249,9 +250,13 @@ Control {
             // Delegate width then binds to listView.width (from parent layout), not childrenRect.
             property real maxContentWidth: 20
             property int hoveredIndex: -1
+            // True once the mouse has genuinely moved after the popup
+            // appeared — prevents a stationary cursor from selecting
+            // whatever item happens to be underneath it.
+            property bool mouseActivated: false
 
             function syncHoverIndex() {
-                if (!moving && hoveredIndex >= 0 && hoveredIndex < count)
+                if (!moving && mouseActivated && hoveredIndex >= 0 && hoveredIndex < count)
                     popup.currentIndex = hoveredIndex;
             }
 
@@ -322,12 +327,31 @@ Control {
 
                     acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
 
+                    // Position recorded when hover starts; compared against
+                    // subsequent point updates to detect genuine movement.
+                    property point entryPoint: Qt.point(-1, -1)
+
                     onHoveredChanged: {
                         if (hovered) {
+                            entryPoint = point.position;
                             listView.hoveredIndex = model.index;
-                            listView.syncHoverIndex();
-                        } else if (listView.hoveredIndex === model.index) {
-                            listView.hoveredIndex = -1;
+                            if (listView.mouseActivated)
+                                listView.syncHoverIndex();
+                        } else {
+                            entryPoint = Qt.point(-1, -1);
+                            if (listView.hoveredIndex === model.index)
+                                listView.hoveredIndex = -1;
+                        }
+                    }
+                    onPointChanged: {
+                        if (!listView.mouseActivated && hovered && entryPoint.x >= 0) {
+                            var dx = point.position.x - entryPoint.x;
+                            var dy = point.position.y - entryPoint.y;
+                            if (dx !== 0 || dy !== 0) {
+                                listView.mouseActivated = true;
+                                listView.hoveredIndex = model.index;
+                                listView.syncHoverIndex();
+                            }
                         }
                     }
                 }
